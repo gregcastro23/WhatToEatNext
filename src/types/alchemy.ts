@@ -79,9 +79,8 @@ export type ZodiacSignType =
   | 'scorpio'
   | 'sagittarius'
   | 'capricorn'
-  | 'aquarius';
-  | 'pisces',
-
+  | 'aquarius'
+  | 'pisces'
 /**
  * Lunar Phase Type
  * Standard lunar phases with spaces (project standard)
@@ -93,9 +92,8 @@ export type LunarPhaseType =
   | 'waxing gibbous'
   | 'full moon'
   | 'waning gibbous'
-  | 'last quarter';
-  | 'waning crescent',
-
+  | 'last quarter'
+  | 'waning crescent'
 /**
  * Nutritional Content Type
  * Standard nutritional information structure
@@ -148,7 +146,7 @@ export type AlchemicalTransformationResultType = {
   transformedProperties: AlchemicalPropertiesType,
   elementalShift: ElementalPropertiesType,
   transformationScore: number,
-  dominantElement: 'Fire' | 'Water' | 'Earth' | 'Air',
+  dominantElement: 'Fire' | 'Water' | 'Earth' | 'Air'
   dominantProperty: keyof AlchemicalPropertiesType
 }
 
@@ -176,8 +174,7 @@ export type AstrologicalStateType = {
 
 // ========== CORE ELEMENTAL TYPES ==========,
 
-export type Element = 'Fire' | 'Water' | 'Earth' | 'Air',
-
+export type Element = 'Fire' | 'Water' | 'Earth' | 'Air'
 export interface ElementalProperties {
   Fire: number,
   Water: number,
@@ -202,7 +199,7 @@ export type ElementalModifier = Partial<Record<Element, number>>,
 export interface ElementalInteraction {
   primary: Element,
   secondary: Element,
-  effect: 'enhance' | 'diminish' | 'transmute',
+  effect: 'enhance' | 'diminish' | 'transmute'
   potency: number,
   resultingElement?: Element
 }
@@ -210,8 +207,7 @@ export interface ElementalInteraction {
 // ========== MISSING TYPES FOR PHASE 8 ==========,
 
 // Season type
-export type Season = 'spring' | 'summer' | 'autumn' | 'fall' | 'winter' | 'all',
-
+export type Season = 'spring' | 'summer' | 'autumn' | 'fall' | 'winter' | 'all'
 // Alchemical calculation results
 export interface AlchemicalResult {
   elementalProperties: ElementalProperties,
@@ -313,8 +309,7 @@ export interface CombinationEffect {
   description: string
 }
 
-export type EffectType = 'synergy' | 'conflict' | 'neutralize' | 'amplify' | 'transmute',
-
+export type EffectType = 'synergy' | 'conflict' | 'neutralize' | 'amplify' | 'transmute'
 // Recipe interface for alchemy calculations
 export interface Recipe {
   id: string,
@@ -331,7 +326,7 @@ export interface RecipeIngredient {
   amount?: number,
   quantity?: string,
   unit: string,
-  timing?: 'early' | 'middle' | 'late',
+  timing?: 'early' | 'middle' | 'late'
   preparation?: string
   elementalProperties?: ElementalProperties,
   [key: string]: unknown
@@ -410,7 +405,7 @@ export interface HoroscopeData {
 export interface CookingMethodModifier {
   element: Element,
   intensity: number, // 0-1 scale,
-  effect: 'enhance' | 'transmute' | 'diminish' | 'balance',
+  effect: 'enhance' | 'transmute' | 'diminish' | 'balance'
   applicableTo: string[], // food categories this applies to,
   duration?: {
     min: number, // minutes,
@@ -429,9 +424,8 @@ export type LunarPhaseWithSpaces =
   | 'waxing gibbous'
   | 'full moon'
   | 'waning gibbous'
-  | 'last quarter';
-  | 'waning crescent',
-
+  | 'last quarter'
+  | 'waning crescent'
 // Format with underscores (API/object key friendly)
 export type LunarPhaseWithUnderscores =
   | 'new_moon'
@@ -440,9 +434,8 @@ export type LunarPhaseWithUnderscores =
   | 'waxing_gibbous'
   | 'full_moon'
   | 'waning_gibbous'
-  | 'last_quarter';
-  | 'waning_crescent',
-
+  | 'last_quarter'
+  | 'waning_crescent'
 // Default LunarPhase type - use the format with spaces as the primary representation
 
 // Mapping between the two formats
@@ -519,9 +512,8 @@ export type AspectType =
   | 'semisextile'
   | 'semisquare'
   | 'sesquisquare'
-  | 'quintile';
-  | 'biquintile',
-
+  | 'quintile'
+  | 'biquintile'
 // Define PlanetaryAspect
 export interface PlanetaryAspect {
   planet1: string,
@@ -535,8 +527,7 @@ export interface PlanetaryAspect {
 }
 
 // Define Dignity type
-export type DignityType = 'Domicile' | 'Exaltation' | 'Detriment' | 'Fall' | 'Neutral',
-
+export type DignityType = 'Domicile' | 'Exaltation' | 'Detriment' | 'Fall' | 'Neutral'
 export interface CelestialPosition {
   sign: any,
   degree: number,
@@ -589,9 +580,8 @@ export interface ElementalItem {
 }
 
 // Add missing type definitions
-export type AlchemicalProperty = 'Spirit' | 'Essence' | 'Matter' | 'Substance',
-export type ElementalCharacter = 'Fire' | 'Water' | 'Earth' | 'Air',
-
+export type AlchemicalProperty = 'Spirit' | 'Essence' | 'Matter' | 'Substance'
+export type ElementalCharacter = 'Fire' | 'Water' | 'Earth' | 'Air'
 // AlchemicalItem type (causing errors in CuisineRecommender.tsx)
 export interface AlchemicalItem extends ElementalItem {
   // Core alchemical properties (required)
@@ -729,9 +719,8 @@ export type CuisineType =
   | 'Caribbean'
   | 'Brazilian'
   | 'Korean'
-  | 'Vietnamese';
-  | 'Fusion',
-
+  | 'Vietnamese'
+  | 'Fusion'
 // Cuisine interface for cuisine objects with properties
 export interface Cuisine {
   id?: string,
@@ -767,15 +756,14 @@ export type DietaryRestriction =
   | 'Raw'
   | 'Halal'
   | 'Kosher'
-  | 'Pescatarian';
-  | 'Flexitarian',
-
+  | 'Pescatarian'
+  | 'Flexitarian'
 // TimeFactors type (causing errors in RecipeGrid.tsx)
 export interface TimeFactors {
   prepTime?: number,
   cookTime?: number,
   totalTime?: number,
-  difficulty?: 'easy' | 'medium' | 'hard',
+  difficulty?: 'easy' | 'medium' | 'hard'
   servings?: number,
   yieldAmount?: string
   restTime?: number,
@@ -886,8 +874,7 @@ export interface MethodRecommendation {
 }
 
 // Single-occurrence types (causing 1 error each)
-export type TarotSuit = 'cups' | 'wands' | 'swords' | 'pentacles',
-
+export type TarotSuit = 'cups' | 'wands' | 'swords' | 'pentacles'
 export interface IngredientSearchCriteria {
   elements?: Element[],
   seasons?: Season[],
@@ -911,9 +898,8 @@ export type ChakraPosition =
   | 'solarPlexus'
   | 'heart'
   | 'throat'
-  | 'thirdEye';
-  | 'crown',
-
+  | 'thirdEye'
+  | 'crown'
 // CelestialBody interface for astronomical calculations
 export interface CelestialBody {
   name: string,
@@ -1168,8 +1154,8 @@ const executeDemonstration = () => {;
     seasonalEnergy: 'spring',
     elementalDominance: { Fire: 0.8, Water: 0.6, Earth: 0.4, Air: 0.7 },
     aspectPatterns: [],
-    energyFlow: 0.85,
-  }
+    energyFlow: 0.85
+}
   const sampleValues: AlchemicalValues  = { Spirit: 0.8, Essence: 0.7, Matter: 0.6, Substance: 0.9 }
   const sampleMetrics: ThermodynamicMetrics  = {
     heat: 0.7,
@@ -1177,8 +1163,8 @@ const executeDemonstration = () => {;
     reactivity: 0.8,
     gregsEnergy: 0.9,
     kalchm: 0.6,
-    monica: 0.8,
-  }
+    monica: 0.8
+}
   const sampleFilters: FilterOptions  = {
     elements: ['Fire', 'Water'],
     seasons: ['spring'],
@@ -1511,8 +1497,8 @@ export const ALCHEMY_TYPE_DEMONSTRATION_PLATFORM = {
           thermodynamicProperties: { heat: 0.3, entropy: 0.2, reactivity: 0.4, gregsEnergy: 0.8 }
           kalchm: 1.2,
           monica: 0.9,
-          score: 0.85,
-        }
+          score: 0.85
+}
       ] as AlchemicalResult[]
     }
 
@@ -1541,8 +1527,8 @@ export const ALCHEMY_TYPE_DEMONSTRATION_PLATFORM = {
           name: 'Sample Method',
           category: 'cooking',
           element: 'Fire',
-          intensity: 0.7,
-        }
+          intensity: 0.7
+}
       ] as CookingMethod[]
     }
 
@@ -1562,8 +1548,8 @@ export const ALCHEMY_TYPE_DEMONSTRATION_PLATFORM = {
           seasonalEnergy: 'spring',
           elementalDominance: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 },
           aspectPatterns: [],
-          energyFlow: 0.7,
-        }
+          energyFlow: 0.7
+}
       ] as unknown as CelestialAlignment[],
       positions: [{ sign: 'aries', degree: 15 }] as PlanetaryPosition[]
     }
@@ -1577,8 +1563,8 @@ export const ALCHEMY_TYPE_DEMONSTRATION_PLATFORM = {
           heart: 0.5,
           throat: 0.6,
           thirdEye: 0.4,
-          crown: 0.3,
-        }
+          crown: 0.3
+}
       ] as ChakraEnergies[],
       energyStates: [
         { Spirit: 0.3, Essence: 0.2, Matter: 0.3, Substance: 0.2 }
@@ -1590,8 +1576,8 @@ export const ALCHEMY_TYPE_DEMONSTRATION_PLATFORM = {
           Matter: 0.3,
           Substance: 0.2,
           balanceThreshold: 0.5,
-          harmonyTarget: 0.8,
-        }
+          harmonyTarget: 0.8
+}
       ] as AlchemicalValues[]
     }
 

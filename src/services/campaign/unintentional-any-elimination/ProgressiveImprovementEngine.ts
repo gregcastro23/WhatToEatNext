@@ -41,7 +41,7 @@ export class ProgressiveImprovementEngine {
       confidenceThreshold: initialConfig?.confidenceThreshold || 0.8,
       enableDomainAnalysis: initialConfig?.enableDomainAnalysis ?? true,
       enableDocumentation: initialConfig?.enableDocumentation ?? true,
-      safetyLevel: initialConfig?.safetyLevel || 'MODERATE',
+      safetyLevel: initialConfig?.safetyLevel || 'MODERATE'
       validationFrequency: initialConfig?.validationFrequency || 5
     }
   }
@@ -155,8 +155,8 @@ export class ProgressiveImprovementEngine {
   async setRealisticTargets(): Promise<{
     recommendedTarget: number,
     reasoning: string[],
-    milestones: Array<{ percentage: number, description: string, estimatedBatches: number }>,
-  }> {
+    milestones: Array<{ percentage: number, description: string, estimatedBatches: number }>
+}> {
     const currentProgress = await this.getCurrentProgress()
     const candidateFiles = await this.findFilesWithAnyTypes()
 
@@ -365,7 +365,7 @@ export class ProgressiveImprovementEngine {
    */
   analyzeSuccessRateAndAdapt(): {
     currentSuccessRate: number,
-    trend: 'improving' | 'declining' | 'stable',
+    trend: 'improving' | 'declining' | 'stable'
     adaptations: string[]
   } {
     if (this.batchHistory.length < 2) {
@@ -471,8 +471,8 @@ export class ProgressiveImprovementEngine {
       compilationErrors: 0,
       rollbacksPerformed: 0,
       executionTime: 0,
-      safetyScore: 1.0,
-    }
+      safetyScore: 1.0
+}
 
     try {
       // Create safety checkpoint before starting
@@ -606,7 +606,7 @@ export class ProgressiveImprovementEngine {
       validationResults: []
     }
 
-    let batchCount = 0,
+    let batchCount = 0;
     let consecutiveFailures = 0,
     const maxConsecutiveFailures = 3;
     const maxBatches = 50; // Safety limit
@@ -706,8 +706,7 @@ export class ProgressiveImprovementEngine {
       (sum, batch) => sum + batch.replacementsSuccessful,
       0,
     )
-    const overallSuccessRate = totalAttempted > 0 ? (totalSuccessful / totalAttempted) * 100: 0,
-
+    const overallSuccessRate = totalAttempted > 0 ? (totalSuccessful / totalAttempted) * 100: 0;
     const campaignTime = Date.now() - campaignStart;
 
     // // // _logger.info(`\n=== Campaign Summary ===`);
@@ -777,8 +776,8 @@ export class ProgressiveImprovementEngine {
         anyTypesAnalyzed: 0,
         replacementsAttempted: 0,
         replacementsSuccessful: 0,
-        rollbackPerformed: false,
-      }
+        rollbackPerformed: false
+}
     }
 
     // Classify all any types in the file
@@ -802,13 +801,13 @@ export class ProgressiveImprovementEngine {
           filePath: context.filePath,
           lineNumber: context.lineNumber,
           confidence: classification.confidence,
-          validationRequired: true,
-        })
+          validationRequired: true
+})
       }
     }
 
     // Apply replacements
-    let replacementsSuccessful = 0,
+    let replacementsSuccessful = 0;
     let rollbackPerformed = false;
 
     if (replacements.length > 0) {
@@ -846,7 +845,7 @@ export class ProgressiveImprovementEngine {
     const files: string[] = []
     const srcDir = path.join(process.cwd(), 'src'),
 
-    const walkDir = (dir: string) => {,
+    const walkDir = (dir: string) => {;
       const entries = fs.readdirSync(dir, { withFileTypes: true })
 
       for (const entry of entries) {
@@ -927,8 +926,8 @@ export class ProgressiveImprovementEngine {
     try {
       const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS'', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
       return parseInt(output.trim()) || 0,
     } catch (error) {
       // If grep finds no matches, it returns exit code 1, but that means 0 errors
@@ -952,9 +951,9 @@ export class ProgressiveImprovementEngine {
     functionParamPercentage: number,
     complexityScore: number
   }> {
-    let testFiles = 0,
+    let testFiles = 0;
     let arrayTypes = 0,
-    let recordTypes = 0,
+    let recordTypes = 0;
     let functionParams = 0,
     let totalAnyTypes = 0,
 
@@ -987,9 +986,9 @@ export class ProgressiveImprovementEngine {
       }
     }
 
-    const testFilePercentage = files.length > 0 ? (testFiles / files.length) * 100: 0,
+    const testFilePercentage = files.length > 0 ? (testFiles / files.length) * 100: 0;
     const arrayTypePercentage = totalAnyTypes > 0 ? (arrayTypes / totalAnyTypes) * 100: 0,
-    const recordTypePercentage = totalAnyTypes > 0 ? (recordTypes / totalAnyTypes) * 100: 0,
+    const recordTypePercentage = totalAnyTypes > 0 ? (recordTypes / totalAnyTypes) * 100: 0;
     const functionParamPercentage = totalAnyTypes > 0 ? (functionParams / totalAnyTypes) * 100 : 0
 ;
     // Calculate complexity score (0-1, where 1 is most complex)
@@ -1090,8 +1089,8 @@ export class ProgressiveImprovementEngine {
         current: currentTSErrors >= 0 ? currentTSErrors : 0,
         target: 0,
         reduction: 0,
-        percentage: 0,
-      },
+        percentage: 0
+},
       lintingWarnings: { current: 0, target: 0, reduction: 0, percentage: 0 },
       buildPerformance: { currentTime: 0, targetTime: 0, cacheHitRate: 0, memoryUsage: 0 },
       enterpriseSystems: { current: 0, target: 0, transformedExports: 0 }

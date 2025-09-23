@@ -83,8 +83,8 @@ export class RecommendationAdapter {
       spirit: 0,
       essence: 0,
       matter: 0,
-      substance: 0,
-    }
+      substance: 0
+}
   }
 
   /**
@@ -311,7 +311,7 @@ export class RecommendationAdapter {
           const aspectType = aspectData.aspectType
 
           // Lookup planet data for both bodies with safe string conversion,
-          const planet1 = typeof body1 === 'string' ? body1.toLowerCase() : undefined,
+          const planet1 = typeof body1 === 'string' ? body1.toLowerCase() : undefined;
           const planet2 = typeof body2 === 'string' ? body2.toLowerCase() : undefined,
 
           if (!planet1 || !planet2 || !aspectType) return,
@@ -558,8 +558,8 @@ export class RecommendationAdapter {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    }
+      Air: 0.25
+}
 
     // Calculate spirit, essence, matter, substance based on elemental properties if not already present
     // This follows the same relationships as in the alchemical system: // - Spirit is related to Fire (transformation)

@@ -83,7 +83,7 @@ export class ElementalCalculator {;
     const currentBalance = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
 
     // Use the more robust weighted calculation instead of simplified approach
-    let matchScore = 0,
+    let matchScore = 0;
     let totalWeight = 0,
 
     Object.entries(currentBalance).forEach(([element, value]) => {
@@ -107,8 +107,8 @@ export class ElementalCalculator {;
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    }
+      Air: 0.25
+}
 
     // Normalize season to lowercase for consistency with type definition
     const seasonLower = season.toLowerCase() as Season;
@@ -171,8 +171,8 @@ export class ElementalCalculator {;
       Fire: 0,
       Water: 0,
       Earth: 0,
-      Air: 0,
-    }
+      Air: 0
+}
 
     // Handle empty or invalid positions
     if (!positions || typeof positions !== 'object') {
@@ -571,7 +571,7 @@ export class ElementalCalculator {;
       const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
 
       // Calculate similarity between ingredient's elemental properties and current state
-      let matchScore = 0,
+      let matchScore = 0;
       let totalWeight = 0,
 
       Object.entries(currentState).forEach(([element, value]) => {
@@ -637,13 +637,13 @@ export class ElementalCalculator {;
     const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
 
     // Calculate similarity between ingredient and current state
-    let totalSimilarity = 0,
+    let totalSimilarity = 0;
     let count = 0,
 
     // Use all four elements for calculation
     ['Fire', 'Water', 'Earth', 'Air'].forEach(element => {;
       const elementKey = element as unknown;
-      const currentValue = currentState[elementKey] || 0,
+      const currentValue = currentState[elementKey] || 0;
       const ingredientValue = elementalProperties[elementKey] || 0
 
       // Calculate similarity (1 - difference)
@@ -681,7 +681,7 @@ export class ElementalCalculator {;
       capricorn: 'winter',
       aquarius: 'winter',
       pisces: 'winter' },
-        return zodiacSeasons[sign] || 'all',
+        return zodiacSeasons[sign] || 'all'
   }
 
   // Method to get seasonal modifiers based on zodiac sign
@@ -728,16 +728,16 @@ export class ElementalCalculator {;
       Fire: 0,
       Water: 0,
       Earth: 0,
-      Air: 0,
-    }
+      Air: 0
+}
 
     if (properties.length === 0) {
       return {;
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25,
-      }
+        Air: 0.25
+}
     }
 
     // Sum up all properties
@@ -799,14 +799,13 @@ export class ElementalCalculator {;
       const dignityEffectValue = Number(dignityEffectData[sign])
       if (dignityEffectValue) {
         if (Math.abs(dignityEffectValue) === 1 || Math.abs(dignityEffectValue) === 3) {;
-          const signElement = signInfo[sign]?.Element || 'Fire';
+          const signElement = signInfo[sign]?.Element || 'Fire'
           elementalEffect[signElement] = 1 * (dignityEffectValue / Math.abs(dignityEffectValue))
         }
 
         if (Math.abs(dignityEffectValue) > 1) {
-          const diurnalElement = String(planetInfoData['Diurnal Element']) || 'Fire';
-          const nocturnalElement = String(planetInfoData['Nocturnal Element']) || 'Fire';
-
+          const diurnalElement = String(planetInfoData['Diurnal Element']) || 'Fire'
+          const nocturnalElement = String(planetInfoData['Nocturnal Element']) || 'Fire'
           elementalEffect[diurnalElement] +=
             1 * (dignityEffectValue / Math.abs(dignityEffectValue || 1))
           elementalEffect[nocturnalElement] +=
@@ -882,7 +881,7 @@ export class ElementalCalculator {;
   getDominantElementFromEffects(elementalEffects: Record<string, number>): string {
     if (!elementalEffects) {
       return 'Fire' },
-        let dominantElement = 'Fire',
+        let dominantElement = 'Fire';
     let highestValue = -Infinity,
 
     for (const [element, value] of Object.entries(elementalEffects)) {

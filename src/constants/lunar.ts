@@ -4,8 +4,8 @@ export const _LUNAR_PHASES = {
       Fire: 0.1,
       Water: 0.4,
       Air: 0.1,
-      Earth: 0.4,
-    },
+      Earth: 0.4
+},
     qualities: ['introspective', 'beginning'],
     duration: 1,
     enhancedCategories: ['seeds', 'sprouts', 'root vegetables'],
@@ -16,8 +16,8 @@ export const _LUNAR_PHASES = {
       Fire: 0.2,
       Water: 0.3,
       Air: 0.3,
-      Earth: 0.2,
-    },
+      Earth: 0.2
+},
     qualities: ['building', 'expanding'],
     duration: 6.5,
     enhancedCategories: ['leafy greens', 'fresh herbs', 'young vegetables'],
@@ -28,8 +28,8 @@ export const _LUNAR_PHASES = {
       Fire: 0.3,
       Water: 0.2,
       Air: 0.3,
-      Earth: 0.2,
-    },
+      Earth: 0.2
+},
     qualities: ['active', 'manifesting'],
     duration: 1,
     enhancedCategories: ['fruits', 'flowers', 'above-ground vegetables'],

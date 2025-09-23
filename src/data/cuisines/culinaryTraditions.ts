@@ -29,8 +29,8 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       fire_dominant: 'Augment with clarified butter flambé',
       earth_dominant: 'Enrich with black truffle shavings',
       air_dominant: 'Lighten with aerated sauces',
-      water_dominant: 'Balance with reduced wine essence',
-    }
+      water_dominant: 'Balance with reduced wine essence'
+}
   },
   japanese: {
     elementalAlignment: { water: 0.65, earth: 0.2, fire: 0.05, air: 0.1 },
@@ -44,8 +44,8 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       fire_dominant: 'Enhance with binchotan searing',
       earth_dominant: 'Ground with miso cure',
       air_dominant: 'Elevate with tempura foam',
-      water_dominant: 'Intensify with dashi reduction',
-    }
+      water_dominant: 'Intensify with dashi reduction'
+}
   },
   mexican: {
     elementalAlignment: { fire: 0.55, earth: 0.25, air: 0.1, water: 0.1 },
@@ -59,8 +59,8 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       fire_dominant: 'Amplify with chile de árbol infusion',
       earth_dominant: 'Anchor with masa harina',
       air_dominant: 'Aerate with molé foam',
-      water_dominant: 'Balance with avocado mousse',
-    }
+      water_dominant: 'Balance with avocado mousse'
+}
   },
   italian: {
     elementalAlignment: { earth: 0.5, fire: 0.3, water: 0.1, air: 0.1 },
@@ -74,8 +74,8 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       fire_dominant: 'Enhance with chili oil drizzle',
       earth_dominant: 'Enrich with aged parmesan',
       air_dominant: 'Lighten with fresh herb infusion',
-      water_dominant: 'Balance with tomato broth reduction',
-    }
+      water_dominant: 'Balance with tomato broth reduction'
+}
   },
   mediterranean: {
     elementalAlignment: { fire: 0.3, earth: 0.3, water: 0.3, air: 0.1 },
@@ -89,8 +89,8 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       fire_dominant: 'Accent with charred vegetables',
       earth_dominant: 'Ground with olive tapenade',
       air_dominant: 'Elevate with citrus zest',
-      water_dominant: 'Integrate with seafood broth',
-    }
+      water_dominant: 'Integrate with seafood broth'
+}
   },
   korean: {
     elementalAlignment: { fire: 0.5, earth: 0.3, water: 0.1, air: 0.1 },
@@ -104,8 +104,8 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       fire_dominant: 'Intensify with gochujang glaze',
       earth_dominant: 'Root with doenjang foundation',
       air_dominant: 'Refresh with perilla accents',
-      water_dominant: 'Balance with mushroom stock',
-    }
+      water_dominant: 'Balance with mushroom stock'
+}
   },
   sichuanese: {
     elementalAlignment: { fire: 0.7, earth: 0.1, water: 0.1, air: 0.1 },
@@ -119,8 +119,8 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       fire_dominant: 'Amplify with Sichuan peppercorn oil',
       earth_dominant: 'Ground with fermented black bean paste',
       air_dominant: 'Elevate with Sichuan pepper dust',
-      water_dominant: 'Balance with light chicken broth',
-    }
+      water_dominant: 'Balance with light chicken broth'
+}
   },
   chinese: {
     elementalAlignment: { fire: 0.3, earth: 0.3, water: 0.2, air: 0.2 },
@@ -134,8 +134,8 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       fire_dominant: 'Intensify with wok hei',
       earth_dominant: 'Ground with fermented bean paste',
       air_dominant: 'Lighten with rice wine',
-      water_dominant: 'Balance with masterstock',
-    }
+      water_dominant: 'Balance with masterstock'
+}
   },
   thai: {
     elementalAlignment: { fire: 0.3, water: 0.3, earth: 0.2, air: 0.2 },
@@ -149,8 +149,8 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       fire_dominant: 'Intensify with bird\'s eye chili',
       earth_dominant: 'Ground with galangal and lemongrass',
       air_dominant: 'Elevate with kaffir lime leaf',
-      water_dominant: 'Balance with coconut milk',
-    }
+      water_dominant: 'Balance with coconut milk'
+}
   },
   indian: {
     elementalAlignment: { fire: 0.4, earth: 0.2, water: 0.2, air: 0.2 },
@@ -164,8 +164,8 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       fire_dominant: 'Intensify with garam masala',
       earth_dominant: 'Ground with fenugreek and cumin',
       air_dominant: 'Elevate with cardamom and clove',
-      water_dominant: 'Balance with yogurt or coconut',
-    }
+      water_dominant: 'Balance with yogurt or coconut'
+}
   },
   vietnamese: {
     elementalAlignment: { water: 0.3, air: 0.3, earth: 0.2, fire: 0.2 },
@@ -179,8 +179,8 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       fire_dominant: 'Accentuate with fresh chili',
       earth_dominant: 'Ground with fish sauce',
       air_dominant: 'Elevate with fresh herbs',
-      water_dominant: 'Balance with light broth',
-    }
+      water_dominant: 'Balance with light broth'
+}
   },
   african: {
     elementalAlignment: { fire: 0.4, earth: 0.3, water: 0.2, air: 0.1 },
@@ -194,8 +194,8 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       fire_dominant: 'Intensify with berbere spice blend',
       earth_dominant: 'Ground with peanut and cassava',
       air_dominant: 'Brighten with citrus and herbs',
-      water_dominant: 'Balance with coconut milk',
-    }
+      water_dominant: 'Balance with coconut milk'
+}
   }
 }
 

@@ -12,8 +12,8 @@ const rawVinegars = {
       Water: 0.4,
       Air: 0.3,
       Earth: 0.2,
-      Fire: 0.1,
-    },
+      Fire: 0.1
+},
     qualities: ['mild', 'balanced', 'clean'],
     origin: ['Asian', 'Japanese'],
     nutritionalProfile: {
@@ -26,8 +26,8 @@ const rawVinegars = {
       favorableZodiac: ['cancer', 'virgo', 'pisces'] as any[],
       elementalAffinity: {
         base: 'Water',
-        secondary: 'Air',
-      }
+        secondary: 'Air'
+}
     },
     season: ['all'] as Season[],
     culinaryProfile: {
@@ -41,8 +41,8 @@ const rawVinegars = {
     storage: {
       temperature: 'cool, dry place',
       duration: '2+ years',
-      notes: 'Keep tightly sealed',
-    }
+      notes: 'Keep tightly sealed'
+}
   },
   apple_cider_vinegar: {
     name: 'Apple Cider Vinegar',
@@ -52,8 +52,8 @@ const rawVinegars = {
       Water: 0.3,
       Fire: 0.3,
       Earth: 0.2,
-      Air: 0.2,
-    },
+      Air: 0.2
+},
     qualities: ['tangy', 'fruity', 'complex'],
     origin: ['American', 'European'],
     nutritionalProfile: {
@@ -66,8 +66,8 @@ const rawVinegars = {
       favorableZodiac: ['taurus', 'leo', 'libra'] as any[],
       elementalAffinity: {
         base: 'Fire',
-        secondary: 'Water',
-      }
+        secondary: 'Water'
+}
     },
     season: ['autumn', 'winter'] as Season[],
     culinaryProfile: {
@@ -81,8 +81,8 @@ const rawVinegars = {
     storage: {
       temperature: 'room temperature',
       duration: '2+ years',
-      notes: 'Unfiltered versions may develop sediment',
-    }
+      notes: 'Unfiltered versions may develop sediment'
+}
   },
   balsamic_vinegar: {
     name: 'Balsamic Vinegar',
@@ -92,8 +92,8 @@ const rawVinegars = {
       Water: 0.3,
       Fire: 0.4,
       Earth: 0.2,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     qualities: ['sweet', 'complex', 'aged'],
     origin: ['Italian', 'Modena'],
     nutritionalProfile: {
@@ -106,8 +106,8 @@ const rawVinegars = {
       favorableZodiac: ['taurus', 'libra', 'sagittarius'] as any[],
       elementalAffinity: {
         base: 'Fire',
-        secondary: 'Water',
-      }
+        secondary: 'Water'
+}
     },
     season: ['all'] as Season[],
     culinaryProfile: {
@@ -121,8 +121,8 @@ const rawVinegars = {
     storage: {
       temperature: 'room temperature',
       duration: 'indefinite when properly stored',
-      notes: 'Quality improves with age',
-    }
+      notes: 'Quality improves with age'
+}
   },
   red_wine_vinegar: {
     name: 'Red Wine Vinegar',
@@ -132,8 +132,8 @@ const rawVinegars = {
       Water: 0.4,
       Fire: 0.3,
       Earth: 0.2,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     qualities: ['robust', 'tangy', 'fruity', 'complex'],
     origin: ['Mediterranean', 'European'],
     nutritionalProfile: {
@@ -146,8 +146,8 @@ const rawVinegars = {
       favorableZodiac: ['aries', 'taurus', 'scorpio'] as any[],
       elementalAffinity: {
         base: 'Fire',
-        secondary: 'Water',
-      }
+        secondary: 'Water'
+}
     },
     season: ['all'] as Season[],
     culinaryProfile: {
@@ -161,8 +161,8 @@ const rawVinegars = {
     storage: {
       temperature: 'room temperature',
       duration: '2+ years',
-      notes: 'May develop sediment over time',
-    }
+      notes: 'May develop sediment over time'
+}
   },
   white_wine_vinegar: {
     name: 'White Wine Vinegar',
@@ -172,8 +172,8 @@ const rawVinegars = {
       Water: 0.4,
       Air: 0.3,
       Fire: 0.2,
-      Earth: 0.1,
-    },
+      Earth: 0.1
+},
     qualities: ['crisp', 'clean', 'bright'],
     origin: ['French', 'European'],
     nutritionalProfile: {
@@ -186,8 +186,8 @@ const rawVinegars = {
       favorableZodiac: ['gemini', 'libra', 'aquarius'] as any[],
       elementalAffinity: {
         base: 'Air',
-        secondary: 'Water',
-      }
+        secondary: 'Water'
+}
     },
     season: ['spring', 'summer'] as Season[],
     culinaryProfile: {
@@ -201,8 +201,8 @@ const rawVinegars = {
     storage: {
       temperature: 'room temperature',
       duration: '2+ years',
-      notes: 'Keep away from direct light',
-    }
+      notes: 'Keep away from direct light'
+}
   }
 }
 

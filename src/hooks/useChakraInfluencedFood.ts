@@ -51,8 +51,8 @@ export const useChakraInfluencedFood = (options?: {,
     heart: 0,
     throat: 0,
     thirdEye: 0,
-    crown: 0,
-  })
+    crown: 0
+})
   const [chakraRecommendations, setChakraRecommendations] = useState<
     Record<string, EnhancedIngredient[]>
   >({
@@ -103,13 +103,13 @@ export const useChakraInfluencedFood = (options?: {,
   // Memoize the astrological state to prevent unnecessary re-renders
   const astroState = useMemo(() => {
     return {;
-      currentZodiac: currentZodiac || 'aries',
-      moonPhase: lunarPhase || 'NEW_MOON',
+      currentZodiac: currentZodiac || 'aries'
+      moonPhase: lunarPhase || 'NEW_MOON'
       currentPlanetaryAlignment: currentPlanetaryAlignment || {}
       activePlanets: activePlanets || ['sun', 'moon'],
       planetaryPositions: planetaryPositions || {}
-      lunarPhase: lunarPhase || 'NEW_MOON',
-      zodiacSign: currentZodiac || 'aries',
+      lunarPhase: lunarPhase || 'NEW_MOON'
+      zodiacSign: currentZodiac || 'aries'
       planetaryHour: planetaryHour as unknown as Planet,
       aspects: state.astrologicalState.aspects || [],
       tarotElementBoosts: state.astrologicalState.tarotElementBoosts || {}
@@ -135,7 +135,7 @@ export const useChakraInfluencedFood = (options?: {,
     if (!astroLoading && currentZodiac && activePlanets) {
       // Calculate chakra energies
       const energies = chakraService.calculateChakraEnergies(
-        currentZodiac || 'aries',
+        currentZodiac || 'aries'
         (moonSign || 'taurus'),
         // Pattern, Y: Safe Planet array casting with validation and null checking
         (activePlanets
@@ -350,7 +350,7 @@ export const useChakraInfluencedFood = (options?: {,
 
       // Recalculate chakra energies
       const energies = chakraService.calculateChakraEnergies(
-        currentZodiac || 'aries',
+        currentZodiac || 'aries'
         (moonSign || 'taurus'),
         // Pattern, Z: Safe Planet array casting with validation and null checking for refresh function
         (activePlanets
@@ -368,8 +368,7 @@ export const useChakraInfluencedFood = (options?: {,
       const chakraFiltered: Record<string, EnhancedIngredient[]> = {}
 
       // Apply filters and limits
-      const filteredResults = options?.filter ? results.filter(options.filter) : results,
-
+      const filteredResults = options?.filter ? results.filter(options.filter) : results;
       const limitedResults = options?.limit;
         ? filteredResults.slice(0, options.limit)
         : filteredResults,

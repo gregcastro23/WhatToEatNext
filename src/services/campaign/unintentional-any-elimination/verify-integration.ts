@@ -45,8 +45,8 @@ async function verifyIntegration(): Promise<void> {
     const customConfig: Partial<UnintentionalAnyConfig> = {
       maxFilesPerBatch: 20,
       targetReductionPercentage: 25,
-      confidenceThreshold: 0.9,
-    }
+      confidenceThreshold: 0.9
+}
 
     controller.updateUnintentionalAnyConfig(customConfig)
     const updatedConfig = controller.getUnintentionalAnyConfig()

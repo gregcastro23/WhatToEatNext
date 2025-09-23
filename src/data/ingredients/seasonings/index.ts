@@ -22,10 +22,10 @@ export const seasonings: Record<string, IngredientMapping> = fixIngredientMappin
 export { spices, salts, peppers, herbs, aromatics };
 
 // Types
-export type SeasoningCategory = 'spice' | 'salt' | 'pepper' | 'herb' | 'aromatic',
-export type SeasoningIntensity = 'mild' | 'medium' | 'strong' | 'intense',
-export type CulinaryTiming = 'beginning' | 'middle' | 'end' | 'finishing' | 'multiple',
-export type PreservationMethod = 'drying' | 'salting' | 'fermenting' | 'infusing' | 'smoking',
+export type SeasoningCategory = 'spice' | 'salt' | 'pepper' | 'herb' | 'aromatic'
+export type SeasoningIntensity = 'mild' | 'medium' | 'strong' | 'intense'
+export type CulinaryTiming = 'beginning' | 'middle' | 'end' | 'finishing' | 'multiple'
+export type PreservationMethod = 'drying' | 'salting' | 'fermenting' | 'infusing' | 'smoking'
 export type SeasoningAstrologicalProfile = {
   rulingPlanets: string[],
   favorableZodiac: string[],

@@ -59,24 +59,24 @@ class LoadingStateManager {
     this.updateState({
       isLoading: false,
       message,
-      stage: 'error',
-    })
+      stage: 'error'
+})
   }
 
   complete() {
     this.updateState({
       isLoading: false,
       ...this.STAGES.complete,
-      stage: 'complete',
-    })
+      stage: 'complete'
+})
   }
 
   reset() {
     this.updateState({
       isLoading: true,
       ...this.STAGES.initial,
-      stage: 'initial',
-    })
+      stage: 'initial'
+})
   }
 }
 

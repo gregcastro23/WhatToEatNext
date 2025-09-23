@@ -64,8 +64,8 @@ export const korean: Cuisine = {
             Fire: 0.2,
             Water: 0.3,
             Earth: 0.3,
-            Air: 0.2,
-          }
+            Air: 0.2
+}
         }
         {
           name: 'Juk',
@@ -955,8 +955,8 @@ export const korean: Cuisine = {
         Fire: 0.6,
         Earth: 0.3,
         Water: 0.1,
-        Air: 0.0,
-      },
+        Air: 0.0
+},
       astrologicalInfluences: ['Mars', 'Aries', 'Leo'],
       seasonality: 'all',
       preparationNotes: 'Traditionally fermented for months in earthenware pots called onggi',
@@ -977,8 +977,8 @@ export const korean: Cuisine = {
         Earth: 0.7,
         Water: 0.2,
         Fire: 0.1,
-        Air: 0.0,
-      },
+        Air: 0.0
+},
       astrologicalInfluences: ['Saturn', 'Taurus', 'Capricorn'],
       seasonality: 'all',
       preparationNotes: 'Traditionally separated from soy sauce during fermentation of meju',
@@ -994,8 +994,8 @@ export const korean: Cuisine = {
         Earth: 0.4,
         Fire: 0.4,
         Water: 0.1,
-        Air: 0.1,
-      },
+        Air: 0.1
+},
       astrologicalInfluences: ['Mars', 'Saturn', 'Scorpio'],
       seasonality: 'all',
       preparationNotes: 'Mix ingredients fresh before serving for best flavor',
@@ -1011,8 +1011,8 @@ export const korean: Cuisine = {
         Water: 0.4,
         Earth: 0.4,
         Air: 0.1,
-        Fire: 0.1,
-      },
+        Fire: 0.1
+},
       astrologicalInfluences: ['Neptune', 'Pisces', 'Cancer'],
       seasonality: 'all',
       preparationNotes: 'Traditionally separated from doenjang during fermentation',
@@ -1033,8 +1033,8 @@ export const korean: Cuisine = {
         Fire: 0.4,
         Air: 0.3,
         Water: 0.2,
-        Earth: 0.1,
-      },
+        Earth: 0.1
+},
       astrologicalInfluences: ['Mercury', 'Gemini', 'Sagittarius'],
       seasonality: 'summer',
       preparationNotes: 'Best made fresh rather than stored long-term',
@@ -1050,8 +1050,8 @@ export const korean: Cuisine = {
         Fire: 0.5,
         Earth: 0.2,
         Water: 0.2,
-        Air: 0.1,
-      },
+        Air: 0.1
+},
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'all',
       preparationNotes: 'Mix thoroughly and cook briefly to develop flavors',
@@ -1067,8 +1067,8 @@ export const korean: Cuisine = {
         Water: 0.3,
         Earth: 0.3,
         Fire: 0.2,
-        Air: 0.2,
-      },
+        Air: 0.2
+},
       astrologicalInfluences: ['Venus', 'Taurus', 'Libra'],
       seasonality: 'all',
       preparationNotes: 'Asian pear helps tenderize meat while adding subtle sweetness',
@@ -1089,13 +1089,13 @@ export const korean: Cuisine = {
         Air: 0.4,
         Earth: 0.4,
         Fire: 0.1,
-        Water: 0.1,
-      },
+        Water: 0.1
+},
       astrologicalInfluences: ['Mercury', 'Gemini', 'Virgo'],
       seasonality: 'all',
       preparationNotes: 'Use high-quality freshly toasted sesame oil for best flavor',
-      technicalTips: 'Add at the end of cooking to preserve volatile aromatics',
-    }
+      technicalTips: 'Add at the end of cooking to preserve volatile aromatics'
+}
   },
   sauceRecommender: {
     forProtein: {
@@ -1218,40 +1218,40 @@ export const korean: Cuisine = {
       elementalProperties: { Water: 0.5, Earth: 0.3, Fire: 0.1, Air: 0.1 },
       toolsRequired: ['stone pot', 'steamer', 'heavy pot with lid'],
       bestFor: ['meats', 'whole fish', 'root vegetables', 'egg dishes'],
-      difficulty: 'medium',
-    }
+      difficulty: 'medium'
+}
     {
       name: 'Gui (구이)',
       description: 'Grilling methods, especially for meats like samgyeopsal and bulgogi',
       elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0.0 },
       toolsRequired: ['tabletop grill', 'charcoal', 'tongs', 'scissors'],
       bestFor: ['marinated meats', 'fresh pork belly', 'vegetables', 'mushrooms'],
-      difficulty: 'easy',
-    }
+      difficulty: 'easy'
+}
     {
       name: 'Jjigae (찌개)',
       description: 'Stew-making technique with rich, spicy broths',
       elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 },
       toolsRequired: ['earthenware pot', 'ladle', 'heavy-bottomed pot'],
       bestFor: ['kimchi stews', 'tofu dishes', 'seafood', 'vegetable medleys'],
-      difficulty: 'easy',
-    }
+      difficulty: 'easy'
+}
     {
       name: 'Namul (나물)',
       description: 'Technique for seasoning and preparing vegetables to preserve nutrients',
       elementalProperties: { Earth: 0.5, Water: 0.2, Air: 0.2, Fire: 0.1 },
       toolsRequired: ['blanching pot', 'mixing bowls', 'dipping basket'],
       bestFor: ['wild greens', 'sprouts', 'seaweed', 'root vegetables'],
-      difficulty: 'easy',
-    }
+      difficulty: 'easy'
+}
     {
       name: 'Jeongol (전골)',
       description: 'Hot pot technique featuring communal cooking at the table',
       elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 },
       toolsRequired: ['jeongol pot', 'portable burner', 'ladle', 'chopsticks'],
       bestFor: ['thinly sliced meats', 'seafood', 'tofu', 'vegetables'],
-      difficulty: 'medium',
-    }
+      difficulty: 'medium'
+}
   ],
   regionalCuisines: {
     seoul: {
@@ -1281,8 +1281,8 @@ export const korean: Cuisine = {
       signature: ['black pork', 'haemul dishes', 'abalone porridge', 'hallabong citrus'],
       elementalProperties: { Water: 0.5, Earth: 0.2, Air: 0.2, Fire: 0.1 },
       astrologicalInfluences: ['Neptune', 'Jupiter', 'Pisces'],
-      seasonality: 'island seasonal cycle',
-    }
+      seasonality: 'island seasonal cycle'
+}
   },
   elementalProperties: {
     Fire: 0.3, // Represents spicy elements and grilling

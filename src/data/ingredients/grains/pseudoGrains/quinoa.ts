@@ -9,8 +9,8 @@ const rawQuinoa = {
       rulingPlanets: ['Mercury'],
       elementalAffinity: {
         base: 'Earth',
-        secondary: 'Air',
-      }
+        secondary: 'Air'
+}
     },
     qualities: ['nutty', 'fluffy', 'versatile', 'complete protein', 'gluten-free'],
     category: 'pseudo_grain',

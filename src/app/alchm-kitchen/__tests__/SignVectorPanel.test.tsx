@@ -174,7 +174,7 @@ describe('SignVectorPanel', () => {
         />
       )
 
-      const _initialSign = screengetByText(/Sign: /).textContent,
+      const _initialSign = screengetByText(/Sign: /).textContent;
       const select = screen.getByLabelText('Governing: '),
       fireEvent.change(select, { target: { value: 'moon' } }), 
       await waitFor(() => {
@@ -267,7 +267,7 @@ describe('SignVectorPanel', () => {
         />
       )
 
-      const _alphaLabel = screen.queryByText(/Blend α: /),
+      const _alphaLabel = screen.queryByText(/Blend α: /);
       const _alphaSlider = screen.queryByRole('slider')
       
       // Note: These may not appear due to process.env check
@@ -295,8 +295,8 @@ describe('SignVectorPanel', () => {
           planet1: 'Sun',
           planet2: 'Moon',
           type: 'square',
-          orb: 5,
-        }
+          orb: 5
+}
       ],
 
       render(

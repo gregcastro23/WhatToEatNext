@@ -28,8 +28,8 @@ describe('DependencySecurityMonitor', () => {
     testConfig = {
       ...DEFAULT_DEPENDENCY_SECURITY_CONFIG,
       maxDependenciesPerBatch: 5,
-      safetyValidationEnabled: true,
-    }
+      safetyValidationEnabled: true
+}
     dependencyMonitor = new DependencySecurityMonitor(testConfig)
 
     // Reset mocks
@@ -45,24 +45,24 @@ describe('DependencySecurityMonitor', () => {
               {
                 source: 'CVE-2021-23337',
                 title: 'Command Injection in lodash',
-                range: '>=1.0.0 <4.17.21',
-              }
+                range: '>=1.0.0 <4.17.21'
+}
             ],
             range: '>=1.0.0 <4.17.21',
-            fixAvailable: { version: '4.17.21',
-            }
+            fixAvailable: { version: '4.17.21'
+}
           },
           axios: { severity: 'critical',
             via: [
               {
                 source: 'CVE-2021-3749',
                 title: 'Regular Expression Denial of Service in axios',
-                range: '>=0.8.1 <0.21.2',
-              }
+                range: '>=0.8.1 <0.21.2'
+}
             ],
             range: '>=0.8.1 <0.21.2',
-            fixAvailable: { version: '0.21.2',
-            }
+            fixAvailable: { version: '0.21.2'
+}
           }
         }
       })
@@ -131,8 +131,8 @@ describe('DependencySecurityMonitor', () => {
         react: { current: '17.0.0',
           wanted: '17.0.2',
           latest: '18.0.0',
-          location: 'node_modules/react',
-        }
+          location: 'node_modules/react'
+}
       })
 
       const error: any = new Error('npm outdated found updates') as unknown;
@@ -174,8 +174,8 @@ describe('DependencySecurityMonitor', () => {
         autoUpdateEnabled: true,
         securityThresholds: {
           ...testConfig.securityThresholds,
-          autoFixCritical: true,
-        }
+          autoFixCritical: true
+}
       }
       const monitor: any = new DependencySecurityMonitor(config)
       const vulnerabilities: any = [
@@ -187,8 +187,8 @@ describe('DependencySecurityMonitor', () => {
           cve: 'CVE-2021-23337',
           description: 'Command Injection',
           fixedVersion: '4.17.21',
-          patchAvailable: true,
-        }
+          patchAvailable: true
+}
       ],
 
       mockExecSync.mockReturnValue('')
@@ -208,8 +208,8 @@ describe('DependencySecurityMonitor', () => {
         excludedPackages: ['lodash'],
         securityThresholds: {
           ...testConfig.securityThresholds,
-          autoFixCritical: true,
-        }
+          autoFixCritical: true
+}
       }
       const monitor: any = new DependencySecurityMonitor(config)
       const vulnerabilities: any = [
@@ -221,8 +221,8 @@ describe('DependencySecurityMonitor', () => {
           cve: 'CVE-2021-23337',
           description: 'Command Injection',
           fixedVersion: '4.17.21',
-          patchAvailable: true,
-        }
+          patchAvailable: true
+}
       ],
 
       const appliedUpdates: any = await monitor.applySecurityPatches(vulnerabilities)
@@ -238,8 +238,8 @@ describe('DependencySecurityMonitor', () => {
         securityThresholds: {
           ...testConfig.securityThresholds,
           autoFixCritical: false,
-          autoFixHigh: false,
-        }
+          autoFixHigh: false
+}
       }
       const monitor: any = new DependencySecurityMonitor(config)
       const vulnerabilities: any = [
@@ -251,8 +251,8 @@ describe('DependencySecurityMonitor', () => {
           cve: 'CVE-2021-23337',
           description: 'Command Injection',
           fixedVersion: '4.17.21',
-          patchAvailable: true,
-        }
+          patchAvailable: true
+}
       ],
 
       const appliedUpdates: any = await monitor.applySecurityPatches(vulnerabilities)
@@ -264,8 +264,8 @@ describe('DependencySecurityMonitor', () => {
     test('applies safe patch updates', async () => {
       const config: any = {
         ..testConfig,
-        autoUpdateEnabled: true,
-      }
+        autoUpdateEnabled: true
+}
       const monitor: any = new DependencySecurityMonitor(config)
       const availableUpdates: any = [
         {;
@@ -275,8 +275,8 @@ describe('DependencySecurityMonitor', () => {
           updateType: 'patch' as const,
           breakingChanges: false,
           securityFix: false,
-          testingRequired: false,
-        }
+          testingRequired: false
+}
       ],
 
       mockExecSync.mockReturnValue('')
@@ -297,8 +297,8 @@ describe('DependencySecurityMonitor', () => {
             pattern: /.*/,
             updateType: 'minor' as const,
             requiresManualApproval: true,
-            testingRequired: false,
-          }
+            testingRequired: false
+}
         ]
       }
       const monitor: any = new DependencySecurityMonitor(config)
@@ -310,8 +310,8 @@ describe('DependencySecurityMonitor', () => {
           updateType: 'major' as const,
           breakingChanges: true,
           securityFix: false,
-          testingRequired: true,
-        }
+          testingRequired: true
+}
       ],
 
       const appliedUpdates: any = await monitor.applySafeUpdates(availableUpdates)
@@ -385,8 +385,8 @@ describe('DependencySecurityMonitor', () => {
         autoUpdateEnabled: true,
         securityThresholds: {
           ...testConfig.securityThresholds,
-          autoFixCritical: true,
-        }
+          autoFixCritical: true
+}
       }
       const monitor: any = new DependencySecurityMonitor(config)
       const packageJson: any = {
@@ -410,8 +410,8 @@ describe('DependencySecurityMonitor', () => {
       const outdatedError: any = new Error('Updates available') as unknown
       outdatedError.stdout = JSON.stringify({,
         lodash: { current: '4.17.20',
-          latest: '4.17.21',
-        }
+          latest: '4.17.21'
+}
       })
       mockExecSync.mockImplementationOnce(() => {
         throw outdatedError
@@ -490,8 +490,8 @@ describe('DependencySecurityMonitor', () => {
           moderate: 0,
           low: 0,
           autoFixCritical: false,
-          autoFixHigh: false,
-        },
+          autoFixHigh: false
+},
         excludedPackages: ['react', 'next']
       }
 

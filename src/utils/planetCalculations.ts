@@ -130,15 +130,15 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
         sign: 'aries',
         degree: 27,
         exactLongitude: 27,
-        isRetrograde: true,
-      }
+        isRetrograde: true
+}
 
       southNode = {
         sign: 'libra',
         degree: 27,
         exactLongitude: 207,
-        isRetrograde: true,
-      }
+        isRetrograde: true
+}
     }
   }
 

@@ -13,8 +13,8 @@ const mercuryData: PlanetData = {
     Spirit: 1,
     Essence: 0,
     Matter: 0,
-    Substance: 1,
-  },
+    Substance: 1
+},
   'Diurnal Element': 'Air',
   'Nocturnal Element': 'Earth',
   AstronomicalData: {
@@ -178,8 +178,8 @@ const mercuryData: PlanetData = {
     Salty: 0.4,
     Bitter: 0.6,
     Umami: 0.3,
-    Spicy: 0.3,
-  },
+    Spicy: 0.3
+},
   CulinaryInfluences: [
     'Enhances complexity in flavor combinations',
     'Improves aromatic quality of herbs and spices',
@@ -201,43 +201,43 @@ const mercuryData: PlanetData = {
       Opposition: -0.1,
       Trine: 0.4,
       Square: 0.0,
-      Sextile: 0.3,
-    },
+      Sextile: 0.3
+},
     Moon: {
       Conjunction: 0.3,
       Opposition: 0.1,
       Trine: 0.3,
       Square: -0.1,
-      Sextile: 0.2,
-    },
+      Sextile: 0.2
+},
     Venus: {
       Conjunction: 0.4,
       Opposition: 0.0,
       Trine: 0.3,
       Square: -0.1,
-      Sextile: 0.2,
-    },
+      Sextile: 0.2
+},
     Mars: {
       Conjunction: 0.3,
       Opposition: -0.2,
       Trine: 0.2,
       Square: -0.3,
-      Sextile: 0.1,
-    },
+      Sextile: 0.1
+},
     Jupiter: {
       Conjunction: 0.5,
       Opposition: 0.1,
       Trine: 0.4,
       Square: 0.0,
-      Sextile: 0.3,
-    },
+      Sextile: 0.3
+},
     Saturn: {
       Conjunction: -0.2,
       Opposition: -0.3,
       Trine: 0.2,
       Square: -0.3,
-      Sextile: 0.1,
-    }
+      Sextile: 0.1
+}
   },
   PlanetSpecific: {
     Mercury: {
@@ -253,16 +253,16 @@ const mercuryData: PlanetData = {
           Salty: 0.4,
           Bitter: 0.6,
           Umami: 0.3,
-          Spicy: 0.3,
-        },
+          Spicy: 0.3
+},
         Retrograde: {
           Sweet: 0.2,
           Sour: 0.6,
           Salty: 0.3,
           Bitter: 0.7,
           Umami: 0.2,
-          Spicy: 0.4,
-        }
+          Spicy: 0.4
+}
       },
       ZodiacInfluence: {
         gemini: {
@@ -305,8 +305,8 @@ const mercuryData: PlanetData = {
         PostShadow: {
           Duration: '2 weeks',
           CulinaryEffect: 'Gradually return to normal cooking patterns, integrate lessons learned',
-          Recommendation: 'Revisit and perfect recipes that had issues during retrograde',
-        }
+          Recommendation: 'Revisit and perfect recipes that had issues during retrograde'
+}
       }
     },
     ZodiacTransit: {
@@ -316,8 +316,8 @@ const mercuryData: PlanetData = {
           Fire: 0.2,
           Earth: 0.1,
           Air: 0.9,
-          Water: 0.1,
-        },
+          Water: 0.1
+},
         Ingredients: [
           'fresh herbs',
           'variety of spices',
@@ -333,8 +333,8 @@ const mercuryData: PlanetData = {
           Fire: 0.1,
           Earth: 0.2,
           Air: 0.4,
-          Water: 0.7,
-        },
+          Water: 0.7
+},
         Ingredients: [
           'herb-infused broths',
           'delicate seafood',
@@ -349,8 +349,8 @@ const mercuryData: PlanetData = {
           Fire: 0.7,
           Earth: 0.1,
           Air: 0.5,
-          Water: 0.1,
-        },
+          Water: 0.1
+},
         Ingredients: [
           'dishes requiring technical skill',
           'visually impressive presentations',
@@ -365,8 +365,8 @@ const mercuryData: PlanetData = {
           Fire: 0.1,
           Earth: 0.9,
           Air: 0.3,
-          Water: 0.1,
-        },
+          Water: 0.1
+},
         Ingredients: [
           'carefully measured spices',
           'meticulously prepared vegetables',
@@ -381,8 +381,8 @@ const mercuryData: PlanetData = {
           Fire: 0.1,
           Earth: 0.2,
           Air: 0.8,
-          Water: 0.3,
-        },
+          Water: 0.3
+},
         Ingredients: [
           'harmonious ingredient pairings',
           'visually balanced plates',
@@ -397,8 +397,8 @@ const mercuryData: PlanetData = {
           Fire: 0.3,
           Earth: 0.1,
           Air: 0.2,
-          Water: 0.8,
-        },
+          Water: 0.8
+},
         Ingredients: [
           'fermented foods',
           'umami-rich ingredients',

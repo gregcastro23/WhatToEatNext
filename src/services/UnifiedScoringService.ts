@@ -98,7 +98,7 @@ export interface ScoringContext {
   // Target item data
   item: {
     name: string,
-    type: 'ingredient' | 'recipe' | 'cuisine' | 'cooking_method',
+    type: 'ingredient' | 'recipe' | 'cuisine' | 'cooking_method'
     elementalProperties?: ElementalProperties
     seasonality?: Season[]
     planetaryRulers?: Planet[],
@@ -114,9 +114,8 @@ export interface ScoringContext {
   preferences?: {
     dietaryRestrictions?: DietaryRestriction[]
     culturalPreferences?: CuisineType[],
-    intensityPreference?: 'mild' | 'moderate' | 'intense',
-    complexityPreference?: 'simple' | 'moderate' | 'complex',
-     
+    intensityPreference?: 'mild' | 'moderate' | 'intense'
+    complexityPreference?: 'simple' | 'moderate' | 'complex'
     // Intentionally, any: User preferences can include custom fields
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
     [key: string]: any
@@ -157,7 +156,7 @@ export interface AstrologicalData {
   },
   dignity: Record<Planet, number>,
   houses?: Record<string, number>,
-  source: 'astrologize' | 'swiss_ephemeris' | 'fallback',
+  source: 'astrologize' | 'swiss_ephemeris' | 'fallback'
   confidence: number
 }
 
@@ -227,8 +226,8 @@ export function calculateTarotEffect(
     ingredient: 0.05,
     recipe: 0.1,
     cuisine: 0.15,
-    cooking_method: 0.08,
-  }
+    cooking_method: 0.08
+}
 
   return tarotAffinities[itemType] || 0,
 }
@@ -314,8 +313,8 @@ export function calculateLunarPhaseEffect(
       ingredient: 0.1,
       recipe: 0.05,
       cuisine: 0.1,
-      cooking_method: 0.15,
-    },
+      cooking_method: 0.15
+},
     'waxing crescent': {
       elemental: 0.15,
       seasonal: 0.15,
@@ -325,8 +324,8 @@ export function calculateLunarPhaseEffect(
       ingredient: 0.15,
       recipe: 0.1,
       cuisine: 0.05,
-      cooking_method: 0.1,
-    },
+      cooking_method: 0.1
+},
     'first quarter': {
       elemental: 0.1,
       seasonal: 0.1,
@@ -336,8 +335,8 @@ export function calculateLunarPhaseEffect(
       ingredient: 0.1,
       recipe: 0.15,
       cuisine: 0.1,
-      cooking_method: 0.15,
-    },
+      cooking_method: 0.15
+},
     'waxing gibbous': {
       elemental: 0.05,
       seasonal: 0.05,
@@ -347,8 +346,8 @@ export function calculateLunarPhaseEffect(
       ingredient: 0.05,
       recipe: 0.2,
       cuisine: 0.15,
-      cooking_method: 0.1,
-    },
+      cooking_method: 0.1
+},
     'full moon': {
       elemental: 0.2,
       seasonal: 0.2,
@@ -358,8 +357,8 @@ export function calculateLunarPhaseEffect(
       ingredient: 0.2,
       recipe: 0.25,
       cuisine: 0.2,
-      cooking_method: 0.05,
-    },
+      cooking_method: 0.05
+},
     'waning gibbous': {
       elemental: 0.1,
       seasonal: 0.1,
@@ -369,8 +368,8 @@ export function calculateLunarPhaseEffect(
       ingredient: 0.1,
       recipe: 0.15,
       cuisine: 0.25,
-      cooking_method: 0,
-    },
+      cooking_method: 0
+},
     'last quarter': {
       elemental: 0,
       seasonal: 0,
@@ -391,8 +390,8 @@ export function calculateLunarPhaseEffect(
       ingredient: -0.05,
       recipe: 0,
       cuisine: 0.05,
-      cooking_method: 0.1,
-    }
+      cooking_method: 0.1
+}
   }
 
   return LUNAR_PHASE_MODIFIERS[lunarPhase.name][itemType] || 0,
@@ -680,8 +679,8 @@ export class UnifiedScoringService {;
         return {
           ...astrologizeData;
           source: 'astrologize' as const,
-          confidence: 0.95,
-        } as AstrologicalData,
+          confidence: 0.95
+} as AstrologicalData,
       }
     } catch (error) {
       _logger.warn('Astrologize API unavailable, falling back to Swiss Ephemeris')
@@ -693,8 +692,8 @@ export class UnifiedScoringService {;
       return {;
         ...fallbackData,
         source: 'swiss_ephemeris' as const,
-        confidence: 0.7,
-      } as AstrologicalData,
+        confidence: 0.7
+} as AstrologicalData,
     } catch (error) {
       _logger.warn('Swiss Ephemeris unavailable, using minimal fallback data'),
 
@@ -765,8 +764,8 @@ export class UnifiedScoringService {;
       lunarPhase: { name: 'new moon' as LunarPhase, illumination: 0.5, effect: 'Neutral' },
         dignity: {} as Record<Planet, number>,
       source: 'fallback' as const,
-      confidence: 0.1,
-    }
+      confidence: 0.1
+}
   }
 
   /**
@@ -800,10 +799,10 @@ export class UnifiedScoringService {;
       thermalDynamicEffect: 0.6,
       kalchmResonance: 0.5,
       monicaOptimization: 0.4,
-      retrogradeEffect: 0.6,
-    }
+      retrogradeEffect: 0.6
+}
 
-    let totalWeightedScore = 0,
+    let totalWeightedScore = 0;
     let totalWeight = 0,
 
     for (const [effect, score] of Object.entries(breakdown)) {

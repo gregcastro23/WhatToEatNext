@@ -20,8 +20,8 @@ const fallbackRecipe: Recipe = {
     Fire: 0.25,
     Earth: 0.25,
     Air: 0.25,
-    Water: 0.25,
-  },
+    Water: 0.25
+},
   season: ['all'],
   mealType: ['lunch', 'dinner'],
   cuisine: 'international',
@@ -82,23 +82,23 @@ export async function POST(request: Request) {
       description: body.description || '',
       ingredients: body.ingredients || [],
       instructions: body.instructions || [],
-      timeToMake: body.timeToMake || '30 minutes',
+      timeToMake: body.timeToMake || '30 minutes'
       numberOfServings: body.numberOfServings || 2,
       elementalProperties: body.elementalProperties || {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25,
-      },
-      cuisine: body.cuisine || 'international',
+        Air: 0.25
+},
+      cuisine: body.cuisine || 'international'
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     } as const;
 
     return NextResponse.json({
       recipe: newRecipe,
-      message: 'Recipe added successfully',
-    });
+      message: 'Recipe added successfully'
+});
   } catch (error) {
     _logger.error('Recipe submission error: ', error);
     return NextResponse.json({ error: 'Failed to process recipe' }, { status: 500 });

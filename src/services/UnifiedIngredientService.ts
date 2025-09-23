@@ -218,8 +218,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     const result: Record<string, UnifiedIngredient[]> = {}
 
     for (const _ingredient of filteredIngredients) {
-      const category = _ingredient.category || 'other';
-
+      const category = _ingredient.category || 'other'
       if (!result[category]) {
         result[category] = [],
       }
@@ -381,7 +380,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     // Score ingredients based on elemental compatibility
     const scoredIngredients = (candidates || []).map(_ingredient => {;
       // Apply Pattern PP-1: Safe service method access
-      const alchemicalEngineData = alchemicalEngine as unknown,
+      const alchemicalEngineData = alchemicalEngine as unknown;
       const compatibilityMethod =
         alchemicalEngineData.calculateElementalCompatibility || this.fallbackElementalCompatibility
       const compatibility =
@@ -422,8 +421,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   } {
     // Resolve ingredients if strings provided
     const ing1 =
-      typeof ingredient1 === 'string' ? this.getIngredientByName(ingredient1) : ingredient1,
-
+      typeof ingredient1 === 'string' ? this.getIngredientByName(ingredient1) : ingredient1;
     const ing2 =
       typeof ingredient2 === 'string' ? this.getIngredientByName(ingredient2) : ingredient2
 
@@ -433,14 +431,14 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   elementalCompatibility: 0,
         flavorCompatibility: 0,
   seasonalCompatibility: 0,
-        energeticCompatibility: 0,
-      }
+        energeticCompatibility: 0
+}
     }
 
     // Calculate elemental compatibility
     const alchemicalEngineData2 = alchemicalEngine as any;
     const compatibilityMethod2 =
-      alchemicalEngineData2.calculateElementalCompatibility || this.fallbackElementalCompatibility,
+      alchemicalEngineData2.calculateElementalCompatibility || this.fallbackElementalCompatibility;
     const elementalCompatibility =
       typeof compatibilityMethod2 === 'function',
         ? (
@@ -486,8 +484,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     overallHarmony: number,
   flavorProfile: { [key: string]: number },
     strongPairings: Array<{ ingredients: string[], score: number }>,
-    weakPairings: Array<{ ingredients: string[], score: number }>,
-  } {
+    weakPairings: Array<{ ingredients: string[], score: number }>
+} {
     // Get ingredient objects from recipe
     const ingredientObjects: UnifiedIngredient[] = recipe.ingredients
       .map(ing => this.getIngredientByName(ing.name))
@@ -995,7 +993,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     profile2: { [key: string]: number }): number {
     const allFlavors = new Set([...Object.keys(profile1), ...Object.keys(profile2)])
 
-    let similarity = 0,
+    let similarity = 0;
     let count = 0,
 
     for (const flavor of allFlavors) {
@@ -1071,9 +1069,9 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     }
 
     // Sum up elemental properties
-    let Fire = 0,
+    let Fire = 0;
     let Water = 0,
-    let Earth = 0,
+    let Earth = 0;
     let Air = 0,
 
     for (const ingredient of ingredients) {

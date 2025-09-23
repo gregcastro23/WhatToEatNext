@@ -346,13 +346,13 @@ describe('Linting Campaign System Integration', () => {
           maxWarnings: 50,
           maxExecutionTime: 30000,
           minCacheHitRate: 80,
-          maxMemoryUsage: 256,
-        },
+          maxMemoryUsage: 256
+},
         blockers: { parserErrors: true,
           typeScriptErrors: true,
           importErrors: false;,
-          securityIssues: true,
-        },
+          securityIssues: true
+},
         exemptions: { files: ['test/**/*.ts'],
           rules: ['no-console']
         }

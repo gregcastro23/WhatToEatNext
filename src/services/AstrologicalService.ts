@@ -133,8 +133,8 @@ export class AstrologicalService {
           Fire: 0.3,
           Water: 0.2,
           Earth: 0.25,
-          Air: 0.25,
-        } as ElementalPropertiesType,
+          Air: 0.25
+} as ElementalPropertiesType,
         accuracy: 0.95,
         calculationTimestamp: new Date().toISOString()
       }
@@ -260,16 +260,16 @@ export class AstrologicalService {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25,
-        } as ElementalPropertiesType,
+          Air: 0.25
+} as ElementalPropertiesType,
         alchemicalModifier: {
           Spirit: 0.25,
           Essence: 0.25,
           Matter: 0.25,
-          Substance: 0.25,
-        },
-        compatibilityScore: 0.75,
-      }
+          Substance: 0.25
+},
+        compatibilityScore: 0.75
+}
 
       return createSuccessResponse(influences)
     } catch (error) {
@@ -293,15 +293,14 @@ export interface PlanetPosition {
 
 // MoonPhase type for API compatibility - using string literals
 export type MoonPhase =
-  | 'new',
+  | 'new'
   | 'waxing crescent'
   | 'first quarter'
   | 'waxing gibbous'
   | 'full'
   | 'waning gibbous'
   | 'last quarter'
-  | 'waning crescent',
-
+  | 'waning crescent'
 // AstrologicalState for service interface - we'll map this to the centralized one internally
 
 // Canonical async function to get the latest astrological state - Updated with standardized response
@@ -317,8 +316,8 @@ export async function getLatestAstrologicalState(): Promise<AstrologicalCalculat
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25,
-      } as ElementalPropertiesType,
+        Air: 0.25
+} as ElementalPropertiesType,
       accuracy: 1.0,
       calculationTimestamp: new Date().toISOString()
     }

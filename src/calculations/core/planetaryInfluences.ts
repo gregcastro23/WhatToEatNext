@@ -51,8 +51,8 @@ export const PLANETARY_ELEMENTAL_MAPPINGS = {
     Saturn: 'Earth',
     Uranus: 'Air',
     Neptune: 'Water',
-    Pluto: 'Water',
-  }
+    Pluto: 'Water'
+}
 } as const,
 
 /**
@@ -128,7 +128,7 @@ export function calculatePlanetaryDignity(
   planet: string,
   sign: string,
 ): {
-  type: 'rulership' | 'exaltation' | 'detriment' | 'fall' | 'neutral',
+  type: 'rulership' | 'exaltation' | 'detriment' | 'fall' | 'neutral'
   modifier: number
 } {
   const planetKey = planet.toLowerCase()
@@ -312,15 +312,15 @@ export function calculatePlanetaryInfluences(
         Spirit: 0,
         Essence: 0,
         Matter: 0,
-        Substance: 0,
-      }
+        Substance: 0
+}
 
       const elementalInfluences: { [key: string]: number } = {
         Fire: 0,
         Water: 0,
         Air: 0,
-        Earth: 0,
-      }
+        Earth: 0
+}
 
       const dominantPlanets: Array<{ planet: string, strength: number, element: Element }> = [];
 

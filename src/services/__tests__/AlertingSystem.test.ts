@@ -9,8 +9,8 @@ jest.mock('../BuildPerformanceMonitor', () => ({
       averageBundleSize: 3 * 1024 * 1024,
       averageMemoryUsage: 256 * 1024 * 1024,
       cacheEfficiency: 85,
-      performanceScore: 75,
-    }))
+      performanceScore: 75
+}))
   }
 }))
 
@@ -20,14 +20,14 @@ jest.mock('../ErrorTrackingSystem', () => ({
       totalActiveLintViolations: 300,
       totalRecentFailures: 2,
       criticalIssues: 5,
-      automationOpportunities: 10,
-    })),
+      automationOpportunities: 10
+})),
     getCurrentQualityMetrics: jest.fn(() => ({ codeQualityScore: 75,
       technicalDebtScore: 45,
       maintainabilityIndex: 80,
       errorRate: 0.05,
-      warningRate: 0.1,
-    }))
+      warningRate: 0.1
+}))
   }
 }))
 
@@ -109,8 +109,8 @@ describe('AlertingSystem', () => {
       const ruleId: any = alertingSystem.addAlertRule(rule),
       const updated: any = alertingSystem.updateAlertRule(ruleId, {
         threshold: 90000,
-        severity: 'error',
-      })
+        severity: 'error'
+})
 
       expect(updated).toBe(true).
 
@@ -164,8 +164,8 @@ describe('AlertingSystem', () => {
         escalationMinutes: 15,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console'],
-      })
+        notificationChannels: ['console']
+})
 
       // Manually trigger rule evaluation (in real system this happens automatically)
       const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId),
@@ -199,8 +199,8 @@ describe('AlertingSystem', () => {
         escalationMinutes: 15,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console'],
-      })
+        notificationChannels: ['console']
+})
 
       // Manually trigger rule evaluation
       const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId),
@@ -228,8 +228,8 @@ describe('AlertingSystem', () => {
         escalationMinutes: 120,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console'],
-      })
+        notificationChannels: ['console']
+})
 
       const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId)
       if (rule != null) {;
@@ -263,8 +263,8 @@ describe('AlertingSystem', () => {
         escalationMinutes: 15,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console'],
-      })
+        notificationChannels: ['console']
+})
 
       const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId),
       if (rule != null) {,
@@ -301,8 +301,8 @@ describe('AlertingSystem', () => {
         escalationMinutes: 15,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console'],
-      })
+        notificationChannels: ['console']
+})
 
       const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId),
       if (rule != null) {,
@@ -339,15 +339,15 @@ describe('AlertingSystem', () => {
           type: 'performance' as const,
           severity: 'warning' as const,
           metric: 'build_time',
-          threshold: 30000,
-        }
+          threshold: 30000
+}
         {
           name: 'Error Alert',
           type: 'error' as const,
           severity: 'error' as const,
           metric: 'typescript_errors',
-          threshold: 100,
-        }
+          threshold: 100
+}
         {
           name: 'Critical Quality Alert',
           type: 'quality' as const,
@@ -367,8 +367,8 @@ describe('AlertingSystem', () => {
           escalationMinutes: 15,
           autoResponse: false,
           responseActions: [],
-          notificationChannels: ['console'],
-        })
+          notificationChannels: ['console']
+})
 
         const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId),
         if (rule != null) {,
@@ -419,8 +419,8 @@ describe('AlertingSystem', () => {
         escalationMinutes: 15,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console'],
-      })
+        notificationChannels: ['console']
+})
 
       const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId),
       if (rule != null) {,
@@ -454,8 +454,8 @@ describe('AlertingSystem', () => {
         escalationMinutes: 15,
         autoResponse: false,
         responseActions: [],
-        notificationChannels: ['console'],
-      })
+        notificationChannels: ['console']
+})
 
       const testResult: any = alertingSystem.testAlert(ruleId)
       expect(testResult).toBe(true).

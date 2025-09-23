@@ -30,8 +30,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       temperature: 'cool, dark place',
       duration: '1-3 years',
       container: 'airtight, dark',
-      notes: 'Crush to test freshness - should be aromatic',
-    }
+      notes: 'Crush to test freshness - should be aromatic'
+}
   }
 
   dried_oregano: {
@@ -59,8 +59,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       temperature: 'cool, dark place',
       duration: '2-3 years',
       container: 'airtight, dark',
-      notes: 'Maintains flavor well when dried',
-    }
+      notes: 'Maintains flavor well when dried'
+}
   }
 
   dried_thyme: {
@@ -88,8 +88,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       temperature: 'cool, dark place',
       duration: '2-4 years',
       container: 'airtight, dark',
-      notes: 'Whole leaves last longer than ground',
-    }
+      notes: 'Whole leaves last longer than ground'
+}
   }
 
   dried_rosemary: {
@@ -117,8 +117,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       temperature: 'cool, dark place',
       duration: '1-3 years',
       container: 'airtight, dark',
-      notes: 'Whole needles last longer than ground',
-    }
+      notes: 'Whole needles last longer than ground'
+}
   }
 
   dried_sage: {
@@ -178,8 +178,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       temperature: 'cool, dark place',
       duration: '1-3 years',
       container: 'airtight, dark',
-      notes: 'Whole leaves maintain flavor longer',
-    }
+      notes: 'Whole leaves maintain flavor longer'
+}
   }
 
   dried_marjoram: {
@@ -206,8 +206,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
-      notes: 'Replace when aroma fades',
-    }
+      notes: 'Replace when aroma fades'
+}
   }
 
   dried_savory: {
@@ -234,8 +234,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
-      notes: 'Maintains strength well when dried',
-    }
+      notes: 'Maintains strength well when dried'
+}
   }
 
   dried_chervil: {
@@ -262,8 +262,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       temperature: 'cool, dark place',
       duration: '6-12 months',
       container: 'airtight, dark',
-      notes: 'Loses flavor quickly when dried',
-    }
+      notes: 'Loses flavor quickly when dried'
+}
   }
 
   dried_tarragon: {
@@ -290,8 +290,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
-      notes: 'Replace when aroma weakens',
-    }
+      notes: 'Replace when aroma weakens'
+}
   }
 
   dried_dill: {
@@ -318,8 +318,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
-      notes: 'Protect from light to maintain color',
-    }
+      notes: 'Protect from light to maintain color'
+}
   }
 
   dried_mint: {
@@ -410,8 +410,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
-      notes: 'Color may fade but flavor remains',
-    }
+      notes: 'Color may fade but flavor remains'
+}
   }
 
   dried_cilantro: {
@@ -438,8 +438,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
-      notes: 'Best in cooked dishes',
-    }
+      notes: 'Best in cooked dishes'
+}
   }
 
   dried_chives: {
@@ -466,8 +466,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
-      notes: 'Protect from moisture',
-    }
+      notes: 'Protect from moisture'
+}
   }
 
   dried_lemon_balm: {
@@ -558,8 +558,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
-      notes: 'Replace when aroma fades',
-    }
+      notes: 'Replace when aroma fades'
+}
   }
 
   dried_lovage: {
@@ -586,8 +586,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
-      notes: 'Replace when aroma weakens',
-    }
+      notes: 'Replace when aroma weakens'
+}
   }
 
   chervil: {
@@ -596,8 +596,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       Air: 0.4,
       Fire: 0.3,
       Earth: 0.2,
-      Water: 0.1,
-    },
+      Water: 0.1
+},
     category: 'culinary_herb',
     qualities: ['nourishing'],
     nutritionalProfile: {
@@ -616,8 +616,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       Air: 0.4,
       Fire: 0.3,
       Earth: 0.2,
-      Water: 0.1,
-    },
+      Water: 0.1
+},
     category: 'culinary_herb',
     qualities: ['nourishing'],
     nutritionalProfile: {
@@ -637,8 +637,8 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       Air: 0.4,
       Fire: 0.3,
       Earth: 0.2,
-      Water: 0.1,
-    },
+      Water: 0.1
+},
     category: 'culinary_herb',
     qualities: ['nourishing'],
     nutritionalProfile: {

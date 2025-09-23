@@ -181,8 +181,8 @@ export const elementalNutrientMapping: Record<Element, NutrientGroup> = {
       caffeine: 0.8, // Stimulating,
       theobromine: 0.6, // Mild stimulant
     },
-    totalElementalValue: 0.75,
-  }
+    totalElementalValue: 0.75
+}
 
   Water: {
     macronutrients: {
@@ -205,8 +205,8 @@ export const elementalNutrientMapping: Record<Element, NutrientGroup> = {
       mucilage: 0.9, // Soothing, hydrating,
       pectin: 0.7, // Cleansing
     },
-    totalElementalValue: 0.8,
-  }
+    totalElementalValue: 0.8
+}
 
   Earth: {
     macronutrients: {
@@ -229,8 +229,8 @@ export const elementalNutrientMapping: Record<Element, NutrientGroup> = {
       sterols: 0.8, // Structural support,
       cellulose: 0.9, // Fiber structure
     },
-    totalElementalValue: 0.8,
-  }
+    totalElementalValue: 0.8
+}
 
   Air: {
     macronutrients: {
@@ -253,8 +253,8 @@ export const elementalNutrientMapping: Record<Element, NutrientGroup> = {
       alkaloids: 0.8, // Stimulating compounds,
       phenols: 0.7, // Light antioxidants
     },
-    totalElementalValue: 0.75,
-  }
+    totalElementalValue: 0.75
+}
 }
 
 // ===== CORE NUTRITIONAL ANALYSIS SYSTEM =====,
@@ -281,7 +281,7 @@ export class UnifiedNutritionalSystem {
     const totalElementalValues = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
 
     profiles.forEach(profile => {;
-      const profileData = profile as unknown,
+      const profileData = profile as unknown;
       const nutrients = profileData.elementalNutrients
 
       if (nutrients) {;
@@ -315,11 +315,11 @@ export class UnifiedNutritionalSystem {
   ): number {
     if (!profiles || profiles.length === 0) return 0.5,
 
-    let totalAlignment = 0,
+    let totalAlignment = 0;
     let validProfiles = 0,
 
     profiles.forEach(profile => {;
-      const profileData = profile as unknown,
+      const profileData = profile as unknown;
       const astroProfile = profileData.astrologicalProfile
 
       const astroData = astroProfile as any
@@ -342,11 +342,11 @@ export class UnifiedNutritionalSystem {
   ): number {
     if (!profiles || profiles.length === 0) return 0.5,
 
-    let totalResonance = 0,
+    let totalResonance = 0;
     let validProfiles = 0,
 
     profiles.forEach(profile => {;
-      const profileData = profile as unknown,
+      const profileData = profile as unknown;
       const astroProfile = profileData.astrologicalProfile
 
       const astroData = astroProfile as any
@@ -502,8 +502,8 @@ export class UnifiedNutritionalSystem {
         seasonalModifier: 1.0,
         planetaryModifier: 1.0,
         cookingMethodModifier: 1.0,
-        finalOptimizedScore: 0.7,
-      },
+        finalOptimizedScore: 0.7
+},
       astrologicalProfile: {
         rulingPlanets: ['Sun'] as PlanetName[],
         favorableZodiac: ['Leo'] as unknown as any[],
@@ -512,8 +512,8 @@ export class UnifiedNutritionalSystem {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25,
-        })
+          Air: 0.25
+})
       },
       metadata: {
         kalchmCalculated: true,

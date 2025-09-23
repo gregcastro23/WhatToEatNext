@@ -252,7 +252,7 @@ export function getZodiacElement(_sign: any): ElementalCharacter {
     cancer: 'Water',
     scorpio: 'Water',
     pisces: 'Water' },
-        return elements[sign] || 'Fire',
+        return elements[sign] || 'Fire'
 }
 
 /**
@@ -519,7 +519,7 @@ export function getPlanetaryElementalInfluence(_planet: PlanetName): Element {
     _Uranus: 'Air',
     _Neptune: 'Water',
     _Pluto: 'Water' },
-        return planetElements[planet.toLowerCase()] || 'Fire',
+        return planetElements[planet.toLowerCase()] || 'Fire'
 }
 
 /**
@@ -563,8 +563,8 @@ export async function calculateDominantElement(
     Fire: 0,
     Earth: 0,
     Air: 0,
-    Water: 0,
-  }
+    Water: 0
+}
 
   // Count elements from planetary positions
   if (astroState.planetaryPositions) {
@@ -608,8 +608,8 @@ export async function calculateElementalProfile(
     Fire: 0,
     Earth: 0,
     Air: 0,
-    Water: 0,
-  }
+    Water: 0
+}
 
   // Count elements from planetary positions
   if (astroState.planetaryPositions) {
@@ -760,8 +760,8 @@ export async function calculateAspects(
               fire: 0,
               _water: 0,
               _earth: 0,
-              _air: 0,
-            } as unknown as LowercaseElementalProperties
+              _air: 0
+} as unknown as LowercaseElementalProperties
           })
 
           // Apply elemental effects

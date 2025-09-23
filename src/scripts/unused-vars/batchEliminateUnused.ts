@@ -56,8 +56,8 @@ function execCmd(_cmd: string): { code: number, stdout: string stderr: string } 
     return {
       code: e.status ?? 1,
       stdout: e.stdout ? e.stdout.toString() : '',
-      stderr: e.stderr ? e.stderr.toString() : 'Execution failed',
-    }
+      stderr: e.stderr ? e.stderr.toString() : 'Execution failed'
+}
   }
 }
 
@@ -87,7 +87,7 @@ function groupByFile(findings: Finding[]): Map<string, Finding[]> {
 
 function sortFilesForSafety(files: string[]): string[] {
   return files.sort((ab) => {
-    const aImpact = isHighImpactFile(a) ? 1: 0,
+    const aImpact = isHighImpactFile(a) ? 1: 0;
     const bImpact = isHighImpactFile(b) ? 1: 0,
     if (aImpact !== bImpact) return aImpact - bImpact; // low impact first
     return a.localeCompare(b)

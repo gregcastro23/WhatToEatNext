@@ -3,25 +3,23 @@ import {_ZodiacSign, Planet, Element} from './celestial';
 
 // Define chakra positions
 export type ChakraPosition =
-  | 'root',
+  | 'root'
   | 'sacral'
   | 'solarPlexus'
   | 'heart'
   | 'throat'
   | 'brow'
   | 'crown'
-  | 'thirdEye',
-
+  | 'thirdEye'
 // Define Sanskrit names mapping
 export type ChakraSanskritName =
-  | 'Muladhara',
+  | 'Muladhara'
   | 'Swadhisthana'
   | 'Manipura'
   | 'Anahata'
   | 'Vishuddha'
   | 'Ajna'
-  | 'Sahasrara',
-
+  | 'Sahasrara'
 // Define chakra properties
 export interface ChakraProperty {
   name: string,
@@ -48,8 +46,7 @@ export interface KeyCardChakraMapping {
 }
 
 // Define alchemical energy states
-export type AlchemicalEnergyState = 'Spirit' | 'Substance' | 'Essence' | 'Matter',
-
+export type AlchemicalEnergyState = 'Spirit' | 'Substance' | 'Essence' | 'Matter'
 // Define chakra-zodiac mappings
 export interface ChakraZodiacMapping {
   chakra: ChakraPosition,
@@ -151,8 +148,8 @@ export const _CHAKRAS: ChakraProperties  = {
     governs: ['Intuition', 'Imagination', 'Vision'],
     balanceIndicators: ['Clear insight', 'Strong intuition', 'Wisdom'],
     imbalanceIndicators: ['Confusion', 'Poor intuition', 'Lack of focus'],
-    planet: 'Moon',
-  }
+    planet: 'Moon'
+}
 }
 
 // Major Arcana to Chakra mappings
@@ -424,39 +421,39 @@ export const _CHAKRA_MAPPING_SUMMARY: ChakraMappingSummary[]  = [
   {
     chakra: 'root',
     majorArcana: ['The Emperor'],
-    primarySuit: 'pentacles',
-  }
+    primarySuit: 'pentacles'
+}
   {
     chakra: 'sacral',
     majorArcana: ['The Empress'],
-    secondarySuit: 'cups',
-  }
+    secondarySuit: 'cups'
+}
   {
     chakra: 'solarPlexus',
     majorArcana: ['The Tower', 'The Chariot'],
     primarySuit: 'wands',
-    secondarySuit: 'pentacles',
-  }
+    secondarySuit: 'pentacles'
+}
   {
     chakra: 'heart',
     majorArcana: ['The Lovers', 'The Star'],
-    primarySuit: 'cups',
-  }
+    primarySuit: 'cups'
+}
   {
     chakra: 'throat',
     majorArcana: ['The Magician'],
-    primarySuit: 'swords',
-  }
+    primarySuit: 'swords'
+}
   {
     chakra: 'brow',
     majorArcana: ['The High Priestess', 'The Hanged Man'],
-    secondarySuit: 'swords',
-  }
+    secondarySuit: 'swords'
+}
   {
     chakra: 'crown',
     majorArcana: ['The World', 'Judgement'],
-    secondarySuit: 'swords',
-  }
+    secondarySuit: 'swords'
+}
 ],
 export interface ChakraEnergies {
   root: number,

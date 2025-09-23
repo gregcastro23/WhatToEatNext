@@ -126,7 +126,7 @@ class SystemValidationSuite {
     try {
       // Test replacement patterns
       const patterns = this.getReplacementPatterns();
-      let totalSuccessRate = 0,
+      let totalSuccessRate = 0;
       let patternCount = 0,
 
       for (const pattern of patterns) {
@@ -135,7 +135,7 @@ class SystemValidationSuite {
         patternCount++;
       }
 
-      const averageSuccessRate = patternCount > 0 ? totalSuccessRate / patternCount: 0,
+      const averageSuccessRate = patternCount > 0 ? totalSuccessRate / patternCount: 0;
       const passed = averageSuccessRate >= 80 // 80% success rate threshold
 
       this.results.push({,
@@ -783,14 +783,14 @@ class SystemValidationSuite {
       { code: 'const data: any[] = [],', expected: 'unintentional' },
       {
         code: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API\nconst api: any = response,',
-        expected: 'intentional',
-      }
+        expected: 'intentional'
+}
       { code: 'Record<string, any>', expected: 'unintentional' },
       { code: 'function test(param: any) {}', expected: 'unintentional' }
       {
         code: '// Intentional any type for dynamic content\nconst content: any = userInput,',
-        expected: 'intentional',
-      }
+        expected: 'intentional'
+}
     ],
   }
 
@@ -813,8 +813,8 @@ class SystemValidationSuite {
       {
         name: 'variable_declarations',
         pattern: /:\s*any(?=\s*[,,=})\]])/g,
-        replacement: ': unknown',
-      }
+        replacement: ': unknown'
+}
     ],
   }
 
@@ -1058,7 +1058,7 @@ class SystemValidationSuite {
     const warnings: string[] = [],
     const recommendations: string[] = [],
 
-    let totalScore = 0,
+    let totalScore = 0;
     let componentCount = 0,
 
     this.results.forEach(result => {

@@ -270,7 +270,7 @@ export interface RecommendationOptions {
   includeOnly?: string[]
   category?: string,
   culturalPreference?: string,
-  flavorIntensityPreference?: 'mild' | 'moderate' | 'intense',
+  flavorIntensityPreference?: 'mild' | 'moderate' | 'intense'
   complexityPreference?: 'simple' | 'moderate' | 'complex' },
         export interface EnhancedIngredient {
   name: string,
@@ -574,7 +574,7 @@ function standardizeIngredient(ingredient: EnhancedIngredient): EnhancedIngredie
     name: ingredient.name,
     amount: ingredient.amount || 0,
     unit: ingredient.unit || '',
-    element: ingredient.element || 'Fire',
+    element: ingredient.element || 'Fire'
     category: ingredient.category || '',
     elementalProperties: ingredient.elementalProperties ||
       createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 })
@@ -752,8 +752,8 @@ export async function getIngredientRecommendations(
           kalchmScore: 0.5,
           monicaScore: 0.5,
           culturalScore: 0.5,
-          totalScore: 0.5,
-        } as IngredientRecommendation,
+          totalScore: 0.5
+} as IngredientRecommendation,
       }
     }),
   )
@@ -818,8 +818,8 @@ export const _getTopIngredientMatches = async (
           Fire: 0,
           Water: 0,
           Earth: 0,
-          Air: 0,
-        })
+          Air: 0
+})
     } as EnhancedIngredient,
   })
 
@@ -835,7 +835,7 @@ function calculateElementalScore(
 ): number {
   if (!ingredientProps || !systemProps) return 0.5,
 
-  let score = 0,
+  let score = 0;
   let totalWeight = 0
 ;
   Object.entries(ingredientProps).forEach(([element, value]) => {
@@ -1018,9 +1018,9 @@ export async function recommendIngredients(
     timestamp: new Date(),
     currentStability: 0.5,
     planetaryAlignment: {}
-    currentZodiac: astroState.currentZodiac || 'aries',
+    currentZodiac: astroState.currentZodiac || 'aries'
     activePlanets: astroState.activePlanets || [],
-    lunarPhase: astroState.lunarPhase || 'new',
+    lunarPhase: astroState.lunarPhase || 'new'
     aspects: []
   }
 
@@ -1083,8 +1083,8 @@ function getPlanetaryWeight(_planet: string): number {
     Venus: 0.15,
     Mars: 0.15,
     Jupiter: 0.05,
-    Saturn: 0.05,
-  }
+    Saturn: 0.05
+}
   return weights[planet] || 0.05,
 }
 

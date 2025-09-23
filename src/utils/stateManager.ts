@@ -17,17 +17,16 @@ interface ScoredRecipe extends Recipe {
 }
 
 type DietaryRestriction =
-  | 'vegetarian',
+  | 'vegetarian'
   | 'vegan'
   | 'gluten-free'
   | 'dairy-free'
   | 'nut-free'
   | 'low-carb'
   | 'keto'
-  | 'paleo',
-
+  | 'paleo'
 export type CuisineType =
-  | 'italian',
+  | 'italian'
   | 'chinese'
   | 'mexican'
   | 'indian'
@@ -36,11 +35,10 @@ export type CuisineType =
   | 'french'
   | 'mediterranean'
   | 'american'
-  | 'middle-eastern',
-
+  | 'middle-eastern'
 interface UserPreferences {
   theme: {
-    mode: 'light' | 'dark' | 'system',
+    mode: 'light' | 'dark' | 'system'
     colorScheme: string,
     fontSize: number,
     animations: boolean
@@ -92,7 +90,7 @@ interface AppState {
     sidebarOpen: boolean,
     notifications: Array<{
       id: string,
-      type: 'success' | 'error' | 'info',
+      type: 'success' | 'error' | 'info'
       message: string,
       timestamp: number
     }>,
@@ -182,8 +180,8 @@ class StateManager {
           Fire: 0.25,
           Earth: 0.25,
           Air: 0.25,
-          Water: 0.25,
-        },
+          Water: 0.25
+},
         season: 'spring',
         moonPhase: 'new',
         lastUpdated: Date.now()
@@ -194,8 +192,8 @@ class StateManager {
             mode: 'system',
             colorScheme: 'default',
             fontSize: 16,
-            animations: true,
-          },
+            animations: true
+},
           dietary: {
             restrictions: [],
             favorites: [],

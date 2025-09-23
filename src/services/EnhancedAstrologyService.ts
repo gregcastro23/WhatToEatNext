@@ -23,7 +23,7 @@ const logger = createLogger('EnhancedAstrologyService')
 
 export interface EnhancedAstrologicalData {;
   planetaryPositions: Record<string, CelestialPosition>,
-  dataSource: 'astrologize' | 'swiss-ephemeris' | 'fallback' | 'composite',
+  dataSource: 'astrologize' | 'swiss-ephemeris' | 'fallback' | 'composite'
   confidence: number,
   siderealTime?: string,
   seasonalTransit?: unknown,

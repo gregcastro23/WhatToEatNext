@@ -121,8 +121,8 @@ describe('ServiceIntegrationValidator', () => {
         if (cmd.toString().includes('yarn lint')) {
           // Simulate 10 remaining unused variables (90% reduction)
           const lintResults: any = Array.from({ length: 10 }, () => ({
-            messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }],
-          }))
+            messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }]
+}))
           return Buffer.from(JSON.stringify(lintResults))
         }
         if (cmd.toString().includes('yarn tsc')) {
@@ -149,8 +149,8 @@ describe('ServiceIntegrationValidator', () => {
         if (cmd.toString().includes('yarn lint')) {
           // Simulate 50 remaining unused variables (50% reduction)
           const lintResults: any = Array.from({ length: 50 }, () => ({
-            messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }],
-          }))
+            messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }]
+}))
           return Buffer.from(JSON.stringify(lintResults))
         }
         if (cmd.toString().includes('yarn tsc')) {
@@ -371,8 +371,8 @@ describe('ServiceIntegrationValidator', () => {
       expect(testResult.details.testResults).toEqual({
         passed: 3,
         failed: 0,
-        total: 3,
-      }).
+        total: 3
+}).
     })
 
     test('should handle services with no integration tests', async () => {
@@ -420,8 +420,8 @@ describe('ServiceIntegrationValidator', () => {
       mockExecSyncmockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn lint')) {
           const lintResults: any = Array.from({ length: 20 }, () => ({
-            messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }],
-          }))
+            messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }]
+}))
           return Buffer.from(JSON.stringify(lintResults))
         }
         if (cmd.toString().includes('yarn tsc')) {
@@ -509,8 +509,8 @@ describe('ServiceIntegrationValidator', () => {
         if (cmd.toString().includes('yarn lint')) {
           // 50% reduction (below 90% target)
           const lintResults: any = Array.from({ length: 50 }, () => ({
-            messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }],
-          }))
+            messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }]
+}))
           return Buffer.from(JSON.stringify(lintResults))
         }
         if (cmd.toString().includes('yarn tsc')) {
@@ -551,8 +551,8 @@ describe('ServiceIntegrationValidator', () => {
       const configWithDisabledValidations: Partial<ServiceIntegrationConfig> = { enableApiEndpointValidation: false,
         enableServiceMethodValidation: false,
         enableConfigurationValidation: false,
-        enableIntegrationTests: false,
-      }
+        enableIntegrationTests: false
+}
 
       const validatorWithDisabledValidations: any = new ServiceIntegrationValidator(configWithDisabledValidations),
       const report: any = await validatorWithDisabledValidations.validateServiceIntegration(mockProcessedFiles, 'test-batch-1')
@@ -563,8 +563,8 @@ describe('ServiceIntegrationValidator', () => {
 
     test('should respect timeout configurations', async () => {
       const configWithShortTimeouts: Partial<ServiceIntegrationConfig> = { apiTimeout: 1000,
-        testTimeout: 1000,
-      }
+        testTimeout: 1000
+}
 
       const validatorWithShortTimeouts: any = new ServiceIntegrationValidator(configWithShortTimeouts)
 

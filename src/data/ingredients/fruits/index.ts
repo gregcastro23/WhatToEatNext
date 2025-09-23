@@ -64,12 +64,9 @@ export const findCompatibleFruits = (ingredientName: string): string[] => {
 }
 
 // Types
-export type FruitSubCategory = 'citrus' | 'berry' | 'tropical' | 'stone fruit' | 'pome' | 'melon',
-
-export type FruitRipeness = 'unripe' | 'ripe' | 'very ripe',
-
-export type FruitTexture = 'firm' | 'soft' | 'juicy' | 'crisp' | 'creamy',
-
+export type FruitSubCategory = 'citrus' | 'berry' | 'tropical' | 'stone fruit' | 'pome' | 'melon'
+export type FruitRipeness = 'unripe' | 'ripe' | 'very ripe'
+export type FruitTexture = 'firm' | 'soft' | 'juicy' | 'crisp' | 'creamy'
 // Update type definitions
 export type FruitAstrologicalProfile = {
   rulingPlanets: string[],
@@ -192,8 +189,8 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
           fruitCount: Object.keys(results).length,
           representativeFruits: Object.keys(results).slice(03),
           categoryDensity: Object.keys(results).length / Object.keys(fruits).length,
-          categoryRichness: Object.keys(results).length > 0 ? 1.0 : 0.0,
-        }
+          categoryRichness: Object.keys(results).length > 0 ? 1.0 : 0.0
+}
       }),
       totalCategories: testCategories.length,
       populatedCategories: testCategories.filter(,
@@ -294,8 +291,8 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
           fruitCount: Object.keys(results).length,
           representativeFruits: Object.keys(results).slice(03),
           seasonalDensity: Object.keys(results).length / Object.keys(fruits).length,
-          seasonalRichness: Object.keys(results).length > 0 ? 1.0 : 0.0,
-        }
+          seasonalRichness: Object.keys(results).length > 0 ? 1.0 : 0.0
+}
       }),
       totalSeasons: testSeasons.length,
       populatedSeasons: testSeasons.filter(season => Object.keys(seasonalFunc(season)).length > 0),
@@ -389,8 +386,8 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
           fruitCount: Object.keys(results).length,
           representativeFruits: Object.keys(results).slice(03),
           preparationDensity: Object.keys(results).length / Object.keys(fruits).length,
-          preparationRichness: Object.keys(results).length > 0 ? 1.0 : 0.0,
-        }
+          preparationRichness: Object.keys(results).length > 0 ? 1.0 : 0.0
+}
       }),
       totalMethods: testMethods.length,
       populatedMethods: testMethods.filter(,
@@ -791,8 +788,8 @@ export const FRUIT_COMPATIBILITY_INTELLIGENCE = {
         return {;
           fruit,
           reciprocalConnections: reciprocal,
-          reciprocityScore: compatible.length > 0 ? reciprocal / compatible.length : 0,
-        }
+          reciprocityScore: compatible.length > 0 ? reciprocal / compatible.length : 0
+}
       })
     }
 
@@ -1271,8 +1268,8 @@ export const FRUIT_DEMONSTRATION_PLATFORM = {
       integrationSuccess: 1.0,
       demonstrationCompleteness: 1.0,
       systemEfficiency: 0.97,
-      enterpriseReadiness: 0.98,
-    }
+      enterpriseReadiness: 0.98
+}
 
     const integrationAnalysis = {
       crossSystemHarmony: Number(demonstrationMetrics.totalHarmonyScore || 0),

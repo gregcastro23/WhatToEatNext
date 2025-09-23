@@ -6,7 +6,7 @@
 */
 
 export type PreservationReason =
-  | 'astrological-variable',
+  | 'astrological-variable'
   | 'elemental-property'
   | 'campaign-system'
   | 'test-context'
@@ -15,8 +15,7 @@ export type PreservationReason =
   | 'high-impact-file'
   | 'service-layer'
   | 'core-calculation'
-  | 'none',
-
+  | 'none'
 export interface PreservationDecision {
   preserve: boolean,
   reason: PreservationReason,
@@ -26,13 +25,11 @@ export interface PreservationDecision {
 const ELEMENT_NAMES = new Set(['Fire', 'Water', 'Earth', 'Air'])
 
 const ASTRO_VARIABLE_NAME_REGEX =
-  /^(?: planet|planets|planetary|degree|longitude|latitude|sign|zodiac|position|coordinates?|house|asc|mc|dignit|retro|ephemer|utc|julian)/i,
-
+  /^(?: planet|planets|planetary|degree|longitude|latitude|sign|zodiac|position|coordinates?|house|asc|mc|dignit|retro|ephemer|utc|julian)/i;
 const CAMPAIGN_VARIABLE_NAME_REGEX =
   /^(?:metrics?|progress|safety|campaign|validation|intelligence|monitor|tracking|telemetry|baseline|phase|gate|milestone|roi)/i,
 
-const TEST_CONTEXT_FILE_REGEX = /\/(?: __tests__|tests?|__mocks__|mocks|__fixtures__|fixtures)\//i,
-
+const TEST_CONTEXT_FILE_REGEX = /\/(?: __tests__|tests?|__mocks__|mocks|__fixtures__|fixtures)\//i;
 const CULINARY_VARIABLE_NAME_REGEX =
   /^(?:cuisine|ingredient|recipe|flavor|taste|umami|spice|seasoning|cooking|method|profile|oil|vinegar|protein|vegetable|fruit)/i,
 

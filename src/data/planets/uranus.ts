@@ -11,8 +11,8 @@ const uranusData: PlanetData = {
     Spirit: 0,
     Essence: 1,
     Matter: 1,
-    Substance: 0,
-  },
+    Substance: 0
+},
   'Diurnal Element': 'Water',
   'Nocturnal Element': 'Air',
   AstronomicalData: {
@@ -105,8 +105,8 @@ const uranusData: PlanetData = {
     Spirit: 0.2,
     Essence: 0.4,
     Matter: 0.4,
-    Substance: 0.6,
-  },
+    Substance: 0.6
+},
   FoodAssociations: [
     'unusual foods',
     'exotic ingredients',
@@ -126,8 +126,8 @@ const uranusData: PlanetData = {
     Salty: 0.3,
     Bitter: 0.5,
     Umami: 0.4,
-    Spicy: 0.5,
-  },
+    Spicy: 0.5
+},
   CulinaryInfluences: [
     'Inspires radical innovation in cooking',
     'Combines unexpected flavors and textures',
@@ -141,64 +141,64 @@ const uranusData: PlanetData = {
       Opposition: 0.1,
       Trine: 0.4,
       Square: -0.1,
-      Sextile: 0.3,
-    },
+      Sextile: 0.3
+},
     Moon: {
       Conjunction: 0.4,
       Opposition: 0.0,
       Trine: 0.3,
       Square: -0.2,
-      Sextile: 0.2,
-    },
+      Sextile: 0.2
+},
     Saturn: {
       Conjunction: 0.6,
       Opposition: 0.1,
       Trine: 0.5,
       Square: -0.1,
-      Sextile: 0.3,
-    },
+      Sextile: 0.3
+},
     Jupiter: {
       Conjunction: 0.7,
       Opposition: 0.2,
       Trine: 0.5,
       Square: 0.0,
-      Sextile: 0.4,
-    },
+      Sextile: 0.4
+},
     Mercury: {
       Conjunction: 0.6,
       Opposition: 0.1,
       Trine: 0.5,
       Square: -0.2,
-      Sextile: 0.3,
-    },
+      Sextile: 0.3
+},
     Venus: {
       Conjunction: 0.5,
       Opposition: 0.0,
       Trine: 0.4,
       Square: -0.3,
-      Sextile: 0.2,
-    },
+      Sextile: 0.2
+},
     Mars: {
       Conjunction: 0.7,
       Opposition: 0.2,
       Trine: 0.6,
       Square: 0.0,
-      Sextile: 0.4,
-    },
+      Sextile: 0.4
+},
     Neptune: {
       Conjunction: 0.8,
       Opposition: 0.3,
       Trine: 0.7,
       Square: 0.1,
-      Sextile: 0.5,
-    },
+      Sextile: 0.5
+},
     Pluto: {
       Conjunction: 0.8,
       Opposition: 0.2,
       Trine: 0.7,
       Square: 0.0,
-      Sextile: 0.5,
-    }
+      Sextile: 0.5
+}
   },
   PlanetSpecific: {
     ZodiacTransit: {
@@ -209,8 +209,8 @@ const uranusData: PlanetData = {
           Fire: 0.3,
           Earth: 0.2,
           Air: 0.9,
-          Water: 0.2,
-        },
+          Water: 0.2
+},
         CookingMethods: [
           'molecular gastronomy',
           'sous vide',
@@ -234,8 +234,8 @@ const uranusData: PlanetData = {
           Fire: 0.3,
           Earth: 0.2,
           Air: 0.3,
-          Water: 0.8,
-        },
+          Water: 0.8
+},
         CookingMethods: [
           'fermentation',
           'smoking',
@@ -258,8 +258,8 @@ const uranusData: PlanetData = {
           Fire: 0.3,
           Earth: 0.2,
           Air: 0.8,
-          Water: 0.3,
-        },
+          Water: 0.3
+},
         CookingMethods: [
           'dual temperature contrasts',
           'tableside transformations',
@@ -284,8 +284,8 @@ const uranusData: PlanetData = {
         Spirit: 0.3,
         Essence: 0.7,
         Matter: 0.5,
-        Substance: 0.2,
-      },
+        Substance: 0.2
+},
       CookingMethodEffects: {
         Emphasized: [
           'fusion of traditional and modern techniques',
@@ -316,8 +316,8 @@ const uranusData: PlanetData = {
         Salty: 0.4,
         Bitter: 0.3,
         Umami: 0.6,
-        Spicy: 0.3,
-      }
+        Spicy: 0.3
+}
     },
     TransitDates: {
       taurus: {

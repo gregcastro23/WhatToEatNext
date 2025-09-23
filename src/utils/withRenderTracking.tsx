@@ -108,8 +108,8 @@ export function withRenderTracking<P extends object>(
               _borderRadius: '2px',
               _margin: '2px 0',
               display: 'flex',
-              _justifyContent: 'space-between',
-            }}
+              _justifyContent: 'space-between'
+}}
           >
             <span>{componentName}</span>
             <span>

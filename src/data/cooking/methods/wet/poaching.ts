@@ -19,8 +19,8 @@ export const poaching: CookingMethodData = {
   },
   duration: {
     min: 3,
-    max: 45,
-  },
+    max: 45
+},
   suitable_for: [
     'fish fillets',
     'shellfish',
@@ -398,6 +398,6 @@ export const poaching: CookingMethodData = {
     fluid_gel_technique: 'Modern application using poaching liquid as textural element',
     paired_temperatures: 'Contrasting warm poached item with cool accompaniments',
     negative_space: 'Contemporary plating with poached item as focal point',
-    herb_garnish: 'Fresh herbs that echo poaching aromatics for visual and flavor connection',
-  }
+    herb_garnish: 'Fresh herbs that echo poaching aromatics for visual and flavor connection'
+}
 } as unknown as CookingMethodData,

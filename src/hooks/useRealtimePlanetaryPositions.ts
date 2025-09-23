@@ -20,7 +20,7 @@ interface UseRealtimePlanetaryPositionsOptions {
   /** Whether to start fetching immediately */
   autoStart?: boolean,
   /** Zodiac system to use (tropical or sidereal) */
-  zodiacSystem?: 'tropical' | 'sidereal',
+  zodiacSystem?: 'tropical' | 'sidereal'
   /** Whether to test API connection on initialization */
   testConnection?: boolean
 }
@@ -66,8 +66,8 @@ export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPosi
       setState(prev => ({,
         ...prev,
         loading: false,
-        error: error instanceof Error ? error.message : 'Unknown error',
-      }))
+        error: error instanceof Error ? error.message : 'Unknown error'
+}))
       _logger.error('Failed to fetch planetary positions: ', error)
     }
   }, [location, zodiacSystem])
@@ -135,8 +135,8 @@ export function usePlanetaryPositionsForDate(
       setState(prev => ({,
         ...prev,
         loading: false,
-        error: error instanceof Error ? error.message : 'Unknown error',
-      }))
+        error: error instanceof Error ? error.message : 'Unknown error'
+}))
     }
   }, [date, location, zodiacSystem])
 

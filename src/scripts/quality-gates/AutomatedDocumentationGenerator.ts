@@ -60,8 +60,8 @@ class AutomatedDocumentationGenerator {
           category: AnyTypeCategory.EXTERNAL_API,
           eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API response structure',
           explanation: '// External API response with unknown structure',
-          todoComment: '// TODO: Define proper interface after API analysis',
-        }
+          todoComment: '// TODO: Define proper interface after API analysis'
+}
       ],
       [
         AnyTypeCategory.LEGACY_CODE,
@@ -69,40 +69,40 @@ class AutomatedDocumentationGenerator {
           category: AnyTypeCategory.LEGACY_CODE,
           eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Legacy code compatibility',
           explanation: '// Legacy system integration requires flexible typing',
-          todoComment: '// TODO: Replace with proper types during refactoring',
-        }
+          todoComment: '// TODO: Replace with proper types during refactoring'
+}
       ],
       [
         AnyTypeCategory.DYNAMIC_CONTENT,
         {
           category: AnyTypeCategory.DYNAMIC_CONTENT,
           eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Dynamic user content',
-          explanation: '// User-generated content with unknown structure',
-        }
+          explanation: '// User-generated content with unknown structure'
+}
       ],
       [
         AnyTypeCategory.TEST_UTILITY,
         {
           category: AnyTypeCategory.TEST_UTILITY,
           eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Test utility flexibility',
-          explanation: '// Test utility requires flexible typing for mocking',
-        }
+          explanation: '// Test utility requires flexible typing for mocking'
+}
       ],
       [
         AnyTypeCategory.CONFIGURATION,
         {
           category: AnyTypeCategory.CONFIGURATION,
           eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Configuration flexibility',
-          explanation: '// Configuration object with dynamic properties',
-        }
+          explanation: '// Configuration object with dynamic properties'
+}
       ],
       [
         AnyTypeCategory.LIBRARY_COMPATIBILITY,
         {
           category: AnyTypeCategory.LIBRARY_COMPATIBILITY,
           eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Third-party library compatibility',
-          explanation: '// Third-party library requires any type for compatibility',
-        }
+          explanation: '// Third-party library requires any type for compatibility'
+}
       ],
       [
         AnyTypeCategory.TEMPORARY_MIGRATION
@@ -110,8 +110,8 @@ class AutomatedDocumentationGenerator {
           category: AnyTypeCategory.TEMPORARY_MIGRATION,
           eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Temporary during migration',
           explanation: '// Temporary any type during code migration',
-          todoComment: '// TODO: Replace with proper interface after migration complete',
-        }
+          todoComment: '// TODO: Replace with proper interface after migration complete'
+}
       ]
     ])
   }
@@ -122,8 +122,8 @@ class AutomatedDocumentationGenerator {
       info: 'ℹ️',
       warn: '⚠️',
       error: '❌',
-      success: '✅',
-    }[level],
+      success: '✅'
+}[level],
 
     // // // _logger.info(`[${timestamp}] ${prefix} ${message}`)
   }
@@ -157,8 +157,8 @@ class AutomatedDocumentationGenerator {
       const output = execSync('find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.'
         {,
           encoding: 'utf8',
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
 
       return output.split('\n').filter(file => file.trim() && fs.existsSync(file));
     } catch (error) {
@@ -182,7 +182,7 @@ class AutomatedDocumentationGenerator {
 
       for (let i = 0i < lines.lengthi++) {;
         const line = lines[i];
-        const previousLine = i > 0 ? lines[i - 1] : '',
+        const previousLine = i > 0 ? lines[i - 1] : '';
         const nextLine = i < lines.length - 1 ? lines[i + 1] : ''
 
         // Enhanced any type patterns
@@ -438,8 +438,8 @@ ${Array.from(categoryBreakdown.entries())
     return `### ${category.replace(/_/g, ' ').toUpperCase()}
 - Total: ${stats.total}
 - Documented: ${stats.documented}
-- Coverage: ${categoryPercent}%`,
-  })
+- Coverage: ${categoryPercent}%`
+})
   .join('\n\n')}
 
 ## Documentation Templates
@@ -518,8 +518,7 @@ Generated: ${new Date().toISOString()}
 // CLI Interface
 if (require.main === module) {
   const generator = new AutomatedDocumentationGenerator();
-  const command = process.argv[2] || 'validate';
-
+  const command = process.argv[2] || 'validate'
   switch (command) {
     case 'scan': generator
         .findUndocumentedAnyTypes()

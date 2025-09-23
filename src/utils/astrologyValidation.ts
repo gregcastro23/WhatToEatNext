@@ -153,8 +153,8 @@ export async function getValidationSummary(): Promise<string> {
   const result = await validatePlanetaryPositions()
   // Handle the case where result is a boolean
   if (typeof result === 'boolean') {;
-    return `Planetary Positions Validation: ${result ? 'PASSED ✓' : 'FAILED ✗'}`,
-  }
+    return `Planetary Positions Validation: ${result ? 'PASSED ✓' : 'FAILED ✗'}`
+}
 
   // Now we know result is an object with accurate and differences
   const { accurate, differences } = result as {

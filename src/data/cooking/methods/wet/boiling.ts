@@ -14,12 +14,12 @@ export const boiling: CookingMethodData = {
     Water: 0.7,
     Fire: 0.2,
     Air: 0.1,
-    Earth: 0.0,
-  },
+    Earth: 0.0
+},
   duration: {
     min: 3,
-    max: 120,
-  },
+    max: 120
+},
   suitable_for: [
     'pasta',
     'rice',
@@ -117,8 +117,8 @@ export const boiling: CookingMethodData = {
     fat_soluble_vitamins: 0.85,
     antioxidants: 0.4,
     phytonutrients: 0.45,
-    fiber: 0.85,
-  },
+    fiber: 0.85
+},
   optimalTemperatures: {
     rolling_boil: 212, // 212°F/100°C at sea level,
     high_altitude_boil: 203, // Approximate for 5000ft elevation,
@@ -185,8 +185,8 @@ export const boiling: CookingMethodData = {
     tannin_extraction: true,
     flavor_compound_volatilization: true,
     mineral_release: true,
-    collagen_conversion: true,
-  },
+    collagen_conversion: true
+},
   safetyFeatures: [
     'Water boils at a consistent temperature (100°C at sea level)',
     'Kills most pathogens and bacteria when held at full boil for sufficient time',

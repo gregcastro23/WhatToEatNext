@@ -8,10 +8,9 @@ import type { Element } from '@/types/celestial';
 import { ELEMENT_COMBINATIONS } from '@/utils/constants/elements';
 import { ingredientMappings } from '@/utils/elementalMappings/ingredients';
 
-type CookingMethod = 'simmered' | 'infused' | 'raw' | 'baked' | 'fried' | 'grilled',
-type Season = 'spring' | 'summer' | 'fall' | 'winter' | 'all',
-type Temperature = 'hot' | 'cold' | 'neutral',
-
+type CookingMethod = 'simmered' | 'infused' | 'raw' | 'baked' | 'fried' | 'grilled'
+type Season = 'spring' | 'summer' | 'fall' | 'winter' | 'all'
+type Temperature = 'hot' | 'cold' | 'neutral'
 interface CombinationRule {
   ingredients: string[],
   effect: EffectType,
@@ -41,15 +40,15 @@ const COMBINATION_RULES: CombinationRule[] = [
     effect: 'amplify' as EffectType,
     modifier: 1.3,
     elements: { Fire: 0.2 },
-    notes: 'Classic warming combination',
-  }
+    notes: 'Classic warming combination'
+}
   {
     ingredients: ['cinnamon', 'cardamom', 'clove'],
     effect: 'amplify' as EffectType,
     modifier: 1.4,
     elements: { Fire: 0.3, Air: 0.1 },
-    notes: 'Warming spice blend',
-  }
+    notes: 'Warming spice blend'
+}
   // ... other rules remain the same
 ],
 
@@ -135,7 +134,7 @@ const hasIngredientCombination = (
   )
 }
 
-const calculateElementalInteractions = (ingredients: string[]): CombinationEffect[] => {,
+const calculateElementalInteractions = (ingredients: string[]): CombinationEffect[] => {;
   const effects: CombinationEffect[] = [],
   const ingredientPairs = getPairs(ingredients);
   ingredientPairs.forEach(([ing1, ing2]) => {
@@ -166,7 +165,7 @@ const calculateElementalInteractions = (ingredients: string[]): CombinationEffec
   return effects,
 }
 
-const getPairs = <T>(array: T[]): [TT][] => {,
+const getPairs = <T>(array: T[]): [TT][] => {;
   const pairs: [TT][] = [],
   for (let i = 0i < array.lengthi++) {,
     for (let j = i + 1j < array.lengthj++) {;
@@ -228,13 +227,13 @@ export const _suggestComplementaryIngredients = (
   return suggestions.slice(05)
 }
 
-const calculateCombinedElements = (ingredients: string[]): ElementalProperties => {,
+const calculateCombinedElements = (ingredients: string[]): ElementalProperties => {;
   const combined: ElementalProperties = {
     Fire: 0,
     Water: 0,
     Air: 0,
-    Earth: 0,
-  }
+    Earth: 0
+}
 
   ingredients.forEach(ing => {
     const elements = ingredientMappings[ing]?.elementalProperties

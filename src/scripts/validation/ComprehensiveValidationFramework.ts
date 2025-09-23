@@ -104,7 +104,7 @@ export class ComprehensiveValidationFramework {
     this.log('info', `📋 Validating ${processedFiles.length} processed files`)
 
     const validationResults: ValidationResult[] = [],
-    let overallPassed = true,
+    let overallPassed = true;
     let qualityScore = 100,
 
     try {
@@ -207,8 +207,8 @@ export class ComprehensiveValidationFramework {
           recommendations: ['Review validation framework configuration']
         },
         requiresRollback: true,
-        qualityScore: 0,
-      }
+        qualityScore: 0
+}
     }
   }
 
@@ -230,7 +230,7 @@ export class ComprehensiveValidationFramework {
 
     this.log('debug', '🔍 Validating TypeScript compilation...')
 
-    for (let retry = 0, retry <= this.config.maxRetries, retry++) {
+    for (let retry = 0; retry <= this.config.maxRetries; retry++) {
       try {
         result.retryCount = retry,
 
@@ -238,8 +238,8 @@ export class ComprehensiveValidationFramework {
         const output = execSync('yarn tsc --noEmit --skipLibCheck --pretty', {
           encoding: 'utf8',
           timeout: this.config.compilationTimeout,
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
 
         // If we get here, compilation succeeded
         result.passed = true,
@@ -314,8 +314,8 @@ export class ComprehensiveValidationFramework {
         const output = execSync(testCommand, {
           encoding: 'utf8',
           timeout: this.config.testTimeout,
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
 
         // Parse test results
         const testResults = this.parseTestResults(output);
@@ -553,8 +553,8 @@ export class ComprehensiveValidationFramework {
       const buildOutput = execSync('yarn next build --dry-run', {
         encoding: 'utf8',
         timeout: 60000, // 1 minute timeout for build validation,
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       result.passed = true,
       result.details.buildOutput =
@@ -583,7 +583,7 @@ export class ComprehensiveValidationFramework {
     const hasTests = fs.existsSync(testPath)
 
     // Extract exports (simplified);
-    const exportMatches = content.match(/export\s+(?: const|function|class)\s+(\w+)/g) || [],
+    const exportMatches = content.match(/export\s+(?: const|function|class)\s+(\w+)/g) || [];
     const exportedFunctions = exportMatches;
       .map(match => {
         const nameMatch = match.match(/export\s+(?:const|function|class)\s+(\w+)/)
@@ -634,7 +634,7 @@ export class ComprehensiveValidationFramework {
     const apiEndpoints = apiMatches.map(match => match.replace(/[''`]/g, ''))
 
     // Extract exported methods (simplified)
-    const exportMatches = content.match(/export\s+(?: const|function|class)\s+(\w+)/g) || [],
+    const exportMatches = content.match(/export\s+(?: const|function|class)\s+(\w+)/g) || [];
     const exportedMethods = exportMatches;
       .map(match => {
         const nameMatch = match.match(/export\s+(?:const|function|class)\s+(\w+)/)
@@ -837,7 +837,7 @@ export class ComprehensiveValidationFramework {
     const passedMatch = outputStr.match(/(\d+) passed/)
     const failedMatch = outputStr.match(/(\d+) failed/)
 ;
-    const passed = passedMatch ? parseInt(passedMatch[1]) : 0,
+    const passed = passedMatch ? parseInt(passedMatch[1]) : 0;
     const failed = failedMatch ? parseInt(failedMatch[1]) : 0,
     const total = passed + failed
 ;

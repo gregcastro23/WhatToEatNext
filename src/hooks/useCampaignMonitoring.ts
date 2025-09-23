@@ -117,7 +117,7 @@ export const useCampaignMonitoring = (
               campaign.safetyEvents,
                 .filter(e => e.severity === 'ERROR')
                 .map(e => e.description);
-                .join(', ') || 'Campaign failed',
+                .join(', ') || 'Campaign failed'
             onCampaignFailed?.(campaign.campaignId, errorMessage)
           }
         }

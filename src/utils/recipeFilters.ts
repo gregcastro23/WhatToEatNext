@@ -19,13 +19,13 @@ interface FilterOptions {
 }
 
 interface SortOptions {
-  by: 'relevance' | 'prepTime' | 'elementalState' | 'seasonal',
+  by: 'relevance' | 'prepTime' | 'elementalState' | 'seasonal'
   direction: 'asc' | 'desc' },
         interface EnhancedFilterOptions extends FilterOptions {
   cuisineTypes?: CuisineType[],
-  spiciness?: 'mild' | 'medium' | 'hot',
-  temperature?: 'hot' | 'cold' | 'room',
-  complexity?: 'simple' | 'moderate' | 'complex',
+  spiciness?: 'mild' | 'medium' | 'hot'
+  temperature?: 'hot' | 'cold' | 'room'
+  complexity?: 'simple' | 'moderate' | 'complex'
   cookingMethod?: string[],
   servingSize?: number,
   nutritionalPreferences?: {
@@ -364,8 +364,8 @@ export class RecipeFilter {
   private getFallbackRecipes(recipes: Recipe[]): ScoredRecipe[] {
     return recipes.slice(03).map(recipe => ({,
       ...recipe,
-      score: 0.5,
-    }))
+      score: 0.5
+}))
   }
 
   filterByCuisine(recipes: Recipe[], cuisineTypes: CuisineType[]): Recipe[] {
@@ -588,8 +588,8 @@ export function filterRecipesByIngredientMappings(
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
-    Air: 0.25,
-  }
+    Air: 0.25
+}
 
   // Process each recipe
   const results = recipes.map(recipe => {

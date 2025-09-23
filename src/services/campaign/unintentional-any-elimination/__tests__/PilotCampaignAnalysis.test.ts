@@ -84,8 +84,8 @@ describe('PilotCampaignAnalysis', () => {;
             successRate: 78.5,
             totalAnyTypes: 150,
             unintentionalCount: 105,
-            classificationAccuracy: 85.5,
-          },
+            classificationAccuracy: 85.5
+},
           projectedCompletion: new Date(),
           recommendations: [],
           analysisDate: new Date()
@@ -98,8 +98,8 @@ describe('PilotCampaignAnalysis', () => {;
           currentSuccessRate: 78.5,
           manualReviewCases: 12,
           topDomain: 'SERVICE',
-          topCategory: 'FUNCTION_PARAM',
-        }
+          topCategory: 'FUNCTION_PARAM'
+}
       })
 
       mockAnalysisTools.prototype.generateClassificationAccuracyReport.mockResolvedValue({
@@ -124,8 +124,8 @@ describe('PilotCampaignAnalysis', () => {;
           successRate: 78.5,
           totalAnyTypes: 150,
           unintentionalCount: 105,
-          classificationAccuracy: 85.5,
-        },
+          classificationAccuracy: 85.5
+},
         projectedCompletion: new Date(),
         recommendations: [],
         analysisDate: new Date()
@@ -194,8 +194,8 @@ describe('PilotCampaignAnalysis', () => {;
             successRate: 75,
             totalAnyTypes: 100,
             unintentionalCount: 70,
-            classificationAccuracy: 80,
-          },
+            classificationAccuracy: 80
+},
           projectedCompletion: new Date(),
           recommendations: [],
           analysisDate: new Date()
@@ -209,8 +209,8 @@ describe('PilotCampaignAnalysis', () => {;
           currentSuccessRate: 75,
           manualReviewCases: 5,
           topDomain: 'SERVICE',
-          topCategory: 'FUNCTION_PARAM',
-        }
+          topCategory: 'FUNCTION_PARAM'
+}
       })
 
       mockAnalysisTools.prototype.generateClassificationAccuracyReport.mockResolvedValue({
@@ -232,8 +232,8 @@ describe('PilotCampaignAnalysis', () => {;
           successRate: 75,
           totalAnyTypes: 100,
           unintentionalCount: 70,
-          classificationAccuracy: 80,
-        },
+          classificationAccuracy: 80
+},
         projectedCompletion: new Date(),
         recommendations: [],
         analysisDate: new Date()
@@ -314,8 +314,8 @@ describe('PilotCampaignAnalysis', () => {;
             successRate: 70,
             totalAnyTypes: 50,
             unintentionalCount: 35,
-            classificationAccuracy: 75,
-          },
+            classificationAccuracy: 75
+},
           projectedCompletion: new Date(),
           recommendations: [],
           analysisDate: new Date()
@@ -329,8 +329,8 @@ describe('PilotCampaignAnalysis', () => {;
           currentSuccessRate: 70,
           manualReviewCases: 3,
           topDomain: 'UTILITY',
-          topCategory: 'ARRAY_TYPE',
-        }
+          topCategory: 'ARRAY_TYPE'
+}
       })
 
       mockAnalysisTools.prototype.generateClassificationAccuracyReport.mockResolvedValue({
@@ -352,8 +352,8 @@ describe('PilotCampaignAnalysis', () => {;
           successRate: 70,
           totalAnyTypes: 50,
           unintentionalCount: 35,
-          classificationAccuracy: 75,
-        },
+          classificationAccuracy: 75
+},
         projectedCompletion: new Date(),
         recommendations: [],
         analysisDate: new Date()
@@ -417,8 +417,8 @@ describe('PilotCampaignAnalysis', () => {;
             successRate: 65,
             totalAnyTypes: 100,
             unintentionalCount: 70,
-            classificationAccuracy: 70,
-          },
+            classificationAccuracy: 70
+},
           projectedCompletion: new Date(),
           recommendations: [],
           analysisDate: new Date()
@@ -432,8 +432,8 @@ describe('PilotCampaignAnalysis', () => {;
           currentSuccessRate: 65,
           manualReviewCases: 10,
           topDomain: 'SERVICE',
-          topCategory: 'FUNCTION_PARAM',
-        }
+          topCategory: 'FUNCTION_PARAM'
+}
       })
 
       mockAnalysisTools.prototype.generateClassificationAccuracyReport.mockResolvedValue({
@@ -455,8 +455,8 @@ describe('PilotCampaignAnalysis', () => {;
           successRate: 65,
           totalAnyTypes: 100,
           unintentionalCount: 70,
-          classificationAccuracy: 70,
-        },
+          classificationAccuracy: 70
+},
         projectedCompletion: new Date(),
         recommendations: [],
         analysisDate: new Date()
@@ -507,8 +507,8 @@ describe('PilotCampaignAnalysis', () => {;
             successRate: 80,
             totalAnyTypes: 100,
             unintentionalCount: 70,
-            classificationAccuracy: 85,
-          },
+            classificationAccuracy: 85
+},
           projectedCompletion: new Date(),
           recommendations: [],
           analysisDate: new Date()
@@ -522,8 +522,8 @@ describe('PilotCampaignAnalysis', () => {;
           currentSuccessRate: 80,
           manualReviewCases: 5,
           topDomain: 'SERVICE',
-          topCategory: 'ARRAY_TYPE',
-        }
+          topCategory: 'ARRAY_TYPE'
+}
       })
 
       mockAnalysisTools.prototype.generateClassificationAccuracyReport.mockResolvedValue({
@@ -545,8 +545,8 @@ describe('PilotCampaignAnalysis', () => {;
           successRate: 80,
           totalAnyTypes: 100,
           unintentionalCount: 70,
-          classificationAccuracy: 85,
-        },
+          classificationAccuracy: 85
+},
         projectedCompletion: new Date(),
         recommendations: [],
         analysisDate: new Date()
@@ -597,8 +597,8 @@ describe('PilotCampaignAnalysis', () => {;
             successRate: 80,
             totalAnyTypes: 100,
             unintentionalCount: 70,
-            classificationAccuracy: 85,
-          },
+            classificationAccuracy: 85
+},
           projectedCompletion: new Date(),
           recommendations: [],
           analysisDate: new Date()
@@ -612,8 +612,8 @@ describe('PilotCampaignAnalysis', () => {;
           currentSuccessRate: 80,
           manualReviewCases: 5,
           topDomain: 'SERVICE',
-          topCategory: 'ARRAY_TYPE',
-        }
+          topCategory: 'ARRAY_TYPE'
+}
       })
 
       mockAnalysisTools.prototype.generateClassificationAccuracyReport.mockResolvedValue({
@@ -635,8 +635,8 @@ describe('PilotCampaignAnalysis', () => {;
           successRate: 80,
           totalAnyTypes: 100,
           unintentionalCount: 70,
-          classificationAccuracy: 85,
-        },
+          classificationAccuracy: 85
+},
         projectedCompletion: new Date(),
         recommendations: [],
         analysisDate: new Date()

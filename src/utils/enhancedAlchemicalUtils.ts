@@ -29,16 +29,15 @@ export function getEnhancedFoodRecommendation(
   // Apply surgical type casting with variable extraction
   const resultData = alchemicalResult as unknown;
   const dominant = resultData?.dominant;
-  const dominantElement = dominant?.element || 'balanced';
-
+  const dominantElement = dominant?.element || 'balanced'
   return {
     cookingMethod: 'See existing recipes',
     mainIngredient: 'See existing recipes',
     secondaryIngredient: 'See existing recipes',
     reasoning: {
       elementalInfluence: `Using existing recipes with ${dominantElement} qualities.`,
-      planetary: 'Recipe generation is deactivated.',
-    }
+      planetary: 'Recipe generation is deactivated.'
+}
   }
 
   // Original implementation commented out
@@ -164,7 +163,7 @@ export function generatePersonalizedMealPlan(
   }
 
   // Generate appetizer based on complementary elements
-  const dominantElement = alchemicalResult.dominant?.element || 'Fire';
+  const dominantElement = alchemicalResult.dominant?.element || 'Fire'
   const appetizers = {
     Fire: ['spicy roasted nuts', 'grilled pepper tapas', 'warm olives with chili'],
     Water: ['chilled cucumber soup', 'seafood ceviche', 'watermelon and feta bites'],
@@ -267,8 +266,8 @@ export function enhanceAlchemicalCalculations(
   return {
     type: 'basicRecommendation',
     result: basicRecommendation,
-    _note: 'Recipe generation is temporarily disabled. Using existing recipes instead.',
-  }
+    _note: 'Recipe generation is temporarily disabled. Using existing recipes instead.'
+}
 
   /* Original implementation commented out
   // If we have more user data, generate a complete meal plan
@@ -278,7 +277,7 @@ export function enhanceAlchemicalCalculations(
       result: generatePersonalizedMealPlan(,
         alchemicalResult,
         userSign,
-        season || 'spring',
+        season || 'spring'
         userPreferences
       ),
       basicRecommendation

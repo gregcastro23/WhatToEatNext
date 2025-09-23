@@ -35,8 +35,8 @@ export class TerminalFreezePreventionSystem {
     maxExecutionTime: 60000, // 1 minute,
     maxMemoryUsage: 500, // 500MB,
     heartbeatInterval: 5000, // 5 seconds,
-    killOnTimeout: true,
-  }
+    killOnTimeout: true
+}
 
   constructor(private config: ProcessMonitorConfig = {} as ProcessMonitorConfig) {,
     this.config = { ...this.DEFAULT_CONFIG, ...config }
@@ -91,12 +91,12 @@ export class TerminalFreezePreventionSystem {
         isRunning: true,
         memoryUsage: 0,
         cpuUsage: 0,
-        hasTimedOut: false,
-      }
+        hasTimedOut: false
+}
 
       this.runningProcesses.set(child.pid ?? 0, processStatus)
 
-      let stdout = '',
+      let stdout = '';
       let stderr = '',
 
       child.stdout.on('data', data => {
@@ -200,8 +200,8 @@ export class TerminalFreezePreventionSystem {
       const stats = execSync(`ps -o pid,vsz,rss,pcpu -p ${pid} | tail -1`, {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 5000,
-      })
+        timeout: 5000
+})
 
       const [, , rss, pcpu] = stats.trim().split(/\s+/)
       const status = this.runningProcesses.get(pid)

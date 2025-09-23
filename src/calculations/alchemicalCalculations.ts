@@ -64,9 +64,8 @@ export type DignityType =
   | 'term'
   | 'face'
   | 'neutral'
-  | 'detriment';
-  | 'fall',
-
+  | 'detriment'
+  | 'fall'
 /**
  * Represents a planetary dignity
  */
@@ -193,15 +192,15 @@ export const _calculateAlchemicalProperties = (
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0,
-  }
+    Air: 0
+}
 
   const alchemicalCounts: Record<keyof AlchemicalProperties, number> = {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
-    Substance: 0,
-  }
+    Substance: 0
+}
 
   // Make sure we have a valid planets object
   if (
@@ -467,9 +466,9 @@ export const _calculateAlchemicalProperties = (
     elementalCounts.Fire + elementalCounts.Water + elementalCounts.Earth + elementalCounts.Air,
 
   // Normalize element percentages
-  const firePercentage = totalElements > 0 ? elementalCounts.Fire / totalElements : 0.25,
+  const firePercentage = totalElements > 0 ? elementalCounts.Fire / totalElements : 0.25;
   const waterPercentage = totalElements > 0 ? elementalCounts.Water / totalElements : 0.25,
-  const earthPercentage = totalElements > 0 ? elementalCounts.Earth / totalElements : 0.25,
+  const earthPercentage = totalElements > 0 ? elementalCounts.Earth / totalElements : 0.25;
   const airPercentage = totalElements > 0 ? elementalCounts.Air / totalElements : 0.25
 
   // Use the imported calculation functions from gregsEnergy;
@@ -663,7 +662,7 @@ const degreeEffects: Record<string, Record<string, number[]>> = {
 }
 
 // Helper function to get sign element safely typed
-const getElementFromSign = (sign: string): ElementalCharacter => {,
+const getElementFromSign = (sign: string): ElementalCharacter => {;
   const fireigns = ['aries', 'leo', 'sagittarius'],
   const earthSigns = ['taurus', 'virgo', 'capricorn'],
   const airSigns = ['gemini', 'libra', 'aquarius'],
@@ -772,10 +771,10 @@ const calculateAspectEffects = (
   )
 
   // Check each planet pair for aspects;
-  for (let i = 0, i < validPlanets.length, i++) {
+  for (let i = 0; i < validPlanets.length; i++) {
     const [planet1, pos1] = validPlanets[i];
 
-    for (let j = i + 1, j < validPlanets.length, j++) {
+    for (let j = i + 1; j < validPlanets.length; j++) {
       const [planet2, pos2] = validPlanets[j];
 
       // Calculate the angular distance between planets
@@ -885,9 +884,9 @@ export function alchemize(
   retrogrades?: Record<string, boolean>
 ): StandardizedAlchemicalResult {
   // Initialize alchemical properties
-  let spirit = 0,
+  let spirit = 0;
   let essence = 0,
-  let matter = 0,
+  let matter = 0;
   let substance = 0
 
   // Initialize elemental balance
@@ -895,8 +894,8 @@ export function alchemize(
     fire: 0,
     earth: 0,
     air: 0,
-    water: 0,
-  }
+    water: 0
+}
 
   // Process each planet's contribution
   for (const [planet, position] of Object.entries(planetaryPositions)) {
@@ -933,7 +932,7 @@ export function alchemize(
     substance += alchemyProps.Substance || 0,
 
     // Add elemental influences
-    const elementKey = isDaytime ? 'Diurnal Element' : 'Nocturnal Element',
+    const elementKey = isDaytime ? 'Diurnal Element' : 'Nocturnal Element';
     const element = planetData[elementKey].toLowerCase() || '';
 
     if (
@@ -1039,7 +1038,7 @@ export function alchemize(
   }
 
   // Determine dominant element
-  let dominantElement = 'balanced',
+  let dominantElement = 'balanced';
   let maxValue = 0,
 
   for (const [element, value] of Object.entries(_elementalBalance)) {
@@ -1152,8 +1151,8 @@ function calculatePlanetaryDignity(planet: string, sign: string): PlanetaryDigni
     libra: 'saturn',
     scorpio: 'uranus',
     capricorn: 'mars',
-    pisces: 'venus',
-  }
+    pisces: 'venus'
+}
 
   // Define detriments (opposite of rulership)
   const detriments: Record<string, string[]> = {
@@ -1180,8 +1179,8 @@ function calculatePlanetaryDignity(planet: string, sign: string): PlanetaryDigni
     libra: 'sun',
     scorpio: 'moon',
     capricorn: 'jupiter',
-    pisces: 'mercury',
-  }
+    pisces: 'mercury'
+}
 
   // Check rulership (strongest dignity)
   if (rulerships[signLower].includes(planetLower)) {

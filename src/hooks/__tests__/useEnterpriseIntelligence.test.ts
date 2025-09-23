@@ -25,8 +25,8 @@ describe('useEnterpriseIntelligence', () => {
     elementalProperties: { Fire: 0.3,
       Water: 0.2,
       Earth: 0.3,
-      Air: 0.2,
-    }
+      Air: 0.2
+}
   }
 
   const mockIngredientData: any = {
@@ -35,8 +35,8 @@ describe('useEnterpriseIntelligence', () => {
     elementalProperties: { Fire: 0.2,
       Water: 0.3,
       Earth: 0.3,
-      Air: 0.2,
-    }
+      Air: 0.2
+}
   }
 
   const mockAstrologicalContext: any = {
@@ -45,8 +45,8 @@ describe('useEnterpriseIntelligence', () => {
     elementalProperties: { Fire: 0.4,
       Water: 0.2,
       Earth: 0.2,
-      Air: 0.2,
-    } as ElementalProperties,
+      Air: 0.2
+} as ElementalProperties,
     planetaryPositions: {}
   }
 
@@ -115,8 +115,8 @@ describe('useEnterpriseIntelligence', () => {
     act(() => {
       result.current.actions.updateConfig({
         enableRecipeIntelligence: false,
-        logLevel: 'error',
-      })
+        logLevel: 'error'
+})
     })
 
     // Configuration should be updated (we can't easily test this without exposing internal state)

@@ -159,8 +159,7 @@ class IngredientMappingService {
   ) {
     // Convert string names to ingredient mappings if needed
     const mapping1 =
-      typeof ingredient1 === 'string' ? ingredientsMap[ingredient1.toLowerCase()] : ingredient1,
-
+      typeof ingredient1 === 'string' ? ingredientsMap[ingredient1.toLowerCase()] : ingredient1;
     const mapping2 =
       typeof ingredient2 === 'string' ? ingredientsMap[ingredient2.toLowerCase()] : ingredient2
 
@@ -170,8 +169,8 @@ class IngredientMappingService {
         message: !mapping1,
           ? `Ingredient '${ingredient1}' not found`
           : `Ingredient '${ingredient2}' not found`,
-        compatibility: 0,
-      }
+        compatibility: 0
+}
     }
 
     // Calculate base elemental similarity

@@ -77,8 +77,8 @@ export const ELEMENTAL_COLORS: Record<keyof ElementalProperties, ElementalColor>
     secondary: '#55EFC4',
     text: '#2D3436',
     border: '#00CEC9',
-    bg: '#F0FFF4',
-  }
+    bg: '#F0FFF4'
+}
 }
 
 export const ELEMENTAL_SYMBOLS: Record<keyof ElementalProperties, string> = {
@@ -161,7 +161,7 @@ export function calculateDominantElement(
   Object.entries(elementalState || {}).forEach(([element, value]) => {
     if (value > maxValue) {
       maxValue = value,
-      dominantElement = element as 'Fire' | 'Water' | 'Earth' | 'Air',
+      dominantElement = element as 'Fire' | 'Water' | 'Earth' | 'Air'
     }
   })
 

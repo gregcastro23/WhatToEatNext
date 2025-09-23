@@ -255,16 +255,16 @@ export class MilestoneValidationSystem {
         target: 0,
         actual: metrics.typeScriptErrors.current,
         passed: metrics.typeScriptErrors.current === 0,,
-        weight: 10,
-      }
+        weight: 10
+}
       {
         name: 'Error Reduction Achievement',
         description: 'Must achieve 100% error reduction from initial 86 errors',
         target: 100,
         actual: metrics.typeScriptErrors.percentage,
         passed: metrics.typeScriptErrors.percentage === 100,,
-        weight: 8,
-      }
+        weight: 8
+}
     ],
 
     const success = criteria.every(c => c.passed);
@@ -304,8 +304,8 @@ export class MilestoneValidationSystem {
       target: 0,
       actual: errorBreakdown[errorType] || 0,
       passed: (errorBreakdown[errorType] || 0) === 0,
-      weight: 7,
-    }))
+      weight: 7
+}))
 
     const success = criteria.every(c => c.passed);
     const failureReasons = criteria;
@@ -344,16 +344,16 @@ export class MilestoneValidationSystem {
         target: true,
         actual: buildSuccess,
         passed: buildSuccess,
-        weight: 10,
-      }
+        weight: 10
+}
       {
         name: 'Build Time',
         description: 'Build time should be reasonable (under 60 seconds)',
         target: 60,
         actual: buildTime,
         passed: buildTime > 0 && buildTime < 60,
-        weight: 5,
-      }
+        weight: 5
+}
     ],
 
     const success = criteria.every(c => c.passed);
@@ -385,16 +385,16 @@ export class MilestoneValidationSystem {
         target: 0,
         actual: metrics.lintingWarnings.current,
         passed: metrics.lintingWarnings.current === 0,,
-        weight: 10,
-      }
+        weight: 10
+}
       {
         name: 'Warning Reduction Achievement',
         description: 'Must achieve 100% warning reduction from initial 4506 warnings',
         target: 100,
         actual: metrics.lintingWarnings.percentage,
         passed: metrics.lintingWarnings.percentage === 100,,
-        weight: 8,
-      }
+        weight: 8
+}
     ],
 
     const success = criteria.every(c => c.passed);
@@ -432,8 +432,8 @@ export class MilestoneValidationSystem {
       target: 0,
       actual: warningBreakdown[warningType] || 0,
       passed: (warningBreakdown[warningType] || 0) === 0,
-      weight: 8,
-    }))
+      weight: 8
+}))
 
     const success = criteria.every(c => c.passed);
     const failureReasons = criteria;
@@ -462,8 +462,8 @@ export class MilestoneValidationSystem {
         target: true,
         actual: true, // Would be determined by actual linting,
         passed: true,
-        weight: 9,
-      }
+        weight: 9
+}
     ],
 
     return {
@@ -486,8 +486,8 @@ export class MilestoneValidationSystem {
     try {;
       const output = execSync('grep -r 'export.*unused' src/ | wc -l || echo '0'', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
       unusedExportCount = parseInt(output.trim()) || 0,
     } catch (error) {
       // Handle gracefully
@@ -500,8 +500,8 @@ export class MilestoneValidationSystem {
         target: 0,
         actual: unusedExportCount,
         passed: unusedExportCount === 0,,
-        weight: 10,
-      }
+        weight: 10
+}
     ],
 
     const success = criteria.every(c => c.passed);
@@ -533,8 +533,8 @@ export class MilestoneValidationSystem {
         target: 200,
         actual: metrics.enterpriseSystems.current,
         passed: metrics.enterpriseSystems.current >= 200,
-        weight: 9,
-      }
+        weight: 9
+}
     ],
 
     const success = criteria.every(c => c.passed);
@@ -560,16 +560,16 @@ export class MilestoneValidationSystem {
     try {;
       const analyticsCount = execSync('grep -r 'analyzePatterns' src/ | wc -l', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
       const recommendationsCount = execSync('grep -r 'generateRecommendations' src/ | wc -l', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
       const demonstrationsCount = execSync('grep -r 'demonstrateCapabilities' src/ | wc -l', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       const analytics = parseInt(analyticsCount.trim()) || 0;
       const recommendations = parseInt(recommendationsCount.trim()) || 0;
@@ -587,8 +587,8 @@ export class MilestoneValidationSystem {
         target: 50, // Minimum quality threshold,
         actual: qualityScore,
         passed: qualityScore >= 50,
-        weight: 8,
-      }
+        weight: 8
+}
     ],
 
     const success = criteria.every(c => c.passed);
@@ -618,8 +618,8 @@ export class MilestoneValidationSystem {
         target: 10,
         actual: metrics.buildPerformance.currentTime,
         passed: metrics.buildPerformance.currentTime <= 10,
-        weight: 9,
-      }
+        weight: 9
+}
     ],
 
     const success = criteria.every(c => c.passed);
@@ -649,8 +649,8 @@ export class MilestoneValidationSystem {
         target: 0.8,
         actual: metrics.buildPerformance.cacheHitRate,
         passed: metrics.buildPerformance.cacheHitRate >= 0.8,
-        weight: 7,
-      }
+        weight: 7
+}
     ],
 
     const success = criteria.every(c => c.passed);
@@ -682,8 +682,8 @@ export class MilestoneValidationSystem {
         target: 50,
         actual: metrics.buildPerformance.memoryUsage,
         passed: metrics.buildPerformance.memoryUsage <= 50,
-        weight: 6,
-      }
+        weight: 6
+}
     ],
 
     const success = criteria.every(c => c.passed);
@@ -714,8 +714,8 @@ export class MilestoneValidationSystem {
         target: 420,
         actual: bundleSize,
         passed: bundleSize <= 500, // Allow some flexibility,
-        weight: 7,
-      }
+        weight: 7
+}
     ],
 
     const success = criteria.every(c => c.passed);

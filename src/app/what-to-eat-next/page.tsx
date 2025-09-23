@@ -8,8 +8,8 @@ const KalchmRecommender = ({ maxRecommendations }: { maxRecommendations?: number
 export default function WhatToEatNextPage() {
   const { cuisines, loading, error, getCuisineRecommendations } = useEnhancedRecommendations({
     datetime: new Date(),
-    useBackendInfluence: true,
-  });
+    useBackendInfluence: true
+});
 
   // Fetch enhanced cuisines on mount
   // eslint-disable-next-line react-hooks/rules-of-hooks

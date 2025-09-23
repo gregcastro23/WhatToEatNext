@@ -10,7 +10,7 @@ import { logger } from '@/lib/logger';
 import { ElementalProperties } from '@/types/alchemy';
 
 interface UserInteraction {
-  type: 'recipe_view' | 'recipe_save' | 'ingredient_select' | 'cooking_method' | 'planetary_query',
+  type: 'recipe_view' | 'recipe_save' | 'ingredient_select' | 'cooking_method' | 'planetary_query'
   data: any,
   timestamp: number,
   context?: {
@@ -37,8 +37,7 @@ interface UserPreferences {
   // Cooking patterns
   preferredCookingMethods: string[],
   typicalMealTimes: string[],
-  complexityPreference: 'simple' | 'moderate' | 'complex',
-
+  complexityPreference: 'simple' | 'moderate' | 'complex'
   // Interaction history
   totalInteractions: number,
   lastActivity: number,
@@ -50,8 +49,8 @@ interface UserPreferences {
     planetary: number,
     cuisine: number,
     complexity: number,
-    time: number,
-  }
+    time: number
+}
 }
 
 interface RecommendationScore {
@@ -59,7 +58,7 @@ interface RecommendationScore {
   baseScore: number,
   personalizedScore: number,
   reasons: string[],
-  confidence: number,
+  confidence: number
 }
 
 class UserLearningSystem {
@@ -132,8 +131,8 @@ class UserLearningSystem {
     cuisine: string,
     cookingMethod: string,
     complexity: string,
-    elementalBalance: ElementalProperties,
-  }, interactionType: 'view' | 'save' | 'cook'): void {
+    elementalBalance: ElementalProperties
+}, interactionType: 'view' | 'save' | 'cook'): void {
     const interaction: UserInteraction = {
       type: 'recipe_view',
       data: {
@@ -313,7 +312,7 @@ class UserLearningSystem {
 
     interactions.forEach(interaction => {
       if (interaction.type === 'ingredient_select') {;
-        const ingredients = type === 'positive' ? interaction.data.selected : interaction.data.rejected,
+        const ingredients = type === 'positive' ? interaction.data.selected : interaction.data.rejected;
         const weight = type === 'positive' ? 1 : -1,
 
         ingredients?.forEach((ingredient: string) => {
@@ -443,8 +442,8 @@ class UserLearningSystem {
       planetary: 0.2,
       cuisine: 0.25,
       complexity: 0.15,
-      time: 0.1,
-    }
+      time: 0.1
+}
 
     // Adjust weights based on interaction patterns
     const totalInteractions = interactions.length;
@@ -497,8 +496,8 @@ class UserLearningSystem {
         planetary: 0.1,
         cuisine: 0.4,
         complexity: 0.2,
-        time: 0.1,
-      }
+        time: 0.1
+}
     }
   }
 

@@ -773,8 +773,8 @@ export const italian: Cuisine = {
             Earth: 0.4,
             Water: 0.3,
             Fire: 0.2,
-            Air: 0.1,
-          }
+            Air: 0.1
+}
         }
       ],
       summer: [
@@ -1076,8 +1076,8 @@ export const italian: Cuisine = {
         Fire: 0.4,
         Earth: 0.3,
         Water: 0.2,
-        Air: 0.1,
-      },
+        Air: 0.1
+},
       astrologicalInfluences: ['Mars', 'Sun', 'Leo'],
       seasonality: 'all',
       preparationNotes: 'Best when made with San Marzano tomatoes for authentic flavor',
@@ -1102,16 +1102,16 @@ export const italian: Cuisine = {
         Water: 0.4,
         Earth: 0.4,
         Air: 0.1,
-        Fire: 0.1,
-      },
+        Fire: 0.1
+},
       astrologicalInfluences: ['Moon', 'Venus', 'Cancer'],
       seasonality: 'all',
       preparationNotes: 'For silky texture, add hot milk to roux gradually while whisking constantly',
       technicalTips: 'Infuse milk with bay leaf, onion, and clove before making sauce for depth of flavor',
       difficulty: 'medium',
       storageInstructions: 'Store refrigerated in airtight container for up to 3 days',
-      yield: '2 cups',
-    }
+      yield: '2 cups'
+}
   },
   traditionalSauces: {
     marinara: {
@@ -1125,8 +1125,8 @@ export const italian: Cuisine = {
         Fire: 0.4,
         Earth: 0.3,
         Water: 0.2,
-        Air: 0.1,
-      },
+        Air: 0.1
+},
       astrologicalInfluences: ['Mars', 'Sun', 'leo'],
       seasonality: 'all',
       preparationNotes: 'Best when made with San Marzano tomatoes for authentic flavor',
@@ -1149,8 +1149,8 @@ export const italian: Cuisine = {
         Air: 0.4,
         Earth: 0.3,
         Fire: 0.2,
-        Water: 0.1,
-      },
+        Water: 0.1
+},
       astrologicalInfluences: ['Mercury', 'Venus', 'gemini'],
       seasonality: 'summer',
       preparationNotes: 'Traditionally made in a marble mortar with wooden pestle',
@@ -1170,8 +1170,8 @@ export const italian: Cuisine = {
         Earth: 0.4,
         Air: 0.3,
         Fire: 0.2,
-        Water: 0.1,
-      },
+        Water: 0.1
+},
       astrologicalInfluences: ['Jupiter', 'Mars', 'aries'],
       seasonality: 'all',
       preparationNotes: 'Never add cream - authentic carbonara is creamy from eggs alone',
@@ -1187,8 +1187,8 @@ export const italian: Cuisine = {
         Earth: 0.5,
         Fire: 0.3,
         Water: 0.1,
-        Air: 0.1,
-      },
+        Air: 0.1
+},
       astrologicalInfluences: ['Saturn', 'Mars', 'taurus'],
       seasonality: 'autumn, winter',
       preparationNotes: 'True Bolognese takes hours of gentle simmering for depth of flavor',
@@ -1209,8 +1209,8 @@ export const italian: Cuisine = {
         Water: 0.4,
         Earth: 0.4,
         Air: 0.1,
-        Fire: 0.1,
-      },
+        Fire: 0.1
+},
       astrologicalInfluences: ['Moon', 'Venus', 'cancer'],
       seasonality: 'all',
       preparationNotes: 'For silky texture, add hot milk to roux gradually while whisking constantly',
@@ -1265,40 +1265,40 @@ export const italian: Cuisine = {
       elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 },
       toolsRequired: ['large pot', 'timer', 'colander'],
       bestFor: ['pasta', 'risotto rice', 'vegetables'],
-      difficulty: 'easy',
-    }
+      difficulty: 'easy'
+}
     {
       name: 'Soffritto',
       description: 'Slow-cooking aromatic base of finely chopped vegetables in fat',
       elementalProperties: { Fire: 0.4, Earth: 0.4, Air: 0.1, Water: 0.1 },
       toolsRequired: ['heavy-bottomed pan', 'wooden spoon', 'sharp knife'],
       bestFor: ['sauce base', 'soup base', 'risotto', 'stews'],
-      difficulty: 'medium',
-    }
+      difficulty: 'medium'
+}
     {
       name: 'Mantecatura',
       description: 'Final whisking of cold butter or cheese into hot dishes to create a creamy emulsion',
       elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
       toolsRequired: ['wooden spoon', 'grater', 'ladle'],
       bestFor: ['risotto', 'pasta sauces', 'polenta', 'gnocchi'],
-      difficulty: 'hard',
-    }
+      difficulty: 'hard'
+}
     {
       name: 'Sfumato',
       description: 'Deglazing with wine to lift flavor compounds and create depth',
       elementalProperties: { Air: 0.4, Fire: 0.3, Water: 0.2, Earth: 0.1 },
       toolsRequired: ['heavy pan', 'wooden spoon'],
       bestFor: ['risotto', 'sauces', 'braises', 'stews'],
-      difficulty: 'medium',
-    }
+      difficulty: 'medium'
+}
     {
       name: 'Battuto',
       description: 'Finely chopped raw aromatic ingredients that form the base of many dishes',
       elementalProperties: { Earth: 0.5, Air: 0.3, Water: 0.1, Fire: 0.1 },
       toolsRequired: ['chef's knife', 'cutting board', 'mezzaluna'],
       bestFor: ['sauce preparation', 'flavor base', 'soup starters', 'stuffings'],
-      difficulty: 'easy',
-    }
+      difficulty: 'easy'
+}
   ],
   regionalCuisines: {
     sicilian: {
@@ -1338,8 +1338,8 @@ export const italian: Cuisine = {
       ],
       elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Mars', 'Neptune', 'aries'],
-      seasonality: 'all',
-    }
+      seasonality: 'all'
+}
   },
   elementalProperties: {
     Earth: 0.3, // Represents hearty ingredients and grounding dishes

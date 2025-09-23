@@ -14,8 +14,8 @@ const rawEggs = {
       Fire: 0.2,
       Water: 0.5,
       Earth: 0.2,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     nutritionalProfile: {
       calories: 78,
       protein_g: 6.3,
@@ -47,8 +47,8 @@ const rawEggs = {
       Fire: 0.2,
       Water: 0.6,
       Earth: 0.1,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     nutritionalProfile: {
       calories: 130,
       protein_g: 9.0,
@@ -81,8 +81,8 @@ const rawEggs = {
       Fire: 0.1,
       Water: 0.5,
       Earth: 0.3,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     nutritionalProfile: {
       calories: 14,
       protein_g: 1.2,

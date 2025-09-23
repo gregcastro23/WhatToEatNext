@@ -125,8 +125,8 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({ children
       spring: 0.8,
       summer: 1.0,
       autumn: 0.6,
-      winter: 0.4,
-    };
+      winter: 0.4
+};
     return seasonModifiers[state.currentSeason] || 0.5;
   };
 
@@ -142,7 +142,7 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({ children
       const hour = now.getHours();
 
       // Update time of day
-      let timeOfDay: 'morning' | 'afternoon' | 'evening' | 'night',
+      let timeOfDay: 'morning' | 'afternoon' | 'evening' | 'night'
       if (hour >= 6 && hour < 12) timeOfDay = 'morning';
       else if (hour >= 12 && hour < 18) timeOfDay = 'afternoon';
       else if (hour >= 18 && hour < 22) timeOfDay = 'evening';
@@ -179,7 +179,7 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({ children
       const now = new Date();
       const month = now.getMonth();
 
-      let season: 'spring' | 'summer' | 'autumn' | 'winter',
+      let season: 'spring' | 'summer' | 'autumn' | 'winter'
       if (month >= 2 && month <= 4) season = 'spring';
       else if (month >= 5 && month <= 7) season = 'summer';
       else if (month >= 8 && month <= 10) season = 'autumn';

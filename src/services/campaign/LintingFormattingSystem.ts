@@ -33,7 +33,7 @@ export interface FormattingRuleConfig {
   enforceConsistentIndentation: boolean,
   enforceTrailingCommas: boolean,
   enforceSemicolons: boolean,
-  enforceQuoteStyle: 'single' | 'double' | 'consistent',
+  enforceQuoteStyle: 'single' | 'double' | 'consistent'
   enforceLineLength: number,
   enforceSpacing: boolean
 }
@@ -72,7 +72,7 @@ export interface LintingViolation {
   column: number,
   ruleId: string,
   message: string,
-  severity: 'error' | 'warning',
+  severity: 'error' | 'warning'
   fixable: boolean
 }
 
@@ -109,8 +109,8 @@ export class LintingFormattingSystem {
           reactViolations: 0,
           importViolations: 0;,
           formattingIssues: 0,
-          customPatternFixes: 0,
-        }
+          customPatternFixes: 0
+}
       }
 
       // Process files in batches
@@ -158,8 +158,8 @@ export class LintingFormattingSystem {
           reactViolations: 0,
           importViolations: 0;,
           formattingIssues: 0,
-          customPatternFixes: 0,
-        }
+          customPatternFixes: 0
+}
       }
     }
   }
@@ -290,8 +290,8 @@ export class LintingFormattingSystem {
         reactViolations: 0,
         importViolations: 0;,
         formattingIssues: 0,
-        customPatternFixes: 0,
-      }
+        customPatternFixes: 0
+}
     }
 
     // Step, 1: Fix linting violations
@@ -333,15 +333,15 @@ export class LintingFormattingSystem {
   }
 
   private async runESLint(filePaths: string[], fix: boolean = false): Promise<string> {,
-    const fixFlag = fix ? '--fix' : '',
+    const fixFlag = fix ? '--fix' : '';
     const filesArg = filePaths.join(' ')
     try {;
       const command = `npx eslint ${fixFlag} --format json ${filesArg}`;
       return execSync(command, {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 60000,
-      })
+        timeout: 60000
+})
     } catch (error) {
       // ESLint returns non-zero exit code when violations are found
       const errorData = error as any;
@@ -385,8 +385,8 @@ export class LintingFormattingSystem {
       // Run Prettier
       const _formattedContent = execSync(`npx prettier --write ${filePath}`, {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       // Check if file was actually changed
       const newContent = fs.readFileSync(filePath, 'utf8')
@@ -399,7 +399,7 @@ export class LintingFormattingSystem {
 
   private async applyPatternFixesToFile(filePath: string): Promise<number> {
     const content = fs.readFileSync(filePath, 'utf8')
-    let modifiedContent = content,
+    let modifiedContent = content;
     let fixesApplied = 0,
 
     const fileExtension = path.extname(filePath)
@@ -483,7 +483,7 @@ export class LintingFormattingSystem {
 
     // Enforce quote style
     if (formattingRules.enforceQuoteStyle !== 'consistent') {
-      const targetQuote = formattingRules.enforceQuoteStyle === 'single' ? ''' : ''',
+      const targetQuote = formattingRules.enforceQuoteStyle === 'single' ? ''' : ''';
       const sourceQuote = formattingRules.enforceQuoteStyle === 'single' ? ''' : ''',
 
       for (let i = 0i < modifiedLines.lengthi++) {,
@@ -534,8 +534,8 @@ export class LintingFormattingSystem {
       reactViolations: 0,
       importViolations: 0;,
       formattingIssues: 0,
-      customPatternFixes: 0,
-    }
+      customPatternFixes: 0
+}
 
     for (const violation of violations) {
       if (violation.ruleId.startsWith('@typescript-eslint/')) {
@@ -576,8 +576,8 @@ export class LintingFormattingSystem {
       execSync('yarn tsc --noEmit --skipLibCheck', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 30000,
-      })
+        timeout: 30000
+})
       return true,
     } catch (error) {
       logger.warn('Build validation failed during linting/formatting', error),
@@ -630,8 +630,8 @@ export const _DEFAULT_LINTING_FORMATTING_CONFIG: LintingFormattingConfig = {
     enforceSemicolons: true,
     enforceQuoteStyle: 'single',
     enforceLineLength: 100,
-    enforceSpacing: true,
-  },
+    enforceSpacing: true
+},
   patternBasedFixes: [
     {
       name: 'Remove _logger.info statements',
@@ -647,23 +647,23 @@ export const _DEFAULT_LINTING_FORMATTING_CONFIG: LintingFormattingConfig = {
       pattern: /,,/g,
       replacement: ',',
       fileExtensions: ['.ts', '.tsx', '.js', '.jsx'],
-      enabled: true,
-    }
+      enabled: true
+}
     {
       name: 'Remove trailing whitespace',
       description: 'Remove trailing whitespace from lines',
       pattern: /[ \t]+$/gm,
       replacement: '',
       fileExtensions: ['.ts', '.tsx', '.js', '.jsx'],
-      enabled: true,
-    }
+      enabled: true
+}
     {
       name: 'Fix multiple empty lines',
       description: 'Replace multiple consecutive empty lines with single empty line',
       pattern: /\n\s*\n\s*\n/g,
       replacement: '\n\n',
       fileExtensions: ['.ts', '.tsx', '.js', '.jsx'],
-      enabled: true,
-    }
+      enabled: true
+}
   ]
 }

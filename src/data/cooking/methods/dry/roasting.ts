@@ -13,12 +13,12 @@ export const roasting: CookingMethodData = {
     Fire: 0.6,
     Air: 0.2,
     Earth: 0.2,
-    Water: 0.0,
-  },
+    Water: 0.0
+},
   duration: {
     min: 15,
-    max: 240,
-  },
+    max: 240
+},
   suitable_for: [
     'meat',
     'poultry',

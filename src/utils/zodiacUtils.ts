@@ -153,8 +153,8 @@ export function getZodiacElementalInfluence(
     Fire: 0.2,
     Earth: 0.2,
     Air: 0.2,
-    Water: 0.2,
-  }
+    Water: 0.2
+}
 
   // Boost the primary element
   result[element] = 0.7;
@@ -187,8 +187,8 @@ export function calculateZodiacAffinityFromElements(
     aquarius: 'Air',
     cancer: 'Water',
     scorpio: 'Water',
-    pisces: 'Water',
-  }
+    pisces: 'Water'
+}
 
   // Calculate affinities based on elemental properties
   Object.entries(elementMap).forEach(([sign, element]) => {

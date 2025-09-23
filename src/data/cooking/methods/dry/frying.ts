@@ -19,8 +19,8 @@ export const frying: CookingMethodData = {
   },
   duration: {
     min: 2,
-    max: 15,
-  },
+    max: 15
+},
   suitable_for: [
     'vegetables',
     'meats',
@@ -404,8 +404,8 @@ export const frying: CookingMethodData = {
     symbolicMeaning: 'Represents the purifying fire that burns away impurities and transforms raw materials into more refined substances, paralleling how frying transforms raw ingredients into more flavorful and texturally complex foods',
     associatedElements: {
       primary: 'Fire',
-      secondary: 'Earth',
-    }
+      secondary: 'Earth'
+}
   } as unknown as Record<string, Record<string, string>>,
 
   expertTips: [

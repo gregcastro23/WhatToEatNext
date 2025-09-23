@@ -326,8 +326,8 @@ export class FoodAlchemySystem {
         energyValues: {
           heat: 0.8,
           entropy: 0.4,
-          reactivity: 0.6,
-        }
+          reactivity: 0.6
+}
       }
       {
         food: 'Ginger',
@@ -342,8 +342,8 @@ export class FoodAlchemySystem {
         energyValues: {
           heat: 0.7,
           entropy: 0.5,
-          reactivity: 0.6,
-        }
+          reactivity: 0.6
+}
       }
       // Add more foods as needed
     ],
@@ -361,8 +361,8 @@ export class FoodAlchemySystem {
         energyEffects: {
           heat: 0.8,
           entropy: 0.4,
-          reactivity: 0.6,
-        },
+          reactivity: 0.6
+},
         timing: {
           optimal: ['Sun', 'Mars'],
           acceptable: ['Jupiter'],
@@ -376,8 +376,8 @@ export class FoodAlchemySystem {
         energyEffects: {
           heat: 0.3,
           entropy: 0.5,
-          reactivity: 0.4,
-        },
+          reactivity: 0.4
+},
         timing: {
           optimal: ['Moon', 'Venus'],
           acceptable: ['Mercury'],
@@ -518,11 +518,11 @@ export class FoodAlchemySystem {
     const nocturnalElement = dayElements.nocturnal;
 
     // Calculate match based on food's element compared to planetary elements
-    const diurnalMatch = food.element === diurnalElement ? 1.0 : 0.3,
+    const diurnalMatch = food.element === diurnalElement ? 1.0 : 0.3;
     const nocturnalMatch = food.element === nocturnalElement ? 1.0 : 0.3;
 
     // Calculate a weighted score - both elements are equally important for planetary day
-    let elementalScore = (diurnalMatch + nocturnalMatch) / 2,
+    let elementalScore = (diurnalMatch + nocturnalMatch) / 2;
     let dignityBonus = 0,
     let decanBonus = 0,
 
@@ -595,7 +595,7 @@ export class FoodAlchemySystem {
     const elementalMatch = food.element === relevantElement ? 1.0 : 0.3;
 
     // Calculate score
-    let elementalScore = elementalMatch,
+    let elementalScore = elementalMatch;
     let dignityBonus = 0,
     let aspectBonus = 0,
 

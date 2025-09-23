@@ -138,7 +138,7 @@ export interface RecommendationServiceInterface {
    */
   getRecommendationsForElements(
     elementalProperties: ElementalProperties,
-    type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
+    type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod'
     limit?: number,
   ): Promise<RecommendationResult<unknown>>
 
@@ -147,7 +147,7 @@ export interface RecommendationServiceInterface {
    */
   getRecommendationsForPlanetaryAlignment(
     planetaryPositions: Record<string, { sign: string, degree: number }>,
-    type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
+    type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod'
     limit?: number,
   ): Promise<RecommendationResult<unknown>>
 

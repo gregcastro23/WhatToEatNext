@@ -9,8 +9,8 @@ const rawBuckwheat = {
       rulingPlanets: ['Saturn', 'Mars'],
       elementalAffinity: {
         base: 'Earth',
-        secondary: 'Fire',
-      }
+        secondary: 'Fire'
+}
     },
     qualities: ['earthy', 'robust', 'gluten-free', 'hearty', 'nutty'],
     category: 'pseudo_grain',

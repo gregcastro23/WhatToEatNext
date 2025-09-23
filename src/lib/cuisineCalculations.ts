@@ -35,27 +35,27 @@ export async function getCuisineRecommendations(): Promise<CuisineRecommendation
         return {
           id,
           name: id.charAt(0).toUpperCase() + id.slice(1),
-          description: traditionData?.description || 'A unique culinary tradition',
+          description: traditionData?.description || 'A unique culinary tradition'
           alchemicalProperties: traditionData?.elementalAlignment || {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
-            Air: 0.25,
-          },
+            Air: 0.25
+},
           elementalProperties: traditionData?.elementalAlignment || {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
-            Air: 0.25,
-          },
+            Air: 0.25
+},
           astrologicalInfluences: deriveAstrologicalInfluences(tradition),
           compatibilityScore: 0.8, // Default compatibility score,
           elementalAlignment: traditionData?.elementalAlignment || {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
-            Air: 0.25,
-          }
+            Air: 0.25
+}
         }
       })
 

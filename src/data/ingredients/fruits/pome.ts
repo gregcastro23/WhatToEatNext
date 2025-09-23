@@ -8,8 +8,8 @@ const rawPome = {
       Earth: 0.5,
       Water: 0.3,
       Air: 0.2,
-      Fire: 0,
-    },
+      Fire: 0
+},
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Saturn'],
       favorableZodiac: ['taurus', 'capricorn', 'libra'],
@@ -41,8 +41,8 @@ const rawPome = {
         texture: 'extremely crisp, juicy',
         flavor: 'sweet-tart balance, honey notes',
         best_uses: ['eating fresh', 'salads'],
-        storage: 'excellent keeper',
-      },
+        storage: 'excellent keeper'
+},
       'Granny Smith': {
         appearance: 'bright green',
         texture: 'very firm, crisp',
@@ -60,15 +60,15 @@ const rawPome = {
         texture: 'very crisp, dense',
         flavor: 'very sweet, low acidity',
         best_uses: ['eating fresh', 'salads', 'applesauce'],
-        storage: 'excellent keeper',
-      },
+        storage: 'excellent keeper'
+},
       'Pink Lady': {
         appearance: 'pink-red blush',
         texture: 'firm, crisp',
         flavor: 'sweet-tart balance, complex',
         best_uses: ['eating fresh', 'salads', 'baking'],
-        storage: 'excellent keeper',
-      },
+        storage: 'excellent keeper'
+},
       'Golden Delicious': {
         appearance: 'yellow-green',
         texture: 'soft to firm depending on ripeness',
@@ -80,8 +80,8 @@ const rawPome = {
         texture: 'very firm, crisp',
         flavor: 'intense sweet-tart, spicy notes',
         best_uses: ['eating fresh', 'baking', 'pies'],
-        storage: 'excellent keeper',
-      }
+        storage: 'excellent keeper'
+}
     },
     culinaryApplications: {
       raw: {
@@ -127,8 +127,8 @@ const rawPome = {
         frozen: {
         preparation: 'Slice or dice, treat with ascorbic acid',
         duration: 'Up to 12 months',
-        uses: 'Best for cooking applications after freezing',
-      }
+        uses: 'Best for cooking applications after freezing'
+}
     },
     pairings: ['cinnamon', 'caramel', 'cheddar_cheese', 'pork', 'walnut', 'oats', 'vanilla'],
     substitutions: ['pear', 'quince', 'asian_pear'],
@@ -150,8 +150,8 @@ const rawPome = {
       Water: 0.4,
       Earth: 0.4,
       Air: 0.2,
-      Fire: 0,
-    },
+      Fire: 0
+},
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Moon'],
       favorableZodiac: ['taurus', 'cancer', 'libra'],
@@ -213,8 +213,8 @@ const rawPome = {
         texture: 'crisp, fine-grained',
         flavor: 'tangy-sweet, refreshing',
         best_uses: ['eating fresh', 'decorative uses', 'salads'],
-        ripening: 'develops distinctive red freckles when ripe',
-      }
+        ripening: 'develops distinctive red freckles when ripe'
+}
     },
     culinaryApplications: {
       raw: {
@@ -256,8 +256,8 @@ const rawPome = {
         ripe: {
         temperature: 'Refrigerated 32-35°F (0-1.6°C)',
         duration: '3-5 days when ripe',
-        notes: 'Refrigeration halts ripening process',
-      }
+        notes: 'Refrigeration halts ripening process'
+}
     },
     pairings: ['blue_cheese', 'walnuts', 'cinnamon', 'vanilla', 'chocolate', 'red_wine', 'ginger'],
     substitutions: ['apple', 'quince', 'asian_pear'],
@@ -279,8 +279,8 @@ const rawPome = {
       Earth: 0.6,
       Air: 0.2,
       Water: 0.2,
-      Fire: 0,
-    },
+      Fire: 0
+},
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Saturn'],
       favorableZodiac: ['taurus', 'capricorn', 'libra'],
@@ -312,8 +312,8 @@ const rawPome = {
         texture: 'hard, gritty when raw, smooth when cooked',
         flavor: 'more aromatic, less astringent',
         best_uses: ['membrillo (quince paste)', 'jellies', 'poaching'],
-        notes: 'popular commercial variety in US',
-      },
+        notes: 'popular commercial variety in US'
+},
       'Orange Quince': {
         appearance: 'round, more apple-like shape',
         texture: 'very firm, hard',
@@ -368,8 +368,8 @@ const rawPome = {
         preserved: {
         methods: 'Membrillo paste, jellies, canned in syrup',
         duration: '1+ years',
-        notes: 'Traditional preservation extends seasonal use',
-      }
+        notes: 'Traditional preservation extends seasonal use'
+}
     },
     pairings: ['apple', 'pear', 'vanilla', 'cinnamon', 'lamb', 'pork', 'manchego_cheese'],
     substitutions: ['firm pears', 'apples', 'asian_pears'],
@@ -396,15 +396,15 @@ const rawPome = {
       Water: 0.5,
       Earth: 0.3,
       Air: 0.2,
-      Fire: 0,
-    },
+      Fire: 0
+},
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Mercury'],
       favorableZodiac: ['taurus', 'gemini', 'libra'],
       elementalAffinity: {
         base: 'Water',
-        secondary: 'Earth',
-      }
+        secondary: 'Earth'
+}
     },
     season: ['late summer', 'fall'],
     qualities: ['crisp', 'juicy', 'refreshing', 'fragrant', 'delicate'],
@@ -499,15 +499,15 @@ const rawPome = {
       Earth: 0.7,
       Water: 0.2,
       Air: 0.1,
-      Fire: 0,
-    },
+      Fire: 0
+},
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Venus'],
       favorableZodiac: ['capricorn', 'taurus'],
       elementalAffinity: {
         base: 'Earth',
-        secondary: 'Water',
-      }
+        secondary: 'Water'
+}
     },
     season: ['late fall', 'early winter'],
     qualities: ['complex', 'unusual', 'earthy', 'historical', 'transformative'],
@@ -533,8 +533,8 @@ const rawPome = {
         texture: 'softer, less gritty',
         flavor: 'milder, more accessible flavor',
         best_uses: ['introduction to medlars', 'modern adaptations'],
-        notes: 'newer variety',
-      }
+        notes: 'newer variety'
+}
     },
     culinaryApplications: {
       bletted: {
@@ -574,8 +574,8 @@ const rawPome = {
         preserved: {
         methods: 'Jellies, cheese (paste), wine',
         duration: '1+ years',
-        notes: 'Traditional preservation extends seasonal use',
-      }
+        notes: 'Traditional preservation extends seasonal use'
+}
     },
     pairings: ['cream', 'custard', 'cinnamon', 'port_wine', 'vanilla', 'walnuts', 'honey'],
     substitutions: ['persimmons', 'dates', 'roasted_apples'],
@@ -593,8 +593,8 @@ const rawPome = {
       Literary: 'Mentioned by Shakespeare, Chaucer, and D.H. Lawrence',
       Historical: 'Popular medieval fruit now mostly forgotten',
       Symbolic: 'Used as metaphor for maturity and old age',
-      Modern: 'Revival interest among historical food enthusiasts',
-    }
+      Modern: 'Revival interest among historical food enthusiasts'
+}
   },
   loquat: {
     name: 'Loquat',
@@ -602,15 +602,15 @@ const rawPome = {
       Water: 0.4,
       Earth: 0.3,
       Fire: 0.2,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     astrologicalProfile: {
       rulingPlanets: ['Sun', 'Venus'],
       favorableZodiac: ['leo', 'taurus'],
       elementalAffinity: {
         base: 'Water',
-        secondary: 'Fire',
-      }
+        secondary: 'Fire'
+}
     },
     season: ['spring'],
     qualities: ['sweet-tart', 'fragrant', 'floral', 'refreshing', 'unique'],
@@ -638,8 +638,8 @@ const rawPome = {
         texture: 'tender, juicy',
         flavor: 'exceptionally sweet',
         best_uses: ['eating fresh', 'desserts'],
-        notes: 'California variety',
-      }
+        notes: 'California variety'
+}
     },
     culinaryApplications: {
       raw: {
@@ -681,8 +681,8 @@ const rawPome = {
         preserved: {
         methods: 'Jam, syrup, canned in light syrup',
         duration: '1+ years',
-        notes: 'Traditional preservation extends seasonal use',
-      }
+        notes: 'Traditional preservation extends seasonal use'
+}
     },
     pairings: ['vanilla', 'cinnamon', 'ginger', 'honey', 'lemon', 'tropical_fruits', 'almonds'],
     substitutions: ['apricots', 'peaches', 'plums', 'nectarines'],
@@ -699,8 +699,8 @@ const rawPome = {
       'East Asian': 'Symbol of spring, medicinal importance';
       Japanese: 'Associated with the biwa (lute) due to similar shape',
       'Chinese Medicine': 'Used in traditional cough remedies for centuries',
-      California: 'Heritage tree often found in old gardens and homesteads',
-    }
+      California: 'Heritage tree often found in old gardens and homesteads'
+}
   }
 }
 

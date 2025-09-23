@@ -104,7 +104,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
     return id,
   }
 
-  const closePopup = (id: number): void => {,
+  const closePopup = (id: number): void => {;
     const popupElement = document.getElementById(`popup-${id}`)
     if (popupElement) {
       popupElement.classList.add('popup-exit')

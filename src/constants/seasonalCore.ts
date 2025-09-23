@@ -57,14 +57,14 @@ export const SEASONAL_MODIFIERS: Record<Season, ElementalProperties> = {
     Earth: 0.4, // Alias for autumn
     Air: 0.3,
     Fire: 0.2,
-    Water: 0.1,
-  },
+    Water: 0.1
+},
   all: {
     Fire: 0.25, // Balanced for all-season items
     Air: 0.25,
     Water: 0.25,
-    Earth: 0.25,
-  }
+    Earth: 0.25
+}
 }
 
 /**
@@ -233,8 +233,8 @@ export const SEASONAL_INFLUENCE = {
     spring: 0.7,
     summer: 0.9,
     autumn: 0.6,
-    winter: 0.8,
-  }
+    winter: 0.8
+}
   // How seasons affect mood and energy
   energyModifier: {
     spring: { vitality: 0.8, creativity: 0.7, stability: 0.4, adaptability: 0.6 },

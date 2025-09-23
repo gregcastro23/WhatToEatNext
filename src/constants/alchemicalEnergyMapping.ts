@@ -7,8 +7,8 @@ import {
 import { createLogger } from '@/utils/logger';
 
 export interface AlchemicalEnergyState {
-  name: 'Spirit' | 'Substance' | 'Essence' | 'Matter',
-  level: 'Highest' | 'Middle' | 'Lowest',
+  name: 'Spirit' | 'Substance' | 'Essence' | 'Matter'
+  level: 'Highest' | 'Middle' | 'Lowest'
   description: string,
   chakra: string,
   planets: {
@@ -17,8 +17,8 @@ export interface AlchemicalEnergyState {
   },
   elements: string[],
   properties: {
-    heat: '+' | '-',
-    entropy: '+' | '-',
+    heat: '+' | '-'
+    entropy: '+' | '-'
     reactivity: '+' | '-'
   }
 }
@@ -38,8 +38,8 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     properties: {
       heat: '+',
       entropy: '+',
-      reactivity: '+',
-    }
+      reactivity: '+'
+}
   }
   {
     name: 'Substance',
@@ -54,8 +54,8 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     properties: {
       heat: '-',
       entropy: '+',
-      reactivity: '+',
-    }
+      reactivity: '+'
+}
   }
   {
     name: 'Essence',
@@ -70,8 +70,8 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     properties: {
       heat: '-',
       entropy: '-',
-      reactivity: '+',
-    }
+      reactivity: '+'
+}
   }
   {
     name: 'Matter',
@@ -86,8 +86,8 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     properties: {
       heat: '-',
       entropy: '-',
-      reactivity: '-',
-    }
+      reactivity: '-'
+}
   }
 ],
 
@@ -156,8 +156,8 @@ export function calculateAlchemicalDistribution(
       Spirit: 0.25,
       Essence: 0.25,
       Matter: 0.25,
-      Substance: 0.25,
-    }
+      Substance: 0.25
+}
 
     // Skip calculation if no positions provided
     if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {,
@@ -173,8 +173,8 @@ export function calculateAlchemicalDistribution(
       Spirit: 0,
       Essence: 0,
       Matter: 0,
-      Substance: 0,
-    }
+      Substance: 0
+}
 
     // Calculate the influence of each planet
     Object.entries(planetaryPositions).forEach(([planet, position]) => {
@@ -225,8 +225,8 @@ export function calculateAlchemicalDistribution(
       Spirit: 0.25,
       Essence: 0.25,
       Matter: 0.25,
-      Substance: 0.25,
-    }
+      Substance: 0.25
+}
   }
 }
 
@@ -241,8 +241,8 @@ export function convertToElementalProperties(
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    }
+      Air: 0.25
+}
 
     // Map alchemical properties to elemental properties
     elementalProps.Fire = alchemicalProps.Spirit,
@@ -257,8 +257,8 @@ export function convertToElementalProperties(
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    }
+      Air: 0.25
+}
   }
 }
 

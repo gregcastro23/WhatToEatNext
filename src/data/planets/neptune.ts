@@ -12,8 +12,8 @@ const neptuneData: PlanetData = {
     Spirit: 0,
     Essence: 1,
     Matter: 0,
-    Substance: 1,
-  },
+    Substance: 1
+},
   'Diurnal Element': 'Water',
   'Nocturnal Element': 'Water',
   AstronomicalData: {
@@ -100,8 +100,8 @@ const neptuneData: PlanetData = {
     Spirit: 0.8,
     Essence: 0.6,
     Matter: 0.1,
-    Substance: 0.3,
-  },
+    Substance: 0.3
+},
   FoodAssociations: [
     'seafood',
     'seaweed',
@@ -121,8 +121,8 @@ const neptuneData: PlanetData = {
     Salty: 0.6,
     Bitter: 0.3,
     Umami: 0.3,
-    Spicy: 0.1,
-  },
+    Spicy: 0.1
+},
   CulinaryInfluences: [
     'Blurs boundaries between flavors',
     'Creates ethereal and dreamy presentations',
@@ -136,64 +136,64 @@ const neptuneData: PlanetData = {
       Opposition: 0.1,
       Trine: 0.4,
       Square: -0.1,
-      Sextile: 0.2,
-    },
+      Sextile: 0.2
+},
     Moon: {
       Conjunction: 0.7,
       Opposition: 0.3,
       Trine: 0.6,
       Square: 0.1,
-      Sextile: 0.4,
-    },
+      Sextile: 0.4
+},
     Mercury: {
       Conjunction: 0.2,
       Opposition: -0.1,
       Trine: 0.3,
       Square: -0.2,
-      Sextile: 0.1,
-    },
+      Sextile: 0.1
+},
     Saturn: {
       Conjunction: 0.1,
       Opposition: -0.3,
       Trine: 0.2,
       Square: -0.4,
-      Sextile: 0.0,
-    },
+      Sextile: 0.0
+},
     Jupiter: {
       Conjunction: 0.6,
       Opposition: 0.2,
       Trine: 0.5,
       Square: 0.0,
-      Sextile: 0.3,
-    },
+      Sextile: 0.3
+},
     Venus: {
       Conjunction: 0.7,
       Opposition: 0.3,
       Trine: 0.6,
       Square: 0.1,
-      Sextile: 0.4,
-    },
+      Sextile: 0.4
+},
     Mars: {
       Conjunction: 0.2,
       Opposition: -0.1,
       Trine: 0.3,
       Square: -0.2,
-      Sextile: 0.1,
-    },
+      Sextile: 0.1
+},
     Uranus: {
       Conjunction: 0.8,
       Opposition: 0.3,
       Trine: 0.7,
       Square: 0.1,
-      Sextile: 0.5,
-    },
+      Sextile: 0.5
+},
     Pluto: {
       Conjunction: 0.6,
       Opposition: 0.2,
       Trine: 0.5,
       Square: 0.0,
-      Sextile: 0.3,
-    }
+      Sextile: 0.3
+}
   },
   PlanetSpecific: {
     ZodiacTransit: {
@@ -203,8 +203,8 @@ const neptuneData: PlanetData = {
           Fire: 0.1,
           Earth: 0.1,
           Air: 0.2,
-          Water: 0.9,
-        },
+          Water: 0.9
+},
         CookingMethods: ['steaming', 'poaching', 'infusing', 'clarifying', 'sous vide'],
         FavoredIngredients: [
           'seafood',
@@ -222,8 +222,8 @@ const neptuneData: PlanetData = {
           Fire: 0.1,
           Earth: 0.2,
           Air: 0.1,
-          Water: 0.8,
-        },
+          Water: 0.8
+},
         CookingMethods: [
           'gentle simmering',
           'braising',
@@ -246,8 +246,8 @@ const neptuneData: PlanetData = {
           Fire: 0.1,
           Earth: 0.6,
           Air: 0.2,
-          Water: 0.5,
-        },
+          Water: 0.5
+},
         CookingMethods: [
           'precise temperature control',
           'delicate herbal infusions',
@@ -272,8 +272,8 @@ const neptuneData: PlanetData = {
         Spirit: 0.2,
         Essence: 0.8,
         Matter: 0.1,
-        Substance: 0.7,
-      },
+        Substance: 0.7
+},
       CookingMethodEffects: {
         Emphasized: [
           'clarifying techniques',
@@ -305,8 +305,8 @@ const neptuneData: PlanetData = {
         Salty: 0.7,
         Bitter: 0.4,
         Umami: 0.4,
-        Spicy: 0.2,
-      }
+        Spicy: 0.2
+}
     },
     TransitDates: {
       pisces: {

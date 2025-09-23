@@ -161,8 +161,8 @@ _logger.info(usedVar)
         unusedVariables: { count: 50, priority: 2, files: [] }
         consoleStatements: { count: 25, priority: 3, files: [] },
         other: { count: 0, priority: 4, files: [] }
-        total: 175,
-      }
+        total: 175
+}
 
       const recommendations: any = (analyzer as any).generateRecommendations(distribution)
 
@@ -181,12 +181,12 @@ _logger.info(usedVar)
           unusedVariables: { count: 5, priority: 2, files: ['file2.ts'] }
           consoleStatements: { count: 3, priority: 3, files: ['file3.ts'] },
           other: { count: 0, priority: 4, files: [] }
-          total: 18,
-        },
+          total: 18
+},
         warnings: [],
         prioritizedFiles: { highPriority: ['file1.ts'], mediumPriority: ['file2.ts'], lowPriority: ['file3.ts'] },
-        recommendations: ['Fix explicit-any warnings first'],
-      }
+        recommendations: ['Fix explicit-any warnings first']
+}
 
       const report: any = analyzer.generateReport(mockResult)
 ;

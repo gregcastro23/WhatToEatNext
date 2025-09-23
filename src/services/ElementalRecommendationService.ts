@@ -112,8 +112,8 @@ export class ElementalRecommendationService {
   private static getDominantElement(properties: ElementalProperties): string {
     return Object.entries(properties).reduce(
       (max, [element, value]) => (value > max.value ? { element, value } : max),
-      { element: '', value: 0 }).element,
-  }
+      { element: '', value: 0 }).element
+}
 
   /**
    * Gets seasonal recommendations based on element

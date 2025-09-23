@@ -11,9 +11,8 @@ import { CookingMethod, ElementType, LunarPhase, Planet, Season, ZodiacSign } fr
 // Import LunarPhase as type from constants.ts
 
 // Define types directly since they're not exported from constants
-type Element = 'Fire' | 'Water' | 'Earth' | 'Air',
-type PlanetName = 'Sun' | 'Moon' | 'Mercury' | 'Venus' | 'Mars' | 'Jupiter' | 'Saturn',
-
+type Element = 'Fire' | 'Water' | 'Earth' | 'Air'
+type PlanetName = 'Sun' | 'Moon' | 'Mercury' | 'Venus' | 'Mars' | 'Jupiter' | 'Saturn'
 // Define necessary types directly if they're not available for import
 // Define a simplified AstrologicalState type
 export interface AstrologicalState {

@@ -26,8 +26,8 @@ const SaucesPage: NextPage = () => {,
     Earth: 0.25,
     Air: 0.25,
     season: 'spring',
-    timeOfDay: 'lunch',
-  })
+    timeOfDay: 'lunch'
+})
   const [elementalFilter, setElementalFilter] = React.useState<string | null>(null)
 
   React.useEffect(() => {

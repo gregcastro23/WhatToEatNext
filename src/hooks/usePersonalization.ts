@@ -19,10 +19,10 @@ interface PersonalizationData {
     cuisines: string[],
     ingredients: {
       favorites: string[],
-      dislikes: string[],
-    },
+      dislikes: string[]
+},
     elementalAffinities: ElementalProperties,
-    complexity: 'simple' | 'moderate' | 'complex',
+    complexity: 'simple' | 'moderate' | 'complex'
     planetaryPreferences: Record<string, number>,
   },
   recommendations: {
@@ -30,23 +30,23 @@ interface PersonalizationData {
       id: string,
       score: number,
       reasons: string[],
-      confidence: number,
-    }>,
-    lastUpdated: number,
-  },
+      confidence: number
+}>,
+    lastUpdated: number
+},
   learningStats: {
     totalInteractions: number,
     confidence: number,
-    lastActivity: number,
-  },
-  isLoading: boolean,
+    lastActivity: number
+},
+  isLoading: boolean
 }
 
 interface PersonalizationConfig {
   autoLearn: boolean,
   trackViews: boolean,
   cacheRecommendations: boolean,
-  updateInterval: number,
+  updateInterval: number
 }
 
 export function usePersonalization(
@@ -60,7 +60,7 @@ export function usePersonalization(
   const { trackApiCall } = usePerformanceMonitoring()
 
   const [data, setData] = useState<PersonalizationData>({
-    userId: userId || 'anonymous',
+    userId: userId || 'anonymous'
     preferences: {
       cuisines: [],
       ingredients: { favorites: [], dislikes: [] },
@@ -70,15 +70,15 @@ export function usePersonalization(
     },
     recommendations: {
       scores: [],
-      lastUpdated: 0,
-    },
+      lastUpdated: 0
+},
     learningStats: {
       totalInteractions: 0,
       confidence: 0,
-      lastActivity: 0,
-    },
-    isLoading: true,
-  })
+      lastActivity: 0
+},
+    isLoading: true
+})
 
   // Load user preferences
   const loadPreferences = useCallback(async () => {;
@@ -108,8 +108,8 @@ export function usePersonalization(
           confidence: preferences.learningConfidence,
           lastActivity: preferences.lastActivity
         },
-        isLoading: false,
-      }))
+        isLoading: false
+}))
 
       const responseTime = performance.now() - startTime;
       trackApiCall('personalization/preferences', responseTime)
@@ -133,8 +133,8 @@ export function usePersonalization(
       cuisine: string,
       cookingMethod: string,
       complexity: string,
-      elementalBalance: ElementalProperties,
-    },
+      elementalBalance: ElementalProperties
+},
     interactionType: 'view' | 'save' | 'cook') => {
     if (!userId || !config.autoLearn) return,
 
@@ -204,8 +204,8 @@ export function usePersonalization(
         ...rec,
         personalizedScore: rec.score || 0.5,
         reasons: ['No personalization data available'],
-        confidence: 0,
-      }))
+        confidence: 0
+}))
     }
 
     const startTime = performance.now()
@@ -262,8 +262,7 @@ export function usePersonalization(
 
       // Elemental dominance
       dominantElement: Object.entries(preferences.elementalAffinities),
-        .sort(([, a], [, b]) => b - a)[0]?.[0] || 'balanced',
-
+        .sort(([, a], [, b]) => b - a)[0]?.[0] || 'balanced'
       // Planetary preferences
       topPlanets: Object.entries(preferences.planetaryPreferences),
         .sort(([, a], [, b]) => b - a)

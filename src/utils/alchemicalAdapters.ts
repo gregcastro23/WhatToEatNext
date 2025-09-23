@@ -9,7 +9,7 @@ export function toStandardElementalAffinity(engineAffinity: unknown): ElementalA
   const engineData = engineAffinity as unknown;
 
   return {
-    base: engineData?.element || 'Fire',
+    base: engineData?.element || 'Fire'
     strength: engineData?.strength,
     source: engineData?.source,
     // Preserve other properties

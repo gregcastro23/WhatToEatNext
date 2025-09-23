@@ -26,8 +26,8 @@ export interface MLContext {
 export interface UserPreferences {
   preferredCuisines: string[],
   dietaryRestrictions: string[],
-  spiceLevel: 'mild' | 'medium' | 'hot',
-  cookingSkillLevel: 'beginner' | 'intermediate' | 'advanced',
+  spiceLevel: 'mild' | 'medium' | 'hot'
+  cookingSkillLevel: 'beginner' | 'intermediate' | 'advanced'
   favoriteIngredients: string[],
   dislikedIngredients: string[]
 }
@@ -56,7 +56,7 @@ export interface IngredientPairingResult {
 export interface IngredientPairing {
   ingredient: Ingredient,
   compatibilityScore: number,
-  synergyType: 'flavor' | 'nutritional' | 'cultural' | 'seasonal',
+  synergyType: 'flavor' | 'nutritional' | 'cultural' | 'seasonal'
   confidence: number
 }
 
@@ -151,7 +151,7 @@ export interface UserFeedback {
   rating: number,
   comments: string,
   wouldMakeAgain: boolean,
-  difficulty: 'easy' | 'medium' | 'hard',
+  difficulty: 'easy' | 'medium' | 'hard'
   timestamp: string
 }
 
@@ -181,7 +181,7 @@ export interface OptimizationConstraints {
   maxCookTime?: number,
   budgetLimit?: number,
   availableIngredients?: string[],
-  skillLevel?: 'beginner' | 'intermediate' | 'advanced',
+  skillLevel?: 'beginner' | 'intermediate' | 'advanced'
   dietaryRestrictions?: string[],
 }
 

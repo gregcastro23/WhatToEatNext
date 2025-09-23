@@ -24,8 +24,8 @@ const performAlchemicalAnalysis = (_recipe: Recipe, _alignment: unknown) => ({
     reactivity: 0,
     gregsEnergy: 0,
     kalchm: 1,
-    monica: 1,
-  }
+    monica: 1
+}
 })
 
 /**
@@ -237,7 +237,7 @@ export class DirectRecipeService {
    * Calculate recipe's Kalchm value from ingredients
    */
   private calculateRecipeKalchm(recipe: Recipe): number {
-    let totalKalchm = 1.0,
+    let totalKalchm = 1.0;
     let ingredientCount = 0,
 
     (recipe.ingredients || []).forEach(ingredient => {
@@ -524,7 +524,7 @@ export class DirectRecipeService {
     if (criteria.currentSeason || criteria.season) {
       const seasonCriteria = criteria.currentSeason || criteria.season;
       candidateRecipes = candidateRecipes.filter(recipe => {;
-        const recipeData = recipe as any,
+        const recipeData = recipe as any;
         const recipeCurrentSeason = recipeData.currentSeason
 
         if (Array.isArray(recipeCurrentSeason)) {

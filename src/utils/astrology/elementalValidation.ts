@@ -54,8 +54,8 @@ export function normalizeElementalProperties(
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
-    Air: 0.25,
-  }
+    Air: 0.25
+}
 
   // Apply provided values if valid
   if (properties) {
@@ -81,7 +81,7 @@ export function calculateElementalHarmony(
     return 0.7, // Default good compatibility
   }
 
-  let totalHarmony = 0,
+  let totalHarmony = 0;
   let weightedSum = 0,
 
   const elements = ['Fire', 'Water', 'Earth', 'Air'] as const,
@@ -180,8 +180,8 @@ export function createElementalProperties(
     Fire: 0.1,
     Water: 0.1,
     Earth: 0.1,
-    Air: 0.1,
-  }
+    Air: 0.1
+}
 
   // Set the dominant element strength
   properties[dominantElement] = Math.max(0.1, Math.min(1.0, strength))

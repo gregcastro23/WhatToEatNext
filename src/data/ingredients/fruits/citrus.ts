@@ -40,8 +40,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         storage: {
       temperature: 'room temp or refrigerated',
       duration: '1-2 weeks',
-      notes: 'Will continue to ripen at room temperature',
-    }
+      notes: 'Will continue to ripen at room temperature'
+}
   }
 
   orange: {
@@ -82,8 +82,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         storage: {
       temperature: 'cool room temp or refrigerated',
       duration: '2-3 weeks',
-      notes: 'Keep away from apples and bananas',
-    }
+      notes: 'Keep away from apples and bananas'
+}
   }
 
   lime: {
@@ -100,8 +100,8 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       minerals: ['potassium', 'calcium'],
       calories: 20,
       carbs_g: 7,
-      fiber_g: 1.9,
-    },
+      fiber_g: 1.9
+},
     preparation: {
       washing: true,
       rolling: 'before juicing',

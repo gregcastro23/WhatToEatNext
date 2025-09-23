@@ -1,7 +1,7 @@
 import { logger } from './logger';
 
 export interface ThemeData {
-  mode: 'light' | 'dark' | 'system',
+  mode: 'light' | 'dark' | 'system'
   accent: string
 }
 
@@ -13,7 +13,7 @@ export class ThemeManager {
 
   async initializeTheme() {
     try {
-      const savedTheme = localStorage.getItem('theme') || 'light';
+      const savedTheme = localStorage.getItem('theme') || 'light'
       this.updateTheme(savedTheme)
       return savedTheme,
     } catch (error) {
@@ -25,11 +25,11 @@ export class ThemeManager {
 
   getTheme(): ThemeData {
     try {
-      const savedTheme = localStorage.getItem('theme') || 'light';
+      const savedTheme = localStorage.getItem('theme') || 'light'
       const savedAccent = localStorage.getItem('accent-color') || 'blue'
 
       return {
-        mode: savedTheme as 'light' | 'dark' | 'system',
+        mode: savedTheme as 'light' | 'dark' | 'system'
         accent: savedAccent
       }
     } catch (error) {

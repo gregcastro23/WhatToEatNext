@@ -22,25 +22,25 @@ const rawMedicinalHerbs = {
         protein: 0.2,
         carbs: 0.8,
         fat: 0.1,
-        fiber: 0.3,
-      },
+        fiber: 0.3
+},
       vitamins: {
         C: 0.02,
     B1: 0.01,
-    B3: 0.01,
-      },
+    B3: 0.01
+},
       minerals: {
         potassium: 0.01,
         calcium: 0.01,
-        magnesium: 0.01,
-      },
+        magnesium: 0.01
+},
       phytonutrients: {
         alkylamides: 0.75,
         polysaccharides: 0.65,
         phenolic_compounds: 0.48,
         caffeic_acid: 0.38,
-        essential_oils: 0.25,
-      },
+        essential_oils: 0.25
+},
       source: 'Herbal Medicine Database' },
         varieties: {
       purpurea: {
@@ -60,8 +60,8 @@ const rawMedicinalHerbs = {
         characteristics: 'Pale purple coneflower with slender petals',
         medicinal_focus: 'Blood purification, skin conditions',
         parts_used: ['roots primarily'],
-        notes: 'More prevalent in European herbal medicine',
-      }
+        notes: 'More prevalent in European herbal medicine'
+}
     },
     seasonality: {
       growing_season: 'Spring through fall',
@@ -69,8 +69,8 @@ const rawMedicinalHerbs = {
       harvesting: {
         flowers: 'When fully open in summer',
         'aerial parts': 'During flowering',
-        roots: 'Fall of second or third year growth',
-      }
+        roots: 'Fall of second or third year growth'
+}
     },
     medicinalProperties: {
       actions: [
@@ -178,16 +178,16 @@ const rawMedicinalHerbs = {
         conditions: ['Sore throat', 'Sinus infections', 'Bronchitis', 'Laryngitis'],
         protocols: {
           internal: 'Tincture or tea 3-5 times daily',
-          local: 'Gargle with diluted tincture or strong tea',
-        }
+          local: 'Gargle with diluted tincture or strong tea'
+}
       },
       wound_healing: {
         name: 'Wound Healing',
         applications: ['Cuts and scrapes', 'Burns', 'Insect bites and stings', 'Skin infections'],
         protocols: {
           minor_wounds: 'Clean with diluted tincture, apply salve',
-          severe_wounds: 'Internal and external applications combined',
-        }
+          severe_wounds: 'Internal and external applications combined'
+}
       },
       lymphatic: {
         name: 'Lymphatic Support',
@@ -240,8 +240,8 @@ const rawMedicinalHerbs = {
         modern_western: {
         historical_adoption: 'Introduced to American Eclectic physicians in late 1800s',
         commercial_impact: 'One of the top-selling herbs in North America and Europe',
-        research_interest: 'Extensively studied for immunomodulating properties',
-      }
+        research_interest: 'Extensively studied for immunomodulating properties'
+}
     },
     sustainability: {
       conservation_status: {
@@ -262,8 +262,8 @@ const rawMedicinalHerbs = {
       synergistic_actions: {
         immune_enhancement: 'Combines well with elderberry and andrographis',
         lymphatic_support: 'Enhanced by calendula and cleavers',
-        respiratory_relief: 'Works well with thyme and elecampane',
-      }
+        respiratory_relief: 'Works well with thyme and elecampane'
+}
     }
   }
 
@@ -282,14 +282,14 @@ const rawMedicinalHerbs = {
           honey: '1 part' },
         method: 'decoct berries, add honey',
         dosage: '1-2 tsp daily',
-        storage: 'refrigerate',
-      }
+        storage: 'refrigerate'
+}
     },
     properties: {
       antiviral: 'especially against flu viruses',
       immune_support: 'increases cytokine production',
-      antioxidant: 'high in flavonoids',
-    }
+      antioxidant: 'high in flavonoids'
+}
   }
 
   chamomile: {
@@ -313,8 +313,8 @@ const rawMedicinalHerbs = {
     properties: {
       nervine: 'calms nervous system',
       anti_inflammatory: 'soothes digestive tract',
-      sleep_aid: 'promotes restful sleep',
-    }
+      sleep_aid: 'promotes restful sleep'
+}
   }
 }
 

@@ -113,8 +113,8 @@ export interface PerformanceSnapshot {
 
 export interface PerformanceAlert {
   alertId: string,
-  type: 'warning' | 'error' | 'critical',
-  category: 'cpu' | 'memory' | 'disk' | 'build' | 'typescript' | 'test',
+  type: 'warning' | 'error' | 'critical'
+  category: 'cpu' | 'memory' | 'disk' | 'build' | 'typescript' | 'test'
   message: string,
   threshold: number,
   currentValue: number,
@@ -125,7 +125,7 @@ export interface PerformanceAlert {
 export interface PerformanceTrend {
   trendId: string,
   metric: string,
-  direction: 'improving' | 'degrading' | 'stable',
+  direction: 'improving' | 'degrading' | 'stable'
   changeRate: number,
   significance: number,
   dataPoints: number,
@@ -140,12 +140,12 @@ export interface PerformanceTrend {
 
 export interface PerformanceReport {
   reportId: string,
-  timeframe: '1h' | '6h' | '24h' | '7d' | '30d',
+  timeframe: '1h' | '6h' | '24h' | '7d' | '30d'
   summary: {
     avgHealthScore: number,
     totalAlerts: number,
     criticalAlerts: number,
-    performanceGrade: 'A' | 'B' | 'C' | 'D' | 'F',
+    performanceGrade: 'A' | 'B' | 'C' | 'D' | 'F'
     topIssues: string[],
     improvements: string[]
   },
@@ -162,12 +162,12 @@ export interface PerformanceReport {
 
 export interface PerformanceRecommendation {
   recommendationId: string,
-  priority: 'low' | 'medium' | 'high' | 'critical',
-  category: 'optimization' | 'maintenance' | 'scaling' | 'security',
+  priority: 'low' | 'medium' | 'high' | 'critical'
+  category: 'optimization' | 'maintenance' | 'scaling' | 'security'
   title: string,
   description: string,
-  impact: 'low' | 'medium' | 'high',
-  effort: 'low' | 'medium' | 'high',
+  impact: 'low' | 'medium' | 'high'
+  effort: 'low' | 'medium' | 'high'
   estimatedImprovement: number,
   implementation: string[],
   dependencies: string[],
@@ -331,8 +331,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         bytesIn: 0,
         bytesOut: 0,
         packetsIn: 0,
-        packetsOut: 0,
-      }
+        packetsOut: 0
+}
 
       return {
         cpu: cpuInfo,
@@ -365,8 +365,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         usage: 0,
         loadAverage: [00, 0],
         cores: 1,
-        model: 'Unknown',
-      }
+        model: 'Unknown'
+}
     }
   }
 
@@ -426,8 +426,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         used: 0,
         total: 0,
         free: 0,
-        usage: 0,
-      }
+        usage: 0
+}
     }
   }
 
@@ -518,8 +518,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       const buildOutput = execSync('yarn build', {
         encoding: 'utf8',
         timeout: 120000,
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       const buildTime = Date.now() - buildStart;
       const buildStats = this.parseBuildOutput(buildOutput)
@@ -563,9 +563,9 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
   } {
     const lines = output.split('\n');
     const buildSize = 0;
-    let bundleSize = 0,
+    let bundleSize = 0;
     let chunks = 0,
-    let assets = 0,
+    let assets = 0;
     let errors = 0,
     let warnings = 0,
 
@@ -604,8 +604,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       const tsOutput = execSync('yarn tsc --noEmit --skipLibCheck', {
         encoding: 'utf8',
         timeout: 60000,
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       const compilationTime = Date.now() - tsStart;
       const tsStats = this.parseTypeScriptOutput(tsOutput)
@@ -650,7 +650,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     technicalDebt: number
   } {
     const lines = output.split('\n');
-    let errorCount = 0,
+    let errorCount = 0;
     let warningCount = 0,
 
     for (const line of lines) {
@@ -683,8 +683,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     try {
       const output = execSync('find . -name '*.ts' -o -name '*.tsx' | wc -l', {
         encoding: 'utf8',
-        timeout: 10000,
-      })
+        timeout: 10000
+})
       return parseInt(output.trim()) || 0,
     } catch (error) {
       return 0
@@ -698,8 +698,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     try {
       const output = execSync('find . -name '*.ts' -o -name '*.tsx' | xargs wc -l', {
         encoding: 'utf8',
-        timeout: 10000,
-      })
+        timeout: 10000
+})
       const lines = output.split('\n');
       const totalLine = lines[lines.length - 2]; // Last line with total
       const match = totalLine.match(/(\d+)\s+total/)
@@ -745,8 +745,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       const testOutput = execSync('yarn test --coverage --passWithNoTests', {
         encoding: 'utf8',
         timeout: 120000,
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       const duration = Date.now() - testStart;
       const testStats = this.parseTestOutput(testOutput)
@@ -785,9 +785,9 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     coverage: { lines: number, branches: number, functions: number, statements: number }
   } {
     const lines = output.split('\n');
-    let totalTests = 0,
+    let totalTests = 0;
     let passedTests = 0,
-    let failedTests = 0,
+    let failedTests = 0;
     let skippedTests = 0,
     const coverage = { lines: 0, branches: 0, functions: 0, statements: 0 }
 
@@ -836,8 +836,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       system: 0.2,
       build: 0.3,
       typescript: 0.3,
-      test: 0.2,
-    }
+      test: 0.2
+}
 
     // System health (0-100)
     const systemHealth = 100 - Math.max(system.cpu.usage, system.memory.usage, system.disk.usage)
@@ -1080,8 +1080,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    * Create performance alert
    */
   private createAlert(
-    type: 'warning' | 'error' | 'critical',
-    category: 'cpu' | 'memory' | 'disk' | 'build' | 'typescript' | 'test',
+    type: 'warning' | 'error' | 'critical'
+    category: 'cpu' | 'memory' | 'disk' | 'build' | 'typescript' | 'test'
     message: string,
     threshold: number,
     currentValue: number,
@@ -1094,8 +1094,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       threshold,
       currentValue,
       timestamp: new Date(),
-      resolved: false,
-    }
+      resolved: false
+}
   }
 
   // ========== TREND ANALYSIS ==========,

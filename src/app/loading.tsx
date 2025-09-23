@@ -17,7 +17,7 @@ const LoadingComponent = ({
 
 interface LoadingProps {
   fullScreen?: boolean,
-  variant?: 'spinner' | 'dots' | 'bar',
+  variant?: 'spinner' | 'dots' | 'bar'
   text?: string
 }
 

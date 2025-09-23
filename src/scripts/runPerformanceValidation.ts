@@ -17,7 +17,7 @@ import { PerformanceMonitoringService } from '../services/linting/PerformanceMon
 import { LintingPerformanceValidator } from './validateLintingPerformance';
 
 interface CLIOptions {
-  command: 'validate' | 'monitor' | 'report' | 'test',
+  command: 'validate' | 'monitor' | 'report' | 'test'
   continuous?: boolean,
   interval?: number,
   verbose?: boolean,
@@ -247,8 +247,8 @@ class PerformanceValidationCLI {
       const output = execSync('yarn test src/__tests__/linting/PerformanceOptimizationValidation.test.ts --verbose'
         {,
           encoding: 'utf8',
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
 
       // // // _logger.info(output)
       // // // _logger.info('\n✅ Performance tests completed successfully!')

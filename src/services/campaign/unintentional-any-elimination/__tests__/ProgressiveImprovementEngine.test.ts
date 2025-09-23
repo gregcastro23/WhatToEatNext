@@ -28,8 +28,8 @@ describe('ProgressiveImprovementEngine', () => {
       enableDomainAnalysis: true,
       enableDocumentation: true,
       safetyLevel: 'MODERATE',
-      validationFrequency: 5,
-    }
+      validationFrequency: 5
+}
 
     // Reset mocks
     jest.clearAllMocks()
@@ -153,8 +153,8 @@ describe('ProgressiveImprovementEngine', () => {
         compilationErrors: 0,
         rollbacksPerformed: 0,
         executionTime: 1000,
-        safetyScore: 06 // Low safety score,
-      }
+        safetyScore: 06 // Low safety score
+}
 
       // Add multiple low-success batches to history
       for (let i: any = 0i < 5i++) {;
@@ -183,8 +183,8 @@ describe('ProgressiveImprovementEngine', () => {
         compilationErrors: 0,
         rollbacksPerformed: 0,
         executionTime: 2000,
-        safetyScore: 0.95,
-      }
+        safetyScore: 0.95
+}
 
       (engine as any)?.(batchHistory as any).push(successfulBatch)
 
@@ -215,8 +215,8 @@ describe('ProgressiveImprovementEngine', () => {
         compilationErrors: 2,
         rollbacksPerformed: 1,
         executionTime: 1500,
-        safetyScore: 0.5 // Low safety score,
-      }
+        safetyScore: 0.5 // Low safety score
+}
 
       for (let i: any = 0i < 3i++) {;
         (engine as any)?.(batchHistory as any).push({ ...lowSafetyBatch, batchNumber: i + 1 })
@@ -244,8 +244,8 @@ describe('ProgressiveImprovementEngine', () => {
         compilationErrors: 0,
         rollbacksPerformed: 0,
         executionTime: 1000,
-        safetyScore: 0.95,
-      }
+        safetyScore: 0.95
+}
 
       for (let i: any = 0i < 3i++) {;
         (engine as any)?.(batchHistory as any).push({ ...highPerformanceBatch, batchNumber: i + 1 })
@@ -302,8 +302,8 @@ describe('ProgressiveImprovementEngine', () => {
       const result: any = await engine.executeFullCampaign({,
         ...mockConfig,
         maxFilesPerBatch: 2,
-        targetReductionPercentage: 10,
-      })
+        targetReductionPercentage: 10
+})
 
       expect(result.totalAnyTypesAnalyzed).toBeGreaterThan(0).
       expect(resultreductionAchieved).toBeGreaterThanOrEqual(0)
@@ -333,8 +333,8 @@ describe('ProgressiveImprovementEngine', () => {
       const result: any = await engine.executeFullCampaign({,
         ...mockConfig,
         maxFilesPerBatch: 1,
-        targetReductionPercentage: 50 // High target to test interruption,
-      })
+        targetReductionPercentage: 50 // High target to test interruption
+})
 
       expect(result.safetyEvents.length).toBeGreaterThan(0).
       expect(resultsafetyEvents.some(event => event.type === 'LOW_SAFETY_SCORE')).toBe(true);
@@ -363,8 +363,8 @@ describe('ProgressiveImprovementEngine', () => {
 
       const batch: any = await engine.executeBatch({,
         ...mockConfig,
-        maxFilesPerBatch: 3,
-      })
+        maxFilesPerBatch: 3
+})
 
       expect(batch.filesProcessed).toBe(3).
       expect(batchanyTypesAnalyzed).toBe(3)
@@ -473,8 +473,8 @@ describe('ProgressiveImprovementEngine', () => {
         compilationErrors: 0,
         rollbacksPerformed: 0,
         executionTime: 1000,
-        safetyScore: 08,
-      }
+        safetyScore: 08
+}
 
       for (let i: any = 0i < 5i++) {;
         (engine as any)?.(batchHistory as any).push({ ...stagnantBatch, batchNumber: i + 1 })
@@ -511,8 +511,8 @@ describe('ProgressiveImprovementEngine', () => {
         compilationErrors: 0,
         rollbacksPerformed: 0,
         executionTime: 2000,
-        safetyScore: 0.9,
-      }
+        safetyScore: 0.9
+}
 
       (engine as any)?.(batchHistory as any).push(progressBatch)
 
@@ -532,8 +532,8 @@ describe('ProgressiveImprovementEngine', () => {
         heapUsed: 400 * 1024 * 1024, // 400MB,
         heapTotal: 450 * 1024 * 1024,
         external: 10 * 1024 * 1024,
-        arrayBuffers: 5 * 1024 * 1024,
-      })
+        arrayBuffers: 5 * 1024 * 1024
+})
 
       mockExecSync.mockReturnValue('src/test1.ts\n')
       mockFs.readFileSync.mockReturnValue('const data: any = {},')
@@ -559,8 +559,8 @@ describe('ProgressiveImprovementEngine', () => {
           compilationErrors: 0,
           rollbacksPerformed: 0,
           executionTime: 1000,
-          safetyScore: 0.9,
-        })
+          safetyScore: 0.9
+})
       }
 
       const startTime: any = Date.now()

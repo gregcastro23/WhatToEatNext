@@ -37,7 +37,7 @@ class PlanetaryKineticsClient {
     this.config = {
       baseUrl: apiUrl ||,
                process.env.NEXT_PUBLIC_BACKEND_URL ||
-               'https: //your-planetary-agents-backend.onrender.com',
+               'https: //your-planetary-agents-backend.onrender.com'
       cacheTTL: Number(process.env.NEXT_PUBLIC_KINETICS_CACHE_TTL) || 300000, // 5 minutes,
       timeout: 10000, // 10 seconds,
       retryAttempts: 2,
@@ -286,8 +286,8 @@ class PlanetaryKineticsClient {
           power: [{
             hour: currentHour,
             power: 0.5,
-            planetary: 'Sun',
-          }],
+            planetary: 'Sun'
+}],
           timing: {
             planetaryHours: ['Sun', 'Venus', 'Mercury'],
             seasonalInfluence: this.getCurrentSeason()
@@ -297,20 +297,20 @@ class PlanetaryKineticsClient {
               Fire: 2.5,
               Water: 2.5,
               Air: 2.5,
-              Earth: 2.5,
-            }
+              Earth: 2.5
+}
           }
         },
         agentOptimization: {
           recommendedAgents: ['sun'],
           powerAmplification: 1.0,
-          harmonyScore: 0.5,
-        },
+          harmonyScore: 0.5
+},
         powerPrediction: {
           nextPeak: new Date(Date.now() + 3600000).toISOString(),
           trend: 'stable',
-          confidence: 0.5,
-        }
+          confidence: 0.5
+}
       },
       computeTimeMs: 5,
       cacheHit: false,
@@ -325,8 +325,8 @@ class PlanetaryKineticsClient {
     userIds.forEach(id => {
       individualContributions[id] = {
         powerContribution: 0.5,
-        harmonyImpact: 0.5,
-      },
+        harmonyImpact: 0.5
+},
     });
 
     return {

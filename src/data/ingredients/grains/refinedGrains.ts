@@ -11,8 +11,8 @@ const rawRefinedGrains = {
       favorableZodiac: ['cancer', 'virgo'] as any[],
       elementalAffinity: {
         base: 'Air',
-        secondary: 'Earth',
-      }
+        secondary: 'Earth'
+}
     },
     qualities: ['light', 'clean', 'simple', 'versatile', 'neutral'],
     category: 'refined_grain',
@@ -31,8 +31,8 @@ const rawRefinedGrains = {
         characteristics: 'short grain, creamy when cooked, high starch',
         cooking_ratio: 'varies for risotto',
         cooking_time: '18-20 minutes',
-        origin: 'Italy',
-      }
+        origin: 'Italy'
+}
     },
     preparation: {
       rinsing: {
@@ -45,8 +45,8 @@ const rawRefinedGrains = {
         risotto: {
         method: 'gradually add warm broth while stirring',
         tips: ['constant stirring releases starch', 'creates creamy texture'],
-        duration: '20-30 minutes',
-      }
+        duration: '20-30 minutes'
+}
     },
     lunarPhaseModifiers: {
       newMoon: {
@@ -76,8 +76,8 @@ const rawRefinedGrains = {
       favorableZodiac: ['virgo', 'capricorn'] as any[],
       elementalAffinity: {
         base: 'Earth',
-        secondary: 'Air',
-      }
+        secondary: 'Air'
+}
     },
     qualities: ['smooth', 'versatile', 'firm', 'golden', 'structured'],
     category: 'refined_grain',
@@ -86,8 +86,8 @@ const rawRefinedGrains = {
         characteristics: 'highest protein content, golden color',
         uses: ['premium pasta', 'bread making'],
         cooking_time: 'varies by application',
-        origin: 'Italy',
-      }
+        origin: 'Italy'
+}
     },
     preparation: {
       pasta_making: {
@@ -108,8 +108,8 @@ const rawRefinedGrains = {
       gnocchi: {
         method: 'mix with potato and minimal liquid',
         tips: ['handle lightly to avoid toughness', 'cook until they float'],
-        duration: '1-2 minutes cooking time',
-      }
+        duration: '1-2 minutes cooking time'
+}
     },
     lunarPhaseModifiers: {
       newMoon: {
@@ -153,8 +153,8 @@ const rawRefinedGrains = {
         characteristics: 'pre-steamed, faster cooking, less texture',
         cooking_ratio: '1:2.5 barley to water',
         cooking_time: '10-15 minutes',
-        processing: 'partially pre-cooked',
-      }
+        processing: 'partially pre-cooked'
+}
     },
     preparation: {
       basic: {
@@ -201,8 +201,8 @@ const rawRefinedGrains = {
       favorableZodiac: ['capricorn', 'virgo'] as any[],
       elementalAffinity: {
         base: 'Earth',
-        secondary: 'Air',
-      }
+        secondary: 'Air'
+}
     },
     qualities: ['refined', 'hearty', 'versatile', 'nutty', 'ancient'],
     category: 'refined_grain',
@@ -216,8 +216,8 @@ const rawRefinedGrains = {
         characteristics: 'partially refined, balanced nutrition and cooking time',
         cooking_ratio: '1:2.5 farro to water',
         cooking_time: '20-25 minutes',
-        nutrition: 'moderate fiber content',
-      }
+        nutrition: 'moderate fiber content'
+}
     },
     preparation: {
       pilaf: {
@@ -229,8 +229,8 @@ const rawRefinedGrains = {
         method: 'simmer in milk or water',
         sweeteners: 'honey, maple syrup, fruit',
         tips: 'can be prepared ahead and reheated',
-        alternatives: 'can use plant-based milks',
-      }
+        alternatives: 'can use plant-based milks'
+}
     },
     lunarPhaseModifiers: {
       newMoon: {
@@ -260,8 +260,8 @@ const rawRefinedGrains = {
       favorableZodiac: ['leo', 'sagittarius'] as any[],
       elementalAffinity: {
         base: 'Earth',
-        secondary: 'Fire',
-      }
+        secondary: 'Fire'
+}
     },
     qualities: ['versatile', 'mild', 'smooth', 'sweet', 'adaptable'],
     category: 'refined_grain',
@@ -270,8 +270,8 @@ const rawRefinedGrains = {
         characteristics: 'some hull and germ removed, moderate refinement',
         uses: ['traditional Southern recipes', 'grits'],
         cooking_time: '15-20 minutes',
-        nutritional_notes: 'more nutrients than fine ground',
-      }
+        nutritional_notes: 'more nutrients than fine ground'
+}
     },
     preparation: {
       polenta: {
@@ -320,8 +320,8 @@ const rawRefinedGrains = {
       favorableZodiac: ['virgo', 'libra'] as any[],
       elementalAffinity: {
         base: 'Earth',
-        secondary: 'Air',
-      }
+        secondary: 'Air'
+}
     },
     qualities: ['versatile', 'balanced', 'neutral', 'adaptable', 'foundational'],
     category: 'refined_grain',
@@ -340,8 +340,8 @@ const rawRefinedGrains = {
         characteristics: 'nutrients added back after processing',
         nutritional_notes: 'contains added ironB vitamins',
         uses: 'standard for most commercial flour',
-        regulation: 'required by law in many countries',
-      }
+        regulation: 'required by law in many countries'
+}
     },
     preparation: {
       roux: {
@@ -358,8 +358,8 @@ const rawRefinedGrains = {
         ratio: '1:2 flour to cold water',
         method: 'mix until smooth before adding to hot liquid',
         tips: 'pour slowly while stirring to prevent lumps',
-        uses: 'quick thickening at end of cooking',
-      }
+        uses: 'quick thickening at end of cooking'
+}
     },
     lunarPhaseModifiers: {
       newMoon: {

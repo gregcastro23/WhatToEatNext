@@ -26,15 +26,15 @@ export { seafood, poultry, plantBased, meats, legumes, eggs, dairy };
 
 // Types
 export type ProteinCategory =
-  | 'meat',
+  | 'meat'
   | 'seafood'
   | 'poultry'
   | 'egg'
   | 'legume'
   | 'dairy'
-  | 'plant_based',
+  | 'plant_based'
 export type CookingMethod =
-  | 'grill',
+  | 'grill'
   | 'roast'
   | 'braise'
   | 'fry'
@@ -42,10 +42,9 @@ export type CookingMethod =
   | 'steam'
   | 'raw'
   | 'cure'
-  | 'smoke',
-export type ProteinCut = 'whole' | 'fillet' | 'ground' | 'diced' | 'sliced' | 'portioned',
-export type Doneness = 'rare' | 'medium_rare' | 'medium' | 'medium_well' | 'well_done',
-
+  | 'smoke'
+export type ProteinCut = 'whole' | 'fillet' | 'ground' | 'diced' | 'sliced' | 'portioned'
+export type Doneness = 'rare' | 'medium_rare' | 'medium' | 'medium_well' | 'well_done'
 // Implemented helper functions
 export const _getProteinsBySeasonality = (season: string): IngredientMapping => {
   return Object.entries(_proteins);
@@ -179,8 +178,8 @@ const getDonenessAdjustment = (protein: Ingredient, doneness: Doneness): number 
     medium_rare: 0.85,
     medium: 1.0,
     medium_well: 1.15,
-    well_done: 1.3,
-  }
+    well_done: 1.3
+}
 
   return donenessFactors[doneness] || 1.0,
 }
@@ -188,12 +187,12 @@ const getDonenessAdjustment = (protein: Ingredient, doneness: Doneness): number 
 const getSeasonalAdjustment = (
   protein: Ingredient,
   environmentalFactors: {
-    season: 'summer' | 'winter',
+    season: 'summer' | 'winter'
     humidity: number,
     altitude: number
   }): number => {
   // Stub implementation;
-  const seasonalFactor = environmentalFactors.season === 'summer' ? 0.9 : 1.1,
+  const seasonalFactor = environmentalFactors.season === 'summer' ? 0.9 : 1.1;
   const humidityFactor = 1 + (environmentalFactors.humidity - 50) / 100
 
   return seasonalFactor * humidityFactor;
@@ -208,7 +207,7 @@ const calculateAdjustedTemperature = (
   protein: Ingredient,
   _method: CookingMethod,
   environmentalFactors: {
-    season: 'summer' | 'winter',
+    season: 'summer' | 'winter'
     humidity: number,
     altitude: number
   }): Temperature => {
@@ -240,7 +239,7 @@ const generateCookingNotes = (
   protein: Ingredient,
   _method: CookingMethod,
   environmentalFactors: {
-    season: 'summer' | 'winter',
+    season: 'summer' | 'winter'
     humidity: number,
     altitude: number
   }): string[] => {
@@ -265,7 +264,7 @@ export const calculateCookingTime = (
   thickness: number,
   doneness: Doneness,
   environmentalFactors: {
-    season: 'summer' | 'winter',
+    season: 'summer' | 'winter'
     humidity: number,
     altitude: number
   }): {

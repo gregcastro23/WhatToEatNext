@@ -34,7 +34,7 @@ export interface EnhancedPlanetaryPosition {
   exactLongitude?: number,
   isRetrograde: boolean,
   dignity: {
-    type: 'rulership' | 'exaltation' | 'detriment' | 'fall' | 'neutral',
+    type: 'rulership' | 'exaltation' | 'detriment' | 'fall' | 'neutral'
     modifier: number
   },
   strength: number,
@@ -424,8 +424,7 @@ export class EnhancedTransitAnalysisService {
     )[0][0],
 
     // Get seasonal theme
-    const seasonalTheme = season.seasonalThemes[0] || 'Balanced seasonal cooking';
-
+    const seasonalTheme = season.seasonalThemes[0] || 'Balanced seasonal cooking'
     // Calculate optimal cooking times
     const solarTimes = AstronomicalCalculations.getSolarElevation(location, date)
     const optimalCookingTimes = [

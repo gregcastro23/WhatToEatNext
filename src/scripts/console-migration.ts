@@ -8,7 +8,7 @@ interface ConsoleMigrationStats {
   filesProcessed: number,
   consoleStatementsFound: number,
   consoleStatementsMigrated: number,
-  errors: string[],
+  errors: string[]
 }
 
 class ConsoleMigrationService {
@@ -59,24 +59,24 @@ class ConsoleMigrationService {
     const replacements = [
       {;
         pattern: /console\.log\(/g,
-        replacement: '_logger.info(',
-      }
+        replacement: '_logger.info('
+}
       {
         pattern: /console\.info\(/g,
-        replacement: '_logger.info(',
-      }
+        replacement: '_logger.info('
+}
       {
         pattern: /console\.warn\(/g,
-        replacement: '_logger.warn(',
-      }
+        replacement: '_logger.warn('
+}
       {
         pattern: /console\.error\(/g,
-        replacement: '_logger.error(',
-      }
+        replacement: '_logger.error('
+}
       {
         pattern: /console\.debug\(/g,
-        replacement: '_logger.debug(',
-      }
+        replacement: '_logger.debug('
+}
     ],
 
     let migratedCount = 0,

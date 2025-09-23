@@ -179,8 +179,8 @@ describe('ComprehensiveValidationFramework', () => {
       const tsResult: any = result.validationResults.find(r => r.validationType === 'typescript-compilation')
       expect(tsResult.details.errorTypes).toEqual({,
         TS2322: 2,
-        TS2339: 1,
-      }).,
+        TS2339: 1
+}).,
     })
   })
 
@@ -230,8 +230,8 @@ describe('ComprehensiveValidationFramework', () => {
       expect(testResult.details.testResults).toEqual({,
         passed: 8,
         failed: 2,
-        total: 10,
-      }).,
+        total: 10
+}).,
     })
   })
 
@@ -411,8 +411,8 @@ describe('ComprehensiveValidationFramework', () => {
         enableTestSuiteValidation: false,
         enableComponentValidation: false,
         enableServiceValidation: false,
-        enableBuildValidation: false,
-      }
+        enableBuildValidation: false
+}
 
       const frameworkWithDisabledValidations: any = new ComprehensiveValidationFramework(configWithDisabledValidations)
       const result: any = await frameworkWithDisabledValidations.performComprehensiveValidation(

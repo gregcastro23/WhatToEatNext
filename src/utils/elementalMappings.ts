@@ -9,26 +9,26 @@ export const elements: Record<Element, ElementalProperties> = {
     heat: 1.0,
     _dryness: 0.8,
     _transformation: 0.7,
-    _expansion: 0.6,
-  },
+    _expansion: 0.6
+},
   Water: {
     cold: 0.9,
     _moisture: 1.0,
     _fluidity: 0.8,
-    _dissolution: 0.7,
-  },
+    _dissolution: 0.7
+},
   Air: {
     movement: 0.9,
     _lightness: 1.0,
     _dispersion: 0.8,
-    _communication: 0.7,
-  },
+    _communication: 0.7
+},
   Earth: {
     stability: 1.0,
     _density: 0.9,
     _nourishment: 0.8,
-    _structure: 0.7,
-  }
+    _structure: 0.7
+}
 }
 
 export const elementalInteractions: Record<Element, Record<Element, number>> = {

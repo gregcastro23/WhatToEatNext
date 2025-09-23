@@ -14,8 +14,8 @@ const saturnData: PlanetData = {
     Spirit: 1,
     Essence: 0,
     Matter: 1,
-    Substance: 0,
-  },
+    Substance: 0
+},
   'Diurnal Element': 'Air',
   'Nocturnal Element': 'Earth',
   AstronomicalData: {
@@ -179,8 +179,8 @@ const saturnData: PlanetData = {
     Salty: 0.3,
     Bitter: 0.9,
     Umami: 0.5,
-    Spicy: 0.2,
-  },
+    Spicy: 0.2
+},
   CulinaryInfluences: [
     'Preserves and ages foods',
     'Concentrates flavors',
@@ -201,8 +201,8 @@ const saturnData: PlanetData = {
       Opposition: -0.3,
       Trine: 0.1,
       Square: -0.4,
-      Sextile: 0.0,
-    },
+      Sextile: 0.0
+},
     Moon: {
       Conjunction: -0.3,
       Opposition: -0.4,
@@ -215,29 +215,29 @@ const saturnData: PlanetData = {
       Opposition: -0.3,
       Trine: 0.2,
       Square: -0.3,
-      Sextile: 0.1,
-    },
+      Sextile: 0.1
+},
     Jupiter: {
       Conjunction: 0.3,
       Opposition: -0.2,
       Trine: 0.4,
       Square: -0.1,
-      Sextile: 0.2,
-    },
+      Sextile: 0.2
+},
     Venus: {
       Conjunction: 0.1,
       Opposition: -0.2,
       Trine: 0.3,
       Square: -0.1,
-      Sextile: 0.2,
-    },
+      Sextile: 0.2
+},
     Mars: {
       Conjunction: 0.4,
       Opposition: -0.1,
       Trine: 0.3,
       Square: -0.3,
-      Sextile: 0.2,
-    }
+      Sextile: 0.2
+}
   },
   PlanetSpecific: {
     ZodiacTransit: {
@@ -247,8 +247,8 @@ const saturnData: PlanetData = {
           Fire: 0.1,
           Earth: 0.9,
           Air: 0.2,
-          Water: 0.3,
-        },
+          Water: 0.3
+},
         Ingredients: [
           'root vegetables',
           'aged cheese',
@@ -265,8 +265,8 @@ const saturnData: PlanetData = {
           Fire: 0.2,
           Earth: 0.3,
           Air: 0.8,
-          Water: 0.1,
-        },
+          Water: 0.1
+},
         Ingredients: [
           'fermented foods',
           'ancient grains',
@@ -281,8 +281,8 @@ const saturnData: PlanetData = {
           Fire: 0.1,
           Earth: 0.4,
           Air: 0.7,
-          Water: 0.2,
-        },
+          Water: 0.2
+},
         Ingredients: [
           'precisely measured ingredients',
           'balanced bitter elements',
@@ -298,8 +298,8 @@ const saturnData: PlanetData = {
           Fire: 0.1,
           Earth: 0.9,
           Air: 0.1,
-          Water: 0.3,
-        },
+          Water: 0.3
+},
         Ingredients: [
           'dense root vegetables',
           'slow-cooked grains',
@@ -316,8 +316,8 @@ const saturnData: PlanetData = {
         Spirit: 0.7,
         Essence: 0.1,
         Matter: 0.9,
-        Substance: 0.1,
-      }
+        Substance: 0.1
+}
     },
     CulinaryTemperament: {
       EarthSaturn: {
@@ -327,8 +327,8 @@ const saturnData: PlanetData = {
           Fire: 0.1,
           Earth: 0.9,
           Air: 0.2,
-          Water: 0.2,
-        },
+          Water: 0.2
+},
         Recommendations: [
           'long aging processes',
           'traditional preservation',
@@ -344,8 +344,8 @@ const saturnData: PlanetData = {
           Fire: 0.1,
           Earth: 0.3,
           Air: 0.8,
-          Water: 0.1,
-        },
+          Water: 0.1
+},
         Recommendations: [
           'methodical experimentation',
           'structured innovation',

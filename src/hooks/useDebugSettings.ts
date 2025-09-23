@@ -5,7 +5,7 @@ import { useState, useEffect, useCallback } from 'react';
 export interface DebugSettings {
   isVisible: boolean,
   isCollapsed: boolean,
-  position: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left',
+  position: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'
   customPosition?: { x: numbery: number },
   showPerformanceMetrics: boolean,
   showAstrologicalData: boolean,

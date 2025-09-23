@@ -85,7 +85,7 @@ export class MetricsCollectionSystem {
         } catch (error) {
           _logger.error(
             '❌ Error during metrics collection: ',
-            (error as any).message || 'Unknown error',
+            (error as any).message || 'Unknown error'
           )
         }
       })()
@@ -126,7 +126,7 @@ export class MetricsCollectionSystem {
       id,
       timestamp,
       metrics,
-      phase: phase || 'unknown',
+      phase: phase || 'unknown'
       milestone,
       notes
     }
@@ -176,8 +176,8 @@ export class MetricsCollectionSystem {
         current: lintingMetrics.count,
         target: 0,
         reduction: Math.max(0, 4506 - lintingMetrics.count),
-        percentage: lintingMetrics.count >= 0 ? Math.round(((4506 - lintingMetrics.count) / 4506) * 100) : 0,
-      },
+        percentage: lintingMetrics.count >= 0 ? Math.round(((4506 - lintingMetrics.count) / 4506) * 100) : 0
+},
       buildPerformance: {
         currentTime: buildMetrics.buildTime,
         targetTime: 10,
@@ -212,8 +212,8 @@ export class MetricsCollectionSystem {
         'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS' || echo '0'',
         {
           encoding: 'utf8',
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
 
       const count = parseInt(countOutput.trim()) || 0;
 
@@ -226,8 +226,8 @@ export class MetricsCollectionSystem {
             'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E \"error TS\" | sed 's/.*error //' | cut -d':' -f1 | sort | uniq -c | sort -nr'
             {
               encoding: 'utf8',
-              stdio: 'pipe',
-            })
+              stdio: 'pipe'
+})
 
           const lines = breakdownOutput;
             .trim()
@@ -244,7 +244,7 @@ export class MetricsCollectionSystem {
         } catch (error) {
           _logger.warn(
             'Could not get TypeScript error breakdown: ',
-            (error as any).message || 'Unknown error',
+            (error as any).message || 'Unknown error'
           )
         }
       }
@@ -253,7 +253,7 @@ export class MetricsCollectionSystem {
     } catch (error) {
       _logger.warn(
         'Could not collect TypeScript metrics: ',
-        (error as any).message || 'Unknown error',
+        (error as any).message || 'Unknown error'
       ),
       return { count: -1, breakdown: {} }
     }
@@ -270,8 +270,8 @@ export class MetricsCollectionSystem {
       // Get total warning count
       const countOutput = execSync('yarn lint 2>&1 | grep -c 'warning' || echo '0'', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       const count = parseInt(countOutput.trim()) || 0;
 
@@ -282,8 +282,8 @@ export class MetricsCollectionSystem {
         try {
           const lintOutput = execSync('yarn lint 2>&1', {
             encoding: 'utf8',
-            stdio: 'pipe',
-          })
+            stdio: 'pipe'
+})
 
           const lines = lintOutput.split('\n')
           for (const line of lines) {
@@ -299,7 +299,7 @@ export class MetricsCollectionSystem {
         } catch (error) {
           _logger.warn(
             'Could not get linting warning breakdown: ',
-            (error as any).message || 'Unknown error',
+            (error as any).message || 'Unknown error'
           )
         }
       }
@@ -316,7 +316,7 @@ export class MetricsCollectionSystem {
    */
   private async collectBuildMetrics(): Promise<BuildMetrics> {
     const _startTime = Date.now();
-    let buildTime = -1,
+    let buildTime = -1;
     let bundleSize = 0,
     let compilationSpeed = 0,
 
@@ -325,8 +325,8 @@ export class MetricsCollectionSystem {
       const buildStart = Date.now();
       execSync('yarn build', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
       buildTime = (Date.now() - buildStart) / 1000,
 
       // Calculate compilation speed (rough estimate)
@@ -335,7 +335,7 @@ export class MetricsCollectionSystem {
     } catch (error) {
       _logger.warn(
         'Build failed during metrics collection: ',
-        (error as any).message || 'Unknown error',
+        (error as any).message || 'Unknown error'
       )
     }
 
@@ -378,8 +378,8 @@ export class MetricsCollectionSystem {
         errorReductionRate: 0,
         warningReductionRate: 0,
         buildTimeImprovement: 0,
-        systemGrowthRate: 0,
-      }
+        systemGrowthRate: 0
+}
     }
 
     const recent = this.snapshots.slice(-10); // Last 10 snapshots
@@ -392,8 +392,8 @@ export class MetricsCollectionSystem {
         errorReductionRate: 0,
         warningReductionRate: 0,
         buildTimeImprovement: 0,
-        systemGrowthRate: 0,
-      }
+        systemGrowthRate: 0
+}
     }
 
     const errorReduction =
@@ -424,8 +424,8 @@ export class MetricsCollectionSystem {
     try {
       const output = execSync('grep -r 'INTELLIGENCE_SYSTEM' src/ | wc -l', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
       return parseInt(output.trim()) || 0,
     } catch (error) {
       return 0
@@ -441,8 +441,8 @@ export class MetricsCollectionSystem {
         if (fs.existsSync(dir)) {
           const output = execSync(`du -sk ${dir} | cut -f1`, {
             encoding: 'utf8',
-            stdio: 'pipe',
-          })
+            stdio: 'pipe'
+})
           totalSize += parseInt(output.trim()) || 0,
         }
       }
@@ -468,8 +468,8 @@ export class MetricsCollectionSystem {
     try {
       const output = execSync('ps -o %cpu -p $$ | tail -1', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
       return parseFloat(output.trim()) || 0,
     } catch (error) {
       return 0
@@ -480,8 +480,8 @@ export class MetricsCollectionSystem {
     try {
       const output = execSync('du -sh . | cut -f1', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
       // Convert to MB (rough estimation)
       const sizeStr = output.trim()
       if (sizeStr.includes('G')) {
@@ -499,8 +499,8 @@ export class MetricsCollectionSystem {
     try {
       const output = execSync('find src -name '*.ts' -o -name '*.tsx' | wc -l', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
       return parseInt(output.trim()) || 0,
     } catch (error) {
       return 0
@@ -511,8 +511,8 @@ export class MetricsCollectionSystem {
     try {
       const output = execSync('free -m | grep Mem', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       const match = output.match(/Mem: \s+(\d+)\s+(\d+)\s+(\d+)/)
       if (match) {
@@ -534,16 +534,16 @@ export class MetricsCollectionSystem {
       total: 0,
       used: 0,
       free: 0,
-      percentage: 0,
-    }
+      percentage: 0
+}
   }
 
   private async getDiskSpace(): Promise<ResourceMetrics['diskSpace']> {
     try {
       const output = execSync('df -h . | tail -1', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       const parts = output.trim().split(/\s+/)
       if (parts.length >= 4) {
@@ -566,8 +566,8 @@ export class MetricsCollectionSystem {
       total: 0,
       used: 0,
       free: 0,
-      percentage: 0,
-    }
+      percentage: 0
+}
   }
 
   private parseSize(sizeStr: string): number {

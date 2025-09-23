@@ -26,8 +26,8 @@ describe('DocumentationQualityAssurance', () => {
       requiredKeywords: ['intentionally', 'deliberately'],
       qualityThresholds: { excellent: 90,
         good: 70,
-        fair: 50,
-      }
+        fair: 50
+}
     }
 
     qas = new DocumentationQualityAssurance(mockConfig)
@@ -334,28 +334,28 @@ describe('DocumentationQualityAssurance', () => {
       {;
         comment: '',
         expectedQuality: 'poor',
-        description: 'empty comment',
-      }
+        description: 'empty comment'
+}
       {
         comment: 'any',
         expectedQuality: 'poor',
-        description: 'minimal comment',
-      }
+        description: 'minimal comment'
+}
       {
         comment: 'Intentionally any for API',
         expectedQuality: 'good',
-        description: 'basic intentional comment',
-      }
+        description: 'basic intentional comment'
+}
       {
         comment: 'Intentionally, any: External API response requires flexible typing',
         expectedQuality: 'excellent',
-        description: 'good quality comment with explanation',
-      }
+        description: 'good quality comment with explanation'
+}
       {
         comment: 'Intentionally, any: External API response requires flexible typing because the structure varies between different endpoints and versions, and we need to maintain compatibility with legacy systems',
         expectedQuality: 'excellent',
-        description: 'excellent quality comment with detailed explanation',
-      }
+        description: 'excellent quality comment with detailed explanation'
+}
     ],
 
     qualityTestCases.forEach(({ comment: any, expectedQuality: any, description }: any) => {
@@ -410,31 +410,31 @@ describe('DocumentationQualityAssurance', () => {
         {;
           context: { filePath: 'src/servicets',
             codeSnippet: 'processData(data: any): void',
-            isInTestFile: false,
-          },
-          expectedSeverity: 'high',
-        }
+            isInTestFile: false
+},
+          expectedSeverity: 'high'
+}
         {
           context: { filePath: 'src/component.tsx',
             codeSnippet: 'const _props: any = {}',,
-            isInTestFile: false,
-          },
-          expectedSeverity: 'low',
-        }
+            isInTestFile: false
+},
+          expectedSeverity: 'low'
+}
         {
           context: { filePath: 'src/test.test.ts',
             codeSnippet: 'const mock: any = {}',,
-            isInTestFile: true,
-          },
-          expectedSeverity: 'low',
-        }
+            isInTestFile: true
+},
+          expectedSeverity: 'low'
+}
         {
           context: { filePath: 'src/utils.ts',
             codeSnippet: 'function process(data: any[]): any',
-            isInTestFile: false,
-          },
-          expectedSeverity: 'medium',
-        }
+            isInTestFile: false
+},
+          expectedSeverity: 'medium'
+}
       ],
 
       testCases.forEach(({ context: any, expectedSeverity }: any) => {

@@ -77,8 +77,8 @@ export default function CuisineSectionTestPage() {
     Fire: 'bg-red-500',
     Water: 'bg-blue-500',
     Earth: 'bg-amber-700',
-    Air: 'bg-sky-300',
-  }
+    Air: 'bg-sky-300'
+}
 
   // Render elemental state visualization
   const renderElementalState = (elementalState: { [key: string]: number }) => {
@@ -113,8 +113,8 @@ export default function CuisineSectionTestPage() {
               className={`rounded-full px-4 py-2 ${
                 selectedCuisine === cuisine
                   ? 'bg-blue-600 text-white'
-                  : 'border bg-white hover:bg-gray-100',
-              }`}
+                  : 'border bg-white hover:bg-gray-100'
+}`}
             >
               {cuisine}
             </button>
@@ -150,7 +150,7 @@ export default function CuisineSectionTestPage() {
                 Water: state.elementalState.Water ?? 0.25,
                 Earth: state.elementalState.Earth ?? 0.25,
                 Air: state.elementalState.Air ?? 0.25,
-                season: state.currentSeason || 'spring',
+                season: state.currentSeason || 'spring'
                 timeOfDay: (state.timeOfDay || 'morning') ?? 'morning'
               }}
             />
@@ -169,7 +169,7 @@ export default function CuisineSectionTestPage() {
                 Water: state.elementalState.Water ?? 0.25,
                 Earth: state.elementalState.Earth ?? 0.25,
                 Air: state.elementalState.Air ?? 0.25,
-                season: state.currentSeason || 'spring',
+                season: state.currentSeason || 'spring'
                 timeOfDay: (state.timeOfDay || 'morning') ?? 'morning'
               }}
             />

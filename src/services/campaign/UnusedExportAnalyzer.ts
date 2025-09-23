@@ -14,7 +14,7 @@ import { glob } from 'glob';
 export interface UnusedExport {
   filePath: string,
   exportName: string,
-  exportType: 'function' | 'class' | 'interface' | 'type' | 'const' | 'variable',
+  exportType: 'function' | 'class' | 'interface' | 'type' | 'const' | 'variable'
   lineNumber: number,
   isDefault: boolean,
   complexity: number,
@@ -153,8 +153,8 @@ export class UnusedExportAnalyzer {
     for (const pattern of patterns) {
       const matches = await glob(pattern, {
         ignore: this.excludePatterns,
-        absolute: true,
-      })
+        absolute: true
+})
       files.push(...matches)
     }
 
@@ -221,8 +221,8 @@ export class UnusedExportAnalyzer {
           exportName: namedExportMatch[1],
           exportType: this.determineExportType(line),
           lineNumber: index + 1,
-          isDefault: false,
-        })
+          isDefault: false
+})
       }
 
       // Default exports
@@ -232,11 +232,11 @@ export class UnusedExportAnalyzer {
       if (defaultExportMatch) {
         exports.push({
           filePath: '',
-          exportName: defaultExportMatch[1] || 'default',
+          exportName: defaultExportMatch[1] || 'default'
           exportType: this.determineExportType(line),
           lineNumber: index + 1,
-          isDefault: true,
-        })
+          isDefault: true
+})
       }
 
       // Export destructuring
@@ -250,8 +250,8 @@ export class UnusedExportAnalyzer {
             exportName: cleanName,
             exportType: 'variable',
             lineNumber: index + 1,
-            isDefault: false,
-          })
+            isDefault: false
+})
         })
       }
     })
@@ -314,7 +314,7 @@ export class UnusedExportAnalyzer {
     const startLine = exportInfo.lineNumber - 1;
 
     // Simple, heuristic: count lines of the export definition
-    let complexity = 1,
+    let complexity = 1;
     let braceCount = 0,
     let inExport = false
 ;

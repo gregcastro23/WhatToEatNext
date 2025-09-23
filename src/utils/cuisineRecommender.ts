@@ -14,8 +14,8 @@ const _mockPlanetaryData = {
     _salty: 0.5,
     _bitter: 0.2,
     _umami: 0.6,
-    _spicy: 0.3,
-  },
+    _spicy: 0.3
+},
   _foodAssociations: ['vegetables', 'grains', 'fruits', 'proteins'],
   _herbalAssociations: { Herbs: ['basil', 'thyme', 'mint', 'rosemary'] }
 }
@@ -38,8 +38,8 @@ export function generateTopSauceRecommendations(
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
-    Air: 0.25,
-  }
+    Air: 0.25
+}
 
   // Get current date for planetary calculations
   const now = new Date()
@@ -159,7 +159,7 @@ export function getCuisineRecommendations(
   // Get all cuisines from flavor profiles, ensuring they are correctly typed
   const cuisines = Object.values(cuisineFlavorProfiles).map(cuisine => ({,
     ...cuisine,
-    id: cuisine.id || cuisine.name.toLowerCase().replace(/\s+/g, '-') || 'unknown',
+    id: cuisine.id || cuisine.name.toLowerCase().replace(/\s+/g, '-') || 'unknown'
     name: cuisine.name || 'Unknown Cuisine'
   }))
 
@@ -171,8 +171,8 @@ export function getCuisineRecommendations(
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25,
-        }) as ElementalProperties,
+          Air: 0.25
+}) as ElementalProperties,
       elementalState,
     )
     let score = elementalMatch * 0.4,
@@ -269,8 +269,8 @@ export function calculateElementalContributionsFromPlanets(
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0,
-  }
+    Air: 0
+}
 
   // Calculate contributions based on planetary positions
   Object.entries(planetaryPositions).forEach(([planet, position]) => {

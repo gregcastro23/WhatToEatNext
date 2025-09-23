@@ -30,7 +30,7 @@ export interface CurrentMomentData {;
   },
   planetaryPositions: Record<string, PlanetPosition>,
   metadata: {
-    source: 'api' | 'calculated' | 'fallback',
+    source: 'api' | 'calculated' | 'fallback'
     apiCallTimestamp?: string,
     lastUpdated: string
   }
@@ -133,8 +133,8 @@ class CurrentMomentManager {
           day: 'numeric',
           hour: 'numeric',
           minute: '2-digit',
-          timeZoneName: 'short',
-        }),
+          timeZoneName: 'short'
+}),
         location: {
           ...location,
           timezone: this.getTimezone(targetDate)
@@ -472,7 +472,7 @@ class CurrentMomentManager {
       cancer: 'Water',
       scorpio: 'Water',
       pisces: 'Water' },
-        return elementMap[sign] || 'Fire',
+        return elementMap[sign] || 'Fire'
   }
 
   /**
@@ -508,37 +508,37 @@ class CurrentMomentManager {
         degree: 12,
         minute: 44,
         exactLongitude: 72.73,
-        isRetrograde: false,
-      },
+        isRetrograde: false
+},
       Saturn: {
         sign: 'pisces',
         degree: 19,
         minute: 17,
         exactLongitude: 349.28,
-        isRetrograde: false,
-      },
+        isRetrograde: false
+},
       Uranus: { sign: 'taurus', degree: 26, minute: 9, exactLongitude: 56.15, isRetrograde: false },
       Neptune: {
         sign: 'aries',
         degree: 29,
         minute: 55,
         exactLongitude: 29.92,
-        isRetrograde: false,
-      },
+        isRetrograde: false
+},
       Pluto: {
         sign: 'aquarius',
         degree: 1,
         minute: 53,
         exactLongitude: 301.88,
-        isRetrograde: true,
-      },
+        isRetrograde: true
+},
       Ascendant: {
         sign: 'capricorn',
         degree: 20,
         minute: 45,
         exactLongitude: 290.75,
-        isRetrograde: false,
-      }
+        isRetrograde: false
+}
     }
   }
 
@@ -556,8 +556,8 @@ class CurrentMomentManager {
           day: 'numeric',
           hour: 'numeric',
           minute: '2-digit',
-          timeZoneName: 'short',
-        }),
+          timeZoneName: 'short'
+}),
         location: DEFAULT_LOCATION,
         planetaryPositions,
         metadata: {

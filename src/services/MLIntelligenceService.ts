@@ -97,8 +97,8 @@ export class MLIntelligenceService {;
       cacheHitRate: 0,
       errorRate: 0,
       executionTimes: [],
-      learningProgress: 0,
-    }
+      learningProgress: 0
+}
     this.learningData = {
       recipeOptimizations: new Map(),
       ingredientCompatibility: new Map(),
@@ -380,7 +380,7 @@ export class MLIntelligenceService {;
 
     const recipeData = recipe as unknown ;
     const seasonalOptimization = calculateSeasonalOptimization(
-      (recipeData.seasonality) || 'all',
+      (recipeData.seasonality) || 'all'
       getCurrentSeason()
     )
     const astrologicalAlignment = calculateAstrologicalAlignment(
@@ -544,7 +544,7 @@ export class MLIntelligenceService {;
   ): number {
     if (ingredients.length < 2) return 0.8,
 
-    let totalCompatibility = 0,
+    let totalCompatibility = 0;
     let pairCount = 0
 
     // Calculate pairwise compatibility with ML adjustments
@@ -913,8 +913,8 @@ export class MLIntelligenceService {;
         roasting: {
         default: 'Rotate halfway through for even cooking',
         fire: 'High heat (425°F) caramelization',
-        earth: 'Slow roast (325°F) for depth',
-      }
+        earth: 'Slow roast (325°F) for depth'
+}
     }
 
     const key = _method.toLowerCase()
@@ -1010,7 +1010,7 @@ export class MLIntelligenceService {;
       cancer: 'Water',
       scorpio: 'Water',
       pisces: 'Water' },
-        return elementMap[__astrologicalContext.sunSign?.toLowerCase() || ''] || 'Earth',
+        return elementMap[__astrologicalContext.sunSign?.toLowerCase() || ''] || 'Earth'
   }
 
   // Helper method for element matching
@@ -1428,8 +1428,8 @@ export class MLIntelligenceService {;
       cacheHitRate: 0,
       errorRate: 0,
       executionTimes: [],
-      learningProgress: 0,
-    }
+      learningProgress: 0
+}
     this.log('info', 'ML Intelligence Service metrics reset')
   }
 

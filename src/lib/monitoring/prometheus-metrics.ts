@@ -11,7 +11,7 @@ import { logger } from '@/utils/logger';
 const collectDefaultMetrics = client.collectDefaultMetrics;
 collectDefaultMetrics({
   timeout: 10000,
-  prefix: 'alchm_',
+  prefix: 'alchm_'
 })
 
 // =============================================================================
@@ -369,8 +369,8 @@ export function trackRecipeRecommendation(
   algorithmVersion: string = '1.0') {
   const timer = recipeRecommendationDuration.startTimer({,
     algorithm_version: algorithmVersion,
-    result_count: '0',
-  })
+    result_count: '0'
+})
 
   return {
     end: (success: boolean, resultCount: number, scores: number[] = []) => {
@@ -430,7 +430,7 @@ export function trackDatabaseOperation(operation: string, table: string) {
  */
 export function trackCacheOperation(
   operation: string,
-  result: 'hit' | 'miss' | 'set' | 'delete',
+  result: 'hit' | 'miss' | 'set' | 'delete'
   cacheType: string = 'redis') {
   cacheOperations;
     .labels(operation, result, cacheType)

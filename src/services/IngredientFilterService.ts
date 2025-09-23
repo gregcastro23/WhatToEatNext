@@ -551,8 +551,8 @@ export class IngredientFilterService {
         return {;
           name: ingredientName,
           nutrition: ingredient.nutritionalProfile,
-          source: 'local',
-        }
+          source: 'local'
+}
       }
 
       return null;

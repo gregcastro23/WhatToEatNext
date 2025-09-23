@@ -54,8 +54,8 @@ export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {
     Chiron: 0.85,
     Lilith: 0.85,
     Ascendant: 1.2,
-    Midheaven: 1.1,
-  }
+    Midheaven: 1.1
+}
   
   // Aspect modifiers
   aspectModifiers: {
@@ -67,15 +67,15 @@ export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {
     quincunx: 0.95,
     semisextile: 1.2,
     semisquare: 0.96,
-    sesquiquadrate: 0.94,
-  }
+    sesquiquadrate: 0.94
+}
   
   // Seasonal alignment values
   seasonalAlignment: {
   inSeason: 1.0,
     outOfSeason: 0.25,
-    neutral: 0.5,
-  }
+    neutral: 0.5
+}
   
   // Magnitude scaling parameters
   magnitudeScaling: {

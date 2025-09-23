@@ -46,8 +46,8 @@ export const _grainPreparationMethods = {
         quick_method: {
       duration: '1-2 hours',
       benefits: ['shorter prep time', 'some improvement in cooking'],
-      method: 'hot water (not boiling)',
-    }
+      method: 'hot water (not boiling)'
+}
   }
 }
 

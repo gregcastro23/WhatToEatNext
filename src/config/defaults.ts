@@ -43,8 +43,8 @@ export const _DEFAULT_NUTRITION_PREFS: NutritionPreferences = {
   macros: {
     protein: 50,
     carbs: 250,
-    fat: 70,
-  },
+    fat: 70
+},
   vitamins: [],
   minerals: [],
   allergens: [],

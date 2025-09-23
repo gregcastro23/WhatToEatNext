@@ -71,8 +71,8 @@ const nextConfig = {
 
   // Experimental features for better build stability
   _experimental: {
-    typedRoutes: true,
-  }
+    typedRoutes: true
+}
 
   // Webpack optimization for manifest generation
   _webpack: (config, { isServer, dev }) => {
@@ -87,8 +87,8 @@ const nextConfig = {
       config.resolve.fallback = {
         ...config.resolve.fallback,
         fs: false,
-        path: falseos: false,
-      }
+        path: falseos: false
+}
     }
 
     return config,
@@ -121,16 +121,16 @@ const nextConfig = {
       }
       {
         pattern: /generateBuildId\s*:/,
-        recommendation: 'Add generateBuildId function for consistent builds',
-      }
+        recommendation: 'Add generateBuildId function for consistent builds'
+}
       {
         pattern: /typescript\s*:/,
-        recommendation: 'Add TypeScript configuration for build stability',
-      }
+        recommendation: 'Add TypeScript configuration for build stability'
+}
       {
         pattern: /eslint\s*:/,
-        recommendation: 'Add ESLint configuration for build validation',
-      }
+        recommendation: 'Add ESLint configuration for build validation'
+}
     ],
 
     const recommendations: string[] = [],
@@ -170,13 +170,13 @@ const nextConfig = {
       {;
         issue: /ignoreBuildErrors\s*:\s*true/g,
         fix: 'ignoreBuildErrors: false',
-        description: 'Enable TypeScript error checking for build stability',
-      }
+        description: 'Enable TypeScript error checking for build stability'
+}
       {
         issue: /ignoreDuringBuilds\s*:\s*true/g,
         fix: 'ignoreDuringBuilds: false',
-        description: 'Enable ESLint checking for build stability',
-      }
+        description: 'Enable ESLint checking for build stability'
+}
     ],
 
     for (const fix of fixes) {

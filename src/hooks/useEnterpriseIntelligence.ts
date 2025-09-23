@@ -75,7 +75,7 @@ export interface UseEnterpriseIntelligenceReturn {
     optimization: string[]
   },
   systemHealth: {
-    overall: 'excellent' | 'good' | 'fair' | 'poor',
+    overall: 'excellent' | 'good' | 'fair' | 'poor'
     score: number,
     issues: string[],
     warnings: string[]
@@ -99,8 +99,8 @@ export function useEnterpriseIntelligence(
       analysisCount: 0,
       averageExecutionTime: 0,
       cacheHitRate: 0,
-      errorRate: 0,
-    }
+      errorRate: 0
+}
   })
 
   const [lastAnalysisParams, setLastAnalysisParams] = useState<{
@@ -225,7 +225,7 @@ export function useEnterpriseIntelligence(
     ],
 
     return {
-      overall: (analysis as { systemHealth?: string }).systemHealth || 'fair',
+      overall: (analysis as { systemHealth?: string }).systemHealth || 'fair'
       score: (analysis as { overallScore?: number }).overallScore ||
         analysis.overallIntelligenceScore ||
         0.7,
@@ -353,8 +353,8 @@ export function useEnterpriseIntelligence(
         analysisCount: 0,
         averageExecutionTime: 0,
         cacheHitRate: 0,
-        errorRate: 0,
-      }
+        errorRate: 0
+}
     }))
     logger.info('[useEnterpriseIntelligence] Metrics reset')
   }, [intelligenceService])
@@ -445,8 +445,8 @@ export function useEnterpriseIntelligenceHealth() {;
     enableIngredientIntelligence: true,
     enableValidationIntelligence: true,
     enableSafetyIntelligence: true,
-    cacheResults: true,
-  })
+    cacheResults: true
+})
 
   const healthStatus = useMemo(
     () => ({,
@@ -472,8 +472,8 @@ export function useEnterpriseIntelligenceHealth() {;
 export function useEnterpriseIntelligenceRecommendations() {
   const { recommendations, state } = useEnterpriseIntelligence({
     enableOptimizationRecommendations: true,
-    cacheResults: true,
-  })
+    cacheResults: true
+})
 
   const prioritizedRecommendations = useMemo(() => {
     const allRecommendations = [
@@ -484,8 +484,8 @@ export function useEnterpriseIntelligenceRecommendations() {
       ...recommendations.optimization.map(r => ({,
         type: 'optimization',
         text: r,
-        priority: 'low',
-      }))
+        priority: 'low'
+}))
     ],
 
     // Sort by priority
@@ -510,8 +510,8 @@ export function useEnterpriseIntelligenceRecommendations() {
  */
 export function useEnterpriseIntelligencePerformance() {
   const { state } = useEnterpriseIntelligence({
-    cacheResults: true,
-  })
+    cacheResults: true
+})
 
   const performanceStatus = useMemo(
     () => ({,

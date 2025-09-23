@@ -12,7 +12,7 @@
  * These are the main ethnic cuisine categories that regional cuisines map to
  */
 export type PrimaryCuisineType =
-  | 'Chinese',
+  | 'Chinese'
   | 'Japanese'
   | 'Korean'
   | 'Indian'
@@ -28,8 +28,7 @@ export type PrimaryCuisineType =
   | 'Middle-Eastern'
   | 'Mediterranean'
   | 'Russian'
-  | 'Fusion',
-
+  | 'Fusion'
 // ========== REGIONAL CUISINE ALIASES ==========,
 
 /**

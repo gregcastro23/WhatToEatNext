@@ -99,8 +99,8 @@ export class KitchenBackendClient {
             datetime: ctx.datetime || new Date(),
             location: ctx.location
           },
-          score: 1.0,
-        } as EnhancedRecommendationResult<Recipe>,
+          score: 1.0
+} as EnhancedRecommendationResult<Recipe>,
       }
 
       // Fallback to original implementation

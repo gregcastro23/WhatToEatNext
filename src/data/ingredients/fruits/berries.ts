@@ -59,8 +59,8 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
         manganese_mg: 0.5,
         vitamin_k_mcg: 28,
         anthocyanins_mg: 163,
-        proanthocyanidins_mg: 88,
-      }
+        proanthocyanidins_mg: 88
+}
     },
     healthBenefits: [
       'Powerful antioxidant properties',
@@ -126,8 +126,8 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
         method: 'juiced, infused, or muddled',
         applications: ["smoothies', "cocktails", 'infused water", 'kombucha'],
         techniques: 'muddle gently to release juice without bitterness',
-        notes: 'Beautiful natural colorant',
-      }
+        notes: 'Beautiful natural colorant'
+}
     },
     storage: {
       refrigerated: {
@@ -149,8 +149,8 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
         preserved: {
         method: 'jam, jelly, or syrup',
         duration: 'up to 1 year sealed3 weeks opened',
-        notes: 'Process in water bath for long-term storage',
-      }
+        notes: 'Process in water bath for long-term storage'
+}
     },
     seasonality: {
       peak_months: [67, 8], // June-August,
@@ -163,8 +163,8 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       scandinavian: 'paired with cardamom and other warm spices',
       british: 'featured in summer puddings and fools',
       native_american: 'traditional food and medicine',
-      asian_fusion: 'incorporated into modern desserts',
-    }
+      asian_fusion: 'incorporated into modern desserts'
+}
   }
 
   strawberry: {
@@ -224,8 +224,8 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       duration: '3-5 days',
       humidity: 'moderate',
-      notes: "Don't wash until ready to use",
-    }
+      notes: "Don't wash until ready to use"
+}
   }
 
   raspberry: {
@@ -288,8 +288,8 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       duration: '2-3 days',
       humidity: 'moderate',
-      notes: 'Best used quickly',
-    }
+      notes: 'Best used quickly'
+}
   }
 
   blackberry: {
@@ -352,8 +352,8 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       duration: '2-3 days',
       humidity: 'moderate',
-      notes: 'Use quickly for best flavor',
-    }
+      notes: 'Use quickly for best flavor'
+}
   }
 
   gooseberry: {

@@ -59,8 +59,8 @@ describe('Campaign Intelligence System', () => {
         priorityOptimization: { TS2352_TYPE_CONVERSIO, N: 9.2, TS2345_ARGUMENT_MISMATCH: 4.35 },
         predictiveAnalytics: { errorReductionPotential: 0.85,
           campaignDurationEstimate: 30,
-          buildStabilityPrediction: 0.94,
-        }
+          buildStabilityPrediction: 0.94
+}
       }
 
       const report: any = ERROR_PATTERN_INTELLIGENCE.generateErrorIntelligenceReport(patterns)
@@ -104,8 +104,8 @@ describe('Campaign Intelligence System', () => {
         reductionAchieved: 800,
         reductionPercentage: 80,
         campaignTarget: 75.5,
-        isTargetMet: true,
-      }
+        isTargetMet: true
+}
 
       const progress: any = CAMPAIGN_PROGRESS_INTELLIGENCE.analyzeCampaignProgress(
         2420,
@@ -139,8 +139,8 @@ describe('Campaign Intelligence System', () => {
         qualityMetrics: { codeHealthScore: 0.85,
           maintainabilityIndex: 0.8,
           technicalDebtRatio: 0.15,
-          buildReliability: 0.95,
-        },
+          buildReliability: 0.95
+},
         strategicInsights: { recommendedActions: ['Increase batch size for higher throughput'],
           riskAssessment: ['Build stability risk detected'],
           opportunityIdentification: ['High success rate - consider aggressive mode'],
@@ -179,8 +179,8 @@ describe('Campaign Intelligence System', () => {
           reductionAchieved: 750,
           reductionPercentage: 75,
           campaignTarget: 75.5,
-          isTargetMet: false,
-        })
+          isTargetMet: false
+})
       }
 
       const intelligence: any = await CAMPAIGN_ENTERPRISE_INTELLIGENCE.generateComprehensiveIntelligence(
@@ -220,8 +220,8 @@ describe('Campaign Intelligence System', () => {
           enterpriseReadiness: 0.88,
           systemComplexity: 0.6,
           intelligenceDepth: 'advanced' as const,
-          campaignEffectiveness: 0.82,
-        },
+          campaignEffectiveness: 0.82
+},
         errorPatterns: { patternRecognition: { TS2352_TYPE_CONVERSION: 10, TS2345_ARGUMENT_MISMATCH: 5 },
           fixSuccessRates: {}
           errorCategoryTrends: {} as unknown,
@@ -237,8 +237,8 @@ describe('Campaign Intelligence System', () => {
           qualityMetrics: { codeHealthScore: 0.85,
             maintainabilityIndex: 0.8,
             technicalDebtRatio: 0.15,
-            buildReliability: 0.95,
-          },
+            buildReliability: 0.95
+},
           strategicInsights: { recommendedActions: [],
             riskAssessment: [],
             opportunityIdentification: [],
@@ -247,8 +247,8 @@ describe('Campaign Intelligence System', () => {
         },
         systemIntegration: { overallSystemIntegratio, n: 0.92 },
         intelligenceRecommendations: ['Test recommendation'],
-        enterpriseReadinessScore: 0.88,
-      }
+        enterpriseReadinessScore: 0.88
+}
 
       const consoleSpy: any = jest.spyOn(console, 'log').mockImplementation()
 

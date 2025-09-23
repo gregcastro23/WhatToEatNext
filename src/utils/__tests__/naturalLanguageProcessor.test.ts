@@ -157,8 +157,8 @@ describe('naturalLanguageProcessor', () => {
         cuisineTypes: [],
         mealTypes: [],
         spiciness: [],
-        ingredients: [],
-      }
+        ingredients: []
+}
 
       const results: any = applyFilters(mockItems, filters)
 
@@ -175,8 +175,8 @@ describe('naturalLanguageProcessor', () => {
         cuisineTypes: [],
         mealTypes: [],
         spiciness: [],
-        ingredients: [],
-      }
+        ingredients: []
+}
 
       const results: any = applyFilters(mockItems, filters)
 
@@ -193,8 +193,8 @@ describe('naturalLanguageProcessor', () => {
         cuisineTypes: [],
         mealTypes: [],
         spiciness: [],
-        ingredients: [],
-      }
+        ingredients: []
+}
 
       const results: any = applyFilters(mockItems, filters)
 
@@ -211,8 +211,8 @@ describe('naturalLanguageProcessor', () => {
         cuisineTypes: ['italian'],
         mealTypes: [],
         spiciness: [],
-        ingredients: [],
-      }
+        ingredients: []
+}
 
       const results: any = applyFilters(mockItems, filters)
 
@@ -229,8 +229,8 @@ describe('naturalLanguageProcessor', () => {
         cuisineTypes: [],
         mealTypes: ['breakfast'],
         spiciness: [],
-        ingredients: [],
-      }
+        ingredients: []
+}
 
       const results: any = applyFilters(mockItems, filters)
 
@@ -247,8 +247,8 @@ describe('naturalLanguageProcessor', () => {
         cuisineTypes: [],
         mealTypes: [],
         spiciness: ['hot'],
-        ingredients: [],
-      }
+        ingredients: []
+}
 
       const results: any = applyFilters(mockItems, filters)
 
@@ -265,8 +265,8 @@ describe('naturalLanguageProcessor', () => {
         cuisineTypes: [],
         mealTypes: ['breakfast'],
         spiciness: [],
-        ingredients: [],
-      }
+        ingredients: []
+}
 
       const results: any = applyFilters(mockItems, filters)
 
@@ -283,8 +283,8 @@ describe('naturalLanguageProcessor', () => {
         cuisineTypes: [],
         mealTypes: [],
         spiciness: [],
-        ingredients: [],
-      }
+        ingredients: []
+}
 
       const results: any = applyFilters(mockItems, filters)
 

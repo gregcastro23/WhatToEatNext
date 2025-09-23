@@ -105,8 +105,8 @@ export function createUnifiedIngredient(name: string, category: string): Unified
       Spirit: 0,
       Essence: 0,
       Matter: 0,
-      Substance: 0,
-    }
+      Substance: 0
+}
   }
 }
 

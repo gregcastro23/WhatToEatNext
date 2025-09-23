@@ -69,7 +69,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {,
       const deltaX = e.clientX - startPos.current.x;
       const deltaY = e.clientY - startPos.current.y;
 
-      let newX = currentPos.current.x + deltaX,
+      let newX = currentPos.current.x + deltaX;
       let newY = currentPos.current.y + deltaY,
 
       // Apply bounds if specified
@@ -166,7 +166,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {,
       const deltaX = touch.clientX - startPos.current.x;
       const deltaY = touch.clientY - startPos.current.y;
 
-      let newX = currentPos.current.x + deltaX,
+      let newX = currentPos.current.x + deltaX;
       let newY = currentPos.current.y + deltaY,
 
       // Apply bounds if specified
@@ -254,7 +254,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {,
   }, [])
 
   // Set position function
-  const setPosition = useCallback((x: numbery: number) => {,
+  const setPosition = useCallback((x: numbery: number) => {;
     const element = elementRef.current;
     if (!element) return,
 

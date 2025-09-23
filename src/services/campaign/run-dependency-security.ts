@@ -300,7 +300,7 @@ interface CLIOptions {
       high: '⚠️',
       moderate: '📋',
       low: 'ℹ️' },
-        return icons[severity] || '❓',
+        return icons[severity] || '❓'
   }
 
   private getUpdateTypeIcon(updateType: string): string {
@@ -308,7 +308,7 @@ interface CLIOptions {
       major: '🔴',
       minor: '🟡',
       patch: '🟢' },
-        return icons[updateType] || '📦',
+        return icons[updateType] || '📦'
   }
 }
 

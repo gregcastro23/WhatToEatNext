@@ -244,8 +244,8 @@ export function calculateAspectStrength(_type: AspectType, _orb: number): number
     semisquare: 2,
     sesquisquare: 2,
     _quintile: 1,
-    _biquintile: 1,
-  } as Record<AspectType, number>,
+    _biquintile: 1
+} as Record<AspectType, number>,
 
   // Diminish strength based on orb
   const baseStrength = baseStrengths[type] || 0;
@@ -305,8 +305,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
 
   // Convert string element to proper casing for Element type
   const dominantElementCapitalized = (dominantElement.charAt(0).toUpperCase() +;
-    dominantElement.slice(1)) as 'Fire' | 'Water' | 'Earth' | 'Air',
-
+    dominantElement.slice(1)) as 'Fire' | 'Water' | 'Earth' | 'Air'
   const state: AstrologicalState = {
     sunSign: toZodiacSign(String(positions.sun.sign)),
     _moonSign: toZodiacSign(String(positions.moon.sign)),
@@ -335,8 +334,8 @@ function countElements(_positions: Record<string, _CelestialPosition>): Record<s
     _fire: 0,
     _earth: 0,
     _air: 0,
-    _water: 0,
-  }
+    _water: 0
+}
 
   // Element mapping for signs
   const signElements: Record<ZodiacSign, keyof typeof elements> = {
@@ -351,8 +350,8 @@ function countElements(_positions: Record<string, _CelestialPosition>): Record<s
     aquarius: 'Air',
     cancer: 'Water',
     scorpio: 'Water',
-    pisces: 'Water',
-  }
+    pisces: 'Water'
+}
 
   // Extra weight for certain planets
   const planetWeight: Record<string, number> = {
@@ -368,8 +367,8 @@ function countElements(_positions: Record<string, _CelestialPosition>): Record<s
     _neptune: 1,
     _pluto: 1,
     northNode: 0.5,
-    southNode: 0.5,
-  }
+    southNode: 0.5
+}
 
   // Count elements
   Object.entries(positions).forEach(([planet, position]) => {
@@ -387,7 +386,7 @@ function countElements(_positions: Record<string, _CelestialPosition>): Record<s
  * @returns Dominant element
  */
 function getDominantElement(elements: Record<string, _number>): string {
-  let maxElement = 'balanced',
+  let maxElement = 'balanced';
   let maxCount = 0
 ;
   Object.entries(elements).forEach(([element, count]) => {

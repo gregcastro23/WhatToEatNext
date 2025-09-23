@@ -12,24 +12,23 @@ import type { LunarPhaseModifier } from '../types/lunar';
 
 // Define missing types
 export type FoodAssociationsLunarPhase =
-  | 'New Moon',
+  | 'New Moon'
   | 'Waxing Crescent'
   | 'First Quarter'
   | 'Waxing Gibbous'
   | 'Full Moon'
   | 'Waning Gibbous'
   | 'Last Quarter'
-  | 'Waning Crescent',
+  | 'Waning Crescent'
 export type AlchemyLunarPhase =
-  | 'new moon',
+  | 'new moon'
   | 'waxing crescent'
   | 'first quarter'
   | 'waxing gibbous'
   | 'full moon'
   | 'waning gibbous'
   | 'last quarter'
-  | 'waning crescent',
-
+  | 'waning crescent'
 // Object mapping lunar phases to their elemental influences
 const lunarInfluences: Record<
   LunarPhaseWithUnderscores,
@@ -91,8 +90,8 @@ export function getLunarElementalModifiers(phase: LunarPhase): Record<string, nu
       Fire: 0,
       Water: 0,
       Air: 0,
-      Earth: 0,
-    })
+      Earth: 0
+})
 }
 
 /**
@@ -188,15 +187,14 @@ export function generateDefaultLunarPhaseModifiers(
 
 // Type containing both formats for better type safety
 export type LunarPhaseKey =
-  | 'new_moon',
+  | 'new_moon'
   | 'full_moon'
   | 'first_quarter'
   | 'last_quarter'
   | 'waxing_crescent'
   | 'waning_crescent'
   | 'waxing_gibbous'
-  | 'waning_gibbous',
-
+  | 'waning_gibbous'
 // Export the LUNAR_PHASES constant needed by RecommendationAdapter.ts
 export const LUNAR_PHASES = {
   'new moon': 'New Moon',
@@ -336,50 +334,50 @@ export const LUNAR_PHASE_ELEMENTS: Record<LunarPhaseWithUnderscores, ElementalPr
     Fire: 0.1,
     Water: 0.4,
     Earth: 0.2,
-    Air: 0.3,
-  },
+    Air: 0.3
+},
   waxing_crescent: {
     Fire: 0.2,
     Water: 0.3,
     Earth: 0.2,
-    Air: 0.3,
-  },
+    Air: 0.3
+},
   first_quarter: {
     Fire: 0.3,
     Water: 0.2,
     Earth: 0.2,
-    Air: 0.3,
-  },
+    Air: 0.3
+},
   waxing_gibbous: {
     Fire: 0.4,
     Water: 0.2,
     Earth: 0.1,
-    Air: 0.3,
-  },
+    Air: 0.3
+},
   full_moon: {
     Fire: 0.4,
     Water: 0.1,
     Earth: 0.1,
-    Air: 0.4,
-  },
+    Air: 0.4
+},
   waning_gibbous: {
     Fire: 0.3,
     Water: 0.2,
     Earth: 0.2,
-    Air: 0.3,
-  },
+    Air: 0.3
+},
   last_quarter: {
     Fire: 0.2,
     Water: 0.3,
     Earth: 0.3,
-    Air: 0.2,
-  },
+    Air: 0.2
+},
   waning_crescent: {
     Fire: 0.1,
     Water: 0.4,
     Earth: 0.3,
-    Air: 0.2,
-  }
+    Air: 0.2
+}
 }
 
 /**

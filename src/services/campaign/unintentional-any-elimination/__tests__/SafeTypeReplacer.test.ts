@@ -50,8 +50,8 @@ jest.mock('../SafetyValidator', () => ({
     validateRollbackCapability: jest.fn().mockResolvedValue({ canRollback: true,
       backupIntegrity: true,
       rollbackErrors: [],
-      restorationVerified: true,
-    }),
+      restorationVerified: true
+}),
     updateSafetyThresholds: jest.fn()
   }))
 }))
@@ -106,8 +106,8 @@ describe('SafeTypeReplacer', () => {
         filePath: 'test.ts',
         lineNumber: 1,
         confidence: 0.9,
-        validationRequired: true,
-      }
+        validationRequired: true
+}
 
       mockFs.readFileSync.mockReturnValue('const items: any[] = [],')
 
@@ -125,8 +125,8 @@ describe('SafeTypeReplacer', () => {
         filePath: 'test.ts',
         lineNumber: 1,
         confidence: 0.3, // Low confidence,
-        validationRequired: true,
-      }
+        validationRequired: true
+}
 
       const result: any = await replacer.applyReplacement(replacement)
 
@@ -141,8 +141,8 @@ describe('SafeTypeReplacer', () => {
         filePath: 'testts',
         lineNumber: 1,
         confidence: 0.9,
-        validationRequired: true,
-      }
+        validationRequired: true
+}
 
       // Mock compilation failure
       mockExecSync.mockImplementation(() => {
@@ -164,8 +164,8 @@ describe('SafeTypeReplacer', () => {
         filePath: 'testts',
         lineNumber: 999, // Invalid line number,
         confidence: 0.9,
-        validationRequired: true,
-      }
+        validationRequired: true
+}
 
       mockFs.readFileSync.mockReturnValue('const items: any[] = [],'); // Only 1 line
 
@@ -181,8 +181,8 @@ describe('SafeTypeReplacer', () => {
         filePath: 'test.ts',
         lineNumber: 1,
         confidence: 0.9,
-        validationRequired: true,
-      }
+        validationRequired: true
+}
 
       mockFs.readFileSync.mockReturnValue('const items: any[] = [],'); // Pattern doesn't match
 
@@ -202,16 +202,16 @@ describe('SafeTypeReplacer', () => {
           filePath: 'test1.ts',
           lineNumber: 1,
           confidence: 0.9,
-          validationRequired: true,
-        }
+          validationRequired: true
+}
         {
           original: 'Record<string, unknown>',
           replacement: 'Record<string, unknown>',
           filePath: 'test2.ts',
           lineNumber: 1,
           confidence: 0.8,
-          validationRequired: true,
-        }
+          validationRequired: true
+}
       ],
 
       mockFs.readFileSync.mockImplementation((filePath: any) => {
@@ -236,8 +236,8 @@ describe('SafeTypeReplacer', () => {
           filePath: 'test1ts',
           lineNumber: 1,
           confidence: 0.9,
-          validationRequired: true,
-        }
+          validationRequired: true
+}
       ],
 
       // Mock overall compilation to fail
@@ -262,16 +262,16 @@ describe('SafeTypeReplacer', () => {
           filePath: 'testts',
           lineNumber: 2,
           confidence: 0.9,
-          validationRequired: true,
-        }
+          validationRequired: true
+}
         {
           original: 'any',
           replacement: 'unknown',
           filePath: 'test.ts',
           lineNumber: 1,
           confidence: 0.8,
-          validationRequired: true,
-        }
+          validationRequired: true
+}
       ],
 
       mockFs.readFileSync.mockReturnValue('const _x: any = 1,\nconst items: any[] = [],')
@@ -290,8 +290,8 @@ describe('SafeTypeReplacer', () => {
         filePath: 'test.ts',
         lineNumber: 1,
         confidence: 0.7,
-        validationRequired: true,
-      }
+        validationRequired: true
+}
 
       // Access private method through any cast for testing
       const score: any = (replacer as any).calculateSafetyScore(replacement)
@@ -304,8 +304,8 @@ describe('SafeTypeReplacer', () => {
         filePath: 'test.ts',
         lineNumber: 1,
         confidence: 0.8,
-        validationRequired: true,
-      }
+        validationRequired: true
+}
 
       const score: any = (replacer as any).calculateSafetyScore(replacement)
       expect(score).toBeLessThan(0.8) // Should be reduced for error context;
@@ -317,8 +317,8 @@ describe('SafeTypeReplacer', () => {
         filePath: 'test.test.ts',
         lineNumber: 1,
         confidence: 0.7,
-        validationRequired: true,
-      }
+        validationRequired: true
+}
 
       const score: any = (replacer as any).calculateSafetyScore(replacement)
       expect(score).toBeGreaterThan(0.7) // Should be boosted for test files;
@@ -361,8 +361,8 @@ describe('SafeTypeReplacer', () => {
         pattern: /custom_pattern/g,
         replacement: () => 'custom_replacement',
         validator: () => true,
-        priority: 0,
-      }
+        priority: 0
+}
 
       replacer.addStrategy(customStrategy)
       const strategies: any = replacer.getStrategies(),
@@ -403,8 +403,8 @@ describe('SafeTypeReplacer', () => {
       mockFs.statSync.mockImplementation((filePath: any) => {
         const pathStr: any = String(filePath),
         if (pathStr.includes('old.backup')) {,
-          return { mtime: oldDate } as any,
-        }
+          return { mtime: oldDate } as any
+}
         return { mtime: new Date() } as any; // Recent file
       })
 
@@ -426,8 +426,8 @@ describe('SafeTypeReplacer', () => {
         filePath: 'test.ts',
         lineNumber: 1,
         confidence: 0.9,
-        validationRequired: true,
-      }
+        validationRequired: true
+}
 
       // Mock backup creation to fail
       mockFs.writeFileSync.mockImplementation((filePath: any) => {
@@ -446,8 +446,8 @@ describe('SafeTypeReplacer', () => {
         filePath: 'test.ts',
         lineNumber: 1,
         confidence: 0.9,
-        validationRequired: true,
-      }
+        validationRequired: true
+}
 
       // Mock compilation to fail
       mockExecSync.mockImplementation(() => {
@@ -738,16 +738,16 @@ describe('SafeTypeReplacer', () => {
           filePath: 'test1.ts',
           lineNumber: 1,
           confidence: 0.9,
-          validationRequired: true,
-        }
+          validationRequired: true
+}
         {
           original: 'any',
           replacement: 'InvalidType', // This should cause compilation error,
           filePath: 'test2.ts',
           lineNumber: 1,
           confidence: 0.8,
-          validationRequired: true,
-        }
+          validationRequired: true
+}
       ],
 
       mockFs.readFileSync.mockImplementation((filePath: any) => {
@@ -781,8 +781,8 @@ describe('SafeTypeReplacer', () => {
         filePath: 'readonlyts',
         lineNumber: 1,
         confidence: 0.9,
-        validationRequired: true,
-      }
+        validationRequired: true
+}
 
       mockFs.readFileSync.mockReturnValue('const items: any[] = [],')
       mockFs.writeFileSync.mockImplementation(() => {
@@ -798,8 +798,8 @@ describe('SafeTypeReplacer', () => {
         filePath: 'test.ts',
         lineNumber: 1,
         confidence: 0.9,
-        validationRequired: true,
-      }
+        validationRequired: true
+}
 
       mockFs.readFileSync.mockImplementation((path: any) => {
         if (String(path).includes('.backup')) {
@@ -818,8 +818,8 @@ describe('SafeTypeReplacer', () => {
         filePath: 'testts',
         lineNumber: 1,
         confidence: 0.9,
-        validationRequired: true,
-      }
+        validationRequired: true
+}
 
       mockFs.readFileSync.mockReturnValue('const items: any[] = [],')
 
@@ -844,8 +844,8 @@ describe('SafeTypeReplacer', () => {
         filePath: 'large.ts',
         lineNumber: 5000,
         confidence: 0.9,
-        validationRequired: true,
-      }
+        validationRequired: true
+}
 
       mockFs.readFileSync.mockReturnValue(largeContent)
 
@@ -864,8 +864,8 @@ describe('SafeTypeReplacer', () => {
         filePath: `test${i}.ts`,
         lineNumber: 1,
         confidence: 0.9,
-        validationRequired: true,
-      }))
+        validationRequired: true
+}))
 
       mockFs.readFileSync.mockReturnValue('const items: any[] = [],')
 
@@ -884,8 +884,8 @@ describe('SafeTypeReplacer', () => {
         filePath: 'test.ts',
         lineNumber: 1,
         confidence: 0.9,
-        validationRequired: true,
-      }
+        validationRequired: true
+}
 
       mockFs.readFileSync.mockReturnValue('const items: any[] = [],')
 
@@ -907,8 +907,8 @@ describe('SafeTypeReplacer', () => {
         filePath: 'testts',
         lineNumber: 1,
         confidence: 0.9,
-        validationRequired: true,
-      }
+        validationRequired: true
+}
 
       const context: ClassificationContext = { filePath: 'test.ts',,
         lineNumber: 1,
@@ -935,8 +935,8 @@ describe('SafeTypeReplacer', () => {
         filePath: 'testts',
         lineNumber: 1,
         confidence: 0.3, // Very low confidence,
-        validationRequired: true,
-      }
+        validationRequired: true
+}
 
       const result: any = await replacer.applyReplacement(lowConfidenceReplacement)
       expect(result.success).toBe(false).

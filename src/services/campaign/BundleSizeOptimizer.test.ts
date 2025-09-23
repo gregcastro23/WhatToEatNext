@@ -165,8 +165,8 @@ describe('BundleSizeOptimizer', () => {
       mockFs.readFileSync.mockReturnValue(
         JSON.stringify({
           dependencies: { lodash: '^4.0.0',
-            moment: '^2.0.0',
-          }
+            moment: '^2.0.0'
+}
         }),
       )
 
@@ -240,8 +240,8 @@ describe('BundleSizeOptimizer', () => {
           'public/script.js': 50 * 1024, // 50kB
           'public/font.woff2': 30 * 1024, // 30kB
         }
-        return { size: sizes[path] || 1024 } as any.Stats,
-      })
+        return { size: sizes[path] || 1024 } as any.Stats
+})
 
       mockExecSync.mockReturnValue('300000\n')
 

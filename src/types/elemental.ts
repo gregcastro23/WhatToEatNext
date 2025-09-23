@@ -9,8 +9,7 @@ import { Element } from '@/types/celestial';
 export type { Element }
 
 // The four basic elements
-export type LowercaseElement = 'fire' | 'water' | 'air' | 'earth',
-
+export type LowercaseElement = 'fire' | 'water' | 'air' | 'earth'
 // Interface for elemental properties with standard case (uppercase first letter)
 export interface ElementalProperties {
   Fire: number,

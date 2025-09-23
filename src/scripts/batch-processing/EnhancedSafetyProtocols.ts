@@ -26,8 +26,8 @@ export interface HighImpactFileConfig {
 export interface FileRiskAssessment {
   filePath: string,
   relativePath: string,
-  riskLevel: 'low' | 'medium' | 'high' | 'critical',
-  fileType: 'service' | 'calculation' | 'component' | 'utility' | 'test' | 'other',
+  riskLevel: 'low' | 'medium' | 'high' | 'critical'
+  fileType: 'service' | 'calculation' | 'component' | 'utility' | 'test' | 'other'
   unusedVariableCount: number,
   requiresManualReview: boolean,
   requiresEnhancedValidation: boolean,
@@ -200,8 +200,8 @@ export class EnhancedSafetyProtocols {
       errors: [],
       warnings: [],
       recommendations: [],
-      requiresRollback: false,
-    }
+      requiresRollback: false
+}
 
     try {
       // 1. TypeScript compilation validation

@@ -13,12 +13,12 @@ export const _stirFrying: CookingMethodData = {
     Fire: 0.5,
     Air: 0.3,
     Earth: 0.1,
-    Water: 0.1,
-  },
+    Water: 0.1
+},
   duration: {
     min: 3,
-    max: 10,
-  },
+    max: 10
+},
   suitable_for: [
     'vegetables',
     'thin meats',
@@ -72,15 +72,15 @@ export const _stirFrying: CookingMethodData = {
     vitamins: 0.85,
     minerals: 0.9,
     proteins: 0.95,
-    antioxidants: 0.8,
-  },
+    antioxidants: 0.8
+},
   optimalTemperatures: {
     vegetables: 450,
     meat: 475,
     seafood: 450,
     preheating_wok: 500,
-    aromatics: 400,
-  },
+    aromatics: 400
+},
   regionalVariations: {
     chinese: ['bao technique', 'yángchǎo', 'Cantonese quick-fry'],
     japanese: ['teppanyaki style', 'yakisoba technique'],
@@ -92,8 +92,8 @@ export const _stirFrying: CookingMethodData = {
     caramelization: true,
     protein_denaturation: true,
     enzyme_deactivation: true,
-    minimal_nutrient_leaching: true,
-  },
+    minimal_nutrient_leaching: true
+},
   safetyFeatures: [
     'Use proper ventilation',
     'Keep handle positioned safely',

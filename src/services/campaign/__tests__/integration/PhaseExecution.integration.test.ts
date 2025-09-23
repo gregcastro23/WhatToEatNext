@@ -41,8 +41,8 @@ describe('Phase Execution Integration Tests', () => {
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7,
-    }
+      stashRetentionDays: 7
+}
 
     // Setup mock campaign configuration
     mockConfig = {
@@ -59,8 +59,8 @@ describe('Phase Execution Integration Tests', () => {
               safetyLevel: SafetyLevel.MAXIMUM
             }
           ],
-          successCriteria: { typeScriptErrors: 0,
-          },
+          successCriteria: { typeScriptErrors: 0
+},
           safetyCheckpoints: []
         }
         {
@@ -75,8 +75,8 @@ describe('Phase Execution Integration Tests', () => {
               safetyLevel: SafetyLevel.HIGH
             }
           ],
-          successCriteria: { lintingWarnings: 0,
-          },
+          successCriteria: { lintingWarnings: 0
+},
           safetyCheckpoints: []
         }
       ],
@@ -84,13 +84,13 @@ describe('Phase Execution Integration Tests', () => {
       progressTargets: { typeScriptErrors: 0,
         lintingWarnings: 0,
         buildTime: 10,
-        enterpriseSystems: 200,
-      },
+        enterpriseSystems: 200
+},
       toolConfiguration: { enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
-      }
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
+}
     }
 
     // Initialize components
@@ -330,8 +330,8 @@ describe('Phase Execution Integration Tests', () => {
       jest.spyOn(campaignController as unknown, 'validatePhaseProgress').mockResolvedValue({
         success: false,
         errors: ['Build validation failed'],
-        warnings: [],
-      })
+        warnings: []
+})
 
       // Mock rollback
       jest.spyOn(campaignController, 'rollbackToCheckpoint').mockResolvedValue()
@@ -420,8 +420,8 @@ describe('Phase Execution Integration Tests', () => {
         detectedFiles: [],
         corruptionPatterns: [],
         severity: CorruptionSeverity.LOW,
-        recommendedAction: RecoveryAction.CONTINUE,
-      })
+        recommendedAction: RecoveryAction.CONTINUE
+})
 
       await campaignController.executePhase(phase1)
 
@@ -444,8 +444,8 @@ describe('Phase Execution Integration Tests', () => {
           }
         ],
         severity: CorruptionSeverity.HIGH,
-        recommendedAction: RecoveryAction.ROLLBACK,
-      })
+        recommendedAction: RecoveryAction.ROLLBACK
+})
 
       // This would require actual integration to test properly
       // For now, verify the safety protocol can detect corruption

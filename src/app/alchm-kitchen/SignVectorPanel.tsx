@@ -20,7 +20,7 @@ type Props = {
     orb?: number
   }>
   season?: Season,
-  governing?: 'sun' | 'moon' | 'dominant' | 'ensemble';
+  governing?: 'sun' | 'moon' | 'dominant' | 'ensemble'
 }
 
 export default function SignVectorPanel({

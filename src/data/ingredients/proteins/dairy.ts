@@ -14,8 +14,8 @@ const rawDairy = {
       Fire: 0.1,
       Water: 0.6,
       Earth: 0.2,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
       zodiacInfluence: ['Cancer', 'Taurus'],
@@ -31,14 +31,14 @@ const rawDairy = {
       'New Moon': {
         elementalBoost: {
           Water: 0.1,
-          Earth: 0.1,
-        },
+          Earth: 0.1
+},
         preparationTips: ['Best for starting new fermentation batches', 'Ideal for milder yogurt']
       },
       'Full Moon': {
         elementalBoost: {
-          Water: 0.2,
-        },
+          Water: 0.2
+},
         preparationTips: ['Maximum tangy flavor development', 'Best probiotic activity']
       }
     },
@@ -63,15 +63,15 @@ const rawDairy = {
         moisture: 'Lower',
         protein: 'Highest',
         uses: 'Weight management, higher protein needs',
-        notes: 'Can be slightly grainy in texture',
-      },
+        notes: 'Can be slightly grainy in texture'
+},
       '2% fat': {
         texture: 'Balanced creaminess and tang',
         moisture: 'Medium',
         protein: 'High',
         uses: 'All-purpose, good balance of flavor and nutrition',
-        notes: 'Most versatile variety',
-      },
+        notes: 'Most versatile variety'
+},
       'full-fat': {
         texture: 'Creamiest, smoothest',
         moisture: 'Medium-high',
@@ -83,8 +83,8 @@ const rawDairy = {
         moisture: 'Low',
         protein: 'Very high',
         uses: 'Labneh-style spreads, ultra-rich applications',
-        notes: 'Can be hung in cheesecloth for even thicker result',
-      }
+        notes: 'Can be hung in cheesecloth for even thicker result'
+}
     },
     culinaryApplications: {
       raw: {
@@ -125,16 +125,16 @@ const rawDairy = {
       },
       storebought: {
         selection: 'Choose without added thickeners for purest flavor',
-        preparation: 'Stir before using if separation has occurred',
-      }
+        preparation: 'Stir before using if separation has occurred'
+}
     },
     storage: {
       container: 'Glass or original container',
       duration: '1-2 weeks refrigerated',
       temperature: {
         fahrenheit: 38,
-        celsius: 3.3,
-      },
+        celsius: 3.3
+},
       notes: 'May continue to increase in tanginess over time' },
         culturalSignificance: {
       middle_eastern: {
@@ -170,8 +170,8 @@ const rawDairy = {
       Fire: 0.1,
       Water: 0.5,
       Earth: 0.3,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
       zodiacInfluence: ['Taurus', 'Cancer'],
@@ -187,15 +187,15 @@ const rawDairy = {
       'New Moon': {
         elementalBoost: {
           Water: 0.15,
-          Earth: 0.05,
-        },
+          Earth: 0.05
+},
         preparationTips: ['Best for starting fresh batches', 'More delicate curds form']
       },
       'Full Moon': {
         elementalBoost: {
           Water: 0.1,
-          Earth: 0.1,
-        },
+          Earth: 0.1
+},
         preparationTips: ['Optimal curd formation', 'Best flavor development']
       }
     },
@@ -220,8 +220,8 @@ const rawDairy = {
         moisture: 'Medium',
         protein: 'Standard',
         uses: 'Baking, dips, smoother applications',
-        notes: 'More versatile for recipes requiring uniform texture',
-      },
+        notes: 'More versatile for recipes requiring uniform texture'
+},
       'large curd': {
         texture: 'Larger, more defined pieces',
         moisture: 'Medium',
@@ -240,8 +240,8 @@ const rawDairy = {
         moisture: 'Medium-high',
         protein: 'Standard',
         uses: 'Spreads, dips, smoother applications',
-        notes: 'Easier to incorporate into recipes',
-      }
+        notes: 'Easier to incorporate into recipes'
+}
     },
     culinaryApplications: {
       raw: {
@@ -283,16 +283,16 @@ const rawDairy = {
       },
       storebought: {
         selection: 'Check date codes, avoid excessive liquid',
-        preparation: 'Drain excess liquid if desired',
-      }
+        preparation: 'Drain excess liquid if desired'
+}
     },
     storage: {
       container: 'Original container or airtight glass',
       duration: '5-7 days refrigerated',
       temperature: {
         fahrenheit: 38,
-        celsius: 3.3,
-      },
+        celsius: 3.3
+},
       notes: 'Texture and flavor best when fresh, tends to sour rather than spoil' },
         culturalSignificance: {
       european: {
@@ -332,8 +332,8 @@ const rawDairy = {
       Fire: 0.1,
       Water: 0.5,
       Earth: 0.3,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
       zodiacInfluence: ['Cancer', 'Taurus'],
@@ -348,15 +348,15 @@ const rawDairy = {
     lunarPhaseModifiers: {
       'New Moon': {
         elementalBoost: {
-          Water: 0.2,
-        },
+          Water: 0.2
+},
         preparationTips: ['Best for beginning cheese making', 'Creates most delicate texture']
       },
       'Full Moon': {
         elementalBoost: {
           Water: 0.1,
-          Earth: 0.1,
-        },
+          Earth: 0.1
+},
         preparationTips: ['Best flavor development', 'Optimal milk protein composition']
       }
     },
@@ -381,22 +381,22 @@ const rawDairy = {
         moisture: 'High',
         fat: 'High',
         uses: 'Desserts, traditional dishes, eating plain',
-        notes: 'Traditional and most flavorful variety',
-      },
+        notes: 'Traditional and most flavorful variety'
+},
       'part-skim': {
         texture: 'Slightly less creamy, more distinct curds',
         moisture: 'Medium-high',
         fat: 'Medium',
         uses: 'All-purpose, balanced nutrition and flavor',
-        notes: 'Most commonly available commercial variety',
-      },
+        notes: 'Most commonly available commercial variety'
+},
       'sheep milk': {
         texture: 'Rich, distinctive',
         moisture: 'Medium',
         fat: 'High',
         uses: 'Specialty applications, authentic Italian dishes',
-        notes: 'Traditional ricotta type with more complex flavor',
-      },
+        notes: 'Traditional ricotta type with more complex flavor'
+},
       'buffalo milk': {
         texture: 'Very rich, creamy',
         moisture: 'High',
@@ -442,16 +442,16 @@ const rawDairy = {
       },
       storebought: {
         selection: 'Choose from refrigerated section, avoid shelf-stable varieties for best flavor',
-        preparation: 'Drain excess liquid before using in recipes requiring firmer texture',
-      }
+        preparation: 'Drain excess liquid before using in recipes requiring firmer texture'
+}
     },
     storage: {
       container: 'Original container or airtight glass',
       duration: '5-7 days refrigerated',
       temperature: {
         fahrenheit: 38,
-        celsius: 3.3,
-      },
+        celsius: 3.3
+},
       notes: 'Best used fresh, texture deteriorates over time' },
         culturalSignificance: {
       sicilian: {
@@ -486,8 +486,8 @@ const rawDairy = {
       Fire: 0.1,
       Water: 0.4,
       Earth: 0.4,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Moon'],
       zodiacInfluence: ['Taurus', 'Cancer', 'Libra'],
@@ -495,22 +495,22 @@ const rawDairy = {
         moonPhase: {
           waxing: 'creamier texture, milder flavor',
           full: 'perfect balance of richness and tang',
-          waning: 'more pronounced tanginess',
-        }
+          waning: 'more pronounced tanginess'
+}
       }
     },
     lunarPhaseModifiers: {
       'New Moon': {
         elementalBoost: {
           Water: 0.1,
-          Earth: 0.1,
-        },
+          Earth: 0.1
+},
         preparationTips: ['Best for starting fresh batches', 'Creates milder flavor profile']
       },
       'Full Moon': {
         elementalBoost: {
-          Earth: 0.2,
-        },
+          Earth: 0.2
+},
         preparationTips: ['Optimal richness and texture', 'Best structure for baking']
       }
     },
@@ -534,8 +534,8 @@ const rawDairy = {
         moisture: 'Medium-high',
         fat: 'High (33%+)',
         uses: 'Cheesecake, frostings, traditional applications',
-        notes: 'Best flavor and baking performance',
-      },
+        notes: 'Best flavor and baking performance'
+},
       'reduced-fat': {
         texture: 'Slightly less creamy, softer',
         moisture: 'High',
@@ -553,8 +553,8 @@ const rawDairy = {
         moisture: 'Medium',
         fat: 'High',
         uses: 'Gourmet applications, artisanal preparations',
-        notes: 'More traditional method with complex flavor',
-      }
+        notes: 'More traditional method with complex flavor'
+}
     },
     culinaryApplications: {
       spread: {
@@ -589,16 +589,16 @@ const rawDairy = {
       },
       storebought: {
         selection: 'Choose block style for baking, whipped for spreading',
-        preparation: 'Bring to room temperature before using in recipes',
-      }
+        preparation: 'Bring to room temperature before using in recipes'
+}
     },
     storage: {
       container: 'Original foil wrapper or airtight container',
       duration: '2 weeks refrigerated unopened, 1 week once opened',
       temperature: {
         fahrenheit: 38,
-        celsius: 3.3,
-      },
+        celsius: 3.3
+},
       notes: 'Can be frozen for up to 2 months but texture may change' },
         culturalSignificance: {
       american: {

@@ -263,8 +263,8 @@ export class UnusedVariablesCleanupSystem {
       buildTime: 0,
       errors: [],
       warnings: [],
-      safetyScore: 0,
-    }
+      safetyScore: 0
+}
 
     try {
       // Build command arguments
@@ -351,8 +351,8 @@ export class UnusedVariablesCleanupSystem {
       const startTime = Date.now();
       execSync('yarn build', {
         encoding: 'utf-8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
       const buildTime = Date.now() - startTime;
 
       // // // _logger.info(`✅ Build validation successful (${buildTime}ms)`)

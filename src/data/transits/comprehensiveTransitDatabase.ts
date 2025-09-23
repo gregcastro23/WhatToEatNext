@@ -31,7 +31,7 @@ export interface YearlyTransits {
   seasons: TransitSeason[],
   majorTransits: PlanetaryAspect[],
   eclipseSeasons: Date[],
-  retrogradePeriods: Record<string, { start: Date, end: Date }>,
+  retrogradePeriods: Record<string, { start: Date, end: Date }>
 }
 
 /**

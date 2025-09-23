@@ -13,8 +13,8 @@ export const smoking = {
     Fire: 0.6,
     Water: 0.2,
     Earth: 0.3,
-    Air: 0.8,
-  },
+    Air: 0.8
+},
   alchemical_properties: {
     element: 'Air',
     planetary_influence: 'Mars',

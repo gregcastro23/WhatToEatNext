@@ -15,7 +15,7 @@ function execNode(cmd: string): void {
 }
 
 function tryCompiled(
-  toolBaseName: 'analyzeUnusedVariables' | 'batchEliminateUnused',
+  toolBaseName: 'analyzeUnusedVariables' | 'batchEliminateUnused'
 ): string | null {
   // When running compiled (CJS), __dirname should point at dist-scripts
   // Try sibling compiled files first
@@ -39,7 +39,7 @@ function main(): void {
     }
     case 'analyze': {
       const outIdx = rest.indexOf('--out');
-      const out = outIdx !== -1 && rest[outIdx + 1] ? rest[outIdx + 1] : 'reports/unused-vars.json',
+      const out = outIdx !== -1 && rest[outIdx + 1] ? rest[outIdx + 1] : 'reports/unused-vars.json';
       const compiled = tryCompiled('analyzeUnusedVariables')
       if (compiled) {;
         execNode(`node ${compiled} --out ${out}`)
@@ -52,11 +52,11 @@ function main(): void {
     }
     case 'batch': {
       const inIdx = rest.indexOf('--in');
-      const inPath = inIdx !== -1 && rest[inIdx + 1] ? rest[inIdx + 1] : 'reports/unused-vars.json',
+      const inPath = inIdx !== -1 && rest[inIdx + 1] ? rest[inIdx + 1] : 'reports/unused-vars.json';
       const dry = rest.includes('--apply') ? '' : '--dry-run',
       const maxBatchIdx = rest.indexOf('--max-batch')
       const maxCritIdx = rest.indexOf('--max-batch-critical');
-      const maxBatch = maxBatchIdx !== -1 && rest[maxBatchIdx + 1] ? rest[maxBatchIdx + 1] : '15',
+      const maxBatch = maxBatchIdx !== -1 && rest[maxBatchIdx + 1] ? rest[maxBatchIdx + 1] : '15';
       const maxCrit = maxCritIdx !== -1 && rest[maxCritIdx + 1] ? rest[maxCritIdx + 1] : '8',
       const compiled = tryCompiled('batchEliminateUnused')
       if (compiled) {

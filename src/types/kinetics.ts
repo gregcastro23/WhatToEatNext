@@ -23,7 +23,7 @@ export interface KineticsPowerData {
 
 export interface KineticsTimingData {
   planetaryHours: string[];,
-  seasonalInfluence: 'Winter' | 'Spring' | 'Summer' | 'Autumn';
+  seasonalInfluence: 'Winter' | 'Spring' | 'Summer' | 'Autumn'
 }
 
 export interface KineticsElementalTotals {
@@ -49,7 +49,7 @@ export interface KineticsAgentOptimization {
 
 export interface KineticsPowerPrediction {
   nextPeak: string; // ISO date string,
-  trend: 'ascending' | 'stable' | 'descending';,
+  trend: 'ascending' | 'stable' | 'descending'
   confidence: number;
 }
 
@@ -91,7 +91,7 @@ export interface GroupDynamicsRequest {
 export interface GroupDynamicsData {
   harmony: number;,
   powerAmplification: number;,
-  momentumFlow: 'accelerating' | 'sustained' | 'decelerating';,
+  momentumFlow: 'accelerating' | 'sustained' | 'decelerating'
   groupResonance: number;,
   individualContributions: {
     [agentId: string]: {
@@ -112,8 +112,7 @@ export interface GroupDynamicsResponse {
 }
 
 // Food Recommendation Integration Types
-export type FoodEnergyCategory = 'energizing' | 'grounding' | 'balanced';
-
+export type FoodEnergyCategory = 'energizing' | 'grounding' | 'balanced'
 export interface TemporalFoodRecommendation {
   categories: string[];,
   timing: string;,
@@ -123,7 +122,7 @@ export interface TemporalFoodRecommendation {
 }
 
 export interface AspectPhase {
-  type: 'applying' | 'exact' | 'separating';,
+  type: 'applying' | 'exact' | 'separating'
   description: string;,
   velocityBoost?: number,
   powerBoost?: number;

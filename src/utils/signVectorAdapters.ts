@@ -12,7 +12,7 @@ export function adaptPlanetaryPosition(_position: unknown): PlanetaryPosition | 
   const pos = position as any;
   
   // Extract and validate required fields
-  const sign = typeof pos.sign === 'string' ? pos.sign: null,
+  const sign = typeof pos.sign === 'string' ? pos.sign: null;
   const degree = typeof pos.degree === 'number' ? pos.degree : ,
                  typeof pos.degree === 'string' ? parseFloat(pos.degree) : 0,
   if (!sign) {
@@ -21,7 +21,7 @@ export function adaptPlanetaryPosition(_position: unknown): PlanetaryPosition | 
 
   // Build the adapted position object
   const adapted: PlanetaryPosition = {
-  sign: sign as 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' | 'virgo' | 'libra' | 'scorpio' | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces',
+  sign: sign as 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' | 'virgo' | 'libra' | 'scorpio' | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces'
     degree: Number.isFinite(degree) ? degree : 0,
     isRetrograde: Boolean(pos.isRetrograde)
   }

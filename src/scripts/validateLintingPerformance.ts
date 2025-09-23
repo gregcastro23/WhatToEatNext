@@ -99,8 +99,8 @@ class LintingPerformanceValidator {
         memoryUsage: 512 * 1024 * 1024, // 512MB estimated,
         cacheHitRate: 0,
         filesProcessed: 1000, // Estimated,
-        parallelProcesses: 1,
-      }
+        parallelProcesses: 1
+}
     }
   }
 
@@ -113,8 +113,8 @@ class LintingPerformanceValidator {
       execSync('yarn, lint: fast --max-warnings=10000', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 120000,
-      })
+        timeout: 120000
+})
     } catch (error) {
       _logger.warn('  Cache population had issues, continuing...')
     }
@@ -127,8 +127,8 @@ class LintingPerformanceValidator {
       const output = execSync('yarn, lint: fast --max-warnings=10000', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 60000,
-      })
+        timeout: 60000
+})
 
       const endTime = Date.now()
       const endMemory = process.memoryUsage()
@@ -171,8 +171,8 @@ class LintingPerformanceValidator {
           memoryUsage: 0,
           cacheHitRate: 0,
           filesProcessed: 0,
-          parallelProcesses: 0,
-        },
+          parallelProcesses: 0
+},
         expectedImprovement: 70,
         actualImprovement: 0,
         details: `Error: ${error}`
@@ -189,8 +189,8 @@ class LintingPerformanceValidator {
       const output = execSync('yarn, lint: parallel --max-warnings=10000', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 120000,
-      })
+        timeout: 120000
+})
 
       const endTime = Date.now()
       const endMemory = process.memoryUsage()
@@ -237,8 +237,8 @@ class LintingPerformanceValidator {
           memoryUsage: 0,
           cacheHitRate: 0,
           filesProcessed: 0,
-          parallelProcesses: 0,
-        },
+          parallelProcesses: 0
+},
         expectedImprovement: 40,
         actualImprovement: 0,
         details: `Error: ${error}`
@@ -312,8 +312,8 @@ class LintingPerformanceValidator {
           memoryUsage: 0,
           cacheHitRate: 0,
           filesProcessed: 0,
-          parallelProcesses: 0,
-        },
+          parallelProcesses: 0
+},
         expectedImprovement: 20,
         actualImprovement: 0,
         details: `Error: ${error}`
@@ -390,8 +390,8 @@ export const _testVariable = 'test';
           memoryUsage: 0,
           cacheHitRate: 0,
           filesProcessed: 0,
-          parallelProcesses: 0,
-        },
+          parallelProcesses: 0
+},
         expectedImprovement: 90,
         actualImprovement: 0,
         details: `Error: ${error}`

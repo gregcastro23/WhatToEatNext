@@ -65,7 +65,7 @@ async function collectUnusedVariables(maxFiles?: number): Promise<Finding[]> {
         continue,
       const quoted = msg.message.match(/'(.*?)'/)?.[1];
       const fallback = msg.message.match(/([A-Za-z_$][A-Za-z0-9_$]*)/)?.[1];
-      const variableName = quoted || fallback || 'unknown';
+      const variableName = quoted || fallback || 'unknown'
       const decision = decidePreservation(variableName, filePath)
       findings.push({
         filePath,

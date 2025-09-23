@@ -30,8 +30,8 @@ const rawRootVegetables = {
       minerals: ['potassium', 'magnesium'],
       calories: 41,
       carbs_g: 9.6,
-      fiber_g: 2.8,
-    },
+      fiber_g: 2.8
+},
     preparation: {
       washing: true,
       peeling: 'optional',
@@ -39,8 +39,8 @@ const rawRootVegetables = {
         storage: {
       temperature: 'refrigerated',
       duration: '2-3 weeks',
-      notes: 'Remove greens before storing',
-    }
+      notes: 'Remove greens before storing'
+}
   },
   black_radish: {
     name: 'Black Radish',
@@ -69,8 +69,8 @@ const rawRootVegetables = {
       minerals: ['potassium', 'phosphorus'],
       calories: 20,
       carbs_g: 4.2,
-      fiber_g: 1.6,
-    },
+      fiber_g: 1.6
+},
     preparation: {
       washing: true,
       peeling: 'recommended for older radishes',
@@ -78,8 +78,8 @@ const rawRootVegetables = {
         storage: {
       temperature: 'refrigerated',
       duration: '2-3 weeks',
-      notes: 'Store in plastic bag with moisture',
-    }
+      notes: 'Store in plastic bag with moisture'
+}
   },
   carrot: {
     name: 'Carrot',
@@ -118,8 +118,8 @@ const rawRootVegetables = {
       minerals: ['potassium', 'biotin'],
       calories: 41,
       carbs_g: 9.6,
-      fiber_g: 2.8,
-    },
+      fiber_g: 2.8
+},
     preparation: {
       washing: true,
       peeling: 'optional',
@@ -127,8 +127,8 @@ const rawRootVegetables = {
         storage: {
       temperature: 'refrigerated',
       duration: '2-3 weeks',
-      notes: 'Store in crisper drawer',
-    }
+      notes: 'Store in crisper drawer'
+}
   },
   ginger: {
     name: 'Ginger',
@@ -157,8 +157,8 @@ const rawRootVegetables = {
       minerals: ['magnesium', 'potassium'],
       calories: 80,
       carbs_g: 17.8,
-      fiber_g: 2,
-    },
+      fiber_g: 2
+},
     preparation: {
       peeling: 'recommended',
       grating: 'for intense flavor',
@@ -166,8 +166,8 @@ const rawRootVegetables = {
         storage: {
       temperature: 'room temperature or refrigerated',
       duration: '3-4 weeks',
-      notes: 'Store in dry place or refrigerate in paper bag',
-    }
+      notes: 'Store in dry place or refrigerate in paper bag'
+}
   },
   jerusalem_artichoke: {
     name: 'Jerusalem Artichoke',
@@ -196,8 +196,8 @@ const rawRootVegetables = {
       minerals: ['iron', 'potassium'],
       calories: 73,
       carbs_g: 17,
-      fiber_g: 1.6,
-    },
+      fiber_g: 1.6
+},
     preparation: {
       washing: true,
       peeling: 'optional',
@@ -205,8 +205,8 @@ const rawRootVegetables = {
         storage: {
       temperature: 'refrigerated',
       duration: '1-2 weeks',
-      notes: 'Store in paper bag in crisper drawer',
-    }
+      notes: 'Store in paper bag in crisper drawer'
+}
   }
 }
 

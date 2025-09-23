@@ -62,11 +62,10 @@ interface TimeFactors {
   currentDate: Date
 }
 
-type PlanetaryDay = 'Sun' | 'Moon' | 'Mars' | 'Mercury' | 'Jupiter' | 'Venus' | 'Saturn',
+type PlanetaryDay = 'Sun' | 'Moon' | 'Mars' | 'Mercury' | 'Jupiter' | 'Venus' | 'Saturn'
 type PlanetaryHour = PlanetaryDay,
-type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night',
-type Season = 'spring' | 'summer' | 'autumn' | 'winter',
-
+type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night'
+type Season = 'spring' | 'summer' | 'autumn' | 'winter'
 /**
  * Enhanced cuisine-specific recipe recommender that incorporates: * - Day of week (planetary day)
  * - Hour and minute (planetary hours)
@@ -133,7 +132,7 @@ export class EnhancedCuisineRecommender {
       : filteredRecipes
 
     // Calculate match scores for each recipe
-    const matches = dietaryFilteredRecipes.map(recipe => {,
+    const matches = dietaryFilteredRecipes.map(recipe => {;
       const seasonalScore = this.calculateSeasonalScore(recipe, timeFactors)
       const planetaryDayScore = this.calculatePlanetaryDayScore(recipe, timeFactors, astroState)
       const planetaryHourScore = this.calculatePlanetaryHourScore(recipe, timeFactors, astroState)
@@ -153,8 +152,8 @@ export class EnhancedCuisineRecommender {
 
       return {
         cuisine: cuisineName,
-        recipeName: recipe.name || 'Unknown Recipe',
-        recipeId: recipe.id || recipe.name?.toLowerCase().replace(/\s+/g, '-') || 'unknown',
+        recipeName: recipe.name || 'Unknown Recipe'
+        recipeId: recipe.id || recipe.name?.toLowerCase().replace(/\s+/g, '-') || 'unknown'
         matchPercentage,
         seasonalScore,
         planetaryDayScore,

@@ -56,12 +56,12 @@ export interface QualityGateResult {
  * Quality violation
  */
 export interface QualityViolation {
-  type: 'error' | 'warning' | 'performance' | 'blocker',
+  type: 'error' | 'warning' | 'performance' | 'blocker'
   rule: string,
   message: string,
   file?: string,
   line?: number,
-  severity: 'low' | 'medium' | 'high' | 'critical',
+  severity: 'low' | 'medium' | 'high' | 'critical'
   autoFixable: boolean
 }
 
@@ -75,7 +75,7 @@ export interface DeploymentReadiness {
   warnings: string[],
   qualityScore: number, // 0-100,
   riskAssessment: {
-    level: 'low' | 'medium' | 'high' | 'critical',
+    level: 'low' | 'medium' | 'high' | 'critical'
     factors: string[],
     mitigations: string[]
   }
@@ -206,7 +206,7 @@ export class LintingQualityGates {
     },
     qualityGates: {
       passed: boolean,
-      riskLevel: 'low' | 'medium' | 'high' | 'critical',
+      riskLevel: 'low' | 'medium' | 'high' | 'critical'
       violationCount: number
     },
     blockers: string[],
@@ -259,7 +259,7 @@ export class LintingQualityGates {
    */
   async monitorQualityTrends(): Promise<{
     trends: Record<string, 'improving' | 'stable' | 'degrading'>,
-    overallTrend: 'improving' | 'stable' | 'degrading',
+    overallTrend: 'improving' | 'stable' | 'degrading'
     recommendations: string[],
     alertLevel: 'none' | 'low' | 'medium' | 'high'
   }> {
@@ -270,8 +270,8 @@ export class LintingQualityGates {
           trends: {}
           overallTrend: 'stable',
           recommendations: ['Need more historical data'],
-          alertLevel: 'none',
-        }
+          alertLevel: 'none'
+}
       }
 
       const recent = history.slice(-10), // Last 10 evaluations,
@@ -336,8 +336,8 @@ export class LintingQualityGates {
         rule: 'max-execution-time',
         message: `Execution time ${metrics.performanceMetrics.executionTime}ms exceeds threshold`,
         severity: 'medium',
-        autoFixable: false,
-      })
+        autoFixable: false
+})
     }
 
     // Check for blockers
@@ -351,8 +351,8 @@ export class LintingQualityGates {
             file: error.file,
             line: error.line,
             severity: 'critical' as const,
-            autoFixable: false,
-          })),
+            autoFixable: false
+})),
         )
       }
     }
@@ -447,7 +447,7 @@ export class LintingQualityGates {
   }
 
   private assessRisk(gateResult: QualityGateResult): {
-    level: 'low' | 'medium' | 'high' | 'critical',
+    level: 'low' | 'medium' | 'high' | 'critical'
     factors: string[],
     mitigations: string[]
   } {
@@ -477,8 +477,8 @@ export class LintingQualityGates {
     try {
       // This would check for TypeScript parser errors
       const result = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 || true', {
-        encoding: 'utf8',
-      })
+        encoding: 'utf8'
+})
       const errors: Array<{ message: string, file?: string, line?: number }> = [];
 
       // Parse TypeScript compiler output for parser errors
@@ -570,14 +570,14 @@ export class LintingQualityGates {
         maxWarnings: 100,
         maxExecutionTime: 60000,
         minCacheHitRate: 70,
-        maxMemoryUsage: 512,
-      },
+        maxMemoryUsage: 512
+},
       blockers: {
         parserErrors: true,
         typeScriptErrors: true,
         importErrors: true;,
-        securityIssues: true,
-      },
+        securityIssues: true
+},
       exemptions: {
         files: [],
         rules: []

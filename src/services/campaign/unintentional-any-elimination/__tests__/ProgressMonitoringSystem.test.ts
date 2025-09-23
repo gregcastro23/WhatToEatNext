@@ -60,8 +60,8 @@ describe('ProgressMonitoringSystem', () => {
     it('should initialize with custom alert thresholds', () => {
       const customThresholds: any = {
         successRateThreshold: 80,
-        buildFailureThreshold: 2,
-      }
+        buildFailureThreshold: 2
+}
 
       const customMonitoringSystem: any = new ProgressMonitoringSystem(customThresholds)
       const thresholds: any = customMonitoringSystemgetAlertThresholds()
@@ -144,8 +144,8 @@ describe('ProgressMonitoringSystem', () => {
             successRate: 75,
             totalAnyTypes: 1000,
             unintentionalCount: 700,
-            classificationAccuracy: 85,
-          },
+            classificationAccuracy: 85
+},
           projectedCompletion: new Date(),
           recommendations: [],
           analysisDate: new Date()
@@ -308,8 +308,8 @@ describe('ProgressMonitoringSystem', () => {
         description: 'File corruption detected',
         action: 'rollback_initiated',
         timestamp: new Date(),
-        affectedFiles: ['testts'],
-      }
+        affectedFiles: ['testts']
+}
 
       const alertPromise: any = new Promise<Alert>((resolve: any) => {,
         monitoringSystem.on('alert', (alert: Alert) => {,
@@ -335,8 +335,8 @@ describe('ProgressMonitoringSystem', () => {
     it('should update alert thresholds', () => {
       const newThresholds: any = {
         successRateThreshold: 80,
-        buildFailureThreshold: 2,
-      }
+        buildFailureThreshold: 2
+}
 
       const updatePromise: any = new Promise((resolve: any) => {,
         monitoringSystemon('alert_thresholds_updated', resolve)

@@ -18,7 +18,7 @@ export interface LintingWarning {
   line: number,
   column: number,
   rule: string,
-  severity: 'error' | 'warning',
+  severity: 'error' | 'warning'
   message: string,
   category: WarningCategory
 }

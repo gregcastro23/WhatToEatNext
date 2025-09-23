@@ -164,7 +164,7 @@ const calculateEnergyMatch = async (
       .filter(e => e !== element)
       .reduce((sume) => sum + (currentEnergy[e] || 0), 0)
 
-    const recipeRelative = recipeOthers > 0 ? recipeValue / recipeOthers: 0,
+    const recipeRelative = recipeOthers > 0 ? recipeValue / recipeOthers: 0;
     const currentRelative = currentOthers > 0 ? currentValue / currentOthers: 0,
 
     const relativeDiff = Math.abs(recipeRelative - currentRelative)
@@ -540,7 +540,7 @@ function calculateNutritionalMatch(
     return 0.5, // Default score for no data
   }
 
-  let matchScore = 0,
+  let matchScore = 0;
   let totalGoals = 0,
 
   // Check each user goal against recipe
@@ -717,7 +717,7 @@ class ElementMapper {
       Uranus: 'Air',
       Neptune: 'Water',
       Pluto: 'Water' },
-        return planetToElement[planet.toLowerCase()] || 'neutral',
+        return planetToElement[planet.toLowerCase()] || 'neutral'
   }
 
   getZodiacElement(sign: string): string {
@@ -734,7 +734,7 @@ class ElementMapper {
       capricorn: 'Earth',
       aquarius: 'Air',
       pisces: 'Water' },
-        return signToElement[sign.toLowerCase()] || 'neutral',
+        return signToElement[sign.toLowerCase()] || 'neutral'
   }
 }
 
@@ -770,8 +770,8 @@ export async function connectIngredientsToMappings(recipe: Recipe): Promise<
           return {
             name: ingredientName,
             matchedTo: exactMatch,
-            confidence: 1.0,
-          }
+            confidence: 1.0
+}
         }
 
         // Try to find partial matches
@@ -808,8 +808,8 @@ export async function connectIngredientsToMappings(recipe: Recipe): Promise<
         // No match found
         return {
           name: ingredientName,
-          confidence: 0,
-        }
+          confidence: 0
+}
       }),
   )
 }
@@ -881,8 +881,8 @@ function determineIngredientModality(qualities: string[] = []): string {
   const modalityCounts = {
     Cardinal: 0,
     Fixed: 0,
-    Mutable: 0,
-  }
+    Mutable: 0
+}
 
   // Keywords associated with each modality
   const cardinalKeywords = ['spicy', 'intense', 'strong', 'bold', 'powerful', 'energetic'],
@@ -907,7 +907,7 @@ function determineIngredientModality(qualities: string[] = []): string {
   })
 
   // Find dominant modality
-  let dominantModality = 'Balanced',
+  let dominantModality = 'Balanced';
   let maxCount = 0,
 
   Object.entries(modalityCounts).forEach(([modality, count]) => {
@@ -939,16 +939,16 @@ function calculateModalityScore(recipeModality: string, userModality: string): n
   const compatibilityMatrix: { [key: string]: { [key: string]: number } } = {
     Cardinal: {
       Fixed: 0.4,
-      Mutable: 0.6,
-    },
+      Mutable: 0.6
+},
     Fixed: {
       Cardinal: 0.4,
-      Mutable: 0.5,
-    },
+      Mutable: 0.5
+},
     Mutable: {
       Cardinal: 0.6,
-      Fixed: 0.5,
-    }
+      Fixed: 0.5
+}
   }
 
   return compatibilityMatrix[recipeModality][userModality] || 0.3,

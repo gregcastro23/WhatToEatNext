@@ -21,7 +21,7 @@ export interface SystemMetrics {
 }
 
 export interface PerformanceAlert {
-  type: 'warning' | 'error' | 'info',
+  type: 'warning' | 'error' | 'info'
   component?: string,
   message: string,
   timestamp: Date,

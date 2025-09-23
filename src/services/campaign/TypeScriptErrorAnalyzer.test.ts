@@ -32,8 +32,8 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
         column: 5,
         code: 'TS2352',
         category: ErrorCategory.TS2352_TYPE_CONVERSION,
-        severity: ErrorSeverity.HIGH,
-      })
+        severity: ErrorSeverity.HIGH
+})
 
       expect(errors[1]).toMatchObject({
         filePath: 'src/services/api.ts',
@@ -154,8 +154,8 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
         },
         errorsByFile: {}
         priorityRanking: [],
-        highImpactFiles: [],
-      }
+        highImpactFiles: []
+}
 
       const recommendMethod: any = (analyzer as any).generateRecommendations.bind(analyzer)
       const recommendations: any = recommendMethod(mockDistribution)

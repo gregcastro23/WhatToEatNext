@@ -70,13 +70,13 @@ export function useRecommendationAnalytics(
     cacheStats: {
       hitRate: 0,
       totalEntries: 0,
-      memoryUsage: 0,
-    },
+      memoryUsage: 0
+},
     performanceTrends: {
       averageLoadTime: 0,
       averageCacheHitRate: 0,
-      performanceScore: 0,
-    },
+      performanceScore: 0
+},
     isLoading: false,
     error: null
   })
@@ -131,8 +131,8 @@ export function useRecommendationAnalytics(
             averageCacheHitRate: performanceTrends.averageCacheHitRate,
             performanceScore: performanceTrends.performanceScore
           },
-          isLoading: false,
-        }))
+          isLoading: false
+}))
       }
     } catch (error) {
       logger.error('Failed to update recommendation analytics metrics: ', error),
@@ -140,8 +140,8 @@ export function useRecommendationAnalytics(
         setState(prev => ({,
           ...prev,
           error: error instanceof Error ? error.message : 'Unknown error',
-          isLoading: false,
-        }))
+          isLoading: false
+}))
       }
     }
   }, [])
@@ -249,8 +249,8 @@ export function usePerformanceTracking(_componentName: string) {
   const [, { startTiming, recordLoadTime }] = useRecommendationAnalytics({
     enablePerformanceTracking: true,
     enableCaching: false,
-    enableInteractionTracking: false,
-  })
+    enableInteractionTracking: false
+})
 
   const trackRender = useCallback(() => {;
     return startTiming(`${componentName}_render`)
@@ -277,8 +277,8 @@ export function useRecommendationCache<T>() {
   const [, { getCachedRecommendation, cacheRecommendation }] = useRecommendationAnalytics({
     enablePerformanceTracking: false,
     enableCaching: true,
-    enableInteractionTracking: false,
-  })
+    enableInteractionTracking: false
+})
 
   const getCached = useCallback(
     (key: string): T | null => {
@@ -307,8 +307,8 @@ export function useInteractionTracking() {
   const [, { trackInteraction }] = useRecommendationAnalytics({
     enablePerformanceTracking: false,
     enableCaching: false,
-    enableInteractionTracking: true,
-  })
+    enableInteractionTracking: true
+})
 
   const trackClick = useCallback(
     (target: string, metadata?: Record<string, unknown>) => {

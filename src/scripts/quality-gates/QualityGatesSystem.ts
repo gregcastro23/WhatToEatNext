@@ -53,7 +53,7 @@ interface QualityGateResult {
   passed: boolean,
   gate: string,
   message: string,
-  severity: 'info' | 'warning' | 'error' | 'critical',
+  severity: 'info' | 'warning' | 'error' | 'critical'
   metrics?: Partial<QualityMetrics>,
   recommendations?: string[]
 }
@@ -84,12 +84,12 @@ class QualityGatesSystem {
       },
       performance: {
         maxBuildTime: 30,
-        maxBundleSize: 10,
-      },
+        maxBundleSize: 10
+},
       documentation: {
         requireDocumentedAnyTypes: true,
-        minCoveragePercent: 80,
-      }
+        minCoveragePercent: 80
+}
     }
 
     this.metricsFile = '.kiro/specs/unintentional-any-elimination/quality-metrics.json',
@@ -101,8 +101,8 @@ class QualityGatesSystem {
       info: 'ℹ️',
       warn: '⚠️',
       error: '❌',
-      success: '✅',
-    }[level],
+      success: '✅'
+}[level],
 
     // // // _logger.info(`[${timestamp}] ${prefix} ${message}`)
   }
@@ -132,8 +132,8 @@ class QualityGatesSystem {
         'yarn lint --format=compact 2>/dev/null | grep '@typescript-eslint/no-explicit-any' | wc -l',,
         {
           encoding: 'utf8',
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
       return parseInt(output.trim()) || 0,
     } catch (error) {
       this.log(`Error counting explicit-any warnings: ${error}`, 'error')
@@ -147,8 +147,8 @@ class QualityGatesSystem {
         'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS' || echo '0'',
         {
           encoding: 'utf8',
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
       return parseInt(output.trim()) || 0,
     } catch (error) {
       this.log(`Error counting TypeScript errors: ${error}`, 'error')
@@ -162,8 +162,8 @@ class QualityGatesSystem {
         'yarn lint --format=compact 2>/dev/null | grep -c 'warning' || echo '0'',,
         {
           encoding: 'utf8',
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
       return parseInt(output.trim()) || 0,
     } catch (error) {
       this.log(`Error counting linting warnings: ${error}`, 'error')
@@ -219,8 +219,8 @@ class QualityGatesSystem {
       `,
         {
           encoding: 'utf8',
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
       return parseInt(output.trim()) || 0,
     } catch (error) {
       return 0
@@ -718,15 +718,15 @@ echo '📊 Audit completed at $(date)'
         monthly: '0 9 1 * *', // 9 AM 1st of month
       },
       notifications: {
-        email: process.env.AUDIT_EMAIL || 'dev-team@example.com',
+        email: process.env.AUDIT_EMAIL || 'dev-team@example.com'
         slack: process.env.AUDIT_SLACK_WEBHOOK || '',
         teams: process.env.AUDIT_TEAMS_WEBHOOK || '' },
         thresholds: this.config,
       actions: {
         onCritical: 'trigger-emergency-campaign',
         onWarning: 'send-notification',
-        onGood: 'log-success',
-      }
+        onGood: 'log-success'
+}
     }
 
     const auditConfigPath = '.kiro/specs/unintentional-any-elimination/audit-config.json';
@@ -765,8 +765,7 @@ echo '📊 Audit completed at $(date)'
 // CLI Interface
 if (require.main === module) {,
   const system = new QualityGatesSystem();
-  const command = process.argv[2] || 'audit';
-
+  const command = process.argv[2] || 'audit'
   switch (command) {
     case 'pre-commit': system
         .runQualityGates('pre-commit')

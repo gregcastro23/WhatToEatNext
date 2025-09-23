@@ -877,24 +877,24 @@ describe('Domain-Specific Testing', () => {
           filePath: 'src/data/ingredients/processor.ts',
           lineNumber: 1,
           confidence: 0.9,
-          validationRequired: true,
-        }
+          validationRequired: true
+}
         {
           original: 'any',
           replacement: 'PlanetaryPosition',
           filePath: 'src/calculations/planetary/positions.ts',
           lineNumber: 1,
           confidence: 0.8,
-          validationRequired: true,
-        }
+          validationRequired: true
+}
         {
           original: 'any',
           replacement: 'ProgressMetrics',
           filePath: 'src/services/campaign/ProgressTracker.ts',
           lineNumber: 1,
           confidence: 0.9,
-          validationRequired: true,
-        }
+          validationRequired: true
+}
       ],
 
       // Mock file system for domain-specific content

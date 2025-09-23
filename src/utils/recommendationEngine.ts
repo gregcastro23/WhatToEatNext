@@ -3,8 +3,7 @@ import { Recipe } from '../types/recipe';
 import { Season, TimeFactors, WeekDay, getTimeFactors } from '../types/time';
 
 // Define MealType since it's not exported from time.ts
-type MealType = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Anytime',
-
+type MealType = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Anytime'
 // Elemental affinities - which elements go well together
 const ELEMENTAL_AFFINITIES: Record<Element, Element[]> = {
   Fire: ['Fire', 'Air'],

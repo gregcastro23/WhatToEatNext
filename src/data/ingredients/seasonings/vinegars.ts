@@ -10,8 +10,8 @@ function createIngredientMapping(id: string, properties: unknown) {
       Earth: 0.25,
       Water: 0.25,
       Fire: 0.25,
-      Air: 0.25,
-    },
+      Air: 0.25
+},
     category: properties.category || '',
     ...properties
   }
@@ -23,8 +23,8 @@ const rawVinegars = {
       Water: 0.4,
       Air: 0.3,
       Earth: 0.2,
-      Fire: 0.1,
-    },
+      Fire: 0.1
+},
     nutritionalProfile: {
       calories: 5,
       carbs_g: 1.5,
@@ -76,8 +76,8 @@ const rawVinegars = {
       signs_of_spoilage: {
         visual: 'cloudiness, sediment (though some varieties naturally have this)',
         olfactory: 'off smells beyond normal fermented aroma',
-        flavor: 'excessively harsh or moldy taste',
-      }
+        flavor: 'excessively harsh or moldy taste'
+}
     },
     culinary_benefits: {
       health: ['low sodium alternative to salt', 'digestion aid', 'probiotic potential'],
@@ -99,8 +99,8 @@ const rawVinegars = {
       Water: 0.3,
       Earth: 0.4,
       Fire: 0.2,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     nutritionalProfile: {
       calories: 14,
       carbs_g: 2.7,
@@ -208,8 +208,8 @@ const rawVinegars = {
       Water: 0.5,
       Earth: 0.3,
       Fire: 0.1,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     qualities: ['nutty', 'complex', 'sharp'],
     origin: ['Spain'],
     category: 'vinegar',
@@ -243,8 +243,8 @@ const rawVinegars = {
         appearance: 'deep amber',
         flavor: 'intense, complex',
         aging: '10+ years',
-        uses: 'finishing',
-      }
+        uses: 'finishing'
+}
     },
     culinaryApplications: {
       vinaigrettes: {
@@ -317,8 +317,8 @@ const rawVinegars = {
       temperature: 'room temperature',
       duration: 'indefinite',
       container: 'glass bottle',
-      notes: 'Maintains quality well',
-    }
+      notes: 'Maintains quality well'
+}
   }),
 
   apple_cider_vinegar: createIngredientMapping('apple_cider_vinegar', {
@@ -326,8 +326,8 @@ const rawVinegars = {
       Water: 0.3,
       Air: 0.3,
       Earth: 0.3,
-      Fire: 0.1,
-    },
+      Fire: 0.1
+},
     nutritionalProfile: {
       calories: 3,
       carbs_g: 0.9,
@@ -403,8 +403,8 @@ const rawVinegars = {
           daily_use: 'morning or before meals',
           detox: '2-3 times daily before meals' },
         pairings: ['honey', 'lemon', 'cinnamon', 'cayenne', 'ginger'],
-        cautions: 'may erode tooth enamel if not diluted rinse mouth after consuming',
-      }
+        cautions: 'may erode tooth enamel if not diluted rinse mouth after consuming'
+}
     },
     storage: {
       temperature: 'room temperature',
@@ -419,8 +419,8 @@ const rawVinegars = {
       Water: 0.3,
       Fire: 0.3,
       Earth: 0.3,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     qualities: ['robust', 'fruity', 'tangy'],
     origin: ['France', 'Italy', 'Spain'],
     category: 'vinegar',
@@ -504,8 +504,8 @@ const rawVinegars = {
           shallot_based: {
             name: 'Shallot Based',
             method: 'macerate shallots in vinegar',
-            timing: '15 minutes before adding oil',
-          }
+            timing: '15 minutes before adding oil'
+}
         },
         pairings: ['dijon mustard', 'shallots', 'herbs']
       },
@@ -524,8 +524,8 @@ const rawVinegars = {
           provençal: {
             name: 'Provençal',
             ingredients: ['olive oil', 'herbes de provence', 'garlic'],
-            ratio: '1:3:1',
-          }
+            ratio: '1:3:1'
+}
         }
       },
       pan_sauces: {
@@ -539,8 +539,8 @@ const rawVinegars = {
           mounted: {
             name: 'Mounted',
             method: 'finish with cold butter',
-            ratio: '2-3 tbsp butter per cup sauce',
-          }
+            ratio: '2-3 tbsp butter per cup sauce'
+}
         },
         pairings: ['shallots', 'herbs', 'stock', 'butter']
       }
@@ -549,8 +549,8 @@ const rawVinegars = {
       temperature: 'room temperature',
       duration: '2 years',
       container: 'glass bottle',
-      notes: 'Keep away from light',
-    }
+      notes: 'Keep away from light'
+}
   }),
 
   white_wine_vinegar: createIngredientMapping('white_wine_vinegar', {
@@ -568,8 +568,8 @@ const rawVinegars = {
         name: 'Standard',
         appearance: 'clear',
         flavor: 'crisp, clean',
-        uses: 'all-purpose',
-      }
+        uses: 'all-purpose'
+}
     },
     culinaryApplications: {
       light_sauces: {
@@ -583,8 +583,8 @@ const rawVinegars = {
           cold_emulsion: {
             name: 'Cold Emulsion',
             method: 'whisk into mayonnaise',
-            ratio: '1-2 tsp per cup',
-          }
+            ratio: '1-2 tsp per cup'
+}
         },
         pairings: ['butter', 'cream', 'herbs', 'shallots']
       },
@@ -604,8 +604,8 @@ const rawVinegars = {
         cold_infusion: {
             name: 'Cold Infusion',
             method: 'combine room temperature',
-            timing: 'refrigerate 24 hours',
-          }
+            timing: 'refrigerate 24 hours'
+}
         }
       }
     }
@@ -634,8 +634,8 @@ const rawVinegars = {
         herb_infused: {
             name: 'Herb Infused',
             method: 'steep delicate herbs',
-            timing: '1 hour before use',
-          }
+            timing: '1 hour before use'
+}
         },
         pairings: ['walnut oil', 'citrus', 'tarragon', 'chervil']
       },
@@ -650,8 +650,8 @@ const rawVinegars = {
           mignonette: {
             name: 'Mignonette',
             ingredients: ['shallots', 'pepper'],
-            ratio: '1 / (4 || 1) cup vinegar to 1 tbsp shallots',
-          }
+            ratio: '1 / (4 || 1) cup vinegar to 1 tbsp shallots'
+}
         }
       }
     }
@@ -662,8 +662,8 @@ const rawVinegars = {
       Earth: 0.5,
       Fire: 0.3,
       Water: 0.2,
-      Air: 0.0,
-    },
+      Air: 0.0
+},
     qualities: ['robust', 'grainy', 'complex'],
     origin: ['United Kingdom'],
     category: 'vinegar',
@@ -673,8 +673,8 @@ const rawVinegars = {
         name: 'Distilled',
         appearance: 'lighter brown',
         flavor: 'milder',
-        uses: 'general purpose',
-      }
+        uses: 'general purpose'
+}
     },
     culinaryApplications: {
       fish_and_chips: {
@@ -706,8 +706,8 @@ const rawVinegars = {
         quick_pickle: {
             name: 'Quick Pickle',
             method: 'hot brine',
-            timing: '24 hours',
-          }
+            timing: '24 hours'
+}
         },
         pairings: ['bay leaves', 'peppercorns', 'mustard seeds']
       }
@@ -716,8 +716,8 @@ const rawVinegars = {
       temperature: 'room temperature',
       duration: '2 years',
       container: 'glass bottle',
-      notes: 'May develop sediment',
-    }
+      notes: 'May develop sediment'
+}
   })
 }
 

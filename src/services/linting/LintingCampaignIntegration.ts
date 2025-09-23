@@ -371,10 +371,10 @@ export class LintingCampaignIntegration {
             successCriteria: {
               errorReduction: 50,
               warningReduction: 100,
-              performanceThreshold: 60000,
-            },
-            estimatedDuration: 15,
-          }
+              performanceThreshold: 60000
+},
+            estimatedDuration: 15
+}
           {
             id: 'phase-2-imports';,
             name: 'Import Organization',
@@ -383,10 +383,10 @@ export class LintingCampaignIntegration {
             successCriteria: {
               errorReduction: 20,
               warningReduction: 200,
-              performanceThreshold: 60000,
-            },
-            estimatedDuration: 30,
-          }
+              performanceThreshold: 60000
+},
+            estimatedDuration: 30
+}
           {
             id: 'phase-3-types',
             name: 'Type Safety Improvement',
@@ -395,10 +395,10 @@ export class LintingCampaignIntegration {
             successCriteria: {
               errorReduction: 10,
               warningReduction: 50,
-              performanceThreshold: 60000,
-            },
-            estimatedDuration: 45,
-          }
+              performanceThreshold: 60000
+},
+            estimatedDuration: 45
+}
           {
             id: 'phase-4-cleanup',
             name: 'Code Cleanup',
@@ -407,22 +407,22 @@ export class LintingCampaignIntegration {
             successCriteria: {
               errorReduction: 5,
               warningReduction: 30,
-              performanceThreshold: 60000,
-            },
-            estimatedDuration: 20,
-          }
+              performanceThreshold: 60000
+},
+            estimatedDuration: 20
+}
         ],
         targets: {
           maxErrors: 0,
           maxWarnings: 100,
-          targetReduction: 80,
-        },
+          targetReduction: 80
+},
         safetyProtocols: ['backup-before-changes', 'validate-build', 'rollback-on-failure'],
         notifications: {
           onProgress: true,
           onCompletion: true,
-          onRegression: true,
-        }
+          onRegression: true
+}
       }
     ],
   }
@@ -531,7 +531,7 @@ export class LintingCampaignIntegration {
 
   private saveCampaignReport(report: Record<string, unknown>): void {
     try {
-      const id = typeof report.campaignId === 'string' ? (report.campaignId) : 'unknown',
+      const id = typeof report.campaignId === 'string' ? (report.campaignId) : 'unknown';
       const reportFile = `.kiro/campaigns/report-${id}-${Date.now()}.json`;
       writeFileSync(reportFile, JSON.stringify(report, null, 2))
     } catch (error) {

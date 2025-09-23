@@ -5,10 +5,10 @@ import { buildPerformanceMonitor } from './BuildPerformanceMonitor';
 import { errorTrackingSystem } from './ErrorTrackingSystem';
 
 export interface QualityInsight {
-  type: 'trend' | 'prediction' | 'recommendation' | 'alert',
+  type: 'trend' | 'prediction' | 'recommendation' | 'alert'
   title: string,
   description: string,
-  severity: 'info' | 'warning' | 'error' | 'critical',
+  severity: 'info' | 'warning' | 'error' | 'critical'
   confidence: number, // 0-1,
   timeframe: string,
   actionable: boolean,
@@ -19,8 +19,8 @@ export interface QualityInsight {
 export interface TechnicalDebtItem {
   category: string,
   description: string,
-  impact: 'low' | 'medium' | 'high' | 'critical',
-  effort: 'low' | 'medium' | 'high',
+  impact: 'low' | 'medium' | 'high' | 'critical'
+  effort: 'low' | 'medium' | 'high'
   files: string[],
   estimatedHours: number,
   priority: number,
@@ -31,7 +31,7 @@ export interface QualityPrediction {
   metric: string,
   currentValue: number,
   predictedValue: number,
-  timeframe: '1w' | '1m' | '3m',
+  timeframe: '1w' | '1m' | '3m'
   confidence: number,
   factors: string[],
   recommendations: string[]
@@ -176,15 +176,15 @@ class QualityMetricsService {
               name: 'Reduce to under 500 errors',
               targetValue: 500,
               targetDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-              completed: false,
-            }
+              completed: false
+}
             {
               id: 'ts-milestone-2',
               name: 'Reduce to under 100 errors',
               targetValue: 100,
               targetDate: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000),
-              completed: false,
-            }
+              completed: false
+}
           ]
         }
         {
@@ -202,15 +202,15 @@ class QualityMetricsService {
               name: 'Achieve 70% quality score',
               targetValue: 70,
               targetDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-              completed: false,
-            }
+              completed: false
+}
             {
               id: 'quality-milestone-2',
               name: 'Achieve 80% quality score',
               targetValue: 80,
               targetDate: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000),
-              completed: false,
-            }
+              completed: false
+}
           ]
         }
         {
@@ -228,8 +228,8 @@ class QualityMetricsService {
               name: 'Achieve sub-60s builds',
               targetValue: 60,
               targetDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-              completed: false,
-            }
+              completed: false
+}
           ]
         }
       ],
@@ -517,7 +517,7 @@ class QualityMetricsService {
         debtItems.push({,
           category: 'Error Pattern',
           description: `${pattern.pattern} occurs ${pattern.frequency} times across ${pattern.files.length} files`,
-          impact: pattern.priority as 'low' | 'medium' | 'high' | 'critical',
+          impact: pattern.priority as 'low' | 'medium' | 'high' | 'critical'
           effort: pattern.automatable ? 'low' : pattern.frequency > 20 ? 'high' : 'medium',
           files: pattern.files,
           estimatedHours: this.estimateEffort(pattern),
@@ -545,8 +545,8 @@ class QualityMetricsService {
             ),
           ),
           priority: bottleneck.errorCount * 2 + ((bottleneck as any)?.complexity || 0) * 0.2,
-          automatable: false,
-        })
+          automatable: false
+})
       }
     }
 
@@ -571,8 +571,8 @@ class QualityMetricsService {
         critical: 2,
         high: 1.5,
         medium: 1,
-        low: 0.5,
-      }[pattern.priority] || 1,
+        low: 0.5
+}[pattern.priority] || 1,
 
     return Math.min(40, pattern?.frequency * baseEffort)
   }
@@ -582,8 +582,8 @@ class QualityMetricsService {
         critical: 100,
         high: 75,
         medium: 50,
-        low: 25,
-      }[priority] || 50,
+        low: 25
+}[priority] || 50,
 
     return priorityWeight + frequency * 2,
   }
@@ -688,8 +688,8 @@ class QualityMetricsService {
       codeQuality: 0.3,
       performance: 0.25,
       maintainability: 0.25,
-      technicalDebt: 0.2,
-    }
+      technicalDebt: 0.2
+}
 
     const scores: {
       codeQuality: number,
@@ -905,8 +905,8 @@ class QualityMetricsService {
       ...goal;
       id,
       progress: 0,
-      onTrack: true,
-    }
+      onTrack: true
+}
 
     this.goals.push(newGoal)
     this.saveHistoricalData()

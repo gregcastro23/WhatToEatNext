@@ -43,8 +43,8 @@ describe('ConsoleStatementRemovalSystem', () => {
       const config: Partial<ConsoleRemovalConfig> = { maxFiles: 15,
         dryRun: false,
         preserveDebugCritical: false,
-        selectiveRemoval: false,
-      }
+        selectiveRemoval: false
+}
 
       const system: any = new ConsoleStatementRemovalSystem(config)
       expect(system).toBeDefined();
@@ -210,8 +210,8 @@ const _another: any = 'value';
 
       expect(stashId).toContain('console-removal-').
       expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash push -m 'console-removal-'), {
-        encoding: 'utf-8',
-      })
+        encoding: 'utf-8'
+})
     })
 
     it('should handle git stash errors gracefully', async () => {
@@ -239,8 +239,8 @@ const _another: any = 'value';
           content: '_logger.info('test')',
           context: '_logger.info('test'),',
           isCritical: false,
-          shouldPreserve: false,
-        }
+          shouldPreserve: false
+}
       ],
 
       mockExecSync.mockReturnValue('Files, processed: 5\nTotal console statements, fixed: 10')
@@ -268,8 +268,8 @@ const _another: any = 'value';
           content: '_logger.error('critical')',
           context: '_logger.error('critical'),',
           isCritical: true,
-          shouldPreserve: true,
-        }
+          shouldPreserve: true
+}
         {
           file: '/test/file.ts',
           line: 2,
@@ -278,8 +278,8 @@ const _another: any = 'value';
           content: '_logger.info('normal')',
           context: '_logger.info('normal'),',
           isCritical: false,
-          shouldPreserve: false,
-        }
+          shouldPreserve: false
+}
       ],
 
       mockExecSync.mockReturnValue('Files, processed: 1\nTotal console statements, fixed: 1')

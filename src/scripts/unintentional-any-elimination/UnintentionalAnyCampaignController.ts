@@ -98,8 +98,8 @@ class UnintentionalAnyCampaignController {
       filesProcessed: 0,
       batchesCompleted: 0,
       reductionPercentage: 0,
-      buildStabilityScore: 100,
-    }
+      buildStabilityScore: 100
+}
 
     this.startTime = new Date();
     this.backupDirectory = `backups/unintentional-any-${Date.now()}`,
@@ -112,8 +112,8 @@ class UnintentionalAnyCampaignController {
       info: 'ℹ️',
       warn: '⚠️',
       error: '❌',
-      success: '✅',
-    }[level],
+      success: '✅'
+}[level],
 
     // // // _logger.info(`[${timestamp}] ${prefix} ${message}`)
   }
@@ -138,8 +138,8 @@ class UnintentionalAnyCampaignController {
       const lintOutput = execSync(
         'yarn lint 2>&1 | grep -c '@typescript-eslint/no-explicit-any' || echo '0'',
         {
-          encoding: 'utf8',
-        })
+          encoding: 'utf8'
+})
       return parseInt(lintOutput.trim()) || 0,
     } catch (error) {
       this.log(`Error getting current any count: ${error}`, 'error')
@@ -202,8 +202,8 @@ class UnintentionalAnyCampaignController {
         confidence: 0.95,
         category: AnyTypeCategory.DYNAMIC_CONFIG,
         requiresDocumentation: false,
-        reasoning: 'Explicitly marked as intentional with comment',
-      }
+        reasoning: 'Explicitly marked as intentional with comment'
+}
     }
 
     // Error handling contexts
@@ -216,8 +216,8 @@ class UnintentionalAnyCampaignController {
         confidence: 0.9,
         category: AnyTypeCategory.ERROR_HANDLING,
         requiresDocumentation: true,
-        reasoning: 'Error handling context - typically intentional',
-      }
+        reasoning: 'Error handling context - typically intentional'
+}
     }
 
     // Campaign system files
@@ -230,8 +230,8 @@ class UnintentionalAnyCampaignController {
         confidence: 0.85,
         category: AnyTypeCategory.CAMPAIGN_SYSTEM,
         requiresDocumentation: true,
-        reasoning: 'Campaign system requires flexible typing for dynamic behavior',
-      }
+        reasoning: 'Campaign system requires flexible typing for dynamic behavior'
+}
     }
 
     // Astrological data contexts
@@ -249,8 +249,8 @@ class UnintentionalAnyCampaignController {
           confidence: 0.8,
           category: AnyTypeCategory.ASTROLOGICAL_DATA,
           requiresDocumentation: true,
-          reasoning: 'Astrological calculations may require flexible typing for external library compatibility',
-        }
+          reasoning: 'Astrological calculations may require flexible typing for external library compatibility'
+}
       }
     }
 
@@ -265,8 +265,8 @@ class UnintentionalAnyCampaignController {
         category: AnyTypeCategory.ARRAY_TYPE,
         suggestedReplacement: codeSnippet.replace(/\bany\[\]/g, 'unknown[]'),
         requiresDocumentation: false,
-        reasoning: 'Array type can be safely replaced with unknown[]',
-      }
+        reasoning: 'Array type can be safely replaced with unknown[]'
+}
     }
 
     // Record types - medium confidence
@@ -280,8 +280,8 @@ class UnintentionalAnyCampaignController {
         category: AnyTypeCategory.RECORD_TYPE,
         suggestedReplacement: codeSnippet.replace(/Record<([^,]+),\s*any>/g, 'Record<1, unknown>'),
         requiresDocumentation: false,
-        reasoning: 'Record type can likely be replaced with unknown',
-      }
+        reasoning: 'Record type can likely be replaced with unknown'
+}
     }
 
     // Simple variable declarations
@@ -298,8 +298,8 @@ class UnintentionalAnyCampaignController {
           '1unknown2',
         ),
         requiresDocumentation: false,
-        reasoning: 'Variable declaration can likely use unknown instead of any',
-      }
+        reasoning: 'Variable declaration can likely use unknown instead of any'
+}
     }
 
     // Function parameters - lower confidence, more risky
@@ -315,8 +315,8 @@ class UnintentionalAnyCampaignController {
         confidence: 0.6,
         category: AnyTypeCategory.FUNCTION_PARAMETER,
         requiresDocumentation: true,
-        reasoning: 'Function parameter any types require careful analysis - marked as intentional for safety',
-      }
+        reasoning: 'Function parameter any types require careful analysis - marked as intentional for safety'
+}
     }
 
     // Default to intentional for safety
@@ -328,8 +328,8 @@ class UnintentionalAnyCampaignController {
       confidence: 0.5,
       category: AnyTypeCategory.DYNAMIC_CONFIG,
       requiresDocumentation: true,
-      reasoning: 'Uncertain classification - marked as intentional for safety',
-    }
+      reasoning: 'Uncertain classification - marked as intentional for safety'
+}
   }
 
   private analyzeFile(filePath: string): AnyTypeClassification[] {
@@ -498,9 +498,9 @@ class UnintentionalAnyCampaignController {
 
   private processBatch(files: string[]): BatchResult {
     const batchStartTime = Date.now();
-    let filesProcessed = 0,
+    let filesProcessed = 0;
     let replacementsAttempted = 0,
-    let replacementsSuccessful = 0,
+    let replacementsSuccessful = 0;
     let compilationErrors = 0
 
     for (const filePath of files) {;
@@ -581,7 +581,7 @@ class UnintentionalAnyCampaignController {
     this.log(`🔄 Processing ${filesToProcess.length} files (limited by maxTotalFiles)`, 'info')
 
     // Process in batches
-    let totalProcessed = 0,
+    let totalProcessed = 0;
     let batchNumber = 1,
 
     while (totalProcessed < filesToProcess.length) {
@@ -726,8 +726,8 @@ if (require.main === module) {,
     maxTotalFiles: 100,
     safetyValidationFrequency: 5,
     enableDocumentation: true,
-    enableProgressiveImprovement: true,
-  })
+    enableProgressiveImprovement: true
+})
 
   controller
     .executeFullCampaign()

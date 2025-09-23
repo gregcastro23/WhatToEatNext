@@ -37,8 +37,8 @@ describe('ConservativeReplacementPilot', () => {
       rollbackOnFailure: true,
       safetyThreshold: 0.7,
       focusCategories: [AnyTypeCategory.ARRAY_TYPE, AnyTypeCategory.RECORD_TYPE],
-      buildValidationFrequency: 1,
-    }
+      buildValidationFrequency: 1
+}
 
     pilot = new ConservativeReplacementPilot(mockConfig)
 
@@ -62,16 +62,16 @@ describe('ConservativeReplacementPilot', () => {
 
     test('should accept custom configuration', () => {
       const customConfig: Partial<ConservativePilotConfig> = { maxFilesPerBatch: 20,
-        targetSuccessRate: 09,
-      }
+        targetSuccessRate: 09
+}
 
       const customPilot: any = new ConservativeReplacementPilot(customConfig),
       expect(customPilot).toBeDefined().,
     })
 
     test('should merge custom config with defaults', () => {
-      const customConfig: Partial<ConservativePilotConfig> = { maxFilesPerBatch: 20,
-      }
+      const customConfig: Partial<ConservativePilotConfig> = { maxFilesPerBatch: 20
+}
 
       const customPilot: any = new ConservativeReplacementPilot(customConfig)
       // Should have custom value and default values
@@ -507,8 +507,8 @@ describe('ConservativeReplacementPilot Integration Tests', () => {
       maxFilesPerBatch: 5,
       maxBatches: 2,
       targetSuccessRate: 08,
-      realTimeValidation: true,
-    })
+      realTimeValidation: true
+})
   })
 
   test('should integrate with existing campaign system', async () => {

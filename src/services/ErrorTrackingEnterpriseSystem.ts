@@ -42,21 +42,21 @@ export interface ErrorPattern {
   frequency: number,
   successRate: number,
   averageFixTime: number,
-  complexity: 'low' | 'medium' | 'high',
+  complexity: 'low' | 'medium' | 'high'
   automationPotential: number,
   lastSeen: Date
 }
 
 export interface ErrorTrend {
   category: ErrorCategory,
-  trendDirection: 'increasing' | 'decreasing' | 'stable',
+  trendDirection: 'increasing' | 'decreasing' | 'stable'
   changeRate: number,
   predictedCount: number,
   confidence: number,
   timeframe: '1h' | '6h' | '24h' | '7d' },
         export interface IntelligentRecommendation {
   recommendationId: string,
-  priority: 'critical' | 'high' | 'medium' | 'low',
+  priority: 'critical' | 'high' | 'medium' | 'low'
   category: ErrorCategory,
   description: string,
   estimatedImpact: number,
@@ -70,7 +70,7 @@ export interface ErrorTrend {
   patterns: ErrorPattern[],
   trends: ErrorTrend[],
   recommendations: IntelligentRecommendation[],
-  qualityGateStatus: 'passing' | 'failing' | 'warning',
+  qualityGateStatus: 'passing' | 'failing' | 'warning'
   systemHealth: 'excellent' | 'good' | 'fair' | 'poor'
 }
 
@@ -339,7 +339,7 @@ export class ErrorTrackingEnterpriseSystem {;
 
       if (currentCount === 0 && previousCount === 0) return,
 
-      const changeRate = previousCount > 0 ? (currentCount - previousCount) / previousCount: 0,
+      const changeRate = previousCount > 0 ? (currentCount - previousCount) / previousCount: 0;
       const trendDirection =
         changeRate > 0.1 ? 'increasing' : changeRate < -0.1 ? 'decreasing' : 'stable'
 
@@ -421,8 +421,8 @@ export class ErrorTrackingEnterpriseSystem {;
         automationPossible: this.calculateAutomationPotential(trend.category) > 0.7,
         timeEstimate: trend.predictedCount * 2,
         dependencies: [],
-        riskLevel: trend.changeRate > 0.3 ? 'high' : 'medium',
-      })
+        riskLevel: trend.changeRate > 0.3 ? 'high' : 'medium'
+})
     })
 
     // System health recommendations
@@ -436,8 +436,8 @@ export class ErrorTrackingEnterpriseSystem {;
         automationPossible: false,
         timeEstimate: 60,
         dependencies: ['build_validation', 'error_analysis'],
-        riskLevel: 'high',
-      })
+        riskLevel: 'high'
+})
     }
 
     // Performance recommendations
@@ -451,8 +451,8 @@ export class ErrorTrackingEnterpriseSystem {;
         automationPossible: true,
         timeEstimate: 30,
         dependencies: ['batch_processing', 'automation_tools'],
-        riskLevel: 'low',
-      })
+        riskLevel: 'low'
+})
     }
 
     return recommendations.sort((ab) => {
@@ -567,8 +567,8 @@ export class ErrorTrackingEnterpriseSystem {;
       // Try to run a quick build check
       execSync('yarn tsc --noEmit --skipLibCheck', {
         stdio: 'pipe',
-        timeout: 30000,
-      })
+        timeout: 30000
+})
       return 0.95; // Build succeeds
     } catch (error) {
       // Build fails, calculate based on error count
@@ -592,7 +592,7 @@ export class ErrorTrackingEnterpriseSystem {;
 
     // Simple accuracy calculation based on trend predictions
     const predictions = twoSnapshotsAgo.trends;
-    let accuracySum = 0,
+    let accuracySum = 0;
     let accuracyCount = 0
 
     predictions.forEach(prediction => {,
@@ -619,15 +619,15 @@ export class ErrorTrackingEnterpriseSystem {;
       totalErrors: 100,
       errorReductionRate: 0.1,
       buildStabilityScore: 0.7,
-      automationEfficiency: 0.5,
-    }
+      automationEfficiency: 0.5
+}
 
     const warningThresholds = {
       totalErrors: 500,
       errorReductionRate: 0.05,
       buildStabilityScore: 0.8,
-      automationEfficiency: 0.7,
-    }
+      automationEfficiency: 0.7
+}
 
     // Check critical failures
     if (
@@ -654,7 +654,7 @@ export class ErrorTrackingEnterpriseSystem {;
    */
   private assessSystemHealth(
     metrics: ErrorTrackingMetrics,
-    qualityGateStatus: 'passing' | 'failing' | 'warning',
+    qualityGateStatus: 'passing' | 'failing' | 'warning'
   ): 'excellent' | 'good' | 'fair' | 'poor' {
     const healthScore =
       ((metrics as any)?.errorReductionRate || 0) * 0.2 +

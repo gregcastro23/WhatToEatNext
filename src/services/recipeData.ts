@@ -74,14 +74,14 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
   // Core required properties with enhanced validation
   const safeRecipe: Recipe = {
     id: safeGetString((recipe as any).id) || `recipe-${Date.now()}`,
-    name: safeGetString((recipe as any).name) || 'Unnamed Recipe',
+    name: safeGetString((recipe as any).name) || 'Unnamed Recipe'
     description: safeGetString((recipe as any).description) || '',
     cuisine: safeGetString((recipe as any).cuisine) || '',
     ingredients: validateAndNormalizeIngredients(,
       Array.isArray(recipe.ingredients) ? (recipe.ingredients as Partial<RecipeIngredient>[]) : [],
     ),
     instructions: validateAndNormalizeInstructions(recipe.instructions || []),
-    timeToMake: validateAndNormalizeTime(recipe.timeToMake) || '30 minutes',
+    timeToMake: validateAndNormalizeTime(recipe.timeToMake) || '30 minutes'
     numberOfServings: validateServings(recipe.numberOfServings) || 2,
     // Use the new recipe elemental service to ensure proper elemental properties,
     elementalProperties: recipeElementalService.standardizeRecipe(recipe).elementalProperties
@@ -133,10 +133,10 @@ function validateAndNormalizeIngredients(
   }
 
   return ingredients.map(ing => ({,
-    name: safeGetString((ing as any).name) || 'Unknown Ingredient',
+    name: safeGetString((ing as any).name) || 'Unknown Ingredient'
     amount: typeof ing.amount === 'number' ? ing.amount : 1,,
-    unit: ing.unit || 'piece',
-    category: ing.category || 'other',
+    unit: ing.unit || 'piece'
+    category: ing.category || 'other'
     optional: ing.optional || false,
     preparation: ing.preparation || '',
     notes: ing.notes || '',
@@ -343,10 +343,10 @@ class RecipeData {
           id:
             safeGetString(mappingData.id) ||
             `recipe-${Date.now()}-${Math.random().toString(36).substring(29)}`,
-          name: safeGetString(mappingData.name) || safeGetString(mappingData.id) || 'Unknown Recipe',
+          name: safeGetString(mappingData.name) || safeGetString(mappingData.id) || 'Unknown Recipe'
           cuisine: safeGetString((mappingData.cuisine).name) ||
             safeGetString(mappingData.cuisine) ||
-            'Unknown',
+            'Unknown'
           description: safeGetString(mappingData.description) ||
             safeGetString((mappingData.cuisine ).description) ||
             '',
@@ -363,7 +363,7 @@ class RecipeData {
               })
             : [],
           instructions: Array.isArray(mappingData.instructions) ? mappingData.instructions : [],
-          timeToMake: String(mappingData.timeToMake) || '30 minutes',
+          timeToMake: String(mappingData.timeToMake) || '30 minutes'
           energyProfile: mappingData.energyProfile || {}
           // Critical, field: always ensure astrologicalInfluences is set,
           astrologicalInfluences: mappingData.astrologicalInfluences,
@@ -419,8 +419,8 @@ class RecipeData {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25,
-        }
+          Air: 0.25
+}
       })
     })
   }
@@ -460,8 +460,8 @@ class RecipeData {
     } catch (error) {
       errorHandler.handleError(error, {
         context: 'RecipeData',
-        action: 'getAllRecipes',
-      })
+        action: 'getAllRecipes'
+})
 
       // Return at least one fallback recipe to prevent application errors
       return [this.getFallbackRecipe()],
@@ -485,8 +485,8 @@ class RecipeData {
         Fire: 0.25,
         Earth: 0.25,
         Air: 0.25,
-        Water: 0.25,
-      },
+        Water: 0.25
+},
       season: ['all'],
       mealType: ['lunch', 'dinner'],
       cuisine: 'international',
@@ -557,8 +557,8 @@ class RecipeData {
     } catch (error) {
       errorHandler.handleError(error, {
         context: 'RecipeData',
-        action: 'getRecommendedRecipes',
-      })
+        action: 'getRecommendedRecipes'
+})
       return [this.getFallbackRecipe()],
     }
   }
@@ -691,8 +691,8 @@ class RecipeData {
     } catch (error) {
       errorHandler.handleError(error, {
         context: 'RecipeData',
-        action: 'filterRecipes',
-      })
+        action: 'filterRecipes'
+})
       return [this.getFallbackRecipe()],
     }
   }

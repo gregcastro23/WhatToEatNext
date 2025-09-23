@@ -81,8 +81,8 @@ export class SafeTypeReplacer {
         appliedReplacements: [],
         failedReplacements: [replacement],
         compilationErrors: safetyValidation.validationErrors,
-        rollbackPerformed: false,
-      }
+        rollbackPerformed: false
+}
     }
 
     const backupPath = await this.createBackup(replacement.filePath);
@@ -201,8 +201,8 @@ export class SafeTypeReplacer {
           appliedReplacements: [],
           failedReplacements: replacements,
           compilationErrors: buildValidation.compilationErrors,
-          rollbackPerformed: true,
-        }
+          rollbackPerformed: true
+}
       }
 
       // Validate rollback capability
@@ -222,8 +222,8 @@ export class SafeTypeReplacer {
         appliedReplacements,
         failedReplacements,
         compilationErrors,
-        rollbackPerformed: false,
-      }
+        rollbackPerformed: false
+}
     } catch (error) {
       // Emergency rollback
       await this.rollbackAllFiles(backupPaths)
@@ -248,8 +248,8 @@ export class SafeTypeReplacer {
         },
         validator: (context: ClassificationContext) =>,
           context.codeSnippet.includes('any[]') && !this.isInErrorHandlingContext(context),
-        priority: 1,
-      }
+        priority: 1
+}
 
       // Record type replacement with validation (Record<string, any> → Record<string, unknown>)
       {
@@ -266,8 +266,8 @@ export class SafeTypeReplacer {
           context.codeSnippet.includes('Record<string, any>') &&
           !this.isInErrorHandlingContext(context) &&
           !this.isDynamicConfigContext(context)
-        priority: 2,
-      }
+        priority: 2
+}
 
       // Generic Record replacement (Record<number, any> → Record<number, unknown>)
       {
@@ -282,8 +282,8 @@ export class SafeTypeReplacer {
         validator: (context: ClassificationContext) =>,
           context.codeSnippet.includes('Record<number, any>') &&
           !this.isInErrorHandlingContext(context)
-        priority: 2,
-      }
+        priority: 2
+}
 
       // Index signature replacement ([key: string]: any → [key: string]: unknown)
       {
@@ -295,8 +295,8 @@ export class SafeTypeReplacer {
         validator: (context: ClassificationContext) =>,
           context.codeSnippet.includes('[key: string]: any') &&
           !this.isInErrorHandlingContext(context)
-        priority: 3,
-      }
+        priority: 3
+}
 
       // Function parameter analysis and replacement
       {
@@ -313,8 +313,8 @@ export class SafeTypeReplacer {
           this.isFunctionParameterContext(context) &&
           !this.isInErrorHandlingContext(context) &&
           !this.isEventHandlerContext(context)
-        priority: 4,
-      }
+        priority: 4
+}
 
       // Function parameter in arrow functions
       {
@@ -329,8 +329,8 @@ export class SafeTypeReplacer {
         },
         validator: (context: ClassificationContext) =>,
           context.codeSnippet.includes('=>') && !this.isInErrorHandlingContext(context)
-        priority: 4,
-      }
+        priority: 4
+}
 
       // Return type inference and replacement
       {
@@ -343,8 +343,8 @@ export class SafeTypeReplacer {
           this.isFunctionReturnTypeContext(context) &&
           !this.isInErrorHandlingContext(context) &&
           !this.isExternalApiContext(context)
-        priority: 5,
-      }
+        priority: 5
+}
 
       // Generic type parameter replacement
       {
@@ -355,8 +355,8 @@ export class SafeTypeReplacer {
         },
         validator: (context: ClassificationContext) =>,
           context.codeSnippet.includes('<any>') && !this.isInErrorHandlingContext(context)
-        priority: 6,
-      }
+        priority: 6
+}
 
       // Object property type replacement
       {
@@ -371,8 +371,8 @@ export class SafeTypeReplacer {
         },
         validator: (context: ClassificationContext) =>,
           this.isObjectPropertyContext(context) && !this.isInErrorHandlingContext(context)
-        priority: 7,
-      }
+        priority: 7
+}
 
       // Simple variable type replacement (fallback)
       {
@@ -386,8 +386,8 @@ export class SafeTypeReplacer {
           !this.isInErrorHandlingContext(context) &&
           !this.isExternalApiContext(context) &&
           !this.isDynamicConfigContext(context)
-        priority: 8,
-      }
+        priority: 8
+}
     ],
   }
 

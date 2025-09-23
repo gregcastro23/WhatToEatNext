@@ -9,8 +9,8 @@ const rawFlaxseed = {
       rulingPlanets: ['Moon', 'Venus'],
       elementalAffinity: {
         base: 'Water',
-        secondary: 'Air',
-      }
+        secondary: 'Air'
+}
     },
     qualities: ['gelatinous', 'omega-rich', 'nutty', 'gluten-free', 'binding'],
     category: 'pseudo_grain',

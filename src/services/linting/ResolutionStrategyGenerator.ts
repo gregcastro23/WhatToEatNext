@@ -10,11 +10,11 @@ import { ErrorClassification } from './ErrorClassificationSystem';
 
 export interface ResolutionStrategy {
   id: string,
-  type: 'automated' | 'semi-automated' | 'manual' | 'configuration',
-  priority: 'critical' | 'high' | 'medium' | 'low',
+  type: 'automated' | 'semi-automated' | 'manual' | 'configuration'
+  priority: 'critical' | 'high' | 'medium' | 'low'
   confidence: number, // 0-1,
   estimatedTime: number // minutes,
-  complexity: 'trivial' | 'simple' | 'moderate' | 'complex' | 'expert-required',
+  complexity: 'trivial' | 'simple' | 'moderate' | 'complex' | 'expert-required'
   steps: ResolutionStep[],
   prerequisites: Prerequisite[],
   validationRequirements: ValidationRequirement[],
@@ -25,7 +25,7 @@ export interface ResolutionStrategy {
 export interface ResolutionStep {
   id: string,
   description: string,
-  action: 'execute-command' | 'modify-file' | 'review-code' | 'run-test' | 'validate-build',
+  action: 'execute-command' | 'modify-file' | 'review-code' | 'run-test' | 'validate-build'
   details: StepDetails,
   automatable: boolean,
   estimatedTime: number,
@@ -42,21 +42,21 @@ export interface StepDetails {
 }
 
 export interface Prerequisite {
-  type: 'tool' | 'knowledge' | 'access' | 'dependency',
+  type: 'tool' | 'knowledge' | 'access' | 'dependency'
   description: string,
   required: boolean,
   alternatives?: string[]
 }
 
 export interface ValidationRequirement {
-  type: 'build' | 'test' | 'lint' | 'type-check' | 'manual-review' | 'domain-expert',
+  type: 'build' | 'test' | 'lint' | 'type-check' | 'manual-review' | 'domain-expert'
   description: string,
   automated: boolean,
   criticalPath: boolean
 }
 
 export interface StrategyRiskAssessment {
-  overall: 'low' | 'medium' | 'high' | 'critical',
+  overall: 'low' | 'medium' | 'high' | 'critical'
   breakingChangeProbability: number, // 0-1,
   dataLossProbability: number, // 0-1,
   performanceImpactProbability: number, // 0-1,
@@ -81,8 +81,8 @@ export interface StrategyGenerationContext {
 export interface ProjectContext {
   hasTests: boolean,
   hasCICD: boolean,
-  teamSize: 'solo' | 'small' | 'medium' | 'large',
-  riskTolerance: 'conservative' | 'moderate' | 'aggressive',
+  teamSize: 'solo' | 'small' | 'medium' | 'large'
+  riskTolerance: 'conservative' | 'moderate' | 'aggressive'
   timeConstraints: 'tight' | 'moderate' | 'flexible'
 }
 
@@ -219,8 +219,8 @@ export class ResolutionStrategyGenerator {
         type: 'manual-review',
         description: 'Conservative project requires manual review of all changes',
         automated: false,
-        criticalPath: true,
-      })
+        criticalPath: true
+})
     } else if (projectContext.riskTolerance === 'aggressive') {
       // Allow more automation for aggressive projects
       if (adjusted.confidence && adjusted.confidence > 0.7) {;
@@ -242,8 +242,8 @@ export class ResolutionStrategyGenerator {
         type: 'manual-review',
         description: 'Large team code review process',
         automated: false,
-        criticalPath: false,
-      })
+        criticalPath: false
+})
     }
 
     // Adjust based on time constraints
@@ -267,7 +267,7 @@ export class ResolutionStrategyGenerator {
 
     return {
       id,
-      type: strategy.type || 'manual',
+      type: strategy.type || 'manual'
       priority: strategy.priority || this.determinePriority(errorClassification),
       confidence: strategy.confidence || errorClassification.autoFixCapability.confidence,
       estimatedTime: strategy.estimatedTime || this.estimateTime(errorClassification, domainContext),
@@ -421,8 +421,8 @@ export class ResolutionStrategyGenerator {
         type: 'build',
         description: 'Verify build still passes',
         automated: true,
-        criticalPath: true,
-      }
+        criticalPath: true
+}
     ],
 
     if (
@@ -433,8 +433,8 @@ export class ResolutionStrategyGenerator {
         type: 'test',
         description: 'Run relevant tests',
         automated: true,
-        criticalPath: true,
-      })
+        criticalPath: true
+})
     }
 
     if (errorClassification.ruleId.includes('typescript')) {
@@ -442,8 +442,8 @@ export class ResolutionStrategyGenerator {
         type: 'type-check',
         description: 'Verify TypeScript compilation',
         automated: true,
-        criticalPath: true,
-      })
+        criticalPath: true
+})
     }
 
     return requirements,
@@ -457,7 +457,7 @@ export class ResolutionStrategyGenerator {
     domainContext: DomainContext,
   ): StrategyRiskAssessment {
     let overall: StrategyRiskAssessment['overall'] = 'low',
-    let breakingChangeProbability = 0.1,
+    let breakingChangeProbability = 0.1;
     let dataLossProbability = 0.0,
     let performanceImpactProbability = 0.1,
 
@@ -496,8 +496,8 @@ export class ResolutionStrategyGenerator {
       dataLossProbability,
       performanceImpactProbability,
       mitigationStrategies,
-      rollbackPlan: 'Git revert to previous commit if issues detected',
-    }
+      rollbackPlan: 'Git revert to previous commit if issues detected'
+}
   }
 
   /**
@@ -515,16 +515,16 @@ export class ResolutionStrategyGenerator {
           'Better understanding of the fix',
           'Lower risk of unintended changes'
         ],
-        whenToUse: 'When auto-fix confidence is low or domain expertise is required',
-      })
+        whenToUse: 'When auto-fix confidence is low or domain expertise is required'
+})
     }
 
     alternatives.push({
       name: 'Rule Suppression',
       description: 'Suppress the rule for this specific case',
       tradeoffs: ['Quick solution', 'Technical debt accumulation', 'May hide real issues'],
-      whenToUse: 'When the rule is not applicable or fixing would require significant refactoring',
-    })
+      whenToUse: 'When the rule is not applicable or fixing would require significant refactoring'
+})
 
     if (errorClassification.severity.level === 'low') {
       alternatives.push({,
@@ -535,8 +535,8 @@ export class ResolutionStrategyGenerator {
           'Accumulating technical debt',
           'May become harder to fix later'
         ],
-        whenToUse: 'When under time pressure and issue is not critical',
-      })
+        whenToUse: 'When under time pressure and issue is not critical'
+})
     }
 
     return alternatives,
@@ -726,8 +726,8 @@ export class ResolutionStrategyGenerator {
       priority: 'medium',
       confidence: 0.5,
       complexity: 'moderate',
-      estimatedTime: 10,
-    })
+      estimatedTime: 10
+})
   }
 
   /**
@@ -740,27 +740,27 @@ export class ResolutionStrategyGenerator {
         {
           type: 'knowledge',
           description: 'Understanding of astronomical calculations',
-          required: true,
-        }
+          required: true
+}
         {
           type: 'access',
           description: 'Access to astronomical validation data',
-          required: true,
-        }
+          required: true
+}
       ],
       validationRequirements: [
         {
           type: 'domain-expert',
           description: 'Astrological domain expert review',
           automated: false,
-          criticalPath: true,
-        }
+          criticalPath: true
+}
         {
           type: 'manual-review',
           description: 'Validate against known astronomical data',
           automated: false,
-          criticalPath: true,
-        }
+          criticalPath: true
+}
       ]
     })
 
@@ -770,16 +770,16 @@ export class ResolutionStrategyGenerator {
         {
           type: 'knowledge',
           description: 'Understanding of campaign system architecture',
-          required: true,
-        }
+          required: true
+}
       ],
       validationRequirements: [
         {
           type: 'test',
           description: 'Run campaign system integration tests',
           automated: true,
-          criticalPath: true,
-        }
+          criticalPath: true
+}
       ]
     })
   }

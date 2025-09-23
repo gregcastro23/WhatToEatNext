@@ -20,13 +20,13 @@ interface TrainingModule {
   description: string,
   prerequisites: string[],
   duration: number, // minutes,
-  difficulty: 'beginner' | 'intermediate' | 'advanced',
+  difficulty: 'beginner' | 'intermediate' | 'advanced'
   content: TrainingContent[],
   assessment: Assessment
 }
 
 interface TrainingContent {
-  type: 'text' | 'code' | 'interactive' | 'quiz',
+  type: 'text' | 'code' | 'interactive' | 'quiz'
   title: string,
   content: string,
   examples?: CodeExample[],
@@ -43,7 +43,7 @@ interface CodeExample {
 interface Exercise {
   id: string,
   question: string,
-  type: 'multiple_choice' | 'code_completion' | 'pattern_identification',
+  type: 'multiple_choice' | 'code_completion' | 'pattern_identification'
   options?: string[],
   correctAnswer: string | number,
   explanation: string
@@ -126,14 +126,14 @@ The system has successfully achieved a **36.78% reduction** in explicit-any warn
               before: `// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API response,
 const _apiResponse: any = await fetch('/api/data'),`,
               after: `// This should be preserved - it's properly documented`,
-              explanation: 'External API responses often require any types due to unknown structure',
-            }
+              explanation: 'External API responses often require any types due to unknown structure'
+}
             {
               title: 'Unintentional Any Type (Array)',
               before: `const items: any[] = [],`,
               after: `const items: unknown[] = [],`,
-              explanation: 'Array types can usually be made more specific with unknown or proper types',
-            }
+              explanation: 'Array types can usually be made more specific with unknown or proper types'
+}
           ]
         }
       ],
@@ -146,8 +146,8 @@ const _apiResponse: any = await fetch('/api/data'),`,
             type: 'multiple_choice',
             options: ['25.5%', '36.78%', '42.1%', '50.0%'],
             correctAnswer: 1,
-            explanation: 'The system achieved a 36.78% reduction (160 out of 435 warnings eliminated)',
-          }
+            explanation: 'The system achieved a 36.78% reduction (160 out of 435 warnings eliminated)'
+}
           {
             id: 'q2',
             question: 'Which any type should be preserved?',
@@ -159,8 +159,8 @@ const _apiResponse: any = await fetch('/api/data'),`,
               'const config: Record<string, any> = {};'
             ],
             correctAnswer: 1,
-            explanation: 'Properly documented external API any types should be preserved',
-          }
+            explanation: 'Properly documented external API any types should be preserved'
+}
         ]
       }
     })
@@ -286,8 +286,8 @@ const _apiResponse: any = await fetch('/api/data'),`,
 items.forEach(item => // // // _logger.info(item)),`,
               after: `const items: unknown[] = getData(),
 items.forEach(item => // // // _logger.info(item)),`,
-              explanation: 'unknown[] maintains type safety while allowing array operations',
-            }
+              explanation: 'unknown[] maintains type safety while allowing array operations'
+}
             {
               title: 'Record Type Replacement',
               before: `const config: Record<string, any> = loadConfig(),
@@ -308,8 +308,8 @@ const value = config.someProperty,`,
             type: 'multiple_choice',
             options: ['85%', '90%', '95%', '100%'],
             correctAnswer: 3,
-            explanation: 'Array type replacements (any[] → unknown[]) have a 100% success rate',
-          }
+            explanation: 'Array type replacements (any[] → unknown[]) have a 100% success rate'
+}
         ]
       }
     })
@@ -355,8 +355,8 @@ const value = config.someProperty,`,
               question: 'What is the first command to stop all running campaigns?',
               type: 'code_completion',
               correctAnswer: 'pkill -f 'unintentional-any'',
-              explanation: 'This command stops all processes related to the any elimination system',
-            }
+              explanation: 'This command stops all processes related to the any elimination system'
+}
           ]
         }
       ],
@@ -369,8 +369,8 @@ const value = config.someProperty,`,
             type: 'multiple_choice',
             options: ['Every file', 'Every 3 files', 'Every 5 files', 'Every 10 files'],
             correctAnswer: 2,
-            explanation: 'The system validates builds every 5 files to balance safety and performance',
-          }
+            explanation: 'The system validates builds every 5 files to balance safety and performance'
+}
         ]
       }
     })
@@ -610,7 +610,7 @@ const value = config.someProperty,`,
         // // // _logger.info(`${index + 1}. ${option}`)
       })
 
-      const answer = await this.askQuestion('Your answer (number): '),
+      const answer = await this.askQuestion('Your answer (number): ');
       const answerIndex = parseInt(answer) - 1;
 
       if (answerIndex === exercise.correctAnswer) {,
@@ -675,7 +675,7 @@ const value = config.someProperty,`,
         // // // _logger.info(`${index + 1}. ${option}`)
       })
 
-      const answer = await this.askQuestion('Your answer (number): '),
+      const answer = await this.askQuestion('Your answer (number): ');
       const answerIndex = parseInt(answer) - 1;
 
       const isCorrect = answerIndex === question.correctAnswer
@@ -702,11 +702,11 @@ const value = config.someProperty,`,
     // // // _logger.info('\n🎯 Available Assessments: ')
     completedModules.forEach((moduleId, index) => {
       const module = this.trainingModules.get(moduleId);
-      const previousScore = progress.scores[moduleId] || 'Not taken';
+      const previousScore = progress.scores[moduleId] || 'Not taken'
       // // // _logger.info(`${index + 1}. ${module?.name} (Previous score: ${previousScore})`)
     })
 
-    const choice = await this.askQuestion('Select assessment (number): '),
+    const choice = await this.askQuestion('Select assessment (number): ');
     const moduleIndex = parseInt(choice) - 1;
 
     if (moduleIndex >= 0 && moduleIndex < completedModules.length) {
@@ -909,7 +909,7 @@ This certificate is issued by the Unintentional Any Elimination System and certi
     Array.from(this.trainingModules.values()).forEach(module => {
       const isCompleted = progress.completedModules.includes(module.id);
       const score = progress.scores[module.id];
-      const status = isCompleted ? '✅' : '⏳',
+      const status = isCompleted ? '✅' : '⏳';
       const scoreText = score ? ` (${score}%)` : ''
 
       // // // _logger.info(`  ${status} ${module.name}${scoreText}`)
@@ -952,8 +952,7 @@ This certificate is issued by the Unintentional Any Elimination System and certi
 // CLI Interface
 if (require.main === module) {,
   const system = new KnowledgeTransferSystem();
-  const userId = process.argv[2] || process.env.USER || 'anonymous';
-
+  const userId = process.argv[2] || process.env.USER || 'anonymous'
   system.startTraining(userId).catch(error => {,
     _logger.error('Training system error: ', error),
     process.exit(1)

@@ -150,8 +150,8 @@ const rawAlliums = {
           preparation: {
             methods: ['standard preparation'],
             timing: 'as needed',
-            notes: 'Standard preparation for hardneck',
-          }
+            notes: 'Standard preparation for hardneck'
+}
         },
         culinaryProfile: {
           flavorProfile: {
@@ -396,8 +396,8 @@ const rawAlliums = {
       notes: 'Do not refrigerate whole heads, promotes sprouting',
       conditions_to_avoid: 'moisture, direct sunlight, refrigeration',
       peeled_cloves: 'refrigerate up to 1 week or submerge in oil',
-      minced: 'refrigerate up to 1 day or freeze in portions',
-    }
+      minced: 'refrigerate up to 1 day or freeze in portions'
+}
   }
 
   onion: {
@@ -498,8 +498,8 @@ const rawAlliums = {
         temperature: { fahrenheit: 350, celsius: 175 },
         timing: '2-3 minutes until golden',
         preparation: 'separate into rings, soak in buttermilk',
-        notes: 'dry thoroughly before frying for crispiness',
-      }
+        notes: 'dry thoroughly before frying for crispiness'
+}
     },
     storage: {
       temperature: 'cool, dry place45-55°F (7-13°C)',
@@ -510,8 +510,8 @@ const rawAlliums = {
       frozen: {
         preparation: 'peel, chop, freeze on tray then transfer to container',
         uses: 'only for cooked applications',
-        duration: 'up to 8 months',
-      }
+        duration: 'up to 8 months'
+}
     }
   }
 
@@ -593,8 +593,8 @@ const rawAlliums = {
         characteristics: 'very large, can be up to 6 inches in diameter',
         flavor: 'milder than standard leeks',
         best_uses: ['stuffing', 'roasting whole', 'large presentations'],
-        notes: 'requires longer cooking time',
-      }
+        notes: 'requires longer cooking time'
+}
     },
     culinaryApplications: {
       potato_leek_soup: {
@@ -620,8 +620,8 @@ const rawAlliums = {
         timing: '8-10 minutes',
         pre_treatment: 'blanch briefly to ensure even cooking',
         serving: 'drizzle with vinaigrette or herb oil',
-        notes: 'showcases natural sweetness with charred complexity',
-      }
+        notes: 'showcases natural sweetness with charred complexity'
+}
     },
     storage: {
       temperature: 'refrigerated',
@@ -632,8 +632,8 @@ const rawAlliums = {
       frozen: {
         preparation: 'clean, chop, blanch for 1 minute, shock in ice water',
         duration: 'up to 10 months',
-        best_uses: 'cooked dishes only',
-      }
+        best_uses: 'cooked dishes only'
+}
     }
   }
 
@@ -729,8 +729,8 @@ const rawAlliums = {
         temperature: { fahrenheit: 400, celsius: 200 },
         timing: '20-25 minutes until soft and caramelized',
         uses: ['side dish', 'accompaniment to roasted meats'],
-        variations: 'can be combined with other root vegetables',
-      }
+        variations: 'can be combined with other root vegetables'
+}
     },
     storage: {
       temperature: 'cool, dry place',
@@ -814,8 +814,8 @@ const rawAlliums = {
         characteristics: 'purple-red bases, green tops',
         flavor: 'similar to regular scallions with slight color difference',
         best_uses: ['colorful garnishes', 'Asian cuisine'],
-        notes: 'less common but visually distinctive',
-      }
+        notes: 'less common but visually distinctive'
+}
     },
     culinaryApplications: {
       garnish: {
@@ -853,8 +853,8 @@ const rawAlliums = {
         preparation: 'chop and freeze in ice cube trays',
         duration: 'up to 3 months',
         best_uses: 'cooked applications only' },
-        regrowth: 'can be regrown from roots in water or soil',
-    }
+        regrowth: 'can be regrown from roots in water or soil'
+}
   }
 
   chives: {
@@ -931,8 +931,8 @@ const rawAlliums = {
         characteristics: 'purple pom-pom flowers in summer',
         flavor: 'mild, edible flowers have similar flavor to leaves',
         best_uses: ['edible garnish', 'chive blossom vinegar', 'salads'],
-        notes: 'flowers are edible and decorative',
-      }
+        notes: 'flowers are edible and decorative'
+}
     },
     culinaryApplications: {
       garnish: {
@@ -979,8 +979,8 @@ const rawAlliums = {
       Fire: 0.35,
       Earth: 0.15,
       Air: 0.3,
-      Water: 0.2,
-    },
+      Water: 0.2
+},
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Mars'],
       favorableZodiac: ['gemini', 'aries'],
@@ -1007,8 +1007,8 @@ const rawAlliums = {
       calories: 32,
       carbs_g: 7,
       fiber_g: 2.6,
-      protein_g: 1.8,
-    },
+      protein_g: 1.8
+},
     preparation: {
       washing: 'thoroughly between layers to remove sand / (grit || 1)',
       trimming: 'remove dark green tops (save for stock) and root end',
@@ -1043,8 +1043,8 @@ const rawAlliums = {
           method: 'incorporate chopped scallions into dough',
           uses: ['traditional Chinese appetizer'],
           cooking: 'pan-fry until golden and crispy',
-          serving: 'with dipping sauce',
-        }
+          serving: 'with dipping sauce'
+}
       }
     },
     storage: {
@@ -1069,8 +1069,8 @@ const rawAlliums = {
       favorableZodiac: ['gemini', 'libra'],
       elementalAffinity: {
         base: 'Fire',
-        secondary: 'Earth',
-      }
+        secondary: 'Earth'
+}
     },
     qualities: ['versatile', 'traditional', 'regional'],
     season: ['all'],
@@ -1083,8 +1083,8 @@ const rawAlliums = {
       minerals: ['varies'],
       calories: 0,
       carbs_g: 0,
-      fiber_g: 0,
-    },
+      fiber_g: 0
+},
     preparation: {
       washing: 'as needed',
       cutting: 'as specified',

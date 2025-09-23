@@ -84,9 +84,8 @@ export type AspectType =
   | 'square'
   | 'trine'
   | 'opposition'
-  | 'quincunx';
-  | 'semisextile',
-
+  | 'quincunx'
+  | 'semisextile'
 /**
  * Planetary Aspect Details
  * Complete information about planetary aspects
@@ -96,7 +95,7 @@ export type PlanetaryAspectDetails = {
   planetB: string,
   aspect: AspectType,
   orb: number,
-  influence: 'harmonious' | 'challenging' | 'neutral',
+  influence: 'harmonious' | 'challenging' | 'neutral'
   strength: number
 }
 
@@ -173,7 +172,7 @@ export interface BirthChart {
 export interface AstrologicalAspect {
   planet1: string,
   planet2: string,
-  aspectType: 'Conjunction' | 'Opposition' | 'Trine' | 'Square' | 'Sextile',
+  aspectType: 'Conjunction' | 'Opposition' | 'Trine' | 'Square' | 'Sextile'
   orb: number
 }
 
@@ -198,8 +197,7 @@ export type AstrologyLunarPhase =
   | 'waxing_gibbous'
   | 'full_moon'
   | 'waning_gibbous'
-  | 'last_quarter';
-  | 'waning_crescent',
-
+  | 'last_quarter'
+  | 'waning_crescent'
 // Re-export types for convenience
 export type { ZodiacSign, LunarPhase, Planet, PlanetName } from '@/types/alchemy';

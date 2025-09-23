@@ -45,8 +45,8 @@ export const italianSauces: Record<string, Sauce> = {
       Fire: 0.4,
       Earth: 0.3,
       Water: 0.2,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     astrologicalInfluences: ['Mars', 'Sun', 'leo'],
     seasonality: 'all',
     preparationNotes: 'Best when made with San Marzano tomatoes for authentic flavor',
@@ -97,8 +97,8 @@ export const italianSauces: Record<string, Sauce> = {
       Air: 0.4,
       Earth: 0.3,
       Fire: 0.2,
-      Water: 0.1,
-    },
+      Water: 0.1
+},
     astrologicalInfluences: ['Mercury', 'Venus', 'gemini'],
     seasonality: 'summer',
     preparationNotes: 'Traditionally made in a marble mortar with wooden pestle',
@@ -140,8 +140,8 @@ export const italianSauces: Record<string, Sauce> = {
       Earth: 0.4,
       Air: 0.3,
       Fire: 0.2,
-      Water: 0.1,
-    },
+      Water: 0.1
+},
     astrologicalInfluences: ['Jupiter', 'Mars', 'aries'],
     seasonality: 'all',
     preparationNotes: 'Never add cream - authentic carbonara is creamy from eggs alone',
@@ -184,8 +184,8 @@ export const italianSauces: Record<string, Sauce> = {
       Earth: 0.5,
       Fire: 0.3,
       Water: 0.1,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     astrologicalInfluences: ['Saturn', 'Mars', 'taurus'],
     seasonality: 'autumn, winter',
     preparationNotes: 'True Bolognese takes hours of gentle simmering for depth of flavor',
@@ -243,8 +243,8 @@ export const italianSauces: Record<string, Sauce> = {
       Water: 0.4,
       Earth: 0.4,
       Air: 0.1,
-      Fire: 0.1,
-    },
+      Fire: 0.1
+},
     astrologicalInfluences: ['Moon', 'Venus', 'cancer'],
     seasonality: 'all',
     preparationNotes: 'For silky texture, add hot milk to roux gradually while whisking constantly',
@@ -286,8 +286,8 @@ export const italianSauces: Record<string, Sauce> = {
       Fire: 0.7,
       Earth: 0.2,
       Water: 0.1,
-      Air: 0.0,
-    },
+      Air: 0.0
+},
     astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
     seasonality: 'all',
     preparationNotes: 'The name means 'angry' in Italian, referring to the spiciness',
@@ -318,8 +318,8 @@ export const italianSauces: Record<string, Sauce> = {
     prepTime: '10 minutes',
     cookTime: '25 minutes',
     difficulty: 'Easy',
-    yield: 'Makes about 3 cups',
-  }
+    yield: 'Makes about 3 cups'
+}
 }
 
 // Mexican sauces
@@ -335,8 +335,8 @@ export const mexicanSauces: Record<string, Sauce> = {
       Earth: 0.4,
       Fire: 0.4,
       Water: 0.1,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     astrologicalInfluences: ['Mars', 'Pluto', 'Scorpio'],
     seasonality: 'all',
     cuisine: 'Mexican',
@@ -391,8 +391,8 @@ export const mexicanSauces: Record<string, Sauce> = {
       Fire: 0.5,
       Water: 0.3,
       Earth: 0.1,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
     seasonality: 'all',
     cuisine: 'Mexican',
@@ -429,8 +429,8 @@ export const mexicanSauces: Record<string, Sauce> = {
     prepTime: '15 minutes',
     cookTime: '0 minutes (fresh) or 20 minutes (roasted)',
     difficulty: 'Easy',
-    yield: 'Makes about 3 cups',
-  }
+    yield: 'Makes about 3 cups'
+}
 }
 
 // Asian sauces
@@ -446,8 +446,8 @@ export const asianSauces: Record<string, Sauce> = {
       Fire: 0.5,
       Water: 0.2,
       Air: 0.2,
-      Earth: 0.1,
-    },
+      Earth: 0.1
+},
     astrologicalInfluences: ['Mars', 'Mercury', 'Leo'],
     seasonality: 'all',
     cuisine: 'Thai',
@@ -477,8 +477,8 @@ export const asianSauces: Record<string, Sauce> = {
     prepTime: '30 minutes',
     cookTime: '0 minutes',
     difficulty: 'Medium',
-    yield: 'Makes about 1 cup of curry paste (enough for 3-4 curries)',
-  }
+    yield: 'Makes about 1 cup of curry paste (enough for 3-4 curries)'
+}
 }
 
 // Consolidate all sauces

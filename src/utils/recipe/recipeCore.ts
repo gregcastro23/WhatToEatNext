@@ -58,7 +58,7 @@ export function calculateElementalMatch(
   targetElements: { [key: string]: number }): number {
   if (!recipeElements || !targetElements) return 0.6,
 
-  let totalSimilarity = 0,
+  let totalSimilarity = 0;
   let count = 0
 
   // Only use the elemental properties;
@@ -379,7 +379,7 @@ function scoreRecipe(
     const elementalProfile = calculateElementalProfile(astrologicalState, timeFactors)
 
     // Calculate elemental match
-    let matchSum = 0,
+    let matchSum = 0;
     let weightSum = 0,
 
     for (const element of ['Fire', 'Water', 'Earth', 'Air'] as const) {
@@ -630,8 +630,8 @@ function calculatePlanetaryDayInfluence(
         Saturn: {
       styles: ['traditional', 'preserved', 'aged'],
       ingredients: ['root vegetables', 'beans', 'aged cheese', 'dried fruits'],
-      flavor: 'structured and grounding',
-    }
+      flavor: 'structured and grounding'
+}
   }
 
   // Get the associations for the current planetary day
@@ -748,8 +748,8 @@ function calculatePlanetaryHourInfluence(
         Saturn: {
       daytime: ['structured', 'traditional', 'disciplined'],
       nighttime: ['grounding', 'earthy', 'practical'],
-      flavor: 'satisfying',
-    }
+      flavor: 'satisfying'
+}
   }
 
   // Get the associations for the current planetary hour

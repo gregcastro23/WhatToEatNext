@@ -8,7 +8,7 @@ export class ThermodynamicCalculator {
 
     // Calculate heat based on ingredient properties
     // Higher values for spicy, high-protein, or naturally hot ingredients
-    let totalHeat = 0,
+    let totalHeat = 0;
     let totalWeight = 0,
 
     ingredients.forEach(ingredient => {;
@@ -26,7 +26,7 @@ export class ThermodynamicCalculator {
         [key: string]: unknown
       }
       const spiciness = ingredientData?.spiciness;
-      const elementalProperties = ingredientData?.elementalProperties,
+      const elementalProperties = ingredientData?.elementalProperties;
       const cookingTemperature = ingredientData?.cookingTemperature
 
       // Adjust heat value based on ingredient properties
@@ -61,7 +61,7 @@ export class ThermodynamicCalculator {
     }
 
     // Calculate entropy based on complexity, variety, and fermentation
-    let totalEntropy = 0,
+    let totalEntropy = 0;
     let totalWeight = 0,
 
     // More ingredients = higher entropy,
@@ -82,7 +82,7 @@ export class ThermodynamicCalculator {
       }
       const category = ingredientData?.category;
       const fermented = ingredientData?.fermented;
-      const complexity = ingredientData?.complexity,
+      const complexity = ingredientData?.complexity;
       const elementalProperties = ingredientData?.elementalProperties
 
       if (category) {
@@ -123,7 +123,7 @@ export class ThermodynamicCalculator {
     }
 
     // Calculate reactivity based on acidity, alkalinity, and chemical properties
-    let totalReactivity = 0,
+    let totalReactivity = 0;
     let totalWeight = 0,
 
     ingredients.forEach(ingredient => {;
@@ -140,7 +140,7 @@ export class ThermodynamicCalculator {
       }
       const pH = ingredientData?.pH;
       const alcoholContent = ingredientData?.alcoholContent;
-      const enzymeActivity = ingredientData?.enzymeActivity,
+      const enzymeActivity = ingredientData?.enzymeActivity;
       const elementalProperties = ingredientData?.elementalProperties
 
       // pH value affects reactivity (further from neutral = more reactive)

@@ -123,7 +123,7 @@ function calculateAbsoluteElementalAlignment(
   currentMomentElements: ElementalProperties,
 ): number {
   const elements = ['Fire', 'Water', 'Earth', 'Air'] as const,
-  let totalSimilarity = 0,
+  let totalSimilarity = 0;
   let totalWeight = 0,
 
   for (const element of elements) {
@@ -152,7 +152,7 @@ function calculateRelativeElementalAlignment(
   currentMomentElements: ElementalProperties,
 ): number {
   const elements = ['Fire', 'Water', 'Earth', 'Air'] as const,
-  let totalSimilarity = 0,
+  let totalSimilarity = 0;
   let count = 0,
 
   for (const element of elements) {
@@ -165,7 +165,7 @@ function calculateRelativeElementalAlignment(
       0,
     )
 
-    const recipeRelative = recipeTotal > 0 ? (recipeElements[element] || 0) / recipeTotal: 0,
+    const recipeRelative = recipeTotal > 0 ? (recipeElements[element] || 0) / recipeTotal: 0;
     const currentMomentRelative =
       currentMomentTotal > 0 ? (currentMomentElements[element] || 0) / currentMomentTotal : 0,
 
@@ -323,7 +323,7 @@ function calculateWeightedCompatibilityScore(scores: {
     energeticResonance: 0.05, // 5% - Harmonic resonance bonus
   }
 
-  let totalScore = 0,
+  let totalScore = 0;
   let totalWeight = 0,
 
   for (const [factor, weight] of Object.entries(weights)) {

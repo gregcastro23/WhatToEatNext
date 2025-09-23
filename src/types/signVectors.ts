@@ -23,8 +23,7 @@ export interface SignVectorComponents {
   seasonal: number
 }
 
-export type SignDirection = 'cardinal' | 'fixed' | 'mutable',
-
+export type SignDirection = 'cardinal' | 'fixed' | 'mutable'
 export interface SignVector {
   sign: any,
   _magnitude: number, // 0-1: intensity of sign expression at the moment,

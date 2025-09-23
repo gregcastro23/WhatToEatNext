@@ -98,8 +98,8 @@ describe('Astrological Validation Utilities', () => {
         Fire: 0.7,
         Water: 0.1,
         Earth: 0.1,
-        Air: 0.1,
-      }
+        Air: 0.1
+}
 
       expect(validateElementalProperties(validProperties)).toBe(true)
     })
@@ -119,8 +119,8 @@ describe('Astrological Validation Utilities', () => {
         Fire: 1.5, // Too high
     Water: -0.1, // Too low,
         Earth: 0.3,
-        Air: 0.2,
-      }
+        Air: 0.2
+}
 
       expect(validateElementalProperties(invalidProperties)).toBe(false)
     })
@@ -128,8 +128,8 @@ describe('Astrological Validation Utilities', () => {
     test('should normalize elemental properties', () => {
       const partialProperties: any = {
         Fire: 0.8,
-        Water: 0.2,
-      }
+        Water: 0.2
+}
 
       const normalized: any = normalizeElementalProperties(partialProperties)
       expect(normalized.Fire).toBe(0.8)
@@ -244,8 +244,8 @@ describe('Astrological Validation Utilities', () => {
 
       const invalidTransitDates: any = {
         aries: { Start: '2024-03-20', End: '2024-04-19' },
-        taurus: { Start: '2024-04-15', End: '2024-05-20' } // Overlaps with aries,
-      }
+        taurus: { Start: '2024-04-15', End: '2024-05-20' } // Overlaps with aries
+}
 
       const validResult: any = validateAllTransitDates(validTransitDates)
       const invalidResult: any = validateAllTransitDates(invalidTransitDates)
@@ -261,8 +261,8 @@ describe('Astrological Validation Utilities', () => {
         DEGREES_PER_SIGN: 30,
         SIGNS_PER_CIRCLE: 12,
         MAX_LONGITUDE: 360,
-        SELF_REINFORCEMENT_THRESHOLD: 0.3,
-      }
+        SELF_REINFORCEMENT_THRESHOLD: 0.3
+}
 
       const result: any = validateMathematicalConstants(validConstants)
       expect(result.isValid).toBe(true).
@@ -284,8 +284,8 @@ describe('Astrological Validation Utilities', () => {
     test('should error on invalid constant values', () => {
       const invalidConstants: any = {
         DEGREES_PER_SIGN: NaN,
-        MAX_LONGITUDE: Infinity,
-      }
+        MAX_LONGITUDE: Infinity
+}
 
       const result: any = validateMathematicalConstants(invalidConstants)
       expect(result.isValid).toBe(false).
@@ -302,11 +302,11 @@ describe('Astrological Validation Utilities', () => {
         elementalProperties: { Fire: 0.7,
           Water: 0.1,
           Earth: 0.1,
-          Air: 0.1,
-        },
+          Air: 0.1
+},
         constants: { DEGREES_PER_SIGN: 30,
-          MAX_LONGITUDE: 360,
-        },
+          MAX_LONGITUDE: 360
+},
         date: new Date('2024-04-01')
       }
 

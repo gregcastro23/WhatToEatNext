@@ -311,8 +311,8 @@ class ValidationCLI {
       testTimeout: 30000,
       compilationTimeout: 45000,
       maxRetries: 2,
-      logLevel: 'info',
-    }
+      logLevel: 'info'
+}
 
     // // // _logger.info('\n📋 Current Configuration: ')
     Object.entries(defaultConfig).forEach(([key, value]) => {

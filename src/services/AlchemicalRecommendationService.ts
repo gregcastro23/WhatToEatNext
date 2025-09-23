@@ -171,8 +171,8 @@ export class AlchemicalRecommendationService {
             Fire: 0.25,
   Water: 0.25,
             Earth: 0.25,
-  Air: 0.25,
-          })
+  Air: 0.25
+})
       }))
       .filter(({ score }) => score > 0.7)
       .sort((ab) => b.score - a.score)
@@ -324,7 +324,7 @@ export class AlchemicalRecommendationService {
     const t = thermodynamics as WithMonicaKalchm;
     // Simplified mapping from thermodynamics to elemental properties
     const Fire =
-      ((thermodynamics as any)?.heat || 0) * 0.2 + ((thermodynamics as any)?.reactivity || 0) * 0.2,
+      ((thermodynamics as any)?.heat || 0) * 0.2 + ((thermodynamics as any)?.reactivity || 0) * 0.2;
     const Water = (t.monica || 0) * 0.6 + (1 - thermodynamics.heat) * 0.4;
     const Earth = (t.kalchm || 0) * 0.5 + (1 - thermodynamics.entropy) * 0.5;
     const Air =
@@ -358,8 +358,8 @@ export class AlchemicalRecommendationService {
       Fire: 0.25,
   Water: 0.25,
       Earth: 0.25,
-  Air: 0.25,
-    }
+  Air: 0.25
+}
 
     // Calculate compatibility
     const compatibility = this.engine.calculateElementalCompatibility(

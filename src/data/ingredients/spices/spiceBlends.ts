@@ -32,8 +32,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       cinnamon: 1,
       cloves: 0.5,
       'black pepper': 1,
-      nutmeg: 0.5,
-    },
+      nutmeg: 0.5
+},
     ratios: '2:2:1:1:0.5:1:0.5',
 
     regionalVariations: {
@@ -45,8 +45,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         cinnamon: 1,
         cloves: 0.5,
         'black pepper': 1,
-        nutmeg: 0.5,
-      },
+        nutmeg: 0.5
+},
       'South Indian': {
         name: 'South Indian',
         cumin: 2,
@@ -55,8 +55,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         'curry leaves': 1,
         'star anise': 0.5,
         'black pepper': 1,
-        nutmeg: 0.5,
-      }
+        nutmeg: 0.5
+}
     }
 
     affinities: ['lentils', 'rice', 'meat', 'vegetables', 'yogurt'],
@@ -225,8 +225,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       savory: 1,
       marjoram: 1,
       oregano: 1,
-      lavender: 0.5,
-    },
+      lavender: 0.5
+},
     preparation: {
       mixing: 'individually before grinding',
       grinding: 'just before use',
@@ -365,8 +365,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       sumac: 1,
       oregano: 1,
       marjoram: 1,
-      salt: 0.5,
-    },
+      salt: 0.5
+},
     ratios: '2:2:1:1:1:0.5',
 
     regionalVariations: {
@@ -377,8 +377,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         sumac: 2, // more sumac,
         oregano: 1,
         marjoram: 1,
-        salt: 0.5,
-      },
+        salt: 0.5
+},
       Palestinian: {
         name: 'Palestinian',
         'dried thyme': 2,
@@ -386,8 +386,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         sumac: 1,
         oregano: 1,
         marjoram: 1,
-        salt: 0.5,
-      }
+        salt: 0.5
+}
     }
 
     // Removed excessive sensoryProfile nesting
@@ -446,8 +446,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       cinnamon: 0.5,
       cardamom: 0.5,
       cayenne: 0.5,
-      fenugreek: 0.5,
-    },
+      fenugreek: 0.5
+},
     ratios: '3:2:2:1:1:0.5:0.5:0.5:0.5',
 
     regionalVariations: {
@@ -461,8 +461,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         cinnamon: 0.5,
         cardamom: 0.5,
         cayenne: 2, // extra hot,
-        fenugreek: 0.5,
-      }
+        fenugreek: 0.5
+}
     }
 
     // Removed excessive sensoryProfile nesting
@@ -523,8 +523,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       fenugreek: 1,
       cloves: 0.5,
       cinnamon: 0.5,
-      nutmeg: 0.5,
-    },
+      nutmeg: 0.5
+},
     ratios: '4:2:2:1:1:1:1:1:0.5:0.5:0.5',
 
     regionalVariations: {
@@ -588,8 +588,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       coriander: 1,
       cumin: 1,
       'black pepper': 0.5,
-      salt: 0.5,
-    },
+      salt: 0.5
+},
     ratios: '3:2:1:1:0.5:0.5',
 
     regionalVariations: {
@@ -601,8 +601,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         coriander: 1,
         cumin: 1,
         'black pepper': 0.5,
-        salt: 0.5,
-      }
+        salt: 0.5
+}
     }
 
     // Removed excessive sensoryProfile nesting
@@ -660,8 +660,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       'white sesame': 1,
       'hemp seeds': 0.5,
       nori: 0.5,
-      ginger: 0.5,
-    },
+      ginger: 0.5
+},
     ratios: '3:1:1:1:1:0.5:0.5:0.5',
 
     regionalVariations: {
@@ -731,8 +731,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       cardamom: 1,
       paprika: 1,
       cloves: 0.5,
-      nutmeg: 0.5,
-    },
+      nutmeg: 0.5
+},
     ratios: '2:2:1:1:1:1:0.5:0.5',
 
     regionalVariations: {
@@ -802,8 +802,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       'black pepper': 1,
       'brown sugar': 1,
       cinnamon: 0.5,
-      nutmeg: 0.5,
-    },
+      nutmeg: 0.5
+},
     ratios: '3:2:2:2:1:1:1:0.5:0.5',
 
     regionalVariations: {

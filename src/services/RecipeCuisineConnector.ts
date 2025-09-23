@@ -133,7 +133,7 @@ export class RecipeCuisineConnector {
           if (dish && typeof dish === 'object') {,
             const recipe: CuisineRecipe = {
               id: '',
-              name: (dish as any)?.name || 'Unnamed Recipe',
+              name: (dish as any)?.name || 'Unnamed Recipe'
               description: (dish as any)?.description || '',
               cuisine: (dish as any)?.cuisine || '',
               ingredients: (this as any)?.normalizeIngredients((dish as any)?.ingredients || []),
@@ -328,8 +328,8 @@ export class RecipeCuisineConnector {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25,
-      },
+        Air: 0.25
+},
       ingredients: cuisineRecipe.ingredients.map(ingredient => ({,
         name: ingredient.name,
         amount: Number(ingredient.amount) || 1,
@@ -352,8 +352,8 @@ export class RecipeCuisineConnector {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25,
-      }
+        Air: 0.25
+}
     }
   }
 
@@ -433,9 +433,8 @@ export class RecipeCuisineConnector {
    * Format time display
    */
   private formatTimeToMake(prepTime?: string, cookTime?: string): string {
-    const prep = prepTime || '0 minutes';
-    const cook = cookTime || '0 minutes';
-
+    const prep = prepTime || '0 minutes'
+    const cook = cookTime || '0 minutes'
     if (cook === '0 minutes' || cook === '0') {
       return prep;
     }

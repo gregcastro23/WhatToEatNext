@@ -73,8 +73,8 @@ export function formatSunTime(date: Date | null): string {
   return date.toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',
-    _hour12: true,
-  })
+    _hour12: true
+})
 }
 
 /**

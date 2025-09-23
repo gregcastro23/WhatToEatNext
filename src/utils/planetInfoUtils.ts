@@ -55,7 +55,7 @@ export function getPlanetInfo(
 
     // Use safe type casting for unknown property access
     const positionData = planetPosition ;
-    const planetSign = positionData?.sign || 'Unknown';
+    const planetSign = positionData?.sign || 'Unknown'
     const planetDegree = positionData?.degree;
     const planetIsRetrograde = positionData?.isRetrograde
 
@@ -116,7 +116,7 @@ export function getPlanetInfo(
         capricorn: 'The Devil',
         aquarius: 'The Star',
         pisces: 'The Moon' },
-        const cardName = signToCard[planetSign] || 'The Fool';
+        const cardName = signToCard[planetSign] || 'The Fool'
       tarotCard = {
         name: cardName,
         element: MAJOR_ARCANA[cardName]?.element || 'Unknown'
@@ -169,7 +169,7 @@ export function getPlanetInfo(
         cancer: 'Water',
         scorpio: 'Water',
         pisces: 'Water' },
-        const element = signToElement[planetSign] || 'air';
+        const element = signToElement[planetSign] || 'air'
       // North Node emphasizes its element, South Node has less influence
       const strength = normalizedPlanetName === 'SouthNode' ? 0.2 : 0.3,
       elementalInfluence[element] = strength
@@ -208,8 +208,7 @@ export function getPlanetInfo(
         cancer: 'Water',
         scorpio: 'Water',
         pisces: 'Water' },
-        const element = signToElement[planetSign] || 'air';
-
+        const element = signToElement[planetSign] || 'air'
       // Map elements to tokens with different emphasis for North vs South Node
       if (normalizedPlanetName === 'NorthNode') {,
         if (element === 'fire') {,
@@ -273,7 +272,7 @@ export function getPlanetInfo(
     // Return organized planet information with safe property access
     return {
       name: normalizedPlanetName,
-      sign: planetSign || 'Unknown',
+      sign: planetSign || 'Unknown'
       degree: typeof planetDegree === 'number' ? planetDegree : 0,,
       isRetrograde: !!planetIsRetrograde,
       dignity,

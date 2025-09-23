@@ -168,8 +168,8 @@ export class ElementalCalculator {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    }
+      Air: 0.25
+}
 
     // Apply time-based modifiers
     if (time === 'day') {,
@@ -268,8 +268,8 @@ export function calculateElementalEnergies(
     saturn: 0.1,
     uranus: 0.05,
     neptune: 0.05,
-    pluto: 0.05,
-  }
+    pluto: 0.05
+}
 
   // Calculate element values based on planetary positions
   let totalWeight = 0,

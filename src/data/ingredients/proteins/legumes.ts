@@ -14,8 +14,8 @@ const rawLegumes = {
       Fire: 0.1,
       Water: 0.3,
       Earth: 0.5,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     nutritionalProfile: {
       serving_size_oz: 3,
       calories: 341,
@@ -45,8 +45,8 @@ const rawLegumes = {
       Fire: 0.2,
       Water: 0.2,
       Earth: 0.5,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     nutritionalProfile: {
       serving_size_oz: 3,
       calories: 364,
@@ -77,8 +77,8 @@ const rawLegumes = {
       Fire: 0.2,
       Water: 0.3,
       Earth: 0.4,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Mercury'],
       favorableZodiac: ['capricorn', 'virgo', 'taurus'],
@@ -121,8 +121,8 @@ const rawLegumes = {
         ironSource: {
         benefit: 'Non-heme Iron Source',
         mechanism: 'Plant-based iron supports red blood cell production',
-        notes: 'Pairing with vitamin C foods improves absorption',
-      }
+        notes: 'Pairing with vitamin C foods improves absorption'
+}
     },
     varieties: {
       brown: {
@@ -159,8 +159,8 @@ const rawLegumes = {
         texture: 'Soft, breaks down when cooked',
         cooking_time: '15-20 minutes',
         best_uses: ['Indian dal', 'smooth soups', 'purees'],
-        notes: 'Often confused with split peas but cooks faster',
-      }
+        notes: 'Often confused with split peas but cooks faster'
+}
     },
     culinaryApplications: {
       soups: {
@@ -224,8 +224,8 @@ const rawLegumes = {
         storage: {
         dry: 'Cool, dark place in airtight container for up to 1 year',
         cooked: 'Refrigerate up to 5 days, freeze up to 3 months',
-        notes: 'Flavor and nutrition decline slowly after 6 months dry storage',
-      }
+        notes: 'Flavor and nutrition decline slowly after 6 months dry storage'
+}
     },
     culinaryPairings: {
       herbs: ['thyme', 'bay leaf', 'parsley', 'cilantro', 'mint'],
@@ -287,8 +287,8 @@ const rawLegumes = {
       Fire: 0.2,
       Water: 0.2,
       Earth: 0.4,
-      Air: 0.2,
-    },
+      Air: 0.2
+},
     nutritionalProfile: {
       serving_size_oz: 3,
       calories: 193,

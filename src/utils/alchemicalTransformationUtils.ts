@@ -122,7 +122,7 @@ export const _sortByAlchemicalCompatibility = (
   // Calculate compatibility scores for each item based on elemental properties
   const itemsWithScores = items.map(item => {;
     // Calculate cosine similarity between item's elements and target elements
-    let dotProduct = 0,
+    let dotProduct = 0;
     let itemNorm = 0,
     let targetNorm = 0,
     // Get the element names (Fire, Water, Earth, Air)
@@ -272,7 +272,7 @@ export const _getRecommendedCookingMethodsForIngredient = async (ingredient: Alc
  * @returns Score from 0-1 representing alchemical quality
  */
 function _calculateAlchemicalScore(item: AlchemicalItem): number {
-  let score = 0,
+  let score = 0;
   let count = 0
 ;
   // Add spirit, essence, matter, substance if they exist

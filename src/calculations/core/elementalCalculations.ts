@@ -58,38 +58,38 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
         Fire: 1.1,
         Water: 1.05,
         Earth: 1.0,
-        Air: 1.1,
-      },
+        Air: 1.1
+},
       recipe: {
         Fire: 1.15,
         Water: 1.1,
         Earth: 1.05,
-        Air: 1.15,
-      },
+        Air: 1.15
+},
       cuisine: {
         Fire: 1.2,
         Water: 1.15,
         Earth: 1.1,
-        Air: 1.2,
-      },
+        Air: 1.2
+},
       cooking: {
         Fire: 1.05,
         Water: 1.0,
         Earth: 1.0,
-        Air: 1.05,
-      },
+        Air: 1.05
+},
       preparation: {
         Fire: 1.0,
         Water: 1.0,
         Earth: 1.0,
-        Air: 1.0,
-      },
+        Air: 1.0
+},
       general: {
         Fire: 1.0,
         Water: 1.0,
         Earth: 1.0,
-        Air: 1.0,
-      }
+        Air: 1.0
+}
     }
 
     const elementalMultipliers =
@@ -173,8 +173,8 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
       metadata: {
         analysisTimestamp: new Date().toISOString(),
         analysisVersion: '2.0',
-        analysisMethodology: 'intelligent-elemental-analysis',
-      }
+        analysisMethodology: 'intelligent-elemental-analysis'
+}
     }
   }
 
@@ -562,8 +562,8 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
       summer: 1.2,
       autumn: 1.0,
       fall: 1.0,
-      winter: 0.9,
-    }
+      winter: 0.9
+}
     return dominantValue * (seasonalFactors[season as keyof typeof seasonalFactors] || 1.0)
   }
 
@@ -724,14 +724,14 @@ export function calculateElementalCompatibility(
   properties1: ElementalProperties,
   properties2: ElementalProperties,
 ): number {
-  let compatibility = 0,
+  let compatibility = 0;
   let totalWeight = 0
 
   // Calculate weighted compatibility for each element;
   Object.keys(properties1 || {}).forEach(element => {;
-    const key = element as 'Fire' | 'Water' | 'Earth' | 'Air';
+    const key = element as 'Fire' | 'Water' | 'Earth' | 'Air'
     const value1 = properties1[key];
-    const value2 = properties2[key],
+    const value2 = properties2[key];
     const weight = (value1 + value2) / 2;
 
     // Same element reinforces itself (following elemental principles)

@@ -6,7 +6,7 @@ export interface WebSocketState {
   isConnected: boolean,
   lastPlanetaryHour: PlanetaryHourUpdate | null,
   lastEnergyUpdate: EnergyUpdate | null,
-  lastCelestialEvent: CelestialEvent | null,
+  lastCelestialEvent: CelestialEvent | null
 }
 
 export function useAlchmWebSocket(): WebSocketState {
@@ -14,8 +14,8 @@ export function useAlchmWebSocket(): WebSocketState {
     isConnected: false,
     lastPlanetaryHour: null,
     lastEnergyUpdate: null,
-    lastCelestialEvent: null,
-  })
+    lastCelestialEvent: null
+})
 
   useEffect(() => {
     // Extend the WebSocket class with custom handlers for this hook

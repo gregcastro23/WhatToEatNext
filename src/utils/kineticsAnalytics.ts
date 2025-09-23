@@ -10,10 +10,10 @@ declare global {
 }
 
 export interface KineticsRecommendationEvent {
-  recommendationType: 'temporal' | 'elemental' | 'aspect';,
+  recommendationType: 'temporal' | 'elemental' | 'aspect'
   kineticScore: number;,
   powerLevel: number;,
-  userAction: 'view' | 'select' | 'prepare';
+  userAction: 'view' | 'select' | 'prepare'
 }
 
 /**
@@ -45,7 +45,7 @@ export function trackKineticsImprovement(data: {
   baseRecommendationCount: number;,
   enhancedRecommendationCount: number;,
   averageKineticScore: number;,
-  powerLevel: number,
+  powerLevel: number
 }): void {
   if (typeof window !== 'undefined' && window.gtag) {
     try {

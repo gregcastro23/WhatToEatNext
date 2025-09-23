@@ -139,8 +139,8 @@ export class ExportTransformationEngine {
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7,
-    })
+      stashRetentionDays: 7
+})
     this.progressTracker = new ProgressTracker();
     this.transformationLog = [],
   }
@@ -306,8 +306,8 @@ export class ExportTransformationEngine {
               SIMPLE: 1,
               MODERATE: 1.5,
               COMPLEX: 2,
-              VERY_COMPLEX: 3,
-            }[c.transformationComplexity] || 1,
+              VERY_COMPLEX: 3
+}[c.transformationComplexity] || 1,
           return Number(candidateSum || 0) + Number(complexityMultiplier || 1)
         }, 0)
       )
@@ -565,8 +565,8 @@ export class ExportTransformationEngine {
       const output = execSync('yarn build', {
         encoding: 'utf-8',
         timeout: 60000,
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       const endTime = Date.now()
 
@@ -601,8 +601,8 @@ export class ExportTransformationEngine {
       const output = execSync('yarn test --passWithNoTests', {
         encoding: 'utf-8',
         timeout: 120000,
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       const endTime = Date.now()
 

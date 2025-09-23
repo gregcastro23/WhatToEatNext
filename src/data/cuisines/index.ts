@@ -63,8 +63,8 @@ const baseCuisine: Cuisine = {
     Fire: 0,
     Water: 0.75,
     Earth: 0.65,
-    Air: 0,
-  },
+    Air: 0
+},
   astrologicalInfluences: []
 }
 
@@ -158,8 +158,8 @@ export const CUISINES = {
       Fire: 0.3,
       Water: 0.2,
       Earth: 0.3,
-      Air: 0.2,
-    }
+      Air: 0.2
+}
   },
   chinese: {
     name: 'Chinese',
@@ -167,8 +167,8 @@ export const CUISINES = {
       Fire: 0.3,
       Water: 0.3,
       Earth: 0.3,
-      Air: 0.1,
-    }
+      Air: 0.1
+}
   },
   japanese: {
     name: 'Japanese',
@@ -176,8 +176,8 @@ export const CUISINES = {
       Fire: 0.2,
       Water: 0.4,
       Earth: 0.2,
-      Air: 0.2,
-    }
+      Air: 0.2
+}
   },
   indian: {
     name: 'Indian',
@@ -185,8 +185,8 @@ export const CUISINES = {
       Fire: 0.4,
       Water: 0.2,
       Earth: 0.2,
-      Air: 0.2,
-    }
+      Air: 0.2
+}
   },
   french: {
     name: 'French',
@@ -194,8 +194,8 @@ export const CUISINES = {
       Fire: 0.2,
       Water: 0.3,
       Earth: 0.3,
-      Air: 0.2,
-    }
+      Air: 0.2
+}
   },
   italian: {
     name: 'Italian',
@@ -203,8 +203,8 @@ export const CUISINES = {
       Fire: 0.3,
       Earth: 0.4,
       Water: 0.2,
-      Air: 0.1,
-    }
+      Air: 0.1
+}
   },
   african: {
     name: 'African',
@@ -212,8 +212,8 @@ export const CUISINES = {
       Fire: 0.3,
       Earth: 0.4,
       Water: 0.2,
-      Air: 0.1,
-    }
+      Air: 0.1
+}
   },
   middleEastern: {
     name: 'Middle Eastern',
@@ -221,8 +221,8 @@ export const CUISINES = {
       Fire: 0.3,
       Earth: 0.3,
       Water: 0.2,
-      Air: 0.2,
-    }
+      Air: 0.2
+}
   },
   greek: {
     name: 'Greek',
@@ -230,8 +230,8 @@ export const CUISINES = {
       Fire: 0.2,
       Earth: 0.3,
       Water: 0.3,
-      Air: 0.2,
-    }
+      Air: 0.2
+}
   },
   mexican: {
     name: 'Mexican',
@@ -239,8 +239,8 @@ export const CUISINES = {
       Fire: 0.5,
       Earth: 0.3,
       Water: 0.1,
-      Air: 0.1,
-    }
+      Air: 0.1
+}
   },
   thai: {
     name: 'Thai',
@@ -248,8 +248,8 @@ export const CUISINES = {
       Fire: 0.4,
       Water: 0.3,
       Earth: 0.2,
-      Air: 0.1,
-    }
+      Air: 0.1
+}
   },
   vietnamese: {
     name: 'Vietnamese',
@@ -257,8 +257,8 @@ export const CUISINES = {
       Water: 0.4,
       Fire: 0.2,
       Earth: 0.2,
-      Air: 0.2,
-    }
+      Air: 0.2
+}
   },
   korean: {
     name: 'Korean',
@@ -266,8 +266,8 @@ export const CUISINES = {
       Fire: 0.3,
       Earth: 0.3,
       Water: 0.2,
-      Air: 0.2,
-    }
+      Air: 0.2
+}
   },
   russian: {
     name: 'Russian',
@@ -275,8 +275,8 @@ export const CUISINES = {
       Earth: 0.5,
       Water: 0.2,
       Fire: 0.2,
-      Air: 0.1,
-    }
+      Air: 0.1
+}
   }
 } as const,
 

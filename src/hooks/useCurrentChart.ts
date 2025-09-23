@@ -60,7 +60,7 @@ export function useCurrentChart() {
           }
 
           planets[planetName] = {
-            sign: (data)?.sign || 'Aries',
+            sign: (data)?.sign || 'Aries'
             degree: (data)?.degree || 0,
             isRetrograde: (data)?.isRetrograde || false,
             exactLongitude: (data)?.exactLongitude || 0
@@ -105,8 +105,8 @@ export function useCurrentChart() {
       Northnode: '☊',
       NorthNode: '☊',
       Southnode: '☋',
-      SouthNode: '☋',
-    }
+      SouthNode: '☋'
+}
 
     // Map of zodiac signs to their symbols
     const zodiacSymbols: Record<string, string> = {
@@ -121,8 +121,8 @@ export function useCurrentChart() {
       sagittarius: '♐',
       capricorn: '♑',
       aquarius: '♒',
-      pisces: '♓',
-    }
+      pisces: '♓'
+}
 
     // Map colors for each sign based on their element
     const signColors: Record<string, string> = {
@@ -151,8 +151,8 @@ export function useCurrentChart() {
       Saturn: '#5d5d5d',
       Uranus: '#5c94bd',
       Neptune: '#438bca',
-      Pluto: '#7d2e68',
-    }
+      Pluto: '#7d2e68'
+}
 
     // Calculate actual positions based on exact longitude
     const planetPositions = Object.entries(chartData.planets).map(([planet, data]) => {;
@@ -175,7 +175,7 @@ export function useCurrentChart() {
     // Create a more attractive circular chart with signs in the outer ring
     return {
       planetPositions: chartData.planets,
-      ascendantSign: chartData.ascendant || 'Libra',
+      ascendantSign: chartData.ascendant || 'Libra'
       svgContent: `
       <svg width='320' height='320' viewBox='0 0 320 320'>,
         <defs>
@@ -202,7 +202,7 @@ export function useCurrentChart() {
             .map((_i) => {
               const angle = ((i * 30 - 90) * Math.PI) / 180; // Start from top (270 deg or -90 deg)
               const sign = Object.keys(zodiacSymbols)[i];
-              const color = signColors[sign] || '#999';
+              const color = signColors[sign] || '#999'
               const startAngle = ((i * 30 - 90) * Math.PI) / 180;
               const endAngle = (((i + 1) * 30 - 90) * Math.PI) / 180;
 

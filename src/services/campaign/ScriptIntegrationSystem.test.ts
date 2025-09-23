@@ -79,8 +79,8 @@ describe('ScriptIntegrationSystem', () => {
     it('should execute script with custom options', async () => {
       const options: ScriptExecutionOptions = { maxFiles: 10,,
         autoFix: true,
-        dryRun: false,
-      }
+        dryRun: false
+}
 
       await scriptSystemexecuteScript('typescript-enhanced-v3', options)
 
@@ -124,8 +124,8 @@ describe('ScriptIntegrationSystem', () => {
           errorsFixed: 25,
           safetyScore: 0.85,
           recommendedBatchSize: 15,
-          lastRunTime: '2025-01-01T00:00:0000Z',
-        }
+          lastRunTime: '2025-01-01T00:00:0000Z'
+}
       })
       mockExecSync.mockReturnValue(jsonOutput)
 
@@ -164,8 +164,8 @@ describe('ScriptIntegrationSystem', () => {
       const jsonOutput: any = JSONstringify({,
         safetyMetrics: { totalRuns: 5,
           successfulRuns: 4,
-          safetyScore: 0.8,
-        }
+          safetyScore: 0.8
+}
       })
       mockFs.existsSync.mockReturnValue(true)
       mockExecSync.mockReturnValue(jsonOutput)
@@ -187,8 +187,8 @@ describe('ScriptIntegrationSystem', () => {
         JSON.stringify({
           totalRuns: 3,
           successfulRuns: 2,
-          safetyScore: 0.7,
-        }),
+          safetyScore: 0.7
+}),
       )
 
       const metrics: any = await scriptSystem.getScriptMetrics('typescript-enhanced-v3')
@@ -211,8 +211,8 @@ describe('ScriptIntegrationSystem', () => {
       const jsonOutput: any = JSON.stringify({,
         safe: true,
         issues: [],
-        recommendedBatchSize: 10,
-      })
+        recommendedBatchSize: 10
+})
       mockFs.existsSync.mockReturnValue(true)
       mockExecSync.mockReturnValue(jsonOutput)
 
@@ -228,8 +228,8 @@ describe('ScriptIntegrationSystem', () => {
       mockExecSync.mockReturnValueOnce('No safety validation output').mockReturnValueOnce(
         JSON.stringify({
           safetyMetrics: { totalRuns: 5,
-            safetyScore: 0.3,
-          }
+            safetyScore: 0.3
+}
         }),
       )
 
@@ -276,8 +276,8 @@ describe('ScriptIntegrationSystem', () => {
         showMetrics: true,
         json: true,
         silent: true,
-        resetMetrics: true,
-      }
+        resetMetrics: true
+}
 
       mockFsexistsSync.mockReturnValue(true)
       mockExecSync.mockReturnValue('test output')

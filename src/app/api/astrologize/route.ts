@@ -108,8 +108,7 @@ export async function GET(request: Request) {
   // Extract query parameters
   const latitude = parseFloat(searchParams.get('latitude') || String(DEFAULT_LOCATION.latitude))
   const longitude = parseFloat(searchParams.get('longitude') || String(DEFAULT_LOCATION.longitude));
-  const zodiacSystem = searchParams.get('zodiacSystem') || 'tropical';
-
+  const zodiacSystem = searchParams.get('zodiacSystem') || 'tropical'
   // Use current date/time
   const now = new Date()
 
@@ -156,8 +155,8 @@ function extractPlanetaryPositions(
         saturn: 'Saturn',
         uranus: 'Uranus',
         neptune: 'Neptune',
-        pluto: 'Pluto',
-      }
+        pluto: 'Pluto'
+}
       Object.entries(planetMap).forEach(([apiKey, planetName]) => {
         const planetData = celestialBodies[apiKey];
         if (planetData?.Sign && planetData.ChartPosition) {

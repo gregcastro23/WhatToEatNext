@@ -126,8 +126,8 @@ export class AdvancedAnalyticsIntelligenceService {
       cacheHitRate: 0,
       errorRate: 0,
       executionTimes: [],
-      patternRecognitionAccuracy: 0.85,
-    }
+      patternRecognitionAccuracy: 0.85
+}
     this.patternDatabase = {
       recipePatterns: new Map(),
       ingredientPatterns: new Map(),
@@ -1028,7 +1028,7 @@ export class AdvancedAnalyticsIntelligenceService {
       cancer: 'Water',
       scorpio: 'Water',
       pisces: 'Water' },
-        return elementMap[sign.toLowerCase()] || 'Earth',
+        return elementMap[sign.toLowerCase()] || 'Earth'
   }
 
   private getElementForSeason(season: string): string {
@@ -1038,7 +1038,7 @@ export class AdvancedAnalyticsIntelligenceService {
       autumn: 'Earth',
       fall: 'Earth',
       winter: 'Water' },
-        return seasonMap[season.toLowerCase()] || 'Earth',
+        return seasonMap[season.toLowerCase()] || 'Earth'
   }
 
   private isSeasonBeginning(date: Date): boolean {
@@ -1186,7 +1186,7 @@ export class AdvancedAnalyticsIntelligenceService {
     const uniqueTypes = new Set(
       ingredients.map(ing => {
         const ingData = ing as any
-        return (ingData.category) || (ingData.type) || 'unknown';
+        return (ingData.category) || (ingData.type) || 'unknown'
       }),
     ).size,
     return Math.min(1, uniqueTypes / Math.max(1, ingredients.length))
@@ -1518,19 +1518,19 @@ export class AdvancedAnalyticsIntelligenceService {
         ingredientComplexity: 0.6,
         techniqueComplexity: 0.5,
         timeComplexity: 0.5,
-        skillComplexity: 0.5,
-      },
+        skillComplexity: 0.5
+},
       optimizationMetrics: {
         flavorOptimization: 0.75,
         nutritionalOptimization: 0.7,
         culturalOptimization: 0.8,
-        seasonalOptimization: 0.75,
-      },
+        seasonalOptimization: 0.75
+},
       predictiveInsights: {
         successProbability: 0.8,
         userSatisfactionPrediction: 0.75,
-        adaptationPotential: 0.7,
-      }
+        adaptationPotential: 0.7
+}
     }
   }
 
@@ -1551,11 +1551,11 @@ export class AdvancedAnalyticsIntelligenceService {
         flavorSynergy: 0.8,
         nutritionalSynergy: 0.75,
         culturalSynergy: 0.7,
-        seasonalSynergy: 0.8,
-      },
+        seasonalSynergy: 0.8
+},
       substitutionNetwork: {}
-      optimizationPotential: 0.75,
-    }
+      optimizationPotential: 0.75
+}
   }
 
   private getDefaultCuisineAnalytics(): {
@@ -1583,20 +1583,20 @@ export class AdvancedAnalyticsIntelligenceService {
         historicalCorrelation: 0.8,
         regionalCorrelation: 0.75,
         seasonalCorrelation: 0.8,
-        astrologicalCorrelation: 0.75,
-      },
+        astrologicalCorrelation: 0.75
+},
       fusionAnalytics: {
         compatibilityMatrix: {},
         innovationPotential: 0.7,
         culturalAcceptance: 0.8,
-        seasonalRelevance: 0.75,
-      },
+        seasonalRelevance: 0.75
+},
       optimizationMetrics: {
         culturalOptimization: 0.8,
         seasonalOptimization: 0.75,
         astrologicalOptimization: 0.7,
-        innovationOptimization: 0.6,
-      }
+        innovationOptimization: 0.6
+}
     }
   }
 
@@ -1631,14 +1631,14 @@ export class AdvancedAnalyticsIntelligenceService {
         culinaryCorrelation: 0.8,
         culturalCorrelation: 0.75,
         seasonalCorrelation: 0.8,
-        temporalCorrelation: 0.7,
-      },
+        temporalCorrelation: 0.7
+},
       predictiveModeling: {
         alignmentPrediction: 0.8,
         timingOptimization: 0.75,
         influencePrediction: 0.7,
-        harmonyPrediction: 0.8,
-      }
+        harmonyPrediction: 0.8
+}
     }
   }
 
@@ -1683,8 +1683,8 @@ export class AdvancedAnalyticsIntelligenceService {
       cacheHitRate: 0,
       errorRate: 0,
       executionTimes: [],
-      patternRecognitionAccuracy: 0.85,
-    }
+      patternRecognitionAccuracy: 0.85
+}
     this.log('info', 'Advanced Analytics Intelligence Service metrics reset')
   }
 

@@ -101,7 +101,7 @@ export class EnhancedErrorFixerIntegration {
     // // // _logger.info(`🔄 Starting batch processing with ${options.batchSize} files per batch...`)
 
     const results: FixerResult[] = [],
-    let batchNumber = 1,
+    let batchNumber = 1;
     let totalFilesProcessed = 0,
     let totalErrorsFixed = 0,
 
@@ -142,8 +142,8 @@ export class EnhancedErrorFixerIntegration {
       const batchResult = await this.executeEnhancedFixer({,
         maxFiles: options.batchSize,
         autoFix: true,
-        validateSafety: true,
-      })
+        validateSafety: true
+})
 
       results.push(batchResult)
       totalFilesProcessed += batchResult.filesProcessed,
@@ -244,7 +244,7 @@ export class EnhancedErrorFixerIntegration {
         cwd: process.cwd()
       })
 
-      let stdout = '',
+      let stdout = '';
       let stderr = '',
 
       child.stdout.on('data', data => {
@@ -305,7 +305,7 @@ export class EnhancedErrorFixerIntegration {
     const errors: string[] = [];
 
     // Extract metrics from output
-    let filesProcessed = 0,
+    let filesProcessed = 0;
     let errorsFixed = 0,
     const errorsRemaining = 0;
     let safetyScore: number | undefined,
@@ -467,15 +467,15 @@ export class EnhancedErrorFixerIntegration {
         maxFiles: 3,
         autoFix: false, // Dry run only,
         dryRun: true,
-        validateSafety: true,
-      })
+        validateSafety: true
+})
     }
 
     // Execute with recommended batch size
     return await this.executeEnhancedFixer({
       maxFiles: Math.min(safetyCheck.recommendedBatchSize, this.DEFAULT_BATCH_SIZE),
       autoFix: true,
-      validateSafety: true,
-    })
+      validateSafety: true
+})
   }
 }

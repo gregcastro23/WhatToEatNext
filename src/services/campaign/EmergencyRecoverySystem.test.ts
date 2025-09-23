@@ -41,8 +41,8 @@ describe('Emergency Recovery System - Task 6.3', () => {
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7,
-    }
+      stashRetentionDays: 7
+}
 
     // Mock git repository existence
     mockFs.existsSync.mockImplementation((path: string) => {
@@ -110,8 +110,8 @@ describe('Emergency Recovery System - Task 6.3', () => {
       await emergencyRecovery.createStash('Test stash for backup rollback')
 
       const options: EmergencyRecoveryOptions = { createBackupBeforeReset: true,,
-        validateAfterRecovery: true,
-      }
+        validateAfterRecovery: true
+}
 
       const result: any = await emergencyRecovery.emergencyRollbackWithOptions(options),
       expect(result.success).toBe(true).,

@@ -57,8 +57,8 @@ describe('InfrastructurePreparation', () => {
               'lint:quick': 'eslint --config eslint.config.fast.cjs',
               'lint: type-aware': 'eslint --config eslint.config.type-aware.cjs',
               'lint:incremental': 'eslint --config eslint.config.fast.cjs --cache',
-              'lint:ci': 'eslint --config eslint.config.type-aware.cjs --format=json',
-            }
+              'lint:ci': 'eslint --config eslint.config.type-aware.cjs --format=json'
+}
           })
         }
         return '{}',
@@ -348,8 +348,8 @@ describe('InfrastructurePreparation', () => {
               'lint:quick': 'eslint --config eslint.config.fast.cjs',
               'lint: type-aware': 'eslint --config eslint.config.type-aware.cjs',
               'lint: incremental': 'eslint --config eslint.config.fast.cjs --cache',
-              'lint:ci': 'eslint --config eslint.config.type-aware.cjs --format=json',
-            }
+              'lint:ci': 'eslint --config eslint.config.type-aware.cjs --format=json'
+}
           })
         }
         return '{}',

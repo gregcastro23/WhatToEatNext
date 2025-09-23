@@ -8,15 +8,15 @@
 // Campaign and workflow service types
 export interface CampaignConfig {
   campaignId: string,
-  _campaignType: | 'typescript-fixes',
+  _campaignType: | 'typescript-fixes'
     | 'linting-improvements'
     | 'explicit-any-reduction'
-    | 'build-optimization',
-  priority: 'low' | 'medium' | 'high' | 'critical',
+    | 'build-optimization'
+  priority: 'low' | 'medium' | 'high' | 'critical'
   targetFiles?: string[],
   maxFiles?: number,
   autoFix?: boolean,
-  safetyLevel: 'conservative' | 'standard' | 'aggressive',
+  safetyLevel: 'conservative' | 'standard' | 'aggressive'
   timeoutMs?: number,
   enableBackup?: boolean,
   validationRequired?: boolean
@@ -29,9 +29,9 @@ export interface CampaignMetrics {
   _filesModified: number,
   _errorsFixed: number,
   _errorsIntroduced: number,
-  _buildStatus: 'unknown' | 'passing' | 'failing',
-  _testStatus: 'unknown' | 'passing' | 'failing',
-  _lintStatus: 'unknown' | 'passing' | 'failing',
+  _buildStatus: 'unknown' | 'passing' | 'failing'
+  _testStatus: 'unknown' | 'passing' | 'failing'
+  _lintStatus: 'unknown' | 'passing' | 'failing'
   _performanceMetrics: {
     averageProcessingTime: number,
     _memoryUsage: number,
@@ -54,8 +54,8 @@ export interface CampaignResult {
 }
 
 export interface CampaignError {
-  type: 'compilation' | 'runtime' | 'validation' | 'system',
-  severity: 'low' | 'medium' | 'high' | 'critical',
+  type: 'compilation' | 'runtime' | 'validation' | 'system'
+  severity: 'low' | 'medium' | 'high' | 'critical'
   message: string,
   file?: string,
   line?: number,
@@ -98,8 +98,8 @@ export interface QualityGateResult {
 }
 
 export interface QualityViolation {
-  type: 'error' | 'warning' | 'coverage' | 'performance' | 'security',
-  severity: 'low' | 'medium' | 'high' | 'critical',
+  type: 'error' | 'warning' | 'coverage' | 'performance' | 'security'
+  severity: 'low' | 'medium' | 'high' | 'critical'
   message: string,
   file?: string,
   rule?: string,
@@ -118,7 +118,7 @@ export interface AlertConfig {
   priority: 'low' | 'medium' | 'high' | 'critical' },
         export interface AlertCondition {
   metric: string,
-  operator: '>' | '<' | '=' | '!=' | '>=' | '<=',
+  operator: '>' | '<' | '=' | '!=' | '>=' | '<='
   threshold: number,
   window?: number // Time window in seconds
 }
@@ -126,7 +126,7 @@ export interface AlertConfig {
 export interface Alert {
   alertId: string,
   timestamp: Date,
-  severity: 'low' | 'medium' | 'high' | 'critical',
+  severity: 'low' | 'medium' | 'high' | 'critical'
   message: string,
   details: {
     metric: string,
@@ -145,7 +145,7 @@ export interface RecipeServiceConfig {
   _cacheTtlSeconds: number,
   _apiTimeout: number,
   _enableValidation: boolean,
-  dataSource: 'local' | 'spoonacular' | 'hybrid',
+  dataSource: 'local' | 'spoonacular' | 'hybrid'
   _fallbackEnabled: boolean
 }
 
@@ -155,8 +155,8 @@ export interface RecipeQueryParams {
   allergens?: string[],
   maxIngredients?: number,
   maxCookTime?: number,
-  difficulty?: 'easy' | 'medium' | 'hard',
-  season?: 'spring' | 'summer' | 'autumn' | 'winter',
+  difficulty?: 'easy' | 'medium' | 'hard'
+  season?: 'spring' | 'summer' | 'autumn' | 'winter'
   astrologicalContext?: {
     zodiacSign?: string,
     lunarPhase?: string,
@@ -168,7 +168,7 @@ export interface RecipeServiceResult<T = unknown> {,
   success: boolean,
   data?: T
   error?: {
-    type: 'validation' | 'network' | 'parsing' | 'system',
+    type: 'validation' | 'network' | 'parsing' | 'system'
     message: string,
     code?: string
   },
@@ -184,11 +184,11 @@ export interface RecipeServiceResult<T = unknown> {,
 export interface EnterpriseServiceConfig {
   serviceId: string,
   enabled: boolean,
-  _analysisDepth: 'shallow' | 'standard' | 'deep',
+  _analysisDepth: 'shallow' | 'standard' | 'deep'
   _cacheResults: boolean,
   timeoutMs: number,
   _retryAttempts: number,
-  _logLevel: 'debug' | 'info' | 'warn' | 'error',
+  _logLevel: 'debug' | 'info' | 'warn' | 'error'
   _enablePredictiveAnalysis: boolean,
   _enableMLInference: boolean
 }
@@ -208,7 +208,7 @@ export interface EnterpriseAnalysisContext {
 
 export interface EnterpriseFilter {
   _field: string,
-  operator: 'equals' | 'contains' | 'greater_than' | 'less_than' | 'in' | 'not_in',
+  operator: 'equals' | 'contains' | 'greater_than' | 'less_than' | 'in' | 'not_in'
   _value: unknown
 }
 
@@ -234,13 +234,13 @@ export interface LintingConfig {
   _fixableRules: string[],
   _maxWarnings: number,
   _enableAutoFix: boolean,
-  _reportFormat: 'json' | 'table' | 'compact' | 'stylish',
+  _reportFormat: 'json' | 'table' | 'compact' | 'stylish'
   outputPath?: string
 }
 
 export interface LintingRule {
   ruleId: string,
-  severity: 'off' | 'warn' | 'error',
+  severity: 'off' | 'warn' | 'error'
   options?: unknown[],
   files?: string[],
   excludeFiles?: string[]
@@ -260,7 +260,7 @@ export interface LintingResult {
 
 export interface LintingMessage {
   ruleId: string,
-  severity: 'error' | 'warning' | 'info',
+  severity: 'error' | 'warning' | 'info'
   message: string,
   line: number,
   column: number,
@@ -295,7 +295,7 @@ export interface ServiceResponse<T = unknown> {,
 export interface ServiceError {
   code: string,
   message: string,
-  type: 'validation' | 'authorization' | 'not_found' | 'rate_limit' | 'internal' | 'external',
+  type: 'validation' | 'authorization' | 'not_found' | 'rate_limit' | 'internal' | 'external'
   details?: Record<string, unknown>,
   _retryable: boolean
 }
@@ -304,7 +304,7 @@ export interface ServiceError {
 export interface ServiceConfig {
   serviceName: string,
   version: string,
-  _environment: 'development' | 'staging' | 'production',
+  _environment: 'development' | 'staging' | 'production'
   _features: ServiceFeature[],
   dependencies: ServiceDependency[],
   _monitoring: MonitoringConfig,
@@ -320,7 +320,7 @@ export interface ServiceFeature {
 
 export interface ServiceDependency {
   name: string,
-  type: 'internal' | 'external',
+  type: 'internal' | 'external'
   _required: boolean,
   healthCheckUrl?: string,
   timeout?: number
@@ -329,7 +329,7 @@ export interface ServiceDependency {
 export interface MonitoringConfig {
   _metricsEnabled: boolean,
   _tracingEnabled: boolean,
-  _loggingLevel: 'debug' | 'info' | 'warn' | 'error',
+  _loggingLevel: 'debug' | 'info' | 'warn' | 'error'
   _healthCheckInterval: number,
   _alertingThresholds: Record<string, number>,
 }

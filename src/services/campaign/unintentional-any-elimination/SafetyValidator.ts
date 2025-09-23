@@ -152,7 +152,7 @@ export class SafetyValidator {
     backupFiles: Map<string, string>,
   ): Promise<RollbackValidationResult> {
     const rollbackErrors: string[] = [],
-    let backupIntegrity = true,
+    let backupIntegrity = true;
     let canRollback = true
 
     try {
@@ -193,8 +193,8 @@ export class SafetyValidator {
         canRollback: false,
         backupIntegrity: false,
         rollbackErrors,
-        restorationVerified: false,
-      }
+        restorationVerified: false
+}
     }
   }
 

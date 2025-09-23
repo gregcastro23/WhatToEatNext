@@ -10,8 +10,8 @@ export default function RecipeRecommendationsTestPage() {
   const [filters, setFilters] = useState({
     servingSize: '4',
     dietaryPreference: 'none',
-    cookingTime: '60',
-  });
+    cookingTime: '60'
+});
 
   // Handle filter changes
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {

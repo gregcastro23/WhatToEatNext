@@ -25,7 +25,7 @@ export interface UpdateStrategy {
   name: string,
   description: string,
   pattern: RegExp,
-  updateType: 'major' | 'minor' | 'patch' | 'none',
+  updateType: 'major' | 'minor' | 'patch' | 'none'
   requiresManualApproval: boolean,
   testingRequired: boolean
 }
@@ -62,7 +62,7 @@ export interface SecurityVulnerability {
   packageName: string,
   currentVersion: string,
   vulnerableVersions: string,
-  severity: 'critical' | 'high' | 'moderate' | 'low',
+  severity: 'critical' | 'high' | 'moderate' | 'low'
   cve: string,
   description: string,
   fixedVersion?: string,
@@ -88,7 +88,7 @@ export interface DependencyUpdate {
   packageName: string,
   currentVersion: string,
   latestVersion: string,
-  updateType: 'major' | 'minor' | 'patch',
+  updateType: 'major' | 'minor' | 'patch'
   changelogUrl?: string,
   breakingChanges: boolean,
   securityFix: boolean,
@@ -108,7 +108,7 @@ export interface PackageInfo {
   currentVersion: string,
   latestVersion: string,
   wantedVersion: string,
-  type: 'dependencies' | 'devDependencies',
+  type: 'dependencies' | 'devDependencies'
   homepage?: string,
   repository?: string
 }
@@ -254,8 +254,8 @@ export class DependencySecurityMonitor {
       const auditOutput = execSync('yarn audit --json', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 60000,
-      })
+        timeout: 60000
+})
 
       const auditData = JSON.parse(auditOutput)
       const vulnerabilities: SecurityVulnerability[] = [],
@@ -274,11 +274,11 @@ export class DependencySecurityMonitor {
 
           const vulnerability: SecurityVulnerability = {
             packageName,
-            currentVersion: vuln.via?.[0]?.range || 'unknown',
-            vulnerableVersions: vuln.range || 'unknown',
+            currentVersion: vuln.via?.[0]?.range || 'unknown'
+            vulnerableVersions: vuln.range || 'unknown'
             severity: vuln.severity,
-            cve: vuln.via?.[0]?.source || 'N/A',
-            description: vuln.via?.[0]?.title || 'No description available',
+            cve: vuln.via?.[0]?.source || 'N/A'
+            description: vuln.via?.[0]?.title || 'No description available'
             fixedVersion: vuln.fixAvailable?.version,
             patchAvailable: !!vuln.fixAvailable
           }
@@ -314,8 +314,8 @@ export class DependencySecurityMonitor {
       const outdatedOutput = execSync('yarn outdated --json', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 60000,
-      })
+        timeout: 60000
+})
 
       const outdatedData = JSON.parse(outdatedOutput || '{}')
       const availableUpdates: DependencyUpdate[] = []
@@ -405,18 +405,18 @@ export class DependencySecurityMonitor {
         execSync(updateCommand, {
           encoding: 'utf8',
           stdio: 'pipe',
-          timeout: 120000,
-        })
+          timeout: 120000
+})
 
         const update: DependencyUpdate = {
           packageName: vuln.packageName,
           currentVersion: vuln.currentVersion,
-          latestVersion: vuln.fixedVersion || 'patched',
+          latestVersion: vuln.fixedVersion || 'patched'
           updateType: 'patch',
           breakingChanges: false,
           securityFix: true,
-          testingRequired: false,
-        }
+          testingRequired: false
+}
 
         appliedUpdates.push(update)
         logger.info(`Applied security patch for ${vuln.packageName}`)
@@ -455,8 +455,8 @@ export class DependencySecurityMonitor {
         execSync(updateCommand, {
           encoding: 'utf8',
           stdio: 'pipe',
-          timeout: 120000,
-        })
+          timeout: 120000
+})
 
         appliedUpdates.push(update)
         logger.info(
@@ -487,15 +487,15 @@ export class DependencySecurityMonitor {
       execSync('yarn build', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 300000,
-      })
+        timeout: 300000
+})
 
       // Run test suite
       execSync('yarn test', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 300000,
-      })
+        timeout: 300000
+})
 
       return true,
     } catch (error) {
@@ -591,8 +591,8 @@ export class DependencySecurityMonitor {
       const packageInfo = execSync(`yarn info ${packageName} --json`, {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 10000,
-      })
+        timeout: 10000
+})
 
       const info = JSON.parse(packageInfo);
       return info.repository?.url || info.homepage,
@@ -607,8 +607,8 @@ export class DependencySecurityMonitor {
       execSync('yarn test --testNamePattern='.*' --bail', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 60000,
-      })
+        timeout: 60000
+})
       return true,
     } catch (error) {
       return false
@@ -677,32 +677,32 @@ export const _DEFAULT_DEPENDENCY_SECURITY_CONFIG: DependencySecurityConfig = {
       pattern: /.*/,
       updateType: 'patch',
       requiresManualApproval: false,
-      testingRequired: false,
-    }
+      testingRequired: false
+}
     {
       name: 'TypeScript ecosystem',
       description: 'Careful updates for TypeScript-related packages',
       pattern: /^(@types\/|typescript|ts-)/,
       updateType: 'minor',
       requiresManualApproval: true,
-      testingRequired: true,
-    }
+      testingRequired: true
+}
     {
       name: 'React ecosystem',
       description: 'Careful updates for React-related packages',
       pattern: /^(react|@react|next)/,
       updateType: 'minor',
       requiresManualApproval: true,
-      testingRequired: true,
-    }
+      testingRequired: true
+}
     {
       name: 'Development tools',
       description: 'Safe updates for development tools',
       pattern: /^(eslint|prettier|jest|babel)/,
       updateType: 'minor',
       requiresManualApproval: false,
-      testingRequired: true,
-    }
+      testingRequired: true
+}
   ],
   securityThresholds: {
     critical: 0,
@@ -710,8 +710,8 @@ export const _DEFAULT_DEPENDENCY_SECURITY_CONFIG: DependencySecurityConfig = {
     moderate: 10,
     low: 20,
     autoFixCritical: true,
-    autoFixHigh: false,
-  },
+    autoFixHigh: false
+},
   excludedPackages: [
     // Packages to never auto-update
     'react',

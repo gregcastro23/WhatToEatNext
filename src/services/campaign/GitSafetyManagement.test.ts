@@ -39,8 +39,8 @@ describe('Git Safety Management - Task 6.1', () => {
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7,
-    }
+      stashRetentionDays: 7
+}
 
     // Mock git repository existence
     mockFs.existsSync.mockImplementation((path: string) => {
@@ -176,8 +176,8 @@ describe('Git Safety Management - Task 6.1', () => {
               description: 'Old stash',
               timestamp: oldDate.toISOString(),
               branch: 'main',
-              ref: 'stash@{1}',
-            }
+              ref: 'stash@{1}'
+}
           }
         }),
       )
@@ -237,8 +237,8 @@ describe('Git Safety Management - Task 6.1', () => {
             description: 'Test stash',
             timestamp: new Date().toISOString(),
             branch: 'main',
-            ref: 'stash@{0}',
-          }
+            ref: 'stash@{0}'
+}
         }
       }
 
@@ -296,8 +296,8 @@ describe('Git Safety Management - Task 6.1', () => {
 
       const settingsWithoutAutoRollback: any = {
         ...mockSettings,
-        automaticRollbackEnabled: false,
-      }
+        automaticRollbackEnabled: false
+}
 
       const protocol: any = new SafetyProtocol(settingsWithoutAutoRollback)
       const validation: any = await protocol.validateGitState()
@@ -347,8 +347,8 @@ describe('Git Safety Management - Task 6.1', () => {
               description: 'Old stash',
               timestamp: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(), // 10 days old,
               branch: 'main',
-              ref: 'stash@{0}',
-            }
+              ref: 'stash@{0}'
+}
           }
         }),
       )

@@ -65,8 +65,8 @@ export interface EnterpriseIntelligenceOptions {
   enableValidationIntelligence?: boolean,
   enableSafetyIntelligence?: boolean,
   cacheResults?: boolean,
-  logLevel?: 'debug' | 'info' | 'warn' | 'error',
-  analysisDepth?: 'shallow' | 'standard' | 'deep',
+  logLevel?: 'debug' | 'info' | 'warn' | 'error'
+  analysisDepth?: 'shallow' | 'standard' | 'deep'
 }
 
 export interface EnterpriseIntelligenceRecommendations {
@@ -139,8 +139,8 @@ export type EnterpriseIntelligenceHook = EnterpriseIntelligenceHookState &,
 
 // Chakra analysis types
 export interface ChakraAnalysisContext {
-  chakraType: 'root' | 'sacral' | 'solarPlexus' | 'heart' | 'throat' | 'brow' | 'crown',
-  analysisMode: 'mantra' | 'visual' | 'nutritional' | 'functional' | 'platform',
+  chakraType: 'root' | 'sacral' | 'solarPlexus' | 'heart' | 'throat' | 'brow' | 'crown'
+  analysisMode: 'mantra' | 'visual' | 'nutritional' | 'functional' | 'platform'
   analysisData: Record<string, unknown>,
   chakraProperties: {
     color: string,

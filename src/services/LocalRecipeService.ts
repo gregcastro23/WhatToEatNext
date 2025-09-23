@@ -460,8 +460,8 @@ export class LocalRecipeService {
                 seasonKeys: value ? Object.keys(value) : [],
                 hasAll: !!value?.all,
                 allIsArray: !!(value?.all && Array.isArray(value.all)),
-                allLength: value?.all && Array.isArray(value.all) ? value?.all?.length : 0,
-              }))
+                allLength: value?.all && Array.isArray(value.all) ? value?.all?.length : 0
+}))
             }
             null2,
           ),
@@ -556,8 +556,8 @@ export class LocalRecipeService {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25,
-        }
+          Air: 0.25
+}
       }
 
       // Make sure all elemental properties are numbers
@@ -671,7 +671,7 @@ export class LocalRecipeService {
       logger.error('Error standardizing recipe: ', error),
       return {
         id: `error-${Math.random().toString(36).substring(211)}`,
-        name: dish.name || 'Unknown Recipe',
+        name: dish.name || 'Unknown Recipe'
         description: 'Error loading recipe details',
         cuisine: cuisineName,
         ingredients: [],
@@ -682,8 +682,8 @@ export class LocalRecipeService {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25,
-        }
+          Air: 0.25
+}
       }
     }
   }

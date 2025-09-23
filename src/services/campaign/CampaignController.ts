@@ -39,8 +39,8 @@ export class CampaignController {
       timestamp: new Date(),
       description: `Starting phase: ${phase.name}`,
       severity: SafetyEventSeverity.INFO,
-      action: 'PHASE_START',
-    })
+      action: 'PHASE_START'
+})
 
     try {
       // Create safety checkpoint before phase execution
@@ -50,7 +50,7 @@ export class CampaignController {
       const initialMetrics = await this.getCurrentMetrics()
 
       // Execute phase tools in sequence;
-      let filesProcessed = 0,
+      let filesProcessed = 0;
       let errorsFixed = 0,
       const warningsFixed = 0;
 
@@ -89,8 +89,8 @@ export class CampaignController {
         timestamp: new Date(),
         description: `Phase completed successfully: ${phase.name}`,
         severity: SafetyEventSeverity.INFO,
-        action: 'PHASE_COMPLETE',
-      })
+        action: 'PHASE_COMPLETE'
+})
 
       return result,
     } catch (error) {
@@ -99,8 +99,8 @@ export class CampaignController {
         timestamp: new Date(),
         description: `Phase execution failed: ${(error as Error).message}`,
         severity: SafetyEventSeverity.ERROR,
-        action: 'PHASE_FAILED',
-      })
+        action: 'PHASE_FAILED'
+})
 
       const executionTime = Date.now() - startTime;
 
@@ -111,8 +111,8 @@ export class CampaignController {
           typeScriptErrorsReduced: 0,
           lintingWarningsReduced: 0,
           buildTimeImproved: 0,
-          enterpriseSystemsAdded: 0,
-        },
+          enterpriseSystemsAdded: 0
+},
         filesProcessed: 0,
         errorsFixed: 0,
         warningsFixed: 0,
@@ -203,8 +203,8 @@ export class CampaignController {
       timestamp: new Date(),
       description: `Safety checkpoint created: ${description}`,
       severity: SafetyEventSeverity.INFO,
-      action: 'CHECKPOINT_CREATE',
-    })
+      action: 'CHECKPOINT_CREATE'
+})
 
     return checkpointId,
   }
@@ -218,8 +218,8 @@ export class CampaignController {
       timestamp: new Date(),
       description: `Rolling back to checkpoint: ${checkpointId}`,
       severity: SafetyEventSeverity.WARNING,
-      action: 'ROLLBACK',
-    })
+      action: 'ROLLBACK'
+})
 
     // This will be implemented by the SafetyProtocol class
     // For now, just log the rollback attempt
@@ -272,8 +272,8 @@ export class CampaignController {
             }
           ],
           successCriteria: {
-            typeScriptErrors: 0,
-          },
+            typeScriptErrors: 0
+},
           safetyCheckpoints: []
         }
         {
@@ -289,8 +289,8 @@ export class CampaignController {
             }
           ],
           successCriteria: {
-            lintingWarnings: 0,
-          },
+            lintingWarnings: 0
+},
           safetyCheckpoints: []
         }
       ],
@@ -300,20 +300,20 @@ export class CampaignController {
         testValidationFrequency: 10,
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
-        stashRetentionDays: 7,
-      },
+        stashRetentionDays: 7
+},
       progressTargets: {
         typeScriptErrors: 0,
         lintingWarnings: 0,
         buildTime: 10,
-        enterpriseSystems: 200,
-      },
+        enterpriseSystems: 200
+},
       toolConfiguration: {
         enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
-      }
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
+}
     }
 
     // If configPath is provided, load from file
@@ -329,8 +329,8 @@ export class CampaignController {
     return {
       filesProcessed: [],
       changesApplied: 0,
-      success: true,
-    }
+      success: true
+}
   }
 
   private async validatePhaseProgress(phase: CampaignPhase): Promise<ValidationResult> {
@@ -350,25 +350,25 @@ export class CampaignController {
         current: 86,
         target: 0,
         reduction: 0,
-        percentage: 0,
-      },
+        percentage: 0
+},
       lintingWarnings: {
         current: 4506,
         target: 0,
         reduction: 0,
-        percentage: 0,
-      },
+        percentage: 0
+},
       buildPerformance: {
         currentTime: 8.5,
         targetTime: 10,
         cacheHitRate: 0.8,
-        memoryUsage: 45,
-      },
+        memoryUsage: 45
+},
       enterpriseSystems: {
         current: 0,
         target: 200,
-        transformedExports: 0,
-      }
+        transformedExports: 0
+}
     }
   }
 

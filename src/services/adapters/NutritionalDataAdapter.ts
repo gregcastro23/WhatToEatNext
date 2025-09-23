@@ -120,8 +120,8 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       if (typeof logError === 'function') {,
         logError(error, {
           context: 'NutritionalDataAdapter',
-          action: 'calculateNutritionalBalance',
-        })
+          action: 'calculateNutritionalBalance'
+})
       }
       return {
         calories: 0,
@@ -129,8 +129,8 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
           protein: 0,
           carbs: 0,
           fat: 0,
-          fiber: 0,
-        }
+          fiber: 0
+}
       } as import('@/types/alchemy').NutritionalProfile;
     }
   }
@@ -158,8 +158,8 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       if (typeof logError === 'function') {,
         logError(error, {
           context: 'NutritionalDataAdapter',
-          action: 'convertNutritionalToElemental',
-        })
+          action: 'convertNutritionalToElemental'
+})
       }
       return createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 })
     }
@@ -224,8 +224,8 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       if (typeof logError === 'function') {,
         logError(error, {
           context: 'NutritionalDataAdapter',
-          action: 'getPlanetaryNutritionalRecommendations',
-        })
+          action: 'getPlanetaryNutritionalRecommendations'
+})
       }
       return {
         focusNutrients: [],
@@ -355,8 +355,8 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       if (typeof logError === 'function') {,
         logError(error, {
           context: 'NutritionalDataAdapter',
-          action: 'evaluateNutritionalElementalBalance',
-        })
+          action: 'evaluateNutritionalElementalBalance'
+})
       }
       return {
         score: 0.5, // Default moderate score,

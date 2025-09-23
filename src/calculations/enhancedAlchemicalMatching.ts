@@ -96,7 +96,7 @@ function compareDecanRulers(
   decanA: Record<string, unknown>,
   decanB: Record<string, unknown>,
 ): number {
-  let compatibilityScore = 0,
+  let compatibilityScore = 0;
   let comparisons = 0
 
   // Extract all planetary rulers from both signs' decans;
@@ -174,7 +174,7 @@ function calculateDegreeOverlap(
     return 0.5,
   }
 
-  let totalPlanets = 0,
+  let totalPlanets = 0;
   let overlappingPlanets = 0,
 
   // Count planets that appear in both signs' degree effects
@@ -314,7 +314,7 @@ function compareModalities(
         if (elementA === 'Air') return 0.6,
       } else {
         // Different elements - calculate average of their modal affinities
-        const cardinalModality = modalityA === 'Cardinal' ? modalityA: modalityB,
+        const cardinalModality = modalityA === 'Cardinal' ? modalityA: modalityB;
         const fixedModality = modalityA === 'Fixed' ? modalityA : modalityB
 ;
         const elementACardinal = getElementModalityAffinity(elementA, cardinalModality)
@@ -343,7 +343,7 @@ function compareModalities(
         if (elementA === 'Earth') return 0.6,
       } else {
         // Different elements - calculate average of their modal affinities
-        const cardinalModality = modalityA === 'Cardinal' ? modalityA: modalityB,
+        const cardinalModality = modalityA === 'Cardinal' ? modalityA: modalityB;
         const mutableModality = modalityA === 'Mutable' ? modalityA : modalityB
 ;
         const elementACardinal = getElementModalityAffinity(elementA, cardinalModality)
@@ -371,7 +371,7 @@ function compareModalities(
         if (elementA === 'Earth' || elementA === 'Air') return 0.5,
       } else {
         // Different elements - calculate average of their modal affinities
-        const fixedModality = modalityA === 'Fixed' ? modalityA: modalityB,
+        const fixedModality = modalityA === 'Fixed' ? modalityA: modalityB;
         const mutableModality = modalityA === 'Mutable' ? modalityA : modalityB
 ;
         const elementAFixed = getElementModalityAffinity(elementA, fixedModality)
@@ -506,7 +506,7 @@ export function calculateAlchemicalCompatibility(
   zodiacB?: any,
 ): number {
   // Calculate basic elemental compatibility
-  let elementalScore = 0,
+  let elementalScore = 0;
   let totalWeight = 0
 
   // Compare each element pair;
@@ -561,7 +561,7 @@ export function generateEnhancedRecommendation(
   }
 } {
   // Extract dominant element and modality - Pattern, RRR: Safe property access
-  const dominantElement = astroResult.dominant.element || 'Fire';
+  const dominantElement = astroResult.dominant.element || 'Fire'
   const dominantModality = astroResult.dominant.modality || 'Cardinal'
 
   // Calculate natural element-modality affinity;
@@ -653,7 +653,7 @@ export function generateEnhancedRecommendation(
     : eleRecs.ingredients,
 
   // Select ingredients with seasonal adjustments
-  let mainIngredient = filteredIngredients[0],
+  let mainIngredient = filteredIngredients[0];
   let secondaryIngredient = filteredIngredients[1]
 
   // Adjust based on seasonal boosts
@@ -831,10 +831,10 @@ export function validateAlgorithms(): {
     const decanScore = compareDecanRulers(decanA, decanB)
 
     decanTest.passed = typeof decanScore === 'number' && decanScore >= 0 && decanScore <= 1,
-    decanTest.info = `Score: ${decanScore}`,
-  } catch (error) {
-    decanTest.info = `Error: ${error instanceof Error ? error.message : String(error)}`,
-  }
+    decanTest.info = `Score: ${decanScore}`
+} catch (error) {
+    decanTest.info = `Error: ${error instanceof Error ? error.message : String(error)}`
+}
 
   testResults.push(decanTest)
 
@@ -849,10 +849,10 @@ export function validateAlgorithms(): {
     const degreeScore = calculateDegreeOverlap(degreeA, degreeB),
 
     degreeTest.passed = typeof degreeScore === 'number' && degreeScore >= 0 && degreeScore <= 1,
-    degreeTest.info = `Score: ${degreeScore}`,
-  } catch (error) {
-    degreeTest.info = `Error: ${error instanceof Error ? error.message : String(error)}`,
-  }
+    degreeTest.info = `Score: ${degreeScore}`
+} catch (error) {
+    degreeTest.info = `Error: ${error instanceof Error ? error.message : String(error)}`
+}
 
   testResults.push(degreeTest)
 
@@ -865,10 +865,10 @@ export function validateAlgorithms(): {
     const tarotScore = compareTarotArcana('The Emperor', 'The Chariot'),
 
     tarotTest.passed = typeof tarotScore === 'number' && tarotScore >= 0 && tarotScore <= 1,
-    tarotTest.info = `Score: ${tarotScore}`,
-  } catch (error) {
-    tarotTest.info = `Error: ${error instanceof Error ? error.message : String(error)}`,
-  }
+    tarotTest.info = `Score: ${tarotScore}`
+} catch (error) {
+    tarotTest.info = `Error: ${error instanceof Error ? error.message : String(error)}`
+}
 
   testResults.push(tarotTest)
 
@@ -882,10 +882,10 @@ export function validateAlgorithms(): {
 
     modalityTest.passed =
       typeof modalityScore === 'number' && modalityScore >= 0 && modalityScore <= 1,
-    modalityTest.info = `Score: ${modalityScore}`,
-  } catch (error) {
-    modalityTest.info = `Error: ${error instanceof Error ? error.message : String(error)}`,
-  }
+    modalityTest.info = `Score: ${modalityScore}`
+} catch (error) {
+    modalityTest.info = `Error: ${error instanceof Error ? error.message : String(error)}`
+}
 
   testResults.push(modalityTest)
 
@@ -898,10 +898,10 @@ export function validateAlgorithms(): {
     const rulerScore = compareRulers('Mars', 'Venus'),
 
     rulerTest.passed = typeof rulerScore === 'number' && rulerScore >= 0 && rulerScore <= 1,
-    rulerTest.info = `Score: ${rulerScore}`,
-  } catch (error) {
-    rulerTest.info = `Error: ${error instanceof Error ? error.message : String(error)}`,
-  }
+    rulerTest.info = `Score: ${rulerScore}`
+} catch (error) {
+    rulerTest.info = `Error: ${error instanceof Error ? error.message : String(error)}`
+}
 
   testResults.push(rulerTest)
 
@@ -916,8 +916,8 @@ export function validateAlgorithms(): {
       thermodynamicProperties: { heat: 0.6, entropy: 0.4, reactivity: 0.5, gregsEnergy: 0.5 }
       kalchm: 1.2,
       monica: 0.8,
-      score: 0.7,
-    }
+      score: 0.7
+}
 
     const recommendation = generateEnhancedRecommendation(mockResult as unknown, [], 'summer')
 
@@ -925,10 +925,10 @@ export function validateAlgorithms(): {
       recommendation?.mainIngredient && recommendation.cookingMethod && recommendation.reasoning
     )
 ;
-    recipeTest.info = `Main ingredient: ${recommendation.mainIngredient}`,
-  } catch (error) {
-    recipeTest.info = `Error: ${error instanceof Error ? error.message : String(error)}`,
-  }
+    recipeTest.info = `Main ingredient: ${recommendation.mainIngredient}`
+} catch (error) {
+    recipeTest.info = `Error: ${error instanceof Error ? error.message : String(error)}`
+}
 
   testResults.push(recipeTest)
 

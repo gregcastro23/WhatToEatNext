@@ -643,38 +643,38 @@ function calculateOuterPlanetLongitude(_jd: number, _planet: string): number {
         period: 686.98,
         epochLongitude: 355.45332,
         epochDate: 2451545.0, // J2000,
-        dailyMotion: 0.5240207766,
-      },
+        dailyMotion: 0.5240207766
+},
       jupiter: {
         period: 4332.59,
         epochLongitude: 34.40438,
         epochDate: 2451545.0,
-        dailyMotion: 0.0830853001,
-      },
+        dailyMotion: 0.0830853001
+},
       saturn: {
         period: 10759.22,
         epochLongitude: 50.077471,
         epochDate: 2451545.0,
-        dailyMotion: 0.0334442282,
-      },
+        dailyMotion: 0.0334442282
+},
       uranus: {
         period: 30688.5,
         epochLongitude: 314.055005,
         epochDate: 2451545.0,
-        dailyMotion: 0.011725806,
-      },
+        dailyMotion: 0.011725806
+},
       neptune: {
         period: 60182,
         epochLongitude: 304.348665,
         epochDate: 2451545.0,
-        dailyMotion: 0.0059802665,
-      },
+        dailyMotion: 0.0059802665
+},
       pluto: {
         period: 90560,
         epochLongitude: 238.92881,
         epochDate: 2451545.0,
-        dailyMotion: 0.0039793764,
-      }
+        dailyMotion: 0.0039793764
+}
     }
 
     const planetData = orbitalData[planet as keyof typeof orbitalData];
@@ -698,8 +698,8 @@ function calculateOuterPlanetLongitude(_jd: number, _planet: string): number {
       saturn: 10759.22,
       uranus: 30688.5,
       neptune: 60182,
-      pluto: 90560,
-    }
+      pluto: 90560
+}
 
     const period = periods[planet as keyof typeof periods] || 365.25;
     const t = jd - 2451545.0; // Days since J2000
@@ -845,8 +845,8 @@ export function calculateEnhancedStelliumEffects(
     fire: 0,
     earth: 0,
     air: 0,
-    water: 0,
-  }
+    water: 0
+}
 
   // Group planets by sign
   const planetsBySign: Record<string, string[]> = {}
@@ -938,8 +938,8 @@ export function calculateEnhancedStelliumEffects(
         fire: 0,
         earth: 0,
         air: 0,
-        water: 0,
-      }
+        water: 0
+}
 
       // Count non-matching elements
       Object.values(elementsByPlanet).forEach(planetElement => {
@@ -1014,7 +1014,7 @@ function getHouseElement(_house: number): string {
     4: 'Water',
     8: 'Water',
     12: 'Water' },
-        return houseElements[house as keyof typeof houseElements] || 'fire',
+        return houseElements[house as keyof typeof houseElements] || 'fire'
 }
 
 /**
@@ -1054,8 +1054,8 @@ export function calculateJoyEffects(
     fire: 0,
     earth: 0,
     air: 0,
-    water: 0,
-  }
+    water: 0
+}
 
   // Process each planet
   for (const [planet, position] of Object.entries(planetPositions)) {
@@ -1110,8 +1110,8 @@ export function combineElementalProperties(
     fire: 0,
     earth: 0,
     air: 0,
-    water: 0,
-  }
+    water: 0
+}
 
   properties.forEach(prop => {,
     result.fire += prop.fire || 0,
@@ -1282,8 +1282,8 @@ export function getPlanetaryDignityInfo(
     saturn: 'libra',
     uranus: 'scorpio',
     neptune: 'leo',
-    pluto: 'sagittarius',
-  }
+    pluto: 'sagittarius'
+}
 
   // Fall mappings (opposite of exaltation)
   const falls: Record<string, string> = {
@@ -1296,11 +1296,11 @@ export function getPlanetaryDignityInfo(
     saturn: 'aries',
     uranus: 'taurus',
     neptune: 'aquarius',
-    pluto: 'gemini',
-  }
+    pluto: 'gemini'
+}
 
   // Calculate detriment (opposite of rulership)
-  const getDetriments = (planet: string): string[] => {,
+  const getDetriments = (planet: string): string[] => {;
     const oppositeSignIndexes: Record<string, number> = {
       aries: 6,
       taurus: 7,
@@ -1313,8 +1313,8 @@ export function getPlanetaryDignityInfo(
       sagittarius: 2,
       capricorn: 3,
       aquarius: 4,
-      pisces: 5,
-    }
+      pisces: 5
+}
 
     const signs = [
       'aries',
@@ -1337,10 +1337,10 @@ export function getPlanetaryDignityInfo(
 
   // Check each dignity type - Updated values to match the original algorithm
   if (rulerships[planetLower] && rulerships[planetLower].includes(signLower)) {
-    return { type: 'Domicile', strength: 1.0 }; // Original, value: 1,
-  } else if (exaltations[planetLower] === signLower) {
-    return { type: 'Exaltation', strength: 2.0 }; // Original, value: 2,
-  } else if (getDetriments(planetLower).includes(signLower)) {
+    return { type: 'Domicile', strength: 1.0 }; // Original, value: 1
+} else if (exaltations[planetLower] === signLower) {
+    return { type: 'Exaltation', strength: 2.0 }; // Original, value: 2
+} else if (getDetriments(planetLower).includes(signLower)) {
     return { type: 'Detriment', strength: -1.0 }; // Original value: -1
   } else if (falls[planetLower] === signLower) {
     return { type: 'Fall', strength: -2.0 }; // Original value: -2
@@ -1442,8 +1442,8 @@ export function calculateAspects(
           semisquare: 45,
           sesquisquare: 135,
           quintile: 72,
-          biquintile: 144,
-        }
+          biquintile: 144
+}
 
         const idealAngle = aspectAngles[type as AspectType];
         const orb = Math.abs(diff - idealAngle)
@@ -1612,92 +1612,92 @@ export function getDefaultPlanetaryPositions(): Record<string, PlanetPosition> {
       degree: 10,
       minute: 45,
       exactLongitude: 100.75, // 10° 45' Cancer,
-      isRetrograde: false,
-    },
+      isRetrograde: false
+},
     Moon: {
       sign: 'libra',
       degree: 18,
       minute: 19,
       exactLongitude: 198.32, // 18° 19' Libra,
-      isRetrograde: false,
-    },
+      isRetrograde: false
+},
     Mercury: {
       sign: 'leo',
       degree: 2,
       minute: 9,
       exactLongitude: 122.15, // 2° 9' Leo,
-      isRetrograde: false,
-    },
+      isRetrograde: false
+},
     Venus: {
       sign: 'leo',
       degree: 14,
       minute: 51,
       exactLongitude: 134.85, // 14° 51' Leo,
-      isRetrograde: false,
-    },
+      isRetrograde: false
+},
     Mars: {
       sign: 'taurus',
       degree: 25,
       minute: 25,
       exactLongitude: 55.42, // 25° 25' Taurus,
-      isRetrograde: false,
-    },
+      isRetrograde: false
+},
     Jupiter: {
       sign: 'gemini',
       degree: 12,
       minute: 44,
       exactLongitude: 72.73, // 12° 44' Gemini,
-      isRetrograde: false,
-    },
+      isRetrograde: false
+},
     Saturn: {
       sign: 'pisces',
       degree: 19,
       minute: 17,
       exactLongitude: 349.28, // 19° 17' Pisces,
-      isRetrograde: false,
-    },
+      isRetrograde: false
+},
     Uranus: {
       sign: 'taurus',
       degree: 26,
       minute: 9,
       exactLongitude: 56.15, // 26° 9' Taurus,
-      isRetrograde: false,
-    },
+      isRetrograde: false
+},
     Neptune: {
       sign: 'aries',
       degree: 29,
       minute: 55,
       exactLongitude: 29.92, // 29° 55' Aries,
-      isRetrograde: false,
-    },
+      isRetrograde: false
+},
     Pluto: {
       sign: 'aquarius',
       degree: 1,
       minute: 53,
       exactLongitude: 301.88, // 1° 53' Aquarius,
-      isRetrograde: true,
-    },
+      isRetrograde: true
+},
     northNode: {
       sign: 'pisces',
       degree: 26,
       minute: 33,
       exactLongitude: 356.55, // Position in 330-360 degrees (pisces),
-      isRetrograde: true,
-    },
+      isRetrograde: true
+},
     southNode: {
       sign: 'virgo',
       degree: 26,
       minute: 33,
       exactLongitude: 176.55, // Position in 150-180 degrees (virgo), opposite to North Node,
-      isRetrograde: true,
-    },
+      isRetrograde: true
+},
     Ascendant: {
       sign: 'sagittarius',
       degree: 3,
       minute: 58,
       exactLongitude: 243.97, // Position in 240-270 degrees (sagittarius),
-      isRetrograde: false,
-    }
+      isRetrograde: false
+}
   }
 
   debugLog('Using updated current planetary positions:', currentPositions)
@@ -1970,8 +1970,8 @@ export function getNodeInfo(_nodeLongitude: number): {
     sign,
     degree,
     exactLongitude: nodeLongitude,
-    isRetrograde: true,
-  }
+    isRetrograde: true
+}
 }
 
 // Enhanced getSignFromLongitude with validation
@@ -2003,7 +2003,7 @@ export function getSignFromLongitude(_longitude: number): { sign: string, degree
   ],
 
   return {
-    sign: signs[signIndex] || 'aries',
+    sign: signs[signIndex] || 'aries'
     degree: parseFloat(degree.toFixed(4))
   }
 }
@@ -2062,8 +2062,8 @@ export const _parseAstroChartData = (astroChartData: unknown): Record<string, nu
         Pluto: 'Pluto',
         'North Node': 'northNode',
         'South Node': 'southNode',
-        Chiron: 'Chiron',
-      }
+        Chiron: 'Chiron'
+}
 
       // Process each planet
       Object.entries(data.planets).forEach(([planetName, planetData]) => {
@@ -2128,8 +2128,8 @@ export const _parseAstroChartAspects = (
         semisquare: 'semisquare',
         sesquiquadrate: 'sesquiquadrate',
         quintile: 'quintile',
-        biquintile: 'biquintile',
-      }
+        biquintile: 'biquintile'
+}
 
       // Process each aspect
       data.aspects.forEach((aspect: unknown) => {
@@ -2172,7 +2172,7 @@ export function getPlanetaryElementalInfluence(_planet: string): Element {
     Neptune: 'Water',
     Pluto: 'Fire',
     Ascendant: 'Earth' },
-        return planetElementMap[planet] || 'Earth',
+        return planetElementMap[planet] || 'Earth'
 }
 
 /**
@@ -2217,26 +2217,26 @@ export function calculateElementalCompatibility(element1: Element, element2: Ele
       Fire: 1.0,
       Earth: 0.5,
       Air: 0.8,
-      Water: 0.2,
-    },
+      Water: 0.2
+},
     Earth: {
       Fire: 0.5,
       Earth: 1.0,
       Air: 0.3,
-      Water: 0.9,
-    },
+      Water: 0.9
+},
     Air: {
       Fire: 0.8,
       Earth: 0.3,
       Air: 1.0,
-      Water: 0.4,
-    },
+      Water: 0.4
+},
     Water: {
       Fire: 0.2,
       Earth: 0.9,
       Air: 0.4,
-      Water: 1.0,
-    }
+      Water: 1.0
+}
   }
 
   return elementRelationships[element1][element2],
@@ -2258,8 +2258,8 @@ export function calculateDominantElement(
     Fire: 0,
     Earth: 0,
     Air: 0,
-    Water: 0,
-  }
+    Water: 0
+}
 
   // Sun sign (strongest influence)
   if (astroState.sunSign) {
@@ -2308,8 +2308,8 @@ export function calculateElementalProfile(
     Fire: 0,
     Earth: 0,
     Air: 0,
-    Water: 0,
-  }
+    Water: 0
+}
 
   // Sun sign (strongest influence)
   if (astroState.sunSign) {
@@ -2440,8 +2440,8 @@ export function transformItemsWithPlanetaryPositions(
           Spirit: 0.25,
           Essence: 0.25,
           Matter: 0.25,
-          Substance: 0.25,
-        } as Record<AlchemicalProperty, number>,
+          Substance: 0.25
+} as Record<AlchemicalProperty, number>,
         transformedElementalProperties: { ...item.elementalProperties } as Record<
           ElementalCharacter,
           number
@@ -2461,8 +2461,8 @@ export function transformItemsWithPlanetaryPositions(
           heat: 0.5,
           entropy: 0.5,
           reactivity: 0.5,
-          gregsEnergy: 0.5,
-        },
+          gregsEnergy: 0.5
+},
         transformations: [],
         seasonalResonance: []
       } as AlchemicalItem,
@@ -2492,8 +2492,8 @@ function calculateCurrentElementalInfluence(
       Saturn: 0.6,
       Uranus: 0.4,
       Neptune: 0.4,
-      Pluto: 0.3,
-    }
+      Pluto: 0.3
+}
 
     // Add influence from each planet
     Object.entries(planetaryPositions).forEach(([planet, data]) => {
@@ -2691,8 +2691,8 @@ function calculateAlchemicalProperties(
       thermodynamicProperties: { heat: 0, entropy: 0, reactivity: 0, gregsEnergy: 0 },
       kalchm: 1,
       monica: 0,
-      score: 0.5,
-    }
+      score: 0.5
+}
   }
 }
 
@@ -2770,7 +2770,7 @@ function calculateSeasonalResonance(_dominantElement: ElementalCharacter): Seaso
  */
 function calculatePlanetaryStrength(_planetaryPositions: { [key: string]: unknown }): number {
   try {
-    let totalStrength = 0,
+    let totalStrength = 0;
     let planetCount = 0
 ;
     Object.entries(planetaryPositions).forEach(([planet, data]) => {
@@ -2789,8 +2789,8 @@ function calculatePlanetaryStrength(_planetaryPositions: { [key: string]: unknow
           Saturn: 0.6,
           Uranus: 0.5,
           Neptune: 0.5,
-          Pluto: 0.4,
-        }
+          Pluto: 0.4
+}
 
         const strength = (basePlanetStrength[planet] || 0.5) * retrogradeModifier;
         totalStrength += strength,

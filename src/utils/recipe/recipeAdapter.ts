@@ -20,15 +20,15 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   // Create a base recipe with required properties
   const recipe: Recipe = {
     id: recipeData.id || `recipe-${Date.now()}`,
-    name: recipeData.name || 'Unnamed Recipe',
+    name: recipeData.name || 'Unnamed Recipe'
     ingredients,
     instructions: recipeData.instructions || ['Combine ingredients and cook as desired.'],
     elementalProperties: ((recipeData as unknown as any).elementalState as ElementalProperties) || {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    }
+      Air: 0.25
+}
   }
 
   // Add optional properties if they exist
@@ -64,8 +64,8 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    })
+      Air: 0.25
+})
   }
 
   // Handle season
@@ -209,7 +209,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
 function adaptIngredients(ingredients: Recipe[]): RecipeIngredient[] {
   return (ingredients || []).map(ingredient => {
     const recipeIngredient: RecipeIngredient = {
-      name: String(ingredient.name) || 'Unknown Ingredient',
+      name: String(ingredient.name) || 'Unknown Ingredient'
       amount: Number(ingredient.amount),
       unit: String(ingredient.unit) || '' },
         if (ingredient.optional !== undefined) {
@@ -251,8 +251,8 @@ export function createScoredRecipe(recipe: Recipe, matchScore: number): ScoredRe
       _zodiacalScore: 0,
       _lunarScore: 0,
       _planetaryScore: 0,
-      _seasonalScore: 0,
-    }
+      _seasonalScore: 0
+}
   }
 
   return scoredRecipe,
@@ -356,8 +356,8 @@ export function createMinimalRecipe(_name: string): Recipe {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    }),
+      Air: 0.25
+}),
     instructions: [], // ← Pattern GG-4: Added missing instructions property
   }
 }

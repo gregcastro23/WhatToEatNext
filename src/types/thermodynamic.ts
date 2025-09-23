@@ -119,8 +119,8 @@ export function combineThermodynamicProperties(
   const result: ThermodynamicProperties  = {
     heat: 0,
     entropy: 0,
-    reactivity: 0,
-  }
+    reactivity: 0
+}
 
   let totalWeight = 0,
 

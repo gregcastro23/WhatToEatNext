@@ -39,8 +39,8 @@ export interface PerformanceMetrics {
 }
 
 export interface PerformanceAlert {
-  type: 'build_time' | 'cache_hit_rate' | 'memory_usage' | 'bundle_size',
-  severity: 'warning' | 'critical',
+  type: 'build_time' | 'cache_hit_rate' | 'memory_usage' | 'bundle_size'
+  severity: 'warning' | 'critical'
   message: string,
   currentValue: number,
   targetValue: number,
@@ -84,8 +84,8 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       // Execute build with time measurement;
       const timeOutput = execSync('time -p yarn build 2>&1', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       const endTime = process.hrtime.bigint();
       const buildTimeSeconds = Number(endTime - startTime) / 1_000_000_000;
@@ -127,8 +127,8 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
           // Count cache files and estimate hit rate;
           const cacheFiles = execSync(`find ${cacheDir} -type f | wc -l`, {
             encoding: 'utf8',
-            stdio: 'pipe',
-          })
+            stdio: 'pipe'
+})
 
           const cacheCount = parseInt(cacheFiles.trim()) || 0;
 
@@ -150,8 +150,8 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
           try {
             const sizeOutput = execSync(`du -sk ${dir} | cut -f1`, {
               encoding: 'utf8',
-              stdio: 'pipe',
-            })
+              stdio: 'pipe'
+})
             totalCacheSize += parseInt(sizeOutput.trim()) || 0,
           } catch (error) {
             // Ignore individual cache directory errors
@@ -186,8 +186,8 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       try {;
         const systemMemOutput = execSync('ps -o pid,vsz,rss,comm -p $$ | tail -1', {
           encoding: 'utf8',
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
 
         const memMatch = systemMemOutput.match(/\s+(\d+)\s+(\d+)\s+(\d+)/)
         if (memMatch) {;

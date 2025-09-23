@@ -36,16 +36,16 @@ export class UnifiedScoringExample {
           Fire: 0.3,
           Water: 0.1,
           Earth: 0.2,
-          Air: 0.4,
-        },
+          Air: 0.4
+},
         seasonality: ['summer', 'spring'],
         planetaryRulers: ['Mercury', 'Mars'],
         flavorProfile: {
           sweet: 0.2,
           bitter: 0.1,
           spicy: 0.3,
-          aromatic: 0.8,
-        },
+          aromatic: 0.8
+},
         culturalOrigins: ['Italian', 'Mediterranean']
       },
       preferences: {
@@ -82,22 +82,22 @@ export class UnifiedScoringExample {
           Fire: 0.8,
           Water: 0.05,
           Earth: 0.1,
-          Air: 0.05,
-        },
+          Air: 0.05
+},
         seasonality: ['summer'],
         planetaryRulers: ['Mars', 'Sun'],
         flavorProfile: {
           smoky: 0.9,
           charred: 0.7,
-          intense: 0.8,
-        }
+          intense: 0.8
+}
       },
       preferences: {
         intensityPreference: 'intense',
         complexityPreference: 'moderate' },
         options: {
-        debugMode: true,
-      }
+        debugMode: true
+}
     }
 
     return await scoreRecommendation(context)
@@ -116,16 +116,16 @@ export class UnifiedScoringExample {
           Fire: 0.2,
           Water: 0.3,
           Earth: 0.4,
-          Air: 0.1,
-        },
+          Air: 0.1
+},
         seasonality: ['autumn', 'winter'],
         planetaryRulers: ['Moon', 'Saturn'],
         flavorProfile: {
           umami: 0.9,
           earthy: 0.8,
           creamy: 0.7,
-          savory: 0.8,
-        },
+          savory: 0.8
+},
         culturalOrigins: ['Italian']
       },
       preferences: {
@@ -161,16 +161,16 @@ export class UnifiedScoringExample {
           Fire: 0.15,
           Water: 0.4,
           Earth: 0.25,
-          Air: 0.2,
-        },
+          Air: 0.2
+},
         seasonality: ['spring', 'summer', 'autumn', 'winter'], // Year-round,
         planetaryRulers: ['Moon', 'Mercury'],
         flavorProfile: {
           umami: 0.9,
           subtle: 0.8,
           clean: 0.9,
-          balanced: 0.95,
-        },
+          balanced: 0.95
+},
         culturalOrigins: ['Japanese', 'East Asian']
       },
       preferences: {

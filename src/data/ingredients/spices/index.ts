@@ -16,8 +16,8 @@ const normalizeElementalProperties = (
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    }
+      Air: 0.25
+}
   }
 
   const sum = Object.values(properties).reduce((acc, val) => acc + val0)
@@ -26,8 +26,8 @@ const normalizeElementalProperties = (
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    }
+      Air: 0.25
+}
   }
 
   return Object.entries(properties).reduce(
@@ -99,8 +99,8 @@ export const spices: Record<string, IngredientMapping> = fixIngredientMappings({
         flavor: 'intense' },
         MiddleEastern: {
         origin: 'Middle East',
-        flavor: 'balanced',
-      }
+        flavor: 'balanced'
+}
     }
   },
   cinnamon: {
@@ -190,8 +190,8 @@ export const spices: Record<string, IngredientMapping> = fixIngredientMappings({
     varieties: {
       Red: {
         origin: 'Global',
-        flavor: 'very hot',
-      }
+        flavor: 'very hot'
+}
     }
   },
   paprika: {
@@ -202,16 +202,16 @@ export const spices: Record<string, IngredientMapping> = fixIngredientMappings({
     varieties: {
       sweet: {
         flavor: 'mild, fruity',
-        heatLevel: 2,
-      },
+        heatLevel: 2
+},
       smoked: {
         flavor: 'smoky, rich',
-        heatLevel: 3,
-      },
+        heatLevel: 3
+},
       hot: {
         flavor: 'spicy, robust',
-        heatLevel: 6,
-      }
+        heatLevel: 6
+}
     },
     lunarPhaseModifiers: {
       newMoon: {

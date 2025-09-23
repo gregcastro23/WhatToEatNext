@@ -144,7 +144,7 @@ export interface UnintentionalAnyConfig {
   confidenceThreshold: number,
   enableDomainAnalysis: boolean,
   enableDocumentation: boolean,
-  safetyLevel: 'CONSERVATIVE' | 'MODERATE' | 'AGGRESSIVE',
+  safetyLevel: 'CONSERVATIVE' | 'MODERATE' | 'AGGRESSIVE'
   validationFrequency: number
 }
 
@@ -261,7 +261,7 @@ export interface DocumentationResult {
 
 export interface DocumentationValidation {
   hasComment: boolean,
-  commentQuality: 'poor' | 'fair' | 'good' | 'excellent',
+  commentQuality: 'poor' | 'fair' | 'good' | 'excellent'
   hasEslintDisable: boolean,
   eslintDisableHasExplanation: boolean,
   isComplete: boolean,
@@ -374,9 +374,9 @@ export interface ManualReviewRecommendation {
   codeSnippet: string,
   classification: AnyTypeClassification,
   reviewReason: string,
-  priority: 'high' | 'medium' | 'low',
+  priority: 'high' | 'medium' | 'low'
   suggestedActions: string[],
-  estimatedEffort: 'low' | 'medium' | 'high',
+  estimatedEffort: 'low' | 'medium' | 'high'
   relatedOccurrences: Array<{
     filePath: string,
     lineNumber: number
@@ -441,25 +441,24 @@ export interface AlertThresholds {
 
 export interface Alert {
   type: AlertType,
-  severity: 'low' | 'medium' | 'high' | 'critical',
+  severity: 'low' | 'medium' | 'high' | 'critical'
   message: string,
   timestamp: Date,
   data?: unknown
 }
 
 export type AlertType =
-  | 'low_success_rate',
+  | 'low_success_rate'
   | 'build_failure'
   | 'consecutive_build_failures'
   | 'low_classification_accuracy'
   | 'progress_stall'
   | 'frequent_safety_events'
   | 'safety_protocol_activation'
-  | 'system_error',
-
+  | 'system_error'
 export interface SafetyEvent {
   type: string,
-  severity: 'low' | 'medium' | 'high' | 'critical',
+  severity: 'low' | 'medium' | 'high' | 'critical'
   description: string,
   action: string,
   timestamp: Date,
@@ -485,7 +484,7 @@ export interface AlertSummary {
 
 export interface SystemHealth {
   score: number // 0-100,
-  status: 'healthy' | 'warning' | 'critical',
+  status: 'healthy' | 'warning' | 'critical'
   lastCheck: Date,
   issues: string[]
 }
@@ -567,7 +566,7 @@ export interface CampaignPhase {
   phase: string,
   startTime: Date,
   endTime?: Date
-  status: 'pending' | 'in_progress' | 'completed' | 'failed',
+  status: 'pending' | 'in_progress' | 'completed' | 'failed'
   metrics: CampaignMetrics,
   issues: string[]
 }

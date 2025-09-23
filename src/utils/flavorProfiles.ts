@@ -178,7 +178,7 @@ function getElementalDescription(_element: string): string {
     Water: 'subtle, flowing',
     Earth: 'grounding, substantial',
     Air: 'light, ethereal' },
-        return elementDescriptions[element] || 'balanced',
+        return elementDescriptions[element] || 'balanced'
 }
 
 /**

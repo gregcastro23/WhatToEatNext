@@ -25,22 +25,22 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       protein: 2,
       carbs: 10,
       fat: 0.5,
-      fiber: 3,
-    },
+      fiber: 3
+},
     vitamins: {
       A: 0.2C: 0.3K: 0.25E: 0.1,
-    B6: 0.1,
-    },
+    B6: 0.1
+},
     minerals: {
       potassium: 0.2,
       magnesium: 0.15,
       iron: 0.1,
-      calcium: 0.1,
-    },
+      calcium: 0.1
+},
     phytonutrients: {
       antioxidants: 0.3,
-      flavonoids: 0.25,
-    }
+      flavonoids: 0.25
+}
   },
   fruits: {
     calories: 75,
@@ -48,22 +48,22 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       protein: 1,
       carbs: 20,
       fat: 0.2,
-      fiber: 3,
-    },
+      fiber: 3
+},
     vitamins: {
       A: 0.1C: 0.4E: 0.1,
-    B6: 0.1,
-    },
+    B6: 0.1
+},
     minerals: {
       potassium: 0.2,
       magnesium: 0.1,
       iron: 0.05,
-      calcium: 0.05,
-    },
+      calcium: 0.05
+},
     phytonutrients: {
       antioxidants: 0.35,
-      flavonoids: 0.3,
-    }
+      flavonoids: 0.3
+}
   },
   grains: {
     calories: 150,
@@ -71,19 +71,19 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       protein: 5,
       carbs: 30,
       fat: 1,
-      fiber: 4,
-    },
+      fiber: 4
+},
     vitamins: {
       B1: 0.2,
     B3: 0.2,
-    B6: 0.1E: 0.1,
-    },
+    B6: 0.1E: 0.1
+},
     minerals: {
       iron: 0.15,
       magnesium: 0.15,
       zinc: 0.1,
-      selenium: 0.1,
-    }
+      selenium: 0.1
+}
   },
   legumes: {
     calories: 120,
@@ -91,22 +91,22 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       protein: 8,
       carbs: 20,
       fat: 1,
-      fiber: 7,
-    },
+      fiber: 7
+},
     vitamins: {
       B1: 0.1,
     B6: 0.1K: 0.1,
-      folate: 0.2,
-    },
+      folate: 0.2
+},
     minerals: {
       iron: 0.2,
       magnesium: 0.15,
       zinc: 0.1,
-      potassium: 0.15,
-    },
+      potassium: 0.15
+},
     phytonutrients: {
-      isoflavones: 0.3,
-    }
+      isoflavones: 0.3
+}
   },
   nuts: {
     calories: 180,
@@ -114,21 +114,21 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       protein: 6,
       carbs: 6,
       fat: 16,
-      fiber: 3,
-    },
+      fiber: 3
+},
     vitamins: {
       E: 0.3,
-    B6: 0.1,
-    },
+    B6: 0.1
+},
     minerals: {
       magnesium: 0.2,
       zinc: 0.15,
       selenium: 0.2,
-      copper: 0.2,
-    },
+      copper: 0.2
+},
     phytonutrients: {
-      phytosterols: 0.25,
-    }
+      phytosterols: 0.25
+}
   },
   dairy: {
     calories: 120,
@@ -136,19 +136,19 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       protein: 8,
       carbs: 12,
       fat: 5,
-      fiber: 0,
-    },
+      fiber: 0
+},
     vitamins: {
       A: 0.1D: 0.15,
       B12: 0.2,
-      riboflavin: 0.25,
-    },
+      riboflavin: 0.25
+},
     minerals: {
       calcium: 0.3,
       phosphorus: 0.2,
       selenium: 0.1,
-      zinc: 0.1,
-    }
+      zinc: 0.1
+}
   },
   meat: {
     calories: 200,
@@ -156,20 +156,20 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       protein: 25,
       carbs: 0,
       fat: 10,
-      fiber: 0,
-    },
+      fiber: 0
+},
     vitamins: {
       B12: 0.4,
     B6: 0.2,
       niacin: 0.25,
-      riboflavin: 0.15,
-    },
+      riboflavin: 0.15
+},
     minerals: {
       iron: 0.2,
       zinc: 0.3,
       phosphorus: 0.2,
-      selenium: 0.2,
-    }
+      selenium: 0.2
+}
   },
   fish: {
     calories: 150,
@@ -177,20 +177,20 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       protein: 22,
       carbs: 0,
       fat: 6,
-      fiber: 0,
-    },
+      fiber: 0
+},
     vitamins: {
       D: 0.3,
       B12: 0.3,
       niacin: 0.2,
-    B6: 0.15,
-    },
+    B6: 0.15
+},
     minerals: {
       selenium: 0.3,
       phosphorus: 0.2,
       iodine: 0.2,
-      magnesium: 0.1,
-    }
+      magnesium: 0.1
+}
   }
 }
 
@@ -554,8 +554,8 @@ export function calculateNutritionalBalance(
       protein: 0,
       carbs: 0,
       fat: 0,
-      fiber: 0,
-    },
+      fiber: 0
+},
     vitamins: {}
     minerals: {}
     phytonutrients: {}
@@ -624,9 +624,9 @@ export function nutritionalToElemental(_profile: NutritionalProfile): {
   }
 
   // Calculate element weights based on nutritional properties
-  let fire = 0,
+  let fire = 0;
   let water = 0,
-  let earth = 0,
+  let earth = 0;
   let air = 0,
 
   // Protein contributes to Fire
@@ -738,8 +738,8 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0,
-  }
+    Air: 0
+}
 
   // Get day planet influence (both diurnal and nocturnal elements all day)
   const dayElements = planetaryElements[dayPlanet];

@@ -47,8 +47,8 @@ export function getSunPosition(
       azimuth: 0,
       altitude: 0,
       declination: 0,
-      rightAscension: 0,
-    }
+      rightAscension: 0
+}
   }
 }
 

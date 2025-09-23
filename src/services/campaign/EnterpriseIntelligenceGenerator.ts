@@ -334,8 +334,8 @@ export interface PatternAnalysis {
 
 export interface Recommendation {
   id: string,
-  type: 'optimization' | 'enhancement' | 'integration' | 'maintenance',
-  priority: 'low' | 'medium' | 'high' | 'critical',
+  type: 'optimization' | 'enhancement' | 'integration' | 'maintenance'
+  priority: 'low' | 'medium' | 'high' | 'critical'
   description: string,
   implementation: string,
   estimatedImpact: number
@@ -369,8 +369,8 @@ export interface TrendData {
         averageExecutionTime: 0,
         memoryUsage: 0,
         cacheHitRate: 0,
-        errorRate: 0,
-      },
+        errorRate: 0
+},
       patternAnalysis: {
         commonPatterns: [],
         anomalies: [],
@@ -429,24 +429,24 @@ export interface TrendData {
           priority: 'medium',
           description: \`Optimize \${originalName} usage patterns\`,
           implementation: 'Consider implementing caching or memoization',
-          estimatedImpact: 75,
-        }
+          estimatedImpact: 75
+}
         {
           id: \`rec-\${Date.now()}-2\`,
           type: 'integration',
           priority: 'high',
           description: \`Integrate \${originalName} with monitoring systems\`,
           implementation: 'Add performance tracking and alerting',
-          estimatedImpact: 85,
-        }
+          estimatedImpact: 85
+}
         {
           id: \`rec-\${Date.now()}-3\`,
           type: 'enhancement',
           priority: 'low',
           description: \`Enhance \${originalName} with additional features\`,
           implementation: 'Add validation, error handling, and logging',
-          estimatedImpact: 60,
-        }
+          estimatedImpact: 60
+}
       ],
 
       this.analytics.recommendations = recommendations,
@@ -531,8 +531,8 @@ ${capabilities
         averageExecutionTime: 0,
         memoryUsage: 0,
         cacheHitRate: 0,
-        errorRate: 0,
-      },
+        errorRate: 0
+},
       patternAnalysis: {
         commonPatterns: [],
         anomalies: [],
@@ -567,8 +567,8 @@ ${capabilities
         metric: 'usage',
         values: [1015, 1218, 20],
         timestamps: [new Date(), new Date(), new Date(), new Date(), new Date()],
-        trend: 'increasing',
-      }
+        trend: 'increasing'
+}
     ],
   }
 
@@ -892,8 +892,8 @@ app.get('/api/intelligence/${systemName.toLowerCase()}', async (req, res) => {
         SIMPLE: 1,
         MODERATE: 2,
         COMPLEX: 3,
-        VERY_COMPLEX: 4,
-      }[baseComplexity] + capabilityComplexity,
+        VERY_COMPLEX: 4
+}[baseComplexity] + capabilityComplexity,
 
     if (totalComplexity <= 3) return GenerationComplexity.SIMPLE,
     if (totalComplexity <= 5) return GenerationComplexity.MODERATE,

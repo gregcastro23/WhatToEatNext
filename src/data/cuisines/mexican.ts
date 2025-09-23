@@ -859,8 +859,8 @@ export const mexican = {
           astrologicalProfile: {
             favorableZodiac: ['leo', 'sagittarius'],
             rulingPlanets: ['sun', 'jupiter'],
-            elementalAffinity: 'Fire',
-          }
+            elementalAffinity: 'Fire'
+}
         }
         {
           name: 'Churros',
@@ -990,8 +990,8 @@ export const mexican = {
         earth: 0.4,
         fire: 0.3,
         water: 0.2,
-        air: 0.1,
-      },
+        air: 0.1
+},
       astrologicalInfluences: ['pluto', 'mars', 'scorpio'],
       seasonality: 'all',
       preparationNotes: 'Traditionally prepared over multiple days for celebrations and special occasions',
@@ -1012,8 +1012,8 @@ export const mexican = {
         water: 0.4,
         fire: 0.3,
         air: 0.2,
-        earth: 0.1,
-      },
+        earth: 0.1
+},
       astrologicalInfluences: ['venus', 'mercury', 'gemini'],
       seasonality: 'spring, summer',
       preparationNotes: 'Can be served raw or cooked depending on desired flavor profile',
@@ -1029,8 +1029,8 @@ export const mexican = {
         fire: 0.5,
         earth: 0.3,
         water: 0.1,
-        air: 0.1,
-      },
+        air: 0.1
+},
       astrologicalInfluences: ['mars', 'sun', 'aries'],
       seasonality: 'summer, autumn',
       preparationNotes: 'Most traditional version uses dried chiles rehydrated and blended with tomatoes',
@@ -1046,8 +1046,8 @@ export const mexican = {
         fire: 0.4,
         air: 0.3,
         earth: 0.2,
-        water: 0.1,
-      },
+        water: 0.1
+},
       astrologicalInfluences: ['mars', 'mercury', 'sagittarius'],
       seasonality: 'all',
       preparationNotes: 'Originally used as a preservation technique, now primarily for flavor',
@@ -1063,13 +1063,13 @@ export const mexican = {
         earth: 0.5,
         water: 0.2,
         air: 0.2,
-        fire: 0.1,
-      },
+        fire: 0.1
+},
       astrologicalInfluences: ['saturn', 'moon', 'capricorn'],
       seasonality: 'autumn, winter',
       preparationNotes: 'Pre-Hispanic sauce that predates European influence in Mexican cuisine',
-      technicalTips: 'Toast seeds until fragrant but not burnt for optimal flavor',
-    }
+      technicalTips: 'Toast seeds until fragrant but not burnt for optimal flavor'
+}
   },
   sauceRecommender: {
     forProtein: {
@@ -1262,8 +1262,8 @@ export const mexican = {
       signature: ['pescado a la talla', 'aguachile', 'ceviche', 'zarandeado', 'camarones'],
       elementalProperties: { water: 0.5, air: 0.2, fire: 0.2, earth: 0.1 },
       astrologicalInfluences: ['neptune', 'venus', 'pisces'],
-      seasonality: 'coastal seasonal patterns with monsoon influence',
-    }
+      seasonality: 'coastal seasonal patterns with monsoon influence'
+}
   },
   elementalProperties: {
     fire: 0.3, // Represents chiles and grilling,

@@ -80,7 +80,7 @@ export class EnhancedIngredientSystem {
       const currentSeason = optionsData.currentSeason;
       if (currentSeason) {
         filtered = filtered.filter(ingredient => {
-          const seasons = ingredient.seasonality || ingredient.currentSeason || [],
+          const seasons = ingredient.seasonality || ingredient.currentSeason || [];
           const seasonArray = Array.isArray(seasons) ? seasons : [seasons],
           return seasonArray.some(
             s =>

@@ -352,8 +352,8 @@ export function validateMathematicalConstants(_constants: Record<string, _number
       _MIN_ELEMENT_VALUE: 0.05,
       _MAX_ELEMENT_VALUE: 1.0,
       SELF_REINFORCEMENT_THRESHOLD: 0.3,
-      _HARMONY_THRESHOLD: 0.7,
-    }
+      _HARMONY_THRESHOLD: 0.7
+}
 
     Object.entries(expectedConstants).forEach(([name, expectedValue]) => {
       if (name in constants) {
@@ -474,7 +474,7 @@ export async function validateAstrologicalCalculation(
  */
 export function quickValidate(
   data: unknown,
-  type: 'planetary' | 'elemental' | 'constants',
+  type: 'planetary' | 'elemental' | 'constants'
 ): boolean {
   try {
     switch (type) {

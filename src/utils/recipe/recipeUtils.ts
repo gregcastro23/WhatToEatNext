@@ -295,11 +295,11 @@ export function getRecipeDominantElement(recipe: Recipe): string {
   const elementalProperties = getRecipeElementalProperties(recipe)
 
   // Find the element with the highest value;
-  let maxElement = 'Earth',
+  let maxElement = 'Earth';
   let maxValue = 0
 ;
   (['Fire', 'Water', 'Earth', 'Air'] as const).forEach(element => {
-    const elementData = elementalProperties as unknown,
+    const elementData = elementalProperties as unknown;
     const value = Number(elementData[element]) || 0;
     if (value > maxValue) {
       maxValue = value,
@@ -404,9 +404,9 @@ export function getRecipeIngredients(recipe: Recipe): RecipeIngredient[] {
 
       if (typeof ingredientData === 'object') {,
         return {
-          name: ingredientData.name || 'Unknown ingredient',
+          name: ingredientData.name || 'Unknown ingredient'
           amount: ingredientData.amount || 1,
-          unit: ingredientData.unit || 'piece',
+          unit: ingredientData.unit || 'piece'
           optional: ingredientData.optional || false,
           preparation: ingredientData.preparation || undefined
         } as RecipeIngredient,

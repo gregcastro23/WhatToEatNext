@@ -6,7 +6,7 @@ import { Cuisine } from './cuisines';
 
 // Properties that describe food characteristics
 export type FoodProperty =
-  | 'hot',
+  | 'hot'
   | 'cold'
   | 'wet'
   | 'dry'
@@ -36,14 +36,13 @@ export type FoodProperty =
   | 'rich'
   | 'complex'
   | 'mild-spicy'
-  | 'earthy',
-
+  | 'earthy'
 // Track daily food intake
 export interface FoodEntry {
   id: string,
   name: string,
   timeAdded: Date,
-  mealType: 'breakfast' | 'lunch' | 'dinner' | 'snack',
+  mealType: 'breakfast' | 'lunch' | 'dinner' | 'snack'
   nutrition: {
     calories: number,
     protein: number,

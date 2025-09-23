@@ -68,8 +68,8 @@ export function useUnifiedPlanetaryHour(options: UseUnifiedPlanetaryHourOptions 
       end: wsHour.end,
       loading: false,
       error: null,
-      source: 'ws',
-    }))
+      source: 'ws'
+}))
   }, [useRealtime, wsHour?.planet, wsHour?.isDaytime, wsHour?.start?.getTime(), wsHour?.end?.getTime(), connected])
 
   return {

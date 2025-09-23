@@ -170,8 +170,8 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       replacement: 'MAXIMUM',
       documentation: 'MEDIUM',
       batch_processing: 'MAXIMUM' },
-        backupRetentionDays: 7,
-  },
+        backupRetentionDays: 7
+},
   targets: {
     targetReductionPercentage: 18,
     minSuccessRate: 0.8,
@@ -179,8 +179,8 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
     trackingIntervals: {
       metrics: 5,
       reports: 1,
-      checkpoints: 10,
-    },
+      checkpoints: 10
+},
     milestones: [
       { name: 'Initial Analysis', targetReduction: 0, timeframe: '1 day' },
       { name: 'Conservative Phase', targetReduction: 5, timeframe: '3 days' }

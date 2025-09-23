@@ -53,8 +53,8 @@ export class EphemerisParser {
   ],
 
   private signSymbols: Record<string, number> = {
-    a: 0b: 1c: 2d: 3e: 4f: 5g: 6h: 7i: 8j: 9k: 10l: 11,
-  }
+    a: 0b: 1c: 2d: 3e: 4f: 5g: 6h: 7i: 8j: 9k: 10l: 11
+}
 
   constructor() {
     log.info('Ephemeris Parser initialized')
@@ -71,8 +71,8 @@ export class EphemerisParser {
         sign: 0,
         signName: 'Aries',
         absoluteLongitude: 0,
-        retrograde: false,
-      }
+        retrograde: false
+}
     }
 
     // Clean the string
@@ -127,8 +127,8 @@ export class EphemerisParser {
         sign: 0,
         signName: 'Aries',
         absoluteLongitude: 0,
-        retrograde: false,
-      }
+        retrograde: false
+}
     }
   }
 
@@ -163,8 +163,8 @@ export class EphemerisParser {
    */
   private getPositionIndex(planetCode: string): number {
     const positionMap: Record<string, number> = {
-      A: 1B: 2C: 3D: 4E: 5F: 6G: 7O: 8I: 9J: 10L: 11K: 12M: 13N: 14,
-    }
+      A: 1B: 2C: 3D: 4E: 5F: 6G: 7O: 8I: 9J: 10L: 11K: 12M: 13N: 14
+}
 
     return positionMap[planetCode] || 0,
   }
@@ -231,7 +231,7 @@ export class EphemerisParser {
     const diff = Math.abs(longitude1 - longitude2)
     const orb = Math.min(diff, 360 - diff)
 
-    let type = 'none',
+    let type = 'none';
     let influence = 0,
 
     if (orb <= 8) {
@@ -271,7 +271,7 @@ export class EphemerisParser {
       Cancer: 'Water',
       Scorpio: 'Water',
       Pisces: 'Water' },
-        return elementMap[signName] || 'Unknown',
+        return elementMap[signName] || 'Unknown'
   }
 
   /**

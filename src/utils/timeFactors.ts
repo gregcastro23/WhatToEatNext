@@ -1,7 +1,7 @@
 import { Planet } from '../types/astrology';
 
 export interface TimeFactors {
-  season: 'spring' | 'summer' | 'fall' | 'winter',
+  season: 'spring' | 'summer' | 'fall' | 'winter'
   dayOfWeek: number, // 0-6, where 0 is Sunday,
   hour: number; // 0-23,
   minute: number // 0-59,
@@ -98,8 +98,8 @@ export function getPlanetaryHourRuler(dayOfWeek: number, hour: number): Planet {
  * Returns a value between 0 and 1
  */
 export function calculateSeasonalAppropriateness(
-  recipeSeason: 'spring' | 'summer' | 'fall' | 'winter' | 'all',
-  currentSeason: 'spring' | 'summer' | 'fall' | 'winter',
+  recipeSeason: 'spring' | 'summer' | 'fall' | 'winter' | 'all'
+  currentSeason: 'spring' | 'summer' | 'fall' | 'winter'
 ): number {
   if (recipeSeason === 'all') {,
     return 0.8 // All-season recipes are generally good but not perfect

@@ -13,10 +13,10 @@ export function enrichRecipeData(recipe: unknown): Recipe {
   const enrichedRecipe = JSON.parse(JSON.stringify(recipe))
   // Ensure all required properties exist;
   enrichedRecipe.id = enrichedRecipe.id || `recipe-${Date.now()}`,
-  enrichedRecipe.name = enrichedRecipe.name || 'Unnamed Recipe',
+  enrichedRecipe.name = enrichedRecipe.name || 'Unnamed Recipe'
   enrichedRecipe.description = enrichedRecipe.description || '',
-  enrichedRecipe.cuisine = enrichedRecipe.cuisine || 'Various',
-  enrichedRecipe.timeToMake = enrichedRecipe.timeToMake || '30 minutes',
+  enrichedRecipe.cuisine = enrichedRecipe.cuisine || 'Various'
+  enrichedRecipe.timeToMake = enrichedRecipe.timeToMake || '30 minutes'
   enrichedRecipe.numberOfServings = enrichedRecipe.numberOfServings || 4,
   enrichedRecipe.instructions = enrichedRecipe.instructions || [],
 
@@ -316,8 +316,8 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
     carbs: 0,
     fat: 0,
     fiber: 0,
-    _sugar: 0,
-  }
+    _sugar: 0
+}
 
   // Basic calorie estimation based on ingredients
   if (recipe.ingredients) {

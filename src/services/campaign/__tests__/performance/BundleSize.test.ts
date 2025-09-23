@@ -28,8 +28,8 @@ describe('Bundle Size Performance Tests', () => {
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7,
-    }
+      stashRetentionDays: 7
+}
 
     mockConfig = {
       phases: [
@@ -54,8 +54,8 @@ describe('Bundle Size Performance Tests', () => {
       toolConfiguration: { enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
-      }
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
+}
     }
 
     progressTracker = new ProgressTracker()
@@ -418,8 +418,8 @@ describe('Bundle Size Performance Tests', () => {
         results.push({,
           strategy: strategy.name,
           size: bundleSize,
-          underTarget: bundleSize < 420,
-        })
+          underTarget: bundleSize < 420
+})
       }
 
       expect(results.length).toBe(5).

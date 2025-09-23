@@ -59,8 +59,8 @@ export class BatchProcessingIntegration {
         maxVariablesAutoProcess: 20,
         requireManualReview: !this.config.skipManualReview,
         enhancedValidation: true,
-        createDetailedBackups: true,
-      }
+        createDetailedBackups: true
+}
     })
   }
 

@@ -11,7 +11,7 @@ export interface AuthConfig {
   jwtSecret: string,
   tokenExpiry: string,
   refreshTokenExpiry: string,
-  issuer: string,
+  issuer: string
 }
 
 export interface TokenPayload {
@@ -21,13 +21,13 @@ export interface TokenPayload {
   scopes: string[],
   iat: number,
   exp: number,
-  iss: string,
+  iss: string
 }
 
 export interface AuthTokens {
   accessToken: string,
   refreshToken: string,
-  expiresIn: number,
+  expiresIn: number
 }
 
 export interface User {
@@ -182,8 +182,8 @@ export class JWTAuthService {
     const accessToken = jwt.sign(payload, this.config.jwtSecret, {
       expiresIn: this.config.tokenExpiry,
       issuer: this.config.issuer,
-      audience: 'alchm.kitchen',
-    })
+      audience: 'alchm.kitchen'
+})
 
     const refreshToken = jwt.sign(
       { userId: user.id, type: 'refresh' },
@@ -191,8 +191,8 @@ export class JWTAuthService {
       {
         expiresIn: this.config.refreshTokenExpiry,
         issuer: this.config.issuer,
-        audience: 'alchm.kitchen',
-      })
+        audience: 'alchm.kitchen'
+})
 
     return {
       accessToken,
@@ -208,8 +208,8 @@ export class JWTAuthService {
     try {
       const decoded = jwt.verify(token, this.config.jwtSecret, {
         issuer: this.config.issuer,
-        audience: 'alchm.kitchen',
-      }) as TokenPayload,
+        audience: 'alchm.kitchen'
+}) as TokenPayload,
 
       // Verify user still exists and is active
       const user = Array.from(this.users.values()).find(u => u.id === decoded.userId)
@@ -232,8 +232,8 @@ export class JWTAuthService {
     try {
       const decoded = jwt.verify(refreshToken, this.config.jwtSecret, {
         issuer: this.config.issuer,
-        audience: 'alchm.kitchen',
-      }) as any,
+        audience: 'alchm.kitchen'
+}) as any,
 
       if (decoded.type !== 'refresh') {
         logger.warn('Invalid refresh token type')
@@ -303,8 +303,8 @@ export class JWTAuthService {
       case 'm': return value * 60,
       case 'h': return value * 3600,
       case 'd': return value * 86400,
-      default: return 3600,
-    }
+      default: return 3600
+}
   }
 
   /**
@@ -380,7 +380,7 @@ export class JWTAuthService {
 
 // Export singleton instance
 export const authService = new JWTAuthService({,
-  jwtSecret: process.env.JWT_SECRET || 'alchm_kitchen_jwt_secret_key',
+  jwtSecret: process.env.JWT_SECRET || 'alchm_kitchen_jwt_secret_key'
   tokenExpiry: '1h',
   refreshTokenExpiry: '7d',
   issuer: 'alchm.kitchen'

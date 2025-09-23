@@ -19,9 +19,8 @@ export type Planet =
   | 'Uranus'
   | 'Neptune'
   | 'Pluto'
-  | 'Rahu';
-  | 'Ketu',
-
+  | 'Rahu'
+  | 'Ketu'
 /**
  * Planetary dignity types for calculation
  */
@@ -34,9 +33,8 @@ export type PlanetaryDignity =
   | 'Mooltrikona'
   | 'Nakshatra'
   | 'Detriment'
-  | 'Fall';
-  | 'Neutral',
-
+  | 'Fall'
+  | 'Neutral'
 /**
  * Interface for planetary dignity details
  */
@@ -266,8 +264,8 @@ export const _getDignityMultiplier = (dignity: PlanetaryDignity): number => {,
     Nakshatra: 1.25,
     Detriment: 0.7,
     Fall: 0.5,
-    Neutral: 1.0,
-  }
+    Neutral: 1.0
+}
   return multipliers[dignity] || 1.0,
 }
 
@@ -288,13 +286,12 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
     aquarius: 'Air',
     cancer: 'Water',
     scorpio: 'Water',
-    pisces: 'Water',
-  }
+    pisces: 'Water'
+}
 
   // Normalize zodiac sign to lowercase for lookup
   const normalizedSign = zodiacSign.toLowerCase();
-  const zodiacElement = zodiacElements[normalizedSign] || 'Fire';
-
+  const zodiacElement = zodiacElements[normalizedSign] || 'Fire'
   // Check if item has elemental properties
   const itemData = item as {;
     elementalProperties?: Record<string, number>,
@@ -400,8 +397,8 @@ export const getLunarPhaseBoost = (lunarPhase: LunarPhase): number => {
   const influence = lunarInfluences[lunarPhase] || {;
     element: 'Water',
     alchemical: 'Essence',
-    intensity: 0.5,
-  }
+    intensity: 0.5
+}
 
   // Calculate boost based on lunar phase intensity
   // This will vary between 0.15 and 0.4 depending on the phase

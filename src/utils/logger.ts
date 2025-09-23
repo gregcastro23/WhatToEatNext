@@ -4,8 +4,7 @@ import { log } from '@/services/LoggingService';
  * This module provides component-specific logging capabilities and consistent formatting.
  */
 
-type LogLevel = 'debug' | 'info' | 'warn' | 'error',
-
+type LogLevel = 'debug' | 'info' | 'warn' | 'error'
 // Get environment
 const isDev = process.env.NODE_ENV !== 'production';
 const _isBrowser = typeof window !== 'undefined';

@@ -32,8 +32,8 @@ export const elementalColors: Record<keyof ElementalProperties, ElementalColor> 
     secondary: 'bg-blue-400',
     text: 'text-indigo-600',
     border: 'border-indigo-400',
-    bg: 'bg-indigo-50',
-  }
+    bg: 'bg-indigo-50'
+}
 }
 
 export const _calculateDominantElement = (
@@ -86,7 +86,7 @@ export const _getElementalSymbol = (element: keyof ElementalProperties): string 
     Earth: '🌱',
     Air: '💨',
     Water: '💧' },
-        return symbols[element] || '✨',
+        return symbols[element] || '✨'
 }
 
 export const _getElementalDescription = (element: keyof ElementalProperties): string => {,
@@ -95,7 +95,7 @@ export const _getElementalDescription = (element: keyof ElementalProperties): st
     Earth: 'Grounding and nourishing qualities',
     Air: 'Light and uplifting characteristics',
     Water: 'Cooling and balancing effects' },
-        return descriptions[element] || 'Balanced properties',
+        return descriptions[element] || 'Balanced properties'
 }
 
 export const _calculateelementalState = (
@@ -105,8 +105,8 @@ export const _calculateelementalState = (
     Fire: 0,
     Earth: 0,
     Air: 0,
-    Water: 0,
-  }
+    Water: 0
+}
 
   const categoryElements: Record<string, keyof ElementalProperties> = {
     _spice: 'Fire',

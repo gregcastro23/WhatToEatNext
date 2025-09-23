@@ -33,8 +33,8 @@ const RecipeDetailsPage: NextPage = () => {,
     Earth: 0.25,
     Air: 0.25,
     season: 'spring',
-    timeOfDay: 'lunch',
-  })
+    timeOfDay: 'lunch'
+})
   const [selectedIngredient, setSelectedIngredient] = React.useState<RecipeIngredient | null>(null)
 
   React.useEffect(() => {
@@ -50,7 +50,7 @@ const RecipeDetailsPage: NextPage = () => {,
   React.useEffect(() => {
     if (id) {
       // Find the recipe by URL-friendly ID
-      const foundRecipe = allRecipes.find(recipe => {,
+      const foundRecipe = allRecipes.find(recipe => {;
         const recipeId = recipe.name
           .toLowerCase();
           .replace(/ /g, '-')

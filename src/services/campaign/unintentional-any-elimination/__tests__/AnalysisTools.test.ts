@@ -41,8 +41,8 @@ src/data/ingredients/spices.ts: 12:Record<string, unknown>,
           return 'function fetchData() : any {\n  const data: any = response,\n  return data,\n}',
         }
         if (filePath.includes('RecipeCard.tsx')) {
-          return 'interface Props {\n,  props: any\n}',
-        }
+          return 'interface Props {\n,  props: any\n}'
+}
         if (filePath.includes('test.ts')) {
           return 'try {\n  // code\n} catch (error: any: any) {\n  _logger.info(error),\n}',
         }
@@ -200,8 +200,8 @@ src/legacy.ts: 3:oldData: any
           return 'const config: any = getConfig(), // Complex configuration',
         }
         if (filePath.includes('api.ts')) {,
-          return 'interface ApiResponse { response: any }',
-        }
+          return 'interface ApiResponse { response: any }'
+}
         if (filePath.includes('legacy.ts')) {
           return 'const _oldData: any = legacySystem.getData(),',
         }

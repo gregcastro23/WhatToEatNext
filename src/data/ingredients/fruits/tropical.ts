@@ -149,8 +149,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temp until ripe',
       duration: '5-7 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when ripe',
-    }
+      notes: 'Refrigerate when ripe'
+}
 
     // Removed excessive sensoryProfile nesting
 // Removed nested content
@@ -203,8 +203,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temp until ripe',
       duration: '7-10 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when ripe',
-    }
+      notes: 'Refrigerate when ripe'
+}
 
     // Removed excessive sensoryProfile nesting
 // Removed nested content
@@ -257,8 +257,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       duration: '5-7 days',
       humidity: 'moderate',
-      notes: 'Best eaten when slightly firm',
-    }
+      notes: 'Best eaten when slightly firm'
+}
 
     // Removed excessive sensoryProfile nesting
 // Removed nested content
@@ -367,8 +367,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temp until ripe',
       duration: '3-4 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when ripe',
-    }
+      notes: 'Refrigerate when ripe'
+}
 
     // Removed excessive sensoryProfile nesting
 // Removed nested content
@@ -422,8 +422,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       duration: '3-5 days',
       humidity: 'high',
-      notes: 'Best eaten fresh',
-    }
+      notes: 'Best eaten fresh'
+}
 
     // Removed excessive sensoryProfile nesting
 // Removed nested content
@@ -477,8 +477,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       duration: '5-7 days',
       humidity: 'moderate',
-      notes: 'Store in breathable container',
-    }
+      notes: 'Store in breathable container'
+}
 
     // Removed excessive sensoryProfile nesting
 // Removed nested content
@@ -532,8 +532,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temp until ripe',
       duration: '4-5 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when ripe',
-    }
+      notes: 'Refrigerate when ripe'
+}
 
     // Removed excessive sensoryProfile nesting
 // Removed nested content
@@ -587,8 +587,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       duration: '5-7 days',
       humidity: 'moderate',
-      notes: 'Cut pieces must be used quickly',
-    }
+      notes: 'Cut pieces must be used quickly'
+}
 
     // Removed excessive sensoryProfile nesting
 // Removed nested content
@@ -642,8 +642,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       duration: '3-5 days',
       humidity: 'moderate',
-      notes: 'Freeze for longer storage',
-    }
+      notes: 'Freeze for longer storage'
+}
 
     // Removed excessive sensoryProfile nesting
 // Removed nested content
@@ -696,8 +696,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       duration: '5-7 days',
       humidity: 'moderate',
-      notes: 'Best eaten when slightly firm',
-    }
+      notes: 'Best eaten when slightly firm'
+}
 
     // Removed excessive sensoryProfile nesting
 // Removed nested content
@@ -751,8 +751,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       duration: '1-2 weeks',
       humidity: 'moderate',
-      notes: 'Will ripen other fruits if stored together',
-    }
+      notes: 'Will ripen other fruits if stored together'
+}
 
     // Removed excessive sensoryProfile nesting
 // Removed nested content
@@ -806,8 +806,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temperature whole',
       duration: '2-3 months whole',
       processed: 'refrigerate once opened',
-      notes: 'Freezes well when shredded',
-    }
+      notes: 'Freezes well when shredded'
+}
 
     // Removed excessive sensoryProfile nesting
 // Removed nested content
@@ -861,8 +861,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       duration: '1-2 weeks',
       humidity: 'moderate',
-      notes: 'Keeps well in cool conditions',
-    }
+      notes: 'Keeps well in cool conditions'
+}
 
     // Removed excessive sensoryProfile nesting
 // Removed nested content
@@ -916,8 +916,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       duration: '3-5 days',
       humidity: 'high',
-      notes: 'Best eaten fresh',
-    }
+      notes: 'Best eaten fresh'
+}
 
     // Removed excessive sensoryProfile nesting
 // Removed nested content
@@ -970,8 +970,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temp until ripe',
       duration: '2-3 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when fully ripe',
-    }
+      notes: 'Refrigerate when fully ripe'
+}
 
     // Removed excessive sensoryProfile nesting
 // Removed nested content

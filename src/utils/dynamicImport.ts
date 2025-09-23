@@ -252,8 +252,8 @@ export async function safeImportAndExecute<RA extends unknown[] = unknown[]>(
           _Fire: 0.32,
           _Water: 0.28,
           _Earth: 0.18,
-          _Air: 0.22,
-        }
+          _Air: 0.22
+}
       }
 
       if (!resultData.alchemicalCounts) {
@@ -261,8 +261,8 @@ export async function safeImportAndExecute<RA extends unknown[] = unknown[]>(
           _Spirit: 0.29,
           _Essence: 0.28,
           _Matter: 0.21,
-          _Substance: 0.22,
-        }
+          _Substance: 0.22
+}
       }
 
       return calculatedResults,

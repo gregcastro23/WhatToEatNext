@@ -13,12 +13,12 @@ export const grilling: CookingMethodData = {
     Fire: 0.7,
     Air: 0.2,
     Earth: 0.1,
-    Water: 0.0,
-  },
+    Water: 0.0
+},
   duration: {
     min: 2,
-    max: 30,
-  },
+    max: 30
+},
   suitable_for: ['meats', 'poultry', 'seafood', 'vegetables', 'fruit', 'bread', 'pizza', 'kebabs'],
   benefits: [
     'imparts smoky flavor',
@@ -72,8 +72,8 @@ export const grilling: CookingMethodData = {
     chicken: 375,
     fish: 400,
     vegetables: 425,
-    fruit: 350,
-  },
+    fruit: 350
+},
   regionalVariations: {
     argentine: ['asado', 'parrilla technique'],
     korean: ['bulgogi', 'galbi'],
@@ -86,8 +86,8 @@ export const grilling: CookingMethodData = {
     caramelization: true,
     fat_rendering: true,
     smoke_particle_adhesion: true,
-    protein_denaturation: true,
-  },
+    protein_denaturation: true
+},
   safetyFeatures: [
     'Proper fire management',
     'Food temperature monitoring',

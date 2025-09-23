@@ -103,8 +103,8 @@ export async function POST(request: Request) {
             isHealthy: true,
             lastUpdate: currentMoment.metadata.lastUpdated,
             source: currentMoment.metadata.source,
-            dataIntegrity: Object.keys(currentMoment.planetaryPositions).length >= 10 ? 'good' : 'incomplete',
-          }
+            dataIntegrity: Object.keys(currentMoment.planetaryPositions).length >= 10 ? 'good' : 'incomplete'
+}
         })
 
       default: return NextResponse.json(
@@ -141,7 +141,7 @@ export async function PUT(request: Request) {
     logger.info(`Selective update requested for targets: ${targets.join(', ')}`)
 
     // Get current moment first
-    const customDate = customDateTime ? new Date(customDateTime) : undefined,
+    const customDate = customDateTime ? new Date(customDateTime) : undefined;
     const customLocation = latitude && longitude ? { latitude, longitude } : undefined
 
     const currentMoment = await updateCurrentMoment(customDate, customLocation)
@@ -150,8 +150,8 @@ export async function PUT(request: Request) {
       notebook: false,
       systemDefaults: false,
       streamlinedPositions: false,
-      accurateAstronomy: false,
-    }
+      accurateAstronomy: false
+}
 
     // Note: The updateCurrentMoment already updates all files,
     // so this is more of a status report

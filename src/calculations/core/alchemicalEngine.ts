@@ -170,8 +170,8 @@ function alchemize(_planetaryPositions: { [planet: string]: string }): Thermodyn
     Fire: 0,
     Water: 0,
     Air: 0,
-    Earth: 0,
-  }
+    Earth: 0
+}
 
   for (const planet in planetaryPositions) {
     const sign = planetaryPositions[planet];
@@ -264,7 +264,7 @@ export class AlchemicalEngine {
     // Use getElementalAffinity which returns ElementalAffinity object, extract compatibility score
     // Determine dominant element from properties1
     const _dominantElement =
-      (Object.entries(properties1).sort(([, a], [, b]) => b - a)[0]?.[0] as Element) || 'Fire',
+      (Object.entries(properties1).sort(([, a], [, b]) => b - a)[0]?.[0] as Element) || 'Fire'
     const affinity = this.advanced.getElementalAffinity(_dominantElement, _dominantElement); // Use dominant element for both
     // Extract the compatibility score for the dominant element
     return typeof affinity.compatibility[_dominantElement] === 'number'

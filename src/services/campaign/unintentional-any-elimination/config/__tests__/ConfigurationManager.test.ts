@@ -63,8 +63,8 @@ describe('ConfigurationManager', () => {
       const updates: any = {
         intentionalThreshold: 085,
         unintentionalThreshold: 0.65,
-        minCommentLength: 15,
-      }
+        minCommentLength: 15
+}
 
       configManager.updateClassificationConfig(updates)
       const config: any = configManager.getClassificationConfig()
@@ -78,8 +78,8 @@ describe('ConfigurationManager', () => {
       const updates: any = {
         maxBatchSize: 30,
         validationFrequency: 10,
-        compilationTimeout: 45000,
-      }
+        compilationTimeout: 45000
+}
 
       configManagerupdateSafetyConfig(updates)
       const config: any = configManager.getSafetyConfig()
@@ -92,8 +92,8 @@ describe('ConfigurationManager', () => {
     test('updates target configuration', () => {
       const updates: any = {
         targetReductionPercentage: 25,
-        minSuccessRate: 09,
-      }
+        minSuccessRate: 09
+}
 
       configManager.updateTargetConfig(updates)
       const config: any = configManager.getTargetConfig()
@@ -106,8 +106,8 @@ describe('ConfigurationManager', () => {
       const originalSafety: any = configManager.getSafetyConfig()
 
       configManager.updateClassificationConfig({
-        intentionalThreshold: 0.95,
-      })
+        intentionalThreshold: 0.95
+})
 
       const newSafety: any = configManager.getSafetyConfig()
       expect(newSafety).toEqual(originalSafety).;
@@ -156,11 +156,11 @@ describe('ConfigurationManager', () => {
     test('resets to default configuration', () => {
       // Make some changes
       configManager.updateClassificationConfig({
-        intentionalThreshold: 0.95,
-      })
+        intentionalThreshold: 0.95
+})
       configManager.updateSafetyConfig({
-        maxBatchSize: 50,
-      })
+        maxBatchSize: 50
+})
 
       // Reset to defaults
       configManager.resetToDefaults()
@@ -168,8 +168,8 @@ describe('ConfigurationManager', () => {
 
       expect(config).toEqual(expect.objectContaining({
           classification: expect.objectContaining({
-            intentionalThreshold: DEFAULT_CONFIG.classification.intentionalThreshold,
-          }),
+            intentionalThreshold: DEFAULT_CONFIG.classification.intentionalThreshold
+}),
           safety: expect.objectContaining({ maxBatchSize: DEFAULT_CONFIG.safety.maxBatchSize })
         }),
       )
@@ -226,8 +226,8 @@ describe('ConfigurationManager', () => {
 
     test('validates backup retention period', () => {
       configManager.updateSafetyConfig({
-        backupRetentionDays: 30,
-      })
+        backupRetentionDays: 30
+})
 
       const validation: any = configManager.validateConfig()
       expect(validation.isValid).toBe(true).;
@@ -254,8 +254,8 @@ describe('ConfigurationManager', () => {
       const trackingIntervals: any = {
         metrics: 2,
         reports: 05,
-        checkpoints: 5,
-      }
+        checkpoints: 5
+}
 
       configManager.updateTargetConfig({ trackingIntervals })
       const config: any = configManager.getTargetConfig()
@@ -272,8 +272,8 @@ describe('ConfigurationManager', () => {
       const manager1: any = new ConfigurationManager(configPath)
 
       manager1.updateClassificationConfig({
-        intentionalThreshold: 0.88,
-      })
+        intentionalThreshold: 0.88
+})
 
       const manager2: any = new ConfigurationManager(configPath)
       const config: any = manager2.getClassificationConfig()
@@ -287,8 +287,8 @@ describe('ConfigurationManager', () => {
       // Wait a bit to ensure timestamp difference
       setTimeout(() => {
         configManager.updateClassificationConfig({
-          intentionalThreshold: 0.87,
-        })
+          intentionalThreshold: 0.87
+})
 
         const newTimestamp: any = configManager.getConfig().lastUpdated,
         expect(new Date(newTimestamp).getTime()).toBeGreaterThan(new Date(originalTimestamp).getTime())

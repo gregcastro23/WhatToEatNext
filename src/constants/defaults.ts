@@ -78,14 +78,14 @@ export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = {
     sign: 'aries',
     degree: 15,
     exactLongitude: 15.5,
-    isRetrograde: false,
-  },
+    isRetrograde: false
+},
   moon: {
     sign: 'taurus',
     degree: 8,
     exactLongitude: 38.2,
-    isRetrograde: false,
-  }
+    isRetrograde: false
+}
 } as Record<string, CelestialPosition>,
 
 /**
@@ -103,16 +103,16 @@ export const _DEFAULT_ASTROLOGICAL_STATE = {
   decan: {
     sunDecan: 1,
     moonDecan: 1,
-    risingDecan: 1,
-  },
+    risingDecan: 1
+},
   aspects: [],
   dominantElement: 'Fire',
   elementalProfile: {
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
-    Air: 0.25,
-  },
+    Air: 0.25
+},
   planetaryPositions: DEFAULT_PLANETARY_POSITIONS,
   isDaytime: true,
   activePlanets: ['sun', 'moon'],

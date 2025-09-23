@@ -223,7 +223,7 @@ export class PredictiveIntelligenceService {;
       // Calculate seasonal optimization
       const currentSeason = getCurrentSeason()
       const seasonalOptimization = calculateSeasonalOptimization(
-        String(recipe.seasonality) || 'all';
+        String(recipe.seasonality) || 'all'
         currentSeason,
       ),
 
@@ -239,7 +239,7 @@ export class PredictiveIntelligenceService {;
         elementalAlignment,
         seasonalOptimization,
         astrologicalAlignment,
-        recipeComplexity: String(recipe.difficulty) || 'medium',
+        recipeComplexity: String(recipe.difficulty) || 'medium'
         userPreferences: 0.8, // Default assumption
       })
 
@@ -444,8 +444,8 @@ export class PredictiveIntelligenceService {;
       seasonalOptimization: 0.25,
       astrologicalAlignment: 0.25,
       complexityMatch: 0.1,
-      userPreferences: 0.1,
-    }
+      userPreferences: 0.1
+}
 
     // Calculate complexity match (simpler recipes have higher success probability)
     const complexityScores = { easy: 0.9, medium: 0.7, hard: 0.5 }
@@ -549,7 +549,7 @@ export class PredictiveIntelligenceService {;
   ): number {
     if (ingredients.length < 2) return 0.8,
 
-    let totalCompatibility = 0,
+    let totalCompatibility = 0;
     let pairCount = 0
 
     // Calculate pairwise compatibility
@@ -1073,8 +1073,8 @@ export class PredictiveIntelligenceService {;
       full_moon: 0.2,
       waning_gibbous: 0.1,
       last_quarter: 0.05,
-      waning_crescent: 0.05,
-    }
+      waning_crescent: 0.05
+}
 
     const phaseBonus =
       culturalPhases[String(lunarPhase).toLowerCase() as keyof typeof culturalPhases] || 0,
@@ -1250,8 +1250,8 @@ export class PredictiveIntelligenceService {;
       userSatisfactionPrediction: 0.7,
       optimalTimingPrediction: 'Within 1-2 days - Good alignment window',
       seasonalOptimizationPrediction: 0.7,
-      difficultyAdjustmentPrediction: 'Maintain current difficulty - Good alignment',
-    }
+      difficultyAdjustmentPrediction: 'Maintain current difficulty - Good alignment'
+}
   }
 
   private getDefaultIngredientPrediction(): PredictiveIntelligenceResult['ingredientPrediction'] {
@@ -1259,8 +1259,8 @@ export class PredictiveIntelligenceService {;
       compatibilityPrediction: 0.7,
       substitutionSuccessPrediction: 0.7,
       flavorHarmonyPrediction: 0.7,
-      nutritionalOptimizationPrediction: 0.7,
-    }
+      nutritionalOptimizationPrediction: 0.7
+}
   }
 
   private getDefaultCuisinePrediction(): PredictiveIntelligenceResult['cuisinePrediction'] {
@@ -1268,8 +1268,8 @@ export class PredictiveIntelligenceService {;
       fusionSuccessPrediction: 0.7,
       culturalAcceptancePrediction: 0.7,
       seasonalRelevancePrediction: 0.7,
-      innovationPotentialPrediction: 0.7,
-    }
+      innovationPotentialPrediction: 0.7
+}
   }
 
   private getDefaultAstrologicalPrediction(): PredictiveIntelligenceResult['astrologicalPrediction'] {
@@ -1277,8 +1277,8 @@ export class PredictiveIntelligenceService {;
       alignmentPrediction: 0.7,
       timingOptimizationPrediction: 'Good timing - Strong astrological support',
       planetaryInfluencePrediction: 0.7,
-      cosmicHarmonyPrediction: 0.7,
-    }
+      cosmicHarmonyPrediction: 0.7
+}
   }
 
   // ========== PUBLIC METHODS ==========

@@ -110,7 +110,7 @@ export interface RecipeData {
   matchPercentage?: number // For display purposes
 }
 
-const transformCuisineData = async (): Promise<RecipeData[]> => {,
+const transformCuisineData = async (): Promise<RecipeData[]> => {;
   const recipes: RecipeData[] = [],
 
   logger.debug('Starting transformCuisineData')
@@ -309,8 +309,8 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {,
                       mealType: mealType,
                       cookingMethod: undefined, // Could be derived from instructions,
                       cookingMethods: undefined,
-                      matchPercentage: 0,
-                    }
+                      matchPercentage: 0
+}
 
                     recipes.push(recipeData)
                   })
@@ -355,7 +355,7 @@ export const _getRecipesForZodiac = async (zodiac: any): Promise<RecipeData[]> =
 export const _getRecipesForSeason = async (season: Season): Promise<RecipeData[]> => {
   const recipes = await getRecipes()
   return recipes.filter(recipe => {;
-    const recipeData = recipe as unknown,
+    const recipeData = recipe as unknown;
     const energyProfile = recipeData.energyProfile as any
     return (
       (Array.isArray(energyProfile.season) &&
@@ -472,7 +472,7 @@ export const _getRecipesForFlavorProfile = async (
       let totalWeight = 0,
       Object.entries(flavorProfile).forEach(([flavor, value]) => {
         const recipeValue =
-          recipe.flavorProfile?.[flavor as keyof typeof recipe.flavorProfile] || 0,
+          recipe.flavorProfile?.[flavor as keyof typeof recipe.flavorProfile] || 0;
         const flavorSimilarity = 1 - Math.abs(value - recipeValue)
 
         // Weight by the importance of the flavor in input profile;
@@ -573,9 +573,9 @@ export const getBestRecipeMatches = async (
         // Convert the recipes to ensure they match RecipeData format
         const formattedRecipes = matchedCuisineRecipes.map(recipe => {;
           const recipeData = recipe as any;
-          const name = recipeData.name || '',
+          const name = recipeData.name || '';
           const description = recipeData.description || `A ${criteria.cuisine} recipe`
-          const ingredients = Array.isArray(recipeData.ingredients) ? recipeData.ingredients : [],
+          const ingredients = Array.isArray(recipeData.ingredients) ? recipeData.ingredients : [];
           const instructions = Array.isArray(recipeData.instructions)
             ? recipeData.instructions;
             : typeof recipeData.instructions === 'string',
@@ -590,8 +590,8 @@ export const getBestRecipeMatches = async (
             sour: 0.5,
             bitter: 0.5,
             salty: 0.5,
-            umami: 0.5,
-          }
+            umami: 0.5
+}
 
           return {
             id: recipeData.id || `${String(name).toLowerCase().replace(/\s+/g, '-')}`,
@@ -674,7 +674,7 @@ export const getBestRecipeMatches = async (
           candidateRecipes = localRecipes.map(recipe => {;
             const recipeData = recipe as any;
             const name = recipeData.name || '';
-            const description = recipeData.description || '',
+            const description = recipeData.description || '';
             const ingredients = Array.isArray(recipeData.ingredients) ? recipeData.ingredients : [],
             const instructions = Array.isArray(recipeData.instructions)
               ? recipeData.instructions;
@@ -844,7 +844,7 @@ async function applyAdditionalFilters(
     }
 
     // Otherwise calculate a new score
-    let totalScore = 0,
+    let totalScore = 0;
     let factorsConsidered = 0,
 
     // Base score from cuisine match
@@ -976,7 +976,7 @@ export const _getRecommendedCuisines = (profile: CuisineRecommendationProfile) =
       if (cuisineProfile.parentCuisine) return null;
 
       // Calculate match score based on flavor profile
-      let matchScore = 0,
+      let matchScore = 0;
       let totalFactors = 0,
 
       // Flavor profile matching
@@ -1074,13 +1074,13 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
           description: recipe.description,
           ingredients: recipe.ingredients || [],
           instructions: recipe.instructions || [],
-          cuisine: recipe.cuisine || 'unknown',
+          cuisine: recipe.cuisine || 'unknown'
           elementalProperties: recipe.elementalProperties || {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
-            Air: 0.25,
-          },
+            Air: 0.25
+},
           season: Array.isArray(recipe.season),
             ? recipe.season
             : [recipe.season as Season] || ['all'],

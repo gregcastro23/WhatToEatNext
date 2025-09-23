@@ -25,7 +25,7 @@ export interface AutomatedLintingWorkflowOptions {
     riskTolerance?: 'conservative' | 'moderate' | 'aggressive' },
         batchProcessingOptions?: Partial<BatchProcessingOptions>,
   safetyProtocols?: Partial<SafetyProtocols>,
-  automationLevel?: 'conservative' | 'moderate' | 'aggressive',
+  automationLevel?: 'conservative' | 'moderate' | 'aggressive'
   dryRun?: boolean
 }
 
@@ -54,12 +54,12 @@ export interface WorkflowSummary {
 }
 
 export interface WorkflowRecommendation {
-  type: 'immediate' | 'short-term' | 'long-term' | 'process-improvement',
-  priority: 'critical' | 'high' | 'medium' | 'low',
+  type: 'immediate' | 'short-term' | 'long-term' | 'process-improvement'
+  priority: 'critical' | 'high' | 'medium' | 'low'
   title: string,
   description: string,
   actionItems: string[],
-  estimatedImpact: 'high' | 'medium' | 'low',
+  estimatedImpact: 'high' | 'medium' | 'low'
   automatable: boolean
 }
 
@@ -233,8 +233,8 @@ export class AutomatedLintingIntegration {
       // Analyze for unused variable issues
       const analysis = await this.analysisService.performComprehensiveAnalysis({,
         focusAreas: ['typescript'],
-        generateStrategies: false,
-      })
+        generateStrategies: false
+})
 
       const unusedVarIssues = Object.values(analysis.categorizedErrors.byCategory)
         .flat()
@@ -260,8 +260,8 @@ export class AutomatedLintingIntegration {
             issuesFixed: 0,
             issuesFailed: 0,
             validationTime: 0,
-            rollbacksPerformed: 0,
-          }
+            rollbacksPerformed: 0
+}
         }
       }
 
@@ -309,8 +309,8 @@ export class AutomatedLintingIntegration {
       // Analyze for import-related issues
       const analysis = await this.analysisService.performComprehensiveAnalysis({;
         focusAreas: ['import'],,
-        generateStrategies: false,
-      })
+        generateStrategies: false
+})
 
       const importIssues = analysis.categorizedErrors.byCategory['import'] || [];
 
@@ -352,10 +352,9 @@ export class AutomatedLintingIntegration {
     analysis: ComprehensiveAnalysisResult,
     options: AutomatedLintingWorkflowOptions,
   ): SafetyProtocols {
-    const automationLevel = options.automationLevel || 'moderate';
-    const riskTolerance = options.analysisOptions?.riskTolerance || 'moderate';
-
-    let maxFailures = 5,
+    const automationLevel = options.automationLevel || 'moderate'
+    const riskTolerance = options.analysisOptions?.riskTolerance || 'moderate'
+    let maxFailures = 5;
     let requireManualApproval = false;
 
     // Adjust based on automation level
@@ -436,8 +435,8 @@ export class AutomatedLintingIntegration {
           {
             prefixWithUnderscore: true,
             skipDomainFiles: true,
-            skipTestFiles: false,
-          })
+            skipTestFiles: false
+})
       }
 
       // Import optimization
@@ -447,8 +446,8 @@ export class AutomatedLintingIntegration {
         fixResults.imports = await this.automatedFixer.optimizeImports(importIssues, {
           removeDuplicates: true,
           organizeImports: true,
-          sortImports: true,
-        })
+          sortImports: true
+})
       }
 
       // Type annotation improvements (conservative approach)
@@ -486,8 +485,7 @@ export class AutomatedLintingIntegration {
       (fixResults.typeAnnotations?.failedIssues || 0)
 ;
     const totalAttempted = totalFixed + totalFailed;
-    const automationSuccessRate = totalAttempted > 0 ? totalFixed / totalAttempted: 0,
-
+    const automationSuccessRate = totalAttempted > 0 ? totalFixed / totalAttempted: 0;
     const safetyEventsTriggered =
       fixResults.automated.errors.length +
       (fixResults.unusedVariables?.errors.length || 0) +
@@ -531,8 +529,8 @@ export class AutomatedLintingIntegration {
           'Adjust safety protocols if needed'
         ],
         estimatedImpact: 'high',
-        automatable: false,
-      })
+        automatable: false
+})
     }
 
     if (summary.automationSuccessRate < 0.5) {
@@ -547,8 +545,8 @@ export class AutomatedLintingIntegration {
           'Consider manual review for complex issues'
         ],
         estimatedImpact: 'high',
-        automatable: false,
-      })
+        automatable: false
+})
     }
 
     // Short-term improvements
@@ -564,8 +562,8 @@ export class AutomatedLintingIntegration {
           'Train team on domain-specific linting practices'
         ],
         estimatedImpact: 'medium',
-        automatable: true,
-      })
+        automatable: true
+})
     }
 
     // Long-term process improvements
@@ -582,8 +580,8 @@ export class AutomatedLintingIntegration {
           'Create quality metrics dashboard'
         ],
         estimatedImpact: 'high',
-        automatable: true,
-      })
+        automatable: true
+})
     }
 
     // Process improvement recommendations
@@ -600,8 +598,8 @@ export class AutomatedLintingIntegration {
           'Consider automated deployment of fixes'
         ],
         estimatedImpact: 'medium',
-        automatable: true,
-      })
+        automatable: true
+})
     }
 
     return recommendations,
@@ -628,8 +626,7 @@ export class AutomatedLintingIntegration {
 
     const safetyEvents = fixResults.automated.errors.length;
     const safetyProtocolEffectiveness =
-      safetyEvents > 0 ? fixResults.automated.metrics.rollbacksPerformed / safetyEvents : 1,
-
+      safetyEvents > 0 ? fixResults.automated.metrics.rollbacksPerformed / safetyEvents : 1;
     const qualityImprovement = (totalFixed / analysis.summary.totalIssues) * 100
 
     return {;
@@ -721,8 +718,8 @@ export class AutomatedLintingIntegration {
         issuesFixed: 0,
         issuesFailed: 0,
         validationTime: 0,
-        rollbacksPerformed: 0,
-      }
+        rollbacksPerformed: 0
+}
     }
   }
 }

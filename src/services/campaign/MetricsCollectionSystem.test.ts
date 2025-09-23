@@ -62,8 +62,8 @@ describe('MetricsCollectionSystem', () => {
       expect(snapshot.metrics.typeScriptErrors.current).toBe(5).
       expect(snapshotmetrics.errorBreakdown).toEqual({,
         TS2352: 3,
-        TS2345: 2,
-      })
+        TS2345: 2
+})
     })
 
     test('should handle zero TypeScript errors', async () => {

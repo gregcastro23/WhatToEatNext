@@ -61,8 +61,8 @@ export const indian: Cuisine = {
             Earth: 0.3,
             Fire: 0.4,
             Air: 0.2,
-            Water: 0.1,
-          }
+            Water: 0.1
+}
         }
         {
           name: 'Aloo Paratha',
@@ -123,8 +123,8 @@ export const indian: Cuisine = {
             Earth: 0.5,
             Fire: 0.3,
             Water: 0.1,
-            Air: 0.1,
-          }
+            Air: 0.1
+}
         }
         {
           name: 'Idli Sambar',
@@ -175,8 +175,8 @@ export const indian: Cuisine = {
             Water: 0.4,
             Earth: 0.3,
             Fire: 0.2,
-            Air: 0.1,
-          }
+            Air: 0.1
+}
         }
       ],
       summer: [
@@ -206,8 +206,8 @@ export const indian: Cuisine = {
               amount: '2',
               unit: 'pieces',
               category: 'spice',
-              optional: true,
-            }
+              optional: true
+}
           ],
           substitutions: {
             peanuts: ['cashews', 'roasted chana'],
@@ -236,8 +236,8 @@ export const indian: Cuisine = {
             Earth: 0.4,
             Fire: 0.3,
             Air: 0.2,
-            Water: 0.1,
-          }
+            Water: 0.1
+}
         }
       ]
     },
@@ -321,8 +321,8 @@ export const indian: Cuisine = {
               amount: '2',
               unit: 'pieces',
               category: 'spice',
-              optional: true,
-            }
+              optional: true
+}
             { name: 'turmeric', amount: '1/2', unit: 'tsp', category: 'spice' }
           ],
           substitutions: {
@@ -694,8 +694,8 @@ export const indian: Cuisine = {
               amount: '100',
               unit: 'g',
               category: 'legume',
-              optional: true,
-            }
+              optional: true
+}
           ],
           substitutions: {
             'black salt': ['regular salt'],
@@ -749,8 +749,8 @@ export const indian: Cuisine = {
               amount: '2',
               unit: 'whole',
               category: 'spice',
-              optional: true,
-            }
+              optional: true
+}
           ],
           substitutions: {
             eggplant: ['zucchini', 'mushrooms'],
@@ -779,8 +779,8 @@ export const indian: Cuisine = {
             Earth: 0.3,
             Fire: 0.4,
             Air: 0.2,
-            Water: 0.1,
-          }
+            Water: 0.1
+}
         }
       ],
       winter: [
@@ -1050,8 +1050,8 @@ export const indian: Cuisine = {
         Fire: 0.5,
         Earth: 0.2,
         Water: 0.2,
-        Air: 0.1,
-      },
+        Air: 0.1
+},
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'all',
       preparationNotes: 'Allow marination for at least 4 hours, preferably overnight for best flavor',
@@ -1072,8 +1072,8 @@ export const indian: Cuisine = {
         Fire: 0.3,
         Water: 0.3,
         Earth: 0.3,
-        Air: 0.1,
-      },
+        Air: 0.1
+},
       astrologicalInfluences: ['Venus', 'Moon', 'Taurus'],
       seasonality: 'all',
       preparationNotes: 'Allow the sauce to simmer gently to develop complex flavors',
@@ -1089,8 +1089,8 @@ export const indian: Cuisine = {
         Water: 0.6,
         Earth: 0.2,
         Air: 0.2,
-        Fire: 0.0,
-      },
+        Fire: 0.0
+},
       astrologicalInfluences: ['Moon', 'Venus', 'Cancer'],
       seasonality: 'all',
       preparationNotes: 'Use thick, strained yogurt for best texture',
@@ -1106,8 +1106,8 @@ export const indian: Cuisine = {
         Water: 0.4,
         Fire: 0.3,
         Earth: 0.2,
-        Air: 0.1,
-      },
+        Air: 0.1
+},
       astrologicalInfluences: ['Mercury', 'Saturn', 'Gemini'],
       seasonality: 'all',
       preparationNotes: 'Balance sweet, sour, and spicy elements carefully',
@@ -1123,8 +1123,8 @@ export const indian: Cuisine = {
         Air: 0.5,
         Water: 0.3,
         Fire: 0.2,
-        Earth: 0.0,
-      },
+        Earth: 0.0
+},
       astrologicalInfluences: ['Mercury', 'Moon', 'Virgo'],
       seasonality: 'all',
       preparationNotes: 'Use ice water when blending to maintain bright green color',
@@ -1151,8 +1151,8 @@ export const indian: Cuisine = {
         Water: 0.5,
         Earth: 0.2,
         Fire: 0.2,
-        Air: 0.1,
-      },
+        Air: 0.1
+},
       astrologicalInfluences: ['Moon', 'Neptune', 'Pisces'],
       seasonality: 'all',
       preparationNotes: 'Temper spices properly to release their flavors into the coconut milk',
@@ -1168,13 +1168,13 @@ export const indian: Cuisine = {
         Fire: 0.4,
         Earth: 0.3,
         Water: 0.2,
-        Air: 0.1,
-      },
+        Air: 0.1
+},
       astrologicalInfluences: ['Mars', 'Sun', 'Leo'],
       seasonality: 'all',
       preparationNotes: 'Properly caramelizing onions (bhunao) is the key to depth of flavor',
-      technicalTips: 'Prepare in large batches and freeze in portions for quick weeknight cooking',
-    }
+      technicalTips: 'Prepare in large batches and freeze in portions for quick weeknight cooking'
+}
   },
   sauceRecommender: {
     forProtein: {
@@ -1371,40 +1371,40 @@ export const indian: Cuisine = {
       elementalProperties: { Fire: 0.7, Air: 0.2, Earth: 0.1, Water: 0.0 },
       toolsRequired: ['small tadka pan', 'spoon', 'lid', 'ladle'],
       bestFor: ['dal preparations', 'curries', 'rice dishes', 'yogurt preparations'],
-      difficulty: 'medium',
-    }
+      difficulty: 'medium'
+}
     {
       name: 'Dum',
       description: 'Slow cooking in a sealed vessel to contain flavors and moisture',
       elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
       toolsRequired: ['heavy-bottomed pot', 'dough for sealing', 'tongs', 'weight'],
       bestFor: ['biryani', 'meat curries', 'rich vegetable dishes', 'kebabs'],
-      difficulty: 'hard',
-    }
+      difficulty: 'hard'
+}
     {
       name: 'Bhunao',
       description: 'Slow sautéing to caramelize and intensify flavors',
       elementalProperties: { Fire: 0.5, Earth: 0.3, Air: 0.1, Water: 0.1 },
       toolsRequired: ['heavy kadhai', 'wooden spoon', 'tongs', 'timer'],
       bestFor: ['onion-tomato masala', 'meat preparations', 'mixed vegetables', 'keema'],
-      difficulty: 'medium',
-    }
+      difficulty: 'medium'
+}
     {
       name: 'Tandoor',
       description: 'High-heat clay oven cooking for char and smoky flavor',
       elementalProperties: { Fire: 0.8, Air: 0.1, Earth: 0.1, Water: 0.0 },
       toolsRequired: ['tandoor', 'skewers', 'brush', 'tongs'],
       bestFor: ['breads', 'marinated meats', 'kebabs', 'vegetables'],
-      difficulty: 'hard',
-    }
+      difficulty: 'hard'
+}
     {
       name: 'Baghar',
       description: 'Pouring hot spice-infused oil over finished dishes',
       elementalProperties: { Fire: 0.6, Air: 0.3, Earth: 0.1, Water: 0.0 },
       toolsRequired: ['small pan', 'spoon', 'heat-proof container', 'strainer'],
       bestFor: ['dals', 'rice dishes', 'raita', 'curries'],
-      difficulty: 'easy',
-    }
+      difficulty: 'easy'
+}
   ],
   regionalCuisines: {
     punjabi: {
@@ -1434,15 +1434,15 @@ export const indian: Cuisine = {
       signature: ['dhokla', 'thepla', 'undhiyu', 'fafda-jalebi'],
       elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
       astrologicalInfluences: ['Jupiter', 'Mercury', 'gemini'],
-      seasonality: 'all',
-    }
+      seasonality: 'all'
+}
   },
   elementalProperties: {
     Fire: 0.5,
     Earth: 0.2,
     Water: 0.2,
-    Air: 0.1,
-  }
+    Air: 0.1
+}
 }
 
 export default indian,

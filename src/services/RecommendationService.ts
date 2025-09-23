@@ -275,8 +275,8 @@ export class RecommendationService {
           Fire: 0,
           Water: 0,
           Earth: 0,
-          Air: 0,
-        }
+          Air: 0
+}
 
         // Apply boosts to each element
         Object.entries(this.tarotElementBoosts || []).forEach(([element, boost]) => {
@@ -464,8 +464,8 @@ export class RecommendationService {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25,
-      }
+        Air: 0.25
+}
       const elementalMatch = this.calculateElementalMatch(recipeElements, currentElements)
       score += elementalMatch * 0.3; // 30% weight for basic elemental matching
     }
@@ -526,8 +526,8 @@ export class RecommendationService {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25,
-      }
+        Air: 0.25
+}
 
       // Get current moment's elemental influence
       const astroStateData = astrologicalState as {;
@@ -559,8 +559,8 @@ export class RecommendationService {
             Spirit: 0.25,
             Essence: 0.25,
             Matter: 0.25,
-            Substance: 0.25,
-          },
+            Substance: 0.25
+},
           elementalValues: currentMomentElements,
           thermodynamics: {
             heat: 0.5,
@@ -568,8 +568,8 @@ export class RecommendationService {
             reactivity: 0.5,
             gregsEnergy: 0.5,
             kalchm: 1.0,
-            monicaConstant: 1.0,
-          },
+            monicaConstant: 1.0
+},
           dominantElement: 'Fire' as const,
           dominantProperty: 'Spirit' as const,
           timestamp: Date.now().toString()
@@ -635,7 +635,7 @@ export class RecommendationService {
     currentMomentElements: ElementalProperties,
   ): number {
     const elements = ['Fire', 'Water', 'Earth', 'Air'] as const,
-    let totalSimilarity = 0,
+    let totalSimilarity = 0;
     let totalWeight = 0,
 
     for (const element of elements) {
@@ -663,7 +663,7 @@ export class RecommendationService {
     currentMomentElements: ElementalProperties,
   ): number {
     const elements = ['Fire', 'Water', 'Earth', 'Air'] as const,
-    let totalSimilarity = 0,
+    let totalSimilarity = 0;
     let count = 0,
 
     for (const element of elements) {
@@ -676,7 +676,7 @@ export class RecommendationService {
       )
 
       const recipeRelative =
-        recipeOthersSum > 0 ? (recipeElements[element] || 0) / recipeOthersSum : 0,
+        recipeOthersSum > 0 ? (recipeElements[element] || 0) / recipeOthersSum : 0;
       const currentMomentRelative =
         currentMomentOthersSum > 0
           ? (currentMomentElements[element] || 0) / currentMomentOthersSum;
@@ -825,8 +825,8 @@ export class RecommendationService {
       season: 'any',
       difficulty: 'medium',
       preparationTime: 30,
-      servings: 2,
-    }
+      servings: 2
+}
   }
 
   /**

@@ -29,15 +29,15 @@ describe('signVectors', () => {
         planet2: 'Moon',
         type: 'square',
         orb: 5,
-        isApplying: true,
-      }
+        isApplying: true
+}
       {
         planet1: 'Mercury',
         planet2: 'Venus',
         type: 'sextile',
         orb: 3,
-        isApplying: false,
-      }
+        isApplying: false
+}
     ],
   })
 
@@ -113,8 +113,8 @@ describe('signVectors', () => {
             planet2: 'Moon',
             type: 'conjunction',
             orb: 3,
-            isApplying: true,
-          }
+            isApplying: true
+}
         ]
       }
 
@@ -225,8 +225,8 @@ describe('signVectors', () => {
           Water: 0.5,
           Earth: 0.3,
           Air: 0.2,
-          seasonal: 0.9,
-        }
+          seasonal: 0.9
+}
       }
 
       const vectorB = {
@@ -241,8 +241,8 @@ describe('signVectors', () => {
           Water: 0.08,
           Earth: 0.4,
           Air: 0.3,
-          seasonal: 0.8,
-        }
+          seasonal: 0.8
+}
       }
 
       const result = compareSignVectors(vectorA, vectorB)
@@ -265,8 +265,8 @@ describe('signVectors', () => {
           Water: 0.25,
           Earth: 0.25,
           Air: 0.25,
-          seasonal: 0.5,
-        }
+          seasonal: 0.5
+}
       }
 
       const modalityDominant2 = {
@@ -281,8 +281,8 @@ describe('signVectors', () => {
           Water: 0.3,
           Earth: 0.2,
           Air: 0.3,
-          seasonal: 0.4,
-        }
+          seasonal: 0.4
+}
       }
 
       const result = compareSignVectors(modalityDominant1, modalityDominant2)
@@ -304,8 +304,8 @@ describe('signVectors', () => {
           Water: 0.1,
           Earth: 0.5,
           Air: 0.5,
-          seasonal: 0.9,
-        }
+          seasonal: 0.9
+}
       }
 
       const esms = signVectorToESMS(vector)
@@ -332,8 +332,8 @@ describe('signVectors', () => {
           Water: 0.5,
           Earth: 0,
           Air: 0,
-          seasonal: 0.5,
-        }
+          seasonal: 0.5
+}
       }
 
       const fixedVector = {
@@ -348,8 +348,8 @@ describe('signVectors', () => {
           Water: 0.5,
           Earth: 0,
           Air: 0,
-          seasonal: 0.5,
-        }
+          seasonal: 0.5
+}
       }
 
       const cardinalESMS = signVectorToESMS(cardinalVector)

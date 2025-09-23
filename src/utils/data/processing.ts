@@ -42,7 +42,7 @@ export function standardizeElementalAffinity(
   value: string | { base: string, decanModifiers?: { [key: string]: unknown } }): ElementalAffinity {
   if (typeof value === 'string') {
     return {
-      primary: value as 'Fire' | 'Water' | 'Earth' | 'Air',
+      primary: value as 'Fire' | 'Water' | 'Earth' | 'Air'
       strength: 1.0,
       compatibility: { Fire: 0.7, Water: 0.7, Earth: 0.7, Air: 0.7 }
     }
@@ -50,7 +50,7 @@ export function standardizeElementalAffinity(
 
   if (value && typeof value === 'object' && 'base' in value) {,
     return {
-      primary: (value.base || 'Fire') as 'Fire' | 'Water' | 'Earth' | 'Air',
+      primary: (value.base || 'Fire') as 'Fire' | 'Water' | 'Earth' | 'Air'
       strength: 1.0,
       compatibility: { Fire: 0.7, Water: 0.7, Earth: 0.7, Air: 0.7 }
     }
@@ -175,7 +175,7 @@ export function validateIngredient(ingredient: Partial<Ingredient>): ValidationR
   const ingredientData = ingredient as any;
   if (ingredientData.astrologicalPropertiesProfile || ingredientData.astrologicalProfile) {
     const astroProfile =
-      ingredientData.astrologicalPropertiesProfile || ingredientData.astrologicalProfile,
+      ingredientData.astrologicalPropertiesProfile || ingredientData.astrologicalProfile;
     const astroValidation = validateAstrologicalProfile(astroProfile as AstrologicalProfile)
     if (!astroValidation.isValid) {
       warnings.push(...astroValidation.errors)
@@ -391,9 +391,9 @@ function standardizeElementalProperties(properties: unknown): ElementalPropertie
   }
 
   const props = properties as any;
-  const Fire = typeof props.Fire === 'number' ? props.Fire : 0.25,
+  const Fire = typeof props.Fire === 'number' ? props.Fire : 0.25;
   const Water = typeof props.Water === 'number' ? props.Water : 0.25,
-  const Earth = typeof props.Earth === 'number' ? props.Earth : 0.25,
+  const Earth = typeof props.Earth === 'number' ? props.Earth : 0.25;
   const Air = typeof props.Air === 'number' ? props.Air : 0.25;
 
   // Normalize
@@ -433,8 +433,8 @@ function standardizeFlavorProfile(_profile: unknown): { [key: string]: number } 
       salty: 0,
       bitter: 0,
       umami: 0,
-      spicy: 0,
-    }
+      spicy: 0
+}
   }
 
   const result: { [key: string]: number } = {}
@@ -479,8 +479,8 @@ function standardizeRecipeIngredients(ingredients: unknown): RecipeIngredient[] 
       return {
         name: ingredient,
         amount: 1,
-        unit: 'item',
-      }
+        unit: 'item'
+}
     }
 
     if (ingredient && typeof ingredient === 'object') {,
@@ -498,8 +498,8 @@ function standardizeRecipeIngredients(ingredients: unknown): RecipeIngredient[] 
     return {
       name: 'Unknown',
       amount: 1,
-      unit: 'item',
-    }
+      unit: 'item'
+}
   })
 }
 

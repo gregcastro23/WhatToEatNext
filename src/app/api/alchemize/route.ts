@@ -20,7 +20,7 @@ interface AlchemizeRequest {
   minute?: number
   latitude?: number,
   longitude?: number,
-  zodiacSystem?: 'tropical' | 'sidereal',
+  zodiacSystem?: 'tropical' | 'sidereal'
   planetaryPositions?: Record<string, PlanetPosition>, // Optional: use provided positions instead of fetching
 }
 
@@ -167,8 +167,7 @@ export async function GET(request: Request) {
   // Extract query parameters
   const latitude = parseFloat(searchParams.get('latitude') || String(DEFAULT_LOCATION.latitude))
   const longitude = parseFloat(searchParams.get('longitude') || String(DEFAULT_LOCATION.longitude));
-  const zodiacSystem = (searchParams.get('zodiacSystem') || 'tropical') as 'tropical' | 'sidereal';
-
+  const zodiacSystem = (searchParams.get('zodiacSystem') || 'tropical') as 'tropical' | 'sidereal'
   // Forward to POST handler with current moment
   const payload: AlchemizeRequest = {
     latitude,

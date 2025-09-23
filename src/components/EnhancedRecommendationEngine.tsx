@@ -20,7 +20,7 @@ interface Recipe {
   cuisine: string,
   description: string,
   cookingTime: number,
-  difficulty: 'Easy' | 'Medium' | 'Hard',
+  difficulty: 'Easy' | 'Medium' | 'Hard'
   rating: number,
   tags: string[];
 }
@@ -168,7 +168,7 @@ export function EnhancedRecommendationEngine({
     const results: RecommendationResult[] = filteredRecipes.map(recipe => {
       const alchemicalCompatibility = calculateAlchemicalCompatibility(recipe);
       const baseScore = recipe.rating / 5.0;
-      const difficultyBonus = recipe.difficulty === 'Easy' ? 0.1 : 0,
+      const difficultyBonus = recipe.difficulty === 'Easy' ? 0.1 : 0;
       const timeBonus = recipe.cookingTime <= 20 ? 0.1 : 0,
 
       const score = Math.min(baseScore + difficultyBonus + timeBonus + (alchemicalCompatibility * 0.2), 1.0);
@@ -240,14 +240,14 @@ export function EnhancedRecommendationEngine({
       padding: '24px',
       backgroundColor: '#fff',
       borderRadius: '12px',
-      border: '1px solid #e0e0e0',
-    }}>
+      border: '1px solid #e0e0e0'
+}}>
       <h2 style={{
         margin: '0 0 20px 0',
         fontSize: '24px',
         fontWeight: '600',
-        color: '#333',
-      }}>
+        color: '#333'
+}}>
         🍳 Enhanced Recipe Recommendations
       </h2>
 
@@ -256,14 +256,14 @@ export function EnhancedRecommendationEngine({
         marginBottom: '24px',
         padding: '16px',
         backgroundColor: '#f8f9fa',
-        borderRadius: '8px',
-      }}>
+        borderRadius: '8px'
+}}>
         <h3 style={{
           margin: '0 0 16px 0',
           fontSize: '16px',
           fontWeight: '600',
-          color: '#333',
-        }}>
+          color: '#333'
+}}>
           Filters
         </h3>
 
@@ -272,15 +272,15 @@ export function EnhancedRecommendationEngine({
             margin: '0 0 8px 0',
             fontSize: '14px',
             fontWeight: '500',
-            color: '#666',
-          }}>
+            color: '#666'
+}}>
             Dietary Restrictions
           </h4>
           <div style={{
             display: 'flex',
             flexWrap: 'wrap',
-            gap: '8px',
-          }}>
+            gap: '8px'
+}}>
             {DIETARY_OPTIONS.map(option => (
               <label key={option} style={{
                 display: 'flex',
@@ -291,8 +291,8 @@ export function EnhancedRecommendationEngine({
                 padding: '4px 8px',
                 backgroundColor: currentFilters.dietaryRestrictions.includes(option) ? '#e0f2fe' : '#fff',
                 border: '1px solid #ddd',
-                borderRadius: '4px',
-              }}>
+                borderRadius: '4px'
+}}>
                 <input
                   type="checkbox"
                   checked={currentFilters.dietaryRestrictions.includes(option)}
@@ -310,15 +310,15 @@ export function EnhancedRecommendationEngine({
             margin: '0 0 8px 0',
             fontSize: '14px',
             fontWeight: '500',
-            color: '#666',
-          }}>
+            color: '#666'
+}}>
             Cuisine Preferences
           </h4>
           <div style={{
             display: 'flex',
             flexWrap: 'wrap',
-            gap: '8px',
-          }}>
+            gap: '8px'
+}}>
             {CUISINE_OPTIONS.map(option => (
               <label key={option} style={{
                 display: 'flex',
@@ -329,8 +329,8 @@ export function EnhancedRecommendationEngine({
                 padding: '4px 8px',
                 backgroundColor: currentFilters.cuisinePreferences.includes(option) ? '#e0f2fe' : '#fff',
                 border: '1px solid #ddd',
-                borderRadius: '4px',
-              }}>
+                borderRadius: '4px'
+}}>
                 <input
                   type="checkbox"
                   checked={currentFilters.cuisinePreferences.includes(option)}
@@ -350,14 +350,14 @@ export function EnhancedRecommendationEngine({
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          marginBottom: '16px',
-        }}>
+          marginBottom: '16px'
+}}>
           <h3 style={{
             margin: 0,
             fontSize: '18px',
             fontWeight: '600',
-            color: '#333',
-          }}>
+            color: '#333'
+}}>
             Recommendations
           </h3>
           <button
@@ -371,8 +371,8 @@ export function EnhancedRecommendationEngine({
               borderRadius: '6px',
               fontSize: '14px',
               cursor: isLoading ? 'not-allowed' : 'pointer',
-              opacity: isLoading ? 0.6 : 1,
-            }}
+              opacity: isLoading ? 0.6 : 1
+}}
           >
             {isLoading ? 'Generating...' : 'Refresh'}
           </button>
@@ -382,71 +382,71 @@ export function EnhancedRecommendationEngine({
           <div style={{
             textAlign: 'center',
             padding: '40px',
-            color: '#666',
-          }}>
+            color: '#666'
+}}>
             Generating personalized recommendations...
           </div>
         ) : recommendations.length === 0 ? (
           <div style={{
             textAlign: 'center',
             padding: '40px',
-            color: '#666',
-          }}>
+            color: '#666'
+}}>
             No recipes found matching your criteria. Try adjusting your filters.
           </div>
         ) : (
           <div style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '16px',
-          }}>
+            gap: '16px'
+}}>
             {recommendations.map((result, index) => (
               <div key={result.recipe.id} style={{
                 padding: '16px',
                 border: '1px solid #e0e0e0',
                 borderRadius: '8px',
-                backgroundColor: '#fff',
-              }}>
+                backgroundColor: '#fff'
+}}>
                 <div style={{
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'flex-start',
-                  marginBottom: '8px',
-                }}>
+                  marginBottom: '8px'
+}}>
                   <div>
                     <h4 style={{
                       margin: '0 0 4px 0',
                       fontSize: '16px',
                       fontWeight: '600',
-                      color: '#333',
-                    }}>
+                      color: '#333'
+}}>
                       #{index + 1} {result.recipe.name}
                     </h4>
                     <p style={{
                       margin: 0,
                       fontSize: '14px',
                       color: '#666',
-                      lineHeight: '1.4',
-                    }}>
+                      lineHeight: '1.4'
+}}>
                       {result.recipe.description}
                     </p>
                   </div>
                   {showScoring && (
                     <div style={{
                       textAlign: 'right',
-                      minWidth: '80px',
-                    }}>
+                      minWidth: '80px'
+}}>
                       <div style={{
                         fontSize: '18px',
                         fontWeight: '600',
-                        color: '#22c55e',
-                      }}>
+                        color: '#22c55e'
+}}>
                         {(result.score * 100).toFixed(0)}%
                       </div>
                       <div style={{
                         fontSize: '10px',
-                        color: '#666',
-                      }}>
+                        color: '#666'
+}}>
                         Match Score
                       </div>
                     </div>
@@ -457,14 +457,14 @@ export function EnhancedRecommendationEngine({
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  marginBottom: '8px',
-                }}>
+                  marginBottom: '8px'
+}}>
                   <div style={{
                     display: 'flex',
                     gap: '12px',
                     fontSize: '12px',
-                    color: '#666',
-                  }}>
+                    color: '#666'
+}}>
                     <span>🍽️ {result.recipe.cuisine}</span>
                     <span>⏱️ {result.recipe.cookingTime}min</span>
                     <span style={{ color: getDifficultyColor(result.recipe.difficulty) }}>
@@ -479,27 +479,27 @@ export function EnhancedRecommendationEngine({
                     marginTop: '8px',
                     padding: '8px',
                     backgroundColor: '#f0f9ff',
-                    borderRadius: '4px',
-                  }}>
+                    borderRadius: '4px'
+}}>
                     <div style={{
                       fontSize: '12px',
                       fontWeight: '500',
                       color: '#0369a1',
-                      marginBottom: '4px',
-                    }}>
+                      marginBottom: '4px'
+}}>
                       Why this matches:
                     </div>
                     <div style={{
                       fontSize: '11px',
-                      color: '#0369a1',
-                    }}>
+                      color: '#0369a1'
+}}>
                       {result.matchReasons.join(' • ')}
                     </div>
                     <div style={{
                       fontSize: '11px',
                       color: '#0369a1',
-                      marginTop: '4px',
-                    }}>
+                      marginTop: '4px'
+}}>
                       Alchemical Compatibility: {(result.alchemicalCompatibility * 100).toFixed(0)}%
                     </div>
                   </div>

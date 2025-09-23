@@ -15,8 +15,8 @@ export function calculateMatchScore(
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    }
+      Air: 0.25
+}
   }
 
   // Ensure each elemental property is a valid number
@@ -41,8 +41,8 @@ export function calculateMatchScore(
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    }
+      Air: 0.25
+}
   }
 
   // Validate elementalState to avoid NaN results
@@ -62,7 +62,7 @@ export function calculateMatchScore(
   }
 
   // Calculate similarity score between the ingredient's elemental properties and current elemental state
-  let similarityScore = 0,
+  let similarityScore = 0;
   let totalWeight = 0,
 
   // Process each element (Fire, Water, Earth, Air)

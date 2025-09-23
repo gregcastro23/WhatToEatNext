@@ -40,8 +40,8 @@ const AlchemicalCalculator = createLazyComponent(
 
 interface LazyAlchemicalEngineProps {;
   ingredients?: string[],
-  calculationType?: 'elemental' | 'thermodynamic' | 'energy',
-  onCalculationComplete?: (result: any) => void,
+  calculationType?: 'elemental' | 'thermodynamic' | 'energy'
+  onCalculationComplete?: (result: any) => void
 }
 
 export const LazyAlchemicalEngine: React.FC<LazyAlchemicalEngineProps> = ({

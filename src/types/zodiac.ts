@@ -1,6 +1,6 @@
 // Zodiac Signs
 export type ZodiacSign =
-  | 'aries',
+  | 'aries'
   | 'taurus'
   | 'gemini'
   | 'cancer'
@@ -11,8 +11,7 @@ export type ZodiacSign =
   | 'sagittarius'
   | 'capricorn'
   | 'aquarius'
-  | 'pisces',
-
+  | 'pisces'
 // Elemental Properties
 export type ElementalProperties = {
   Fire: number,
@@ -179,8 +178,7 @@ export const _elementalCharacteristics: Record<
   }
 }
 
-export type ElementalType = 'Fire' | 'Earth' | 'Air' | 'Water',
-
+export type ElementalType = 'Fire' | 'Earth' | 'Air' | 'Water'
 export interface ElementalAffinity {
   Fire: number,
   Earth: number,

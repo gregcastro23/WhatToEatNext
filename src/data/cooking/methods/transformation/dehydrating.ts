@@ -12,8 +12,8 @@ export const _dehydrating: CookingMethodData = {
     Fire: 0.4,
     Water: 0.1,
     Earth: 0.2,
-    Air: 0.9,
-  },
+    Air: 0.9
+},
   duration: {
     min: 120, // 2 hours,
     max: 2880, // 48 hours

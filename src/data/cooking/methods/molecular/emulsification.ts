@@ -12,8 +12,8 @@ export const emulsification: CookingMethodData = {
     Fire: 0.1,
     Water: 0.6,
     Earth: 0.2,
-    Air: 0.4,
-  },
+    Air: 0.4
+},
   duration: {
     min: 5, // minutes,
     max: 30, // minutes

@@ -9,8 +9,7 @@ export type ZodiacAffinity = Record<ZodiacSign, number>,
 /**
  * Modalities in astrology
  */
-export type Modality = 'cardinal' | 'fixed' | 'mutable',
-
+export type Modality = 'cardinal' | 'fixed' | 'mutable'
 /**
  * Mapping of zodiac signs to their modalities
  */

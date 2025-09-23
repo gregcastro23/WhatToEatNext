@@ -47,11 +47,11 @@ describe('ExportTransformationEngine', () => {;
               intelligenceSystemName: 'TEST_EXPORT_1_INTELLIGENCE_SYSTEM',
               transformationComplexity: 'MODERATE',
               safetyScore: 85,
-              estimatedBenefit: 75,
-            }
+              estimatedBenefit: 75
+}
           ],
-          category: 'CORE',
-        }
+          category: 'CORE'
+}
       ],
       mediumPriorityFiles: [
         {
@@ -65,11 +65,11 @@ describe('ExportTransformationEngine', () => {;
               intelligenceSystemName: 'TEST_EXPORT_2_INTELLIGENCE_SYSTEM',
               transformationComplexity: 'COMPLEX',
               safetyScore: 80,
-              estimatedBenefit: 80,
-            }
+              estimatedBenefit: 80
+}
           ],
-          category: 'CORE',
-        }
+          category: 'CORE'
+}
       ],
       lowPriorityFiles: [],
       summary: { recipeFiles: 2,
@@ -77,8 +77,8 @@ describe('ExportTransformationEngine', () => {;
         externalFiles: 0,
         totalTransformationCandidates: 2,
         averageSafetyScore: 87.5,
-        estimatedIntelligenceSystems: 2,
-      }
+        estimatedIntelligenceSystems: 2
+}
     })
 
     // Mock generator
@@ -91,8 +91,8 @@ describe('ExportTransformationEngine', () => {;
         capabilities: [],
         integrationPoints: [],
         estimatedValue: 75,
-        complexity: 'MODERATE',
-      }
+        complexity: 'MODERATE'
+}
     ])
 
     mockGenerator.prototype.generateSummary = jest.fn().mockReturnValue({,
@@ -109,8 +109,8 @@ describe('ExportTransformationEngine', () => {;
       prototype: { createSafetyCheckpoint: jest.MockedFunction<() => Promise<string>>,
         rollbackToCheckpoint: jest.MockedFunction<() => Promise<any>>,, emergencyRollback: jest.MockedFunction<() => Promise<any>>,
         createStash: jest.MockedFunction<() => Promise<string>>,, createCheckpointStash: jest.MockedFunction<() => Promise<string>>,
-        getSafetyEvents: jest.MockedFunction<() => Promise<unknown[]>>,
-      }
+        getSafetyEvents: jest.MockedFunction<() => Promise<unknown[]>>
+}
     }
     safetyProtocolMethods.prototype.createSafetyCheckpoint = jest.fn().mockResolvedValue('checkpoint-123')
     safetyProtocolMethods.prototype.rollbackToCheckpoint = jest.fn().mockResolvedValue(undefined)
@@ -123,8 +123,8 @@ describe('ExportTransformationEngine', () => {;
     const progressTrackerMethods: any = mockProgressTracker as unknown as {,
       prototype: { updateProgress: jest.MockedFunction<() => Promise<any>>,
         getTypeScriptErrorCount: jest.MockedFunction<() => Promise<number>>,, getTypeScriptErrorBreakdown: jest.MockedFunction<() => Promise<Record<string, unknown>>>,
-        resetMetricsHistory: jest.MockedFunction<() => Promise<any>>,
-      }
+        resetMetricsHistory: jest.MockedFunction<() => Promise<any>>
+}
     }
     progressTrackerMethods.prototype.updateProgress = jest.fn().mockResolvedValue(undefined)
     progressTrackerMethods.prototype.getTypeScriptErrorCount = jest.fn().mockResolvedValue(0);
@@ -154,8 +154,8 @@ describe('ExportTransformationEngine', () => {;
       const customEngine: any = new ExportTransformationEngine({,
         batchSize: 15,
         safetyThreshold: 90,
-        dryRun: true,
-      })
+        dryRun: true
+})
 
       const config: any = customEnginegetConfig()
       expect(config.batchSize).toBe(15).
@@ -218,8 +218,8 @@ describe('ExportTransformationEngine', () => {;
     it('should respect batch size configuration', async () => {
       const smallBatchEngine: any = new ExportTransformationEngine({,
         batchSize: 1,
-        dryRun: true,
-      })
+        dryRun: true
+})
 
       const summary: any = await smallBatchEngineexecuteTransformation();
       // With batch size 1 and 2 files, should create 2 batches
@@ -238,8 +238,8 @@ describe('ExportTransformationEngine', () => {;
     it('should handle batch failures with rollback', async () => {
       const failingEngine: any = new ExportTransformationEngine({,
         dryRun: false,
-        rollbackOnFailure: true,
-      })
+        rollbackOnFailure: true
+})
 
       mockGenerator.prototype.generateIntelligenceSystems.mockRejectedValueOnce(new Error('Generation failed'))
 
@@ -257,8 +257,8 @@ describe('ExportTransformationEngine', () => {;
     it('should skip rollback when disabled', async () => {
       const noRollbackEngine: any = new ExportTransformationEngine({,
         dryRun: false,
-        rollbackOnFailure: false,
-      })
+        rollbackOnFailure: false
+})
 
       mockGenerator.prototype.generateIntelligenceSystems.mockRejectedValueOnce(new Error('Generation failed'))
 
@@ -272,8 +272,8 @@ describe('ExportTransformationEngine', () => {;
     it('should enforce safety threshold', async () => {
       const strictEngine: any = new ExportTransformationEngine({,
         safetyThreshold: 95, // Higher than mock data,
-        dryRun: false,
-      })
+        dryRun: false
+})
 
       const summary: any = await strictEngine.executeTransformation()
       // Should have warnings about safety threshold;
@@ -297,8 +297,8 @@ describe('ExportTransformationEngine', () => {;
   describe('error handling', () => {
     it('should log transformation errors', async () => {
       const errorEngine: any = new ExportTransformationEngine({,
-        dryRun: false,
-      })
+        dryRun: false
+})
 
       mockGenerator.prototype.generateIntelligenceSystems.mockRejectedValueOnce(new Error('Test error'))
 

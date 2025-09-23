@@ -343,8 +343,8 @@ export function useCulturalSensitivityGuidance() {
         inclusiveDesign: true,
         respectfulRepresentation: true,
         diverseCulinaryTraditions: true,
-        accessibilityCompliant: true,
-      }
+        accessibilityCompliant: true
+}
 
       const issues: string[] = [],
       const recommendations: string[] = []

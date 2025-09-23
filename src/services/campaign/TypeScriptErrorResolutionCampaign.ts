@@ -26,10 +26,10 @@ export interface TypeScriptErrorMetrics {
 export interface ErrorResolutionPhase {
   id: string,
   name: string,
-  priority: 'critical' | 'high' | 'medium' | 'low',
+  priority: 'critical' | 'high' | 'medium' | 'low'
   estimatedImpact: { min: number, max: number },
   dependencies: string[],
-  status: 'not_started' | 'in_progress' | 'completed' | 'failed',
+  status: 'not_started' | 'in_progress' | 'completed' | 'failed'
   startTime?: Date,
   endTime?: Date,
   errorsFixed: number,
@@ -41,11 +41,11 @@ export interface UnusedVariableIntelligence {
   variableName: string,
   filePath: string,
   lineNumber: number,
-  scope: 'function' | 'class' | 'module' | 'global',
+  scope: 'function' | 'class' | 'module' | 'global'
   lastUsed?: Date,
   importedFrom?: string
-  potentialImpact: 'safe' | 'risky' | 'dangerous',
-  removalRecommendation: 'remove' | 'keep' | 'investigate',
+  potentialImpact: 'safe' | 'risky' | 'dangerous'
+  removalRecommendation: 'remove' | 'keep' | 'investigate'
   relatedErrors: string[],
   enterpriseContext?: {
     businessLogicRelevance: number,

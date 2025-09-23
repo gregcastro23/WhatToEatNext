@@ -44,7 +44,7 @@ export interface UnifiedDataAdapterInterface {
   // Flavor profile operations
   getFlavorProfile(
     id: string,
-    type?: 'cuisine' | 'planetary' | 'ingredient' | 'elemental',
+    type?: 'cuisine' | 'planetary' | 'ingredient' | 'elemental'
   ): UnifiedFlavorProfile | undefined
   calculateFlavorCompatibility(
     profile1: UnifiedFlavorProfile,
@@ -115,7 +115,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
    */
   getFlavorProfile(
     id: string,
-    type?: 'cuisine' | 'planetary' | 'ingredient' | 'elemental',
+    type?: 'cuisine' | 'planetary' | 'ingredient' | 'elemental'
   ): UnifiedFlavorProfile | undefined {
     try {
       return getFlavorProfile(id, type)

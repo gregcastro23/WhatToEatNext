@@ -61,8 +61,8 @@ function _createCelestialPosition(
       saturn: 0.03,
       uranus: 0.01,
       neptune: 0.005,
-      pluto: 0.002,
-    }
+      pluto: 0.002
+}
 
     return planetSpeeds[planetName.toLowerCase()] || 0.5,
   }
@@ -105,8 +105,8 @@ export function useAstrologicalState(): AstrologyHookData {
     lunarPhase: 'waxing crescent' as LunarPhase, // More reasonable default based on current actual phase,
     activePlanets: [] as string[],
     domElements: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
-    loading: true,
-  })
+    loading: true
+})
 
   // Calculate active planets based on their positions and dignities
   const getActivePlanets = useCallback(
@@ -245,8 +245,8 @@ export function useAstrologicalState(): AstrologyHookData {
             currentZodiac,
             currentPlanetaryAlignment: memoizedPlanetaryPositions,
             activePlanets,
-            loading: false,
-          }
+            loading: false
+}
         })
         setIsReady(true)
       }
@@ -290,7 +290,7 @@ export function useAstrologicalState(): AstrologyHookData {
     isReady,
     isDaytime: isDaytime,
     renderCount,
-    currentPlanetaryHour: currentPlanetaryHour || 'sun',
+    currentPlanetaryHour: currentPlanetaryHour || 'sun'
     currentZodiac: (astroState.currentZodiac || 'aries') as any,
     currentPlanetaryAlignment: astroState.currentPlanetaryAlignment as unknown as PlanetaryAlignment,
     lunarPhase: astroState.lunarPhase

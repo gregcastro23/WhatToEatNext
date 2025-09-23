@@ -585,14 +585,14 @@ const getMethodCompatibility = (
   // Pattern KK-1: Safe comparison with type validation
   const maxProperty = Object.entries(itemProperties).reduce(
     (max, [prop, value]) => {
-      const numericValue = typeof value === 'number' ? value: 0,
+      const numericValue = typeof value === 'number' ? value: 0;
       const numericMaxValue = typeof max.value === 'number' ? max.value : 0,
       return numericValue > numericMaxValue ? { prop, value: numericValue } : max
     }
     { prop: '', value: 0 })
 
   // Check if method enhances the strongest property
-  const maxPropertyValue = typeof maxProperty.value === 'number' ? maxProperty.value: 0,
+  const maxPropertyValue = typeof maxProperty.value === 'number' ? maxProperty.value: 0;
   const effectValue =
     typeof pillar.effects[maxProperty.prop as keyof typeof pillar.effects] === 'number'
       ? pillar.effects[maxProperty.prop as keyof typeof pillar.effects];
@@ -802,7 +802,7 @@ export function getRecommendedCookingMethods(item: AlchemicalItem,
  * @returns Score from 0-1 representing alchemical quality
  */
 function calculateAlchemicalScore(item: AlchemicalItem): number {
-  let score = 0,
+  let score = 0;
   let count = 0
 ;
   // Add spirit, essence, matter, substance if they exist
@@ -899,7 +899,7 @@ export function getEnhancedCookingRecommendations(
     const allMethodData = getAllCookingMethodData()
 
     // Calculate enhanced recommendations
-    const enhancedRecommendations = methodStrings.map(methodName => {,
+    const enhancedRecommendations = methodStrings.map(methodName => {;
       const methodData = allMethodData[methodName] as Record<string, unknown>
 
       // Apply safe type conversion for property access
@@ -1055,7 +1055,7 @@ function generateRecommendationReason(
     (reasons as unknown[]).push('Fits within time constraints')
   }
 
-  return reasons.join('. ') || 'Optimal alchemical compatibility',
+  return reasons.join('. ') || 'Optimal alchemical compatibility'
 }
 
 /**

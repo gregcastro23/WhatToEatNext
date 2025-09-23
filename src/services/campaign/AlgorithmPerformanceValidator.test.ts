@@ -123,8 +123,8 @@ describe('AlgorithmPerformanceValidator', () => {
         hitRate: 0.5, // Low hit rate,
         avgResponseTime: 5,
         size: 50,
-        maxSize: 100,
-      })
+        maxSize: 100
+})
 
       await validator.validateCachePerformance()
 
@@ -337,8 +337,8 @@ describe('AlgorithmPerformanceValidator', () => {
         hitRate: 0.4, // Very low hit rate,
         avgResponseTime: 10,
         size: 50,
-        maxSize: 100,
-      })
+        maxSize: 100
+})
 
       await validator.validateCachePerformance()
 

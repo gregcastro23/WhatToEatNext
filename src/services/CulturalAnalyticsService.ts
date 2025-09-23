@@ -209,7 +209,7 @@ export class CulturalAnalyticsService {
 
       // Base synergy calculation
       let synergyScore = 0.7; // Base score
-      let proximityBonus = 0,
+      let proximityBonus = 0;
       let diversityBonus = 0,
       const reasoning: string[] = []
 
@@ -262,8 +262,8 @@ export class CulturalAnalyticsService {
         reasoning: ['Default cultural synergy applied due to calculation error'],
         culturalGroup: 'unknown',
         proximityBonus: 0,
-        diversityBonus: 0,
-      }
+        diversityBonus: 0
+}
     }
   }
 
@@ -566,8 +566,8 @@ export class CulturalAnalyticsService {
       spring: 0.8,
       summer: 0.8,
       autumn: 0.8,
-      winter: 0.8,
-    }
+      winter: 0.8
+}
 
     // Adjust based on cuisine seasonal preferences
     const tradition1 = culinaryTraditions[cuisine1];

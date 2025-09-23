@@ -77,8 +77,8 @@ export const _methodName: CookingMethodData = {
     nutrient3: 0.0,
     nutrient4: 0.0,
     nutrient5: 0.0,
-    nutrient6: 0.0,
-  },
+    nutrient6: 0.0
+},
   optimalTemperatures: {
     application1: 0, // Temperature in Fahrenheit,
     application2: 0,
@@ -87,8 +87,8 @@ export const _methodName: CookingMethodData = {
     application5: 0,
     application6: 0,
     application7: 0,
-    application8: 0,
-  }
+    application8: 0
+}
 
   regionalVariations: {
     region1: ['variation1', 'variation2', 'variation3'],
@@ -105,8 +105,8 @@ export const _methodName: CookingMethodData = {
     change5: true,
     change6: true,
     change7: true,
-    change8: true,
-  }
+    change8: true
+}
 
   safetyFeatures: ['safety1', 'safety2', 'safety3', 'safety4', 'safety5', 'safety6', 'safety7'],
 

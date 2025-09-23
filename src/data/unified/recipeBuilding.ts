@@ -49,8 +49,7 @@ export interface RecipeBuildingCriteria {
   cookingMethods?: string[],
   maxPrepTime?: number,
   maxCookTime?: number,
-  skillLevel?: 'beginner' | 'intermediate' | 'advanced',
-
+  skillLevel?: 'beginner' | 'intermediate' | 'advanced'
   // Ingredient Preferences
   requiredIngredients?: string[],
   excludedIngredients?: string[]
@@ -471,14 +470,14 @@ export class UnifiedRecipeBuildingSystem {;
       adaptationChanges: {
         ingredientSubstitutions: ingredientSubstitutions.map(sub => ({,
           ...sub,
-          seasonalImprovement: 0.1,
-        })),
+          seasonalImprovement: 0.1
+})),
         cookingMethodAdjustments: cookingMethodAdjustments.map(adj => ({,
           original: (adj as unknown as MethodAdjustment)?.method || '',
           adjusted: (adj as unknown as MethodAdjustment)?.adjustment || '',
           reason: (adj as unknown as MethodAdjustment)?.reason || '',
-          seasonalBenefit: 'Seasonal optimization',
-        })),
+          seasonalBenefit: 'Seasonal optimization'
+})),
         timingAdjustments: {
           prepTimeChange: (timingAdjustments as unknown as TimingAdjustment)?.cookingTime || 0,
           cookTimeChange: (timingAdjustments as unknown as TimingAdjustment)?.cookingTime || 0,
@@ -488,9 +487,9 @@ export class UnifiedRecipeBuildingSystem {;
         temperatureAdjustments: {
           temperatureChange: (temperatureAdjustments as unknown as TemperatureAdjustment)?.temperature || 0,
           reason: (temperatureAdjustments as unknown as TemperatureAdjustment)?.reason ||
-            'Seasonal temperature optimization',
-          seasonalBenefit: 'Enhanced seasonal flavor development',
-        }
+            'Seasonal temperature optimization'
+          seasonalBenefit: 'Enhanced seasonal flavor development'
+}
       }
       seasonalScore,
       kalchmImprovement,
@@ -618,7 +617,7 @@ export class UnifiedRecipeBuildingSystem {;
     return {
       name: this.generateRecipeName(criteria),
       description: this.generateRecipeDescription(criteria),
-      cuisine: criteria.cuisine || 'fusion',
+      cuisine: criteria.cuisine || 'fusion'
       ingredients: baseIngredients,
       instructions: baseInstructions,
       cookingMethods: baseCookingMethods,
@@ -867,8 +866,8 @@ export class UnifiedRecipeBuildingSystem {;
         all: {
         high: 'Solar noon maximizes any season's energy',
         medium: 'Golden hour cooking for balanced energy',
-        low: 'Blue hour cooking for gentle transformation',
-      }
+        low: 'Blue hour cooking for gentle transformation'
+}
     }
 
     const intensity = targetMonica > 65 ? 'high' : targetMonica > 35 ? 'medium' : 'low',
@@ -925,8 +924,8 @@ export class UnifiedRecipeBuildingSystem {;
         saute: 0.7,
         roast: 0.5,
         braise: 0.3,
-        stew: 0.2,
-      },
+        stew: 0.2
+},
       winter: {
         braise: 1.0,
         stew: 0.95,
@@ -935,8 +934,8 @@ export class UnifiedRecipeBuildingSystem {;
         simmer: 0.8,
         saute: 0.6,
         grill: 0.4,
-        raw: 0.2,
-      },
+        raw: 0.2
+},
       spring: {
         steam: 0.95,
         saute: 0.9,
@@ -944,8 +943,8 @@ export class UnifiedRecipeBuildingSystem {;
         raw: 0.8,
         grill: 0.7,
         roast: 0.6,
-        stew: 0.4,
-      },
+        stew: 0.4
+},
       autumn: {
         roast: 0.95,
         bake: 0.9,
@@ -953,8 +952,8 @@ export class UnifiedRecipeBuildingSystem {;
         saute: 0.8,
         stew: 0.75,
         grill: 0.6,
-        raw: 0.4,
-      },
+        raw: 0.4
+},
       fall: {
         roast: 0.95,
         bake: 0.9,
@@ -962,8 +961,8 @@ export class UnifiedRecipeBuildingSystem {;
         saute: 0.8,
         stew: 0.75,
         grill: 0.6,
-        raw: 0.4,
-      },
+        raw: 0.4
+},
       all: {
         saute: 0.8,
         roast: 0.75,
@@ -972,8 +971,8 @@ export class UnifiedRecipeBuildingSystem {;
         grill: 0.7,
         braise: 0.7,
         raw: 0.65,
-        stew: 0.7,
-      }
+        stew: 0.7
+}
     }
 
     const methodLower = method.toLowerCase();
@@ -1008,8 +1007,8 @@ export class UnifiedRecipeBuildingSystem {;
           original: ingredient.name,
           seasonal: seasonalIngredient,
           reason: `Better availability in ${season}`,
-          seasonalScore: 0.8,
-        })
+          seasonalScore: 0.8
+})
       }
     }
 
@@ -1094,8 +1093,8 @@ export class UnifiedRecipeBuildingSystem {;
       american: 0.8,
       mediterranean: 0.8,
       asian: 0.7,
-      traditional: 0.5,
-    }
+      traditional: 0.5
+}
     return versatilityMap[cuisine.toLowerCase()] || 0.6,
   }
 
@@ -1529,8 +1528,8 @@ export class UnifiedRecipeBuildingSystem {;
       seasonalAlignment: ((recipe.seasonalAdaptation as any)?.seasonalScore) || 0,
       cuisineAuthenticity: ((recipe as unknown)?.culturalIntegration) || 0,
       generatedAt: new Date().toISOString(),
-      generationMethod: 'unified-recipe-builder',
-    }
+      generationMethod: 'unified-recipe-builder'
+}
   }
 
   // Additional placeholder methods for comprehensive functionality...
@@ -1598,8 +1597,8 @@ export class UnifiedRecipeBuildingSystem {;
     return {
       cookingTime: 45,
       restTime: 10,
-      reason: 'Standard seasonal timing adjustment',
-    }
+      reason: 'Standard seasonal timing adjustment'
+}
   }
 
   private generateSeasonalTemperatureAdjustments(
@@ -1610,8 +1609,8 @@ export class UnifiedRecipeBuildingSystem {;
     return {
       temperature: 350,
       adjustment: 'moderate',
-      reason: 'Standard seasonal temperature adjustment',
-    }
+      reason: 'Standard seasonal temperature adjustment'
+}
   }
 
   private applyAdaptationsToRecipe(
@@ -1648,10 +1647,10 @@ export class UnifiedRecipeBuildingSystem {;
     // TODO: Generate fusion profile from multiple cuisines
     return {
       fusionType: 'modern fusion',
-      primaryCuisine: cuisines[0] || 'international',
+      primaryCuisine: cuisines[0] || 'international'
       influences: cuisines.slice(1),
-      complexity: 0.7,
-    }
+      complexity: 0.7
+}
   }
 
   private createFusionBaseRecipe(_: unknown, _: RecipeBuildingCriteria): Partial<EnhancedRecipe> {
@@ -1729,7 +1728,7 @@ export class UnifiedRecipeBuildingSystem {;
 
     if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
       recipe.ingredients.forEach((ingredient, index) => {
-        const sourceCuisine = cuisines[index % cuisines.length] || cuisines[0] || 'fusion';
+        const sourceCuisine = cuisines[index % cuisines.length] || cuisines[0] || 'fusion'
         const fusionRole: 'base' | 'accent' | 'bridge' | 'innovation' =
           index < 2 ? 'base' : index < 4 ? 'accent' : index < 6 ? 'bridge' : 'innovation'
 
@@ -1761,7 +1760,7 @@ export class UnifiedRecipeBuildingSystem {;
 
     if (recipe.cookingMethods && Array.isArray(recipe.cookingMethods)) {
       recipe.cookingMethods.forEach((method, index) => {
-        const sourceCuisine = cuisines[index % cuisines.length] || cuisines[0] || 'fusion';
+        const sourceCuisine = cuisines[index % cuisines.length] || cuisines[0] || 'fusion'
         const fusionApplication = `Fusion technique integrating ${sourceCuisine} methodology`;
 
         fusionMethods.push({
@@ -1815,7 +1814,7 @@ export class UnifiedRecipeBuildingSystem {;
     astrologicalScore: number
   } {
     // Calculate planetary alignment with complete interface
-    const currentPlanetaryHour = hour || 'Sun';
+    const currentPlanetaryHour = hour || 'Sun'
     const planetaryCompatibility = 0.8; // Default high compatibility
     const lunarPhaseAlignment = phase ? 0.9 : 0.5, // Higher alignment if phase provided,
     const zodiacHarmony = sign ? 0.85 : 0.7, // Higher harmony if sign provided,
@@ -1841,7 +1840,7 @@ export class UnifiedRecipeBuildingSystem {;
     lunarConsiderations: string
   } {
     // Calculate optimal cooking time with complete interface
-    const currentHour = hour || 'Sun';
+    const currentHour = hour || 'Sun'
     const startTime = '18:00', // Default evening cooking time,
     const duration = '45 minutes', // Default cooking duration,
     const planetaryWindow = `Optimal during ${currentHour} hours for enhanced energy`;

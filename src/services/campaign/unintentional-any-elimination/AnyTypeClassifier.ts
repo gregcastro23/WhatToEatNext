@@ -549,9 +549,9 @@ export class AnyTypeClassifier {
       /deserializer/i
     ],
 
-    let confidence = 0,
+    let confidence = 0;
     let reasoning = '',
-    let suggestedReplacement = '',
+    let suggestedReplacement = '';
     let isIntentional = false;
     let category = AnyTypeCategory.TYPE_ASSERTION,
 
@@ -638,7 +638,7 @@ export class AnyTypeClassifier {
       /self\s*adjusting/i
     ],
 
-    let confidence = 0,
+    let confidence = 0;
     let reasoning = '',
     let category = AnyTypeCategory.DYNAMIC_CONFIG,
 
@@ -716,7 +716,7 @@ export class AnyTypeClassifier {
       /house\s*position/i
     ],
 
-    let confidence = 0,
+    let confidence = 0;
     let reasoning = '',
     let category = AnyTypeCategory.EXTERNAL_API,
 
@@ -809,9 +809,9 @@ export class AnyTypeClassifier {
       /food\s*database/i
     ],
 
-    let confidence = 0,
+    let confidence = 0;
     let reasoning = '',
-    let suggestedReplacement = '',
+    let suggestedReplacement = '';
     let isIntentional = false;
     let category = AnyTypeCategory.TYPE_ASSERTION,
 
@@ -934,7 +934,7 @@ export class AnyTypeClassifier {
       /fix\s*strategy/i
     ],
 
-    let confidence = 0,
+    let confidence = 0;
     let reasoning = '',
     let category = AnyTypeCategory.DYNAMIC_CONFIG,
 
@@ -991,7 +991,7 @@ export class AnyTypeClassifier {
   // Confidence calculation methods for pattern recognition algorithms
   private calculateErrorHandlingConfidence(context: ClassificationContext): number {
     const codeWithSurrounding = this.getCombinedCode(context);
-    let confidence = 0,
+    let confidence = 0;
     let matchCount = 0,
 
     for (const pattern of this.rules.errorHandlingPatterns) {
@@ -1170,7 +1170,7 @@ export class AnyTypeClassifier {
       [AnyTypeCategory.RETURN_TYPE]: 'Function return type - may be replaceable with inferred type',
       [AnyTypeCategory.TYPE_ASSERTION]:
         'Type assertion - may be replaceable with more specific type' },
-        return reasoningMap[category] || 'Pattern-based classification',
+        return reasoningMap[category] || 'Pattern-based classification'
   }
 
   private getSuggestedReplacement(

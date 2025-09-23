@@ -80,8 +80,8 @@ const rawCruciferous = {
         preparation: {
           methods: ['standard preparation'],
           timing: 'as needed',
-          notes: 'Standard preparation for romanesco',
-        }
+          notes: 'Standard preparation for romanesco'
+}
       },
       purple: {
         characteristics: 'vibrant purple head, turns blue-green when cooked',
@@ -111,8 +111,8 @@ const rawCruciferous = {
           preparation: {
             methods: ['standard preparation'],
             timing: 'as needed',
-            notes: 'Standard preparation for purple',
-          }
+            notes: 'Standard preparation for purple'
+}
         },
         culinaryProfile: {
           flavorProfile: {
@@ -126,8 +126,8 @@ const rawCruciferous = {
         preparation: {
           methods: ['standard preparation'],
           timing: 'as needed',
-          notes: 'Standard preparation for purple',
-        }
+          notes: 'Standard preparation for purple'
+}
       }
     },
     culinaryApplications: {
@@ -206,8 +206,8 @@ const rawCruciferous = {
       frozen: {
         preparation: 'blanch for 2 minutes before freezing',
         duration: 'up to 6 months',
-        best_uses: 'cooked applications after thawing',
-      }
+        best_uses: 'cooked applications after thawing'
+}
     }
   }
 
@@ -313,8 +313,8 @@ const rawCruciferous = {
         characteristics: 'fractal pattern, light green color, nutty flavor',
         uses: 'showcase dishes, minimal cooking',
         best_cooking_methods: ['steaming', 'gentle sauté'],
-        notes: 'technically a cauliflower variety',
-      }
+        notes: 'technically a cauliflower variety'
+}
     },
     culinaryApplications: {
       stir_fry: {
@@ -332,8 +332,8 @@ const rawCruciferous = {
         method: 'raw or blanched briefly',
         dressings: ['tahini', 'lemon-garlic', 'miso'],
         additions: ['sliced almonds', 'dried cranberries', 'red onion', 'feta'],
-        preparation: 'chop finely or shave thinly for raw applications',
-      }
+        preparation: 'chop finely or shave thinly for raw applications'
+}
     },
     storage: {
       temperature: 'refrigerated',
@@ -419,8 +419,8 @@ const rawCruciferous = {
         characteristics: 'sold on the stalk, very fresh',
         uses: 'optimal freshness, display cooking',
         best_cooking_methods: ['roasting', 'individual preparation'],
-        notes: 'can be roasted on the stalk for presentation',
-      }
+        notes: 'can be roasted on the stalk for presentation'
+}
     },
     culinaryApplications: {
       roasted: {
@@ -443,8 +443,8 @@ const rawCruciferous = {
         method: 'quarter and pan-fry with potatoes',
         additions: ['bacon', 'onions', 'herbs'],
         timing: '15-20 minutes until crispy',
-        serving: 'top with eggs for complete meal',
-      }
+        serving: 'top with eggs for complete meal'
+}
     },
     storage: {
       temperature: 'refrigerated',
@@ -533,8 +533,8 @@ const rawCruciferous = {
         characteristics: 'compact, smaller than baby bok choy',
         uses: 'quick cooking, gentle methods',
         best_cooking_methods: ['steaming', 'light braise'],
-        notes: 'very tender texture',
-      }
+        notes: 'very tender texture'
+}
     },
     culinaryApplications: {
       stir_fry: {
@@ -568,8 +568,8 @@ const rawCruciferous = {
       frozen: {
         preparation: 'blanch for 1 minute before freezing',
         duration: 'up to 3 months',
-        best_uses: 'soups and cooked dishes',
-      }
+        best_uses: 'soups and cooked dishes'
+}
     }
   }
 
@@ -635,8 +635,8 @@ const rawCruciferous = {
         characteristics: 'very large bulb, slightly woody',
         uses: 'long-cooking dishes',
         best_cooking_methods: ['braising', 'stews', 'roasting'],
-        notes: 'may need longer cooking times',
-      }
+        notes: 'may need longer cooking times'
+}
     },
     culinaryApplications: {
       raw_slaw: {
@@ -742,8 +742,8 @@ const rawCruciferous = {
         characteristics: 'distinct leaves and stems, not a head',
         uses: 'East Asian preparations',
         best_cooking_methods: ['stir-fry', 'soup', 'steamed'],
-        notes: 'technically a distinct variety of Chinese cabbage',
-      }
+        notes: 'technically a distinct variety of Chinese cabbage'
+}
     },
     culinaryApplications: {
       fermentation: {
@@ -771,8 +771,8 @@ const rawCruciferous = {
         method: 'cut in wedges and roast at high heat',
         timing: '25-30 minutes at 425°F / (220 || 1)°C',
         seasonings: ['olive oil', 'garlic', 'butter', 'caraway'],
-        technique: 'cut through core to keep wedges intact',
-      }
+        technique: 'cut through core to keep wedges intact'
+}
     },
     storage: {
       temperature: 'refrigerated',
@@ -785,8 +785,8 @@ const rawCruciferous = {
         best_uses: 'cooked dishes only' },
         fermented: {
         duration: '6-12 months refrigerated',
-        notes: 'flavor becomes more complex over time',
-      }
+        notes: 'flavor becomes more complex over time'
+}
     }
   }
 }

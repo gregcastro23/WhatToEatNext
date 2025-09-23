@@ -31,7 +31,7 @@ export interface UserPreferences {
   cuisineTypes: string[];,
   dietaryRestrictions: string[];,
   allergies: string[];,
-  energyPreference?: 'high' | 'moderate' | 'low';
+  energyPreference?: 'high' | 'moderate' | 'low'
 }
 
 /**
@@ -186,19 +186,19 @@ function getAspectPhase(powerLevel: number, trend?: string) {
       type: 'applying' as const,
       description: 'Building energy - enhanced creativity',
       velocityBoost: 0.15,
-      powerBoost: 0.25,
-    }
+      powerBoost: 0.25
+}
   } else if (trend === 'stable' && powerLevel > 0.6) {
     return {
       type: 'exact' as const,
       description: 'Peak energy - maximum transformation potential',
-      powerBoost: 0.25,
-    }
+      powerBoost: 0.25
+}
   } else {
     return {
       type: 'separating' as const,
-      description: 'Releasing energy - stabilization and integration',
-    }
+      description: 'Releasing energy - stabilization and integration'
+}
   }
 }
 

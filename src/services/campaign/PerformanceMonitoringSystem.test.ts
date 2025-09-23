@@ -54,8 +54,8 @@ describe('PerformanceMonitoringSystem', () => {
       expect(buildTime).toBe(8.5);
       expect(mockExecSync).toHaveBeenCalledWith('time -p yarn build 2>&1', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      }).
+        stdio: 'pipe'
+}).
     })
 
     it('should fallback to simple timing if time command fails', async () => {
@@ -73,8 +73,8 @@ describe('PerformanceMonitoringSystem', () => {
       expect(buildTime).toBe(8). // 8 seconds;
       expect(mockExecSync).toHaveBeenCalledWith('yarn build', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       mockDateNow.mockRestore()
     })
@@ -381,8 +381,8 @@ describe('PerformanceMonitoringSystem', () => {
         currentValue: 15,
         targetValue: 10,
         timestamp: new Date(),
-        recommendations: ['Test recommendation'],
-      }
+        recommendations: ['Test recommendation']
+}
 
       (performanceMonitor as any)addAlert(mockAlert)
 

@@ -13,8 +13,8 @@ export const raw: CookingMethodData = {
     Water: 0.3,
     Air: 0.5,
     Earth: 0.2,
-    Fire: 0.0,
-  },
+    Fire: 0.0
+},
   duration: {
     min: 1, // 1 minute for simple preparation,
     max: 1440, // 24 hours for dehydration or marination
@@ -173,8 +173,8 @@ export const raw: CookingMethodData = {
     protein_structure_preservation: true,
     chlorophyll_preservation: true,
     volatile_compound_retention: true,
-    phytochemical_preservation: true,
-  },
+    phytochemical_preservation: true
+},
   safetyFeatures: [
     'Proper sourcing from reliable suppliers',
     'Thorough washing of all produce',

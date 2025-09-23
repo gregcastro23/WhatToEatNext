@@ -37,7 +37,7 @@ export interface DeploymentTask {
 export interface ValidationCheck {
   id: string,
   name: string,
-  type: 'build' | 'test' | 'lint' | 'custom',
+  type: 'build' | 'test' | 'lint' | 'custom'
   command: string,
   args: string[],
   timeout: number,
@@ -128,8 +128,8 @@ export class DeploymentManager {
           validationResults: [],
           errors: [String(error)],
           warnings: [],
-          rollbackPerformed: false,
-        })
+          rollbackPerformed: false
+})
         break,
       }
     }
@@ -155,8 +155,8 @@ export class DeploymentManager {
       validationResults: [],
       errors: [],
       warnings: [],
-      rollbackPerformed: false,
-    }
+      rollbackPerformed: false
+}
 
     this.log(`Executing phase: ${phase.name}`)
 
@@ -229,10 +229,10 @@ export class DeploymentManager {
     return new Promise((resolve, reject) => {
       const process = spawn(task.command, task.args, {
         env: { ...process.env, ...task.environment },
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
-      let output = '',
+      let output = '';
       let errorOutput = '',
 
       process.stdout?.on('data', data => {
@@ -278,8 +278,8 @@ export class DeploymentManager {
         checkName: check.name,
         success: false,
         output: '',
-        duration: 0,
-      }
+        duration: 0
+}
 
       try {
         const output = await this.executeValidationCheck(check);
@@ -303,10 +303,10 @@ export class DeploymentManager {
   private async executeValidationCheck(check: ValidationCheck): Promise<string> {
     return new Promise((resolve, reject) => {
       const process = spawn(check.command, check.args, {
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
-      let output = '',
+      let output = '';
       let errorOutput = '',
 
       process.stdout?.on('data', data => {
@@ -465,8 +465,8 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           args: ['install'],
           timeout: 300000,
           retries: 2,
-          critical: true,
-        }
+          critical: true
+}
         {
           id: 'build-project',
           name: 'Build Project',
@@ -474,8 +474,8 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           args: ['run', 'build'],
           timeout: 180000,
           retries: 1,
-          critical: true,
-        }
+          critical: true
+}
       ],
       rollbackTasks: [],
       validationChecks: [
@@ -486,8 +486,8 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           command: 'npm',
           args: ['run', 'build'],
           timeout: 180000,
-          expectedExitCode: 0,
-        }
+          expectedExitCode: 0
+}
         {
           id: 'typescript-validation',
           name: 'TypeScript Validation',
@@ -495,8 +495,8 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           command: 'npx',
           args: ['tsc', '--noEmit'],
           timeout: 120000,
-          expectedExitCode: 0,
-        }
+          expectedExitCode: 0
+}
       ],
       successCriteria: {
         buildSuccess: true,
@@ -523,8 +523,8 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           ],
           timeout: 30000,
           retries: 1,
-          critical: true,
-        }
+          critical: true
+}
         {
           id: 'setup-config-directories',
           name: 'Setup Configuration Directories',
@@ -532,8 +532,8 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           args: ['-p', '.kiro/campaign-configs'],
           timeout: 10000,
           retries: 1,
-          critical: true,
-        }
+          critical: true
+}
       ],
       rollbackTasks: [
         {
@@ -548,8 +548,8 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           ],
           timeout: 30000,
           retries: 1,
-          critical: false,
-        }
+          critical: false
+}
       ],
       validationChecks: [
         {
@@ -563,8 +563,8 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
             'validate'
           ],
           timeout: 30000,
-          expectedExitCode: 0,
-        }
+          expectedExitCode: 0
+}
       ],
       successCriteria: {
         buildSuccess: false,
@@ -593,8 +593,8 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           args: ['test', '--', '--testPathPattern=integration'],,
           timeout: 300000,
           retries: 1,
-          critical: true,
-        }
+          critical: true
+}
         {
           id: 'verify-campaign-integration',
           name: 'Verify Campaign Integration',
@@ -605,8 +605,8 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           ],
           timeout: 60000,
           retries: 1,
-          critical: true,
-        }
+          critical: true
+}
       ],
       rollbackTasks: [],
       validationChecks: [
@@ -617,8 +617,8 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           command: 'npm',
           args: ['test', '--', '--testPathPattern=integration', '--passWithNoTests'],,
           timeout: 300000,
-          expectedExitCode: 0,
-        }
+          expectedExitCode: 0
+}
       ],
       successCriteria: {
         buildSuccess: false,
@@ -644,8 +644,8 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           ],
           timeout: 60000,
           retries: 1,
-          critical: false,
-        }
+          critical: false
+}
       ],
       rollbackTasks: [],
       validationChecks: [
@@ -659,8 +659,8 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
             'src/services/campaign/unintentional-any-elimination/deployment/validate-monitoring.ts'
           ],
           timeout: 30000,
-          expectedExitCode: 0,
-        }
+          expectedExitCode: 0
+}
       ],
       successCriteria: {
         buildSuccess: false,
@@ -683,8 +683,8 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           args: ['test'],
           timeout: 600000,
           retries: 1,
-          critical: true,
-        }
+          critical: true
+}
         {
           id: 'run-linting',
           name: 'Run Linting',
@@ -692,8 +692,8 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           args: ['run', 'lint'],
           timeout: 120000,
           retries: 1,
-          critical: false,
-        }
+          critical: false
+}
       ],
       rollbackTasks: [],
       validationChecks: [
@@ -704,8 +704,8 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           command: 'npm',
           args: ['run', 'build'],
           timeout: 180000,
-          expectedExitCode: 0,
-        }
+          expectedExitCode: 0
+}
         {
           id: 'final-test-validation',
           name: 'Final Test Validation',
@@ -713,8 +713,8 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           command: 'npm',
           args: ['test', '--passWithNoTests'],
           timeout: 600000,
-          expectedExitCode: 0,
-        }
+          expectedExitCode: 0
+}
       ],
       successCriteria: {
         buildSuccess: true,

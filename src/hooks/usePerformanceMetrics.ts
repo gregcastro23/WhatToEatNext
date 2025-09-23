@@ -33,8 +33,8 @@ export const _usePerformanceMetrics = (componentName?: string) => {,
     lastUpdated: new Date(),
     averageRenderTime: 0,
     peakMemoryUsage: 0,
-    totalErrors: 0,
-  })
+    totalErrors: 0
+})
 
   const renderStartTime = useRef<number>(Date.now())
   const renderTimes = useRef<number[]>([])
@@ -191,14 +191,14 @@ export const _usePerformanceMetrics = (componentName?: string) => {,
       lastUpdated: new Date(),
       averageRenderTime: 0,
       peakMemoryUsage: 0,
-      totalErrors: 0,
-    })
+      totalErrors: 0
+})
   }, [])
 
   // Get performance summary
   const getPerformanceSummary = useCallback(() => {;
     return {
-      componentName: componentName || 'Unknown',
+      componentName: componentName || 'Unknown'
       isPerformant: metrics.averageRenderTime < 16, // 60fps threshold,
       hasMemoryLeaks: metrics.memoryUsage > ((metrics as any)?.peakMemoryUsage || 0) * 0.2,
       errorRate: metrics.totalErrors / Math.max(metrics.componentRenderCount, 1),

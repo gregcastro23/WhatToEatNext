@@ -254,8 +254,8 @@ export class FlavorProfileMigration {;
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25,
-      },
+        Air: 0.25
+},
       intensity: this.calculateCuisineIntensity(cuisineData),
       complexity: this.calculateCuisineComplexity(cuisineData),
 
@@ -325,8 +325,8 @@ export class FlavorProfileMigration {;
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25,
-      },
+        Air: 0.25
+},
       intensity: (planetData.intensity) || 0.5,
       complexity: (planetData.complexity) || 0.5,
 
@@ -398,8 +398,8 @@ export class FlavorProfileMigration {;
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25,
-      },
+        Air: 0.25
+},
       intensity: Number(flavorData.intensity) || 0.5,
       complexity: 0.5,
 
@@ -726,16 +726,16 @@ export class FlavorProfileMigration {;
           intensityMultiplier: 1.0,
           complexityBonus: 0.0,
           harmonicResonance: 0.5,
-          temperatureOptimal: 20,
-        },
+          temperatureOptimal: 20
+},
         seasonalVariation: {
           spring: 1.0,
           summer: 1.0,
           autumn: 1.0,
           fall: 1.0,
           winter: 1.0,
-          all: 1.0,
-        },
+          all: 1.0
+},
         monicaOptimization: 1.0,
         optimalTiming: {
           planetaryHour: false,
@@ -792,8 +792,8 @@ export class FlavorProfileMigration {;
       spring: 1.0,
       summer: 1.0,
       fall: 1.0,
-      winter: 1.0,
-    } as Record<Season, number>,
+      winter: 1.0
+} as Record<Season, number>,
   }
 
   // ===== UTILITY METHODS =====
@@ -805,7 +805,7 @@ export class FlavorProfileMigration {;
       elemental: 'elemental',
       ingredient: 'ingredient',
       'cooking-method': 'fusion' },
-        return categoryMap[category] || 'elemental',
+        return categoryMap[category] || 'elemental'
   }
 
   private mergeCuisineData(profileId: string, cuisineData: CuisineFlavorProfile): void {

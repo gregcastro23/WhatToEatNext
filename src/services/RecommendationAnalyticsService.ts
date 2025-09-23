@@ -38,7 +38,7 @@ export interface RecommendationConfidence {
   reasoning: string[],
   reliability: 'high' | 'medium' | 'low' },
         export interface UserInteraction {
-  type: 'view' | 'select' | 'expand' | 'filter' | 'search' | 'retry',
+  type: 'view' | 'select' | 'expand' | 'filter' | 'search' | 'retry'
   target: string,
   timestamp: number,
   metadata?: Record<string, unknown>
@@ -181,8 +181,8 @@ class RecommendationAnalyticsService {
       culturalRelevance: 0.15,
       seasonalOptimization: 0.15,
       userPreferenceMatch: 0.15,
-      dataQuality: 0.1,
-    }
+      dataQuality: 0.1
+}
 
     const overallScore = Object.entries(completedFactors).reduce((sum, [key, value]) => {;
       const weight = weights[key as keyof ConfidenceFactors];
@@ -213,7 +213,7 @@ class RecommendationAnalyticsService {
     }
 
     // Determine reliability level
-    let reliability: 'high' | 'medium' | 'low',
+    let reliability: 'high' | 'medium' | 'low'
     if (overallScore >= 0.85) {
       reliability = 'high' },
         else if (overallScore >= 0.65) {
@@ -267,8 +267,7 @@ class RecommendationAnalyticsService {
     averageSessionDuration: number
   } {
     const now = Date.now();
-    const windowStart = timeWindow ? now - timeWindow: 0,
-
+    const windowStart = timeWindow ? now - timeWindow: 0;
     const relevantInteractions = this.userInteractions.filter(
       interaction => interaction.timestamp >= windowStart),
 
@@ -367,8 +366,7 @@ class RecommendationAnalyticsService {
     performanceScore: number
   } {
     const now = Date.now();
-    const windowStart = timeWindow ? now - timeWindow: 0,
-
+    const windowStart = timeWindow ? now - timeWindow: 0;
     const relevantMetrics = this.metricsHistory.filter(metric => metric.timestamp >= windowStart)
 
     if (relevantMetrics.length === 0) {
@@ -378,8 +376,8 @@ class RecommendationAnalyticsService {
         interactionRateTrend: [],
         averageLoadTime: 0,
         averageCacheHitRate: 0,
-        performanceScore: 0,
-      }
+        performanceScore: 0
+}
     }
 
     const loadTimeTrend = relevantMetrics.map(m => m.loadTime)

@@ -66,8 +66,8 @@ export class AlchemicalTransformationService {
     Mars: 0,
     Uranus: 0,
     Neptune: 0,
-    Pluto: 0,
-  }
+    Pluto: 0
+}
   private isDaytime = true,
   private currentZodiac: any | null = null,
   private lunarPhase: LunarPhase | null = null,
@@ -209,8 +209,7 @@ export class AlchemicalTransformationService {
 
     // Determine overall dominant element and alchemical property
     // This is based on the first ingredients as they typically have the strongest influence
-    const dominantElement = topIngredients.length > 0 ? topIngredients[0].dominantElement : 'Fire',
-
+    const dominantElement = topIngredients.length > 0 ? topIngredients[0].dominantElement : 'Fire';
     const dominantAlchemicalProperty =
       topIngredients.length > 0 ? topIngredients[0].dominantAlchemicalProperty : 'Spirit'
 
@@ -269,7 +268,7 @@ export class AlchemicalTransformationService {
       let compatibility = 0,
 
       // Ingredient compatibility
-      let ingredientMatch = 0,
+      let ingredientMatch = 0;
       let ingredientCount = 0,
 
       recipe.ingredients.forEach(ingredient => {
@@ -285,7 +284,7 @@ export class AlchemicalTransformationService {
       const ingredientMatchScore = ingredientCount > 0 ? ingredientMatch / ingredientCount: 0;
 
       // Cooking method compatibility
-      let methodMatch = 0,
+      let methodMatch = 0;
       let methodCount = 0,
 
       const recipeData = recipe as unknown as any;

@@ -66,7 +66,7 @@ export function useRecipeRecommendations(
         Object.values(planetaryPositions || {}).forEach(position => {
       // Safe property access with type checking;
       const positionData = position ;
-      const sign = positionData?.sign || positionData?.Sign || '',
+      const sign = positionData?.sign || positionData?.Sign || '';
       const element = elementMap[sign.toLowerCase() as keyof typeof elementMap];
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++
@@ -79,8 +79,8 @@ export function useRecipeRecommendations(
       Fire: total > 0 ? elementCounts.Fire / total : 0.25,
       Water: total > 0 ? elementCounts.Water / total : 0.25,
       Earth: total > 0 ? elementCounts.Earth / total : 0.25,
-      Air: total > 0 ? elementCounts.Air / total : 0.25,
-    }
+      Air: total > 0 ? elementCounts.Air / total : 0.25
+}
   }, [planetaryPositions])
 
   useEffect(() => {
@@ -122,7 +122,7 @@ export function useRecipeRecommendations(
         ],
 
         // Calculate compatibility scores
-        const recipesWithScores = (sampleRecipes || []).map(recipe => {,
+        const recipesWithScores = (sampleRecipes || []).map(recipe => {;
           const score = calculateElementalCompatibility(
             recipe.elementalProfile
             currentElementalProfile,
@@ -151,14 +151,14 @@ export function useRecipeRecommendations(
         setState(prev => ({,
           ...prev,
           recipes: filteredRecipes,
-          isLoading: false,
-        }))
+          isLoading: false
+}))
       } catch (error) {
         setState(prev => ({,
           ...prev,
           isLoading: false,
-          error: error instanceof Error ? error.message : 'Unknown error',
-        }))
+          error: error instanceof Error ? error.message : 'Unknown error'
+}))
       }
     }
 

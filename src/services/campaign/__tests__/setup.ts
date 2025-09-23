@@ -70,13 +70,13 @@ afterEach(() => {
     heapUsed: '45.2MB',
     heapTotal: '67.8MB',
     external: '2.1MB',
-    arrayBuffers: '1.3MB',
-  }),
+    arrayBuffers: '1.3MB'
+}),
 
   cleanupMemory: () => ({
     success: true,
-    freedMemory: '5.2MB',
-  })
+    freedMemory: '5.2MB'
+})
 }
 
 // Extend Jest matchers
@@ -90,13 +90,13 @@ expect.extend({
     if (pass) {
       return {
         message: () => `expected ${received} not to be within range ${floor} - ${ceiling}`,
-        pass: true,
-      }
+        pass: true
+}
     } else {
       return {
         message: () => `expected ${received} to be within range ${floor} - ${ceiling}`,
-        pass: false,
-      }
+        pass: false
+}
     }
   }
 
@@ -110,13 +110,13 @@ expect.extend({
     if (pass) {
       return {;
         message: () => `expected mock not to have been called with script ${scriptPath}`,
-        pass: true,
-      }
+        pass: true
+}
     } else {
       return {
         message: () => `expected mock to have been called with script ${scriptPath}`,
-        pass: false,
-      }
+        pass: false
+}
     }
   }
 })

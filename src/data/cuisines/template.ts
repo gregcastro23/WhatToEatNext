@@ -20,8 +20,8 @@ export const cuisine: Cuisine = {
         Water: 0.4,
         Earth: 0.3,
         Air: 0.1,
-        Fire: 0.2,
-      },
+        Fire: 0.2
+},
       astrologicalInfluences: [
         'astrological influence1',
         'astrological influence2',
@@ -32,8 +32,8 @@ export const cuisine: Cuisine = {
       technicalTips: 'Tips for achieving best results',
       difficulty: 'easy/medium/hard',
       storageInstructions: 'How to store the sauce properly',
-      yield: 'Amount the recipe produces',
-    }
+      yield: 'Amount the recipe produces'
+}
   },
   dishes: {
     breakfast: {
@@ -69,8 +69,8 @@ export const cuisine: Cuisine = {
               amount: '1/4',
               unit: 'cup',
               category: 'vegetable',
-              element: 'Air',
-            }
+              element: 'Air'
+}
           ],
           substitutions: {
             ingredient1: ['alternative1', 'alternative2'],
@@ -102,8 +102,8 @@ export const cuisine: Cuisine = {
             Fire: 0.2,
             Water: 0.3,
             Earth: 0.3,
-            Air: 0.2,
-          },
+            Air: 0.2
+},
           preparationNotes: 'This dish should be served immediately for the best experience. For a richer flavor, allow the batter to rest for 30 minutes before cooking.',
           technicalTips: [
             'Make sure all wet ingredients are at room temperature for a smoother batter',
@@ -162,8 +162,8 @@ export const cuisine: Cuisine = {
       elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2 },
       seasonality: 'best season',
       preparationNotes: 'preparation notes',
-      yield: 'amount produced',
-    }
+      yield: 'amount produced'
+}
   },
   sauceRecommender: {
     forProtein: {
@@ -209,16 +209,16 @@ export const cuisine: Cuisine = {
       elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 },
       toolsRequired: ['tool1', 'tool2', 'tool3', 'tool4'],
       bestFor: ['food1', 'food2', 'food3', 'food4'],
-      difficulty: 'easy/medium/hard',
-    }
+      difficulty: 'easy/medium/hard'
+}
     {
       name: 'Technique Name 2',
       description: 'Description of cooking technique',
       elementalProperties: { Fire: 0.2, Earth: 0.4, Water: 0.3, Air: 0.1 },
       toolsRequired: ['tool1', 'tool2', 'tool3', 'tool4'],
       bestFor: ['food1', 'food2', 'food3', 'food4'],
-      difficulty: 'easy/medium/hard',
-    }
+      difficulty: 'easy/medium/hard'
+}
   ],
   regionalCuisines: {
     region1: {

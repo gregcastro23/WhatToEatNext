@@ -12,9 +12,9 @@ import { ElementalProperties } from '@/types/alchemy';
 
 // Backend service configuration
 const API_CONFIG = {
-  alchemical: process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000',
-  kitchen: process.env.NEXT_PUBLIC_KITCHEN_BACKEND_URL || 'http://localhost:8100',
-  websocket: process.env.NEXT_PUBLIC_WEBSOCKET_URL || 'ws://localhost:8001',
+  alchemical: process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'
+  kitchen: process.env.NEXT_PUBLIC_KITCHEN_BACKEND_URL || 'http://localhost:8100'
+  websocket: process.env.NEXT_PUBLIC_WEBSOCKET_URL || 'ws://localhost:8001'
   runes: process.env.NEXT_PUBLIC_RUNE_AGENT_URL || 'http://localhost:8002'
 }
 
@@ -35,7 +35,7 @@ export interface ThermodynamicsResult {
   entropy: number,
   reactivity: number,
   gregsEnergy: number,
-  equilibrium: number,
+  equilibrium: number
 }
 
 export interface PlanetaryInfluenceResponse {
@@ -97,8 +97,8 @@ export class AlchemicalApiClient {
         entropy: 0.3,
         reactivity: 0.7,
         gregsEnergy: 75.0,
-        equilibrium: 0.6,
-      }
+        equilibrium: 0.6
+}
     }
   }
 
@@ -129,8 +129,8 @@ export class AlchemicalApiClient {
           Venus: 0.4,
           Mars: 0.6,
           Jupiter: 0.5,
-          Saturn: 0.3,
-        }
+          Saturn: 0.3
+}
       }
     }
   }
@@ -222,8 +222,8 @@ export class AlchemicalApiClient {
         // Subscribe to planetary hours
         ws.send(JSON.stringify({,
           action: 'subscribe',
-          channel: 'planetary_hours',
-        }))
+          channel: 'planetary_hours'
+}))
       }
 
       ws.onmessage = (event) => {
@@ -259,17 +259,17 @@ export class AlchemicalApiClient {
         try {;
           const response = await fetch(service.url, {
             method: 'GET',
-            timeout: 5000,
-          } as any)
+            timeout: 5000
+} as any)
           return {
             service: service.name,
-            status: response.ok ? 'healthy' : 'unhealthy',
-          }
+            status: response.ok ? 'healthy' : 'unhealthy'
+}
         } catch {
           return {
             service: service.name,
-            status: 'offline',
-          }
+            status: 'offline'
+}
         }
       })
     )

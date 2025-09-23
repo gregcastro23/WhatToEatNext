@@ -26,7 +26,7 @@ export interface UserPreferences {
   _dislikedIngredients: string[],
   _preferredCuisines: string[],
   _dietaryRestrictions: string[],
-  _spicePreference: 'mild' | 'medium' | 'hot',
+  _spicePreference: 'mild' | 'medium' | 'hot'
   _cookingSkillLevel: 'beginner' | 'intermediate' | 'advanced' },
         export interface PredictionResult {
   prediction: unknown,
@@ -97,7 +97,7 @@ export interface TimeSeriesData {
 }
 
 export interface TrendAnalysis {
-  direction: 'increasing' | 'decreasing' | 'stable' | 'volatile',
+  direction: 'increasing' | 'decreasing' | 'stable' | 'volatile'
   _strength: number,
   _duration: string,
   confidence: number,
@@ -140,7 +140,7 @@ export interface CulturalPrediction {
 }
 
 export interface PredictiveAlgorithmConfig {
-  algorithm: 'linear' | 'polynomial' | 'neural' | 'ensemble',
+  algorithm: 'linear' | 'polynomial' | 'neural' | 'ensemble'
   _lookback: number,
   _horizon: number,
   confidence: number,

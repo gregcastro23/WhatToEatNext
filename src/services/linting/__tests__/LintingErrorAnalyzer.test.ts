@@ -54,8 +54,8 @@ describe('LintingErrorAnalyzer', () => {
               severity: 1,
               message: 'Unexpected any type',
               line: 5,
-              column: 10,
-            }
+              column: 10
+}
           ]
         }
       ])
@@ -88,15 +88,15 @@ describe('LintingErrorAnalyzer', () => {
               severity: 1,
               message: 'Unexpected any type',
               line: 5,
-              column: 10,
-            }
+              column: 10
+}
             {
               ruleId: 'react-hooks/exhaustive-deps',
               severity: 1,
               message: 'Missing dependency',
               line: 10,
-              column: 5,
-            }
+              column: 5
+}
           ]
         }
       ])
@@ -165,8 +165,8 @@ describe('LintingErrorAnalyzer', () => {
               severity: 1,
               message: 'Unexpected any type',
               line: 5,
-              column: 10,
-            }
+              column: 10
+}
           ]
         }
       ])
@@ -190,8 +190,8 @@ describe('LintingErrorAnalyzer', () => {
               severity: 1,
               message: 'Unexpected console statement',
               line: 5,
-              column: 10,
-            }
+              column: 10
+}
           ]
         }
       ])
@@ -215,8 +215,8 @@ describe('LintingErrorAnalyzer', () => {
               severity: 1,
               message: 'Unexpected any type',
               line: 5,
-              column: 10,
-            }
+              column: 10
+}
           ]
         }
       ])
@@ -250,8 +250,8 @@ describe('LintingErrorAnalyzer', () => {
               severity: 1,
               message: 'Unexpected any type',
               line: 5,
-              column: 10,
-            }
+              column: 10
+}
           ]
         }
       ])
@@ -277,8 +277,8 @@ describe('LintingErrorAnalyzer', () => {
               severity: 1,
               message: 'Unexpected any type',
               line: 5,
-              column: 10,
-            }
+              column: 10
+}
           ]
         }
       ])

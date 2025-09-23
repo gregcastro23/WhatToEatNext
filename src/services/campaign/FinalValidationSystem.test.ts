@@ -32,8 +32,8 @@ describe('FinalValidationSystem', () => {
       const result: any = await (validationSystem as unknown as {,
           validateTypeScriptErrors: () => Promise<{ category: string,
             passed: boolean,, current: number,
-            target: number,, criticalIssues: any[],
-          }>,
+            target: number,, criticalIssues: any[]
+}>,
         }
       ).validateTypeScriptErrors()
 
@@ -58,8 +58,8 @@ src/test.ts(1510): error, TS2345: Argument of type 'string' is not assignable to
       const result: any = await (validationSystem as unknown as {,
           validateTypeScriptErrors: () => Promise<{ category: string,
             passed: boolean,, current: number,
-            target: number,, criticalIssues: any[],
-          }>,
+            target: number,, criticalIssues: any[]
+}>,
         }
       ).validateTypeScriptErrors()
 
@@ -290,8 +290,8 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
       const mockBaseline: any = {
         errors: 100,
         warnings: 500,
-        intelligence: 10,
-      }
+        intelligence: 10
+}
       mockedFs.existsSync.mockReturnValue(true)
       mockedFs.readFileSync.mockReturnValue(JSON.stringify(mockBaseline))
 
@@ -349,8 +349,8 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
         memoryUsage: 40,
         bundleSize: '400kB',
         cacheHitRate: 85,
-        testCoverage: 98,
-      }
+        testCoverage: 98
+}
 
       const certification: any = (validationSystem as unknown as {,
           determineCertificationStatus: (, results: Record<string, unknown>,
@@ -380,8 +380,8 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
         memoryUsage: 60,
         bundleSize: '500kB',
         cacheHitRate: 70,
-        testCoverage: 85,
-      }
+        testCoverage: 85
+}
 
       const certification: any = (validationSystem as unknown as {,
           determineCertificationStatus: (, results: Record<string, unknown>,
@@ -471,8 +471,8 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
           memoryUsage: 40,
           bundleSize: '400kB',
           cacheHitRate: 85,
-          testCoverage: 98,
-        },
+          testCoverage: 98
+},
         campaignSummary: { initialState: { errors: 100, warnings: 500, intelligence: 10 },
           finalState: { errors: 0, warnings: 0, intelligence: 250 }
           improvements: { errorReductio, n: 100, warningReduction: 500, intelligenceIncrease: 240 }
@@ -481,8 +481,8 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
           enterpriseReady: true,
           productionDeploymentReady: true,
           certificationLevel: 'ENTERPRISE' as const,
-          certificationDate: '2025-01-15T10:00:00.000Z',
-        }
+          certificationDate: '2025-01-15T10:00:00.000Z'
+}
       }
 
       mockedFs.existsSync.mockReturnValue(false)
@@ -511,8 +511,8 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
           memoryUsage: 40,
           bundleSize: '400kB',
           cacheHitRate: 85,
-          testCoverage: 98,
-        },
+          testCoverage: 98
+},
         campaignSummary: { initialState: { errors: 100, warnings: 500, intelligence: 10 },
           finalState: { errors: 0, warnings: 0, intelligence: 250 }
           improvements: { errorReductio, n: 100, warningReduction: 500, intelligenceIncrease: 240 }
@@ -521,8 +521,8 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
           enterpriseReady: true,
           productionDeploymentReady: true,
           certificationLevel: 'ENTERPRISE' as const,
-          certificationDate: '2025-01-15T10:00:00.000Z',
-        }
+          certificationDate: '2025-01-15T10:00:00.000Z'
+}
       }
 
       mockedFs.writeFileSync.mockReturnValue(undefined)

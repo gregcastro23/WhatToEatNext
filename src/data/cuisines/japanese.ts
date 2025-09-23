@@ -19,8 +19,8 @@ export const japanese: Cuisine = {
         Water: 0.6,
         Earth: 0.2,
         Air: 0.1,
-        Fire: 0.1,
-      },
+        Fire: 0.1
+},
       astrologicalInfluences: ['Neptune', 'Moon', 'Pisces'],
       seasonality: 'all',
       preparationNotes: 'Never boil kombu, gently heat to extract umami without bitterness',
@@ -40,16 +40,16 @@ export const japanese: Cuisine = {
         Earth: 0.4,
         Water: 0.3,
         Fire: 0.2,
-        Air: 0.1,
-      },
+        Air: 0.1
+},
       astrologicalInfluences: ['Saturn', 'Mercury', 'Taurus'],
       seasonality: 'all',
       preparationNotes: 'Often simmered with aromatics like ginger, garlic, and scallions',
       technicalTips: 'Balance sweet, salty, and umami carefully; adjust with kombu or bonito',
       difficulty: 'medium',
       storageInstructions: 'Store refrigerated up to 1 month',
-      yield: '500 ml',
-    }
+      yield: '500 ml'
+}
   },
   dishes: {
     breakfast: {
@@ -123,8 +123,8 @@ export const japanese: Cuisine = {
             Water: 0.4,
             Earth: 0.3,
             Fire: 0.2,
-            Air: 0.1,
-          },
+            Air: 0.1
+},
           instructions: [
             'Cook rice in rice cooker',
             'Grill fish until skin is crispy and flesh is cooked through',
@@ -197,8 +197,8 @@ export const japanese: Cuisine = {
             Fire: 0.4,
             Air: 0.3,
             Earth: 0.2,
-            Water: 0.1,
-          }
+            Water: 0.1
+}
         }
         {
           name: 'Natto Gohan',
@@ -256,8 +256,8 @@ export const japanese: Cuisine = {
             Earth: 0.4,
             Water: 0.3,
             Fire: 0.2,
-            Air: 0.1,
-          }
+            Air: 0.1
+}
         }
       ]
     },
@@ -331,8 +331,8 @@ export const japanese: Cuisine = {
             Earth: 0.5,
             Water: 0.2,
             Fire: 0.2,
-            Air: 0.1,
-          }
+            Air: 0.1
+}
         }
       ],
       summer: [
@@ -391,8 +391,8 @@ export const japanese: Cuisine = {
             Water: 0.3,
             Air: 0.3,
             Earth: 0.2,
-            Fire: 0.2,
-          }
+            Fire: 0.2
+}
         }
         {
           name: 'Soba Salad',
@@ -449,8 +449,8 @@ export const japanese: Cuisine = {
             Air: 0.4,
             Water: 0.3,
             Earth: 0.2,
-            Fire: 0.1,
-          }
+            Fire: 0.1
+}
         }
       ],
       winter: [
@@ -487,8 +487,8 @@ export const japanese: Cuisine = {
             Earth: 0.4,
             Fire: 0.3,
             Water: 0.2,
-            Air: 0.1,
-          }
+            Air: 0.1
+}
         }
       ]
     },
@@ -526,8 +526,8 @@ export const japanese: Cuisine = {
             Water: 0.4,
             Earth: 0.3,
             Air: 0.2,
-            Fire: 0.1,
-          }
+            Fire: 0.1
+}
         }
       ],
       winter: [
@@ -569,8 +569,8 @@ export const japanese: Cuisine = {
             Fire: 0.4,
             Water: 0.3,
             Earth: 0.2,
-            Air: 0.1,
-          }
+            Air: 0.1
+}
         }
         {
           name: 'Ramen',
@@ -617,8 +617,8 @@ export const japanese: Cuisine = {
             Water: 0.4,
             Fire: 0.3,
             Earth: 0.2,
-            Air: 0.1,
-          }
+            Air: 0.1
+}
         }
       ],
       summer: [
@@ -653,8 +653,8 @@ export const japanese: Cuisine = {
             Fire: 0.5,
             Air: 0.2,
             Earth: 0.2,
-            Water: 0.1,
-          }
+            Water: 0.1
+}
         }
         {
           name: 'Oyakodon',
@@ -1287,8 +1287,8 @@ export const japanese: Cuisine = {
         Water: 0.4,
         Earth: 0.3,
         Fire: 0.2,
-        Air: 0.1,
-      },
+        Air: 0.1
+},
       astrologicalInfluences: ['Saturn', 'Pluto', 'Scorpio'],
       seasonality: 'all',
       preparationNotes: 'Traditional brewing takes months of fermentation',
@@ -1304,8 +1304,8 @@ export const japanese: Cuisine = {
         Earth: 0.5,
         Water: 0.2,
         Fire: 0.2,
-        Air: 0.1,
-      },
+        Air: 0.1
+},
       astrologicalInfluences: ['Jupiter', 'Moon', 'Taurus'],
       seasonality: 'all',
       preparationNotes: 'Fermentation period determines color and flavor intensity',
@@ -1342,8 +1342,8 @@ export const japanese: Cuisine = {
       elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 },
       seasonality: 'all',
       preparationNotes: 'Traditionally applied in layers while grilling',
-      yield: '500ml',
-    }
+      yield: '500ml'
+}
   },
   sauceRecommender: {
     forProtein: {
@@ -1391,24 +1391,24 @@ export const japanese: Cuisine = {
       elementalProperties: { Water: 0.5, Earth: 0.3, Fire: 0.1, Air: 0.1 },
       toolsRequired: ['heavy-bottomed pot', 'otoshibuta (drop lid)', 'cooking chopsticks'],
       bestFor: ['root vegetables', 'fish', 'tofu', 'meat'],
-      difficulty: 'medium',
-    }
+      difficulty: 'medium'
+}
     {
       name: 'Tempura',
       description: 'Light batter frying technique that creates crisp, delicate coating',
       elementalProperties: { Fire: 0.4, Air: 0.3, Water: 0.2, Earth: 0.1 },
       toolsRequired: ['deep pot', 'chopsticks', 'wire skimmer', 'thermometer'],
       bestFor: ['seafood', 'vegetables', 'mushrooms', 'herbs'],
-      difficulty: 'hard',
-    }
+      difficulty: 'hard'
+}
     {
       name: 'Yakimono',
       description: 'Grilling technique emphasizing simplicity and natural flavors',
       elementalProperties: { Fire: 0.5, Earth: 0.2, Air: 0.2, Water: 0.1 },
       toolsRequired: ['konro grill', 'binchotan charcoal', 'metal skewers', 'tongs'],
       bestFor: ['fish', 'chicken', 'beef', 'vegetables'],
-      difficulty: 'medium',
-    }
+      difficulty: 'medium'
+}
   ],
   regionalCuisines: {
     kansai: {

@@ -51,14 +51,14 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
     // Provide fallback values to ensure the object is always complete
     return {
       // Required fields from the type definition;
-      currentZodiac: (state.astrologicalState.zodiacSign as ZodiacSign) || 'aries',
-      moonPhase: (state.astrologicalState.lunarPhase as LunarPhase) || 'new moon',
+      currentZodiac: (state.astrologicalState.zodiacSign as ZodiacSign) || 'aries'
+      moonPhase: (state.astrologicalState.lunarPhase as LunarPhase) || 'new moon'
       currentPlanetaryAlignment: state.astrologicalState.currentPlanetaryAlignment || {}
       activePlanets: state.astrologicalState.activePlanets || ['sun', 'moon'],
       planetaryPositions: (planetaryPositions || {}) as Record<string, CelestialPosition>,
-      lunarPhase: (state.astrologicalState.lunarPhase as LunarPhase) || 'new moon',
-      zodiacSign: (state.astrologicalState.zodiacSign as ZodiacSign) || 'aries',
-      planetaryHours: (state.astrologicalState.planetaryHour as Planet) || 'Sun',
+      lunarPhase: (state.astrologicalState.lunarPhase as LunarPhase) || 'new moon'
+      zodiacSign: (state.astrologicalState.zodiacSign as ZodiacSign) || 'aries'
+      planetaryHours: (state.astrologicalState.planetaryHour as Planet) || 'Sun'
       aspects: (state.astrologicalState.aspects || []) as PlanetaryAspect[],
       tarotElementBoosts: (state.astrologicalState.tarotElementBoosts || {}) as Record<string, number>,
       tarotPlanetaryBoosts: (state.astrologicalState.tarotPlanetaryBoosts || {}) as Record<string, number>,
@@ -184,7 +184,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
         enhancedResults.sort((a, b) => ((b.kineticScore as number) || 0) - ((a.kineticScore as number) || 0));
       }
 
-      const filteredResults = options?.filter ? enhancedResults.filter(options.filter) : enhancedResults,
+      const filteredResults = options?.filter ? enhancedResults.filter(options.filter) : enhancedResults;
       const limitedResults = options?.limit;
         ? filteredResults.slice(0, options.limit)
         : filteredResults,
@@ -222,7 +222,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
 
     // Astrological data
     currentSeason,
-    currentZodiac: astroState.zodiacSign || 'aries',
+    currentZodiac: astroState.zodiacSign || 'aries'
     lunarPhase: astroState.lunarPhase,
     activePlanets: astroState.activePlanets || [],
 

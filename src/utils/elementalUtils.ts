@@ -43,8 +43,8 @@ const ELEMENTAL_CHARACTERISTICS = {
     cookingTechniques: ['whipping', 'frying', 'sautéing', 'dehydrating'],
     timeOfDay: ['morning', 'midday'],
     qualities: ['light', 'airy', 'quick'],
-    temperature: 'variable',
-  }
+    temperature: 'variable'
+}
 }
 
 // AlchemicalProperty type imported from @/constants/planetaryElements
@@ -282,8 +282,8 @@ export const elementalUtils = {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25,
-        }
+          Air: 0.25
+}
         return {
           Fire: acc.Fire + props.Fire,
           Water: acc.Water + props.Water,
@@ -342,7 +342,7 @@ export const elementalUtils = {
     }
 
     return {
-      dominant: dominantElement as 'Fire' | 'Water' | 'Earth' | 'Air',
+      dominant: dominantElement as 'Fire' | 'Water' | 'Earth' | 'Air'
       balance: properties,
       characteristics: [this.getElementalCharacteristics(dominantElement)]
     }
@@ -521,11 +521,11 @@ export function transformItemsWithPlanetaryPositions(
     // - Matter is related to Earth (stability) and Water (cohesion)
     // - Substance is related to Air (structure) and Earth (form)
     const spirit =
-      ((scaledElements as any)?.Fire || 0) * 0.2 + ((scaledElements as any)?.Air || 0) * 0.2,
+      ((scaledElements as any)?.Fire || 0) * 0.2 + ((scaledElements as any)?.Air || 0) * 0.2;
     const essence =
       ((scaledElements as any)?.Water || 0) * 0.2 + ((scaledElements as any)?.Fire || 0) * 0.2,
     const matter =
-      ((scaledElements as any)?.Earth || 0) * 0.2 + ((scaledElements as any)?.Water || 0) * 0.2,
+      ((scaledElements as any)?.Earth || 0) * 0.2 + ((scaledElements as any)?.Water || 0) * 0.2;
     const substance =
       ((scaledElements as any)?.Air || 0) * 0.2 + ((scaledElements as any)?.Earth || 0) * 0.2,
 
@@ -689,8 +689,8 @@ export function normalizeElementalValues(
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    }
+      Air: 0.25
+}
   }
 
   // Normalize values to sum to 1.0
@@ -756,8 +756,8 @@ export function getElementalRelationship(
     Fire: 'Earth',
     Earth: 'Water',
     Water: 'Air',
-    Air: 'Fire',
-  }
+    Air: 'Fire'
+}
 
   // The controlling cycle for 4-element, system: Fire → Air → Earth → Water → Fire
   const controllingCycle: { [key in Element]: Element } = {
@@ -817,9 +817,9 @@ export function enhanceVegetableTransformations(
         Earth: 0.3,
         Water: 0.3,
         Air: 0.2,
-        Fire: 0.2,
-      }
-      let dominantElement = 'Earth',
+        Fire: 0.2
+}
+      let dominantElement = 'Earth';
       let highestValue = 0,
 
       for (const [element, value] of Object.entries(elementalProps)) {
@@ -844,8 +844,8 @@ export function enhanceVegetableTransformations(
         _cooked: {
           heat: 0.1,
           entropy: 0.05,
-          reactivity: 0.05,
-        },
+          reactivity: 0.05
+},
         _dried: {
           heat: -0.05,
           entropy: -0.1,
@@ -859,13 +859,13 @@ export function enhanceVegetableTransformations(
         _roasted: {
           heat: 0.2,
           entropy: 0.1,
-          energy: 0.15,
-        },
+          energy: 0.15
+},
         _steamed: {
           heat: 0.05,
           _moisture: 0.2,
-          reactivity: 0.05,
-        }
+          reactivity: 0.05
+}
       }
     }
 
@@ -884,8 +884,7 @@ export function enhanceVegetableTransformations(
     // Add sensory profiles if they don't exist
     if (!enhanced.sensoryProfile) {
       // Default sensory profile based on vegetable subCategory
-      const subCategory = enhanced.subCategory || 'vegetable';
-
+      const subCategory = enhanced.subCategory || 'vegetable'
       const profiles = {
         'leafy green': {
           taste: {
@@ -894,24 +893,24 @@ export function enhanceVegetableTransformations(
             umami: 0.1,
             salty: 0.05,
             sour: 0.05,
-            spicy: 0,
-          },
+            spicy: 0
+},
           aroma: {
             herbal: 0.5,
             earthy: 0.3,
             floral: 0.1,
             fruity: 0.05,
             woody: 0.05,
-            spicy: 0,
-          },
+            spicy: 0
+},
           texture: {
             crisp: 0.7,
             tender: 0.2,
             silky: 0.1,
             chewy: 0,
             creamy: 0,
-            crunchy: 0,
-          }
+            crunchy: 0
+}
         },
         _root: {
           taste: {
@@ -920,24 +919,24 @@ export function enhanceVegetableTransformations(
             bitter: 0.1,
             umami: 0.1,
             salty: 0,
-            spicy: 0,
-          },
+            spicy: 0
+},
           aroma: {
             earthy: 0.6,
             woody: 0.2,
             herbal: 0.1,
             fruity: 0.1,
             floral: 0,
-            spicy: 0,
-          },
+            spicy: 0
+},
           texture: {
             crunchy: 0.6,
             chewy: 0.2,
             tender: 0.2,
             crisp: 0,
             silky: 0,
-            creamy: 0,
-          }
+            creamy: 0
+}
         },
         _allium: {
           taste: {
@@ -946,24 +945,24 @@ export function enhanceVegetableTransformations(
             umami: 0.2,
             bitter: 0,
             salty: 0,
-            sour: 0,
-          },
+            sour: 0
+},
           aroma: {
             spicy: 0.7,
             earthy: 0.2,
             herbal: 0.1,
             floral: 0,
             fruity: 0,
-            woody: 0,
-          },
+            woody: 0
+},
           texture: {
             crunchy: 0.5,
             chewy: 0.3,
             tender: 0.2,
             crisp: 0,
             silky: 0,
-            creamy: 0,
-          }
+            creamy: 0
+}
         },
         _cruciferous: {
           taste: {
@@ -972,24 +971,24 @@ export function enhanceVegetableTransformations(
             spicy: 0.2,
             umami: 0.1,
             salty: 0,
-            sour: 0,
-          },
+            sour: 0
+},
           aroma: {
             earthy: 0.4,
             _sulfurous: 0.3,
             woody: 0.2,
             herbal: 0.1,
             floral: 0,
-            fruity: 0,
-          },
+            fruity: 0
+},
           texture: {
             crunchy: 0.7,
             crisp: 0.2,
             tender: 0.1,
             chewy: 0,
             silky: 0,
-            creamy: 0,
-          }
+            creamy: 0
+}
         },
         _nightshade: {
           taste: {
@@ -998,24 +997,24 @@ export function enhanceVegetableTransformations(
             sour: 0.1,
             bitter: 0.1,
             salty: 0,
-            spicy: 0,
-          },
+            spicy: 0
+},
           aroma: {
             fruity: 0.5,
             earthy: 0.3,
             herbal: 0.2,
             floral: 0,
             woody: 0,
-            spicy: 0,
-          },
+            spicy: 0
+},
           texture: {
             tender: 0.5,
             _juicy: 0.3,
             chewy: 0.2,
             crisp: 0,
             crunchy: 0,
-            silky: 0,
-          }
+            silky: 0
+}
         },
         _squash: {
           taste: {
@@ -1024,24 +1023,24 @@ export function enhanceVegetableTransformations(
             nutty: 0.2,
             bitter: 0,
             salty: 0,
-            sour: 0,
-          },
+            sour: 0
+},
           aroma: {
             earthy: 0.4,
             sweet: 0.4,
             woody: 0.1,
             herbal: 0.1,
             floral: 0,
-            spicy: 0,
-          },
+            spicy: 0
+},
           texture: {
             tender: 0.4,
             creamy: 0.3,
             chewy: 0.2,
             crisp: 0.1,
             crunchy: 0,
-            silky: 0,
-          }
+            silky: 0
+}
         },
         _legume: {
           taste: {
@@ -1050,24 +1049,24 @@ export function enhanceVegetableTransformations(
             umami: 0.2,
             bitter: 0,
             salty: 0,
-            sour: 0,
-          },
+            sour: 0
+},
           aroma: {
             earthy: 0.6,
             nutty: 0.3,
             herbal: 0.1,
             floral: 0,
             fruity: 0,
-            spicy: 0,
-          },
+            spicy: 0
+},
           texture: {
             tender: 0.4,
             creamy: 0.3,
             chewy: 0.3,
             crisp: 0,
             crunchy: 0,
-            silky: 0,
-          }
+            silky: 0
+}
         },
         starchy: {
           taste: {
@@ -1076,24 +1075,24 @@ export function enhanceVegetableTransformations(
             umami: 0.2,
             bitter: 0,
             salty: 0,
-            sour: 0,
-          },
+            sour: 0
+},
           aroma: {
             earthy: 0.7,
             nutty: 0.2,
             herbal: 0.1,
             floral: 0,
             fruity: 0,
-            spicy: 0,
-          },
+            spicy: 0
+},
           texture: {
             starchy: 0.6,
             tender: 0.2,
             creamy: 0.2,
             crisp: 0,
             crunchy: 0,
-            silky: 0,
-          }
+            silky: 0
+}
         }
       }
 
@@ -1105,24 +1104,24 @@ export function enhanceVegetableTransformations(
           umami: 0.25,
           salty: 0.15,
           sour: 0.1,
-          spicy: 0,
-        },
+          spicy: 0
+},
         aroma: {
           earthy: 0.3,
           herbal: 0.3,
           woody: 0.2,
           fruity: 0.1,
           floral: 0.1,
-          spicy: 0,
-        },
+          spicy: 0
+},
         texture: {
           tender: 0.3,
           crunchy: 0.3,
           crisp: 0.2,
           chewy: 0.1,
           creamy: 0.1,
-          silky: 0,
-        }
+          silky: 0
+}
       }
 
       enhanced.sensoryProfile = profile,
@@ -1152,8 +1151,8 @@ export function enhanceOilProperties(
           Fire: 0.3,
           Water: 0.2,
           Earth: 0.3,
-          Air: 0.2,
-        }),
+          Air: 0.2
+}),
     )
     enhancedOil.qualities = String(
       Array.isArray(enhancedOil.qualities)
@@ -1184,20 +1183,20 @@ export function enhanceOilProperties(
             sweet: isFruity || isTropical ? 0.6 : 0.2,
             bitter: isNutty ? 0.4 : 0.1,
             umami: isNutty ? 0.5 : 0.2,
-            _rich: isNutty || isFruity ? 0.7 : 0.4,
-          },
+            _rich: isNutty || isFruity ? 0.7 : 0.4
+},
           aroma: {
             fruity: isFruity ? 0.8 : 0.1,
             nutty: isNutty ? 0.8 : 0.1,
             floral: isFloral ? 0.7 : 0.1,
             neutral: isNeutral ? 0.9 : 0.2,
-            _tropical: isTropical ? 0.8 : 0.1,
-          },
+            _tropical: isTropical ? 0.8 : 0.1
+},
           texture: {
             viscosity: isTropical || oilType.includes('olive') ? 0.7 : 0.5,
             _mouthfeel: isFruity || isNutty ? 0.8 : 0.5,
-            _richness: isFruity || isNutty || isTropical ? 0.7 : 0.4,
-          }
+            _richness: isFruity || isNutty || isTropical ? 0.7 : 0.4
+}
         })
       )
     }
@@ -1218,14 +1217,14 @@ export function enhanceOilProperties(
                     : 0.1,
                 Water: appType === 'dressing' || appType === 'marinade' ? 0.2 : 0.1,
                 Earth: appType === 'baking' || appType === 'roasting' ? 0.2 : 0.1,
-                Air: appType === 'emulsion' || appType === 'whipping' ? 0.2 : 0.1,
-              },
+                Air: appType === 'emulsion' || appType === 'whipping' ? 0.2 : 0.1
+},
               alchemicalEffect: appData.alchemicalEffect || {
                 spirit: appType === 'finishing' || appType === 'infusion' ? 0.2 : 0.1,
                 essence: appType === 'dressing' || appType === 'marinade' ? 0.2 : 0.1,
                 matter: appType === 'baking' || appType === 'cooking' ? 0.2 : 0.1,
-                substance: appType === 'frying' || appType === 'highHeat' ? 0.2 : 0.1,
-              }
+                substance: appType === 'frying' || appType === 'highHeat' ? 0.2 : 0.1
+}
             }),
           )
         }
@@ -1333,8 +1332,8 @@ export function enhanceOilProperties(
           heat: Math.min(Math.max(heatValue, 0.3), 0.9),
           entropy: 0.4,
           reactivity: 0.6,
-          energy: 0.7,
-        })
+          energy: 0.7
+})
       )
     }
 
@@ -1489,7 +1488,7 @@ export function fixRawIngredientMappings(
     acc[key] = {
       ...(value as any),
       name: valueData.name || key.replace(/_/g, ' '),
-      category: valueData.category || 'ingredient',
+      category: valueData.category || 'ingredient'
       elementalProperties,
       astrologicalProfile: astroProfile
     }
@@ -1503,9 +1502,8 @@ type ElementalRelationship =
   | 'controlling'
   | 'same'
   | 'controlled-by'
-  | 'weakened-by';
-  | 'neutral',
-
+  | 'weakened-by'
+  | 'neutral'
 /**
  * Calculate the affinity between two elements based on the Five Elements theory
  * Returns a value between 0 and 1, where: * - 1.0: Same element (perfect affinity)
@@ -1530,6 +1528,6 @@ export function calculateElementalAffinity(element1: Element, element2: Element)
       return 0.2,
     case 'controlling':
       return 0.0,
-    default: return 0.4,
-  }
+    default: return 0.4
+}
 }

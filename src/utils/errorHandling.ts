@@ -110,7 +110,7 @@ function isRetryable(type: ErrorType): boolean {
 
 // Error classification based on error message or type
 export function classifyError(error: Error | string): ErrorType {
-  const message = typeof error === 'string' ? error : error.message,
+  const message = typeof error === 'string' ? error : error.message;
   const lowerMessage = message.toLowerCase()
 
   if (
@@ -409,15 +409,15 @@ export function createErrorBoundaryForType(_errorType: ErrorType) {
           return React.createElement(
             'div',
             {
-              className: 'bg-yellow-50 border border-yellow-200 rounded-lg p-4 m-2',
-            }
+              className: 'bg-yellow-50 border border-yellow-200 rounded-lg p-4 m-2'
+}
             [
               React.createElement(
                 'h4',
                 {
                   key: 'title',
-                  className: 'text-yellow-800 font-medium mb-2',
-                }
+                  className: 'text-yellow-800 font-medium mb-2'
+}
                 `${errorType} Error`,
               ),
               React.createElement(
@@ -432,8 +432,8 @@ export function createErrorBoundaryForType(_errorType: ErrorType) {
                 {
                   key: 'button',
                   _onClick: () => window.location.reload(),
-                  className: 'bg-yellow-600 text-white px-3 py-1 rounded text-sm, hover: bg-yellow-700 transition-colors',
-                }
+                  className: 'bg-yellow-600 text-white px-3 py-1 rounded text-sm, hover: bg-yellow-700 transition-colors'
+}
                 'Reload Page',
               )
             ],

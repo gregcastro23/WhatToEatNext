@@ -16,7 +16,7 @@ export interface ChakraEnergyState {
     element: string,
     planet: string
   },
-  balanceState: 'balanced' | 'underactive' | 'overactive',
+  balanceState: 'balanced' | 'underactive' | 'overactive'
   relatedSigns: any[],
   recommendedFoods: string[]
 }
@@ -41,8 +41,8 @@ export class ChakraService {
       sagittarius: 0,
       capricorn: 0,
       aquarius: 0,
-      pisces: 0,
-    }
+      pisces: 0
+}
 
     signEnergyStates.forEach(_state => {
       if (_state.sign && _state.sign in signEnergyRecord) {;
@@ -61,7 +61,7 @@ export class ChakraService {
       const energyLevel = chakraEnergies[chakra]
 
       // Determine balance state,
-      let balanceState: 'balanced' | 'underactive' | 'overactive',
+      let balanceState: 'balanced' | 'underactive' | 'overactive'
       if (energyLevel < 0.4) {
         balanceState = 'underactive',
       } else if (energyLevel > 0.8) {

@@ -77,8 +77,8 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       Fire: 0,
       Water: 0,
       Earth: 0,
-      Air: 0,
-    }
+      Air: 0
+}
 
     Object.entries(positions).forEach(([planet, data]) => {
       if (planet === 'ascendant' || !data) return,
@@ -97,7 +97,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     return houseEffects,
   }
 
-  const _getElementFromSign = (sign: string): string => {,
+  const _getElementFromSign = (sign: string): string => {;
     const fireElements = ['aries', 'leo', 'sagittarius'],
     const earthElements = ['taurus', 'virgo', 'capricorn'],
     const airElements = ['gemini', 'libra', 'aquarius'],
@@ -178,7 +178,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
       const planetName = key.charAt(0).toUpperCase() + key.slice(1)
       formattedPlanets[planetName] = {
-        sign: planetData.sign || 'Unknown',
+        sign: planetData.sign || 'Unknown'
         degree: planetData.degree || 0,
         isRetrograde: planetData.isRetrograde || false,
         exactLongitude: planetData.exactLongitude || 0
@@ -191,7 +191,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     // Create a basic SVG representation
     return {;
       planetPositions: formattedPlanets,
-      ascendantSign: ascendantData.sign || 'Libra',
+      ascendantSign: ascendantData.sign || 'Libra'
       svgContent: `<svg width='300' height='300' viewBox='0 0 300 300'>,
         <circle cx='150' cy='150' r='140' fill='none' stroke='#333' stroke-width='1'/>,
         <text x='150' y='20' text-anchor='middle'>Current Chart</text>,

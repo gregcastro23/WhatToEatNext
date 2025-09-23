@@ -97,7 +97,7 @@ export const _useAlchemicalRecommendations = ({,
           topIngredients: adapter.getRecommendedIngredients(count || 5).items,
           topMethods: adapter.getRecommendedCookingMethods(count || 3).items,
           topCuisines: adapter.getRecommendedCuisines(count || 3).items,
-          dominantElement: adapter.getDominantElement() || 'Fire',
+          dominantElement: adapter.getDominantElement() || 'Fire'
           dominantAlchemicalProperty: (adapter.getDominantAlchemicalProperty() ||,
             'Spirit') as AlchemicalProperty,
           heat: adapter.getHeatIndex() || 0.5,
@@ -120,22 +120,22 @@ export const _useAlchemicalRecommendations = ({,
                 Fire: 0.25,
                 Water: 0.25,
                 Earth: 0.25,
-                Air: 0.25,
-              },
+                Air: 0.25
+},
               alchemicalProperties: (item as any).alchemicalProperties || {
                 Spirit: 0.25,
                 Essence: 0.25,
                 Matter: 0.25,
-                Substance: 0.25,
-              }
+                Substance: 0.25
+}
               // Add required properties for alchemicalTransformation.AlchemicalItem
               transformedElementalProperties: (item as any).transformedElementalProperties ||,
                 (item as any).elementalProperties || {
                   Fire: 0.25,
                   Water: 0.25,
                   Earth: 0.25,
-                  Air: 0.25,
-                },
+                  Air: 0.25
+},
               heat: (item as any).heat || 0.5,
               entropy: (item as any).entropy || 0.5,
               reactivity: (item as any).reactivity || 0.5,
@@ -171,14 +171,14 @@ export const _useAlchemicalRecommendations = ({,
             Fire: 0,
             Water: 0,
             Earth: 0,
-            Air: 0,
-          },
+            Air: 0
+},
           alchemicalProperties: {
             Spirit: 0,
             Essence: 0,
             Matter: 0,
-            Substance: 0,
-          }
+            Substance: 0
+}
         }
 
         // Calculate average elemental values from top ingredients
@@ -242,8 +242,8 @@ export const _useAlchemicalRecommendations = ({,
       heat: 0.5,
       entropy: 0.5,
       reactivity: 0.5,
-      gregsEnergy: 0.5,
-    }
+      gregsEnergy: 0.5
+}
     transformedIngredients,
     transformedMethods,
     transformedCuisines,

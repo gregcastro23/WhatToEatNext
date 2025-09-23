@@ -38,8 +38,8 @@ describe('Corruption Detection System - Task 6.2', () => {
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7,
-    }
+      stashRetentionDays: 7
+}
 
     // Mock git repository existence
     mockFs.existsSync.mockImplementation((path: string) => {

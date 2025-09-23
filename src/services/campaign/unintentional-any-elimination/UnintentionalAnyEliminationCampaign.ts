@@ -47,8 +47,8 @@ export class UnintentionalAnyEliminationCampaign {
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7,
-    })
+      stashRetentionDays: 7
+})
     this.documentationGenerator = new AutoDocumentationGenerator();
     this.qualityAssurance = new DocumentationQualityAssurance({,
       sourceDirectories: ['src'],
@@ -98,8 +98,8 @@ export class UnintentionalAnyEliminationCampaign {
             timestamp: new Date(),
             stashId: '',
             metrics: {} as ProgressMetrics,
-            description: 'Pre-analysis checkpoint',
-          }
+            description: 'Pre-analysis checkpoint'
+}
         ]
       }
       {
@@ -133,15 +133,15 @@ export class UnintentionalAnyEliminationCampaign {
             timestamp: new Date(),
             stashId: '',
             metrics: {} as ProgressMetrics,
-            description: 'Pre-replacement checkpoint',
-          }
+            description: 'Pre-replacement checkpoint'
+}
           {
             id: 'mid-replacement',
             timestamp: new Date(),
             stashId: '',
             metrics: {} as ProgressMetrics,
-            description: 'Mid-replacement checkpoint',
-          }
+            description: 'Mid-replacement checkpoint'
+}
         ]
       }
       {
@@ -154,8 +154,8 @@ export class UnintentionalAnyEliminationCampaign {
             parameters: {
               enableDocumentation: this.config.enableDocumentation,
               documentationStyle: 'comprehensive',
-              qualityAssurance: true,
-            },
+              qualityAssurance: true
+},
             batchSize: this.config.maxFilesPerBatch,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
             safetyLevel: 'HIGH' as any
@@ -173,8 +173,8 @@ export class UnintentionalAnyEliminationCampaign {
             timestamp: new Date(),
             stashId: '',
             metrics: {} as ProgressMetrics,
-            description: 'Pre-documentation checkpoint',
-          }
+            description: 'Pre-documentation checkpoint'
+}
         ]
       }
     ],
@@ -230,8 +230,8 @@ export class UnintentionalAnyEliminationCampaign {
             timestamp: new Date(),
             description: 'Campaign failed and was rolled back',
             severity: SafetyEventSeverity.ERROR,
-            action: 'ROLLBACK_TO_CHECKPOINT',
-          }
+            action: 'ROLLBACK_TO_CHECKPOINT'
+}
         ],
         validationResults: [
           {
@@ -273,8 +273,8 @@ export class UnintentionalAnyEliminationCampaign {
           typeScriptErrorsReduced: 0, // Would be calculated based on before/after,
           lintingWarningsReduced: result.unintentionalTypesReplaced,
           buildTimeImproved: 0,
-          enterpriseSystemsAdded: 0,
-        },
+          enterpriseSystemsAdded: 0
+},
         filesProcessed: result.totalAnyTypesAnalyzed,
         errorsFixed: result.unintentionalTypesReplaced,
         warningsFixed: result.unintentionalTypesReplaced,
@@ -291,8 +291,8 @@ export class UnintentionalAnyEliminationCampaign {
           typeScriptErrorsReduced: 0,
           lintingWarningsReduced: 0,
           buildTimeImproved: 0,
-          enterpriseSystemsAdded: 0,
-        },
+          enterpriseSystemsAdded: 0
+},
         filesProcessed: 0,
         errorsFixed: 0,
         warningsFixed: 0,
@@ -303,8 +303,8 @@ export class UnintentionalAnyEliminationCampaign {
             timestamp: new Date(),
             description: `Phase ${phase.name} failed: ${error instanceof Error ? error.message : String(error)}`,
             severity: SafetyEventSeverity.ERROR,
-            action: 'PHASE_FAILURE',
-          }
+            action: 'PHASE_FAILURE'
+}
         ]
       }
     }
@@ -406,8 +406,8 @@ export class UnintentionalAnyEliminationCampaign {
             timestamp: new Date(),
             description: `Documentation phase failed: ${error instanceof Error ? error.message : String(error)}`,
             severity: SafetyEventSeverity.ERROR,
-            action: 'DOCUMENTATION_FAILURE',
-          }
+            action: 'DOCUMENTATION_FAILURE'
+}
         ],
         validationResults: [
           {

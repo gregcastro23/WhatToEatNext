@@ -7,7 +7,7 @@ export type ElementalProperties = {
   Fire: number,
   Water: number,
   Air: number,
-  Earth: number,
+  Earth: number
 }
 
 export interface ThermodynamicsResult {
@@ -16,7 +16,7 @@ export interface ThermodynamicsResult {
   reactivity: number,
   gregsEnergy: number,
   kalchm: number,
-  monica: number | null,
+  monica: number | null
 }
 
 export interface RecommendationRequest {
@@ -44,17 +44,17 @@ export interface TokenRatesResult {
   Matter: number,
   Substance: number,
   kalchm: number,
-  monica: number,
+  monica: number
 }
 
 export interface RuneAgentRequest {
   datetime?: string,
   location?: { latitude: number; longitude: number }
-  context?: 'cuisine' | 'recipe' | 'ingredient' | 'cooking_method',
+  context?: 'cuisine' | 'recipe' | 'ingredient' | 'cooking_method'
   preferences?: {
     dietaryRestrictions?: string[],
     cuisineTypes?: string[],
-    intensity?: 'mild' | 'moderate' | 'intense',
+    intensity?: 'mild' | 'moderate' | 'intense'
   }
 }
 
@@ -65,8 +65,8 @@ export interface RuneResult {
   influence: {
     elemental: ElementalProperties,
     energy: { Spirit: number; Essence: number; Matter: number; Substance: number },
-    guidance: string,
-  }
+    guidance: string
+}
 }
 
 export interface PlanetaryHourRequest {
@@ -85,13 +85,13 @@ export interface PlanetaryHourResult {
 export class AlchmAPIClient {
   private readonly endpoints = {
     alchemical: process.env.NEXT_PUBLIC_BACKEND_URL ?? '',
-    kitchen: process.env.NEXT_PUBLIC_KITCHEN_BACKEND_URL ?? '',
-  } as const,
+    kitchen: process.env.NEXT_PUBLIC_KITCHEN_BACKEND_URL ?? ''
+} as const,
 
   private async request<TResponse>(url: string, init?: RequestInit): Promise<TResponse> {
     const response = await fetch(url, init)
     if (!response.ok) {
-      const statusText = response.statusText || 'Unknown Error';
+      const statusText = response.statusText || 'Unknown Error'
       throw new Error(`API Error: ${response.status} ${statusText}`)
     }
     return response.json() as Promise<TResponse>,
@@ -102,8 +102,8 @@ export class AlchmAPIClient {
     return this.request<ElementalProperties>(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ingredients }),
-    })
+        body: JSON.stringify({ ingredients })
+})
   }
 
   async calculateThermodynamics(ingredients: string[]): Promise<ThermodynamicsResult> {
@@ -111,8 +111,8 @@ export class AlchmAPIClient {
     return this.request<ThermodynamicsResult>(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ingredients }),
-    })
+        body: JSON.stringify({ ingredients })
+})
   }
 
   async getRecommendations(request: RecommendationRequest): Promise<Recipe[]> {
@@ -120,8 +120,8 @@ export class AlchmAPIClient {
     return this.request<Recipe[]>(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(request),
-    })
+        body: JSON.stringify(request)
+})
   }
 
   async calculateTokenRates(request: TokenRatesRequest): Promise<TokenRatesResult> {
@@ -129,8 +129,8 @@ export class AlchmAPIClient {
     return this.request<TokenRatesResult>(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(request),
-    })
+        body: JSON.stringify(request)
+})
   }
 
   async getRuneGuidance(request: RuneAgentRequest): Promise<RuneResult> {
@@ -138,8 +138,8 @@ export class AlchmAPIClient {
     return this.request<RuneResult>(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(request),
-    })
+        body: JSON.stringify(request)
+})
   }
 
   async getCurrentPlanetaryHour(request: PlanetaryHourRequest): Promise<PlanetaryHourResult> {

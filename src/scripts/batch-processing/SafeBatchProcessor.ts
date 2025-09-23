@@ -26,7 +26,7 @@ export interface BatchProcessingConfig {
   isHighImpact: boolean,
   isCritical: boolean,
   unusedVariableCount: number,
-  riskLevel: 'low' | 'medium' | 'high',
+  riskLevel: 'low' | 'medium' | 'high'
   fileType: string
 }
 
@@ -323,8 +323,8 @@ export class SafeBatchProcessor {
       if (!statusOutput.trim()) {
         // No changes to stash, create empty stash
         execSync('git stash push --keep-index -m '' + stashMessage + '' --allow-empty', {
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
       } else {
         execSync('git stash push -m '' + stashMessage + ''', { stdio: 'pipe' })
       }

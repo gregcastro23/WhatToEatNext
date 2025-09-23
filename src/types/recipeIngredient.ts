@@ -56,8 +56,7 @@ export interface RecipeIngredient {
 
   // Processing state
   isProcessed?: boolean,
-  processingLevel?: 'minimal' | 'moderate' | 'highly-processed',
-
+  processingLevel?: 'minimal' | 'moderate' | 'highly-processed'
   // Compatibility and pairing
   pairing?: string[],
   avoidWith?: string[]

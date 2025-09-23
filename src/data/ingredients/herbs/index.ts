@@ -75,8 +75,8 @@ function createIngredientMapping(
     Earth: 0.25,
     Water: 0.25,
     Fire: 0.25,
-    Air: 0.25,
-  }
+    Air: 0.25
+}
 
   // Generate meaningful numeric values based on elemental properties
   const herbValues = generateHerbValues(elementalProps)
@@ -115,39 +115,39 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
         best_uses: ['asian', 'stir-fry', 'soups'],
         aromatic_compounds: ['methyl chavicol', 'eugenol'],
         flavor_profile: 'anise-like with spicy notes',
-        oil_content: 0.6,
-      },
+        oil_content: 0.6
+},
       holy_basil: {
         aroma: 'spicy, complex',
         best_uses: ['indian', 'tea', 'medicinal'],
         pairings: ['curry', 'stir-fry', 'tea'],
         aromatic_compounds: ['eugenol', 'caryophyllene'],
         flavor_profile: 'peppery, clove-like',
-        oil_content: 0.8,
-      }
+        oil_content: 0.8
+}
     },
     culinaryTraditions: {
       [CUISINE_TYPES.ITALIAN]: {
         name: 'basilico',
         usage: ['pesto', 'caprese', 'pasta'],
-        regional_importance: 9,
-      }
+        regional_importance: 9
+}
       [CUISINE_TYPES.THAI]: {
         name: 'horapha',
         usage: ['pad kra pao', 'green curry', 'drunken noodles'],
         preparation: 'whole leaves, quick-cooked',
         pairings: ['chili', 'fish sauce', 'garlic', 'chicken'],
         cultural_notes: 'Essential in spicy stir-fries',
-        regional_importance: 8,
-      }
+        regional_importance: 8
+}
       [CUISINE_TYPES.VIETNAMESE]: {
         name: 'rau quế',
         usage: ['pho', 'fresh rolls', 'bánh mì'],
         preparation: 'fresh, served raw',
         pairings: ['rice noodles', 'bean sprouts', 'mint'],
         cultural_notes: 'Part of fresh herb plate',
-        regional_importance: 7,
-      }
+        regional_importance: 7
+}
     },
     preparation: {
       fresh: {
@@ -174,14 +174,14 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
         aroma: 'strong, mentholated',
         cooling_factor: 8,
         aromatic_compounds: ['menthol', 'menthone'],
-        oil_content: 1.2,
-      },
+        oil_content: 1.2
+},
       spearmint: {
         aroma: 'sweet, less intense than peppermint',
         cooling_factor: 6,
         aromatic_compounds: ['carvone', 'limonene'],
-        oil_content: 0.7,
-      }
+        oil_content: 0.7
+}
     }
   }) as Partial<IngredientMapping>,
 
@@ -229,8 +229,8 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
         methods: {
           refrigerator: {
             technique: 'wrap in damp paper',
-            duration: '1-2 weeks',
-          }
+            duration: '1-2 weeks'
+}
         }
       }
     }
@@ -251,8 +251,8 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
       dried: {
         storage: 'airtight container',
         duration: '3 months',
-        notes: 'loses significant flavor when dried',
-      }
+        notes: 'loses significant flavor when dried'
+}
     },
     culinaryUses: ['curries', 'dal', 'chutneys', 'rice dishes', 'tempering'],
     flavor: 'Complex citrus and nutty flavor with an intense aroma',
@@ -264,8 +264,8 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
     },
     regional_importance: {
       south_indian: 9,
-      sri_lankan: 8,
-    },
+      sri_lankan: 8
+},
     pairings: ['mustard seeds', 'coconut', 'lentils', 'asafoetida', 'turmeric']
   }) as Partial<IngredientMapping>,
 
@@ -291,8 +291,8 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
     regional_importance: {
       thai: 9,
       vietnamese: 9,
-      malaysian: 8,
-    },
+      malaysian: 8
+},
     pairings: ['coconut milk', 'chili', 'lime', 'ginger', 'garlic']
   }) as Partial<IngredientMapping>,
 
@@ -306,8 +306,8 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
     regional_importance: {
       japanese: 9,
       korean: 8,
-      vietnamese: 7,
-    },
+      vietnamese: 7
+},
     pairings: ['fish', 'rice', 'cucumber', 'ume plum', 'tofu']
   }) as Partial<IngredientMapping>
 })

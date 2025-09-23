@@ -29,12 +29,12 @@ export interface TokenRatesResult {
     resonanceStrength: number,
     stabilityIndex: number
   }
-  marketPhase?: 'accumulation' | 'distribution' | 'trending' | 'consolidation',
+  marketPhase?: 'accumulation' | 'distribution' | 'trending' | 'consolidation'
   volatilityIndex?: number,
   upcomingEvents?: Array<{
     timestamp: string,
-    type: 'planetary_transition' | 'lunar_phase' | 'aspect_formation',
-    impact: 'low' | 'medium' | 'high',
+    type: 'planetary_transition' | 'lunar_phase' | 'aspect_formation'
+    impact: 'low' | 'medium' | 'high'
     description: string
   }>
 }
@@ -44,9 +44,9 @@ function computeTokensFromAlchemical(alchemicalResult: any): TokenRatesResult {
     ? (alchemicalResult as Record<string, any>).esms
     : undefined,
 
-  const Spirit = typeof esms?.Spirit === 'number' ? esms.Spirit : 0.5,
+  const Spirit = typeof esms?.Spirit === 'number' ? esms.Spirit : 0.5;
   const Essence = typeof esms?.Essence === 'number' ? esms.Essence : 0.5,
-  const Matter = typeof esms?.Matter === 'number' ? esms.Matter : 0.5,
+  const Matter = typeof esms?.Matter === 'number' ? esms.Matter : 0.5;
   const Substance = typeof esms?.Substance === 'number' ? esms.Substance : 0.5,
 
   return {

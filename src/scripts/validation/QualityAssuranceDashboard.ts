@@ -47,7 +47,7 @@ export interface QualityDashboardConfig {
 export interface QualityTrend {
   metric: string,
   values: { timestamp: Date, value: number }[],
-  trend: 'improving' | 'stable' | 'declining',
+  trend: 'improving' | 'stable' | 'declining'
   changeRate: number, // Percentage change over time
 }
 
@@ -69,7 +69,7 @@ export interface ComprehensiveDashboardReport {
   timestamp: Date,
   reportId: string,
   executiveSummary: {
-    overallStatus: 'excellent' | 'good' | 'needs-attention' | 'critical',
+    overallStatus: 'excellent' | 'good' | 'needs-attention' | 'critical'
     keyAchievements: string[],
     criticalIssues: string[],
     nextSteps: string[]
@@ -173,11 +173,10 @@ export class QualityAssuranceDashboard {
 
       // Calculate metrics
       const unusedVariableReduction =
-        latestServiceReport?.qualityMetrics.unusedVariableReduction || 0,
+        latestServiceReport?.qualityMetrics.unusedVariableReduction || 0;
       const buildStabilityScore = latestServiceReport?.qualityMetrics.buildStabilityScore || 0;
       const serviceIntegrityScore =
-        latestServiceReport?.qualityMetrics.serviceIntegrityScore || 100,
-
+        latestServiceReport?.qualityMetrics.serviceIntegrityScore || 100;
       const overallQualityScore = Math.round(
         unusedVariableReduction * 0.4 +
           buildStabilityScore * 0.3 +
@@ -240,8 +239,8 @@ export class QualityAssuranceDashboard {
           reductionTargetMet: false,
           stabilityTargetMet: false,
           qualityThresholdMet: false,
-          productionReady: false,
-        }
+          productionReady: false
+}
       }
     }
   }
@@ -417,7 +416,7 @@ export class QualityAssuranceDashboard {
    * Calculate trend direction and change rate
    */
   private calculateTrend(values: { timestamp: Date, value: number }[]): {
-    direction: 'improving' | 'stable' | 'declining',
+    direction: 'improving' | 'stable' | 'declining'
     changeRate: number
   } {
     if (values.length < 2) {
@@ -430,7 +429,7 @@ export class QualityAssuranceDashboard {
 
     const changeRate = firstValue !== 0 ? ((lastValue - firstValue) / firstValue) * 100 : 0
 ;
-    let direction: 'improving' | 'stable' | 'declining',
+    let direction: 'improving' | 'stable' | 'declining'
     if (Math.abs(changeRate) < 2) {
       direction = 'stable',
     } else if (changeRate > 0) {
@@ -500,7 +499,7 @@ export class QualityAssuranceDashboard {
     nextSteps.push(...readiness.requiredActions.important.slice(03)); // Top 3 important actions
 
     // Overall status
-    let overallStatus: 'excellent' | 'good' | 'needs-attention' | 'critical',
+    let overallStatus: 'excellent' | 'good' | 'needs-attention' | 'critical'
     if (readiness.readinessScore >= 95) {
       overallStatus = 'excellent' },
         else if (readiness.readinessScore >= 85) {

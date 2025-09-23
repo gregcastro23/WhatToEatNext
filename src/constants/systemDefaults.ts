@@ -452,74 +452,74 @@ export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = {
     sign: 'cancer' as any,
     degree: 101.48333333333333,
     exactLongitude: 101.4844,
-    isRetrograde: false,
-  },
+    isRetrograde: false
+},
   Moon: {
     sign: 'libra' as any,
     degree: 195.16666666666666,
     exactLongitude: 195.18319999999994,
-    isRetrograde: false,
-  },
+    isRetrograde: false
+},
   Mercury: {
     sign: 'leo' as any,
     degree: 127.38333333333334,
     exactLongitude: 127.38920000000002,
-    isRetrograde: false,
-  },
+    isRetrograde: false
+},
   Venus: {
     sign: 'taurus' as any,
     degree: 58.35,
     exactLongitude: 58.35340000000002,
-    isRetrograde: false,
-  },
+    isRetrograde: false
+},
   Mars: {
     sign: 'virgo' as any,
     degree: 159,
     exactLongitude: 159.0158,
-    isRetrograde: false,
-  },
+    isRetrograde: false
+},
   Jupiter: {
     sign: 'cancer' as any,
     degree: 95.3,
     exactLongitude: 95.30540000000002,
-    isRetrograde: false,
-  },
+    isRetrograde: false
+},
   Saturn: {
     sign: 'aries' as any,
     degree: 1.85,
     exactLongitude: 1.8501999999999725,
-    isRetrograde: false,
-  },
+    isRetrograde: false
+},
   Uranus: {
     sign: 'taurus' as any,
     degree: 59.8,
     exactLongitude: 59.8091,
-    isRetrograde: false,
-  },
+    isRetrograde: false
+},
   Neptune: {
     sign: 'aries' as any,
     degree: 2.1666666666666665,
     exactLongitude: 2.174699999999973,
-    isRetrograde: false,
-  },
+    isRetrograde: false
+},
   Pluto: {
     sign: 'aquarius' as any,
     degree: 303.0833333333333,
     exactLongitude: 303.09529999999995,
-    isRetrograde: false,
-  },
+    isRetrograde: false
+},
   Chiron: {
     sign: 'aries' as any,
     degree: 26.933333333333334,
     exactLongitude: 26.939399999999978,
-    isRetrograde: false,
-  },
+    isRetrograde: false
+},
   Sirius: {
     sign: 'aries' as any,
     degree: 1.7666666666666666,
     exactLongitude: 1.7726000000000113,
-    isRetrograde: false,
-  }
+    isRetrograde: false
+}
 }
 
 // ===== CHAKRA DEFAULTS =====,
@@ -554,8 +554,8 @@ export const DEFAULT_ASTROLOGICAL_STATE = {
   decan: {
     sunDecan: 1,
     moonDecan: 1,
-    risingDecan: 1,
-  },
+    risingDecan: 1
+},
   aspects: [],
   dominantElement: 'Fire',
   elementalProfile: DEFAULT_ELEMENTAL_PROPERTIES,

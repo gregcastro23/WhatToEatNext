@@ -12,8 +12,8 @@ export const _marinating: CookingMethodData = {
     Fire: 0.2,
     Water: 0.7,
     Earth: 0.3,
-    Air: 0.1,
-  },
+    Air: 0.1
+},
   duration: {
     min: 15, // 15 minutes,
     max: 1440, // 24 hours

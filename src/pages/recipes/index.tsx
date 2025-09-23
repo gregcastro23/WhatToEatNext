@@ -15,8 +15,8 @@ const RecipesPage: NextPage = () => {,
     Earth: 0.25,
     Air: 0.25,
     season: 'spring',
-    timeOfDay: 'lunch',
-  })
+    timeOfDay: 'lunch'
+})
 
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
@@ -165,7 +165,7 @@ const RecipesPage: NextPage = () => {,
         {recError && <div className='text-red-600'>Failed to load recipes</div>}
         {!recLoading && !recError && enhancedRecipes && (<div className='grid grid-cols-1 gap-6, md: grid-cols-2, lg: grid-cols-3'>,
             {enhancedRecipes.items.map(rec => {;
-              const recipe = rec.item,
+              const recipe = rec.item;
               const recipeId = recipe.name
                 .toLowerCase();
                 .replace(/ /g, '-')

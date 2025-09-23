@@ -56,56 +56,56 @@ const DIETARY_KEYWORDS: KeywordPattern[] = [
     keywords: ['vegetarian', 'veggie', 'no meat'],
     category: 'dietaryRestrictions',
     values: ['vegetarian'],
-    weight: 0.9,
-  }
+    weight: 0.9
+}
   {
     keywords: ['vegan', 'plant based', 'no dairy', 'no animal products'],
     category: 'dietaryRestrictions',
     values: ['vegan'],
-    weight: 0.9,
-  }
+    weight: 0.9
+}
   {
     keywords: ['gluten free', 'no gluten', 'celiac'],
     category: 'dietaryRestrictions',
     values: ['gluten-free'],
-    weight: 0.9,
-  }
+    weight: 0.9
+}
   {
     keywords: ['dairy free', 'lactose free', 'no dairy'],
     category: 'dietaryRestrictions',
     values: ['dairy-free'],
-    weight: 0.9,
-  }
+    weight: 0.9
+}
   {
     keywords: ['nut free', 'no nuts', 'allergy'],
     category: 'dietaryRestrictions',
     values: ['nut-free'],
-    weight: 0.8,
-  }
+    weight: 0.8
+}
   {
     keywords: ['low carb', 'keto', 'ketogenic'],
     category: 'dietaryRestrictions',
     values: ['low-carb', 'keto'],
-    weight: 0.8,
-  }
+    weight: 0.8
+}
   {
     keywords: ['paleo', 'paleolithic'],
     category: 'dietaryRestrictions',
     values: ['paleo'],
-    weight: 0.8,
-  }
+    weight: 0.8
+}
   {
     keywords: ['halal'],
     category: 'dietaryRestrictions',
     values: ['halal'],
-    weight: 0.9,
-  }
+    weight: 0.9
+}
   {
     keywords: ['kosher'],
     category: 'dietaryRestrictions',
     values: ['kosher'],
-    weight: 0.9,
-  }
+    weight: 0.9
+}
 ],
 
 const DIFFICULTY_KEYWORDS: KeywordPattern[] = [
@@ -113,20 +113,20 @@ const DIFFICULTY_KEYWORDS: KeywordPattern[] = [
     keywords: ['easy', 'simple', 'quick', 'beginner'],
     category: 'difficultyLevel',
     values: ['easy', 'beginner'],
-    weight: 0.8,
-  }
+    weight: 0.8
+}
   {
     keywords: ['hard', 'difficult', 'complex', 'advanced', 'expert'],
     category: 'difficultyLevel',
     values: ['hard', 'expert'],
-    weight: 0.8,
-  }
+    weight: 0.8
+}
   {
     keywords: ['medium', 'intermediate', 'moderate'],
     category: 'difficultyLevel',
     values: ['medium'],
-    weight: 0.7,
-  }
+    weight: 0.7
+}
 ],
 
 const TIME_KEYWORDS: KeywordPattern[] = [
@@ -134,20 +134,20 @@ const TIME_KEYWORDS: KeywordPattern[] = [
     keywords: ['quick', 'fast', 'under 30', 'less than 30', '30 minutes'],
     category: 'cookingTime',
     values: ['0-30'],
-    weight: 0.8,
-  }
+    weight: 0.8
+}
   {
     keywords: ['1 hour', 'one hour', '60 minutes'],
     category: 'cookingTime',
     values: ['30-60'],
-    weight: 0.8,
-  }
+    weight: 0.8
+}
   {
     keywords: ['long', 'slow', '2 hours', 'extended'],
     category: 'cookingTime',
     values: ['60-120'],
-    weight: 0.7,
-  }
+    weight: 0.7
+}
 ],
 
 const CUISINE_KEYWORDS: KeywordPattern[] = [
@@ -155,44 +155,44 @@ const CUISINE_KEYWORDS: KeywordPattern[] = [
     keywords: ['italian', 'pasta', 'pizza', 'mediterranean'],
     category: 'cuisineTypes',
     values: ['italian'],
-    weight: 0.9,
-  }
+    weight: 0.9
+}
   {
     keywords: ['chinese', 'asian', 'stir fry', 'wok'],
     category: 'cuisineTypes',
     values: ['chinese'],
-    weight: 0.9,
-  }
+    weight: 0.9
+}
   {
     keywords: ['japanese', 'sushi', 'ramen', 'miso'],
     category: 'cuisineTypes',
     values: ['japanese'],
-    weight: 0.9,
-  }
+    weight: 0.9
+}
   {
     keywords: ['indian', 'curry', 'spicy', 'masala'],
     category: 'cuisineTypes',
     values: ['indian'],
-    weight: 0.9,
-  }
+    weight: 0.9
+}
   {
     keywords: ['thai', 'pad thai', 'coconut'],
     category: 'cuisineTypes',
     values: ['thai'],
-    weight: 0.9,
-  }
+    weight: 0.9
+}
   {
     keywords: ['mexican', 'tacos', 'salsa', 'beans'],
     category: 'cuisineTypes',
     values: ['mexican'],
-    weight: 0.9,
-  }
+    weight: 0.9
+}
   {
     keywords: ['french', 'wine', 'butter', 'cream'],
     category: 'cuisineTypes',
     values: ['french'],
-    weight: 0.8,
-  }
+    weight: 0.8
+}
 ],
 
 const MEAL_KEYWORDS: KeywordPattern[] = [
@@ -200,32 +200,32 @@ const MEAL_KEYWORDS: KeywordPattern[] = [
     keywords: ['breakfast', 'morning', 'brunch'],
     category: 'mealTypes',
     values: ['breakfast'],
-    weight: 0.9,
-  }
+    weight: 0.9
+}
   {
     keywords: ['lunch', 'midday', 'noon'],
     category: 'mealTypes',
     values: ['lunch'],
-    weight: 0.9,
-  }
+    weight: 0.9
+}
   {
     keywords: ['dinner', 'evening', 'supper'],
     category: 'mealTypes',
     values: ['dinner'],
-    weight: 0.9,
-  }
+    weight: 0.9
+}
   {
     keywords: ['snack', 'appetizer', 'starter'],
     category: 'mealTypes',
     values: ['snack', 'appetizer'],
-    weight: 0.8,
-  }
+    weight: 0.8
+}
   {
     keywords: ['dessert', 'sweet', 'cake', 'cookie'],
     category: 'mealTypes',
     values: ['dessert'],
-    weight: 0.8,
-  }
+    weight: 0.8
+}
 ],
 
 const SPICE_KEYWORDS: KeywordPattern[] = [
@@ -233,20 +233,20 @@ const SPICE_KEYWORDS: KeywordPattern[] = [
     keywords: ['mild', 'not spicy', 'no heat'],
     category: 'spiciness',
     values: ['mild'],
-    weight: 0.8,
-  }
+    weight: 0.8
+}
   {
     keywords: ['spicy', 'hot', 'chili', 'pepper'],
     category: 'spiciness',
     values: ['hot'],
-    weight: 0.8,
-  }
+    weight: 0.8
+}
   {
     keywords: ['very hot', 'extremely spicy', 'fire'],
     category: 'spiciness',
     values: ['very-hot'],
-    weight: 0.9,
-  }
+    weight: 0.9
+}
 ],
 
 const ALL_PATTERNS = [

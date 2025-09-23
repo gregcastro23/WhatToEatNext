@@ -28,8 +28,8 @@ export function getCurrentTime(): string {
     _hour12: false,
     hour: '2-digit',
     minute: '2-digit',
-    _second: '2-digit',
-  })
+    _second: '2-digit'
+})
 }
 
 /**
@@ -143,8 +143,8 @@ export function formatTimestamp(timestamp: string): string {
     month: 'short',
     _day: 'numeric',
     hour: '2-digit',
-    minute: '2-digit',
-  })
+    minute: '2-digit'
+})
 }
 
 /**

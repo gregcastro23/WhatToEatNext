@@ -127,8 +127,8 @@ export class UnifiedScoringAdapter {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
-            Air: 0.25,
-          },
+            Air: 0.25
+},
         seasonality: (recipe.seasonality as Season[]) || [],
         planetaryRulers: ((recipe as any).planetaryRulers as Planet[]) || [],
         flavorProfile: ((recipe as any).flavorProfile as Record<string, number>) || {}
@@ -175,8 +175,8 @@ export class UnifiedScoringAdapter {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25,
-        },
+          Air: 0.25
+},
         seasonality: ((method as unknown as any).seasonality as Season[]) || [],
         planetaryRulers: ((method as unknown as any).planetaryRulers as Planet[]) || [],
         flavorProfile: ((method as unknown as any).flavorProfile as Record<string, number>) || {}

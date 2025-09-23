@@ -1,8 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 
-type Season = 'Spring' | 'Summer' | 'Fall' | 'Winter',
-
+type Season = 'Spring' | 'Summer' | 'Fall' | 'Winter'
 // Function to determine the current season based on date
 function calculateSeason(date: Date): Season {
   // Get month and day

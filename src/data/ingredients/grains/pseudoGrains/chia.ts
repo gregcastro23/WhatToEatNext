@@ -9,8 +9,8 @@ const rawChia: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ['Neptune', 'Moon'],
       elementalAffinity: {
         base: 'Water',
-        secondary: 'Earth',
-      }
+        secondary: 'Earth'
+}
     },
     qualities: ['gelatinous', 'hydrophilic', 'versatile', 'gluten-free', 'omega-rich'],
     category: 'pseudo_grain',

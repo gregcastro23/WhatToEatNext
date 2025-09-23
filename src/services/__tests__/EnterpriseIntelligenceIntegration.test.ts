@@ -30,16 +30,16 @@ describe('EnterpriseIntelligenceIntegration', () => {
     elementalProperties: { Fire: 0.3,
       Water: 0.2,
       Earth: 0.3,
-      Air: 0.2,
-    }
+      Air: 0.2
+}
     // Enhanced Recipe interface compatibility
     ingredients: [],
     instructions: [],
     cookingMethods: [],
     season: ['all'],
     mealType: ['dinner'],
-    numberOfServings: 4,
-  } as any('@/types/unified').Recipe,
+    numberOfServings: 4
+} as any('@/types/unified').Recipe,
 
   const mockCuisineData: any = {
     name: 'Test Cuisine',
@@ -70,8 +70,8 @@ describe('EnterpriseIntelligenceIntegration', () => {
           elementalProperties: { Fire: 0.2,
             Water: 0.3,
             Earth: 0.3,
-            Air: 0.2,
-          }
+            Air: 0.2
+}
         }
       ],
     }
@@ -83,8 +83,8 @@ describe('EnterpriseIntelligenceIntegration', () => {
       elementalProperties: { Fire: 0.4,
         Water: 0.2,
         Earth: 0.2,
-        Air: 0.2,
-      } as ElementalProperties,
+        Air: 0.2
+} as ElementalProperties,
       planetaryPositions: {}
       userPreferences: { dietaryRestrictions: [],
         flavorPreferences: [],
@@ -226,8 +226,8 @@ describe('EnterpriseIntelligenceIntegration', () => {
         enableIngredientIntelligence: false,
         enableValidationIntelligence: false,
         enableSafetyIntelligence: false,
-        enableOptimizationRecommendations: false,
-      })
+        enableOptimizationRecommendations: false
+})
 
       const result: any = await disabledServiceperformEnterpriseAnalysis(
         { ...mockRecipeData, id: 'test' },
@@ -253,8 +253,8 @@ describe('EnterpriseIntelligenceIntegration', () => {
     it('should update configuration', () => {
       service.updateConfig({
         enableRecipeIntelligence: false,
-        logLevel: 'debug',
-      })
+        logLevel: 'debug'
+})
 
       // Configuration should be updated (we can't easily test this without exposing internal state)
       expect(service).toBeDefined().

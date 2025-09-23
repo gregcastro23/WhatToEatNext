@@ -14,8 +14,8 @@ const marsData: PlanetData = {
     Spirit: 0,
     Essence: 1,
     Matter: 1,
-    Substance: 0,
-  },
+    Substance: 0
+},
   'Diurnal Element': 'Fire',
   'Nocturnal Element': 'Water',
   AstronomicalData: {
@@ -161,8 +161,8 @@ const marsData: PlanetData = {
     Salty: 0.5,
     Bitter: 0.4,
     Umami: 0.6,
-    Spicy: 0.9,
-  },
+    Spicy: 0.9
+},
   CulinaryInfluences: [
     'Intensifies flavors and heat',
     'Supports high-heat cooking methods',
@@ -181,36 +181,36 @@ const marsData: PlanetData = {
       Opposition: 0.3,
       Trine: 0.6,
       Square: 0.2,
-      Sextile: 0.5,
-    },
+      Sextile: 0.5
+},
     Venus: {
       Conjunction: 0.7,
       Opposition: 0.2,
       Trine: 0.5,
       Square: 0.1,
-      Sextile: 0.4,
-    },
+      Sextile: 0.4
+},
     Moon: {
       Conjunction: 0.5,
       Opposition: -0.1,
       Trine: 0.3,
       Square: -0.2,
-      Sextile: 0.2,
-    },
+      Sextile: 0.2
+},
     Saturn: {
       Conjunction: 0.4,
       Opposition: -0.1,
       Trine: 0.3,
       Square: -0.3,
-      Sextile: 0.2,
-    },
+      Sextile: 0.2
+},
     Jupiter: {
       Conjunction: 0.6,
       Opposition: 0.2,
       Trine: 0.5,
       Square: 0.1,
-      Sextile: 0.4,
-    }
+      Sextile: 0.4
+}
   },
   PlanetSpecific: {
     ZodiacTransit: {
@@ -220,8 +220,8 @@ const marsData: PlanetData = {
           Fire: 0.9,
           Earth: 0.1,
           Air: 0.2,
-          Water: 0.1,
-        },
+          Water: 0.1
+},
         Ingredients: [
           'chili peppers',
           'harissa',
@@ -237,8 +237,8 @@ const marsData: PlanetData = {
           Fire: 0.5,
           Earth: 0.7,
           Air: 0.1,
-          Water: 0.2,
-        },
+          Water: 0.2
+},
         Ingredients: [
           'aged steaks',
           'root vegetables roasted at high heat',
@@ -254,8 +254,8 @@ const marsData: PlanetData = {
           Fire: 0.6,
           Earth: 0.1,
           Air: 0.7,
-          Water: 0.1,
-        },
+          Water: 0.1
+},
         Ingredients: [
           'spice blends',
           'stir-fried dishes',
@@ -272,8 +272,8 @@ const marsData: PlanetData = {
           Fire: 0.4,
           Earth: 0.2,
           Air: 0.1,
-          Water: 0.7,
-        },
+          Water: 0.7
+},
         Ingredients: [
           'spicy seafood',
           'dishes with defensive heat',
@@ -289,8 +289,8 @@ const marsData: PlanetData = {
           Fire: 0.9,
           Earth: 0.2,
           Air: 0.3,
-          Water: 0.1,
-        },
+          Water: 0.1
+},
         Ingredients: [
           'flambéed dishes',
           'showy grilled foods',
@@ -307,8 +307,8 @@ const marsData: PlanetData = {
           Fire: 0.5,
           Earth: 0.7,
           Air: 0.3,
-          Water: 0.1,
-        },
+          Water: 0.1
+},
         Ingredients: [
           'measured spice blends',
           'foods with calculated heat',
@@ -325,8 +325,8 @@ const marsData: PlanetData = {
           Fire: 0.5,
           Earth: 0.2,
           Air: 0.7,
-          Water: 0.2,
-        },
+          Water: 0.2
+},
         Ingredients: [
           'balanced spice blends',
           'sweet and spicy combinations',
@@ -343,8 +343,8 @@ const marsData: PlanetData = {
           Fire: 0.4,
           Earth: 0.2,
           Air: 0.1,
-          Water: 0.8,
-        },
+          Water: 0.8
+},
         Ingredients: [
           'fermented hot sauces',
           'aged meats',
@@ -361,8 +361,8 @@ const marsData: PlanetData = {
           Fire: 0.8,
           Earth: 0.1,
           Air: 0.4,
-          Water: 0.2,
-        },
+          Water: 0.2
+},
         Ingredients: [
           'international hot peppers',
           'global spice blends',
@@ -378,8 +378,8 @@ const marsData: PlanetData = {
           Fire: 0.4,
           Earth: 0.8,
           Air: 0.1,
-          Water: 0.2,
-        },
+          Water: 0.2
+},
         Ingredients: [
           'slow-cooked spicy dishes',
           'traditionally aged foods',
@@ -396,8 +396,8 @@ const marsData: PlanetData = {
           Fire: 0.5,
           Earth: 0.1,
           Air: 0.7,
-          Water: 0.2,
-        },
+          Water: 0.2
+},
         Ingredients: [
           'innovative spice combinations',
           'modernist cuisine',
@@ -414,8 +414,8 @@ const marsData: PlanetData = {
           Fire: 0.3,
           Earth: 0.1,
           Air: 0.2,
-          Water: 0.8,
-        },
+          Water: 0.8
+},
         Ingredients: [
           'foods with subtle but profound heat',
           'healing spices',
@@ -433,8 +433,8 @@ const marsData: PlanetData = {
         Spirit: -0.1,
         Essence: 0.5,
         Matter: 0.7,
-        Substance: 0.3,
-      },
+        Substance: 0.3
+},
       FoodFocus: 'Internalizing heat, revisiting traditional spices, return to primal cooking methods',
       HerbalShift: 'Emphasis on dried herbs and spices, concentrated extracts, intensified flavors' },
         TransitDates: {

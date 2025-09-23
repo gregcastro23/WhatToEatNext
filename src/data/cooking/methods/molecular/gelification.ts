@@ -13,12 +13,12 @@ export const gelification: CookingMethodData = {
     Earth: 0.5,
     Water: 0.4,
     Air: 0.05,
-    Fire: 0.05,
-  },
+    Fire: 0.05
+},
   duration: {
     min: 10,
-    max: 60,
-  },
+    max: 60
+},
   suitable_for: [
     'fruit purees',
     'stock reductions',
@@ -150,8 +150,8 @@ export const gelification: CookingMethodData = {
     konjac_hydration: 195,
     low_acyl_gellan_dissolution: 185,
     high_acyl_gellan_dissolution: 195,
-    lambda_carrageenan_hydration: 140,
-  },
+    lambda_carrageenan_hydration: 140
+},
   regionalVariations: {
     french: ['consommé gels', 'foie gras terrines', 'modern patisserie'],
     spanish: ['el bulli-inspired spherifications', 'textural landscapes'],

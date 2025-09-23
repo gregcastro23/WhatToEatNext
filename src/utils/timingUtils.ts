@@ -6,7 +6,7 @@ import { elementalUtils } from './elementalUtils';
 // Define TimingResult interface
 interface TimingResult {
   duration: number,
-  phases: Array<{ name: string, time: number }>,
+  phases: Array<{ name: string, time: number }>
 }
 
 export const timingUtils = {
@@ -72,8 +72,8 @@ export const timingUtils = {
       _steaming: 1.2,
       _baking: 1.5,
       _slow_cooking: 2.5,
-      _raw: 0,
-    }
+      _raw: 0
+}
 
     const baseTime = elementalTiming[dominantElement] || 30;
     const modifier = methodModifiers[cookingMethod.toLowerCase()] || 1.0;

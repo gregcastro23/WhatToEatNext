@@ -242,7 +242,7 @@ export interface FoodCorrespondence {
   name: string,
   element: ElementalCharacter,
   planetaryRuler: RulingPlanet,
-  timeOfDay: 'Day' | 'Night' | 'Both',
+  timeOfDay: 'Day' | 'Night' | 'Both'
   energyValues: ThermodynamicMetrics,
   preparation: string[],
   combinations: string[],
@@ -273,7 +273,7 @@ export interface SystemState {
   activeChart?: BirthChart
   currentPlanetaryPositions?: Record<string, { sign: string, degree: number }>,
   currentAspects?: Array<{ type: string planets: [string, string] }>,
-  systemHealth: 'optimal' | 'degraded' | 'offline',
+  systemHealth: 'optimal' | 'degraded' | 'offline'
   errorMessages: string[],
   cacheStatus: {
     size: number,
@@ -293,15 +293,15 @@ export class FoodAlchemySystem {
     Spirit: 1.0,
     Essence: 0.8,
     Matter: 0.6,
-    Substance: 0.4,
-  }
+    Substance: 0.4
+}
 
   private readonly ELEMENT_WEIGHTS = {
     Fire: 1.0,
     Water: 0.9,
     Air: 0.8,
-    Earth: 0.7,
-  }
+    Earth: 0.7
+}
 
   /**
    * Calculates food compatibility based on birth chart and current planetary positions
@@ -356,7 +356,7 @@ export class FoodAlchemySystem {
 
     // Check for direct planetary affinity for bonus
     const hasPlanetaryAffinity =
-      food.planetaryRuler === planetaryDay || food.planetaryRuler === planetaryHour,
+      food.planetaryRuler === planetaryDay || food.planetaryRuler === planetaryHour;
     const affinityBonus = hasPlanetaryAffinity ? 0.3 : 0
 
     // Add affinity bonus (capped at 1.0);
@@ -415,11 +415,11 @@ export class FoodAlchemySystem {
     const nocturnalElement = dayElements.nocturnal;
 
     // Calculate match based on food's element compared to planetary elements
-    const diurnalMatch = food.element === diurnalElement ? 1.0 : 0.3,
+    const diurnalMatch = food.element === diurnalElement ? 1.0 : 0.3;
     const nocturnalMatch = food.element === nocturnalElement ? 1.0 : 0.3;
 
     // Calculate a weighted score - both elements are equally important for planetary day
-    let elementalScore = (diurnalMatch + nocturnalMatch) / 2,
+    let elementalScore = (diurnalMatch + nocturnalMatch) / 2;
     let dignityBonus = 0,
     let decanBonus = 0,
 
@@ -500,7 +500,7 @@ export class FoodAlchemySystem {
     const elementalMatch = food.element === relevantElement ? 1.0 : 0.3;
 
     // Calculate score
-    let elementalScore = elementalMatch,
+    let elementalScore = elementalMatch;
     let dignityBonus = 0,
     let aspectBonus = 0,
 

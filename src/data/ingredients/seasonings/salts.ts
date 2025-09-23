@@ -275,8 +275,8 @@ const rawSalts = {
           preparation: {
             methods: ['standard preparation'],
             timing: 'as needed',
-            notes: 'Standard preparation for camargue',
-          }
+            notes: 'Standard preparation for camargue'
+}
         },
         culinaryProfile: {
           flavorProfile: {
@@ -454,8 +454,8 @@ const rawSalts = {
       temperature: 'room temperature',
       humidity: 'low',
       container: 'ceramic or glass',
-      notes: 'Keep dry but expects some moisture',
-    }
+      notes: 'Keep dry but expects some moisture'
+}
   }
 
   maldon_salt: {
@@ -515,8 +515,8 @@ const rawSalts = {
           grilled_meats: 'after resting',
           roasted_vegetables: 'while hot',
           baked_goods: 'before baking',
-          chocolate: 'before setting',
-        }
+          chocolate: 'before setting'
+}
       },
       texture_enhancement: {
         name: 'Texture Enhancement',
@@ -548,8 +548,8 @@ const rawSalts = {
       temperature: 'room temperature',
       humidity: 'very low',
       container: 'airtight glass or ceramic',
-      notes: 'Keep very dry to maintain crunch',
-    }
+      notes: 'Keep very dry to maintain crunch'
+}
   }
 
   sea_salt: {
@@ -598,8 +598,8 @@ const rawSalts = {
           grilled_meats: 'after resting',
           roasted_vegetables: 'while hot',
           baked_goods: 'before baking',
-          chocolate: 'before setting',
-        }
+          chocolate: 'before setting'
+}
       },
       texture_enhancement: {
         name: 'Texture Enhancement',
@@ -607,16 +607,16 @@ const rawSalts = {
         applications: {
           salads: 'final seasoning',
           caramels: 'top garnish',
-          bread_crust: 'pre-bake sprinkle',
-        }
+          bread_crust: 'pre-bake sprinkle'
+}
       }
     },
     storage: {
       temperature: 'room temperature',
       humidity: 'very low',
       container: 'airtight glass or ceramic',
-      notes: 'Keep very dry to maintain crunch',
-    }
+      notes: 'Keep very dry to maintain crunch'
+}
   }
 
   himalayan_salt: {
@@ -633,8 +633,8 @@ const rawSalts = {
           culinaryTip: 'Use for preserving during new moon for enhanced shelf life' },
         full: {
           elementalBoost: { Water: 0.1 },
-          culinaryTip: 'Solutions prepared during full moon enhance mineral absorption',
-        }
+          culinaryTip: 'Solutions prepared during full moon enhance mineral absorption'
+}
       }
     },
     qualities: ['mineral-rich', 'grounding', 'purifying', 'alkalizing', 'preservative'],
@@ -689,8 +689,8 @@ const rawSalts = {
         name: 'Salt Flakes',
         characteristics: 'Thin, delicate crystal structures',
         culinary_uses: 'Finishing salt, garnish, textural element',
-        notes: 'Creates burst of flavor and visual appeal',
-      }
+        notes: 'Creates burst of flavor and visual appeal'
+}
     },
     colorProfiles: {
       light_pink: 'Lower iron content, more subtle mineral flavor',
@@ -764,8 +764,8 @@ const rawSalts = {
       dietary_considerations: {
         sodium_restriction: 'Should still be limited by those on sodium-restricted diets',
         iodine_content: 'Contains some natural iodine but less than iodized salt',
-        additives: 'Free from anti-caking agents and additives found in table salt',
-      }
+        additives: 'Free from anti-caking agents and additives found in table salt'
+}
     },
     traditionalUses: {
       ayurvedic: {
@@ -779,8 +779,8 @@ const rawSalts = {
         cultural: {
         pakistani: 'Traditional preservative and cooking medium',
         ritual_significance: 'Used in purification ceremonies',
-        gift_giving: 'Historically given as a valuable trade good',
-      }
+        gift_giving: 'Historically given as a valuable trade good'
+}
     },
     sustainability: {
       mining_practices: {
@@ -817,8 +817,8 @@ const rawSalts = {
       containers: 'Ceramic, glass, or wooden containers preferred',
       shelf_life: 'Indefinite when properly stored',
       signs_of_quality: 'Should remain dry and free-flowing, no clumping',
-      salt_mills: 'Ceramic grinding mechanism recommended to prevent corrosion',
-    }
+      salt_mills: 'Ceramic grinding mechanism recommended to prevent corrosion'
+}
   }
 
   kosher_salt: {
@@ -840,8 +840,8 @@ const rawSalts = {
         appearance: 'dense flakes',
         texture: 'harder, compact',
         dissolution: 'moderate',
-        uses: 'home cooking standard',
-      }
+        uses: 'home cooking standard'
+}
     },
     culinaryApplications: {
       cooking: {
@@ -868,8 +868,8 @@ const rawSalts = {
       temperature: 'room temperature',
       humidity: 'low',
       container: 'airtight container',
-      notes: 'Very stableno special requirements',
-    }
+      notes: 'Very stableno special requirements'
+}
   }
 
   table_salt: {
@@ -904,8 +904,8 @@ const rawSalts = {
       temperature: 'room temperature',
       humidity: 'low',
       container: 'airtight container',
-      notes: 'Very stableno special requirements',
-    }
+      notes: 'Very stableno special requirements'
+}
   }
 }
 

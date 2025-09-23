@@ -396,8 +396,8 @@ class AstrologizeApiCache {
       qualityDistribution: {
         high: Array.from(this.cache.values()).filter(v => v.quality === 'high').length,
         medium: Array.from(this.cache.values()).filter(v => v.quality === 'medium').length,
-        low: Array.from(this.cache.values()).filter(v => v.quality === 'low').length,
-      }
+        low: Array.from(this.cache.values()).filter(v => v.quality === 'low').length
+}
     }
   }
 

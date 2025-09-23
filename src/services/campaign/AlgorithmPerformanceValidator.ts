@@ -12,12 +12,12 @@ import * as path from 'path'
 
 export interface PerformanceBenchmark {
   name: string,
-  category: 'algorithm' | 'cache' | 'database' | 'api' | 'ui',
+  category: 'algorithm' | 'cache' | 'database' | 'api' | 'ui'
   baseline: number, // milliseconds,
   current: number; // milliseconds,
   improvement: number // percentage,
   target: number, // milliseconds,
-  status: 'passing' | 'failing' | 'degraded',
+  status: 'passing' | 'failing' | 'degraded'
   samples: number[],
   timestamp: Date
 }
@@ -74,8 +74,8 @@ export interface AlgorithmPerformanceReport {
 }
 
 export interface PerformanceAlert {
-  type: 'regression' | 'cache_miss' | 'slow_algorithm' | 'memory_leak',
-  severity: 'warning' | 'critical',
+  type: 'regression' | 'cache_miss' | 'slow_algorithm' | 'memory_leak'
+  severity: 'warning' | 'critical'
   message: string,
   metric: string,
   currentValue: number,
@@ -192,8 +192,8 @@ export class AlgorithmPerformanceValidator {
           hitRate: 0.6,
           avgResponseTime: 50,
           queryCount: 0,
-          avgQueryTime: 50,
-        },
+          avgQueryTime: 50
+},
         overall: { hitRate: 0.7, avgResponseTime: 15, efficiency: 70 }
       }
     }
@@ -218,7 +218,7 @@ export class AlgorithmPerformanceValidator {
         const current = recent[1];
 
         const regressionPercentage =
-          ((current.current - previous.current) / previous.current) * 100,
+          ((current.current - previous.current) / previous.current) * 100;
         const regressionDetected = regressionPercentage > this.REGRESSION_THRESHOLD * 100;
 
         const recommendations: string[] = []
@@ -286,7 +286,7 @@ export class AlgorithmPerformanceValidator {
 
       // Group benchmarks by category
       const categories = ['algorithm', 'cache', 'database', 'api', 'ui'],
-      let totalImprovements = 0,
+      let totalImprovements = 0;
       let validCategories = 0,
 
       for (const category of categories) {
@@ -304,7 +304,7 @@ export class AlgorithmPerformanceValidator {
         // // // // _logger.info(`📈 ${category} category: ${(avgImprovement * 100).toFixed(1)}% average improvement`)
       }
 
-      const overallImprovement = validCategories > 0 ? totalImprovements / validCategories: 0,
+      const overallImprovement = validCategories > 0 ? totalImprovements / validCategories: 0;
       const improvementMaintained = overallImprovement >= this.IMPROVEMENT_TARGET
 ;
       // // // // _logger.info(`📈 Overall improvement: ${(overallImprovement * 100).toFixed(1)}% (target: ${(this.IMPROVEMENT_TARGET * 100)}%)`)
@@ -557,7 +557,7 @@ export class AlgorithmPerformanceValidator {
 
   private async runCacheBenchmark(name: string): Promise<number[]> {
     // Simulate cache performance measurement
-    const baseTime = name.includes('memory') ? Math.random() * 5 + 2 : Math.random() * 15 + 10,
+    const baseTime = name.includes('memory') ? Math.random() * 5 + 2 : Math.random() * 15 + 10;
     const samples: number[] = []
 
     for (let i = 0i < 20i++) {;

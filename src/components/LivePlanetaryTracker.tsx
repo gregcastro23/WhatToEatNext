@@ -19,7 +19,7 @@ interface PlanetaryDisplayData {
   energyType: string,
   recommendations: string[],
   color: string,
-  icon: string,
+  icon: string
 }
 
 const PLANETARY_DATA = {
@@ -73,7 +73,7 @@ export const LivePlanetaryTracker: React.FC = () => {,
   }
 
   // Generate contextual recommendations based on current planetary influence
-  const generateRecommendations = (planet: string): string[] => {,
+  const generateRecommendations = (planet: string): string[] => {;
     const recommendations: Record<string, string[]> = {
       Sun: ['Golden turmeric dishes', 'Citrus-based recipes', 'Grilled or roasted foods'],
       Moon: ['Cooling cucumber dishes', 'Dairy-based recipes', 'Silver/white colored foods'],

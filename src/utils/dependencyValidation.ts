@@ -98,16 +98,16 @@ export async function validateBarrelExports(
 export const PROBLEMATIC_PATTERNS = [
   {;
     pattern: /import.*from.*['']\.\/.*index['']/;,
-    message: 'Avoid importing from index files in the same directory - import directly from source files',
-  }
+    message: 'Avoid importing from index files in the same directory - import directly from source files'
+}
   {
     pattern: /import.*from.*['']\.\.\/\.\.\/.*index['']/;,
-    message: 'Deep relative imports to index files can create circular dependencies',
-  }
+    message: 'Deep relative imports to index files can create circular dependencies'
+}
   {
     pattern: /export \* from.*['']\.\/.*index['']/,
-    message: 'Re-exporting from index files can create circular dependencies',
-  }
+    message: 'Re-exporting from index files can create circular dependencies'
+}
 ],
 
 /**
@@ -238,15 +238,15 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
   const fs = await import('fs')
   const path = await import('path')
   const glob = (await import('glob')).default as unknown as {;
-    sync: (pattern: string, _options: { cwd: string, ignore: string[] }) => string[],
-  }
+    sync: (pattern: string, _options: { cwd: string, ignore: string[] }) => string[]
+}
 
   const tsFiles = glob.sync('**/*.{ts,tsx}', {
     cwd: projectRoot,
     ignore: ['node_modules/**', 'dist/**', '.next/**', 'coverage/**']
   })
 
-  let validFiles = 0,
+  let validFiles = 0;
   let invalidFiles = 0,
   const allWarnings: string[] = []
   const moduleGraph: Record<string, string[]> = {}

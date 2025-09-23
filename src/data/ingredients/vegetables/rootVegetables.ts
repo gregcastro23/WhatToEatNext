@@ -29,8 +29,8 @@ const rawRootVegetables = {
       minerals: ['potassium', 'manganese'],
       calories: 103,
       carbs_g: 24,
-      fiber_g: 4,
-    },
+      fiber_g: 4
+},
     preparation: {
       washing: true,
       peeling: 'optional',
@@ -39,8 +39,8 @@ const rawRootVegetables = {
         storage: {
       temperature: 'cool dark place',
       duration: '3-5 weeks',
-      notes: 'Do not refrigerate raw',
-    }
+      notes: 'Do not refrigerate raw'
+}
   }
 
   parsnip: {
@@ -58,8 +58,8 @@ const rawRootVegetables = {
       minerals: ['folate', 'potassium', 'manganese'],
       calories: 75,
       carbs_g: 18,
-      fiber_g: 5,
-    },
+      fiber_g: 5
+},
     preparation: {
       washing: true,
       peeling: 'recommended',
@@ -69,8 +69,8 @@ const rawRootVegetables = {
       temperature: 'refrigerated',
       duration: '2-3 weeks',
       humidity: 'high',
-      notes: 'Store in plastic bag with holes',
-    }
+      notes: 'Store in plastic bag with holes'
+}
   }
 
   beet: {
@@ -119,8 +119,8 @@ const rawRootVegetables = {
       minerals: ['calcium', 'potassium'],
       calories: 28,
       carbs_g: 6,
-      fiber_g: 2,
-    },
+      fiber_g: 2
+},
     preparation: {
       washing: true,
       peeling: 'recommended for larger ones',
@@ -130,8 +130,8 @@ const rawRootVegetables = {
       temperature: 'refrigerated',
       duration: '2-3 weeks',
       humidity: 'high',
-      notes: 'Store in plastic bag with holes',
-    }
+      notes: 'Store in plastic bag with holes'
+}
   }
 }
 

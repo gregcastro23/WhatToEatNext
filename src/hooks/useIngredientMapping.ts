@@ -102,8 +102,8 @@ export function useIngredientMapping() {
       return {
         success: false,
         message: errorMessage,
-        compatibility: 0,
-      }
+        compatibility: 0
+}
     } finally {
       setIsLoading(false)
     }
@@ -124,8 +124,8 @@ export function useIngredientMapping() {
       return {
         success: false,
         message: errorMessage,
-        mappingQuality: 0,
-      }
+        mappingQuality: 0
+}
     } finally {
       setIsLoading(false)
     }

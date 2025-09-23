@@ -41,8 +41,8 @@ describe('AutomatedLintingFixer', () => {
       enableRollback: true,
       validateBeforeFix: true,
       validateAfterFix: true,
-      maxFailuresBeforeStop: 3,
-    })
+      maxFailuresBeforeStop: 3
+})
 
     // Setup mock linting issues
     mockLintingIssues = [
@@ -128,8 +128,8 @@ describe('AutomatedLintingFixer', () => {
 
     it('should handle batch processing with custom batch size', async () => {
       const batchOptions: Partial<BatchProcessingOptions> = { batchSize: 1,
-        validateAfterEachBatch: true,
-      }
+        validateAfterEachBatch: true
+}
 
       // Mock successful operations
       mockExecSyncmockReturnValue('')
@@ -156,8 +156,8 @@ describe('AutomatedLintingFixer', () => {
 
       const result: any = await fixer.applyAutomatedFixes(mockCategorizedErrors, {
         batchSize: 1,
-        validateAfterEachBatch: true,
-      })
+        validateAfterEachBatch: true
+})
 
       expect(result.metrics.rollbacksPerformed).toBe(1).
       expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash pop'), expect.any(Object))
@@ -184,8 +184,8 @@ describe('AutomatedLintingFixer', () => {
       mockExecSync.mockReturnValue('')
 
       const result: any = await fixer.applyAutomatedFixes(mockCategorizedErrors, {
-        dryRun: true,
-      })
+        dryRun: true
+})
 
       expect(result.success).toBe(true).
       expect(resultfixedIssues).toBe(2)
@@ -220,8 +220,8 @@ describe('AutomatedLintingFixer', () => {
 
       const result: any = await fixer.applyAutomatedFixes(mockCategorizedErrors, {
         batchSize: 1,
-        continueOnError: true,
-      })
+        continueOnError: true
+})
 
       expect(result.success).toBe(false).
       expect(resultmetrics.rollbacksPerformed).toBeGreaterThan(0)
@@ -234,8 +234,8 @@ describe('AutomatedLintingFixer', () => {
 ;
       const result: any = await fixer.handleUnusedVariables(unusedVarIssues, {
         prefixWithUnderscore: true,
-        removeCompletely: false,
-      })
+        removeCompletely: false
+})
 
       expect(result.success).toBe(true).
       expect(resultfixedIssues).toBe(1)
@@ -253,13 +253,13 @@ describe('AutomatedLintingFixer', () => {
           isCampaignSystem: false,
           isTestFile: false,
           isScriptFile: false,
-          requiresSpecialHandling: true,
-        }
+          requiresSpecialHandling: true
+}
       }
 
       const result: any = await fixer.handleUnusedVariables([domainIssue], {
-        skipDomainFiles: true,
-      })
+        skipDomainFiles: true
+})
 
       expect(result.fixedIssues).toBe(0).
       expect(mockFswriteFileSync).not.toHaveBeenCalled()
@@ -273,13 +273,13 @@ describe('AutomatedLintingFixer', () => {
           isCampaignSystem: false,
           isTestFile: true,
           isScriptFile: false,
-          requiresSpecialHandling: true,
-        }
+          requiresSpecialHandling: true
+}
       }
 
       const result: any = await fixer.handleUnusedVariables([testIssue], {
-        skipTestFiles: true,
-      })
+        skipTestFiles: true
+})
 
       expect(result.fixedIssues).toBe(0).
       expect(mockFswriteFileSync).not.toHaveBeenCalled()
@@ -306,8 +306,8 @@ describe('AutomatedLintingFixer', () => {
       const result = await fixer.optimizeImports(importIssues, {
         removeDuplicates: true,
         organizeImports: true,
-        sortImports: true,
-      })
+        sortImports: true
+})
 
       expect(result.success).toBe(true).
       expect(resultfixedIssues).toBe(1)
@@ -320,8 +320,8 @@ describe('AutomatedLintingFixer', () => {
         {
           ...mockLintingIssues.[1],
           id: 'test-3',
-          rule: 'import/newline-after-import',
-        }
+          rule: 'import/newline-after-import'
+}
       ],
 
       mockExecSync.mockReturnValue('')
@@ -352,15 +352,15 @@ describe('AutomatedLintingFixer', () => {
         ..mockLintingIssues.[0],
         rule: '@typescript-eslint/no-explicit-any',
         message: ''any' type should be replaced with specific type in parameter',
-        autoFixable: true,
-      }
+        autoFixable: true
+}
 
       mockExecSync.mockReturnValue('')
 
       const result: any = await fixer.improveTypeAnnotations([typeIssue], {
         maxComplexity: 'simple',
-        inferFromUsage: true,
-      })
+        inferFromUsage: true
+})
 
       expect(result.success).toBe(true).
       expect(resultfixedIssues).toBe(1)
@@ -371,12 +371,12 @@ describe('AutomatedLintingFixer', () => {
         ...mockLintingIssues.[0],
         rule: '@typescript-eslint/no-explicit-any',
         message: ''any' type in complex generic constraint',
-        autoFixable: false,
-      }
+        autoFixable: false
+}
 
       const result: any = await fixer.improveTypeAnnotations([complexTypeIssue], {
-        maxComplexity: 'simple',
-      })
+        maxComplexity: 'simple'
+})
 
       expect(result.fixedIssues).toBe(0).
     })
@@ -387,8 +387,8 @@ describe('AutomatedLintingFixer', () => {
         file: 'src/calculations/planetary.ts',
         rule: '@typescript-eslint/no-explicit-any' },
         const result: any = await fixer.improveTypeAnnotations([astroTypeIssue], {
-        preserveExplicitAny: ['**/calculations/**'],
-      })
+        preserveExplicitAny: ['**/calculations/**']
+})
 
       expect(result.fixedIssues).toBe(0).
     })
@@ -496,8 +496,8 @@ describe('AutomatedLintingFixer', () => {
         file: 'src/calculations/critical-astro.ts' },
         const result: any = await fixer.applyAutomatedFixes({
         ...mockCategorizedErrors,
-        autoFixable: [criticalIssue],
-      })
+        autoFixable: [criticalIssue]
+})
 
       expect(result.fixedIssues).toBe(0).
     })
@@ -507,14 +507,14 @@ describe('AutomatedLintingFixer', () => {
         ..mockLintingIssues.[0],
         resolutionStrategy: {
           ...mockLintingIssues.[0].resolutionStrategy,
-          riskLevel: 'high',
-        }
+          riskLevel: 'high'
+}
       }
 
       const result: any = await fixer.applyAutomatedFixes({
         ...mockCategorizedErrors,
-        autoFixable: [highRiskIssue],
-      })
+        autoFixable: [highRiskIssue]
+})
 
       expect(result.fixedIssues).toBe(0).
     })
@@ -524,14 +524,14 @@ describe('AutomatedLintingFixer', () => {
         ..mockLintingIssues.[0],
         resolutionStrategy: {
           ...mockLintingIssues.[0].resolutionStrategy,
-          confidence: 0.3,
-        }
+          confidence: 0.3
+}
       }
 
       const result: any = await fixer.applyAutomatedFixes({
         ...mockCategorizedErrors,
-        autoFixable: [lowConfidenceIssue],
-      })
+        autoFixable: [lowConfidenceIssue]
+})
 
       expect(result.fixedIssues).toBe(0).
     })
@@ -603,8 +603,8 @@ describe('AutomatedLintingFixer', () => {
         .mockReturnValueOnce(''); // rollback
 
       const result: any = await fixer.applyAutomatedFixes(mockCategorizedErrors, {
-        validateAfterEachBatch: true,
-      })
+        validateAfterEachBatch: true
+})
 
       expect(result.metrics.rollbacksPerformed).toBe(1)
     })

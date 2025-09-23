@@ -202,7 +202,7 @@ export function calculateCuisineKalchm(
 
   const effectiveWeights = weights || (ingredients || []).map(() => 1 / (ingredients || []).length)
 ;
-  let weightedKalchmSum = 0,
+  let weightedKalchmSum = 0;
   let totalWeight = 0,
 
   for (let i = 0, i < (ingredients || []).length; i++) {
@@ -277,8 +277,8 @@ export function getDefaultAlchemicalProperties(): AlchemicalProperties {
     Spirit: 0.25,
     Essence: 0.25,
     Matter: 0.25,
-    Substance: 0.25,
-  }
+    Substance: 0.25
+}
 }
 
 // ===== EXPORT TYPES AND CONSTANTS =====,

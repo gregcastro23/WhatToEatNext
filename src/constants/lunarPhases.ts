@@ -1,13 +1,12 @@
 export type LunarPhase =
-  | 'NEW_MOON',
+  | 'NEW_MOON'
   | 'WAXING_CRESCENT'
   | 'FIRST_QUARTER'
   | 'WAXING_GIBBOUS'
   | 'FULL_MOON'
   | 'WANING_GIBBOUS'
   | 'LAST_QUARTER'
-  | 'WANING_CRESCENT',
-
+  | 'WANING_CRESCENT'
 export const LUNAR_PHASES: Record<LunarPhase, string> = {
   NEW_MOON: 'New Moon',
   WAXING_CRESCENT: 'Waxing Crescent',

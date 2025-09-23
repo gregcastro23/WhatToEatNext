@@ -366,7 +366,7 @@ class CelestialCalculator {
     let elementalAssociation: 'Fire' | 'Water' | 'Earth' | 'Air' | undefined = undefined,
 
     if (suit !== 'major') {
-      const element = TAROT_ELEMENTAL_MAPPING[suit].Element as 'Fire' | 'Water' | 'Earth' | 'Air';
+      const element = TAROT_ELEMENTAL_MAPPING[suit].Element as 'Fire' | 'Water' | 'Earth' | 'Air'
       elementalAssociation = element;
     }
 
@@ -399,8 +399,8 @@ class CelestialCalculator {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25,
-      },
+        Air: 0.25
+},
       aspectInfluences: [],
       astrologicalInfluences: ['Sun', 'Moon', 'libra', 'all']
     } as unknown as CelestialAlignment,
@@ -450,7 +450,7 @@ class CelestialCalculator {
       // Generate from dominant planets and zodiac sign
       safeAlignment.astrologicalInfluences = [
         ...(safeAlignment.dominantPlanets?.map(p => p.name) || []),,
-        safeAlignment.zodiacSign || 'libra',
+        safeAlignment.zodiacSign || 'libra'
         'all', // Add 'all' as a fallback to ensure matches with recipes
       ]
     }
@@ -474,8 +474,8 @@ class CelestialCalculator {
         Fire: 0.25,
         Earth: 0.25,
         Air: 0.25,
-        Water: 0.25,
-      },
+        Water: 0.25
+},
       aspectInfluences: [],
       astrologicalInfluences: ['Sun', 'Moon', 'libra', 'all'], // Ensure this is always present and has values
     } as unknown as CelestialAlignment,
@@ -513,11 +513,11 @@ class CelestialCalculator {
   ): {
     jupiterInfluence: number,
     saturnInfluence: number,
-    jupiterEffect: 'expansive' | 'balanced' | 'restricted',
+    jupiterEffect: 'expansive' | 'balanced' | 'restricted'
     saturnEffect: 'restrictive' | 'balanced' | 'softened'
   } {
     // Default values
-    let jupiterInfluence = 0.5,
+    let jupiterInfluence = 0.5;
     let saturnInfluence = 0.5,
     let jupiterEffect: 'expansive' | 'balanced' | 'restricted' = 'balanced',
     let saturnEffect: 'restrictive' | 'balanced' | 'softened' = 'balanced',
@@ -866,8 +866,8 @@ class CelestialCalculator {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    }
+      Air: 0.25
+}
 
     // Apply zodiac influence
     const zodiacElements: Record<string, keyof ElementalProperties> = {
@@ -944,50 +944,50 @@ class CelestialCalculator {
         type: 'conjunction' as AspectType,
         planets: ['Sun', 'Mercury'],
         influence: 0.7,
-        orb: 2.1,
-      })
+        orb: 2.1
+})
     } else if (weekday === 1) {
       aspects.push({,
         type: 'trine' as AspectType,
         planets: ['Moon', 'Venus'],
         influence: 0.6,
-        orb: 3.2,
-      })
+        orb: 3.2
+})
     } else if (weekday === 2) {
       aspects.push({,
         type: 'square' as AspectType,
         planets: ['Mars', 'Saturn'],
         influence: 0.5,
-        orb: 2.5,
-      })
+        orb: 2.5
+})
     } else if (weekday === 3) {
       aspects.push({,
         type: 'sextile' as AspectType,
         planets: ['Mercury', 'Jupiter'],
         influence: 0.6,
-        orb: 1.8,
-      })
+        orb: 1.8
+})
     } else if (weekday === 4) {
       aspects.push({,
         type: 'opposition' as AspectType,
         planets: ['Jupiter', 'Saturn'],
         influence: 0.5,
-        orb: 4.0,
-      })
+        orb: 4.0
+})
     } else if (weekday === 5) {
       aspects.push({,
         type: 'trine' as AspectType,
         planets: ['Venus', 'Neptune'],
         influence: 0.6,
-        orb: 2.7,
-      })
+        orb: 2.7
+})
     } else {
       aspects.push({
         type: 'square' as AspectType,
         planets: ['Saturn', 'Uranus'],
         influence: 0.5,
-        orb: 3.3,
-      })
+        orb: 3.3
+})
     }
 
     // Add additional aspects regardless of day
@@ -997,40 +997,40 @@ class CelestialCalculator {
       type: 'sextile' as AspectType,
       planets: ['Sun', 'Jupiter'],
       influence: 0.55,
-      orb: 2.4,
-    })
+      orb: 2.4
+})
 
     // Add Moon-Neptune aspect (intuition, imagination)
     aspects.push({
       type: 'trine' as AspectType,
       planets: ['Moon', 'Neptune'],
       influence: 0.5,
-      orb: 3.1,
-    })
+      orb: 3.1
+})
 
     // Add Mars-Pluto aspect (intensity, determination)
     aspects.push({
       type: 'square' as AspectType,
       planets: ['Mars', 'Pluto'],
       influence: 0.6,
-      orb: 2.2,
-    })
+      orb: 2.2
+})
 
     // Add Mercury-Uranus aspect (creativity, unexpected insights)
     aspects.push({
       type: 'trine' as AspectType,
       planets: ['Mercury', 'Uranus'],
       influence: 0.45,
-      orb: 2.9,
-    })
+      orb: 2.9
+})
 
     // Add Venus-Saturn aspect (lasting relationships, stability in values)
     aspects.push({
       type: 'sextile' as AspectType,
       planets: ['Venus', 'Saturn'],
       influence: 0.4,
-      orb: 1.5,
-    })
+      orb: 1.5
+})
 
     return aspects,
   }
@@ -1063,7 +1063,7 @@ class CelestialCalculator {
 
     if (!tarotCards || !Array.isArray(tarotCards) || tarotCards.length === 0) {
       const alignment = this.getCurrentAlignment()
-      tarotCards = this.calculateTarotInfluences(alignment.zodiacSign || 'libra',
+      tarotCards = this.calculateTarotInfluences(alignment.zodiacSign || 'libra'
         alignment.dominantPlanets || [],
       ),
       cache.set(this.TAROT_CACHE_KEY, tarotCards, 60 * 60)
@@ -1169,8 +1169,8 @@ class CelestialCalculator {
         Fire: 0.25,
         Earth: 0.25,
         Air: 0.25,
-        Water: 0.25,
-      }
+        Water: 0.25
+}
     }
   }
 
@@ -1183,8 +1183,8 @@ class CelestialCalculator {
       Spirit: 0.25,
       Essence: 0.25,
       Matter: 0.25,
-      Substance: 0.25,
-    }
+      Substance: 0.25
+}
 
     // Skip calculation if missing required data
     if (!alignment.dominantPlanets || !alignment.zodiacSign) {
@@ -1244,8 +1244,7 @@ class CelestialCalculator {
         const jupiterEffect = (jupiterPlanet as any).effect as;
           | 'expansive'
           | 'balanced'
-          | 'restricted',
-
+          | 'restricted'
         // Apply effects based on Jupiter's condition
         if (jupiterEffect === 'expansive') {;
           // Jupiter expands all energies, but especially Spirit and Substance
@@ -1275,8 +1274,7 @@ class CelestialCalculator {
         const saturnEffect = (saturnPlanet as any).effect as;
           | 'restrictive'
           | 'balanced'
-          | 'softened',
-
+          | 'softened'
         // Apply effects based on Saturn's condition
         if (saturnEffect === 'restrictive') {;
           // Strong Saturn restricts expansion but adds discipline and structure, especially to Matter
@@ -1331,8 +1329,8 @@ class CelestialCalculator {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    }
+      Air: 0.25
+}
     chakraEnergies.root += ((elementalBalance as any)?.Earth || 0) * 0.2,
     chakraEnergies.sacral += ((elementalBalance as any)?.Water || 0) * 0.2,
     chakraEnergies.solarPlexus += ((elementalBalance as any)?.Fire || 0) * 0.2,
@@ -1455,8 +1453,8 @@ class CelestialCalculator {
           seven: 7,
           eight: 8,
           nine: 9,
-          ten: 10,
-        }
+          ten: 10
+}
         const value = valueMap[cardName.split('_')[0]] || 0;
 
         // Get elemental association
@@ -1476,7 +1474,7 @@ class CelestialCalculator {
 
         return {;
           name: displayName,
-          suit: suit as 'wands' | 'cups' | 'swords' | 'pentacles',
+          suit: suit as 'wands' | 'cups' | 'swords' | 'pentacles'
           description: `Minor Arcana card for ${zodiacSign}, representing the current period`,
           planetaryInfluences: {}, // Minor arcana are more linked to decans than planets
         }

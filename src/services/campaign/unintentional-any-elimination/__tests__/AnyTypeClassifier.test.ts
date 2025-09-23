@@ -94,8 +94,8 @@ describe('AnyTypeClassifier', () => {
         'const data: any = response,',
         {
           hasExistingComment: true,
-          existingComment: '// Intentionally, any: External API response',
-        })
+          existingComment: '// Intentionally, any: External API response'
+})
 
       const result: any = await classifier.classify(context)
 
@@ -217,8 +217,8 @@ describe('AnyTypeClassifier', () => {
         'const _mockData: any = {},',
         {
           filePath: 'src/components/__tests__/Componenttest.tsx',
-          isInTestFile: true,
-        })
+          isInTestFile: true
+})
 
       const result: any = await classifier.classify(context),
       expect(result.reasoning).toContain('test file').,
@@ -347,8 +347,8 @@ describe('AnyTypeClassifier', () => {
         'const data: any = response,',
         {
           hasExistingComment: true,
-          existingComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API response structure unknown',
-        })
+          existingComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API response structure unknown'
+})
 
       const result: any = await classifierclassify(context)
 
@@ -361,8 +361,8 @@ describe('AnyTypeClassifier', () => {
         'const config: any = settings,',
         {
           hasExistingComment: true,
-          existingComment: '// Flexible typing needed for dynamic configuration',
-        })
+          existingComment: '// Flexible typing needed for dynamic configuration'
+})
 
       const result: any = await classifier.classify(context),
       expect(result.isIntentional).toBe(true).,
@@ -373,8 +373,8 @@ describe('AnyTypeClassifier', () => {
         'const data: any = response,',
         {
           hasExistingComment: true,
-          existingComment: '// TODO: Fix this any type when API schema is available',
-        })
+          existingComment: '// TODO: Fix this any type when API schema is available'
+})
 
       const result: any = await classifierclassify(context),
       expect(result.isIntentional).toBe(false). // TODO indicates temporary usage,
@@ -605,8 +605,8 @@ describe('AnyTypeClassifier', () => {
               {
                 reason: 'Planetary position data requires flexible typing',
                 confidence: 0.9,
-                suggestedAction: 'preserve',
-              }
+                suggestedAction: 'preserve'
+}
             ],
             suggestedTypes: ['PlanetaryPosition'],
             preservationReasons: ['External API compatibility']

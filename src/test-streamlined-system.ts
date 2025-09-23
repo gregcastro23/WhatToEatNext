@@ -33,8 +33,8 @@ async function testStreamlinedSystem() {
       _lunarPhase: 'waxing gibbous',
       _isDaytime: true,
       _currentDate: new Date(),
-      _currentZodiacSign: 'gemini',
-    })
+      _currentZodiacSign: 'gemini'
+})
 
     log.info('🔬 KALCHM & MONICA _CONSTANTS: ')
     log.info(`  Kalchm (K_alchm): ${result.kalchm.thermodynamics.kalchm.toFixed(6)}`)

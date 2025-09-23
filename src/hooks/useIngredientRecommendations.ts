@@ -43,8 +43,8 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
     isLoading: true,
     error: null,
     filters: {
-      maxResults: 15,
-    }
+      maxResults: 15
+}
   })
 
   const currentElementalProfile = useMemo(() => {;
@@ -80,8 +80,8 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
       Fire: total > 0 ? elementCounts.Fire / total : 0.25,
       Water: total > 0 ? elementCounts.Water / total : 0.25,
       Earth: total > 0 ? elementCounts.Earth / total : 0.25,
-      Air: total > 0 ? elementCounts.Air / total : 0.25,
-    }
+      Air: total > 0 ? elementCounts.Air / total : 0.25
+}
   }, [planetaryPositions])
 
   useEffect(() => {
@@ -192,14 +192,14 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
         setState(prev => ({,
           ...prev,
           ingredients: filteredIngredients,
-          isLoading: false,
-        }))
+          isLoading: false
+}))
       } catch (error) {
         setState(prev => ({,
           ...prev,
           isLoading: false,
-          error: error instanceof Error ? error.message : 'Unknown error',
-        }))
+          error: error instanceof Error ? error.message : 'Unknown error'
+}))
       }
     }
 
@@ -256,8 +256,7 @@ function generateRecommendationReason(
     a[1] > b[1] ? a : b,
   )[0],
 
-  const currentDominant = Object.entries(currentProfile).reduce((ab) => (a[1] > b[1] ? a : b))[0],
-
+  const currentDominant = Object.entries(currentProfile).reduce((ab) => (a[1] > b[1] ? a : b))[0];
   const timeContext = isDaytime ? 'daytime solar' : 'nighttime lunar'
 
   if (dominantElement === currentDominant) {;

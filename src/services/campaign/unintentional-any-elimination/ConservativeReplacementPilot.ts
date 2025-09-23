@@ -172,9 +172,9 @@ export class ConservativeReplacementPilot {
   private async executeBatchProcessing(cases: TypeReplacement[]): Promise<BatchProcessingResult> {
     // // // _logger.info(`🔄 Starting batch processing of ${cases.length} cases...`)
 
-    let totalProcessed = 0,
+    let totalProcessed = 0;
     let totalSuccessful = 0,
-    let totalFailed = 0,
+    let totalFailed = 0;
     let batchNumber = 0,
 
     try {
@@ -294,8 +294,8 @@ export class ConservativeReplacementPilot {
           failedReplacements: cases.length,
           buildStable: false,
           rollbackPerformed: false,
-          error: 'Pre-batch build validation failed',
-        }
+          error: 'Pre-batch build validation failed'
+}
       }
 
       // Execute replacements
@@ -497,8 +497,8 @@ export class ConservativeReplacementPilot {
       const output = execSync('find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | head -200'
         {,
           encoding: 'utf8',
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
       return output
         .trim()
         .split('\n')
@@ -515,7 +515,7 @@ export class ConservativeReplacementPilot {
     const srcDir = 'src';
 
     if (fs.existsSync(srcDir)) {
-      const walkDir = (dir: string) => {,
+      const walkDir = (dir: string) => {;
         const items = fs.readdirSync(dir)
         for (const item of items) {;
           const fullPath = path.join(dir, item)
@@ -685,8 +685,8 @@ export class ConservativeReplacementPilot {
       filePath: occurrence.context.filePath,
       lineNumber: occurrence.lineNumber,
       confidence: classification.confidence,
-      validationRequired: true,
-    }
+      validationRequired: true
+}
   }
 
   private groupCasesByFile(cases: TypeReplacement[]): Map<string, TypeReplacement[]> {
@@ -744,8 +744,8 @@ export class ConservativeReplacementPilot {
     try {
       execSync('yarn tsc --noEmit --skipLibCheck', {
         stdio: 'pipe',
-        timeout: 30000,
-      })
+        timeout: 30000
+})
       return { buildSuccessful: true }
     } catch (error) {
       return {
@@ -761,8 +761,8 @@ export class ConservativeReplacementPilot {
         'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS' || echo '0'',
         {
           encoding: 'utf8',
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
       return parseInt(output.trim()) || 0,
     } catch (error) {
       return -1, // Error in getting count
@@ -775,8 +775,8 @@ export class ConservativeReplacementPilot {
       rollbacksPerformed: 0,
       batchFailures: 0,
       compilationErrors: 0,
-      safetyProtocolActivations: 0,
-    }
+      safetyProtocolActivations: 0
+}
   }
 
   private updateSafetyMetrics(result: ReplacementResult, buildStable: boolean): void {

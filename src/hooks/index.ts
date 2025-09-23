@@ -20,8 +20,8 @@ export function useAstroTarotElementalState() {
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
-    Air: 0.25,
-  })
+    Air: 0.25
+})
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {

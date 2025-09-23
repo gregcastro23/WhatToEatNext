@@ -96,8 +96,8 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         documentedAnyTypes: 0,
         documentationCoverage: 0,
         reductionFromBaseline: 0,
-        targetReduction: 15,
-      }
+        targetReduction: 15
+}
     }
   }
 
@@ -134,8 +134,8 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
     try {
       const output = execSync('yarn lint 2>&1', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       // Count @typescript-eslint/no-explicit-any warnings
       const explicitAnyMatches = output.match(/@typescript-eslint\/no-explicit-any/g)
@@ -155,8 +155,8 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
     try {
       const output = execSync('yarn lint 2>&1', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       const breakdown: Record<string, number> = {}
       const lines = output.split('\n')
@@ -361,8 +361,8 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         totalAnyTypesReduced: 0,
         unintentionalAnyTypesReduced: 0,
         documentationImproved: 0,
-        reductionRate: 0,
-      }
+        reductionRate: 0
+}
     }
 
     const first = this.metricsHistory[0];
@@ -406,8 +406,8 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         type: 'high-unintentional-any-count',
         severity: 'warning',
         message: `High number of unintentional any types: ${metrics.unintentionalAnyTypes}`,
-        recommendation: 'Consider running the unintentional any elimination campaign',
-      })
+        recommendation: 'Consider running the unintentional any elimination campaign'
+})
     }
 
     if (metrics.documentationCoverage < 50) {
@@ -415,8 +415,8 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         type: 'low-documentation-coverage',
         severity: 'error',
         message: `Documentation coverage critically low: ${metrics.documentationCoverage.toFixed(1)}%`,
-        recommendation: 'Add documentation to intentional any types',
-      })
+        recommendation: 'Add documentation to intentional any types'
+})
     }
 
     if (metrics.reductionFromBaseline < 0) {
@@ -424,8 +424,8 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         type: 'regression-detected',
         severity: 'error',
         message: 'Regression, detected: any types have increased from baseline',
-        recommendation: 'Review recent changes and consider rollback',
-      })
+        recommendation: 'Review recent changes and consider rollback'
+})
     }
 
     return alerts
@@ -532,7 +532,7 @@ export interface UnintentionalAnyImprovement {
 
 export interface UnintentionalAnyDashboardMetrics {
   current: UnintentionalAnyMetrics,
-  trend: 'improving' | 'stable' | 'declining',
+  trend: 'improving' | 'stable' | 'declining'
   topFiles: Array<{ file: string, count: number }>,
   alerts: UnintentionalAnyAlert[],
   recommendations: string[],
@@ -541,18 +541,17 @@ export interface UnintentionalAnyDashboardMetrics {
 
 export interface UnintentionalAnyAlert {
   type: string,
-  severity: 'info' | 'warning' | 'error',
+  severity: 'info' | 'warning' | 'error'
   message: string,
   recommendation: string
 }
 
 export type UnintentionalAnyMilestone =
-  | 'baseline-established',
+  | 'baseline-established'
   | 'analysis-complete'
   | 'target-reduction-achieved'
   | 'documentation-complete'
-  | 'zero-unintentional-any',
-
+  | 'zero-unintentional-any'
 /**
  * Campaign Scheduling Integration
  * Provides compatibility with existing campaign scheduling systems
@@ -579,16 +578,16 @@ export class UnintentionalAnyCampaignScheduler {
       return {;
         shouldTrigger: true,
         reason: `High number of unintentional any types: ${metrics.unintentionalAnyTypes}`,
-        priority: 'high',
-      }
+        priority: 'high'
+}
     }
 
     if (metrics.reductionFromBaseline < -5) {
       return {
         shouldTrigger: true,
         reason: 'Regression, detected: any types have increased significantly',
-        priority: 'high',
-      }
+        priority: 'high'
+}
     }
 
     // Medium priority triggers
@@ -596,16 +595,16 @@ export class UnintentionalAnyCampaignScheduler {
       return {
         shouldTrigger: true,
         reason: `Moderate number of unintentional any types: ${metrics.unintentionalAnyTypes}`,
-        priority: 'medium',
-      }
+        priority: 'medium'
+}
     }
 
     if (metrics.documentationCoverage < 50) {
       return {
         shouldTrigger: true,
         reason: `Low documentation coverage: ${metrics.documentationCoverage.toFixed(1)}%`,
-        priority: 'medium',
-      }
+        priority: 'medium'
+}
     }
 
     // Low priority triggers
@@ -613,15 +612,15 @@ export class UnintentionalAnyCampaignScheduler {
       return {
         shouldTrigger: true,
         reason: `Some unintentional any types present: ${metrics.unintentionalAnyTypes}`,
-        priority: 'low',
-      }
+        priority: 'low'
+}
     }
 
     return {
       shouldTrigger: false,
       reason: 'No significant unintentional any issues detected',
-      priority: 'low',
-    }
+      priority: 'low'
+}
   }
 
   /**
@@ -659,15 +658,15 @@ export class UnintentionalAnyCampaignScheduler {
       return {
         canProceed: true,
         conflictingCampaigns,
-        resolution: 'Conflicts can be resolved by coordinating batch processing',
-      }
+        resolution: 'Conflicts can be resolved by coordinating batch processing'
+}
     }
 
     return {
       canProceed: false,
       conflictingCampaigns,
-      resolution: 'Wait for critical campaigns to complete before proceeding',
-    }
+      resolution: 'Wait for critical campaigns to complete before proceeding'
+}
   }
 
   /**
@@ -675,7 +674,7 @@ export class UnintentionalAnyCampaignScheduler {
    */
   getRecommendedExecutionTime(
     activeCampaigns: string[],
-    systemLoad: 'low' | 'medium' | 'high',
+    systemLoad: 'low' | 'medium' | 'high'
   ): {
     recommendedTime: Date,
     reason: string,
@@ -683,7 +682,7 @@ export class UnintentionalAnyCampaignScheduler {
   } {
     const now = new Date()
     const recommendedTime = new Date(now);
-    let reason = '',
+    let reason = '';
     let estimatedDuration = 30; // Default 30 minutes
 
     if (systemLoad === 'high' || activeCampaigns.length > 2) {,

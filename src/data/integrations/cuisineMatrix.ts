@@ -3,8 +3,7 @@
 import { grainCuisineMatrix } from './grainCuisineMatrix';
 import { herbCuisineMatrix } from './herbCuisineMatrix';
 
-type IngredientCategory = 'grain' | 'herb' | 'spice' | 'protein' | 'vegetable',
-
+type IngredientCategory = 'grain' | 'herb' | 'spice' | 'protein' | 'vegetable'
 /**
  * Get cuisine pairings for a specific ingredient
  */

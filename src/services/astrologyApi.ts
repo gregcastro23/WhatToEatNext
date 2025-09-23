@@ -236,8 +236,8 @@ function getSunSignFromDate(date: Date): string {
         Fire: 0,
         Water: 0,
         Earth: 0,
-        Air: 0,
-      }
+        Air: 0
+}
 
       // Add Sun influence (30%)
       elementalState[sunElement] += 0.3,
@@ -317,8 +317,8 @@ export function calculateElementalBalanceFromPositions(
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0,
-  }
+    Air: 0
+}
 
   // Define planetary weights - some planets have more influence than others
   const planetaryWeights = {
@@ -331,8 +331,8 @@ export function calculateElementalBalanceFromPositions(
     saturn: 0.07,
     uranus: 0.02, // Distant planets have less immediate influence,
     neptune: 0.02,
-    pluto: 0.02,
-  }
+    pluto: 0.02
+}
 
   // Calculate total influence
   let totalInfluence = 0,

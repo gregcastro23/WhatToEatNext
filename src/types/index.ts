@@ -130,8 +130,7 @@ export type TimeOfDay = {
 }
 
 // Use as type instead of enum to avoid merging issues
-export type CuisineTypeEnum = 'ITALIAN' | 'FRENCH' | 'CHINESE' | 'INDIAN' | 'MEXICAN',
-
+export type CuisineTypeEnum = 'ITALIAN' | 'FRENCH' | 'CHINESE' | 'INDIAN' | 'MEXICAN'
 // Export essential utils
 export * from './utils',
 export * from './cuisine',
@@ -149,9 +148,8 @@ export type DietaryRestriction =
   | 'nut-free'
   | 'keto'
   | 'paleo'
-  | 'low-carb';
-  | 'low-fat',
-
+  | 'low-carb'
+  | 'low-fat'
 // Export ZodiacAffinity types (removed to avoid Modality conflict)
 // export * from './zodiacAffinity',
 
@@ -174,7 +172,7 @@ export interface AppState {
   currentIngredients: Ingredient[],
   savedRecipes: unknown[],
   userPreferences: {
-    theme: 'light' | 'dark',
+    theme: 'light' | 'dark'
     dietaryRestrictions: string[],
     favoriteIngredients: string[]
   }

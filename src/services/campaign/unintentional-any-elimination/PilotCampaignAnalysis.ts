@@ -39,7 +39,7 @@ export class PilotCampaignAnalysis {
       confidenceThreshold: config.confidenceThreshold || 0.7,
       enableTuning: config.enableTuning !== false;,
       generateDetailedReports: config.generateDetailedReports !== false;,
-      outputDirectory: config.outputDirectory || '.kiro/campaign-reports/pilot-analysis',
+      outputDirectory: config.outputDirectory || '.kiro/campaign-reports/pilot-analysis'
       ...config
     }
 
@@ -232,8 +232,8 @@ export class PilotCampaignAnalysis {
       // // // _logger.info('⏭️ Classification tuning disabled, skipping...'),
       return {
         tuningPerformed: false,
-        reason: 'Tuning disabled in configuration',
-      }
+        reason: 'Tuning disabled in configuration'
+}
     }
 
     // // // _logger.info('Tuning classification algorithms based on pilot results...')
@@ -292,8 +292,8 @@ export class PilotCampaignAnalysis {
     } catch (error) {
       _logger.warn('⚠️ Classification tuning encountered issues: ', error),
       tuningResults.tuningPerformed = false;
-      tuningResults.reason = `Tuning failed: ${error instanceof Error ? error.message : String(error)}`,
-    }
+      tuningResults.reason = `Tuning failed: ${error instanceof Error ? error.message : String(error)}`
+}
 
     return tuningResults,
   }
@@ -335,8 +335,8 @@ export class PilotCampaignAnalysis {
         'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS' || echo '0'',
         {
           encoding: 'utf8',
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
       return parseInt(output.trim()) || 0,
     } catch (error) {
       _logger.warn('Could not get TypeScript error count: ', error),
@@ -348,8 +348,8 @@ export class PilotCampaignAnalysis {
     try {
       const output = execSync('find src -name '*.ts' -o -name '*.tsx' | wc -l', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
       return Math.min(parseInt(output.trim()) || 0, this.config.maxFilesToAnalyze)
     } catch (error) {
       return 0
@@ -366,8 +366,8 @@ export class PilotCampaignAnalysis {
     try {
       const output = execSync('find src -name '*.ts' -o -name '*.tsx' | wc -l', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
       return parseInt(output.trim()) || 0,
     } catch (error) {
       return 0
@@ -446,8 +446,8 @@ export class PilotCampaignAnalysis {
         foldCount: 5,
         averageAccuracy: 84.7,
         standardDeviation: 3.2,
-        consistencyScore: 91.5,
-      },
+        consistencyScore: 91.5
+},
       edgeCaseResults: {
         edgeCasesIdentified: 23,
         edgeCaseAccuracy: 72.1,
@@ -578,23 +578,23 @@ export class PilotCampaignAnalysis {
       [AnyTypeCategory.FUNCTION_PARAM]: {,
         adjustment: 'Improved context analysis for function parameters',
         expectedImprovement: 8,
-        confidence: 0.82,
-      }
+        confidence: 0.82
+}
       [AnyTypeCategory.RETURN_TYPE]: {
         adjustment: 'Enhanced return type inference algorithms',
         expectedImprovement: 6,
-        confidence: 0.78,
-      }
+        confidence: 0.78
+}
       [AnyTypeCategory.ERROR_HANDLING]: {
         adjustment: 'Better detection of legitimate error handling patterns',
         expectedImprovement: 12,
-        confidence: 0.71,
-      }
+        confidence: 0.71
+}
       [AnyTypeCategory.EXTERNAL_API]: {
         adjustment: 'Improved external API response pattern recognition',
         expectedImprovement: 9,
-        confidence: 0.75,
-      }
+        confidence: 0.75
+}
     }
 
     return adjustments[category] || null,
@@ -615,8 +615,8 @@ export class PilotCampaignAnalysis {
         category: (beforeCat as any)?.category,
         beforeAccuracy: (beforeCat as any)?.accuracy,
         afterAccuracy: (beforeCat as any)?.accuracy,
-        improvement: 0,
-      }
+        improvement: 0
+}
     })
   }
 
@@ -681,18 +681,18 @@ export class PilotCampaignAnalysis {
         {
           factor: 'Classification Accuracy',
           risk: (data as any)?.accuracyValidation?.overallAccuracy < 80 ? 'HIGH' : 'MEDIUM',
-          mitigation: 'Implement manual review for low-confidence cases',
-        }
+          mitigation: 'Implement manual review for low-confidence cases'
+}
         {
           factor: 'Success Rate Prediction',
           risk: (data as any)?.baselineMetrics?.projectedSuccessRate < 75 ? 'HIGH' : 'LOW',
-          mitigation: 'Use conservative batch processing',
-        }
+          mitigation: 'Use conservative batch processing'
+}
         {
           factor: 'Algorithm Tuning',
           risk: (data as any)?.tuningResults?.tuningPerformed ? 'LOW' : 'MEDIUM',
-          mitigation: 'Continue monitoring and tuning as needed',
-        }
+          mitigation: 'Continue monitoring and tuning as needed'
+}
       ],
       mitigationPlan: [
         'Implement comprehensive safety protocols',

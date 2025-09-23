@@ -15,13 +15,13 @@ export interface ErrorClassification {
 }
 
 export interface ErrorCategory {
-  primary: 'syntax' | 'style' | 'logic' | 'performance' | 'security' | 'maintainability',
+  primary: 'syntax' | 'style' | 'logic' | 'performance' | 'security' | 'maintainability'
   secondary: string,
   description: string
 }
 
 export interface ErrorSeverity {
-  level: 'critical' | 'high' | 'medium' | 'low' | 'info',
+  level: 'critical' | 'high' | 'medium' | 'low' | 'info'
   score: number, // 0-100,
   factors: SeverityFactor[],
   businessImpact: 'blocking' | 'degrading' | 'cosmetic' | 'none' },
@@ -34,15 +34,15 @@ export interface ErrorSeverity {
 export interface AutoFixCapability {
   canAutoFix: boolean,
   confidence: number, // 0-1,
-  complexity: 'trivial' | 'simple' | 'moderate' | 'complex' | 'manual-only',
+  complexity: 'trivial' | 'simple' | 'moderate' | 'complex' | 'manual-only'
   prerequisites: string[],
   risks: AutoFixRisk[]
 }
 
 export interface AutoFixRisk {
-  type: 'breaking-change' | 'logic-change' | 'performance-impact' | 'side-effects',
+  type: 'breaking-change' | 'logic-change' | 'performance-impact' | 'side-effects'
   probability: number, // 0-1,
-  impact: 'low' | 'medium' | 'high',
+  impact: 'low' | 'medium' | 'high'
   mitigation: string
 }
 
@@ -55,7 +55,7 @@ export interface DomainImpact {
 }
 
 export interface RiskProfile {
-  overall: 'low' | 'medium' | 'high' | 'critical',
+  overall: 'low' | 'medium' | 'high' | 'critical'
   factors: string[],
   mitigationStrategies: string[]
 }
@@ -271,8 +271,8 @@ export class ErrorClassificationSystem {
             type: 'breaking-change',
             probability: 0.7,
             impact: 'high',
-            mitigation: 'Verify all import paths before applying fixes',
-          }
+            mitigation: 'Verify all import paths before applying fixes'
+}
         ]
       },
       domainImpact: {
@@ -314,8 +314,8 @@ export class ErrorClassificationSystem {
             type: 'logic-change',
             probability: 0.8,
             impact: 'medium',
-            mitigation: 'Careful type analysis and testing required',
-          }
+            mitigation: 'Careful type analysis and testing required'
+}
         ]
       },
       domainImpact: {
@@ -356,8 +356,8 @@ export class ErrorClassificationSystem {
             type: 'logic-change',
             probability: 0.3,
             impact: 'low',
-            mitigation: 'Verify variable is truly unused before removal',
-          }
+            mitigation: 'Verify variable is truly unused before removal'
+}
         ]
       },
       domainImpact: {
@@ -391,8 +391,8 @@ export class ErrorClassificationSystem {
           {
             factor: 'Runtime Bugs',
             weight: 0.9,
-            description: 'Can cause infinite loops or stale closures',
-          }
+            description: 'Can cause infinite loops or stale closures'
+}
           { factor: 'Performance', weight: 0.7, description: 'May cause unnecessary re-renders' }
         ],
         businessImpact: 'degrading' },
@@ -406,14 +406,14 @@ export class ErrorClassificationSystem {
             type: 'logic-change',
             probability: 0.6,
             impact: 'high',
-            mitigation: 'Careful analysis of effect dependencies and potential infinite loops',
-          }
+            mitigation: 'Careful analysis of effect dependencies and potential infinite loops'
+}
           {
             type: 'performance-impact',
             probability: 0.4,
             impact: 'medium',
-            mitigation: 'Performance testing after dependency changes',
-          }
+            mitigation: 'Performance testing after dependency changes'
+}
         ]
       },
       domainImpact: {
@@ -448,8 +448,8 @@ export class ErrorClassificationSystem {
           {
             factor: 'Production Cleanliness',
             weight: 0.6,
-            description: 'Console logs in production',
-          }
+            description: 'Console logs in production'
+}
         ],
         businessImpact: 'cosmetic' },
         autoFixCapability: {
@@ -462,8 +462,8 @@ export class ErrorClassificationSystem {
             type: 'logic-change',
             probability: 0.2,
             impact: 'low',
-            mitigation: 'Preserve _logger.warn and _logger.error for important logging',
-          }
+            mitigation: 'Preserve _logger.warn and _logger.error for important logging'
+}
         ]
       },
       domainImpact: {
@@ -517,8 +517,8 @@ export class ErrorClassificationSystem {
             type: 'side-effects',
             probability: 0.5,
             impact: 'medium',
-            mitigation: 'Manual analysis required for unknown rule',
-          }
+            mitigation: 'Manual analysis required for unknown rule'
+}
         ]
       },
       domainImpact: {

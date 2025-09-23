@@ -95,8 +95,8 @@ export function getNavigationState(): NavigationState {
     selectedIngredientCategory: null,
     selectedIngredient: null,
     selectedCookingMethod: null,
-    scrollPosition: 0,
-  }
+    scrollPosition: 0
+}
 
   const stored = safeGetItem(STATE_KEYS.NAVIGATION_STATE)
   if (!stored) return defaultState,

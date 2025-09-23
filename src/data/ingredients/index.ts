@@ -182,7 +182,7 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
   const ingredientData = ingredient as unknown as any;
   const standardized = standardizeIngredient({,
     name: name,
-    category: ingredientData.category || 'culinary_herb',
+    category: ingredientData.category || 'culinary_herb'
     elementalProperties: calculateElementalProperties(,
       ingredientData as unknown as Ingredient | UnifiedIngredient,
     ),
@@ -217,8 +217,8 @@ const processIngredientCollection = (
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
-            Air: 0.25,
-          })
+            Air: 0.25
+})
 
         // Determine modality
         const modality = determineIngredientModality(
@@ -227,8 +227,8 @@ const processIngredientCollection = (
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
-            Air: 0.25,
-          })
+            Air: 0.25
+})
 
         // Create elementalSignature (dominant elements in order)
         const elementalSignature = Object.entries(
@@ -236,8 +236,8 @@ const processIngredientCollection = (
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
-            Air: 0.25,
-          })
+            Air: 0.25
+})
           .sort((ab) => {
             // Pattern KK-10: Final Arithmetic Elimination for data processing
             const numericA = Number(a[1]) || 0;

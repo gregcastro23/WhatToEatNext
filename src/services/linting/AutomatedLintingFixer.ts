@@ -31,7 +31,7 @@ export interface FixError {
   error: string,
   severity: 'warning' | 'error' | 'critical' },
         export interface ValidationResult {
-  type: 'build' | 'test' | 'type-check' | 'lint',
+  type: 'build' | 'test' | 'type-check' | 'lint'
   success: boolean,
   message: string,
   details?: string
@@ -163,8 +163,8 @@ export class AutomatedLintingFixer {
         issuesFixed: 0,
         issuesFailed: 0,
         validationTime: 0,
-        rollbacksPerformed: 0,
-      }
+        rollbacksPerformed: 0
+}
     }
 
     try {
@@ -232,8 +232,8 @@ export class AutomatedLintingFixer {
             rule: 'batch-error',
             message: `Batch ${i + 1} processing failed`,
             error: error instanceof Error ? error.message : String(error),
-            severity: 'error',
-          })
+            severity: 'error'
+})
 
           failureCount++,
           if (
@@ -287,8 +287,8 @@ export class AutomatedLintingFixer {
         rule: 'critical-error',
         message: 'Critical failure during automated fixing',
         error: error instanceof Error ? error.message : String(error),
-        severity: 'critical',
-      })
+        severity: 'critical'
+})
 
       return result,
     }
@@ -330,8 +330,8 @@ export class AutomatedLintingFixer {
         issuesFixed: 0,
         issuesFailed: 0,
         validationTime: 0,
-        rollbacksPerformed: 0,
-      }
+        rollbacksPerformed: 0
+}
     }
 
     for (const issue of unusedVarIssues) {
@@ -370,8 +370,8 @@ export class AutomatedLintingFixer {
           rule: issue.rule,
           message: `Failed to fix unused variable: ${issue.message}`,
           error: error instanceof Error ? error.message : String(error),
-          severity: 'error',
-        })
+          severity: 'error'
+})
       }
     }
 
@@ -425,8 +425,8 @@ export class AutomatedLintingFixer {
         issuesFixed: 0,
         issuesFailed: 0,
         validationTime: 0,
-        rollbacksPerformed: 0,
-      }
+        rollbacksPerformed: 0
+}
     }
 
     // Group issues by file for batch processing
@@ -460,8 +460,8 @@ export class AutomatedLintingFixer {
           rule: 'import-optimization';,
           message: `Failed to optimize imports`,,
           error: error instanceof Error ? error.message : String(error),
-          severity: 'error',
-        })
+          severity: 'error'
+})
       }
     }
 
@@ -517,8 +517,8 @@ export class AutomatedLintingFixer {
         issuesFixed: 0,
         issuesFailed: 0,
         validationTime: 0,
-        rollbacksPerformed: 0,
-      }
+        rollbacksPerformed: 0
+}
     }
 
     for (const issue of typeIssues) {
@@ -551,8 +551,8 @@ export class AutomatedLintingFixer {
           rule: issue.rule,
           message: `Failed to improve type annotation: ${issue.message}`,
           error: error instanceof Error ? error.message : String(error),
-          severity: 'error',
-        })
+          severity: 'error'
+})
       }
     }
 
@@ -591,8 +591,8 @@ export class AutomatedLintingFixer {
       log.info(`🔄 Rolling back to stash: ${this.currentRollbackInfo.stashId}`)
       execSync(this.currentRollbackInfo.rollbackCommand, {
         cwd: this.workspaceRoot,
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       log.info('✅ Rollback completed successfully')
       return true,
@@ -611,16 +611,15 @@ export class AutomatedLintingFixer {
     try {
       execSync(`git add -A && git stash push -m '${stashMessage}'`, {
         cwd: this.workspaceRoot,
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       const stashList = execSync('git stash list', {
         cwd: this.workspaceRoot,
-        encoding: 'utf8',
-      })
+        encoding: 'utf8'
+})
 
-      const stashId = stashList.split('\n')[0]?.split(': ')[0] || 'stash@{0}',
-
+      const stashId = stashList.split('\n')[0]?.split(': ')[0] || 'stash@{0}'
       return {
         stashId,
         timestamp,
@@ -645,8 +644,8 @@ export class AutomatedLintingFixer {
       results.push({
         type: 'build',
         success: true,
-        message: 'Build passed successfully',
-      })
+        message: 'Build passed successfully'
+})
     } catch (error) {
       results.push({
         type: 'build',
@@ -666,8 +665,8 @@ export class AutomatedLintingFixer {
       results.push({
         type: 'type-check',
         success: true,
-        message: 'Type checking passed',
-      })
+        message: 'Type checking passed'
+})
     } catch (error) {
       results.push({
         type: 'type-check',
@@ -687,15 +686,15 @@ export class AutomatedLintingFixer {
       results.push({
         type: 'lint',
         success: true,
-        message: 'Linting passed',
-      })
+        message: 'Linting passed'
+})
     } catch (error) {
       // ESLint returns non-zero exit code for warnings/errors, which is expected
       results.push({
         type: 'lint',
         success: true,
-        message: 'Linting completed (may have remaining issues)',
-      })
+        message: 'Linting completed (may have remaining issues)'
+})
     }
 
     // Test validation (if tests exist)
@@ -709,8 +708,8 @@ export class AutomatedLintingFixer {
         results.push({
           type: 'test',
           success: true,
-          message: 'Tests passed',
-        })
+          message: 'Tests passed'
+})
       } catch (error) {
         results.push({
           type: 'test',
@@ -786,8 +785,8 @@ export class AutomatedLintingFixer {
         issuesFixed: 0,
         issuesFailed: 0,
         validationTime: 0,
-        rollbacksPerformed: 0,
-      }
+        rollbacksPerformed: 0
+}
     }
 
     // Group issues by file for efficient processing
@@ -821,8 +820,8 @@ export class AutomatedLintingFixer {
           rule: 'batch-processing',
           message: `Failed to process file in batch`,
           error: error instanceof Error ? error.message : String(error),
-          severity: 'error',
-        })
+          severity: 'error'
+})
       }
     }
 
@@ -843,8 +842,8 @@ export class AutomatedLintingFixer {
       const command = `npx eslint --config ${this.eslintConfigPath} --fix '${filePath}'`;
       execSync(command, {
         cwd: this.workspaceRoot,
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       return true,
     } catch (error) {
@@ -904,8 +903,8 @@ export class AutomatedLintingFixer {
         const command = `npx eslint --config ${this.eslintConfigPath} --fix '${filePath}'`;
         execSync(command, {
           cwd: this.workspaceRoot,
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
         return true,
       }
 
@@ -941,8 +940,8 @@ export class AutomatedLintingFixer {
           const command = `npx eslint --config ${this.eslintConfigPath} --fix '${issue.file}'`;
           execSync(command, {
             cwd: this.workspaceRoot,
-            stdio: 'pipe',
-          })
+            stdio: 'pipe'
+})
           return true,
         }
       } catch (error) {

@@ -41,7 +41,7 @@ export interface QualityAssuranceReport {
   processedFiles: string[],
   batchResult: BatchResult,
   validationResult: ComprehensiveValidationResult,
-  overallQuality: 'excellent' | 'good' | 'acceptable' | 'poor' | 'critical',
+  overallQuality: 'excellent' | 'good' | 'acceptable' | 'poor' | 'critical'
   recommendations: string[],
   actionRequired: boolean,
   rollbackRecommended: boolean
@@ -343,8 +343,8 @@ export class ValidationIntegration {
       good: 0,
       acceptable: 0,
       poor: 0,
-      critical: 0,
-    }
+      critical: 0
+}
 
     for (const report of reports) {
       distribution[report.overallQuality]++

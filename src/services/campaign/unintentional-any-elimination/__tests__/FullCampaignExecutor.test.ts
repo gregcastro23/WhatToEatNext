@@ -29,8 +29,8 @@ describe('FullCampaignExecutor', () => {
       maxBatchSize: 25,
       safetyThreshold: 0.7,
       enableDocumentation: true,
-      generateFinalReport: true,
-    }
+      generateFinalReport: true
+}
 
     executor = new FullCampaignExecutor(mockConfig)
 
@@ -453,8 +453,8 @@ describe('FullCampaignExecutor', () => {
       const invalidConfig: any = {
         targetReductionPercentage: -10, // Invalid negative percentage,
         targetFixCount: -100, // Invalid negative count,
-        maxBatchSize: 0 // Invalid zero batch size,
-      }
+        maxBatchSize: 0 // Invalid zero batch size
+}
 
       expect(() => new FullCampaignExecutor(invalidConfig)).not.toThrow()
     })

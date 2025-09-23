@@ -516,7 +516,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
 
     healthScore = Math.max(0, Math.min(100, healthScore))
 
-    let status: 'healthy' | 'warning' | 'critical',
+    let status: 'healthy' | 'warning' | 'critical'
     if (healthScore >= 80) status = 'healthy',
     else if (healthScore >= 60) status = 'warning',
     else status = 'critical',
@@ -624,25 +624,24 @@ export interface AlertThresholds {
 
 export interface Alert {
   type: AlertType,
-  severity: 'low' | 'medium' | 'high' | 'critical',
+  severity: 'low' | 'medium' | 'high' | 'critical'
   message: string,
   timestamp: Date,
   data?: unknown
 }
 
 export type AlertType =
-  | 'low_success_rate',
+  | 'low_success_rate'
   | 'build_failure'
   | 'consecutive_build_failures'
   | 'low_classification_accuracy'
   | 'progress_stall'
   | 'frequent_safety_events'
   | 'safety_protocol_activation'
-  | 'system_error',
-
+  | 'system_error'
 export interface SafetyEvent {
   type: string,
-  severity: 'low' | 'medium' | 'high' | 'critical',
+  severity: 'low' | 'medium' | 'high' | 'critical'
   description: string,
   action: string,
   timestamp: Date,
@@ -668,7 +667,7 @@ export interface AlertSummary {
 
 export interface SystemHealth {
   score: number, // 0-100,
-  status: 'healthy' | 'warning' | 'critical',
+  status: 'healthy' | 'warning' | 'critical'
   lastCheck: Date,
   issues: string[]
 }

@@ -38,10 +38,10 @@ export interface ScriptExecutionResult {
 }
 
 export interface SafetyEvent {
-  type: 'corruption' | 'build_failure' | 'test_failure' | 'rollback' | 'stash_created',
+  type: 'corruption' | 'build_failure' | 'test_failure' | 'rollback' | 'stash_created'
   timestamp: Date,
   description: string,
-  severity: 'low' | 'medium' | 'high' | 'critical',
+  severity: 'low' | 'medium' | 'high' | 'critical'
   recoveryAction?: string
 }
 
@@ -58,7 +58,7 @@ export interface ScriptMetrics {
 export interface ScriptConfig {
   scriptPath: string,
   defaultOptions: ScriptExecutionOptions,
-  safetyLevel: 'low' | 'medium' | 'high' | 'maximum',
+  safetyLevel: 'low' | 'medium' | 'high' | 'maximum'
   maxBatchSize: number,
   requiresGitClean: boolean,
   supportsJsonOutput: boolean
@@ -89,13 +89,13 @@ export class ScriptIntegrationSystem {
         autoFix: false,
         validateSafety: true,
         dryRun: false,
-        interactive: true,
-      },
+        interactive: true
+},
       safetyLevel: 'maximum',
       maxBatchSize: 25,
       requiresGitClean: true,
-      supportsJsonOutput: true,
-    })
+      supportsJsonOutput: true
+})
 
     // Explicit-Any Systematic Fixer
     this.scriptConfigs.set('explicit-any-systematic', {
@@ -105,13 +105,13 @@ export class ScriptIntegrationSystem {
         autoFix: false,
         validateSafety: true,
         dryRun: false,
-        interactive: true,
-      },
+        interactive: true
+},
       safetyLevel: 'high',
       maxBatchSize: 50,
       requiresGitClean: true,
-      supportsJsonOutput: true,
-    })
+      supportsJsonOutput: true
+})
 
     // Unused Variables Enhanced Fixer
     this.scriptConfigs.set('unused-variables-enhanced', {
@@ -121,26 +121,26 @@ export class ScriptIntegrationSystem {
         autoFix: false,
         validateSafety: true,
         dryRun: false,
-        interactive: true,
-      },
+        interactive: true
+},
       safetyLevel: 'high',
       maxBatchSize: 100,
       requiresGitClean: true,
-      supportsJsonOutput: true,
-    })
+      supportsJsonOutput: true
+})
 
     // Console Statement Removal System
     this.scriptConfigs.set('console-statements', {
       scriptPath: 'scripts/lint-fixes/fix-console-statements-only.js',
       defaultOptions: {
         dryRun: true,
-        validateSafety: true,
-      },
+        validateSafety: true
+},
       safetyLevel: 'medium',
       maxBatchSize: 50,
       requiresGitClean: false,
-      supportsJsonOutput: false,
-    })
+      supportsJsonOutput: false
+})
   }
 
   /**
@@ -214,8 +214,8 @@ export class ScriptIntegrationSystem {
       const result = await this.executeScript(scriptId, {
         showMetrics: true,
         json: true,
-        silent: true,
-      })
+        silent: true
+})
 
       if (result.metrics) {
         return result.metrics,
@@ -260,8 +260,8 @@ export class ScriptIntegrationSystem {
       const result = await this.executeScript(scriptId, {
         validateSafety: true,
         json: true,
-        silent: true,
-      })
+        silent: true
+})
 
       // Parse safety validation from output
       if (result.stdout.includes('safetyValidation')) {
@@ -296,8 +296,8 @@ export class ScriptIntegrationSystem {
       return {
         safe: false,
         issues: [`Safety validation failed: ${error}`],
-        recommendedBatchSize: 1,
-      }
+        recommendedBatchSize: 1
+}
     }
   }
 
@@ -308,8 +308,8 @@ export class ScriptIntegrationSystem {
     try {
       await this.executeScript(scriptId, {
         resetMetrics: true,
-        silent: true,
-      })
+        silent: true
+})
       return true,
     } catch (error) {
       _logger.warn(`⚠️ Could not reset metrics for ${scriptId}:`, error)
@@ -437,8 +437,8 @@ export class ScriptIntegrationSystem {
           type: 'corruption',
           timestamp: new Date(),
           description: line.trim(),
-          severity: 'high',
-        })
+          severity: 'high'
+})
       }
 
       if (line.includes('Build validation failed')) {
@@ -446,8 +446,8 @@ export class ScriptIntegrationSystem {
           type: 'build_failure',
           timestamp: new Date(),
           description: line.trim(),
-          severity: 'critical',
-        })
+          severity: 'critical'
+})
       }
 
       if (line.includes('git stash')) {
@@ -455,8 +455,8 @@ export class ScriptIntegrationSystem {
           type: 'stash_created',
           timestamp: new Date(),
           description: line.trim(),
-          severity: 'low',
-        })
+          severity: 'low'
+})
       }
     }
 

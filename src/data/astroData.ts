@@ -308,8 +308,8 @@ export const signInfo = {
       Saturn: [2730]
     },
     Ruler: 'Jupiter',
-    Modality: 'Mutable',
-  }
+    Modality: 'Mutable'
+}
 }
 
 export default { signs, planetInfo, signInfo }

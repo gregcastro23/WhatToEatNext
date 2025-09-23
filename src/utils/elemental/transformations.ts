@@ -184,8 +184,8 @@ export function transformSingleItem(
     uniqueness: ((item as unknown as any).uniqueness) || uniqueness,
     planetaryInfluences: ((item as unknown as any).planetaryInfluences as string[]) ||,
       Object.keys(planetaryInfluences)
-    _lunarPhaseEffect: context.lunarPhase || 'new Moon',
-    _zodiacInfluence: context.currentZodiac || 'aries',
+    _lunarPhaseEffect: context.lunarPhase || 'new Moon'
+    _zodiacInfluence: context.currentZodiac || 'aries'
     transformationScore: calculateTransformationScore(alchemicalProperties, uniqueness)
   } as unknown as AlchemicalItem,
 }
@@ -470,8 +470,8 @@ function calculateAlchemicalProperties(
     Spirit: 0,
     Essence: 0,
     Matter: 0,
-    Substance: 0,
-  }
+    Substance: 0
+}
 
   // Base contributions from elemental properties
   alchemicalProps.Spirit +=
@@ -549,7 +549,7 @@ function calculateTransformationScore(
 function calculateCompatibilityScore(
   item: AlchemicalItem,
   targetProperties: { [key: string]: number }): number {
-  let score = 0,
+  let score = 0;
   let totalWeight = 0
 
   // Elemental compatibility;

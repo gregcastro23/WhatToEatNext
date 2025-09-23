@@ -9,8 +9,8 @@ describe('CulturalAnalyticsService', () => {
 
   const mockAstrologicalState: any = {
     zodiacSign: 'aries' as const,
-    lunarPhase: 'new moon' as const,
-  }
+    lunarPhase: 'new moon' as const
+}
 
   describe('calculateCulturalSynergy', () => {
     it('should calculate cultural synergy for a single cuisine', () => {

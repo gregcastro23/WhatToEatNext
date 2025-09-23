@@ -41,8 +41,8 @@ export function getUpcomingAstroEvents(
       events.push({
         type: 'new_moon',
         date,
-        description: 'New Moon',
-      })
+        description: 'New Moon'
+})
     }
 
     // Check for first/last quarter
@@ -67,8 +67,8 @@ export function getUpcomingAstroEvents(
       events.push({
         type: 'equinox',
         date,
-        description: 'Spring Equinox (approximate)',
-      })
+        description: 'Spring Equinox (approximate)'
+})
     }
 
     // Summer solstice (around June 21)
@@ -76,8 +76,8 @@ export function getUpcomingAstroEvents(
       events.push({
         type: 'solstice',
         date,
-        description: 'Summer Solstice (approximate)',
-      })
+        description: 'Summer Solstice (approximate)'
+})
     }
 
     // Fall equinox (around September 22)
@@ -85,8 +85,8 @@ export function getUpcomingAstroEvents(
       events.push({
         type: 'equinox',
         date,
-        description: 'Fall Equinox (approximate)',
-      })
+        description: 'Fall Equinox (approximate)'
+})
     }
 
     // Winter solstice (around December 21)
@@ -94,8 +94,8 @@ export function getUpcomingAstroEvents(
       events.push({
         type: 'solstice',
         date,
-        description: 'Winter Solstice (approximate)',
-      })
+        description: 'Winter Solstice (approximate)'
+})
     }
   }
 

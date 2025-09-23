@@ -1,8 +1,7 @@
 // Common types used across the application
-export type Season = 'spring' | 'summer' | 'autumn' | 'winter',
-
+export type Season = 'spring' | 'summer' | 'autumn' | 'winter'
 export type ZodiacSign =
-  | 'aries',
+  | 'aries'
   | 'taurus'
   | 'gemini'
   | 'cancer'
@@ -13,8 +12,7 @@ export type ZodiacSign =
   | 'sagittarius'
   | 'capricorn'
   | 'aquarius'
-  | 'pisces',
-
+  | 'pisces'
 export interface PlanetaryAlignment {
   Sun: string,
   Moon: string,
@@ -29,6 +27,5 @@ export interface PlanetaryAlignment {
   Ascendant?: string
 }
 
-export type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night',
-
-export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack',
+export type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night'
+export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack'

@@ -24,7 +24,7 @@ export interface LogContext {
 
   // Intentionally any: Logging context needs flexibility for various metadata
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-  [key: string]: any,
+  [key: string]: any
 }
 
 export interface LogEntry {
@@ -129,7 +129,7 @@ class LoggingService {
 
   private outputToConsole(entry: LogEntry): void {
     const timestamp = entry.timestamp.toISOString();
-    const contextStr = entry.context ? this.formatContext(entry.context) : '',
+    const contextStr = entry.context ? this.formatContext(entry.context) : '';
     const levelStr = LogLevel[entry.level]
 ;
     const baseMessage = `[${timestamp}] ${levelStr}: ${entry.message}${contextStr}`,
@@ -182,7 +182,7 @@ class LoggingService {
       .map(entry => {
         const timestamp = entry.timestamp.toISOString();
         const level = LogLevel[entry.level];
-        const context = entry.context ? this.formatContext(entry.context) : '',
+        const context = entry.context ? this.formatContext(entry.context) : '';
         const errorStr = entry.error ? ` ERROR: ${entry.error.message}` : ''
         const dataStr = entry.data ? ` DATA: ${JSON.stringify(entry.data)}` : ''
 

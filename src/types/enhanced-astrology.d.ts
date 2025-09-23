@@ -105,7 +105,7 @@ declare global {
         | 'full'
         | 'waning_gibbous'
         | 'last_quarter'
-        | 'waning_crescent',
+        | 'waning_crescent'
       /** Current planetary hour */
       planetaryHour: Planet,
       /** Whether it's currently daytime */
@@ -180,7 +180,7 @@ declare global {
       calculateAspects(positions: Record<Planet, PlanetaryPosition>): Array<{
         planet1: Planet,
         planet2: Planet,
-        aspect: 'conjunction' | 'opposition' | 'trine' | 'square' | 'sextile',
+        aspect: 'conjunction' | 'opposition' | 'trine' | 'square' | 'sextile'
         orb: number
       }>,
     }
@@ -269,7 +269,7 @@ export interface EnhancedRecipe {
   /** Serving information */
   servings: number,
   /** Difficulty level */
-  difficulty: 'beginner' | 'intermediate' | 'advanced' | 'expert',
+  difficulty: 'beginner' | 'intermediate' | 'advanced' | 'expert'
   /** Cultural context */
   culturalContext?: {
     cuisine: string,

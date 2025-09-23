@@ -30,8 +30,8 @@ export function getCurrentDecan(
       sagittarius: 240,
       capricorn: 270,
       aquarius: 300,
-      pisces: 330,
-    }
+      pisces: 330
+}
 
     // Get the starting degree for the sun's sign
     const signStartDegree = signToStartDegree[sunPosition.sign.toLowerCase()] || 0;
@@ -457,7 +457,7 @@ export function getElementalQuantum(card: unknown) {
     energies?: Record<string, number>,
     [key: string]: unknown
   }
-  const element = cardData?.element || 'Fire';
+  const element = cardData?.element || 'Fire'
   const quantum = cardData?.quantum || 1;
 
   return {

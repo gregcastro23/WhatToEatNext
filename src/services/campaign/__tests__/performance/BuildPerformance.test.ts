@@ -29,8 +29,8 @@ describe('Build Performance Tests', () => {
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7,
-    }
+      stashRetentionDays: 7
+}
 
     mockConfig = {
       phases: [
@@ -55,8 +55,8 @@ describe('Build Performance Tests', () => {
       toolConfiguration: { enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
-      }
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
+}
     }
 
     progressTracker = new ProgressTracker()
@@ -191,8 +191,8 @@ describe('Build Performance Tests', () => {
         heapTotal: 100 * 1024 * 1024,
         external: 0,
         rss: 0,
-        arrayBuffers: 0,
-      })
+        arrayBuffers: 0
+})
 
       const memoryUsage: any = await progressTracker.getMemoryUsage()
 
@@ -210,8 +210,8 @@ describe('Build Performance Tests', () => {
         heapTotal: 150 * 1024 * 1024,
         external: 0,
         rss: 0,
-        arrayBuffers: 0,
-      })
+        arrayBuffers: 0
+})
 
       const memoryUsage: any = await progressTracker.getMemoryUsage()
 

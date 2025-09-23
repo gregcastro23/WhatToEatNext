@@ -14,12 +14,12 @@ export const spherification: CookingMethodData = {
     Water: 0.6,
     Air: 0.2,
     Earth: 0.1,
-    Fire: 0.1,
-  },
+    Fire: 0.1
+},
   duration: {
     min: 1,
-    max: 10,
-  },
+    max: 10
+},
   suitable_for: [
     'fruit juices',
     'purees',
@@ -102,8 +102,8 @@ export const spherification: CookingMethodData = {
     antioxidants: 0.8,
     flavor_compounds: 0.95,
     volatile_aromatics: 0.9,
-    color_pigments: 0.85,
-  },
+    color_pigments: 0.85
+},
   optimalTemperatures: {
     alginate_hydration: 70, // 70°F/21°C - room temperature,
     alginate_solution: 40, // 40°F/4°C - refrigerated for removing air bubbles,
@@ -233,8 +233,8 @@ export const spherification: CookingMethodData = {
         shelf_life: {
       basicSpheres: '1-2 hours before membrane continues to thicken',
       reverseSpheres: '2-4 days when stored in original liquid, refrigerated',
-      frozen: 'Up to 1 week when prepared using frozen reverse spherification',
-    }
+      frozen: 'Up to 1 week when prepared using frozen reverse spherification'
+}
   }
 
   expertTips: [

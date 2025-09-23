@@ -27,8 +27,8 @@ describe('EnhancedSafetyProtocols', () => {
       serviceLayerBatchSize: 8,
       requireManualReview: true,
       enhancedValidation: true,
-      createDetailedBackups: true,
-    }
+      createDetailedBackups: true
+}
 
     safetyProtocols = new EnhancedSafetyProtocols(config)
 
@@ -301,8 +301,8 @@ describe('EnhancedSafetyProtocols', () => {
 
   describe('Configuration Options', () => {
     test('should respect disabled manual review option', () => {
-      const configWithoutReview: Partial<HighImpactFileConfig> = { requireManualReview: false,
-      }
+      const configWithoutReview: Partial<HighImpactFileConfig> = { requireManualReview: false
+}
 
       const protocolsNoReview: any = new EnhancedSafetyProtocols(configWithoutReview),
       const assessment: any = protocolsNoReview.assessFileRisk(
@@ -313,8 +313,8 @@ describe('EnhancedSafetyProtocols', () => {
     })
 
     test('should respect disabled enhanced validation option', () => {
-      const configWithoutValidation: Partial<HighImpactFileConfig> = { enhancedValidation: false,
-      }
+      const configWithoutValidation: Partial<HighImpactFileConfig> = { enhancedValidation: false
+}
 
       const protocolsNoValidation: any = new EnhancedSafetyProtocols(configWithoutValidation),
       const assessment: any = protocolsNoValidationassessFileRisk(
@@ -338,8 +338,8 @@ describe('EnhancedSafetyProtocols', () => {
 
     test('should respect custom batch sizes', () => {
       const configCustomBatch: Partial<HighImpactFileConfig> = { criticalFileBatchSize: 3,
-        serviceLayerBatchSize: 6,
-      }
+        serviceLayerBatchSize: 6
+}
 
       const protocolsCustom: any = new EnhancedSafetyProtocols(configCustomBatch)
 ;

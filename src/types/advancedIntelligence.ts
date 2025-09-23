@@ -485,7 +485,7 @@ export interface IntegratedAdvancedIntelligenceResult {;
   mlIntelligence: MLIntelligenceResult,
   advancedAnalyticsIntelligence: AdvancedAnalyticsIntelligenceResult,
   overallConfidence: number,
-  systemHealth: 'excellent' | 'good' | 'fair' | 'poor',
+  systemHealth: 'excellent' | 'good' | 'fair' | 'poor'
   timestamp: string
 }
 
@@ -494,7 +494,7 @@ export interface AdvancedIntelligenceConfig {
   enableMLIntelligence: boolean,
   enableAdvancedAnalyticsIntelligence: boolean,
   cacheResults: boolean,
-  logLevel: 'debug' | 'info' | 'warn' | 'error',
+  logLevel: 'debug' | 'info' | 'warn' | 'error'
   performanceThresholds: {
     maxExecutionTime: number,
     minConfidenceScore: number,
@@ -514,10 +514,9 @@ export interface AdvancedIntelligenceMetrics {
 
 // ========== UTILITY TYPES ==========
 ;
-export type IntelligenceType = 'predictive' | 'ml' | 'advanced-analytics',
-export type ConfidenceLevel = 'low' | 'medium' | 'high' | 'excellent',
-export type SystemHealth = 'excellent' | 'good' | 'fair' | 'poor',
-
+export type IntelligenceType = 'predictive' | 'ml' | 'advanced-analytics'
+export type ConfidenceLevel = 'low' | 'medium' | 'high' | 'excellent'
+export type SystemHealth = 'excellent' | 'good' | 'fair' | 'poor'
 export interface IntelligenceRequest {
   type: IntelligenceType,
   data: Record<string, unknown> | string | number | boolean | null,

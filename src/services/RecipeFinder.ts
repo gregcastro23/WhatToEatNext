@@ -85,8 +85,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         error: {
           code: 'DATA_SOURCE_ERROR',
           message: 'Failed to retrieve recipes',
-          details: error instanceof Error ? error.message : 'Unknown error',
-        }
+          details: error instanceof Error ? error.message : 'Unknown error'
+}
       }
     }
   }
@@ -115,8 +115,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         error: {
           code: 'PROCESSING_ERROR',
           message: 'Failed to search recipes',
-          details: error instanceof Error ? error.message : 'Unknown error',
-        }
+          details: error instanceof Error ? error.message : 'Unknown error'
+}
       }
     }
   }
@@ -145,8 +145,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         error: {
           code: 'DATA_SOURCE_ERROR',
           message: 'Failed to retrieve cuisine recipes',
-          details: error instanceof Error ? error.message : 'Unknown error',
-        }
+          details: error instanceof Error ? error.message : 'Unknown error'
+}
       }
     }
   }
@@ -179,8 +179,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         error: {
           code: 'DATA_SOURCE_ERROR',
           message: 'Failed to retrieve zodiac recipes',
-          details: error instanceof Error ? error.message : 'Unknown error',
-        }
+          details: error instanceof Error ? error.message : 'Unknown error'
+}
       }
     }
   }
@@ -209,8 +209,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         error: {
           code: 'DATA_SOURCE_ERROR',
           message: 'Failed to retrieve seasonal recipes',
-          details: error instanceof Error ? error.message : 'Unknown error',
-        }
+          details: error instanceof Error ? error.message : 'Unknown error'
+}
       }
     }
   }
@@ -245,8 +245,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         error: {
           code: 'DATA_SOURCE_ERROR',
           message: 'Failed to retrieve lunar phase recipes',
-          details: error instanceof Error ? error.message : 'Unknown error',
-        }
+          details: error instanceof Error ? error.message : 'Unknown error'
+}
       }
     }
   }
@@ -275,8 +275,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         error: {
           code: 'DATA_SOURCE_ERROR',
           message: 'Failed to retrieve meal type recipes',
-          details: error instanceof Error ? error.message : 'Unknown error',
-        }
+          details: error instanceof Error ? error.message : 'Unknown error'
+}
       }
     }
   }
@@ -316,8 +316,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         error: {
           code: 'PROCESSING_ERROR',
           message: 'Failed to retrieve planetary alignment recipes',
-          details: error instanceof Error ? error.message : 'Unknown error',
-        }
+          details: error instanceof Error ? error.message : 'Unknown error'
+}
       }
     }
   }
@@ -354,8 +354,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         error: {
           code: 'PROCESSING_ERROR',
           message: 'Failed to retrieve flavor profile recipes',
-          details: error instanceof Error ? error.message : 'Unknown error',
-        }
+          details: error instanceof Error ? error.message : 'Unknown error'
+}
       }
     }
   }
@@ -396,8 +396,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         error: {
           code: 'PROCESSING_ERROR',
           message: 'Failed to get best recipe matches',
-          details: error instanceof Error ? error.message : 'Unknown error',
-        }
+          details: error instanceof Error ? error.message : 'Unknown error'
+}
       }
     }
   }
@@ -417,8 +417,8 @@ export class RecipeFinder implements RecipeServiceInterface {
           error: {
             code: 'RECIPE_NOT_FOUND',
             message: `Recipe with ID ${params.id} not found`,
-            details: 'The requested recipe does not exist in the database',
-          }
+            details: 'The requested recipe does not exist in the database'
+}
         }
       }
 
@@ -427,8 +427,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         data: recipe,
         metadata: {
           timestamp: Date.now(),
-          version: '1.0.0',
-        }
+          version: '1.0.0'
+}
       }
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
@@ -439,8 +439,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         error: {
           code: 'RECIPE_NOT_FOUND',
           message: 'Failed to retrieve recipe',
-          details: error instanceof Error ? error.message : 'Unknown error',
-        }
+          details: error instanceof Error ? error.message : 'Unknown error'
+}
       }
     }
   }
@@ -456,8 +456,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         data: recipe,
         metadata: {
           timestamp: Date.now(),
-          version: '1.0.0',
-        }
+          version: '1.0.0'
+}
       }
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
@@ -476,8 +476,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         error: {
           code: 'PROCESSING_ERROR',
           message: 'Failed to generate recipe',
-          details: error instanceof Error ? error.message : 'Unknown error',
-        }
+          details: error instanceof Error ? error.message : 'Unknown error'
+}
       }
     }
   }
@@ -495,8 +495,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         data: recipe,
         metadata: {
           timestamp: Date.now(),
-          version: '1.0.0',
-        }
+          version: '1.0.0'
+}
       }
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
@@ -519,8 +519,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         error: {
           code: 'PROCESSING_ERROR',
           message: 'Failed to generate fusion recipe',
-          details: error instanceof Error ? error.message : 'Unknown error',
-        }
+          details: error instanceof Error ? error.message : 'Unknown error'
+}
       }
     }
   }
@@ -539,8 +539,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         data: recipe,
         metadata: {
           timestamp: Date.now(),
-          version: '1.0.0',
-        }
+          version: '1.0.0'
+}
       }
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
@@ -555,8 +555,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         error: {
           code: 'PROCESSING_ERROR',
           message: 'Failed to adapt recipe',
-          details: error instanceof Error ? error.message : 'Unknown error',
-        }
+          details: error instanceof Error ? error.message : 'Unknown error'
+}
       }
     }
   }

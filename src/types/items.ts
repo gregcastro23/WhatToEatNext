@@ -25,14 +25,14 @@ export interface RecipeItem extends BaseItem {
   cookingMethod: string,
   cookingTime?: number,
   servings?: number,
-  difficulty?: 'easy' | 'medium' | 'hard',
+  difficulty?: 'easy' | 'medium' | 'hard'
   cuisine?: string,
 }
 
 export interface FoodItem extends BaseItem {
   type: 'food',
-  category: 'ingredient' | 'recipe' | 'dish',
-  source?: 'database' | 'api' | 'user',
+  category: 'ingredient' | 'recipe' | 'dish'
+  source?: 'database' | 'api' | 'user'
   tags?: string[],
 }
 

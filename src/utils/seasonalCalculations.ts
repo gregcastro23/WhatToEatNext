@@ -10,9 +10,8 @@ import type {
 // import { SEASONAL_PROPERTIES } from '@/constants/seasons'; // Commented out as unused
 
 
-// type Rating = 'optimal' | 'favorable' | 'neutral' | 'suboptimal',
-type Element = 'Fire' | 'Water' | 'Earth' | 'Air',
-
+// type Rating = 'optimal' | 'favorable' | 'neutral' | 'suboptimal'
+type Element = 'Fire' | 'Water' | 'Earth' | 'Air'
 const SEASONAL_ELEMENTS: Record<Season, Record<Element, number>> = {
   spring: { Air: 0.3, Fire: 0.3, Water: 0.3, Earth: 0.1 },
   summer: { Fire: 0.4, Air: 0.3, Earth: 0.1, Water: 0.2 }
@@ -85,7 +84,7 @@ const LUNAR_FOOD_ASSOCIATIONS: Record<LunarPhaseWithSpaces, string[]> = {
 }
 
 export interface SeasonalEffectiveness {
-  rating: 'excellent' | 'good' | 'neutral' | 'poor',
+  rating: 'excellent' | 'good' | 'neutral' | 'poor'
   score: number,
   elementalBreakdown: ElementalProperties,
   breakdown: {
@@ -106,26 +105,26 @@ export const _SEASONAL_MODIFIERS = {
     Air: 0.4,
     Water: 0.3,
     Earth: 0.2,
-    Fire: 0.1,
-  },
+    Fire: 0.1
+},
   summer: {
     Fire: 0.4,
     Air: 0.3,
     Earth: 0.2,
-    Water: 0.1,
-  },
+    Water: 0.1
+},
   autumn: {
     Earth: 0.4,
     Fire: 0.3,
     Air: 0.2,
-    Water: 0.1,
-  },
+    Water: 0.1
+},
   winter: {
     Water: 0.4,
     Earth: 0.3,
     Fire: 0.2,
-    Air: 0.1,
-  }
+    Air: 0.1
+}
 }
 
 export const _getSeasonalEffectiveness = async (
@@ -142,8 +141,8 @@ export const _getSeasonalEffectiveness = async (
       breakdown: {
         elementalAlignment: 0,
         ingredientSuitability: 0,
-        seasonalBonus: 0,
-      }
+        seasonalBonus: 0
+}
     }
   }
 
@@ -363,8 +362,8 @@ function _calculateSeasonalScores(
     autumn: 0,
     fall: 0,
     winter: 0,
-    all: 0,
-  }
+    all: 0
+}
 
   const elementalBreakdown: Record<Season, ElementalProperties> = {
     spring: { Fire: 0, Water: 0, Earth: 0, Air: 0 },

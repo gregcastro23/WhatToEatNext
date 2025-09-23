@@ -46,8 +46,8 @@ export class BuildValidator {
         result.repairActions.push({
           type: 'create',
           target: this.buildDir,
-          description: 'Create build directory',
-        })
+          description: 'Create build directory'
+})
         return result
       }
 
@@ -58,8 +58,8 @@ export class BuildValidator {
         result.repairActions.push({
           type: 'create',
           target: this.serverDir,
-          description: 'Create server directory',
-        })
+          description: 'Create server directory'
+})
       }
 
       // Check required manifest files
@@ -246,14 +246,14 @@ export class BuildValidator {
         pages: {},
         app: {}
         _appUsingSizeAdjust: false,
-        _pagesUsingSizeAdjust: false,
-      },
+        _pagesUsingSizeAdjust: false
+},
       'middleware-manifest.json': {
         _sortedMiddleware: [],
         middleware: {},
         _functions: {}
-        _version: 2,
-      },
+        _version: 2
+},
       'build-manifest.json': {
         _devFiles: [],
         _ampDevFiles: [],
@@ -403,7 +403,7 @@ export interface BuildValidationResult {
 }
 
 export interface RepairAction {
-  type: 'create' | 'fix' | 'remove',
+  type: 'create' | 'fix' | 'remove'
   target: string,
   description: string
 }

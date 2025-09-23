@@ -93,22 +93,22 @@ export class AnalysisTools {
       byDomain: Object.entries(domainDistribution).map(([domain, count]) => ({
         domain: domain as CodeDomain,
         count,
-        percentage: totalCount > 0 ? (count / totalCount) * 100 : 0,
-      })),
+        percentage: totalCount > 0 ? (count / totalCount) * 100 : 0
+})),
       byCategory: Object.entries(categoryDistribution).map(([category, count]) => ({
         category: category as AnyTypeCategory,
         count,
-        percentage: totalCount > 0 ? (count / totalCount) * 100 : 0,
-      })),
+        percentage: totalCount > 0 ? (count / totalCount) * 100 : 0
+})),
       intentionalVsUnintentional: {
         intentional: {
           count: intentionalCount.count,
-          percentage: totalCount > 0 ? (intentionalCount.count / totalCount) * 100 : 0,
-        },
+          percentage: totalCount > 0 ? (intentionalCount.count / totalCount) * 100 : 0
+},
         unintentional: {
           count: unintentionalCount.count,
-          percentage: totalCount > 0 ? (unintentionalCount.count / totalCount) * 100 : 0,
-        }
+          percentage: totalCount > 0 ? (unintentionalCount.count / totalCount) * 100 : 0
+}
       },
       analysisDate: new Date()
     }
@@ -127,7 +127,7 @@ export class AnalysisTools {
     const sampleSize = Math.min(100, anyTypeOccurrences.length); // Sample for accuracy testing
     const sample = anyTypeOccurrences.slice(0, sampleSize)
 
-    let correctClassifications = 0,
+    let correctClassifications = 0;
     let totalClassifications = 0,
     const confidenceScores: number[] = []
     const categoryAccuracy: Record<AnyTypeCategory, { correct: number, total: number }> = {
@@ -160,7 +160,7 @@ export class AnalysisTools {
     }
 
     const overallAccuracy =
-      totalClassifications > 0 ? (correctClassifications / totalClassifications) * 100 : 0,
+      totalClassifications > 0 ? (correctClassifications / totalClassifications) * 100 : 0;
     const averageConfidence =
       confidenceScores.length > 0;
         ? confidenceScores.reduce((sum, score) => sum + score0) / confidenceScores.length
@@ -442,8 +442,8 @@ export class AnalysisTools {
       return {
         range: range.label,
         count,
-        percentage: scores.length > 0 ? (count / scores.length) * 100 : 0,
-      }
+        percentage: scores.length > 0 ? (count / scores.length) * 100 : 0
+}
     })
   }
 
@@ -454,8 +454,8 @@ export class AnalysisTools {
       totalProcessed: 1250,
       successfulReplacements: 982,
       failedReplacements: 268,
-      averageConfidence: 0.82,
-    }
+      averageConfidence: 0.82
+}
   }
 
   private getHistoricalTrendingData(): TrendingData[] {
@@ -499,8 +499,8 @@ export class AnalysisTools {
         successRate: 0,
         totalAnyTypes: 0,
         unintentionalCount: 0,
-        classificationAccuracy: 0,
-      }
+        classificationAccuracy: 0
+}
     }
 
     const latest = historicalData[historicalData.length - 1];
@@ -624,8 +624,8 @@ export class AnalysisTools {
       return 'Complex domain context with multiple intentionality hints' },
         if (classification.isIntentional && classification.suggestedReplacement) {
       return 'Conflicting, signals: classified as intentional but has suggested replacement' },
-        return `High-risk category: ${classification.category}`,
-  }
+        return `High-risk category: ${classification.category}`
+}
 
   private calculateReviewPriority(
     classification: AnyTypeClassification,

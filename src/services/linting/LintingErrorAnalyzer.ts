@@ -18,7 +18,7 @@ export interface LintingIssue {
   column: number,
   rule: string,
   message: string,
-  severity: 'error' | 'warning',
+  severity: 'error' | 'warning'
   category: IssueCategory,
   autoFixable: boolean,
   domainContext?: DomainContext,
@@ -26,7 +26,7 @@ export interface LintingIssue {
 }
 
 export interface IssueCategory {
-  primary: 'import' | 'typescript' | 'react' | 'style' | 'domain';,
+  primary: 'import' | 'typescript' | 'react' | 'style' | 'domain'
   secondary: string,
   priority: 1 | 2 | 3 | 4
 }
@@ -40,16 +40,16 @@ export interface DomainContext {
 }
 
 export interface ResolutionStrategy {
-  type: 'auto-fix' | 'manual-review' | 'rule-adjustment' | 'ignore',
+  type: 'auto-fix' | 'manual-review' | 'rule-adjustment' | 'ignore'
   confidence: number, // 0-1,
-  riskLevel: 'low' | 'medium' | 'high',
+  riskLevel: 'low' | 'medium' | 'high'
   requiredValidation: ValidationRequirement[],
   estimatedEffort: number, // minutes,
   dependencies: string[], // Other issues that must be resolved first
 }
 
 export interface ValidationRequirement {
-  type: 'build' | 'test' | 'type-check' | 'manual-review',
+  type: 'build' | 'test' | 'type-check' | 'manual-review'
   description: string,
   automated: boolean
 }
@@ -77,12 +77,12 @@ export interface ResolutionPhase {
   name: string,
   issues: LintingIssue[],
   estimatedTime: number,
-  riskLevel: 'low' | 'medium' | 'high',
+  riskLevel: 'low' | 'medium' | 'high'
   dependencies: string[]
 }
 
 export interface RiskAssessment {
-  overall: 'low' | 'medium' | 'high',
+  overall: 'low' | 'medium' | 'high'
   factors: string[],
   mitigations: string[]
 }
@@ -336,8 +336,8 @@ export class LintingErrorAnalyzer {
       isCampaignSystem: false,
       isTestFile: false,
       isScriptFile: false,
-      requiresSpecialHandling: false,
-    }
+      requiresSpecialHandling: false
+}
 
     // Check astrological patterns
     context.isAstrologicalCalculation = this.domainPatterns.astrological.some(pattern =>
@@ -376,8 +376,8 @@ export class LintingErrorAnalyzer {
       return {;
         primary: 'import';,
         secondary: rule.replace('import/', '');,
-        priority: 2,
-      }
+        priority: 2
+}
     }
 
     // TypeScript-related issues
@@ -385,8 +385,8 @@ export class LintingErrorAnalyzer {
       return {
         primary: 'typescript',
         secondary: rule.replace('@typescript-eslint/', ''),
-        priority: rule.includes('no-explicit-any') ? 3 : 1,
-      }
+        priority: rule.includes('no-explicit-any') ? 3 : 1
+}
     }
 
     // React-related issues
@@ -394,8 +394,8 @@ export class LintingErrorAnalyzer {
       return {
         primary: 'react',
         secondary: rule.replace(/^react(-hooks)?\//, ''),
-        priority: rule.includes('exhaustive-deps') ? 2 : 1,
-      }
+        priority: rule.includes('exhaustive-deps') ? 2 : 1
+}
     }
 
     // Domain-specific issues
@@ -409,16 +409,16 @@ export class LintingErrorAnalyzer {
             : domainContext.isTestFile
               ? 'test'
               : 'script',
-        priority: 4,
-      }
+        priority: 4
+}
     }
 
     // Style and formatting issues
     return {
       primary: 'style',
       secondary: rule,
-      priority: 4,
-    }
+      priority: 4
+}
   }
 
   /**
@@ -549,8 +549,8 @@ export class LintingErrorAnalyzer {
       byPriority: {}
       byFile: {}
       autoFixable: issues.filter(i => i.autoFixable),
-      requiresManualReview: issues.filter(i => i.resolutionStrategy.type === 'manual-review'),
-    }
+      requiresManualReview: issues.filter(i => i.resolutionStrategy.type === 'manual-review')
+}
 
     // Group by category
     for (const issue of issues) {

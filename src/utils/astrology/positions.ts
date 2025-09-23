@@ -304,7 +304,7 @@ export function getAccuratePlanetaryPositions(_date: Date): { [key: string]: Pla
         if (fallbackData[planet]) {;
           const fallback = fallbackData[planet];
           positions[planet] = {
-            sign: fallback.sign || 'aries',
+            sign: fallback.sign || 'aries'
             degree: fallback.degree || 0,
             exactLongitude: fallback.exactLongitude || 0,
             isRetrograde: fallback.isRetrograde || false
@@ -350,7 +350,7 @@ export function getAccuratePlanetaryPositions(_date: Date): { [key: string]: Pla
 
     for (const [planet, data] of Object.entries(fallbackData)) {
       convertedPositions[planet] = {
-        sign: data.sign || 'aries',
+        sign: data.sign || 'aries'
         degree: data.degree || 0,
         exactLongitude: data.exactLongitude || 0,
         isRetrograde: data.isRetrograde || false

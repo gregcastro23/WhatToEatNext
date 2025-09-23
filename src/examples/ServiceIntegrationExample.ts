@@ -57,8 +57,8 @@ export async function runServiceIntegrationExample() {
     log.info('\n6. Getting ingredient recommendations...')
     const ingredientRecommendations = await recommendationService.getRecommendedIngredients({,
       elementalProperties,
-      limit: 5,
-    })
+      limit: 5
+})
     log.info('Recommended ingredients: ', {
        
        
@@ -70,8 +70,8 @@ export async function runServiceIntegrationExample() {
     log.info('\n7. Getting recipe recommendations...')
     const recipeRecommendations = await recommendationService.getRecommendedRecipes({,
       elementalProperties,
-      limit: 3,
-    })
+      limit: 3
+})
     log.info('Recommended recipes: ', {
        
        
@@ -83,8 +83,8 @@ export async function runServiceIntegrationExample() {
     log.info('\n8. Getting cooking method recommendations...')
     const cookingMethodRecommendations = await recommendationService.getRecommendedCookingMethods({,
       elementalProperties,
-      limit: 3,
-    })
+      limit: 3
+})
     log.info('Recommended cooking methods: ', {
        
        
@@ -99,19 +99,19 @@ export async function runServiceIntegrationExample() {
       Fire: 0.7,
       Water: 0.1,
       Earth: 0.1,
-      Air: 0.1,
-    }
+      Air: 0.1
+}
     const recipe2ElementalProps: ElementalProperties = {
       Fire: 0.1,
       Water: 0.1,
       Earth: 0.7,
-      Air: 0.1,
-    }
+      Air: 0.1
+}
 
     // Apply surgical type casting with variable extraction
     const alchemicalEngineCompatibility = alchemicalEngine as unknown;
     const calculateElementalCompatibility =
-      alchemicalEngineCompatibility?.calculateElementalCompatibility,
+      alchemicalEngineCompatibility?.calculateElementalCompatibility;
     const compatibility = calculateElementalCompatibility;
       ? calculateElementalCompatibility(recipe1ElementalProps, recipe2ElementalProps)
       : null

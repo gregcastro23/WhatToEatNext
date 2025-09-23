@@ -132,8 +132,8 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0,
-  })
+    Air: 0
+})
   const [tarotPlanetaryBoosts, setTarotPlanetaryBoosts] = useState<Record<string, number>>({})
   const [currentLunarPhase, setCurrentLunarPhase] = useState<LunarPhaseWithSpaces | null>(null)
   const [signEnergyStates, setSignEnergyStates] = useState<SignEnergyState[]>([])
@@ -146,8 +146,8 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
-    Substance: 0,
-  })
+    Substance: 0
+})
 
   // Move the function declaration before any usage
   const calculatePlanetaryEnergy = useCallback(
@@ -258,16 +258,16 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
           Fire: 0,
           Water: 0,
           Earth: 0,
-          Air: 0,
-        }
+          Air: 0
+}
 
         // Map suits to elements
         const suitMap: Record<string, ElementalCharacter> = {
           Wands: 'Fire',
           Cups: 'Water',
           Pentacles: 'Earth',
-          Swords: 'Air',
-        }
+          Swords: 'Air'
+}
 
         // Calculate based on minor card
         if (tarotCards.minorCard?.suit) {
@@ -367,8 +367,8 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
           Spirit: 0,
           Essence: 0,
           Matter: 0,
-          Substance: 0,
-        }
+          Substance: 0
+}
 
         // Map elements to alchemical properties
         const alchemicalMap: Record<ElementalCharacter, keyof typeof result> = {
@@ -418,8 +418,8 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
           Spirit: 0.25,
           Essence: 0.25,
           Matter: 0.25,
-          Substance: 0.25,
-        }
+          Substance: 0.25
+}
       }
     }
     [],

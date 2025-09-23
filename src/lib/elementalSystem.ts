@@ -36,7 +36,7 @@ class ElementalSystem {
     if (total === 0) return ['No elemental properties found'],
 
     ELEMENTS.forEach(element => {;
-      const value = properties[element] || 0,
+      const value = properties[element] || 0;
       const proportion = value / total
 
       if (proportion < MINIMUM_THRESHOLD) {;
@@ -89,15 +89,15 @@ class ElementalSystem {
   calculateAstrologicalInfluence(state: AstrologicalState): ElementalProperties {
     const zodiacElement = ZODIAC_ELEMENTS[state.currentZodiac?.toLowerCase() || 'aries'];
     const moonSignValue = state.currentPlanetaryAlignment?.Moon?.sign || '';
-    const moonSign = typeof moonSignValue === 'string' ? moonSignValue.toLowerCase() : '',
+    const moonSign = typeof moonSignValue === 'string' ? moonSignValue.toLowerCase() : '';
     const moonElement = moonSign ? ZODIAC_ELEMENTS[moonSign] : 'Water',
 
     const baseProperties: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Air: 0.25,
-      Earth: 0.25,
-    }
+      Earth: 0.25
+}
 
     if (zodiacElement) {
       baseProperties[zodiacElement] += 0.2,

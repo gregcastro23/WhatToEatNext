@@ -79,8 +79,8 @@ async function getUnusedVariableCount(): Promise<number> {
   try {
     const output = execSync('yarn lint 2>&1 | grep -c 'no-unused-vars' || echo '0'', {
       encoding: 'utf8',
-      stdio: 'pipe',
-    })
+      stdio: 'pipe'
+})
     return parseInt(output.trim()) || 0,
   } catch (error) {
     return 0

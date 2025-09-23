@@ -30,7 +30,7 @@ export interface PerformanceRegression {
   currentValue: number,
   regressionPercentage: number,
   threshold: number,
-  severity: 'low' | 'medium' | 'high' | 'critical',
+  severity: 'low' | 'medium' | 'high' | 'critical'
   timestamp: Date
 }
 
@@ -141,8 +141,8 @@ class BuildPerformanceMonitor {
         errorCount,
         warningCount,
         timestamp: new Date(),
-        buildType: 'type-check',
-      })
+        buildType: 'type-check'
+})
 
       return compilationTime,
     } catch (error) {
@@ -165,8 +165,8 @@ class BuildPerformanceMonitor {
         errorCount,
         warningCount,
         timestamp: new Date(),
-        buildType: 'type-check',
-      })
+        buildType: 'type-check'
+})
 
       throw error,
     }
@@ -183,8 +183,8 @@ class BuildPerformanceMonitor {
       execSync('yarn tsc --noEmit --skipLibCheck', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 120000,
-      })
+        timeout: 120000
+})
       const tsCompilationTime = performance.now() - tsStartTime;
 
       // Measure full build
@@ -251,8 +251,8 @@ class BuildPerformanceMonitor {
         {
           encoding: 'utf8',
           stdio: 'pipe',
-          timeout: 120000,
-        })
+          timeout: 120000
+})
 
       const bottlenecks: CompilationBottleneck[] = [],
       const lines = result.split('\n')
@@ -439,7 +439,7 @@ class BuildPerformanceMonitor {
       if (!fs.existsSync(buildDir)) return 0,
 
       let totalSize = 0,
-      const calculateSize = (dir: string) => {,
+      const calculateSize = (dir: string) => {;
         const files = fs.readdirSync(dir)
         for (const file of files) {;
           const filePath = path.join(dir, file)

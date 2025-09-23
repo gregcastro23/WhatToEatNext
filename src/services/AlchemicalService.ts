@@ -99,7 +99,7 @@ export interface FoodCorrespondence {
   name: string,
   element: ElementalCharacter,
   planetaryRuler: RulingPlanet,
-  timeOfDay: 'Day' | 'Night' | 'Both',
+  timeOfDay: 'Day' | 'Night' | 'Both'
   elementalProperties: ElementalPropertiesType,
   energyValues: ThermodynamicMetricsType,
   preparation: string[],
@@ -376,8 +376,7 @@ export class AlchemicalService {
 
     // Determine overall dominant element and alchemical property
     const dominantElement =
-      (topIngredients || []).length > 0 ? topIngredients[0].dominantElement : 'Fire',
-
+      (topIngredients || []).length > 0 ? topIngredients[0].dominantElement : 'Fire';
     const dominantAlchemicalProperty =
       (topIngredients || []).length > 0 ? topIngredients[0].dominantAlchemicalProperty : 'Spirit'
 
@@ -438,8 +437,8 @@ export class AlchemicalService {
       seasonalBest: this.getSeasonalRecommendations(dominantElement as unknown as Element),
       moodEffects: ((profileData.characteristics).moodEffects as string[]) || [],
       culinaryHerbs: ((profileData.characteristics).culinaryHerbs as string[]) || [],
-      compatibility: 0.5,
-    }
+      compatibility: 0.5
+}
   }
 
   /**
@@ -506,14 +505,14 @@ export class AlchemicalService {
         Fire: 0,
         Water: 0,
         Earth: 0,
-        Air: 0,
-      }
+        Air: 0
+}
       (ingredient2.elementalState as unknown as ElementalProperties) || {
         Fire: 0,
         Water: 0,
         Earth: 0,
-        Air: 0,
-      })
+        Air: 0
+})
   }
 
   /**
@@ -535,7 +534,7 @@ export class AlchemicalService {
     }
 
     // Calculate weighted compatibility across all elements
-    let weightedSum = 0,
+    let weightedSum = 0;
     let totalWeight = 0,
 
     // Compare each element
@@ -574,8 +573,8 @@ export class AlchemicalService {
   private getDominantElement(properties: ElementalProperties): string {
     return Object.entries(properties).reduce(
       (max, [element, value]) => (value > max.value ? { element, value } : max),
-      { element: '', value: 0 }).element,
-  }
+      { element: '', value: 0 }).element
+}
 
   /**
    * Gets seasonal recommendations based on element

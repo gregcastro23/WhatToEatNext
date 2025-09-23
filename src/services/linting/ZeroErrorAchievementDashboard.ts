@@ -23,7 +23,7 @@ export interface ZeroErrorTarget {
   currentValue: number,
   targetValue: number,
   deadline: Date,
-  priority: 'critical' | 'high' | 'medium' | 'low',
+  priority: 'critical' | 'high' | 'medium' | 'low'
   strategy: string,
   progress: number, // 0-100%,
   estimatedCompletion: Date
@@ -33,7 +33,7 @@ export interface MaintenanceProcedure {
   id: string,
   name: string,
   description: string,
-  frequency: 'daily' | 'weekly' | 'monthly' | 'quarterly',
+  frequency: 'daily' | 'weekly' | 'monthly' | 'quarterly'
   lastRun: Date | null,
   nextRun: Date,
   automated: boolean,
@@ -50,7 +50,7 @@ export interface MaintenanceResult {
 
 export interface TrendAnalysis {
   metric: string,
-  trend: 'improving' | 'stable' | 'degrading',
+  trend: 'improving' | 'stable' | 'degrading'
   velocity: number, // change per day,
   projection: {
     sevenDays: number,
@@ -65,7 +65,7 @@ export interface QualityGate {
   name: string,
   condition: string,
   threshold: number,
-  status: 'passing' | 'failing' | 'warning',
+  status: 'passing' | 'failing' | 'warning'
   blocksDeployment: boolean,
   lastCheck: Date
 }
@@ -235,29 +235,29 @@ export class ZeroErrorAchievementDashboard {
         targetValue: 0,
         deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 1 week,
         priority: 'critical' as const,
-        strategy: 'Immediate syntax error fixes with TypeScript compiler validation',
-      }
+        strategy: 'Immediate syntax error fixes with TypeScript compiler validation'
+}
       {
         metric: 'explicitAnyErrors',
         targetValue: 0,
         deadline: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 1 month,
         priority: 'high' as const,
-        strategy: 'Systematic type inference and interface generation',
-      }
+        strategy: 'Systematic type inference and interface generation'
+}
       {
         metric: 'totalIssues',
         targetValue: 500,
         deadline: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000), // 3 months,
         priority: 'medium' as const,
-        strategy: 'Comprehensive automated fixing with domain-specific preservation',
-      }
+        strategy: 'Comprehensive automated fixing with domain-specific preservation'
+}
       {
         metric: 'qualityScore',
         targetValue: 95,
         deadline: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000), // 2 months,
         priority: 'high' as const,
-        strategy: 'Multi-phase quality improvement with performance optimization',
-      }
+        strategy: 'Multi-phase quality improvement with performance optimization'
+}
     ],
 
     for (const defaultTarget of defaultTargets) {
@@ -634,8 +634,8 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
         try {
           // Check for parser errors
           const tscOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 || true', {
-            encoding: 'utf8',
-          })
+            encoding: 'utf8'
+})
           const parserErrors = (tscOutput.match(/error TS/g) || []).length;
 
           if (parserErrors > 0) {
@@ -877,7 +877,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
   }
 
   private calculateTrend(values: number[]): {
-    direction: 'improving' | 'stable' | 'degrading',
+    direction: 'improving' | 'stable' | 'degrading'
     velocity: number,
     confidence: number
   } {
@@ -896,7 +896,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
     const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
     const confidence = Math.min(1n / 10); // Higher confidence with more data points
 
-    let direction: 'improving' | 'stable' | 'degrading',
+    let direction: 'improving' | 'stable' | 'degrading'
     if (Math.abs(slope) < 0.1) {
       direction = 'stable' },
         else if (slope < 0) {

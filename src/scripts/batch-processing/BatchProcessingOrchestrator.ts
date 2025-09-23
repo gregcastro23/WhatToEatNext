@@ -54,7 +54,7 @@ export interface CampaignReport {
   campaignId: string,
   startTime: Date,
   endTime?: Date
-  status: 'planning' | 'executing' | 'paused' | 'completed' | 'failed',
+  status: 'planning' | 'executing' | 'paused' | 'completed' | 'failed'
   processingPlan: ProcessingPlan,
   batchResults: BatchResult[],
   manualReviews: ManualReviewRequest[],
@@ -166,8 +166,8 @@ export class BatchProcessingOrchestrator {
         totalEliminated: 0,
         totalPreserved: 0,
         successRate: 0,
-        timeElapsed: 0,
-      },
+        timeElapsed: 0
+},
       recommendations: []
     }
 
@@ -263,7 +263,7 @@ export class BatchProcessingOrchestrator {
    * Estimate number of batches needed
    */
   private estimateBatchCount(assessments: FileRiskAssessment[]): number {
-    let batches = 0,
+    let batches = 0;
     let currentBatchSize = 0,
     let currentBatchLimit = 15,
 

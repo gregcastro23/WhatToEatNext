@@ -23,8 +23,8 @@ export function useThermodynamics(initial?: UseThermodynamicsOptions) {
         elemental: input?.elemental ?? initial?.elemental,
         esms: input?.esms ?? initial?.esms,
         ingredients: input?.ingredients ?? initial?.ingredients,
-        planetaryPositions: input?.planetaryPositions ?? initial?.planetaryPositions,
-      }
+        planetaryPositions: input?.planetaryPositions ?? initial?.planetaryPositions
+}
       const data = await thermodynamicsClient.calculate(payload)
       setResult(data)
       setLoading(false);

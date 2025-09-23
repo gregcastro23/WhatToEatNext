@@ -307,8 +307,8 @@ export interface OilSpecificProperties {
     _omega9: number
   }
   stability?: {
-    heat: 'low' | 'medium' | 'high',
-    _light: 'sensitive' | 'stable',
+    heat: 'low' | 'medium' | 'high'
+    _light: 'sensitive' | 'stable'
     _oxidation: 'prone' | 'resistant'
   }
 }
@@ -317,7 +317,7 @@ export interface SpiceSpecificProperties {
   heatLevel?: number; // 1-10 scale
   potency?: number; // 1-10 scale
   intensity?: number; // 1-10 scale
-  grindSize?: 'whole' | 'coarse' | 'medium' | 'fine' | 'powder',
+  grindSize?: 'whole' | 'coarse' | 'medium' | 'fine' | 'powder'
   origin?: string | string[],
   harvestSeason?: Season[],
   activeCompounds?: string[]
@@ -527,7 +527,7 @@ export interface DataCompletenessScore {
 }
 
 export function assessDataCompleteness(ingredient: StandardizedIngredient): DataCompletenessScore {
-  let score = 0,
+  let score = 0;
   let maxScore = 0,
   const missingFields: string[]  = [],
   const strengths: string[]  = [];

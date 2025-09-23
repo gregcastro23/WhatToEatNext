@@ -8,8 +8,8 @@ const rawStarchyVegetables = {
       Earth: 0.6,
       Water: 0.25,
       Fire: 0.1,
-      Air: 0.05,
-    },
+      Air: 0.05
+},
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Moon'],
       favorableZodiac: ['taurus', 'capricorn', 'cancer'],
@@ -19,18 +19,18 @@ const rawStarchyVegetables = {
           first: {
             element: 'Earth',
             planet: 'Saturn',
-            influence: 0.7,
-          },
+            influence: 0.7
+},
           second: {
             element: 'Water',
             planet: 'Moon',
-            influence: 0.5,
-          },
+            influence: 0.5
+},
           third: {
             element: 'Earth',
             planet: 'Saturn',
-            influence: 0.6,
-          }
+            influence: 0.6
+}
         }
       }
     },
@@ -71,8 +71,8 @@ const rawStarchyVegetables = {
       Earth: 0.5,
       Fire: 0.3,
       Water: 0.15,
-      Air: 0.05,
-    },
+      Air: 0.05
+},
     astrologicalProfile: {
       rulingPlanets: ['Jupiter', 'Sun'],
       favorableZodiac: ['sagittarius', 'leo', 'taurus'],
@@ -82,18 +82,18 @@ const rawStarchyVegetables = {
           first: {
             element: 'Fire',
             planet: 'Sun',
-            influence: 0.6,
-          },
+            influence: 0.6
+},
           second: {
             element: 'Earth',
             planet: 'Jupiter',
-            influence: 0.7,
-          },
+            influence: 0.7
+},
           third: {
             element: 'Fire',
             planet: 'Sun',
-            influence: 0.5,
-          }
+            influence: 0.5
+}
         }
       }
     },
@@ -134,8 +134,8 @@ const rawStarchyVegetables = {
       Fire: 0.7162207554458272,
       Water: 0.2242992223845753,
       Earth: 0.025780554575838496,
-      Air: 0.03369946759375892,
-    },
+      Air: 0.03369946759375892
+},
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Mercury'],
       favorableZodiac: ['gemini', 'libra', 'taurus'],
@@ -145,18 +145,18 @@ const rawStarchyVegetables = {
           first: {
             element: 'Fire',
             planet: 'Venus',
-            influence: 0.7,
-          },
+            influence: 0.7
+},
           second: {
             element: 'Air',
             planet: 'Mercury',
-            influence: 0.6,
-          },
+            influence: 0.6
+},
           third: {
             element: 'Fire',
             planet: 'Venus',
-            influence: 0.6,
-          }
+            influence: 0.6
+}
         }
       }
     },

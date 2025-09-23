@@ -57,8 +57,8 @@ describe('EnterpriseIntelligenceGenerator', () => {
           lineNumber: 1,
           isDefault: false,
           complexity: 5,
-          usageCount: 0,
-        }
+          usageCount: 0
+}
       ],
       safetyScore: 90,
       transformationCandidates: [
@@ -69,13 +69,13 @@ describe('EnterpriseIntelligenceGenerator', () => {
             lineNumber: 1,
             isDefault: false,
             complexity: 5,
-            usageCount: 0,
-          },
+            usageCount: 0
+},
           intelligenceSystemName: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM',
           transformationComplexity: TransformationComplexity.MODERATE,
           safetyScore: 85,
-          estimatedBenefit: 75,
-        }
+          estimatedBenefit: 75
+}
       ],
       category: FileCategory.CORE
     }
@@ -135,13 +135,13 @@ describe('EnterpriseIntelligenceGenerator', () => {
           lineNumber: 1,
           isDefault: false,
           complexity: 5,
-          usageCount: 0,
-        },
+          usageCount: 0
+},
         intelligenceSystemName: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.MODERATE,
         safetyScore: 85,
-        estimatedBenefit: 75,
-      }
+        estimatedBenefit: 75
+}
 
       const template: any = (
         generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }).selectTemplate(candidate)
@@ -156,13 +156,13 @@ describe('EnterpriseIntelligenceGenerator', () => {
           lineNumber: 1,
           isDefault: false,
           complexity: 10,
-          usageCount: 0,
-        },
+          usageCount: 0
+},
         intelligenceSystemName: 'TEST_CLASS_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.COMPLEX,
         safetyScore: 80,
-        estimatedBenefit: 85,
-      }
+        estimatedBenefit: 85
+}
 
       const template: any = (
         generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }).selectTemplate(candidate)
@@ -177,13 +177,13 @@ describe('EnterpriseIntelligenceGenerator', () => {
           lineNumber: 1,
           isDefault: false,
           complexity: 3,
-          usageCount: 0,
-        },
+          usageCount: 0
+},
         intelligenceSystemName: 'TEST_INTERFACE_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.SIMPLE,
         safetyScore: 95,
-        estimatedBenefit: 60,
-      }
+        estimatedBenefit: 60
+}
 
       const template: any = (
         generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }).selectTemplate(candidate)
@@ -198,13 +198,13 @@ describe('EnterpriseIntelligenceGenerator', () => {
           lineNumber: 1,
           isDefault: false,
           complexity: 2,
-          usageCount: 0,
-        },
+          usageCount: 0
+},
         intelligenceSystemName: 'TEST_CONSTANT_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.SIMPLE,
         safetyScore: 90,
-        estimatedBenefit: 50,
-      }
+        estimatedBenefit: 50
+}
 
       const template: any = (
         generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }).selectTemplate(candidate)
@@ -221,13 +221,13 @@ describe('EnterpriseIntelligenceGenerator', () => {
           lineNumber: 1,
           isDefault: false,
           complexity: 5,
-          usageCount: 0,
-        },
+          usageCount: 0
+},
         intelligenceSystemName: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.MODERATE,
         safetyScore: 85,
-        estimatedBenefit: 75,
-      }
+        estimatedBenefit: 75
+}
 
       const template: any = (
         generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }).selectTemplate(candidate)
@@ -250,13 +250,13 @@ describe('EnterpriseIntelligenceGenerator', () => {
           lineNumber: 1,
           isDefault: false,
           complexity: 10,
-          usageCount: 0,
-        },
+          usageCount: 0
+},
         intelligenceSystemName: 'TEST_CLASS_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.COMPLEX,
         safetyScore: 80,
-        estimatedBenefit: 85,
-      }
+        estimatedBenefit: 85
+}
 
       const template: any = (
         generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }).selectTemplate(candidate)
@@ -280,13 +280,13 @@ describe('EnterpriseIntelligenceGenerator', () => {
           lineNumber: 1,
           isDefault: false,
           complexity: 25,
-          usageCount: 0,
-        },
+          usageCount: 0
+},
         intelligenceSystemName: 'COMPLEX_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.VERY_COMPLEX,
         safetyScore: 70,
-        estimatedBenefit: 90,
-      }
+        estimatedBenefit: 90
+}
 
       const template: any = (
         generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }).selectTemplate(candidate)
@@ -312,13 +312,13 @@ describe('EnterpriseIntelligenceGenerator', () => {
           lineNumber: 1,
           isDefault: false,
           complexity: 5,
-          usageCount: 0,
-        },
+          usageCount: 0
+},
         intelligenceSystemName: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.MODERATE,
         safetyScore: 85,
-        estimatedBenefit: 75,
-      }
+        estimatedBenefit: 75
+}
 
       const integrationPoints: any = (generator as unknown as {,
           generateIntegrationPoints: (candidat, e: Record<string, unknown>, path: string) => Record<string, unknown>
@@ -342,13 +342,13 @@ describe('EnterpriseIntelligenceGenerator', () => {
           lineNumber: 1,
           isDefault: false,
           complexity: 3,
-          usageCount: 0,
-        },
+          usageCount: 0
+},
         intelligenceSystemName: 'SAFE_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.SIMPLE,
         safetyScore: 95,
-        estimatedBenefit: 70,
-      }
+        estimatedBenefit: 70
+}
 
       const integrationPoints: any = (generator as unknown as {,
           generateIntegrationPoints: (candidat, e: Record<string, unknown>, path: string) => Record<string, unknown>
@@ -370,13 +370,13 @@ describe('EnterpriseIntelligenceGenerator', () => {
           lineNumber: 1,
           isDefault: false,
           complexity: 5,
-          usageCount: 0,
-        },
+          usageCount: 0
+},
         intelligenceSystemName: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.MODERATE,
         safetyScore: 85,
-        estimatedBenefit: 75,
-      }
+        estimatedBenefit: 75
+}
 
       const template: any = (
         generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }).selectTemplate(candidate)
@@ -410,13 +410,13 @@ describe('EnterpriseIntelligenceGenerator', () => {
           lineNumber: 10,
           isDefault: false,
           complexity: 8,
-          usageCount: 0,
-        },
+          usageCount: 0
+},
         intelligenceSystemName: 'ORIGINAL_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.MODERATE,
         safetyScore: 80,
-        estimatedBenefit: 70,
-      }
+        estimatedBenefit: 70
+}
 
       const template: any = (
         generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }).selectTemplate(candidate)
@@ -448,13 +448,13 @@ describe('EnterpriseIntelligenceGenerator', () => {
           lineNumber: 1,
           isDefault: false,
           complexity: 5,
-          usageCount: 0,
-        },
+          usageCount: 0
+},
         intelligenceSystemName: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.MODERATE,
         safetyScore: 85,
-        estimatedBenefit: 50,
-      }
+        estimatedBenefit: 50
+}
 
       const capabilities: any = [
         {;
@@ -491,13 +491,13 @@ describe('EnterpriseIntelligenceGenerator', () => {
           lineNumber: 1,
           isDefault: false,
           complexity: 2,
-          usageCount: 0,
-        },
+          usageCount: 0
+},
         intelligenceSystemName: 'SIMPLE_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.SIMPLE,
         safetyScore: 95,
-        estimatedBenefit: 40,
-      }
+        estimatedBenefit: 40
+}
 
       const capabilities: any = [
         {;
@@ -525,13 +525,13 @@ describe('EnterpriseIntelligenceGenerator', () => {
           lineNumber: 1,
           isDefault: false,
           complexity: 30,
-          usageCount: 0,
-        },
+          usageCount: 0
+},
         intelligenceSystemName: 'COMPLEX_FUNCTION_INTELLIGENCE_SYSTEM',
         transformationComplexity: TransformationComplexity.VERY_COMPLEX,
         safetyScore: 60,
-        estimatedBenefit: 95,
-      }
+        estimatedBenefit: 95
+}
 
       const capabilities: any = [
         {;
@@ -564,8 +564,8 @@ describe('EnterpriseIntelligenceGenerator', () => {
             lineNumber: 1,
             isDefault: false,
             complexity: 5,
-            usageCount: 0,
-          },
+            usageCount: 0
+},
           generatedCode: 'code1',
           capabilities: [
             { name: 'cap1', description: 'desc1', implementation: 'impl1', complexity: CapabilityComplexity.BASIC },
@@ -596,8 +596,8 @@ describe('EnterpriseIntelligenceGenerator', () => {
             lineNumber: 1,
             isDefault: false,
             complexity: 10,
-            usageCount: 0,
-          },
+            usageCount: 0
+},
           generatedCode: 'code2',
           capabilities: [
             { name: 'cap3', description: 'desc3', implementation: 'impl3', complexity: CapabilityComplexity.ADVANCED }
@@ -638,8 +638,8 @@ describe('EnterpriseIntelligenceGenerator', () => {
             lineNumber: 1,
             isDefault: false,
             complexity: 5,
-            usageCount: 0,
-          },
+            usageCount: 0
+},
           generatedCode: 'code',
           capabilities: [],
           integrationPoints: [

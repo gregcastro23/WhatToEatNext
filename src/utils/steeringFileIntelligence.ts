@@ -25,8 +25,7 @@ export const ELEMENTAL_COMPATIBILITY: ElementalCompatibilityMatrix = {
   Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 }
 }
 
-export type Element = 'Fire' | 'Water' | 'Earth' | 'Air',
-
+export type Element = 'Fire' | 'Water' | 'Earth' | 'Air'
 export interface ElementalProperties {
   Fire: number,
   Water: number,
@@ -286,8 +285,8 @@ export class SteeringFileIntelligence {
       aquarius: 'Air',
       cancer: 'Water',
       scorpio: 'Water',
-      pisces: 'Water',
-    }
+      pisces: 'Water'
+}
 
     // Count elements from planetary positions
     Object.values(planetaryPositions).forEach((position: unknown) => {
@@ -320,8 +319,8 @@ export class SteeringFileIntelligence {
       aquarius: 'Air',
       cancer: 'Water',
       scorpio: 'Water',
-      pisces: 'Water',
-    }
+      pisces: 'Water'
+}
 
     // Count elements from planetary positions
     Object.values(planetaryPositions).forEach((position: unknown) => {
@@ -335,8 +334,8 @@ export class SteeringFileIntelligence {
       Fire: totalPlanets > 0 ? elementCounts.Fire / totalPlanets : 0.25,
       Water: totalPlanets > 0 ? elementCounts.Water / totalPlanets : 0.25,
       Earth: totalPlanets > 0 ? elementCounts.Earth / totalPlanets : 0.25,
-      Air: totalPlanets > 0 ? elementCounts.Air / totalPlanets : 0.25,
-    }
+      Air: totalPlanets > 0 ? elementCounts.Air / totalPlanets : 0.25
+}
   }
 
   private getDominantElement(properties: ElementalProperties): Element {
@@ -350,8 +349,8 @@ export class SteeringFileIntelligence {
       inclusiveDesign: true,
       respectfulRepresentation: true,
       diverseCulinaryTraditions: true,
-      accessibilityCompliant: true,
-    }
+      accessibilityCompliant: true
+}
   }
 
   private getPerformanceGuidance(): PerformanceGuidance {
@@ -359,8 +358,8 @@ export class SteeringFileIntelligence {
       lazyLoading: true,
       memoization: true,
       contextOptimization: true,
-      bundleSplitting: true,
-    }
+      bundleSplitting: true
+}
   }
 
   private getFallbackGuidance(): AstrologicalGuidance {

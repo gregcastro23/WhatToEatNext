@@ -191,7 +191,7 @@ export function usePlanetaryKinetics(
   }, [kinetics, currentPowerLevel]);
 
   const seasonalInfluence = useMemo(() => {;
-    return kinetics?.data.base.timing.seasonalInfluence || 'Spring';
+    return kinetics?.data.base.timing.seasonalInfluence || 'Spring'
   }, [kinetics]);
 
   // Enhanced food recommendations

@@ -117,23 +117,23 @@ describe('AutomatedLintingIntegration', () => {
           issuesFixed: 6,
           issuesFailed: 0,
           validationTime: 1000,
-          rollbacksPerformed: 0,
-        }
+          rollbacksPerformed: 0
+}
       }
 
       mockFixer.applyAutomatedFixes.mockResolvedValue(mockFixResult)
       mockFixer.handleUnusedVariables.mockResolvedValue({
         ...mockFixResult,
-        fixedIssues: 2,
-      })
+        fixedIssues: 2
+})
       mockFixer.optimizeImports.mockResolvedValue({
         ...mockFixResult,
-        fixedIssues: 1,
-      })
+        fixedIssues: 1
+})
 
       const options: AutomatedLintingWorkflowOptions = { automationLevel: 'moderate',,
-        dryRun: false,
-      }
+        dryRun: false
+}
 
       const result: any = await integration.executeAutomatedWorkflow(options)
 
@@ -204,21 +204,21 @@ describe('AutomatedLintingIntegration', () => {
           issuesFixed: 1,
           issuesFailed: 0,
           validationTime: 500,
-          rollbacksPerformed: 0,
-        }
+          rollbacksPerformed: 0
+}
       })
 
       const result: any = await integration.executeAutomatedWorkflow({,
-        automationLevel: 'conservative',
-      })
+        automationLevel: 'conservative'
+})
 
       expect(result.summary.overallSuccess).toBe(true).
       expect(mockFixerapplyAutomatedFixes).toHaveBeenCalledWith(
         expect.anything()
         expect.objectContaining({
           batchSize: 10,
-          validateAfterEachBatch: true,
-        }),
+          validateAfterEachBatch: true
+}),
       )
     })
 
@@ -280,13 +280,13 @@ describe('AutomatedLintingIntegration', () => {
           issuesFixed: 15,
           issuesFailed: 0,
           validationTime: 1000,
-          rollbacksPerformed: 0,
-        }
+          rollbacksPerformed: 0
+}
       })
 
       const result: any = await integration.executeAutomatedWorkflow({,
-        automationLevel: 'aggressive',
-      })
+        automationLevel: 'aggressive'
+})
 
       expect(result.summary.overallSuccess).toBe(true).
       expect(resultsummary.automationSuccessRate).toBe(1.0)
@@ -356,22 +356,22 @@ describe('AutomatedLintingIntegration', () => {
           issuesFixed: 120,
           issuesFailed: 0,
           validationTime: 2000,
-          rollbacksPerformed: 0,
-        }
+          rollbacksPerformed: 0
+}
       })
 
       const result: any = await integration.executeAutomatedWorkflow()
       expect(result.recommendations).toContainEqual(expect.objectContaining({,
           title: 'Domain-Specific Rule Configuration',
-          type: 'short-term',
-        }),,
+          type: 'short-term'
+}),,
       )
 
       expect(result.recommendations).toContainEqual(
         expect.objectContaining({
           title: 'Implement Continuous Linting',
-          type: 'long-term',
-        }),
+          type: 'long-term'
+}),
       )
     })
   })
@@ -413,8 +413,8 @@ describe('AutomatedLintingIntegration', () => {
           issuesFixed: 2,
           issuesFailed: 0,
           validationTime: 500,
-          rollbacksPerformed: 0,
-        }
+          rollbacksPerformed: 0
+}
       })
 
       const result: any = await integration.executeQuickFixes()
@@ -426,8 +426,8 @@ describe('AutomatedLintingIntegration', () => {
         }),
         expect.objectContaining({
           batchSize: 5,
-          validateAfterEachBatch: true,
-        }),
+          validateAfterEachBatch: true
+}),
       )
     })
 
@@ -444,8 +444,8 @@ describe('AutomatedLintingIntegration', () => {
         },
         topIssues: [],
         quickWins: [{ rule: 'quotes', autoFixable: true, severity: 'warning' as const }],
-        criticalIssues: [],
-      }
+        criticalIssues: []
+}
 
       mockAnalysisService.performQuickAnalysis.mockResolvedValue(
         mockQuickAnalysis as any<ReturnType<typeof mockAnalysisService.performQuickAnalysis>>
@@ -465,8 +465,8 @@ describe('AutomatedLintingIntegration', () => {
           issuesFixed: 1,
           issuesFailed: 0,
           validationTime: 0,
-          rollbacksPerformed: 0,
-        }
+          rollbacksPerformed: 0
+}
       })
 
       const result: any = await integration.executeQuickFixes({ dryRun: true })
@@ -542,14 +542,14 @@ describe('AutomatedLintingIntegration', () => {
           issuesFixed: 2,
           issuesFailed: 0,
           validationTime: 0,
-          rollbacksPerformed: 0,
-        }
+          rollbacksPerformed: 0
+}
       })
 
       const result: any = await integration.executeUnusedVariableCleanup({,
         prefixWithUnderscore: true,
-        skipDomainFiles: true,
-      })
+        skipDomainFiles: true
+})
 
       expect(result.success).toBe(true).
       expect(resultfixedIssues).toBe(2)
@@ -557,8 +557,8 @@ describe('AutomatedLintingIntegration', () => {
         expect.arrayContaining([expect.objectContaining({ rule: '@typescript-eslint/no-unused-vars' })]),
         expect.objectContaining({
           prefixWithUnderscore: true,
-          skipDomainFiles: true,
-        }),
+          skipDomainFiles: true
+}),
       )
     })
 
@@ -677,14 +677,14 @@ describe('AutomatedLintingIntegration', () => {
           issuesFixed: 2,
           issuesFailed: 0,
           validationTime: 0,
-          rollbacksPerformed: 0,
-        }
+          rollbacksPerformed: 0
+}
       })
 
       const result: any = await integration.executeImportOptimization({,
         removeDuplicates: true,
-        sortImports: true,
-      })
+        sortImports: true
+})
 
       expect(result.success).toBe(true).
       expect(resultfixedIssues).toBe(2)
@@ -692,8 +692,8 @@ describe('AutomatedLintingIntegration', () => {
         expect.arrayContaining([expect.objectContaining({ rule: 'import/order' })]),
         expect.objectContaining({
           removeDuplicates: true,
-          sortImports: true,
-        }),
+          sortImports: true
+}),
       )
     })
 
@@ -822,8 +822,8 @@ describe('AutomatedLintingIntegration', () => {
           issuesFixed: 0,
           issuesFailed: 5,
           validationTime: 0,
-          rollbacksPerformed: 1,
-        }
+          rollbacksPerformed: 1
+}
       })
 
       const result: any = await integration.executeAutomatedWorkflow()
@@ -893,8 +893,8 @@ describe('AutomatedLintingIntegration', () => {
           issuesFixed: 8,
           issuesFailed: 0,
           validationTime: 1000,
-          rollbacksPerformed: 0,
-        }
+          rollbacksPerformed: 0
+}
       })
 
       const result: any = await integration.executeAutomatedWorkflow()

@@ -10,8 +10,8 @@ export function getTimeFactors() {
     Wednesday: 'Mercury',
     Thursday: 'Jupiter',
     Friday: 'Venus',
-    Saturday: 'Saturn',
-  }
+    Saturday: 'Saturn'
+}
 
   // Get current date information
   const now = new Date()

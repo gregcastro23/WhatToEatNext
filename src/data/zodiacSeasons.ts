@@ -9,8 +9,8 @@ interface ZodiacSeasonData {
   endMonth: number,
   endDay: number,
   ruling_planet: string,
-  polarity: 'positive' | 'negative',
-  modality: 'cardinal' | 'fixed' | 'mutable',
+  polarity: 'positive' | 'negative'
+  modality: 'cardinal' | 'fixed' | 'mutable'
   // Culinary properties specific to this zodiac period
   culinaryProperties: {
     flavorProfile: string[],

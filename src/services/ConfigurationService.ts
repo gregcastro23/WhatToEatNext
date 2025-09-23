@@ -3,7 +3,7 @@
 import { config } from '@/config';
 
 export interface ConfigurationUpdate {
-  section: 'api' | 'astrology' | 'debug',
+  section: 'api' | 'astrology' | 'debug'
   key: string,
    
   // Intentionally, any: Configuration values can be strings, numbers, booleans, or objects
@@ -258,8 +258,8 @@ class ConfigurationServiceImpl {
               section: 'api',
               key,
               message: 'Update interval must be between 1 minute and 24 hours',
-              severity: 'error',
-            })
+              severity: 'error'
+})
           }
           break,
         case 'timeout':
@@ -268,8 +268,8 @@ class ConfigurationServiceImpl {
               section: 'api',
               key,
               message: 'Timeout must be between 1 second and 5 minutes',
-              severity: 'error',
-            })
+              severity: 'error'
+})
           }
           break,
         case 'retryCount':
@@ -278,8 +278,8 @@ class ConfigurationServiceImpl {
               section: 'api',
               key,
               message: 'Retry count must be between 0 and 10',
-              severity: 'error',
-            })
+              severity: 'error'
+})
           }
           break,
         case 'baseUrl':
@@ -291,8 +291,8 @@ class ConfigurationServiceImpl {
               section: 'api',
               key,
               message: 'Base URL must be a valid HTTP/HTTPS URL',
-              severity: 'error',
-            })
+              severity: 'error'
+})
           }
           break,
       }
@@ -304,8 +304,8 @@ class ConfigurationServiceImpl {
               section: 'astrology',
               key,
               message: 'Retrograde threshold should be between -5 and 5 degrees/day',
-              severity: 'warning',
-            })
+              severity: 'warning'
+})
           }
           break,
         case 'defaultTimezoneName':
@@ -325,8 +325,8 @@ class ConfigurationServiceImpl {
               section: 'astrology',
               key,
               message: 'Unknown timezone identifier',
-              severity: 'warning',
-            })
+              severity: 'warning'
+})
           }
           break,
       }
@@ -532,7 +532,7 @@ class ConfigurationServiceImpl {
    * Get configuration health status
    */
   public getHealthStatus(): {
-    status: 'healthy' | 'warning' | 'error',
+    status: 'healthy' | 'warning' | 'error'
     issues: string[],
     lastUpdate: number | null
   } {

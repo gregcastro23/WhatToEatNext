@@ -99,8 +99,8 @@ class ErrorHandlerService {
       type,
       severity,
       timestamp: new Date().toISOString(),
-      handled: true,
-    }
+      handled: true
+}
   }
 
   /**
@@ -147,7 +147,7 @@ class ErrorHandlerService {
   handleError(error: unknown, context?: unknown): void {
     // Delegate to the main log method with proper options
     this.log(error, {
-      context: (context) || 'unknown',
+      context: (context) || 'unknown'
       type: ErrorType.UNKNOWN,
       severity: ErrorSeverity.ERROR
     })
@@ -157,9 +157,9 @@ class ErrorHandlerService {
    * Prepare standardized error details object
    */
   private prepareErrorDetails(error: unknown, options: ErrorOptions): ErrorDetails {
-    let message = 'Unknown error',
+    let message = 'Unknown error';
     let stack: string | undefined,
-    let errorType = 'unknown',
+    let errorType = 'unknown';
     let componentStack: string | undefined,
 
     if (error instanceof Error) {

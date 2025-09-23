@@ -166,8 +166,8 @@ export class ChakraAlchemyService {
       heart: 0.2,
       throat: 0.2,
       thirdEye: 0.2,
-      crown: 0.2,
-    }
+      crown: 0.2
+}
 
     // Calculate base values using the sun and moon signs
     this.addZodiacInfluence(energies, sunSign, 1.5); // Sun has stronger influence
@@ -204,8 +204,8 @@ export class ChakraAlchemyService {
       heart: 0,
       throat: 0,
       thirdEye: 0,
-      crown: 0,
-    }
+      crown: 0
+}
 
     // Map energy states to chakras based on the primary energy state of each chakra
     Object.entries(CHAKRAS).forEach(([position, chakra]) => {

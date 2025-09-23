@@ -68,7 +68,7 @@ export class RecipeRecommender {
 
   private calculateRecipeScore(recipe: Recipe, criteria: RecommendationCriteria): number {
     try {
-      let score = 0,
+      let score = 0;
       let totalWeight = 0,
 
       // Enhanced weighting system with more factors
@@ -226,7 +226,7 @@ export class RecipeRecommender {
     recipeElements: ElementalProperties,
     targetElements: ElementalProperties,
   ): number {
-    let alignment = 0,
+    let alignment = 0;
     let total = 0,
 
     Object.keys(targetElements).forEach(element => {
@@ -271,14 +271,14 @@ export class RecipeRecommender {
         Fire: 0.25,
         Earth: 0.25,
         Air: 0.25,
-        Water: 0.25,
-      },
+        Water: 0.25
+},
       season: ['all'],
       mealType: ['lunch', 'dinner'],
       timeToMake: '20 minutes',
       numberOfServings: 1,
-      score: 0.75,
-    }
+      score: 0.75
+}
   }
 
   private async getSpoonacularRecommendations(

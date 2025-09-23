@@ -27,7 +27,7 @@ export interface ServiceIntegrationConfig {
   logLevel: 'debug' | 'info' | 'warn' | 'error' },
         export interface ApiEndpointInfo {
   endpoint: string,
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
   filePath: string,
   lineNumber: number,
   isActive: boolean,
@@ -57,7 +57,7 @@ export interface ConfigurationDependency {
 export interface ServiceIntegrationResult {
   passed: boolean,
   servicePath: string,
-  validationType: 'api-endpoint' | 'service-method' | 'configuration' | 'integration-test',
+  validationType: 'api-endpoint' | 'service-method' | 'configuration' | 'integration-test'
   errors: string[],
   warnings: string[],
   recommendations: string[],
@@ -91,7 +91,7 @@ export interface ComprehensiveQualityReport {
   processedServices: string[],
   qualityMetrics: QualityMetrics,
   serviceResults: ServiceIntegrationResult[],
-  overallAssessment: 'excellent' | 'good' | 'acceptable' | 'needs-improvement' | 'critical',
+  overallAssessment: 'excellent' | 'good' | 'acceptable' | 'needs-improvement' | 'critical'
   actionItems: string[],
   recommendations: string[],
   targetStatus: {
@@ -588,7 +588,7 @@ export class ServiceIntegrationValidator {
           if (endpoint.startsWith('/api/') || endpoint.startsWith('http')) {
             endpoints.push({
               endpoint,
-              method: this.extractHttpMethod(line) || 'GET',
+              method: this.extractHttpMethod(line) || 'GET'
               filePath: servicePath,
               lineNumber,
               isActive: true,
@@ -754,8 +754,8 @@ export class ServiceIntegrationValidator {
       const output = execSync(testCommand, {
         encoding: 'utf8',
         timeout: this.config.testTimeout,
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       return this.parseTestResults(output)
     } catch (error: any) {
@@ -771,7 +771,7 @@ export class ServiceIntegrationValidator {
     const passedMatch = outputStr.match(/(\d+) passed/)
     const failedMatch = outputStr.match(/(\d+) failed/)
 ;
-    const passed = passedMatch ? parseInt(passedMatch[1]) : 0,
+    const passed = passedMatch ? parseInt(passedMatch[1]) : 0;
     const failed = failedMatch ? parseInt(failedMatch[1]) : 0,
     const total = passed + failed
 ;
@@ -782,8 +782,8 @@ export class ServiceIntegrationValidator {
     try {
       const output = execSync('yarn lint --format=json', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       const lintResults = JSON.parse(output);
       let unusedVarCount = 0,
@@ -807,8 +807,8 @@ export class ServiceIntegrationValidator {
     try {
       execSync('yarn tsc --noEmit --skipLibCheck', {
         stdio: 'pipe',
-        timeout: 30000,
-      })
+        timeout: 30000
+})
       return 0; // No errors
     } catch (error: any) {
       const errorOutput = error.stdout || error.stderr || '';

@@ -9,8 +9,8 @@ const rawAmaranth = {
       rulingPlanets: ['Mars', 'Venus'],
       elementalAffinity: {
         base: 'Earth',
-        secondary: 'Fire',
-      }
+        secondary: 'Fire'
+}
     },
     qualities: ['nutty', 'earthy', 'gelatinous', 'gluten-free', 'protein-rich'],
     category: 'pseudo_grain',

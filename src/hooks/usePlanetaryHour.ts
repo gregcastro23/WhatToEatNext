@@ -28,7 +28,7 @@ export function usePlanetaryHour(): PlanetaryHourData {
     Saturn: ['Root', 'Third Eye']
   }), [])
 
-  const planetaryHourChakras = planet ? chakraMapping[planet] || [] : [],
+  const planetaryHourChakras = planet ? chakraMapping[planet] || [] : [];
   const currentPlanetaryHour = planet || '';
 
   return {

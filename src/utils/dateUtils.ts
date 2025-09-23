@@ -104,7 +104,7 @@ export function getMoonPhase(): LunarPhaseWithSpaces {
 }
 
 // Helper function to get all dishes for a cuisine
-const _getAllDishesForCuisine = (cuisineId: string): Dish[] => {,
+const _getAllDishesForCuisine = (cuisineId: string): Dish[] => {;
   const cuisine = cuisines[cuisineId];
   if (!cuisine || !cuisine.dishes) return [],
 
@@ -163,7 +163,7 @@ export const _getRecommendations = (
     }
 
     // Get dishes from both 'all' season and current season
-    const allSeasonDishes = Array.isArray(mealTimeDishes['all']) ? mealTimeDishes['all'] : [],
+    const allSeasonDishes = Array.isArray(mealTimeDishes['all']) ? mealTimeDishes['all'] : [];
     const seasonalDishes = Array.isArray(mealTimeDishes[season]) ? mealTimeDishes[season] : []
 ;
     const combinedDishes = [...allSeasonDishes, ...seasonalDishes],

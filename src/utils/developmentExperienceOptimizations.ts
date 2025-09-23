@@ -19,8 +19,8 @@ export interface TypeScriptOptimizationConfig {
   useDefineForClassFields: boolean,
   exactOptionalPropertyTypes: boolean,
   noUncheckedIndexedAccess: boolean,
-  target: 'es2018' | 'es2020' | 'es2022' | 'esnext',
-  module: 'commonjs' | 'esnext' | 'es2020' | 'es2022',
+  target: 'es2018' | 'es2020' | 'es2022' | 'esnext'
+  module: 'commonjs' | 'esnext' | 'es2020' | 'es2022'
   moduleResolution: 'node' | 'bundler'
 }
 
@@ -137,8 +137,8 @@ export class DevelopmentExperienceOptimizer {
         _isolatedModules: true,
         _jsx: 'preserve',
         _noEmit: true,
-        _resolveJsonModule: true,
-      }
+        _resolveJsonModule: true
+}
 
       // Include patterns for faster compilation
       _include: ['next-env.d.ts', '**/*.ts', '**/*.tsx', '.next/types/**/*.ts'],
@@ -173,7 +173,7 @@ declare global {
     interface PlanetaryPosition {
       /** Zodiac sign (e.g., 'aries', 'taurus', 'gemini') */
       sign: 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' | 'virgo' |,
-            'libra' | 'scorpio' | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces',
+            'libra' | 'scorpio' | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces'
       /** Degree within the sign (0-30) */
       _degree: number,
       /** Exact longitude (0-360) */
@@ -197,7 +197,7 @@ declare global {
     // Planetary correspondences for ingredients
     interface PlanetaryCorrespondence {
       /** Primary ruling planet */
-      rulingPlanet: 'sun' | 'moon' | 'mercury' | 'venus' | 'mars' | 'jupiter' | 'saturn',
+      rulingPlanet: 'sun' | 'moon' | 'mercury' | 'venus' | 'mars' | 'jupiter' | 'saturn'
       /** Secondary planetary influences */
       influences?: Array<'sun' | 'moon' | 'mercury' | 'venus' | 'mars' | 'jupiter' | 'saturn'>,
       /** Optimal timing for use */
@@ -207,7 +207,7 @@ declare global {
     // Culinary astrology calculations
     interface CulinaryAstrologyData {
       /** Current dominant element based on planetary positions */
-      dominantElement: 'Fire' | 'Water' | 'Earth' | 'Air',
+      dominantElement: 'Fire' | 'Water' | 'Earth' | 'Air'
       /** Recommended cooking methods */
       recommendedMethods: string[],
       /** Optimal ingredients for current conditions */
@@ -338,23 +338,23 @@ export type {
       {;
         pattern: /React\.FC<([^>]+)>/g,
         replacement: 'React.FC<1>',
-        description: 'Fixed React.FC type annotation',
-      }
+        description: 'Fixed React.FC type annotation'
+}
       {
         pattern: /useEffect\(\(\) => \{([^}]+)\}, \[\]\)/g,
         replacement: 'useEffect(() => {1}, [])',
-        description: 'Fixed useEffect dependency array',
-      }
+        description: 'Fixed useEffect dependency array'
+}
       {
         pattern: /const \[([^,]+), set([^\]]+)\] = useState\(\)/g;,
         replacement: 'const [1, set2] = useState<any>()';,
-        description: 'Added type annotation to useState',
-      }
+        description: 'Added type annotation to useState'
+}
       {
         pattern: /interface ([A-Z][a-zA-Z]*) \{/g,
         replacement: 'interface 1 {',
-        description: 'Fixed interface naming convention',
-      }
+        description: 'Fixed interface naming convention'
+}
     ],
 
     commonFixes.forEach(fix => {
@@ -521,23 +521,23 @@ export type {
         enableElementalPropertyIntelliSense: true,
         enablePlanetaryPositionAutoComplete: true,
         enableCulinaryAstrologySnippets: true,
-        enableCustomTypeGuards: true,
-      },
+        enableCustomTypeGuards: true
+},
       importOrganization: {
         enableAutoImportOrganization: true,
         enableUnusedImportRemoval: true,
         enableImportSorting: true,
         enablePathMapping: true,
         groupExternalImports: true,
-        groupInternalImports: true,
-      },
+        groupInternalImports: true
+},
       performanceMonitoring: {
         enableRealTimeErrorDetection: true,
         enableCompilationTimeTracking: true,
         enableMemoryUsageMonitoring: true,
         enableBundleSizeTracking: true,
-        enableHotReloadOptimization: true,
-      }
+        enableHotReloadOptimization: true
+}
     }
   }
 
@@ -559,8 +559,8 @@ export type {
       compilationTime: 30000, // 30 seconds,
       memoryUsage: 100, // 100MB,
       bundleSize: 500 * 1024, // 500KB,
-      errorCount: 10,
-    }
+      errorCount: 10
+}
 
     Object.entries(thresholds).forEach(([metric, threshold]) => {
       const currentValue = this.metrics[metric as keyof DevelopmentMetrics];

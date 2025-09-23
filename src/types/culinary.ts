@@ -11,7 +11,7 @@ export interface CulinaryProfile {
   flavorProfile: {
     primary: string,
     secondary: string[],
-    intensity: 'mild' | 'moderate' | 'strong',
+    intensity: 'mild' | 'moderate' | 'strong'
     umami: number, // 0-1 scale
   }
 
@@ -77,8 +77,7 @@ export interface CulinaryProfile {
   notes: string,
 
   /** Flavor intensity level */
-  intensity: 'mild' | 'moderate' | 'strong',
-
+  intensity: 'mild' | 'moderate' | 'strong'
   /** Allergen information */
   allergenInfo: string,
 
@@ -102,14 +101,13 @@ export interface CulinaryProfile {
  * Broader geographical categories
  */
 export type ContinentalCuisineType =
-  | 'Asian',
+  | 'Asian'
   | 'European'
   | 'African'
   | 'American'
   | 'Oceanic'
   | 'Middle-Eastern'
-  | 'Mediterranean',
-
+  | 'Mediterranean'
 /**
  * Regional Cuisine Types
  * Specific regional variations within primary cuisines
@@ -222,14 +220,13 @@ export type RegionalCuisineType =
   | 'StPetersburg'
   | 'Siberian'
   | 'Caucasian'
-  | 'CentralAsian',
-
+  | 'CentralAsian'
 /**
  * Fusion Cuisine Types
  * Modern fusion and contemporary cuisine categories
  */
 export type FusionCuisineType =
-  | 'Asian-Fusion',
+  | 'Asian-Fusion'
   | 'Mediterranean-Fusion'
   | 'Latin-Fusion'
   | 'Modern-American'
@@ -240,14 +237,13 @@ export type FusionCuisineType =
   | 'New-American'
   | 'California-Cuisine'
   | 'Pacific-Rim'
-  | 'Caribbean-Fusion',
-
+  | 'Caribbean-Fusion'
 /**
  * Dietary Cuisine Types
  * Cuisine categories based on dietary preferences
  */
 export type DietaryCuisineType =
-  | 'Vegetarian',
+  | 'Vegetarian'
   | 'Vegan'
   | 'Raw-Food'
   | 'Gluten-Free'
@@ -258,14 +254,13 @@ export type DietaryCuisineType =
   | 'Whole30'
   | 'Plant-Based'
   | 'Mediterranean-Diet'
-  | 'DASH-Diet',
-
+  | 'DASH-Diet'
 /**
  * Historical Cuisine Types
  * Cuisine categories based on historical periods
  */
 export type HistoricalCuisineType =
-  | 'Ancient-Roman',
+  | 'Ancient-Roman'
   | 'Medieval-European'
   | 'Renaissance-Italian'
   | 'Victorian-English'
@@ -274,14 +269,13 @@ export type HistoricalCuisineType =
   | 'Classical-Greek'
   | 'Ancient-Egyptian'
   | 'Moorish-Spanish'
-  | 'Ottoman-Turkish',
-
+  | 'Ottoman-Turkish'
 /**
  * Street Food Cuisine Types
  * Street food and casual dining categories
  */
 export type StreetFoodCuisineType =
-  | 'Street-Food-Asian',
+  | 'Street-Food-Asian'
   | 'Street-Food-Mexican'
   | 'Street-Food-Indian'
   | 'Street-Food-Middle-Eastern'
@@ -292,8 +286,7 @@ export type StreetFoodCuisineType =
   | 'Comfort-Food'
   | 'Pub-Food'
   | 'Diner-Food'
-  | 'Barbecue',
-
+  | 'Barbecue'
 /**
  * Complete Cuisine Type Union
  * All possible cuisine types in the system
@@ -491,7 +484,7 @@ export const _CUISINE_CATEGORY_MAP: Record<CompleteCuisineType, string> = {
  * Uses PascalCase per project conventions
  */
 export type IngredientCategory =
-  | 'Vegetable',
+  | 'Vegetable'
   | 'Fruit'
   | 'Grain'
   | 'Protein'
@@ -501,53 +494,42 @@ export type IngredientCategory =
   | 'Seasoning'
   | 'Oil'
   | 'Vinegar'
-  | 'Other',
-
+  | 'Other'
 /**
  * Subcategory types for better type safety
  */
 export type FruitSubCategory =
-  | 'Berry',
+  | 'Berry'
   | 'Citrus'
   | 'Pome'
   | 'Stone'
   | 'Melon'
   | 'Tropical'
-  | 'Other',
-
+  | 'Other'
 export type VegetableSubCategory =
-  | 'Root',
+  | 'Root'
   | 'Starchy'
   | 'Leafy'
   | 'Nightshade'
   | 'Legume'
   | 'Cruciferous'
   | 'Allium'
-  | 'Other',
-
+  | 'Other'
 export type ProteinSubCategory =
-  | 'Poultry',
+  | 'Poultry'
   | 'Seafood'
   | 'Meat'
   | 'Legume'
   | 'PlantBased'
   | 'Egg'
-  | 'Other',
-
-export type GrainSubCategory = 'Whole' | 'Refined' | 'Ancient' | 'Pseudo' | 'Other',
-
-export type DairySubCategory = 'Milk' | 'Cheese' | 'Yogurt' | 'Butter' | 'Cream' | 'Other',
-
-export type SpiceSubCategory = 'Warm' | 'Hot' | 'Sweet' | 'Aromatic' | 'Ground' | 'Whole' | 'Other',
-
-export type HerbSubCategory = 'Fresh' | 'Dried' | 'Medicinal' | 'Culinary' | 'Other',
-
-export type SeasoningSubCategory = 'Salt' | 'Pepper' | 'Aromatic' | 'Blend' | 'Other',
-
-export type OilSubCategory = 'Cooking' | 'Finishing' | 'Infused' | 'Essential' | 'Other',
-
-export type VinegarSubCategory = 'Wine' | 'Fruit' | 'Grain' | 'Specialty' | 'Other',
-
+  | 'Other'
+export type GrainSubCategory = 'Whole' | 'Refined' | 'Ancient' | 'Pseudo' | 'Other'
+export type DairySubCategory = 'Milk' | 'Cheese' | 'Yogurt' | 'Butter' | 'Cream' | 'Other'
+export type SpiceSubCategory = 'Warm' | 'Hot' | 'Sweet' | 'Aromatic' | 'Ground' | 'Whole' | 'Other'
+export type HerbSubCategory = 'Fresh' | 'Dried' | 'Medicinal' | 'Culinary' | 'Other'
+export type SeasoningSubCategory = 'Salt' | 'Pepper' | 'Aromatic' | 'Blend' | 'Other'
+export type OilSubCategory = 'Cooking' | 'Finishing' | 'Infused' | 'Essential' | 'Other'
+export type VinegarSubCategory = 'Wine' | 'Fruit' | 'Grain' | 'Specialty' | 'Other'
 /**
  * Union type for all subcategories
  */
@@ -611,7 +593,7 @@ export type Cuisine = CompleteCuisineType,
  * Comprehensive cooking methods for recipe classification
  */
 export type CookingMethodType =
-  | 'grilling',
+  | 'grilling'
   | 'roasting'
   | 'baking'
   | 'braising'
@@ -636,20 +618,18 @@ export type CookingMethodType =
   | 'emulsifying'
   | 'tempering'
   | 'marinating'
-  | 'brining',
-
+  | 'brining'
 /**
  * Flavor Intensity Levels
  * Used for matching flavors to user preferences
  */
-export type FlavorIntensity = 'mild' | 'moderate' | 'strong' | 'intense',
-
+export type FlavorIntensity = 'mild' | 'moderate' | 'strong' | 'intense'
 /**
  * Dietary Classification Types
  * Used for dietary restriction filtering
  */
 export type DietaryClassification =
-  | 'omnivore',
+  | 'omnivore'
   | 'vegetarian'
   | 'vegan'
   | 'pescatarian'
@@ -663,20 +643,18 @@ export type DietaryClassification =
   | 'whole30'
   | 'raw-food'
   | 'halal'
-  | 'kosher',
-
+  | 'kosher'
 /**
  * Recipe Difficulty Levels
  * Used for skill-based recipe filtering
  */
-export type RecipeDifficulty = 'beginner' | 'intermediate' | 'advanced' | 'expert',
-
+export type RecipeDifficulty = 'beginner' | 'intermediate' | 'advanced' | 'expert'
 /**
  * Meal Type Categories
  * Used for time-based recipe recommendations
  */
 export type MealType =
-  | 'breakfast',
+  | 'breakfast'
   | 'brunch'
   | 'lunch'
   | 'dinner'
@@ -684,14 +662,13 @@ export type MealType =
   | 'appetizer'
   | 'dessert'
   | 'beverage'
-  | 'late-night',
-
+  | 'late-night'
 /**
  * Course Type Categories
  * Used for menu planning and recipe organization
  */
 export type CourseType =
-  | 'amuse-bouche',
+  | 'amuse-bouche'
   | 'appetizer'
   | 'soup'
   | 'salad'
@@ -701,14 +678,13 @@ export type CourseType =
   | 'dessert'
   | 'mignardises'
   | 'cheese-course'
-  | 'digestif',
-
+  | 'digestif'
 /**
  * Dish Type Categories
  * Used for recipe classification and searching
  */
 export type DishType =
-  | 'soup',
+  | 'soup'
   | 'salad'
   | 'sandwich'
   | 'pasta'
@@ -730,7 +706,6 @@ export type DishType =
   | 'marinade'
   | 'sauce'
   | 'dressing'
-  | 'dip',
-
+  | 'dip'
 // Re-export CuisineType from cuisineAliases for backwards compatibility
 export type { PrimaryCuisineType as CuisineType } from './cuisineAliases';

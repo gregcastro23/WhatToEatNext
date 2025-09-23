@@ -118,8 +118,8 @@ export const _calculateEstimatedNutrition = (ingredients: unknown[]): unknown =>
     carbs: 0,
     fat: 0,
     fiber: 0,
-    sugar: 0,
-  }
+    sugar: 0
+}
 
   // Track which vitamins and minerals are present
   const vitaminsPresent = new Set<string>()
@@ -127,7 +127,7 @@ export const _calculateEstimatedNutrition = (ingredients: unknown[]): unknown =>
 
   // Process each ingredient
   ingredients.forEach(ingredient => {,
-    let ingredientName = '',
+    let ingredientName = '';
     let amount = 1, // Default to 1 unit if not specified
 
     // Extract ingredient name and amount based on type
@@ -206,6 +206,6 @@ export const _calculateEstimatedNutrition = (ingredients: unknown[]): unknown =>
     sugar: Math.round(totals.sugar),
     vitamins: Array.from(vitaminsPresent),
     minerals: Array.from(mineralsPresent),
-    source: 'Estimated from ingredients',
-  }
+    source: 'Estimated from ingredients'
+}
 }

@@ -38,12 +38,12 @@ export interface AnalysisSummary {
   estimatedResolutionTime: number,
   overallRiskLevel: 'low' | 'medium' | 'high' | 'critical' },
         export interface AnalysisRecommendation {
-  type: 'immediate' | 'short-term' | 'long-term' | 'strategic',
-  priority: 'critical' | 'high' | 'medium' | 'low',
+  type: 'immediate' | 'short-term' | 'long-term' | 'strategic'
+  priority: 'critical' | 'high' | 'medium' | 'low'
   title: string,
   description: string,
   rationale: string,
-  estimatedImpact: 'high' | 'medium' | 'low',
+  estimatedImpact: 'high' | 'medium' | 'low'
   actionItems: string[]
 }
 

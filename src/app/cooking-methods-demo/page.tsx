@@ -156,8 +156,8 @@ export default function CookingMethodsDemoPage() {
               bgcolor: 'rgba(0, 0, 0, 0.05)',
               borderRadius: 1,
               overflow: 'auto',
-              fontSize: '0.8rem',
-            }}
+              fontSize: '0.8rem'
+}}
           >
             {JSON.stringify(selectedMethod, null, 2)}
           </Box>

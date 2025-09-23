@@ -47,14 +47,14 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       sour: 0.5,
       bitter: 0.4,
       salty: 0.6,
-      umami: 0.5,
-    },
+      umami: 0.5
+},
     elementalAlignment: {
       Fire: 0.3,
       Earth: 0.3,
       Water: 0.3,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     signatureTechniques: ['grilling', 'braising', 'marinating'],
     signatureIngredients: ['olive oil', 'tomatoes', 'lemons', 'herbs', 'garlic'],
     traditionalMealPatterns: ['small plates', 'family-style', 'late dining'],
@@ -73,14 +73,14 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       sour: 0.4,
       bitter: 0.3,
       salty: 0.5,
-      umami: 0.8,
-    },
+      umami: 0.8
+},
     elementalAlignment: {
       Earth: 0.55,
       Water: 0.25,
       Fire: 0.1,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     signatureTechniques: ['sautéing', 'sous vide', 'flambéing', 'reduction'],
     signatureIngredients: ['butter', 'wine', 'cream', 'shallots', 'herbs de provence'],
     traditionalMealPatterns: ['course-based dining', 'wine pairings', 'sauces'],
@@ -100,14 +100,14 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       sour: 0.5,
       bitter: 0.3,
       salty: 0.6,
-      umami: 0.7,
-    },
+      umami: 0.7
+},
     elementalAlignment: {
       Earth: 0.5,
       Fire: 0.3,
       Water: 0.1,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     signatureTechniques: ['al dente pasta cooking', 'slow simmering', 'grilling'],
     signatureIngredients: ['tomatoes', 'olive oil', 'basil', 'parmesan', 'garlic'],
     traditionalMealPatterns: ['antipasti', 'primi', 'secondi', 'family-style'],
@@ -128,14 +128,14 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       sour: 0.4,
       bitter: 0.3,
       salty: 0.6,
-      umami: 0.9,
-    },
+      umami: 0.9
+},
     elementalAlignment: {
       Water: 0.65,
       Earth: 0.2,
       Air: 0.1,
-      Fire: 0.05,
-    },
+      Fire: 0.05
+},
     signatureTechniques: ['raw preparation', 'steaming', 'quick grilling', 'fermentation'],
     signatureIngredients: ['dashi', 'soy sauce', 'mirin', 'rice', 'seaweed'],
     traditionalMealPatterns: ['seasonal focus', 'multiple small dishes', 'ichiju-sansai'],
@@ -155,14 +155,14 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       sour: 0.6,
       bitter: 0.2,
       salty: 0.6,
-      umami: 0.7,
-    },
+      umami: 0.7
+},
     elementalAlignment: {
       Fire: 0.5,
       Earth: 0.3,
       Water: 0.1,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     signatureTechniques: ['fermentation', 'grilling', 'stewing'],
     signatureIngredients: ['gochujang', 'kimchi', 'sesame', 'garlic', 'soy sauce'],
     traditionalMealPatterns: ['banchan', 'communal dining', 'balanced meals'],
@@ -181,14 +181,14 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       sour: 0.4,
       bitter: 0.3,
       salty: 0.6,
-      umami: 0.7,
-    },
+      umami: 0.7
+},
     elementalAlignment: {
       Fire: 0.3,
       Earth: 0.4,
       Water: 0.2,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     signatureTechniques: ['stir-frying', 'steaming', 'braising', 'double-frying'],
     signatureIngredients: ['soy sauce', 'rice', 'ginger', 'garlic', 'scallions'],
     traditionalMealPatterns: ['balance of flavors and textures', 'shared dishes', 'rice-based'],
@@ -208,14 +208,14 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       sour: 0.5,
       bitter: 0.4,
       salty: 0.5,
-      umami: 0.6,
-    },
+      umami: 0.6
+},
     elementalAlignment: {
       Fire: 0.7,
       Earth: 0.1,
       Water: 0.1,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     signatureTechniques: ['dry-frying', 'double-frying', 'stir-frying', 'steaming'],
     signatureIngredients: [
       'Sichuan peppercorns',
@@ -241,14 +241,14 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       sour: 0.3,
       bitter: 0.3,
       salty: 0.5,
-      umami: 0.7,
-    },
+      umami: 0.7
+},
     elementalAlignment: {
       Water: 0.4,
       Earth: 0.3,
       Fire: 0.2,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     signatureTechniques: ['steaming', 'stir-frying', 'roasting', 'double-boiling'],
     signatureIngredients: ['fresh seafood', 'soy sauce', 'ginger', 'scallions', 'rice wine'],
     traditionalMealPatterns: ['family-style', 'dim sum', 'fresh ingredients'],
@@ -269,14 +269,14 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       sour: 0.5,
       bitter: 0.2,
       salty: 0.5,
-      umami: 0.4,
-    },
+      umami: 0.4
+},
     elementalAlignment: {
       Fire: 0.55,
       Earth: 0.25,
       Water: 0.1,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     signatureTechniques: ['nixtamalization', 'grilling', 'slow cooking', 'frying'],
     signatureIngredients: ['corn', 'chilies', 'tomatoes', 'avocado', 'lime'],
     traditionalMealPatterns: ['multiple elements combined', 'salsas and condiments'],
@@ -296,14 +296,14 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       sour: 0.7,
       bitter: 0.3,
       salty: 0.6,
-      umami: 0.5,
-    },
+      umami: 0.5
+},
     elementalAlignment: {
       Fire: 0.4,
       Water: 0.3,
       Earth: 0.2,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     signatureTechniques: ['stir-frying', 'pounding', 'grilling', 'steaming'],
     signatureIngredients: ['lemongrass', 'fish sauce', 'chilies', 'coconut milk', 'thai basil'],
     traditionalMealPatterns: ['balance of flavors', 'shared dishes', 'rice-centric'],
@@ -323,14 +323,14 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       sour: 0.5,
       bitter: 0.3,
       salty: 0.6,
-      umami: 0.4,
-    },
+      umami: 0.4
+},
     elementalAlignment: {
       Fire: 0.5,
       Earth: 0.3,
       Water: 0.1,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     signatureTechniques: ['tempering', 'slow cooking', 'tandoor', 'curry-making'],
     signatureIngredients: ['garam masala', 'ghee', 'chilies', 'turmeric', 'ginger-garlic'],
     traditionalMealPatterns: ['thali', 'variety of flavors', 'balanced nutrition'],
@@ -350,14 +350,14 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       sour: 0.3,
       bitter: 0.2,
       salty: 0.7,
-      umami: 0.5,
-    },
+      umami: 0.5
+},
     elementalAlignment: {
       Fire: 0.3,
       Water: 0.2,
       Earth: 0.4,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     signatureTechniques: ['grilling', 'barbecuing', 'frying', 'baking'],
     signatureIngredients: ['beef', 'corn', 'potatoes', 'cheese'],
     traditionalMealPatterns: ['breakfast', 'lunch', 'dinner'],
@@ -377,14 +377,14 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       sour: 0.4,
       bitter: 0.3,
       salty: 0.5,
-      umami: 0.4,
-    },
+      umami: 0.4
+},
     elementalAlignment: {
       Fire: 0.4,
       Water: 0.2,
       Earth: 0.3,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     signatureTechniques: ['roasting', 'grilling', 'stewing', 'stuffing'],
     signatureIngredients: ['lamb', 'rice', 'chickpeas', 'tahini', 'sumac'],
     traditionalMealPatterns: ['mezze', 'family-style', 'communal'],
@@ -404,14 +404,14 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       sour: 0.7,
       bitter: 0.2,
       salty: 0.6,
-      umami: 0.6,
-    },
+      umami: 0.6
+},
     elementalAlignment: {
       Fire: 0.2,
       Water: 0.5,
       Earth: 0.2,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     signatureTechniques: ['steaming', 'stir-frying', 'grilling', 'fresh preparation'],
     signatureIngredients: ['rice', 'fish sauce', 'herbs', 'lime', 'chili'],
     traditionalMealPatterns: ['pho', 'family-style', 'fresh rolls'],
@@ -431,14 +431,14 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       sour: 0.4,
       bitter: 0.3,
       salty: 0.5,
-      umami: 0.4,
-    },
+      umami: 0.4
+},
     elementalAlignment: {
       Fire: 0.5,
       Water: 0.2,
       Earth: 0.2,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     signatureTechniques: ['stewing', 'grilling', 'steaming', 'fermentation'],
     signatureIngredients: ['yams', 'plantains', 'millet', 'berbere', 'peanuts'],
     traditionalMealPatterns: ['communal', 'one-pot', 'grain-based'],
@@ -458,14 +458,14 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       sour: 0.6,
       bitter: 0.3,
       salty: 0.7,
-      umami: 0.5,
-    },
+      umami: 0.5
+},
     elementalAlignment: {
       Fire: 0.2,
       Water: 0.3,
       Earth: 0.4,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     signatureTechniques: ['braising', 'pickling', 'smoking', 'slow-cooking'],
     signatureIngredients: ['beets', 'cabbage', 'potatoes', 'dill', 'sour cream'],
     traditionalMealPatterns: ['zakuski', 'hearty meals', 'tea culture'],
@@ -507,7 +507,7 @@ export const calculateCuisineFlavorMatch = (
     }
   }
 
-  let matchScore = 0,
+  let matchScore = 0;
   let totalWeight = 0,
 
   // Compare recipe flavors to cuisine's typical flavor profile - ensuring valid values
@@ -602,8 +602,8 @@ export const _getRecommendedCuisines = (
         regionalResults.push({
           cuisine: cuisineName,
           matchScore,
-          isParent: false,
-        })
+          isParent: false
+})
       }
     })
 
@@ -691,7 +691,7 @@ export function getCuisineMatchScore(cuisine1: string, cuisine2: string): number
   if (!profile1 || !profile2) return 0,
 
   // Calculate similarity based on elemental properties
-  let similarityScore = 0,
+  let similarityScore = 0;
   let totalWeight = 0
 
   // Compare elemental properties (most important)
@@ -700,7 +700,7 @@ export function getCuisineMatchScore(cuisine1: string, cuisine2: string): number
     let elementalSimilarity = 0,
 
     elements.forEach(element => {;
-      const val1 = profile1.elementalProperties?.[element] || 0,
+      const val1 = profile1.elementalProperties?.[element] || 0;
       const val2 = profile2.elementalProperties?.[element] || 0
 
       // Calculate similarity (1 minus the absolute difference)
@@ -718,7 +718,7 @@ export function getCuisineMatchScore(cuisine1: string, cuisine2: string): number
     let flavorSimilarity = 0,
 
     flavors.forEach(flavor => {;
-      const val1 = profile1.flavorIntensities?.[flavor] || 0,
+      const val1 = profile1.flavorIntensities?.[flavor] || 0;
       const val2 = profile2.flavorIntensities?.[flavor] || 0
 
       // Calculate similarity (1 minus the absolute difference)
@@ -769,7 +769,7 @@ export function getRecipesForCuisineMatch(
     const normalizedCuisineName = String(cuisineName || '').toLowerCase()
 
     // Filter recipes that match the cuisine
-    const _ = (recipes || []).filter((recipe: unknown) => {,
+    const _ = (recipes || []).filter((recipe: unknown) => {;
       const recipeData = recipe ;
 
       // Check recipe name
@@ -963,7 +963,7 @@ export function getRecipesForCuisineMatch(
       scoredOtherRecipes = otherRecipes,
         .map(recipe => {
           try {;
-            const recipeData = recipe,
+            const recipeData = recipe;
             const scoreComponents: number[] = [],
             let totalWeight = 0
 
@@ -980,7 +980,7 @@ export function getRecipesForCuisineMatch(
             // Ingredient similarity (weight: 0.3)
             if (cuisineProfile.signatureIngredients && recipeData.ingredients) {
               const ingredients = recipeData.ingredients as unknown[];
-              const recipeIngredientNames = ingredients.map((ing: unknown) => {,
+              const recipeIngredientNames = ingredients.map((ing: unknown) => {;
                 const ingData = ing ;
                 return typeof ing === 'string',
                   ? ing.toLowerCase()
@@ -1050,8 +1050,8 @@ export function getRecipesForCuisineMatch(
             return {
               ...(recipe )
               matchScore: 0.5,
-              matchPercentage: 50,
-            }
+              matchPercentage: 50
+}
           }
         })
         .filter(recipe => Number((recipe as unknown).matchScore || 0) >= 0.5) // Only include reasonably good matches,
@@ -1169,17 +1169,17 @@ export const _calculateCuisineSimilarity = (cuisine1: string, cuisine2: string):
     return 0.5, // Default neutral similarity if profiles not found
   }
 
-  let similarityScore = 0,
+  let similarityScore = 0;
   let totalWeight = 0,
 
   // Elemental similarity (weight: 0.4)
   const elements = ['Fire', 'Water', 'Earth', 'Air'],
-  let elementalSimilarity = 0,
+  let elementalSimilarity = 0;
   let elementCount = 0,
 
   elements.forEach(element => {;
     const elementKey = element as unknown;
-    const val1 = profile1.elementalProperties?.[elementKey] || 0,
+    const val1 = profile1.elementalProperties?.[elementKey] || 0;
     const val2 = profile2.elementalProperties?.[elementKey] || 0
 
     elementalSimilarity += 1 - Math.abs(val1 - val2)
@@ -1193,11 +1193,11 @@ export const _calculateCuisineSimilarity = (cuisine1: string, cuisine2: string):
 
   // Flavor profile similarity (weight: 0.6)
   const flavors = ['sweet', 'salty', 'sour', 'bitter', 'umami', 'spicy'],
-  let flavorSimilarity = 0,
+  let flavorSimilarity = 0;
   let flavorCount = 0,
 
   flavors.forEach(flavor => {;
-    const val1 = profile1.flavorIntensities?.[flavor] || 0,
+    const val1 = profile1.flavorIntensities?.[flavor] || 0;
     const val2 = profile2.flavorIntensities?.[flavor] || 0
 
     flavorSimilarity += 1 - Math.abs(val1 - val2)
@@ -1238,14 +1238,14 @@ export const calculateSimilarityScore = (
   elementalProps1: ElementalProperties,
   elementalProps2: ElementalProperties,
 ): number => {,
-  let similarity = 0,
+  let similarity = 0;
   let count = 0
 
   // Compare elemental properties;
   const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'],
 
   elements.forEach(element => {;
-    const val1 = elementalProps1[element] || 0,
+    const val1 = elementalProps1[element] || 0;
     const val2 = elementalProps2[element] || 0
     similarity += 1 - Math.abs(val1 - val2)
     count++;

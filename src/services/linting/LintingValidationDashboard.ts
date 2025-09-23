@@ -38,7 +38,7 @@ export interface LintingMetrics {
 export interface AlertThreshold {
   metric: keyof LintingMetrics | string,
   threshold: number,
-  severity: 'info' | 'warning' | 'error' | 'critical',
+  severity: 'info' | 'warning' | 'error' | 'critical'
   message: string
 }
 
@@ -53,7 +53,7 @@ export interface ValidationResult {
 export interface Alert {
   id: string,
   timestamp: Date,
-  severity: 'info' | 'warning' | 'error' | 'critical',
+  severity: 'info' | 'warning' | 'error' | 'critical'
   metric: string,
   currentValue: number,
   threshold: number,
@@ -64,7 +64,7 @@ export interface Alert {
 export interface RegressionAnalysis {
   detected: boolean,
   affectedMetrics: string[],
-  severity: 'minor' | 'moderate' | 'major' | 'critical',
+  severity: 'minor' | 'moderate' | 'major' | 'critical'
   recommendations: string[],
   historicalComparison: {
     current: number,
@@ -84,32 +84,32 @@ export class LintingValidationDashboard {
       metric: 'parserErrors',
       threshold: 0,
       severity: 'critical',
-      message: 'Parser errors detected - blocking accurate linting analysis',
-    }
+      message: 'Parser errors detected - blocking accurate linting analysis'
+}
     {
       metric: 'explicitAnyErrors',
       threshold: 100,
       severity: 'error',
-      message: 'Explicit any errors exceed acceptable threshold',
-    }
+      message: 'Explicit any errors exceed acceptable threshold'
+}
     {
       metric: 'totalIssues',
       threshold: 2000,
       severity: 'warning',
-      message: 'Total linting issues exceed warning threshold',
-    }
+      message: 'Total linting issues exceed warning threshold'
+}
     {
       metric: 'qualityScore',
       threshold: 80,
       severity: 'warning',
-      message: 'Code quality score below target',
-    }
+      message: 'Code quality score below target'
+}
     {
       metric: 'performanceMetrics.lintingDuration',
       threshold: 30000,
       severity: 'warning',
-      message: 'Linting performance degraded - exceeds 30 seconds',
-    }
+      message: 'Linting performance degraded - exceeds 30 seconds'
+}
   ],
 
   constructor() {
@@ -200,11 +200,11 @@ export class LintingValidationDashboard {
           lintingDuration: Date.now() - startTime,
           cacheHitRate: 0,
           memoryUsage: process.memoryUsage().heapUsed / 1024 / 1024,
-          filesProcessed: 0,
-        },
+          filesProcessed: 0
+},
         qualityScore: 0,
-        regressionDetected: false,
-      }
+        regressionDetected: false
+}
     }
   }
 
@@ -212,21 +212,21 @@ export class LintingValidationDashboard {
    * Parse ESLint results into structured metrics
    */
   private parseLintResults(lintResults: unknown[]): LintingMetrics {
-    let totalIssues = 0,
+    let totalIssues = 0;
     let errors = 0,
-    let warnings = 0,
+    let warnings = 0;
     let parserErrors = 0,
-    let explicitAnyErrors = 0,
+    let explicitAnyErrors = 0;
     let importOrderIssues = 0;
-    let unusedVariables = 0,
+    let unusedVariables = 0;
     let reactHooksIssues = 0,
     let consoleStatements = 0
 
     const domainSpecificIssues = {
       astrologicalCalculations: 0,
       campaignSystem: 0,
-      testFiles: 0,
-    }
+      testFiles: 0
+}
 
     for (const result of lintResults) {
       const filePath = result.filePath;
@@ -287,8 +287,8 @@ export class LintingValidationDashboard {
         filesProcessed: lintResults.length
       },
       qualityScore: 0, // Will be calculated,
-      regressionDetected: false,
-    }
+      regressionDetected: false
+}
   }
 
   /**
@@ -336,8 +336,8 @@ export class LintingValidationDashboard {
           currentValue,
           threshold: threshold.threshold,
           message: threshold.message,
-          resolved: false,
-        })
+          resolved: false
+})
       }
     }
 
@@ -359,8 +359,8 @@ export class LintingValidationDashboard {
           current: currentMetrics.totalIssues,
           previous: 0,
           change: 0,
-          changePercentage: 0,
-        }
+          changePercentage: 0
+}
       }
     }
 
@@ -592,8 +592,8 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
         alertingEnabled: true,
         regressionDetectionEnabled: true,
         performanceMonitoringEnabled: true,
-        domainSpecificTrackingEnabled: true,
-      }
+        domainSpecificTrackingEnabled: true
+}
       writeFileSync(this.configFile, JSON.stringify(config, null, 2))
     }
   }

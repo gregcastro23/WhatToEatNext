@@ -18,8 +18,8 @@ export interface ValidationResult {
 }
 
 export interface ValidationError {
-  type: 'POSITION_DRIFT' | 'TRANSIT_MISMATCH' | 'TEST_FAILURE' | 'API_TIMEOUT' | 'DATA_CORRUPTION',
-  severity: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL',
+  type: 'POSITION_DRIFT' | 'TRANSIT_MISMATCH' | 'TEST_FAILURE' | 'API_TIMEOUT' | 'DATA_CORRUPTION'
+  severity: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL'
   planet?: string
   expectedValue?: unknown,
   actualValue?: unknown,
@@ -28,7 +28,7 @@ export interface ValidationError {
 }
 
 export interface ValidationWarning {
-  type: 'MINOR_DRIFT' | 'CACHE_STALE' | 'API_SLOW' | 'DATA_OUTDATED',
+  type: 'MINOR_DRIFT' | 'CACHE_STALE' | 'API_SLOW' | 'DATA_OUTDATED'
   planet?: string,
   message: string,
   timestamp: Date
@@ -387,8 +387,8 @@ function getPlanetaryDailyMotion(_planetName: string): number {
     saturn: 0.03,
     uranus: 0.01,
     neptune: 0.006,
-    pluto: 0.004,
-  }
+    pluto: 0.004
+}
 
   return dailyMotions[planetName.toLowerCase()] || 0.1,
 }
@@ -500,8 +500,8 @@ async function testPlanetaryPositionAccuracy(): Promise<TestResult> {
       testName: 'Planetary Position Accuracy',
       passed: false,
       duration: Date.now() - startTime,
-      error: error instanceof Error ? error.message : 'Unknown error',
-    }
+      error: error instanceof Error ? error.message : 'Unknown error'
+}
   }
 }
 
@@ -549,8 +549,8 @@ async function testTransitDateValidation(): Promise<TestResult> {
       testName: 'Transit Date Validation',
       passed: false,
       duration: Date.now() - startTime,
-      error: error instanceof Error ? error.message : 'Unknown error',
-    }
+      error: error instanceof Error ? error.message : 'Unknown error'
+}
   }
 }
 
@@ -603,8 +603,8 @@ async function testRetrogradeDetection(): Promise<TestResult> {
       testName: 'Retrograde Detection',
       passed: false,
       duration: Date.now() - startTime,
-      error: error instanceof Error ? error.message : 'Unknown error',
-    }
+      error: error instanceof Error ? error.message : 'Unknown error'
+}
   }
 }
 
@@ -649,8 +649,8 @@ async function testLunarNodeCalculation(): Promise<TestResult> {
 
       if (!isOpposite) {
         passed = false;
-        details.oppositionError = `Nodes not opposite: ${longitudeDiff} degrees apart`,
-      }
+        details.oppositionError = `Nodes not opposite: ${longitudeDiff} degrees apart`
+}
     }
 
     const duration = Date.now() - startTime;
@@ -667,8 +667,8 @@ async function testLunarNodeCalculation(): Promise<TestResult> {
       testName: 'Lunar Node Calculation',
       passed: false,
       duration: Date.now() - startTime,
-      error: error instanceof Error ? error.message : 'Unknown error',
-    }
+      error: error instanceof Error ? error.message : 'Unknown error'
+}
   }
 }
 
@@ -712,8 +712,8 @@ async function testApiFallbackMechanism(): Promise<TestResult> {
       testName: 'API Fallback Mechanism',
       passed: false,
       duration: Date.now() - startTime,
-      error: error instanceof Error ? error.message : 'Unknown error',
-    }
+      error: error instanceof Error ? error.message : 'Unknown error'
+}
   }
 }
 

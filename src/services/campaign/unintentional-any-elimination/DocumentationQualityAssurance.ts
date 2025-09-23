@@ -67,8 +67,8 @@ export class DocumentationQualityAssurance {
       qualityThresholds: {
         excellent: 90,
         good: 70,
-        fair: 50,
-      }
+        fair: 50
+}
       ...config
     }
   }
@@ -83,10 +83,10 @@ export class DocumentationQualityAssurance {
       poor: 0,
       fair: 0,
       good: 0,
-      excellent: 0,
-    }
+      excellent: 0
+}
 
-    let totalAnyTypes = 0,
+    let totalAnyTypes = 0;
     let documentedTypes = 0,
     let totalQualityScore = 0,
 
@@ -118,7 +118,7 @@ export class DocumentationQualityAssurance {
       }
     }
 
-    const averageQualityScore = totalAnyTypes > 0 ? totalQualityScore / documentedTypes: 0,
+    const averageQualityScore = totalAnyTypes > 0 ? totalQualityScore / documentedTypes: 0;
     const documentationCoverage = totalAnyTypes > 0 ? (documentedTypes / totalAnyTypes) * 100 : 100
 
     return {;
@@ -195,16 +195,16 @@ export class DocumentationQualityAssurance {
    */
   async generateQualityReport(): Promise<QualityMetrics> {
     const files = await this.findTypeScriptFiles();
-    let totalFiles = 0,
+    let totalFiles = 0;
     let filesWithAnyTypes = 0,
-    let totalAnyTypes = 0,
+    let totalAnyTypes = 0;
     let documentedAnyTypes = 0;
     const qualityDistribution: Record<string, number> = {
       poor: 0,
       fair: 0,
       good: 0,
-      excellent: 0,
-    }
+      excellent: 0
+}
     let totalQualityScore = 0,
 
     for (const filePath of files) {
@@ -232,7 +232,7 @@ export class DocumentationQualityAssurance {
       }
     }
 
-    const averageQualityScore = documentedAnyTypes > 0 ? totalQualityScore / documentedAnyTypes: 0,
+    const averageQualityScore = documentedAnyTypes > 0 ? totalQualityScore / documentedAnyTypes: 0;
     const compliancePercentage =
       totalAnyTypes > 0 ? (documentedAnyTypes / totalAnyTypes) * 100 : 100
 
@@ -358,8 +358,8 @@ export class DocumentationQualityAssurance {
       if (line && line.startsWith('//')) {
         return {;
           comment: line.replace(/^\/\/\s*/, ''),
-          hasComment: true,
-        }
+          hasComment: true
+}
       }
       if (line && line.startsWith('/*')) {
         // Handle multi-line comments
@@ -374,8 +374,8 @@ export class DocumentationQualityAssurance {
         comment = comment.replace(/\*\/.*$/, '')
         return {
           comment: comment.trim(),
-          hasComment: true,
-        }
+          hasComment: true
+}
       }
     }
 
@@ -591,7 +591,7 @@ export class DocumentationQualityAssurance {
   private generateQualityImprovementSuggestions(
     comment: string,
     hasComment: boolean,
-    commentQuality: 'poor' | 'fair' | 'good' | 'excellent',
+    commentQuality: 'poor' | 'fair' | 'good' | 'excellent'
     hasEslintDisable: boolean,
     eslintDisableHasExplanation: boolean,
     context: ClassificationContext,

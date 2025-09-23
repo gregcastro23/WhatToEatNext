@@ -295,7 +295,7 @@ export const ELEMENTAL_CHARACTERISTICS = {
 export function getDominantElement(properties: ElementalProperties): Element {
   return Object.entries(properties).reduce(
     (max, [element, value]) => (value > max.value ? { element: element as Element, value } : max),
-    { element: 'Fire' as Element, value: 0 }).element,
+    { element: 'Fire' as Element, value: 0 }).element
 }
 
 /**
@@ -324,7 +324,7 @@ export function calculateElementalCompatibility(
   properties2: ElementalProperties,
 ): number {
   // Each element reinforces itself most strongly
-  let compatibility = 0,
+  let compatibility = 0;
   let totalWeight = 0,
 
   for (const element of ELEMENTS) {

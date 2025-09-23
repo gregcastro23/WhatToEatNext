@@ -103,8 +103,8 @@ describe('SafetyValidator', () => {
       })
 
       const slowValidator: any = new SafetyValidator(60000, {
-        maximumBuildTime: 50 // Very low threshold,
-      })
+        maximumBuildTime: 50 // Very low threshold
+})
 
       const result: any = await slowValidator.validateBuildAfterBatch(['test.ts'])
 
@@ -167,8 +167,8 @@ describe('SafetyValidator', () => {
         filePath: 'test.ts',
         lineNumber: 1,
         confidence: 0.9,
-        validationRequired: true,
-      }
+        validationRequired: true
+}
 
       const context: ClassificationContext = { filePath: 'test.ts',,
         lineNumber: 1,
@@ -196,8 +196,8 @@ describe('SafetyValidator', () => {
         filePath: 'testts',
         lineNumber: 1,
         confidence: 0.8,
-        validationRequired: true,
-      }
+        validationRequired: true
+}
 
       const errorContext: ClassificationContext = { filePath: 'test.ts',,
         lineNumber: 1,
@@ -224,8 +224,8 @@ describe('SafetyValidator', () => {
         filePath: 'test.test.ts',
         lineNumber: 1,
         confidence: 0.8,
-        validationRequired: true,
-      }
+        validationRequired: true
+}
 
       const testContext: ClassificationContext = { filePath: 'test.test.ts',,
         lineNumber: 1,
@@ -251,8 +251,8 @@ describe('SafetyValidator', () => {
         filePath: 'api.ts',
         lineNumber: 1,
         confidence: 0.8,
-        validationRequired: true,
-      }
+        validationRequired: true
+}
 
       const apiContext: ClassificationContext = { filePath: 'api.ts',,
         lineNumber: 1,
@@ -279,8 +279,8 @@ describe('SafetyValidator', () => {
         filePath: 'function.ts',
         lineNumber: 1,
         confidence: 0.8,
-        validationRequired: true,
-      }
+        validationRequired: true
+}
 
       const functionContext: ClassificationContext = { filePath: 'function.ts',,
         lineNumber: 1,
@@ -313,8 +313,8 @@ describe('SafetyValidator', () => {
     test('updates safety thresholds', () => {
       const newThresholds: any = {
         minimumSafetyScore: 09,
-        maximumBuildTime: 60000,
-      }
+        maximumBuildTime: 60000
+}
 
       validator.updateSafetyThresholds(newThresholds)
       const updatedThresholds: any = validator.getSafetyThresholds()
@@ -327,16 +327,16 @@ describe('SafetyValidator', () => {
   describe('Performance Metrics Validation', () => {
     test('validates acceptable performance metrics', () => {
       const fastValidator: any = new SafetyValidator(60000, {
-        maximumBuildTime: 30000,
-      })
+        maximumBuildTime: 30000
+})
 
       const mockReplacement: TypeReplacement = { original: 'any[]',,
         replacement: 'unknown[]',
         filePath: 'testts',
         lineNumber: 1,
         confidence: 0.9,
-        validationRequired: true,
-      }
+        validationRequired: true
+}
 
       const mockContext: ClassificationContext = { filePath: 'test.ts',,
         lineNumber: 1,
@@ -391,8 +391,8 @@ describe('SafetyValidator', () => {
       })
 
       const limitedValidator: any = new SafetyValidator(60000, {
-        maximumErrorCount: 5,
-      })
+        maximumErrorCount: 5
+})
 
       const result: any = await limitedValidator.validateTypeScriptCompilation()
 

@@ -77,8 +77,7 @@ export interface UnifiedFlavorProfile {
   id: string,
   name: string,
   description: string,
-  category: 'cuisine' | 'planetary' | 'ingredient' | 'elemental' | 'fusion',
-
+  category: 'cuisine' | 'planetary' | 'ingredient' | 'elemental' | 'fusion'
   // Base flavor components,
   baseNotes: BaseFlavorNotes,
 
@@ -217,7 +216,7 @@ export class UnifiedFlavorProfileSystem {
    */
   getFlavorProfile(
     identifier: string,
-    type?: 'cuisine' | 'planetary' | 'ingredient' | 'elemental',
+    type?: 'cuisine' | 'planetary' | 'ingredient' | 'elemental'
   ): UnifiedFlavorProfile | undefined {
     // Direct lookup first
     if (this.flavorProfiles[identifier]) {
@@ -242,7 +241,7 @@ export class UnifiedFlavorProfileSystem {
    * Get all flavor profiles of a specific category
    */
   getFlavorProfilesByCategory(
-    category: 'cuisine' | 'planetary' | 'ingredient' | 'elemental' | 'fusion',
+    category: 'cuisine' | 'planetary' | 'ingredient' | 'elemental' | 'fusion'
   ): UnifiedFlavorProfile[] {
     return Object.values(this.flavorProfiles || {}).filter(
       profile => profile.category === category
@@ -343,14 +342,14 @@ export const unifiedFlavorProfileSystem = new UnifiedFlavorProfileSystem()
  */
 export const getFlavorProfile = (
   id: string,
-  type?: 'cuisine' | 'planetary' | 'ingredient' | 'elemental',
+  type?: 'cuisine' | 'planetary' | 'ingredient' | 'elemental'
 ): UnifiedFlavorProfile | undefined => unifiedFlavorProfileSystem.getFlavorProfile(id, type)
 
 /**
  * Get all flavor profiles of a specific category
  */
 export const getFlavorProfilesByCategory = (
-  category: 'cuisine' | 'planetary' | 'ingredient' | 'elemental' | 'fusion',
+  category: 'cuisine' | 'planetary' | 'ingredient' | 'elemental' | 'fusion'
 ): UnifiedFlavorProfile[] => unifiedFlavorProfileSystem.getFlavorProfilesByCategory(category)
 /**
  * Calculate compatibility between two flavor profiles

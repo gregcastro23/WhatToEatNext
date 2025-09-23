@@ -77,8 +77,8 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0.2,
     Essence: 0,
     Matter: -0.1,
-    Substance: 0,
-  },
+    Substance: 0
+},
   Moon: {
     Fire: -0.1,
     Water: 0.3,
@@ -87,8 +87,8 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0,
     Essence: 0.2,
     Matter: 0.1,
-    Substance: 0,
-  },
+    Substance: 0
+},
   Mars: {
     Fire: 0.4,
     Water: -0.2,
@@ -107,8 +107,8 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0.1,
     Essence: 0.2,
     Matter: 0,
-    Substance: 0.1,
-  },
+    Substance: 0.1
+},
   Jupiter: {
     Fire: 0.2,
     Water: 0.2,
@@ -117,8 +117,8 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0.2,
     Essence: 0.1,
     Matter: 0.1,
-    Substance: 0.2,
-  },
+    Substance: 0.2
+},
   Venus: {
     Fire: -0.1,
     Water: 0.2,
@@ -127,8 +127,8 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0.1,
     Essence: 0.3,
     Matter: -0.1,
-    Substance: 0.1,
-  },
+    Substance: 0.1
+},
   Saturn: {
     Fire: -0.2,
     Water: -0.1,
@@ -137,8 +137,8 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: -0.1,
     Essence: -0.1,
     Matter: 0.3,
-    Substance: 0.2,
-  }
+    Substance: 0.2
+}
 }
 
 /**
@@ -477,15 +477,15 @@ export const countElementalAlchemicalProperties = (
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0,
-  }
+    Air: 0
+}
 
   const alchemicalCounts: Record<AlchemicalProperty, number> = {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
-    Substance: 0,
-  }
+    Substance: 0
+}
 
   items.forEach(item => {
     if (item.elementalProperties) {;

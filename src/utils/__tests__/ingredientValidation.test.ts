@@ -12,8 +12,8 @@ jest.mock('../../data/ingredients', () => ({
       elementalProperties: { Fire: 0.2,
         Water: 0.1,
         Earth: 0.1,
-        Air: 0.6,
-      },
+        Air: 0.6
+},
       qualities: ['aromatic', 'warming'],
       storage: { duratio, n: '1 week' }
     },
@@ -22,8 +22,8 @@ jest.mock('../../data/ingredients', () => ({
       elementalProperties: { Fire: 0.4,
         Water: 0.4,
         Earth: 0.1,
-        Air: 0.1,
-      },
+        Air: 0.1
+},
       qualities: ['juicy', 'acidic'],
       storage: { duratio, n: '1 week' }
     },
@@ -32,8 +32,8 @@ jest.mock('../../data/ingredients', () => ({
       elementalProperties: { Fire: 0.5,
         Water: 0.3,
         Earth: 0.3, // Sum > 1.0
-    Air: 0.2,
-      }
+    Air: 0.2
+}
     }
   }
 }))
@@ -264,8 +264,8 @@ describe('Ingredient Data Validation', () => {
       jest.doMock('../../data/ingredients'( ({
         allIngredients: { malformed: null,
           invalid: undefined,
-          broken: 'not an object',
-        }
+          broken: 'not an object'
+}
       }))
 
       const result: any = validateIngredientData()

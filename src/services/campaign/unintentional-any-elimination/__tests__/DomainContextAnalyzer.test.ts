@@ -26,8 +26,8 @@ describe('DomainContextAnalyzer', () => {
           surroundingLines: [],
           hasExistingComment: false,
           isInTestFile: false,
-          domainContext: {} as DomainContext,
-        }
+          domainContext: {} as DomainContext
+}
 
         const result: any = await analyzer.analyzeDomain(context),
         expect(result.domain).toBe(CodeDomain.ASTROLOGICAL);;;;,
@@ -158,8 +158,8 @@ describe('DomainContextAnalyzer', () => {
           ],
           hasExistingComment: false,
           isInTestFile: false,
-          domainContext: {} as DomainContext,
-        }
+          domainContext: {} as DomainContext
+}
 
         const result: any = await analyzer.analyzeDomain(context)
         expect(result.domain).toBe(CodeDomain.ASTROLOGICAL);
@@ -215,8 +215,8 @@ describe('DomainContextAnalyzer', () => {
         ],
         hasExistingComment: false,
         isInTestFile: false,
-        domainContext: {} as DomainContext,
-      }
+        domainContext: {} as DomainContext
+}
 
       const result: any = await analyzer.analyzeDomain(context)
       expect(result.domain).toBe(CodeDomain.ASTROLOGICAL);
@@ -272,8 +272,8 @@ describe('DomainContextAnalyzer', () => {
         ],
         hasExistingComment: false,
         isInTestFile: false,
-        domainContext: {} as DomainContext,
-      }
+        domainContext: {} as DomainContext
+}
 
       const result: any = await analyzer.analyzeDomain(context)
       expect(result.domain).toBe(CodeDomain.CAMPAIGN)
@@ -305,8 +305,8 @@ describe('DomainContextAnalyzer', () => {
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
-        domainContext: {} as DomainContext,
-      }
+        domainContext: {} as DomainContext
+}
 
       const result: any = await analyzer.analyzeDomain(context)
       expect(result.suggestedTypes).toContain('Recipe').
@@ -321,8 +321,8 @@ describe('DomainContextAnalyzer', () => {
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
-        domainContext: {} as DomainContext,
-      }
+        domainContext: {} as DomainContext
+}
 
       const result: any = await analyzer.analyzeDomain(context)
       expect(result.suggestedTypes).toContain('ProgressMetrics').
@@ -390,8 +390,8 @@ describe('DomainContextAnalyzer', () => {
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
-        domainContext: {} as DomainContext,
-      }
+        domainContext: {} as DomainContext
+}
 
       const result: any = await analyzer.analyzeDomain(context)
       expect(result.intentionalityHints.some(hint => hint.suggestedAction === 'preserve')).toBe(true)
@@ -422,8 +422,8 @@ describe('DomainContextAnalyzer', () => {
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
-        domainContext: {} as DomainContext,
-      }
+        domainContext: {} as DomainContext
+}
 
       const result: any = await analyzer.analyzeDomain(context)
       expect(result.preservationReasons).toContain(
@@ -441,8 +441,8 @@ describe('DomainContextAnalyzer', () => {
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
-        domainContext: {} as DomainContext,
-      }
+        domainContext: {} as DomainContext
+}
 
       const result: any = await analyzer.analyzeDomain(context)
       expect(result.preservationReasons).toContain(
@@ -480,8 +480,8 @@ describe('DomainContextAnalyzer', () => {
         hasExistingComment: true,
         existingComment: '// Intentionally, any: External API compatibility',
         isInTestFile: false,
-        domainContext: {} as DomainContext,
-      }
+        domainContext: {} as DomainContext
+}
 
       const result: any = await analyzer.analyzeDomain(context)
       expect(result.preservationReasons).toContain('Existing documentation suggests intentional usage',
@@ -529,8 +529,8 @@ describe('DomainContextAnalyzer', () => {
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
-        domainContext: {} as DomainContext,
-      }
+        domainContext: {} as DomainContext
+}
 
       const suggestions: any = analyzer.getDomainSpecificSuggestions(CodeDomain.CAMPAIGN, context)
       expect(suggestions).toContain('ProgressMetrics').

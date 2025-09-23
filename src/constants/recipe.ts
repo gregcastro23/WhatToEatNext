@@ -1,8 +1,8 @@
 import type { ElementalProperties } from '@/types/alchemy';
 
-export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'dessert',
+export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack' | 'dessert'
 export type CuisineType =
-  | 'chinese',
+  | 'chinese'
   | 'japanese'
   | 'korean'
   | 'indian'
@@ -10,11 +10,10 @@ export type CuisineType =
   | 'vietnamese'
   | 'western'
   | 'mediterranean'
-  | 'middle-eastern',
-export type DietaryType = 'vegetarian' | 'vegan' | 'pescatarian' | 'omnivore' | 'keto' | 'paleo',
-export type CookingTime = 'quick' | 'medium' | 'slow',
-export type Season = 'spring' | 'summer' | 'fall' | 'winter' | 'all',
-
+  | 'middle-eastern'
+export type DietaryType = 'vegetarian' | 'vegan' | 'pescatarian' | 'omnivore' | 'keto' | 'paleo'
+export type CookingTime = 'quick' | 'medium' | 'slow'
+export type Season = 'spring' | 'summer' | 'fall' | 'winter' | 'all'
 // Constants for meal types and recipe types
 export const _MEAL_TYPES: MealType[] = ['breakfast', 'lunch', 'dinner', 'snack', 'dessert'],
 export const _RECIPE_TYPES: DietaryType[] = [

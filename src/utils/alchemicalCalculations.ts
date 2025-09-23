@@ -44,8 +44,8 @@ export function calculateElementalValues(_positions: PlanetaryPositionsType) {
     Fire: 0,
     Earth: 0,
     Air: 0,
-    Water: 0,
-  }
+    Water: 0
+}
 
   // Count planets by element
   Object.entries(positions).forEach(([planet, data]) => {
@@ -54,8 +54,7 @@ export function calculateElementalValues(_positions: PlanetaryPositionsType) {
     }
 
     const signKey = data.sign.toLowerCase()
-    const element = signElements[signKey] || 'balanced';
-
+    const element = signElements[signKey] || 'balanced'
     // Only add to elements if it's a valid element key
     if (element === 'Fire' || element === 'Water' || element === 'Earth' || element === 'Air') {,
       // Weight by planet importance
@@ -84,8 +83,8 @@ export function calculatePlanetaryAlchemicalValues(_positions: PlanetaryPosition
     Spirit: 0.25,
     Essence: 0.25,
     Matter: 0.25,
-    Substance: 0.25,
-  }
+    Substance: 0.25
+}
 
   let totalWeight = 0,
 
@@ -163,14 +162,14 @@ export function calculateElementalBalance(_positions: PlanetaryPositionsType) {
     Fire: 0.25,
     Earth: 0.25,
     Air: 0.25,
-    Water: 0.25,
-  }
+    Water: 0.25
+}
 
   if (!positions || Object.keys(positions).length === 0) {,
     return elements
   }
 
-  let totalWeight = 0,
+  let totalWeight = 0;
   let elementsFound = false;
 
   Object.entries(positions).forEach(([planet, data]) => {
@@ -267,12 +266,12 @@ export function alchemize(
     fire: 0,
     earth: 0,
     air: 0,
-    water: 0,
-  }
+    water: 0
+}
 
-  let spirit = 0,
+  let spirit = 0;
   let essence = 0,
-  let matter = 0,
+  let matter = 0;
   let substance = 0,
 
   // Calculate elemental contributions from each planet
@@ -386,7 +385,7 @@ export function alchemize(
   }
 
   // Calculate dominant element
-  let dominantElement = 'balanced',
+  let dominantElement = 'balanced';
   let maxValue = 0,
 
   for (const [element, value] of Object.entries(elementalBalance)) {

@@ -12,9 +12,8 @@ export type IngredientCategory =
   | 'grain'
   | 'dairy'
   | 'oil'
-  | 'vinegar';
-  | 'seasoning',
-
+  | 'vinegar'
+  | 'seasoning'
 // New interface for sensory profiles
 export interface SensoryProfile {
   taste: | {
@@ -161,22 +160,17 @@ export const _VALID_CATEGORIES: IngredientCategory[] = [
 
 // Improved subcategories
 export type VegetableSubcategory =
-  | 'leafy_green',
+  | 'leafy_green'
   | 'cruciferous'
   | 'root'
   | 'allium'
   | 'squash'
   | 'nightshade'
-  | 'starchy',
-
-export type ProteinSubcategory = 'poultry' | 'seafood' | 'meat' | 'legume' | 'plant_based',
-
-export type SeasoningSubcategory = 'salt' | 'pepper' | 'aromatic' | 'blend',
-
-export type OilSubcategory = 'cooking' | 'finishing' | 'infused',
-
-export type VinegarSubcategory = 'wine' | 'fruit' | 'grain' | 'specialty',
-
+  | 'starchy'
+export type ProteinSubcategory = 'poultry' | 'seafood' | 'meat' | 'legume' | 'plant_based'
+export type SeasoningSubcategory = 'salt' | 'pepper' | 'aromatic' | 'blend'
+export type OilSubcategory = 'cooking' | 'finishing' | 'infused'
+export type VinegarSubcategory = 'wine' | 'fruit' | 'grain' | 'specialty'
 // Updated AlchemicalProperties interface with more accurate values
 export interface AlchemicalProperties {
   spirit: number,
@@ -194,8 +188,7 @@ export interface ThermodynamicProperties {
 }
 
 // Add Modality type to the types file
-export type Modality = 'Cardinal' | 'Fixed' | 'Mutable',
-
+export type Modality = 'Cardinal' | 'Fixed' | 'Mutable'
 // Update the IngredientProfile interface to include modality
 export interface IngredientProfile {
   name: string,

@@ -50,14 +50,14 @@ const rawWholeGrains = {
         protein: 2.5,
         carbs: 22.4,
         fat: 0.9,
-        fiber: 1.8,
-      },
+        fiber: 1.8
+},
       vitamins: {
         B1: 0.11,
     B3: 0.13,
     B6: 0.14E: 0.08,
-        folate: 0.04,
-      },
+        folate: 0.04
+},
       minerals: {
         manganese: 0.86,
         magnesium: 0.36,
@@ -65,8 +65,8 @@ const rawWholeGrains = {
         selenium: 0.42,
         zinc: 0.18,
         copper: 0.11,
-        iron: 0.1,
-      },
+        iron: 0.1
+},
       glycemic_index: 68,
       source: 'USDA FoodData Central' },
         healthBenefits: {
@@ -90,8 +90,8 @@ const rawWholeGrains = {
         benefit: 'Antioxidant Activity',
         mechanism: 'Contains phenolic compounds that combat oxidative stress',
         compounds: ['ferulic acid', 'caffeic acid', 'sinapic acid'],
-        notes: 'Most concentrated in the bran layer',
-      }
+        notes: 'Most concentrated in the bran layer'
+}
     },
     varieties: {
       short_grain: {
@@ -187,8 +187,8 @@ const rawWholeGrains = {
         method: 'dry toast in pan before cooking',
         benefits: 'enhances nutty flavor',
         timing: '3-5 minutes until fragrant',
-        notes: 'Stir constantly to prevent burning',
-      }
+        notes: 'Stir constantly to prevent burning'
+}
     },
     culinaryApplications: {
       basic_method: {
@@ -265,8 +265,8 @@ const rawWholeGrains = {
           classic: 'cinnamon, raisins, vanilla',
           coconut: 'coconut milk, cardamom, pistachios',
           chocolate: 'cocoa powder, almond milk, cherries' },
-        notes: 'Takes longer than white rice pudding but has nuttier flavor',
-      }
+        notes: 'Takes longer than white rice pudding but has nuttier flavor'
+}
     },
     storage: {
       uncooked: {
@@ -274,16 +274,16 @@ const rawWholeGrains = {
           room_temperature: 'up to 6 months in cool, dark place',
           refrigerator: 'up to 1 year',
           freezer: 'up to 2 years',
-          notes: 'Natural oils can go rancidso store properly',
-        }
+          notes: 'Natural oils can go rancidso store properly'
+}
       }
 
       sprouted: {
         refrigerator: {
           duration: '3-5 days',
           container: 'breathable container with paper towel',
-          notes: 'Rinse daily if storing longer than 2 days',
-        }
+          notes: 'Rinse daily if storing longer than 2 days'
+}
       }
     },
     seasonalAdjustments: {}
@@ -291,8 +291,8 @@ const rawWholeGrains = {
       modern_health: {
         preparations: 'grain bowls, alternative sushi, veggie burgers',
         emphasis: 'nutrient density, whole foods philosophy',
-        notes: 'Often featured in contemporary health-focused cuisines',
-      }
+        notes: 'Often featured in contemporary health-focused cuisines'
+}
     }
   }
 
@@ -317,8 +317,8 @@ const rawWholeGrains = {
     preparation: {
       rinsing: {
         duration: '1-2 minutes',
-        purpose: 'remove saponins',
-      }
+        purpose: 'remove saponins'
+}
     }
   }
 
@@ -335,8 +335,8 @@ const rawWholeGrains = {
         soaked_method: {
         soaking: '12-24 hours',
         cooking_time: '45-60 minutes',
-        benefits: 'improved digestibility',
-      }
+        benefits: 'improved digestibility'
+}
     },
     preparations: {
       grain_bowl: {
@@ -346,8 +346,8 @@ const rawWholeGrains = {
         breakfast_porridge: {
         method: 'cook longer for softer texture',
         additions: ['dried fruit', 'nuts', 'honey'],
-        service: 'hot',
-      }
+        service: 'hot'
+}
     },
     nutritionalProfile: {
       protein: 'high protein content',
@@ -355,8 +355,8 @@ const rawWholeGrains = {
       vitamins: ['e', 'b-complex'],
       calories_per_100g: 337,
       protein_g: 14.7,
-      fiber_g: 11.1,
-    }
+      fiber_g: 11.1
+}
   }
 
   spelt_berries: {
@@ -372,8 +372,8 @@ const rawWholeGrains = {
         pressure_cooker: {
         ratio: '1:2.5 spelt to water',
         cooking_time: '25-30 minutes',
-        notes: 'natural release recommended',
-      }
+        notes: 'natural release recommended'
+}
     },
     preparations: {
       salads: {
@@ -383,8 +383,8 @@ const rawWholeGrains = {
         soups: {
         method: 'add to broth',
         cooking_time: '30-40 minutes in soup',
-        notes: 'adds hearty texture',
-      }
+        notes: 'adds hearty texture'
+}
     },
     nutritionalProfile: {
       protein: 'high quality',
@@ -392,8 +392,8 @@ const rawWholeGrains = {
       vitamins: ['b3', 'b6', 'thiamin'],
       calories_per_100g: 338,
       protein_g: 14.6,
-      fiber_g: 10.7,
-    }
+      fiber_g: 10.7
+}
   }
 
   einkorn: {
@@ -409,8 +409,8 @@ const rawWholeGrains = {
         risotto_style: {
         method: 'gradual broth addition',
         cooking_time: '25-30 minutes',
-        notes: 'stir frequently',
-      }
+        notes: 'stir frequently'
+}
     },
     preparations: {
       pilaf: {
@@ -420,8 +420,8 @@ const rawWholeGrains = {
         breakfast: {
         method: 'cook until creamy',
         additions: ['milk', 'honey', 'fruit'],
-        service: 'hot',
-      }
+        service: 'hot'
+}
     },
     nutritionalProfile: {
       protein: 'high protein',
@@ -429,8 +429,8 @@ const rawWholeGrains = {
       vitamins: ['a', 'b-complex'],
       calories_per_100g: 340,
       protein_g: 15.3,
-      fiber_g: 8.7,
-    }
+      fiber_g: 8.7
+}
   }
 
   rye_berries: {
@@ -446,8 +446,8 @@ const rawWholeGrains = {
         soaked_method: {
         soaking: '8-12 hours',
         cooking_time: '45-60 minutes',
-        benefits: 'improved texture and digestibility',
-      }
+        benefits: 'improved texture and digestibility'
+}
     },
     preparations: {
       bread_making: {
@@ -457,8 +457,8 @@ const rawWholeGrains = {
         hearty_salads: {
         method: 'cook until chewy',
         additions: ['root vegetables', 'hardy greens', 'vinaigrette'],
-        service: 'room temperature',
-      }
+        service: 'room temperature'
+}
     },
     nutritionalProfile: {
       protein: 'moderate protein',
@@ -466,8 +466,8 @@ const rawWholeGrains = {
       vitamins: ['b1', 'b3', 'b6'],
       calories_per_100g: 338,
       protein_g: 10.3,
-      fiber_g: 15.1,
-    }
+      fiber_g: 15.1
+}
   }
 
   wild_rice: {
@@ -482,15 +482,15 @@ const rawWholeGrains = {
         method: 'simmer until grains split' },
         pilaf_method: {
         steps: ['toast in oil', 'add aromatics', 'simmer in broth', 'steam finish'],
-        notes: 'enhances nutty flavor',
-      }
+        notes: 'enhances nutty flavor'
+}
     },
     preparations: {
       grain_blends: {
         method: 'mix with other rices',
         ratio: '1:2 wild to other rice',
-        notes: 'adds texture and nutrition',
-      }
+        notes: 'adds texture and nutrition'
+}
     },
     nutritionalProfile: {
       protein: 'high protein',
@@ -498,8 +498,8 @@ const rawWholeGrains = {
       vitamins: ['b6', 'folate', 'niacin'],
       calories_per_100g: 357,
       protein_g: 14.7,
-      fiber_g: 6.2,
-    }
+      fiber_g: 6.2
+}
   }
 
   triticale: {
@@ -526,8 +526,8 @@ const rawWholeGrains = {
         grain_salad: {
         method: 'cook until chewy',
         additions: ['roasted vegetables', 'fresh herbs', 'citrus'],
-        service: 'room temperature',
-      }
+        service: 'room temperature'
+}
     },
     nutritionalProfile: {
       protein: 'high protein',
@@ -535,8 +535,8 @@ const rawWholeGrains = {
       vitamins: ['b1', 'b2', 'folate'],
       calories_per_100g: 336,
       protein_g: 13.1,
-      fiber_g: 9.8,
-    }
+      fiber_g: 9.8
+}
   }
 
   oats: {
@@ -574,8 +574,8 @@ const rawWholeGrains = {
         long_grain: {
         characteristics: 'fluffy, separate grains',
         cooking_ratio: '1:2.25 rice to water',
-        cooking_time: '45-50 minutes',
-      }
+        cooking_time: '45-50 minutes'
+}
     },
     preparation: {
       soaking: {
@@ -602,8 +602,8 @@ const rawWholeGrains = {
         soaked_method: {
         soaking: '8-12 hours',
         cooking_time: '45-60 minutes',
-        benefits: 'improved texture and digestibility',
-      }
+        benefits: 'improved texture and digestibility'
+}
     },
     preparations: {
       bread_making: {
@@ -613,8 +613,8 @@ const rawWholeGrains = {
         hearty_salads: {
         method: 'cook until chewy',
         additions: ['root vegetables', 'hardy greens', 'vinaigrette'],
-        service: 'room temperature',
-      }
+        service: 'room temperature'
+}
     },
     nutritionalProfile: {
       protein: 'moderate protein',
@@ -622,8 +622,8 @@ const rawWholeGrains = {
       vitamins: ['b1', 'b3', 'b6'],
       calories_per_100g: 338,
       protein_g: 10.3,
-      fiber_g: 15.1,
-    }
+      fiber_g: 15.1
+}
   }
 }
 

@@ -65,8 +65,8 @@ const rawLeafyGreens = {
       water: 84,
       fiber: 9,
       bitterness: 7,
-      cooking_time: 8,
-    }),
+      cooking_time: 8
+}),
     seasonal_peak_months: [1011, 121, 2], // Oct-Feb,
     nutritionalProfile: {
       serving_size: '1 cup, raw (67g)',
@@ -75,30 +75,30 @@ const rawLeafyGreens = {
         protein: 3,
         carbs: 6.7,
         fat: 0.5,
-        fiber: 2.5,
-      },
+        fiber: 2.5
+},
       vitamins: {
         A: 0.206, // Values as percentage of RDA,
         C: 0.134K: 0.684,
     B6: 0.14E: 0.1,
         folate: 0.07,
-    B2: 0.09,
-      },
+    B2: 0.09
+},
       minerals: {
         calcium: 0.15,
         potassium: 0.08,
         magnesium: 0.09,
         manganese: 0.32,
         copper: 0.11,
-        iron: 0.06,
-      },
+        iron: 0.06
+},
       phytonutrients: {
         glucosinolates: 0.85,
         quercetin: 0.52,
         kaempferol: 0.47,
         lutein: 0.4,
-        zeaxanthin: 0.38,
-      },
+        zeaxanthin: 0.38
+},
       source: 'USDA FoodData Central' },
         sensoryProfile: {
       taste: {
@@ -107,24 +107,24 @@ const rawLeafyGreens = {
         sour: 0.2,
         bitter: 0.7,
         umami: 0.3,
-        spicy: 0.0,
-      },
+        spicy: 0.0
+},
       aroma: {
         floral: 0.1,
         fruity: 0.0,
         herbal: 0.4,
         spicy: 0.1,
         earthy: 0.7,
-        woody: 0.5,
-      },
+        woody: 0.5
+},
       texture: {
         crisp: 0.7,
         tender: 0.2,
         creamy: 0.0,
         chewy: 0.6,
         crunchy: 0.5,
-        silky: 0.0,
-      }
+        silky: 0.0
+}
     },
     storage: {
       temperature: 'refrigerated',
@@ -138,8 +138,8 @@ const rawLeafyGreens = {
       ],
       frozen: {
         method: 'blanch for 2 minutes, shock in ice water',
-        duration: '8-10 months',
-      }
+        duration: '8-10 months'
+}
     },
     preparation: {
       washing: true,
@@ -181,8 +181,8 @@ const rawLeafyGreens = {
           method: 'quick cook in hot oil',
           timing: '5-7 minutes',
           ingredients: ['garlic', 'red pepper flakes', 'olive oil'],
-          notes: 'Add liquid to help wilt if needed',
-        }
+          notes: 'Add liquid to help wilt if needed'
+}
       }
     },
     healthBenefits: [
@@ -209,8 +209,8 @@ const rawLeafyGreens = {
         texture: 'more tender than curly',
         flavor: 'earthy, slightly sweeter',
         uses: 'raw applications, Italian cuisine',
-        nutritionalDifferences: 'Higher in antioxidants',
-      },
+        nutritionalDifferences: 'Higher in antioxidants'
+},
       'Red Russian': {
         name: 'Red Russian Kale',
         appearance: 'flat, toothed edges, purple stems',
@@ -241,8 +241,8 @@ const rawLeafyGreens = {
         raw: 6,
         bake: 7,
         soup: 9,
-        ferment: 6,
-      },
+        ferment: 6
+},
       cookingTimesByMethod: {
         sauté: '5-7 minutes',
         steam: '5 minutes',
@@ -298,8 +298,8 @@ const rawLeafyGreens = {
         drying: {
         nutrientRetention: 0.8,
         flavorConcentration: 1.8, // Concentrates by 1.8x,
-        rehydrationMethod: 'soak in warm water for 20 minutes',
-      }
+        rehydrationMethod: 'soak in warm water for 20 minutes'
+}
     }
   },
   spinach: {
@@ -338,8 +338,8 @@ const rawLeafyGreens = {
       water: 91,
       fiber: 6,
       bitterness: 3,
-      cooking_time: 2,
-    }),
+      cooking_time: 2
+}),
     seasonal_peak_months: [34, 59, 10], // Mar-May, Sep-Oct,
     iron_content: 6.5, // Scale 1-10,
     oxalate_level: 8.2, // Scale 1-10,
@@ -350,8 +350,8 @@ const rawLeafyGreens = {
       calories: 23,
       protein_g: 2.9,
       fiber_g: 2.2,
-      vitamin_density: 8.7,
-    },
+      vitamin_density: 8.7
+},
     preparation: {
       washing: true,
       stemming: 'optional',
@@ -399,8 +399,8 @@ const rawLeafyGreens = {
       water: 87,
       fiber: 7,
       bitterness: 5,
-      cooking_time: 5,
-    }),
+      cooking_time: 5
+}),
     seasonal_peak_months: [67, 89], // Jun-Sep,
     stalk_to_leaf_ratio: 0.6, // Higher means more stalk,
     color_varieties: ['green', 'red', 'yellow', 'rainbow'],
@@ -412,8 +412,8 @@ const rawLeafyGreens = {
       calories: 19,
       protein_g: 1.8,
       fiber_g: 1.9,
-      vitamin_density: 7.9,
-    },
+      vitamin_density: 7.9
+},
     preparation: {
       washing: true,
       stemming: 'separate stems from leaves',

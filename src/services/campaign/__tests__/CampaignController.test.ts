@@ -41,8 +41,8 @@ describe('CampaignController', () => {
               safetyLevel: SafetyLevel.MAXIMUM
             }
           ],
-          successCriteria: { typeScriptErrors: 0,
-          },
+          successCriteria: { typeScriptErrors: 0
+},
           safetyCheckpoints: []
         }
         {
@@ -57,8 +57,8 @@ describe('CampaignController', () => {
               safetyLevel: SafetyLevel.HIGH
             }
           ],
-          successCriteria: { lintingWarnings: 0,
-          },
+          successCriteria: { lintingWarnings: 0
+},
           safetyCheckpoints: []
         }
       ],
@@ -67,18 +67,18 @@ describe('CampaignController', () => {
         testValidationFrequency: 10,
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
-        stashRetentionDays: 7,
-      },
+        stashRetentionDays: 7
+},
       progressTargets: { typeScriptErrors: 0,
         lintingWarnings: 0,
         buildTime: 10,
-        enterpriseSystems: 200,
-      },
+        enterpriseSystems: 200
+},
       toolConfiguration: { enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
-      }
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
+}
     }
 
     controller = new CampaignController(mockConfig);
@@ -132,8 +132,8 @@ describe('CampaignController', () => {
         .mockResolvedValue({
           filesProcessed: ['file1.ts', 'file2.ts'],
           changesApplied: 5,
-          success: true,
-        })
+          success: true
+})
       jest
         .spyOn(
           controller as unknown as { validatePhaseProgress: (phase: CampaignPhase) => Promise<ValidationResult> }
@@ -423,8 +423,8 @@ describe('CampaignController', () => {
           timestamp: new Date(),
           description: `Event ${i}`,
           severity: 'INFO',
-          action: 'TEST',
-        })
+          action: 'TEST'
+})
       }
 
       const events: any = (controller as unknown as { safetyEvents: any[] }).safetyEvents,
@@ -439,8 +439,8 @@ describe('CampaignController', () => {
           timestamp: new Date(),
           description: `Event ${i}`,
           severity: 'INFO',
-          action: 'TEST',
-        })
+          action: 'TEST'
+})
       }
 
       const events: any = (controller as unknown as { safetyEvents: any[] }).safetyEvents,
@@ -516,8 +516,8 @@ describe('CampaignController', () => {
       const validation: any = {
         success: false,
         errors: ['TypeScript, errors: 5 > 0'],
-        warnings: [],
-      }
+        warnings: []
+}
 
       const recommendations: any = (controller as unknown as {,
           generateRecommendations: (phase: CampaignPhase, validation: ValidationResult) => string[]
@@ -531,8 +531,8 @@ describe('CampaignController', () => {
       const validation: any = {
         success: true,
         errors: [],
-        warnings: ['Build, time: 12s > 10s'],
-      }
+        warnings: ['Build, time: 12s > 10s']
+}
 
       const recommendations: any = (controller as unknown as {,
           generateRecommendations: (phase: CampaignPhase, validation: ValidationResult) => string[]

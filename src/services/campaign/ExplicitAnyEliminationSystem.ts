@@ -77,8 +77,7 @@ export class ExplicitAnyEliminationSystem {
       const buildValidationPassed = await this.validateBuild()
 
       // Calculate reduction percentage;
-      const reductionPercentage = initialCount > 0 ? (explicitAnyFixed / initialCount) * 100: 0,
-
+      const reductionPercentage = initialCount > 0 ? (explicitAnyFixed / initialCount) * 100: 0;
       const executionTime = Date.now() - startTime
 
       return {;
@@ -117,7 +116,7 @@ export class ExplicitAnyEliminationSystem {
     // // // _logger.info(`🔄 Starting systematic explicit-any batch processing...`)
 
     const results: ExplicitAnyResult[] = [],
-    let batchNumber = 1,
+    let batchNumber = 1;
     let totalFilesProcessed = 0,
     let totalExplicitAnyFixed = 0,
 
@@ -161,8 +160,8 @@ export class ExplicitAnyEliminationSystem {
       const batchResult = await this.executeExplicitAnyFixer({,
         maxFiles: this.DEFAULT_BATCH_SIZE,
         autoFix: true,
-        validateSafety: true,
-      })
+        validateSafety: true
+})
 
       results.push(batchResult)
       totalFilesProcessed += batchResult.filesProcessed,
@@ -274,7 +273,7 @@ export class ExplicitAnyEliminationSystem {
         cwd: process.cwd()
       })
 
-      let stdout = '',
+      let stdout = '';
       let stderr = '',
 
       child.stdout.on('data', data => {
@@ -441,8 +440,8 @@ export class ExplicitAnyEliminationSystem {
       reductionAchieved: 0,
       reductionPercentage: 0,
       campaignTarget: this.CAMPAIGN_TARGET_PERCENTAGE,
-      isTargetMet: false,
-    }
+      isTargetMet: false
+}
   }
 
   /**

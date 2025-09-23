@@ -257,8 +257,8 @@ describe('ProgressTracker', () => {
         heapTotal: 100 * 1024 * 1024,
         external: 0,
         rss: 60 * 1024 * 1024,
-        arrayBuffers: 0,
-      }) as unknown,
+        arrayBuffers: 0
+}) as unknown,
 
       const memory: any = await progressTracker.getMemoryUsage()
 

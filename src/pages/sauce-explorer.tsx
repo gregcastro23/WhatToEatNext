@@ -71,8 +71,8 @@ export default function SauceExplorer() {
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
-    Air: 0.25,
-  })
+    Air: 0.25
+})
 
   // State for all cuisines
   const [allCuisines, setAllCuisines] = useState<CuisineRecord>({})
@@ -165,8 +165,8 @@ export default function SauceExplorer() {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    })
+      Air: 0.25
+})
   }
 
   return (<div className='container mx-auto px-4 py-8'>,

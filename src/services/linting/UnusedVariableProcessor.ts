@@ -18,7 +18,7 @@ interface UnusedVariableIssue {
   line: number,
   column: number,
   variableName: string,
-  type: 'variable' | 'parameter' | 'import' | 'type';,
+  type: 'variable' | 'parameter' | 'import' | 'type'
   context: string,
   isCritical: boolean,
   canAutoFix: boolean
@@ -94,8 +94,8 @@ export class UnusedVariableProcessor {
     try {
       const lintOutput = execSync('yarn lint --format=json', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       const lintResults = JSON.parse(lintOutput);
       const issues: UnusedVariableIssue[] = [],
@@ -124,8 +124,8 @@ export class UnusedVariableProcessor {
     try {
       const lintOutput = execSync('yarn lint 2>&1 | grep 'no-unused-vars'', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       const lines = lintOutput.split('\n').filter(line => line.trim());
       const issues: UnusedVariableIssue[] = [],
@@ -259,7 +259,7 @@ export class UnusedVariableProcessor {
     const content = fs.readFileSync(filePath, 'utf8')
     const lines = content.split('\n');
     let modified = false;
-    let fixed = 0,
+    let fixed = 0;
     let skipped = 0,
     const preserved: string[] = [];
 

@@ -12,7 +12,7 @@ interface CacheEntry<T> {
   timestamp: number,
   ttl: number,
   accessCount: number,
-  lastAccessed: number,
+  lastAccessed: number
 }
 
 interface CacheStats {
@@ -20,7 +20,7 @@ interface CacheStats {
   misses: number,
   size: number,
   maxSize: number,
-  hitRate: number,
+  hitRate: number
 }
 
 class AdvancedCache {
@@ -37,8 +37,8 @@ class AdvancedCache {
       misses: 0,
       size: 0,
       maxSize,
-      hitRate: 0,
-    }
+      hitRate: 0
+}
 
     // Cleanup expired entries every 5 minutes
     setInterval(() => this.cleanup(), 5 * 60 * 1000)
@@ -269,8 +269,8 @@ export async function initializeCaches(): Promise<void> {
             planet: 'Sun',
             influence: 0.7,
             timeRemaining: '45:30',
-            energyType: 'Vitality & Leadership',
-          }
+            energyType: 'Vitality & Leadership'
+}
         },
         ttl: 15 * 60 * 1000
       }

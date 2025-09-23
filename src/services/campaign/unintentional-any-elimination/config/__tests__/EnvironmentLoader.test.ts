@@ -178,8 +178,8 @@ describe('Environment Configuration Loader', () => {
       const manager: any = createEnvironmentConfigManager('development', customPath),
 
       expect(manager).toBeDefined().
-      // Note: We can't easily test the path without file system operations,
-    })
+      // Note: We can't easily test the path without file system operations
+})
   })
 
   describe('Environment-Specific Business Rules', () => {

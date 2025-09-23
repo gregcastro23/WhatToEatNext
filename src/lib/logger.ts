@@ -1,5 +1,4 @@
-export type LogLevel = 'info' | 'warn' | 'error',
-
+export type LogLevel = 'info' | 'warn' | 'error'
 export class Logger {
   private readonly analyticsEndpoint: string | undefined = process.env.NEXT_PUBLIC_ANALYTICS_URL,
 
@@ -14,8 +13,8 @@ export class Logger {
         await fetch(`${this.analyticsEndpoint}/log`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ level, message, data, timestamp: new Date().toISOString() }),
-        })
+        body: JSON.stringify({ level, message, data, timestamp: new Date().toISOString() })
+})
       } catch {
         // swallow logging errors
       }
@@ -48,7 +47,7 @@ export const _logger = {
 }
 
 export function logError(error: Error, context?: Record<string, unknown>) {
-  const errorMessage = error.message || 'Unknown error';
+  const errorMessage = error.message || 'Unknown error'
   const errorStack = error.stack || '';
   const contextString = context ? JSON.stringify(context, null, 2) : '',
 

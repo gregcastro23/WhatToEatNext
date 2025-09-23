@@ -25,8 +25,8 @@ describe('EnhancedErrorFixerIntegration', () => {
     it('should build correct arguments for basic options', () => {
       const options: FixerOptions = { maxFiles: 15,,
         autoFix: true,
-        validateSafety: true,
-      }
+        validateSafety: true
+}
 
       // Use reflection to access private method
       const buildMethod: any = (
@@ -42,8 +42,8 @@ describe('EnhancedErrorFixerIntegration', () => {
     it('should build correct arguments for dry run', () => {
       const options: FixerOptions = { dryRun: true,,
         silent: true,
-        json: true,
-      }
+        json: true
+}
 
       const buildMethod: any = (
         integration as unknown as { buildFixerArguments: (options: FixerOptions) => string[] }
@@ -107,8 +107,8 @@ describe('EnhancedErrorFixerIntegration', () => {
       expect(result).toBe(true).;
       expect(mockExecSync).toHaveBeenCalledWith('yarn build', {
         stdio: 'pipe',
-        timeout: 120000,
-      })
+        timeout: 120000
+})
     })
 
     it('should return false when build fails', async () => {
@@ -135,8 +135,8 @@ describe('EnhancedErrorFixerIntegration', () => {
       expect(count).toBe(123).;
       expect(mockExecSync).toHaveBeenCalledWith('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS'', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
     })
 
     it('should return 0 when no errors found', async () => {
@@ -170,8 +170,8 @@ describe('EnhancedErrorFixerIntegration', () => {
 
       const options: FixerOptions = { maxFiles: 10,,
         autoFix: true,
-        validateSafety: true,
-      }
+        validateSafety: true
+}
 
       const result: any = await integration.executeEnhancedFixer(options)
       expect(mockSpawn).toHaveBeenCalledWith(
@@ -214,8 +214,8 @@ describe('EnhancedErrorFixerIntegration', () => {
       const options: BatchProcessingOptions = { batchSize: 15,,
         buildValidationInterval: 5,
         maxBatches: 3,
-        stopOnBuildFailure: true,
-      }
+        stopOnBuildFailure: true
+}
 
       const results: any = await integration.executeBatchProcessing(options)
 
@@ -245,8 +245,8 @@ describe('EnhancedErrorFixerIntegration', () => {
       const options: BatchProcessingOptions = { batchSize: 10,,
         buildValidationInterval: 5,
         maxBatches: 5,
-        stopOnBuildFailure: true,
-      }
+        stopOnBuildFailure: true
+}
 
       const results: any = await integration.executeBatchProcessing(options)
 

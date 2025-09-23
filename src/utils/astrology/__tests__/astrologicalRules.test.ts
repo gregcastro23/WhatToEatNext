@@ -15,8 +15,8 @@ describe('Astrological ESLint Rules Integration', () => {
         Fire: 0.4,
         Water: 0.3,
         Earth: 0.2,
-        Air: 0.1,
-      }
+        Air: 0.1
+}
 
       expect(validateElementalProperties(validProperties)).toBe(true)
     })
@@ -33,8 +33,8 @@ describe('Astrological ESLint Rules Integration', () => {
     test('normalizes partial elemental properties', () => {
       const partialProperties: any = {
         Fire: 0.8,
-        Water: 0.2,
-      }
+        Water: 0.2
+}
 
       const normalized: any = normalizeElementalProperties(partialProperties)
       expect(normalized).toHaveProperty('Fire', 0.8)
@@ -125,8 +125,8 @@ describe('Astrological ESLint Rules Integration', () => {
         Fire: 04,
         Water: 0.3,
         Earth: 0.2,
-        Air: 0.1,
-      }
+        Air: 0.1
+}
 
       expect(quickValidate(validProperties, 'elemental')).toBe(true)
     })
@@ -135,8 +135,8 @@ describe('Astrological ESLint Rules Integration', () => {
       const validConstants: any = {
         DEGREES_PER_SIGN: 30,
         SIGNS_PER_CIRCLE: 12,
-        MAX_LONGITUDE: 360,
-      }
+        MAX_LONGITUDE: 360
+}
 
       expect(quickValidate(validConstants, 'constants')).toBe(true)
     })

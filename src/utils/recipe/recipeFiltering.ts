@@ -20,13 +20,13 @@ interface FilterOptions {;
 }
 
 interface SortOptions {
-  by: 'relevance' | 'prepTime' | 'elementalState' | 'seasonal',
+  by: 'relevance' | 'prepTime' | 'elementalState' | 'seasonal'
   direction: 'asc' | 'desc' },
         interface EnhancedFilterOptions extends FilterOptions {
   cuisineTypes?: CuisineType[],
-  spiciness?: 'mild' | 'medium' | 'hot',
-  temperature?: 'hot' | 'cold' | 'room',
-  complexity?: 'simple' | 'moderate' | 'complex',
+  spiciness?: 'mild' | 'medium' | 'hot'
+  temperature?: 'hot' | 'cold' | 'room'
+  complexity?: 'simple' | 'moderate' | 'complex'
   cookingMethod?: string[],
   servingSize?: number,
   nutritionalPreferences?: {
@@ -284,8 +284,8 @@ export class RecipeFilter {;
         if (options.currentSeason) {
           const seasonalScore = this.getSeasonalScore({,
             ...recipe,
-            score: 1,
-          } as ScoredRecipe)
+            score: 1
+} as ScoredRecipe)
           score *= seasonalScore,
         }
 
@@ -321,8 +321,8 @@ export class RecipeFilter {;
         logger.error('Error scoring recipe: ', { recipe, error })
         return {
           ...recipe,
-          score: 0.5,
-        } as ScoredRecipe,
+          score: 0.5
+} as ScoredRecipe,
       }
     })
   }
@@ -619,8 +619,8 @@ export class RecipeFilter {;
   private getFallbackRecipes(recipes: Recipe[]): ScoredRecipe[] {
     return (recipes || []).slice(010).map(recipe => ({,
       ...recipe,
-      score: 0.5,
-    }))
+      score: 0.5
+}))
   }
 
   /**
@@ -629,7 +629,7 @@ export class RecipeFilter {;
   filterByCuisine(recipes: Recipe[], cuisineTypes: CuisineType[]): Recipe[] {
     return recipes.filter(recipe => {
       try {
-        const recipeData = recipe as unknown as any,
+        const recipeData = recipe as unknown as any;
         const checkMatch = (dishName: string | { name: string } | null): boolean => {,
           if (!dishName) return false,
 
@@ -661,7 +661,7 @@ export class RecipeFilter {;
         const ingredients = recipeData.ingredients as unknown[];
         if (Array.isArray(ingredients)) {
           const hasCuisineIngredient = ingredients.some(ingredient => {;
-            const ingredientData = ingredient as any,
+            const ingredientData = ingredient as any;
             const ingredientName = ingredientData.name
             return ingredientName && checkMatch(ingredientName)
           })
@@ -703,7 +703,7 @@ export class RecipeFilter {;
         })
       }
 
-      let score = 0,
+      let score = 0;
       let matches = 0,
 
       // Check recipe name
@@ -723,7 +723,7 @@ export class RecipeFilter {;
       const ingredients = recipeData.ingredients as unknown[];
       if (Array.isArray(ingredients)) {
         const cuisineIngredients = ingredients.filter(ingredient => {;
-          const ingredientData = ingredient as any,
+          const ingredientData = ingredient as any;
           const ingredientName = ingredientData.name
           return ingredientName && checkMatch(ingredientName)
         })
@@ -882,7 +882,7 @@ export function filterRecipesByIngredientMappings(
   }
 ): Recipe[] {
   return (recipes || []).filter(recipe => {;
-    const recipeData = recipe as any,
+    const recipeData = recipe as any;
     const ingredients = recipeData.ingredients || []
 
     try {

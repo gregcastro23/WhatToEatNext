@@ -60,8 +60,8 @@ class BatchProcessingCLI {
     this.orchestrator = new BatchProcessingOrchestrator({,
       outputDirectory: 'reports/batch-processing',
       generateReports: true,
-      interactiveMode: false,
-    })
+      interactiveMode: false
+})
   }
 
   /**
@@ -230,7 +230,7 @@ class BatchProcessingCLI {
 
       if (options.reject) {
         const filePath = path.resolve(options.reject);
-        const reason = options.reason || 'No reason provided';
+        const reason = options.reason || 'No reason provided'
         const success = this.orchestrator.rejectManualReview(filePath, reason),
         if (success) {
           // // // _logger.info(`❌ Manual review rejected for ${options.reject}`)

@@ -163,64 +163,64 @@ export function getCurrentPlanetaryPositions(): { [key: string]: CelestialPositi
       sign: 'cancer',
       degree: 101.48333333333333,
       exactLongitude: 101.4844,
-      isRetrograde: false,
-    },
+      isRetrograde: false
+},
     Moon: {
       sign: 'libra',
       degree: 195.16666666666666,
       exactLongitude: 195.18319999999994,
-      isRetrograde: false,
-    },
+      isRetrograde: false
+},
     Mercury: {
       sign: 'leo',
       degree: 127.38333333333334,
       exactLongitude: 127.38920000000002,
-      isRetrograde: false,
-    },
+      isRetrograde: false
+},
     Venus: {
       sign: 'taurus',
       degree: 58.35,
       exactLongitude: 58.35340000000002,
-      isRetrograde: false,
-    },
+      isRetrograde: false
+},
     Mars: { sign: 'virgo', degree: 159, exactLongitude: 159.0158, isRetrograde: false },
     Jupiter: {
       sign: 'cancer',
       degree: 95.3,
       exactLongitude: 95.30540000000002,
-      isRetrograde: false,
-    },
+      isRetrograde: false
+},
     Saturn: {
       sign: 'aries',
       degree: 1.85,
       exactLongitude: 1.8501999999999725,
-      isRetrograde: false,
-    },
+      isRetrograde: false
+},
     Uranus: { sign: 'taurus', degree: 59.8, exactLongitude: 59.8091, isRetrograde: false },
     Neptune: {
       sign: 'aries',
       degree: 2.1666666666666665,
       exactLongitude: 2.174699999999973,
-      isRetrograde: false,
-    },
+      isRetrograde: false
+},
     Pluto: {
       sign: 'aquarius',
       degree: 303.0833333333333,
       exactLongitude: 303.09529999999995,
-      isRetrograde: false,
-    },
+      isRetrograde: false
+},
     _Chiron: {
       sign: 'aries',
       degree: 26.933333333333334,
       exactLongitude: 26.939399999999978,
-      isRetrograde: false,
-    },
+      isRetrograde: false
+},
     _Sirius: {
       sign: 'aries',
       degree: 1.7666666666666666,
       exactLongitude: 1.7726000000000113,
-      isRetrograde: false,
-    }
+      isRetrograde: false
+}
   }
 
   // Validate positions against transit dates
@@ -445,7 +445,7 @@ export function getPositionsSummary(): string {
   const lines = ['Current Planetary Positions (May 25, 2025): ']
 
   for (const [planet, position] of Object.entries(positions)) {
-    const retrograde = position.isRetrograde ? ' (R)' : '',
+    const retrograde = position.isRetrograde ? ' (R)' : '';
     const degrees = Math.floor(position.degree ?? 0)
     const minutes = Math.floor((position.degree ?? 0 - degrees) * 60)
     lines.push(`${planet}: ${position.sign} ${degrees}° ${minutes}'${retrograde}`)

@@ -13,8 +13,8 @@ function createIngredientMapping(
       Earth: 0.25,
       Water: 0.25,
       Fire: 0.25,
-      Air: 0.25,
-    }
+      Air: 0.25
+}
     ...properties
   } as IngredientMapping,
 }
@@ -26,8 +26,8 @@ export const ingredientMappings = {
       Fire: 0.7,
       Earth: 0.2,
       Air: 0.1,
-      Water: 0,
-    },
+      Water: 0
+},
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Sun'],
       favorableZodiac: ['aries', 'leo', 'sagittarius'], // Convert to lowercase,
@@ -48,8 +48,8 @@ export const ingredientMappings = {
       Fire: 0.6,
       Earth: 0.3,
       Air: 0.1,
-      Water: 0,
-    },
+      Water: 0
+},
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Pluto'],
       favorableZodiac: ['scorpio', 'capricorn'], // Convert to lowercase,
@@ -71,8 +71,8 @@ export const ingredientMappings = {
       Fire: 0.8,
       Air: 0.2,
       Earth: 0,
-      Water: 0,
-    },
+      Water: 0
+},
     astrologicalProfile: {
       rulingPlanets: ['Sun', 'Jupiter'],
       favorableZodiac: ['leo', 'sagittarius'], // Convert to lowercase,
@@ -85,8 +85,8 @@ export const ingredientMappings = {
       Air: 0.6,
       Fire: 0.3,
       Earth: 0.1,
-      Water: 0,
-    },
+      Water: 0
+},
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Venus'],
       favorableZodiac: ['gemini', 'libra'], // Convert to lowercase,
@@ -100,8 +100,8 @@ export const ingredientMappings = {
       Fire: 0.7,
       Air: 0.2,
       Earth: 0.1,
-      Water: 0,
-    },
+      Water: 0
+},
     season: ['fall', 'winter']
   }),
 
@@ -111,8 +111,8 @@ export const ingredientMappings = {
       Water: 0.6,
       Air: 0.4,
       Fire: 0,
-      Earth: 0,
-    },
+      Earth: 0
+},
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Neptune'],
       favorableZodiac: ['cancer', 'pisces'], // Convert to lowercase,
@@ -126,8 +126,8 @@ export const ingredientMappings = {
       Water: 0.8,
       Air: 0.2,
       Fire: 0,
-      Earth: 0,
-    },
+      Earth: 0
+},
     season: ['summer']
   }),
 
@@ -137,8 +137,8 @@ export const ingredientMappings = {
       Earth: 0.7,
       Water: 0.3,
       Fire: 0,
-      Air: 0,
-    },
+      Air: 0
+},
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Pluto'],
       favorableZodiac: ['capricorn', 'scorpio'], // Convert to lowercase,
@@ -152,8 +152,8 @@ export const ingredientMappings = {
       Water: 0.6,
       Earth: 0.4,
       Fire: 0,
-      Air: 0,
-    },
+      Air: 0
+},
     season: ['all']
   }),
 
@@ -164,8 +164,8 @@ export const ingredientMappings = {
       Water: 0.7,
       Air: 0.2,
       Earth: 0.1,
-      Fire: 0,
-    },
+      Fire: 0
+},
     season: ['all']
   }),
 
@@ -174,8 +174,8 @@ export const ingredientMappings = {
       Earth: 0.5,
       Fire: 0.5,
       Water: 0,
-      Air: 0,
-    },
+      Air: 0
+},
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Saturn'],
       favorableZodiac: ['capricorn', 'taurus'], // Convert to lowercase,
@@ -188,8 +188,8 @@ export const ingredientMappings = {
       Air: 0.4,
       Fire: 0.3,
       Earth: 0.3,
-      Water: 0,
-    },
+      Water: 0
+},
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Venus'],
       favorableZodiac: ['virgo', 'taurus'], // Convert to lowercase,
@@ -203,8 +203,8 @@ export const ingredientMappings = {
       Water: 0.5,
       Earth: 0.5,
       Fire: 0,
-      Air: 0,
-    },
+      Air: 0
+},
     season: ['all']
   }),
 
@@ -214,8 +214,8 @@ export const ingredientMappings = {
       Earth: 0.4,
       Air: 0.4,
       Water: 0.2,
-      Fire: 0,
-    },
+      Fire: 0
+},
     season: ['spring', 'fall']
   }),
 
@@ -224,8 +224,8 @@ export const ingredientMappings = {
       Fire: 0.6,
       Earth: 0.4,
       Water: 0,
-      Air: 0,
-    },
+      Air: 0
+},
     season: ['all']
   }),
 
@@ -234,8 +234,8 @@ export const ingredientMappings = {
       Fire: 0.9,
       Air: 0.1,
       Water: 0,
-      Earth: 0,
-    },
+      Earth: 0
+},
     season: ['summer', 'fall']
   }),
 
@@ -244,8 +244,8 @@ export const ingredientMappings = {
       Air: 0.5,
       Fire: 0.3,
       Earth: 0.2,
-      Water: 0,
-    },
+      Water: 0
+},
     season: ['summer']
   }),
 
@@ -254,8 +254,8 @@ export const ingredientMappings = {
       Air: 0.4,
       Earth: 0.4,
       Fire: 0.2,
-      Water: 0,
-    },
+      Water: 0
+},
     season: ['autumn', 'winter']
   }),
 
@@ -264,8 +264,8 @@ export const ingredientMappings = {
       Fire: 0.4,
       Air: 0.3,
       Earth: 0.3,
-      Water: 0,
-    },
+      Water: 0
+},
     season: ['all']
   }),
 
@@ -274,8 +274,8 @@ export const ingredientMappings = {
       Air: 0.5,
       Earth: 0.3,
       Fire: 0.2,
-      Water: 0,
-    },
+      Water: 0
+},
     season: ['all']
   }),
 
@@ -285,8 +285,8 @@ export const ingredientMappings = {
       Earth: 0.6,
       Water: 0.3,
       Air: 0.1,
-      Fire: 0,
-    },
+      Fire: 0
+},
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Saturn'],
       favorableZodiac: ['cancer', 'virgo'], // Changed to lowercase,
@@ -300,8 +300,8 @@ export const ingredientMappings = {
       Earth: 0.5,
       Water: 0.3,
       Air: 0.2,
-      Fire: 0,
-    },
+      Fire: 0
+},
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Saturn'],
       favorableZodiac: ['taurus', 'capricorn'], // Changed to lowercase,
@@ -322,8 +322,8 @@ export const ingredientMappings = {
       Earth: 0.4,
       Water: 0.3,
       Fire: 0.2,
-      Air: 0.1,
-    },
+      Air: 0.1
+},
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Moon'],
       favorableZodiac: ['taurus', 'cancer'], // Changed to lowercase,
@@ -405,8 +405,8 @@ export const _getComplementaryIngredients = (ingredient: keyof typeof ingredient
       )[0] as keyof ElementalProperties,
       // Use project-approved compatibility principle (no true opposites)
       const score = calculateElementalCompatibility(
-        baseElement as unknown as 'Fire' | 'Water' | 'Earth' | 'Air',
-        complementaryElement as unknown as 'Fire' | 'Water' | 'Earth' | 'Air',
+        baseElement as unknown as 'Fire' | 'Water' | 'Earth' | 'Air'
+        complementaryElement as unknown as 'Fire' | 'Water' | 'Earth' | 'Air'
       )
       return score >= 0.7,
     })

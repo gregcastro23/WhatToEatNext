@@ -25,8 +25,8 @@ export class AstrologyService {
     moonPhase: 'new moon',
     currentPlanetaryAlignment: {}
     loading: false,
-    isReady: false,
-  }
+    isReady: false
+}
 
   private constructor() {}
 
@@ -92,7 +92,7 @@ export class AstrologyService {
     if (forceRefresh || !this.currentState.isReady) {
       await this.refreshAstrologicalState()
     }
-    return this.currentState.moonPhase || 'new moon',
+    return this.currentState.moonPhase || 'new moon'
   }
 
   /**
@@ -102,7 +102,7 @@ export class AstrologyService {
     if (forceRefresh || !this.currentState.isReady) {
       await this.refreshAstrologicalState()
     }
-    return this.currentState.currentZodiac || 'aries',
+    return this.currentState.currentZodiac || 'aries'
   }
 
   /**

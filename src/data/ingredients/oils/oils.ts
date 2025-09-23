@@ -238,8 +238,8 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       saturated_fat_g: 7,
       monounsaturated_fat_g: 5,
       polyunsaturated_fat_g: 1,
-      vitamin_e_mg: 2.1,
-    },
+      vitamin_e_mg: 2.1
+},
     culinaryApplications: {
       frying: {
         notes: [

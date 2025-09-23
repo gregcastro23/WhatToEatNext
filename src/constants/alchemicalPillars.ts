@@ -55,8 +55,8 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
     tarotAssociations: ['2 of Cups', 'Queen of Cups'],
     elementalAssociations: {
       primary: 'Water',
-  secondary: 'Earth',
-    }
+  secondary: 'Earth'
+}
   }
   {
     id: 2,
@@ -66,14 +66,14 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Spirit: 1,
   Essence: 1,
       Matter: -1,
-  Substance: 1,
-    },
+  Substance: 1
+},
     planetaryAssociations: ['Mercury', 'Saturn'],
     tarotAssociations: ['8 of Pentacles', 'Temperance'],
     elementalAssociations: {
       primary: 'Air',
-  secondary: 'Water',
-    }
+  secondary: 'Water'
+}
   }
   {
     id: 3,
@@ -89,8 +89,8 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
     tarotAssociations: ['6 of Swords', '8 of Wands'],
     elementalAssociations: {
       primary: 'Air',
-  secondary: 'Fire',
-    }
+  secondary: 'Fire'
+}
   }
   {
     id: 4,
@@ -100,14 +100,14 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Spirit: 1,
   Essence: 1,
       Matter: -1,
-  Substance: 1,
-    },
+  Substance: 1
+},
     planetaryAssociations: ['Mercury', 'Neptune'],
     tarotAssociations: ['Temperance', 'The Star'],
     elementalAssociations: {
       primary: 'Water',
-  secondary: 'Air',
-    }
+  secondary: 'Air'
+}
   }
   {
     id: 5,
@@ -123,8 +123,8 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
     tarotAssociations: ['2 of Swords', 'The Tower'],
     elementalAssociations: {
       primary: 'Fire',
-  secondary: 'Water',
-    }
+  secondary: 'Water'
+}
   }
   {
     id: 6,
@@ -134,13 +134,13 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Spirit: 1,
   Essence: 1,
       Matter: 1,
-  Substance: 1,
-    },
+  Substance: 1
+},
     planetaryAssociations: ['Sun', 'Jupiter'],
     tarotAssociations: ['The World', 'The Star'],
     elementalAssociations: {
-      primary: 'Fire',
-    }
+      primary: 'Fire'
+}
   }
   {
     id: 7,
@@ -156,8 +156,8 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
     tarotAssociations: ['Tower', 'King of Wands'],
     elementalAssociations: {
       primary: 'Fire',
-  secondary: 'Earth',
-    }
+  secondary: 'Earth'
+}
   }
   {
     id: 8,
@@ -167,14 +167,14 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Spirit: 1,
   Essence: -1,
       Matter: 1,
-  Substance: 1,
-    },
+  Substance: 1
+},
     planetaryAssociations: ['Venus', 'Jupiter', 'Pluto'],
     tarotAssociations: ['3 of Cups', '10 of Pentacles'],
     elementalAssociations: {
       primary: 'Earth',
-  secondary: 'Air',
-    }
+  secondary: 'Air'
+}
   }
   {
     id: 9,
@@ -190,8 +190,8 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
     tarotAssociations: ['The Hermit', 'Temperance'],
     elementalAssociations: {
       primary: 'Fire',
-  secondary: 'Air',
-    }
+  secondary: 'Air'
+}
   }
   {
     id: 10,
@@ -201,14 +201,14 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Spirit: -1,
   Essence: -1,
       Matter: 1,
-  Substance: 1,
-    },
+  Substance: 1
+},
     planetaryAssociations: ['Saturn', 'Pluto'],
     tarotAssociations: ['4 of Pentacles', 'The Hanged Man'],
     elementalAssociations: {
       primary: 'Earth',
-  secondary: 'Water',
-    }
+  secondary: 'Water'
+}
   }
   {
     id: 11,
@@ -224,8 +224,8 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
     tarotAssociations: ['Death', 'Wheel of Fortune'],
     elementalAssociations: {
       primary: 'Water',
-  secondary: 'Fire',
-    }
+  secondary: 'Fire'
+}
   }
   {
     id: 12,
@@ -235,14 +235,14 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Spirit: -1,
   Essence: -1,
       Matter: 1,
-  Substance: 1,
-    },
+  Substance: 1
+},
     planetaryAssociations: ['Saturn', 'Venus'],
     tarotAssociations: ['4 of Pentacles', 'King of Pentacles'],
     elementalAssociations: {
       primary: 'Earth',
-  secondary: 'Air',
-    }
+  secondary: 'Air'
+}
   }
   {
     id: 13,
@@ -258,8 +258,8 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
     tarotAssociations: ['The Sun', '3 of Wands'],
     elementalAssociations: {
       primary: 'Fire',
-  secondary: 'Water',
-    }
+  secondary: 'Water'
+}
   }
   {
     id: 14,
@@ -269,14 +269,14 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Spirit: 1,
   Essence: 1,
       Matter: 1,
-  Substance: 1,
-    },
+  Substance: 1
+},
     planetaryAssociations: ['Sun', 'Moon', 'Mercury', 'Jupiter'],
     tarotAssociations: ['The World', 'The Magician'],
     elementalAssociations: {
       primary: 'Fire',
-  secondary: 'Earth',
-    }
+  secondary: 'Earth'
+}
   }
 ],
 
@@ -584,7 +584,7 @@ export const COOKING_METHOD_PILLAR_INTELLIGENCE = {
         pillar,
         compatibility: Math.random() * 0.4 + 0.6, // 60-100% compatibility,
         optimization: {
-          skillLevel: constraints?.skillLevel || 'intermediate',
+          skillLevel: constraints?.skillLevel || 'intermediate'
   equipment: constraints?.availableEquipment || ['standard'],
   timeEfficiency: constraints?.timeConstraints ? Math.random() * 0.3 + 0.7 : 1.0, // 70-100% efficiency,
           dietaryCompliance: constraints?.dietaryRestrictions ? Math.random() * 0.2 + 0.8 : 1.0, // 80-100% compliance
@@ -771,7 +771,7 @@ export const ELEMENTAL_THERMODYNAMIC_INTELLIGENCE = {
         properties,
         compatibility: Math.random() * 0.4 + 0.6, // 60-100% compatibility,
         optimization: {
-          skillLevel: constraints?.skillLevel || 'intermediate',
+          skillLevel: constraints?.skillLevel || 'intermediate'
   equipment: constraints?.availableEquipment || ['standard'],
   timeEfficiency: constraints?.timeConstraints ? Math.random() * 0.3 + 0.7 : 1.0, // 70-100% efficiency,
           environmentalAdaptation: constraints?.environmentalConditions,
@@ -817,8 +817,8 @@ export const PLANETARY_ALCHEMICAL_INTELLIGENCE = {
       Spirit: 0,
   Essence: 0,
       Matter: 0,
-  Substance: 0,
-    }
+  Substance: 0
+}
 
     return {
       planet,
@@ -878,8 +878,8 @@ export const PLANETARY_ALCHEMICAL_INTELLIGENCE = {
       Spirit: 0,
   Essence: 0,
       Matter: 0,
-  Substance: 0,
-    }
+  Substance: 0
+}
 
     const compatiblePlanets = [
       'Sun',
@@ -899,14 +899,14 @@ export const PLANETARY_ALCHEMICAL_INTELLIGENCE = {
           Spirit: 0,
   Essence: 0,
           Matter: 0,
-  Substance: 0,
-        }
+  Substance: 0
+}
         return {
           planet,
           effects,
           compatibility: Math.random() * 0.4 + 0.6, // 60-100% compatibility,
           optimization: {
-            skillLevel: constraints?.skillLevel || 'intermediate',
+            skillLevel: constraints?.skillLevel || 'intermediate'
   equipment: constraints?.availableEquipment || ['standard'],
   timeEfficiency: constraints?.timeConstraints ? Math.random() * 0.3 + 0.7 : 1.0, // 70-100% efficiency,
             astrologicalAdaptation: constraints?.astrologicalConditions,
@@ -952,8 +952,8 @@ export const TAROT_SUIT_ALCHEMICAL_INTELLIGENCE = {
       Spirit: 0,
   Essence: 0,
       Matter: 0,
-  Substance: 0,
-    }
+  Substance: 0
+}
 
     return {
       cardName,
@@ -1013,8 +1013,8 @@ export const TAROT_SUIT_ALCHEMICAL_INTELLIGENCE = {
       Spirit: 0,
   Essence: 0,
       Matter: 0,
-  Substance: 0,
-    }
+  Substance: 0
+}
 
     const compatibleCards = [
       'The Fool',
@@ -1046,14 +1046,14 @@ export const TAROT_SUIT_ALCHEMICAL_INTELLIGENCE = {
           Spirit: 0,
   Essence: 0,
           Matter: 0,
-  Substance: 0,
-        }
+  Substance: 0
+}
         return {
           card,
           effects,
           compatibility: Math.random() * 0.4 + 0.6, // 60-100% compatibility,
           optimization: {
-            skillLevel: constraints?.skillLevel || 'intermediate',
+            skillLevel: constraints?.skillLevel || 'intermediate'
   equipment: constraints?.availableEquipment || ['standard'],
   timeEfficiency: constraints?.timeConstraints ? Math.random() * 0.3 + 0.7 : 1.0, // 70-100% efficiency,
             symbolicAdaptation: constraints?.symbolicConditions ? Math.random() * 0.2 + 0.8 : 1.0, // 80-100% adaptation
@@ -1080,8 +1080,7 @@ export interface EnhancedCookingMethod {;
   id: string,
   name: string,
   description: string,
-  category: 'dry' | 'wet' | 'combination' | 'molecular' | 'raw' | 'traditional' | 'transformation',
-
+  category: 'dry' | 'wet' | 'combination' | 'molecular' | 'raw' | 'traditional' | 'transformation'
   // Core alchemical properties
   alchemicalEffects: {
     Spirit: number,
@@ -1115,7 +1114,7 @@ export interface EnhancedCookingMethod {;
   // Additional properties,
   techniques: string[],
   equipment: string[],
-  skillLevel: 'beginner' | 'intermediate' | 'advanced' | 'expert',
+  skillLevel: 'beginner' | 'intermediate' | 'advanced' | 'expert'
   timeRange: {
     min: number,
   max: number,
@@ -1294,15 +1293,15 @@ export function calculatePillarMonicaModifiers(_monica: number): {
     return {
       temperatureAdjustment: 0,
   timingAdjustment: 0,
-      intensityModifier: 'neutral',
-    }
+      intensityModifier: 'neutral'
+}
   }
 
   return {
     temperatureAdjustment: Math.round(monica * 15),
   timingAdjustment: Math.round(monica * 10),
-    intensityModifier: monica > 0.1 ? 'increase' : monica < -0.1 ? 'decrease' : 'maintain',
-  }
+    intensityModifier: monica > 0.1 ? 'increase' : monica < -0.1 ? 'decrease' : 'maintain'
+}
 }
 
 /**
@@ -1321,7 +1320,7 @@ export function calculateOptimalCookingConditions(
 } {
   // Base temperature (350°F) adjusted by Monica and thermodynamics
   const baseTemp = 350;
-  const monicaAdjustment = isNaN(monica) ? 0 : monica * 15,
+  const monicaAdjustment = isNaN(monica) ? 0 : monica * 15;
   const thermodynamicAdjustment = (thermodynamics.heat - 0.5) * 50;
   const temperature = Math.round(baseTemp + monicaAdjustment + thermodynamicAdjustment)
 
@@ -1446,8 +1445,8 @@ export function enhanceAlchemicalPillar(_pillar: AlchemicalPillar): AlchemicalPi
   const thermodynamics = getCookingMethodThermodynamics(pillar.name.toLowerCase()) || {;
     heat: 0.5,
   entropy: 0.5,
-    reactivity: 0.5,
-  }
+    reactivity: 0.5
+}
 
   // Calculate Kalchm from pillar effects
   const kalchm = calculatePillarKalchm(pillar.effects)

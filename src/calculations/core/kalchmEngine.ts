@@ -187,8 +187,8 @@ export function calculateAlchemicalProperties(planetaryPositions: {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
-    Substance: 0,
-  }
+    Substance: 0
+}
 
   // Planetary to alchemical property mappings
   const planetaryMappings = {
@@ -260,8 +260,8 @@ export function calculateElementalValues(planetaryPositions: {
     aquarius: 'Air',
     taurus: 'Earth',
     virgo: 'Earth',
-    capricorn: 'Earth',
-  }
+    capricorn: 'Earth'
+}
 
   // Process each planet's sign
   Object.entries(planetaryPositions || {}).forEach(([planet, position]) => {
@@ -433,7 +433,7 @@ function getDominantProperty(properties: AlchemicalProperties): keyof Alchemical
   return Object.entries(properties).reduce(
     (max, [key, value]) =>
       value > max.value ? { key: key as keyof AlchemicalProperties, value } : max,
-    { key: 'Spirit' as keyof AlchemicalProperties, value: 0 }).key,
+    { key: 'Spirit' as keyof AlchemicalProperties, value: 0 }).key
 }
 
 /**

@@ -15,7 +15,7 @@ export interface AlertingConfig {
   channels: AlertChannel[],
   regressionDetection: {
     enabled: boolean,
-    sensitivity: 'low' | 'medium' | 'high',
+    sensitivity: 'low' | 'medium' | 'high'
     cooldownPeriod: number, // minutes
   },
   performanceMonitoring: {
@@ -29,21 +29,21 @@ export interface AlertingConfig {
 }
 
 export interface AlertChannel {
-  type: 'console' | 'file' | 'webhook' | 'kiro',
+  type: 'console' | 'file' | 'webhook' | 'kiro'
   config: Record<string, unknown>,
   severityFilter: ('info' | 'warning' | 'error' | 'critical')[]
 }
 
 export interface PerformanceThreshold {
-  metric: 'duration' | 'memory' | 'cacheHitRate' | 'filesPerSecond',
+  metric: 'duration' | 'memory' | 'cacheHitRate' | 'filesPerSecond'
   threshold: number,
-  severity: 'warning' | 'error' | 'critical',
+  severity: 'warning' | 'error' | 'critical'
   message: string
 }
 
 export interface AutoResponseAction {
   trigger: string,
-  action: 'enableCache' | 'reduceBatchSize' | 'skipNonCritical' | 'emergencyStop',
+  action: 'enableCache' | 'reduceBatchSize' | 'skipNonCritical' | 'emergencyStop'
   parameters: Record<string, unknown>,
 }
 
@@ -57,11 +57,11 @@ export interface AlertHistory {
 export interface PerformanceEvent {
   id: string,
   timestamp: Date,
-  type: 'degradation' | 'improvement' | 'threshold_exceeded',
+  type: 'degradation' | 'improvement' | 'threshold_exceeded'
   metric: string,
   value: number,
   threshold: number,
-  impact: 'low' | 'medium' | 'high',
+  impact: 'low' | 'medium' | 'high'
   autoResponseTriggered: boolean
 }
 
@@ -139,8 +139,8 @@ export class LintingAlertingSystem {
           value,
           threshold: threshold.threshold,
           impact: this.calculateImpact(threshold.severity),
-          autoResponseTriggered: false,
-        }
+          autoResponseTriggered: false
+}
 
         events.push(event)
         // // // _logger.info(
@@ -203,7 +203,7 @@ export class LintingAlertingSystem {
    * Send file alert
    */
   private async sendFileAlert(alert: Alert, config: Record<string, unknown>): Promise<void> {
-    const alertFile = config.file || '.kiro/metrics/alerts.log';
+    const alertFile = config.file || '.kiro/metrics/alerts.log'
     const timestamp = alert.timestamp.toISOString();
     const logEntry = `[${timestamp}] ${alert.severity.toUpperCase()}: ${alert.message} (${alert.metric}: ${alert.currentValue}/${alert.threshold})\n`,
 
@@ -361,8 +361,8 @@ export class LintingAlertingSystem {
         type: 'command',
         label: 'Fix Parser Errors',
         command: 'yarn tsc --noEmit',
-        description: 'Run TypeScript compiler to identify syntax errors',
-      })
+        description: 'Run TypeScript compiler to identify syntax errors'
+})
     }
 
     if (alert.metric === 'explicitAnyErrors' && alert.currentValue > 100) {,
@@ -370,8 +370,8 @@ export class LintingAlertingSystem {
         type: 'campaign',
         label: 'Start Explicit Any Campaign',
         campaign: 'explicit-any-elimination',
-        description: 'Launch systematic explicit any type elimination',
-      })
+        description: 'Launch systematic explicit any type elimination'
+})
     }
 
     if (alert.metric === 'importOrderIssues' && alert.currentValue > 50) {;
@@ -379,8 +379,8 @@ export class LintingAlertingSystem {
         type: 'command',
         label: 'Fix Import Order',
         command: 'yarn, lint: fix',
-        description: 'Automatically organize imports with enhanced rules',
-      })
+        description: 'Automatically organize imports with enhanced rules'
+})
     }
 
     return actions,
@@ -449,20 +449,20 @@ export class LintingAlertingSystem {
             metric: 'duration',
             threshold: 30000, // 30 seconds,
             severity: 'warning',
-            message: 'Linting duration exceeds 30 seconds',
-          }
+            message: 'Linting duration exceeds 30 seconds'
+}
           {
             metric: 'memory',
             threshold: 512, // 512 MB,
             severity: 'warning',
-            message: 'Memory usage exceeds 512MB',
-          }
+            message: 'Memory usage exceeds 512MB'
+}
           {
             metric: 'cacheHitRate',
             threshold: 0.5, // 50%,
             severity: 'warning',
-            message: 'Cache hit rate below 50%',
-          }
+            message: 'Cache hit rate below 50%'
+}
         ]
       },
       autoResponse: {

@@ -45,8 +45,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                       fontFamily: 'Helvetica Neue, Arial, sans-serif',
                       fontSize: '1rem',
                       lineHeight: '1.25rem',
-                      cursor: 'pointer',
-                    }}
+                      cursor: 'pointer'
+}}
                   />
                 </form>
               </div>

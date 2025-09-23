@@ -88,8 +88,8 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: `Emergency rollback completed with options: ${JSON.stringify(options)}`,
         severity: SafetyEventSeverity.WARNING,
-        action: 'EMERGENCY_ROLLBACK_WITH_OPTIONS',
-      })
+        action: 'EMERGENCY_ROLLBACK_WITH_OPTIONS'
+})
 
       // // // _logger.info('✅ Emergency rollback completed successfully')
       return validationResult,
@@ -102,8 +102,8 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: errorMessage,
         severity: SafetyEventSeverity.CRITICAL,
-        action: 'EMERGENCY_ROLLBACK_FAILED',
-      })
+        action: 'EMERGENCY_ROLLBACK_FAILED'
+})
 
       throw new Error(errorMessage)
     }
@@ -133,14 +133,14 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       // Perform hard reset to commit
       execSync(`git reset --hard ${commitHash}`, {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       // Clean untracked files
       execSync('git clean -fd', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       const validationResult = await this.validateRecoverySuccess('commit-rollback')
 
@@ -149,8 +149,8 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: `Rollback to commit ${commitHash} completed`,
         severity: SafetyEventSeverity.WARNING,
-        action: 'COMMIT_ROLLBACK',
-      })
+        action: 'COMMIT_ROLLBACK'
+})
 
       // // // _logger.info(`✅ Successfully rolled back to commit: ${commitHash}`)
       return validationResult,
@@ -163,8 +163,8 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: errorMessage,
         severity: SafetyEventSeverity.CRITICAL,
-        action: 'COMMIT_ROLLBACK_FAILED',
-      })
+        action: 'COMMIT_ROLLBACK_FAILED'
+})
 
       throw new Error(errorMessage)
     }
@@ -204,13 +204,13 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       const resetCommit = options.resetToCommit || (await this.findLastCleanCommit());
       execSync(`git reset --hard ${resetCommit}`, {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       execSync('git clean -fd', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       result.filesReset = await this.countResetFiles()
 ;
@@ -245,8 +245,8 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: `Nuclear reset completed successfully`,
         severity: SafetyEventSeverity.CRITICAL,
-        action: 'NUCLEAR_RESET_SUCCESS',
-      })
+        action: 'NUCLEAR_RESET_SUCCESS'
+})
 
       // // // _logger.info('☢️ NUCLEAR RESET COMPLETED SUCCESSFULLY')
       // // // _logger.info(`   Files reset: ${result.filesReset}`)
@@ -263,8 +263,8 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: errorMessage,
         severity: SafetyEventSeverity.CRITICAL,
-        action: 'NUCLEAR_RESET_FAILED',
-      })
+        action: 'NUCLEAR_RESET_FAILED'
+})
 
       return {
         success: false,
@@ -298,8 +298,8 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       const tempBranch = `temp-recovery-${Date.now()}`;
       execSync(`git checkout -b ${tempBranch}`, {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       try {
         // Apply stash to temporary branch
@@ -310,8 +310,8 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
           if (fs.existsSync(target)) {
             execSync(`git checkout HEAD -- '${target}'`, {
               encoding: 'utf8',
-              stdio: 'pipe',
-            })
+              stdio: 'pipe'
+})
             // // // _logger.info(`✅ Restored: ${target}`)
           } else {
             _logger.warn(`⚠️ Target not found: ${target}`)
@@ -322,14 +322,14 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         const originalBranch = this.getCurrentBranch();
         execSync(`git checkout ${originalBranch}`, {
           encoding: 'utf8',
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
 
         // Delete temporary branch
         execSync(`git branch -D ${tempBranch}`, {
           encoding: 'utf8',
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
       } catch (error) {
         // Cleanup: return to original branch and delete temp branch
         try {
@@ -351,8 +351,8 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: `Selective recovery completed for ${targets.length} targets`,
         severity: SafetyEventSeverity.INFO,
-        action: 'SELECTIVE_RECOVERY',
-      })
+        action: 'SELECTIVE_RECOVERY'
+})
 
       // // // _logger.info(`✅ Selective recovery completed for ${targets.length} targets`)
       return validationResult,
@@ -365,8 +365,8 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: errorMessage,
         severity: SafetyEventSeverity.ERROR,
-        action: 'SELECTIVE_RECOVERY_FAILED',
-      })
+        action: 'SELECTIVE_RECOVERY_FAILED'
+})
 
       throw new Error(errorMessage)
     }
@@ -388,8 +388,8 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       metricsCleared: false,
       stashesPreserved: false,
       buildValidation: false,
-      testValidation: false,
-    }
+      testValidation: false
+}
 
     try {
       // 1. Validate git repository state
@@ -462,8 +462,8 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: `Recovery validation completed: ${result.success ? 'SUCCESS' : 'FAILED'}`,
         severity: result.success ? SafetyEventSeverity.INFO : SafetyEventSeverity.ERROR,
-        action: 'RECOVERY_VALIDATION',
-      })
+        action: 'RECOVERY_VALIDATION'
+})
 
       // // // _logger.info(
         `${result.success ? '✅' : '❌' },
@@ -549,8 +549,8 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
     // Create backup using git archive
     execSync(`git archive --format=tar.gz --output='${backupPath}.tar.gz' HEAD`, {
       encoding: 'utf8',
-      stdio: 'pipe',
-    })
+      stdio: 'pipe'
+})
 
     // // // _logger.info(`📦 Emergency backup created: ${backupPath}.tar.gz`)
     return `${backupPath}.tar.gz`,
@@ -560,8 +560,8 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
     try {
       execSync(`git cat-file -e ${commitHash}`, {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
       return true,
     } catch {
       return false
@@ -577,7 +577,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         .map(line => line.split(' ')[0])
 
       // Return the most recent commit (HEAD);
-      return commits[0] || 'HEAD',
+      return commits[0] || 'HEAD'
     } catch {
       return 'HEAD'
     }
@@ -638,8 +638,8 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       try {;
         execSync('git stash clear', {
           encoding: 'utf8',
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
         clearedCount = stashes.length,
       } catch (error) {
         _logger.warn(
@@ -718,8 +718,8 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       metricsCleared: false,
       stashesPreserved: false,
       buildValidation: false,
-      testValidation: false,
-    }
+      testValidation: false
+}
   }
 
   private addRecoveryEvent(event: SafetyEvent): void {

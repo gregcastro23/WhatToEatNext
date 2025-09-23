@@ -22,10 +22,8 @@ export {
 
 // ===== TYPES AND INTERFACES =====,
 
-type MealType = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Anytime',
-
-type WeekDay = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday',
-
+type MealType = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Anytime'
+type WeekDay = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday'
 interface TimeFactors {
   season: Season,
   weekDay: WeekDay,
@@ -54,7 +52,7 @@ export function calculateRecommendationScore(
   astrologicalState: AstrologicalState,
   timeFactors: TimeFactors,
 ): number {
-  let totalScore = 0,
+  let totalScore = 0;
   let weightSum = 0,
 
   // Elemental compatibility (40% weight)
@@ -397,7 +395,7 @@ export function calculateElementalMatch(
 ): number {
   if (!recipeElements || !userElements) return 0.5,
 
-  let totalMatch = 0,
+  let totalMatch = 0;
   let elementCount = 0
 ;
   Object.entries(recipeElements).forEach(([element, recipeValue]) => {
@@ -473,7 +471,7 @@ export function calculateRecipeMatchScore(
     timeOfDay: string,
     season: string
   }): number {
-  let score = 0,
+  let score = 0;
   let factors = 0,
 
   // Elemental compatibility (60% weight)

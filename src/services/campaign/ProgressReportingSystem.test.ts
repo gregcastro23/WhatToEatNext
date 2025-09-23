@@ -53,8 +53,8 @@ describe('ProgressReportingSystem', () => {;
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
-          compilationSpeed: 25,
-        },
+          compilationSpeed: 25
+},
         resourceMetrics: { nodeMemoryUsage: process.memoryUsage(),
           systemMemory: { total: 8192, used: 4096, free: 4096, percentage: 50 },
           diskSpace: { total: 1000000, used: 500000, free: 500000, percentage: 50 }
@@ -173,8 +173,8 @@ describe('ProgressReportingSystem', () => {;
           memoryUsage: 55,
           cpuUsage: 25,
           diskUsage: 1200,
-          compilationSpeed: 20,
-        },
+          compilationSpeed: 20
+},
         resourceMetrics: { nodeMemoryUsage: process.memoryUsage(),
           systemMemory: { total: 8192, used: 5120, free: 3072, percentage: 62 },
           diskSpace: { total: 1000000, used: 600000, free: 400000, percentage: 60 }
@@ -259,8 +259,8 @@ describe('ProgressReportingSystem', () => {;
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
-          compilationSpeed: 25,
-        },
+          compilationSpeed: 25
+},
         resourceMetrics: { nodeMemoryUsage: process.memoryUsage(),
           systemMemory: { total: 8192, used: 4096, free: 4096, percentage: 50 },
           diskSpace: { total: 1000000, used: 500000, free: 500000, percentage: 50 }
@@ -325,8 +325,8 @@ describe('ProgressReportingSystem', () => {;
               memoryUsage: 60,
               cpuUsage: 30,
               diskUsage: 1500,
-              compilationSpeed: 15,
-            },
+              compilationSpeed: 15
+},
             resourceMetrics: { nodeMemoryUsage: process.memoryUsage(),
               systemMemory: { total: 8192, used: 4915, free: 3277, percentage: 60 },
               diskSpace: { total: 1000000, used: 600000, free: 400000, percentage: 60 }
@@ -334,11 +334,11 @@ describe('ProgressReportingSystem', () => {;
             trendData: { errorReductionRate: 8,
               warningReductionRate: 40,
               buildTimeImprovement: 1.5,
-              systemGrowthRate: 4,
-            }
+              systemGrowthRate: 4
+}
           },
-          phase: 'phase1',
-        }
+          phase: 'phase1'
+}
       ])
 
       mockValidationSystem.validateAllPhases.mockResolvedValue([
@@ -367,8 +367,8 @@ describe('ProgressReportingSystem', () => {;
           memoryUsage: 55,
           cpuUsage: 25,
           diskUsage: 1200,
-          compilationSpeed: 20,
-        },
+          compilationSpeed: 20
+},
         resourceMetrics: { nodeMemoryUsage: process.memoryUsage(),
           systemMemory: { total: 8192, used: 5120, free: 3072, percentage: 62 },
           diskSpace: { total: 1000000, used: 600000, free: 400000, percentage: 60 }
@@ -487,8 +487,8 @@ describe('ProgressReportingSystem', () => {;
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
-          compilationSpeed: 25,
-        },
+          compilationSpeed: 25
+},
         resourceMetrics: { nodeMemoryUsage: process.memoryUsage(),
           systemMemory: { total: 8192, used: 4096, free: 4096, percentage: 50 },
           diskSpace: { total: 1000000, used: 500000, free: 500000, percentage: 50 }
@@ -535,8 +535,8 @@ describe('ProgressReportingSystem', () => {;
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
-          compilationSpeed: 25,
-        },
+          compilationSpeed: 25
+},
         resourceMetrics: { nodeMemoryUsage: process.memoryUsage(),
           systemMemory: { total: 8192, used: 4096, free: 4096, percentage: 50 },
           diskSpace: { total: 1000000, used: 500000, free: 500000, percentage: 50 }

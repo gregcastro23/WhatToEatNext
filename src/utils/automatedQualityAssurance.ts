@@ -17,13 +17,13 @@ export const QA_THRESHOLDS = {
   typescript: {
     criticalThreshold: 100,
     warningThreshold: 500,
-    target: 0,
-  },
+    target: 0
+},
   linting: {
     criticalThreshold: 1000,
     warningThreshold: 2000,
-    target: 0,
-  },
+    target: 0
+},
   performance: {
     renderTime: 16, // 60fps target,
     memoryUsage: 50, // MB,
@@ -33,8 +33,8 @@ export const QA_THRESHOLDS = {
   planetaryData: {
     positionAccuracy: 0.1, // degrees,
     _cacheValidityHours: 6,
-    fallbackThresholdMs: 5000,
-  }
+    fallbackThresholdMs: 5000
+}
 } as const,
 
 export interface QualityMetrics {
@@ -76,10 +76,10 @@ export interface ValidationResult {
 }
 
 export interface CampaignTrigger {
-  type: 'typescript' | 'linting' | 'performance' | 'planetary' | 'ingredient',
+  type: 'typescript' | 'linting' | 'performance' | 'planetary' | 'ingredient'
   threshold: number,
   currentValue: number,
-  action: 'monitor' | 'warn' | 'campaign' | 'emergency',
+  action: 'monitor' | 'warn' | 'campaign' | 'emergency'
   triggered: boolean,
   timestamp: number
 }
@@ -201,7 +201,7 @@ export class AutomatedQualityAssurance {
     const intelligence = getSteeringFileIntelligence()
     const issues: string[] = [],
     const recommendations: string[] = [],
-    let totalScore = 0,
+    let totalScore = 0;
     let validatedCount = 0
 ;
     ingredients.forEach((ingredient, index) => {
@@ -426,18 +426,18 @@ export class AutomatedQualityAssurance {
         renderTime: 0,
         memoryUsage: 0,
         bundleSize: 0,
-        apiResponseTime: 0,
-      },
+        apiResponseTime: 0
+},
       planetaryDataQuality: {
         accuracy: 1.0,
         freshness: 1.0,
-        reliability: 1.0,
-      },
+        reliability: 1.0
+},
       ingredientConsistency: {
         elementalValidation: 1.0,
         compatibilityScores: 1.0,
-        culturalSensitivity: 1.0,
-      }
+        culturalSensitivity: 1.0
+}
     }
   }
 

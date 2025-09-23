@@ -13,12 +13,12 @@ export const steaming: CookingMethodData = {
     Water: 0.6,
     Air: 0.3,
     Fire: 0.1,
-    Earth: 0.0,
-  },
+    Earth: 0.0
+},
   duration: {
     min: 5,
-    max: 45,
-  },
+    max: 45
+},
   suitable_for: [
     'vegetables',
     'fish',

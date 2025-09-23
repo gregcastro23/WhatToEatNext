@@ -41,7 +41,7 @@ export const config: AppConfig = {
       _trine: 6,
       _square: 6,
       _sextile: 4,
-      quincunx: 3,
-    }
+      quincunx: 3
+}
   }
 }

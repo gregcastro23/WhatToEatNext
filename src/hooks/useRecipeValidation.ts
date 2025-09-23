@@ -15,23 +15,23 @@ export interface ValidationResult {
 }
 
 export interface ValidationError {
-  type: 'missing_component' | 'incompatible_ingredients' | 'elemental_imbalance' | 'safety_concern',
+  type: 'missing_component' | 'incompatible_ingredients' | 'elemental_imbalance' | 'safety_concern'
   message: string,
-  severity: 'high' | 'medium' | 'low',
+  severity: 'high' | 'medium' | 'low'
   affectedIngredients?: string[]
 }
 
 export interface ValidationWarning {
-  type: 'nutritional' | 'seasonal' | 'preparation' | 'storage',
+  type: 'nutritional' | 'seasonal' | 'preparation' | 'storage'
   message: string,
   recommendation?: string
 }
 
 export interface ValidationSuggestion {
-  type: 'ingredient' | 'cooking_method' | 'seasoning' | 'elemental_balance',
+  type: 'ingredient' | 'cooking_method' | 'seasoning' | 'elemental_balance'
   message: string,
   action?: {
-    type: 'add_ingredient' | 'remove_ingredient' | 'adjust_quantity' | 'change_method',
+    type: 'add_ingredient' | 'remove_ingredient' | 'adjust_quantity' | 'change_method'
     target?: string,
     value?: unknown
   }
@@ -91,8 +91,8 @@ export function useRecipeValidation() {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25,
-        }
+          Air: 0.25
+}
         return {
           Fire: acc.Fire + (props.Fire || 0),
           Water: acc.Water + (props.Water || 0),
@@ -112,7 +112,7 @@ export function useRecipeValidation() {
   }
 
   // Check for ingredient incompatibilities
-  const checkIncompatibilities = (ingredients: Ingredient[]): ValidationError[] => {,
+  const checkIncompatibilities = (ingredients: Ingredient[]): ValidationError[] => {;
     const errors: ValidationError[] = [];
 
     // Check for known incompatible combinations
@@ -202,8 +202,8 @@ export function useRecipeValidation() {
     if (hasDelicateIngredients) {
       suggestions.push({
         type: 'cooking_method',
-        message: 'Delicate ingredients detected. Consider gentle cooking methods like steaming or light sautéing',
-      })
+        message: 'Delicate ingredients detected. Consider gentle cooking methods like steaming or light sautéing'
+})
     }
 
     return suggestions,
@@ -222,8 +222,8 @@ export function useRecipeValidation() {
       errors.push({,
         type: 'missing_component',
         message: 'Recipe must have at least one ingredient',
-        severity: 'high',
-      })
+        severity: 'high'
+})
     }
 
     // Analyze components
@@ -247,8 +247,8 @@ export function useRecipeValidation() {
       warnings.push({,
         type: 'preparation',
         message: 'Recipe has significant elemental imbalance',
-        recommendation: 'Consider adding balancing ingredients',
-      })
+        recommendation: 'Consider adding balancing ingredients'
+})
     }
 
     // Check incompatibilities
@@ -284,7 +284,7 @@ export function useRecipeValidation() {
   const getNutritionalAnalysis = (ingredients: Ingredient[]) => {
     const categories = ingredients.reduce(
       (acc, ingredient) => {
-        const category = ingredient.category || 'other';
+        const category = ingredient.category || 'other'
         acc[category] = (acc[category] || 0) + 1,
         return acc
       }

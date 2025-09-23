@@ -12,8 +12,8 @@ export const _distilling: CookingMethodData = {
     Fire: 0.8,
     Water: 0.3,
     Earth: 0.1,
-    Air: 0.6,
-  },
+    Air: 0.6
+},
   duration: {
     min: 60, // 1 hour,
     max: 480, // 8 hours

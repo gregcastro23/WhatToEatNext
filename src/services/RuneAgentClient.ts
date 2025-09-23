@@ -6,7 +6,7 @@ import type { ElementalProperties } from '@/types/celestial';
 export interface RuneAgentInput {
   datetime?: Date,
   location?: { latitude: number, longitude: number }
-  context?: 'cuisine' | 'recipe' | 'ingredient' | 'cooking_method',
+  context?: 'cuisine' | 'recipe' | 'ingredient' | 'cooking_method'
   preferences?: {
     dietaryRestrictions?: string[],
     cuisineTypes?: string[],
@@ -27,7 +27,7 @@ export interface RuneResult {
 }
 
 export interface AgentRecommendation {
-  type: 'cuisine' | 'recipe' | 'ingredient' | 'cooking_method',
+  type: 'cuisine' | 'recipe' | 'ingredient' | 'cooking_method'
   recommendations: Array<{
     name: string,
     score: number,
@@ -167,7 +167,7 @@ export class RuneAgentClient {
         const payload = {
           datetime: input.datetime?.toISOString() || new Date().toISOString(),
           location: input.location,
-          context: input.context || 'cuisine',
+          context: input.context || 'cuisine'
           preferences: input.preferences
         }
 

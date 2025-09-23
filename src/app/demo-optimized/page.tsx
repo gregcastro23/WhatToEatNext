@@ -18,8 +18,8 @@ export default function DemoOptimizedPage() {
     planetary: true,
     energy: true,
     notifications: true,
-    recommendations: true,
-  })
+    recommendations: true
+})
 
   const handleRecipeSelect = (recipe: Recipe) => {
     setSelectedRecipe(recipe);
@@ -37,30 +37,30 @@ export default function DemoOptimizedPage() {
     <div style={{
       minHeight: '100vh',
       backgroundColor: '#f8f9fa',
-      padding: '20px',
-    }}>
+      padding: '20px'
+}}>
       <div style={{
         maxWidth: '1200px',
-        margin: '0 auto',
-      }}>
+        margin: '0 auto'
+}}>
         {/* Header */}
         <div style={{
           textAlign: 'center',
-          marginBottom: '40px',
-        }}>
+          marginBottom: '40px'
+}}>
           <h1 style={{
             fontSize: '32px',
             fontWeight: '700',
             color: '#333',
-            marginBottom: '8px',
-          }}>
+            marginBottom: '8px'
+}}>
             ⚡ Optimized Features Demo
           </h1>
           <p style={{
             fontSize: '16px',
             color: '#666',
-            margin: '0 0 20px 0',
-          }}>
+            margin: '0 0 20px 0'
+}}>
             Code-split components with lazy loading and error boundaries
           </p>
 
@@ -69,8 +69,8 @@ export default function DemoOptimizedPage() {
             display: 'flex',
             justifyContent: 'center',
             gap: '12px',
-            flexWrap: 'wrap',
-          }}>
+            flexWrap: 'wrap'
+}}>
             {Object.entries(visibleSections).map(([key, visible]) => (
               <button
                 key={key}
@@ -83,8 +83,8 @@ export default function DemoOptimizedPage() {
                   borderRadius: '4px',
                   cursor: 'pointer',
                   fontSize: '12px',
-                  textTransform: 'capitalize',
-                }}
+                  textTransform: 'capitalize'
+}}
               >
                 {visible ? '👁️' : '👁️‍🗨️'} {key}
               </button>))}
@@ -99,8 +99,8 @@ export default function DemoOptimizedPage() {
               fontWeight: '600',
               color: '#333',
               marginBottom: '16px',
-              textAlign: 'center',
-            }}>
+              textAlign: 'center'
+}}>
               🪐 Real-time Planetary Hours
             </h2>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -120,8 +120,8 @@ export default function DemoOptimizedPage() {
               fontWeight: '600',
               color: '#333',
               marginBottom: '16px',
-              textAlign: 'center',
-            }}>
+              textAlign: 'center'
+}}>
               ⚡ Elemental Energy Visualization
             </h2>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -141,8 +141,8 @@ export default function DemoOptimizedPage() {
               fontWeight: '600',
               color: '#333',
               marginBottom: '16px',
-              textAlign: 'center',
-            }}>
+              textAlign: 'center'
+}}>
               🌌 Celestial Event Notifications
             </h2>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -166,8 +166,8 @@ export default function DemoOptimizedPage() {
               fontWeight: '600',
               color: '#333',
               marginBottom: '16px',
-              textAlign: 'center',
-            }}>
+              textAlign: 'center'
+}}>
               🔮 Enhanced Recommendation Engine
             </h2>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -191,29 +191,29 @@ export default function DemoOptimizedPage() {
             maxWidth: '600px',
             margin: '0 auto 30px auto',
             boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-            animation: 'slideIn 0.3s ease',
-          }}>
+            animation: 'slideIn 0.3s ease'
+}}>
             <h3 style={{
               margin: '0 0 16px 0',
               fontSize: '20px',
               fontWeight: '600',
-              color: '#28a745',
-            }}>
+              color: '#28a745'
+}}>
               ✨ Selected Recipe
             </h3>
             <div>
               <h4 style={{
                 margin: '0 0 8px 0',
                 fontSize: '18px',
-                color: '#333',
-              }}>
+                color: '#333'
+}}>
                 {selectedRecipe.name}
               </h4>
               <p style={{
                 margin: '0 0 12px 0',
                 fontSize: '14px',
-                color: '#666',
-              }}>
+                color: '#666'
+}}>
                 Recipe ID: {selectedRecipe.id}
               </p>
               <div style={{ display: 'flex', gap: '8px' }}>
@@ -230,8 +230,8 @@ export default function DemoOptimizedPage() {
                       textDecoration: 'none',
                       borderRadius: '6px',
                       fontSize: '14px',
-                      fontWeight: '500',
-                    }}
+                      fontWeight: '500'
+}}
                   >
                     View Recipe →
                   </a>
@@ -246,8 +246,8 @@ export default function DemoOptimizedPage() {
                     borderRadius: '6px',
                     cursor: 'pointer',
                     fontSize: '14px',
-                    fontWeight: '500',
-                  }}
+                    fontWeight: '500'
+}}
                 >
                   Clear Selection
                 </button>
@@ -261,20 +261,20 @@ export default function DemoOptimizedPage() {
           padding: '20px',
           backgroundColor: '#d1ecf1',
           borderRadius: '8px',
-          border: '1px solid #bee5eb',
-        }}>
+          border: '1px solid #bee5eb'
+}}>
           <h3 style={{
             margin: '0 0 12px 0',
             fontSize: '18px',
-            color: '#0c5460',
-          }}>
+            color: '#0c5460'
+}}>
             ⚡ Performance Optimizations
           </h3>
           <ul style={{
             margin: 0,
             paddingLeft: '20px',
-            color: '#0c5460',
-          }}>
+            color: '#0c5460'
+}}>
             <li><strong>Code Splitting:</strong> Each component loads only when needed</li>
             <li><strong>Lazy Loading:</strong> React.lazy() with Suspense for async loading</li>
             <li><strong>Error Boundaries: </strong> Graceful fallbacks for component failures</li>
@@ -292,8 +292,8 @@ export default function DemoOptimizedPage() {
           borderRadius: '6px',
           border: '1px solid #dee2e6',
           fontSize: '14px',
-          color: '#6c757d',
-        }}>
+          color: '#6c757d'
+}}>
           <p style={{ margin: '0 0 8px 0' }}>
             <strong>Bundle Strategy:</strong> Main components are code-split into separate chunks
           </p>

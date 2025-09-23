@@ -47,8 +47,8 @@ export interface RegionalCulinaryProfile {
   culturalInfluences: string[],
   planetaryAffinities: Record<string, number>,
   climateConsiderations: {
-    temperature: 'tropical' | 'temperate' | 'cold' | 'arctic',
-    humidity: 'arid' | 'moderate' | 'humid',
+    temperature: 'tropical' | 'temperate' | 'cold' | 'arctic'
+    humidity: 'arid' | 'moderate' | 'humid'
     seasonality: 'none' | 'mild' | 'moderate' | 'extreme'
   }
 }
@@ -204,7 +204,7 @@ export class AstronomicalCalculations {
       Mars: 'Spicy foods, meat preparation, aggressive cooking techniques',
       Jupiter: 'Abundant meals, expansion of recipes, foreign cuisines',
       Saturn: 'Traditional methods, slow cooking, structured meal planning' },
-        return influences[planet] || 'Balanced cooking approach',
+        return influences[planet] || 'Balanced cooking approach'
   }
 }
 
@@ -233,8 +233,8 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
     climateConsiderations: {
       temperature: 'temperate',
       humidity: 'moderate',
-      seasonality: 'moderate',
-    }
+      seasonality: 'moderate'
+}
   }
 
   Nordic: {
@@ -264,8 +264,8 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
     climateConsiderations: {
       temperature: 'cold',
       humidity: 'moderate',
-      seasonality: 'extreme',
-    }
+      seasonality: 'extreme'
+}
   }
 
   Tropical: {
@@ -295,8 +295,8 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
     climateConsiderations: {
       temperature: 'tropical',
       humidity: 'humid',
-      seasonality: 'mild',
-    }
+      seasonality: 'mild'
+}
   }
 
   Continental: {
@@ -326,8 +326,8 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
     climateConsiderations: {
       temperature: 'temperate',
       humidity: 'moderate',
-      seasonality: 'extreme',
-    }
+      seasonality: 'extreme'
+}
   }
 
   Desert: {
@@ -375,8 +375,8 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
     climateConsiderations: {
       temperature: 'tropical',
       humidity: 'arid',
-      seasonality: 'mild',
-    }
+      seasonality: 'mild'
+}
   }
 }
 

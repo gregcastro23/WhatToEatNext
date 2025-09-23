@@ -44,7 +44,7 @@ export interface GlobalAutomationSettings {
 export interface AutomationPhase {
   name: string,
   description: string,
-  system: 'importCleanup' | 'lintingFormatting' | 'dependencySecurity';,
+  system: 'importCleanup' | 'lintingFormatting' | 'dependencySecurity'
   enabled: boolean,
   dependencies: string[],
   criticalFailure: boolean
@@ -119,8 +119,8 @@ export class CodeQualityAutomationSystem {
         securityVulnerabilitiesFixed: 0,
         dependencyUpdatesApplied: 0,
         buildValidationsPassed: 0,
-        buildValidationsFailed: 0,
-      },
+        buildValidationsFailed: 0
+},
       errors: [],
       warnings: [],
       recommendations: []
@@ -396,8 +396,8 @@ export class CodeQualityAutomationSystem {
       execSync('yarn build', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 120000,
-      })
+        timeout: 120000
+})
       return true,
     } catch (error) {
       logger.warn('Build validation failed', error),
@@ -477,24 +477,24 @@ export const _DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG: CodeQualityAutomationConfi
       system: 'importCleanup';,
       enabled: true,
       dependencies: [],
-      criticalFailure: false,
-    }
+      criticalFailure: false
+}
     {
       name: 'Linting and Formatting',
       description: 'Fix linting violations and format code consistently',
       system: 'lintingFormatting',
       enabled: true,
       dependencies: ['Import Cleanup'],
-      criticalFailure: false,
-    }
+      criticalFailure: false
+}
     {
       name: 'Dependency Security',
       description: 'Scan for vulnerabilities and update dependencies',
       system: 'dependencySecurity',
       enabled: true,
       dependencies: [],
-      criticalFailure: true,
-    }
+      criticalFailure: true
+}
   ],
   globalSettings: {
     maxConcurrentOperations: 1,
@@ -502,6 +502,6 @@ export const _DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG: CodeQualityAutomationConfi
     buildValidationFrequency: 2,
     rollbackOnFailure: false,
     continueOnError: true,
-    reportingEnabled: true,
-  }
+    reportingEnabled: true
+}
 }

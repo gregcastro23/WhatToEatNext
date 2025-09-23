@@ -50,7 +50,7 @@ export function calculateElementalProfileCompatibility(
   profile1: Record<Element, number>,
   profile2: Record<Element, number>,
 ): number {
-  let totalCompatibility = 0,
+  let totalCompatibility = 0;
   let totalWeight = 0
 ;
   // For each element in profile1, calculate weighted compatibility with each element in profile2

@@ -109,6 +109,6 @@ export function getCacheStats(): {
     totalEntries: keys.length,
     keys,
     oldestEntry: timestamps.length ? Math.min(...timestamps) : 0,
-    newestEntry: timestamps.length ? Math.max(...timestamps) : 0,
-  }
+    newestEntry: timestamps.length ? Math.max(...timestamps) : 0
+}
 }

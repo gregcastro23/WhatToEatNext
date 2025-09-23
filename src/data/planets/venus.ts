@@ -14,8 +14,8 @@ const venusData: PlanetData = {
     Spirit: 0,
     Essence: 1,
     Matter: 1,
-    Substance: 0,
-  },
+    Substance: 0
+},
   'Diurnal Element': 'Water',
   'Nocturnal Element': 'Earth',
   AstronomicalData: {
@@ -197,8 +197,8 @@ const venusData: PlanetData = {
     Salty: 0.2,
     Bitter: 0.1,
     Umami: 0.4,
-    Spicy: 0.1,
-  },
+    Spicy: 0.1
+},
   CulinaryInfluences: [
     'Enhances sweetness and richness',
     'Balances flavors for harmony',
@@ -223,36 +223,36 @@ const venusData: PlanetData = {
       Opposition: 0.3,
       Trine: 0.5,
       Square: 0.2,
-      Sextile: 0.4,
-    },
+      Sextile: 0.4
+},
     Moon: {
       Conjunction: 0.9,
       Opposition: 0.5,
       Trine: 0.8,
       Square: 0.3,
-      Sextile: 0.7,
-    },
+      Sextile: 0.7
+},
     Mars: {
       Conjunction: 0.7,
       Opposition: 0.2,
       Trine: 0.5,
       Square: 0.1,
-      Sextile: 0.4,
-    },
+      Sextile: 0.4
+},
     Saturn: {
       Conjunction: 0.1,
       Opposition: -0.2,
       Trine: 0.3,
       Square: -0.1,
-      Sextile: 0.2,
-    },
+      Sextile: 0.2
+},
     Jupiter: {
       Conjunction: 0.8,
       Opposition: 0.3,
       Trine: 0.6,
       Square: 0.2,
-      Sextile: 0.5,
-    }
+      Sextile: 0.5
+}
   },
   PlanetSpecific: {
     ZodiacTransit: {
@@ -263,8 +263,8 @@ const venusData: PlanetData = {
           Fire: 0.8,
           Earth: 0.2,
           Air: 0.3,
-          Water: 0.2,
-        },
+          Water: 0.2
+},
         Ingredients: [
           'pomegranate',
           'arugula',
@@ -280,8 +280,8 @@ const venusData: PlanetData = {
           Fire: 0.2,
           Earth: 0.9,
           Air: 0.1,
-          Water: 0.3,
-        },
+          Water: 0.3
+},
         Ingredients: [
           'truffle',
           'mascarpone',
@@ -297,8 +297,8 @@ const venusData: PlanetData = {
           Fire: 0.3,
           Earth: 0.2,
           Air: 0.8,
-          Water: 0.2,
-        },
+          Water: 0.2
+},
         Ingredients: [
           'edible flowers',
           'microgreens',
@@ -315,8 +315,8 @@ const venusData: PlanetData = {
           Fire: 0.1,
           Earth: 0.3,
           Air: 0.1,
-          Water: 0.8,
-        },
+          Water: 0.8
+},
         Ingredients: [
           'crab',
           'coconut milk',
@@ -332,8 +332,8 @@ const venusData: PlanetData = {
           Fire: 0.8,
           Earth: 0.2,
           Air: 0.3,
-          Water: 0.1,
-        },
+          Water: 0.1
+},
         Ingredients: [
           'saffron',
           'golden foods',
@@ -349,8 +349,8 @@ const venusData: PlanetData = {
           Fire: 0.2,
           Earth: 0.8,
           Air: 0.3,
-          Water: 0.2,
-        },
+          Water: 0.2
+},
         Ingredients: [
           'refined grains',
           'fermented dairy',
@@ -366,8 +366,8 @@ const venusData: PlanetData = {
           Fire: 0.3,
           Earth: 0.2,
           Air: 0.8,
-          Water: 0.3,
-        },
+          Water: 0.3
+},
         Ingredients: [
           'rose water',
           'balanced vinaigrettes',
@@ -384,8 +384,8 @@ const venusData: PlanetData = {
           Fire: 0.4,
           Earth: 0.2,
           Air: 0.1,
-          Water: 0.8,
-        },
+          Water: 0.8
+},
         Ingredients: [
           'dark chocolate',
           'red wine reductions',
@@ -401,8 +401,8 @@ const venusData: PlanetData = {
           Fire: 0.8,
           Earth: 0.1,
           Air: 0.4,
-          Water: 0.2,
-        },
+          Water: 0.2
+},
         Ingredients: [
           'cardamom',
           'exotic fruits',
@@ -419,8 +419,8 @@ const venusData: PlanetData = {
           Fire: 0.2,
           Earth: 0.8,
           Air: 0.2,
-          Water: 0.3,
-        },
+          Water: 0.3
+},
         Ingredients: [
           'aged cheeses',
           'refined grains',
@@ -437,8 +437,8 @@ const venusData: PlanetData = {
           Fire: 0.3,
           Earth: 0.2,
           Air: 0.8,
-          Water: 0.2,
-        },
+          Water: 0.2
+},
         Ingredients: [
           'unusual fruits',
           'modern culinary techniques',
@@ -455,8 +455,8 @@ const venusData: PlanetData = {
           Fire: 0.1,
           Earth: 0.1,
           Air: 0.2,
-          Water: 0.9,
-        },
+          Water: 0.9
+},
         Ingredients: [
           'seafood carpaccio',
           'iridescent presentations',
@@ -474,8 +474,8 @@ const venusData: PlanetData = {
         Spirit: 0.1,
         Essence: 0.7,
         Matter: 0.6,
-        Substance: 0.3,
-      },
+        Substance: 0.3
+},
       FoodFocus: 'Re-evaluation of favorite foods, reemerging traditional recipes, refinement of technique',
       HerbalShift: 'Greater potency in dried herbs over fresh, intensified flavors, preserved ingredients' },
         TransitDates: {

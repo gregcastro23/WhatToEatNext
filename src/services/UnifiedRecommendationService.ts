@@ -321,7 +321,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       let score = 0.5; // Start with a neutral score
 
       // Use safe type casting for criteria access
-      const criteriaData = criteria as any,
+      const criteriaData = criteria as any;
       const elementalState = criteriaData.elementalState || criteriaData.elementalProperties
 
       // Calculate elemental compatibility if criteria includes elemental properties
@@ -522,7 +522,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
    */
   async getRecommendationsForElements(
     elementalProperties: ElementalProperties,
-    type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
+    type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod'
     limit?: number,
   ): Promise<RecommendationResult<unknown>> {
     switch (type) {
@@ -559,7 +559,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
    */
   async getRecommendationsForPlanetaryAlignment(
     planetaryPositions: Record<string, { sign: string, degree: number }>,
-    type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
+    type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod'
     limit?: number,
   ): Promise<RecommendationResult<unknown>> {
     // Convert planetary positions to elemental properties
@@ -568,8 +568,8 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    }
+      Air: 0.25
+}
 
     // In a real implementation, we would use the AlchemicalEngine to calculate
     // elemental properties based on planetary positions
@@ -589,8 +589,8 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       reactivity: 0.5,
       gregsEnergy: 0.5,
       kalchm: 1.0,
-      monica: 1.0,
-    }
+      monica: 1.0
+}
   }
 }
 

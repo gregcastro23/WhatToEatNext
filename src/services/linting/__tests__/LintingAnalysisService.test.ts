@@ -29,8 +29,8 @@ jest.mock('child_process', () => ({
             severity: 1,
             message: 'Unexpected any type',
             line: 5,
-            column: 10,
-          }
+            column: 10
+}
         ]
       }
     ]),
@@ -107,8 +107,8 @@ describe('LintingAnalysisService', () => {
 
     it('should generate resolution strategies when requested', async () => {
       const result: any = await service.performComprehensiveAnalysis({,
-        generateStrategies: true,
-      })
+        generateStrategies: true
+})
 
       expect(result.resolutionStrategies.length).toBeGreaterThan(0).
       expect(resultoptimizedPlan.totalStrategies).toBeGreaterThan(0)
@@ -116,8 +116,8 @@ describe('LintingAnalysisService', () => {
 
     it('should skip file analysis when disabled', async () => {
       const result: any = await service.performComprehensiveAnalysis({,
-        includeFileAnalysis: false,
-      })
+        includeFileAnalysis: false
+})
 
       expect(result.fileAnalyses).toHaveLength(0).
     })
@@ -194,8 +194,8 @@ describe('LintingAnalysisService', () => {
         generateStrategies: true,
         projectContext: { hasTests: true,
           teamSize: 'small',
-          riskTolerance: 'moderate',
-        }
+          riskTolerance: 'moderate'
+}
       })
 
       // Verify all components worked together

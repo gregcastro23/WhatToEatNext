@@ -11,7 +11,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'alchm.kitchen | Alchemical Culinary Intelligence',
-  description: 'Discover the perfect meal through ancient alchemical wisdom and modern AI. Real-time planetary influences guide your culinary journey.',
+  description: 'Discover the perfect meal through ancient alchemical wisdom and modern AI. Real-time planetary influences guide your culinary journey.'
 }
 
 const FeatureCard = ({

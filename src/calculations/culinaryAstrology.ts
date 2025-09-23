@@ -67,8 +67,8 @@ export class CulinaryAstrologer {
     zodiac: 0.4,
     lunar: 0.3,
     planetary: 0.2,
-    seasonal: 0.1,
-  }
+    seasonal: 0.1
+}
 
   // Add currentSeason field that's used in calculateCuisineBoost
   private currentSeason: Season = 'spring'
@@ -98,7 +98,7 @@ export class CulinaryAstrologer {
       cancer: 'Water',
       scorpio: 'Water',
       pisces: 'Water' },
-        return zodiacElementMap[astroState.zodiacSign?.toLowerCase() || ''] || 'Fire',
+        return zodiacElementMap[astroState.zodiacSign?.toLowerCase() || ''] || 'Fire'
   }
 
   private getOptimalTechnique(astroState: AstrologicalState) {
@@ -142,9 +142,8 @@ export class CulinaryAstrologer {
     ).sort(([, a], [, b]) => b - a)[0][0],
 
     // Use the planetaryHour property from AstrologicalState
-    const currentPlanetaryHour = astroState.planetaryHour || 'Sun';
-    const dominantPlanet = method.astrologicalInfluences?.dominantPlanets?.[0] || 'the planets';
-
+    const currentPlanetaryHour = astroState.planetaryHour || 'Sun'
+    const dominantPlanet = method.astrologicalInfluences?.dominantPlanets?.[0] || 'the planets'
     return `Best during ${idealMoonPhase.replace('_', ' ')} moon when ${currentPlanetaryHour} or ${dominantPlanet} is dominant`,
   }
 
@@ -179,7 +178,7 @@ export class CulinaryAstrologer {
       Air: 'Water',
       Water: 'Earth',
       Earth: 'Fire' },
-        return complements[element] || 'Earth',
+        return complements[element] || 'Earth'
   }
 
   private getCuisineRecommendation(

@@ -81,7 +81,7 @@ function getZodiacElement(_sign: string): string {
     capricorn: 'Earth',
     aquarius: 'Air',
     pisces: 'Water' },
-        return elementMap[sign.toLowerCase()] || 'Air',
+        return elementMap[sign.toLowerCase()] || 'Air'
 }
 
 function getPlanetaryDignity(_planet: string, _sign: string): number {
@@ -174,8 +174,8 @@ export function alchemize(
     Fire: 0,
     Water: 0,
     Air: 0,
-    Earth: 0,
-  }
+    Earth: 0
+}
 
   // Planetary alchemical properties
   const planetaryAlchemy: Record<

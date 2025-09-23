@@ -59,7 +59,7 @@ interface CertificationStatus {
   perfectCodebaseAchieved: boolean,
   enterpriseReady: boolean,
   productionDeploymentReady: boolean,
-  certificationLevel: 'BASIC' | 'INTERMEDIATE' | 'ADVANCED' | 'ENTERPRISE',
+  certificationLevel: 'BASIC' | 'INTERMEDIATE' | 'ADVANCED' | 'ENTERPRISE'
   certificationDate?: string
 }
 
@@ -151,8 +151,8 @@ export class FinalValidationSystem {
     try {
       const output = execSync('yarn tsc --noEmit --skipLibCheck', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       // If no errors, output will be empty or contain only info messages
       const errorLines = output.split('\n').filter(line => line.includes('error TS'));
@@ -221,8 +221,8 @@ export class FinalValidationSystem {
     try {
       const output = execSync('yarn lint', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       const warningLines = output.split('\n').filter(line => line.includes('warning'));
       const warningCount = warningLines.length;
@@ -295,8 +295,8 @@ export class FinalValidationSystem {
     try {
       const output = execSync('grep -r 'INTELLIGENCE_SYSTEM' src/', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       const intelligenceLines = output.split('\n').filter(line => line.trim().length > 0);
       const intelligenceCount = intelligenceLines.length;
@@ -373,8 +373,8 @@ export class FinalValidationSystem {
           '/usr/bin/time -v yarn build 2>&1 | grep 'Maximum resident set size'',
           {
             encoding: 'utf8',
-            stdio: 'pipe',
-          })
+            stdio: 'pipe'
+})
         const memoryMatch = memoryOutput.match(/(\d+)/)
         if (memoryMatch) {;
           memoryUsage = parseInt(memoryMatch[1]) / 1024, // Convert to MB,
@@ -389,8 +389,8 @@ export class FinalValidationSystem {
       try {
         const bundleSizeOutput = execSync('du -sh .next/', {
           encoding: 'utf8',
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
         bundleSize = bundleSizeOutput.split('\t')[0],
       } catch (error) {
         bundleSize = 'unknown',
@@ -535,15 +535,15 @@ export class FinalValidationSystem {
     }
 
     // Get current state
-    let finalErrors = 0,
+    let finalErrors = 0;
     let finalWarnings = 0,
     let finalIntelligence = 0,
 
     try {
       const tsOutput = execSync('yarn tsc --noEmit --skipLibCheck', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
       finalErrors = tsOutput.split('\n').filter(line => line.includes('error TS')).length,
     } catch (error) {
       const err = error as { stdout?: string }
@@ -567,8 +567,8 @@ export class FinalValidationSystem {
     try {
       const intelligenceOutput = execSync('grep -r 'INTELLIGENCE_SYSTEM' src/', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
       finalIntelligence = intelligenceOutput,
         .split('\n')
         .filter(line => line.trim().length > 0).length,
@@ -781,8 +781,7 @@ if (require.main === module) {
   const validator = new FinalValidationSystem()
 
   const args = process.argv.slice(2);
-  const command = args[0] || 'validate';
-
+  const command = args[0] || 'validate'
   switch (command) {
     case 'validate': case '--validate':
       validator

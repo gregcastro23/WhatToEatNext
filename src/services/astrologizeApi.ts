@@ -109,7 +109,7 @@ function normalizeSignName(_signName: string): any {
     aquarius: 'aquarius',
     pisces: 'pisces' },
         const normalized = signName.toLowerCase() as any;
-  return signMap[normalized] || 'aries',
+  return signMap[normalized] || 'aries'
 }
 
 /**
@@ -136,8 +136,8 @@ export async function fetchPlanetaryPositions(
         degree: 20,
         minute: 11,
         exactLongitude: 80.18,
-        isRetrograde: false,
-      },
+        isRetrograde: false
+},
       Venus: { sign: 'aries', degree: 28, minute: 6, exactLongitude: 28.1, isRetrograde: false },
       Mars: { sign: 'leo', degree: 22, minute: 48, exactLongitude: 142.8, isRetrograde: false }
       Jupiter: {
@@ -145,16 +145,16 @@ export async function fetchPlanetaryPositions(
         degree: 28,
         minute: 44,
         exactLongitude: 88.73,
-        isRetrograde: false,
-      },
+        isRetrograde: false
+},
       Saturn: { sign: 'aries', degree: 0, minute: 41, exactLongitude: 0.68, isRetrograde: false },
       Uranus: {
         sign: 'taurus',
         degree: 28,
         minute: 17,
         exactLongitude: 58.28,
-        isRetrograde: false,
-      },
+        isRetrograde: false
+},
       Neptune: { sign: 'aries', degree: 1, minute: 55, exactLongitude: 1.92, isRetrograde: false },
       Pluto: { sign: 'aquarius', degree: 3, minute: 36, exactLongitude: 303.6, isRetrograde: true }
       Ascendant: {
@@ -162,8 +162,8 @@ export async function fetchPlanetaryPositions(
         degree: 16,
         minute: 16,
         exactLongitude: 16.27,
-        isRetrograde: false,
-      }
+        isRetrograde: false
+}
     }
   }
 
@@ -258,8 +258,8 @@ export async function fetchPlanetaryPositions(
       degree: 16,
       minute: 16,
       exactLongitude: 16.27,
-      isRetrograde: false,
-    }
+      isRetrograde: false
+}
 
     log.info('Successfully fetched planetary positions from local API:', Object.keys(positions))
     log.info('🌟 Using zodiac system: ', { system: data.birth_info.ayanamsa || 'TROPICAL' })

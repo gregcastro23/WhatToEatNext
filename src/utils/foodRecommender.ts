@@ -267,8 +267,8 @@ function calculateElementalProperties(_ingredient: EnhancedIngredient): Elementa
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0,
-  }
+    Air: 0
+}
 
   // Adjust based on category
   if (ingredient.category) {
@@ -501,8 +501,8 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       wednesday: 'mercury',
       thursday: 'jupiter',
       friday: 'venus',
-      saturday: 'saturn',
-    }
+      saturday: 'saturn'
+}
 
     // Calculate planetary day influence (35% weight)
     let planetaryDayScore = 0.5; // Default neutral score
@@ -860,8 +860,8 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       sour: 0.5,
       bitter: 0.5,
       umami: 0.5,
-      spicy: 0.5,
-    }
+      spicy: 0.5
+}
 
     if (standardized.sensoryProfile) {
       const sensory = standardized.sensoryProfile as unknown;

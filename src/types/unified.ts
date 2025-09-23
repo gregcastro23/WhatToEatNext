@@ -90,7 +90,7 @@ export interface Ingredient {
 
   // Metadata
   source?: string,
-  validationStatus?: 'validated' | 'pending' | 'error',
+  validationStatus?: 'validated' | 'pending' | 'error'
   createdAt?: Date,
   updatedAt?: Date
 }
@@ -98,7 +98,7 @@ export interface Ingredient {
 export interface UnifiedIngredient extends Ingredient {
   unifiedId: string,
   _mappings: IngredientMapping[],
-  validationStatus: 'validated' | 'pending' | 'error',
+  validationStatus: 'validated' | 'pending' | 'error'
   _sources: string[],
   _lastUpdated: Date
 }
@@ -192,7 +192,7 @@ export interface CookingMethodExtended {
   suitable_for?: string[],
   benefits?: string[],
   variations?: string[],
-  difficulty?: 'easy' | 'medium' | 'hard',
+  difficulty?: 'easy' | 'medium' | 'hard'
   equipment?: string[]
 }
 
@@ -230,7 +230,7 @@ export interface Recipe {
   prepTime?: number,
   cookTime?: number,
   totalTime?: number,
-  difficulty?: 'easy' | 'medium' | 'hard',
+  difficulty?: 'easy' | 'medium' | 'hard'
   cuisine?: string,
   tags?: string[],
 
@@ -274,8 +274,7 @@ export interface Recipe {
   notes?: string,
   function?: string,
   cookingPoint?: string,
-  timing?: 'early' | 'middle' | 'late',
-
+  timing?: 'early' | 'middle' | 'late'
   // Elemental and astrological properties
   elementalProperties?: ElementalProperties,
   zodiacInfluences?: any[],
@@ -391,7 +390,7 @@ export interface NutritionalRange {
 
 export interface SortingOptions {
   field: string,
-  direction: 'asc' | 'desc',
+  direction: 'asc' | 'desc'
   secondary?: {
     field: string,
     direction: 'asc' | 'desc'

@@ -68,8 +68,8 @@ export class RecipeChakraService {
       Heart: 0,
       Throat: 0,
       'Third Eye': 0,
-      Crown: 0,
-    }
+      Crown: 0
+}
 
     // Analyze ingredient colors and map to chakra influences
     ingredientColors.forEach(color => {,

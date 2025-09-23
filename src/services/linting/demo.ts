@@ -30,15 +30,15 @@ const _mockESLintOutput = [
         severity: 1,
         message: 'Unexpected any. Specify a different type.',
         line: 15,
-        column: 10,
-      }
+        column: 10
+}
       {
         ruleId: 'react-hooks/exhaustive-deps',
         severity: 1,
         message: 'React Hook useEffect has a missing dependency',
         line: 25,
-        column: 5,
-      }
+        column: 5
+}
     ]
   }
   {
@@ -49,15 +49,15 @@ const _mockESLintOutput = [
         severity: 1,
         message: ''planetPosition' is defined but never used',
         line: 10,
-        column: 7,
-      }
+        column: 7
+}
       {
         ruleId: 'no-console',
         severity: 1,
         message: 'Unexpected console statement',
         line: 20,
-        column: 5,
-      }
+        column: 5
+}
     ]
   }
   {
@@ -68,15 +68,15 @@ const _mockESLintOutput = [
         severity: 1,
         message: 'Function has a complexity of 12. Maximum allowed is 10.',
         line: 50,
-        column: 1,
-      }
+        column: 1
+}
       {
         ruleId: 'no-console',
         severity: 1,
         message: 'Unexpected console statement',
         line: 75,
-        column: 5,
-      }
+        column: 5
+}
     ]
   }
 ],
@@ -96,26 +96,26 @@ function demonstrateErrorClassification() {
       rule: 'import/order';,
       message: 'Import order incorrect',
       file: 'src/App.tsx',
-      hasAutoFix: true,
-    }
+      hasAutoFix: true
+}
     {
       rule: '@typescript-eslint/no-explicit-any',
       message: 'Unexpected any',
       file: 'src/utils.ts',
-      hasAutoFix: false,
-    }
+      hasAutoFix: false
+}
     {
       rule: 'react-hooks/exhaustive-deps',
       message: 'Missing dependency',
       file: 'src/components/Component.tsx',
-      hasAutoFix: true,
-    }
+      hasAutoFix: true
+}
     {
       rule: 'no-console',
       message: 'Console statement',
       file: 'src/calculations/astrology.ts',
-      hasAutoFix: false,
-    }
+      hasAutoFix: false
+}
   ],
 
   testCases.forEach(testCase => {,

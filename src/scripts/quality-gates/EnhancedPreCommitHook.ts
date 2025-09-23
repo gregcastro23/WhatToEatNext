@@ -47,7 +47,7 @@ interface PreCommitResult {
   check: string,
   passed: boolean,
   message: string,
-  severity: 'info' | 'warning' | 'error' | 'critical',
+  severity: 'info' | 'warning' | 'error' | 'critical'
   autoFixed: boolean,
   details?: any
 }
@@ -64,8 +64,8 @@ class EnhancedPreCommitHook {
         linting: true,
         documentation: true,
         performance: false, // Disabled for pre-commit (too slow),
-        formatting: true,
-      },
+        formatting: true
+},
       thresholds: {
         maxNewAnyTypes: 5,
         maxTypeScriptErrors: 0,
@@ -94,8 +94,8 @@ class EnhancedPreCommitHook {
       info: 'ℹ️',
       warn: '⚠️',
       error: '❌',
-      success: '✅',
-    }[level],
+      success: '✅'
+}[level],
 
     // // // _logger.info(`[${timestamp}] ${prefix} ${message}`)
   }
@@ -104,8 +104,8 @@ class EnhancedPreCommitHook {
     try {
       const output = execSync('git diff --cached --name-only --diff-filter=AM', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       return output
         .split('\n')
@@ -237,23 +237,23 @@ class EnhancedPreCommitHook {
           passed: true,
           message: 'No code files to format',
           severity: 'info',
-          autoFixed: false,
-        }
+          autoFixed: false
+}
       }
 
       // Check formatting
       const _checkResult = execSync(`prettier --check ${tsFiles.join(' ')}`, {,
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       return {
         check: 'Code Formatting',
         passed: true,
         message: `${tsFiles.length} files properly formatted`,
         severity: 'info',
-        autoFixed: false,
-      }
+        autoFixed: false
+}
     } catch (error) {
       // Formatting issues detected
       if (this.config.autoFix.formatting) {
@@ -273,16 +273,16 @@ class EnhancedPreCommitHook {
             passed: true,
             message: `Auto-fixed formatting for ${tsFiles.length} files`,
             severity: 'info',
-            autoFixed: true,
-          }
+            autoFixed: true
+}
         } catch (fixError) {
           return {
             check: 'Code Formatting',
             passed: false,
             message: `Formatting errors could not be auto-fixed: ${fixError}`,
             severity: 'error',
-            autoFixed: false,
-          }
+            autoFixed: false
+}
         }
       }
 
@@ -291,8 +291,8 @@ class EnhancedPreCommitHook {
         passed: false,
         message: 'Formatting issues detected. Run `yarn format` to fix.',
         severity: 'warning',
-        autoFixed: false,
-      }
+        autoFixed: false
+}
     }
   }
 
@@ -308,15 +308,15 @@ class EnhancedPreCommitHook {
           passed: true,
           message: 'No TypeScript files to lint',
           severity: 'info',
-          autoFixed: false,
-        }
+          autoFixed: false
+}
       }
 
       // Run linting on staged files
       const lintOutput = execSync(`yarn lint ${tsFiles.join(' ')} --format=compact`, {,
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       const warningCount = (lintOutput.match(/warning/g) || []).length;
       const errorCount = (lintOutput.match(/error/g) || []).length;
@@ -341,8 +341,8 @@ class EnhancedPreCommitHook {
               passed: true,
               message: `Auto-fixed ${warningCount} linting warnings`,
               severity: 'info',
-              autoFixed: true,
-            }
+              autoFixed: true
+}
           } catch (fixError) {
             return {
               check: 'Linting',
@@ -370,16 +370,16 @@ class EnhancedPreCommitHook {
         passed: true,
         message: `${warningCount} linting warnings within acceptable range`,
         severity: 'info',
-        autoFixed: false,
-      }
+        autoFixed: false
+}
     } catch (error) {
       return {
         check: 'Linting',
         passed: false,
         message: `Linting check failed: ${error}`,
         severity: 'error',
-        autoFixed: false,
-      }
+        autoFixed: false
+}
     }
   }
 
@@ -393,8 +393,8 @@ class EnhancedPreCommitHook {
         passed: true,
         message: 'No TypeScript compilation errors',
         severity: 'info',
-        autoFixed: false,
-      }
+        autoFixed: false
+}
     } catch (error) {
       const errorOutput = error.toString();
       const errorCount = (errorOutput.match(/error TS/g) || []).length;
@@ -421,16 +421,16 @@ class EnhancedPreCommitHook {
           ? 'No explicit any regression detected'
           : 'Explicit any regression detected',
         severity: approved ? 'info' : 'critical',
-        autoFixed: false,
-      }
+        autoFixed: false
+}
     } catch (error) {
       return {
         check: 'Explicit Any Prevention',
         passed: false,
         message: `Any type check failed: ${error}`,
         severity: 'error',
-        autoFixed: false,
-      }
+        autoFixed: false
+}
     }
   }
 
@@ -447,8 +447,8 @@ class EnhancedPreCommitHook {
           passed: true,
           message: 'Auto-generated documentation for undocumented any types',
           severity: 'info',
-          autoFixed: true,
-        }
+          autoFixed: true
+}
       }
 
       return {
@@ -458,16 +458,16 @@ class EnhancedPreCommitHook {
           ? 'All any types properly documented'
           : 'Some any types lack documentation',
         severity: isValid ? 'info' : 'warning',
-        autoFixed: false,
-      }
+        autoFixed: false
+}
     } catch (error) {
       return {
         check: 'Documentation Coverage',
         passed: false,
         message: `Documentation check failed: ${error}`,
         severity: 'error',
-        autoFixed: false,
-      }
+        autoFixed: false
+}
     }
   }
 
@@ -497,8 +497,8 @@ class EnhancedPreCommitHook {
         passed: true, // Don't block commits on performance check failures,
         message: `Performance check skipped: ${error}`,
         severity: 'info',
-        autoFixed: false,
-      }
+        autoFixed: false
+}
     }
   }
 
@@ -569,8 +569,7 @@ Generated: ${new Date().toISOString()}
 if (require.main === module) {,
   const hook = new EnhancedPreCommitHook()
 ;
-  const command = process.argv[2] || 'run';
-
+  const command = process.argv[2] || 'run'
   switch (command) {
     case 'run': hook
         .runPreCommitChecks()

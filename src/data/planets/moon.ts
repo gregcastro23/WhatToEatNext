@@ -13,16 +13,16 @@ const moonData: PlanetData = {
     Spirit: 0,
     Essence: 1,
     Matter: 1,
-    Substance: 0,
-  },
+    Substance: 0
+},
   'Diurnal Element': 'Water',
   'Nocturnal Element': 'Water',
   RetrogradeEffect: {
     Spirit: 0,
     Essence: -0.5,
     Matter: 0.5,
-    Substance: 0,
-  },
+    Substance: 0
+},
   FoodAssociations: [
     'dairy products',
     'leafy greens',
@@ -42,8 +42,8 @@ const moonData: PlanetData = {
     Salty: 0.5,
     Bitter: 0.2,
     Umami: 0.4,
-    Spicy: 0.1,
-  },
+    Spicy: 0.1
+},
   CulinaryInfluences: [
     'Increases moisture retention in cooking',
     'Enhances flavors that absorb and hold water',
@@ -56,22 +56,22 @@ const moonData: PlanetData = {
       Opposition: -0.3,
       Trine: 0.4,
       Square: -0.2,
-      Sextile: 0.3,
-    },
+      Sextile: 0.3
+},
     Venus: {
       Conjunction: 0.7,
       Opposition: 0.1,
       Trine: 0.5,
       Square: 0.0,
-      Sextile: 0.4,
-    },
+      Sextile: 0.4
+},
     Mars: {
       Conjunction: -0.1,
       Opposition: -0.4,
       Trine: 0.2,
       Square: -0.5,
-      Sextile: 0.1,
-    }
+      Sextile: 0.1
+}
     // Additional aspects can be added
   },
   PlanetSpecific: {
@@ -124,8 +124,8 @@ const moonData: PlanetData = {
           Essence: 0.5,
           Matter: 0.5,
           Substance: 0.4,
-          CulinaryEffect: 'Best for completing ongoing cooking projects. Fermented foods reach maturity.',
-        },
+          CulinaryEffect: 'Best for completing ongoing cooking projects. Fermented foods reach maturity.'
+},
         'waning crescent': {
           Spirit: 0.2,
           Essence: 0.4,
@@ -140,8 +140,8 @@ const moonData: PlanetData = {
           CulinaryEffect: 'Enhances innovative cooking techniques and fusion cuisines. Encourages experimentation.' },
         South: {
           Element: 'Earth',
-          CulinaryEffect: 'Strengthens traditional cooking methods and comfort foods. Brings out nostalgic flavors.',
-        }
+          CulinaryEffect: 'Strengthens traditional cooking methods and comfort foods. Brings out nostalgic flavors.'
+}
       },
       Mansion: {
         // Lunar mansions could be added here for even more granular effects

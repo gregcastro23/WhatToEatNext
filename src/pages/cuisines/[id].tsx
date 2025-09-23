@@ -35,8 +35,8 @@ const CuisineDetailsPage: NextPage = () => {,
     Earth: 0.25,
     Air: 0.25,
     season: 'spring',
-    timeOfDay: 'lunch',
-  })
+    timeOfDay: 'lunch'
+})
 
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
@@ -120,8 +120,8 @@ const CuisineDetailsPage: NextPage = () => {,
         combined.push({
           ...recipe1Data,
           matchScore: enhancedScore,
-          dualMatch: true,
-        })
+          dualMatch: true
+})
         recipeIds.add(recipe1Data?.name)
       }
     }
@@ -137,8 +137,8 @@ const CuisineDetailsPage: NextPage = () => {,
         combined.push({
           ...recipeData,
           matchScore: Math.min(finalScore, 0.92),
-          cuisineMatch: true,
-        })
+          cuisineMatch: true
+})
         recipeIds.add(recipeData?.name)
       }
     }
@@ -148,15 +148,15 @@ const CuisineDetailsPage: NextPage = () => {,
       const recipeData = recipe;
       if (!recipeIds.has(recipeData?.name)) {
         const baseScore = Number(recipeData?.matchScore) || 0;
-        const sigmoidScore = baseScore < 0.5 ? baseScore * 1.4 : 0.7 + (baseScore - 0.5) * 0.6,
+        const sigmoidScore = baseScore < 0.5 ? baseScore * 1.4 : 0.7 + (baseScore - 0.5) * 0.6;
         const randomFactor = 0.9 + Math.random() * 0.2;
         const finalScore = Math.min(Math.max(sigmoidScore * randomFactor, 0.3), 0.85),
 
         combined.push({
           ...recipeData,
           matchScore: finalScore,
-          elementalMatch: true,
-        }),
+          elementalMatch: true
+}),
         recipeIds.add(recipeData?.name)
       }
     }

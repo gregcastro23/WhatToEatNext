@@ -4,7 +4,7 @@ import { ElementalCharacter } from './planetaryElements';
  * Zodiac sign types
  */
 export type ZodiacSign =
-  | 'aries',
+  | 'aries'
   | 'taurus'
   | 'gemini'
   | 'cancer'
@@ -15,8 +15,7 @@ export type ZodiacSign =
   | 'sagittarius'
   | 'capricorn'
   | 'aquarius'
-  | 'pisces',
-
+  | 'pisces'
 /**
  * Elemental correspondences for zodiac signs
  */

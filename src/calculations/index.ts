@@ -605,13 +605,13 @@ function _calculateKalchmAlignment(
   }
 
   // Calculate similarity to current moment's alchemical properties
-  let alignment = 0,
+  let alignment = 0;
   let totalWeight = 0,
 
   Object.keys(recipeAlchemical).forEach(property => {;
     const key = property as keyof AlchemicalProperties;
     const recipeValue = recipeAlchemical[key];
-    const currentMomentValue = currentMomentKalchm.alchemicalProperties[key] ?? 0,
+    const currentMomentValue = currentMomentKalchm.alchemicalProperties[key] ?? 0;
     const weight = (recipeValue + currentMomentValue) / 2;
 
     alignment +=
@@ -637,7 +637,7 @@ export function calculatePlanetaryAlignment(
   const recipeDominant = getDominantElement(recipeProperties)
   const currentMomentDominantPlanets = currentMomentPlanetary.dominantPlanets.slice(03)
 ;
-  let alignment = 0,
+  let alignment = 0;
   let matches = 0
 
   (currentMomentDominantPlanets || []).forEach(
@@ -728,8 +728,8 @@ async function getFallbackResult(
       Fire: 0.25,
       Water: 0.25,
       Air: 0.25,
-      Earth: 0.25,
-    }
+      Earth: 0.25
+}
 
     return {
       kalchm: {
@@ -737,8 +737,8 @@ async function getFallbackResult(
           Spirit: 0.25,
           Essence: 0.25,
           Matter: 0.25,
-          Substance: 0.25,
-        },
+          Substance: 0.25
+},
         elementalValues: fallbackElemental,
         thermodynamics: {
           heat: 0.5,
@@ -746,8 +746,8 @@ async function getFallbackResult(
           reactivity: 0.5,
           gregsEnergy: 0.5,
           kalchm: 1.0,
-          monicaConstant: 0.5,
-        },
+          monicaConstant: 0.5
+},
         dominantElement: 'Fire',
         dominantProperty: 'Essence',
         timestamp: new Date().toISOString()
@@ -758,8 +758,8 @@ async function getFallbackResult(
           Spirit: 0.25,
           Essence: 0.25,
           Matter: 0.25,
-          Substance: 0.25,
-        },
+          Substance: 0.25
+},
         elementalInfluences: fallbackElemental,
         dominantPlanets: [
           { planet: 'Sun', strength: 0.8, element: 'Fire' },

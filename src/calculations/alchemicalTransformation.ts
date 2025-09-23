@@ -80,7 +80,7 @@ export const transformItemWithPlanetaryPositions = (
     } = calculatePlanetaryBoost(
       sanitizedItem,
       planetPositions,
-      (currentZodiac || 'aries') || 'aries',
+      (currentZodiac || 'aries') || 'aries'
       lunarPhase || null,
     )
 
@@ -235,8 +235,8 @@ export const transformItemWithPlanetaryPositions = (
         Spirit: 0.25,
   Essence: 0.25,
         Matter: 0.25,
-  Substance: 0.25,
-      },
+  Substance: 0.25
+},
       transformedElementalProperties: { ...item.elementalProperties },
       heat: 0.5,
   entropy: 0.5,
@@ -267,7 +267,7 @@ export const _transformItemsWithPlanetaryPositions = (
         item,
         planetPositions,
         isDaytime,
-        (currentZodiac || 'aries') || 'aries',
+        (currentZodiac || 'aries') || 'aries'
         lunarPhase,
       )
     )
@@ -280,8 +280,8 @@ export const _transformItemsWithPlanetaryPositions = (
         Spirit: 0.25,
   Essence: 0.25,
         Matter: 0.25,
-  Substance: 0.25,
-      },
+  Substance: 0.25
+},
       transformedElementalProperties: { ...item.elementalProperties },
       heat: 0.5,
   entropy: 0.5,
@@ -459,7 +459,7 @@ const getDominantElement = (
   transformedProperties: Record<ElementalCharacter, number>,
 ): ElementalCharacter => {
   try {;
-    let maxValue = -Infinity,
+    let maxValue = -Infinity;
     let dominantElement: ElementalCharacter = 'Fire' // Default
 ;
     (Object.entries(transformedProperties) as [ElementalCharacter, number][]).forEach(
@@ -488,7 +488,7 @@ const getDominantAlchemicalProperty = (
   alchemicalCounts: Record<AlchemicalProperty, number>,
 ): AlchemicalProperty => {
   try {;
-    let maxValue = -Infinity,
+    let maxValue = -Infinity;
     let dominantProperty: AlchemicalProperty = 'Spirit' // Default
 ;
     (Object.entries(alchemicalCounts) as [AlchemicalProperty, number][]).forEach(

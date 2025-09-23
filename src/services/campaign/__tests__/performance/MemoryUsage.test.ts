@@ -22,8 +22,8 @@ describe('Memory Usage Performance Tests', () => {
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7,
-    }
+      stashRetentionDays: 7
+}
 
     mockConfig = {
       phases: [
@@ -48,8 +48,8 @@ describe('Memory Usage Performance Tests', () => {
       toolConfiguration: { enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
-      }
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
+}
     }
 
     progressTracker = new ProgressTracker()
@@ -68,8 +68,8 @@ describe('Memory Usage Performance Tests', () => {
         heapTotal: 80 * 1024 * 1024,
         external: 5 * 1024 * 1024,
         rss: 100 * 1024 * 1024,
-        arrayBuffers: 2 * 1024 * 1024,
-      }) as any process.memoryUsage,
+        arrayBuffers: 2 * 1024 * 1024
+}) as any process.memoryUsage,
 
       const memoryUsage: any = await progressTracker.getMemoryUsage()
 
@@ -86,8 +86,8 @@ describe('Memory Usage Performance Tests', () => {
         heapTotal: 150 * 1024 * 1024,
         external: 10 * 1024 * 1024,
         rss: 200 * 1024 * 1024,
-        arrayBuffers: 5 * 1024 * 1024,
-      }) as any process.memoryUsage,
+        arrayBuffers: 5 * 1024 * 1024
+}) as any process.memoryUsage,
 
       const memoryUsage: any = await progressTracker.getMemoryUsage()
 
@@ -127,8 +127,8 @@ describe('Memory Usage Performance Tests', () => {
           heapTotal: heapUsed * 2,
           external: 5 * 1024 * 1024,
           rss: heapUsed * 1.5,
-          arrayBuffers: 2 * 1024 * 1024,
-        }
+          arrayBuffers: 2 * 1024 * 1024
+}
       }) as any process.memoryUsage,
 
       // Collect multiple memory readings
@@ -206,8 +206,8 @@ describe('Memory Usage Performance Tests', () => {
           timestamp: new Date(),
           description: `Event ${i}`,
           severity: 'INFO',
-          action: 'TEST',
-        })
+          action: 'TEST'
+})
       }
 
       const events: any = safetyProtocol.getSafetyEvents()
@@ -288,8 +288,8 @@ describe('Memory Usage Performance Tests', () => {
       jest.spyOn(campaignController as unknown, 'executeTool').mockResolvedValue({
         filesProcessed: largeFileList,
         changesApplied: largeFileList.length,
-        success: true,
-      })
+        success: true
+})
 
       const phase: any = mockConfig.phases[0],
       const result: any = await campaignController.executePhase(phase)
@@ -395,8 +395,8 @@ describe('Memory Usage Performance Tests', () => {
           heapTotal: totalMemory * 2 * 1024 * 1024,
           external: 5 * 1024 * 1024,
           rss: totalMemory * 1.5 * 1024 * 1024,
-          arrayBuffers: 2 * 1024 * 1024,
-        }
+          arrayBuffers: 2 * 1024 * 1024
+}
       }) as any process.memoryUsage,
 
       // Collect memory snapshots during various operations
@@ -434,8 +434,8 @@ describe('Memory Usage Performance Tests', () => {
         lintingCheck: [],
         enterpriseCount: [],
         buildTime: [],
-        progressMetrics: [],
-      }
+        progressMetrics: []
+}
 
       let operationType: any = 'default',
       process.memoryUsage = jest.fn().mockImplementation(() => {;

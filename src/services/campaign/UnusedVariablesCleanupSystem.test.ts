@@ -41,8 +41,8 @@ describe('UnusedVariablesCleanupSystem', () => {
     it('should accept custom configuration', () => {
       const config: Partial<UnusedVariablesConfig> = { maxFiles: 30,
         autoFix: true,
-        dryRun: false,
-      }
+        dryRun: false
+}
 
       const system: any = new UnusedVariablesCleanupSystem(config)
       expect(system).toBeDefined();
@@ -229,8 +229,8 @@ describe('UnusedVariablesCleanupSystem', () => {
         buildTime: 2000,
         errors: [],
         warnings: ['Test warning'],
-        safetyScore: 90.5,
-      }
+        safetyScore: 90.5
+}
 
       const report: any = cleanupSystem.generateReport(result)
 
@@ -252,8 +252,8 @@ describe('UnusedVariablesCleanupSystem', () => {
         buildTime: 0,
         errors: ['Test error'],
         warnings: [],
-        safetyScore: 0,
-      }
+        safetyScore: 0
+}
 
       const report: any = cleanupSystemgenerateReport(result)
 
@@ -287,8 +287,8 @@ describe('UnusedVariablesCleanupSystem', () => {
         buildTime: 1500,
         errors: [],
         warnings: [],
-        safetyScore: 850,
-      }
+        safetyScore: 850
+}
 
       mockFs.writeFileSync.mockImplementation(() => {})
 
@@ -310,8 +310,8 @@ describe('UnusedVariablesCleanupSystem', () => {
         buildTime: 1500,
         errors: [],
         warnings: [],
-        safetyScore: 85.0,
-      }
+        safetyScore: 85.0
+}
 
       mockFs.writeFileSync.mockImplementation(() => {
         throw new Error('Write failed')

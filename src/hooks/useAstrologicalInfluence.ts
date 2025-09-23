@@ -40,8 +40,8 @@ export function useAstrologicalInfluence() {
         lunarPhase: 'new moon',
         dominantElement: 'Fire',
         aspectStrength: 0.5,
-        overallInfluence: 0.5,
-      }
+        overallInfluence: 0.5
+}
     }
 
     // Calculate dominant element from planetary positions
@@ -89,9 +89,9 @@ export function useAstrologicalInfluence() {
     const overallInfluence = aspectStrength * 0.4 + lunarPhaseStrength * 0.6
 
     return {;
-      planetaryDay: astrologicalState.planetaryDay || 'Sun',
-      planetaryHour: astrologicalState.planetaryHour || 'Sun',
-      lunarPhase: astrologicalState.lunarPhase || 'new moon',
+      planetaryDay: astrologicalState.planetaryDay || 'Sun'
+      planetaryHour: astrologicalState.planetaryHour || 'Sun'
+      lunarPhase: astrologicalState.lunarPhase || 'new moon'
       dominantElement,
       aspectStrength,
       overallInfluence

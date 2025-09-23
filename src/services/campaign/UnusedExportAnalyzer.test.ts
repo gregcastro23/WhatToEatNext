@@ -234,8 +234,8 @@ export { testA, testB, testC as aliasC };
           isDefault: false,
           complexity: 1,
           usageCount: 0,
-          filePath: '',
-        }
+          filePath: ''
+}
       ],
 
       const score: any = (
@@ -253,8 +253,8 @@ export { testA, testB, testC as aliasC };
         isDefault: false,
         complexity: 1,
         usageCount: 0,
-        filePath: '',
-      })
+        filePath: ''
+})
 
       const score: any = (
         analyzer as unknown as { calculateSafetyScore: (path: string, content: string, exports: string[]) => number }
@@ -271,8 +271,8 @@ export { testA, testB, testC as aliasC };
         isDefault: false,
         complexity: 1,
         usageCount: 0,
-        filePath: '',
-      })
+        filePath: ''
+})
 
       const testScore: any = (
         analyzer as unknown as { calculateSafetyScore: (path: string, content: string, exports: string[]) => number }
@@ -294,8 +294,8 @@ export { testA, testB, testC as aliasC };
         isDefault: false,
         complexity: 1,
         usageCount: 0,
-        filePath: '',
-      }
+        filePath: ''
+}
 
       const name: any = (
         analyzer as unknown as { generateIntelligenceSystemName: (exportInf, o: Record<string, unknown>) => string }
@@ -311,8 +311,8 @@ export { testA, testB, testC as aliasC };
         isDefault: false,
         complexity: 1,
         usageCount: 0,
-        filePath: '',
-      }
+        filePath: ''
+}
 
       const name: any = (
         analyzer as unknown as { generateIntelligenceSystemName: (exportInf, o: Record<string, unknown>) => string }
@@ -330,8 +330,8 @@ export { testA, testB, testC as aliasC };
         isDefault: false,
         complexity: 3,
         usageCount: 0,
-        filePath: '',
-      }
+        filePath: ''
+}
 
       const complexity = (analyzer as {,
           assessTransformationComplexity: (exportInf, o: Record<string, unknown>) => TransformationComplexity
@@ -348,8 +348,8 @@ export { testA, testB, testC as aliasC };
         isDefault: false,
         complexity: 10,
         usageCount: 0,
-        filePath: '',
-      }
+        filePath: ''
+}
 
       const complexity = (analyzer as {,
           assessTransformationComplexity: (exportInf, o: Record<string, unknown>) => TransformationComplexity
@@ -366,8 +366,8 @@ export { testA, testB, testC as aliasC };
         isDefault: false,
         complexity: 25,
         usageCount: 0,
-        filePath: '',
-      }
+        filePath: ''
+}
 
       const complexity = (analyzer as {,
           assessTransformationComplexity: (exportInf, o: Record<string, unknown>) => TransformationComplexity
@@ -384,8 +384,8 @@ export { testA, testB, testC as aliasC };
         isDefault: false,
         complexity: 50,
         usageCount: 0,
-        filePath: '',
-      }
+        filePath: ''
+}
 
       const complexity = (analyzer as {,
           assessTransformationComplexity: (exportInf, o: Record<string, unknown>) => TransformationComplexity
@@ -408,8 +408,8 @@ export { testA, testB, testC as aliasC };
           externalFiles: 2,
           totalTransformationCandidates: 20,
           averageSafetyScore: 85.5,
-          estimatedIntelligenceSystems: 20,
-        }
+          estimatedIntelligenceSystems: 20
+}
       }
 
       const report: any = analyzer.generateReport(mockAnalysis)

@@ -78,8 +78,8 @@ const rawLegumes = {
       duration: '5-7 days',
       humidity: 'high',
       method: 'paper towel in plastic bag',
-      notes: 'Do not wash until ready to use',
-    }
+      notes: 'Do not wash until ready to use'
+}
   },
   'snap peas': {
     name: 'Snap peas',
@@ -109,8 +109,8 @@ const rawLegumes = {
       calories: 42,
       protein_g: 2.8,
       fiber_g: 2.6,
-      carbs_g: 7.5,
-    },
+      carbs_g: 7.5
+},
     preparation: {
       washing: true,
       trimming: 'remove stem end and string if tough',
@@ -120,8 +120,8 @@ const rawLegumes = {
       duration: '3-5 days',
       humidity: 'high',
       method: 'paper towel in plastic bag',
-      notes: 'Consume quickly for best flavor and texture',
-    }
+      notes: 'Consume quickly for best flavor and texture'
+}
   },
   'snow peas': {
     name: 'Snow peas',
@@ -152,8 +152,8 @@ const rawLegumes = {
       calories: 42,
       protein_g: 2.8,
       fiber_g: 2.6,
-      carbs_g: 7.5,
-    },
+      carbs_g: 7.5
+},
     preparation: {
       washing: true,
       trimming: 'remove stem end and string along the seam',
@@ -196,8 +196,8 @@ const rawLegumes = {
       protein_g: 12,
       fiber_g: 5,
       carbs_g: 10,
-      fat_g: 5,
-    },
+      fat_g: 5
+},
     preparation: {
       washing: true,
       cooking: 'simmer in salted water 3-5 minutes',
@@ -238,8 +238,8 @@ const rawLegumes = {
       calories: 115,
       protein_g: 8,
       fiber_g: 7,
-      carbs_g: 21,
-    },
+      carbs_g: 21
+},
     preparation: {
       shelling: 'remove from pods if fresh',
       soaking: 'overnight if using dried',
@@ -250,8 +250,8 @@ const rawLegumes = {
       fresh_shelled: '2-3 days refrigerated',
       dried: '1-2 years in airtight container',
       cooked: '3-4 days refrigerated',
-      notes: 'Frozen lima beans available year-round',
-    }
+      notes: 'Frozen lima beans available year-round'
+}
   }
 }
 

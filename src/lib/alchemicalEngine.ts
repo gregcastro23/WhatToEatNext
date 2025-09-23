@@ -59,8 +59,8 @@ export class AlchemicalEngineBase {
     Fire: 1,
     Air: 1,
     Water: 1,
-    Earth: 1,
-  }
+    Earth: 1
+}
 
   private readonly, zodiacElements: Record<
     ZodiacSign,
@@ -205,7 +205,7 @@ export class AlchemicalEngineBase {
   ): number {
     const astroModifiers = this.getAstrologicalModifiers(astrologicalState);
     const seasonModifiers = this.seasonalModifiers[season];
-    let harmonyScore = 0,
+    let harmonyScore = 0;
     let totalFactors = 0
 ;
     Object.entries(recipeElements).forEach(([element, value]) => {
@@ -272,8 +272,8 @@ export class AlchemicalEngineBase {
       Fire: 0.25,
       Water: 0.25,
       Air: 0.25,
-      Earth: 0.25,
-    }
+      Earth: 0.25
+}
 
     baseModifiers[sunElement] += 0.2,
     baseModifiers[moonElement] += 0.1,
@@ -308,8 +308,8 @@ export class AlchemicalEngineBase {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    }) as unknown,
+      Air: 0.25
+}) as unknown,
     const seasonalInfluence = seasonalModifiersData?.seasonalInfluence || {}
     return seasonalInfluence[element] || 0.25,
   }
@@ -341,8 +341,8 @@ export class AlchemicalEngineBase {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    }; // Fallback elemental balance
+      Air: 0.25
+}; // Fallback elemental balance
 
     return Object.entries(elements)
       .map(([element, value]) => ({
@@ -514,8 +514,8 @@ export class AlchemicalEngineBase {
         Fire: 0.25,
         Water: 0.25,
         Air: 0.25,
-        Earth: 0.25,
-      }
+        Earth: 0.25
+}
     }))
   }
 

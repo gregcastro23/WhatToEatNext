@@ -87,8 +87,8 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
         res.status(401).json({
           error: 'Authentication required',
           message: 'No authentication token provided',
-          code: 'AUTH_TOKEN_MISSING',
-        })
+          code: 'AUTH_TOKEN_MISSING'
+})
         return,
       }
 
@@ -105,8 +105,8 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
         res.status(401).json({
           error: 'Invalid token',
           message: 'Authentication token is invalid or expired',
-          code: 'AUTH_TOKEN_INVALID',
-        })
+          code: 'AUTH_TOKEN_INVALID'
+})
         return,
       }
 
@@ -183,8 +183,8 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
       res.status(500).json({
         error: 'Authentication service error',
         message: 'Internal authentication error occurred',
-        code: 'AUTH_SERVICE_ERROR',
-      })
+        code: 'AUTH_SERVICE_ERROR'
+})
     }
   }
 }
@@ -266,8 +266,8 @@ export const authStatus = (req: Request, res: Response): void => {
   if (!req.user) {
     res.json({,
       authenticated: false,
-      message: 'Not authenticated',
-    })
+      message: 'Not authenticated'
+})
     return,
   }
 

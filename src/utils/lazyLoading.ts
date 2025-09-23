@@ -134,8 +134,8 @@ export const performanceMonitoring = {
       const perfData = JSON.parse(localStorage.getItem('modulePerformance') || '{}')
       perfData[moduleName] = {
         loadTime,
-        timestamp: Date.now(),
-      }
+        timestamp: Date.now()
+}
       localStorage.setItem('modulePerformance', JSON.stringify(perfData))
     }
   }

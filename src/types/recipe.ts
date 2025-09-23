@@ -119,12 +119,12 @@ export interface Recipe {
   // Technical details
   cookingTemperature?: {
     value: number,
-    unit: 'C' | 'F',
+    unit: 'C' | 'F'
     technique: string
   }[]
   internalTemperature?: {
     value: number,
-    unit: 'C' | 'F',
+    unit: 'C' | 'F'
     doneness: string
   }
 
@@ -376,14 +376,14 @@ export interface RecipeDetail {
   // Technical Culinary Details
   cookingTemperature?: {
     value: number,
-    unit: 'C' | 'F',
+    unit: 'C' | 'F'
     technique: string, // e.g., 'roast', 'simmer'
   }[]
 
   internalTemperature?: {
     // For proteins
     value: number,
-    unit: 'C' | 'F',
+    unit: 'C' | 'F'
     doneness: string, // e.g., 'rare', 'medium', 'well-done'
   }
 

@@ -8,7 +8,7 @@ export interface TypeScriptError {
   file: string,
   line: number,
   column: number,
-  severity: 'error' | 'warning',
+  severity: 'error' | 'warning'
   category: string,
   timestamp: Date,
   resolved: boolean
@@ -20,14 +20,14 @@ export interface LintingViolation {
   file: string,
   line: number,
   column: number,
-  severity: 'error' | 'warning' | 'info',
+  severity: 'error' | 'warning' | 'info'
   fixable: boolean,
   timestamp: Date,
   resolved: boolean
 }
 
 export interface BuildFailure {
-  type: 'typescript' | 'webpack' | 'next' | 'eslint' | 'test',
+  type: 'typescript' | 'webpack' | 'next' | 'eslint' | 'test'
   message: string,
   stack?: string,
   file?: string,
@@ -40,7 +40,7 @@ export interface BuildFailure {
 export interface ErrorTrend {
   errorType: string,
   count: number,
-  trend: 'increasing' | 'decreasing' | 'stable',
+  trend: 'increasing' | 'decreasing' | 'stable'
   changePercentage: number,
   timeframe: '1h' | '1d' | '1w' | '1m' },
         export interface ErrorPattern {
@@ -154,8 +154,8 @@ class ErrorTrackingSystem {
     try {
       const result = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       // If no errors, clear existing errors
       this.markErrorsAsResolved('typescript')
@@ -188,11 +188,11 @@ class ErrorTrackingSystem {
           file: file.trim(),
           line: parseInt(lineStr),
           column: parseInt(columnStr),
-          severity: severity as 'error' | 'warning',
-          category: this.ERROR_CATEGORIES[code] || 'Other',
+          severity: severity as 'error' | 'warning'
+          category: this.ERROR_CATEGORIES[code] || 'Other'
           timestamp: new Date(),
-          resolved: false,
-        })
+          resolved: false
+})
       }
     }
 
@@ -212,7 +212,7 @@ class ErrorTrackingSystem {
 
     // Add new errors
     for (const newError of newErrors) {
-      const key = `${newError.file}: ${newError.line}:${newError.column}:${newError.code}`,
+      const key = `${newError.file}: ${newError.line}:${newError.column}:${newError.code}`;
       const existingIndex = this.typeScriptErrors.findIndex(
         e => `${e.file}:${e.line}:${e.column}:${e.code}` === key && !e.resolved
       )
@@ -227,8 +227,8 @@ class ErrorTrackingSystem {
     try {
       const result = execSync('yarn lint --format json', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       const lintResults = JSON.parse(result)
       const violations = this.parseLintingResults(lintResults)
@@ -271,7 +271,7 @@ class ErrorTrackingSystem {
 
       for (const message of fileResult?.messages) {
         violations.push({,
-          rule: message.ruleId || 'unknown',
+          rule: message.ruleId || 'unknown'
           message: message.message,
           file: filePath,
           line: message.line || 0,
@@ -279,8 +279,8 @@ class ErrorTrackingSystem {
           severity: this.mapLintSeverity(message.severity),
           fixable: message.fix !== undefined,
           timestamp: new Date(),
-          resolved: false,
-        })
+          resolved: false
+})
       }
     }
 
@@ -310,7 +310,7 @@ class ErrorTrackingSystem {
 
     // Add new violations
     for (const newViolation of newViolations) {
-      const key = `${newViolation.file}: ${newViolation.line}:${newViolation.column}:${newViolation.rule}`,
+      const key = `${newViolation.file}: ${newViolation.line}:${newViolation.column}:${newViolation.rule}`;
       const existingIndex = this.lintingViolations.findIndex(
         v => `${v.file}:${v.line}:${v.column}:${v.rule}` === key && !v.resolved
       )
@@ -414,8 +414,8 @@ class ErrorTrackingSystem {
           files: [violation.file],
           suggestedFix: this.getLintingSuggestedFix(violation.rule),
           automatable: violation.fixable,
-          priority: violation.severity === 'error' ? 'high' : 'medium',
-        })
+          priority: violation.severity === 'error' ? 'high' : 'medium'
+})
       }
     }
 
@@ -440,7 +440,7 @@ class ErrorTrackingSystem {
       TS2440: 'Fix import statement syntax or check module resolution';,
       TS7053: 'Add index signature to type or use bracket notation',
       TS2571: 'Narrow union type or add type guards' },
-        return fixes[errorCode] || 'Review error message and TypeScript documentation',
+        return fixes[errorCode] || 'Review error message and TypeScript documentation'
   }
 
   private getLintingSuggestedFix(rule: string): string {
@@ -453,7 +453,7 @@ class ErrorTrackingSystem {
       '@typescript-eslint/no-non-null-assertion': 'Add null checks or use optional chaining',
       'react/no-unescaped-entities': 'Escape HTML entities in JSX text',
       '@typescript-eslint/ban-ts-comment': 'Remove @ts-ignore comments and fix underlying issues' },
-        return fixes[rule] || 'Review ESLint rule documentation for fix guidance',
+        return fixes[rule] || 'Review ESLint rule documentation for fix guidance'
   }
 
   private isAutomatable(errorCode: string): boolean {
@@ -507,8 +507,8 @@ class ErrorTrackingSystem {
     try {
       const result = execSync('find src -name '*.ts' -o -name '*.tsx' | wc -l', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
       return parseInt(result.trim()) || 0,
     } catch (error) {
       return 0

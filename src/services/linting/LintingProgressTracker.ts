@@ -231,8 +231,8 @@ export class LintingProgressTracker {
       // ESLint returns non-zero exit code when issues are found
       // The output is still valid JSON in error.stdout
       if ((error as { stdout?: string }).stdout) {
-        return (error as { stdout: string }).stdout,
-      }
+        return (error as { stdout: string }).stdout
+}
       throw error,
     }
   }
@@ -246,9 +246,9 @@ export class LintingProgressTracker {
     try {
       const results = JSON.parse(output)
 ;
-      let totalIssues = 0,
+      let totalIssues = 0;
       let errors = 0,
-      let warnings = 0,
+      let warnings = 0;
       let fixableIssues = 0,
       const errorsByCategory: Record<string, number> = {}
       const warningsByCategory: Record<string, number> = {}
@@ -307,8 +307,8 @@ export class LintingProgressTracker {
         totalIssuesReduced: 0,
         errorsReduced: 0,
         warningsReduced: 0,
-        percentageImprovement: 0,
-      }
+        percentageImprovement: 0
+}
     }
 
     const totalIssuesReduced = previous.totalIssues - current.totalIssues;

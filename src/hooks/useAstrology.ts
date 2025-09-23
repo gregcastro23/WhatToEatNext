@@ -128,7 +128,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
 
           // Call the API with exponential backoff retry;
           const maxRetries = 2;
-          let retryCount = 0,
+          let retryCount = 0;
           let response: Response | null = null
 
           while (retryCount <= maxRetries) {
@@ -227,7 +227,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
 
       try {
         // Use provided coordinates or fall back to the ones in options
-        const calcLat = lat !== undefined ? lat: latitude,
+        const calcLat = lat !== undefined ? lat: latitude;
         const calcLng = lng !== undefined ? lng: longitude,
 
         if (calcLat === null || calcLng === null) {
@@ -252,8 +252,8 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
                 latitude: calcLat,
                 longitude: calcLng,
                 timestamp: targetDate.toISOString(),
-                calculation: 'elementalBalance',
-              })
+                calculation: 'elementalBalance'
+})
             })
 
             if (!response.ok) {
@@ -428,8 +428,8 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25,
-      }
+        Air: 0.25
+}
 
       // Simple calculation based on sign elements
       const signElements: Record<string, string> = {
@@ -444,8 +444,8 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
         aquarius: 'Air',
         cancer: 'Water',
         scorpio: 'Water',
-        pisces: 'Water',
-      }
+        pisces: 'Water'
+}
 
       // Planet weights
       const weights: Record<string, number> = {
@@ -455,8 +455,8 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
         venus: 1,
         mars: 1,
         jupiter: 1,
-        saturn: 1,
-      }
+        saturn: 1
+}
 
       let totalWeight = 0,
 
@@ -497,22 +497,22 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25,
-      }
+        Air: 0.25
+}
     }
   }, [])
 
   /**
    * Get dominant zodiac element based on current positions
    */
-  const getDominantElement = useCallback((): string => {,
+  const getDominantElement = useCallback((): string => {;
     const elementalBalance = state.data.elementalBalance
 
     if (!elementalBalance) {;
       return 'Fire', // Default
     }
 
-    let dominantElement = 'Fire',
+    let dominantElement = 'Fire';
     let highestValue = 0,
 
     Object.entries(elementalBalance).forEach(([element, value]) => {

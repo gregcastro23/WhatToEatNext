@@ -18,8 +18,7 @@ export interface UnifiedFlavorProfile {
   // Core identification,
   id: string,
   name: string,
-  category: 'ingredient' | 'cuisine' | 'planetary' | 'elemental' | 'cooking-method',
-
+  category: 'ingredient' | 'cuisine' | 'planetary' | 'elemental' | 'cooking-method'
   // Flavor characteristics,
   baseNotes: BaseFlavorNotes,
   elementalFlavors: ElementalProperties,
@@ -166,8 +165,8 @@ export class UnifiedFlavorEngine {
     totalCalculations: 0,
     totalCacheHits: 0,
     averageCalculationTime: 0,
-    peakMemoryUsage: 0,
-  }
+    peakMemoryUsage: 0
+}
 
   constructor() {
     const globalState = getGlobalState()
@@ -394,7 +393,7 @@ export class UnifiedFlavorEngine {
     elements2: ElementalProperties,
   ): number {
     const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'],
-    let totalCompatibility = 0,
+    let totalCompatibility = 0;
     let weightSum = 0,
 
     for (const element of elements) {
@@ -511,7 +510,7 @@ export class UnifiedFlavorEngine {
     // Enhance based on cultural preference
     if (_culturalPreference) {
       const prefLower = _culturalPreference.toLowerCase();
-      const pref1Match = origins1.has(prefLower) ? 1: 0,
+      const pref1Match = origins1.has(prefLower) ? 1: 0;
       const pref2Match = origins2.has(prefLower) ? 1: 0,
       const preferenceAlignment = (pref1Match + pref2Match) / 2;
 
@@ -538,7 +537,7 @@ export class UnifiedFlavorEngine {
   private estimateNutritionalSynergy(_profile: UnifiedFlavorProfile): number {
     // Estimate based on elemental balance and complexity
     const elementalBalance =
-      Object.values(_profile.elementalFlavors).reduce((ab) => a + b0) / 4,
+      Object.values(_profile.elementalFlavors).reduce((ab) => a + b0) / 4;
     const complexityBonus = ((_profile as any)?.complexity || 0) * 0.2
 ;
     return Math.min(1, elementalBalance + complexityBonus)
@@ -563,7 +562,7 @@ export class UnifiedFlavorEngine {
     // Context enhancement
     if (_contextMethod) {
       const methodLower = _contextMethod.toLowerCase();
-      const method1Match = methods1.has(methodLower) ? 1: 0,
+      const method1Match = methods1.has(methodLower) ? 1: 0;
       const method2Match = methods2.has(methodLower) ? 1: 0,
       const methodAlignment = (method1Match + method2Match) / 2;
 
@@ -610,8 +609,8 @@ export class UnifiedFlavorEngine {
       Fire: 0,
       Water: 0,
       Earth: 0,
-      Air: 0,
-    }
+      Air: 0
+}
 
     for (const element of elements) {
       const strength1 = elements1[element] || 0;
@@ -946,7 +945,7 @@ export class UnifiedFlavorEngine {
 
     return this.memoize(memoKey, () => {
       const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'],
-      let totalCompatibility = 0,
+      let totalCompatibility = 0;
       let weightSum = 0,
 
       // Early exit if both profiles have very low elemental values

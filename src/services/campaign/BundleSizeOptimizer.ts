@@ -31,7 +31,7 @@ export interface BundleChunk {
 export interface BundleAsset {
   name: string,
   size: number,
-  type: 'js' | 'css' | 'image' | 'font' | 'other',
+  type: 'js' | 'css' | 'image' | 'font' | 'other'
   optimized: boolean
 }
 
@@ -39,7 +39,7 @@ export interface DependencyAnalysis {
   name: string,
   size: number,
   version: string,
-  usage: 'critical' | 'important' | 'optional';,
+  usage: 'critical' | 'important' | 'optional'
   alternatives: string[]
 }
 
@@ -52,8 +52,8 @@ export interface LazyLoadingValidation {
 }
 
 export interface BundleOptimizationAlert {
-  type: 'size_exceeded' | 'chunk_too_large' | 'unused_dependency' | 'lazy_loading_opportunity',
-  severity: 'warning' | 'critical',
+  type: 'size_exceeded' | 'chunk_too_large' | 'unused_dependency' | 'lazy_loading_opportunity'
+  severity: 'warning' | 'critical'
   message: string,
   currentValue: number,
   targetValue: number,
@@ -179,8 +179,8 @@ export class BundleSizeOptimizer {
           // Use bundle analyzer
           const output = execSync('yarn analyze 2>/dev/null || echo 'analyzer not available'', {
             encoding: 'utf8',
-            stdio: 'pipe',
-          })
+            stdio: 'pipe'
+})
 
           if (!output.includes('analyzer not available')) {
             // Parse analyzer output (simplified)
@@ -195,8 +195,8 @@ export class BundleSizeOptimizer {
       // Fallback: calculate from .next directory
       const output = execSync('du -sk .next/static | cut -f1', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       const sizeKB = parseInt(output.trim()) || 0;
       return { totalSize: sizeKB }
@@ -214,8 +214,8 @@ export class BundleSizeOptimizer {
     try {
       const output = execSync(`du -sk ${buildDir} | cut -f1`, {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       const sizeKB = parseInt(output.trim()) || 0;
       return { totalSize: sizeKB }
@@ -236,8 +236,8 @@ export class BundleSizeOptimizer {
         'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | xargs wc -c | tail -1 | awk \'{print 1}\'',
         {
           encoding: 'utf8',
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
 
       const sourceBytes = parseInt(output.trim()) || 0;
       const estimatedKB = Math.round((sourceBytes / 1024) * 1.5); // Rough estimate with bundling overhead
@@ -414,8 +414,8 @@ export class BundleSizeOptimizer {
         lazyLoadedComponents: 0,
         potentialLazyComponents: [],
         dataFetchingOptimizations: [],
-        score: 0,
-      }
+        score: 0
+}
     }
   }
 
@@ -607,8 +607,8 @@ export class BundleSizeOptimizer {
     try {
       const output = execSync('find src -name '*.tsx' -o -name '*.jsx' | wc -l', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
 
       return parseInt(output.trim()) || 0,
     } catch (error) {
@@ -622,8 +622,8 @@ export class BundleSizeOptimizer {
         'grep -r 'lazy\\|dynamic' src --include='*.tsx' --include='*.jsx' | wc -l',,
         {
           encoding: 'utf8',
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
 
       return parseInt(output.trim()) || 0,
     } catch (error) {
@@ -638,8 +638,8 @@ export class BundleSizeOptimizer {
         'find src -name '*.tsx' -exec wc -l {} + | sort -nr | head -10 | awk \'{print 2}\'',
         {
           encoding: 'utf8',
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
 
       return output
         .trim()
@@ -659,15 +659,15 @@ export class BundleSizeOptimizer {
         'grep -r 'useEffect' src --include='*.tsx' --include='*.jsx' | wc -l',,
         {
           encoding: 'utf8',
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
 
       const hasUseSWR = execSync(
         'grep -r 'useSWR\\|useQuery' src --include='*.tsx' --include='*.jsx' | wc -l',,
         {
           encoding: 'utf8',
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
 
       const effectCount = parseInt(hasUseEffect.trim()) || 0;
       const swr = parseInt(hasUseSWR.trim()) || 0;

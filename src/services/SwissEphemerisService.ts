@@ -77,7 +77,7 @@ export interface SeasonalTransit {
 export interface PlanetaryAspect {
   planet1: string,
   planet2: string,
-  aspectType: 'conjunction' | 'opposition' | 'trine' | 'square' | 'sextile',
+  aspectType: 'conjunction' | 'opposition' | 'trine' | 'square' | 'sextile'
   orb: number,
   influence: number,
   description: string
@@ -160,8 +160,8 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'pisces',
-      J_sign: 'capricorn',
-    }
+      J_sign: 'capricorn'
+}
   ],
 
   // 2025 Data (June focus from your Python analysis)
@@ -180,8 +180,8 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius',
-    }
+      J_sign: 'aquarius'
+}
     {
       day: 2,
       date: new Date('2025-06-02'),
@@ -196,8 +196,8 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius',
-    }
+      J_sign: 'aquarius'
+}
     {
       day: 3,
       date: new Date('2025-06-03'),
@@ -212,8 +212,8 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius',
-    }
+      J_sign: 'aquarius'
+}
     {
       day: 4,
       date: new Date('2025-06-04'),
@@ -228,8 +228,8 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius',
-    }
+      J_sign: 'aquarius'
+}
     {
       day: 5,
       date: new Date('2025-06-05'),
@@ -244,8 +244,8 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius',
-    }
+      J_sign: 'aquarius'
+}
     {
       day: 6,
       date: new Date('2025-06-06'),
@@ -260,8 +260,8 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius',
-    }
+      J_sign: 'aquarius'
+}
     {
       day: 7,
       date: new Date('2025-06-07'),
@@ -276,8 +276,8 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius',
-    }
+      J_sign: 'aquarius'
+}
     {
       day: 8,
       date: new Date('2025-06-08'),
@@ -292,8 +292,8 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius',
-    }
+      J_sign: 'aquarius'
+}
     {
       day: 9,
       date: new Date('2025-06-09'),
@@ -308,8 +308,8 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius',
-    }
+      J_sign: 'aquarius'
+}
     {
       day: 10,
       date: new Date('2025-06-10'),
@@ -324,8 +324,8 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius',
-    }
+      J_sign: 'aquarius'
+}
   ]
 }
 
@@ -420,8 +420,8 @@ const SEASONAL_TRANSITS: Record<string, SeasonalTransit[]> = {
           aspectType: 'trine',
           orb: 2.8,
           influence: 0.75,
-          description: 'Harmonious communication between fire and earth elements',
-        }
+          description: 'Harmonious communication between fire and earth elements'
+}
       ],
       planetaryPlacements: {
         Sun: { sign: 'gemini', degree: 15, exactLongitude: 75, isRetrograde: false },
@@ -622,7 +622,7 @@ export class SwissEphemerisService {
     }
 
     // Find closest day if exact day not found
-    let closestEntry = yearData[0],
+    let closestEntry = yearData[0];
     let minDiff = Math.abs(targetDay - closestEntry.day)
 
     for (const entry of yearData) {

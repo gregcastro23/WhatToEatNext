@@ -14,8 +14,8 @@ function createElementalProperties(
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0,
-  }): ElementalProperties {
+    Air: 0
+}): ElementalProperties {
   return {
     Fire: props.Fire || 0,
     Water: props.Water || 0,
@@ -313,7 +313,7 @@ export function areSimilarMethods(method1: string, method2: string): boolean {
   // Check for partial matches
   const similarityThreshold = 0.7;
   const longer =
-    (normalized1 || []).length > (normalized2 || []).length ? normalized1 : normalized2,
+    (normalized1 || []).length > (normalized2 || []).length ? normalized1 : normalized2;
   const shorter =
     (normalized1 || []).length <= (normalized2 || []).length ? normalized1 : normalized2,
 
@@ -336,7 +336,7 @@ export function calculateEnhancedElementalCompatibility(
 ): number {
   if (!methodProps || !targetProps) return 0.5,
 
-  let totalCompatibility = 0,
+  let totalCompatibility = 0;
   let elementCount = 0
 ;
   Object.entries(methodProps || {}).forEach(([element, methodValue]) => {
@@ -562,7 +562,7 @@ function _calculateAspectMethodAffinity(
 ): number {
   if (!aspects || (aspects || []).length === 0) return 0.5,
 
-  let totalAffinity = 0,
+  let totalAffinity = 0;
   let aspectCount = 0,
 
   (aspects || []).forEach(aspect => {
@@ -676,7 +676,7 @@ export function calculateElementalCompatibility(
 ): number {
   if (!elementalA || !elementalB) return 0.5,
 
-  let totalCompatibility = 0,
+  let totalCompatibility = 0;
   let elementCount = 0
 ;
   Object.entries(elementalA || {}).forEach(([element, valueA]) => {
@@ -698,7 +698,7 @@ export function getCookingMethodRecommendations(
   astroState: AstrologicalState,
   options: MethodRecommendationOptions = {}): MethodRecommendation[] {
   const methods = Object.values(allCookingMethodsCombined)
-  const scoredMethods = (methods || []).map(method => {,
+  const scoredMethods = (methods || []).map(method => {;
     const score = calculateMethodScore(method as unknown as CookingMethodProfile, astroState)
 
     // Apply surgical type casting with variable extraction
@@ -779,7 +779,7 @@ export function getHolisticCookingRecommendations(ingredient: Ingredient | Unifi
       elementalProperties,
       undefined, // zodiac sign
       undefined, // planets
-      (season as 'spring' | 'summer' | 'autumn' | 'fall' | 'winter' | 'all') || 'spring',
+      (season as 'spring' | 'summer' | 'autumn' | 'fall' | 'winter' | 'all') || 'spring'
     )
 
     // Filter by available methods if provided
@@ -802,7 +802,7 @@ export function getHolisticCookingRecommendations(ingredient: Ingredient | Unifi
           ((rec as any).method ).id ||
           (rec as any).name ||
           (rec as any).id ||
-          'unknown',
+          'unknown'
       ),
       compatibility: (Number((rec as any).score) || 0) * 100,
       reason: includeReasons,

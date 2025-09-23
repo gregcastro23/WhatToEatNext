@@ -199,8 +199,8 @@ export const validatePlanetPosition = (value: unknown): ValidationResult => {
   // Validate exactLongitude (0-360)
   const longitudeResult = validateNumber(obj.exactLongitude, 'exactLongitude', {
     min: 0,
-    max: 360,
-  })
+    max: 360
+})
   if (!longitudeResult.isValid) {
     result.isValid = false
     result.errors.push(...longitudeResult.errors)
@@ -291,8 +291,8 @@ export const combineValidationResults = (results: ValidationResult[]): Validatio
   return {
     isValid: results.every(r => r.isValid),
     errors: results.flatMap(r => r.errors),
-    warnings: results.flatMap(r => r.warnings),
-  }
+    warnings: results.flatMap(r => r.warnings)
+}
 }
 
 export const validateWithFallback = <T>(
@@ -334,8 +334,8 @@ export const safeConvertToPlanetPosition = (
     sign: 'aries' as any,
     degree: 0,
     exactLongitude: 0,
-    isRetrograde: false,
-  }): PlanetPosition => {,
+    isRetrograde: false
+}): PlanetPosition => {,
   return validateWithFallback(value, validatePlanetPosition, fallback, 'PlanetPosition conversion')
 }
 
@@ -347,8 +347,8 @@ export const safeConvertToCookingMethod = (
     _category: 'unknown',
     element: 'Earth',
     _intensity: 1,
-    description: 'Unknown cooking method',
-  }): CookingMethod => {,
+    description: 'Unknown cooking method'
+}): CookingMethod => {,
   return validateWithFallback(value, validateCookingMethod, fallback, 'CookingMethod conversion')
 }
 

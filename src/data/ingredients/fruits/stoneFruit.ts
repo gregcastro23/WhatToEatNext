@@ -41,8 +41,8 @@ const rawStoneFruit = {
       temperature: 'room temp until ripe',
       duration: '3-5 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when ripe',
-    }
+      notes: 'Refrigerate when ripe'
+}
   },
   plum: {
     name: 'Plum',
@@ -83,8 +83,8 @@ const rawStoneFruit = {
       temperature: 'room temp until ripe',
       duration: '3-5 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when ripe',
-    }
+      notes: 'Refrigerate when ripe'
+}
   },
   apricot: {
     name: 'Apricot',
@@ -113,8 +113,8 @@ const rawStoneFruit = {
       temperature: 'room temp until ripe',
       duration: '2-3 days',
       ripening: 'room temperature',
-      notes: 'Very perishable when ripe',
-    }
+      notes: 'Very perishable when ripe'
+}
   },
   cherry: {
     name: 'Cherry',
@@ -143,8 +143,8 @@ const rawStoneFruit = {
       temperature: 'refrigerated',
       duration: '4-7 days',
       humidity: 'moderate',
-      notes: 'Store unwashed until ready to use',
-    }
+      notes: 'Store unwashed until ready to use'
+}
   },
   nectarine: {
     name: 'Nectarine',
@@ -173,8 +173,8 @@ const rawStoneFruit = {
       temperature: 'room temp until ripe',
       duration: '3-5 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when ripe',
-    }
+      notes: 'Refrigerate when ripe'
+}
   },
   greengage: {
     name: 'Greengage',
@@ -203,8 +203,8 @@ const rawStoneFruit = {
       temperature: 'room temp until ripe',
       duration: '3-4 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when fully ripe',
-    }
+      notes: 'Refrigerate when fully ripe'
+}
   },
   damson: {
     name: 'Damson',
@@ -233,8 +233,8 @@ const rawStoneFruit = {
       temperature: 'refrigerated',
       duration: '5-7 days',
       humidity: 'moderate',
-      notes: 'Ideal for preserving and cooking',
-    }
+      notes: 'Ideal for preserving and cooking'
+}
   }
 }
 

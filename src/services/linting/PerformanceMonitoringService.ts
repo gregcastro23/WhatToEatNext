@@ -33,7 +33,7 @@ export interface PerformanceThresholds {
 }
 
 export interface PerformanceAlert {
-  type: 'warning' | 'error' | 'critical',
+  type: 'warning' | 'error' | 'critical'
   metric: string,
   threshold: number,
   actual: number,
@@ -83,7 +83,7 @@ export class PerformanceMonitoringService {
       peakMemoryUsage = Math.max(peakMemoryUsage, currentMemory),
     }, 100)
 
-    let output = '',
+    let output = '';
     let errorCount = 0,
     let warningCount = 0,
 
@@ -156,8 +156,7 @@ export class PerformanceMonitoringService {
 
     // Get current (latest metrics with cache)
     const current =
-      this.metrics.find(m => m.cacheHitRate > 0) || this.metrics[this.metrics.length - 1],
-
+      this.metrics.find(m => m.cacheHitRate > 0) || this.metrics[this.metrics.length - 1];
     const improvement =
       ((baseline.executionTime - current.executionTime) / baseline.executionTime) * 100,
     const passed = improvement >= this.thresholds.minPerformanceImprovement && improvement <= 80;
@@ -183,8 +182,8 @@ export class PerformanceMonitoringService {
       return {;
         filesPerProcess: 0,
         optimalDistribution: false,
-        processCount: 0,
-      }
+        processCount: 0
+}
     }
 
     const filesPerProcess = latestMetrics.filesProcessed / latestMetrics.parallelProcesses;
@@ -210,8 +209,8 @@ export class PerformanceMonitoringService {
       return {;
         peakMemoryMB: 0,
         withinLimit: false,
-        memoryEfficient: false,
-      }
+        memoryEfficient: false
+}
     }
 
     const peakMemoryMB = latestMetrics.memoryUsage / 1024 / 1024;
@@ -239,8 +238,8 @@ export class PerformanceMonitoringService {
       return {
         averageIncrementalTime: 0,
         subTenSecond: false,
-        consistentPerformance: false,
-      }
+        consistentPerformance: false
+}
     }
 
     const averageIncrementalTime =
@@ -322,8 +321,8 @@ export class PerformanceMonitoringService {
    * Get performance trend over time
    */
   getPerformanceTrend(days: number = 7): {,
-    executionTimeTrend: 'improving' | 'degrading' | 'stable',
-    memoryUsageTrend: 'improving' | 'degrading' | 'stable',
+    executionTimeTrend: 'improving' | 'degrading' | 'stable'
+    memoryUsageTrend: 'improving' | 'degrading' | 'stable'
     cacheHitRateTrend: 'improving' | 'degrading' | 'stable'
   } {
     const cutoffDate = new Date(Date.now() - days * 24 * 60 * 60 * 1000)
@@ -333,8 +332,8 @@ export class PerformanceMonitoringService {
       return {;
         executionTimeTrend: 'stable',
         memoryUsageTrend: 'stable',
-        cacheHitRateTrend: 'stable',
-      }
+        cacheHitRateTrend: 'stable'
+}
     }
 
     const firstHalf = recentMetrics.slice(0, Math.floor(recentMetrics.length / 2)),

@@ -56,8 +56,8 @@ export interface MilestoneValidationResult {
 
 export interface FailureDetectionResult {
   detected: boolean,
-  severity: 'low' | 'medium' | 'high' | 'critical',
-  category: 'build' | 'test' | 'typescript' | 'linting' | 'performance' | 'corruption',
+  severity: 'low' | 'medium' | 'high' | 'critical'
+  category: 'build' | 'test' | 'typescript' | 'linting' | 'performance' | 'corruption'
   description: string,
   recoveryActions: string[],
   automaticRecovery: boolean
@@ -97,8 +97,8 @@ export class ValidationFramework {
             try {;
               const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
                 encoding: 'utf8',
-                timeout: 60000,
-              }),
+                timeout: 60000
+}),
 
               const errorCount = (output.match(/error TS\d+/g) || []).length;
               const executionTime = Date.now() - startTime;
@@ -145,8 +145,8 @@ export class ValidationFramework {
             try {;
               execSync('yarn build', {
                 stdio: 'pipe',
-                timeout: 120000,
-              })
+                timeout: 120000
+})
               const executionTime = Date.now() - startTime;
 
               return {
@@ -185,8 +185,8 @@ export class ValidationFramework {
             try {;
               const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
                 encoding: 'utf8',
-                timeout: 60000,
-              })
+                timeout: 60000
+})
 
               const criticalErrors = (
                 output.match(/error (TS2352|TS2345|TS2698|TS2304|TS2362)/g) || [];
@@ -239,8 +239,8 @@ export class ValidationFramework {
             try {;
               const output = execSync('yarn lint 2>&1', {
                 encoding: 'utf8',
-                timeout: 120000,
-              }),
+                timeout: 120000
+}),
 
               const warningCount = (output.match(/warning/g) || []).length;
               const executionTime = Date.now() - startTime;
@@ -287,8 +287,8 @@ export class ValidationFramework {
             try {;
               const output = execSync('yarn lint 2>&1', {
                 encoding: 'utf8',
-                timeout: 120000,
-              })
+                timeout: 120000
+})
 
               const explicitAnyCount = (output.match(/@typescript-eslint\/no-explicit-any/g) || []);
                 .length,
@@ -331,8 +331,8 @@ export class ValidationFramework {
             try {;
               const output = execSync('yarn lint 2>&1', {
                 encoding: 'utf8',
-                timeout: 120000,
-              })
+                timeout: 120000
+})
 
               const unusedVarsCount = (output.match(/no-unused-vars/g) || []).length;
               const executionTime = Date.now() - startTime;
@@ -374,8 +374,8 @@ export class ValidationFramework {
             try {;
               const output = execSync('yarn lint 2>&1', {
                 encoding: 'utf8',
-                timeout: 120000,
-              })
+                timeout: 120000
+})
 
               const consoleCount = (output.match(/no-console/g) || []).length;
               const executionTime = Date.now() - startTime;
@@ -426,8 +426,8 @@ export class ValidationFramework {
             try {;
               const output = execSync('grep -r 'INTELLIGENCE_SYSTEM' src/ | wc -l', {
                 encoding: 'utf8',
-                timeout: 30000,
-              })
+                timeout: 30000
+})
 
               const systemCount = parseInt(output.trim()) || 0;
               const executionTime = Date.now() - startTime;
@@ -471,8 +471,8 @@ export class ValidationFramework {
               const output = execSync('find src/ -name '*.ts' -o -name '*.tsx' | xargs grep -l 'export.*unused' | wc -l'
                 {,
                   encoding: 'utf8',
-                  timeout: 30000,
-                })
+                  timeout: 30000
+})
 
               const unusedExports = parseInt(output.trim()) || 0;
               const executionTime = Date.now() - startTime;
@@ -514,8 +514,8 @@ export class ValidationFramework {
             try {;
               execSync('yarn build', {
                 stdio: 'pipe',
-                timeout: 120000,
-              })
+                timeout: 120000
+})
               const executionTime = Date.now() - startTime;
 
               return {
@@ -564,8 +564,8 @@ export class ValidationFramework {
             try {;
               execSync('yarn build', {
                 stdio: 'pipe',
-                timeout: 120000,
-              })
+                timeout: 120000
+})
               const buildTime = (Date.now() - startTime) / 1000;
 
               return {
@@ -607,8 +607,8 @@ export class ValidationFramework {
             try {;
               execSync('yarn test --run', {
                 stdio: 'pipe',
-                timeout: 180000,
-              })
+                timeout: 180000
+})
               const testTime = (Date.now() - startTime) / 1000;
 
               return {
@@ -743,7 +743,7 @@ export class ValidationFramework {
 
     const startTime = Date.now();
     const results: Array<{ criteriaId: string, result: ValidationResult }> = [],
-    let totalScore = 0,
+    let totalScore = 0;
     let passedCriteria = 0,
 
     // Execute all validation criteria
@@ -769,8 +769,8 @@ export class ValidationFramework {
           success: false,
           message: `Validation failed: ${error}`,
           timestamp: new Date(),
-          executionTime: 0,
-        }
+          executionTime: 0
+}
         results.push({ criteriaId: criteria.id, result: failedResult })
         // // // _logger.info(`  ❌ ${criteria.name}: Validation error - ${error}`)
       }
@@ -837,8 +837,8 @@ export class ValidationFramework {
           'Review build logs for specific errors',
           'Run: make campaign-emergency-rollback if needed'
         ],
-        automaticRecovery: false,
-      })
+        automaticRecovery: false
+})
     }
 
     // Test failure detection
@@ -856,8 +856,8 @@ export class ValidationFramework {
           'Check for breaking changes in recent commits',
           'Run tests individually to isolate issues'
         ],
-        automaticRecovery: false,
-      })
+        automaticRecovery: false
+})
     }
 
     // TypeScript error detection
@@ -876,8 +876,8 @@ export class ValidationFramework {
             'Use: node scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js --dry-run',
             'Consider rollback if errors increased significantly'
           ],
-          automaticRecovery: true,
-        })
+          automaticRecovery: true
+})
       }
     } catch (error: unknown) {
       // TypeScript errors are expected during campaign
@@ -900,8 +900,8 @@ export class ValidationFramework {
             'Review recent changes for optimization opportunities',
             'Clear build, cache: yarn cache clean'
           ],
-          automaticRecovery: true,
-        })
+          automaticRecovery: true
+})
       }
     } catch (error: unknown) {
       // Build failure already detected above

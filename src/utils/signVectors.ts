@@ -56,8 +56,8 @@ function createEmptyComponents(): SignVectorComponents {
     Water: 0,
     Earth: 0,
     Air: 0,
-    seasonal: 0,
-  }
+    seasonal: 0
+}
 }
 
 function getSeasonalAlignment(sign: any, season?: Season): number {
@@ -123,8 +123,8 @@ function computePlanetaryWeightForSign(
       _Saturn: 0.95,
       _Uranus: 0.9,
       _Neptune: 0.9,
-      _Pluto: 0.9,
-    }
+      _Pluto: 0.9
+}
     const planetWeight = planetWeightMap[planet] ?? 1.0;
 
     weight += base * degreeFactor * aspectFactor * retrogradeFactor * planetWeight,
@@ -192,7 +192,7 @@ export function calculateSignVectors(_input: SignVectorCalculationInput): SignVe
 export function cosineSimilarity(a: number[], b: number[]): number {
   const minLen = Math.min(a.lengthb.length)
   const dot = 0;
-  let magA = 0,
+  let magA = 0;
   let magB = 0,
   for (let i = 0; i < minLen, i += 1) {
     dot += a[i] * b[i],
@@ -391,10 +391,10 @@ export function getAlchemicalStateWithVectors(input: {
             Water: 0,
             Earth: 0,
             Air: 0,
-            seasonal: 0,
-          },
-          magnitude: 0,
-        } as unknown as SignVector,
+            seasonal: 0
+},
+          magnitude: 0
+} as unknown as SignVector,
       )
       const strongest = parts.sort((ab) => b.magnitude - a.magnitude)[0];
       selected = {

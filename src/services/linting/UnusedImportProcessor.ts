@@ -146,8 +146,8 @@ export class UnusedImportProcessor {
             'newlines-between': 'always',
             alphabetize: {
               order: 'asc',
-              caseInsensitive: true,
-            }
+              caseInsensitive: true
+}
           }
         ],
         'import/no-unused-modules': 'off', // Too aggressive
@@ -161,8 +161,8 @@ export class UnusedImportProcessor {
             args: 'after-used',
             ignoreRestSiblings: false,
             varsIgnorePattern: '^(_|React|Component|useState|useEffect|useMemo|useCallback)',
-            argsIgnorePattern: '^(_|React|Component|useState|useEffect|useMemo|useCallback)',
-          }
+            argsIgnorePattern: '^(_|React|Component|useState|useEffect|useMemo|useCallback)'
+}
         ]
       },
       overrides: [
@@ -174,8 +174,8 @@ export class UnusedImportProcessor {
               'warn',
               {
                 varsIgnorePattern: '^(_|React|Component|useState|useEffect|useMemo|useCallback|planetary|elemental|astrological|campaign|CAMPAIGN|PROGRESS|METRICS|SAFETY|ERROR)',
-                argsIgnorePattern: '^(_|React|Component|useState|useEffect|useMemo|useCallback|planetary|elemental|astrological|campaign|CAMPAIGN|PROGRESS|METRICS|SAFETY|ERROR)',
-              }
+                argsIgnorePattern: '^(_|React|Component|useState|useEffect|useMemo|useCallback|planetary|elemental|astrological|campaign|CAMPAIGN|PROGRESS|METRICS|SAFETY|ERROR)'
+}
             ]
           }
         }
@@ -192,8 +192,8 @@ export class UnusedImportProcessor {
       // Check TypeScript compilation
       execSync('yarn tsc --noEmit --skipLibCheck', {
         stdio: 'pipe',
-        encoding: 'utf8',
-      })
+        encoding: 'utf8'
+})
       log.info('✅ TypeScript validation passed')
       return true,
     } catch (error) {
@@ -211,15 +211,15 @@ export class UnusedImportProcessor {
       const totalFilesOutput = execSync(
         'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | wc -l'
         {
-          encoding: 'utf8',
-        })
+          encoding: 'utf8'
+})
       const totalFiles = parseInt(totalFilesOutput.trim()) || 0;
 
       // Count unused import warnings (approximate)
       const unusedImportsOutput = execSync('yarn lint --format=compact 2>&1 | grep -E 'is defined but never used.*import' | wc -l',,
         {
-          encoding: 'utf8',
-        })
+          encoding: 'utf8'
+})
       const unusedImports = parseInt(unusedImportsOutput.trim()) || 0;
 
       return { totalFiles, unusedImports }

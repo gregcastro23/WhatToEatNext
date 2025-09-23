@@ -26,8 +26,8 @@ export const _ELEMENTAL_PROPERTIES = {
     direction: 'west',
     taste: ['sweet', 'sour'],
     colors: ['brown', 'green', 'gold'],
-    energy: 'stabilizing',
-  }
+    energy: 'stabilizing'
+}
 }
 
 export const _ELEMENT_COMBINATIONS = {

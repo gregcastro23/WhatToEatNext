@@ -30,8 +30,8 @@ const rawAromatics = {
         applications: {
           mirepoix: 'with carrots and celery',
           sofrito: 'with peppers and tomatoes',
-          holy_trinity: 'with celery and bell peppers',
-        }
+          holy_trinity: 'with celery and bell peppers'
+}
       }
     },
     storage: {
@@ -39,8 +39,8 @@ const rawAromatics = {
       humidity: 'low',
       container: 'ventilated',
       duration: '1-2 months',
-      notes: 'Keep away from potatoes',
-    }
+      notes: 'Keep away from potatoes'
+}
   }
 
   garlic: {
@@ -71,8 +71,8 @@ const rawAromatics = {
         applications: {
           base_flavor: 'start of many dishes',
           infused_oils: 'for finishing dishes',
-          pasta_sauces: 'essential foundation',
-        }
+          pasta_sauces: 'essential foundation'
+}
       }
     },
     storage: {
@@ -80,8 +80,8 @@ const rawAromatics = {
       humidity: 'moderate',
       container: 'ventilated',
       duration: '3-6 months',
-      notes: 'Do not refrigerate whole heads',
-    }
+      notes: 'Do not refrigerate whole heads'
+}
   }
 
   ginger: {
@@ -129,8 +129,8 @@ const rawAromatics = {
         applications: {
           stir_fry: 'aromatic base',
           marinades: 'tenderizing properties',
-          teas: 'medicinal and flavorful',
-        }
+          teas: 'medicinal and flavorful'
+}
       }
     },
     storage: {
@@ -138,8 +138,8 @@ const rawAromatics = {
       humidity: 'moderate',
       container: 'paper bag or wrapped in paper towel',
       duration: 'fresh: 3 weeks, frozen: 6 months',
-      notes: 'Can be frozen whole or grated',
-    }
+      notes: 'Can be frozen whole or grated'
+}
   }
 
   lemongrass: {
@@ -149,8 +149,8 @@ const rawAromatics = {
       rulingPlanets: ['Mercury', 'Venus'],
       favorableZodiac: ['gemini', 'libra'],
       elementalAffinity: {
-        base: 'Air',
-      }
+        base: 'Air'
+}
     },
     qualities: ['citrusy', 'aromatic', 'bright'],
     origin: ['Southeast Asia'],
@@ -164,8 +164,8 @@ const rawAromatics = {
         applications: {
           soups: 'thai tom yum',
           curries: 'southeast asian',
-          teas: 'medicinal brewing',
-        }
+          teas: 'medicinal brewing'
+}
       },
       paste: {
         name: 'Paste',
@@ -174,8 +174,8 @@ const rawAromatics = {
         applications: {
           curry_pastes: 'with chilies and galangal',
           marinades: 'with lime and garlic',
-          rubs: 'for grilled proteins',
-        }
+          rubs: 'for grilled proteins'
+}
       }
     },
     storage: {
@@ -183,8 +183,8 @@ const rawAromatics = {
       humidity: 'moderate',
       container: 'wrapped in damp paper towel',
       duration: '2-3 weeks fresh6 months frozen',
-      notes: 'Can be frozen whole or chopped',
-    }
+      notes: 'Can be frozen whole or chopped'
+}
   }
 
   shallot: {
@@ -194,8 +194,8 @@ const rawAromatics = {
       rulingPlanets: ['Mercury', 'Venus'],
       favorableZodiac: ['virgo', 'taurus'],
       elementalAffinity: {
-        base: 'Earth',
-      }
+        base: 'Earth'
+}
     },
     qualities: ['delicate', 'sweet', 'aromatic'],
     origin: ['Southeast Asia'],
@@ -209,8 +209,8 @@ const rawAromatics = {
         applications: {
           vinaigrettes: 'classic french',
           pan_sauces: 'for proteins',
-          garnishes: 'raw or fried',
-        }
+          garnishes: 'raw or fried'
+}
       }
     },
     storage: {
@@ -218,8 +218,8 @@ const rawAromatics = {
       humidity: 'low',
       container: 'ventilated',
       duration: '1 month',
-      notes: 'Similar to onions',
-    }
+      notes: 'Similar to onions'
+}
   }
 
   scallion: {
@@ -229,8 +229,8 @@ const rawAromatics = {
       rulingPlanets: ['Mercury', 'Moon'],
       favorableZodiac: ['gemini', 'cancer'],
       elementalAffinity: {
-        base: 'Air',
-      }
+        base: 'Air'
+}
     },
     qualities: ['fresh', 'mild', 'grassy'],
     origin: ['Asia'],
@@ -244,8 +244,8 @@ const rawAromatics = {
         applications: {
           stir_fry: 'added toward end',
           scallion_oil: 'chinese condiment',
-          pancakes: 'chinese scallion pancakes',
-        }
+          pancakes: 'chinese scallion pancakes'
+}
       }
     },
     storage: {
@@ -253,8 +253,8 @@ const rawAromatics = {
       humidity: 'high',
       container: 'wrapped in damp paper towel',
       duration: '1-2 weeks',
-      notes: 'Can be regrown in water from roots',
-    }
+      notes: 'Can be regrown in water from roots'
+}
   }
 
   saffron: {
@@ -284,8 +284,8 @@ const rawAromatics = {
         applications: {
           curries: 'Indian and Middle Eastern',
           rice: 'Persian and Indian',
-          tea: 'Turkish and Middle Eastern',
-        }
+          tea: 'Turkish and Middle Eastern'
+}
       },
       paste: {
         name: 'Paste',
@@ -294,8 +294,8 @@ const rawAromatics = {
         applications: {
           curries: 'Indian and Middle Eastern',
           rice: 'Persian and Indian',
-          tea: 'Turkish and Middle Eastern',
-        }
+          tea: 'Turkish and Middle Eastern'
+}
       }
     },
     storage: {
@@ -303,8 +303,8 @@ const rawAromatics = {
       humidity: 'low',
       container: 'airtight container',
       duration: '2-3 years',
-      notes: 'Keep away from light and heat',
-    }
+      notes: 'Keep away from light and heat'
+}
   }
 }
 

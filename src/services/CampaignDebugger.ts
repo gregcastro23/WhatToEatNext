@@ -67,7 +67,7 @@ export interface DebugRecommendation {
   description: string,
   actionItems: ActionItem[],
   estimatedEffort: number, // hours,
-  riskLevel: 'low' | 'medium' | 'high',
+  riskLevel: 'low' | 'medium' | 'high'
   category: RecommendationCategory
 }
 
@@ -115,7 +115,7 @@ export interface ValidationCheck {
 
 export interface ValidationCriteria {
   metric: string,
-  operator: 'equals' | 'less_than' | 'greater_than' | 'contains',
+  operator: 'equals' | 'less_than' | 'greater_than' | 'contains'
   value: unknown
 }
 
@@ -441,8 +441,8 @@ export class CampaignDebugger {
       success: true,
       completedSteps: ['step1', 'step2'],
       failedSteps: [],
-      rollbackRequired: false,
-    }
+      rollbackRequired: false
+}
   }
 
   /**
@@ -460,8 +460,8 @@ export class CampaignDebugger {
         estimatedDuration: 1,
         criticalPath: true,
         rollbackable: false,
-        validationRequired: false,
-      }
+        validationRequired: false
+}
       {
         id: 'create_backup',
         name: 'Create Emergency Backup',
@@ -472,8 +472,8 @@ export class CampaignDebugger {
         estimatedDuration: 5,
         criticalPath: true,
         rollbackable: false,
-        validationRequired: true,
-      }
+        validationRequired: true
+}
     ],
 
     return {
@@ -493,10 +493,10 @@ export class CampaignDebugger {
           criteria: {
             metric: 'build_exit_code',
             operator: 'equals',
-            value: 0,
-          },
-          automated: true,
-        }
+            value: 0
+},
+          automated: true
+}
       ]
     }
   }
@@ -689,8 +689,8 @@ export class CampaignDebugger {
                 type: ActionType.UPDATE_CONFIG,
                 parameters: { configPath: 'campaign_config.json' },
         estimatedDuration: 10,
-                automated: true,
-              }
+                automated: true
+}
             ],
             estimatedEffort: 0.5,
             riskLevel: 'low',
@@ -709,8 +709,8 @@ export class CampaignDebugger {
                 type: ActionType.UPDATE_CONFIG,
                 parameters: { optimizeFor: 'performance' },
         estimatedDuration: 30,
-                automated: false,
-              }
+                automated: false
+}
             ],
             estimatedEffort: 1,
             riskLevel: 'medium',
@@ -740,8 +740,8 @@ export class CampaignDebugger {
       estimatedDuration: 10,
       criticalPath: false,
       rollbackable: false,
-      validationRequired: false,
-    })
+      validationRequired: false
+})
 
     // Add corrective steps based on findings
     for (const finding of findings) {
@@ -759,8 +759,8 @@ export class CampaignDebugger {
           estimatedDuration: 15,
           criticalPath: true,
           rollbackable: true,
-          validationRequired: true,
-        })
+          validationRequired: true
+})
       }
     }
 
@@ -781,10 +781,10 @@ export class CampaignDebugger {
           criteria: {
             metric: 'health_score',
             operator: 'greater_than',
-            value: 80,
-          },
-          automated: true,
-        }
+            value: 80
+},
+          automated: true
+}
       ]
     }
   }
@@ -825,8 +825,8 @@ export class CampaignDebugger {
             type: ActionType.UPDATE_CONFIG,
             parameters: { enableMonitoring: true },
             estimatedDuration: 30,
-            automated: false,
-          }
+            automated: false
+}
         ],
         estimatedEffort: 2,
         riskLevel: 'low',
@@ -847,8 +847,8 @@ export class CampaignDebugger {
             ? MetricStatus.CRITICAL
             : MetricStatus.HEALTHY,
         threshold: 100,
-        trend: 'stable',
-      }
+        trend: 'stable'
+}
       {
         name: 'Build Time',
         value: campaign.metrics.buildPerformance.currentTime,
@@ -857,8 +857,8 @@ export class CampaignDebugger {
             ? MetricStatus.WARNING
             : MetricStatus.HEALTHY,
         threshold: 30,
-        trend: 'stable',
-      }
+        trend: 'stable'
+}
     ],
   }
 
@@ -878,8 +878,8 @@ export class CampaignDebugger {
           description: `${metric.name} value of ${metric.value} ${metric.unit} exceeds critical threshold`,
           impact: 'May cause campaign failures and performance degradation',
           detectedAt: new Date(),
-          resolved: false,
-        })
+          resolved: false
+})
       }
     }
 
@@ -950,20 +950,20 @@ export class CampaignDebugger {
         testValidationFrequency: 10,
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
-        stashRetentionDays: 7,
-      },
+        stashRetentionDays: 7
+},
       progressTargets: {
         typeScriptErrors: 0,
         lintingWarnings: 0,
         buildTime: 10,
-        enterpriseSystems: 200,
-      },
+        enterpriseSystems: 200
+},
       toolConfiguration: {
         enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
-      }
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
+}
     }
   }
 

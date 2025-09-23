@@ -149,14 +149,14 @@ export class UnusedVariableTargetedFixer {
       // Use ESLint's auto-fix for unused imports
       execSync('yarn lint --fix --rule '@typescript-eslint/no-unused-vars: error'', {
         stdio: 'pipe',
-        encoding: 'utf8',
-      })
+        encoding: 'utf8'
+})
 
       // Organize imports
       execSync('yarn lint --fix --rule 'import/order: error'', {
         stdio: 'pipe',
-        encoding: 'utf8',
-      })
+        encoding: 'utf8'
+})
 
       result.warnings.push('Used ESLint auto-fix for import cleanup')
       log.info('✅ ESLint auto-fix completed for imports')
@@ -347,8 +347,8 @@ export class UnusedVariableTargetedFixer {
     try {
       execSync('yarn build', {
         stdio: 'pipe',
-        encoding: 'utf8',
-      })
+        encoding: 'utf8'
+})
       log.info('✅ Build validation passed')
       return true,
     } catch (error) {

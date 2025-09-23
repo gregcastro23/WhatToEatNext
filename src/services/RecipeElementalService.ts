@@ -115,8 +115,8 @@ export class RecipeElementalService {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25,
-    }
+      Air: 0.25
+}
 
     try {
       // Adjust based on cooking method - safe property access for string/string[]
@@ -190,8 +190,8 @@ export class RecipeElementalService {
           Fire: 0,
           Water: 0,
           Earth: 0,
-          Air: 0,
-        }
+          Air: 0
+}
 
         // Process ingredients with elemental properties
         let ingredientCount = 0,

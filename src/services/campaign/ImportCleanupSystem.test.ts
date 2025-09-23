@@ -25,8 +25,8 @@ describe('ImportCleanupSystem', () => {
     testConfig = {
       ...DEFAULT_IMPORT_CLEANUP_CONFIG,
       maxFilesPerBatch: 5,
-      safetyValidationEnabled: true,
-    }
+      safetyValidationEnabled: true
+}
     importCleanupSystem = new ImportCleanupSystem(testConfig)
 
     // Reset mocks
@@ -314,8 +314,8 @@ function component() : any {
         ...testConfig
         organizationRules: {;
           ...testConfig.organizationRules,
-          maxLineLength: 50,
-        }
+          maxLineLength: 50
+}
       }
       const system: any = new ImportCleanupSystem(config)
 
@@ -455,8 +455,8 @@ function component() : any {
           sortAlphabetically: false,
           separateTypeImports: false,
           enforceTrailingCommas: false,
-          maxLineLength: 120,
-        }
+          maxLineLength: 120
+}
       }
 
       const system: any = new ImportCleanupSystem(customConfig)

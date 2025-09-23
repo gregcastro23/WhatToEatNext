@@ -141,8 +141,8 @@ function enhanceIngredient(
     metadata: {
       sourceFile: `ingredients/${sourceCategory}`,
       enhancedAt: new Date().toISOString(),
-      kalchmCalculated: true,
-    }
+      kalchmCalculated: true
+}
   }
 }
 

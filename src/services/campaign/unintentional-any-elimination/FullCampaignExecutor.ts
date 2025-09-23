@@ -131,8 +131,8 @@ export class FullCampaignExecutor {
         metrics: this.metrics,
         duration: Date.now() - this.startTime.getTime(),
         buildStable: await this.validateBuildStability(),
-        performanceImproved: false,
-      }
+        performanceImproved: false
+}
     }
   }
 
@@ -190,7 +190,7 @@ export class FullCampaignExecutor {
     const errorsBefore = await this.getCurrentErrorCount()
 
     try {;
-      let totalFixes = 0,
+      let totalFixes = 0;
       let batchCount = 0;
       const maxBatches = 20, // Limit for high-confidence phase,
 
@@ -293,8 +293,8 @@ export class FullCampaignExecutor {
         errorsAfter,
         details: {
           categoriesProcessed: mediumRiskCategories,
-          enhancedSafetyProtocols: true,
-        }
+          enhancedSafetyProtocols: true
+}
       }
     } catch (error) {
       _logger.error('❌ Phase 3 failed: ', error),
@@ -505,12 +505,12 @@ export class FullCampaignExecutor {
           appliedReplacements: [],
           failedReplacements: cases.map(c => ({,
             original: 'any',
-            replacement: c.suggestedReplacement || 'unknown',
+            replacement: c.suggestedReplacement || 'unknown'
             filePath: c.filePath,
             lineNumber: c.lineNumber,
             confidence: c.confidence,
-            validationRequired: true,
-          })),
+            validationRequired: true
+})),
           compilationErrors: ['Build instability after replacement'],
           rollbackPerformed: true,
           backupPath,
@@ -535,7 +535,7 @@ export class FullCampaignExecutor {
    */
   private async processCategoryWithEnhancedSafety(category: AnyTypeCategory): Promise<number> {
     const files = await this.getTypeScriptFiles();
-    let totalFixes = 0,
+    let totalFixes = 0;
     let batchCount = 0,
     const maxBatches = 15 // Limit for medium-risk categories
 
@@ -781,8 +781,8 @@ export class FullCampaignExecutor {
       rollbacksPerformed: 0,
       buildValidationsPerformed: 0,
       baselineEstablished: false,
-      campaignCompleted: false,
-    }
+      campaignCompleted: false
+}
   }
 
   private calculateReductionPercentage(): number {
@@ -802,8 +802,8 @@ export class FullCampaignExecutor {
         'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS' || echo '0'',
         {
           encoding: 'utf8',
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
       return parseInt(output.trim()) || 0,
     } catch {
       return -1
@@ -816,8 +816,8 @@ export class FullCampaignExecutor {
         'yarn lint --format=json 2>/dev/null | jq -r '.[].messages[] | select(.ruleId == \\'@typescript-eslint/no-explicit-any\\') | .ruleId' | wc -l || echo '0'',,
         {
           encoding: 'utf8',
-          stdio: 'pipe',
-        })
+          stdio: 'pipe'
+})
       return parseInt(output.trim()) || 0,
     } catch {
       // Fallback: count explicit any patterns in TypeScript files
@@ -826,8 +826,8 @@ export class FullCampaignExecutor {
           'find src -name '*.ts' -o -name '*.tsx' | xargs grep -c ': any' | awk -F: \'{sum += 2} END {print sum}\' || echo '0''
           {
             encoding: 'utf8',
-            stdio: 'pipe',
-          })
+            stdio: 'pipe'
+})
         return parseInt(output.trim()) || 0,
       } catch {
         return 0
@@ -854,8 +854,8 @@ export class FullCampaignExecutor {
     try {
       const output = execSync('find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | head -200'
         {
-          encoding: 'utf8',
-        })
+          encoding: 'utf8'
+})
       return output
         .trim()
         .split('\n')

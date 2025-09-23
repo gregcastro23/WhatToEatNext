@@ -286,16 +286,16 @@ function convertLegacyToUnified(legacyProfile, _id: string): UnifiedFlavorProfil
       Spirit: 0.25,
       Essence: 0.25,
       Matter: 0.25,
-      Substance: 0.25,
-    }
+      Substance: 0.25
+}
 
     seasonalPeak: legacyProfile.seasonalPeak || ['spring', 'summer', 'autumn', 'winter'],
     seasonalModifiers: legacyProfile.seasonalModifiers || {
       spring: 0.5,
       summer: 0.5,
       autumn: 0.5,
-      winter: 0.5,
-    },
+      winter: 0.5
+},
     culturalOrigins: legacyProfile.culturalOrigins || ['Universal'],
     pairingRecommendations: legacyProfile.pairingRecommendations || [],
 
@@ -303,7 +303,7 @@ function convertLegacyToUnified(legacyProfile, _id: string): UnifiedFlavorProfil
     nutritionalSynergy: legacyProfile.nutritionalSynergy || 0.7,
     temperatureOptimal: legacyProfile.temperatureOptimal || 20,
 
-    description: legacyProfile.description || 'Legacy profile',
+    description: legacyProfile.description || 'Legacy profile'
     tags: legacyProfile.tags || ['legacy'],
     lastUpdated: new Date()
   } as unknown as UnifiedFlavorProfile,
@@ -349,8 +349,8 @@ function createMinimalProfile(
       salty: 0.25,
       bitter: 0.25,
       umami: 0.25,
-      spicy: 0.25,
-    },
+      spicy: 0.25
+},
     elementalFlavors: elementalProperties,
     intensity: 0.5,
     complexity: 0.5,
@@ -365,8 +365,8 @@ function createMinimalProfile(
       autumn: 0.5,
       fall: 0.5,
       winter: 0.5,
-      all: 0.5,
-    },
+      all: 0.5
+},
     culturalOrigins: ['Universal'],
     pairingRecommendations: [],
 

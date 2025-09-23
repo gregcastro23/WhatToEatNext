@@ -27,40 +27,40 @@ import {;
 const testPlanetaryPositions: { [key: string]: CelestialPosition } = {
   Sun: {
     sign: 'gemini',
-    degree: 25.0,
-  },
+    degree: 25.0
+},
   moon: {
     sign: 'taurus',
-    degree: 15.5,
-  },
+    degree: 15.5
+},
   Mercury: {
     sign: 'gemini',
-    degree: 20.3,
-  },
+    degree: 20.3
+},
   Venus: {
     sign: 'taurus',
-    degree: 8.7,
-  },
+    degree: 8.7
+},
   Mars: {
     sign: 'aries',
-    degree: 12.2,
-  },
+    degree: 12.2
+},
   _Jupiter: {
     sign: 'pisces',
-    degree: 28.9,
-  },
+    degree: 28.9
+},
   _Saturn: {
     sign: 'aquarius',
-    degree: 18.4,
-  },
+    degree: 18.4
+},
   _Uranus: {
     sign: 'taurus',
-    degree: 14.1,
-  },
+    degree: 14.1
+},
   _Neptune: {
     sign: 'pisces',
-    degree: 22.8,
-  },
+    degree: 22.8
+},
   _Pluto: { sign: 'aquarius', degree: 3.0 }
 }
 
@@ -207,8 +207,8 @@ async function runComprehensiveTests() {
       sunSign: 'gemini',
       _degreesInSign: 4.133,
       _lunarDegree: 5.333,
-      _planetaryHour: 'Mercury',
-    })
+      _planetaryHour: 'Mercury'
+})
     log.info('Natural Influences: ', naturalInfluences)
     log.info('✅ Natural influences test completed\n')
 
@@ -227,7 +227,7 @@ async function runComprehensiveTests() {
       Essence: ((legacyResultData?.Essence) || 0).toFixed(4),
       Matter: ((legacyResultData?.Matter) || 0).toFixed(4),
       Substance: ((legacyResultData?.Substance) || 0).toFixed(4),
-      dominantElement: (legacyResultData?.dominantElement) || 'Fire',
+      dominantElement: (legacyResultData?.dominantElement) || 'Fire'
       recommendation: (legacyResultData?.recommendation) || 'No recommendation available'
     })
     // Check for enhanced properties

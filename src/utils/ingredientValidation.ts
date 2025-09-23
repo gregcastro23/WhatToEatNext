@@ -23,12 +23,12 @@ export interface IngredientValidationResult {
 }
 
 export interface IngredientValidationError {
-  type: | 'ELEMENTAL_INVALID',
+  type: | 'ELEMENTAL_INVALID'
     | 'COMPATIBILITY_VIOLATION'
     | 'ALCHEMICAL_MISMATCH'
     | 'DATA_INCOMPLETE'
-    | 'CATEGORY_MISMATCH',
-  severity: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL',
+    | 'CATEGORY_MISMATCH'
+  severity: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL'
   ingredient?: string,
   property?: string
   expectedValue?: unknown,
@@ -38,7 +38,7 @@ export interface IngredientValidationError {
 }
 
 export interface IngredientValidationWarning {
-  type: 'MINOR_INCONSISTENCY' | 'DATA_OUTDATED' | 'PERFORMANCE_SLOW' | 'MISSING_OPTIONAL',
+  type: 'MINOR_INCONSISTENCY' | 'DATA_OUTDATED' | 'PERFORMANCE_SLOW' | 'MISSING_OPTIONAL'
   ingredient?: string,
   property?: string,
   message: string,
@@ -656,8 +656,8 @@ async function testIngredientDataLoading(): Promise<IngredientTestResult> {
       testName: 'Ingredient Data Loading',
       passed: false,
       duration: Date.now() - startTime,
-      error: error instanceof Error ? error.message : 'Unknown error',
-    }
+      error: error instanceof Error ? error.message : 'Unknown error'
+}
   }
 }
 
@@ -697,16 +697,16 @@ async function testElementalPropertiesValidation(): Promise<IngredientTestResult
       details: {
         validCount,
         totalCount,
-        successRate: totalCount > 0 ? (validCount / totalCount) * 100 : 0,
-      }
+        successRate: totalCount > 0 ? (validCount / totalCount) * 100 : 0
+}
     }
   } catch (error) {
     return {
       testName: 'Elemental Properties Validation',
       passed: false,
       duration: Date.now() - startTime,
-      error: error instanceof Error ? error.message : 'Unknown error',
-    }
+      error: error instanceof Error ? error.message : 'Unknown error'
+}
   }
 }
 
@@ -749,16 +749,16 @@ async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
       details: {
         validCalculations,
         totalCalculations,
-        successRate: totalCalculations > 0 ? (validCalculations / totalCalculations) * 100 : 0,
-      }
+        successRate: totalCalculations > 0 ? (validCalculations / totalCalculations) * 100 : 0
+}
     }
   } catch (error) {
     return {
       testName: 'Compatibility Calculations',
       passed: false,
       duration: Date.now() - startTime,
-      error: error instanceof Error ? error.message : 'Unknown error',
-    }
+      error: error instanceof Error ? error.message : 'Unknown error'
+}
   }
 }
 
@@ -770,7 +770,7 @@ async function testAlchemicalMappings(): Promise<IngredientTestResult> {
 
   try {;
     const ingredients = allIngredients;
-    let validMappings = 0,
+    let validMappings = 0;
     let totalMappings = 0,
 
     for (const ingredient of Object.values(ingredients)) {
@@ -800,16 +800,16 @@ async function testAlchemicalMappings(): Promise<IngredientTestResult> {
       details: {
         validMappings,
         totalMappings,
-        successRate: totalMappings > 0 ? (validMappings / totalMappings) * 100 : 100,
-      }
+        successRate: totalMappings > 0 ? (validMappings / totalMappings) * 100 : 100
+}
     }
   } catch (error) {
     return {
       testName: 'Alchemical Mappings',
       passed: false,
       duration: Date.now() - startTime,
-      error: error instanceof Error ? error.message : 'Unknown error',
-    }
+      error: error instanceof Error ? error.message : 'Unknown error'
+}
   }
 }
 
@@ -854,16 +854,16 @@ async function testCategoryConsistency(): Promise<IngredientTestResult> {
       details: {
         validCategories: validCategories_count,
         totalIngredients,
-        successRate: totalIngredients > 0 ? (validCategories_count / totalIngredients) * 100 : 0,
-      }
+        successRate: totalIngredients > 0 ? (validCategories_count / totalIngredients) * 100 : 0
+}
     }
   } catch (error) {
     return {
       testName: 'Category Consistency',
       passed: false,
       duration: Date.now() - startTime,
-      error: error instanceof Error ? error.message : 'Unknown error',
-    }
+      error: error instanceof Error ? error.message : 'Unknown error'
+}
   }
 }
 

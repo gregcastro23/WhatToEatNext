@@ -18,27 +18,27 @@ const rawFreshHerbs = {
         protein: 0.2,
         carbs: 0.1,
         fat: 0.0,
-        fiber: 0.1,
-      },
+        fiber: 0.1
+},
       vitamins: {
         K: 0.13, // Values as percentage of RDA,
         A: 0.03C: 0.02,
         folate: 0.01,
-    B6: 0.01,
-      },
+    B6: 0.01
+},
       minerals: {
         manganese: 0.03,
         calcium: 0.01,
         iron: 0.01,
         magnesium: 0.01,
-        potassium: 0.01,
-      },
+        potassium: 0.01
+},
       antioxidants: {
         phenolics: 'high',
         flavonoids: 'high',
         carotenoids: 'moderate' },
-        source: 'USDA FoodData Central',
-    }
+        source: 'USDA FoodData Central'
+}
 
     // Sensory profile (standardized)
     sensoryProfile: {
@@ -48,24 +48,24 @@ const rawFreshHerbs = {
         sour: 0.1,
         bitter: 0.2,
         umami: 0.0,
-        spicy: 0.2,
-      },
+        spicy: 0.2
+},
       aroma: {
         floral: 0.6,
         fruity: 0.3,
         herbal: 0.9,
         spicy: 0.3,
         earthy: 0.1,
-        woody: 0.0,
-      },
+        woody: 0.0
+},
       texture: {
         crisp: 0.3,
         tender: 0.8,
         creamy: 0.0,
         chewy: 0.0,
         crunchy: 0.0,
-        silky: 0.1,
-      }
+        silky: 0.1
+}
     }
 
     // Storage information (standardized)
@@ -90,8 +90,8 @@ const rawFreshHerbs = {
         drying: 'air-dry or use lowest setting on dehydrator',
         chopping: 'tear by hand or cut with sharp knife just before using',
         preserving: 'freeze in oil, infuse in vinegar or oil, dry' },
-        notes: 'Turns black when cut with dull knife or exposed to acid for too long add at end of cooking to preserve flavor',
-    }
+        notes: 'Turns black when cut with dull knife or exposed to acid for too long add at end of cooking to preserve flavor'
+}
 
     // Culinary applications (standardized)
     culinaryApplications: {
@@ -159,16 +159,16 @@ const rawFreshHerbs = {
         aroma: 'anise-like, spicy',
         flavor: 'more stable under high heat than sweet basil',
         uses: 'Southeast Asian cuisine, stir-fries, curries',
-        oil_content: 0.6,
-      },
+        oil_content: 0.6
+},
       holy_basil: {
         name: 'Holy Basil (Tulsi)',
         appearance: 'fuzzy leaves, often purplish',
         aroma: 'spicy, complex',
         flavor: 'peppery, clove-like',
         uses: 'Indian cuisine, medicinal tea, stir-fries',
-        oil_content: 0.8,
-      },
+        oil_content: 0.8
+},
       lemon_basil: {
         name: 'Lemon Basil',
         appearance: 'light green, narrow leaves',
@@ -229,8 +229,8 @@ const rawFreshHerbs = {
         name: 'rau quế',
         usage: ['pho', 'spring rolls', 'bánh mì'],
         preparation: 'fresh, served raw',
-        regional_importance: 7,
-      }
+        regional_importance: 7
+}
     }
 
     // Seasonal adjustments for herb growing
@@ -242,8 +242,8 @@ const rawFreshHerbs = {
         soil: 'well-draining, pH 6-7',
         sun: 'full sun',
         water: 'moderate, consistent moisture',
-        spacing: '8-12 inches apart',
-      }
+        spacing: '8-12 inches apart'
+}
     }
 
     // Astrology / (elemental || 1) connections (standardized)

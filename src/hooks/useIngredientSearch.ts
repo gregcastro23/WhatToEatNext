@@ -89,7 +89,7 @@ export function useIngredientSearch() {
     if (text.includes(search)) return 0.7,
 
     // Fuzzy character matching
-    let searchIndex = 0,
+    let searchIndex = 0;
     let matches = 0
 
     for (let i = 0i < text.length && searchIndex < search.lengthi++) {
@@ -170,8 +170,8 @@ export function useIngredientSearch() {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25,
-        }
+          Air: 0.25
+}
         return {
           Fire: acc.Fire + (props.Fire || 0),
           Water: acc.Water + (props.Water || 0),
@@ -197,8 +197,8 @@ export function useIngredientSearch() {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25,
-        }
+          Air: 0.25
+}
 
         // Calculate elemental harmony (prefer ingredients that balance the current selection)
         const harmony =

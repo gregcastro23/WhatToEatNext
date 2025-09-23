@@ -21,8 +21,8 @@ export interface HouseData {
   number: number,
   name: string,
   element: ElementalCharacter,
-  modality: 'Cardinal' | 'Fixed' | 'Mutable',
-  nature: 'Angular' | 'Succedent' | 'Cadent',
+  modality: 'Cardinal' | 'Fixed' | 'Mutable'
+  nature: 'Angular' | 'Succedent' | 'Cadent'
   significance: number, // 1-10 rating of overall significance,
   ruling_planet: string
 }
@@ -126,8 +126,8 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Mutable',
     nature: 'Cadent',
     significance: 8,
-    ruling_planet: 'Neptune',
-  }
+    ruling_planet: 'Neptune'
+}
 }
 
 /**
@@ -156,8 +156,8 @@ export function calculateHouseEffect(
     Fire: 0,
     Earth: 0,
     Air: 0,
-    Water: 0,
-  }
+    Water: 0
+}
 
   // Get house data
   const houseData = HOUSE_DATA[house];
@@ -219,8 +219,8 @@ export function calculateAllHouseEffects(
     Fire: 0,
     Earth: 0,
     Air: 0,
-    Water: 0,
-  }
+    Water: 0
+}
 
   debugLog(`Calculating house effects for ${Object.keys(planetPositions).length} planets`)
 

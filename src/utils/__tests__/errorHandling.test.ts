@@ -254,8 +254,8 @@ describe('Global Error Handler', () => {
     Object.defineProperty(window, 'localStorage', { value: mockLocalStorage })
 
     const result: any = globalErrorHandler.handleError(astroError)
-    expect(result).toEqual({ zodiacSign: 'aries' }).,
-  })
+    expect(result).toEqual({ zodiacSign: 'aries' }).
+})
 
   it('uses fallback when cached data is not available', async () => {
     const astroError: any = createEnhancedError('Planetary calculation failed', ErrorTypeASTROLOGICAL_CALCULATION),

@@ -28,7 +28,7 @@ interface MonitoringConfig {
     conditions: AlertCondition[]
   },
   logging: {
-    level: 'debug' | 'info' | 'warn' | 'error',
+    level: 'debug' | 'info' | 'warn' | 'error'
     retention: number, // days,
     maxFileSize: string
   },
@@ -40,7 +40,7 @@ interface MonitoringConfig {
 }
 
 interface AlertChannel {
-  type: 'console' | 'file' | 'webhook',
+  type: 'console' | 'file' | 'webhook'
   name: string,
   config: Record<string, unknown>,
   enabled: boolean
@@ -50,13 +50,13 @@ interface AlertCondition {
   name: string,
   description: string,
   condition: string,
-  severity: 'info' | 'warning' | 'error' | 'critical',
+  severity: 'info' | 'warning' | 'error' | 'critical'
   enabled: boolean
 }
 
 interface HealthCheckEndpoint {
   name: string,
-  type: 'build' | 'config' | 'integration' | 'custom',
+  type: 'build' | 'config' | 'integration' | 'custom'
   command: string,
   args: string[],
   timeout: number,
@@ -76,8 +76,8 @@ function createMonitoringConfig(): MonitoringConfig {
       thresholds: {
         errorIncrease: campaignConfig.targets.maxErrorIncrease,
         successRateDecrease: 1 - campaignConfig.targets.minSuccessRate,
-        buildFailureRate: 0.1,
-      }
+        buildFailureRate: 0.1
+}
     },
     alerts: {
       enabled: true,
@@ -87,20 +87,20 @@ function createMonitoringConfig(): MonitoringConfig {
           name: 'console-alerts',
           config: {
             colors: true,
-            timestamps: true,
-          },
-          enabled: true,
-        }
+            timestamps: true
+},
+          enabled: true
+}
         {
           type: 'file',
           name: 'file-alerts',
           config: {
             path: '.kiro/logs/unintentional-any-alerts.log',
             maxSize: '10MB',
-            rotate: true,
-          },
-          enabled: true,
-        }
+            rotate: true
+},
+          enabled: true
+}
       ],
       conditions: [
         {
@@ -108,36 +108,36 @@ function createMonitoringConfig(): MonitoringConfig {
           description: 'TypeScript error count increased significantly',
           condition: 'typescript_errors > baseline + threshold',
           severity: 'error',
-          enabled: true,
-        }
+          enabled: true
+}
         {
           name: 'Low Success Rate',
           description: 'Campaign success rate below minimum threshold',
           condition: 'success_rate < min_success_rate',
           severity: 'warning',
-          enabled: true,
-        }
+          enabled: true
+}
         {
           name: 'Build Failure',
           description: 'Build process failed during campaign execution',
           condition: 'build_status == 'failed'',,
           severity: 'critical',
-          enabled: true,
-        }
+          enabled: true
+}
         {
           name: 'Configuration Invalid',
           description: 'Campaign configuration validation failed',
           condition: 'config_valid == false',,
           severity: 'error',
-          enabled: true,
-        }
+          enabled: true
+}
         {
           name: 'Rollback Triggered',
           description: 'Safety protocol triggered rollback',
           condition: 'rollback_triggered == true',,
           severity: 'warning',
-          enabled: true,
-        }
+          enabled: true
+}
       ]
     },
     logging: {
@@ -154,8 +154,8 @@ function createMonitoringConfig(): MonitoringConfig {
           command: 'npm',
           args: ['run', 'build'],
           timeout: 180000,
-          expectedExitCode: 0,
-        }
+          expectedExitCode: 0
+}
         {
           name: 'Configuration Health',
           type: 'config',
@@ -166,8 +166,8 @@ function createMonitoringConfig(): MonitoringConfig {
             'validate'
           ],
           timeout: 30000,
-          expectedExitCode: 0,
-        }
+          expectedExitCode: 0
+}
         {
           name: 'Integration Health',
           type: 'integration',
@@ -177,8 +177,8 @@ function createMonitoringConfig(): MonitoringConfig {
             'src/services/campaign/unintentional-any-elimination/verify-integration.ts'
           ],
           timeout: 60000,
-          expectedExitCode: 0,
-        }
+          expectedExitCode: 0
+}
       ]
     }
   }
@@ -217,7 +217,7 @@ export interface MetricsData {
   timestamp: Date,
   typescriptErrors: number,
   successRate: number,
-  buildStatus: 'success' | 'failed' | 'unknown',
+  buildStatus: 'success' | 'failed' | 'unknown'
   configValid: boolean,
   rollbackTriggered: boolean,
   campaignActive: boolean
@@ -270,8 +270,8 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
     try {
       const output = execSync('npx tsc --noEmit 2>&1 | grep -c 'error TS' || echo '0'', {
         encoding: 'utf8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
       return parseInt(output.trim()) || 0,
     } catch {
       return -1, // Error getting count
@@ -305,8 +305,8 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
   private async getConfigValidation(): Promise<boolean> {
     try {
       execSync('npx tsx src/services/campaign/unintentional-any-elimination/config/cli.ts validate', {
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
       return true,
     } catch {
       return false
@@ -386,7 +386,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
           _logger.error(\`Metrics: \${JSON.stringify(metrics, null, 2)}\`)
           break,
 
-        case 'file': const logPath = channel.config.path || '.kiro/logs/alerts.log',
+        case 'file': const logPath = channel.config.path || '.kiro/logs/alerts.log'
           const logEntry = \`[\${alert.timestamp.toISOString()}] \${condition.severity.toUpperCase()}: \${condition.name} - \${condition.description}\\n\`,
           appendFileSync(logPath, logEntry)
           break,

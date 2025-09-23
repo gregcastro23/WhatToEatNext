@@ -29,8 +29,8 @@ const rawNightshades = {
       minerals: ['folate', 'lycopene'],
       calories: 22,
       carbs_g: 4.8,
-      fiber_g: 1.5,
-    },
+      fiber_g: 1.5
+},
     preparation: {
       washing: true,
       seeding: 'optional',
@@ -39,8 +39,8 @@ const rawNightshades = {
         storage: {
       temperature: 'room temperature until ripe',
       duration: '5-7 days',
-      notes: 'Never refrigerate unless cut',
-    }
+      notes: 'Never refrigerate unless cut'
+}
   }
 
   eggplant: {
@@ -70,8 +70,8 @@ const rawNightshades = {
       minerals: ['manganese', 'copper'],
       calories: 35,
       protein_g: 1,
-      fiber_g: 3,
-    },
+      fiber_g: 3
+},
     preparation: {
       washing: true,
       salting: 'recommended to remove bitterness',
@@ -80,8 +80,8 @@ const rawNightshades = {
         storage: {
       temperature: 'cool room temp or refrigerated',
       duration: '5-7 days',
-      notes: 'Sensitive to ethylene gas',
-    }
+      notes: 'Sensitive to ethylene gas'
+}
   }
 }
 

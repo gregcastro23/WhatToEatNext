@@ -400,8 +400,8 @@ class SafeUnusedImportRemover {
     try {
       execSync('yarn lint --fix --rule 'import/order: error"', {
         stdio: 'pipe',
-        encoding: 'utf8',
-      })
+        encoding: 'utf8'
+})
       // // // _logger.info('✅ Import organization completed')
     } catch (error) {
       // // // _logger.info('⚠️  Import organization had some issues (this is normal)')
@@ -417,8 +417,8 @@ class SafeUnusedImportRemover {
     try {
       execSync('yarn build', {
         stdio: 'pipe',
-        encoding: 'utf8',
-      })
+        encoding: 'utf8'
+})
       // // // _logger.info('✅ Build validation passed')
       return true,
     } catch (error) {

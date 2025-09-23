@@ -65,8 +65,7 @@ const matchCache = new Map<string, CacheEntry<MatchResult[]>>()
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
 
 // Define Modality type
-// type Modality = 'cardinal' | 'fixed' | 'mutable',
-
+// type Modality = 'cardinal' | 'fixed' | 'mutable'
 /**
  * Find the best recipe matches based on the given parameters
  */
@@ -224,8 +223,8 @@ export async function findBestMatches(
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25,
-      }
+        Air: 0.25
+}
 
       // Calculate dominant elements
       const dominantElements = Object.entries(elements)
@@ -291,8 +290,8 @@ const _calculateBaseElements = async (recipe: Recipe): Promise<ElementalProperti
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0,
-  }
+    Air: 0
+}
 
   if (!recipe.ingredients) {
     return baseElements
@@ -304,7 +303,7 @@ const _calculateBaseElements = async (recipe: Recipe): Promise<ElementalProperti
     } else {
       // Extract ingredient data with safe property access
       const ingredientData = ingredient as any;
-      ingredientName = (ingredientData.name) || 'unknown',
+      ingredientName = (ingredientData.name) || 'unknown'
     }
 
     // Get ingredient mapping
@@ -437,8 +436,8 @@ async function _calculateRecipeEnergyMatch(
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
-    Air: 0.25,
-  }
+    Air: 0.25
+}
   const recipeDominantElements = Object.entries(recipeElements)
     .map(([element, value]) => [element, value || 0] as [string, number])
     .sort(([, a], [, b]) => b - a)
@@ -466,7 +465,7 @@ async function _calculateRecipeEnergyMatch(
   if (preferredModality) {
     const modalityScore = calculateModalityScore(
       qualities as unknown as string[],
-      preferredModality as 'cardinal' | 'fixed' | 'mutable',
+      preferredModality as 'cardinal' | 'fixed' | 'mutable'
     ),
     score += modalityScore * 0.5, // Doubled from 0.25
   }
@@ -518,8 +517,8 @@ function calculateElementalAlignment(_recipe: Recipe, currentEnergy: Astrologica
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
-    Air: 0.25,
-  }
+    Air: 0.25
+}
 
   // Calculate alignment score
   const fireAlignment = 1 - Math.abs(recipeElements.Fire - currentElements.Fire)
@@ -623,7 +622,7 @@ function hasLowFat(recipe: Recipe): boolean {
 // Helper function to calculate modality score
 function calculateModalityScore(
   qualities: string[],
-  preferredModality?: 'cardinal' | 'fixed' | 'mutable',
+  preferredModality?: 'cardinal' | 'fixed' | 'mutable'
 ): number {
   if (!preferredModality || !qualities || qualities.length === 0) {;
     return 0.5, // Neutral score if no modality preference or recipe qualities
@@ -726,7 +725,7 @@ export const astrologyUtils = {
       _Uranus: 'Air',
       _Neptune: 'Water',
       _Pluto: 'Water' },
-        return planetElements[planet] || 'Neutral',
+        return planetElements[planet] || 'Neutral'
   }
 
   getZodiacElement(sign: string): string {
@@ -743,7 +742,7 @@ export const astrologyUtils = {
       _Cancer: 'Water',
       _Scorpio: 'Water',
       _Pisces: 'Water' },
-        return zodiacElements[sign] || 'Neutral',
+        return zodiacElements[sign] || 'Neutral'
   }
 }
 
@@ -764,8 +763,7 @@ function getCacheKey(
         const recipeData = r as any,
         return r.id || `${recipeData.name || 'unknown'}-${r.cuisine || 'unknown'}`
       })
-      .join(',') || 'none',
-
+      .join(',') || 'none'
   // Stringify the filters and energy objects
   const filtersStr = JSON.stringify(filters)
   const energyStr = energy ? JSON.stringify(energy) : 'null'
@@ -808,7 +806,7 @@ function getStringSimilarity(str1: string, str2: string): number {
 
   // Check if one is contained in the other
   if (s1.includes(s2) || s2.includes(s1)) {
-    const longerStr = s1.length > s2.length ? s1: s2,
+    const longerStr = s1.length > s2.length ? s1: s2;
     const shorterStr = s1.length > s2.length ? s2 : s1;
     // The shorter the gap between lengths, the higher the score
     const longerLength = longerStr.length || 1;
@@ -948,8 +946,8 @@ export const connectIngredientsToMappings = (
     const result = {
       name: ingredientName,
       matchedTo: undefined as IngredientMapping | undefined,
-      confidence: 0,
-    }
+      confidence: 0
+}
 
     // 1. Try exact match first
     // Apply Pattern GG-6: Enhanced property access with type guards (use existing variables)
@@ -977,8 +975,8 @@ export const connectIngredientsToMappings = (
     // Only do this for ingredients that didn't match exactly
     let bestMatch = {
       ingredient: null as IngredientMapping | null,
-      similarity: 0.4,
-    }
+      similarity: 0.4
+}
 
     for (const [key, ingredient] of Object.entries(ingredientsMap)) {
       // Skip very short keys to avoid false positives
@@ -991,7 +989,7 @@ export const connectIngredientsToMappings = (
       // Calculate string similarity
       // Apply Pattern MM-1: Safe type assertions
       const ingredientData = recipeIngredient as any;
-      const ingredientName = typeof ingredientData.name === 'string' ? ingredientData.name : '',
+      const ingredientName = typeof ingredientData.name === 'string' ? ingredientData.name : '';
       const similarity = getStringSimilarity(ingredientName, key) + categoryMatch,
 
       if (similarity > bestMatch.similarity) {
@@ -1149,8 +1147,8 @@ function _calculateAstrologicalMatch(
     sagittarius: 'Fire',
     capricorn: 'Earth',
     aquarius: 'Air',
-    pisces: 'Water',
-  }
+    pisces: 'Water'
+}
 
   // Define elemental compatibility relationships
   // This is more nuanced - some elements enhance each other
@@ -1190,8 +1188,8 @@ function _calculateAstrologicalMatch(
       capricorn: 0.4,
       cancer: 0.5,
       scorpio: 0.5,
-      pisces: 0.4,
-    },
+      pisces: 0.4
+},
     sagittarius: {
       aries: 0.9,
       leo: 0.9,
@@ -1204,8 +1202,8 @@ function _calculateAstrologicalMatch(
       capricorn: 0.6,
       cancer: 0.4,
       scorpio: 0.5,
-      pisces: 0.6,
-    }
+      pisces: 0.6
+}
     // Earth signs
     taurus: {
       taurus: 0.8,
@@ -1219,8 +1217,8 @@ function _calculateAstrologicalMatch(
       sagittarius: 0.4,
       gemini: 0.4,
       libra: 0.6,
-      aquarius: 0.3,
-    },
+      aquarius: 0.3
+},
     virgo: {
       taurus: 0.9,
       virgo: 0.8,
@@ -1233,8 +1231,8 @@ function _calculateAstrologicalMatch(
       sagittarius: 0.5,
       gemini: 0.6,
       libra: 0.5,
-      aquarius: 0.5,
-    },
+      aquarius: 0.5
+},
     capricorn: {
       taurus: 0.9,
       virgo: 0.9,
@@ -1247,8 +1245,8 @@ function _calculateAstrologicalMatch(
       sagittarius: 0.6,
       gemini: 0.4,
       libra: 0.5,
-      aquarius: 0.6,
-    }
+      aquarius: 0.6
+}
     // Air signs
     gemini: {
       gemini: 0.8,
@@ -1262,8 +1260,8 @@ function _calculateAstrologicalMatch(
       pisces: 0.5,
       taurus: 0.4,
       virgo: 0.6,
-      capricorn: 0.4,
-    },
+      capricorn: 0.4
+},
     libra: {
       gemini: 0.9,
       libra: 0.8,
@@ -1276,8 +1274,8 @@ function _calculateAstrologicalMatch(
       pisces: 0.5,
       taurus: 0.6,
       virgo: 0.5,
-      capricorn: 0.5,
-    },
+      capricorn: 0.5
+},
     aquarius: {
       gemini: 0.9,
       libra: 0.9,
@@ -1290,8 +1288,8 @@ function _calculateAstrologicalMatch(
       pisces: 0.5,
       taurus: 0.3,
       virgo: 0.5,
-      capricorn: 0.6,
-    }
+      capricorn: 0.6
+}
     // Water signs
     cancer: {
       cancer: 0.8,
@@ -1305,8 +1303,8 @@ function _calculateAstrologicalMatch(
       sagittarius: 0.4,
       gemini: 0.4,
       libra: 0.5,
-      aquarius: 0.4,
-    },
+      aquarius: 0.4
+},
     scorpio: {
       cancer: 0.9,
       scorpio: 0.8,
@@ -1319,8 +1317,8 @@ function _calculateAstrologicalMatch(
       sagittarius: 0.5,
       gemini: 0.3,
       libra: 0.6,
-      aquarius: 0.4,
-    },
+      aquarius: 0.4
+},
     pisces: {
       cancer: 0.9,
       scorpio: 0.9,
@@ -1333,8 +1331,8 @@ function _calculateAstrologicalMatch(
       sagittarius: 0.6,
       gemini: 0.5,
       libra: 0.5,
-      aquarius: 0.5,
-    }
+      aquarius: 0.5
+}
   }
 
   const userSignLower = userSign.toLowerCase()

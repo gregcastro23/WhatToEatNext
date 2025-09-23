@@ -365,7 +365,7 @@ export class ImportCleanupSystem {
   }
 
   private extractAllImportsFromLine(line: string): string[] {
-    const importRegex = /^import\s+(?: type\s+)?(?:\{([^}]+)\}|\*\s+as\s+(\w+)|(\w+))\s+from/,
+    const importRegex = /^import\s+(?: type\s+)?(?:\{([^}]+)\}|\*\s+as\s+(\w+)|(\w+))\s+from/;
     const match = line.match(importRegex)
 ;
     if (!match) return [],
@@ -604,8 +604,8 @@ export class ImportCleanupSystem {
       execSync('yarn tsc --noEmit --skipLibCheck', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 30000,
-      })
+        timeout: 30000
+})
       return true,
     } catch (error) {
       logger.warn('Build validation failed during import cleanup', error);
@@ -643,6 +643,6 @@ export const _DEFAULT_IMPORT_CLEANUP_CONFIG: ImportCleanupConfig = {
     sortAlphabetically: true,
     separateTypeImports: true,
     enforceTrailingCommas: true,
-    maxLineLength: 100,
-  }
+    maxLineLength: 100
+}
 }

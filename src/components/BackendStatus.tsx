@@ -16,7 +16,7 @@ const _logger = {
 
 interface ServiceStatus {
   service: string,
-  status: 'healthy' | 'unhealthy' | 'offline' | 'loading',
+  status: 'healthy' | 'unhealthy' | 'offline' | 'loading'
   responseTime?: number,
   lastCheck?: string;
 }

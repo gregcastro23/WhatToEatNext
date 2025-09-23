@@ -25,7 +25,7 @@ interface Recipe {
   cuisine: string,
   description: string,
   cookingTime: number,
-  difficulty: 'Easy' | 'Medium' | 'Hard',
+  difficulty: 'Easy' | 'Medium' | 'Hard'
   rating: number,
   tags: string[];
 }
@@ -108,8 +108,8 @@ const kitchenBackendClient = {
       astrologicalContext: {
         dominantElement: 'Fire',
         planetaryHour: 'Venus',
-        lunarPhase: 'waxing crescent',
-      }
+        lunarPhase: 'waxing crescent'
+}
     };
   }
 };
@@ -150,8 +150,8 @@ export const useEnhancedRecommendations = () => {
         astrologicalContext: {
           dominantElement: 'Earth',
           planetaryHour: 'Sun',
-          lunarPhase: 'new moon',
-        }
+          lunarPhase: 'new moon'
+}
       };
 
       setRecommendations(fallbackResponse);

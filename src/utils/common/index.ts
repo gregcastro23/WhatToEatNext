@@ -4,7 +4,7 @@ import { logger } from '../logger';
 // ===== THEME MANAGEMENT =====,
 
 export interface ThemeData {
-  mode: 'light' | 'dark' | 'system',
+  mode: 'light' | 'dark' | 'system'
   accent: string
 }
 
@@ -16,7 +16,7 @@ export class ThemeManager {
 
   async initializeTheme() {
     try {
-      const savedTheme = localStorage.getItem('theme') || 'light';
+      const savedTheme = localStorage.getItem('theme') || 'light'
       this.updateTheme(savedTheme)
       return savedTheme,
     } catch (error) {
@@ -28,11 +28,11 @@ export class ThemeManager {
 
   getTheme(): ThemeData {
     try {
-      const savedTheme = localStorage.getItem('theme') || 'light';
+      const savedTheme = localStorage.getItem('theme') || 'light'
       const savedAccent = localStorage.getItem('accent-color') || 'blue'
 
       return {
-        mode: savedTheme as 'light' | 'dark' | 'system',
+        mode: savedTheme as 'light' | 'dark' | 'system'
         accent: savedAccent
       }
     } catch (error) {
@@ -75,7 +75,7 @@ export function validateAstrologyConfig() {;
 // ===== FEEDBACK COLLECTION =====,
 
 export interface FeedbackData {
-  type: 'bug' | 'feature' | 'improvement' | 'other',
+  type: 'bug' | 'feature' | 'improvement' | 'other'
   title: string,
   description: string,
   userEmail?: string,
@@ -113,14 +113,14 @@ export async function collectFeedback(
 
     return {
       success: true,
-      message: 'Thank you for your feedback! We will review it shortly.',
-    }
+      message: 'Thank you for your feedback! We will review it shortly.'
+}
   } catch (error) {
     logger.error('Error processing feedback', error)
     return {
       success: false,
-      message: 'Failed to process feedback. Please try again later.',
-    }
+      message: 'Failed to process feedback. Please try again later.'
+}
   }
 }
 

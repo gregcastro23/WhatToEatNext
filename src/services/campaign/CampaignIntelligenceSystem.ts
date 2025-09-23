@@ -20,7 +20,7 @@ export interface CampaignIntelligenceMetrics {;
   technicalDebtReduction: number,
   enterpriseReadiness: number,
   systemComplexity: number,
-  intelligenceDepth: 'basic' | 'intermediate' | 'advanced' | 'enterprise_level',
+  intelligenceDepth: 'basic' | 'intermediate' | 'advanced' | 'enterprise_level'
   campaignEffectiveness: number
 }
 
@@ -89,7 +89,7 @@ export const ERROR_PATTERN_INTELLIGENCE = {
     // Analyze error patterns
     errors.forEach(error => {;
       const errorCode = error.code;
-      const errorCategory = error.category,
+      const errorCategory = error.category;
       const pattern = `${errorCode}_${errorCategory}`
       patternRecognition[pattern] = (patternRecognition[pattern] || 0) + 1,
 
@@ -336,8 +336,8 @@ export const CAMPAIGN_ENTERPRISE_INTELLIGENCE = {
       anyEliminationIntegration: 0.88,
       progressTrackingIntegration: 0.9,
       intelligenceSystemIntegration: 0.93,
-      overallSystemIntegration: 0.916,
-    }
+      overallSystemIntegration: 0.916
+}
 
     // Generate intelligence recommendations
     const intelligenceRecommendations = [
@@ -460,8 +460,8 @@ export const _CAMPAIGN_INTELLIGENCE_DEMO = {
       reductionAchieved: 750,
       reductionPercentage: 75,
       campaignTarget: 75.5,
-      isTargetMet: false,
-    }
+      isTargetMet: false
+}
 
     // Demonstrate all intelligence systems
     const errorPatternDemo = ERROR_PATTERN_INTELLIGENCE.analyzeErrorPatterns(sampleErrors)
@@ -491,8 +491,8 @@ export const _CAMPAIGN_INTELLIGENCE_DEMO = {
       enterpriseIntelligenceIntegration: 0.94,
       systemComplexity: 0.88,
       intelligenceDepth: 0.91,
-      overallIntelligenceIntegration: 0.92,
-    }
+      overallIntelligenceIntegration: 0.92
+}
 
     // Demonstration summary
     const demonstrationSummary = {

@@ -9,8 +9,8 @@ export const calculationUtils = {
       Fire: 0,
       Air: 0,
       Water: 0,
-      Earth: 0,
-    }
+      Earth: 0
+}
 
     if (temp < 0) {
       baseEffect.Water = Math.abs(temp) / 100,

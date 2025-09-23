@@ -284,8 +284,8 @@ const rawPoultry = {
           preparation: {
             methods: ['standard preparation'],
             timing: 'as needed',
-            notes: 'Standard preparation for chicken',
-          }
+            notes: 'Standard preparation for chicken'
+}
         },
         culinaryProfile: {
           flavorProfile: {
@@ -630,20 +630,20 @@ const rawPoultry = {
         protein: 31,
         carbs: 0,
         fat: 3.6,
-        fiber: 0,
-      },
+        fiber: 0
+},
       vitamins: {
         B6: 0.5,
     B3: 0.64,
         B12: 0.32,
-    B5: 0.25,
-      },
+    B5: 0.25
+},
       minerals: {
         selenium: 0.36,
         phosphorus: 0.22,
         zinc: 0.12,
-        iron: 0.1,
-      },
+        iron: 0.1
+},
       source: 'USDA FoodData Central' },
         healthConsiderations: {
       benefits: [
@@ -733,8 +733,8 @@ const rawPoultry = {
         techniques: {
           butterfly: 'Cutting horizontally through center of breast or thigh',
           supreme: 'Boneless breast with wing drumette attached',
-          ballotine: 'Deboned stuffed thigh or whole chicken',
-        }
+          ballotine: 'Deboned stuffed thigh or whole chicken'
+}
       }
     }
   },
@@ -775,8 +775,8 @@ const rawPoultry = {
         protein_per_100g: 19,
         fat_per_100g: 28,
         saturated_fat_per_100g: 10.2,
-        calories_per_100g: 337,
-      },
+        calories_per_100g: 337
+},
       micronutrients: {
         rich_in: ['iron', 'selenium', 'zinc', 'vitamin B12', 'niacin'],
         contains: ['vitamin E', 'phosphorus', 'copper', 'pantothenic acid']
@@ -807,8 +807,8 @@ const rawPoultry = {
         skin_health: {
         benefit: 'Skin Health',
         nutrients: ['vitamin E', 'fatty acids'],
-        mechanism: 'Supports skin integrity and moisture retention',
-      }
+        mechanism: 'Supports skin integrity and moisture retention'
+}
     },
     varieties: {
       pekin: {
@@ -944,8 +944,8 @@ const rawPoultry = {
             fat: 'Duck fat, enough to fully submerge pieces',
             temperature: { fahrenheit: 200, celsius: 93 },
             time: '3-4 hours until meat is tender and falling off bone',
-            storage: 'Can be stored in fat for several weeks refrigerated',
-          }
+            storage: 'Can be stored in fat for several weeks refrigerated'
+}
         },
         serving_suggestions: {
           traditional: ['Cassoulet', 'Served with lentils', 'With sautéed potatoes'],
@@ -974,8 +974,8 @@ const rawPoultry = {
             three_stage_meal: {
               first: 'Skin only, dipped in sugar',
               second: 'Meat with pancakes and condiments',
-              third: 'Carcass for soup',
-            }
+              third: 'Carcass for soup'
+}
           }
         }
       },
@@ -998,8 +998,8 @@ const rawPoultry = {
           curing_salt: 'Optional for longer preservation',
           contamination: 'Monitor for off smells or discoloration',
           storage: 'Refrigerate after drying process is complete' },
-        serving: 'Thinly sliced as part of charcuterie board or antipasto',
-      }
+        serving: 'Thinly sliced as part of charcuterie board or antipasto'
+}
     },
     regionalPreparations: {
       chinese: {
@@ -1018,8 +1018,8 @@ const rawPoultry = {
           name: 'Salted Duck Egg',
           preparation: 'Duck eggs preserved in brine or packed in salted charcoal',
           usage: 'Condiment, flavoring for congee, moon cake filling',
-          significance: 'Traditional preserving technique',
-        }
+          significance: 'Traditional preserving technique'
+}
       }
 
       thai: {
@@ -1033,8 +1033,8 @@ const rawPoultry = {
           name: 'Gaeng Pet (Duck Curry)',
           preparation: 'Duck simmered in red curry with pineapple and vegetables',
           flavor_profile: 'Spicy, sweet, rich',
-          regional_variations: 'Central Thai version vs. Northern style',
-        }
+          regional_variations: 'Central Thai version vs. Northern style'
+}
       }
     },
     seasonality: {
@@ -1109,8 +1109,8 @@ const rawPoultry = {
         wild_duck: {
         inspection: 'Check carefully for shot pellets',
         parasites: 'Freeze wild duck at 0°F (-18°C) for at least 7 days before consumption',
-        game_handling: 'Proper field dressing and cooling essential',
-      }
+        game_handling: 'Proper field dressing and cooling essential'
+}
     }
   },
   turkey: {
@@ -1150,8 +1150,8 @@ const rawPoultry = {
         protein_per_100g: 29,
         fat_per_100g: 7,
         saturated_fat_per_100g: 2.4,
-        calories_per_100g: 189,
-      },
+        calories_per_100g: 189
+},
       micronutrients: {
         rich_in: ['niacin', 'vitamin B6', 'selenium', 'phosphorus', 'zinc'],
         contains: ['magnesium', 'potassium', 'iron', 'vitamin B12']
@@ -1182,8 +1182,8 @@ const rawPoultry = {
         mood_regulation: {
         benefit: 'Mood Support',
         nutrients: ['tryptophan'],
-        mechanism: 'Precursor to serotonin production',
-      }
+        mechanism: 'Precursor to serotonin production'
+}
     },
     varieties: {
       heritage: {
@@ -1208,8 +1208,8 @@ const rawPoultry = {
         weight: '4-8 lbs',
         characteristics: 'white meat only',
         best_for: 'smaller gatherings',
-        cooking_challenge: 'preventing dryness',
-      }
+        cooking_challenge: 'preventing dryness'
+}
     },
     cuts: {
       breast: {
@@ -1253,8 +1253,8 @@ const rawPoultry = {
           breast: { fahrenheit: 165, celsius: 74 },
           thigh: { fahrenheit: 175, celsius: 79 }
         },
-        resting_time: '30-45 minutes tented with foil',
-      }
+        resting_time: '30-45 minutes tented with foil'
+}
     },
     culinaryApplications: {
       roasting: {
@@ -1278,14 +1278,14 @@ const rawPoultry = {
             techniques: {
               tent_with_foil: 'If browning too quickly',
               upside_down: 'Start breast-down for juicier results',
-              stuffing_alternatives: 'Aromatics only for faster cooking',
-            }
+              stuffing_alternatives: 'Aromatics only for faster cooking'
+}
           },
           troubleshooting: {
             dry_breast: 'Brine longer, cook to lower temperature, rest properly',
             undercooked_thighs: 'Shield breast with foil to cook thighs longer',
-            uneven_cooking: 'Let turkey come to room temperature before roasting',
-          }
+            uneven_cooking: 'Let turkey come to room temperature before roasting'
+}
         },
         spatchcock: {
           name: 'Spatchcock',
@@ -1298,8 +1298,8 @@ const rawPoultry = {
             temperature: { fahrenheit: 450, celsius: 232 },
             timing: '6-7 minutes per pound',
             surface: 'Wire rack over rimmed baking sheet',
-            advantages: 'No turning or basting required',
-          }
+            advantages: 'No turning or basting required'
+}
         },
         butter_blanket: {
           name: 'Butter-Blanket Method',
@@ -1327,8 +1327,8 @@ const rawPoultry = {
           temperature: { fahrenheit: 275, celsius: 135 },
           timing: '30-40 minutes per pound',
           target_internal_temp: { fahrenheit: 165, celsius: 74 },
-          rest_time: '20-30 minutes',
-        }
+          rest_time: '20-30 minutes'
+}
       },
       braising: {
         name: 'Braising',
@@ -1346,8 +1346,8 @@ const rawPoultry = {
         cooking: {
             temperature: { fahrenheit: 325, celsius: 165 },
             timing: '2-3 hours until fall-off-bone tender',
-            vessel: 'Dutch oven or covered roasting pan',
-          }
+            vessel: 'Dutch oven or covered roasting pan'
+}
         }
       },
       ground_applications: {
@@ -1363,8 +1363,8 @@ const rawPoultry = {
           cooking: {
             temp: 'Medium-high heat',
             technique: 'Form patties loosely, make indentation in center',
-            doneness: 'Internal temperature 165°F / (74 || 1)°C',
-          }
+            doneness: 'Internal temperature 165°F / (74 || 1)°C'
+}
         },
         meatballs: {
           name: 'Turkey Meatballs',
@@ -1398,8 +1398,8 @@ const rawPoultry = {
           name: 'Pavo en Mole Poblano',
           sauce: 'Complex sauce with chocolate, chilies, nuts, and spices',
           serving: 'Often served for special occasions and celebrations',
-          preparation: 'Turkey pieces braised in mole sauce',
-        }
+          preparation: 'Turkey pieces braised in mole sauce'
+}
       },
       middle_eastern: {
         name: 'Middle Eastern',
@@ -1407,8 +1407,8 @@ const rawPoultry = {
           name: 'Turkish-style Roasted Turkey',
           preparation: 'Stuffed with rice, nuts, dried fruits, herbs',
           spices: ['Allspice', 'Cinnamon', 'Cumin', 'Coriander'],
-          serving: 'Over rice pilaf with pine nuts',
-        }
+          serving: 'Over rice pilaf with pine nuts'
+}
       }
     },
     seasonality: {
@@ -1439,8 +1439,8 @@ const rawPoultry = {
         heritage_breeds: {
         conservation_value: 'Preserves genetic diversity',
         challenges: 'Higher cost, less meat yield',
-        flavor_advantage: 'Superior taste and texture',
-      }
+        flavor_advantage: 'Superior taste and texture'
+}
     },
     storage: {
       frozen: {
@@ -1450,8 +1450,8 @@ const rawPoultry = {
         thawing: {
           refrigerator: '24 hours per 4-5 pounds',
           cold_water: '30 minutes per pound, change water every 30 minutes',
-          do_not: 'Never thaw at room temperature',
-        }
+          do_not: 'Never thaw at room temperature'
+}
       }
     },
     food_safety: {
@@ -1462,8 +1462,8 @@ const rawPoultry = {
         leftovers: {
         cooling: 'Refrigerate within 2 hours of cooking',
         reheating: 'To at least 165°F (74°C)',
-        maximum_storage: 'Consume within 3-4 days',
-      }
+        maximum_storage: 'Consume within 3-4 days'
+}
     }
   },
   quail: {
@@ -1507,8 +1507,8 @@ const rawPoultry = {
         cooking: {
             temperature: 'high heat',
             timing: '4-5 minutes per side',
-            finish: 'rest 5 minutes',
-          }
+            finish: 'rest 5 minutes'
+}
         }
       },
       stuffed: {
@@ -1518,8 +1518,8 @@ const rawPoultry = {
           trussing: 'secure with twine' },
         cooking: {
           temperature: { fahrenheit: 375, celsius: 190 },
-          timing: '20-25 minutes total',
-        }
+          timing: '20-25 minutes total'
+}
       }
     },
     regionalPreparations: {
@@ -1529,8 +1529,8 @@ const rawPoultry = {
           name: 'Yakitori',
           method: 'skewered and grilled',
           sauce: 'tare glaze',
-          service: 'with scallions',
-        }
+          service: 'with scallions'
+}
       }
     }
   },
@@ -1575,8 +1575,8 @@ const rawPoultry = {
           cooking: {
             temperature: { fahrenheit: 375, celsius: 190 },
             timing: '15-20 minutes per pound',
-            basting: 'every 30 minutes',
-          }
+            basting: 'every 30 minutes'
+}
         }
       },
       braising: {
@@ -1587,8 +1587,8 @@ const rawPoultry = {
         cooking: {
           liquid: 'wine and stock',
           temperature: { fahrenheit: 325, celsius: 163 },
-          timing: '1.5-2 hours',
-        }
+          timing: '1.5-2 hours'
+}
       }
     },
     regionalPreparations: {
@@ -1598,8 +1598,8 @@ const rawPoultry = {
           name: 'Kedjenou',
           method: 'slow-cooked with vegetables',
           spices: ['ginger', 'garlic', 'chili'],
-          service: 'with rice or fufu',
-        }
+          service: 'with rice or fufu'
+}
       }
     }
   },
@@ -1615,8 +1615,8 @@ const rawPoultry = {
         name: 'Ring Necked',
         weight: '2.5-3.5 lbs',
         characteristics: 'most common variety',
-        best_for: 'traditional preparations',
-      }
+        best_for: 'traditional preparations'
+}
     },
     cuts: {
       whole: {
@@ -1650,8 +1650,8 @@ const rawPoultry = {
         cooking: {
             temperature: { fahrenheit: 350, celsius: 175 },
             timing: '45-60 minutes total',
-            basting: 'frequently to prevent drying',
-          }
+            basting: 'frequently to prevent drying'
+}
         }
       },
       braising: {
@@ -1662,8 +1662,8 @@ const rawPoultry = {
         cooking: {
           liquid: 'wine and game stock',
           temperature: { fahrenheit: 325, celsius: 163 },
-          timing: '1.5-2 hours',
-        }
+          timing: '1.5-2 hours'
+}
       }
     },
     regionalPreparations: {
@@ -1673,8 +1673,8 @@ const rawPoultry = {
           name: 'Roasted Pheasant',
           method: 'traditional roasting',
           sauce: 'bread sauce',
-          service: 'with game chips and watercress',
-        }
+          service: 'with game chips and watercress'
+}
       }
     }
   },
@@ -1724,8 +1724,8 @@ const rawPoultry = {
         cooking: {
             temperature: { fahrenheit: 375, celsius: 190 },
             timing: '25-30 minutes total',
-            resting: '10 minutes covered',
-          }
+            resting: '10 minutes covered'
+}
         }
       },
       braising: {
@@ -1736,8 +1736,8 @@ const rawPoultry = {
         cooking: {
           liquid: 'wine and stock',
           temperature: { fahrenheit: 325, celsius: 163 },
-          timing: '45-60 minutes',
-        }
+          timing: '45-60 minutes'
+}
       }
     },
     regionalPreparations: {
@@ -1747,8 +1747,8 @@ const rawPoultry = {
           name: 'Stuffed Partridge',
           method: 'stuffed with rice and spices',
           seasonings: ['allspice', 'cinnamon', 'pine nuts'],
-          service: 'with flatbread and yogurt',
-        }
+          service: 'with flatbread and yogurt'
+}
       }
     }
   }

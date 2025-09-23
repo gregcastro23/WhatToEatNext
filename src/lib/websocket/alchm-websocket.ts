@@ -1,14 +1,14 @@
 export type PlanetaryHourUpdate = {
-  planet: 'Sun' | 'Moon' | 'Mercury' | 'Venus' | 'Mars' | 'Jupiter' | 'Saturn',
+  planet: 'Sun' | 'Moon' | 'Mercury' | 'Venus' | 'Mars' | 'Jupiter' | 'Saturn'
   start: string,
-  end: string,
+  end: string
 }
 
 export type EnergyUpdate = {
   Fire: number,
   Water: number,
   Air: number,
-  Earth: number,
+  Earth: number
 }
 
 export type CelestialEvent = {
@@ -50,8 +50,8 @@ export class AlchmWebSocket {
       case 'celestial_events':
         this.updateCelestial(message.data)
         break,
-      default: break,
-    }
+      default: break
+}
   }
 
   // Placeholder handlers; wire to stores/contexts as needed

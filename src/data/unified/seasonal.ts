@@ -28,7 +28,7 @@ import { unifiedIngredients } from './ingredients';
 export interface SeasonalMonicaModifiers {
   temperatureAdjustment: number // Temperature adjustment for seasonal cooking,
   timingAdjustment: number, // Timing adjustment percentage,
-  intensityModifier: string, // 'increase' | 'decrease' | 'maintain',
+  intensityModifier: string, // 'increase' | 'decrease' | 'maintain'
   planetaryAlignment: number, // Seasonal planetary alignment bonus,
   lunarPhaseBonus: number, // Seasonal lunar phase sensitivity
 }
@@ -125,8 +125,8 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       timingAdjustment: -5,
       intensityModifier: 'increase',
       planetaryAlignment: 0.8,
-      lunarPhaseBonus: 0.7,
-    }
+      lunarPhaseBonus: 0.7
+}
 
     // Ingredient availability (from seasonalPatterns.ts)
     ingredients: {
@@ -139,8 +139,8 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       fava_beans: 0.8,
       morels: 0.87,
       strawberries: 0.7,
-      new_potatoes: 0.76,
-    }
+      new_potatoes: 0.76
+}
 
     // Traditional usage (from seasonalUsage.ts)
     growing: ['basil', 'oregano', 'thyme'],
@@ -210,8 +210,8 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       secondary_element: 'Air' },
         optimalIngredients: ['asparagus', 'spring_greens', 'morels', 'peas', 'artichokes'],
     optimalCookingMethods: ['grilling', 'roasting', 'sauteing', 'steaming'],
-    elementalInfluence: 0.8,
-  }
+    elementalInfluence: 0.8
+}
 
   summer: {
     elementalDominance: { Fire: 0.5, Water: 0.3, Earth: 0.1, Air: 0.1 },
@@ -221,8 +221,8 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       timingAdjustment: -10,
       intensityModifier: 'decrease',
       planetaryAlignment: 0.9,
-      lunarPhaseBonus: 0.8,
-    },
+      lunarPhaseBonus: 0.8
+},
     ingredients: {
       tomatoes: 0.9,
       corn: 0.85,
@@ -233,8 +233,8 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       eggplant: 0.79,
       bell_peppers: 0.84,
       cucumbers: 0.86,
-      cherries: 0.88,
-    }
+      cherries: 0.88
+}
 
     growing: ['basil', 'rosemary', 'cilantro'],
     herbs: ['basil', 'oregano', 'tarragon', 'cilantro'],
@@ -303,8 +303,8 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       secondary_element: 'Water' },
         optimalIngredients: ['tomatoes', 'watermelon', 'berries', 'peaches', 'cucumbers'],
     optimalCookingMethods: ['grilling', 'raw', 'fermenting', 'steaming'],
-    elementalInfluence: 0.9,
-  }
+    elementalInfluence: 0.9
+}
 
   autumn: {
     elementalDominance: { Fire: 0.1, Water: 0.3, Earth: 0.4, Air: 0.2 },
@@ -314,8 +314,8 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       timingAdjustment: 10,
       intensityModifier: 'maintain',
       planetaryAlignment: 0.7,
-      lunarPhaseBonus: 0.6,
-    },
+      lunarPhaseBonus: 0.6
+},
     ingredients: {
       apples: 0.9,
       pumpkin: 0.95,
@@ -326,8 +326,8 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       figs: 0.78,
       grapes: 0.83,
       mushrooms: 0.79,
-      pears: 0.88,
-    }
+      pears: 0.88
+}
 
     growing: ['sage', 'rosemary', 'thyme'],
     herbs: ['sage', 'rosemary', 'thyme', 'bay leaf'],
@@ -396,8 +396,8 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       secondary_element: 'Water' },
         optimalIngredients: ['pumpkin', 'butternut_squash', 'apples', 'sweet_potatoes', 'pears'],
     optimalCookingMethods: ['roasting', 'baking', 'braising', 'poaching'],
-    elementalInfluence: 0.7,
-  }
+    elementalInfluence: 0.7
+}
 
   fall: {
     elementalDominance: { Fire: 0.1, Water: 0.3, Earth: 0.4, Air: 0.2 },
@@ -407,8 +407,8 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       timingAdjustment: 10,
       intensityModifier: 'maintain',
       planetaryAlignment: 0.7,
-      lunarPhaseBonus: 0.6,
-    }
+      lunarPhaseBonus: 0.6
+}
 
     // Same as autumn (supporting both terms)
     ingredients: {
@@ -421,8 +421,8 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       figs: 0.78,
       grapes: 0.83,
       mushrooms: 0.79,
-      pears: 0.88,
-    },
+      pears: 0.88
+},
     growing: ['sage', 'rosemary', 'thyme'],
     herbs: ['sage', 'rosemary', 'thyme', 'bay leaf'],
     vegetables: ['pumpkin', 'squash', 'mushrooms', 'cauliflower'],
@@ -490,8 +490,8 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       secondary_element: 'Water' },
         optimalIngredients: ['pumpkin', 'butternut_squash', 'apples', 'sweet_potatoes', 'pears'],
     optimalCookingMethods: ['roasting', 'baking', 'braising', 'poaching'],
-    elementalInfluence: 0.7,
-  }
+    elementalInfluence: 0.7
+}
 
   winter: {
     elementalDominance: { Fire: 0.2, Water: 0.4, Earth: 0.3, Air: 0.1 },
@@ -501,8 +501,8 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       timingAdjustment: 15,
       intensityModifier: 'increase',
       planetaryAlignment: 0.6,
-      lunarPhaseBonus: 0.5,
-    },
+      lunarPhaseBonus: 0.5
+},
     ingredients: {
       citrus: 0.85,
       kale: 0.8,
@@ -513,8 +513,8 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       leeks: 0.79,
       brussels_sprouts: 0.75,
       turnips: 0.77,
-      cranberries: 0.72,
-    }
+      cranberries: 0.72
+}
 
     growing: ['rosemary', 'thyme', 'sage'],
     herbs: ['rosemary', 'thyme', 'sage', 'bay leaf'],
@@ -583,8 +583,8 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       secondary_element: 'Water' },
         optimalIngredients: ['root_vegetables', 'winter_squash', 'kale', 'citrus', 'pomegranates'],
     optimalCookingMethods: ['braising', 'stewing', 'roasting', 'simmering'],
-    elementalInfluence: 0.6,
-  }
+    elementalInfluence: 0.6
+}
 
   all: {
     elementalDominance: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
@@ -594,15 +594,15 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       timingAdjustment: 0,
       intensityModifier: 'maintain',
       planetaryAlignment: 0.75,
-      lunarPhaseBonus: 0.65,
-    },
+      lunarPhaseBonus: 0.65
+},
     ingredients: {
       onions: 0.9,
       garlic: 0.95,
       carrots: 0.85,
       potatoes: 0.88,
-      herbs: 0.8,
-    }
+      herbs: 0.8
+}
 
     growing: ['basil', 'rosemary', 'thyme', 'sage', 'oregano'],
     herbs: ['parsley', 'thyme', 'rosemary', 'bay leaf', 'oregano'],
@@ -683,8 +683,8 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       secondary_element: 'Fire' },
         optimalIngredients: ['garlic', 'onions', 'herbs', 'potatoes', 'carrots'],
     optimalCookingMethods: ['sauteing', 'roasting', 'simmering', 'baking'],
-    elementalInfluence: 0.75,
-  }
+    elementalInfluence: 0.75
+}
 }
 
 // ===== UNIFIED SEASONAL SYSTEM CLASS =====,
@@ -866,7 +866,7 @@ export class UnifiedSeasonalSystem {
     seasonalElements: ElementalProperties,
   ): number {
     // Following elemental self-reinforcement principles
-    let compatibility = 0,
+    let compatibility = 0;
     let totalWeight = 0
 ;
     for (const element of ['Fire', 'Water', 'Earth', 'Air'] as Element[]) {
@@ -1091,7 +1091,7 @@ export class UnifiedSeasonalSystem {
     }
 
     const seasonProfile = unifiedSeasonalProfiles[season];
-    let totalOptimization = 0,
+    let totalOptimization = 0;
     let validMethods = 0,
 
     for (const method of cookingMethods) {

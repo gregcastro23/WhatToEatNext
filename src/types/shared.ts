@@ -47,8 +47,7 @@ export interface CelestialPosition {
 /**
  * Dignity types for planetary positions
  */
-export type DignityType = 'Domicile' | 'Exaltation' | 'Detriment' | 'Fall' | 'Neutral',
-
+export type DignityType = 'Domicile' | 'Exaltation' | 'Detriment' | 'Fall' | 'Neutral'
 /**
  * Zodiac signs
  */
@@ -65,15 +64,14 @@ export type DignityType = 'Domicile' | 'Exaltation' | 'Detriment' | 'Fall' | 'Ne
  * Lunar phases with spaces (UI friendly)
  */
 export type LunarPhaseWithSpaces =
-  | 'new moon',
+  | 'new moon'
   | 'waxing crescent'
   | 'first quarter'
   | 'waxing gibbous'
   | 'full moon'
   | 'waning gibbous'
   | 'last quarter'
-  | 'waning crescent',
-
+  | 'waning crescent'
 /**
  * Default LunarPhase type using spaces format
  */
@@ -84,54 +82,50 @@ export type LunarPhase = LunarPhaseWithSpaces,
  * This includes all possible moon phase values in uppercase format.
  */
 export type MoonPhase =
-  | 'NEW_MOON',
+  | 'NEW_MOON'
   | 'WAXING_CRESCENT'
   | 'FIRST_QUARTER'
   | 'WAXING_GIBBOUS'
   | 'FULL_MOON'
   | 'WANING_GIBBOUS'
   | 'LAST_QUARTER'
-  | 'WANING_CRESCENT',
-
+  | 'WANING_CRESCENT'
 /**
  * MoonPhase with spaces format for display purposes
  */
 export type MoonPhaseWithSpaces =
-  | 'New Moon',
+  | 'New Moon'
   | 'Waxing Crescent'
   | 'First Quarter'
   | 'Waxing Gibbous'
   | 'Full Moon'
   | 'Waning Gibbous'
   | 'Last Quarter'
-  | 'Waning Crescent',
-
+  | 'Waning Crescent'
 /**
  * MoonPhase with underscores format for storage and API purposes
  */
 export type MoonPhaseWithUnderscores =
-  | 'new_moon',
+  | 'new_moon'
   | 'waxing_crescent'
   | 'first_quarter'
   | 'waxing_gibbous'
   | 'full_moon'
   | 'waning_gibbous'
   | 'last_quarter'
-  | 'waning_crescent',
-
+  | 'waning_crescent'
 /**
  * Lowercase moon phases with spaces for backward compatibility
  */
 export type LowercaseMoonPhaseWithSpaces =
-  | 'new moon',
+  | 'new moon'
   | 'waxing crescent'
   | 'first quarter'
   | 'waxing gibbous'
   | 'full moon'
   | 'waning gibbous'
   | 'last quarter'
-  | 'waning crescent',
-
+  | 'waning crescent'
 /**
  * Mapping between different lunar phase formats
  */
@@ -202,20 +196,17 @@ export interface ElementalScore {
  * Seasons of the year
  * Note: Both 'autumn' and 'fall' are included for flexibility
  */
-export type Season = 'spring' | 'summer' | 'autumn' | 'fall' | 'winter',
-
+export type Season = 'spring' | 'summer' | 'autumn' | 'fall' | 'winter'
 // ========== UI COMPONENT TYPES ==========,
 
 /**
  * View options for recipe displays
  */
-export type ViewOption = 'grid' | 'list' | 'compact',
-
+export type ViewOption = 'grid' | 'list' | 'compact'
 /**
  * Elemental filter types
  */
-export type ElementalFilter = 'all' | 'Fire' | 'Water' | 'Air' | 'Earth',
-
+export type ElementalFilter = 'all' | 'Fire' | 'Water' | 'Air' | 'Earth'
 // ========== THERMODYNAMIC TYPES ==========
 
 /**
@@ -256,4 +247,4 @@ export type CookingMethod =
   | 'gelification'
   | 'spherification'
   // Template/placeholder
-  | 'method_name',
+  | 'method_name'

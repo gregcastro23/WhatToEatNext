@@ -35,8 +35,8 @@ describe('elementalUtils', () => {
         Fire: 0,
         Water: 0,
         Air: 0,
-        Earth: 0,
-      }
+        Earth: 0
+}
       const normalized: any = elementalUtils.normalizeProperties(emptyProps)
       expect(normalized.Fire).toBe(0.25)
       expect(normalized.Water).toBe(0.25)

@@ -72,7 +72,7 @@ export interface EnhancedCookingMethod extends CookingMethod {
   monicaConstant?: number,
 
   // Enhanced metadata
-  complexity?: 'basic' | 'intermediate' | 'advanced' | 'master',
+  complexity?: 'basic' | 'intermediate' | 'advanced' | 'master'
   skillRequirements?: string[],
   equipmentRequired?: string[],
   safetyConsiderations?: string[],

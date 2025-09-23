@@ -34,8 +34,8 @@ describe('SafetyProtocol', () => {
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7,
-    }
+      stashRetentionDays: 7
+}
 
     safetyProtocol = new SafetyProtocol(mockSettings)
 
@@ -142,8 +142,8 @@ describe('SafetyProtocol', () => {
         description: 'Test stash description',
         timestamp: new Date(),
         branch: 'main',
-        ref: 'stash@{0}',
-      }
+        ref: 'stash@{0}'
+}
 
       // Add stash to internal map
       (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes.set('test-stash-1', mockStash)
@@ -208,15 +208,15 @@ describe('SafetyProtocol', () => {
         description: 'First stash',
         timestamp: new Date('2023-01-01'),
         branch: 'main',
-        ref: 'stash@{1}',
-      }
+        ref: 'stash@{1}'
+}
       const stash2: any = {
         id: 'stash-2',
         description: 'Latest stash',
         timestamp: new Date('2023-01-02'),
         branch: 'main',
-        ref: 'stash@{0}',
-      }
+        ref: 'stash@{0}'
+}
 
       const stashMap: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes,
       stashMap.set('stash-1', stash1)
@@ -444,8 +444,8 @@ import something, { ab } from './module',
         description: 'Emergency stash',
         timestamp: new Date(),
         branch: 'main',
-        ref: 'stash@{0}',
-      }
+        ref: 'stash@{0}'
+}
 
       (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes.set('emergency-stash', stash)
       jest.spyOn(safetyProtocol, 'applyStash').mockResolvedValue()
@@ -541,16 +541,16 @@ import something, { ab } from './module',
         description: 'Old stash',
         timestamp: oldDate,
         branch: 'main',
-        ref: 'stash@{1}',
-      }
+        ref: 'stash@{1}'
+}
 
       const recentStash: any = {
         id: 'recent-stash',
         description: 'Recent stash',
         timestamp: recentDate,
         branch: 'main',
-        ref: 'stash@{0}',
-      }
+        ref: 'stash@{0}'
+}
 
       const stashMap: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes,
       stashMap.set('old-stash', oldStash)
@@ -601,22 +601,22 @@ import something, { ab } from './module',
         id: 'campaign-phase1-1-timestamp',
         description: 'Phase 1 stash',
         timestamp: new Date('2023-01-01'),
-        branch: 'main',
-      }
+        branch: 'main'
+}
 
       const stash2: any = {
         id: 'campaign-phase2-2-timestamp',
         description: 'Phase 2 stash',
         timestamp: new Date('2023-01-02'),
-        branch: 'main',
-      }
+        branch: 'main'
+}
 
       const stash3: any = {
         id: 'campaign-phase1-3-timestamp',
         description: 'Another Phase 1 stash',
         timestamp: new Date('2023-01-03'),
-        branch: 'main',
-      }
+        branch: 'main'
+}
 
       const stashMap: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes,
       stashMap.set('stash1', stash1)
@@ -736,8 +736,8 @@ import something, { ab } from './module',
           timestamp: new Date(),
           description: `Event ${i}`,
           severity: SafetyEventSeverity.INFO,
-          action: 'TEST',
-        })
+          action: 'TEST'
+})
       }
 
       const events: any = (safetyProtocol as unknown as { safetyEvents: any[] }).safetyEvents,
@@ -752,8 +752,8 @@ import something, { ab } from './module',
           timestamp: new Date(),
           description: `Event ${i}`,
           severity: SafetyEventSeverity.INFO,
-          action: 'TEST',
-        })
+          action: 'TEST'
+})
       }
 
       const events: any = (safetyProtocol as any).safetyEvents

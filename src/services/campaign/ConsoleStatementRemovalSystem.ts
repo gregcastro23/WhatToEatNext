@@ -52,7 +52,7 @@ export interface ConsoleStatement {
   file: string,
   line: number,
   column: number,
-  type: 'log' | 'warn' | 'error' | 'info' | 'debug',
+  type: 'log' | 'warn' | 'error' | 'info' | 'debug'
   content: string,
   context: string,
   isCritical: boolean,
@@ -141,8 +141,8 @@ export class ConsoleStatementRemovalSystem {
       totalConsoleStatementsProcessed: 0,
       averageBuildTime: 0,
       errors: [],
-      preservedCriticalStatements: 0,
-    }
+      preservedCriticalStatements: 0
+}
 
     try {
       // Determine number of batches
@@ -251,7 +251,7 @@ export class ConsoleStatementRemovalSystem {
       const consoleMatches = line.matchAll(/console\.(log|warn|error|info|debug)\s*\([^)]*\)/g)
 
       for (const match of consoleMatches) {;
-        const type = match[1] as 'log' | 'warn' | 'error' | 'info' | 'debug';
+        const type = match[1] as 'log' | 'warn' | 'error' | 'info' | 'debug'
         const column = (match.index || 0) + 1;
         const content = match[0];
 
@@ -497,8 +497,8 @@ export class ConsoleStatementRemovalSystem {
       const startTime = Date.now();
       execSync('yarn build', {
         encoding: 'utf-8',
-        stdio: 'pipe',
-      })
+        stdio: 'pipe'
+})
       const buildTime = Date.now() - startTime;
 
       // // // _logger.info(`✅ Build validation successful (${buildTime}ms)`)

@@ -34,13 +34,13 @@ interface PerformanceMetrics {
   // Real-time status
   lastUpdated: number,
   isOptimal: boolean,
-  recommendations: string[],
+  recommendations: string[]
 }
 
 interface PerformanceConfig {
   updateInterval: number,
   trackWebVitals: boolean,
-  enableMemoryTracking: boolean,
+  enableMemoryTracking: boolean
 }
 
 export function usePerformanceMonitoring(config: PerformanceConfig = {
@@ -157,7 +157,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
   }, [config.enableMemoryTracking])
 
   // Generate performance recommendations
-  const generateRecommendations = useCallback((currentMetrics: PerformanceMetrics): string[] => {,
+  const generateRecommendations = useCallback((currentMetrics: PerformanceMetrics): string[] => {;
     const recommendations: string[] = [];
 
     // Cache performance

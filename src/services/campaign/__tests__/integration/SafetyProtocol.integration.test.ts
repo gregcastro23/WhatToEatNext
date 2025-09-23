@@ -40,8 +40,8 @@ describe('Safety Protocol Integration Tests', () => {;
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7,
-    }
+      stashRetentionDays: 7
+}
 
     mockConfig = {
       phases: [
@@ -67,8 +67,8 @@ describe('Safety Protocol Integration Tests', () => {;
         enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
-      }
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
+}
     }
 
     safetyProtocol = new SafetyProtocol(mockSafetySettings)
@@ -295,8 +295,8 @@ import type type Something, { ab } from '/module';
           }
         ],
         severity: CorruptionSeverity.CRITICAL,
-        recommendedAction: RecoveryAction.EMERGENCY_RESTORE,
-      })
+        recommendedAction: RecoveryAction.EMERGENCY_RESTORE
+})
 
       jest.spyOn(safetyProtocol, 'emergencyRollback').mockResolvedValue()
 
@@ -318,8 +318,8 @@ import type type Something, { ab } from '/module';
         detectedFiles: ['file1.ts'],
         corruptionPatterns: [],
         severity: CorruptionSeverity.MEDIUM,
-        recommendedAction: RecoveryAction.RETRY,
-      })
+        recommendedAction: RecoveryAction.RETRY
+})
 
       safetyProtocol.startRealTimeMonitoring(testFiles, 1000)
 
@@ -423,16 +423,16 @@ import type type Something, { ab } from '/module';
         description: 'Old stash',
         timestamp: oldDate,
         branch: 'main',
-        ref: 'stash@{1}',
-      }
+        ref: 'stash@{1}'
+}
 
       const recentStash: any = {
         id: 'recent-stash',
         description: 'Recent stash',
         timestamp: recentDate,
         branch: 'main',
-        ref: 'stash@{0}',
-      }
+        ref: 'stash@{0}'
+}
 
       (safetyProtocol as any).stashes.set('old-stash', oldStash)
       (safetyProtocol as any).stashes.set('recent-stash', recentStash)
@@ -487,8 +487,8 @@ import type type Something, { ab } from '/module';
       jest.spyOn(campaignController as unknown, 'validatePhaseProgress').mockResolvedValue({
         success: false,
         errors: ['Corruption detected'],
-        warnings: [],
-      })
+        warnings: []
+})
 
       jest.spyOn(campaignController, 'rollbackToCheckpoint').mockResolvedValue()
 

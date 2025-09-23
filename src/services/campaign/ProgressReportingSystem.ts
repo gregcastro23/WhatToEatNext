@@ -424,8 +424,8 @@ export class ProgressReportingSystem {
         impact: AchievementImpact.CRITICAL,
         metrics: {
           errorsEliminated: 86,
-          reductionPercentage: 100,
-        }
+          reductionPercentage: 100
+}
       })
     }
 
@@ -439,8 +439,8 @@ export class ProgressReportingSystem {
         impact: AchievementImpact.CRITICAL,
         metrics: {
           warningsEliminated: 4506,
-          reductionPercentage: 100,
-        }
+          reductionPercentage: 100
+}
       })
     }
 
@@ -626,8 +626,8 @@ export class ProgressReportingSystem {
     return Object.entries(errorBreakdown).map(([errorType, count]) => ({
       errorType,
       count,
-      percentage: totalErrors > 0 ? Math.round((count / totalErrors) * 100) : 0,
-    }))
+      percentage: totalErrors > 0 ? Math.round((count / totalErrors) * 100) : 0
+}))
   }
 
   private generatePerformanceTrendChart(snapshots: MetricsSnapshot[]): PerformanceTrendPoint[] {
@@ -785,8 +785,8 @@ ${issue.description}
         timestamp: new Date(),
         type: 'milestone',
         description: 'Phase validation completed',
-        phase: 'phase1',
-      }
+        phase: 'phase1'
+}
     ],
   }
 

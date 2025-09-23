@@ -123,7 +123,7 @@ export function calculateSignEnergyStates(
   aspects: Aspect[],
 ): SignEnergyState[] {
   return ZODIAC_SIGNS.map(sign => {
-    const baseEnergy = BASE_SIGN_ENERGIES[sign],
+    const baseEnergy = BASE_SIGN_ENERGIES[sign];
     const planetaryModifiers: Record<string, number> = {}
 
     // Apply planetary rulers' influences

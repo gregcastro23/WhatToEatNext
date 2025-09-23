@@ -189,8 +189,8 @@ const rawAromaticHerbs = {
         tips: ['crush just before use']
       }
     },
-    modality: 'Cardinal',
-  },
+    modality: 'Cardinal'
+},
   'lemon verbena': {
     name: 'Lemon Verbena',
     elementalProperties: { Air: 0.5, Fire: 0.3, Water: 0.1, Earth: 0.1 },
@@ -307,8 +307,8 @@ const rawAromaticHerbs = {
         tips: ['retains flavor well when dried']
       }
     },
-    modality: 'Fixed',
-  },
+    modality: 'Fixed'
+},
   'curry leaf': {
     name: 'Curry Leaf',
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
@@ -424,8 +424,8 @@ const rawAromaticHerbs = {
       Air: 0.4,
       Fire: 0.3,
       Earth: 0.2,
-      Water: 0.1,
-    },
+      Water: 0.1
+},
     category: 'culinary_herb',
     qualities: ['nourishing'],
     nutritionalProfile: {
@@ -445,8 +445,8 @@ const rawAromaticHerbs = {
       Air: 0.4,
       Fire: 0.3,
       Earth: 0.2,
-      Water: 0.1,
-    },
+      Water: 0.1
+},
     category: 'culinary_herb',
     qualities: ['nourishing'],
     nutritionalProfile: {
@@ -465,8 +465,8 @@ const rawAromaticHerbs = {
       Air: 0.4,
       Fire: 0.3,
       Earth: 0.2,
-      Water: 0.1,
-    },
+      Water: 0.1
+},
     category: 'culinary_herb',
     qualities: ['nourishing'],
     nutritionalProfile: {

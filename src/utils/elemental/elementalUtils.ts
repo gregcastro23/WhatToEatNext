@@ -107,7 +107,7 @@ export function calculateElementalCompatibility(
   const _baseCompatibility = compatibilityScores[sourceDominant][targetDominant] || 0.7;
 
   // Calculate weighted compatibility across all elements
-  let weightedSum = 0,
+  let weightedSum = 0;
   let totalWeight = 0,
 
   const elements: Array<keyof ElementalProperties> = ['Fire', 'Water', 'Earth', 'Air'],
@@ -150,5 +150,5 @@ export function getDominantElement(properties: ElementalProperties): keyof Eleme
   return Object.entries(properties).reduce(
     (max, [element, value]) =>
       value > max.value ? { element: element as 'Fire' | 'Water' | 'Earth' | 'Air', value } : max,
-    { element: 'Fire' as keyof ElementalProperties, value: 0 }).element,
+    { element: 'Fire' as keyof ElementalProperties, value: 0 }).element
 }

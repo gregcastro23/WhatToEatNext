@@ -246,8 +246,8 @@ export interface IngredientServiceInterface {
     overallHarmony: number,
     flavorProfile: { [key: string]: number },
     strongPairings: Array<{ ingredients: string[] score: number }>,
-    weakPairings: Array<{ ingredients: string[] score: number }>,
-  }
+    weakPairings: Array<{ ingredients: string[] score: number }>
+}
 
   /**
    * Enhance an ingredient with elemental properties

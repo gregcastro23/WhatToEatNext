@@ -1,16 +1,15 @@
 import {PlanetName} from './alchemy';
 
 export type WeekDay =
-  | 'Sunday',
+  | 'Sunday'
   | 'Monday'
   | 'Tuesday'
   | 'Wednesday'
   | 'Thursday'
   | 'Friday'
-  | 'Saturday',
-export type Season = 'Spring' | 'Summer' | 'Fall' | 'Winter',
-export type TimeOfDay = 'Morning' | 'Afternoon' | 'Evening' | 'Night',
-
+  | 'Saturday'
+export type Season = 'Spring' | 'Summer' | 'Fall' | 'Winter'
+export type TimeOfDay = 'Morning' | 'Afternoon' | 'Evening' | 'Night'
 export interface PlanetaryDay {
   day: WeekDay,
   planet: PlanetName
@@ -21,8 +20,7 @@ export interface PlanetaryHour {
   hourOfDay: number
 }
 
-export type MealType = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Anytime',
-
+export type MealType = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Anytime'
 export interface TimeFactors {
   currentDate: Date,
   season: Season,

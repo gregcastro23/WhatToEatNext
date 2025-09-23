@@ -85,8 +85,8 @@ describe('AutoDocumentationGenerator', () => {;
       const unintentionalClassification: any = {
         ...mockClassification,
         isIntentional: false,
-        requiresDocumentation: false,
-      }
+        requiresDocumentation: false
+}
 
       const result: any = await generator.generateDocumentation(unintentionalClassification, mockContext)
 
@@ -99,8 +99,8 @@ describe('AutoDocumentationGenerator', () => {;
       const contextWithComment: any = {
         ...mockContext,
         hasExistingComment: true,
-        existingComment: 'Intentionally, any: External API response',
-      }
+        existingComment: 'Intentionally, any: External API response'
+}
 
       const result: any = await generator.generateDocumentation(mockClassification, contextWithComment)
 
@@ -120,8 +120,8 @@ describe('AutoDocumentationGenerator', () => {;
 
       const astrologicalClassification: any = {
         ...mockClassification,
-        category: AnyTypeCategory.EXTERNAL_API,
-      }
+        category: AnyTypeCategory.EXTERNAL_API
+}
 
       const fileContent: any = 'const _positions: any = apiResponse;';
       mockFs.readFile.mockResolvedValue(fileContent)
@@ -167,8 +167,8 @@ describe('AutoDocumentationGenerator', () => {;
 
       const indentedContext: any = {
         ...mockContext,
-        lineNumber: 3,
-      }
+        lineNumber: 3
+}
 
       const result: any = await generator.generateDocumentation(mockClassification, indentedContext)
 
@@ -200,8 +200,8 @@ describe('AutoDocumentationGenerator', () => {;
         ...mockContext,
         lineNumber: 4,
         hasExistingComment: true,
-        existingComment: 'Intentionally, any: External API response',
-      }
+        existingComment: 'Intentionally, any: External API response'
+}
 
       const validation: any = await generator.validateDocumentation(contextWithComment)
 
@@ -226,8 +226,8 @@ describe('AutoDocumentationGenerator', () => {;
         ...mockContext,
         lineNumber: 3,
         hasExistingComment: true,
-        existingComment: 'any',
-      }
+        existingComment: 'any'
+}
 
       const validation: any = await generator.validateDocumentation(contextWithPoorComment)
 
@@ -276,8 +276,8 @@ describe('AutoDocumentationGenerator', () => {;
 
       const errorClassification: any = {
         ...mockClassification,
-        category: AnyTypeCategory.ERROR_HANDLING,
-      }
+        category: AnyTypeCategory.ERROR_HANDLING
+}
 
       const fileContent: any = 'catch (error: any: any) {',
       mockFs.readFile.mockResolvedValue(fileContent)
@@ -301,8 +301,8 @@ describe('AutoDocumentationGenerator', () => {;
 
       const testClassification: any = {
         ...mockClassification,
-        category: AnyTypeCategory.TEST_MOCK,
-      }
+        category: AnyTypeCategory.TEST_MOCK
+}
 
       const fileContent: any = 'const _mockData: any = {};';
       mockFs.readFile.mockResolvedValue(fileContent)
@@ -326,8 +326,8 @@ describe('AutoDocumentationGenerator', () => {;
 
       const unknownClassification: any = {
         ...mockClassification,
-        category: AnyTypeCategory.LEGACY_COMPATIBILITY,
-      }
+        category: AnyTypeCategory.LEGACY_COMPATIBILITY
+}
 
       const fileContent: any = 'const data: any = legacy;';
       mockFs.readFile.mockResolvedValue(fileContent)
@@ -343,24 +343,24 @@ describe('AutoDocumentationGenerator', () => {;
     const testCases = [
       {;
         comment: '',
-        expectedQuality: 'poor',
-      }
+        expectedQuality: 'poor'
+}
       {
         comment: 'any',
-        expectedQuality: 'poor',
-      }
+        expectedQuality: 'poor'
+}
       {
         comment: 'Intentionally any for API',
-        expectedQuality: 'good',
-      }
+        expectedQuality: 'good'
+}
       {
         comment: 'Intentionally, any: External API response requires flexible typing',
-        expectedQuality: 'good',
-      }
+        expectedQuality: 'good'
+}
       {
         comment: 'Intentionally, any: External API response requires flexible typing because the structure varies between different endpoints and versions',
-        expectedQuality: 'excellent',
-      }
+        expectedQuality: 'excellent'
+}
     ],
 
     testCases.forEach(({ comment: any, expectedQuality }: any) => {
@@ -371,8 +371,8 @@ describe('AutoDocumentationGenerator', () => {;
         const contextWithComment: any = {
           ...mockContext,
           hasExistingComment: comment.length > 0,
-          existingComment: comment,
-        }
+          existingComment: comment
+}
 
         const validation: any = await generator.validateDocumentation(contextWithComment)
 

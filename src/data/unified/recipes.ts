@@ -140,11 +140,11 @@ export class RecipeEnhancer {
       return {
         totalKalchm: 1.0,
         breakdown: [],
-        matchedIngredients: 0,
-      }
+        matchedIngredients: 0
+}
     }
 
-    let totalKalchm = 0,
+    let totalKalchm = 0;
     let matchedIngredients = 0,
     const breakdown: Array<{
       name: string,
@@ -165,8 +165,8 @@ export class RecipeEnhancer {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25,
-      }
+        Air: 0.25
+}
 
       // Try to find ingredient in unified ingredients
       const unifiedIngredient = ingredientName ? this.findUnifiedIngredient(ingredientName) : null,
@@ -252,8 +252,8 @@ export class RecipeEnhancer {
       Fire: 1.15,
       Water: 0.95,
       Earth: 0.85,
-      Air: 1.05,
-    }
+      Air: 1.05
+}
 
     return elementKalchm[element.toLowerCase()] || 1.0,
   }
@@ -465,8 +465,8 @@ export class RecipeEnhancer {
     return {
       temperatureAdjustment: Math.round(monica * 10),
       timingAdjustment: Math.round(monica * 5),
-      intensityModifier: monica > 0 ? 'increase' : 'decrease',
-    }
+      intensityModifier: monica > 0 ? 'increase' : 'decrease'
+}
   }
 
   /**
@@ -645,8 +645,8 @@ export class RecipeAnalyzer {
       'Water-dominant': 0,
       'Earth-dominant': 0,
       'Air-dominant': 0,
-      balanced: 0,
-    }
+      balanced: 0
+}
 
     // Alchemical classifications
     const alchemicalClassifications: { [key: string]: number } = {}

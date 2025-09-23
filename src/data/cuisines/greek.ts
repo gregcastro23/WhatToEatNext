@@ -63,8 +63,8 @@ export const greek: Cuisine = {
             Earth: 0.5,
             Water: 0.2,
             Air: 0.2,
-            Fire: 0.1,
-          }
+            Fire: 0.1
+}
         }
         {
           name: 'Greek Yogurt with Honey',
@@ -125,8 +125,8 @@ export const greek: Cuisine = {
             Water: 0.4,
             Earth: 0.3,
             Air: 0.2,
-            Fire: 0.1,
-          }
+            Fire: 0.1
+}
         }
         {
           name: 'Strapatsada',
@@ -190,8 +190,8 @@ export const greek: Cuisine = {
             Fire: 0.3,
             Earth: 0.3,
             Air: 0.2,
-            Water: 0.2,
-          }
+            Water: 0.2
+}
         }
       ],
       summer: [
@@ -246,8 +246,8 @@ export const greek: Cuisine = {
             Earth: 0.4,
             Fire: 0.3,
             Air: 0.2,
-            Water: 0.1,
-          }
+            Water: 0.1
+}
         }
       ]
     },
@@ -303,8 +303,8 @@ export const greek: Cuisine = {
             Fire: 0.3,
             Earth: 0.3,
             Air: 0.2,
-            Water: 0.2,
-          }
+            Water: 0.2
+}
         }
         {
           name: 'Horiatiki',
@@ -1062,8 +1062,8 @@ export const greek: Cuisine = {
               amount: '1/2',
               unit: 'small',
               category: 'vegetable',
-              optional: true,
-            }
+              optional: true
+}
           ],
           substitutions: {
             eggplants: ['roasted red peppers'],
@@ -1109,8 +1109,8 @@ export const greek: Cuisine = {
         Water: 0.6,
         Earth: 0.2,
         Air: 0.2,
-        Fire: 0.0,
-      },
+        Fire: 0.0
+},
       astrologicalInfluences: ['Moon', 'Venus', 'Cancer'],
       seasonality: 'all',
       preparationNotes: 'Properly draining the cucumber is key to a thick consistency',
@@ -1126,8 +1126,8 @@ export const greek: Cuisine = {
         Water: 0.4,
         Air: 0.3,
         Fire: 0.2,
-        Earth: 0.1,
-      },
+        Earth: 0.1
+},
       astrologicalInfluences: ['Mercury', 'Moon', 'Gemini'],
       seasonality: 'winter, spring',
       preparationNotes: 'The key is to temper the eggs properly to avoid curdling',
@@ -1148,8 +1148,8 @@ export const greek: Cuisine = {
         Air: 0.5,
         Fire: 0.2,
         Earth: 0.2,
-        Water: 0.1,
-      },
+        Water: 0.1
+},
       astrologicalInfluences: ['Sun', 'Mercury', 'Leo'],
       seasonality: 'all',
       preparationNotes: 'The ratio is typically 3 parts oil to 1 part lemon juice',
@@ -1165,8 +1165,8 @@ export const greek: Cuisine = {
         Earth: 0.4,
         Fire: 0.3,
         Air: 0.2,
-        Water: 0.1,
-      },
+        Water: 0.1
+},
       astrologicalInfluences: ['Mars', 'Saturn', 'Aries'],
       seasonality: 'all',
       preparationNotes: 'Achieving the right balance of garlic is crucial - adjust to taste',
@@ -1182,13 +1182,13 @@ export const greek: Cuisine = {
         Fire: 0.5,
         Earth: 0.3,
         Water: 0.1,
-        Air: 0.1,
-      },
+        Air: 0.1
+},
       astrologicalInfluences: ['Mars', 'Sun', 'Leo'],
       seasonality: 'summer, autumn',
       preparationNotes: 'The smokiness of the peppers is essential for authentic flavor',
-      technicalTips: 'Roast peppers directly over flame for best smoky taste',
-    }
+      technicalTips: 'Roast peppers directly over flame for best smoky taste'
+}
   },
   sauceRecommender: {
     forProtein: {
@@ -1250,40 +1250,40 @@ export const greek: Cuisine = {
       elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
       toolsRequired: ['charcoal grill', 'skewers', 'brush for oil', 'tongs'],
       bestFor: ['lamb', 'pork', 'chicken', 'seafood', 'vegetables'],
-      difficulty: 'easy',
-    }
+      difficulty: 'easy'
+}
     {
       name: 'Stifado',
       description: 'Slow-cooked stew with pearl onions, wine, and tomatoes',
       elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
       toolsRequired: ['heavy pot', 'wooden spoon', 'sharp knife', 'measuring cups'],
       bestFor: ['beef', 'rabbit', 'game meat', 'octopus'],
-      difficulty: 'medium',
-    }
+      difficulty: 'medium'
+}
     {
       name: 'Sotirito',
       description: 'Shallow frying, often used for vegetables and fritters',
       elementalProperties: { Fire: 0.5, Air: 0.3, Earth: 0.1, Water: 0.1 },
       toolsRequired: ['heavy-bottomed pan', 'slotted spoon', 'paper towels', 'thermometer'],
       bestFor: ['zucchini fritters', 'eggplant', 'fish', 'meatballs'],
-      difficulty: 'medium',
-    }
+      difficulty: 'medium'
+}
     {
       name: 'Yiachni',
       description: 'Braising in tomato sauce with herbs and spices',
       elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
       toolsRequired: ['Dutch oven', 'wooden spoon', 'sharp knife', 'measuring spoons'],
       bestFor: ['green beans', 'okra', 'rabbit', 'beef'],
-      difficulty: 'easy',
-    }
+      difficulty: 'easy'
+}
     {
       name: 'Plasto',
       description: 'Traditional pie-making technique with layered phyllo or other dough',
       elementalProperties: { Earth: 0.5, Air: 0.3, Water: 0.1, Fire: 0.1 },
       toolsRequired: ['baking pan', 'pastry brush', 'rolling pin', 'sharp knife'],
       bestFor: ['spinach pie', 'cheese pie', 'meat pie', 'vegetable pie'],
-      difficulty: 'hard',
-    }
+      difficulty: 'hard'
+}
   ],
   regionalCuisines: {
     crete: {
@@ -1313,15 +1313,15 @@ export const greek: Cuisine = {
       signature: ['rooster kokkinisto', 'diples', 'kagianas', 'lagoto rabbit stew'],
       elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Mars', 'Venus', 'Aries'],
-      seasonality: 'all',
-    }
+      seasonality: 'all'
+}
   },
   elementalProperties: {
     Earth: 0.4,
     Water: 0.3,
     Fire: 0.2,
-    Air: 0.1,
-  }
+    Air: 0.1
+}
 }
 
 export default greek,
