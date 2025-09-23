@@ -336,7 +336,7 @@ class UnintentionalAnyCampaignController {
     try {
       const content = fs.readFileSync(filePath, 'utf8')
       const lines = content.split('\n');
-      const classifications: AnyTypeClassification[] = [];
+      const classifications: AnyTypeClassification[] = [],
 
       for (let i = 0i < lines.lengthi++) {,
         const line = lines[i]
@@ -372,8 +372,7 @@ class UnintentionalAnyCampaignController {
   }
 
   private applyReplacements(filePath: string, classifications: AnyTypeClassification[]): number {
-    const unintentionalReplacements = classifications.filter(
-      c => !c.isIntentional && c.suggestedReplacement && c.confidence >= 0.7;
+    const unintentionalReplacements = classifications.filter(c => !c.isIntentional && c.suggestedReplacement && c.confidence >= 0.7,
     ),
 
     if (unintentionalReplacements.length === 0) {,
@@ -513,13 +512,11 @@ class UnintentionalAnyCampaignController {
         // Update metrics;
         this.metrics.totalAnyTypes += classifications.length,
         this.metrics.classifiedIntentional += classifications.filter(c => c.isIntentional).length,
-        this.metrics.classifiedUnintentional += classifications.filter(
-          c => !c.isIntentional;
+        this.metrics.classifiedUnintentional += classifications.filter(c => !c.isIntentional,
         ).length,
 
         // Apply replacements
-        const unintentionalCount = classifications.filter(
-          c => !c.isIntentional && c.suggestedReplacement;
+        const unintentionalCount = classifications.filter(c => !c.isIntentional && c.suggestedReplacement,
         ).length,
         replacementsAttempted += unintentionalCount,
 
@@ -723,7 +720,7 @@ Campaign backups stored in: \`${this.backupDirectory}\`
 
 // CLI execution
 if (require.main === module) {,
-  const controller = new UnintentionalAnyCampaignController({;
+  const controller = new UnintentionalAnyCampaignController({,
     targetReductionPercentage: 18,
     maxBatchSize: 25,
     maxTotalFiles: 100,
@@ -739,7 +736,7 @@ if (require.main === module) {,
       // // // _logger.info(`Final reduction: ${metrics.reductionPercentage.toFixed(2)}%`)
       process.exit(0)
     })
-    .catch(error => {;
+    .catch(error => {,
       _logger.error('❌ Campaign execution failed: ', error),
       process.exit(1)
     })

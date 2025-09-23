@@ -54,7 +54,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
 
     // Context-specific elemental adjustments
     const contextElementalMultipliers = {
-      ingredient: {;
+      ingredient: {,
         Fire: 1.1,
         Water: 1.05,
         Earth: 1.0,
@@ -188,7 +188,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     context: string,
   ) => {
     const predictions = {
-      shortTerm: {;
+      shortTerm: {,
         Fire: properties.Fire * (1 + (Math.random() * 0.1 - 0.05)),
         Water: properties.Water * (1 + (Math.random() * 0.08 - 0.04)),
         Earth: properties.Earth * (1 + (Math.random() * 0.12 - 0.06)),
@@ -254,7 +254,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
         : 1.1,
 
     const optimizations = {
-      Fire: {;
+      Fire: {,
         current: properties.Fire,
         optimal: properties.Fire * fireOptimization,
         adjustment: fireOptimization - 1,
@@ -335,7 +335,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
   calculateElementalCoherence: (
     properties: ElementalProperties,
     dominantElement: Element,
-  ): number => {;
+  ): number => {,
     const dominantValue = properties[dominantElement];
     const otherValues = Object.values(properties).filter(val => val !== dominantValue);
     const averageOther = otherValues.reduce((sum, val) => sum + val, 0) / otherValues.length,
@@ -386,7 +386,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     return 0.15 + Math.random() * 0.25;
   }
 
-  calculateElementalInfluence: (properties: ElementalProperties, balance: number): number => {;
+  calculateElementalInfluence: (properties: ElementalProperties, balance: number): number => {,
     return (Object.values(properties).reduce((sum, val) => sum + val, 0) / 4) * (1 - balance)
   }
 
@@ -414,7 +414,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
       : [`Enhance Air properties for ${context}`, `Apply lightening methods`],
   }
 
-  calculateOverallOptimization: (optimizations: unknown): number => {;
+  calculateOverallOptimization: (optimizations: unknown): number => {,
     if (!isValidObject(optimizations)) return 0,
     const adjustments = Object.values(optimizations).map((opt: unknown) => {
       return isValidObject(opt) &&;
@@ -462,7 +462,7 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
 
     // Context-specific seasonal adjustments
     const contextSeasonalMultipliers = {
-      food: {;
+      food: {,
         enhancementFactor: 1.2,
         categoryBoost: 0.15,
         qualityEmphasis: ['fresh', 'seasonal', 'local']
@@ -616,13 +616,13 @@ export const SEASONAL_MODIFIERS: { [key: string]: ElementalProperties } = {
  * Lunar phase modifiers for elemental properties
  */
 export const LUNAR_PHASE_MODIFIERS: { [key: string]: ElementalProperties } = {
-  'new moon': { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 }
-  'waxing crescent': { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 }
-  'first quarter': { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 }
-  'waxing gibbous': { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 }
-  'full moon': { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 }
-  'waning gibbous': { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 }
-  'last quarter': { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 }
+  'new moon': { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 },
+  'waxing crescent': { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 },
+  'first quarter': { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 },
+  'waxing gibbous': { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 },
+  'full moon': { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 },
+  'waning gibbous': { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 },
+  'last quarter': { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 },
   'waning crescent': { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 }
 }
 
@@ -731,7 +731,7 @@ export function calculateElementalCompatibility(
   Object.keys(properties1 || {}).forEach(element => {;
     const key = element as 'Fire' | 'Water' | 'Earth' | 'Air';
     const value1 = properties1[key];
-    const value2 = properties2[key];
+    const value2 = properties2[key],
     const weight = (value1 + value2) / 2;
 
     // Same element reinforces itself (following elemental principles)
@@ -828,7 +828,7 @@ export function calculateComprehensiveElementalProperties(
   planetaryPositions: { [key: string]: PlanetaryPosition }
   season?: string,
   lunarPhase?: string,
-  isDaytime: boolean = true): ElementalProperties | Promise<ElementalProperties> {;
+  isDaytime: boolean = true): ElementalProperties | Promise<ElementalProperties> {,
   const cacheKey = `elemental_${JSON.stringify(planetaryPositions)}_${season}_${lunarPhase}_${isDaytime}`;
 
   const cachedResult = getCachedCalculation(
@@ -870,7 +870,7 @@ export function getElementalRecommendations(properties: ElementalProperties): {
   const dominant = getDominantElement(properties) as Element;
   const balance = calculateElementalBalance(properties)
 ;
-  const recommendations: string[] = [];
+  const recommendations: string[] = [],
 
   if (balance > 0.3) {
     recommendations.push('Consider balancing elemental properties for better harmony')

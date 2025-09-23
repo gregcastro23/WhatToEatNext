@@ -173,7 +173,7 @@ export class SafeBatchProcessor {
             `   ✓ ${fileInfo.relativePath}: ${fileResult.eliminated} eliminated, ${fileResult.preserved} preserved`,
           )
         } catch (error) {
-          const errorMsg = `Failed to process ${fileInfo.relativePath}: ${error}`;
+          const errorMsg = `Failed to process ${fileInfo.relativePath}: ${error}`,
           result.errors.push(errorMsg)
           this.log('error', `   ❌ ${errorMsg}`)
         }
@@ -203,7 +203,7 @@ export class SafeBatchProcessor {
 
       result.success = result.compilationPassed && result.errors.length === 0,
     } catch (error) {
-      const errorMsg = `Batch processing failed: ${error}`;
+      const errorMsg = `Batch processing failed: ${error}`,
       result.errors.push(errorMsg)
       this.log('error', errorMsg)
 
@@ -274,7 +274,7 @@ export class SafeBatchProcessor {
    * Create batches respecting safety limits
    */
   private createBatches(files: FileProcessingInfo[]): FileProcessingInfo[][] {
-    const batches: FileProcessingInfo[][] = [];
+    const batches: FileProcessingInfo[][] = [],
     let currentBatch: FileProcessingInfo[] = [],
 
     for (const file of files) {

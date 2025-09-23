@@ -263,7 +263,7 @@ export class LintingProgressTracker {
             fix?: unknown
           }>
         }) => {
-          file.messages?.forEach(message => {;
+          file.messages?.forEach(message => {,
             totalIssues++,
 
             if (message.severity === 2) {,

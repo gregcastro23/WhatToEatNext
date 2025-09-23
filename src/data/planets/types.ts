@@ -6,7 +6,7 @@ export interface PlanetData {
     Essence: number,
     Matter: number,
     Substance: number
-  }
+  },
   'Diurnal Element': string,
   'Nocturnal Element': string,
   AstronomicalData?: {

@@ -77,7 +77,7 @@ type MacroProfile = {
 }
 
 type NutritionProfile = {
-  macros?: MacroProfile;
+  macros?: MacroProfile,
   calories?: number,
   vitamins?: Record<string, number> | Array<unknown>,
   minerals?: Record<string, number> | Array<unknown>,
@@ -236,7 +236,7 @@ export class IngredientService implements IngredientServiceInterface {
    * Flatten unified ingredients into a single array
    */
   private flattenUnifiedIngredients(): UnifiedIngredient[] {
-    const flat: UnifiedIngredient[] = [];
+    const flat: UnifiedIngredient[] = [],
 
     try {
       Object.values(this.unifiedIngredients || []).forEach(categoryIngredients => {
@@ -343,7 +343,7 @@ export class IngredientService implements IngredientServiceInterface {
 
       // Process each category
       (categoriesToInclude || []).forEach(category => {
-        const categoryIngredients = this.unifiedIngredients[category];
+        const categoryIngredients = this.unifiedIngredients[category],
         if (!categoryIngredients) return,
 
         // Start with all ingredients in this category
@@ -451,7 +451,7 @@ export class IngredientService implements IngredientServiceInterface {
 
         // Check vitamin constraints
         if (isNonEmptyArray(filter.vitamins) && profile.vitamins) {
-          const hasRequiredVitamins = filter.vitamins.every(vitamin =>;
+          const hasRequiredVitamins = filter.vitamins.every(vitamin =>,
             Object.keys(profile.vitamins || {}).some(v =>
               v.toLowerCase().includes(vitamin.toLowerCase());
             ),
@@ -464,7 +464,7 @@ export class IngredientService implements IngredientServiceInterface {
 
         // Check mineral constraints
         if (isNonEmptyArray(filter.minerals) && profile.minerals) {
-          const hasRequiredMinerals = filter.minerals.every(mineral =>;
+          const hasRequiredMinerals = filter.minerals.every(mineral =>,
             Object.keys(profile.minerals || {}).some(m =>
               m.toLowerCase().includes(mineral.toLowerCase());
             ),
@@ -511,7 +511,7 @@ export class IngredientService implements IngredientServiceInterface {
           (ingredient.elementalPropertiesState &&
           isElementalProperties(ingredient.elementalPropertiesState)
             ? ingredient.elementalPropertiesState
-            : undefined) ||;
+            : undefined) ||,
           createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 })
 
         // Apply Pattern, A: Safe type casting for filter parameter compatibility
@@ -685,7 +685,7 @@ export class IngredientService implements IngredientServiceInterface {
 
         // Check if any of the ingredient's seasons match any of the filter seasons
         const ingredientSeasons = ingredient.seasonality || ingredient.currentSeason || [];
-        return safeSome(ingredientSeasons, season =>;
+        return safeSome(ingredientSeasons, season =>,
           safeSome(normalizedSeasons, s =>,
             typeof season === 'string' && typeof s === 'string'
               ? season.toLowerCase() === s.toLowerCase();
@@ -727,11 +727,10 @@ export class IngredientService implements IngredientServiceInterface {
         }
 
         // Check health benefits
-        if (
-          ingredient.healthBenefits &&
+        if (ingredient.healthBenefits &&
           safeSome(
             ingredient.healthBenefits,
-            benefit =>;
+            benefit =>,
               typeof benefit === 'string' && benefit.toLowerCase().includes(normalizedQuery),
           )
         ) {
@@ -795,7 +794,7 @@ export class IngredientService implements IngredientServiceInterface {
   ): UnifiedIngredient[] {
     try {
       return (ingredients || []).filter(ingredient => {
-        const astro = ingredient.astrologicalPropertiesProfile as;
+        const astro = ingredient.astrologicalPropertiesProfile as,
           | Record<string, unknown>
           | undefined,
 
@@ -893,7 +892,7 @@ export class IngredientService implements IngredientServiceInterface {
     flavorProfile: { [key: string]: number }
     minMatchScore = 0.7): UnifiedIngredient[] {
     try {
-      return (this.unifiedIngredientsFlat || []).filter(ingredient => {;
+      return (this.unifiedIngredientsFlat || []).filter(ingredient => {,
         if (!ingredient.flavorProfile) return false,
 
         let matchScore = 0,
@@ -907,7 +906,7 @@ export class IngredientService implements IngredientServiceInterface {
         })
 
         // Calculate the average match score
-        const avgScore = totalScores > 0 ? matchScore / totalScores : 0.5;
+        const avgScore = totalScores > 0 ? matchScore / totalScores : 0.5,
         return avgScore >= minMatchScore
       })
     } catch (error) {
@@ -1079,7 +1078,7 @@ export class IngredientService implements IngredientServiceInterface {
       : Object.values(_cuisinesMap)
 
     // Collect recipes from specified cuisines
-    (cuisines || []).forEach(cuisine => {;
+    (cuisines || []).forEach(cuisine => {,
       if (!cuisine.dishes) return,
 
       // Define which meal types to include
@@ -1097,7 +1096,7 @@ export class IngredientService implements IngredientServiceInterface {
 
       // Collect recipes matching criteria
       (mealTypes || []).forEach(mealType => {
-        const mealDishes = cuisine.dishes[mealType as keyof typeof cuisine.dishes];
+        const mealDishes = cuisine.dishes[mealType as keyof typeof cuisine.dishes],
         if (!mealDishes) return,
 
         (seasons || []).forEach(season => {
@@ -1167,7 +1166,7 @@ export class IngredientService implements IngredientServiceInterface {
       )
 
       // Calculate similarity scores
-      const alternatives = (potentialAlternatives || []).map(alternative => {;
+      const alternatives = (potentialAlternatives || []).map(alternative => {,
         const { score} = this.calculateIngredientCompatibility(originalIngredient, alternative)
 
         return {
@@ -1244,7 +1243,7 @@ export class IngredientService implements IngredientServiceInterface {
         let matchingScore = 0,
 
         (flavors || []).forEach(flavor => {;
-          const flavor1 = ing1.flavorProfile?.[flavor];
+          const flavor1 = ing1.flavorProfile?.[flavor],
           const flavor2 = ing2.flavorProfile?.[flavor]
 
           if (flavor1 !== undefined && flavor2 !== undefined) {
@@ -1266,7 +1265,7 @@ export class IngredientService implements IngredientServiceInterface {
         const ing1Seasons = ing1.currentSeason;
         const ing2Seasons = ing2.currentSeason;
 
-        const sharedSeasons = (ing1Seasons || []).filter(season =>;
+        const sharedSeasons = (ing1Seasons || []).filter(season =>,
           Array.isArray(ing2Seasons) ? ing2Seasons.includes(season) : ing2Seasons === season,
         )
 
@@ -1388,7 +1387,7 @@ export class IngredientService implements IngredientServiceInterface {
 
       // Normalize flavor profile
       if ((ingredients || []).length > 0) {
-        Object.keys(result.flavorProfile || []).forEach(flavor => {;
+        Object.keys(result.flavorProfile || []).forEach(flavor => {,
           result.flavorProfile[flavor] /= (ingredients || []).length,
         })
       }
@@ -1578,7 +1577,7 @@ export class IngredientService implements IngredientServiceInterface {
       // Find ingredients with complementary properties
       const complementary = this.unifiedIngredientsFlat;
         .filter(candidate => candidate.name !== targetIngredient.name)
-        .map(candidate => ({;
+        .map(candidate => ({,
           ingredient: candidate,
           score: this.calculateIngredientCompatibility(targetIngredient, candidate).score
         }))
@@ -1616,7 +1615,7 @@ export class IngredientService implements IngredientServiceInterface {
         const baseElement = typeof affinity === 'string' ? affinity : affinity.base
 
         // Create elemental properties based on base element
-        const elementalProps = createElementalProperties({;
+        const elementalProps = createElementalProperties({,
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
@@ -1687,7 +1686,7 @@ export class IngredientService implements IngredientServiceInterface {
       // If no astrologicalProfile, use category to make educated guess
       if (ingredient.category) {
         const category = ingredient.category.toLowerCase()
-        const elementalProps = createElementalProperties({;
+        const elementalProps = createElementalProperties({,
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
@@ -1884,9 +1883,9 @@ export class IngredientService implements IngredientServiceInterface {
   private getDominantElement(properties: ElementalProperties): string {
     try {
       const elements = [
-        { name: 'Fire', value: properties.Fire }
+        { name: 'Fire', value: properties.Fire },
         { name: 'Water', value: properties.Water }
-        { name: 'Earth', value: properties.Earth }
+        { name: 'Earth', value: properties.Earth },
         { name: 'Air', value: properties.Air }
       ],
 
@@ -1936,7 +1935,7 @@ export class IngredientService implements IngredientServiceInterface {
 
       // Validate elemental state
       if (!elementalState || !isElementalProperties(elementalState)) {
-        elementalState = createElementalProperties({;
+        elementalState = createElementalProperties({,
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
@@ -1990,7 +1989,7 @@ export class IngredientService implements IngredientServiceInterface {
       const scoredIngredients = ingredientsToScore.map(ingredient => {
         // Calculate elemental compatibility
         const ingredientProps =
-          ingredient.elementalProperties ||;
+          ingredient.elementalProperties ||,
           createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 })
         const elementalScore = this.calculateElementalSimilarity(ingredientProps, elementalState)
 
@@ -2006,7 +2005,7 @@ export class IngredientService implements IngredientServiceInterface {
         if (currentZodiacSign && ingredient.astrologicalProfile) {
           const astro = ingredient.astrologicalProfile as unknown;
           const fav = astro['favorableZodiac'];
-          const favorable = Array.isArray(fav) ? (fav as Array<string | ZodiacSign>) : undefined;
+          const favorable = Array.isArray(fav) ? (fav as Array<string | ZodiacSign>) : undefined,
           if (favorable) {
             const isCompatible = favorable.some(sign =>
               typeof sign === 'string'

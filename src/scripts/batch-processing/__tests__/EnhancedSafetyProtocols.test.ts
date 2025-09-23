@@ -22,7 +22,7 @@ describe('EnhancedSafetyProtocols', () => {
   beforeEach(() => {;
     jest.clearAllMocks()
 
-    const config: Partial<HighImpactFileConfig> = { maxVariablesAutoProcess: 20;
+    const config: Partial<HighImpactFileConfig> = { maxVariablesAutoProcess: 20,
       criticalFileBatchSize: 5,
       serviceLayerBatchSize: 8,
       requireManualReview: true,
@@ -219,8 +219,7 @@ describe('EnhancedSafetyProtocols', () => {
 
   describe('Enhanced Validation', () => {
     test('should perform TypeScript compilation validation', async () => {
-      const result: any = await safetyProtocols.performEnhancedValidation(
-        '/project/src/test.ts';
+      const result: any = await safetyProtocols.performEnhancedValidation('/project/src/test.ts',
         ['removed unused variable']),
 
       expect(mockExecSync).toHaveBeenCalledWith(
@@ -250,8 +249,7 @@ describe('EnhancedSafetyProtocols', () => {
     test('should perform service layer validation', async () => {
       mockFsreadFileSync.mockReturnValue('export const api: any = '/api/test',')
 
-      const result: any = await safetyProtocols.performEnhancedValidation(
-        '/project/src/services/api.ts';
+      const result: any = await safetyProtocols.performEnhancedValidation('/project/src/services/api.ts',
         ['removed unused variable']),
 
       expect(result.passed).toBe(true).
@@ -261,8 +259,7 @@ describe('EnhancedSafetyProtocols', () => {
     test('should detect missing API definitions in service files', async () => {
       mockFsreadFileSync.mockReturnValue('const api: any = '/api/test', // No export')
 
-      const result: any = await safetyProtocols.performEnhancedValidation(
-        '/project/src/services/api.ts';
+      const result: any = await safetyProtocols.performEnhancedValidation('/project/src/services/api.ts',
         ['removed unused variable']),
 
       expect(result.warnings).toContain('API definitions may have been affected').,
@@ -270,10 +267,10 @@ describe('EnhancedSafetyProtocols', () => {
 
     test('should validate core calculations', async () => {
       mockFsreadFileSync.mockReturnValue(`
-        const Fire: any = 0.8;
-        const Water: any = 0.2;
+        const Fire: any = 0.8,
+        const Water: any = 0.2,
         const Earth: any = 0.5
-        const Air: any = 0.3;
+        const Air: any = 0.3,
         function calculateElemental() : any { return Fire + Water, }
       `)
 
@@ -289,7 +286,7 @@ describe('EnhancedSafetyProtocols', () => {
       mockFsreadFileSync.mockReturnValue(`
         const Fire: any = 0.8
         const Water: any = 0.2
-        // Missing Earth and Air;
+        // Missing Earth and Air,
         function calculateElemental() : any { return Fire + Water, }
       `)
 
@@ -307,7 +304,7 @@ describe('EnhancedSafetyProtocols', () => {
       const configWithoutReview: Partial<HighImpactFileConfig> = { requireManualReview: false,
       }
 
-      const protocolsNoReview: any = new EnhancedSafetyProtocols(configWithoutReview);
+      const protocolsNoReview: any = new EnhancedSafetyProtocols(configWithoutReview),
       const assessment: any = protocolsNoReview.assessFileRisk(
         '/project/src/calculations/planetary.ts'
         25 // High variable count)
@@ -319,7 +316,7 @@ describe('EnhancedSafetyProtocols', () => {
       const configWithoutValidation: Partial<HighImpactFileConfig> = { enhancedValidation: false,
       }
 
-      const protocolsNoValidation: any = new EnhancedSafetyProtocols(configWithoutValidation);
+      const protocolsNoValidation: any = new EnhancedSafetyProtocols(configWithoutValidation),
       const assessment: any = protocolsNoValidationassessFileRisk(
         '/project/src/services/api.ts'
         10)
@@ -331,7 +328,7 @@ describe('EnhancedSafetyProtocols', () => {
       const configCustomThreshold: Partial<HighImpactFileConfig> = { maxVariablesAutoProcess: 10 // Lower threshold
       }
 
-      const protocolsCustom: any = new EnhancedSafetyProtocols(configCustomThreshold);
+      const protocolsCustom: any = new EnhancedSafetyProtocols(configCustomThreshold),
       const assessment: any = protocolsCustomassessFileRisk(
         '/project/src/utils/helper.ts'
         15 // Above custom threshold)
@@ -340,7 +337,7 @@ describe('EnhancedSafetyProtocols', () => {
     })
 
     test('should respect custom batch sizes', () => {
-      const configCustomBatch: Partial<HighImpactFileConfig> = { criticalFileBatchSize: 3;
+      const configCustomBatch: Partial<HighImpactFileConfig> = { criticalFileBatchSize: 3,
         serviceLayerBatchSize: 6,
       }
 

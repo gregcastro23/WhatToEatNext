@@ -36,7 +36,7 @@ describe('SafetyValidator', () => {
     })
 
     test('handles compilation errors', async () => {
-      const errorOutput: any = `;
+      const errorOutput: any = `,
         src/testts(105): error, TS2322: Type 'string' is not assignable to type 'number'.
         src/test.ts(1510): error, TS2304: Cannot find name 'unknownVariable'.,
         Found 2 errors.,
@@ -358,7 +358,7 @@ describe('SafetyValidator', () => {
 
   describe('Error Output Parsing', () => {
     test('parses TypeScript errors correctly', async () => {
-      const complexErrorOutput: any = `;
+      const complexErrorOutput: any = `,
         src/file1ts(105): error, TS2322: Type 'string' is not assignable to type 'number'.
         src/file2.ts(1510): error, TS2304: Cannot find name 'unknownVariable'.
         src/file3.ts(2015): error, TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.,

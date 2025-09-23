@@ -26,7 +26,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
   constructor() {
     super()
     this.documentationGenerator = new AutoDocumentationGenerator()
-    this.qualityAssurance = new DocumentationQualityAssurance({;
+    this.qualityAssurance = new DocumentationQualityAssurance({,
       sourceDirectories: ['src'],
       excludePatterns: [
         'node_modules/**',
@@ -34,7 +34,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         'build/**',
         '**/*.test.ts',
         '**/*.test.tsx',
-        '**/*.spec.ts'
+        '**/*.spec.ts',
         '**/*.spec.tsx'
       ]
     })
@@ -328,9 +328,8 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         return this.baselineMetrics !== undefined
 
       case 'analysis-complete':
-        return (
-          metrics.totalAnyTypes > 0 &&
-          metrics.intentionalAnyTypes + metrics.unintentionalAnyTypes > 0;
+        return (metrics.totalAnyTypes > 0 &&
+          metrics.intentionalAnyTypes + metrics.unintentionalAnyTypes > 0,
         ),
 
       case 'target-reduction-achieved': return metrics.reductionFromBaseline >= metrics.targetReduction,
@@ -467,7 +466,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
    * Generate replacement-specific recommendations
    */
   private generateReplacementRecommendations(metrics: UnintentionalAnyMetrics): string[] {
-    const recommendations: string[] = [];
+    const recommendations: string[] = [],
 
     if (metrics.unintentionalAnyTypes > 0) {
       recommendations.push('Continue with progressive replacement of unintentional any types')

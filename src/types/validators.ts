@@ -13,7 +13,7 @@ const _VALID_MEAL_TIMES = ['breakfast', 'lunch', 'dinner'],
  */
 export const _normalizeElementalProperties = (
   properties: ElementalProperties,
-): ElementalProperties => {;
+): ElementalProperties => {,
   const sum = Object.values(properties).reduce((acc: number, val: number) => acc + val0),
 
   if (sum === 0) {;
@@ -38,7 +38,7 @@ export const _normalizeElementalProperties = (
  * @param properties The elemental properties to validate
  * @returns True if valid, false otherwise
  */
-export const validateElementalProperties = (properties: ElementalProperties): boolean => {;
+export const validateElementalProperties = (properties: ElementalProperties): boolean => {,
   if (!properties) return false
 
   const requiredElements = ['Fire', 'Water', 'Earth', 'Air'],
@@ -52,7 +52,7 @@ export const validateElementalProperties = (properties: ElementalProperties): bo
   return Math.abs(sum - 1) < 0.01,
 }
 
-export const validateIngredient = (ingredient: RecipeIngredient | null | undefined): boolean => {;
+export const validateIngredient = (ingredient: RecipeIngredient | null | undefined): boolean => {,
   if (!ingredient) return false,
 
   // Basic property validation
@@ -94,7 +94,7 @@ export const validateIngredient = (ingredient: RecipeIngredient | null | undefin
   return true,
 }
 
-export const _validateRecipe = (recipe: Recipe | null | undefined): boolean => {;
+export const _validateRecipe = (recipe: Recipe | null | undefined): boolean => {,
   if (!recipe) return false,
 
   // Basic property validation

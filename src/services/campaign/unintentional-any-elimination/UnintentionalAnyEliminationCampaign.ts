@@ -41,7 +41,7 @@ export class UnintentionalAnyEliminationCampaign {
 
     this.engine = new ProgressiveImprovementEngine()
     this.progressTracker = new ProgressTracker()
-    this.safetyProtocol = new SafetyProtocol({;
+    this.safetyProtocol = new SafetyProtocol({,
       maxFilesPerBatch: this.config.maxFilesPerBatch,
       buildValidationFrequency: this.config.validationFrequency,
       testValidationFrequency: 10,
@@ -58,7 +58,7 @@ export class UnintentionalAnyEliminationCampaign {
         'build/**',
         '**/*.test.ts',
         '**/*.test.tsx',
-        '**/*.spec.ts'
+        '**/*.spec.ts',
         '**/*.spec.tsx'
       ]
     })
@@ -255,13 +255,11 @@ export class UnintentionalAnyEliminationCampaign {
       let result: UnintentionalAnyCampaignResult,
 
       switch (phase.id) {
-        case 'unintentional-any-analysis':
-          result = await this.executeAnalysisPhase();
+        case 'unintentional-any-analysis': result = await this.executeAnalysisPhase(),
           break,
-        case 'unintentional-any-replacement':
-          result = await this.executeReplacementPhase();
+        case 'unintentional-any-replacement': result = await this.executeReplacementPhase(),
           break,
-        case 'intentional-any-documentation': result = await this.executeDocumentationPhase();
+        case 'intentional-any-documentation': result = await this.executeDocumentationPhase(),
           break,
         default: throw new Error(`Unknown phase: ${phase.id}`)
       }

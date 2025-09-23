@@ -1,7 +1,7 @@
 import { PlanetData } from './types';
 
 const neptuneData: PlanetData = {
-  'Dignity Effect': {;
+  'Dignity Effect': {,
     pisces: 1,
     cancer: 2,
     virgo: -1,
@@ -13,7 +13,7 @@ const neptuneData: PlanetData = {
     Essence: 1,
     Matter: 0,
     Substance: 1,
-  }
+  },
   'Diurnal Element': 'Water',
   'Nocturnal Element': 'Water',
   AstronomicalData: {
@@ -318,7 +318,7 @@ const neptuneData: PlanetData = {
             Keywords: ['spiritual journey', 'seeking deeper meaning', 'transcendence'],
             CulinaryAssociation: 'Exploration of spiritual dimensions in food, transcendent dining experiences',
           }
-        }
+        },
         '2ndDecan': {
           Start: '2020-03-30',
           End: '2028-01-26',
@@ -327,7 +327,7 @@ const neptuneData: PlanetData = {
             Keywords: ['emotional fulfillment', 'wishes granted', 'satisfaction'],
             CulinaryAssociation: 'Dishes that evoke profound emotional satisfaction, dream-like culinary experiences',
           }
-        }
+        },
         '3rdDecan': {
           Start: '2028-01-26',
           End: '2036-02-20',
@@ -347,7 +347,7 @@ const neptuneData: PlanetData = {
             Keywords: ['future planning', 'personal power', 'expanding horizons'],
             CulinaryAssociation: 'Visionary food concepts, pioneering culinary approaches with spiritual underpinnings',
           }
-        }
+        },
         '2ndDecan': {
           Start: '2039-07-12',
           End: '2046-04-10',
@@ -356,7 +356,7 @@ const neptuneData: PlanetData = {
             Keywords: ['exploration', 'foresight', 'leadership'],
             CulinaryAssociation: 'Exploratory cuisine that transcends boundaries, food that connects to cosmic energies',
           }
-        }
+        },
         '3rdDecan': {
           Start: '2046-04-10',
           End: '2052-01-28',

@@ -54,7 +54,7 @@ export class DirectRecipeService {
   private static instance: DirectRecipeService,
   private allRecipes: Recipe[] = [],
   private currentCelestialAlignment: CelestialAlignment | null = null,
-  private lastAlignmentUpdate: number = 0;
+  private lastAlignmentUpdate: number = 0,
   private readonly ALIGNMENT_CACHE_DURATION = 60 * 60 * 1000, // 1 hour,
 
   private constructor() {
@@ -76,7 +76,7 @@ export class DirectRecipeService {
 
     // Extract recipes from all cuisines
     Object.values(cuisinesMap || {}).forEach(cuisine => {
-      // Process breakfast recipes;
+      // Process breakfast recipes,
       Object.values(cuisine.dishes.breakfast || {}).forEach(seasonRecipes => {
         if (Array.isArray(seasonRecipes)) {
           recipes.push(...seasonRecipes);
@@ -242,7 +242,7 @@ export class DirectRecipeService {
 
     (recipe.ingredients || []).forEach(ingredient => {
       // Look up ingredient in our database
-      const ingredientData =;
+      const ingredientData =,
         allIngredients[ingredient.name] || allIngredients[ingredient.name.toLowerCase()],
 
       if (ingredientData && (ingredientData as unknown).alchemicalProperties) {
@@ -394,7 +394,7 @@ export class DirectRecipeService {
 
     for (const recipe of filteredRecipes.slice(offset, offset + limit)) {
       const alchemicalScore = await this.calculateAlchemicalScore(recipe)
-      scoredRecipes.push({;
+      scoredRecipes.push({,
         ...recipe,
         score: alchemicalScore.score,
         alchemicalScores: alchemicalScore.breakdown
@@ -424,7 +424,7 @@ export class DirectRecipeService {
 
     for (const recipe of filteredRecipes.slice(offset, offset + limit)) {
       const alchemicalScore = await this.calculateAlchemicalScore(recipe)
-      scoredRecipes.push({;
+      scoredRecipes.push({,
         ...recipe,
         score: alchemicalScore.score,
         alchemicalScores: alchemicalScore.breakdown
@@ -457,7 +457,7 @@ export class DirectRecipeService {
 
     for (const recipe of filteredRecipes.slice(offset, offset + limit)) {
       const alchemicalScore = await this.calculateAlchemicalScore(recipe)
-      scoredRecipes.push({;
+      scoredRecipes.push({,
         ...recipe,
         score: alchemicalScore.score,
         alchemicalScores: alchemicalScore.breakdown
@@ -487,7 +487,7 @@ export class DirectRecipeService {
 
     for (const recipe of filteredRecipes.slice(offset, offset + limit)) {
       const alchemicalScore = await this.calculateAlchemicalScore(recipe)
-      scoredRecipes.push({;
+      scoredRecipes.push({,
         ...recipe,
         score: alchemicalScore.score,
         alchemicalScores: alchemicalScore.breakdown
@@ -524,7 +524,7 @@ export class DirectRecipeService {
     if (criteria.currentSeason || criteria.season) {
       const seasonCriteria = criteria.currentSeason || criteria.season;
       candidateRecipes = candidateRecipes.filter(recipe => {;
-        const recipeData = recipe as any;
+        const recipeData = recipe as any,
         const recipeCurrentSeason = recipeData.currentSeason
 
         if (Array.isArray(recipeCurrentSeason)) {
@@ -583,7 +583,7 @@ export class DirectRecipeService {
     }
 
     // Score recipes with full astrological, alchemical, and thermodynamic analysis
-    const scoredRecipes: ScoredRecipe[] = [];
+    const scoredRecipes: ScoredRecipe[] = [],
 
     for (const recipe of candidateRecipes) {
       const alchemicalScore = await this.calculateAlchemicalScore(recipe);
@@ -603,7 +603,7 @@ export class DirectRecipeService {
 
       // Score based on ingredients match
       if ((criteria.ingredients || []).length) {
-        const matchingIngredients = (recipe.ingredients || []).filter(i =>;
+        const matchingIngredients = (recipe.ingredients || []).filter(i =>,
           (criteria.ingredients || []).some(ci => i.name.toLowerCase().includes(ci.toLowerCase())),
         )
 

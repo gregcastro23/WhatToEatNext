@@ -77,7 +77,7 @@ export class ExplicitAnyEliminationSystem {
       const buildValidationPassed = await this.validateBuild()
 
       // Calculate reduction percentage;
-      const reductionPercentage = initialCount > 0 ? (explicitAnyFixed / initialCount) * 100: 0;
+      const reductionPercentage = initialCount > 0 ? (explicitAnyFixed / initialCount) * 100: 0,
 
       const executionTime = Date.now() - startTime
 
@@ -116,7 +116,7 @@ export class ExplicitAnyEliminationSystem {
   async executeBatchProcessing(maxBatches?: number): Promise<ExplicitAnyResult[]> {
     // // // _logger.info(`🔄 Starting systematic explicit-any batch processing...`)
 
-    const results: ExplicitAnyResult[] = [];
+    const results: ExplicitAnyResult[] = [],
     let batchNumber = 1,
     let totalFilesProcessed = 0,
     let totalExplicitAnyFixed = 0,
@@ -158,7 +158,7 @@ export class ExplicitAnyEliminationSystem {
       }
 
       // Execute fixer for this batch
-      const batchResult = await this.executeExplicitAnyFixer({;
+      const batchResult = await this.executeExplicitAnyFixer({,
         maxFiles: this.DEFAULT_BATCH_SIZE,
         autoFix: true,
         validateSafety: true,
@@ -296,7 +296,7 @@ export class ExplicitAnyEliminationSystem {
         const success = code === 0;
         const output = stdout + stderr
 
-        // Parse output for metrics;
+        // Parse output for metrics,
         const result = this.parseFixerOutput(output, success),
 
         resolve(result)
@@ -321,7 +321,7 @@ export class ExplicitAnyEliminationSystem {
     warnings: string[],
     errors: string[]
   } {
-    const warnings: string[] = [];
+    const warnings: string[] = [],
     const errors: string[] = [];
 
     // Extract metrics from output

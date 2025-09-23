@@ -145,7 +145,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       const result = nutritionalToElemental(profile as any)
 
       // Create a proper ElementalProperties object
-      return createElementalProperties({;
+      return createElementalProperties({,
         Fire: result.Fire,
         Water: result.Water,
         Earth: result.Earth,
@@ -257,7 +257,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       const result = getEnhancedPlanetaryNutritionalRecommendations(dayStr, hourStr, currentTime)
 
       // Convert elements to proper ElementalProperties
-      const elements = createElementalProperties({;
+      const elements = createElementalProperties({,
         Fire: result.elements.Fire || 0,
         Water: result.elements.Water || 0,
         Earth: result.elements.Earth || 0,

@@ -174,7 +174,7 @@ export class UnusedVariableTargetedFixer {
   private extractUnusedParameters(
     lintOutput: string,
   ): Array<{ file: string, line: number, param: string }> {
-    const params: Array<{ file: string, line: number, param: string }> = [];
+    const params: Array<{ file: string, line: number, param: string }> = [],
     const lines = lintOutput.split('\n')
 
     for (const line of lines) {
@@ -191,7 +191,7 @@ export class UnusedVariableTargetedFixer {
           const param = paramMatch ? paramMatch[1] : ''
 
           if (param) {
-            params.push({;
+            params.push({,
               file: filePath,
               line: parseInt(lineNum),
               param
@@ -210,7 +210,7 @@ export class UnusedVariableTargetedFixer {
   private extractUnusedDestructuredVariables(
     lintOutput: string,
   ): Array<{ file: string, line: number, variable: string }> {
-    const vars: Array<{ file: string, line: number, variable: string }> = [];
+    const vars: Array<{ file: string, line: number, variable: string }> = [],
     const lines = lintOutput.split('\n')
 
     for (const line of lines) {
@@ -227,7 +227,7 @@ export class UnusedVariableTargetedFixer {
           const variable = varMatch ? varMatch[1] : ''
 
           if (variable) {
-            vars.push({;
+            vars.push({,
               file: filePath,
               line: parseInt(lineNum),
               variable

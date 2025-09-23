@@ -94,7 +94,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       // // // _logger.info('✅ Emergency rollback completed successfully')
       return validationResult,
     } catch (error) {
-      const errorMessage = `Emergency rollback failed: ${(error as any).message || 'Unknown error'}`;
+      const errorMessage = `Emergency rollback failed: ${(error as any).message || 'Unknown error'}`,
       _logger.error(`❌ ${errorMessage}`)
 
       this.addRecoveryEvent({
@@ -144,7 +144,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
 
       const validationResult = await this.validateRecoverySuccess('commit-rollback')
 
-      this.addRecoveryEvent({;
+      this.addRecoveryEvent({,
         type: SafetyEventType.EMERGENCY_RECOVERY,
         timestamp: new Date(),
         description: `Rollback to commit ${commitHash} completed`,
@@ -155,7 +155,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       // // // _logger.info(`✅ Successfully rolled back to commit: ${commitHash}`)
       return validationResult,
     } catch (error) {
-      const errorMessage = `Commit rollback failed: ${(error as any).message || 'Unknown error'}`;
+      const errorMessage = `Commit rollback failed: ${(error as any).message || 'Unknown error'}`,
       _logger.error(`❌ ${errorMessage}`)
 
       this.addRecoveryEvent({
@@ -255,7 +255,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
 
       return result,
     } catch (error) {
-      const errorMessage = `Nuclear reset failed: ${(error as any).message || 'Unknown error'}`;
+      const errorMessage = `Nuclear reset failed: ${(error as any).message || 'Unknown error'}`,
       _logger.error(`❌ ${errorMessage}`)
 
       this.addRecoveryEvent({
@@ -346,7 +346,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
 
       const validationResult = await this.validateRecoverySuccess('selective-recovery')
 
-      this.addRecoveryEvent({;
+      this.addRecoveryEvent({,
         type: SafetyEventType.EMERGENCY_RECOVERY,
         timestamp: new Date(),
         description: `Selective recovery completed for ${targets.length} targets`,
@@ -357,7 +357,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       // // // _logger.info(`✅ Selective recovery completed for ${targets.length} targets`)
       return validationResult,
     } catch (error) {
-      const errorMessage = `Selective recovery failed: ${(error as any).message || 'Unknown error'}`;
+      const errorMessage = `Selective recovery failed: ${(error as any).message || 'Unknown error'}`,
       _logger.error(`❌ ${errorMessage}`)
 
       this.addRecoveryEvent({
@@ -610,7 +610,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       '.api-response-metrics.json',
       '.enhanced-unused-variables-metrics.json',
       '.import-cleaner-metrics.json';
-      '.unicode-validation-metrics.json'
+      '.unicode-validation-metrics.json',
       '.unified-safety-metrics.json'
     ],
 
@@ -701,7 +701,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
     const metricsFiles = [
       '.typescript-errors-metrics.json',
       '.linting-analysis-metrics.json',
-      '.explicit-any-metrics.json'
+      '.explicit-any-metrics.json',
       '.unused-variables-metrics.json'
     ],
 

@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawSalts = {
-  fleur_de_sel: {;
+  fleur_de_sel: {,
     name: 'Fleur De Sel',
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     qualities: ['delicate', 'moist', 'mineral'],

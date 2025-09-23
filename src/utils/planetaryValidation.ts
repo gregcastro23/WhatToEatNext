@@ -55,8 +55,8 @@ const VALIDATION_TOLERANCES = {
  */
 export async function validatePlanetaryData(): Promise<ValidationResult> {
   const startTime = Date.now()
-  const errors: ValidationError[] = [];
-  const warnings: ValidationWarning[] = [];
+  const errors: ValidationError[] = [],
+  const warnings: ValidationWarning[] = [],
 
   try {
     logger.info('Starting comprehensive planetary data validation')
@@ -124,7 +124,7 @@ async function validateTransitDates(): Promise<{
   errors: ValidationError[],
   warnings: ValidationWarning[]
 }> {
-  const errors: ValidationError[] = [];
+  const errors: ValidationError[] = [],
   const warnings: ValidationWarning[] = []
 
   try {
@@ -182,8 +182,8 @@ function validatePlanetTransitDates(
   transitDates: Record<string, unknown>,
   currentDate: Date,
 ): { errors: ValidationError[], warnings: ValidationWarning[] } {
-  const errors: ValidationError[] = [];
-  const warnings: ValidationWarning[] = [];
+  const errors: ValidationError[] = [],
+  const warnings: ValidationWarning[] = [],
 
   try {
     const signs = Object.keys(transitDates)
@@ -229,7 +229,7 @@ function validatePlanetTransitDates(
           Math.abs(currentDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
         if (daysDiff > 365 * 2) {
           // More than 2 years old
-          warnings.push({;
+          warnings.push({,
             type: 'DATA_OUTDATED',
             planet: planetName,
             message: `Transit data for ${planetName} in ${sign} is ${Math.round(daysDiff)} days old`,
@@ -245,7 +245,7 @@ function validatePlanetTransitDates(
             const endDate = new Date(nestedTransit.End)
 
             if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-              warnings.push({;
+              warnings.push({,
                 type: 'DATA_OUTDATED',
                 planet: planetName,
                 message: `Invalid nested transit dates for ${planetName} in ${sign}.${key}`,
@@ -275,8 +275,8 @@ async function validatePositionConsistency(): Promise<{
   errors: ValidationError[],
   warnings: ValidationWarning[]
 }> {
-  const errors: ValidationError[] = [];
-  const warnings: ValidationWarning[] = [];
+  const errors: ValidationError[] = [],
+  const warnings: ValidationWarning[] = [],
 
   try {
     // Get current calculated positions
@@ -294,7 +294,7 @@ async function validatePositionConsistency(): Promise<{
         if (typeof pos.degree === 'number' && typeof pos.exactLongitude === 'number') {
           // Validate degree is within valid range (0-30)
           if (pos.degree < 0 || pos.degree >= 30) {
-            errors.push({;
+            errors.push({,
               type: 'POSITION_DRIFT',
               severity: 'HIGH',
               planet: planetName,
@@ -341,8 +341,8 @@ async function validatePositionConsistency(): Promise<{
 async function validatePositionChange(
   planetName: string,
   currentPosition: { degree: number, exactLongitude: number, sign: string }): Promise<{ errors: ValidationError[], warnings: ValidationWarning[] }> {
-  const errors: ValidationError[] = [];
-  const warnings: ValidationWarning[] = [];
+  const errors: ValidationError[] = [],
+  const warnings: ValidationWarning[] = [],
 
   try {
     // Get expected daily motion for the planet
@@ -353,7 +353,7 @@ async function validatePositionChange(
     // Check if position seems reasonable for the planet
     const expectedSigns = await getExpectedSignsForPlanet(planetName)
     if (expectedSigns.length > 0 && !expectedSigns.includes(currentPosition.sign)) {
-      warnings.push({;
+      warnings.push({,
         type: 'MINOR_DRIFT',
         planet: planetName,
         message: `${planetName} in unexpected sign ${currentPosition.sign}, expected one of: ${expectedSigns.join(', ')}`,
@@ -724,7 +724,7 @@ async function validateElementalProperties(): Promise<{
   errors: ValidationError[],
   warnings: ValidationWarning[]
 }> {
-  const errors: ValidationError[] = [];
+  const errors: ValidationError[] = [],
   const warnings: ValidationWarning[] = []
 
   try {
@@ -756,8 +756,7 @@ async function validateElementalProperties(): Promise<{
         // Check alchemical properties
         if (planetData?.Alchemy) {
           const requiredAlchemical = ['Spirit', 'Essence', 'Matter', 'Substance'],
-          const missingAlchemical = requiredAlchemical.filter(
-            prop => typeof planetData.Alchemy[prop] !== 'number';
+          const missingAlchemical = requiredAlchemical.filter(prop => typeof planetData.Alchemy[prop] !== 'number',
           ),
 
           if (missingAlchemical.length > 0) {
@@ -797,15 +796,15 @@ function analyzeTestResults(_testResults: TestResult[]): {
   errors: ValidationError[],
   warnings: ValidationWarning[]
 } {
-  const errors: ValidationError[] = [];
-  const warnings: ValidationWarning[] = [];
+  const errors: ValidationError[] = [],
+  const warnings: ValidationWarning[] = [],
 
   const totalTests = testResults.length;
   const passedTests = testResults.filter(t => t.passed).length;
   const passRate = (passedTests / totalTests) * 100
 
   if (passRate < VALIDATION_TOLERANCES.TEST_PASS_THRESHOLD) {
-    errors.push({;
+    errors.push({,
       type: 'TEST_FAILURE',
       severity: 'HIGH',
       message: `Test pass rate ${passRate.toFixed(1)}% below threshold ${VALIDATION_TOLERANCES.TEST_PASS_THRESHOLD}%`,
@@ -865,14 +864,14 @@ function generateValidationSummary(
     summary += '\nCritical _Issues: \n',
     errors
       .filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH')
-      .forEach(error => {;
+      .forEach(error => {,
         summary += `- ${error.message}\n`
       })
   }
 
   if (warnings.length > 0) {
     summary += '\_nWarnings: \n'
-    warnings.slice(05).forEach(warning => {;
+    warnings.slice(05).forEach(warning => {,
       summary += `- ${warning.message}\n`
     })
 

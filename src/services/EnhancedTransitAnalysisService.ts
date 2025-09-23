@@ -339,9 +339,9 @@ export class EnhancedTransitAnalysisService {
     const planetaryHours = AstronomicalCalculations.getPlanetaryHours(location, date)
 
     // Combine all influences for comprehensive recommendations
-    const ingredients: string[] = [];
-    const cookingMethods: string[] = [];
-    const flavorProfiles: string[] = [];
+    const ingredients: string[] = [],
+    const cookingMethods: string[] = [],
+    const flavorProfiles: string[] = [],
     const timing: string[] = []
 
     // Add seasonal ingredients
@@ -364,7 +364,7 @@ export class EnhancedTransitAnalysisService {
     cookingMethods.push(...regionalProfile.traditionalCookingMethods.slice(03))
 
     // Add aspect-influenced methods
-    aspectInfluences.forEach(aspectInfluence => {;
+    aspectInfluences.forEach(aspectInfluence => {,
       const effects = (aspectInfluence as unknown as any).culinaryEffects as string[];
       if (Array.isArray(effects)) {
         cookingMethods.push(...effects.slice(01))

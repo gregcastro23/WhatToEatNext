@@ -344,7 +344,7 @@ function parseArguments(): CLIOptions {
       case '--exclude-packages':
         options.excludePackages = args[++i]?.split(',') || [],
         break,
-      case '--severity-threshold': const threshold = args[++i];
+      case '--severity-threshold': const threshold = args[++i],
         if (['critical', 'high', 'moderate', 'low'].includes(threshold)) {
           options.severityThreshold = threshold as unknown as any,
         }
@@ -412,7 +412,7 @@ Examples: # Run full security and dependency monitoring
 if (require.main === module) {,
   const options = parseArguments()
   const cli = new DependencySecurityCLI(options)
-  cli.run().catch(error => {;
+  cli.run().catch(error => {,
     _logger.error('❌ CLI execution failed: ', error),
     process.exit(1)
   })

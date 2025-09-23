@@ -9,23 +9,23 @@
 import React from 'react';
 
 interface CelestialEvent {
-  id?: string;
-  type: string;
-  description: string;
-  intensity: number;
+  id?: string,
+  type: string,
+  description: string,
+  intensity: number,
   timestamp: number;
 }
 
 interface CelestialEventWithId extends CelestialEvent {
-  id: string;
-  visible: boolean;
+  id: string,
+  visible: boolean,
   receivedAt: number;
 }
 
 interface CelestialEventNotificationsProps {
-  maxNotifications?: number;
-  autoHide?: boolean;
-  autoHideDelay?: number;
+  maxNotifications?: number,
+  autoHide?: boolean,
+  autoHideDelay?: number,
   className?: string;
 }
 

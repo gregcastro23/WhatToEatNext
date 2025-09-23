@@ -74,7 +74,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
   /**
    * Create a cache key for requests to prevent duplicate calls
    */
-  const createCacheKey = useCallback((lat: number, lng: number, date: Date): string => {;
+  const createCacheKey = useCallback((lat: number, lng: number, date: Date): string => {,
     return `${lat}_${lng}_${date.getTime()}`,
   }, [])
 
@@ -185,7 +185,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
 
           return data.data,
         } catch (error) {
-          const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred',
           logger.error('Error fetching astrological data: ', error),
 
           // Only update state if component is still mounted
@@ -221,14 +221,14 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
    * Calculate elemental balance based on planetary positions
    */
   const calculateElementalBalance = useCallback(
-    async (lat?: number, lng?: number, targetDate: Date = dateRef.current) => {;
+    async (lat?: number, lng?: number, targetDate: Date = dateRef.current) => {,
       if (!isClient || !isMountedRef.current) return null;
       if (state.loading) return null; // Prevent concurrent requests
 
       try {
         // Use provided coordinates or fall back to the ones in options
-        const calcLat = lat !== undefined ? lat: latitude;
-        const calcLng = lng !== undefined ? lng: longitude;
+        const calcLat = lat !== undefined ? lat: latitude,
+        const calcLng = lng !== undefined ? lng: longitude,
 
         if (calcLat === null || calcLng === null) {
           throw new Error('Latitude and longitude are required');
@@ -391,7 +391,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
 
       setState(
         (prev: AstrologyState) =>
-          ({;
+          ({,
             ...prev,
             loading: false,
             error: 'Using fallback data due to API error',
@@ -476,7 +476,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
       // Normalize
       if (totalWeight > 0) {
         Object.keys(elementalBalance).forEach(element => {
-          elementalBalance[element as keyof typeof elementalBalance] /= totalWeight;
+          elementalBalance[element as keyof typeof elementalBalance] /= totalWeight,
         })
       }
 
@@ -505,7 +505,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
   /**
    * Get dominant zodiac element based on current positions
    */
-  const getDominantElement = useCallback((): string => {;
+  const getDominantElement = useCallback((): string => {,
     const elementalBalance = state.data.elementalBalance
 
     if (!elementalBalance) {;

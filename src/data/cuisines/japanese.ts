@@ -84,9 +84,9 @@ export const japanese: Cuisine = {
               category: 'protein',
               swaps: ['tofu', 'tempeh']
             }
-            { name: 'miso paste', amount: '1', unit: 'tbsp', category: 'seasoning' }
+            { name: 'miso paste', amount: '1', unit: 'tbsp', category: 'seasoning' },
             { name: 'nori', amount: '1', unit: 'sheet', category: 'seaweed' }
-            { name: 'pickled vegetables', amount: '30', unit: 'g', category: 'vegetable' }
+            { name: 'pickled vegetables', amount: '30', unit: 'g', category: 'vegetable' },
             {
               name: 'raw egg',
               amount: '1',
@@ -157,7 +157,7 @@ export const japanese: Cuisine = {
             'Shape with bamboo mat'
           ],
           ingredients: [
-            { name: 'eggs', amount: '4', unit: 'large', category: 'protein', swaps: ['JUST Egg'] }
+            { name: 'eggs', amount: '4', unit: 'large', category: 'protein', swaps: ['JUST Egg'] },
             {
               name: 'dashi',
               amount: '2',
@@ -165,7 +165,7 @@ export const japanese: Cuisine = {
               category: 'broth',
               swaps: ['vegetable stock']
             }
-            { name: 'mirin', amount: '1', unit: 'tbsp', category: 'seasoning' }
+            { name: 'mirin', amount: '1', unit: 'tbsp', category: 'seasoning' },
             { name: 'soy sauce', amount: '1', unit: 'tsp', category: 'seasoning' }
             { name: 'sugar', amount: '1', unit: 'tsp', category: 'seasoning' }
           ],
@@ -215,7 +215,7 @@ export const japanese: Cuisine = {
             'Mix well before eating'
           ],
           ingredients: [
-            { name: 'steamed rice', amount: '200', unit: 'g', category: 'grain' }
+            { name: 'steamed rice', amount: '200', unit: 'g', category: 'grain' },
             { name: 'natto', amount: '50', unit: 'g', category: 'protein' }
             {
               name: 'raw egg',
@@ -224,7 +224,7 @@ export const japanese: Cuisine = {
               category: 'protein',
               swaps: ['soft tofu']
             }
-            { name: 'green onion', amount: '1', unit: 'stalk', category: 'vegetable' }
+            { name: 'green onion', amount: '1', unit: 'stalk', category: 'vegetable' },
             { name: 'soy sauce', amount: '1', unit: 'tsp', category: 'seasoning' }
             { name: 'karashi mustard', amount: '1/4', unit: 'tsp', category: 'condiment' }
           ],
@@ -285,7 +285,7 @@ export const japanese: Cuisine = {
             'Wrap with nori'
           ],
           ingredients: [
-            { name: 'sushi rice', amount: '300', unit: 'g', category: 'grain' }
+            { name: 'sushi rice', amount: '300', unit: 'g', category: 'grain' },
             { name: 'umeboshi', amount: '2', unit: 'pieces', category: 'pickle' }
             {
               name: 'grilled salmon',
@@ -358,9 +358,9 @@ export const japanese: Cuisine = {
               category: 'grain',
               swaps: ['rice noodles']
             }
-            { name: 'ham', amount: '50', unit: 'g', category: 'protein', swaps: ['tofu'] }
+            { name: 'ham', amount: '50', unit: 'g', category: 'protein', swaps: ['tofu'] },
             { name: 'cucumber', amount: '1', unit: 'medium', category: 'vegetable' }
-            { name: 'egg', amount: '1', unit: 'large', category: 'protein' }
+            { name: 'egg', amount: '1', unit: 'large', category: 'protein' },
             { name: 'sesame sauce', amount: '60', unit: 'ml', category: 'sauce' }
           ],
           substitutions: {
@@ -416,9 +416,9 @@ export const japanese: Cuisine = {
               category: 'grain',
               swaps: ['gluten-free soba']
             }
-            { name: 'mixed vegetables', amount: '200', unit: 'g', category: 'vegetable' }
+            { name: 'mixed vegetables', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'sesame dressing', amount: '60', unit: 'ml', category: 'sauce' }
-            { name: 'nori strips', amount: '2', unit: 'sheets', category: 'seaweed' }
+            { name: 'nori strips', amount: '2', unit: 'sheets', category: 'seaweed' },
             { name: 'toasted sesame seeds', amount: '1', unit: 'tbsp', category: 'garnish' }
           ],
           substitutions: {
@@ -459,11 +459,11 @@ export const japanese: Cuisine = {
           description: 'Japanese-style curry with vegetables and rice',
           cuisine: 'Japanese',
           ingredients: [
-            { name: 'rice', amount: '200', unit: 'g', category: 'grain' }
+            { name: 'rice', amount: '200', unit: 'g', category: 'grain' },
             { name: 'curry roux', amount: '100', unit: 'g', category: 'sauce' }
-            { name: 'potato', amount: '200', unit: 'g', category: 'vegetable' }
+            { name: 'potato', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'carrot', amount: '100', unit: 'g', category: 'vegetable' }
-            { name: 'onion', amount: '150', unit: 'g', category: 'vegetable' }
+            { name: 'onion', amount: '150', unit: 'g', category: 'vegetable' },
             {
               name: 'beef',
               amount: '150',
@@ -499,7 +499,7 @@ export const japanese: Cuisine = {
           description: 'Assorted nigiri and maki sushi',
           cuisine: 'Japanese',
           ingredients: [
-            { name: 'sushi rice', amount: '300', unit: 'g', category: 'grain' }
+            { name: 'sushi rice', amount: '300', unit: 'g', category: 'grain' },
             {
               name: 'assorted fish',
               amount: '200',
@@ -507,7 +507,7 @@ export const japanese: Cuisine = {
               category: 'protein',
               swaps: ['marinated vegetables']
             }
-            { name: 'nori', amount: '4', unit: 'sheets', category: 'seaweed' }
+            { name: 'nori', amount: '4', unit: 'sheets', category: 'seaweed' },
             { name: 'wasabi', amount: '15', unit: 'g', category: 'condiment' }
             { name: 'pickled ginger', amount: '30', unit: 'g', category: 'pickle' }
           ],
@@ -543,9 +543,9 @@ export const japanese: Cuisine = {
               category: 'protein',
               swaps: ['mushrooms', 'tofu']
             }
-            { name: 'napa cabbage', amount: '300', unit: 'g', category: 'vegetable' }
+            { name: 'napa cabbage', amount: '300', unit: 'g', category: 'vegetable' },
             { name: 'shirataki noodles', amount: '200', unit: 'g', category: 'noodles' }
-            { name: 'tofu', amount: '200', unit: 'g', category: 'protein' }
+            { name: 'tofu', amount: '200', unit: 'g', category: 'protein' },
             {
               name: 'raw eggs',
               amount: '4',
@@ -591,9 +591,9 @@ export const japanese: Cuisine = {
               category: 'protein',
               swaps: ['marinated mushrooms']
             }
-            { name: 'miso broth', amount: '500', unit: 'ml', category: 'soup' }
+            { name: 'miso broth', amount: '500', unit: 'ml', category: 'soup' },
             { name: 'corn', amount: '50', unit: 'g', category: 'vegetable' }
-            { name: 'bamboo shoots', amount: '30', unit: 'g', category: 'vegetable' }
+            { name: 'bamboo shoots', amount: '30', unit: 'g', category: 'vegetable' },
             {
               name: 'soft-boiled egg',
               amount: '1',
@@ -634,7 +634,7 @@ export const japanese: Cuisine = {
               category: 'protein',
               swaps: ['mushrooms', 'tofu']
             }
-            { name: 'green onion', amount: '4', unit: 'stalks', category: 'vegetable' }
+            { name: 'green onion', amount: '4', unit: 'stalks', category: 'vegetable' },
             { name: 'tare sauce', amount: '100', unit: 'ml', category: 'sauce' }
             { name: 'shichimi togarashi', amount: '1', unit: 'tbsp', category: 'seasoning' }
           ],
@@ -677,7 +677,7 @@ export const japanese: Cuisine = {
             'Serve over hot rice'
           ],
           ingredients: [
-            { name: 'steamed rice', amount: '400', unit: 'g', category: 'grain' }
+            { name: 'steamed rice', amount: '400', unit: 'g', category: 'grain' },
             {
               name: 'chicken thigh',
               amount: '300',
@@ -685,9 +685,9 @@ export const japanese: Cuisine = {
               category: 'protein',
               swaps: ['tofu']
             }
-            { name: 'eggs', amount: '4', unit: 'large', category: 'protein' }
+            { name: 'eggs', amount: '4', unit: 'large', category: 'protein' },
             { name: 'onion', amount: '1', unit: 'large', category: 'vegetable' }
-            { name: 'dashi', amount: '200', unit: 'ml', category: 'broth' }
+            { name: 'dashi', amount: '200', unit: 'ml', category: 'broth' },
             { name: 'mirin', amount: '2', unit: 'tbsp', category: 'seasoning' }
             { name: 'soy sauce', amount: '2', unit: 'tbsp', category: 'seasoning' }
           ],
@@ -730,7 +730,7 @@ export const japanese: Cuisine = {
             'Apply sauces and garnishes'
           ],
           ingredients: [
-            { name: 'cabbage', amount: '400', unit: 'g', category: 'vegetable' }
+            { name: 'cabbage', amount: '400', unit: 'g', category: 'vegetable' },
             {
               name: 'okonomiyaki flour',
               amount: '150',
@@ -738,7 +738,7 @@ export const japanese: Cuisine = {
               category: 'grain',
               swaps: ['all-purpose flour + dashi powder']
             }
-            { name: 'eggs', amount: '2', unit: 'large', category: 'protein' }
+            { name: 'eggs', amount: '2', unit: 'large', category: 'protein' },
             {
               name: 'pork belly',
               amount: '100',
@@ -746,7 +746,7 @@ export const japanese: Cuisine = {
               category: 'protein',
               swaps: ['mushrooms']
             }
-            { name: 'okonomiyaki sauce', amount: '4', unit: 'tbsp', category: 'sauce' }
+            { name: 'okonomiyaki sauce', amount: '4', unit: 'tbsp', category: 'sauce' },
             { name: 'mayonnaise', amount: '2', unit: 'tbsp', category: 'sauce' }
             { name: 'bonito flakes', amount: '10', unit: 'g', category: 'garnish', optional: true }
           ],
@@ -803,7 +803,7 @@ export const japanese: Cuisine = {
               category: 'seafood',
               swaps: ['vegetables']
             }
-            { name: 'assorted vegetables', amount: '400', unit: 'g', category: 'vegetable' }
+            { name: 'assorted vegetables', amount: '400', unit: 'g', category: 'vegetable' },
             {
               name: 'tempura flour',
               amount: '200',
@@ -811,7 +811,7 @@ export const japanese: Cuisine = {
               category: 'grain',
               swaps: ['rice flour mix']
             }
-            { name: 'ice water', amount: '200', unit: 'ml', category: 'liquid' }
+            { name: 'ice water', amount: '200', unit: 'ml', category: 'liquid' },
             { name: 'dashi', amount: '200', unit: 'ml', category: 'broth' }
             { name: 'mirin', amount: '2', unit: 'tbsp', category: 'seasoning' }
           ],
@@ -861,9 +861,9 @@ export const japanese: Cuisine = {
               category: 'grain',
               swaps: ['rice noodles']
             }
-            { name: 'dashi stock', amount: '1', unit: 'L', category: 'broth' }
+            { name: 'dashi stock', amount: '1', unit: 'L', category: 'broth' },
             { name: 'green onions', amount: '2', unit: 'stalks', category: 'vegetable' }
-            { name: 'kamaboko', amount: '100', unit: 'g', category: 'seafood', optional: true }
+            { name: 'kamaboko', amount: '100', unit: 'g', category: 'seafood', optional: true },
             { name: 'tempura bits', amount: '30', unit: 'g', category: 'topping', optional: true }
             { name: 'soy sauce', amount: '3', unit: 'tbsp', category: 'seasoning' }
           ],
@@ -914,9 +914,9 @@ export const japanese: Cuisine = {
               category: 'protein',
               swaps: ['chicken', 'tofu']
             }
-            { name: 'panko breadcrumbs', amount: '200', unit: 'g', category: 'coating' }
+            { name: 'panko breadcrumbs', amount: '200', unit: 'g', category: 'coating' },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein' }
-            { name: 'flour', amount: '100', unit: 'g', category: 'grain' }
+            { name: 'flour', amount: '100', unit: 'g', category: 'grain' },
             { name: 'tonkatsu sauce', amount: '60', unit: 'ml', category: 'sauce' }
             { name: 'cabbage', amount: '200', unit: 'g', category: 'vegetable' }
           ],
@@ -959,11 +959,11 @@ export const japanese: Cuisine = {
             'Garnish and serve'
           ],
           ingredients: [
-            { name: 'eggs', amount: '3', unit: 'large', category: 'protein' }
+            { name: 'eggs', amount: '3', unit: 'large', category: 'protein' },
             { name: 'dashi', amount: '300', unit: 'ml', category: 'broth' }
-            { name: 'chicken', amount: '60', unit: 'g', category: 'protein', swaps: ['mushrooms'] }
+            { name: 'chicken', amount: '60', unit: 'g', category: 'protein', swaps: ['mushrooms'] },
             { name: 'shrimp', amount: '4', unit: 'pieces', category: 'seafood', optional: true }
-            { name: 'mitsuba', amount: '4', unit: 'sprigs', category: 'herb', swaps: ['spinach'] }
+            { name: 'mitsuba', amount: '4', unit: 'sprigs', category: 'herb', swaps: ['spinach'] },
             { name: 'kamaboko', amount: '30', unit: 'g', category: 'seafood', optional: true }
           ],
           substitutions: {
@@ -1019,9 +1019,9 @@ export const japanese: Cuisine = {
               category: 'protein',
               swaps: ['mushrooms', 'tofu']
             }
-            { name: 'green onion', amount: '4', unit: 'stalks', category: 'vegetable' }
+            { name: 'green onion', amount: '4', unit: 'stalks', category: 'vegetable' },
             { name: 'sake', amount: '60', unit: 'ml', category: 'seasoning' }
-            { name: 'mirin', amount: '60', unit: 'ml', category: 'seasoning' }
+            { name: 'mirin', amount: '60', unit: 'ml', category: 'seasoning' },
             { name: 'soy sauce', amount: '60', unit: 'ml', category: 'seasoning' }
             { name: 'sugar', amount: '2', unit: 'tbsp', category: 'seasoning' }
           ],
@@ -1071,7 +1071,7 @@ export const japanese: Cuisine = {
               category: 'grain',
               swaps: ['rice noodles']
             }
-            { name: 'miso paste', amount: '4', unit: 'tbsp', category: 'seasoning' }
+            { name: 'miso paste', amount: '4', unit: 'tbsp', category: 'seasoning' },
             {
               name: 'pork broth',
               amount: '1',
@@ -1079,9 +1079,9 @@ export const japanese: Cuisine = {
               category: 'broth',
               swaps: ['vegetable broth']
             }
-            { name: 'chashu pork', amount: '200', unit: 'g', category: 'protein', swaps: ['tofu'] }
+            { name: 'chashu pork', amount: '200', unit: 'g', category: 'protein', swaps: ['tofu'] },
             { name: 'corn', amount: '200', unit: 'g', category: 'vegetable' }
-            { name: 'bean sprouts', amount: '200', unit: 'g', category: 'vegetable' }
+            { name: 'bean sprouts', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'butter', amount: '20', unit: 'g', category: 'dairy', optional: true }
           ],
           substitutions: {
@@ -1137,9 +1137,9 @@ export const japanese: Cuisine = {
               category: 'protein',
               swaps: ['chicken', 'tofu']
             }
-            { name: 'eggs', amount: '2', unit: 'large', category: 'protein' }
+            { name: 'eggs', amount: '2', unit: 'large', category: 'protein' },
             { name: 'onion', amount: '1', unit: 'medium', category: 'vegetable' }
-            { name: 'steamed rice', amount: '400', unit: 'g', category: 'grain' }
+            { name: 'steamed rice', amount: '400', unit: 'g', category: 'grain' },
             { name: 'dashi', amount: '200', unit: 'ml', category: 'broth' }
             { name: 'panko breadcrumbs', amount: '100', unit: 'g', category: 'coating' }
           ],
@@ -1189,7 +1189,7 @@ export const japanese: Cuisine = {
             'Serve with dipping sauce'
           ],
           ingredients: [
-            { name: 'gyoza wrappers', amount: '30', unit: 'pieces', category: 'grain' }
+            { name: 'gyoza wrappers', amount: '30', unit: 'pieces', category: 'grain' },
             {
               name: 'ground pork',
               amount: '300',
@@ -1197,9 +1197,9 @@ export const japanese: Cuisine = {
               category: 'protein',
               swaps: ['mushrooms']
             }
-            { name: 'cabbage', amount: '200', unit: 'g', category: 'vegetable' }
+            { name: 'cabbage', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'chives', amount: '50', unit: 'g', category: 'vegetable' }
-            { name: 'ginger', amount: '1', unit: 'tbsp', category: 'seasoning' }
+            { name: 'ginger', amount: '1', unit: 'tbsp', category: 'seasoning' },
             { name: 'garlic', amount: '2', unit: 'cloves', category: 'seasoning' }
           ],
           substitutions: {
@@ -1241,11 +1241,11 @@ export const japanese: Cuisine = {
             'Drain and serve'
           ],
           ingredients: [
-            { name: 'chicken thigh', amount: '600', unit: 'g', category: 'protein' }
+            { name: 'chicken thigh', amount: '600', unit: 'g', category: 'protein' },
             { name: 'soy sauce', amount: '3', unit: 'tbsp', category: 'seasoning' }
-            { name: 'sake', amount: '2', unit: 'tbsp', category: 'seasoning' }
+            { name: 'sake', amount: '2', unit: 'tbsp', category: 'seasoning' },
             { name: 'ginger', amount: '1', unit: 'tbsp', category: 'seasoning' }
-            { name: 'garlic', amount: '2', unit: 'cloves', category: 'seasoning' }
+            { name: 'garlic', amount: '2', unit: 'cloves', category: 'seasoning' },
             { name: 'potato starch', amount: '100', unit: 'g', category: 'coating' }
           ],
           substitutions: {

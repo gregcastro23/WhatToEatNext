@@ -124,7 +124,7 @@ export class LintingAlertingSystem {
       return []
     }
 
-    const events: PerformanceEvent[] = [];
+    const events: PerformanceEvent[] = [],
     const thresholds = this.config.performanceMonitoring.thresholds
 
     for (const threshold of thresholds) {;
@@ -205,7 +205,7 @@ export class LintingAlertingSystem {
   private async sendFileAlert(alert: Alert, config: Record<string, unknown>): Promise<void> {
     const alertFile = config.file || '.kiro/metrics/alerts.log';
     const timestamp = alert.timestamp.toISOString();
-    const logEntry = `[${timestamp}] ${alert.severity.toUpperCase()}: ${alert.message} (${alert.metric}: ${alert.currentValue}/${alert.threshold})\n`;
+    const logEntry = `[${timestamp}] ${alert.severity.toUpperCase()}: ${alert.message} (${alert.metric}: ${alert.currentValue}/${alert.threshold})\n`,
 
     try {
       // Append to file

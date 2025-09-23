@@ -271,7 +271,7 @@ export function performEnhancedAnalysis(
   const thermodynamicMetrics = calculateThermodynamicMetrics(alchemical, item.elemental),
 
   const compatibilityScore = calculateMonicaKalchmCompatibility(
-    { alchemical, elemental: item.elemental }
+    { alchemical, elemental: item.elemental },
     { elemental: referenceProfile })
 
   // Calculate confidence based on metric stability

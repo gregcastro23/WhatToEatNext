@@ -54,7 +54,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
         try {
           const coords = await (AstrologicalService as unknown)?.requestLocation?.()
           if (coords) {
-            setLocation({;
+            setLocation({,
               latitude: coords.latitude,
               longitude: coords.longitude
             })
@@ -87,7 +87,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
       if (!useCurrentTime && year && month && date) {
         // Use POST with custom date/time
         method = 'POST'
-        body = JSON.stringify({;
+        body = JSON.stringify({,
           year,
           month,
           date,

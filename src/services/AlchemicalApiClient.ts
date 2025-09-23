@@ -220,7 +220,7 @@ export class AlchemicalApiClient {
       ws.onopen = () => {
         _logger.info('🔮 Connected to alchm.kitchen real-time service')
         // Subscribe to planetary hours
-        ws.send(JSON.stringify({;
+        ws.send(JSON.stringify({,
           action: 'subscribe',
           channel: 'planetary_hours',
         }))
@@ -274,7 +274,7 @@ export class AlchemicalApiClient {
       })
     )
 
-    return results.map(result =>;
+    return results.map(result =>,
       result.status === 'fulfilled' ? result.value : { service: 'unknown', status: 'error' })
   }
 }

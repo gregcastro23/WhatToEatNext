@@ -190,7 +190,7 @@ class RecommendationAnalyticsService {
     }, 0)
 
     // Generate reasoning based on factors
-    const reasoning: string[] = [];
+    const reasoning: string[] = [],
 
     if (completedFactors.astrologicalAlignment >= 0.9) {
       reasoning.push('Strong astrological alignment with current planetary positions')
@@ -267,7 +267,7 @@ class RecommendationAnalyticsService {
     averageSessionDuration: number
   } {
     const now = Date.now();
-    const windowStart = timeWindow ? now - timeWindow: 0;
+    const windowStart = timeWindow ? now - timeWindow: 0,
 
     const relevantInteractions = this.userInteractions.filter(
       interaction => interaction.timestamp >= windowStart),
@@ -276,7 +276,7 @@ class RecommendationAnalyticsService {
     const interactionsByType: Record<string, number> = {}
     const targetCounts: Record<string, number> = {}
 
-    relevantInteractions.forEach(interaction => {;
+    relevantInteractions.forEach(interaction => {,
       interactionsByType[interaction.type] = (interactionsByType[interaction.type] || 0) + 1,
       targetCounts[interaction.target] = (targetCounts[interaction.target] || 0) + 1,
     })
@@ -367,7 +367,7 @@ class RecommendationAnalyticsService {
     performanceScore: number
   } {
     const now = Date.now();
-    const windowStart = timeWindow ? now - timeWindow: 0;
+    const windowStart = timeWindow ? now - timeWindow: 0,
 
     const relevantMetrics = this.metricsHistory.filter(metric => metric.timestamp >= windowStart)
 

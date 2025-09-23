@@ -78,7 +78,7 @@ export class UnifiedNutritionalService {
     }
   ): Promise<AlchemicalNutritionalProfile | null> {
     try {
-      const cacheKey = `enhanced_${typeof ingredient === 'string' ? ingredient : ingredient.name}_${JSON.stringify(context)}`;
+      const cacheKey = `enhanced_${typeof ingredient === 'string' ? ingredient : ingredient.name}_${JSON.stringify(context)}`,
 
       if (this.cache.has(cacheKey)) {
         return this.cache.get(cacheKey)
@@ -319,7 +319,7 @@ export class UnifiedNutritionalService {
     }
   ): NutritionalRecommendations {
     const currentSeason = season || unifiedSeasonalSystem.getCurrentSeason()
-    return this.getNutritionalRecommendations({;
+    return this.getNutritionalRecommendations({,
       season: currentSeason,
       ...additionalCriteria
     })
@@ -370,7 +370,7 @@ export class UnifiedNutritionalService {
   ): UnifiedIngredient[] {
     return ingredients.filter(ingredient => {
       const ingredientData = ingredient as unknown
-      const nutritionalProfile = ingredientData.nutritionalPropertiesProfile as Record<;
+      const nutritionalProfile = ingredientData.nutritionalPropertiesProfile as Record<,
         string,
         unknown
       >,
@@ -669,7 +669,7 @@ export class UnifiedNutritionalService {
 
     for (const ingredient of ingredients) {
       try {
-        const name = typeof ingredient === 'string' ? ingredient : ingredient.name;
+        const name = typeof ingredient === 'string' ? ingredient : ingredient.name,
         scores[name] = await this.calculateNutritionalScore(ingredient, context)
       } catch (error) {
         logger.error(
@@ -836,7 +836,7 @@ export const analyzeNutritionalCompatibility = (
 ) => unifiedNutritionalService.analyzeNutritionalCompatibility(ingredients, context)
 
 export const getNutritionalRecommendations = (criteria: {
-  season?: Season;
+  season?: Season,
   currentZodiacSign?: any,
   planetaryHour?: PlanetName,
   targetKalchm?: number,

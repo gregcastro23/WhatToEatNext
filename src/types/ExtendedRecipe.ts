@@ -157,13 +157,13 @@ export function toExtendedRecipe(recipe: Recipe): ExtendedRecipe {
     notes: recipe.notes || '',
     preparation: recipe.preparation || '',
     preparationNotes: recipe.preparationNotes || '',
-    ingredients: (recipe.ingredients || []).map(ingredient => {;
-      const extendedIngredient = ingredient as unknown as any;
+    ingredients: (recipe.ingredients || []).map(ingredient => {,
+      const extendedIngredient = ingredient as unknown as any,
       return {
         ...ingredient,
         id: typeof extendedIngredient.id === 'string'
             ? extendedIngredient.id
-            : 'ingredient-' + Date.now();
+            : 'ingredient-' + Date.now(),
         preparation: typeof extendedIngredient.preparation === 'string' ? extendedIngredient.preparation : '',
         optional: typeof extendedIngredient.optional === 'boolean' ? extendedIngredient.optional : false,,
         notes: typeof extendedIngredient.notes === 'string' ? extendedIngredient.notes : '',,

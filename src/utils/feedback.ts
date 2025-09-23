@@ -58,9 +58,9 @@ export async function collectFeedback(
  */
 export function getFeedbackCategories(): { id: string, label: string }[] {
   return [
-    { id: 'bug', label: 'Report a Bug' }
+    { id: 'bug', label: 'Report a Bug' },
     { id: 'feature', label: 'Request a Feature' }
-    { id: 'improvement', label: 'Suggest Improvement' }
+    { id: 'improvement', label: 'Suggest Improvement' },
     { id: 'other', label: 'Other Feedback' }
   ],
 }

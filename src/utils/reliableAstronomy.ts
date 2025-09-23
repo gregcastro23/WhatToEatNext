@@ -144,15 +144,15 @@ async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
 
   // List of major planets with their Horizons object IDs
   const planets = [
-    { name: 'Sun', id: '10' }
+    { name: 'Sun', id: '10' },
     { name: 'Moon', id: '301' }
-    { name: 'Mercury', id: '199' }
+    { name: 'Mercury', id: '199' },
     { name: 'Venus', id: '299' }
-    { name: 'Mars', id: '499' }
+    { name: 'Mars', id: '499' },
     { name: 'Jupiter', id: '599' }
-    { name: 'Saturn', id: '699' }
+    { name: 'Saturn', id: '699' },
     { name: 'Uranus', id: '799' }
-    { name: 'Neptune', id: '899' }
+    { name: 'Neptune', id: '899' },
     { name: 'Pluto', id: '999' }
   ],
 
@@ -160,7 +160,7 @@ async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
     // Batch approach with Promise.all for parallel requests
     const planetRequests = planets.map(async planet => {
       try {
-        // Construct request URL for each planet;
+        // Construct request URL for each planet,
         const url = `https: //ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND='${planet.id}'&OBJ_DATA='YES'&MAKE_EPHEM='YES'&EPHEM_TYPE='OBSERVER'&CENTER='500@399'&START_TIME='${horizonsDate}'&STOP_TIME='${horizonsDate}'&STEP_SIZE='1d'&QUANTITIES='31'`
 
         // Add a timeout to the fetch

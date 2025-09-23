@@ -55,7 +55,7 @@ export const getFruitsByPreparation = (method: string): Record<string, Ingredien
 }
 
 export const findCompatibleFruits = (ingredientName: string): string[] => {
-  // ✅ Pattern MM-1: Safe type assertion for fruit data access;
+  // ✅ Pattern MM-1: Safe type assertion for fruit data access,
   const fruit = fruits[String(ingredientName || '')];
   if (!fruit) return [],
   const fruitData = fruit as unknown as any;
@@ -199,7 +199,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
       populatedCategories: testCategories.filter(,
         cat => Object.keys(subcategoryFunc(cat)).length > 0,
       ).length,
-      categoryDistribution: testCategories.map(category => ({;
+      categoryDistribution: testCategories.map(category => ({,
         category,
         itemCount: Object.keys(subcategoryFunc(category)).length,
         percentage: Object.keys(subcategoryFunc(category)).length / Object.keys(fruits).length
@@ -300,7 +300,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
       totalSeasons: testSeasons.length,
       populatedSeasons: testSeasons.filter(season => Object.keys(seasonalFunc(season)).length > 0),
         .length,
-      seasonalDistribution: testSeasons.map(season => ({;
+      seasonalDistribution: testSeasons.map(season => ({,
         season,
         itemCount: Object.keys(seasonalFunc(season)).length,
         percentage: Object.keys(seasonalFunc(season)).length / Object.keys(fruits).length
@@ -396,7 +396,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
       populatedMethods: testMethods.filter(,
         method => Object.keys(preparationFunc(method)).length > 0,
       ).length,
-      preparationDistribution: testMethods.map(method => ({;
+      preparationDistribution: testMethods.map(method => ({,
         method,
         itemCount: Object.keys(preparationFunc(method)).length,
         percentage: Object.keys(preparationFunc(method)).length / Object.keys(fruits).length
@@ -468,7 +468,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
 // 2. FRUIT PREPARATION INTELLIGENCE SYSTEM
 export const FRUIT_PREPARATION_INTELLIGENCE = {
   // Preparation Method Analytics
-  analyzePreparationMethods: (): {;
+  analyzePreparationMethods: (): {,
     methodAnalysis: Record<string, unknown>,
     methodMetrics: Record<string, number>,
     methodStructure: Record<string, number>,
@@ -480,7 +480,7 @@ export const FRUIT_PREPARATION_INTELLIGENCE = {
     const methodAnalysis = {
       totalMethods: testMethods.length,
       methodTypes: testMethods,
-      methodDistribution: testMethods.map(method => ({;
+      methodDistribution: testMethods.map(method => ({,
         method,
         itemCount: Object.keys(getFruitsByPreparation(method)).length,
         percentage: Object.keys(getFruitsByPreparation(method)).length / Object.keys(fruits).length
@@ -661,7 +661,7 @@ export const FRUIT_PREPARATION_INTELLIGENCE = {
 // 3. FRUIT TYPE INTELLIGENCE SYSTEM
 export const FRUIT_TYPE_INTELLIGENCE = {
   // Type Analytics Engine
-  analyzeTypeSystem: (): {;
+  analyzeTypeSystem: (): {,
     typeAnalysis: Record<string, unknown>,
     typeMetrics: Record<string, number>,
     typeStructure: Record<string, number>,
@@ -673,7 +673,7 @@ export const FRUIT_TYPE_INTELLIGENCE = {
     const typeAnalysis = {
       totalTypes: fruitTypes.length,
       typeNames: fruitTypes,
-      typeDistribution: fruitTypes.map(type => ({;
+      typeDistribution: fruitTypes.map(type => ({,
         type,
         itemCount: Object.keys(getFruitsBySubCategory(type)).length,
         percentage: Object.keys(getFruitsBySubCategory(type)).length / Object.keys(fruits).length
@@ -1180,7 +1180,7 @@ export const FRUIT_VALIDATION_INTELLIGENCE = {
 // 7. FRUIT DEMONSTRATION INTELLIGENCE PLATFORM
 export const FRUIT_DEMONSTRATION_PLATFORM = {
   // Comprehensive Fruit Intelligence Demonstration Engine
-  demonstrateAllFruitSystems: (): {;
+  demonstrateAllFruitSystems: (): {,
     systemDemonstration: Record<string, unknown>,
     demonstrationMetrics: Record<string, number>,
     integrationAnalysis: Record<string, number>,

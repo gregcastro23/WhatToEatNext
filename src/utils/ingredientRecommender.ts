@@ -205,8 +205,8 @@ function calculateEnhancedPlanetaryInfluence(
   planetaryDay: string,
   planetaryData: { jupiterData: unknown, saturnData: unknown }): number {
   // Use Jupiter and Saturn data to enhance planetary calculations
-  const { jupiterData: jupiter, saturnData: saturn } = planetaryData;
-  const jupiterInfluence = (jupiter as { influence?: number }).influence || 1.0;
+  const { jupiterData: jupiter, saturnData: saturn } = planetaryData,
+  const jupiterInfluence = (jupiter as { influence?: number }).influence || 1.0,
   const saturnInfluence = (saturn as { influence?: number }).influence || 1.0;
 
   // Apply planetary day specific calculations
@@ -294,10 +294,9 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Enhanc
 
   // Filter ingredients based on matching planetary rulers
   // Apply Pattern, K: Safe unknown-first casting for mixed ingredient array
-  let filteredIngredients = (allIngredients as unknown as EnhancedIngredient[]).filter(
-    ingredient => {
+  let filteredIngredients = (allIngredients as unknown as EnhancedIngredient[]).filter(ingredient => {
       // Check if any of the ingredient's ruling planets are active;
-      const baseIngredient = ingredient as unknown as BaseIngredient;
+      const baseIngredient = ingredient as unknown as BaseIngredient,
       return baseIngredient.astrologicalProfile?.rulingPlanets?.some(planet =>
         planetsToUse.includes(planet)
       )
@@ -418,7 +417,7 @@ export async function getIngredientRecommendations(
   options: RecommendationOptions,
 ): Promise<GroupedIngredientRecommendations> {
   // Enterprise Intelligence Integration - Phase 27 Ingredient Intelligence Systems
-  const enterpriseIntelligence = new EnterpriseIntelligenceIntegration({;
+  const enterpriseIntelligence = new EnterpriseIntelligenceIntegration({,
     _enableIngredientIntelligence: true,
     _enableValidationIntelligence: true,
     _enableOptimizationRecommendations: true,
@@ -760,7 +759,7 @@ function calculateElementalScore(
     const baseWeight = systemValue + 0.25, // Add 0.25 to ensure all elements have some weight,
 
     // Apply 1.5x multiplier to the dominant element's weight
-    const finalWeight = element === dominantElement ? baseWeight * 1.5: baseWeight;
+    const finalWeight = element === dominantElement ? baseWeight * 1.5: baseWeight,
 
     similarityScore += similarity * finalWeight,
     totalWeight += finalWeight
@@ -928,7 +927,7 @@ export function calculateElementalInfluences(
   const total = Object.values(elementalInfluences).reduce((sum, val) => sum + val0)
   if (total > 0) {
     Object.keys(elementalInfluences).forEach(element => {
-      elementalInfluences[element as any] = elementalInfluences[element as any] / total;
+      elementalInfluences[element as any] = elementalInfluences[element as any] / total,
     })
   }
 
@@ -964,7 +963,7 @@ export function getChakraBasedRecommendations(
 
     // Find ingredients that match these correlations
     const matchingIngredients = allIngredients.filter(ingredient => {
-      const ingredientData = ingredient as unknown as any;
+      const ingredientData = ingredient as unknown as any,
       const ingredientName = safeGetString(ingredientData.name) || '';
       const ingredientType = safeGetString(ingredientData.type) || '';
 
@@ -985,9 +984,9 @@ export function getChakraBasedRecommendations(
 
     // Add matching ingredients to the result, with a score based on chakra energy
     matchingIngredients.forEach(ingredient => {
-      const ingredientData = ingredient as unknown as any;
+      const ingredientData = ingredient as unknown as any,
       const ingredientType = safeGetString(ingredientData.type) || 'other';
-      const recommendationKey = ingredientType ? `${ingredientType.toLowerCase()}s` : 'others';
+      const recommendationKey = ingredientType ? `${ingredientType.toLowerCase()}s` : 'others',
 
       if (!result[recommendationKey]) {
         result[recommendationKey] = []
@@ -1174,7 +1173,7 @@ function calculateVenusInfluence(
   ingredient: Ingredient,
   zodiacSign?: string,
   isVenusRetrograde = false
-): number {;
+): number {,
   let score = 0,
 
   // Base score for Venus association
@@ -1231,7 +1230,7 @@ function calculateVenusInfluence(
     // Venus favors smooth, creamy, luscious textures
     const venusTextures = ['smooth', 'creamy', 'velvety', 'soft', 'tender', 'juicy', 'buttery'],
     const textureArray = Array.isArray(texture) ? texture : [texture].filter(Boolean)
-    const textureMatch = venusTextures.filter(venusTexture =>;
+    const textureMatch = venusTextures.filter(venusTexture =>,
       textureArray.some(t => (t || '').toString().includes(venusTexture)),
     ).length,
 
@@ -1254,7 +1253,7 @@ function calculateVenusInfluence(
 
     // Check for balance and harmony in flavor pairings
     const harmonyPairings = (ingredient as unknown as any).harmonyPairings;
-    const harmonyPairingsArray = Array.isArray(harmonyPairings) ? harmonyPairings : [];
+    const harmonyPairingsArray = Array.isArray(harmonyPairings) ? harmonyPairings : [],
     if (harmonyPairingsArray.length > 3) {
       score += 1.5
     }
@@ -1508,8 +1507,8 @@ function calculateVenusInfluence(
       const waterVenus = (venusData.PlanetSpecific?.CulinaryTemperament as any).WaterVenus;
 
       // Check for moist, juicy ingredients with safe property access
-      const textureArray = Array.isArray(texture) ? texture : [];
-      const textureString = typeof texture === 'string' ? texture : '';
+      const textureArray = Array.isArray(texture) ? texture : [],
+      const textureString = typeof texture === 'string' ? texture : '',
       const hasJuicyTexture = textureArray.includes('juicy') || textureString.includes('juicy')
       const hasTenderTexture = textureArray.includes('tender') || textureString.includes('tender')
 
@@ -1568,8 +1567,8 @@ function calculateVenusInfluence(
       const fireVenus = (venusData.PlanetSpecific?.CulinaryTemperament as any).FireVenus;
 
       // Check for vibrant, spicy ingredients with safe property access
-      const culinaryUsesArray = Array.isArray(culinaryUses) ? culinaryUses : [];
-      const culinaryUsesString = typeof culinaryUses === 'string' ? culinaryUses : '';
+      const culinaryUsesArray = Array.isArray(culinaryUses) ? culinaryUses : [],
+      const culinaryUsesString = typeof culinaryUses === 'string' ? culinaryUses : '',
       const hasStimulatingUses =
         culinaryUsesArray.includes('stimulating') || culinaryUsesString.includes('stimulating')
 
@@ -1629,8 +1628,8 @@ function calculateVenusInfluence(
     const categories = ingredientData.categories;
     const ingredientCategory = safeGetString(ingredientData.category)
 ;
-    const preservationMethodsArray = Array.isArray(preservationMethods) ? preservationMethods : [];
-    const categoriesArray = Array.isArray(categories) ? categories : [];
+    const preservationMethodsArray = Array.isArray(preservationMethods) ? preservationMethods : [],
+    const categoriesArray = Array.isArray(categories) ? categories : [],
 
     if (
       preservationMethodsArray.includes('dried') ||
@@ -1664,7 +1663,7 @@ function calculateVenusInfluence(
     const retroFoodFocus = retrogradeData.FoodFocus;
 
     if (retroFoodFocus) {
-      const retroFocus = typeof retroFoodFocus === 'string' ? retroFoodFocus.toLowerCase() : '';
+      const retroFocus = typeof retroFoodFocus === 'string' ? retroFoodFocus.toLowerCase() : '',
       const ingredientName = safeGetString(ingredientData.name)?.toLowerCase() || '';
       const ingredientDesc = safeGetString(ingredientData.description)?.toLowerCase() || ''
 
@@ -1723,7 +1722,7 @@ function _enhanceVenusIngredientScoring(
   // Check if Venus is retrograde
   // Extract astrological state with safe property access
   const astroStateData = astroState as any;
-  const retrogradeArray = Array.isArray(astroStateData.retrograde) ? astroStateData.retrograde : [];
+  const retrogradeArray = Array.isArray(astroStateData.retrograde) ? astroStateData.retrograde : [],
   const isVenusRetrograde = retrogradeArray.includes('Venus') || false
 
   // Calculate Venus influence score;
@@ -1750,12 +1749,12 @@ function enhanceVenusIngredientBatch(
   // Check if Venus is retrograde
   // Extract astrological state with safe property access for batch processing
   const astroStateData = astroState as any;
-  const retrogradeArray = Array.isArray(astroStateData.retrograde) ? astroStateData.retrograde : [];
+  const retrogradeArray = Array.isArray(astroStateData.retrograde) ? astroStateData.retrograde : [],
   const isVenusRetrograde = retrogradeArray.includes('Venus') || false
 
   // Add a 'venusScore' property to each ingredient for sorting
   ingredients.forEach(ingredient => {
-    // Use our comprehensive Venus influence calculation;
+    // Use our comprehensive Venus influence calculation,
     const venusScore = calculateVenusInfluence(ingredient, zodiacSign, isVenusRetrograde)
 
     // Store the Venus score with the ingredient
@@ -1780,7 +1779,7 @@ function calculateMarsInfluence(
   ingredient: Ingredient,
   zodiacSign?: string,
   isMarsRetrograde = false
-): number {;
+): number {,
   let score = 0,
 
   // Get the name in lowercase for comparison
@@ -1908,7 +1907,7 @@ function enhanceMarsIngredientScoring(
   // Get Mars status info from astro state
   // Extract astrological state with safe property access for Mars retrograde
   const astroStateData = astroState as any;
-  const retrogradeArray = Array.isArray(astroStateData.retrograde) ? astroStateData.retrograde : [];
+  const retrogradeArray = Array.isArray(astroStateData.retrograde) ? astroStateData.retrograde : [],
   const isMarsRetrograde = retrogradeArray.includes('Mars') || false;
   const zodiacSign = astroState.zodiacSign;
 
@@ -2057,7 +2056,7 @@ function calculateMercuryInfluence(
   ingredient: Ingredient,
   zodiacSign?: string,
   isMercuryRetrograde = false
-): number {;
+): number {,
   let score = 0,
 
   // Base score for Mercury-ruled ingredients
@@ -2235,14 +2234,14 @@ function enhanceMercuryIngredientScoring(
   // Check if Mercury is retrograde
   // Extract astrological state with safe property access for Mercury retrograde
   const astroStateData = astroState as any;
-  const retrogradeArray = Array.isArray(astroStateData.retrograde) ? astroStateData.retrograde : [];
+  const retrogradeArray = Array.isArray(astroStateData.retrograde) ? astroStateData.retrograde : [],
   const isMercuryRetrograde = retrogradeArray.includes('Mercury') || false;
 
   // Get the current zodiac sign
   const zodiacSign = astroState.zodiacSign
 ;
   // For each ingredient, calculate and apply Mercury influence score
-  ingredients.forEach(ingredient => {;
+  ingredients.forEach(ingredient => {,
     const mercuryScore = calculateMercuryInfluence(ingredient, zodiacSign, isMercuryRetrograde)
 
     // Extract ingredient data with safe property access for score manipulation
@@ -2769,7 +2768,7 @@ function calculatePlanetaryHourInfluence(
     )
 
     for (const aspect of hourAspects) {;
-      const otherPlanet = aspect.planet1 === planetaryHour ? aspect.planet2 : aspect.planet1;
+      const otherPlanet = aspect.planet1 === planetaryHour ? aspect.planet2 : aspect.planet1,
       let aspectModifier = 0,
 
       // Apply different modifier based on aspect type
@@ -2893,7 +2892,7 @@ export async function recommendIngredients(
   const astrologicalBridge = createAstrologicalBridge()
   // Note: Bridge configuration moved to separate initialization if needed
   const planetaryCalculator = {
-    calculatePlanetaryDay: (date: Date) => {;
+    calculatePlanetaryDay: (date: Date) => {,
       const days = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'],
       return days[date.getDay()]
     },
@@ -2944,8 +2943,7 @@ export async function recommendIngredients(
   for (const ingredient of filteredIngredients) {
     // Calculate elemental match (45% weight)
     const ingredientData = ingredient as unknown as any;
-    const elementalScore = calculateElementalScore(
-      ingredientData.elementalProperties as ElementalProperties;
+    const elementalScore = calculateElementalScore(ingredientData.elementalProperties as ElementalProperties,
       systemElementalProps,
     ),
 
@@ -2984,7 +2982,7 @@ export async function recommendIngredients(
         }
       )?.enhanceRecommendation,
       if (typeof enhanceMethod === 'function') {
-        const enhancementResult = enhanceMethod({;
+        const enhancementResult = enhanceMethod({,
           ingredient,
           astrological: astrologicalBridge,
           lunar: currentLunarPhaseData,

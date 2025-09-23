@@ -384,7 +384,7 @@ describe('ProgressReportingSystem', () => {;
       expect(visualizationDataperformanceTrendChart).toHaveLength(1)
 
       // Verify time series data structure;
-      const timeSeriesPoint: any = visualizationData.timeSeriesData[0];
+      const timeSeriesPoint: any = visualizationData.timeSeriesData[0],
       expect(timeSeriesPoint.timestamp).toBeInstanceOf(Date).
       expect(typeof timeSeriesPointtypeScriptErrors).toBe('number')
       expect(typeof timeSeriesPoint.lintingWarnings).toBe('number').

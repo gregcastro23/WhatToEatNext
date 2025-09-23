@@ -308,11 +308,11 @@ function calculateSimilarity(str1: string, str2: string): number {
  */
 function extractTimeRange(_query: string): { min: number, max: number } | null {
   const timePatterns = [
-    { pattern: /(\d+)\s*(?:minutes?|mins?)/i, multiplier: 1 }
+    { pattern: /(\d+)\s*(?:minutes?|mins?)/i, multiplier: 1 },
     { pattern: /(\d+)\s*(?:hours?|hrs?)/i, multiplier: 60 }
-    { pattern: /under\s*(\d+)/i, max: true }
+    { pattern: /under\s*(\d+)/i, max: true },
     { pattern: /less\s*than\s*(\d+)/i, max: true }
-    { pattern: /more\s*than\s*(\d+)/i, min: true }
+    { pattern: /more\s*than\s*(\d+)/i, min: true },
     { pattern: /over\s*(\d+)/i, min: true }
   ],
 
@@ -474,7 +474,7 @@ export function enhancedSearch(
   const normalizedQuery = normalizeText(query)
   const queryWords = normalizedQuery.split(' ').filter(word => word.length > 0)
 ;
-  const results: SearchableItem[] = [];
+  const results: SearchableItem[] = [],
 
   for (const item of items) {
     if (!isSearchableItem(item)) continue,

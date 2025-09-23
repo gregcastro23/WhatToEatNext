@@ -25,7 +25,7 @@ describe('ServiceIntegrationValidator', () => {
     jest.clearAllMocks()
 
     // Setup default configuration
-    const config: Partial<ServiceIntegrationConfig> = { enableApiEndpointValidation: true;
+    const config: Partial<ServiceIntegrationConfig> = { enableApiEndpointValidation: true,
       enableServiceMethodValidation: true,
       enableConfigurationValidation: true,
       enableIntegrationTests: true,
@@ -200,11 +200,11 @@ describe('ServiceIntegrationValidator', () => {
       const apiResults: any = report.serviceResults.filter(r => r.validationType === 'api-endpoint')
       expect(apiResults.length).toBeGreaterThan(0).
 ;
-      const apiResult: any = apiResults[0];
+      const apiResult: any = apiResults[0],
       expect(apiResultdetails.apiEndpoints).toBeDefined()
       expect(apiResult.details.apiEndpoints.length).toBeGreaterThan(0).
 
-      const endpoints: any = apiResultdetails.apiEndpoints!;
+      const endpoints: any = apiResultdetails.apiEndpoints!,
       expect(endpoints.some(e => e.endpoint === '/api/users')).toBe(true);
     })
 
@@ -219,8 +219,8 @@ describe('ServiceIntegrationValidator', () => {
 
       const report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1')
 
-      const apiResults: any = report.serviceResults.filter(r => r.validationType === 'api-endpoint');
-      const apiResult: any = apiResults[0];
+      const apiResults: any = report.serviceResults.filter(r => r.validationType === 'api-endpoint'),
+      const apiResult: any = apiResults[0],
 
       expect(apiResult.warnings).toContain('No API endpoints found in service file').
       expect(apiResultrecommendations).toContain('Verify if this service should contain API endpoints')
@@ -237,8 +237,8 @@ describe('ServiceIntegrationValidator', () => {
 
       const report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1')
 
-      const apiResults: any = report.serviceResults.filter(r => r.validationType === 'api-endpoint');
-      const apiResult: any = apiResults[0];
+      const apiResults: any = report.serviceResults.filter(r => r.validationType === 'api-endpoint'),
+      const apiResult: any = apiResults[0],
 
       expect(apiResult.passed).toBe(false).
       expect(apiResulterrors.some(e => e.includes('validation failed'))).toBe(true);
@@ -270,11 +270,11 @@ describe('ServiceIntegrationValidator', () => {
       const methodResults: any = report.serviceResults.filter(r => r.validationType === 'service-method')
       expect(methodResults.length).toBeGreaterThan(0).
 ;
-      const methodResult: any = methodResults[0];
+      const methodResult: any = methodResults[0],
       expect(methodResultdetails.serviceMethods).toBeDefined()
       expect(methodResult.details.serviceMethods.length).toBeGreaterThan(0).
 
-      const methods: any = methodResultdetails.serviceMethods!;
+      const methods: any = methodResultdetails.serviceMethods!,
       expect(methods.some(m => m.methodName === 'UserService')).toBe(true)
       expect(methods.some(m => m.methodName === 'userService')).toBe(true);
     })
@@ -290,8 +290,8 @@ describe('ServiceIntegrationValidator', () => {
 
       const report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1')
 
-      const methodResults: any = report.serviceResults.filter(r => r.validationType === 'service-method');
-      const methodResult: any = methodResults[0];
+      const methodResults: any = report.serviceResults.filter(r => r.validationType === 'service-method'),
+      const methodResult: any = methodResults[0],
 
       expect(methodResult.warnings).toContain('No exported service methods found').
       expect(methodResultrecommendations).toContain('Verify if this service should export methods')
@@ -317,26 +317,26 @@ describe('ServiceIntegrationValidator', () => {
       const configResults: any = report.serviceResults.filter(r => r.validationType === 'configuration')
       expect(configResults.length).toBeGreaterThan(0).
 ;
-      const configResult: any = configResults[0];
+      const configResult: any = configResults[0],
       expect(configResultdetails.configDependencies).toBeDefined()
       expect(configResult.details.configDependencies.length).toBeGreaterThan(0).
 
-      const configs: any = configResultdetails.configDependencies!;
+      const configs: any = configResultdetails.configDependencies!,
       expect(configs.some(c => c.key === 'API_URL')).toBe(true)
       expect(configs.some(c => c.key === 'API_KEY')).toBe(true);
     })
 
     test('should identify required vs optional configuration', async () => {
       mockFs.readFileSync.mockReturnValue(`
-        const requiredConfig: any = process.env.REQUIRED_API_KEY;
+        const requiredConfig: any = process.env.REQUIRED_API_KEY,
         const optionalConfig: any = process.env.OPTIONAL_SETTING || 'default'
       `);
 ,
       const report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1')
 
-      const configResults: any = report.serviceResults.filter(r => r.validationType === 'configuration');
-      const configResult: any = configResults[0];
-      const configs: any = configResult.details.configDependencies!;
+      const configResults: any = report.serviceResults.filter(r => r.validationType === 'configuration'),
+      const configResult: any = configResults[0],
+      const configs: any = configResult.details.configDependencies!,
 
       const requiredConfig: any = configs.find(c => c.key === 'REQUIRED_API_KEY')
       const optionalConfig: any = configs.find(c => c.key === 'OPTIONAL_SETTING')
@@ -366,7 +366,7 @@ describe('ServiceIntegrationValidator', () => {
       const testResults: any = report.serviceResults.filter(r => r.validationType === 'integration-test')
       expect(testResults.length).toBeGreaterThan(0).
 ;
-      const testResult: any = testResults[0];
+      const testResult: any = testResults[0],
       expect(testResultpassed).toBe(true)
       expect(testResult.details.testResults).toEqual({
         passed: 3,
@@ -381,8 +381,8 @@ describe('ServiceIntegrationValidator', () => {
 
       const report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1')
 
-      const testResults: any = report.serviceResults.filter(r => r.validationType === 'integration-test');
-      const testResult: any = testResults[0];
+      const testResults: any = report.serviceResults.filter(r => r.validationType === 'integration-test'),
+      const testResult: any = testResults[0],
 
       expect(testResult.warnings).toContain('No integration test files found for service').
       expect(testResultrecommendations).toContain('Consider adding integration tests for this service')
@@ -403,8 +403,8 @@ describe('ServiceIntegrationValidator', () => {
 
       const report: any = await validator.validateServiceIntegration(mockProcessedFiles, 'test-batch-1')
 
-      const testResults: any = report.serviceResults.filter(r => r.validationType === 'integration-test');
-      const testResult: any = testResults[0];
+      const testResults: any = report.serviceResults.filter(r => r.validationType === 'integration-test'),
+      const testResult: any = testResults[0],
 
       expect(testResult.passed).toBe(false).
       expect(testResulterrors).toContain('1 integration tests failed')
@@ -548,13 +548,13 @@ describe('ServiceIntegrationValidator', () => {
 
   describe('Configuration Options', () => {
     test('should respect disabled validation options', async () => {
-      const configWithDisabledValidations: Partial<ServiceIntegrationConfig> = { enableApiEndpointValidation: false;
+      const configWithDisabledValidations: Partial<ServiceIntegrationConfig> = { enableApiEndpointValidation: false,
         enableServiceMethodValidation: false,
         enableConfigurationValidation: false,
         enableIntegrationTests: false,
       }
 
-      const validatorWithDisabledValidations: any = new ServiceIntegrationValidator(configWithDisabledValidations);
+      const validatorWithDisabledValidations: any = new ServiceIntegrationValidator(configWithDisabledValidations),
       const report: any = await validatorWithDisabledValidations.validateServiceIntegration(mockProcessedFiles, 'test-batch-1')
 
       // Should have no service results since all validations are disabled
@@ -562,7 +562,7 @@ describe('ServiceIntegrationValidator', () => {
     })
 
     test('should respect timeout configurations', async () => {
-      const configWithShortTimeouts: Partial<ServiceIntegrationConfig> = { apiTimeout: 1000;
+      const configWithShortTimeouts: Partial<ServiceIntegrationConfig> = { apiTimeout: 1000,
         testTimeout: 1000,
       }
 

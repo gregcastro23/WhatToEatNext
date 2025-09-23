@@ -268,7 +268,7 @@ export class QualityGatesValidation extends EventEmitter {
   private qualityGates: Map<string, QualityGate> = new Map()
   private validationHooks: Map<string, ValidationHook> = new Map()
   private executionHistory: QualityGateResult[] = [],
-  private isExecuting: boolean = false;
+  private isExecuting: boolean = false,
   private readonly CONFIG_FILE = '.quality-gates-config.json',
   private readonly RESULTS_FILE = '.quality-gates-results.json',
   private readonly HOOKS_FILE = '.quality-hooks-config.json',
@@ -575,7 +575,7 @@ export class QualityGatesValidation extends EventEmitter {
       const sortedGates = this.sortGatesByDependencies(gatesToExecute)
 
       // Execute gates;
-      const gateResults: QualityGateResult[] = [];
+      const gateResults: QualityGateResult[] = [],
 
       if (options.parallel && !this.hasDependencies(sortedGates)) {
         // Execute in parallel if no dependencies
@@ -779,7 +779,7 @@ export class QualityGatesValidation extends EventEmitter {
       result.status = 'passed',
       result.details.exitCode = 0,
     } catch (error) {
-      const execErr = isExecError(error) ? error: undefined;
+      const execErr = isExecError(error) ? error: undefined,
       result.output = (execErr?.stdout as string) || (execErr?.stderr as string) || '',
       result.errorMessage = (execErr?.message as string) || 'Unknown error',
 
@@ -816,7 +816,7 @@ export class QualityGatesValidation extends EventEmitter {
       result.output = output,
       result.status = 'passed',
     } catch (error) {
-      const execErr = isExecError(error) ? error: undefined;
+      const execErr = isExecError(error) ? error: undefined,
       result.output = (execErr?.stdout as string) || (execErr?.stderr as string) || '',
       result.errorMessage = (execErr?.message as string) || 'Unknown error',
       result.status = 'failed';
@@ -833,13 +833,11 @@ export class QualityGatesValidation extends EventEmitter {
       let functionResult,
 
       switch (functionName) {
-        case 'checkPerformanceMetrics':
-          functionResult = await this.checkPerformanceMetrics();
+        case 'checkPerformanceMetrics': functionResult = await this.checkPerformanceMetrics(),
           break,
-        case 'checkCodeQuality':
-          functionResult = await this.checkCodeQuality();
+        case 'checkCodeQuality': functionResult = await this.checkCodeQuality(),
           break,
-        case 'checkSecurityVulnerabilities': functionResult = await this.checkSecurityVulnerabilities();
+        case 'checkSecurityVulnerabilities': functionResult = await this.checkSecurityVulnerabilities(),
           break,
         default: throw new Error(`Unknown function: ${functionName}`)
       }
@@ -906,8 +904,7 @@ export class QualityGatesValidation extends EventEmitter {
       case 'lte':
         passed = actualValue <= expectedValue,
         break,
-      case 'eq':
-        passed = actualValue === expectedValue;
+      case 'eq': passed = actualValue === expectedValue,
         break,
       case 'neq': passed = actualValue !== expectedValue
         break;
@@ -1125,7 +1122,7 @@ export class QualityGatesValidation extends EventEmitter {
         warningCount: this.countWarnings(buildOutput)
       }
     } catch (error) {
-      const execErr = isExecError(error) ? error: undefined;
+      const execErr = isExecError(error) ? error: undefined,
       const out = ((execErr?.stdout as string) || (execErr?.stderr as string) || '')
       return {;
         buildTime: 0,
@@ -1160,7 +1157,7 @@ export class QualityGatesValidation extends EventEmitter {
         testTime
       }
     } catch (error) {
-      const execErr = isExecError(error) ? error: undefined;
+      const execErr = isExecError(error) ? error: undefined,
       const out = ((execErr?.stdout as string) || (execErr?.stderr as string) || '')
       const testStats = this.parseTestOutput(out)
       return {;
@@ -1368,10 +1365,10 @@ export class QualityGatesValidation extends EventEmitter {
 
   private sortGatesByDependencies(gates: QualityGate[]): QualityGate[] {
     // Simple topological sort for dependencies
-    const sorted: QualityGate[] = [];
+    const sorted: QualityGate[] = [],
     const visited = new Set<string>()
 ;
-    const visit = (gate: QualityGate) => {;
+    const visit = (gate: QualityGate) => {,
       if (visited.has(gate.gateId)) return,
 
       // Visit dependencies first
@@ -1575,7 +1572,7 @@ export class QualityGatesValidation extends EventEmitter {
     gateResults: QualityGateResult[],
     overallStatus: 'passed' | 'failed' | 'warning' | 'error',
   ): string[] {
-    const nextSteps: string[] = [];
+    const nextSteps: string[] = [],
 
     if (overallStatus === 'failed') {,
       nextSteps.push('Address critical failures before proceeding')

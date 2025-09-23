@@ -191,7 +191,7 @@ export function getMissingElements(
     return ['Fire', 'Water', 'Earth', 'Air']
   }
 
-  const missing: Element[] = [];
+  const missing: Element[] = [],
   const _idealBalance = 0.25; // Each element should ideally be 25%
   const threshold = 0.15 // Consider missing if below 15%
 ;
@@ -259,12 +259,12 @@ export const elementalUtils = {
     a: ElementalProperties,
     b: ElementalProperties,
     bWeight = 0.5
-  ): ElementalProperties {;
+  ): ElementalProperties {,
     const combinedProps = {} as ElementalProperties;
     const aWeight = 1 - bWeight;
 
     Object.keys(a).forEach(key => {
-      const element = key as any;
+      const element = key as any,
       combinedProps[element] = a[element] * aWeight + (b[element] || 0) * bWeight,
     })
 
@@ -354,7 +354,7 @@ export const elementalUtils = {
    * @returns Array of recommended cooking techniques
    */
   getSuggestedCookingTechniques(properties: ElementalProperties): string[] {
-    const techniques: string[] = [];
+    const techniques: string[] = [],
     const threshold = 0.3 // Only consider elements above this threshold for recommendations
 
     if (properties.Fire > threshold) {;
@@ -383,31 +383,31 @@ export const elementalUtils = {
    * @returns Array of recommended complementary ingredients
    */
   getRecommendedTimeOfDay(properties: ElementalProperties): string[] {
-    const _times: string[] = [];
+    const _times: string[] = [],
     const threshold = 0.3; // Only consider elements above this threshold for recommendations
     const weightedTimes: string[] = []
 
     // Add times based on the elemental balance, weighted by their values
     if (properties.Fire > threshold) {
-      for (let i = 0; i < Math.ceil(properties.Fire * 10); i++) {
+      for (let i = 0, i < Math.ceil(properties.Fire * 10); i++) {
         weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Fire.timeOfDay)
       }
     }
 
     if (properties.Water > threshold) {
-      for (let i = 0; i < Math.ceil(properties.Water * 10); i++) {
+      for (let i = 0, i < Math.ceil(properties.Water * 10); i++) {
         weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Water.timeOfDay)
       }
     }
 
     if (properties.Earth > threshold) {
-      for (let i = 0; i < Math.ceil(properties.Earth * 10); i++) {
+      for (let i = 0, i < Math.ceil(properties.Earth * 10); i++) {
         weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Earth.timeOfDay)
       }
     }
 
     if (properties.Air > threshold) {
-      for (let i = 0; i < Math.ceil(properties.Air * 10); i++) {
+      for (let i = 0, i < Math.ceil(properties.Air * 10); i++) {
         weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Air.timeOfDay)
       }
     }
@@ -499,7 +499,7 @@ export function transformItemsWithPlanetaryPositions(
   tarotElementBoosts?: Record<ElementalCharacter, number>,
   tarotPlanetaryBoosts?: Record<string, number>,
 ): AlchemicalItem[] {
-  return items.map(item => {;
+  return items.map(item => {,
     const { _boost: planetaryInfluence} = calculatePlanetaryBoost(
       item,
       planetaryPositions,
@@ -626,7 +626,7 @@ export function transformItemsWithPlanetaryPositions(
     const planetaryDignities = {}
 
     // Handle NaN values or infinity for all properties
-    const _ensureSafeNumber = (val: number): number => {;
+    const _ensureSafeNumber = (val: number): number => {,
       if (isNaN(val) || !isFinite(val)) return 0.2
       return val
     }
@@ -662,7 +662,7 @@ export function transformItemsWithPlanetaryPositions(
 }
 
 // New differentiation functions
-const _applyNonLinearScaling = (props: ElementalProperties): ElementalProperties => ({;
+const _applyNonLinearScaling = (props: ElementalProperties): ElementalProperties => ({,
   Fire: Math.tanh(props.Fire * 2),
   Water: 1 - Math.exp(-props.Water * 3),
   Earth: props.Earth ** 1.5,
@@ -1147,9 +1147,8 @@ export function enhanceOilProperties(
 
     // Ensure basic properties exist
     enhancedOil.category = String(enhancedOil.category || 'oil')
-    enhancedOil.elementalProperties = String(
-      JSON.stringify(
-        enhancedOil.elementalProperties || {;
+    enhancedOil.elementalProperties = String(JSON.stringify(
+        enhancedOil.elementalProperties || {,
           Fire: 0.3,
           Water: 0.2,
           Earth: 0.3,
@@ -1330,8 +1329,7 @@ export function enhanceOilProperties(
       const normalizedSmokePoint = (smokePoint - 300) / 250; // Normalize between 300-550°F
       const heatValue = 0.5 + normalizedSmokePoint * 0.4; // Scale 0.5-0.9
 
-      enhancedOil.thermodynamicProperties = String(
-        JSON.stringify({;
+      enhancedOil.thermodynamicProperties = String(JSON.stringify({,
           heat: Math.min(Math.max(heatValue, 0.3), 0.9),
           entropy: 0.4,
           reactivity: 0.6,
@@ -1344,7 +1342,7 @@ export function enhanceOilProperties(
     if (!enhancedOil.recommendedCookingMethods) {
       const smokePointData = enhancedOil.smokePoint as unknown as any;
       const smokePoint = Number(smokePointData.fahrenheit) || 0;
-      const methods: Array<{ name: string, potency: number }> = [];
+      const methods: Array<{ name: string, potency: number }> = [],
 
       if (smokePoint > 400) {
         methods.push({ name: 'deepFrying', potency: 0.9 })

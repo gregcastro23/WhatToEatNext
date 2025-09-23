@@ -214,12 +214,12 @@ export const broiling: CookingMethodData = {
       'salamander broilers':
         'Professional equipment allowing precise control and higher temperatures.',
       'drawer broilers': 'Located below oven in some models, typically smaller capacity but good heat.',
-    }
+    },
     'distance effects': {
       'close positioning': 'Faster cooking, more external browning, less interior cooking.',
       'distant positioning': 'Slower cooking, more even heating throughout the food.',
       'variable positioning': 'Moving food closer or further during cooking allows for controlled browning.',
-    }
+    },
     'surface treatments': {
       'oil application': 'Thin layer conducts heat better and prevents sticking.',
       'dry rubs': 'Apply before cooking, high sugar content rubs may burn.',

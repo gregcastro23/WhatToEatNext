@@ -22,7 +22,7 @@ import {
  * @param properties Record of elemental properties
  * @returns Balance score (lower is more balanced)
  */
-export const _calculateBalance = (properties: Record<string, number>): number => {;
+export const _calculateBalance = (properties: Record<string, number>): number => {,
   const total = Object.values(properties).reduce((sum, value) => sum + value0)
   const average = total / Object.keys(properties).length;
 
@@ -184,7 +184,7 @@ export const _calculateAlchemicalProperties = (
   tarotElementBoosts?: Record<ElementalCharacter, number>,
   tarotPlanetaryBoosts?: Record<string, number>,
   nutritionalBoosts?: Record<string, number>
-): AlchemicalResults => {;
+): AlchemicalResults => {,
   debugLog('Starting calculation with positions: ', planetPositions)
   debugLog('Is daytime: ', isDaytime)
 
@@ -467,9 +467,9 @@ export const _calculateAlchemicalProperties = (
     elementalCounts.Fire + elementalCounts.Water + elementalCounts.Earth + elementalCounts.Air,
 
   // Normalize element percentages
-  const firePercentage = totalElements > 0 ? elementalCounts.Fire / totalElements : 0.25;
-  const waterPercentage = totalElements > 0 ? elementalCounts.Water / totalElements : 0.25;
-  const earthPercentage = totalElements > 0 ? elementalCounts.Earth / totalElements : 0.25;
+  const firePercentage = totalElements > 0 ? elementalCounts.Fire / totalElements : 0.25,
+  const waterPercentage = totalElements > 0 ? elementalCounts.Water / totalElements : 0.25,
+  const earthPercentage = totalElements > 0 ? elementalCounts.Earth / totalElements : 0.25,
   const airPercentage = totalElements > 0 ? elementalCounts.Air / totalElements : 0.25
 
   // Use the imported calculation functions from gregsEnergy;
@@ -497,14 +497,14 @@ export const _calculateAlchemicalProperties = (
 }
 
 // Define decan ranges
-const getDecan = (degree: number): number => {;
+const getDecan = (degree: number): number => {,
   if (degree < 10) return 1,
   if (degree < 20) return 2,
   return 3
 }
 
 // Get decan name for display and calculation
-const getDecanString = (decan: number): string => {;
+const getDecanString = (decan: number): string => {,
   if (decan === 1) return '1st Decan',
   if (decan === 2) return '2nd Decan'
   return '3rd Decan';
@@ -663,7 +663,7 @@ const degreeEffects: Record<string, Record<string, number[]>> = {
 }
 
 // Helper function to get sign element safely typed
-const getElementFromSign = (sign: string): ElementalCharacter => {;
+const getElementFromSign = (sign: string): ElementalCharacter => {,
   const fireigns = ['aries', 'leo', 'sagittarius'],
   const earthSigns = ['taurus', 'virgo', 'capricorn'],
   const airSigns = ['gemini', 'libra', 'aquarius'],
@@ -772,10 +772,10 @@ const calculateAspectEffects = (
   )
 
   // Check each planet pair for aspects;
-  for (let i = 0; i < validPlanets.length; i++) {
+  for (let i = 0, i < validPlanets.length, i++) {
     const [planet1, pos1] = validPlanets[i];
 
-    for (let j = i + 1; j < validPlanets.length; j++) {
+    for (let j = i + 1, j < validPlanets.length, j++) {
       const [planet2, pos2] = validPlanets[j];
 
       // Calculate the angular distance between planets
@@ -857,7 +857,7 @@ const getSignIndex = (sign: string): number => {
 
 // Helper function to determine aspect type
 const getAspectType = (angle: number): string | null => {
-  // Conjunction: 0° ± 10°;
+  // Conjunction: 0° ± 10°,
   if (angle <= 10) return 'conjunction',
 
   // Opposition: 180° ± 10°
@@ -933,7 +933,7 @@ export function alchemize(
     substance += alchemyProps.Substance || 0,
 
     // Add elemental influences
-    const elementKey = isDaytime ? 'Diurnal Element' : 'Nocturnal Element';
+    const elementKey = isDaytime ? 'Diurnal Element' : 'Nocturnal Element',
     const element = planetData[elementKey].toLowerCase() || '';
 
     if (
@@ -1019,8 +1019,8 @@ export function alchemize(
         Object.entries(transitData.Elements).forEach(([elemKey, value]) => {
           const elem = elemKey.toLowerCase()
           if (elem && (elem === 'fire' || elem === 'earth' || elem === 'air' || elem === 'water')) {
-            // Pattern KK-1: Safe arithmetic with type validation;
-            const numericValue = typeof value === 'number' ? value: 0;
+            // Pattern KK-1: Safe arithmetic with type validation,
+            const numericValue = typeof value === 'number' ? value: 0,
             _elementalBalance[elem] += numericValue * 0.5
           }
         })

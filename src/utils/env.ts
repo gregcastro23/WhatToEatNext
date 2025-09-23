@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const envSchema = z.object({;
+const envSchema = z.object({,
   _NODE_ENV: z.enum(['development', 'production', 'test']),
   _NEXT_PUBLIC_API_URL: z.string().url().optional(),
   // Add other environment variables here

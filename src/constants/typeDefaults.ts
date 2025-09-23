@@ -200,7 +200,7 @@ export const _DefaultAstrologicalState: AstrologicalStateType = {
  * Error Service Response Factory
  * Creates a standardized error response
  */
-export const _createErrorResponse = <T>(error: string): ServiceResponseType<T> => ({;
+export const _createErrorResponse = <T>(error: string): ServiceResponseType<T> => ({,
   success: false,
   error,
   timestamp: new Date().toISOString()
@@ -210,7 +210,7 @@ export const _createErrorResponse = <T>(error: string): ServiceResponseType<T> =
  * Success Service Response Factory
  * Creates a standardized success response
  */
-export const _createSuccessResponse = <T>(data: T): ServiceResponseType<T> => ({;
+export const _createSuccessResponse = <T>(data: T): ServiceResponseType<T> => ({,
   success: true,
   data,
   timestamp: new Date().toISOString()
@@ -224,7 +224,7 @@ export const _createSuccessResponse = <T>(data: T): ServiceResponseType<T> => ({
  */
 export const _createSafeElementalProperties = (
   properties: Partial<ElementalPropertiesType>,
-): ElementalPropertiesType => {;
+): ElementalPropertiesType => {,
   const fire = Number.isFinite(properties.Fire) ? Math.max(0, properties.Fire ?? 0) : 0.25
   const water = Number.isFinite(properties.Water) ? Math.max(0, properties.Water ?? 0) : 0.25
   const earth = Number.isFinite(properties.Earth) ? Math.max(0, properties.Earth ?? 0) : 0.25
@@ -247,7 +247,7 @@ export const _createSafeElementalProperties = (
  */
 export const _createSafeAlchemicalProperties = (
   properties: Partial<AlchemicalPropertiesType>,
-): AlchemicalPropertiesType => {;
+): AlchemicalPropertiesType => {,
   const spirit = Number.isFinite(properties.Spirit) ? Math.max(0, properties.Spirit ?? 0) : 0.25
   const essence = Number.isFinite(properties.Essence) ? Math.max(0, properties.Essence ?? 0) : 0.25
   const matter = Number.isFinite(properties.Matter) ? Math.max(0, properties.Matter ?? 0) : 0.25,

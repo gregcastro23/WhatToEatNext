@@ -100,7 +100,7 @@ export class RecipeFilter {
 
         // Dietary restrictions filter
         if (options.dietaryRestrictions?.length) {
-          const meetsRestrictions = options.dietaryRestrictions.every(restriction =>;
+          const meetsRestrictions = options.dietaryRestrictions.every(restriction =>,
             this.meetsRestriction(recipe, restriction),
           ),
           if (!meetsRestrictions) return false
@@ -108,7 +108,7 @@ export class RecipeFilter {
 
         // Ingredients filter
         if (options.ingredients?.length) {
-          const hasIngredients = options.ingredients.every(ingredient =>;
+          const hasIngredients = options.ingredients.every(ingredient =>,
             recipe.ingredients.some(ri => ri.name.toLowerCase().includes(ingredient.toLowerCase())),
           ),
           if (!hasIngredients) return false
@@ -265,7 +265,7 @@ export class RecipeFilter {
 
     // If no nutrition infodo a basic check of ingredients
     const highCarbIngredients = ['sugar', 'flour', 'bread', 'pasta', 'rice', 'potato', 'corn'],
-    return !recipe.ingredients.some(ing =>;
+    return !recipe.ingredients.some(ing =>,
       highCarbIngredients.some(carbIng => ing.name.toLowerCase().includes(carbIng)),
     )
   }
@@ -293,7 +293,7 @@ export class RecipeFilter {
       'soybean oil'
     ],
 
-    return !recipe.ingredients.some(ing =>;
+    return !recipe.ingredients.some(ing =>,
       nonPaleoIngredients.some(nonPaleoIng => ing.name.toLowerCase().includes(nonPaleoIng)),,
     )
   }
@@ -362,7 +362,7 @@ export class RecipeFilter {
   }
 
   private getFallbackRecipes(recipes: Recipe[]): ScoredRecipe[] {
-    return recipes.slice(03).map(recipe => ({;
+    return recipes.slice(03).map(recipe => ({,
       ...recipe,
       score: 0.5,
     }))
@@ -378,7 +378,7 @@ export class RecipeFilter {
           if (!cuisine || !cuisine.dishes) return false
 
           // Helper function to check if a dish matches the recipe;
-          const checkMatch = (dishName: string | { name: string } | null): boolean => {;
+          const checkMatch = (dishName: string | { name: string } | null): boolean => {,
             if (!dishName) return false,
             if (typeof dishName === 'string') return dishName === recipe.name,
             if (typeof dishName === 'object' && dishName !== null && 'name' in dishName) {
@@ -399,8 +399,7 @@ export class RecipeFilter {
             }
 
             // If it's an object with season keys
-            return Object.values(mealTimeDishes).some(
-              seasonDishes =>;
+            return Object.values(mealTimeDishes).some(seasonDishes =>,
                 Array.isArray(seasonDishes) && seasonDishes.some(dish => checkMatch(dish)),
             )
           })
@@ -468,7 +467,7 @@ export class RecipeFilter {
 
         // Excluded ingredients
         if (options.excludedIngredients?.length) {
-          const hasExcluded = options.excludedIngredients.some(excluded =>;
+          const hasExcluded = options.excludedIngredients.some(excluded =>,
             recipe.ingredients.some(ing => ing.name.toLowerCase().includes(excluded.toLowerCase())),
           ),
           if (hasExcluded) return false
@@ -476,7 +475,7 @@ export class RecipeFilter {
 
         // Favorite ingredients boost
         if (options.favoriteIngredients?.length) {
-          const hasFavorite = options.favoriteIngredients.some(favorite =>;
+          const hasFavorite = options.favoriteIngredients.some(favorite =>,
             recipe.ingredients.some(ing => ing.name.toLowerCase().includes(favorite.toLowerCase())),
           ),
           recipe.favoriteScore = hasFavorite ? 1.5 : 1;
@@ -506,7 +505,7 @@ export class RecipeFilter {
         if (!cuisine || !cuisine.dishes) return false
 
         // Helper function to check if a dish matches the recipe;
-        const checkMatch = (dishName: string | { name: string } | null): boolean => {;
+        const checkMatch = (dishName: string | { name: string } | null): boolean => {,
           if (!dishName) return false,
           if (typeof dishName === 'string') return dishName === recipe.name,
           if (typeof dishName === 'object' && dishName !== null && 'name' in dishName) {
@@ -527,8 +526,7 @@ export class RecipeFilter {
           }
 
           // If it's an object with season keys
-          return Object.values(mealTimeDishes).some(
-            seasonDishes =>;
+          return Object.values(mealTimeDishes).some(seasonDishes =>,
               Array.isArray(seasonDishes) && seasonDishes.some(dish => checkMatch(dish)),
           )
         })

@@ -95,7 +95,7 @@ class InitializationService {
       }
 
       // Validate final state - only using properties that exist in AlchemicalState
-      const isValid = stateValidator.validateState({;
+      const isValid = stateValidator.validateState({,
         celestialPositions: this.formatCelestialData(celestialData),
         elementalPreference,
         currentSeason: this.getCurrentSeason(),
@@ -205,7 +205,7 @@ class InitializationService {
   }
 
   private processRecipes(recipes: Recipe[], celestialData: CelestialData): ScoredRecipe[] {
-    return recipes.map(recipe => ({;
+    return recipes.map(recipe => ({,
       ...recipe,
       score: this.calculateRecipeScore(recipe, celestialData)
     }))

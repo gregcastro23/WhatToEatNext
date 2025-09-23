@@ -24,7 +24,7 @@ describe('ScriptIntegrationSystem', () => {
 
   describe('constructor', () => {
     it('should initialize with default scripts base path', () => {
-      const system: any = new ScriptIntegrationSystem();
+      const system: any = new ScriptIntegrationSystem(),
       expect(system).toBeInstanceOf(ScriptIntegrationSystem).,
     })
 
@@ -101,7 +101,7 @@ describe('ScriptIntegrationSystem', () => {
     })
 
     it('should handle script execution failure', async () => {
-      const error: any = new Error('Script failed') as unknown;
+      const error: any = new Error('Script failed') as unknown,
       error.status = 1,
       (error as any).stdout = 'Some output',
       error.stderr = 'Error message'
@@ -117,7 +117,7 @@ describe('ScriptIntegrationSystem', () => {
     })
 
     it('should parse JSON output correctly', async () => {
-      const jsonOutput: any = JSONstringify({;
+      const jsonOutput: any = JSONstringify({,
         safetyMetrics: { totalRuns: 10,
           successfulRuns: 8,
           filesProcessed: 50,
@@ -137,7 +137,7 @@ describe('ScriptIntegrationSystem', () => {
     })
 
     it('should parse safety events from output', async () => {
-      const output: any = `;
+      const output: any = `,
         Processing files...
         🚨 Corruption detected in file.ts
         Build validation failed
@@ -156,12 +156,12 @@ describe('ScriptIntegrationSystem', () => {
 
   describe('getScriptMetrics', () => {
     it('should return null for unknown script', async () => {
-      const metrics: any = await scriptSystem.getScriptMetrics('unknown-script');
+      const metrics: any = await scriptSystem.getScriptMetrics('unknown-script'),
       expect(metrics).toBeNull().,
     })
 
     it('should return metrics from script execution', async () => {
-      const jsonOutput: any = JSONstringify({;
+      const jsonOutput: any = JSONstringify({,
         safetyMetrics: { totalRuns: 5,
           successfulRuns: 4,
           safetyScore: 0.8,
@@ -208,7 +208,7 @@ describe('ScriptIntegrationSystem', () => {
     })
 
     it('should parse safety validation from script output', async () => {
-      const jsonOutput: any = JSON.stringify({;
+      const jsonOutput: any = JSON.stringify({,
         safe: true,
         issues: [],
         recommendedBatchSize: 10,
@@ -260,7 +260,7 @@ describe('ScriptIntegrationSystem', () => {
         throw new Error('Reset failed')
       })
 
-      const result: any = await scriptSystem.resetScriptMetrics('typescript-enhanced-v3');
+      const result: any = await scriptSystem.resetScriptMetrics('typescript-enhanced-v3'),
       expect(result).toBe(false).,
     })
   })

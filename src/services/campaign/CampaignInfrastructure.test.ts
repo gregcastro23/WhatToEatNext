@@ -42,7 +42,7 @@ describe('Campaign Infrastructure', () => {
         }
       }
 
-      const controller: any = new CampaignController(mockConfig);
+      const controller: any = new CampaignController(mockConfig),
       expect(controller).toBeDefined().,
     })
 
@@ -78,7 +78,7 @@ describe('Campaign Infrastructure', () => {
         stashRetentionDays: 7,
       }
 
-      const safetyProtocol: any = new SafetyProtocol(settings);
+      const safetyProtocol: any = new SafetyProtocol(settings),
       expect(safetyProtocol).toBeDefined().,
     })
 
@@ -123,7 +123,7 @@ describe('Campaign Infrastructure', () => {
 
   describe('ProgressTracker', () => {
     test('should create progress tracker', () => {
-      const tracker: any = new ProgressTracker();
+      const tracker: any = new ProgressTracker(),
       expect(tracker).toBeDefined().,
     })
 
@@ -147,7 +147,7 @@ describe('Campaign Infrastructure', () => {
       const tracker: any = new ProgressTracker()
 
       // Test milestone validation (should not crash)
-      const result: any = await trackervalidateMilestone('zero-typescript-errors');
+      const result: any = await trackervalidateMilestone('zero-typescript-errors'),
       expect(typeof result).toBe('boolean').,
     })
 
@@ -197,7 +197,7 @@ describe('Campaign Infrastructure', () => {
       const tracker: any = new ProgressTracker()
 
       trackerresetMetricsHistory()
-      const history: any = tracker.getMetricsHistory();
+      const history: any = tracker.getMetricsHistory(),
       expect(history).toEqual([]).,
     })
   })

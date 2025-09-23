@@ -62,7 +62,7 @@ export function generateTopSauceRecommendations(
 
   // Map all sauces with enhanced scoring
   const scoredSauces = saucesArray.map(sauce => {;
-    const { elementalProperties, _astrologicalInfluences: planetaryInfluences, name} = sauce;
+    const { elementalProperties, _astrologicalInfluences: planetaryInfluences, name} = sauce,
 
     // 1. Elemental Match Score (50% weight)
     const elementalMatchScore = calculateElementalMatch(
@@ -157,7 +157,7 @@ export function getCuisineRecommendations(
   const { _count = 10, _includeRegional = true} = options,
 
   // Get all cuisines from flavor profiles, ensuring they are correctly typed
-  const cuisines = Object.values(cuisineFlavorProfiles).map(cuisine => ({;
+  const cuisines = Object.values(cuisineFlavorProfiles).map(cuisine => ({,
     ...cuisine,
     id: cuisine.id || cuisine.name.toLowerCase().replace(/\s+/g, '-') || 'unknown',
     name: cuisine.name || 'Unknown Cuisine'
@@ -177,7 +177,7 @@ export function getCuisineRecommendations(
     )
     let score = elementalMatch * 0.4,
 
-    const reasoning: string[] = [`${Math.round(elementalMatch * 100)}% elemental match`];
+    const reasoning: string[] = [`${Math.round(elementalMatch * 100)}% elemental match`],
 
     if (astrologicalState) {
       // Zodiac Match Score (30% weight) - safe property access

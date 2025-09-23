@@ -131,7 +131,7 @@ class AdvancedCache {
   /**
    * Warm cache with frequently accessed data
    */
-  async warmup(entries: Array<{ key: string; computeFn: () => Promise<any>; ttl?: number }>): Promise<void> {
+  async warmup(entries: Array<{ key: string, computeFn: () => Promise<any>; ttl?: number }>): Promise<void> {
     logger.info('Starting cache warmup', { count: entries.length })
 
     const promises = entries.map(async ({ key, computeFn, ttl }) => {

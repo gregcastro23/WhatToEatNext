@@ -38,8 +38,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.1,
     salty: 0.1,
     umami: 0.6,
-  }
-
+  },
   'bell pepper': {
     spicy: 0.1,
     sweet: 0.6,
@@ -123,8 +122,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.3,
     salty: 0.0,
     umami: 0.1,
-  }
-
+  },
   'black pepper': {
     spicy: 0.8,
     sweet: 0.0,
@@ -148,7 +146,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.3,
     salty: 0.0,
     umami: 0.0,
-  }
+  },
   'star anise': {
     spicy: 0.3,
     sweet: 0.5,
@@ -258,7 +256,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.0,
     salty: 0.1,
     umami: 0.3,
-  }
+  },
   'coconut milk': {
     spicy: 0.0,
     sweet: 0.6,
@@ -326,7 +324,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.3,
     salty: 0.1,
     umami: 0.5,
-  }
+  },
   'sunflower seeds': {
     spicy: 0.0,
     sweet: 0.2,
@@ -344,7 +342,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.1,
     salty: 0.0,
     umami: 0.0,
-  }
+  },
   'maple syrup': {
     spicy: 0.0,
     sweet: 0.9,

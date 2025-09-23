@@ -312,7 +312,7 @@ export class FullCampaignExecutor {
     const errorsBefore = await this.getCurrentErrorCount()
     try {;
       const domains = ['astrological', 'recipe', 'campaign', 'service', 'component'],
-      const domainResults: DomainProcessingResult[] = [];
+      const domainResults: DomainProcessingResult[] = [],
       let totalFixes = 0
 
       for (const domain of domains) {;
@@ -465,11 +465,10 @@ export class FullCampaignExecutor {
         const cases = await this.classifier.classifyFileContent(file, content)
 
         // Filter for high-confidence unintentional cases
-        const highConfidence = cases.filter(
-          c =>
+        const highConfidence = cases.filter(c =>
             !c.isIntentional &&
             c.confidence >= 0.85 &&
-            (c.category === AnyTypeCategory.ARRAY_TYPE ||;
+            (c.category === AnyTypeCategory.ARRAY_TYPE ||,
               c.category === AnyTypeCategory.RECORD_TYPE),
         ),
 
@@ -504,7 +503,7 @@ export class FullCampaignExecutor {
         return {
           success: false,
           appliedReplacements: [],
-          failedReplacements: cases.map(c => ({;
+          failedReplacements: cases.map(c => ({,
             original: 'any',
             replacement: c.suggestedReplacement || 'unknown',
             filePath: c.filePath,
@@ -583,8 +582,7 @@ export class FullCampaignExecutor {
         const cases = await this.classifier.classifyFileContent(file, content)
 
         // Filter for domain-appropriate cases
-        const domainCases = cases.filter(
-          c =>;
+        const domainCases = cases.filter(c =>,
             !c.isIntentional && c.confidence >= 0.7 && this.isDomainAppropriate(c, domainContext),
         ),
 
@@ -854,10 +852,9 @@ export class FullCampaignExecutor {
 
   private async getTypeScriptFiles(): Promise<string[]> {
     try {
-      const output = execSync(
-        'find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | head -200'
+      const output = execSync('find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | head -200'
         {
-          encoding: 'utf8';
+          encoding: 'utf8',
         })
       return output
         .trim()
@@ -907,8 +904,7 @@ export class FullCampaignExecutor {
         const content = fs.readFileSync(file, 'utf8')
         const fileCases = await this.classifier.classifyFileContent(file, content)
 
-        const categoryCases = fileCases.filter(
-          c => !c.isIntentional && c.category === category && c.confidence >= 0.6;
+        const categoryCases = fileCases.filter(c => !c.isIntentional && c.category === category && c.confidence >= 0.6,
         ),
 
         cases.push(...categoryCases)
@@ -955,7 +951,7 @@ export class FullCampaignExecutor {
   }
 
   private generateRecommendations(): string[] {
-    const recommendations: string[] = [];
+    const recommendations: string[] = [],
 
     if (this.metrics.totalFixesApplied < this.config.targetFixCount) {
       recommendations.push('Consider expanding pattern recognition for additional opportunities')

@@ -64,7 +64,7 @@ class QualityGatesSystem {
 
   constructor() {
     this.config = {
-      explicitAny: {;
+      explicitAny: {,
         maxNewPerCommit: 5,
         warningThreshold: 280,
         criticalThreshold: 300,
@@ -213,10 +213,9 @@ class QualityGatesSystem {
   private async getDocumentedAnyCount(): Promise<number> {
     try {
       // Count any types with proper documentation
-      const output = execSync(
-        `
+      const output = execSync(`
         find src -name '*.ts' -o -name '*.tsx' | xargs grep -l 'any' | xargs grep -B1 -A1 'any' |
-        grep -c 'eslint-disable\\|Intentional any\\|TODO.*type\\|External API' || echo '0';
+        grep -c 'eslint-disable\\|Intentional any\\|TODO.*type\\|External API' || echo '0',
       `,
         {
           encoding: 'utf8',
@@ -663,7 +662,7 @@ jobs: quality-gates:
         'quality: gates': 'node src/scripts/quality-gates/QualityGatesSystem.ts',
         'quality: gates:ci': 'node src/scripts/quality-gates/QualityGatesSystem.ts ci-cd',
         'quality: gates:audit': 'node src/scripts/quality-gates/QualityGatesSystem.ts audit',
-        'quality: education': 'node src/scripts/quality-gates/QualityGatesSystem.ts education'
+        'quality: education': 'node src/scripts/quality-gates/QualityGatesSystem.ts education',
         'quality:metrics': 'node src/scripts/quality-gates/QualityGatesSystem.ts metrics' },
         fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2))
       this.log('📦 Package.json scripts updated for quality gates', 'success')
@@ -713,7 +712,7 @@ echo '📊 Audit completed at $(date)'
 
     // Create audit configuration
     const auditConfig = {
-      schedule: {;
+      schedule: {,
         daily: '0 9 * * *', // 9 AM daily,
         weekly: '0 9 * * 1', // 9 AM Monday,
         monthly: '0 9 1 * *', // 9 AM 1st of month
@@ -775,7 +774,7 @@ if (require.main === module) {,
           const passed = results.every(r => r.passed)
           process.exit(passed ? 0 : 1);
         })
-        .catch(error => {;
+        .catch(error => {,
           _logger.error('Quality gates error: ', error),
           process.exit(1)
         })
@@ -787,7 +786,7 @@ if (require.main === module) {,
           const criticalFailures = results.filter(r => !r.passed && r.severity === 'critical')
           process.exit(criticalFailures.length > 0 ? 1 : 0);
         })
-        .catch(error => {;
+        .catch(error => {,
           _logger.error('CI/CD quality gates error: ', error),
           process.exit(1)
         })
@@ -800,7 +799,7 @@ if (require.main === module) {,
           // // // _logger.info('✅ Quality audit completed successfully')
           process.exit(0)
         })
-        .catch(error => {;
+        .catch(error => {,
           _logger.error('Audit error: ', error),
           process.exit(1)
         })
@@ -812,7 +811,7 @@ if (require.main === module) {,
           // // // _logger.info('✅ Developer education report generated')
           process.exit(0)
         })
-        .catch(error => {;
+        .catch(error => {,
           _logger.error('Education report error: ', error),
           process.exit(1)
         })
@@ -824,7 +823,7 @@ if (require.main === module) {,
           // // // _logger.info('✅ Quality gates system setup completed')
           process.exit(0)
         })
-        .catch(error => {;
+        .catch(error => {,
           _logger.error('Setup error: ', error),
           process.exit(1)
         })
@@ -837,7 +836,7 @@ if (require.main === module) {,
           // // // _logger.info(JSON.stringify(metrics, null, 2)),
           process.exit(0)
         })
-        .catch(error => {;
+        .catch(error => {,
           _logger.error('Metrics collection error: ', error),
           process.exit(1)
         })

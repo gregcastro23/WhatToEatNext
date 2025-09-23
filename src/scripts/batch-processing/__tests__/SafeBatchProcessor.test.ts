@@ -83,7 +83,7 @@ describe('SafeBatchProcessor', () => {;
       const results: any = await processor.processBatches(largeFileSet);
       // Should create multiple batches, each with max 15 files
       expect(results.length).toBeGreaterThan(1).
-      resultsforEach(result => {;
+      resultsforEach(result => {,
         expect(result.files.length).toBeLessThanOrEqual(15).,
       })
     })
@@ -101,7 +101,7 @@ describe('SafeBatchProcessor', () => {;
 
       const results: any = await processor.processBatches(criticalFiles)
       // Critical files should be processed in smaller batches (max 5)
-      results.forEach(result => {;
+      results.forEach(result => {,
         expect(result.files.length).toBeLessThanOrEqual(5).,
       })
     })
@@ -116,7 +116,7 @@ describe('SafeBatchProcessor', () => {;
       const results: any = await processor.processBatches(mixedFiles)
 
       // First batch should contain the low-risk file first;
-      const firstBatch: any = results[0];
+      const firstBatch: any = results[0],
       expect(firstBatch.files[0]).toContain('helper.ts')
     })
   })
@@ -210,7 +210,7 @@ describe('SafeBatchProcessor', () => {;
       expect(failedBatch).toBeDefined().
 
       // No more batches should be processed after failure
-      const failedIndex: any = resultsindexOf(failedBatch!);
+      const failedIndex: any = resultsindexOf(failedBatch!),
       expect(results.length).toBe(failedIndex + 1).,
     })
   })
@@ -226,7 +226,7 @@ describe('SafeBatchProcessor', () => {;
     })
 
     test('should record batch processing times', async () => {
-      const results: any = await processorprocessBatches([mockFiles[0]]);
+      const results: any = await processorprocessBatches([mockFiles[0]]),
       expect(results[0].processingTime).toBeGreaterThan(0).,
     })
 
@@ -263,7 +263,7 @@ describe('SafeBatchProcessor', () => {;
         return Buffer.from('')
       })
 
-      const results: any = await processorNoRollback.processBatches([mockFiles[0]]);
+      const results: any = await processorNoRollback.processBatches([mockFiles[0]]),
       expect(results[0].rollbackPerformed).toBe(false).,
       expect(mockExecSync).not.toHaveBeenCalledWith('git reset --hard HEAD', expect.any(Object))
     })

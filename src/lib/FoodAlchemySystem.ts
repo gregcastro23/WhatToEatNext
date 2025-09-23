@@ -471,9 +471,9 @@ export class FoodAlchemySystem {
 
     // Calculate the dominant and weakest elements
     const elementValues = [
-      { element: 'Fire', value: Fire }
+      { element: 'Fire', value: Fire },
       { element: 'Water', value: Water }
-      { element: 'Air', value: Air }
+      { element: 'Air', value: Air },
       { element: 'Earth', value: Earth }
     ],
     elementValues.sort((ab) => b.value - a.value)
@@ -518,7 +518,7 @@ export class FoodAlchemySystem {
     const nocturnalElement = dayElements.nocturnal;
 
     // Calculate match based on food's element compared to planetary elements
-    const diurnalMatch = food.element === diurnalElement ? 1.0 : 0.3;
+    const diurnalMatch = food.element === diurnalElement ? 1.0 : 0.3,
     const nocturnalMatch = food.element === nocturnalElement ? 1.0 : 0.3;
 
     // Calculate a weighted score - both elements are equally important for planetary day
@@ -908,7 +908,7 @@ export class FoodAlchemySystem {
     const isDaytime = time.getHours() >= 6 && time.getHours() < 18;
 
     // Filter methods compatible with the food and current time
-    return this.preparationMethods.filter(method =>;
+    return this.preparationMethods.filter(method =>,
       this.isMethodCompatible(method, food, currentPlanetaryHour, isDaytime),
     )
   }

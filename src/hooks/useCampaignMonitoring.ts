@@ -127,7 +127,7 @@ export const useCampaignMonitoring = (
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : 'Failed to refresh campaign data',
-      setState(prev => ({;
+      setState(prev => ({,
         ...prev,
         loading: false,
         error: errorMessage
@@ -147,7 +147,7 @@ export const useCampaignMonitoring = (
         onCampaignStart?.(campaignId)
         return campaignId;
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Failed to start campaign';
+        const errorMessage = error instanceof Error ? error.message : 'Failed to start campaign',
         setState(prev => ({ ...prev, error: errorMessage }))
         throw error,
       }
@@ -165,7 +165,7 @@ export const useCampaignMonitoring = (
         }
         return success,
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Failed to pause campaign';
+        const errorMessage = error instanceof Error ? error.message : 'Failed to pause campaign',
         setState(prev => ({ ...prev, error: errorMessage }))
         return false,
       }
@@ -183,7 +183,7 @@ export const useCampaignMonitoring = (
         }
         return success,
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Failed to resume campaign';
+        const errorMessage = error instanceof Error ? error.message : 'Failed to resume campaign',
         setState(prev => ({ ...prev, error: errorMessage }))
         return false,
       }
@@ -202,7 +202,7 @@ export const useCampaignMonitoring = (
         }
         return success,
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Failed to stop campaign';
+        const errorMessage = error instanceof Error ? error.message : 'Failed to stop campaign',
         setState(prev => ({ ...prev, error: errorMessage }))
         return false,
       }
@@ -217,7 +217,7 @@ export const useCampaignMonitoring = (
         return await kiroCampaignIntegration.getCampaignStatus(campaignId);
       } catch (error) {
         const errorMessage =
-          error instanceof Error ? error.message : 'Failed to get campaign status';
+          error instanceof Error ? error.message : 'Failed to get campaign status',
         setState(prev => ({ ...prev, error: errorMessage }))
         return null;
       }
@@ -231,7 +231,7 @@ export const useCampaignMonitoring = (
       try {
         return await kiroCampaignIntegration.scheduleCampaign(schedule)
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Failed to schedule campaign';
+        const errorMessage = error instanceof Error ? error.message : 'Failed to schedule campaign',
         setState(prev => ({ ...prev, error: errorMessage }))
         throw error,
       }
@@ -240,7 +240,7 @@ export const useCampaignMonitoring = (
   )
 
   // Get scheduled campaigns
-  const getScheduledCampaigns = useCallback((): CampaignSchedule[] => {;
+  const getScheduledCampaigns = useCallback((): CampaignSchedule[] => {,
     return kiroCampaignIntegration.getScheduledCampaigns()
   }, [])
 
@@ -289,7 +289,7 @@ export const useCampaignMonitoring = (
 /**
  * Hook for monitoring a specific campaign
  */
-export const _useCampaignStatus = (campaignId: string) => {;
+export const _useCampaignStatus = (campaignId: string) => {,
   const [status, setStatus] = useState<KiroCampaignStatus | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)

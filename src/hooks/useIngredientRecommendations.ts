@@ -67,7 +67,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
       cancer: 'Water',
       scorpio: 'Water',
       pisces: 'Water' },
-        Object.values(planetaryPositions || {}).forEach(position => {;
+        Object.values(planetaryPositions || {}).forEach(position => {,
       const element = elementMap[(position as unknown)?.sign as keyof typeof elementMap];
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++
@@ -168,7 +168,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
 
         // Generate enhanced recommendations based on filtered ingredients
         const enhancedRecommendations = filteredIngredients.map(ingredient => ({
-          ingredient: {;
+          ingredient: {,
             id: ingredient.id,
             name: ingredient.name,
             category: ingredient.category,
@@ -189,13 +189,13 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
 
         setRecommendations(enhancedRecommendations)
 
-        setState(prev => ({;
+        setState(prev => ({,
           ...prev,
           ingredients: filteredIngredients,
           isLoading: false,
         }))
       } catch (error) {
-        setState(prev => ({;
+        setState(prev => ({,
           ...prev,
           isLoading: false,
           error: error instanceof Error ? error.message : 'Unknown error',
@@ -208,7 +208,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
 
   const updateFilters = (newFilters: Partial<IngredientRecommendationsData['filters']>) => {
     setState(prev => ({
-      ...prev;
+      ...prev,
       filters: { ...prev.filters, ...newFilters }
     }))
   }
@@ -238,9 +238,9 @@ function calculateElementalAlignment(
   ingredientProfile: { Fire: number, Water: number, Earth: number, Air: number },
   currentProfile: { Fire: number, Water: number, Earth: number, Air: number }): { element: string, strength: number } {
   const alignments = [
-    { element: 'Fire', strength: 1 - Math.abs(ingredientProfile.Fire - currentProfile.Fire) }
+    { element: 'Fire', strength: 1 - Math.abs(ingredientProfile.Fire - currentProfile.Fire) },
     { element: 'Water', strength: 1 - Math.abs(ingredientProfile.Water - currentProfile.Water) }
-    { element: 'Earth', strength: 1 - Math.abs(ingredientProfile.Earth - currentProfile.Earth) }
+    { element: 'Earth', strength: 1 - Math.abs(ingredientProfile.Earth - currentProfile.Earth) },
     { element: 'Air', strength: 1 - Math.abs(ingredientProfile.Air - currentProfile.Air) }
   ],
 
@@ -256,7 +256,7 @@ function generateRecommendationReason(
     a[1] > b[1] ? a : b,
   )[0],
 
-  const currentDominant = Object.entries(currentProfile).reduce((ab) => (a[1] > b[1] ? a : b))[0];
+  const currentDominant = Object.entries(currentProfile).reduce((ab) => (a[1] > b[1] ? a : b))[0],
 
   const timeContext = isDaytime ? 'daytime solar' : 'nighttime lunar'
 

@@ -42,7 +42,7 @@ describe('LintingErrorAnalyzer', () => {
           filePath: '/test/src/App.tsx',
           messages: [
             {
-              ruleId: 'import/order';,
+              ruleId: 'import/order',,
               severity: 2,
               message: 'Import order is incorrect',
               line: 1,
@@ -76,7 +76,7 @@ describe('LintingErrorAnalyzer', () => {
           filePath: '/test/src/App.tsx',
           messages: [
             {
-              ruleId: 'import/order';,
+              ruleId: 'import/order',,
               severity: 2,
               message: 'Import order is incorrect',
               line: 1,
@@ -116,7 +116,7 @@ describe('LintingErrorAnalyzer', () => {
           filePath: '/test/src/App.tsx',
           messages: [
             {
-              ruleId: 'import/order';,
+              ruleId: 'import/order',,
               severity: 2,
               message: 'Import order is incorrect',
               line: 1,
@@ -157,7 +157,7 @@ describe('LintingErrorAnalyzer', () => {
   describe('Domain Context Detection', () => {
     it('should detect astrological files', async () => {
       const mockOutput: any = JSON.stringify([
-        {;
+        {,
           filePath: '/test/src/calculations/astrology.ts',
           messages: [
             {
@@ -173,8 +173,8 @@ describe('LintingErrorAnalyzer', () => {
 
       mockExecSync.mockReturnValue(mockOutput)
 
-      const result: any = await analyzer.analyzeAllIssues();
-      const issue: any = Object.values(result.byCategory).flat()[0];
+      const result: any = await analyzer.analyzeAllIssues(),
+      const issue: any = Object.values(result.byCategory).flat()[0],
 
       expect(issue.domainContext.isAstrologicalCalculation).toBe(true).
       expect(issuedomainContext.requiresSpecialHandling).toBe(true);;,
@@ -182,7 +182,7 @@ describe('LintingErrorAnalyzer', () => {
 
     it('should detect campaign system files', async () => {
       const mockOutput: any = JSON.stringify([
-        {;
+        {,
           filePath: '/test/src/services/campaign/CampaignController.ts',
           messages: [
             {
@@ -198,8 +198,8 @@ describe('LintingErrorAnalyzer', () => {
 
       mockExecSync.mockReturnValue(mockOutput)
 
-      const result: any = await analyzer.analyzeAllIssues();
-      const issue: any = Object.values(result.byCategory).flat()[0];
+      const result: any = await analyzer.analyzeAllIssues(),
+      const issue: any = Object.values(result.byCategory).flat()[0],
 
       expect(issue.domainContext.isCampaignSystem).toBe(true).
       expect(issuedomainContext.requiresSpecialHandling).toBe(true)
@@ -207,7 +207,7 @@ describe('LintingErrorAnalyzer', () => {
 
     it('should detect test files', async () => {
       const mockOutput: any = JSON.stringify([
-        {;
+        {,
           filePath: '/test/src/components/__tests__/Component.test.tsx',
           messages: [
             {
@@ -223,8 +223,8 @@ describe('LintingErrorAnalyzer', () => {
 
       mockExecSync.mockReturnValue(mockOutput)
 
-      const result: any = await analyzer.analyzeAllIssues();
-      const issue: any = Object.values(result.byCategory).flat()[0];
+      const result: any = await analyzer.analyzeAllIssues(),
+      const issue: any = Object.values(result.byCategory).flat()[0],
 
       expect(issue.domainContext.isTestFile).toBe(true).
       expect(issuedomainContext.requiresSpecialHandling).toBe(true)
@@ -238,7 +238,7 @@ describe('LintingErrorAnalyzer', () => {
           filePath: '/test/src/App.tsx',
           messages: [
             {
-              ruleId: 'import/order';,
+              ruleId: 'import/order',,
               severity: 2,
               message: 'Import order is incorrect',
               line: 1,
@@ -269,7 +269,7 @@ describe('LintingErrorAnalyzer', () => {
 
     it('should handle domain-specific issues with higher risk', async () => {
       const mockOutput: any = JSON.stringify([
-        {;
+        {,
           filePath: '/test/src/calculations/astrology.ts',
           messages: [
             {

@@ -29,7 +29,7 @@ describe('DomainContextAnalyzer', () => {
           domainContext: {} as DomainContext,
         }
 
-        const result: any = await analyzer.analyzeDomain(context);
+        const result: any = await analyzer.analyzeDomain(context),
         expect(result.domain).toBe(CodeDomain.ASTROLOGICAL);;;;,
       })
 
@@ -43,7 +43,7 @@ describe('DomainContextAnalyzer', () => {
           domainContext: {} as DomainContext
         }
 
-        const result: any = await analyzer.analyzeDomain(context);
+        const result: any = await analyzer.analyzeDomain(context),
         expect(result.domain).toBe(CodeDomain.RECIPE);;,
       })
 
@@ -57,7 +57,7 @@ describe('DomainContextAnalyzer', () => {
           domainContext: {} as DomainContext
         }
 
-        const result: any = await analyzer.analyzeDomain(context);
+        const result: any = await analyzer.analyzeDomain(context),
         expect(result.domain).toBe(CodeDomain.CAMPAIGN);;,
       })
 
@@ -71,7 +71,7 @@ describe('DomainContextAnalyzer', () => {
           domainContext: {} as DomainContext
         }
 
-        const result: any = await analyzer.analyzeDomain(context);
+        const result: any = await analyzer.analyzeDomain(context),
         expect(result.domain).toBe(CodeDomain.COMPONENT);;,
       })
 
@@ -85,7 +85,7 @@ describe('DomainContextAnalyzer', () => {
           domainContext: {} as DomainContext
         }
 
-        const result: any = await analyzer.analyzeDomain(context);
+        const result: any = await analyzer.analyzeDomain(context),
         expect(result.domain).toBe(CodeDomain.TEST);,
       })
     })
@@ -484,8 +484,7 @@ describe('DomainContextAnalyzer', () => {
       }
 
       const result: any = await analyzer.analyzeDomain(context)
-      expect(result.preservationReasons).toContain(
-        'Existing documentation suggests intentional usage';
+      expect(result.preservationReasons).toContain('Existing documentation suggests intentional usage',
       ).,
     })
   })

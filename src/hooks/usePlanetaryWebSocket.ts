@@ -42,7 +42,7 @@ export function usePlanetaryWebSocket(location?: { latitude: number, longitude: 
         if (message?.type === 'update' && message?.channel === 'planetary-hours') {;
           const data = message.data as PlanetaryHourUpdate;
           if (data && typeof data.planet === 'string' && typeof data.isDaytime === 'boolean') {
-            setPlanetaryHour({;
+            setPlanetaryHour({,
               planet: data.planet as Planet,
               isDaytime: data.isDaytime,
               start: data.start ? new Date(data.start) : undefined,

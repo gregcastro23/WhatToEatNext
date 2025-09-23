@@ -72,7 +72,7 @@ describe('AutomatedLintingIntegration', () => {
           byPriority: {  1: [], 2: [], 3: [], 4: [] },
           byFile: {}
           autoFixable: [
-            { rule: '@typescript-eslint/no-unused-vars', autoFixable: true }
+            { rule: '@typescript-eslint/no-unused-vars', autoFixable: true },
             { rule: 'import/order', autoFixable: true }
           ],
           requiresManualReview: []
@@ -208,7 +208,7 @@ describe('AutomatedLintingIntegration', () => {
         }
       })
 
-      const result: any = await integration.executeAutomatedWorkflow({;
+      const result: any = await integration.executeAutomatedWorkflow({,
         automationLevel: 'conservative',
       })
 
@@ -284,7 +284,7 @@ describe('AutomatedLintingIntegration', () => {
         }
       })
 
-      const result: any = await integration.executeAutomatedWorkflow({;
+      const result: any = await integration.executeAutomatedWorkflow({,
         automationLevel: 'aggressive',
       })
 
@@ -361,8 +361,7 @@ describe('AutomatedLintingIntegration', () => {
       })
 
       const result: any = await integration.executeAutomatedWorkflow()
-      expect(result.recommendations).toContainEqual(
-        expect.objectContaining({;
+      expect(result.recommendations).toContainEqual(expect.objectContaining({,
           title: 'Domain-Specific Rule Configuration',
           type: 'short-term',
         }),,
@@ -391,7 +390,7 @@ describe('AutomatedLintingIntegration', () => {
         },
         topIssues: [],
         quickWins: [
-          { rule: 'import/order', autoFixable: true, severity: 'warning' as const }
+          { rule: 'import/order', autoFixable: true, severity: 'warning' as const },
           { rule: 'semi', autoFixable: true, severity: 'warning' as const }
         ],
         criticalIssues: []
@@ -422,8 +421,7 @@ describe('AutomatedLintingIntegration', () => {
 
       expect(result.success).toBe(true).
       expect(resultfixedIssues).toBe(2)
-      expect(mockFixer.applyAutomatedFixes).toHaveBeenCalledWith(
-        expect.objectContaining({;
+      expect(mockFixer.applyAutomatedFixes).toHaveBeenCalledWith(expect.objectContaining({,
           autoFixable: expect.arrayContaining([expect.objectContaining({ rule: 'import/order' })])
         }),
         expect.objectContaining({
@@ -497,7 +495,7 @@ describe('AutomatedLintingIntegration', () => {
           errors: 0,
           warnings: 5,
           byCategory: { typescript: [
-              { rule: '@typescript-eslint/no-unused-vars', message: ''unusedVar' is defined but never used' }
+              { rule: '@typescript-eslint/no-unused-vars', message: ''unusedVar' is defined but never used' },
               { rule: '@typescript-eslint/no-unused-vars', message: ''anotherVar' is defined but never used' }
             ]
           },
@@ -548,7 +546,7 @@ describe('AutomatedLintingIntegration', () => {
         }
       })
 
-      const result: any = await integration.executeUnusedVariableCleanup({;
+      const result: any = await integration.executeUnusedVariableCleanup({,
         prefixWithUnderscore: true,
         skipDomainFiles: true,
       })
@@ -632,7 +630,7 @@ describe('AutomatedLintingIntegration', () => {
           errors: 0,
           warnings: 3,
           byCategory: { import: [
-              { rule: 'import/order', message: 'Import order is incorrect' }
+              { rule: 'import/order', message: 'Import order is incorrect' },
               { rule: 'import/newline-after-import', message: 'Missing newline after import' }
             ]
           },
@@ -683,7 +681,7 @@ describe('AutomatedLintingIntegration', () => {
         }
       })
 
-      const result: any = await integration.executeImportOptimization({;
+      const result: any = await integration.executeImportOptimization({,
         removeDuplicates: true,
         sortImports: true,
       })
@@ -691,7 +689,7 @@ describe('AutomatedLintingIntegration', () => {
       expect(result.success).toBe(true).
       expect(resultfixedIssues).toBe(2)
       expect(mockFixer.optimizeImports).toHaveBeenCalledWith(
-        expect.arrayContaining([expect.objectContaining({ rule: 'import/order' })]);
+        expect.arrayContaining([expect.objectContaining({ rule: 'import/order' })]),
         expect.objectContaining({
           removeDuplicates: true,
           sortImports: true,

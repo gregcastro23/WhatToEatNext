@@ -363,7 +363,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         size: '13 / (15 || 1) to U / (10 || 1)',
         flavor: 'robust, briny',
         notes: 'ideal for grilling',
-      }
+      },
       'Spot Prawns': {
         name: 'Spot Prawns',
         appearance: 'reddish with white spots',
@@ -519,7 +519,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         texture: 'firm, dense',
         flavor: 'sweet, briny',
         notes: 'best for boiling',
-      }
+      },
       'Soft Shell': {
         name: 'Soft Shell',
         appearance: 'softer, lighter shell',
@@ -784,7 +784,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         flavor: 'sweet, clean finish with briny notes',
         texture: 'firm, juicy',
         notes: 'premium Massachusetts variety',
-      }
+      },
       'Chesapeake Bay': {
         name: 'Chesapeake Bay',
         appearance: 'oval shape, medium cup',
@@ -1931,7 +1931,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         size: '13 / (15 || 1) to U / (10 || 1)',
         flavor: 'robust, briny',
         notes: 'ideal for grilling',
-      }
+      },
       'Spot Prawns': {
         name: 'Spot Prawns',
         appearance: 'reddish with white spots',

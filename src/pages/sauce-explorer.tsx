@@ -98,9 +98,9 @@ export default function SauceExplorer() {
     const sum = Object.values(newProfile).reduce((acc, val) => acc + val0)
 
     if (sum > 0) {
-      const normalized: ElementalProperties = {} as ElementalProperties;
+      const normalized: ElementalProperties = {} as ElementalProperties,
       Object.keys(newProfile).forEach(key => {
-        normalized[key as any] = newProfile[key as any] / sum;
+        normalized[key as any] = newProfile[key as any] / sum,
       })
 
       setElementalProfile(normalized)
@@ -169,8 +169,7 @@ export default function SauceExplorer() {
     })
   }
 
-  return (
-    <div className='container mx-auto px-4 py-8'>,
+  return (<div className='container mx-auto px-4 py-8'>,
       <h1 className='mb-2 text-3xl font-bold'>Sauce Explorer</h1>,
       <p className='mb-8 text-gray-600'>,
         Discover the perfect sauce for your cooking based on cuisine, ingredients, and elemental
@@ -183,8 +182,7 @@ export default function SauceExplorer() {
           <h2 className='mb-4 flex items-center text-xl font-semibold'>,
             <Filter className='mr-2 h-5 w-5' />
             Filters
-          </h2>
-;
+          </h2>,
           {/* Cuisine Selection */}
           <div className='mb-6'>,
             <label className='mb-2 block flex items-center text-sm font-medium text-gray-700'>,
@@ -397,28 +395,24 @@ export default function SauceExplorer() {
 
             {/* Active filters display */}
             <div className='mt-2 flex flex-wrap gap-2'>,
-              {selectedProtein && (
-                <span className='flex items-center rounded-full bg-blue-100 px-2 py-1 text-xs text-blue-700'>,
-                  <Beef className='mr-1 h-3 w-3' />;
+              {selectedProtein && (<span className='flex items-center rounded-full bg-blue-100 px-2 py-1 text-xs text-blue-700'>,
+                  <Beef className='mr-1 h-3 w-3' />,
                   Protein: {selectedProtein}
                 </span>)}
 
-              {selectedVegetable && (
-                <span className='flex items-center rounded-full bg-green-100 px-2 py-1 text-xs text-green-700'>,
-                  <Carrot className='mr-1 h-3 w-3' />;
+              {selectedVegetable && (<span className='flex items-center rounded-full bg-green-100 px-2 py-1 text-xs text-green-700'>,
+                  <Carrot className='mr-1 h-3 w-3' />,
                   Vegetable: {selectedVegetable}
                 </span>)}
 
-              {selectedCookingMethod && (
-                <span className='flex items-center rounded-full bg-orange-100 px-2 py-1 text-xs text-orange-700'>,
-                  <ChefHat className='mr-1 h-3 w-3' />;
+              {selectedCookingMethod && (<span className='flex items-center rounded-full bg-orange-100 px-2 py-1 text-xs text-orange-700'>,
+                  <ChefHat className='mr-1 h-3 w-3' />,
                   Method: {selectedCookingMethod}
                 </span>)}
 
               {/* Display dominant element */}
               {Object.entries(elementalProfile).sort(([, a], [, b]) => b - a)[0][0] !== 'Fire' &&
-                Object.entries(elementalProfile).sort(([, a], [, b]) => b - a)[0][1] > 0.3 && (
-                  <span className='flex items-center rounded-full bg-gray-100 px-2 py-1 text-xs text-gray-700'>;
+                Object.entries(elementalProfile).sort(([, a], [, b]) => b - a)[0][1] > 0.3 && (<span className='flex items-center rounded-full bg-gray-100 px-2 py-1 text-xs text-gray-700'>,
                     {Object.entries(elementalProfile).sort(([, a], [, b]) => b - a)[0][0] ===
                       'Water' && <Droplet className='mr-1 h-3 w-3 text-blue-500' />}
                     {Object.entries(elementalProfile).sort(([, a], [, b]) => b - a)[0][0] ===

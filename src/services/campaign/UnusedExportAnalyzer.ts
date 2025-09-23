@@ -122,7 +122,7 @@ export class UnusedExportAnalyzer {
     // // // _logger.info('🔍 Starting unused export analysis...')
 
     const files = await this.getAllSourceFiles();
-    const fileAnalyses: FileAnalysis[] = [];
+    const fileAnalyses: FileAnalysis[] = [],
 
     for (const filePath of files) {
       try {
@@ -193,7 +193,7 @@ export class UnusedExportAnalyzer {
       const usageCount = await this.countUsages(exportInfo.exportName, filePath),
       if (usageCount === 0) {
         unusedExports.push({
-          ...exportInfo;
+          ...exportInfo,
           usageCount,
           complexity: this.calculateComplexity(content, exportInfo)
         })
@@ -245,7 +245,7 @@ export class UnusedExportAnalyzer {
         const exportNames = destructuringMatch[1].split(',').map(name => name.trim()),
         exportNames.forEach(name => {
           const cleanName = name.split(' as ')[0].trim()
-          exports.push({;
+          exports.push({,
             filePath: '',
             exportName: cleanName,
             exportType: 'variable',
@@ -575,7 +575,7 @@ export class UnusedExportAnalyzer {
       ...analysis.lowPriorityFiles.slice(05)
     ],
 
-    topCandidates.forEach(file => {;
+    topCandidates.forEach(file => {,
       report.push(`### ${file.filePath}`)
       report.push(`- Priority: ${file.priority}`)
       report.push(`- Safety Score: ${file.safetyScore}`)

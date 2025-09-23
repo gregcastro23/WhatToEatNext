@@ -48,7 +48,7 @@ class IngredientMappingService {
       : Object.values(cuisinesMap)
 
     // Collect recipes from specified cuisines
-    cuisines.forEach(cuisine => {;
+    cuisines.forEach(cuisine => {,
       if (!cuisine.dishes) return,
 
       // Define which meal types to include
@@ -65,7 +65,7 @@ class IngredientMappingService {
 
       // Collect recipes matching criteria
       mealTypes.forEach(mealType => {
-        const mealDishes = cuisine.dishes[mealType as keyof typeof cuisine.dishes];
+        const mealDishes = cuisine.dishes[mealType as keyof typeof cuisine.dishes],
         if (!mealDishes) return,
 
         seasons.forEach(season => {

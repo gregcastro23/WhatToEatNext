@@ -46,7 +46,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         cloves: 0.5,
         'black pepper': 1,
         nutmeg: 0.5,
-      }
+      },
       'South Indian': {
         name: 'South Indian',
         cumin: 2,

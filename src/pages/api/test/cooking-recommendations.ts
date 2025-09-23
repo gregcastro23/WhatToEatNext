@@ -8,7 +8,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     const testResults = testCookingMethodRecommendations()
 
     // Return the results
-    res.status(200).json({;
+    res.status(200).json({,
       success: true,
       data: testResults,
       message: 'Test completed successfully',

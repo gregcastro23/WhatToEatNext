@@ -161,13 +161,13 @@ export class AlchemicalEngineAdvanced {
     scorpio: 'Water',
     pisces: 'Water' },
         private readonly lunarPhaseModifiers: Record<LunarPhase, ElementalProperties> = {
-    'new moon': { Fire: 0.1, Water: 0.4, Air: 0.3, Earth: 0.2 }
-    'waxing crescent': { Fire: 0.2, Water: 0.3, Air: 0.3, Earth: 0.2 }
-    'first quarter': { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 }
-    'waxing gibbous': { Fire: 0.4, Water: 0.2, Air: 0.3, Earth: 0.1 }
-    'full moon': { Fire: 0.4, Water: 0.1, Air: 0.4, Earth: 0.1 }
-    'waning gibbous': { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 }
-    'last quarter': { Fire: 0.2, Water: 0.3, Air: 0.2, Earth: 0.3 }
+    'new moon': { Fire: 0.1, Water: 0.4, Air: 0.3, Earth: 0.2 },
+    'waxing crescent': { Fire: 0.2, Water: 0.3, Air: 0.3, Earth: 0.2 },
+    'first quarter': { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 },
+    'waxing gibbous': { Fire: 0.4, Water: 0.2, Air: 0.3, Earth: 0.1 },
+    'full moon': { Fire: 0.4, Water: 0.1, Air: 0.4, Earth: 0.1 },
+    'waning gibbous': { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 },
+    'last quarter': { Fire: 0.2, Water: 0.3, Air: 0.2, Earth: 0.3 },
     'waning crescent': { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 }
   }
 
@@ -181,63 +181,63 @@ export class AlchemicalEngineAdvanced {
 
   private readonly decans: Record<ZodiacSign, Decan[]> = {
     aries: [
-      { ruler: 'Mars', element: 'Fire', degree: 0 }
-      { ruler: 'Sun', element: 'Fire', degree: 10 }
+      { ruler: 'Mars', element: 'Fire', degree: 0 },
+      { ruler: 'Sun', element: 'Fire', degree: 10 },
       { ruler: 'Jupiter', element: 'Fire', degree: 20 }
     ],
     taurus: [
-      { ruler: 'Venus', element: 'Earth', degree: 0 }
-      { ruler: 'Mercury', element: 'Earth', degree: 10 }
+      { ruler: 'Venus', element: 'Earth', degree: 0 },
+      { ruler: 'Mercury', element: 'Earth', degree: 10 },
       { ruler: 'Saturn', element: 'Earth', degree: 20 }
     ],
     gemini: [
-      { ruler: 'Mercury', element: 'Air', degree: 0 }
-      { ruler: 'Venus', element: 'Air', degree: 10 }
+      { ruler: 'Mercury', element: 'Air', degree: 0 },
+      { ruler: 'Venus', element: 'Air', degree: 10 },
       { ruler: 'Uranus', element: 'Air', degree: 20 }
     ],
     cancer: [
-      { ruler: 'Moon', element: 'Water', degree: 0 }
-      { ruler: 'Pluto', element: 'Water', degree: 10 }
+      { ruler: 'Moon', element: 'Water', degree: 0 },
+      { ruler: 'Pluto', element: 'Water', degree: 10 },
       { ruler: 'Neptune', element: 'Water', degree: 20 }
     ],
     leo: [
-      { ruler: 'Sun', element: 'Fire', degree: 0 }
-      { ruler: 'Jupiter', element: 'Fire', degree: 10 }
+      { ruler: 'Sun', element: 'Fire', degree: 0 },
+      { ruler: 'Jupiter', element: 'Fire', degree: 10 },
       { ruler: 'Mars', element: 'Fire', degree: 20 }
     ],
     virgo: [
-      { ruler: 'Mercury', element: 'Earth', degree: 0 }
-      { ruler: 'Saturn', element: 'Earth', degree: 10 }
+      { ruler: 'Mercury', element: 'Earth', degree: 0 },
+      { ruler: 'Saturn', element: 'Earth', degree: 10 },
       { ruler: 'Venus', element: 'Earth', degree: 20 }
     ],
     libra: [
-      { ruler: 'Venus', element: 'Air', degree: 0 }
-      { ruler: 'Uranus', element: 'Air', degree: 10 }
+      { ruler: 'Venus', element: 'Air', degree: 0 },
+      { ruler: 'Uranus', element: 'Air', degree: 10 },
       { ruler: 'Mercury', element: 'Air', degree: 20 }
     ],
     scorpio: [
-      { ruler: 'Pluto', element: 'Water', degree: 0 }
-      { ruler: 'Neptune', element: 'Water', degree: 10 }
+      { ruler: 'Pluto', element: 'Water', degree: 0 },
+      { ruler: 'Neptune', element: 'Water', degree: 10 },
       { ruler: 'Moon', element: 'Water', degree: 20 }
     ],
     sagittarius: [
-      { ruler: 'Jupiter', element: 'Fire', degree: 0 }
-      { ruler: 'Mars', element: 'Fire', degree: 10 }
+      { ruler: 'Jupiter', element: 'Fire', degree: 0 },
+      { ruler: 'Mars', element: 'Fire', degree: 10 },
       { ruler: 'Sun', element: 'Fire', degree: 20 }
     ],
     capricorn: [
-      { ruler: 'Saturn', element: 'Earth', degree: 0 }
-      { ruler: 'Venus', element: 'Earth', degree: 10 }
+      { ruler: 'Saturn', element: 'Earth', degree: 0 },
+      { ruler: 'Venus', element: 'Earth', degree: 10 },
       { ruler: 'Mercury', element: 'Earth', degree: 20 }
     ],
     aquarius: [
-      { ruler: 'Uranus', element: 'Air', degree: 0 }
-      { ruler: 'Mercury', element: 'Air', degree: 10 }
+      { ruler: 'Uranus', element: 'Air', degree: 0 },
+      { ruler: 'Mercury', element: 'Air', degree: 10 },
       { ruler: 'Venus', element: 'Air', degree: 20 }
     ],
     pisces: [
-      { ruler: 'Neptune', element: 'Water', degree: 0 }
-      { ruler: 'Moon', element: 'Water', degree: 10 }
+      { ruler: 'Neptune', element: 'Water', degree: 0 },
+      { ruler: 'Moon', element: 'Water', degree: 10 },
       { ruler: 'Pluto', element: 'Water', degree: 20 }
     ]
   }
@@ -258,7 +258,7 @@ export class AlchemicalEngineAdvanced {
     )[0][0],
 
     // Safely access the seasonalPatterns by ensuring the season is a valid key
-    const defaultSeason: Season = 'winter';
+    const defaultSeason: Season = 'winter',
     const normalizedSeason = season?.toLowerCase()
     const validSeason =
       normalizedSeason === 'spring' ||
@@ -295,7 +295,7 @@ export class AlchemicalEngineAdvanced {
 
     return {
       result: {
-        elementalProperties: recipeElements || {;
+        elementalProperties: recipeElements || {,
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
@@ -513,7 +513,7 @@ export class AlchemicalEngineAdvanced {
 
     const total = Object.values(result).reduce((sum, val) => sum + val0)
     Object.keys(result).forEach(element => {
-      result[element as unknown] /= total;
+      result[element as unknown] /= total,
     })
 
     return result,
@@ -528,7 +528,7 @@ export class AlchemicalEngineAdvanced {
 
     return (
       signDecans.find((decan, index) => {
-        const nextDegree = index < 2 ? signDecans[index + 1].degree: 30;
+        const nextDegree = index < 2 ? signDecans[index + 1].degree: 30,
         return degrees >= decan.degree && degrees < nextDegree
       }) || null
     )
@@ -553,7 +553,7 @@ export class AlchemicalEngineAdvanced {
     }
 
     Object.keys(result).forEach(element => {
-      const key = element as any;
+      const key = element as any,
       result[key] = (seasonBase[key] + lunarBase[key]) / 2,
     })
 
@@ -693,7 +693,7 @@ export class AlchemicalEngineAdvanced {
 
     const total = Object.values(baseModifiers).reduce((sum, val) => sum + val0)
     Object.keys(baseModifiers).forEach(element => {
-      baseModifiers[element as unknown] /= total;
+      baseModifiers[element as unknown] /= total,
     })
 
     return baseModifiers,
@@ -752,7 +752,7 @@ export class AlchemicalEngineAdvanced {
       const elemPairs: [string, number][] = [];
 
       // Safely extract elements and values
-      Object.keys(elementObject).forEach(element => {;
+      Object.keys(elementObject).forEach(element => {,
         elemPairs.push([element, elementObject[element] || 0])
       })
 
@@ -852,7 +852,7 @@ function getElementRanking(elementObject: Record<string, _number>): Record<numbe
     elementValues.sort((ab) => b[1] - a[1])
 
     // Assign ranks safely without modifying any existing values
-    for (let i = 0; i < elementValues.length; i++) {
+    for (let i = 0, i < elementValues.length, i++) {
       rankingObject[i + 1] = elementValues[i][0],
     }
 
@@ -964,11 +964,11 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
       'Major Arcana': {
         Sun: '',
         Ascendant: '',
-      }
+      },
       'Minor Arcana': {
         Decan: '',
         Cusp: 'None',
-      }
+      },
       'Alchemy Effects': {
         'Total Spirit': 0,
         'Total Essence': 0,
@@ -976,7 +976,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
         'Total Matter': 0,
         'Total Substance': 0,
         'Total Night Essence': 0,
-      }
+      },
       'Chart Ruler': '',
       'Total Dignity Effect': createElementObject(),
       'Total Decan Effect': createElementObject(),
@@ -1223,9 +1223,8 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
             try {
               const dignity_effect = createElementObject()
 
-              if (
-                alchmInfo['Planets'] &&
-                alchmInfo['Planets'][planet] &&;
+              if (alchmInfo['Planets'] &&
+                alchmInfo['Planets'][planet] &&,
                 (alchmInfo['Planets'][planet] as Record<string, unknown>)['Dignity Effect'] &&
                 (
                   (alchmInfo['Planets'][planet] as Record<string, unknown>)[
@@ -1872,14 +1871,14 @@ export function calculateZodiacEnergies(
 
     if (totalEnergy > 0) {
       Object.keys(zodiacEnergies).forEach(sign => {
-        zodiacEnergies[sign] = zodiacEnergies[sign] / totalEnergy;
+        zodiacEnergies[sign] = zodiacEnergies[sign] / totalEnergy,
       })
     } else {
       // If no energy was calculated (all zeros), set to equal distribution
       logger.warn('No zodiac energies calculated, using equal distribution')
       const equalValue = 1 / Object.keys(zodiacEnergies).length;
       Object.keys(zodiacEnergies).forEach(sign => {
-        zodiacEnergies[sign] = equalValue;
+        zodiacEnergies[sign] = equalValue,
       })
     }
 
@@ -1896,7 +1895,7 @@ export function calculateZodiacEnergies(
     // Return equal distribution on error
     const equalValue = 1 / Object.keys(zodiacEnergies).length;
     Object.keys(zodiacEnergies).forEach(sign => {
-      zodiacEnergies[sign] = equalValue;
+      zodiacEnergies[sign] = equalValue,
     })
 
     return zodiacEnergies,
@@ -1955,7 +1954,7 @@ export function calculateChakraEnergies(_zodiacEnergies: Record<string, _number>
 
     // Reset chakra energies to 0 before calculating (keeps default values for missing ones)
     Object.keys(chakraEnergies).forEach(chakra => {
-      chakraEnergies[chakra as keyof ChakraEnergies] = 0;
+      chakraEnergies[chakra as keyof ChakraEnergies] = 0,
     })
 
     // Track which chakras received energy for normalization
@@ -2001,14 +2000,14 @@ export function calculateChakraEnergies(_zodiacEnergies: Record<string, _number>
     if (totalEnergy > 0) {
       Object.keys(chakraEnergies).forEach(chakra => {
         chakraEnergies[chakra as keyof ChakraEnergies] =
-          chakraEnergies[chakra as keyof ChakraEnergies] / totalEnergy;
+          chakraEnergies[chakra as keyof ChakraEnergies] / totalEnergy,
       })
     } else {
       // If no energies were calculated, use equal distribution
       logger.warn('No chakra energies calculated, using equal distribution')
       const equalValue = 1 / Object.keys(chakraEnergies).length;
       Object.keys(chakraEnergies).forEach(chakra => {
-        chakraEnergies[chakra as keyof ChakraEnergies] = equalValue;
+        chakraEnergies[chakra as keyof ChakraEnergies] = equalValue,
       })
     }
 
@@ -2092,7 +2091,7 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
       // Normalize the values
       const total = Object.values(elementalProperties).reduce((sum, val) => sum + val0)
       Object.keys(elementalProperties).forEach(key => {
-        elementalProperties[key as unknown] /= total;
+        elementalProperties[key as unknown] /= total,
       })
     }
 
@@ -2164,7 +2163,7 @@ export default {
       return {
         'Sun Sign': 'unknown',
         'Dominant Element': 'Fire',
-        'Total Effect Value': { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 }
+        'Total Effect Value': { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 },
         'Alchemy Effects': {
           'Total Spirit': 0.25,
           'Total Essence': 0.25,

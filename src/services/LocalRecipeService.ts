@@ -431,7 +431,7 @@ export class LocalRecipeService {
           if (seasonRecipes.length > 0) {
             logger.debug(`Found ${seasonRecipes.length} dishes for ${season} in ${mealType}`)
             // Add only unique recipes based on name to avoid duplicates from 'all' merging
-            seasonRecipes.forEach(dish => {;
+            seasonRecipes.forEach(dish => {,
               if (dish?.name && !recipes.some(r => r.name === dish.name)) {,
                 recipes.push(this.standardizeRecipe(dish, cuisine.name, [season], [mealType]))
               }

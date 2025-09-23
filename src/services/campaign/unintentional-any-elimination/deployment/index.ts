@@ -97,7 +97,7 @@ export class DeploymentManager {
    * Execute complete deployment with all phases
    */
   async executeDeployment(phases: DeploymentPhase[]): Promise<DeploymentResult[]> {
-    const results: DeploymentResult[] = [];
+    const results: DeploymentResult[] = [],
 
     this.log('Starting deployment automation')
     this.log(`Deploying ${phases.length} phases`)
@@ -269,7 +269,7 @@ export class DeploymentManager {
    * Run validation checks
    */
   private async runValidationChecks(checks: ValidationCheck[]): Promise<ValidationResult[]> {
-    const results: ValidationResult[] = [];
+    const results: ValidationResult[] = [],
 
     for (const check of checks) {
       const startTime = Date.now()

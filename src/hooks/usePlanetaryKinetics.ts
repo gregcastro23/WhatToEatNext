@@ -28,9 +28,9 @@ import {
 } from '@/utils/kineticsFoodMatcher';
 
 export interface UsePlanetaryKineticsOptions {
-  location?: KineticsLocation;
+  location?: KineticsLocation,
   updateInterval?: number; // in milliseconds, default 5 minutes
-  enableAutoUpdate?: boolean;
+  enableAutoUpdate?: boolean,
   kineticsOptions?: KineticsOptions;
 }
 
@@ -101,7 +101,7 @@ export function usePlanetaryKinetics(
       });
 
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch kinetics data';
+      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch kinetics data',
       setError(errorMessage);
       setIsOnline(false);
 
@@ -176,7 +176,7 @@ export function usePlanetaryKinetics(
       .sort(([,a], [,b]) => b - a)[0][0];
   }, [kinetics]);
 
-  const aspectPhase = useMemo((): 'applying' | 'exact' | 'separating' | null => {;
+  const aspectPhase = useMemo((): 'applying' | 'exact' | 'separating' | null => {,
     if (!kinetics?.data.powerPrediction) return null;
 
     const { trend } = kinetics.data.powerPrediction;
@@ -195,7 +195,7 @@ export function usePlanetaryKinetics(
   }, [kinetics]);
 
   // Enhanced food recommendations
-  const temporalRecommendations = useMemo((): TemporalFoodRecommendation | null => {;
+  const temporalRecommendations = useMemo((): TemporalFoodRecommendation | null => {,
     if (!kinetics) return null;
 
     try {
@@ -210,7 +210,7 @@ export function usePlanetaryKinetics(
     }
   }, [kinetics]);
 
-  const elementalRecommendations = useMemo((): string[] => {;
+  const elementalRecommendations = useMemo((): string[] => {,
     if (!kinetics) return [];
 
     try {
@@ -221,7 +221,7 @@ export function usePlanetaryKinetics(
     }
   }, [kinetics]);
 
-  const aspectEnhancedRecommendations = useMemo((): KineticsEnhancedRecommendation | null => {;
+  const aspectEnhancedRecommendations = useMemo((): KineticsEnhancedRecommendation | null => {,
     if (!kinetics) return null;
 
     try {

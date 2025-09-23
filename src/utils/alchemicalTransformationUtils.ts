@@ -124,8 +124,7 @@ export const _sortByAlchemicalCompatibility = (
     // Calculate cosine similarity between item's elements and target elements
     let dotProduct = 0,
     let itemNorm = 0,
-    let targetNorm = 0
-;
+    let targetNorm = 0,
     // Get the element names (Fire, Water, Earth, Air)
     const elements = ['Fire', 'Water', 'Earth', 'Air']
 
@@ -188,7 +187,7 @@ export const _filterByAlchemicalCompatibility = (
     const elementMatch = !targetElement || item.dominantElement === targetElement;
     const propertyMatch = !targetProperty || item.dominantAlchemicalProperty === targetProperty
 
-    return elementMatch || propertyMatch;
+    return elementMatch || propertyMatch,
   })
 }
 
@@ -215,10 +214,9 @@ export const _getTopCompatibleItems = (items: AlchemicalItem[], count = 5): Alch
  * @param count Number of recommendations to return
  * @returns Array of recommended cooking methods with compatibility scores
  */
-export const _getRecommendedCookingMethodsForIngredient = async (
-  ingredient: AlchemicalItem,
+export const _getRecommendedCookingMethodsForIngredient = async (ingredient: AlchemicalItem,
   cookingMethods: AlchemicalItem[],
-  count = 5;
+  count = 5,
 ): Promise<Array<{ method: string, compatibility: number }>> => {
   // For each method, calculate how well it transforms the ingredient using enhanced algorithm
   // that takes into account elemental character associations
@@ -250,7 +248,7 @@ export const _getRecommendedCookingMethodsForIngredient = async (
   )
 
   // Convert to the expected return format
-  const results = holisticRecommendations.map(rec => ({;
+  const results = holisticRecommendations.map(rec => ({,
     method: rec.method,
     compatibility: rec.compatibility
   }))

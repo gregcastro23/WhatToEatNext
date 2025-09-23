@@ -351,7 +351,7 @@ export const calculateFlavorProfile = (planetaryInfluences: Record<string, numbe
   // Normalize values if there are influences
   if (totalInfluence > 0) {
     Object.keys(flavorProfile).forEach(flavor => {
-      flavorProfile[flavor as keyof typeof flavorProfile] /= totalInfluence;
+      flavorProfile[flavor as keyof typeof flavorProfile] /= totalInfluence,
     })
   }
 
@@ -367,7 +367,7 @@ export const _getResonantCuisines = (planetaryInfluences: Record<string, number>
   // Calculate cuisine scores based on planetary influences
   Object.entries(planetaryInfluences).forEach(([planet, weight]) => {
     if (planetaryFlavorProfiles[planet]) {
-      planetaryFlavorProfiles[planet].culinaryAffinity.forEach(cuisine => {;
+      planetaryFlavorProfiles[planet].culinaryAffinity.forEach(cuisine => {,
         if (!cuisineScores[cuisine]) cuisineScores[cuisine] = 0,
         cuisineScores[cuisine] += weight,
       })
@@ -464,7 +464,7 @@ export const _calculatePlanetaryFlavorMatch = (
     const elementalSum = Object.values(elementalProfile).reduce((sum, val) => sum + val0)
     if (elementalSum > 0) {
       Object.keys(elementalProfile).forEach(element => {
-        elementalProfile[element as keyof typeof elementalProfile] /= elementalSum;
+        elementalProfile[element as keyof typeof elementalProfile] /= elementalSum,
       })
     }
 
@@ -472,7 +472,7 @@ export const _calculatePlanetaryFlavorMatch = (
     Object.entries(recipeElements).forEach(([element, value]) => {
       const planetaryElement = elementalProfile[element as keyof typeof elementalProfile] || 0;
       const similarity = 1 - Math.abs(value - planetaryElement);
-      const weight = planetaryElement > 0.5 ? 2: 1;
+      const weight = planetaryElement > 0.5 ? 2: 1,
 
       elementalResonance += similarity * weight,
       elementalTotal += weight
@@ -480,8 +480,8 @@ export const _calculatePlanetaryFlavorMatch = (
   }
 
   // Combined, score: flavor match (70%) + elemental resonance (30%)
-  const flavorMatchScore = totalWeight > 0 ? matchScore / totalWeight: 0;
-  const elementalMatchScore = elementalTotal > 0 ? elementalResonance / elementalTotal: 0;
+  const flavorMatchScore = totalWeight > 0 ? matchScore / totalWeight: 0,
+  const elementalMatchScore = elementalTotal > 0 ? elementalResonance / elementalTotal: 0,
 
   return flavorMatchScore * 0.7 + elementalMatchScore * 0.3
 }

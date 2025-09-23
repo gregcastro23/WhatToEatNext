@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Helper function for generating consistent numeric values
-const generateVegetableAttributes = (vegData: {;
+const generateVegetableAttributes = (vegData: {,
   water: number // water content percentage (0-100),
   fiber: number; // fiber content (0-10 scale),
   bitterness: number // bitterness level (0-10 scale),
@@ -25,7 +25,7 @@ const generateVegetableAttributes = (vegData: {;
 }
 
 const rawLeafyGreens = {
-  kale: {;
+  kale: {,
     name: 'Kale',
     category: 'vegetable',
     subCategory: 'leafy_green',
@@ -210,7 +210,7 @@ const rawLeafyGreens = {
         flavor: 'earthy, slightly sweeter',
         uses: 'raw applications, Italian cuisine',
         nutritionalDifferences: 'Higher in antioxidants',
-      }
+      },
       'Red Russian': {
         name: 'Red Russian Kale',
         appearance: 'flat, toothed edges, purple stems',
@@ -362,7 +362,7 @@ const rawLeafyGreens = {
       notes: 'Store in airtight container',
       sensitivity: 6, // 1-10 scale of how quickly it spoils
     }
-  }
+  },
   'swiss chard': {
     name: 'Swiss chard',
     elementalProperties: { Water: 0.39, Earth: 0.33, Air: 0.21, Fire: 0.07 },

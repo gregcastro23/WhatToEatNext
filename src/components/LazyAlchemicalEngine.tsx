@@ -13,10 +13,9 @@ const AlchemicalCalculator = createLazyComponent(
   () => import('@/calculations/alchemicalEngine').then(module => ({
     default: React.memo((props: any) => {
       // This would wrap the actual calculation logic
-      return (
-        <div className="alchemical-calculator">
+      return (<div className="alchemical-calculator">
           <h3>Alchemical Calculation Engine</h3>
-          <p>Performing complex elemental calculations...</p>;
+          <p>Performing complex elemental calculations...</p>,
           {/* Calculation results would be rendered here */}
         </div>
       )
@@ -62,8 +61,7 @@ export const LazyAlchemicalEngine: React.FC<LazyAlchemicalEngineProps> = ({
     }
   }
 
-  return (
-    <div className="lazy-alchemical-engine">;
+  return (<div className="lazy-alchemical-engine">,
       {/* Trigger button with preload on hover */}
       <button
         onClick={() => setIsVisible(!isVisible)}
@@ -78,14 +76,13 @@ export const LazyAlchemicalEngine: React.FC<LazyAlchemicalEngineProps> = ({
       </button>
 
       {/* Lazy-loaded calculator component */}
-      {isVisible && (
-        <div className="mt-4 border border-gray-200 rounded-lg p-4 bg-white shadow-sm">
+      {isVisible && (<div className="mt-4 border border-gray-200 rounded-lg p-4 bg-white shadow-sm">
           <Suspense fallback={
             <div className="animate-pulse">
               <div className="h-32 bg-gray-200 rounded mb-4"></div>
               <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
               <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-            </div>;
+            </div>,
           }>
             <AlchemicalCalculator
               ingredients={ingredients}

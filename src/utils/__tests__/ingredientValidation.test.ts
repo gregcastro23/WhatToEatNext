@@ -54,7 +54,7 @@ jest.mock('../logger', () => ({
 
 import { calculateElementalAffinity } from '../elementalUtils';
 
-const mockCalculateElementalCompatibility: any = calculateElementalAffinity as jest.MockedFunction<;
+const mockCalculateElementalCompatibility: any = calculateElementalAffinity as jest.MockedFunction<,
   typeof calculateElementalAffinity
 >
 
@@ -158,7 +158,7 @@ describe('Ingredient Data Validation', () => {
             severity: 'HIGH',
             message: 'Elemental error 1',
             timestamp: new Date()
-          }
+          },
           {
             type: 'COMPATIBILITY_VIOLATION',
             severity: 'HIGH',
@@ -218,7 +218,7 @@ describe('Ingredient Data Validation', () => {
             severity: 'HIGH',
             message: 'Single high-severity error',
             timestamp: new Date()
-          }
+          },
           {
             type: 'COMPATIBILITY_VIOLATION',
             severity: 'MEDIUM',

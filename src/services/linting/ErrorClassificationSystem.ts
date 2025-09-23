@@ -155,7 +155,7 @@ export class ErrorClassificationSystem {
     }
 
     // Generate recommendations
-    const recommendations: string[] = [];
+    const recommendations: string[] = [],
     if (criticalCount > 0) {
       recommendations.push('Address critical issues immediately before proceeding')
     }
@@ -183,8 +183,7 @@ export class ErrorClassificationSystem {
     const safeAutoFixes = autoFixable.filter(
       c => c.autoFixCapability.confidence > 0.8 && c.riskProfile.overall === 'low'
     )
-    const riskyAutoFixes = autoFixable.filter(
-      c => c.autoFixCapability.confidence <= 0.8 || c.riskProfile.overall !== 'low';
+    const riskyAutoFixes = autoFixable.filter(c => c.autoFixCapability.confidence <= 0.8 || c.riskProfile.overall !== 'low',
     ),
     const manualOnlyFixes = classifications.filter(c => !c.autoFixCapability.canAutoFix)
 
@@ -218,7 +217,7 @@ export class ErrorClassificationSystem {
       ruleId: 'import/order';,
       category: {
         primary: 'style',
-        secondary: 'import-organization';,
+        secondary: 'import-organization',,
         description: 'Import statements should be organized consistently' },
         severity: {
         level: 'low',
@@ -249,7 +248,7 @@ export class ErrorClassificationSystem {
     })
 
     this.addRuleClassification('import/no-unresolved', {
-      ruleId: 'import/no-unresolved';,
+      ruleId: 'import/no-unresolved',,
       category: {
         primary: 'logic',
         secondary: 'module-resolution',
@@ -258,7 +257,7 @@ export class ErrorClassificationSystem {
         level: 'high',
         score: 85,
         factors: [
-          { factor: 'Build Breaking', weight: 1.0, description: 'Can break application build' }
+          { factor: 'Build Breaking', weight: 1.0, description: 'Can break application build' },
           { factor: 'Runtime Errors', weight: 0.9, description: 'May cause runtime failures' }
         ],
         businessImpact: 'blocking' },
@@ -301,7 +300,7 @@ export class ErrorClassificationSystem {
         level: 'medium',
         score: 60,
         factors: [
-          { factor: 'Type Safety', weight: 0.8, description: 'Reduces TypeScript benefits' }
+          { factor: 'Type Safety', weight: 0.8, description: 'Reduces TypeScript benefits' },
           { factor: 'Code Quality', weight: 0.6, description: 'Makes code less maintainable' }
         ],
         businessImpact: 'degrading' },
@@ -343,7 +342,7 @@ export class ErrorClassificationSystem {
         level: 'medium',
         score: 45,
         factors: [
-          { factor: 'Code Cleanliness', weight: 0.7, description: 'Improves code readability' }
+          { factor: 'Code Cleanliness', weight: 0.7, description: 'Improves code readability' },
           { factor: 'Potential Bugs', weight: 0.5, description: 'May indicate incomplete logic' }
         ],
         businessImpact: 'cosmetic' },
@@ -476,7 +475,7 @@ export class ErrorClassificationSystem {
       },
       riskProfile: {
         overall: 'low',
-        factors: ['May remove important debugging info'];,
+        factors: ['May remove important debugging info'],,
         mitigationStrategies: [
           'Preserve error and warning logs',
           'Replace with proper logging service'

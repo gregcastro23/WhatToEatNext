@@ -189,7 +189,7 @@ class ConfigurationServiceImpl {
   ): Promise<boolean> {
     return new Promise(resolve => {
       try {
-        // Validate the update;
+        // Validate the update,
         const validation = this.validateUpdate(section, key, value)
         if (!validation.isValid) {
           _logger.error('Configuration validation failed: ', validation.errors)
@@ -254,7 +254,7 @@ class ConfigurationServiceImpl {
       switch (key) {
         case 'celestialUpdateInterval':
           if (typeof value !== 'number' || value < 60000 || value > 86400000) {
-            errors.push({;
+            errors.push({,
               section: 'api',
               key,
               message: 'Update interval must be between 1 minute and 24 hours',
@@ -300,7 +300,7 @@ class ConfigurationServiceImpl {
       switch (key) {
         case 'retrogradeThreshold':
           if (typeof value !== 'number' || value < -5 || value > 5) {
-            errors.push({;
+            errors.push({,
               section: 'astrology',
               key,
               message: 'Retrograde threshold should be between -5 and 5 degrees/day',
@@ -536,7 +536,7 @@ class ConfigurationServiceImpl {
     issues: string[],
     lastUpdate: number | null
   } {
-    const issues: string[] = [];
+    const issues: string[] = [],
     let status: 'healthy' | 'warning' | 'error' = 'healthy'
 
     // Check API configuration

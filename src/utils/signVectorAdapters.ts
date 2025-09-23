@@ -12,8 +12,8 @@ export function adaptPlanetaryPosition(_position: unknown): PlanetaryPosition | 
   const pos = position as any;
   
   // Extract and validate required fields
-  const sign = typeof pos.sign === 'string' ? pos.sign: null;
-  const degree = typeof pos.degree === 'number' ? pos.degree :  ;
+  const sign = typeof pos.sign === 'string' ? pos.sign: null,
+  const degree = typeof pos.degree === 'number' ? pos.degree : ,
                  typeof pos.degree === 'string' ? parseFloat(pos.degree) : 0,
   if (!sign) {
     return null

@@ -354,7 +354,7 @@ export function calculateElementalBalanceFromPositions(
   // Normalize values if we have influence
   if (totalInfluence > 0) {
     Object.keys(elementalBalance).forEach(element => {
-      elementalBalance[element as keyof typeof elementalBalance] /= totalInfluence;
+      elementalBalance[element as keyof typeof elementalBalance] /= totalInfluence,
     })
   } else {
     // If no influence, use balanced distribution

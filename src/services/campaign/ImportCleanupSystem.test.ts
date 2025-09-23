@@ -18,7 +18,7 @@ const mockFs: any = fs as jest.Mocked<typeof fs>;
 const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>
 ;
 describe('ImportCleanupSystem', () => {
-  let importCleanupSystem: ImportCleanupSystem;
+  let importCleanupSystem: ImportCleanupSystem,
   let testConfig: ImportCleanupConfig,
 
   beforeEach(() => {;
@@ -146,7 +146,7 @@ function component() : any {
 `,
 
       mockFs.readFileSync.mockReturnValue(originalContent)
-      let writtenContent: any = '';
+      let writtenContent: any = '',
       mockFs.writeFileSync.mockImplementation((path: any, content: any) => {
         writtenContent = content as string;
       })
@@ -176,7 +176,7 @@ function component() : any {
 `,
 
       mockFs.readFileSync.mockReturnValue(originalContent)
-      let writtenContent: any = '';
+      let writtenContent: any = '',
       mockFs.writeFileSync.mockImplementation((path: any, content: any) => {
         writtenContent = content as string;
       })
@@ -211,7 +211,7 @@ function component() : any {
 `,
 
       mockFs.readFileSync.mockReturnValue(originalContent)
-      let writtenContent: any = '';
+      let writtenContent: any = '',
       mockFs.writeFileSync.mockImplementation((path: any, content: any) => {
         writtenContent = content as string;
       })
@@ -233,7 +233,7 @@ function component() : any {
 `,
 
       mockFs.readFileSync.mockReturnValue(originalContent)
-      let writtenContent: any = '';
+      let writtenContent: any = '',
       mockFs.writeFileSync.mockImplementation((path: any, content: any) => {
         writtenContent = content as string;
       })
@@ -258,7 +258,7 @@ function component() : any {
 `,
 
       mockFs.readFileSync.mockReturnValue(originalContent)
-      let writtenContent: any = '';
+      let writtenContent: any = '',
       mockFs.writeFileSync.mockImplementation((path: any, content: any) => {
         writtenContent = content as string;
       })
@@ -298,7 +298,7 @@ function component() : any {
 `,
 
       mockFs.readFileSync.mockReturnValue(originalContent)
-      let writtenContent: any = '';
+      let writtenContent: any = '',
       mockFs.writeFileSync.mockImplementation((path: any, content: any) => {
         writtenContent = content as string;
       })
@@ -327,7 +327,7 @@ function component() : any {
 `,
 
       mockFs.readFileSync.mockReturnValue(originalContent)
-      let writtenContent: any = '';
+      let writtenContent: any = '',
       mockFs.writeFileSync.mockImplementation((path: any, content: any) => {
         writtenContent = content as string;
       })
@@ -373,7 +373,7 @@ function component() : any {
           throw new Error('Build failed');
         })
 
-      mockFs.readFileSync.mockReturnValue('import { unused } from './utils';')
+      mockFs.readFileSync.mockReturnValue('import { unused } from './utils',')
       mockFs.writeFileSync.mockImplementation(() => {})
 
       const result = await importCleanupSystem.executeCleanup(testFiles)
@@ -389,7 +389,7 @@ function component() : any {
       const system: any = new ImportCleanupSystem(config)
 
       mockExecSync.mockReturnValue('') // Build validation passes;
-      mockFs.readFileSync.mockReturnValue('import { used } from './utils'; used();')
+      mockFs.readFileSync.mockReturnValue('import { used } from './utils', used();')
       mockFs.writeFileSync.mockImplementation(() => {})
 
       const result: any = await system.executeCleanup(testFiles)
@@ -412,7 +412,7 @@ function component() : any {
     })
 
     test('handles file write errors gracefully', async () => {
-      mockFsreadFileSync.mockReturnValue('import { unused } from './utils';')
+      mockFsreadFileSync.mockReturnValue('import { unused } from './utils',')
       mockFs.writeFileSync.mockImplementation(() => {
         throw new Error('Permission denied')
       })
@@ -426,11 +426,11 @@ function component() : any {
       const testFiles: any = ['goodts', 'bad.ts', 'good2.ts'],
 
       mockFs.readFileSync,
-        .mockReturnValueOnce('import { used } from './utils'; used();') // good.ts
+        .mockReturnValueOnce('import { used } from './utils', used();') // good.ts
         .mockImplementationOnce(() => {
           throw new Error('Bad file')
         }) // bad.ts
-        .mockReturnValueOnce('import { used } from './utils'; used();'); // good2.ts
+        .mockReturnValueOnce('import { used } from './utils', used();'); // good2.ts
 
       const unusedImports = await importCleanupSystem.detectUnusedImports(testFiles)
 

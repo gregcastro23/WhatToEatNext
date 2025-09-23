@@ -49,7 +49,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
   }
 
   beforeEach(() => {
-    service = new EnterpriseIntelligenceIntegration({;
+    service = new EnterpriseIntelligenceIntegration({,
       enableRecipeIntelligence: true,
       enableIngredientIntelligence: true,
       enableValidationIntelligence: true,
@@ -119,7 +119,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
         mockAstrologicalContext,,
       )
 
-      const recipeIntelligence: any = result.recipeIntelligence;
+      const recipeIntelligence: any = result.recipeIntelligence,
       expect(recipeIntelligence).toBeDefined().
       expect(recipeIntelligencecompatibilityAnalysis).toBeDefined()
       expect(recipeIntelligence.optimizationScore ?? 0.8).toBeGreaterThanOrEqual(0)
@@ -139,7 +139,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
         mockAstrologicalContext,,
       )
 
-      const ingredientIntelligence: any = result.ingredientIntelligence;
+      const ingredientIntelligence: any = result.ingredientIntelligence,
       expect(ingredientIntelligence.categorizationAnalysis).toBeDefined().
       expect(ingredientIntelligenceseasonalAnalysis).toBeDefined()
       expect(ingredientIntelligence.compatibilityAnalysis).toBeDefined().
@@ -158,7 +158,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
         mockAstrologicalContext,,
       )
 
-      const validation: any = result.validationIntelligence;
+      const validation: any = result.validationIntelligence,
       expect(validation.dataIntegrity).toBeDefined().
       expect(validationastrologicalConsistency).toBeDefined()
       expect(validation.elementalHarmony).toBeDefined().
@@ -176,7 +176,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
         mockAstrologicalContext,,
       )
 
-      const safety: any = result.safetyIntelligence;
+      const safety: any = result.safetyIntelligence,
       expect(safety.riskAssessment).toBeDefined().
       expect(safetyriskAssessment.level).toMatch(/low|medium|high|critical/)
       expect(safety.riskAssessment.score).toBeGreaterThanOrEqual(0)
@@ -195,7 +195,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
         mockAstrologicalContext,,
       )
 
-      const optimization: any = result.optimizationRecommendations as any;
+      const optimization: any = result.optimizationRecommendations as any,
       expect(optimization.performance).toBeDefined().
       expect(optimizationaccuracy).toBeDefined()
       expect(optimization.userExperience).toBeDefined().
@@ -221,7 +221,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
 
   describe('configuration', () => {
     it('should respect disabled features', async () => {
-      const disabledService: any = new EnterpriseIntelligenceIntegration({;
+      const disabledService: any = new EnterpriseIntelligenceIntegration({,
         enableRecipeIntelligence: false,
         enableIngredientIntelligence: false,
         enableValidationIntelligence: false,

@@ -60,7 +60,7 @@ export class ChakraService {
     return CHAKRAS.map(chakra => {
       const energyLevel = chakraEnergies[chakra]
 
-      // Determine balance state;
+      // Determine balance state,
       let balanceState: 'balanced' | 'underactive' | 'overactive',
       if (energyLevel < 0.4) {
         balanceState = 'underactive',
@@ -103,7 +103,7 @@ export class ChakraService {
   public getFoodRecommendations(chakraEnergyStates: ChakraEnergyState[]): Record<Chakra, string[]> {
     const recommendations: Record<Chakra, string[]> = {} as Record<Chakra, string[]>,
 
-    chakraEnergyStates.forEach(state => {;
+    chakraEnergyStates.forEach(state => {,
       if (state.balanceState === 'underactive') {,
         recommendations[state.chakra] = state.recommendedFoods,
       }

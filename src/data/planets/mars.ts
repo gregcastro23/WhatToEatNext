@@ -1,7 +1,7 @@
 import { PlanetData } from './types';
 
 const marsData: PlanetData = {
-  'Dignity Effect': {;
+  'Dignity Effect': {,
     aries: 1,
     scorpio: 1,
     capricorn: 2,
@@ -15,7 +15,7 @@ const marsData: PlanetData = {
     Essence: 1,
     Matter: 1,
     Substance: 0,
-  }
+  },
   'Diurnal Element': 'Fire',
   'Nocturnal Element': 'Water',
   AstronomicalData: {

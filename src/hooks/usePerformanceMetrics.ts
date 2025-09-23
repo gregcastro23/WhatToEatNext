@@ -23,7 +23,7 @@ export interface ComponentPerformanceData {
   memoryImpact: number
 }
 
-export const _usePerformanceMetrics = (componentName?: string) => {;
+export const _usePerformanceMetrics = (componentName?: string) => {,
   const [metrics, setMetrics] = useState<PerformanceMetrics>({
     renderTime: 0,
     dataFetchTime: 0,
@@ -78,7 +78,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {;
         const result = await fetchFunction();
         const fetchTime = performance.now() - startTime;
 
-        setMetrics(prev => ({;
+        setMetrics(prev => ({,
           ...prev,
           dataFetchTime: fetchTime,
           lastUpdated: new Date()
@@ -124,10 +124,10 @@ export const _usePerformanceMetrics = (componentName?: string) => {;
 
   // Track errors
   const trackError = useCallback(
-    (error: Error | string) => {;
+    (error: Error | string) => {,
       errorCountRef.current += 1,
 
-      setMetrics(prev => ({;
+      setMetrics(prev => ({,
         ...prev,
         errorCount: errorCountRef.current,
         totalErrors: prev.totalErrors + 1,
@@ -158,11 +158,11 @@ export const _usePerformanceMetrics = (componentName?: string) => {;
 
   // Set up error monitoring
   useEffect(() => {
-    const handleError = (event: ErrorEvent) => {;
+    const handleError = (event: ErrorEvent) => {,
       trackError(event.error || event.message)
     }
 
-    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {;
+    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {,
       trackError(event.reason)
     }
 

@@ -335,7 +335,7 @@ export class CampaignDebugger {
       throw new Error(`Debug session ${sessionId} not found`)
     }
 
-    const findings: DebugFinding[] = [];
+    const findings: DebugFinding[] = [],
 
     for (const step of session.debugSteps) {
       step.status = DebugStepStatus.RUNNING,
@@ -394,7 +394,7 @@ export class CampaignDebugger {
       event => event.severity === 'ERROR' || event.severity === 'CRITICAL'
     )
 ;
-    const rootCauses: string[] = [];
+    const rootCauses: string[] = [],
     const contributingFactors: string[] = [];
 
     // Analyze error patterns
@@ -576,7 +576,7 @@ export class CampaignDebugger {
   }
 
   private async executeDebugStep(step: DebugStep, campaignId: string): Promise<DebugFinding[]> {
-    const findings: DebugFinding[] = [];
+    const findings: DebugFinding[] = [],
 
     switch (step.type) {
       case DebugStepType.CONFIGURATION_CHECK: findings.push(...(await this.checkConfiguration(campaignId)))
@@ -617,12 +617,12 @@ export class CampaignDebugger {
   }
 
   private async analyzeDependencies(campaignId: string): Promise<DebugFinding[]> {
-    const findings: DebugFinding[] = [];
+    const findings: DebugFinding[] = [],
 
     const conflicts = await campaignConflictResolver.detectConflicts()
     for (const conflict of conflicts) {
       if (conflict.involvedCampaigns.includes(campaignId)) {
-        findings.push({;
+        findings.push({,
           id: `dependency_finding_${conflict.id}`,
           category: FindingCategory.DEPENDENCY_ISSUE,
           severity: conflict.severity === 'critical' ? FindingSeverity.CRITICAL : FindingSeverity.HIGH,,
@@ -646,11 +646,11 @@ export class CampaignDebugger {
   }
 
   private async analyzePerformance(campaignId: string): Promise<DebugFinding[]> {
-    const findings: DebugFinding[] = [];
+    const findings: DebugFinding[] = [],
 
     const campaign = await this.getCampaignStatus(campaignId)
     if (campaign && campaign.metrics.buildPerformance.currentTime > 30) {
-      findings.push({;
+      findings.push({,
         id: `perf_finding_${Date.now()}`,
         category: FindingCategory.PERFORMANCE_ISSUE,
         severity: FindingSeverity.HIGH,
@@ -749,7 +749,7 @@ export class CampaignDebugger {
         finding.severity === FindingSeverity.HIGH ||
         finding.severity === FindingSeverity.CRITICAL
       ) {
-        recoverySteps.push({;
+        recoverySteps.push({,
           id: `fix_${finding.id}`,
           name: `Fix: ${finding.title}`,
           description: finding.description,
@@ -866,11 +866,11 @@ export class CampaignDebugger {
     campaign: KiroCampaignStatus,
     metrics: HealthMetric[],
   ): Promise<HealthIssue[]> {
-    const issues: HealthIssue[] = [];
+    const issues: HealthIssue[] = [],
 
     for (const metric of metrics) {
       if (metric.status === MetricStatus.CRITICAL) {
-        issues.push({;
+        issues.push({,
           id: `issue_${metric.name.toLowerCase().replace(' ', '_')}_${Date.now()}`,
           severity: IssueSeverity.HIGH,
           category: IssueCategory.PERFORMANCE,
@@ -889,11 +889,11 @@ export class CampaignDebugger {
   private async generateMaintenanceRecommendations(
     issues: HealthIssue[],
   ): Promise<MaintenanceRecommendation[]> {
-    const recommendations: MaintenanceRecommendation[] = [];
+    const recommendations: MaintenanceRecommendation[] = [],
 
     for (const issue of issues) {
       if (issue.severity === IssueSeverity.HIGH || issue.severity === IssueSeverity.CRITICAL) {
-        recommendations.push({;
+        recommendations.push({,
           id: `maint_${issue.id}`,
           priority: issue.severity === IssueSeverity.CRITICAL,
               ? MaintenancePriority.CRITICAL

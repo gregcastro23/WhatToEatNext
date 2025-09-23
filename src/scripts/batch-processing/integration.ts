@@ -44,7 +44,7 @@ export class BatchProcessingIntegration {
       ...config
     }
 
-    this.orchestrator = new BatchProcessingOrchestrator({;
+    this.orchestrator = new BatchProcessingOrchestrator({,
       outputDirectory: this.config.outputDirectory!,
       generateReports: true,
       interactiveMode: this.config.interactiveMode!,

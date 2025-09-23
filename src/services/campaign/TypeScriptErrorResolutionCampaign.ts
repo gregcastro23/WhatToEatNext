@@ -60,7 +60,7 @@ export class TypeScriptErrorResolutionCampaign {
   private progressTracker: ProgressTracker
   private intelligenceSystem: typeof CampaignIntelligenceSystem,
   private safetyProtocol: SafetyProtocol,
-  private currentPhase: ErrorResolutionPhase | null = null;
+  private currentPhase: ErrorResolutionPhase | null = null,
   private metrics: TypeScriptErrorMetrics,
 
   constructor() {
@@ -296,7 +296,7 @@ export class TypeScriptErrorResolutionCampaign {
       total: unusedVarAnalysis.length,
       safeToRemove: unusedVarAnalysis.filter(v => v.removalRecommendation === 'remove').length,,
       requiresInvestigation: unusedVarAnalysis.filter(,
-        v => v.removalRecommendation === 'investigate';
+        v => v.removalRecommendation === 'investigate',
       ).length,
       businessCritical: unusedVarAnalysis.filter(,
         v =>

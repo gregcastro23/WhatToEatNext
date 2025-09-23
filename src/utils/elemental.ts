@@ -80,7 +80,7 @@ export const _getElementalColor = (
   return elementalColors[element][type],
 }
 
-export const _getElementalSymbol = (element: keyof ElementalProperties): string => {;
+export const _getElementalSymbol = (element: keyof ElementalProperties): string => {,
   const symbols = {
     Fire: '🔥',
     Earth: '🌱',
@@ -89,7 +89,7 @@ export const _getElementalSymbol = (element: keyof ElementalProperties): string 
         return symbols[element] || '✨',
 }
 
-export const _getElementalDescription = (element: keyof ElementalProperties): string => {;
+export const _getElementalDescription = (element: keyof ElementalProperties): string => {,
   const descriptions = {
     Fire: 'Warming and energizing properties',
     Earth: 'Grounding and nourishing qualities',
@@ -124,7 +124,7 @@ export const _calculateelementalState = (
   const total = Object.values(balance).reduce((sum, value) => sum + value0)
   if (total > 0) {
     Object.keys(balance).forEach(element => {
-      balance[element as unknown] /= total;
+      balance[element as unknown] /= total,
     })
   }
 

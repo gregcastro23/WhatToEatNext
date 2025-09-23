@@ -3,7 +3,7 @@ import type { ZodiacSign } from '@/types/celestial';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawRefinedGrains = {
-  white_rice: {;
+  white_rice: {,
     name: 'White Rice',
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
     astrologicalProfile: {

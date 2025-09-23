@@ -9,7 +9,7 @@
 import React from 'react';
 
 interface PlanetaryHourProps {
-  showDetails?: boolean;
+  showDetails?: boolean,
   className?: string;
 }
 

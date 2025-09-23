@@ -128,7 +128,7 @@ export class BuildSystemRepair {
   /**
    * Monitors build system health continuously
    */
-  async startHealthMonitoring(intervalMinutes = 30): Promise<void> {;
+  async startHealthMonitoring(intervalMinutes = 30): Promise<void> {,
     this.logger(`Starting build health monitoring (every ${intervalMinutes} minutes)`)
 
     const monitor = async () => {;

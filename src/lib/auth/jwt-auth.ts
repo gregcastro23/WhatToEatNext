@@ -260,7 +260,7 @@ export class JWTAuthService {
     const userScopes = this.getRoleScopes(userRoles)
 
     return userScopes.some(scope => {
-      // Exact match;
+      // Exact match,
       if (scope === requiredPermission) return true,
 
       // Wildcard match (e.g., 'alchemical: *' matches 'alchemical:calculate')
@@ -379,7 +379,7 @@ export class JWTAuthService {
 }
 
 // Export singleton instance
-export const authService = new JWTAuthService({;
+export const authService = new JWTAuthService({,
   jwtSecret: process.env.JWT_SECRET || 'alchm_kitchen_jwt_secret_key',
   tokenExpiry: '1h',
   refreshTokenExpiry: '7d',

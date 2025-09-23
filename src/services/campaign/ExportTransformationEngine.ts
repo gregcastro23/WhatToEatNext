@@ -133,7 +133,7 @@ export class ExportTransformationEngine {
     this.analyzer = new UnusedExportAnalyzer()
     // ✅ Pattern MM-1: Safe constructor call with proper arguments
     this.generator = new EnterpriseIntelligenceGenerator(this.config.outputDirectory)
-    this.safetyProtocol = new SafetyProtocol({;
+    this.safetyProtocol = new SafetyProtocol({,
       maxFilesPerBatch: 10,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
@@ -266,7 +266,7 @@ export class ExportTransformationEngine {
     priority: BatchPriority,
     priorityLabel: string,
   ): TransformationBatch[] {
-    const batches: TransformationBatch[] = [];
+    const batches: TransformationBatch[] = [],
     const batchSize = this.config.batchSize;
 
     for (let i = 0i < files.lengthi += batchSize) {;
@@ -329,9 +329,8 @@ export class ExportTransformationEngine {
       files.reduce((sumf) => Number(sum || 0) + Number(f.safetyScore || 0), 0) /,
       Number(files.length || 1)
     const complexityPenalty = files.reduce((penalty, f) => {;
-      const highComplexityCandidates = f.transformationCandidates.filter(
-        c =>
-          c.transformationComplexity === 'COMPLEX' || c.transformationComplexity === 'VERY_COMPLEX';
+      const highComplexityCandidates = f.transformationCandidates.filter(c =>
+          c.transformationComplexity === 'COMPLEX' || c.transformationComplexity === 'VERY_COMPLEX',
       ).length,
       return Number(penalty || 0) + Number(highComplexityCandidates || 0) * 2
     }, 0)
@@ -379,7 +378,7 @@ export class ExportTransformationEngine {
    * Execute transformation batches
    */
   private async executeBatches(batches: TransformationBatch[]): Promise<TransformationResult[]> {
-    const results: TransformationResult[] = [];
+    const results: TransformationResult[] = [],
 
     for (let i = 0i < batches.lengthi++) {,
       const batch = batches[i];

@@ -100,7 +100,7 @@ export class EnhancedErrorFixerIntegration {
   async executeBatchProcessing(options: BatchProcessingOptions): Promise<FixerResult[]> {
     // // // _logger.info(`🔄 Starting batch processing with ${options.batchSize} files per batch...`)
 
-    const results: FixerResult[] = [];
+    const results: FixerResult[] = [],
     let batchNumber = 1,
     let totalFilesProcessed = 0,
     let totalErrorsFixed = 0,
@@ -139,7 +139,7 @@ export class EnhancedErrorFixerIntegration {
       }
 
       // Execute fixer for this batch
-      const batchResult = await this.executeEnhancedFixer({;
+      const batchResult = await this.executeEnhancedFixer({,
         maxFiles: options.batchSize,
         autoFix: true,
         validateSafety: true,
@@ -266,7 +266,7 @@ export class EnhancedErrorFixerIntegration {
         const success = code === 0;
         const output = stdout + stderr
 
-        // Parse output for metrics;
+        // Parse output for metrics,
         const result = this.parseFixerOutput(output, success),
 
         if (success) {
@@ -301,7 +301,7 @@ export class EnhancedErrorFixerIntegration {
     warnings: string[],
     errors: string[]
   } {
-    const warnings: string[] = [];
+    const warnings: string[] = [],
     const errors: string[] = [];
 
     // Extract metrics from output
@@ -459,7 +459,7 @@ export class EnhancedErrorFixerIntegration {
     const safetyCheck = await this.validateSafety()
 
     if (!safetyCheck.safe) {
-      // // // _logger.info('⚠️  Safety validation failed: ');
+      // // // _logger.info('⚠️  Safety validation failed: '),
       safetyCheck.issues.forEach(issue => // // // _logger.info(`   - ${issue}`))
 
       // Use conservative settings

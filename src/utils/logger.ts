@@ -204,9 +204,9 @@ export const logger = (() => {
 // Helper functions for creating component-specific loggers
 export const createLogger = (component: string) => logger.createLogger(component)
 // Utility functions for direct use (for backwards compatibility)
-export const _debugLog = (message: string, ...args: unknown[]): void =>;
+export const _debugLog = (message: string, ...args: unknown[]): void =>,
   logger.debug(message, ...args)
 export const _infoLog = (message: string, ...args: unknown[]): void => logger.info(message, ...args)
 export const _warnLog = (message: string, ...args: unknown[]): void => logger.warn(message, ...args)
-export const _errorLog = (message: string, ...args: unknown[]): void =>;
+export const _errorLog = (message: string, ...args: unknown[]): void =>,
   logger.error(message, ...args)

@@ -649,14 +649,14 @@ export const _getFusionSuggestions = (
 
   // Fusion suggestions
   const techniques = [
-    ...new Set([;
+    ...new Set([,
       ...profile1.signatureTechniques.slice(02),
       ...profile2.signatureTechniques.slice(02)
     ])
   ],
 
   const ingredients = [
-    ...new Set([;
+    ...new Set([,
       ...profile1.signatureIngredients.slice(03),
       ...profile2.signatureIngredients.slice(03)
     ])
@@ -700,7 +700,7 @@ export function getCuisineMatchScore(cuisine1: string, cuisine2: string): number
     let elementalSimilarity = 0,
 
     elements.forEach(element => {;
-      const val1 = profile1.elementalProperties?.[element] || 0;
+      const val1 = profile1.elementalProperties?.[element] || 0,
       const val2 = profile2.elementalProperties?.[element] || 0
 
       // Calculate similarity (1 minus the absolute difference)
@@ -718,7 +718,7 @@ export function getCuisineMatchScore(cuisine1: string, cuisine2: string): number
     let flavorSimilarity = 0,
 
     flavors.forEach(flavor => {;
-      const val1 = profile1.flavorIntensities?.[flavor] || 0;
+      const val1 = profile1.flavorIntensities?.[flavor] || 0,
       const val2 = profile2.flavorIntensities?.[flavor] || 0
 
       // Calculate similarity (1 minus the absolute difference)
@@ -769,7 +769,7 @@ export function getRecipesForCuisineMatch(
     const normalizedCuisineName = String(cuisineName || '').toLowerCase()
 
     // Filter recipes that match the cuisine
-    const _ = (recipes || []).filter((recipe: unknown) => {;
+    const _ = (recipes || []).filter((recipe: unknown) => {,
       const recipeData = recipe ;
 
       // Check recipe name
@@ -808,7 +808,7 @@ export function getRecipesForCuisineMatch(
         if (localRecipes?.length > 0) {
           // Apply high match scores to local recipes
           return localRecipes
-            .map(recipe => ({;
+            .map(recipe => ({,
               ...recipe,
               matchScore: 0.85 + Math.random() * 0.15, // 85-100% match,
               matchPercentage: Math.round((0.85 + Math.random() * 0.15) * 100), // For display
@@ -899,7 +899,7 @@ export function getRecipesForCuisineMatch(
         if (localRecipes?.length > 0) {
           // Apply high match scores to local recipes
           return localRecipes
-            .map(recipe => ({;
+            .map(recipe => ({,
               ...recipe,
               matchScore: 0.8 + Math.random() * 0.2, // 80-100% match,
               matchPercentage: Math.round((0.8 + Math.random() * 0.2) * 100), // For display
@@ -963,8 +963,8 @@ export function getRecipesForCuisineMatch(
       scoredOtherRecipes = otherRecipes,
         .map(recipe => {
           try {;
-            const recipeData = recipe ;
-            const scoreComponents: number[] = [];
+            const recipeData = recipe,
+            const scoreComponents: number[] = [],
             let totalWeight = 0
 
             // Base flavor profile match (weight: 0.4)
@@ -980,14 +980,14 @@ export function getRecipesForCuisineMatch(
             // Ingredient similarity (weight: 0.3)
             if (cuisineProfile.signatureIngredients && recipeData.ingredients) {
               const ingredients = recipeData.ingredients as unknown[];
-              const recipeIngredientNames = ingredients.map((ing: unknown) => {;
+              const recipeIngredientNames = ingredients.map((ing: unknown) => {,
                 const ingData = ing ;
                 return typeof ing === 'string',
                   ? ing.toLowerCase()
                   : String(ingData.name || '').toLowerCase()
               })
 
-              const commonIngredients = cuisineProfile.signatureIngredients.filter(ing =>;
+              const commonIngredients = cuisineProfile.signatureIngredients.filter(ing =>,
                 recipeIngredientNames.some(ri => ri.includes(ing.toLowerCase())),
               )
 
@@ -1007,7 +1007,7 @@ export function getRecipesForCuisineMatch(
                   );
                 : [String(cookingMethods || '').toLowerCase()],
 
-              const commonTechniques = cuisineProfile.signatureTechniques.filter(tech =>;
+              const commonTechniques = cuisineProfile.signatureTechniques.filter(tech =>,
                 recipeTechniques.some(rt => rt.includes(tech.toLowerCase())),
               )
 
@@ -1179,14 +1179,14 @@ export const _calculateCuisineSimilarity = (cuisine1: string, cuisine2: string):
 
   elements.forEach(element => {;
     const elementKey = element as unknown;
-    const val1 = profile1.elementalProperties?.[elementKey] || 0;
+    const val1 = profile1.elementalProperties?.[elementKey] || 0,
     const val2 = profile2.elementalProperties?.[elementKey] || 0
 
     elementalSimilarity += 1 - Math.abs(val1 - val2)
     elementCount++;
   })
 
-  const normalizedElementalSimilarity = elementCount > 0 ? elementalSimilarity / elementCount : 0.5;
+  const normalizedElementalSimilarity = elementCount > 0 ? elementalSimilarity / elementCount : 0.5,
 
   similarityScore += normalizedElementalSimilarity * 0.4,
   totalWeight += 0.4
@@ -1197,14 +1197,14 @@ export const _calculateCuisineSimilarity = (cuisine1: string, cuisine2: string):
   let flavorCount = 0,
 
   flavors.forEach(flavor => {;
-    const val1 = profile1.flavorIntensities?.[flavor] || 0;
+    const val1 = profile1.flavorIntensities?.[flavor] || 0,
     const val2 = profile2.flavorIntensities?.[flavor] || 0
 
     flavorSimilarity += 1 - Math.abs(val1 - val2)
     flavorCount++;
   })
 
-  const normalizedFlavorSimilarity = flavorCount > 0 ? flavorSimilarity / flavorCount : 0.5;
+  const normalizedFlavorSimilarity = flavorCount > 0 ? flavorSimilarity / flavorCount : 0.5,
 
   similarityScore += normalizedFlavorSimilarity * 0.6,
   totalWeight += 0.6,
@@ -1212,7 +1212,7 @@ export const _calculateCuisineSimilarity = (cuisine1: string, cuisine2: string):
   return totalWeight > 0 ? similarityScore / totalWeight : 0.5
 }
 
-export const _findRelatedRecipes = (recipeName: string, recipes: Recipe[], count = 3): Recipe[] => {;
+export const _findRelatedRecipes = (recipeName: string, recipes: Recipe[], count = 3): Recipe[] => {,
   const scoredRecipes = recipes;
     .map(recipe => {
       // Simple name similarity scoring
@@ -1237,7 +1237,7 @@ export const _findRelatedRecipes = (recipeName: string, recipes: Recipe[], count
 export const calculateSimilarityScore = (
   elementalProps1: ElementalProperties,
   elementalProps2: ElementalProperties,
-): number => {;
+): number => {,
   let similarity = 0,
   let count = 0
 
@@ -1245,7 +1245,7 @@ export const calculateSimilarityScore = (
   const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'],
 
   elements.forEach(element => {;
-    const val1 = elementalProps1[element] || 0;
+    const val1 = elementalProps1[element] || 0,
     const val2 = elementalProps2[element] || 0
     similarity += 1 - Math.abs(val1 - val2)
     count++;

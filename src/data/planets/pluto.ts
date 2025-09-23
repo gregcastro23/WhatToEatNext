@@ -1,7 +1,7 @@
 import { PlanetData } from './types';
 
 const plutoData: PlanetData = {
-  'Dignity Effect': {;
+  'Dignity Effect': {,
     scorpio: 1,
     leo: 2,
     taurus: -1,
@@ -13,7 +13,7 @@ const plutoData: PlanetData = {
     Essence: 1,
     Matter: 1,
     Substance: 0,
-  }
+  },
   'Diurnal Element': 'Earth',
   'Nocturnal Element': 'Water',
   AstronomicalData: {
@@ -319,7 +319,7 @@ const plutoData: PlanetData = {
             Keywords: ['balance', 'adaptability', 'juggling priorities'],
             CulinaryAssociation: 'Balancing intense and subtle flavors, transformative techniques with traditional methods',
           }
-        }
+        },
         '2ndDecan': {
           Start: '2018-07-12',
           End: '2024-03-23',
@@ -328,7 +328,7 @@ const plutoData: PlanetData = {
             Keywords: ['mastery', 'expertise', 'collaboration'],
             CulinaryAssociation: 'Mastery of transformative cooking processes, collaboration between ancient and modern techniques',
           }
-        }
+        },
         '3rdDecan': {
           Start: '2024-03-23',
           End: '2032-11-19',
@@ -348,7 +348,7 @@ const plutoData: PlanetData = {
             Keywords: ['conflict', 'tension', 'strategic thinking'],
             CulinaryAssociation: 'Revolutionary approaches to food that challenge established norms, intensity in innovation',
           }
-        }
+        },
         '2ndDecan': {
           Start: '2043-01-09',
           End: '2053-03-16',
@@ -357,7 +357,7 @@ const plutoData: PlanetData = {
             Keywords: ['transition', 'moving away', 'mental processing'],
             CulinaryAssociation: 'Transition from familiar to unfamiliar taste experiences, intellectual approach to deep flavors',
           }
-        }
+        },
         '3rdDecan': {
           Start: '2053-03-16',
           End: '2066-04-09',

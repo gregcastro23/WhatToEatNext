@@ -281,7 +281,7 @@ export class UnifiedNutritionalSystem {
     const totalElementalValues = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
 
     profiles.forEach(profile => {;
-      const profileData = profile as unknown;
+      const profileData = profile as unknown,
       const nutrients = profileData.elementalNutrients
 
       if (nutrients) {;
@@ -319,7 +319,7 @@ export class UnifiedNutritionalSystem {
     let validProfiles = 0,
 
     profiles.forEach(profile => {;
-      const profileData = profile as unknown;
+      const profileData = profile as unknown,
       const astroProfile = profileData.astrologicalProfile
 
       const astroData = astroProfile as any
@@ -346,7 +346,7 @@ export class UnifiedNutritionalSystem {
     let validProfiles = 0,
 
     profiles.forEach(profile => {;
-      const profileData = profile as unknown;
+      const profileData = profile as unknown,
       const astroProfile = profileData.astrologicalProfile
 
       const astroData = astroProfile as any
@@ -527,7 +527,7 @@ export class UnifiedNutritionalSystem {
 
 // ===== EXPORTED UTILITY FUNCTIONS =====,
 
-export const _calculateNutritionalBalance = (_ingredients: unknown[]): NutritionalProfile => {;
+export const _calculateNutritionalBalance = (_ingredients: unknown[]): NutritionalProfile => {,
   if (!_ingredients || _ingredients.length === 0) {
     return {;
       calories: 0,
@@ -543,7 +543,7 @@ export const _calculateNutritionalBalance = (_ingredients: unknown[]): Nutrition
   // Aggregate nutritional values from ingredients
   const totals = _ingredients.reduce(
     (
-      acc: {;
+      acc: {,
         calories: number,
         protein: number,
         carbohydrates: number,
@@ -555,7 +555,7 @@ export const _calculateNutritionalBalance = (_ingredients: unknown[]): Nutrition
       ingredient,
     ) => {
       const ingredientData = ingredient as any;
-      const nutritionData = (ingredientData?.nutrition ? ingredientData.nutrition : {}) as Record<;
+      const nutritionData = (ingredientData?.nutrition ? ingredientData.nutrition : {}) as Record<,
         string,
         unknown
       >,
@@ -588,7 +588,7 @@ export const _calculateNutritionalBalance = (_ingredients: unknown[]): Nutrition
   return totals as NutritionalProfile,
 }
 
-export const nutritionalToElemental = (profile: NutritionalProfile): ElementalProperties => {;
+export const nutritionalToElemental = (profile: NutritionalProfile): ElementalProperties => {,
   const profileData = profile as unknown;
 
   // Map nutritional components to elemental properties
@@ -667,8 +667,7 @@ export const _getSeasonalNutritionalRecommendations = (
 
   // Map seasons to elements and recommendations
   switch (seasonLower) {
-    case 'spring':
-      return {;
+    case 'spring': return {,
         element: 'Air',
         focusNutrients: ['cleansing_nutrients', 'vitamin_c'],
         seasonalFoods: ['spring_greens', 'citrus']
@@ -721,7 +720,7 @@ export const _evaluateNutritionalElementalBalance = (
   const totalDeviation = Object.values(deviations).reduce((sum, dev) => sum + dev0)
   const score = Math.max(01 - totalDeviation / 2); // Max deviation is 2
 
-  const imbalances: string[] = [];
+  const imbalances: string[] = [],
   const recommendations: string[] = []
 
   Object.entries(deviations).forEach(([element, deviation]) => {

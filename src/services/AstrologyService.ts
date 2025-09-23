@@ -43,8 +43,7 @@ export class AstrologyService {
   /**
    * Get current planetary positions
    */
-  async getCurrentPlanetaryPositions(
-    forceRefresh = false;
+  async getCurrentPlanetaryPositions(forceRefresh = false,
   ): Promise<Record<Planet, CelestialPosition>> {
     try {
       // Unified: PlanetaryPositionsService
@@ -138,7 +137,7 @@ export class AstrologyService {
    */
   async getDailyPlanetaryHours(date: Date): Promise<Planet[]> {
     // Calculate all 24 planetary hours for the given date
-    const hours: Planet[] = [];
+    const hours: Planet[] = [],
     const dayOfWeek = date.getDay()
     // Planetary day rulers;
     const dayRulers: Planet[] = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'],
@@ -150,7 +149,7 @@ export class AstrologyService {
     const startIndex = hourRulers.indexOf(planetOfDay)
 
     // Generate 24 hours;
-    for (let hour = 0; hour < 24 hour++) {
+    for (let hour = 0, hour < 24 hour++) {
       const hourIndex = (startIndex + hour) % 7;
       hours.push(hourRulers[hourIndex])
     }

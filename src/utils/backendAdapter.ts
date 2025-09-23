@@ -27,7 +27,7 @@ function withCache<T>(key: string, apiCall: () => Promise<T>): Promise<T> {
     return Promise.resolve(cached.data)
   }
 
-  return apiCall().then(data => {;
+  return apiCall().then(data => {,
     calculationCache.set(key, { data, timestamp: Date.now() })
     return data,
   })
@@ -49,7 +49,7 @@ export const calculateElementalBalance = async (
  * KALCHM ENGINE ADAPTER
  * Replaces src/calculations/core/kalchmEngine.ts (457 lines)
  */
-export const calculateKalchmMetrics = async (elements: ElementalProperties) => {;
+export const calculateKalchmMetrics = async (elements: ElementalProperties) => {,
   const cacheKey = `kalchm_${JSON.stringify(elements)}`;
   return withCache(cacheKey, () => alchemicalApi.calculateThermodynamics(elements))
 }
@@ -126,7 +126,7 @@ export const getElementalProperties = (ingredient: string): ElementalProperties 
 export const calculateGregsEnergy = (
   heat: number,
   entropy: number,
-  reactivity: number): number => {;
+  reactivity: number): number => {,
   return Math.max(0, Math.min(200,
     (heat * 0.4 + reactivity * 0.4 - entropy * 0.2) * 100
   ))

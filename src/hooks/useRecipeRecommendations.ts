@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 
 // Mock useAlchemical hook since the import is missing
-const useAlchemical = () => ({;
+const useAlchemical = () => ({,
   planetaryPositions: {}
   isLoading: false
 })
@@ -66,7 +66,7 @@ export function useRecipeRecommendations(
         Object.values(planetaryPositions || {}).forEach(position => {
       // Safe property access with type checking;
       const positionData = position ;
-      const sign = positionData?.sign || positionData?.Sign || '';
+      const sign = positionData?.sign || positionData?.Sign || '',
       const element = elementMap[sign.toLowerCase() as keyof typeof elementMap];
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++
@@ -122,7 +122,7 @@ export function useRecipeRecommendations(
         ],
 
         // Calculate compatibility scores
-        const recipesWithScores = (sampleRecipes || []).map(recipe => {;
+        const recipesWithScores = (sampleRecipes || []).map(recipe => {,
           const score = calculateElementalCompatibility(
             recipe.elementalProfile
             currentElementalProfile,
@@ -165,9 +165,9 @@ export function useRecipeRecommendations(
     void fetchRecipes()
   }, [astroLoading, currentElementalProfile, state.filters])
 
-  const updateFilters = (newFilters: Partial<RecipeRecommendationsData['filters']>) => {;
+  const updateFilters = (newFilters: Partial<RecipeRecommendationsData['filters']>) => {,
     setState(prev => ({
-      ...prev;
+      ...prev,
       filters: { ...prev.filters, ...newFilters }
     }))
   }

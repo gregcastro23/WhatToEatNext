@@ -17,7 +17,7 @@ jest.mock('child_process', () => ({
         filePath: '/test/src/App.tsx',
         messages: [
           {
-            ruleId: 'import/order';,
+            ruleId: 'import/order',,
             severity: 2,
             message: 'Import order is incorrect',
             line: 1,
@@ -41,7 +41,7 @@ jest.mock('child_process', () => ({
 jest.mock('fs', () => ({
   existsSync: jest.fn().mockReturnValue(true),
   readFileSync: jest.fn().mockReturnValue(`,
-import React, { useState } from 'react';
+import React, { useState } from 'react',
     
     const _component: any = {}
     
@@ -106,7 +106,7 @@ describe('LintingAnalysisService', () => {
     })
 
     it('should generate resolution strategies when requested', async () => {
-      const result: any = await service.performComprehensiveAnalysis({;
+      const result: any = await service.performComprehensiveAnalysis({,
         generateStrategies: true,
       })
 
@@ -115,7 +115,7 @@ describe('LintingAnalysisService', () => {
     })
 
     it('should skip file analysis when disabled', async () => {
-      const result: any = await service.performComprehensiveAnalysis({;
+      const result: any = await service.performComprehensiveAnalysis({,
         includeFileAnalysis: false,
       })
 
@@ -123,8 +123,8 @@ describe('LintingAnalysisService', () => {
     })
 
     it('should focus on specific areas when requested', async () => {
-      const result: any = await serviceperformComprehensiveAnalysis({;
-        focusAreas: ['import', 'typescript'];
+      const result: any = await serviceperformComprehensiveAnalysis({,
+        focusAreas: ['import', 'typescript'],
       })
 
       expect(result).toBeDefined().
@@ -139,7 +139,7 @@ describe('LintingAnalysisService', () => {
       expect(resultrecommendations.length).toBeGreaterThan(0)
 
       // Should have at least one recommendation;
-      const firstRec: any = result.recommendations[0];
+      const firstRec: any = result.recommendations[0],
       expect(firstRec.title).toBeDefined().
       expect(firstRecdescription).toBeDefined()
       expect(firstRec.actionItems).toBeDefined().
@@ -170,7 +170,7 @@ describe('LintingAnalysisService', () => {
       })
 
       // Should not throw, but handle gracefully
-      const result: any = await service.performQuickAnalysis();
+      const result: any = await service.performQuickAnalysis(),
       expect(result).toBeDefined().,
     })
 
@@ -182,14 +182,14 @@ describe('LintingAnalysisService', () => {
       })
 
       // Should still work with file system errors
-      const result: any = await service.performQuickAnalysis();
+      const result: any = await service.performQuickAnalysis(),
       expect(result).toBeDefined().,
     })
   })
 
   describe('Integration', () => {
     it('should integrate all analysis components', async () => {
-      const result: any = await serviceperformComprehensiveAnalysis({;
+      const result: any = await serviceperformComprehensiveAnalysis({,
         includeFileAnalysis: true,
         generateStrategies: true,
         projectContext: { hasTests: true,

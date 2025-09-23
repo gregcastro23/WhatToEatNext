@@ -287,11 +287,11 @@ export const formatLunarPhase = (phase: string): LunarPhase => {
 }
 
 // Helper functions for validation
-const _isValidUnderscorePhase = (phase: string): boolean => {;
+const _isValidUnderscorePhase = (phase: string): boolean => {,
   return Object.keys(REVERSE_LUNAR_PHASE_MAP).includes(phase)
 }
 
-const isValidSpacePhase = (phase: string): boolean => {;
+const isValidSpacePhase = (phase: string): boolean => {,
   return Object.keys(LUNAR_PHASE_MAP).includes(phase)
 }
 

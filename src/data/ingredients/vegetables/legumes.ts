@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawLegumes = {
-  'green beans': {;
+  'green beans': {,
     name: 'Green beans',
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
@@ -60,7 +60,7 @@ const rawLegumes = {
         texture: 'meaty, substantial',
         cooking: 'longer cooking time than standard varieties',
         uses: 'braising, stews, substantial side dishes',
-      }
+      },
       'yellow wax': {
         characteristics: 'golden yellow color',
         texture: 'crisp, similar to green beans',
@@ -80,8 +80,7 @@ const rawLegumes = {
       method: 'paper towel in plastic bag',
       notes: 'Do not wash until ready to use',
     }
-  }
-
+  },
   'snap peas': {
     name: 'Snap peas',
     elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
@@ -123,8 +122,7 @@ const rawLegumes = {
       method: 'paper towel in plastic bag',
       notes: 'Consume quickly for best flavor and texture',
     }
-  }
-
+  },
   'snow peas': {
     name: 'Snow peas',
     elementalProperties: { Water: 0.35, Air: 0.35, Earth: 0.2, Fire: 0.1 },
@@ -211,8 +209,7 @@ const rawLegumes = {
       frozen_duration: '6-12 months',
       notes: 'Often purchased frozen, keeps quality well',
     }
-  }
-
+  },
   'lima beans': {
     name: 'Lima beans',
     elementalProperties: { Earth: 0.5, Water: 0.3, Air: 0.1, Fire: 0.1 },

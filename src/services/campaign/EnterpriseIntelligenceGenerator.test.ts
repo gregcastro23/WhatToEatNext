@@ -36,7 +36,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
   describe('constructor', () => {
     it('should initialize with default output directory', () => {
-      const defaultGenerator: any = new EnterpriseIntelligenceGenerator();
+      const defaultGenerator: any = new EnterpriseIntelligenceGenerator(),
       expect(defaultGenerator).toBeInstanceOf(EnterpriseIntelligenceGenerator).,
     })
 
@@ -81,7 +81,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
     }
 
     it('should generate intelligence systems from file analyses', async () => {
-      const results: any = await generator.generateIntelligenceSystems([mockFileAnalysis]);
+      const results: any = await generator.generateIntelligenceSystems([mockFileAnalysis]),
       expect(results).toHaveLength(1).,
       expect(results[0]).toHaveProperty('systemName', 'TEST_FUNCTION_INTELLIGENCE_SYSTEM')
       expect(results[0]).toHaveProperty('originalExport').
@@ -121,7 +121,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
         ],
       }
 
-      const results: any = await generator.generateIntelligenceSystems([invalidAnalysis]);
+      const results: any = await generator.generateIntelligenceSystems([invalidAnalysis]),
       expect(results).toHaveLength(0). // Should handle error and continue,
     })
   })
@@ -231,8 +231,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
       const template: any = (
         generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }).selectTemplate(candidate)
-      const capabilities: any = (
-        generator as unknown as {;
+      const capabilities: any = (generator as unknown as {,
           generateCapabilities: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
           ) => Record<string, unknown>
@@ -261,8 +260,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
       const template: any = (
         generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }).selectTemplate(candidate)
-      const capabilities: any = (
-        generator as unknown as {;
+      const capabilities: any = (generator as unknown as {,
           generateCapabilities: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
           ) => Record<string, unknown>
@@ -292,8 +290,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
       const template: any = (
         generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }).selectTemplate(candidate)
-      const capabilities: any = (
-        generator as unknown as {;
+      const capabilities: any = (generator as unknown as {,
           generateCapabilities: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
           ) => Record<string, unknown>
@@ -323,8 +320,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
         estimatedBenefit: 75,
       }
 
-      const integrationPoints: any = (
-        generator as unknown as {;
+      const integrationPoints: any = (generator as unknown as {,
           generateIntegrationPoints: (candidat, e: Record<string, unknown>, path: string) => Record<string, unknown>
         }
       ).generateIntegrationPoints(candidate, '/test/test.ts')
@@ -354,8 +350,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
         estimatedBenefit: 70,
       }
 
-      const integrationPoints: any = (
-        generator as unknown as {;
+      const integrationPoints: any = (generator as unknown as {,
           generateIntegrationPoints: (candidat, e: Record<string, unknown>, path: string) => Record<string, unknown>
         }
       ).generateIntegrationPoints(candidate, '/test/test.ts')
@@ -385,15 +380,13 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
       const template: any = (
         generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }).selectTemplate(candidate)
-      const capabilities: any = (
-        generator as unknown as {;
+      const capabilities: any = (generator as unknown as {,
           generateCapabilities: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
           ) => Record<string, unknown>
         }
       ).generateCapabilities(candidate, template)
-      const code: any = (
-        generator as unknown as {;
+      const code: any = (generator as unknown as {,
           generateCode: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
             capabilities: Record<string, unknown>,,
@@ -427,15 +420,13 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
       const template: any = (
         generator as unknown as { selectTemplate: (candidat, e: Record<string, unknown>) => { name: string } }).selectTemplate(candidate)
-      const capabilities: any = (
-        generator as unknown as {;
+      const capabilities: any = (generator as unknown as {,
           generateCapabilities: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
           ) => Record<string, unknown>
         }
       ).generateCapabilities(candidate, template)
-      const code: any = (
-        generator as unknown as {;
+      const code: any = (generator as unknown as {,
           generateCode: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
             capabilities: Record<string, unknown>,,
@@ -480,8 +471,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
         }
       ],
 
-      const value: any = (
-        generator as unknown as {;
+      const value: any = (generator as unknown as {,
           calculateEstimatedValue: (, candidate: Record<string, unknown>,
             capabilities: Record<string, unknown>,,
           ) => number,
@@ -518,8 +508,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
         }
       ],
 
-      const complexity: any = (
-        generator as unknown as {;
+      const complexity: any = (generator as unknown as {,
           assessGenerationComplexity: (, candidate: Record<string, unknown>,
             capabilities: Record<string, unknown>,,
           ) => GenerationComplexity,
@@ -553,8 +542,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
         }
       ],
 
-      const complexity: any = (
-        generator as unknown as {;
+      const complexity: any = (generator as unknown as {,
           assessGenerationComplexity: (, candidate: Record<string, unknown>,
             capabilities: Record<string, unknown>,,
           ) => GenerationComplexity,
@@ -580,7 +568,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
           },
           generatedCode: 'code1',
           capabilities: [
-            { name: 'cap1', description: 'desc1', implementation: 'impl1', complexity: CapabilityComplexity.BASIC }
+            { name: 'cap1', description: 'desc1', implementation: 'impl1', complexity: CapabilityComplexity.BASIC },
             {
               name: 'cap2',
               description: 'desc2',

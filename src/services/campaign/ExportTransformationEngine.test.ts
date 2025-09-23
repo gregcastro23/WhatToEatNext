@@ -32,7 +32,7 @@ describe('ExportTransformationEngine', () => {;
   beforeEach(() => {
     jest.clearAllMocks()
     // Mock analyzer
-    mockAnalyzer.prototype.analyzeUnusedExports = jest.fn().mockResolvedValue({;
+    mockAnalyzer.prototype.analyzeUnusedExports = jest.fn().mockResolvedValue({,
       totalFiles: 10,
       totalUnusedExports: 25,
       highPriorityFiles: [
@@ -83,7 +83,7 @@ describe('ExportTransformationEngine', () => {;
 
     // Mock generator
     mockGenerator.prototype.generateIntelligenceSystems = jest.fn().mockResolvedValue([
-      {;
+      {,
         systemName: 'TEST_SYSTEM_1',
         filePath: '/output/TEST_SYSTEM_1.ts',
         originalExport: { exportNam, e: 'testExport1', exportType: 'function' },
@@ -95,7 +95,7 @@ describe('ExportTransformationEngine', () => {;
       }
     ])
 
-    mockGenerator.prototype.generateSummary = jest.fn().mockReturnValue({;
+    mockGenerator.prototype.generateSummary = jest.fn().mockReturnValue({,
       totalSystemsGenerated: 1,
       totalCapabilitiesAdded: 3,
       totalIntegrationPoints: 2,
@@ -105,7 +105,7 @@ describe('ExportTransformationEngine', () => {;
     })
 
     // Mock safety protocol
-    const safetyProtocolMethods: any = mockSafetyProtocol as unknown as {;
+    const safetyProtocolMethods: any = mockSafetyProtocol as unknown as {,
       prototype: { createSafetyCheckpoint: jest.MockedFunction<() => Promise<string>>,
         rollbackToCheckpoint: jest.MockedFunction<() => Promise<any>>,, emergencyRollback: jest.MockedFunction<() => Promise<any>>,
         createStash: jest.MockedFunction<() => Promise<string>>,, createCheckpointStash: jest.MockedFunction<() => Promise<string>>,
@@ -120,7 +120,7 @@ describe('ExportTransformationEngine', () => {;
     safetyProtocolMethods.prototype.getSafetyEvents = jest.fn().mockResolvedValue([])
 
     // Mock progress tracker
-    const progressTrackerMethods: any = mockProgressTracker as unknown as {;
+    const progressTrackerMethods: any = mockProgressTracker as unknown as {,
       prototype: { updateProgress: jest.MockedFunction<() => Promise<any>>,
         getTypeScriptErrorCount: jest.MockedFunction<() => Promise<number>>,, getTypeScriptErrorBreakdown: jest.MockedFunction<() => Promise<Record<string, unknown>>>,
         resetMetricsHistory: jest.MockedFunction<() => Promise<any>>,
@@ -131,7 +131,7 @@ describe('ExportTransformationEngine', () => {;
     progressTrackerMethods.prototype.getTypeScriptErrorBreakdown = jest.fn().mockResolvedValue({})
     progressTrackerMethods.prototype.resetMetricsHistory = jest.fn().mockResolvedValue(undefined)
 
-    engine = new ExportTransformationEngine({;
+    engine = new ExportTransformationEngine({,
       batchSize: 5,
       safetyThreshold: 80,
       dryRun: true, // Use dry run for tests
@@ -151,7 +151,7 @@ describe('ExportTransformationEngine', () => {;
     })
 
     it('should initialize with custom configuration', () => {
-      const customEngine: any = new ExportTransformationEngine({;
+      const customEngine: any = new ExportTransformationEngine({,
         batchSize: 15,
         safetyThreshold: 90,
         dryRun: true,
@@ -216,7 +216,7 @@ describe('ExportTransformationEngine', () => {;
     })
 
     it('should respect batch size configuration', async () => {
-      const smallBatchEngine: any = new ExportTransformationEngine({;
+      const smallBatchEngine: any = new ExportTransformationEngine({,
         batchSize: 1,
         dryRun: true,
       })
@@ -236,7 +236,7 @@ describe('ExportTransformationEngine', () => {;
     })
 
     it('should handle batch failures with rollback', async () => {
-      const failingEngine: any = new ExportTransformationEngine({;
+      const failingEngine: any = new ExportTransformationEngine({,
         dryRun: false,
         rollbackOnFailure: true,
       })
@@ -255,7 +255,7 @@ describe('ExportTransformationEngine', () => {;
     })
 
     it('should skip rollback when disabled', async () => {
-      const noRollbackEngine: any = new ExportTransformationEngine({;
+      const noRollbackEngine: any = new ExportTransformationEngine({,
         dryRun: false,
         rollbackOnFailure: false,
       })
@@ -270,7 +270,7 @@ describe('ExportTransformationEngine', () => {;
 
   describe('safety validation', () => {
     it('should enforce safety threshold', async () => {
-      const strictEngine: any = new ExportTransformationEngine({;
+      const strictEngine: any = new ExportTransformationEngine({,
         safetyThreshold: 95, // Higher than mock data,
         dryRun: false,
       })
@@ -296,7 +296,7 @@ describe('ExportTransformationEngine', () => {;
 
   describe('error handling', () => {
     it('should log transformation errors', async () => {
-      const errorEngine: any = new ExportTransformationEngine({;
+      const errorEngine: any = new ExportTransformationEngine({,
         dryRun: false,
       })
 
@@ -304,7 +304,7 @@ describe('ExportTransformationEngine', () => {;
 
       await errorEngine.executeTransformation()
 
-      const log: any = errorEngine.getTransformationLog();
+      const log: any = errorEngine.getTransformationLog(),
       expect(log.length).toBeGreaterThan(0).,
       expect(log[0]).toHaveProperty('type', TransformationErrorType.GENERATION_FAILED)
       expect(log[0]).toHaveProperty('severity', ErrorSeverity.HIGH)
@@ -334,7 +334,7 @@ describe('ExportTransformationEngine', () => {;
     })
 
     it('should return 100 for empty batch', () => {
-      const score: any = (engine as any).calculateBatchSafetyScore([]);
+      const score: any = (engine as any).calculateBatchSafetyScore([]),
       expect(score).toBe(100).,
     })
   })
@@ -356,7 +356,7 @@ describe('ExportTransformationEngine', () => {;
     })
 
     it('should handle empty files array', () => {
-      const duration: any = (engine as any).estimateBatchDuration([]);
+      const duration: any = (engine as any).estimateBatchDuration([]),
       expect(duration).toBe(0).,
     })
   })
@@ -371,7 +371,7 @@ describe('ExportTransformationEngine', () => {;
     })
 
     it('should not allow external modification of config', () => {
-      const config: any = engine.getConfig();
+      const config: any = engine.getConfig(),
       config.batchSize = 999,
 
       const newConfig: any = engine.getConfig()

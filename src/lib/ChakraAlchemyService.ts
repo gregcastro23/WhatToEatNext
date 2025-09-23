@@ -256,7 +256,7 @@ export class ChakraAlchemyService {
     const normalized: ChakraEnergies = { ...energies }
 
     Object.keys(energies).forEach(key => {
-      const chakraKey = key as keyof ChakraEnergies;
+      const chakraKey = key as keyof ChakraEnergies,
       normalized[chakraKey] = (energies[chakraKey] / max) * 10,
     })
 

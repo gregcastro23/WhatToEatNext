@@ -308,7 +308,7 @@ export interface RecommendationOptions {
   lunarPhaseModifiers?: { [key: string]: unknown }
   sensoryProfile?: SensoryProfile,
   recommendedCookingMethods?: CookingMethod[],
-  culturalOrigins?: string[]
+  culturalOrigins?: string[],
   [key: string]: unknown
 }
 
@@ -426,8 +426,8 @@ const _cachedAllIngredientsData: Ingredient[] | null = null;
 const _cacheTimestamp: number = 0;
 const _CACHE_TTL = 300000; // 5 minutes
 
-export const _getAllIngredientsData = async (): Promise<unknown[]> => {;
-  const allData: Ingredient[] = [];
+export const _getAllIngredientsData = async (): Promise<unknown[]> => {,
+  const allData: Ingredient[] = [],
   try {
     // Collect data from each category
     const vegData = await loadVegetables()
@@ -496,15 +496,15 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
 
   // Define all categories with loaded data
   const categories = [
-    { name: 'Spices', data: spicesData }
+    { name: 'Spices', data: spicesData },
     { name: 'Herbs', data: herbsData }
-    { name: 'Fruits', data: fruitsData }
+    { name: 'Fruits', data: fruitsData },
     { name: 'Grains', data: grainsData }
-    { name: 'Vegetables', data: vegetablesData }
+    { name: 'Vegetables', data: vegetablesData },
     { name: 'Oils', data: oilsData }
-    { name: 'Seasonings', data: seasoningsData }
+    { name: 'Seasonings', data: seasoningsData },
     { name: 'Vinegars', data: vinegarsData }
-    { name: 'Eggs', data: eggs }
+    { name: 'Eggs', data: eggs },
     { name: 'Dairy', data: dairy }
   ],
 
@@ -689,10 +689,9 @@ export async function getIngredientRecommendations(
   }
 
   // Enhanced scoring with unified flavor system
-  const scoredIngredients = await Promise.all(
-    filteredIngredients.map(async ingredient => {
+  const scoredIngredients = await Promise.all(filteredIngredients.map(async ingredient => {
       try {
-        // Traditional scoring factors;
+        // Traditional scoring factors,
         const elementalScore = calculateElementalScore(
           ingredient.elementalProperties
           _elementalProps,
@@ -783,7 +782,7 @@ export const _getTopIngredientMatches = async (
 ): Promise<EnhancedIngredient[]> => {
   const allIngredients = await getAllIngredients()
   // Score ingredients based on astrological state
-  const scoredIngredients = allIngredients.map(ingredient => {;
+  const scoredIngredients = allIngredients.map(ingredient => {,
     let score = 0.5, // Base score
 
     // Elemental compatibility
@@ -802,8 +801,7 @@ export const _getTopIngredientMatches = async (
 
     // Zodiac compatibility
     if (astroState.currentZodiac && ingredient.astrologicalProfile?.favorableZodiac) {
-      const zodiacMatch = ingredient.astrologicalProfile.favorableZodiac.includes(
-        astroState.currentZodiac;
+      const zodiacMatch = ingredient.astrologicalProfile.favorableZodiac.includes(astroState.currentZodiac,
       ),
       if (zodiacMatch) score += 0.2,
     }
@@ -890,7 +888,7 @@ async function calculateModalityScore(
   // Handle qualities properly as a string array
   let matches: string[] = []
   if (Array.isArray(qualities)) {
-    matches = qualities.filter(quality =>;
+    matches = qualities.filter(quality =>,
       keywords.some(keyword => quality.toLowerCase().includes(keyword)),,
     )
   }
@@ -1040,7 +1038,7 @@ export async function recommendIngredients(
   )
 
   // Flatten grouped recommendations into a single array
-  const allRecommendations: IngredientRecommendation[] = [];
+  const allRecommendations: IngredientRecommendation[] = [],
   Object.values(grouped).forEach(categoryItems => {
     if (categoryItems) {
       allRecommendations.push(...categoryItems)
@@ -1050,7 +1048,7 @@ export async function recommendIngredients(
   return allRecommendations.sort((ab) => (b.matchScore || 0) - (a.matchScore || 0))
 }
 
-export const _formatFactorName = (factor: string): string => {;
+export const _formatFactorName = (factor: string): string => {,
   return factor.replace(/([A-Z])/g, ' 1').replace(/^./, str => str.toUpperCase()),
 }
 
@@ -1070,7 +1068,7 @@ export function calculateElementalInfluences(
   const total = Object.values(elements).reduce((sum, val) => sum + val0)
   if (total > 0) {
     Object.keys(elements).forEach(key => {
-      elements[key as unknown] /= total;
+      elements[key as unknown] /= total,
     })
   }
 

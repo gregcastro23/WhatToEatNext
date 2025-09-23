@@ -9,9 +9,9 @@ export interface KineticsLocation {
 }
 
 export interface KineticsOptions {
-  includeAgentOptimization?: boolean;
-  includePowerPrediction?: boolean;
-  includeResonanceMap?: boolean;
+  includeAgentOptimization?: boolean,
+  includePowerPrediction?: boolean,
+  includeResonanceMap?: boolean,
   agentIds?: string[];
 }
 
@@ -62,8 +62,8 @@ export interface KineticsResonanceMap {
 
 export interface KineticsResponseData {
   base: KineticsBaseData;,
-  agentOptimization?: KineticsAgentOptimization;
-  powerPrediction?: KineticsPowerPrediction;
+  agentOptimization?: KineticsAgentOptimization,
+  powerPrediction?: KineticsPowerPrediction,
   resonanceMap?: KineticsResonanceMap;
 }
 
@@ -125,13 +125,13 @@ export interface TemporalFoodRecommendation {
 export interface AspectPhase {
   type: 'applying' | 'exact' | 'separating';,
   description: string;,
-  velocityBoost?: number;
+  velocityBoost?: number,
   powerBoost?: number;
 }
 
 export interface KineticsEnhancedRecommendation extends TemporalFoodRecommendation {
-  aspectPhase?: AspectPhase;
-  groupHarmony?: number;
+  aspectPhase?: AspectPhase,
+  groupHarmony?: number,
   portionModifier: number;,
   seasonalTags: string[];
 }
@@ -144,7 +144,7 @@ export interface KineticsCacheEntry {
 
 // Error Types
 export interface KineticsError extends Error {
-  statusCode?: number;
+  statusCode?: number,
   isKineticsError: true;
 }
 

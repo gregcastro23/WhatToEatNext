@@ -30,7 +30,7 @@ export const PLANETARY_ALCHEMICAL_MAPPINGS = {
  * Planetary elemental correspondences (day/night variations)
  */
 export const PLANETARY_ELEMENTAL_MAPPINGS = {
-  diurnal: {;
+  diurnal: {,
     Sun: 'Fire',
     moon: 'Water',
     Mercury: 'Air',
@@ -59,7 +59,7 @@ export const PLANETARY_ELEMENTAL_MAPPINGS = {
  * Planetary dignity effects
  */
 export const PLANETARY_DIGNITIES = {
-  Sun: {;
+  Sun: {,
     rulership: ['leo'],
     exaltation: ['aries'],
     detriment: ['aquarius'],

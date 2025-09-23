@@ -113,8 +113,7 @@ export default function App({ Component, pageProps }: AppProps) {
     }
   }, [])
 
-  return (
-    <>
+  return (<>
       <Head>
         <title>What To Eat Next</title>
         <meta
@@ -134,7 +133,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <script src='/lockdown-patch.js' />,
         <script src='/dummy-popup.js' />,
         <script src='/patchAlchemicalEngine.js' />
-      </Head>;
+      </Head>,
       <Component {...pageProps} />
     </>
   )

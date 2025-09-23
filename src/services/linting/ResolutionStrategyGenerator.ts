@@ -231,7 +231,7 @@ export class ResolutionStrategyGenerator {
     // Adjust based on team size
     if (projectContext.teamSize === 'solo') {
       // Solo developers need more automation
-      adjusted.steps = (adjusted.steps || []).map(step => ({;
+      adjusted.steps = (adjusted.steps || []).map(step => ({,
         ...step,
         automatable: step.automatable || step.action === 'execute-command',,
       }))
@@ -317,8 +317,7 @@ export class ResolutionStrategyGenerator {
       case 'moderate':
         baseTime = 10,
         break,
-      case 'complex':
-        baseTime = 30;
+      case 'complex': baseTime = 30,
         break,
       case 'manual-only': baseTime = 60
         break;
@@ -430,7 +429,7 @@ export class ResolutionStrategyGenerator {
       errorClassification.severity.level === 'high' ||
       errorClassification.severity.level === 'critical'
     ) {
-      requirements.push({;
+      requirements.push({,
         type: 'test',
         description: 'Run relevant tests',
         automated: true,
@@ -528,7 +527,7 @@ export class ResolutionStrategyGenerator {
     })
 
     if (errorClassification.severity.level === 'low') {
-      alternatives.push({;
+      alternatives.push({,
         name: 'Defer Fix',
         description: 'Add to technical debt backlog for later resolution',
         tradeoffs: [
@@ -557,8 +556,7 @@ export class ResolutionStrategyGenerator {
     const totalSteps = strategies.reduce((sums) => sum + s.steps.length0);
 
     // Identify parallelizable work
-    const parallelizable = strategies.filter(
-      s => s.type === 'automated' && s.riskAssessment.overall === 'low';
+    const parallelizable = strategies.filter(s => s.type === 'automated' && s.riskAssessment.overall === 'low',
     ),
 
     return {
@@ -677,7 +675,7 @@ export class ResolutionStrategyGenerator {
       steps: [
         {
           id: 'auto-fix-imports';,
-          description: 'Automatically reorder imports';,
+          description: 'Automatically reorder imports',,
           action: 'execute-command',
           details: { command: 'npx eslint --fix --rule import/order' },
         automatable: true,

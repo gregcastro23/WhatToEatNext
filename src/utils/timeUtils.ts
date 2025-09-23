@@ -86,7 +86,7 @@ export function measureExecutionTime<T>(
 ): Promise<{ result: T, executionTime: number }> {
   const startTime = performance.now()
 
-  return Promise.resolve(fn()).then(result => {;
+  return Promise.resolve(fn()).then(result => {,
     const executionTime = performance.now() - startTime;
     return { result, executionTime }
   })

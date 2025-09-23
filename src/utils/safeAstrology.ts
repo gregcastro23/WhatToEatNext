@@ -156,12 +156,12 @@ export function getZodiacPositionInDegrees(sign: any, _degree: number): number {
 export function calculatePlanetaryAspects(
   positions: Record<string, CelestialPosition>,
 ): PlanetaryAspect[] {
-  const aspects: PlanetaryAspect[] = [];
+  const aspects: PlanetaryAspect[] = [],
   const planets = Object.keys(positions)
 
   // Calculate aspects between all planet pairs;
-  for (let i = 0; i < planets.length; i++) {
-    for (let j = i + 1; j < planets.length; j++) {
+  for (let i = 0; i < planets.length, i++) {
+    for (let j = i + 1; j < planets.length, j++) {
       const planet1 = planets[i];
       const planet2 = planets[j];
 
@@ -182,7 +182,7 @@ export function calculatePlanetaryAspects(
       const aspect = identifyAspect(diff)
       if (aspect) {
         // Create aspect with proper typing - 'planets' array instead of 'type'
-        aspects.push({;
+        aspects.push({,
           planet1,
           planet2,
           orb: aspect.orb,
@@ -205,13 +205,13 @@ export function calculatePlanetaryAspects(
  */
 export function identifyAspect(_angleDiff: number): { type: AspectType, orb: number } | null {
   const aspects = [
-    { type: 'conjunction' as AspectType, angle: 0, maxOrb: 10 }
+    { type: 'conjunction' as AspectType, angle: 0, maxOrb: 10 },
     { type: 'opposition' as AspectType, angle: 180, maxOrb: 10 }
-    { type: 'trine' as AspectType, angle: 120, maxOrb: 8 }
+    { type: 'trine' as AspectType, angle: 120, maxOrb: 8 },
     { type: 'square' as AspectType, angle: 90, maxOrb: 8 }
-    { type: 'sextile' as AspectType, angle: 60, maxOrb: 6 }
+    { type: 'sextile' as AspectType, angle: 60, maxOrb: 6 },
     { type: 'quincunx' as AspectType, angle: 150, maxOrb: 5 }
-    { type: 'semisextile' as AspectType, angle: 30, maxOrb: 3 }
+    { type: 'semisextile' as AspectType, angle: 30, maxOrb: 3 },
     { type: 'semisquare' as AspectType, angle: 45, maxOrb: 3 }
     { type: 'sesquisquare' as AspectType, angle: 135, maxOrb: 3 }
   ],

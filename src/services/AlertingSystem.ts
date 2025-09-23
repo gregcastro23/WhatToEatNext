@@ -377,16 +377,13 @@ class AlertingSystem {
 
     // Get current metric value based on rule type
     switch (rule.type) {
-      case 'performance':
-        currentValue = this.getPerformanceMetric(rule.metric);
+      case 'performance': currentValue = this.getPerformanceMetric(rule.metric),
         break,
-      case 'error':
-        currentValue = this.getErrorMetric(rule.metric);
+      case 'error': currentValue = this.getErrorMetric(rule.metric),
         break,
-      case 'quality':
-        currentValue = this.getQualityMetric(rule.metric);
+      case 'quality': currentValue = this.getQualityMetric(rule.metric),
         break,
-      case 'system': currentValue = this.getSystemMetric(rule.metric);
+      case 'system': currentValue = this.getSystemMetric(rule.metric),
         break,
       default: return
     }
@@ -401,8 +398,7 @@ class AlertingSystem {
       case 'equals':
         shouldAlert = currentValue === rule.threshold,
         break,
-      case 'not_equals':
-        shouldAlert = currentValue !== rule.threshold;
+      case 'not_equals': shouldAlert = currentValue !== rule.threshold,
         break,
       case 'percentage_change':
         // This would require historical data comparison
@@ -706,7 +702,7 @@ class AlertingSystem {
       }
 
       const alertFile = path.join(alertsDir, 'alerts.log')
-      const alertLine = `${alert.timestamp.toISOString()} [${alert.severity.toUpperCase()}] ${alert.title}: ${alert.description}\n`;
+      const alertLine = `${alert.timestamp.toISOString()} [${alert.severity.toUpperCase()}] ${alert.title}: ${alert.description}\n`,
 
       fs.appendFileSync(alertFile, alertLine)
     } catch (error) {

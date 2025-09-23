@@ -10,32 +10,32 @@
 import React from 'react';
 
 interface RecommendationFilters {
-  dietaryRestrictions: string[];
+  dietaryRestrictions: string[],
   cuisinePreferences: string[];
 }
 
 interface Recipe {
-  id: string;
-  name: string;
-  cuisine: string;
-  description: string;
-  cookingTime: number;
-  difficulty: 'Easy' | 'Medium' | 'Hard';
-  rating: number;
+  id: string,
+  name: string,
+  cuisine: string,
+  description: string,
+  cookingTime: number,
+  difficulty: 'Easy' | 'Medium' | 'Hard',
+  rating: number,
   tags: string[];
 }
 
 interface RecommendationResult {
-  recipe: Recipe;
-  score: number;
-  matchReasons: string[];
+  recipe: Recipe,
+  score: number,
+  matchReasons: string[],
   alchemicalCompatibility: number;
 }
 
 interface EnhancedRecommendationEngineProps {
-  filters?: RecommendationFilters;
-  maxRecommendations?: number;
-  showScoring?: boolean;
+  filters?: RecommendationFilters,
+  maxRecommendations?: number,
+  showScoring?: boolean,
   className?: string;
 }
 
@@ -168,12 +168,12 @@ export function EnhancedRecommendationEngine({
     const results: RecommendationResult[] = filteredRecipes.map(recipe => {
       const alchemicalCompatibility = calculateAlchemicalCompatibility(recipe);
       const baseScore = recipe.rating / 5.0;
-      const difficultyBonus = recipe.difficulty === 'Easy' ? 0.1 : 0;
-      const timeBonus = recipe.cookingTime <= 20 ? 0.1 : 0;
+      const difficultyBonus = recipe.difficulty === 'Easy' ? 0.1 : 0,
+      const timeBonus = recipe.cookingTime <= 20 ? 0.1 : 0,
 
       const score = Math.min(baseScore + difficultyBonus + timeBonus + (alchemicalCompatibility * 0.2), 1.0);
 
-      const matchReasons: string[] = [];
+      const matchReasons: string[] = [],
       if (currentFilters.dietaryRestrictions.some(r => recipe.tags.includes(r))) {
         matchReasons.push('Meets dietary requirements');
       }
@@ -228,9 +228,9 @@ export function EnhancedRecommendationEngine({
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
-      case 'Easy': return '#22c55e';
-      case 'Medium': return '#f59e0b';
-      case 'Hard': return '#ef4444';
+      case 'Easy': return '#22c55e',
+      case 'Medium': return '#f59e0b',
+      case 'Hard': return '#ef4444',
       default: return '#6b7280';
     }
   };

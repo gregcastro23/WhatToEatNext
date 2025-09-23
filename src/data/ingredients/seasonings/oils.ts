@@ -59,7 +59,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
         }
       }
     }
-  }
+  },
   'coconut oil': {
     name: 'coconut oil',
     category: 'oil',
@@ -222,7 +222,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temperature',
       notes: 'Store away from direct light and heat',
     }
-  }
+  },
   'peanut oil': {
     name: 'peanut oil',
     category: 'oil',
@@ -262,7 +262,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temperature',
       notes: 'Store away from heat and light',
     }
-  }
+  },
   'mustard oil': {
     name: 'mustard oil',
     category: 'oil',
@@ -291,7 +291,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temperature',
       notes: 'Keep tightly sealed',
     }
-  }
+  },
   'walnut oil': {
     name: 'walnut oil',
     category: 'oil',
@@ -331,7 +331,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       notes: 'Goes rancid quickly if not refrigerated',
     }
-  }
+  },
   'rice bran oil': {
     name: 'rice bran oil',
     category: 'oil',
@@ -360,7 +360,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temperature',
       notes: 'Store in a cool, dark place',
     }
-  }
+  },
   'chili oil': {
     name: 'chili oil',
     category: 'oil',
@@ -389,7 +389,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temperature',
       notes: 'Keep away from direct sunlight',
     }
-  }
+  },
   'perilla oil': {
     name: 'perilla oil',
     category: 'oil',
@@ -418,7 +418,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       notes: 'Keep refrigerated to prevent rancidity',
     }
-  }
+  },
   'camellia oil': {
     name: 'camellia oil',
     category: 'oil',
@@ -447,7 +447,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temperature',
       notes: 'Store in a cool, dark place',
     }
-  }
+  },
   'grapeseed oil': {
     name: 'grapeseed oil',
     category: 'oil',
@@ -488,7 +488,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temperature',
       notes: 'Can go rancid quickly if not stored properly',
     }
-  }
+  },
   'macadamia oil': {
     name: 'macadamia oil',
     category: 'oil',
@@ -517,7 +517,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temperature',
       notes: 'Store in a cool, dark place',
     }
-  }
+  },
   'palm oil': {
     name: 'palm oil',
     category: 'oil',
@@ -546,7 +546,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temperature',
       notes: 'Solid at room temperature',
     }
-  }
+  },
   'tea seed oil': {
     name: 'tea seed oil',
     category: 'oil',
@@ -575,7 +575,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temperature',
       notes: 'Keep away from direct light',
     }
-  }
+  },
   'shiso oil': {
     name: 'shiso oil',
     category: 'oil',
@@ -604,7 +604,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       notes: 'Best used fresh, store cold',
     }
-  }
+  },
   'argan oil': {
     name: 'argan oil',
     category: 'oil',
@@ -633,7 +633,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temperature',
       notes: 'Keep tightly sealed in dark place',
     }
-  }
+  },
   'hazelnut oil': {
     name: 'hazelnut oil',
     category: 'oil',
@@ -662,7 +662,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       notes: 'Keep refrigerated to prevent rancidity',
     }
-  }
+  },
   'pistachio oil': {
     name: 'pistachio oil',
     category: 'oil',
@@ -691,7 +691,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       notes: 'Store in refrigerator after opening',
     }
-  }
+  },
   'hemp seed oil': {
     name: 'hemp seed oil',
     category: 'oil',
@@ -720,7 +720,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       notes: 'Very sensitive to heat and light',
     }
-  }
+  },
   'black seed oil': {
     name: 'black seed oil',
     category: 'oil',
@@ -749,7 +749,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temperature',
       notes: 'Keep tightly sealed in dark place',
     }
-  }
+  },
   'almond oil': {
     name: 'almond oil',
     category: 'oil',
@@ -790,7 +790,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       notes: 'Keep refrigerated after opening',
     }
-  }
+  },
   'sunflower oil': {
     name: 'sunflower oil',
     category: 'oil',
@@ -830,7 +830,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temperature',
       notes: 'Store in a cool, dark place',
     }
-  }
+  },
   'safflower oil': {
     name: 'safflower oil',
     category: 'oil',
@@ -859,7 +859,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temperature',
       notes: 'Store away from direct light',
     }
-  }
+  },
   'white truffle oil': {
     name: 'white truffle oil',
     category: 'oil',
@@ -888,7 +888,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       notes: 'Use within 6 months of opening',
     }
-  }
+  },
   'flaxseed oil': {
     name: 'flaxseed oil',
     category: 'oil',
@@ -928,7 +928,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       notes: 'Highly perishable, keep refrigerated',
     }
-  }
+  },
   'red palm oil': {
     name: 'red palm oil',
     category: 'oil',
@@ -957,7 +957,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temperature',
       notes: 'May solidify at cooler temperatures',
     }
-  }
+  },
   'roasted pumpkin seed oil': {
     name: 'roasted pumpkin seed oil',
     category: 'oil',
@@ -986,7 +986,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       notes: 'Keep refrigerated after opening',
     }
-  }
+  },
   'mustard seed oil': {
     name: 'mustard seed oil',
     category: 'oil',
@@ -1015,7 +1015,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temperature',
       notes: 'Store in a cool, dark place',
     }
-  }
+  },
   'babassu oil': {
     name: 'babassu oil',
     category: 'oil',
@@ -1044,7 +1044,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temperature',
       notes: 'Solid at room temperature',
     }
-  }
+  },
   'apricot kernel oil': {
     name: 'apricot kernel oil',
     category: 'oil',
@@ -1073,7 +1073,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temperature',
       notes: 'Keep away from direct light',
     }
-  }
+  },
   'grape seed oil': {
     name: 'grape seed oil',
     category: 'oil',

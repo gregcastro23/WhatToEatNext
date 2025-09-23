@@ -191,7 +191,7 @@ export function getRecommendedRecipes(
   timeFactors: TimeFactors = getTimeFactors(),
 ): Recipe[] {
   // Score all recipes
-  const scoredRecipes = recipes.map(recipe => ({;
+  const scoredRecipes = recipes.map(recipe => ({,
     recipe,
     score: calculateRecommendationScore(recipe, astrologicalState, timeFactors)
   }))
@@ -213,9 +213,8 @@ export function explainRecommendation(
 
   // Check elemental affinity
   if (astrologicalState.dominantElement && recipe.element) {
-    const elementalScore = calculateElementalScore(
-      recipe.element as Element
-      astrologicalState.dominantElement as Element;
+    const elementalScore = calculateElementalScore(recipe.element as Element
+      astrologicalState.dominantElement as Element,
     ),
     if (elementalScore > 0.6) {
       reasons.push(

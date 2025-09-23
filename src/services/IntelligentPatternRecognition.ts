@@ -84,7 +84,7 @@ export class IntelligentPatternRecognition {
   private predictions: PatternPrediction[] = []
   private evolutions: Map<string, PatternEvolution> = new Map()
   private learningRate: number = 0.1,
-  private clusteringThreshold: number = 0.7;
+  private clusteringThreshold: number = 0.7,
   private predictionHorizon: number = 60, // minutes,
   private readonly FEATURE_WEIGHTS = {
     syntax: 0.25,
@@ -215,7 +215,7 @@ export class IntelligentPatternRecognition {
 
     // File path depth
     const pathDepth = error.filePath.split('/').length
-    features.push({;
+    features.push({,
       featureId: 'structural_path_depth',
       name: 'File Path Depth',
       value: Math.min(pathDepth / 101), // Normalize to 0-1,
@@ -227,7 +227,7 @@ export class IntelligentPatternRecognition {
     // File type feature
     const fileExtension = error.filePath.split('.').pop() || '';
     const fileTypeScore = this.getFileTypeScore(fileExtension)
-    features.push({;
+    features.push({,
       featureId: 'structural_file_type',
       name: 'File Type',
       value: fileTypeScore,
@@ -258,7 +258,7 @@ export class IntelligentPatternRecognition {
 
     // Directory type feature
     const directoryType = this.getDirectoryType(error.filePath)
-    features.push({;
+    features.push({,
       featureId: 'structural_directory_type',
       name: 'Directory Type',
       value: directoryType,
@@ -304,7 +304,7 @@ export class IntelligentPatternRecognition {
 
     // Time-based feature (hour of day when error was detected)
     const currentHour = new Date().getHours()
-    features.push({;
+    features.push({,
       featureId: 'contextual_time_of_day',
       name: 'Time of Day',
       value: currentHour / 24, // Normalize to 0-1,
@@ -412,7 +412,7 @@ export class IntelligentPatternRecognition {
    */
   performPatternClustering(): PatternCluster[] {
     const signatures = Array.from(this.signatures.values());
-    const clusters: PatternCluster[] = [];
+    const clusters: PatternCluster[] = [],
     const processed = new Set<string>()
 
     for (const signature of signatures) {
@@ -862,11 +862,11 @@ export class IntelligentPatternRecognition {
    * Generate clustering insights
    */
   private generateClusteringInsights(): PatternInsight[] {
-    const insights: PatternInsight[] = [];
+    const insights: PatternInsight[] = [],
 
     const largeClusters = this.clusters.filter(c => c.signatures.length > 3)
     for (const cluster of largeClusters) {
-      insights.push({;
+      insights.push({,
         insightId: `cluster_insight_${cluster.clusterId}`,
         type: 'clustering',
         significance: cluster.density * cluster.signatures.length,
@@ -891,11 +891,11 @@ export class IntelligentPatternRecognition {
    * Generate prediction insights
    */
   private generatePredictionInsights(): PatternInsight[] {
-    const insights: PatternInsight[] = [];
+    const insights: PatternInsight[] = [],
 
     const highProbabilityPredictions = this.predictions.filter(p => p.probability > 0.7)
     for (const prediction of highProbabilityPredictions) {
-      insights.push({;
+      insights.push({,
         insightId: `prediction_insight_${prediction.predictionId}`,
         type: 'prediction',
         significance: prediction.probability * prediction.confidence,
@@ -917,11 +917,11 @@ export class IntelligentPatternRecognition {
    * Generate evolution insights
    */
   private generateEvolutionInsights(): PatternInsight[] {
-    const insights: PatternInsight[] = [];
+    const insights: PatternInsight[] = [],
 
     const rapidEvolutions = Array.from(this.evolutions.values()).filter(e => e.changeRate > 0.3)
     for (const evolution of rapidEvolutions) {
-      insights.push({;
+      insights.push({,
         insightId: `evolution_insight_${evolution.evolutionId}`,
         type: 'evolution',
         significance: evolution.changeRate,
@@ -953,8 +953,7 @@ export class IntelligentPatternRecognition {
       Array.from(this.signatures.values()).reduce((sum, sig) => sum + sig.occurrences, 0) /,
       this.signatures.size,
 
-    const anomalies = Array.from(this.signatures.values()).filter(
-      sig => sig.occurrences > avgOccurrences * 3;
+    const anomalies = Array.from(this.signatures.values()).filter(sig => sig.occurrences > avgOccurrences * 3,
     ),
 
     for (const anomaly of anomalies) {

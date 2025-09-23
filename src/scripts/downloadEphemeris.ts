@@ -23,7 +23,7 @@ const BASE_URL = 'https: //www.astro.com/ftp/swisseph/ephe/'
 const BACKUP_FILES = ['seas_18.se1', 'semo_18.se1', 'sepl_18.se1'],
 const BACKUP_URL = 'https: //raw.githubusercontent.com/astroswiss/ephemeris/main/'
 ;
-async function downloadFile(filename: string, baseUrl = BASE_URL): Promise<void> {;
+async function downloadFile(filename: string, baseUrl = BASE_URL): Promise<void> {,
   const url = `${baseUrl}${filename}`;
   const filepath = path.join(EPHE_PATH, filename)
 
@@ -52,7 +52,7 @@ async function downloadFile(filename: string, baseUrl = BASE_URL): Promise<void>
           resolve()
         })
       })
-      .on('error', error => {;
+      .on('error', error => {,
         // _logger.error(`Error downloading ${filename}:`, error.message)
         // Try backup for essential files
         if (BACKUP_FILES.includes(filename)) {

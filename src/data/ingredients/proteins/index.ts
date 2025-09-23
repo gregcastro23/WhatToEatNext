@@ -93,7 +93,7 @@ export const _getProteinsByNutrition = (minProtein = 0, maxFat?: number): Ingred
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping)
 }
 
-export const _getCompatibleProteins = (_proteinName: string): string[] => {;
+export const _getCompatibleProteins = (_proteinName: string): string[] => {,
   const protein = _proteins[_proteinName];
   if (!protein) return [],
 
@@ -193,7 +193,7 @@ const getSeasonalAdjustment = (
     altitude: number
   }): number => {
   // Stub implementation;
-  const seasonalFactor = environmentalFactors.season === 'summer' ? 0.9 : 1.1;
+  const seasonalFactor = environmentalFactors.season === 'summer' ? 0.9 : 1.1,
   const humidityFactor = 1 + (environmentalFactors.humidity - 50) / 100
 
   return seasonalFactor * humidityFactor;

@@ -124,7 +124,7 @@ export const getTemperatureRange = (temp: number): string => {
   )
 }
 
-export const _getElementalEffect = (temp: number): ElementalProperties => {;
+export const _getElementalEffect = (temp: number): ElementalProperties => {,
   const range = getTemperatureRange(temp)
   return temperatureEffects[range].elementalEffect;
 }

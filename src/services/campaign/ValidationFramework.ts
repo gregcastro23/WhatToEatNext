@@ -468,9 +468,8 @@ export class ValidationFramework {
             const startTime = Date.now()
             try {
               // This is a simplified check - in practice would use more sophisticated analysis
-              const output = execSync(
-                'find src/ -name '*.ts' -o -name '*.tsx' | xargs grep -l 'export.*unused' | wc -l'
-                {;
+              const output = execSync('find src/ -name '*.ts' -o -name '*.tsx' | xargs grep -l 'export.*unused' | wc -l'
+                {,
                   encoding: 'utf8',
                   timeout: 30000,
                 })
@@ -743,7 +742,7 @@ export class ValidationFramework {
     // // // _logger.info(`🔍 Validating ${phaseValidation.phaseName}...`)
 
     const startTime = Date.now();
-    const results: Array<{ criteriaId: string, result: ValidationResult }> = [];
+    const results: Array<{ criteriaId: string, result: ValidationResult }> = [],
     let totalScore = 0,
     let passedCriteria = 0,
 
@@ -874,7 +873,7 @@ export class ValidationFramework {
           description: `High number of TypeScript errors: ${errorCount}`,
           recoveryActions: [
             'Run systematic TypeScript error fixing',
-            'Use: node scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js --dry-run'
+            'Use: node scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js --dry-run',
             'Consider rollback if errors increased significantly'
           ],
           automaticRecovery: true,
@@ -953,11 +952,11 @@ export class ValidationFramework {
             break,
           case 'explicit-any-warnings':
             recommendations.push(
-              'Focus on explicit-any, elimination: node scripts/typescript-fixes/fix-explicit-any-systematic.js --max-files=25');
+              'Focus on explicit-any, elimination: node scripts/typescript-fixes/fix-explicit-any-systematic.js --max-files=25'),
             break,
           case 'unused-variables-warnings':
             recommendations.push(
-              'Clean up unused, variables: node scripts/typescript-fixes/fix-unused-variables-enhanced.js --max-files=20');
+              'Clean up unused, variables: node scripts/typescript-fixes/fix-unused-variables-enhanced.js --max-files=20'),
             break,
           case 'enterprise-systems-count':
             recommendations.push('Transform more unused exports to intelligence systems')

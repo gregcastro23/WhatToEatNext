@@ -97,7 +97,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     return houseEffects,
   }
 
-  const _getElementFromSign = (sign: string): string => {;
+  const _getElementFromSign = (sign: string): string => {,
     const fireElements = ['aries', 'leo', 'sagittarius'],
     const earthElements = ['taurus', 'virgo', 'capricorn'],
     const airElements = ['gemini', 'libra', 'aquarius'],
@@ -150,7 +150,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       const stelliums = calculateStelliums(positions)
       const houseEffects = calculateHouseEffects(positions)
 
-      setChart({;
+      setChart({,
         planetaryPositions: positions,
         aspects,
         elementalEffects,

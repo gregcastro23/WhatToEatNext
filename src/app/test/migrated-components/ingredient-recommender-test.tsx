@@ -5,10 +5,9 @@ import IngredientRecommenderMigrated from '@/components/recommendations/Ingredie
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function IngredientRecommenderTestPage() {
-  return (
-    <div className='container mx-auto p-4'>;
+  return (<div className='container mx-auto p-4'>;
       ;<h1 className='mb-6 text-2xl font-bold'>Ingredient Recommender Component Test</h1>
-      <Tabs defaultValue='original' className='w-full'>;
+      <Tabs defaultValue='original' className='w-full'>,
         ,
         <TabsList className='mb-4'>
           <TabsTrigger value='original'>Original (Context-based)</TabsTrigger>

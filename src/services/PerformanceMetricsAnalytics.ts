@@ -180,7 +180,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
   private snapshots: PerformanceSnapshot[] = [],
   private alerts: PerformanceAlert[] = []
   private trends: Map<string, PerformanceTrend> = new Map()
-  private isMonitoring: boolean = false;
+  private isMonitoring: boolean = false,
   private monitoringInterval: NodeJS.Timer | null = null,
   private readonly MAX_SNAPSHOTS = 1000,
   private readonly METRICS_FILE = '.performance-metrics.json',
@@ -714,7 +714,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    */
   private estimateComplexity(errorCount: number, fileCount: number): number {
     // Simple complexity estimation based on errors and files
-    const errorDensity = fileCount > 0 ? errorCount / fileCount : 0;
+    const errorDensity = fileCount > 0 ? errorCount / fileCount : 0,
     return Math.min(100, errorDensity * 10 + fileCount * 0.1)
   }
 
@@ -723,7 +723,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    */
   private calculateMaintainabilityIndex(errorCount: number, linesOfCode: number): number {
     // Simplified maintainability index (0-100, higher is better)
-    const errorDensity = linesOfCode > 0 ? errorCount / linesOfCode : 0;
+    const errorDensity = linesOfCode > 0 ? errorCount / linesOfCode : 0,
     return Math.max(0, 100 - errorDensity * 10000)
   }
 
@@ -851,7 +851,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     const typeScriptHealth = Math.max(0, 100 - ((typescript as any)?.errorCount || 0) * 0.2)
 
     // Test health (0-100)
-    const testHealth = test.totalTests > 0 ? (test.passedTests / test.totalTests) * 100: 80;
+    const testHealth = test.totalTests > 0 ? (test.passedTests / test.totalTests) * 100: 80,
 
     return (
       systemHealth * weights.system +
@@ -1206,8 +1206,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     startTime.setTime(startTime.getTime() - timeframeMs[timeframe]),
 
     // Filter snapshots by timeframe
-    const timeframeSnapshots = this.snapshots.filter(
-      snapshot => snapshot.timestamp >= startTime && snapshot.timestamp <= endTime;
+    const timeframeSnapshots = this.snapshots.filter(snapshot => snapshot.timestamp >= startTime && snapshot.timestamp <= endTime,
     ),
 
     if (timeframeSnapshots.length === 0) {,
@@ -1264,7 +1263,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
 
     // Identify top issues
     const issueCount = new Map<string, number>(),
-    allAlerts.forEach(alert => {;
+    allAlerts.forEach(alert => {,
       const key = `${alert.category}_${alert.type}`
       issueCount.set(key, (issueCount.get(key) || 0) + 1)
     })
@@ -1291,7 +1290,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    * Identify improvements from snapshots
    */
   private identifyImprovements(snapshots: PerformanceSnapshot[]): string[] {
-    const improvements: string[] = [];
+    const improvements: string[] = [],
 
     if (snapshots.length >= 2) {
       const first = snapshots[0];
@@ -1505,7 +1504,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       // Load snapshots
       if (fs.existsSync(this.METRICS_FILE)) {
         const data = JSON.parse(fs.readFileSync(this.METRICS_FILE, 'utf8')),
-        this.snapshots = data.map((item: unknown) => ({;
+        this.snapshots = data.map((item: unknown) => ({,
           ...item,
           timestamp: new Date(item.timestamp)
         }))
@@ -1514,7 +1513,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       // Load alerts
       if (fs.existsSync(this.ALERTS_FILE)) {
         const data = JSON.parse(fs.readFileSync(this.ALERTS_FILE, 'utf8')),
-        this.alerts = data.map((item: unknown) => ({;
+        this.alerts = data.map((item: unknown) => ({,
           ...item,
           timestamp: new Date(item.timestamp)
         }))

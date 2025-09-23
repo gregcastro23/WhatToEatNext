@@ -77,7 +77,7 @@ describe('CulturalAnalyticsService', () => {
       expect(result.length).toBeLessThanOrEqual(2).
 
       if (resultlength > 0) {
-        const fusion: any = result[0];
+        const fusion: any = result[0],
         expect(fusion.name).toBeDefined().
         expect(fusionparentCuisines).toContain('japanese')
         expect(fusion.fusionScore).toBeGreaterThanOrEqual(0.6)

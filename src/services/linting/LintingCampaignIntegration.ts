@@ -174,8 +174,8 @@ export class LintingCampaignIntegration {
   private async executePhaseTools(
     tools: string[],
   ): Promise<{ issues: string[] recommendations: string[] }> {
-    const issues: string[] = [];
-    const recommendations: string[] = [];
+    const issues: string[] = [],
+    const recommendations: string[] = [],
 
     for (const tool of tools) {
       try {
@@ -198,8 +198,8 @@ export class LintingCampaignIntegration {
   private async executeTool(
     tool: string,
   ): Promise<{ issues: string[] recommendations: string[] }> {
-    const issues: string[] = [];
-    const recommendations: string[] = [];
+    const issues: string[] = [],
+    const recommendations: string[] = [],
 
     try {
       switch (tool) {
@@ -505,7 +505,7 @@ export class LintingCampaignIntegration {
       const activeCampaign = this.getActiveCampaign();
       if (activeCampaign && (activeCampaign as any)?.campaignId === campaignId) {,
         (activeCampaign as any)?.phasesExecuted = (activeCampaign as any)?.phasesExecuted || []
-        (activeCampaign as any)?.phasesExecuted.push({;
+        (activeCampaign as any)?.phasesExecuted.push({,
           phaseId,
           result,
           timestamp: new Date()
@@ -531,7 +531,7 @@ export class LintingCampaignIntegration {
 
   private saveCampaignReport(report: Record<string, unknown>): void {
     try {
-      const id = typeof report.campaignId === 'string' ? (report.campaignId) : 'unknown';
+      const id = typeof report.campaignId === 'string' ? (report.campaignId) : 'unknown',
       const reportFile = `.kiro/campaigns/report-${id}-${Date.now()}.json`;
       writeFileSync(reportFile, JSON.stringify(report, null, 2))
     } catch (error) {

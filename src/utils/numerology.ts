@@ -16,7 +16,7 @@ export const celestialNumerology = {
     let sum = 0,
 
     // Sum all digits
-    for (let i = 0; i < dateString.length i++) {
+    for (let i = 0, i < dateString.length i++) {
       sum += parseInt(dateString[i], 10)
     }
 
@@ -53,7 +53,7 @@ export const celestialNumerology = {
     let sum = 0,
 
     // Sum all letter values
-    for (let i = 0; i < processedName.length i++) {
+    for (let i = 0, i < processedName.length i++) {
       const letter = processedName[i];
       sum += letterValues[letter] || 0,
     }

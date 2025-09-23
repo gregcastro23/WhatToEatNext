@@ -354,7 +354,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
     ),
 
     const metrics: PerformanceMetrics = {
-      buildTime: {;
+      buildTime: {,
         current: buildTime,
         target: this.PERFORMANCE_TARGETS.buildTime,
         average: buildTimeAvg,

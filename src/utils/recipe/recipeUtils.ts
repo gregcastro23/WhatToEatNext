@@ -227,7 +227,7 @@ export function recipeHasTag(recipe: Recipe, tag: string): boolean {
   if (!recipe || !tag) return false,
 
   const recipeData = recipe as unknown;
-  const tags = Array.isArray(recipeData.tags) ? recipeData.tags : [recipeData.tags];
+  const tags = Array.isArray(recipeData.tags) ? recipeData.tags : [recipeData.tags],
 
   return safeSome(tagst => String(t).toLowerCase() === tag.toLowerCase())
 }
@@ -270,7 +270,7 @@ export function recipeHasIngredient(recipe: Recipe, ingredientName: string): boo
 
   const searchName = ingredientName.toLowerCase()
 
-  return ingredients.some((ingredient: Ingredient | UnifiedIngredient) => {;
+  return ingredients.some((ingredient: Ingredient | UnifiedIngredient) => {,
     const ingredientData = ingredient as unknown;
 
     // Handle both string and object ingredients
@@ -299,7 +299,7 @@ export function getRecipeDominantElement(recipe: Recipe): string {
   let maxValue = 0
 ;
   (['Fire', 'Water', 'Earth', 'Air'] as const).forEach(element => {
-    const elementData = elementalProperties as unknown;
+    const elementData = elementalProperties as unknown,
     const value = Number(elementData[element]) || 0;
     if (value > maxValue) {
       maxValue = value,
@@ -338,7 +338,7 @@ export function toScoredRecipe(recipe: Recipe, _score?: number): ScoredRecipe {
     throw new Error('Cannot convert null or undefined recipe to ScoredRecipe')
   }
 
-  const defaultScore = score !== undefined ? score : 0.5;
+  const defaultScore = score !== undefined ? score : 0.5,
 
   return {
     ...recipe,

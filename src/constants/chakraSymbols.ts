@@ -123,7 +123,7 @@ export const CHAKRA_MANTRA_INTELLIGENCE = {
   ) => {
     const mantraAnalysis = {
       // Vibrational frequency analysis
-      vibrationalFrequencies: {;
+      vibrationalFrequencies: {,
         root: Math.random() * 200 + 400, // 400-600 Hz,
         sacral: Math.random() * 150 + 350, // 350-500 Hz,
         solarPlexus: Math.random() * 180 + 320, // 320-500 Hz,
@@ -225,7 +225,7 @@ export const CHAKRA_VISUAL_INTELLIGENCE = {
   analyzeVisualSymbols: (symbols: typeof CHAKRA_SYMBOLS, colors: typeof CHAKRA_BG_COLORS) => {
     const visualAnalysis = {
       // Symbolic effectiveness metrics
-      symbolicEffectiveness: {;
+      symbolicEffectiveness: {,
         visualClarity: Math.random() * 0.25 + 0.75, // 75-100% clarity,
         symbolicResonance: Math.random() * 0.2 + 0.8, // 80-100% resonance,
         energyTransmission: Math.random() * 0.15 + 0.85, // 85-100% transmission,
@@ -318,7 +318,7 @@ export const CHAKRA_NUTRITIONAL_INTELLIGENCE = {
   analyzeNutritionalCorrelations: (_: typeof CHAKRA_NUTRITIONAL_CORRELATIONS) => {
     const nutritionalAnalysis = {
       // Nutritional effectiveness metrics
-      nutritionalEffectiveness: {;
+      nutritionalEffectiveness: {,
         dietaryAlignment: Math.random() * 0.25 + 0.75, // 75-100% alignment,
         nutritionalBalance: Math.random() * 0.2 + 0.8, // 80-100% balance,
         energyEnhancement: Math.random() * 0.15 + 0.85, // 85-100% enhancement,
@@ -401,7 +401,7 @@ export const CHAKRA_FUNCTIONAL_INTELLIGENCE = {
   analyzeFunctionalOperations: (_: typeof CHAKRA_HERBS, _: typeof CHAKRA_SANSKRIT_NAMES) => {
     const functionalAnalysis = {
       // Functional effectiveness metrics
-      functionalEffectiveness: {;
+      functionalEffectiveness: {,
         operationalEfficiency: Math.random() * 0.25 + 0.75, // 75-100% efficiency,
         systemIntegration: Math.random() * 0.2 + 0.8, // 80-100% integration,
         performanceOptimization: Math.random() * 0.15 + 0.85, // 85-100% optimization,
@@ -484,7 +484,7 @@ export const CHAKRA_DEMONSTRATION_PLATFORM = {
    * @param allChakraData - All chakra-related data
    * @returns Enhanced demonstration analysis with platform insights
    */
-  analyzeDemonstrationPlatform: (_: {;
+  analyzeDemonstrationPlatform: (_: {,
     symbols?: Record<string, string>,
     colors?: Record<string, string>,
     mantras?: Record<string, string>,
@@ -493,7 +493,7 @@ export const CHAKRA_DEMONSTRATION_PLATFORM = {
   }) => {
     const platformAnalysis = {
       // Platform effectiveness metrics
-      platformEffectiveness: {;
+      platformEffectiveness: {,
         demonstrationClarity: Math.random() * 0.25 + 0.75, // 75-100% clarity,
         platformIntegration: Math.random() * 0.2 + 0.8, // 80-100% integration,
         userExperience: Math.random() * 0.15 + 0.85, // 85-100% user experience,
@@ -578,7 +578,7 @@ export const PHASE_32_CHAKRA_INTELLIGENCE_SUMMARY = {
   generateComprehensiveSummary: () => {
     return {
       // System overview
-      systemOverview: {;
+      systemOverview: {,
         totalSystems: 5,
         systemEffectiveness: Math.random() * 0.2 + 0.8, // 80-100% effectiveness,
         integrationLevel: Math.random() * 0.15 + 0.85, // 85-100% integration,
@@ -639,7 +639,7 @@ function generateMantraRecommendations(analysis: {
   effectiveness?: { pronunciationAccuracy?: number vibrationalResonance?: number }
   advancedVibrations?: { harmonicResonance?: { fundamental?: number } }
 }): string[] {
-  const recommendations: string[] = [];
+  const recommendations: string[] = [],
 
   if (
     analysis.effectiveness?.pronunciationAccuracy &&
@@ -671,7 +671,7 @@ function generateVisualRecommendations(analysis: {
   colorAnalysis?: { colorHarmony?: number }
   advancedVisual?: { geometricAnalysis?: { symmetry?: number } }
 }): string[] {
-  const recommendations: string[] = [];
+  const recommendations: string[] = [],
 
   if (
     analysis.symbolicEffectiveness?.visualClarity &&
@@ -698,7 +698,7 @@ function generateNutritionalRecommendations(analysis: {
   dietaryAnalysis?: { foodCompatibility?: number }
   advancedNutritional?: { energeticAnalysis?: { pranicValue?: number } }
 }): string[] {
-  const recommendations: string[] = [];
+  const recommendations: string[] = [],
 
   if (
     analysis.nutritionalEffectiveness?.dietaryAlignment &&
@@ -728,7 +728,7 @@ function generateFunctionalRecommendations(analysis: {
   herbalAnalysis?: { herbEffectiveness?: number }
   advancedFunctional?: { operationalAnalysis?: { systemEfficiency?: number } }
 }): string[] {
-  const recommendations: string[] = [];
+  const recommendations: string[] = [],
 
   if (
     analysis.functionalEffectiveness?.operationalEfficiency &&
@@ -758,7 +758,7 @@ function generatePlatformRecommendations(analysis: {
   systemAnalysis?: { systemCoherence?: number }
   advancedPlatform?: { demonstrationAnalysis?: { clarityEffectiveness?: number } }
 }): string[] {
-  const recommendations: string[] = [];
+  const recommendations: string[] = [],
 
   if (
     analysis.platformEffectiveness?.demonstrationClarity &&

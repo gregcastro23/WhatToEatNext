@@ -132,7 +132,7 @@ function validateAndNormalizeIngredients(
     throw new Error('Recipe must have at least one ingredient');
   }
 
-  return ingredients.map(ing => ({;
+  return ingredients.map(ing => ({,
     name: safeGetString((ing as any).name) || 'Unknown Ingredient',
     amount: typeof ing.amount === 'number' ? ing.amount : 1,,
     unit: ing.unit || 'piece',
@@ -331,7 +331,7 @@ class RecipeData {
         // If no elemental properties, derive them from cuisine or other attributes
         if (!elementalProps) {
           const mappingData = mapping as any;
-          elementalProps = recipeElementalService.deriveElementalProperties({;
+          elementalProps = recipeElementalService.deriveElementalProperties({,
             cuisine: String((mappingData.cuisine).name || mappingData.cuisine || ''),
             cookingMethod: [String(mappingData.cookingMethod || '')]
           })
@@ -413,7 +413,7 @@ class RecipeData {
       const withElementalProps = recipeElementalService.standardizeRecipe(recipe)
       // Then ensure all other properties are valid
       return ensureRecipeProperties({
-        ...recipe;
+        ...recipe,
         elementalProperties: ((withElementalProps as any),
           .elementalProperties as ElementalProperties) || {
           Fire: 0.25,
@@ -474,7 +474,7 @@ class RecipeData {
       name: 'Universal Balance Bowl',
       description: 'A harmonious blend for any occasion',
       ingredients: [
-        { name: 'Mixed Greens', amount: 2, unit: 'cups', category: 'vegetables' }
+        { name: 'Mixed Greens', amount: 2, unit: 'cups', category: 'vegetables' },
         { name: 'Quinoa', amount: 1, unit: 'cup', category: 'grains' }
         { name: 'Mixed Seeds', amount: 0.25, unit: 'cup', category: 'garnish' }
       ],

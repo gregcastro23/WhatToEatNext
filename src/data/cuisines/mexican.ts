@@ -34,9 +34,9 @@ export const mexican = {
               category: 'grain',
               swaps: ['gluten-free tortillas']
             }
-            { name: 'ranchero sauce', amount: '200', unit: 'ml', category: 'sauce' }
+            { name: 'ranchero sauce', amount: '200', unit: 'ml', category: 'sauce' },
             { name: 'black beans', amount: '1', unit: 'cup', category: 'protein' }
-            { name: 'avocado', amount: '1/2', unit: 'whole', category: 'fruit' }
+            { name: 'avocado', amount: '1/2', unit: 'whole', category: 'fruit' },
             {
               name: 'queso fresco',
               amount: '1/4',
@@ -91,7 +91,7 @@ export const mexican = {
               category: 'grain',
               swaps: ['gluten-free tortillas']
             }
-            { name: 'salsa verde', amount: '2', unit: 'cups', category: 'sauce' }
+            { name: 'salsa verde', amount: '2', unit: 'cups', category: 'sauce' },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein', swaps: ['tofu'] }
             {
               name: 'crema',
@@ -107,7 +107,7 @@ export const mexican = {
               category: 'dairy',
               swaps: ['vegan cheese']
             }
-            { name: 'onion', amount: '1/2', unit: 'medium', category: 'vegetable' }
+            { name: 'onion', amount: '1/2', unit: 'medium', category: 'vegetable' },
             { name: 'epazote', amount: '2', unit: 'sprigs', category: 'herb' }
           ],
           substitutions: {
@@ -156,7 +156,7 @@ export const mexican = {
               category: 'grain',
               swaps: ['gluten-free bread']
             }
-            { name: 'refried beans', amount: '1', unit: 'cup', category: 'legume' }
+            { name: 'refried beans', amount: '1', unit: 'cup', category: 'legume' },
             {
               name: 'cheese',
               amount: '1',
@@ -212,7 +212,7 @@ export const mexican = {
               category: 'grain',
               swaps: ['gluten-free tortillas']
             }
-            { name: 'black beans', amount: '2', unit: 'cups', category: 'legume' }
+            { name: 'black beans', amount: '2', unit: 'cups', category: 'legume' },
             {
               name: 'queso fresco',
               amount: '1',
@@ -227,7 +227,7 @@ export const mexican = {
               category: 'dairy',
               swaps: ['cashew cream']
             }
-            { name: 'onion', amount: '1', unit: 'medium', category: 'vegetable' }
+            { name: 'onion', amount: '1', unit: 'medium', category: 'vegetable' },
             { name: 'chipotle peppers', amount: '2', unit: 'pieces', category: 'spice' }
           ],
           substitutions: {
@@ -284,9 +284,9 @@ export const mexican = {
               category: 'grain',
               swaps: ['gluten-free tortillas']
             }
-            { name: 'black beans', amount: '1', unit: 'cup', category: 'legume' }
+            { name: 'black beans', amount: '1', unit: 'cup', category: 'legume' },
             { name: 'plantains', amount: '2', unit: 'medium', category: 'fruit' }
-            { name: 'tomato sauce', amount: '1', unit: 'cup', category: 'sauce' }
+            { name: 'tomato sauce', amount: '1', unit: 'cup', category: 'sauce' },
             { name: 'peas', amount: '1/2', unit: 'cup', category: 'vegetable' }
             { name: 'ham', amount: '100', unit: 'g', category: 'protein', swaps: ['tempeh'] }
           ],
@@ -330,7 +330,7 @@ export const mexican = {
             'Serve immediately'
           ],
           ingredients: [
-            { name: 'mixed fruits', amount: '2', unit: 'cups', category: 'fruit' }
+            { name: 'mixed fruits', amount: '2', unit: 'cups', category: 'fruit' },
             {
               name: 'milk',
               amount: '1',
@@ -338,7 +338,7 @@ export const mexican = {
               category: 'dairy',
               swaps: ['almond milk', 'oat milk']
             }
-            { name: 'honey', amount: '2', unit: 'tbsp', category: 'sweetener', swaps: ['agave'] }
+            { name: 'honey', amount: '2', unit: 'tbsp', category: 'sweetener', swaps: ['agave'] },
             { name: 'vanilla', amount: '1', unit: 'tsp', category: 'flavoring' }
           ],
           substitutions: {
@@ -391,9 +391,9 @@ export const mexican = {
               category: 'protein',
               swaps: ['chickpeas']
             }
-            { name: 'carrots', amount: '4', unit: 'large', category: 'vegetable' }
+            { name: 'carrots', amount: '4', unit: 'large', category: 'vegetable' },
             { name: 'potatoes', amount: '4', unit: 'medium', category: 'vegetable' }
-            { name: 'chayote', amount: '2', unit: 'whole', category: 'vegetable' }
+            { name: 'chayote', amount: '2', unit: 'whole', category: 'vegetable' },
             { name: 'Mexican rice', amount: '1', unit: 'cup', category: 'grain' }
             { name: 'cilantro', amount: '1', unit: 'bunch', category: 'herb' }
           ],
@@ -435,9 +435,9 @@ export const mexican = {
               category: 'seafood',
               swaps: ['hearts of palm']
             }
-            { name: 'lime juice', amount: '1', unit: 'cup', category: 'citrus' }
+            { name: 'lime juice', amount: '1', unit: 'cup', category: 'citrus' },
             { name: 'cucumber', amount: '2', unit: 'medium', category: 'vegetable' }
-            { name: 'serrano peppers', amount: '4', unit: 'pieces', category: 'spice' }
+            { name: 'serrano peppers', amount: '4', unit: 'pieces', category: 'spice' },
             { name: 'red onion', amount: '1', unit: 'medium', category: 'vegetable' }
           ],
           nutrition: {
@@ -470,7 +470,7 @@ export const mexican = {
             'Serve with condiments'
           ],
           ingredients: [
-            { name: 'dried hominy', amount: '500', unit: 'g', category: 'grain' }
+            { name: 'dried hominy', amount: '500', unit: 'g', category: 'grain' },
             {
               name: 'pork shoulder',
               amount: '1',
@@ -478,9 +478,9 @@ export const mexican = {
               category: 'protein',
               swaps: ['mushrooms']
             }
-            { name: 'guajillo chiles', amount: '6', unit: 'pieces', category: 'chile' }
+            { name: 'guajillo chiles', amount: '6', unit: 'pieces', category: 'chile' },
             { name: 'ancho chiles', amount: '3', unit: 'pieces', category: 'chile' }
-            { name: 'garlic', amount: '6', unit: 'cloves', category: 'aromatic' }
+            { name: 'garlic', amount: '6', unit: 'cloves', category: 'aromatic' },
             { name: 'oregano', amount: '2', unit: 'tbsp', category: 'herb' }
           ],
           substitutions: {
@@ -527,7 +527,7 @@ export const mexican = {
             'Garnish with sesame seeds'
           ],
           ingredients: [
-            { name: 'mixed dried chiles', amount: '500', unit: 'g', category: 'chile' }
+            { name: 'mixed dried chiles', amount: '500', unit: 'g', category: 'chile' },
             { name: 'chocolate', amount: '100', unit: 'g', category: 'chocolate' }
             {
               name: 'turkey',
@@ -536,7 +536,7 @@ export const mexican = {
               category: 'protein',
               swaps: ['chicken', 'mushrooms']
             }
-            { name: 'sesame seeds', amount: '100', unit: 'g', category: 'seeds' }
+            { name: 'sesame seeds', amount: '100', unit: 'g', category: 'seeds' },
             { name: 'almonds', amount: '100', unit: 'g', category: 'nuts' }
             { name: 'raisins', amount: '100', unit: 'g', category: 'fruit' }
           ],
@@ -580,7 +580,7 @@ export const mexican = {
             'Garnish with pomegranate'
           ],
           ingredients: [
-            { name: 'poblano chiles', amount: '6', unit: 'large', category: 'chile' }
+            { name: 'poblano chiles', amount: '6', unit: 'large', category: 'chile' },
             {
               name: 'ground pork',
               amount: '500',
@@ -588,7 +588,7 @@ export const mexican = {
               category: 'protein',
               swaps: ['plant-based meat']
             }
-            { name: 'walnuts', amount: '250', unit: 'g', category: 'nut' }
+            { name: 'walnuts', amount: '250', unit: 'g', category: 'nut' },
             { name: 'pomegranate seeds', amount: '1', unit: 'cup', category: 'fruit' }
             {
               name: 'Mexican cream',
@@ -646,7 +646,7 @@ export const mexican = {
               category: 'protein',
               swaps: ['jackfruit']
             }
-            { name: 'achiote paste', amount: '100', unit: 'g', category: 'seasoning' }
+            { name: 'achiote paste', amount: '100', unit: 'g', category: 'seasoning' },
             {
               name: 'sour orange juice',
               amount: '2',
@@ -661,7 +661,7 @@ export const mexican = {
               category: 'wrapper',
               swaps: ['parchment paper']
             }
-            { name: 'garlic', amount: '8', unit: 'cloves', category: 'aromatic' }
+            { name: 'garlic', amount: '8', unit: 'cloves', category: 'aromatic' },
             { name: 'oregano', amount: '2', unit: 'tbsp', category: 'herb' }
           ],
           substitutions: {
@@ -711,9 +711,9 @@ export const mexican = {
               category: 'protein',
               swaps: ['jackfruit']
             }
-            { name: 'dried chiles', amount: '6', unit: 'mixed', category: 'chile' }
+            { name: 'dried chiles', amount: '6', unit: 'mixed', category: 'chile' },
             { name: 'garlic', amount: '8', unit: 'cloves', category: 'aromatic' }
-            { name: 'vinegar', amount: '1/2', unit: 'cup', category: 'acid' }
+            { name: 'vinegar', amount: '1/2', unit: 'cup', category: 'acid' },
             { name: 'Mexican oregano', amount: '2', unit: 'tbsp', category: 'herb' }
             { name: 'corn tortillas', amount: '24', unit: 'pieces', category: 'grain' }
           ],
@@ -763,7 +763,7 @@ export const mexican = {
             'Steam tamales'
           ],
           ingredients: [
-            { name: 'masa harina', amount: '2', unit: 'kg', category: 'grain' }
+            { name: 'masa harina', amount: '2', unit: 'kg', category: 'grain' },
             {
               name: 'lard',
               amount: '500',
@@ -771,9 +771,9 @@ export const mexican = {
               category: 'fat',
               swaps: ['vegetable shortening']
             }
-            { name: 'pork', amount: '1', unit: 'kg', category: 'protein', swaps: ['jackfruit'] }
+            { name: 'pork', amount: '1', unit: 'kg', category: 'protein', swaps: ['jackfruit'] },
             { name: 'tomatillos', amount: '1', unit: 'kg', category: 'vegetable' }
-            { name: 'corn husks', amount: '40', unit: 'pieces', category: 'wrapper' }
+            { name: 'corn husks', amount: '40', unit: 'pieces', category: 'wrapper' },
             { name: 'serrano chiles', amount: '4', unit: 'pieces', category: 'chile' }
           ],
           substitutions: {
@@ -814,9 +814,9 @@ export const mexican = {
               category: 'protein',
               swaps: ['jackfruit']
             }
-            { name: 'achiote paste', amount: '200', unit: 'g', category: 'seasoning' }
+            { name: 'achiote paste', amount: '200', unit: 'g', category: 'seasoning' },
             { name: 'sour orange juice', amount: '2', unit: 'cups', category: 'citrus' }
-            { name: 'banana leaves', amount: '4', unit: 'large', category: 'wrapper' }
+            { name: 'banana leaves', amount: '4', unit: 'large', category: 'wrapper' },
             { name: 'pickled red onions', amount: '2', unit: 'cups', category: 'condiment' }
           ],
           nutrition: {
@@ -840,9 +840,9 @@ export const mexican = {
           description: 'Classic Mexican caramel custard',
           cuisine: 'Mexican',
           ingredients: [
-            { name: 'eggs', amount: '6', unit: 'large', category: 'protein' }
+            { name: 'eggs', amount: '6', unit: 'large', category: 'protein' },
             { name: 'milk', amount: '2', unit: 'cups', category: 'dairy', swaps: ['coconut milk'] }
-            { name: 'sugar', amount: '1', unit: 'cup', category: 'sweetener' }
+            { name: 'sugar', amount: '1', unit: 'cup', category: 'sweetener' },
             { name: 'vanilla', amount: '1', unit: 'tbsp', category: 'flavoring' }
           ],
           nutrition: {
@@ -874,7 +874,7 @@ export const mexican = {
               category: 'grain',
               swaps: ['gluten-free flour blend']
             }
-            { name: 'Water', amount: '2', unit: 'cups', category: 'liquid' }
+            { name: 'Water', amount: '2', unit: 'cups', category: 'liquid' },
             { name: 'cinnamon sugar', amount: '1', unit: 'cup', category: 'sweetener' }
             { name: 'chocolate sauce', amount: '1', unit: 'cup', category: 'sauce' }
           ],
@@ -897,9 +897,9 @@ export const mexican = {
           description: 'Mexican ice pops with fresh fruit',
           cuisine: 'Mexican',
           ingredients: [
-            { name: 'fresh fruit', amount: '4', unit: 'cups', category: 'fruit' }
+            { name: 'fresh fruit', amount: '4', unit: 'cups', category: 'fruit' },
             { name: 'sugar', amount: '1/2', unit: 'cup', category: 'sweetener' }
-            { name: 'lime juice', amount: '2', unit: 'tbsp', category: 'citrus' }
+            { name: 'lime juice', amount: '2', unit: 'tbsp', category: 'citrus' },
             { name: 'chili powder', amount: '1', unit: 'tsp', category: 'spice' }
           ],
           nutrition: {
@@ -941,9 +941,9 @@ export const mexican = {
             category: 'protein',
             swaps: ['chickpeas']
           }
-          { name: 'carrots', amount: '4', unit: 'large', category: 'vegetable' }
+          { name: 'carrots', amount: '4', unit: 'large', category: 'vegetable' },
           { name: 'potatoes', amount: '4', unit: 'medium', category: 'vegetable' }
-          { name: 'chayote', amount: '2', unit: 'whole', category: 'vegetable' }
+          { name: 'chayote', amount: '2', unit: 'whole', category: 'vegetable' },
           { name: 'Mexican rice', amount: '1', unit: 'cup', category: 'grain' }
           { name: 'cilantro', amount: '1', unit: 'bunch', category: 'herb' }
         ],

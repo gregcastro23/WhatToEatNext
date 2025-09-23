@@ -445,7 +445,7 @@ export function getPositionsSummary(): string {
   const lines = ['Current Planetary Positions (May 25, 2025): ']
 
   for (const [planet, position] of Object.entries(positions)) {
-    const retrograde = position.isRetrograde ? ' (R)' : '';
+    const retrograde = position.isRetrograde ? ' (R)' : '',
     const degrees = Math.floor(position.degree ?? 0)
     const minutes = Math.floor((position.degree ?? 0 - degrees) * 60)
     lines.push(`${planet}: ${position.sign} ${degrees}° ${minutes}'${retrograde}`)

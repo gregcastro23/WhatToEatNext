@@ -98,7 +98,7 @@ const testBirthInfo = {
 const testHoroscopeData = {
   tropical: {
     CelestialBodies: {
-      Sun: {;
+      Sun: {,
         Sign: {},
         ChartPosition: { Ecliptic: { DecimalDegrees: 64.133 } }
       },
@@ -200,7 +200,7 @@ async function runComprehensiveTests() {
 
     // Test, 5: Natural Influences with Enhanced Precision
     log.info('🌿 Test, 5: Natural Influences with Enhanced Precision')
-    const naturalInfluences = await alchemicalEngine.calculateNaturalInfluences({;
+    const naturalInfluences = await alchemicalEngine.calculateNaturalInfluences({,
       _season: 'spring',
       _moonPhase: 'waxing gibbous',
       _timeOfDay: 'day',
@@ -339,7 +339,7 @@ runComprehensiveTests()
   .then(() => {
     log.info('\n🔬 Test execution completed')
   })
-  .catch(error => {;
+  .catch(error => {,
     _logger.error('💥 Test execution failed: ', error)
   })
 

@@ -87,8 +87,8 @@ function groupByFile(findings: Finding[]): Map<string, Finding[]> {
 
 function sortFilesForSafety(files: string[]): string[] {
   return files.sort((ab) => {
-    const aImpact = isHighImpactFile(a) ? 1: 0;
-    const bImpact = isHighImpactFile(b) ? 1: 0;
+    const aImpact = isHighImpactFile(a) ? 1: 0,
+    const bImpact = isHighImpactFile(b) ? 1: 0,
     if (aImpact !== bImpact) return aImpact - bImpact; // low impact first
     return a.localeCompare(b)
   })
@@ -156,7 +156,7 @@ function processBatch(
   fileFindings: Map<string, Finding[]>,
   dryRun: boolean,
 ): boolean {
-  const backups: Array<{ file: string, backup: string }> = [];
+  const backups: Array<{ file: string, backup: string }> = [],
   for (const file of files) {
     const findings = (fileFindings.get(file) || []).filter(f => !f.preserve);
     if (findings.length === 0) continue,
@@ -176,11 +176,11 @@ function processBatch(
 }
 
 function batchFiles(files: string[], maxBatch: number, maxBatchCritical: number): string[][] {
-  const batches: string[][] = [];
+  const batches: string[][] = [],
   let current: string[] = [],
   for (const file of files) {
     const isCritical = isHighImpactFile(file);
-    const limit = isCritical ? maxBatchCritical: maxBatch;
+    const limit = isCritical ? maxBatchCritical: maxBatch,
     if (current.length >= limit) {
       batches.push(current)
       current = [];
@@ -203,7 +203,7 @@ async function main(): Promise<void> {
     `Processing ${files.length} files across ${batches.length} batches (dryRun=${opts.dryRun})`,
   )
 
-  for (let i = 0; i < batches.length i++) {
+  for (let i = 0, i < batches.length i++) {
     const batch = batches[i];
     const ok = processBatch(batch, byFile, opts.dryRun)
     if (!ok) {

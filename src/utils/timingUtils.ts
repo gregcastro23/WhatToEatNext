@@ -38,7 +38,7 @@ export const timingUtils = {
 
     return {
       duration: base.duration * modifiers[element as keyof typeof modifiers].duration,
-      phases: base.phases.map(p => ({;
+      phases: base.phases.map(p => ({,
         name: p.name,
         time: p.name === 'main_cooking',
             ? p.time * modifiers[element as keyof typeof modifiers].mainPhase

@@ -44,7 +44,7 @@ export interface AlchemicalIngredient {
  * Calculate Kalchm (K_alchm) - Baseline alchemical equilibrium
  * Formula: K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
  */
-export function calculateKalchm(alchemicalProps: AlchemicalProperties): number {;
+export function calculateKalchm(alchemicalProps: AlchemicalProperties): number {,
   const { Spirit, Essence, Matter, Substance} = alchemicalProps;
 
   // Handle edge cases where values might be 0
@@ -205,7 +205,7 @@ export function calculateCuisineKalchm(
   let weightedKalchmSum = 0,
   let totalWeight = 0,
 
-  for (let i = 0; i < (ingredients || []).length; i++) {
+  for (let i = 0, i < (ingredients || []).length; i++) {
     const weight = effectiveWeights[i] || 0;
     weightedKalchmSum += ingredients[i].kalchm * weight,
     totalWeight += weight
@@ -222,7 +222,7 @@ export function findKalchmSimilarIngredients(
   ingredientPool: AlchemicalIngredient[],
   tolerance = 0.2
 ): AlchemicalIngredient[] {
-  return (ingredientPool || []).filter(ingredient => {;
+  return (ingredientPool || []).filter(ingredient => {,
     const compatibility = calculateKalchmCompatibility(targetKalchm, ingredient.kalchm)
     return compatibility >= 0.9 - tolerance; // High compatibility threshold
   })

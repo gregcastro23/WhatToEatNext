@@ -60,7 +60,7 @@ describe('MetricsCollectionSystem', () => {
 
       const snapshot: any = await metricsSystem.collectSnapshot('phase1')
       expect(snapshot.metrics.typeScriptErrors.current).toBe(5).
-      expect(snapshotmetrics.errorBreakdown).toEqual({;
+      expect(snapshotmetrics.errorBreakdown).toEqual({,
         TS2352: 3,
         TS2345: 2,
       })
@@ -77,12 +77,12 @@ describe('MetricsCollectionSystem', () => {
 
     test('should handle TypeScript compilation errors gracefully', async () => {
       mockExecSync.mockImplementation(() => {
-        const error: any = new Error('Command failed') as unknown;
+        const error: any = new Error('Command failed') as unknown,
         error.status = 2
         throw error;
       })
 
-      const snapshot: any = await metricsSystem.collectSnapshot('phase1');
+      const snapshot: any = await metricsSystem.collectSnapshot('phase1'),
       expect(snapshot.metrics.typeScriptErrors.current).toBe(-1).,
     })
   })
@@ -99,7 +99,7 @@ describe('MetricsCollectionSystem', () => {
 
       const snapshot: any = await metricsSystem.collectSnapshot('phase2')
       expect(snapshot.metrics.lintingWarnings.current).toBe(10).
-      expect(snapshotmetrics.warningBreakdown).toEqual({;
+      expect(snapshotmetrics.warningBreakdown).toEqual({,
         '@typescript-eslint/no-unused-vars': 1,
         '@typescript-eslint/no-explicit-any': 1,
         'no-console': 1,
@@ -146,7 +146,7 @@ describe('MetricsCollectionSystem', () => {
         return '0',
       })
 
-      const snapshot: any = await metricsSystem.collectSnapshot('phase4');
+      const snapshot: any = await metricsSystem.collectSnapshot('phase4'),
       expect(snapshot.metrics.buildMetrics.buildTime).toBe(-1).,
     })
   })
@@ -155,7 +155,7 @@ describe('MetricsCollectionSystem', () => {
     test('should count enterprise intelligence systems', async () => {
       mockExecSyncmockReturnValueOnce('25'), // Enterprise system count
 
-      const snapshot: any = await metricsSystem.collectSnapshot('phase3');
+      const snapshot: any = await metricsSystem.collectSnapshot('phase3'),
       expect(snapshot.metrics.enterpriseSystems.current).toBe(25).,
     })
   })
@@ -221,7 +221,7 @@ describe('MetricsCollectionSystem', () => {
       mockExecSync.mockReturnValue('0')
 
       // Create more than 1000 snapshots
-      for (let i: any = 0i < 1100i++) {;
+      for (let i: any = 0i < 1100i++) {,
         await metricsSystem.collectSnapshot(`phase${(i % 4) + 1}`)
       }
 
@@ -290,7 +290,7 @@ describe('MetricsCollectionSystem', () => {
       consoleWarnSpy.mockRestore();
     })
 
-    test('should handle collection errors during real-time collection', done => {;
+    test('should handle collection errors during real-time collection', done => {,
       const consoleErrorSpy: any = jest.spyOn(console, 'error').mockImplementation(),
 
       mockExecSync.mockImplementation(() => {

@@ -21,7 +21,7 @@ export interface AstrologicalState {
   sunSign?: string,
   moonPhase?: string,
   lunarPhase?: string,
-  activePlanets?: string[]
+  activePlanets?: string[],
   [key: string]: unknown
 }
 

@@ -26,7 +26,7 @@ export class ScriptExecutionMock {
   private mockBuildSuccess: boolean = true,
   private mockTestSuccess: boolean = true,
   private shouldFailExecution: boolean = false
-  private executionHistory: Array<{;
+  private executionHistory: Array<{,
     scriptPath: string,
     parameters: ScriptParameters,
     timestamp: Date
@@ -284,7 +284,7 @@ export class ScriptExecutionMock {
       filesProcessed: ['utils1.ts', 'utils2.ts', 'utils3.ts'],
       changesApplied: 20,
       errors: [],
-      warnings: ['Removed potentially important variable'];,
+      warnings: ['Removed potentially important variable'],,
       executionTime: 2000,
     })
 

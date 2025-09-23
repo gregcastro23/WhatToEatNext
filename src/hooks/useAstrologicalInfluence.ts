@@ -59,7 +59,7 @@ export function useAstrologicalInfluence() {
       cancer: 'Water',
       scorpio: 'Water',
       pisces: 'Water' },
-        Object.values(planetaryPositions || {}).forEach(position => {;
+        Object.values(planetaryPositions || {}).forEach(position => {,
       const element = elementMap[(position as unknown)?.sign as keyof typeof elementMap];
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++

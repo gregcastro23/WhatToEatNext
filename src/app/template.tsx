@@ -50,11 +50,11 @@ export default function Template({ children }: TemplateProps) {
         style.id = 'base-styles'
         style.textContent = `
           body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            background: #ffffff;
-            color: #000000;
+            margin: 0,
+            padding: 0,
+            min-height: 100vh,
+            background: #ffffff,
+            color: #000000,
             font-family: system-ui, -apple-system, sans-serif;
           }
         `

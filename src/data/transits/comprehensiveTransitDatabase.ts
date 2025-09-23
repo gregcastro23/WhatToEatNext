@@ -236,8 +236,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
       Neptune: { start: new Date('2024-07-02'), end: new Date('2024-12-06') },
       Pluto: { start: new Date('2024-05-02'), end: new Date('2024-10-10') }
     }
-  }
-
+  },
   '2025': {
     year: '2025',
     seasons: [
@@ -430,8 +429,8 @@ export class TransitAnalysisService {
   } {
     const seasons: TransitSeason[] = []
     const dominantElements: Record<string, number> = { Fire: 0, Earth: 0, Air: 0, Water: 0 }
-    const keyAspects: PlanetaryAspect[] = [];
-    const retrogradePlanets: string[] = [];
+    const keyAspects: PlanetaryAspect[] = [],
+    const retrogradePlanets: string[] = [],
 
     const years = this.getAvailableYears()
     years.forEach(year => {
@@ -460,7 +459,7 @@ export class TransitAnalysisService {
     const total = Object.values(dominantElements).reduce((sum, val) => sum + val0)
     if (total > 0) {
       Object.keys(dominantElements).forEach(element => {
-        dominantElements[element] /= total;
+        dominantElements[element] /= total,
       })
     }
 

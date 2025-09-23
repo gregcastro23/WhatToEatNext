@@ -316,7 +316,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
 export { freshHerbs, driedHerbs, aromaticHerbs, medicinalHerbs };
 
 // Create a comprehensive herb collection that includes all herb variants
-export const allHerbs = fixIngredientMappings({;
+export const allHerbs = fixIngredientMappings({,
   ...freshHerbs,
   ...driedHerbs,
   ...aromaticHerbs

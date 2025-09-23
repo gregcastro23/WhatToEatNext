@@ -64,7 +64,7 @@ export const italianSauces: Record<string, Sauce> = {
       '1 pinch red pepper flakes (optional)'
     ],
     preparationSteps: [
-      'Heat olive oil in a large saucepan over medium heat.'
+      'Heat olive oil in a large saucepan over medium heat.',
       'Add minced garlic (and onion if using) and sauté until fragrant but not browned, about 1-2 minutes.',
       'If using red pepper flakes, add them with the garlic.',
       'Pour in the tomatoes with their juices, crushing them with your hands or a potato masher as you add them.',
@@ -305,7 +305,7 @@ export const italianSauces: Record<string, Sauce> = {
     ],
     preparationSteps: [
       'Heat olive oil in a large saucepan over medium heat.',
-      'Add sliced garlic and chili peppers (or red pepper flakes). Sauté for 1-2 minutes until fragrant but not browned.'
+      'Add sliced garlic and chili peppers (or red pepper flakes). Sauté for 1-2 minutes until fragrant but not browned.',
       'If using tomato paste, add it now and cook for 30 seconds, stirring constantly.',
       'Add the tomatoes, crushing them with your hands or a potato masher as you add them to the pan.',
       'Add salt and dried oregano if using.',
@@ -546,7 +546,7 @@ export const sauceRecommendations: SauceRecommendation = {
 
 // Helper functions
 export function getSaucesByAstrologicalInfluence(influence: string): Sauce[] {
-  return Object.values(allSauces).filter(sauce =>;
+  return Object.values(allSauces).filter(sauce =>,
     sauce.astrologicalInfluences.some(infl => infl.toLowerCase() === influence.toLowerCase()),,
   )
 }

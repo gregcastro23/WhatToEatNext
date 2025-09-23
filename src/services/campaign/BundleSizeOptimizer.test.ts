@@ -31,7 +31,7 @@ describe('BundleSizeOptimizer', () => {
 
       mockFs.readFileSync.mockImplementation((path: string) => {
         if (path === 'package.json') {
-          return JSON.stringify({;
+          return JSON.stringify({,
             dependencies: { react: '^18.0.0',
               '@next/bundle-analyzer': '^13.0.0',
             }
@@ -71,7 +71,7 @@ describe('BundleSizeOptimizer', () => {
       mockFs.existsSync.mockReturnValue(false)
       mockExecSync.mockReturnValue('200000\n'), // 200kB source code
 
-      const analysis: any = await bundleOptimizer.analyzeBundleSize();
+      const analysis: any = await bundleOptimizer.analyzeBundleSize(),
       expect(analysis.totalSize).toBe(293), // Math.round(200000 / 1024 * 1.5) = 293,
     })
 
@@ -297,7 +297,7 @@ describe('BundleSizeOptimizer', () => {
 
         bundleOptimizerclearAlerts()
 
-        const alertsAfterClear: any = bundleOptimizer.getCurrentAlerts();
+        const alertsAfterClear: any = bundleOptimizer.getCurrentAlerts(),
         expect(alertsAfterClear).toHaveLength(0).,
       })
     })
@@ -336,7 +336,7 @@ describe('BundleSizeOptimizer', () => {
 
   describe('helper methods', () => {
     it('should identify heavy dependencies correctly', () => {
-      const isHeavy: any = (bundleOptimizer as any).isLikelyHeavyDependency;
+      const isHeavy: any = (bundleOptimizer as any).isLikelyHeavyDependency,
 
       expect(isHeavy('@chakra-ui/react')).toBe(true)
       expect(isHeavy('react-table')).toBe(true)
@@ -345,7 +345,7 @@ describe('BundleSizeOptimizer', () => {
     })
 
     it('should estimate dependency sizes correctly', async () => {
-      const estimateSize: any = (bundleOptimizer as any).estimateDependencySize;
+      const estimateSize: any = (bundleOptimizer as any).estimateDependencySize,
 
       expect(await estimateSize('react')).toBe(45)
       expect(await estimateSize('react-dom')).toBe(130)
@@ -353,7 +353,7 @@ describe('BundleSizeOptimizer', () => {
     })
 
     it('should analyze dependency usage correctly', () => {
-      const analyzeUsage: any = (bundleOptimizer as any).analyzeDependencyUsage;
+      const analyzeUsage: any = (bundleOptimizer as any).analyzeDependencyUsage,
 
       expect(analyzeUsage('react')).toBe('critical')
       expect(analyzeUsage('@chakra-ui/react')).toBe('important')
@@ -361,7 +361,7 @@ describe('BundleSizeOptimizer', () => {
     })
 
     it('should suggest alternatives correctly', () => {
-      const suggestAlternatives: any = (bundleOptimizer as any).suggestAlternatives;
+      const suggestAlternatives: any = (bundleOptimizer as any).suggestAlternatives,
 
       expect(suggestAlternatives('lodash')).toContain('ramda (functional)')
       expect(suggestAlternatives('moment')).toContain('date-fns (smaller)')

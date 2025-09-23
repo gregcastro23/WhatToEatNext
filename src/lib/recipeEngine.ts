@@ -81,7 +81,7 @@ export class RecipeEngine {
 
   rankBySeasonalEffectiveness(recipes: Recipe[], season: string) {
     return recipes
-      .map(recipe => ({;
+      .map(recipe => ({,
         ...recipe,
         seasonalScore: this.calculateSeasonalEffectivenessScore(recipe, season)
       }))

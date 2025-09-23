@@ -1,6 +1,6 @@
 export const _SEASONAL_PROPERTIES = {
   spring: {
-    elementalModifier: {;
+    elementalModifier: {,
       Fire: 0.2,
       Water: 0.3,
       Air: 0.4,

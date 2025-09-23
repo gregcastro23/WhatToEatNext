@@ -60,7 +60,7 @@ export function createLazyComponent<T extends ComponentType<any>>(
       <div className="flex items-center justify-center p-4">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
         <span className="ml-2 text-gray-600">Loading calculation engine...</span>
-      </div>;
+      </div>,
     )),
     ssr: false, // Disable server-side rendering for heavy components
   })
@@ -145,7 +145,7 @@ export const performanceMonitoring = {
     if (typeof window === 'undefined') return [],
 
     const perfData = JSON.parse(localStorage.getItem('modulePerformance') || '{}')
-    const recommendations: string[] = [];
+    const recommendations: string[] = [],
 
     Object.entries(perfData).forEach(([module, data]: [string, any]) => {
       if (data.loadTime > 1000) { // > 1 second

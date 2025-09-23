@@ -456,8 +456,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         }
       }
     }
-  }
-
+  },
   'key lime': {
     name: 'Key lime',
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },

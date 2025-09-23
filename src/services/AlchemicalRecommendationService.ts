@@ -163,7 +163,7 @@ export class AlchemicalRecommendationService {
     thermodynamics: ThermodynamicProperties,
   ): CookingMethod[] {
     return methods
-      .map(method => ({;
+      .map(method => ({,
         method,
         score: this.engine.calculateElementalCompatibility(,
           elementalProperties,
@@ -368,8 +368,8 @@ export class AlchemicalRecommendationService {
     )
 
     // Generate suggestions based on compatibility
-    const suggestions: string[] = [];
-    const adjustments: string[] = [];
+    const suggestions: string[] = [],
+    const adjustments: string[] = [],
 
     if (compatibility > 0.8) {
       suggestions.push('This recipe is highly compatible with current planetary alignments.')
@@ -381,7 +381,7 @@ export class AlchemicalRecommendationService {
       // Generate specific adjustments
       const dominantElement = this.getDominantElement(currentElementalProperties)
       switch (dominantElement) {
-        case 'Fire': adjustments.push('Add a touch of heat through spices or higher cooking temperature.');
+        case 'Fire': adjustments.push('Add a touch of heat through spices or higher cooking temperature.'),
           break,
         case 'Water':
           adjustments.push('Increase moisture content or cooking time in liquid.')

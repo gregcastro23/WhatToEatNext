@@ -18,7 +18,7 @@ const debugLog = (message: string, ...args: unknown[]): void => {
  * Get the current zodiac sign based on the current date
  * @returns The current zodiac sign as a string
  */
-export const getCurrentZodiacSign = (): string => {;
+export const getCurrentZodiacSign = (): string => {,
   const now = new Date()
   const month = now.getMonth() + 1;
   const day = now.getDate()

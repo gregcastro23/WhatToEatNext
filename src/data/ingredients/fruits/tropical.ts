@@ -174,8 +174,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   'passion fruit': {
     name: 'Passion Fruit',
     elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.3, Earth: 0.1 },
@@ -229,8 +228,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   'dragon fruit': {
     name: 'Dragon Fruit',
     elementalProperties: { Water: 0.6, Air: 0.2, Earth: 0.1, Fire: 0.1 },
@@ -943,8 +941,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   'custard apple': {
     name: 'Custard Apple',
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },

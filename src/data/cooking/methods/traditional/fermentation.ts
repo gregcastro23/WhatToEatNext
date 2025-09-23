@@ -372,8 +372,7 @@ export const fermentation: CookingMethodData = {
       secondary_fermentation: 'Slower phase after initial nutrient sources depleted. More subtle flavor development through enzymatic activity and microbial byproduct reactions. Can last weeks to months.',
       maturation: 'Final phase with minimal active fermentation but continued enzymatic activity and flavor compound development. Critical for complexity in aged products. Months to years depending on product.' },
         safety_parameters: {
-      acidity_control:
-        'pH below 4.6 inhibits Clostridium botulinum and most pathogens. Most successful ferments achieve pH 3.5-4.2. Regular monitoring especially important in early stages.';
+      acidity_control: 'pH below 4.6 inhibits Clostridium botulinum and most pathogens. Most successful ferments achieve pH 3.5-4.2. Regular monitoring especially important in early stages.',
       competitive_exclusion:
         'Establishing desired microbes quickly creates environment inhibiting pathogens through competition for resources, production of antimicrobial compounds, and rapid pH change.',
       moisture_regulation: 'Water activity (aw) below 0.85 inhibits most pathogenic bacteria. Critical parameter in dry-cured products. Salt concentration affects available water.',

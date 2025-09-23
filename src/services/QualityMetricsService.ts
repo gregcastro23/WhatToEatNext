@@ -247,7 +247,7 @@ class QualityMetricsService {
 
     // Performance insights
     if (buildSummary.averageBuildTime > 60000) {
-      newInsights.push({;
+      newInsights.push({,
         type: 'alert',
         title: 'Slow Build Performance',
         description: `Build times averaging ${Math.round(buildSummary.averageBuildTime / 1000)}s, exceeding 60s threshold`,
@@ -514,7 +514,7 @@ class QualityMetricsService {
     // Analyze error patterns for technical debt
     for (const pattern of errorPatterns) {
       if (pattern.frequency > 5 && pattern.priority !== 'low') {
-        debtItems.push({;
+        debtItems.push({,
           category: 'Error Pattern',
           description: `${pattern.pattern} occurs ${pattern.frequency} times across ${pattern.files.length} files`,
           impact: pattern.priority as 'low' | 'medium' | 'high' | 'critical',
@@ -599,8 +599,7 @@ class QualityMetricsService {
       switch (goal.id) {
         case 'typescript-errors': currentValue = errorSummary.totalActiveErrors,
           break,
-        case 'code-quality-score':
-          currentValue = qualityMetrics?.codeQualityScore || 0;
+        case 'code-quality-score': currentValue = qualityMetrics?.codeQualityScore || 0,
           break,
         case 'build-performance':
           currentValue = buildSummary.averageBuildTime / 1000, // Convert to seconds,

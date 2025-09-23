@@ -148,7 +148,7 @@ class LintingPerformanceValidator {
         : 0,
       const passed = improvement >= 60 && improvement <= 80
 
-      this.results.push({;
+      this.results.push({,
         testName: 'Enhanced Caching Performance',
         passed,
         metrics,
@@ -214,7 +214,7 @@ class LintingPerformanceValidator {
         : 0,
       const passed = parallelOptimized && improvement > 0
 
-      this.results.push({;
+      this.results.push({,
         testName: 'Parallel Processing Optimization',
         passed,
         metrics,
@@ -289,7 +289,7 @@ class LintingPerformanceValidator {
         : 0,
       const passed = memoryOptimized
 
-      this.results.push({;
+      this.results.push({,
         testName: 'Memory Optimization',
         passed,
         metrics,
@@ -403,7 +403,7 @@ export const _testVariable = 'test';
     const cacheFiles = [
       '.eslintcache',
       '.eslint-ts-cache',
-      'node_modules/.cache/eslint'
+      'node_modules/.cache/eslint',
       '.next/cache'
     ],
 
@@ -485,7 +485,7 @@ export const _testVariable = 'test';
       // // // _logger.info(`  Files Processed: ${this.baselineMetrics.filesProcessed}\n`)
     }
 
-    this.results.forEach(result => {;
+    this.results.forEach(result => {,
       // // // _logger.info(`${result.passed ? '✅' : '❌'} ${result.testName}`)
       // // // _logger.info(`   Expected: ${result.expectedImprovement}% improvement`)
       // // // _logger.info(`   Actual: ${result.actualImprovement.toFixed(1)}% improvement`)
@@ -527,7 +527,7 @@ export const _testVariable = 'test';
 // Main execution
 if (require.main === module) {
   const validator = new LintingPerformanceValidator()
-  validator.validatePerformanceOptimizations().catch(error => {;
+  validator.validatePerformanceOptimizations().catch(error => {,
     _logger.error('Fatal error: ', error),
     process.exit(1)
   })

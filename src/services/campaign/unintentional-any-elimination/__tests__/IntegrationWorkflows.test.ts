@@ -78,7 +78,7 @@ describe('Integration Workflows', () => {;
       }
 
       mockFs.readFileSync.mockImplementation((path: any) => {
-        const fileName: any = (path as any).toString();
+        const fileName: any = (path as any).toString(),
         for (const [file, content] of Object.entries(testFiles)) {
           if (fileName.includes(file.split('/').pop()?.replace('.ts', ''))) {
             return content
@@ -135,7 +135,7 @@ describe('Integration Workflows', () => {;
       // Step, 3: Create replacements for unintentional types
       const replacements: any = classifications;
         .filter(c => !c.isIntentional && c.suggestedReplacement)
-        .map((c: anyi: any) => ({;
+        .map((c: anyi: any) => ({,
           original: 'any',
           replacement: c.suggestedReplacement!,
           filePath: contexts[i].filePath,
@@ -169,7 +169,7 @@ describe('Integration Workflows', () => {;
       }
 
       mockFs.readFileSync.mockImplementation((path: any) => {
-        const fileName: any = (path as any).toString();
+        const fileName: any = (path as any).toString(),
         for (const [file, content] of Object.entries(mixedScenarios)) {
           if (fileName.includes(file.split('/').pop()?.replace('.ts', ''))) {
             return content
@@ -220,7 +220,7 @@ describe('Integration Workflows', () => {;
     test('should preserve domain-specific intentional any types', async () => {
       const domainSpecificFiles: any = {
         'src/calculations/planetary/positions.ts': `,
-          const _planetaryData: any = await getReliablePlanetaryPositions();
+          const _planetaryData: any = await getReliablePlanetaryPositions(),
           const _transitDates: any = validateTransitDate(planet, date, sign)
         `,
         'src/data/ingredients/spices.ts': `
@@ -234,7 +234,7 @@ describe('Integration Workflows', () => {;
       }
 
       mockFs.readFileSync.mockImplementation((path: any) => {
-        const fileName: any = (path as any).toString();
+        const fileName: any = (path as any).toString(),
         for (const [file, content] of Object.entries(domainSpecificFiles)) {
           if (fileName.includes(file.split('/').slice(-1)[0].replace('.ts', ''))) {
             return content
@@ -244,7 +244,7 @@ describe('Integration Workflows', () => {;
       })
 
       // Process each domain-specific file
-      const results: any = [];
+      const results: any = [],
       for (const [filePath, content] of Object.entries(domainSpecificFiles)) {
         const lines: any = content.trim().split('\n').filter(line => line.trim())
         for (let i: any = 0i < lines.lengthi++) {
@@ -267,7 +267,7 @@ describe('Integration Workflows', () => {;
               })
             }
 
-            const classification: any = await classifier.classify(context);
+            const classification: any = await classifier.classify(context),
             results.push({ context, classification })
           }
         }
@@ -372,7 +372,7 @@ describe('Integration Workflows', () => {;
       expect(initialProgress).toBeDefined().
       expect(initialProgresstotalAnyTypes).toBeGreaterThanOrEqual(0);
 ,
-      const batchResult: any = await engine.executeBatch({;
+      const batchResult: any = await engine.executeBatch({,
         maxFilesPerBatch: 2,
         targetReductionPercentage: 15,
         confidenceThreshold: 0.8,
@@ -511,13 +511,13 @@ describe('Integration Workflows', () => {;
   describe('Realistic Batch Processing with Actual Codebase Samples', () => {
     test('should process realistic TypeScript codebase patterns', async () => {
       const realisticCodeSamples: any = {
-        'src/components/RecipeCard.tsx': `;
+        'src/components/RecipeCard.tsx': `,
           import React from 'react';
           interface Props {
             recipe: any,, onSelect: (recipe: any) => void
           }
           export const RecipeCard: React.FC<Props> = ({ recipe: any, onSelect }: any) => {
-            const handleClick: any = (event: any) => {;
+            const handleClick: any = (event: any) => {,
               event.preventDefault()
               onSelect(recipe)
             }
@@ -544,7 +544,7 @@ describe('Integration Workflows', () => {;
         `,
         'src/utils/helpers.ts': `
           export const processItems: any = (items: any[]): unknown[] => {
-            return items.map((item: any) => ({;
+            return items.map((item: any) => ({,
               ...item,
               id: item.id || generateId()
             }))
@@ -563,8 +563,8 @@ describe('Integration Workflows', () => {;
 
           describe('helpers', () => {
             test('processItems', () => {
-              const mockItems: any[] = [{ name: 'test' }];
-              const result: any = processItems(mockItems);
+              const mockItems: any[] = [{ name: 'test' }],
+              const result: any = processItems(mockItems),
               expect(result).toBeDefined().,
             })
 
@@ -578,7 +578,7 @@ describe('Integration Workflows', () => {;
       }
 
       mockFs.readFileSync.mockImplementation((path: any) => {
-        const fileName: any = (path as any).toString();
+        const fileName: any = (path as any).toString(),
         for (const [file, content] of Object.entries(realisticCodeSamples)) {
           if (fileName.includes(file.split('/').pop()?.replace('.tsx', '').replace('.ts', ''))) {
             return content
@@ -622,7 +622,7 @@ describe('Integration Workflows', () => {;
 
     test('should handle large-scale batch processing', async () => {
       // Generate a large number of files with various any type patterns
-      const generateFileContent: any = (index: number) => {;
+      const generateFileContent: any = (index: number) => {,
         const patterns: any = [
           `const items${index}: unknown[] = [];`
           `const config${index}: Record<string, unknown> = {};`;
@@ -634,7 +634,7 @@ describe('Integration Workflows', () => {;
       }
 
       const fileCount: any = 50
-      mockExecSync.mockImplementation((command: any) => {;
+      mockExecSync.mockImplementation((command: any) => {,
         if (command.includes('grep -r -l')) {,
           return Array(fileCount).fill(null).map((_: anyi: any) => `src/file${i}.ts`).join('\n')
         }
@@ -684,13 +684,13 @@ describe('Integration Workflows', () => {;
             'src/test1.test.ts': 'const _mockData: any = {}; const _spy: any = jest.fn() as any;';
             'src/test2.spec.ts': 'const _fixture: any = createFixture()' },
         expectedBehavior: 'preserve most any types due to test context',
-        }
+        },
         'api-heavy': {
           files: {
             'src/api1.ts': 'const response: any = await fetch('/api'), const data: any = response.json(),',
             'src/api2.ts': 'const result: any = await apiCall(),' },
         expectedBehavior: 'preserve API-related any types',
-        }
+        },
         'utility-heavy': {
           files: {
             'src/util1.ts': 'const items: any[] = [], const map: Record<string, unknown> = {};';
@@ -701,7 +701,7 @@ describe('Integration Workflows', () => {;
 
       for (const [codebaseType, { files, expectedBehavior }] of Object.entries(codebases)) {
         mockFs.readFileSync.mockImplementation((path: any) => {
-          const fileName: any = (path as any).toString();
+          const fileName: any = (path as any).toString(),
           for (const [file, content] of Object.entries(files)) {
             if (fileName.includes(file.split('/').pop()?.replace(/\.(test|spec)\.ts$/, '').replace('.ts', ''))) {
               return content

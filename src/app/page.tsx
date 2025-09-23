@@ -47,7 +47,7 @@ const FeatureCard = ({
       </div>
     </div>
   </Link>)
-const StatusIndicator = ({ label, status }: { label: string; status: 'active' | 'ready' | 'demo' }) => {
+const StatusIndicator = ({ label, status }: { label: string, status: 'active' | 'ready' | 'demo' }) => {
   const colors = {
     active: 'bg-green-100 text-green-800',
     ready: 'bg-blue-100 text-blue-800',

@@ -34,7 +34,7 @@ export class CampaignController {
     const startTime = Date.now()
     this.currentPhase = phase
 
-    this.addSafetyEvent({;
+    this.addSafetyEvent({,
       type: SafetyEventType.CHECKPOINT_CREATED,
       timestamp: new Date(),
       description: `Starting phase: ${phase.name}`,
@@ -128,7 +128,7 @@ export class CampaignController {
   async validatePhaseCompletion(phase: CampaignPhase): Promise<ValidationResult> {
     try {
       const currentMetrics = await this.getCurrentMetrics();
-      const errors: string[] = [];
+      const errors: string[] = [],
       const warnings: string[] = []
 
       // Check TypeScript errors if specified
@@ -385,7 +385,7 @@ export class CampaignController {
   }
 
   private generateAchievements(phase: CampaignPhase, metrics: ProgressMetrics): string[] {
-    const achievements: string[] = [];
+    const achievements: string[] = [],
 
     if (metrics.typeScriptErrors.current === 0) {,
       achievements.push('Zero TypeScript errors achieved')
@@ -403,7 +403,7 @@ export class CampaignController {
   }
 
   private generateRecommendations(phase: CampaignPhase, validation: ValidationResult): string[] {
-    const recommendations: string[] = [];
+    const recommendations: string[] = [],
 
     if (validation.errors.length > 0) {
       recommendations.push('Address validation errors before proceeding')

@@ -43,10 +43,9 @@ export const elementalBalance = {
     const hasAllElements = ELEMENTS.every(element => typeof properties[element] === 'number')
 
     // Check value ranges
-    const hasValidValues = Object.values(properties).every(
-      value =>
+    const hasValidValues = Object.values(properties).every(value =>
         value >= VALIDATION_THRESHOLDS.MINIMUM_ELEMENT &&
-        value <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT;
+        value <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT,
     ),
 
     // Check total is approximately 1

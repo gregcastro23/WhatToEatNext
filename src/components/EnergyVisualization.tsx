@@ -9,9 +9,9 @@
 import React from 'react';
 
 interface ElementalLevels {
-  Fire: number;
-  Water: number;
-  Air: number;
+  Fire: number,
+  Water: number,
+  Air: number,
   Earth: number;
 }
 
@@ -20,9 +20,9 @@ interface EnergyReading extends ElementalLevels {
 }
 
 interface EnergyVisualizationProps {
-  elementalLevels?: ElementalLevels;
-  showDetails?: boolean;
-  showHistory?: boolean;
+  elementalLevels?: ElementalLevels,
+  showDetails?: boolean,
+  showHistory?: boolean,
   className?: string;
 }
 
@@ -77,7 +77,7 @@ export function EnergyVisualization({
       };
 
       setEnergyHistory(prev => {
-        const updated = [...prev, newReading];
+        const updated = [...prev, newReading],
         return updated.slice(-maxHistoryLength);
       });
 
@@ -93,7 +93,7 @@ export function EnergyVisualization({
     );
   };
 
-  const formatPercentage = (value: number) => `${(value * 100).toFixed(1)}%`;
+  const formatPercentage = (value: number) => `${(value * 100).toFixed(1)}%`,
 
   const renderElementBar = (element: keyof ElementalLevels, level: number) => (
     <div key={element} style={{ marginBottom: '12px' }}>

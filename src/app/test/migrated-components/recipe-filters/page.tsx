@@ -6,7 +6,7 @@ import { logger } from '@/utils/logger';
 
 // Minimal local fallback for RecipeFilters
 type FilterState = Record<string, unknown>;
-const initialFilters: FilterState = {};
+const initialFilters: FilterState = {},
 
 const RecipeFiltersMigrated = ({
   filters,
@@ -15,10 +15,10 @@ const RecipeFiltersMigrated = ({
   showFilters,
   setShowFilters
 }: {
-  filters: FilterState;
-  updateFilters: (u: Partial<FilterState>) => void;
-  resetFilters: () => void;
-  showFilters: boolean;
+  filters: FilterState,
+  updateFilters: (u: Partial<FilterState>) => void,
+  resetFilters: () => void,
+  showFilters: boolean,
   setShowFilters: (v: boolean) => void;
 }) => (
   <div className='space-y-2'>
@@ -74,8 +74,7 @@ export default function RecipeFiltersTestPage() {
     );
   };
 
-  return (
-    <div className='mx-auto max-w-6xl px-4 py-8'>
+  return (<div className='mx-auto max-w-6xl px-4 py-8'>
       <h1 className='mb-8 text-2xl font-bold'>RecipeFilters Component Migration Test</h1>
 
       <div className='grid grid-cols-1 gap-8 md:grid-cols-2'>
@@ -84,7 +83,7 @@ export default function RecipeFiltersTestPage() {
           <h2 className='mb-4 text-xl font-semibold'>⚠️ Note: Original Implementation</h2>
           <p className='mb-4 text-gray-700'>
             The original implementation of recipe filters is embedded directly in the RecipeList
-            component rather than existing as a standalone component. We&apos;ve extracted the filtering
+            component rather than existing as a standalone component. We&apos,ve extracted the filtering
             functionality into a new RecipeFilters component as part of the migration process.
           </p>
           <div className='rounded-lg border border-yellow-200 bg-yellow-50 p-4'>

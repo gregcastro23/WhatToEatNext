@@ -19,7 +19,7 @@ type Props = {
     aspectType?: string,
     orb?: number
   }>
-  season?: Season;
+  season?: Season,
   governing?: 'sun' | 'moon' | 'dominant' | 'ensemble';
 }
 
@@ -68,8 +68,8 @@ export default function SignVectorPanel({
             k,
             { sign: (v as any).sign, degree: (v as any).degree }
           ]),
-        ) as Record<string, { sign: string, degree: number }>;
-        const { aspects: computed } = calculateAspects(minimal);
+        ) as Record<string, { sign: string, degree: number }>,
+        const { aspects: computed } = calculateAspects(minimal),
         realAspects = computed as any;
       }
     } catch (_e) {

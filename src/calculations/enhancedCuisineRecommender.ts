@@ -133,7 +133,7 @@ export class EnhancedCuisineRecommender {
       : filteredRecipes
 
     // Calculate match scores for each recipe
-    const matches = dietaryFilteredRecipes.map(recipe => {;
+    const matches = dietaryFilteredRecipes.map(recipe => {,
       const seasonalScore = this.calculateSeasonalScore(recipe, timeFactors)
       const planetaryDayScore = this.calculatePlanetaryDayScore(recipe, timeFactors, astroState)
       const planetaryHourScore = this.calculatePlanetaryHourScore(recipe, timeFactors, astroState)

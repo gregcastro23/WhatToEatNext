@@ -27,9 +27,9 @@ declare global {
   type Season = _Season,
   type LunarPhase = _LunarPhase,
   const createElementalProperties: typeof _createElementalProperties,
-  const _isElementalProperties: typeof import('@/utils/elemental/elementalUtils')._isElementalProperties;
-  const elementalUtils: typeof import('@/utils/elementalUtils').elementalUtils;
-  const validatePlanetaryPositions: typeof import('@/utils/validatePlanetaryPositions').validatePlanetaryPositions;
+  const _isElementalProperties: typeof import('@/utils/elemental/elementalUtils')._isElementalProperties,
+  const elementalUtils: typeof import('@/utils/elementalUtils').elementalUtils,
+  const validatePlanetaryPositions: typeof import('@/utils/validatePlanetaryPositions').validatePlanetaryPositions,
   type AlchemicalProperties  = _AlchemicalProperties,
   // Provide shorthand alias if referenced without import
   type alchemicalProperties = _AlchemicalProperties; // lowercase variant sometimes appears

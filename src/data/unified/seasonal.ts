@@ -185,19 +185,19 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
           effect: 0.85,
           ingredients: ['radishes', 'spring_greens'],
           cookingMethod: 'grilling' as unknown as CookingMethod
-        }
+        },
         '3_of_wands': {
           element: 'Fire',
           effect: 0.8,
           ingredients: ['asparagus', 'morels'],
           cookingMethod: 'roasting' as unknown as CookingMethod
-        }
+        },
         '4_of_wands': {
           element: 'Fire',
           effect: 0.75,
           ingredients: ['strawberries', 'new_potatoes'],
           cookingMethod: 'baking' as unknown as CookingMethod
-        }
+        },
         '5_of_pentacles': {
           element: 'Earth',
           effect: 0.7,
@@ -278,19 +278,19 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
           effect: 0.85,
           ingredients: ['watermelon', 'cucumbers'],
           cookingMethod: 'raw' as unknown as CookingMethod
-        }
+        },
         '3_of_cups': {
           element: 'Water',
           effect: 0.9,
           ingredients: ['berries', 'peaches'],
           cookingMethod: 'fermenting' as unknown as CookingMethod
-        }
+        },
         '5_of_wands': {
           element: 'Fire',
           effect: 0.85,
           ingredients: ['tomatoes', 'bell_peppers'],
           cookingMethod: 'grilling' as unknown as CookingMethod
-        }
+        },
         '6_of_wands': {
           element: 'Fire',
           effect: 0.8,
@@ -371,19 +371,19 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
           effect: 0.7,
           ingredients: ['apples', 'pears'],
           cookingMethod: 'baking' as unknown as CookingMethod
-        }
+        },
         '5_of_cups': {
           element: 'Water',
           effect: 0.75,
           ingredients: ['cranberries', 'figs'],
           cookingMethod: 'poaching' as unknown as CookingMethod
-        }
+        },
         '6_of_cups': {
           element: 'Water',
           effect: 0.8,
           ingredients: ['pumpkin', 'sweet_potatoes'],
           cookingMethod: 'roasting' as unknown as CookingMethod
-        }
+        },
         '8_of_wands': {
           element: 'Fire',
           effect: 0.65,
@@ -465,19 +465,19 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
           effect: 0.7,
           ingredients: ['apples', 'pears'],
           cookingMethod: 'baking' as unknown as CookingMethod
-        }
+        },
         '5_of_cups': {
           element: 'Water',
           effect: 0.75,
           ingredients: ['cranberries', 'figs'],
           cookingMethod: 'poaching' as unknown as CookingMethod
-        }
+        },
         '6_of_cups': {
           element: 'Water',
           effect: 0.8,
           ingredients: ['pumpkin', 'sweet_potatoes'],
           cookingMethod: 'roasting' as unknown as CookingMethod
-        }
+        },
         '8_of_wands': {
           element: 'Fire',
           effect: 0.65,
@@ -558,19 +558,19 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
           effect: 0.75,
           ingredients: ['root_vegetables', 'winter_squash'],
           cookingMethod: 'braising' as unknown as CookingMethod
-        }
+        },
         '3_of_pentacles': {
           element: 'Earth',
           effect: 0.8,
           ingredients: ['kale', 'leeks'],
           cookingMethod: 'stewing' as unknown as CookingMethod
-        }
+        },
         '8_of_cups': {
           element: 'Water',
           effect: 0.7,
           ingredients: ['citrus', 'pomegranates'],
           cookingMethod: 'poaching' as unknown as CookingMethod
-        }
+        },
         '9_of_cups': {
           element: 'Water',
           effect: 0.85,
@@ -743,7 +743,7 @@ export class UnifiedSeasonalSystem {
     const seasonProfile = unifiedSeasonalProfiles[season];
 
     // Get traditional use from seasonal usage data
-    const traditionalUse: string[] = [];
+    const traditionalUse: string[] = [],
     if (seasonProfile.growing && seasonProfile.growing.includes(ingredientName))
       traditionalUse.push('growing')
     if (seasonProfile.herbs && seasonProfile.herbs.includes(ingredientName))
@@ -983,8 +983,7 @@ export class UnifiedSeasonalSystem {
       if (!ingredient) continue,
 
       // Check Kalchm compatibility
-      const kalchmCompatibility = this.calculateKalchmSeasonalCompatibility(
-        ingredient.kalchm ?? 0;
+      const kalchmCompatibility = this.calculateKalchmSeasonalCompatibility(ingredient.kalchm ?? 0,
         season,
       ),
 

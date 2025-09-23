@@ -2,7 +2,7 @@ import { PlanetData, MercurySpecificData } from './types';
 export type { MercurySpecificData }
 
 const mercuryData: PlanetData = {
-  'Dignity Effect': {;
+  'Dignity Effect': {,
     gemini: 1,
     virgo: 3,
     sagittarius: 1,
@@ -14,7 +14,7 @@ const mercuryData: PlanetData = {
     Essence: 0,
     Matter: 0,
     Substance: 1,
-  }
+  },
   'Diurnal Element': 'Air',
   'Nocturnal Element': 'Earth',
   AstronomicalData: {

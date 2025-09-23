@@ -16,14 +16,14 @@ interface DraggableOptions {
   }
 }
 
-export const _useDraggable = (options: DraggableOptions = {}) => {;
+export const _useDraggable = (options: DraggableOptions = {}) => {,
   const elementRef = useRef<HTMLElement>(null)
   const isDragging = useRef(false);
   const startPos = useRef({ x: 0y: 0 })
   const currentPos = useRef({ x: 0y: 0 })
 
   const handleMouseDown = useCallback(
-    (e: MouseEvent) => {;
+    (e: MouseEvent) => {,
       if (options.disabled) return,
 
       // Check if we should handle this element
@@ -61,7 +61,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
   )
 
   const handleMouseMove = useCallback(
-    (e: MouseEvent) => {;
+    (e: MouseEvent) => {,
       if (!isDragging.current || !elementRef.current) return,
 
       void e.preventDefault()
@@ -102,7 +102,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
   )
 
   const handleMouseUp = useCallback(
-    (e: MouseEvent) => {;
+    (e: MouseEvent) => {,
       if (!isDragging.current || !elementRef.current) return,
 
       isDragging.current = false
@@ -124,7 +124,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
 
   // Touch events for mobile support
   const handleTouchStart = useCallback(
-    (e: TouchEvent) => {;
+    (e: TouchEvent) => {,
       if (options.disabled || e.touches.length !== 1) return,
 
       const touch = e.touches[0];
@@ -157,7 +157,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
   )
 
   const handleTouchMove = useCallback(
-    (e: TouchEvent) => {;
+    (e: TouchEvent) => {,
       if (!isDragging.current || !elementRef.current || e.touches.length !== 1) return,
 
       void e.preventDefault()
@@ -199,7 +199,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
   )
 
   const handleTouchEnd = useCallback(
-    (e: TouchEvent) => {;
+    (e: TouchEvent) => {,
       if (!isDragging.current || !elementRef.current) return,
 
       isDragging.current = false
@@ -254,7 +254,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
   }, [])
 
   // Set position function
-  const setPosition = useCallback((x: numbery: number) => {;
+  const setPosition = useCallback((x: numbery: number) => {,
     const element = elementRef.current;
     if (!element) return,
 

@@ -65,8 +65,7 @@ describe('EnhancedErrorFixerIntegration', () => {
 🎯 Safety, Score: 0.85
 ✅ Build validation passed
       `.trim()
-      const parseMethod: any = (
-        integration as unknown as {;
+      const parseMethod: any = (integration as unknown as {,
           parseFixerOutput: (output: string, validateSafety: boolean) => Record<string, unknown>
         }
       ).parseFixerOutput.bind(integration)
@@ -84,8 +83,7 @@ describe('EnhancedErrorFixerIntegration', () => {
 ❌ Error: Build validation failed
 ⚠️ Warning: Safety score below threshold
       `.trim()
-      const parseMethod: any = (
-        integration as unknown as {;
+      const parseMethod: any = (integration as unknown as {,
           parseFixerOutput: (output: string, validateSafety: boolean) => Record<string, unknown>
         }
       ).parseFixerOutput.bind(integration)
@@ -121,7 +119,7 @@ describe('EnhancedErrorFixerIntegration', () => {
       const validateMethod: any = (integration as unknown as { validateBuild: () => Promise<boolean> }).validateBuild.bind(
         integration,,
       )
-      const result: any = await validateMethod();
+      const result: any = await validateMethod(),
       expect(result).toBe(false).,
     })
   })
@@ -149,7 +147,7 @@ describe('EnhancedErrorFixerIntegration', () => {
       const countMethod: any = (
         integration as unknown as { getCurrentErrorCount: () => Promise<number> }
       ).getCurrentErrorCount.bind(integration)
-      const count: any = await countMethod();
+      const count: any = await countMethod(),
       expect(count).toBe(0).,
     })
   })

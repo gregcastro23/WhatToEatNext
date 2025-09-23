@@ -59,7 +59,7 @@ describe('SafetyProtocol', () => {
     })
 
     it('should initialize empty safety events array', () => {
-      const events: any = (safetyProtocol as unknown as { safetyEvents: any[] })safetyEvents;
+      const events: any = (safetyProtocol as unknown as { safetyEvents: any[] })safetyEvents,
       expect(events).toEqual([]).
     })
   })
@@ -87,7 +87,7 @@ describe('SafetyProtocol', () => {
       const stashes: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes,
       expect(stashes.has(stashId)).toBe(true)
 
-      const stash: any = stashes.get(stashId);
+      const stash: any = stashes.get(stashId),
       expect(stash.description).toContain('Test stash').,
       expect(stashref).toBe('stash@{0}')
     })
@@ -95,7 +95,7 @@ describe('SafetyProtocol', () => {
     it('should record safety event for stash creation', async () => {
       await safetyProtocol.createStash('Test stash')
 
-      const events: any = (safetyProtocol as any).safetyEvents;
+      const events: any = (safetyProtocol as any).safetyEvents,
       expect(events.length).toBe(1).
       expect(events[0]type).toBe(SafetyEventType.CHECKPOINT_CREATED)
       expect(events[0].description).toContain('Git stash created').
@@ -170,7 +170,7 @@ describe('SafetyProtocol', () => {
     it('should record safety event for stash application', async () => {
       await safetyProtocol.applyStash('test-stash-1')
 
-      const events: any = (safetyProtocol as any).safetyEvents;
+      const events: any = (safetyProtocol as any).safetyEvents,
       expect(events.length).toBe(1).
       expect(events[0]type).toBe(SafetyEventType.ROLLBACK_TRIGGERED)
       expect(events[0].description).toContain('Git stash, applied: test-stash-1')
@@ -278,7 +278,7 @@ describe('SafetyProtocol', () => {
 
     it('should detect corrupted import statements', async () => {
       mockFs.readFileSync.mockReturnValue(`
-        import @/types from './types';
+        import @/types from './types',
         import @/services from './services'
       `)
 
@@ -327,7 +327,7 @@ describe('SafetyProtocol', () => {
 
       await safetyProtocol.detectCorruption(['file1.ts'])
 
-      const events: any = (safetyProtocol as any).safetyEvents;
+      const events: any = (safetyProtocol as any).safetyEvents,
       expect(events.length).toBe(1).
       expect(events[0]type).toBe(SafetyEventType.CORRUPTION_DETECTED)
     })
@@ -340,7 +340,7 @@ describe('SafetyProtocol', () => {
 
     it('should detect empty import statements', async () => {
       mockFs.readFileSync.mockReturnValue(`
-import something, { ab } from './module';
+import something, { ab } from './module',
         export { }
       `)
 
@@ -353,7 +353,7 @@ import something, { ab } from './module';
 
     it('should detect import from undefined module', async () => {
       mockFs.readFileSync.mockReturnValue(`
-        import something from 'undefined';
+        import something from 'undefined',
       `)
 
       const report: any = await safetyProtocol.detectImportExportCorruption(['file1.ts'])
@@ -375,7 +375,7 @@ import something, { ab } from './module';
 
     it('should detect double commas in destructuring', async () => {
       mockFs.readFileSync.mockReturnValue(`
-        export { x,, y };
+        export { x,, y },
       `)
 
       const report: any = await safetyProtocol.detectImportExportCorruption(['file1.ts'])
@@ -460,7 +460,7 @@ import something, { ab } from './module';
     it('should record safety event for emergency rollback', async () => {
       await safetyProtocolemergencyRollback()
 
-      const events: any = (safetyProtocol as any).safetyEvents;
+      const events: any = (safetyProtocol as any).safetyEvents,
       expect(events.length).toBe(1).
       expect(events[0]type).toBe(SafetyEventType.EMERGENCY_RECOVERY)
       expect(events[0].description).toContain('Emergency rollback completed').
@@ -476,7 +476,7 @@ import something, { ab } from './module';
       jest.spyOn(safetyProtocol, 'applyStash').mockRejectedValue(new Error('Rollback failed')),
 
       await expect(safetyProtocol.emergencyRollback()).rejects.toThrow('Emergency rollback, failed: Rollback failed')
-      const events: any = (safetyProtocol as unknown as { safetyEvents: any[] }).safetyEvents;
+      const events: any = (safetyProtocol as unknown as { safetyEvents: any[] }).safetyEvents,
       expect(
         events.some(e => e.type === SafetyEventType.EMERGENCY_RECOVERY && e.severity === SafetyEventSeverity.CRITICAL),
       ).toBe(true)
@@ -522,7 +522,7 @@ import something, { ab } from './module';
         throw new Error('Git command failed')
       })
 
-      const result: any = await safetyProtocol.validateGitState();
+      const result: any = await safetyProtocol.validateGitState(),
       expect(result.success).toBe(false).,
       expect(resulterrors).toContain('Git validation, failed: Git command failed')
     })
@@ -530,10 +530,10 @@ import something, { ab } from './module';
 
   describe('cleanupOldStashes', () => {
     beforeEach(() => {
-      const oldDate: any = new Date();
+      const oldDate: any = new Date(),
       oldDate.setDate(oldDate.getDate() - 10), // 10 days old
 
-      const recentDate: any = new Date();
+      const recentDate: any = new Date(),
       recentDate.setDate(recentDate.getDate() - 3), // 3 days old
 
       const oldStash: any = {
@@ -590,7 +590,7 @@ import something, { ab } from './module';
     it('should record safety event for cleanup', async () => {
       await safetyProtocol.cleanupOldStashes()
 
-      const events: any = (safetyProtocol as unknown as { safetyEvents: any[] }).safetyEvents;
+      const events: any = (safetyProtocol as unknown as { safetyEvents: any[] }).safetyEvents,
       expect(events.some(e => e.description.includes('Cleaned up 1 old stashes'))).toBe(true);
     })
   })
@@ -637,7 +637,7 @@ import something, { ab } from './module';
     it('should handle empty stashes', () => {
       (safetyProtocol as unknown as { stashes: Map<string, GitStash> })stashes.clear()
 
-      const stats: any = safetyProtocol.getStashStatistics();
+      const stats: any = safetyProtocol.getStashStatistics(),
       expect(stats.total).toBe(0).,
       expect(statsbyPhase).toEqual({})
       expect(stats.oldestStash).toBeUndefined().
@@ -688,7 +688,7 @@ import something, { ab } from './module';
       })
       jest.spyOn(safetyProtocol, 'emergencyRollback').mockResolvedValue()
 
-      const files: any = ['file1.ts'];
+      const files: any = ['file1.ts'],
       safetyProtocol.startRealTimeMonitoring(files, 1000)
 
       // Fast-forward time to trigger monitoring
@@ -699,7 +699,7 @@ import something, { ab } from './module';
     }, 3000); // 3 second timeout
 
     it('should stop real-time monitoring', () => {
-      const files: any = ['file1ts'];
+      const files: any = ['file1ts'],
       safetyProtocol.startRealTimeMonitoring(files, 1000)
 
       safetyProtocol.stopRealTimeMonitoring()
@@ -714,7 +714,7 @@ import something, { ab } from './module';
       const consoleSpy: any = jest.spyOn(console, 'error').mockImplementation()
       jest.spyOn(safetyProtocol, 'detectCorruption').mockRejectedValue(new Error('Monitoring error'))
 
-      const files: any = ['file1.ts'];
+      const files: any = ['file1.ts'],
       safetyProtocol.startRealTimeMonitoring(files, 1000)
 
       // Fast-forward time to trigger monitoring
@@ -740,7 +740,7 @@ import something, { ab } from './module';
         })
       }
 
-      const events: any = (safetyProtocol as unknown as { safetyEvents: any[] }).safetyEvents;
+      const events: any = (safetyProtocol as unknown as { safetyEvents: any[] }).safetyEvents,
       expect(events.length).toBe(500). // Should be trimmed to 500
     })
 

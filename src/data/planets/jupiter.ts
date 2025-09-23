@@ -1,7 +1,7 @@
 import { PlanetData } from './types';
 
 const jupiterData: PlanetData = {
-  'Dignity Effect': {;
+  'Dignity Effect': {,
     pisces: 1,
     sagittarius: 1,
     cancer: 2,
@@ -15,7 +15,7 @@ const jupiterData: PlanetData = {
     Essence: 1,
     Matter: 0,
     Substance: 0,
-  }
+  },
   'Diurnal Element': 'Air',
   'Nocturnal Element': 'Fire',
   AstronomicalData: {

@@ -58,7 +58,7 @@ class EnhancedPreCommitHook {
 
   constructor() {
     this.config = {
-      checks: {;
+      checks: {,
         explicitAny: true,
         typescript: true,
         linting: true,
@@ -130,7 +130,7 @@ class EnhancedPreCommitHook {
     }
 
     // Check pattern matches
-    return this.config.exemptions.patterns.some(pattern => {;
+    return this.config.exemptions.patterns.some(pattern => {,
       const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),
       return regex.test(filePath)
     })
@@ -200,7 +200,7 @@ class EnhancedPreCommitHook {
 
     if (criticalFailures.length > 0) {
       this.log(`\n❌ ${criticalFailures.length} critical failures prevent commit`, 'error')
-      criticalFailures.forEach(failure => {;
+      criticalFailures.forEach(failure => {,
         this.log(`   ${failure.check}: ${failure.message}`, 'error')
         if (failure.details) {
           this.log(`   Details: ${JSON.stringify(failure.details, null, 2)}`, 'error')
@@ -213,7 +213,7 @@ class EnhancedPreCommitHook {
       this.log('\n✅ All pre-commit checks passed! Commit approved.', 'success')
     } else {
       this.log(
-        '\n⚠️ Some checks failed but are not critical. Commit allowed with warnings.'
+        '\n⚠️ Some checks failed but are not critical. Commit allowed with warnings.',
         'warn',
       )
     }
@@ -583,7 +583,7 @@ if (require.main === module) {,
             process.exit(1)
           }
         })
-        .catch(error => {;
+        .catch(error => {,
           _logger.error('\n❌ Pre-commit check error: ', error),
           process.exit(1)
         })
@@ -595,7 +595,7 @@ if (require.main === module) {,
           // // // _logger.info('✅ Pre-commit report generated')
           process.exit(0)
         })
-        .catch(error => {;
+        .catch(error => {,
           _logger.error('Report generation error: ', error),
           process.exit(1)
         })

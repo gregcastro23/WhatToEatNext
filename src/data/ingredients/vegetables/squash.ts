@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawSquash = {
-  'butternut squash': {;
+  'butternut squash': {,
     name: 'Butternut squash',
     elementalProperties: {
       Earth: 0.4,
@@ -156,7 +156,7 @@ const rawSquash = {
       duration: '2-3 months whole',
       notes: 'Cooked purée freezes well',
     }
-  }
+  },
   'acorn squash': {
     name: 'Acorn squash',
     elementalProperties: {

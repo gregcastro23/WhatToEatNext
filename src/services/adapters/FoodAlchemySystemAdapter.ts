@@ -176,7 +176,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    * @param maxResults Maximum number of results
    * @returns Array of complementary ingredients
    */
-  findComplementaryIngredients(ingredients: string[], maxResults: number = 5): UnifiedIngredient[] {;
+  findComplementaryIngredients(ingredients: string[], maxResults: number = 5): UnifiedIngredient[] {,
     return enhancedIngredientSystem.findComplementaryIngredients(ingredients, maxResults)
   }
 
@@ -254,9 +254,9 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
     // Find the element that needs balancing the most
     // (the element that's furthest from 0.25, the ideal balance)
     const elements = [
-      { name: 'Fire', value: Fire, diff: Math.abs(Fire - 0.25) }
+      { name: 'Fire', value: Fire, diff: Math.abs(Fire - 0.25) },
       { name: 'Water', value: Water, diff: Math.abs(Water - 0.25) }
-      { name: 'Earth', value: Earth, diff: Math.abs(Earth - 0.25) }
+      { name: 'Earth', value: Earth, diff: Math.abs(Earth - 0.25) },
       { name: 'Air', value: Air, diff: Math.abs(Air - 0.25) }
     ],
 

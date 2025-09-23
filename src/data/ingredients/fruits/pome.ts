@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawPome = {
-  apple: {;
+  apple: {,
     name: 'Apple',
     elementalProperties: {
       Earth: 0.5,
@@ -42,7 +42,7 @@ const rawPome = {
         flavor: 'sweet-tart balance, honey notes',
         best_uses: ['eating fresh', 'salads'],
         storage: 'excellent keeper',
-      }
+      },
       'Granny Smith': {
         appearance: 'bright green',
         texture: 'very firm, crisp',
@@ -61,14 +61,14 @@ const rawPome = {
         flavor: 'very sweet, low acidity',
         best_uses: ['eating fresh', 'salads', 'applesauce'],
         storage: 'excellent keeper',
-      }
+      },
       'Pink Lady': {
         appearance: 'pink-red blush',
         texture: 'firm, crisp',
         flavor: 'sweet-tart balance, complex',
         best_uses: ['eating fresh', 'salads', 'baking'],
         storage: 'excellent keeper',
-      }
+      },
       'Golden Delicious': {
         appearance: 'yellow-green',
         texture: 'soft to firm depending on ripeness',
@@ -313,7 +313,7 @@ const rawPome = {
         flavor: 'more aromatic, less astringent',
         best_uses: ['membrillo (quince paste)', 'jellies', 'poaching'],
         notes: 'popular commercial variety in US',
-      }
+      },
       'Orange Quince': {
         appearance: 'round, more apple-like shape',
         texture: 'very firm, hard',
@@ -632,7 +632,7 @@ const rawPome = {
         flavor: 'sweet-tart, pronounced aroma',
         best_uses: ['eating fresh', 'preserves'],
         notes: 'Japanese variety, larger fruit',
-      }
+      },
       'Gold Nugget': {
         appearance: 'round, golden yellow',
         texture: 'tender, juicy',

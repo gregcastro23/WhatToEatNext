@@ -102,7 +102,7 @@ export function getRecommendedRecipes(
   timeFactors: TimeFactors = getTimeFactors(),
   count = 3,
 ): Recipe[] {
-  const scoredRecipes = (recipes || []).map(recipe => ({;
+  const scoredRecipes = (recipes || []).map(recipe => ({,
     recipe,
     score: calculateRecommendationScore(recipe, astrologicalState, timeFactors)
   }))
@@ -332,7 +332,7 @@ export function getDetailedRecipeRecommendations(
   limit = 3
 ): RecommendationExplanation[] {
   const timeFactors = getTimeFactors()
-  const scoredRecipes: RecommendationScore[] = recipes.map(recipe => {;
+  const scoredRecipes: RecommendationScore[] = recipes.map(recipe => {,
     const score = calculateRecommendationScore(recipe, astrologicalState, timeFactors),
     const reasons: string[] = [];
 
@@ -366,7 +366,7 @@ export function getDetailedRecipeRecommendations(
   return scoredRecipes
     .sort((ab) => b.score - a.score)
     .slice(0, limit)
-    .map(scoredRecipe => ({;
+    .map(scoredRecipe => ({,
       recipe: scoredRecipe.recipe,
       explanation: generateExplanation(scoredRecipe)
     }))

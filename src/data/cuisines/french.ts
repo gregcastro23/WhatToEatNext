@@ -194,9 +194,9 @@ export const french: Cuisine = {
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
           ingredients: [
-            { name: 'butter croissant', amount: 1, unit: 'piece', category: 'pastry' }
+            { name: 'butter croissant', amount: 1, unit: 'piece', category: 'pastry' },
             { name: 'French butter', amount: 30, unit: 'g', category: 'dairy' }
-            { name: 'strawberry preserves', amount: 30, unit: 'g', category: 'preserve' }
+            { name: 'strawberry preserves', amount: 30, unit: 'g', category: 'preserve' },
             { name: 'coffee', amount: 120, unit: 'ml', category: 'beverage' }
             { name: 'whole milk', amount: 120, unit: 'ml', category: 'dairy' }
           ],
@@ -271,11 +271,11 @@ export const french: Cuisine = {
           dietaryInfo: ['vegetarian', 'gluten-free optional'],
           spiceLevel: 'none',
           ingredients: [
-            { name: 'fresh eggs', amount: 2, unit: 'large', category: 'protein' }
+            { name: 'fresh eggs', amount: 2, unit: 'large', category: 'protein' },
             { name: 'crème fraîche', amount: 60, unit: 'ml', category: 'dairy' }
-            { name: 'fine herbs', amount: 1, unit: 'tbsp', category: 'herb' }
+            { name: 'fine herbs', amount: 1, unit: 'tbsp', category: 'herb' },
             { name: 'unsalted butter', amount: 15, unit: 'g', category: 'dairy' }
-            { name: 'sea salt', amount: 0, unit: 'to taste', category: 'seasoning' }
+            { name: 'sea salt', amount: 0, unit: 'to taste', category: 'seasoning' },
             { name: 'white pepper', amount: 0, unit: 'to taste', category: 'seasoning' }
             { name: 'rustic bread', amount: 2, unit: 'slices', category: 'bread' }
           ],
@@ -348,11 +348,11 @@ export const french: Cuisine = {
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
           ingredients: [
-            { name: 'brioche', amount: 6, unit: 'slices', category: 'bread' }
+            { name: 'brioche', amount: 6, unit: 'slices', category: 'bread' },
             { name: 'eggs', amount: 3, unit: 'large', category: 'protein' }
-            { name: 'whole milk', amount: 240, unit: 'ml', category: 'dairy' }
+            { name: 'whole milk', amount: 240, unit: 'ml', category: 'dairy' },
             { name: 'vanilla bean', amount: 1, unit: 'piece', category: 'spice' }
-            { name: 'granulated sugar', amount: 30, unit: 'g', category: 'sweetener' }
+            { name: 'granulated sugar', amount: 30, unit: 'g', category: 'sweetener' },
             { name: 'clarified butter', amount: 45, unit: 'g', category: 'dairy' }
             { name: 'cinnamon', amount: 0.25, unit: 'tsp', category: 'spice' }
           ],
@@ -429,11 +429,11 @@ export const french: Cuisine = {
           dietaryInfo: ['contains pork'],
           spiceLevel: 'none',
           ingredients: [
-            { name: 'white sandwich bread', amount: 4, unit: 'slices', category: 'bread' }
+            { name: 'white sandwich bread', amount: 4, unit: 'slices', category: 'bread' },
             { name: 'white ham', amount: 200, unit: 'g', category: 'charcuterie' }
-            { name: 'Gruyère cheese', amount: 200, unit: 'g', category: 'cheese' }
+            { name: 'Gruyère cheese', amount: 200, unit: 'g', category: 'cheese' },
             { name: 'béchamel sauce', amount: 200, unit: 'ml', category: 'sauce' }
-            { name: 'unsalted butter', amount: 30, unit: 'g', category: 'dairy' }
+            { name: 'unsalted butter', amount: 30, unit: 'g', category: 'dairy' },
             { name: 'nutmeg', amount: 1, unit: 'pinch', category: 'spice' }
           ],
           nutrition: {
@@ -505,11 +505,11 @@ export const french: Cuisine = {
           dietaryInfo: ['gluten-free'],
           spiceLevel: 'none',
           ingredients: [
-            { name: 'oil-packed tuna', amount: 200, unit: 'g', category: 'protein' }
+            { name: 'oil-packed tuna', amount: 200, unit: 'g', category: 'protein' },
             { name: 'green beans', amount: 200, unit: 'g', category: 'vegetable' }
-            { name: 'tomatoes', amount: 4, unit: 'medium', category: 'vegetable' }
+            { name: 'tomatoes', amount: 4, unit: 'medium', category: 'vegetable' },
             { name: 'eggs', amount: 4, unit: 'large', category: 'protein' }
-            { name: 'Niçoise olives', amount: 100, unit: 'g', category: 'garnish' }
+            { name: 'Niçoise olives', amount: 100, unit: 'g', category: 'garnish' },
             { name: 'anchovies', amount: 8, unit: 'fillets', category: 'fish' }
             { name: 'vinaigrette', amount: 120, unit: 'ml', category: 'dressing' }
           ],
@@ -584,13 +584,13 @@ export const french: Cuisine = {
           dietaryInfo: ['vegetarian option'],
           spiceLevel: 'none',
           ingredients: [
-            { name: 'yellow onions', amount: 1, unit: 'kg', category: 'vegetable' }
+            { name: 'yellow onions', amount: 1, unit: 'kg', category: 'vegetable' },
             { name: 'beef stock', amount: 1.5, unit: 'L', category: 'broth' }
-            { name: 'baguette', amount: 0.5, unit: 'piece', category: 'bread' }
+            { name: 'baguette', amount: 0.5, unit: 'piece', category: 'bread' },
             { name: 'Gruyère cheese', amount: 200, unit: 'g', category: 'cheese' }
-            { name: 'butter', amount: 50, unit: 'g', category: 'dairy' }
+            { name: 'butter', amount: 50, unit: 'g', category: 'dairy' },
             { name: 'dry white wine', amount: 200, unit: 'ml', category: 'wine' }
-            { name: 'fresh thyme', amount: 4, unit: 'sprigs', category: 'herb' }
+            { name: 'fresh thyme', amount: 4, unit: 'sprigs', category: 'herb' },
             { name: 'bay leaf', amount: 1, unit: 'piece', category: 'herb' }
             { name: 'all-purpose flour', amount: 2, unit: 'tbsp', category: 'thickener' }
           ],
@@ -671,13 +671,13 @@ export const french: Cuisine = {
           dietaryInfo: ['contains alcohol', 'contains pork'],
           spiceLevel: 'none',
           ingredients: [
-            { name: 'chicken', amount: 1, unit: 'whole cut into 8 pieces', category: 'protein' }
+            { name: 'chicken', amount: 1, unit: 'whole cut into 8 pieces', category: 'protein' },
             { name: 'lardons', amount: 200, unit: 'g', category: 'protein' }
-            { name: 'red wine', amount: 750, unit: 'ml', category: 'wine' }
+            { name: 'red wine', amount: 750, unit: 'ml', category: 'wine' },
             { name: 'cremini mushrooms', amount: 500, unit: 'g', category: 'vegetable' }
-            { name: 'pearl onions', amount: 12, unit: 'small', category: 'vegetable' }
+            { name: 'pearl onions', amount: 12, unit: 'small', category: 'vegetable' },
             { name: 'carrots', amount: 4, unit: 'whole', category: 'vegetable' }
-            { name: 'bouquet garni', amount: 1, unit: 'piece', category: 'herb' }
+            { name: 'bouquet garni', amount: 1, unit: 'piece', category: 'herb' },
             { name: 'cognac', amount: 60, unit: 'ml', category: 'spirit', optional: true }
           ],
           nutrition: {
@@ -755,11 +755,11 @@ export const french: Cuisine = {
           dietaryInfo: ['contains fish'],
           spiceLevel: 'none',
           ingredients: [
-            { name: 'sole fillets', amount: 800, unit: 'g', category: 'protein' }
+            { name: 'sole fillets', amount: 800, unit: 'g', category: 'protein' },
             { name: 'all-purpose flour', amount: 100, unit: 'g', category: 'flour' }
-            { name: 'unsalted butter', amount: 150, unit: 'g', category: 'dairy' }
+            { name: 'unsalted butter', amount: 150, unit: 'g', category: 'dairy' },
             { name: 'lemon', amount: 2, unit: 'whole', category: 'fruit' }
-            { name: 'flat-leaf parsley', amount: 30, unit: 'g', category: 'herb' }
+            { name: 'flat-leaf parsley', amount: 30, unit: 'g', category: 'herb' },
             { name: 'sea salt', amount: 0, unit: 'to taste', category: 'seasoning' }
             { name: 'white pepper', amount: 0, unit: 'to taste', category: 'seasoning' }
           ],
@@ -825,21 +825,21 @@ export const french: Cuisine = {
             'Thicken sauce if desired with beurre manié'
           ],
           ingredients: [
-            { name: 'beef chuck', amount: 1.5, unit: 'kg', category: 'protein' }
+            { name: 'beef chuck', amount: 1.5, unit: 'kg', category: 'protein' },
             { name: 'lardons', amount: 200, unit: 'g', category: 'protein' }
-            { name: 'red wine', amount: 750, unit: 'ml', category: 'wine' }
+            { name: 'red wine', amount: 750, unit: 'ml', category: 'wine' },
             { name: 'beef stock', amount: 500, unit: 'ml', category: 'broth' }
-            { name: 'pearl onions', amount: 250, unit: 'g', category: 'vegetable' }
+            { name: 'pearl onions', amount: 250, unit: 'g', category: 'vegetable' },
             { name: 'cremini mushrooms', amount: 500, unit: 'g', category: 'vegetable' }
-            { name: 'carrots', amount: 3, unit: 'medium', category: 'vegetable' }
+            { name: 'carrots', amount: 3, unit: 'medium', category: 'vegetable' },
             { name: 'yellow onion', amount: 1, unit: 'large', category: 'vegetable' }
-            { name: 'garlic', amount: 4, unit: 'cloves', category: 'vegetable' }
+            { name: 'garlic', amount: 4, unit: 'cloves', category: 'vegetable' },
             { name: 'tomato paste', amount: 2, unit: 'tbsp', category: 'condiment' }
-            { name: 'bouquet garni', amount: 1, unit: 'piece', category: 'herb' }
+            { name: 'bouquet garni', amount: 1, unit: 'piece', category: 'herb' },
             { name: 'bacon or pancetta', amount: 150, unit: 'g', category: 'protein' }
-            { name: 'butter', amount: 30, unit: 'g', category: 'dairy' }
+            { name: 'butter', amount: 30, unit: 'g', category: 'dairy' },
             { name: 'all-purpose flour', amount: 3, unit: 'tbsp', category: 'thickener' }
-            { name: 'thyme', amount: 4, unit: 'sprigs', category: 'herb' }
+            { name: 'thyme', amount: 4, unit: 'sprigs', category: 'herb' },
             { name: 'bay leaf', amount: 2, unit: 'pieces', category: 'herb' }
           ],
           numberOfServings: 6,
@@ -916,9 +916,9 @@ export const french: Cuisine = {
           dietaryInfo: ['vegetarian', 'gluten-free'],
           spiceLevel: 'none',
           ingredients: [
-            { name: 'heavy cream', amount: 500, unit: 'ml', category: 'dairy' }
+            { name: 'heavy cream', amount: 500, unit: 'ml', category: 'dairy' },
             { name: 'egg yolks', amount: 6, unit: 'large', category: 'protein' }
-            { name: 'granulated sugar', amount: 100, unit: 'g', category: 'sweetener' }
+            { name: 'granulated sugar', amount: 100, unit: 'g', category: 'sweetener' },
             { name: 'vanilla bean', amount: 1, unit: 'piece', category: 'spice' }
             { name: 'sugar for caramelizing', amount: 60, unit: 'g', category: 'sweetener' }
           ],
@@ -987,9 +987,9 @@ export const french: Cuisine = {
             'Cool slightly and invert onto plate'
           ],
           ingredients: [
-            { name: 'apples', amount: 8, unit: 'large', category: 'fruit' }
+            { name: 'apples', amount: 8, unit: 'large', category: 'fruit' },
             { name: 'unsalted butter', amount: 150, unit: 'g', category: 'dairy' }
-            { name: 'granulated sugar', amount: 150, unit: 'g', category: 'sweetener' }
+            { name: 'granulated sugar', amount: 150, unit: 'g', category: 'sweetener' },
             { name: 'shortcrust pastry', amount: 1, unit: 'piece', category: 'pastry' }
           ],
           substitutions: {
@@ -1074,9 +1074,9 @@ export const french: Cuisine = {
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
           ingredients: [
-            { name: 'choux pastry', amount: 1, unit: 'batch', category: 'pastry' }
+            { name: 'choux pastry', amount: 1, unit: 'batch', category: 'pastry' },
             { name: 'vanilla ice cream', amount: 500, unit: 'ml', category: 'dairy' }
-            { name: 'dark chocolate', amount: 200, unit: 'g', category: 'chocolate' }
+            { name: 'dark chocolate', amount: 200, unit: 'g', category: 'chocolate' },
             { name: 'heavy cream', amount: 200, unit: 'ml', category: 'dairy' }
             { name: 'sugar', amount: 50, unit: 'g', category: 'sweetener' }
           ],

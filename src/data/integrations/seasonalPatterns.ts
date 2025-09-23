@@ -36,19 +36,19 @@ export const seasonalPatterns: Record<Season, SeasonalPattern> = {
         effect: 0.85,
         ingredients: ['radishes', 'spring_greens'],
         cookingMethod: 'grilling',
-      }
+      },
       '3_of_wands': {
         element: 'Fire',
         effect: 0.8,
         ingredients: ['asparagus', 'morels'],
         cookingMethod: 'roasting',
-      }
+      },
       '4_of_wands': {
         element: 'Fire',
         effect: 0.75,
         ingredients: ['strawberries', 'new_potatoes'],
         cookingMethod: 'baking',
-      }
+      },
       '5_of_pentacles': {
         element: 'Earth',
         effect: 0.7,
@@ -76,19 +76,19 @@ export const seasonalPatterns: Record<Season, SeasonalPattern> = {
         effect: 0.85,
         ingredients: ['watermelon', 'cucumbers'],
         cookingMethod: 'raw',
-      }
+      },
       '3_of_cups': {
         element: 'Water',
         effect: 0.9,
         ingredients: ['berries', 'peaches'],
         cookingMethod: 'preserving',
-      }
+      },
       '5_of_wands': {
         element: 'Fire',
         effect: 0.85,
         ingredients: ['tomatoes', 'bell_peppers'],
         cookingMethod: 'grilling',
-      }
+      },
       '6_of_wands': {
         element: 'Fire',
         effect: 0.8,
@@ -116,19 +116,19 @@ export const seasonalPatterns: Record<Season, SeasonalPattern> = {
         effect: 0.7,
         ingredients: ['apples', 'pears'],
         cookingMethod: 'baking',
-      }
+      },
       '5_of_cups': {
         element: 'Water',
         effect: 0.75,
         ingredients: ['cranberries', 'figs'],
         cookingMethod: 'poaching',
-      }
+      },
       '6_of_cups': {
         element: 'Water',
         effect: 0.8,
         ingredients: ['pumpkin', 'sweet_potatoes'],
         cookingMethod: 'roasting',
-      }
+      },
       '8_of_wands': {
         element: 'Fire',
         effect: 0.65,
@@ -156,19 +156,19 @@ export const seasonalPatterns: Record<Season, SeasonalPattern> = {
         effect: 0.7,
         ingredients: ['apples', 'pears'],
         cookingMethod: 'baking',
-      }
+      },
       '5_of_cups': {
         element: 'Water',
         effect: 0.75,
         ingredients: ['cranberries', 'figs'],
         cookingMethod: 'poaching',
-      }
+      },
       '6_of_cups': {
         element: 'Water',
         effect: 0.8,
         ingredients: ['pumpkin', 'sweet_potatoes'],
         cookingMethod: 'roasting',
-      }
+      },
       '8_of_wands': {
         element: 'Fire',
         effect: 0.65,
@@ -196,19 +196,19 @@ export const seasonalPatterns: Record<Season, SeasonalPattern> = {
         effect: 0.75,
         ingredients: ['root_vegetables', 'winter_squash'],
         cookingMethod: 'slow_cooking',
-      }
+      },
       '3_of_pentacles': {
         element: 'Earth',
         effect: 0.8,
         ingredients: ['kale', 'leeks'],
         cookingMethod: 'braising',
-      }
+      },
       '8_of_cups': {
         element: 'Water',
         effect: 0.7,
         ingredients: ['citrus', 'pomegranates'],
         cookingMethod: 'poaching',
-      }
+      },
       '9_of_cups': {
         element: 'Water',
         effect: 0.85,

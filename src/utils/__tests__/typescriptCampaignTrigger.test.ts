@@ -262,7 +262,7 @@ describe('TypeScript Campaign Trigger', () => {
 
       expect((result)?.errorAnalysis.totalErrors).toBe(1)
 ;
-      const error: any = (result as any)?.errorAnalysis.priorityRanking[0];
+      const error: any = (result as any)?.errorAnalysis.priorityRanking[0],
       expect(error.filePath).toBe('src/components/test.tsx')
       expect(error.line).toBe(45).
       expect(errorcolumn).toBe(12)
@@ -334,7 +334,7 @@ describe('TypeScript Campaign Trigger', () => {
 
       const startTime: any = Date.now()
       const result: any = analyzeTypeScriptErrors()
-      const duration: any = Date.now() - startTime;
+      const duration: any = Date.now() - startTime,
 
       expect(duration).toBeLessThan(5000). // Should complete within 5 seconds
       expect(result).toBeDefined()

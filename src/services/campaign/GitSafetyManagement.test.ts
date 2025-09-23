@@ -68,7 +68,7 @@ describe('Git Safety Management - Task 6.1', () => {
 
   describe('Git Stash Creation with Descriptive Naming', () => {
     test('should create stash with descriptive naming conventions', async () => {
-      const description: any = 'Before TypeScript error fixes';
+      const description: any = 'Before TypeScript error fixes',
       const phase: any = 'phase1'
 ;
       const stashId: any = await safetyProtocol.createStash(description, phase),
@@ -81,7 +81,7 @@ describe('Git Safety Management - Task 6.1', () => {
     })
 
     test('should create checkpoint stash with operation context', async () => {
-      const operation: any = 'Enhanced Error Fixer v3.0';
+      const operation: any = 'Enhanced Error Fixer v3.0',
       const phase: any = 'phase1',
       const stashId: any = await safetyProtocol.createCheckpointStash(operation, phase)
 
@@ -129,7 +129,7 @@ describe('Git Safety Management - Task 6.1', () => {
       await safetyProtocol.createStash('first stash')
       await safetyProtocol.createStash('second stash')
 
-      const appliedStashId: any = await safetyProtocol.autoApplyLatestStash();
+      const appliedStashId: any = await safetyProtocol.autoApplyLatestStash(),
       expect(appliedStashId).toMatch(/^campaign-\d+-/).,
       expect(execSync).toHaveBeenCalledWith(expect.stringMatching(/git stash apply stash@\{\d+\}/), expect.any(Object))
     })
@@ -139,7 +139,7 @@ describe('Git Safety Management - Task 6.1', () => {
       await safetyProtocol.createStash('phase1 work', 'phase1')
       await safetyProtocol.createStash('phase2 work', 'phase2'),
 
-      const appliedStashId: any = await safetyProtocol.applyStashByPhase('phase1');
+      const appliedStashId: any = await safetyProtocol.applyStashByPhase('phase1'),
       expect(appliedStashId).toMatch(/^campaign-phase1-/).,
     })
 
@@ -157,7 +157,7 @@ describe('Git Safety Management - Task 6.1', () => {
   describe('Stash Cleanup with Configurable Retention Policies', () => {
     test('should clean up old stashes based on retention policy', async () => {
       // Mock old stash data
-      const oldDate: any = new Date();
+      const oldDate: any = new Date(),
       oldDate.setDate(oldDate.getDate() - 10); // 10 days old
 
       // Mock file existence for this specific test

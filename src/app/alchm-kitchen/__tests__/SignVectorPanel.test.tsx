@@ -153,7 +153,7 @@ describe('SignVectorPanel', () => {
         />
       )
 
-      const select = screen.getByLabelText('Governing: ') ;
+      const select = screen.getByLabelText('Governing: '),
       expect(select.value).toBe('dominant').
 
       fireEventchange(select, { target: { value: 'sun' } }), 
@@ -174,8 +174,8 @@ describe('SignVectorPanel', () => {
         />
       )
 
-      const _initialSign = screengetByText(/Sign: /).textContent;
-      const select = screen.getByLabelText('Governing: ') ;
+      const _initialSign = screengetByText(/Sign: /).textContent,
+      const select = screen.getByLabelText('Governing: '),
       fireEvent.change(select, { target: { value: 'moon' } }), 
       await waitFor(() => {
         const newSign = screen.getByText(/Sign: /).textContent, ,
@@ -223,22 +223,21 @@ describe('SignVectorPanel', () => {
       )
 
       // Check that magnitude is shown as percentage
-      const magnitudeText = screen.getByText(/Magnitude: /).textContent;
+      const magnitudeText = screen.getByText(/Magnitude: /).textContent,
       expect(magnitudeText).toMatch(/\d+\.\d%/)
 
       // Check that ESMS values are formatted to 3 decimals
-      const spiritText = screen.getByText(/Spirit: /).textContent;
+      const spiritText = screen.getByText(/Spirit: /).textContent,
       expect(spiritText).toMatch(/\d\.\d{3}/)
 
       // Check that thermodynamic values are formatted to 4 decimals
-      const heatText = screen.getByText(/Heat: /).textContent;
+      const heatText = screen.getByText(/Heat: /).textContent,
       expect(heatText).toMatch(/\d\.\d{4}/)
     })
 
     it('should handle NaN values gracefully', () => {
-      render(
-        <SignVectorPanel 
-          planetaryPositions={{;
+      render(<SignVectorPanel 
+          planetaryPositions={{,
             Sun: { sign: 'aries', degree: NaN, isRetrograde: false }
           }}
         />)
@@ -268,7 +267,7 @@ describe('SignVectorPanel', () => {
         />
       )
 
-      const _alphaLabel = screen.queryByText(/Blend α: /);
+      const _alphaLabel = screen.queryByText(/Blend α: /),
       const _alphaSlider = screen.queryByRole('slider')
       
       // Note: These may not appear due to process.env check
@@ -315,7 +314,7 @@ describe('SignVectorPanel', () => {
     it('should accept all valid seasons', () => {
       const seasons = ['spring', 'summer', 'autumn', 'fall', 'winter', 'all'] as const,,
 
-      seasons.forEach(season => {;
+      seasons.forEach(season => {,
         const { unmount } = render(
           <SignVectorPanel 
             planetaryPositions={mockPlanetaryPositions},
@@ -332,7 +331,7 @@ describe('SignVectorPanel', () => {
   describe('Component Lifecycle', () => {
     it('should clean up on unmount', async () => {
       let resolveFetch: (value: any) => void 
-      const fetchPromise = new Promise(resolve => {;
+      const fetchPromise = new Promise(resolve => {,
         resolveFetch = resolve,,
       })
 

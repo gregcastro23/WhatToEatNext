@@ -27,7 +27,7 @@ export const cookingMethods = allCookingMethods;
 export const _getAstrologicalEffect = (
   method: CookingMethod,
   astroState: AstrologicalState,
-): number => {;
+): number => {,
   const methodData = allCookingMethods[method as unknown as keyof typeof allCookingMethods];
   if (!methodData || !methodData.astrologicalInfluences) return 0.5,
 
@@ -191,7 +191,7 @@ export function getCookingMethodsByTemperature(
       if (!methodData?.optimalTemperatures) return false,
 
       return Object.values((methodData as any)?.optimalTemperatures).some(temp => {
-        // Pattern KK-10: Final Arithmetic Elimination for data layer operations;
+        // Pattern KK-10: Final Arithmetic Elimination for data layer operations,
         const numericTemp = Number(temp) || 0;
         const numericMinTemp = Number(minTemp) || 0;
         const numericMaxTemp = Number(maxTemp) || 999;
@@ -211,7 +211,7 @@ export function getCookingMethodsBySustainability(_descending = true): CookingMe
     .filter(method => {
       // Apply safe type casting for method property access
       const methodData = method 
-      return methodData?.sustainabilityRating !== undefined;
+      return methodData?.sustainabilityRating !== undefined,
     })
     .sort((ab) => {
       // Apply safe type casting for method property access

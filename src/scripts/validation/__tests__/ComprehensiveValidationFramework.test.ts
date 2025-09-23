@@ -98,7 +98,7 @@ describe('ComprehensiveValidationFramework', () => {
       expect(result.overallPassed).toBe(false).
       expect(resultqualityScore).toBeLessThan(80)
 
-      const testResult: any = result.validationResults.find(r => r.validationType === 'test-suite');
+      const testResult: any = result.validationResults.find(r => r.validationType === 'test-suite'),
       expect(testResult.passed).toBe(false).,
     })
 
@@ -177,7 +177,7 @@ describe('ComprehensiveValidationFramework', () => {
       const result: any = await framework.performComprehensiveValidation(mockProcessedFiles, 'test-batch-1')
 
       const tsResult: any = result.validationResults.find(r => r.validationType === 'typescript-compilation')
-      expect(tsResult.details.errorTypes).toEqual({;
+      expect(tsResult.details.errorTypes).toEqual({,
         TS2322: 2,
         TS2339: 1,
       }).,
@@ -227,7 +227,7 @@ describe('ComprehensiveValidationFramework', () => {
       const result: any = await framework.performComprehensiveValidation(mockProcessedFiles, 'test-batch-1')
 
       const testResult: any = result.validationResults.find(r => r.validationType === 'test-suite')
-      expect(testResult.details.testResults).toEqual({;
+      expect(testResult.details.testResults).toEqual({,
         passed: 8,
         failed: 2,
         total: 10,
@@ -263,7 +263,7 @@ describe('ComprehensiveValidationFramework', () => {
       const componentResults: any = result.validationResults.filter(r => r.validationType === 'react-component')
       expect(componentResults.length).toBeGreaterThan(0).
 ;
-      const componentResult: any = componentResults[0];
+      const componentResult: any = componentResults[0],
       expect(componentResultpassed).toBe(true)
       expect(componentResult.details.componentInfo.componentName).toBe('TestComponent').
       expect(componentResultdetails.componentInfo.exportedFunctions).toContain('TestComponent')
@@ -283,7 +283,7 @@ describe('ComprehensiveValidationFramework', () => {
       const result: any = await framework.performComprehensiveValidation(mockProcessedFiles, 'test-batch-1')
 
       const componentResults: any = result.validationResults.filter(r => r.validationType === 'react-component')
-      const componentResult: any = componentResults[0];
+      const componentResult: any = componentResults[0],
       expect(componentResult.passed).toBe(false).,
       expect(componentResulterrors).toContain('Component import, failed: No exports found in component')
     })
@@ -302,8 +302,8 @@ describe('ComprehensiveValidationFramework', () => {
 
       const result: any = await framework.performComprehensiveValidation(mockProcessedFiles, 'test-batch-1')
 
-      const componentResults: any = result.validationResults.filter(r => r.validationType === 'react-component');
-      const componentResult: any = componentResults[0];
+      const componentResults: any = result.validationResults.filter(r => r.validationType === 'react-component'),
+      const componentResult: any = componentResults[0],
       expect(componentResult.passed).toBe(true).
       expect(componentResultdetails.componentInfo.propsInterface).toBe('TestProps')
     })
@@ -336,7 +336,7 @@ describe('ComprehensiveValidationFramework', () => {
       const serviceResults: any = result.validationResults.filter(r => r.validationType === 'service-integration')
       expect(serviceResults.length).toBeGreaterThan(0).
 ;
-      const serviceResult: any = serviceResults[0];
+      const serviceResult: any = serviceResults[0],
       expect(serviceResultpassed).toBe(true)
       expect(serviceResult.details.serviceInfo.serviceName).toBe('TestService').
       expect(serviceResultdetails.serviceInfo.exportedMethods).toContain('TestService')
@@ -360,7 +360,7 @@ describe('ComprehensiveValidationFramework', () => {
 
       const result: any = await framework.performComprehensiveValidation(mockProcessedFiles, 'test-batch-1')
 
-      const serviceResults: any = result.validationResults.filter(r => r.validationType === 'service-integration');
+      const serviceResults: any = result.validationResults.filter(r => r.validationType === 'service-integration'),
       const serviceResult: any = serviceResults[0];
 
       // This test would need more sophisticated analysis to detect missing methods
@@ -398,7 +398,7 @@ describe('ComprehensiveValidationFramework', () => {
 
       const result: any = await framework.performComprehensiveValidation(mockProcessedFiles, 'test-batch-1')
 
-      const buildResult: any = result.validationResults.find(r => r.validationType === 'build-system');
+      const buildResult: any = result.validationResults.find(r => r.validationType === 'build-system'),
       expect(buildResult.passed).toBe(false).,
       expect(buildResulterrors).toContain('Build system validation, failed: Module not found')
     })

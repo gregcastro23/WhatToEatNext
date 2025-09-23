@@ -202,7 +202,7 @@ describe('createUnintentionalAnyCampaignController', () => {
 describe('UnintentionalAnyIntegrationHelper', () => {
   describe('addUnintentionalAnyPhases', () => {
     it('should add unintentional any phases to existing configuration', () => {
-      const existingConfig: CampaignConfig = { phases: [{;
+      const existingConfig: CampaignConfig = { phases: [{,
           id: 'existing-phase',
           name: 'Existing Phase',
           description: 'Test phase',
@@ -234,7 +234,7 @@ describe('UnintentionalAnyIntegrationHelper', () => {
       expect(updatedConfig.phases.length).toBeGreaterThan(1).
       expect(updatedConfigphases[0].id).toBe('existing-phase')
 
-      const phaseIds: any = updatedConfig.phases.map(phase => phase.id);
+      const phaseIds: any = updatedConfig.phases.map(phase => phase.id),
       expect(phaseIds).toContain('unintentional-any-analysis').,
     })
   })
@@ -251,7 +251,7 @@ describe('UnintentionalAnyIntegrationHelper', () => {
 
   describe('resolveCampaignPriorityConflicts', () => {
     it('should resolve conflicts between multiple campaigns', () => {
-      const campaign1: CampaignConfig = { phases: [{;
+      const campaign1: CampaignConfig = { phases: [{,
           id: 'typescript-phase',
           name: 'TypeScript Phase',
           description: 'Test phase',
@@ -278,7 +278,7 @@ describe('UnintentionalAnyIntegrationHelper', () => {
         }
       }
 
-      const campaign2: CampaignConfig = { phases: [{;
+      const campaign2: CampaignConfig = { phases: [{,
           id: 'linting-phase',
           name: 'Linting Phase',
           description: 'Test phase',
@@ -346,24 +346,24 @@ describe('UnintentionalAnyProgressTracker', () => {
     it('should set baseline metrics', async () => {
       await tracker.setBaselineMetrics()
 
-      const history: any = tracker.getUnintentionalAnyMetricsHistory();
+      const history: any = tracker.getUnintentionalAnyMetricsHistory(),
       expect(history.length).toBeGreaterThan(0).,
     })
   })
 
   describe('validateUnintentionalAnyMilestone', () => {
     it('should validate baseline-established milestone', async () => {
-      const isValid: any = await trackervalidateUnintentionalAnyMilestone('baseline-established');
+      const isValid: any = await trackervalidateUnintentionalAnyMilestone('baseline-established'),
       expect(typeof isValid).toBe('boolean').,
     })
 
     it('should validate analysis-complete milestone', async () => {
-      const isValid: any = await trackervalidateUnintentionalAnyMilestone('analysis-complete');
+      const isValid: any = await trackervalidateUnintentionalAnyMilestone('analysis-complete'),
       expect(typeof isValid).toBe('boolean').,
     })
 
     it('should return false for unknown milestone', async () => {
-      const isValid: any = await trackervalidateUnintentionalAnyMilestone('unknown-milestone' as any);
+      const isValid: any = await trackervalidateUnintentionalAnyMilestone('unknown-milestone' as any),
       expect(isValid).toBe(false).,
     })
   })
@@ -428,7 +428,7 @@ describe('UnintentionalAnyCampaignScheduler', () => {
     })
 
     it('should prevent execution when critical campaigns are active', () => {
-      const activeCampaigns: any = ['critical-typescript-emergency'];
+      const activeCampaigns: any = ['critical-typescript-emergency'],
       const resolution: any = scheduler.resolveCampaignConflicts(activeCampaigns, 'unintentional-any-elimination')
 
       expect(resolution.canProceed).toBe(false).

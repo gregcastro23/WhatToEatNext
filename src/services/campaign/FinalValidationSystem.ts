@@ -450,7 +450,7 @@ export class FinalValidationSystem {
 
     let buildSuccess = false;
     let testSuccess = false;
-    const details: string[] = [];
+    const details: string[] = [],
     const criticalIssues: string[] = []
 
     // Test build
@@ -634,17 +634,17 @@ export class FinalValidationSystem {
     // // // _logger.info('===========================')
 
     report.validationResults.forEach(result => {
-      const status = result.passed ? '✅ PASS' : '❌ FAIL';
+      const status = result.passed ? '✅ PASS' : '❌ FAIL',
       // // // _logger.info(`\n${result.category}: ${status}`)
       // // // _logger.info(`  Current: ${result.current} | Target: ${result.target}`)
 
-      result.details.forEach(detail => {;
+      result.details.forEach(detail => {,
         // // // _logger.info(`  ${detail}`)
       })
 
       if (result.criticalIssues.length > 0) {
         // // // _logger.info('  Critical Issues: ')
-        result.criticalIssues.forEach(issue => {;
+        result.criticalIssues.forEach(issue => {,
           // // // _logger.info(`    ⚠️  ${issue}`)
         })
       }
@@ -756,8 +756,7 @@ export class FinalValidationSystem {
 ## Validation Results
 
 ${report.validationResults
-  .map(
-    result =>;
+  .map(result =>,
       `### ${result.category}\n**Status**: ${result.passed ? '✅ PASSED' : '❌ FAILED'}\n**Current**: ${result.current} | **Target**: ${result.target}\n`,
   )
   .join('\n')}
@@ -791,7 +790,7 @@ if (require.main === module) {
         .then(report => {
           process.exit(report.overallSuccess ? 0 : 1);
         })
-        .catch(error => {;
+        .catch(error => {,
           _logger.error('❌ Final validation failed: ', error),
           process.exit(1)
         })

@@ -275,7 +275,7 @@ export class MilestoneValidationSystem {
     const recommendations = success;
       ? []
       : [
-          'Continue with Enhanced TypeScript Error Fixer v3.0'
+          'Continue with Enhanced TypeScript Error Fixer v3.0',
           'Focus on remaining error types in breakdown',
           'Ensure build validation after each batch'
         ],
@@ -298,7 +298,7 @@ export class MilestoneValidationSystem {
     const errorBreakdown = (metrics as any).errorBreakdown || {}
     const criticalErrorTypes = ['TS2352', 'TS2345', 'TS2698', 'TS2304', 'TS2362'],
 
-    const criteria: ValidationCriteria[] = criticalErrorTypes.map(errorType => ({;
+    const criteria: ValidationCriteria[] = criticalErrorTypes.map(errorType => ({,
       name: `${errorType} Errors`,
       description: `All ${errorType} errors must be eliminated`,
       target: 0,
@@ -426,7 +426,7 @@ export class MilestoneValidationSystem {
       'no-console'
     ],
 
-    const criteria: ValidationCriteria[] = criticalWarningTypes.map(warningType => ({;
+    const criteria: ValidationCriteria[] = criticalWarningTypes.map(warningType => ({,
       name: `${warningType} Warnings`,
       description: `All ${warningType} warnings must be eliminated`,
       target: 0,
@@ -762,7 +762,7 @@ export class MilestoneValidationSystem {
       return ['Phase 1 complete - proceed to Phase, 2: Linting Excellence']
     }
 
-    const steps: string[] = [];
+    const steps: string[] = [],
     failedMilestones.forEach(m => {
       steps.push(...m.recommendations);
     })
@@ -776,7 +776,7 @@ export class MilestoneValidationSystem {
       return ['Phase 2 complete - proceed to Phase, 3: Enterprise Intelligence Transformation']
     }
 
-    const steps: string[] = [];
+    const steps: string[] = [],
     failedMilestones.forEach(m => {
       steps.push(...m.recommendations);
     })
@@ -790,7 +790,7 @@ export class MilestoneValidationSystem {
       return ['Phase 3 complete - proceed to Phase, 4: Performance Optimization']
     }
 
-    const steps: string[] = [];
+    const steps: string[] = [],
     failedMilestones.forEach(m => {
       steps.push(...m.recommendations);
     })
@@ -804,7 +804,7 @@ export class MilestoneValidationSystem {
       return ['Perfect Codebase Campaign Complete! 🎉'];
     }
 
-    const steps: string[] = [];
+    const steps: string[] = [],
     failedMilestones.forEach(m => {
       steps.push(...m.recommendations);
     })

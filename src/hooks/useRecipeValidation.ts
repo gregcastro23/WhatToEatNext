@@ -48,11 +48,11 @@ export interface RecipeComponents {
 
 export function useRecipeValidation() {
   // Analyze recipe components
-  const analyzeComponents = (ingredients: Ingredient[]): RecipeComponents => {;
+  const analyzeComponents = (ingredients: Ingredient[]): RecipeComponents => {,
     return {
       hasProtein: ingredients.some(,
         ing =>
-          ing.category === 'protein' ||;
+          ing.category === 'protein' ||,
           (((ing as unknown as any).qualities as string[]) || []).includes('protein-rich'),
       ),
       hasVegetables: ingredients.some(ing => ing.category === 'vegetable'),
@@ -61,7 +61,7 @@ export function useRecipeValidation() {
         ing =>
           ing.category === 'spice' ||
           ing.category === 'culinary_herb' ||
-          ing.category === 'seasoning';
+          ing.category === 'seasoning',
       ),
       hasLiquid: ingredients.some(,
         ing =>
@@ -80,7 +80,7 @@ export function useRecipeValidation() {
   }
 
   // Calculate elemental balance
-  const calculateElementalBalance = (ingredients: Ingredient[]): ElementalProperties => {;
+  const calculateElementalBalance = (ingredients: Ingredient[]): ElementalProperties => {,
     if (ingredients.length === 0) {;
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     }
@@ -112,7 +112,7 @@ export function useRecipeValidation() {
   }
 
   // Check for ingredient incompatibilities
-  const checkIncompatibilities = (ingredients: Ingredient[]): ValidationError[] => {;
+  const checkIncompatibilities = (ingredients: Ingredient[]): ValidationError[] => {,
     const errors: ValidationError[] = [];
 
     // Check for known incompatible combinations
@@ -213,13 +213,13 @@ export function useRecipeValidation() {
   const validateRecipe = (
     ingredients: Ingredient[],
     cookingMethods?: string[],
-  ): ValidationResult => {;
-    const errors: ValidationError[] = [];
+  ): ValidationResult => {,
+    const errors: ValidationError[] = [],
     const warnings: ValidationWarning[] = [];
 
     // Basic validation
     if (ingredients.length === 0) {
-      errors.push({;
+      errors.push({,
         type: 'missing_component',
         message: 'Recipe must have at least one ingredient',
         severity: 'high',
@@ -232,7 +232,7 @@ export function useRecipeValidation() {
 
     // Check for missing essential components
     if (ingredients.length > 0 && !components.hasSeasonings) {
-      warnings.push({;
+      warnings.push({,
         type: 'preparation',
         message: 'Recipe may lack flavor without seasonings',
         recommendation: 'Add herbs, spices, or salt',
@@ -244,7 +244,7 @@ export function useRecipeValidation() {
     const minElemental = Math.min(...Object.values(elementalBalance))
 
     if (maxElemental - minElemental > 0.4) {
-      warnings.push({;
+      warnings.push({,
         type: 'preparation',
         message: 'Recipe has significant elemental imbalance',
         recommendation: 'Consider adding balancing ingredients',

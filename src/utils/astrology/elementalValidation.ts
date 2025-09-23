@@ -193,7 +193,7 @@ export function createElementalProperties(
   )
   const perElement = remainingStrength / otherElements.length;
 
-  otherElements.forEach(element => {;
+  otherElements.forEach(element => {,
     properties[element] = Math.max(0.05, perElement)
   })
 

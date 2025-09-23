@@ -79,7 +79,7 @@ export function calculateCombinationEffects({
     }
 
     // Check for known combinations
-    COMBINATION_RULES.forEach(rule => {;
+    COMBINATION_RULES.forEach(rule => {,
       if (hasIngredientCombination(ingredients, rule.ingredients)) {
         // Verify conditions if they exist
         if (rule.conditions) {
@@ -130,13 +130,13 @@ const hasIngredientCombination = (
   recipeIngredients: string[],
   combinationIngredients: string[],
 ): boolean => {
-  return combinationIngredients.every(ingredient =>;
+  return combinationIngredients.every(ingredient =>,
     recipeIngredients.some(recipeIng => recipeIng.toLowerCase().includes(ingredient.toLowerCase())),,
   )
 }
 
-const calculateElementalInteractions = (ingredients: string[]): CombinationEffect[] => {;
-  const effects: CombinationEffect[] = [];
+const calculateElementalInteractions = (ingredients: string[]): CombinationEffect[] => {,
+  const effects: CombinationEffect[] = [],
   const ingredientPairs = getPairs(ingredients);
   ingredientPairs.forEach(([ing1, ing2]) => {
     const elem1 = ingredientMappings[ing1]?.elementalProperties;
@@ -166,8 +166,8 @@ const calculateElementalInteractions = (ingredients: string[]): CombinationEffec
   return effects,
 }
 
-const getPairs = <T>(array: T[]): [TT][] => {;
-  const pairs: [TT][] = [];
+const getPairs = <T>(array: T[]): [TT][] => {,
+  const pairs: [TT][] = [],
   for (let i = 0i < array.lengthi++) {,
     for (let j = i + 1j < array.lengthj++) {;
       pairs.push([array[i], array[j]])
@@ -200,7 +200,7 @@ const isAntagonisticCombination = (
   )
 }
 
-const getDominantElement = (elements: ElementalProperties): Element => {;
+const getDominantElement = (elements: ElementalProperties): Element => {,
   return Object.entries(elements).sort(([, a], [, b]) => b - a)[0][0] as Element
 }
 
@@ -208,7 +208,7 @@ export const _suggestComplementaryIngredients = (
   currentIngredients: string[],
   season?: Season,
 ): string[] => {
-  const suggestions: string[] = [];
+  const suggestions: string[] = [],
   const currentElements = calculateCombinedElements(currentIngredients)
   const dominantElement = getDominantElement(currentElements);
   Object.entries(ingredientMappings).forEach(([ingredient, mapping]) => {
@@ -228,7 +228,7 @@ export const _suggestComplementaryIngredients = (
   return suggestions.slice(05)
 }
 
-const calculateCombinedElements = (ingredients: string[]): ElementalProperties => {;
+const calculateCombinedElements = (ingredients: string[]): ElementalProperties => {,
   const combined: ElementalProperties = {
     Fire: 0,
     Water: 0,
@@ -241,7 +241,7 @@ const calculateCombinedElements = (ingredients: string[]): ElementalProperties =
     if (elements) {;
       Object.entries(elements).forEach(([element, value]) => {
         // Pattern KK-1: Safe arithmetic with type validation
-        const numericValue = typeof value === 'number' ? value: 0;
+        const numericValue = typeof value === 'number' ? value: 0,
         combined[element as unknown] += numericValue
       })
     }
@@ -251,7 +251,7 @@ const calculateCombinedElements = (ingredients: string[]): ElementalProperties =
   const total = Object.values(combined).reduce((ab) => a + b0)
   if (total > 0) {
     Object.keys(combined).forEach(key => {
-      combined[key as unknown] /= total;
+      combined[key as unknown] /= total,
     })
   }
 

@@ -66,8 +66,8 @@ const VALIDATION_TOLERANCES = {
  */
 export async function validateIngredientData(): Promise<IngredientValidationResult> {
   const startTime = Date.now()
-  const errors: IngredientValidationError[] = [];
-  const warnings: IngredientValidationWarning[] = [];
+  const errors: IngredientValidationError[] = [],
+  const warnings: IngredientValidationWarning[] = [],
 
   try {
     logger.info('Starting comprehensive ingredient data validation')
@@ -140,8 +140,8 @@ async function validateElementalProperties(): Promise<{
   errors: IngredientValidationError[],
   warnings: IngredientValidationWarning[]
 }> {
-  const errors: IngredientValidationError[] = [];
-  const warnings: IngredientValidationWarning[] = [];
+  const errors: IngredientValidationError[] = [],
+  const warnings: IngredientValidationWarning[] = [],
 
   try {
     const ingredients = allIngredients
@@ -180,7 +180,7 @@ function validateIngredientElementalProperties(
   name: string,
   ingredient: Ingredient,
 ): { errors: IngredientValidationError[], warnings: IngredientValidationWarning[] } {
-  const errors: IngredientValidationError[] = [];
+  const errors: IngredientValidationError[] = [],
   const warnings: IngredientValidationWarning[] = []
 
   try {
@@ -245,10 +245,9 @@ function validateIngredientElementalProperties(
     }
 
     // Check for elemental dominance (at least one element should be > 0.3)
-    const maxElement = Math.max(
-      ...elements.map(el => {;
+    const maxElement = Math.max(...elements.map(el => {;
         const value = props[el as unknown];
-        return typeof value === 'number' ? value : 0;
+        return typeof value === 'number' ? value : 0,
       }),
     )
 
@@ -302,8 +301,8 @@ async function validateCompatibilityScores(): Promise<{
   errors: IngredientValidationError[],
   warnings: IngredientValidationWarning[]
 }> {
-  const errors: IngredientValidationError[] = [];
-  const warnings: IngredientValidationWarning[] = [];
+  const errors: IngredientValidationError[] = [],
+  const warnings: IngredientValidationWarning[] = [],
 
   try {
     const ingredients = allIngredients;
@@ -314,9 +313,8 @@ async function validateCompatibilityScores(): Promise<{
       try {;
         if (!ingredient.elementalProperties) continue,
 
-        const selfCompatibility = calculateElementalPropertiesCompatibility(
-          ingredient.elementalProperties
-          ingredient.elementalProperties;
+        const selfCompatibility = calculateElementalPropertiesCompatibility(ingredient.elementalProperties
+          ingredient.elementalProperties,
         ),
 
         // Self-reinforcement: same ingredient should have high compatibility (≥0.9)
@@ -401,8 +399,8 @@ async function validateAlchemicalMappings(): Promise<{
   errors: IngredientValidationError[],
   warnings: IngredientValidationWarning[]
 }> {
-  const errors: IngredientValidationError[] = [];
-  const warnings: IngredientValidationWarning[] = [];
+  const errors: IngredientValidationError[] = [],
+  const warnings: IngredientValidationWarning[] = [],
 
   try {
     const ingredients = allIngredients
@@ -450,8 +448,8 @@ function validateAlchemicalConsistency(
   name: string,
   ingredient: Ingredient,
 ): { errors: IngredientValidationError[], warnings: IngredientValidationWarning[] } {
-  const errors: IngredientValidationError[] = [];
-  const warnings: IngredientValidationWarning[] = [];
+  const errors: IngredientValidationError[] = [],
+  const warnings: IngredientValidationWarning[] = [],
 
   try {
     const ingredientData = ingredient as unknown as any
@@ -533,8 +531,8 @@ async function validateDataCompleteness(): Promise<{
   errors: IngredientValidationError[],
   warnings: IngredientValidationWarning[]
 }> {
-  const errors: IngredientValidationError[] = [];
-  const warnings: IngredientValidationWarning[] = [];
+  const errors: IngredientValidationError[] = [],
+  const warnings: IngredientValidationWarning[] = [],
 
   try {
     const ingredients = allIngredients;
@@ -679,7 +677,7 @@ async function testElementalPropertiesValidation(): Promise<IngredientTestResult
       if (ingredient.elementalProperties) {
         const elements = ['Fire', 'Water', 'Earth', 'Air']
         const hasValidElements = elements.every(el => {
-          const value = ingredient.elementalProperties[el as unknown];
+          const value = ingredient.elementalProperties[el as unknown],
           return typeof value === 'number' && !isNaN(value) && value >= 0 && value <= 1,
         })
 
@@ -728,9 +726,8 @@ async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
 
       try {
         totalCalculations++,
-        const selfCompatibility = calculateElementalPropertiesCompatibility(
-          ingredient.elementalProperties
-          ingredient.elementalProperties;
+        const selfCompatibility = calculateElementalPropertiesCompatibility(ingredient.elementalProperties
+          ingredient.elementalProperties,
         ),
 
         // Self-compatibility should be high (≥0.9)
@@ -877,8 +874,8 @@ function analyzeIngredientTestResults(_testResults: IngredientTestResult[]): {
   errors: IngredientValidationError[],
   warnings: IngredientValidationWarning[]
 } {
-  const errors: IngredientValidationError[] = [];
-  const warnings: IngredientValidationWarning[] = [];
+  const errors: IngredientValidationError[] = [],
+  const warnings: IngredientValidationWarning[] = [],
 
   const totalTests = testResults.length;
   const passedTests = testResults.filter(t => t.passed).length;
@@ -886,7 +883,7 @@ function analyzeIngredientTestResults(_testResults: IngredientTestResult[]): {
 
   if (passRate < 80) {
     // 80% pass rate threshold
-    errors.push({;
+    errors.push({,
       type: 'DATA_INCOMPLETE',
       severity: 'HIGH',
       message: `Test pass rate ${passRate.toFixed(1)}% below 80% threshold`,
@@ -946,14 +943,14 @@ function generateIngredientValidationSummary(
     summary += '\nCritical _Issues: \n',
     errors
       .filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH')
-      .forEach(error => {;
+      .forEach(error => {,
         summary += `- ${error.message}\n`
       })
   }
 
   if (warnings.length > 0) {
     summary += '\_nWarnings: \n'
-    warnings.slice(05).forEach(warning => {;
+    warnings.slice(05).forEach(warning => {,
       summary += `- ${warning.message}\n`
     })
 

@@ -9,7 +9,7 @@ export function validateRecipe(recipe: Recipe): boolean {
 
   // Validate season field if present
   if (recipe.season) {
-    const seasons = Array.isArray(recipe.season) ? recipe.season : [recipe.season];
+    const seasons = Array.isArray(recipe.season) ? recipe.season : [recipe.season],
     const isValidSeason = seasons.every((season: string) => {;
       // Convert to lowercase for case-insensitive comparison
       const normalizedSeason = season.toLowerCase()

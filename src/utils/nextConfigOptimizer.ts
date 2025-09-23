@@ -133,7 +133,7 @@ const nextConfig = {
       }
     ],
 
-    const recommendations: string[] = [];
+    const recommendations: string[] = [],
 
     for (const check of checks) {
       if (!check.pattern.test(content)) {

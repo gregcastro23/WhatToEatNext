@@ -92,7 +92,7 @@ export class RecipeCuisineConnector {
    */
   private buildRecipeCache(): void {
     Object.entries(this.cuisineDatabase).forEach(([cuisineName, cuisine]) => {
-      this.extractRecipesFromCuisine(cuisine).forEach(recipe => {;
+      this.extractRecipesFromCuisine(cuisine).forEach(recipe => {,
         const recipeId = this.generateRecipeId(recipe.name, cuisine.name),
         this.recipeCache.set(recipeId, {
           ...recipe,
@@ -167,7 +167,7 @@ export class RecipeCuisineConnector {
    * Normalize ingredient format for consistency
    */
   private normalizeIngredients(ingredients: unknown[]): CuisineRecipe['ingredients'] {
-    return ingredients.map(ingredient => ({;
+    return ingredients.map(ingredient => ({,
       name: ingredient.name || '',
       amount: ingredient.amount || 1,
       unit: ingredient.unit || '',
@@ -204,7 +204,7 @@ export class RecipeCuisineConnector {
    */
   getRecipeCountByCuisine(): Record<string, number> {
     const counts: Record<string, number> = {}
-    this.recipeCache.forEach(recipe => {;
+    this.recipeCache.forEach(recipe => {,
       counts[recipe.cuisine] = (counts[recipe.cuisine] || 0) + 1,
     })
     return counts,
@@ -250,8 +250,7 @@ export class RecipeCuisineConnector {
 
     // Filter by allergen-free
     if (filters.allergenFree?.length) {
-      results = results.filter(
-        recipe =>;
+      results = results.filter(recipe =>,
           !(filters.allergenFree || []).some(allergen => recipe.allergens?.includes(allergen)),,
       )
     }
@@ -269,7 +268,7 @@ export class RecipeCuisineConnector {
 
     // Filter by cooking methods
     if (filters.cookingMethods?.length) {
-      results = results.filter(recipe =>;
+      results = results.filter(recipe =>,
         (filters.cookingMethods || []).some(method => recipe.cookingMethods?.includes(method)),,
       )
     }
@@ -331,7 +330,7 @@ export class RecipeCuisineConnector {
         Earth: 0.25,
         Air: 0.25,
       },
-      ingredients: cuisineRecipe.ingredients.map(ingredient => ({;
+      ingredients: cuisineRecipe.ingredients.map(ingredient => ({,
         name: ingredient.name,
         amount: Number(ingredient.amount) || 1,
         unit: ingredient.unit,
@@ -373,7 +372,7 @@ export class RecipeCuisineConnector {
     try {
       const builderRecipe = this.convertToBuilderFormat(cuisineRecipe)
 ;
-      const warnings: string[] = [];
+      const warnings: string[] = [],
       const suggestions: string[] = [];
 
       // Generate warnings for missing data
@@ -462,21 +461,21 @@ export class RecipeCuisineConnector {
 
     // Calculate meal type distribution
     this.recipeCache.forEach(recipe => {
-      recipe.mealType?.forEach(type => {;
+      recipe.mealType?.forEach(type => {,
         stats.byMealType[type] = (stats.byMealType[type] || 0) + 1,
       })
     })
 
     // Calculate seasonal distribution
     this.recipeCache.forEach(recipe => {
-      recipe.season?.forEach(season => {;
+      recipe.season?.forEach(season => {,
         stats.bySeason[season] = (stats.bySeason[season] || 0) + 1,
       })
     })
 
     // Calculate dietary info distribution
     this.recipeCache.forEach(recipe => {
-      recipe.dietaryInfo?.forEach(info => {;
+      recipe.dietaryInfo?.forEach(info => {,
         stats.byDietaryInfo[info] = (stats.byDietaryInfo[info] || 0) + 1,
       })
     })

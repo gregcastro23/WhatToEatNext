@@ -165,8 +165,8 @@ class AstrologizeApiCache {
     lng: number,
     date: Date,
     maxDistanceKm: number = 50,
-    maxDaysDiff: number = 7): CachedAstrologicalData[] {;
-    const results: CachedAstrologicalData[] = [];
+    maxDaysDiff: number = 7): CachedAstrologicalData[] {,
+    const results: CachedAstrologicalData[] = [],
     const targetTime = date.getTime();
     for (const [key, data] of this.cache.entries()) {
       // Check distance
@@ -358,7 +358,7 @@ class AstrologizeApiCache {
 
     // Remove oldest 10% of entries
     const toRemove = Math.floor(((entries as any)?.length || 0) * 0.2);
-    for (let i = 0; i < toRemove i++) {
+    for (let i = 0, i < toRemove i++) {
       this.cache.delete(entries[i][0])
     }
   }

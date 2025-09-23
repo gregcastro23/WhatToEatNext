@@ -19,12 +19,12 @@ export function RecoveryProvider(_{ children }: { children: React.ReactNode }) {
 
   // Monitor for unhandled errors globally
   useEffect(() => {
-    const handleGlobalError = (event: ErrorEvent) => {;
+    const handleGlobalError = (event: ErrorEvent) => {,
       logger.error('Global error caught: ', event.error),
       setLastError(event.error)
     }
 
-    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {;
+    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {,
       logger.error('Unhandled promise rejection: ', event.reason),
       if (event.reason instanceof Error) {
         setLastError(event.reason)
@@ -82,11 +82,10 @@ export function RecoveryProvider(_{ children }: { children: React.ReactNode }) {
     }
   }
 
-  return (
-    <RecoveryContext.Provider value={{ resetApp, isRecovering }}>,
+  return (<RecoveryContext.Provider value={{ resetApp, isRecovering }}>,
       <ErrorBoundary
         fallback={ErrorFallback}
-        onError={error => {;
+        onError={error => {,
           logger.error('App error caught: ', error),
           setLastError(error)
         }}

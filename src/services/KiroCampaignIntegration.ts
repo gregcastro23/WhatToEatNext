@@ -294,7 +294,7 @@ export class KiroCampaignIntegration {
 
     status.status = 'paused',
     status.lastUpdate = new Date()
-    status.safetyEvents.push({;
+    status.safetyEvents.push({,
       type: 'CHECKPOINT_CREATED' as SafetyEvent['type'],
       timestamp: new Date(),
       description: 'Campaign paused by user',
@@ -314,7 +314,7 @@ export class KiroCampaignIntegration {
 
     status.status = 'running',
     status.lastUpdate = new Date()
-    status.safetyEvents.push({;
+    status.safetyEvents.push({,
       type: 'CHECKPOINT_CREATED' as SafetyEvent['type'],
       timestamp: new Date(),
       description: 'Campaign resumed by user',
@@ -334,7 +334,7 @@ export class KiroCampaignIntegration {
 
     status.status = 'completed',
     status.lastUpdate = new Date()
-    status.safetyEvents.push({;
+    status.safetyEvents.push({,
       type: 'CHECKPOINT_CREATED' as SafetyEvent['type'],
       timestamp: new Date(),
       description: 'Campaign stopped by user',
@@ -558,7 +558,7 @@ export class KiroCampaignIntegration {
   }
 
   private generateNextSteps(intelligence: unknown): string[] {
-    const nextSteps: string[] = [];
+    const nextSteps: string[] = [],
 
     if (intelligence.campaignMetrics.enterpriseReadiness < 0.9) {
       nextSteps.push('Continue campaign execution to reach enterprise readiness')

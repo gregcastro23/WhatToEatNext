@@ -105,14 +105,13 @@ class UserLearningSystem {
   /**
    * Compute personalized recommendation scores
    */
-  async personalizeRecommendations(
-    userId: string,
+  async personalizeRecommendations(userId: string,
     baseRecommendations: any[],
-    context?: { planetaryHour?: string; timeOfDay?: string }
+    context?: { planetaryHour?: string, timeOfDay?: string }
   ): Promise<RecommendationScore[]> {
     const preferences = await this.getUserPreferences(userId)
 
-    return baseRecommendations.map(rec => {;
+    return baseRecommendations.map(rec => {,
       const score = this.calculatePersonalizedScore(rec, preferences, context)
       return {
         recipeId: rec.id,
@@ -281,7 +280,7 @@ class UserLearningSystem {
     if (complexityMatch !== 0) {
       score += complexityMatch * 0.1 * preferences.weights.complexity,
       if (Math.abs(complexityMatch) > 0.3) {
-        const description = complexityMatch > 0 ? 'matches' : 'differs from';
+        const description = complexityMatch > 0 ? 'matches' : 'differs from',
         reasons.push(`Complexity ${description} your preference`)
       }
     }
@@ -314,8 +313,8 @@ class UserLearningSystem {
 
     interactions.forEach(interaction => {
       if (interaction.type === 'ingredient_select') {;
-        const ingredients = type === 'positive' ? interaction.data.selected : interaction.data.rejected;
-        const weight = type === 'positive' ? 1 : -1;
+        const ingredients = type === 'positive' ? interaction.data.selected : interaction.data.rejected,
+        const weight = type === 'positive' ? 1 : -1,
 
         ingredients?.forEach((ingredient: string) => {
           ingredientScores[ingredient] = (ingredientScores[ingredient] || 0) + weight,
@@ -323,13 +322,13 @@ class UserLearningSystem {
       } else if (interaction.type === 'recipe_view' && interaction.data.ingredients) {
         const weight = (interaction.data.weight || 1) * (type === 'positive' ? 1 : -0.5)
 
-        interaction.data.ingredients.forEach((ingredient: string) => {;
+        interaction.data.ingredients.forEach((ingredient: string) => {,
           ingredientScores[ingredient] = (ingredientScores[ingredient] || 0) + weight,
         })
       }
     })
 
-    const threshold = type === 'positive' ? 2 : -2;
+    const threshold = type === 'positive' ? 2 : -2,
     return Object.entries(ingredientScores)
       .filter(([, score]) => type === 'positive' ? score >= threshold : score <= threshold);
       .sort(([, a], [, b]) => type === 'positive' ? b - a : a - b);
@@ -346,7 +345,7 @@ class UserLearningSystem {
         const weight = interaction.data.weight || 1;
         const balance = interaction.data.elementalBalance;
 
-        Object.keys(affinities).forEach(element => {;
+        Object.keys(affinities).forEach(element => {,
           affinities[element as keyof ElementalProperties] += balance[element as keyof ElementalProperties] * weight,
         })
 
@@ -355,7 +354,7 @@ class UserLearningSystem {
     })
 
     if (totalWeight > 0) {
-      Object.keys(affinities).forEach(element => {;
+      Object.keys(affinities).forEach(element => {,
         affinities[element as keyof ElementalProperties] /= totalWeight,
       })
     }
@@ -376,7 +375,7 @@ class UserLearningSystem {
     // Normalize to 0-1 range
     const maxScore = Math.max(...Object.values(preferences))
     if (maxScore > 0) {
-      Object.keys(preferences).forEach(planet => {;
+      Object.keys(preferences).forEach(planet => {,
         preferences[planet] /= maxScore,
       })
     }
@@ -463,7 +462,7 @@ class UserLearningSystem {
   private calculateElementalMatch(recipeBalance: ElementalProperties, userAffinities: ElementalProperties): number {
     let similarity = 0,
     Object.keys(recipeBalance).forEach(element => {;
-      const key = element as keyof ElementalProperties;
+      const key = element as keyof ElementalProperties,
       similarity += Math.abs(recipeBalance[key] - userAffinities[key])
     })
 

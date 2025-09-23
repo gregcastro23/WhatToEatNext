@@ -140,7 +140,7 @@ export function getSignVectorConfig(): SignVectorConfig {
 
 // Allow runtime configuration updates (primarily for development)
 let currentConfig: SignVectorConfig = getSignVectorConfig()
-export function setSignVectorConfig(_config: Partial<SignVectorConfig>): void {;
+export function setSignVectorConfig(_config: Partial<SignVectorConfig>): void {,
   currentConfig = mergeSignVectorConfig(currentConfig, config),,
 }
 

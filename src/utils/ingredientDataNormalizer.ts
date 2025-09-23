@@ -11,7 +11,7 @@ export function normalizeVitamins(
 
   // If it's already an array of strings
   if (Array.isArray(vitamins)) {
-    return vitamins.map(vitamin => ({;
+    return vitamins.map(vitamin => ({,
       name: formatVitaminName(vitamin),
       value: undefined,
       unit: undefined
@@ -40,7 +40,7 @@ export function normalizeMinerals(
 
   // If it's already an array of strings
   if (Array.isArray(minerals)) {
-    return minerals.map(mineral => ({;
+    return minerals.map(mineral => ({,
       name: formatMineralName(mineral),
       value: undefined,
       unit: undefined

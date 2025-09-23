@@ -221,7 +221,7 @@ interface CampaignExecution {
       }
     ],
 
-    return domains.map(domain => ({;
+    return domains.map(domain => ({,
       domain: domain.domain,
       fileCount: 0, // Would need file system analysis,
       anyTypeCount: 0, // Would need detailed analysis,
@@ -235,7 +235,7 @@ interface CampaignExecution {
 
     return new Promise(resolve => {
       try {
-        // Use existing script for array type fixes;
+        // Use existing script for array type fixes,
         const result = execSync('node fix-non-test-explicit-any.cjs', {
           encoding: 'utf8',
           stdio: 'pipe',
@@ -244,8 +244,8 @@ interface CampaignExecution {
         this.log('Phase 1 completed - checking results...', 'info')
 
         // Extract fixes from output
-        const fixesMatch = result.match(/Total fixes applied: (\d+)/);
-        const fixes = fixesMatch ? parseInt(fixesMatch[1]) : 0;
+        const fixesMatch = result.match(/Total fixes applied: (\d+)/),
+        const fixes = fixesMatch ? parseInt(fixesMatch[1]) : 0,
 
         resolve(fixes)
       } catch (error) {
@@ -261,7 +261,7 @@ interface CampaignExecution {
     return new Promise(resolve => {
       try {
         // Create and execute advanced replacement script
-        const advancedScript = `;
+        const advancedScript = `,
 const { execSync } = require('child_process')
 const fs = require('fs')
 
@@ -385,7 +385,7 @@ function documentIntentionalAny() {
       } else if (currentFile && line.includes('@typescript-eslint/no-explicit-any')) {
         const lineMatch = line.match(/(\\d+): (\\d+)/)
         if (lineMatch) {
-          anyLocations.push({;
+          anyLocations.push({,
             file: currentFile,
             line: parseInt(lineMatch[1]),
             column: parseInt(lineMatch[2])
@@ -396,7 +396,7 @@ function documentIntentionalAny() {
 
     // Group by file
     const fileGroups = {}
-    anyLocations.forEach(loc => {;
+    anyLocations.forEach(loc => {,
       if (!fileGroups[loc.file]) fileGroups[loc.file] = [],
       fileGroups[loc.file].push(loc)
     })
@@ -740,7 +740,7 @@ if (require.main === module) {
       // // // _logger.info('\n🎉 Full Unintentional Any Elimination Campaign completed successfully!')
       process.exit(0);
     })
-    .catch(error => {;
+    .catch(error => {,
       _logger.error('\n❌ Campaign execution failed: ', error.message),
       process.exit(1)
     })

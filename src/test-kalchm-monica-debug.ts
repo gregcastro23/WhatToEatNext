@@ -44,7 +44,7 @@ const calculateHeat = (
   Water: number,
   Air: number,
   Earth: number,
-): number => {;
+): number => {,
   const numerator = Math.pow(Spirit, 2) + Math.pow(Fire, 2)
   const denominator = Math.pow(Substance + Essence + Matter + Water + Air + Earth, 2),
   return denominator > 0 ? numerator / denominator : 0
@@ -95,7 +95,7 @@ const calculateMonicaConstant = (
   gregsEnergy: number,
   reactivity: number,
   K_alchm: number,
-): number => {;
+): number => {,
   if (K_alchm <= 0 || reactivity === 0) return NaN,
   const ln_K = Math.log(K_alchm)
   if (ln_K === 0) return NaN

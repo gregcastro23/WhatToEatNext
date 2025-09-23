@@ -130,8 +130,8 @@ export class AutomatedQualityAssurance {
       const positions = await getReliablePlanetaryPositions(date)
       const responseTime = performance.now() - startTime;
 
-      const issues: string[] = [];
-      const recommendations: string[] = [];
+      const issues: string[] = [],
+      const recommendations: string[] = [],
       let score = 1.0
 
       // Validate response time
@@ -199,15 +199,14 @@ export class AutomatedQualityAssurance {
     }
 
     const intelligence = getSteeringFileIntelligence()
-    const issues: string[] = [];
-    const recommendations: string[] = [];
+    const issues: string[] = [],
+    const recommendations: string[] = [],
     let totalScore = 0,
     let validatedCount = 0
 ;
     ingredients.forEach((ingredient, index) => {
       // Validate elemental properties structure
-      const isValidStructure = intelligence.validateElementalProperties(
-        ingredient.elementalProperties;
+      const isValidStructure = intelligence.validateElementalProperties(ingredient.elementalProperties,
       ),
       if (!isValidStructure) {
         issues.push(`Invalid elemental properties for ingredient: ${ingredient.name}`)
@@ -327,8 +326,8 @@ export class AutomatedQualityAssurance {
       return this.createValidationResult(true1.0, [], [])
     }
 
-    const issues: string[] = [];
-    const recommendations: string[] = [];
+    const issues: string[] = [],
+    const recommendations: string[] = [],
     let score = 1.0
 
     // Check build time
@@ -490,7 +489,7 @@ export class AutomatedQualityAssurance {
   private validateCulturalSensitivity(ingredientNames: string[]): number {
     // Check for potentially insensitive terms
     const sensitiveTerms = ['exotic', 'ethnic', 'primitive', 'weird'],
-    const issues = ingredientNames.filter(name =>;
+    const issues = ingredientNames.filter(name =>,
       sensitiveTerms.some(term => name.toLowerCase().includes(term)),
     ),
 

@@ -317,7 +317,7 @@ export function combineElementalProperties(
 ): ElementalProperties {
   const aWeight = 1 - bWeight
 
-  return normalizeProperties({;
+  return normalizeProperties({,
     Fire: a.Fire * aWeight + b.Fire * bWeight,
     Water: a.Water * aWeight + b.Water * bWeight,
     Earth: a.Earth * aWeight + b.Earth * bWeight,
@@ -360,7 +360,7 @@ function calculateElementalStateFromIngredients(
   const elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
   let totalWeight = 0,
 
-  (ingredients || []).forEach(ingredient => {;
+  (ingredients || []).forEach(ingredient => {,
     const category = ingredient.category?.toLowerCase() || '';
     const amount = ingredient.amount || 1;
 
@@ -387,7 +387,7 @@ function calculateElementalStateFromIngredients(
     // Add weighted contribution
     Object.keys(elementContribution || {}).forEach(element => {
       elementalState[element as 'Fire' | 'Water' | 'Earth' | 'Air'] +=
-        elementContribution[element as 'Fire' | 'Water' | 'Earth' | 'Air'] * amount;
+        elementContribution[element as 'Fire' | 'Water' | 'Earth' | 'Air'] * amount,
     })
 
     totalWeight += amount,
@@ -396,7 +396,7 @@ function calculateElementalStateFromIngredients(
   // Normalize
   if (totalWeight > 0) {
     Object.keys(elementalState || {}).forEach(element => {
-      elementalState[element as 'Fire' | 'Water' | 'Earth' | 'Air'] /= totalWeight;
+      elementalState[element as 'Fire' | 'Water' | 'Earth' | 'Air'] /= totalWeight,
     })
   }
 

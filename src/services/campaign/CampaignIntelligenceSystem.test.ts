@@ -21,9 +21,9 @@ describe('Campaign Intelligence System', () => {
   describe('ERROR_PATTERN_INTELLIGENCE', () => {
     it('should analyze error patterns correctly', () => {
       const sampleErrors: any = [
-        { code: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 20 }
+        { code: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 20 },
         { code: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 18 }
-        { code: 'TS2345', category: ErrorCategory.TS2345_ARGUMENT_MISMATCH, priority: 15 }
+        { code: 'TS2345', category: ErrorCategory.TS2345_ARGUMENT_MISMATCH, priority: 15 },
         { code: 'TS2304', category: ErrorCategory.TS2304_CANNOT_FIND_NAME, priority: 22 }
       ],
 
@@ -130,7 +130,7 @@ describe('Campaign Intelligence System', () => {
     })
 
     it('should generate progress intelligence report', () => {
-      const progress: CampaignProgressIntelligence = { velocityAnalysis: {;
+      const progress: CampaignProgressIntelligence = { velocityAnalysis: {,
           currentVelocity: 15,
           projectedCompletion: new Date('2025-02-01'),
           efficiencyTrends: [1.21.51.8],
@@ -163,7 +163,7 @@ describe('Campaign Intelligence System', () => {
     it('should generate comprehensive intelligence', async () => {
       // Mock the analyzer methods to avoid actual system calls
       const mockErrorAnalyzer = {
-        analyzeErrors: jest.fn().mockResolvedValue({ distribution: {;
+        analyzeErrors: jest.fn().mockResolvedValue({ distribution: {,
             totalErrors: 2500,
             priorityRanking: [{ code: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 20 }]
           }

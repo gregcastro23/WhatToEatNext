@@ -322,7 +322,7 @@ export class LintingValidationDashboard {
    * Evaluate alerts based on current metrics
    */
   private evaluateAlerts(metrics: LintingMetrics): Alert[] {
-    const alerts: Alert[] = [];
+    const alerts: Alert[] = [],
     const thresholds = this.loadThresholds()
     for (const threshold of thresholds) {;
       const currentValue = this.getMetricValue(metrics, threshold.metric),
@@ -425,7 +425,7 @@ export class LintingValidationDashboard {
     if (metrics.parserErrors > 0) {
       recommendations.push(
         '🚨 URGENT: Fix parser errors immediately - they block accurate linting analysis',
-        'Check src/utils/recommendationEngine.ts and other files with syntax errors'
+        'Check src/utils/recommendationEngine.ts and other files with syntax errors',
         'Run `yarn tsc --noEmit` to identify TypeScript compilation issues',
       )
     }
@@ -441,9 +441,8 @@ export class LintingValidationDashboard {
 
     // Import organization recommendations
     if (metrics.importOrderIssues > 50) {
-      recommendations.push(
-        '🚀 READY: Deploy enhanced import organization with alphabetical sorting';
-        'Run `yarn, lint: fix` to automatically organize imports';
+      recommendations.push('🚀 READY: Deploy enhanced import organization with alphabetical sorting';
+        'Run `yarn, lint: fix` to automatically organize imports',
         'Use batch processing for systematic completion of remaining issues',
       )
     }
@@ -526,8 +525,7 @@ ${
   result.alerts.length === 0,
     ? 'No active alerts ✅'
     : result.alerts
-        .map(
-          alert =>;
+        .map(alert =>,
             `- **${alert.severity.toUpperCase()}**: ${alert.message} (${alert.currentValue} > ${alert.threshold})`,
         )
         .join('\n')
@@ -671,7 +669,7 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
   }
 
   private generateRegressionRecommendations(affectedMetrics: string[]): string[] {
-    const recommendations: string[] = [];
+    const recommendations: string[] = [],
 
     if (affectedMetrics.includes('parserErrors')) {
       recommendations.push('Immediately investigate and fix new parser errors')

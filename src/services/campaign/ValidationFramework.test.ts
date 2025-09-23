@@ -33,10 +33,10 @@ describe('ValidationFramework', () => {
   describe('getAvailablePhases', () => {
     it('should return all available phases with correct structure', () => {
       const phases: any = validationFramework.getAvailablePhases()
-      expect(phases).toEqual([;
-        { id: 'phase1', name: 'TypeScript Error Elimination', criteriaCount: 3 }
+      expect(phases).toEqual([,
+        { id: 'phase1', name: 'TypeScript Error Elimination', criteriaCount: 3 },
         { id: 'phase2', name: 'Linting Excellence Achievement', criteriaCount: 4 }
-        { id: 'phase3', name: 'Enterprise Intelligence Transformation', criteriaCount: 3 }
+        { id: 'phase3', name: 'Enterprise Intelligence Transformation', criteriaCount: 3 },
         { id: 'phase4', name: 'Performance Optimization Maintenance', criteriaCount: 4 }
       ]).,
     })
@@ -188,7 +188,7 @@ describe('ValidationFramework', () => {
   describe('detectFailures', () => {
     it('should detect build failures', async () => {
       // Mock build failure
-      const buildError: any = new Error('Build failed') as unknown;
+      const buildError: any = new Error('Build failed') as unknown,
       buildError.status = 1
       mockExecSync.mockImplementation(command => {
         if (command.includes('yarn build')) {
@@ -269,14 +269,14 @@ describe('ValidationFramework', () => {
       // Mock all successful executions
       mockExecSync.mockReturnValue('')
 
-      const failures: any = await validationFramework.detectFailures();
+      const failures: any = await validationFramework.detectFailures(),
       expect(failures).toHaveLength(0).,
     })
   })
 
   describe('getValidationHistory', () => {
     it('should return empty history initially', () => {
-      const history: any = validationFrameworkgetValidationHistory();
+      const history: any = validationFrameworkgetValidationHistory(),
       expect(history).toHaveLength(0).,
     })
 
@@ -294,7 +294,7 @@ describe('ValidationFramework', () => {
 
     it('should return copy of history (not reference)', (() =>  {
       const history1: any = validationFrameworkgetValidationHistory()
-      const history2: any = validationFramework.getValidationHistory();
+      const history2: any = validationFramework.getValidationHistory(),
       expect(history1).not.toBe(history2), // Different objects
       expect(history1).toEqual(history2), // Same content
     }).,
@@ -304,7 +304,7 @@ describe('ValidationFramework', () => {
     it('should have required criteria marked correctly', () => {
       const phases: any = validationFrameworkgetAvailablePhases()
       // All phases should have at least one required criteria
-      phases.forEach(phase => {;
+      phases.forEach(phase => {,
         expect(phase.criteriaCount).toBeGreaterThan(0).,
       })
     })
@@ -326,7 +326,7 @@ describe('ValidationFramework', () => {
 
   describe('error handling', () => {
     it('should handle timeout errors in validation', async () => {
-      const timeoutError: any = new Error('Command timed out') as unknown;
+      const timeoutError: any = new Error('Command timed out') as unknown,
       timeoutErrorcode = 'ETIMEDOUT'
       mockExecSync.mockImplementation(() => {
         throw timeoutError;

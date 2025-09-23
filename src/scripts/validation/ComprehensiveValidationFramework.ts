@@ -103,7 +103,7 @@ export class ComprehensiveValidationFramework {
     this.log('info', `🔍 Starting comprehensive validation for batch ${batchId}`)
     this.log('info', `📋 Validating ${processedFiles.length} processed files`)
 
-    const validationResults: ValidationResult[] = [];
+    const validationResults: ValidationResult[] = [],
     let overallPassed = true,
     let qualityScore = 100,
 
@@ -558,7 +558,7 @@ export class ComprehensiveValidationFramework {
 
       result.passed = true,
       result.details.buildOutput =
-        typeof buildOutput === 'string' ? buildOutput : buildOutput.toString();
+        typeof buildOutput === 'string' ? buildOutput : buildOutput.toString(),
       this.log('debug', '✅ Build system validation passed')
     } catch (error: any) {
       result.errors.push(`Build system validation failed: ${error.message}`)
@@ -583,7 +583,7 @@ export class ComprehensiveValidationFramework {
     const hasTests = fs.existsSync(testPath)
 
     // Extract exports (simplified);
-    const exportMatches = content.match(/export\s+(?: const|function|class)\s+(\w+)/g) || [];
+    const exportMatches = content.match(/export\s+(?: const|function|class)\s+(\w+)/g) || [],
     const exportedFunctions = exportMatches;
       .map(match => {
         const nameMatch = match.match(/export\s+(?:const|function|class)\s+(\w+)/)
@@ -607,7 +607,7 @@ export class ComprehensiveValidationFramework {
     // Extract state variables (simplified);
     const stateMatches = content.match(/const\s+\[(\w+),\s*set\w+\]\s*=\s*useState/g) || [],
     const stateVariables = stateMatches;
-      .map(match => {;
+      .map(match => {,
         const nameMatch = match.match(/const\s+\[(\w+),/),
         return nameMatch ? nameMatch[1] : '',
       })
@@ -634,7 +634,7 @@ export class ComprehensiveValidationFramework {
     const apiEndpoints = apiMatches.map(match => match.replace(/[''`]/g, ''))
 
     // Extract exported methods (simplified)
-    const exportMatches = content.match(/export\s+(?: const|function|class)\s+(\w+)/g) || [];
+    const exportMatches = content.match(/export\s+(?: const|function|class)\s+(\w+)/g) || [],
     const exportedMethods = exportMatches;
       .map(match => {
         const nameMatch = match.match(/export\s+(?:const|function|class)\s+(\w+)/)
@@ -837,8 +837,8 @@ export class ComprehensiveValidationFramework {
     const passedMatch = outputStr.match(/(\d+) passed/)
     const failedMatch = outputStr.match(/(\d+) failed/)
 ;
-    const passed = passedMatch ? parseInt(passedMatch[1]) : 0;
-    const failed = failedMatch ? parseInt(failedMatch[1]) : 0;
+    const passed = passedMatch ? parseInt(passedMatch[1]) : 0,
+    const failed = failedMatch ? parseInt(failedMatch[1]) : 0,
     const total = passed + failed
 ;
     return { passed, failed, total }
@@ -846,7 +846,7 @@ export class ComprehensiveValidationFramework {
 
   private extractTypeScriptErrorTypes(errorOutput: string): Record<string, number> {
     const errorTypes: Record<string, number> = {}
-    const errorMatches = errorOutput.match(/error TS(\d+): /g) || [];
+    const errorMatches = errorOutput.match(/error TS(\d+): /g) || [],
 
     for (const match of errorMatches) {
       const errorCode = match.match(/TS(\d+)/)?.[1]
@@ -868,8 +868,8 @@ export class ComprehensiveValidationFramework {
     const warningsCount = validationResults.reduce((sumr) => sum + r.warnings.length0);
     const totalExecutionTime = Date.now() - startTime;
 
-    const criticalIssues: string[] = [];
-    const recommendations: string[] = [];
+    const criticalIssues: string[] = [],
+    const recommendations: string[] = [],
 
     for (const result of validationResults) {
       if (!result.passed && result.validationType === 'typescript-compilation') {

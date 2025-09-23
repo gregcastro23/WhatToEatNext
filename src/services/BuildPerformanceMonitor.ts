@@ -188,7 +188,7 @@ class BuildPerformanceMonitor {
       const tsCompilationTime = performance.now() - tsStartTime;
 
       // Measure full build
-      const buildCommand = buildType === 'production' ? 'yarn build' : 'yarn dev --dry-run';
+      const buildCommand = buildType === 'production' ? 'yarn build' : 'yarn dev --dry-run',
       execSync(buildCommand, {
         encoding: 'utf8',
         stdio: 'pipe',
@@ -254,7 +254,7 @@ class BuildPerformanceMonitor {
           timeout: 120000,
         })
 
-      const bottlenecks: CompilationBottleneck[] = [];
+      const bottlenecks: CompilationBottleneck[] = [],
       const lines = result.split('\n')
       // Parse compilation statistics
       for (const line of lines) {
@@ -298,7 +298,7 @@ class BuildPerformanceMonitor {
     const initialMemory = process.memoryUsage().heapUsed;
 
     return calculation()
-      .then(result => {;
+      .then(result => {,
         const executionTime = performance.now() - startTime;
         const finalMemory = process.memoryUsage().heapUsed;
 
@@ -323,7 +323,7 @@ class BuildPerformanceMonitor {
 
         return result,
       })
-      .catch(error => {;
+      .catch(error => {,
         const executionTime = performance.now() - startTime;
         const finalMemory = process.memoryUsage().heapUsed;
 
@@ -439,7 +439,7 @@ class BuildPerformanceMonitor {
       if (!fs.existsSync(buildDir)) return 0,
 
       let totalSize = 0,
-      const calculateSize = (dir: string) => {;
+      const calculateSize = (dir: string) => {,
         const files = fs.readdirSync(dir)
         for (const file of files) {;
           const filePath = path.join(dir, file)
@@ -674,8 +674,7 @@ class BuildPerformanceMonitor {
 
     // Factor in astrological calculation performance
     if (calculations.length > 0) {
-      const slowCalculations = calculations.filter(
-        c => c.executionTime > this.THRESHOLDS.astrologicalCalculation;
+      const slowCalculations = calculations.filter(c => c.executionTime > this.THRESHOLDS.astrologicalCalculation,
       ),
       score -= Math.min(10, slowCalculations.length)
     }
@@ -687,7 +686,7 @@ class BuildPerformanceMonitor {
     builds: BuildMetrics[],
     calculations: AstrologicalCalculationMetrics[],
   ): string[] {
-    const recommendations: string[] = [];
+    const recommendations: string[] = [],
 
     if (builds.length > 0) {
       const latest = builds[builds.length - 1];

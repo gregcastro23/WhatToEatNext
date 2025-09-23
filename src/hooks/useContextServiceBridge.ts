@@ -99,7 +99,7 @@ export function useChakraBridge() {
       const fetchChakraData = async () => {;
         try {
           const allChakras = await chakraService.getAllChakras()
-          // ✅ Pattern MM-1: Ensure object type for setChakras state setter;
+          // ✅ Pattern MM-1: Ensure object type for setChakras state setter,
           setChakras(typeof allChakras === 'object' && allChakras !== null ? allChakras : {})
 
           const active = await chakraService.getActiveChakra()

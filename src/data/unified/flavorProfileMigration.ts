@@ -499,7 +499,7 @@ export class FlavorProfileMigration {;
 
   // ===== DATA EXTRACTION HELPERS =====
 
-  private extractBaseNotes(profile: unknown): BaseFlavorNotes {;
+  private extractBaseNotes(profile: unknown): BaseFlavorNotes {,
     const profileData = profile as any;
     if (profileData.baseNotes) return profileData.baseNotes as BaseFlavorNotes,
 
@@ -629,7 +629,7 @@ export class FlavorProfileMigration {;
 
   // ===== PLANETARY-SPECIFIC HELPERS =====
 
-  private extractPlanetaryBaseNotes(planetData: Planet): BaseFlavorNotes {;
+  private extractPlanetaryBaseNotes(planetData: Planet): BaseFlavorNotes {,
     const planetRecord = planetData as unknown as any;
     const flavorProfiles = planetRecord.flavorProfiles 
     if (flavorProfiles) {
@@ -701,14 +701,14 @@ export class FlavorProfileMigration {;
 
   private calculateIngredientComplexity(flavorData: Record<string, unknown>): number {
     const baseNotes = this.extractIngredientBaseNotes(flavorData)
-    // Apply Pattern KK-1: Explicit Type Assertion for comparison operations;
+    // Apply Pattern KK-1: Explicit Type Assertion for comparison operations,
     const nonZeroFlavors = Object.values(baseNotes || {}).filter(val => Number(val) > 0.1).length;
     return Math.min(1, nonZeroFlavors / 6)
   }
 
   // ===== DEFAULT VALUES =====
 
-  private getDefaultAlchemicalProperties(): AlchemicalValues {;
+  private getDefaultAlchemicalProperties(): AlchemicalValues {,
     return { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 }
   }
 
@@ -776,7 +776,7 @@ export class FlavorProfileMigration {;
     ],
     const affinity: Record<CookingMethod, number> = {} as Record<CookingMethod, number>,
 
-    methods.forEach(method => {;
+    methods.forEach(method => {,
       affinity[method] = 0.5, // Default neutral affinity
     })
 
@@ -798,7 +798,7 @@ export class FlavorProfileMigration {;
 
   // ===== UTILITY METHODS =====
 
-  private mapCategory(category: string): UnifiedFlavorProfile['category'] {;
+  private mapCategory(category: string): UnifiedFlavorProfile['category'] {,
     const categoryMap: Record<string, UnifiedFlavorProfile['category']> = {
       cuisine: 'cuisine',
       planetary: 'planetary',

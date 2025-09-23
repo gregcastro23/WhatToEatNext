@@ -48,7 +48,7 @@ interface AlchemicalRecommendationResults {
  *
  * @returns Recommendations, transformed data, loading state, and any errors
  */
-export const _useAlchemicalRecommendations = ({;
+export const _useAlchemicalRecommendations = ({,
   ingredients,
   cookingMethods,
   cuisines,
@@ -62,7 +62,7 @@ export const _useAlchemicalRecommendations = ({;
   tarotElementBoosts,
   tarotPlanetaryBoosts,
   aspects = [],
-}: UseAlchemicalRecommendationsProps): AlchemicalRecommendationResults => {;
+}: UseAlchemicalRecommendationsProps): AlchemicalRecommendationResults => {,
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
   const [recommendations, setRecommendations] = useState<AlchemicalRecommendations | null>(null)
@@ -110,13 +110,13 @@ export const _useAlchemicalRecommendations = ({;
         setRecommendations(recs)
 
         // Apply deep type conversion to resolve cross-import conflicts
-        const _convertToLocalAlchemicalItem = (items: unknown[]): AlchemicalItem[] => {;
+        const _convertToLocalAlchemicalItem = (items: unknown[]): AlchemicalItem[] => {,
           return items.map(item => {
             // Create a new object that fully satisfies the alchemicalTransformation.AlchemicalItem interface
             const convertedItem = {
               ...item
               // Ensure all required AlchemicalItem properties are present
-              elementalProperties: (item as any).elementalProperties || {;
+              elementalProperties: (item as any).elementalProperties || {,
                 Fire: 0.25,
                 Water: 0.25,
                 Earth: 0.25,

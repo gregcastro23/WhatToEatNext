@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawMelons = {
-  watermelon: {;
+  watermelon: {,
     name: 'Watermelon',
     elementalProperties: {
       Water: 0.8,
@@ -42,7 +42,7 @@ const rawMelons = {
         flavor: 'classic sweet taste, balanced sugar-water ratio',
         seeds: 'black seeds throughout',
         notes: 'standard commercial variety',
-      }
+      },
       'Sugar Baby': {
         appearance: 'small, round, dark green exterior, deep red flesh',
         size: 'small (8-10 lbs)',
@@ -55,7 +55,7 @@ const rawMelons = {
         flavor: 'milder sweetness than seeded varieties',
         seeds: 'minimal white undeveloped seeds',
         notes: 'convenience variety, popular in markets',
-      }
+      },
       'Yellow Flesh': {
         appearance: 'varies by type, yellow or orange interior',
         size: 'varies by variety',
@@ -228,19 +228,19 @@ const rawMelons = {
         size: 'medium to large (4-8 lbs)',
         flavor: 'mild, subtly sweet, clean finish',
         notes: 'most common commercial variety',
-      }
+      },
       'Orange Flesh': {
         appearance: 'similar to green honeydew but with orange interior',
         size: 'medium (5-6 lbs)',
         flavor: 'sweeter than green, slight vanilla notes',
         notes: 'specialty variety, increasing in popularity',
-      }
+      },
       'Golden Honeydew': {
         appearance: 'smooth yellow exterior, pale green flesh',
         size: 'medium (4-6 lbs)',
         flavor: 'honey-like sweetness, more aromatic',
         notes: 'specialty variety with distinct flavor',
-      }
+      },
       'Honey Globe': {
         appearance: 'white-green exterior, green flesh',
         size: 'smaller (3-4 lbs)',
@@ -323,7 +323,7 @@ const rawMelons = {
         size: 'medium to large (4-7 lbs)',
         flavor: 'mildly sweet, slightly tangy',
         notes: 'most common casaba variety',
-      }
+      },
       'Winter Casaba': {
         appearance: 'green-yellow wrinkled skin, pale flesh',
         size: 'large (7-8 lbs)',

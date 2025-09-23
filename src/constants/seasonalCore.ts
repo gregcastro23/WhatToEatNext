@@ -110,7 +110,7 @@ export const ZODIAC_SEASONS: Record<Season, ZodiacSign[]> = {
  * Detailed seasonal properties including culinary and energetic aspects
  */
 export const SEASONAL_PROPERTIES = {
-  spring: {;
+  spring: {,
     elementalModifier: SEASONAL_MODIFIERS.spring,
     qualities: ['ascending', 'expanding', 'growing', 'fresh'],
     peak: { month: 4, day: 1 }, // May 1st
@@ -229,7 +229,7 @@ export const SEASON_DATE_RANGES = {
  */
 export const SEASONAL_INFLUENCE = {
   // Each season's influence strength (0-1)
-  strength: {;
+  strength: {,
     spring: 0.7,
     summer: 0.9,
     autumn: 0.6,

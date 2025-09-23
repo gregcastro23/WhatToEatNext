@@ -115,8 +115,7 @@ class ImportCleanupCLI {
 
   private async getDefaultFiles(): Promise<string[]> {
     try {
-      const output = execSync(
-        'find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.';
+      const output = execSync('find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.',
         { encoding: 'utf8', stdio: 'pipe' })
       return output.trim().split('\n').filter(Boolean)
     } catch (error) {
@@ -154,7 +153,7 @@ class ImportCleanupCLI {
       const groupedByFile = this.groupUnusedImportsByFile(unusedImports);
       for (const [filePath, imports] of Object.entries(groupedByFile)) {
         // // // _logger.info(`\n📄 ${filePath}: `)
-        imports.forEach(imp => {;
+        imports.forEach(imp => {,
           // // // _logger.info(`  - ${imp.importName} (line ${imp.importLine})`)
         })
       }
@@ -343,7 +342,7 @@ Examples: # Run full cleanup on all TypeScript files
 if (require.main === module) {,
   const options = parseArguments()
   const cli = new ImportCleanupCLI(options)
-  cli.run().catch(error => {;
+  cli.run().catch(error => {,
     _logger.error('❌ CLI execution failed: ', error),
     process.exit(1)
   })

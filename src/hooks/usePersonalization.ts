@@ -91,7 +91,7 @@ export function usePersonalization(
 
       const preferences = await userLearning.getUserPreferences(userId)
 
-      setData(prev => ({;
+      setData(prev => ({,
         ...prev,
         preferences: {
           cuisines: preferences.cuisinePreferences,
@@ -127,7 +127,7 @@ export function usePersonalization(
 
   // Track recipe interaction
   const trackRecipeInteraction = useCallback(async (
-    recipeData: {;
+    recipeData: {,
       id: string,
       ingredients: string[],
       cuisine: string,
@@ -197,10 +197,10 @@ export function usePersonalization(
   // Get personalized recommendations
   const getPersonalizedRecommendations = useCallback(async (
     baseRecommendations: any[],
-    context?: { planetaryHour?: string; timeOfDay?: string }
+    context?: { planetaryHour?: string, timeOfDay?: string }
   ) => {
     if (!userId) {
-      return baseRecommendations.map(rec => ({;
+      return baseRecommendations.map(rec => ({,
         ...rec,
         personalizedScore: rec.score || 0.5,
         reasons: ['No personalization data available'],
@@ -220,7 +220,7 @@ export function usePersonalization(
       const responseTime = performance.now() - startTime;
       trackApiCall('personalization/recommendations', responseTime)
 
-      setData(prev => ({;
+      setData(prev => ({,
         ...prev,
         recommendations: {
           scores: personalizedScores,
@@ -235,7 +235,7 @@ export function usePersonalization(
         responseTime
       })
 
-      return personalizedScores.map(score => ({;
+      return personalizedScores.map(score => ({,
         ...baseRecommendations.find(rec => rec.id === score.recipeId),
         personalizedScore: score.personalizedScore,
         reasons: score.reasons,

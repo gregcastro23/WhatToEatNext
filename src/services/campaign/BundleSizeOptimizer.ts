@@ -268,7 +268,7 @@ export class BundleSizeOptimizer {
             const stats = fs.statSync(filePath)
             const sizeKB = Math.round(stats.size / 1024)
 
-            chunks.push({;
+            chunks.push({,
               name: file,
               size: sizeKB,
               compressedSize: Math.round(sizeKB * this.COMPRESSION_RATIO),
@@ -305,7 +305,7 @@ export class BundleSizeOptimizer {
             const sizeKB = Math.round(stats.size / 1024)
             const ext = path.extname(file).toLowerCase()
 
-            let type: BundleAsset['type'] = 'other';
+            let type: BundleAsset['type'] = 'other',
             if (['.js', '.mjs'].includes(ext)) type = 'js',
             else if (ext === '.css') type = 'css',
             else if (['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp'].includes(ext))
@@ -363,7 +363,7 @@ export class BundleSizeOptimizer {
           const usage = this.analyzeDependencyUsage(name)
           const alternatives = this.suggestAlternatives(name)
 
-          dependencies.push({;
+          dependencies.push({,
             name,
             size,
             version: version,
@@ -463,7 +463,7 @@ export class BundleSizeOptimizer {
     // Check for unused dependencies
     for (const dep of analysis.dependencies) {
       if (dep.usage === 'optional' && dep.size > 50) {
-        this.addAlert({;
+        this.addAlert({,
           type: 'unused_dependency',
           severity: 'warning',
           message: `Large optional dependency ${dep.name} (${dep.size}kB) may be removable`,
@@ -526,7 +526,7 @@ export class BundleSizeOptimizer {
   // Helper methods
 
   private getAllFiles(dir: string): string[] {
-    const files: string[] = [];
+    const files: string[] = [],
 
     try {
       const items = fs.readdirSync(dir)
@@ -651,7 +651,7 @@ export class BundleSizeOptimizer {
   }
 
   private async identifyDataFetchingOptimizations(): Promise<string[]> {
-    const optimizations: string[] = [];
+    const optimizations: string[] = [],
 
     try {
       // Check for potential data fetching optimizations

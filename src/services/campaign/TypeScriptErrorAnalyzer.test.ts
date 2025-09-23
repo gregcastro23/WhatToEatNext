@@ -26,7 +26,7 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
       const errors: any = parseMethod(mockOutput)
       expect(errors).toHaveLength(3).
 
-      expect(errors[0]).toMatchObject({;
+      expect(errors[0]).toMatchObject({,
         filePath: 'src/components/test.tsx',
         line: 10,
         column: 5,

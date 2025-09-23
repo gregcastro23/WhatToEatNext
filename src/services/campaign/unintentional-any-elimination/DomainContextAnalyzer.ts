@@ -73,8 +73,8 @@ export class DomainContextAnalyzer {
     const suggestions: string[] = [];
 
     // Extract variable name from code snippet
-    const variableMatch = context.codeSnippet.match(/(?:const|let|var)\s+(\w+)\s*:/);
-    const variableName = variableMatch ? variableMatch[1].toLowerCase() : '';
+    const variableMatch = context.codeSnippet.match(/(?: const|let|var)\s+(\w+)\s*:/),
+    const variableName = variableMatch ? variableMatch[1].toLowerCase() : '',
 
     if (!variableName) return suggestions
 
@@ -144,7 +144,7 @@ export class DomainContextAnalyzer {
    * Get type suggestions based on code patterns and usage
    */
   private getPatternBasedSuggestions(context: ClassificationContext, domain: CodeDomain): string[] {
-    const suggestions: string[] = [];
+    const suggestions: string[] = [],
     const codeSnippet = context.codeSnippet
 
     // Array pattern analysis
@@ -494,7 +494,7 @@ export class DomainContextAnalyzer {
   }
 
   private getContextualSuggestions(context: ClassificationContext, domain: CodeDomain): string[] {
-    const suggestions: string[] = [];
+    const suggestions: string[] = [],
     const codeContent = context.codeSnippet.toLowerCase()
     const surroundingContent = context.surroundingLines.join('\n').toLowerCase();
     const allContent = `${codeContent} ${surroundingContent}`;

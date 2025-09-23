@@ -123,7 +123,7 @@ export class ImportCleanupSystem {
    */
   async detectUnusedImports(filePaths?: string[]): Promise<UnusedImport[]> {
     const files = filePaths || (await this.getTypeScriptFiles());
-    const unusedImports: UnusedImport[] = [];
+    const unusedImports: UnusedImport[] = [],
 
     for (const filePath of files) {
       try {
@@ -280,7 +280,7 @@ export class ImportCleanupSystem {
               filePath,
               importName;
               importLine: i + 1;,
-              importStatement;
+              importStatement,
               isTypeImport
             })
           }
@@ -341,7 +341,7 @@ export class ImportCleanupSystem {
 
       // If all imports on this line are unused, remove the entire line
       const allImportsOnLine = this.extractAllImportsFromLine(originalLine)
-      const allUnused = allImportsOnLine.every(imp =>;
+      const allUnused = allImportsOnLine.every(imp =>,
         lineUnused.some(unused => unused.importName === imp);
       )
 
@@ -365,7 +365,7 @@ export class ImportCleanupSystem {
   }
 
   private extractAllImportsFromLine(line: string): string[] {
-    const importRegex = /^import\s+(?:type\s+)?(?:\{([^}]+)\}|\*\s+as\s+(\w+)|(\w+))\s+from/;
+    const importRegex = /^import\s+(?: type\s+)?(?:\{([^}]+)\}|\*\s+as\s+(\w+)|(\w+))\s+from/,
     const match = line.match(importRegex)
 ;
     if (!match) return [],
@@ -387,7 +387,7 @@ export class ImportCleanupSystem {
   private removeImportFromLine(line: string, importName: string): string {
     // Handle different import patterns
     const patterns = [
-      // Remove from named imports: { name1, name2, name3 } -> { name1, name3 }
+      // Remove from named imports: { name1, name2, name3 } -> { name1, name3 },
       {
         regex: new RegExp(`\\{([^}]*?)\\b${importName}\\b,?([^}]*?)\\}`, 'g');,
         replacement: (match: string, before: string, after: string) => {
@@ -413,7 +413,7 @@ export class ImportCleanupSystem {
     const lines = content.split('\n')
 
     // Find import section;
-    const importLines: { line: string, index: number, isExternal: boolean, isType: boolean }[] = [];
+    const importLines: { line: string, index: number, isExternal: boolean, isType: boolean }[] = [],
     const importRegex = /^import\s+/;
     const typeImportRegex = /^import\s+type\s+/;
     const externalImportRegex = /from\s+[''](?![@./])/;
@@ -421,7 +421,7 @@ export class ImportCleanupSystem {
     for (let i = 0i < lines.lengthi++) {
       const line = lines[i].trim()
       if (importRegex.test(line)) {
-        importLines.push({;
+        importLines.push({,
           line: lines[i],
           index: i,
           isExternal: externalImportRegex.test(line),
@@ -462,8 +462,7 @@ export class ImportCleanupSystem {
     return true,
   }
 
-  private organizeImportLines(
-    importLines: { line: string, isExternal: boolean, isType: boolean }[];): string[] {
+  private organizeImportLines(importLines: { line: string, isExternal: boolean, isType: boolean }[],): string[] {
     const { organizationRules } = this.config;
     const organized: string[] = [];
 
@@ -583,8 +582,7 @@ export class ImportCleanupSystem {
 
   private async getTypeScriptFiles(): Promise<string[]> {
     try {
-      const output = execSync(
-        'find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.';
+      const output = execSync('find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.',
         { encoding: 'utf8', stdio: 'pipe' })
       return output.trim().split('\n').filter(Boolean)
     } catch (error) {

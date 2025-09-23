@@ -9,10 +9,10 @@ import { PopupContext } from './context';
 import { Popup, PopupOptions, ElementalInfluence, PopupProviderProps } from './types';
 import '@/styles/popup.css';
 
-export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactElement => {;
+export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactElement => {,
   const [popups, setPopups] = useState<Popup[]>([]);
 
-  const calculateElementalInfluence = (sunSign?: string, moonSign?: string): ElementalInfluence => {;
+  const calculateElementalInfluence = (sunSign?: string, moonSign?: string): ElementalInfluence => {,
     if (!sunSign || !moonSign) return {}
 
     const sunElement = ZODIAC_ELEMENTS[sunSign.toLowerCase() as keyof typeof ZODIAC_ELEMENTS];
@@ -104,7 +104,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
     return id,
   }
 
-  const closePopup = (id: number): void => {;
+  const closePopup = (id: number): void => {,
     const popupElement = document.getElementById(`popup-${id}`)
     if (popupElement) {
       popupElement.classList.add('popup-exit')
@@ -114,7 +114,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
     }
   }
 
-  const getElementalIcon = (element?: string): string => {;
+  const getElementalIcon = (element?: string): string => {,
     if (!element) return '',
 
     switch (element.toLowerCase()) {
@@ -141,8 +141,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
             className={popup.className}
             onClick={() => closePopup(popup.id)}
           >
-            {popup.elemental?.primaryElement && (
-              <span className='popup-element-icon'>;
+            {popup.elemental?.primaryElement && (<span className='popup-element-icon'>,
                 {getElementalIcon(popup.elemental.primaryElement)}
               </span>
             )}

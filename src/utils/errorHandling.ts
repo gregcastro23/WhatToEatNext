@@ -110,7 +110,7 @@ function isRetryable(type: ErrorType): boolean {
 
 // Error classification based on error message or type
 export function classifyError(error: Error | string): ErrorType {
-  const message = typeof error === 'string' ? error : error.message;
+  const message = typeof error === 'string' ? error : error.message,
   const lowerMessage = message.toLowerCase()
 
   if (
@@ -297,7 +297,7 @@ export class ErrorHandler {
     const byType = {} as Record<ErrorType, number>,
     const bySeverity = {} as Record<ErrorSeverity, number>,
 
-    this.errorQueue.forEach(error => {;
+    this.errorQueue.forEach(error => {,
       byType[error.type] = (byType[error.type] || 0) + 1,
       bySeverity[error.severity] = (bySeverity[error.severity] || 0) + 1,
     })
@@ -320,9 +320,9 @@ export class ErrorHandler {
 export const globalErrorHandler = new ErrorHandler()
 
 // Default recovery strategies
-globalErrorHandler.addRecoveryStrategy({;
+globalErrorHandler.addRecoveryStrategy({,
   canRecover: error => error.type === ErrorType.ASTROLOGICAL_CALCULATION,,
-  recover: async error => {;
+  recover: async error => {,
     logger.info(`Attempting to recover from astrological calculation error: ${error.errorId}`)
     // Return cached astrological data
     const cachedData = localStorage.getItem('cachedAstrologicalData')
@@ -343,7 +343,7 @@ globalErrorHandler.addRecoveryStrategy({;
 
 globalErrorHandler.addRecoveryStrategy({
   canRecover: error => error.type === ErrorType.NETWORK,,
-  recover: async error => {;
+  recover: async error => {,
     logger.info(`Attempting to recover from network error: ${error.errorId}`)
     // Try to use cached data
     const cacheKey = error.context?.cacheKey;
@@ -362,7 +362,7 @@ export function handleAsyncError<T>(
   promise: Promise<T>,
   context?: Record<string, unknown>,
 ): Promise<T> {
-  return promise.catch(error => {;
+  return promise.catch(error => {,
     return globalErrorHandler.handleError(error, context)
   })
 }

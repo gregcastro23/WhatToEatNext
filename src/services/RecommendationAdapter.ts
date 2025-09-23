@@ -310,9 +310,9 @@ export class RecommendationAdapter {
           const body2 = aspectData.body2;
           const aspectType = aspectData.aspectType
 
-          // Lookup planet data for both bodies with safe string conversion;
-          const planet1 = typeof body1 === 'string' ? body1.toLowerCase() : undefined;
-          const planet2 = typeof body2 === 'string' ? body2.toLowerCase() : undefined;
+          // Lookup planet data for both bodies with safe string conversion,
+          const planet1 = typeof body1 === 'string' ? body1.toLowerCase() : undefined,
+          const planet2 = typeof body2 === 'string' ? body2.toLowerCase() : undefined,
 
           if (!planet1 || !planet2 || !aspectType) return,
 
@@ -435,7 +435,7 @@ export class RecommendationAdapter {
   /**
    * Get recommended ingredients based on current planetary alignments
    */
-  getRecommendedIngredients(limit = 10): RecommendationResult<AlchemicalItem> {;
+  getRecommendedIngredients(limit = 10): RecommendationResult<AlchemicalItem> {,
     const items = this.getSortedItems(this.transformedIngredients, limit)
     // Compatibility, scores: use gregsEnergy or 1.0 as fallback
     const scores = Object.fromEntries(
@@ -447,7 +447,7 @@ export class RecommendationAdapter {
   /**
    * Get recommended cooking methods based on current planetary alignments
    */
-  getRecommendedCookingMethods(limit = 5): RecommendationResult<AlchemicalItem> {;
+  getRecommendedCookingMethods(limit = 5): RecommendationResult<AlchemicalItem> {,
     const items = this.getSortedItems(this.transformedMethods, limit)
     const scores = Object.fromEntries(
       items.map(item => [item.id, this.safeGetNumber((item as any).gregsEnergy) || 1.0]),,
@@ -458,7 +458,7 @@ export class RecommendationAdapter {
   /**
    * Get recommended cuisines based on current planetary alignments
    */
-  getRecommendedCuisines(limit = 5): RecommendationResult<AlchemicalItem> {;
+  getRecommendedCuisines(limit = 5): RecommendationResult<AlchemicalItem> {,
     const items = this.getSortedItems(this.transformedCuisines, limit)
     const scores = Object.fromEntries(
       items.map(item => [item.id, this.safeGetNumber((item as any).gregsEnergy) || 1.0]),,

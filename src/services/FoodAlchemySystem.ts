@@ -415,7 +415,7 @@ export class FoodAlchemySystem {
     const nocturnalElement = dayElements.nocturnal;
 
     // Calculate match based on food's element compared to planetary elements
-    const diurnalMatch = food.element === diurnalElement ? 1.0 : 0.3;
+    const diurnalMatch = food.element === diurnalElement ? 1.0 : 0.3,
     const nocturnalMatch = food.element === nocturnalElement ? 1.0 : 0.3;
 
     // Calculate a weighted score - both elements are equally important for planetary day
@@ -602,7 +602,7 @@ export class FoodAlchemySystem {
       }
 
       // Add time-specific recommendation based on the hour's element
-      const hourElement = isDaytime ? hourElements.diurnal : hourElements.nocturnal;
+      const hourElement = isDaytime ? hourElements.diurnal : hourElements.nocturnal,
       if (hourElement === 'Fire') {
         void recommendations.push(
           `${food.name} is best utilized in the current ${isDaytime ? 'day' : 'night' },

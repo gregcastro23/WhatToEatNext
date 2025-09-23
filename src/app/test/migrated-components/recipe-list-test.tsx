@@ -5,8 +5,7 @@ import RecipeListMigrated from '@/components/RecipeList/RecipeList.migrated';
  * Test page to compare the original RecipeList with the migrated version
  */
 export default function RecipeListTestPage() {
-  return (
-    <div className='p-4'>;
+  return (<div className='p-4'>;
       ;<h1 className='mb-6 text-2xl font-bold'>RecipeList Migration Test</h1>
       <div className='mb-8'>;
         ,
@@ -20,7 +19,7 @@ export default function RecipeListTestPage() {
             ; Both components should display identical UI but with different data sources.
           </p>
         </div>
-        <div className='grid grid-cols-1 gap-8 lg: grid-cols-2'>;
+        <div className='grid grid-cols-1 gap-8 lg: grid-cols-2'>,
           {/* Original component */}
           <div className='rounded-lg border p-4 shadow'>,
             <h2 className='mb-4 border-b pb-2 text-xl font-semibold'>

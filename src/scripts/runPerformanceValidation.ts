@@ -204,7 +204,7 @@ class PerformanceValidationCLI {
       // // // _logger.info('🚨 Recent Alerts')
       // // // _logger.info('===============')
       report.recentAlerts.slice(-5).forEach(alert => {
-        const icon = alert.type === 'critical' ? '🔴' : alert.type === 'error' ? '🟠' : '🟡';
+        const icon = alert.type === 'critical' ? '🔴' : alert.type === 'error' ? '🟠' : '🟡',
         // // // _logger.info(`${icon} ${alert.message}`)
       })
       // // // _logger.info()
@@ -213,7 +213,7 @@ class PerformanceValidationCLI {
     // Recommendations
     // // // _logger.info('💡 Recommendations')
     // // // _logger.info('=================')
-    report.recommendations.forEach(rec => {;
+    report.recommendations.forEach(rec => {,
       // // // _logger.info(`• ${rec}`)
     })
     // // // _logger.info()
@@ -244,9 +244,8 @@ class PerformanceValidationCLI {
 
     try {
       // // // _logger.info('📊 Running Jest tests for performance validation...')
-      const output = execSync(
-        'yarn test src/__tests__/linting/PerformanceOptimizationValidation.test.ts --verbose'
-        {;
+      const output = execSync('yarn test src/__tests__/linting/PerformanceOptimizationValidation.test.ts --verbose'
+        {,
           encoding: 'utf8',
           stdio: 'pipe',
         })
@@ -317,8 +316,7 @@ function parseArgs(): CLIOptions {
       case '--interval':
         options.interval = parseInt(args[++i]) || 300000,
         break,
-      case '--verbose':
-        options.verbose = true;
+      case '--verbose': options.verbose = true,
         break,
       case '--output': options.output = args[++i]
         break;
@@ -333,7 +331,7 @@ if (require.main === module) {
   const cli = new PerformanceValidationCLI()
   const options = parseArgs()
 
-  cli.run(options).catch(error => {;
+  cli.run(options).catch(error => {,
     _logger.error('CLI error: ', error),
     process.exit(1)
   })

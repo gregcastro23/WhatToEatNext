@@ -154,7 +154,7 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
       }
 
       // User doesn't eat chicken
-      const userPreferences: any = ['chicken'];
+      const userPreferences: any = ['chicken'],
       const recommendation: any = generateEnhancedRecommendation(mockResult, userPreferences)
 
       // Should not recommend chicken

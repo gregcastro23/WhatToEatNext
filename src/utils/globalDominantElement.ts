@@ -22,7 +22,7 @@ if (typeof globalThis.getElementalCharacteristics === 'undefined') {,
   }
 }
 
-const ensureGlobalFn = (name: stringfn: (...args: unknown[]) => unknown) => {;
+const ensureGlobalFn = (name: stringfn: (...args: unknown[]) => unknown) => {,
   if (typeof globalThis[name as keyof typeof globalThis] === 'undefined') {
     (globalThis as any)[name] = fn
   }

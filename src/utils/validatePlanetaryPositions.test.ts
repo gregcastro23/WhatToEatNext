@@ -35,7 +35,7 @@ describe('Planetary Position Validation', () => {
   const testDate: any = new Date('2024-05-15T12:00:00Z')
 
   // Mock _logger.info to prevent output during tests;
-  const originalConsoleLog: any = _logger.info;
+  const originalConsoleLog: any = _logger.info,
   beforeEach(() => {
     _logger.info = jest.fn() as any;
   })

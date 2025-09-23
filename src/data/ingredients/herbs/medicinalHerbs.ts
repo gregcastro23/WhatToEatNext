@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawMedicinalHerbs = {
-  echinacea: {;
+  echinacea: {,
     name: 'Echinacea',
     elementalProperties: { Earth: 0.3, Fire: 0.4, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
@@ -26,7 +26,8 @@ const rawMedicinalHerbs = {
       },
       vitamins: {
         C: 0.02,
-    B1: 0.01B3: 0.01,
+    B1: 0.01,
+    B3: 0.01,
       },
       minerals: {
         potassium: 0.01,

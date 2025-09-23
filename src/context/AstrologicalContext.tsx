@@ -11,46 +11,46 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 
 // Type definitions
 interface ElementalProperties {
-  Fire: number;
-  Water: number;
-  Earth: number;
+  Fire: number,
+  Water: number,
+  Earth: number,
   Air: number;
 }
 
 interface AlchemicalProperties {
-  Spirit: number;
-  Essence: number;
-  Matter: number;
+  Spirit: number,
+  Essence: number,
+  Matter: number,
   Substance: number;
 }
 
 interface ChakraEnergies {
-  root: number;
-  sacral: number;
-  solarPlexus: number;
-  heart: number;
-  throat: number;
-  thirdEye: number;
+  root: number,
+  sacral: number,
+  solarPlexus: number,
+  heart: number,
+  throat: number,
+  thirdEye: number,
   crown: number;
 }
 
 interface AstrologicalState {
-  currentZodiac: string;
-  elementalProperties: ElementalProperties;
-  alchemicalProperties: AlchemicalProperties;
-  planetaryHour: string;
-  lunarPhase: string;
-  dominantElement: string;
+  currentZodiac: string,
+  elementalProperties: ElementalProperties,
+  alchemicalProperties: AlchemicalProperties,
+  planetaryHour: string,
+  lunarPhase: string,
+  dominantElement: string,
   timestamp: number;
 }
 
 // Define the context type
 interface AstrologicalContextType {
-  currentZodiac: string;
-  astrologicalState: AstrologicalState | null;
-  chakraEnergies: ChakraEnergies | null;
-  loading: boolean;
-  error: string | null;
+  currentZodiac: string,
+  astrologicalState: AstrologicalState | null,
+  chakraEnergies: ChakraEnergies | null,
+  loading: boolean,
+  error: string | null,
   updateZodiac: (zodiac: string) => void;
 }
 

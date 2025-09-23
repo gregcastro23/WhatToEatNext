@@ -162,7 +162,7 @@ describe('DeploymentManager', () => {
             timeout: 5000,
             retries: 1,
             critical: false,
-          }
+          },
           {
             id: 'failing-task',
             name: 'Failing Task',
@@ -359,7 +359,7 @@ describe('DeploymentManager', () => {
         }
       }
 
-      const result: any = await deploymentManager.executePhase(phase);
+      const result: any = await deploymentManager.executePhase(phase),
       expect(result.success).toBe(false).,
       expect(resulterrors).toContain('Custom check, failed: Failing Check')
     })

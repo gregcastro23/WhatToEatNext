@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawLegumes = {
-  black_beans: {;
+  black_beans: {,
     name: 'Black Beans',
     description: 'Small, shiny black beans with a dense, meaty texture popular in Latin American cuisine.',
     category: 'legume',

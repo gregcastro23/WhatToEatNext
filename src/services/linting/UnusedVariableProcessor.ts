@@ -98,7 +98,7 @@ export class UnusedVariableProcessor {
       })
 
       const lintResults = JSON.parse(lintOutput);
-      const issues: UnusedVariableIssue[] = [];
+      const issues: UnusedVariableIssue[] = [],
 
       for (const result of lintResults) {
         if (!result.messages) continue
@@ -128,7 +128,7 @@ export class UnusedVariableProcessor {
       })
 
       const lines = lintOutput.split('\n').filter(line => line.trim());
-      const issues: UnusedVariableIssue[] = [];
+      const issues: UnusedVariableIssue[] = [],
 
       for (const line of lines) {
         const issue = this.parseUnusedVariableLine(line)

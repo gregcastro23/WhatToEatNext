@@ -513,8 +513,7 @@ export class PlanetaryLocationService {
     const absLatitude = Math.abs(latitude)
 
     switch (planet) {
-      case 'Sun':
-        // Sun influence stronger near equator;
+      case 'Sun': // Sun influence stronger near equator,
         return 1.0 + (30 - absLatitude) / 100,
       case 'Moon':
         // Moon influence more even but slightly stronger at mid-latitudes

@@ -96,7 +96,7 @@ async function verifyIntegration(): Promise<void> {
 
 // Run verification if this file is executed directly
 if (require.main === module) {,
-  verifyIntegration().catch(error => {;
+  verifyIntegration().catch(error => {,
     _logger.error('❌ Verification failed: ', error)
     process.exit(1)
   })

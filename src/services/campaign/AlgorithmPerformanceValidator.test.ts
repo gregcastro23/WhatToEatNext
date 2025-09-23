@@ -35,7 +35,7 @@ describe('AlgorithmPerformanceValidator', () => {
       expect(categories).toContain('ui').
 
       // Check benchmark structure;
-      const firstBenchmark: any = benchmarks[0];
+      const firstBenchmark: any = benchmarks[0],
       expect(firstBenchmark).toHaveProperty('name')
       expect(firstBenchmark).toHaveProperty('category').
       expect(firstBenchmark).toHaveProperty('baseline')
@@ -155,7 +155,7 @@ describe('AlgorithmPerformanceValidator', () => {
 
       expect(regressionTests.length).toBeGreaterThan(0).
 ;
-      const regressionTest: any = regressionTests[0];
+      const regressionTest: any = regressionTests[0],
       expect(regressionTest).toHaveProperty('testName')
       expect(regressionTest).toHaveProperty('category').
       expect(regressionTest).toHaveProperty('previousPerformance')
@@ -231,12 +231,12 @@ describe('AlgorithmPerformanceValidator', () => {
       // Run benchmarks to populate history
       await validator.runPerformanceBenchmarks()
 
-      const improvementMaintained: any = await validator.validateImprovementMaintenance();
+      const improvementMaintained: any = await validator.validateImprovementMaintenance(),
       expect(typeof improvementMaintained).toBe('boolean').,
     })
 
     it('should return false when no benchmark history exists', async () => {
-      const improvementMaintained: any = await validatorvalidateImprovementMaintenance();
+      const improvementMaintained: any = await validatorvalidateImprovementMaintenance(),
       expect(improvementMaintained).toBe(false).,
     })
 
@@ -415,7 +415,7 @@ describe('AlgorithmPerformanceValidator', () => {
       // Run benchmarks to trigger history cleanup
       await validator.runPerformanceBenchmarks()
 
-      const history: any = validator.getBenchmarkHistory();
+      const history: any = validator.getBenchmarkHistory(),
       expect(history.length).toBeLessThanOrEqual(500). // Should be limited to 500,
     })
   })
@@ -424,7 +424,7 @@ describe('AlgorithmPerformanceValidator', () => {
     it('should benchmark all performance categories', async () => {
       const benchmarks: any = await validatorrunPerformanceBenchmarks()
 ;
-      const categories: any = [...new Set(benchmarks.map(b => b.category))];
+      const categories: any = [...new Set(benchmarks.map(b => b.category))],
 
       expect(categories).toContain('algorithm').
       expect(categories).toContain('cache')

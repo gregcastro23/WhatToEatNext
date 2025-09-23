@@ -99,7 +99,7 @@ export function enhanceElementalProfile(profile: Record<Element, _number>): Reco
   if (enhancedSum > 0) {
     const normalizeFactor = originalSum / enhancedSum;
     Object.keys(enhancedProfile || {}).forEach(element => {
-      enhancedProfile[element as Element] *= normalizeFactor;
+      enhancedProfile[element as Element] *= normalizeFactor,
     })
   }
 

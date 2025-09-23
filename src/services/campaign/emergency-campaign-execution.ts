@@ -94,7 +94,7 @@ export class EmergencyTypeScriptCampaign {
     // // // _logger.info('Target, errors: TS2345, TS2322, TS18048, TS2339'),
     // // // _logger.info('Expected success, rate: 88-92%')
 
-    const batchResults = await this.errorFixer.executeBatchProcessing({;
+    const batchResults = await this.errorFixer.executeBatchProcessing({,
       batchSize: 10, // Reduced for maximum safety,
       buildValidationInterval: 3, // Validate every 3 files,
       maxBatches: 15, // Limit to prevent runaway execution,
@@ -139,7 +139,7 @@ export class EmergencyTypeScriptCampaign {
       iterationCount++,
       // // // _logger.info(`\nIteration ${iterationCount}: ${currentErrors} errors remaining`)
 
-      const result = await this.errorFixer.executeEnhancedFixer({;
+      const result = await this.errorFixer.executeEnhancedFixer({,
         maxFiles: 8, // Conservative batch size,
         autoFix: true,
         validateSafety: true,
@@ -294,7 +294,7 @@ export class EmergencyTypeScriptCampaign {
    */
   private async createSafetyCheckpoint(description: string): Promise<void> {
     try {
-      const stashMessage = `Campaign checkpoint: ${description}`;
+      const stashMessage = `Campaign checkpoint: ${description}`,
       execSync(`git stash push -m '${stashMessage}'`, { stdio: 'pipe' })
       // // // _logger.info(`🛡️  Safety checkpoint created: ${description}`)
     } catch (error) {

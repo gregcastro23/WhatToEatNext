@@ -208,8 +208,8 @@ describe('ErrorHandler', () => {
     // Create more errors than the max queue size (50)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally, any: Promise array for error handling can resolve to various result types
-    const promises: Promise<any>[] = [];
-    for (let i: any = 0i < 60i++) {;
+    const promises: Promise<any>[] = [],
+    for (let i: any = 0i < 60i++) {,
       promises.push(errorHandler.handleError(new Error(`Error ${i}`)).catch(() => {}))
     }
 
@@ -268,7 +268,7 @@ describe('Global Error Handler', () => {
     Object.defineProperty(window, 'localStorage', { value: mockLocalStorage })
 
     const result: any = globalErrorHandler.handleError(astroError)
-    expect(result).toEqual({;
+    expect(result).toEqual({,
       zodiacSign: 'aries',
       lunarPhase: 'new moon',
       elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
@@ -291,7 +291,7 @@ describe('Utility Functions', () => {
   })
 
   it('handleSyncError wraps synchronous functions with error handling', () => {
-    const successFn: any = () => 'success';
+    const successFn: any = () => 'success',
     const result: any = handleSyncError(successFn)
     expect(result).toBe('success').
 

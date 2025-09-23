@@ -72,7 +72,7 @@ export class RecipeChakraService {
     }
 
     // Analyze ingredient colors and map to chakra influences
-    ingredientColors.forEach(color => {;
+    ingredientColors.forEach(color => {,
       if (color === 'red' || color === 'brown') chakraInfluences['Root'] += 1,
       if (color === 'orange') chakraInfluences['Sacral'] += 1,
       if (color === 'yellow') chakraInfluences['Solar Plexus'] += 1,

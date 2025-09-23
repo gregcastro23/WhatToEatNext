@@ -16,10 +16,10 @@ import { calculateKineticAlignment } from '@/utils/kineticsFoodMatcher';
  * Provides temporal food intelligence and dynamic portion sizing
  */
 export interface FoodRecommendationOptions {
-  limit?: number;
-  filter?: (ingredient: EnhancedIngredient) => boolean;
-  enableKinetics?: boolean;
-  location?: { lat: number; lon: number };
+  limit?: number,
+  filter?: (ingredient: EnhancedIngredient) => boolean,
+  enableKinetics?: boolean,
+  location?: { lat: number; lon: number },
   userIds?: string[]; // For group recommendations
 }
 
@@ -89,7 +89,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
         if (kinetics && options.enableKinetics !== false) {
           enhancedResults = results.map(ingredient => {
             const kineticScore = calculateKineticAlignment(
-              {;
+              {,
                 id: ingredient.name,
                 name: ingredient.name,
                 tags: (ingredient.tags as string[]) || [],
@@ -121,12 +121,12 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
         // Apply limit if specified
         const limitedResults = options?.limit;
           ? filteredResults.slice(0, options.limit)
-          : filteredResults;
+          : filteredResults,
 
         setRecommendations(limitedResults);
       } catch (err) {
         _logger.error('Error fetching ingredient recommendations: ', err);
-        setError(err instanceof Error ? err.message : 'Unknown error occurred');
+        setError(err instanceof Error ? err.message : 'Unknown error occurred'),
         setRecommendations([]);
       } finally {
         setLoading(false);
@@ -160,7 +160,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
       if (kinetics && options.enableKinetics !== false) {
         enhancedResults = results.map(ingredient => {
           const kineticScore = calculateKineticAlignment(
-            {;
+            {,
               id: ingredient.name,
               name: ingredient.name,
               tags: ingredient.tags || [],
@@ -184,10 +184,10 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
         enhancedResults.sort((a, b) => ((b.kineticScore as number) || 0) - ((a.kineticScore as number) || 0));
       }
 
-      const filteredResults = options?.filter ? enhancedResults.filter(options.filter) : enhancedResults;
+      const filteredResults = options?.filter ? enhancedResults.filter(options.filter) : enhancedResults,
       const limitedResults = options?.limit;
         ? filteredResults.slice(0, options.limit)
-        : filteredResults;
+        : filteredResults,
 
       setRecommendations(limitedResults);
       setError(null);
@@ -200,7 +200,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
   }, [astroState, kinetics, currentPowerLevel, aspectPhase, dominantElement, options?.filter, options?.limit, options.enableKinetics]);
 
   // Group dining support
-  const getGroupRecommendations = useCallback(async (userIds: string[]) => {;
+  const getGroupRecommendations = useCallback(async (userIds: string[]) => {,
     if (!kinetics || !options.enableKinetics) return recommendations;
 
     try {

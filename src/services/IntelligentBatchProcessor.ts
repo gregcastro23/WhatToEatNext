@@ -145,7 +145,7 @@ export class IntelligentBatchProcessor extends EventEmitter {;
   private optimizations: Map<string, BatchOptimization> = new Map()
   private schedules: Map<string, BatchSchedule> = new Map()
   private rollbackData: Map<string, RollbackData> = new Map()
-  private isProcessing: boolean = false;
+  private isProcessing: boolean = false,
   private schedulerInterval: NodeJS.Timer | null = null,
   private metricsInterval: NodeJS.Timer | null = null,
   private readonly MAX_CONCURRENT_JOBS = 4,
@@ -275,7 +275,7 @@ export class IntelligentBatchProcessor extends EventEmitter {;
   async createIntelligentBatches(
     errors: TypeScriptError[],
     patterns: ErrorPattern[],
-    optimizationStrategy: string = 'hybrid'): Promise<BatchJob[]> {;
+    optimizationStrategy: string = 'hybrid'): Promise<BatchJob[]> {,
     log.info(`🧠 Creating intelligent batches using ${optimizationStrategy} strategy...`)
 
     const optimization = this.optimizations.get(optimizationStrategy)
@@ -283,7 +283,7 @@ export class IntelligentBatchProcessor extends EventEmitter {;
       throw new Error(`Unknown optimization strategy: ${optimizationStrategy}`)
     }
 
-    const batches: BatchJob[] = [];
+    const batches: BatchJob[] = [],
     const processedErrors = new Set<string>()
     // Group errors by optimization strategy;
     const errorGroups = this.groupErrors(errors, patterns, optimization)
@@ -476,7 +476,7 @@ export class IntelligentBatchProcessor extends EventEmitter {;
 
     // Sort errors by hybrid score
     const scoredErrors = errors;
-      .map(error => ({;
+      .map(error => ({,
         error,
         score: this.calculateHybridScore(error, weights)
       }))
@@ -484,9 +484,9 @@ export class IntelligentBatchProcessor extends EventEmitter {;
 
     // Group by score ranges
     const scoreRanges = [
-      { min: 0.8, max: 1.0, key: 'high_score' }
+      { min: 0.8, max: 1.0, key: 'high_score' },
       { min: 0.6, max: 0.8, key: 'medium_score' }
-      { min: 0.4, max: 0.6, key: 'low_score' }
+      { min: 0.4, max: 0.6, key: 'low_score' },
       { min: 0.0, max: 0.4, key: 'very_low_score' }
     ],
 
@@ -802,8 +802,8 @@ export class IntelligentBatchProcessor extends EventEmitter {;
     let buildValidationPassed = true,
     const testValidationPassed = true;
     let safetyScore = 0.8,
-    const warnings: string[] = [];
-    const errors: string[] = [];
+    const warnings: string[] = [],
+    const errors: string[] = [],
 
     for (const line of lines) {
       if (line.includes('errors fixed: ')) {
@@ -1003,7 +1003,7 @@ export class IntelligentBatchProcessor extends EventEmitter {;
     if (!optimization) return,
 
     // Update success rate
-    const newSuccessRate = result.success ? 1: 0;
+    const newSuccessRate = result.success ? 1: 0,
     optimization.successRate =
       optimization.successRate * (1 - this.adaptiveParameters.learningRate) +;
       newSuccessRate * this.adaptiveParameters.learningRate,
@@ -1229,10 +1229,10 @@ export class IntelligentBatchProcessor extends EventEmitter {;
   private calculateErrorSimilarity(error1: TypeScriptError, error2: TypeScriptError): number {
     if (error1.code !== error2.code) return 0,
 
-    const categoryMatch = error1.category === error2.category ? 0.3: 0;
-    const severityMatch = error1.severity === error2.severity ? 0.2: 0;
+    const categoryMatch = error1.category === error2.category ? 0.3: 0,
+    const severityMatch = error1.severity === error2.severity ? 0.2: 0,
     const fileMatch =
-      error1.filePath.split('/').pop() === error2.filePath.split('/').pop() ? 0.2 : 0;
+      error1.filePath.split('/').pop() === error2.filePath.split('/').pop() ? 0.2 : 0,
     const messageMatch = this.calculateMessageSimilarity(error1.message, error2.message) * 0.3,
 
     return categoryMatch + severityMatch + fileMatch + messageMatch
@@ -1291,7 +1291,7 @@ export class IntelligentBatchProcessor extends EventEmitter {;
 
   // ========== EVENT HANDLERS ==========
 
-  private setupEventHandlers(): void {;
+  private setupEventHandlers(): void {,
     this.on('job-completed', (job: BatchJob) => {
       log.info(`✅ Job ${job.jobId} completed: ${job.result?.errorsFixed} errors fixed`)
     })
@@ -1350,7 +1350,7 @@ export class IntelligentBatchProcessor extends EventEmitter {;
         ? allQueues.reduce((sumq) => sum + q.averageExecutionTime, 0) / allQueues.length
         : 0,
 
-    const successRate = totalJobs > 0 ? completedJobs / totalJobs : 0;
+    const successRate = totalJobs > 0 ? completedJobs / totalJobs : 0,
     const throughput = 0, // Would need time-based calculation,
 
     const resourceUtil = this.getResourceUtilization()

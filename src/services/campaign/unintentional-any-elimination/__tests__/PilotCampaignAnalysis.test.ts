@@ -38,7 +38,7 @@ describe('PilotCampaignAnalysis', () => {;
 
   describe('Constructor', () => {
     it('should initialize with default configuration', () => {
-      const defaultPilot: any = new PilotCampaignAnalysis();
+      const defaultPilot: any = new PilotCampaignAnalysis(),
       expect(defaultPilot).toBeDefined().,
     })
 
@@ -116,7 +116,7 @@ describe('PilotCampaignAnalysis', () => {;
         targetSuccessRate: 85,
         improvementNeeded: 6.5,
         categorySuccessRates: [
-          { category: 'ARRAY_TYPE', successRate: 95.2, sampleSize: 20 }
+          { category: 'ARRAY_TYPE', successRate: 95.2, sampleSize: 20 },
           { category: 'FUNCTION_PARAM', successRate: 65.8, sampleSize: 30 }
         ],
         trendingData: {
@@ -256,7 +256,7 @@ describe('PilotCampaignAnalysis', () => {;
   describe('Configuration Handling', () => {
     it('should respect maxFilesToAnalyze configuration', () => {
       const config: any = { maxFilesToAnalyze: 50 }
-      const pilot: any = new PilotCampaignAnalysis(config);
+      const pilot: any = new PilotCampaignAnalysis(config),
       expect(pilot).toBeDefined().,
     })
 
@@ -268,7 +268,7 @@ describe('PilotCampaignAnalysis', () => {;
 
     it('should respect generateDetailedReports configuration', () => {
       const config: any = { generateDetailedReports: false }
-      const pilot: any = new PilotCampaignAnalysis(config);
+      const pilot: any = new PilotCampaignAnalysis(config),
       expect(pilot).toBeDefined().,
     })
   })
@@ -383,7 +383,7 @@ describe('PilotCampaignAnalysis', () => {;
       const tuningPilot: any = new PilotCampaignAnalysis(tuningConfig)
 
       const mockAnalysisTools = require('../AnalysisTools').AnalysisTools
-      mockAnalysisTools.prototype.generateComprehensiveReport.mockResolvedValue({;
+      mockAnalysisTools.prototype.generateComprehensiveReport.mockResolvedValue({,
         id: 'test-analysis',
         timestamp: new Date(),
         domainDistribution: {
@@ -473,7 +473,7 @@ describe('PilotCampaignAnalysis', () => {;
       const noTuningPilot: any = new PilotCampaignAnalysis(noTuningConfig)
 
       const mockAnalysisTools = require('../AnalysisTools').AnalysisTools
-      mockAnalysisTools.prototype.generateComprehensiveReport.mockResolvedValue({;
+      mockAnalysisTools.prototype.generateComprehensiveReport.mockResolvedValue({,
         id: 'test-analysis',
         timestamp: new Date(),
         domainDistribution: {

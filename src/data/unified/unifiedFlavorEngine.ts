@@ -220,7 +220,7 @@ export class UnifiedFlavorEngine {
           // Log category stats
           const categoryStats = profiles.reduce(
             (acc, profile: Record<string, unknown>) => {
-              const category = (profile as { category?: string }).category ?? 'unknown';
+              const category = (profile as { category?: string }).category ?? 'unknown',
               acc[category] = (acc[category] || 0) + 1,
               return acc,
             }
@@ -471,7 +471,7 @@ export class UnifiedFlavorEngine {
     _contextSeason?: Season,
   ): number {
     // Base seasonal compatibility
-    const commonSeasons = (_profile1.seasonalPeak || []).filter(season =>;
+    const commonSeasons = (_profile1.seasonalPeak || []).filter(season =>,
       (_profile2.seasonalPeak || []).includes(season),
     )
     const baseAlignment =
@@ -511,8 +511,8 @@ export class UnifiedFlavorEngine {
     // Enhance based on cultural preference
     if (_culturalPreference) {
       const prefLower = _culturalPreference.toLowerCase();
-      const pref1Match = origins1.has(prefLower) ? 1: 0;
-      const pref2Match = origins2.has(prefLower) ? 1: 0;
+      const pref1Match = origins1.has(prefLower) ? 1: 0,
+      const pref2Match = origins2.has(prefLower) ? 1: 0,
       const preferenceAlignment = (pref1Match + pref2Match) / 2;
 
       return baseCompatibility * 0.6 + preferenceAlignment * 0.4
@@ -563,8 +563,8 @@ export class UnifiedFlavorEngine {
     // Context enhancement
     if (_contextMethod) {
       const methodLower = _contextMethod.toLowerCase();
-      const method1Match = methods1.has(methodLower) ? 1: 0;
-      const method2Match = methods2.has(methodLower) ? 1: 0;
+      const method1Match = methods1.has(methodLower) ? 1: 0,
+      const method2Match = methods2.has(methodLower) ? 1: 0,
       const methodAlignment = (method1Match + method2Match) / 2;
 
       return baseCompatibility * 0.5 + methodAlignment * 0.5
@@ -693,8 +693,8 @@ export class UnifiedFlavorEngine {
     _profile2: UnifiedFlavorProfile,
     _context?: unknown,
   ): { recommendations: string[], warnings: string[], optimizations: string[] } {
-    const recommendations: string[] = [];
-    const warnings: string[] = [];
+    const recommendations: string[] = [],
+    const warnings: string[] = [],
     const optimizations: string[] = []
 
     // Overall compatibility advice
@@ -825,7 +825,7 @@ export class UnifiedFlavorEngine {
 
     if ((criteria.tags && criteria.tags) || [].length > 0) {
       results = (results || []).filter(p =>
-        (criteria.tags || []).some(tag =>;
+        (criteria.tags || []).some(tag =>,
           p.tags.some(pTag => pTag.toLowerCase().includes(tag.toLowerCase())),,
         ),
       )
@@ -1041,7 +1041,7 @@ export function findCompatibleProfiles(
   _context?: { season?: Season, culturalPreference?: string, preparationMethod?: string }
 ): Array<{ profile: UnifiedFlavorProfile, compatibility: UnifiedFlavorCompatibility }> {
   const allProfiles = unifiedFlavorEngine.getAllProfiles()
-  const results: Array<{;
+  const results: Array<{,
     profile: UnifiedFlavorProfile,
     compatibility: UnifiedFlavorCompatibility
   }> = [],

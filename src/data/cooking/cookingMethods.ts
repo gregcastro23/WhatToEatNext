@@ -2,7 +2,7 @@
  * Cooking methods with their elemental properties, astrological influences, and alchemical attributes
  */
 export const cookingMethods = {
-  roasting: {;
+  roasting: {,
     name: 'Roasting',
     elementalEffect: {
       Fire: 0.8,

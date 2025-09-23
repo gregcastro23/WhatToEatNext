@@ -214,7 +214,7 @@ export function calculateAlchemicalDistribution(
     if (totalInfluence > 0) {
       Object.keys(influences).forEach(property => {
         distribution[property as keyof AlchemicalProperties] =
-          influences[property] / totalInfluence;
+          influences[property] / totalInfluence,
       })
     }
 

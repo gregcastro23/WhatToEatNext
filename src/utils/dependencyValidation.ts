@@ -70,8 +70,8 @@ export async function validateBarrelExports(
   barrelPath: string,
   exports: string[],
 ): Promise<{ valid: string[], invalid: string[] }> {
-  const valid: string[] = [];
-  const invalid: string[] = [];
+  const valid: string[] = [],
+  const invalid: string[] = [],
 
   try {
     const module = await import(barrelPath)
@@ -113,14 +113,13 @@ export const PROBLEMATIC_PATTERNS = [
 /**
  * Validate import statement against problematic patterns
  */
-export function validateImportStatement(
-  importStatement: string;,
+export function validateImportStatement(importStatement: string,,
   filePath: string,
 ): {
   isValid: boolean,
   warnings: string[]
 } {
-  const warnings: string[] = [];
+  const warnings: string[] = [],
   let isValid = true
 ;
   for (const { pattern, message } of PROBLEMATIC_PATTERNS) {
@@ -153,9 +152,9 @@ export async function validateFileImports(
   warnings: string[]
 }> {
   const imports = extractImportStatements(fileContent)
-  const validImports: string[] = [];
-  const invalidImports: string[] = [];
-  const warnings: string[] = [];
+  const validImports: string[] = [],
+  const invalidImports: string[] = [],
+  const warnings: string[] = [],
 
   for (const importStatement of imports) {
     // Extract the import path
@@ -268,7 +267,7 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
 
       // Build module graph for circular dependency detection
       const imports = extractImportStatements(content)
-      const dependencies: string[] = [];
+      const dependencies: string[] = [],
 
       for (const importStatement of imports) {
         const pathMatch = importStatement.match(/from\s+['']([^'']+)['']/)

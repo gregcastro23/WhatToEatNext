@@ -310,21 +310,21 @@ export class RecommendationService {
   /**
    * Get recommended ingredients based on current planetary positions
    */
-  getRecommendedIngredients(limit = 10): AlchemicalItem[] {;
+  getRecommendedIngredients(limit = 10): AlchemicalItem[] {,
     return this.getSortedItems(this.transformedIngredients, limit)
   }
 
   /**
    * Get recommended cooking methods based on current planetary positions
    */
-  getRecommendedCookingMethods(limit = 5): AlchemicalItem[] {;
+  getRecommendedCookingMethods(limit = 5): AlchemicalItem[] {,
     return this.getSortedItems(this.transformedMethods, limit)
   }
 
   /**
    * Get recommended cuisines based on current planetary positions
    */
-  getRecommendedCuisines(limit = 5): AlchemicalItem[] {;
+  getRecommendedCuisines(limit = 5): AlchemicalItem[] {,
     return this.getSortedItems(this.transformedCuisines, limit)
   }
 
@@ -522,7 +522,7 @@ export class RecommendationService {
     location: { lat: number, lng: number }): number {
     try {
       // Get recipe elemental properties, defaulting if not available
-      const recipeElements: ElementalProperties = recipe.elementalProperties || {;
+      const recipeElements: ElementalProperties = recipe.elementalProperties || {,
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
@@ -552,7 +552,7 @@ export class RecommendationService {
       try {
         // Create a mock KalchmResult from AstrologicalState for compatibility
         const mockKalchmResult = {
-          alchemicalProperties: {;
+          alchemicalProperties: {,
             totalKalchm: 1.0,
             gregsEnergy: 1.0,
             monica: 1.0,
@@ -815,7 +815,7 @@ export class RecommendationService {
       ],
       instructions: [
         'Combine all ingredients in a balanced way.',
-        'Cook using your preferred method.'
+        'Cook using your preferred method.',
         'Season to taste with herbs and spices.'
       ],
       cookingMethod: ['balanced', 'flexible'],

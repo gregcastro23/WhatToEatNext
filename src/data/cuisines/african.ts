@@ -163,7 +163,7 @@ export const african: Cuisine = {
           cuisine: 'african',
           cookingMethods: ['frying', 'dough-kneading'],
           ingredients: [
-            { name: 'flour', amount: '2', unit: 'cups', category: 'grain' }
+            { name: 'flour', amount: '2', unit: 'cups', category: 'grain' },
             { name: 'sugar', amount: '1/4', unit: 'cup', category: 'sweetener' }
             {
               name: 'coconut milk',
@@ -172,7 +172,7 @@ export const african: Cuisine = {
               category: 'dairy',
               swaps: ['regular milk']
             }
-            { name: 'yeast', amount: '2', unit: 'tsp', category: 'leavening' }
+            { name: 'yeast', amount: '2', unit: 'tsp', category: 'leavening' },
             { name: 'cardamom', amount: '1', unit: 'tsp', category: 'spice', swaps: ['cinnamon'] }
           ],
           substitutions: {
@@ -209,9 +209,9 @@ export const african: Cuisine = {
           cuisine: 'african',
           cookingMethods: ['poaching', 'simmering'],
           ingredients: [
-            { name: 'eggs', amount: '4', unit: 'large', category: 'protein', swaps: ['firm tofu'] }
+            { name: 'eggs', amount: '4', unit: 'large', category: 'protein', swaps: ['firm tofu'] },
             { name: 'tomatoes', amount: '4', unit: 'medium', category: 'vegetable' }
-            { name: 'onion', amount: '1', unit: 'large', category: 'vegetable' }
+            { name: 'onion', amount: '1', unit: 'large', category: 'vegetable' },
             {
               name: 'bell peppers',
               amount: '2',
@@ -219,7 +219,7 @@ export const african: Cuisine = {
               category: 'vegetable',
               swaps: ['roasted red peppers']
             }
-            { name: 'garlic', amount: '3', unit: 'cloves', category: 'vegetable' }
+            { name: 'garlic', amount: '3', unit: 'cloves', category: 'vegetable' },
             { name: 'cumin', amount: '1', unit: 'tsp', category: 'spice' }
             { name: 'paprika', amount: '1', unit: 'tsp', category: 'spice' }
           ],
@@ -271,7 +271,7 @@ export const african: Cuisine = {
               category: 'oil',
               swaps: ['vegetable oil']
             }
-            { name: 'lemon juice', amount: '2', unit: 'tbsp', category: 'condiment' }
+            { name: 'lemon juice', amount: '2', unit: 'tbsp', category: 'condiment' },
             { name: 'garlic', amount: '2', unit: 'cloves', category: 'vegetable' }
             { name: 'cumin', amount: '1', unit: 'tsp', category: 'spice' }
           ],
@@ -317,11 +317,11 @@ export const african: Cuisine = {
           cuisine: 'african',
           cookingMethods: ['simmering', 'one-pot cooking'],
           ingredients: [
-            { name: 'rice', amount: '2', unit: 'cups', category: 'grain' }
+            { name: 'rice', amount: '2', unit: 'cups', category: 'grain' },
             { name: 'tomato paste', amount: '1', unit: 'can', category: 'condiment' }
-            { name: 'onions', amount: '2', unit: 'whole', category: 'vegetable' }
+            { name: 'onions', amount: '2', unit: 'whole', category: 'vegetable' },
             { name: 'bell peppers', amount: '1', unit: 'whole', category: 'vegetable' }
-            { name: 'garlic', amount: '3', unit: 'cloves', category: 'vegetable' }
+            { name: 'garlic', amount: '3', unit: 'cloves', category: 'vegetable' },
             { name: 'ginger', amount: '1', unit: 'tbsp', category: 'spice' }
             {
               name: 'chicken broth',
@@ -379,9 +379,9 @@ export const african: Cuisine = {
               category: 'spice',
               swaps: ['mild paprika + cayenne']
             }
-            { name: 'onions', amount: '3', unit: 'large', category: 'vegetable' }
+            { name: 'onions', amount: '3', unit: 'large', category: 'vegetable' },
             { name: 'garlic', amount: '8', unit: 'cloves', category: 'vegetable' }
-            { name: 'ginger', amount: '2', unit: 'tbsp', category: 'spice' }
+            { name: 'ginger', amount: '2', unit: 'tbsp', category: 'spice' },
             { name: 'eggs', amount: '6', unit: 'whole', category: 'protein' }
             {
               name: 'niter kibbeh',
@@ -433,7 +433,7 @@ export const african: Cuisine = {
               category: 'protein',
               swaps: ['chicken pieces']
             }
-            { name: 'onions', amount: '4', unit: 'large', category: 'vegetable' }
+            { name: 'onions', amount: '4', unit: 'large', category: 'vegetable' },
             { name: 'lemon juice', amount: '1/2', unit: 'cup', category: 'acid' }
             {
               name: 'dijon mustard',
@@ -500,9 +500,9 @@ export const african: Cuisine = {
               category: 'grain',
               swaps: ['gluten-free bread']
             }
-            { name: 'milk', amount: '2', unit: 'cups', category: 'dairy' }
+            { name: 'milk', amount: '2', unit: 'cups', category: 'dairy' },
             { name: 'eggs', amount: '3', unit: 'large', category: 'protein' }
-            { name: 'curry powder', amount: '2', unit: 'tbsp', category: 'spice' }
+            { name: 'curry powder', amount: '2', unit: 'tbsp', category: 'spice' },
             { name: 'raisins', amount: '1/2', unit: 'cup', category: 'fruit' }
           ],
           substitutions: {
@@ -546,7 +546,7 @@ export const african: Cuisine = {
               category: 'vegetable',
               swaps: ['collard greens']
             }
-            { name: 'beef', amount: '500', unit: 'g', category: 'protein' }
+            { name: 'beef', amount: '500', unit: 'g', category: 'protein' },
             { name: 'raw peanuts', amount: '2', unit: 'cups', category: 'protein' }
             {
               name: 'dried shrimp',
@@ -591,9 +591,9 @@ export const african: Cuisine = {
           cuisine: 'african',
           cookingMethods: ['stewing', 'simmering'],
           ingredients: [
-            { name: 'lamb', amount: '500', unit: 'g', category: 'protein', swaps: ['chicken'] }
+            { name: 'lamb', amount: '500', unit: 'g', category: 'protein', swaps: ['chicken'] },
             { name: 'peanut butter', amount: '1', unit: 'cup', category: 'protein' }
-            { name: 'sweet potatoes', amount: '2', unit: 'large', category: 'vegetable' }
+            { name: 'sweet potatoes', amount: '2', unit: 'large', category: 'vegetable' },
             { name: 'tomatoes', amount: '3', unit: 'medium', category: 'vegetable' }
             { name: 'spinach', amount: '200', unit: 'g', category: 'vegetable' }
           ],
@@ -639,9 +639,9 @@ export const african: Cuisine = {
           cuisine: 'african',
           cookingMethods: ['baking', 'sauce-making'],
           ingredients: [
-            { name: 'flour', amount: '1', unit: 'cup', category: 'grain' }
+            { name: 'flour', amount: '1', unit: 'cup', category: 'grain' },
             { name: 'sugar', amount: '1', unit: 'cup', category: 'sweetener' }
-            { name: 'milk', amount: '1', unit: 'cup', category: 'dairy' }
+            { name: 'milk', amount: '1', unit: 'cup', category: 'dairy' },
             { name: 'eggs', amount: '2', unit: 'whole', category: 'protein' }
             {
               name: 'apricot jam',
@@ -650,7 +650,7 @@ export const african: Cuisine = {
               category: 'spread',
               swaps: ['peach jam']
             }
-            { name: 'butter', amount: '1/2', unit: 'cup', category: 'dairy' }
+            { name: 'butter', amount: '1/2', unit: 'cup', category: 'dairy' },
             { name: 'vanilla extract', amount: '1', unit: 'tsp', category: 'flavoring' }
             { name: 'vinegar', amount: '1', unit: 'tsp', category: 'acid' }
           ],
@@ -689,7 +689,7 @@ export const african: Cuisine = {
           cuisine: 'african',
           cookingMethods: ['frying', 'dough-making'],
           ingredients: [
-            { name: 'flour', amount: '3', unit: 'cups', category: 'grain' }
+            { name: 'flour', amount: '3', unit: 'cups', category: 'grain' },
             {
               name: 'coconut',
               amount: '1',
@@ -697,7 +697,7 @@ export const african: Cuisine = {
               category: 'nut',
               swaps: ['desiccated coconut']
             }
-            { name: 'sugar', amount: '1/2', unit: 'cup', category: 'sweetener' }
+            { name: 'sugar', amount: '1/2', unit: 'cup', category: 'sweetener' },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein' }
             { name: 'nutmeg', amount: '1/2', unit: 'tsp', category: 'spice', swaps: ['cinnamon'] }
           ],

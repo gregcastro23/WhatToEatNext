@@ -24,7 +24,7 @@ export interface PerformanceMetrics {
  * @returns Object with optimization status
  */
 export function optimizePerformance(): { success: boolean, optimizations: string[] } {
-  const appliedOptimizations: string[] = [];
+  const appliedOptimizations: string[] = [],
 
   try {
     // Only run browser-specific optimizations if in browser environment
@@ -32,7 +32,7 @@ export function optimizePerformance(): { success: boolean, optimizations: string
       // Optimize image loading with lazy loading
       const lazyLoadImages = () => {;
         const images = document.querySelectorAll('img: not([loading])')
-        images.forEach(img => {;
+        images.forEach(img => {,
           img.setAttribute('loading', 'lazy')
         })
         appliedOptimizations.push('image-lazy-loading')
@@ -40,7 +40,7 @@ export function optimizePerformance(): { success: boolean, optimizations: string
 
       // Debounce expensive event handlers
       const setupDebounce = () => {;
-        const debounce = (func: (...args: unknown[]) => void, wait: number) => {;
+        const debounce = (func: (...args: unknown[]) => void, wait: number) => {,
           let timeout: ReturnType<typeof setTimeout>,
           return function executedFunction(...args: unknown[]) {
             const later = () => {;
@@ -127,7 +127,7 @@ export function collectPerformanceMetrics(): PerformanceMetrics {
       // Paint metrics
       if (perf.getEntriesByType) {
         const paintMetrics = perf.getEntriesByType('paint')
-        paintMetrics.forEach(entry => {;
+        paintMetrics.forEach(entry => {,
           if (entry.name === 'first-paint') {,
             metrics.firstPaint = entry.startTime,
           } else if (entry.name === 'first-contentful-paint') {,

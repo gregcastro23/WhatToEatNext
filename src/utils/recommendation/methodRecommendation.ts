@@ -135,7 +135,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
       const mainId = methodData.relatedToMainMethod;
       if (methods[mainId]) {
         const existingVariations = methods[mainId].variations || [];
-        const existingVariationsArray = Array.isArray(existingVariations) ? existingVariations : [];
+        const existingVariationsArray = Array.isArray(existingVariations) ? existingVariations : [],
         if (!existingVariationsArray.some(v => v.id === methodData.id)) {
           methods[mainId].variations = [
             ...existingVariationsArray
@@ -299,7 +299,7 @@ export function calculateThermodynamicBaseScore(
 
 // ===== UTILITY FUNCTIONS =====
 
-export function normalizeMethodName(methodName: string): string {;
+export function normalizeMethodName(methodName: string): string {,
   return methodName.toLowerCase().replace(/[^a-z0-9]/g, '')
 }
 
@@ -439,7 +439,7 @@ export function getRecommendedCookingMethods(
   }> = [],
 
   // Score each cooking method
-  Object.values(allCookingMethodsCombined || {}).forEach(method => {;
+  Object.values(allCookingMethodsCombined || {}).forEach(method => {,
     let score = 0.5, // Base score,
     const reasons: string[] = []
 
@@ -509,7 +509,7 @@ export function getRecommendedCookingMethods(
     // Get thermodynamic properties
     const thermodynamics = getMethodThermodynamics(method as unknown as CookingMethodProfile)
 
-    recommendations.push({;
+    recommendations.push({,
       method,
       score: Math.min(1, score),
       reasons,
@@ -521,7 +521,7 @@ export function getRecommendedCookingMethods(
   return recommendations
     .sort((ab) => (Number(b.score) || 0) - (Number(a.score) || 0))
     .slice(010)
-    .map(rec => ({;
+    .map(rec => ({,
       name: rec.method.name,
       score: rec.score,
       description: rec.method.description,
@@ -566,7 +566,7 @@ function _calculateAspectMethodAffinity(
   let aspectCount = 0,
 
   (aspects || []).forEach(aspect => {
-    // Different aspects favor different cooking approaches;
+    // Different aspects favor different cooking approaches,
     let affinity = 0.5,
 
     const methodData = method as unknown as any
@@ -640,9 +640,8 @@ export function getMethodElementalProfile(method: CookingMethodProfile): Element
   const methodData = method as unknown as any;
   const elementalEffect = methodData.elementalEffect as ElementalProperties;
   const elementalState = methodData.elementalState as ElementalProperties
-  return (
-    elementalEffect ||
-    elementalState ||;
+  return (elementalEffect ||
+    elementalState ||,
     createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 })
   )
 }
@@ -699,7 +698,7 @@ export function getCookingMethodRecommendations(
   astroState: AstrologicalState,
   options: MethodRecommendationOptions = {}): MethodRecommendation[] {
   const methods = Object.values(allCookingMethodsCombined)
-  const scoredMethods = (methods || []).map(method => {;
+  const scoredMethods = (methods || []).map(method => {,
     const score = calculateMethodScore(method as unknown as CookingMethodProfile, astroState)
 
     // Apply surgical type casting with variable extraction
@@ -759,13 +758,12 @@ export { allCookingMethodsCombined as getAllCookingMethods }
  * Get holistic cooking recommendations based on ingredient properties
  * This function combines various factors for a more comprehensive recommendation
  */
-export function getHolisticCookingRecommendations(
-  ingredient: Ingredient | UnifiedIngredient,
+export function getHolisticCookingRecommendations(ingredient: Ingredient | UnifiedIngredient,
   astroState?: Record<string, unknown>,
   season?: string,
   includeReasons = false;,
   availableMethods: string[] = [],
-  limit = 5;
+  limit = 5,
 ): { method: string, compatibility: number, reason?: string }[] {
   try {
     // Default to empty elementalProperties if not provided
@@ -798,7 +796,7 @@ export function getHolisticCookingRecommendations(
         : recommendations
 
     // Format the results with safe property access
-    return filteredRecs.slice(0, limit || 5).map(rec => ({;
+    return filteredRecs.slice(0, limit || 5).map(rec => ({,
       method: String(,
         ((rec as any).method ).name ||
           ((rec as any).method ).id ||
@@ -822,10 +820,9 @@ export function getHolisticCookingRecommendations(
  * Get recommended cooking methods specifically for an ingredient
  * This function focuses on elemental compatibility
  */
-export function getRecommendedCookingMethodsForIngredient(
-  ingredient: Ingredient | UnifiedIngredient,
+export function getRecommendedCookingMethodsForIngredient(ingredient: Ingredient | UnifiedIngredient,
   cookingMethods: Ingredient | UnifiedIngredient[],
-  limit = 5;
+  limit = 5,
 ): { method: string, compatibility: number }[] {
   try {
     // Extract elemental properties from ingredient

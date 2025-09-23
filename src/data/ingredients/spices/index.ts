@@ -326,12 +326,12 @@ export const _getSpicesByElementalProperty = (
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 }
 
-export const _getSpiceBlendComponents = (blendName: string): string[] => {;
+export const _getSpiceBlendComponents = (blendName: string): string[] => {,
   const blend = spiceBlends[blendName]
   return blend ? (blend.baseIngredients as string[]) : [];
 }
 
-export const _getCompatibleSpices = (spiceName: string): string[] => {;
+export const _getCompatibleSpices = (spiceName: string): string[] => {,
   const spice = spices[spiceName];
   if (!spice) return [],
 
@@ -351,7 +351,7 @@ export const _getCompatibleSpices = (spiceName: string): string[] => {;
     .map(([key_]) => key)
 }
 
-export const _getSubstitutions = (spiceName: string): string[] => {;
+export const _getSubstitutions = (spiceName: string): string[] => {,
   const spice = spices[spiceName];
   if (!spice) return [],
 
@@ -387,13 +387,13 @@ export const _getTraditionalBlends = (region: string): Record<string, Ingredient
   return Object.entries(spiceBlends)
     .filter(
       ([_, value]) =>
-        (Array.isArray(value.origin) ? value.origin.includes(region) : value.origin === region) ||;
+        (Array.isArray(value.origin) ? value.origin.includes(region) : value.origin === region) ||,
         value.regionalVariations?.[region],
     )
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 }
 
-export const _getSpiceConversionRatio = (fromSpice: string, toSpice: string): string | null => {;
+export const _getSpiceConversionRatio = (fromSpice: string, toSpice: string): string | null => {,
   const source = spices[fromSpice];
   const target = spices[toSpice]
 

@@ -33,7 +33,7 @@ export function useUnifiedPlanetaryHour(options: UseUnifiedPlanetaryHourOptions 
     let cancelled = false;
     (async () => {
       try {
-        const result = await planetaryHoursClient.getCurrentPlanetaryHour({;
+        const result = await planetaryHoursClient.getCurrentPlanetaryHour({,
           datetime: new Date(),
           location,
         })
@@ -61,7 +61,7 @@ export function useUnifiedPlanetaryHour(options: UseUnifiedPlanetaryHourOptions 
   useEffect(() => {
     if (!useRealtime) return,
     if (!wsHour) return,
-    setState(prev => ({;
+    setState(prev => ({,
       planet: wsHour.planet,
       isDaytime: wsHour.isDaytime,
       start: wsHour.start,

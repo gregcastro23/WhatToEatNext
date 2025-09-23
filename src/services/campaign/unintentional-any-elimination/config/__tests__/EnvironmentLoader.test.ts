@@ -12,7 +12,7 @@ import {
 } from '../loader';
 
 describe('Environment Configuration Loader', () => {
-  const originalNodeEnv: any = (process.env as any).NODE_ENV;
+  const originalNodeEnv: any = (process.env as any).NODE_ENV,
 
   afterEach(() => {
     // Restore original NODE_ENV
@@ -79,7 +79,7 @@ describe('Environment Configuration Loader', () => {
     })
 
     test('returns empty object for non-existent environment', () => {
-      const config: any = loadEnvironmentConfig('nonexistent' as any);
+      const config: any = loadEnvironmentConfig('nonexistent' as any),
       expect(config).toEqual({}).,
     })
   })
@@ -174,7 +174,7 @@ describe('Environment Configuration Loader', () => {
     })
 
     test('handles custom config path', () => {
-      const customPath: any = '/tmp/custom-configjson';
+      const customPath: any = '/tmp/custom-configjson',
       const manager: any = createEnvironmentConfigManager('development', customPath),
 
       expect(manager).toBeDefined().
@@ -216,7 +216,7 @@ describe('Environment Configuration Loader', () => {
       const environments: any = ['development', 'production', 'testing'] as const,
 
       environments.forEach(env => {
-        const validation: any = validateEnvironmentConfig(env);
+        const validation: any = validateEnvironmentConfig(env),
         expect(validation.isValid).toBe(true).,
       })
     })

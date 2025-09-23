@@ -15,7 +15,7 @@ interface UserProfile {
 
 // Mock userService for build compatibility
 const userService = {
-  getUserProfile: async (userId: string): Promise<UserProfile> => {;
+  getUserProfile: async (userId: string): Promise<UserProfile> => {,
     return { userId, name: 'Mock User', email: 'mock@example.com' }
   },
   saveUserProfile: async (profile: Partial<UserProfile>): Promise<UserProfile> => {
@@ -58,7 +58,7 @@ export const UserProvider: React.FC<UserProviderProps>  = ({ children }) => {
     }
   }
 
-  const updateProfile = async (data: Partial<UserProfile>): Promise<UserProfile | null> => {;
+  const updateProfile = async (data: Partial<UserProfile>): Promise<UserProfile | null> => {,
     setIsLoading(true)
     setError(null)
     try {
@@ -66,7 +66,7 @@ export const UserProvider: React.FC<UserProviderProps>  = ({ children }) => {
         throw new Error('No user profile loaded')
       }
 
-      const updatedProfile = await userService.saveUserProfile({;
+      const updatedProfile = await userService.saveUserProfile({,
         ...data,
         userId: currentUser.userId
       })
@@ -102,7 +102,7 @@ export const UserProvider: React.FC<UserProviderProps>  = ({ children }) => {
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>,
 }
 
-export const useUser = (): UserContextType => {;
+export const useUser = (): UserContextType => {,
   const context = useContext(UserContext)
   if (!context) {
     throw new Error('useUser must be used within a UserProvider');

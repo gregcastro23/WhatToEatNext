@@ -307,7 +307,7 @@ export class TypeScriptErrorAnalyzer {
         category: ErrorCategory.TS2304_CANNOT_FIND_NAME,
         errorCount: ts2304Count,
         priority: 3,
-        description: 'Fix missing imports and undefined references - often cascades to fix other errors';
+        description: 'Fix missing imports and undefined references - often cascades to fix other errors',
         estimatedReduction: Math.round(ts2304Count * 1.2), // Can fix cascading errors
       })
     }
@@ -365,7 +365,7 @@ export class TypeScriptErrorAnalyzer {
     })
 
     // // // _logger.info('\n💡 Recommended Fix Order: ')
-    result.recommendations.forEach(rec => {;
+    result.recommendations.forEach(rec => {,
       // // // _logger.info(`  ${rec.priority}. ${rec.category}: ${rec.errorCount} errors`)
       // // // _logger.info(`     Expected reduction: ~${rec.estimatedReduction} errors`)
       // // // _logger.info(`     ${rec.description}\n`)

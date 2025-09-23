@@ -177,7 +177,7 @@ export class BuildValidator {
    * Attempts to rebuild the application with error recovery
    * Requirement 3._4: Add build error recovery and retry mechanisms
    */
-  async rebuildWithRecovery(maxRetries = 3): Promise<boolean> {;
+  async rebuildWithRecovery(maxRetries = 3): Promise<boolean> {,
     let attempt = 0,
 
     while (attempt < maxRetries) {
@@ -240,20 +240,20 @@ export class BuildValidator {
    */
   private getManifestDefaults(): Record<string, unknown> {
     return {
-      'pages-manifest.json': {}
-      'app-paths-manifest.json': {}
+      'pages-manifest.json': {},
+      'app-paths-manifest.json': {},
       'next-font-manifest.json': {
         pages: {},
         app: {}
         _appUsingSizeAdjust: false,
         _pagesUsingSizeAdjust: false,
-      }
+      },
       'middleware-manifest.json': {
         _sortedMiddleware: [],
         middleware: {},
         _functions: {}
         _version: 2,
-      }
+      },
       'build-manifest.json': {
         _devFiles: [],
         _ampDevFiles: [],
@@ -262,10 +262,10 @@ export class BuildValidator {
         _rootMainFiles: [],
         pages: {},
         _ampFirstPages: []
-      }
+      },
       'app-build-manifest.json': {
         pages: {}
-      }
+      },
       'react-loadable-manifest.json': {}
     }
   }

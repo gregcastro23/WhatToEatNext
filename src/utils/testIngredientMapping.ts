@@ -72,7 +72,7 @@ export function findRecipesMatchingElementalAndIngredientRequirements(
   const allRecipes: Recipe[] = []
 
   Object.values(cuisinesMap).forEach(cuisine => {
-    // Collect breakfast recipes;
+    // Collect breakfast recipes,
     Object.values(cuisine.dishes.breakfast || {}).forEach(seasonRecipes => {
       if (seasonRecipes) allRecipes.push(...seasonRecipes)
     })

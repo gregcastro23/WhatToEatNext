@@ -293,12 +293,12 @@ export class QualityAssuranceDashboard {
    * Assess production readiness
    */
   private assessProductionReadiness(metrics: QualityMetrics): ProductionReadinessAssessment {
-    const blockers: string[] = [];
-    const warnings: string[] = [];
-    const recommendations: string[] = [];
-    const criticalActions: string[] = [];
-    const importantActions: string[] = [];
-    const optionalActions: string[] = [];
+    const blockers: string[] = [],
+    const warnings: string[] = [],
+    const recommendations: string[] = [],
+    const criticalActions: string[] = [],
+    const importantActions: string[] = [],
+    const optionalActions: string[] = [],
 
     let readinessScore = 100,
 
@@ -396,13 +396,13 @@ export class QualityAssuranceDashboard {
     ],
 
     for (const metric of metrics) {
-      const values = this.qualityHistory.map(h => ({;
+      const values = this.qualityHistory.map(h => ({,
         timestamp: h.timestamp,
         value: h[metric as keyof QualityMetrics] as number
       }))
 
       const trend = this.calculateTrend(values)
-      trends.push({;
+      trends.push({,
         metric,
         values,
         trend: trend.direction,
@@ -473,8 +473,8 @@ export class QualityAssuranceDashboard {
     readiness: ProductionReadinessAssessment,
     batchSummary: any,
   ) {
-    const keyAchievements: string[] = [];
-    const criticalIssues: string[] = [];
+    const keyAchievements: string[] = [],
+    const criticalIssues: string[] = [],
     const nextSteps: string[] = []
 
     // Key achievements
@@ -527,8 +527,8 @@ export class QualityAssuranceDashboard {
     readiness: ProductionReadinessAssessment,
     trends: QualityTrend[],
   ) {
-    const immediate: string[] = [];
-    const shortTerm: string[] = [];
+    const immediate: string[] = [],
+    const shortTerm: string[] = [],
     const longTerm: string[] = [];
 
     // Immediate actions (critical blockers)

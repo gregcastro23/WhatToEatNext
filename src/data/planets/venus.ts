@@ -1,7 +1,7 @@
 import { PlanetData } from './types';
 
 const venusData: PlanetData = {
-  'Dignity Effect': {;
+  'Dignity Effect': {,
     libra: 1,
     taurus: 1,
     pisces: 2,
@@ -15,7 +15,7 @@ const venusData: PlanetData = {
     Essence: 1,
     Matter: 1,
     Substance: 0,
-  }
+  },
   'Diurnal Element': 'Water',
   'Nocturnal Element': 'Earth',
   AstronomicalData: {

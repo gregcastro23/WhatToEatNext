@@ -29,8 +29,7 @@ describe('FinalValidationSystem', () => {
       // Mock successful TypeScript compilation
       mockedExecSync.mockReturnValue('')
 
-      const result: any = await (
-        validationSystem as unknown as {;
+      const result: any = await (validationSystem as unknown as {,
           validateTypeScriptErrors: () => Promise<{ category: string,
             passed: boolean,, current: number,
             target: number,, criticalIssues: any[],
@@ -56,8 +55,7 @@ src/test.ts(1510): error, TS2345: Argument of type 'string' is not assignable to
         throw mockError
       })
 
-      const result: any = await (
-        validationSystem as unknown as {;
+      const result: any = await (validationSystem as unknown as {,
           validateTypeScriptErrors: () => Promise<{ category: string,
             passed: boolean,, current: number,
             target: number,, criticalIssues: any[],
@@ -178,7 +176,7 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
         .mockReturnValueOnce('400K\t.next/'); // bundle size
 
       // Mock Date.now to simulate 5-second build
-      const originalDateNow: any = Date.now;
+      const originalDateNow: any = Date.now,
       let callCount: any = 0
       Date.now = jest.fn(() => {;
         callCount++,
@@ -207,7 +205,7 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
         .mockReturnValueOnce('500K\t.next/'); // bundle size
 
       // Mock Date.now to simulate 15-second build
-      const originalDateNow: any = Date.now;
+      const originalDateNow: any = Date.now,
       let callCount: any = 0
       Date.now = jest.fn(() => {;
         callCount++,
@@ -339,9 +337,9 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
   describe('Certification Status Determination', () => {
     it('should achieve ENTERPRISE certification for perfect codebase', () => {
       const mockValidationResults: any = [
-        { category: 'TypeScript', passed: true, current: 0, target: 0, details: [], criticalIssues: [] }
+        { category: 'TypeScript', passed: true, current: 0, target: 0, details: [], criticalIssues: [] },
         { category: 'Linting', passed: true, current: 0, target: 0, details: [], criticalIssues: [] }
-        { category: 'Intelligence', passed: true, current: 250, target: 200, details: [], criticalIssues: [] }
+        { category: 'Intelligence', passed: true, current: 250, target: 200, details: [], criticalIssues: [] },
         { category: 'Performance', passed: true, current: 8, target: 10, details: [], criticalIssues: [] }
         { category: 'Build/Test', passed: true, current: 1, target: 1, details: [], criticalIssues: [] }
       ],
@@ -354,8 +352,7 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
         testCoverage: 98,
       }
 
-      const certification: any = (
-        validationSystem as unknown as {;
+      const certification: any = (validationSystem as unknown as {,
           determineCertificationStatus: (, results: Record<string, unknown>,
             summary: Record<string, unknown>,
           ) => Record<string, unknown>
@@ -371,9 +368,9 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
 
     it('should achieve BASIC certification for incomplete campaign', () => {
       const mockValidationResults: any = [
-        { category: 'TypeScript', passed: false, current: 10, target: 0, details: [], criticalIssues: [] }
+        { category: 'TypeScript', passed: false, current: 10, target: 0, details: [], criticalIssues: [] },
         { category: 'Linting', passed: false, current: 50, target: 0, details: [], criticalIssues: [] }
-        { category: 'Intelligence', passed: false, current: 100, target: 200, details: [], criticalIssues: [] }
+        { category: 'Intelligence', passed: false, current: 100, target: 200, details: [], criticalIssues: [] },
         { category: 'Performance', passed: false, current: 15, target: 10, details: [], criticalIssues: [] }
         { category: 'Build/Test', passed: true, current: 1, target: 1, details: [], criticalIssues: [] }
       ],
@@ -386,8 +383,7 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
         testCoverage: 85,
       }
 
-      const certification: any = (
-        validationSystem as unknown as {;
+      const certification: any = (validationSystem as unknown as {,
           determineCertificationStatus: (, results: Record<string, unknown>,
             summary: Record<string, unknown>,
           ) => Record<string, unknown>
@@ -426,7 +422,7 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
       mockedFs.writeFileSync.mockReturnValue(undefined)
 
       // Mock Date.now for consistent build time
-      const originalDateNow: any = Date.now;
+      const originalDateNow: any = Date.now,
       let callCount: any = 0
       Date.now = jest.fn(() => {;
         callCount++,

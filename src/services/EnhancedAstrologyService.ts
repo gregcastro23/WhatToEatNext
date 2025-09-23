@@ -116,7 +116,7 @@ export class EnhancedAstrologyService {
   /**
    * Get seasonal recommendations based on current transits
    */
-  async getSeasonalRecommendations(date: Date = new Date()): Promise<{;
+  async getSeasonalRecommendations(date: Date = new Date()): Promise<{,
     seasonalThemes: string[],
     culinaryInfluences: string[],
     dominantElements: Record<string, number>,
@@ -277,7 +277,7 @@ export class EnhancedAstrologyService {
     const total = Object.values(elementCounts).reduce((sum, count) => sum + count0)
     if (total > 0) {
       Object.keys(elementCounts).forEach(element => {
-        elementCounts[element] /= total;
+        elementCounts[element] /= total,
       })
     }
 

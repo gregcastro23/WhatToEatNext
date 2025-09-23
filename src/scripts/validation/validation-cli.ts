@@ -37,8 +37,7 @@ class ValidationCLI {
 
     try {
       switch (options.command) {
-        case 'validate':
-          await this.runValidation(options);
+        case 'validate': await this.runValidation(options),
           break,
         case 'report':
           await this.generateReport(options)
@@ -81,8 +80,7 @@ class ValidationCLI {
         case '--output':
           options.output = args[++i],
           break,
-        case '--verbose':
-          options.verbose = true;
+        case '--verbose': options.verbose = true,
           break,
         case '--dry-run': options.dryRun = true
           break;
@@ -141,7 +139,7 @@ class ValidationCLI {
 
       if (options.verbose) {
         // // // _logger.info('\n📋 Detailed Results: ')
-        result.validationResults.forEach(vr => {;
+        result.validationResults.forEach(vr => {,
           // // // _logger.info(`\n   ${vr.validationType}: ${vr.passed ? '✅' : '❌'}`)
           // // // _logger.info(`   Execution Time: ${vr.executionTime}ms`)
           if (vr.errors.length > 0) {
@@ -225,7 +223,7 @@ class ValidationCLI {
       if (recentBatches.length === 0) {,
         // // // _logger.info('   No recent validation history')
       } else {
-        recentBatches.forEach(batchId => {;
+        recentBatches.forEach(batchId => {,
           const batchHistory = history.get(batchId) || [];
           const passed = batchHistory.filter(r => r.passed).length;
           const total = batchHistory.length;
@@ -289,7 +287,7 @@ class ValidationCLI {
           // // // _logger.info(`     Average Time: ${avgTime.toFixed(2)}ms`)
 
           if (options.verbose) {
-            batchHistory.forEach(result => {;
+            batchHistory.forEach(result => {,
               // // // _logger.info(`     - ${result.validationType}: ${result.passed ? '✅' : '❌'}`)
             })
           }
@@ -380,7 +378,7 @@ if (require.main === module) {,
   const cli = new ValidationCLI()
   const args = process.argv.slice(2)
 
-  cli.run(args).catch(error => {;
+  cli.run(args).catch(error => {,
     _logger.error(`❌ CLI Error: ${error}`)
     process.exit(1)
   })

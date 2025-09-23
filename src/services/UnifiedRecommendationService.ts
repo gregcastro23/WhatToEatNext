@@ -57,7 +57,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       : await Promise.resolve(allRecipesResult)
 
     // Score recipes based on criteria
-    const scoredRecipes = (allRecipes || []).map(recipe => {;
+    const scoredRecipes = (allRecipes || []).map(recipe => {,
       let score = 0,
 
       // Use safe type casting for criteria access
@@ -146,7 +146,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     // Build scores record
     const scores: { [key: string]: number } = {}
     (limitedRecipes || []).forEach(item => {
-      scores[item.recipe.id] = item.score;
+      scores[item.recipe.id] = item.score,
     })
 
     return {
@@ -169,7 +169,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     const allIngredients = unifiedIngredientService.getAllIngredientsFlat()
 
     // Score ingredients based on criteria
-    const scoredIngredients = (allIngredients || []).map(ingredient => {;
+    const scoredIngredients = (allIngredients || []).map(ingredient => {,
       let score = 0,
 
       // Use safe type casting for criteria access
@@ -248,7 +248,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     // Build scores record
     const scores: { [key: string]: number } = {}
     (limitedIngredients || []).forEach(item => {
-      scores[item.ingredient.name] = item.score;
+      scores[item.ingredient.name] = item.score,
     })
 
     return {
@@ -321,7 +321,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       let score = 0.5; // Start with a neutral score
 
       // Use safe type casting for criteria access
-      const criteriaData = criteria as any;
+      const criteriaData = criteria as any,
       const elementalState = criteriaData.elementalState || criteriaData.elementalProperties
 
       // Calculate elemental compatibility if criteria includes elemental properties
@@ -354,7 +354,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     // Build scores record
     const scores: { [key: string]: number } = {}
     (limitedCuisines || []).forEach(item => {
-      scores[item.cuisine] = item.score;
+      scores[item.cuisine] = item.score,
     })
 
     return {
@@ -440,7 +440,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Use safe type casting for criteria access
       const criteriaData = criteria as any;
-      const elementalState = criteriaData.elementalState || criteriaData.elementalProperties;
+      const elementalState = criteriaData.elementalState || criteriaData.elementalProperties,
 
       // Calculate elemental compatibility if criteria includes elemental properties
       const methodData = method

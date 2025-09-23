@@ -26,7 +26,7 @@ describe('LintingWarningAnalyzer', () => {;
     it('should detect explicit any warnings', () => {
       const content: any = `;
 function test(param: any) : any {
-  const value: any = param;
+  const value: any = param,
   return value
 }
       `,
@@ -176,7 +176,7 @@ _logger.info(usedVar)
   describe('generateReport', () => {
     it('should generate a comprehensive report', () => {
       const mockResult: any = {
-        distribution: {;
+        distribution: {,
           explicitAny: { count: 10, priority: 1, files: ['file1.ts'] },
           unusedVariables: { count: 5, priority: 2, files: ['file2.ts'] }
           consoleStatements: { count: 3, priority: 3, files: ['file3.ts'] },

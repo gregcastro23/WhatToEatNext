@@ -22,9 +22,9 @@ import type {
 } from '@/types/kinetics';
 
 class PlanetaryKineticsClient {
-  private readonly config: KineticsClientConfig;
+  private readonly config: KineticsClientConfig,
   private readonly cache = new Map<string, KineticsCacheEntry>();
-  private readonly isConfigured: boolean;
+  private readonly isConfigured: boolean,
   private requestQueue: Map<string, Promise<any>> = new Map();
 
   constructor(config?: Partial<KineticsClientConfig>) {
@@ -55,7 +55,7 @@ class PlanetaryKineticsClient {
     options: KineticsOptions = {}): Promise<KineticsResponse> {
     // If not properly configured, return fallback immediately
     if (!this.isConfigured) {
-      _logger.debug('PlanetaryKineticsClient: Using fallback due to missing configuration');
+      _logger.debug('PlanetaryKineticsClient: Using fallback due to missing configuration'),
       return this.createFallbackResponse(location);
     }
 
@@ -64,7 +64,7 @@ class PlanetaryKineticsClient {
     // Check cache first
     const cached = this.getFromCache(cacheKey);
     if (cached) {
-      _logger.debug('PlanetaryKineticsClient: Cache hit for enhanced kinetics');
+      _logger.debug('PlanetaryKineticsClient: Cache hit for enhanced kinetics'),
       return { ...cached, cacheHit: true };
     }
 
@@ -114,11 +114,11 @@ class PlanetaryKineticsClient {
   async getGroupDynamics(
     userIds: string[],
     location: KineticsLocation): Promise<GroupDynamicsResponse> {
-    const cacheKey = this.generateCacheKey('group', location, { agentIds: userIds });
+    const cacheKey = this.generateCacheKey('group', location, { agentIds: userIds }),
 
     const cached = this.getFromCache(cacheKey);
     if (cached) {
-      _logger.debug('PlanetaryKineticsClient: Cache hit for group dynamics');
+      _logger.debug('PlanetaryKineticsClient: Cache hit for group dynamics'),
       return cached as GroupDynamicsResponse;
     }
 
@@ -190,9 +190,9 @@ class PlanetaryKineticsClient {
   private async makeRequest<T = KineticsResponse>(
     endpoint: string,
     data: KineticsRequest | GroupDynamicsRequest): Promise<T> {
-    let lastError: Error;
+    let lastError: Error,
 
-    for (let attempt = 1; attempt <= this.config.retryAttempts; attempt++) {
+    for (let attempt = 1; attempt <= this.config.retryAttempts, attempt++) {
       try {
         const response = await fetch(`${this.config.baseUrl}${endpoint}`, {
           method: 'POST',
@@ -205,7 +205,7 @@ class PlanetaryKineticsClient {
 
         if (!response.ok) {
           const error: KineticsError = new Error(
-            `Kinetics API error: ${response.status} ${response.statusText}`) as KineticsError;
+            `Kinetics API error: ${response.status} ${response.statusText}`) as KineticsError,
           error.statusCode = response.status;
           error.isKineticsError = true;
           throw error;
@@ -246,7 +246,7 @@ class PlanetaryKineticsClient {
     options?: KineticsOptions | { agentIds?: string[] }
   ): string {
     const locationKey = `${location.lat.toFixed(1)},${location.lon.toFixed(1)}`;
-    const optionsKey = options ? JSON.stringify(options) : '';
+    const optionsKey = options ? JSON.stringify(options) : '',
     return `kinetics: ${type}:${locationKey}:${optionsKey}`;
   }
 
@@ -321,12 +321,12 @@ class PlanetaryKineticsClient {
   }
 
   private createFallbackGroupResponse(userIds: string[], location: KineticsLocation): GroupDynamicsResponse {
-    const individualContributions: { [key: string]: { powerContribution: number; harmonyImpact: number } } = {};
+    const individualContributions: { [key: string]: { powerContribution: number; harmonyImpact: number } } = {},
     userIds.forEach(id => {
       individualContributions[id] = {
         powerContribution: 0.5,
         harmonyImpact: 0.5,
-      };
+      },
     });
 
     return {

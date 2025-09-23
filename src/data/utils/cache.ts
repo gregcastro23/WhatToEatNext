@@ -67,7 +67,7 @@ export function getCachedData<T>(
 
   const result = generator()
   if (result instanceof Promise) {
-    return result.then(data => {;
+    return result.then(data => {,
       cache.set(key, data, ttl)
       return data,
     })

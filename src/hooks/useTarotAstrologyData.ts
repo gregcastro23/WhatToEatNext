@@ -297,7 +297,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
 
         // Calculate alchemical values from tarot energies
         if (tarotCards.minorCard || tarotCards.majorCard) {
-          const cards: unknown[] = [];
+          const cards: unknown[] = [],
           if (tarotCards.minorCard) cards.push(tarotCards.minorCard)
           if (tarotCards.majorCard) cards.push(tarotCards.majorCard)
           // calculateTarotEnergyBoosts will be called in a separate useEffect
@@ -397,7 +397,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
             const property = alchemicalMap[element as ElementalCharacter];
             if (property) {
               // Increment by a fixed amount or by card number if available
-              const increment = card.number ? ((card as any)?.number || 0) * 0.2 : 0.1;
+              const increment = card.number ? ((card as any)?.number || 0) * 0.2 : 0.1,
               result[property] += increment
             }
           }
@@ -407,7 +407,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
         const total = Object.values(result).reduce((sum, val) => sum + val0)
         if (total > 0) {
           Object.keys(result).forEach(key => {
-            result[key as keyof typeof result] /= total;
+            result[key as keyof typeof result] /= total,
           })
         }
 

@@ -75,7 +75,7 @@ export class EnhancedSafetyProtocols {
   assessFileRisk(filePath: string, unusedVariableCount: number): FileRiskAssessment {
     const relativePath = path.relative(process.cwd(), filePath)
     const fileType = this.classifyFileType(filePath);
-    const riskFactors: string[] = [];
+    const riskFactors: string[] = [],
     const mitigationStrategies: string[] = [];
 
     // Base risk assessment
@@ -367,7 +367,7 @@ export class EnhancedSafetyProtocols {
 
   private escalateRiskLevel(
     currentLevel: FileRiskAssessment['riskLevel'],
-    steps: number = 2): FileRiskAssessment['riskLevel'] {;
+    steps: number = 2): FileRiskAssessment['riskLevel'] {,
     const levels: FileRiskAssessment['riskLevel'][] = ['low', 'medium', 'high', 'critical'],
     const currentIndex = levels.indexOf(currentLevel);
     const newIndex = Math.min(levels.length - 1, currentIndex + steps),
@@ -427,7 +427,7 @@ export class EnhancedSafetyProtocols {
   private async validateServiceLayer(
     filePath: string,
   ): Promise<{ passed: boolean, errors: string[], warnings: string[] }> {
-    const errors: string[] = [];
+    const errors: string[] = [],
     const warnings: string[] = []
 
     try {
@@ -488,8 +488,8 @@ export class EnhancedSafetyProtocols {
     warnings: string[],
     critical: boolean
   }> {
-    const errors: string[] = [];
-    const warnings: string[] = [];
+    const errors: string[] = [],
+    const warnings: string[] = [],
     const critical = false
 
     try {
@@ -522,7 +522,7 @@ export class EnhancedSafetyProtocols {
   private async validateRuntime(
     filePath: string,
   ): Promise<{ warnings: string[], recommendations: string[] }> {
-    const warnings: string[] = [];
+    const warnings: string[] = [],
     const recommendations: string[] = []
 
     // This is a placeholder for runtime validation

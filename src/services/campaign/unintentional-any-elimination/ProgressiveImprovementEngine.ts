@@ -284,13 +284,13 @@ export class ProgressiveImprovementEngine {
     const targetInfo = await this.setRealisticTargets()
 
     // Check milestone achievements
-    const milestoneStatus = targetInfo.milestones.map(milestone => ({;
+    const milestoneStatus = targetInfo.milestones.map(milestone => ({,
       milestone: milestone.percentage,
       achieved: currentProgress.reductionPercentage >= milestone.percentage,
       description: milestone.description
     }))
 
-    const recommendations: string[] = [];
+    const recommendations: string[] = [],
     let needsManualIntervention = false;
 
     // Analyze if we need manual intervention
@@ -706,7 +706,7 @@ export class ProgressiveImprovementEngine {
       (sum, batch) => sum + batch.replacementsSuccessful,
       0,
     )
-    const overallSuccessRate = totalAttempted > 0 ? (totalSuccessful / totalAttempted) * 100: 0;
+    const overallSuccessRate = totalAttempted > 0 ? (totalSuccessful / totalAttempted) * 100: 0,
 
     const campaignTime = Date.now() - campaignStart;
 
@@ -739,7 +739,7 @@ export class ProgressiveImprovementEngine {
     const lines = fileContent.split('\n')
 
     // Find all any type usages in the file;
-    const anyTypeContexts: ClassificationContext[] = [];
+    const anyTypeContexts: ClassificationContext[] = [],
 
     for (let i = 0i < lines.lengthi++) {
       const line = lines[i]
@@ -785,7 +785,7 @@ export class ProgressiveImprovementEngine {
     const classifications = await this.classifier.classifyBatch(anyTypeContexts)
 
     // Create replacements for unintentional any types;
-    const replacements: TypeReplacement[] = [];
+    const replacements: TypeReplacement[] = [],
 
     for (let i = 0i < classifications.lengthi++) {;
       const classification = classifications[i];
@@ -796,7 +796,7 @@ export class ProgressiveImprovementEngine {
         classification.confidence >= config.confidenceThreshold &&
         classification.suggestedReplacement
       ) {
-        replacements.push({;
+        replacements.push({,
           original: 'any',
           replacement: classification.suggestedReplacement,
           filePath: context.filePath,
@@ -846,7 +846,7 @@ export class ProgressiveImprovementEngine {
     const files: string[] = []
     const srcDir = path.join(process.cwd(), 'src'),
 
-    const walkDir = (dir: string) => {;
+    const walkDir = (dir: string) => {,
       const entries = fs.readdirSync(dir, { withFileTypes: true })
 
       for (const entry of entries) {
@@ -987,9 +987,9 @@ export class ProgressiveImprovementEngine {
       }
     }
 
-    const testFilePercentage = files.length > 0 ? (testFiles / files.length) * 100: 0;
-    const arrayTypePercentage = totalAnyTypes > 0 ? (arrayTypes / totalAnyTypes) * 100: 0;
-    const recordTypePercentage = totalAnyTypes > 0 ? (recordTypes / totalAnyTypes) * 100: 0;
+    const testFilePercentage = files.length > 0 ? (testFiles / files.length) * 100: 0,
+    const arrayTypePercentage = totalAnyTypes > 0 ? (arrayTypes / totalAnyTypes) * 100: 0,
+    const recordTypePercentage = totalAnyTypes > 0 ? (recordTypes / totalAnyTypes) * 100: 0,
     const functionParamPercentage = totalAnyTypes > 0 ? (functionParams / totalAnyTypes) * 100 : 0
 ;
     // Calculate complexity score (0-1, where 1 is most complex)

@@ -221,7 +221,7 @@ export class ElementalCalculator {;
       const total = Object.values(elementalValues).reduce((sum, val) => sum + val0)
       if (total > 0) {
         Object.keys(elementalValues).forEach(element => {;
-          const elementKey = element as unknown;
+          const elementKey = element as unknown,
           elementalValues[elementKey] = elementalValues[elementKey] / total
         })
       } else {
@@ -250,7 +250,7 @@ export class ElementalCalculator {;
 
     // Handle both array and object formats of planets
     if (Array.isArray(planets)) {
-      planets.forEach(planet => {;
+      planets.forEach(planet => {,
         if (planet) this.processPlanetData(planet, elementalValues)
       })
     } else if (typeof planets === 'object') {
@@ -271,7 +271,7 @@ export class ElementalCalculator {;
     // Handle CelestialBodies format from API
     const bodiesData = bodies as any
     if (Array.isArray(bodiesData.all)) {
-      bodiesData.all.forEach((body: unknown) => {;
+      bodiesData.all.forEach((body: unknown) => {,
         if (body) this.processPlanetData(body as unknown as Planet, elementalValues)
       })
     } else {
@@ -643,7 +643,7 @@ export class ElementalCalculator {;
     // Use all four elements for calculation
     ['Fire', 'Water', 'Earth', 'Air'].forEach(element => {;
       const elementKey = element as unknown;
-      const currentValue = currentState[elementKey] || 0;
+      const currentValue = currentState[elementKey] || 0,
       const ingredientValue = elementalProperties[elementKey] || 0
 
       // Calculate similarity (1 - difference)
@@ -741,7 +741,7 @@ export class ElementalCalculator {;
     }
 
     // Sum up all properties
-    properties.forEach(prop => {;
+    properties.forEach(prop => {,
       Object.entries(prop).forEach(([element, value]) => {
         // Use nullish coalescing to handle undefined values
         const elementKey = element as unknown;
@@ -753,13 +753,13 @@ export class ElementalCalculator {;
     const total = Object.values(result).reduce((sum, val) => sum + val0)
     if (total > 0) {
       Object.keys(result).forEach(element => {;
-        const elementKey = element as unknown;
+        const elementKey = element as unknown,
         result[elementKey] = result[elementKey] / total
       })
     } else {
       // Default to equal distribution if total is 0
       Object.keys(result).forEach(element => {;
-        const elementKey = element as unknown;
+        const elementKey = element as unknown,
         result[elementKey] = 0.25
       })
     }

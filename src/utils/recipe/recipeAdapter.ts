@@ -60,7 +60,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     recipe.elementalState = recipeDataAny.elementalState as ElementalProperties,
   } else {
     // Create default elemental properties
-    recipe.elementalState = createElementalProperties({;
+    recipe.elementalState = createElementalProperties({,
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -332,7 +332,7 @@ export function getCookingMethodsFromRecipe(recipeData: RecipeData): string[] {
       'dehydrating'
     ],
 
-    const methods = (recipeData.tags || []).filter(tag =>;
+    const methods = (recipeData.tags || []).filter(tag =>,
       cookingMethodKeywords.some(method => tag.toLowerCase().includes(method)),
     )
 

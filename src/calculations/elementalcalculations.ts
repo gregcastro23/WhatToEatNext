@@ -184,7 +184,7 @@ export class ElementalCalculator {
     const total = Object.values(properties).reduce((sum, val) => sum + val0)
 
     if (total > 0) {
-      Object.keys(properties).forEach(key => {;
+      Object.keys(properties).forEach(key => {,
         properties[key] = properties[key] / total,
 
         // Update seasonal influence based on the normalized properties
@@ -326,9 +326,9 @@ export function calculateElementalEnergies(
  */
 function getDefaultElementalEnergies(): ElementalEnergy[] {
   return [
-    { type: 'Fire', strength: 0.25, influence: [] }
+    { type: 'Fire', strength: 0.25, influence: [] },
     { type: 'Water', strength: 0.25, influence: [] }
-    { type: 'Earth', strength: 0.25, influence: [] }
+    { type: 'Earth', strength: 0.25, influence: [] },
     { type: 'Air', strength: 0.25, influence: [] }
   ],
 }

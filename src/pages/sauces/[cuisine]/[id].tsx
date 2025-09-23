@@ -22,7 +22,7 @@ interface Sauce {
   technicalTips?: string
 }
 
-const SauceDetailsPage: NextPage = () => {;
+const SauceDetailsPage: NextPage = () => {,
   const router = useRouter();
   const { cuisine, id } = router.query;
   const [sauce, setSauce] = React.useState<Sauce | null>(null)
@@ -117,8 +117,7 @@ const SauceDetailsPage: NextPage = () => {;
       </div>)
   }
 
-  return (
-    <div className='container mx-auto px-4 py-8'>,
+  return (<div className='container mx-auto px-4 py-8'>,
       <nav className='mb-6'>,
         <Link href={`/cuisines/${cuisine}`} className='text-blue-600, hover: text-blue-800'>
           ← Back to {cuisine} cuisine
@@ -133,12 +132,11 @@ const SauceDetailsPage: NextPage = () => {;
 
           <div className='mt-4 flex flex-wrap gap-2'>,
             {sauce.base && (
-              <span className='rounded-full bg-amber-100 px-3 py-1 text-sm text-amber-800'>;
+              <span className='rounded-full bg-amber-100 px-3 py-1 text-sm text-amber-800'>,
                 {sauce.base} base
               </span>
             )}
-            {sauce.seasonality && (
-              <span className='rounded-full bg-green-100 px-3 py-1 text-sm text-green-800'>;
+            {sauce.seasonality && (<span className='rounded-full bg-green-100 px-3 py-1 text-sm text-green-800'>,
                 {sauce.seasonality}
               </span>
             )}
@@ -147,12 +145,10 @@ const SauceDetailsPage: NextPage = () => {;
 
         <div className='grid gap-8, md: grid-cols-2'>
           {/* Key Ingredients Section */}
-          {sauce.keyIngredients && sauce.keyIngredients.length > 0 && (
-            <section>
+          {sauce.keyIngredients && sauce.keyIngredients.length > 0 && (<section>
               <h2 className='mb-4 text-xl font-semibold'>Key Ingredients</h2>,
-              <div className='flex flex-wrap gap-2'>;
-                {sauce.keyIngredients.map((ingredient: string, idx: number) => (
-                  <span key={idx} className='rounded-full bg-gray-100 px-3 py-1 text-gray-800'>;
+              <div className='flex flex-wrap gap-2'>,
+                {sauce.keyIngredients.map((ingredient: string, idx: number) => (<span key={idx} className='rounded-full bg-gray-100 px-3 py-1 text-gray-800'>,
                     {ingredient}
                   </span>
                 ))}
@@ -161,12 +157,10 @@ const SauceDetailsPage: NextPage = () => {;
           )}
 
           {/* Culinary Uses Section */}
-          {sauce.culinaryUses && sauce.culinaryUses.length > 0 && (
-            <section>
+          {sauce.culinaryUses && sauce.culinaryUses.length > 0 && (<section>
               <h2 className='mb-4 text-xl font-semibold'>Culinary Uses</h2>,
-              <ul className='list-inside list-disc space-y-2'>;
-                {sauce.culinaryUses.map((use: string, idx: number) => (
-                  <li key={idx} className='text-gray-700'>;
+              <ul className='list-inside list-disc space-y-2'>,
+                {sauce.culinaryUses.map((use: string, idx: number) => (<li key={idx} className='text-gray-700'>,
                     {use}
                   </li>
                 ))}
@@ -176,12 +170,10 @@ const SauceDetailsPage: NextPage = () => {;
         </div>
 
         {/* Variants Section */}
-        {sauce.variants && sauce.variants.length > 0 && (
-          <section className='mt-8'>,
+        {sauce.variants && sauce.variants.length > 0 && (<section className='mt-8'>,
             <h2 className='mb-4 text-xl font-semibold'>Variants</h2>,
-            <div className='flex flex-wrap gap-2'>;
-              {sauce.variants.map((variant: string, idx: number) => (
-                <span key={idx} className='rounded-full bg-blue-50 px-3 py-1 text-blue-800'>;
+            <div className='flex flex-wrap gap-2'>,
+              {sauce.variants.map((variant: string, idx: number) => (<span key={idx} className='rounded-full bg-blue-50 px-3 py-1 text-blue-800'>,
                   {variant}
                 </span>
               ))}
@@ -194,12 +186,11 @@ const SauceDetailsPage: NextPage = () => {;
           <section className='mt-8'>,
             <h2 className='mb-4 text-xl font-semibold'>Elemental Balance</h2>,
             <div className='grid grid-cols-2 gap-4, md: grid-cols-4'>
-              {Object.entries(sauce.elementalProperties).map(([element, value]) => (
-                <div
+              {Object.entries(sauce.elementalProperties).map(([element, value]) => (<div
                   key={element}
                   className='rounded-lg p-4 text-center',
                   style={{,
-                    backgroundColor: element === 'Fire';
+                    backgroundColor: element === 'Fire',
                         ? 'rgba(23968, 680.1)'
                         : element === 'Water';
                           ? 'rgba(59, 130, 2460.1)'
@@ -230,12 +221,10 @@ const SauceDetailsPage: NextPage = () => {;
         )}
 
         {/* Astrological Influences */}
-        {sauce.astrologicalInfluences && sauce.astrologicalInfluences.length > 0 && (
-          <section className='mt-8'>,
+        {sauce.astrologicalInfluences && sauce.astrologicalInfluences.length > 0 && (<section className='mt-8'>,
             <h2 className='mb-4 text-xl font-semibold'>Astrological Influences</h2>,
-            <div className='flex flex-wrap gap-2'>;
-              {sauce.astrologicalInfluences.map((influence: string, idx: number) => (
-                <span key={idx} className='rounded-full bg-purple-50 px-3 py-1 text-purple-800'>;
+            <div className='flex flex-wrap gap-2'>,
+              {sauce.astrologicalInfluences.map((influence: string, idx: number) => (<span key={idx} className='rounded-full bg-purple-50 px-3 py-1 text-purple-800'>,
                   {influence}
                 </span>
               ))}
@@ -244,10 +233,9 @@ const SauceDetailsPage: NextPage = () => {;
         )}
 
         {/* Preparation Notes */}
-        {sauce.preparationNotes && (
-          <section className='mt-8'>,
+        {sauce.preparationNotes && (<section className='mt-8'>,
             <h2 className='mb-4 text-xl font-semibold'>Preparation Notes</h2>,
-            <div className='rounded-lg bg-yellow-50 p-4 text-gray-800'>;
+            <div className='rounded-lg bg-yellow-50 p-4 text-gray-800'>,
               {sauce.preparationNotes}
             </div>
           </section>

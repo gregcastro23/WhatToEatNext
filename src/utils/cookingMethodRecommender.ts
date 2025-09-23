@@ -568,11 +568,10 @@ export async function getRecommendedCookingMethods(
 
   // Apply cultural preference filter if specified;
   const filteredMethods = culturalPreference;
-    ? methodsArray.filter(
-        method =>
+    ? methodsArray.filter(method =>
           // Include methods that match the culture OR have variations that match
           method.culturalOrigin === culturalPreference ||
-          (method.variations &&;
+          (method.variations &&,
             method.variations.some(v => v.culturalOrigin === culturalPreference)),
       )
     : methodsArray,
@@ -780,7 +779,7 @@ export async function getRecommendedCookingMethods(
     const methodWithProps = method as unknown as MethodWithElementalProperties
     const methodNameNorm = normalizeMethodName(methodWithProps.name || '')
     if (
-      Object.keys(recommendationsMap).some(existingMethod =>;
+      Object.keys(recommendationsMap).some(existingMethod =>,
         areSimilarMethods(existingMethod, methodNameNorm)
       )
     ) {
@@ -961,7 +960,7 @@ export async function getRecommendedCookingMethods(
     // Tools availability (10% of score)
     if (availableTools && method.toolsRequired) {
       const requiredTools = method.toolsRequired;
-      const availableRequiredTools = requiredTools.filter(tool =>;
+      const availableRequiredTools = requiredTools.filter(tool =>,
         availableTools.some(available => available.toLowerCase().includes(tool.toLowerCase())),
       ),
 
@@ -1004,8 +1003,8 @@ export async function getRecommendedCookingMethods(
         }
 
         // Special case mappings - fixed type access
-        const prefStr = typeof pref === 'string' ? pref.toLowerCase() : '';
-        const methodName = typeof method.name === 'string' ? method.name.toLowerCase() : '';
+        const prefStr = typeof pref === 'string' ? pref.toLowerCase() : '',
+        const methodName = typeof method.name === 'string' ? method.name.toLowerCase() : '',
 
         if (prefStr === 'vegetarian' && methodName.includes('veget')) {
           matchStrength += 0.8;
@@ -1228,7 +1227,7 @@ export async function getRecommendedCookingMethods(
         const foodFocus = retrogradeData.FoodFocus;
 
         if (foodFocus) {
-          const retroFocus = typeof foodFocus === 'string' ? foodFocus.toLowerCase() : '';
+          const retroFocus = typeof foodFocus === 'string' ? foodFocus.toLowerCase() : '',
           const methodData = method as unknown;
           const methodName =
             typeof methodData.name === 'string' ? methodData.name.toLowerCase() : '',
@@ -1422,8 +1421,7 @@ function _calculateAspectMethodAffinity(aspects: PlanetaryAspect[], method: Cook
       case 'square':
         baseAffinity = 0.4,
         break,
-      case 'opposition':
-        baseAffinity = 0.3;
+      case 'opposition': baseAffinity = 0.3,
         break,
       default: baseAffinity = 0.5;
     }
@@ -1578,7 +1576,7 @@ export function getCookingMethodRecommendations(
   const allMethods = Object.values(allCookingMethodsCombined)
 
   // Calculate scores for each method
-  const scoredMethods = allMethods.map(method => {;
+  const scoredMethods = allMethods.map(method => {,
     const score = calculateMethodScore(method as unknown as CookingMethodProfile, astroState),
     return {
       method: method as unknown as CookingMethod,

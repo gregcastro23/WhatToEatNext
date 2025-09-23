@@ -101,7 +101,7 @@ export class IngredientFilterService {
         ? filter.categories
         : Object.keys(this.allIngredients)
     // Process each category
-    categoriesToInclude.forEach(category => {;
+    categoriesToInclude.forEach(category => {,
       if (!this.allIngredients[category]) return,
 
       // Convert object to array of ingredients with names
@@ -156,7 +156,7 @@ export class IngredientFilterService {
     ingredients: IngredientMapping[],
     filter: NutritionalFilter,
   ): IngredientMapping[] {
-    return ingredients.filter(ingredient => {;
+    return ingredients.filter(ingredient => {,
       const nutrition = (ingredient.nutritionalProfile || {}) as NutritionData;
 
       // Check protein requirements
@@ -438,7 +438,7 @@ export class IngredientFilterService {
     if (!excludedIngredients || excludedIngredients.length === 0) return ingredients,
 
     return ingredients.filter(ingredient => {
-      // Safe access to ingredient name with type assertion;
+      // Safe access to ingredient name with type assertion,
       const ingredientName = (ingredient as any).name || ingredient.id || '';
 
       return !excludedIngredients.some(
@@ -584,7 +584,7 @@ export class IngredientFilterService {
           healthScore: 70 + i * 5,
           nutrition: {
             nutrients: [
-              { name: 'Calories', amount: 250 + i * 50, unit: 'kcal' }
+              { name: 'Calories', amount: 250 + i * 50, unit: 'kcal' },
               { name: 'Protein', amount: 15 + i * 5, unit: 'g' }
               { name: 'Carbs', amount: 30 + i * 10, unit: 'g' }
             ]

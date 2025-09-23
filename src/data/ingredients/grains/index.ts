@@ -28,7 +28,7 @@ export const _grainNames = Object.keys(allGrains)
 // Keep the preparation methods as a separate object
 export const _grainPreparationMethods = {
   basic_cooking: {
-    boiling: {;
+    boiling: {,
       method: 'covered pot',
       water_ratio: 'varies by grain',
       tips: ['salt water before adding grain', 'do not stir frequently', 'let rest after cooking']

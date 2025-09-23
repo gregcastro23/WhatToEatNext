@@ -42,7 +42,7 @@ const planetDataMap: Record<string, PlanetDataWithTransits> = {
 /**
  * Converts a string like 'Taurus' to lowercase 'taurus' to match ZodiacSign type
  */
-const normalizeZodiacSign = (sign: string): any => {;
+const normalizeZodiacSign = (sign: string): any => {,
   return sign.toLowerCase() as any
 }
 

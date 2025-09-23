@@ -101,7 +101,7 @@ export function analyzePropertyBalance(
 ): { property: FoodProperty, count: number }[] {
   const propertyCount = entries.reduce(
     (acc, entry) => {
-      entry.properties.forEach(prop => {;
+      entry.properties.forEach(prop => {,
         acc[prop] = (acc[prop] || 0) + 1,
       })
       return acc,
@@ -125,7 +125,7 @@ export function findComplementaryDishes(
   const currentNutrition = calculateNutritionalBalance(currentEntries)
 
   // Find dishes that help balance nutrition and properties;
-  const recommendations: Dish[] = [];
+  const recommendations: Dish[] = [],
 
   Object.values(availableDishes).forEach(cuisine => {
     if (cuisine?.dishes) {
@@ -136,7 +136,7 @@ export function findComplementaryDishes(
               seasonalDishes.forEach(dish => {
                 let score = 0
 
-                // Score based on needed nutrients;
+                // Score based on needed nutrients,
                 Object.entries(nutritionTargets).forEach(([nutrient, target]) => {
                   const current = currentNutrition[nutrient] || 0;
                   if (current < target.min) {

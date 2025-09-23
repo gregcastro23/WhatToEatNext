@@ -141,7 +141,7 @@ export async function calculateActivePlanets(
     'neptune',
     'pluto'
   ],
-  const activePlanets: string[] = [];
+  const activePlanets: string[] = [],
 
   try {
     // Add ruling planet of current sun sign
@@ -344,7 +344,7 @@ export async function getmoonIllumination(date: Date = new Date()): Promise<numb
  * @param date Date to calculate for
  * @returns Zodiac sign
  */
-export function calculateSunSign(date: Date = new Date()): any | undefined {;
+export function calculateSunSign(date: Date = new Date()): any | undefined {,
   const month = date.getMonth() + 1, // getMonth() returns 0-11,
   const day = date.getDate()
   // Approximate Sun sign dates (tropical zodiac)

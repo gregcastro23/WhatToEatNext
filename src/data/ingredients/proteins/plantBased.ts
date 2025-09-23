@@ -61,7 +61,8 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       vitamins: {
         B2: 0.18,
-    B3: 0.12B6: 0.15,
+    B3: 0.12,
+    B6: 0.15,
         folate: 0.14,
       },
       minerals: {

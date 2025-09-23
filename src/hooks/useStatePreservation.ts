@@ -98,7 +98,7 @@ export function useScrollPreservation(sectionId: string) {
 
   const saveScrollPositionInternal = useCallback(
     (position?: number) => {
-      const pos = position !== undefined ? position : window.scrollY;
+      const pos = position !== undefined ? position : window.scrollY,
       saveScrollPosition(sectionId, pos)
     }
     [sectionId],
@@ -213,7 +213,7 @@ export function useNavigationContext() {
   const { saveState, getState } = useNavigationState()
 
   const preserveContext = useCallback(
-    (context: {;
+    (context: {,
       fromPage?: string,
       selectedItems?: unknown[],
       activeSection?: string,
@@ -221,7 +221,7 @@ export function useNavigationContext() {
       timestamp?: number
     }) => {
       const currentState = getState()
-      saveState({;
+      saveState({,
         ...currentState,
         ...context,
         navigationHistory: [
@@ -253,7 +253,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
   const { saveState, getState} = useComponentState(componentId)
 
   const saveAstrologicalState = useCallback(
-    async (state: {;
+    async (state: {,
       elementalProperties?: ElementalProperties,
       selectedIngredients?: string[],
       astrologicalContext?: unknown
@@ -304,7 +304,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
     return {;
       patterns: ['component-isolation', 'error-boundaries', 'performance-optimization'],
       recommendations: [
-        'Use React.memo for expensive components'
+        'Use React.memo for expensive components',
         'Implement proper error handling'
       ]
     }
@@ -333,7 +333,7 @@ export function useCulturalSensitivityGuidance() {
   const intelligence = useSteeringFileIntelligence()
 
   const validateCulturalContent = useCallback(
-    (content: {;
+    (content: {,
       ingredientNames?: string[],
       cuisineDescriptions?: string[],
       culturalReferences?: string[]
@@ -346,7 +346,7 @@ export function useCulturalSensitivityGuidance() {
         accessibilityCompliant: true,
       }
 
-      const issues: string[] = [];
+      const issues: string[] = [],
       const recommendations: string[] = []
 
       // Check ingredient names for cultural sensitivity
@@ -464,7 +464,7 @@ export function usePerformanceOptimizationGuidance() {
   )
 
   const validatePerformanceMetrics = useCallback(
-    (metrics: {;
+    (metrics: {,
       renderTime?: number,
       memoryUsage?: number,
       bundleSize?: number,
@@ -477,7 +477,7 @@ export function usePerformanceOptimizationGuidance() {
         apiResponseTime: 2000, // 2 seconds
       }
 
-      const issues: string[] = [];
+      const issues: string[] = [],
       const recommendations: string[] = []
 
       Object.entries(metrics).forEach(([metric, value]) => {

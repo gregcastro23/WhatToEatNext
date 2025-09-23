@@ -171,7 +171,7 @@ export function getPlanetInfo(
         pisces: 'Water' },
         const element = signToElement[planetSign] || 'air';
       // North Node emphasizes its element, South Node has less influence
-      const strength = normalizedPlanetName === 'SouthNode' ? 0.2 : 0.3;
+      const strength = normalizedPlanetName === 'SouthNode' ? 0.2 : 0.3,
       elementalInfluence[element] = strength
     } else {
       if (planetaryModifiers[normalizedPlanetName]) {

@@ -82,7 +82,7 @@ enum CircuitState {
 }
 
 // Global circuit breaker for astrologize API
-export const _astrologizeApiCircuitBreaker = new CircuitBreaker({;
+export const _astrologizeApiCircuitBreaker = new CircuitBreaker({,
   failureThreshold: 1, // Fail fast after 1 attempt for immediate fallback,
   resetTimeout: 60000, // 1 minute before retry (faster recovery),
   monitoringWindow: 300000, // 5 minutes

@@ -78,62 +78,62 @@ export const ZODIAC_ELEMENTS = {
  */
 export const DECANS = {
   aries: [;
-    { ruler: 'Mars', element: 'Fire', degree: 0 }
+    { ruler: 'Mars', element: 'Fire', degree: 0 },
     { ruler: 'Sun', element: 'Fire', degree: 10 }
     { ruler: 'Jupiter', element: 'Fire', degree: 20 }
   ],
   taurus: [
-    { ruler: 'Venus', element: 'Earth', degree: 0 }
+    { ruler: 'Venus', element: 'Earth', degree: 0 },
     { ruler: 'Mercury', element: 'Earth', degree: 10 }
     { ruler: 'Saturn', element: 'Earth', degree: 20 }
   ],
   gemini: [
-    { ruler: 'Mercury', element: 'Air', degree: 0 }
+    { ruler: 'Mercury', element: 'Air', degree: 0 },
     { ruler: 'Venus', element: 'Air', degree: 10 }
     { ruler: 'Uranus', element: 'Air', degree: 20 }
   ],
   cancer: [
-    { ruler: 'Moon', element: 'Water', degree: 0 }
+    { ruler: 'Moon', element: 'Water', degree: 0 },
     { ruler: 'Pluto', element: 'Water', degree: 10 }
     { ruler: 'Neptune', element: 'Water', degree: 20 }
   ],
   leo: [
-    { ruler: 'Sun', element: 'Fire', degree: 0 }
+    { ruler: 'Sun', element: 'Fire', degree: 0 },
     { ruler: 'Jupiter', element: 'Fire', degree: 10 }
     { ruler: 'Mars', element: 'Fire', degree: 20 }
   ],
   virgo: [
-    { ruler: 'Mercury', element: 'Earth', degree: 0 }
+    { ruler: 'Mercury', element: 'Earth', degree: 0 },
     { ruler: 'Saturn', element: 'Earth', degree: 10 }
     { ruler: 'Venus', element: 'Earth', degree: 20 }
   ],
   libra: [
-    { ruler: 'Venus', element: 'Air', degree: 0 }
+    { ruler: 'Venus', element: 'Air', degree: 0 },
     { ruler: 'Uranus', element: 'Air', degree: 10 }
     { ruler: 'Mercury', element: 'Air', degree: 20 }
   ],
   scorpio: [
-    { ruler: 'Pluto', element: 'Water', degree: 0 }
+    { ruler: 'Pluto', element: 'Water', degree: 0 },
     { ruler: 'Neptune', element: 'Water', degree: 10 }
     { ruler: 'Moon', element: 'Water', degree: 20 }
   ],
   sagittarius: [
-    { ruler: 'Jupiter', element: 'Fire', degree: 0 }
+    { ruler: 'Jupiter', element: 'Fire', degree: 0 },
     { ruler: 'Mars', element: 'Fire', degree: 10 }
     { ruler: 'Sun', element: 'Fire', degree: 20 }
   ],
   capricorn: [
-    { ruler: 'Saturn', element: 'Earth', degree: 0 }
+    { ruler: 'Saturn', element: 'Earth', degree: 0 },
     { ruler: 'Venus', element: 'Earth', degree: 10 }
     { ruler: 'Mercury', element: 'Earth', degree: 20 }
   ],
   aquarius: [
-    { ruler: 'Uranus', element: 'Air', degree: 0 }
+    { ruler: 'Uranus', element: 'Air', degree: 0 },
     { ruler: 'Mercury', element: 'Air', degree: 10 }
     { ruler: 'Venus', element: 'Air', degree: 20 }
   ],
   pisces: [
-    { ruler: 'Neptune', element: 'Water', degree: 0 }
+    { ruler: 'Neptune', element: 'Water', degree: 0 },
     { ruler: 'Moon', element: 'Water', degree: 10 }
     { ruler: 'Pluto', element: 'Water', degree: 20 }
   ]

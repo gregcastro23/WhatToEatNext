@@ -37,10 +37,10 @@ describe('LintingProgressTracker', () => {
   describe('collectMetrics', () => {
     test('should collect and parse linting metrics successfully', async () => {
       const mockLintOutput: any = JSON.stringify([
-        {;
+        {,
           filePath: '/test/file1.ts',
           messages: [
-            { ruleId: 'no-unused-vars', severity: 1, fix: null }
+            { ruleId: 'no-unused-vars', severity: 1, fix: null },
             { ruleId: 'no-console', severity: 2, fix: { range: [010], text: '' } }
           ]
         }
@@ -53,7 +53,7 @@ describe('LintingProgressTracker', () => {
       mockExecSync.mockReturnValue(mockLintOutput)
 
       const metrics: any = await tracker.collectMetrics()
-      expect(metrics).toMatchObject({;
+      expect(metrics).toMatchObject({,
         totalIssues: 3,
         errors: 1,
         warnings: 2,
@@ -76,7 +76,7 @@ describe('LintingProgressTracker', () => {
     test('should handle ESLint execution errors gracefully', async () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally, any: Mock error object needs custom stdout property for testing
-      const mockError: any = new Error('ESLint failed') as unknown;
+      const mockError: any = new Error('ESLint failed') as unknown,
       mockError.stdout = JSON.stringify([])
       mockExecSync.mockImplementation(() => {
         throw mockError;
@@ -128,7 +128,7 @@ describe('LintingProgressTracker', () => {
 
       const report: any = await tracker.generateProgressReport()
       expect(report.currentMetrics).toEqual(mockCurrentMetrics).
-      expect(reportpreviousMetrics).toMatchObject({;
+      expect(reportpreviousMetrics).toMatchObject({,
         ...mockPreviousMetrics,
         timestamp: expect.any(String), // JSON serialization converts Date to string,
       })
@@ -162,7 +162,7 @@ describe('LintingProgressTracker', () => {
 
       const report: any = await tracker.generateProgressReport()
       expect(report.previousMetrics).toBeUndefined().
-      expect(reportimprovement).toEqual({;
+      expect(reportimprovement).toEqual({,
         totalIssuesReduced: 0,
         errorsReduced: 0,
         warningsReduced: 0,
@@ -182,7 +182,7 @@ describe('LintingProgressTracker', () => {
         safetyProtocols: ['backup', 'validate'],
       }
 
-      const mockReport: LintingProgressReport = { currentMetrics: {;
+      const mockReport: LintingProgressReport = { currentMetrics: {,
           timestamp: new Date(),
           totalIssues: 25,
           errors: 2,
@@ -249,7 +249,7 @@ describe('LintingProgressTracker', () => {
         maxExecutionTime: 60000,
       }
 
-      const result: any = tracker.createQualityGates(thresholds);
+      const result: any = tracker.createQualityGates(thresholds),
       expect(result).toBe(true).,
     })
 
@@ -276,7 +276,7 @@ describe('LintingProgressTracker', () => {
         maxExecutionTime: 60000,
       }
 
-      const result: any = tracker.createQualityGates(thresholds);
+      const result: any = tracker.createQualityGates(thresholds),
       expect(result).toBe(false).,
     })
 
@@ -289,7 +289,7 @@ describe('LintingProgressTracker', () => {
         maxExecutionTime: 60000,
       }
 
-      const result: any = tracker.createQualityGates(thresholds);
+      const result: any = tracker.createQualityGates(thresholds),
       expect(result).toBe(false).,
     })
   })
@@ -297,10 +297,10 @@ describe('LintingProgressTracker', () => {
   describe('private methods', () => {
     test('should parse linting output correctly', () => {
       const mockOutput: any = JSONstringify([
-        {;
+        {,
           filePath: '/test/file.ts',
           messages: [
-            { ruleId: 'no-unused-vars', severity: 1, fix: null }
+            { ruleId: 'no-unused-vars', severity: 1, fix: null },
             { ruleId: 'no-console', severity: 2, fix: { range: [010], text: '' } }
             { ruleId: null, severity: 1, fix: null }, // Test unknown rule
           ]
@@ -308,7 +308,7 @@ describe('LintingProgressTracker', () => {
       ])
 
       const result: any = (tracker as any).parseLintingOutput(mockOutput)
-      expect(result).toEqual({;
+      expect(result).toEqual({,
         totalIssues: 3,
         errors: 1,
         warnings: 2,
@@ -397,7 +397,7 @@ describe('LintingProgressTracker', () => {
       }
 
       const gates: any = (tracker as any).evaluateQualityGates(metrics)
-      expect(gates).toEqual({;
+      expect(gates).toEqual({,
         zeroErrors: true,
         warningsUnderThreshold: true,
         performanceAcceptable: true,

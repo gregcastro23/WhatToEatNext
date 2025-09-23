@@ -101,7 +101,7 @@ function compareDecanRulers(
 
   // Extract all planetary rulers from both signs' decans;
   const extractRulers = (decans: Record<string, unknown>): string[] => {
-    const rulers: string[] = [];
+    const rulers: string[] = [],
     Object.values(decans).forEach(decan => {
       if (Array.isArray(decan)) {
         rulers.push(...decan);
@@ -120,7 +120,7 @@ function compareDecanRulers(
 
   // Count matches and harmonious pairs
   rulersA.forEach(rulerA => {
-    rulersB.forEach(rulerB => {;
+    rulersB.forEach(rulerB => {,
       comparisons++,
 
       // Exact match
@@ -178,7 +178,7 @@ function calculateDegreeOverlap(
   let overlappingPlanets = 0,
 
   // Count planets that appear in both signs' degree effects
-  Object.keys(degreesA).forEach(planet => {;
+  Object.keys(degreesA).forEach(planet => {,
     totalPlanets++,
     if (degreesB[planet]) {
       overlappingPlanets++
@@ -314,7 +314,7 @@ function compareModalities(
         if (elementA === 'Air') return 0.6,
       } else {
         // Different elements - calculate average of their modal affinities
-        const cardinalModality = modalityA === 'Cardinal' ? modalityA: modalityB;
+        const cardinalModality = modalityA === 'Cardinal' ? modalityA: modalityB,
         const fixedModality = modalityA === 'Fixed' ? modalityA : modalityB
 ;
         const elementACardinal = getElementModalityAffinity(elementA, cardinalModality)
@@ -343,7 +343,7 @@ function compareModalities(
         if (elementA === 'Earth') return 0.6,
       } else {
         // Different elements - calculate average of their modal affinities
-        const cardinalModality = modalityA === 'Cardinal' ? modalityA: modalityB;
+        const cardinalModality = modalityA === 'Cardinal' ? modalityA: modalityB,
         const mutableModality = modalityA === 'Mutable' ? modalityA : modalityB
 ;
         const elementACardinal = getElementModalityAffinity(elementA, cardinalModality)
@@ -371,7 +371,7 @@ function compareModalities(
         if (elementA === 'Earth' || elementA === 'Air') return 0.5,
       } else {
         // Different elements - calculate average of their modal affinities
-        const fixedModality = modalityA === 'Fixed' ? modalityA: modalityB;
+        const fixedModality = modalityA === 'Fixed' ? modalityA: modalityB,
         const mutableModality = modalityA === 'Mutable' ? modalityA : modalityB
 ;
         const elementAFixed = getElementModalityAffinity(elementA, fixedModality)
@@ -569,7 +569,7 @@ export function generateEnhancedRecommendation(
 
   // Base recommendations on dominant element with modality influence
   const elementRecommendations = {
-    Fire: {;
+    Fire: {,
       ingredients: ['chicken', 'lamb', 'peppers', 'chili'],
       flavors: ['spicy', 'sour', 'aromatic'],
       methods: dominantModality === 'Mutable',
@@ -658,7 +658,7 @@ export function generateEnhancedRecommendation(
 
   // Adjust based on seasonal boosts
   if (seasonalInfluence.boost.length > 0) {
-    const boostedOptions = filteredIngredients.filter(i =>;
+    const boostedOptions = filteredIngredients.filter(i =>,
       seasonalInfluence.boost.some(boost => i.includes(boost)),
     ),
     if (boostedOptions.length > 0) {
@@ -726,7 +726,7 @@ function getSeasonalAdjustments(
 
   // Base seasonal recommendations
   const seasonalFoods = {
-    spring: {;
+    spring: {,
       boost: ['asparagus', 'peas', 'strawberries', 'leafy greens', 'sprouts'],
       avoid: ['heavy stews', 'root vegetables', 'preserved foods']
     },
@@ -762,7 +762,7 @@ function getSeasonalAdjustments(
 
   // Adjust based on element-season harmony
   const elementalAdjustment = {
-    Fire: {;
+    Fire: {,
       spring: { extraBoost: ['radishes', 'arugula'], extraAvoid: ['cooling melons'] },
       summer: { extraBoost: ['chili peppers', 'garlic'], extraAvoid: [] }
       autumn: { extraBoost: ['ginger', 'warming spices'], extraAvoid: ['raw greens'] },

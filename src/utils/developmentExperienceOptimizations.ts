@@ -285,8 +285,8 @@ export type {
     }
 
     const lines = sourceCode.split('\n')
-    const imports: string[] = [];
-    const otherLines: string[] = [];
+    const imports: string[] = [],
+    const otherLines: string[] = [],
     let inImportSection = true,
 
     for (const line of lines) {
@@ -330,7 +330,7 @@ export type {
     remainingErrors: string[]
   } {
     let fixedCode = sourceCode,
-    const fixes: string[] = [];
+    const fixes: string[] = [],
     const remainingErrors: string[] = []
 
     // Fix common TypeScript errors
@@ -458,9 +458,9 @@ export type {
     skipped: string[],
     errors: string[]
   } {
-    const applied: string[] = [];
-    const skipped: string[] = [];
-    const errors: string[] = [];
+    const applied: string[] = [],
+    const skipped: string[] = [],
+    const errors: string[] = [],
 
     try {
       // Generate optimized TypeScript config
@@ -479,7 +479,7 @@ export type {
 
       logger.info('Automatic optimizations applied: ', applied)
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error',
       errors.push(errorMessage)
       logger.error('Error applying automatic optimizations: ', error)
     }
@@ -575,7 +575,7 @@ export type {
 
   private removeUnusedImports(imports: string[], codeBody: string): string[] {
     return imports.filter(importLine => {
-      // Extract imported names from the import statement;
+      // Extract imported names from the import statement,
       const importMatch = importLine.match(/import\s+(?:\{([^}]+)\}|\*\s+as\s+(\w+)|(\w+))/)
       if (!importMatch) return true;
 
@@ -584,7 +584,7 @@ export type {
         : [importMatch[2] || importMatch[3]]
 
       // Check if any imported name is used in the code
-      return importedNames.some(name => {;
+      return importedNames.some(name => {,
         const regex = new RegExp(`\\b${name}\\b`, 'g')
         return regex.test(codeBody)
       })
@@ -592,8 +592,8 @@ export type {
   }
 
   private sortImports(imports: string[]): string[] {
-    const externalImports: string[] = [];
-    const internalImports: string[] = [];
+    const externalImports: string[] = [],
+    const internalImports: string[] = [],
 
     imports.forEach(importLine => {
       if (importLine.includes('@/') || importLine.includes('./') || importLine.includes('../')) {

@@ -206,8 +206,8 @@ export class SafetyProtocol {
    * Detect file corruption using comprehensive syntax validation patterns
    */
   async detectCorruption(files: string[]): Promise<CorruptionReport> {
-    const detectedFiles: string[] = [];
-    const corruptionPatterns: CorruptionPattern[] = [];
+    const detectedFiles: string[] = [],
+    const corruptionPatterns: CorruptionPattern[] = [],
     let maxSeverity = CorruptionSeverity.LOW
 ;
     // // // _logger.info(`🔍 Analyzing ${files.length} files for corruption patterns...`)
@@ -292,8 +292,8 @@ export class SafetyProtocol {
    * Detect import/export corruption based on existing script knowledge
    */
   async detectImportExportCorruption(files: string[]): Promise<CorruptionReport> {
-    const detectedFiles: string[] = [];
-    const corruptionPatterns: CorruptionPattern[] = [];
+    const detectedFiles: string[] = [],
+    const corruptionPatterns: CorruptionPattern[] = [],
     let maxSeverity = CorruptionSeverity.LOW
 ;
     // // // _logger.info(`🔍 Analyzing import/export corruption in ${files.length} files...`)
@@ -404,8 +404,8 @@ export class SafetyProtocol {
    * Validate syntax using TypeScript compiler
    */
   async validateSyntaxWithTypeScript(files: string[]): Promise<CorruptionReport> {
-    const detectedFiles: string[] = [];
-    const corruptionPatterns: CorruptionPattern[] = [];
+    const detectedFiles: string[] = [],
+    const corruptionPatterns: CorruptionPattern[] = [],
     let maxSeverity = CorruptionSeverity.LOW
 ;
     // // // _logger.info(`🔍 Validating syntax with TypeScript compiler for ${files.length} files...`)
@@ -529,7 +529,7 @@ export class SafetyProtocol {
       const status = execSync('git status --porcelain', { encoding: 'utf8' })
       const hasUncommittedChanges = status.trim().length > 0;
 
-      const warnings: string[] = [];
+      const warnings: string[] = [],
       if (hasUncommittedChanges && !this.settings.automaticRollbackEnabled) {
         warnings.push('Uncommitted changes detected - consider creating a stash')
       }
@@ -555,7 +555,7 @@ export class SafetyProtocol {
     const cutoffDate = new Date()
     cutoffDate.setDate(cutoffDate.getDate() - this.settings.stashRetentionDays)
 ;
-    const stashesToRemove: string[] = [];
+    const stashesToRemove: string[] = [],
     let cleanedCount = 0
 ;
     for (const [stashId, stash] of this.stashes.entries()) {
@@ -666,7 +666,7 @@ export class SafetyProtocol {
     patterns: CorruptionPattern[],
     severity: CorruptionSeverity
   } {
-    const patterns: CorruptionPattern[] = [];
+    const patterns: CorruptionPattern[] = [],
     let severity = CorruptionSeverity.LOW
 
     // Check for import corruption patterns (based on existing scripts)
@@ -701,7 +701,7 @@ export class SafetyProtocol {
     for (const corruptionPattern of importCorruptionPatterns) {
       const matches = content.match(corruptionPattern.regex)
       if (matches) {
-        patterns.push({;
+        patterns.push({,
           pattern: corruptionPattern.regex.source,
           description: corruptionPattern.description,
           files: [filePath]
@@ -771,7 +771,7 @@ export class SafetyProtocol {
     patterns: CorruptionPattern[],
     severity: CorruptionSeverity
   } {
-    const patterns: CorruptionPattern[] = [];
+    const patterns: CorruptionPattern[] = [],
     let severity = CorruptionSeverity.LOW
 
     // Import/Export corruption patterns based on existing script knowledge
@@ -851,7 +851,7 @@ export class SafetyProtocol {
     for (const corruptionPattern of importExportCorruptionPatterns) {
       const matches = content.match(corruptionPattern.regex)
       if (matches) {
-        patterns.push({;
+        patterns.push({,
           pattern: corruptionPattern.regex.source,
           description: `${corruptionPattern.description} (${matches.length} occurrences)`,
           files: [filePath]
@@ -887,7 +887,7 @@ export class SafetyProtocol {
       if (matches) {
         patterns.push({;
           pattern: pattern.source,
-          description: 'Malformed import/export statement syntax';,
+          description: 'Malformed import/export statement syntax',,
           files: [filePath]
         })
         severity = CorruptionSeverity.HIGH,

@@ -1,7 +1,7 @@
 import { PlanetData } from './types';
 
 const saturnData: PlanetData = {
-  'Dignity Effect': {;
+  'Dignity Effect': {,
     aquarius: 1,
     capricorn: 1,
     libra: 2,
@@ -15,7 +15,7 @@ const saturnData: PlanetData = {
     Essence: 0,
     Matter: 1,
     Substance: 0,
-  }
+  },
   'Diurnal Element': 'Air',
   'Nocturnal Element': 'Earth',
   AstronomicalData: {

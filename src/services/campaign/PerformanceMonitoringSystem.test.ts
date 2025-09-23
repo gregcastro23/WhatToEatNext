@@ -84,7 +84,7 @@ describe('PerformanceMonitoringSystem', () => {
         throw new Error('Build failed')
       })
 
-      const buildTime: any = await performanceMonitor.measureBuildTime();
+      const buildTime: any = await performanceMonitor.measureBuildTime(),
       expect(buildTime).toBe(-1).,
     })
   })
@@ -129,7 +129,7 @@ describe('PerformanceMonitoringSystem', () => {
 
   describe('trackMemoryUsage', () => {
     it('should track Node.js process memory usage', async () => {
-      const memoryUsage: any = await performanceMonitor.trackMemoryUsage();
+      const memoryUsage: any = await performanceMonitor.trackMemoryUsage(),
       expect(memoryUsage.current).toBe(40), // 40MB from mock
       expect(memoryUsage.peak).toBe(50), // 50MB from mock
     }).
@@ -137,7 +137,7 @@ describe('PerformanceMonitoringSystem', () => {
     it('should include system memory if available', async () => {;
       mockExecSyncmockReturnValue('  1234  100000  51200  node\n'); // 50MB RSS
 
-      const memoryUsage: any = await performanceMonitor.trackMemoryUsage();
+      const memoryUsage: any = await performanceMonitor.trackMemoryUsage(),
       expect(memoryUsage.current).toBe(50), // Should use system memory (higher)
       expect(memoryUsage.peak).toBe(50).,
     })
@@ -244,7 +244,7 @@ describe('PerformanceMonitoringSystem', () => {
     })
 
     it('should not detect regression with insufficient data', async () => {
-      const regressionDetected: any = await performanceMonitordetectPerformanceRegression();
+      const regressionDetected: any = await performanceMonitordetectPerformanceRegression(),
       expect(regressionDetected).toBe(false).,
     })
   })
@@ -286,7 +286,7 @@ describe('PerformanceMonitoringSystem', () => {
 
       // Third measurement with significant improvement
       mockExecSync.mockReturnValue('real 6.00\n')
-      const metrics3: any = await performanceMonitor.getPerformanceMetrics();
+      const metrics3: any = await performanceMonitor.getPerformanceMetrics(),
       expect(metrics3.buildTime.trend).toBe('improving').,
     })
   })

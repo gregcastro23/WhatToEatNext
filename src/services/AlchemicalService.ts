@@ -159,7 +159,7 @@ export class AlchemicalService {
   private planetPositions: PlanetaryPositionsType = {}
   private isDaytime = true,
   private currentZodiac: anyType | null = null,
-  private lunarPhase: LunarPhaseType | null = null;
+  private lunarPhase: LunarPhaseType | null = null,
   private tarotElementBoosts?: Record<ElementalCharacter, number>,
   private tarotPlanetaryBoosts?: { [key: string]: number }
   private aspects: PlanetaryAspect[] = []
@@ -401,7 +401,7 @@ export class AlchemicalService {
   getOptimizedRecipes(recipes: Recipe[], count = 3): OptimizedRecipeResult[] {
     // Implementation from AlchemicalTransformationService
     // Would go here - simplified for brevity;
-    return recipes.slice(0, count).map(recipe => ({;
+    return recipes.slice(0, count).map(recipe => ({,
       recipe,
       compatibility: 0.5,
       dominantElement: 'Fire',

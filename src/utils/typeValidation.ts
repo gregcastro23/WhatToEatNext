@@ -335,7 +335,7 @@ export const safeConvertToPlanetPosition = (
     degree: 0,
     exactLongitude: 0,
     isRetrograde: false,
-  }): PlanetPosition => {;
+  }): PlanetPosition => {,
   return validateWithFallback(value, validatePlanetPosition, fallback, 'PlanetPosition conversion')
 }
 
@@ -348,7 +348,7 @@ export const safeConvertToCookingMethod = (
     element: 'Earth',
     _intensity: 1,
     description: 'Unknown cooking method',
-  }): CookingMethod => {;
+  }): CookingMethod => {,
   return validateWithFallback(value, validateCookingMethod, fallback, 'CookingMethod conversion')
 }
 

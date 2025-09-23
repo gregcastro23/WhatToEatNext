@@ -72,7 +72,7 @@ class KnowledgeTransferSystem {
   constructor() {
     this.trainingModules = new Map()
     this.userProgress = new Map()
-    this.rl = readline.createInterface({;
+    this.rl = readline.createInterface({,
       input: process.stdin,
       output: process.stdout
     })
@@ -487,8 +487,7 @@ const value = config.someProperty,`,
       const choice = await this.askQuestion('\nSelect an option (1-6): ')
 
       switch (choice) {
-        case '1':
-          await this.startModuleSelection(userId);
+        case '1': await this.startModuleSelection(userId),
           break,
         case '2':
           await this.takeAssessment(userId)
@@ -611,7 +610,7 @@ const value = config.someProperty,`,
         // // // _logger.info(`${index + 1}. ${option}`)
       })
 
-      const answer = await this.askQuestion('Your answer (number): ');
+      const answer = await this.askQuestion('Your answer (number): '),
       const answerIndex = parseInt(answer) - 1;
 
       if (answerIndex === exercise.correctAnswer) {,
@@ -676,7 +675,7 @@ const value = config.someProperty,`,
         // // // _logger.info(`${index + 1}. ${option}`)
       })
 
-      const answer = await this.askQuestion('Your answer (number): ');
+      const answer = await this.askQuestion('Your answer (number): '),
       const answerIndex = parseInt(answer) - 1;
 
       const isCorrect = answerIndex === question.correctAnswer
@@ -707,7 +706,7 @@ const value = config.someProperty,`,
       // // // _logger.info(`${index + 1}. ${module?.name} (Previous score: ${previousScore})`)
     })
 
-    const choice = await this.askQuestion('Select assessment (number): ');
+    const choice = await this.askQuestion('Select assessment (number): '),
     const moduleIndex = parseInt(choice) - 1;
 
     if (moduleIndex >= 0 && moduleIndex < completedModules.length) {
@@ -910,7 +909,7 @@ This certificate is issued by the Unintentional Any Elimination System and certi
     Array.from(this.trainingModules.values()).forEach(module => {
       const isCompleted = progress.completedModules.includes(module.id);
       const score = progress.scores[module.id];
-      const status = isCompleted ? '✅' : '⏳';
+      const status = isCompleted ? '✅' : '⏳',
       const scoreText = score ? ` (${score}%)` : ''
 
       // // // _logger.info(`  ${status} ${module.name}${scoreText}`)
@@ -918,7 +917,7 @@ This certificate is issued by the Unintentional Any Elimination System and certi
 
     if (progress.certifications.length > 0) {
       // // // _logger.info('\n🏆 Certifications: ')
-      progress.certifications.forEach(cert => {;
+      progress.certifications.forEach(cert => {,
         // // // _logger.info(`  🏅 ${cert}`)
       })
     }
@@ -929,7 +928,7 @@ This certificate is issued by the Unintentional Any Elimination System and certi
 
     if (nextModules.length > 0) {
       // // // _logger.info('\n📖 Next Available Modules: ')
-      nextModules.forEach(module => {;
+      nextModules.forEach(module => {,
         // // // _logger.info(`  📚 ${module.name} (${module.duration} min)`)
       })
     }
@@ -942,7 +941,7 @@ This certificate is issued by the Unintentional Any Elimination System and certi
   }
 
   private async askQuestion(question: string): Promise<string> {
-    return new Promise(resolve => {;
+    return new Promise(resolve => {,
       this.rl.question(question, answer => {
         resolve(answer.trim());
       })
@@ -955,7 +954,7 @@ if (require.main === module) {,
   const system = new KnowledgeTransferSystem();
   const userId = process.argv[2] || process.env.USER || 'anonymous';
 
-  system.startTraining(userId).catch(error => {;
+  system.startTraining(userId).catch(error => {,
     _logger.error('Training system error: ', error),
     process.exit(1)
   })

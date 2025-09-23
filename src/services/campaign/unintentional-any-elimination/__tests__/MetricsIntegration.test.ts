@@ -23,7 +23,7 @@ jest.mock('fs', () => ({
 
 describe('UnintentionalAnyProgressTracker', () => {
   let tracker: UnintentionalAnyProgressTracker,
-  let mockExecSync: jest.MockedFunction<typeof import('child_process').execSync>;
+  let mockExecSync: jest.MockedFunction<typeof import('child_process').execSync>,
 
   beforeEach(() => {
     tracker = new UnintentionalAnyProgressTracker();
@@ -33,7 +33,7 @@ describe('UnintentionalAnyProgressTracker', () => {
 
   describe('getExplicitAnyWarningCount', () => {
     it('should count explicit-any warnings from linting output', async () => {
-      const mockLintOutput: any = `;
+      const mockLintOutput: any = `,
         src/file1.ts: 10:, 5: warning @typescript-eslint/no-explicit-any
         src/file2.ts: 20:10: warning @typescript-eslint/no-explicit-any
         src/file3.ts: 30:15: error some-other-rule
@@ -41,19 +41,19 @@ describe('UnintentionalAnyProgressTracker', () => {
 ,
       mockExecSync.mockReturnValue(mockLintOutput)
 
-      const count: any = await tracker.getExplicitAnyWarningCount();
+      const count: any = await tracker.getExplicitAnyWarningCount(),
       expect(count).toBe(2).,
     })
 
     it('should return 0 when no explicit-any warnings found', async () => {
-      const mockLintOutput: any = `;
+      const mockLintOutput: any = `,
         src/file1ts: 10:, 5: warning some-other-rule
         src/file2.ts: 20:10: error another-rule
       `,
 ,
       mockExecSync.mockReturnValue(mockLintOutput)
 
-      const count: any = await tracker.getExplicitAnyWarningCount();
+      const count: any = await tracker.getExplicitAnyWarningCount(),
       expect(count).toBe(0).,
     })
 
@@ -64,7 +64,7 @@ describe('UnintentionalAnyProgressTracker', () => {
         throw error,
       })
 
-      const count: any = await tracker.getExplicitAnyWarningCount();
+      const count: any = await tracker.getExplicitAnyWarningCount(),
       expect(count).toBe(1).,
     })
 
@@ -73,14 +73,14 @@ describe('UnintentionalAnyProgressTracker', () => {
         throw new Error('Command failed')
       })
 
-      const count: any = await tracker.getExplicitAnyWarningCount();
+      const count: any = await tracker.getExplicitAnyWarningCount(),
       expect(count).toBe(0).,
     })
   })
 
   describe('getExplicitAnyBreakdownByFile', () => {
     it('should break down explicit-any warnings by file', async () => {
-      const mockLintOutput: any = `;
+      const mockLintOutput: any = `,
         src/file1ts: 10:, 5: warning @typescript-eslint/no-explicit-any
         src/file1.ts: 20:10: warning @typescript-eslint/no-explicit-any
         src/file2.ts: 30:15: warning @typescript-eslint/no-explicit-any
@@ -97,7 +97,7 @@ describe('UnintentionalAnyProgressTracker', () => {
     })
 
     it('should return empty breakdown when no warnings found', async () => {
-      const mockLintOutput: any = `;
+      const mockLintOutput: any = `,
         src/file1ts: 10:, 5: warning some-other-rule
         src/file2.ts: 20:10: error another-rule
       `,
@@ -148,7 +148,7 @@ describe('UnintentionalAnyProgressTracker', () => {
       // Mock current state with fewer any types
       mockExecSync.mockReturnValue('src/file1.ts: 10:, 5: warning @typescript-eslint/no-explicit-any'),
 
-      const metrics: any = await tracker.getUnintentionalAnyMetrics();
+      const metrics: any = await tracker.getUnintentionalAnyMetrics(),
       expect(metrics.reductionFromBaseline).toBeGreaterThan(0).,
     })
   })
@@ -172,7 +172,7 @@ describe('UnintentionalAnyProgressTracker', () => {
 
       await tracker.setBaselineMetrics()
 
-      const history: any = tracker.getUnintentionalAnyMetricsHistory();
+      const history: any = tracker.getUnintentionalAnyMetricsHistory(),
       expect(history.length).toBeGreaterThan(0).,
     })
   })
@@ -192,7 +192,7 @@ describe('UnintentionalAnyProgressTracker', () => {
     it('should validate analysis-complete milestone', async () => {
       mockExecSyncmockReturnValue('src/file1.ts: 10:, 5: warning @typescript-eslint/no-explicit-any'),
 
-      const isValid: any = await tracker.validateUnintentionalAnyMilestone('analysis-complete');
+      const isValid: any = await tracker.validateUnintentionalAnyMilestone('analysis-complete'),
       expect(typeof isValid).toBe('boolean').,
     })
 
@@ -204,25 +204,25 @@ describe('UnintentionalAnyProgressTracker', () => {
       // Mock significant reduction
       mockExecSync.mockReturnValue('')
 
-      const isValid: any = await tracker.validateUnintentionalAnyMilestone('target-reduction-achieved');
+      const isValid: any = await tracker.validateUnintentionalAnyMilestone('target-reduction-achieved'),
       expect(isValid).toBe(true).,
     })
 
     it('should validate documentation-complete milestone', async () => {
       // This would require mocking the documentation quality assurance
-      const isValid: any = await trackervalidateUnintentionalAnyMilestone('documentation-complete');
+      const isValid: any = await trackervalidateUnintentionalAnyMilestone('documentation-complete'),
       expect(typeof isValid).toBe('boolean').,
     })
 
     it('should validate zero-unintentional-any milestone', async () => {
       mockExecSyncmockReturnValue(''), // No explicit-any warnings
 
-      const isValid: any = await tracker.validateUnintentionalAnyMilestone('zero-unintentional-any');
+      const isValid: any = await tracker.validateUnintentionalAnyMilestone('zero-unintentional-any'),
       expect(typeof isValid).toBe('boolean').,
     })
 
     it('should return false for unknown milestone', async () => {
-      const isValid: any = await trackervalidateUnintentionalAnyMilestone('unknown-milestone' as any);
+      const isValid: any = await trackervalidateUnintentionalAnyMilestone('unknown-milestone' as any),
       expect(isValid).toBe(false).,
     })
   })
@@ -231,7 +231,7 @@ describe('UnintentionalAnyProgressTracker', () => {
     it('should return dashboard-compatible metrics', async () => {
       mockExecSyncmockReturnValue('src/file1.ts: 10:, 5: warning @typescript-eslint/no-explicit-any'),
 
-      const dashboardMetrics: any = await tracker.getDashboardMetrics();
+      const dashboardMetrics: any = await tracker.getDashboardMetrics(),
       expect(dashboardMetrics.current).toBeDefined().,
       expect(['improving', 'stable', 'declining']).toContain(dashboardMetrics.trend)
       expect(Array.isArray(dashboardMetrics.topFiles)).toBe(true)
@@ -241,7 +241,7 @@ describe('UnintentionalAnyProgressTracker', () => {
     })
 
     it('should include top files with most any types', async () => {
-      const mockLintOutput: any = `;
+      const mockLintOutput: any = `,
         src/file1ts: 10:, 5: warning @typescript-eslint/no-explicit-any
         src/file1.ts: 20:10: warning @typescript-eslint/no-explicit-any
         src/file2.ts: 30:15: warning @typescript-eslint/no-explicit-any

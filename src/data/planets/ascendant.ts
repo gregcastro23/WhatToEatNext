@@ -8,7 +8,7 @@ const ascendantData: PlanetData = {
     Essence: 0,
     Matter: 0,
     Substance: 0,
-  }
+  },
   'Diurnal Element': 'Earth',
   'Nocturnal Element': 'Earth',
   FoodAssociations: [

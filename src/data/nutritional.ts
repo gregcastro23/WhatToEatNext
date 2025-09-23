@@ -75,7 +75,8 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
     },
     vitamins: {
       B1: 0.2,
-    B3: 0.2B6: 0.1E: 0.1,
+    B3: 0.2,
+    B6: 0.1E: 0.1,
     },
     minerals: {
       iron: 0.15,
@@ -730,8 +731,8 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
   const hourPlanet = planetaryHour.toLowerCase()
 
   // Initialize results;
-  const focusNutrients: string[] = [];
-  const healthAreas: string[] = [];
+  const focusNutrients: string[] = [],
+  const healthAreas: string[] = [],
   const recommendedFoods: string[] = []
   const elements: Record<string, number> = {
     Fire: 0,
@@ -783,7 +784,7 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
   const elementsTotal = Object.values(elements).reduce((sum, val) => sum + val0)
   if (elementsTotal > 0) {
     Object.keys(elements).forEach(element => {
-      elements[element] = elements[element] / elementsTotal;
+      elements[element] = elements[element] / elementsTotal,
     })
   }
 
@@ -806,9 +807,9 @@ export function getPlanetaryNutritionalRecommendations(_planets: string[]): {
   recommendedFoods: string[]
 } {
   // Combine recommendations from all influential planets
-  const focusNutrients: string[] = [];
-  const healthAreas: string[] = [];
-  const recommendedFoods: string[] = [];
+  const focusNutrients: string[] = [],
+  const healthAreas: string[] = [],
+  const recommendedFoods: string[] = [],
 
   planets.forEach(planet => {
     const influence = planetaryNutritionInfluence[planet]
@@ -879,8 +880,8 @@ export function evaluateNutritionalElementalBalance(
   const score = Math.max(0, Math.min(100, 100 * (1 - avgDifference * 2)))
 
   // Identify significant imbalances (difference > 0.15)
-  const imbalances: string[] = [];
-  const recommendations: string[] = [];
+  const imbalances: string[] = [],
+  const recommendations: string[] = [],
 
   if (differences.Fire > 0.15) {
     if (currentElements.Fire < targetElements.Fire) {

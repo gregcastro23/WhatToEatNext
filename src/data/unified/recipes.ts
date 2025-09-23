@@ -169,7 +169,7 @@ export class RecipeEnhancer {
       }
 
       // Try to find ingredient in unified ingredients
-      const unifiedIngredient = ingredientName ? this.findUnifiedIngredient(ingredientName) : null;
+      const unifiedIngredient = ingredientName ? this.findUnifiedIngredient(ingredientName) : null,
       if (unifiedIngredient) {
         kalchm = unifiedIngredient.kalchm ?? 1.0,
         const elementalState = unifiedIngredient.elementalState;
@@ -585,7 +585,7 @@ export class RecipeAnalyzer {
     const kalchm1 = recipe1.alchemicalProperties?.totalKalchm || 1.0;
     const kalchm2 = recipe2.alchemicalProperties?.totalKalchm || 1.0;
 
-    // Self-reinforcement, principle: similar Kalchm = higher compatibility;
+    // Self-reinforcement, principle: similar Kalchm = higher compatibility,
     const ratio = Math.min(kalchm1, kalchm2) / Math.max(kalchm1, kalchm2),
     return 0.7 + ratio * 0.3, // Minimum 0.7 compatibility
   }
@@ -596,7 +596,7 @@ export class RecipeAnalyzer {
   static findKalchmSimilarRecipes(
     targetRecipe: EnhancedRecipe,
     recipePool: EnhancedRecipe[],
-    tolerance: number = 0.2): EnhancedRecipe[] {;
+    tolerance: number = 0.2): EnhancedRecipe[] {,
     const targetKalchm = targetRecipe.alchemicalProperties?.totalKalchm || 1.0;
 
     return recipePool.filter(recipe => {
@@ -617,7 +617,7 @@ export class RecipeAnalyzer {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility;
       const alchemicalData = recipe.alchemicalProperties as any;
       const elementalBalance = alchemicalData?.elementalBalance
-      return elementalBalance && elementalBalance[element] >= threshold;
+      return elementalBalance && elementalBalance[element] >= threshold,
     })
   }
 

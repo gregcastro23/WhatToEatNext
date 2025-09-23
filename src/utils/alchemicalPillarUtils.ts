@@ -461,7 +461,7 @@ const getMethodCompatibility = (
   transformedItem: AlchemicalItem,
   methodName: string,
   cookingMethods: Record<string, number>,
-): number => {;
+): number => {,
   logger.debug(`==== COMPATIBILITY CALCULATION FOR ${methodName.toUpperCase()} ====`)
   logger.debug(
     `Ingredient: ${(transformedItem as any).name} (Element: ${(transformedItem as any).element})`,
@@ -585,14 +585,14 @@ const getMethodCompatibility = (
   // Pattern KK-1: Safe comparison with type validation
   const maxProperty = Object.entries(itemProperties).reduce(
     (max, [prop, value]) => {
-      const numericValue = typeof value === 'number' ? value: 0;
-      const numericMaxValue = typeof max.value === 'number' ? max.value : 0;
+      const numericValue = typeof value === 'number' ? value: 0,
+      const numericMaxValue = typeof max.value === 'number' ? max.value : 0,
       return numericValue > numericMaxValue ? { prop, value: numericValue } : max
     }
     { prop: '', value: 0 })
 
   // Check if method enhances the strongest property
-  const maxPropertyValue = typeof maxProperty.value === 'number' ? maxProperty.value: 0;
+  const maxPropertyValue = typeof maxProperty.value === 'number' ? maxProperty.value: 0,
   const effectValue =
     typeof pillar.effects[maxProperty.prop as keyof typeof pillar.effects] === 'number'
       ? pillar.effects[maxProperty.prop as keyof typeof pillar.effects];
@@ -624,13 +624,12 @@ const getMethodCompatibility = (
  * @param count Number of recommendations to return
  * @returns Array of recommended cooking methods with compatibility scores
  */
-export const _getHolisticCookingRecommendations = async (
-  item: AlchemicalItem,
+export const _getHolisticCookingRecommendations = async (item: AlchemicalItem,
   planet?: string,
   tarotCard?: string,
   isDaytime = true,
   availableMethods: string[] = [],
-  count = 5;
+  count = 5,
 ): Promise<Array<{ method: string, compatibility: number, reason: string }>> => {
   logger.debug('\n--- HOLISTIC COOKING RECOMMENDATIONS ---')
   logger.debug(`Ingredient: ${(item as any).name}`)
@@ -678,11 +677,11 @@ export const _getHolisticCookingRecommendations = async (
   )
 
   // Calculate compatibility for each method
-  const compatibility: Array<{ method: string, compatibility: number, reason: string }> = [];
+  const compatibility: Array<{ method: string, compatibility: number, reason: string }> = [],
 
   logger.debug('\nCALCULATING METHOD COMPATIBILITY: ')
   logger.debug('--------------------------------')
-  methods.forEach(method => {;
+  methods.forEach(method => {,
     logger.debug(`\nEvaluating compatibility for method: ${method}`)
     const compatibilityScore = getMethodCompatibility(
       transformedItem,
@@ -696,7 +695,7 @@ export const _getHolisticCookingRecommendations = async (
 
     if (pillar) {
       // Add which properties it enhances
-      const enhancedProps: string[] = [];
+      const enhancedProps: string[] = [],
       if (pillar.effects.Spirit > 0) (enhancedProps as unknown[]).push('Spirit')
       if (pillar.effects.Essence > 0) (enhancedProps as unknown[]).push('Essence')
       if (pillar.effects.Matter > 0) (enhancedProps as unknown[]).push('Matter')
@@ -762,16 +761,15 @@ async function getCookingMethods(): Promise<Record<string, number>> {
  * @param count Number of recommendations to return
  * @returns Array of recommended cooking methods with compatibility scores
  */
-export function getRecommendedCookingMethods(
-  item: AlchemicalItem,
+export function getRecommendedCookingMethods(item: AlchemicalItem,
   availableMethods: string[] | CookingMethod[],
-  count = 5;
+  count = 5,
 ): Array<{ method: string, compatibility: number }> {
   try {
     // Convert availableMethods to string array for processing
     const methodStrings = Array.isArray(availableMethods)
       ? availableMethods
-          .map(method => {;
+          .map(method => {,
             if (typeof method === 'string') {,
               return method
             } else {
@@ -784,7 +782,7 @@ export function getRecommendedCookingMethods(
       : []
 
     // Calculate compatibility for each method
-    const methodScores = methodStrings.map(methodName => ({;
+    const methodScores = methodStrings.map(methodName => ({,
       method: methodName,
       compatibility: calculateMethodCompatibility(item, methodName)
     }))
@@ -885,7 +883,7 @@ export function getEnhancedCookingRecommendations(
     // Convert availableMethods to string array for processing
     const methodStrings = Array.isArray(availableMethods)
       ? availableMethods
-          .map(method => {;
+          .map(method => {,
             if (typeof method === 'string') {,
               return method
             } else {
@@ -901,7 +899,7 @@ export function getEnhancedCookingRecommendations(
     const allMethodData = getAllCookingMethodData()
 
     // Calculate enhanced recommendations
-    const enhancedRecommendations = methodStrings.map(methodName => {;
+    const enhancedRecommendations = methodStrings.map(methodName => {,
       const methodData = allMethodData[methodName] as Record<string, unknown>
 
       // Apply safe type conversion for property access
@@ -1089,7 +1087,7 @@ function getAllCookingMethodData(): Record<string, unknown> {
         ...wet,
         ...traditional
       }))
-      .catch(error => {;
+      .catch(error => {,
         logger.error('Error loading cooking method data: ', error)
         return {}
       }) as unknown as any,

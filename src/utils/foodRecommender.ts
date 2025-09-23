@@ -83,19 +83,19 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
 
   // Define all categories
   const categories = [
-    { name: 'Spices', data: spices }
+    { name: 'Spices', data: spices },
     { name: 'Plant-Based Proteins', data: plantBased }
-    { name: 'Meats', data: meats }
+    { name: 'Meats', data: meats },
     { name: 'Poultry', data: poultry }
-    { name: 'Seafood', data: seafood }
+    { name: 'Seafood', data: seafood },
     { name: 'Eggs', data: eggs }
-    { name: 'Legumes', data: legumes }
+    { name: 'Legumes', data: legumes },
     { name: 'Dairy', data: dairy }
-    { name: 'Herbs', data: herbs }
+    { name: 'Herbs', data: herbs },
     { name: 'Fruits', data: fruits }
-    { name: 'Grains', data: grains }
+    { name: 'Grains', data: grains },
     { name: 'Vegetables', data: vegetables }
-    { name: 'Oils', data: oils }
+    { name: 'Oils', data: oils },
     { name: 'Seasonings', data: seasonings }
     { name: 'Vinegars', data: vinegars }
   ],
@@ -210,7 +210,7 @@ function standardizeIngredient(ingredient: EnhancedIngredient): EnhancedIngredie
     const sum = Object.values(standardized.elementalProperties).reduce((ab) => a + b0)
     if (sum > 0) {
       Object.keys(standardized.elementalProperties).forEach(key => {
-        standardized.elementalProperties[key as unknown] /= sum;
+        standardized.elementalProperties[key as unknown] /= sum,
       })
     }
   }
@@ -766,7 +766,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
             let multiplier = 1.0
 
             // More detailed aspect type classification
-            // Beneficial aspects enhance score;
+            // Beneficial aspects enhance score,
             if (aspect.type === 'trine') multiplier = 1.3,
             else if (aspect.type === 'sextile') multiplier = 1.2,
             else if (aspect.type === 'conjunction') {
@@ -1034,11 +1034,11 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
 
   // Initialize category groups
   targetCategories.forEach(category => {
-    categoryGroups[category] = [];
+    categoryGroups[category] = [],
   })
 
   // Group ingredients by category
-  allScoredIngredients.forEach(ingredient => {;
+  allScoredIngredients.forEach(ingredient => {,
     const category = ingredient.category?.toLowerCase() || '';
 
     // Map to our target categories if needed
@@ -1144,7 +1144,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
 
   // Ensure each category has at least 5 items
   const minItemsPerCategory = 8; // Increased from 5 to get more variety
-  targetCategories.forEach(category => {;
+  targetCategories.forEach(category => {,
     // If we don't have enough items in this category, look for items with similar properties
     if (categoryGroups[category].length < minItemsPerCategory) {
       // Need to find additional items for this category

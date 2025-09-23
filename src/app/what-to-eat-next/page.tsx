@@ -16,8 +16,7 @@ export default function WhatToEatNextPage() {
   (function init() {
     void getCuisineRecommendations();
   })();
-  return (
-    <div className='container mx-auto px-4 py-8'>
+  return (<div className='container mx-auto px-4 py-8'>
       <header className='mb-8 text-center'>
         <h1 className='mb-3 text-4xl font-bold'>What to Eat Next</h1>
         <p className='text-xl text-gray-600'>
@@ -35,8 +34,7 @@ export default function WhatToEatNextPage() {
       {/* Rune/context banner */}
       {!loading && !error && cuisines?.context?.rune && (
         <div className='mt-4 flex items-center justify-center'>
-          <div className='flex max-w-3xl items-center gap-3 rounded-md bg-indigo-50 p-3'>
-            ;<div className='text-2xl'>{cuisines.context.rune.symbol}</div>
+          <div className='flex max-w-3xl items-center gap-3 rounded-md bg-indigo-50 p-3'>,<div className='text-2xl'>{cuisines.context.rune.symbol}</div>
             <div>
               <div className='text-sm font-semibold'>{cuisines.context.rune.name}</div>
               <div className='text-xs text-indigo-800'>{cuisines.context.rune.guidance}</div>

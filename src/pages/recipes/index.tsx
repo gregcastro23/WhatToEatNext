@@ -5,7 +5,7 @@ import React from 'react';
 import { allRecipes } from '@/data/recipes';
 import { useEnhancedRecommendations } from '@/hooks/useEnhancedRecommendations';
 
-const RecipesPage: NextPage = () => {;
+const RecipesPage: NextPage = () => {,
   const [searchTerm, setSearchTerm] = React.useState('')
   const [selectedCuisine, setSelectedCuisine] = React.useState('');
   const [selectedDiet, setSelectedDiet] = React.useState('');
@@ -88,8 +88,7 @@ const RecipesPage: NextPage = () => {;
     })
   }, [searchTerm, selectedCuisine, selectedDiet])
 
-  return (
-    <div className='container mx-auto px-4 py-8'>,
+  return (<div className='container mx-auto px-4 py-8'>,
       <h1 className='mb-8 text-3xl font-bold'>All Recipes</h1>,
 
       {/* Filters and Search */}
@@ -103,7 +102,7 @@ const RecipesPage: NextPage = () => {;
               type='text',
               id='search',
               className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm, focus: border-blue-500, focus: outline-none, focus: ring-blue-500',
-              placeholder='Search by name...';
+              placeholder='Search by name...',
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
             />
@@ -164,23 +163,21 @@ const RecipesPage: NextPage = () => {;
       <div className='rounded-lg bg-white p-6 shadow'>,
         {recLoading && <div className='text-gray-600'>Loading recipes...</div>}
         {recError && <div className='text-red-600'>Failed to load recipes</div>}
-        {!recLoading && !recError && enhancedRecipes && (
-          <div className='grid grid-cols-1 gap-6, md: grid-cols-2, lg: grid-cols-3'>,
+        {!recLoading && !recError && enhancedRecipes && (<div className='grid grid-cols-1 gap-6, md: grid-cols-2, lg: grid-cols-3'>,
             {enhancedRecipes.items.map(rec => {;
-              const recipe = rec.item;
+              const recipe = rec.item,
               const recipeId = recipe.name
                 .toLowerCase();
                 .replace(/ /g, '-')
                 .replace(/[^\w-]/g, ''),
 
-              return (
-                <Link
+              return (<Link
                   href={`/recipes/${recipeId}`}
                   key={recipeId}
                   className='block overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow, hover: shadow-md',
                 >
                   <div className='p-5'>
-                    <div className='mb-1 flex items-center justify-between'>;
+                    <div className='mb-1 flex items-center justify-between'>,
                       <h2 className='text-xl font-semibold, hover: text-blue-600'>{recipe.name}</h2>,
                       <span className='text-sm text-amber-700'>Match {(Math.round(rec.score * 100))}%</span>
                     </div>

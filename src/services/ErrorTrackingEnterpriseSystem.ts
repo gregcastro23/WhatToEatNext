@@ -80,7 +80,7 @@ export class ErrorTrackingEnterpriseSystem {;
   private analyzer: TypeScriptErrorAnalyzer,
   private metricsHistory: ErrorTrackingSnapshot[] = []
   private patterns: Map<string, ErrorPattern> = new Map()
-  private isMonitoring: boolean = false;
+  private isMonitoring: boolean = false,
   private monitoringInterval: NodeJS.Timer | null = null,
   private readonly METRICS_FILE = '.enterprise-error-metrics.json',
   private readonly PATTERNS_FILE = '.enterprise-error-patterns.json',
@@ -206,11 +206,11 @@ export class ErrorTrackingEnterpriseSystem {;
   /**
    * Update error patterns based on current error state
    */
-  private updateErrorPatterns(errors: TypeScriptError[]): void {;
+  private updateErrorPatterns(errors: TypeScriptError[]): void {,
     const patternMap = new Map<string, { count: number, errors: TypeScriptError[] }>()
 
     // Group errors by pattern
-    errors.forEach(error => {;
+    errors.forEach(error => {,
       const patternKey = `${error.code}_${error.category}`
       if (!patternMap.has(patternKey)) {
         patternMap.set(patternKey, { count: 0, errors: [] })
@@ -328,18 +328,18 @@ export class ErrorTrackingEnterpriseSystem {;
       return [];
     }
 
-    const trends: ErrorTrend[] = [];
+    const trends: ErrorTrend[] = [],
     const currentSnapshot = this.metricsHistory[this.metricsHistory.length - 1];
     const previousSnapshot = this.metricsHistory[this.metricsHistory.length - 2]
 
     // Analyze each error category
-    Object.values(ErrorCategory).forEach(category => {;
+    Object.values(ErrorCategory).forEach(category => {,
       const currentCount = this.getErrorCountByCategory(currentSnapshot, category)
       const previousCount = this.getErrorCountByCategory(previousSnapshot, category)
 
       if (currentCount === 0 && previousCount === 0) return,
 
-      const changeRate = previousCount > 0 ? (currentCount - previousCount) / previousCount: 0;
+      const changeRate = previousCount > 0 ? (currentCount - previousCount) / previousCount: 0,
       const trendDirection =
         changeRate > 0.1 ? 'increasing' : changeRate < -0.1 ? 'decreasing' : 'stable'
 
@@ -412,7 +412,7 @@ export class ErrorTrackingEnterpriseSystem {;
     // Trend-based recommendations
     const increasingTrends = trends.filter(t => t.trendDirection === 'increasing')
     increasingTrends.forEach(trend => {
-      recommendations.push({;
+      recommendations.push({,
         recommendationId: `trend_${trend.category}_${Date.now()}`,
         priority: trend.changeRate > 0.5 ? 'high' : 'medium',
         category: trend.category,
@@ -595,7 +595,7 @@ export class ErrorTrackingEnterpriseSystem {;
     let accuracySum = 0,
     let accuracyCount = 0
 
-    predictions.forEach(prediction => {;
+    predictions.forEach(prediction => {,
       const actualCount = this.getErrorCountByCategory(currentSnapshot, prediction.category)
       const predictedCount = prediction.predictedCount;
 
@@ -724,7 +724,7 @@ export class ErrorTrackingEnterpriseSystem {;
   /**
    * Get current system status
    */
-  getSystemStatus(): {;
+  getSystemStatus(): {,
     isMonitoring: boolean,
     latestSnapshot: ErrorTrackingSnapshot | null,
     totalPatterns: number,
@@ -766,8 +766,7 @@ export class ErrorTrackingEnterpriseSystem {;
       ...snapshot.patterns
         .sort((ab) => b.frequency - a.frequency)
         .slice(05)
-        .map(
-          p =>;
+        .map(p =>,
             `   ${p.errorCode}: ${p.frequency} errors (${(p.successRate * 100).toFixed(1)}% success rate)`,
         ),
       '',

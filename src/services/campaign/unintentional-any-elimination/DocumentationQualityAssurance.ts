@@ -78,7 +78,7 @@ export class DocumentationQualityAssurance {
    */
   async performQualityAssurance(): Promise<DocumentationReport> {
     const files = await this.findTypeScriptFiles()
-    const undocumentedTypes: UndocumentedAnyType[] = [];
+    const undocumentedTypes: UndocumentedAnyType[] = [],
     const qualityBreakdown: Record<string, number> = {
       poor: 0,
       fair: 0,
@@ -118,7 +118,7 @@ export class DocumentationQualityAssurance {
       }
     }
 
-    const averageQualityScore = totalAnyTypes > 0 ? totalQualityScore / documentedTypes: 0;
+    const averageQualityScore = totalAnyTypes > 0 ? totalQualityScore / documentedTypes: 0,
     const documentationCoverage = totalAnyTypes > 0 ? (documentedTypes / totalAnyTypes) * 100 : 100
 
     return {;
@@ -142,7 +142,7 @@ export class DocumentationQualityAssurance {
   async validateDocumentationQuality(
     context: ClassificationContext,
   ): Promise<DocumentationValidation> {
-    const cacheKey = `${context.filePath}:${context.lineNumber}`;
+    const cacheKey = `${context.filePath}: ${context.lineNumber}`,
 
     if (this.qualityCache.has(cacheKey)) {
       return this.qualityCache.get(cacheKey)!,
@@ -232,7 +232,7 @@ export class DocumentationQualityAssurance {
       }
     }
 
-    const averageQualityScore = documentedAnyTypes > 0 ? totalQualityScore / documentedAnyTypes: 0;
+    const averageQualityScore = documentedAnyTypes > 0 ? totalQualityScore / documentedAnyTypes: 0,
     const compliancePercentage =
       totalAnyTypes > 0 ? (documentedAnyTypes / totalAnyTypes) * 100 : 100
 
@@ -261,7 +261,7 @@ export class DocumentationQualityAssurance {
 
     // Filter out excluded patterns
     return files.filter(file => {
-      return !this.config.excludePatterns.some(pattern => {;
+      return !this.config.excludePatterns.some(pattern => {,
         const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),
         return regex.test(file)
       })
@@ -596,7 +596,7 @@ export class DocumentationQualityAssurance {
     eslintDisableHasExplanation: boolean,
     context: ClassificationContext,
   ): string[] {
-    const suggestions: string[] = [];
+    const suggestions: string[] = [],
 
     if (!hasComment) {
       suggestions.push('Add explanatory comment indicating intentional use of any type')

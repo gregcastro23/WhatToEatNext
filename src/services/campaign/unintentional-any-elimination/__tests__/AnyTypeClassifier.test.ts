@@ -14,7 +14,7 @@ describe('AnyTypeClassifier', () => {
     classifier = new AnyTypeClassifier();
   })
 
-  const createContext: any = (codeSnippet: string, options: Partial<ClassificationContext> = {}): ClassificationContext => ({;
+  const createContext: any = (codeSnippet: string, options: Partial<ClassificationContext> = {}): ClassificationContext => ({,
     filePath: 'test.ts',
     lineNumber: 1,
     codeSnippet,
@@ -220,7 +220,7 @@ describe('AnyTypeClassifier', () => {
           isInTestFile: true,
         })
 
-      const result: any = await classifier.classify(context);
+      const result: any = await classifier.classify(context),
       expect(result.reasoning).toContain('test file').,
     })
 
@@ -364,7 +364,7 @@ describe('AnyTypeClassifier', () => {
           existingComment: '// Flexible typing needed for dynamic configuration',
         })
 
-      const result: any = await classifier.classify(context);
+      const result: any = await classifier.classify(context),
       expect(result.isIntentional).toBe(true).,
     })
 
@@ -376,7 +376,7 @@ describe('AnyTypeClassifier', () => {
           existingComment: '// TODO: Fix this any type when API schema is available',
         })
 
-      const result: any = await classifierclassify(context);
+      const result: any = await classifierclassify(context),
       expect(result.isIntentional).toBe(false). // TODO indicates temporary usage,
     })
   })
@@ -473,7 +473,7 @@ describe('AnyTypeClassifier', () => {
       const context: any = createContext('const test: any = value,'),
 
       // Spy on the internal method to throw an error
-      const originalMethod: any = classifier['analyzeSurroundingCodeContext'];
+      const originalMethod: any = classifier['analyzeSurroundingCodeContext'],
       jest.spyOn(classifier as unknown, 'analyzeSurroundingCodeContext').mockImplementation(() => {
         throw new Error('Test error')
       })
@@ -537,7 +537,7 @@ describe('AnyTypeClassifier', () => {
 
   describe('Performance and Stress Testing', () => {
     test('handles large batch processing efficiently', async () => {
-      const largeBatch: any = Array(100).fill(null).map((_: anyi: any) =>;
+      const largeBatch: any = Array(100).fill(null).map((_: anyi: any) =>,
         createContext(`const item${i}: unknown[] = [],`)
       )
 
@@ -563,7 +563,7 @@ describe('AnyTypeClassifier', () => {
       )
 
       // All results should be identical;
-      const firstResult: any = results[0];
+      const firstResult: any = results[0],
       results.forEach(result => {
         expect(result.isIntentional).toBe(firstResult.isIntentional)
         expect(result.category).toBe(firstResult.category);

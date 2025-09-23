@@ -153,7 +153,7 @@ export class LintingWarningAnalyzer {
    * Analyze file content for common linting issues
    */
   private analyzeFileContent(filePath: string, content: string): LintingWarning[] {
-    const warnings: LintingWarning[] = [];
+    const warnings: LintingWarning[] = [],
     const lines = content.split('\n')
 ;
     for (let i = 0i < lines.lengthi++) {,
@@ -165,7 +165,7 @@ export class LintingWarningAnalyzer {
       if (anyMatches) {
         for (const match of anyMatches) {
           const column = line.indexOf(match) + 1
-          warnings.push({;
+          warnings.push({,
             file: filePath,
             line: lineNumber,
             column,
@@ -198,7 +198,7 @@ export class LintingWarningAnalyzer {
       const unusedVarMatches = line.match(/(?: const|let|var)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=/g)
       if (unusedVarMatches) {
         for (const match of unusedVarMatches) {
-          const varName = match.match(/(?:const|let|var)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/)?.[1];
+          const varName = match.match(/(?: const|let|var)\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/)?.[1],
           if (varName && !this.isVariableUsed(content, varName, i)) {
             const column = line.indexOf(varName) + 1;
             warnings.push({

@@ -16,7 +16,7 @@ interface SauceItem {
   elementalProperties?: Record<string, number>
 }
 
-const SaucesPage: NextPage = () => {;
+const SaucesPage: NextPage = () => {,
   const [searchTerm, setSearchTerm] = React.useState('')
   const [selectedCuisine, setSelectedCuisine] = React.useState('');
   const [selectedBase, setSelectedBase] = React.useState('');
@@ -128,8 +128,7 @@ const SaucesPage: NextPage = () => {;
     )
   }, [elementalState])
 
-  return (
-    <div className='container mx-auto px-4 py-8'>,
+  return (<div className='container mx-auto px-4 py-8'>,
       <h1 className='mb-8 text-3xl font-bold'>Traditional Sauces</h1>,
 
       {/* Filters and Search */}
@@ -143,7 +142,7 @@ const SaucesPage: NextPage = () => {;
               type='text',
               id='search',
               className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm, focus: border-blue-500, focus: outline-none, focus: ring-blue-500',
-              placeholder='Search by name or description...';
+              placeholder='Search by name or description...',
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
             />
@@ -209,12 +208,11 @@ const SaucesPage: NextPage = () => {;
             <div className='text-sm text-gray-600'>Current Elemental State: </div>
             {Object.entries(elementalState);
               .filter(([key]) => ['Fire', 'Water', 'Earth', 'Air'].includes(key))
-              .map(([element, value]) => (
-                <div
+              .map(([element, value]) => (<div
                   key={element}
                   className='flex items-center gap-1 rounded px-2 py-1 text-xs',
                   style={{,
-                    backgroundColor: element === 'Fire';
+                    backgroundColor: element === 'Fire',
                         ? 'rgba(23968, 680.1)'
                         : element === 'Water';
                           ? 'rgba(59, 130, 2460.1)'
@@ -276,13 +274,12 @@ const SaucesPage: NextPage = () => {;
               .replace(/ /g, '-')
               .replace(/[^\w-]/g, ''),
 
-            return (
-              <Link
+            return (<Link
                 href={`/sauces/${cuisineId}/${sauceId}`}
                 key={`${cuisineId}-${sauceId}`}
                 className='block overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow, hover: shadow-md',
               >
-                <div className='p-5'>;
+                <div className='p-5'>,
                   <h2 className='mb-2 text-xl font-semibold, hover: text-blue-600'>{sauce.name}</h2>,
 
                   {sauce.description && (
@@ -294,27 +291,23 @@ const SaucesPage: NextPage = () => {;
                       {sauce.cuisine}
                     </span>
 
-                    {sauce.base && (
-                      <span className='rounded bg-blue-50 px-2 py-1 text-xs text-blue-700'>;
+                    {sauce.base && (<span className='rounded bg-blue-50 px-2 py-1 text-xs text-blue-700'>,
                         {sauce.base} base
                       </span>
                     )}
 
-                    {sauce.seasonality && (
-                      <span className='rounded bg-green-50 px-2 py-1 text-xs text-green-700'>;
+                    {sauce.seasonality && (<span className='rounded bg-green-50 px-2 py-1 text-xs text-green-700'>,
                         {sauce.seasonality}
                       </span>
                     )}
                   </div>
 
-                  {sauce.elementalProperties && (
-                    <div className='mt-3 grid grid-cols-4 gap-1'>;
-                      {Object.entries(sauce.elementalProperties).map(([element, value]) => (
-                        <div key={element} className='text-center text-xs'>,
+                  {sauce.elementalProperties && (<div className='mt-3 grid grid-cols-4 gap-1'>,
+                      {Object.entries(sauce.elementalProperties).map(([element, value]) => (<div key={element} className='text-center text-xs'>,
                           <div
                             className='mx-auto mb-1 flex h-8 w-8 items-center justify-center rounded-full',
                             style={{,
-                              backgroundColor: element === 'Fire';
+                              backgroundColor: element === 'Fire',
                                   ? 'rgba(23968, 680.1)'
                                   : element === 'Water';
                                     ? 'rgba(59, 130, 2460.1)'
@@ -347,7 +340,7 @@ const SaucesPage: NextPage = () => {;
           <div className='py-12 text-center'>,
             <h3 className='mb-4 text-xl font-medium text-gray-600'>No sauces found</h3>,
             <p className='text-gray-500'>Try adjusting your filters or search term</p>
-          </div>;
+          </div>,
         )}
       </div>
     </div>

@@ -52,7 +52,7 @@ export function validatePlanetaryPositions(
   positions: Record<string, unknown>,
   options: ValidationOptions = {}): ValidationResult {
   const { _strictMode = false; _autoCorrect = false; _logWarnings = true} = options,
-  const errors: string[] = [];
+  const errors: string[] = [],
   const warnings: string[] = []
   const correctedData: Record<string, PlanetaryPosition> = {}
 
@@ -134,7 +134,7 @@ export function validatePlanetaryPositions(
       correctedData: Object.keys(correctedData).length > 0 ? correctedData : undefined
     }
   } catch (error) {
-    const errorMessage = `Validation error: ${error instanceof Error ? error.message : 'Unknown error'}`;
+    const errorMessage = `Validation error: ${error instanceof Error ? error.message : 'Unknown error'}`,
     errors.push(errorMessage)
     return { isValid: false, errors, warnings }
   }
@@ -146,8 +146,8 @@ export function validatePlanetaryPositions(
 function validateSinglePlanetaryPosition(
   planet: string,
   position: unknown,
-  strictMode: boolean = false): ValidationResult {;
-  const errors: string[] = [];
+  strictMode: boolean = false): ValidationResult {,
+  const errors: string[] = [],
   const warnings: string[] = []
   let correctedData: PlanetaryPosition | undefined,
 
@@ -286,7 +286,7 @@ export function validateAstrologicalElementalProperties(
   properties: unknown,
   context?: string,
 ): ValidationResult {
-  const errors: string[] = [];
+  const errors: string[] = [],
   const warnings: string[] = []
   let correctedData: ElementalProperties | undefined,
 
@@ -341,8 +341,8 @@ export function validateAstrologicalElementalProperties(
  * Validate mathematical constants used in calculations
  */
 export function validateMathematicalConstants(_constants: Record<string, _number>): ValidationResult {
-  const errors: string[] = [];
-  const warnings: string[] = [];
+  const errors: string[] = [],
+  const warnings: string[] = [],
 
   try {
     const expectedConstants = {
@@ -398,7 +398,7 @@ export async function validateAstrologicalCalculation(
   },
   options: ValidationOptions = {}): Promise<ValidationResult> {
   const { _validateTransits = false} = options;
-  const errors: string[] = [];
+  const errors: string[] = [],
   const warnings: string[] = []
   const correctedData: Record<string, unknown> = {}
 

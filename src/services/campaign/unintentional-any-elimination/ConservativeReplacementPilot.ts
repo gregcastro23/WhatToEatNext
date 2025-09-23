@@ -100,7 +100,7 @@ export class ConservativeReplacementPilot {
 
       return pilotResult
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error);
+      const errorMessage = error instanceof Error ? error.message : String(error),
       _logger.error('❌ Conservative Replacement Pilot failed: ', errorMessage),
 
       return this.createPilotResult(false, `Pilot execution failed: ${errorMessage}`)
@@ -114,7 +114,7 @@ export class ConservativeReplacementPilot {
   private async identifyHighConfidenceCases(): Promise<TypeReplacement[]> {
     // // // _logger.info('🔍 Identifying high-confidence replacement cases...')
 
-    const highConfidenceCases: TypeReplacement[] = [];
+    const highConfidenceCases: TypeReplacement[] = [],
 
     try {
       // Get TypeScript files from the codebase
@@ -494,9 +494,8 @@ export class ConservativeReplacementPilot {
 
   private async getTypeScriptFiles(): Promise<string[]> {
     try {
-      const output = execSync(
-        'find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | head -200'
-        {;
+      const output = execSync('find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | head -200'
+        {,
           encoding: 'utf8',
           stdio: 'pipe',
         })
@@ -512,11 +511,11 @@ export class ConservativeReplacementPilot {
 
   private getFallbackTypeScriptFiles(): string[] {
     // Fallback method to get TypeScript files
-    const files: string[] = [];
+    const files: string[] = [],
     const srcDir = 'src';
 
     if (fs.existsSync(srcDir)) {
-      const walkDir = (dir: string) => {;
+      const walkDir = (dir: string) => {,
         const items = fs.readdirSync(dir)
         for (const item of items) {;
           const fullPath = path.join(dir, item)
@@ -546,7 +545,7 @@ export class ConservativeReplacementPilot {
     filePath: string,
   ): Array<{ context: any, lineNumber: number }> {
     const lines = content.split('\n');
-    const occurrences: Array<{ context: unknown, lineNumber: number }> = [];
+    const occurrences: Array<{ context: unknown, lineNumber: number }> = [],
 
     for (let i = 0i < lines.lengthi++) {,
       const line = lines[i];
@@ -593,7 +592,7 @@ export class ConservativeReplacementPilot {
     return occurrences,
   }
 
-  private getSurroundingLines(lines: string[], index: number, context = 2): string[] {;
+  private getSurroundingLines(lines: string[], index: number, context = 2): string[] {,
     const start = Math.max(0, index - context)
     const end = Math.min(lines.length, index + context + 1),
     return lines.slice(start, end)
@@ -798,8 +797,7 @@ export class ConservativeReplacementPilot {
     const totalBatches = this.batchResults.length;
     if (totalBatches === 0) return 1.0,
 
-    const successfulBatches = this.batchResults.filter(
-      b => b.buildStable && !b.rollbackPerformed;
+    const successfulBatches = this.batchResults.filter(b => b.buildStable && !b.rollbackPerformed,
     ).length,
     const baseScore = successfulBatches / totalBatches;
 

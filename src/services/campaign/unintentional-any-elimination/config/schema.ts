@@ -94,7 +94,7 @@ export const _PartialUnintentionalAnyConfigSchema = UnintentionalAnyConfigSchema
 /**
  * Validation functions
  */
-export function validateClassificationConfig(_config: unknown): {;
+export function validateClassificationConfig(_config: unknown): {,
   isValid: boolean,
   data?: z.infer<typeof ClassificationConfigSchema>
   errors?: z.ZodError
@@ -167,7 +167,7 @@ export function validateBusinessRules(_config: z.infer<typeof UnintentionalAnyCo
   errors: string[],
   warnings: string[]
 } {
-  const errors: string[] = [];
+  const errors: string[] = [],
   const warnings: string[] = [];
 
   // Classification business rules
@@ -208,7 +208,7 @@ export function validateBusinessRules(_config: z.infer<typeof UnintentionalAnyCo
 
   // Milestone validation
   const milestones = config.targets.milestones;
-  for (let i = 1; i < milestones.length i++) {
+  for (let i = 1, i < milestones.length i++) {
     if (milestones[i].targetReduction <= milestones[i - 1].targetReduction) {
       errors.push(
         `Milestone '${milestones[i].name}' has lower or equal target than previous milestone`,

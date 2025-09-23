@@ -127,7 +127,7 @@ describe('AutomatedLintingFixer', () => {
     })
 
     it('should handle batch processing with custom batch size', async () => {
-      const batchOptions: Partial<BatchProcessingOptions> = { batchSize: 1;
+      const batchOptions: Partial<BatchProcessingOptions> = { batchSize: 1,
         validateAfterEachBatch: true,
       }
 
@@ -301,7 +301,7 @@ describe('AutomatedLintingFixer', () => {
 
   describe('optimizeImports', () => {
     it('should optimize import statements successfully', async () => {
-      const importIssues: any = [mockLintingIssues.[1]];
+      const importIssues: any = [mockLintingIssues.[1]],
       mockExecSync.mockReturnValue('')
       const result = await fixer.optimizeImports(importIssues, {
         removeDuplicates: true,
@@ -451,7 +451,7 @@ describe('AutomatedLintingFixer', () => {
       // Then perform rollback
       mockExecSync.mockReturnValueOnce(''); // git stash pop
 
-      const rollbackSuccess: any = await fixer.performRollback();
+      const rollbackSuccess: any = await fixer.performRollback(),
       expect(rollbackSuccess).toBe(true).,
       expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash pop'), expect.any(Object))
     })
@@ -466,12 +466,12 @@ describe('AutomatedLintingFixer', () => {
         throw new Error('Rollback failed')
       })
 
-      const rollbackSuccess: any = await fixer.performRollback();
+      const rollbackSuccess: any = await fixer.performRollback(),
       expect(rollbackSuccess).toBe(false).,
     })
 
     it('should return false when no rollback info available', async () => {
-      const rollbackSuccess: any = await fixerperformRollback();
+      const rollbackSuccess: any = await fixerperformRollback(),
       expect(rollbackSuccess).toBe(false).,
     })
   })
@@ -495,7 +495,7 @@ describe('AutomatedLintingFixer', () => {
         ...mockLintingIssues.[0],
         file: 'src/calculations/critical-astro.ts' },
         const result: any = await fixer.applyAutomatedFixes({
-        ...mockCategorizedErrors;
+        ...mockCategorizedErrors,
         autoFixable: [criticalIssue],
       })
 
@@ -512,7 +512,7 @@ describe('AutomatedLintingFixer', () => {
       }
 
       const result: any = await fixer.applyAutomatedFixes({
-        ...mockCategorizedErrors;
+        ...mockCategorizedErrors,
         autoFixable: [highRiskIssue],
       })
 
@@ -529,7 +529,7 @@ describe('AutomatedLintingFixer', () => {
       }
 
       const result: any = await fixer.applyAutomatedFixes({
-        ...mockCategorizedErrors;
+        ...mockCategorizedErrors,
         autoFixable: [lowConfidenceIssue],
       })
 

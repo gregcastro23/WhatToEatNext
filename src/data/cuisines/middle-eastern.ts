@@ -23,13 +23,13 @@ export const middleEastern: Cuisine = {
             'Garnish with herbs'
           ],
           ingredients: [
-            { name: 'eggs', amount: '4', unit: 'large', category: 'protein', swaps: ['soft tofu'] }
+            { name: 'eggs', amount: '4', unit: 'large', category: 'protein', swaps: ['soft tofu'] },
             { name: 'tomatoes', amount: '400', unit: 'g', category: 'vegetable' }
-            { name: 'bell peppers', amount: '2', unit: 'medium', category: 'vegetable' }
+            { name: 'bell peppers', amount: '2', unit: 'medium', category: 'vegetable' },
             { name: 'onion', amount: '1', unit: 'large', category: 'vegetable' }
-            { name: 'garlic', amount: '3', unit: 'cloves', category: 'vegetable' }
+            { name: 'garlic', amount: '3', unit: 'cloves', category: 'vegetable' },
             { name: 'cumin', amount: '1', unit: 'tsp', category: 'spice' }
-            { name: 'paprika', amount: '1', unit: 'tsp', category: 'spice' }
+            { name: 'paprika', amount: '1', unit: 'tsp', category: 'spice' },
             {
               name: 'pita bread',
               amount: '2',
@@ -84,11 +84,11 @@ export const middleEastern: Cuisine = {
             'Drizzle with additional oil'
           ],
           ingredients: [
-            { name: 'fava beans', amount: '400', unit: 'g', category: 'legume' }
+            { name: 'fava beans', amount: '400', unit: 'g', category: 'legume' },
             { name: 'olive oil', amount: '3', unit: 'tbsp', category: 'oil' }
-            { name: 'lemon juice', amount: '2', unit: 'tbsp', category: 'acid' }
+            { name: 'lemon juice', amount: '2', unit: 'tbsp', category: 'acid' },
             { name: 'garlic', amount: '2', unit: 'cloves', category: 'vegetable' }
-            { name: 'cumin', amount: '1', unit: 'tsp', category: 'spice' }
+            { name: 'cumin', amount: '1', unit: 'tsp', category: 'spice' },
             { name: 'parsley', amount: '1/4', unit: 'cup', category: 'herb' }
             { name: 'tomatoes', amount: '2', unit: 'medium', category: 'vegetable' }
           ],
@@ -145,9 +145,9 @@ export const middleEastern: Cuisine = {
               category: 'grain',
               swaps: ['whole wheat flour']
             }
-            { name: 'za'atar', amount: '1/2', unit: 'cup', category: 'spice blend' }
+            { name: 'za'atar', amount: '1/2', unit: 'cup', category: 'spice blend' },
             { name: 'olive oil', amount: '1/2', unit: 'cup', category: 'oil' }
-            { name: 'yeast', amount: '2', unit: 'tsp', category: 'leavening' }
+            { name: 'yeast', amount: '2', unit: 'tsp', category: 'leavening' },
             { name: 'sugar', amount: '1', unit: 'tsp', category: 'sweetener' }
             { name: 'salt', amount: '2', unit: 'tsp', category: 'seasoning' }
           ],
@@ -202,9 +202,9 @@ export const middleEastern: Cuisine = {
               category: 'dairy',
               swaps: ['coconut yogurt']
             }
-            { name: 'za'atar', amount: '3', unit: 'tbsp', category: 'spice blend' }
+            { name: 'za'atar', amount: '3', unit: 'tbsp', category: 'spice blend' },
             { name: 'olive oil', amount: '1/4', unit: 'cup', category: 'oil' }
-            { name: 'mint leaves', amount: '1', unit: 'handful', category: 'herb' }
+            { name: 'mint leaves', amount: '1', unit: 'handful', category: 'herb' },
             {
               name: 'pita bread',
               amount: '4',
@@ -263,11 +263,11 @@ export const middleEastern: Cuisine = {
             'Garnish with nuts and parsley'
           ],
           ingredients: [
-            { name: 'lamb shoulder', amount: '1.5', unit: 'kg', category: 'protein' }
+            { name: 'lamb shoulder', amount: '1.5', unit: 'kg', category: 'protein' },
             { name: 'jameed', amount: '500', unit: 'g', category: 'dairy' }
-            { name: 'rice', amount: '1', unit: 'kg', category: 'grain' }
+            { name: 'rice', amount: '1', unit: 'kg', category: 'grain' },
             { name: 'pine nuts', amount: '100', unit: 'g', category: 'nut' }
-            { name: 'flatbread', amount: '4', unit: 'pieces', category: 'grain' }
+            { name: 'flatbread', amount: '4', unit: 'pieces', category: 'grain' },
             { name: 'parsley', amount: '1', unit: 'bunch', category: 'herb' }
           ],
           substitutions: {
@@ -322,11 +322,11 @@ export const middleEastern: Cuisine = {
               category: 'grain',
               swaps: ['gluten-free pita']
             }
-            { name: 'romaine lettuce', amount: '1', unit: 'head', category: 'vegetable' }
+            { name: 'romaine lettuce', amount: '1', unit: 'head', category: 'vegetable' },
             { name: 'cucumber', amount: '2', unit: 'medium', category: 'vegetable' }
-            { name: 'tomatoes', amount: '3', unit: 'medium', category: 'vegetable' }
+            { name: 'tomatoes', amount: '3', unit: 'medium', category: 'vegetable' },
             { name: 'radishes', amount: '6', unit: 'medium', category: 'vegetable' }
-            { name: 'sumac', amount: '2', unit: 'tbsp', category: 'spice' }
+            { name: 'sumac', amount: '2', unit: 'tbsp', category: 'spice' },
             { name: 'pomegranate molasses', amount: '2', unit: 'tbsp', category: 'condiment' }
           ],
           substitutions: {
@@ -385,9 +385,9 @@ export const middleEastern: Cuisine = {
               category: 'protein',
               swaps: ['plant-based ground']
             }
-            { name: 'eggplant', amount: '3', unit: 'large', category: 'vegetable' }
+            { name: 'eggplant', amount: '3', unit: 'large', category: 'vegetable' },
             { name: 'potatoes', amount: '2', unit: 'medium', category: 'vegetable' }
-            { name: 'onion', amount: '1', unit: 'large', category: 'vegetable' }
+            { name: 'onion', amount: '1', unit: 'large', category: 'vegetable' },
             { name: 'tomato sauce', amount: '400', unit: 'ml', category: 'sauce' }
             {
               name: 'béchamel sauce',
@@ -396,7 +396,7 @@ export const middleEastern: Cuisine = {
               category: 'sauce',
               swaps: ['cashew sauce']
             }
-            { name: 'cinnamon', amount: '1', unit: 'tsp', category: 'spice' }
+            { name: 'cinnamon', amount: '1', unit: 'tsp', category: 'spice' },
             { name: 'nutmeg', amount: '1/4', unit: 'tsp', category: 'spice' }
           ],
           substitutions: {
@@ -457,9 +457,9 @@ export const middleEastern: Cuisine = {
               category: 'protein',
               swaps: ['jackfruit', 'mushrooms']
             }
-            { name: 'aromatic rice', amount: '500', unit: 'g', category: 'grain' }
+            { name: 'aromatic rice', amount: '500', unit: 'g', category: 'grain' },
             { name: 'almonds', amount: '100', unit: 'g', category: 'nuts' }
-            { name: 'pine nuts', amount: '50', unit: 'g', category: 'nuts' }
+            { name: 'pine nuts', amount: '50', unit: 'g', category: 'nuts' },
             { name: 'raisins', amount: '100', unit: 'g', category: 'fruit' }
             { name: 'mixed spices', amount: '3', unit: 'tbsp', category: 'spice' }
           ],
@@ -524,9 +524,9 @@ export const middleEastern: Cuisine = {
               category: 'protein',
               swaps: ['seitan skewers']
             }
-            { name: 'mixed vegetables', amount: '500', unit: 'g', category: 'vegetable' }
+            { name: 'mixed vegetables', amount: '500', unit: 'g', category: 'vegetable' },
             { name: 'hummus', amount: '200', unit: 'g', category: 'dip' }
-            { name: 'baba ganoush', amount: '200', unit: 'g', category: 'dip' }
+            { name: 'baba ganoush', amount: '200', unit: 'g', category: 'dip' },
             {
               name: 'flatbread',
               amount: '4',
@@ -580,9 +580,9 @@ export const middleEastern: Cuisine = {
             'Garnish with crispy onions'
           ],
           ingredients: [
-            { name: 'brown lentils', amount: '250', unit: 'g', category: 'legume' }
+            { name: 'brown lentils', amount: '250', unit: 'g', category: 'legume' },
             { name: 'rice', amount: '250', unit: 'g', category: 'grain' }
-            { name: 'onions', amount: '3', unit: 'large', category: 'vegetable' }
+            { name: 'onions', amount: '3', unit: 'large', category: 'vegetable' },
             { name: 'olive oil', amount: '1/2', unit: 'cup', category: 'oil' }
             { name: 'cumin', amount: '2', unit: 'tsp', category: 'spice' }
           ],
@@ -646,9 +646,9 @@ export const middleEastern: Cuisine = {
               category: 'protein',
               swaps: ['seitan']
             }
-            { name: 'shawarma spice mix', amount: '4', unit: 'tbsp', category: 'spice blend' }
+            { name: 'shawarma spice mix', amount: '4', unit: 'tbsp', category: 'spice blend' },
             { name: 'garlic', amount: '8', unit: 'cloves', category: 'aromatic' }
-            { name: 'lemon juice', amount: '1/2', unit: 'cup', category: 'acid' }
+            { name: 'lemon juice', amount: '1/2', unit: 'cup', category: 'acid' },
             { name: 'olive oil', amount: '1/2', unit: 'cup', category: 'oil' }
             {
               name: 'pita bread',
@@ -699,9 +699,9 @@ export const middleEastern: Cuisine = {
             'Pour hot syrup over'
           ],
           ingredients: [
-            { name: 'phyllo dough', amount: '1', unit: 'package', category: 'pastry' }
+            { name: 'phyllo dough', amount: '1', unit: 'package', category: 'pastry' },
             { name: 'walnuts', amount: '500', unit: 'g', category: 'nut' }
-            { name: 'butter', amount: '400', unit: 'g', category: 'fat' }
+            { name: 'butter', amount: '400', unit: 'g', category: 'fat' },
             { name: 'honey', amount: '250', unit: 'ml', category: 'sweetener' }
             { name: 'cinnamon', amount: '2', unit: 'tsp', category: 'spice' }
           ],
@@ -751,11 +751,11 @@ export const middleEastern: Cuisine = {
             'Serve with tahini sauce'
           ],
           ingredients: [
-            { name: 'dried chickpeas', amount: '500', unit: 'g', category: 'legume' }
+            { name: 'dried chickpeas', amount: '500', unit: 'g', category: 'legume' },
             { name: 'parsley', amount: '2', unit: 'bunches', category: 'herb' }
-            { name: 'cilantro', amount: '1', unit: 'bunch', category: 'herb' }
+            { name: 'cilantro', amount: '1', unit: 'bunch', category: 'herb' },
             { name: 'onion', amount: '1', unit: 'large', category: 'vegetable' }
-            { name: 'garlic', amount: '6', unit: 'cloves', category: 'aromatic' }
+            { name: 'garlic', amount: '6', unit: 'cloves', category: 'aromatic' },
             { name: 'cumin', amount: '2', unit: 'tbsp', category: 'spice' }
             { name: 'coriander', amount: '2', unit: 'tbsp', category: 'spice' }
           ],
@@ -812,9 +812,9 @@ export const middleEastern: Cuisine = {
               category: 'pastry',
               swaps: ['croissants']
             }
-            { name: 'whole milk', amount: '1', unit: 'liter', category: 'dairy' }
+            { name: 'whole milk', amount: '1', unit: 'liter', category: 'dairy' },
             { name: 'heavy cream', amount: '500', unit: 'ml', category: 'dairy' }
-            { name: 'mixed nuts', amount: '200', unit: 'g', category: 'nuts' }
+            { name: 'mixed nuts', amount: '200', unit: 'g', category: 'nuts' },
             { name: 'sugar', amount: '200', unit: 'g', category: 'sweetener' }
             { name: 'vanilla', amount: '2', unit: 'tsp', category: 'flavoring' }
           ],
@@ -865,7 +865,7 @@ export const middleEastern: Cuisine = {
             'Garnish with pistachios'
           ],
           ingredients: [
-            { name: 'kataifi dough', amount: '500', unit: 'g', category: 'pastry' }
+            { name: 'kataifi dough', amount: '500', unit: 'g', category: 'pastry' },
             {
               name: 'akkawi cheese',
               amount: '500',
@@ -873,9 +873,9 @@ export const middleEastern: Cuisine = {
               category: 'dairy',
               swaps: ['mozzarella']
             }
-            { name: 'ghee', amount: '300', unit: 'g', category: 'fat' }
+            { name: 'ghee', amount: '300', unit: 'g', category: 'fat' },
             { name: 'sugar syrup', amount: '500', unit: 'ml', category: 'syrup' }
-            { name: 'orange blossom water', amount: '2', unit: 'tbsp', category: 'flavoring' }
+            { name: 'orange blossom water', amount: '2', unit: 'tbsp', category: 'flavoring' },
             { name: 'pistachios', amount: '100', unit: 'g', category: 'nut' }
           ],
           substitutions: {
@@ -931,9 +931,9 @@ export const middleEastern: Cuisine = {
               category: 'protein',
               swaps: ['ground beef']
             }
-            { name: 'onion', amount: '2', unit: 'large', category: 'vegetable' }
+            { name: 'onion', amount: '2', unit: 'large', category: 'vegetable' },
             { name: 'parsley', amount: '1', unit: 'bunch', category: 'herb' }
-            { name: 'seven spices', amount: '2', unit: 'tbsp', category: 'spice blend' }
+            { name: 'seven spices', amount: '2', unit: 'tbsp', category: 'spice blend' },
             { name: 'sumac', amount: '1', unit: 'tbsp', category: 'spice' }
           ],
           substitutions: {
@@ -982,9 +982,9 @@ export const middleEastern: Cuisine = {
             'Flip onto serving plate'
           ],
           ingredients: [
-            { name: 'chicken pieces', amount: '1.5', unit: 'kg', category: 'protein' }
+            { name: 'chicken pieces', amount: '1.5', unit: 'kg', category: 'protein' },
             { name: 'rice', amount: '750', unit: 'g', category: 'grain' }
-            { name: 'eggplant', amount: '2', unit: 'large', category: 'vegetable' }
+            { name: 'eggplant', amount: '2', unit: 'large', category: 'vegetable' },
             { name: 'cauliflower', amount: '1', unit: 'head', category: 'vegetable' }
             { name: 'pine nuts', amount: '100', unit: 'g', category: 'nut', swaps: ['almonds'] }
           ],

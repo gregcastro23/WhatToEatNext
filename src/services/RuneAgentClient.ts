@@ -61,9 +61,9 @@ export interface RuneAgentResult {
 function generateLocalRune(): RuneResult {
   // Simplified local fallback - would use more sophisticated logic
   const runes = [
-    { symbol: '᚛', name: 'Fehu', meaning: 'Wealth, abundance, nourishment' }
+    { symbol: '᚛', name: 'Fehu', meaning: 'Wealth, abundance, nourishment' },
     { symbol: '᚜', name: 'Uruz', meaning: 'Strength, vitality, primal energy' }
-    { symbol: '᚝', name: 'Thurisaz', meaning: 'Transformation, protection, power' }
+    { symbol: '᚝', name: 'Thurisaz', meaning: 'Transformation, protection, power' },
     { symbol: '᚞', name: 'Ansuz', meaning: 'Communication, wisdom, divine breath' }
     { symbol: '᚟', name: 'Raidho', meaning: 'Journey, movement, rhythm' }
   ],
@@ -84,7 +84,7 @@ function generateLocalRune(): RuneResult {
 
 function generateLocalAgent(context: string = 'cuisine'): AgentRecommendation {
   const agents = {
-    cuisine: {;
+    cuisine: {,
       name: 'Culinary Sage',
       archetype: 'Wise Cook',
       guidance: 'Balance flavors with elemental harmony',
@@ -200,7 +200,7 @@ export class RuneAgentClient {
     // Generate consciousness data (simplified local version)
     const alchemicalState = getCurrentAlchemicalState()
     const consciousness = {
-      mcValues: {;
+      mcValues: {,
         creativity: alchemicalState.thermodynamicProperties.entropy,
         stability: 1 - alchemicalState.thermodynamicProperties.reactivity,
         transformation: alchemicalState.thermodynamicProperties.heat,

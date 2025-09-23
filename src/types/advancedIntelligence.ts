@@ -13,7 +13,7 @@ import type { Recipe } from './recipe';
 // ========== PREDICTIVE INTELLIGENCE TYPES ==========
 
 export interface PredictiveIntelligenceResult {
-  recipePrediction: {;
+  recipePrediction: {,
     successProbability: number,
     userSatisfactionPrediction: number,
     optimalTimingPrediction: string,
@@ -130,7 +130,7 @@ export interface PredictiveAstrologicalAnalysis {
 // ========== MACHINE LEARNING INTELLIGENCE TYPES ==========
 
 export interface MLIntelligenceResult {
-  recipeOptimization: {;
+  recipeOptimization: {,
     mlOptimizedScore: number,
     ingredientSubstitutionRecommendations: string[],
     cookingMethodOptimization: string[],
@@ -254,7 +254,7 @@ export interface MLAstrologicalPredictionAnalysis {
 // ========== ADVANCED ANALYTICS INTELLIGENCE TYPES ==========
 
 export interface AdvancedAnalyticsIntelligenceResult {
-  recipeAnalytics: {;
+  recipeAnalytics: {,
     multiDimensionalScore: number,
     complexityAnalysis: {
       ingredientComplexity: number,

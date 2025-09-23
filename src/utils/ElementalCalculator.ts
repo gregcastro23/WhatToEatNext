@@ -128,7 +128,7 @@ export function calculateMatchScore(
       try {
         // Use dynamic import to avoid circular dependencies
         import('../data/cuisineFlavorProfiles')
-          .then(module => {;
+          .then(module => {,
             const { _getCuisineProfile} = module
             const cuisineProfile = getCuisineProfile(options.cuisine || '')
 

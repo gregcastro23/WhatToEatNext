@@ -12,8 +12,8 @@ const nutritionReferenceValues: Record<string, unknown> = {
   _tofu: { calories: 76, protein: 8, carbs: 1.9, fat: 4.8, fiber: 0.3, sugar: 0.5 }
 
   // Vegetables
-  vegetable: { calories: 65, protein: 2.5, carbs: 12, fat: 0.3, fiber: 3.8, sugar: 5 }
-  'leafy greens': { calories: 25, protein: 2.1, carbs: 3.8, fat: 0.4, fiber: 2.4, sugar: 0.5 }
+  vegetable: { calories: 65, protein: 2.5, carbs: 12, fat: 0.3, fiber: 3.8, sugar: 5 },
+  'leafy greens': { calories: 25, protein: 2.1, carbs: 3.8, fat: 0.4, fiber: 2.4, sugar: 0.5 },
   'root vegetables': { calories: 75, protein: 1.5, carbs: 17, fat: 0.2, fiber: 2.8, sugar: 4 },
   _tomato: { calories: 18, protein: 0.9, carbs: 3.9, fat: 0.2, fiber: 1.2, sugar: 2.6 }
   _potato: { calories: 77, protein: 2, carbs: 17, fat: 0.1, fiber: 2.2, sugar: 0.8 },
@@ -78,7 +78,7 @@ const mineralsByCategory: Record<string, string[]> = {
   'whole grains': ['Magnesium', 'Selenium']
 }
 
-export const calculateNutritionalScore = (nutrition: NutritionalProfile): number => {;
+export const calculateNutritionalScore = (nutrition: NutritionalProfile): number => {,
   if (!nutrition) return 0,
 
   // Safe property access for macros
@@ -126,7 +126,7 @@ export const _calculateEstimatedNutrition = (ingredients: unknown[]): unknown =>
   const mineralsPresent = new Set<string>()
 
   // Process each ingredient
-  ingredients.forEach(ingredient => {;
+  ingredients.forEach(ingredient => {,
     let ingredientName = '',
     let amount = 1, // Default to 1 unit if not specified
 
@@ -183,13 +183,13 @@ export const _calculateEstimatedNutrition = (ingredients: unknown[]): unknown =>
     totals.sugar += referenceItem.sugar * adjustmentFactor,
 
     // Add vitamins and minerals based on food category
-    Object.keys(vitaminsByCategory).forEach(category => {;
+    Object.keys(vitaminsByCategory).forEach(category => {,
       if (ingredientName.includes(category) || bestMatchKey === category) {,
         vitaminsByCategory[category].forEach(vitamin => vitaminsPresent.add(vitamin))
       }
     })
 
-    Object.keys(mineralsByCategory).forEach(category => {;
+    Object.keys(mineralsByCategory).forEach(category => {,
       if (ingredientName.includes(category) || bestMatchKey === category) {,
         mineralsByCategory[category].forEach(mineral => mineralsPresent.add(mineral))
       }

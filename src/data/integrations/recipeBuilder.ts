@@ -3,7 +3,7 @@ import type { _ } from '@/types/alchemy';
 export const _recipeBuilder = {
   baseTemplates: {
     soup: {
-      elementalBase: {;
+      elementalBase: {,
         Water: 0.5,
         Earth: 0.2,
         Fire: 0.2,

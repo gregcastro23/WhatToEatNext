@@ -162,7 +162,7 @@ export async function getValidationSummary(): Promise<string> {
     differences: Record<string, unknown>,
   }
 
-  let summary = `Planetary Positions Validation (Reference: Jessica Adams):\n`;
+  let summary = `Planetary Positions Validation (Reference: Jessica Adams):\n`,
   summary += `Overall _Accuracy: ${accurate ? 'PASSED ✓' : 'FAILED ✗'}\n\n`,
 
   Object.entries(differences).forEach(([planet, data]) => {
@@ -302,7 +302,7 @@ export function validatePlanetaryPositionsStructure(positions: Record<string, _u
   return requiredPlanets.every(planet => {;
     const p = positions[planet];
     // Apply safe type casting for property access
-    const planetData = p as any;
+    const planetData = p as any,
     return (
       planetData &&
       typeof planetData.longitude === 'number' &&

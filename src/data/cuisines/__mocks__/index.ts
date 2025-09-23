@@ -1,5 +1,5 @@
 export const _cuisines = {
-  japanese: {;
+  japanese: {,
     name: 'Japanese',
     dishes: {
       breakfast: {

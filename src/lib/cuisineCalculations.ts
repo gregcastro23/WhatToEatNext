@@ -71,7 +71,7 @@ function deriveAstrologicalInfluences(tradition: unknown): string[] {
   const traditionData = tradition as {;
     description?: string,
     elementalAlignment?: { Fire: number; Water: number; Earth: number, Air: number }
-    regions?: unknown[]
+    regions?: unknown[],
     [key: string]: unknown
   }
 

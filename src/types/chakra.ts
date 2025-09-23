@@ -72,7 +72,7 @@ export type ChakraBalancingFoods = Record<ChakraPosition, string[]>,
 
 // Constants for reference
 export const _CHAKRAS: ChakraProperties  = {
-  root: {;
+  root: {,
     name: 'Root Chakra',
     sanskritName: 'Muladhara',
     element: 'Earth',

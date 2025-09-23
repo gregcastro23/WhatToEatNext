@@ -72,13 +72,13 @@ const PLANETARY_ELEMENTS: { [key: string]: ElementalCharacter } = {
 }
 
 const LUNAR_PHASE_MODIFIERS: Record<string, Record<ElementalCharacter, number>> = {
-  'new Moon': { Fire: 0.7, Water: 1.3, Earth: 1.1, Air: 0.9 }
-  'waxing crescent': { Fire: 0.8, Water: 1.2, Earth: 1.0, Air: 1.0 }
-  'first quarter': { Fire: 0.9, Water: 1.1, Earth: 0.9, Air: 1.1 }
-  'waxing gibbous': { Fire: 1.0, Water: 1.0, Earth: 0.8, Air: 1.2 }
-  'full Moon': { Fire: 1.2, Water: 0.8, Earth: 0.7, Air: 1.3 }
-  'waning gibbous': { Fire: 1.1, Water: 0.9, Earth: 0.8, Air: 1.2 }
-  'last quarter': { Fire: 1.0, Water: 1.0, Earth: 0.9, Air: 1.1 }
+  'new Moon': { Fire: 0.7, Water: 1.3, Earth: 1.1, Air: 0.9 },
+  'waxing crescent': { Fire: 0.8, Water: 1.2, Earth: 1.0, Air: 1.0 },
+  'first quarter': { Fire: 0.9, Water: 1.1, Earth: 0.9, Air: 1.1 },
+  'waxing gibbous': { Fire: 1.0, Water: 1.0, Earth: 0.8, Air: 1.2 },
+  'full Moon': { Fire: 1.2, Water: 0.8, Earth: 0.7, Air: 1.3 },
+  'waning gibbous': { Fire: 1.1, Water: 0.9, Earth: 0.8, Air: 1.2 },
+  'last quarter': { Fire: 1.0, Water: 1.0, Earth: 0.9, Air: 1.1 },
   'waning crescent': { Fire: 0.8, Water: 1.2, Earth: 1.2, Air: 0.8 }
 }
 
@@ -224,7 +224,7 @@ export function applyPlanetaryInfluence(
   }
 
   // ✅ Pattern KK-9: Safe arithmetic operations for elemental transformation
-  const transformedElemental = normalizeProperties({;
+  const transformedElemental = normalizeProperties({,
     Fire: Number(item.elementalProperties.Fire || 0) + Number(elementalBoost.Fire || 0),
     Water: Number(item.elementalProperties.Water || 0) + Number(elementalBoost.Water || 0),
     Earth: Number(item.elementalProperties.Earth || 0) + Number(elementalBoost.Earth || 0),
@@ -338,7 +338,7 @@ export function filterByAlchemicalCompatibility(
  * @param count Number of items to return
  * @returns Top compatible items
  */
-export function getTopCompatibleItems(items: AlchemicalItem[], _count = 5): AlchemicalItem[] {;
+export function getTopCompatibleItems(items: AlchemicalItem[], _count = 5): AlchemicalItem[] {,
   return sortByAlchemicalCompatibility(items).slice(0, count)
 }
 

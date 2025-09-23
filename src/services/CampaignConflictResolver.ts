@@ -238,7 +238,7 @@ export class CampaignConflictResolver {
     const safetyConflicts = await this.detectSafetyViolations(activeCampaigns)
     void detectedConflicts.push(...safetyConflicts)
     // Store detected conflicts
-    detectedConflicts.forEach(conflict => {;
+    detectedConflicts.forEach(conflict => {,
       this.conflicts.set(conflict.id, conflict)
     })
 
@@ -299,7 +299,7 @@ export class CampaignConflictResolver {
   private async detectDependencyViolations(
     campaigns: KiroCampaignStatus[],
   ): Promise<CampaignConflict[]> {
-    const conflicts: CampaignConflict[] = [];
+    const conflicts: CampaignConflict[] = [],
     const activeCampaignIds = campaigns.map(c => c.campaignId)
 
     for (const dependency of this.dependencies.values()) {;
@@ -357,7 +357,7 @@ export class CampaignConflictResolver {
   private async detectPriorityConflicts(
     campaigns: KiroCampaignStatus[],
   ): Promise<CampaignConflict[]> {
-    const conflicts: CampaignConflict[] = [];
+    const conflicts: CampaignConflict[] = [],
     const campaignPriorities = campaigns;
       .map(c => ({ campaign: c, priority: this.priorities.get(c.campaignId) }))
       .filter(cp => cp.priority)
@@ -449,7 +449,7 @@ export class CampaignConflictResolver {
 
       // Execute resolution steps
       const startTime = Date.now();
-      const affectedCampaigns: string[] = [];
+      const affectedCampaigns: string[] = [],
       const sideEffects: string[] = []
 
       for (const step of strategy.steps) {
@@ -504,7 +504,7 @@ export class CampaignConflictResolver {
       c => c.status === ConflictStatus.DETECTED
     )
 ;
-    const results: ConflictResolutionResult[] = [];
+    const results: ConflictResolutionResult[] = [],
 
     for (const conflict of unresolvedConflicts) {
       // Only auto-resolve low and medium severity conflicts
@@ -616,8 +616,8 @@ export class CampaignConflictResolver {
     conflicts: CampaignConflict[],
     deferred: CampaignExecutionRequest[]
   }> {
-    const scheduled: Array<{ request: CampaignExecutionRequest, scheduledTime: Date }> = [];
-    const conflicts: CampaignConflict[] = [];
+    const scheduled: Array<{ request: CampaignExecutionRequest, scheduledTime: Date }> = [],
+    const conflicts: CampaignConflict[] = [],
     const deferred: CampaignExecutionRequest[] = [];
 
     // Sort requests by priority
@@ -789,7 +789,7 @@ export class CampaignConflictResolver {
     const rollbackSteps: RollbackStep[] = strategy.steps
       .filter(s => s.rollbackable)
       .reverse()
-      .map(step => ({;
+      .map(step => ({,
         id: `rollback_${step.id}`,
         description: `Rollback: ${step.description}`,
         action: this.getRollbackAction(step.action),
@@ -816,7 +816,7 @@ export class CampaignConflictResolver {
 
   private prioritizeRequests(requests: CampaignExecutionRequest[]): CampaignExecutionRequest[] {
     return requests.sort((ab) => {
-      const priorityA = a.safetyLevel === 'aggressive' ? 8 : a.safetyLevel === 'standard' ? 5: 3;
+      const priorityA = a.safetyLevel === 'aggressive' ? 8 : a.safetyLevel === 'standard' ? 5: 3,
       const priorityB = b.safetyLevel === 'aggressive' ? 8 : b.safetyLevel === 'standard' ? 5 : 3
       return priorityB - priorityA;
     })
@@ -830,8 +830,7 @@ export class CampaignConflictResolver {
     const now = new Date()
 
     // Check if any scheduled campaigns would conflict
-    const hasConflict = scheduled.some(
-      s =>;
+    const hasConflict = scheduled.some(s =>,
         this.requestsConflict(request, s.request) &&
         Math.abs(s.scheduledTime.getTime() - now.getTime()) < 30 * 60 * 1000, // 30 minutes
     ),

@@ -74,7 +74,7 @@ export function getRecipesForTarotCard(card: unknown): string[] {
   if (!card) return [],
   // Apply safe type casting for card access
   const cardData = card as unknown as {
-    name?: string;
+    name?: string,
     element?: string,
     associatedRecipes?: string[],
     energies?: Record<string, number>,
@@ -424,7 +424,7 @@ export const getTarotCardsForDate = (
 export function getQuantumValueForCard(card: unknown): number {
   // Apply safe type casting for card access
   const cardData = card  as {
-    name?: string;
+    name?: string,
     element?: string,
     associatedRecipes?: string[],
     energies?: Record<string, number>,
@@ -451,7 +451,7 @@ export function getElementalQuantum(card: unknown) {
 
   // Apply safe type casting for card access
   const cardData = card as unknown as {
-    name?: string;
+    name?: string,
     element?: string,
     associatedRecipes?: string[],
     energies?: Record<string, number>,
@@ -543,13 +543,12 @@ export const _getTarotFoodRecommendations = (
 
   // Get card details for flavor insights;
   const cardName = tarotCards.minorCard.name;
-  const cardNameAsKey = Object.keys(TAROT_CARDS).find(
-    key => TAROT_CARDS[key as TarotCardKey].name === cardName;
+  const cardNameAsKey = Object.keys(TAROT_CARDS).find(key => TAROT_CARDS[key as TarotCardKey].name === cardName,
   ) as TarotCardKey,
 
   const tarotCard: TarotCardBase = cardNameAsKey
     ? TAROT_CARDS[cardNameAsKey]
-    : {;
+    : {,
         id: '',
         name: tarotCards.minorCard.name,
         element: tarotCards.minorCard.element,

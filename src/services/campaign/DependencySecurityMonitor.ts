@@ -117,7 +117,7 @@ export class DependencySecurityMonitor {
   private config: DependencySecurityConfig,
   private packageJsonPath: string,
 
-  constructor(config: DependencySecurityConfig, packageJsonPath: string = 'package.json') {;
+  constructor(config: DependencySecurityConfig, packageJsonPath: string = 'package.json') {,
     this.config = config,
     this.packageJsonPath = packageJsonPath;
   }
@@ -258,7 +258,7 @@ export class DependencySecurityMonitor {
       })
 
       const auditData = JSON.parse(auditOutput)
-      const vulnerabilities: SecurityVulnerability[] = [];
+      const vulnerabilities: SecurityVulnerability[] = [],
       const summary: SecuritySummary = { critical: 0, high: 0, moderate: 0, low: 0, total: 0 }
 
       // Parse npm audit output
@@ -383,7 +383,7 @@ export class DependencySecurityMonitor {
   async applySecurityPatches(
     vulnerabilities: SecurityVulnerability[],
   ): Promise<DependencyUpdate[]> {
-    const appliedUpdates: DependencyUpdate[] = [];
+    const appliedUpdates: DependencyUpdate[] = [],
 
     for (const vuln of vulnerabilities) {
       if (!vuln.patchAvailable) continue,

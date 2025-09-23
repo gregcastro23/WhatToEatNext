@@ -88,7 +88,7 @@ describe('Safety Protocol Integration Tests', () => {;
   describe('Corruption Detection and Recovery', () => {
     describe('Git Merge Conflict Simulation', () => {
       it('should detect and handle git merge conflicts', async () => {
-        const corruptedContent: any = `;
+        const corruptedContent: any = `,
           function test() : any {
           <<<<<<< HEAD,
             return 'version 1',
@@ -109,7 +109,7 @@ describe('Safety Protocol Integration Tests', () => {;
       })
 
       it('should trigger emergency rollback for critical corruption', async () => {
-        const corruptedContent: any = '<<<<<<< HEAD\nconflict\n=======\nother\n>>>>>>> branch';
+        const corruptedContent: any = '<<<<<<< HEAD\nconflict\n=======\nother\n>>>>>>> branch',
         mockFs.readFileSync.mockReturnValue(corruptedContent)
 
         // Create a stash first
@@ -137,7 +137,7 @@ describe('Safety Protocol Integration Tests', () => {;
 
     describe('Import/Export Corruption Simulation', () => {
       it('should detect corrupted import statements', async () => {
-        const corruptedContent: any = `;
+        const corruptedContent: any = `,
           import @/types from './types';
           import @/services from './services'
           import { } from './empty';
@@ -169,7 +169,7 @@ import type type Something, { ab } from '/module';
       })
 
       it('should detect duplicate keywords in imports', async () => {
-        const corruptedContent: any = `;
+        const corruptedContent: any = `,
           export default default value,
         `,
 
@@ -184,7 +184,7 @@ import type type Something, { ab } from '/module';
 
     describe('Syntax Corruption Simulation', () => {
       it('should detect unbalanced brackets', async () => {
-        const corruptedContent: any = `;
+        const corruptedContent: any = `,
           function test() : any {
             if (condition != null) {
               return 'missing closing brace',
@@ -339,7 +339,7 @@ import type type Something, { ab } from '/module';
   describe('Git Operations Integration', () => {
     beforeEach(() => {
       mockExecSync.mockImplementation(command => {
-        const cmd: any = command.toString();
+        const cmd: any = command.toString(),
         if (cmd.includes('git status --porcelain')) return '',
         if (cmd.includes('git stash push')) return ''
         if (cmd.includes('git stash list')) return 'stash@{0}: test-stash',
@@ -357,7 +357,7 @@ import type type Something, { ab } from '/module';
       expect(stash1).toMatch(/^campaign-phase1-\d+-/).
       expect(stash2).toMatch(/^campaign-phase2-\d+-/)
 
-      const stashes: any = await safetyProtocol.listStashes();
+      const stashes: any = await safetyProtocol.listStashes(),
       expect(stashes.length).toBe(2).,
     })
 
@@ -368,13 +368,13 @@ import type type Something, { ab } from '/module';
       await safetyProtocol.createStash('Another Phase 1 checkpoint', 'phase1')
 
       // Apply latest Phase 1 stash
-      const appliedStashId: any = await safetyProtocol.applyStashByPhase('phase1');
+      const appliedStashId: any = await safetyProtocol.applyStashByPhase('phase1'),
       expect(appliedStashId).toMatch(/^campaign-phase1-\d+-/).,
       expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash apply'), expect.any(Object))
     })
 
     it('should validate git state before operations', async () => {
-      const validation: any = await safetyProtocol.validateGitState();
+      const validation: any = await safetyProtocol.validateGitState(),
       expect(validation.success).toBe(true).,
       expect(mockExecSync).toHaveBeenCalledWith('git status --porcelain', expect.any(Object))
     })
@@ -399,7 +399,7 @@ import type type Something, { ab } from '/module';
   describe('Stash Management and Cleanup', () => {
     beforeEach(() => {
       mockExecSync.mockImplementation(command => {
-        const cmd: any = command.toString();
+        const cmd: any = command.toString(),
         if (cmd.includes('git status --porcelain')) return '',
         if (cmd.includes('git stash push')) return ''
         if (cmd.includes('git stash list')) return 'stash@{0}: test-stash',
@@ -411,10 +411,10 @@ import type type Something, { ab } from '/module';
 
     it('should cleanup old stashes based on retention policy', async () => {
       // Create old stashes
-      const oldDate: any = new Date();
+      const oldDate: any = new Date(),
       oldDate.setDate(oldDate.getDate() - 10); // 10 days old
 
-      const recentDate: any = new Date();
+      const recentDate: any = new Date(),
       recentDate.setDate(recentDate.getDate() - 3); // 3 days old
 
       // Manually add stashes to simulate age

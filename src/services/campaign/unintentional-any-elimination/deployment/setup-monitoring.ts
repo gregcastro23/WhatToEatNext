@@ -69,7 +69,7 @@ interface HealthCheckEndpoint {
 function createMonitoringConfig(): MonitoringConfig {
   const campaignConfig = environmentConfigManager.getConfig()
   return {
-    metrics: {;
+    metrics: {,
       enabled: true,
       interval: campaignConfig.targets.trackingIntervals.metrics,
       retention: 30,
@@ -334,8 +334,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
       let shouldAlert = false;
 
       switch (condition.name) {
-        case 'High Error Rate':
-          const baseline = this.getBaselineErrorCount();
+        case 'High Error Rate': const baseline = this.getBaselineErrorCount(),
           const threshold = this.config.metrics.thresholds.errorIncrease;
           shouldAlert = metrics.typescriptErrors > baseline + threshold;
           break,
@@ -387,8 +386,8 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
           _logger.error(\`Metrics: \${JSON.stringify(metrics, null, 2)}\`)
           break,
 
-        case 'file': const logPath = channel.config.path || '.kiro/logs/alerts.log';
-          const logEntry = \`[\${alert.timestamp.toISOString()}] \${condition.severity.toUpperCase()}: \${condition.name} - \${condition.description}\\n\`;
+        case 'file': const logPath = channel.config.path || '.kiro/logs/alerts.log',
+          const logEntry = \`[\${alert.timestamp.toISOString()}] \${condition.severity.toUpperCase()}: \${condition.name} - \${condition.description}\\n\`,
           appendFileSync(logPath, logEntry)
           break,
       }

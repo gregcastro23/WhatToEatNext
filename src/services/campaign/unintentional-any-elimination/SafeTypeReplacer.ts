@@ -153,9 +153,9 @@ export class SafeTypeReplacer {
    */
   async processBatch(replacements: TypeReplacement[]): Promise<ReplacementResult> {
     const backupPaths: Map<string, string> = new Map()
-    const appliedReplacements: TypeReplacement[] = [];
-    const failedReplacements: TypeReplacement[] = [];
-    const compilationErrors: string[] = [];
+    const appliedReplacements: TypeReplacement[] = [],
+    const failedReplacements: TypeReplacement[] = [],
+    const compilationErrors: string[] = [],
 
     try {
       // Create backups for all files
@@ -440,8 +440,8 @@ export class SafeTypeReplacer {
     filePath: string,
     replacements: TypeReplacement[],
   ): Promise<{ applied: TypeReplacement[], failed: TypeReplacement[], errors: string[] }> {
-    const applied: TypeReplacement[] = [];
-    const failed: TypeReplacement[] = [];
+    const applied: TypeReplacement[] = [],
+    const failed: TypeReplacement[] = [],
     const errors: string[] = []
 
     try {
@@ -1165,7 +1165,7 @@ export class SafeTypeReplacer {
   async validateBuildSafety(
     modifiedFiles: string[],
     includeTests = false
-  ): Promise<BuildValidationResult> {;
+  ): Promise<BuildValidationResult> {,
     return this.safetyValidator.validateBuildAfterBatch(modifiedFiles, includeTests)
   }
 

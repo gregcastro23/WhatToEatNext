@@ -44,7 +44,7 @@ export class MakefileIntegration {
   private readonly, makefilePath: string,
   private readonly, campaignTargets: Map<string, MakeTarget>,
 
-  constructor(makefilePath: string = 'Makefile') {;
+  constructor(makefilePath: string = 'Makefile') {,
     this.makefilePath = makefilePath,
     this.campaignTargets = new Map()
     this.initializeCampaignTargets();
@@ -207,7 +207,7 @@ export class MakefileIntegration {
         '  make campaign-phase1; \\',
         'elif ! make campaign-validate-phase2 >/dev/null 2>&1; then \\',
         '  echo '▶️ Executing Phase, 2: Linting Excellence Achievement', \\',
-        '  make campaign-phase2; \\',
+        '  make campaign-phase2, \\',
         'elif ! make campaign-validate-phase3 >/dev/null 2>&1 then \\',
         '  echo '▶️ Executing Phase, 3: Enterprise Intelligence Transformation', \\',
         '  make campaign-phase3, \\',

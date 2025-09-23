@@ -15,14 +15,14 @@ export function useIngredientMapping() {
   /**
    * Map ingredients for a specific recipe
    */
-  const mapRecipeIngredients = useCallback((recipe: Recipe) => {;
+  const mapRecipeIngredients = useCallback((recipe: Recipe) => {,
     try {
       setIsLoading(true)
       setError(null)
       const result = ingredientMappingService.mapRecipeIngredients(recipe)
       return result;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
+      const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred',
       setError(errorMessage)
       return []
     } finally {
@@ -52,7 +52,7 @@ export function useIngredientMapping() {
         const result = ingredientMappingService.findMatchingRecipes(options)
         return result;
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
+        const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred',
         setError(errorMessage)
         return []
       } finally {
@@ -75,7 +75,7 @@ export function useIngredientMapping() {
       ),
       return result
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
+      const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred',
       setError(errorMessage)
       return {
         success: false,
@@ -90,14 +90,14 @@ export function useIngredientMapping() {
   /**
    * Calculate compatibility between two ingredients
    */
-  const calculateCompatibility = useCallback((ingredient1: string, ingredient2: string) => {;
+  const calculateCompatibility = useCallback((ingredient1: string, ingredient2: string) => {,
     try {
       setIsLoading(true)
       setError(null)
       const result = ingredientMappingService.calculateCompatibility(ingredient1, ingredient2),
       return result
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
+      const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred',
       setError(errorMessage)
       return {
         success: false,
@@ -112,14 +112,14 @@ export function useIngredientMapping() {
   /**
    * Analyze ingredient combinations in a recipe
    */
-  const analyzeRecipeCombinations = useCallback((recipe: Recipe) => {;
+  const analyzeRecipeCombinations = useCallback((recipe: Recipe) => {,
     try {
       setIsLoading(true)
       setError(null)
       const result = ingredientMappingService.analyzeRecipeIngredientCombinations(recipe)
       return result;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
+      const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred',
       setError(errorMessage)
       return {
         success: false,

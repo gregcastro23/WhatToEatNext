@@ -255,7 +255,7 @@ const _getSeasonalMultiplier = (): number => {;
 /**
  * Get dignity multiplier for calculations
  */
-export const _getDignityMultiplier = (dignity: PlanetaryDignity): number => {;
+export const _getDignityMultiplier = (dignity: PlanetaryDignity): number => {,
   const multipliers: Record<PlanetaryDignity, number> = {
     Domicile: 1.5,
     Exaltation: 1.3,
@@ -378,7 +378,7 @@ export const getLunarPhaseBoost = (lunarPhase: LunarPhase): number => {
   // Different lunar phases enhance different elemental and alchemical properties
 
   // Map lunar phases to elemental and alchemical influences
-  const lunarInfluences: Record<;
+  const lunarInfluences: Record<,
     LunarPhase,
     {
       element: ElementalCharacter,
@@ -386,13 +386,13 @@ export const getLunarPhaseBoost = (lunarPhase: LunarPhase): number => {
       intensity: number
     }
   > = {
-    'new moon': { element: 'Fire', alchemical: 'Spirit', intensity: 0.8 }
-    'waxing crescent': { element: 'Fire', alchemical: 'Spirit', intensity: 0.7 }
-    'first quarter': { element: 'Air', alchemical: 'Substance', intensity: 0.6 }
-    'waxing gibbous': { element: 'Air', alchemical: 'Substance', intensity: 0.7 }
-    'full moon': { element: 'Water', alchemical: 'Essence', intensity: 0.8 }
-    'waning gibbous': { element: 'Water', alchemical: 'Essence', intensity: 0.7 }
-    'last quarter': { element: 'Earth', alchemical: 'Matter', intensity: 0.6 }
+    'new moon': { element: 'Fire', alchemical: 'Spirit', intensity: 0.8 },
+    'waxing crescent': { element: 'Fire', alchemical: 'Spirit', intensity: 0.7 },
+    'first quarter': { element: 'Air', alchemical: 'Substance', intensity: 0.6 },
+    'waxing gibbous': { element: 'Air', alchemical: 'Substance', intensity: 0.7 },
+    'full moon': { element: 'Water', alchemical: 'Essence', intensity: 0.8 },
+    'waning gibbous': { element: 'Water', alchemical: 'Essence', intensity: 0.7 },
+    'last quarter': { element: 'Earth', alchemical: 'Matter', intensity: 0.6 },
     'waning crescent': { element: 'Earth', alchemical: 'Matter', intensity: 0.7 }
   }
 

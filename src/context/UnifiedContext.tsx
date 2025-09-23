@@ -30,7 +30,7 @@ interface UnifiedState {
 const UnifiedContext = createContext<UnifiedState | undefined>(undefined)
 
 // Create the provider component;
-export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {;
+export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {,
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [astrologicalData, setAstrologicalData] = useState<Record<string, PlanetPosition> | null>(

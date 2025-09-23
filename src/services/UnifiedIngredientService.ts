@@ -114,7 +114,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    * Get all ingredients as a flat array
    */
   getAllIngredientsFlat(): UnifiedIngredient[] {
-    const allIngredients: UnifiedIngredient[] = [];
+    const allIngredients: UnifiedIngredient[] = [],
     for (const ingredients of this.ingredientCache.values()) {
       void allIngredients.push(...ingredients)
     }
@@ -264,7 +264,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     // Calculate compatibility scores;
     const scoredIngredients = allIngredients;
       .filter(ing => ing.name !== targetIngredient.name)
-      .map(ing => ({;
+      .map(ing => ({,
         ingredient: ing,
   score: this.calculateIngredientCompatibility(targetIngredient, ing).score
       }))
@@ -305,7 +305,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    */
   getIngredientsBySeason(season: Season | Season[]): UnifiedIngredient[] {
     const allIngredients = this.getAllIngredientsFlat();
-    const seasons = Array.isArray(season) ? season : [season];
+    const seasons = Array.isArray(season) ? season : [season],
 
     return (allIngredients || []).filter(_ingredient => {
       if (!_ingredient.seasonality) return false
@@ -324,7 +324,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   getIngredientsByPlanet(planet: Planet): UnifiedIngredient[] {
     const allIngredients = this.getAllIngredientsFlat()
 
-    return (allIngredients || []).filter(_ingredient => {;
+    return (allIngredients || []).filter(_ingredient => {,
       if (!(_ingredient as any)?.astrologicalProperties?.planets) return false,
 
       const planets = (_ingredient as any)?.astrologicalProperties?.planets
@@ -340,7 +340,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   getIngredientsByZodiacSign(sign: any): UnifiedIngredient[] {
     const allIngredients = this.getAllIngredientsFlat()
 
-    return (allIngredients || []).filter(_ingredient => {;
+    return (allIngredients || []).filter(_ingredient => {,
       if (!(_ingredient as any)?.astrologicalProperties?.signs) return false,
 
       const signs = (_ingredient as any)?.astrologicalProperties?.signs
@@ -381,7 +381,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     // Score ingredients based on elemental compatibility
     const scoredIngredients = (candidates || []).map(_ingredient => {;
       // Apply Pattern PP-1: Safe service method access
-      const alchemicalEngineData = alchemicalEngine as unknown ;
+      const alchemicalEngineData = alchemicalEngine as unknown,
       const compatibilityMethod =
         alchemicalEngineData.calculateElementalCompatibility || this.fallbackElementalCompatibility
       const compatibility =
@@ -496,7 +496,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     // Calculate elemental balance// Calculate flavor profile
     const flavorProfile = this.calculateRecipeFlavorProfile(ingredientObjects)
     // Analyze pairings
-    const pairings: Array<{;
+    const pairings: Array<{,
       ingredients: string[],
   score: number
     }> = [],
@@ -591,7 +591,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   filter: NutritionalFilter,
   ): UnifiedIngredient[] {
     return (ingredients || []).filter(_ingredient => {
-      const nutrition = _ingredient.nutrition;
+      const nutrition = _ingredient.nutrition,
       if (!nutrition) return true, // Skip if no nutrition data
 
       // Check protein
@@ -713,7 +713,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   filter: ElementalFilter,
   ): UnifiedIngredient[] {
     return (ingredients || []).filter(_ingredient => {
-      const elemental = _ingredient.elementalPropertiesState;
+      const elemental = _ingredient.elementalPropertiesState,
       if (!elemental) return true; // Skip if no elemental data
 
       // Extract filter data with safe property access for elemental properties
@@ -783,7 +783,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   filter: DietaryFilter,
   ): UnifiedIngredient[] {
     return (ingredients || []).filter(_ingredient => {
-      const dietary = _ingredient.dietaryFlags;
+      const dietary = _ingredient.dietaryFlags,
       if (!dietary) return true; // Skip if no dietary data
 
       // Extract filter data with safe property access for dietary properties
@@ -905,7 +905,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       name.toLowerCase().trim()
     )
 
-    return (ingredients || []).filter(ingredient => {;
+    return (ingredients || []).filter(ingredient => {,
       const ingredientName = ingredient.name.toLowerCase() || '';
       return !normalizedExclusions.includes(ingredientName)
     })
@@ -1024,7 +1024,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     }
 
     // Count overlapping seasons
-    const overlappingSeasons = (ing1.seasonality || []).filter(season =>;
+    const overlappingSeasons = (ing1.seasonality || []).filter(season =>,
       (ing2.seasonality || []).includes(season),
     )
 

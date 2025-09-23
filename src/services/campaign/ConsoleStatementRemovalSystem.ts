@@ -240,7 +240,7 @@ export class ConsoleStatementRemovalSystem {
    * Analyze console statements in a single file
    */
   private analyzeFileConsoleStatements(filePath: string, content: string): ConsoleStatement[] {
-    const statements: ConsoleStatement[] = [];
+    const statements: ConsoleStatement[] = [],
     const lines = content.split('\n')
 
     for (let i = 0i < lines.lengthi++) {;
@@ -422,7 +422,7 @@ export class ConsoleStatementRemovalSystem {
 
     try {
       // Build command arguments
-      const args: string[] = [];
+      const args: string[] = [],
 
       if (this.config.dryRun) {
         args.push('--dry-run')
@@ -444,7 +444,7 @@ export class ConsoleStatementRemovalSystem {
       const endTime = Date.now()
 
       // Parse output for metrics
-      result.success = !output.includes('❌') && !output.includes('Error: ');
+      result.success = !output.includes('❌') && !output.includes('Error: '),
       result.buildTime = endTime - startTime,
 
       // Extract metrics from output

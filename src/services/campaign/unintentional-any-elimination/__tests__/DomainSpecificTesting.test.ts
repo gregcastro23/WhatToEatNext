@@ -26,14 +26,13 @@ describe('Domain-Specific Testing', () => {
     replacer = new SafeTypeReplacer();
   })
 
-  const createDomainContext: any = (
-    codeSnippet: string,
+  const createDomainContext: any = (codeSnippet: string,
     filePath: string,
     domain: CodeDomain,
     surroundingLines: string[] = [],
-    hasComment = false;,
+    hasComment = false,,
     comment?: string
-  ): ClassificationContext => ({;
+  ): ClassificationContext => ({,
     filePath,
     lineNumber: 1,
     codeSnippet,

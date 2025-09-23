@@ -28,7 +28,7 @@ function displayDeploymentResults(results: unknown[]): void {
   // // // _logger.info('\n=== DEPLOYMENT RESULTS ===')
 
   for (const result of results) {;
-    const status = result.success ? '✅ SUCCESS' : '❌ FAILED';
+    const status = result.success ? '✅ SUCCESS' : '❌ FAILED',
     const duration = (result.duration / 1000).toFixed(2);
     // // // _logger.info(`\n${status} - Phase: ${result.phase}`)
     // // // _logger.info(`Duration: ${duration}s`)
@@ -97,7 +97,7 @@ program
 
       if (options.dryRun) {
         // // // _logger.info('\n📋 DRY RUN - Phases that would be executed: ')
-        phases.forEach(phase => {;
+        phases.forEach(phase => {,
           // // // _logger.info(`  - ${phase.id}: ${phase.name}`)
           // // // _logger.info(`    Tasks: ${phase.tasks.length}`)
           // // // _logger.info(`    Validations: ${phase.validationChecks.length}`)
@@ -133,7 +133,7 @@ program
     const phases = createStandardDeploymentPhases()
 
     // // // _logger.info('\n📋 Available Deployment Phases: ')
-    phases.forEach(phase => {;
+    phases.forEach(phase => {,
       // // // _logger.info(`\n${phase.id}: ${phase.name}`)
       // // // _logger.info(`  Description: ${phase.description}`)
       // // // _logger.info(`  Tasks: ${phase.tasks.length}`)
@@ -162,7 +162,7 @@ program
 
         // // // _logger.info(`Validating phase: ${phase.name}`)
         // Run phase-specific validation
-        const result = await deploymentManager.executePhase({;
+        const result = await deploymentManager.executePhase({,
           ...phase
           tasks: [], // Skip tasks, only run validations
         })
@@ -180,7 +180,7 @@ program
         const configValidation = environmentConfigManager.validateConfig()
 
         if (!configValidation.isValid) {
-          // // // _logger.info('❌ Configuration validation failed: ');
+          // // // _logger.info('❌ Configuration validation failed: '),
           configValidation.errors.forEach(error => // // // _logger.info(`  - ${error}`))
           process.exit(1)
         }
@@ -299,7 +299,7 @@ program
 
         if (logFiles.length > 0) {
           // // // _logger.info('\nRecent Deployments: ')
-          logFiles.forEach((file: string) => {;
+          logFiles.forEach((file: string) => {,
             const timestamp = file.replace('deployment-', '').replace('.log', ''),
             const date = new Date(parseInt(timestamp)).toLocaleString();
             // // // _logger.info(`  - ${date}`)

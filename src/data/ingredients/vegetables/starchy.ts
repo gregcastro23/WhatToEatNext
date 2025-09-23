@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawStarchyVegetables = {
-  potato: {;
+  potato: {,
     name: 'potato',
     elementalProperties: {
       Earth: 0.6,

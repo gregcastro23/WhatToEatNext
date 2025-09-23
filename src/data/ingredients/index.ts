@@ -166,7 +166,7 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
 
   // Create default lunar phase modifiers if none exist
   const defaultLunarPhaseModifiers = {
-    newMoon: {;
+    newMoon: {,
       elementalBoost: { Earth: 0.05, Water: 0.05 },
       preparationTips: ['Best for subtle preparation methods'],
       thermodynamicEffects: { heat: -0.1, entropy: -0.05 }
@@ -180,7 +180,7 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
 
   // Apply uniform standardization to the ingredient
   const ingredientData = ingredient as unknown as any;
-  const standardized = standardizeIngredient({;
+  const standardized = standardizeIngredient({,
     name: name,
     category: ingredientData.category || 'culinary_herb',
     elementalProperties: calculateElementalProperties(,
@@ -274,7 +274,7 @@ export const vinegarsCollection = processIngredientCollection(allVinegars)
 export const grainsCollection = processIngredientCollection(allGrains)
 export const spicesCollection = processIngredientCollection({
   ...spices
-  ...warmSpices;
+  ...warmSpices,
 })
 export const _vegetablesCollection = processIngredientCollection(enhancedVegetables)
 
@@ -322,17 +322,17 @@ export const allIngredients = (() => {
 
   // Build a list of collections in priority order (lowest to highest)
   const collectionsList = [
-    { source: processedSeasonings, priority: 1 }
+    { source: processedSeasonings, priority: 1 },
     { source: processedVegetables, priority: 2 }
-    { source: processedFruits, priority: 3 }
+    { source: processedFruits, priority: 3 },
     { source: processedGrains, priority: 4 }
-    { source: processedVinegars, priority: 5 }
+    { source: processedVinegars, priority: 5 },
     { source: processedOils, priority: 6 }
-    { source: processedPlantBased, priority: 7 }
+    { source: processedPlantBased, priority: 7 },
     { source: processedMeats, priority: 8 }
-    { source: processedPoultry, priority: 9 }
+    { source: processedPoultry, priority: 9 },
     { source: processedSeafood, priority: 10 }
-    { source: processedHerbs, priority: 11 }
+    { source: processedHerbs, priority: 11 },
     { source: processedSpices, priority: 12 }, // Highest priority
   ],
 

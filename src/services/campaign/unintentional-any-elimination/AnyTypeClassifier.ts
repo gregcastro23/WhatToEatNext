@@ -66,7 +66,7 @@ export class AnyTypeClassifier {
     }
 
     // Initialize confidence weights for different categories
-    this.confidenceWeights = new Map([;
+    this.confidenceWeights = new Map([,
       [AnyTypeCategory.ERROR_HANDLING, 0.9],
       [AnyTypeCategory.EXTERNAL_API, 0.8],
       [AnyTypeCategory.TEST_MOCK, 0.85],
@@ -80,7 +80,7 @@ export class AnyTypeClassifier {
     ])
 
     // Initialize pattern matchers with confidence scoring
-    this.patternMatchers = new Map([;
+    this.patternMatchers = new Map([,
       [AnyTypeCategory.ERROR_HANDLING, this.calculateErrorHandlingConfidence.bind(this)],
       [AnyTypeCategory.EXTERNAL_API, this.calculateExternalApiConfidence.bind(this)],
       [AnyTypeCategory.TEST_MOCK, this.calculateTestMockConfidence.bind(this)],
@@ -214,7 +214,7 @@ export class AnyTypeClassifier {
    * Classify multiple any type usages in batch
    */
   async classifyBatch(contexts: ClassificationContext[]): Promise<AnyTypeClassification[]> {
-    const results: AnyTypeClassification[] = [];
+    const results: AnyTypeClassification[] = [],
 
     for (const context of contexts) {
       try {

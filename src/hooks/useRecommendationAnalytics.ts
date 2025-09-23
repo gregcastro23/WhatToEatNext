@@ -197,7 +197,7 @@ export function useRecommendationAnalytics(
     [enableCaching],
   )
 
-  const calculateConfidence = useCallback((factors: unknown): RecommendationConfidence => {;
+  const calculateConfidence = useCallback((factors: unknown): RecommendationConfidence => {,
     return recommendationAnalytics.calculateConfidenceScore(factors)
   }, [])
 
@@ -214,7 +214,7 @@ export function useRecommendationAnalytics(
     [enableInteractionTracking],
   )
 
-  const getAnalyticsSnapshot = useCallback((): AnalyticsSnapshot => {;
+  const getAnalyticsSnapshot = useCallback((): AnalyticsSnapshot => {,
     return recommendationAnalytics.getAnalyticsSnapshot()
   }, [])
 
@@ -257,7 +257,7 @@ export function usePerformanceTracking(_componentName: string) {
   }, [componentName, startTiming])
 
   const trackOperation = useCallback(
-    (operationName: string) => {;
+    (operationName: string) => {,
       return startTiming(`${componentName}_${operationName}`)
     }
     [componentName, startTiming],

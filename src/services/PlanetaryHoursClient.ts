@@ -3,7 +3,7 @@ import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 import { logger } from '@/lib/logger';
 import type { Planet } from '@/types/celestial';
 
-type Coordinates = { latitude: number, longitude: number };
+type Coordinates = { latitude: number, longitude: number },
 
 export interface PlanetaryHourResult {
   planet: Planet,
@@ -30,9 +30,9 @@ function parseBackendResult(data: unknown): PlanetaryHourResult | null {
 
   if (typeof planet !== 'string' || typeof isDaytime !== 'boolean') return null;
 
-  const hourNumber = typeof obj.hourNumber === 'number' ? obj.hourNumber: undefined;
-  const start = typeof obj.start === 'string' ? new Date(obj.start) : undefined;
-  const end = typeof obj.end === 'string' ? new Date(obj.end) : undefined;
+  const hourNumber = typeof obj.hourNumber === 'number' ? obj.hourNumber: undefined,
+  const start = typeof obj.start === 'string' ? new Date(obj.start) : undefined,
+  const end = typeof obj.end === 'string' ? new Date(obj.end) : undefined,
 
   return { planet: planet as Planet, hourNumber, isDaytime, start, end }
 }
@@ -44,8 +44,8 @@ function parseBackendResult(data: unknown): PlanetaryHourResult | null {
  * - NEXT_PUBLIC_PLANETARY_HOURS_BACKEND: 'true' to enable backend-first calls
  */
 export class PlanetaryHoursClient {
-  private readonly backendUrl: string | undefined;
-  private readonly useBackend: boolean;
+  private readonly backendUrl: string | undefined,
+  private readonly useBackend: boolean,
 
   constructor() {
     this.backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;

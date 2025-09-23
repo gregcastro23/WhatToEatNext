@@ -65,7 +65,7 @@ export interface LintingAnalysisOptions {
   includeFileAnalysis?: boolean
   generateStrategies?: boolean,
   projectContext?: Partial<ProjectContext>,
-  focusAreas?: ('import' | 'typescript' | 'react' | 'style' | 'domain')[];
+  focusAreas?: ('import' | 'typescript' | 'react' | 'style' | 'domain')[],
   riskTolerance?: 'conservative' | 'moderate' | 'aggressive'
 }
 
@@ -274,7 +274,7 @@ export class LintingAnalysisService {
     fileAnalyses: FileAnalysis[],
     projectContext: Partial<ProjectContext>,
   ): Promise<{ strategies: ResolutionStrategy[], optimizedPlan: OptimizedResolutionPlan }> {
-    const contexts: StrategyGenerationContext[] = [];
+    const contexts: StrategyGenerationContext[] = [],
     const allIssues = Object.values(categorizedErrors.byCategory).flat()
 
     // Create default project context
@@ -292,7 +292,7 @@ export class LintingAnalysisService {
       const fileAnalysis = fileAnalyses.find(f => f.filePath === issue.file)
 
       if (classification && fileAnalysis) {
-        contexts.push({;
+        contexts.push({,
           errorClassification: classification,
           domainContext: fileAnalysis.domainContext,
           fileAnalysis,
@@ -320,8 +320,7 @@ export class LintingAnalysisService {
 
     // Determine overall risk level
     const highRiskCount = classifications.filter(c => c.riskProfile.overall === 'high').length;
-    const criticalRiskCount = classifications.filter(
-      c => c.riskProfile.overall === 'critical';
+    const criticalRiskCount = classifications.filter(c => c.riskProfile.overall === 'critical',
     ).length,
 
     let overallRiskLevel: AnalysisSummary['overallRiskLevel'] = 'low',
@@ -355,7 +354,7 @@ export class LintingAnalysisService {
     // Immediate actions for critical issues
     const criticalIssues = classifications.filter(c => c.severity.level === 'critical')
     if (criticalIssues.length > 0) {
-      recommendations.push({;
+      recommendations.push({,
         type: 'immediate',
         priority: 'critical',
         title: 'Address Critical Linting Issues',
@@ -392,7 +391,7 @@ export class LintingAnalysisService {
       .flat()
       .filter(issue => issue.domainContext?.requiresSpecialHandling)
     if (domainIssues.length > 0) {
-      recommendations.push({;
+      recommendations.push({,
         type: 'short-term',
         priority: 'high',
         title: 'Handle Domain-Specific Issues',
@@ -516,7 +515,7 @@ export class LintingAnalysisService {
 
     const confidenceDistribution: Record<string, number> = {}
     for (const score of confidenceScores) {
-      const bucket = score < 0.3 ? 'low' : score < 0.7 ? 'medium' : 'high';
+      const bucket = score < 0.3 ? 'low' : score < 0.7 ? 'medium' : 'high',
       confidenceDistribution[bucket] = (confidenceDistribution[bucket] || 0) + 1
     }
 

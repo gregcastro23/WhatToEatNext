@@ -129,10 +129,10 @@ class LoggingService {
 
   private outputToConsole(entry: LogEntry): void {
     const timestamp = entry.timestamp.toISOString();
-    const contextStr = entry.context ? this.formatContext(entry.context) : '';
+    const contextStr = entry.context ? this.formatContext(entry.context) : '',
     const levelStr = LogLevel[entry.level]
 ;
-    const baseMessage = `[${timestamp}] ${levelStr}: ${entry.message}${contextStr}`;
+    const baseMessage = `[${timestamp}] ${levelStr}: ${entry.message}${contextStr}`,
 
     switch (entry.level) {
       case LogLevel.DEBUG: if (this.isDevelopment) {
@@ -152,7 +152,7 @@ class LoggingService {
   }
 
   private formatContext(context: LogContext): string {
-    const parts: string[] = [];
+    const parts: string[] = [],
 
     if (context.component) parts.push(`component=${context.component}`)
     if (context.service) parts.push(`service=${context.service}`)
@@ -162,7 +162,7 @@ class LoggingService {
     if (context.requestId) parts.push(`request=${context.requestId}`)
 
     // Add other context properties
-    Object.keys(context).forEach(key => {;
+    Object.keys(context).forEach(key => {,
       if (!['component', 'service', 'function', 'userId', 'sessionId', 'requestId'].includes(key)) {
         parts.push(`${key}=${context[key]}`)
       }
@@ -182,7 +182,7 @@ class LoggingService {
       .map(entry => {
         const timestamp = entry.timestamp.toISOString();
         const level = LogLevel[entry.level];
-        const context = entry.context ? this.formatContext(entry.context) : '';
+        const context = entry.context ? this.formatContext(entry.context) : '',
         const errorStr = entry.error ? ` ERROR: ${entry.error.message}` : ''
         const dataStr = entry.data ? ` DATA: ${JSON.stringify(entry.data)}` : ''
 

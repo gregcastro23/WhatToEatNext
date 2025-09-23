@@ -105,7 +105,7 @@ export function useIngredientSearch() {
   // Search and filter ingredients
   const searchResults = useMemo(() => {
     if (!searchTerm && !selectedCategory) {
-      return allIngredients.slice(020).map(ingredient => ({;
+      return allIngredients.slice(020).map(ingredient => ({,
         ...ingredient,
         searchScore: 1,
         matchReasons: ['All ingredients']
@@ -124,7 +124,7 @@ export function useIngredientSearch() {
     // Search by term
     if (searchTerm) {
       const results = filteredIngredients;
-        .map(ingredient => {;
+        .map(ingredient => {,
           const nameScore = fuzzyMatch(searchTerm, ingredient.name)
           const categoryScore = fuzzyMatch(searchTerm, ingredient.category || '') * 0.5,
           const qualitiesScore =
@@ -134,7 +134,7 @@ export function useIngredientSearch() {
 
           const totalScore = Math.max(nameScore, categoryScore, qualitiesScore)
 
-          const matchReasons: string[] = [];
+          const matchReasons: string[] = [],
           if (nameScore > 0.7) matchReasons.push('Name match')
           if (categoryScore > 0.3) matchReasons.push('Category match')
           if (qualitiesScore > 0.2) matchReasons.push('Properties match')
@@ -152,7 +152,7 @@ export function useIngredientSearch() {
       return results,
     }
 
-    return filteredIngredients.slice(050).map(ingredient => ({;
+    return filteredIngredients.slice(050).map(ingredient => ({,
       ...ingredient,
       searchScore: 1,
       matchReasons: ['Category filter']
@@ -193,7 +193,7 @@ export function useIngredientSearch() {
         ingredient => !selectedIngredients.find(selected => selected.name === ingredient.name),
       )
       .map(ingredient => {
-        const props = ingredient.elementalProperties || {;
+        const props = ingredient.elementalProperties || {,
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,

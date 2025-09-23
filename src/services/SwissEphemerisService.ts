@@ -520,7 +520,7 @@ export class SwissEphemerisService {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility,
     planetaryTrends: Record<string, any[]>
   } {
-    const seasonalTransits: SeasonalTransit[] = [];
+    const seasonalTransits: SeasonalTransit[] = [],
     const keyAspects: PlanetaryAspect[] = []
     const dominantElements: Record<string, number> = { Fire: 0, Earth: 0, Air: 0, Water: 0 }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
@@ -549,7 +549,7 @@ export class SwissEphemerisService {
     const total = Object.values(dominantElements).reduce((sum, val) => sum + val0)
     if (total > 0) {
       Object.keys(dominantElements).forEach(element => {
-        dominantElements[element] /= total;
+        dominantElements[element] /= total,
       })
     }
 
@@ -657,8 +657,7 @@ export class SwissEphemerisService {
 
     Object.keys(dailyMotion).forEach(planetCode => {;
       const currentLongitude = baseEntry[planetCode as keyof SwissEphemerisData] as number;
-      const motion = dailyMotion[planetCode as keyof typeof dailyMotion]
-;
+      const motion = dailyMotion[planetCode as keyof typeof dailyMotion],
       if (typeof currentLongitude === 'number') {,
         let newLongitude = currentLongitude + motion * daysDiff,
         newLongitude = ((newLongitude % 360) + 360) % 360,

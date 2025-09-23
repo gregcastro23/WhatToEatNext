@@ -51,7 +51,7 @@ interface PredictiveMetrics {
 
 // Note: These functions are not yet implemented in calculations/index
 // Using placeholder implementations for now
-const calculateSeasonalOptimization = (seasonality: string, currentSeason: string): number => {;
+const calculateSeasonalOptimization = (seasonality: string, currentSeason: string): number => {,
   if (seasonality === 'all' || seasonality === currentSeason) return 0.9,
   if (seasonality.includes(currentSeason)) return 0.8,
   return 0.6
@@ -61,7 +61,7 @@ const calculateAstrologicalAlignment = (
   recipe: Recipe,
   zodiacSign: string,
   lunarPhase: string,
-): number => {;
+): number => {,
   let alignment = 0.5; // Base alignment score
 
   // Check zodiac compatibility with recipe's astrological timing
@@ -235,7 +235,7 @@ export class PredictiveIntelligenceService {;
       ),
 
       // Calculate success probability based on multiple factors
-      const successProbability = this.calculateRecipeSuccessProbability({;
+      const successProbability = this.calculateRecipeSuccessProbability({,
         elementalAlignment,
         seasonalOptimization,
         astrologicalAlignment,
@@ -244,7 +244,7 @@ export class PredictiveIntelligenceService {;
       })
 
       // Calculate user satisfaction prediction
-      const userSatisfactionPrediction = this.calculateUserSatisfactionPrediction({;
+      const userSatisfactionPrediction = this.calculateUserSatisfactionPrediction({,
         successProbability,
         elementalAlignment,
         seasonalOptimization,
@@ -423,7 +423,7 @@ export class PredictiveIntelligenceService {;
 
   // ========== PREDICTION CALCULATION METHODS ==========
 
-  private calculateRecipeSuccessProbability(factors: {;
+  private calculateRecipeSuccessProbability(factors: {,
     elementalAlignment: number,
     seasonalOptimization: number,
     astrologicalAlignment: number,
@@ -680,7 +680,7 @@ export class PredictiveIntelligenceService {;
     culinaryContext: Record<string, unknown>,
   ): number {
     const planetaryPositions = astrologicalContext.planetaryPositions || {}
-    const planetaryInfluences = Object.values(planetaryPositions).map(position =>;
+    const planetaryInfluences = Object.values(planetaryPositions).map(position =>,
       this.calculatePlanetaryInfluence(position as unknown , culinaryContext),
     )
 

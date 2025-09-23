@@ -47,7 +47,7 @@ export function useServices() {;
           logger.info('Services initialized successfully');
         }
       } catch (err) {
-        const error = err instanceof Error ? err : new Error(String(err));
+        const error = err instanceof Error ? err : new Error(String(err)),
         logger.error('Error initializing services: ', error)
 
         if (isMounted) {

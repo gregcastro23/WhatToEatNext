@@ -293,7 +293,7 @@ export class UnifiedFlavorProfileSystem {
       seasonalAlignment * 0.15,
 
     // Generate recommendations and warnings
-    const recommendations: string[] = [];
+    const recommendations: string[] = [],
     const warnings: string[] = []
 
     if (elementalHarmony > 0.8) {
@@ -358,7 +358,7 @@ export const getFlavorProfilesByCategory = (
 export const calculateFlavorCompatibility = (
   profile1: UnifiedFlavorProfile,
   profile2: UnifiedFlavorProfile,
-): FlavorCompatibilityResult =>;
+): FlavorCompatibilityResult =>,
   unifiedFlavorProfileSystem.calculateFlavorCompatibility(profile1, profile2)
 
 export default unifiedFlavorProfileSystem,

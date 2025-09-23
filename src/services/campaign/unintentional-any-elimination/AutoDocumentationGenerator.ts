@@ -124,7 +124,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       }
     ],
 
-    templates.forEach(template => {;
+    templates.forEach(template => {,
       const key = `${template.category}_${template.domain}`
       this.templates.set(key, template)
     })
@@ -477,7 +477,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
     hasEslintDisable: boolean,
     eslintDisableHasExplanation: boolean,
   ): string[] {
-    const suggestions: string[] = [];
+    const suggestions: string[] = [],
 
     if (!hasComment) {
       suggestions.push('Add explanatory comment indicating intentional use of any type')

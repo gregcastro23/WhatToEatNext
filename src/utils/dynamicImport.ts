@@ -96,7 +96,7 @@ interface SolarPositionsModule {
 
 // Module map for type-safe imports
 const MODULE_MAP = {
-  '@/utils/astrologyUtils': () =>;
+  '@/utils/astrologyUtils': () =>,
     import('@/utils/astrologyUtils') as unknown as Promise<AstrologyUtilsModule>;
   '@/utils/accurateAstronomy': () =>
     import('@/utils/accurateAstronomy') as unknown as Promise<AccurateAstronomyModule>;
@@ -197,7 +197,7 @@ export async function safeImportAndExecute<RA extends unknown[] = unknown[]>(
 ): Promise<R | null> {
   try {
     // Use static imports for known modules
-    let importedModule: unknown;
+    let importedModule: unknown,
 
     if (path === '@/utils/astrologyUtils') {,
       importedModule = astrologyUtils;
@@ -231,7 +231,7 @@ export async function safeImportAndExecute<RA extends unknown[] = unknown[]>(
       return null;
     }
 
-    const func = (importedModule as any)[functionName] as (...args: A) => R;
+    const func = (importedModule as any)[functionName] as (...args: A) => R,
     return func(..._args)
   } catch (error) {
     errorLog(`Safe import and execute failed for ${functionName} from ${path}:`, error)
@@ -320,7 +320,7 @@ export async function dynamicImport<TF = null>(
 export async function dynamicImportFunction<
   T extends (...args: unknown[]) => unknown
   F extends (...args: unknown[]) => unknown = T,
->(path: string, functionName: string, _fallbackFn: F | null = null): Promise<T | F | null> {;
+>(path: string, functionName: string, _fallbackFn: F | null = null): Promise<T | F | null> {,
   debugLog('dynamicImportFunction is deprecated, use safeImportFunction instead')
   return safeImportFunction<T>(path, functionName)
 }

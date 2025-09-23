@@ -63,6 +63,12 @@ const REPAIR_PATTERNS = [
     pattern: /:\s*([0-9.]+|"[^"]*"|'[^']*'|true|false)\s+\n\s+([a-zA-Z_][a-zA-Z0-9_]*):/g,
     fix: (match, value, nextKey) => `: ${value},\n    ${nextKey}:`,
     description: 'Fix missing comma after object property value'
+  },
+  {
+    name: 'missing_comma_after_string_in_array',
+    pattern: /(['"])([^'"]+)\1(\s*)(\n\s+['"])/g,
+    fix: (match, quote1, content, space, nextLine) => `${quote1}${content}${quote1},${nextLine}`,
+    description: 'Add comma after string literals in arrays'
   }
 ];
 
@@ -152,7 +158,15 @@ const targetPath = process.argv[2] || './src';
 console.log(`🔧 Starting Syntax Repair V2 on: ${targetPath}\n`);
 
 const repairer = new SyntaxRepairToolV2();
-repairer.processDirectory(targetPath);
+
+// Check if target is a file or directory
+const stats = fs.statSync(targetPath);
+if (stats.isFile()) {
+  repairer.repairFile(targetPath);
+} else {
+  repairer.processDirectory(targetPath);
+}
+
 repairer.printReport();
 
 console.log('\n✨ Repair complete!');

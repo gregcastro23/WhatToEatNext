@@ -318,7 +318,7 @@ export async function getMoonIllumination(date: Date = new Date()): Promise<numb
  * @param date Date to calculate sun sign for
  * @returns The zodiac sign the sun is in
  */
-export function calculateSunSign(date: Date = new Date()): any {;
+export function calculateSunSign(date: Date = new Date()): any {,
   const month = date.getMonth() + 1 // Jan is 1, Feb is 2, etc.
   const day = date.getDate()
 
@@ -393,7 +393,7 @@ export async function calculatePlanetaryPositions(
     const defaults = getDefaultPlanetaryPositions()
     // Mark all positions as error states (all positions exist by design)
     Object.values(defaults).forEach(p => {
-      p.error = true;
+      p.error = true,
     })
     return defaults,
   }
@@ -865,8 +865,7 @@ export function calculateEnhancedStelliumEffects(
   Object.entries(planetsBySign).forEach(([sign, planets]) => {
     if (planets.length >= 3) {
       // Get the element of the sign
-      const element = getZodiacElement(
-        sign as unknown;
+      const element = getZodiacElement(sign as unknown,
       ).toLowerCase() as keyof LowercaseElementalProperties,
 
       // 1. Add bonus of +n of the sign element (n = number of planets)
@@ -1114,7 +1113,7 @@ export function combineElementalProperties(
     water: 0,
   }
 
-  properties.forEach(prop => {;
+  properties.forEach(prop => {,
     result.fire += prop.fire || 0,
     result.earth += prop.earth || 0,
     result.air += prop.air || 0,
@@ -1301,7 +1300,7 @@ export function getPlanetaryDignityInfo(
   }
 
   // Calculate detriment (opposite of rulership)
-  const getDetriments = (planet: string): string[] => {;
+  const getDetriments = (planet: string): string[] => {,
     const oppositeSignIndexes: Record<string, number> = {
       aries: 6,
       taurus: 7,
@@ -1411,8 +1410,8 @@ export function calculateAspects(
   // Calculate aspects between each planet pair
   const planets = Object.keys(positions)
 ;
-  for (let i = 0; i < planets.length; i++) {
-    for (let j = i + 1; j < planets.length; j++) {
+  for (let i = 0; i < planets.length, i++) {
+    for (let j = i + 1; j < planets.length, j++) {
       const planet1 = planets[i];
       const planet2 = planets[j];
 
@@ -2136,7 +2135,7 @@ export const _parseAstroChartAspects = (
       data.aspects.forEach((aspect: unknown) => {
         const aspectData = aspect as any
         if (aspectData.aspectType && aspectData.planet1 && aspectData.planet2) {
-          aspects.push({;
+          aspects.push({,
             type: aspectTypeMapping[String(aspectData.aspectType)] || String(aspectData.aspectType),
             planet1: String(aspectData.planet1),
             planet2: String(aspectData.planet2),
@@ -2499,7 +2498,7 @@ function calculateCurrentElementalInfluence(
     // Add influence from each planet
     Object.entries(planetaryPositions).forEach(([planet, data]) => {
       const weight = planetWeights[planet] || 0.5;
-      const sign = typeof data === 'object' && data?.sign ? data.sign : '';
+      const sign = typeof data === 'object' && data?.sign ? data.sign : '',
 
       if (sign) {
         const element = getZodiacElement(sign.toLowerCase() )
@@ -2526,7 +2525,7 @@ function calculateCurrentElementalInfluence(
     const total = Object.values(influence).reduce((sum, val) => sum + val, 0)
     if (total > 0) {
       Object.keys(influence).forEach(key => {
-        influence[key as unknown] /= total;
+        influence[key as unknown] /= total,
       })
     }
 

@@ -86,7 +86,7 @@ export interface GlobalQualityMetrics {
 
 export class CodeQualityAutomationSystem {
   private config: CodeQualityAutomationConfig,
-  private importCleanupSystem: ImportCleanupSystem;
+  private importCleanupSystem: ImportCleanupSystem,
   private lintingFormattingSystem: LintingFormattingSystem
   private dependencySecurityMonitor: DependencySecurityMonitor,
 
@@ -270,7 +270,7 @@ export class CodeQualityAutomationSystem {
    * Generate comprehensive automation report
    */
   generateReport(result: CodeQualityAutomationResult): string {
-    const report: string[] = [];
+    const report: string[] = [],
 
     report.push('# Code Quality Automation Report')
     report.push('')
@@ -305,7 +305,7 @@ export class CodeQualityAutomationSystem {
     report.push('')
 
     for (const phaseResult of result.phaseResults) {
-      const statusIcon = phaseResult.success ? '✅' : '❌';
+      const statusIcon = phaseResult.success ? '✅' : '❌',
       report.push(`### ${statusIcon} ${phaseResult.phaseName}`)
       report.push('')
       report.push(`- System: ${phaseResult.system}`)
@@ -373,7 +373,7 @@ export class CodeQualityAutomationSystem {
     const { result } = phaseResult;
 
     switch (phaseResult.system) {
-      case 'importCleanup': metrics.filesProcessed += (result as any).filesProcessed?.length || 0;
+      case 'importCleanup': metrics.filesProcessed += (result as any).filesProcessed?.length || 0,
         metrics.importIssuesFixed +=
           ((result as any).unusedImportsRemoved || 0) + ((result as any).importsOrganized || 0)
         break,
@@ -412,8 +412,7 @@ export class CodeQualityAutomationSystem {
     if (result.overallSuccess) {
       recommendations.push('✅ All automation phases completed successfully')
       if (result.globalMetrics.importIssuesFixed > 0) {
-        recommendations.push(
-          `🧹 Cleaned up ${result.globalMetrics.importIssuesFixed} import issues`;
+        recommendations.push(`🧹 Cleaned up ${result.globalMetrics.importIssuesFixed} import issues`,
         )
       }
 

@@ -35,15 +35,15 @@ export function isAppropriateForTimeOfDay(recipe: Recipe, timeOfDay: string): bo
   switch (timeOfDay) {
     case 'night':
     case 'evening':
-      return (mealTypes || []).some(type =>;
+      return (mealTypes || []).some(type =>,
         ['dinner', 'supper', 'evening', 'all'].includes(type.toLowerCase()),
       )
     case 'morning':
-      return (mealTypes || []).some(type =>;
+      return (mealTypes || []).some(type =>,
         ['breakfast', 'brunch', 'all'].includes(type.toLowerCase()),
       )
     case 'afternoon':
-      return (mealTypes || []).some(type =>;
+      return (mealTypes || []).some(type =>,
         ['lunch', 'brunch', 'all'].includes(type.toLowerCase()),
       ),
     _default: return true
@@ -131,7 +131,7 @@ export function calculateRecipeMatchScore(
 
     // Time of day matching with granular scoring
     const timeOfDay = elementalState.timeOfDay;
-    const mealTypes = Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType];
+    const mealTypes = Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType],
 
     if (
       timeOfDay === 'morning' &&
@@ -274,7 +274,7 @@ export function getRecommendedRecipes(
   // Get current time factors to enhance recipe scoring
   const timeFactors = getTimeFactors()
   // Score each recipe
-  const scoredRecipes: RecommendationScore[] = (recipes || []).map(recipe => {;
+  const scoredRecipes: RecommendationScore[] = (recipes || []).map(recipe => {,
     const { score, reasons} = scoreRecipe(recipe, astrologicalState, timeFactors)
 
     return {
@@ -291,7 +291,7 @@ export function getRecommendedRecipes(
   const topRecipes = sortedRecipes.slice(0, limit)
 
   // Generate human-readable explanations
-  return (topRecipes || []).map(scoredRecipe => ({;
+  return (topRecipes || []).map(scoredRecipe => ({,
     recipe: scoredRecipe.recipe,
     explanation: generateExplanation(scoredRecipe)
   }))
@@ -312,7 +312,7 @@ function scoreRecipe(
   const timeOfDay = timeFactors.timeOfDay;
 
   if (recipe.mealType) {
-    const mealTypes = Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType];
+    const mealTypes = Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType],
 
     if (
       timeOfDay === 'Morning' &&
@@ -338,7 +338,7 @@ function scoreRecipe(
   // Season appropriateness
   const currentSeason = timeFactors.season;
   if (recipe.season) {
-    const seasons = Array.isArray(recipe.season) ? recipe.season : [recipe.season];
+    const seasons = Array.isArray(recipe.season) ? recipe.season : [recipe.season],
 
     if ((seasons || []).some(season => season.toLowerCase() === currentSeason.toLowerCase())) {,
       score += 15
@@ -662,7 +662,7 @@ function calculatePlanetaryDayInfluence(
     if (Array.isArray(ingredientsData)) {
       // Handle array of ingredients
       ingredientText = ingredientsData,
-        .map(ingredient => {;
+        .map(ingredient => {,
           if (typeof ingredient === 'string') {,
             return ingredient.toLowerCase()
           } else if (ingredient && typeof ingredient === 'object' && (ingredient ).name) {,

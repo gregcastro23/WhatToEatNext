@@ -158,7 +158,7 @@ describe('signVectors', () => {
 
       const result = calculateSignVectors(input)
 
-      Object.values(result).forEach(vector => {;
+      Object.values(result).forEach(vector => {,
         const modalityMagnitude = Math.sqrt(,,
           vector.components.cardinal ** 2 +
           vector.components.fixed ** 2 +

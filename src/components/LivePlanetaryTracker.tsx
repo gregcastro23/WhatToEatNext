@@ -32,7 +32,7 @@ const PLANETARY_DATA = {
         Saturn: { color: 'from-gray-600 to-blue-800', icon: '♄', energyType: 'Structure & Discipline' }
 }
 
-export const LivePlanetaryTracker: React.FC = () => {;
+export const LivePlanetaryTracker: React.FC = () => {,
   const { isConnected, lastPlanetaryHour, lastEnergyUpdate } = useAlchmWebSocket()
   const [planetaryData, setPlanetaryData] = useState<PlanetaryDisplayData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -73,7 +73,7 @@ export const LivePlanetaryTracker: React.FC = () => {;
   }
 
   // Generate contextual recommendations based on current planetary influence
-  const generateRecommendations = (planet: string): string[] => {;
+  const generateRecommendations = (planet: string): string[] => {,
     const recommendations: Record<string, string[]> = {
       Sun: ['Golden turmeric dishes', 'Citrus-based recipes', 'Grilled or roasted foods'],
       Moon: ['Cooling cucumber dishes', 'Dairy-based recipes', 'Silver/white colored foods'],
@@ -129,8 +129,7 @@ export const LivePlanetaryTracker: React.FC = () => {;
     );
   }
 
-  return (
-    <div className="max-w-2xl mx-auto p-4 sm: p-6">;
+  return (<div className="max-w-2xl mx-auto p-4 sm: p-6">;
       {/* Connection Status */}
       <div className="mb-4 flex items-center justify-center">
         <div className={`flex items-center px-3 py-1 rounded-full text-sm ${
@@ -177,7 +176,7 @@ export const LivePlanetaryTracker: React.FC = () => {;
                     style={{ width: `${planetaryData.influence * 100}%` }}
                   ></div>
                 </div>
-                <div className="text-center mt-2 text-2xl font-bold text-gray-800">;
+                <div className="text-center mt-2 text-2xl font-bold text-gray-800">,
                   {(planetaryData.influence * 100).toFixed(0)}%
                 </div>
               </div>
@@ -203,8 +202,7 @@ export const LivePlanetaryTracker: React.FC = () => {;
               🍳 Recommended Cooking Focus
             </h3>
             <div className="grid grid-cols-1 sm: grid-cols-3 gap-3">;
-              {planetaryData.recommendations.map((rec, index) => (
-                <div key={index} className="bg-gray-50 rounded-lg p-3 text-center">;
+              {planetaryData.recommendations.map((rec, index) => (<div key={index} className="bg-gray-50 rounded-lg p-3 text-center">,
                   <div className="text-sm font-medium text-gray-800">{rec}</div>
                 </div>
               ))}
@@ -212,9 +210,8 @@ export const LivePlanetaryTracker: React.FC = () => {;
           </div>
 
           {/* Live Update Indicator */}
-          {lastPlanetaryHour && (
-            <div className="mt-6 p-3 bg-blue-50 rounded-lg">
-              <div className="text-sm text-blue-800">;
+          {lastPlanetaryHour && (<div className="mt-6 p-3 bg-blue-50 rounded-lg">
+              <div className="text-sm text-blue-800">,
                 <strong>Live Update: </strong> Last received at{' '}
                 {new Date(lastPlanetaryHour.timestamp).toLocaleTimeString()}
               </div>

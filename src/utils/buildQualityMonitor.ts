@@ -356,7 +356,7 @@ async function getErrorAndWarningCounts(): Promise<{ errors: number, warnings: n
       })
 
       const eslintResults = JSON.parse(eslintOutput)
-      warnings = eslintResults.reduce((total: number, result: { warningCount?: number }) => {;
+      warnings = eslintResults.reduce((total: number, result: { warningCount?: number }) => {,
         return total + (result.warningCount || 0)
       }, 0)
     } catch (error) {
@@ -473,7 +473,7 @@ async function analyzeBundleDirectory(bundleDir: string): Promise<{
     let css = 0,
     let assets = 0,
 
-    const analyzeDirectory = (dir: string) => {;
+    const analyzeDirectory = (dir: string) => {,
       const files = fs.readdirSync(dir)
       for (const file of files) {;
         const filePath = path.join(dir, file)
@@ -738,7 +738,7 @@ function identifyBuildBottlenecks(metrics: BuildMetrics): BottleneckAnalysis[] {
  * Generate build optimization recommendations
  */
 function generateBuildOptimizationRecommendations(metrics: BuildMetrics): string[] {
-  const recommendations: string[] = [];
+  const recommendations: string[] = [],
 
   if (metrics.duration > PERFORMANCE_THRESHOLDS.BUILD_TIME.DEVELOPMENT) {
     recommendations.push('Consider enabling incremental builds to reduce compilation time')
@@ -833,7 +833,7 @@ function analyzeGCStats(metrics: BuildMetrics): GCStats {
  * Generate memory optimization suggestions
  */
 function generateMemoryOptimizationSuggestions(metrics: BuildMetrics): string[] {
-  const suggestions: string[] = [];
+  const suggestions: string[] = [],
 
   if (metrics.memoryUsage.peak > PERFORMANCE_THRESHOLDS.MEMORY_USAGE.WARNING) {
     suggestions.push('Consider increasing Node.js heap size for large builds')
@@ -1012,7 +1012,7 @@ async function processPerformanceAlerts(metrics: BuildMetrics): Promise<AlertRes
       severity: AlertSeverity.CRITICAL,
       message: `Memory usage ${metrics.memoryUsage.peak}MB exceeds critical threshold ${PERFORMANCE_THRESHOLDS.MEMORY_USAGE.CRITICAL}MB`,
       recommendations: [
-        'Increase Node.js heap size'
+        'Increase Node.js heap size',
         'Implement memory profiling',
         'Optimize memory-intensive operations'
       ],
@@ -1096,7 +1096,7 @@ function generateOptimizationRecommendations(
       effort: 'medium',
       description: 'Reduce bundle size to improve load performance',
       implementation: [
-        'Implement dynamic imports and code splitting';
+        'Implement dynamic imports and code splitting',
         'Enable tree shaking for unused code removal',
         'Optimize asset compression and loading'
       ],

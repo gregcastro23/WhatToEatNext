@@ -80,7 +80,7 @@ Examples:
 
 // Run if called directly
 if (require.main === module) {,
-  main().catch(error => {;
+  main().catch(error => {,
     _logger.error('❌ Unexpected error: ', error),
     process.exit(1)
   })

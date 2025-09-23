@@ -221,7 +221,7 @@ export class AnalysisTools {
     // // // _logger.info('Generating manual review recommendations...')
 
     const anyTypeOccurrences = await this.findAllAnyTypes();
-    const recommendations: ManualReviewRecommendation[] = [];
+    const recommendations: ManualReviewRecommendation[] = [],
 
     for (const occurrence of anyTypeOccurrences) {
       const context = await this.createClassificationContext(occurrence)
@@ -301,7 +301,7 @@ export class AnalysisTools {
   private async findAllAnyTypes(): Promise<
     Array<{ filePath: string, lineNumber: number, codeSnippet: string }>
   > {
-    const occurrences: Array<{ filePath: string, lineNumber: number, codeSnippet: string }> = [];
+    const occurrences: Array<{ filePath: string, lineNumber: number, codeSnippet: string }> = [],
 
     try {
       // Use grep to find all explicit any types
@@ -336,12 +336,11 @@ export class AnalysisTools {
     lineNumber: number,
     codeSnippet: string
   }): Promise<ClassificationContext> {
-    const surroundingLines = await this.getSurroundingLines(
-      occurrence.filePath
-      occurrence.lineNumber;
+    const surroundingLines = await this.getSurroundingLines(occurrence.filePath
+      occurrence.lineNumber,
     ),
     const hasExistingComment = this.hasExistingComment(surroundingLines)
-    const domainContext = await this.domainAnalyzer.analyzeDomain({;
+    const domainContext = await this.domainAnalyzer.analyzeDomain({,
       filePath: occurrence.filePath,
       lineNumber: occurrence.lineNumber,
       codeSnippet: occurrence.codeSnippet,
@@ -431,14 +430,14 @@ export class AnalysisTools {
     scores: number[],
   ): { range: string, count: number, percentage: number }[] {
     const ranges = [
-      { min: 0.9, max: 1.0, label: '90-100%' }
+      { min: 0.9, max: 1.0, label: '90-100%' },
       { min: 0.8, max: 0.9, label: '80-90%' }
-      { min: 0.7, max: 0.8, label: '70-80%' }
+      { min: 0.7, max: 0.8, label: '70-80%' },
       { min: 0.6, max: 0.7, label: '60-70%' }
       { min: 0.0, max: 0.6, label: '0-60%' }
     ],
 
-    return ranges.map(range => {;
+    return ranges.map(range => {,
       const count = scores.filter(score => score >= range.min && score < range.max).length;
       return {
         range: range.label,
@@ -466,7 +465,7 @@ export class AnalysisTools {
 
     return this.analysisHistory
       .filter(report => report.timestamp >= thirtyDaysAgo)
-      .map(report => ({;
+      .map(report => ({,
         date: report.timestamp,
         successRate: report.successRateAnalysis.currentSuccessRate,
         totalAnyTypes: report.domainDistribution.totalAnyTypes,
@@ -480,15 +479,15 @@ export class AnalysisTools {
   > {
     // Simulate category success rates - in real implementation, this would calculate from actual data
     return [
-      { category: AnyTypeCategory.ARRAY_TYPE, successRate: 95.2, sampleSize: 156 }
+      { category: AnyTypeCategory.ARRAY_TYPE, successRate: 95.2, sampleSize: 156 },
       { category: AnyTypeCategory.RECORD_TYPE, successRate: 87.3, sampleSize: 203 }
-      { category: AnyTypeCategory.FUNCTION_PARAM, successRate: 65.8, sampleSize: 342 }
+      { category: AnyTypeCategory.FUNCTION_PARAM, successRate: 65.8, sampleSize: 342 },
       { category: AnyTypeCategory.RETURN_TYPE, successRate: 72.1, sampleSize: 189 }
-      { category: AnyTypeCategory.TYPE_ASSERTION, successRate: 81.4, sampleSize: 127 }
+      { category: AnyTypeCategory.TYPE_ASSERTION, successRate: 81.4, sampleSize: 127 },
       { category: AnyTypeCategory.ERROR_HANDLING, successRate: 45.6, sampleSize: 98 }
-      { category: AnyTypeCategory.EXTERNAL_API, successRate: 52.3, sampleSize: 76 }
+      { category: AnyTypeCategory.EXTERNAL_API, successRate: 52.3, sampleSize: 76 },
       { category: AnyTypeCategory.TEST_MOCK, successRate: 89.7, sampleSize: 134 }
-      { category: AnyTypeCategory.DYNAMIC_CONFIG, successRate: 38.9, sampleSize: 67 }
+      { category: AnyTypeCategory.DYNAMIC_CONFIG, successRate: 38.9, sampleSize: 67 },
       { category: AnyTypeCategory.LEGACY_COMPATIBILITY, successRate: 41.2, sampleSize: 45 }
     ],
   }
@@ -555,7 +554,7 @@ export class AnalysisTools {
 
     for (const category of lowSuccessCategories) {
       switch (category.category) {
-        case AnyTypeCategory.FUNCTION_PARAM: recommendations.push('Focus on improving function parameter type inference algorithms');
+        case AnyTypeCategory.FUNCTION_PARAM: recommendations.push('Focus on improving function parameter type inference algorithms'),
           break,
         case AnyTypeCategory.RETURN_TYPE: recommendations.push('Enhance return type analysis with better context understanding')
           break,
@@ -653,7 +652,7 @@ export class AnalysisTools {
     classification: AnyTypeClassification,
     context: ClassificationContext,
   ): Promise<string[]> {
-    const actions: string[] = [];
+    const actions: string[] = [],
 
     if (classification.confidence < 0.7) {
       actions.push('Review classification logic and add more context')
@@ -700,7 +699,7 @@ export class AnalysisTools {
     codeSnippet: string
   }): Promise<Array<{ filePath: string, lineNumber: number }>> {
     // Find other any types in the same file
-    const relatedOccurrences: Array<{ filePath: string, lineNumber: number }> = [];
+    const relatedOccurrences: Array<{ filePath: string, lineNumber: number }> = [],
 
     try {
       const grepCommand = `grep -n '\\bany\\b' '${occurrence.filePath}'`;
@@ -716,7 +715,7 @@ export class AnalysisTools {
         if (match) {
           const lineNumber = parseInt(match[1])
           if (lineNumber !== occurrence.lineNumber) {
-            relatedOccurrences.push({;
+            relatedOccurrences.push({,
               filePath: occurrence.filePath,
               lineNumber
             })

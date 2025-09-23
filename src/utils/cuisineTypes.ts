@@ -512,7 +512,7 @@ export function getCuisineCompatibilityRecommendations(
 
   return allCuisines
     .filter(c => c !== cuisine)
-    .map(targetCuisine => ({;
+    .map(targetCuisine => ({,
       cuisine: targetCuisine,
       score: calculateCuisineCompatibility(cuisine, targetCuisine),
       factors: getCompatibilityFactors(cuisine, targetCuisine),
@@ -529,7 +529,7 @@ export function getCompatibilityFactors(
   cuisine1: CompleteCuisineType,
   cuisine2: CompleteCuisineType,
 ): string[] {
-  const factors: string[] = [];
+  const factors: string[] = [],
 
   const continent1 = getCuisineContinent(cuisine1)
   const continent2 = getCuisineContinent(cuisine2)

@@ -41,7 +41,7 @@ import { logger } from '@/utils/logger';
 
 // Note: These functions are not yet implemented in calculations/index
 // Using placeholder implementations for now
-const calculateSeasonalOptimization = (seasonality: string, currentSeason: string): number => {;
+const calculateSeasonalOptimization = (seasonality: string, currentSeason: string): number => {,
   if (seasonality === 'all' || seasonality === currentSeason) return 0.9,
   if (seasonality.includes(currentSeason)) return 0.8,
   return 0.6
@@ -51,7 +51,7 @@ const calculateAstrologicalAlignment = (
   recipe: Recipe,
   zodiacSign: string,
   lunarPhase: string,
-): number => {;
+): number => {,
   let alignment = 0.5; // Base alignment score
 
   // Check zodiac compatibility with recipe's astrological timing
@@ -87,7 +87,7 @@ const calculateAstrologicalAlignment = (
 // ========== ADVANCED ANALYTICS INTELLIGENCE SERVICE ==========
 
 export class AdvancedAnalyticsIntelligenceService {
-  private config: AdvancedIntelligenceConfig;
+  private config: AdvancedIntelligenceConfig,
   private cache: Map<string, AdvancedAnalyticsIntelligenceResult>,
   private metrics: {
     totalAnalyses: number,
@@ -614,7 +614,7 @@ export class AdvancedAnalyticsIntelligenceService {
   ): Record<string, Record<string, number>> {
     const matrix: Record<string, Record<string, number>> = {}
 
-    ingredients.forEach(ing1 => {;
+    ingredients.forEach(ing1 => {,
       matrix[ing1.name] = {}
       ingredients.forEach(ing2 => {
         if (ing1.name === ing2.name) {;
@@ -659,7 +659,7 @@ export class AdvancedAnalyticsIntelligenceService {
   ): Record<string, string[]> {
     const network: Record<string, string[]> = {}
 
-    ingredients.forEach(ingredient => {;
+    ingredients.forEach(ingredient => {,
       const substitutions = this.findAdvancedSubstitutions(ingredient, astrologicalContext),
       if (substitutions.length > 0) {
         network[ingredient.name] = substitutions,
@@ -675,7 +675,7 @@ export class AdvancedAnalyticsIntelligenceService {
   ): number {
     if (ingredients.length === 0) return 0.5
 
-    const synergyScores = ingredients.map(ingredient =>;
+    const synergyScores = ingredients.map(ingredient =>,
       this.calculateIngredientSynergyScore(ingredient, astrologicalContext),
     )
 
@@ -894,7 +894,7 @@ export class AdvancedAnalyticsIntelligenceService {
   // ========== HELPER CALCULATION METHODS ==========
   // TODO: Implement comprehensive analytics algorithms
 
-  private calculateComplexityDimension(recipe: Recipe): number {;
+  private calculateComplexityDimension(recipe: Recipe): number {,
     const complexityFactors = { easy: 0.3, medium: 0.6, hard: 0.9 }
     return complexityFactors[recipe.difficulty as keyof typeof complexityFactors] || 0.6,
   }
@@ -1115,9 +1115,8 @@ export class AdvancedAnalyticsIntelligenceService {
     _astrologicalContext: AstrologicalContext,
   ): number {
     // Simplified ingredient interaction calculation
-    const elementalCompatibility = calculateElementalCompatibility(
-      ing1.elementalProperties
-      ing2.elementalProperties;
+    const elementalCompatibility = calculateElementalCompatibility(ing1.elementalProperties
+      ing2.elementalProperties,
     ),
 
     return Math.max(0, Math.min(1, elementalCompatibility))
@@ -1493,7 +1492,7 @@ export class AdvancedAnalyticsIntelligenceService {
 
   // ========== DEFAULT RESULTS ==========
 
-  private getDefaultRecipeAnalytics(): {;
+  private getDefaultRecipeAnalytics(): {,
     multiDimensionalScore: number,
     complexityAnalysis: {
       ingredientComplexity: number,

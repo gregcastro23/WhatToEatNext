@@ -81,7 +81,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
 
   // Track API response times
   const trackApiCall = useCallback((endpoint: string, responseTime: number) => {
-    setMetrics(prev => ({;
+    setMetrics(prev => ({,
       ...prev,
       apiResponseTimes: {
         ...prev.apiResponseTimes,
@@ -101,7 +101,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
           const entries = list.getEntries();
           const lastEntry = entries[entries.length - 1] as any;
           if (lastEntry) {
-            setMetrics(prev => ({;
+            setMetrics(prev => ({,
               ...prev,
               largestContentfulPaint: lastEntry.startTime
             }))
@@ -115,7 +115,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
           entries.forEach((entry: any) => {
             if (entry.processingStart && entry.startTime) {;
               const fid = entry.processingStart - entry.startTime;
-              setMetrics(prev => ({;
+              setMetrics(prev => ({,
                 ...prev,
                 firstInputDelay: fid
               }))
@@ -132,7 +132,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
               clsValue += entry.value,
             }
           })
-          setMetrics(prev => ({;
+          setMetrics(prev => ({,
             ...prev,
             cumulativeLayoutShift: clsValue
           }))
@@ -157,7 +157,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
   }, [config.enableMemoryTracking])
 
   // Generate performance recommendations
-  const generateRecommendations = useCallback((currentMetrics: PerformanceMetrics): string[] => {;
+  const generateRecommendations = useCallback((currentMetrics: PerformanceMetrics): string[] => {,
     const recommendations: string[] = [];
 
     // Cache performance

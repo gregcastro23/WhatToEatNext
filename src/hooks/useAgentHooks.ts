@@ -238,7 +238,7 @@ export function useIngredientConsistencyHook() {
 
   const validateIngredients = useCallback(
     async (
-      ingredients: Array<{;
+      ingredients: Array<{,
         name: string,
         elementalProperties: ElementalProperties,
         category?: string
@@ -349,7 +349,7 @@ export function useBuildQualityMonitoringHook() {
   const [isMonitoring, setIsMonitoring] = useState(false)
 
   const monitorBuildQuality = useCallback(
-    async (buildMetrics: {;
+    async (buildMetrics: {,
       buildTime?: number,
       bundleSize?: number,
       memoryUsage?: number,

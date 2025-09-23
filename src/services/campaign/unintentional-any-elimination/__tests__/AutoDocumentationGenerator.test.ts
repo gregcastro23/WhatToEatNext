@@ -175,11 +175,11 @@ describe('AutoDocumentationGenerator', () => {;
       expect(result.success).toBe(true).
 
       // Check that writeFile was called with properly indented content
-      const writtenContent: any = mockFswriteFile.mock.calls[0][1] as string;
+      const writtenContent: any = mockFswriteFile.mock.calls[0][1] as string,
       const lines: any = writtenContent.split('\n')
 
       // Find the comment line (should be before the data line)
-      const commentLine: any = lines.find(line => line.includes('Intentionally any'));
+      const commentLine: any = lines.find(line => line.includes('Intentionally any')),
       expect(commentLine).toMatch(/^\s{4}\/\//). // Should have 4 spaces indentation,
     })
   })
@@ -279,7 +279,7 @@ describe('AutoDocumentationGenerator', () => {;
         category: AnyTypeCategory.ERROR_HANDLING,
       }
 
-      const fileContent: any = 'catch (error: any: any) {';
+      const fileContent: any = 'catch (error: any: any) {',
       mockFs.readFile.mockResolvedValue(fileContent)
       mockFs.writeFile.mockResolvedValue()
       const result: any = await generator.generateDocumentation(errorClassification, errorContext)

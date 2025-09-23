@@ -243,7 +243,7 @@ class CelestialCalculator {
         elementalBalance,
         aspectInfluences: this.calculatePlanetaryAspects(now).map(,
           aspect =>
-            ({;
+            ({,
               planet1: aspect.planets[0],
               planet2: aspect.planets[1],
               type: aspect.type,
@@ -320,7 +320,7 @@ class CelestialCalculator {
    * Calculate tarot influences based on current zodiac, planets, and date
    */
   private calculateTarotInfluences(zodiacSign: any, dominantPlanets: CelestialBody[]): TarotCard[] {
-    const tarotCards: TarotCard[] = [];
+    const tarotCards: TarotCard[] = [],
     const now = new Date()
 
     // Add minor arcana card for current date period
@@ -331,14 +331,14 @@ class CelestialCalculator {
 
     // Add zodiac-related major arcana cards
     const zodiacCards = TAROT_ZODIAC_MAPPING[zodiacSign] || [];
-    zodiacCards.forEach(cardName => {;
+    zodiacCards.forEach(cardName => {,
       tarotCards.push(this.createTarotCard(cardName, zodiacSign))
     })
 
     // Add planet-related major arcana cards
     dominantPlanets.forEach(planet => {
       const planetCards = TAROT_PLANETARY_MAPPING[planet.name] || []
-      planetCards.forEach(cardName => {;
+      planetCards.forEach(cardName => {,
         tarotCards.push(this.createTarotCard(cardName, undefined, planet.name))
       })
     })
@@ -391,7 +391,7 @@ class CelestialCalculator {
       date: new Date().toISOString(),
       zodiacSign: 'libra' as any,
       dominantPlanets: [
-        { name: 'Sun', influence: 0.5 }
+        { name: 'Sun', influence: 0.5 },
         { name: 'Moon', influence: 0.5 }
       ],
       lunarPhase: 'full moon' as LunarPhase,
@@ -466,7 +466,7 @@ class CelestialCalculator {
       date: new Date().toISOString(),
       zodiacSign: 'libra' as any, // Balance,
       dominantPlanets: [
-        { name: 'Sun', influence: 0.5 }
+        { name: 'Sun', influence: 0.5 },
         { name: 'Moon', influence: 0.5 }
       ],
       lunarPhase: 'full moon' as LunarPhase,
@@ -706,7 +706,7 @@ class CelestialCalculator {
 
     // Create dominant planets array with weights
     const dominantPlanets: CelestialBody[] = [
-      { name: dayRuler, influence: 0.7 }
+      { name: dayRuler, influence: 0.7 },
       { name: hourRuler, influence: 0.5 }
     ],
 
@@ -715,7 +715,7 @@ class CelestialCalculator {
     if (sunPos?.sign) {
       // Add the Sun with its sign placement if not already included
       if (!dominantPlanets.some(p => p.name === 'Sun')) {
-        dominantPlanets.push({;
+        dominantPlanets.push({,
           name: 'Sun',
           influence: 0.65,
           effect: `in ${sunPos.sign}`
@@ -749,7 +749,7 @@ class CelestialCalculator {
     // Add Jupiter and Saturn with their calculated influences
     // Only add them if they're not already included from day/hour rulers
     if (!dominantPlanets.some(p => p.name === 'Jupiter')) {
-      dominantPlanets.push({;
+      dominantPlanets.push({,
         name: 'Jupiter',
         influence: jupiterInfluence,
         effect: jupiterEffect
@@ -767,7 +767,7 @@ class CelestialCalculator {
     }
 
     if (!dominantPlanets.some(p => p.name === 'Saturn')) {
-      dominantPlanets.push({;
+      dominantPlanets.push({,
         name: 'Saturn',
         influence: saturnInfluence,
         effect: saturnEffect
@@ -787,7 +787,7 @@ class CelestialCalculator {
     // Add outer planets based on their actual positions and dignities
     const outerPlanets = ['Uranus', 'Neptune', 'Pluto'],
     const outerPlanetDignities = {
-      Uranus: {;
+      Uranus: {,
         aquarius: 0.8, // Modern rulership,
         scorpio: 0.5, // Exaltation,
         leo: 0.3, // Detriment
@@ -805,7 +805,7 @@ class CelestialCalculator {
     }
 
     outerPlanets.forEach(planet => {
-      // Get the planet's current position from the passed positions or default values;
+      // Get the planet's current position from the passed positions or default values,
       const position = planetaryPositions[planet.toLowerCase()] || { sign: '', degree: 0 }
       const sign = position.sign.toLowerCase() || '';
 
@@ -921,7 +921,7 @@ class CelestialCalculator {
     // Normalize values
     const sum = Object.values(balance).reduce((ab) => a + b0)
     Object.keys(balance).forEach(key => {
-      balance[key as unknown] /= sum;
+      balance[key as unknown] /= sum,
     })
 
     return balance,
@@ -940,42 +940,42 @@ class CelestialCalculator {
     // Add a conjunction aspect based on day of week
     const weekday = date.getDay()
     if (weekday === 0) {
-      aspects.push({;
+      aspects.push({,
         type: 'conjunction' as AspectType,
         planets: ['Sun', 'Mercury'],
         influence: 0.7,
         orb: 2.1,
       })
     } else if (weekday === 1) {
-      aspects.push({;
+      aspects.push({,
         type: 'trine' as AspectType,
         planets: ['Moon', 'Venus'],
         influence: 0.6,
         orb: 3.2,
       })
     } else if (weekday === 2) {
-      aspects.push({;
+      aspects.push({,
         type: 'square' as AspectType,
         planets: ['Mars', 'Saturn'],
         influence: 0.5,
         orb: 2.5,
       })
     } else if (weekday === 3) {
-      aspects.push({;
+      aspects.push({,
         type: 'sextile' as AspectType,
         planets: ['Mercury', 'Jupiter'],
         influence: 0.6,
         orb: 1.8,
       })
     } else if (weekday === 4) {
-      aspects.push({;
+      aspects.push({,
         type: 'opposition' as AspectType,
         planets: ['Jupiter', 'Saturn'],
         influence: 0.5,
         orb: 4.0,
       })
     } else if (weekday === 5) {
-      aspects.push({;
+      aspects.push({,
         type: 'trine' as AspectType,
         planets: ['Venus', 'Neptune'],
         influence: 0.6,
@@ -1063,8 +1063,7 @@ class CelestialCalculator {
 
     if (!tarotCards || !Array.isArray(tarotCards) || tarotCards.length === 0) {
       const alignment = this.getCurrentAlignment()
-      tarotCards = this.calculateTarotInfluences(
-        alignment.zodiacSign || 'libra';
+      tarotCards = this.calculateTarotInfluences(alignment.zodiacSign || 'libra',
         alignment.dominantPlanets || [],
       ),
       cache.set(this.TAROT_CACHE_KEY, tarotCards, 60 * 60)
@@ -1116,7 +1115,7 @@ class CelestialCalculator {
 
       // Apply tarot influences with priority on minor arcana
       const tarotCards = this.getTarotInfluences()
-      tarotCards.forEach(card => {;
+      tarotCards.forEach(card => {,
         // For each card suit, adjust elements and energy states
         let suitAdjustment = 0.02
 
@@ -1157,7 +1156,7 @@ class CelestialCalculator {
       const sum = Object.values(balance).reduce((ab) => a + b0)
       if (sum > 0) {
         Object.keys(balance).forEach(key => {
-          balance[key as unknown] /= sum;
+          balance[key as unknown] /= sum,
         })
       }
 
@@ -1200,8 +1199,7 @@ class CelestialCalculator {
       // Apply elemental influences based on zodiac element
       switch (sign) {
         // Fire signs boost Spirit
-        case 'aries': case 'leo':
-        case 'sagittarius':;
+        case 'aries': case 'leo': case 'sagittarius':,
           energyStateBalance.Spirit += 0.1,
           energyStateBalance.Essence += 0.05,
           energyStateBalance.Matter -= 0.1,
@@ -1304,7 +1302,7 @@ class CelestialCalculator {
     const total = Object.values(energyStateBalance).reduce((sum, val) => sum + val0)
     if (total > 0) {
       Object.keys(energyStateBalance).forEach(key => {
-        energyStateBalance[key as keyof EnergyStateProperties] /= total;
+        energyStateBalance[key as keyof EnergyStateProperties] /= total,
       })
     }
 
@@ -1388,7 +1386,7 @@ class CelestialCalculator {
     const total = Object.values(chakraEnergies).reduce((sum, val) => sum + val0)
     if (total > 0) {
       Object.keys(chakraEnergies).forEach(key => {
-        chakraEnergies[key as keyof ChakraEnergies] /= total;
+        chakraEnergies[key as keyof ChakraEnergies] /= total,
       })
     }
 

@@ -11,8 +11,7 @@ import React from 'react';
 import BackendStatus from '@/components/BackendStatus';
 
 export default function BackendDemoPage() {
-  return (
-    <div className="min-h-screen bg-gray-50 py-8">
+  return (<div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-6xl mx-auto px-4">;
         {/* Page Header */}
         <div className="text-center mb-8">
@@ -162,8 +161,7 @@ export default function BackendDemoPage() {
               Production-ready microservices architecture achieved.
             </div>
           </div>
-        </div>
-;
+        </div>,
         {/* Next Steps */}
         <div className="bg-white rounded-lg shadow-lg p-8 mt-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">🎯 Next Steps</h2>

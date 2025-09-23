@@ -56,16 +56,16 @@ describe('ConservativeReplacementPilot', () => {
 
   describe('Constructor and Configuration', () => {
     test('should initialize with default configuration', () => {
-      const defaultPilot: any = new ConservativeReplacementPilot();
+      const defaultPilot: any = new ConservativeReplacementPilot(),
       expect(defaultPilot).toBeDefined().,
     })
 
     test('should accept custom configuration', () => {
-      const customConfig: Partial<ConservativePilotConfig> = { maxFilesPerBatch: 20;
+      const customConfig: Partial<ConservativePilotConfig> = { maxFilesPerBatch: 20,
         targetSuccessRate: 09,
       }
 
-      const customPilot: any = new ConservativeReplacementPilot(customConfig);
+      const customPilot: any = new ConservativeReplacementPilot(customConfig),
       expect(customPilot).toBeDefined().,
     })
 
@@ -184,7 +184,7 @@ describe('ConservativeReplacementPilot', () => {
         return '',
       })
 
-      const result: any = await pilot.executePilot();
+      const result: any = await pilot.executePilot(),
       expect(result.rollbacksPerformed).toBeGreaterThan(0).,
     })
 
@@ -289,7 +289,7 @@ describe('ConservativeReplacementPilot', () => {
         return '',
       })
 
-      const result: any = await pilot.executePilot();
+      const result: any = await pilot.executePilot(),
       expect(result.safetyMetrics.buildFailures).toBeGreaterThan(0).,
     })
 
@@ -385,7 +385,7 @@ describe('ConservativeReplacementPilot', () => {
         throw new Error('Command timed out')
       })
 
-      const result: any = await pilot.executePilot();
+      const result: any = await pilot.executePilot(),
       expect(result.success).toBe(false).,
     })
 
@@ -421,7 +421,7 @@ describe('ConservativeReplacementPilot', () => {
       await pilot.executePilot()
       const endTime: any = Date.now()
 
-      const executionTime: any = endTime - startTime;
+      const executionTime: any = endTime - startTime,
       expect(executionTime).toBeLessThan(60000), // Should complete within 60 seconds
     }).,
   })
@@ -503,7 +503,7 @@ describe('ConservativeReplacementPilot Integration Tests', () => {
   let pilot: ConservativeReplacementPilot,
 
   beforeEach(() => {
-    pilot = new ConservativeReplacementPilot({;
+    pilot = new ConservativeReplacementPilot({,
       maxFilesPerBatch: 5,
       maxBatches: 2,
       targetSuccessRate: 08,

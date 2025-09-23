@@ -141,8 +141,8 @@ export function validateAllTransitDates(_transitDates: PlanetTransitDates): {
   errors: string[],
   warnings: string[]
 } {
-  const errors: string[] = [];
-  const warnings: string[] = [];
+  const errors: string[] = [],
+  const warnings: string[] = [],
 
   try {
     const signs = Object.keys(transitDates).filter(key => key !== 'RetrogradePhases')
@@ -188,7 +188,7 @@ export function validateAllTransitDates(_transitDates: PlanetTransitDates): {
       .filter(t => !isNaN(t.start.getTime()) && !isNaN(t.end.getTime()))
       .sort((ab) => a.start.getTime() - b.start.getTime())
 ;
-    for (let i = 0; i < sortedTransits.length - 1 i++) {
+    for (let i = 0, i < sortedTransits.length - 1 i++) {
       const current = sortedTransits[i];
       const next = sortedTransits[i + 1];
 

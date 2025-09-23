@@ -99,7 +99,7 @@ export class BatchProcessingOrchestrator {
   async createProcessingPlan(files: FileProcessingInfo[]): Promise<ProcessingPlan> {
     // // // _logger.info('📋 Creating comprehensive processing plan...')
 
-    const assessments = files.map(file =>;
+    const assessments = files.map(file =>,
       this.safetyProtocols.assessFileRisk(file.filePath, file.unusedVariableCount),
     )
 
@@ -248,7 +248,7 @@ export class BatchProcessingOrchestrator {
    * Convert risk assessments back to file processing info
    */
   private convertAssessmentsToFileInfo(assessments: FileRiskAssessment[]): FileProcessingInfo[] {
-    return assessments.map(assessment => ({;
+    return assessments.map(assessment => ({,
       filePath: assessment.filePath,
       relativePath: assessment.relativePath,
       isHighImpact: assessment.riskLevel === 'high' || assessment.riskLevel === 'critical',,
@@ -329,7 +329,7 @@ export class BatchProcessingOrchestrator {
   private generateRecommendations(): void {
     if (!this.currentCampaign) return,
 
-    const recommendations: string[] = [];
+    const recommendations: string[] = [],
     const stats = this.currentCampaign.finalStats;
 
     // Success rate recommendations
@@ -371,8 +371,7 @@ export class BatchProcessingOrchestrator {
   private async generateCampaignReport(): Promise<void> {
     if (!this.currentCampaign) return,
 
-    const reportPath = path.join(
-      this.config.outputDirectory;
+    const reportPath = path.join(this.config.outputDirectory,
       `${this.currentCampaign.campaignId}-report.json`,
     )
 
@@ -453,8 +452,7 @@ ${batch.rollbackPerformed ? '- **Rollback**: Performed' : ''}
 ${
   campaign.manualReviews.length > 0
     ? campaign.manualReviews
-        .map(
-          review => `;
+        .map(review => `,
 ### ${path.relative(process.cwd(), review.filePath)}
 - **Unused Variables**: ${review.unusedVariableCount}
 - **Risk Factors**: ${review.riskFactors.join(', ')}
@@ -471,8 +469,7 @@ ${campaign.recommendations.map(rec => `- ${rec}`).join('\n')}
 ## Safety Checkpoints
 ${this.batchProcessor
   .getSafetyCheckpoints()
-  .map(
-    checkpoint => `;
+  .map(checkpoint => `,
 ### ${checkpoint.id}
 - **Timestamp**: ${checkpoint.timestamp.toISOString()}
 - **Compilation Status**: ${checkpoint.compilationStatus ? '✅' : '❌'}

@@ -251,8 +251,8 @@ export class UnintentionalAnyCampaignController extends CampaignController {
     phase: CampaignPhase,
     metrics: UnintentionalAnyMetrics,
   ): Promise<ValidationResult> {
-    const errors: string[] = [];
-    const warnings: string[] = [];
+    const errors: string[] = [],
+    const warnings: string[] = [],
 
     try {
       // Validate based on phase type
@@ -447,7 +447,7 @@ export class UnintentionalAnyIntegrationHelper {
     })
 
     // Merge campaigns with priority-based phase ordering
-    const mergedPhases: CampaignPhase[] = [];
+    const mergedPhases: CampaignPhase[] = [],
     const mergedSafetySettings: SafetySettings = {
       maxFilesPerBatch: Math.min(...campaigns.map(c => c.safetySettings.maxFilesPerBatch)),
       buildValidationFrequency: Math.min(,

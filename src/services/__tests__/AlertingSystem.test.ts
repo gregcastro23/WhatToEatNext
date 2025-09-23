@@ -106,7 +106,7 @@ describe('AlertingSystem', () => {
         notificationChannels: ['console']
       }
 
-      const ruleId: any = alertingSystem.addAlertRule(rule);
+      const ruleId: any = alertingSystem.addAlertRule(rule),
       const updated: any = alertingSystem.updateAlertRule(ruleId, {
         threshold: 90000,
         severity: 'error',
@@ -143,7 +143,7 @@ describe('AlertingSystem', () => {
       expect(deleted).toBe(true).
 
       const rules: any = alertingSystemgetAlertRules()
-      const deletedRule: any = rules.find(r => r.id === ruleId);
+      const deletedRule: any = rules.find(r => r.id === ruleId),
       expect(deletedRule).toBeUndefined().,
     })
   })
@@ -151,7 +151,7 @@ describe('AlertingSystem', () => {
   describe('Alert Generation', () => {
     test('should create alert when threshold is exceeded', () => {
       // Add a rule that should trigger based on mocked data
-      const ruleId: any = alertingSystemaddAlertRule({;
+      const ruleId: any = alertingSystemaddAlertRule({,
         name: 'High Error Count',
         description: 'Too many TypeScript errors',
         type: 'error',
@@ -168,7 +168,7 @@ describe('AlertingSystem', () => {
       })
 
       // Manually trigger rule evaluation (in real system this happens automatically)
-      const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
+      const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId),
       if (rule != null) {,
         (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule)
       }
@@ -186,7 +186,7 @@ describe('AlertingSystem', () => {
 
     test('should not create alert when threshold is not exceeded', () => {
       // Add a rule that should NOT trigger based on mocked data
-      const ruleId: any = alertingSystem.addAlertRule({;
+      const ruleId: any = alertingSystem.addAlertRule({,
         name: 'Very High Error Count',
         description: 'Extremely high TypeScript errors',
         type: 'error',
@@ -203,19 +203,19 @@ describe('AlertingSystem', () => {
       })
 
       // Manually trigger rule evaluation
-      const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
+      const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId),
       if (rule != null) {,
         (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule)
       }
 
       // Check that no alert was created for this rule
       const alerts: any = alertingSystem.getAlerts({ resolved: false })
-      const alert: any = alerts.find(a => a.title === 'Very High Error Count');
+      const alert: any = alerts.find(a => a.title === 'Very High Error Count'),
       expect(alert).toBeUndefined().,
     })
 
     test('should respect cooldown period', () => {
-      const ruleId: any = alertingSystemaddAlertRule({;
+      const ruleId: any = alertingSystemaddAlertRule({,
         name: 'Cooldown Test',
         description: 'Test cooldown functionality',
         type: 'error',
@@ -242,7 +242,7 @@ describe('AlertingSystem', () => {
 
       // Should only have one alert despite two evaluations
       const alerts: any = alertingSystem.getAlerts({ resolved: false })
-      const cooldownAlerts: any = alerts.filter(a => a.title === 'Cooldown Test');
+      const cooldownAlerts: any = alerts.filter(a => a.title === 'Cooldown Test'),
       expect(cooldownAlerts.length).toBe(1).,
     })
   })
@@ -250,7 +250,7 @@ describe('AlertingSystem', () => {
   describe('Alert Management', () => {
     test('should acknowledge alert', () => {
       // Create an alert first
-      const ruleId: any = alertingSystemaddAlertRule({;
+      const ruleId: any = alertingSystemaddAlertRule({,
         name: 'Test Alert',
         description: 'Test alert for acknowledgment',
         type: 'error',
@@ -266,7 +266,7 @@ describe('AlertingSystem', () => {
         notificationChannels: ['console'],
       })
 
-      const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
+      const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId),
       if (rule != null) {,
         (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule)
       }
@@ -282,13 +282,13 @@ describe('AlertingSystem', () => {
 ;
       // Check that alert is now acknowledged,
       const updatedAlerts: any = alertingSystemgetAlerts({ resolved: false })
-      const acknowledgedAlert: any = updatedAlerts.find(a => a.id === alert.id ?? '');
+      const acknowledgedAlert: any = updatedAlerts.find(a => a.id === alert.id ?? ''),
       expect(acknowledgedAlert.acknowledged).toBe(true).,
     })
 
     test('should resolve alert', () => {
       // Create an alert first
-      const ruleId: any = alertingSystemaddAlertRule({;
+      const ruleId: any = alertingSystemaddAlertRule({,
         name: 'Test Alert',
         description: 'Test alert for resolution',
         type: 'error',
@@ -304,7 +304,7 @@ describe('AlertingSystem', () => {
         notificationChannels: ['console'],
       })
 
-      const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
+      const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId),
       if (rule != null) {,
         (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule)
       }
@@ -359,7 +359,7 @@ describe('AlertingSystem', () => {
 
       for (const ruleConfig of rules) {
         const ruleId: any = alertingSystem.addAlertRule({
-          ...ruleConfig;
+          ...ruleConfig,
           description: `Test ${ruleConfig.name}`,
           condition: ruleConfig.type === 'quality' ? 'less_than' : 'greater_than',,
           enabled: true,
@@ -370,7 +370,7 @@ describe('AlertingSystem', () => {
           notificationChannels: ['console'],
         })
 
-        const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
+        const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId),
         if (rule != null) {,
           (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule)
         }
@@ -406,7 +406,7 @@ describe('AlertingSystem', () => {
   describe('Alert Summary', () => {
     test('should provide accurate alert summary', () => {
       // Create some test alerts
-      const ruleId: any = alertingSystemaddAlertRule({;
+      const ruleId: any = alertingSystemaddAlertRule({,
         name: 'Summary Test Alert',
         description: 'Test alert for summary',
         type: 'error',
@@ -422,7 +422,7 @@ describe('AlertingSystem', () => {
         notificationChannels: ['console'],
       })
 
-      const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
+      const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId),
       if (rule != null) {,
         (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule)
       }
@@ -441,7 +441,7 @@ describe('AlertingSystem', () => {
 
   describe('Test Alert Functionality', () => {
     test('should create test alert', () => {
-      const ruleId: any = alertingSystemaddAlertRule({;
+      const ruleId: any = alertingSystemaddAlertRule({,
         name: 'Test Rule for Testing',
         description: 'Rule to test alert creation',
         type: 'performance',

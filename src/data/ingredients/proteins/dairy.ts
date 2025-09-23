@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawDairy = {
-  greek_yogurt: {;
+  greek_yogurt: {,
     name: 'Greek Yogurt',
     description: 'Strained yogurt with higher protein content and thick texture.',
     category: 'dairy',
@@ -34,7 +34,7 @@ const rawDairy = {
           Earth: 0.1,
         },
         preparationTips: ['Best for starting new fermentation batches', 'Ideal for milder yogurt']
-      }
+      },
       'Full Moon': {
         elementalBoost: {
           Water: 0.2,
@@ -64,14 +64,14 @@ const rawDairy = {
         protein: 'Highest',
         uses: 'Weight management, higher protein needs',
         notes: 'Can be slightly grainy in texture',
-      }
+      },
       '2% fat': {
         texture: 'Balanced creaminess and tang',
         moisture: 'Medium',
         protein: 'High',
         uses: 'All-purpose, good balance of flavor and nutrition',
         notes: 'Most versatile variety',
-      }
+      },
       'full-fat': {
         texture: 'Creamiest, smoothest',
         moisture: 'Medium-high',
@@ -141,7 +141,7 @@ const rawDairy = {
         role: 'Traditional breakfast component and sauce base',
         pairings: 'Olive oilza'atar, honey, nuts',
         dishes: 'Labneh, breakfast spreads',
-      }
+      },
       'modern health': {
         role: 'Protein-rich alternative to higher-fat dairy',
         adaptations: 'Protein bowls, smoothies, healthier baking',
@@ -190,7 +190,7 @@ const rawDairy = {
           Earth: 0.05,
         },
         preparationTips: ['Best for starting fresh batches', 'More delicate curds form']
-      }
+      },
       'Full Moon': {
         elementalBoost: {
           Water: 0.1,
@@ -221,14 +221,14 @@ const rawDairy = {
         protein: 'Standard',
         uses: 'Baking, dips, smoother applications',
         notes: 'More versatile for recipes requiring uniform texture',
-      }
+      },
       'large curd': {
         texture: 'Larger, more defined pieces',
         moisture: 'Medium',
         protein: 'Standard',
         uses: 'Direct eating, where texture is desirable',
         notes: 'Traditional style, more 'rustic' appearance'
-      }
+      },
       'dry curd': {
         texture: 'Low moisture, distinctly separate curds',
         moisture: 'Low',
@@ -303,7 +303,7 @@ const rawDairy = {
         role: 'Diet food popularized in mid-20th century',
         pairings: 'Canned fruit, gelatin salads, crackers',
         dishes: '1950s 'diet plates', retro salads'
-      }
+      },
       'modern health': {
         role: 'Rediscovered as high-protein, whole food',
         adaptations: 'Protein bowls, savory applications, healthy baking ingredient',
@@ -351,7 +351,7 @@ const rawDairy = {
           Water: 0.2,
         },
         preparationTips: ['Best for beginning cheese making', 'Creates most delicate texture']
-      }
+      },
       'Full Moon': {
         elementalBoost: {
           Water: 0.1,
@@ -382,21 +382,21 @@ const rawDairy = {
         fat: 'High',
         uses: 'Desserts, traditional dishes, eating plain',
         notes: 'Traditional and most flavorful variety',
-      }
+      },
       'part-skim': {
         texture: 'Slightly less creamy, more distinct curds',
         moisture: 'Medium-high',
         fat: 'Medium',
         uses: 'All-purpose, balanced nutrition and flavor',
         notes: 'Most commonly available commercial variety',
-      }
+      },
       'sheep milk': {
         texture: 'Rich, distinctive',
         moisture: 'Medium',
         fat: 'High',
         uses: 'Specialty applications, authentic Italian dishes',
         notes: 'Traditional ricotta type with more complex flavor',
-      }
+      },
       'buffalo milk': {
         texture: 'Very rich, creamy',
         moisture: 'High',
@@ -506,7 +506,7 @@ const rawDairy = {
           Earth: 0.1,
         },
         preparationTips: ['Best for starting fresh batches', 'Creates milder flavor profile']
-      }
+      },
       'Full Moon': {
         elementalBoost: {
           Earth: 0.2,
@@ -535,7 +535,7 @@ const rawDairy = {
         fat: 'High (33%+)',
         uses: 'Cheesecake, frostings, traditional applications',
         notes: 'Best flavor and baking performance',
-      }
+      },
       'reduced-fat': {
         texture: 'Slightly less creamy, softer',
         moisture: 'High',

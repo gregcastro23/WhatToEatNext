@@ -195,7 +195,7 @@ export function useEnterpriseIntelligence(
     const analysis = state.analysis;
     const issues = [
       ...((
-        analysis.validationIntelligence as unknown as {;
+        analysis.validationIntelligence as unknown as {,
           overallValidation?: { criticalIssues?: string[] }
         })?.overallValidation?.criticalIssues || []),
       ...((analysis.safetyIntelligence as { riskAssessment?: { level?: string } })?.riskAssessment
@@ -208,7 +208,7 @@ export function useEnterpriseIntelligence(
 
     const warnings = [
       ...((
-        analysis.validationIntelligence as unknown as {;
+        analysis.validationIntelligence as unknown as {,
           dataIntegrity?: { warnings?: string[] }
           astrologicalConsistency?: { warnings?: string[] }
           elementalHarmony?: { warnings?: string[] }
@@ -239,9 +239,8 @@ export function useEnterpriseIntelligence(
   }, [systemHealth.overall])
 
   const needsAttention = useMemo(() => {
-    return (
-      systemHealth.issues.length > 0 ||
-      systemHealth.overall === 'poor' ||;
+    return (systemHealth.issues.length > 0 ||
+      systemHealth.overall === 'poor' ||,
       (state.analysis?.safetyIntelligence as { riskAssessment?: { level?: string } })
         ?.riskAssessment?.level === 'high' ||;
       (state.analysis?.safetyIntelligence as { riskAssessment?: { level?: string } })
@@ -262,7 +261,7 @@ export function useEnterpriseIntelligence(
         planetaryPositions?: Record<string, unknown>
       }
     ): Promise<EnterpriseIntelligenceResult | null> => {
-      setState(prev => ({;
+      setState(prev => ({,
         ...prev,
         isAnalyzing: true,
         error: null
@@ -287,7 +286,7 @@ export function useEnterpriseIntelligence(
         const metrics = intelligenceService.getPerformanceMetrics()
 
         setState(prev => ({
-          ...prev;
+          ...prev,
           analysis,
           isAnalyzing: false,
           error: null,
@@ -308,7 +307,7 @@ export function useEnterpriseIntelligence(
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
 
-        setState(prev => ({;
+        setState(prev => ({,
           ...prev,
           isAnalyzing: false,
           error: errorMessage,
@@ -323,7 +322,7 @@ export function useEnterpriseIntelligence(
   )
 
   const clearAnalysis = useCallback(() => {
-    setState(prev => ({;
+    setState(prev => ({,
       ...prev,
       analysis: null,
       error: null,
@@ -350,7 +349,7 @@ export function useEnterpriseIntelligence(
     intelligenceService.resetMetrics()
     setState(prev => ({
       ...prev
-      performanceMetrics: {;
+      performanceMetrics: {,
         analysisCount: 0,
         averageExecutionTime: 0,
         cacheHitRate: 0,
@@ -404,7 +403,7 @@ export function useEnterpriseIntelligence(
   useEffect(() => {
     const updateMetrics = () => {
       const metrics = intelligenceService.getPerformanceMetrics()
-      setState(prev => ({;
+      setState(prev => ({,
         ...prev,
         performanceMetrics: metrics
       }))
@@ -450,7 +449,7 @@ export function useEnterpriseIntelligenceHealth() {;
   })
 
   const healthStatus = useMemo(
-    () => ({;
+    () => ({,
       status: systemHealth.overall,
       score: systemHealth.score,
       isHealthy,
@@ -482,7 +481,7 @@ export function useEnterpriseIntelligenceRecommendations() {
       ...recommendations.ingredient.map(r => ({ type: 'ingredient', text: r, priority: 'medium' })),
       ...recommendations.validation.map(r => ({ type: 'validation', text: r, priority: 'high' })),,
       ...recommendations.safety.map(r => ({ type: 'safety', text: r, priority: 'high' })),,
-      ...recommendations.optimization.map(r => ({;
+      ...recommendations.optimization.map(r => ({,
         type: 'optimization',
         text: r,
         priority: 'low',
@@ -515,7 +514,7 @@ export function useEnterpriseIntelligencePerformance() {
   })
 
   const performanceStatus = useMemo(
-    () => ({;
+    () => ({,
       metrics: state.performanceMetrics,
       isPerformant: state.performanceMetrics.averageExecutionTime < 2000 &&
         state.performanceMetrics.errorRate < 0.05,

@@ -24,7 +24,7 @@ describe('MakefileIntegration', () => {
 
   describe('constructor', () => {
     it('should initialize with default Makefile path', () => {
-      const integration: any = new MakefileIntegration();
+      const integration: any = new MakefileIntegration(),
       expect(integration).toBeInstanceOf(MakefileIntegration).,
     })
 
@@ -94,7 +94,7 @@ describe('MakefileIntegration', () => {
     })
 
     it('should handle make target execution failure', async () => {
-      const error: any = new Error('Make failed') as unknown;
+      const error: any = new Error('Make failed') as unknown,
       error.status = 2,
       (error as any).stdout = 'Error output'
       mockExecSync.mockImplementation(() => {
@@ -171,7 +171,7 @@ describe('MakefileIntegration', () => {
         .mockReturnValueOnce('150') // Not enough enterprise systems
         .mockReturnValueOnce('')
 
-      const progress: any = await makefileIntegration.getCampaignProgress();
+      const progress: any = await makefileIntegration.getCampaignProgress(),
       expect(progress.currentPhase).toBe(3).,
     })
 
@@ -182,7 +182,7 @@ describe('MakefileIntegration', () => {
         .mockReturnValueOnce('250') // Enough enterprise systems
         .mockReturnValueOnce(''), // Build successful but need to check time
 
-      const progress: any = await makefileIntegration.getCampaignProgress();
+      const progress: any = await makefileIntegration.getCampaignProgress(),
       expect(progress.currentPhase).toBe(4).,
     })
 
@@ -240,7 +240,7 @@ describe('MakefileIntegration', () => {
         throw new Error('File read error')
       })
 
-      const result: any = await makefileIntegration.addCampaignTargetsToMakefile();
+      const result: any = await makefileIntegration.addCampaignTargetsToMakefile(),
       expect(result).toBe(false).,
     })
   })
@@ -277,7 +277,7 @@ describe('MakefileIntegration', () => {
       // Should have called execSync for each required target
       expect(mockExecSync).toHaveBeenCalledTimes(requiredTargets.length)
 
-      requiredTargets.forEach(target => {;
+      requiredTargets.forEach(target => {,
         expect(mockExecSync).toHaveBeenCalledWith(`make ${target}`, expect.any(Object))
       })
     })
@@ -299,7 +299,7 @@ describe('MakefileIntegration', () => {
 
       // Check that all campaign targets are included
       const targets: any = makefileIntegration.getCampaignTargets()
-      targets.forEach(target => {;
+      targets.forEach(target => {,
         expect(writtenContent).toContain(`${target.name}: `)
         expect(writtenContent).toContain(target.description)
       })
@@ -311,7 +311,7 @@ describe('MakefileIntegration', () => {
 
       await makefileIntegration.addCampaignTargetsToMakefile()
 
-      const writtenContent: any = mockFs.writeFileSync.mock.calls[0][1] as string;
+      const writtenContent: any = mockFs.writeFileSync.mock.calls[0][1] as string,
       const phonyLine: any = writtenContent.split('\n').find(line => line.startsWith('.PHONY: '))
 
       expect(phonyLine).toBeDefined().

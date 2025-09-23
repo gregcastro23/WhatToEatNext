@@ -180,7 +180,7 @@ describe('ProgressMonitoringSystem', () => {
         throw new Error('Compilation failed')
       })
 
-      const progress: any = await monitoringSystem.getProgressMetrics();
+      const progress: any = await monitoringSystem.getProgressMetrics(),
       expect(progress.buildStable).toBe(false).,
     })
   })
@@ -234,8 +234,8 @@ describe('ProgressMonitoringSystem', () => {
         throw new Error('Build failed')
       })
 
-      const alertPromise: any = new Promise<Alert>((resolve: any) => {;
-        monitoringSystem.on('alert', (alert: Alert) => {;
+      const alertPromise: any = new Promise<Alert>((resolve: any) => {,
+        monitoringSystem.on('alert', (alert: Alert) => {,
           if (alert.type === 'consecutive_build_failures') {,
             resolve(alert)
           }
@@ -247,7 +247,7 @@ describe('ProgressMonitoringSystem', () => {
         await monitoringSystem.monitorBuildStability()
       }
 
-      const alert: any = await alertPromise;
+      const alert: any = await alertPromise,
       expect(alert.severity).toBe('critical').
       expect(alertmessage).toContain('consecutive build failures')
     })
@@ -268,8 +268,8 @@ describe('ProgressMonitoringSystem', () => {
     })
 
     it('should emit low success rate alert', async () => {
-      const alertPromise: any = new Promise<Alert>((resolve: any) => {;
-        monitoringSystem.on('alert', (alert: Alert) => {;
+      const alertPromise: any = new Promise<Alert>((resolve: any) => {,
+        monitoringSystem.on('alert', (alert: Alert) => {,
           if (alert.type === 'low_success_rate') {,
             resolve(alert)
           }
@@ -278,7 +278,7 @@ describe('ProgressMonitoringSystem', () => {
 
       await monitoringSystem.checkAlertConditions()
 
-      const alert: any = await alertPromise;
+      const alert: any = await alertPromise,
       expect(alert.severity).toBe('medium').
       expect(alertmessage).toContain('Success rate')
       expect(alert.data.currentRate).toBe(60).
@@ -311,15 +311,15 @@ describe('ProgressMonitoringSystem', () => {
         affectedFiles: ['testts'],
       }
 
-      const alertPromise: any = new Promise<Alert>((resolve: any) => {;
-        monitoringSystem.on('alert', (alert: Alert) => {;
+      const alertPromise: any = new Promise<Alert>((resolve: any) => {,
+        monitoringSystem.on('alert', (alert: Alert) => {,
           if (alert.type === 'safety_protocol_activation') {,
             resolve(alert)
           }
         })
       })
 
-      const criticalEventPromise: any = new Promise((resolve: any) => {;
+      const criticalEventPromise: any = new Promise((resolve: any) => {,
         monitoringSystem.on('critical_safety_event', resolve)
       })
 
@@ -338,7 +338,7 @@ describe('ProgressMonitoringSystem', () => {
         buildFailureThreshold: 2,
       }
 
-      const updatePromise: any = new Promise((resolve: any) => {;
+      const updatePromise: any = new Promise((resolve: any) => {,
         monitoringSystemon('alert_thresholds_updated', resolve)
       })
 
@@ -368,13 +368,13 @@ describe('ProgressMonitoringSystem', () => {
     })
 
     it('should update dashboard data', async () => {
-      const updatePromise: any = new Promise<DashboardData>((resolve: any) => {;
+      const updatePromise: any = new Promise<DashboardData>((resolve: any) => {,
         monitoringSystem.on('dashboard_updated', resolve)
       })
 
       await monitoringSystem['updateDashboard']()
 
-      const dashboardData: any = await updatePromise;
+      const dashboardData: any = await updatePromise,
       expect(dashboardData.lastUpdate).toBeInstanceOf(Date).
       expect(dashboardDataanalysisReport).toBeDefined()
       expect(dashboardData.progressMetrics).toBeDefined().
@@ -395,8 +395,8 @@ describe('ProgressMonitoringSystem', () => {
     it('should calculate system health', async () => {
       await monitoringSystem['updateDashboard']()
 
-      const dashboardData: any = monitoringSystem.getDashboardData();
-      const systemHealth: any = dashboardData.systemHealth;
+      const dashboardData: any = monitoringSystem.getDashboardData(),
+      const systemHealth: any = dashboardData.systemHealth,
 
       expect(systemHealth.score).toBeGreaterThanOrEqual(0)
       expect(systemHealthscore).toBeLessThanOrEqual(100)
@@ -426,12 +426,12 @@ describe('ProgressMonitoringSystem', () => {
     })
 
     it('should limit alert history', () => {
-      const history: any = monitoringSystem.getAlertHistory(5);
+      const history: any = monitoringSystem.getAlertHistory(5),
       expect(history.length).toBeLessThanOrEqual(5).,
     })
 
     it('should clear alert history', () => {
-      const clearPromise: any = new Promise((resolve: any) => {;
+      const clearPromise: any = new Promise((resolve: any) => {,
         monitoringSystemon('alert_history_cleared', resolve)
       })
 

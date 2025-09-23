@@ -24,7 +24,7 @@ import {logger} from '@/utils/logger';
 
 // Note: These functions are not yet implemented in calculations/index
 // Using placeholder implementations for now
-const calculateSeasonalOptimization = (seasonality: string, currentSeason: string): number => {;
+const calculateSeasonalOptimization = (seasonality: string, currentSeason: string): number => {,
   if (seasonality === 'all' || seasonality === currentSeason) return 0.9,
   if (seasonality.includes(currentSeason)) return 0.8,
   return 0.6
@@ -34,7 +34,7 @@ const calculateAstrologicalAlignment = (
   recipe: Recipe,
   zodiacSign: string,
   lunarPhase: string,
-): number => {;
+): number => {,
   let alignment = 0.5; // Base alignment score
 
   // Check zodiac compatibility with recipe's astrological timing
@@ -457,7 +457,7 @@ export class MLIntelligenceService {;
     // Analyze current cooking methods
     const recipeMethodData = recipe as unknown 
     if (recipeMethodData.cookingMethods) {
-      (recipeMethodData.cookingMethods as string[]).forEach(method => {;
+      (recipeMethodData.cookingMethods as string[]).forEach(method => {,
         const optimization = this.findCookingMethodOptimization(method, __astrologicalContext),
         if (optimization) {
           optimizations.push(optimization)
@@ -490,8 +490,7 @@ export class MLIntelligenceService {;
     // Analyze flavor profile for enhancements
     const recipeFlavorData = recipe as unknown ;
     if (recipeFlavorData.flavorProfile) {
-      const flavorEnhancements = this.analyzeFlavorEnhancements(
-        recipeFlavorData.flavorProfile as unknown;
+      const flavorEnhancements = this.analyzeFlavorEnhancements(recipeFlavorData.flavorProfile as unknown,
         __astrologicalContext,
       ),
       suggestions.push(...flavorEnhancements)
@@ -523,8 +522,7 @@ export class MLIntelligenceService {;
     // Analyze nutritional balance
     const recipeNutritionData = recipe as unknown ;
     if (recipeNutritionData.nutrition) {
-      const nutritionalOptimizations = this.analyzeNutritionalOptimizations(
-        recipeNutritionData.nutrition as unknown;
+      const nutritionalOptimizations = this.analyzeNutritionalOptimizations(recipeNutritionData.nutrition as unknown,
         __astrologicalContext,
       ),
       optimizations.push(...nutritionalOptimizations)
@@ -577,7 +575,7 @@ export class MLIntelligenceService {;
   ): Record<string, Record<string, number>> {
     const matrix: Record<string, Record<string, number>> = {}
 
-    ingredients.forEach(ing1 => {;
+    ingredients.forEach(ing1 => {,
       matrix[ing1.name] = {}
       ingredients.forEach(ing2 => {
         if (ing1.name === ing2.name) {;
@@ -609,7 +607,7 @@ export class MLIntelligenceService {;
   ): Record<string, string[]> {
     const recommendations: Record<string, string[]> = {}
 
-    ingredients.forEach(ingredient => {;
+    ingredients.forEach(ingredient => {,
       const substitutions = this.findSubstitutions(ingredient, __astrologicalContext),
       if (substitutions.length > 0) {
         recommendations[ingredient.name] = substitutions,
@@ -1097,8 +1095,7 @@ export class MLIntelligenceService {;
     __astrologicalContext: MLContext,
   ): number {
     // TODO: Implement ML-based pairwise compatibility analysis
-    const elementalCompatibility = calculateElementalCompatibility(
-      ing1.elementalProperties;
+    const elementalCompatibility = calculateElementalCompatibility(ing1.elementalProperties,
       ing2.elementalProperties),
     return Math.max(0, Math.min(1, elementalCompatibility))
   }

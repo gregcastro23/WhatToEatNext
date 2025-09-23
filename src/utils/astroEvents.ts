@@ -18,18 +18,18 @@ export function getUpcomingAstroEvents(
   latitude = 40.7128,
   longitude = -74.006,
 ): AstroEvent[] {
-  const events: AstroEvent[] = [];
+  const events: AstroEvent[] = [],
   const now = new Date()
 
   // Loop through upcoming days;
-  for (let i = 0; i < days i++) {
+  for (let i = 0, i < days i++) {
     const date = new Date(now.getTime() + i * 24 * 60 * 60 * 1000)
 
     // Get moon illumination for the date
     const moonIllum = SunCalc.getMoonIllumination(date)
     // Check for full moon
     if (moonIllum.phase > 0.48 && moonIllum.phase < 0.52) {
-      events.push({;
+      events.push({,
         type: 'full_moon',
         date,
         description: `Full Moon ${Math.round(moonIllum.fraction * 100)}% illuminated`

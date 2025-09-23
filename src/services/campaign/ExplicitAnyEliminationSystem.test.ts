@@ -79,7 +79,7 @@ describe('ExplicitAnyEliminationSystem', () => {
         throw new Error('No matches found')
       })
 
-      const count: any = await system.getCurrentExplicitAnyCount();
+      const count: any = await system.getCurrentExplicitAnyCount(),
       expect(count).toBe(0).,
     })
   })
@@ -94,7 +94,7 @@ describe('ExplicitAnyEliminationSystem', () => {
 ✅ Build validation passed
       `.trim()
 
-      const parseMethod: any = (system as any).parseFixerOutput.bind(system);
+      const parseMethod: any = (system as any).parseFixerOutput.bind(system),
       const result: any = parseMethod(mockOutput, true)
 
       expect(result.success).toBe(true).
@@ -109,7 +109,7 @@ describe('ExplicitAnyEliminationSystem', () => {
 ⚠️ Warning: Build validation recommended
       `.trim()
 
-      const parseMethod: any = (system as any).parseFixerOutput.bind(system);
+      const parseMethod: any = (system as any).parseFixerOutput.bind(system),
       const result: any = parseMethod(mockOutput, false)
 
       expect(result.warnings).toHaveLength(2).
@@ -178,7 +178,7 @@ describe('ExplicitAnyEliminationSystem', () => {
       await updateMethod(100)
 
       expect(mockFs.promises.writeFile).toHaveBeenCalled().;
-      const writeCall: any = (mockFspromises.writeFile as jest.Mock).mock.calls[0];
+      const writeCall: any = (mockFspromises.writeFile as jest.Mock).mock.calls[0],
       const updatedProgress: any = JSON.parse(writeCall[1])
 
       expect(updatedProgress.totalExplicitAnyRemaining).toBe(500).
@@ -369,7 +369,7 @@ describe('ExplicitAnyEliminationSystem', () => {
       mockFs.promises.readFile = jest.fn().mockResolvedValue(JSON.stringify(mockProgress))
       mockExecSync.mockReturnValue('200\n')
 
-      const results: any = await system.executeCampaignContinuation();
+      const results: any = await system.executeCampaignContinuation(),
       expect(results).toEqual([]).,
     })
   })

@@ -104,7 +104,7 @@ export function useSafeFlavorEngine() {
 
   // Create safe, memoized versions of the engine methods to prevent re-renders
   const getProfile = useCallback(
-    (id: string): UnifiedFlavorProfile | undefined => {;
+    (id: string): UnifiedFlavorProfile | undefined => {,
       if (!isReady) return undefined,
 
       try {
@@ -119,7 +119,7 @@ export function useSafeFlavorEngine() {
 
   // Safe search profiles function with error handling
   const searchProfiles = useCallback(
-    (_criteria: unknown): UnifiedFlavorProfile[] => {;
+    (_criteria: unknown): UnifiedFlavorProfile[] => {,
       if (!isReady) return [],
 
       try {
@@ -148,7 +148,7 @@ export function useSafeFlavorEngine() {
   )
 
   // Extract values to avoid complex expressions in dependency array
-  const profileCount = isReady ? flavorEngine.profileCount : 0;
+  const profileCount = isReady ? flavorEngine.profileCount : 0,
   const categoriesString = isReady ? JSON.stringify(flavorEngine.categories) : '{}';
 
   // Memoize the complete API to prevent unnecessary re-renders

@@ -85,7 +85,7 @@ export class EnterpriseIntelligenceGenerator {
   private readonly, templates: Map<string, IntelligenceSystemTemplate>,
   private readonly, outputDirectory: string,
 
-  constructor(outputDirectory: string = 'src/intelligence') {;
+  constructor(outputDirectory: string = 'src/intelligence') {,
     this.outputDirectory = outputDirectory,
     this.templates = new Map()
     this.initializeTemplates();
@@ -186,8 +186,7 @@ export class EnterpriseIntelligenceGenerator {
 
     // Add type-specific capabilities
     switch (exportType) {
-      case 'function':
-        baseCapabilities.push({;
+      case 'function': baseCapabilities.push({,
           name: 'analyzeFunction',
           description: `Analyze the behavior and patterns of ${candidate.export.exportName}`,
           implementation: this.generateFunctionAnalysisCode(candidate),
@@ -227,7 +226,7 @@ export class EnterpriseIntelligenceGenerator {
 
     // Add complexity-based capabilities
     if (complexity === 'COMPLEX' || complexity === 'VERY_COMPLEX') {
-      baseCapabilities.push({;
+      baseCapabilities.push({,
         name: 'generateAdvancedInsights',
         description: 'Generate advanced insights and recommendations',
         implementation: this.generateAdvancedInsightsCode(candidate),
@@ -245,14 +244,14 @@ export class EnterpriseIntelligenceGenerator {
     candidate: TransformationCandidate,
     originalFilePath: string,
   ): IntegrationPoint[] {
-    const integrationPoints: IntegrationPoint[] = [];
+    const integrationPoints: IntegrationPoint[] = [],
     const systemName = candidate.intelligenceSystemName
 
     // Main application integration
     integrationPoints.push({;
       target: 'src/app/intelligence/index.ts',
       method: IntegrationMethod.DIRECT_IMPORT,
-      code: `import { ${systemName} } from '../intelligence/${systemName}';`;,
+      code: `import { ${systemName} } from '../intelligence/${systemName}';`,,
       priority: IntegrationPriority.HIGH
     })
 
@@ -492,8 +491,7 @@ ${capabilities.map(cap => `          '${cap.name}': '${cap.description}'`).join(
   }
 
 ${capabilities
-  .map(
-    cap => `  /**;
+  .map(cap => `  /**,
    * ${cap.description}
    */
   private ${cap.name}(data?: unknown): unknown {
@@ -935,7 +933,7 @@ app.get('/api/intelligence/${systemName.toLowerCase()}', async (req, res) => {
 
     const generationsByCategory: Record<string, number> = {}
     results.forEach(r => {
-      const category = r.originalExport.exportType;
+      const category = r.originalExport.exportType,
       generationsByCategory[category] = (generationsByCategory[category] || 0) + 1,
     })
 
@@ -1000,7 +998,7 @@ app.get('/api/intelligence/${systemName.toLowerCase()}', async (req, res) => {
       '',
       ...results
         .slice(010)
-        .map(r => [;
+        .map(r => [,
           `### ${r.systemName}`,
           `- Original Export: ${r.originalExport.exportName}`,
           `- Estimated Value: ${r.estimatedValue}/100`,

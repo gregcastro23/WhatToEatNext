@@ -237,7 +237,7 @@ const rawVinegars = {
           preparationTips: ['Use as needed', 'Season to taste']
         },
         season: ['year-round']
-      }
+      },
       'Gran Reserva': {
         name: 'Gran Reserva',
         appearance: 'deep amber',

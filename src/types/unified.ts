@@ -476,7 +476,7 @@ export const DEFAULT_NUTRITIONAL_DATA: NutritionalData  = {
 }
 
 // Type guards
-export const isIngredient = (value: unknown): value is Ingredient => {;
+export const isIngredient = (value: unknown): value is Ingredient => {,
   return (
     typeof value === 'object' &&
     value !== null &&
@@ -486,7 +486,7 @@ export const isIngredient = (value: unknown): value is Ingredient => {;
   );
 }
 
-export const isRecipe = (value: unknown): value is Recipe => {;
+export const isRecipe = (value: unknown): value is Recipe => {,
   return (
     typeof value === 'object' &&
     value !== null &&
@@ -497,7 +497,7 @@ export const isRecipe = (value: unknown): value is Recipe => {;
   );
 }
 
-export const isCookingMethodExtended = (value: unknown): value is CookingMethodExtended => {;
+export const isCookingMethodExtended = (value: unknown): value is CookingMethodExtended => {,
   return (
     typeof value === 'object' &&
     value !== null &&

@@ -9,42 +9,42 @@ import { useState, useCallback } from 'react';
 
 // Type definitions
 interface EnhancedRecommendationContext {
-  datetime?: string;
-  location?: { latitude: number; longitude: number };
+  datetime?: string,
+  location?: { latitude: number; longitude: number },
   preferences?: {
-    dietaryRestrictions: string[];
-    cuisinePreferences: string[];
+    dietaryRestrictions: string[],
+    cuisinePreferences: string[],
     spiceLevel: number;
   };
   useBackendInfluence?: boolean;
 }
 
 interface Recipe {
-  id: string;
-  name: string;
-  cuisine: string;
-  description: string;
-  cookingTime: number;
-  difficulty: 'Easy' | 'Medium' | 'Hard';
-  rating: number;
+  id: string,
+  name: string,
+  cuisine: string,
+  description: string,
+  cookingTime: number,
+  difficulty: 'Easy' | 'Medium' | 'Hard',
+  rating: number,
   tags: string[];
 }
 
 interface RecommendationResult {
-  recipe: Recipe;
-  score: number;
-  reasons: string[];
-  alchemicalCompatibility: number;
+  recipe: Recipe,
+  score: number,
+  reasons: string[],
+  alchemicalCompatibility: number,
   astrologicalAlignment: number;
 }
 
 interface EnhancedRecommendationsResponse {
-  recommendations: RecommendationResult[];
-  totalCount: number;
-  processingTime: number;
+  recommendations: RecommendationResult[],
+  totalCount: number,
+  processingTime: number,
   astrologicalContext: {
-    dominantElement: string;
-    planetaryHour: string;
+    dominantElement: string,
+    planetaryHour: string,
     lunarPhase: string;
   };
 }
@@ -139,7 +139,7 @@ export const useEnhancedRecommendations = () => {
       setRecommendations(result);
       return result;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch recommendations';
+      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch recommendations',
       setError(errorMessage);
 
       // Return fallback response

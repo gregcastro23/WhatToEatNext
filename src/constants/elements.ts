@@ -1,5 +1,5 @@
 export const _ELEMENTAL_PROPERTIES = {
-  Fire: {;
+  Fire: {,
     qualities: ['hot', 'dry'],
     season: 'summer',
     direction: 'south',

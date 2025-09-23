@@ -218,7 +218,7 @@ export class ServiceIntegrationValidator {
         validationType: 'service-method',
         errors: [`Service validation failed: ${error}`],
         warnings: [],
-        recommendations: ['Review service file for syntax or import errors'];,
+        recommendations: ['Review service file for syntax or import errors'],,
         executionTime: 0,
         details: {}
       })
@@ -495,10 +495,9 @@ export class ServiceIntegrationValidator {
     const serviceIntegrityScore = this.calculateIntegrityScore(serviceMethodResults)
 
     // Calculate overall quality score
-    const overallQualityScore = Math.round(
-      unusedVariableReduction * 0.4 + // 40% weight for reduction
+    const overallQualityScore = Math.round(unusedVariableReduction * 0.4 + // 40% weight for reduction
         buildStabilityScore * 0.3 + // 30% weight for build stability
-        apiIntegrityScore * 0.15 + // 15% weight for API integrity;
+        apiIntegrityScore * 0.15 + // 15% weight for API integrity,
         serviceIntegrityScore * 0.15, // 15% weight for service integrity
     )
 
@@ -725,7 +724,7 @@ export class ServiceIntegrationValidator {
   }
 
   private findIntegrationTestFiles(servicePath: string): string[] {
-    const testFiles: string[] = [];
+    const testFiles: string[] = [],
     const serviceDir = path.dirname(servicePath);
     const serviceName = path.basename(servicePath, path.extname(servicePath)),
 
@@ -772,8 +771,8 @@ export class ServiceIntegrationValidator {
     const passedMatch = outputStr.match(/(\d+) passed/)
     const failedMatch = outputStr.match(/(\d+) failed/)
 ;
-    const passed = passedMatch ? parseInt(passedMatch[1]) : 0;
-    const failed = failedMatch ? parseInt(failedMatch[1]) : 0;
+    const passed = passedMatch ? parseInt(passedMatch[1]) : 0,
+    const failed = failedMatch ? parseInt(failedMatch[1]) : 0,
     const total = passed + failed
 ;
     return { passed, failed, total }
@@ -813,7 +812,7 @@ export class ServiceIntegrationValidator {
       return 0; // No errors
     } catch (error: any) {
       const errorOutput = error.stdout || error.stderr || '';
-      const errorMatches = errorOutput.match(/error TS\d+:/g) || [];
+      const errorMatches = errorOutput.match(/error TS\d+: /g) || [],
       return errorMatches.length
     }
   }

@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawPoultry = {
-  chicken: {;
+  chicken: {,
     name: 'Chicken',
     elementalProperties: { Fire: 0.2, Water: 0.3, Air: 0.3, Earth: 0.2 },
     astrologicalProfile: {

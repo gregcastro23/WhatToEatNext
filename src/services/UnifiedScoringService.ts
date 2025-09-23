@@ -315,7 +315,7 @@ export function calculateLunarPhaseEffect(
       recipe: 0.05,
       cuisine: 0.1,
       cooking_method: 0.15,
-    }
+    },
     'waxing crescent': {
       elemental: 0.15,
       seasonal: 0.15,
@@ -326,7 +326,7 @@ export function calculateLunarPhaseEffect(
       recipe: 0.1,
       cuisine: 0.05,
       cooking_method: 0.1,
-    }
+    },
     'first quarter': {
       elemental: 0.1,
       seasonal: 0.1,
@@ -337,7 +337,7 @@ export function calculateLunarPhaseEffect(
       recipe: 0.15,
       cuisine: 0.1,
       cooking_method: 0.15,
-    }
+    },
     'waxing gibbous': {
       elemental: 0.05,
       seasonal: 0.05,
@@ -348,7 +348,7 @@ export function calculateLunarPhaseEffect(
       recipe: 0.2,
       cuisine: 0.15,
       cooking_method: 0.1,
-    }
+    },
     'full moon': {
       elemental: 0.2,
       seasonal: 0.2,
@@ -359,7 +359,7 @@ export function calculateLunarPhaseEffect(
       recipe: 0.25,
       cuisine: 0.2,
       cooking_method: 0.05,
-    }
+    },
     'waning gibbous': {
       elemental: 0.1,
       seasonal: 0.1,
@@ -370,7 +370,7 @@ export function calculateLunarPhaseEffect(
       recipe: 0.15,
       cuisine: 0.25,
       cooking_method: 0,
-    }
+    },
     'last quarter': {
       elemental: 0,
       seasonal: 0,
@@ -381,7 +381,7 @@ export function calculateLunarPhaseEffect(
       recipe: 0.05,
       cuisine: 0.1,
       cooking_method: -0.05
-    }
+    },
     'waning crescent': {
       elemental: -0.05,
       seasonal: -0.05,
@@ -744,7 +744,7 @@ export class UnifiedScoringService {;
   ): Promise<Partial<AstrologicalData>> {
     return {
       planetaryPositions: context.planetaryPositions || ({} as Record<Planet, PlanetaryPosition>),
-      aspects: (context.aspects || []).map(aspect => ({;
+      aspects: (context.aspects || []).map(aspect => ({,
         ...aspect,
         strength: 0.5, // Default strength for fallback data
       })),
@@ -884,7 +884,7 @@ export class UnifiedScoringService {;
     astroData: AstrologicalData,
     context: ScoringContext,
   ): string[] {
-    const warnings: string[] = [];
+    const warnings: string[] = [],
 
     if (astroData.confidence < 0.5) {
       warnings.push('Low confidence in astrological data')

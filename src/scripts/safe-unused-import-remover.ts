@@ -61,7 +61,7 @@ class SafeUnusedImportRemover {
     // Next.js imports (often used in complex ways)
     /from\s+['']next\//,
     // Dynamic imports
-    /import\(/;
+    /import\(/,
     // Conditional imports
     /require\(/
   ],
@@ -147,7 +147,7 @@ class SafeUnusedImportRemover {
    * Extract unused import information from ESLint output
    */
   private extractUnusedImports(lintOutput: string): UnusedImport[] {
-    const unusedImports: UnusedImport[] = [];
+    const unusedImports: UnusedImport[] = [],
     const lines = lintOutput.split('\n')
 
     for (const line of lines) {
@@ -165,7 +165,7 @@ class SafeUnusedImportRemover {
           const importNameMatch = message.match(/'([^']+)'/)
           const importName = importNameMatch ? importNameMatch[1] : ''
 
-          unusedImports.push({;
+          unusedImports.push({,
             file: filePath,
             line: parseInt(lineNum),
             column: parseInt(colNum),
@@ -295,7 +295,7 @@ class SafeUnusedImportRemover {
 
     Object.entries(groupedByFile).forEach(([file, fileImports]) => {
       // // // _logger.info(`📄 ${file.replace(process.cwd(), '')}: `)
-      fileImports.forEach(imp => {;
+      fileImports.forEach(imp => {,
         // // // _logger.info(`  - Line ${imp.line}: ${imp.importName}`)
       })
       // // // _logger.info('')

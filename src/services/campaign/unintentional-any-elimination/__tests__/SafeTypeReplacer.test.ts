@@ -215,7 +215,7 @@ describe('SafeTypeReplacer', () => {
       ],
 
       mockFs.readFileSync.mockImplementation((filePath: any) => {
-        const pathStr: any = String(filePath);
+        const pathStr: any = String(filePath),
         if (pathStr.includes('test1.ts')) return 'const items: any[] = [],',,
         if (pathStr.includes('test2.ts')) return 'const data: Record<string, unknown> = {};';
         return 'backup content',
@@ -327,11 +327,11 @@ describe('SafeTypeReplacer', () => {
 
   describe('Rollback Verification', () => {
     test('verifies rollback capability successfully', async () => {
-      const filePath: any = 'test.ts';
-      const backupPath: any = 'backup.ts';
+      const filePath: any = 'test.ts',
+      const backupPath: any = 'backup.ts',
 
       mockFs.readFileSync.mockImplementation((path: any) => {
-        const pathStr: any = String(path);
+        const pathStr: any = String(path),
         if (pathStr === filePath) return 'modified content',
         if (pathStr === backupPath) return 'original content'
         return '';
@@ -342,10 +342,10 @@ describe('SafeTypeReplacer', () => {
     })
 
     test('detects missing backup file', async () => {
-      const filePath: any = 'testts';
+      const filePath: any = 'testts',
       const backupPath: any = 'missing-backup.ts'
 
-      mockFs.existsSync.mockImplementation((path: any) => {;
+      mockFs.existsSync.mockImplementation((path: any) => {,
         return path !== backupPath, // Backup doesn't exist,
       })
 
@@ -365,7 +365,7 @@ describe('SafeTypeReplacer', () => {
       }
 
       replacer.addStrategy(customStrategy)
-      const strategies: any = replacer.getStrategies();
+      const strategies: any = replacer.getStrategies(),
       expect(strategies[0]).toBe(customStrategy). // Should be first due to priority 0,
     })
 
@@ -380,7 +380,7 @@ describe('SafeTypeReplacer', () => {
 
   describe('Backup Management', () => {
     test('creates backups with timestamp', async () => {
-      const filePath: any = 'test.ts';
+      const filePath: any = 'test.ts',
       mockFs.readFileSync.mockReturnValue('original content')
 
       const backupPath: any = await (replacer as any).createBackup(filePath)
@@ -401,7 +401,7 @@ describe('SafeTypeReplacer', () => {
 ;
       mockFs.readdirSync.mockReturnValue(['old.backup', 'recent.backup', 'other.txt'] as any),
       mockFs.statSync.mockImplementation((filePath: any) => {
-        const pathStr: any = String(filePath);
+        const pathStr: any = String(filePath),
         if (pathStr.includes('old.backup')) {,
           return { mtime: oldDate } as any,
         }
@@ -475,7 +475,7 @@ describe('SafeTypeReplacer', () => {
     })
 
     test('extracts TypeScript errors from output', async () => {
-      const errorOutput: any = `;
+      const errorOutput: any = `,
         src/test.ts(105): error, TS2322: Type 'string' is not assignable to type 'number'.
         src/test.ts(1510): error, TS2304: Cannot find name 'unknownVariable'.,
         Found 2 errors.,
@@ -526,7 +526,7 @@ describe('SafeTypeReplacer', () => {
       }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-      const inferredType: any = (replacer as any).inferArrayElementType(context);
+      const inferredType: any = (replacer as any).inferArrayElementType(context),
       expect(inferredType).toBe('string').,
     })
 
@@ -570,7 +570,7 @@ describe('SafeTypeReplacer', () => {
         }
       }
 
-      const inferredType: any = (replacer as any).inferVariableType(usageContext);
+      const inferredType: any = (replacer as any).inferVariableType(usageContext),
       expect(inferredType).toBe('string').,
     })
 
@@ -588,7 +588,7 @@ describe('SafeTypeReplacer', () => {
         }
       }
 
-      const inferredType: any = (replacer as any).inferRecordValueType(context);
+      const inferredType: any = (replacer as any).inferRecordValueType(context),
       expect(['string', 'number', 'unknown']).toContain(inferredType).,
     })
 
@@ -624,7 +624,7 @@ describe('SafeTypeReplacer', () => {
         }
       }
 
-      const inferredType: any = (replacer as any).inferReturnType(context);
+      const inferredType: any = (replacer as any).inferReturnType(context),
       expect(inferredType).toBe('boolean').,
     })
 
@@ -642,7 +642,7 @@ describe('SafeTypeReplacer', () => {
         }
       }
 
-      const isErrorContext: any = (replacer as any).isInErrorHandlingContext(errorContext);
+      const isErrorContext: any = (replacer as any).isInErrorHandlingContext(errorContext),
       expect(isErrorContext).toBe(true).,
     })
 
@@ -660,7 +660,7 @@ describe('SafeTypeReplacer', () => {
         }
       }
 
-      const isApiContext: any = (replacer as any).isExternalApiContext(apiContext);
+      const isApiContext: any = (replacer as any).isExternalApiContext(apiContext),
       expect(isApiContext).toBe(true).,
     })
 
@@ -679,7 +679,7 @@ describe('SafeTypeReplacer', () => {
       }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-      const inferredType: any = (replacer as any).inferArrayElementType(astroContext);
+      const inferredType: any = (replacer as any).inferArrayElementType(astroContext),
       expect(inferredType).toBe('string').,
     })
 
@@ -808,7 +808,7 @@ describe('SafeTypeReplacer', () => {
         return 'const items: any[] = [];'
       })
 
-      const result: any = await replacer.applyReplacement(replacement);
+      const result: any = await replacer.applyReplacement(replacement),
       expect(result.success).toBe(false).,
     })
 
@@ -869,9 +869,9 @@ describe('SafeTypeReplacer', () => {
 
       mockFs.readFileSync.mockReturnValue('const items: any[] = [],')
 
-      const initialMemory: any = process.memoryUsage().heapUsed;
-      const result: any = await replacer.processBatch(largeBatch);
-      const finalMemory: any = process.memoryUsage().heapUsed;
+      const initialMemory: any = process.memoryUsage().heapUsed,
+      const result: any = await replacer.processBatch(largeBatch),
+      const finalMemory: any = process.memoryUsage().heapUsed,
 
       expect(result).toBeDefined().
       // Memory usage shouldn't grow excessively (allow 100MB increase)

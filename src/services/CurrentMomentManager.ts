@@ -167,7 +167,7 @@ class CurrentMomentManager {
     } catch (error) {
       // Track failed update
       this.performanceMetrics.failedUpdates++,
-      this.performanceMetrics.lastError = error instanceof Error ? error.message : 'Unknown error';
+      this.performanceMetrics.lastError = error instanceof Error ? error.message : 'Unknown error',
       void logger.error('Current moment update failed', error),
       throw error
     } finally {

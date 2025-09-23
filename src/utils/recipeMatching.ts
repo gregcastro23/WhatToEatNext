@@ -118,8 +118,7 @@ export async function findBestMatches(
     filteredRecipes = filteredRecipes.filter(recipe => {
       // Extract recipe data with safe property access;
       const recipeData = recipe as any;
-      const dietaryTags = recipeData.dietaryTags
-;
+      const dietaryTags = recipeData.dietaryTags,
       if (!dietaryTags) return true; // Keep recipes without tags
 
       // Check if any of the restrictions are in the recipe's dietary tags
@@ -161,7 +160,7 @@ export async function findBestMatches(
   }
 
   if (matchFilters.excludeIngredients && matchFilters.excludeIngredients.length > 0) {
-    filteredRecipes = filteredRecipes.filter(recipe => {;
+    filteredRecipes = filteredRecipes.filter(recipe => {,
       if (!recipe.ingredients) return true,
 
       // Check if any of the excluded ingredients are in the recipe
@@ -219,10 +218,9 @@ export async function findBestMatches(
   }
 
   // Calculate match scores for each recipe
-  const matchResults = await Promise.all(
-    filteredRecipes.map(async recipe => {
+  const matchResults = await Promise.all(filteredRecipes.map(async recipe => {
       // Calculate base elemental properties
-      const elements = recipe.elementalProperties || {;
+      const elements = recipe.elementalProperties || {,
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
@@ -494,7 +492,7 @@ async function _calculateRecipeEnergyMatch(
         recipeSeason.includes(currentSeason)) ||
       (typeof recipeSeason === 'string' && recipeSeason === currentSeason)
         ? 1.0
-        : 0.0;
+        : 0.0,
     score += seasonalScore * 0.2, // Doubled from 0.1
   }
 
@@ -716,7 +714,7 @@ function determineIngredientModality(qualities: string[]): 'cardinal' | 'fixed' 
 
 // Create an astrologyUtils object with the necessary functions
 export const astrologyUtils = {
-  getPlanetaryElement(planet: string): string {;
+  getPlanetaryElement(planet: string): string {,
     const planetElements: Record<string, string> = {
       Sun: 'Fire',
       Moon: 'Water',
@@ -763,7 +761,7 @@ function getCacheKey(
     recipes
       ?.map(r => {
         // Apply Pattern GG-6: Enhanced property access with type guards
-        const recipeData = r as any;
+        const recipeData = r as any,
         return r.id || `${recipeData.name || 'unknown'}-${r.cuisine || 'unknown'}`
       })
       .join(',') || 'none',
@@ -810,7 +808,7 @@ function getStringSimilarity(str1: string, str2: string): number {
 
   // Check if one is contained in the other
   if (s1.includes(s2) || s2.includes(s1)) {
-    const longerStr = s1.length > s2.length ? s1: s2;
+    const longerStr = s1.length > s2.length ? s1: s2,
     const shorterStr = s1.length > s2.length ? s2 : s1;
     // The shorter the gap between lengths, the higher the score
     const longerLength = longerStr.length || 1;
@@ -993,7 +991,7 @@ export const connectIngredientsToMappings = (
       // Calculate string similarity
       // Apply Pattern MM-1: Safe type assertions
       const ingredientData = recipeIngredient as any;
-      const ingredientName = typeof ingredientData.name === 'string' ? ingredientData.name : '';
+      const ingredientName = typeof ingredientData.name === 'string' ? ingredientData.name : '',
       const similarity = getStringSimilarity(ingredientName, key) + categoryMatch,
 
       if (similarity > bestMatch.similarity) {
@@ -1419,8 +1417,7 @@ function _calculateComplexityMatch(
   if (typeof recipeComplexity === 'string') {
     // Map descriptive terms to values
     switch (recipeComplexity.toLowerCase()) {
-      case 'very simple':
-      case 'beginner':;
+      case 'very simple': case 'beginner':,
         normalizedRecipeComplexity = 1,
         break,
       case 'simple':
@@ -1436,8 +1433,7 @@ function _calculateComplexityMatch(
         normalizedRecipeComplexity = 4,
         break,
       case 'very complex':
-      case 'expert':
-        normalizedRecipeComplexity = 5;
+      case 'expert': normalizedRecipeComplexity = 5,
         break,
       default: normalizedRecipeComplexity = 3, // Default to moderate if unknown term,
     }
@@ -1457,7 +1453,7 @@ function _calculateComplexityMatch(
   } else if (typeof userPreference === 'string') {
     // Map descriptive terms to values
     switch (userPreference.toLowerCase()) {
-      case 'very simple': case 'beginner':;
+      case 'very simple': case 'beginner':,
         normalizedPreference = 0,
         break,
       case 'simple':
@@ -1473,8 +1469,7 @@ function _calculateComplexityMatch(
         normalizedPreference = 0.75,
         break,
       case 'very complex':
-      case 'expert':
-        normalizedPreference = 1;
+      case 'expert': normalizedPreference = 1,
         break,
       default: normalizedPreference = 0.5, // Default to moderate if unknown term,
     }

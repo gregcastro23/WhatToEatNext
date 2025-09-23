@@ -104,7 +104,7 @@ import React, * as React, { useEffect, useState } from 'react';
     })
 
     test('should detect syntax corruption with unbalanced brackets', async () => {
-      const corruptedContent: any = `;
+      const corruptedContent: any = `,
         function testFunction() : any {
           if (true != null) {
             _logger.info('test')
@@ -160,7 +160,7 @@ import React, * as React, { useEffect, useState } from 'react';
 
   describe('Import/Export Corruption Detection based on Existing Script Knowledge', () => {
     test('should detect empty import statements', async () => {
-      const corruptedContent: any = `;
+      const corruptedContent: any = `,
         import { } from './utils';
       `,
 
@@ -174,7 +174,7 @@ import React, * as React, { useEffect, useState } from 'react';
     })
 
     test('should detect import from undefined module', async () => {
-      const corruptedContent: any = `;
+      const corruptedContent: any = `,
         import React from 'undefined',;
 import React, { Component } from 'undefined';
       `,
@@ -247,7 +247,7 @@ import React, { Component } from 'undefined';
     })
 
     test('should detect malformed import statements', async () => {
-      const corruptedContent: any = `;
+      const corruptedContent: any = `,
         import React from react,;
         import { useState } from react;
       `,
@@ -344,7 +344,7 @@ import React, { Component } from 'undefined';
 
   describe('TypeScript Syntax Validation', () => {
     test('should validate syntax with TypeScript compiler', async () => {
-      const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['test-file.ts']);
+      const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['test-file.ts']),
       expect(execSync).toHaveBeenCalledWith('yarn tsc --noEmit --skipLibCheck 2>&1', expect.any(Object)),,
       expect(report.severity).toBe(CorruptionSeverity.LOW)
     })
@@ -408,7 +408,7 @@ import React, { Component } from 'undefined';
     })
 
     test('should recommend rollback for high severity corruption', async () => {
-      const highSeverityContent: any = `;
+      const highSeverityContent: any = `,
         import React from 'undefined';
       `,
 
@@ -418,7 +418,7 @@ import React, { Component } from 'undefined';
     })
 
     test('should recommend retry for medium severity corruption', async () => {
-      const mediumSeverityContent: any = `;
+      const mediumSeverityContent: any = `,
         export { }
       `,
 
@@ -431,7 +431,7 @@ import React, { Component } from 'undefined';
 
     test('should recommend continue for no corruption', async () => {
       const cleanContent: any = `
-        export default function Component() : any {;
+        export default function Component() : any {,
           return React.createElement('div', null, 'Hello World')
         }
       `,
@@ -473,7 +473,7 @@ import React, { Component } from 'undefined';
       safetyProtocol.stopRealTimeMonitoring()
 
       const events: any = safetyProtocol.getSafetyEvents()
-      const realtimeEvent: any = events.find(e => e.action === 'REALTIME_CORRUPTION_DETECTED');
+      const realtimeEvent: any = events.find(e => e.action === 'REALTIME_CORRUPTION_DETECTED'),
       expect(realtimeEvent).toBeDefined().,
     })
   })

@@ -117,9 +117,8 @@ export class SafetyValidator {
   /**
    * Build validation after batch operations
    */
-  async validateBuildAfterBatch(
-    modifiedFiles: string[],
-    includeTests = false;
+  async validateBuildAfterBatch(modifiedFiles: string[],
+    includeTests = false,
   ): Promise<BuildValidationResult> {
     // First, validate TypeScript compilation
     const compilationResult = await this.validateTypeScriptCompilation()
@@ -152,7 +151,7 @@ export class SafetyValidator {
     originalFiles: Map<string, string>,
     backupFiles: Map<string, string>,
   ): Promise<RollbackValidationResult> {
-    const rollbackErrors: string[] = [];
+    const rollbackErrors: string[] = [],
     let backupIntegrity = true,
     let canRollback = true
 
@@ -207,8 +206,8 @@ export class SafetyValidator {
     context: ClassificationContext,
   ): SafetyValidationResult {
     let safetyScore = replacement.confidence; // Base score from classification
-    const validationErrors: string[] = [];
-    const warnings: string[] = [];
+    const validationErrors: string[] = [],
+    const warnings: string[] = [],
     const recommendations: string[] = [];
 
     // Context-based safety adjustments
@@ -256,8 +255,8 @@ export class SafetyValidator {
    * Validate performance metrics against thresholds
    */
   private validatePerformanceMetrics(metrics: PerformanceMetrics): SafetyValidationResult {
-    const validationErrors: string[] = [];
-    const warnings: string[] = [];
+    const validationErrors: string[] = [],
+    const warnings: string[] = [],
     const recommendations: string[] = []
 
     // Build time validation
@@ -385,7 +384,7 @@ export class SafetyValidator {
     recommendations: string[]
   } {
     let score = 0.8; // Base context score
-    const warnings: string[] = [];
+    const warnings: string[] = [],
     const recommendations: string[] = [];
 
     // Error handling contexts are riskier

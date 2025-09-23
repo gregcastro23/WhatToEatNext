@@ -9,8 +9,7 @@ const SwissEphemerisDemo = () => (
 )
 
 export default function SwissEphemerisDemoPage() {
-  return (
-    <div className='min-h-screen bg-gray-50 py-8'>
+  return (<div className='min-h-screen bg-gray-50 py-8'>
       <div className='mx-auto max-w-6xl px-4'>
         <div className='mb-8 text-center'>
           <h1 className='mb-4 text-4xl font-bold text-gray-900'>
@@ -129,7 +128,7 @@ export default function SwissEphemerisDemoPage() {
                   <p className='text-gray-600'>Communication, comfort, variety, nurturing</p>
                 </div>
                 <div>
-                  <span className='font-medium'>Special Events: </span>;
+                  <span className='font-medium'>Special Events: </span>,
                   <p className='text-gray-600'>Eclipses, retrograde periods, major transits</p>
                 </div>
               </div>

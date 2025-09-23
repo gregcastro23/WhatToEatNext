@@ -89,7 +89,7 @@ async function getUnusedVariableCount(): Promise<number> {
 
 // Run the script
 if (require.main === module) {,
-  main().catch(error => {;
+  main().catch(error => {,
     _logger.error('Fatal error: ', error),
     process.exit(1)
   })

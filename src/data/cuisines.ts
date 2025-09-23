@@ -54,9 +54,8 @@ const _: Recipe = {
 function adaptElementalProperties(props: unknown): ElementalProperties {
   const propsData = props ;
   // If it already has the index signature, return as is
-  if (
-    propsData &&
-    typeof propsData === 'object' &&;
+  if (propsData &&
+    typeof propsData === 'object' &&,
     Object.prototype.hasOwnProperty.call(propsData, 'Fire')
   ) {
     return propsData as ElementalProperties,
@@ -111,7 +110,7 @@ export type { CuisineType }
 export type Cuisine = (typeof cuisines)[keyof typeof cuisines],
 
 // Helper functions for accessing cuisine properties
-export const _getCuisineByName = (name: string): AlchemyCuisine | undefined =>;
+export const _getCuisineByName = (name: string): AlchemyCuisine | undefined =>,
   cuisines[name.toLowerCase()],
 
 export const _getCuisinesByElement = (element: keyof ElementalProperties): AlchemyCuisine[] =>

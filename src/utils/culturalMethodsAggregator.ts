@@ -143,17 +143,17 @@ const TECHNIQUE_MAPPING: Record<string, string> = {
  */
 export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
   const cuisines = [
-    { data: thai, name: 'Thai' }
+    { data: thai, name: 'Thai' },
     { data: vietnamese, name: 'Vietnamese' }
-    { data: italian, name: 'Italian' }
+    { data: italian, name: 'Italian' },
     { data: chinese, name: 'Chinese' }
-    { data: indian, name: 'Indian' }
+    { data: indian, name: 'Indian' },
     { data: japanese, name: 'Japanese' }
-    { data: korean, name: 'Korean' }
+    { data: korean, name: 'Korean' },
     { data: mexican, name: 'Mexican' }
-    { data: middleEastern, name: 'Middle Eastern' }
+    { data: middleEastern, name: 'Middle Eastern' },
     { data: russian, name: 'Russian' }
-    { data: greek, name: 'Greek' }
+    { data: greek, name: 'Greek' },
     { data: french, name: 'French' }
     { data: african, name: 'African' }
   ],
@@ -168,7 +168,7 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
   const methodsByMainCategory: Record<string, CulturalCookingMethod[]> = {}
 
   // Extract cooking techniques from each cuisine
-  cuisines.forEach(cuisine => {;
+  cuisines.forEach(cuisine => {,
     if (!cuisine.data.cookingTechniques) return,
 
     cuisine.data.cookingTechniques.forEach(technique => {
@@ -177,7 +177,7 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
       const methodId = `${cuisine.name.toLowerCase()}_${methodName.replace(/\s+/g, '_')}`,
 
       // Skip if this is a duplicate name/cuisine combination
-      const caseInsensitiveKey = `${cuisine.name.toLowerCase()}:${methodName.toLowerCase()}`;
+      const caseInsensitiveKey = `${cuisine.name.toLowerCase()}: ${methodName.toLowerCase()}`,
       if (addedMethods.has(caseInsensitiveKey)) {
         return
       }
@@ -196,7 +196,7 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
           methodVariationsMap[relatedMainMethod] = new Set<string>()
         }
 
-        const culturalMethodKey = `${cuisine.name.toLowerCase()}:${relatedMainMethod}`;
+        const culturalMethodKey = `${cuisine.name.toLowerCase()}: ${relatedMainMethod}`,
         if (methodVariationsMap[relatedMainMethod].has(culturalMethodKey)) {
           return
         }

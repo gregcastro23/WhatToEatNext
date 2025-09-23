@@ -1,6 +1,6 @@
 export const _LUNAR_PHASES = {
   new: {
-    elementalModifier: {;
+    elementalModifier: {,
       Fire: 0.1,
       Water: 0.4,
       Air: 0.1,

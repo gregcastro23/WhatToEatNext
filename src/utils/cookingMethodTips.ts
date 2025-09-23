@@ -637,8 +637,7 @@ export function getTechnicalTips(methodName: string): string[] {
 export function getMethodDetails(methodName: string): string {
   const methodLower = methodName.toLowerCase()
   switch (methodLower) {
-    case 'hand pounding':
-    case 'hand_pounding':;
+    case 'hand pounding': case 'hand_pounding':,
       return 'Hand pounding is an ancient culinary technique utilizing a mortar and pestle to crush, grind, and blend ingredients through direct mechanical force. This method releases aromatic compounds and creates unique textures that modern electric processors cannot replicate. Hand pounding preserves traditional knowledge and produces superior textural and flavor profiles in many global cuisines.',
 
     case 'slow simmering':
@@ -699,8 +698,7 @@ export function getIdealIngredients(methodName: string): string[] {
 
   // Switch case with ideal ingredients for different cooking methods
   switch (methodLower) {
-    case 'hand pounding':
-    case 'hand_pounding':;
+    case 'hand pounding': case 'hand_pounding':,
       ingredients.push('Fresh herbs (basil, cilantro, mint, parsley)')
       ingredients.push('Garlic, ginger, galangal, lemongrass')
       ingredients.push('Whole spices (peppercorns, cardamom, coriander)')

@@ -73,7 +73,7 @@ export const SEASONAL_MODIFIERS: SeasonalModifiers = {
 // Influence of seasonal factors on food preferences and energy levels
 export const _SEASONAL_INFLUENCE = {
   // Each season's influence strength (0-1)
-  strength: {;
+  strength: {,
     spring: 0.7,
     summer: 0.9,
     autumn: 0.6,

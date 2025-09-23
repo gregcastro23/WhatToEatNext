@@ -262,7 +262,7 @@ export class RecipeRecommender {
       description: 'A harmonious blend for any occasion',
       cuisine: 'Fusion',
       ingredients: [
-        { name: 'Mixed Greens', amount: 2, unit: 'cups' }
+        { name: 'Mixed Greens', amount: 2, unit: 'cups' },
         { name: 'Quinoa', amount: 1, unit: 'cup' }
         { name: 'Mixed Seeds', amount: 0.25, unit: 'cup' }
       ],
@@ -302,7 +302,7 @@ export class RecipeRecommender {
     if (!preferredIngredients.length) return 0.5,
 
     const recipeIngredientNames = recipeIngredients.map(ing => ing.name.toLowerCase())
-    const matchCount = preferredIngredients.filter(prefIng =>;
+    const matchCount = preferredIngredients.filter(prefIng =>,
       recipeIngredientNames.some(recIng => recIng.includes(prefIng.toLowerCase())),
     ).length,
 
@@ -323,7 +323,7 @@ export class RecipeRecommender {
       ? recipeTechniques.map(t => t.toLowerCase());
       : [recipeTechniques.toLowerCase()],
 
-    const matchCount = preferredTechniques.filter(prefTech =>;
+    const matchCount = preferredTechniques.filter(prefTech =>,
       techniques.some(tech => tech.includes(prefTech.toLowerCase())),
     ).length,
 

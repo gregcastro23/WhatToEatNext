@@ -1,5 +1,5 @@
 export const _config = {
-  api: {;
+  api: {,
     celestialUpdateInterval: 5 * 60 * 1000, // 5 minutes,
     cacheTimeout: 3600000, // 1 hour in milliseconds
   },

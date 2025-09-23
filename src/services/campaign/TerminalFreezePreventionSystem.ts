@@ -281,8 +281,8 @@ export class TerminalFreezePreventionSystem {
     suspiciousProcesses: ProcessStatus[],
     recommendations: string[]
   }> {
-    const suspiciousProcesses: ProcessStatus[] = [];
-    const recommendations: string[] = [];
+    const suspiciousProcesses: ProcessStatus[] = [],
+    const recommendations: string[] = [],
 
     const now = new Date()
 

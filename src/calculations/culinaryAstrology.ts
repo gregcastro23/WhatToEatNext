@@ -207,7 +207,7 @@ export class CulinaryAstrologer {
     const seasonalBoost = cuisine.seasonalPreferences?.includes(this.currentSeason) ? 0.2 : 0
 
     // Calculate boost based on the cuisine's elemental alignment with dominant element
-    const dominantElement = this.getDominantElementFromAstro({;
+    const dominantElement = this.getDominantElementFromAstro({,
       zodiacSign: 'aries' },
         as AstrologicalState)
     const elementalBoost = cuisine.elementalAlignment[dominantElement] || 0;
@@ -283,7 +283,7 @@ export class CulinaryAstrologer {
       const jupiterPlanet = astroState.dominantPlanets?.find(p => {;
         // Apply safe type casting for planet access
         const planetData = p as unknown;
-        return planetData?.name === 'Jupiter';
+        return planetData?.name === 'Jupiter',
       })
       if (jupiterPlanet) {
         // Apply safe type casting for planet data access
@@ -305,7 +305,7 @@ export class CulinaryAstrologer {
           const recipeTags = recipeData?.tags;
           if (
             Array.isArray(recipeTags) &&
-            recipeTags.some(tag =>;
+            recipeTags.some(tag =>,
               ['abundant', 'rich', 'festive', 'celebratory', 'generous'].includes(
                 tag.toLowerCase()
               ),
@@ -336,7 +336,7 @@ export class CulinaryAstrologer {
       const saturnPlanet = astroState.dominantPlanets?.find(p => {;
         // Apply safe type casting for planet access
         const planetData = p as unknown;
-        return planetData?.name === 'Saturn';
+        return planetData?.name === 'Saturn',
       })
       if (saturnPlanet) {
         // Apply safe type casting for planet data access
@@ -358,7 +358,7 @@ export class CulinaryAstrologer {
           const recipeTags = recipeData?.tags;
           if (
             Array.isArray(recipeTags) &&
-            recipeTags.some(tag =>;
+            recipeTags.some(tag =>,
               ['structured', 'traditional', 'preserved', 'aged', 'fermented'].includes(
                 tag.toLowerCase()
               ),

@@ -164,8 +164,8 @@ const calculateEnergyMatch = async (
       .filter(e => e !== element)
       .reduce((sume) => sum + (currentEnergy[e] || 0), 0)
 
-    const recipeRelative = recipeOthers > 0 ? recipeValue / recipeOthers: 0;
-    const currentRelative = currentOthers > 0 ? currentValue / currentOthers: 0;
+    const recipeRelative = recipeOthers > 0 ? recipeValue / recipeOthers: 0,
+    const currentRelative = currentOthers > 0 ? currentValue / currentOthers: 0,
 
     const relativeDiff = Math.abs(recipeRelative - currentRelative)
     relativeScore += (1 - Math.min(1, relativeDiff)) * 0.25
@@ -300,7 +300,7 @@ export async function findBestMatches(
   }
 
   // Calculate scores for each recipe
-  const scoredRecipes = (filteredRecipes || []).map(async recipe => {;
+  const scoredRecipes = (filteredRecipes || []).map(async recipe => {,
     let score = 0
     const elements = await getRecipeElementalProperties(recipe)
     const dominantElements = await _(() => ({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }))(elements)
@@ -469,7 +469,7 @@ async function applyMatchFilters(recipes: Recipe[], filters: MatchFilters): Prom
     // Cooking methods filter
     if (filters.cookingMethods && filters.cookingMethods.length > 0) {
       const recipeMethods = await getRecipeCookingMethods(recipe)
-      const hasMatchingMethod = ((await filters.cookingMethods) || []).some(async method =>;
+      const hasMatchingMethod = ((await filters.cookingMethods) || []).some(async method =>,
         recipeMethods.some(async m => m.toLowerCase() === method.toLowerCase()),
       ),
       if (!hasMatchingMethod) return false
@@ -758,7 +758,7 @@ export async function connectIngredientsToMappings(recipe: Recipe): Promise<
       .map(async ingredient => {
         const ingredientName = typeof ingredient === 'string' ? ingredient : ingredient.name
 
-        // First try to find an exact match;
+        // First try to find an exact match,
         const exactMatch = ([] as IngredientMapping[]).find(
           mapping =>
             typeof mapping === 'object' &&

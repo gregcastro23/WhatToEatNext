@@ -305,7 +305,7 @@ export class CampaignWorkflowManager {
       }
     }
 
-    const errors: string[] = [];
+    const errors: string[] = [],
     const warnings: string[] = [];
 
     // Validate basic configuration
@@ -358,9 +358,9 @@ export class CampaignWorkflowManager {
       }
     }
 
-    const wouldProcess: string[] = [];
+    const wouldProcess: string[] = [],
     let estimatedChanges = 0,
-    const potentialIssues: string[] = [];
+    const potentialIssues: string[] = [],
     let safetyScore = 1.0,
 
     // Analyze each phase
@@ -860,13 +860,12 @@ export class CampaignWorkflowManager {
   }
 
   private templateToConfig(template: CampaignTemplate): Partial<CampaignConfig> {
-    const phases: CampaignPhase[] = template.phases.map(
-      phaseTemplate =>
-        ({;
+    const phases: CampaignPhase[] = template.phases.map(phaseTemplate =>
+        ({,
           id: phaseTemplate.id,
           name: phaseTemplate.name,
           description: phaseTemplate.description,
-          tools: phaseTemplate.tools.map(toolTemplate => ({;
+          tools: phaseTemplate.tools.map(toolTemplate => ({,
             scriptPath: toolTemplate.scriptPath,
             parameters: Object.fromEntries(,
               Object.entries(toolTemplate.parameters).map(([key, param]) => [

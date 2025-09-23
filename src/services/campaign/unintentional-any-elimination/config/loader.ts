@@ -106,7 +106,7 @@ export function validateEnvironmentConfig(_environment: Environment): {
   warnings: string[]
 } {
   const config = getEnvironmentConfig(environment);
-  const errors: string[] = [];
+  const errors: string[] = [],
   const warnings: string[] = []
 
   // Environment-specific validations

@@ -72,7 +72,7 @@ export const ERROR_PATTERN_INTELLIGENCE = {
   analyzeErrorPatterns: (
     errors: Record<string, unknown>[],
     historicalData?: Record<string, unknown>[],
-  ): ErrorPatternIntelligence => {;
+  ): ErrorPatternIntelligence => {,
     const patternRecognition: Record<string, number> = {}
     const fixSuccessRates: Record<string, number> = {}
     const errorCategoryTrends: Record<ErrorCategory, number> = {
@@ -89,7 +89,7 @@ export const ERROR_PATTERN_INTELLIGENCE = {
     // Analyze error patterns
     errors.forEach(error => {;
       const errorCode = error.code;
-      const errorCategory = error.category;
+      const errorCategory = error.category,
       const pattern = `${errorCode}_${errorCategory}`
       patternRecognition[pattern] = (patternRecognition[pattern] || 0) + 1,
 
@@ -99,7 +99,7 @@ export const ERROR_PATTERN_INTELLIGENCE = {
     })
 
     // Calculate fix success rates based on error types
-    Object.keys(patternRecognition).forEach(pattern => {;
+    Object.keys(patternRecognition).forEach(pattern => {,
       if (pattern.includes('TS2352')) fixSuccessRates[pattern] = 0.92,
       else if (pattern.includes('TS2345')) fixSuccessRates[pattern] = 0.87,
       else if (pattern.includes('TS2304')) fixSuccessRates[pattern] = 0.95,
@@ -187,7 +187,7 @@ export const CAMPAIGN_PROGRESS_INTELLIGENCE = {
       result => result.errorsFixed / Math.max(result.executionTime / 1000 / 60, 0.1),
     )
 
-    const bottleneckIdentification: string[] = [];
+    const bottleneckIdentification: string[] = [],
     if (currentVelocity < 1) bottleneckIdentification.push('Low error fixing velocity')
     if (fixerResults.some(r => !r.buildValidationPassed))
       bottleneckIdentification.push('Build validation failures')
@@ -204,10 +204,10 @@ export const CAMPAIGN_PROGRESS_INTELLIGENCE = {
         : 0.8,
 
     // Strategic insights
-    const recommendedActions: string[] = [];
-    const riskAssessment: string[] = [];
-    const opportunityIdentification: string[] = [];
-    const resourceOptimization: string[] = [];
+    const recommendedActions: string[] = [],
+    const riskAssessment: string[] = [],
+    const opportunityIdentification: string[] = [],
+    const resourceOptimization: string[] = [],
 
     if (currentVelocity < 0.5) {
       recommendedActions.push('Increase batch size for higher throughput')
@@ -401,7 +401,7 @@ export const CAMPAIGN_ENTERPRISE_INTELLIGENCE = {
     )
 
     // // // _logger.info('\n🎯 Intelligence Recommendations: ')
-    intelligence.intelligenceRecommendations.slice(05).forEach(rec => {;
+    intelligence.intelligenceRecommendations.slice(05).forEach(rec => {,
       // // // _logger.info(`   • ${rec}`)
     })
 
@@ -426,7 +426,7 @@ export const CAMPAIGN_ENTERPRISE_INTELLIGENCE = {
  * Demonstrates all Enterprise Intelligence capabilities
  */
 export const _CAMPAIGN_INTELLIGENCE_DEMO = {
-  demonstrateAllIntelligence: async (): Promise<{;
+  demonstrateAllIntelligence: async (): Promise<{,
     errorPatternDemo: ErrorPatternIntelligence,
     progressAnalysisDemo: CampaignProgressIntelligence,
     enterpriseIntelligenceDemo: EnterpriseIntelligenceResult,
@@ -435,7 +435,7 @@ export const _CAMPAIGN_INTELLIGENCE_DEMO = {
   }> => {
     // Create sample data for demonstration
     const sampleErrors = [
-      { code: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 20 }
+      { code: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 20 },
       { code: 'TS2345', category: ErrorCategory.TS2345_ARGUMENT_MISMATCH, priority: 18 }
       { code: 'TS2304', category: ErrorCategory.TS2304_CANNOT_FIND_NAME, priority: 22 }
     ],

@@ -321,7 +321,7 @@ export class PerformanceMonitoringService {
   /**
    * Get performance trend over time
    */
-  getPerformanceTrend(days: number = 7): {;
+  getPerformanceTrend(days: number = 7): {,
     executionTimeTrend: 'improving' | 'degrading' | 'stable',
     memoryUsageTrend: 'improving' | 'degrading' | 'stable',
     cacheHitRateTrend: 'improving' | 'degrading' | 'stable'
@@ -553,7 +553,7 @@ export class PerformanceMonitoringService {
       if (existsSync(this.metricsFile)) {
         const data = readFileSync(this.metricsFile, 'utf8'),
         const parsed = JSON.parse(data)
-        this.metrics = parsed.map((m: unknown) => ({;
+        this.metrics = parsed.map((m: unknown) => ({,
           ...m,
           timestamp: new Date(m.timestamp)
         }))
@@ -569,7 +569,7 @@ export class PerformanceMonitoringService {
       if (existsSync(this.alertsFile)) {
         const data = readFileSync(this.alertsFile, 'utf8'),
         const parsed = JSON.parse(data)
-        this.alerts = parsed.map((a: unknown) => ({;
+        this.alerts = parsed.map((a: unknown) => ({,
           ...a,
           timestamp: new Date(a.timestamp)
         }))

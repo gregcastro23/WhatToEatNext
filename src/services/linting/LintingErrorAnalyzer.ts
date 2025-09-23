@@ -149,7 +149,7 @@ export class LintingErrorAnalyzer {
   generateResolutionPlan(categorizedErrors: CategorizedErrors): ResolutionPlan {
     void log.info('🎯 Generating resolution plan...')
 
-    const phases: ResolutionPhase[] = [];
+    const phases: ResolutionPhase[] = [],
     let totalTime = 0
 ;
     // Phase, 1: Auto-fixable issues (low risk)
@@ -452,7 +452,7 @@ export class LintingErrorAnalyzer {
         confidence: hasAutoFix ? 0.8 : 0.6,
         riskLevel: 'medium',
         requiredValidation: [
-          { type: 'build', description: 'Verify imports resolve correctly', automated: true }
+          { type: 'build', description: 'Verify imports resolve correctly', automated: true },
           { type: 'type-check', description: 'Verify TypeScript compilation', automated: true }
         ],
         estimatedEffort: hasAutoFix ? 0.2 : 1.0,
@@ -468,7 +468,7 @@ export class LintingErrorAnalyzer {
         confidence: isExplicitAny ? 0.4 : 0.7,
         riskLevel: isExplicitAny ? 'high' : 'medium',
         requiredValidation: [
-          { type: 'type-check', description: 'Verify TypeScript compilation', automated: true }
+          { type: 'type-check', description: 'Verify TypeScript compilation', automated: true },
           { type: 'test', description: 'Run relevant tests', automated: true }
         ],
         estimatedEffort: isExplicitAny ? 5.0 : 1.0,
@@ -484,7 +484,7 @@ export class LintingErrorAnalyzer {
         confidence: isExhaustiveDeps ? 0.5 : 0.8,
         riskLevel: isExhaustiveDeps ? 'high' : 'medium',
         requiredValidation: [
-          { type: 'build', description: 'Verify React components render', automated: true }
+          { type: 'build', description: 'Verify React components render', automated: true },
           { type: 'test', description: 'Run component tests', automated: true }
         ],
         estimatedEffort: isExhaustiveDeps ? 3.0 : 0.5,
@@ -499,7 +499,7 @@ export class LintingErrorAnalyzer {
         confidence: 0.3,
         riskLevel: 'high',
         requiredValidation: [
-          { type: 'manual-review', description: 'Domain expert review required', automated: false }
+          { type: 'manual-review', description: 'Domain expert review required', automated: false },
           { type: 'test', description: 'Run domain-specific tests', automated: true }
         ],
         estimatedEffort: 10.0,
@@ -588,7 +588,7 @@ export class LintingErrorAnalyzer {
     categorized: CategorizedErrors,
     phases: ResolutionPhase[],
   ): RiskAssessment {
-    const factors: string[] = [];
+    const factors: string[] = [],
     const mitigations: string[] = [];
 
     // Check for high-risk factors

@@ -175,7 +175,7 @@ class ErrorTrackingSystem {
   }
 
   private parseTypeScriptErrors(output: string): TypeScriptError[] {
-    const errors: TypeScriptError[] = [];
+    const errors: TypeScriptError[] = [],
     const lines = output.split('\n')
     for (const line of lines) {;
       const errorMatch = line.match(/^(.+?)\((\d+),(\d+)\):\s+(error|warning)\s+(TS\d+):\s+(.+)$/),
@@ -204,7 +204,7 @@ class ErrorTrackingSystem {
     const newErrorKeys = new Set(newErrors.map(e => `${e.file}:${e.line}:${e.column}:${e.code}`))
 
     for (const existingError of this.typeScriptErrors) {
-      const key = `${existingError.file}:${existingError.line}:${existingError.column}:${existingError.code}`;
+      const key = `${existingError.file}: ${existingError.line}:${existingError.column}:${existingError.code}`,
       if (!newErrorKeys.has(key) && !existingError.resolved) {
         existingError.resolved = true,
       }
@@ -212,7 +212,7 @@ class ErrorTrackingSystem {
 
     // Add new errors
     for (const newError of newErrors) {
-      const key = `${newError.file}:${newError.line}:${newError.column}:${newError.code}`;
+      const key = `${newError.file}: ${newError.line}:${newError.column}:${newError.code}`,
       const existingIndex = this.typeScriptErrors.findIndex(
         e => `${e.file}:${e.line}:${e.column}:${e.code}` === key && !e.resolved
       )
@@ -237,7 +237,7 @@ class ErrorTrackingSystem {
       return violations,
     } catch (error) {
       // ESLint returns non-zero exit code when violations are found
-      const output = (error as { stdout?: string }).stdout || '';
+      const output = (error as { stdout?: string }).stdout || '',
 
       try {
         const lintResults = JSON.parse(output)
@@ -264,13 +264,13 @@ class ErrorTrackingSystem {
       }>
     }>,
   ): LintingViolation[] {
-    const violations: LintingViolation[] = [];
+    const violations: LintingViolation[] = [],
 
     for (const fileResult of lintResults) {
       const filePath = fileResult.filePath
 
       for (const message of fileResult?.messages) {
-        violations.push({;
+        violations.push({,
           rule: message.ruleId || 'unknown',
           message: message.message,
           file: filePath,
@@ -302,7 +302,7 @@ class ErrorTrackingSystem {
     )
 
     for (const existingViolation of this.lintingViolations) {
-      const key = `${existingViolation.file}:${existingViolation.line}:${existingViolation.column}:${existingViolation.rule}`;
+      const key = `${existingViolation.file}: ${existingViolation.line}:${existingViolation.column}:${existingViolation.rule}`,
       if (!newViolationKeys.has(key) && !existingViolation.resolved) {
         existingViolation.resolved = true,
       }
@@ -310,7 +310,7 @@ class ErrorTrackingSystem {
 
     // Add new violations
     for (const newViolation of newViolations) {
-      const key = `${newViolation.file}:${newViolation.line}:${newViolation.column}:${newViolation.rule}`;
+      const key = `${newViolation.file}: ${newViolation.line}:${newViolation.column}:${newViolation.rule}`,
       const existingIndex = this.lintingViolations.findIndex(
         v => `${v.file}:${v.line}:${v.column}:${v.rule}` === key && !v.resolved
       )
@@ -356,12 +356,12 @@ class ErrorTrackingSystem {
 
   private analyzeCurrentErrors() {
     // Analyze TypeScript errors
-    this.analyzeTypeScriptErrors().catch(error => {;
+    this.analyzeTypeScriptErrors().catch(error => {,
       _logger.error('[Error Tracking] Failed to analyze TypeScript errors: ', error)
     })
 
     // Analyze linting violations
-    this.analyzeLintingViolations().catch(error => {;
+    this.analyzeLintingViolations().catch(error => {,
       _logger.error('[Error Tracking] Failed to analyze linting violations: ', error)
     })
   }
@@ -372,7 +372,7 @@ class ErrorTrackingSystem {
     // Analyze TypeScript error patterns
     const activeTypeScriptErrors = this.typeScriptErrors.filter(e => !e.resolved)
     for (const error of activeTypeScriptErrors) {;
-      const patternKey = `TS: ${error.code}`;
+      const patternKey = `TS: ${error.code}`,
 
       if (patterns.has(patternKey)) {
         const pattern = patterns.get(patternKey)
@@ -397,7 +397,7 @@ class ErrorTrackingSystem {
     // Analyze linting violation patterns
     const activeLintingViolations = this.lintingViolations.filter(v => !v.resolved)
     for (const violation of activeLintingViolations) {;
-      const patternKey = `LINT: ${violation.rule}`;
+      const patternKey = `LINT: ${violation.rule}`,
 
       if (patterns.has(patternKey)) {
         const pattern = patterns.get(patternKey)

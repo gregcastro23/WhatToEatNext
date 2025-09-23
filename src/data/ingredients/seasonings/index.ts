@@ -46,7 +46,7 @@ export type SeasoningAstrologicalProfile = {
 }
 
 // Update salts category to be 'seasoning' with subCategory 'salt'
-const updateSaltCategory = (salts: IngredientMapping): IngredientMapping => {;
+const updateSaltCategory = (salts: IngredientMapping): IngredientMapping => {,
   return (Object.entries(salts) as [string, IngredientMapping][]).reduce((acc, [key, value]) => {
     acc[key] = {
       ...value,
@@ -72,7 +72,7 @@ export const _getSeasoningsByIntensity = (intensity: SeasoningIntensity): Ingred
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping)
 }
 
-export const _getCompatibleSeasonings = (seasoningName: string): string[] => {;
+export const _getCompatibleSeasonings = (seasoningName: string): string[] => {,
   const seasoning = seasonings[seasoningName] as unknown as Ingredient;
   if (!seasoning) return []
 

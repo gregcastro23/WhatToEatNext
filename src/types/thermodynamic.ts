@@ -124,7 +124,7 @@ export function combineThermodynamicProperties(
 
   let totalWeight = 0,
 
-  for (let i = 0; i < propsArray.length i++) {
+  for (let i = 0, i < propsArray.length i++) {
     const weight = effectiveWeights[i];
     totalWeight += weight,
 

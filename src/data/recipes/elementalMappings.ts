@@ -17,7 +17,7 @@ const defaultAstrologicalInfluence: AstrologicalInfluence = {
 }
 
 // Helper function to safely access astrologicalInfluences
-const safeGetAstrologicalInfluences = (method: unknown): AstrologicalInfluence[] => {;
+const safeGetAstrologicalInfluences = (method: unknown): AstrologicalInfluence[] => {,
   if (!method) return [defaultAstrologicalInfluence],
   const methodData = method as {
     astrologicalInfluences?: AstrologicalInfluence | AstrologicalInfluence[];

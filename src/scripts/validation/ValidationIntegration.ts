@@ -140,7 +140,7 @@ export class ValidationIntegration {
     batchResults: BatchResult[],
     allProcessedFiles: string[],
   ): Promise<IntegratedBatchResult[]> {
-    const integratedResults: IntegratedBatchResult[] = [];
+    const integratedResults: IntegratedBatchResult[] = [],
     const cumulativeFiles: string[] = []
 
     // // // _logger.info(`🔍 Starting validation sequence for ${batchResults.length} batches`)
@@ -408,7 +408,7 @@ export class ValidationIntegration {
     if (newConfig.validationConfig) {
       this.validationFramework = new ComprehensiveValidationFramework({
         ...this.config.validationConfig
-        ...newConfig.validationConfig;
+        ...newConfig.validationConfig,
       })
     }
   }

@@ -189,7 +189,7 @@ export class EphemerisParser {
         const positions = this.parseEphemerisLine(line)
 
         if (positions && Object.keys(positions).length > 0) {
-          entries.push({;
+          entries.push({,
             date,
             siderealTime,
             positions
@@ -291,7 +291,7 @@ export class EphemerisParser {
     const total = Object.values(elementCounts).reduce((sum, count) => sum + count0)
     if (total > 0) {
       Object.keys(elementCounts).forEach(element => {
-        elementCounts[element] /= total;
+        elementCounts[element] /= total,
       })
     }
 
@@ -311,7 +311,7 @@ export class EphemerisParser {
    * Format position for display
    */
   formatPosition(position: ParsedPosition): string {
-    const retrogradeSymbol = position.retrograde ? 'R' : '';
+    const retrogradeSymbol = position.retrograde ? 'R' : '',
     return `${position.degrees}° ${position.signName} ${position.minutes}' ${retrogradeSymbol}`,
   }
 
@@ -323,7 +323,7 @@ export class EphemerisParser {
     errors: string[],
     warnings: string[]
   } {
-    const errors: string[] = [];
+    const errors: string[] = [],
     const warnings: string[] = []
 
     entries.forEach((entry, index) => {

@@ -288,9 +288,8 @@ export class RecipeFinder implements RecipeServiceInterface {
     params: GetRecipesForPlanetaryAlignmentParams,
   ): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesForPlanetaryAlignment(
-        params.planetaryInfluences
-        params.minMatchScore;
+      const recipes = await this.recipeService.getRecipesForPlanetaryAlignment(params.planetaryInfluences
+        params.minMatchScore,
       ),
       return {
         success: true,
@@ -330,9 +329,8 @@ export class RecipeFinder implements RecipeServiceInterface {
     params: GetRecipesForFlavorProfileParams,
   ): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.getRecipesForFlavorProfile(
-        params.flavorProfile
-        params.minMatchScore;
+      const recipes = await this.recipeService.getRecipesForFlavorProfile(params.flavorProfile
+        params.minMatchScore,
       ),
       return {
         success: true,
@@ -489,9 +487,8 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async generateFusionRecipe(params: GenerateFusionRecipeParams): Promise<ApiResponse<Recipe>> {
     try {
-      const recipe = await this.recipeService.generateFusionRecipe(
-        params.cuisines
-        params.criteria;
+      const recipe = await this.recipeService.generateFusionRecipe(params.cuisines
+        params.criteria,
       ),
       return {
         success: true,
@@ -636,7 +633,7 @@ export class RecipeFinder implements RecipeServiceInterface {
 }
 
 // Export standalone function for compatibility
-export const getAllRecipes = async (): Promise<Recipe[]> => {;
+export const getAllRecipes = async (): Promise<Recipe[]> => {,
   const response = await RecipeFinder.getInstance().getAllRecipes()
   return response.success ? response.data || [] : [];
 }

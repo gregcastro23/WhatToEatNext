@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawAmaranth = {
-  amaranth: {;
+  amaranth: {,
     name: 'Amaranth',
     elementalProperties: { Earth: 0.3, Fire: 0.3, Air: 0.2, Water: 0.2 },
     astrologicalProfile: {

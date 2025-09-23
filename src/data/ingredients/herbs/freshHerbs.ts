@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawFreshHerbs = {
-  basil: {;
+  basil: {,
     name: 'Basil',
     category: 'culinary_herb',
     subCategory: 'fresh_herb',

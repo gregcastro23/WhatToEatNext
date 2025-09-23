@@ -285,7 +285,7 @@ export function useCurrentChart() {
         <g class='planets'>,
           ${planetPositions
             .map(p => {
-              // Skip the North and South Nodes as they're now drawn separately;
+              // Skip the North and South Nodes as they're now drawn separately,
               if (p.planet === 'NorthNode' || p.planet === 'SouthNode') return '',
 
               return `

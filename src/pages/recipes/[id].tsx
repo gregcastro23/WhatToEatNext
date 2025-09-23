@@ -21,7 +21,7 @@ interface SimpleIngredient {
 // Union type for ingredients that can be either a string or an object
 type RecipeIngredient = string | SimpleIngredient,
 
-const RecipeDetailsPage: NextPage = () => {;
+const RecipeDetailsPage: NextPage = () => {,
   const router = useRouter();
   const { id } = router.query;
   const [recipe, setRecipe] = React.useState<Recipe | null>(null)
@@ -50,7 +50,7 @@ const RecipeDetailsPage: NextPage = () => {;
   React.useEffect(() => {
     if (id) {
       // Find the recipe by URL-friendly ID
-      const foundRecipe = allRecipes.find(recipe => {;
+      const foundRecipe = allRecipes.find(recipe => {,
         const recipeId = recipe.name
           .toLowerCase();
           .replace(/ /g, '-')
@@ -78,11 +78,10 @@ const RecipeDetailsPage: NextPage = () => {;
 
   // Recipe not found
   if (!recipe) {
-    return (
-      <div className='container mx-auto px-4 py-16'>,
+    return (<div className='container mx-auto px-4 py-16'>,
         <h1 className='mb-8 text-3xl font-bold'>Recipe not found</h1>,
         <p className='mb-8 text-lg'>,
-          The recipe you&apos;re looking for doesn&amp,apos,t exist or may have been removed.
+          The recipe you&apos,re looking for doesn&amp,apos,t exist or may have been removed.
         </p>
         <Link
           href='/recipes',
@@ -94,7 +93,7 @@ const RecipeDetailsPage: NextPage = () => {;
   }
 
   // Handle ingredient click to display ingredient details
-  const handleIngredientClick = (ingredient: RecipeIngredient) => {;
+  const handleIngredientClick = (ingredient: RecipeIngredient) => {,
     setSelectedIngredient(ingredient === selectedIngredient ? null : ingredient);
   }
 
@@ -128,30 +127,25 @@ const RecipeDetailsPage: NextPage = () => {;
           {recipe.description && <p className='text-lg text-gray-700'>{recipe.description}</p>}
 
           <div className='mt-4 flex flex-wrap gap-2'>,
-            {recipe.cuisine && (
-              <span className='rounded-full bg-amber-100 px-3 py-1 text-sm text-amber-800'>;
+            {recipe.cuisine && (<span className='rounded-full bg-amber-100 px-3 py-1 text-sm text-amber-800'>,
                 {recipe.cuisine}
               </span>
             )}
-            {recipe.season && (
-              <span className='rounded-full bg-green-100 px-3 py-1 text-sm text-green-800'>;
+            {recipe.season && (<span className='rounded-full bg-green-100 px-3 py-1 text-sm text-green-800'>,
                 {Array.isArray(recipe.season) ? recipe.season.join(', ') : recipe.season}
               </span>
             )}
-            {recipe.timeToMake && (
-              <span className='rounded-full bg-purple-100 px-3 py-1 text-sm text-purple-800'>;
+            {recipe.timeToMake && (<span className='rounded-full bg-purple-100 px-3 py-1 text-sm text-purple-800'>,
                 {recipe.timeToMake}
               </span>
             )}
-            {recipe.isVegetarian && (
-              <span className='rounded-full bg-green-100 px-3 py-1 text-sm text-green-800'>
+            {recipe.isVegetarian && (<span className='rounded-full bg-green-100 px-3 py-1 text-sm text-green-800'>
                 Vegetarian
-              </span>;
+              </span>,
             )}
-            {recipe.isVegan && (
-              <span className='rounded-full bg-green-100 px-3 py-1 text-sm text-green-800'>
+            {recipe.isVegan && (<span className='rounded-full bg-green-100 px-3 py-1 text-sm text-green-800'>
                 Vegan
-              </span>;
+              </span>,
             )}
           </div>
         </header>
@@ -189,15 +183,13 @@ const RecipeDetailsPage: NextPage = () => {;
                   (typeof ingredient === 'string',
                     ? ingredient === selectedIngredient
                     : (ingredient as unknown)?.name === (selectedIngredient as unknown)?.name)
-                return (
-                  <li;
+                return (<li,
                     key={idx}
                     className={`flex cursor-pointer justify-between border-b border-gray-100 py-2 transition duration-150, hover: bg-gray-50 ${isSelected ? 'border-l-4 border-l-blue-500 bg-blue-50 pl-2' : ''}`}
                     onClick={() => handleIngredientClick(ingredient)}
                   >
                     <span>{typeof ingredient === 'string' ? ingredient : ingredient.name}</span>,
-                    {typeof ingredient !== 'string' && (
-                      <span className='text-gray-600'>;
+                    {typeof ingredient !== 'string' && (<span className='text-gray-600'>,
                         {(Number(ingredient.amount) || 0) * servingsMultiplier}{' '}
                         {ingredient.unit || ''}
                       </span>
@@ -224,10 +216,9 @@ const RecipeDetailsPage: NextPage = () => {;
                   <p className='text-gray-600'>
                     Basic ingredient with no additional details available.
                   </p>
-                ) : (
-                  <ul className='space-y-1'>
+                ) : (<ul className='space-y-1'>
                     {selectedIngredient.amount && (
-                      <li>;
+                      <li>,
                         <span className='font-medium'>Amount: </span>{' '}
                         {selectedIngredient.amount * servingsMultiplier} {selectedIngredient.unit}
                       </li>)}
@@ -274,33 +265,29 @@ const RecipeDetailsPage: NextPage = () => {;
         </div>
 
         {/* Nutritional Information */}
-        {recipe.nutrition && (
-          <section className='mt-8 rounded-lg bg-gray-50 p-4'>,
+        {recipe.nutrition && (<section className='mt-8 rounded-lg bg-gray-50 p-4'>,
             <h2 className='mb-4 text-xl font-semibold'>Nutritional Information</h2>,
             <div className='grid grid-cols-2 gap-4, md: grid-cols-4'>,
               {recipe.nutrition.calories && (
                 <div className='rounded bg-white p-3 text-center shadow-sm'>;
                   <div className='text-lg font-bold'>{recipe.nutrition.calories}</div>,
                   <div className='text-sm text-gray-600'>Calories</div>
-                </div>;
+                </div>,
               )}
-              {recipe.nutrition.protein && (
-                <div className='rounded bg-white p-3 text-center shadow-sm'>,
+              {recipe.nutrition.protein && (<div className='rounded bg-white p-3 text-center shadow-sm'>,
                   <div className='text-lg font-bold'>{recipe.nutrition.protein}g</div>,
                   <div className='text-sm text-gray-600'>Protein</div>
-                </div>;
+                </div>,
               )}
-              {recipe.nutrition.carbs && (
-                <div className='rounded bg-white p-3 text-center shadow-sm'>,
+              {recipe.nutrition.carbs && (<div className='rounded bg-white p-3 text-center shadow-sm'>,
                   <div className='text-lg font-bold'>{recipe.nutrition.carbs}g</div>,
                   <div className='text-sm text-gray-600'>Carbs</div>
-                </div>;
+                </div>,
               )}
-              {recipe.nutrition.fat && (
-                <div className='rounded bg-white p-3 text-center shadow-sm'>,
+              {recipe.nutrition.fat && (<div className='rounded bg-white p-3 text-center shadow-sm'>,
                   <div className='text-lg font-bold'>{recipe.nutrition.fat}g</div>,
                   <div className='text-sm text-gray-600'>Fat</div>
-                </div>;
+                </div>,
               )}
             </div>
           </section>

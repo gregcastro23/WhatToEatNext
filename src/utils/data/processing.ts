@@ -145,7 +145,7 @@ export function standardizeRecipe(recipe: unknown): Recipe {
  * @returns Validation result
  */
 export function validateIngredient(ingredient: Partial<Ingredient>): ValidationResult {
-  const errors: string[] = [];
+  const errors: string[] = [],
   const warnings: string[] = [];
 
   // Required fields
@@ -195,7 +195,7 @@ export function validateIngredient(ingredient: Partial<Ingredient>): ValidationR
  * @returns Validation result
  */
 export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
-  const errors: string[] = [];
+  const errors: string[] = [],
   const warnings: string[] = [];
 
   // Required fields
@@ -251,8 +251,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
 
   // Elemental properties validation
   if (recipe.elementalState) {
-    const elementalValidation = validateElementalProperties(
-      recipe.elementalState as unknown as ElementalProperties;
+    const elementalValidation = validateElementalProperties(recipe.elementalState as unknown as ElementalProperties,
     ),
     if (!elementalValidation.isValid) {
       warnings.push(...elementalValidation.errors)
@@ -392,9 +391,9 @@ function standardizeElementalProperties(properties: unknown): ElementalPropertie
   }
 
   const props = properties as any;
-  const Fire = typeof props.Fire === 'number' ? props.Fire : 0.25;
-  const Water = typeof props.Water === 'number' ? props.Water : 0.25;
-  const Earth = typeof props.Earth === 'number' ? props.Earth : 0.25;
+  const Fire = typeof props.Fire === 'number' ? props.Fire : 0.25,
+  const Water = typeof props.Water === 'number' ? props.Water : 0.25,
+  const Earth = typeof props.Earth === 'number' ? props.Earth : 0.25,
   const Air = typeof props.Air === 'number' ? props.Air : 0.25;
 
   // Normalize
@@ -475,7 +474,7 @@ function standardizeRecipeIngredients(ingredients: unknown): RecipeIngredient[] 
     return []
   }
 
-  return (ingredients || []).map(ingredient => {;
+  return (ingredients || []).map(ingredient => {,
     if (typeof ingredient === 'string') {,
       return {
         name: ingredient,
@@ -517,7 +516,7 @@ function validateDifficulty(difficulty: unknown): boolean {
 }
 
 function validateElementalProperties(properties: ElementalProperties): ValidationResult {
-  const errors: string[] = [];
+  const errors: string[] = [],
 
   if (!properties || typeof properties !== 'object') {
     errors.push('Elemental properties must be an object')
@@ -544,7 +543,7 @@ function validateElementalProperties(properties: ElementalProperties): Validatio
 }
 
 function validateAstrologicalProfile(profile: AstrologicalProfile): ValidationResult {
-  const errors: string[] = [];
+  const errors: string[] = [],
 
   if (!profile || typeof profile !== 'object') {
     errors.push('Astrological profile must be an object')
@@ -569,7 +568,7 @@ function validateAstrologicalProfile(profile: AstrologicalProfile): ValidationRe
 }
 
 function validateRecipeIngredient(ingredient: unknown): ValidationResult {
-  const errors: string[] = [];
+  const errors: string[] = [],
 
   if (!ingredient || typeof ingredient !== 'object') {
     errors.push('Ingredient must be an object')

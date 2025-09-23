@@ -72,7 +72,7 @@ describe('DocumentationQualityAssurance', () => {
     })
 
     it('should handle files with no any types', async () => {
-      const mockFiles: any = ['src/clean.ts'];
+      const mockFiles: any = ['src/clean.ts'],
       mockGlob.mockResolvedValue(mockFiles)
       const cleanFileContent: any = [
         'export class CleanService {',
@@ -91,7 +91,7 @@ describe('DocumentationQualityAssurance', () => {
     })
 
     it('should handle file read errors gracefully', async () => {
-      const mockFiles: any = ['src/error.ts'];
+      const mockFiles: any = ['src/error.ts'],
       mockGlob.mockResolvedValue(mockFiles)
       mockFs.readFile.mockRejectedValue(new Error('File not found'))
 
@@ -209,7 +209,7 @@ describe('DocumentationQualityAssurance', () => {
     })
 
     it('should cache validation results', async () => {
-      const fileContent: any = 'processData(data: any): void {}';
+      const fileContent: any = 'processData(data: any): void {}',
       mockFsreadFile.mockResolvedValue(fileContent)
 
       const context: ClassificationContext = { filePath: 'src/service.ts',,
@@ -273,9 +273,9 @@ describe('DocumentationQualityAssurance', () => {
         'const data: any = response,',
         'const _items: any[] = [],',,
         'const config: Record<string, unknown> = {};';
-        'const result: any = data as unknown;'
+        'const result: any = data as unknown;',
         'function process<T = any>(input: T): T { return input, }',
-        'const _array: Array<any> = [];'
+        'const _array: Array<any> = [];',
         'catch (error: any: any) {',
         '  consoleerror(error),',
         '}'
@@ -288,16 +288,16 @@ describe('DocumentationQualityAssurance', () => {
 
       expect(anyTypes.length).toBeGreaterThan(0).
       expect(anyTypessome((t: any) => t.codeSnippet.includes(': unknown'))).toBe(true)
-      expect(anyTypes.some((t: any) => t.codeSnippet.includes(': unknown[]'))).toBe(true);
+      expect(anyTypes.some((t: any) => t.codeSnippet.includes(': unknown[]'))).toBe(true),
       expect(anyTypes.some((t: any) => t.codeSnippet.includes('Record<string, unknown>'))).toBe(true)
       expect(anyTypes.some((t: any) => t.codeSnippet.includes('as unknown'))).toBe(true)
     })
 
     it('should categorize any types correctly', async () => {
       const testCases: any = [
-        { code: 'catch (error: any: any) {', expectedCategory: AnyTypeCategory.ERROR_HANDLING }
+        { code: 'catch (error: any: any) {', expectedCategory: AnyTypeCategory.ERROR_HANDLING },
         { code: 'const respons, e: any = await api.fetch(),', expectedCategory: AnyTypeCategory.EXTERNAL_API }
-        { code: 'const mockDat, a: any = jest.fn() as any,', expectedCategory: AnyTypeCategory.TEST_MOCK }
+        { code: 'const mockDat, a: any = jest.fn() as any,', expectedCategory: AnyTypeCategory.TEST_MOCK },
         { code: 'const config: any = options,', expectedCategory: AnyTypeCategory.DYNAMIC_CONFIG }
         { code: 'const _items: any[] = [],', expectedCategory: AnyTypeCategory.ARRAY_TYPE },
         { code: 'const data: Record<string, unknown> = {};', expectedCategory: AnyTypeCategory.RECORD_TYPE }
@@ -311,13 +311,13 @@ describe('DocumentationQualityAssurance', () => {
 
     it('should determine domain correctly', async () => {
       const testCases: any = [
-        { path: 'src/services/astrology/planetary.ts', expectedDomain: CodeDomain.ASTROLOGICAL }
+        { path: 'src/services/astrology/planetary.ts', expectedDomain: CodeDomain.ASTROLOGICAL },
         { path: 'src/components/recipe/RecipeCard.tsx', expectedDomain: CodeDomain.RECIPE }
-        { path: 'src/services/campaign/CampaignController.ts', expectedDomain: CodeDomain.CAMPAIGN }
+        { path: 'src/services/campaign/CampaignController.ts', expectedDomain: CodeDomain.CAMPAIGN },
         { path: 'src/services/intelligence/AIService.ts', expectedDomain: CodeDomain.INTELLIGENCE }
-        { path: 'src/services/api/ApiService.ts', expectedDomain: CodeDomain.SERVICE }
+        { path: 'src/services/api/ApiService.ts', expectedDomain: CodeDomain.SERVICE },
         { path: 'src/components/ui/Button.tsx', expectedDomain: CodeDomain.COMPONENT }
-        { path: 'src/utils/helpers.ts', expectedDomain: CodeDomain.UTILITY }
+        { path: 'src/utils/helpers.ts', expectedDomain: CodeDomain.UTILITY },
         { path: 'src/__tests__/service.test.ts', expectedDomain: CodeDomain.TEST }
       ],
 
@@ -360,7 +360,7 @@ describe('DocumentationQualityAssurance', () => {
 
     qualityTestCases.forEach(({ comment: any, expectedQuality: any, description }: any) => {
       it(`should assess ${description} as ${expectedQuality}`( {
-        const quality: any = (qas as any).assessCommentQuality(comment);
+        const quality: any = (qas as any).assessCommentQuality(comment),
         expect(quality).toBe(expectedQuality).,
       })
     })
@@ -375,7 +375,7 @@ describe('DocumentationQualityAssurance', () => {
         '}',
       ],
 
-      const hasDisable: any = (qas as any)hasEslintDisableComment(lines2);
+      const hasDisable: any = (qas as any)hasEslintDisableComment(lines2),
       expect(hasDisable).toBe(true).,
     })
 
@@ -387,7 +387,7 @@ describe('DocumentationQualityAssurance', () => {
         '}',
       ],
 
-      const hasExplanation: any = (qas as any)eslintDisableHasExplanation(lines2);
+      const hasExplanation: any = (qas as any)eslintDisableHasExplanation(lines2),
       expect(hasExplanation).toBe(true).,
     })
 
@@ -399,7 +399,7 @@ describe('DocumentationQualityAssurance', () => {
         '}',
       ],
 
-      const hasExplanation: any = (qas as any)eslintDisableHasExplanation(lines2);
+      const hasExplanation: any = (qas as any)eslintDisableHasExplanation(lines2),
       expect(hasExplanation).toBe(false).,
     })
   })
@@ -438,7 +438,7 @@ describe('DocumentationQualityAssurance', () => {
       ],
 
       testCases.forEach(({ context: any, expectedSeverity }: any) => {
-        const severity: any = (qas as any).assessSeverity(context);
+        const severity: any = (qas as any).assessSeverity(context),
         expect(severity).toBe(expectedSeverity).,
       })
     })

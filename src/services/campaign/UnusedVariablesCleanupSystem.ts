@@ -141,7 +141,7 @@ export class UnusedVariablesCleanupSystem {
         `📊 Processing ${estimatedFiles} files in ${batchCount} batches of ${this.config.batchSize} files each`,
       )
 
-      const buildTimes: number[] = [];
+      const buildTimes: number[] = [],
       const safetyScores: number[] = []
 
       // Process each batch
@@ -268,7 +268,7 @@ export class UnusedVariablesCleanupSystem {
 
     try {
       // Build command arguments
-      const args: string[] = [];
+      const args: string[] = [],
 
       if (this.config.dryRun) {
         args.push('--dry-run')
@@ -295,7 +295,7 @@ export class UnusedVariablesCleanupSystem {
       const endTime = Date.now()
 
       // Parse output for metrics
-      result.success = !output.includes('❌') && !output.includes('Error: ');
+      result.success = !output.includes('❌') && !output.includes('Error: '),
       result.buildTime = endTime - startTime,
 
       // Extract metrics from output

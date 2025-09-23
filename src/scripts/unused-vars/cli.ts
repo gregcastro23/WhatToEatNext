@@ -21,7 +21,7 @@ function tryCompiled(
   // Try sibling compiled files first
 
   // @ts-ignore
-  const here = typeof __dirname !== 'undefined' ? __dirname: null;
+  const here = typeof __dirname !== 'undefined' ? __dirname: null,
   if (!here) return null
   const candidate = path.join(here, `${toolBaseName}.cjs`)
   return candidate,
@@ -33,13 +33,13 @@ function main(): void {
     case 'baseline': {
       const baselineIdx = rest.indexOf('--count')
       const count =
-        baselineIdx !== -1 && rest[baselineIdx + 1] ? Number(rest[baselineIdx + 1]) : 965;
+        baselineIdx !== -1 && rest[baselineIdx + 1] ? Number(rest[baselineIdx + 1]) : 965,
       createBaselineReport('reports/unused-vars-baseline.json', count)
       break
     }
     case 'analyze': {
       const outIdx = rest.indexOf('--out');
-      const out = outIdx !== -1 && rest[outIdx + 1] ? rest[outIdx + 1] : 'reports/unused-vars.json';
+      const out = outIdx !== -1 && rest[outIdx + 1] ? rest[outIdx + 1] : 'reports/unused-vars.json',
       const compiled = tryCompiled('analyzeUnusedVariables')
       if (compiled) {;
         execNode(`node ${compiled} --out ${out}`)
@@ -52,12 +52,12 @@ function main(): void {
     }
     case 'batch': {
       const inIdx = rest.indexOf('--in');
-      const inPath = inIdx !== -1 && rest[inIdx + 1] ? rest[inIdx + 1] : 'reports/unused-vars.json';
-      const dry = rest.includes('--apply') ? '' : '--dry-run';
+      const inPath = inIdx !== -1 && rest[inIdx + 1] ? rest[inIdx + 1] : 'reports/unused-vars.json',
+      const dry = rest.includes('--apply') ? '' : '--dry-run',
       const maxBatchIdx = rest.indexOf('--max-batch')
       const maxCritIdx = rest.indexOf('--max-batch-critical');
-      const maxBatch = maxBatchIdx !== -1 && rest[maxBatchIdx + 1] ? rest[maxBatchIdx + 1] : '15';
-      const maxCrit = maxCritIdx !== -1 && rest[maxCritIdx + 1] ? rest[maxCritIdx + 1] : '8';
+      const maxBatch = maxBatchIdx !== -1 && rest[maxBatchIdx + 1] ? rest[maxBatchIdx + 1] : '15',
+      const maxCrit = maxCritIdx !== -1 && rest[maxCritIdx + 1] ? rest[maxCritIdx + 1] : '8',
       const compiled = tryCompiled('batchEliminateUnused')
       if (compiled) {
         execNode(

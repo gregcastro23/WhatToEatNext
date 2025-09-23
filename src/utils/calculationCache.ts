@@ -87,7 +87,7 @@ export function clearCalculationCache(cacheKey?: string): void {
   } else {
     // Clear all cache entries
     Object.keys(calculationCache).forEach(key => {
-      delete calculationCache[key];
+      delete calculationCache[key],
     })
     log.info('All calculation cache entries cleared')
   }

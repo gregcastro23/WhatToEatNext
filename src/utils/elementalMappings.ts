@@ -62,7 +62,7 @@ export const elementalFunctions = {
   /**
    * Calculate the elemental affinity between two sets of properties
    */;
-  _calculateAffinity: (props1: ElementalProperties, props2: ElementalProperties): number => {;
+  _calculateAffinity: (props1: ElementalProperties, props2: ElementalProperties): number => {,
     const affinity = 0;
     const count = 0
 ;
@@ -82,7 +82,7 @@ export const elementalFunctions = {
   /**
    * Get dominant element from properties
    */
-  getDominantElement: (props: ElementalProperties): Element => {;
+  getDominantElement: (props: ElementalProperties): Element => {,
     return Object.entries(props).reduce((a, b) => (b[1] > a[1] ? b : a))[0] as Element
   }
 

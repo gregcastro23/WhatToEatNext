@@ -27,7 +27,7 @@ describe('UnusedExportAnalyzer', () => {
 
   describe('constructor', () => {
     it('should initialize with default src path', () => {
-      const defaultAnalyzer: any = new UnusedExportAnalyzer();
+      const defaultAnalyzer: any = new UnusedExportAnalyzer(),
       expect(defaultAnalyzer).toBeInstanceOf(UnusedExportAnalyzer).,
     })
 
@@ -42,7 +42,7 @@ describe('UnusedExportAnalyzer', () => {
       // Mock glob to return test files
       mockGlob.glob.mockResolvedValue([
         '/project/src/components/TestComponent.tsx',
-        '/project/src/services/TestService.ts'
+        '/project/src/services/TestService.ts',
         '/project/src/data/recipes/TestRecipe.ts'
       ]),
 
@@ -132,10 +132,10 @@ export type TestType = string,
       )
 
       expect(exports).toHaveLength(5).
-      expect(exportsfind((e: any) => (e as { exportNam, e: string }).exportName === 'testConst')).toBeDefined();
-      expect(exports.find((e: any) => (e as { exportNam, e: string }).exportName === 'testFunction')).toBeDefined();
-      expect(exports.find((e: any) => (e as { exportNam, e: string }).exportName === 'TestClass')).toBeDefined();
-      expect(exports.find((e: any) => (e as { exportNam, e: string }).exportName === 'TestInterface')).toBeDefined();
+      expect(exportsfind((e: any) => (e as { exportNam, e: string }).exportName === 'testConst')).toBeDefined(),
+      expect(exports.find((e: any) => (e as { exportNam, e: string }).exportName === 'testFunction')).toBeDefined(),
+      expect(exports.find((e: any) => (e as { exportNam, e: string }).exportName === 'TestClass')).toBeDefined(),
+      expect(exports.find((e: any) => (e as { exportNam, e: string }).exportName === 'TestInterface')).toBeDefined(),
       expect(exports.find((e: any) => (e as { exportNam, e: string }).exportName === 'TestType')).toBeDefined();
     })
 
@@ -164,8 +164,8 @@ export { testA, testB, testC as aliasC };
       )
 
       expect(exports).toHaveLength(3).
-      expect(exportsfind((e: any) => (e as { exportNam, e: string }).exportName === 'testA')).toBeDefined();
-      expect(exports.find((e: any) => (e as { exportNam, e: string }).exportName === 'testB')).toBeDefined();
+      expect(exportsfind((e: any) => (e as { exportNam, e: string }).exportName === 'testA')).toBeDefined(),
+      expect(exports.find((e: any) => (e as { exportNam, e: string }).exportName === 'testB')).toBeDefined(),
       expect(exports.find((e: any) => (e as { exportNam, e: string }).exportName === 'testC')).toBeDefined();
     })
   })
@@ -246,7 +246,7 @@ export { testA, testB, testC as aliasC };
 
     it('should return lower score for complex files', () => {
       const content: any = 'export const complex = 'test',\n'repeat(600), // Large file,
-      const unusedExports: any = Array(15).fill({;
+      const unusedExports: any = Array(15).fill({,
         exportName: 'test',
         exportType: 'const' as const,
         lineNumber: 1,
@@ -264,7 +264,7 @@ export { testA, testB, testC as aliasC };
 
     it('should increase score for test files', () => {
       const content: any = 'export const testExport = 'test',\n'repeat(300), // Medium complexity file,
-      const unusedExports: any = Array(8).fill({;
+      const unusedExports: any = Array(8).fill({,
         exportName: 'testExport',
         exportType: 'const' as const,
         lineNumber: 1,
@@ -333,8 +333,7 @@ export { testA, testB, testC as aliasC };
         filePath: '',
       }
 
-      const complexity = (
-        analyzer as {;
+      const complexity = (analyzer as {,
           assessTransformationComplexity: (exportInf, o: Record<string, unknown>) => TransformationComplexity
         }
       )assessTransformationComplexity(exportInfo)
@@ -352,8 +351,7 @@ export { testA, testB, testC as aliasC };
         filePath: '',
       }
 
-      const complexity = (
-        analyzer as {;
+      const complexity = (analyzer as {,
           assessTransformationComplexity: (exportInf, o: Record<string, unknown>) => TransformationComplexity
         }
       ).assessTransformationComplexity(exportInfo)
@@ -371,8 +369,7 @@ export { testA, testB, testC as aliasC };
         filePath: '',
       }
 
-      const complexity = (
-        analyzer as {;
+      const complexity = (analyzer as {,
           assessTransformationComplexity: (exportInf, o: Record<string, unknown>) => TransformationComplexity
         }
       ).assessTransformationComplexity(exportInfo)
@@ -390,8 +387,7 @@ export { testA, testB, testC as aliasC };
         filePath: '',
       }
 
-      const complexity = (
-        analyzer as {;
+      const complexity = (analyzer as {,
           assessTransformationComplexity: (exportInf, o: Record<string, unknown>) => TransformationComplexity
         }
       ).assessTransformationComplexity(exportInfo)

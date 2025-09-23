@@ -469,11 +469,11 @@ export class UnifiedRecipeBuildingSystem {;
       originalRecipe,
       adaptedRecipe,
       adaptationChanges: {
-        ingredientSubstitutions: ingredientSubstitutions.map(sub => ({;
+        ingredientSubstitutions: ingredientSubstitutions.map(sub => ({,
           ...sub,
           seasonalImprovement: 0.1,
         })),
-        cookingMethodAdjustments: cookingMethodAdjustments.map(adj => ({;
+        cookingMethodAdjustments: cookingMethodAdjustments.map(adj => ({,
           original: (adj as unknown as MethodAdjustment)?.method || '',
           adjusted: (adj as unknown as MethodAdjustment)?.adjustment || '',
           reason: (adj as unknown as MethodAdjustment)?.reason || '',
@@ -570,7 +570,7 @@ export class UnifiedRecipeBuildingSystem {;
    * Generate recipe recommendations based on planetary hours and astrological conditions
    */
   generatePlanetaryRecipeRecommendation(
-    criteria: RecipeBuildingCriteria & {;
+    criteria: RecipeBuildingCriteria & {,
       currentPlanetaryHour: PlanetName,
       lunarPhase: LunarPhase,
       currentZodiacSign?: any
@@ -679,7 +679,7 @@ export class UnifiedRecipeBuildingSystem {;
     originalMonica: number | null,
     targetMonica: number,
   ): number[] {
-    const adjustments: number[] = [];
+    const adjustments: number[] = [],
     const currentMonica = originalMonica || 50; // Default to neutral if not provided
     const monicaDiff = targetMonica - currentMonica;
 
@@ -709,7 +709,7 @@ export class UnifiedRecipeBuildingSystem {;
     originalMonica: number | null,
     targetMonica: number,
   ): number[] {
-    const adjustments: number[] = [];
+    const adjustments: number[] = [],
     const currentMonica = originalMonica || 50;
     const monicaDiff = targetMonica - currentMonica
 
@@ -739,7 +739,7 @@ export class UnifiedRecipeBuildingSystem {;
     originalMonica: number | null,
     targetMonica: number,
   ): string[] {
-    const modifications: string[] = [];
+    const modifications: string[] = [],
     const currentMonica = originalMonica || 50;
     const monicaDiff = targetMonica - currentMonica
 
@@ -871,7 +871,7 @@ export class UnifiedRecipeBuildingSystem {;
       }
     }
 
-    const intensity = targetMonica > 65 ? 'high' : targetMonica > 35 ? 'medium' : 'low';
+    const intensity = targetMonica > 65 ? 'high' : targetMonica > 35 ? 'medium' : 'low',
     return (
       timingMap[season][intensity] || 'Cook during planetary hours aligned with your intention')
   }
@@ -999,8 +999,7 @@ export class UnifiedRecipeBuildingSystem {;
 
     // Use recipe ingredients and seasonal recommendations for intelligent substitutions
     for (const ingredient of recipe.ingredients || []) {
-      const seasonalIngredient = (
-        seasonalRecommendations as unknown as {;
+      const seasonalIngredient = (seasonalRecommendations as unknown as {,
           getSeasonalEquivalent?: (name: string, season: Season) => string
         }
       )?.getSeasonalEquivalent?.(ingredient.name, season)
@@ -1026,10 +1025,9 @@ export class UnifiedRecipeBuildingSystem {;
     const adjustments = []
 
     // Adapt cooking methods based on season and recipe type;
-    const currentMethods = (recipe as { cookingMethods?: string[] | string })?.cookingMethods || [];
+    const currentMethods = (recipe as { cookingMethods?: string[] | string })?.cookingMethods || [],
     for (const method of Array.isArray(currentMethods) ? currentMethods : [currentMethods]) {
-      const seasonalAdjustment = (
-        seasonalRecommendations as unknown as {;
+      const seasonalAdjustment = (seasonalRecommendations as unknown as {,
           getCookingMethodAdjustment?: (method: string, season: Season) => string
         }
       )?.getCookingMethodAdjustment?.(method, season)

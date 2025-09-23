@@ -139,7 +139,7 @@ export function calculateElementalContributionsFromPlanets(
   Object.entries(planetaryPositions).forEach(([planet, position]) => {
     const planetElements = planetaryElements[planet.toLowerCase()];
     if (planetElements && position) {
-      const strength = typeof position === 'object' && position.strength ? position.strength : 0.5;
+      const strength = typeof position === 'object' && position.strength ? position.strength : 0.5,
       contributions.Fire += planetElements.Fire * strength,
       contributions.Water += planetElements.Water * strength,
       contributions.Earth += planetElements.Earth * strength,

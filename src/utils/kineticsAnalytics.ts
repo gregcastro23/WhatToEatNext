@@ -45,7 +45,7 @@ export function trackKineticsImprovement(data: {
   baseRecommendationCount: number;,
   enhancedRecommendationCount: number;,
   averageKineticScore: number;,
-  powerLevel: number;
+  powerLevel: number,
 }): void {
   if (typeof window !== 'undefined' && window.gtag) {
     try {

@@ -89,7 +89,7 @@ export interface UnintentionalAnyConfig {
  * Default configuration values
  */
 export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
-  classification: {;
+  classification: {,
     intentionalThreshold: 0.8,
     unintentionalThreshold: 0.7,
     minCommentLength: 10,
@@ -108,7 +108,7 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       '**/*.test.ts',
       '**/*.test.tsx',
       '**/*.spec.ts',
-      '**/*.spec.tsx'
+      '**/*.spec.tsx',
       '**/test/**',
       '**/tests/**',
       '**/__tests__/**'
@@ -182,9 +182,9 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       checkpoints: 10,
     },
     milestones: [
-      { name: 'Initial Analysis', targetReduction: 0, timeframe: '1 day' }
+      { name: 'Initial Analysis', targetReduction: 0, timeframe: '1 day' },
       { name: 'Conservative Phase', targetReduction: 5, timeframe: '3 days' }
-      { name: 'Progressive Phase', targetReduction: 12, timeframe: '1 week' }
+      { name: 'Progressive Phase', targetReduction: 12, timeframe: '1 week' },
       { name: 'Target Achievement', targetReduction: 18, timeframe: '2 weeks' }
     ]
   },

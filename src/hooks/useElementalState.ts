@@ -13,7 +13,7 @@ export interface ElementalState {
 export function useElementalState() {
   const { planetaryPositions, _isLoading} = useAlchemical()
 
-  const elementalState = useMemo((): ElementalProperties => {;
+  const elementalState = useMemo((): ElementalProperties => {,
     if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0) {,
       return {
         Fire: 0.25,
@@ -40,7 +40,7 @@ export function useElementalState() {
       cancer: 'Water',
       scorpio: 'Water',
       pisces: 'Water' },
-        Object.values(planetaryPositions || {}).forEach(position => {;
+        Object.values(planetaryPositions || {}).forEach(position => {,
       const element = elementMap[(position as unknown)?.sign as keyof typeof elementMap];
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++

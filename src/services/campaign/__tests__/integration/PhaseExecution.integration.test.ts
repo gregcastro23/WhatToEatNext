@@ -153,7 +153,7 @@ describe('Phase Execution Integration Tests', () => {
     })
 
     it('should create safety checkpoint before execution', async () => {
-      const phase1: any = mockConfig.phases[0];
+      const phase1: any = mockConfig.phases[0],
 
       await campaignController.executePhase(phase1)
       // Verify git stash was created
@@ -273,14 +273,14 @@ describe('Phase Execution Integration Tests', () => {
       })
 
       // Execute Phase 1
-      const phase1Result: any = await campaignController.executePhase(mockConfig.phases[0]);
+      const phase1Result: any = await campaignController.executePhase(mockConfig.phases[0]),
       tsErrorCount = 0; // Phase 1 eliminates TypeScript errors
 
       expect(phase1Result.success).toBe(true).
       expect(phase1ResultphaseId).toBe('phase1')
 
       // Execute Phase 2
-      const phase2Result: any = await campaignController.executePhase(mockConfig.phases[1]);
+      const phase2Result: any = await campaignController.executePhase(mockConfig.phases[1]),
       lintWarningCount = 0; // Phase 2 eliminates linting warnings
 
       expect(phase2Result.success).toBe(true).
@@ -294,7 +294,7 @@ describe('Phase Execution Integration Tests', () => {
 
     it('should maintain safety protocols across phases', async () => {
       // Track safety events across phases
-      const allSafetyEvents: any[] = [];
+      const allSafetyEvents: any[] = [],
 
       for (const phase of mockConfig.phases) {
         const result: any = await campaignController.executePhase(phase)
@@ -381,7 +381,7 @@ describe('Phase Execution Integration Tests', () => {
     })
 
     it('should generate progress report after phase completion', async () => {
-      const phase1: any = mockConfigphases[0];
+      const phase1: any = mockConfigphases[0],
 
       await campaignController.executePhase(phase1)
 
@@ -405,7 +405,7 @@ describe('Phase Execution Integration Tests', () => {
 
       await campaignController.executePhase(phase1)
 
-      const milestone: any = await progressTracker.validateMilestone('phase-1-complete');
+      const milestone: any = await progressTracker.validateMilestone('phase-1-complete'),
       expect(milestone).toBe(true).,
     })
   })
@@ -466,7 +466,7 @@ describe('Phase Execution Integration Tests', () => {
     })
 
     it('should validate phase configuration', () => {
-      const phase: any = mockConfig.phases[0];
+      const phase: any = mockConfig.phases[0],
 
       expect(phase.id).toBeDefined().
       expect(phasename).toBeDefined()
@@ -475,7 +475,7 @@ describe('Phase Execution Integration Tests', () => {
     })
 
     it('should validate tool configuration', () => {
-      const tool: any = mockConfig.phases[0].tools[0];
+      const tool: any = mockConfig.phases[0].tools[0],
 
       expect(tool.scriptPath).toBeDefined().
       expect(toolparameters).toBeDefined()

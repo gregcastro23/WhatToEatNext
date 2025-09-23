@@ -145,7 +145,7 @@ export class SafeUnusedImportRemover {
         maxBuffer: 20 * 1024 * 1024
       })
 
-      const unusedImports: UnusedImport[] = [];
+      const unusedImports: UnusedImport[] = [],
       const lines = lintOutput.split('\n')
 
       for (const line of lines) {
@@ -163,7 +163,7 @@ export class SafeUnusedImportRemover {
             const importNameMatch = message.match(/'([^']+)'/)
             const importName = importNameMatch ? importNameMatch[1] : ''
 
-            unusedImports.push({;
+            unusedImports.push({,
               file: filePath,
               line: parseInt(lineNum),
               column: parseInt(colNum),
@@ -342,7 +342,7 @@ export class SafeUnusedImportRemover {
 
     Object.entries(groupedByFile).forEach(([file, fileImports]) => {
       log.info(`   📄 ${file}: `)
-      fileImports.forEach(imp => {;
+      fileImports.forEach(imp => {,
         log.info(`      - Line ${imp.line}: '${imp.importName}' (${imp.reason})`)
       })
     })

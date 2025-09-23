@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawCruciferous = {
-  cauliflower: {;
+  cauliflower: {,
     name: 'Cauliflower',
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
     astrologicalProfile: {
@@ -346,8 +346,7 @@ const rawCruciferous = {
         best_uses: 'soups, stir-fries, casseroles',
       }
     }
-  }
-
+  },
   'brussels sprouts': {
     name: 'Brussels sprouts',
     elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
@@ -458,8 +457,7 @@ const rawCruciferous = {
         best_uses: 'cooked dishes, not raw applications',
       }
     }
-  }
-
+  },
   'bok choy': {
     name: 'Bok Choy',
     elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },

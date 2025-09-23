@@ -3,7 +3,7 @@ import type { ZodiacSign } from '@/types/celestial';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawWholeGrains = {
-  brown_rice: {;
+  brown_rice: {,
     name: 'Brown Rice',
     elementalProperties: { Earth: 0.5, Water: 0.3, Air: 0.1, Fire: 0.1 },
     astrologicalProfile: {
@@ -54,7 +54,8 @@ const rawWholeGrains = {
       },
       vitamins: {
         B1: 0.11,
-    B3: 0.13B6: 0.14E: 0.08,
+    B3: 0.13,
+    B6: 0.14E: 0.08,
         folate: 0.04,
       },
       minerals: {

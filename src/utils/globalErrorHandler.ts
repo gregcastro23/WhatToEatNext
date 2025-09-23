@@ -20,7 +20,7 @@ export function setupGlobalErrorHandlers() {
     }
   }
 
-  process.on('uncaughtException', error => {;
+  process.on('uncaughtException', error => {,
     logger.error('Uncaught _exception: ', { error: error.toString() })
     process.exit(1)
   })

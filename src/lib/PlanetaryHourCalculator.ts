@@ -237,30 +237,30 @@ export class PlanetaryHourCalculator {
     // Each planetary hour spans approximately 1.714 clock hours
 
     // Day hours (6am to 6pm)
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 7, i++) {
       const startHour = Math.floor(6 + i * 1.714);
       const endHour = Math.floor(6 + (i + 1) * 1.714) - 1;
 
-      for (let hour = startHour; hour <= endHour; hour++) {
+      for (let hour = startHour; hour <= endHour, hour++) {
         result.set(hour, rulers[i])
       }
     }
 
     // Night hours (6pm to 6am)
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 7, i++) {
       const startHour = Math.floor(18 + i * 1.714) % 24;
       const endHour = (Math.floor(18 + (i + 1) * 1.714) % 24) - 1;
 
       if (endHour < startHour) {
         // Handle hours that cross midnight
-        for (let hour = startHour; hour < 24; hour++) {
+        for (let hour = startHour; hour < 24, hour++) {
           result.set(hour, rulers[i])
         }
-        for (let hour = 0; hour <= endHour; hour++) {
+        for (let hour = 0; hour <= endHour, hour++) {
           result.set(hour, rulers[i])
         }
       } else {
-        for (let hour = startHour; hour <= endHour; hour++) {
+        for (let hour = startHour; hour <= endHour, hour++) {
           result.set(hour, rulers[i])
         }
       }

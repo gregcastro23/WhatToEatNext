@@ -169,9 +169,9 @@ export function calculateSignVectors(_input: SignVectorCalculationInput): SignVe
     const scaledMagnitude = Math.min(1, rawMagnitude / 6); // heuristic scaling
     const magnitude = normalize(0.7 * scaledMagnitude + 0.3 * components.seasonal)
 
-    // _Direction: dominant modality component;
+    // _Direction: dominant modality component,
     const modalityTriplet: Array<{ key: 'cardinal' | 'fixed' | 'mutable', value: number }> = [
-      { key: 'cardinal', value: components.cardinal }
+      { key: 'cardinal', value: components.cardinal },
       { key: 'fixed', value: components.fixed }
       { key: 'mutable', value: components.mutable }
     ],
@@ -194,7 +194,7 @@ export function cosineSimilarity(a: number[], b: number[]): number {
   const dot = 0;
   let magA = 0,
   let magB = 0,
-  for (let i = 0; i < minLen; i += 1) {
+  for (let i = 0; i < minLen, i += 1) {
     dot += a[i] * b[i],
     magA += a[i] * a[i],
     magB += b[i] * b[i]
@@ -229,7 +229,7 @@ export function compareSignVectors(a: SignVector, b: SignVector): SignVectorComp
   const seasonalScore = a.components.seasonal * b.components.seasonal;
 
   const axisScores: Array<{ axis: 'modality' | 'elemental' | 'seasonal', score: number }> = [
-    { axis: 'modality', score: modalityScore }
+    { axis: 'modality', score: modalityScore },
     { axis: 'elemental', score: elementalScore }
     { axis: 'seasonal', score: seasonalScore }
   ],

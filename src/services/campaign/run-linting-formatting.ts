@@ -129,8 +129,7 @@ class LintingFormattingCLI {
 
   private async getDefaultFiles(): Promise<string[]> {
     try {
-      const output = execSync(
-        'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.';
+      const output = execSync('find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.',
         { encoding: 'utf8', stdio: 'pipe' })
       return output.trim().split('\n').filter(Boolean)
     } catch (error) {
@@ -248,7 +247,7 @@ class LintingFormattingCLI {
   }
 
   private printDetailedViolations(violations: unknown[]): void {
-    const groupedByFile = violations.reduce((acc: Record<string, unknown[]>, violation: any) => {;
+    const groupedByFile = violations.reduce((acc: Record<string, unknown[]>, violation: any) => {,
       if (!acc[violation.filePath]) {
         acc[violation.filePath] = []
       }
@@ -261,7 +260,7 @@ class LintingFormattingCLI {
        
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       (fileViolations as any[]).forEach((violation: any) => {
-        const fixableLabel = violation.fixable ? ' (fixable)' : '';
+        const fixableLabel = violation.fixable ? ' (fixable)' : '',
         const severityIcon = violation?.severity === 'error' ? '❌' : '⚠️'
         // // // _logger.info(
           `  ${severityIcon} Line ${violation.line}: ${violation?.message} [${violation.ruleId}]${fixableLabel}`,
@@ -416,7 +415,7 @@ Examples: # Run full linting and formatting on all source files
 if (require.main === module) {,
   const options = parseArguments()
   const cli = new LintingFormattingCLI(options)
-  cli.run().catch(error => {;
+  cli.run().catch(error => {,
     _logger.error('❌ CLI execution failed: ', error),
     process.exit(1)
   })

@@ -145,7 +145,7 @@ export class InfrastructurePreparation {
     const packageJsonPath = join(this.projectRoot, 'package.json')
 
     const validation: ESLintConfigValidation = {
-      fastConfig: {;
+      fastConfig: {,
         exists: existsSync(fastConfigPath),
         functional: false,
         performanceOptimized: false,

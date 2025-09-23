@@ -70,7 +70,7 @@ export class AlchemicalTransformationService {
   }
   private isDaytime = true,
   private currentZodiac: any | null = null,
-  private lunarPhase: LunarPhase | null = null;
+  private lunarPhase: LunarPhase | null = null,
   private tarotElementBoosts?: Record<ElementalCharacter, number>,
   private tarotPlanetaryBoosts?: Record<string, number>,
   private aspects: PlanetaryAspect[] = []
@@ -209,7 +209,7 @@ export class AlchemicalTransformationService {
 
     // Determine overall dominant element and alchemical property
     // This is based on the first ingredients as they typically have the strongest influence
-    const dominantElement = topIngredients.length > 0 ? topIngredients[0].dominantElement : 'Fire';
+    const dominantElement = topIngredients.length > 0 ? topIngredients[0].dominantElement : 'Fire',
 
     const dominantAlchemicalProperty =
       topIngredients.length > 0 ? topIngredients[0].dominantAlchemicalProperty : 'Spirit'
@@ -249,22 +249,22 @@ export class AlchemicalTransformationService {
     const transformedCuisines = this.getTransformedCuisines()
     // Create lookup maps for faster access;
     const ingredientMap = new Map<string, AlchemicalItem>(),
-    transformedIngredients.forEach(item => {;
+    transformedIngredients.forEach(item => {,
       ingredientMap.set(item.name.toLowerCase(), item)
     })
 
     const methodMap = new Map<string, AlchemicalItem>()
-    transformedMethods.forEach(item => {;
+    transformedMethods.forEach(item => {,
       methodMap.set(item.name.toLowerCase(), item)
     })
 
     const cuisineMap = new Map<string, AlchemicalItem>()
-    transformedCuisines.forEach(item => {;
+    transformedCuisines.forEach(item => {,
       cuisineMap.set(item.name.toLowerCase(), item)
     })
 
     // Score each recipe based on its compatibility with the current planetary conditions
-    const scoredRecipes = recipes.map(recipe => {;
+    const scoredRecipes = recipes.map(recipe => {,
       // Base compatibility score
       let compatibility = 0,
 

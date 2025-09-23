@@ -10,8 +10,7 @@ import FoodRecommenderMigrated from '@/components/FoodRecommender/FoodRecommende
  * with its migrated version using the services architecture.
  */
 export default function FoodRecommenderTestPage() {
-  return (
-    <div className='mx-auto max-w-7xl p-4'>;
+  return (<div className='mx-auto max-w-7xl p-4'>;
       ,
       <Typography variant='h4' component='h1' className='mb-6'>;
         ; FoodRecommender Migration Test
@@ -30,7 +29,7 @@ export default function FoodRecommenderTestPage() {
             ;<strong>Key Changes: </strong>
           </Typography>
           <ul className='mb-3 list-disc pl-6'>
-            <li>Replaced useAstrologicalState hook with useServices hook</li>;
+            <li>Replaced useAstrologicalState hook with useServices hook</li>,
             <li>Uses astrologyService, elementalCalculator, and recommendationService</li>
             <li>Added proper loading and error states with service initialization checks</li>
             <li>Migrated IngredientDisplay subcomponent to services architecture</li>

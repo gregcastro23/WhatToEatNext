@@ -51,7 +51,7 @@ export interface CulturalContext {
 // ===== CULTURAL GROUPS AND PROXIMITY =====,
 
 const CULTURAL_GROUPS = {
-  east_asian: {;
+  east_asian: {,
     cuisines: ['chinese', 'japanese', 'korean', 'vietnamese', 'thai', 'sichuanese'],
     characteristics: ['rice-based', 'umami-focused', 'balance-oriented', 'seasonal'],
     sharedPrinciples: ['five elements', 'yin-yang balance', 'seasonal harmony']
@@ -177,7 +177,7 @@ const HISTORICAL_CONTEXTS: Record<string, CulturalContext> = {
     traditionalOccasions: ['Songkran festival', 'Buddhist ceremonies', 'royal celebrations'],
     modernEvolution: ['street food culture', 'royal cuisine preservation', 'global popularity'],
     globalAdaptations: ['Thai restaurants worldwide', 'pad thai popularity', 'curry adaptations']
-  }
+  },
   'middle-eastern': {
     origin: 'Middle East',
     historicalPeriod: 'Ancient civilizations - present',
@@ -578,7 +578,7 @@ export class CulturalAnalyticsService {
       tradition2.seasonalPreferences?.includes('all')
     ) {
       Object.keys(optimization).forEach(season => {
-        optimization[season] = 0.9;
+        optimization[season] = 0.9,
       })
     }
 

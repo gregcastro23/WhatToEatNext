@@ -195,7 +195,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       .filter(record => !record.isStable)
 
     if (recentFailures.length >= this.alertThresholds.buildFailureThreshold) {
-      this.emitAlert({;
+      this.emitAlert({,
         type: 'consecutive_build_failures',
         severity: 'critical',
         message: `${recentFailures.length} consecutive build failures detected`,
@@ -218,7 +218,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
     const currentTime = new Date()
     // Check success rate threshold
     if (progress.averageSuccessRate < this.alertThresholds.successRateThreshold) {
-      this.emitAlert({;
+      this.emitAlert({,
         type: 'low_success_rate',
         severity: 'medium',
         message: `Success rate (${progress.averageSuccessRate.toFixed(1)}%) below threshold (${this.alertThresholds.successRateThreshold}%)`,
@@ -253,7 +253,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       const hoursSinceUpdate =
         (currentTime.getTime() - lastProgressUpdate.getTime()) / (1000 * 60 * 60)
       if (hoursSinceUpdate > this.alertThresholds.progressStallThreshold) {
-        this.emitAlert({;
+        this.emitAlert({,
           type: 'progress_stall',
           severity: 'medium',
           message: `No progress detected for ${hoursSinceUpdate.toFixed(1)} hours`,
@@ -270,7 +270,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
     // Check safety event frequency
     const recentSafetyEvents = this.getRecentSafetyEvents()
     if (recentSafetyEvents.length >= this.alertThresholds.safetyEventThreshold) {
-      this.emitAlert({;
+      this.emitAlert({,
         type: 'frequent_safety_events',
         severity: 'high',
         message: `${recentSafetyEvents.length} safety events in the last hour`,
@@ -487,12 +487,12 @@ export class ProgressMonitoringSystem extends EventEmitter {
   private calculateTrendingData(): TrendingData[] {
     // This would calculate actual trending data from historical reports
     // For now, return simulated trending data
-    const trends: TrendingData[] = [];
+    const trends: TrendingData[] = [],
     const now = new Date()
 ;
     for (let i = 7i >= 0i--) {,
       const date = new Date(now.getTime() - i * 24 * 60 * 60 * 1000)
-      trends.push({;
+      trends.push({,
         date,
         successRate: 75 + Math.random() * 15, // 75-90%,
         totalAnyTypes: 1800 - i * 20 + Math.random() * 10,
@@ -541,7 +541,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       ),
       if (fs.existsSync(historyPath)) {
         const historyData = fs.readFileSync(historyPath, 'utf8'),
-        this.alertHistory = JSON.parse(historyData).map((alert: unknown) => ({;
+        this.alertHistory = JSON.parse(historyData).map((alert: unknown) => ({,
           ...alert,
           timestamp: new Date(alert.timestamp)
         }))
@@ -576,7 +576,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       ),
       if (fs.existsSync(historyPath)) {
         const historyData = fs.readFileSync(historyPath, 'utf8'),
-        this.buildStabilityHistory = JSON.parse(historyData).map((record: unknown) => ({;
+        this.buildStabilityHistory = JSON.parse(historyData).map((record: unknown) => ({,
           ...record,
           timestamp: new Date(record.timestamp)
         }))

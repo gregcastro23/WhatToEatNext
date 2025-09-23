@@ -37,7 +37,7 @@ export interface ServiceInitializationResult {
  */
 export class ServicesManager {
   private static instance: ServicesManager,
-  private _isInitialized: boolean = false;
+  private _isInitialized: boolean = false,
   private _initializationError: Error | null = null,
   private _initializationStatus: InitializationStatus = InitializationStatus.NOT_STARTED,
   private _serviceResults: ServiceInitializationResult[] = []
@@ -148,7 +148,7 @@ export class ServicesManager {
         const result = alchemicalEngine.alchemize(dummyPositions)
       logger.info('AlchemicalEngine test calculation completed')
 
-      this._serviceResults.push({;
+      this._serviceResults.push({,
         success: true,
         serviceName: 'AlchemicalEngine',
         message: 'Engine initialized successfully',
@@ -157,7 +157,7 @@ export class ServicesManager {
 
       logger.info('AlchemicalEngine initialized successfully')
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error);
+      const errorMessage = error instanceof Error ? error.message : String(error),
       logger.error('Error initializing AlchemicalEngine: ', errorMessage),
 
       this._serviceResults.push({
@@ -195,7 +195,7 @@ export class ServicesManager {
 
       logger.info('AstrologyService initialized successfully')
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error);
+      const errorMessage = error instanceof Error ? error.message : String(error),
       logger.error('Error initializing AstrologyService: ', errorMessage),
 
       this._serviceResults.push({
@@ -231,7 +231,7 @@ export class ServicesManager {
 
       logger.info('IngredientService initialized successfully')
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error);
+      const errorMessage = error instanceof Error ? error.message : String(error),
       logger.error('Error initializing IngredientService: ', errorMessage),
 
       this._serviceResults.push({
@@ -267,7 +267,7 @@ export class ServicesManager {
 
       logger.info('RecipeService initialized successfully')
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error);
+      const errorMessage = error instanceof Error ? error.message : String(error),
       logger.error('Error initializing RecipeService: ', errorMessage),
 
       this._serviceResults.push({
@@ -309,7 +309,7 @@ export class ServicesManager {
 
       logger.info('RecommendationService initialized successfully')
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error);
+      const errorMessage = error instanceof Error ? error.message : String(error),
       logger.error('Error initializing RecommendationService: ', errorMessage),
 
       this._serviceResults.push({
@@ -372,7 +372,7 @@ export class ServicesManager {
 
       logger.info('AlchemicalRecommendationService initialized successfully')
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error);
+      const errorMessage = error instanceof Error ? error.message : String(error),
       logger.error('Error initializing AlchemicalRecommendationService: ', errorMessage),
 
       this._serviceResults.push({

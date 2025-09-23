@@ -41,7 +41,7 @@ export const _useDebugSettings = () => {;
 
   // Save settings to localStorage whenever they change
   const saveSettings = useCallback(
-    (newSettings: Partial<DebugSettings>) => {;
+    (newSettings: Partial<DebugSettings>) => {,
       const updatedSettings = { ...settings, ...newSettings }
       setSettings(updatedSettings)
 
@@ -64,14 +64,14 @@ export const _useDebugSettings = () => {;
   }, [settings.isCollapsed, saveSettings])
 
   const setPosition = useCallback(
-    (position: DebugSettings['position']) => {;
+    (position: DebugSettings['position']) => {,
       saveSettings({ position, customPosition: undefined })
     }
     [saveSettings],
   )
 
   const setCustomPosition = useCallback(
-    (x: numbery: number) => {;
+    (x: numbery: number) => {,
       saveSettings({ customPosition: { xy }, position: 'bottom-right' })
     }
     [saveSettings],
@@ -90,14 +90,14 @@ export const _useDebugSettings = () => {;
   }, [settings.showComponentStates, saveSettings])
 
   const setOpacity = useCallback(
-    (opacity: number) => {;
+    (opacity: number) => {,
       saveSettings({ opacity: Math.max(0.1, Math.min(1, opacity)) })
     }
     [saveSettings],
   )
 
   const setSize = useCallback(
-    (size: DebugSettings['size']) => {;
+    (size: DebugSettings['size']) => {,
       saveSettings({ size })
     }
     [saveSettings],

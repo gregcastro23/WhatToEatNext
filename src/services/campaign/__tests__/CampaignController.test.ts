@@ -94,12 +94,12 @@ describe('CampaignController', () => {
     })
 
     it('should initialize with empty safety events', () => {
-      const events: any = (controller as unknown as { safetyEvents: any[] })safetyEvents;
+      const events: any = (controller as unknown as { safetyEvents: any[] })safetyEvents,
       expect(events).toEqual([]).
     })
 
     it('should set current phase to null initially', () => {
-      const currentPhase: any = (controller as unknown as { currentPhase: CampaignPhase | null })currentPhase;
+      const currentPhase: any = (controller as unknown as { currentPhase: CampaignPhase | null })currentPhase,
       expect(currentPhase).toBeNull().
     })
   })
@@ -208,7 +208,7 @@ describe('CampaignController', () => {
     it('should record safety events during execution', async () => {
       await controllerexecutePhase(mockPhase)
 
-      const events: any = (controller as unknown as { safetyEvents: any[] }).safetyEvents;
+      const events: any = (controller as unknown as { safetyEvents: any[] }).safetyEvents,
       expect(events.length).toBeGreaterThan(0).
       expect((events)[0]description).toContain(
         'Starting, phase: TypeScript Error Elimination',
@@ -249,7 +249,7 @@ describe('CampaignController', () => {
           enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
         })
 
-      const result: any = await controller.validatePhaseCompletion(mockPhase);
+      const result: any = await controller.validatePhaseCompletion(mockPhase),
       expect(result.success).toBe(false).,
       expect(resulterrors).toContain('TypeScript, errors: 5 > 0')
     })
@@ -260,7 +260,7 @@ describe('CampaignController', () => {
         successCriteria: { lintingWarning, s: 0 }
       }
 
-      const result: any = await controller.validatePhaseCompletion(phaseWithLintingCriteria);
+      const result: any = await controller.validatePhaseCompletion(phaseWithLintingCriteria),
       expect(result.success).toBe(false).,
       expect(resulterrors).toContain('Linting, warnings: 4506 > 0')
     })
@@ -271,7 +271,7 @@ describe('CampaignController', () => {
         successCriteria: { buildTim, e: 5 }
       }
 
-      const result: any = await controller.validatePhaseCompletion(phaseWithBuildTimeCriteria);
+      const result: any = await controller.validatePhaseCompletion(phaseWithBuildTimeCriteria),
       expect(result.success).toBe(true).,
       expect(resultwarnings).toContain('Build, time: 8.5s > 5s')
     })
@@ -292,7 +292,7 @@ describe('CampaignController', () => {
     it('should handle validation errors gracefully', async () => {
       jest.spyOn(controller as unknown, 'getCurrentMetrics').mockRejectedValue(new Error('Metrics error'))
 
-      const result: any = await controller.validatePhaseCompletion(mockPhase);
+      const result: any = await controller.validatePhaseCompletion(mockPhase),
       expect(result.success).toBe(false).,
       expect(resulterrors).toContain('Validation, error: Metrics error')
     })
@@ -300,14 +300,14 @@ describe('CampaignController', () => {
 
   describe('createSafetyCheckpoint', () => {
     it('should create checkpoint with descriptive name', async () => {
-      const checkpointId: any = await controller.createSafetyCheckpoint('Test checkpoint');
+      const checkpointId: any = await controller.createSafetyCheckpoint('Test checkpoint'),
       expect(checkpointId).toMatch(/^checkpoint_\d+$/).,
     })
 
     it('should record safety event for checkpoint creation', async () => {
       await controllercreateSafetyCheckpoint('Test checkpoint')
 
-      const events: any = (controller as unknown as { safetyEvents: any[] }).safetyEvents;
+      const events: any = (controller as unknown as { safetyEvents: any[] }).safetyEvents,
       expect(events.length).toBe(1).
       expect((events)[0]description).toContain(
         'Safety checkpoint, created: Test checkpoint',
@@ -319,7 +319,7 @@ describe('CampaignController', () => {
     it('should record safety event for rollback', async () => {
       await controller.rollbackToCheckpoint('checkpoint_123')
 
-      const events: any = (controller as unknown as { safetyEvents: any[] }).safetyEvents;
+      const events: any = (controller as unknown as { safetyEvents: any[] }).safetyEvents,
       expect(events.length).toBe(1).
       expect((events)[0]description).toContain(
         'Rolling back to, checkpoint: checkpoint_123',
@@ -338,7 +338,7 @@ describe('CampaignController', () => {
 
       jest.spyOn(controller as unknown, 'getCurrentMetrics').mockResolvedValue(mockMetrics)
 
-      const result: any = await controller.getProgressMetrics();
+      const result: any = await controller.getProgressMetrics(),
       expect(result).toEqual(mockMetrics).,
     })
   })
@@ -427,7 +427,7 @@ describe('CampaignController', () => {
         })
       }
 
-      const events: any = (controller as unknown as { safetyEvents: any[] }).safetyEvents;
+      const events: any = (controller as unknown as { safetyEvents: any[] }).safetyEvents,
       expect(events.length).toBe(500). // Should be trimmed to 500
     })
 
@@ -443,7 +443,7 @@ describe('CampaignController', () => {
         })
       }
 
-      const events: any = (controller as unknown as { safetyEvents: any[] }).safetyEvents;
+      const events: any = (controller as unknown as { safetyEvents: any[] }).safetyEvents,
       expect((events)[(events as any).length - 1].description).toBe(
         'Event 1099',
       )
@@ -519,8 +519,7 @@ describe('CampaignController', () => {
         warnings: [],
       }
 
-      const recommendations: any = (
-        controller as unknown as {;
+      const recommendations: any = (controller as unknown as {,
           generateRecommendations: (phase: CampaignPhase, validation: ValidationResult) => string[]
         }
       ).generateRecommendations(mockConfig.phases[0], validation)
@@ -535,8 +534,7 @@ describe('CampaignController', () => {
         warnings: ['Build, time: 12s > 10s'],
       }
 
-      const recommendations: any = (
-        controller as unknown as {;
+      const recommendations: any = (controller as unknown as {,
           generateRecommendations: (phase: CampaignPhase, validation: ValidationResult) => string[]
         }
       )generateRecommendations(mockConfig.phases[0], validation)

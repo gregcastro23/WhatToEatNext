@@ -36,7 +36,7 @@ const proteins = {
  * Calculate Kalchm value based on alchemical properties
  * K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
  */
-function calculateKalchm(_alchemical: AlchemicalProperties): number {;
+function calculateKalchm(_alchemical: AlchemicalProperties): number {,
   const { Spirit, Essence, Matter, Substance} = alchemical;
 
   // Prevent division by zero or negative values
@@ -283,7 +283,7 @@ export function getIngredientsBySubcategory(subcategory: string): UnifiedIngredi
  * Find ingredients with high Kalchm values
  */
 export function getHighKalchmIngredients(_threshold = 1.5): UnifiedIngredient[] {
-  // ✅ Pattern KK-1: Safe number conversion for kalchm comparison;
+  // ✅ Pattern KK-1: Safe number conversion for kalchm comparison,
   return Object.values(unifiedIngredients || {})
     .filter(ingredient => Number(ingredient.kalchm || 0) > threshold)
     .sort((ab) => Number(b.kalchm || 0) - Number(a.kalchm || 0));
@@ -295,7 +295,7 @@ export function getHighKalchmIngredients(_threshold = 1.5): UnifiedIngredient[] 
 export function getIngredientsByKalchmRange(
   min: number = 1.5,,
   max: number = Infinity): UnifiedIngredient[] {
-  // ✅ Pattern KK-1: Safe number conversion for kalchm range comparison;
+  // ✅ Pattern KK-1: Safe number conversion for kalchm range comparison,
   return Object.values(unifiedIngredients || {})
     .filter(ingredient => {
       const kalchm = Number(ingredient.kalchm || 0);
@@ -324,10 +324,10 @@ export function getIngredientsByElement(
   element: keyof ElementalProperties,
   threshold = 0.6
 ): UnifiedIngredient[] {
-  // ✅ Pattern GG-6: Safe property access for elemental properties;
+  // ✅ Pattern GG-6: Safe property access for elemental properties,
   return Object.values(unifiedIngredients || {})
     .filter(ingredient => {
-      const props = ingredient.elementalProperties;
+      const props = ingredient.elementalProperties,
       return props && Number(props[element] || 0) >= threshold,
     })
     .sort((ab) => {
@@ -358,7 +358,7 @@ export function findComplementaryIngredients(
   // ✅ Pattern KK-1: Safe number conversion for complementarity calculations
   return Object.values(unifiedIngredients || {})
     .filter(other => String(other.name || '') !== String(targetIngredient.name || ''))
-    .map(other => ({;
+    .map(other => ({,
       ingredient: other,
       complementarityScore: (1 - Math.abs(Number(other.kalchm || 0) - targetKalchmRatio)) * 0.5 +,
         (1 -

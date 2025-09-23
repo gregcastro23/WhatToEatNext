@@ -12,7 +12,7 @@ import type { Recipe } from '@/types/recipe';
 
 
 
-const CuisineSection = ({;
+const CuisineSection = ({,
   cuisine,
   recipes,
   elementalState
@@ -20,13 +20,12 @@ const CuisineSection = ({;
   cuisine: string,
   recipes: unknown[],
   elementalState: any
-}) => (
-  <div className='rounded border p-4 text-gray-700'>;
+}) => (<div className='rounded border p-4 text-gray-700'>,
     CuisineSection unavailable for {cuisine}. Showing {recipes?.length || 0} recipes.
   </div>
 )
 
-const CuisineDetailsPage: NextPage = () => {;
+const CuisineDetailsPage: NextPage = () => {,
   const router = useRouter();
   const { id } = router.query;
 
@@ -79,8 +78,7 @@ const CuisineDetailsPage: NextPage = () => {;
     const cuisineMatchedRecipes = getRecipesForCuisineMatch(cuisineName, allRecipes, 20),
 
     // 2. Get recipe matches based on current elemental state - Safe array access
-    const elementalMatchedRecipesResult = getBestRecipeMatches(
-      {;
+    const elementalMatchedRecipesResult = getBestRecipeMatches({,
         cuisine: cuisineName,
         season: elementalState.season as Season,
         mealType: elementalState.timeOfDay
@@ -150,7 +148,7 @@ const CuisineDetailsPage: NextPage = () => {;
       const recipeData = recipe;
       if (!recipeIds.has(recipeData?.name)) {
         const baseScore = Number(recipeData?.matchScore) || 0;
-        const sigmoidScore = baseScore < 0.5 ? baseScore * 1.4 : 0.7 + (baseScore - 0.5) * 0.6;
+        const sigmoidScore = baseScore < 0.5 ? baseScore * 1.4 : 0.7 + (baseScore - 0.5) * 0.6,
         const randomFactor = 0.9 + Math.random() * 0.2;
         const finalScore = Math.min(Math.max(sigmoidScore * randomFactor, 0.3), 0.85),
 
@@ -175,17 +173,15 @@ const CuisineDetailsPage: NextPage = () => {;
   }
 
   if (!cuisine) {
-    return (
-      <div className='container mx-auto px-4 py-8'>,
-        <h1 className='mb-8 text-3xl font-bold'>Cuisine not found</h1>;
+    return (<div className='container mx-auto px-4 py-8'>,
+        <h1 className='mb-8 text-3xl font-bold'>Cuisine not found</h1>,
         <p>The cuisine you&aposre looking for doesn&amp,apos,t exist.</p>
       </div>
     )
   }
 
-  return (
-    <div className='container mx-auto px-4 py-8'>,
-      <h1 className='mb-8 text-3xl font-bold capitalize'>;
+  return (<div className='container mx-auto px-4 py-8'>,
+      <h1 className='mb-8 text-3xl font-bold capitalize'>,
         {cuisine.name || (id)} Cuisine
       </h1>
 
@@ -225,7 +221,7 @@ const CuisineDetailsPage: NextPage = () => {;
           <div className='grid grid-cols-1 gap-4, md: grid-cols-2, lg: grid-cols-3'>,
             {(enhancedRecipes.items || []).slice(0, 9).map(rec => (
               <div key={rec.item.id || rec.item.name} className='rounded-lg bg-white p-4 shadow-sm'>
-                <div className='mb-1 flex items-center justify-between'>;
+                <div className='mb-1 flex items-center justify-between'>,
                   <div className='font-medium'>{rec.item.name}</div>
                   <div className='text-sm text-amber-700'>Match {(Math.round(rec.score * 100))}%</div>
                 </div>

@@ -57,7 +57,7 @@ class BatchProcessingCLI {
   private orchestrator: BatchProcessingOrchestrator,
 
   constructor() {
-    this.orchestrator = new BatchProcessingOrchestrator({;
+    this.orchestrator = new BatchProcessingOrchestrator({,
       outputDirectory: 'reports/batch-processing',
       generateReports: true,
       interactiveMode: false,

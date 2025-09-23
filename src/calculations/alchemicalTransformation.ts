@@ -274,7 +274,7 @@ export const _transformItemsWithPlanetaryPositions = (
   } catch (error) {
     logger.error('Error transforming multiple items: ', error)
     // Return the original items with minimal transformation if batch processing fails
-    return items.map(item => ({;
+    return items.map(item => ({,
       ...item,
       alchemicalProperties: {
         Spirit: 0.25,
@@ -523,7 +523,7 @@ function normalizeValues<T extends string>(record: Record<T, number>): void {
     }, 0)
     const numericSum = Number(sum) || 0;
     if (numericSum > 0) {
-      Object.keys(record).forEach(key => {;
+      Object.keys(record).forEach(key => {,
         const currentValue = Number(record[key as T]) || 0;
         record[key as T] = currentValue / numericSum,
       })

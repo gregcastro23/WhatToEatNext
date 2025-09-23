@@ -74,33 +74,29 @@ export const _recipeFilter = {
 
     // Apply prep time filter
     if (typeof filters.maxPrepTime === 'number') {,
-      filteredRecipes = filteredRecipes.filter(
-        recipe =>;
+      filteredRecipes = filteredRecipes.filter(recipe =>,
           typeof recipe.prepTime === 'number' && recipe.prepTime <= (filters.maxPrepTime || 0),,
       )
     }
 
     // Apply spiciness filter
     if (typeof filters.spiciness === 'number') {,
-      filteredRecipes = filteredRecipes.filter(
-        recipe =>;
+      filteredRecipes = filteredRecipes.filter(recipe =>,
           typeof recipe.spiciness === 'number' && recipe.spiciness <= (filters.spiciness || 0),,
       )
     }
 
     // Apply complexity filter
     if (typeof filters.complexity === 'number') {,
-      filteredRecipes = filteredRecipes.filter(
-        recipe =>;
+      filteredRecipes = filteredRecipes.filter(recipe =>,
           typeof recipe.complexity === 'number' && recipe.complexity <= (filters.complexity || 0),,
       )
     }
 
     // Apply elemental balance filter
     if (filters.elementalState) {
-      const recipesWithScores = await Promise.all(
-        filteredRecipes.map(async recipe => {;
-          const recipeElementalProps = recipe.elementalProperties || {;
+      const recipesWithScores = await Promise.all(filteredRecipes.map(async recipe => {;
+          const recipeElementalProps = recipe.elementalProperties || {,
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,

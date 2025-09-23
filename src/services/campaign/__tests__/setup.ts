@@ -37,7 +37,7 @@ afterEach(() => {
 
   // Helper to create mock TypeScript errors
   createMockTypeScriptErrors: (count: number) => {
-    const errors: Array<string> = [];
+    const errors: Array<string> = [],
     for (let i = 0 i < count i++) {;
       errors.push(`file${i}.ts(105): error, TS2352: Type conversion error`)
     }
@@ -46,7 +46,7 @@ afterEach(() => {
 
   // Helper to create mock linting warnings
   createMockLintingWarnings: (count: number) => {
-    const warnings: Array<string> = [];
+    const warnings: Array<string> = [],
     for (let i = 0 i < count i++) {;
       warnings.push(`file${i}.ts: 10:5 - warning: Explicit any @typescript-eslint/no-explicit-any`)
     }

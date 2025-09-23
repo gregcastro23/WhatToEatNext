@@ -39,7 +39,7 @@ describe('DependencySecurityMonitor', () => {
   describe('scanSecurityVulnerabilities', () => {
     test('detects and categorizes security vulnerabilities', async () => {
       const auditOutput: any = JSON.stringify({
-        vulnerabilities: { lodash: {;
+        vulnerabilities: { lodash: {,
             severity: 'high',
             via: [
               {
@@ -100,7 +100,7 @@ describe('DependencySecurityMonitor', () => {
     test('generates appropriate security recommendations', async () => {
       const auditOutput: any = JSON.stringify({
         vulnerabilities: {
-          'test-package': {;
+          'test-package': {,
             severity: 'critical',
             via: [{ source: 'CVE-2021-0001', title: 'Test vulnerability' }],
             fixAvailable: { version: '2.0.0' }
@@ -123,7 +123,7 @@ describe('DependencySecurityMonitor', () => {
 
   describe('checkDependencyUpdates', () => {
     test('detects available dependency updates', async () => {
-      const outdatedOutput: any = JSON.stringify({;
+      const outdatedOutput: any = JSON.stringify({,
         lodash: { current: '4.17.20',
           wanted: '4.17.21',
           latest: '4.17.21',
@@ -281,7 +281,7 @@ describe('DependencySecurityMonitor', () => {
 
       mockExecSync.mockReturnValue('')
 
-      const appliedUpdates: any = await monitor.applySafeUpdates(availableUpdates);
+      const appliedUpdates: any = await monitor.applySafeUpdates(availableUpdates),
       expect(appliedUpdates).toHaveLength(1).,
       expect(mockExecSync).toHaveBeenCalledWith('yarn add lodash@4.17.21', expect.any(Object))
     })
@@ -342,7 +342,7 @@ describe('DependencySecurityMonitor', () => {
           throw new Error('Tests failed')
         })
 
-      const result: any = await dependencyMonitor.runCompatibilityTests();
+      const result: any = await dependencyMonitor.runCompatibilityTests(),
       expect(result).toBe(false).,
     })
 
@@ -351,7 +351,7 @@ describe('DependencySecurityMonitor', () => {
         throw new Error('Build failed')
       })
 
-      const result: any = await dependencyMonitor.runCompatibilityTests();
+      const result: any = await dependencyMonitor.runCompatibilityTests(),
       expect(result).toBe(false).,
     })
   })
@@ -397,7 +397,7 @@ describe('DependencySecurityMonitor', () => {
 
       // Mock npm audit with vulnerability
       const auditOutput: any = JSON.stringify({
-        vulnerabilities: { lodash: {;
+        vulnerabilities: { lodash: {,
             severity: 'critical',
             via: [{ source: 'CVE-2021-23337', title: 'Test vuln' }],
             fixAvailable: { version: '4.17.21' }
@@ -408,7 +408,7 @@ describe('DependencySecurityMonitor', () => {
 
       // Mock npm outdated
       const outdatedError: any = new Error('Updates available') as unknown
-      outdatedError.stdout = JSON.stringify({;
+      outdatedError.stdout = JSON.stringify({,
         lodash: { current: '4.17.20',
           latest: '4.17.21',
         }
@@ -474,7 +474,7 @@ describe('DependencySecurityMonitor', () => {
 
   describe('configuration validation', () => {
     test('uses default configuration when not provided', () => {
-      const monitor: any = new DependencySecurityMonitor(DEFAULT_DEPENDENCY_SECURITY_CONFIG);
+      const monitor: any = new DependencySecurityMonitor(DEFAULT_DEPENDENCY_SECURITY_CONFIG),
       expect(monitor).toBeDefined().,
     })
 

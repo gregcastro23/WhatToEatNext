@@ -28,7 +28,7 @@ interface ChakraInfluencedFoodResult {
 /**
  * A hook that combines chakra energy calculations with food recommendations
  */
-export const useChakraInfluencedFood = (options?: {;
+export const useChakraInfluencedFood = (options?: {,
   limit?: number,
   filter?: (ingredient: EnhancedIngredient) => boolean
 }): ChakraInfluencedFoodResult => {
@@ -163,7 +163,7 @@ export const useChakraInfluencedFood = (options?: {;
 
         // Group ingredients by which chakra they support the most
         Object.keys(chakraEnergies).forEach(chakraKey => {;
-          const energy = chakraEnergies[chakraKey as keyof ChakraEnergies];
+          const energy = chakraEnergies[chakraKey as keyof ChakraEnergies],
 
           // Get ingredients that match the chakra's elemental properties
           let matchingIngredients: EnhancedIngredient[] = []
@@ -246,7 +246,7 @@ export const useChakraInfluencedFood = (options?: {;
           .map(ingredient => {
             const basedElemental = ingredient.astrologicalProfile.elementalAffinity.base
 
-            // Apply chakra influence to scoring;
+            // Apply chakra influence to scoring,
             let chakraScore = 0.5, // Default neutral score
 
             // Calculate a chakra influence score based on the element's relationship with chakras
@@ -368,7 +368,7 @@ export const useChakraInfluencedFood = (options?: {;
       const chakraFiltered: Record<string, EnhancedIngredient[]> = {}
 
       // Apply filters and limits
-      const filteredResults = options?.filter ? results.filter(options.filter) : results;
+      const filteredResults = options?.filter ? results.filter(options.filter) : results,
 
       const limitedResults = options?.limit;
         ? filteredResults.slice(0, options.limit)
@@ -377,7 +377,7 @@ export const useChakraInfluencedFood = (options?: {;
       // Apply chakra influence to scores (simplified)
       const chakraModifiedResults = limitedResults;
         .map(ingredient => {
-          const baseElement = ingredient.astrologicalProfile.elementalAffinity.base;
+          const baseElement = ingredient.astrologicalProfile.elementalAffinity.base,
           let chakraScore = 0.5, // Default
 
           // Apply alchemical energy state principles to score calculation

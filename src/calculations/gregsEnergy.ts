@@ -468,11 +468,11 @@ export function calculateGregsEnergy(heat: number, entropy: number, reactivity: 
  * @returns Object with counts of each property
  */
 export const countElementalAlchemicalProperties = (
-  items: Array<{;
+  items: Array<{,
     elementalProperties?: Record<ElementalCharacter, number>,
     alchemicalProperties?: Record<AlchemicalProperty, number>
   }>,
-): ElementalAlchemicalCounts => {;
+): ElementalAlchemicalCounts => {,
   const elementalCounts: Record<ElementalCharacter, number> = {
     Fire: 0,
     Water: 0,
@@ -515,7 +515,7 @@ export const countElementalAlchemicalProperties = (
  */
 export const ensureMinimumValues = (
   counts: ElementalAlchemicalCounts,
-): ElementalAlchemicalCounts => ({;
+): ElementalAlchemicalCounts => ({,
   ...counts,
   Spirit: Math.max(counts.Spirit, 0.1),
   Essence: Math.max(counts.Essence, 0.1),
@@ -534,7 +534,7 @@ export const ensureMinimumValues = (
  * @param max Maximum allowed value
  * @returns Clamped value
  */
-export const clampValue = (value: number, min: number, max: number): number =>;
+export const clampValue = (value: number, min: number, max: number): number =>,
   Math.min(Math.max(value, min), max)
 
 export default {

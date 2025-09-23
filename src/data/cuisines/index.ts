@@ -69,11 +69,11 @@ const baseCuisine: Cuisine = {
 }
 
 // Process the recipes to combine seasonal and 'all' categories
-const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {;
+const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {,
   if (!cuisine) return { ...baseCuisine }
 
   // Helper to combine 'all' recipes with seasonal ones
-  const combineRecipes = (mealType: unknown) => {;
+  const combineRecipes = (mealType: unknown) => {,
     if (!mealType) return { spring: [], summer: [], autumn: [], winter: [] }
 
     // Use safe type casting for mealType property access
@@ -152,7 +152,7 @@ export default cuisinesMap,
 
 // Element properties for the refined culinary search
 export const CUISINES = {
-  american: {;
+  american: {,
     name: 'American',
     elementalProperties: {
       Fire: 0.3,

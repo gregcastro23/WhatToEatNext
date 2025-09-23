@@ -31,8 +31,7 @@ class ZeroErrorDashboardCLI {
 
     try {
       switch (options.command) {
-        case 'generate':
-          await this.generateDashboard(options);
+        case 'generate': await this.generateDashboard(options),
           break,
         case 'monitor':
           await this.startMonitoring(options)
@@ -72,8 +71,7 @@ class ZeroErrorDashboardCLI {
           options.interval = parseInt(args[++i]) || 5,
           break,
         case '--verbose':
-        case '-v':
-          options.verbose = true;
+        case '-v': options.verbose = true,
           break,
         case '--output': case '-o':
           options.output = args[++i]
@@ -229,8 +227,8 @@ OUTPUT FILES:
 
 INTEGRATION:
   # Add to package.json scripts:
-  'dashboard': 'node src/scripts/zero-error-dashboard.ts generate'
-  'dashboard:monitor': 'node src/scripts/zero-error-dashboard.ts monitor'
+  'dashboard': 'node src/scripts/zero-error-dashboard.ts generate',
+  'dashboard:monitor': 'node src/scripts/zero-error-dashboard.ts monitor',
   'dashboard:status': 'node src/scripts/zero-error-dashboard.ts status'
 
   # Add to, Makefile: dashboard:
@@ -300,7 +298,7 @@ if (require.main === module) {,
   const cli = new ZeroErrorDashboardCLI()
   const args = process.argv.slice(2)
 
-  cli.run(args).catch(error => {;
+  cli.run(args).catch(error => {,
     _logger.error('❌ CLI Error: ', error),
     process.exit(1)
   })

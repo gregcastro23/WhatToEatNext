@@ -74,13 +74,13 @@ export class ElementalRecommendationService {
   public static generateLunarRecommendation(lunarPhase: LunarPhase): ElementalRecommendation {
     // Map lunar phases to elemental properties
     const lunarElementalMap: Record<string, Partial<ElementalProperties>> = {
-      'new moon': { Earth: 0.4, Air: 0.3 }
-      'waxing crescent': { Fire: 0.3, Air: 0.4 }
-      'first quarter': { Fire: 0.4, Air: 0.3 }
-      'waxing gibbous': { Fire: 0.5, Water: 0.3 }
-      'full moon': { Water: 0.5, Fire: 0.3 }
-      'waning gibbous': { Water: 0.4, Earth: 0.3 }
-      'last quarter': { Earth: 0.4, Water: 0.3 }
+      'new moon': { Earth: 0.4, Air: 0.3 },
+      'waxing crescent': { Fire: 0.3, Air: 0.4 },
+      'first quarter': { Fire: 0.4, Air: 0.3 },
+      'waxing gibbous': { Fire: 0.5, Water: 0.3 },
+      'full moon': { Water: 0.5, Fire: 0.3 },
+      'waning gibbous': { Water: 0.4, Earth: 0.3 },
+      'last quarter': { Earth: 0.4, Water: 0.3 },
       'waning crescent': { Earth: 0.5, Air: 0.2 }
     }
 

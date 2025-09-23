@@ -1,7 +1,7 @@
 import { PlanetData } from './types';
 
 const uranusData: PlanetData = {
-  'Dignity Effect': {;
+  'Dignity Effect': {,
     aquarius: 1,
     scorpio: 2,
     taurus: -3
@@ -12,7 +12,7 @@ const uranusData: PlanetData = {
     Essence: 1,
     Matter: 1,
     Substance: 0,
-  }
+  },
   'Diurnal Element': 'Water',
   'Nocturnal Element': 'Air',
   AstronomicalData: {
@@ -329,7 +329,7 @@ const uranusData: PlanetData = {
             Keywords: ['material challenge', 'financial strain', 'resourcefulness'],
             CulinaryAssociation: 'Finding innovative ways to use humble ingredients, transforming scarcity into abundance',
           }
-        }
+        },
         '2ndDecan': {
           Start: '2019-01-06',
           End: '2021-12-24',
@@ -338,7 +338,7 @@ const uranusData: PlanetData = {
             Keywords: ['generosity', 'giving and receiving', 'balance of resources'],
             CulinaryAssociation: 'Revolutionary approaches to food distribution, sharing economy in culinary spheres',
           }
-        }
+        },
         '3rdDecan': {
           Start: '2021-12-24',
           End: '2025-09-01',
@@ -358,7 +358,7 @@ const uranusData: PlanetData = {
             Keywords: ['restriction', 'mental traps', 'new perspectives'],
             CulinaryAssociation: 'Breaking free from culinary conventions, overcoming limitations in cooking methods',
           }
-        }
+        },
         '2ndDecan': {
           Start: '2026-11-20',
           End: '2030-07-07',
@@ -367,7 +367,7 @@ const uranusData: PlanetData = {
             Keywords: ['anxiety', 'overthinking', 'mental clarity'],
             CulinaryAssociation: 'Foods that calm mental agitation, cognitive enhancing ingredients, mindful eating',
           }
-        }
+        },
         '3rdDecan': {
           Start: '2030-07-07',
           End: '2033-05-15',

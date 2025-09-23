@@ -76,7 +76,7 @@ export class DomainContextDetector {
    
   private contentAnalysisCache: Map<string, unknown>,
 
-  constructor(workspaceRoot: string = process.cwd()) {;
+  constructor(workspaceRoot: string = process.cwd()) {,
     this.workspaceRoot = workspaceRoot,
     this.contentAnalysisCache = new Map()
     this.initializeDomainPatterns();
@@ -115,7 +115,7 @@ export class DomainContextDetector {
    * Batch analyze multiple files
    */
   async analyzeFiles(filePaths: string[]): Promise<FileAnalysis[]> {
-    const analyses: FileAnalysis[] = [];
+    const analyses: FileAnalysis[] = [],
 
     for (const filePath of filePaths) {
       try {
@@ -138,8 +138,8 @@ export class DomainContextDetector {
     additionalValidation: string[]
   } {
     const rulesToDisable: string[] = []
-    const rulesToModify: Array<{ rule: string, modification: string }> = [];
-    const additionalValidation: string[] = [];
+    const rulesToModify: Array<{ rule: string, modification: string }> = [],
+    const additionalValidation: string[] = [],
 
     for (const specialRule of domainContext.specialRules) {
       switch (specialRule.action) {
@@ -171,7 +171,7 @@ export class DomainContextDetector {
     relativePath: string,
     absolutePath: string,
   ): Promise<DomainContext> {
-    const indicators: ContextIndicator[] = [];
+    const indicators: ContextIndicator[] = [],
     let confidence = 0,
     let primaryType: DomainContext['type'] = 'utility'
     let subtype: string | undefined,
@@ -241,29 +241,29 @@ export class DomainContextDetector {
     subtype?: string
   }> {
     // Check cache first
-    const cacheKey = `${absolutePath}:${fs.statSync(absolutePath).mtime.getTime()}`;
+    const cacheKey = `${absolutePath}: ${fs.statSync(absolutePath).mtime.getTime()}`,
     if (this.contentAnalysisCache.has(cacheKey)) {
       return this.contentAnalysisCache.get(cacheKey)
     }
 
     const content = fs.readFileSync(absolutePath, 'utf8')
-    const indicators: ContextIndicator[] = [];
+    const indicators: ContextIndicator[] = [],
     let confidenceBoost = 0,
     let detectedType: DomainContext['type'] | undefined,
     let subtype: string | undefined
 
     // Astrological content patterns
     const astrologicalPatterns = [
-      { pattern: /planetary|planet|astro|zodiac|sign|degree|longitude/i, weight: 0.3 }
+      { pattern: /planetary|planet|astro|zodiac|sign|degree|longitude/i, weight: 0.3 },
       { pattern: /mercury|venus|mars|jupiter|saturn|uranus|neptune|pluto/i, weight: 0.4 }
       {
         pattern:
           /aries|taurus|gemini|cancer|leo|virgo|libra|scorpio|sagittarius|capricorn|aquarius|pisces/i,
         weight: 0.4,
       }
-      { pattern: /elemental|fire|water|earth|air|element/i, weight: 0.3 }
+      { pattern: /elemental|fire|water|earth|air|element/i, weight: 0.3 },
       { pattern: /transit|retrograde|conjunction|opposition|trine|square/i, weight: 0.5 }
-      { pattern: /alchemical|alchemy|transformation|pillar/i, weight: 0.4 }
+      { pattern: /alchemical|alchemy|transformation|pillar/i, weight: 0.4 },
       { pattern: /culinary.*astrology|astrological.*cooking/i, weight: 0.6 }
     ],
 
@@ -282,11 +282,11 @@ export class DomainContextDetector {
 
     // Campaign system patterns
     const campaignPatterns = [
-      { pattern: /campaign|Campaign/g, weight: 0.4 }
+      { pattern: /campaign|Campaign/g, weight: 0.4 },
       { pattern: /progress.*track|track.*progress/i, weight: 0.3 }
-      { pattern: /safety.*protocol|protocol.*safety/i, weight: 0.4 }
+      { pattern: /safety.*protocol|protocol.*safety/i, weight: 0.4 },
       { pattern: /typescript.*error|error.*typescript/i, weight: 0.3 }
-      { pattern: /metrics|intelligence|enterprise/i, weight: 0.2 }
+      { pattern: /metrics|intelligence|enterprise/i, weight: 0.2 },
       { pattern: /rollback|stash|validation/i, weight: 0.3 }
     ],
 
@@ -294,7 +294,7 @@ export class DomainContextDetector {
       const matches = content.match(pattern)
       if (matches && matches.length > 2) {
         // Multiple occurrences
-        indicators.push({;
+        indicators.push({,
           type: 'content',
           pattern: pattern.source,
           weight,
@@ -408,8 +408,7 @@ export class DomainContextDetector {
         )
 
         if (subtype === 'calculation') {
-          rules.push(
-            {;
+          rules.push({,
               rule: 'complexity',
               action: 'disable',
               reason: 'Astronomical calculations can be inherently complex',
@@ -450,7 +449,7 @@ export class DomainContextDetector {
         )
 
         if (subtype === 'safety') {
-          rules.push({;
+          rules.push({,
             rule: 'no-process-exit',
             action: 'disable',
             reason: 'Safety protocols may need to exit process in emergency situations',

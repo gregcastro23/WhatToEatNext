@@ -10,8 +10,7 @@ import AlchemicalRecommendationsMigrated from '@/components/recommendations/Alch
  * with its migrated version using the services architecture.
  */
 export default function AlchemicalRecommendationsTestPage() {
-  return (
-    <div className='mx-auto max-w-7xl p-4'>;
+  return (<div className='mx-auto max-w-7xl p-4'>;
       ,
       <Typography variant='h4' component='h1' className='mb-6'>;
         ; AlchemicalRecommendations Migration Test
@@ -31,7 +30,7 @@ export default function AlchemicalRecommendationsTestPage() {
           </Typography>
           <ul className='mb-3 list-disc pl-6'>
             <li>Replaced AlchemicalContext with useServices hook</li>
-            <li>;
+            <li>,
               Uses astrologyService, ingredientService, recommendationService, and
               alchemicalRecommendationService
             </li>

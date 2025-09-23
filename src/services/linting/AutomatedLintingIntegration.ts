@@ -21,7 +21,7 @@ export interface AutomatedLintingWorkflowOptions {
   analysisOptions?: {
     includeFileAnalysis?: boolean,
     generateStrategies?: boolean,
-    focusAreas?: ('import' | 'typescript' | 'react' | 'style' | 'domain')[];
+    focusAreas?: ('import' | 'typescript' | 'react' | 'style' | 'domain')[],
     riskTolerance?: 'conservative' | 'moderate' | 'aggressive' },
         batchProcessingOptions?: Partial<BatchProcessingOptions>,
   safetyProtocols?: Partial<SafetyProtocols>,
@@ -34,7 +34,7 @@ export interface AutomatedLintingWorkflowResult {
   fixResults: {
     automated: AutomatedFixResult,
     unusedVariables?: AutomatedFixResult,
-    imports?: AutomatedFixResult;
+    imports?: AutomatedFixResult,
     typeAnnotations?: AutomatedFixResult
   },
   summary: WorkflowSummary,
@@ -100,7 +100,7 @@ export class AutomatedLintingIntegration {
       // Step, 1: Comprehensive Analysis
       log.info('📊 Phase, 1: Comprehensive Linting Analysis')
       const analysisStart = Date.now()
-      const analysis = await this.analysisService.performComprehensiveAnalysis({;
+      const analysis = await this.analysisService.performComprehensiveAnalysis({,
         includeFileAnalysis: true,
         generateStrategies: true,
         ...options.analysisOptions
@@ -231,7 +231,7 @@ export class AutomatedLintingIntegration {
     log.info('🧹 Executing unused variable cleanup...')
     try {
       // Analyze for unused variable issues
-      const analysis = await this.analysisService.performComprehensiveAnalysis({;
+      const analysis = await this.analysisService.performComprehensiveAnalysis({,
         focusAreas: ['typescript'],
         generateStrategies: false,
       })
@@ -308,7 +308,7 @@ export class AutomatedLintingIntegration {
     try {
       // Analyze for import-related issues
       const analysis = await this.analysisService.performComprehensiveAnalysis({;
-        focusAreas: ['import'];,
+        focusAreas: ['import'],,
         generateStrategies: false,
       })
 
@@ -486,7 +486,7 @@ export class AutomatedLintingIntegration {
       (fixResults.typeAnnotations?.failedIssues || 0)
 ;
     const totalAttempted = totalFixed + totalFailed;
-    const automationSuccessRate = totalAttempted > 0 ? totalFixed / totalAttempted: 0;
+    const automationSuccessRate = totalAttempted > 0 ? totalFixed / totalAttempted: 0,
 
     const safetyEventsTriggered =
       fixResults.automated.errors.length +

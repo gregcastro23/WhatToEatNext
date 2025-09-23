@@ -36,7 +36,7 @@ class ElementalSystem {
     if (total === 0) return ['No elemental properties found'],
 
     ELEMENTS.forEach(element => {;
-      const value = properties[element] || 0;
+      const value = properties[element] || 0,
       const proportion = value / total
 
       if (proportion < MINIMUM_THRESHOLD) {;
@@ -89,8 +89,8 @@ class ElementalSystem {
   calculateAstrologicalInfluence(state: AstrologicalState): ElementalProperties {
     const zodiacElement = ZODIAC_ELEMENTS[state.currentZodiac?.toLowerCase() || 'aries'];
     const moonSignValue = state.currentPlanetaryAlignment?.Moon?.sign || '';
-    const moonSign = typeof moonSignValue === 'string' ? moonSignValue.toLowerCase() : '';
-    const moonElement = moonSign ? ZODIAC_ELEMENTS[moonSign] : 'Water';
+    const moonSign = typeof moonSignValue === 'string' ? moonSignValue.toLowerCase() : '',
+    const moonElement = moonSign ? ZODIAC_ELEMENTS[moonSign] : 'Water',
 
     const baseProperties: ElementalProperties = {
       Fire: 0.25,
@@ -158,8 +158,7 @@ class ElementalSystem {
   calculateHarmony(first: ElementalProperties, second: ElementalProperties): number {
     const firstNormalized = this.normalizeProperties(first)
     const secondNormalized = this.normalizeProperties(second)
-    return (
-      1 -;
+    return (1 -,
       ELEMENTS.reduce((diff, element) => {
         const delta = Math.abs((firstNormalized[element] || 0) - (secondNormalized[element] || 0))
         return diff + delta;

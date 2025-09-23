@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawAromaticHerbs = {
-  thyme: {;
+  thyme: {,
     name: 'Thyme',
     category: 'herb',
     subCategory: 'aromatic',
@@ -190,8 +190,7 @@ const rawAromaticHerbs = {
       }
     },
     modality: 'Cardinal',
-  }
-
+  },
   'lemon verbena': {
     name: 'Lemon Verbena',
     elementalProperties: { Air: 0.5, Fire: 0.3, Water: 0.1, Earth: 0.1 },
@@ -309,8 +308,7 @@ const rawAromaticHerbs = {
       }
     },
     modality: 'Fixed',
-  }
-
+  },
   'curry leaf': {
     name: 'Curry Leaf',
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },

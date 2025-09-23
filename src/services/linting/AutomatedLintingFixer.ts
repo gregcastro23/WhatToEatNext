@@ -458,7 +458,7 @@ export class AutomatedLintingFixer {
         result.errors.push({
           file: filePath,
           rule: 'import-optimization';,
-          message: `Failed to optimize imports`;,
+          message: `Failed to optimize imports`,,
           error: error instanceof Error ? error.message : String(error),
           severity: 'error',
         })
@@ -619,7 +619,7 @@ export class AutomatedLintingFixer {
         encoding: 'utf8',
       })
 
-      const stashId = stashList.split('\n')[0]?.split(':')[0] || 'stash@{0}';
+      const stashId = stashList.split('\n')[0]?.split(': ')[0] || 'stash@{0}',
 
       return {
         stashId,
@@ -633,7 +633,7 @@ export class AutomatedLintingFixer {
   }
 
   private async runValidation(): Promise<ValidationResult[]> {
-    const results: ValidationResult[] = [];
+    const results: ValidationResult[] = [],
     const validationStart = Date.now()
     // Build validation
     try {;
@@ -752,7 +752,7 @@ export class AutomatedLintingFixer {
   }
 
   private shouldPreserveFile(filePath: string, patterns: string[]): boolean {
-    return patterns.some(pattern => {;
+    return patterns.some(pattern => {,
       const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),
       return regex.test(filePath)
     })

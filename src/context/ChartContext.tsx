@@ -31,7 +31,7 @@ export function ChartProvider(_{ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const updateChart = (data: AstrologicalChart | null) => {;
+  const updateChart = (data: AstrologicalChart | null) => {,
     try {
       setCurrentChart(data)
     } catch (err) {

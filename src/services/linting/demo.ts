@@ -118,7 +118,7 @@ function demonstrateErrorClassification() {
     }
   ],
 
-  testCases.forEach(testCase => {;
+  testCases.forEach(testCase => {,
     const classification = classifier.classifyError(
       testCase.rule,
       testCase.message,
@@ -191,8 +191,7 @@ async function demonstrateDomainContextDetection() {
       log.info(`   Confidence: ${Math.round(mockAnalysis.domainContext.confidence * 100)}%`)
 
       // Get domain-specific recommendations
-      const recommendations = detector.getDomainLintingRecommendations(
-        mockAnalysis.domainContext as unknown as {;
+      const recommendations = detector.getDomainLintingRecommendations(mockAnalysis.domainContext as unknown as {,
           type: string,
           confidence: number,
           indicators: unknown[],
@@ -222,7 +221,7 @@ function demonstrateResolutionStrategies() {
   const classifier = new ErrorClassificationSystem()
 
   // Create mock contexts for strategy generation
-  const testContexts: Array<{;
+  const testContexts: Array<{,
     errorClassification: ReturnType<ErrorClassificationSystem['classifyError']>,
     domainContext: { type: string, confidence: number },
     fileAnalysis: { filePath: string, riskFactors: unknown[], preservationRequirements: unknown[] }
@@ -230,7 +229,7 @@ function demonstrateResolutionStrategies() {
   }> = [
     {
       errorClassification: classifier.classifyError(,
-        'import/order';
+        'import/order',
         'Import order incorrect',
         'src/App.tsx'
         true,
@@ -383,7 +382,7 @@ function demonstrateCompleteWorkflow() {
   const analyzer = new LintingErrorAnalyzer('/project')
   const plan = analyzer.generateResolutionPlan(mockCategorizedErrors)
 
-  log.info(`\n📊 Analysis Summary: `);
+  log.info(`\n📊 Analysis Summary: `),
   log.info(`   Total Issues: ${mockCategorizedErrors.total}`)
   log.info(`   Errors: ${mockCategorizedErrors.errors}`)
   log.info(`   Warnings: ${mockCategorizedErrors.warnings}`)

@@ -344,8 +344,7 @@ export class LintingQualityGates {
     if (config.blockers.parserErrors) {
       const parserErrors = await this.checkForParserErrors()
       if (parserErrors.length > 0) {
-        violations.push(
-          ...parserErrors.map(error => ({;
+        violations.push(...parserErrors.map(error => ({,
             type: 'blocker' as const,
             rule: 'parser-error',
             message: error.message,
@@ -363,8 +362,7 @@ export class LintingQualityGates {
 
   private determineGateStatus(config: QualityGateConfig, violations: QualityViolation[]): boolean {
     // Gates fail if there are any critical violations or blockers
-    const criticalViolations = violations.filter(
-      v => v.severity === 'critical' || v.type === 'blocker';
+    const criticalViolations = violations.filter(v => v.severity === 'critical' || v.type === 'blocker',
     ),
     return criticalViolations.length === 0,
   }
@@ -373,7 +371,7 @@ export class LintingQualityGates {
     violations: QualityViolation[],
     metrics: LintingMetrics,
   ): string[] {
-    const recommendations: string[] = [];
+    const recommendations: string[] = [],
 
     if (violations.some(v => v.type === 'error')) {,
       recommendations.push('Run automated error fixing tools to reduce error count')
@@ -453,7 +451,7 @@ export class LintingQualityGates {
     factors: string[],
     mitigations: string[]
   } {
-    const factors: string[] = [];
+    const factors: string[] = [],
     const mitigations: string[] = []
 
     if (gateResult.metrics.errors > 0) {
@@ -537,7 +535,7 @@ export class LintingQualityGates {
         private generateTrendRecommendations(
     trends: Record<string, 'improving' | 'stable' | 'degrading'>,
   ): string[] {
-    const recommendations: string[] = [];
+    const recommendations: string[] = [],
 
     if (trends.errorTrend === 'degrading') {,
       recommendations.push('Error count is increasing - investigate recent changes')

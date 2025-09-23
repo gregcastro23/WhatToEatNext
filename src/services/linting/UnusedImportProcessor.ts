@@ -216,8 +216,7 @@ export class UnusedImportProcessor {
       const totalFiles = parseInt(totalFilesOutput.trim()) || 0;
 
       // Count unused import warnings (approximate)
-      const unusedImportsOutput = execSync(
-        'yarn lint --format=compact 2>&1 | grep -E 'is defined but never used.*import' | wc -l',;
+      const unusedImportsOutput = execSync('yarn lint --format=compact 2>&1 | grep -E 'is defined but never used.*import' | wc -l',,
         {
           encoding: 'utf8',
         })

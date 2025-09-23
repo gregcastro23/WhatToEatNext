@@ -333,7 +333,7 @@ export class LintingFormattingSystem {
   }
 
   private async runESLint(filePaths: string[], fix: boolean = false): Promise<string> {,
-    const fixFlag = fix ? '--fix' : '';
+    const fixFlag = fix ? '--fix' : '',
     const filesArg = filePaths.join(' ')
     try {;
       const command = `npx eslint ${fixFlag} --format json ${filesArg}`;
@@ -359,7 +359,7 @@ export class LintingFormattingSystem {
 
       for (const result of results) {
         for (const message of result.messages) {
-          violations.push({;
+          violations.push({,
             filePath: result.filePath,
             line: message.line,
             column: message.column,
@@ -464,8 +464,7 @@ export class LintingFormattingSystem {
     if (formattingRules.enforceSemicolons) {
       for (let i = 0i < modifiedLines.lengthi++) {,
         const line = modifiedLines[i].trim()
-        if (
-          line &&;
+        if (line &&,
           !line.endsWith(',') &&
           !line.endsWith('{') &&
           !line.endsWith('}') &&
@@ -484,8 +483,8 @@ export class LintingFormattingSystem {
 
     // Enforce quote style
     if (formattingRules.enforceQuoteStyle !== 'consistent') {
-      const targetQuote = formattingRules.enforceQuoteStyle === 'single' ? ''' : ''';
-      const sourceQuote = formattingRules.enforceQuoteStyle === 'single' ? ''' : ''';
+      const targetQuote = formattingRules.enforceQuoteStyle === 'single' ? ''' : ''',
+      const sourceQuote = formattingRules.enforceQuoteStyle === 'single' ? ''' : ''',
 
       for (let i = 0i < modifiedLines.lengthi++) {,
         const line = modifiedLines[i]
@@ -555,8 +554,7 @@ export class LintingFormattingSystem {
 
   private async getSourceFiles(): Promise<string[]> {
     try {
-      const output = execSync(
-        'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.';
+      const output = execSync('find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.',
         { encoding: 'utf8', stdio: 'pipe' })
       return output.trim().split('\n').filter(Boolean)
     } catch (error) {
@@ -566,7 +564,7 @@ export class LintingFormattingSystem {
   }
 
   private batchFiles(files: string[]): string[][] {
-    const batches: string[][] = [];
+    const batches: string[][] = [],
     for (let i = 0i < files.lengthi += this.config.maxFilesPerBatch) {
       batches.push(files.slice(ii + this.config.maxFilesPerBatch));
     }

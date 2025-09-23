@@ -75,7 +75,7 @@ export function calculateRecipeCompatibility(
   ),
 
   // Enhanced weighted compatibility score
-  const compatibilityScore = calculateWeightedCompatibilityScore({;
+  const compatibilityScore = calculateWeightedCompatibilityScore({,
     absoluteElementalMatch,
     relativeElementalMatch,
     dominantElementMatch,
@@ -165,7 +165,7 @@ function calculateRelativeElementalAlignment(
       0,
     )
 
-    const recipeRelative = recipeTotal > 0 ? (recipeElements[element] || 0) / recipeTotal: 0;
+    const recipeRelative = recipeTotal > 0 ? (recipeElements[element] || 0) / recipeTotal: 0,
     const currentMomentRelative =
       currentMomentTotal > 0 ? (currentMomentElements[element] || 0) / currentMomentTotal : 0,
 
@@ -267,9 +267,8 @@ function calculateEnhancedThermodynamicAlignment(
   const entropyAlignment = 1 - Math.abs(recipeThermodynamics.entropy - userThermodynamics.entropy)
   const reactivityAlignment =
     1 - Math.abs(recipeThermodynamics.reactivity - userThermodynamics.reactivity)
-  const energyAlignment = calculateEnergyAlignment(
-    recipeThermodynamics.gregsEnergy
-    userThermodynamics.gregsEnergy;
+  const energyAlignment = calculateEnergyAlignment(recipeThermodynamics.gregsEnergy
+    userThermodynamics.gregsEnergy,
   ),
 
   // Weighted average (heat and reactivity are most important for cooking)

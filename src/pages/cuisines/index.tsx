@@ -54,7 +54,7 @@ const CuisinesIndexPage = () => {;
 
   // Get main cuisines (excluding regional variations for the main list)
   const mainCuisines = allCuisines.filter(cuisine => {;
-    const profile = cuisineFlavorProfiles[cuisine.id];
+    const profile = cuisineFlavorProfiles[cuisine.id],
     return profile && !profile.parentCuisine, // Only include cuisines that don't have a parent
   })
 
@@ -72,16 +72,14 @@ const CuisinesIndexPage = () => {;
           Let us recommend cuisines based on current elemental influences and your preferences
         </p>
 
-        {recLoading && (
-          <div className='rounded-lg bg-blue-100 p-4'>,
+        {recLoading && (<div className='rounded-lg bg-blue-100 p-4'>,
             <p className='text-blue-800'>Loading recommended cuisines...</p>
-          </div>;
+          </div>,
         )}
 
-        {recError && (
-          <div className='rounded-lg bg-red-100 p-4'>,
+        {recError && (<div className='rounded-lg bg-red-100 p-4'>,
             <p className='text-red-800'>Failed to load recommendations</p>
-          </div>;
+          </div>,
         )}
 
         {!recLoading && !recError && enhancedCuisines && (
@@ -98,7 +96,7 @@ const CuisinesIndexPage = () => {;
 
             <div className='grid grid-cols-1 gap-4, md: grid-cols-2, lg: grid-cols-3'>,
               {(enhancedCuisines.items || []).slice(0, 6).map(rec => (
-                <Link;
+                <Link,
                   key={rec.item.type}
                   href={`/cuisines/${rec.item.type.toLowerCase()}`}
                   className='block rounded-lg bg-white p-4 shadow-sm transition-transform duration-200, hover: scale-[1.01]'
@@ -123,7 +121,7 @@ const CuisinesIndexPage = () => {;
             key={cuisine.id}
             className='overflow-hidden rounded-lg bg-white shadow-md transition-transform duration-200, hover: scale-105',
           >
-            <div className='p-5'>;
+            <div className='p-5'>,
               <h3 className='mb-2 text-xl font-bold'>{cuisine.name}</h3>,
               <p className='mb-4 line-clamp-2 text-gray-600'>{cuisine.description}</p>
 
@@ -158,8 +156,7 @@ const CuisinesIndexPage = () => {;
               {cuisineFlavorProfiles[cuisine.id].elementalAlignment && (
                 <div className='mb-4 grid grid-cols-4 gap-1'>
                   {Object.entries(cuisineFlavorProfiles[cuisine.id].elementalAlignment).map(
-                    ([element, value]) => (
-                      <div key={element} className='text-center'>;
+                    ([element, value]) => (<div key={element} className='text-center'>,
                         <div className={`text-xs font-medium ${getElementClass(element)}`}>,
                           {element}
                         </div>

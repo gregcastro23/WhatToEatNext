@@ -21,13 +21,13 @@ const SEASONAL_MODIFIERS: { [key: string]: ElementalProperties } = {
  * Lunar phase modifiers
  */
 const LUNAR_PHASE_MODIFIERS: { [key: string]: ElementalProperties } = {
-  'new moon': { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 }
-  'waxing crescent': { Fire: 0.2, Water: 0.3, Air: 0.3, Earth: 0.2 }
-  'first quarter': { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 }
-  'waxing gibbous': { Fire: 0.35, Water: 0.15, Air: 0.35, Earth: 0.15 }
-  'full moon': { Fire: 0.4, Water: 0.1, Air: 0.4, Earth: 0.1 }
-  'waning gibbous': { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 }
-  'third quarter': { Fire: 0.2, Water: 0.3, Air: 0.2, Earth: 0.3 }
+  'new moon': { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 },
+  'waxing crescent': { Fire: 0.2, Water: 0.3, Air: 0.3, Earth: 0.2 },
+  'first quarter': { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 },
+  'waxing gibbous': { Fire: 0.35, Water: 0.15, Air: 0.35, Earth: 0.15 },
+  'full moon': { Fire: 0.4, Water: 0.1, Air: 0.4, Earth: 0.1 },
+  'waning gibbous': { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 },
+  'third quarter': { Fire: 0.2, Water: 0.3, Air: 0.2, Earth: 0.3 },
   'waning crescent': { Fire: 0.15, Water: 0.25, Air: 0.25, Earth: 0.35 }
 }
 
@@ -103,7 +103,7 @@ export function getSeasonalCookingRecommendations(_season: string): {
   const seasonKey = season.toLowerCase()
 
   const recommendations = {
-    spring: {;
+    spring: {,
       cookingMethods: ['Steaming', 'Light sautéing', 'Raw preparations', 'Quick grilling'],
       ingredients: ['Fresh greens', 'Young vegetables', 'Herbs', 'Light proteins'],
       flavors: ['Fresh', 'Green', 'Mild', 'Cleansing'],
@@ -220,7 +220,7 @@ function generateSeasonalRecommendations(
   seasonalAlignment: number,
   lunarAlignment: number,
 ): string[] {
-  const recommendations: string[] = [];
+  const recommendations: string[] = [],
 
   if (overallScore >= 0.8) {
     recommendations.push('Excellent seasonal alignment - perfect timing for this recipe')

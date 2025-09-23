@@ -4,7 +4,7 @@ import type { Season } from '@/types/seasons';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawVinegars = {
-  rice_vinegar: {;
+  rice_vinegar: {,
     name: 'Rice Vinegar',
     category: 'vinegar',
     subCategory: 'grain',

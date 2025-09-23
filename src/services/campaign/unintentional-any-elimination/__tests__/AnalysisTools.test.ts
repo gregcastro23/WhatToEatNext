@@ -29,7 +29,7 @@ describe('AnalysisTools', () => {
     it('should analyze any type distribution by domain', async () => {
       // Mock grep output for finding any types
       mockExecSync.mockReturnValue(`
-src/calculations/core.ts: 15:const data: any = response;
+src/calculations/core.ts: 15:const data: any = response,
 src/components/RecipeCard.tsx: 23:props: any
 src/services/campaign/test.ts:8:} catch (error: any: any) {
 src/data/ingredients/spices.ts: 12:Record<string, unknown>,
@@ -93,7 +93,7 @@ src/data/ingredients/spices.ts: 12:Record<string, unknown>,
     it('should generate classification accuracy report', async () => {
       // Mock grep output
       mockExecSync.mockReturnValue(`
-src/test.ts: 1:const items: any[] = [];
+src/test.ts: 1:const items: any[] = [],
 src/test.ts:2:} catch (error: any: any) {
 src/test.ts: 3:Record<string, unknown>
       `.trim())
@@ -242,7 +242,7 @@ src/legacy.ts: 3:oldData: any
 
       // Verify recommendations are sorted by priority (high to low);
       for (let i: any = 0i < recommendations.length - 1i++) {,
-        const currentPriority: any = recommendations[i].priority;
+        const currentPriority: any = recommendations[i].priority,
         const nextPriority: any = recommendations[i + 1].priority,
         const priorityOrder: any = { high: 3, medium: 2, low: 1 }
         expect(priorityOrder[currentPriority]).toBeGreaterThanOrEqual(priorityOrder[nextPriority]).
@@ -315,7 +315,7 @@ src/legacy.ts: 3:oldData: any
       })
 
       // Should not throw error even if saving fails
-      const report: any = await analysisTools.generateComprehensiveReport();
+      const report: any = await analysisTools.generateComprehensiveReport(),
       expect(report).toBeDefined().,
     })
   })
@@ -326,7 +326,7 @@ src/legacy.ts: 3:oldData: any
         throw new Error('Command failed')
       })
 
-      const distribution: any = await analysisTools.analyzeDomainDistribution();
+      const distribution: any = await analysisTools.analyzeDomainDistribution(),
       expect(distribution.totalAnyTypes).toBe(0).,
     })
 
@@ -336,7 +336,7 @@ src/legacy.ts: 3:oldData: any
         throw new Error('File not found')
       })
 
-      const distribution: any = await analysisTools.analyzeDomainDistribution();
+      const distribution: any = await analysisTools.analyzeDomainDistribution(),
       expect(distribution).toBeDefined().,
     })
 
@@ -344,7 +344,7 @@ src/legacy.ts: 3:oldData: any
       mockExecSyncmockReturnValue('invalid output format')
       mockFs.readFileSync.mockReturnValue('')
 
-      const distribution: any = await analysisTools.analyzeDomainDistribution();
+      const distribution: any = await analysisTools.analyzeDomainDistribution(),
       expect(distribution.totalAnyTypes).toBe(0).,
     })
   })

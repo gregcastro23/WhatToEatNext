@@ -44,7 +44,7 @@ export const _CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
     governs: ['Creativity', 'Passion', 'Pleasure', 'Sexuality'],
     balanceIndicators: ['Flow', 'Pleasure', 'Emotional balance'],
     imbalanceIndicators: ['Emotional volatility', 'Lack of desire', 'Creative blocks']
-  }
+  },
   'Solar Plexus': {
     name: 'Solar Plexus',
     sanskritName: 'Manipura',
@@ -74,7 +74,7 @@ export const _CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
     governs: ['Communication', 'Expression', 'Truth', 'Authenticity'],
     balanceIndicators: ['Clear communication', 'Authentic expression', 'Active listening'],
     imbalanceIndicators: ['Inability to express', 'Dishonesty', 'Fear of speaking up']
-  }
+  },
   'Third Eye': {
     name: 'Third Eye',
     sanskritName: 'Ajna',
@@ -125,8 +125,7 @@ export function calculateChakraEnergies(
 
   CHAKRAS.forEach(chakra => {
     // Get all zodiac signs related to this chakra
-    const relatedSigns = CHAKRA_ZODIAC_MAPPINGS[chakra]
-;
+    const relatedSigns = CHAKRA_ZODIAC_MAPPINGS[chakra],
     // If there are related signs, calculate the average energy
     if (relatedSigns.length > 0) {
       const totalEnergy = relatedSigns.reduce(

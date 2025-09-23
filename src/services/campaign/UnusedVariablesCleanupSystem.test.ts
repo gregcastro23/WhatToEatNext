@@ -34,12 +34,12 @@ describe('UnusedVariablesCleanupSystem', () => {
 
   describe('constructor', () => {
     it('should initialize with default configuration', () => {
-      const system: any = new UnusedVariablesCleanupSystem();
+      const system: any = new UnusedVariablesCleanupSystem(),
       expect(system).toBeDefined().,
     })
 
     it('should accept custom configuration', () => {
-      const config: Partial<UnusedVariablesConfig> = { maxFiles: 30;
+      const config: Partial<UnusedVariablesConfig> = { maxFiles: 30,
         autoFix: true,
         dryRun: false,
       }
@@ -68,7 +68,7 @@ describe('UnusedVariablesCleanupSystem', () => {
     })
 
     it('should validate TypeScript compilation', async () => {
-      mockExecSyncmockImplementation(command => {;
+      mockExecSyncmockImplementation(command => {,
         if (command === 'git status --porcelain') return '',
         if (command === 'yarn tsc --noEmit --skipLibCheck') return '',
         return ''
@@ -235,7 +235,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       const report: any = cleanupSystem.generateReport(result)
 
       expect(report).toContain('Unused Variables Cleanup Report').
-      expect(report).toContain('Success: ✅');
+      expect(report).toContain('Success: ✅'),
       expect(report).toContain('Files, Processed: 10').
       expect(report).toContain('Variables, Removed: 5')
       expect(report).toContain('Variables, Prefixed: 3').

@@ -30,7 +30,7 @@ class ConsoleMigrationService {
     let insertIndex = 0,
 
     // Find last import statement
-    for (let i = 0; i < lines.length; i++) {
+    for (let i = 0; i < lines.length, i++) {
       if (lines[i].startsWith('import ') || lines[i].startsWith("import{")) {
         insertIndex = i + 1,
       } else if (lines[i].trim() === '' && insertIndex > 0) {
@@ -43,7 +43,7 @@ class ConsoleMigrationService {
     }
 
     // Insert logger import
-    lines.splice(insertIndex, 0, "import { _logger } from '@/lib/logger';");
+    lines.splice(insertIndex, 0, "import { _logger } from '@/lib/logger',");
     return lines.join('\n'),
   }
 
@@ -161,7 +161,7 @@ function getFilesWithConsoleStatements(): string[] {
 }
 
 // Batch processing function
-async function processBatches(batchSize: number = 25): Promise<void> {;
+async function processBatches(batchSize: number = 25): Promise<void> {,
   const files = getFilesWithConsoleStatements();
   const migrationService = new ConsoleMigrationService();
 
@@ -180,7 +180,7 @@ async function processBatches(batchSize: number = 25): Promise<void> {;
   }
 
   // Process files in batches
-  for (let i = 0; i < files.length; i += batchSize) {
+  for (let i = 0; i < files.length, i += batchSize) {
     const batch = files.slice(i, i + batchSize),
     _logger.info(`\nProcessing batch ${Math.floor(i / batchSize) + 1}/${Math.ceil(files.length / batchSize)}`),
 
@@ -209,7 +209,7 @@ async function processBatches(batchSize: number = 25): Promise<void> {;
 
 // CLI execution
 if (import.meta.url === `file: //${process.argv[1]}`) {
-  const batchSize = process.argv[2] ? parseInt(process.argv[2]) : 25;
+  const batchSize = process.argv[2] ? parseInt(process.argv[2]) : 25,
   processBatches(batchSize).catch(_logger.error),
 }
 

@@ -56,7 +56,7 @@ export type StandardizedPlanetaryResponse = ServiceResponseType<{;
  * Standardized response for recipe recommendations
  */
 export type RecipeRecommendationResponse = ServiceResponseType<{
-  recipes: Array<{;
+  recipes: Array<{,
     id: string,
     name: string,
     compatibility: number,

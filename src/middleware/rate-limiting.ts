@@ -85,8 +85,7 @@ export const endpointLimits: Record<string, Partial<RateLimitTier>> = {
     windowMs: 15 * 60 * 1000,
     max: 5, // 5 login attempts per 15 minutes,
     message: 'Too many login attempts. Please try again later.',
-  }
-
+  },
   '/auth/register': {
     windowMs: 60 * 60 * 1000,
     max: 3, // 3 registration attempts per hour,
@@ -167,7 +166,7 @@ export function createAdaptiveRateLimit(baseTier?: string): RateLimitRequestHand
   return rateLimit({
     windowMs: 15 * 60 * 1000, // Default window,
     max: (req: Request) => {
-      const tier = baseTier ? rateLimitTiers[baseTier] : determineRateLimitTier(req);
+      const tier = baseTier ? rateLimitTiers[baseTier] : determineRateLimitTier(req),
       return tier.max,
     },
     message: (req: Request) => {
@@ -310,7 +309,7 @@ export function rateLimitStatus(req: Request, res: Response): void {
   const userId = getAuthenticatedUserId(req)
   const tier = determineRateLimitTier(req)
 
-  res.json({;
+  res.json({,
     userId: userId || null,
     tier: {
       name: userId ? (isAdmin(req) ? 'admin' : 'authenticated') : 'anonymous',

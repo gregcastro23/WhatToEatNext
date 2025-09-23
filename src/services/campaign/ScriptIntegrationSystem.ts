@@ -276,7 +276,7 @@ export class ScriptIntegrationSystem {
       // Fallback: basic safety check
       const metrics = await this.getScriptMetrics(scriptId)
       if (metrics) {;
-        const issues: string[] = [];
+        const issues: string[] = [],
         if (metrics.safetyScore < 0.5) {
           issues.push('Low safety score detected')
         }
@@ -507,7 +507,7 @@ export class ScriptIntegrationSystem {
 
     if (result.safetyEvents.length > 0) {
       // // // _logger.info(`🚨 Safety Events: ${result.safetyEvents.length}`)
-      result.safetyEvents.forEach(event => {;
+      result.safetyEvents.forEach(event => {,
         // // // _logger.info(`   ${event.type}: ${event.description}`)
       })
     }

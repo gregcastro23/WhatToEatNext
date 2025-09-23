@@ -114,10 +114,9 @@ export function safeString(value: unknown, _defaultValue = ''): string {,
  * if (safeHasProperty(userData, 'name')) { ... }
  */
 export function safeHasProperty(obj: unknown, prop: string): boolean {
-  return (
-    obj !== null &&
+  return (obj !== null &&
     obj !== undefined &&
-    typeof obj === 'object' &&;
+    typeof obj === 'object' &&,
     Object.prototype.hasOwnProperty.call(obj, prop)
   )
 }

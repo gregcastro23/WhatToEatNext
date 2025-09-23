@@ -105,7 +105,7 @@ export const _unifiedSeasonalSystem = {
 
   getAllSeasons: () => ['spring', 'summer', 'fall', 'winter', 'all'] as Season[],
 
-  getSeasonalRecommendations: (season: Season = getCurrentSeason()) => {;
+  getSeasonalRecommendations: (season: Season = getCurrentSeason()) => {,
     const ingredients = seasonalPatterns[season] || {}
     const usage = seasonalUsage[season] || {}
 

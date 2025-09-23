@@ -35,12 +35,12 @@ describe('ConsoleStatementRemovalSystem', () => {
 
   describe('constructor', () => {
     it('should initialize with default configuration', () => {
-      const system: any = new ConsoleStatementRemovalSystem();
+      const system: any = new ConsoleStatementRemovalSystem(),
       expect(system).toBeDefined().,
     })
 
     it('should accept custom configuration', () => {
-      const config: Partial<ConsoleRemovalConfig> = { maxFiles: 15;
+      const config: Partial<ConsoleRemovalConfig> = { maxFiles: 15,
         dryRun: false,
         preserveDebugCritical: false,
         selectiveRemoval: false,
@@ -92,8 +92,7 @@ const _another: any = 'value';
 
   describe('isConsoleStatementCritical', () => {
     it('should mark error statements as critical', () => {
-      const isCritical: any = (
-        removalSystem as unknown as {;
+      const isCritical: any = (removalSystem as unknown as {,
           isConsoleStatementCritical: (filePat, h: string, statement: Record<string, unknown>) => boolean
         }
       ).isConsoleStatementCritical(
@@ -108,9 +107,9 @@ const _another: any = 'value';
 
     it('should mark statements in debug files as critical', () => {
       const isCritical: any = (removalSystem as any)isConsoleStatementCritical(
-        '/test/debug.ts'
+        '/test/debug.ts',
         '_logger.info('Debug info')',
-        '_logger.info('Debug info');'
+        '_logger.info('Debug info');',
         'log',
       ),
 
@@ -119,9 +118,9 @@ const _another: any = 'value';
 
     it('should mark statements in test files as critical', () => {
       const isCritical: any = (removalSystem as any)isConsoleStatementCritical(
-        '/test/file.test.ts'
+        '/test/file.test.ts',
         '_logger.info('Test output')',
-        '_logger.info('Test output');'
+        '_logger.info('Test output');',
         'log',
       ),
 
@@ -129,7 +128,7 @@ const _another: any = 'value';
     })
 
     it('should mark statements with error handling context as critical', () => {
-      const context: any = `;
+      const context: any = `,
         try {
           doSomething()
         } catch (error: any) {
@@ -137,8 +136,7 @@ const _another: any = 'value';
         }
       `,
 
-      const isCritical: any = (
-        removalSystem as unknown as {;
+      const isCritical: any = (removalSystem as unknown as {,
           isConsoleStatementCritical: (filePat, h: string, statement: Record<string, unknown>) => boolean
         }
       ).isConsoleStatementCritical('/test/file.ts', '_logger.info('Error occurred')', context, 'log')
@@ -147,8 +145,7 @@ const _another: any = 'value';
     })
 
     it('should mark statements with important patterns as critical', () => {
-      const isCritical: any = (
-        removalSystem as unknown as {;
+      const isCritical: any = (removalSystem as unknown as {,
           isConsoleStatementCritical: (filePat, h: string, statement: Record<string, unknown>) => boolean
         }
       )isConsoleStatementCritical(
@@ -163,9 +160,9 @@ const _another: any = 'value';
 
     it('should mark warn statements in production code as critical', () => {
       const isCritical: any = (removalSystem as any)isConsoleStatementCritical(
-        '/src/components/Component.ts'
+        '/src/components/Component.ts',
         '_logger.warn('Deprecated feature')',
-        '_logger.warn('Deprecated feature');'
+        '_logger.warn('Deprecated feature');',
         'warn',
       ),
 
@@ -174,9 +171,9 @@ const _another: any = 'value';
 
     it('should not mark simple log statements as critical', () => {
       const isCritical: any = (removalSystem as any)isConsoleStatementCritical(
-        '/src/components/Component.ts'
+        '/src/components/Component.ts',
         '_logger.info('Simple debug')',
-        '_logger.info('Simple debug');'
+        '_logger.info('Simple debug');',
         'log',
       ),
 
@@ -306,7 +303,7 @@ const _another: any = 'value';
     })
 
     it('should parse warnings and errors from output', async () => {
-      const output: any = `;
+      const output: any = `,
         Files, processed: 5
         ⚠️ Warning: Some statements preserved
         ❌ Error: Failed to process file,
@@ -339,7 +336,7 @@ const _another: any = 'value';
       const report: any = removalSystem.generateReport(result)
 
       expect(report).toContain('Console Statement Removal Report').
-      expect(report).toContain('Success: ✅');
+      expect(report).toContain('Success: ✅'),
       expect(report).toContain('Files, Processed: 10').
       expect(report).toContain('Console Statements, Removed: 25')
       expect(report).toContain('Console Statements, Preserved: 5').
