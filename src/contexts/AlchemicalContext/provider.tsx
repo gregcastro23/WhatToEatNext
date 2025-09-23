@@ -26,21 +26,21 @@ const logger = createLogger('AlchemicalProvider')
 
 // Function to do a deep equality check
 function deepEqual<T>(obj1: T, obj2: T): boolean {
-  if (obj1 === obj2) return true,
-  if (obj1 == null || obj2 == null) return false,
-  if (typeof obj1 !== 'object' || typeof obj2 !== 'object') return false,
+  if (obj1 === obj2) return true;
+  if (obj1 == null || obj2 == null) return false;
+  if (typeof obj1 !== 'object' || typeof obj2 !== 'object') return false;
 
-  const keys1 = Object.keys(obj1 as object)
-  const keys2 = Object.keys(obj2 as object)
+  const keys1 = Object.keys(obj1 as object);
+  const keys2 = Object.keys(obj2 as object);
 
-  if (keys1.length !== keys2.length) return false,
+  if (keys1.length !== keys2.length) return false;
 
   for (const key of keys1) {
-    if (!keys2.includes(key)) return false
-    if (!deepEqual((obj1 as any)[key], (obj2 as any)[key])) return false,
+    if (!keys2.includes(key)) return false;
+    if (!deepEqual((obj1 as any)[key], (obj2 as any)[key])) return false;
   }
 
-  return true,
+  return true;
 }
 
 // Calculate active planets based on dignity and other factors

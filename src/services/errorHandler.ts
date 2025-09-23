@@ -6,11 +6,11 @@
 // Simple logger functionality
 const logError = (_message: string, _data?: unknown) => {
   // No-op for production
-},
+};
 
 const logWarning = (_message: string, _data?: unknown) => {
   // No-op for production
-},
+};
 
 const logInfo = (_message: string, _data?: unknown) => {
   // No-op for production

@@ -54,8 +54,8 @@ export default function SignVectorPanel({
     }
     return () => {
       mounted = false;
-    },
-  }, [propPositions])
+    };
+  }, [propPositions]);
 
   const state = React.useMemo(() => {
     if (!positions) return null;

@@ -7,7 +7,7 @@ import React, {
   useEffect,
   useCallback,
   ReactNode
-} from 'react',
+} from 'react';
 
 import alchemicalEngine from '@/calculations/alchemicalEngine';
 import { ChakraEnergies } from '@/types/alchemy';

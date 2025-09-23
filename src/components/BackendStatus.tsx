@@ -41,7 +41,7 @@ export const BackendStatus: React.FC = () => {
       _logger.info('Backend services offline - using fallback mode')
       setServices(services.map(s => ({ ...s, status: 'offline' as const })))
     }
-  },
+  };
 
   // Demo backend calculations
   const runDemoCalculations = async () => {
@@ -78,7 +78,7 @@ export const BackendStatus: React.FC = () => {
         recommendations: { total_count: 0, responseTime: 2, fallback: true }
       })
     }
-  },
+  };
 
   useEffect(() => {
     checkHealth()
@@ -91,12 +91,12 @@ export const BackendStatus: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'healthy': return 'text-green-600 bg-green-50',
-      case 'unhealthy': return 'text-yellow-600 bg-yellow-50',
-      case 'offline': return 'text-red-600 bg-red-50',
-      default: return 'text-gray-600 bg-gray-50',
+      case 'healthy': return 'text-green-600 bg-green-50';
+      case 'unhealthy': return 'text-yellow-600 bg-yellow-50';
+      case 'offline': return 'text-red-600 bg-red-50';
+      default: return 'text-gray-600 bg-gray-50';
     }
-  },
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
@@ -252,7 +252,7 @@ export const BackendStatus: React.FC = () => {
         </div>
       </div>
     </div>
-  )
-},
+  );
+};
 
-export default BackendStatus,
+export default BackendStatus;
