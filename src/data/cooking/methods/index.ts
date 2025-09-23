@@ -12,7 +12,7 @@ import { wetCookingMethods } from './wet';
 /**
  * Collection of all cooking methods from all categories
  */
-export const allCookingMethods = {;
+export const allCookingMethods = {
   ...dryCookingMethods,
   ...wetCookingMethods,
   ...molecularCookingMethods,
@@ -43,9 +43,9 @@ export const _getMethodsForZodiacSign = (sign: any): Record<string, CookingMetho
  * @param threshold The minimum value for that element (0.0-1.0)
  * @returns Object containing cooking methods with that elemental dominance
  */
-export const _getMethodsByElement = (;
+export const _getMethodsByElement = (
   element: Element,
-  threshold = 0.4;
+  threshold = 0.4
 ): Record<string, CookingMethodData> => {
   return Object.entries(allCookingMethods)
     .filter(([_, method]) => {

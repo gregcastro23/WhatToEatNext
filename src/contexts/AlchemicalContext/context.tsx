@@ -1,79 +1,82 @@
+/**
+ * Alchemical Context - Minimal Recovery Version
+ *
+ * Core context for alchemical state management including seasons, zodiac,
+ * planetary positions, and elemental properties.
+ */
+
 'use client';
 
-import { createContext } from 'react';
-
+import React, { createContext } from 'react';
 import { AlchemicalState, AlchemicalContextType } from './types';
 
 // Define default state
-export const defaultState: AlchemicalState = {;
+export const defaultState: AlchemicalState = {
   currentSeason: 'spring',
   timeOfDay: 'morning',
   astrologicalState: {
     currentZodiac: 'aries',
-    sunSign: 'aries',
-    lunarPhase: 'new moon',
-    moonPhase: 'new moon',
-    activePlanets: ['sun', 'moon']
-  },
-  currentEnergy: {
-    zodiacEnergy: '',
-    lunarEnergy: '',
-    planetaryEnergy: '' },
-        elementalPreference: {
-    Fire: 0.32,
-    Water: 0.28,
-    Earth: 0.18,
-    Air: 0.22
-  },
-  elementalState: {
-    Fire: 0.32,
-    Water: 0.28,
-    Earth: 0.18,
-    Air: 0.22
-  },
-  celestialPositions: {
-    sun: {
-      sign: 'aries',
-      degree: 0
+    planetaryInfluences: {
+      Sun: 0.7,
+      Moon: 0.5,
+      Mercury: 0.3,
+      Venus: 0.6,
+      Mars: 0.4,
+      Jupiter: 0.8,
+      Saturn: 0.2
     },
-    moon: {
-      sign: 'taurus',
-      degree: 0
-    }
-  },
-  error: false,
-  errorMessage: '',
-  errors: [],
-  zodiacEnergy: '',
-  lunarEnergy: '',
-  planetaryEnergy: [],
-  alchemicalValues: {
-    Spirit: 0.29,
-    Essence: 0.28,
-    Matter: 0.21,
-    Substance: 0.22
+    elementalProperties: {
+      Fire: 0.4,
+      Water: 0.2,
+      Earth: 0.2,
+      Air: 0.2
+    },
+    alchemicalProperties: {
+      Spirit: 0.3,
+      Essence: 0.3,
+      Matter: 0.2,
+      Substance: 0.2
+    },
+    thermodynamicProperties: {
+      temperature: 20,
+      pressure: 1,
+      entropy: 0.5,
+      enthalpy: 0.5
+    },
+    timestamp: Date.now()
   },
   lunarPhase: 'new moon',
   currentTime: new Date(),
   lastUpdated: new Date(),
-  planetaryPositions: {}
-  normalizedPositions: {}
+  planetaryPositions: {},
+  normalizedPositions: {},
   dominantElement: 'Fire',
   planetaryHour: 'Sun',
   svgRepresentation: null
-}
+};
 
 // Create the context with default values
-export const _AlchemicalContext = createContext<AlchemicalContextType>({;
+export const _AlchemicalContext = createContext<AlchemicalContextType>({
   state: defaultState,
-  dispatch: () => {}
-  planetaryPositions: {}
-  isDaytime: true,
-  updatePlanetaryPositions: () => {}
-  refreshPlanetaryPositions: async () => ({}),
-  setDaytime: () => {}
-  updateState: () => {}
-})
+  dispatch: () => {},
+  planetaryPositions: {},
+  normalizedPositions: {},
+  getDominantElement: () => 'Fire',
+  getCurrentElementalBalance: () => ({
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
+    Air: 0.25
+  }),
+  getAlchemicalHarmony: () => 0.5,
+  updateAstrologicalState: () => {},
+  calculateSeasonalInfluence: () => 0.5,
+  getThermodynamicState: () => ({
+    temperature: 20,
+    pressure: 1,
+    entropy: 0.5,
+    enthalpy: 0.5
+  })
+});
 
-// Export the AlchemicalContextType for direct imports
-export type { AlchemicalContextType } from './types';
+export default _AlchemicalContext;

@@ -1,33 +1,38 @@
 import React, { lazy } from 'react';
 
+// Simple logger fallback
+const _logger = {
+  error: (message: string, ...args: any[]) => console.error(`[ERROR] ${message}`, ...args)
+};
+
 // Lazy-loaded components for code splitting
 export const LazyPlanetaryHourDisplay = lazy(() =>
   import('../PlanetaryHourDisplay').then(module => ({
-    default: module.PlanetaryHourDisplay;
+    default: module.PlanetaryHourDisplay
   }))
 )
 
 export const LazyEnhancedRecommendationEngine = lazy(() =>
   import('../EnhancedRecommendationEngine').then(module => ({
-    default: module.EnhancedRecommendationEngine;
+    default: module.EnhancedRecommendationEngine
   }))
 )
 
 export const LazyEnergyVisualization = lazy(() =>
   import('../EnergyVisualization').then(module => ({
-    default: module.EnergyVisualization;
+    default: module.EnergyVisualization
   }))
 )
 
 export const LazyCelestialEventNotifications = lazy(() =>
   import('../CelestialEventNotifications').then(module => ({
-    default: module.CelestialEventNotifications;
+    default: module.CelestialEventNotifications
   }))
 )
 
 // Loading component for Suspense fallbacks
 export const ComponentLoader: React.FC<{ message?: string }> = ({ message = 'Loading component...' }) => (
-  <div style={{;
+  <div style={{
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -36,11 +41,11 @@ export const ComponentLoader: React.FC<{ message?: string }> = ({ message = 'Loa
     borderRadius: '8px',
     border: '1px dashed #ddd'
   }}>
-    <div style={{;
+    <div style={{
       textAlign: 'center',
       color: '#666'
     }}>
-      <div style={{;
+      <div style={{
         fontSize: '24px',
         marginBottom: '8px',
         animation: 'pulse 1.5s ease-in-out infinite'
@@ -55,7 +60,7 @@ export const ComponentLoader: React.FC<{ message?: string }> = ({ message = 'Loa
 
 // Error boundary for lazy components
 export class LazyComponentErrorBoundary extends React.Component<
-  { children: React.ReactNode; fallback?: React.ReactNode }
+  { children: React.ReactNode; fallback?: React.ReactNode },
   { hasError: boolean; error?: Error }
 > {
   constructor(props: { children: React.ReactNode; fallback?: React.ReactNode }) {
@@ -74,7 +79,7 @@ export class LazyComponentErrorBoundary extends React.Component<
   render() {
     if (this.state.hasError) {
       return this.props.fallback || (
-        <div style={{;
+        <div style={{
           padding: '20px',
           backgroundColor: '#f8d7da',
           color: '#721c24',
@@ -92,6 +97,6 @@ export class LazyComponentErrorBoundary extends React.Component<
         </div>)
     }
 
-    return this.props.children,
+    return this.props.children;
   }
 }

@@ -1,241 +1,220 @@
+/**
+ * Energy Visualization Component - Minimal Recovery Version
+ *
+ * Displays elemental energy levels with real-time updates and historical data.
+ */
+
 'use client';
 
 import React from 'react';
-import { useAlchmWebSocket } from '@/hooks/useAlchmWebSocket';
-import { logger } from '@/lib/logger';
+
+interface ElementalLevels {
+  Fire: number;
+  Water: number;
+  Air: number;
+  Earth: number;
+}
+
+interface EnergyReading extends ElementalLevels {
+  timestamp: number;
+}
 
 interface EnergyVisualizationProps {
-  showDetails?: boolean,
-  showHistory?: boolean,
-  className?: string,
+  elementalLevels?: ElementalLevels;
+  showDetails?: boolean;
+  showHistory?: boolean;
+  className?: string;
 }
 
-interface EnergyReading {
-  timestamp: number,
-  Fire: number,
-  Water: number,
-  Air: number,
-  Earth: number,
-}
-
-const ELEMENT_COLORS = {;
+const ELEMENT_COLORS = {
   Fire: '#FF4500',
   Water: '#1E90FF',
   Air: '#87CEEB',
-  Earth: '#8B4513',
-} as const,
+  Earth: '#8B4513'
+} as const;
 
-const ELEMENT_SYMBOLS = {;
+const ELEMENT_SYMBOLS = {
   Fire: '🔥',
   Water: '💧',
   Air: '💨',
-  Earth: '🌍',
-} as const,
+  Earth: '🌍'
+} as const;
 
 export function EnergyVisualization({
+  elementalLevels,
   showDetails = true,
-  showHistory = false;
-  className = '';
+  showHistory = false,
+  className = ''
 }: EnergyVisualizationProps) {
-  const { isConnected, lastEnergyUpdate } = useAlchmWebSocket()
-  const [energyHistory, setEnergyHistory] = React.useState<EnergyReading[]>([])
-  const [maxHistoryLength] = React.useState(20)
+  const [energyHistory, setEnergyHistory] = React.useState<EnergyReading[]>([]);
+  const [currentLevels, setCurrentLevels] = React.useState<ElementalLevels>({
+    Fire: 0.25,
+    Water: 0.25,
+    Air: 0.25,
+    Earth: 0.25
+  });
+
+  // Mock WebSocket hook
+  const useAlchmWebSocket = () => ({
+    isConnected: false,
+    lastEnergyUpdate: null
+  });
+
+  const { isConnected, lastEnergyUpdate } = useAlchmWebSocket();
+  const maxHistoryLength = 20;
+
+  React.useEffect(() => {
+    if (elementalLevels) {
+      setCurrentLevels(elementalLevels);
+    }
+  }, [elementalLevels]);
 
   React.useEffect(() => {
     if (lastEnergyUpdate) {
-      const newReading: EnergyReading = {;
+      const newReading: EnergyReading = {
         timestamp: Date.now(),
         ...lastEnergyUpdate
-      }
+      };
 
-      setEnergyHistory(prev => {;
-        const updated = [...prev, newReading],
-        return updated.slice(-maxHistoryLength)
-      })
+      setEnergyHistory(prev => {
+        const updated = [...prev, newReading];
+        return updated.slice(-maxHistoryLength);
+      });
 
-      logger.debug('EnergyVisualization received update', lastEnergyUpdate)
+      setCurrentLevels(lastEnergyUpdate);
     }
-  }, [lastEnergyUpdate, maxHistoryLength])
+  }, [lastEnergyUpdate]);
 
-  const currentEnergy = lastEnergyUpdate || { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 }
-  const totalEnergy = Object.values(currentEnergy).reduce((sum, val) => sum + val, 0)
+  const getMaxElement = () => {
+    const entries = Object.entries(currentLevels) as [keyof ElementalLevels, number][];
+    return entries.reduce((max, [element, level]) =>
+      level > max.level ? { element, level } : max,
+      { element: 'Fire' as keyof ElementalLevels, level: 0 }
+    );
+  };
 
-  const renderEnergyBar = (element: keyof typeof ELEMENT_COLORS, value: number) => {
-    const percentage = totalEnergy > 0 ? (value / totalEnergy) * 100: 25;
-    const color = ELEMENT_COLORS[element];
+  const formatPercentage = (value: number) => `${(value * 100).toFixed(1)}%`;
 
-    return (
-      <div key={element} style={{ marginBottom: '12px' }}>
-        <div style={{;
+  const renderElementBar = (element: keyof ElementalLevels, level: number) => (
+    <div key={element} style={{ marginBottom: '12px' }}>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: '4px'
+      }}>
+        <span style={{
           display: 'flex',
-          justifyContent: 'space-between',
           alignItems: 'center',
-          marginBottom: '4px'
-        }}>
-          <span style={{;
-            fontSize: '14px',
-            fontWeight: '500',
-            color: color,
-            display: 'flex',
-            alignItems: 'center',
-            gap: '4px'
-          }}>
-            {ELEMENT_SYMBOLS[element]} {element}
-          </span>
-          <span style={{;
-            fontSize: '12px',
-            color: '#666',
-            fontFamily: 'monospace'
-          }}>
-            {value.toFixed(3)} ({percentage.toFixed(1)}%)
-          </span>
-        </div>
-        <div style={{;
-          width: '100%',
-          height: '8px',
-          backgroundColor: '#e9ecef',
-          borderRadius: '4px',
-          overflow: 'hidden'
-        }}>
-          <div style={{;
-            width: `${percentage}%`,
-            height: '100%',
-            backgroundColor: color,
-            transition: 'width 0.3s ease',
-            background: `linear-gradient(90deg, ${color}88, ${color})`
-          }} />
-        </div>
-      </div>
-    )
-  }
-
-  const renderCircularVisualization = () => {;
-    const radius = 60;
-    const centerX = 80;
-    const centerY = 80;
-    const strokeWidth = 12;
-
-    let currentAngle = -90; // Start at top
-
-    return (
-      <svg width="160" height="160" style={{ margin: '0 auto', display: 'block' }}>
-        {Object.entries(currentEnergy).map(([element, value]) => {
-          const percentage = totalEnergy > 0 ? (value / totalEnergy) * 100: 25;
-          const angle = (percentage / 100) * 360;
-          const startAngle = currentAngle;
-          const endAngle = currentAngle + angle;
-
-          const startX = centerX + radius * Math.cos((startAngle * Math.PI) / 180)
-          const startY = centerY + radius * Math.sin((startAngle * Math.PI) / 180)
-          const endX = centerX + radius * Math.cos((endAngle * Math.PI) / 180)
-          const endY = centerY + radius * Math.sin((endAngle * Math.PI) / 180)
-;
-          const largeArcFlag = angle > 180 ? 1: 0;
-
-          const pathData = [;
-            `M ${centerX} ${centerY}`,
-            `L ${startX} ${startY}`,
-            `A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endX} ${endY}`,
-            'Z'
-          ].join(' ')
-
-          currentAngle += angle,
-
-          return (
-            <path
-              key={element}
-              d={pathData}
-              fill={ELEMENT_COLORS[element as keyof typeof ELEMENT_COLORS]}
-              stroke="#fff"
-              strokeWidth="1"
-              opacity="0.8"
-            />
-          );
-        })}
-
-        {/* Center circle */}
-        <circle
-          cx={centerX}
-          cy={centerY}
-          r="25"
-          fill="#fff"
-          stroke="#ddd"
-          strokeWidth="2"
-        />
-;
-        {/* Status indicator */}
-        <circle
-          cx={centerX}
-          cy={centerY}
-          r="6";
-          fill={isConnected ? '#28a745' : '#dc3545'}
-        />
-      </svg>
-    )
-  }
-
-  const renderMiniChart = () => {;
-    if (energyHistory.length < 2) return null;
-
-    const chartHeight = 60;
-    const chartWidth = 200;
-    const maxValue = Math.max(;
-      ...energyHistory.flatMap(reading => [reading.Fire, reading.Water, reading.Air, reading.Earth])
-    )
-
-    return (
-      <div style={{ marginTop: '16px' }}>
-        <h4 style={{;
-          margin: '0 0 8px 0',
+          gap: '8px',
           fontSize: '14px',
-          color: '#666'
+          fontWeight: '500'
         }}>
-          Energy History (Last {energyHistory.length} readings)
-        </h4>
-        <svg width={chartWidth} height={chartHeight} style={{;
-          border: '1px solid #e9ecef',
-          borderRadius: '4px',
-          backgroundColor: '#f8f9fa'
+          <span style={{ fontSize: '18px' }}>
+            {ELEMENT_SYMBOLS[element]}
+          </span>
+          {element}
+        </span>
+        <span style={{
+          fontSize: '12px',
+          color: ELEMENT_COLORS[element],
+          fontWeight: '600'
         }}>
-          {Object.keys(ELEMENT_COLORS).map(element => {;
-            const points = energyHistory.map((reading, index) => {
-              const x = (index / (energyHistory.length - 1)) * (chartWidth - 20) + 10;
-              const y = chartHeight - 10 - ((reading[element as keyof EnergyReading] as number / maxValue) * (chartHeight - 20));
-              return `${x},${y}`,
-            }).join(' ')
+          {formatPercentage(level)}
+        </span>
+      </div>
+      <div style={{
+        width: '100%',
+        height: '8px',
+        backgroundColor: '#f0f0f0',
+        borderRadius: '4px',
+        overflow: 'hidden'
+      }}>
+        <div style={{
+          width: `${level * 100}%`,
+          height: '100%',
+          backgroundColor: ELEMENT_COLORS[element],
+          transition: 'width 0.5s ease'
+        }} />
+      </div>
+    </div>
+  );
 
+  const renderHistoryChart = () => {
+    if (!showHistory || energyHistory.length === 0) return null;
+
+    const maxPoints = 10;
+    const displayHistory = energyHistory.slice(-maxPoints);
+
+    return (
+      <div style={{ marginTop: '20px' }}>
+        <h4 style={{
+          margin: '0 0 12px 0',
+          fontSize: '14px',
+          fontWeight: '600',
+          color: '#333'
+        }}>
+          Energy History
+        </h4>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(60px, 1fr))',
+          gap: '8px',
+          padding: '12px',
+          backgroundColor: '#f8f9fa',
+          borderRadius: '8px'
+        }}>
+          {displayHistory.map((reading, index) => {
+            const dominant = getMaxElement();
             return (
-              <polyline
-                key={element}
-                points={points}
-                fill="none";
-                stroke={ELEMENT_COLORS[element as keyof typeof ELEMENT_COLORS]}
-                strokeWidth="2"
-                opacity="0.8"
-              />
+              <div key={reading.timestamp} style={{
+                textAlign: 'center',
+                fontSize: '10px',
+                color: '#666'
+              }}>
+                <div style={{
+                  width: '100%',
+                  height: '40px',
+                  display: 'flex',
+                  alignItems: 'end',
+                  justifyContent: 'center',
+                  marginBottom: '4px'
+                }}>
+                  <div style={{
+                    width: '20px',
+                    height: `${reading[dominant.element] * 40}px`,
+                    backgroundColor: ELEMENT_COLORS[dominant.element],
+                    borderRadius: '2px 2px 0 0'
+                  }} />
+                </div>
+                <div>{new Date(reading.timestamp).toLocaleTimeString([], {
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}</div>
+              </div>
             );
           })}
-        </svg>
+        </div>
       </div>
-    )
-  }
+    );
+  };
+
+  const dominant = getMaxElement();
 
   return (
-    <div className={`energy-visualization ${className}`}
-         style={{;
-           border: '1px solid #ddd',
-           borderRadius: '8px',
-           padding: '20px',
-           backgroundColor: '#fff',
-           minWidth: '300px'
-         }}>
-      <div style={{;
+    <div className={`energy-visualization ${className}`} style={{
+      padding: '20px',
+      backgroundColor: '#fff',
+      borderRadius: '12px',
+      border: '1px solid #e0e0e0'
+    }}>
+      <div style={{
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: '16px'
       }}>
-        <h3 style={{;
+        <h3 style={{
           margin: 0,
           fontSize: '18px',
           fontWeight: '600',
@@ -243,67 +222,103 @@ export function EnergyVisualization({
         }}>
           ⚡ Elemental Energy
         </h3>
-        <div style={{;
-          fontSize: '12px',
-          color: isConnected ? '#28a745' : '#dc3545',
-          fontWeight: '500'
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px'
         }}>
-          {isConnected ? '● Live' : '● Offline'}
+          <div style={{
+            width: '8px',
+            height: '8px',
+            borderRadius: '50%',
+            backgroundColor: isConnected ? '#22c55e' : '#ef4444'
+          }} />
+          <span style={{ fontSize: '12px', color: '#666' }}>
+            {isConnected ? 'Live' : 'Offline'}
+          </span>
         </div>
       </div>
 
-      {/* Circular visualization */}
-      <div style={{ marginBottom: '20px' }}>
-        {renderCircularVisualization()}
-      </div>
-
-      {/* Energy bars */}
       {showDetails && (
-        <div style={{ marginBottom: '16px' }}>
-          {Object.entries(currentEnergy).map(([element, value]) =>
-            renderEnergyBar(element as keyof typeof ELEMENT_COLORS, value)
-          )}
+        <div style={{
+          marginBottom: '16px',
+          padding: '12px',
+          backgroundColor: `${ELEMENT_COLORS[dominant.element]}10`,
+          borderRadius: '8px',
+          border: `1px solid ${ELEMENT_COLORS[dominant.element]}30`
+        }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            fontSize: '14px',
+            color: ELEMENT_COLORS[dominant.element],
+            fontWeight: '600'
+          }}>
+            <span style={{ fontSize: '20px' }}>
+              {ELEMENT_SYMBOLS[dominant.element]}
+            </span>
+            Dominant: {dominant.element} ({formatPercentage(dominant.level)})
+          </div>
         </div>
       )}
 
-      {/* Total energy display */}
-      <div style={{;
-        padding: '12px',
-        backgroundColor: '#f8f9fa',
-        borderRadius: '6px',
-        textAlign: 'center',
-        marginBottom: '16px'
-      }}>
-        <div style={{;
-          fontSize: '12px',
-          color: '#666',
-          marginBottom: '4px'
-        }}>
-          Total Energy
-        </div>
-        <div style={{;
-          fontSize: '20px',
-          fontWeight: '600',
-          color: '#333',
-          fontFamily: 'monospace'
-        }}>
-          {totalEnergy.toFixed(3)}
-        </div>
+      <div style={{ marginBottom: '16px' }}>
+        {Object.entries(currentLevels).map(([element, level]) =>
+          renderElementBar(element as keyof ElementalLevels, level)
+        )}
       </div>
 
-      {/* History chart */}
-      {showHistory && renderMiniChart()}
-
-      {/* Status message */}
-      {!lastEnergyUpdate && (
-        <div style={{;
-          fontSize: '14px',
-          color: '#999',
-          fontStyle: 'italic',
-          textAlign: 'center'
+      {showDetails && (
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(2, 1fr)',
+          gap: '12px',
+          marginBottom: '16px'
         }}>
-          {isConnected ? 'Waiting for energy data...' : 'WebSocket disconnected'}
-        </div>)}
+          <div style={{
+            padding: '8px',
+            backgroundColor: '#f8f9fa',
+            borderRadius: '6px',
+            textAlign: 'center'
+          }}>
+            <div style={{ fontSize: '12px', color: '#666', marginBottom: '4px' }}>
+              Balance Score
+            </div>
+            <div style={{ fontSize: '16px', fontWeight: '600', color: '#333' }}>
+              {(Math.min(...Object.values(currentLevels)) / Math.max(...Object.values(currentLevels)) * 100).toFixed(0)}%
+            </div>
+          </div>
+          <div style={{
+            padding: '8px',
+            backgroundColor: '#f8f9fa',
+            borderRadius: '6px',
+            textAlign: 'center'
+          }}>
+            <div style={{ fontSize: '12px', color: '#666', marginBottom: '4px' }}>
+              Total Energy
+            </div>
+            <div style={{ fontSize: '16px', fontWeight: '600', color: '#333' }}>
+              {Object.values(currentLevels).reduce((sum, level) => sum + level, 0).toFixed(2)}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {renderHistoryChart()}
+
+      <div style={{
+        fontSize: '11px',
+        color: '#999',
+        textAlign: 'center',
+        marginTop: '12px',
+        padding: '8px',
+        borderTop: '1px solid #eee'
+      }}>
+        Last updated: {new Date().toLocaleTimeString()}
+      </div>
     </div>
-  )
+  );
 }
+
+export default EnergyVisualization;

@@ -1,89 +1,103 @@
+/**
+ * Astrological Context - Minimal Recovery Version
+ *
+ * Provides astrological state management with zodiac signs, elemental properties,
+ * and chakra energies for the entire application.
+ */
+
 'use client';
 
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useCallback,
-  ReactNode
-} from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-import alchemicalEngine from '@/calculations/alchemicalEngine';
-import { ChakraEnergies } from '@/types/alchemy';
-import { AstrologicalState } from '@/types/celestial';
-import { isChakraEnergies } from '@/utils/typeGuards';
-
-// ========== COMPLETE ASTROLOGICAL CONTEXT IMPLEMENTATION ==========
-;
-// Phase, 5: Type-safe interfaces for astrological context
-interface SafeElementalProperties {
-  Fire: number,
-  Water: number,
-  Earth: number,
-  Air: number
+// Type definitions
+interface ElementalProperties {
+  Fire: number;
+  Water: number;
+  Earth: number;
+  Air: number;
 }
 
-interface _ {
-  elements?: SafeElementalProperties
-  [key: string]: unknown
+interface AlchemicalProperties {
+  Spirit: number;
+  Essence: number;
+  Matter: number;
+  Substance: number;
+}
+
+interface ChakraEnergies {
+  root: number;
+  sacral: number;
+  solarPlexus: number;
+  heart: number;
+  throat: number;
+  thirdEye: number;
+  crown: number;
+}
+
+interface AstrologicalState {
+  currentZodiac: string;
+  elementalProperties: ElementalProperties;
+  alchemicalProperties: AlchemicalProperties;
+  planetaryHour: string;
+  lunarPhase: string;
+  dominantElement: string;
+  timestamp: number;
 }
 
 // Define the context type
 interface AstrologicalContextType {
-  currentZodiac: string;,
-  astrologicalState: AstrologicalState | null;,
-  chakraEnergies: ChakraEnergies | null;,
-  loading: boolean;,
-  error: string | null;,
+  currentZodiac: string;
+  astrologicalState: AstrologicalState | null;
+  chakraEnergies: ChakraEnergies | null;
+  loading: boolean;
+  error: string | null;
   updateZodiac: (zodiac: string) => void;
 }
 
 // Create the context
 const AstrologicalContext = createContext<AstrologicalContextType | undefined>(undefined);
 
-// AstrologicalProvider component
-interface AstrologicalProviderProps {
-  children: ReactNode;
-}
+// Custom hook to use the astrological context
+export const useAstrologicalContext = (): AstrologicalContextType => {
+  const context = useContext(AstrologicalContext);
+  if (context === undefined) {
+    throw new Error('useAstrologicalContext must be used within an AstrologicalProvider');
+  }
+  return context;
+};
 
-export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
+// Context provider component
+export const AstrologicalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [currentZodiac, setCurrentZodiac] = useState<string>('aries');
   const [astrologicalState, setAstrologicalState] = useState<AstrologicalState | null>(null);
   const [chakraEnergies, setChakraEnergies] = useState<ChakraEnergies | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Function to update zodiac and recalculate state
-  const updateZodiac = (zodiac: string) => {;
-    setCurrentZodiac(zodiac);
-    void calculateAstrologicalState(zodiac);
-  };
-
-  // Calculate astrological state based on zodiac
-  const calculateAstrologicalState = useCallback(async (zodiac: string) => {;
+  // Function to calculate astrological state based on zodiac sign
+  const calculateAstrologicalState = async (zodiac: string): Promise<void> => {
     setLoading(true);
     setError(null);
     try {
       // Mock calculation - in real implementation this would use actual astrological calculations
-      const elementalProperties: SafeElementalProperties = {;
+      const elementalProperties: ElementalProperties = {
         Fire: zodiac === 'aries' || zodiac === 'leo' || zodiac === 'sagittarius' ? 0.7 : 0.2,
         Water: zodiac === 'cancer' || zodiac === 'scorpio' || zodiac === 'pisces' ? 0.7 : 0.2,
         Earth: zodiac === 'taurus' || zodiac === 'virgo' || zodiac === 'capricorn' ? 0.7 : 0.2,
-        Air: zodiac === 'gemini' || zodiac === 'libra' || zodiac === 'aquarius' ? 0.7 : 0.2,
-      }
+        Air: zodiac === 'gemini' || zodiac === 'libra' || zodiac === 'aquarius' ? 0.7 : 0.2
+      };
 
       // Calculate basic alchemical values from elemental properties
-      const alchemicalValues = {;
+      const alchemicalValues = {
         Spirit: (elementalProperties.Fire + elementalProperties.Air) * 0.5,
         Essence: (elementalProperties.Water + elementalProperties.Fire) * 0.5,
         Matter: (elementalProperties.Earth + elementalProperties.Water) * 0.5,
         Substance: (elementalProperties.Earth + elementalProperties.Air) * 0.5
-      }
+      };
 
       // Get current planetary hour (simple mock based on time)
-      const currentHour = new Date().getHours()
-      const planetaryHours = [;
+      const currentHour = new Date().getHours();
+      const planetaryHours = [
         'Sun',
         'Venus',
         'Mercury',
@@ -91,73 +105,76 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
         'Saturn',
         'Jupiter',
         'Mars'
-      ] as const,
+      ] as const;
       const planetaryHour = planetaryHours[currentHour % 7];
 
-      const mockState = {;
-        currentZodiac: zodiac as unknown,
-        sunSign: zodiac as unknown, // Add sunSign property,
-        moonSign: zodiac as unknown, // Add moonSign property,
-        planetaryHour: planetaryHour, // Add planetary hour,
-        planetaryPositions: {
-          sun: { sign: zodiac, degree: 15 }
-          moon: { sign: zodiac, degree: 20 }
-        },
-        lunarPhase: 'full moon' as const,
-        currentSeason: 'spring',
-        elements: elementalProperties,
-        alchemicalValues: alchemicalValues, // Add alchemical values,
-        dominantElement: Object.entries(elementalProperties).reduce((ab) =>,
-          elementalProperties[a[0] as keyof SafeElementalProperties] >
-          elementalProperties[b[0] as keyof SafeElementalProperties]
-            ? a
-            : b,
-        )[0] as 'Fire' | 'Water' | 'Earth' | 'Air',
-        activePlanets: ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars'], // Add active planets,
-        isDaytime: currentHour >= 6 && currentHour < 18, // Simple day/night calculation
-      } as AstrologicalState,
+      const mockState = {
+        currentZodiac: zodiac,
+        elementalProperties,
+        alchemicalProperties: alchemicalValues as AlchemicalProperties,
+        planetaryHour,
+        lunarPhase: 'waxing crescent', // Mock value
+        dominantElement: Object.entries(elementalProperties)
+          .reduce((max, [element, value]) => value > max.value ? { element, value } : max,
+                  { element: 'Fire', value: 0 }).element,
+        timestamp: Date.now()
+      };
 
-      // Calculate chakra energies using alchemical engine with safe property access
-      const chakraResult = alchemicalEngine.calculateChakraEnergies(;
-        elementalProperties as unknown as Record<string, number>,
-      )
+      setAstrologicalState(mockState);
 
-      if (isChakraEnergies(chakraResult)) {
-        setChakraEnergies(chakraResult)
-      }
+      // Calculate chakra energies based on elemental properties
+      const chakras: ChakraEnergies = {
+        root: elementalProperties.Earth * 0.8 + 0.2,
+        sacral: elementalProperties.Water * 0.8 + 0.2,
+        solarPlexus: elementalProperties.Fire * 0.8 + 0.2,
+        heart: (elementalProperties.Air + elementalProperties.Water) * 0.4 + 0.2,
+        throat: elementalProperties.Air * 0.8 + 0.2,
+        thirdEye: (elementalProperties.Air + elementalProperties.Water) * 0.4 + 0.2,
+        crown: (elementalProperties.Fire + elementalProperties.Air) * 0.4 + 0.2
+      };
 
-      setAstrologicalState(mockState)
+      setChakraEnergies(chakras);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error occurred')
+      setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }, []); // Empty dependency array since this function doesn't depend on any external values
+  };
 
-  // Initialize with current zodiac on mount
+  // Update zodiac sign and recalculate state
+  const updateZodiac = (zodiac: string): void => {
+    setCurrentZodiac(zodiac);
+    calculateAstrologicalState(zodiac);
+  };
+
+  // Initialize with default zodiac sign
   useEffect(() => {
-    void calculateAstrologicalState(currentZodiac)
-  }, [calculateAstrologicalState, currentZodiac])
+    calculateAstrologicalState(currentZodiac);
+  }, []);
 
-  const value: AstrologicalContextType = {;
+  // Periodic updates (every 10 minutes) to refresh planetary hour
+  useEffect(() => {
+    const interval = setInterval(() => {
+      calculateAstrologicalState(currentZodiac);
+    }, 10 * 60 * 1000); // 10 minutes
+
+    return () => clearInterval(interval);
+  }, [currentZodiac]);
+
+  const value: AstrologicalContextType = {
     currentZodiac,
     astrologicalState,
     chakraEnergies,
     loading,
     error,
     updateZodiac
-  }
+  };
 
-  return <AstrologicalContext.Provider value={value}>{children}</AstrologicalContext.Provider>
-}
+  return (
+    <AstrologicalContext.Provider value={value}>
+      {children}
+    </AstrologicalContext.Provider>
+  );
+};
 
-// useAstrologicalState hook (existing but needs proper export)
-export function useAstrologicalState() {
-  const context = useContext(AstrologicalContext)
-
-  if (context === undefined) {
-    throw new Error('useAstrologicalState must be used within an AstrologicalProvider');
-  }
-
-  return context,
-}
+export default AstrologicalContext;
