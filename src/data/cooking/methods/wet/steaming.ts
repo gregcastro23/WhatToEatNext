@@ -6,7 +6,7 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  *
  * Cooking food by surrounding it with hot water vapor, allowing gentle, moisture-rich heat transfer
  */
-export const steaming: CookingMethodData = {;
+export const steaming: CookingMethodData = {
   name: 'steaming',
   description: 'Cooking food by suspending it above simmering water where rising vapor gently cooks the food, preserving nutrients and moisture',
   elementalEffect: {

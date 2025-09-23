@@ -6,7 +6,7 @@ import type { ThermodynamicProperties } from '@/types/shared';
  *
  * Cooking food with dry heat in an oven or over fire, creating caramelization and browning
  */
-export const roasting: CookingMethodData = {;
+export const roasting: CookingMethodData = {
   name: 'roasting',
   description: 'Cooking food with dry heat in an oven or over a fire, typically uncovered, creating flavorful browning and caramelization on the exterior while keeping the interior moist',
   elementalEffect: {

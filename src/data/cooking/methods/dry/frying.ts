@@ -8,7 +8,7 @@ import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
  * Associated with the alchemical pillar of Calcination - the reduction of substances
  * through intense heat, increasing Essence and Matter while decreasing Spirit and Substance.
  */
-export const frying: CookingMethodData = {;
+export const frying: CookingMethodData = {
   name: 'frying',
   description: 'Cooking food in hot oil or fat, creating a crispy exterior while keeping the interior moist and tender. The high-temperature process rapidly dehydrates the food surface through the expulsion of moisture, creating a protective barrier that seals in flavors while developing complex browning reactions that enhance taste and texture.',
   elementalEffect: {

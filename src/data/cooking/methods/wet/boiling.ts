@@ -7,7 +7,7 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  * Cooking food by immersing it in water or liquid that has reached its boiling point (212°F/100°C at sea level)
  * One of the fundamental wet cooking techniques with applications across world cuisines
  */
-export const boiling: CookingMethodData = {;
+export const boiling: CookingMethodData = {
   name: 'boiling',
   description: 'Cooking food by immersing it in water or other liquid that has reached a rapid, rolling boil, quickly transferring heat and creating fast, even cooking. The rapid bubbling action and convection currents ensure consistent temperature throughout the cooking medium.',
   elementalEffect: {

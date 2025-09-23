@@ -29,10 +29,10 @@ export function useServices() {;
   useEffect(() => {
     // If already initialized, do nothing
     if (servicesManager.isInitialized) {
-      return,
+      return;
     }
 
-    let isMounted = true,
+    let isMounted = true;
 
     const initializeServices = async () => {
       try {

@@ -6,7 +6,7 @@ import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
  *
  * Cooking food with intense heat from above, typically in an oven broiler
  */
-export const broiling: CookingMethodData = {;
+export const broiling: CookingMethodData = {
   name: 'broiling',
   description: 'Cooking food by exposing it to direct radiant heat from above, typically in an oven broiler, creating a browned exterior while maintaining moisture inside',
   elementalEffect: {
@@ -50,7 +50,7 @@ export const broiling: CookingMethodData = {;
       waxing_crescent: 0.9,
       waning_gibbous: 1.1
     }
-  }
+  },
 
   toolsRequired: [
     'Oven with broiler element',

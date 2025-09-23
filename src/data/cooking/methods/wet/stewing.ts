@@ -6,7 +6,7 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  *
  * Slow cooking ingredients in liquid at low temperature for extended periods
  */
-export const stewing: CookingMethodData = {;
+export const stewing: CookingMethodData = {
   name: 'stewing',
   description: 'A slow cooking method where ingredients are submerged in liquid and cooked at a low temperature for extended periods, allowing flavors to meld while gently tenderizing foods. Similar to braising but typically uses smaller, uniform ingredient cuts and more liquid.',
   elementalEffect: {

@@ -6,7 +6,7 @@ import type { ThermodynamicProperties } from '@/types/shared';
  *
  * Biological transformation of food through microbial activity
  */
-export const fermentation: CookingMethodData = {;
+export const fermentation: CookingMethodData = {
   name: 'fermentation',
   description: 'Biological transformation of food through controlled microbial activity, creating complex flavors, preserving foods, and enhancing nutritional value',
   elementalEffect: {

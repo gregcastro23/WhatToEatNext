@@ -8,7 +8,7 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  * Associated with the alchemical pillar of Coagulation - transforming delicate substances
  * with minimal disruption while preserving their essence.
  */
-export const poaching: CookingMethodData = {;
+export const poaching: CookingMethodData = {
   name: 'poaching',
   description: 'Gentle cooking method where food is submerged in liquid heated to just below simmering point (160°F-180°F/71°C-82°C), characterized by small bubbles forming on the bottom of the pan without breaking the surface. This technique delicately cooks food while preserving moisture, texture, and shape, ideal for proteins that might toughen at higher temperatures and delicate ingredients that require subtle flavor infusion.',
   elementalEffect: {

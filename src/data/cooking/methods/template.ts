@@ -8,7 +8,7 @@ import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
  * Copy this file, rename it to your method name (kebab-case), and fill in the data.
  */
 
-export const _methodName: CookingMethodData = {;
+export const _methodName: CookingMethodData = {
   name: 'method_name', // Use snake_case for the name property,
   description: 'Description of the cooking method and how it works, including key characteristics and effects on food',
   elementalEffect: {

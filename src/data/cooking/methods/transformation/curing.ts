@@ -5,7 +5,7 @@ import type { CookingMethod } from '@/types/shared';
  * Curing: A food preservation method that removes moisture and enhances flavor
  * through the addition of salt, sugar, nitrates, or other compounds
  */
-export const curing: CookingMethodData = {;
+export const curing: CookingMethodData = {
   name: 'Curing' as CookingMethod,
   description: 'A preservation technique that draws moisture out of food through the use of salt, sugar, nitrates, or other compounds, thereby inhibiting bacterial growth and enhancing flavor.',
   elementalEffect: {

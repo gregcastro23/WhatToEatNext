@@ -51,7 +51,7 @@ export const _getMethodsByElement = (
     .filter(([_, method]) => {
       // Apply safe type casting for method property access
       const methodData = method;
-      return (methodData?.elementalEffect?.[element] || 0) >= threshold,
+      return (methodData?.elementalEffect?.[element] || 0) >= threshold;
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 }
@@ -61,7 +61,7 @@ export const _getMethodsByElement = (
  * @param ingredientType The type of ingredient (e.g., 'meat', 'vegetables')
  * @returns Object containing suitable cooking methods
  */
-export const _getMethodsForIngredientType = (;
+export const _getMethodsForIngredientType = (
   ingredientType: string,
 ): Record<string, CookingMethodData> => {
   return Object.entries(allCookingMethods)
