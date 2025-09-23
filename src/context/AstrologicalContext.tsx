@@ -31,39 +31,39 @@ interface _ {
 
 // Define the context type
 interface AstrologicalContextType {
-  currentZodiac: string,
-  astrologicalState: AstrologicalState | null,
-  chakraEnergies: ChakraEnergies | null,
-  loading: boolean,
-  error: string | null,
-  updateZodiac: (zodiac: string) => void
+  currentZodiac: string;
+  astrologicalState: AstrologicalState | null;
+  chakraEnergies: ChakraEnergies | null;
+  loading: boolean;
+  error: string | null;
+  updateZodiac: (zodiac: string) => void;
 }
 
 // Create the context
-const AstrologicalContext = createContext<AstrologicalContextType | undefined>(undefined)
+const AstrologicalContext = createContext<AstrologicalContextType | undefined>(undefined);
 
 // AstrologicalProvider component
 interface AstrologicalProviderProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
-  const [currentZodiac, setCurrentZodiac] = useState<string>('aries')
-  const [astrologicalState, setAstrologicalState] = useState<AstrologicalState | null>(null)
-  const [chakraEnergies, setChakraEnergies] = useState<ChakraEnergies | null>(null)
-  const [loading, setLoading] = useState<boolean>(false)
-  const [error, setError] = useState<string | null>(null)
+  const [currentZodiac, setCurrentZodiac] = useState<string>('aries');
+  const [astrologicalState, setAstrologicalState] = useState<AstrologicalState | null>(null);
+  const [chakraEnergies, setChakraEnergies] = useState<ChakraEnergies | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Function to update zodiac and recalculate state
   const updateZodiac = (zodiac: string) => {
-    setCurrentZodiac(zodiac)
-    void calculateAstrologicalState(zodiac)
-  },
+    setCurrentZodiac(zodiac);
+    void calculateAstrologicalState(zodiac);
+  };
 
   // Calculate astrological state based on zodiac
   const calculateAstrologicalState = useCallback(async (zodiac: string) => {
-    setLoading(true)
-    setError(null)
+    setLoading(true);
+    setError(null);
     try {
       // Mock calculation - in real implementation this would use actual astrological calculations
       const elementalProperties: SafeElementalProperties = {

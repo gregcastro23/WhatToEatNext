@@ -14,7 +14,7 @@ const logWarning = (_message: string, _data?: unknown) => {
 
 const logInfo = (_message: string, _data?: unknown) => {
   // No-op for production
-},
+};
 
 // Error types
 export enum ErrorType {

@@ -77,7 +77,7 @@ export default function SignVectorPanel({
     }
     // Apply dev alpha to global config
     if (process.env.NODE_ENV !== 'production') {
-      VECTOR_CONFIG.blendWeightAlpha = alpha,
+      VECTOR_CONFIG.blendWeightAlpha = alpha;
     }
     const res = getAlchemicalStateWithVectors({
       planetaryPositions: positions,
@@ -123,7 +123,7 @@ export default function SignVectorPanel({
         <label htmlFor='governing' style={{ marginRight: 8 }}>
           Governing:
         </label>
-        
+
         <select id='governing' value={mode} onChange={e => setMode(e.target.value as any)}>
           <option value='dominant'>dominant</option><option value='sun'>sun</option>
           <option value='moon'>moon</option><option value='ensemble'>ensemble</option>

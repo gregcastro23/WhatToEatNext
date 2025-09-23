@@ -45,30 +45,30 @@ function deepEqual<T>(obj1: T, obj2: T): boolean {
 
 // Calculate active planets based on dignity and other factors
 const calculateActivePlanets = (positions: PlanetaryPositionsType): string[] => {
-  if (!positions) return [],
+  if (!positions) return [];
 
   // Basic implementation just returns the major planets
   const activePlanets: string[] = [];
 
   try {
     // Add main planets (using capitalized names to match proven working implementation)
-    const mainPlanets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn'],
+    const mainPlanets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn'];
     mainPlanets.forEach(planet => {
       if (positions[planet]) {
-        activePlanets.push(planet)
+        activePlanets.push(planet);
       }
-    })
+    });
 
     // Always include luminaries (Sun and Moon) as they're constantly active
-    if (!activePlanets.includes('Sun')) activePlanets.push('Sun')
-    if (!activePlanets.includes('Moon')) activePlanets.push('Moon')
+    if (!activePlanets.includes('Sun')) activePlanets.push('Sun');
+    if (!activePlanets.includes('Moon')) activePlanets.push('Moon');
   } catch (error) {
     logger.error('Error calculating active planets:', error)
     // Return at least the sun and moon as fallback (capitalized)
-    return ['Sun', 'Moon'],
+    return ['Sun', 'Moon'];
   }
 
-  return activePlanets,
+  return activePlanets;
 },
 
 // Safe type conversion function to replace 'as any' casts
@@ -339,5 +339,5 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }>  = ({ c
     >
       {children}
     </AlchemicalContext.Provider>
-  )
-},
+  );
+};
