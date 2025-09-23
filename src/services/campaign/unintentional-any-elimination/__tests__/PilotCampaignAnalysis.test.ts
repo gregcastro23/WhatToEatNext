@@ -18,7 +18,7 @@ describe('PilotCampaignAnalysis', () => {;
   let mockConfig: PilotAnalysisConfig,
 
   beforeEach(() => {
-    mockConfig = {;
+    mockConfig = {
       maxFilesToAnalyze: 100,
       sampleSizeForAccuracy: 50,
       confidenceThreshold: 0.7,
@@ -61,7 +61,7 @@ describe('PilotCampaignAnalysis', () => {;
           byDomain: [],
           byCategory: [],
           intentionalVsUnintentional: {
-            intentional: { count: 45, percentage: 30 }
+            intentional: { count: 45, percentage: 30 },
             unintentional: { count: 105, percentage: 70 }
           },
           analysisDate: new Date()
@@ -84,7 +84,7 @@ describe('PilotCampaignAnalysis', () => {;
             successRate: 78.5,
             totalAnyTypes: 150,
             unintentionalCount: 105,
-            classificationAccuracy: 85.5
+            classificationAccuracy: 85.5,
           },
           projectedCompletion: new Date(),
           recommendations: [],
@@ -98,7 +98,7 @@ describe('PilotCampaignAnalysis', () => {;
           currentSuccessRate: 78.5,
           manualReviewCases: 12,
           topDomain: 'SERVICE',
-          topCategory: 'FUNCTION_PARAM'
+          topCategory: 'FUNCTION_PARAM',
         }
       })
 
@@ -124,7 +124,7 @@ describe('PilotCampaignAnalysis', () => {;
           successRate: 78.5,
           totalAnyTypes: 150,
           unintentionalCount: 105,
-          classificationAccuracy: 85.5
+          classificationAccuracy: 85.5,
         },
         projectedCompletion: new Date(),
         recommendations: [],
@@ -169,7 +169,7 @@ describe('PilotCampaignAnalysis', () => {;
           byDomain: [],
           byCategory: [],
           intentionalVsUnintentional: {
-            intentional: { count: 30, percentage: 30 }
+            intentional: { count: 30, percentage: 30 },
             unintentional: { count: 70, percentage: 70 }
           },
           analysisDate: new Date()
@@ -194,7 +194,7 @@ describe('PilotCampaignAnalysis', () => {;
             successRate: 75,
             totalAnyTypes: 100,
             unintentionalCount: 70,
-            classificationAccuracy: 80
+            classificationAccuracy: 80,
           },
           projectedCompletion: new Date(),
           recommendations: [],
@@ -209,7 +209,7 @@ describe('PilotCampaignAnalysis', () => {;
           currentSuccessRate: 75,
           manualReviewCases: 5,
           topDomain: 'SERVICE',
-          topCategory: 'FUNCTION_PARAM'
+          topCategory: 'FUNCTION_PARAM',
         }
       })
 
@@ -232,7 +232,7 @@ describe('PilotCampaignAnalysis', () => {;
           successRate: 75,
           totalAnyTypes: 100,
           unintentionalCount: 70,
-          classificationAccuracy: 80
+          classificationAccuracy: 80,
         },
         projectedCompletion: new Date(),
         recommendations: [],
@@ -289,7 +289,7 @@ describe('PilotCampaignAnalysis', () => {;
           byDomain: [],
           byCategory: [],
           intentionalVsUnintentional: {
-            intentional: { count: 15, percentage: 30 }
+            intentional: { count: 15, percentage: 30 },
             unintentional: { count: 35, percentage: 70 }
           },
           analysisDate: new Date()
@@ -314,7 +314,7 @@ describe('PilotCampaignAnalysis', () => {;
             successRate: 70,
             totalAnyTypes: 50,
             unintentionalCount: 35,
-            classificationAccuracy: 75
+            classificationAccuracy: 75,
           },
           projectedCompletion: new Date(),
           recommendations: [],
@@ -329,7 +329,7 @@ describe('PilotCampaignAnalysis', () => {;
           currentSuccessRate: 70,
           manualReviewCases: 3,
           topDomain: 'UTILITY',
-          topCategory: 'ARRAY_TYPE'
+          topCategory: 'ARRAY_TYPE',
         }
       })
 
@@ -352,7 +352,7 @@ describe('PilotCampaignAnalysis', () => {;
           successRate: 70,
           totalAnyTypes: 50,
           unintentionalCount: 35,
-          classificationAccuracy: 75
+          classificationAccuracy: 75,
         },
         projectedCompletion: new Date(),
         recommendations: [],
@@ -392,7 +392,7 @@ describe('PilotCampaignAnalysis', () => {;
           byDomain: [],
           byCategory: [],
           intentionalVsUnintentional: {
-            intentional: { count: 30, percentage: 30 }
+            intentional: { count: 30, percentage: 30 },
             unintentional: { count: 70, percentage: 70 }
           },
           analysisDate: new Date()
@@ -417,7 +417,7 @@ describe('PilotCampaignAnalysis', () => {;
             successRate: 65,
             totalAnyTypes: 100,
             unintentionalCount: 70,
-            classificationAccuracy: 70
+            classificationAccuracy: 70,
           },
           projectedCompletion: new Date(),
           recommendations: [],
@@ -432,7 +432,7 @@ describe('PilotCampaignAnalysis', () => {;
           currentSuccessRate: 65,
           manualReviewCases: 10,
           topDomain: 'SERVICE',
-          topCategory: 'FUNCTION_PARAM'
+          topCategory: 'FUNCTION_PARAM',
         }
       })
 
@@ -455,7 +455,7 @@ describe('PilotCampaignAnalysis', () => {;
           successRate: 65,
           totalAnyTypes: 100,
           unintentionalCount: 70,
-          classificationAccuracy: 70
+          classificationAccuracy: 70,
         },
         projectedCompletion: new Date(),
         recommendations: [],
@@ -482,7 +482,7 @@ describe('PilotCampaignAnalysis', () => {;
           byDomain: [],
           byCategory: [],
           intentionalVsUnintentional: {
-            intentional: { count: 30, percentage: 30 }
+            intentional: { count: 30, percentage: 30 },
             unintentional: { count: 70, percentage: 70 }
           },
           analysisDate: new Date()
@@ -507,7 +507,7 @@ describe('PilotCampaignAnalysis', () => {;
             successRate: 80,
             totalAnyTypes: 100,
             unintentionalCount: 70,
-            classificationAccuracy: 85
+            classificationAccuracy: 85,
           },
           projectedCompletion: new Date(),
           recommendations: [],
@@ -522,7 +522,7 @@ describe('PilotCampaignAnalysis', () => {;
           currentSuccessRate: 80,
           manualReviewCases: 5,
           topDomain: 'SERVICE',
-          topCategory: 'ARRAY_TYPE'
+          topCategory: 'ARRAY_TYPE',
         }
       })
 
@@ -545,7 +545,7 @@ describe('PilotCampaignAnalysis', () => {;
           successRate: 80,
           totalAnyTypes: 100,
           unintentionalCount: 70,
-          classificationAccuracy: 85
+          classificationAccuracy: 85,
         },
         projectedCompletion: new Date(),
         recommendations: [],
@@ -572,7 +572,7 @@ describe('PilotCampaignAnalysis', () => {;
           byDomain: [],
           byCategory: [],
           intentionalVsUnintentional: {
-            intentional: { count: 30, percentage: 30 }
+            intentional: { count: 30, percentage: 30 },
             unintentional: { count: 70, percentage: 70 }
           },
           analysisDate: new Date()
@@ -597,7 +597,7 @@ describe('PilotCampaignAnalysis', () => {;
             successRate: 80,
             totalAnyTypes: 100,
             unintentionalCount: 70,
-            classificationAccuracy: 85
+            classificationAccuracy: 85,
           },
           projectedCompletion: new Date(),
           recommendations: [],
@@ -612,7 +612,7 @@ describe('PilotCampaignAnalysis', () => {;
           currentSuccessRate: 80,
           manualReviewCases: 5,
           topDomain: 'SERVICE',
-          topCategory: 'ARRAY_TYPE'
+          topCategory: 'ARRAY_TYPE',
         }
       })
 
@@ -635,7 +635,7 @@ describe('PilotCampaignAnalysis', () => {;
           successRate: 80,
           totalAnyTypes: 100,
           unintentionalCount: 70,
-          classificationAccuracy: 85
+          classificationAccuracy: 85,
         },
         projectedCompletion: new Date(),
         recommendations: [],
@@ -644,7 +644,7 @@ describe('PilotCampaignAnalysis', () => {;
 
       const results: any = await pilotAnalysis.executePilotAnalysis()
       expect(results.success).toBe(true).
-      expect(mockFswriteFileSync).toHaveBeenCalledWith(;
+      expect(mockFswriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('pilot-summary.md'),
         expect.stringContaining('# Pilot Campaign Analysis Results'),,
       )
@@ -656,7 +656,7 @@ describe('PilotCampaignAnalysis', () => {;
 
       const results: any = await pilotAnalysis.executePilotAnalysis()
       expect(results.success).toBe(false).
-      expect(mockFswriteFileSync).toHaveBeenCalledWith(;
+      expect(mockFswriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('pilot-summary.md'),
         expect.stringContaining('# Pilot Campaign Analysis - Failed'),,
       )

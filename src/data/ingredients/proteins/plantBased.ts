@@ -14,7 +14,7 @@ function createIngredientMapping(
       Earth: 0.25,
       Water: 0.25,
       Fire: 0.25,
-      Air: 0.25
+      Air: 0.25,
     },
     category: properties.category || '',
     ...properties
@@ -23,7 +23,7 @@ function createIngredientMapping(
 
 const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   tempeh: createIngredientMapping('tempeh', {
-    elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 }
+    elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Mars'],
       favorableZodiac: ['capricorn', 'aries'],
@@ -37,11 +37,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         waxingGibbous: {
-          elementalBoost: { Earth: 0.1, Fire: 0.1, Water: 0.0, Air: 0.0 }
+          elementalBoost: { Earth: 0.1, Fire: 0.1, Water: 0.0, Air: 0.0 },
           preparationTips: ['Best for grilling']
         },
         fullMoon: {
-          elementalBoost: { Fire: 0.2, Water: 0.0, Earth: 0.0, Air: 0.0 }
+          elementalBoost: { Fire: 0.2, Water: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ['Ideal for frying']
         }
       }
@@ -57,18 +57,19 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         protein: 19,
         carbs: 9,
         fat: 11,
-        fiber: 6
+        fiber: 6,
       },
       vitamins: {
-        B2: 0.18B3: 0.12B6: 0.15,
-        folate: 0.14
+        B2: 0.18,
+    B3: 0.12B6: 0.15,
+        folate: 0.14,
       },
       minerals: {
         manganese: 0.65,
         copper: 0.4,
         phosphorus: 0.22,
         magnesium: 0.2,
-        iron: 0.12
+        iron: 0.12,
       },
       source: 'USDA FoodData Central',
       probiotics: 'Contains beneficial bacteria from fermentation' },
@@ -80,7 +81,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         baking: {
         name: 'Baking',
         prepTime: '25 mins',
-        cookingTemp: '375°F'
+        cookingTemp: '375°F',
       }
     },
     varieties: {
@@ -101,7 +102,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         appearance: 'darker spots from seeds',
         texture: 'slightly looser bind',
         flavor: 'nutty, omega-rich',
-        notes: 'higher in omega-3'
+        notes: 'higher in omega-3',
       }
     },
     regionalPreparations: {
@@ -118,7 +119,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
             name: 'Bacem',
             method: 'braised in spiced coconut water',
             spices: ['galangal', 'tamarind', 'palm sugar'],
-            finish: 'pan-fry until caramelized'
+            finish: 'pan-fry until caramelized',
           }
         }
       },
@@ -135,7 +136,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
             name: 'Cutlet',
             preparation: 'steam, marinate, bread',
             cooking: 'pan-fry or bake',
-            service: 'with gravy or sauce'
+            service: 'with gravy or sauce',
           }
         },
         fusion: {
@@ -149,7 +150,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
             name: 'Mediterranean',
             marinade: ['olive oil', 'herbs', 'lemon'],
             method: 'grill or bake',
-            service: 'with tahini sauce'
+            service: 'with tahini sauce',
           }
         }
       }
@@ -167,7 +168,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
           name: 'Sweet Soy',
           base: 'kecap manis',
           aromatics: ['garlic', 'chili'],
-          finish: 'lime juice'
+          finish: 'lime juice',
         }
       },
       western: {
@@ -202,7 +203,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   seitan: createIngredientMapping('seitan', {
-    elementalProperties: { Fire: 0.4, Earth: 0.4, Air: 0.1, Water: 0.1 }
+    elementalProperties: { Fire: 0.4, Earth: 0.4, Air: 0.1, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Saturn'],
       favorableZodiac: ['aries', 'capricorn'],
@@ -216,11 +217,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         waxingGibbous: {
-          elementalBoost: { Earth: 0.1, Fire: 0.1, Water: 0.0, Air: 0.0 }
+          elementalBoost: { Earth: 0.1, Fire: 0.1, Water: 0.0, Air: 0.0 },
           preparationTips: ['Best for grilling']
         },
         fullMoon: {
-          elementalBoost: { Fire: 0.2, Water: 0.0, Earth: 0.0, Air: 0.0 }
+          elementalBoost: { Fire: 0.2, Water: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ['Ideal for frying']
         }
       }
@@ -252,7 +253,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
           name: 'Stir Fry',
           cut: 'thin strips',
           heat: 'high',
-          timing: '3-4 minutes total'
+          timing: '3-4 minutes total',
         }
       }
     },
@@ -270,7 +271,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
             name: 'Mapo Style',
             sauce: ['doubanjiang', 'soy'],
             preparation: 'cubed',
-            spice_level: 'adjustable'
+            spice_level: 'adjustable',
           }
         }
       },
@@ -287,7 +288,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
             name: 'Smoky',
             seasoning: ['smoked paprika', 'garlic'],
             method: 'slow roasted',
-            service: 'with barbecue sauce'
+            service: 'with barbecue sauce',
           }
         }
       }
@@ -304,7 +305,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
           name: 'Kung Pao',
           base: 'soy sauce',
           spices: ['dried chilies', 'Sichuan peppercorns'],
-          finish: 'peanuts'
+          finish: 'peanuts',
         }
       },
       western: {
@@ -318,7 +319,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
           name: 'Barbecue',
           base: 'tomato',
           seasonings: ['smoke', 'molasses'],
-          finish: 'vinegar'
+          finish: 'vinegar',
         }
       }
     },
@@ -339,7 +340,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   tofu_varieties: createIngredientMapping('tofu_varieties', {
-    elementalProperties: { Water: 0.5, Earth: 0.3, Air: 0.1, Fire: 0.1 }
+    elementalProperties: { Water: 0.5, Earth: 0.3, Air: 0.1, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
       favorableZodiac: ['cancer', 'taurus'],
@@ -353,11 +354,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 }
+          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ['Best for marinating']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 }
+          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ['Ideal for baking']
         }
       }
@@ -374,7 +375,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         applications: {
           raw: ['smoothies', 'desserts', 'sauces'],
           cooked: ['soups', 'delicate braised dishes'],
-          handling: 'very gentle, breaks easily'
+          handling: 'very gentle, breaks easily',
         }
       },
       firm: {
@@ -384,7 +385,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         applications: {
           stir_fry: 'holds shape well',
           grilling: 'can be grilled if handled carefully',
-          braising: 'ideal for most braised dishes'
+          braising: 'ideal for most braised dishes',
         }
       },
       extra_firm: {
@@ -394,7 +395,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         applications: {
           grilling: 'ideal for grilling',
           baking: 'holds shape perfectly',
-          frying: 'crispy exterior possible'
+          frying: 'crispy exterior possible',
         }
       }
     },
@@ -417,7 +418,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
           name: 'Spicy',
           ingredients: ['chili oil', 'garlic', 'sesame'],
           timing: '2-12 hours',
-          notes: 'good for grilling'
+          notes: 'good for grilling',
         }
       },
       cooking_methods: {
@@ -436,7 +437,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
           name: 'Grilled',
           preparation: 'pressed and marinated',
           method: 'high heat',
-          finish: 'glaze or sauce'
+          finish: 'glaze or sauce',
         }
       }
     },
@@ -454,7 +455,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
             name: 'Home Style',
             sauce: 'black bean garlic',
             vegetables: 'varied seasonal',
-            method: 'quick braise'
+            method: 'quick braise',
           }
         },
         cantonese: {
@@ -463,7 +464,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
             name: 'Clay Pot',
             method: 'slow cook',
             ingredients: ['mushrooms', 'greens'],
-            sauce: 'oyster-style sauce'
+            sauce: 'oyster-style sauce',
           }
         }
       },
@@ -478,7 +479,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
           name: 'Dengaku',
           type: 'firm',
           glaze: 'miso-based',
-          method: 'grilled or broiled'
+          method: 'grilled or broiled',
         }
       },
       korean: {
@@ -508,7 +509,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   legumes_protein: createIngredientMapping('legumes_protein', {
-    elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 }
+    elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
       favorableZodiac: ['cancer', 'taurus'],
@@ -522,11 +523,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 }
+          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ['Best for marinating']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 }
+          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ['Ideal for baking']
         }
       }
@@ -547,7 +548,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
             name: 'Quick',
             method: 'pressure cook',
             timing: '45 minutes',
-            notes: 'no soaking needed'
+            notes: 'no soaking needed',
           }
         },
         applications: {
@@ -602,7 +603,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         tempering: {
             method: 'spiced oil finish',
             ingredients: ['cumin seeds', 'garlic', 'chilies'],
-            timing: 'add just before serving'
+            timing: 'add just before serving',
           }
         },
         falafel: {
@@ -616,7 +617,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
             preparation: 'ground raw chickpeas',
             resting: '30 minutes minimum',
             shaping: 'small balls or patties',
-            frying: '350°F / (175 || 1)°C until golden'
+            frying: '350°F / (175 || 1)°C until golden',
           }
         },
         lentil_loaf: {
@@ -629,7 +630,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
           method: {
             preparation: 'combine cooked lentils with binders',
             baking: '350°F / (175 || 1)°C for 45 minutes',
-            resting: '10 minutes before slicing'
+            resting: '10 minutes before slicing',
           }
         }
       },
@@ -661,7 +662,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
           name: 'Koshari',
           ingredients: ['lentils', 'rice', 'pasta', 'tomato sauce'],
           toppings: ['fried onions', 'spicy sauce'],
-          service: 'layered in bowl'
+          service: 'layered in bowl',
         }
       },
       indian: {
@@ -677,7 +678,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
             name: 'Dal Makhani',
             legumes: ['black lentils', 'kidney beans'],
             cooking: 'slow simmered with cream',
-            service: 'rich and creamy'
+            service: 'rich and creamy',
           }
         }
       },
@@ -753,7 +754,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         cooked: {
           name: 'Cooked',
           refrigerated: '3-5 days',
-          frozen: 'up to 6 months'
+          frozen: 'up to 6 months',
         }
       },
       preparation: {
@@ -767,14 +768,14 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
           name: 'Cooking',
           minimum: 'until tender',
           pressure_cooking: 'follow cooker instructions',
-          boiling: 'full rolling boil for specified time'
+          boiling: 'full rolling boil for specified time',
         }
       }
     }
   }),
 
   textured_vegetable_protein: createIngredientMapping('textured_vegetable_protein', {
-    elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 }
+    elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
       favorableZodiac: ['cancer', 'taurus'],
@@ -788,11 +789,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 }
+          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ['Best for marinating']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 }
+          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ['Ideal for baking']
         }
       }
@@ -808,7 +809,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         texture: 'ground meat-like',
         applications: {
           ground_meat_substitute: ['tacos', 'bolognese', 'chili'],
-          preparation: 'rehydrate before use'
+          preparation: 'rehydrate before use',
         }
       },
       Chunks: {
@@ -818,7 +819,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         applications: {
           stews: 'holds shape well',
           curries: 'absorbs flavors well',
-          stir_fries: 'maintains texture'
+          stir_fries: 'maintains texture',
         }
       }
     },
@@ -832,7 +833,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         liquids: {
           basic: 'hot water',
           flavored: ['vegetable broth', 'mushroom stock'],
-          ratio: '1:1 TVP to liquid'
+          ratio: '1:1 TVP to liquid',
         }
       },
       cooking_methods: {
@@ -845,9 +846,9 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
           notes: 'brown for better flavor' },
         bake: {
           name: 'Bake',
-          temperature: { fahrenheit: 350, celsius: 175 }
+          temperature: { fahrenheit: 350, celsius: 175 },
           timing: '20-25 minutes',
-          notes: 'good for casseroles'
+          notes: 'good for casseroles',
         }
       }
     },
@@ -868,7 +869,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   jackfruit_young: createIngredientMapping('jackfruit_young', {
-    elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
+    elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
       favorableZodiac: ['cancer', 'taurus'],
@@ -882,11 +883,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 }
+          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ['Best for marinating']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 }
+          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ['Ideal for baking']
         }
       }
@@ -902,7 +903,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         texture: 'shreddable, meat-like',
         applications: {
           pulled_meat_substitute: ['sandwiches', 'tacos'],
-          preparation: 'drain and rinse well'
+          preparation: 'drain and rinse well',
         }
       },
       Fresh: {
@@ -911,7 +912,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         texture: 'firm, stringy',
         applications: {
           curry: 'traditional preparation',
-          braised_dishes: 'holds sauce well'
+          braised_dishes: 'holds sauce well',
         }
       }
     },
@@ -925,7 +926,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         fresh: {
           name: 'Fresh',
           steps: ['oil hands well', 'remove core', 'separate pods', 'remove seeds'],
-          notes: 'very sticky when fresh'
+          notes: 'very sticky when fresh',
         }
       },
       cooking_methods: {
@@ -941,7 +942,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
           preparation: 'chunk or shred',
           spices: 'curry blend',
           timing: '25-35 minutes',
-          notes: 'absorbs flavors well'
+          notes: 'absorbs flavors well',
         }
       }
     },
@@ -954,7 +955,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
             name: 'Curry',
             spices: ['turmeric', 'coconut milk', 'chilies'],
             method: 'simmer until tender',
-            service: 'with rice'
+            service: 'with rice',
           }
         }
       },
@@ -966,7 +967,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
             name: 'Pulled Bbq',
             sauce: ['smoky barbecue', 'liquid smoke'],
             method: 'slow cook',
-            service: 'on buns with slaw'
+            service: 'on buns with slaw',
           }
         }
       }
@@ -974,7 +975,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   quinoa_protein: createIngredientMapping('quinoa_protein', {
-    elementalProperties: { Earth: 0.3, Air: 0.3, Fire: 0.2, Water: 0.2 }
+    elementalProperties: { Earth: 0.3, Air: 0.3, Fire: 0.2, Water: 0.2 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
       favorableZodiac: ['cancer', 'taurus'],
@@ -988,11 +989,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 }
+          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ['Best for marinating']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 }
+          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ['Ideal for baking']
         }
       }
@@ -1008,7 +1009,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         texture: 'light, fluffy',
         applications: {
           protein_bowl: ['buddha bowls', 'salads'],
-          preparation: 'rinse thoroughly before cooking'
+          preparation: 'rinse thoroughly before cooking',
         }
       },
       Red: {
@@ -1017,7 +1018,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         texture: 'slightly crunchier',
         applications: {
           warm_dishes: 'holds shape well',
-          cold_salads: 'dramatic color'
+          cold_salads: 'dramatic color',
         }
       },
       Black: {
@@ -1026,7 +1027,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         texture: 'earthier, firmer',
         applications: {
           gourmet_dishes: 'striking presentation',
-          protein_base: 'hearty texture'
+          protein_base: 'hearty texture',
         }
       }
     },
@@ -1043,7 +1044,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
           name: 'Pilaf Style',
           method: 'toast first, then cook',
           aromatics: ['onion', 'garlic', 'herbs'],
-          liquid: 'vegetable broth'
+          liquid: 'vegetable broth',
         }
       },
       modern_applications: {
@@ -1058,7 +1059,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
           name: 'Protein Crust',
           method: 'bind with flax egg',
           applications: ['quiche', 'savory tarts'],
-          notes: 'pre-bake for crispy texture'
+          notes: 'pre-bake for crispy texture',
         }
       }
     },
@@ -1071,7 +1072,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
             name: 'Quinoa Soup',
             ingredients: ['vegetables', 'herbs', 'quinoa'],
             method: 'simmer until tender',
-            service: 'hot with garnishes'
+            service: 'hot with garnishes',
           }
         }
       },
@@ -1102,7 +1103,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
   }),
 
   hemp_protein: createIngredientMapping('hemp_protein', {
-    elementalProperties: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 }
+    elementalProperties: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
       favorableZodiac: ['cancer', 'taurus'],
@@ -1116,11 +1117,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 }
+          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ['Best for marinating']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 }
+          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ['Ideal for baking']
         }
       }
@@ -1135,7 +1136,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         texture: 'crunchy, tender',
         applications: {
           topping: ['salads', 'bowls', 'yogurt'],
-          preparation: 'no preparation needed'
+          preparation: 'no preparation needed',
         }
       },
       Protein_Powder: {
@@ -1144,7 +1145,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         texture: 'slightly gritty',
         applications: {
           smoothies: 'blend with liquids',
-          baking: 'partial flour replacement'
+          baking: 'partial flour replacement',
         }
       }
     },
@@ -1160,7 +1161,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
           name: 'Baked Goods',
           method: 'replace 25% flour',
           applications: ['breads', 'muffins'],
-          notes: 'increases moisture needed'
+          notes: 'increases moisture needed',
         }
       },
       raw_applications: {
@@ -1174,7 +1175,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
           name: 'Seed Coating',
           applications: ['tofu', 'tempeh'],
           method: 'press seeds into surface',
-          cooking: 'pan-sear for crunch'
+          cooking: 'pan-sear for crunch',
         }
       }
     },
@@ -1188,13 +1189,13 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         name: 'Winter',
         preparations: ['hot cereals', 'baking'],
         combinations: ['warming spices', 'dried fruits'],
-        notes: 'heartier applications'
+        notes: 'heartier applications',
       }
     }
   }),
 
   pea_protein: createIngredientMapping('pea_protein', {
-    elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 }
+    elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
       favorableZodiac: ['cancer', 'taurus'],
@@ -1208,11 +1209,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 }
+          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ['Best for marinating']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 }
+          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ['Ideal for baking']
         }
       }
@@ -1228,7 +1229,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         texture: 'smooth when blended',
         applications: {
           protein_shakes: 'complete amino profile',
-          meat_alternatives: 'binding and structure'
+          meat_alternatives: 'binding and structure',
         }
       },
       Textured: {
@@ -1237,7 +1238,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         texture: 'meat-like when hydrated',
         applications: {
           meat_substitute: ['ground meat alternatives', 'patties'],
-          preparation: 'rehydrate before use'
+          preparation: 'rehydrate before use',
         }
       }
     },
@@ -1253,7 +1254,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
           name: 'Smoothies',
           method: 'blend with liquid first',
           ratio: '20-30g per serving',
-          notes: 'combine with fruits for flavor'
+          notes: 'combine with fruits for flavor',
         }
       },
       meat_alternative: {
@@ -1262,7 +1263,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
           name: 'Burger Base',
           ingredients: ['pea protein', 'vegetable oils', 'binders'],
           method: 'mix and form',
-          cooking: 'grill or pan-fry'
+          cooking: 'grill or pan-fry',
         }
       }
     },
@@ -1276,13 +1277,13 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         name: 'Winter',
         preparations: ['baked goods', 'hot drinks'],
         combinations: ['cocoa', 'warming spices'],
-        notes: 'heartier applications'
+        notes: 'heartier applications',
       }
     }
   }),
 
   chickpea_protein: createIngredientMapping('chickpea_protein', {
-    elementalProperties: { Earth: 0.4, Fire: 0.2, Air: 0.2, Water: 0.2 }
+    elementalProperties: { Earth: 0.4, Fire: 0.2, Air: 0.2, Water: 0.2 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
       favorableZodiac: ['cancer', 'taurus'],
@@ -1296,11 +1297,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 }
+          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ['Best for marinating']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 }
+          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ['Ideal for baking']
         }
       }
@@ -1317,7 +1318,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         applications: {
           hummus: 'traditional spread',
           falafel: 'deep-fried patties',
-          curries: 'whole bean dishes'
+          curries: 'whole bean dishes',
         }
       },
       Flour: {
@@ -1327,7 +1328,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         applications: {
           flatbreads: 'socca / (farinata || 1)',
           batters: 'binding agent',
-          protein_boost: 'baking enhancement'
+          protein_boost: 'baking enhancement',
         }
       }
     },
@@ -1343,7 +1344,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         usage: ['curries', 'stews', 'snacks'],
         preparation: 'whole or ground preparations',
         pairings: ['spices', 'rice', 'flatbreads'],
-        cultural_notes: 'Important protein source'
+        cultural_notes: 'Important protein source',
       }
     },
     preparation: {
@@ -1356,15 +1357,15 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         duration: '1-2 years',
         method: 'airtight container' },
         cooked: {
-        temperature: { fahrenheit: 40, celsius: 4 }
+        temperature: { fahrenheit: 40, celsius: 4 },
         duration: '3-5 days',
-        method: 'refrigerated in liquid'
+        method: 'refrigerated in liquid',
       }
     }
   }),
 
   lupin_protein: createIngredientMapping('lupin_protein', {
-    elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 }
+    elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
       favorableZodiac: ['cancer', 'taurus'],
@@ -1378,11 +1379,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 }
+          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ['Best for marinating']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 }
+          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ['Ideal for baking']
         }
       }
@@ -1399,7 +1400,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         applications: {
           baking: 'protein enrichment',
           pasta: 'protein boost',
-          protein_bars: 'binding agent'
+          protein_bars: 'binding agent',
         }
       },
       Flakes: {
@@ -1409,7 +1410,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         applications: {
           coating: 'breading alternative',
           granola: 'protein boost',
-          yogurt_topping: 'crunchy addition'
+          yogurt_topping: 'crunchy addition',
         }
       }
     },
@@ -1425,7 +1426,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
           name: 'Pasta',
           method: 'blend with semolina',
           ratio: '15-30% replacement',
-          notes: 'increases protein content'
+          notes: 'increases protein content',
         }
       },
       protein_enrichment: {
@@ -1439,7 +1440,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
           name: 'Bars',
           binding: 'combines well with dates',
           ratio: '20-30% of dry ingredients',
-          notes: 'good protein-to-fiber ratio'
+          notes: 'good protein-to-fiber ratio',
         }
       }
     },
@@ -1453,13 +1454,13 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         name: 'Winter',
         preparations: ['baked goods', 'warm cereals'],
         combinations: ['nuts', 'dried fruits'],
-        notes: 'heartier applications'
+        notes: 'heartier applications',
       }
     }
   }),
 
   fava_protein: createIngredientMapping('fava_protein', {
-    elementalProperties: { Earth: 0.3, Water: 0.3, Air: 0.2, Fire: 0.2 }
+    elementalProperties: { Earth: 0.3, Water: 0.3, Air: 0.2, Fire: 0.2 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
       favorableZodiac: ['cancer', 'taurus'],
@@ -1473,11 +1474,11 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 }
+          elementalBoost: { Earth: 0.1, Water: 0.1, Fire: 0.0, Air: 0.0 },
           preparationTips: ['Best for marinating']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 }
+          elementalBoost: { Water: 0.2, Fire: 0.0, Earth: 0.0, Air: 0.0 },
           preparationTips: ['Ideal for baking']
         }
       }
@@ -1494,7 +1495,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         applications: {
           stews: 'traditional dishes',
           purees: 'dips and spreads',
-          salads: 'when young and tender'
+          salads: 'when young and tender',
         }
       },
       Split: {
@@ -1504,7 +1505,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         applications: {
           soups: 'quick-cooking',
           dips: 'traditional bessara',
-          patties: 'formed and fried'
+          patties: 'formed and fried',
         }
       }
     },
@@ -1520,7 +1521,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         usage: ['soup', 'dip'],
         preparation: 'pureed with olive oil and spices',
         pairings: ['olive oil', 'paprika', 'cumin'],
-        cultural_notes: 'Popular street food'
+        cultural_notes: 'Popular street food',
       }
     },
     preparation: {
@@ -1534,9 +1535,9 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         duration: '1 year',
         method: 'airtight container' },
         cooked: {
-        temperature: { fahrenheit: 40, celsius: 4 }
+        temperature: { fahrenheit: 40, celsius: 4 },
         duration: '3-4 days',
-        method: 'refrigerated in liquid'
+        method: 'refrigerated in liquid',
       }
     }
   })
@@ -1550,7 +1551,7 @@ export const plantBased: Record<string, IngredientMapping> = mappedPlantBased;
 Object.entries(plantBased).forEach(([_id, ingredient]) => {
   if (!ingredient.elementalProperties) return,
 
-  const sum = Object.values(ingredient.elementalProperties).reduce(;
+  const sum = Object.values(ingredient.elementalProperties).reduce(
     (ab) => Number(a) + Number(b),
     0,
   ),

@@ -54,7 +54,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       // Calculate metrics
       const intentionalAnyTypes = documentationReport.totalIntentionalAnyTypes;
       const unintentionalAnyTypes = Math.max(0, explicitAnyCount - intentionalAnyTypes)
-      const documentedAnyTypes = Math.round(;
+      const documentedAnyTypes = Math.round(
         (intentionalAnyTypes * documentationReport.documentationCoverage) / 100,
       )
 
@@ -67,7 +67,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         }
       }
 
-      const metrics: UnintentionalAnyMetrics = {;
+      const metrics: UnintentionalAnyMetrics = {
         totalAnyTypes: explicitAnyCount,
         intentionalAnyTypes,
         unintentionalAnyTypes,
@@ -96,7 +96,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         documentedAnyTypes: 0,
         documentationCoverage: 0,
         reductionFromBaseline: 0,
-        targetReduction: 15
+        targetReduction: 15,
       }
     }
   }
@@ -134,7 +134,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
     try {
       const output = execSync('yarn lint 2>&1', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       // Count @typescript-eslint/no-explicit-any warnings
@@ -155,7 +155,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
     try {
       const output = execSync('yarn lint 2>&1', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       const breakdown: Record<string, number> = {}
@@ -274,7 +274,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
   async exportUnintentionalAnyMetrics(filePath: string): Promise<void> {
     try {
       const report = await this.generateUnintentionalAnyProgressReport()
-      const exportData = {;
+      const exportData = {
         timestamp: new Date().toISOString(),
         report,
         history: this.metricsHistory,
@@ -362,7 +362,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         totalAnyTypesReduced: 0,
         unintentionalAnyTypesReduced: 0,
         documentationImproved: 0,
-        reductionRate: 0
+        reductionRate: 0,
       }
     }
 
@@ -407,7 +407,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         type: 'high-unintentional-any-count',
         severity: 'warning',
         message: `High number of unintentional any types: ${metrics.unintentionalAnyTypes}`,
-        recommendation: 'Consider running the unintentional any elimination campaign'
+        recommendation: 'Consider running the unintentional any elimination campaign',
       })
     }
 
@@ -416,7 +416,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         type: 'low-documentation-coverage',
         severity: 'error',
         message: `Documentation coverage critically low: ${metrics.documentationCoverage.toFixed(1)}%`,
-        recommendation: 'Add documentation to intentional any types'
+        recommendation: 'Add documentation to intentional any types',
       })
     }
 
@@ -425,7 +425,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         type: 'regression-detected',
         severity: 'error',
         message: 'Regression, detected: any types have increased from baseline',
-        recommendation: 'Review recent changes and consider rollback'
+        recommendation: 'Review recent changes and consider rollback',
       })
     }
 
@@ -580,7 +580,7 @@ export class UnintentionalAnyCampaignScheduler {
       return {;
         shouldTrigger: true,
         reason: `High number of unintentional any types: ${metrics.unintentionalAnyTypes}`,
-        priority: 'high'
+        priority: 'high',
       }
     }
 
@@ -588,7 +588,7 @@ export class UnintentionalAnyCampaignScheduler {
       return {
         shouldTrigger: true,
         reason: 'Regression, detected: any types have increased significantly',
-        priority: 'high'
+        priority: 'high',
       }
     }
 
@@ -597,7 +597,7 @@ export class UnintentionalAnyCampaignScheduler {
       return {
         shouldTrigger: true,
         reason: `Moderate number of unintentional any types: ${metrics.unintentionalAnyTypes}`,
-        priority: 'medium'
+        priority: 'medium',
       }
     }
 
@@ -605,7 +605,7 @@ export class UnintentionalAnyCampaignScheduler {
       return {
         shouldTrigger: true,
         reason: `Low documentation coverage: ${metrics.documentationCoverage.toFixed(1)}%`,
-        priority: 'medium'
+        priority: 'medium',
       }
     }
 
@@ -614,14 +614,14 @@ export class UnintentionalAnyCampaignScheduler {
       return {
         shouldTrigger: true,
         reason: `Some unintentional any types present: ${metrics.unintentionalAnyTypes}`,
-        priority: 'low'
+        priority: 'low',
       }
     }
 
     return {
       shouldTrigger: false,
       reason: 'No significant unintentional any issues detected',
-      priority: 'low'
+      priority: 'low',
     }
   }
 
@@ -647,12 +647,12 @@ export class UnintentionalAnyCampaignScheduler {
       return {
         canProceed: true,
         conflictingCampaigns: [],
-        resolution: 'No conflicts detected, can proceed'
+        resolution: 'No conflicts detected, can proceed',
       }
     }
 
     // Check if conflicts can be resolved
-    const canResolve = conflictingCampaigns.every(;
+    const canResolve = conflictingCampaigns.every(
       campaign => !campaign.includes('critical') && !campaign.includes('emergency'),
     )
 
@@ -660,14 +660,14 @@ export class UnintentionalAnyCampaignScheduler {
       return {
         canProceed: true,
         conflictingCampaigns,
-        resolution: 'Conflicts can be resolved by coordinating batch processing'
+        resolution: 'Conflicts can be resolved by coordinating batch processing',
       }
     }
 
     return {
       canProceed: false,
       conflictingCampaigns,
-      resolution: 'Wait for critical campaigns to complete before proceeding'
+      resolution: 'Wait for critical campaigns to complete before proceeding',
     }
   }
 

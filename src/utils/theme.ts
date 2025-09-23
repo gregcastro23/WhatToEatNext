@@ -28,7 +28,7 @@ export class ThemeManager {
       const savedTheme = localStorage.getItem('theme') || 'light';
       const savedAccent = localStorage.getItem('accent-color') || 'blue'
 
-      return {;
+      return {
         mode: savedTheme as 'light' | 'dark' | 'system',
         accent: savedAccent
       }
@@ -41,4 +41,4 @@ export class ThemeManager {
 
 export const themeManager = new ThemeManager()
 ;
-export { themeManager as default };
+export { themeManager as default }

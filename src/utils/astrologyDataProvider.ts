@@ -21,7 +21,7 @@ const logger = createLogger('AstrologyDataProvider')
 
 // Cache system for API responses
 interface CacheEntry {;
-  data: { [key: string]: CelestialPosition }
+  data: { [key: string]: CelestialPosition },
   timestamp: number
 }
 
@@ -43,7 +43,7 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
     const response = await fetch('/api/planetary-positions', {
       _method: 'GET',
       _headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       }
       // Short timeout to prevent long waits
       _signal: AbortSignal.timeout(3000)
@@ -81,7 +81,7 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
     }
 
     // Update cache
-    positionsCache = {;
+    positionsCache = {
       data: positions,
       timestamp: Date.now()
     }
@@ -162,7 +162,7 @@ export async function getDominantElement(): Promise<string> {
     typeof getDominantElementMethod === 'function' &&
     typeof countElementsMethod === 'function'
   ) {
-    return getDominantElementMethod(countElementsMethod(positions));
+    return getDominantElementMethod(countElementsMethod(positions))
   }
 
   return 'Fire'; // Default fallback

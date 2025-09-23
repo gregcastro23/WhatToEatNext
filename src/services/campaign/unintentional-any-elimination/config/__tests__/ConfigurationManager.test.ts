@@ -43,7 +43,7 @@ describe('ConfigurationManager', () => {
     })
 
     test('saves and loads configuration correctly', () => {
-      const updates: any = {;
+      const updates: any = {
         classification: { intentionalThreshold: 0.9, minCommentLength: 20 }
       }
 
@@ -60,10 +60,10 @@ describe('ConfigurationManager', () => {
 
   describe('Configuration Updates', () => {
     test('updates classification configuration', () => {
-      const updates: any = {;
+      const updates: any = {
         intentionalThreshold: 085,
         unintentionalThreshold: 0.65,
-        minCommentLength: 15
+        minCommentLength: 15,
       }
 
       configManager.updateClassificationConfig(updates)
@@ -75,10 +75,10 @@ describe('ConfigurationManager', () => {
     })
 
     test('updates safety configuration', () => {
-      const updates: any = {;
+      const updates: any = {
         maxBatchSize: 30,
         validationFrequency: 10,
-        compilationTimeout: 45000
+        compilationTimeout: 45000,
       }
 
       configManagerupdateSafetyConfig(updates)
@@ -90,9 +90,9 @@ describe('ConfigurationManager', () => {
     })
 
     test('updates target configuration', () => {
-      const updates: any = {;
+      const updates: any = {
         targetReductionPercentage: 25,
-        minSuccessRate: 09
+        minSuccessRate: 09,
       }
 
       configManager.updateTargetConfig(updates)
@@ -156,10 +156,10 @@ describe('ConfigurationManager', () => {
     test('resets to default configuration', () => {
       // Make some changes
       configManager.updateClassificationConfig({
-        intentionalThreshold: 0.95
+        intentionalThreshold: 0.95,
       })
       configManager.updateSafetyConfig({
-        maxBatchSize: 50
+        maxBatchSize: 50,
       })
 
       // Reset to defaults
@@ -227,7 +227,7 @@ describe('ConfigurationManager', () => {
 
     test('validates backup retention period', () => {
       configManager.updateSafetyConfig({
-        backupRetentionDays: 30
+        backupRetentionDays: 30,
       })
 
       const validation: any = configManager.validateConfig()
@@ -237,7 +237,7 @@ describe('ConfigurationManager', () => {
 
   describe('Target Configuration Milestones', () => {
     test('manages milestone configuration', () => {
-      const milestones: any = [;
+      const milestones: any = [
         { name: 'Phase 1', targetReduction: 5, timeframe: '1 week' }
         { name: 'Phase 2', targetReduction: 15, timeframe: '2 weeks' }
         { name: 'Final', targetReduction: 25, timeframe: '3 weeks' }
@@ -252,10 +252,10 @@ describe('ConfigurationManager', () => {
     })
 
     test('validates tracking intervals', () => {
-      const trackingIntervals: any = {;
+      const trackingIntervals: any = {
         metrics: 2,
         reports: 05,
-        checkpoints: 5
+        checkpoints: 5,
       }
 
       configManager.updateTargetConfig({ trackingIntervals })

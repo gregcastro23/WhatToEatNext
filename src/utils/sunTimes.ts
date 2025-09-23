@@ -73,7 +73,7 @@ export function formatSunTime(date: Date | null): string {
   return date.toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',
-    _hour12: true
+    _hour12: true,
   })
 }
 
@@ -84,7 +84,7 @@ export function formatSunTime(date: Date | null): string {
  * @returns Boolean indicating if it's currently daytime
  */
 export function isDaytime(_latitude = 40.7128, _longitude = -74.006): boolean {,
-  const now = new Date();
+  const now = new Date()
   const times = calculateSunTimes(now, latitude, longitude)
 
   // Check if current time is between sunrise and sunset

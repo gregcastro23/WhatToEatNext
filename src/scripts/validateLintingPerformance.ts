@@ -81,7 +81,7 @@ class LintingPerformanceValidator {
       const endTime = Date.now()
       const endMemory = process.memoryUsage()
 
-      this.baselineMetrics = {;
+      this.baselineMetrics = {
         executionTime: endTime - startTime,
         memoryUsage: endMemory.heapUsed - startMemory.heapUsed,
         cacheHitRate: 0, // No cache for baseline,
@@ -94,12 +94,12 @@ class LintingPerformanceValidator {
       )
     } catch (error) {
       _logger.warn('⚠️  Baseline measurement had issues, using estimated values'),
-      this.baselineMetrics = {;
+      this.baselineMetrics = {
         executionTime: 60000, // 60 seconds estimated,
         memoryUsage: 512 * 1024 * 1024, // 512MB estimated,
         cacheHitRate: 0,
         filesProcessed: 1000, // Estimated,
-        parallelProcesses: 1
+        parallelProcesses: 1,
       }
     }
   }
@@ -113,7 +113,7 @@ class LintingPerformanceValidator {
       execSync('yarn, lint: fast --max-warnings=10000', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 120000
+        timeout: 120000,
       })
     } catch (error) {
       _logger.warn('  Cache population had issues, continuing...')
@@ -127,13 +127,13 @@ class LintingPerformanceValidator {
       const output = execSync('yarn, lint: fast --max-warnings=10000', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 60000
+        timeout: 60000,
       })
 
       const endTime = Date.now()
       const endMemory = process.memoryUsage()
 
-      const metrics: PerformanceMetrics = {;
+      const metrics: PerformanceMetrics = {
         executionTime: endTime - startTime,
         memoryUsage: endMemory.heapUsed - startMemory.heapUsed,
         cacheHitRate: this.calculateCacheHitRate(),
@@ -171,7 +171,7 @@ class LintingPerformanceValidator {
           memoryUsage: 0,
           cacheHitRate: 0,
           filesProcessed: 0,
-          parallelProcesses: 0
+          parallelProcesses: 0,
         },
         expectedImprovement: 70,
         actualImprovement: 0,
@@ -189,13 +189,13 @@ class LintingPerformanceValidator {
       const output = execSync('yarn, lint: parallel --max-warnings=10000', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 120000
+        timeout: 120000,
       })
 
       const endTime = Date.now()
       const endMemory = process.memoryUsage()
 
-      const metrics: PerformanceMetrics = {;
+      const metrics: PerformanceMetrics = {
         executionTime: endTime - startTime,
         memoryUsage: endMemory.heapUsed - startMemory.heapUsed,
         cacheHitRate: this.calculateCacheHitRate(),
@@ -237,7 +237,7 @@ class LintingPerformanceValidator {
           memoryUsage: 0,
           cacheHitRate: 0,
           filesProcessed: 0,
-          parallelProcesses: 0
+          parallelProcesses: 0,
         },
         expectedImprovement: 40,
         actualImprovement: 0,
@@ -269,7 +269,7 @@ class LintingPerformanceValidator {
       clearInterval(memoryMonitor)
       const endTime = Date.now()
 
-      const metrics: PerformanceMetrics = {;
+      const metrics: PerformanceMetrics = {
         executionTime: endTime - startTime,
         memoryUsage: peakMemoryUsage,
         cacheHitRate: this.calculateCacheHitRate(),
@@ -312,7 +312,7 @@ class LintingPerformanceValidator {
           memoryUsage: 0,
           cacheHitRate: 0,
           filesProcessed: 0,
-          parallelProcesses: 0
+          parallelProcesses: 0,
         },
         expectedImprovement: 20,
         actualImprovement: 0,
@@ -345,7 +345,7 @@ export const _testVariable = 'test';
         const endTime = Date.now();
         const incrementalTime = endTime - startTime;
 
-        const metrics: PerformanceMetrics = {;
+        const metrics: PerformanceMetrics = {
           executionTime: incrementalTime,
           memoryUsage: 0, // Not measured for incremental,
           cacheHitRate: this.calculateCacheHitRate(),
@@ -390,7 +390,7 @@ export const _testVariable = 'test';
           memoryUsage: 0,
           cacheHitRate: 0,
           filesProcessed: 0,
-          parallelProcesses: 0
+          parallelProcesses: 0,
         },
         expectedImprovement: 90,
         actualImprovement: 0,
@@ -400,7 +400,7 @@ export const _testVariable = 'test';
   }
 
   private clearAllCaches(): void {
-    const cacheFiles = [;
+    const cacheFiles = [
       '.eslintcache',
       '.eslint-ts-cache',
       'node_modules/.cache/eslint'
@@ -472,7 +472,7 @@ export const _testVariable = 'test';
     const totalTests = this.results.length;
     const overallPassed = passedTests === totalTests
 
-    // // // _logger.info(;
+    // // // _logger.info(
       `Overall Status: ${overallPassed ? '✅ PASSED' : '❌ FAILED'} (${passedTests}/${totalTests} tests passed)\n`,
     )
 
@@ -500,7 +500,7 @@ export const _testVariable = 'test';
     })
 
     // Save detailed report
-    const reportData = {;
+    const reportData = {
       timestamp: new Date().toISOString(),
       overallPassed,
       passedTests,

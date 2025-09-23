@@ -19,7 +19,7 @@ import { updateVegetables } from './updateVegetables';
 import { updateVinegars } from './updateVinegars';
 
 // Map of all available category update functions
-const categoryUpdaters = {;
+const categoryUpdaters = {
   herbs: updateHerbs,
   vegetables: updateVegetables,
   fruits: updateFruits,
@@ -31,7 +31,7 @@ const categoryUpdaters = {;
 }
 
 // All categories in the order they should be processed
-const ALL_CATEGORIES = [;
+const ALL_CATEGORIES = [
   'herbs',
   'spices',
   'vegetables',

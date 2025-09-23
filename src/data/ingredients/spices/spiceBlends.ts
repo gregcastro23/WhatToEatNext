@@ -6,8 +6,7 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
   garam_masala: {
     name: 'Garam Masala',
-    elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 }
-
+    elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Sun', 'Jupiter'],
       favorableZodiac: ['leo', 'sagittarius'],
@@ -33,9 +32,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       cinnamon: 1,
       cloves: 0.5,
       'black pepper': 1,
-      nutmeg: 0.5
-    }
-
+      nutmeg: 0.5,
+    },
     ratios: '2:2:1:1:0.5:1:0.5',
 
     regionalVariations: {
@@ -47,7 +45,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         cinnamon: 1,
         cloves: 0.5,
         'black pepper': 1,
-        nutmeg: 0.5
+        nutmeg: 0.5,
       }
       'South Indian': {
         name: 'South Indian',
@@ -57,7 +55,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         'curry leaves': 1,
         'star anise': 0.5,
         'black pepper': 1,
-        nutmeg: 0.5
+        nutmeg: 0.5,
       }
     }
 
@@ -73,8 +71,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       actions: ['digestive aid', 'anti-inflammatory', 'warming'],
       energetics: 'heating',
       tastes: ['pungent', 'sweet', 'bitter']
-    }
-
+    },
     sensoryProfile: {
       taste: ['Mild'],
       aroma: ['Fresh'],
@@ -83,8 +80,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -92,7 +88,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     season: ['Year-round'],
 
     nutritionalProfile: {
-      macronutrients: {}
+      macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
     }
@@ -106,8 +102,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 
   ras_el_hanout: {
     name: 'Ras El Hanout',
-    elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 }
-
+    elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Mars'],
       favorableZodiac: ['taurus', 'scorpio'],
@@ -142,8 +137,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       Moroccan: ['saffron', 'rose buds', 'grains of paradise'],
       Tunisian: ['dried mint', 'dried rose petals'],
       Algerian: ['cinnamon heavy', 'dried rosebuds']
-    }
-
+    },
     affinities: ['lamb', 'chicken', 'couscous', 'vegetables', 'tagines'],
     cookingMethods: ['marinades', 'rubs', 'stews'],
 
@@ -156,9 +150,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       turmeric: 1,
       paprika: 1,
       allspice: 0.5,
-      'rose petals': 0.5
-    }
-
+      'rose petals': 0.5,
+    },
     preparation: {
       toasting: 'light toasting of whole spices',
       grinding: 'grind together just before use',
@@ -168,8 +161,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       actions: ['digestive aid', 'anti-inflammatory'],
       energetics: 'warming',
       tastes: ['complex', 'floral', 'pungent']
-    }
-
+    },
     sensoryProfile: {
       taste: ['Mild'],
       aroma: ['Fresh'],
@@ -178,8 +170,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -187,7 +178,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     season: ['Year-round'],
 
     nutritionalProfile: {
-      macronutrients: {}
+      macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
     }
@@ -201,7 +192,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 
   herbes_de_provence: {
     name: 'Herbes De Provence',
-    elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 }
+    elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },
     qualities: ['aromatic', 'Mediterranean', 'savory'],
     origin: ['Southern France'],
     category: 'spice',
@@ -222,8 +213,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       Traditional: ['no lavender'],
       Modern: ['includes lavender'],
       Commercial: ['may include fennel']
-    }
-
+    },
     affinities: ['chicken', 'fish', 'vegetables', 'tomatoes', 'grilled meats'],
     cookingMethods: ['roasting', 'grilling', 'sauce making'],
 
@@ -235,9 +225,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       savory: 1,
       marjoram: 1,
       oregano: 1,
-      lavender: 0.5
-    }
-
+      lavender: 0.5,
+    },
     preparation: {
       mixing: 'individually before grinding',
       grinding: 'just before use',
@@ -259,8 +248,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -268,7 +256,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     season: ['Year-round'],
 
     nutritionalProfile: {
-      macronutrients: {}
+      macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
     }
@@ -287,7 +275,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 
   chinese_five_spice: {
     name: 'Chinese Five Spice',
-    elementalProperties: { Fire: 0.4, Water: 0.1, Earth: 0.1, Air: 0.1 }
+    elementalProperties: { Fire: 0.4, Water: 0.1, Earth: 0.1, Air: 0.1 },
     qualities: ['warming', 'balanced', 'complex'],
     origin: ['China'],
     category: 'spice',
@@ -298,9 +286,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       'chinese cinnamon': 2,
       'fennel seeds': 2,
       cloves: 1,
-      'sichuan pepper': 1
-    }
-
+      'sichuan pepper': 1,
+    },
     ratios: '2:2:2:1:1',
 
     regionalVariations: {
@@ -310,7 +297,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         'chinese cinnamon': 3,
         'fennel seeds': 2,
         cloves: 1,
-        'sichuan pepper': 1
+        'sichuan pepper': 1,
       },
       Southern: {
         name: 'Southern',
@@ -319,7 +306,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         'fennel seeds': 2,
         cloves: 1,
         'sichuan pepper': 1,
-        'licorice root': 0.5
+        'licorice root': 0.5,
       }
     }
 
@@ -335,8 +322,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -348,7 +334,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       timing: 'As needed',
       notes: 'Standard prep for chinese_five_spice' },
         nutritionalProfile: {
-      macronutrients: {}
+      macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
     }
@@ -367,7 +353,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 
   za_atar: {
     name: 'Za Atar',
-    elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 }
+    elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
     qualities: ['earthy', 'tangy', 'aromatic'],
     origin: ['Levant'],
     category: 'spice',
@@ -379,9 +365,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       sumac: 1,
       oregano: 1,
       marjoram: 1,
-      salt: 0.5
-    }
-
+      salt: 0.5,
+    },
     ratios: '2:2:1:1:1:0.5',
 
     regionalVariations: {
@@ -392,7 +377,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         sumac: 2, // more sumac,
         oregano: 1,
         marjoram: 1,
-        salt: 0.5
+        salt: 0.5,
       },
       Palestinian: {
         name: 'Palestinian',
@@ -401,7 +386,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         sumac: 1,
         oregano: 1,
         marjoram: 1,
-        salt: 0.5
+        salt: 0.5,
       }
     }
 
@@ -415,8 +400,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -428,7 +412,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       timing: 'As needed',
       notes: 'Standard prep for za_atar' },
         nutritionalProfile: {
-      macronutrients: {}
+      macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
     }
@@ -447,7 +431,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 
   curry_powder: {
     name: 'Curry Powder',
-    elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 }
+    elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ['warming', 'complex', 'pungent'],
     origin: ['British-Indian'],
     category: 'spice',
@@ -462,9 +446,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       cinnamon: 0.5,
       cardamom: 0.5,
       cayenne: 0.5,
-      fenugreek: 0.5
-    }
-
+      fenugreek: 0.5,
+    },
     ratios: '3:2:2:1:1:0.5:0.5:0.5:0.5',
 
     regionalVariations: {
@@ -478,7 +461,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         cinnamon: 0.5,
         cardamom: 0.5,
         cayenne: 2, // extra hot,
-        fenugreek: 0.5
+        fenugreek: 0.5,
       }
     }
 
@@ -492,8 +475,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -505,7 +487,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       timing: 'As needed',
       notes: 'Standard prep for curry_powder' },
         nutritionalProfile: {
-      macronutrients: {}
+      macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
     }
@@ -524,7 +506,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 
   berbere: {
     name: 'Berbere',
-    elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 }
+    elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
     qualities: ['hot', 'complex', 'earthy'],
     origin: ['Ethiopia'],
     category: 'spice',
@@ -541,9 +523,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       fenugreek: 1,
       cloves: 0.5,
       cinnamon: 0.5,
-      nutmeg: 0.5
-    }
-
+      nutmeg: 0.5,
+    },
     ratios: '4:2:2:1:1:1:1:1:0.5:0.5:0.5',
 
     regionalVariations: {
@@ -564,8 +545,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -577,7 +557,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       timing: 'As needed',
       notes: 'Standard prep for berbere' },
         nutritionalProfile: {
-      macronutrients: {}
+      macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
     }
@@ -596,7 +576,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 
   dukkah: {
     name: 'Dukkah',
-    elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 }
+    elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
     qualities: ['nutty', 'aromatic', 'crunchy'],
     origin: ['Egypt'],
     category: 'spice',
@@ -608,9 +588,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       coriander: 1,
       cumin: 1,
       'black pepper': 0.5,
-      salt: 0.5
-    }
-
+      salt: 0.5,
+    },
     ratios: '3:2:1:1:0.5:0.5',
 
     regionalVariations: {
@@ -622,7 +601,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         coriander: 1,
         cumin: 1,
         'black pepper': 0.5,
-        salt: 0.5
+        salt: 0.5,
       }
     }
 
@@ -636,8 +615,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -649,7 +627,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       timing: 'As needed',
       notes: 'Standard prep for dukkah' },
         nutritionalProfile: {
-      macronutrients: {}
+      macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
     }
@@ -668,7 +646,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 
   shichimi_togarashi: {
     name: 'Shichimi Togarashi',
-    elementalProperties: { Fire: 0.5, Water: 0.1, Air: 0.1, Earth: 0.1 }
+    elementalProperties: { Fire: 0.5, Water: 0.1, Air: 0.1, Earth: 0.1 },
     qualities: ['spicy', 'citrusy', 'nutty'],
     origin: ['Japan'],
     category: 'spice',
@@ -682,9 +660,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       'white sesame': 1,
       'hemp seeds': 0.5,
       nori: 0.5,
-      ginger: 0.5
-    }
-
+      ginger: 0.5,
+    },
     ratios: '3:1:1:1:1:0.5:0.5:0.5',
 
     regionalVariations: {
@@ -709,8 +686,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -722,7 +698,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       timing: 'As needed',
       notes: 'Standard prep for shichimi_togarashi' },
         nutritionalProfile: {
-      macronutrients: {}
+      macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
     }
@@ -741,7 +717,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 
   baharat: {
     name: 'Baharat',
-    elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 }
+    elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ['warming', 'aromatic', 'complex'],
     origin: ['Middle East'],
     category: 'spice',
@@ -755,9 +731,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       cardamom: 1,
       paprika: 1,
       cloves: 0.5,
-      nutmeg: 0.5
-    }
-
+      nutmeg: 0.5,
+    },
     ratios: '2:2:1:1:1:1:0.5:0.5',
 
     regionalVariations: {
@@ -781,8 +756,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -794,7 +768,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       timing: 'As needed',
       notes: 'Standard prep for baharat' },
         nutritionalProfile: {
-      macronutrients: {}
+      macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
     }
@@ -813,7 +787,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 
   jerk_seasoning: {
     name: 'Jerk Seasoning',
-    elementalProperties: { Fire: 0.5, Earth: 0.2, Air: 0.2, Water: 0.1 }
+    elementalProperties: { Fire: 0.5, Earth: 0.2, Air: 0.2, Water: 0.1 },
     qualities: ['hot', 'pungent', 'aromatic'],
     origin: ['Jamaica'],
     category: 'spice',
@@ -828,9 +802,8 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       'black pepper': 1,
       'brown sugar': 1,
       cinnamon: 0.5,
-      nutmeg: 0.5
-    }
-
+      nutmeg: 0.5,
+    },
     ratios: '3:2:2:2:1:1:1:0.5:0.5',
 
     regionalVariations: {
@@ -838,7 +811,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         name: 'Traditional',
         // Wet paste version
         'green onions': 2,
-        'soy sauce': 1
+        'soy sauce': 1,
       },
       Western: {
         name: 'Western',
@@ -856,8 +829,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -869,7 +841,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       timing: 'As needed',
       notes: 'Standard prep for jerk_seasoning' },
         nutritionalProfile: {
-      macronutrients: {}
+      macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
     }

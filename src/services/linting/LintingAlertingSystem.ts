@@ -131,7 +131,7 @@ export class LintingAlertingSystem {
       const value = this.getPerformanceMetricValue(metrics, threshold.metric)
 
       if (this.isThresholdExceeded(value, threshold)) {
-        const event: PerformanceEvent = {;
+        const event: PerformanceEvent = {
           id: `perf-${threshold.metric}-${Date.now()}`,
           timestamp: new Date(),
           type: 'threshold_exceeded',
@@ -139,7 +139,7 @@ export class LintingAlertingSystem {
           value,
           threshold: threshold.threshold,
           impact: this.calculateImpact(threshold.severity),
-          autoResponseTriggered: false
+          autoResponseTriggered: false,
         }
 
         events.push(event)
@@ -220,7 +220,7 @@ export class LintingAlertingSystem {
    */
   private async sendKiroAlert(alert: Alert, config: Record<string, unknown>): Promise<void> {
     // Create Kiro notification file
-    const kiroAlert = {;
+    const kiroAlert = {
       id: alert.id,
       timestamp: alert.timestamp,
       type: 'linting_alert',
@@ -248,7 +248,7 @@ export class LintingAlertingSystem {
       return
     }
 
-    const payload = {;
+    const payload = {
       alert_id: alert.id,
       timestamp: alert.timestamp,
       severity: alert.severity,
@@ -361,7 +361,7 @@ export class LintingAlertingSystem {
         type: 'command',
         label: 'Fix Parser Errors',
         command: 'yarn tsc --noEmit',
-        description: 'Run TypeScript compiler to identify syntax errors'
+        description: 'Run TypeScript compiler to identify syntax errors',
       })
     }
 
@@ -370,7 +370,7 @@ export class LintingAlertingSystem {
         type: 'campaign',
         label: 'Start Explicit Any Campaign',
         campaign: 'explicit-any-elimination',
-        description: 'Launch systematic explicit any type elimination'
+        description: 'Launch systematic explicit any type elimination',
       })
     }
 
@@ -379,7 +379,7 @@ export class LintingAlertingSystem {
         type: 'command',
         label: 'Fix Import Order',
         command: 'yarn, lint: fix',
-        description: 'Automatically organize imports with enhanced rules'
+        description: 'Automatically organize imports with enhanced rules',
       })
     }
 
@@ -449,19 +449,19 @@ export class LintingAlertingSystem {
             metric: 'duration',
             threshold: 30000, // 30 seconds,
             severity: 'warning',
-            message: 'Linting duration exceeds 30 seconds'
+            message: 'Linting duration exceeds 30 seconds',
           }
           {
             metric: 'memory',
             threshold: 512, // 512 MB,
             severity: 'warning',
-            message: 'Memory usage exceeds 512MB'
+            message: 'Memory usage exceeds 512MB',
           }
           {
             metric: 'cacheHitRate',
             threshold: 0.5, // 50%,
             severity: 'warning',
-            message: 'Cache hit rate below 50%'
+            message: 'Cache hit rate below 50%',
           }
         ]
       },

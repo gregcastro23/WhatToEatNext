@@ -128,7 +128,7 @@ function getBaseSignLongitude(sign: any): number {
     'pisces'
   ],
 
-  const index = signs.indexOf(sign);
+  const index = signs.indexOf(sign)
   return index * 30,
 }
 
@@ -137,20 +137,20 @@ function getBaseSignLongitude(sign: any): number {
  * This is a more reliable fallback than fixed positions when astronomy calculations fail
  */
 export function getCurrentTransitPositions(): Record<string, PlanetPosition> {
-  const _currentDate = new Date();
+  const _currentDate = new Date()
   const positions: Record<string, PlanetPosition> = {}
 
   // Current planetary positions (May 16, 2024) from user input
   const hardcodedPositions: Record<string, { sign: any; degree: number, minute: number }> = {
-    Sun: { sign: 'taurus', degree: 27, minute: 12 }
+    Sun: { sign: 'taurus', degree: 27, minute: 12 },
     Moon: { sign: 'capricorn', degree: 25, minute: 36 }
-    Mercury: { sign: 'taurus', degree: 13, minute: 17 }
+    Mercury: { sign: 'taurus', degree: 13, minute: 17 },
     Venus: { sign: 'aries', degree: 12, minute: 10 }
-    Mars: { sign: 'leo', degree: 13, minute: 44 }
+    Mars: { sign: 'leo', degree: 13, minute: 44 },
     Jupiter: { sign: 'gemini', degree: 24, minute: 53 }
-    Saturn: { sign: 'pisces', degree: 29, minute: 25 }
+    Saturn: { sign: 'pisces', degree: 29, minute: 25 },
     Uranus: { sign: 'taurus', degree: 27, minute: 17 }
-    Neptune: { sign: 'aries', degree: 1, minute: 33 }
+    Neptune: { sign: 'aries', degree: 1, minute: 33 },
     Pluto: { sign: 'aquarius', degree: 3, minute: 46 }
     _Ascendant: { sign: 'libra', degree: 23, minute: 47 }
   }

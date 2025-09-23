@@ -17,7 +17,7 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Water: 0.7,
       Air: 0.2,
       Earth: 0.1,
-      Fire: 0
+      Fire: 0,
     },
     description: 'Preservation and crystallization of flavors',
     recommendedMethods: ['raw', 'frozen desserts'],
@@ -30,7 +30,7 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Water: 0.5,
       Air: 0.3,
       Earth: 0.2,
-      Fire: 0
+      Fire: 0,
     },
     description: 'Refreshing and crisp qualities',
     recommendedMethods: ['raw', 'chilled preparations', 'cold infusion'],
@@ -43,7 +43,7 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Water: 0.4,
       Air: 0.3,
       Earth: 0.2,
-      Fire: 0.1
+      Fire: 0.1,
     },
     description: 'Balanced temperature for subtle flavors',
     recommendedMethods: ['room temperature service', 'light preparation'],
@@ -56,7 +56,7 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Air: 0.4,
       Earth: 0.3,
       Water: 0.2,
-      Fire: 0.1
+      Fire: 0.1,
     },
     description: 'Natural state for most ingredients',
     recommendedMethods: ['fermentation', 'proofing', 'resting'],
@@ -69,7 +69,7 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Fire: 0.3,
       Air: 0.3,
       Earth: 0.2,
-      Water: 0.2
+      Water: 0.2,
     },
     description: 'Enhanced aromatics and flavors',
     recommendedMethods: ['warming', 'tempering', 'slow cooking'],
@@ -82,7 +82,7 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Fire: 0.5,
       Air: 0.3,
       Water: 0.1,
-      Earth: 0.1
+      Earth: 0.1,
     },
     description: 'Active cooking and transformation',
     recommendedMethods: ['boiling', 'steaming', 'poaching'],
@@ -95,7 +95,7 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Fire: 0.7,
       Air: 0.2,
       Earth: 0.1,
-      Water: 0
+      Water: 0,
     },
     description: 'Intense heat transformation',
     recommendedMethods: ['roasting', 'baking', 'frying'],
@@ -108,7 +108,7 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Fire: 0.8,
       Air: 0.2,
       Water: 0,
-      Earth: 0
+      Earth: 0,
     },
     description: 'Extreme transformation and caramelization',
     recommendedMethods: ['grilling', 'broiling', 'searing'],
@@ -118,7 +118,7 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
 
 export const getTemperatureRange = (temp: number): string => {
   return (
-    Object.keys(temperatureEffects).find(;
+    Object.keys(temperatureEffects).find(
       range => temp >= temperatureEffects[range].min && temp <= temperatureEffects[range].max,
     ) || 'room'
   )
@@ -140,11 +140,11 @@ export function getTemperatureEffect(ingredient: string, _temperature?: number) 
   }
 
   // Simple fallback with some common effects
-  const _ = {;
+  const _ = {
     spices: 'warming',
     herbs: 'neutral',
     fruits: 'cooling',
-    vegetables: 'neutral'
+    vegetables: 'neutral',
   }
 
   // Check if we have a specific effect for this ingredient

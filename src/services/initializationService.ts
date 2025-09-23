@@ -117,7 +117,7 @@ class InitializationService {
           Spirit: 0.25,
           Essence: 0.25,
           Matter: 0.25,
-          Substance: 0.25
+          Substance: 0.25,
         },
         lunarPhase: 'new moon',
         currentTime: new Date()
@@ -153,7 +153,7 @@ class InitializationService {
 
       return {
         success: false,
-        error: 'Failed to initialize application after multiple attempts'
+        error: 'Failed to initialize application after multiple attempts',
       }
     } finally {
       this.isInitializing = false;

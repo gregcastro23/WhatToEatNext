@@ -1,7 +1,7 @@
 import type { _, _ZodiacSign } from '@/types/alchemy';
 import type { Cuisine } from '@/types/cuisine';
 
-export const american: Cuisine = {;
+export const american: Cuisine = {
   id: 'american',
   name: 'American',
   description: 'A diverse and evolving cuisine reflecting regional traditions, immigrant influences, and innovative culinary trends throughout the United States.',
@@ -29,7 +29,7 @@ export const american: Cuisine = {;
               amount: '2',
               unit: 'cups',
               category: 'grain',
-              element: 'Earth'
+              element: 'Earth',
             }
             { name: 'buttermilk', amount: '2', unit: 'cups', category: 'dairy', element: 'Water' }
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein', element: 'Water' }
@@ -39,14 +39,14 @@ export const american: Cuisine = {;
               amount: '1/2',
               unit: 'cup',
               category: 'sweetener',
-              element: 'Water'
+              element: 'Water',
             }
             {
               name: 'baking powder',
               amount: '2',
               unit: 'tsp',
               category: 'leavening',
-              element: 'Air'
+              element: 'Air',
             }
           ],
           substitutions: {
@@ -76,7 +76,7 @@ export const american: Cuisine = {;
             Fire: 0.1,
             Water: 0.4,
             Earth: 0.4,
-            Air: 0.1
+            Air: 0.1,
           }
           // Enhanced with moon phase affinities
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
@@ -107,7 +107,7 @@ export const american: Cuisine = {;
               amount: '2',
               unit: 'slices',
               category: 'grain',
-              element: 'Earth'
+              element: 'Earth',
             }
             { name: 'avocado', amount: '1', unit: 'medium', category: 'fruit', element: 'Earth' }
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein', element: 'Water' }
@@ -117,14 +117,14 @@ export const american: Cuisine = {;
               amount: '1/4',
               unit: 'tsp',
               category: 'spice',
-              element: 'Fire'
+              element: 'Fire',
             }
             {
               name: 'microgreens',
               amount: '1/4',
               unit: 'cup',
               category: 'vegetable',
-              element: 'Air'
+              element: 'Air',
             }
           ],
           substitutions: {
@@ -154,7 +154,7 @@ export const american: Cuisine = {;
             Fire: 0.1,
             Water: 0.3,
             Earth: 0.5,
-            Air: 0.1
+            Air: 0.1,
           }
           // Enhanced with moon phase affinities
           lunarPhaseInfluences: ['new moon', 'waxing crescent'],
@@ -186,7 +186,7 @@ export const american: Cuisine = {;
               amount: '3',
               unit: 'cups',
               category: 'grain',
-              element: 'Earth'
+              element: 'Earth',
             }
             { name: 'buttermilk', amount: '1', unit: 'cup', category: 'dairy', element: 'Water' }
             { name: 'butter', amount: '1/2', unit: 'cup', category: 'fat', element: 'Earth' }
@@ -195,7 +195,7 @@ export const american: Cuisine = {;
               amount: '1',
               unit: 'pound',
               category: 'protein',
-              element: 'Fire'
+              element: 'Fire',
             }
             { name: 'milk', amount: '2', unit: 'cups', category: 'dairy', element: 'Water' }
             { name: 'black pepper', amount: '1', unit: 'tsp', category: 'spice', element: 'Fire' }
@@ -227,7 +227,7 @@ export const american: Cuisine = {;
             Fire: 0.3,
             Water: 0.3,
             Earth: 0.4,
-            Air: 0.0
+            Air: 0.0,
           }
           // Enhanced with moon phase affinities
           lunarPhaseInfluences: ['full moon', 'waning gibbous'],
@@ -252,21 +252,21 @@ export const american: Cuisine = {;
               amount: '1',
               unit: 'bunch',
               category: 'vegetable',
-              element: 'Air'
+              element: 'Air',
             }
             {
               name: 'fresh peas',
               amount: '1',
               unit: 'cup',
               category: 'vegetable',
-              element: 'Earth'
+              element: 'Earth',
             }
             {
               name: 'green onions',
               amount: '4',
               unit: 'stalks',
               category: 'vegetable',
-              element: 'Air'
+              element: 'Air',
             }
             { name: 'goat cheese', amount: '4', unit: 'oz', category: 'dairy', element: 'Earth' }
             { name: 'fresh herbs', amount: '1/4', unit: 'cup', category: 'herb', element: 'Air' }
@@ -286,7 +286,7 @@ export const american: Cuisine = {;
             Fire: 0.1,
             Water: 0.3,
             Earth: 0.2,
-            Air: 0.4
+            Air: 0.4,
           },
           lunarPhaseInfluences: ['waxing crescent', 'first quarter'],
           zodiacInfluences: ['aries', 'taurus'],
@@ -309,7 +309,7 @@ export const american: Cuisine = {;
               amount: '2',
               unit: 'cups',
               category: 'fruit',
-              element: 'Water'
+              element: 'Water',
             }
             { name: 'banana', amount: '1', unit: 'medium', category: 'fruit', element: 'Earth' }
             { name: 'greek yogurt', amount: '1', unit: 'cup', category: 'dairy', element: 'Water' }
@@ -332,7 +332,7 @@ export const american: Cuisine = {;
             Fire: 0.0,
             Water: 0.5,
             Earth: 0.4,
-            Air: 0.1
+            Air: 0.1,
           },
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
           zodiacInfluences: ['cancer', 'leo'],
@@ -355,14 +355,14 @@ export const american: Cuisine = {;
               amount: '1',
               unit: 'cup',
               category: 'grain',
-              element: 'Earth'
+              element: 'Earth',
             }
             {
               name: 'pumpkin puree',
               amount: '1/2',
               unit: 'cup',
               category: 'vegetable',
-              element: 'Earth'
+              element: 'Earth',
             }
             { name: 'cinnamon', amount: '1', unit: 'tsp', category: 'spice', element: 'Fire' }
             { name: 'nutmeg', amount: '1/4', unit: 'tsp', category: 'spice', element: 'Fire' }
@@ -371,7 +371,7 @@ export const american: Cuisine = {;
               amount: '2',
               unit: 'tbsp',
               category: 'sweetener',
-              element: 'Water'
+              element: 'Water',
             }
             { name: 'pecans', amount: '1/4', unit: 'cup', category: 'nut', element: 'Earth' }
           ],
@@ -390,7 +390,7 @@ export const american: Cuisine = {;
             Fire: 0.2,
             Water: 0.2,
             Earth: 0.6,
-            Air: 0.0
+            Air: 0.0,
           },
           lunarPhaseInfluences: ['waning gibbous', 'last quarter'],
           zodiacInfluences: ['virgo', 'libra'],
@@ -413,7 +413,7 @@ export const american: Cuisine = {;
               amount: '2',
               unit: 'cups',
               category: 'grain',
-              element: 'Earth'
+              element: 'Earth',
             }
             { name: 'cranberries', amount: '1', unit: 'cup', category: 'fruit', element: 'Water' }
             { name: 'orange zest', amount: '2', unit: 'tbsp', category: 'fruit', element: 'Fire' }
@@ -436,7 +436,7 @@ export const american: Cuisine = {;
             Fire: 0.2,
             Water: 0.2,
             Earth: 0.5,
-            Air: 0.1
+            Air: 0.1,
           },
           lunarPhaseInfluences: ['new moon', 'waning crescent'],
           zodiacInfluences: ['capricorn', 'aquarius'],
@@ -471,42 +471,42 @@ export const american: Cuisine = {;
               amount: '1',
               unit: 'pound',
               category: 'protein',
-              element: 'Fire'
+              element: 'Fire',
             }
             {
               name: 'hamburger buns',
               amount: '4',
               unit: 'buns',
               category: 'grain',
-              element: 'Earth'
+              element: 'Earth',
             }
             {
               name: 'cheddar cheese',
               amount: '4',
               unit: 'slices',
               category: 'dairy',
-              element: 'Earth'
+              element: 'Earth',
             }
             {
               name: 'lettuce',
               amount: '4',
               unit: 'leaves',
               category: 'vegetable',
-              element: 'Water'
+              element: 'Water',
             }
             {
               name: 'tomato',
               amount: '1',
               unit: 'medium',
               category: 'vegetable',
-              element: 'Water'
+              element: 'Water',
             }
             {
               name: 'onion',
               amount: '1/2',
               unit: 'medium',
               category: 'vegetable',
-              element: 'Fire'
+              element: 'Fire',
             }
             { name: 'ketchup', amount: '4', unit: 'tbsp', category: 'condiment', element: 'Fire' }
             { name: 'mustard', amount: '4', unit: 'tsp', category: 'condiment', element: 'Fire' }
@@ -538,7 +538,7 @@ export const american: Cuisine = {;
             Fire: 0.5,
             Water: 0.1,
             Earth: 0.3,
-            Air: 0.1
+            Air: 0.1,
           },
           lunarPhaseInfluences: ['full moon', 'first quarter'],
           zodiacInfluences: ['aries', 'leo', 'taurus'],
@@ -569,14 +569,14 @@ export const american: Cuisine = {;
               amount: '1',
               unit: 'head',
               category: 'vegetable',
-              element: 'Water'
+              element: 'Water',
             }
             {
               name: 'grilled chicken',
               amount: '2',
               unit: 'breasts',
               category: 'protein',
-              element: 'Fire'
+              element: 'Fire',
             }
             { name: 'bacon', amount: '6', unit: 'slices', category: 'protein', element: 'Fire' }
             {
@@ -584,7 +584,7 @@ export const american: Cuisine = {;
               amount: '3',
               unit: 'large',
               category: 'protein',
-              element: 'Water'
+              element: 'Water',
             }
             { name: 'avocado', amount: '1', unit: 'medium', category: 'fruit', element: 'Earth' }
             {
@@ -592,21 +592,21 @@ export const american: Cuisine = {;
               amount: '1/2',
               unit: 'cup',
               category: 'dairy',
-              element: 'Earth'
+              element: 'Earth',
             }
             {
               name: 'cherry tomatoes',
               amount: '1',
               unit: 'cup',
               category: 'vegetable',
-              element: 'Water'
+              element: 'Water',
             }
             {
               name: 'red wine vinaigrette',
               amount: '1/2',
               unit: 'cup',
               category: 'dressing',
-              element: 'Water'
+              element: 'Water',
             }
           ],
           substitutions: {
@@ -636,7 +636,7 @@ export const american: Cuisine = {;
             Fire: 0.2,
             Water: 0.4,
             Earth: 0.3,
-            Air: 0.1
+            Air: 0.1,
           },
           lunarPhaseInfluences: ['first quarter', 'waxing gibbous'],
           zodiacInfluences: ['virgo', 'libra'],
@@ -669,7 +669,7 @@ export const american: Cuisine = {;
               amount: '2',
               unit: 'large',
               category: 'vegetable',
-              element: 'Earth'
+              element: 'Earth',
             }
             { name: 'onion', amount: '1', unit: 'medium', category: 'vegetable', element: 'Fire' }
             {
@@ -677,7 +677,7 @@ export const american: Cuisine = {;
               amount: '2',
               unit: 'stalks',
               category: 'vegetable',
-              element: 'Water'
+              element: 'Water',
             }
             { name: 'heavy cream', amount: '1', unit: 'cup', category: 'dairy', element: 'Water' }
             { name: 'clam juice', amount: '2', unit: 'cups', category: 'broth', element: 'Water' }
@@ -710,7 +710,7 @@ export const american: Cuisine = {;
             Fire: 0.1,
             Water: 0.6,
             Earth: 0.2,
-            Air: 0.1
+            Air: 0.1,
           },
           lunarPhaseInfluences: ['full moon', 'waning gibbous'],
           zodiacInfluences: ['cancer', 'pisces'],
@@ -734,7 +734,7 @@ export const american: Cuisine = {;
               amount: '1',
               unit: 'bunch',
               category: 'vegetable',
-              element: 'Air'
+              element: 'Air',
             }
             { name: 'goat cheese', amount: '4', unit: 'oz', category: 'dairy', element: 'Earth' }
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein', element: 'Water' }
@@ -756,7 +756,7 @@ export const american: Cuisine = {;
             Fire: 0.1,
             Water: 0.2,
             Earth: 0.3,
-            Air: 0.4
+            Air: 0.4,
           },
           lunarPhaseInfluences: ['waxing crescent', 'first quarter'],
           zodiacInfluences: ['taurus', 'gemini'],
@@ -779,14 +779,14 @@ export const american: Cuisine = {;
               amount: '1',
               unit: 'pound',
               category: 'seafood',
-              element: 'Water'
+              element: 'Water',
             }
             {
               name: 'mayonnaise',
               amount: '1/4',
               unit: 'cup',
               category: 'condiment',
-              element: 'Water'
+              element: 'Water',
             }
             { name: 'celery', amount: '1', unit: 'stalk', category: 'vegetable', element: 'Water' }
             {
@@ -794,7 +794,7 @@ export const american: Cuisine = {;
               amount: '4',
               unit: 'rolls',
               category: 'grain',
-              element: 'Earth'
+              element: 'Earth',
             }
             { name: 'butter', amount: '2', unit: 'tbsp', category: 'fat', element: 'Earth' }
             { name: 'lemon juice', amount: '1', unit: 'tbsp', category: 'acid', element: 'Water' }
@@ -814,7 +814,7 @@ export const american: Cuisine = {;
             Fire: 0.0,
             Water: 0.7,
             Earth: 0.2,
-            Air: 0.1
+            Air: 0.1,
           },
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
           zodiacInfluences: ['cancer', 'scorpio'],
@@ -838,7 +838,7 @@ export const american: Cuisine = {;
               amount: '4',
               unit: 'tbsp',
               category: 'condiment',
-              element: 'Water'
+              element: 'Water',
             }
             { name: 'stuffing', amount: '1/2', unit: 'cup', category: 'grain', element: 'Earth' }
             {
@@ -846,14 +846,14 @@ export const american: Cuisine = {;
               amount: '4',
               unit: 'slices',
               category: 'grain',
-              element: 'Earth'
+              element: 'Earth',
             }
             {
               name: 'mayonnaise',
               amount: '2',
               unit: 'tbsp',
               category: 'condiment',
-              element: 'Water'
+              element: 'Water',
             }
             { name: 'sage', amount: '1', unit: 'tsp', category: 'herb', element: 'Air' }
           ],
@@ -872,7 +872,7 @@ export const american: Cuisine = {;
             Fire: 0.0,
             Water: 0.3,
             Earth: 0.4,
-            Air: 0.3
+            Air: 0.3,
           },
           lunarPhaseInfluences: ['waning gibbous', 'last quarter'],
           zodiacInfluences: ['virgo', 'libra'],
@@ -895,7 +895,7 @@ export const american: Cuisine = {;
               amount: '2',
               unit: 'pounds',
               category: 'vegetable',
-              element: 'Earth'
+              element: 'Earth',
             }
             { name: 'bacon', amount: '6', unit: 'slices', category: 'protein', element: 'Fire' }
             { name: 'milk', amount: '2', unit: 'cups', category: 'dairy', element: 'Water' }
@@ -904,7 +904,7 @@ export const american: Cuisine = {;
               amount: '1',
               unit: 'cup',
               category: 'dairy',
-              element: 'Earth'
+              element: 'Earth',
             }
             { name: 'sour cream', amount: '1/2', unit: 'cup', category: 'dairy', element: 'Water' }
             {
@@ -912,7 +912,7 @@ export const american: Cuisine = {;
               amount: '4',
               unit: 'stalks',
               category: 'vegetable',
-              element: 'Air'
+              element: 'Air',
             }
           ],
           nutrition: {
@@ -930,7 +930,7 @@ export const american: Cuisine = {;
             Fire: 0.1,
             Water: 0.4,
             Earth: 0.4,
-            Air: 0.1
+            Air: 0.1,
           },
           lunarPhaseInfluences: ['waning crescent', 'new moon'],
           zodiacInfluences: ['capricorn', 'taurus'],
@@ -967,7 +967,7 @@ export const american: Cuisine = {;
               amount: '1/4',
               unit: 'cup',
               category: 'sweetener',
-              element: 'Earth'
+              element: 'Earth',
             }
             { name: 'paprika', amount: '2', unit: 'tbsp', category: 'spice', element: 'Fire' }
             {
@@ -975,7 +975,7 @@ export const american: Cuisine = {;
               amount: '1',
               unit: 'tbsp',
               category: 'spice',
-              element: 'Fire'
+              element: 'Fire',
             }
             { name: 'black pepper', amount: '1', unit: 'tbsp', category: 'spice', element: 'Fire' }
           ],
@@ -1006,7 +1006,7 @@ export const american: Cuisine = {;
             Fire: 0.7,
             Water: 0.0,
             Earth: 0.3,
-            Air: 0.0
+            Air: 0.0,
           },
           lunarPhaseInfluences: ['full moon', 'first quarter'],
           zodiacInfluences: ['aries', 'leo'],
@@ -1037,7 +1037,7 @@ export const american: Cuisine = {;
               amount: '2',
               unit: 'pounds',
               category: 'protein',
-              element: 'Fire'
+              element: 'Fire',
             }
             { name: 'breadcrumbs', amount: '1', unit: 'cup', category: 'grain', element: 'Earth' }
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein', element: 'Water' }
@@ -1048,7 +1048,7 @@ export const american: Cuisine = {;
               amount: '3',
               unit: 'pounds',
               category: 'vegetable',
-              element: 'Earth'
+              element: 'Earth',
             }
             { name: 'butter', amount: '1/2', unit: 'cup', category: 'fat', element: 'Earth' }
             { name: 'milk', amount: '1/2', unit: 'cup', category: 'dairy', element: 'Water' }
@@ -1080,7 +1080,7 @@ export const american: Cuisine = {;
             Fire: 0.3,
             Water: 0.2,
             Earth: 0.5,
-            Air: 0.0
+            Air: 0.0,
           },
           lunarPhaseInfluences: ['waning gibbous', 'full moon'],
           zodiacInfluences: ['taurus', 'cancer'],
@@ -1118,7 +1118,7 @@ export const american: Cuisine = {;
               amount: '3',
               unit: 'pounds',
               category: 'protein',
-              element: 'Fire'
+              element: 'Fire',
             }
             { name: 'buttermilk', amount: '2', unit: 'cups', category: 'dairy', element: 'Water' }
             {
@@ -1126,7 +1126,7 @@ export const american: Cuisine = {;
               amount: '3',
               unit: 'cups',
               category: 'grain',
-              element: 'Earth'
+              element: 'Earth',
             }
             { name: 'paprika', amount: '2', unit: 'tbsp', category: 'spice', element: 'Fire' }
             {
@@ -1134,7 +1134,7 @@ export const american: Cuisine = {;
               amount: '1',
               unit: 'tbsp',
               category: 'spice',
-              element: 'Fire'
+              element: 'Fire',
             }
             { name: 'vegetable oil', amount: '6', unit: 'cups', category: 'oil', element: 'Fire' }
             { name: 'cold butter', amount: '8', unit: 'tbsp', category: 'fat', element: 'Earth' }
@@ -1167,7 +1167,7 @@ export const american: Cuisine = {;
             Fire: 0.4,
             Water: 0.2,
             Earth: 0.4,
-            Air: 0.0
+            Air: 0.0,
           },
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
           zodiacInfluences: ['leo', 'taurus'],
@@ -1190,21 +1190,21 @@ export const american: Cuisine = {;
               amount: '2',
               unit: 'cups',
               category: 'grain',
-              element: 'Earth'
+              element: 'Earth',
             }
             {
               name: 'fresh peas',
               amount: '2',
               unit: 'cups',
               category: 'vegetable',
-              element: 'Earth'
+              element: 'Earth',
             }
             {
               name: 'lamb chops',
               amount: '8',
               unit: 'chops',
               category: 'protein',
-              element: 'Fire'
+              element: 'Fire',
             }
             { name: 'fresh mint', amount: '1/4', unit: 'cup', category: 'herb', element: 'Air' }
             {
@@ -1212,7 +1212,7 @@ export const american: Cuisine = {;
               amount: '1/2',
               unit: 'cup',
               category: 'alcohol',
-              element: 'Water'
+              element: 'Water',
             }
             { name: 'parmesan', amount: '1/2', unit: 'cup', category: 'dairy', element: 'Earth' }
           ],
@@ -1231,7 +1231,7 @@ export const american: Cuisine = {;
             Fire: 0.3,
             Water: 0.2,
             Earth: 0.4,
-            Air: 0.1
+            Air: 0.1,
           },
           lunarPhaseInfluences: ['waxing crescent', 'first quarter'],
           zodiacInfluences: ['aries', 'taurus'],
@@ -1254,35 +1254,35 @@ export const american: Cuisine = {;
               amount: '2',
               unit: 'pounds',
               category: 'protein',
-              element: 'Water'
+              element: 'Water',
             }
             {
               name: 'cedar plank',
               amount: '1',
               unit: 'plank',
               category: 'equipment',
-              element: 'Earth'
+              element: 'Earth',
             }
             {
               name: 'corn on the cob',
               amount: '4',
               unit: 'ears',
               category: 'vegetable',
-              element: 'Earth'
+              element: 'Earth',
             }
             {
               name: 'zucchini',
               amount: '2',
               unit: 'medium',
               category: 'vegetable',
-              element: 'Water'
+              element: 'Water',
             }
             {
               name: 'bell peppers',
               amount: '2',
               unit: 'large',
               category: 'vegetable',
-              element: 'Fire'
+              element: 'Fire',
             }
             { name: 'lemon', amount: '1', unit: 'whole', category: 'fruit', element: 'Water' }
           ],
@@ -1301,7 +1301,7 @@ export const american: Cuisine = {;
             Fire: 0.2,
             Water: 0.4,
             Earth: 0.3,
-            Air: 0.1
+            Air: 0.1,
           },
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
           zodiacInfluences: ['pisces', 'cancer', 'leo'],
@@ -1324,21 +1324,21 @@ export const american: Cuisine = {;
               amount: '3',
               unit: 'pounds',
               category: 'protein',
-              element: 'Fire'
+              element: 'Fire',
             }
             {
               name: 'carrots',
               amount: '1',
               unit: 'pound',
               category: 'vegetable',
-              element: 'Earth'
+              element: 'Earth',
             }
             {
               name: 'parsnips',
               amount: '1/2',
               unit: 'pound',
               category: 'vegetable',
-              element: 'Earth'
+              element: 'Earth',
             }
             { name: 'onions', amount: '2', unit: 'medium', category: 'vegetable', element: 'Fire' }
             { name: 'red wine', amount: '1', unit: 'cup', category: 'alcohol', element: 'Water' }
@@ -1359,7 +1359,7 @@ export const american: Cuisine = {;
             Fire: 0.4,
             Water: 0.1,
             Earth: 0.5,
-            Air: 0.0
+            Air: 0.0,
           },
           lunarPhaseInfluences: ['waning gibbous', 'last quarter'],
           zodiacInfluences: ['taurus', 'capricorn'],
@@ -1382,7 +1382,7 @@ export const american: Cuisine = {;
               amount: '12',
               unit: 'pounds',
               category: 'protein',
-              element: 'Air'
+              element: 'Air',
             }
             { name: 'cranberries', amount: '12', unit: 'oz', category: 'fruit', element: 'Water' }
             {
@@ -1390,7 +1390,7 @@ export const american: Cuisine = {;
               amount: '8',
               unit: 'cups',
               category: 'grain',
-              element: 'Earth'
+              element: 'Earth',
             }
             { name: 'butter', amount: '1/2', unit: 'pound', category: 'fat', element: 'Earth' }
             { name: 'fresh sage', amount: '2', unit: 'tbsp', category: 'herb', element: 'Air' }
@@ -1399,7 +1399,7 @@ export const american: Cuisine = {;
               amount: '4',
               unit: 'cups',
               category: 'broth',
-              element: 'Water'
+              element: 'Water',
             }
           ],
           nutrition: {
@@ -1417,7 +1417,7 @@ export const american: Cuisine = {;
             Fire: 0.1,
             Water: 0.3,
             Earth: 0.3,
-            Air: 0.3
+            Air: 0.3,
           },
           lunarPhaseInfluences: ['new moon', 'waning crescent'],
           zodiacInfluences: ['capricorn', 'sagittarius'],
@@ -1452,7 +1452,7 @@ export const american: Cuisine = {;
               amount: '2.5',
               unit: 'cups',
               category: 'grain',
-              element: 'Earth'
+              element: 'Earth',
             }
             { name: 'butter', amount: '1', unit: 'cup', category: 'fat', element: 'Earth' }
             { name: 'apples', amount: '6', unit: 'large', category: 'fruit', element: 'Water' }
@@ -1487,7 +1487,7 @@ export const american: Cuisine = {;
             Fire: 0.1,
             Water: 0.3,
             Earth: 0.6,
-            Air: 0.0
+            Air: 0.0,
           },
           lunarPhaseInfluences: ['full moon', 'waning gibbous'],
           zodiacInfluences: ['taurus', 'virgo'],
@@ -1524,7 +1524,7 @@ export const american: Cuisine = {;
               amount: '2.25',
               unit: 'cups',
               category: 'grain',
-              element: 'Earth'
+              element: 'Earth',
             }
             { name: 'butter', amount: '1', unit: 'cup', category: 'fat', element: 'Earth' }
             {
@@ -1532,14 +1532,14 @@ export const american: Cuisine = {;
               amount: '1',
               unit: 'cup',
               category: 'sweetener',
-              element: 'Earth'
+              element: 'Earth',
             }
             {
               name: 'white sugar',
               amount: '1/2',
               unit: 'cup',
               category: 'sweetener',
-              element: 'Earth'
+              element: 'Earth',
             }
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein', element: 'Water' }
             {
@@ -1547,7 +1547,7 @@ export const american: Cuisine = {;
               amount: '2',
               unit: 'cups',
               category: 'chocolate',
-              element: 'Fire'
+              element: 'Fire',
             }
           ],
           substitutions: {
@@ -1577,7 +1577,7 @@ export const american: Cuisine = {;
             Fire: 0.2,
             Water: 0.1,
             Earth: 0.7,
-            Air: 0.0
+            Air: 0.0,
           },
           lunarPhaseInfluences: ['new moon', 'waxing crescent'],
           zodiacInfluences: ['taurus', 'cancer', 'leo'],
@@ -1617,7 +1617,7 @@ export const american: Cuisine = {;
               amount: '2',
               unit: 'cups',
               category: 'grain',
-              element: 'Earth'
+              element: 'Earth',
             }
             { name: 'butter', amount: '6', unit: 'tbsp', category: 'fat', element: 'Earth' }
             {
@@ -1625,7 +1625,7 @@ export const american: Cuisine = {;
               amount: '1',
               unit: 'tbsp',
               category: 'flavoring',
-              element: 'Air'
+              element: 'Air',
             }
           ],
           substitutions: {
@@ -1655,7 +1655,7 @@ export const american: Cuisine = {;
             Fire: 0.0,
             Water: 0.2,
             Earth: 0.7,
-            Air: 0.1
+            Air: 0.1,
           },
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
           zodiacInfluences: ['taurus', 'cancer', 'libra'],
@@ -1678,14 +1678,14 @@ export const american: Cuisine = {;
               amount: '2',
               unit: 'cups',
               category: 'grain',
-              element: 'Earth'
+              element: 'Earth',
             }
             {
               name: 'fresh strawberries',
               amount: '1',
               unit: 'quart',
               category: 'fruit',
-              element: 'Water'
+              element: 'Water',
             }
             { name: 'heavy cream', amount: '2', unit: 'cups', category: 'dairy', element: 'Water' }
             { name: 'sugar', amount: '1/2', unit: 'cup', category: 'sweetener', element: 'Earth' }
@@ -1707,7 +1707,7 @@ export const american: Cuisine = {;
             Fire: 0.1,
             Water: 0.4,
             Earth: 0.5,
-            Air: 0.0
+            Air: 0.0,
           },
           lunarPhaseInfluences: ['waxing crescent', 'first quarter'],
           zodiacInfluences: ['taurus', 'gemini'],
@@ -1730,14 +1730,14 @@ export const american: Cuisine = {;
               amount: '2',
               unit: 'cups',
               category: 'grain',
-              element: 'Earth'
+              element: 'Earth',
             }
             {
               name: 'chocolate ice cream',
               amount: '1.5',
               unit: 'quarts',
               category: 'dairy',
-              element: 'Water'
+              element: 'Water',
             }
             { name: 'marshmallows', amount: '3', unit: 'cups', category: 'candy', element: 'Air' }
             { name: 'butter', amount: '6', unit: 'tbsp', category: 'fat', element: 'Earth' }
@@ -1746,14 +1746,14 @@ export const american: Cuisine = {;
               amount: '1/4',
               unit: 'cup',
               category: 'topping',
-              element: 'Earth'
+              element: 'Earth',
             }
             {
               name: 'sea salt',
               amount: '1/4',
               unit: 'tsp',
               category: 'seasoning',
-              element: 'Earth'
+              element: 'Earth',
             }
           ],
           nutrition: {
@@ -1771,7 +1771,7 @@ export const american: Cuisine = {;
             Fire: 0.1,
             Water: 0.3,
             Earth: 0.5,
-            Air: 0.1
+            Air: 0.1,
           },
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
           zodiacInfluences: ['cancer', 'leo'],
@@ -1794,7 +1794,7 @@ export const american: Cuisine = {;
               amount: '15',
               unit: 'oz',
               category: 'vegetable',
-              element: 'Earth'
+              element: 'Earth',
             }
             { name: 'pie crust', amount: '1', unit: 'crust', category: 'dough', element: 'Earth' }
             {
@@ -1802,7 +1802,7 @@ export const american: Cuisine = {;
               amount: '12',
               unit: 'oz',
               category: 'dairy',
-              element: 'Water'
+              element: 'Water',
             }
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein', element: 'Water' }
             { name: 'cinnamon', amount: '2', unit: 'tsp', category: 'spice', element: 'Fire' }
@@ -1823,7 +1823,7 @@ export const american: Cuisine = {;
             Fire: 0.2,
             Water: 0.2,
             Earth: 0.6,
-            Air: 0.0
+            Air: 0.0,
           },
           lunarPhaseInfluences: ['waning gibbous', 'last quarter'],
           zodiacInfluences: ['virgo', 'libra'],
@@ -1846,14 +1846,14 @@ export const american: Cuisine = {;
               amount: '3',
               unit: 'cups',
               category: 'grain',
-              element: 'Earth'
+              element: 'Earth',
             }
             {
               name: 'molasses',
               amount: '2/3',
               unit: 'cup',
               category: 'sweetener',
-              element: 'Earth'
+              element: 'Earth',
             }
             { name: 'ginger', amount: '1', unit: 'tbsp', category: 'spice', element: 'Fire' }
             { name: 'cinnamon', amount: '1', unit: 'tbsp', category: 'spice', element: 'Fire' }
@@ -1863,7 +1863,7 @@ export const american: Cuisine = {;
               amount: '3/4',
               unit: 'cup',
               category: 'sweetener',
-              element: 'Earth'
+              element: 'Earth',
             }
           ],
           nutrition: {
@@ -1881,7 +1881,7 @@ export const american: Cuisine = {;
             Fire: 0.3,
             Water: 0.0,
             Earth: 0.7,
-            Air: 0.0
+            Air: 0.0,
           },
           lunarPhaseInfluences: ['new moon', 'waning crescent'],
           zodiacInfluences: ['capricorn', 'sagittarius'],
@@ -1918,7 +1918,7 @@ export const american: Cuisine = {;
         Fire: 0.5,
         Earth: 0.3,
         Water: 0.2,
-        Air: 0.0
+        Air: 0.0,
       },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'summer',
@@ -1935,7 +1935,7 @@ export const american: Cuisine = {;
         Fire: 0.0,
         Earth: 0.2,
         Water: 0.6,
-        Air: 0.2
+        Air: 0.2,
       },
       astrologicalInfluences: ['Venus', 'Moon', 'Taurus'],
       seasonality: 'all',
@@ -1952,7 +1952,7 @@ export const american: Cuisine = {;
         Fire: 0.9,
         Earth: 0.0,
         Water: 0.1,
-        Air: 0.0
+        Air: 0.0,
       },
       astrologicalInfluences: ['Mars', 'Pluto', 'Aries'],
       seasonality: 'all',
@@ -1974,7 +1974,7 @@ export const american: Cuisine = {;
         Fire: 0.2,
         Earth: 0.5,
         Water: 0.3,
-        Air: 0.0
+        Air: 0.0,
       },
       astrologicalInfluences: ['Saturn', 'Jupiter', 'Taurus'],
       seasonality: 'autumn and winter',
@@ -1996,12 +1996,12 @@ export const american: Cuisine = {;
         Fire: 0.1,
         Earth: 0.4,
         Water: 0.5,
-        Air: 0.0
+        Air: 0.0,
       },
       astrologicalInfluences: ['Venus', 'Jupiter', 'Libra'],
       seasonality: 'autumn and winter',
       preparationNotes: 'Grade B maple syrup offers more robust flavor for cooking',
-      technicalTips: 'Reduce slowly to prevent burning the sugars'
+      technicalTips: 'Reduce slowly to prevent burning the sugars',
     }
   },
   sauceRecommender: {
@@ -2061,31 +2061,31 @@ export const american: Cuisine = {;
     {
       name: 'Barbecuing',
       description: 'Slow cooking with smoke over indirect heat for extended periods',
-      elementalProperties: { Fire: 0.6, Earth: 0.3, Air: 0.1, Water: 0.0 }
+      elementalProperties: { Fire: 0.6, Earth: 0.3, Air: 0.1, Water: 0.0 },
       toolsRequired: ['smoker', 'wood chips', 'temperature probe', 'drip pan'],
       bestFor: ['pork ribs', 'brisket', 'pork shoulder', 'whole chicken', 'beef ribs'],
-      difficulty: 'hard'
+      difficulty: 'hard',
     }
     {
       name: 'Grilling',
       description: 'Cooking over direct high heat for short periods, creating caramelization',
-      elementalProperties: { Fire: 0.8, Earth: 0.1, Air: 0.1, Water: 0.0 }
+      elementalProperties: { Fire: 0.8, Earth: 0.1, Air: 0.1, Water: 0.0 },
       toolsRequired: ['grill', 'tongs', 'spatula', 'brush', 'thermometer'],
       bestFor: ['steaks', 'burgers', 'hot dogs', 'vegetables', 'fish fillets'],
-      difficulty: 'medium'
+      difficulty: 'medium',
     }
     {
       name: 'Deep Frying',
       description: 'Submerging food in hot oil for crispy exterior and tender interior',
-      elementalProperties: { Fire: 0.6, Earth: 0.0, Water: 0.0, Air: 0.4 }
+      elementalProperties: { Fire: 0.6, Earth: 0.0, Water: 0.0, Air: 0.4 },
       toolsRequired: ['deep fryer', 'thermometer', 'spider or slotted spoon', 'paper towels'],
       bestFor: ['chicken', 'french fries', 'donuts', 'fish', 'appetizers'],
-      difficulty: 'medium'
+      difficulty: 'medium',
     }
     {
       name: 'Casserole Baking',
       description: 'Combining ingredients in a dish and baking with even, enclosed heat',
-      elementalProperties: { Fire: 0.2, Earth: 0.5, Water: 0.3, Air: 0.0 }
+      elementalProperties: { Fire: 0.2, Earth: 0.5, Water: 0.3, Air: 0.0 },
       toolsRequired: ['casserole dish', 'oven', 'mixing bowls', 'measuring cups'],
       bestFor: [
         'mac and cheese',
@@ -2093,23 +2093,23 @@ export const american: Cuisine = {;
         'tuna noodle casserole',
         'shepherd's pie'
       ],
-      difficulty: 'easy'
+      difficulty: 'easy',
     }
     {
       name: 'Pie Making',
       description: 'Creating flaky pastry crusts filled with sweet or savory fillings',
-      elementalProperties: { Fire: 0.1, Earth: 0.6, Water: 0.1, Air: 0.2 }
+      elementalProperties: { Fire: 0.1, Earth: 0.6, Water: 0.1, Air: 0.2 },
       toolsRequired: ['rolling pin', 'pie dish', 'pastry cutter', 'food processor'],
       bestFor: ['fruit pies', 'cream pies', 'pot pies', 'quiches', 'tarts'],
-      difficulty: 'hard'
+      difficulty: 'hard',
     }
     {
       name: 'Slow Cooking',
       description: 'Low-temperature cooking for extended periods, often in a covered pot',
-      elementalProperties: { Fire: 0.2, Earth: 0.3, Water: 0.5, Air: 0.0 }
+      elementalProperties: { Fire: 0.2, Earth: 0.3, Water: 0.5, Air: 0.0 },
       toolsRequired: ['slow cooker', 'dutch oven', 'ladle', 'timer'],
       bestFor: ['stews', 'chili', 'pot roast', 'pulled pork', 'soups'],
-      difficulty: 'easy'
+      difficulty: 'easy',
     }
   ],
   regionalCuisines: {
@@ -2123,21 +2123,21 @@ export const american: Cuisine = {;
         'biscuits and gravy',
         'peach cobbler'
       ],
-      elementalProperties: { Fire: 0.3, Earth: 0.4, Water: 0.2, Air: 0.1 }
+      elementalProperties: { Fire: 0.3, Earth: 0.4, Water: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Venus', 'Jupiter', 'Taurus'],
       seasonality: 'year-round with seasonal ingredients' },
         newEngland: {
       name: 'New England Cuisine',
       description: 'Seafood-forward cuisine with British colonial roots and seasonal emphasis',
       signature: ['clam chowder', 'lobster rolls', 'baked beans', 'cranberry sauce', 'apple pie'],
-      elementalProperties: { Fire: 0.1, Earth: 0.3, Water: 0.5, Air: 0.1 }
+      elementalProperties: { Fire: 0.1, Earth: 0.3, Water: 0.5, Air: 0.1 },
       astrologicalInfluences: ['Moon', 'Neptune', 'Cancer'],
       seasonality: 'highly seasonal' },
         southwest: {
       name: 'Southwestern Cuisine',
       description: 'Bold flavors influenced by Mexican, Spanish, and Native American traditions',
       signature: ['chili con carne', 'tex-mex', 'barbecue', 'corn dishes', 'pecan pie'],
-      elementalProperties: { Fire: 0.6, Earth: 0.3, Water: 0.0, Air: 0.1 }
+      elementalProperties: { Fire: 0.6, Earth: 0.3, Water: 0.0, Air: 0.1 },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'desert adaptations with seasonal celebrations' },
         midwest: {
@@ -2150,7 +2150,7 @@ export const american: Cuisine = {;
         'wild rice dishes',
         'fruit pies'
       ],
-      elementalProperties: { Fire: 0.2, Earth: 0.6, Water: 0.1, Air: 0.1 }
+      elementalProperties: { Fire: 0.2, Earth: 0.6, Water: 0.1, Air: 0.1 },
       astrologicalInfluences: ['Saturn', 'Venus', 'Capricorn'],
       seasonality: 'strongly seasonal with preservation techniques' },
         california: {
@@ -2163,9 +2163,9 @@ export const american: Cuisine = {;
         'sourdough bread',
         'wine country cuisine'
       ],
-      elementalProperties: { Fire: 0.2, Earth: 0.3, Water: 0.2, Air: 0.3 }
+      elementalProperties: { Fire: 0.2, Earth: 0.3, Water: 0.2, Air: 0.3 },
       astrologicalInfluences: ['Mercury', 'Uranus', 'Gemini'],
-      seasonality: 'year-round fresh ingredients'
+      seasonality: 'year-round fresh ingredients',
     }
   }
   // Enhanced elemental properties with more balanced distribution

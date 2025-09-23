@@ -23,7 +23,7 @@ describe('Campaign Infrastructure', () => {
     })
 
     test('should create campaign controller with config', () => {
-      const mockConfig: any = {;
+      const mockConfig: any = {
         phases: [],
         safetySettings: {
           maxFilesPerBatch: 25,
@@ -31,14 +31,14 @@ describe('Campaign Infrastructure', () => {
           testValidationFrequency: 10,
           corruptionDetectionEnabled: true,
           automaticRollbackEnabled: true,
-          stashRetentionDays: 7
+          stashRetentionDays: 7,
         },
-        progressTargets: { typeScriptErrors: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 }
+        progressTargets: { typeScriptErrors: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 },
         toolConfiguration: {
           enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
           explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
           unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-          consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
+          consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
         }
       }
 
@@ -50,12 +50,12 @@ describe('Campaign Infrastructure', () => {
       const config: any = await CampaignControllerloadConfiguration()
       const controller: any = new CampaignController(config)
 
-      const mockPhase: any = {;
+      const mockPhase: any = {
         id: 'test-phase',
         name: 'Test Phase',
         description: 'Test phase for validation',
         tools: [],
-        successCriteria: { typeScriptErrors: 0 }
+        successCriteria: { typeScriptErrors: 0 },
         safetyCheckpoints: [],
       }
 
@@ -69,7 +69,7 @@ describe('Campaign Infrastructure', () => {
 
   describe('SafetyProtocol', () => {
     test('should create safety protocol with settings', () => {
-      const settings: any = {;
+      const settings: any = {
         maxFilesPerBatch: 25,
         buildValidationFrequency: 5,
         testValidationFrequency: 10,
@@ -83,7 +83,7 @@ describe('Campaign Infrastructure', () => {
     })
 
     test('should detect corruption patterns', async () => {
-      const settings: any = {;
+      const settings: any = {
         maxFilesPerBatch: 25,
         buildValidationFrequency: 5,
         testValidationFrequency: 10,
@@ -102,7 +102,7 @@ describe('Campaign Infrastructure', () => {
     })
 
     test('should validate git state', async () => {
-      const settings: any = {;
+      const settings: any = {
         maxFilesPerBatch: 25,
         buildValidationFrequency: 5,
         testValidationFrequency: 10,

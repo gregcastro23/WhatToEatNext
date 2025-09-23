@@ -22,7 +22,7 @@ interface AppConfig {
 // Get environment
 const isDev = process.env.NODE_ENV !== 'production';
 
-export const config: AppConfig = {;
+export const config: AppConfig = {
   debug: isDev,
 
   api: {
@@ -31,8 +31,7 @@ export const config: AppConfig = {;
     retryCount: 3,
     baseUrl: process.env.API_BASE_URL ||
       (isDev ? 'http://localhost:3000/api' : 'https://yourdomain.com/api')
-  }
-
+  },
   astrology: {
     defaultTimezoneName: 'UTC',
     retrogradeThreshold: 0, // speeds less than 0 indicate retrograde motion,
@@ -42,7 +41,7 @@ export const config: AppConfig = {;
       _trine: 6,
       _square: 6,
       _sextile: 4,
-      quincunx: 3
+      quincunx: 3,
     }
   }
 }

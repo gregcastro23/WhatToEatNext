@@ -33,7 +33,7 @@ interface AstrologyState {
   lastUpdated: number | null
 }
 
-const initialAstrologyState: AstrologyState = {;
+const initialAstrologyState: AstrologyState = {
   loading: false,
   error: null,
   data: {
@@ -81,7 +81,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
   /**
    * Fetch astrological data from the API
    */
-  const fetchAstrologyData = useCallback(;
+  const fetchAstrologyData = useCallback(
     async (lat: number, lng: number, targetDate: Date = dateRef.current) => {;
       // Safety checks to prevent redundant calls
       if (!isClient || !isMountedRef.current) return null;
@@ -220,7 +220,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
   /**
    * Calculate elemental balance based on planetary positions
    */
-  const calculateElementalBalance = useCallback(;
+  const calculateElementalBalance = useCallback(
     async (lat?: number, lng?: number, targetDate: Date = dateRef.current) => {;
       if (!isClient || !isMountedRef.current) return null;
       if (state.loading) return null; // Prevent concurrent requests
@@ -252,7 +252,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
                 latitude: calcLat,
                 longitude: calcLng,
                 timestamp: targetDate.toISOString(),
-                calculation: 'elementalBalance'
+                calculation: 'elementalBalance',
               })
             })
 
@@ -304,7 +304,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
   /**
    * Get astrological profile for a specific date
    */
-  const getAstrologicalProfile = useCallback(;
+  const getAstrologicalProfile = useCallback(
     async (
       profileDate: Date = dateRef.current,,
       calcLatitude: number = latitude || 0,,
@@ -355,7 +355,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
             }),
           )
 
-          const profile: AstrologicalProfile = {;
+          const profile: AstrologicalProfile = {
             zodiac: [data.data.currentSign],
             lunar: [data.data.lunarPhase],
             planetary: planetaryPositions
@@ -424,11 +424,11 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
 
     try {
       const positions = safeAstrology.getReliablePlanetaryPositions()
-      const elementalBalance = {;
+      const elementalBalance = {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
+        Air: 0.25,
       }
 
       // Simple calculation based on sign elements
@@ -444,7 +444,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
         aquarius: 'Air',
         cancer: 'Water',
         scorpio: 'Water',
-        pisces: 'Water'
+        pisces: 'Water',
       }
 
       // Planet weights
@@ -455,7 +455,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
         venus: 1,
         mars: 1,
         jupiter: 1,
-        saturn: 1
+        saturn: 1,
       }
 
       let totalWeight = 0,
@@ -497,7 +497,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
+        Air: 0.25,
       }
     }
   }, [])

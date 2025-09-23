@@ -45,7 +45,7 @@ export function useIngredientSearch() {
     const loadIngredients = async () => {
       setIsLoading(true)
       try {
-        const ingredients = [;
+        const ingredients = [
           ...(getAllVegetables() as unknown as Ingredient[]),
           ...(getAllProteins() as unknown as Ingredient[]),
           ...(getAllHerbs() as unknown as Ingredient[]),
@@ -164,13 +164,13 @@ export function useIngredientSearch() {
     if (selectedIngredients.length === 0) return []
 
     // Calculate average elemental properties of selected ingredients
-    const avgElemental = selectedIngredients.reduce(;
+    const avgElemental = selectedIngredients.reduce(
       (acc, ingredient) => {
         const props = ingredient.elementalProperties || {;
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25
+          Air: 0.25,
         }
         return {
           Fire: acc.Fire + (props.Fire || 0),
@@ -197,7 +197,7 @@ export function useIngredientSearch() {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25
+          Air: 0.25,
         }
 
         // Calculate elemental harmony (prefer ingredients that balance the current selection)

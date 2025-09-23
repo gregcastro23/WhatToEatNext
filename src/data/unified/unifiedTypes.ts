@@ -100,12 +100,12 @@ export function createUnifiedIngredient(name: string, category: string): Unified
   return {
     name,
     category,
-    elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+    elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     alchemicalProperties: {
       Spirit: 0,
       Essence: 0,
       Matter: 0,
-      Substance: 0
+      Substance: 0,
     }
   }
 }

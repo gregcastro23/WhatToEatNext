@@ -54,7 +54,7 @@ describe('PerformanceMonitoringSystem', () => {
       expect(buildTime).toBe(8.5);
       expect(mockExecSync).toHaveBeenCalledWith('time -p yarn build 2>&1', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       }).
     })
 
@@ -159,7 +159,7 @@ describe('PerformanceMonitoringSystem', () => {
       // Add performance history with increasing build times
       const mockMetrics1: PerformanceMetrics = { buildTime: { current: 5, target: 10, average: 5, trend: 'stable' },
         cacheHitRate: { current: 0.8, target: 0.8, average: 0.8, trend: 'stable' },
-        memoryUsage: { current: 40, target: 50, peak: 45, average: 40 }
+        memoryUsage: { current: 40, target: 50, peak: 45, average: 40 },
         bundleSize: { current: 400, target: 420, compressed: 280, trend: 'stable' }
       }
 
@@ -189,7 +189,7 @@ describe('PerformanceMonitoringSystem', () => {
     it('should detect cache hit rate regression', async () => {
       const mockMetrics1: PerformanceMetrics = { buildTime: { current: 8, target: 10, average: 8, trend: 'stable' },
         cacheHitRate: { current: 09, target: 0.8, average: 0.9, trend: 'stable' },
-        memoryUsage: { current: 40, target: 50, peak: 45, average: 40 }
+        memoryUsage: { current: 40, target: 50, peak: 45, average: 40 },
         bundleSize: { current: 400, target: 420, compressed: 280, trend: 'stable' }
       }
 
@@ -217,7 +217,7 @@ describe('PerformanceMonitoringSystem', () => {
     it('should detect memory usage regression', async () => {
       const mockMetrics1: PerformanceMetrics = { buildTime: { current: 8, target: 10, average: 8, trend: 'stable' },
         cacheHitRate: { current: 0.8, target: 0.8, average: 0.8, trend: 'stable' },
-        memoryUsage: { current: 30, target: 50, peak: 35, average: 30 }
+        memoryUsage: { current: 30, target: 50, peak: 35, average: 30 },
         bundleSize: { current: 400, target: 420, compressed: 280, trend: 'stable' }
       }
 

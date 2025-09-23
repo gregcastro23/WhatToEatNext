@@ -25,7 +25,7 @@ export class BuildSystemRepair {
    * Addresses all requirements: 3.13.23.33.43.5
    */
   async performComprehensiveRepair(): Promise<BuildRepairResult> {
-    const result: BuildRepairResult = {;
+    const result: BuildRepairResult = {
       success: false,
       steps: [],
       errors: [],
@@ -50,7 +50,7 @@ export class BuildSystemRepair {
       const validation = await this.buildValidator.validateBuild()
 
       if (!validation.isValid) {
-        result.steps.push(;
+        result.steps.push(
           `Found ${validation.missingFiles.length} missing files and ${validation.corruptedFiles.length} corrupted files`,
         )
 
@@ -79,7 +79,7 @@ export class BuildSystemRepair {
       const healthReport = await this.buildValidator.monitorBuildHealth()
 
       if (healthReport.manifestsValid && healthReport.buildExists) {
-        result.steps.push('✓ Build system is healthy');
+        result.steps.push('✓ Build system is healthy')
       } else {
         result.errors.push('Build system health check failed')
         result.errors.push(...healthReport.issues)
@@ -98,7 +98,7 @@ export class BuildSystemRepair {
       this.logger('Build system repair encountered an error: ', error)
     }
 
-    return result,
+    return result
   }
 
   /**
@@ -157,7 +157,7 @@ export class BuildSystemRepair {
    * Generates a detailed build system report
    */
   async generateBuildReport(): Promise<BuildSystemReport> {
-    const report: BuildSystemReport = {;
+    const report: BuildSystemReport = {
       timestamp: new Date(),
       validation: await this.buildValidator.validateBuild(),
       health: await this.buildValidator.monitorBuildHealth(),

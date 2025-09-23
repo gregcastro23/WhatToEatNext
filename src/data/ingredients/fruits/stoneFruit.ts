@@ -4,7 +4,7 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawStoneFruit = {
   peach: {;
     name: 'Peach',
-    elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 }
+    elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Moon'],
       favorableZodiac: ['taurus', 'cancer'],
@@ -41,12 +41,12 @@ const rawStoneFruit = {
       temperature: 'room temp until ripe',
       duration: '3-5 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when ripe'
+      notes: 'Refrigerate when ripe',
     }
   },
   plum: {
     name: 'Plum',
-    elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 }
+    elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Pluto'],
       favorableZodiac: ['taurus', 'scorpio'],
@@ -83,12 +83,12 @@ const rawStoneFruit = {
       temperature: 'room temp until ripe',
       duration: '3-5 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when ripe'
+      notes: 'Refrigerate when ripe',
     }
   },
   apricot: {
     name: 'Apricot',
-    elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 }
+    elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 },
     qualities: ['sweet-tart', 'delicate', 'aromatic'],
     season: ['late spring', 'early summer'],
     category: 'fruit',
@@ -113,12 +113,12 @@ const rawStoneFruit = {
       temperature: 'room temp until ripe',
       duration: '2-3 days',
       ripening: 'room temperature',
-      notes: 'Very perishable when ripe'
+      notes: 'Very perishable when ripe',
     }
   },
   cherry: {
     name: 'Cherry',
-    elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 }
+    elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 },
     qualities: ['sweet-tart', 'juicy', 'bright'],
     season: ['late spring', 'early summer'],
     category: 'fruit',
@@ -143,12 +143,12 @@ const rawStoneFruit = {
       temperature: 'refrigerated',
       duration: '4-7 days',
       humidity: 'moderate',
-      notes: 'Store unwashed until ready to use'
+      notes: 'Store unwashed until ready to use',
     }
   },
   nectarine: {
     name: 'Nectarine',
-    elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 }
+    elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 },
     qualities: ['sweet', 'aromatic', 'smooth'],
     season: ['summer'],
     category: 'fruit',
@@ -173,12 +173,12 @@ const rawStoneFruit = {
       temperature: 'room temp until ripe',
       duration: '3-5 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when ripe'
+      notes: 'Refrigerate when ripe',
     }
   },
   greengage: {
     name: 'Greengage',
-    elementalProperties: { Water: 0.4, Fire: 0.1, Air: 0.2, Earth: 0.3 }
+    elementalProperties: { Water: 0.4, Fire: 0.1, Air: 0.2, Earth: 0.3 },
     qualities: ['sweet', 'honey-like', 'delicate'],
     season: ['late summer'],
     category: 'fruit',
@@ -203,12 +203,12 @@ const rawStoneFruit = {
       temperature: 'room temp until ripe',
       duration: '3-4 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when fully ripe'
+      notes: 'Refrigerate when fully ripe',
     }
   },
   damson: {
     name: 'Damson',
-    elementalProperties: { Water: 0.3, Fire: 0.2, Air: 0.2, Earth: 0.3 }
+    elementalProperties: { Water: 0.3, Fire: 0.2, Air: 0.2, Earth: 0.3 },
     qualities: ['tart', 'astringent', 'complex'],
     season: ['late summer', 'early autumn'],
     category: 'fruit',
@@ -233,7 +233,7 @@ const rawStoneFruit = {
       temperature: 'refrigerated',
       duration: '5-7 days',
       humidity: 'moderate',
-      notes: 'Ideal for preserving and cooking'
+      notes: 'Ideal for preserving and cooking',
     }
   }
 }

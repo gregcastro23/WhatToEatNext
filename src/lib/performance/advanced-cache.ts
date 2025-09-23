@@ -32,12 +32,12 @@ class AdvancedCache {
   constructor(maxSize = 1000, defaultTTL = 30 * 60 * 1000) { // 30 minutes default;
     this.maxSize = maxSize,
     this.defaultTTL = defaultTTL,
-    this.stats = {;
+    this.stats = {
       hits: 0,
       misses: 0,
       size: 0,
       maxSize,
-      hitRate: 0
+      hitRate: 0,
     }
 
     // Cleanup expired entries every 5 minutes
@@ -269,7 +269,7 @@ export async function initializeCaches(): Promise<void> {
             planet: 'Sun',
             influence: 0.7,
             timeRemaining: '45:30',
-            energyType: 'Vitality & Leadership'
+            energyType: 'Vitality & Leadership',
           }
         },
         ttl: 15 * 60 * 1000

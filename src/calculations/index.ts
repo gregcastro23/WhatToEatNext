@@ -51,7 +51,7 @@ export const COMPREHENSIVE_CALCULATION_INTELLIGENCE = {
    * @param context - Additional context for analysis
    * @returns Enhanced analysis with predictive insights
    */
-  analyzeComprehensiveResult: (;
+  analyzeComprehensiveResult: (
     alchemicalResult: ComprehensiveAlchemicalResult,
     context: Record<string, unknown> = {}
   ) => {
@@ -245,7 +245,7 @@ export const RECIPE_COMPATIBILITY_INTELLIGENCE = {
    * @param alchemicalResult - The current moment alchemical result
    * @returns Advanced compatibility analysis with intelligent insights
    */
-  analyzeRecipeCompatibility: (;
+  analyzeRecipeCompatibility: (
     _recipeProperties: ElementalProperties,
     _alchemicalResult: ComprehensiveAlchemicalResult,
   ) => {
@@ -406,7 +406,7 @@ export interface ComprehensiveAlchemicalResult {
 
   // Planetary influences
   planetaryInfluences: {
-    alchemicalInfluences: { [key: string]: number }
+    alchemicalInfluences: { [key: string]: number },
     elementalInfluences: { [key: string]: number }
     dominantPlanets: Array<{ planet: string, strength: number, element: Element }>,
     planetaryHours?: { dayRuler: string, hourRuler: string, influence: number }
@@ -468,7 +468,7 @@ export async function calculateComprehensiveAlchemicalResult(
     const _kalchm = calculateKalchmResults(planetaryPositions)
 
     // 2. Calculate comprehensive elemental properties
-    let elementalProperties = await calculateComprehensiveElementalProperties(;
+    let elementalProperties = await calculateComprehensiveElementalProperties(
       planetaryPositions,
       season,
       lunarPhase,
@@ -482,7 +482,7 @@ export async function calculateComprehensiveAlchemicalResult(
     }
 
     // 3. Calculate planetary influences
-    const planetaryInfluencesResult = calculatePlanetaryInfluences(;
+    const planetaryInfluencesResult = calculatePlanetaryInfluences(
       planetaryPositions,
       isDaytime,
       currentDate,
@@ -506,7 +506,7 @@ export async function calculateComprehensiveAlchemicalResult(
     )
 
     // 6. Combine all results
-    const result: ComprehensiveAlchemicalResult = {;
+    const result: ComprehensiveAlchemicalResult = {
       kalchm: _kalchm,
       elementalProperties,
       planetaryInfluences: planetaryInfluencesResult,
@@ -543,13 +543,13 @@ export function calculateRecipeCompatibility(
 } {
   try {
     // Use the dedicated recipe matching module
-    const recipeResult = recipeMatching.calculateRecipeCompatibility(;
+    const recipeResult = recipeMatching.calculateRecipeCompatibility(
       recipeElementalProperties,
       currentMomentAlchemicalResult.kalchm
     )
 
     // Calculate planetary alignment
-    const planetaryAlignment = calculatePlanetaryAlignment(;
+    const planetaryAlignment = calculatePlanetaryAlignment(
       recipeElementalProperties,
       currentMomentAlchemicalResult.planetaryInfluences
     )
@@ -561,7 +561,7 @@ export function calculateRecipeCompatibility(
       planetaryAlignment * 0.25,
 
     // Combine recommendations
-    const recommendations = [;
+    const recommendations = [
       ...recipeResult.recommendations,
       ...generateDetailedCompatibilityRecommendations(
         compatibilityScore,
@@ -598,7 +598,7 @@ function _calculateKalchmAlignment(
   currentMomentKalchm: KalchmResult,
 ): number {
   // Convert recipe properties to approximate alchemical properties
-  const recipeAlchemical = {;
+  const recipeAlchemical = {
     Spirit: ((recipeProperties as any)?.Fire || 0) * 0.2 + ((recipeProperties as any)?.Air || 0) * 0.2,
     Essence: ((recipeProperties as any)?.Water || 0) * 0.2 + ((recipeProperties as any)?.Fire || 0) * 0.2,
     Matter: ((recipeProperties as any)?.Earth || 0) * 0.2 + ((recipeProperties as any)?.Water || 0) * 0.2,
@@ -630,7 +630,7 @@ function _calculateKalchmAlignment(
 export function calculatePlanetaryAlignment(
   recipeProperties: ElementalProperties,
   currentMomentPlanetary: {
-    alchemicalInfluences: { [key: string]: number }
+    alchemicalInfluences: { [key: string]: number },
     elementalInfluences: { [key: string]: number }
     dominantPlanets: Array<{ planet: string, strength: number, element: Element }>,
     planetaryHours?: { dayRuler: string, hourRuler: string, influence: number }
@@ -641,7 +641,7 @@ export function calculatePlanetaryAlignment(
   let alignment = 0,
   let matches = 0
 
-  (currentMomentDominantPlanets || []).forEach(;
+  (currentMomentDominantPlanets || []).forEach(
     (planet: { planet: string, strength: number, element: Element }) => {
       if (planet.element === recipeDominant) {;
         alignment += planet.strength,
@@ -712,7 +712,7 @@ async function getFallbackResult(
     log.info('🌟 Using astrologize API for fallback calculations')
 
     // Create a new input with real positions
-    const enhancedInput: CalculationInput = {;
+    const enhancedInput: CalculationInput = {
       ...input,
       planetaryPositions: realPositions as unknown as Record<string, PlanetaryPosition>
     }
@@ -726,11 +726,11 @@ async function getFallbackResult(
     ),
 
     // Only use static fallback as last resort
-    const fallbackElemental: ElementalProperties = {;
+    const fallbackElemental: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Air: 0.25,
-      Earth: 0.25
+      Earth: 0.25,
     }
 
     return {
@@ -739,7 +739,7 @@ async function getFallbackResult(
           Spirit: 0.25,
           Essence: 0.25,
           Matter: 0.25,
-          Substance: 0.25
+          Substance: 0.25,
         },
         elementalValues: fallbackElemental,
         thermodynamics: {
@@ -748,7 +748,7 @@ async function getFallbackResult(
           reactivity: 0.5,
           gregsEnergy: 0.5,
           kalchm: 1.0,
-          monicaConstant: 0.5
+          monicaConstant: 0.5,
         },
         dominantElement: 'Fire',
         dominantProperty: 'Essence',
@@ -760,7 +760,7 @@ async function getFallbackResult(
           Spirit: 0.25,
           Essence: 0.25,
           Matter: 0.25,
-          Substance: 0.25
+          Substance: 0.25,
         },
         elementalInfluences: fallbackElemental,
         dominantPlanets: [
@@ -858,7 +858,7 @@ function generateCuisineRecommendations(
 }
 
 // Simplified recipe matching object for compatibility
-const recipeMatching = {;
+const recipeMatching = {
   calculateRecipeCompatibility: (_recipeProps: ElementalProperties, _kalchm: KalchmResult) => ({
     elementalAlignment: 0.7,
     alchemicalAlignment: 0.7,

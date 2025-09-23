@@ -4,7 +4,7 @@ export const _LUNAR_PHASES = {
       Fire: 0.1,
       Water: 0.4,
       Air: 0.1,
-      Earth: 0.4
+      Earth: 0.4,
     },
     qualities: ['introspective', 'beginning'],
     duration: 1,
@@ -16,7 +16,7 @@ export const _LUNAR_PHASES = {
       Fire: 0.2,
       Water: 0.3,
       Air: 0.3,
-      Earth: 0.2
+      Earth: 0.2,
     },
     qualities: ['building', 'expanding'],
     duration: 6.5,
@@ -28,7 +28,7 @@ export const _LUNAR_PHASES = {
       Fire: 0.3,
       Water: 0.2,
       Air: 0.3,
-      Earth: 0.2
+      Earth: 0.2,
     },
     qualities: ['active', 'manifesting'],
     duration: 1,
@@ -38,7 +38,7 @@ export const _LUNAR_PHASES = {
   // ... continues with all lunar phases
 }
 
-export const _LUNAR_CYCLE = {;
+export const _LUNAR_CYCLE = {
   averageDuration: 29.53059, // days,
   phases: [
     'new',
@@ -57,7 +57,7 @@ export const _LUNAR_CYCLE = {;
 }
 
 // Lunar days information
-export const _LUNAR_DAYS = {;
+export const _LUNAR_DAYS = {
   total: 30, // Traditional lunar calendar has 30 days,
   favorableDays: [35, 811, 1316, 1821, 2324, 2629],
   challengingDays: [47, 912, 1419, 2227],

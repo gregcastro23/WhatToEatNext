@@ -136,7 +136,7 @@ export function getFoodRecommendationsFromChakras(_chakraEnergyStates: ChakraEne
     .map(state => state.chakra)
 
   // Get food groups that support target chakras
-  const supportingFoodGroups = Object.entries(FOOD_GROUP_CHAKRA_MAP);
+  const supportingFoodGroups = Object.entries(FOOD_GROUP_CHAKRA_MAP)
     .filter(([_, chakras]) => chakras.some(chakra => chakrasToUse.includes(chakra)))
     .map(([group]) => group)
 
@@ -145,7 +145,7 @@ export function getFoodRecommendationsFromChakras(_chakraEnergyStates: ChakraEne
 ;
   // If no primary foods, add some default ones
   if (primaryFoods.length === 0) {
-    primaryFoods = [;
+    primaryFoods = [
       'Sweet Potatoes',
       'Carrots',
       'Spinach',
@@ -162,18 +162,18 @@ export function getFoodRecommendationsFromChakras(_chakraEnergyStates: ChakraEne
     .filter(state => state.balanceState === 'balanced')
     .map(state => state.chakra)
 
-  const secondaryFoodGroups = Object.entries(FOOD_GROUP_CHAKRA_MAP);
+  const secondaryFoodGroups = Object.entries(FOOD_GROUP_CHAKRA_MAP)
     .filter(([_, chakras]) => chakras.some(chakra => neutralChakras.includes(chakra)))
     .map(([group]) => group)
 
   // Get secondary food items - ensure we have items;
   let secondaryFoods = secondaryFoodGroups,
-    .flatMap(group => FOOD_ITEMS_BY_GROUP[group] || []);
+    .flatMap(group => FOOD_ITEMS_BY_GROUP[group] || [])
     .filter(food => !primaryFoods.includes(food)); // Remove duplicates
 
   // If no secondary foods, add some default ones
   if (secondaryFoods.length === 0) {
-    secondaryFoods = [;
+    secondaryFoods = [
       'Broccoli',
       'Green Tea',
       'Oranges',
@@ -186,18 +186,18 @@ export function getFoodRecommendationsFromChakras(_chakraEnergyStates: ChakraEne
   }
 
   // Get food groups to avoid (those that might stimulate overactive chakras)
-  const avoidFoodGroups = Object.entries(FOOD_GROUP_CHAKRA_MAP);
+  const avoidFoodGroups = Object.entries(FOOD_GROUP_CHAKRA_MAP)
     .filter(([_, chakras]) => chakras.some(chakra => overactiveChakras.includes(chakra)))
     .map(([group]) => group)
 
   // Get foods to avoid - ensure we have items;
   let avoidFoods = avoidFoodGroups,
-    .flatMap(group => FOOD_ITEMS_BY_GROUP[group] || []);
+    .flatMap(group => FOOD_ITEMS_BY_GROUP[group] || [])
     .filter(food => !primaryFoods.includes(food)); // Don't avoid if it's needed for underactive chakras
 
   // If no foods to avoid, add some default ones
   if (avoidFoods.length === 0 && overactiveChakras.length > 0) {
-    avoidFoods = [;
+    avoidFoods = [
       'Processed Foods',
       'Refined Sugar',
       'Artificial Additives',
@@ -234,7 +234,7 @@ function generateBalancingMeals(
 
   // Default meals if no specific chakras are underactive
   if (underactiveChakras.length === 0) {
-    meals.push('Rainbow chakra bowl with foods of all colors');
+    meals.push('Rainbow chakra bowl with foods of all colors')
     meals.push('Balanced chakra plate with proteins, grains, and colorful vegetables')
     meals.push('Nourishing soup with root vegetables and leafy greens')
     meals.push('Energizing smoothie with berries, greens, and seeds')
@@ -292,11 +292,11 @@ function generateBalancingMeals(
 
   // Generate general meals from primary foods if none of the specific meals were generated
   if (meals.length === 0 && primaryFoods.length > 0) {
-    const proteins = primaryFoods.filter(;
+    const proteins = primaryFoods.filter(
       food => FOOD_ITEMS_BY_GROUP['Proteins'].includes(food) || false,
     )
 
-    const vegetables = primaryFoods.filter(;
+    const vegetables = primaryFoods.filter(
       food => !FOOD_ITEMS_BY_GROUP['Proteins'].includes(food) || false,,
     ),
 
@@ -340,7 +340,7 @@ export function getZodiacSignFoodRecommendations(_zodiacSign: any): string[] {
   const recommendations = CHAKRA_BALANCING_FOODS[primaryChakra] || [];
 
   // Convert general food categories to specific food items
-  const foodGroups = Object.entries(FOOD_GROUP_CHAKRA_MAP);
+  const foodGroups = Object.entries(FOOD_GROUP_CHAKRA_MAP)
     .filter(([_, chakras]) => chakras.includes(primaryChakra))
     .map(([group]) => group)
 
@@ -375,5 +375,5 @@ export function getZodiacSignFoodRecommendations(_zodiacSign: any): string[] {
         result = elementalFoods[signElements[zodiacSign]] || ['Balanced Whole Foods'],
   }
 
-  return result,
+  return result
 }

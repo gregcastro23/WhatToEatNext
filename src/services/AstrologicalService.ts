@@ -101,7 +101,7 @@ export class AstrologicalService {
 
   private constructor() {
     // Initialize with default state
-    this.currentState = {;
+    this.currentState = {
       ...DefaultAstrologicalState,
       elementalInfluence: DefaultAstrologicalState.elementalInfluence
     }
@@ -125,7 +125,7 @@ export class AstrologicalService {
   ): Promise<AstrologicalCalculationResponse> {
     try {
       logger.info('Testing astrological calculations...')
-      const mockCalculationResult = {;
+      const mockCalculationResult = {
         planetaryPositions: DefaultPlanetaryPositions,
         zodiacSign: 'aries' as StandardZodiacSign,
         lunarPhase: 'new moon' as StandardLunarPhase,
@@ -133,7 +133,7 @@ export class AstrologicalService {
           Fire: 0.3,
           Water: 0.2,
           Earth: 0.25,
-          Air: 0.25
+          Air: 0.25,
         } as ElementalPropertiesType,
         accuracy: 0.95,
         calculationTimestamp: new Date().toISOString()
@@ -210,7 +210,7 @@ export class AstrologicalService {
         results[endpoint] = Math.random() > 0.1, // 90% success rate for testing
       }
 
-      const responseData = {;
+      const responseData = {
         testedEndpoints: endpoints,
         results
       }
@@ -254,21 +254,21 @@ export class AstrologicalService {
   ): Promise<PlanetaryInfluenceResponse> {
     try {
       // Mock planetary influence calculation
-      const influences = {;
+      const influences = {
         planetaryPositions,
         elementalBoost: {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25
+          Air: 0.25,
         } as ElementalPropertiesType,
         alchemicalModifier: {
           Spirit: 0.25,
           Essence: 0.25,
           Matter: 0.25,
-          Substance: 0.25
+          Substance: 0.25,
         },
-        compatibilityScore: 0.75
+        compatibilityScore: 0.75,
       }
 
       return createSuccessResponse(influences)
@@ -309,7 +309,7 @@ export async function getLatestAstrologicalState(): Promise<AstrologicalCalculat
   try {
     // TODO: Integrate with actual astrologize/alchemize API result cache or state management
     // For now, return a minimal valid state as a placeholder
-    const astrologicalData = {;
+    const astrologicalData = {
       planetaryPositions: DefaultPlanetaryPositions,
       zodiacSign: 'aries' as StandardZodiacSign,
       lunarPhase: 'new moon' as StandardLunarPhase,
@@ -317,7 +317,7 @@ export async function getLatestAstrologicalState(): Promise<AstrologicalCalculat
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
+        Air: 0.25,
       } as ElementalPropertiesType,
       accuracy: 1.0,
       calculationTimestamp: new Date().toISOString()

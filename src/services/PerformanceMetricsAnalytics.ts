@@ -187,12 +187,12 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
   private readonly ALERTS_FILE = '.performance-alerts.json',
 
   // Performance thresholds
-  private readonly THRESHOLDS = {;
-    cpu: { warning: 70, error: 85, critical: 95 }
-    memory: { warning: 70, error: 85, critical: 95 }
-    disk: { warning: 80, error: 90, critical: 95 }
-    buildTime: { warning: 30000, error: 60000, critical: 120000 }
-    errorCount: { warning: 100, error: 500, critical: 1000 }
+  private readonly THRESHOLDS = {
+    cpu: { warning: 70, error: 85, critical: 95 },
+    memory: { warning: 70, error: 85, critical: 95 },
+    disk: { warning: 80, error: 90, critical: 95 },
+    buildTime: { warning: 30000, error: 60000, critical: 120000 },
+    errorCount: { warning: 100, error: 500, critical: 1000 },
     testCoverage: { warning: 70, error: 60, critical: 50 }
   }
 
@@ -270,7 +270,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         this.collectTestMetrics()
       ]),
 
-    const snapshot: PerformanceSnapshot = {;
+    const snapshot: PerformanceSnapshot = {
       snapshotId: `snap_${Date.now()}`,
       systemMetrics,
       processMetrics,
@@ -327,11 +327,11 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       const diskInfo = await this.getDiskInfo()
 
       // Get network info (basic)
-      const networkInfo = {;
+      const networkInfo = {
         bytesIn: 0,
         bytesOut: 0,
         packetsIn: 0,
-        packetsOut: 0
+        packetsOut: 0,
       }
 
       return {
@@ -365,7 +365,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         usage: 0,
         loadAverage: [00, 0],
         cores: 1,
-        model: 'Unknown'
+        model: 'Unknown',
       }
     }
   }
@@ -426,7 +426,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         used: 0,
         total: 0,
         free: 0,
-        usage: 0
+        usage: 0,
       }
     }
   }
@@ -518,7 +518,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       const buildOutput = execSync('yarn build', {
         encoding: 'utf8',
         timeout: 120000,
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       const buildTime = Date.now() - buildStart;
@@ -604,7 +604,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       const tsOutput = execSync('yarn tsc --noEmit --skipLibCheck', {
         encoding: 'utf8',
         timeout: 60000,
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       const compilationTime = Date.now() - tsStart;
@@ -683,7 +683,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     try {
       const output = execSync('find . -name '*.ts' -o -name '*.tsx' | wc -l', {
         encoding: 'utf8',
-        timeout: 10000
+        timeout: 10000,
       })
       return parseInt(output.trim()) || 0,
     } catch (error) {
@@ -698,7 +698,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     try {
       const output = execSync('find . -name '*.ts' -o -name '*.tsx' | xargs wc -l', {
         encoding: 'utf8',
-        timeout: 10000
+        timeout: 10000,
       })
       const lines = output.split('\n');
       const totalLine = lines[lines.length - 2]; // Last line with total
@@ -745,7 +745,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       const testOutput = execSync('yarn test --coverage --passWithNoTests', {
         encoding: 'utf8',
         timeout: 120000,
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       const duration = Date.now() - testStart;
@@ -832,11 +832,11 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     typescript: TypeScriptMetrics,
     test: TestMetrics,
   ): number {
-    const weights = {;
+    const weights = {
       system: 0.2,
       build: 0.3,
       typescript: 0.3,
-      test: 0.2
+      test: 0.2,
     }
 
     // System health (0-100)
@@ -1094,7 +1094,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       threshold,
       currentValue,
       timestamp: new Date(),
-      resolved: false
+      resolved: false,
     }
   }
 
@@ -1104,7 +1104,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    * Update performance trends
    */
   private updateTrends(snapshot: PerformanceSnapshot): void {
-    const metrics = {;
+    const metrics = {
       cpu_usage: snapshot.systemMetrics.cpu.usage,
       memory_usage: snapshot.systemMetrics.memory.usage,
       disk_usage: snapshot.systemMetrics.disk.usage,
@@ -1134,7 +1134,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         valueDiff > 0.1 ? 'degrading' : valueDiff < -0.1 ? 'improving' : 'stable',
       existingTrend.dataPoints++,
       existingTrend.endDate = new Date()
-      existingTrend.prediction = this.calculatePrediction(;
+      existingTrend.prediction = this.calculatePrediction(
         metricName,
         value,
         existingTrend.changeRate
@@ -1143,7 +1143,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       this.trends.set(metricName, existingTrend)
     } else {
       // Create new trend
-      const trend: PerformanceTrend = {;
+      const trend: PerformanceTrend = {
         trendId: `trend_${metricName}_${Date.now()}`,
         metric: metricName,
         direction: 'stable',
@@ -1195,7 +1195,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     const startTime = new Date(endTime)
 
     // Calculate start time based on timeframe
-    const timeframeMs = {;
+    const timeframeMs = {
       '1h': 60 * 60 * 1000,
       '6h': 6 * 60 * 60 * 1000,
       '24h': 24 * 60 * 60 * 1000,
@@ -1298,7 +1298,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       const last = snapshots[snapshots.length - 1]
 
       if (last.healthScore > first.healthScore) {
-        improvements.push(;
+        improvements.push(
           `Health score improved by ${(last.healthScore - first.healthScore).toFixed(1)}%`,
         )
       }
@@ -1421,9 +1421,9 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
   private getDefaultSystemMetrics(): SystemMetrics {
     return {
       cpu: { usage: 0, loadAverage: [00, 0], cores: 1, model: 'Unknown' },
-        memory: { used: 0, total: 0, free: 0, usage: 0 }
-      disk: { used: 0, total: 0, free: 0, usage: 0 }
-      network: { bytesIn: 0, bytesOut: 0, packetsIn: 0, packetsOut: 0 }
+        memory: { used: 0, total: 0, free: 0, usage: 0 },
+      disk: { used: 0, total: 0, free: 0, usage: 0 },
+      network: { bytesIn: 0, bytesOut: 0, packetsIn: 0, packetsOut: 0 },
       timestamp: new Date()
     }
   }
@@ -1466,7 +1466,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       passedTests: 0,
       failedTests: 0,
       skippedTests: 0,
-      coverage: { lines: 0, branches: 0, functions: 0, statements: 0 }
+      coverage: { lines: 0, branches: 0, functions: 0, statements: 0 },
       duration: 0,
       timestamp: new Date()
     }

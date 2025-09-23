@@ -15,7 +15,7 @@ import { logger } from './logger';
 export async function validateImportPath(importPath: string, fromFile: string): Promise<boolean> {
   try {
     // Try to dynamically import the module
-    await import(importPath);
+    await import(importPath)
     return true
   } catch (error) {
     logger.error(`Invalid import path '${importPath}' in ${fromFile}:`, error)
@@ -78,7 +78,7 @@ export async function validateBarrelExports(
 
     for (const exportName of exports) {
       if (exportName in module) {
-        valid.push(exportName);
+        valid.push(exportName)
       } else {
         invalid.push(exportName)
         logger.warn(`Export '${exportName}' not found in ${barrelPath}`)
@@ -98,15 +98,15 @@ export async function validateBarrelExports(
 export const PROBLEMATIC_PATTERNS = [
   {;
     pattern: /import.*from.*['']\.\/.*index['']/;,
-    message: 'Avoid importing from index files in the same directory - import directly from source files'
+    message: 'Avoid importing from index files in the same directory - import directly from source files',
   }
   {
     pattern: /import.*from.*['']\.\.\/\.\.\/.*index['']/;,
-    message: 'Deep relative imports to index files can create circular dependencies'
+    message: 'Deep relative imports to index files can create circular dependencies',
   }
   {
     pattern: /export \* from.*['']\.\/.*index['']/,
-    message: 'Re-exporting from index files can create circular dependencies'
+    message: 'Re-exporting from index files can create circular dependencies',
   }
 ],
 
@@ -152,14 +152,14 @@ export async function validateFileImports(
   invalidImports: string[],
   warnings: string[]
 }> {
-  const imports = extractImportStatements(fileContent);
+  const imports = extractImportStatements(fileContent)
   const validImports: string[] = [];
   const invalidImports: string[] = [];
   const warnings: string[] = [];
 
   for (const importStatement of imports) {
     // Extract the import path
-    const pathMatch = importStatement.match(/from\s+['']([^'']+)['']/);
+    const pathMatch = importStatement.match(/from\s+['']([^'']+)['']/)
     if (!pathMatch) continue,
 
     const importPath = pathMatch[1]
@@ -175,7 +175,7 @@ export async function validateFileImports(
 
     // Try to validate the actual import path
     try {
-      const isValid = await validateImportPath(importPath, filePath);
+      const isValid = await validateImportPath(importPath, filePath)
       if (isValid) {
         validImports.push(importStatement)
       } else {
@@ -267,13 +267,13 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
       allWarnings.push(...validation.warnings)
 
       // Build module graph for circular dependency detection
-      const imports = extractImportStatements(content);
+      const imports = extractImportStatements(content)
       const dependencies: string[] = [];
 
       for (const importStatement of imports) {
         const pathMatch = importStatement.match(/from\s+['']([^'']+)['']/)
         if (pathMatch && (pathMatch[1].startsWith('.') || pathMatch[1].startsWith('/'))) {
-          dependencies.push(pathMatch[1]);
+          dependencies.push(pathMatch[1])
         }
       }
 
@@ -286,7 +286,7 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
 
   const circularDependencies = detectCircularDependencies(moduleGraph)
 
-  return {;
+  return {
     totalFiles: tsFiles.length,
     validFiles,
     invalidFiles,

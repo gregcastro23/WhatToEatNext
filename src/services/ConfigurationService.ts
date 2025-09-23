@@ -80,7 +80,7 @@ class ConfigurationServiceImpl {
     }
 
     return {
-      api: { ...config.api }
+      api: { ...config.api },
       astrology: { ...config.astrology }
       debug: config.debug
     }
@@ -115,7 +115,7 @@ class ConfigurationServiceImpl {
     const debugFlag = typeof stored.debug === 'boolean' ? (stored.debug) : config.debug
 
     return {;
-      api: { celestialUpdateInterval, timeout, retryCount, baseUrl }
+      api: { celestialUpdateInterval, timeout, retryCount, baseUrl },
       astrology: { defaultTimezoneName, retrogradeThreshold, aspectOrbs }
       debug: debugFlag
     }
@@ -202,7 +202,7 @@ class ConfigurationServiceImpl {
         (this.currentConfig[section] as Record<string, unknown>)[key] = value,
 
         // Create update record
-        const update: ConfigurationUpdate = {;
+        const update: ConfigurationUpdate = {
           section: section as ConfigurationUpdate['section'],
           key,
           value,
@@ -258,7 +258,7 @@ class ConfigurationServiceImpl {
               section: 'api',
               key,
               message: 'Update interval must be between 1 minute and 24 hours',
-              severity: 'error'
+              severity: 'error',
             })
           }
           break,
@@ -268,7 +268,7 @@ class ConfigurationServiceImpl {
               section: 'api',
               key,
               message: 'Timeout must be between 1 second and 5 minutes',
-              severity: 'error'
+              severity: 'error',
             })
           }
           break,
@@ -278,7 +278,7 @@ class ConfigurationServiceImpl {
               section: 'api',
               key,
               message: 'Retry count must be between 0 and 10',
-              severity: 'error'
+              severity: 'error',
             })
           }
           break,
@@ -291,7 +291,7 @@ class ConfigurationServiceImpl {
               section: 'api',
               key,
               message: 'Base URL must be a valid HTTP/HTTPS URL',
-              severity: 'error'
+              severity: 'error',
             })
           }
           break,
@@ -304,13 +304,13 @@ class ConfigurationServiceImpl {
               section: 'astrology',
               key,
               message: 'Retrograde threshold should be between -5 and 5 degrees/day',
-              severity: 'warning'
+              severity: 'warning',
             })
           }
           break,
         case 'defaultTimezoneName':
           // Basic timezone validation
-          const validTimezones = [;
+          const validTimezones = [
             'UTC',
             'America/New_York',
             'America/Chicago',
@@ -325,7 +325,7 @@ class ConfigurationServiceImpl {
               section: 'astrology',
               key,
               message: 'Unknown timezone identifier',
-              severity: 'warning'
+              severity: 'warning',
             })
           }
           break,
@@ -378,14 +378,14 @@ class ConfigurationServiceImpl {
   public resetToDefaults(): Promise<boolean> {
     return new Promise(resolve => {
       try {
-        this.currentConfig = {;
-          api: { ...config.api }
+        this.currentConfig = {
+          api: { ...config.api },
           astrology: { ...config.astrology }
           debug: config.debug
         }
 
         // Create reset record
-        const update: ConfigurationUpdate = {;
+        const update: ConfigurationUpdate = {
           section: 'debug',
           key: 'reset',
           value: 'defaults',
@@ -440,7 +440,7 @@ class ConfigurationServiceImpl {
       this.saveConfiguration()
 
       // Create import record
-      const update: ConfigurationUpdate = {;
+      const update: ConfigurationUpdate = {
         section: 'debug',
         key: 'import';,
         value: 'configuration',
@@ -551,7 +551,7 @@ class ConfigurationServiceImpl {
     }
 
     // Check astrology configuration
-    const totalOrbs = Object.values(this.currentConfig.astrology.aspectOrbs).reduce(;
+    const totalOrbs = Object.values(this.currentConfig.astrology.aspectOrbs).reduce(
       (sum, orb) => sum + orb0,
     )
     if (totalOrbs > 50) {

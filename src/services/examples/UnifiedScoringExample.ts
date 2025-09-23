@@ -23,7 +23,7 @@ export class UnifiedScoringExample {
    * Example 1: Score an ingredient recommendation
    */
   static async scoreIngredient(): Promise<ScoringResult> {
-    const context: ScoringContext = {;
+    const context: ScoringContext = {
       dateTime: new Date(),
       location: {
         latitude: 40.7128,
@@ -36,7 +36,7 @@ export class UnifiedScoringExample {
           Fire: 0.3,
           Water: 0.1,
           Earth: 0.2,
-          Air: 0.4
+          Air: 0.4,
         },
         seasonality: ['summer', 'spring'],
         planetaryRulers: ['Mercury', 'Mars'],
@@ -44,7 +44,7 @@ export class UnifiedScoringExample {
           sweet: 0.2,
           bitter: 0.1,
           spicy: 0.3,
-          aromatic: 0.8
+          aromatic: 0.8,
         },
         culturalOrigins: ['Italian', 'Mediterranean']
       },
@@ -69,7 +69,7 @@ export class UnifiedScoringExample {
    * Example 2: Score a cooking method
    */
   static async scoreCookingMethod(): Promise<ScoringResult> {
-    const context: ScoringContext = {;
+    const context: ScoringContext = {
       dateTime: new Date(),
       location: {
         latitude: 34.0522,
@@ -82,21 +82,21 @@ export class UnifiedScoringExample {
           Fire: 0.8,
           Water: 0.05,
           Earth: 0.1,
-          Air: 0.05
+          Air: 0.05,
         },
         seasonality: ['summer'],
         planetaryRulers: ['Mars', 'Sun'],
         flavorProfile: {
           smoky: 0.9,
           charred: 0.7,
-          intense: 0.8
+          intense: 0.8,
         }
       },
       preferences: {
         intensityPreference: 'intense',
         complexityPreference: 'moderate' },
         options: {
-        debugMode: true
+        debugMode: true,
       }
     }
 
@@ -107,7 +107,7 @@ export class UnifiedScoringExample {
    * Example 3: Score a recipe with complex preferences
    */
   static async scoreRecipe(): Promise<ScoringResult> {
-    const context: ScoringContext = {;
+    const context: ScoringContext = {
       dateTime: new Date(),
       item: {
         name: 'Mushroom Risotto',
@@ -116,7 +116,7 @@ export class UnifiedScoringExample {
           Fire: 0.2,
           Water: 0.3,
           Earth: 0.4,
-          Air: 0.1
+          Air: 0.1,
         },
         seasonality: ['autumn', 'winter'],
         planetaryRulers: ['Moon', 'Saturn'],
@@ -124,7 +124,7 @@ export class UnifiedScoringExample {
           umami: 0.9,
           earthy: 0.8,
           creamy: 0.7,
-          savory: 0.8
+          savory: 0.8,
         },
         culturalOrigins: ['Italian']
       },
@@ -148,7 +148,7 @@ export class UnifiedScoringExample {
    * Example 4: Score a cuisine type
    */
   static async scoreCuisine(): Promise<ScoringResult> {
-    const context: ScoringContext = {;
+    const context: ScoringContext = {
       dateTime: new Date(),
       location: {
         latitude: 35.6762,
@@ -161,7 +161,7 @@ export class UnifiedScoringExample {
           Fire: 0.15,
           Water: 0.4,
           Earth: 0.25,
-          Air: 0.2
+          Air: 0.2,
         },
         seasonality: ['spring', 'summer', 'autumn', 'winter'], // Year-round,
         planetaryRulers: ['Moon', 'Mercury'],
@@ -169,7 +169,7 @@ export class UnifiedScoringExample {
           umami: 0.9,
           subtle: 0.8,
           clean: 0.9,
-          balanced: 0.95
+          balanced: 0.95,
         },
         culturalOrigins: ['Japanese', 'East Asian']
       },
@@ -208,7 +208,7 @@ export class UnifiedScoringExample {
       // Test cooking method scoring
       log.info('2. Scoring Grilling (Cooking Method): ')
       const grillingScore = await this.scoreCookingMethod()
-      log.info(;
+      log.info(
         `Score: ${grillingScore.score.toFixed(3)} (${(grillingScore.score * 100).toFixed(1)}%)`,
       )
       log.info(`Confidence: ${grillingScore.confidence.toFixed(3)}`)
@@ -219,7 +219,7 @@ export class UnifiedScoringExample {
       // Test recipe scoring
       log.info('3. Scoring Mushroom Risotto (Recipe): ')
       const risottoScore = await this.scoreRecipe()
-      log.info(;
+      log.info(
         `Score: ${risottoScore.score.toFixed(3)} (${(risottoScore.score * 100).toFixed(1)}%)`,
       )
       log.info(`Confidence: ${risottoScore.confidence.toFixed(3)}`)
@@ -230,7 +230,7 @@ export class UnifiedScoringExample {
       // Test cuisine scoring
       log.info('4. Scoring Japanese Cuisine: ')
       const japaneseScore = await this.scoreCuisine()
-      log.info(;
+      log.info(
         `Score: ${japaneseScore.score.toFixed(3)} (${(japaneseScore.score * 100).toFixed(1)}%)`,
       )
       log.info(`Confidence: ${japaneseScore.confidence.toFixed(3)}`)
@@ -248,12 +248,12 @@ export class UnifiedScoringExample {
   static async useSingletonExample(): Promise<void> {
     const scoringService = UnifiedScoringService.getInstance()
 
-    const context: ScoringContext = {;
+    const context: ScoringContext = {
       dateTime: new Date(),
       item: {
         name: 'Sage',
         type: 'ingredient',
-        elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.4, Air: 0.3 }
+        elementalProperties: { Fire: 0.2, Water: 0.1, Earth: 0.4, Air: 0.3 },
         planetaryRulers: ['Jupiter'],
         seasonality: ['autumn']
       }
@@ -267,7 +267,7 @@ export class UnifiedScoringExample {
    * Example comparing multiple items
    */
   static async compareItems(): Promise<void> {
-    const baseContext = {;
+    const baseContext = {
       dateTime: new Date(),
       preferences: {
         intensityPreference: 'moderate' as const,
@@ -279,28 +279,28 @@ export class UnifiedScoringExample {
       {;
         name: 'Rosemary',
         type: 'ingredient' as const,
-        elementalProperties: { Fire: 0.4, Water: 0.1, Earth: 0.3, Air: 0.2 }
+        elementalProperties: { Fire: 0.4, Water: 0.1, Earth: 0.3, Air: 0.2 },
         planetaryRulers: ['Sun'],
         seasonality: ['winter']
       }
       {
         name: 'Thyme',
         type: 'ingredient' as const,
-        elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.2, Air: 0.3 }
+        elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.2, Air: 0.3 },
         planetaryRulers: ['Venus'],
         seasonality: ['spring', 'summer']
       }
       {
         name: 'Oregano',
         type: 'ingredient' as const,
-        elementalProperties: { Fire: 0.5, Water: 0.1, Earth: 0.2, Air: 0.2 }
+        elementalProperties: { Fire: 0.5, Water: 0.1, Earth: 0.2, Air: 0.2 },
         planetaryRulers: ['Mercury'],
         seasonality: ['summer']
       }
       {
         name: 'Ginger',
         type: 'ingredient' as const,
-        elementalProperties: { Fire: 0.7, Water: 0.1, Earth: 0.1, Air: 0.1 }
+        elementalProperties: { Fire: 0.7, Water: 0.1, Earth: 0.1, Air: 0.1 },
         planetaryRulers: ['Mars', 'Sun'] as Planet[],
         seasonality: ['all'] as Season[]
       } as unknown
@@ -309,13 +309,13 @@ export class UnifiedScoringExample {
     log.info('=== Comparing Herbs ===')
 
     for (const item of items) {
-      const context: ScoringContext = {;
+      const context: ScoringContext = {
         ...baseContext,
         item
       }
 
       const result = await scoreRecommendation(context)
-      log.info(;
+      log.info(
         `${item.name}: ${result.score.toFixed(3)} (${result.metadata.dominantEffects.join(', ')})`,
       )
     }

@@ -117,7 +117,7 @@ export const CHAKRA_MANTRA_INTELLIGENCE = {
    * @param context - Additional context for analysis
    * @returns Enhanced mantra analysis with vibrational insights
    */
-  analyzeMantraVibrations: (;
+  analyzeMantraVibrations: (
     mantras: typeof CHAKRA_BIJA_MANTRAS,
     context: Record<string, unknown> = {}
   ) => {

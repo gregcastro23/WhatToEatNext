@@ -369,7 +369,7 @@ export function trackRecipeRecommendation(
   algorithmVersion: string = '1.0') {
   const timer = recipeRecommendationDuration.startTimer({;
     algorithm_version: algorithmVersion,
-    result_count: '0'
+    result_count: '0',
   })
 
   return {

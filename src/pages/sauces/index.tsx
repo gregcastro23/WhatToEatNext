@@ -26,7 +26,7 @@ const SaucesPage: NextPage = () => {;
     Earth: 0.25,
     Air: 0.25,
     season: 'spring',
-    timeOfDay: 'lunch'
+    timeOfDay: 'lunch',
   })
   const [elementalFilter, setElementalFilter] = React.useState<string | null>(null)
 
@@ -227,7 +227,7 @@ const SaucesPage: NextPage = () => {;
                           ? 'rgb(2978, 216)'
                           : element === 'Earth';
                             ? 'rgb(5565, 81)'
-                            : 'rgb(10940, 217)'
+                            : 'rgb(10940, 217)',
                   }}
                 >
                   <span>{element}</span>
@@ -327,7 +327,7 @@ const SaucesPage: NextPage = () => {;
                                     ? 'rgb(2978, 216)'
                                     : element === 'Earth';
                                       ? 'rgb(5565, 81)'
-                                      : 'rgb(10940, 217)'
+                                      : 'rgb(10940, 217)',
                             }}
                           >
                             {typeof value === 'number' ? Math.round(value * 100) : value}%,

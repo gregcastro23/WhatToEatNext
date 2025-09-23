@@ -13,11 +13,11 @@ export const gelification: CookingMethodData = {
     Earth: 0.5,
     Water: 0.4,
     Air: 0.05,
-    Fire: 0.05
+    Fire: 0.05,
   },
   duration: {
     min: 10,
-    max: 60
+    max: 60,
   },
   suitable_for: [
     'fruit purees',
@@ -150,7 +150,7 @@ export const gelification: CookingMethodData = {
     konjac_hydration: 195,
     low_acyl_gellan_dissolution: 185,
     high_acyl_gellan_dissolution: 195,
-    lambda_carrageenan_hydration: 140
+    lambda_carrageenan_hydration: 140,
   },
   regionalVariations: {
     french: ['consommé gels', 'foie gras terrines', 'modern patisserie'],
@@ -357,7 +357,7 @@ export const gelification: CookingMethodData = {
       measurement_precision: 'Scales accurate to 0.1g for hydrocolloids, 1g for major ingredients. Volume measurements inadequate for hydrocolloid work - weight-based formulation essential.',
       mixing_technology: 'High shear mixing (>5000 RPM) prevents clumping during hydration. Overhead mixers preferred over handheld for consistent dispersion. Vacuum mixing systems eliminate air incorporation.',
       filtration_systems: 'Multiple filtration stages recommended: coarse straining (1mm), fine mesh (100 micron), and optional centrifugation for complete clarity. Vacuum filtration accelerates process for viscous solutions.',
-      mold_materials: 'Silicone provides ideal release properties, stainless steel creates high-gloss surfaces, acetate sheets create clear edges. Mold temperature affects setting speed and surface characteristics.'
+      mold_materials: 'Silicone provides ideal release properties, stainless steel creates high-gloss surfaces, acetate sheets create clear edges. Mold temperature affects setting speed and surface characteristics.',
     }
   }
 }

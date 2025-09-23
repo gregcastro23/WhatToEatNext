@@ -25,7 +25,7 @@ export const lazyCalculations = {
   thermodynamics: () => import('@/calculations/thermodynamics');,
 
   // Complex recommendation algorithms - loaded on demand
-  recommendations: () => import('@/calculations/recommendations');
+  recommendations: () => import('@/calculations/recommendations')
 }
 
 /**
@@ -45,7 +45,7 @@ export const lazyUnifiedData = {
   recipeBuilding: () => import('@/data/unified/recipeBuilding');,
 
   // Alchemical calculations data - loaded on demand
-  alchemicalCalculations: () => import('@/data/unified/alchemicalCalculations');
+  alchemicalCalculations: () => import('@/data/unified/alchemicalCalculations')
 }
 
 /**
@@ -73,7 +73,7 @@ export const preloadCalculations = {
   // Preload when user hovers over calculation-related UI
   onCalculationHover: () => {
     lazyCalculations.alchemical()
-    lazyCalculations.elemental();
+    lazyCalculations.elemental()
   }
 
   // Preload when user hovers over recipe recommendation UI
@@ -95,7 +95,7 @@ export const preloadCalculations = {
 export const bundleOptimization = {
   // Check if module should be loaded immediately or lazy;
   shouldLazyLoad: (moduleSize: number, priority: 'high' | 'medium' | 'low' = 'medium') => {
-    const thresholds = {;
+    const thresholds = {
       high: 50000,    // 50KB - load immediately for high priority,
       medium: 20000,  // 20KB - load immediately for medium priority,
       low: 10000,     // 10KB - load immediately for low priority
@@ -113,7 +113,7 @@ export const bundleOptimization = {
       '/components/': 30000,     // 30KB average for components
     }
 
-    const category = Object.keys(sizeEstimates).find(key => modulePath.includes(key));
+    const category = Object.keys(sizeEstimates).find(key => modulePath.includes(key))
     return category ? sizeEstimates[category] : 50000; // Default 50KB
   }
 }

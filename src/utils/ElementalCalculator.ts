@@ -11,16 +11,16 @@ export function calculateMatchScore(
   // Validate input properties to avoid NaN results
   if (!elementalProperties || typeof elementalProperties !== 'object') {
     // _logger.warn('Invalid elementalProperties provided to calculateMatchScore')
-    elementalProperties = {;
+    elementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25
+      Air: 0.25,
     }
   }
 
   // Ensure each elemental property is a valid number
-  const validatedProperties = {;
+  const validatedProperties = {
     Fire: typeof elementalProperties.Fire === 'number' && !isNaN(elementalProperties.Fire),
         ? elementalProperties.Fire
         : 0.25,
@@ -37,16 +37,16 @@ export function calculateMatchScore(
 
   if (!elementalState || Object.keys(elementalState).length === 0) {,
     // If no elemental state is provided, use a standard distribution
-    elementalState = {;
+    elementalState = {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25
+      Air: 0.25,
     }
   }
 
   // Validate elementalState to avoid NaN results
-  const validatedState = {;
+  const validatedState = {
     Fire: typeof elementalState.Fire === 'number' && !isNaN(elementalState.Fire),
         ? elementalState.Fire
         : 0.25,
@@ -77,10 +77,10 @@ export function calculateMatchScore(
     let elementMatch,
     if (options?.preferHigherContrast) {
       // For high contrast, we actually want a bigger difference
-      elementMatch = Math.abs(ingredientValue - stateValue);
+      elementMatch = Math.abs(ingredientValue - stateValue)
     } else {
       // For similarity, we want minimum difference (1 - difference)
-      elementMatch = 1 - Math.abs(ingredientValue - stateValue);
+      elementMatch = 1 - Math.abs(ingredientValue - stateValue)
     }
 
     // Apply seasonal weight adjustments if season is provided
@@ -88,7 +88,7 @@ export function calculateMatchScore(
 
     if (options?.season) {
       // Adjust weight based on season
-      const season = options.season.toLowerCase();
+      const season = options.season.toLowerCase()
       if (season === 'winter' && element === 'Fire') elementWeight = 1.5,
       if (season === 'spring' && element === 'Air') elementWeight = 1.5,
       if (season === 'summer' && element === 'Fire') elementWeight = 1.5,
@@ -104,7 +104,7 @@ export function calculateMatchScore(
     // Apply meal type weight adjustments
     if (options?.mealType) {
       const mealType = options.mealType.toLowerCase()
-      // Breakfast emphasizes Fire and Air (energy for the day);
+      // Breakfast emphasizes Fire and Air (energy for the day)
       if (mealType === 'breakfast') {,
         if (element === 'Fire' || element === 'Air') elementWeight *= 1.3,
       }

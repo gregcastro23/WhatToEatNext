@@ -111,7 +111,7 @@ class AlertingSystem {
       }
 
       const configPath = path.join(settingsDir, 'alerting-config.json')
-      const config = {;
+      const config = {
         alertRules: this.alertRules,
         escalationRules: this.escalationRules,
         alerts: this.alerts.slice(-500), // Keep last 500 alerts,
@@ -148,7 +148,7 @@ class AlertingSystem {
               config: { script: 'analyze-build-performance.js' },
         conditions: [],
               retryCount: 2,
-              timeoutSeconds: 300
+              timeoutSeconds: 300,
             }
             {
               id: 'clear-build-cache',
@@ -157,7 +157,7 @@ class AlertingSystem {
               config: { command: 'yarn cache clean' },
         conditions: [],
               retryCount: 1,
-              timeoutSeconds: 60
+              timeoutSeconds: 60,
             }
           ],
           notificationChannels: ['console', 'file']
@@ -186,7 +186,7 @@ class AlertingSystem {
                 safetyLevel: 'HIGH' },
         conditions: ['error_count > 500'],
               retryCount: 1,
-              timeoutSeconds: 1800
+              timeoutSeconds: 1800,
             }
           ],
           notificationChannels: ['console', 'file']
@@ -212,7 +212,7 @@ class AlertingSystem {
               config: { script: 'generate-quality-report.js' },
         conditions: [],
               retryCount: 1,
-              timeoutSeconds: 120
+              timeoutSeconds: 120,
             }
           ],
           notificationChannels: ['console', 'file']
@@ -238,7 +238,7 @@ class AlertingSystem {
               config: { script: 'force-gc.js' },
         conditions: [],
               retryCount: 1,
-              timeoutSeconds: 30
+              timeoutSeconds: 30,
             }
           ],
           notificationChannels: ['console']
@@ -266,7 +266,7 @@ class AlertingSystem {
                 priority: 'high' },
         conditions: [],
               retryCount: 1,
-              timeoutSeconds: 300
+              timeoutSeconds: 300,
             }
           ],
           notificationChannels: ['console', 'file']
@@ -295,10 +295,10 @@ class AlertingSystem {
               },
               conditions: [],
               retryCount: 1,
-              timeoutSeconds: 30
+              timeoutSeconds: 30,
             }
           ],
-          maxEscalations: 3
+          maxEscalations: 3,
         }
         {
           id: 'error-escalation',
@@ -313,14 +313,14 @@ class AlertingSystem {
               type: 'campaign',
               config: {
                 campaignType: 'automated-error-fix',
-                conservative: true
+                conservative: true,
               },
               conditions: ['automation_opportunities > 5'],
               retryCount: 1,
-              timeoutSeconds: 600
+              timeoutSeconds: 600,
             }
           ],
-          maxEscalations: 2
+          maxEscalations: 2,
         }
       ],
 
@@ -486,7 +486,7 @@ class AlertingSystem {
   }
 
   private createAlert(rule: AlertRule, currentValue: number) {
-    const alert: Alert = {;
+    const alert: Alert = {
       id: `alert-${Date.now()}-${Math.random().toString(36).substr(29)}`,
       type: rule.type,
       severity: rule.severity,
@@ -531,12 +531,12 @@ class AlertingSystem {
         continue
       }
 
-      const response: AlertResponse = {;
+      const response: AlertResponse = {
         alertId: alert.id,
         actionId: action.id,
         status: 'pending',
         startTime: new Date(),
-        retryCount: 0
+        retryCount: 0,
       }
 
       this.alertResponses.push(response)

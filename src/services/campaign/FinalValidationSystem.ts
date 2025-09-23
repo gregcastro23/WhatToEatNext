@@ -109,7 +109,7 @@ export class FinalValidationSystem {
     // Generate campaign summary
     const campaignSummary = await this.generateCampaignSummary()
     // Determine certification status
-    const certificationStatus = this.determineCertificationStatus(;
+    const certificationStatus = this.determineCertificationStatus(
       validationResults,
       performanceMetrics,
     )
@@ -119,7 +119,7 @@ export class FinalValidationSystem {
       validationResults.every(result => result.passed) &&;
       certificationStatus.perfectCodebaseAchieved,
 
-    const report: CampaignCompletionReport = {;
+    const report: CampaignCompletionReport = {
       timestamp: new Date().toISOString(),
       overallSuccess,
       validationResults,
@@ -151,7 +151,7 @@ export class FinalValidationSystem {
     try {
       const output = execSync('yarn tsc --noEmit --skipLibCheck', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       // If no errors, output will be empty or contain only info messages
@@ -221,7 +221,7 @@ export class FinalValidationSystem {
     try {
       const output = execSync('yarn lint', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       const warningLines = output.split('\n').filter(line => line.includes('warning'));
@@ -295,26 +295,26 @@ export class FinalValidationSystem {
     try {
       const output = execSync('grep -r 'INTELLIGENCE_SYSTEM' src/', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       const intelligenceLines = output.split('\n').filter(line => line.trim().length > 0);
       const intelligenceCount = intelligenceLines.length;
 
       // Categorize intelligence systems
-      const highPriorityCount = intelligenceLines.filter(;
+      const highPriorityCount = intelligenceLines.filter(
         line => line.includes('src/data/') || line.includes('src/recipes/'),
       ).length,
 
-      const mediumPriorityCount = intelligenceLines.filter(;
+      const mediumPriorityCount = intelligenceLines.filter(
         line => line.includes('src/services/') || line.includes('src/components/'),
       ).length,
 
-      const lowPriorityCount = intelligenceLines.filter(;
+      const lowPriorityCount = intelligenceLines.filter(
         line => line.includes('src/utils/') || line.includes('src/__tests__/'),
       ).length,
 
-      const details = [;
+      const details = [
         `Found ${intelligenceCount} active intelligence systems`,
         `  High Priority (Data/Recipes): ${highPriorityCount} systems`,
         `  Medium Priority (Services/Components): ${mediumPriorityCount} systems`,
@@ -369,11 +369,11 @@ export class FinalValidationSystem {
       // Measure memory usage
       let memoryUsage = 0,
       try {
-        const memoryOutput = execSync(;
+        const memoryOutput = execSync(
           '/usr/bin/time -v yarn build 2>&1 | grep 'Maximum resident set size'',
           {
             encoding: 'utf8',
-            stdio: 'pipe'
+            stdio: 'pipe',
           })
         const memoryMatch = memoryOutput.match(/(\d+)/)
         if (memoryMatch) {;
@@ -389,7 +389,7 @@ export class FinalValidationSystem {
       try {
         const bundleSizeOutput = execSync('du -sh .next/', {
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         })
         bundleSize = bundleSizeOutput.split('\t')[0],
       } catch (error) {
@@ -400,7 +400,7 @@ export class FinalValidationSystem {
       const memoryOk = memoryUsage < this.MEMORY_USAGE_TARGET;
       const performanceOk = buildTimeOk && memoryOk;
 
-      const details = [;
+      const details = [
         `Build time: ${buildTime.toFixed(1)}s (Target: <${this.BUILD_TIME_TARGET}s) ${buildTimeOk ? '✅' : '❌'}`,
         `Memory usage: ${memoryUsage.toFixed(1)}MB (Target: <${this.MEMORY_USAGE_TARGET}MB) ${memoryOk ? '✅' : '❌'}`,
         `Bundle size: ${bundleSize} (Target: ≤${this.BUNDLE_SIZE_TARGET}kB)`,
@@ -524,7 +524,7 @@ export class FinalValidationSystem {
     try {
       if (fs.existsSync('.campaign-baseline.json')) {
         const baseline = JSON.parse(fs.readFileSync('.campaign-baseline.json', 'utf8')),
-        initialState = {;
+        initialState = {
           errors: baseline.errors || 0,
           warnings: baseline.warnings || 0,
           intelligence: baseline.intelligence || 0
@@ -542,7 +542,7 @@ export class FinalValidationSystem {
     try {
       const tsOutput = execSync('yarn tsc --noEmit --skipLibCheck', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
       finalErrors = tsOutput.split('\n').filter(line => line.includes('error TS')).length,
     } catch (error) {
@@ -567,7 +567,7 @@ export class FinalValidationSystem {
     try {
       const intelligenceOutput = execSync('grep -r 'INTELLIGENCE_SYSTEM' src/', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
       finalIntelligence = intelligenceOutput,
         .split('\n')
@@ -576,13 +576,13 @@ export class FinalValidationSystem {
       finalIntelligence = 0,
     }
 
-    const finalState = {;
+    const finalState = {
       errors: finalErrors,
       warnings: finalWarnings,
       intelligence: finalIntelligence
     }
 
-    const improvements = {;
+    const improvements = {
       errorReduction: Math.max(0, initialState.errors - finalState.errors),
       warningReduction: Math.max(0, initialState.warnings - finalState.warnings),
       intelligenceIncrease: Math.max(0, finalState.intelligence - initialState.intelligence)

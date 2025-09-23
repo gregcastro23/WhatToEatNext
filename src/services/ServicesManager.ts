@@ -133,7 +133,7 @@ export class ServicesManager {
 
       // The engine is already initialized through its singleton instance
       // Just perform a simple operation to verify it's working
-      const dummyPositions = {;
+      const dummyPositions = {
         Sun: 'aries',
         moon: 'taurus',
         Mercury: 'gemini',
@@ -182,7 +182,7 @@ export class ServicesManager {
       // The astrologyService is already initialized through its singleton instance
       // Just perform any additional setup if needed
       const positions = await astrologyService.getCurrentPlanetaryPositions()
-      logger.info(;
+      logger.info(
         `AstrologyService loaded positions for ${Object.keys(positions || {}).length} celestial bodies`,
       )
 
@@ -293,7 +293,7 @@ export class ServicesManager {
       const elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
 
       // Just calculate compatibility as a simple test
-      const compatibility = unifiedRecommendationService.calculateElementalCompatibility(;
+      const compatibility = unifiedRecommendationService.calculateElementalCompatibility(
         elementalProperties,
         elementalProperties,
       )
@@ -332,7 +332,7 @@ export class ServicesManager {
       logger.info('Initializing AlchemicalRecommendationService...')
       // Ensure the service is initialized
       // ✅ Pattern MM-1: Type assertion for Record<Planet, ZodiacSign> compatibility
-      const dummyPositions = {;
+      const dummyPositions = {
         Sun: 'aries',
         moon: 'taurus',
         Mercury: 'gemini',
@@ -348,7 +348,7 @@ export class ServicesManager {
       } as any,
 
       // ✅ Pattern MM-1: Provide complete Recipe object with type assertion
-      const testRecipe = {;
+      const testRecipe = {
         id: 'test',
         name: 'Test Recipe',
         ingredients: [],
@@ -356,7 +356,7 @@ export class ServicesManager {
         elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       } as any,
-      const _recipeRecommendations = alchemicalRecommendationService.getRecipeRecommendations(;
+      const _recipeRecommendations = alchemicalRecommendationService.getRecipeRecommendations(
         testRecipe,
         dummyPositions,
       )

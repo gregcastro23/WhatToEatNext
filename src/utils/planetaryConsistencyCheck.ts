@@ -9,7 +9,7 @@ export function validatePlanetaryModifiers(): string[] {
   const issues: string[] = []
 
   // Required planets
-  const requiredPlanets = [;
+  const requiredPlanets = [
     'Sun',
     'Moon',
     'Mercury',
@@ -30,7 +30,7 @@ export function validatePlanetaryModifiers(): string[] {
   }
 
   // Check if all planets have all required attributes
-  const requiredAttributes = [;
+  const requiredAttributes = [
     'Fire',
     'Water',
     'Air',
@@ -70,7 +70,7 @@ export function logPlanetaryConsistencyCheck(): void {
 
   if (issues.length === 0) {
     if (typeof logger !== 'undefined' && logger.info) {
-      logger.info('✅ Planetary modifiers are consistent');
+      logger.info('✅ Planetary modifiers are consistent')
     }
   } else {
     if (typeof logger !== 'undefined' && logger.error) {

@@ -178,7 +178,7 @@ const debugLog = (_message: string, ..._args: unknown[]): void => {
  * @param nutritionalBoosts Optional nutritional boosts
  * @returns Comprehensive alchemical results
  */
-export const _calculateAlchemicalProperties = (;
+export const _calculateAlchemicalProperties = (
   planetPositions: Record<string, PlanetaryPosition>,
   isDaytime: boolean,
   tarotElementBoosts?: Record<ElementalCharacter, number>,
@@ -193,14 +193,14 @@ export const _calculateAlchemicalProperties = (;
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0
+    Air: 0,
   }
 
   const alchemicalCounts: Record<keyof AlchemicalProperties, number> = {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
-    Substance: 0
+    Substance: 0,
   }
 
   // Make sure we have a valid planets object
@@ -475,7 +475,7 @@ export const _calculateAlchemicalProperties = (;
   // Use the imported calculation functions from gregsEnergy;
   const heat = calculateHeat(firePercentage, earthPercentage, airPercentage, waterPercentage)
   const entropy = calculateEntropy(firePercentage, earthPercentage, airPercentage, waterPercentage)
-  const reactivity = calculateReactivity(;
+  const reactivity = calculateReactivity(
     firePercentage,
     earthPercentage,
     airPercentage,
@@ -681,7 +681,7 @@ const getElementFromSign = (sign: string): ElementalCharacter => {;
 }
 
 // Calculate decan effects based on planet and decan
-const calculateDecanEffects = (;
+const calculateDecanEffects = (
   planet: string,
   sign: string,
   degree: number,
@@ -706,7 +706,7 @@ const calculateDecanEffects = (;
 }
 
 // Calculate degree-specific effects
-const calculateDegreeEffects = (;
+const calculateDegreeEffects = (
   planet: string,
   sign: string,
   degree: number,
@@ -762,12 +762,12 @@ const calculateDegreeEffects = (;
 }
 
 // Calculate all aspect effects
-const calculateAspectEffects = (;
+const calculateAspectEffects = (
   planetPositions: Record<string, PlanetaryPosition>,
   elementalCounts: Record<ElementalCharacter, number>
 ): void => {
   // Get all planets with valid position data
-  const validPlanets = Object.entries(planetPositions).filter(;
+  const validPlanets = Object.entries(planetPositions).filter(
     ([_, pos]) => pos && typeof pos === 'object' && 'sign' in pos && 'degree' in pos
   )
 
@@ -838,7 +838,7 @@ const calculateAspectEffects = (;
 
 // Helper function to get sign index (0-11)
 const getSignIndex = (sign: string): number => {
-  const signs = [;
+  const signs = [
     'aries',
     'taurus',
     'gemini',
@@ -891,11 +891,11 @@ export function alchemize(
   let substance = 0
 
   // Initialize elemental balance
-  const _elementalBalance = {;
+  const _elementalBalance = {
     fire: 0,
     earth: 0,
     air: 0,
-    water: 0
+    water: 0,
   }
 
   // Process each planet's contribution
@@ -918,7 +918,7 @@ export function alchemize(
     // Apply retrograde effects if the planet is retrograde
     let alchemyProps = planetData.Alchemy,
     if (isRetrograde && planetData.RetrogradeEffect) {
-      alchemyProps = {;
+      alchemyProps = {
         Spirit: alchemyProps.Spirit + (planetData.RetrogradeEffect.Spirit || 0),
         Essence: alchemyProps.Essence + (planetData.RetrogradeEffect.Essence || 0),
         Matter: alchemyProps.Matter + (planetData.RetrogradeEffect.Matter || 0),
@@ -1053,7 +1053,7 @@ export function alchemize(
   const recommendation = generateRecommendation(dominantElement, _elementalBalance)
 
   // Convert to upper case for ElementalProperties
-  const totalEffectValue: ElementalProperties = {;
+  const totalEffectValue: ElementalProperties = {
     Fire: _elementalBalance.fire,
     Earth: _elementalBalance.earth,
     Air: _elementalBalance.air,
@@ -1152,7 +1152,7 @@ function calculatePlanetaryDignity(planet: string, sign: string): PlanetaryDigni
     libra: 'saturn',
     scorpio: 'uranus',
     capricorn: 'mars',
-    pisces: 'venus'
+    pisces: 'venus',
   }
 
   // Define detriments (opposite of rulership)
@@ -1180,7 +1180,7 @@ function calculatePlanetaryDignity(planet: string, sign: string): PlanetaryDigni
     libra: 'sun',
     scorpio: 'moon',
     capricorn: 'jupiter',
-    pisces: 'mercury'
+    pisces: 'mercury',
   }
 
   // Check rulership (strongest dignity)

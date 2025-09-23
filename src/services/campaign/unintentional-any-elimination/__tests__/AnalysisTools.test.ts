@@ -127,7 +127,7 @@ src/test.ts: 3:Record<string, unknown>
 
       const report: any = await analysisTools.generateClassificationAccuracyReport()
 
-      const arrayTypeAccuracy: any = report.categoryAccuracy.find(;
+      const arrayTypeAccuracy: any = report.categoryAccuracy.find(
         cat => cat.category === AnyTypeCategory.ARRAY_TYPE),
       expect(arrayTypeAccuracy).toBeDefined().,
     })
@@ -139,7 +139,7 @@ src/test.ts: 3:Record<string, unknown>
 
       const report: any = await analysisTools.generateClassificationAccuracyReport()
 
-      const errorHandlingAccuracy: any = report.categoryAccuracy.find(;
+      const errorHandlingAccuracy: any = report.categoryAccuracy.find(
         cat => cat.category === AnyTypeCategory.ERROR_HANDLING),
       expect(errorHandlingAccuracy).toBeDefined().,
     })

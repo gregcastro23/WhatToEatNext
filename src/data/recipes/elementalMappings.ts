@@ -8,7 +8,7 @@ import type { RecipeElementalMapping } from '@/types/recipes';
 export { ELEMENTAL_CHARACTERISTICS };
 
 // Default astrologicalInfluence for when none is specified
-const defaultAstrologicalInfluence: AstrologicalInfluence = {;
+const defaultAstrologicalInfluence: AstrologicalInfluence = {
   planet: 'Universal',
   sign: 'aries',
   element: 'Fire',
@@ -35,7 +35,7 @@ const safeGetAstrologicalInfluences = (method: unknown): AstrologicalInfluence[]
 export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
   // French Cuisine
   coq_au_vin: {
-    elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.15, Air: 0.05 }
+    elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.15, Air: 0.05 },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Mars'],
       favorableZodiac: ['taurus', 'capricorn'],
@@ -60,7 +60,7 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
 
   // Japanese Cuisine
   kaiseki_ryori: {
-    elementalProperties: { Water: 0.6, Earth: 0.3, Air: 0.05, Fire: 0.05 }
+    elementalProperties: { Water: 0.6, Earth: 0.3, Air: 0.05, Fire: 0.05 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Mercury'],
       favorableZodiac: ['pisces', 'virgo'],
@@ -85,7 +85,7 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
 
   // Mexican Cuisine
   mole_poblano: {
-    elementalProperties: { Fire: 0.5, Earth: 0.4, Air: 0.05, Water: 0.05 }
+    elementalProperties: { Fire: 0.5, Earth: 0.4, Air: 0.05, Water: 0.05 },
     astrologicalProfile: {
       rulingPlanets: ['Sun', 'Jupiter'],
       favorableZodiac: ['leo', 'sagittarius'],

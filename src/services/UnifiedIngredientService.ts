@@ -158,7 +158,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     const normalizedSubCategory = subcategory.toLowerCase().trim()
     const result: UnifiedIngredient[] = []
     for (const ingredients of this.ingredientCache.values()) {
-      const matching = (ingredients || []).filter(;
+      const matching = (ingredients || []).filter(
         ing => (ing as any)?.subCategory?.toLowerCase() === normalizedSubCategory,
       ),
       void result.push(...matching)
@@ -186,7 +186,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     }
 
     if (filter.currentSeason) {
-      filteredIngredients = this.applySeasonalFilter(;
+      filteredIngredients = this.applySeasonalFilter(
         filteredIngredients,
         filter.currentSeason as unknown as string[] | Season[],
       )
@@ -197,7 +197,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     }
 
     if (filter.excludeIngredients && filter.excludeIngredients.length > 0) {
-      filteredIngredients = this.applyExclusionFilter(;
+      filteredIngredients = this.applyExclusionFilter(
         filteredIngredients,
         filter.excludeIngredients
       )
@@ -208,7 +208,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     }
 
     if (filter.planetaryInfluence) {
-      filteredIngredients = this.applyPlanetaryFilter(;
+      filteredIngredients = this.applyPlanetaryFilter(
         filteredIngredients,
         filter.planetaryInfluence
       )
@@ -287,7 +287,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    * Get ingredients by flavor profile
    */
   getIngredientsByFlavor(
-    flavorProfile: { [key: string]: number }
+    flavorProfile: { [key: string]: number },
     minMatchScore: number = 0.7): UnifiedIngredient[] {
     const allIngredients = this.getAllIngredientsFlat()
 
@@ -373,7 +373,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     // Apply seasonal optimization if requested
     if (optimizeForSeason) {
       const currentSeason = this.getCurrentSeason()
-      candidates = (candidates || []).filter(;
+      candidates = (candidates || []).filter(
         ing => !ing.seasonality || ing.seasonality.includes(currentSeason),,
       )
     }
@@ -387,7 +387,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       const compatibility =
         typeof compatibilityMethod === 'function'
           ? (
-              compatibilityMethod as (;
+              compatibilityMethod as (
                 source: ElementalProperties,
   target: ElementalProperties,
               ) => number
@@ -433,7 +433,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   elementalCompatibility: 0,
         flavorCompatibility: 0,
   seasonalCompatibility: 0,
-        energeticCompatibility: 0
+        energeticCompatibility: 0,
       }
     }
 
@@ -484,7 +484,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    */
   analyzeRecipeIngredients(recipe: Recipe): {
     overallHarmony: number,
-  flavorProfile: { [key: string]: number }
+  flavorProfile: { [key: string]: number },
     strongPairings: Array<{ ingredients: string[], score: number }>,
     weakPairings: Array<{ ingredients: string[], score: number }>,
   } {
@@ -569,7 +569,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   /**
    * Fallback elemental compatibility calculation
    */
-  private fallbackElementalCompatibility = (;
+  private fallbackElementalCompatibility = (
     elem1: ElementalProperties,
   elem2: ElementalProperties,
   ): number => {
@@ -991,7 +991,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    * Calculate flavor similarity between two profiles
    */
   private calculateFlavorSimilarity(
-    profile1: { [key: string]: number }
+    profile1: { [key: string]: number },
     profile2: { [key: string]: number }): number {
     const allFlavors = new Set([...Object.keys(profile1), ...Object.keys(profile2)])
 
@@ -1012,7 +1012,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       count++
     }
 
-    return count > 0 ? similarity / count : 0
+    return count > 0 ? similarity / count : 0,
   }
 
   /**
@@ -1029,12 +1029,12 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     )
 
     // Calculate based on overlap
-    const maxPossibleOverlap = Math.min(;
+    const maxPossibleOverlap = Math.min(
       (ing1.seasonality || []).length,
       (ing2.seasonality || []).length,
     )
 
-    return maxPossibleOverlap > 0 ? (overlappingSeasons || []).length / maxPossibleOverlap : 0.5
+    return maxPossibleOverlap > 0 ? (overlappingSeasons || []).length / maxPossibleOverlap : 0.5,
   }
 
   /**
@@ -1051,7 +1051,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     // Calculate differences in key properties
     const heatDiff = (Math as any).abs((metrics1 as any)?.heat - (metrics2 as any)?.heat)
     const entropyDiff = (Math as any).abs((metrics1 as any)?.entropy - (metrics2 as any)?.entropy)
-    const reactivityDiff = (Math as any).abs(;
+    const reactivityDiff = (Math as any).abs(
       (metrics1 as any)?.reactivity - (metrics2 as any)?.reactivity,
     )
 

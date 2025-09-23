@@ -4,7 +4,7 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawMedicinalHerbs = {
   echinacea: {;
     name: 'Echinacea',
-    elementalProperties: { Earth: 0.3, Fire: 0.4, Air: 0.2, Water: 0.1 }
+    elementalProperties: { Earth: 0.3, Fire: 0.4, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
       planetaryRuler: 'Mars',
       zodiacRuler: 'Aries',
@@ -22,22 +22,23 @@ const rawMedicinalHerbs = {
         protein: 0.2,
         carbs: 0.8,
         fat: 0.1,
-        fiber: 0.3
+        fiber: 0.3,
       },
       vitamins: {
-        C: 0.02B1: 0.01B3: 0.01
+        C: 0.02,
+    B1: 0.01B3: 0.01,
       },
       minerals: {
         potassium: 0.01,
         calcium: 0.01,
-        magnesium: 0.01
+        magnesium: 0.01,
       },
       phytonutrients: {
         alkylamides: 0.75,
         polysaccharides: 0.65,
         phenolic_compounds: 0.48,
         caffeic_acid: 0.38,
-        essential_oils: 0.25
+        essential_oils: 0.25,
       },
       source: 'Herbal Medicine Database' },
         varieties: {
@@ -58,7 +59,7 @@ const rawMedicinalHerbs = {
         characteristics: 'Pale purple coneflower with slender petals',
         medicinal_focus: 'Blood purification, skin conditions',
         parts_used: ['roots primarily'],
-        notes: 'More prevalent in European herbal medicine'
+        notes: 'More prevalent in European herbal medicine',
       }
     },
     seasonality: {
@@ -67,7 +68,7 @@ const rawMedicinalHerbs = {
       harvesting: {
         flowers: 'When fully open in summer',
         'aerial parts': 'During flowering',
-        roots: 'Fall of second or third year growth'
+        roots: 'Fall of second or third year growth',
       }
     },
     medicinalProperties: {
@@ -167,7 +168,7 @@ const rawMedicinalHerbs = {
         method: 'Grind dried herb to fine powder',
         dosage: '500-1000 mg in capsules, 3 times daily',
         shelf_life: '1 year in airtight container',
-        notes: 'Good for those who dislike the taste, easy for travel'
+        notes: 'Good for those who dislike the taste, easy for travel',
       }
     },
     therapeuticUses: {
@@ -176,7 +177,7 @@ const rawMedicinalHerbs = {
         conditions: ['Sore throat', 'Sinus infections', 'Bronchitis', 'Laryngitis'],
         protocols: {
           internal: 'Tincture or tea 3-5 times daily',
-          local: 'Gargle with diluted tincture or strong tea'
+          local: 'Gargle with diluted tincture or strong tea',
         }
       },
       wound_healing: {
@@ -184,7 +185,7 @@ const rawMedicinalHerbs = {
         applications: ['Cuts and scrapes', 'Burns', 'Insect bites and stings', 'Skin infections'],
         protocols: {
           minor_wounds: 'Clean with diluted tincture, apply salve',
-          severe_wounds: 'Internal and external applications combined'
+          severe_wounds: 'Internal and external applications combined',
         }
       },
       lymphatic: {
@@ -197,7 +198,7 @@ const rawMedicinalHerbs = {
         ],
         protocols: {
           acute: 'Combine with lymphatic herbs like calendula or cleavers',
-          chronic: 'Lower doses for longer periods, pulsed protocol'
+          chronic: 'Lower doses for longer periods, pulsed protocol',
         }
       }
     },
@@ -238,7 +239,7 @@ const rawMedicinalHerbs = {
         modern_western: {
         historical_adoption: 'Introduced to American Eclectic physicians in late 1800s',
         commercial_impact: 'One of the top-selling herbs in North America and Europe',
-        research_interest: 'Extensively studied for immunomodulating properties'
+        research_interest: 'Extensively studied for immunomodulating properties',
       }
     },
     sustainability: {
@@ -251,7 +252,7 @@ const rawMedicinalHerbs = {
         growing_guides: {
         cultivation: 'Well-drained soil, full sun, drought tolerant once established',
         propagation: 'Seed stratification helpful, division for established plants',
-        companion_planting: 'Grows well with yarrow, butterfly weed, and native grasses'
+        companion_planting: 'Grows well with yarrow, butterfly weed, and native grasses',
       }
     },
     affinity: {
@@ -260,14 +261,14 @@ const rawMedicinalHerbs = {
       synergistic_actions: {
         immune_enhancement: 'Combines well with elderberry and andrographis',
         lymphatic_support: 'Enhanced by calendula and cleavers',
-        respiratory_relief: 'Works well with thyme and elecampane'
+        respiratory_relief: 'Works well with thyme and elecampane',
       }
     }
   }
 
   elderberry: {
     name: 'Elderberry',
-    elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.3, Fire: 0.1 }
+    elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.3, Fire: 0.1 },
     qualities: ['antiviral', 'immune-supporting', 'cooling'],
     category: 'medicinal_herb',
     parts_used: ['berries', 'flowers'],
@@ -280,19 +281,19 @@ const rawMedicinalHerbs = {
           honey: '1 part' },
         method: 'decoct berries, add honey',
         dosage: '1-2 tsp daily',
-        storage: 'refrigerate'
+        storage: 'refrigerate',
       }
     },
     properties: {
       antiviral: 'especially against flu viruses',
       immune_support: 'increases cytokine production',
-      antioxidant: 'high in flavonoids'
+      antioxidant: 'high in flavonoids',
     }
   }
 
   chamomile: {
     name: 'Chamomile',
-    elementalProperties: { Air: 0.4, Water: 0.4, Earth: 0.2, Fire: 0.1 }
+    elementalProperties: { Air: 0.4, Water: 0.4, Earth: 0.2, Fire: 0.1 },
     qualities: ['calming', 'soothing', 'cooling'],
     category: 'medicinal_herb',
     parts_used: ['flowers'],
@@ -311,7 +312,7 @@ const rawMedicinalHerbs = {
     properties: {
       nervine: 'calms nervous system',
       anti_inflammatory: 'soothes digestive tract',
-      sleep_aid: 'promotes restful sleep'
+      sleep_aid: 'promotes restful sleep',
     }
   }
 }

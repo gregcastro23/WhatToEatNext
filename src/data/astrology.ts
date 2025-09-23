@@ -1,5 +1,5 @@
 // Basic astrology data for the ElementalCalculator
-export const zodiacSigns = [;
+export const zodiacSigns = [
   'Aries',
   'Taurus',
   'Gemini',
@@ -14,7 +14,7 @@ export const zodiacSigns = [;
   'Pisces'
 ],
 
-export const elements = {;
+export const elements = {
   aries: 'Fire',
   leo: 'Fire',
   sagittarius: 'Fire',
@@ -27,7 +27,7 @@ export const elements = {;
   cancer: 'Water',
   scorpio: 'Water',
   pisces: 'Water' },
-        export const planetaryRulers = {;
+        export const planetaryRulers = {
   aries: 'Mars',
   taurus: 'Venus',
   gemini: 'Mercury',
@@ -45,31 +45,31 @@ export const elements = {;
 // Export planetInfo data structure needed by the calculations
 export const planetInfo = {
   Sun: {;
-    'Dignity Effect': { leo: 1, aries: 2, aquarius: -1, libra: -2 }
+    'Dignity Effect': { leo: 1, aries: 2, aquarius: -1, libra: -2 },
     Elements: ['Fire', 'Fire'],
     Alchemy: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 }
     'Diurnal Element': 'Fire',
     'Nocturnal Element': 'Fire' },
         Moon: {
-    'Dignity Effect': { cancer: 1, taurus: 2, capricorn: -1, scorpio: -2 }
+    'Dignity Effect': { cancer: 1, taurus: 2, capricorn: -1, scorpio: -2 },
     Elements: ['Water', 'Water'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
     'Diurnal Element': 'Water',
     'Nocturnal Element': 'Water' },
         Mercury: {
-    'Dignity Effect': { gemini: 1, virgo: 3, sagittarius: 1, pisces: -3 }
+    'Dignity Effect': { gemini: 1, virgo: 3, sagittarius: 1, pisces: -3 },
     Elements: ['Air', 'Earth'],
     Alchemy: { Spirit: 1, Essence: 0, Matter: 0, Substance: 1 }
     'Diurnal Element': 'Air',
     'Nocturnal Element': 'Earth' },
         Venus: {
-    'Dignity Effect': { libra: 1, taurus: 1, pisces: 2, aries: -1, scorpio: -1, virgo: -2 }
+    'Dignity Effect': { libra: 1, taurus: 1, pisces: 2, aries: -1, scorpio: -1, virgo: -2 },
     Elements: ['Water', 'Earth'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
     'Diurnal Element': 'Water',
     'Nocturnal Element': 'Earth' },
         Mars: {
-    'Dignity Effect': { aries: 1, scorpio: 1, capricorn: 2, taurus: -1, libra: -1, cancer: -2 }
+    'Dignity Effect': { aries: 1, scorpio: 1, capricorn: 2, taurus: -1, libra: -1, cancer: -2 },
     Elements: ['Fire', 'Water'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
     'Diurnal Element': 'Fire',
@@ -88,32 +88,32 @@ export const planetInfo = {
     'Diurnal Element': 'Air',
     'Nocturnal Element': 'Fire' },
         Saturn: {
-    'Dignity Effect': { aquarius: 1, capricorn: 1, libra: 2, cancer: -1, leo: -1, aries: -2 }
+    'Dignity Effect': { aquarius: 1, capricorn: 1, libra: 2, cancer: -1, leo: -1, aries: -2 },
     Elements: ['Air', 'Earth'],
     Alchemy: { Spirit: 1, Essence: 0, Matter: 1, Substance: 0 }
     'Diurnal Element': 'Air',
     'Nocturnal Element': 'Earth' },
         Uranus: {
-    'Dignity Effect': { aquarius: 1, scorpio: 2, taurus: -3 }
+    'Dignity Effect': { aquarius: 1, scorpio: 2, taurus: -3 },
     Elements: ['Water', 'Air'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
     'Diurnal Element': 'Water',
     'Nocturnal Element': 'Air' },
         Neptune: {
-    'Dignity Effect': { pisces: 1, cancer: 2, virgo: -1, capricorn: -2 }
+    'Dignity Effect': { pisces: 1, cancer: 2, virgo: -1, capricorn: -2 },
     Elements: ['Water', 'Water'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 0, Substance: 1 }
     'Diurnal Element': 'Water',
     'Nocturnal Element': 'Water' },
         Pluto: {
-    'Dignity Effect': { scorpio: 1, leo: 2, taurus: -1, aquarius: -2 }
+    'Dignity Effect': { scorpio: 1, leo: 2, taurus: -1, aquarius: -2 },
     Elements: ['Earth', 'Water'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
     'Diurnal Element': 'Earth',
     'Nocturnal Element': 'Water' },
         Ascendant: {
     'Diurnal Element': 'Earth',
-    'Nocturnal Element': 'Earth'
+    'Nocturnal Element': 'Earth',
   }
 }
 
@@ -121,13 +121,13 @@ export const planetInfo = {
 export const signInfo = {
   aries: {;
     Element: 'Fire',
-    Start: { Day: 21, Month: 3, Year: 2022 }
+    Start: { Day: 21, Month: 3, Year: 2022 },
     End: { Day: 19, Month: 4, Year: 2022 }
     'Major Tarot Card': 'The Emperor',
     'Minor Tarot Cards': {
       '1st Decan': '2 of Wands',
       '2nd Decan': '3 of Wands',
-      '3rd Decan': '4 of Wands'
+      '3rd Decan': '4 of Wands',
     }
     'Decan Effects': { '1st Decan': ['Mars'], '2nd Decan': ['Sun'], '3rd Decan': ['Venus'] }
     'Degree Effects': {
@@ -141,13 +141,13 @@ export const signInfo = {
     Modality: 'Cardinal' },
         taurus: {
     Element: 'Earth',
-    Start: { Day: 20, Month: 4, Year: 2022 }
+    Start: { Day: 20, Month: 4, Year: 2022 },
     End: { Day: 20, Month: 5, Year: 2022 }
     'Major Tarot Card': 'The Heirophant',
     'Minor Tarot Cards': {
       '1st Decan': '5 of Pentacles',
       '2nd Decan': '6 of Pentacles',
-      '3rd Decan': '7 of Pentacles'
+      '3rd Decan': '7 of Pentacles',
     }
     'Decan Effects': { '1st Decan': ['Mercury'], '2nd Decan': ['Moon'], '3rd Decan': ['Saturn'] }
     'Degree Effects': {
@@ -161,13 +161,13 @@ export const signInfo = {
     Modality: 'Fixed' },
         gemini: {
     Element: 'Air',
-    Start: { Day: 21, Month: 5, Year: 2022 }
+    Start: { Day: 21, Month: 5, Year: 2022 },
     End: { Day: 20, Month: 6, Year: 2022 }
     'Major Tarot Card': 'The Lovers',
     'Minor Tarot Cards': {
       '1st Decan': '8 of Swords',
       '2nd Decan': '9 of Swords',
-      '3rd Decan': '10 of Swords'
+      '3rd Decan': '10 of Swords',
     }
     'Decan Effects': {
       '1st Decan': ['Jupiter'],
@@ -185,13 +185,13 @@ export const signInfo = {
     Modality: 'Mutable' },
         cancer: {
     Element: 'Water',
-    Start: { Day: 21, Month: 6, Year: 2022 }
+    Start: { Day: 21, Month: 6, Year: 2022 },
     End: { Day: 22, Month: 7, Year: 2022 }
     'Major Tarot Card': 'The Chariot',
     'Minor Tarot Cards': {
       '1st Decan': '2 of Cups',
       '2nd Decan': '3 of Cups',
-      '3rd Decan': '4 of Cups'
+      '3rd Decan': '4 of Cups',
     }
     'Decan Effects': {
       '1st Decan': ['Venus'],
@@ -209,13 +209,13 @@ export const signInfo = {
     Modality: 'Cardinal' },
         leo: {
     Element: 'Fire',
-    Start: { Day: 23, Month: 7, Year: 2022 }
+    Start: { Day: 23, Month: 7, Year: 2022 },
     End: { Day: 22, Month: 8, Year: 2022 }
     'Major Tarot Card': 'Strength',
     'Minor Tarot Cards': {
       '1st Decan': '5 of Wands',
       '2nd Decan': '6 of Wands',
-      '3rd Decan': '7 of Wands'
+      '3rd Decan': '7 of Wands',
     }
     'Decan Effects': { '1st Decan': ['Saturn'], '2nd Decan': ['Jupiter'], '3rd Decan': ['Mars'] }
     'Degree Effects': {
@@ -229,13 +229,13 @@ export const signInfo = {
     Modality: 'Fixed' },
         virgo: {
     Element: 'Earth',
-    Start: { Day: 23, Month: 8, Year: 2022 }
+    Start: { Day: 23, Month: 8, Year: 2022 },
     End: { Day: 22, Month: 9, Year: 2022 }
     'Major Tarot Card': 'The Hermit',
     'Minor Tarot Cards': {
       '1st Decan': '8 of Pentacles',
       '2nd Decan': '9 of Pentacles',
-      '3rd Decan': '10 of Pentacles'
+      '3rd Decan': '10 of Pentacles',
     }
     'Decan Effects': {
       '1st Decan': ['Mars', 'Sun'],
@@ -253,13 +253,13 @@ export const signInfo = {
     Modality: 'Mutable' },
         libra: {
     Element: 'Air',
-    Start: { Day: 23, Month: 9, Year: 2022 }
+    Start: { Day: 23, Month: 9, Year: 2022 },
     End: { Day: 22, Month: 10, Year: 2022 }
     'Major Tarot Card': 'Justice',
     'Minor Tarot Cards': {
       '1st Decan': '2 of Swords',
       '2nd Decan': '3 of Swords',
-      '3rd Decan': '4 of Swords'
+      '3rd Decan': '4 of Swords',
     }
     'Decan Effects': {
       '1st Decan': ['Moon'],
@@ -277,13 +277,13 @@ export const signInfo = {
     Modality: 'Cardinal' },
         scorpio: {
     Element: 'Water',
-    Start: { Day: 23, Month: 10, Year: 2022 }
+    Start: { Day: 23, Month: 10, Year: 2022 },
     End: { Day: 21, Month: 11, Year: 2022 }
     'Major Tarot Card': 'Death',
     'Minor Tarot Cards': {
       '1st Decan': '5 of Cups',
       '2nd Decan': '6 of Cups',
-      '3rd Decan': '7 of Cups'
+      '3rd Decan': '7 of Cups',
     }
     'Decan Effects': {
       '1st Decan': ['Pluto'],
@@ -301,13 +301,13 @@ export const signInfo = {
     Modality: 'Fixed' },
         sagittarius: {
     Element: 'Fire',
-    Start: { Day: 22, Month: 11, Year: 2022 }
+    Start: { Day: 22, Month: 11, Year: 2022 },
     End: { Day: 21, Month: 12, Year: 2022 }
     'Major Tarot Card': 'Temperance',
     'Minor Tarot Cards': {
       '1st Decan': '8 of Wands',
       '2nd Decan': '9 of Wands',
-      '3rd Decan': '10 of Wands'
+      '3rd Decan': '10 of Wands',
     }
     'Decan Effects': { '1st Decan': ['Mercury'], '2nd Decan': ['Moon'], '3rd Decan': ['Saturn'] }
     'Degree Effects': {
@@ -321,13 +321,13 @@ export const signInfo = {
     Modality: 'Mutable' },
         capricorn: {
     Element: 'Earth',
-    Start: { Day: 22, Month: 12, Year: 2022 }
+    Start: { Day: 22, Month: 12, Year: 2022 },
     End: { Day: 19, Month: 1, Year: 2023 }
     'Major Tarot Card': 'The Devil',
     'Minor Tarot Cards': {
       '1st Decan': '2 of Pentacles',
       '2nd Decan': '3 of Pentacles',
-      '3rd Decan': '4 of Pentacles'
+      '3rd Decan': '4 of Pentacles',
     }
     'Decan Effects': { '1st Decan': ['Jupiter'], '2nd Decan': [], '3rd Decan': ['Sun'] }
     'Degree Effects': {
@@ -341,13 +341,13 @@ export const signInfo = {
     Modality: 'Cardinal' },
         aquarius: {
     Element: 'Air',
-    Start: { Day: 20, Month: 1, Year: 2023 }
+    Start: { Day: 20, Month: 1, Year: 2023 },
     End: { Day: 18, Month: 2, Year: 2023 }
     'Major Tarot Card': 'The Star',
     'Minor Tarot Cards': {
       '1st Decan': '5 of Swords',
       '2nd Decan': '6 of Swords',
-      '3rd Decan': '7 of Swords'
+      '3rd Decan': '7 of Swords',
     }
     'Decan Effects': { '1st Decan': ['Uranus'], '2nd Decan': ['Mercury'], '3rd Decan': ['Moon'] }
     'Degree Effects': {
@@ -361,13 +361,13 @@ export const signInfo = {
     Modality: 'Fixed' },
         pisces: {
     Element: 'Water',
-    Start: { Day: 19, Month: 2, Year: 2023 }
+    Start: { Day: 19, Month: 2, Year: 2023 },
     End: { Day: 20, Month: 3, Year: 2023 }
     'Major Tarot Card': 'The Moon',
     'Minor Tarot Cards': {
       '1st Decan': '8 of Cups',
       '2nd Decan': '9 of Cups',
-      '3rd Decan': '10 of Cups'
+      '3rd Decan': '10 of Cups',
     }
     'Decan Effects': {
       '1st Decan': ['Saturn', 'Neptune', 'Venus'],
@@ -382,7 +382,7 @@ export const signInfo = {
       Saturn: [2730]
     },
     Ruler: 'Jupiter',
-    Modality: 'Mutable'
+    Modality: 'Mutable',
   }
 }
 

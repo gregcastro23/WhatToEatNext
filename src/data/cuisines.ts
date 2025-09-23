@@ -25,7 +25,7 @@ import { vietnamese } from './cuisines/vietnamese';
 // Import types
 
 // Example recipe type for reference
-const _: Recipe = {;
+const _: Recipe = {
   id: 'example-recipe-001',
   name: 'Example Recipe',
   description: 'Template for recipe structure',

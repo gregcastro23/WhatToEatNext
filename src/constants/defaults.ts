@@ -13,7 +13,7 @@ import type {
 /**
  * Default elemental properties with balanced values
  */
-export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {;
+export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
   Fire: 0.25,
   Water: 0.25,
   Earth: 0.25,
@@ -23,7 +23,7 @@ export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {;
 /**
  * Default alchemical values with standard distribution
  */
-export const DEFAULT_ALCHEMICAL_VALUES: AlchemicalValues = {;
+export const DEFAULT_ALCHEMICAL_VALUES: AlchemicalValues = {
   Spirit: 0.29,
   Essence: 0.28,
   Matter: 0.21,
@@ -33,7 +33,7 @@ export const DEFAULT_ALCHEMICAL_VALUES: AlchemicalValues = {;
 /**
  * Default chakra energies with neutral values
  */
-export const _DEFAULT_CHAKRA_ENERGIES: ChakraEnergies = {;
+export const _DEFAULT_CHAKRA_ENERGIES: ChakraEnergies = {
   root: 0.5,
   sacral: 0.5,
   solarPlexus: 0.5,
@@ -57,16 +57,16 @@ export const DEFAULT_MOON_SIGN: any = 'taurus';
 /**
  * Default planetary alignment with safe values
  */
-export const _DEFAULT_PLANETARY_ALIGNMENT: PlanetaryAlignment = {;
-  Sun: { sign: 'aries', degree: 0 }
+export const _DEFAULT_PLANETARY_ALIGNMENT: PlanetaryAlignment = {
+  Sun: { sign: 'aries', degree: 0 },
   Moon: { sign: 'taurus', degree: 0 }
-  Mercury: { sign: 'gemini', degree: 0 }
+  Mercury: { sign: 'gemini', degree: 0 },
   Venus: { sign: 'libra', degree: 0 }
-  Mars: { sign: 'aries', degree: 0 }
+  Mars: { sign: 'aries', degree: 0 },
   Jupiter: { sign: 'sagittarius', degree: 0 }
-  Saturn: { sign: 'capricorn', degree: 0 }
+  Saturn: { sign: 'capricorn', degree: 0 },
   Uranus: { sign: 'aquarius', degree: 0 }
-  Neptune: { sign: 'pisces', degree: 0 }
+  Neptune: { sign: 'pisces', degree: 0 },
   Pluto: { sign: 'scorpio', degree: 0 }
 }
 
@@ -78,20 +78,20 @@ export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = {
     sign: 'aries',
     degree: 15,
     exactLongitude: 15.5,
-    isRetrograde: false
+    isRetrograde: false,
   },
   moon: {
     sign: 'taurus',
     degree: 8,
     exactLongitude: 38.2,
-    isRetrograde: false
+    isRetrograde: false,
   }
 } as Record<string, CelestialPosition>,
 
 /**
  * Default astrological state with safe values for all required properties
  */
-export const _DEFAULT_ASTROLOGICAL_STATE = {;
+export const _DEFAULT_ASTROLOGICAL_STATE = {
   sunSign: DEFAULT_SUN_SIGN,
   moonSign: DEFAULT_MOON_SIGN,
   lunarPhase: DEFAULT_LUNAR_PHASE,
@@ -103,7 +103,7 @@ export const _DEFAULT_ASTROLOGICAL_STATE = {;
   decan: {
     sunDecan: 1,
     moonDecan: 1,
-    risingDecan: 1
+    risingDecan: 1,
   },
   aspects: [],
   dominantElement: 'Fire',
@@ -111,7 +111,7 @@ export const _DEFAULT_ASTROLOGICAL_STATE = {;
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
-    Air: 0.25
+    Air: 0.25,
   },
   planetaryPositions: DEFAULT_PLANETARY_POSITIONS,
   isDaytime: true,
@@ -144,7 +144,7 @@ export const _DEFAULT_ZODIAC_ENERGIES: Record<string, number> = {
 /**
  * Default thermodynamic properties
  */
-export const _DEFAULT_THERMODYNAMIC_PROPERTIES = {;
+export const _DEFAULT_THERMODYNAMIC_PROPERTIES = {
   heat: 0.5,
   entropy: 0.5,
   reactivity: 0.5,
@@ -154,7 +154,7 @@ export const _DEFAULT_THERMODYNAMIC_PROPERTIES = {;
 /**
  * Default modality distribution
  */
-export const _DEFAULT_MODALITY_DISTRIBUTION = {;
+export const _DEFAULT_MODALITY_DISTRIBUTION = {
   cardinal: 0.33,
   fixed: 0.33,
   mutable: 0.34
@@ -163,7 +163,7 @@ export const _DEFAULT_MODALITY_DISTRIBUTION = {;
 /**
  * Default error message templates
  */
-export const _DEFAULT_ERROR_MESSAGES = {;
+export const _DEFAULT_ERROR_MESSAGES = {
   calculation: 'Error in astrological calculation',
   missing_data: 'Missing required data for calculation',
   invalid_input: 'Invalid input data provided',
@@ -175,7 +175,7 @@ export const _DEFAULT_ERROR_MESSAGES = {;
 /**
  * Default recipe elemental values
  */
-export const DEFAULT_RECIPE_ELEMENTAL_VALUES = {;
+export const DEFAULT_RECIPE_ELEMENTAL_VALUES = {
   Fire: 0.3,
   Water: 0.3,
   Earth: 0.2,
@@ -185,7 +185,7 @@ export const DEFAULT_RECIPE_ELEMENTAL_VALUES = {;
 /**
  * Default food recommendation
  */
-export const _DEFAULT_FOOD_RECOMMENDATION = {;
+export const _DEFAULT_FOOD_RECOMMENDATION = {
   cuisine: 'balanced',
   elements: DEFAULT_RECIPE_ELEMENTAL_VALUES,
   recommendation: 'A balanced meal with a variety of fresh ingredients'
@@ -194,7 +194,7 @@ export const _DEFAULT_FOOD_RECOMMENDATION = {;
 /**
  * Default calculation parameters
  */
-export const _DEFAULT_CALCULATION_PARAMS = {;
+export const _DEFAULT_CALCULATION_PARAMS = {
   useAspects: true,
   usePlanetaryHours: true,
   useLunarPhase: true,

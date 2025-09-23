@@ -72,7 +72,7 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
   }
 
   // Core required properties with enhanced validation
-  const safeRecipe: Recipe = {;
+  const safeRecipe: Recipe = {
     id: safeGetString((recipe as any).id) || `recipe-${Date.now()}`,
     name: safeGetString((recipe as any).name) || 'Unnamed Recipe',
     description: safeGetString((recipe as any).description) || '',
@@ -108,7 +108,7 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
     );
   }
   if ((recipe as any).nutrition) {
-    safeRecipe.nutrition = validateAndNormalizeNutrition(;
+    safeRecipe.nutrition = validateAndNormalizeNutrition(
       (recipe as any).nutrition as NutritionData,
     )
   }
@@ -198,7 +198,7 @@ function validateServings(servings: number | string | unknown): number {
 }
 
 function validateMealType(mealType: string | string[] | unknown): string[] {
-  const validMealTypes = [;
+  const validMealTypes = [
     'breakfast',
     'lunch',
     'dinner',
@@ -419,7 +419,7 @@ class RecipeData {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25
+          Air: 0.25,
         }
       })
     })
@@ -460,7 +460,7 @@ class RecipeData {
     } catch (error) {
       errorHandler.handleError(error, {
         context: 'RecipeData',
-        action: 'getAllRecipes'
+        action: 'getAllRecipes',
       })
 
       // Return at least one fallback recipe to prevent application errors
@@ -485,7 +485,7 @@ class RecipeData {
         Fire: 0.25,
         Earth: 0.25,
         Air: 0.25,
-        Water: 0.25
+        Water: 0.25,
       },
       season: ['all'],
       mealType: ['lunch', 'dinner'],
@@ -557,7 +557,7 @@ class RecipeData {
     } catch (error) {
       errorHandler.handleError(error, {
         context: 'RecipeData',
-        action: 'getRecommendedRecipes'
+        action: 'getRecommendedRecipes',
       })
       return [this.getFallbackRecipe()],
     }
@@ -691,7 +691,7 @@ class RecipeData {
     } catch (error) {
       errorHandler.handleError(error, {
         context: 'RecipeData',
-        action: 'filterRecipes'
+        action: 'filterRecipes',
       })
       return [this.getFallbackRecipe()],
     }

@@ -39,16 +39,16 @@ export const ComponentLoader: React.FC<{ message?: string }> = ({ message = 'Loa
     padding: '40px',
     backgroundColor: '#f8f9fa',
     borderRadius: '8px',
-    border: '1px dashed #ddd'
+    border: '1px dashed #ddd',
   }}>
     <div style={{
       textAlign: 'center',
-      color: '#666'
+      color: '#666',
     }}>
       <div style={{
         fontSize: '24px',
         marginBottom: '8px',
-        animation: 'pulse 1.5s ease-in-out infinite'
+        animation: 'pulse 1.5s ease-in-out infinite',
       }}>
         ⏳
       </div>
@@ -85,7 +85,7 @@ export class LazyComponentErrorBoundary extends React.Component<
           color: '#721c24',
           border: '1px solid #f5c6cb',
           borderRadius: '8px',
-          textAlign: 'center'
+          textAlign: 'center',
         }}>
           <div style={{ fontSize: '20px', marginBottom: '8px' }}>⚠️</div>
           <div style={{ fontWeight: '600', marginBottom: '4px' }}>

@@ -92,7 +92,7 @@ export class LintingProgressTracker {
 ;
       const executionTime = Date.now() - startTime;
 
-      const fullMetrics: LintingMetrics = {;
+      const fullMetrics: LintingMetrics = {
         ...metrics,
         timestamp: new Date(),
         performanceMetrics: {
@@ -125,7 +125,7 @@ export class LintingProgressTracker {
       const trends = this.calculateTrends(history)
       const qualityGates = this.evaluateQualityGates(currentMetrics)
 
-      const report: LintingProgressReport = {;
+      const report: LintingProgressReport = {
         currentMetrics,
         previousMetrics,
         improvement,
@@ -149,7 +149,7 @@ export class LintingProgressTracker {
       const report = await this.generateProgressReport()
 
       // Calculate campaign-specific metrics
-      const campaignProgress = {;
+      const campaignProgress = {
         campaignId: campaignData.campaignId,
         phase: campaignData.phase,
         currentProgress: this.calculateCampaignProgress(report, campaignData),
@@ -188,7 +188,7 @@ export class LintingProgressTracker {
         return false;
       }
 
-      const gates = {;
+      const gates = {
         errorGate: metrics.errors <= thresholds.maxErrors,
         warningGate: metrics.warnings <= thresholds.maxWarnings,
         performanceGate: metrics.performanceMetrics.executionTime <= thresholds.maxExecutionTime
@@ -307,7 +307,7 @@ export class LintingProgressTracker {
         totalIssuesReduced: 0,
         errorsReduced: 0,
         warningsReduced: 0,
-        percentageImprovement: 0
+        percentageImprovement: 0,
       }
     }
 
@@ -376,7 +376,7 @@ export class LintingProgressTracker {
 
     // Assume we started with some baseline (could be stored in campaign data)
     const baselineIssues = targetReduction
-    const progress = Math.max(;
+    const progress = Math.max(
       0,
       Math.min(100, ((baselineIssues - currentIssues) / baselineIssues) * 100),
     )

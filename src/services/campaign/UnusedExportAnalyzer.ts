@@ -84,7 +84,7 @@ export class UnusedExportAnalyzer {
 
   constructor(srcPath: string = 'src') {
     this.srcPath = srcPath
-    this.excludePatterns = [;
+    this.excludePatterns = [
       '**/node_modules/**',
       '**/*.test.ts',
       '**/*.test.tsx',
@@ -142,7 +142,7 @@ export class UnusedExportAnalyzer {
    * Get all source files for analysis
    */
   private async getAllSourceFiles(): Promise<string[]> {
-    const patterns = [;
+    const patterns = [
       `${this.srcPath}/**/*.ts`,
       `${this.srcPath}/**/*.tsx`,
       `${this.srcPath}/**/*.js`,
@@ -153,7 +153,7 @@ export class UnusedExportAnalyzer {
     for (const pattern of patterns) {
       const matches = await glob(pattern, {
         ignore: this.excludePatterns,
-        absolute: true
+        absolute: true,
       })
       files.push(...matches)
     }
@@ -212,7 +212,7 @@ export class UnusedExportAnalyzer {
 ;
     lines.forEach((line, index) => {
       // Named exports
-      const namedExportMatch = line.match(;
+      const namedExportMatch = line.match(
         /export\s+(?:const|let|var|function|class|interface|type|enum)\s+(\w+)/,
       ),
       if (namedExportMatch) {
@@ -221,12 +221,12 @@ export class UnusedExportAnalyzer {
           exportName: namedExportMatch[1],
           exportType: this.determineExportType(line),
           lineNumber: index + 1,
-          isDefault: false
+          isDefault: false,
         })
       }
 
       // Default exports
-      const defaultExportMatch = line.match(;
+      const defaultExportMatch = line.match(
         /export\s+default\s+(?:(?:const|let|var|function|class)\s+)?(\w+)/,
       )
       if (defaultExportMatch) {
@@ -235,7 +235,7 @@ export class UnusedExportAnalyzer {
           exportName: defaultExportMatch[1] || 'default',
           exportType: this.determineExportType(line),
           lineNumber: index + 1,
-          isDefault: true
+          isDefault: true,
         })
       }
 
@@ -250,7 +250,7 @@ export class UnusedExportAnalyzer {
             exportName: cleanName,
             exportType: 'variable',
             lineNumber: index + 1,
-            isDefault: false
+            isDefault: false,
           })
         })
       }
@@ -507,7 +507,7 @@ export class UnusedExportAnalyzer {
     const lowPriorityFiles = fileAnalyses.filter(f => f.priority === FilePriority.LOW)
 
     const totalUnusedExports = fileAnalyses.reduce((sumf) => sum + f.unusedExports.length0)
-    const totalTransformationCandidates = fileAnalyses.reduce(;
+    const totalTransformationCandidates = fileAnalyses.reduce(
       (sumf) => sum + f.transformationCandidates.length0,
     )
 
@@ -547,7 +547,7 @@ export class UnusedExportAnalyzer {
    * Generate detailed report
    */
   generateReport(analysis: AnalysisResult): string {
-    const report = [;
+    const report = [
       '# Unused Export Analysis Report',
       '',
       '## Summary',
@@ -569,7 +569,7 @@ export class UnusedExportAnalyzer {
     ],
 
     // Add top candidates from each priority level
-    const topCandidates = [;
+    const topCandidates = [
       ...analysis.highPriorityFiles.slice(05),
       ...analysis.mediumPriorityFiles.slice(05),
       ...analysis.lowPriorityFiles.slice(05)

@@ -144,7 +144,7 @@ export class AlchemicalEngineAdvanced {
     Fire: 1,
     Air: 1,
     Water: 1,
-    Earth: 1
+    Earth: 1,
   }
 
   private readonly zodiacElements: Record<ZodiacSign, keyof ElementalProperties> = {
@@ -172,9 +172,9 @@ export class AlchemicalEngineAdvanced {
   }
 
   private readonly seasonalModifiers: Record<string, ElementalProperties> = {
-    spring: { Fire: 0.3, Water: 0.3, Air: 0.3, Earth: 0.1 }
-    summer: { Fire: 0.4, Water: 0.2, Air: 0.3, Earth: 0.1 }
-    autumn: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 }
+    spring: { Fire: 0.3, Water: 0.3, Air: 0.3, Earth: 0.1 },
+    summer: { Fire: 0.4, Water: 0.2, Air: 0.3, Earth: 0.1 },
+    autumn: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 },
     fall: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 }, // Alias for autumn to maintain backward compatibility
     winter: { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 }
   }
@@ -253,7 +253,7 @@ export class AlchemicalEngineAdvanced {
     season?: string,
     cuisine?: string,
   ): AlchemicalCalculationResult {
-    const _dominantElement = Object.entries(recipeElements || DEFAULT_ELEMENTAL_PROPERTIES).sort(;
+    const _dominantElement = Object.entries(recipeElements || DEFAULT_ELEMENTAL_PROPERTIES).sort(
       ([, a], [, b]) => b - a
     )[0][0],
 
@@ -299,7 +299,7 @@ export class AlchemicalEngineAdvanced {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25
+          Air: 0.25,
         },
         thermodynamicProperties: {
           heat: totalScore * 0.1,
@@ -360,7 +360,7 @@ export class AlchemicalEngineAdvanced {
           : null,
       if (astroState && elementalProperties) {
         const astroElements = this.calculateAstrologicalInfluence(astroState)
-        const elementCompatibility = this.calculateElementCompatibility(;
+        const elementCompatibility = this.calculateElementCompatibility(
           astroElements,
           elementalProperties as ElementalProperties,
         )
@@ -407,7 +407,7 @@ export class AlchemicalEngineAdvanced {
       totalWeight += weight,
     }
 
-    return totalWeight > 0 ? totalCompatibility / totalWeight : 0.5
+    return totalWeight > 0 ? totalCompatibility / totalWeight : 0.5,
   }
 
   /**
@@ -545,11 +545,11 @@ export class AlchemicalEngineAdvanced {
     const seasonBase = this.seasonalModifiers[season.toLowerCase()];
     const lunarBase = this.lunarPhaseModifiers[moonPhase];
 
-    const result: ElementalProperties = {;
+    const result: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Air: 0.25,
-      Earth: 0.25
+      Earth: 0.25,
     }
 
     Object.keys(result).forEach(element => {
@@ -601,7 +601,7 @@ export class AlchemicalEngineAdvanced {
             ) || '';
           : '',
 
-    const baseHarmony = this.calculateAstroCuisineMatch(;
+    const baseHarmony = this.calculateAstroCuisineMatch(
       recipe.elementalProperties,
       astroState,
       currentSeason,
@@ -652,7 +652,7 @@ export class AlchemicalEngineAdvanced {
         Fire: 0.25,
         Water: 0.25,
         Air: 0.25,
-        Earth: 0.25
+        Earth: 0.25,
       }
     }
 
@@ -668,20 +668,20 @@ export class AlchemicalEngineAdvanced {
           Fire: 0.25,
           Water: 0.25,
           Air: 0.25,
-          Earth: 0.25
+          Earth: 0.25,
         }
       : {
           Fire: 0.25,
           Water: 0.25,
           Air: 0.25,
-          Earth: 0.25
+          Earth: 0.25,
         }
 
-    const baseModifiers: ElementalProperties = {;
+    const baseModifiers: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Air: 0.25,
-      Earth: 0.25
+      Earth: 0.25,
     }
 
     baseModifiers[currentZodiacElement] += 0.2,
@@ -785,7 +785,7 @@ export class AlchemicalEngineAdvanced {
         1: 'Fire',
         2: 'Water',
         3: 'Earth',
-        4: 'Air'
+        4: 'Air',
       }
     }
   }
@@ -864,7 +864,7 @@ function getElementRanking(elementObject: Record<string, _number>): Record<numbe
       1: 'Fire',
       2: 'Water',
       3: 'Earth',
-      4: 'Air'
+      4: 'Air',
     }
   }
 }
@@ -952,22 +952,22 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
     }
 
     // Initialize metadata and result object
-    const _metadata = {;
+    const _metadata = {
       name: 'Alchm NFT',
       description: 'Alchm is unlike any other NFT collection on Earth. Just like peopleno two Alchm NFTs are the same, and there is no limit on how many can exist. Your Alchm NFT has no random features, and is completely customized and unique to you. By minting, you gain permanent access to limitless information about your astrology and identity through our sites and apps.',
       attributes: [] as Array<{ trait_type: string, value: string }>, // Add type annotation
     }
 
     // Initialize alchemical info with default values - use let UNUSED_since it's modified later
-    const alchmInfo = {;
+    const alchmInfo = {
       'Sun Sign': '',
       'Major Arcana': {
         Sun: '',
-        Ascendant: ''
+        Ascendant: '',
       }
       'Minor Arcana': {
         Decan: '',
-        Cusp: 'None'
+        Cusp: 'None',
       }
       'Alchemy Effects': {
         'Total Spirit': 0,
@@ -975,7 +975,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
         'Total Day Essence': 0,
         'Total Matter': 0,
         'Total Substance': 0,
-        'Total Night Essence': 0
+        'Total Night Essence': 0,
       }
       'Chart Ruler': '',
       'Total Dignity Effect': createElementObject(),
@@ -1003,7 +1003,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
       'All Oppositions': [] as Array<Record<string, unknown>>,
       Stelliums: [] as Array<Record<string, unknown>>,
       Signs: {
-        aries: {}
+        aries: {},
         taurus: {}
         gemini: {}
         cancer: {}
@@ -1017,7 +1017,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
         pisces: {}
       },
       Planets: {
-        Sun: {}
+        Sun: {},
         Moon: {}
         Mercury: {}
         Venus: {}
@@ -1233,7 +1233,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
                   ] as Record<string, unknown>
                 )[sign]
               ) {
-                const dignity_effect_value = (;
+                const dignity_effect_value = (
                   (alchmInfo['Planets'][planet] as Record<string, unknown>)[
                     'Dignity Effect'
                   ] as Record<string, unknown>
@@ -1252,7 +1252,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
                     if (
                       (alchmInfo['Planets'][planet] as Record<string, unknown>)['Diurnal Element']
                     ) {
-                      const diurnalElement = (;
+                      const diurnalElement = (
                         alchmInfo['Planets'][planet] as Record<string, unknown>
                       )['Diurnal Element'],
                       dignity_effect[String(diurnalElement)] =
@@ -1263,7 +1263,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
                     if (
                       (alchmInfo['Planets'][planet] as Record<string, unknown>)['Nocturnal Element']
                     ) {
-                      const nocturnalElement = (;
+                      const nocturnalElement = (
                         alchmInfo['Planets'][planet] as Record<string, unknown>
                       )['Nocturnal Element'],
                       dignity_effect[String(nocturnalElement)] =
@@ -1420,7 +1420,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
+        Air: 0.25,
       },
       thermodynamicProperties: {
         heat,
@@ -1435,7 +1435,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
       confidence: 0.1,
       metadata: {
         source: 'fallback',
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error.message : 'Unknown error',
       }
     } as StandardizedAlchemicalResult,
   }
@@ -1565,7 +1565,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<Record<string, unkn
         Object.entries(astrologizePositions).forEach(([planet, position]) => {
           const pos = position as PlanetPosition;
           convertedPositions[planet] = {
-            Sign: { label: pos.sign }
+            Sign: { label: pos.sign },
             Degree: pos.degree,
             ChartPosition: {
               Ecliptic: {
@@ -1588,7 +1588,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<Record<string, unkn
       logger.warn('Astrologize API returned incomplete positions, trying fallback')
     } catch (astrologizeError) {
       logger.warn('Error using astrologize API', {
-        error: astrologizeError instanceof Error ? astrologizeError.message : 'Unknown error'
+        error: astrologizeError instanceof Error ? astrologizeError.message : 'Unknown error',
       })
       ErrorHandler.log(astrologizeError as Error, {
         context: { source: 'alchemicalEngine:calculateCurrentPlanetaryPositions:astrologize' }
@@ -1611,7 +1611,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<Record<string, unkn
       logger.warn('Accurate astronomy returned incomplete positions, trying fallback')
     } catch (accurateError) {
       logger.warn('Error using accurate astronomy calculator', {
-        error: accurateError instanceof Error ? accurateError.message : 'Unknown error'
+        error: accurateError instanceof Error ? accurateError.message : 'Unknown error',
       })
       ErrorHandler.log(accurateError as Error, {
         context: { source: 'alchemicalEngine:calculateCurrentPlanetaryPositions:accurate' }
@@ -1647,7 +1647,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<Record<string, unkn
       // Convert the fallback positions (which are just degrees) to proper format
       const formattedPositions: Record<string, unknown> = {}
 
-      const signs = [;
+      const signs = [
         'aries',
         'taurus',
         'gemini',
@@ -1688,7 +1688,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<Record<string, unkn
         }
 
         formattedPositions[planet] = {
-          Sign: { label: signs[signIndex] }
+          Sign: { label: signs[signIndex] },
           Degree: degree,
           ChartPosition: {
             Ecliptic: {
@@ -1708,7 +1708,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<Record<string, unkn
       logger.warn('Fallback position calculator returned incomplete data')
     } catch (fallbackError) {
       logger.warn('Error using fallback position calculator', {
-        error: fallbackError instanceof Error ? fallbackError.message : 'Unknown error'
+        error: fallbackError instanceof Error ? fallbackError.message : 'Unknown error',
       })
       ErrorHandler.log(fallbackError as Error, {
         context: { source: 'alchemicalEngine:calculateCurrentPlanetaryPositions:fallback' }
@@ -1723,48 +1723,48 @@ async function calculateCurrentPlanetaryPositions(): Promise<Record<string, unkn
         Sign: { label: 'Aries' },
         Degree: 15,
         ChartPosition: { Ecliptic: { ArcDegreesInSign: 15 } }
-        exactLongitude: 15
+        exactLongitude: 15,
       },
       Moon: {
         Sign: { label: 'Cancer' },
         Degree: 10,
         ChartPosition: { Ecliptic: { ArcDegreesInSign: 10 } }
-        exactLongitude: 100
+        exactLongitude: 100,
       },
       Mercury: {
         Sign: { label: 'Taurus' },
         Degree: 5,
         ChartPosition: { Ecliptic: { ArcDegreesInSign: 5 } }
-        exactLongitude: 35
+        exactLongitude: 35,
       },
       Venus: {
         Sign: { label: 'Gemini' },
         Degree: 12,
         ChartPosition: { Ecliptic: { ArcDegreesInSign: 12 } }
-        exactLongitude: 72
+        exactLongitude: 72,
       },
       Mars: {
         Sign: { label: 'Leo' },
         Degree: 8,
         ChartPosition: { Ecliptic: { ArcDegreesInSign: 8 } }
-        exactLongitude: 128
+        exactLongitude: 128,
       },
       Jupiter: {
         Sign: { label: 'Libra' },
         Degree: 20,
         ChartPosition: { Ecliptic: { ArcDegreesInSign: 20 } }
-        exactLongitude: 200
+        exactLongitude: 200,
       },
       Saturn: {
         Sign: { label: 'Capricorn' },
         Degree: 15,
         ChartPosition: { Ecliptic: { ArcDegreesInSign: 15 } }
-        exactLongitude: 285
+        exactLongitude: 285,
       }
     }
   } catch (error) {
     logger.error('Critical error calculating planetary positions', {
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error.message : 'Unknown error',
     })
 
     ErrorHandler.log(error as Error, {
@@ -1808,7 +1808,7 @@ export function calculateZodiacEnergies(
     sagittarius: 0,
     capricorn: 0,
     aquarius: 0,
-    pisces: 0
+    pisces: 0,
   }
 
   // Guard against undefined or null positions
@@ -1828,7 +1828,7 @@ export function calculateZodiacEnergies(
     Saturn: 0.1,
     Uranus: 0.05,
     Neptune: 0.05,
-    Pluto: 0.05
+    Pluto: 0.05,
   }
 
   try {
@@ -1886,7 +1886,7 @@ export function calculateZodiacEnergies(
     return zodiacEnergies,
   } catch (error) {
     logger.error('Error calculating zodiac energies', {
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error.message : 'Unknown error',
     })
 
     ErrorHandler.log(error as Error, {
@@ -1911,7 +1911,7 @@ export function calculateZodiacEnergies(
 export function calculateChakraEnergies(_zodiacEnergies: Record<string, _number>): ChakraEnergies {
   try {
     // Initialize with default values - ensures all chakras have values
-    const chakraEnergies = {;
+    const chakraEnergies = {
       root: 0.125,
       sacral: 0.125,
       solarPlexus: 0.125,
@@ -2015,7 +2015,7 @@ export function calculateChakraEnergies(_zodiacEnergies: Record<string, _number>
     return chakraEnergies,
   } catch (error) {
     logger.error('Error calculating chakra energies', {
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error.message : 'Unknown error',
     })
 
     ErrorHandler.log(error as Error, {
@@ -2023,7 +2023,7 @@ export function calculateChakraEnergies(_zodiacEnergies: Record<string, _number>
     })
 
     // Return equal distribution on error
-    const defaultEnergies = {;
+    const defaultEnergies = {
       root: 0.125,
       sacral: 0.125,
       solarPlexus: 0.125,
@@ -2031,7 +2031,7 @@ export function calculateChakraEnergies(_zodiacEnergies: Record<string, _number>
       throat: 0.125,
       thirdEye: 0.125,
       crown: 0.125,
-      brow: 0.125
+      brow: 0.125,
     } as ChakraEnergies,
 
     return defaultEnergies,
@@ -2078,11 +2078,11 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
       .map(([planet]) => planet)
 
     // Calculate elemental properties based on planetary positions
-    const elementalProperties: ElementalProperties = {;
+    const elementalProperties: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25
+      Air: 0.25,
     }
 
     // Enhance the elemental properties based on sun sign
@@ -2126,7 +2126,7 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
+        Air: 0.25,
       },
       planetaryPositions: {}
       timestamp: new Date(),
@@ -2169,7 +2169,7 @@ export default {
           'Total Spirit': 0.25,
           'Total Essence': 0.25,
           'Total Matter': 0.25,
-          'Total Substance': 0.25
+          'Total Substance': 0.25,
         }
       } as unknown as AlchemicalResult,
     }
@@ -2189,7 +2189,7 @@ function safeAlchemize(_birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): Al
     // Create a deep copy of the actual planetary information
     // JSON.parse/stringify is used for deep cloning, though it has limitations
     // It's the safest way to ensure we don't modify any constants
-    const _safetyWrapper = {;
+    const _safetyWrapper = {
       planetInfo: JSON.parse(JSON.stringify(planetInfo)),
       signInfo: JSON.parse(JSON.stringify(signInfo)),
       signs: JSON.parse(JSON.stringify(signs))
@@ -2210,7 +2210,7 @@ function safeAlchemize(_birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): Al
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
+        Air: 0.25,
       },
       thermodynamicProperties: {
         heat,
@@ -2269,7 +2269,7 @@ function alchemizeWithSafety(
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
+        Air: 0.25,
       },
       thermodynamicProperties: {
         heat,
@@ -2287,7 +2287,7 @@ function alchemizeWithSafety(
         description: 'Safety-first result from alchemizeWithSafety.',
         attributes: [],
         sunSign: sunSignLabel,
-        dominantElement: 'Fire'
+        dominantElement: 'Fire',
       }
     } as StandardizedAlchemicalResult,
   } catch (error) {
@@ -2303,7 +2303,7 @@ function alchemizeWithSafety(
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
+        Air: 0.25,
       },
       thermodynamicProperties: {
         heat,

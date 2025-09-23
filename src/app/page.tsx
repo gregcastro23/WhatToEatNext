@@ -56,7 +56,7 @@ const StatusIndicator = ({ label, status }: { label: string; status: 'active' | 
     <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${colors[status]}`}>
       <div className={`w-2 h-2 rounded-full mr-2 ${
         status === 'active' ? 'bg-green-500' :
-        status === 'ready' ? 'bg-blue-500' : 'bg-purple-500'
+        status === 'ready' ? 'bg-blue-500' : 'bg-purple-500',
       }`}></div>
       {label}
     </div>

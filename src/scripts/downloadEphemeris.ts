@@ -4,7 +4,7 @@ import path from 'path';
 
 const EPHE_PATH = path.join(process.cwd(), 'public', 'ephe')
 // Expanded to include more files for comprehensive planetary calculations
-const FILES = [;
+const FILES = [
   'sepl_18.se1', // Main planets
   'semo_18.se1', // Moon
   'seas_18.se1', // Asteroids

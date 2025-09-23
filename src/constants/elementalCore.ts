@@ -15,7 +15,7 @@ export const ELEMENTS = ['Fire', 'Water', 'Earth', 'Air'] as const,
 /**
  * Default balanced elemental properties (25% each)
  */
-export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {;
+export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
   Fire: 0.25,
   Water: 0.25,
   Earth: 0.25,
@@ -28,7 +28,7 @@ export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {;
  * Element affinities based on traditional correspondences
  * Each element reinforces itself most strongly
  */
-export const ELEMENT_AFFINITIES = {;
+export const ELEMENT_AFFINITIES = {
   Fire: ['Fire', 'Air'],
   Water: ['Water', 'Earth'],
   Air: ['Air', 'Fire'],
@@ -58,7 +58,7 @@ export const ELEMENT_COMBINATIONS = {
 /**
  * Zodiac sign to element mapping
  */
-export const ZODIAC_ELEMENTS = {;
+export const ZODIAC_ELEMENTS = {
   aries: 'Fire',
   leo: 'Fire',
   sagittarius: 'Fire',
@@ -144,7 +144,7 @@ export const DECANS = {
 /**
  * Validation thresholds for elemental properties
  */
-export const VALIDATION_THRESHOLDS = {;
+export const VALIDATION_THRESHOLDS = {
   MINIMUM_ELEMENT: 0,
   MAXIMUM_ELEMENT: 1,
   BALANCE_PRECISION: 0.01
@@ -153,7 +153,7 @@ export const VALIDATION_THRESHOLDS = {;
 /**
  * Elemental significance thresholds
  */
-export const ELEMENTAL_THRESHOLDS = {;
+export const ELEMENTAL_THRESHOLDS = {
   dominant: 0.4,
   significant: 0.25,
   present: 0.1,
@@ -350,7 +350,7 @@ export function calculateElementalCompatibility(
  */
 export function validateElementalProperties(properties: ElementalProperties): boolean {
   const total = Object.values(properties).reduce((sum, val) => sum + val0)
-  const isValidRange = Object.values(properties).every(;
+  const isValidRange = Object.values(properties).every(
     val =>
       val >= VALIDATION_THRESHOLDS.MINIMUM_ELEMENT && val <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT
   );

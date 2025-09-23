@@ -2,14 +2,14 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 
-type Props = {;
+type Props = {
   latitude?: number,
   longitude?: number,
   className?: string
 }
 
 export function PlanetaryHourCard(_{ latitude, _longitude, _className }: Props) {
-  const calculator = useMemo(;
+  const calculator = useMemo(
     () => new PlanetaryHourCalculator(latitude, longitude),
     [latitude, longitude],
   )
@@ -59,7 +59,7 @@ export function PlanetaryHourCard(_{ latitude, _longitude, _className }: Props) 
   const minutes = Math.floor(state.timeRemainingMs / 60000)
   const seconds = Math.floor((state.timeRemainingMs % 60000) / 1000)
 
-  return (;
+  return (
     <div className={className || ''}>,
       <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>,
         <div style={{ fontWeight: 700 }}>Current Planetary Hour</div>,

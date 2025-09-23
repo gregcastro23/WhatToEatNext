@@ -10,7 +10,7 @@ interface TimingResult {
 }
 
 export const timingUtils = {
-  calculateOptimalTiming(;
+  calculateOptimalTiming(
     ingredients: ElementalProperties[],
     cookingMethod: string,
     cuisine?: string,
@@ -19,7 +19,7 @@ export const timingUtils = {
 
     if (cuisine) {
       const cuisineProfile = culinaryTraditions[cuisine];
-      const cuisineElement = Object.entries(cuisineProfile.elementalAlignment).sort(;
+      const cuisineElement = Object.entries(cuisineProfile.elementalAlignment).sort(
         ([, a], [, b]) => b - a,
       )[0][0],
 
@@ -29,10 +29,10 @@ export const timingUtils = {
   }
 
   applyCuisineModifiers(base: TimingResult, element: string): TimingResult {
-    const modifiers = {;
-      Fire: { duration: 0.8, mainPhase: 0.7 }
+    const modifiers = {
+      Fire: { duration: 0.8, mainPhase: 0.7 },
       Water: { duration: 1.2, mainPhase: 0.5 }
-      Earth: { duration: 1.1, mainPhase: 0.6 }
+      Earth: { duration: 1.1, mainPhase: 0.6 },
       Air: { duration: 0.9, mainPhase: 0.8 }
     }
 
@@ -48,7 +48,7 @@ export const timingUtils = {
   }
 
   calculateBaseTiming(ingredients: ElementalProperties[], cookingMethod: string): TimingResult {
-    const baseProperties = ingredients.reduce(;
+    const baseProperties = ingredients.reduce(
       (acc, curr) => elementalUtils.combineProperties(acc, curr),
       elementalUtils.DEFAULT_ELEMENTAL_PROPERTIES,
     )
@@ -60,10 +60,10 @@ export const timingUtils = {
 
     // Base timing by dominant element (in minutes)
     const elementalTiming: Record<string, number> = {
-      Fire: 15, // Quick cooking,
-      Air: 20, // Medium-quick cooking,
-      Water: 30, // Medium cooking,
-      Earth: 45, // Slow cooking
+      Fire: 15, // Quick cooking
+    Air: 20, // Medium-quick cooking,
+      Water: 30, // Medium cooking
+    Earth: 45, // Slow cooking
     }
 
     // Cooking method modifiers
@@ -72,7 +72,7 @@ export const timingUtils = {
       _steaming: 1.2,
       _baking: 1.5,
       _slow_cooking: 2.5,
-      _raw: 0
+      _raw: 0,
     }
 
     const baseTime = elementalTiming[dominantElement] || 30;

@@ -52,7 +52,7 @@ export class ScriptExecutionMock {
       changesApplied: 5,
       errors: [],
       warnings: [],
-      executionTime: 1000
+      executionTime: 1000,
     }
 
     return Promise.resolve({
@@ -79,14 +79,14 @@ export class ScriptExecutionMock {
       changesApplied: 5,
       errors: [],
       warnings: [],
-      executionTime: 500
+      executionTime: 500,
     }
 
     return Promise.resolve({
       wouldProcess: mockResult.filesProcessed,
       estimatedChanges: mockResult.changesApplied,
       potentialIssues: mockResult.warnings,
-      safetyScore: mockResult.success ? 0.9 : 0.3
+      safetyScore: mockResult.success ? 0.9 : 0.3,
     })
   }
 
@@ -105,7 +105,7 @@ export class ScriptExecutionMock {
       changesApplied: processedFiles.length * 2,
       errors: [],
       warnings: [],
-      executionTime: 2000
+      executionTime: 2000,
     }
 
     return Promise.resolve({
@@ -265,7 +265,7 @@ export class ScriptExecutionMock {
       changesApplied: 15,
       errors: [],
       warnings: ['Minor type inference warning'],
-      executionTime: 3000
+      executionTime: 3000,
     })
 
     // Explicit Any Systematic Fixer
@@ -275,7 +275,7 @@ export class ScriptExecutionMock {
       changesApplied: 25,
       errors: [],
       warnings: [],
-      executionTime: 2500
+      executionTime: 2500,
     })
 
     // Unused Variables Enhanced Fixer
@@ -285,7 +285,7 @@ export class ScriptExecutionMock {
       changesApplied: 20,
       errors: [],
       warnings: ['Removed potentially important variable'];,
-      executionTime: 2000
+      executionTime: 2000,
     })
 
     // Console Statement Fixer
@@ -295,7 +295,7 @@ export class ScriptExecutionMock {
       changesApplied: 10,
       errors: [],
       warnings: [],
-      executionTime: 1500
+      executionTime: 1500,
     })
   }
 }

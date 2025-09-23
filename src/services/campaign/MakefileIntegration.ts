@@ -64,7 +64,7 @@ export class MakefileIntegration {
         'node src/services/campaign/CampaignController.js --phase=1 --execute',,
         '@make campaign-validate-phase1'
       ],
-      phony: true
+      phony: true,
     })
 
     this.campaignTargets.set('campaign-phase2', {
@@ -77,7 +77,7 @@ export class MakefileIntegration {
         'node src/services/campaign/CampaignController.js --phase=2 --execute',,
         '@make campaign-validate-phase2'
       ],
-      phony: true
+      phony: true,
     })
 
     this.campaignTargets.set('campaign-phase3', {
@@ -90,7 +90,7 @@ export class MakefileIntegration {
         'node src/services/campaign/CampaignController.js --phase=3 --execute',,
         '@make campaign-validate-phase3'
       ],
-      phony: true
+      phony: true,
     })
 
     this.campaignTargets.set('campaign-phase4', {
@@ -103,7 +103,7 @@ export class MakefileIntegration {
         'node src/services/campaign/CampaignController.js --phase=4 --execute',,
         '@make campaign-validate-phase4'
       ],
-      phony: true
+      phony: true,
     }),
 
     // Campaign Validation Targets
@@ -120,7 +120,7 @@ export class MakefileIntegration {
         '  exit 1, \\',
         'fi'
       ],
-      phony: true
+      phony: true,
     })
 
     this.campaignTargets.set('campaign-validate-phase2', {
@@ -136,7 +136,7 @@ export class MakefileIntegration {
         '  exit 1, \\',
         'fi'
       ],
-      phony: true
+      phony: true,
     })
 
     this.campaignTargets.set('campaign-validate-phase3', {
@@ -152,7 +152,7 @@ export class MakefileIntegration {
         '  exit 1, \\',
         'fi'
       ],
-      phony: true
+      phony: true,
     })
 
     this.campaignTargets.set('campaign-validate-phase4', {
@@ -168,7 +168,7 @@ export class MakefileIntegration {
         '  exit 1, \\',
         'fi'
       ],
-      phony: true
+      phony: true,
     }),
 
     // Campaign Progress and Reporting Targets
@@ -194,7 +194,7 @@ export class MakefileIntegration {
         '@echo '🚀 Next Steps: '',
         '@echo 'Run: make campaign-execute-next''
       ],
-      phony: true
+      phony: true,
     })
 
     this.campaignTargets.set('campaign-execute-next', {
@@ -219,7 +219,7 @@ export class MakefileIntegration {
         '  make campaign-celebration, \\',
         'fi'
       ],
-      phony: true
+      phony: true,
     })
 
     this.campaignTargets.set('campaign-celebration', {
@@ -240,7 +240,7 @@ export class MakefileIntegration {
         '@echo ''',
         '@echo '🚀 Ready for production deployment!''
       ],
-      phony: true
+      phony: true,
     })
 
     // Campaign Safety and Recovery Targets
@@ -266,7 +266,7 @@ export class MakefileIntegration {
         '@echo ''',
         '@echo '🎯 Safety, Status: Ready for campaign execution''
       ],
-      phony: true
+      phony: true,
     })
 
     this.campaignTargets.set('campaign-emergency-rollback', {
@@ -289,7 +289,7 @@ export class MakefileIntegration {
         '@echo ''',
         '@echo 'After recovery, run: make campaign-safety-check''
       ],
-      phony: true
+      phony: true,
     })
 
     // Integration with existing make targets
@@ -309,7 +309,7 @@ export class MakefileIntegration {
         '@echo ''',
         '@make errors-by-file | head -10'
       ],
-      phony: true
+      phony: true,
     })
   }
 
@@ -382,13 +382,13 @@ export class MakefileIntegration {
 
       // Get linting warnings count;
       const lintResult = execSync('yarn lint 2>&1 | grep -c 'warning' || echo '0'', {
-        encoding: 'utf8'
+        encoding: 'utf8',
       })
       const lintingWarnings = parseInt(lintResult.trim()) || 0;
 
       // Get enterprise systems count
       const systemsResult = execSync('grep -r 'INTELLIGENCE_SYSTEM' src/ | wc -l || echo '0'', {
-        encoding: 'utf8'
+        encoding: 'utf8',
       })
       const enterpriseSystems = parseInt(systemsResult.trim()) || 0;
 
@@ -538,7 +538,7 @@ export class MakefileIntegration {
    * Validate that required make targets exist
    */
   async validateExistingTargets(): Promise<{ valid: boolean, missing: string[] }> {
-    const requiredTargets = [;
+    const requiredTargets = [
       'errors',
       'errors-by-type',
       'errors-by-file',

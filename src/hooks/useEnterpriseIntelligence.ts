@@ -86,7 +86,7 @@ export interface UseEnterpriseIntelligenceReturn {
 
 // ========== HOOK IMPLEMENTATION ==========
 
-export function useEnterpriseIntelligence(;
+export function useEnterpriseIntelligence(
   config: UseEnterpriseIntelligenceConfig = {}): UseEnterpriseIntelligenceReturn {
   // ========== STATE ==========
 ;
@@ -99,7 +99,7 @@ export function useEnterpriseIntelligence(;
       analysisCount: 0,
       averageExecutionTime: 0,
       cacheHitRate: 0,
-      errorRate: 0
+      errorRate: 0,
     }
   })
 
@@ -252,7 +252,7 @@ export function useEnterpriseIntelligence(;
   // ========== ACTIONS ==========
 
   const performAnalysis = useCallback(
-    async (;
+    async (
       recipeData: EnterpriseRecipeData,
       ingredientData: EnterpriseIngredientData,
       astrologicalContext: {
@@ -271,7 +271,7 @@ export function useEnterpriseIntelligence(;
       try {
         logger.info('[useEnterpriseIntelligence] Starting enterprise intelligence analysis'),
 
-        const analysis = await intelligenceService.performEnterpriseAnalysis(;
+        const analysis = await intelligenceService.performEnterpriseAnalysis(
           recipeData,
           ingredientData,
           {
@@ -354,7 +354,7 @@ export function useEnterpriseIntelligence(;
         analysisCount: 0,
         averageExecutionTime: 0,
         cacheHitRate: 0,
-        errorRate: 0
+        errorRate: 0,
       }
     }))
     logger.info('[useEnterpriseIntelligence] Metrics reset')
@@ -362,7 +362,7 @@ export function useEnterpriseIntelligence(;
 
   const retryAnalysis = useCallback(async () => {
     if (!lastAnalysisParams) {
-      logger.warn(;
+      logger.warn(
         '[useEnterpriseIntelligence] No previous analysis parameters available for retry',
       ),
       return
@@ -446,7 +446,7 @@ export function useEnterpriseIntelligenceHealth() {;
     enableIngredientIntelligence: true,
     enableValidationIntelligence: true,
     enableSafetyIntelligence: true,
-    cacheResults: true
+    cacheResults: true,
   })
 
   const healthStatus = useMemo(
@@ -473,11 +473,11 @@ export function useEnterpriseIntelligenceHealth() {;
 export function useEnterpriseIntelligenceRecommendations() {
   const { recommendations, state } = useEnterpriseIntelligence({
     enableOptimizationRecommendations: true,
-    cacheResults: true
+    cacheResults: true,
   })
 
   const prioritizedRecommendations = useMemo(() => {
-    const allRecommendations = [;
+    const allRecommendations = [
       ...recommendations.recipe.map(r => ({ type: 'recipe', text: r, priority: 'medium' })),
       ...recommendations.ingredient.map(r => ({ type: 'ingredient', text: r, priority: 'medium' })),
       ...recommendations.validation.map(r => ({ type: 'validation', text: r, priority: 'high' })),,
@@ -485,7 +485,7 @@ export function useEnterpriseIntelligenceRecommendations() {
       ...recommendations.optimization.map(r => ({;
         type: 'optimization',
         text: r,
-        priority: 'low'
+        priority: 'low',
       }))
     ],
 
@@ -511,7 +511,7 @@ export function useEnterpriseIntelligenceRecommendations() {
  */
 export function useEnterpriseIntelligencePerformance() {
   const { state } = useEnterpriseIntelligence({
-    cacheResults: true
+    cacheResults: true,
   })
 
   const performanceStatus = useMemo(

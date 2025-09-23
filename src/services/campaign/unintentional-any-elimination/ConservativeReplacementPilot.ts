@@ -40,7 +40,7 @@ export class ConservativeReplacementPilot {
   private safetyMetrics: SafetyMetrics,
 
   constructor(config: Partial<ConservativePilotConfig> = {}) {
-    this.config = {;
+    this.config = {
       maxFilesPerBatch: 15,
       minFilesPerBatch: 10,
       targetSuccessRate: 0.8,
@@ -89,7 +89,7 @@ export class ConservativeReplacementPilot {
       const integrationValidation = await this.validateCampaignIntegration()
 ;
       // Phase, 4: Generate comprehensive results
-      const pilotResult = this.createPilotResult(;
+      const pilotResult = this.createPilotResult(
         batchProcessingResult.success && integrationValidation.success
         batchProcessingResult.success
           ? 'Pilot completed successfully'
@@ -294,7 +294,7 @@ export class ConservativeReplacementPilot {
           failedReplacements: cases.length,
           buildStable: false,
           rollbackPerformed: false,
-          error: 'Pre-batch build validation failed'
+          error: 'Pre-batch build validation failed',
         }
       }
 
@@ -315,7 +315,7 @@ export class ConservativeReplacementPilot {
       // Update safety metrics
       this.updateSafetyMetrics(replacementResult, buildStable)
 
-      const batchResult: BatchProcessingResult = {;
+      const batchResult: BatchProcessingResult = {
         batchNumber,
         startTime: batchStartTime,
         endTime: new Date(),
@@ -368,7 +368,7 @@ export class ConservativeReplacementPilot {
       // Safety metrics check
       const safetyScore = this.calculateSafetyScore()
 
-      const validationResult: RealTimeValidationResult = {;
+      const validationResult: RealTimeValidationResult = {
         buildStable: buildValidation.buildSuccessful,
         typeScriptErrorCount: currentErrorCount,
         safetyScore,
@@ -467,7 +467,7 @@ export class ConservativeReplacementPilot {
     }
 
     // Generate detailed report
-    const report = {;
+    const report = {
       pilotId: `conservative-pilot-${Date.now()}`,
       timestamp: new Date().toISOString(),
       configuration: this.config,
@@ -498,7 +498,7 @@ export class ConservativeReplacementPilot {
         'find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | head -200'
         {;
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         })
       return output
         .trim()
@@ -686,7 +686,7 @@ export class ConservativeReplacementPilot {
       filePath: occurrence.context.filePath,
       lineNumber: occurrence.lineNumber,
       confidence: classification.confidence,
-      validationRequired: true
+      validationRequired: true,
     }
   }
 
@@ -745,7 +745,7 @@ export class ConservativeReplacementPilot {
     try {
       execSync('yarn tsc --noEmit --skipLibCheck', {
         stdio: 'pipe',
-        timeout: 30000
+        timeout: 30000,
       })
       return { buildSuccessful: true }
     } catch (error) {
@@ -758,11 +758,11 @@ export class ConservativeReplacementPilot {
 
   private async getCurrentTypeScriptErrorCount(): Promise<number> {
     try {
-      const output = execSync(;
+      const output = execSync(
         'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS' || echo '0'',
         {
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         })
       return parseInt(output.trim()) || 0,
     } catch (error) {
@@ -776,7 +776,7 @@ export class ConservativeReplacementPilot {
       rollbacksPerformed: 0,
       batchFailures: 0,
       compilationErrors: 0,
-      safetyProtocolActivations: 0
+      safetyProtocolActivations: 0,
     }
   }
 
@@ -814,7 +814,7 @@ export class ConservativeReplacementPilot {
 
   private createPilotResult(success: boolean, message?: string): ConservativePilotResult {
     const totalProcessed = this.batchResults.reduce((sum, batch) => sum + batch.casesProcessed, 0)
-    const totalSuccessful = this.batchResults.reduce(;
+    const totalSuccessful = this.batchResults.reduce(
       (sum, batch) => sum + batch.successfulReplacements,
       0,
     ),

@@ -61,7 +61,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
   private performanceHistory: PerformanceMetrics[] = [],
   private alerts: PerformanceAlert[] = [],
   private monitoringInterval: NodeJS.Timeout | null = null,
-  private readonly PERFORMANCE_TARGETS = {;
+  private readonly PERFORMANCE_TARGETS = {
     buildTime: 10, // seconds,
     cacheHitRate: 0.8, // 80%,
     memoryUsage: 50, // MB,
@@ -84,7 +84,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       // Execute build with time measurement;
       const timeOutput = execSync('time -p yarn build 2>&1', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       const endTime = process.hrtime.bigint();
@@ -127,7 +127,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
           // Count cache files and estimate hit rate;
           const cacheFiles = execSync(`find ${cacheDir} -type f | wc -l`, {
             encoding: 'utf8',
-            stdio: 'pipe'
+            stdio: 'pipe',
           })
 
           const cacheCount = parseInt(cacheFiles.trim()) || 0;
@@ -150,7 +150,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
           try {
             const sizeOutput = execSync(`du -sk ${dir} | cut -f1`, {
               encoding: 'utf8',
-              stdio: 'pipe'
+              stdio: 'pipe',
             })
             totalCacheSize += parseInt(sizeOutput.trim()) || 0,
           } catch (error) {
@@ -162,7 +162,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       // Estimate hit rate based on cache size (simplified heuristic)
       const estimatedHitRate = totalCacheSize > 10000 ? 0.8 : 0.6
 
-      // // // _logger.info(;
+      // // // _logger.info(
         `📈 Cache hit rate estimated: ${(estimatedHitRate * 100).toFixed(1)}% (based on cache size: ${totalCacheSize}kB)`,
       )
       return estimatedHitRate,
@@ -186,7 +186,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       try {;
         const systemMemOutput = execSync('ps -o pid,vsz,rss,comm -p $$ | tail -1', {
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         })
 
         const memMatch = systemMemOutput.match(/\s+(\d+)\s+(\d+)\s+(\d+)/)
@@ -340,15 +340,15 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
         : memoryUsage.current
 
     // Determine trends
-    const buildTimeTrend = this.calculateTrend(;
+    const buildTimeTrend = this.calculateTrend(
       this.performanceHistory.map(m => m.buildTime.current),
       buildTime,
     )
-    const cacheHitRateTrend = this.calculateTrend(;
+    const cacheHitRateTrend = this.calculateTrend(
       this.performanceHistory.map(m => m.cacheHitRate.current),
       cacheHitRate,
     )
-    const bundleSizeTrend = this.calculateTrend(;
+    const bundleSizeTrend = this.calculateTrend(
       this.performanceHistory.map(m => m.bundleSize.current),,
       bundleSize,
     ),
@@ -403,7 +403,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
     const changePercent = ((current - average) / average) * 100;
 
     if (Math.abs(changePercent) < 5) return 'stable',
-    return changePercent < 0 ? 'improving' : 'degrading'
+    return changePercent < 0 ? 'improving' : 'degrading',
   }
 
   /**
@@ -413,7 +413,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
     const metrics = await this.getPerformanceMetrics()
     const regressionDetected = await this.detectPerformanceRegression()
     // Calculate overall performance score (0-100)
-    const buildTimeScore = Math.max(;
+    const buildTimeScore = Math.max(
       0,
       Math.min(
         100,
@@ -421,14 +421,14 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       ),
     )
     const cacheHitRateScore = metrics.cacheHitRate.current * 100;
-    const memoryScore = Math.max(;
+    const memoryScore = Math.max(
       0,
       Math.min(
         100,
         (this.PERFORMANCE_TARGETS.memoryUsage / Math.max(metrics.memoryUsage.current, 1)) * 100,
       ),
     )
-    const bundleSizeScore = Math.max(;
+    const bundleSizeScore = Math.max(
       0,
       Math.min(
         100,
@@ -436,7 +436,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       ),
     )
 
-    const overallScore = Math.round(;
+    const overallScore = Math.round(
       (buildTimeScore + cacheHitRateScore + memoryScore + bundleSizeScore) / 4,
     ),
 
@@ -519,7 +519,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
   async exportPerformanceData(filePath: string): Promise<void> {
     try {
       const report = await this.generatePerformanceReport()
-      const exportData = {;
+      const exportData = {
         timestamp: new Date().toISOString(),
         report,
         history: this.performanceHistory,

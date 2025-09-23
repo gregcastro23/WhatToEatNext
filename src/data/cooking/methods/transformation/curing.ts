@@ -12,7 +12,7 @@ export const curing: CookingMethodData = {
     Fire: 0.1,
     Water: 0.2,
     Earth: 0.8,
-    Air: 0.3
+    Air: 0.3,
   },
   duration: {
     min: 180, // 3 hours,

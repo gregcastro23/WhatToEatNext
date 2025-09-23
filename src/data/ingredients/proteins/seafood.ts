@@ -8,7 +8,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     name: 'Salmon',
     category: 'protein',
     subCategory: 'seafood',
-    elementalProperties: { Water: 0.6, Earth: 0.2, Fire: 0.1, Air: 0.1 }
+    elementalProperties: { Water: 0.6, Earth: 0.2, Fire: 0.1, Air: 0.1 },
     qualities: ['omega-rich', 'flaky', 'buttery', 'mild', 'versatile', 'nutrient-dense'],
     origin: ['Norway', 'Scotland', 'Chile', 'Canada', 'United States'],
 
@@ -20,22 +20,23 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         protein: 22,
         carbs: 0,
         fat: 12,
-        fiber: 0
+        fiber: 0,
       },
       vitamins: {
         B12: 1.17, // Values as percentage of RDA,
         D: 0.66,
-        niacin: 0.5B6: 0.38,
+        niacin: 0.5,
+    B6: 0.38,
         pantothenic_acid: 0.3,
-        thiamine: 0.28
+        thiamine: 0.28,
       },
       minerals: {
         selenium: 0.75,
         phosphorus: 0.2,
-        potassium: 0.08
+        potassium: 0.08,
       },
       omega3: 1.8, // grams per serving,
-      source: 'USDA FoodData Central'
+      source: 'USDA FoodData Central',
     }
 
     // Sensory profile (standardized)
@@ -46,7 +47,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         sour: 0.0,
         bitter: 0.0,
         umami: 0.8,
-        spicy: 0.0
+        spicy: 0.0,
       },
       aroma: {
         floral: 0.0,
@@ -54,7 +55,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         herbal: 0.0,
         spicy: 0.0,
         earthy: 0.3,
-        woody: 0.0
+        woody: 0.0,
       },
       texture: {
         crisp: 0.0,
@@ -62,7 +63,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         creamy: 0.4,
         chewy: 0.2,
         crunchy: 0.0,
-        silky: 0.7
+        silky: 0.7,
       }
     }
 
@@ -70,7 +71,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     storage: {
       temperature: {
         fahrenheit: 32,
-        celsius: 0
+        celsius: 0,
       },
       duration: '1-2 days (fresh), 2-3 months (frozen)',
       container: 'airtight wrapping',
@@ -85,7 +86,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       methods: ['grill', 'bake', 'pan-sear', 'poach', 'steam', 'smoke', 'raw (sushi-grade)'],
       washing: false,
-      notes: 'Leave skin on during cooking for easier handling and extra nutrients'
+      notes: 'Leave skin on during cooking for easier handling and extra nutrients',
     }
 
     // Health benefits (standardized)
@@ -120,7 +121,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       techniques: {
         grill: {
           method: 'direct heat, medium-high',
-          temperature: { celsius: 190, fahrenheit: 375 }
+          temperature: { celsius: 190, fahrenheit: 375 },
           timing: '4-5 minutes per side',
           ingredients: ['butter', 'garlic', 'dill', 'lemon zest'],
           notes: 'Cedar plank adds smoky flavor' },
@@ -128,7 +129,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           method: 'high heat, skin-on',
           timing: '4-5 minutes skin side2-3 minutes flesh side',
           ingredients: ['butter', 'thyme', 'garlic', 'lemon'],
-          notes: 'Start with very hot pan, cook skin side first until crispy'
+          notes: 'Start with very hot pan, cook skin side first until crispy',
         }
       }
     }
@@ -140,7 +141,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         appearance: 'light orange-pink',
         texture: 'fatty, soft',
         flavor: 'mild, buttery',
-        uses: 'all-purpose'
+        uses: 'all-purpose',
       }
     }
 
@@ -168,8 +169,8 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 
     cookingTips: {
       internalTemperature: {
-        medium: { fahrenheit: 125, celsius: 52 }
-        mediumWell: { fahrenheit: 135, celsius: 57 }
+        medium: { fahrenheit: 125, celsius: 52 },
+        mediumWell: { fahrenheit: 135, celsius: 57 },
         safe: { fahrenheit: 145, celsius: 63 }
       },
       restingTime: '3-5 minutes',
@@ -198,7 +199,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       monounsaturated: 4,
       polyunsaturated: 5,
       omega3: 1.8,
-      omega6: 0.2
+      omega6: 0.2,
     }
 
     // Cooking details
@@ -206,29 +207,29 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       {
         name: 'Grill',
         method: 'direct heat, medium-high',
-        temperature: { celsius: 190, fahrenheit: 375 }
+        temperature: { celsius: 190, fahrenheit: 375 },
         timing: '4-5 minutes per side',
-        internalTemp: { celsius: 60, fahrenheit: 140 }
+        internalTemp: { celsius: 60, fahrenheit: 140 },
         moistureRetention: 0.7, // 70% moisture retention,
         flavorDevelopment: {
           maillard: 0.8, // 0-1 scale,
           caramelization: 0.5,
           smoky: 0.7,
-          notes: 'Develops crispy exterior with moist interior'
+          notes: 'Develops crispy exterior with moist interior',
         }
       }
       {
         name: 'Bake',
         method: 'dry heat',
-        temperature: { fahrenheit: 400, celsius: 200 }
+        temperature: { fahrenheit: 400, celsius: 200 },
         timing: '12-15 minutes',
-        internalTemp: { celsius: 60, fahrenheit: 140 }
+        internalTemp: { celsius: 60, fahrenheit: 140 },
         moistureRetention: 0.85,
         flavorDevelopment: {
           maillard: 0.5,
           caramelization: 0.4,
           aromatic: 0.7,
-          notes: 'Even cooking with good moisture retention'
+          notes: 'Even cooking with good moisture retention',
         }
       }
       {
@@ -239,13 +240,13 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           skinSide: '4-5 minutes',
           fleshSide: '2-3 minutes',
           resting: '3-4 minutes' },
-        internalTemp: { celsius: 55, fahrenheit: 130 }
+        internalTemp: { celsius: 55, fahrenheit: 130 },
         moistureRetention: 0.75,
         flavorDevelopment: {
           maillard: 0.9,
           caramelization: 0.7,
           fatty: 0.8,
-          notes: 'Creates crispy skin and keeps moisture sealed in'
+          notes: 'Creates crispy skin and keeps moisture sealed in',
         }
       }
     ],
@@ -265,11 +266,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Water: 0.1, Earth: 0.1 }
+          elementalBoost: { Water: 0.1, Earth: 0.1 },
           preparationTips: ['Best for raw preparations']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 }
+          elementalBoost: { Water: 0.2 },
           preparationTips: ['Ideal for grilling']
         }
       },
@@ -284,7 +285,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       Water: 0.5,
       Air: 0.3,
       Fire: 0.1,
-      Earth: 0.1
+      Earth: 0.1,
     },
     sensoryProfile: {
       taste: ['Sweet', 'Delicate', 'Briny'],
@@ -301,16 +302,16 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         protein: 18.0,
         carbohydrates: 0.9,
         fat: 0.3,
-        fiber: 0.0
+        fiber: 0.0,
       },
       micronutrients: {
         selenium: 48.4,
         phosphorus: 201,
         choline: 69.3,
-        vitamin_B12: 1.3
+        vitamin_B12: 1.3,
       },
       healthBenefits: ['high protein', 'low fat', 'selenium source', 'heart healthy'],
-      caloriesPerServing: 84
+      caloriesPerServing: 84,
     },
     storage: {
       temperature: 'below 40°F (4°C)',
@@ -344,11 +345,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         waxingCrescent: {
-          elementalBoost: { Water: 0.1, Fire: 0.1 }
+          elementalBoost: { Water: 0.1, Fire: 0.1 },
           preparationTips: ['Best for grilling']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 }
+          elementalBoost: { Water: 0.2 },
           preparationTips: ['Ideal for steaming']
         }
       }
@@ -361,14 +362,14 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         appearance: 'grey with black stripes',
         size: '13 / (15 || 1) to U / (10 || 1)',
         flavor: 'robust, briny',
-        notes: 'ideal for grilling'
+        notes: 'ideal for grilling',
       }
       'Spot Prawns': {
         name: 'Spot Prawns',
         appearance: 'reddish with white spots',
         size: 'U / (10 || 1) to U / (8 || 1)',
         flavor: 'sweet, delicate',
-        notes: 'premium Pacific variety'
+        notes: 'premium Pacific variety',
       }
     },
     culinaryApplications: {
@@ -392,7 +393,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
             cajun: ['paprika', 'cayenne', 'herbs'],
             teriyaki: ['soy', 'mirin', 'ginger']
           },
-          timing: '1-2 minutes per side'
+          timing: '1-2 minutes per side',
         }
       },
       poach: {
@@ -404,7 +405,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         shell_on: {
           method: 'slow poach',
           timing: '3-4 minutes',
-          cooling: 'ice bath immediately'
+          cooling: 'ice bath immediately',
         }
       },
       stir_fry: {
@@ -415,7 +416,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
             name: 'Velvet',
             marinade: ['egg white', 'cornstarch', 'rice wine'],
             method: 'oil blanch then stir-fry',
-            timing: 'blanch 30 seconds, fry 1 minute'
+            timing: 'blanch 30 seconds, fry 1 minute',
           }
         }
       }
@@ -432,7 +433,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           name: 'Remoulade',
           base: 'mayonnaise',
           ingredients: ['cajun spice', 'pickles', 'capers'],
-          service: 'chilled, side sauce'
+          service: 'chilled, side sauce',
         }
       },
       hot: {
@@ -454,7 +455,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           name: 'Xo',
           base: 'dried seafood-chili',
           preparation: 'sauce made ahead',
-          usage: 'small amount as condiment'
+          usage: 'small amount as condiment',
         }
       }
     },
@@ -474,16 +475,15 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     },
     safetyThresholds: {
       cooking: {
-        temperature: { fahrenheit: 145, celsius: 63 }
+        temperature: { fahrenheit: 145, celsius: 63 },
         indicators: ['opaque throughout', 'pink-red color'],
-        timing: 'until just cooked through'
+        timing: 'until just cooked through',
       }
     }
   },
   lobster_maine: {
     name: 'lobster_maine',
-    elementalProperties: { Water: 0.6, Earth: 0.3, Fire: 0.1, Air: 0.1 }
-
+    elementalProperties: { Water: 0.6, Earth: 0.3, Fire: 0.1, Air: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Neptune'],
       favorableZodiac: ['cancer', 'scorpio', 'pisces'],
@@ -497,11 +497,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Water: 0.1, Earth: 0.1 }
+          elementalBoost: { Water: 0.1, Earth: 0.1 },
           preparationTips: ['Best for curing']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 }
+          elementalBoost: { Water: 0.2 },
           preparationTips: ['Ideal for poaching']
         }
       }
@@ -518,14 +518,14 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         appearance: 'dark blue-black shell',
         texture: 'firm, dense',
         flavor: 'sweet, briny',
-        notes: 'best for boiling'
+        notes: 'best for boiling',
       }
       'Soft Shell': {
         name: 'Soft Shell',
         appearance: 'softer, lighter shell',
         texture: 'tender, delicate',
         flavor: 'sweet, mild',
-        notes: 'ideal for grilling'
+        notes: 'ideal for grilling',
       }
     }
 
@@ -572,24 +572,22 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         protein: 5,
         carbohydrates: 10,
         fat: 2,
-        fiber: 3
-      }
-
+        fiber: 3,
+      },
       micronutrients: {
         vitamin_C: 15,
         iron: 5,
-        calcium: 50
-      }
-
+        calcium: 50,
+      },
       healthBenefits: ['nutritious', 'natural goodness'],
-      caloriesPerServing: 80
+      caloriesPerServing: 80,
     }
 
     storage: {
       temperature: 'cool, dry place',
       duration: '6-12 months',
       container: 'airtight container',
-      notes: 'Store in optimal conditions'
+      notes: 'Store in optimal conditions',
     }
   },
   mussels_blue: {
@@ -613,16 +611,16 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         protein: 24.0,
         carbohydrates: 7.0,
         fat: 4.1,
-        fiber: 0.0
+        fiber: 0.0,
       },
       micronutrients: {
         selenium: 89.6,
         vitamin_B12: 20.4,
         manganese: 6.8,
-        phosphorus: 285
+        phosphorus: 285,
       },
       healthBenefits: ['high protein', 'vitamin B12 source', 'selenium rich', 'heart healthy'],
-      caloriesPerServing: 146
+      caloriesPerServing: 146,
     },
     storage: {
       temperature: 'below 40°F (4°C)',
@@ -656,11 +654,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         waxingCrescent: {
-          elementalBoost: { Water: 0.1, Fire: 0.1 }
+          elementalBoost: { Water: 0.1, Fire: 0.1 },
           preparationTips: ['Best for grilling']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 }
+          elementalBoost: { Water: 0.2 },
           preparationTips: ['Ideal for steaming']
         }
       }
@@ -673,7 +671,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         appearance: 'cleaner shells',
         texture: 'tender, consistent',
         flavor: 'milder, sweeter',
-        notes: 'more consistent size'
+        notes: 'more consistent size',
       }
     },
     culinaryApplications: {
@@ -739,11 +737,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         waxingCrescent: {
-          elementalBoost: { Water: 0.1, Earth: 0.1 }
+          elementalBoost: { Water: 0.1, Earth: 0.1 },
           preparationTips: ['Best for raw consumption']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 }
+          elementalBoost: { Water: 0.2 },
           preparationTips: ['Ideal for poaching or grilling']
         }
       }
@@ -763,7 +761,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         iron: '28% DV',
         selenium: '140% DV',
         magnesium: '5% DV',
-        potassium: '4% DV'
+        potassium: '4% DV',
       }
     },
     healthBenefits: [
@@ -785,14 +783,14 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         appearance: 'deep cup, fluted shell',
         flavor: 'sweet, clean finish with briny notes',
         texture: 'firm, juicy',
-        notes: 'premium Massachusetts variety'
+        notes: 'premium Massachusetts variety',
       }
       'Chesapeake Bay': {
         name: 'Chesapeake Bay',
         appearance: 'oval shape, medium cup',
         flavor: 'mild, slightly sweet with mineral finish',
         texture: 'medium-firm',
-        notes: 'traditional classic from the Chesapeake region'
+        notes: 'traditional classic from the Chesapeake region',
       }
     },
     culinaryApplications: {
@@ -816,7 +814,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         method: 'simmered in liquid',
         timing: '3-5 minutes until edges curl',
         recipes: ['oyster stew', 'gumbo', 'chowder'],
-        notes: 'add oysters at the end of cooking to prevent overcooking'
+        notes: 'add oysters at the end of cooking to prevent overcooking',
       }
     },
     seasonality: {
@@ -844,7 +842,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       Water: 0.45,
       Air: 0.4,
       Earth: 0.1,
-      Fire: 0.05
+      Fire: 0.05,
     },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Neptune'],
@@ -859,11 +857,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Water: 0.1, Earth: 0.1 }
+          elementalBoost: { Water: 0.1, Earth: 0.1 },
           preparationTips: ['Best for curing']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 }
+          elementalBoost: { Water: 0.2 },
           preparationTips: ['Ideal for poaching']
         }
       }
@@ -878,7 +876,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         appearance: 'light orange-pink',
         texture: 'fatty, soft',
         flavor: 'mild',
-        uses: 'all-purpose'
+        uses: 'all-purpose',
       }
     },
     cuts: {
@@ -896,7 +894,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         name: 'Whole Side',
         description: 'entire fillet',
         weight: '2-4 lbs',
-        notes: 'ideal for large gatherings'
+        notes: 'ideal for large gatherings',
       }
     },
     culinaryApplications: {
@@ -925,7 +923,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         method: 'dry heat',
         temperature: {
           fahrenheit: 400,
-          celsius: 200
+          celsius: 200,
         },
         timing: {
           per_inch: '10-12 minutes',
@@ -951,12 +949,12 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           rare: {
             name: 'Rare',
             fahrenheit: 110,
-            celsius: 43
+            celsius: 43,
           },
           medium_rare: {
             name: 'Medium Rare',
             fahrenheit: 120,
-            celsius: 49
+            celsius: 49,
           }
         },
         timing: {
@@ -965,7 +963,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           optimal: '35 minutes' },
         finishing: {
           method: 'quick sear',
-          duration: '30 seconds per side'
+          duration: '30 seconds per side',
         }
       }
     },
@@ -994,11 +992,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     },
     storage: {
       fresh: {
-        temperature: { fahrenheit: 32, celsius: 0 }
+        temperature: { fahrenheit: 32, celsius: 0 },
         duration: '1-2 days',
         method: 'on ice, uncovered' },
         frozen: {
-        temperature: { fahrenheit: 0, celsius: -18 }
+        temperature: { fahrenheit: 0, celsius: -18 },
         duration: '3-4 months',
         method: 'vacuum sealed' },
         thawing: {
@@ -1008,7 +1006,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         alternate: {
           method: 'cold water',
           time: '1-2 hours',
-          notes: 'keep sealed, change water every 30 minutes'
+          notes: 'keep sealed, change water every 30 minutes',
         }
       }
     },
@@ -1016,19 +1014,19 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       raw: {
         requirements: ['sushi-grade', 'previously frozen'],
         freezing: {
-          temperature: { fahrenheit: -4, celsius: -20 }
-          duration: '7 days'
+          temperature: { fahrenheit: -4, celsius: -20 },
+          duration: '7 days',
         }
       },
       cooked: {
-        minimum: { fahrenheit: 145, celsius: 63 }
-        resting: '3 minutes'
+        minimum: { fahrenheit: 145, celsius: 63 },
+        resting: '3 minutes',
       }
     }
   },
   sea_bass_chilean: {
     name: 'sea_bass_chilean',
-    elementalProperties: { Water: 0.4, Earth: 0.2, Fire: 0.3, Air: 0.1 }
+    elementalProperties: { Water: 0.4, Earth: 0.2, Fire: 0.3, Air: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Neptune'],
       favorableZodiac: ['cancer', 'scorpio', 'pisces'],
@@ -1042,11 +1040,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         waxingCrescent: {
-          elementalBoost: { Water: 0.1, Earth: 0.1 }
+          elementalBoost: { Water: 0.1, Earth: 0.1 },
           preparationTips: ['Best for grilling']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 }
+          elementalBoost: { Water: 0.2 },
           preparationTips: ['Ideal for poaching']
         }
       }
@@ -1065,7 +1063,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         name: 'European',
         appearance: 'silvery with blue-grey back',
         texture: 'firmer, smaller flakes',
-        notes: 'different species, similar usage'
+        notes: 'different species, similar usage',
       }
     },
     culinaryApplications: {
@@ -1078,7 +1076,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
             name: 'Chinese Style',
             preparation: 'whole fish',
             aromatics: ['ginger', 'scallion', 'cilantro'],
-            sauce: 'soy-sesame'
+            sauce: 'soy-sesame',
           }
         }
       }
@@ -1104,7 +1102,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
               name: 'Connecticut',
               dressing: 'warm butter',
               seasoning: 'light herbs',
-              temperature: 'warm'
+              temperature: 'warm',
             }
           }
         }
@@ -1135,15 +1133,14 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     },
     safetyThresholds: {
       cooking: {
-        temperature: { fahrenheit: 145, celsius: 63 }
-        visual: 'opaque, flakes easily'
+        temperature: { fahrenheit: 145, celsius: 63 },
+        visual: 'opaque, flakes easily',
       }
     }
   },
   cod_atlantic: {
     name: 'Cod Atlantic',
-    elementalProperties: { Water: 0.7, Earth: 0.15, Air: 0.15, Fire: 0.1 }
-
+    elementalProperties: { Water: 0.7, Earth: 0.15, Air: 0.15, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Neptune'],
       favorableZodiac: ['cancer', 'scorpio', 'pisces'],
@@ -1157,11 +1154,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Water: 0.1, Earth: 0.1 }
+          elementalBoost: { Water: 0.1, Earth: 0.1 },
           preparationTips: ['Best for curing']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 }
+          elementalBoost: { Water: 0.2 },
           preparationTips: ['Ideal for poaching']
         }
       }
@@ -1182,7 +1179,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         name: 'Pacific',
         appearance: 'similar to Atlantic',
         texture: 'slightly firmer',
-        notes: 'more sustainable option'
+        notes: 'more sustainable option',
       }
     }
 
@@ -1196,9 +1193,9 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
             seasoning: ['salt', 'white pepper'],
             technique: 'cold batter, hot oil' },
         frying: {
-            temperature: { fahrenheit: 350, celsius: 175 }
+            temperature: { fahrenheit: 350, celsius: 175 },
             timing: '4-5 minutes total',
-            notes: 'until golden brown'
+            notes: 'until golden brown',
           }
         },
         salt_cod: {
@@ -1217,7 +1214,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
               name: 'Bacalao',
               method: 'stewed',
               ingredients: ['tomatoes', 'peppers', 'olives'],
-              style: 'Spanish or Portuguese'
+              style: 'Spanish or Portuguese',
             }
           }
         }
@@ -1226,14 +1223,14 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         name: 'Modern',
         sous_vide: {
           name: 'Sous Vide',
-          temperature: { fahrenheit: 140, celsius: 60 }
+          temperature: { fahrenheit: 140, celsius: 60 },
           timing: '25-30 minutes',
           finish: 'light sear optional' },
         pan_roasted: {
           name: 'Pan Roasted',
           method: 'sear then oven',
-          temperature: { fahrenheit: 375, celsius: 190 }
-          timing: '8-10 minutes total'
+          temperature: { fahrenheit: 375, celsius: 190 },
+          timing: '8-10 minutes total',
         }
       }
     }
@@ -1253,7 +1250,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         a_gomes_de_sa: {
               name: 'A Gomes De Sa',
               ingredients: ['potatoes', 'onions', 'olives'],
-              method: 'layered casserole'
+              method: 'layered casserole',
             }
           }
         }
@@ -1281,7 +1278,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           name: 'Parsley',
           base: 'butter sauce',
           herbs: 'fresh parsley',
-          finish: 'lemon juice'
+          finish: 'lemon juice',
         }
       },
       modern: {
@@ -1295,7 +1292,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           name: 'Chorizo Oil',
           base: 'rendered chorizo',
           aromatics: ['garlic', 'herbs'],
-          application: 'drizzle'
+          application: 'drizzle',
         }
       }
     }
@@ -1328,29 +1325,27 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         protein: 5,
         carbohydrates: 10,
         fat: 2,
-        fiber: 3
-      }
-
+        fiber: 3,
+      },
       micronutrients: {
         vitamin_C: 15,
         iron: 5,
-        calcium: 50
-      }
-
+        calcium: 50,
+      },
       healthBenefits: ['nutritious', 'natural goodness'],
-      caloriesPerServing: 80
+      caloriesPerServing: 80,
     }
 
     storage: {
       temperature: 'cool, dry place',
       duration: '6-12 months',
       container: 'airtight container',
-      notes: 'Store in optimal conditions'
+      notes: 'Store in optimal conditions',
     }
   },
   sole_dover: {
     name: 'Sole Dover',
-    elementalProperties: { Water: 0.6, Air: 0.35, Earth: 0.05, Fire: 0.1 }
+    elementalProperties: { Water: 0.6, Air: 0.35, Earth: 0.05, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Neptune'],
       favorableZodiac: ['cancer', 'scorpio', 'pisces'],
@@ -1364,11 +1359,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         waxingCrescent: {
-          elementalBoost: { Water: 0.1, Earth: 0.1 }
+          elementalBoost: { Water: 0.1, Earth: 0.1 },
           preparationTips: ['Best for grilling']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 }
+          elementalBoost: { Water: 0.2 },
           preparationTips: ['Ideal for poaching']
         }
       }
@@ -1382,7 +1377,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         name: 'Dover',
         appearance: 'light beige to white',
         texture: 'very delicate, thin fillets',
-        notes: 'premium variety'
+        notes: 'premium variety',
       }
     },
     culinaryApplications: {
@@ -1397,7 +1392,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           name: 'En Papillote',
           method: 'steamed in parchment',
           ingredients: ['white wine', 'shallots', 'herbs'],
-          timing: '8-10 minutes total'
+          timing: '8-10 minutes total',
         }
       },
       modern: {
@@ -1406,7 +1401,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           name: 'Rolled',
           method: 'stuffed and rolled',
           fillings: ['seafood mousse', 'herbs', 'vegetables'],
-          sauce: 'light cream or wine based'
+          sauce: 'light cream or wine based',
         }
       }
     },
@@ -1447,15 +1442,15 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     },
     safetyThresholds: {
       cooking: {
-        temperature: { fahrenheit: 145, celsius: 63 }
+        temperature: { fahrenheit: 145, celsius: 63 },
         visual: 'opaque, flakes easily',
-        notes: 'very quick cooking due to thin fillets'
+        notes: 'very quick cooking due to thin fillets',
       }
     }
   },
   flounder_whole: {
     name: 'Flounder Whole',
-    elementalProperties: { Water: 0.5, Air: 0.35, Earth: 0.1, Fire: 0.05 }
+    elementalProperties: { Water: 0.5, Air: 0.35, Earth: 0.1, Fire: 0.05 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Neptune'],
       favorableZodiac: ['cancer', 'scorpio', 'pisces'],
@@ -1469,11 +1464,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         waxingCrescent: {
-          elementalBoost: { Water: 0.1, Earth: 0.1 }
+          elementalBoost: { Water: 0.1, Earth: 0.1 },
           preparationTips: ['Best for grilling']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 }
+          elementalBoost: { Water: 0.2 },
           preparationTips: ['Ideal for poaching']
         }
       }
@@ -1492,7 +1487,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         name: 'Winter',
         appearance: 'darker coloring',
         season: 'peak in winter',
-        notes: 'slightly firmer texture'
+        notes: 'slightly firmer texture',
       }
     },
     culinaryApplications: {
@@ -1525,9 +1520,9 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     },
     safetyThresholds: {
       cooking: {
-        temperature: { fahrenheit: 145, celsius: 63 }
+        temperature: { fahrenheit: 145, celsius: 63 },
         visual: 'opaque, flakes easily',
-        notes: 'careful not to overcook'
+        notes: 'careful not to overcook',
       }
     }
   },
@@ -1537,7 +1532,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       Water: 0.4,
       Air: 0.25,
       Earth: 0.25,
-      Fire: 0.1
+      Fire: 0.1,
     },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Neptune'],
@@ -1552,11 +1547,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         waxingCrescent: {
-          elementalBoost: { Water: 0.1, Fire: 0.1 }
+          elementalBoost: { Water: 0.1, Fire: 0.1 },
           preparationTips: ['Best for grilling']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 }
+          elementalBoost: { Water: 0.2 },
           preparationTips: ['Ideal for poaching']
         }
       }
@@ -1571,7 +1566,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         appearance: 'lighter coloring',
         texture: 'medium-firm',
         flavor: 'mild',
-        uses: 'all-purpose'
+        uses: 'all-purpose',
       }
     },
     cuts: {
@@ -1584,7 +1579,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         name: 'Fillet',
         description: 'boneless sides',
         weight: '6-8 oz per serving',
-        notes: 'versatile cut'
+        notes: 'versatile cut',
       }
     },
     culinaryApplications: {
@@ -1605,7 +1600,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
             name: 'Scoring',
             method: 'diagonal cuts on sides',
             depth: '1 / (4 || 1) inch',
-            purpose: 'even cooking'
+            purpose: 'even cooking',
           }
         }
       },
@@ -1614,12 +1609,12 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         method: 'skin-on fillet',
         temperature: {
           fahrenheit: 375,
-          celsius: 190
+          celsius: 190,
         },
         timing: {
           skin_side: '4-5 minutes',
           flesh_side: '2-3 minutes',
-          resting: '3-4 minutes'
+          resting: '3-4 minutes',
         }
       }
     },
@@ -1637,20 +1632,20 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     },
     storage: {
       fresh: {
-        temperature: { fahrenheit: 32, celsius: 0 }
+        temperature: { fahrenheit: 32, celsius: 0 },
         duration: '1-2 days',
         method: 'on ice, uncovered' },
         frozen: {
-        temperature: { fahrenheit: 0, celsius: -18 }
+        temperature: { fahrenheit: 0, celsius: -18 },
         duration: '4-6 months',
-        method: 'vacuum sealed'
+        method: 'vacuum sealed',
       }
     },
     safetyThresholds: {
       cooked: {
-        minimum: { fahrenheit: 145, celsius: 63 }
+        minimum: { fahrenheit: 145, celsius: 63 },
         visual: 'opaque, flakes easily',
-        resting: '3-5 minutes'
+        resting: '3-5 minutes',
       }
     }
   },
@@ -1660,7 +1655,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       Water: 0.35,
       Earth: 0.35,
       Fire: 0.2,
-      Air: 0.1
+      Air: 0.1,
     },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Neptune'],
@@ -1675,11 +1670,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         waxingCrescent: {
-          elementalBoost: { Water: 0.1, Fire: 0.1 }
+          elementalBoost: { Water: 0.1, Fire: 0.1 },
           preparationTips: ['Best for grilling']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 }
+          elementalBoost: { Water: 0.2 },
           preparationTips: ['Ideal for poaching']
         }
       }
@@ -1698,7 +1693,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         cleaning: {
         name: 'Cleaning',
         steps: ['remove beak', 'clean head cavity', 'remove eyes'],
-        notes: 'careful with ink sac'
+        notes: 'careful with ink sac',
       }
     },
     culinaryApplications: {
@@ -1707,7 +1702,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         method: 'slow cook in aromatic liquid',
         temperature: {
           fahrenheit: 200,
-          celsius: 93
+          celsius: 93,
         },
         timing: {
           total: '45-60 minutes',
@@ -1728,13 +1723,13 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     },
     storage: {
       fresh: {
-        temperature: { fahrenheit: 34, celsius: 1 }
+        temperature: { fahrenheit: 34, celsius: 1 },
         duration: '1-2 days',
         method: 'on ice, wrapped' },
         frozen: {
-        temperature: { fahrenheit: 0, celsius: -18 }
+        temperature: { fahrenheit: 0, celsius: -18 },
         duration: '6-8 months',
-        method: 'vacuum sealed'
+        method: 'vacuum sealed',
       }
     }
   },
@@ -1744,7 +1739,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       Water: 0.6,
       Air: 0.25,
       Fire: 0.1,
-      Earth: 0.05
+      Earth: 0.05,
     },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Neptune'],
@@ -1759,11 +1754,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         waxingCrescent: {
-          elementalBoost: { Water: 0.1, Fire: 0.1 }
+          elementalBoost: { Water: 0.1, Fire: 0.1 },
           preparationTips: ['Best for grilling']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 }
+          elementalBoost: { Water: 0.2 },
           preparationTips: ['Ideal for steaming']
         }
       }
@@ -1782,7 +1777,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         name: 'Winter',
         appearance: 'darker coloring',
         season: 'peak in winter',
-        notes: 'slightly firmer texture'
+        notes: 'slightly firmer texture',
       }
     },
     culinaryApplications: {
@@ -1815,15 +1810,15 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     },
     safetyThresholds: {
       cooking: {
-        temperature: { fahrenheit: 145, celsius: 63 }
+        temperature: { fahrenheit: 145, celsius: 63 },
         visual: 'opaque, flakes easily',
-        notes: 'careful not to overcook'
+        notes: 'careful not to overcook',
       }
     }
   },
   squid: {
     name: 'Squid',
-    elementalProperties: { Water: 0.7, Earth: 0.15, Air: 0.15, Fire: 0 }
+    elementalProperties: { Water: 0.7, Earth: 0.15, Air: 0.15, Fire: 0 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Neptune'],
       favorableZodiac: ['cancer', 'scorpio', 'pisces'],
@@ -1837,11 +1832,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         waxingCrescent: {
-          elementalBoost: { Water: 0.1, Fire: 0.1 }
+          elementalBoost: { Water: 0.1, Fire: 0.1 },
           preparationTips: ['Best for grilling']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 }
+          elementalBoost: { Water: 0.2 },
           preparationTips: ['Ideal for poaching']
         }
       }
@@ -1860,7 +1855,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         cleaning: {
         name: 'Cleaning',
         steps: ['remove beak', 'clean head cavity', 'remove eyes'],
-        notes: 'careful with ink sac'
+        notes: 'careful with ink sac',
       }
     },
     culinaryApplications: {
@@ -1869,7 +1864,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         method: 'slow cook in aromatic liquid',
         temperature: {
           fahrenheit: 200,
-          celsius: 93
+          celsius: 93,
         },
         timing: {
           total: '45-60 minutes',
@@ -1890,19 +1885,19 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     },
     storage: {
       fresh: {
-        temperature: { fahrenheit: 34, celsius: 1 }
+        temperature: { fahrenheit: 34, celsius: 1 },
         duration: '1-2 days',
         method: 'on ice, wrapped' },
         frozen: {
-        temperature: { fahrenheit: 0, celsius: -18 }
+        temperature: { fahrenheit: 0, celsius: -18 },
         duration: '6-8 months',
-        method: 'vacuum sealed'
+        method: 'vacuum sealed',
       }
     }
   },
   shrimp: {
     name: 'Shrimp',
-    elementalProperties: { Water: 0.6, Air: 0.35, Earth: 0.05, Fire: 0 }
+    elementalProperties: { Water: 0.6, Air: 0.35, Earth: 0.05, Fire: 0 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Neptune'],
       favorableZodiac: ['cancer', 'scorpio', 'pisces'],
@@ -1916,11 +1911,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         waxingCrescent: {
-          elementalBoost: { Water: 0.1, Fire: 0.1 }
+          elementalBoost: { Water: 0.1, Fire: 0.1 },
           preparationTips: ['Best for grilling']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 }
+          elementalBoost: { Water: 0.2 },
           preparationTips: ['Ideal for steaming']
         }
       }
@@ -1935,14 +1930,14 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         appearance: 'grey with black stripes',
         size: '13 / (15 || 1) to U / (10 || 1)',
         flavor: 'robust, briny',
-        notes: 'ideal for grilling'
+        notes: 'ideal for grilling',
       }
       'Spot Prawns': {
         name: 'Spot Prawns',
         appearance: 'reddish with white spots',
         size: 'U / (10 || 1) to U / (8 || 1)',
         flavor: 'sweet, delicate',
-        notes: 'premium Pacific variety'
+        notes: 'premium Pacific variety',
       }
     },
     culinaryApplications: {
@@ -1966,7 +1961,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
             cajun: ['paprika', 'cayenne', 'herbs'],
             teriyaki: ['soy', 'mirin', 'ginger']
           },
-          timing: '1-2 minutes per side'
+          timing: '1-2 minutes per side',
         }
       },
       poach: {
@@ -1978,7 +1973,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         shell_on: {
           method: 'slow poach',
           timing: '3-4 minutes',
-          cooling: 'ice bath immediately'
+          cooling: 'ice bath immediately',
         }
       },
       stir_fry: {
@@ -1989,7 +1984,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
             name: 'Velvet',
             marinade: ['egg white', 'cornstarch', 'rice wine'],
             method: 'oil blanch then stir-fry',
-            timing: 'blanch 30 seconds, fry 1 minute'
+            timing: 'blanch 30 seconds, fry 1 minute',
           }
         }
       }
@@ -2006,7 +2001,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           name: 'Remoulade',
           base: 'mayonnaise',
           ingredients: ['cajun spice', 'pickles', 'capers'],
-          service: 'chilled, side sauce'
+          service: 'chilled, side sauce',
         }
       },
       hot: {
@@ -2028,7 +2023,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           name: 'Xo',
           base: 'dried seafood-chili',
           preparation: 'sauce made ahead',
-          usage: 'small amount as condiment'
+          usage: 'small amount as condiment',
         }
       }
     },
@@ -2048,9 +2043,9 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     },
     safetyThresholds: {
       cooking: {
-        temperature: { fahrenheit: 145, celsius: 63 }
+        temperature: { fahrenheit: 145, celsius: 63 },
         indicators: ['opaque throughout', 'pink-red color'],
-        timing: 'until just cooked through'
+        timing: 'until just cooked through',
       }
     }
   }

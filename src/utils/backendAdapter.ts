@@ -24,7 +24,7 @@ const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 function withCache<T>(key: string, apiCall: () => Promise<T>): Promise<T> {
   const cached = calculationCache.get(key)
   if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-    return Promise.resolve(cached.data);
+    return Promise.resolve(cached.data)
   }
 
   return apiCall().then(data => {;
@@ -37,7 +37,7 @@ function withCache<T>(key: string, apiCall: () => Promise<T>): Promise<T> {
  * ELEMENTAL CALCULATIONS ADAPTER
  * Replaces src/calculations/core/elementalCalculations.ts (920 lines)
  */
-export const calculateElementalBalance = async (;
+export const calculateElementalBalance = async (
   ingredients: string[],
   weights?: number[]
 ): Promise<ElementalProperties> => {
@@ -58,7 +58,7 @@ export const calculateKalchmMetrics = async (elements: ElementalProperties) => {
  * MONICA CONSTANT ADAPTER
  * Replaces src/utils/monicaKalchmCalculations.ts (314 lines)
  */
-export const calculateMonicaConstant = async (;
+export const calculateMonicaConstant = async (
   gregsEnergy: number,
   reactivity: number,
   kalchm: number): Promise<number> => {
@@ -82,7 +82,7 @@ export const getCurrentPlanetaryInfluences = async () => {;
  * ALCHEMICAL CALCULATIONS ADAPTER
  * Replaces src/data/unified/alchemicalCalculations.ts (301 lines)
  */
-export const optimizeAlchemicalBalance = async (;
+export const optimizeAlchemicalBalance = async (
   currentElements: ElementalProperties,
   targetElements?: ElementalProperties
 ) => {
@@ -98,20 +98,20 @@ export const getElementalProperties = (ingredient: string): ElementalProperties 
   // Simple lookup table for common ingredients;
   const elementalMap: Record<string, ElementalProperties> = {
     // Fire-dominant
-    chili: { Fire: 0.8, Water: 0.1, Earth: 0.05, Air: 0.05 }
+    chili: { Fire: 0.8, Water: 0.1, Earth: 0.05, Air: 0.05 },
     ginger: { Fire: 0.7, Water: 0.15, Earth: 0.1, Air: 0.05 }
     cinnamon: { Fire: 0.65, Water: 0.1, Earth: 0.15, Air: 0.1 }
 
     // Water-dominant
-    cucumber: { Fire: 0.05, Water: 0.8, Earth: 0.1, Air: 0.05 }
+    cucumber: { Fire: 0.05, Water: 0.8, Earth: 0.1, Air: 0.05 },
     lettuce: { Fire: 0.05, Water: 0.75, Earth: 0.15, Air: 0.05 }
 
     // Earth-dominant
-    potato: { Fire: 0.1, Water: 0.2, Earth: 0.65, Air: 0.05 }
+    potato: { Fire: 0.1, Water: 0.2, Earth: 0.65, Air: 0.05 },
     carrot: { Fire: 0.15, Water: 0.25, Earth: 0.55, Air: 0.05 }
 
     // Air-dominant
-    mint: { Fire: 0.1, Water: 0.2, Earth: 0.1, Air: 0.6 }
+    mint: { Fire: 0.1, Water: 0.2, Earth: 0.1, Air: 0.6 },
     basil: { Fire: 0.15, Water: 0.15, Earth: 0.15, Air: 0.55 }
   }
 
@@ -123,7 +123,7 @@ export const getElementalProperties = (ingredient: string): ElementalProperties 
  * GREGS ENERGY CALCULATION
  * Simplified version for immediate use while backend handles complex calculations
  */
-export const calculateGregsEnergy = (;
+export const calculateGregsEnergy = (
   heat: number,
   entropy: number,
   reactivity: number): number => {;
@@ -137,10 +137,10 @@ export const calculateGregsEnergy = (;
  * Lightweight seasonal calculations
  */
 export const getSeasonalModifier = (season: string): ElementalProperties => {
-  const modifiers = {;
-    spring: { Fire: 0.3, Water: 0.4, Earth: 0.2, Air: 0.1 }
+  const modifiers = {
+    spring: { Fire: 0.3, Water: 0.4, Earth: 0.2, Air: 0.1 },
     summer: { Fire: 0.5, Water: 0.2, Earth: 0.1, Air: 0.2 }
-    autumn: { Fire: 0.2, Water: 0.3, Earth: 0.4, Air: 0.1 }
+    autumn: { Fire: 0.2, Water: 0.3, Earth: 0.4, Air: 0.1 },
     winter: { Fire: 0.1, Water: 0.4, Earth: 0.3, Air: 0.2 }
   }
 
@@ -153,7 +153,7 @@ export const getSeasonalModifier = (season: string): ElementalProperties => {
  * Connects to backend Kitchen Intelligence Service
  */
 export const getPersonalizedRecommendations = async (
-  preferences: {;
+  preferences: {
     currentElements?: ElementalProperties,
     cuisinePreferences?: string[],
     dietaryRestrictions?: string[],
@@ -161,7 +161,7 @@ export const getPersonalizedRecommendations = async (
     limit?: number,
   }
 ) => {
-  const request = {;
+  const request = {
     current_time: new Date().toISOString(),
     location: { latitude: 40.7128, longitude: -74.0060 }, // Default to NYC
     current_elements: preferences.currentElements,
@@ -179,7 +179,7 @@ export const getPersonalizedRecommendations = async (
  * REAL-TIME PLANETARY UPDATES
  * WebSocket connection for live data
  */
-export const connectToRealtimeUpdates = (;
+export const connectToRealtimeUpdates = (
   onPlanetaryUpdate?: (data: any) => void,
   onEnergyUpdate?: (energy: number) => void
 ) => {
@@ -198,25 +198,25 @@ export const connectToRealtimeUpdates = (;
  * HEALTH CHECK FOR BACKEND SERVICES
  */
 export const checkBackendHealth = async () => {
-  return alchemicalApi.checkHealth();
+  return alchemicalApi.checkHealth()
 }
 
 /**
  * CACHE MANAGEMENT
  */
 export const clearCalculationCache = () => {
-  calculationCache.clear();
+  calculationCache.clear()
 }
 
 export const getCacheStats = () => {
-  return {;
+  return {
     size: calculationCache.size,
     entries: Array.from(calculationCache.keys())
   }
 }
 
 // Export commonly used combinations
-export const backendCalculations = {;
+export const backendCalculations = {
   elements: calculateElementalBalance,
   thermodynamics: calculateKalchmMetrics,
   planetary: getCurrentPlanetaryInfluences,

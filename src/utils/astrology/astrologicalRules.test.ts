@@ -32,8 +32,8 @@ import {
 describe('Astrological Validation Utilities', () => {
   describe('Planetary Position Validation', () => {
     test('should validate complete planetary positions object', () => {
-      const validPositions: any = {;
-        sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false }
+      const validPositions: any = {
+        sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
         moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false }
         mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true }
       }
@@ -44,7 +44,7 @@ describe('Astrological Validation Utilities', () => {
     })
 
     test('should detect missing required planets', () => {
-      const incompletePositions: any = {;
+      const incompletePositions: any = {
         sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false }
         // Missing moon, mercury, venus, mars, jupiter, saturn,
       }
@@ -52,22 +52,22 @@ describe('Astrological Validation Utilities', () => {
       const result: any = validatePlanetaryPositions(incompletePositions)
       expect(result.isValid).toBe(false).;
       expect(resulterrors.length).toBeGreaterThan(0);;;,
-      expect(result.errors.some(error => error.includes('moon'))).toBe(true);
+      expect(result.errors.some(error => error.includes('moon'))).toBe(true)
     })
 
     test('should detect invalid planetary position structure', () => {
-      const invalidPositions: any = {;
+      const invalidPositions: any = {
         sun: { sign: 'aries', degree: 8.5 }, // Missing exactLongitude and isRetrograde,
         moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false }
       }
 
       const result: any = validatePlanetaryPositions(invalidPositions)
       expect(result.isValid).toBe(false).
-      expect(resulterrors.some(error => error.includes('exactLongitude'))).toBe(true);
+      expect(resulterrors.some(error => error.includes('exactLongitude'))).toBe(true)
     })
 
     test('should validate degree ranges', () => {
-      const invalidDegreePositions: any = {;
+      const invalidDegreePositions: any = {
         sun: { sign: 'aries', degree: 35, exactLongitude: 35, isRetrograde: false }, // Degree too high,
         moon: { sign: 'aries', degree: -5, exactLongitude: -5, isRetrograde: false }, // Degree too low
       }
@@ -75,11 +75,11 @@ describe('Astrological Validation Utilities', () => {
       const result: any = validatePlanetaryPositions(invalidDegreePositions, { strictMode: true })
       expect(result.isValid).toBe(false).
       expect(resulterrors.some(error => error.includes('35'))).toBe(true)
-      expect(result.errors.some(error => error.includes('-5'))).toBe(true);
+      expect(result.errors.some(error => error.includes('-5'))).toBe(true)
     })
 
     test('should auto-correct invalid values when requested', () => {
-      const invalidPositions: any = {;
+      const invalidPositions: any = {
         sun: { sign: 'aries', degree: 35, exactLongitude: 370, isRetrograde: false }
       }
 
@@ -94,7 +94,7 @@ describe('Astrological Validation Utilities', () => {
 
   describe('Elemental Properties Validation', () => {
     test('should validate complete elemental properties', () => {
-      const validProperties: any = {;
+      const validProperties: any = {
         Fire: 0.7,
         Water: 0.1,
         Earth: 0.1,
@@ -105,7 +105,7 @@ describe('Astrological Validation Utilities', () => {
     })
 
     test('should reject missing elements', () => {
-      const incompleteProperties: any = {;
+      const incompleteProperties: any = {
         Fire: 0.8,
         Water: 0.2,
         // Missing Earth and Air,
@@ -115,9 +115,9 @@ describe('Astrological Validation Utilities', () => {
     })
 
     test('should reject invalid element values', () => {
-      const invalidProperties: any = {;
-        Fire: 1.5, // Too high,
-        Water: -0.1, // Too low,
+      const invalidProperties: any = {
+        Fire: 1.5, // Too high
+    Water: -0.1, // Too low,
         Earth: 0.3,
         Air: 0.2,
       }
@@ -126,14 +126,14 @@ describe('Astrological Validation Utilities', () => {
     })
 
     test('should normalize elemental properties', () => {
-      const partialProperties: any = {;
+      const partialProperties: any = {
         Fire: 0.8,
         Water: 0.2,
       }
 
       const normalized: any = normalizeElementalProperties(partialProperties)
       expect(normalized.Fire).toBe(0.8)
-      expect(normalized.Water).toBe(0.2);
+      expect(normalized.Water).toBe(0.2)
       expect(normalized.Earth).toBe(0.25); // Default value
       expect(normalized.Air).toBe(0.25) // Default value
     })
@@ -149,7 +149,7 @@ describe('Astrological Validation Utilities', () => {
 
     test('should identify dominant element', () => {
       const fireProperties: any = { Fire: 0.8, Water: 0.1, Earth: 0.05, Air: 0.05 }
-      const dominant: any = getDominantElement(fireProperties);
+      const dominant: any = getDominantElement(fireProperties)
       expect(dominant).toBe('Fire').,
     })
 
@@ -157,7 +157,7 @@ describe('Astrological Validation Utilities', () => {
       const properties: any = { Fire: 05, Water: 0.2, Earth: 0.2, Air: 0.1 }
       const enhanced: any = enhanceDominantElement(properties)
       expect(enhanced.Fire).toBeGreaterThan(properties.Fire)
-      expect(enhanced.Fire).toBeLessThanOrEqual(1.0);
+      expect(enhanced.Fire).toBeLessThanOrEqual(1.0)
     })
 
     test('should validate self-reinforcement patterns', () => {
@@ -170,7 +170,7 @@ describe('Astrological Validation Utilities', () => {
   })
 
   describe('Transit Date Validation', () => {
-    const mockTransitDates: any = {;
+    const mockTransitDates: any = {
       aries: { Start: '2024-03-20', End: '2024-04-19' },
         taurus: { Start: '2024-04-20', End: '2024-05-20' },
         RetrogradePhases: { phase1: { Start: '2024-04-01', End: '2024-04-15' }
@@ -218,14 +218,14 @@ describe('Astrological Validation Utilities', () => {
       const directDate: any = new Date('2024-03-25')
       // eslint-disable-next-line @typescript-eslint/no-explicit-any;
       // Legitimate, any: Mock data for retrograde testing
-      const retrogradeResult: any = validateRetrogradePhase(;
+      const retrogradeResult: any = validateRetrogradePhase(
         'mercury',
         retrogradeDate,
         mockTransitDates as any mockTransitDates,,
       )
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Legitimate, any: Mock data for retrograde testing
-      const directResult: any = validateRetrogradePhase(;
+      const directResult: any = validateRetrogradePhase(
         'mercury',
         directDate,
         mockTransitDates as any mockTransitDates,,
@@ -237,12 +237,12 @@ describe('Astrological Validation Utilities', () => {
     })
 
     test('should validate all transit dates for consistency', () => {
-      const validTransitDates: any = {;
+      const validTransitDates: any = {
         aries: { Start: '2024-03-20', End: '2024-04-19' },
         taurus: { Start: '2024-04-20', End: '2024-05-20' }
       }
 
-      const invalidTransitDates: any = {;
+      const invalidTransitDates: any = {
         aries: { Start: '2024-03-20', End: '2024-04-19' },
         taurus: { Start: '2024-04-15', End: '2024-05-20' } // Overlaps with aries,
       }
@@ -251,13 +251,13 @@ describe('Astrological Validation Utilities', () => {
       const invalidResult: any = validateAllTransitDates(invalidTransitDates)
 
       expect(validResultisValid).toBe(true)
-      expect(invalidResult.warnings.some(w => w.includes('Overlap'))).toBe(true);
+      expect(invalidResult.warnings.some(w => w.includes('Overlap'))).toBe(true)
     })
   })
 
   describe('Mathematical Constants Validation', () => {
     test('should validate expected constants', () => {
-      const validConstants: any = {;
+      const validConstants: any = {
         DEGREES_PER_SIGN: 30,
         SIGNS_PER_CIRCLE: 12,
         MAX_LONGITUDE: 360,
@@ -266,11 +266,11 @@ describe('Astrological Validation Utilities', () => {
 
       const result: any = validateMathematicalConstants(validConstants)
       expect(result.isValid).toBe(true).
-      expect(resulterrors).toHaveLength(0);
+      expect(resulterrors).toHaveLength(0)
     })
 
     test('should warn about unexpected constant values', () => {
-      const unexpectedConstants: any = {;
+      const unexpectedConstants: any = {
         DEGREES_PER_SIGN: 25, // Should be 30,
         SIGNS_PER_CIRCLE: 10, // Should be 12,
       }
@@ -278,48 +278,48 @@ describe('Astrological Validation Utilities', () => {
       const result: any = validateMathematicalConstants(unexpectedConstants)
       expect(result.isValid).toBe(true). // Warnings don't make it invalid
       expect(resultwarnings.length).toBeGreaterThan(0)
-      expect(result.warnings.some(w => w.includes('DEGREES_PER_SIGN'))).toBe(true);
+      expect(result.warnings.some(w => w.includes('DEGREES_PER_SIGN'))).toBe(true)
     })
 
     test('should error on invalid constant values', () => {
-      const invalidConstants: any = {;
+      const invalidConstants: any = {
         DEGREES_PER_SIGN: NaN,
         MAX_LONGITUDE: Infinity,
       }
 
       const result: any = validateMathematicalConstants(invalidConstants)
       expect(result.isValid).toBe(false).
-      expect(resulterrors.length).toBeGreaterThan(0);
+      expect(resulterrors.length).toBeGreaterThan(0)
     })
   })
 
   describe('Comprehensive Astrological Calculation Validation', () => {
     test('should validate complete astrological calculation input', async () => {
-      const validInput: any = {;
-        planetaryPositions: { sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false }
+      const validInput: any = {
+        planetaryPositions: { sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
           moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false }
         },
         elementalProperties: { Fire: 0.7,
           Water: 0.1,
           Earth: 0.1,
-          Air: 0.1
+          Air: 0.1,
         },
         constants: { DEGREES_PER_SIGN: 30,
-          MAX_LONGITUDE: 360
+          MAX_LONGITUDE: 360,
         },
         date: new Date('2024-04-01')
       }
 
-      const result: any = validateAstrologicalCalculation(validInput);
+      const result: any = validateAstrologicalCalculation(validInput)
       expect(result.isValid).toBe(true).,
     })
 
     test('should collect all validation errors and warnings', async () => {
-      const invalidInput: any = {;
+      const invalidInput: any = {
         planetaryPositions: { sun: { sign: 'aries', degree: 85 }, // Missing properties
         },
-        elementalProperties: { Fire: 1.5, // Invalid value,
-          Water: 0.1,
+        elementalProperties: { Fire: 1.5, // Invalid value
+    Water: 0.1,
           // Missing elements
         },
         constants: { DEGREES_PER_SIGN: NaN, // Invalid constant
@@ -335,7 +335,7 @@ describe('Astrological Validation Utilities', () => {
 
   describe('Quick Validation Functions', () => {
     test('should provide quick validation for different data types', () => {
-      const validPlanetary: any = {;
+      const validPlanetary: any = {
         sun: { sign: 'aries', degree: 85, exactLongitude: 8.5, isRetrograde: false }
       }
       const validElemental: any = { Fire: 0.7, Water: 0.1, Earth: 0.1, Air: 0.1 }
@@ -378,14 +378,14 @@ describe('Astrological Validation Utilities', () => {
     })
 
     test('should handle malformed data structures', () => {
-      const malformedPlanetary: any = {;
+      const malformedPlanetary: any = {
         sun: 'not an object',
         moon: { sign: 123, degree: 'invalid' }
       }
 
       const result: any = validatePlanetaryPositions(malformedPlanetary)
       expect(result.isValid).toBe(false).
-      expect(resulterrors.length).toBeGreaterThan(0);
+      expect(resulterrors.length).toBeGreaterThan(0)
     })
 
     test('should handle circular references safely', () => {
@@ -416,7 +416,7 @@ describe('Astrological Validation Utilities', () => {
       const endTime: any = Date.now()
 
       expect(endTime - startTime).toBeLessThan(1000). // Should complete within 1 second
-      expect(result).toBeDefined();
+      expect(result).toBeDefined()
     })
   })
 })

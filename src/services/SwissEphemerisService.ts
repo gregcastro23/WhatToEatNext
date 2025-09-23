@@ -86,7 +86,7 @@ export interface PlanetaryAspect {
 /**
  * Planet code mapping for Swiss Ephemeris data
  */
-const PLANET_MAPPING = {;
+const PLANET_MAPPING = {
   A: 'Sun',
   B: 'Moon',
   C: 'Mercury',
@@ -160,7 +160,7 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'pisces',
-      J_sign: 'capricorn'
+      J_sign: 'capricorn',
     }
   ],
 
@@ -180,7 +180,7 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius'
+      J_sign: 'aquarius',
     }
     {
       day: 2,
@@ -196,7 +196,7 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius'
+      J_sign: 'aquarius',
     }
     {
       day: 3,
@@ -212,7 +212,7 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius'
+      J_sign: 'aquarius',
     }
     {
       day: 4,
@@ -228,7 +228,7 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius'
+      J_sign: 'aquarius',
     }
     {
       day: 5,
@@ -244,7 +244,7 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius'
+      J_sign: 'aquarius',
     }
     {
       day: 6,
@@ -260,7 +260,7 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius'
+      J_sign: 'aquarius',
     }
     {
       day: 7,
@@ -276,7 +276,7 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius'
+      J_sign: 'aquarius',
     }
     {
       day: 8,
@@ -292,7 +292,7 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius'
+      J_sign: 'aquarius',
     }
     {
       day: 9,
@@ -308,7 +308,7 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius'
+      J_sign: 'aquarius',
     }
     {
       day: 10,
@@ -324,7 +324,7 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       G_sign: 'pisces',
       O_sign: 'taurus',
       I_sign: 'aries',
-      J_sign: 'aquarius'
+      J_sign: 'aquarius',
     }
   ]
 }
@@ -339,7 +339,7 @@ const SEASONAL_TRANSITS: Record<string, SeasonalTransit[]> = {
       startDate: new Date('2024-03-20'),
       endDate: new Date('2024-04-19'),
       sunSign: 'aries',
-      dominantElements: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 }
+      dominantElements: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
       keyAspects: [
         {
           planet1: 'Sun',
@@ -347,14 +347,14 @@ const SEASONAL_TRANSITS: Record<string, SeasonalTransit[]> = {
           aspectType: 'conjunction',
           orb: 2.5,
           influence: 0.9,
-          description: 'Dynamic fire energy, perfect for bold culinary experiments'
+          description: 'Dynamic fire energy, perfect for bold culinary experiments',
         }
       ],
       planetaryPlacements: {
-        Sun: { sign: 'aries', degree: 15, exactLongitude: 15, isRetrograde: false }
-        Moon: { sign: 'cancer', degree: 8, exactLongitude: 98, isRetrograde: false }
-        Mercury: { sign: 'pisces', degree: 28, exactLongitude: 358, isRetrograde: true }
-        Venus: { sign: 'pisces', degree: 26, exactLongitude: 356, isRetrograde: true }
+        Sun: { sign: 'aries', degree: 15, exactLongitude: 15, isRetrograde: false },
+        Moon: { sign: 'cancer', degree: 8, exactLongitude: 98, isRetrograde: false },
+        Mercury: { sign: 'pisces', degree: 28, exactLongitude: 358, isRetrograde: true },
+        Venus: { sign: 'pisces', degree: 26, exactLongitude: 356, isRetrograde: true },
         Mars: { sign: 'cancer', degree: 24, exactLongitude: 114, isRetrograde: false }
       },
       seasonalThemes: ['New beginnings', 'Dynamic energy', 'Bold flavors', 'Spicy dishes'],
@@ -370,7 +370,7 @@ const SEASONAL_TRANSITS: Record<string, SeasonalTransit[]> = {
       startDate: new Date('2024-04-20'),
       endDate: new Date('2024-05-20'),
       sunSign: 'taurus',
-      dominantElements: { Earth: 0.5, Water: 0.3, Fire: 0.1, Air: 0.1 }
+      dominantElements: { Earth: 0.5, Water: 0.3, Fire: 0.1, Air: 0.1 },
       keyAspects: [
         {
           planet1: 'Venus',
@@ -378,14 +378,14 @@ const SEASONAL_TRANSITS: Record<string, SeasonalTransit[]> = {
           aspectType: 'trine',
           orb: 1.2,
           influence: 0.8,
-          description: 'Harmonious earth energy, ideal for grounding comfort foods'
+          description: 'Harmonious earth energy, ideal for grounding comfort foods',
         }
       ],
       planetaryPlacements: {
-        Sun: { sign: 'taurus', degree: 12, exactLongitude: 42, isRetrograde: false }
-        Moon: { sign: 'leo', degree: 15, exactLongitude: 135, isRetrograde: false }
-        Mercury: { sign: 'aries', degree: 8, exactLongitude: 38, isRetrograde: false }
-        Venus: { sign: 'aries', degree: 22, exactLongitude: 52, isRetrograde: false }
+        Sun: { sign: 'taurus', degree: 12, exactLongitude: 42, isRetrograde: false },
+        Moon: { sign: 'leo', degree: 15, exactLongitude: 135, isRetrograde: false },
+        Mercury: { sign: 'aries', degree: 8, exactLongitude: 38, isRetrograde: false },
+        Venus: { sign: 'aries', degree: 22, exactLongitude: 52, isRetrograde: false },
         Mars: { sign: 'leo', degree: 18, exactLongitude: 138, isRetrograde: false }
       },
       seasonalThemes: ['Stability', 'Sensual pleasures', 'Comfort foods', 'Rich flavors'],
@@ -404,7 +404,7 @@ const SEASONAL_TRANSITS: Record<string, SeasonalTransit[]> = {
       startDate: new Date('2025-06-01'),
       endDate: new Date('2025-06-30'),
       sunSign: 'gemini',
-      dominantElements: { Air: 0.5, Fire: 0.3, Earth: 0.1, Water: 0.1 }
+      dominantElements: { Air: 0.5, Fire: 0.3, Earth: 0.1, Water: 0.1 },
       keyAspects: [
         {
           planet1: 'Mercury',
@@ -412,7 +412,7 @@ const SEASONAL_TRANSITS: Record<string, SeasonalTransit[]> = {
           aspectType: 'conjunction',
           orb: 3.1,
           influence: 0.85,
-          description: 'Intellectual air energy, perfect for experimental and varied cuisine'
+          description: 'Intellectual air energy, perfect for experimental and varied cuisine',
         }
         {
           planet1: 'Sun',
@@ -420,19 +420,19 @@ const SEASONAL_TRANSITS: Record<string, SeasonalTransit[]> = {
           aspectType: 'trine',
           orb: 2.8,
           influence: 0.75,
-          description: 'Harmonious communication between fire and earth elements'
+          description: 'Harmonious communication between fire and earth elements',
         }
       ],
       planetaryPlacements: {
-        Sun: { sign: 'gemini', degree: 15, exactLongitude: 75, isRetrograde: false }
-        Moon: { sign: 'cancer', degree: 8, exactLongitude: 98, isRetrograde: false }
-        Mercury: { sign: 'virgo', degree: 12, exactLongitude: 162, isRetrograde: false }
-        Venus: { sign: 'leo', degree: 18, exactLongitude: 138, isRetrograde: false }
-        Mars: { sign: 'leo', degree: 22, exactLongitude: 142, isRetrograde: false }
-        Jupiter: { sign: 'leo', degree: 25, exactLongitude: 145, isRetrograde: false }
-        Saturn: { sign: 'pisces', degree: 28, exactLongitude: 358, isRetrograde: false }
-        Uranus: { sign: 'taurus', degree: 20, exactLongitude: 50, isRetrograde: false }
-        Neptune: { sign: 'aries', degree: 5, exactLongitude: 5, isRetrograde: false }
+        Sun: { sign: 'gemini', degree: 15, exactLongitude: 75, isRetrograde: false },
+        Moon: { sign: 'cancer', degree: 8, exactLongitude: 98, isRetrograde: false },
+        Mercury: { sign: 'virgo', degree: 12, exactLongitude: 162, isRetrograde: false },
+        Venus: { sign: 'leo', degree: 18, exactLongitude: 138, isRetrograde: false },
+        Mars: { sign: 'leo', degree: 22, exactLongitude: 142, isRetrograde: false },
+        Jupiter: { sign: 'leo', degree: 25, exactLongitude: 145, isRetrograde: false },
+        Saturn: { sign: 'pisces', degree: 28, exactLongitude: 358, isRetrograde: false },
+        Uranus: { sign: 'taurus', degree: 20, exactLongitude: 50, isRetrograde: false },
+        Neptune: { sign: 'aries', degree: 5, exactLongitude: 5, isRetrograde: false },
         Pluto: { sign: 'aquarius', degree: 8, exactLongitude: 308, isRetrograde: true }
       },
       seasonalThemes: ['Communication', 'Variety', 'Light dishes', 'Fresh ingredients'],
@@ -613,7 +613,7 @@ export class SwissEphemerisService {
     const targetMonth = date.getMonth() + 1;
 
     // Find exact day or closest day
-    const dayEntry = yearData.find(;
+    const dayEntry = yearData.find(
       entry => entry.day === targetDay && entry.date.getMonth() + 1 === targetMonth,
     )
 
@@ -649,7 +649,7 @@ export class SwissEphemerisService {
       A: 0.986B: 13.2C: 1.383D: 1.2E: 0.524F: 0.083G: 0.034O: 0.012I: 0.006J: 0.004L: -0.053K: -0.053;
     }
 
-    const approximatedEntry: SwissEphemerisData = {;
+    const approximatedEntry: SwissEphemerisData = {
       ...baseEntry,
       day: date.getDate(),
       date: new Date(date)

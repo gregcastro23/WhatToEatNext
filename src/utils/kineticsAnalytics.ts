@@ -29,11 +29,11 @@ export function trackKineticsRecommendation(event: KineticsRecommendationEvent):
         value: Math.round(event.kineticScore * 100), // Convert to 0-100 scale,
         custom_parameter_1: event.powerLevel,
         custom_parameter_2: event.userAction
-      });
+      })
     } catch (error) {
       // Silently fail - analytics shouldn't break the app
       // eslint-disable-next-line no-console
-      console.debug('Analytics tracking failed: ', error);
+      console.debug('Analytics tracking failed: ', error)
     }
   }
 }
@@ -52,17 +52,17 @@ export function trackKineticsImprovement(data: {
       const improvementPercentage = Math.round(
         ((data.enhancedRecommendationCount - data.baseRecommendationCount) /
          data.baseRecommendationCount) * 100;
-      );
+      )
 
       window.gtag('event', 'kinetics_improvement', {
         event_category: 'recommendation_enhancement',
         value: improvementPercentage,
         custom_parameter_1: data.averageKineticScore,
         custom_parameter_2: data.powerLevel
-      });
+      })
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.debug('Analytics tracking failed: ', error);
+      console.debug('Analytics tracking failed: ', error)
     }
   }
 }
@@ -80,7 +80,7 @@ export function withKineticsTracking<T>(
       kineticScore: recommendation.kineticScore,
       powerLevel,
       userAction: action
-    });
+    })
   }
   return recommendation;
 }

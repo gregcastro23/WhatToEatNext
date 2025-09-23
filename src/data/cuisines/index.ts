@@ -17,7 +17,7 @@ import { thai } from './thai';
 import { vietnamese } from './vietnamese';
 
 // Create a base cuisine structure
-const baseCuisine: Cuisine = {;
+const baseCuisine: Cuisine = {
   id: 'base',
   name: '',
   description: '',
@@ -50,7 +50,7 @@ const baseCuisine: Cuisine = {;
   },
   traditionalSauces: {}
   sauceRecommender: {
-    forProtein: {}
+    forProtein: {},
     forVegetable: {}
     forCookingMethod: {}
     byAstrological: {}
@@ -63,7 +63,7 @@ const baseCuisine: Cuisine = {;
     Fire: 0,
     Water: 0.75,
     Earth: 0.65,
-    Air: 0
+    Air: 0,
   },
   astrologicalInfluences: []
 }
@@ -108,7 +108,7 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {;
     },
     traditionalSauces: cuisine.traditionalSauces || {}
     sauceRecommender: {
-      forProtein: cuisine.sauceRecommender?.forProtein || {}
+      forProtein: cuisine.sauceRecommender?.forProtein || {},
       forVegetable: cuisine.sauceRecommender?.forVegetable || {}
       forCookingMethod: cuisine.sauceRecommender?.forCookingMethod || {}
       byAstrological: cuisine.sauceRecommender?.byAstrological || {}
@@ -127,7 +127,7 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {;
 }
 
 // Create and export the cuisines map with validated structures
-export const cuisinesMap = {;
+export const cuisinesMap = {
   African: processCuisineRecipes(african as Partial<Cuisine>),
   American: processCuisineRecipes(american as Partial<Cuisine>),
   Chinese: processCuisineRecipes(chinese as unknown as Partial<Cuisine>),
@@ -158,7 +158,7 @@ export const CUISINES = {
       Fire: 0.3,
       Water: 0.2,
       Earth: 0.3,
-      Air: 0.2
+      Air: 0.2,
     }
   },
   chinese: {
@@ -167,7 +167,7 @@ export const CUISINES = {
       Fire: 0.3,
       Water: 0.3,
       Earth: 0.3,
-      Air: 0.1
+      Air: 0.1,
     }
   },
   japanese: {
@@ -176,7 +176,7 @@ export const CUISINES = {
       Fire: 0.2,
       Water: 0.4,
       Earth: 0.2,
-      Air: 0.2
+      Air: 0.2,
     }
   },
   indian: {
@@ -185,7 +185,7 @@ export const CUISINES = {
       Fire: 0.4,
       Water: 0.2,
       Earth: 0.2,
-      Air: 0.2
+      Air: 0.2,
     }
   },
   french: {
@@ -194,7 +194,7 @@ export const CUISINES = {
       Fire: 0.2,
       Water: 0.3,
       Earth: 0.3,
-      Air: 0.2
+      Air: 0.2,
     }
   },
   italian: {
@@ -203,7 +203,7 @@ export const CUISINES = {
       Fire: 0.3,
       Earth: 0.4,
       Water: 0.2,
-      Air: 0.1
+      Air: 0.1,
     }
   },
   african: {
@@ -212,7 +212,7 @@ export const CUISINES = {
       Fire: 0.3,
       Earth: 0.4,
       Water: 0.2,
-      Air: 0.1
+      Air: 0.1,
     }
   },
   middleEastern: {
@@ -221,7 +221,7 @@ export const CUISINES = {
       Fire: 0.3,
       Earth: 0.3,
       Water: 0.2,
-      Air: 0.2
+      Air: 0.2,
     }
   },
   greek: {
@@ -230,7 +230,7 @@ export const CUISINES = {
       Fire: 0.2,
       Earth: 0.3,
       Water: 0.3,
-      Air: 0.2
+      Air: 0.2,
     }
   },
   mexican: {
@@ -239,7 +239,7 @@ export const CUISINES = {
       Fire: 0.5,
       Earth: 0.3,
       Water: 0.1,
-      Air: 0.1
+      Air: 0.1,
     }
   },
   thai: {
@@ -248,7 +248,7 @@ export const CUISINES = {
       Fire: 0.4,
       Water: 0.3,
       Earth: 0.2,
-      Air: 0.1
+      Air: 0.1,
     }
   },
   vietnamese: {
@@ -257,7 +257,7 @@ export const CUISINES = {
       Water: 0.4,
       Fire: 0.2,
       Earth: 0.2,
-      Air: 0.2
+      Air: 0.2,
     }
   },
   korean: {
@@ -266,7 +266,7 @@ export const CUISINES = {
       Fire: 0.3,
       Earth: 0.3,
       Water: 0.2,
-      Air: 0.2
+      Air: 0.2,
     }
   },
   russian: {
@@ -275,13 +275,13 @@ export const CUISINES = {
       Earth: 0.5,
       Water: 0.2,
       Fire: 0.2,
-      Air: 0.1
+      Air: 0.1,
     }
   }
 } as const,
 
 // Type for cuisine data
-export type CuisineData = {;
+export type CuisineData = {
   name: string,
   elementalProperties: {
     Fire: number,

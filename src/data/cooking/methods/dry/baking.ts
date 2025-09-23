@@ -13,11 +13,11 @@ export const baking: CookingMethodData = {
     Fire: 0.4,
     Air: 0.3,
     Earth: 0.2,
-    Water: 0.1
+    Water: 0.1,
   },
   duration: {
     min: 20,
-    max: 180
+    max: 180,
   },
   suitable_for: ['breads', 'pastries', 'casseroles', 'meat', 'vegetables', 'desserts', 'gratins'],
   benefits: [
@@ -70,7 +70,7 @@ export const baking: CookingMethodData = {
     carbohydrates: 0.85,
     proteins: 0.75,
     vitamins: 0.65,
-    minerals: 0.8
+    minerals: 0.8,
   },
   optimalTemperatures: {
     bread: 425, // Begins at 450°F with steam, reduces to 400°F,
@@ -268,7 +268,7 @@ export const baking: CookingMethodData = {
       rubbing: 'Incorporating fat into flour by hand until crumbly. Used for biscuits, scones, and shortcrust pastry.',
       muffin_method: 'Combining wet and dry ingredients separately, then mixing minimally. Produces coarser crumb with tunnels.',
       reverse_creaming: 'Coating flour particles with fat before adding liquid. Creates fine, velvety texture with structural strength.',
-      lamination: 'Folding fat between dough layers. Creates distinct, flaky layers in puff pastry, croissants, and Danish pastries.'
+      lamination: 'Folding fat between dough layers. Creates distinct, flaky layers in puff pastry, croissants, and Danish pastries.',
     }
   }
 }

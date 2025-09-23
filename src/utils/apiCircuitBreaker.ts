@@ -20,7 +20,7 @@ enum CircuitState {
   private options: CircuitBreakerOptions
 
   constructor(options: Partial<CircuitBreakerOptions> = {}) {
-    this.options = {;
+    this.options = {
       failureThreshold: 3,
       resetTimeout: 60000, // 1 minute,
       monitoringWindow: 300000, // 5 minutes,
@@ -43,8 +43,8 @@ enum CircuitState {
 
     try {
       const result = await fn()
-      this.onSuccess();
-      return result,
+      this.onSuccess()
+      return result
     } catch (error) {
       this.onFailure()
 

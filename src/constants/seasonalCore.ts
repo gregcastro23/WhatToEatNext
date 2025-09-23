@@ -15,7 +15,7 @@ export const VALID_SEASONS = ['spring', 'summer', 'autumn', 'winter', 'fall', 'a
 /**
  * Score thresholds for seasonal compatibility
  */
-export const SCORE_THRESHOLDS = {;
+export const SCORE_THRESHOLDS = {
   EXCELLENT: 80,
   GOOD: 60,
   MODERATE: 40,
@@ -32,45 +32,45 @@ export const SEASONAL_MODIFIERS: Record<Season, ElementalProperties> = {
   spring: {
     Air: 0.4, // Dominant - movement, growth, communication,
     Water: 0.3, // Strong - nourishment, flow,
-    Earth: 0.2, // Moderate - grounding new growth,
+    Earth: 0.2, // Moderate - grounding new growth
     Fire: 0.1, // Minimal - gentle warmth
   },
   summer: {
     Fire: 0.4, // Dominant - heat, energy, expansion,
     Air: 0.3, // Strong - movement, activity,
-    Water: 0.2, // Moderate - cooling balance,
+    Water: 0.2, // Moderate - cooling balance
     Earth: 0.1, // Minimal - stability
   },
   autumn: {
     Earth: 0.4, // Dominant - harvest, grounding, stability,
     Air: 0.3, // Strong - change, transformation,
-    Fire: 0.2, // Moderate - warmth before winter,
+    Fire: 0.2, // Moderate - warmth before winter
     Water: 0.1, // Minimal - preparation for winter
   },
   winter: {
     Water: 0.4, // Dominant - introspection, depth, rest,
     Earth: 0.3, // Strong - stability, preservation,
-    Fire: 0.2, // Moderate - inner warmth,
+    Fire: 0.2, // Moderate - inner warmth
     Air: 0.1, // Minimal - stillness
   },
   fall: {
-    Earth: 0.4, // Alias for autumn,
+    Earth: 0.4, // Alias for autumn
     Air: 0.3,
     Fire: 0.2,
-    Water: 0.1
+    Water: 0.1,
   },
   all: {
-    Fire: 0.25, // Balanced for all-season items,
+    Fire: 0.25, // Balanced for all-season items
     Air: 0.25,
     Water: 0.25,
-    Earth: 0.25
+    Earth: 0.25,
   }
 }
 
 /**
  * Balanced elemental properties for reference
  */
-export const BALANCED_ELEMENTS: ElementalProperties = {;
+export const BALANCED_ELEMENTS: ElementalProperties = {
   Fire: 0.25,
   Air: 0.25,
   Water: 0.25,
@@ -201,7 +201,7 @@ export const SEASONAL_PROPERTIES = {
 /**
  * Seasonal transition periods and dates
  */
-export const SEASONAL_TRANSITIONS = {;
+export const SEASONAL_TRANSITIONS = {
   daysPerTransition: 21, // 3 weeks of transition between seasons,
   transitionPoints: {
     springToSummer: { month: 5, day: 15 }, // June 15
@@ -214,7 +214,7 @@ export const SEASONAL_TRANSITIONS = {;
 /**
  * Date ranges for each season
  */
-export const SEASON_DATE_RANGES = {;
+export const SEASON_DATE_RANGES = {
   spring: { startMonth: 2, startDay: 15, endMonth: 5, endDay: 14 }, // Feb 15 - May 14
   summer: { startMonth: 5, startDay: 15, endMonth: 8, endDay: 14 }, // May 15 - Aug 14
   autumn: { startMonth: 8, startDay: 15, endMonth: 11, endDay: 14 }, // Aug 15 - Nov 14
@@ -233,13 +233,13 @@ export const SEASONAL_INFLUENCE = {
     spring: 0.7,
     summer: 0.9,
     autumn: 0.6,
-    winter: 0.8
+    winter: 0.8,
   }
   // How seasons affect mood and energy
   energyModifier: {
-    spring: { vitality: 0.8, creativity: 0.7, stability: 0.4, adaptability: 0.6 }
+    spring: { vitality: 0.8, creativity: 0.7, stability: 0.4, adaptability: 0.6 },
     summer: { vitality: 0.9, creativity: 0.8, stability: 0.3, adaptability: 0.7 }
-    autumn: { vitality: 0.6, creativity: 0.6, stability: 0.6, adaptability: 0.5 }
+    autumn: { vitality: 0.6, creativity: 0.6, stability: 0.6, adaptability: 0.5 },
     winter: { vitality: 0.4, creativity: 0.5, stability: 0.7, adaptability: 0.4 }
   }
 }
@@ -249,7 +249,7 @@ export const SEASONAL_INFLUENCE = {
 /**
  * Validation thresholds for seasonal calculations
  */
-export const VALIDATION_THRESHOLDS = {;
+export const VALIDATION_THRESHOLDS = {
   MINIMUM_ELEMENT: 0,
   MAXIMUM_ELEMENT: 1,
   BALANCE_PRECISION: 0.000001
@@ -315,7 +315,7 @@ export function calculateSeasonalCompatibility(season1: Season, season2: Season)
   const index2 = seasonOrder.indexOf(season2)
 
   if (index1 !== -1 && index2 !== -1) {
-    const distance = Math.min(;
+    const distance = Math.min(
       Math.abs(index1 - index2),
       4 - Math.abs(index1 - index2), // Circular distance
     )

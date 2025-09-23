@@ -467,7 +467,7 @@ export class CampaignConflictResolver {
       conflict.resolvedAt = new Date();
       conflict.resolvedBy = 'system',
 
-      const result: ConflictResolutionResult = {;
+      const result: ConflictResolutionResult = {
         conflictId,
         success: true,
         resolutionStrategy: strategy,
@@ -534,7 +534,7 @@ export class CampaignConflictResolver {
     priority: number,
     reason: string,
     setBy: string = 'system'): void {
-    const campaignPriority: CampaignPriority = {;
+    const campaignPriority: CampaignPriority = {
       campaignId,
       priority: Math.max(1, Math.min(10, priority)), // Clamp between 1-10,
       reason,
@@ -576,7 +576,7 @@ export class CampaignConflictResolver {
   ): string {
     const dependencyId = `dep_${Date.now()}_${Math.random().toString(36).substr(29)}`;
 
-    const dependency: CampaignDependency = {;
+    const dependency: CampaignDependency = {
       id: dependencyId,
       dependentCampaign,
       requiredCampaign,
@@ -657,13 +657,13 @@ export class CampaignConflictResolver {
     const conflict = this.conflicts.get(conflictId);
     if (!conflict) return false,
 
-    const overrideStep: ResolutionStep = {;
+    const overrideStep: ResolutionStep = {
       id: `manual_override_${Date.now()}`,
       description: `Manual override: ${overrideReason}`,
       action: resolutionAction,
-      parameters: { ...parameters, overrideBy, overrideReason }
+      parameters: { ...parameters, overrideBy, overrideReason },
       estimatedDuration: 0,
-      rollbackable: true
+      rollbackable: true,
     }
 
     try {
@@ -802,7 +802,7 @@ export class CampaignConflictResolver {
       conflictId: conflict.id,
       steps: rollbackSteps,
       estimatedDuration: rollbackSteps.reduce((sum, step) => sum + step.estimatedDuration, 0),
-      riskAssessment: 'Low risk - reverting conflict resolution changes'
+      riskAssessment: 'Low risk - reverting conflict resolution changes',
     }
   }
 
@@ -892,7 +892,7 @@ export class CampaignConflictResolver {
             action: ResolutionAction.PAUSE_CAMPAIGN,
             parameters: {}
             estimatedDuration: 1,
-            rollbackable: true
+            rollbackable: true,
           }
           {
             id: 'schedule_sequential',
@@ -900,7 +900,7 @@ export class CampaignConflictResolver {
             action: ResolutionAction.RESCHEDULE_CAMPAIGN,
             parameters: {}
             estimatedDuration: 2,
-            rollbackable: true
+            rollbackable: true,
           }
         ]
       }
@@ -924,7 +924,7 @@ export class CampaignConflictResolver {
             action: ResolutionAction.PAUSE_CAMPAIGN,
             parameters: {}
             estimatedDuration: 1,
-            rollbackable: true
+            rollbackable: true,
           }
           {
             id: 'notify_users',
@@ -932,7 +932,7 @@ export class CampaignConflictResolver {
             action: ResolutionAction.NOTIFY_USER,
             parameters: { message: 'Campaign paused due to higher priority campaign' },
         estimatedDuration: 0,
-            rollbackable: false
+            rollbackable: false,
           }
         ]
       }
@@ -956,7 +956,7 @@ export class CampaignConflictResolver {
             action: ResolutionAction.PAUSE_CAMPAIGN,
             parameters: {}
             estimatedDuration: 1,
-            rollbackable: true
+            rollbackable: true,
           }
         ]
       }

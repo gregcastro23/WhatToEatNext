@@ -77,7 +77,7 @@ export default function CuisineSectionTestPage() {
     Fire: 'bg-red-500',
     Water: 'bg-blue-500',
     Earth: 'bg-amber-700',
-    Air: 'bg-sky-300'
+    Air: 'bg-sky-300',
   }
 
   // Render elemental state visualization
@@ -113,7 +113,7 @@ export default function CuisineSectionTestPage() {
               className={`rounded-full px-4 py-2 ${
                 selectedCuisine === cuisine
                   ? 'bg-blue-600 text-white'
-                  : 'border bg-white hover:bg-gray-100'
+                  : 'border bg-white hover:bg-gray-100',
               }`}
             >
               {cuisine}

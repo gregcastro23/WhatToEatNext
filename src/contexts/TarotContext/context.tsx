@@ -4,13 +4,13 @@ import _, { createContext } from 'react';
 
 import { TarotContextType, _ } from './types';
 
-const defaultContext: TarotContextType = {;
+const defaultContext: TarotContextType = {
   tarotCard: null,
   tarotElementalInfluences: {
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0
+    Air: 0,
   },
   setTarotCard: () => {}
   setTarotElementalInfluences: () => {}

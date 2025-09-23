@@ -6,13 +6,13 @@ export interface DebugSettings {
   isVisible: boolean,
   isCollapsed: boolean,
   position: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left',
-  customPosition?: { x: numbery: number }
+  customPosition?: { x: numbery: number },
   showPerformanceMetrics: boolean,
   showAstrologicalData: boolean,
   showComponentStates: boolean,
   opacity: number,
   size: 'small' | 'medium' | 'large' },
-        const DEFAULT_SETTINGS: DebugSettings = {;
+        const DEFAULT_SETTINGS: DebugSettings = {
   isVisible: true,
   isCollapsed: false,
   position: 'bottom-right',

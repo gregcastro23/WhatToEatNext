@@ -1,17 +1,17 @@
-export type PlanetaryHourUpdate = {;
+export type PlanetaryHourUpdate = {
   planet: 'Sun' | 'Moon' | 'Mercury' | 'Venus' | 'Mars' | 'Jupiter' | 'Saturn',
   start: string,
   end: string,
 }
 
-export type EnergyUpdate = {;
+export type EnergyUpdate = {
   Fire: number,
   Water: number,
   Air: number,
   Earth: number,
 }
 
-export type CelestialEvent = {;
+export type CelestialEvent = {
   type: string,
   timestamp: string,
   detail?: string,

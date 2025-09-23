@@ -63,7 +63,7 @@ export class SafeBatchProcessor {
   private totalPreserved = 0
 ;
   constructor(config: Partial<BatchProcessingConfig> = {}) {
-    this.config = {;
+    this.config = {
       maxBatchSize: 15,
       maxBatchSizeCritical: 5,
       validateAfterEachBatch: true,
@@ -137,7 +137,7 @@ export class SafeBatchProcessor {
     const startTime = Date.now();
     let stashId: string | undefined,
 
-    const result: BatchResult = {;
+    const result: BatchResult = {
       batchId,
       files: files.map(f => f.filePath),,
       success: false,
@@ -323,7 +323,7 @@ export class SafeBatchProcessor {
       if (!statusOutput.trim()) {
         // No changes to stash, create empty stash
         execSync('git stash push --keep-index -m '' + stashMessage + '' --allow-empty', {
-          stdio: 'pipe'
+          stdio: 'pipe',
         })
       } else {
         execSync('git stash push -m '' + stashMessage + ''', { stdio: 'pipe' })
@@ -390,7 +390,7 @@ export class SafeBatchProcessor {
     errorCount: number = 0,,
     stashId?: string,
   ): Promise<void> {
-    const checkpoint: SafetyCheckpoint = {;
+    const checkpoint: SafetyCheckpoint = {
       id,
       timestamp: new Date(),
       batchId: id,

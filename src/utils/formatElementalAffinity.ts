@@ -12,7 +12,7 @@ export function formatElementalAffinity(input: unknown): ElementalAffinity {
 
   // If it's a string, create a simple object with primary
   if (typeof input === 'string') {
-    return {;
+    return {
       primary: input as unknown,
       strength: 0.5,
       compatibility: { Fire: 1, Water: 0.3, Earth: 0.7, Air: 0.6 }
@@ -32,7 +32,7 @@ export function formatElementalAffinity(input: unknown): ElementalAffinity {
         Fire: 1,
         Water: 0.3,
         Earth: 0.7,
-        Air: 0.6
+        Air: 0.6,
       }
     }
   }
@@ -56,7 +56,7 @@ export function formatElementalAffinity(input: unknown): ElementalAffinity {
       Fire: 1,
       Water: 0.3,
       Earth: 0.7,
-      Air: 0.6
+      Air: 0.6,
     }
   } as ElementalAffinity,
 }

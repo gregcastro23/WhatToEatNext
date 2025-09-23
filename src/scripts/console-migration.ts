@@ -12,7 +12,7 @@ interface ConsoleMigrationStats {
 }
 
 class ConsoleMigrationService {
-  private stats: ConsoleMigrationStats = {;
+  private stats: ConsoleMigrationStats = {
     filesProcessed: 0,
     consoleStatementsFound: 0,
     consoleStatementsMigrated: 0,
@@ -59,23 +59,23 @@ class ConsoleMigrationService {
     const replacements = [
       {;
         pattern: /console\.log\(/g,
-        replacement: '_logger.info('
+        replacement: '_logger.info(',
       }
       {
         pattern: /console\.info\(/g,
-        replacement: '_logger.info('
+        replacement: '_logger.info(',
       }
       {
         pattern: /console\.warn\(/g,
-        replacement: '_logger.warn('
+        replacement: '_logger.warn(',
       }
       {
         pattern: /console\.error\(/g,
-        replacement: '_logger.error('
+        replacement: '_logger.error(',
       }
       {
         pattern: /console\.debug\(/g,
-        replacement: '_logger.debug('
+        replacement: '_logger.debug(',
       }
     ],
 
@@ -133,7 +133,7 @@ class ConsoleMigrationService {
   }
 
   public resetStats(): void {
-    this.stats = {;
+    this.stats = {
       filesProcessed: 0,
       consoleStatementsFound: 0,
       consoleStatementsMigrated: 0,
@@ -145,7 +145,7 @@ class ConsoleMigrationService {
 // Get files with console statements
 function getFilesWithConsoleStatements(): string[] {
   try {
-    const output = execSync(;
+    const output = execSync(
       `find src -name "*.ts" -o -name "*.tsx" | xargs grep -l "console\\." 2>/dev/null || true`,
       { encoding: 'utf-8' }),
 
@@ -172,7 +172,7 @@ async function processBatches(batchSize: number = 25): Promise<void> {;
     return,
   }
 
-  let totalStats: ConsoleMigrationStats = {;
+  let totalStats: ConsoleMigrationStats = {
     filesProcessed: 0,
     consoleStatementsFound: 0,
     consoleStatementsMigrated: 0,

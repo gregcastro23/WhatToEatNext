@@ -8,7 +8,7 @@ const rawPome = {
       Earth: 0.5,
       Water: 0.3,
       Air: 0.2,
-      Fire: 0
+      Fire: 0,
     },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Saturn'],
@@ -41,7 +41,7 @@ const rawPome = {
         texture: 'extremely crisp, juicy',
         flavor: 'sweet-tart balance, honey notes',
         best_uses: ['eating fresh', 'salads'],
-        storage: 'excellent keeper'
+        storage: 'excellent keeper',
       }
       'Granny Smith': {
         appearance: 'bright green',
@@ -60,14 +60,14 @@ const rawPome = {
         texture: 'very crisp, dense',
         flavor: 'very sweet, low acidity',
         best_uses: ['eating fresh', 'salads', 'applesauce'],
-        storage: 'excellent keeper'
+        storage: 'excellent keeper',
       }
       'Pink Lady': {
         appearance: 'pink-red blush',
         texture: 'firm, crisp',
         flavor: 'sweet-tart balance, complex',
         best_uses: ['eating fresh', 'salads', 'baking'],
-        storage: 'excellent keeper'
+        storage: 'excellent keeper',
       }
       'Golden Delicious': {
         appearance: 'yellow-green',
@@ -80,7 +80,7 @@ const rawPome = {
         texture: 'very firm, crisp',
         flavor: 'intense sweet-tart, spicy notes',
         best_uses: ['eating fresh', 'baking', 'pies'],
-        storage: 'excellent keeper'
+        storage: 'excellent keeper',
       }
     },
     culinaryApplications: {
@@ -127,7 +127,7 @@ const rawPome = {
         frozen: {
         preparation: 'Slice or dice, treat with ascorbic acid',
         duration: 'Up to 12 months',
-        uses: 'Best for cooking applications after freezing'
+        uses: 'Best for cooking applications after freezing',
       }
     },
     pairings: ['cinnamon', 'caramel', 'cheddar_cheese', 'pork', 'walnut', 'oats', 'vanilla'],
@@ -141,7 +141,7 @@ const rawPome = {
       British: 'Apple crumble, cider, sauce for pork',
       French: 'Tarte tatin, calvados (apple brandy)',
       German: 'Apfelstrudel, apfelkuchen (apple cake)',
-      Scandinavian: 'Apple soup, compotes with cardamom'
+      Scandinavian: 'Apple soup, compotes with cardamom',
     }
   },
   pear: {
@@ -150,7 +150,7 @@ const rawPome = {
       Water: 0.4,
       Earth: 0.4,
       Air: 0.2,
-      Fire: 0
+      Fire: 0,
     },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Moon'],
@@ -213,7 +213,7 @@ const rawPome = {
         texture: 'crisp, fine-grained',
         flavor: 'tangy-sweet, refreshing',
         best_uses: ['eating fresh', 'decorative uses', 'salads'],
-        ripening: 'develops distinctive red freckles when ripe'
+        ripening: 'develops distinctive red freckles when ripe',
       }
     },
     culinaryApplications: {
@@ -256,7 +256,7 @@ const rawPome = {
         ripe: {
         temperature: 'Refrigerated 32-35°F (0-1.6°C)',
         duration: '3-5 days when ripe',
-        notes: 'Refrigeration halts ripening process'
+        notes: 'Refrigeration halts ripening process',
       }
     },
     pairings: ['blue_cheese', 'walnuts', 'cinnamon', 'vanilla', 'chocolate', 'red_wine', 'ginger'],
@@ -270,7 +270,7 @@ const rawPome = {
       Italian: 'Pears with gorgonzola, pear mostarda',
       British: 'Pear and ginger pudding, preserves',
       American: 'Pear salads, pear butter, baked goods',
-      'Asian Fusion': 'Pear in ginger syrup, Asian-spiced poached pears'
+      'Asian Fusion': 'Pear in ginger syrup, Asian-spiced poached pears',
     }
   },
   quince: {
@@ -279,7 +279,7 @@ const rawPome = {
       Earth: 0.6,
       Air: 0.2,
       Water: 0.2,
-      Fire: 0
+      Fire: 0,
     },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Saturn'],
@@ -312,7 +312,7 @@ const rawPome = {
         texture: 'hard, gritty when raw, smooth when cooked',
         flavor: 'more aromatic, less astringent',
         best_uses: ['membrillo (quince paste)', 'jellies', 'poaching'],
-        notes: 'popular commercial variety in US'
+        notes: 'popular commercial variety in US',
       }
       'Orange Quince': {
         appearance: 'round, more apple-like shape',
@@ -325,7 +325,7 @@ const rawPome = {
         texture: 'very hard, astringent raw',
         flavor: 'intense flavor when cooked, floral',
         best_uses: ['traditional Middle Eastern dishes', 'preserves'],
-        notes: 'Turkish variety, larger fruit'
+        notes: 'Turkish variety, larger fruit',
       }
     },
     culinaryApplications: {
@@ -368,7 +368,7 @@ const rawPome = {
         preserved: {
         methods: 'Membrillo paste, jellies, canned in syrup',
         duration: '1+ years',
-        notes: 'Traditional preservation extends seasonal use'
+        notes: 'Traditional preservation extends seasonal use',
       }
     },
     pairings: ['apple', 'pear', 'vanilla', 'cinnamon', 'lamb', 'pork', 'manchego_cheese'],
@@ -387,7 +387,7 @@ const rawPome = {
       Classical: 'Associated with Aphrodite / (Venus || 1), symbol of love and fertility',
       Medieval: 'Used as room freshener and medicinal tonic',
       Spanish: 'Essential component of classic cheese service',
-      'Middle Eastern': 'Traditional accompaniment to meat dishes'
+      'Middle Eastern': 'Traditional accompaniment to meat dishes',
     }
   },
   asian_pear: {
@@ -396,14 +396,14 @@ const rawPome = {
       Water: 0.5,
       Earth: 0.3,
       Air: 0.2,
-      Fire: 0
+      Fire: 0,
     },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Mercury'],
       favorableZodiac: ['taurus', 'gemini', 'libra'],
       elementalAffinity: {
         base: 'Water',
-        secondary: 'Earth'
+        secondary: 'Earth',
       }
     },
     season: ['late summer', 'fall'],
@@ -477,7 +477,7 @@ const rawPome = {
         temperature: 'Refrigerated 32-35°F (0-1.6°C)',
         duration: '2-3 months when properly stored',
         humidity: 'High',
-        notes: 'Unlike European pears, should be refrigerated immediately'
+        notes: 'Unlike European pears, should be refrigerated immediately',
       }
     },
     pairings: ['ginger', 'sesame', 'soy_sauce', 'blue_cheese', 'honey', 'cinnamon', 'lime'],
@@ -490,7 +490,7 @@ const rawPome = {
       Japanese: 'Fruit course, specialty gift fruit',
       Korean: 'Kimchi variations, sweet marinades for meat',
       Chinese: 'Symbol of immortality, used in medicinal preparations',
-      'Modern Western': 'Gourmet salads, cheese pairings, specialty produce'
+      'Modern Western': 'Gourmet salads, cheese pairings, specialty produce',
     }
   },
   medlar: {
@@ -499,14 +499,14 @@ const rawPome = {
       Earth: 0.7,
       Water: 0.2,
       Air: 0.1,
-      Fire: 0
+      Fire: 0,
     },
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Venus'],
       favorableZodiac: ['capricorn', 'taurus'],
       elementalAffinity: {
         base: 'Earth',
-        secondary: 'Water'
+        secondary: 'Water',
       }
     },
     season: ['late fall', 'early winter'],
@@ -533,7 +533,7 @@ const rawPome = {
         texture: 'softer, less gritty',
         flavor: 'milder, more accessible flavor',
         best_uses: ['introduction to medlars', 'modern adaptations'],
-        notes: 'newer variety'
+        notes: 'newer variety',
       }
     },
     culinaryApplications: {
@@ -574,7 +574,7 @@ const rawPome = {
         preserved: {
         methods: 'Jellies, cheese (paste), wine',
         duration: '1+ years',
-        notes: 'Traditional preservation extends seasonal use'
+        notes: 'Traditional preservation extends seasonal use',
       }
     },
     pairings: ['cream', 'custard', 'cinnamon', 'port_wine', 'vanilla', 'walnuts', 'honey'],
@@ -593,7 +593,7 @@ const rawPome = {
       Literary: 'Mentioned by Shakespeare, Chaucer, and D.H. Lawrence',
       Historical: 'Popular medieval fruit now mostly forgotten',
       Symbolic: 'Used as metaphor for maturity and old age',
-      Modern: 'Revival interest among historical food enthusiasts'
+      Modern: 'Revival interest among historical food enthusiasts',
     }
   },
   loquat: {
@@ -602,14 +602,14 @@ const rawPome = {
       Water: 0.4,
       Earth: 0.3,
       Fire: 0.2,
-      Air: 0.1
+      Air: 0.1,
     },
     astrologicalProfile: {
       rulingPlanets: ['Sun', 'Venus'],
       favorableZodiac: ['leo', 'taurus'],
       elementalAffinity: {
         base: 'Water',
-        secondary: 'Fire'
+        secondary: 'Fire',
       }
     },
     season: ['spring'],
@@ -631,14 +631,14 @@ const rawPome = {
         texture: 'firm, juicy',
         flavor: 'sweet-tart, pronounced aroma',
         best_uses: ['eating fresh', 'preserves'],
-        notes: 'Japanese variety, larger fruit'
+        notes: 'Japanese variety, larger fruit',
       }
       'Gold Nugget': {
         appearance: 'round, golden yellow',
         texture: 'tender, juicy',
         flavor: 'exceptionally sweet',
         best_uses: ['eating fresh', 'desserts'],
-        notes: 'California variety'
+        notes: 'California variety',
       }
     },
     culinaryApplications: {
@@ -681,7 +681,7 @@ const rawPome = {
         preserved: {
         methods: 'Jam, syrup, canned in light syrup',
         duration: '1+ years',
-        notes: 'Traditional preservation extends seasonal use'
+        notes: 'Traditional preservation extends seasonal use',
       }
     },
     pairings: ['vanilla', 'cinnamon', 'ginger', 'honey', 'lemon', 'tropical_fruits', 'almonds'],
@@ -699,7 +699,7 @@ const rawPome = {
       'East Asian': 'Symbol of spring, medicinal importance';
       Japanese: 'Associated with the biwa (lute) due to similar shape',
       'Chinese Medicine': 'Used in traditional cough remedies for centuries',
-      California: 'Heritage tree often found in old gardens and homesteads'
+      California: 'Heritage tree often found in old gardens and homesteads',
     }
   }
 }

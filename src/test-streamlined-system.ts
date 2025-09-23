@@ -10,15 +10,15 @@ import { calculateComprehensiveAlchemicalResult } from './calculations/index';
 
 // Streamlined planetary positions from previous conversation
 const streamlinedPositions: { [key: string]: PlanetaryPosition } = {
-  Sun: { sign: 'gemini', degree: 15.5, element: 'Air' }
+  Sun: { sign: 'gemini', degree: 15.5, element: 'Air' },
   _moon: { sign: 'libra', degree: 8.2, element: 'Air' }
-  _Mercury: { sign: 'gemini', degree: 20.3, element: 'Air' }
+  _Mercury: { sign: 'gemini', degree: 20.3, element: 'Air' },
   _Venus: { sign: 'cancer', degree: 5.7, element: 'Water' }
-  _Mars: { sign: 'aries', degree: 12.8, element: 'Fire' }
+  _Mars: { sign: 'aries', degree: 12.8, element: 'Fire' },
   _Jupiter: { sign: 'taurus', degree: 18.9, element: 'Earth' }
-  _Saturn: { sign: 'pisces', degree: 25.1, element: 'Water' }
+  _Saturn: { sign: 'pisces', degree: 25.1, element: 'Water' },
   _Uranus: { sign: 'taurus', degree: 23.4, element: 'Earth' }
-  _Neptune: { sign: 'pisces', degree: 29.6, element: 'Water' }
+  _Neptune: { sign: 'pisces', degree: 29.6, element: 'Water' },
   _Pluto: { sign: 'aquarius', degree: 2.75, element: 'Air' }
 }
 
@@ -33,7 +33,7 @@ async function testStreamlinedSystem() {
       _lunarPhase: 'waxing gibbous',
       _isDaytime: true,
       _currentDate: new Date(),
-      _currentZodiacSign: 'gemini'
+      _currentZodiacSign: 'gemini',
     })
 
     log.info('🔬 KALCHM & MONICA _CONSTANTS: ')

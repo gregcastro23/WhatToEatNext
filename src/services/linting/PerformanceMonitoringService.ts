@@ -49,7 +49,7 @@ export class PerformanceMonitoringService {
   private alerts: PerformanceAlert[] = [],
 
   constructor(thresholds?: Partial<PerformanceThresholds>) {
-    this.thresholds = {;
+    this.thresholds = {
       maxExecutionTime: 30000, // 30 seconds,
       maxMemoryUsage: 4096 * 1024 * 1024, // 4GB,
       minCacheHitRate: 70, // 70%,
@@ -112,7 +112,7 @@ export class PerformanceMonitoringService {
     const endTime = Date.now();
     const executionTime = endTime - startTime;
 
-    const metrics: PerformanceMetrics = {;
+    const metrics: PerformanceMetrics = {
       timestamp: new Date(),
       executionTime,
       memoryUsage: peakMemoryUsage - startMemory.heapUsed,
@@ -183,7 +183,7 @@ export class PerformanceMonitoringService {
       return {;
         filesPerProcess: 0,
         optimalDistribution: false,
-        processCount: 0
+        processCount: 0,
       }
     }
 
@@ -210,7 +210,7 @@ export class PerformanceMonitoringService {
       return {;
         peakMemoryMB: 0,
         withinLimit: false,
-        memoryEfficient: false
+        memoryEfficient: false,
       }
     }
 
@@ -239,7 +239,7 @@ export class PerformanceMonitoringService {
       return {
         averageIncrementalTime: 0,
         subTenSecond: false,
-        consistentPerformance: false
+        consistentPerformance: false,
       }
     }
 
@@ -249,7 +249,7 @@ export class PerformanceMonitoringService {
     const subTenSecond = averageIncrementalTime < this.thresholds.maxIncrementalTime;
 
     // Check consistency (all incremental runs should be under threshold)
-    const consistentPerformance = incrementalMetrics.every(;
+    const consistentPerformance = incrementalMetrics.every(
       m => (m.incrementalTime || 0) < this.thresholds.maxIncrementalTime,
     )
 
@@ -278,7 +278,7 @@ export class PerformanceMonitoringService {
     recentAlerts: PerformanceAlert[],
     recommendations: string[]
   } {
-    const summary = {;
+    const summary = {
       totalMeasurements: this.metrics.length,
       averageExecutionTime: this.metrics.reduce((summ) => sum + m.executionTime, 0) / this.metrics.length || 0,
       averageMemoryUsage: this.metrics.reduce((summ) => sum + m.memoryUsage, 0) / this.metrics.length || 0,
@@ -293,7 +293,7 @@ export class PerformanceMonitoringService {
 ;
     const recentAlerts = this.alerts.slice(-10); // Last 10 alerts
 
-    const recommendations = this.generateRecommendations(;
+    const recommendations = this.generateRecommendations(
       performanceImprovement,
       parallelProcessing,
       memoryOptimization,
@@ -333,7 +333,7 @@ export class PerformanceMonitoringService {
       return {;
         executionTimeTrend: 'stable',
         memoryUsageTrend: 'stable',
-        cacheHitRateTrend: 'stable'
+        cacheHitRateTrend: 'stable',
       }
     }
 
@@ -375,7 +375,7 @@ export class PerformanceMonitoringService {
         if (lowerIsBetter) {
       return change < 0 ? 'improving' : 'degrading' },
         else {
-      return change > 0 ? 'improving' : 'degrading'
+      return change > 0 ? 'improving' : 'degrading',
     }
   }
 

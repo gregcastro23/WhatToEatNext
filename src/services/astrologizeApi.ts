@@ -69,7 +69,7 @@ interface AstrologizeResponse {
 }
 
 // Default location (New York City)
-const DEFAULT_LOCATION = {;
+const DEFAULT_LOCATION = {
   latitude: 40.7498,
   longitude: -73.7976
 }
@@ -129,40 +129,40 @@ export async function fetchPlanetaryPositions(
   const fallbackPositions = (): Record<string, PlanetPosition> => {
     log.info('Using fallback planetary positions due to API failure')
     return {
-      Sun: { sign: 'gemini', degree: 13, minute: 54, exactLongitude: 73.9, isRetrograde: false }
+      Sun: { sign: 'gemini', degree: 13, minute: 54, exactLongitude: 73.9, isRetrograde: false },
       moon: { sign: 'virgo', degree: 26, minute: 31, exactLongitude: 176.52, isRetrograde: false }
       Mercury: {
         sign: 'gemini',
         degree: 20,
         minute: 11,
         exactLongitude: 80.18,
-        isRetrograde: false
+        isRetrograde: false,
       },
-      Venus: { sign: 'aries', degree: 28, minute: 6, exactLongitude: 28.1, isRetrograde: false }
+      Venus: { sign: 'aries', degree: 28, minute: 6, exactLongitude: 28.1, isRetrograde: false },
       Mars: { sign: 'leo', degree: 22, minute: 48, exactLongitude: 142.8, isRetrograde: false }
       Jupiter: {
         sign: 'gemini',
         degree: 28,
         minute: 44,
         exactLongitude: 88.73,
-        isRetrograde: false
+        isRetrograde: false,
       },
-      Saturn: { sign: 'aries', degree: 0, minute: 41, exactLongitude: 0.68, isRetrograde: false }
+      Saturn: { sign: 'aries', degree: 0, minute: 41, exactLongitude: 0.68, isRetrograde: false },
       Uranus: {
         sign: 'taurus',
         degree: 28,
         minute: 17,
         exactLongitude: 58.28,
-        isRetrograde: false
+        isRetrograde: false,
       },
-      Neptune: { sign: 'aries', degree: 1, minute: 55, exactLongitude: 1.92, isRetrograde: false }
+      Neptune: { sign: 'aries', degree: 1, minute: 55, exactLongitude: 1.92, isRetrograde: false },
       Pluto: { sign: 'aquarius', degree: 3, minute: 36, exactLongitude: 303.6, isRetrograde: true }
       Ascendant: {
         sign: 'aries',
         degree: 16,
         minute: 16,
         exactLongitude: 16.27,
-        isRetrograde: false
+        isRetrograde: false,
       }
     }
   }
@@ -170,7 +170,7 @@ export async function fetchPlanetaryPositions(
   return astrologizeApiCircuitBreaker.call(async () => {
     // Get current date/time or use provided values
     const defaultDateTime = getCurrentDateTimeLocation()
-    const requestData: LocalAstrologizeRequest = {;
+    const requestData: LocalAstrologizeRequest = {
       ...defaultDateTime,
       ...customDateTime
     }
@@ -223,7 +223,7 @@ export async function fetchPlanetaryPositions(
     const positions: { [key: string]: PlanetPosition } = {}
 
     // Process each planet from the celestial bodies
-    const planetMap = {;
+    const planetMap = {
       sun: 'Sun',
       moon: 'Moon',
       mercury: 'Mercury',
@@ -258,7 +258,7 @@ export async function fetchPlanetaryPositions(
       degree: 16,
       minute: 16,
       exactLongitude: 16.27,
-      isRetrograde: false
+      isRetrograde: false,
     }
 
     log.info('Successfully fetched planetary positions from local API:', Object.keys(positions))
@@ -271,7 +271,7 @@ export async function fetchPlanetaryPositions(
  * Get planetary positions for the current moment
  */
 export async function getCurrentPlanetaryPositions(
-  location?: { latitude: number, longitude: number }
+  location?: { latitude: number, longitude: number },
   zodiacSystem: 'tropical' | 'sidereal' = 'tropical',
 ): Promise<Record<string, PlanetPosition>> {
   return await fetchPlanetaryPositions({
@@ -285,7 +285,7 @@ export async function getCurrentPlanetaryPositions(
  */
 export async function getPlanetaryPositionsForDateTime(
   date: Date,
-  location?: { latitude: number, longitude: number }
+  location?: { latitude: number, longitude: number },
   zodiacSystem: 'tropical' | 'sidereal' = 'tropical',
 ): Promise<Record<string, PlanetPosition>> {
   return await fetchPlanetaryPositions({
@@ -316,7 +316,7 @@ export async function testAstrologizeApi(): Promise<boolean> {
  * Get current chart data (alias for getCurrentPlanetaryPositions)
  */
 export async function getCurrentChart(
-  location?: { latitude: number, longitude: number }
+  location?: { latitude: number, longitude: number },
   zodiacSystem: 'tropical' | 'sidereal' = 'tropical',
 ): Promise<Record<string, PlanetPosition>> {
   return await getCurrentPlanetaryPositions(location, zodiacSystem)

@@ -89,7 +89,7 @@ export class EnhancedRecommendationService {
     }
 
     // Sample cuisines (in real implementation, would come from data service)
-    const cuisines = [;
+    const cuisines = [
       { name: 'Italian', type: 'Italian' as CuisineType }
       { name: 'Japanese', type: 'Japanese' as CuisineType }
       { name: 'Mexican', type: 'Mexican' as CuisineType }

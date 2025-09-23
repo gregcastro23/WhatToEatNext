@@ -159,14 +159,14 @@ export class ChakraAlchemyService {
     dominantPlanets: Planet[],
     planetaryHour: Planet,
   ): ChakraEnergies {
-    const energies: ChakraEnergies = {;
+    const energies: ChakraEnergies = {
       root: 0.2, // Base value to ensure all chakras have some energy,
       sacral: 0.2,
       solarPlexus: 0.2,
       heart: 0.2,
       throat: 0.2,
       thirdEye: 0.2,
-      crown: 0.2
+      crown: 0.2,
     }
 
     // Calculate base values using the sun and moon signs
@@ -197,14 +197,14 @@ export class ChakraAlchemyService {
    * Convert energy state distribution to chakra energy distribution
    */
   public energyStatesToChakraEnergies(energyStates: EnergyStateProperties): ChakraEnergies {
-    const chakraEnergies: ChakraEnergies = {;
+    const chakraEnergies: ChakraEnergies = {
       root: 0,
       sacral: 0,
       solarPlexus: 0,
       heart: 0,
       throat: 0,
       thirdEye: 0,
-      crown: 0
+      crown: 0,
     }
 
     // Map energy states to chakras based on the primary energy state of each chakra

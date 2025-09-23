@@ -84,31 +84,31 @@ export class LintingValidationDashboard {
       metric: 'parserErrors',
       threshold: 0,
       severity: 'critical',
-      message: 'Parser errors detected - blocking accurate linting analysis'
+      message: 'Parser errors detected - blocking accurate linting analysis',
     }
     {
       metric: 'explicitAnyErrors',
       threshold: 100,
       severity: 'error',
-      message: 'Explicit any errors exceed acceptable threshold'
+      message: 'Explicit any errors exceed acceptable threshold',
     }
     {
       metric: 'totalIssues',
       threshold: 2000,
       severity: 'warning',
-      message: 'Total linting issues exceed warning threshold'
+      message: 'Total linting issues exceed warning threshold',
     }
     {
       metric: 'qualityScore',
       threshold: 80,
       severity: 'warning',
-      message: 'Code quality score below target'
+      message: 'Code quality score below target',
     }
     {
       metric: 'performanceMetrics.lintingDuration',
       threshold: 30000,
       severity: 'warning',
-      message: 'Linting performance degraded - exceeds 30 seconds'
+      message: 'Linting performance degraded - exceeds 30 seconds',
     }
   ],
 
@@ -129,7 +129,7 @@ export class LintingValidationDashboard {
     const regressionAnalysis = await this.analyzeRegression(metrics);
     const recommendations = this.generateRecommendations(metrics, alerts),
 
-    const result: ValidationResult = {;
+    const result: ValidationResult = {
       passed: alerts.filter(a => a.severity === 'error' || a.severity === 'critical').length === 0,,
       metrics,
       alerts,
@@ -165,7 +165,7 @@ export class LintingValidationDashboard {
       const metrics = this.parseLintResults(lintResults)
 
       // Add performance metrics
-      metrics.performanceMetrics = {;
+      metrics.performanceMetrics = {
         lintingDuration: Date.now() - startTime,
         cacheHitRate: await this.calculateCacheHitRate(),
         memoryUsage: process.memoryUsage().heapUsed / 1024 / 1024, // MB,
@@ -200,10 +200,10 @@ export class LintingValidationDashboard {
           lintingDuration: Date.now() - startTime,
           cacheHitRate: 0,
           memoryUsage: process.memoryUsage().heapUsed / 1024 / 1024,
-          filesProcessed: 0
+          filesProcessed: 0,
         },
         qualityScore: 0,
-        regressionDetected: false
+        regressionDetected: false,
       }
     }
   }
@@ -222,10 +222,10 @@ export class LintingValidationDashboard {
     let reactHooksIssues = 0,
     let consoleStatements = 0
 
-    const domainSpecificIssues = {;
+    const domainSpecificIssues = {
       astrologicalCalculations: 0,
       campaignSystem: 0,
-      testFiles: 0
+      testFiles: 0,
     }
 
     for (const result of lintResults) {
@@ -287,7 +287,7 @@ export class LintingValidationDashboard {
         filesProcessed: lintResults.length
       },
       qualityScore: 0, // Will be calculated,
-      regressionDetected: false
+      regressionDetected: false,
     }
   }
 
@@ -336,7 +336,7 @@ export class LintingValidationDashboard {
           currentValue,
           threshold: threshold.threshold,
           message: threshold.message,
-          resolved: false
+          resolved: false,
         })
       }
     }
@@ -359,7 +359,7 @@ export class LintingValidationDashboard {
           current: currentMetrics.totalIssues,
           previous: 0,
           change: 0,
-          changePercentage: 0
+          changePercentage: 0,
         }
       }
     }
@@ -368,7 +368,7 @@ export class LintingValidationDashboard {
     const affectedMetrics: string[] = []
 
     // Check for regressions in key metrics
-    const keyMetrics = [;
+    const keyMetrics = [
       'totalIssues',
       'errors',
       'parserErrors',
@@ -391,7 +391,7 @@ export class LintingValidationDashboard {
       }
     }
 
-    const severity = this.calculateRegressionSeverity(;
+    const severity = this.calculateRegressionSeverity(
       affectedMetrics,
       currentMetrics,
       previousMetrics,
@@ -410,7 +410,7 @@ export class LintingValidationDashboard {
             ? ((currentMetrics.totalIssues - previousMetrics.totalIssues) /
                 previousMetrics.totalIssues) *
               100
-            : 0
+            : 0,
       }
     }
   }
@@ -589,12 +589,12 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
 
   private initializeConfiguration(): void {
     if (!existsSync(this.configFile)) {
-      const config = {;
+      const config = {
         thresholds: this.defaultThresholds,
         alertingEnabled: true,
         regressionDetectionEnabled: true,
         performanceMonitoringEnabled: true,
-        domainSpecificTrackingEnabled: true
+        domainSpecificTrackingEnabled: true,
       }
       writeFileSync(this.configFile, JSON.stringify(config, null, 2))
     }

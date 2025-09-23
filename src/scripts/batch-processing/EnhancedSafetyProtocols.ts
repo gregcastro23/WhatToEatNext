@@ -58,7 +58,7 @@ export class EnhancedSafetyProtocols {
   private validationHistory: Map<string, ValidationResult[]> = new Map(),
 
   constructor(config: Partial<HighImpactFileConfig> = {}) {
-    this.config = {;
+    this.config = {
       maxVariablesAutoProcess: 20,
       criticalFileBatchSize: 5,
       serviceLayerBatchSize: 8,
@@ -179,7 +179,7 @@ export class EnhancedSafetyProtocols {
     reviewInstructions.push('Verify TypeScript compilation passes')
     reviewInstructions.push('Check that no runtime errors are introduced')
 
-    const request: ManualReviewRequest = {;
+    const request: ManualReviewRequest = {
       filePath: assessment.filePath,
       unusedVariableCount: assessment.unusedVariableCount,
       riskFactors: assessment.riskFactors,
@@ -195,12 +195,12 @@ export class EnhancedSafetyProtocols {
    * Perform enhanced validation for high-impact files
    */
   async performEnhancedValidation(filePath: string, changes: string[]): Promise<ValidationResult> {
-    const result: ValidationResult = {;
+    const result: ValidationResult = {
       passed: true,
       errors: [],
       warnings: [],
       recommendations: [],
-      requiresRollback: false
+      requiresRollback: false,
     }
 
     try {

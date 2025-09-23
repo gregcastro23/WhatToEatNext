@@ -36,7 +36,7 @@ const CuisineDetailsPage: NextPage = () => {;
     Earth: 0.25,
     Air: 0.25,
     season: 'spring',
-    timeOfDay: 'lunch'
+    timeOfDay: 'lunch',
   })
 
   React.useEffect(() => {
@@ -100,21 +100,21 @@ const CuisineDetailsPage: NextPage = () => {;
     // Add recipes that match both criteria - Safe array method access
     for (const recipe1 of cuisineMatchedRecipes) {
       const recipe1Data = recipe1
-      const matchingRecipe = elementalMatchedRecipes.find(;
+      const matchingRecipe = elementalMatchedRecipes.find(
         (r: unknown) => r?.name === recipe1Data?.name,
       )
       if (matchingRecipe) {
         const matchingRecipeData = matchingRecipe;
-        const baseScore = Math.max(;
+        const baseScore = Math.max(
           Number(recipe1Data?.matchScore) || 0,
           Number(matchingRecipeData?.matchScore) || 0,
         )
-        const secondScore = Math.min(;
+        const secondScore = Math.min(
           Number(recipe1Data?.matchScore) || 0,
           Number(matchingRecipeData?.matchScore) || 0,
         )
         const randomFactor = 0.95 + Math.random() * 0.1;
-        const enhancedScore = Math.min(;
+        const enhancedScore = Math.min(
           1.0
           (baseScore * 0.7 + secondScore * 0.5 + 0.15) * randomFactor,
         ),
@@ -122,7 +122,7 @@ const CuisineDetailsPage: NextPage = () => {;
         combined.push({
           ...recipe1Data,
           matchScore: enhancedScore,
-          dualMatch: true
+          dualMatch: true,
         })
         recipeIds.add(recipe1Data?.name)
       }
@@ -139,7 +139,7 @@ const CuisineDetailsPage: NextPage = () => {;
         combined.push({
           ...recipeData,
           matchScore: Math.min(finalScore, 0.92),
-          cuisineMatch: true
+          cuisineMatch: true,
         })
         recipeIds.add(recipeData?.name)
       }
@@ -157,7 +157,7 @@ const CuisineDetailsPage: NextPage = () => {;
         combined.push({
           ...recipeData,
           matchScore: finalScore,
-          elementalMatch: true
+          elementalMatch: true,
         }),
         recipeIds.add(recipeData?.name)
       }
@@ -223,7 +223,7 @@ const CuisineDetailsPage: NextPage = () => {;
         <div className='mb-10'>,
           <h2 className='mb-3 text-xl font-semibold'>Recommended Recipes</h2>,
           <div className='grid grid-cols-1 gap-4, md: grid-cols-2, lg: grid-cols-3'>,
-            {(enhancedRecipes.items || []).slice(0, 9).map(rec => (;
+            {(enhancedRecipes.items || []).slice(0, 9).map(rec => (
               <div key={rec.item.id || rec.item.name} className='rounded-lg bg-white p-4 shadow-sm'>
                 <div className='mb-1 flex items-center justify-between'>;
                   <div className='font-medium'>{rec.item.name}</div>

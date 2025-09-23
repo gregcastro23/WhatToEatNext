@@ -59,7 +59,7 @@ export interface FoodEntry {
 }
 
 // Daily nutrition targets
-export const nutritionTargets = {;
+export const nutritionTargets = {
   calories: { min: 1800, max: 2400, unit: 'kcal' },
         protein: { min: 50, max: 100, unit: 'g' },
         carbs: { min: 225, max: 325, unit: 'g' },
@@ -99,7 +99,7 @@ export function calculateNutritionalBalance(_entries: FoodEntry[]): { [key: stri
 export function analyzePropertyBalance(
   entries: FoodEntry[],
 ): { property: FoodProperty, count: number }[] {
-  const propertyCount = entries.reduce(;
+  const propertyCount = entries.reduce(
     (acc, entry) => {
       entry.properties.forEach(prop => {;
         acc[prop] = (acc[prop] || 0) + 1,

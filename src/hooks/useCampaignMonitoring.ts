@@ -53,7 +53,7 @@ export interface UseCampaignMonitoringReturn {
 /**
  * Custom hook for campaign monitoring and control
  */
-export const useCampaignMonitoring = (;
+export const useCampaignMonitoring = (
   options: UseCampaignMonitoringOptions = {}): UseCampaignMonitoringReturn => {
   const {;
     autoRefresh = true,,
@@ -226,7 +226,7 @@ export const useCampaignMonitoring = (;
   )
 
   // Schedule a campaign
-  const scheduleCampaign = useCallback(;
+  const scheduleCampaign = useCallback(
     async (schedule: Omit<CampaignSchedule, 'id'>): Promise<string> => {
       try {
         return await kiroCampaignIntegration.scheduleCampaign(schedule)
@@ -272,7 +272,7 @@ export const useCampaignMonitoring = (;
   }, [])
 
   // Actions object
-  const actions: CampaignMonitoringActions = {;
+  const actions: CampaignMonitoringActions = {
     refreshData,
     startCampaign,
     pauseCampaign,

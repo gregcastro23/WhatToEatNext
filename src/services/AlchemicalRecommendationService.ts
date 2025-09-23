@@ -54,7 +54,7 @@ export class AlchemicalRecommendationService {
   cookingMethods: CookingMethod[],
   ): Promise<AlchemicalRecommendation> {
     // Calculate thermodynamic properties using the engine
-    const _thermodynamics = this.engine.alchemize(;
+    const _thermodynamics = this.engine.alchemize(
       planetaryPositions as { [planet: string]: string })
 
     // Convert thermodynamic properties to elemental properties
@@ -64,21 +64,21 @@ export class AlchemicalRecommendationService {
     const dominantElement = this.getDominantElement(elementalBalance)
 
     // Filter ingredients by elemental compatibility using unified scoring
-    const compatibleIngredients = await this.findCompatibleIngredients(;
+    const compatibleIngredients = await this.findCompatibleIngredients(
       ingredients,
       elementalBalance,
       _thermodynamics,
     )
 
     // Filter cooking methods by elemental compatibility
-    const compatibleMethods = this.findCompatibleCookingMethods(;
+    const compatibleMethods = this.findCompatibleCookingMethods(
       cookingMethods,
       elementalBalance,
       _thermodynamics,
     )
 
     // Generate specific recommendations
-    const recommendations = this.generateTextRecommendations(;
+    const recommendations = this.generateTextRecommendations(
       elementalBalance,
       _thermodynamics,
       dominantElement,
@@ -109,10 +109,10 @@ export class AlchemicalRecommendationService {
     // Import the unified scoring service
     const { _scoreRecommendation} = await import('./UnifiedScoringService')
 
-    const scoredIngredients = await Promise.all(;
+    const scoredIngredients = await Promise.all(
       ingredients.map(async ingredient => {
         try {
-          const context = {;
+          const context = {
             dateTime: new Date(),
   item: {
               name: ingredient.name,
@@ -120,7 +120,7 @@ export class AlchemicalRecommendationService {
   elementalProperties: ingredient.elementalProperties,
   seasonality: ingredient.season || [],
   planetaryRulers: (ingredient.astrologicalProfile?.rulingPlanets || []) as Planet[],
-  flavorProfile: ingredient.culinaryProfile?.flavorProfile || {}
+  flavorProfile: ingredient.culinaryProfile?.flavorProfile || {},
               culturalOrigins: ingredient.origin || []
             }
           }
@@ -171,7 +171,7 @@ export class AlchemicalRecommendationService {
             Fire: 0.25,
   Water: 0.25,
             Earth: 0.25,
-  Air: 0.25
+  Air: 0.25,
           })
       }))
       .filter(({ score }) => score > 0.7)
@@ -230,7 +230,7 @@ export class AlchemicalRecommendationService {
 
     // Add seasonal recommendation
     const currentSeason = getCurrentSeason()
-    recommendations.push(;
+    recommendations.push(
       `${currentSeason.charAt(0).toUpperCase() + currentSeason.slice(1)} ingredients will be especially potent.`,
     )
 
@@ -347,7 +347,7 @@ export class AlchemicalRecommendationService {
     adjustments: string[]
   } {
     // Calculate thermodynamic properties using the engine
-    const _thermodynamics = this.engine.alchemize(;
+    const _thermodynamics = this.engine.alchemize(
       planetaryPositions as { [planet: string]: string })
 
     // Convert thermodynamic properties to elemental properties
@@ -358,11 +358,11 @@ export class AlchemicalRecommendationService {
       Fire: 0.25,
   Water: 0.25,
       Earth: 0.25,
-  Air: 0.25
+  Air: 0.25,
     }
 
     // Calculate compatibility
-    const compatibility = this.engine.calculateElementalCompatibility(;
+    const compatibility = this.engine.calculateElementalCompatibility(
       currentElementalProperties,
       recipeElementalProperties,
     )
@@ -401,7 +401,7 @@ export class AlchemicalRecommendationService {
       const recipeElement = this.getDominantElement(recipeElementalProperties)
       const currentElement = this.getDominantElement(currentElementalProperties)
 
-      adjustments.push(;
+      adjustments.push(
         `Transform the recipe's dominant ${recipeElement} energy toward ${currentElement} energy.`,
       )
 

@@ -38,7 +38,7 @@ export class NutritionService {
   private extractPhytonutrients(data: FoodDataCentralFood): Record<string, number> {
     return data.foodNutrients
       .filter(n => n.nutrientName?.includes('Phytonutrient'))
-      .reduce(;
+      .reduce(
         (acc: Record<string, number>, n) => ({
           ...acc,
           [n.nutrientName || '']: n.value || 0

@@ -4,6 +4,6 @@ export async function GET() {
   return NextResponse.json({
     status: 'API is running',
     endpoints: ['/api/current-moment'],
-    message: 'Use the specific endpoints for data access'
+    message: 'Use the specific endpoints for data access',
   })
 }

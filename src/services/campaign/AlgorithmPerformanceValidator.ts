@@ -162,7 +162,7 @@ export class AlgorithmPerformanceValidator {
 ;
       const efficiency = Math.min(100, overallHitRate * 100),
 
-      const cacheMetrics: CachePerformanceMetrics = {;
+      const cacheMetrics: CachePerformanceMetrics = {
         tier1: tier1Metrics,
         tier2: tier2Metrics,
         tier3: tier3Metrics,
@@ -185,14 +185,14 @@ export class AlgorithmPerformanceValidator {
 
       // Return fallback metrics
       return {
-        tier1: { name: 'memory', hitRate: 0.8, avgResponseTime: 1, size: 0, maxSize: 100 }
-        tier2: { name: 'redis', hitRate: 0.7, avgResponseTime: 5, size: 0, maxSize: 1000 }
+        tier1: { name: 'memory', hitRate: 0.8, avgResponseTime: 1, size: 0, maxSize: 100 },
+        tier2: { name: 'redis', hitRate: 0.7, avgResponseTime: 5, size: 0, maxSize: 1000 },
         tier3: {
           name: 'database',
           hitRate: 0.6,
           avgResponseTime: 50,
           queryCount: 0,
-          avgQueryTime: 50
+          avgQueryTime: 50,
         },
         overall: { hitRate: 0.7, avgResponseTime: 15, efficiency: 70 }
       }
@@ -346,13 +346,13 @@ export class AlgorithmPerformanceValidator {
     // Calculate overall performance score
     const benchmarkScore = this.calculateBenchmarkScore(benchmarks)
     const cacheScore = cacheMetrics.overall.efficiency
-    const regressionScore = Math.max(;
+    const regressionScore = Math.max(
       0,
       100 - regressionTests.filter(t => t.regressionDetected).length * 20,
     )
     const improvementScore = improvementMaintained ? 100 : 50
 
-    const overallScore = Math.round(;
+    const overallScore = Math.round(
       (benchmarkScore + cacheScore + regressionScore + improvementScore) / 4,
     ),
 
@@ -393,7 +393,7 @@ export class AlgorithmPerformanceValidator {
     const benchmarks: PerformanceBenchmark[] = []
 
     // Simulate algorithm benchmarks
-    const algorithms = [;
+    const algorithms = [
       { name: 'recipe_search', baseline: 100, target: 50 }
       { name: 'ingredient_matching', baseline: 200, target: 100 }
       { name: 'nutrition_calculation', baseline: 150, target: 75 }
@@ -424,7 +424,7 @@ export class AlgorithmPerformanceValidator {
   private async benchmarkCacheOperations(): Promise<PerformanceBenchmark[]> {
     const benchmarks: PerformanceBenchmark[] = []
 
-    const cacheOps = [;
+    const cacheOps = [
       { name: 'memory_cache_get', baseline: 5, target: 2 }
       { name: 'memory_cache_set', baseline: 8, target: 4 }
       { name: 'redis_cache_get', baseline: 20, target: 10 }
@@ -455,7 +455,7 @@ export class AlgorithmPerformanceValidator {
   private async benchmarkDatabaseOperations(): Promise<PerformanceBenchmark[]> {
     const benchmarks: PerformanceBenchmark[] = []
 
-    const dbOps = [;
+    const dbOps = [
       { name: 'recipe_query', baseline: 500, target: 250 }
       { name: 'ingredient_lookup', baseline: 100, target: 50 }
       { name: 'user_preferences_load', baseline: 200, target: 100 }
@@ -485,7 +485,7 @@ export class AlgorithmPerformanceValidator {
   private async benchmarkApiOperations(): Promise<PerformanceBenchmark[]> {
     const benchmarks: PerformanceBenchmark[] = []
 
-    const apiOps = [;
+    const apiOps = [
       { name: 'api_recipe_search', baseline: 800, target: 400 }
       { name: 'api_user_profile', baseline: 300, target: 150 }
       { name: 'api_recommendations', baseline: 1000, target: 500 }
@@ -515,7 +515,7 @@ export class AlgorithmPerformanceValidator {
   private async benchmarkUiOperations(): Promise<PerformanceBenchmark[]> {
     const benchmarks: PerformanceBenchmark[] = []
 
-    const uiOps = [;
+    const uiOps = [
       { name: 'component_render', baseline: 50, target: 25 }
       { name: 'page_load', baseline: 2000, target: 1000 }
       { name: 'search_interaction', baseline: 100, target: 50 }
@@ -758,7 +758,7 @@ export class AlgorithmPerformanceValidator {
   async exportPerformanceData(filePath: string): Promise<void> {
     try {
       const report = await this.generatePerformanceReport()
-      const exportData = {;
+      const exportData = {
         timestamp: new Date().toISOString(),
         report,
         benchmarkHistory: this.benchmarkHistory,

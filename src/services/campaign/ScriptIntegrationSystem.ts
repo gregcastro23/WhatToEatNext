@@ -89,12 +89,12 @@ export class ScriptIntegrationSystem {
         autoFix: false,
         validateSafety: true,
         dryRun: false,
-        interactive: true
+        interactive: true,
       },
       safetyLevel: 'maximum',
       maxBatchSize: 25,
       requiresGitClean: true,
-      supportsJsonOutput: true
+      supportsJsonOutput: true,
     })
 
     // Explicit-Any Systematic Fixer
@@ -105,12 +105,12 @@ export class ScriptIntegrationSystem {
         autoFix: false,
         validateSafety: true,
         dryRun: false,
-        interactive: true
+        interactive: true,
       },
       safetyLevel: 'high',
       maxBatchSize: 50,
       requiresGitClean: true,
-      supportsJsonOutput: true
+      supportsJsonOutput: true,
     })
 
     // Unused Variables Enhanced Fixer
@@ -121,12 +121,12 @@ export class ScriptIntegrationSystem {
         autoFix: false,
         validateSafety: true,
         dryRun: false,
-        interactive: true
+        interactive: true,
       },
       safetyLevel: 'high',
       maxBatchSize: 100,
       requiresGitClean: true,
-      supportsJsonOutput: true
+      supportsJsonOutput: true,
     })
 
     // Console Statement Removal System
@@ -134,12 +134,12 @@ export class ScriptIntegrationSystem {
       scriptPath: 'scripts/lint-fixes/fix-console-statements-only.js',
       defaultOptions: {
         dryRun: true,
-        validateSafety: true
+        validateSafety: true,
       },
       safetyLevel: 'medium',
       maxBatchSize: 50,
       requiresGitClean: false,
-      supportsJsonOutput: false
+      supportsJsonOutput: false,
     })
   }
 
@@ -214,7 +214,7 @@ export class ScriptIntegrationSystem {
       const result = await this.executeScript(scriptId, {
         showMetrics: true,
         json: true,
-        silent: true
+        silent: true,
       })
 
       if (result.metrics) {
@@ -260,7 +260,7 @@ export class ScriptIntegrationSystem {
       const result = await this.executeScript(scriptId, {
         validateSafety: true,
         json: true,
-        silent: true
+        silent: true,
       })
 
       // Parse safety validation from output
@@ -296,7 +296,7 @@ export class ScriptIntegrationSystem {
       return {
         safe: false,
         issues: [`Safety validation failed: ${error}`],
-        recommendedBatchSize: 1
+        recommendedBatchSize: 1,
       }
     }
   }
@@ -308,7 +308,7 @@ export class ScriptIntegrationSystem {
     try {
       await this.executeScript(scriptId, {
         resetMetrics: true,
-        silent: true
+        silent: true,
       })
       return true,
     } catch (error) {
@@ -376,7 +376,7 @@ export class ScriptIntegrationSystem {
     success: boolean,
     exitCode: number,
   ): ScriptExecutionResult {
-    const result: ScriptExecutionResult = {;
+    const result: ScriptExecutionResult = {
       success,
       exitCode,
       stdout: output,
@@ -393,7 +393,7 @@ export class ScriptIntegrationSystem {
       if (output.trim().startsWith('{')) {
         const jsonData = JSON.parse(output)
         if (jsonData.safetyMetrics) {
-          result.metrics = {;
+          result.metrics = {
             totalRuns: jsonData.safetyMetrics.totalRuns || 0,
             successfulRuns: jsonData.safetyMetrics.successfulRuns || 0,
             filesProcessed: jsonData.safetyMetrics.filesProcessed || 0,
@@ -437,7 +437,7 @@ export class ScriptIntegrationSystem {
           type: 'corruption',
           timestamp: new Date(),
           description: line.trim(),
-          severity: 'high'
+          severity: 'high',
         })
       }
 
@@ -446,7 +446,7 @@ export class ScriptIntegrationSystem {
           type: 'build_failure',
           timestamp: new Date(),
           description: line.trim(),
-          severity: 'critical'
+          severity: 'critical',
         })
       }
 
@@ -455,7 +455,7 @@ export class ScriptIntegrationSystem {
           type: 'stash_created',
           timestamp: new Date(),
           description: line.trim(),
-          severity: 'low'
+          severity: 'low',
         })
       }
     }

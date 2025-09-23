@@ -11,7 +11,7 @@ import { smoking } from './smoking';
  * Transformation methods significantly alter the structure, flavor, or preservation
  * properties of food through chemical or physical processes
  */
-export const _transformationMethods = {;
+export const _transformationMethods = {
   smoking,
   curing,
   dehydrating,

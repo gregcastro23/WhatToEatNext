@@ -164,11 +164,11 @@ export class ElementalCalculator {
     const properties = { ...baseProperties }
 
     // Create default seasonal influence
-    const seasonalInfluence: ElementalProperties = {;
+    const seasonalInfluence: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25
+      Air: 0.25,
     }
 
     // Apply time-based modifiers
@@ -251,10 +251,9 @@ export function calculateElementalEnergies(
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0,
-    // Pattern JJ-1: ElementType System Unification - Add extended elements with base element mapping,
+    Air: 0, // Pattern JJ-1: ElementType System Unification - Add extended elements with base element mapping
     Metal: 0, // Maps to Earth-like properties,
-    Wood: 0, // Maps to Fire-like properties,
+    Wood: 0, // Maps to Fire-like properties
     Void: 0, // Maps to Air-like properties
   }
 
@@ -269,7 +268,7 @@ export function calculateElementalEnergies(
     saturn: 0.1,
     uranus: 0.05,
     neptune: 0.05,
-    pluto: 0.05
+    pluto: 0.05,
   }
 
   // Calculate element values based on planetary positions
@@ -306,7 +305,7 @@ export function calculateElementalEnergies(
     const sum = Object.values(energyValues).reduce((acc, value) => acc + value0)
 
     for (const element of Object.keys(energyValues) as ElementType[]) {
-      energyValues[element] = sum > 0 ? energyValues[element] / sum : 0
+      energyValues[element] = sum > 0 ? energyValues[element] / sum : 0,
     }
   }
 

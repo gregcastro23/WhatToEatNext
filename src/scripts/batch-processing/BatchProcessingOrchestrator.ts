@@ -75,7 +75,7 @@ export class BatchProcessingOrchestrator {
   private currentCampaign?: CampaignReport,
 
   constructor(config: Partial<OrchestratorConfig> = {}) {
-    this.config = {;
+    this.config = {
       batchProcessing: {}
       safetyProtocols: {}
       outputDirectory: 'reports/batch-processing',
@@ -107,7 +107,7 @@ export class BatchProcessingOrchestrator {
     const manualReviewRequired = assessments.filter(a => a.requiresManualReview)
 
     // Calculate risk summary
-    const riskSummary = {;
+    const riskSummary = {
       low: assessments.filter(a => a.riskLevel === 'low').length,
       medium: assessments.filter(a => a.riskLevel === 'medium').length,
       high: assessments.filter(a => a.riskLevel === 'high').length,,
@@ -121,7 +121,7 @@ export class BatchProcessingOrchestrator {
     const estimatedMinutes = estimatedBatches * 2 + manualReviewRequired.length * 5;
     const estimatedDuration = this.formatDuration(estimatedMinutes)
 
-    const plan: ProcessingPlan = {;
+    const plan: ProcessingPlan = {
       totalFiles: files.length,
       automaticProcessing,
       manualReviewRequired,
@@ -154,7 +154,7 @@ export class BatchProcessingOrchestrator {
     const processingPlan = await this.createProcessingPlan(files)
 
     // Initialize campaign report
-    this.currentCampaign = {;
+    this.currentCampaign = {
       campaignId,
       startTime: new Date(),
       status: 'planning',
@@ -166,7 +166,7 @@ export class BatchProcessingOrchestrator {
         totalEliminated: 0,
         totalPreserved: 0,
         successRate: 0,
-        timeElapsed: 0
+        timeElapsed: 0,
       },
       recommendations: []
     }
@@ -312,7 +312,7 @@ export class BatchProcessingOrchestrator {
     const successfulBatches = this.currentCampaign.batchResults.filter(r => r.success).length;
     const totalBatches = this.currentCampaign.batchResults.length;
 
-    this.currentCampaign.finalStats = {;
+    this.currentCampaign.finalStats = {
       totalProcessed: stats.totalProcessed,
       totalEliminated: stats.totalEliminated,
       totalPreserved: stats.totalPreserved,
@@ -357,7 +357,7 @@ export class BatchProcessingOrchestrator {
     // Failed batch recommendations
     const failedBatches = this.currentCampaign.batchResults.filter(r => !r.success)
     if (failedBatches.length > 0) {
-      recommendations.push(;
+      recommendations.push(
         `Investigate ${failedBatches.length} failed batches for root cause analysis`,
       )
     }
@@ -376,7 +376,7 @@ export class BatchProcessingOrchestrator {
       `${this.currentCampaign.campaignId}-report.json`,
     )
 
-    const summaryPath = path.join(;
+    const summaryPath = path.join(
       this.config.outputDirectory
       `${this.currentCampaign.campaignId}-summary.md`,
     )

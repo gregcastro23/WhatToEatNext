@@ -32,7 +32,7 @@ export class BatchProcessingIntegration {
   private config: IntegrationConfig,
 
   constructor(config: IntegrationConfig = {}) {,
-    this.config = {;
+    this.config = {
       analysisReportPath: 'unused-variables-analysis-report.json',
       outputDirectory: 'reports/batch-processing',
       dryRun: false,
@@ -59,7 +59,7 @@ export class BatchProcessingIntegration {
         maxVariablesAutoProcess: 20,
         requireManualReview: !this.config.skipManualReview,
         enhancedValidation: true,
-        createDetailedBackups: true
+        createDetailedBackups: true,
       }
     })
   }
@@ -247,7 +247,7 @@ export class BatchProcessingIntegration {
     }
 
     // // // _logger.info('\n🔄 Batch Summary: ')
-    const successfulBatches = campaign.batchResults.filter(;
+    const successfulBatches = campaign.batchResults.filter(
       (r: unknown) => (r as any).success,
     ).length
     // // // _logger.info(`   Total Batches: ${campaign.batchResults.length}`)

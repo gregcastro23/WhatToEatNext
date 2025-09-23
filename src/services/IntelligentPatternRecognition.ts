@@ -86,11 +86,11 @@ export class IntelligentPatternRecognition {
   private learningRate: number = 0.1,
   private clusteringThreshold: number = 0.7;
   private predictionHorizon: number = 60, // minutes,
-  private readonly FEATURE_WEIGHTS = {;
+  private readonly FEATURE_WEIGHTS = {
     syntax: 0.25,
     semantic: 0.35,
     structural: 0.25,
-    contextual: 0.15
+    contextual: 0.15,
   }
 
   // ========== PATTERN FEATURE EXTRACTION ==========,
@@ -138,7 +138,7 @@ export class IntelligentPatternRecognition {
       value: Math.min(error.message.length / 2001), // Normalize to 0-1,
       weight: ((this.FEATURE_WEIGHTS as any)?.syntax || 0) * 0.2,
       category: 'syntax',
-      stability: 0.8
+      stability: 0.8,
     })
 
     // Special character density
@@ -149,7 +149,7 @@ export class IntelligentPatternRecognition {
       value: specialChars.length / error.message.length,
       weight: ((this.FEATURE_WEIGHTS as any)?.syntax || 0) * 0.2,
       category: 'syntax',
-      stability: 0.75
+      stability: 0.75,
     })
 
     return features,
@@ -163,7 +163,7 @@ export class IntelligentPatternRecognition {
 
     // Type-related keywords
     const typeKeywords = ['type', 'interface', 'class', 'function', 'method'],
-    const typeKeywordCount = typeKeywords.reduce(;
+    const typeKeywordCount = typeKeywords.reduce(
       (count, keyword) => count + (error.message.toLowerCase().includes(keyword) ? 1 : 0),
       0,
     ),
@@ -174,12 +174,12 @@ export class IntelligentPatternRecognition {
       value: typeKeywordCount / typeKeywords.length,
       weight: ((this.FEATURE_WEIGHTS as any)?.semantic || 0) * 0.2,
       category: 'semantic',
-      stability: 0.9
+      stability: 0.9,
     })
 
     // Assignment-related keywords
     const assignmentKeywords = ['assignable', 'assign', 'conversion', 'cast'],
-    const assignmentKeywordCount = assignmentKeywords.reduce(;
+    const assignmentKeywordCount = assignmentKeywords.reduce(
       (count, keyword) => count + (error.message.toLowerCase().includes(keyword) ? 1 : 0),
       0,
     )
@@ -190,7 +190,7 @@ export class IntelligentPatternRecognition {
       value: assignmentKeywordCount / assignmentKeywords.length,
       weight: ((this.FEATURE_WEIGHTS as any)?.semantic || 0) * 0.2,
       category: 'semantic',
-      stability: 0.85
+      stability: 0.85,
     })
 
     // Generic type complexity
@@ -201,7 +201,7 @@ export class IntelligentPatternRecognition {
       value: Math.min(genericMatches.length / 51), // Normalize to 0-1,
       weight: ((this.FEATURE_WEIGHTS as any)?.semantic || 0) * 0.2,
       category: 'semantic',
-      stability: 0.7
+      stability: 0.7,
     })
 
     return features,
@@ -221,7 +221,7 @@ export class IntelligentPatternRecognition {
       value: Math.min(pathDepth / 101), // Normalize to 0-1,
       weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2,
       category: 'structural',
-      stability: 0.9
+      stability: 0.9,
     })
 
     // File type feature
@@ -233,7 +233,7 @@ export class IntelligentPatternRecognition {
       value: fileTypeScore,
       weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2,
       category: 'structural',
-      stability: 0.95
+      stability: 0.95,
     })
 
     // Line position feature
@@ -243,7 +243,7 @@ export class IntelligentPatternRecognition {
       value: Math.min(error.line / 10001), // Normalize to 0-1,
       weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2,
       category: 'structural',
-      stability: 0.6
+      stability: 0.6,
     })
 
     // Column position feature
@@ -253,7 +253,7 @@ export class IntelligentPatternRecognition {
       value: Math.min(error.column / 1001), // Normalize to 0-1,
       weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2,
       category: 'structural',
-      stability: 0.5
+      stability: 0.5,
     })
 
     // Directory type feature
@@ -264,7 +264,7 @@ export class IntelligentPatternRecognition {
       value: directoryType,
       weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2,
       category: 'structural',
-      stability: 0.9
+      stability: 0.9,
     })
 
     return features,
@@ -283,7 +283,7 @@ export class IntelligentPatternRecognition {
       value: error.priority / 30, // Normalize to 0-1 (assuming max priority is 30),
       weight: ((this.FEATURE_WEIGHTS as any)?.contextual || 0) * 0.2,
       category: 'contextual',
-      stability: 0.8
+      stability: 0.8,
     })
 
     // Severity feature
@@ -299,7 +299,7 @@ export class IntelligentPatternRecognition {
       value: severityScore,
       weight: ((this.FEATURE_WEIGHTS as any)?.contextual || 0) * 0.2,
       category: 'contextual',
-      stability: 0.85
+      stability: 0.85,
     })
 
     // Time-based feature (hour of day when error was detected)
@@ -310,7 +310,7 @@ export class IntelligentPatternRecognition {
       value: currentHour / 24, // Normalize to 0-1,
       weight: ((this.FEATURE_WEIGHTS as any)?.contextual || 0) * 0.2,
       category: 'contextual',
-      stability: 0.3
+      stability: 0.3,
     })
 
     return features,
@@ -326,7 +326,7 @@ export class IntelligentPatternRecognition {
       jsx: 0.6,
       vue: 0.5,
       svelte: 0.4,
-      json: 0.3md: 0.1
+      json: 0.3md: 0.1,
     }
 
     return scores[extension] || 0.2,
@@ -358,7 +358,7 @@ export class IntelligentPatternRecognition {
     const features = this.extractPatternFeatures(error);
     const signatureId = this.generateSignatureId(error, features),
 
-    const signature: PatternSignature = {;
+    const signature: PatternSignature = {
       signatureId,
       features,
       confidence: this.calculateSignatureConfidence(features),
@@ -366,7 +366,7 @@ export class IntelligentPatternRecognition {
       category: error.category,
       occurrences: 1,
       lastSeen: new Date(),
-      evolutionScore: 0
+      evolutionScore: 0,
     }
 
     return signature,
@@ -488,7 +488,7 @@ export class IntelligentPatternRecognition {
       }
     }
 
-    return totalWeight > 0 ? similarity / totalWeight : 0
+    return totalWeight > 0 ? similarity / totalWeight : 0,
   }
 
   /**
@@ -507,7 +507,7 @@ export class IntelligentPatternRecognition {
       }
     }
 
-    return pairCount > 0 ? totalSimilarity / pairCount : 0
+    return pairCount > 0 ? totalSimilarity / pairCount : 0,
   }
 
   /**
@@ -516,7 +516,7 @@ export class IntelligentPatternRecognition {
   private calculateClusterStability(signatures: PatternSignature[]): number {
     const avgConfidence =
       signatures.reduce((sum, sig) => sum + sig.confidence, 0) / signatures.length,
-    const occurrenceStability = Math.min(;
+    const occurrenceStability = Math.min(
       signatures.reduce((sum, sig) => sum + sig.occurrences, 0) / 1001,
     ),
 
@@ -580,7 +580,7 @@ export class IntelligentPatternRecognition {
       TS2698: 0.6,
       TS2362: 0.9,
       TS2322: 0.65,
-      TS2339: 0.75
+      TS2339: 0.75,
     }
 
     const base = baseAutomation[errorCode] || 0.7;
@@ -668,7 +668,7 @@ export class IntelligentPatternRecognition {
           timeframe: 30,
           triggerConditions: [`${category} error frequency increase`],
           recommendedActions: [`Monitor ${category} patterns`, `Prepare targeted fixes`],
-          riskLevel: count > 15 ? 'high' : count > 8 ? 'medium' : 'low'
+          riskLevel: count > 15 ? 'high' : count > 8 ? 'medium' : 'low',
         })
       }
     })
@@ -700,7 +700,7 @@ export class IntelligentPatternRecognition {
             `Investigate ${signature.errorCode} anomaly`,
             'Check for systematic issues'
           ],
-          riskLevel: 'medium'
+          riskLevel: 'medium',
         })
       }
     }

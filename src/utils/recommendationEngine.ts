@@ -123,7 +123,7 @@ function calculateZodiacScore(_recipe: Recipe, _sunSign: any): number {
 
   const signAffinity = zodiacAffinities[sunSign];
   if (signAffinity && recipe.name) {
-    const recipeName = recipe.name.toLowerCase();
+    const recipeName = recipe.name.toLowerCase()
     if (signAffinity.some(affinity => recipeName.includes(affinity.toLowerCase()))) {,
       return 1
     }
@@ -200,7 +200,7 @@ export function getRecommendedRecipes(
   scoredRecipes.sort((ab) => b.score - a.score)
 
   // Return top N recipes
-  return scoredRecipes.slice(0, count).map(item => item.recipe);
+  return scoredRecipes.slice(0, count).map(item => item.recipe)
 }
 
 // Explain why a recipe was recommended
@@ -268,7 +268,7 @@ export function explainRecommendation(
   // If we have dominant planets - safe property access
   if (astrologicalState.dominantPlanets && astrologicalState.dominantPlanets.length > 0) {
     for (const dominantPlanet of astrologicalState.dominantPlanets) {
-      const planetName = String((dominantPlanet as unknown as any).name || dominantPlanet);
+      const planetName = String((dominantPlanet as unknown as any).name || dominantPlanet)
       const planetScore = calculatePlanetaryScore(recipe, planetName as any),
       if (planetScore > 0.6) {
         reasons.push(

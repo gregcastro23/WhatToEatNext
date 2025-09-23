@@ -427,8 +427,7 @@ export interface RecipeDetail {
     Water: number,
     Earth: number,
     Air: number
-  }
-
+  },
   astrologicalInfluences: string[],
   zodiacInfluences: any[],
   lunarPhaseInfluences: LunarPhase[],

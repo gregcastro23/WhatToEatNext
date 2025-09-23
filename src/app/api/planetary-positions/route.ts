@@ -25,7 +25,7 @@ export async function GET() {
     return NextResponse.json({
       timestamp: new Date().toISOString(),
       positions,
-      source: 'default-positions'
+      source: 'default-positions',
     });
   } catch (error) {
     _logger.error('API Error: ', error);
@@ -74,7 +74,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         message: 'Error calculating planetary positions',
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error.message : 'Unknown error',
       },
       { status: 500 }
     );

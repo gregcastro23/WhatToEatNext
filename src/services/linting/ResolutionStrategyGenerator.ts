@@ -110,20 +110,20 @@ export class ResolutionStrategyGenerator {
     const baseStrategy = this.getBaseStrategy(errorClassification.ruleId)
 
     // Enhance with domain-specific considerations
-    const domainEnhancedStrategy = this.enhanceWithDomainContext(;
+    const domainEnhancedStrategy = this.enhanceWithDomainContext(
       baseStrategy,
       domainContext,
       fileAnalysis,
     )
 
     // Adjust for project context
-    const projectAdjustedStrategy = this.adjustForProjectContext(;
+    const projectAdjustedStrategy = this.adjustForProjectContext(
       domainEnhancedStrategy,
       projectContext,
     )
 
     // Generate final strategy with all components
-    const strategy = this.finalizeStrategy(;
+    const strategy = this.finalizeStrategy(
       projectAdjustedStrategy,
       errorClassification,
       domainContext,
@@ -170,13 +170,13 @@ export class ResolutionStrategyGenerator {
       enhanced.steps = [...(enhanced.steps || []), ...(domainStrategy.steps || [])],
 
       // Merge prerequisites
-      enhanced.prerequisites = [;
+      enhanced.prerequisites = [
         ...(enhanced.prerequisites || []),
         ...(domainStrategy.prerequisites || [])
       ],
 
       // Merge validation requirements
-      enhanced.validationRequirements = [;
+      enhanced.validationRequirements = [
         ...(enhanced.validationRequirements || []),
         ...(domainStrategy.validationRequirements || [])
       ],
@@ -219,7 +219,7 @@ export class ResolutionStrategyGenerator {
         type: 'manual-review',
         description: 'Conservative project requires manual review of all changes',
         automated: false,
-        criticalPath: true
+        criticalPath: true,
       })
     } else if (projectContext.riskTolerance === 'aggressive') {
       // Allow more automation for aggressive projects
@@ -242,7 +242,7 @@ export class ResolutionStrategyGenerator {
         type: 'manual-review',
         description: 'Large team code review process',
         automated: false,
-        criticalPath: false
+        criticalPath: false,
       })
     }
 
@@ -356,7 +356,7 @@ export class ResolutionStrategyGenerator {
     ],
     return validComplexities.includes(complexity as ResolutionStrategy['complexity'])
       ? (complexity as ResolutionStrategy['complexity'])
-      : 'moderate'
+      : 'moderate',
   }
 
   /**
@@ -422,7 +422,7 @@ export class ResolutionStrategyGenerator {
         type: 'build',
         description: 'Verify build still passes',
         automated: true,
-        criticalPath: true
+        criticalPath: true,
       }
     ],
 
@@ -434,7 +434,7 @@ export class ResolutionStrategyGenerator {
         type: 'test',
         description: 'Run relevant tests',
         automated: true,
-        criticalPath: true
+        criticalPath: true,
       })
     }
 
@@ -443,7 +443,7 @@ export class ResolutionStrategyGenerator {
         type: 'type-check',
         description: 'Verify TypeScript compilation',
         automated: true,
-        criticalPath: true
+        criticalPath: true,
       })
     }
 
@@ -481,7 +481,7 @@ export class ResolutionStrategyGenerator {
       performanceImpactProbability = 0.2, // Risk of affecting automation performance,
     }
 
-    const mitigationStrategies = [;
+    const mitigationStrategies = [
       'Create backup before making changes',
       'Test thoroughly in development environment',
       'Monitor system behavior after deployment'
@@ -497,7 +497,7 @@ export class ResolutionStrategyGenerator {
       dataLossProbability,
       performanceImpactProbability,
       mitigationStrategies,
-      rollbackPlan: 'Git revert to previous commit if issues detected'
+      rollbackPlan: 'Git revert to previous commit if issues detected',
     }
   }
 
@@ -516,7 +516,7 @@ export class ResolutionStrategyGenerator {
           'Better understanding of the fix',
           'Lower risk of unintended changes'
         ],
-        whenToUse: 'When auto-fix confidence is low or domain expertise is required'
+        whenToUse: 'When auto-fix confidence is low or domain expertise is required',
       })
     }
 
@@ -524,7 +524,7 @@ export class ResolutionStrategyGenerator {
       name: 'Rule Suppression',
       description: 'Suppress the rule for this specific case',
       tradeoffs: ['Quick solution', 'Technical debt accumulation', 'May hide real issues'],
-      whenToUse: 'When the rule is not applicable or fixing would require significant refactoring'
+      whenToUse: 'When the rule is not applicable or fixing would require significant refactoring',
     })
 
     if (errorClassification.severity.level === 'low') {
@@ -536,7 +536,7 @@ export class ResolutionStrategyGenerator {
           'Accumulating technical debt',
           'May become harder to fix later'
         ],
-        whenToUse: 'When under time pressure and issue is not critical'
+        whenToUse: 'When under time pressure and issue is not critical',
       })
     }
 
@@ -728,7 +728,7 @@ export class ResolutionStrategyGenerator {
       priority: 'medium',
       confidence: 0.5,
       complexity: 'moderate',
-      estimatedTime: 10
+      estimatedTime: 10,
     })
   }
 
@@ -742,12 +742,12 @@ export class ResolutionStrategyGenerator {
         {
           type: 'knowledge',
           description: 'Understanding of astronomical calculations',
-          required: true
+          required: true,
         }
         {
           type: 'access',
           description: 'Access to astronomical validation data',
-          required: true
+          required: true,
         }
       ],
       validationRequirements: [
@@ -755,13 +755,13 @@ export class ResolutionStrategyGenerator {
           type: 'domain-expert',
           description: 'Astrological domain expert review',
           automated: false,
-          criticalPath: true
+          criticalPath: true,
         }
         {
           type: 'manual-review',
           description: 'Validate against known astronomical data',
           automated: false,
-          criticalPath: true
+          criticalPath: true,
         }
       ]
     })
@@ -772,7 +772,7 @@ export class ResolutionStrategyGenerator {
         {
           type: 'knowledge',
           description: 'Understanding of campaign system architecture',
-          required: true
+          required: true,
         }
       ],
       validationRequirements: [
@@ -780,7 +780,7 @@ export class ResolutionStrategyGenerator {
           type: 'test',
           description: 'Run campaign system integration tests',
           automated: true,
-          criticalPath: true
+          criticalPath: true,
         }
       ]
     })

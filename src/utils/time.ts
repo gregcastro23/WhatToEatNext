@@ -3,23 +3,23 @@
  */
 export function getTimeFactors() {
   const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-  const planetaryDayMap = {;
+  const planetaryDayMap = {
     Sunday: 'Sun',
     Monday: 'Moon',
     Tuesday: 'Mars',
     Wednesday: 'Mercury',
     Thursday: 'Jupiter',
     Friday: 'Venus',
-    Saturday: 'Saturn'
+    Saturday: 'Saturn',
   }
 
   // Get current date information
-  const now = new Date();
+  const now = new Date()
   const dayOfWeek = days[now.getDay()];
   const hour = now.getHours()
 
   // Calculate planetary hour (simplified implementation)
-  const dayHours = [;
+  const dayHours = [
     'Sun',
     'Venus',
     'Mercury',
@@ -47,7 +47,7 @@ export function getTimeFactors() {
     'Moon'
   ],
 
-  const nightHours = [;
+  const nightHours = [
     'Jupiter',
     'Mars',
     'Sun',
@@ -81,7 +81,7 @@ export function getTimeFactors() {
   const planetaryHour = isDaytime ? dayHours[hourIndex] : nightHours[hourIndex]
 
   return {
-    _planetaryDay: {;
+    _planetaryDay: {
       day: dayOfWeek,
       planet: planetaryDayMap[dayOfWeek]
     },

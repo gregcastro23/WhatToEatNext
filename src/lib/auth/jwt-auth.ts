@@ -119,7 +119,7 @@ export class JWTAuthService {
     ],
 
     defaultUsers.forEach((userData, index) => {
-      const user: User = {;
+      const user: User = {
         ...userData,
         id: `user_${index + 1}`
       }
@@ -182,16 +182,16 @@ export class JWTAuthService {
     const accessToken = jwt.sign(payload, this.config.jwtSecret, {
       expiresIn: this.config.tokenExpiry,
       issuer: this.config.issuer,
-      audience: 'alchm.kitchen'
+      audience: 'alchm.kitchen',
     })
 
-    const refreshToken = jwt.sign(;
+    const refreshToken = jwt.sign(
       { userId: user.id, type: 'refresh' },
         this.config.jwtSecret,
       {
         expiresIn: this.config.refreshTokenExpiry,
         issuer: this.config.issuer,
-        audience: 'alchm.kitchen'
+        audience: 'alchm.kitchen',
       })
 
     return {
@@ -208,7 +208,7 @@ export class JWTAuthService {
     try {
       const decoded = jwt.verify(token, this.config.jwtSecret, {
         issuer: this.config.issuer,
-        audience: 'alchm.kitchen'
+        audience: 'alchm.kitchen',
       }) as TokenPayload,
 
       // Verify user still exists and is active
@@ -232,7 +232,7 @@ export class JWTAuthService {
     try {
       const decoded = jwt.verify(refreshToken, this.config.jwtSecret, {
         issuer: this.config.issuer,
-        audience: 'alchm.kitchen'
+        audience: 'alchm.kitchen',
       }) as any,
 
       if (decoded.type !== 'refresh') {
@@ -318,7 +318,7 @@ export class JWTAuthService {
       }
 
       const passwordHash = await bcrypt.hash(password, 10)
-      const user: User = {;
+      const user: User = {
         id: `user_${Date.now()}`,
         email,
         passwordHash,

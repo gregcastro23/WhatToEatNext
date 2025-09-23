@@ -11,7 +11,7 @@
 import { ElementalProperties } from '@/types/alchemy';
 
 // Backend service configuration
-const API_CONFIG = {;
+const API_CONFIG = {
   alchemical: process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000',
   kitchen: process.env.NEXT_PUBLIC_KITCHEN_BACKEND_URL || 'http://localhost:8100',
   websocket: process.env.NEXT_PUBLIC_WEBSOCKET_URL || 'ws://localhost:8001',
@@ -97,7 +97,7 @@ export class AlchemicalApiClient {
         entropy: 0.3,
         reactivity: 0.7,
         gregsEnergy: 75.0,
-        equilibrium: 0.6
+        equilibrium: 0.6,
       }
     }
   }
@@ -129,7 +129,7 @@ export class AlchemicalApiClient {
           Venus: 0.4,
           Mars: 0.6,
           Jupiter: 0.5,
-          Saturn: 0.3
+          Saturn: 0.3,
         }
       }
     }
@@ -222,7 +222,7 @@ export class AlchemicalApiClient {
         // Subscribe to planetary hours
         ws.send(JSON.stringify({;
           action: 'subscribe',
-          channel: 'planetary_hours'
+          channel: 'planetary_hours',
         }))
       }
 
@@ -248,7 +248,7 @@ export class AlchemicalApiClient {
    * Health check for backend services
    */
   async checkHealth(): Promise<{ service: string; status: string; }[]> {
-    const services = [;
+    const services = [
       { name: 'Alchemical Core', url: `${this.baseUrls.alchemical}/health` }
       { name: 'Kitchen Intelligence', url: `${this.baseUrls.kitchen}/health` }
       { name: 'Rune Agent', url: `${this.baseUrls.runes}/health` }
@@ -259,16 +259,16 @@ export class AlchemicalApiClient {
         try {;
           const response = await fetch(service.url, {
             method: 'GET',
-            timeout: 5000
+            timeout: 5000,
           } as any)
           return {
             service: service.name,
-            status: response.ok ? 'healthy' : 'unhealthy'
+            status: response.ok ? 'healthy' : 'unhealthy',
           }
         } catch {
           return {
             service: service.name,
-            status: 'offline'
+            status: 'offline',
           }
         }
       })

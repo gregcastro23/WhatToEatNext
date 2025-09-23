@@ -4,12 +4,12 @@ export const _SEASONAL_PROPERTIES = {
       Fire: 0.2,
       Water: 0.3,
       Air: 0.4,
-      Earth: 0.1
+      Earth: 0.1,
     },
     qualities: ['ascending', 'expanding'],
     peak: {
       month: 4, // May,
-      day: 1
+      day: 1,
     },
     enhancedCategories: ['leafy greens', 'sprouts', 'herbs'],
     diminishedCategories: ['roots', 'preserved foods', 'heavy proteins']
@@ -19,12 +19,12 @@ export const _SEASONAL_PROPERTIES = {
       Fire: 0.4,
       Water: 0.2,
       Air: 0.3,
-      Earth: 0.1
+      Earth: 0.1,
     },
     qualities: ['expansive', 'active'],
     peak: {
       month: 7, // August,
-      day: 1
+      day: 1,
     },
     enhancedCategories: ['fruits', 'cooling herbs', 'raw foods'],
     diminishedCategories: ['warming spices', 'heavy soups', 'roasted foods']
@@ -34,12 +34,12 @@ export const _SEASONAL_PROPERTIES = {
       Fire: 0.1,
       Water: 0.2,
       Air: 0.3,
-      Earth: 0.4
+      Earth: 0.4,
     },
     qualities: ['contracting', 'descending'],
     peak: {
       month: 10, // November,
-      day: 1
+      day: 1,
     },
     enhancedCategories: ['roots', 'grains', 'mushrooms'],
     diminishedCategories: ['raw foods', 'tropical fruits', 'cooling herbs']
@@ -49,19 +49,19 @@ export const _SEASONAL_PROPERTIES = {
       Fire: 0.1,
       Water: 0.4,
       Air: 0.1,
-      Earth: 0.4
+      Earth: 0.4,
     },
     qualities: ['contracting', 'storing'],
     peak: {
       month: 1, // February,
-      day: 1
+      day: 1,
     },
     enhancedCategories: ['preserved foods', 'warming spices', 'broths'],
     diminishedCategories: ['raw foods', 'cooling herbs', 'light proteins']
   }
 }
 
-export const _SEASONAL_TRANSITIONS = {;
+export const _SEASONAL_TRANSITIONS = {
   daysPerTransition: 21, // 3 weeks of transition between seasons,
   transitionPoints: {
     springToSummer: { month: 5, day: 15 }, // June 15
@@ -75,7 +75,7 @@ export const VALID_SEASONS = ['Spring', 'Summer', 'Autumn', 'Winter'] as const,
 export type Season = (typeof VALID_SEASONS)[number],
 
 // Date ranges for each season
-export const _SEASON_DATE_RANGES = {;
+export const _SEASON_DATE_RANGES = {
   spring: { startMonth: 2, startDay: 15, endMonth: 5, endDay: 14 }, // Feb 15 - May 14
   summer: { startMonth: 5, startDay: 15, endMonth: 8, endDay: 14 }, // May 15 - Aug 14
   autumn: { startMonth: 8, startDay: 15, endMonth: 11, endDay: 14 }, // Aug 15 - Nov 14

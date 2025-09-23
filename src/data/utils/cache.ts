@@ -54,7 +54,7 @@ export const _ingredientCache = new SimpleCache<unknown>()
 export const _recipeCache = new SimpleCache<unknown>()
 
 // Cache helper functions
-export function getCachedData<T>(;
+export function getCachedData<T>(
   cache: SimpleCache<T>,
   key: string,
   generator: () => T | Promise<T>,

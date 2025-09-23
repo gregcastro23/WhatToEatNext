@@ -26,7 +26,7 @@ import {
  * @param lunarPhase Current lunar phase
  * @returns Ingredients transformed with alchemical properties
  */
-export const _transformIngredients = (;
+export const _transformIngredients = (
   ingredients: ElementalItem[],
   planetPositions: Record<string, number>,
   isDaytime: boolean,
@@ -53,7 +53,7 @@ export const _transformIngredients = (;
  * @param lunarPhase Current lunar phase
  * @returns Methods transformed with alchemical properties
  */
-export const _transformCookingMethods = (;
+export const _transformCookingMethods = (
   methods: ElementalItem[],
   planetPositions: Record<string, number>,
   isDaytime: boolean,
@@ -61,7 +61,7 @@ export const _transformCookingMethods = (;
   lunarPhase?: LunarPhaseWithSpaces | null,
 ): AlchemicalItem[] => {
   // First, apply the standard transformations - Pattern, TTT: Record Type Conversion
-  const transformedItems = transformItemsWithPlanetaryPositions(;
+  const transformedItems = transformItemsWithPlanetaryPositions(
     methods,
     planetPositions as unknown as Record<string, CelestialPosition>,
     isDaytime,
@@ -87,7 +87,7 @@ export const _transformCookingMethods = (;
  * @param lunarPhase Current lunar phase
  * @returns Cuisines transformed with alchemical properties
  */
-export const _transformCuisines = (;
+export const _transformCuisines = (
   cuisines: ElementalItem[],
   planetPositions: Record<string, number>,
   isDaytime: boolean,
@@ -110,7 +110,7 @@ export const _transformCuisines = (;
  * @param targetElementalProperties The target elemental properties to match against
  * @returns The sorted items with compatibilityScore added
  */
-export const _sortByAlchemicalCompatibility = (;
+export const _sortByAlchemicalCompatibility = (
   items: AlchemicalItem[],
   targetElementalProperties?: Record<string, number>,
 ): AlchemicalItem[] => {
@@ -127,7 +127,7 @@ export const _sortByAlchemicalCompatibility = (;
     let targetNorm = 0
 ;
     // Get the element names (Fire, Water, Earth, Air)
-    const elements = ['Fire', 'Water', 'Earth', 'Air'],
+    const elements = ['Fire', 'Water', 'Earth', 'Air']
 
     for (const element of elements) {
       const itemValue = item.elementalProperties[element] || 0;
@@ -173,7 +173,7 @@ export const _sortByAlchemicalCompatibility = (;
  * @param targetProperty Optional alchemical property to prioritize
  * @returns Filtered items with good compatibility
  */
-export const _filterByAlchemicalCompatibility = (;
+export const _filterByAlchemicalCompatibility = (
   items: AlchemicalItem[],
   targetElement?: string,
   targetProperty?: string,
@@ -215,7 +215,7 @@ export const _getTopCompatibleItems = (items: AlchemicalItem[], count = 5): Alch
  * @param count Number of recommendations to return
  * @returns Array of recommended cooking methods with compatibility scores
  */
-export const _getRecommendedCookingMethodsForIngredient = async (;
+export const _getRecommendedCookingMethodsForIngredient = async (
   ingredient: AlchemicalItem,
   cookingMethods: AlchemicalItem[],
   count = 5;
@@ -225,7 +225,7 @@ export const _getRecommendedCookingMethodsForIngredient = async (;
 
   log.info('\n===========================================')
   log.info('COOKING METHOD RECOMMENDATIONS ENGINE START')
-  log.info('===========================================');
+  log.info('===========================================')
   log.info(`_Ingredient: ${ingredient.name}`)
   log.info(`_Element: ${ingredient.element || 'Not specified'}`)
   log.info(`Elemental _Character: ${ingredient.elementalCharacter || 'Not specified'}`)
@@ -235,12 +235,12 @@ export const _getRecommendedCookingMethodsForIngredient = async (;
   log.info(`Available cooking methods: ${cookingMethods.length}`)
 
   // Convert cookingMethods names to method strings for holistic recommendations
-  const methodNames = cookingMethods.map(method => method.name);
+  const methodNames = cookingMethods.map(method => method.name)
   log.info('Method names to evaluate: ', { data: methodNames.join(', ') } as unknown)
 
   // Use our enhanced holistic recommendations that include elemental character
   log.info('\nEvaluating methods with holistic cooking recommendations algorithm...')
-  const holisticRecommendations = await getHolisticCookingRecommendations(;
+  const holisticRecommendations = await getHolisticCookingRecommendations(
     ingredient,
     undefined, // No specific planet influence
     undefined, // No specific tarot card influence

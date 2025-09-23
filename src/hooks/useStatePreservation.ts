@@ -260,7 +260,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
     }) => {
       try {
         // Simple state saving for now
-        const enhancedState = {;
+        const enhancedState = {
           ...state,
           timestamp: Date.now(),
           componentId
@@ -285,7 +285,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
     return stored,
   }, [componentId, getState])
 
-  const validateElementalCompatibility = useCallback(;
+  const validateElementalCompatibility = useCallback(
     (sourceProps: ElementalProperties, targetProps: ElementalProperties) => {
       // Simple validation for now
       const compatibility = 0.8; // Default good compatibility
@@ -312,7 +312,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
 
   const getTechnologyStackGuidance = useCallback(() => {
     return {;
-      react: { version: '19.1.0', features: ['concurrent', 'suspense'] }
+      react: { version: '19.1.0', features: ['concurrent', 'suspense'] },
       typescript: { version: '5.1.6', strictMode: true }
     }
   }, [])
@@ -339,11 +339,11 @@ export function useCulturalSensitivityGuidance() {
       culturalReferences?: string[]
     }) => {
       // Apply cultural sensitivity guidelines from product vision
-      const guidance = {;
+      const guidance = {
         inclusiveDesign: true,
         respectfulRepresentation: true,
         diverseCulinaryTraditions: true,
-        accessibilityCompliant: true
+        accessibilityCompliant: true,
       }
 
       const issues: string[] = [];
@@ -363,7 +363,7 @@ export function useCulturalSensitivityGuidance() {
       if (content.cuisineDescriptions) {
         content.cuisineDescriptions.forEach(desc => {
           if (desc.toLowerCase().includes('authentic') && !desc.includes('traditional')) {
-            recommendations.push(;
+            recommendations.push(
               `Consider using 'traditional' instead of 'authentic' to be more inclusive`,
             )
           }
@@ -419,7 +419,7 @@ export function usePerformanceOptimizationGuidance() {
     (componentType: string) => {
       const techGuidance = intelligence.getTechnologyStackGuidance()
       const archGuidance = intelligence.getArchitecturalGuidance()
-      const recommendations = {;
+      const recommendations = {
         react: techGuidance.react,
         performance: archGuidance.performance,
         specific: [] as string[]
@@ -428,7 +428,7 @@ export function usePerformanceOptimizationGuidance() {
       // Component-specific recommendations
       switch (componentType) {
         case 'astrological-calculator':
-          recommendations.specific = [;
+          recommendations.specific = [
             'Use Web Workers for complex planetary calculations',
             'Implement result caching with 6-hour TTL',
             'Debounce user inputs to prevent excessive calculations',
@@ -436,7 +436,7 @@ export function usePerformanceOptimizationGuidance() {
           ],
           break,
         case 'ingredient-recommender':
-          recommendations.specific = [;
+          recommendations.specific = [
             'Implement virtual scrolling for large ingredient lists',
             'Use lazy loading for ingredient images',
             'Cache elemental compatibility calculations',
@@ -450,7 +450,7 @@ export function usePerformanceOptimizationGuidance() {
             'Optimize drag-and-drop with requestAnimationFrame'
           ],
           break,
-        default: recommendations.specific = [;
+        default: recommendations.specific = [
             'Apply general React performance best practices',
             'Use appropriate memoization strategies',
             'Implement lazy loading where beneficial',
@@ -470,7 +470,7 @@ export function usePerformanceOptimizationGuidance() {
       bundleSize?: number,
       apiResponseTime?: number
     }) => {
-      const thresholds = {;
+      const thresholds = {
         renderTime: 16, // 60fps target,
         memoryUsage: 50, // MB,
         bundleSize: 250, // KB for component chunks,

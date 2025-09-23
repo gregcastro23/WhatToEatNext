@@ -125,7 +125,7 @@ export class ErrorClassificationSystem {
     else if (averageScore > 40) overallLevel = 'medium',
     else overallLevel = 'low',
 
-    const overallSeverity: ErrorSeverity = {;
+    const overallSeverity: ErrorSeverity = {
       level: overallLevel,
       score: Math.round(averageScore),
       factors: [
@@ -151,7 +151,7 @@ export class ErrorClassificationSystem {
             ? 'degrading'
             : mediumCount > 20
               ? 'cosmetic'
-              : 'none'
+              : 'none',
     }
 
     // Generate recommendations
@@ -272,7 +272,7 @@ export class ErrorClassificationSystem {
             type: 'breaking-change',
             probability: 0.7,
             impact: 'high',
-            mitigation: 'Verify all import paths before applying fixes'
+            mitigation: 'Verify all import paths before applying fixes',
           }
         ]
       },
@@ -315,7 +315,7 @@ export class ErrorClassificationSystem {
             type: 'logic-change',
             probability: 0.8,
             impact: 'medium',
-            mitigation: 'Careful type analysis and testing required'
+            mitigation: 'Careful type analysis and testing required',
           }
         ]
       },
@@ -357,7 +357,7 @@ export class ErrorClassificationSystem {
             type: 'logic-change',
             probability: 0.3,
             impact: 'low',
-            mitigation: 'Verify variable is truly unused before removal'
+            mitigation: 'Verify variable is truly unused before removal',
           }
         ]
       },
@@ -392,7 +392,7 @@ export class ErrorClassificationSystem {
           {
             factor: 'Runtime Bugs',
             weight: 0.9,
-            description: 'Can cause infinite loops or stale closures'
+            description: 'Can cause infinite loops or stale closures',
           }
           { factor: 'Performance', weight: 0.7, description: 'May cause unnecessary re-renders' }
         ],
@@ -407,13 +407,13 @@ export class ErrorClassificationSystem {
             type: 'logic-change',
             probability: 0.6,
             impact: 'high',
-            mitigation: 'Careful analysis of effect dependencies and potential infinite loops'
+            mitigation: 'Careful analysis of effect dependencies and potential infinite loops',
           }
           {
             type: 'performance-impact',
             probability: 0.4,
             impact: 'medium',
-            mitigation: 'Performance testing after dependency changes'
+            mitigation: 'Performance testing after dependency changes',
           }
         ]
       },
@@ -449,7 +449,7 @@ export class ErrorClassificationSystem {
           {
             factor: 'Production Cleanliness',
             weight: 0.6,
-            description: 'Console logs in production'
+            description: 'Console logs in production',
           }
         ],
         businessImpact: 'cosmetic' },
@@ -463,7 +463,7 @@ export class ErrorClassificationSystem {
             type: 'logic-change',
             probability: 0.2,
             impact: 'low',
-            mitigation: 'Preserve _logger.warn and _logger.error for important logging'
+            mitigation: 'Preserve _logger.warn and _logger.error for important logging',
           }
         ]
       },
@@ -518,7 +518,7 @@ export class ErrorClassificationSystem {
             type: 'side-effects',
             probability: 0.5,
             impact: 'medium',
-            mitigation: 'Manual analysis required for unknown rule'
+            mitigation: 'Manual analysis required for unknown rule',
           }
         ]
       },

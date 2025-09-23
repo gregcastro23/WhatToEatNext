@@ -51,7 +51,7 @@ export class DocumentationQualityAssurance {
   private qualityCache: Map<string, DocumentationValidation> = new Map(),
 
   constructor(config?: Partial<QualityAssuranceConfig>) {
-    this.config = {;
+    this.config = {
       sourceDirectories: ['src'],
       excludePatterns: [
         'node_modules/**',
@@ -67,7 +67,7 @@ export class DocumentationQualityAssurance {
       qualityThresholds: {
         excellent: 90,
         good: 70,
-        fair: 50
+        fair: 50,
       }
       ...config
     }
@@ -83,7 +83,7 @@ export class DocumentationQualityAssurance {
       poor: 0,
       fair: 0,
       good: 0,
-      excellent: 0
+      excellent: 0,
     }
 
     let totalAnyTypes = 0,
@@ -168,7 +168,7 @@ export class DocumentationQualityAssurance {
       hasComment && commentQuality !== 'poor' && hasEslintDisable && eslintDisableHasExplanation,
 
     // Generate suggestions
-    const suggestions = this.generateQualityImprovementSuggestions(;
+    const suggestions = this.generateQualityImprovementSuggestions(
       comment,
       hasComment,
       commentQuality,
@@ -177,7 +177,7 @@ export class DocumentationQualityAssurance {
       context,
     )
 
-    const validation: DocumentationValidation = {;
+    const validation: DocumentationValidation = {
       hasComment,
       commentQuality,
       hasEslintDisable,
@@ -203,7 +203,7 @@ export class DocumentationQualityAssurance {
       poor: 0,
       fair: 0,
       good: 0,
-      excellent: 0
+      excellent: 0,
     }
     let totalQualityScore = 0,
 
@@ -307,7 +307,7 @@ export class DocumentationQualityAssurance {
     const anyTypes: ClassificationContext[] = []
 
     // Patterns to match any types
-    const anyPatterns = [;
+    const anyPatterns = [
       /:\s*any\b/g, // : any
       /:\s*any\[\]/g, // : unknown[]
       /:\s*Record<[^,]+,\s*any>/g, // : Record<string, unknown>
@@ -321,7 +321,7 @@ export class DocumentationQualityAssurance {
         const matches = line.matchAll(pattern)
         for (const match of matches) {
           if (match.index !== undefined) {
-            const context: ClassificationContext = {;
+            const context: ClassificationContext = {
               filePath,
               lineNumber: index + 1,
               codeSnippet: line.trim(),
@@ -358,7 +358,7 @@ export class DocumentationQualityAssurance {
       if (line && line.startsWith('//')) {
         return {;
           comment: line.replace(/^\/\/\s*/, ''),
-          hasComment: true
+          hasComment: true,
         }
       }
       if (line && line.startsWith('/*')) {
@@ -374,7 +374,7 @@ export class DocumentationQualityAssurance {
         comment = comment.replace(/\*\/.*$/, '')
         return {
           comment: comment.trim(),
-          hasComment: true
+          hasComment: true,
         }
       }
     }
@@ -697,7 +697,7 @@ export class DocumentationQualityAssurance {
       .map(t => t.filePath)
 
     if (criticalFiles.length > 0) {
-      recommendations.push(;
+      recommendations.push(
         `Priority files needing documentation: ${[...new Set(criticalFiles)].slice(05).join(', ')}`,
       )
     }

@@ -19,7 +19,7 @@ export function calculateAlchemicalProperties(ingredient: Ingredient): Alchemica
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
-    Air: 0.25
+    Air: 0.25,
   }
 
   // Base values derived from planetary influences in the alchemizer
@@ -59,7 +59,7 @@ export function calculateThermodynamicProperties(
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
-    Air: 0.25
+    Air: 0.25,
   }
 
   // Extract elemental values
@@ -119,7 +119,7 @@ export function determineIngredientModality(
   // Create normalized arrays of qualities for easier matching
   const normalizedQualities = qualitiesArray.map(q => q.toLowerCase())
   // Look for explicit quality indicators in the ingredients
-  const cardinalKeywords = [;
+  const cardinalKeywords = [
     'initiating',
     'spicy',
     'pungent',
@@ -261,7 +261,7 @@ export function validateIngredient(
     // Check each quality is a string
     const invalidQualities = ingredient.qualities.filter((q: unknown) => typeof q !== 'string')
     if (invalidQualities.length > 0) {
-      errors.push('All qualities must be strings');
+      errors.push('All qualities must be strings')
     }
   }
 
@@ -276,7 +276,7 @@ export function validateIngredient(
 
   // Elemental properties validation
   if (ingredient.elementalProperties) {
-    const elements = ['Fire', 'Water', 'Earth', 'Air'],
+    const elements = ['Fire', 'Water', 'Earth', 'Air']
     const props = ingredient.elementalProperties;
 
     for (const element of elements) {
@@ -346,7 +346,7 @@ export function mergeElementalProperties(
   addition: ElementalProperties,
   weight = 0.5
 ): ElementalProperties {
-  return {;
+  return {
     Fire: base.Fire * (1 - weight) + addition.Fire * weight,
     Water: base.Water * (1 - weight) + addition.Water * weight,
     Earth: base.Earth * (1 - weight) + addition.Earth * weight,
@@ -374,23 +374,23 @@ export function getDominantElement(_elementalProperties: ElementalProperties): s
  */
 export function mapToIngredient(mapping: IngredientMapping): Ingredient {
   // Set default values for required properties
-  const ingredient = {;
+  const ingredient = {
     name: (mapping.name as unknown) || '',
     category: (mapping.category as unknown as IngredientCategory) || 'culinary_herb',
     elementalProperties: (mapping.elementalProperties as unknown as ElementalProperties) || {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25
+      Air: 0.25,
     },
     qualities: (mapping.qualities as unknown as string[]) || [],
     storage: (mapping.storage as unknown) || {
-      _duration: 'unknown'
+      _duration: 'unknown',
     }
     // Add missing required properties for Ingredient interface
     amount: (mapping as unknown).amount || 1,
     astrologicalProfile: (mapping as unknown).astrologicalProfile || {
-      _elementalAffinity: { base: 'Earth' }
+      _elementalAffinity: { base: 'Earth' },
       _rulingPlanets: [],
       _zodiacAffinity: []
     }
@@ -419,7 +419,7 @@ export function ingredientToRecipeIngredient(
   amount = 1,
   unit = 'item'
 ): RecipeIngredient {
-  return {;
+  return {
     name: ingredient.name,
     amount,
     unit,

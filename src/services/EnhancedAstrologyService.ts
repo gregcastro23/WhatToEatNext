@@ -346,7 +346,7 @@ export class EnhancedAstrologyService {
         // January;
         themes: ['New beginnings', 'Comfort', 'Warmth'],
         culinaryInfluences: ['Hearty dishes', 'Slow cooking', 'Warm spices'],
-        dominantElements: { Fire: 0.3, Earth: 0.4, Air: 0.2, Water: 0.1 }
+        dominantElements: { Fire: 0.3, Earth: 0.4, Air: 0.2, Water: 0.1 },
         recommendedCuisines: ['Italian', 'French', 'Comfort food'],
         cookingMethods: ['Slow cooking', 'Braising', 'Baking'],
         alchemicalProperties: { Spirit: 0.2, Essence: 0.3, Matter: 0.4, Substance: 0.1 }
@@ -355,7 +355,7 @@ export class EnhancedAstrologyService {
         // February
         themes: ['Romance', 'Indulgence', 'Rich flavors'],
         culinaryInfluences: ['Rich sauces', 'Chocolate', 'Comfort foods'],
-        dominantElements: { Fire: 0.2, Earth: 0.5, Air: 0.2, Water: 0.1 }
+        dominantElements: { Fire: 0.2, Earth: 0.5, Air: 0.2, Water: 0.1 },
         recommendedCuisines: ['French', 'Italian', 'Comfort food'],
         cookingMethods: ['Slow cooking', 'Baking', 'Rich sauces'],
         alchemicalProperties: { Spirit: 0.1, Essence: 0.4, Matter: 0.4, Substance: 0.1 }
@@ -364,7 +364,7 @@ export class EnhancedAstrologyService {
         // March
         themes: ['Spring awakening', 'Fresh ingredients', 'Light dishes'],
         culinaryInfluences: ['Fresh herbs', 'Light sauces', 'Spring vegetables'],
-        dominantElements: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 }
+        dominantElements: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
         recommendedCuisines: ['Mediterranean', 'Asian', 'Fresh cuisine'],
         cookingMethods: ['Quick cooking', 'Fresh preparation', 'Light cooking'],
         alchemicalProperties: { Spirit: 0.4, Essence: 0.2, Matter: 0.2, Substance: 0.2 }

@@ -38,7 +38,7 @@ function getPropInfo(key: string, value: unknown): PropInfo {
     info.value = value.length > 20 ? `'${value.substring(020)}...'` : `'${value}'`,
   } else {
     // For primitives, show the actual value
-    info.value = String(value);
+    info.value = String(value)
   }
 
   return info,
@@ -92,7 +92,7 @@ export function withRenderTracking<P extends object>(
       // Calculate and track render time
       return () => {
         const endTime = performance.now()
-        setRenderTime(endTime - startTime);
+        setRenderTime(endTime - startTime)
       }
     }, [firstRender, props])
 
@@ -109,7 +109,7 @@ export function withRenderTracking<P extends object>(
               _borderRadius: '2px',
               _margin: '2px 0',
               display: 'flex',
-              _justifyContent: 'space-between'
+              _justifyContent: 'space-between',
             }}
           >
             <span>{componentName}</span>

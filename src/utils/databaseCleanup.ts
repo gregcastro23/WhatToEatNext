@@ -99,8 +99,8 @@ export function cleanupIngredientsDatabase() {
               )[0]
             : 'Fire',
 
-          ingredientWithAstrology.astrologicalProfile = {;
-            elementalAffinity: { base: dominantElement }
+          ingredientWithAstrology.astrologicalProfile = {
+            elementalAffinity: { base: dominantElement },
             _rulingPlanets: []
           } as AstrologicalProfile,
           fixedEntries++,

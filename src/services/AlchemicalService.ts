@@ -204,7 +204,7 @@ export class AlchemicalService {
       // Calculate current lunar phase
       const lunarPhase = await calculateLunarPhase(new Date())
       // Convert to format expected by adapter
-      const lunarPhaseFormatted = convertToLunarPhase(;
+      const lunarPhaseFormatted = convertToLunarPhase(
         lunarPhase as unknown,
       ) as LunarPhaseWithSpaces,
 
@@ -438,7 +438,7 @@ export class AlchemicalService {
       seasonalBest: this.getSeasonalRecommendations(dominantElement as unknown as Element),
       moodEffects: ((profileData.characteristics).moodEffects as string[]) || [],
       culinaryHerbs: ((profileData.characteristics).culinaryHerbs as string[]) || [],
-      compatibility: 0.5
+      compatibility: 0.5,
     }
   }
 
@@ -462,7 +462,7 @@ export class AlchemicalService {
       scorpio: 'Water',
       pisces: 'Water' },
         const element = ZODIAC_ELEMENTS[currentZodiacSign];
-    const properties = {;
+    const properties = {
       Fire: element === 'Fire' ? 0.6 : 0.1,
       Water: element === 'Water' ? 0.6 : 0.1,
       Earth: element === 'Earth' ? 0.6 : 0.1,,
@@ -506,13 +506,13 @@ export class AlchemicalService {
         Fire: 0,
         Water: 0,
         Earth: 0,
-        Air: 0
+        Air: 0,
       }
       (ingredient2.elementalState as unknown as ElementalProperties) || {
         Fire: 0,
         Water: 0,
         Earth: 0,
-        Air: 0
+        Air: 0,
       })
   }
 
@@ -527,10 +527,10 @@ export class AlchemicalService {
     properties2: ElementalProperties,
   ): number {
     // Define element compatibility scores (same elements have highest compatibility)
-    const compatibilityScores = {;
-      Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 }
+    const compatibilityScores = {
+      Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
       Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 }
-      Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 }
+      Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
       Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 }
     }
 
@@ -565,7 +565,7 @@ export class AlchemicalService {
     }
 
     // Calculate final score - ensure minimum of 0.7 following our principles
-    return totalWeight > 0 ? Math.max(0.7, weightedSum / totalWeight) : 0.7
+    return totalWeight > 0 ? Math.max(0.7, weightedSum / totalWeight) : 0.7,
   }
 
   /**

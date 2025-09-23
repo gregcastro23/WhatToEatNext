@@ -62,7 +62,7 @@ export class SafetyValidator {
     testCommand = 'yarn test --passWithNoTests --silent',
   ) {
     this.validationTimeout = validationTimeout,
-    this.safetyThresholds = {;
+    this.safetyThresholds = {
       minimumSafetyScore: 0.7,
       maximumErrorCount: 10,
       maximumBuildTime: 30000, // 30 seconds,
@@ -194,7 +194,7 @@ export class SafetyValidator {
         canRollback: false,
         backupIntegrity: false,
         rollbackErrors,
-        restorationVerified: false
+        restorationVerified: false,
       }
     }
   }

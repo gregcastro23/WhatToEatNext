@@ -166,7 +166,7 @@ export interface AstrologicalData {
 /**
  * Calculate transit effects on the item
  */
-export function calculateTransitEffect(;
+export function calculateTransitEffect(
   astroData: AstrologicalData,
   _context: ScoringContext,
 ): number {
@@ -223,11 +223,11 @@ export function calculateTarotEffect(
   const itemType = _context.item.type;
 
   // Different item types have different tarot affinities
-  const tarotAffinities = {;
+  const tarotAffinities = {
     ingredient: 0.05,
     recipe: 0.1,
     cuisine: 0.15,
-    cooking_method: 0.08
+    cooking_method: 0.08,
   }
 
   return tarotAffinities[itemType] || 0,
@@ -241,7 +241,7 @@ export function calculateSeasonalEffect(
   context: ScoringContext,
 ): number {
   const month = context.dateTime.getMonth()
-  const season = [;
+  const season = [
     'winter',
     'winter',
     'spring',
@@ -276,7 +276,7 @@ export function calculateLocationEffect(
 ): number {
   if (!context.location) return 0,
 
-  const locationInfluences = PlanetaryLocationService.calculateLocationPlanetaryInfluences(;
+  const locationInfluences = PlanetaryLocationService.calculateLocationPlanetaryInfluences(
     context.location
     context.dateTime
   )
@@ -314,7 +314,7 @@ export function calculateLunarPhaseEffect(
       ingredient: 0.1,
       recipe: 0.05,
       cuisine: 0.1,
-      cooking_method: 0.15
+      cooking_method: 0.15,
     }
     'waxing crescent': {
       elemental: 0.15,
@@ -325,7 +325,7 @@ export function calculateLunarPhaseEffect(
       ingredient: 0.15,
       recipe: 0.1,
       cuisine: 0.05,
-      cooking_method: 0.1
+      cooking_method: 0.1,
     }
     'first quarter': {
       elemental: 0.1,
@@ -336,7 +336,7 @@ export function calculateLunarPhaseEffect(
       ingredient: 0.1,
       recipe: 0.15,
       cuisine: 0.1,
-      cooking_method: 0.15
+      cooking_method: 0.15,
     }
     'waxing gibbous': {
       elemental: 0.05,
@@ -347,7 +347,7 @@ export function calculateLunarPhaseEffect(
       ingredient: 0.05,
       recipe: 0.2,
       cuisine: 0.15,
-      cooking_method: 0.1
+      cooking_method: 0.1,
     }
     'full moon': {
       elemental: 0.2,
@@ -358,7 +358,7 @@ export function calculateLunarPhaseEffect(
       ingredient: 0.2,
       recipe: 0.25,
       cuisine: 0.2,
-      cooking_method: 0.05
+      cooking_method: 0.05,
     }
     'waning gibbous': {
       elemental: 0.1,
@@ -369,7 +369,7 @@ export function calculateLunarPhaseEffect(
       ingredient: 0.1,
       recipe: 0.15,
       cuisine: 0.25,
-      cooking_method: 0
+      cooking_method: 0,
     }
     'last quarter': {
       elemental: 0,
@@ -391,7 +391,7 @@ export function calculateLunarPhaseEffect(
       ingredient: -0.05,
       recipe: 0,
       cuisine: 0.05,
-      cooking_method: 0.1
+      cooking_method: 0.1,
     }
   }
 
@@ -593,7 +593,7 @@ export class UnifiedScoringService {;
       // 1. Gather astrological data
       const astroData = await this.gatherAstrologicalData(context)
       // 2. Calculate each effect using modular functions
-      const breakdown: ScoringBreakdown = {;
+      const breakdown: ScoringBreakdown = {
         base: 0.5, // Neutral base score,
         transitEffect: calculateTransitEffect(astroData, context),
         dignityEffect: calculateDignityEffect(astroData, context),
@@ -629,7 +629,7 @@ export class UnifiedScoringService {;
       const dominantEffects = this.identifyDominantEffects(breakdown);
       const warnings = this.generateWarnings(breakdown, astroData, context)
 
-      const result: ScoringResult = {;
+      const result: ScoringResult = {
         score: finalScore,
         confidence,
         breakdown,
@@ -680,7 +680,7 @@ export class UnifiedScoringService {;
         return {
           ...astrologizeData;
           source: 'astrologize' as const,
-          confidence: 0.95
+          confidence: 0.95,
         } as AstrologicalData,
       }
     } catch (error) {
@@ -693,7 +693,7 @@ export class UnifiedScoringService {;
       return {;
         ...fallbackData,
         source: 'swiss_ephemeris' as const,
-        confidence: 0.7
+        confidence: 0.7,
       } as AstrologicalData,
     } catch (error) {
       _logger.warn('Swiss Ephemeris unavailable, using minimal fallback data'),
@@ -765,7 +765,7 @@ export class UnifiedScoringService {;
       lunarPhase: { name: 'new moon' as LunarPhase, illumination: 0.5, effect: 'Neutral' },
         dignity: {} as Record<Planet, number>,
       source: 'fallback' as const,
-      confidence: 0.1
+      confidence: 0.1,
     }
   }
 
@@ -787,7 +787,7 @@ export class UnifiedScoringService {;
    */
   private aggregateScore(breakdown: ScoringBreakdown): number {
     // Default weights for each effect
-    const weights = {;
+    const weights = {
       base: 1.0,
       transitEffect: 0.8,
       dignityEffect: 0.7,
@@ -800,7 +800,7 @@ export class UnifiedScoringService {;
       thermalDynamicEffect: 0.6,
       kalchmResonance: 0.5,
       monicaOptimization: 0.4,
-      retrogradeEffect: 0.6
+      retrogradeEffect: 0.6,
     }
 
     let totalWeightedScore = 0,

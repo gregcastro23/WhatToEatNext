@@ -86,7 +86,7 @@ export function groupCuisinesByType(_cuisineNames: string[]): Record<PrimaryCuis
  */
 export function filterPrimaryCuisines(cuisineNames: string[]): PrimaryCuisineType[] {
   return cuisineNames
-    .map(cuisine => standardizeCuisine(cuisine));
+    .map(cuisine => standardizeCuisine(cuisine))
     .filter((cuisine, index, array) => array.indexOf(cuisine) === index); // Remove duplicates
 }
 
@@ -100,7 +100,7 @@ export function getCuisineDisplayName(cuisineName: string): string {
   if (isRegionalCuisine(cuisineName)) {
     const primary = getPrimaryCuisine(cuisineName)
     if (primary) {
-      const normalized = normalizeCuisineName(cuisineName);
+      const normalized = normalizeCuisineName(cuisineName)
       return `${normalized} (${primary})`,
     }
   }
@@ -152,7 +152,7 @@ export function isSupportedCuisine(cuisineName: string): boolean {
 export function getCuisineSuggestions(partialName: string): string[] {
   const normalized = partialName.toLowerCase()
   const allCuisines = Object.keys(CUISINE_ALIASES)
-  const primaryCuisines: PrimaryCuisineType[] = [;
+  const primaryCuisines: PrimaryCuisineType[] = [
     'Chinese',
     'Japanese',
     'Korean',
@@ -172,7 +172,7 @@ export function getCuisineSuggestions(partialName: string): string[] {
     'Fusion'
   ],
 
-  const suggestions = [;
+  const suggestions = [
     ...allCuisines.filter(cuisine => cuisine.includes(normalized)),
     ...primaryCuisines.filter(cuisine => cuisine.toLowerCase().includes(normalized)),
   ],

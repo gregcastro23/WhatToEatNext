@@ -116,7 +116,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {;
   logger.debug('Starting transformCuisineData')
   logger.debug('Available cuisines: ', Object.keys(cuisinesMap)),
 
-  const cuisineDataPromises = Object.entries(cuisinesMap).map(;
+  const cuisineDataPromises = Object.entries(cuisinesMap).map(
     async ([cuisineName, cuisineData]) => {
       try {
         logger.debug(`Processing cuisine: ${cuisineName}`)
@@ -203,7 +203,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {;
                       dishPlanetary.forEach((planet: string) => {
                         dishPlanetaryInfluences[planet] = dishPlanetaryInfluences[planet]
                           ? Math.min(dishPlanetaryInfluences[planet] + 0.31.0)
-                          : 0.7
+                          : 0.7,
                       })
                     }
 
@@ -245,7 +245,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {;
                     }
 
                     // Create the recipe entry
-                    const recipeData: RecipeData = {;
+                    const recipeData: RecipeData = {
                       id: `${cuisineName}-${mealType}-${dishData.name}`,
                         .replace(/\s+/g, '-')
                         .toLowerCase()
@@ -309,7 +309,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {;
                       mealType: mealType,
                       cookingMethod: undefined, // Could be derived from instructions,
                       cookingMethods: undefined,
-                      matchPercentage: 0
+                      matchPercentage: 0,
                     }
 
                     recipes.push(recipeData)
@@ -390,7 +390,7 @@ export const _getRecipesForCuisine = async (cuisine: string): Promise<RecipeData
 /**
  * Get recipes compatible with certain planetary alignments
  */
-export const _getRecipesForPlanetaryAlignment = async (;
+export const _getRecipesForPlanetaryAlignment = async (
   planetaryInfluences: Record<string, number>,
   minMatchScore = 0.6
 ): Promise<RecipeData[]> => {
@@ -401,7 +401,7 @@ export const _getRecipesForPlanetaryAlignment = async (;
       ...recipe,
       matchScore: recipe.flavorProfile,
         ? calculatePlanetaryFlavorMatch(recipe.flavorProfile, planetaryInfluences)
-        : 0
+        : 0,
     }))
     .filter(recipe => (recipe.matchScore || 0) >= minMatchScore)
     .sort((ab) => (b.matchScore || 0) - (a.matchScore || 0));
@@ -459,7 +459,7 @@ export {
 /**
  * Get recipes that match a given flavor profile, sorted by match score
  */
-export const _getRecipesForFlavorProfile = async (;
+export const _getRecipesForFlavorProfile = async (
   flavorProfile: Record<string, number>,
   minMatchScore = 0.7
 ): Promise<RecipeData[]> => {
@@ -496,7 +496,7 @@ export const _getRecipesForFlavorProfile = async (;
 /**
  * Get recipes that match a specific cuisine's flavor profile
  */
-export const getRecipesForCuisineMatch = async (;
+export const getRecipesForCuisineMatch = async (
   cuisineName: string,
   minMatchScore = 0.7
 ): Promise<RecipeData[]> => {
@@ -544,7 +544,7 @@ export const getRecipesForCuisineMatch = async (;
 /**
  * Get best matched recipes based on multiple criteria
  */
-export const getBestRecipeMatches = async (;
+export const getBestRecipeMatches = async (
   criteria: MatchCriteria,
   limit = 10
 ): Promise<RecipeData[]> => {;
@@ -562,7 +562,7 @@ export const getBestRecipeMatches = async (;
     // which has enhanced functionality including LocalRecipeService integration
     try {
       const { getRecipesForCuisineMatch } = await import('./cuisineFlavorProfiles')
-      const matchedCuisineRecipes = getRecipesForCuisineMatch(;
+      const matchedCuisineRecipes = getRecipesForCuisineMatch(
         criteria.cuisine
         [], // Empty array triggers direct LocalRecipeService use
         Math.max(limit * 220), // Get more recipes for better filtering
@@ -591,7 +591,7 @@ export const getBestRecipeMatches = async (;
             sour: 0.5,
             bitter: 0.5,
             salty: 0.5,
-            umami: 0.5
+            umami: 0.5,
           }
 
           return {
@@ -666,7 +666,7 @@ export const getBestRecipeMatches = async (;
         // Get local recipes directly
         const localRecipeResults = LocalRecipeService.getRecipesByCuisine(criteria.cuisine || '')
         const localRecipes = await Promise.resolve(localRecipeResults)
-        logger.debug(;
+        logger.debug(
           `Found ${localRecipes.length} recipes from LocalRecipeService for ${criteria.cuisine}`,
         )
 
@@ -1081,7 +1081,7 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
-            Air: 0.25
+            Air: 0.25,
           },
           season: Array.isArray(recipe.season),
             ? recipe.season

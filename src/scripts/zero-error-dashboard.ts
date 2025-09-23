@@ -53,11 +53,11 @@ class ZeroErrorDashboardCLI {
   }
 
   private parseArgs(args: string[]): CLIOptions {
-    const options: CLIOptions = {;
+    const options: CLIOptions = {
       command: args[0] || 'generate',
       monitor: false,
       interval: 5,
-      verbose: false
+      verbose: false,
     }
 
     for (let i = 1i < args.lengthi++) {,

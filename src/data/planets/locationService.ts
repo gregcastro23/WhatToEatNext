@@ -87,7 +87,7 @@ export class AstronomicalCalculations {
    * Calculate solar elevation angle for a given location and time
    */
   static getSolarElevation(coords: GeographicCoordinates, date: Date): number {
-    const dayOfYear = Math.floor(;
+    const dayOfYear = Math.floor(
       (date.getTime() - new Date(date.getFullYear(), 00).getTime()) / 86400000,
     )
     const declination = 23.45 * Math.sin((((360 * (284 + dayOfYear)) / 365) * Math.PI) / 180)
@@ -214,7 +214,7 @@ export class AstronomicalCalculations {
 export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile> = {
   Mediterranean: {
     region: 'Mediterranean Basin',
-    dominantElements: { Fire: 0.3, Earth: 0.4, Air: 0.2, Water: 0.1 }
+    dominantElements: { Fire: 0.3, Earth: 0.4, Air: 0.2, Water: 0.1 },
     traditionalCookingMethods: [
       'Grilling',
       'Roasting',
@@ -229,17 +229,17 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
       winter: ['Citrus', 'Preserved foods', 'Legumes', 'Cabbage', 'Cured meats']
     },
     culturalInfluences: ['Greek', 'Italian', 'Spanish', 'Turkish', 'Moroccan'],
-    planetaryAffinities: { Sun: 0.8, Venus: 0.7, Jupiter: 0.6, Mars: 0.5 }
+    planetaryAffinities: { Sun: 0.8, Venus: 0.7, Jupiter: 0.6, Mars: 0.5 },
     climateConsiderations: {
       temperature: 'temperate',
       humidity: 'moderate',
-      seasonality: 'moderate'
+      seasonality: 'moderate',
     }
   }
 
   Nordic: {
     region: 'Northern Europe',
-    dominantElements: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
+    dominantElements: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     traditionalCookingMethods: [
       'Smoking',
       'Curing',
@@ -260,17 +260,17 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
       ]
     },
     culturalInfluences: ['Danish', 'Swedish', 'Norwegian', 'Finnish', 'Icelandic'],
-    planetaryAffinities: { Moon: 0.8, Saturn: 0.7, Neptune: 0.6, Mercury: 0.5 }
+    planetaryAffinities: { Moon: 0.8, Saturn: 0.7, Neptune: 0.6, Mercury: 0.5 },
     climateConsiderations: {
       temperature: 'cold',
       humidity: 'moderate',
-      seasonality: 'extreme'
+      seasonality: 'extreme',
     }
   }
 
   Tropical: {
     region: 'Tropical Regions',
-    dominantElements: { Fire: 0.3, Water: 0.3, Air: 0.3, Earth: 0.1 }
+    dominantElements: { Fire: 0.3, Water: 0.3, Air: 0.3, Earth: 0.1 },
     traditionalCookingMethods: [
       'Steaming',
       'Grilling over wood',
@@ -291,17 +291,17 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
       winter: ['Citrus', 'Dried fruits', 'Fermented items', 'Preserved vegetables', 'Aged spices']
     },
     culturalInfluences: ['Thai', 'Vietnamese', 'Indian', 'Caribbean', 'Pacific Islander'],
-    planetaryAffinities: { Sun: 0.9, Mars: 0.7, Venus: 0.6, Mercury: 0.8 }
+    planetaryAffinities: { Sun: 0.9, Mars: 0.7, Venus: 0.6, Mercury: 0.8 },
     climateConsiderations: {
       temperature: 'tropical',
       humidity: 'humid',
-      seasonality: 'mild'
+      seasonality: 'mild',
     }
   }
 
   Continental: {
     region: 'Continental Interior',
-    dominantElements: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 }
+    dominantElements: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
     traditionalCookingMethods: [
       'Roasting',
       'Stewing',
@@ -322,17 +322,17 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
       ]
     },
     culturalInfluences: ['German', 'Polish', 'Russian', 'Hungarian', 'Czech'],
-    planetaryAffinities: { Saturn: 0.8, Jupiter: 0.7, Earth: 0.6, Mars: 0.5 }
+    planetaryAffinities: { Saturn: 0.8, Jupiter: 0.7, Earth: 0.6, Mars: 0.5 },
     climateConsiderations: {
       temperature: 'temperate',
       humidity: 'moderate',
-      seasonality: 'extreme'
+      seasonality: 'extreme',
     }
   }
 
   Desert: {
     region: 'Arid and Semi-Arid',
-    dominantElements: { Fire: 0.4, Earth: 0.3, Air: 0.3, Water: 0.0 }
+    dominantElements: { Fire: 0.4, Earth: 0.3, Air: 0.3, Water: 0.0 },
     traditionalCookingMethods: [
       'Clay pot cooking',
       'Solar cooking',
@@ -371,11 +371,11 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
       'Australian Aboriginal',
       'Bedouin'
     ],
-    planetaryAffinities: { Sun: 0.9, Mars: 0.8, Saturn: 0.6, Mercury: 0.5 }
+    planetaryAffinities: { Sun: 0.9, Mars: 0.8, Saturn: 0.6, Mercury: 0.5 },
     climateConsiderations: {
       temperature: 'tropical',
       humidity: 'arid',
-      seasonality: 'mild'
+      seasonality: 'mild',
     }
   }
 }
@@ -397,7 +397,7 @@ export class PlanetaryLocationService {
     const planetaryHours = AstronomicalCalculations.getPlanetaryHours(coordinates, date),
 
     // Generate seasonal recommendations based on location and planetary influences
-    const seasonalRecommendations = this.generateSeasonalRecommendations(;
+    const seasonalRecommendations = this.generateSeasonalRecommendations(
       coordinates,
       date,
       regionalProfile,
@@ -405,9 +405,9 @@ export class PlanetaryLocationService {
     ),
 
     // Calculate optimal timing for different cooking activities
-    const localOptimalTiming = {;
+    const localOptimalTiming = {
       solarCooking: this.getSolarCookingTimes(coordinates, date),
-      moonPhases: { [lunarPhase.phase]: [lunarPhase.culinaryEffect] }
+      moonPhases: { [lunarPhase.phase]: [lunarPhase.culinaryEffect] },
       planetaryHours: Object.fromEntries(,
         Object.entries(planetaryHours).map(([key, value]) => [key, [value.influence]]),
       )
@@ -614,7 +614,7 @@ export class PlanetaryLocationService {
     nutritionalFocus: string[]
   } {
     const month = date.getMonth()
-    const season = [;
+    const season = [
       'winter',
       'winter',
       'spring',
@@ -732,7 +732,7 @@ export class PlanetaryLocationService {
     season: string,
     climate: RegionalCulinaryProfile['climateConsiderations'],
   ): string[] {
-    const baseNutrition = {;
+    const baseNutrition = {
       spring: ['Detoxification', 'Fresh vitamins', 'Light proteins'],
       summer: ['Hydration', 'Cooling foods', 'Fresh minerals'],
       autumn: ['Building reserves', 'Immune support', 'Grounding foods'],

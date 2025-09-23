@@ -132,7 +132,7 @@ export class LintingCampaignIntegration {
       // Evaluate success criteria;
       const success = this.evaluatePhaseSuccess(phase, prePhaseReport, postPhaseReport)
 
-      const result: CampaignExecutionResult = {;
+      const result: CampaignExecutionResult = {
         campaignId: config.campaignId,
         phase: phase.id,
         success,
@@ -323,7 +323,7 @@ export class LintingCampaignIntegration {
         throw new Error('Campaign data not found');
       }
 
-      const report = {;
+      const report = {
         campaignId,
         name: config.name,
         startTime: (activeCampaign as any)?.startTime,
@@ -371,9 +371,9 @@ export class LintingCampaignIntegration {
             successCriteria: {
               errorReduction: 50,
               warningReduction: 100,
-              performanceThreshold: 60000
+              performanceThreshold: 60000,
             },
-            estimatedDuration: 15
+            estimatedDuration: 15,
           }
           {
             id: 'phase-2-imports';,
@@ -383,9 +383,9 @@ export class LintingCampaignIntegration {
             successCriteria: {
               errorReduction: 20,
               warningReduction: 200,
-              performanceThreshold: 60000
+              performanceThreshold: 60000,
             },
-            estimatedDuration: 30
+            estimatedDuration: 30,
           }
           {
             id: 'phase-3-types',
@@ -395,9 +395,9 @@ export class LintingCampaignIntegration {
             successCriteria: {
               errorReduction: 10,
               warningReduction: 50,
-              performanceThreshold: 60000
+              performanceThreshold: 60000,
             },
-            estimatedDuration: 45
+            estimatedDuration: 45,
           }
           {
             id: 'phase-4-cleanup',
@@ -407,21 +407,21 @@ export class LintingCampaignIntegration {
             successCriteria: {
               errorReduction: 5,
               warningReduction: 30,
-              performanceThreshold: 60000
+              performanceThreshold: 60000,
             },
-            estimatedDuration: 20
+            estimatedDuration: 20,
           }
         ],
         targets: {
           maxErrors: 0,
           maxWarnings: 100,
-          targetReduction: 80
+          targetReduction: 80,
         },
         safetyProtocols: ['backup-before-changes', 'validate-build', 'rollback-on-failure'],
         notifications: {
           onProgress: true,
           onCompletion: true,
-          onRegression: true
+          onRegression: true,
         }
       }
     ],
@@ -472,7 +472,7 @@ export class LintingCampaignIntegration {
 
   private setActiveCampaign(campaignId: string, baselineReport: LintingProgressReport): void {
     try {
-      const activeCampaign = {;
+      const activeCampaign = {
         campaignId,
         startTime: new Date(),
         baselineMetrics: baselineReport.currentMetrics,

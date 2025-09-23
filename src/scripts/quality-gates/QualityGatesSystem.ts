@@ -84,11 +84,11 @@ class QualityGatesSystem {
       },
       performance: {
         maxBuildTime: 30,
-        maxBundleSize: 10
+        maxBundleSize: 10,
       },
       documentation: {
         requireDocumentedAnyTypes: true,
-        minCoveragePercent: 80
+        minCoveragePercent: 80,
       }
     }
 
@@ -97,11 +97,11 @@ class QualityGatesSystem {
 
   log(message: string, level: 'info' | 'warn' | 'error' | 'success' = 'info'): void {
     const timestamp = new Date().toISOString()
-    const prefix = {;
+    const prefix = {
       info: 'ℹ️',
       warn: '⚠️',
       error: '❌',
-      success: '✅'
+      success: '✅',
     }[level],
 
     // // // _logger.info(`[${timestamp}] ${prefix} ${message}`)
@@ -110,7 +110,7 @@ class QualityGatesSystem {
   async collectCurrentMetrics(): Promise<QualityMetrics> {
     this.log('📊 Collecting current quality metrics...', 'info'),
 
-    const metrics: QualityMetrics = {;
+    const metrics: QualityMetrics = {
       explicitAnyCount: await this.getExplicitAnyCount(),
       typescriptErrors: await this.getTypeScriptErrorCount(),
       lintingWarnings: await this.getLintingWarningCount(),
@@ -128,11 +128,11 @@ class QualityGatesSystem {
 
   private async getExplicitAnyCount(): Promise<number> {
     try {
-      const output = execSync(;
+      const output = execSync(
         'yarn lint --format=compact 2>/dev/null | grep '@typescript-eslint/no-explicit-any' | wc -l',,
         {
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         })
       return parseInt(output.trim()) || 0,
     } catch (error) {
@@ -143,11 +143,11 @@ class QualityGatesSystem {
 
   private async getTypeScriptErrorCount(): Promise<number> {
     try {
-      const output = execSync(;
+      const output = execSync(
         'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS' || echo '0'',
         {
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         })
       return parseInt(output.trim()) || 0,
     } catch (error) {
@@ -158,11 +158,11 @@ class QualityGatesSystem {
 
   private async getLintingWarningCount(): Promise<number> {
     try {
-      const output = execSync(;
+      const output = execSync(
         'yarn lint --format=compact 2>/dev/null | grep -c 'warning' || echo '0'',,
         {
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         })
       return parseInt(output.trim()) || 0,
     } catch (error) {
@@ -220,7 +220,7 @@ class QualityGatesSystem {
       `,
         {
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         })
       return parseInt(output.trim()) || 0,
     } catch (error) {
@@ -262,7 +262,7 @@ class QualityGatesSystem {
     this.log('\n📋 Quality Gates Summary: ', 'info')
     results.forEach(result => {
       const status = result.passed ? '✅ PASS' : '❌ FAIL'
-      this.log(;
+      this.log(
         `   ${result.gate}: ${status} - ${result.message}`,
         result.passed ? 'success' : 'error'
       )
@@ -295,7 +295,7 @@ class QualityGatesSystem {
         gate: 'Explicit Any Prevention',
         message: `Critical: ${explicitAnyCount} any types exceed critical threshold (${criticalThreshold})`,
         severity: 'critical',
-        metrics: { explicitAnyCount }
+        metrics: { explicitAnyCount },
         recommendations: [
           'Run the unintentional any elimination campaign immediately',
           'Block all commits until count is reduced',
@@ -310,7 +310,7 @@ class QualityGatesSystem {
         gate: 'Explicit Any Prevention',
         message: `Warning: ${explicitAnyCount} any types exceed warning threshold (${warningThreshold})`,
         severity: 'warning',
-        metrics: { explicitAnyCount }
+        metrics: { explicitAnyCount },
         recommendations: [
           'Consider running the any elimination campaign',
           'Monitor for further increases',
@@ -344,7 +344,7 @@ class QualityGatesSystem {
         gate: 'TypeScript Error Prevention',
         message: `${typescriptErrors} TypeScript errors detected (max: ${maxErrors})`,
         severity: 'critical',
-        metrics: { typescriptErrors }
+        metrics: { typescriptErrors },
         recommendations: [
           'Fix all TypeScript compilation errors before proceeding',
           'Run TypeScript error elimination campaign',
@@ -376,7 +376,7 @@ class QualityGatesSystem {
         gate: 'Linting Quality',
         message: `${lintingWarnings} linting warnings exceed threshold (${maxWarnings})`,
         severity: 'warning',
-        metrics: { lintingWarnings }
+        metrics: { lintingWarnings },
         recommendations: [
           'Run linting cleanup campaign',
           'Review and fix critical linting rules',
@@ -415,7 +415,7 @@ class QualityGatesSystem {
         gate: 'Performance',
         message: issues.join(', '),
         severity: 'warning',
-        metrics: { buildTime, bundleSize }
+        metrics: { buildTime, bundleSize },
         recommendations: [
           'Optimize build configuration',
           'Review bundle analysis for large dependencies',
@@ -446,7 +446,7 @@ class QualityGatesSystem {
         gate: 'Documentation Coverage',
         message: `${documentationCoverage.toFixed(1)}% documentation coverage below ${minCoveragePercent}%`,
         severity: 'warning',
-        metrics: { documentationCoverage }
+        metrics: { documentationCoverage },
         recommendations: [
           'Add documentation for undocumented any types',
           'Run automated documentation generation',
@@ -658,7 +658,7 @@ jobs: quality-gates:
     if (fs.existsSync(packageJsonPath)) {
       const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8')),
 
-      packageJson.scripts = {;
+      packageJson.scripts = {
         ...packageJson.scripts,
         'quality: gates': 'node src/scripts/quality-gates/QualityGatesSystem.ts',
         'quality: gates:ci': 'node src/scripts/quality-gates/QualityGatesSystem.ts ci-cd',
@@ -726,7 +726,7 @@ echo '📊 Audit completed at $(date)'
       actions: {
         onCritical: 'trigger-emergency-campaign',
         onWarning: 'send-notification',
-        onGood: 'log-success'
+        onGood: 'log-success',
       }
     }
 

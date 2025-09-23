@@ -56,7 +56,7 @@ export class ElementalRecommendationService {
    */
   public static generateZodiacRecommendation(zodiacSign: any): ElementalRecommendation {
     const element = ZODIAC_ELEMENTS[zodiacSign];
-    const properties = {;
+    const properties = {
       Fire: element === 'Fire' ? 0.6 : 0.1,
       Water: element === 'Water' ? 0.6 : 0.1,
       Earth: element === 'Earth' ? 0.6 : 0.1,
@@ -84,7 +84,7 @@ export class ElementalRecommendationService {
       'waning crescent': { Earth: 0.5, Air: 0.2 }
     }
 
-    const properties = {;
+    const properties = {
       Fire: lunarElementalMap[lunarPhase].Fire || 0.25,
       Water: lunarElementalMap[lunarPhase].Water || 0.25,
       Earth: lunarElementalMap[lunarPhase].Earth || 0.25,

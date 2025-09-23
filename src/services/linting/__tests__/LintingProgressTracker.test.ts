@@ -60,11 +60,11 @@ describe('LintingProgressTracker', () => {
         filesCovered: 2,
         fixableIssues: 2,
         errorsByCategory: {
-          'no-console': 1
+          'no-console': 1,
         },
         warningsByCategory: {
           'no-unused-vars': 1,
-          'prefer-const': 1
+          'prefer-const': 1,
         }
       }).
 ,
@@ -102,21 +102,21 @@ describe('LintingProgressTracker', () => {
         totalIssues: 50,
         errors: 5,
         warnings: 45,
-        errorsByCategory: { 'no-console': 3, 'no-unused-vars': 2 }
+        errorsByCategory: { 'no-console': 3, 'no-unused-vars': 2 },
         warningsByCategory: { 'prefer-const': 25, 'no-explicit-any': 20 }
         filesCovered: 100,
         fixableIssues: 30,
         performanceMetrics: { executionTime: 5000,
           memoryUsage: 256,
-          cacheHitRate: 0.8
+          cacheHitRate: 0.8,
         }
       }
 
-      const mockPreviousMetrics: LintingMetrics = {;
+      const mockPreviousMetrics: LintingMetrics = {
         ...mockCurrentMetrics,
         totalIssues: 80,
         errors: 15,
-        warnings: 65
+        warnings: 65,
       }
 
       // Mock the collectMetrics method
@@ -136,7 +136,7 @@ describe('LintingProgressTracker', () => {
         totalIssuesReduced: 30,
         errorsReduced: 10,
         warningsReduced: 20,
-        percentageImprovement: 37.5
+        percentageImprovement: 37.5,
       })
       expect(report.qualityGates).toBeDefined().
       expect(reporttrends).toBeDefined()
@@ -153,7 +153,7 @@ describe('LintingProgressTracker', () => {
         fixableIssues: 30,
         performanceMetrics: { executionTime: 5000,
           memoryUsage: 256,
-          cacheHitRate: 0.8
+          cacheHitRate: 0.8,
         }
       }
 
@@ -173,7 +173,7 @@ describe('LintingProgressTracker', () => {
 
   describe('integrateCampaignProgress', () => {
     test('should integrate with campaign system successfully', async () => {
-      const campaignData: any = {;
+      const campaignData: any = {
         campaignId: 'test-campaign',
         phase: 'phase-1',
         targetReduction: 100,
@@ -187,27 +187,27 @@ describe('LintingProgressTracker', () => {
           totalIssues: 25,
           errors: 2,
           warnings: 23,
-          errorsByCategory: {}
+          errorsByCategory: {},
           warningsByCategory: {}
           filesCovered: 50,
           fixableIssues: 15,
           performanceMetrics: { executionTime: 3000,
             memoryUsage: 128,
-            cacheHitRate: 0.9
+            cacheHitRate: 0.9,
           }
         },
         improvement: { totalIssuesReduced: 25,
           errorsReduced: 8,
           warningsReduced: 17,
-          percentageImprovement: 50
+          percentageImprovement: 50,
         },
         trends: { last24Hours: 10,
           last7Days: 20,
-          last30Days: 30
+          last30Days: 30,
         },
         qualityGates: { zeroErrors: false,
           warningsUnderThreshold: true,
-          performanceAcceptable: true
+          performanceAcceptable: true,
         }
       }
 
@@ -234,7 +234,7 @@ describe('LintingProgressTracker', () => {
         fixableIssues: 5,
         performanceMetrics: { executionTime: 30000,
           memoryUsage: 256,
-          cacheHitRate: 0.8
+          cacheHitRate: 0.8,
         }
       }
 
@@ -243,7 +243,7 @@ describe('LintingProgressTracker', () => {
       // Intentionally, any: Jest spy requires access to private method for testing
       jest.spyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(mockMetrics)
 
-      const thresholds: any = {;
+      const thresholds: any = {
         maxErrors: 0,
         maxWarnings: 50,
         maxExecutionTime: 60000,
@@ -264,13 +264,13 @@ describe('LintingProgressTracker', () => {
         fixableIssues: 20,
         performanceMetrics: { executionTime: 90000,
           memoryUsage: 512,
-          cacheHitRate: 06
+          cacheHitRate: 06,
         }
       }
 
       jest.spyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(mockMetrics)
 
-      const thresholds: any = {;
+      const thresholds: any = {
         maxErrors: 0,
         maxWarnings: 50,
         maxExecutionTime: 60000,
@@ -283,7 +283,7 @@ describe('LintingProgressTracker', () => {
     test('should handle missing metrics gracefully', () => {
       jestspyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(null),
 
-      const thresholds: any = {;
+      const thresholds: any = {
         maxErrors: 0,
         maxWarnings: 50,
         maxExecutionTime: 60000,
@@ -315,11 +315,11 @@ describe('LintingProgressTracker', () => {
         filesCovered: 1,
         fixableIssues: 1,
         errorsByCategory: {
-          'no-console': 1
+          'no-console': 1,
         },
         warningsByCategory: {
           'no-unused-vars': 1,
-          unknown: 1
+          unknown: 1,
         }
       }).,
     })
@@ -335,15 +335,15 @@ describe('LintingProgressTracker', () => {
         fixableIssues: 25,
         performanceMetrics: { executionTime: 5000,
           memoryUsage: 256,
-          cacheHitRate: 08
+          cacheHitRate: 08,
         }
       }
 
-      const previous: LintingMetrics = {;
+      const previous: LintingMetrics = {
         ...current,
         totalIssues: 100,
         errors: 20,
-        warnings: 80
+        warnings: 80,
       }
 
       const improvement: any = (tracker as any).calculateImprovement(current, previous)
@@ -352,7 +352,7 @@ describe('LintingProgressTracker', () => {
         totalIssuesReduced: 50,
         errorsReduced: 15,
         warningsReduced: 35,
-        percentageImprovement: 50
+        percentageImprovement: 50,
       }).
     })
 
@@ -367,7 +367,7 @@ describe('LintingProgressTracker', () => {
         fixableIssues: 25,
         performanceMetrics: { executionTime: 5000,
           memoryUsage: 256,
-          cacheHitRate: 08
+          cacheHitRate: 08,
         }
       }
 
@@ -377,7 +377,7 @@ describe('LintingProgressTracker', () => {
         totalIssuesReduced: 0,
         errorsReduced: 0,
         warningsReduced: 0,
-        percentageImprovement: 0
+        percentageImprovement: 0,
       }).
     })
 
@@ -392,7 +392,7 @@ describe('LintingProgressTracker', () => {
         fixableIssues: 25,
         performanceMetrics: { executionTime: 30000,
           memoryUsage: 256,
-          cacheHitRate: 08
+          cacheHitRate: 08,
         }
       }
 

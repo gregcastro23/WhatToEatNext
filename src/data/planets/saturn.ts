@@ -14,7 +14,7 @@ const saturnData: PlanetData = {
     Spirit: 1,
     Essence: 0,
     Matter: 1,
-    Substance: 0
+    Substance: 0,
   }
   'Diurnal Element': 'Air',
   'Nocturnal Element': 'Earth',
@@ -35,7 +35,7 @@ const saturnData: PlanetData = {
       Surface: 'Gas giant with no solid surface, characterized by subtle bands and periodic storms',
       MagneticField: 'Strong magnetic field, about 578 times Earth\'s strength',
       Composition: 'Mostly hydrogen and helium with a rocky core',
-      NotableFeatures: 'Most prominent ring system in solar systemat least 82 moons, hexagonal storm at north pole'
+      NotableFeatures: 'Most prominent ring system in solar systemat least 82 moons, hexagonal storm at north pole',
     }
   },
   AstrologicalProperties: {
@@ -179,7 +179,7 @@ const saturnData: PlanetData = {
     Salty: 0.3,
     Bitter: 0.9,
     Umami: 0.5,
-    Spicy: 0.2
+    Spicy: 0.2,
   },
   CulinaryInfluences: [
     'Preserves and ages foods',
@@ -201,7 +201,7 @@ const saturnData: PlanetData = {
       Opposition: -0.3,
       Trine: 0.1,
       Square: -0.4,
-      Sextile: 0.0
+      Sextile: 0.0,
     },
     Moon: {
       Conjunction: -0.3,
@@ -215,28 +215,28 @@ const saturnData: PlanetData = {
       Opposition: -0.3,
       Trine: 0.2,
       Square: -0.3,
-      Sextile: 0.1
+      Sextile: 0.1,
     },
     Jupiter: {
       Conjunction: 0.3,
       Opposition: -0.2,
       Trine: 0.4,
       Square: -0.1,
-      Sextile: 0.2
+      Sextile: 0.2,
     },
     Venus: {
       Conjunction: 0.1,
       Opposition: -0.2,
       Trine: 0.3,
       Square: -0.1,
-      Sextile: 0.2
+      Sextile: 0.2,
     },
     Mars: {
       Conjunction: 0.4,
       Opposition: -0.1,
       Trine: 0.3,
       Square: -0.3,
-      Sextile: 0.2
+      Sextile: 0.2,
     }
   },
   PlanetSpecific: {
@@ -247,7 +247,7 @@ const saturnData: PlanetData = {
           Fire: 0.1,
           Earth: 0.9,
           Air: 0.2,
-          Water: 0.3
+          Water: 0.3,
         },
         Ingredients: [
           'root vegetables',
@@ -265,7 +265,7 @@ const saturnData: PlanetData = {
           Fire: 0.2,
           Earth: 0.3,
           Air: 0.8,
-          Water: 0.1
+          Water: 0.1,
         },
         Ingredients: [
           'fermented foods',
@@ -281,7 +281,7 @@ const saturnData: PlanetData = {
           Fire: 0.1,
           Earth: 0.4,
           Air: 0.7,
-          Water: 0.2
+          Water: 0.2,
         },
         Ingredients: [
           'precisely measured ingredients',
@@ -298,7 +298,7 @@ const saturnData: PlanetData = {
           Fire: 0.1,
           Earth: 0.9,
           Air: 0.1,
-          Water: 0.3
+          Water: 0.3,
         },
         Ingredients: [
           'dense root vegetables',
@@ -316,7 +316,7 @@ const saturnData: PlanetData = {
         Spirit: 0.7,
         Essence: 0.1,
         Matter: 0.9,
-        Substance: 0.1
+        Substance: 0.1,
       }
     },
     CulinaryTemperament: {
@@ -327,7 +327,7 @@ const saturnData: PlanetData = {
           Fire: 0.1,
           Earth: 0.9,
           Air: 0.2,
-          Water: 0.2
+          Water: 0.2,
         },
         Recommendations: [
           'long aging processes',
@@ -344,7 +344,7 @@ const saturnData: PlanetData = {
           Fire: 0.1,
           Earth: 0.3,
           Air: 0.8,
-          Water: 0.1
+          Water: 0.1,
         },
         Recommendations: [
           'methodical experimentation',
@@ -360,7 +360,7 @@ const saturnData: PlanetData = {
       Aging: 0.9,
       'Slow Cooking': 0.8,
       Fermentation: 0.7,
-      'Traditional Methods': 0.9
+      'Traditional Methods': 0.9,
     }
   }
 }

@@ -10,24 +10,24 @@ import fs from 'fs';
 import { ElementalProperties } from '@/types/celestial';
 
 // Types
-export type PlanetaryPosition = {;
+export type PlanetaryPosition = {
   sign: any,
   degree: number,
   minute: number,
   isRetrograde: boolean
 }
 
-export type ThermodynamicProperties = {;
+export type ThermodynamicProperties = {
   heat: number,
   entropy: number,
   reactivity: number,
   gregsEnergy: number
 }
 
-export type StandardizedAlchemicalResult = {;
+export type StandardizedAlchemicalResult = {
   elementalProperties: ElementalProperties,
   thermodynamicProperties: ThermodynamicProperties,
-  esms: { Spirit: number, Essence: number, Matter: number, Substance: number }
+  esms: { Spirit: number, Essence: number, Matter: number, Substance: number },
   kalchm: number,
   monica: number,
   score: number,
@@ -45,7 +45,7 @@ export type StandardizedAlchemicalResult = {;
 // Utility functions
 function normalizeSign(sign: string): any {
   const normalized = sign.toLowerCase()
-  const validSigns: any[] = [;
+  const validSigns: any[] = [
     'aries',
     'taurus',
     'gemini',
@@ -166,7 +166,7 @@ export function alchemize(
   planetaryPositions: Record<string, PlanetaryPosition>,
 ): StandardizedAlchemicalResult {
   // Initialize totals
-  const totals = {;
+  const totals = {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
@@ -174,7 +174,7 @@ export function alchemize(
     Fire: 0,
     Water: 0,
     Air: 0,
-    Earth: 0
+    Earth: 0,
   }
 
   // Planetary alchemical properties
@@ -182,15 +182,15 @@ export function alchemize(
     string,
     { Spirit: number, Essence: number, Matter: number, Substance: number }
   > = {
-    Sun: { Spirit: 1.0, Essence: 0.3, Matter: 0.2, Substance: 0.1 }
+    Sun: { Spirit: 1.0, Essence: 0.3, Matter: 0.2, Substance: 0.1 },
     Moon: { Spirit: 0.2, Essence: 1.0, Matter: 0.8, Substance: 0.3 }
-    Mercury: { Spirit: 0.8, Essence: 0.2, Matter: 0.1, Substance: 0.9 }
+    Mercury: { Spirit: 0.8, Essence: 0.2, Matter: 0.1, Substance: 0.9 },
     Venus: { Spirit: 0.3, Essence: 0.9, Matter: 0.7, Substance: 0.2 }
-    Mars: { Spirit: 0.6, Essence: 0.8, Matter: 0.9, Substance: 0.1 }
+    Mars: { Spirit: 0.6, Essence: 0.8, Matter: 0.9, Substance: 0.1 },
     Jupiter: { Spirit: 0.9, Essence: 0.7, Matter: 0.2, Substance: 0.3 }
-    Saturn: { Spirit: 0.7, Essence: 0.1, Matter: 0.9, Substance: 0.8 }
+    Saturn: { Spirit: 0.7, Essence: 0.1, Matter: 0.9, Substance: 0.8 },
     Uranus: { Spirit: 0.4, Essence: 0.6, Matter: 0.3, Substance: 0.7 }
-    Neptune: { Spirit: 0.2, Essence: 0.8, Matter: 0.4, Substance: 0.6 }
+    Neptune: { Spirit: 0.2, Essence: 0.8, Matter: 0.4, Substance: 0.6 },
     Pluto: { Spirit: 0.5, Essence: 0.7, Matter: 0.9, Substance: 0.4 }
   }
 
@@ -266,7 +266,7 @@ export function alchemize(
   const dominantElement = Object.entries(elements).sort((a, b) => b[1] - a[1])[0][0],
 
   // Calculate score based on total energy
-  const score = Math.min(;
+  const score = Math.min(
     1.0,
     Math.max(0.0, (Spirit + Essence + Matter + Substance + Fire + Water + Air + Earth) / 20)
   )
@@ -342,15 +342,15 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
 function getFallbackPlanetaryPositions(): Record<string, PlanetaryPosition> {
   // Current planetary positions as of July 2025
   return {
-    Sun: { sign: 'cancer', degree: 15, minute: 30, isRetrograde: false }
+    Sun: { sign: 'cancer', degree: 15, minute: 30, isRetrograde: false },
     Moon: { sign: 'virgo', degree: 8, minute: 45, isRetrograde: false }
-    Mercury: { sign: 'gemini', degree: 22, minute: 10, isRetrograde: false }
+    Mercury: { sign: 'gemini', degree: 22, minute: 10, isRetrograde: false },
     Venus: { sign: 'leo', degree: 3, minute: 20, isRetrograde: false }
-    Mars: { sign: 'taurus', degree: 18, minute: 55, isRetrograde: false }
+    Mars: { sign: 'taurus', degree: 18, minute: 55, isRetrograde: false },
     Jupiter: { sign: 'gemini', degree: 12, minute: 40, isRetrograde: false }
-    Saturn: { sign: 'pisces', degree: 7, minute: 15, isRetrograde: false }
+    Saturn: { sign: 'pisces', degree: 7, minute: 15, isRetrograde: false },
     Uranus: { sign: 'taurus', degree: 25, minute: 30, isRetrograde: false }
-    Neptune: { sign: 'aries', degree: 29, minute: 45, isRetrograde: false }
+    Neptune: { sign: 'aries', degree: 29, minute: 45, isRetrograde: false },
     Pluto: { sign: 'aquarius', degree: 1, minute: 20, isRetrograde: false }
   }
 }

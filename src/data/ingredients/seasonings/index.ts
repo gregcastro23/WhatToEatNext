@@ -26,13 +26,13 @@ export type SeasoningCategory = 'spice' | 'salt' | 'pepper' | 'herb' | 'aromatic
 export type SeasoningIntensity = 'mild' | 'medium' | 'strong' | 'intense',
 export type CulinaryTiming = 'beginning' | 'middle' | 'end' | 'finishing' | 'multiple',
 export type PreservationMethod = 'drying' | 'salting' | 'fermenting' | 'infusing' | 'smoking',
-export type SeasoningAstrologicalProfile = {;
+export type SeasoningAstrologicalProfile = {
   rulingPlanets: string[],
   favorableZodiac: string[],
   elementalAffinity: {
     base: string,
     decanModifiers: {
-      first: { element: string, planet: string }
+      first: { element: string, planet: string },
       second: { element: string, planet: string }
       third: { element: string, planet: string }
     }
@@ -91,7 +91,7 @@ export const _getCompatibleSeasonings = (seasoningName: string): string[] => {;
 
 export const _getSeasoningsByTiming = (timing: CulinaryTiming): IngredientMapping => {
   return Object.entries(seasonings)
-    .filter(;
+    .filter(
       ([_, value]) =>
         value.culinaryApplications &&
         Object.values(value.culinaryApplications).some(app => (app )?.timing === timing),,
@@ -125,7 +125,7 @@ export const _getSeasoningsByLunarPhase = (phase: string): IngredientMapping => 
 
 export const _getSeasoningsByElementalBoost = (element: string): IngredientMapping => {
   return Object.entries(seasonings)
-    .filter(;
+    .filter(
       ([_, value]) =>
         value.astrologicalProfile?.lunarPhaseModifiers &&
         Object.values(value.astrologicalProfile.lunarPhaseModifiers).some(

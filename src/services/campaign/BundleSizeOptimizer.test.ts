@@ -33,7 +33,7 @@ describe('BundleSizeOptimizer', () => {
         if (path === 'package.json') {
           return JSON.stringify({;
             dependencies: { react: '^18.0.0',
-              '@next/bundle-analyzer': '^13.0.0'
+              '@next/bundle-analyzer': '^13.0.0',
             }
           })
         }
@@ -103,7 +103,7 @@ describe('BundleSizeOptimizer', () => {
       expect(validationlazyLoadedComponents).toBe(10)
       expect(validation.score).toBe(40). // 10/25 * 100
       expect(validationpotentialLazyComponents).toHaveLength(2)
-      expect(validation.dataFetchingOptimizations).toContain(;
+      expect(validation.dataFetchingOptimizations).toContain(
         'Consider using SWR or React Query for data fetching optimization',
       )
     }).
@@ -165,7 +165,7 @@ describe('BundleSizeOptimizer', () => {
       mockFs.readFileSync.mockReturnValue(
         JSON.stringify({
           dependencies: { lodash: '^4.0.0',
-            moment: '^2.0.0'
+            moment: '^2.0.0',
           }
         }),
       )
@@ -266,7 +266,7 @@ describe('BundleSizeOptimizer', () => {
           dependencies: { react: '^18.0.0',
             'react-dom': '^18.0.0'
             lodash: '^4.0.0',
-            'chart.js': '^3.0.0'
+            'chart.js': '^3.0.0',
           }
         }),
       )

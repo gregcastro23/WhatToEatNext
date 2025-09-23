@@ -135,7 +135,7 @@ class UserLearningSystem {
     complexity: string,
     elementalBalance: ElementalProperties,
   }, interactionType: 'view' | 'save' | 'cook'): void {
-    const interaction: UserInteraction = {;
+    const interaction: UserInteraction = {
       type: 'recipe_view',
       data: {
         ...recipeData,
@@ -154,7 +154,7 @@ class UserLearningSystem {
    * Learn from ingredient preferences
    */
   learnFromIngredients(userId: string, selectedIngredients: string[], rejectedIngredients: string[] = []): void {
-    const interaction: UserInteraction = {;
+    const interaction: UserInteraction = {
       type: 'ingredient_select',
       data: {
         selected: selectedIngredients,
@@ -172,7 +172,7 @@ class UserLearningSystem {
    * Learn from planetary hour queries
    */
   learnFromPlanetaryQuery(userId: string, planetaryHour: string, engagement: number): void {
-    const interaction: UserInteraction = {;
+    const interaction: UserInteraction = {
       type: 'planetary_query',
       data: {
         planet: planetaryHour,
@@ -195,7 +195,7 @@ class UserLearningSystem {
       return this.getDefaultPreferences(userId);
     }
 
-    const preferences: UserPreferences = {;
+    const preferences: UserPreferences = {
       userId,
       dietaryRestrictions: [],
       cuisinePreferences: this.extractCuisinePreferences(interactions),
@@ -235,7 +235,7 @@ class UserLearningSystem {
 
     // Elemental affinity boost
     if (recommendation.elementalBalance) {
-      const elementalScore = this.calculateElementalMatch(;
+      const elementalScore = this.calculateElementalMatch(
         recommendation.elementalBalance,
         preferences.elementalAffinities
       )
@@ -439,12 +439,12 @@ class UserLearningSystem {
   }
 
   private calculatePersonalizationWeights(interactions: UserInteraction[]): UserPreferences['weights'] {
-    const baseWeights = {;
+    const baseWeights = {
       elemental: 0.3,
       planetary: 0.2,
       cuisine: 0.25,
       complexity: 0.15,
-      time: 0.1
+      time: 0.1,
     }
 
     // Adjust weights based on interaction patterns
@@ -485,7 +485,7 @@ class UserLearningSystem {
       cuisinePreferences: [],
       favoriteIngredients: [],
       dislikedIngredients: [],
-      elementalAffinities: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+      elementalAffinities: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       planetaryPreferences: {}
       preferredCookingMethods: [],
       typicalMealTimes: [],
@@ -498,7 +498,7 @@ class UserLearningSystem {
         planetary: 0.1,
         cuisine: 0.4,
         complexity: 0.2,
-        time: 0.1
+        time: 0.1,
       }
     }
   }

@@ -3,7 +3,7 @@ import type { Recipe, ElementalProperties } from '@/types/recipe';
 import {elementalUtils, _getCurrentElementalState} from '@/utils/elementalUtils';
 
 // Calculate elemental harmony between two sets of elemental properties
-const calculateElementalHarmony = (;
+const calculateElementalHarmony = (
   _recipeProperties: ElementalProperties,
   _targetProperties: ElementalProperties,
 ): { elementalHarmony: number } => {
@@ -14,7 +14,7 @@ const calculateElementalHarmony = (;
 }
 
 export const _recipeFilter = {
-  async filterAndSortRecipes(;
+  async filterAndSortRecipes(
     recipes: Recipe[],
     filters: {
       searchQuery?: string
@@ -43,7 +43,7 @@ export const _recipeFilter = {
 
     // Apply cuisine filter
     if (filters.cuisineTypes && filters.cuisineTypes.length > 0) {
-      filteredRecipes = filteredRecipes.filter(;
+      filteredRecipes = filteredRecipes.filter(
         recipe => recipe.cuisine && filters.cuisineTypes?.includes(recipe.cuisine),,
       )
     }
@@ -98,13 +98,13 @@ export const _recipeFilter = {
 
     // Apply elemental balance filter
     if (filters.elementalState) {
-      const recipesWithScores = await Promise.all(;
+      const recipesWithScores = await Promise.all(
         filteredRecipes.map(async recipe => {;
           const recipeElementalProps = recipe.elementalProperties || {;
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
-            Air: 0.25
+            Air: 0.25,
           }
           return {
             ...recipe,

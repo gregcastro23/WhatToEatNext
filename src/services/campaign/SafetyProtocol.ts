@@ -51,7 +51,7 @@ export class SafetyProtocol {
       // Create the git stash with all files including untracked
       execSync(`git stash push -u -m '${fullDescription}'`, {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       // Get the actual stash reference
@@ -59,7 +59,7 @@ export class SafetyProtocol {
       const stashRef = stashList.split('\n')[0]?.split(':')[0] || 'stash@{0}';
 
       // Store stash information
-      const stash: GitStash = {;
+      const stash: GitStash = {
         id: stashName,
         description: fullDescription,
         timestamp: new Date(),
@@ -75,7 +75,7 @@ export class SafetyProtocol {
         timestamp: new Date(),
         description: `Git stash created: ${stashName} (${stashRef})`,
         severity: SafetyEventSeverity.INFO,
-        action: 'STASH_CREATE'
+        action: 'STASH_CREATE',
       })
 
       // // // _logger.info(`📦 Created git stash: ${stashName}`)
@@ -89,7 +89,7 @@ export class SafetyProtocol {
         timestamp: new Date(),
         description: `Failed to create git stash: ${(error as any).message || 'Unknown error'}`,
         severity: SafetyEventSeverity.ERROR,
-        action: 'STASH_FAILED'
+        action: 'STASH_FAILED',
       })
 
       throw new Error(`Failed to create git stash: ${(error as any).message || 'Unknown error'}`)
@@ -123,14 +123,14 @@ export class SafetyProtocol {
       // Apply the stash
       execSync(`git stash apply ${stashRef}`, {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       // Validate after application if requested
       if (validateAfter) {
         const validation = await this.validateGitState()
         if (!validation.success) {
-          _logger.warn(;
+          _logger.warn(
             `⚠️ Git state validation warnings after stash apply: ${validation.warnings.join(', ')}`,
           )
         }
@@ -141,7 +141,7 @@ export class SafetyProtocol {
         timestamp: new Date(),
         description: `Git stash applied: ${stashId} (${stashRef})`,
         severity: SafetyEventSeverity.WARNING,
-        action: 'STASH_APPLY'
+        action: 'STASH_APPLY',
       })
 
       // // // _logger.info(`🔄 Applied git stash: ${stashId}`)
@@ -152,7 +152,7 @@ export class SafetyProtocol {
         timestamp: new Date(),
         description: `Failed to apply git stash ${stashId}: ${(error as any).message || 'Unknown error'}`,
         severity: SafetyEventSeverity.ERROR,
-        action: 'STASH_APPLY_FAILED'
+        action: 'STASH_APPLY_FAILED',
       })
 
       throw new Error(
@@ -165,7 +165,7 @@ export class SafetyProtocol {
    * Automatically apply the most recent stash for rollback scenarios
    */
   async autoApplyLatestStash(): Promise<string> {
-    const stashes = Array.from(this.stashes.values()).sort(;
+    const stashes = Array.from(this.stashes.values()).sort(
       (ab) => b.timestamp.getTime() - a.timestamp.getTime(),
     ),
 
@@ -262,7 +262,7 @@ export class SafetyProtocol {
 
     const recommendedAction = this.determineRecoveryAction(maxSeverity, detectedFiles.length)
 
-    const report: CorruptionReport = {;
+    const report: CorruptionReport = {
       detectedFiles,
       corruptionPatterns,
       severity: maxSeverity,
@@ -275,7 +275,7 @@ export class SafetyProtocol {
         timestamp: new Date(),
         description: `Corruption detected in ${detectedFiles.length} files (${maxSeverity} severity)`,
         severity: this.mapCorruptionToEventSeverity(maxSeverity),
-        action: 'CORRUPTION_DETECTED'
+        action: 'CORRUPTION_DETECTED',
       })
 
       // // // _logger.info(
@@ -354,7 +354,7 @@ export class SafetyProtocol {
           const report = await this.detectCorruption(files)
 
           if (report.detectedFiles.length > 0) {
-            _logger.warn(;
+            _logger.warn(
               `⚠️ Real-time monitoring detected corruption in ${report.detectedFiles.length} files`,
             )
 
@@ -363,7 +363,7 @@ export class SafetyProtocol {
               timestamp: new Date(),
               description: `Real-time monitoring detected corruption: ${report.severity}`,
               severity: this.mapCorruptionToEventSeverity(report.severity),
-              action: 'REALTIME_CORRUPTION_DETECTED'
+              action: 'REALTIME_CORRUPTION_DETECTED',
             })
 
             // If critical corruption is detected, trigger emergency rollback
@@ -424,7 +424,7 @@ export class SafetyProtocol {
 
       const tscOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       // Parse TypeScript compiler output for syntax errors
@@ -478,7 +478,7 @@ export class SafetyProtocol {
   async emergencyRollback(): Promise<void> {
     try {
       // Get the most recent stash
-      const stashes = Array.from(this.stashes.values()).sort(;
+      const stashes = Array.from(this.stashes.values()).sort(
         (ab) => b.timestamp.getTime() - a.timestamp.getTime(),
       ),
 
@@ -494,7 +494,7 @@ export class SafetyProtocol {
         timestamp: new Date(),
         description: `Emergency rollback completed using stash: ${latestStash.id}`,
         severity: SafetyEventSeverity.WARNING,
-        action: 'EMERGENCY_ROLLBACK'
+        action: 'EMERGENCY_ROLLBACK',
       })
 
       // // // _logger.info(`🚨 Emergency rollback completed using stash: ${latestStash.id}`)
@@ -504,7 +504,7 @@ export class SafetyProtocol {
         timestamp: new Date(),
         description: `Emergency rollback failed: ${(error as any).message || 'Unknown error'}`,
         severity: SafetyEventSeverity.CRITICAL,
-        action: 'EMERGENCY_ROLLBACK_FAILED'
+        action: 'EMERGENCY_ROLLBACK_FAILED',
       })
 
       throw new Error(`Emergency rollback failed: ${(error as any).message || 'Unknown error'}`)
@@ -572,7 +572,7 @@ export class SafetyProtocol {
           try {;
             execSync(`git stash drop ${stash.ref}`, {
               encoding: 'utf8',
-              stdio: 'pipe'
+              stdio: 'pipe',
             })
           } catch (gitError) {
             // Stash might already be gone, just log warning
@@ -601,7 +601,7 @@ export class SafetyProtocol {
         timestamp: new Date(),
         description: `Cleaned up ${cleanedCount} old stashes`,
         severity: SafetyEventSeverity.INFO,
-        action: 'STASH_CLEANUP'
+        action: 'STASH_CLEANUP',
       })
     }
   }
@@ -749,7 +749,7 @@ export class SafetyProtocol {
     }
 
     // Check for incomplete statements
-    const incompletePatterns = [;
+    const incompletePatterns = [
       /export\s*$/m,
       /import\s*$/m;
       /function\s*$/m,
@@ -875,7 +875,7 @@ export class SafetyProtocol {
     }
 
     // Check for malformed import/export statements
-    const malformedPatterns = [;
+    const malformedPatterns = [
       /import\s+[^{]*\s+from(?!\s+[''])/g, // import without proper from clause
       /export\s+[^{]*\s+from(?!\s+[''])/g, // export without proper from clause
       /import\s*\{[^}]*\s+from\s+[^'']/g, // import with missing quotes
@@ -989,7 +989,7 @@ export class SafetyProtocol {
         fs.mkdirSync(kiroDir, { recursive: true })
       }
 
-      const data = {;
+      const data = {
         counter: this.stashCounter,
         stashes: Object.fromEntries(this.stashes.entries()),
         lastUpdated: new Date().toISOString()

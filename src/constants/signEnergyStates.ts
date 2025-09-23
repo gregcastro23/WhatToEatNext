@@ -9,7 +9,7 @@ export interface Aspect {
   planet1: string,
   planet2: string,
   type: string, // 'conjunction', 'sextile', 'square', 'trine', 'opposition' },
-        export const ZODIAC_SIGNS = [;
+        export const ZODIAC_SIGNS = [
   'aries',
   'taurus',
   'gemini',
@@ -44,13 +44,13 @@ const BASE_SIGN_ENERGIES: Record<ZodiacSign, number> = {
 
 // Define initial energy states for all zodiac signs
 export const ENERGY_STATES: Record<ZodiacSign, { baseEnergy: number, currentEnergy: number }> = {
-  aries: { baseEnergy: BASE_SIGN_ENERGIES.aries, currentEnergy: BASE_SIGN_ENERGIES.aries }
+  aries: { baseEnergy: BASE_SIGN_ENERGIES.aries, currentEnergy: BASE_SIGN_ENERGIES.aries },
   taurus: { baseEnergy: BASE_SIGN_ENERGIES.taurus, currentEnergy: BASE_SIGN_ENERGIES.taurus }
-  gemini: { baseEnergy: BASE_SIGN_ENERGIES.gemini, currentEnergy: BASE_SIGN_ENERGIES.gemini }
+  gemini: { baseEnergy: BASE_SIGN_ENERGIES.gemini, currentEnergy: BASE_SIGN_ENERGIES.gemini },
   cancer: { baseEnergy: BASE_SIGN_ENERGIES.cancer, currentEnergy: BASE_SIGN_ENERGIES.cancer }
-  leo: { baseEnergy: BASE_SIGN_ENERGIES.leo, currentEnergy: BASE_SIGN_ENERGIES.leo }
+  leo: { baseEnergy: BASE_SIGN_ENERGIES.leo, currentEnergy: BASE_SIGN_ENERGIES.leo },
   virgo: { baseEnergy: BASE_SIGN_ENERGIES.virgo, currentEnergy: BASE_SIGN_ENERGIES.virgo }
-  libra: { baseEnergy: BASE_SIGN_ENERGIES.libra, currentEnergy: BASE_SIGN_ENERGIES.libra }
+  libra: { baseEnergy: BASE_SIGN_ENERGIES.libra, currentEnergy: BASE_SIGN_ENERGIES.libra },
   scorpio: { baseEnergy: BASE_SIGN_ENERGIES.scorpio, currentEnergy: BASE_SIGN_ENERGIES.scorpio }
   sagittarius: {
     baseEnergy: BASE_SIGN_ENERGIES.sagittarius,
@@ -60,7 +60,7 @@ export const ENERGY_STATES: Record<ZodiacSign, { baseEnergy: number, currentEner
     baseEnergy: BASE_SIGN_ENERGIES.capricorn,
     currentEnergy: BASE_SIGN_ENERGIES.capricorn
   },
-  aquarius: { baseEnergy: BASE_SIGN_ENERGIES.aquarius, currentEnergy: BASE_SIGN_ENERGIES.aquarius }
+  aquarius: { baseEnergy: BASE_SIGN_ENERGIES.aquarius, currentEnergy: BASE_SIGN_ENERGIES.aquarius },
   pisces: { baseEnergy: BASE_SIGN_ENERGIES.pisces, currentEnergy: BASE_SIGN_ENERGIES.pisces }
 }
 

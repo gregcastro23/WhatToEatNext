@@ -75,7 +75,7 @@ export class KitchenBackendClient {
     try {
       // Try using centralized API client for recipe recommendations
       if (this.useBackend && ctx.preferences) {
-        const request: RecommendationRequest = {;
+        const request: RecommendationRequest = {
           ingredients: [], // Could be populated from context,
           dietaryRestrictions: ctx.preferences.dietaryRestrictions,
           cuisinePreferences: ctx.preferences.cuisineTypes
@@ -99,7 +99,7 @@ export class KitchenBackendClient {
             datetime: ctx.datetime || new Date(),
             location: ctx.location
           },
-          score: 1.0
+          score: 1.0,
         } as EnhancedRecommendationResult<Recipe>,
       }
 

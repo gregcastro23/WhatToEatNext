@@ -27,7 +27,7 @@ export interface ErrorResolutionPhase {
   id: string,
   name: string,
   priority: 'critical' | 'high' | 'medium' | 'low',
-  estimatedImpact: { min: number, max: number }
+  estimatedImpact: { min: number, max: number },
   dependencies: string[],
   status: 'not_started' | 'in_progress' | 'completed' | 'failed',
   startTime?: Date,
@@ -132,7 +132,7 @@ export class TypeScriptErrorResolutionCampaign {
 
     try {
       // Create safety checkpoint
-      const _checkpointId = await this.safetyProtocol.createCheckpointStash(;
+      const _checkpointId = await this.safetyProtocol.createCheckpointStash(
         `phase-${phaseId}-start`,
         phaseId,
       )
@@ -251,7 +251,7 @@ export class TypeScriptErrorResolutionCampaign {
           if (!validation.success) {
             // Rollback this specific change
             await this.rollbackVariableChange(variable)
-            (results.errors as string[]).push(;
+            (results.errors as string[]).push(
               `Failed to remove ${variable.variableName}: ${(validation as { error?: string }).error}`,
             )
           }
@@ -292,7 +292,7 @@ export class TypeScriptErrorResolutionCampaign {
     const overallProgress = (completedPhases / phases.length) * 100;
 
     const unusedVarAnalysis = await this.analyzeUnusedVariables()
-    const unusedVariableStats = {;
+    const unusedVariableStats = {
       total: unusedVarAnalysis.length,
       safeToRemove: unusedVarAnalysis.filter(v => v.removalRecommendation === 'remove').length,,
       requiresInvestigation: unusedVarAnalysis.filter(,

@@ -21,7 +21,7 @@ export function findMatchedItalianDinnerRecipes() {
   // Get all Italian dinner recipes
   const italianCuisine = cuisinesMap.Italian;
   const dinnerDishes = italianCuisine.dishes.dinner;
-  const allDinnerRecipes = [;
+  const allDinnerRecipes = [
     ...(dinnerDishes?.spring || []),
     ...(dinnerDishes?.summer || []),
     ...(dinnerDishes?.autumn || []),
@@ -30,7 +30,7 @@ export function findMatchedItalianDinnerRecipes() {
 
   // Map all ingredients to our ingredient database
   const mappedRecipes = allDinnerRecipes.map(recipe => {
-    const mappedIngredients = connectIngredientsToMappings(;
+    const mappedIngredients = connectIngredientsToMappings(
       recipe as import('@/types/alchemy').Recipe;
     )
 
@@ -55,7 +55,7 @@ export function findMatchedItalianDinnerRecipes() {
   const wellMappedRecipes = mappedRecipes.filter(r => r.mappingScore >= 0.5)
 
   // Sort by mapping score (descending)
-  return wellMappedRecipes.sort((ab) => b.mappingScore - a.mappingScore);
+  return wellMappedRecipes.sort((ab) => b.mappingScore - a.mappingScore)
 }
 
 /**
@@ -74,27 +74,27 @@ export function findRecipesMatchingElementalAndIngredientRequirements(
   Object.values(cuisinesMap).forEach(cuisine => {
     // Collect breakfast recipes;
     Object.values(cuisine.dishes.breakfast || {}).forEach(seasonRecipes => {
-      if (seasonRecipes) allRecipes.push(...seasonRecipes);
+      if (seasonRecipes) allRecipes.push(...seasonRecipes)
     })
 
     // Collect lunch recipes
     Object.values(cuisine.dishes.lunch || {}).forEach(seasonRecipes => {
-      if (seasonRecipes) allRecipes.push(...seasonRecipes);
+      if (seasonRecipes) allRecipes.push(...seasonRecipes)
     })
 
     // Collect dinner recipes
     Object.values(cuisine.dishes.dinner || {}).forEach(seasonRecipes => {
-      if (seasonRecipes) allRecipes.push(...seasonRecipes);
+      if (seasonRecipes) allRecipes.push(...seasonRecipes)
     })
 
     // Collect dessert recipes
     Object.values(cuisine.dishes.dessert || {}).forEach(seasonRecipes => {
-      if (seasonRecipes) allRecipes.push(...seasonRecipes);
+      if (seasonRecipes) allRecipes.push(...seasonRecipes)
     })
   })
 
   // Use the new filtering function
-  const matchedRecipes = filterRecipesByIngredientMappings(;
+  const matchedRecipes = filterRecipesByIngredientMappings(
     allRecipes as unknown as Recipe[],
     elementalTarget as unknown as ElementalProperties,
     {
@@ -114,12 +114,12 @@ export function findRecipesMatchingElementalAndIngredientRequirements(
  */
 export function suggestIngredientSubstitutions(recipe: Recipe, ingredientToReplace: string) {
   // Map all ingredients
-  const mappedIngredients = connectIngredientsToMappings(;
+  const mappedIngredients = connectIngredientsToMappings(
     recipe as unknown as import('@/types/alchemy').Recipe;
   )
 
   // Find the ingredient to replace
-  const ingredientMapping = mappedIngredients.find(;
+  const ingredientMapping = mappedIngredients.find(
     i => i.name.toLowerCase() === ingredientToReplace.toLowerCase(),,
   ),
 
@@ -139,7 +139,7 @@ export function suggestIngredientSubstitutions(recipe: Recipe, ingredientToRepla
 
   // Find other ingredients with similar elemental properties
   // This is a simplified version that could be enhanced further
-  const potentialSubstitutions = Object.entries(ingredientsMap);
+  const potentialSubstitutions = Object.entries(ingredientsMap)
     .filter(([name, mapping]) => {
       // Skip the original ingredient
       if (name.toLowerCase() === ingredientToReplace.toLowerCase()) return false,
@@ -148,7 +148,7 @@ export function suggestIngredientSubstitutions(recipe: Recipe, ingredientToRepla
       if (mapping.category !== ingredientMapping.matchedTo?.category) return false,
 
       // Check elemental similarity
-      const similarity = calculateElementalSimilarity(;
+      const similarity = calculateElementalSimilarity(
         elementalProperties as ElementalProperties,
         mapping.elementalProperties
       ),

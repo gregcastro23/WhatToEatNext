@@ -51,7 +51,7 @@ export function EnergyVisualization({
     Fire: 0.25,
     Water: 0.25,
     Air: 0.25,
-    Earth: 0.25
+    Earth: 0.25,
   });
 
   // Mock WebSocket hook
@@ -101,14 +101,14 @@ export function EnergyVisualization({
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: '4px'
+        marginBottom: '4px',
       }}>
         <span style={{
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
           fontSize: '14px',
-          fontWeight: '500'
+          fontWeight: '500',
         }}>
           <span style={{ fontSize: '18px' }}>
             {ELEMENT_SYMBOLS[element]}
@@ -118,7 +118,7 @@ export function EnergyVisualization({
         <span style={{
           fontSize: '12px',
           color: ELEMENT_COLORS[element],
-          fontWeight: '600'
+          fontWeight: '600',
         }}>
           {formatPercentage(level)}
         </span>
@@ -128,13 +128,13 @@ export function EnergyVisualization({
         height: '8px',
         backgroundColor: '#f0f0f0',
         borderRadius: '4px',
-        overflow: 'hidden'
+        overflow: 'hidden',
       }}>
         <div style={{
           width: `${level * 100}%`,
           height: '100%',
           backgroundColor: ELEMENT_COLORS[element],
-          transition: 'width 0.5s ease'
+          transition: 'width 0.5s ease',
         }} />
       </div>
     </div>
@@ -152,7 +152,7 @@ export function EnergyVisualization({
           margin: '0 0 12px 0',
           fontSize: '14px',
           fontWeight: '600',
-          color: '#333'
+          color: '#333',
         }}>
           Energy History
         </h4>
@@ -162,7 +162,7 @@ export function EnergyVisualization({
           gap: '8px',
           padding: '12px',
           backgroundColor: '#f8f9fa',
-          borderRadius: '8px'
+          borderRadius: '8px',
         }}>
           {displayHistory.map((reading, index) => {
             const dominant = getMaxElement();
@@ -170,7 +170,7 @@ export function EnergyVisualization({
               <div key={reading.timestamp} style={{
                 textAlign: 'center',
                 fontSize: '10px',
-                color: '#666'
+                color: '#666',
               }}>
                 <div style={{
                   width: '100%',
@@ -178,18 +178,18 @@ export function EnergyVisualization({
                   display: 'flex',
                   alignItems: 'end',
                   justifyContent: 'center',
-                  marginBottom: '4px'
+                  marginBottom: '4px',
                 }}>
                   <div style={{
                     width: '20px',
                     height: `${reading[dominant.element] * 40}px`,
                     backgroundColor: ELEMENT_COLORS[dominant.element],
-                    borderRadius: '2px 2px 0 0'
+                    borderRadius: '2px 2px 0 0',
                   }} />
                 </div>
                 <div>{new Date(reading.timestamp).toLocaleTimeString([], {
                   hour: '2-digit',
-                  minute: '2-digit'
+                  minute: '2-digit',
                 })}</div>
               </div>
             );
@@ -206,32 +206,32 @@ export function EnergyVisualization({
       padding: '20px',
       backgroundColor: '#fff',
       borderRadius: '12px',
-      border: '1px solid #e0e0e0'
+      border: '1px solid #e0e0e0',
     }}>
       <div style={{
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: '16px'
+        marginBottom: '16px',
       }}>
         <h3 style={{
           margin: 0,
           fontSize: '18px',
           fontWeight: '600',
-          color: '#333'
+          color: '#333',
         }}>
           ⚡ Elemental Energy
         </h3>
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '8px'
+          gap: '8px',
         }}>
           <div style={{
             width: '8px',
             height: '8px',
             borderRadius: '50%',
-            backgroundColor: isConnected ? '#22c55e' : '#ef4444'
+            backgroundColor: isConnected ? '#22c55e' : '#ef4444',
           }} />
           <span style={{ fontSize: '12px', color: '#666' }}>
             {isConnected ? 'Live' : 'Offline'}
@@ -253,7 +253,7 @@ export function EnergyVisualization({
             gap: '8px',
             fontSize: '14px',
             color: ELEMENT_COLORS[dominant.element],
-            fontWeight: '600'
+            fontWeight: '600',
           }}>
             <span style={{ fontSize: '20px' }}>
               {ELEMENT_SYMBOLS[dominant.element]}
@@ -274,13 +274,13 @@ export function EnergyVisualization({
           display: 'grid',
           gridTemplateColumns: 'repeat(2, 1fr)',
           gap: '12px',
-          marginBottom: '16px'
+          marginBottom: '16px',
         }}>
           <div style={{
             padding: '8px',
             backgroundColor: '#f8f9fa',
             borderRadius: '6px',
-            textAlign: 'center'
+            textAlign: 'center',
           }}>
             <div style={{ fontSize: '12px', color: '#666', marginBottom: '4px' }}>
               Balance Score
@@ -293,7 +293,7 @@ export function EnergyVisualization({
             padding: '8px',
             backgroundColor: '#f8f9fa',
             borderRadius: '6px',
-            textAlign: 'center'
+            textAlign: 'center',
           }}>
             <div style={{ fontSize: '12px', color: '#666', marginBottom: '4px' }}>
               Total Energy
@@ -313,7 +313,7 @@ export function EnergyVisualization({
         textAlign: 'center',
         marginTop: '12px',
         padding: '8px',
-        borderTop: '1px solid #eee'
+        borderTop: '1px solid #eee',
       }}>
         Last updated: {new Date().toLocaleTimeString()}
       </div>

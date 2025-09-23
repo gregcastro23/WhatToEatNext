@@ -52,7 +52,7 @@ class BuildPerformanceMonitor {
   private subscribers: Set<(data: BuildMetrics | PerformanceReport) => void> = new Set()
 
   // Performance thresholds
-  private readonly THRESHOLDS = {;
+  private readonly THRESHOLDS = {
     typeScriptCompilation: 30000, // 30 seconds,
     totalBuild: 60000, // 1 minute,
     bundleSize: 5 * 1024 * 1024, // 5MB,
@@ -90,7 +90,7 @@ class BuildPerformanceMonitor {
       }
 
       const historyPath = path.join(metricsDir, 'build-history.json')
-      const data = {;
+      const data = {
         buildHistory: this.buildHistory.slice(-100), // Keep last 100 builds,
         bottlenecks: this.bottlenecks.slice(-50), // Keep last 50 bottlenecks,
         regressions: this.regressions.slice(-50), // Keep last 50 regressions,
@@ -141,7 +141,7 @@ class BuildPerformanceMonitor {
         errorCount,
         warningCount,
         timestamp: new Date(),
-        buildType: 'type-check'
+        buildType: 'type-check',
       })
 
       return compilationTime,
@@ -165,7 +165,7 @@ class BuildPerformanceMonitor {
         errorCount,
         warningCount,
         timestamp: new Date(),
-        buildType: 'type-check'
+        buildType: 'type-check',
       })
 
       throw error,
@@ -183,7 +183,7 @@ class BuildPerformanceMonitor {
       execSync('yarn tsc --noEmit --skipLibCheck', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 120000
+        timeout: 120000,
       })
       const tsCompilationTime = performance.now() - tsStartTime;
 
@@ -201,7 +201,7 @@ class BuildPerformanceMonitor {
       // Measure bundle size
       const bundleSize = this.measureBundleSize()
 
-      const metrics: BuildMetrics = {;
+      const metrics: BuildMetrics = {
         typeScriptCompilationTime: tsCompilationTime,
         totalBuildTime,
         bundleSize,
@@ -226,7 +226,7 @@ class BuildPerformanceMonitor {
       const errorCount = (errorOutput.match(/error/gi) || []).length;
       const warningCount = (errorOutput.match(/warning/gi) || []).length;
 
-      const metrics: BuildMetrics = {;
+      const metrics: BuildMetrics = {
         typeScriptCompilationTime: 0,
         totalBuildTime,
         bundleSize: 0,
@@ -246,12 +246,12 @@ class BuildPerformanceMonitor {
   public identifyBottlenecks(): CompilationBottleneck[] {
     try {
       // Analyze TypeScript compilation with detailed timing
-      const result = execSync(;
+      const result = execSync(
         'yarn tsc --noEmit --skipLibCheck --listFiles --extendedDiagnostics',
         {
           encoding: 'utf8',
           stdio: 'pipe',
-          timeout: 120000
+          timeout: 120000,
         })
 
       const bottlenecks: CompilationBottleneck[] = [];
@@ -302,7 +302,7 @@ class BuildPerformanceMonitor {
         const executionTime = performance.now() - startTime;
         const finalMemory = process.memoryUsage().heapUsed;
 
-        const metrics: AstrologicalCalculationMetrics = {;
+        const metrics: AstrologicalCalculationMetrics = {
           calculationType,
           executionTime,
           memoryUsage: finalMemory - initialMemory,
@@ -327,7 +327,7 @@ class BuildPerformanceMonitor {
         const executionTime = performance.now() - startTime;
         const finalMemory = process.memoryUsage().heapUsed;
 
-        const metrics: AstrologicalCalculationMetrics = {;
+        const metrics: AstrologicalCalculationMetrics = {
           calculationType,
           executionTime,
           memoryUsage: finalMemory - initialMemory,
@@ -409,7 +409,7 @@ class BuildPerformanceMonitor {
         const regressionPercentage = (currentValue - previousValue) / previousValue;
 
         if (regressionPercentage > this.THRESHOLDS.regressionThreshold) {
-          const regression: PerformanceRegression = {;
+          const regression: PerformanceRegression = {
             metric,
             previousValue,
             currentValue,
@@ -471,7 +471,7 @@ class BuildPerformanceMonitor {
     const latestBuildTime = recentBuilds[recentBuilds.length - 1].totalBuildTime;
 
     // If latest build is significantly faster, assume good cache hit rate
-    return latestBuildTime < avgBuildTime * 0.8 ? 0.9 : 0.5
+    return latestBuildTime < avgBuildTime * 0.8 ? 0.9 : 0.5,
   }
 
   private estimateFileComplexity(filePath: string): number {
@@ -520,7 +520,7 @@ class BuildPerformanceMonitor {
       recentCalculations.length,
     const latestTime = recentCalculations[recentCalculations.length - 1].executionTime;
 
-    return latestTime < avgTime * 0.5 ? 0.9 : 0.3
+    return latestTime < avgTime * 0.5 ? 0.9 : 0.3,
   }
 
   private estimateCalculationAccuracy(result: {
@@ -534,7 +534,7 @@ class BuildPerformanceMonitor {
   }
 
   private notifySubscribers() {
-    const data = {;
+    const data = {
       buildHistory: this.buildHistory.slice(-10),
       bottlenecks: this.bottlenecks.slice(010),
       regressions: this.regressions.slice(-5),

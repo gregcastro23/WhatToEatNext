@@ -40,7 +40,7 @@ import {_processAstrologicalData as processData} from '@/services/AstrologicalSe
 
 interface MigrationStats {;
   totalProfiles: number,
-  byCategory: { [key: string]: number }
+  byCategory: { [key: string]: number },
   migrationTime: number,
   errors: string[],
   warnings: string[]
@@ -130,7 +130,7 @@ export class FlavorProfileMigration {;
 ;
       const migrationTime = Date.now() - startTime;
 
-      _cachedMigrationStats = {;
+      _cachedMigrationStats = {
         totalProfiles: this.migratedProfiles.size,
         byCategory: this.getCategoryStats(),
         migrationTime,
@@ -201,7 +201,7 @@ export class FlavorProfileMigration {;
       planetaryResonance: this.getDefaultPlanetaryResonance(),
       cuisineCompatibility: this.getDefaultCuisineCompatibility(),
       cookingMethodAffinity: this.getDefaultCookingMethodAffinity(),
-      temperatureRange: { min: 10, max: 30 }
+      temperatureRange: { min: 10, max: 30 },
       avoidCombinations: []
     }
   }
@@ -212,7 +212,7 @@ export class FlavorProfileMigration {;
     log.info('🍽️ Migrating cuisine flavor profiles...')
     // Check if cuisineFlavorProfiles is available
     if (!cuisineFlavorProfiles || typeof cuisineFlavorProfiles !== 'object') {
-      this.migrationWarnings.push(;
+      this.migrationWarnings.push(
         'cuisineFlavorProfiles is not available - skipping cuisine migration',
       )
       log.info('⚠️ Skipping cuisine migration - cuisineFlavorProfiles not available')
@@ -254,7 +254,7 @@ export class FlavorProfileMigration {;
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
+        Air: 0.25,
       },
       intensity: this.calculateCuisineIntensity(cuisineData),
       complexity: this.calculateCuisineComplexity(cuisineData),
@@ -276,7 +276,7 @@ export class FlavorProfileMigration {;
       planetaryResonance: this.getDefaultPlanetaryResonance(),
       cuisineCompatibility: this.getDefaultCuisineCompatibility(),
       cookingMethodAffinity: this.getDefaultCookingMethodAffinity(),
-      temperatureRange: { min: 10, max: 30 }
+      temperatureRange: { min: 10, max: 30 },
       avoidCombinations: []
     }
   }
@@ -287,7 +287,7 @@ export class FlavorProfileMigration {;
     log.info('🪐 Migrating planetary flavor profiles...')
     // Check if planetaryFlavorProfiles is available
     if (!planetaryFlavorProfiles || typeof planetaryFlavorProfiles !== 'object') {
-      this.migrationWarnings.push(;
+      this.migrationWarnings.push(
         'planetaryFlavorProfiles is not available - skipping planetary migration',
       )
       log.info('⚠️ Skipping planetary migration - planetaryFlavorProfiles not available')
@@ -296,7 +296,7 @@ export class FlavorProfileMigration {;
 
     for (const [planetName, planetData] of Object.entries(planetaryFlavorProfiles)) {
       try {
-        const migratedProfile = this.convertPlanetaryProfile(;
+        const migratedProfile = this.convertPlanetaryProfile(
           planetName,
           planetData as unknown as any,
         ),
@@ -325,7 +325,7 @@ export class FlavorProfileMigration {;
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
+        Air: 0.25,
       },
       intensity: (planetData.intensity) || 0.5,
       complexity: (planetData.complexity) || 0.5,
@@ -347,7 +347,7 @@ export class FlavorProfileMigration {;
       planetaryResonance: this.getDefaultPlanetaryResonance(),
       cuisineCompatibility: this.getDefaultCuisineCompatibility(),
       cookingMethodAffinity: this.getDefaultCookingMethodAffinity(),
-      temperatureRange: { min: 10, max: 30 }
+      temperatureRange: { min: 10, max: 30 },
       avoidCombinations: []
     }
   }
@@ -358,7 +358,7 @@ export class FlavorProfileMigration {;
     log.info('🔗 Migrating integration flavor profiles...')
     // Check if integrationFlavorProfiles is available
     if (!integrationFlavorProfiles || typeof integrationFlavorProfiles !== 'object') {
-      this.migrationWarnings.push(;
+      this.migrationWarnings.push(
         'integrationFlavorProfiles is not available - skipping integration migration',
       )
       log.info('⚠️ Skipping integration migration - integrationFlavorProfiles not available')
@@ -367,7 +367,7 @@ export class FlavorProfileMigration {;
 
     for (const [flavorName, flavorData] of Object.entries(integrationFlavorProfiles)) {
       try {
-        const migratedProfile = this.convertIntegrationProfile(;
+        const migratedProfile = this.convertIntegrationProfile(
           flavorName,
           flavorData as unknown as any,
         ),
@@ -398,7 +398,7 @@ export class FlavorProfileMigration {;
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
+        Air: 0.25,
       },
       intensity: Number(flavorData.intensity) || 0.5,
       complexity: 0.5,
@@ -425,7 +425,7 @@ export class FlavorProfileMigration {;
       planetaryResonance: this.getDefaultPlanetaryResonance(),
       cuisineCompatibility: this.getDefaultCuisineCompatibility(),
       cookingMethodAffinity: this.getDefaultCookingMethodAffinity(),
-      temperatureRange: { min: 10, max: 30 }
+      temperatureRange: { min: 10, max: 30 },
       avoidCombinations: []
     }
   }
@@ -438,7 +438,7 @@ export class FlavorProfileMigration {;
     // Check if ingredientFlavorMap is available (currently disabled)
     const ingredientFlavorMap = null // Disabled due to missing export
     if (!ingredientFlavorMap || typeof ingredientFlavorMap !== 'object') {
-      this.migrationWarnings.push(;
+      this.migrationWarnings.push(
         'ingredientFlavorMap is not available - skipping ingredient migration',
       )
       log.info('⚠️ Skipping ingredient migration - ingredientFlavorMap not available')
@@ -471,7 +471,7 @@ export class FlavorProfileMigration {;
       category: 'ingredient',
 
       baseNotes: this.extractIngredientBaseNotes(flavorData),
-      elementalFlavors: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+      elementalFlavors: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       intensity: this.calculateIngredientIntensity(flavorData),
       complexity: this.calculateIngredientComplexity(flavorData),
 
@@ -492,7 +492,7 @@ export class FlavorProfileMigration {;
       planetaryResonance: this.getDefaultPlanetaryResonance(),
       cuisineCompatibility: this.getDefaultCuisineCompatibility(),
       cookingMethodAffinity: this.getDefaultCookingMethodAffinity(),
-      temperatureRange: { min: 10, max: 30 }
+      temperatureRange: { min: 10, max: 30 },
       avoidCombinations: []
     }
   }
@@ -505,7 +505,7 @@ export class FlavorProfileMigration {;
 
     // Try to extract from various formats
     const flavorProfiles = profileData.flavorProfiles 
-    const baseNotes: BaseFlavorNotes = {;
+    const baseNotes: BaseFlavorNotes = {
       sweet: Number(profileData.sweet) || Number(flavorProfiles.sweet) || 0,
       sour: Number(profileData.sour) || Number(flavorProfiles.sour) || 0,
       salty: Number(profileData.salty) || Number(flavorProfiles.salty) || 0,
@@ -656,7 +656,7 @@ export class FlavorProfileMigration {;
 
   // ===== INTEGRATION-SPECIFIC HELPERS =====
 
-  private extractIntegrationBaseNotes(;
+  private extractIntegrationBaseNotes(
     flavorName: string,
     flavorData: Record<string, unknown>,
   ): BaseFlavorNotes {
@@ -720,13 +720,13 @@ export class FlavorProfileMigration {;
     >,
 
     planets.forEach(planet => {
-      resonance[planet] = {;
+      resonance[planet] = {
         influence: 0.1,
         flavorModification: {
           intensityMultiplier: 1.0,
           complexityBonus: 0.0,
           harmonicResonance: 0.5,
-          temperatureOptimal: 20
+          temperatureOptimal: 20,
         },
         seasonalVariation: {
           spring: 1.0,
@@ -734,7 +734,7 @@ export class FlavorProfileMigration {;
           autumn: 1.0,
           fall: 1.0,
           winter: 1.0,
-          all: 1.0
+          all: 1.0,
         },
         monicaOptimization: 1.0,
         optimalTiming: {
@@ -792,7 +792,7 @@ export class FlavorProfileMigration {;
       spring: 1.0,
       summer: 1.0,
       fall: 1.0,
-      winter: 1.0
+      winter: 1.0,
     } as Record<Season, number>,
   }
 

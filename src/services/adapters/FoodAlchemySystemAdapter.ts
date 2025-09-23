@@ -76,7 +76,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       const flavorProfile = this.createFlavorProfileFromState(state)
 
       // Prepare criteria for recipe service
-      const recipeCriteria = {;
+      const recipeCriteria = {
         ...criteria,
         flavorProfile,
         elementalPreference: this.createElementalPreferenceFromState(state)
@@ -131,7 +131,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       }
 
       // Get matching recipes from the consolidated service
-      const recipes = await consolidatedRecipeService.getRecipesForPlanetaryAlignment(;
+      const recipes = await consolidatedRecipeService.getRecipesForPlanetaryAlignment(
         planetaryInfluences,
         minMatchScore,
       )
@@ -253,7 +253,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
 
     // Find the element that needs balancing the most
     // (the element that's furthest from 0.25, the ideal balance)
-    const elements = [;
+    const elements = [
       { name: 'Fire', value: Fire, diff: Math.abs(Fire - 0.25) }
       { name: 'Water', value: Water, diff: Math.abs(Water - 0.25) }
       { name: 'Earth', value: Earth, diff: Math.abs(Earth - 0.25) }

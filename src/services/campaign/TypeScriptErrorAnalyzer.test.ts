@@ -142,7 +142,7 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
 
   describe('generateRecommendations', () => {
     it('should generate recommendations in priority order', () => {
-      const mockDistribution: any = {;
+      const mockDistribution: any = {
         totalErrors: 3,
         errorsByCategory: {
           [ErrorCategory.TS2352_TYPE_CONVERSION]: [{ code: 'TS2352' } { code: 'TS2352' }],

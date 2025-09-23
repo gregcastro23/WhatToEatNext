@@ -195,7 +195,7 @@ export function validateAllTransitDates(_transitDates: PlanetTransitDates): {
       // Check for gaps
       const daysBetween = (next.start.getTime() - current.end.getTime()) / (1000 * 60 * 60 * 24)
       if (daysBetween > 1) {
-        warnings.push(;
+        warnings.push(
           `Gap of ${Math.round(daysBetween)} days between ${current.sign} and ${next.sign}`,
         )
       }
@@ -220,7 +220,7 @@ export function validateAllTransitDates(_transitDates: PlanetTransitDates): {
         const endDate = new Date(phaseData.End)
 
         if (isNaN(startDate.getTime())) {
-          errors.push(;
+          errors.push(
             `Invalid Start date format for retrograde phase ${phaseName}: ${phaseData.Start}`,
           )
         }
@@ -292,7 +292,7 @@ export async function loadPlanetTransitDates(
  */
 export async function validatePlanetaryPosition(
   planetName: string,
-  position: { sign: string, degree: number, exactLongitude: number }
+  position: { sign: string, degree: number, exactLongitude: number },
   date: Date = new Date(),
 ): Promise<boolean> {
   try {
@@ -321,7 +321,7 @@ export async function validatePlanetaryPosition(
  * Constants for transit validation
  */
 export const _TRANSIT_CONSTANTS = {
-  _VALID_SIGNS: [;
+  _VALID_SIGNS: [
     'aries',
     'taurus',
     'gemini',

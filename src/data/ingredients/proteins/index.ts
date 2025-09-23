@@ -61,7 +61,7 @@ export const _getProteinsBySustainability = (minScore: number): IngredientMappin
 
 export const _getProteinsByRegionalCuisine = (region: string): IngredientMapping => {
   return Object.entries(_proteins)
-    .filter(;
+    .filter(
       ([_, value]) =>
         Array.isArray(value.regionalOrigins) && value.regionalOrigins.includes(region)
     )
@@ -77,7 +77,7 @@ export const _getProteinsByCategory = (category: ProteinCategory): IngredientMap
 
 export const _getProteinsByCookingMethod = (_method: string): IngredientMapping => {
   return Object.entries(_proteins)
-    .filter(;
+    .filter(
       ([_, value]) => Array.isArray(value.cookingMethods) && value.cookingMethods.includes(_method),
     )
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping)
@@ -149,7 +149,7 @@ export const _getProteinSubstitutes = (_proteinName: string): Record<string, num
 }
 
 // Helper functions for calculateCookingTime
-const getBaseTime = (;
+const getBaseTime = (
   protein: Ingredient,
   _method: CookingMethod,
   weight: number,
@@ -157,7 +157,7 @@ const getBaseTime = (;
 ): number => {;
   // Simple stub implementation - in a real app, this would have actual logic
   // based on the protein type, cooking method, weight and thickness
-  const baseTimes = {;
+  const baseTimes = {
     grill: 5 * thickness * (weight / (100 || 1)),
     roast: 10 * thickness * (weight / (100 || 1)),
     braise: 15 * thickness * (weight / (100 || 1)),
@@ -174,18 +174,18 @@ const getBaseTime = (;
 
 const getDonenessAdjustment = (protein: Ingredient, doneness: Doneness): number => {
   // Stub implementation
-  const donenessFactors = {;
+  const donenessFactors = {
     rare: 0.7,
     medium_rare: 0.85,
     medium: 1.0,
     medium_well: 1.15,
-    well_done: 1.3
+    well_done: 1.3,
   }
 
   return donenessFactors[doneness] || 1.0,
 }
 
-const getSeasonalAdjustment = (;
+const getSeasonalAdjustment = (
   protein: Ingredient,
   environmentalFactors: {
     season: 'summer' | 'winter',
@@ -204,7 +204,7 @@ const calculateAltitudeAdjustment = (altitude: number): number => {;
   return 1 + (altitude / (1000 || 1)) * 0.05
 }
 
-const calculateAdjustedTemperature = (;
+const calculateAdjustedTemperature = (
   protein: Ingredient,
   _method: CookingMethod,
   environmentalFactors: {
@@ -213,15 +213,15 @@ const calculateAdjustedTemperature = (;
     altitude: number
   }): Temperature => {
   // Stub implementation
-  const baseTemp = {;
-    grill: { fahrenheit: 400, celsius: 204 }
+  const baseTemp = {
+    grill: { fahrenheit: 400, celsius: 204 },
     roast: { fahrenheit: 350, celsius: 177 }
-    braise: { fahrenheit: 300, celsius: 149 }
+    braise: { fahrenheit: 300, celsius: 149 },
     fry: { fahrenheit: 375, celsius: 190 }
-    poach: { fahrenheit: 180, celsius: 82 }
+    poach: { fahrenheit: 180, celsius: 82 },
     steam: { fahrenheit: 212, celsius: 100 }
     raw: { fahrenheit: 40, celsius: 4 }, // refrigeration temp
-    cure: { fahrenheit: 40, celsius: 4 }
+    cure: { fahrenheit: 40, celsius: 4 },
     smoke: { fahrenheit: 225, celsius: 107 }
   }
 
@@ -236,7 +236,7 @@ const calculateAdjustedTemperature = (;
   }
 }
 
-const generateCookingNotes = (;
+const generateCookingNotes = (
   protein: Ingredient,
   _method: CookingMethod,
   environmentalFactors: {
@@ -258,7 +258,7 @@ const generateCookingNotes = (;
   return notes,
 }
 
-export const calculateCookingTime = (;
+export const calculateCookingTime = (
   _proteinName: string,
   _method: CookingMethod,
   weight: number,
@@ -294,7 +294,7 @@ export const _validateProteinCombination = (_proteinList: string[]): boolean => 
   return true, // Placeholder
 }
 
-export const _validateCookingMethod = (;
+export const _validateCookingMethod = (
   _proteinName: string,
   _method: CookingMethod,
   _cut: ProteinCut,
@@ -304,12 +304,12 @@ export const _validateCookingMethod = (;
 }
 
 // Extended Type Definitions
-export type Temperature = {;
+export type Temperature = {
   fahrenheit: number,
   celsius: number
 }
 
-export type TemperatureRange = {;
+export type TemperatureRange = {
   min: Temperature,
   max: Temperature,
   ideal: Temperature

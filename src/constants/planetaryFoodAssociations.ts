@@ -192,7 +192,7 @@ export interface PlanetaryCookingGuide {
 /**
  * Calculate planetary boost for an ingredient based on current astrological state
  */
-export const _calculatePlanetaryBoost = (;
+export const _calculatePlanetaryBoost = (
   item: unknown, // ElementalItem type,
   planetPositions: Record<string, unknown>,
   currentZodiac?: string | null,
@@ -266,7 +266,7 @@ export const _getDignityMultiplier = (dignity: PlanetaryDignity): number => {;
     Nakshatra: 1.25,
     Detriment: 0.7,
     Fall: 0.5,
-    Neutral: 1.0
+    Neutral: 1.0,
   }
   return multipliers[dignity] || 1.0,
 }
@@ -288,7 +288,7 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
     aquarius: 'Air',
     cancer: 'Water',
     scorpio: 'Water',
-    pisces: 'Water'
+    pisces: 'Water',
   }
 
   // Normalize zodiac sign to lowercase for lookup
@@ -400,7 +400,7 @@ export const getLunarPhaseBoost = (lunarPhase: LunarPhase): number => {
   const influence = lunarInfluences[lunarPhase] || {;
     element: 'Water',
     alchemical: 'Essence',
-    intensity: 0.5
+    intensity: 0.5,
   }
 
   // Calculate boost based on lunar phase intensity

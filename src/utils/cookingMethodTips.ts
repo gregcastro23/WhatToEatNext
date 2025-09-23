@@ -17,7 +17,7 @@ export function getTechnicalTips(methodName: string): string[] {
   switch (methodLower) {
     case 'hand pounding':
     case 'hand_pounding':
-      tips.push(;
+      tips.push(
         'Select appropriate mortar and pestle size and material for your ingredient (stone for tough spices, wooden for softer ingredients)',
       )
       tips.push(
@@ -597,11 +597,11 @@ export function getTechnicalTips(methodName: string): string[] {
 
     default: // Get expert tips from the cooking method data,
       try {
-        const allMethods = getAllCookingMethodNames();
-        const methodData = allMethods.find(;
+        const allMethods = getAllCookingMethodNames()
+        const methodData = allMethods.find(
           method =>
             method.toLowerCase() === methodLower ||
-            methodName.toLowerCase().includes(method.toLowerCase());
+            methodName.toLowerCase().includes(method.toLowerCase())
         ),
 
         const methodObj = methodData as { expertTips?: string[] }
@@ -669,11 +669,11 @@ export function getMethodDetails(methodName: string): string {
 
     default: try {
         // Get cooking method data from imported methods
-        const allMethods = getAllCookingMethodNames();
-        const methodData = allMethods.find(;
+        const allMethods = getAllCookingMethodNames()
+        const methodData = allMethods.find(
           method =>
             method.toLowerCase() === methodLower ||
-            methodName.toLowerCase().includes(method.toLowerCase());
+            methodName.toLowerCase().includes(method.toLowerCase())
         ),
 
         const methodObj = methodData as { expertTips?: string[], category?: string }
@@ -1011,11 +1011,11 @@ export function getIdealIngredients(methodName: string): string[] {
 
     default: // Get method-specific ingredients from the cooking method data
       try {
-        const allMethods = getAllCookingMethodNames();
-        const methodData = allMethods.find(;
+        const allMethods = getAllCookingMethodNames()
+        const methodData = allMethods.find(
           method =>
             method.toLowerCase() === methodLower ||
-            methodName.toLowerCase().includes(method.toLowerCase());
+            methodName.toLowerCase().includes(method.toLowerCase())
         ),
 
         const methodObj = methodData as { expertTips?: string[], category?: string }

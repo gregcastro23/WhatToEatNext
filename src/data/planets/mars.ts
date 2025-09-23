@@ -14,7 +14,7 @@ const marsData: PlanetData = {
     Spirit: 0,
     Essence: 1,
     Matter: 1,
-    Substance: 0
+    Substance: 0,
   }
   'Diurnal Element': 'Fire',
   'Nocturnal Element': 'Water',
@@ -35,7 +35,7 @@ const marsData: PlanetData = {
       Surface: 'Rocky, desert-like with volcanoes, canyons, and polar ice caps',
       MagneticField: 'No global magnetic field, but localized crustal fields',
       Composition: 'Iron-rich core, silicate mantle, iron oxide surface',
-      NotableFeatures: 'Olympus Mons (largest volcano), Valles Marineris (largest canyon), red color from iron oxide dust'
+      NotableFeatures: 'Olympus Mons (largest volcano), Valles Marineris (largest canyon), red color from iron oxide dust',
     }
   },
   AstrologicalProperties: {
@@ -161,7 +161,7 @@ const marsData: PlanetData = {
     Salty: 0.5,
     Bitter: 0.4,
     Umami: 0.6,
-    Spicy: 0.9
+    Spicy: 0.9,
   },
   CulinaryInfluences: [
     'Intensifies flavors and heat',
@@ -181,35 +181,35 @@ const marsData: PlanetData = {
       Opposition: 0.3,
       Trine: 0.6,
       Square: 0.2,
-      Sextile: 0.5
+      Sextile: 0.5,
     },
     Venus: {
       Conjunction: 0.7,
       Opposition: 0.2,
       Trine: 0.5,
       Square: 0.1,
-      Sextile: 0.4
+      Sextile: 0.4,
     },
     Moon: {
       Conjunction: 0.5,
       Opposition: -0.1,
       Trine: 0.3,
       Square: -0.2,
-      Sextile: 0.2
+      Sextile: 0.2,
     },
     Saturn: {
       Conjunction: 0.4,
       Opposition: -0.1,
       Trine: 0.3,
       Square: -0.3,
-      Sextile: 0.2
+      Sextile: 0.2,
     },
     Jupiter: {
       Conjunction: 0.6,
       Opposition: 0.2,
       Trine: 0.5,
       Square: 0.1,
-      Sextile: 0.4
+      Sextile: 0.4,
     }
   },
   PlanetSpecific: {
@@ -220,7 +220,7 @@ const marsData: PlanetData = {
           Fire: 0.9,
           Earth: 0.1,
           Air: 0.2,
-          Water: 0.1
+          Water: 0.1,
         },
         Ingredients: [
           'chili peppers',
@@ -237,7 +237,7 @@ const marsData: PlanetData = {
           Fire: 0.5,
           Earth: 0.7,
           Air: 0.1,
-          Water: 0.2
+          Water: 0.2,
         },
         Ingredients: [
           'aged steaks',
@@ -254,7 +254,7 @@ const marsData: PlanetData = {
           Fire: 0.6,
           Earth: 0.1,
           Air: 0.7,
-          Water: 0.1
+          Water: 0.1,
         },
         Ingredients: [
           'spice blends',
@@ -272,7 +272,7 @@ const marsData: PlanetData = {
           Fire: 0.4,
           Earth: 0.2,
           Air: 0.1,
-          Water: 0.7
+          Water: 0.7,
         },
         Ingredients: [
           'spicy seafood',
@@ -289,7 +289,7 @@ const marsData: PlanetData = {
           Fire: 0.9,
           Earth: 0.2,
           Air: 0.3,
-          Water: 0.1
+          Water: 0.1,
         },
         Ingredients: [
           'flambéed dishes',
@@ -307,7 +307,7 @@ const marsData: PlanetData = {
           Fire: 0.5,
           Earth: 0.7,
           Air: 0.3,
-          Water: 0.1
+          Water: 0.1,
         },
         Ingredients: [
           'measured spice blends',
@@ -325,7 +325,7 @@ const marsData: PlanetData = {
           Fire: 0.5,
           Earth: 0.2,
           Air: 0.7,
-          Water: 0.2
+          Water: 0.2,
         },
         Ingredients: [
           'balanced spice blends',
@@ -343,7 +343,7 @@ const marsData: PlanetData = {
           Fire: 0.4,
           Earth: 0.2,
           Air: 0.1,
-          Water: 0.8
+          Water: 0.8,
         },
         Ingredients: [
           'fermented hot sauces',
@@ -361,7 +361,7 @@ const marsData: PlanetData = {
           Fire: 0.8,
           Earth: 0.1,
           Air: 0.4,
-          Water: 0.2
+          Water: 0.2,
         },
         Ingredients: [
           'international hot peppers',
@@ -378,7 +378,7 @@ const marsData: PlanetData = {
           Fire: 0.4,
           Earth: 0.8,
           Air: 0.1,
-          Water: 0.2
+          Water: 0.2,
         },
         Ingredients: [
           'slow-cooked spicy dishes',
@@ -396,7 +396,7 @@ const marsData: PlanetData = {
           Fire: 0.5,
           Earth: 0.1,
           Air: 0.7,
-          Water: 0.2
+          Water: 0.2,
         },
         Ingredients: [
           'innovative spice combinations',
@@ -414,7 +414,7 @@ const marsData: PlanetData = {
           Fire: 0.3,
           Earth: 0.1,
           Air: 0.2,
-          Water: 0.8
+          Water: 0.8,
         },
         Ingredients: [
           'foods with subtle but profound heat',
@@ -433,7 +433,7 @@ const marsData: PlanetData = {
         Spirit: -0.1,
         Essence: 0.5,
         Matter: 0.7,
-        Substance: 0.3
+        Substance: 0.3,
       },
       FoodFocus: 'Internalizing heat, revisiting traditional spices, return to primal cooking methods',
       HerbalShift: 'Emphasis on dried herbs and spices, concentrated extracts, intensified flavors' },
@@ -456,7 +456,7 @@ const marsData: PlanetData = {
       Fermentation: 0.7,
       Grilling: 0.9,
       Smoking: 0.8,
-      'Knife Work': 0.8
+      'Knife Work': 0.8,
     },
     MealTypes: {
       Breakfast: {

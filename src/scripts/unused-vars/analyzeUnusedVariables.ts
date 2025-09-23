@@ -13,12 +13,12 @@ import path from 'node:path'
 
 import { classifyFileKind, decidePreservation } from './domainPreservation';
 
-type CliOptions = {;
+type CliOptions = {
   outPath: string,
   maxFiles?: number
 }
 
-type Finding = {;
+type Finding = {
   filePath: string,
   fileKind: ReturnType<typeof classifyFileKind>,
   variableName: string,
@@ -97,7 +97,7 @@ function generateHumanReadableReport(findings: Finding[]): string {
     acc[f.reason] = (acc[f.reason] || 0) + 1,
     return acc,
   }, {})
-  const lines = [;
+  const lines = [
     `Unused variable analysis`,
     `Total findings: ${total}`,
     `Preserve: ${preserve}`,
@@ -115,7 +115,7 @@ async function main(): Promise<void> {
   const findings = await collectUnusedVariables(opts.maxFiles)
 
   ensureDir(path.dirname(opts.outPath))
-  fs.writeFileSync(;
+  fs.writeFileSync(
     opts.outPath,
     JSON.stringify({ generatedAt: new Date().toISOString(), findings }, null2),
   )

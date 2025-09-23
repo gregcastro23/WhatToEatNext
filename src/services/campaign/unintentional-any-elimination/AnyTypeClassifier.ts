@@ -142,7 +142,7 @@ export class AnyTypeClassifier {
       // If we found a strong pattern match, use it
       if (bestCategory && bestScore >= 0.7) {
         const isIntentional = this.isIntentionalCategory(bestCategory)
-        const contextualReasoning = this.buildContextualReasoning(;
+        const contextualReasoning = this.buildContextualReasoning(
           bestCategory,
           surroundingContext,
           fileTypeInfo,
@@ -164,7 +164,7 @@ export class AnyTypeClassifier {
       const domainClassification = this.analyzeDomainSpecific(context)
       if (domainClassification) {
         // Enhance domain classification with contextual information
-        domainClassification.reasoning += this.getContextualEnhancement(;
+        domainClassification.reasoning += this.getContextualEnhancement(
           surroundingContext,
           fileTypeInfo,
         )
@@ -174,7 +174,7 @@ export class AnyTypeClassifier {
       // Function parameter and return type analysis
       const functionAnalysis = this.analyzeFunctionContext(context)
       if (functionAnalysis) {
-        functionAnalysis.reasoning += this.getContextualEnhancement(;
+        functionAnalysis.reasoning += this.getContextualEnhancement(
           surroundingContext,
           fileTypeInfo,
         )
@@ -182,12 +182,12 @@ export class AnyTypeClassifier {
       }
 
       // Default classification with comprehensive contextual confidence adjustment
-      const defaultConfidence = this.calculateContextualConfidence(;
+      const defaultConfidence = this.calculateContextualConfidence(
         context,
         surroundingContext,
         fileTypeInfo,
       )
-      const contextualReasoning = this.buildDefaultContextualReasoning(;
+      const contextualReasoning = this.buildDefaultContextualReasoning(
         defaultConfidence,
         surroundingContext,
         fileTypeInfo,
@@ -244,7 +244,7 @@ export class AnyTypeClassifier {
   private hasIntentionalDocumentation(comment?: string): boolean {
     if (!comment) return false
 
-    const intentionalKeywords = [;
+    const intentionalKeywords = [
       'intentionally any',
       'deliberately any',
       'explicitly any',
@@ -305,21 +305,21 @@ export class AnyTypeClassifier {
     const contextualClues: string[] = []
 
     // Error handling detection
-    const hasErrorHandling = /try\s*\{|catch\s*\(|\.catch\s*\(|throw\s+|error|exception/i.test(;
+    const hasErrorHandling = /try\s*\{|catch\s*\(|\.catch\s*\(|throw\s+|error|exception/i.test(
       surroundingCode,
     )
     if (hasErrorHandling) contextualClues.push('error handling context')
 
     // API calls detection
     const hasApiCalls =
-      /fetch\s*\(|axios\.|http\.|api\.|request\.|response\.|\.json\(\)|\.then\s*\(/i.test(;
+      /fetch\s*\(|axios\.|http\.|api\.|request\.|response\.|\.json\(\)|\.then\s*\(/i.test(
         surroundingCode,
       )
     if (hasApiCalls) contextualClues.push('API interaction context')
 
     // Testing code detection
     const hasTestingCode =
-      /describe\s*\(|it\s*\(|test\s*\(|expect\s*\(|mock|spy|jest\.|beforeEach|afterEach/i.test(;
+      /describe\s*\(|it\s*\(|test\s*\(|expect\s*\(|mock|spy|jest\.|beforeEach|afterEach/i.test(
         surroundingCode,
       )
     if (hasTestingCode) contextualClues.push('testing context')
@@ -470,7 +470,7 @@ export class AnyTypeClassifier {
 
   private isRecordType(context: ClassificationContext): boolean {
     // Match patterns, like: Record<string, any>, Record<number, any>
-    const recordPatterns = [;
+    const recordPatterns = [
       /:\s*Record<\s*string\s*,\s*any\s*>/,
       /:\s*Record<\s*number\s*,\s*any\s*>/,
       /:\s*\{\s*\[key: \s*string\]\s*:\s*any\s*\}/,
@@ -508,7 +508,7 @@ export class AnyTypeClassifier {
     const codeWithSurrounding = this.getCombinedCode(context)
     const lowerCode = codeWithSurrounding.toLowerCase()
     // Service interface patterns
-    const serviceInterfacePatterns = [;
+    const serviceInterfacePatterns = [
       /service\s*interface/i,
       /api\s*service/i,
       /data\s*service/i,
@@ -518,7 +518,7 @@ export class AnyTypeClassifier {
     ],
 
     // External service integration patterns
-    const externalServicePatterns = [;
+    const externalServicePatterns = [
       /external\s*service/i,
       /third\s*party\s*service/i,
       /remote\s*service/i,
@@ -530,7 +530,7 @@ export class AnyTypeClassifier {
     ],
 
     // Service configuration patterns
-    const serviceConfigPatterns = [;
+    const serviceConfigPatterns = [
       /service\s*config/i,
       /endpoint\s*config/i,
       /connection\s*config/i,
@@ -540,7 +540,7 @@ export class AnyTypeClassifier {
     ],
 
     // Data transformation patterns
-    const dataTransformPatterns = [;
+    const dataTransformPatterns = [
       /data\s*transformer/i,
       /response\s*mapper/i,
       /dto\s*mapper/i,
@@ -617,7 +617,7 @@ export class AnyTypeClassifier {
     const codeWithSurrounding = this.getCombinedCode(context)
     const lowerCode = codeWithSurrounding.toLowerCase()
     // Intelligence system patterns
-    const intelligencePatterns = [;
+    const intelligencePatterns = [
       /intelligence\s*system/i,
       /enterprise\s*intelligence/i,
       /campaign\s*intelligence/i,
@@ -629,7 +629,7 @@ export class AnyTypeClassifier {
     ],
 
     // Dynamic analysis patterns
-    const dynamicAnalysisPatterns = [;
+    const dynamicAnalysisPatterns = [
       /dynamic\s*analysis/i,
       /runtime\s*analysis/i,
       /adaptive\s*algorithm/i,
@@ -679,7 +679,7 @@ export class AnyTypeClassifier {
     const codeWithSurrounding = this.getCombinedCode(context)
     const lowerCode = codeWithSurrounding.toLowerCase()
     // Planetary position recognition patterns
-    const planetaryPatterns = [;
+    const planetaryPatterns = [
       /planetary\s*position/i,
       /planet\w*\s*data/i,
       /astro\w*\s*calculation/i,
@@ -693,7 +693,7 @@ export class AnyTypeClassifier {
     ],
 
     // External astronomy API patterns
-    const astronomyApiPatterns = [;
+    const astronomyApiPatterns = [
       /nasa\s*jpl/i,
       /horizons\s*api/i,
       /swiss\s*ephemeris/i,
@@ -705,7 +705,7 @@ export class AnyTypeClassifier {
     ],
 
     // Astrological calculation patterns
-    const calculationPatterns = [;
+    const calculationPatterns = [
       /elemental\s*properties/i,
       /compatibility\s*score/i,
       /astrological\s*influence/i,
@@ -769,7 +769,7 @@ export class AnyTypeClassifier {
     const codeWithSurrounding = this.getCombinedCode(context)
     const lowerCode = codeWithSurrounding.toLowerCase()
     // Food-related type suggestion patterns
-    const ingredientPatterns = [;
+    const ingredientPatterns = [
       /ingredient\s*data/i,
       /ingredient\s*properties/i,
       /elemental\s*ingredient/i,
@@ -780,7 +780,7 @@ export class AnyTypeClassifier {
       /usda\s*food/i
     ],
 
-    const recipePatterns = [;
+    const recipePatterns = [
       /recipe\s*data/i,
       /recipe\s*information/i,
       /cooking\s*method/i,
@@ -791,7 +791,7 @@ export class AnyTypeClassifier {
       /elemental\s*recipe/i
     ],
 
-    const cuisinePatterns = [;
+    const cuisinePatterns = [
       /cuisine\s*data/i,
       /cultural\s*food/i,
       /ethnic\s*cuisine/i,
@@ -800,7 +800,7 @@ export class AnyTypeClassifier {
     ],
 
     // External food API patterns
-    const foodApiPatterns = [;
+    const foodApiPatterns = [
       /spoonacular/i,
       /food\s*api/i,
       /nutrition\s*api/i,
@@ -890,7 +890,7 @@ export class AnyTypeClassifier {
     const codeWithSurrounding = this.getCombinedCode(context)
     const lowerCode = codeWithSurrounding.toLowerCase()
     // Campaign system dynamic configuration patterns
-    const campaignConfigPatterns = [;
+    const campaignConfigPatterns = [
       /campaign\s*config/i,
       /campaign\s*parameters/i,
       /campaign\s*settings/i,
@@ -901,7 +901,7 @@ export class AnyTypeClassifier {
     ],
 
     // Campaign metrics and intelligence patterns
-    const metricsPatterns = [;
+    const metricsPatterns = [
       /campaign\s*metrics/i,
       /progress\s*metrics/i,
       /quality\s*metrics/i,
@@ -913,7 +913,7 @@ export class AnyTypeClassifier {
     ],
 
     // Campaign execution and automation patterns
-    const executionPatterns = [;
+    const executionPatterns = [
       /campaign\s*execution/i,
       /batch\s*processing/i,
       /automation\s*script/i,
@@ -924,7 +924,7 @@ export class AnyTypeClassifier {
     ],
 
     // Campaign tool integration patterns
-    const toolIntegrationPatterns = [;
+    const toolIntegrationPatterns = [
       /typescript\s*error/i,
       /linting\s*warning/i,
       /eslint\s*result/i,
@@ -1100,7 +1100,7 @@ export class AnyTypeClassifier {
   }
 
   private calculateArrayTypeConfidence(context: ClassificationContext): number {
-    const arrayPatterns = [;
+    const arrayPatterns = [
       /:\s*any\[\]/,
       /:\s*Array<any>/,
       /=\s*\[\]\s*as\s*any\[\]/,
@@ -1117,7 +1117,7 @@ export class AnyTypeClassifier {
   }
 
   private calculateRecordTypeConfidence(context: ClassificationContext): number {
-    const recordPatterns = [;
+    const recordPatterns = [
       /:\s*Record<\s*string\s*,\s*any\s*>/,
       /:\s*Record<\s*number\s*,\s*any\s*>/,
       /:\s*\{\s*\[key: \s*string\]\s*:\s*any\s*\}/,
@@ -1139,7 +1139,7 @@ export class AnyTypeClassifier {
   }
 
   private isIntentionalCategory(category: AnyTypeCategory): boolean {
-    const intentionalCategories = [;
+    const intentionalCategories = [
       AnyTypeCategory.ERROR_HANDLING,
       AnyTypeCategory.EXTERNAL_API,
       AnyTypeCategory.TEST_MOCK,

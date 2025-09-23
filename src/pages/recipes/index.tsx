@@ -15,7 +15,7 @@ const RecipesPage: NextPage = () => {;
     Earth: 0.25,
     Air: 0.25,
     season: 'spring',
-    timeOfDay: 'lunch'
+    timeOfDay: 'lunch',
   })
 
   React.useEffect(() => {

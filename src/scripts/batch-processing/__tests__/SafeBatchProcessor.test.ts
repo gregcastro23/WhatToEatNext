@@ -42,7 +42,7 @@ describe('SafeBatchProcessor', () => {;
         isCritical: false,
         unusedVariableCount: 3,
         riskLevel: 'low',
-        fileType: 'utility'
+        fileType: 'utility',
       }
       {
         filePath: '/project/src/services/api.ts',
@@ -51,7 +51,7 @@ describe('SafeBatchProcessor', () => {;
         isCritical: false,
         unusedVariableCount: 8,
         riskLevel: 'medium',
-        fileType: 'service'
+        fileType: 'service',
       }
       {
         filePath: '/project/src/calculations/planetary.ts',
@@ -60,7 +60,7 @@ describe('SafeBatchProcessor', () => {;
         isCritical: true,
         unusedVariableCount: 25,
         riskLevel: 'high',
-        fileType: 'calculation'
+        fileType: 'calculation',
       }
     ],
 
@@ -77,7 +77,7 @@ describe('SafeBatchProcessor', () => {;
         isCritical: false,
         unusedVariableCount: 2,
         riskLevel: 'low' as const,
-        fileType: 'utility'
+        fileType: 'utility',
       }))
 
       const results: any = await processor.processBatches(largeFileSet);
@@ -96,7 +96,7 @@ describe('SafeBatchProcessor', () => {;
         isCritical: true,
         unusedVariableCount: 5,
         riskLevel: 'high' as const,
-        fileType: 'calculation'
+        fileType: 'calculation',
       }))
 
       const results: any = await processor.processBatches(criticalFiles)
@@ -136,7 +136,7 @@ describe('SafeBatchProcessor', () => {;
 
     test('should validate TypeScript compilation after each batch', async () => {
       const results: any = await processorprocessBatches([mockFiles[0]])
-      expect(mockExecSync).toHaveBeenCalledWith(;
+      expect(mockExecSync).toHaveBeenCalledWith(
         'yarn tsc --noEmit --skipLibCheck',
         expect.objectContaining({ stdio: 'pipe' }),,
       )

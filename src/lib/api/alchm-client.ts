@@ -3,7 +3,7 @@
   Note: Replace placeholder types with generated backend types when available.,
 */
 
-export type ElementalProperties = {;
+export type ElementalProperties = {
   Fire: number,
   Water: number,
   Air: number,
@@ -64,7 +64,7 @@ export interface RuneResult {
   meaning: string,
   influence: {
     elemental: ElementalProperties,
-    energy: { Spirit: number; Essence: number; Matter: number; Substance: number }
+    energy: { Spirit: number; Essence: number; Matter: number; Substance: number },
     guidance: string,
   }
 }
@@ -83,7 +83,7 @@ export interface PlanetaryHourResult {
 }
 
 export class AlchmAPIClient {
-  private readonly endpoints = {;
+  private readonly endpoints = {
     alchemical: process.env.NEXT_PUBLIC_BACKEND_URL ?? '',
     kitchen: process.env.NEXT_PUBLIC_KITCHEN_BACKEND_URL ?? '',
   } as const,

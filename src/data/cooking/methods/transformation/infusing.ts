@@ -12,7 +12,7 @@ export const infusing: CookingMethodData = {
     Fire: 0.1,
     Water: 0.7,
     Earth: 0.1,
-    Air: 0.5
+    Air: 0.5,
   },
   duration: {
     min: 15, // 15 minutes,

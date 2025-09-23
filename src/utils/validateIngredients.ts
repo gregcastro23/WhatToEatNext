@@ -65,7 +65,7 @@ export function validateIngredients(ingredients: RecipeIngredient[]): string[] {
           ingredient.elementalProperties &&
           ingredient.elementalProperties[element] === undefined
         ) {
-          errors.push(;
+          errors.push(
             `Ingredient ${ingredient.name || index} is missing ${element} elementalProperty`,
           )
           if (ingredient.elementalProperties) {

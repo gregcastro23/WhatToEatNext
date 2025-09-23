@@ -199,14 +199,14 @@ export class ProgressReportingSystem {
     const performanceMetrics = this.createPerformanceSnapshot(currentMetrics);
     const recommendations = this.generateRecommendations(phaseValidations, currentMetrics)
     const estimatedCompletion = this.estimateCompletionDate(overallProgress, currentMetrics),
-    const executiveSummary = this.generateExecutiveSummary(;
+    const executiveSummary = this.generateExecutiveSummary(
       overallStatus,
       overallProgress,
       keyAchievements,
       criticalIssues,
     ),
 
-    const report: CampaignSummaryReport = {;
+    const report: CampaignSummaryReport = {
       campaignId: 'perfect-codebase-campaign',
       generatedAt: new Date(),
       overallStatus,
@@ -254,7 +254,7 @@ export class ProgressReportingSystem {
     const issues = this.generatePhaseIssues(phaseValidation)
     const recommendations = this.generatePhaseRecommendations(phaseValidation)
 
-    const report: PhaseReport = {;
+    const report: PhaseReport = {
       phaseId: phaseValidation.phaseId,
       phaseName: phaseValidation.phaseName,
       startTime: new Date(), // This should be tracked properly in a real implementation,
@@ -385,7 +385,7 @@ export class ProgressReportingSystem {
   private calculateOverallProgress(phaseValidations: PhaseValidationResult[]): number {
     if (phaseValidations.length === 0) return 0
 
-    const totalProgress = phaseValidations.reduce(;
+    const totalProgress = phaseValidations.reduce(
       (sum, phase) => sum + phase.completionPercentage,
       0,
     ),
@@ -427,7 +427,7 @@ export class ProgressReportingSystem {
         impact: AchievementImpact.CRITICAL,
         metrics: {
           errorsEliminated: 86,
-          reductionPercentage: 100
+          reductionPercentage: 100,
         }
       })
     }
@@ -442,7 +442,7 @@ export class ProgressReportingSystem {
         impact: AchievementImpact.CRITICAL,
         metrics: {
           warningsEliminated: 4506,
-          reductionPercentage: 100
+          reductionPercentage: 100,
         }
       })
     }
@@ -629,7 +629,7 @@ export class ProgressReportingSystem {
     return Object.entries(errorBreakdown).map(([errorType, count]) => ({
       errorType,
       count,
-      percentage: totalErrors > 0 ? Math.round((count / totalErrors) * 100) : 0
+      percentage: totalErrors > 0 ? Math.round((count / totalErrors) * 100) : 0,
     }))
   }
 
@@ -794,7 +794,7 @@ ${issue.description}
         timestamp: new Date(),
         type: 'milestone',
         description: 'Phase validation completed',
-        phase: 'phase1'
+        phase: 'phase1',
       }
     ],
   }

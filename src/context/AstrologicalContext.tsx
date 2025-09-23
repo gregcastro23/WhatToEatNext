@@ -84,7 +84,7 @@ export const AstrologicalProvider: React.FC<{ children: ReactNode }> = ({ childr
         Fire: zodiac === 'aries' || zodiac === 'leo' || zodiac === 'sagittarius' ? 0.7 : 0.2,
         Water: zodiac === 'cancer' || zodiac === 'scorpio' || zodiac === 'pisces' ? 0.7 : 0.2,
         Earth: zodiac === 'taurus' || zodiac === 'virgo' || zodiac === 'capricorn' ? 0.7 : 0.2,
-        Air: zodiac === 'gemini' || zodiac === 'libra' || zodiac === 'aquarius' ? 0.7 : 0.2
+        Air: zodiac === 'gemini' || zodiac === 'libra' || zodiac === 'aquarius' ? 0.7 : 0.2,
       };
 
       // Calculate basic alchemical values from elemental properties

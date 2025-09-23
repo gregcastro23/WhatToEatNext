@@ -121,7 +121,7 @@ export class LintingQualityGates {
       // Calculate risk level
       const riskLevel = this.calculateRiskLevel(violations, metrics)
 
-      const result: QualityGateResult = {;
+      const result: QualityGateResult = {
         gateName: config.name,
         passed,
         timestamp: new Date(),
@@ -169,7 +169,7 @@ export class LintingQualityGates {
 
       const riskAssessment = this.assessRisk(gateResult)
 
-      const readiness: DeploymentReadiness = {;
+      const readiness: DeploymentReadiness = {
         ready: gateResult.deploymentApproved && blockers.length === 0,,
         confidence,
         blockers,
@@ -197,7 +197,7 @@ export class LintingQualityGates {
    */
   async createCICDReport(): Promise<{
     timestamp: string,
-    deployment: { approved: boolean, confidence: number, qualityScore: number }
+    deployment: { approved: boolean, confidence: number, qualityScore: number },
     metrics: {
       totalIssues: number,
       errors: number,
@@ -217,7 +217,7 @@ export class LintingQualityGates {
       const readiness = await this.assessDeploymentReadiness()
       const gateResult = await this.evaluateQualityGates()
 
-      const report = {;
+      const report = {
         timestamp: new Date().toISOString(),
         deployment: {
           approved: readiness.ready,
@@ -270,7 +270,7 @@ export class LintingQualityGates {
           trends: {}
           overallTrend: 'stable',
           recommendations: ['Need more historical data'],
-          alertLevel: 'none'
+          alertLevel: 'none',
         }
       }
 
@@ -336,7 +336,7 @@ export class LintingQualityGates {
         rule: 'max-execution-time',
         message: `Execution time ${metrics.performanceMetrics.executionTime}ms exceeds threshold`,
         severity: 'medium',
-        autoFixable: false
+        autoFixable: false,
       })
     }
 
@@ -352,7 +352,7 @@ export class LintingQualityGates {
             file: error.file,
             line: error.line,
             severity: 'critical' as const,
-            autoFixable: false
+            autoFixable: false,
           })),
         )
       }
@@ -403,7 +403,7 @@ export class LintingQualityGates {
     // 2. Error count is within acceptable limits
     // 3. No parser errors or other critical issues
 
-    const criticalIssues = violations.filter(;
+    const criticalIssues = violations.filter(
       v => v.severity === 'critical' || v.type === 'blocker'),
     const errorCountAcceptable = metrics.errors <= config.thresholds.maxErrors;
 
@@ -479,7 +479,7 @@ export class LintingQualityGates {
     try {
       // This would check for TypeScript parser errors
       const result = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 || true', {
-        encoding: 'utf8'
+        encoding: 'utf8',
       })
       const errors: Array<{ message: string, file?: string, line?: number }> = [];
 
@@ -572,13 +572,13 @@ export class LintingQualityGates {
         maxWarnings: 100,
         maxExecutionTime: 60000,
         minCacheHitRate: 70,
-        maxMemoryUsage: 512
+        maxMemoryUsage: 512,
       },
       blockers: {
         parserErrors: true,
         typeScriptErrors: true,
         importErrors: true;,
-        securityIssues: true
+        securityIssues: true,
       },
       exemptions: {
         files: [],

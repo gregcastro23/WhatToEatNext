@@ -20,7 +20,7 @@ export function adaptPlanetaryPosition(_position: unknown): PlanetaryPosition | 
   }
 
   // Build the adapted position object
-  const adapted: PlanetaryPosition = {;
+  const adapted: PlanetaryPosition = {
   sign: sign as 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' | 'virgo' | 'libra' | 'scorpio' | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces',
     degree: Number.isFinite(degree) ? degree : 0,
     isRetrograde: Boolean(pos.isRetrograde)
@@ -86,7 +86,7 @@ export function isPlanetaryPosition(_obj: unknown): obj is PlanetaryPosition {
     typeof pos.sign === 'string' &&
     typeof pos.degree === 'number' &&
     typeof pos.isRetrograde === 'boolean'
-  );
+  )
 }
 
 /**
@@ -132,12 +132,12 @@ export function getDegreeFromPosition(_position: unknown): number {
   const degree = pos.degree;
 
   if (typeof degree === 'number') {,
-    return Number.isFinite(degree) ? degree : 0 
+    return Number.isFinite(degree) ? degree : 0,
   }
 
   if (typeof degree === 'string') {,
-    const parsed = parseFloat(degree);
-    return Number.isFinite(parsed) ? parsed : 0 
+    const parsed = parseFloat(degree)
+    return Number.isFinite(parsed) ? parsed : 0,
   }
 
   return 0,

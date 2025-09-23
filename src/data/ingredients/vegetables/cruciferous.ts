@@ -4,7 +4,7 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawCruciferous = {
   cauliflower: {;
     name: 'Cauliflower',
-    elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 }
+    elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Saturn'],
       favorableZodiac: ['virgo', 'capricorn'],
@@ -17,11 +17,11 @@ const rawCruciferous = {
         },
         lunarPhaseModifiers: {
           newMoon: {
-            elementalBoost: { Air: 0.1, Earth: 0.05 }
+            elementalBoost: { Air: 0.1, Earth: 0.05 },
             preparationTips: ['Fresh preparations', 'Minimal cooking']
           },
           fullMoon: {
-            elementalBoost: { Water: 0.15, Air: 0.05 }
+            elementalBoost: { Water: 0.15, Air: 0.05 },
             preparationTips: ['More flavorful roasting', 'Enhanced caramelization']
           }
         }
@@ -80,7 +80,7 @@ const rawCruciferous = {
         preparation: {
           methods: ['standard preparation'],
           timing: 'as needed',
-          notes: 'Standard preparation for romanesco'
+          notes: 'Standard preparation for romanesco',
         }
       },
       purple: {
@@ -111,7 +111,7 @@ const rawCruciferous = {
           preparation: {
             methods: ['standard preparation'],
             timing: 'as needed',
-            notes: 'Standard preparation for purple'
+            notes: 'Standard preparation for purple',
           }
         },
         culinaryProfile: {
@@ -126,7 +126,7 @@ const rawCruciferous = {
         preparation: {
           methods: ['standard preparation'],
           timing: 'as needed',
-          notes: 'Standard preparation for purple'
+          notes: 'Standard preparation for purple',
         }
       }
     },
@@ -206,14 +206,14 @@ const rawCruciferous = {
       frozen: {
         preparation: 'blanch for 2 minutes before freezing',
         duration: 'up to 6 months',
-        best_uses: 'cooked applications after thawing'
+        best_uses: 'cooked applications after thawing',
       }
     }
   }
 
   broccoli: {
     name: 'Broccoli',
-    elementalProperties: { Air: 0.3, Earth: 0.3, Water: 0.2, Fire: 0.2 }
+    elementalProperties: { Air: 0.3, Earth: 0.3, Water: 0.2, Fire: 0.2 },
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Mercury'],
       favorableZodiac: ['aries', 'virgo'],
@@ -227,11 +227,11 @@ const rawCruciferous = {
         },
         lunarPhaseModifiers: {
           newMoon: {
-            elementalBoost: { Earth: 0.1, Air: 0.05 }
+            elementalBoost: { Earth: 0.1, Air: 0.05 },
             preparationTips: ['Quick preparations', 'Maximum nutrition retention']
           },
           fullMoon: {
-            elementalBoost: { Fire: 0.15, Earth: 0.05 }
+            elementalBoost: { Fire: 0.15, Earth: 0.05 },
             preparationTips: ['Roasting brings out sweetness', 'Enhanced caramelization']
           }
         }
@@ -313,7 +313,7 @@ const rawCruciferous = {
         characteristics: 'fractal pattern, light green color, nutty flavor',
         uses: 'showcase dishes, minimal cooking',
         best_cooking_methods: ['steaming', 'gentle sauté'],
-        notes: 'technically a cauliflower variety'
+        notes: 'technically a cauliflower variety',
       }
     },
     culinaryApplications: {
@@ -332,7 +332,7 @@ const rawCruciferous = {
         method: 'raw or blanched briefly',
         dressings: ['tahini', 'lemon-garlic', 'miso'],
         additions: ['sliced almonds', 'dried cranberries', 'red onion', 'feta'],
-        preparation: 'chop finely or shave thinly for raw applications'
+        preparation: 'chop finely or shave thinly for raw applications',
       }
     },
     storage: {
@@ -343,14 +343,14 @@ const rawCruciferous = {
       frozen: {
         preparation: 'blanch for 2 minutes before freezing',
         duration: 'up to 12 months',
-        best_uses: 'soups, stir-fries, casseroles'
+        best_uses: 'soups, stir-fries, casseroles',
       }
     }
   }
 
   'brussels sprouts': {
     name: 'Brussels sprouts',
-    elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 }
+    elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Mars'],
       favorableZodiac: ['capricorn', 'aries'],
@@ -364,11 +364,11 @@ const rawCruciferous = {
         },
         lunarPhaseModifiers: {
           waxingGibbous: {
-            elementalBoost: { Fire: 0.1, Earth: 0.1 }
+            elementalBoost: { Fire: 0.1, Earth: 0.1 },
             preparationTips: ['Enhanced caramelization', 'Sweeter flavor profile']
           },
           fullMoon: {
-            elementalBoost: { Fire: 0.2 }
+            elementalBoost: { Fire: 0.2 },
             preparationTips: ['Best time for high-heat cooking', 'Maximum flavor development']
           }
         }
@@ -420,7 +420,7 @@ const rawCruciferous = {
         characteristics: 'sold on the stalk, very fresh',
         uses: 'optimal freshness, display cooking',
         best_cooking_methods: ['roasting', 'individual preparation'],
-        notes: 'can be roasted on the stalk for presentation'
+        notes: 'can be roasted on the stalk for presentation',
       }
     },
     culinaryApplications: {
@@ -444,7 +444,7 @@ const rawCruciferous = {
         method: 'quarter and pan-fry with potatoes',
         additions: ['bacon', 'onions', 'herbs'],
         timing: '15-20 minutes until crispy',
-        serving: 'top with eggs for complete meal'
+        serving: 'top with eggs for complete meal',
       }
     },
     storage: {
@@ -455,14 +455,14 @@ const rawCruciferous = {
       frozen: {
         preparation: 'blanch for 3 minutes before freezing',
         duration: 'up to 12 months',
-        best_uses: 'cooked dishes, not raw applications'
+        best_uses: 'cooked dishes, not raw applications',
       }
     }
   }
 
   'bok choy': {
     name: 'Bok Choy',
-    elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 }
+    elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Mercury'],
       favorableZodiac: ['cancer', 'virgo'],
@@ -476,11 +476,11 @@ const rawCruciferous = {
         },
         lunarPhaseModifiers: {
           newMoon: {
-            elementalBoost: { Water: 0.15, Air: 0.05 }
+            elementalBoost: { Water: 0.15, Air: 0.05 },
             preparationTips: ['Light quick cooking', 'Gentle steaming']
           },
           fullMoon: {
-            elementalBoost: { Water: 0.1, Earth: 0.1 }
+            elementalBoost: { Water: 0.1, Earth: 0.1 },
             preparationTips: ['Enhanced flavors in soups', 'Better absorption of sauces']
           }
         }
@@ -535,7 +535,7 @@ const rawCruciferous = {
         characteristics: 'compact, smaller than baby bok choy',
         uses: 'quick cooking, gentle methods',
         best_cooking_methods: ['steaming', 'light braise'],
-        notes: 'very tender texture'
+        notes: 'very tender texture',
       }
     },
     culinaryApplications: {
@@ -559,7 +559,7 @@ const rawCruciferous = {
         method: 'brush with oil and grill quickly',
         timing: '2-3 minutes per side',
         marinade: 'soy, sesame oil, garlic',
-        technique: 'halve lengthwise, maintain core for stability'
+        technique: 'halve lengthwise, maintain core for stability',
       }
     },
     storage: {
@@ -570,14 +570,14 @@ const rawCruciferous = {
       frozen: {
         preparation: 'blanch for 1 minute before freezing',
         duration: 'up to 3 months',
-        best_uses: 'soups and cooked dishes'
+        best_uses: 'soups and cooked dishes',
       }
     }
   }
 
   kohlrabi: {
     name: 'Kohlrabi',
-    elementalProperties: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 }
+    elementalProperties: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Mercury'],
       favorableZodiac: ['capricorn', 'virgo'],
@@ -591,11 +591,11 @@ const rawCruciferous = {
         },
         lunarPhaseModifiers: {
           firstQuarter: {
-            elementalBoost: { Earth: 0.1, Air: 0.1 }
+            elementalBoost: { Earth: 0.1, Air: 0.1 },
             preparationTips: ['Good for raw preparations', 'Enhanced crispness']
           },
           fullMoon: {
-            elementalBoost: { Water: 0.1, Earth: 0.1 }
+            elementalBoost: { Water: 0.1, Earth: 0.1 },
             preparationTips: ['Better flavor in cooked dishes', 'More sweetness development']
           }
         }
@@ -637,7 +637,7 @@ const rawCruciferous = {
         characteristics: 'very large bulb, slightly woody',
         uses: 'long-cooking dishes',
         best_cooking_methods: ['braising', 'stews', 'roasting'],
-        notes: 'may need longer cooking times'
+        notes: 'may need longer cooking times',
       }
     },
     culinaryApplications: {
@@ -672,14 +672,14 @@ const rawCruciferous = {
       frozen: {
         preparation: 'blanch for 2 minutes after peeling and cubing',
         duration: 'up to 8 months',
-        best_uses: 'cooked dishes, not raw applications'
+        best_uses: 'cooked dishes, not raw applications',
       }
     }
   }
 
   cabbage: {
     name: 'Cabbage',
-    elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
+    elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Saturn'],
       favorableZodiac: ['cancer', 'capricorn'],
@@ -693,11 +693,11 @@ const rawCruciferous = {
         },
         lunarPhaseModifiers: {
           fullMoon: {
-            elementalBoost: { Water: 0.15, Earth: 0.05 }
+            elementalBoost: { Water: 0.15, Earth: 0.05 },
             preparationTips: ['Best for fermentation', 'Enhanced preservation']
           },
           waningGibbous: {
-            elementalBoost: { Earth: 0.1, Water: 0.1 }
+            elementalBoost: { Earth: 0.1, Water: 0.1 },
             preparationTips: ['Good for hearty cooking methods', 'Improved digestibility']
           }
         }
@@ -744,7 +744,7 @@ const rawCruciferous = {
         characteristics: 'distinct leaves and stems, not a head',
         uses: 'East Asian preparations',
         best_cooking_methods: ['stir-fry', 'soup', 'steamed'],
-        notes: 'technically a distinct variety of Chinese cabbage'
+        notes: 'technically a distinct variety of Chinese cabbage',
       }
     },
     culinaryApplications: {
@@ -773,7 +773,7 @@ const rawCruciferous = {
         method: 'cut in wedges and roast at high heat',
         timing: '25-30 minutes at 425°F / (220 || 1)°C',
         seasonings: ['olive oil', 'garlic', 'butter', 'caraway'],
-        technique: 'cut through core to keep wedges intact'
+        technique: 'cut through core to keep wedges intact',
       }
     },
     storage: {
@@ -787,7 +787,7 @@ const rawCruciferous = {
         best_uses: 'cooked dishes only' },
         fermented: {
         duration: '6-12 months refrigerated',
-        notes: 'flavor becomes more complex over time'
+        notes: 'flavor becomes more complex over time',
       }
     }
   }

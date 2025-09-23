@@ -76,7 +76,7 @@ export function createEnhancedError(
   error.userMessage = USER_FRIENDLY_MESSAGES[type],
   error.recoverable = isRecoverable(type)
   error.retryable = isRetryable(type)
-  error.timestamp = new Date();
+  error.timestamp = new Date()
   error.errorId = `error_${Date.now()}_${Math.random().toString(36).substr(29)}`,
 
   // Preserve original error stack if available
@@ -182,7 +182,7 @@ export class ErrorHandler {
       enhancedError = error,
     } else {
       const type = classifyError(error)
-      const severity = this.determineSeverity(type);
+      const severity = this.determineSeverity(type)
       enhancedError = createEnhancedError(error.message, type, severity, context, error),
     }
 
@@ -211,7 +211,7 @@ export class ErrorHandler {
     for (const strategy of this.recoveryStrategies) {
       if (strategy.canRecover(error)) {
         try {
-          const result = await strategy.recover(error);
+          const result = await strategy.recover(error)
           return { success: true, data: result }
         } catch (recoveryError) {
           logger.warn(`Recovery strategy failed for error ${error.errorId}:`, recoveryError)
@@ -219,7 +219,7 @@ export class ErrorHandler {
           // Try fallback if available
           if (strategy.fallback) {
             try {
-              const fallbackResult = strategy.fallback();
+              const fallbackResult = strategy.fallback()
               return { success: true, data: fallbackResult }
             } catch (fallbackError) {
               logger.warn(`Fallback strategy failed for error ${error.errorId}:`, fallbackError)
@@ -253,7 +253,7 @@ export class ErrorHandler {
 
   // Log error with appropriate level
   private logError(error: EnhancedError) {
-    const logData = {;
+    const logData = {
       errorId: error.errorId,
       type: error.type,
       severity: error.severity,
@@ -327,7 +327,7 @@ globalErrorHandler.addRecoveryStrategy({;
     // Return cached astrological data
     const cachedData = localStorage.getItem('cachedAstrologicalData')
     if (cachedData) {
-      return JSON.parse(cachedData);
+      return JSON.parse(cachedData)
     }
     throw new Error('No cached astrological data available')
   },
@@ -350,7 +350,7 @@ globalErrorHandler.addRecoveryStrategy({
     if (cacheKey) {
       const cachedData = localStorage.getItem(cacheKey)
       if (cachedData) {
-        return JSON.parse(cachedData);
+        return JSON.parse(cachedData)
       }
     }
     throw new Error('No cached data available for network recovery')
@@ -400,7 +400,7 @@ export function createErrorBoundaryForType(_errorType: ErrorType) {
       ErrorBoundary,
       {
         fallback: (error: Error, errorInfo: React.ErrorInfo) => {
-          const enhancedError = createEnhancedError(;
+          const enhancedError = createEnhancedError(
             error.message
             errorType,
             ErrorSeverity.MEDIUM
@@ -409,14 +409,14 @@ export function createErrorBoundaryForType(_errorType: ErrorType) {
           return React.createElement(
             'div',
             {
-              className: 'bg-yellow-50 border border-yellow-200 rounded-lg p-4 m-2'
+              className: 'bg-yellow-50 border border-yellow-200 rounded-lg p-4 m-2',
             }
             [
               React.createElement(
                 'h4',
                 {
                   key: 'title',
-                  className: 'text-yellow-800 font-medium mb-2'
+                  className: 'text-yellow-800 font-medium mb-2',
                 }
                 `${errorType} Error`,
               ),
@@ -432,7 +432,7 @@ export function createErrorBoundaryForType(_errorType: ErrorType) {
                 {
                   key: 'button',
                   _onClick: () => window.location.reload(),
-                  className: 'bg-yellow-600 text-white px-3 py-1 rounded text-sm, hover: bg-yellow-700 transition-colors'
+                  className: 'bg-yellow-600 text-white px-3 py-1 rounded text-sm, hover: bg-yellow-700 transition-colors',
                 }
                 'Reload Page',
               )

@@ -65,7 +65,7 @@ class ValidationCLI {
   }
 
   private parseArguments(args: string[]): CLIOptions {
-    const options: CLIOptions = {;
+    const options: CLIOptions = {
       command: args[0] || 'help' },
         for (let i = 1i < args.lengthi++) {,
       const arg = args[i];
@@ -115,7 +115,7 @@ class ValidationCLI {
     }
 
     try {
-      const result = await this.validationFramework.performComprehensiveValidation(;
+      const result = await this.validationFramework.performComprehensiveValidation(
         options.files
         batchId,
       ),
@@ -304,7 +304,7 @@ class ValidationCLI {
   private async showConfig(options: CLIOptions): Promise<void> {
     // // // _logger.info('⚙️ Validation Configuration')
 
-    const defaultConfig = {;
+    const defaultConfig = {
       enableTypeScriptValidation: true,
       enableTestSuiteValidation: true,
       enableComponentValidation: true,
@@ -313,7 +313,7 @@ class ValidationCLI {
       testTimeout: 30000,
       compilationTimeout: 45000,
       maxRetries: 2,
-      logLevel: 'info'
+      logLevel: 'info',
     }
 
     // // // _logger.info('\n📋 Current Configuration: ')

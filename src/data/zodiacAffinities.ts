@@ -508,7 +508,7 @@ export const _zodiacCulinaryPreferences: Record<
     cookingStyle: 'Intuitive, flowing cooking often without precise recipes',
     diningStyle: 'Enjoys atmospheric dining with emotional and spiritual elements',
     weakness: 'Vagueness in recipes, inconsistent results, getting lost in process',
-    mealStructure: 'Fluid dining experiences that blur boundaries between courses'
+    mealStructure: 'Fluid dining experiences that blur boundaries between courses',
   }
 }
 
@@ -826,7 +826,7 @@ export const _zodiacMealTimingPreferences: Record<
     lunch: 0.6,
     dinner: 0.8,
     snacking: 0.7,
-    idealEatingHours: 'Flowing meal times that follow intuition rather than clock'
+    idealEatingHours: 'Flowing meal times that follow intuition rather than clock',
   }
 }
 

@@ -50,19 +50,19 @@ export function calculateAstrologicalAffinity(
   }
 
   // Calculate decanic compatibility
-  const decanCompat = compareDecanRulers(;
+  const decanCompat = compareDecanRulers(
     signs[signA]?.['Decan Effects'] || {}
     signs[signB]?.['Decan Effects'] || {}
   )
 
   // Calculate degree-specific influences
-  const degreeCompat = calculateDegreeOverlap(;
+  const degreeCompat = calculateDegreeOverlap(
     signs[signA]?.['Degree Effects'] || {}
     signs[signB]?.['Degree Effects'] || {}
   )
 
   // Calculate tarot correspondences influence
-  const tarotCompat = compareTarotArcana(;
+  const tarotCompat = compareTarotArcana(
     signs[signA]?.['Major Tarot Card'] || '',
     signs[signB]?.['Major Tarot Card'] || '',
   )
@@ -207,7 +207,7 @@ function calculateDegreeOverlap(
  */
 function compareTarotArcana(_tarotA: string, _tarotB: string): number {
   // Element-based tarot card groups
-  const elementGroups = {;
+  const elementGroups = {
     fire: ['The Emperor', 'Strength', 'Temperance', 'The Sun'],
     water: ['The High Priestess', 'The Hanged Man', 'Death', 'The Moon'],
     air: ['The Magician', 'Justice', 'The Star', 'The World'],
@@ -671,7 +671,7 @@ export function generateEnhancedRecommendation(
     const avoidList = seasonalInfluence.avoid;
 
     if (avoidList.some(avoid => mainIngredient.includes(avoid))) {,
-      const alternatives = filteredIngredients.filter(;
+      const alternatives = filteredIngredients.filter(
         i => !avoidList.some(avoid => i.includes(avoid)),
       ),
       if (alternatives.length > 0) {
@@ -680,7 +680,7 @@ export function generateEnhancedRecommendation(
     }
 
     if (avoidList.some(avoid => secondaryIngredient.includes(avoid))) {,
-      const alternatives = filteredIngredients.filter(;
+      const alternatives = filteredIngredients.filter(
         i => i !== mainIngredient && !avoidList.some(avoid => i.includes(avoid)),
       ),
       if (alternatives.length > 0) {
@@ -763,27 +763,27 @@ function getSeasonalAdjustments(
   // Adjust based on element-season harmony
   const elementalAdjustment = {
     Fire: {;
-      spring: { extraBoost: ['radishes', 'arugula'], extraAvoid: ['cooling melons'] }
+      spring: { extraBoost: ['radishes', 'arugula'], extraAvoid: ['cooling melons'] },
       summer: { extraBoost: ['chili peppers', 'garlic'], extraAvoid: [] }
-      autumn: { extraBoost: ['ginger', 'warming spices'], extraAvoid: ['raw greens'] }
+      autumn: { extraBoost: ['ginger', 'warming spices'], extraAvoid: ['raw greens'] },
       winter: { extraBoost: ['warming spices', 'chilis'], extraAvoid: [] }
     },
     Water: {
-      spring: { extraBoost: ['fresh fish', 'herbs'], extraAvoid: [] }
+      spring: { extraBoost: ['fresh fish', 'herbs'], extraAvoid: [] },
       summer: { extraBoost: ['cucumber', 'watermelon'], extraAvoid: ['heating spices'] }
-      autumn: { extraBoost: ['pears', 'apples'], extraAvoid: [] }
+      autumn: { extraBoost: ['pears', 'apples'], extraAvoid: [] },
       winter: { extraBoost: ['citrus', 'broths'], extraAvoid: [] }
     },
     Earth: {
-      spring: { extraBoost: ['new potatoes', 'spring onions'], extraAvoid: [] }
+      spring: { extraBoost: ['new potatoes', 'spring onions'], extraAvoid: [] },
       summer: { extraBoost: ['corn', 'beans'], extraAvoid: ['heavy stews'] }
-      autumn: { extraBoost: ['root vegetables', 'squash'], extraAvoid: [] }
+      autumn: { extraBoost: ['root vegetables', 'squash'], extraAvoid: [] },
       winter: { extraBoost: ['preserved roots', 'slow-cooked dishes'], extraAvoid: ['raw foods'] }
     },
     Air: {
-      spring: { extraBoost: ['herbs', 'sprouts'], extraAvoid: [] }
+      spring: { extraBoost: ['herbs', 'sprouts'], extraAvoid: [] },
       summer: { extraBoost: ['berries', 'light grains'], extraAvoid: ['heavy sauces'] }
-      autumn: { extraBoost: ['nuts', 'seeds'], extraAvoid: [] }
+      autumn: { extraBoost: ['nuts', 'seeds'], extraAvoid: [] },
       winter: { extraBoost: ['aromatic spices', 'citrus zest'], extraAvoid: [] }
     }
   }
@@ -821,7 +821,7 @@ export function validateAlgorithms(): {
   const testResults: Array<{ test: string, passed: boolean, info?: string }> = [];
 
   // Test, 1: Verify decanic compatibility calculation
-  const decanTest = {;
+  const decanTest = {
     test: 'Decanic influence calculation',
     passed: false,
     info: '' },
@@ -839,7 +839,7 @@ export function validateAlgorithms(): {
   testResults.push(decanTest)
 
   // Test, 2: Verify degree-specific calculation
-  const degreeTest = {;
+  const degreeTest = {
     test: 'Degree-specific influence calculation',
     passed: false,
     info: '' },
@@ -857,7 +857,7 @@ export function validateAlgorithms(): {
   testResults.push(degreeTest)
 
   // Test, 3: Verify tarot correspondence calculation
-  const tarotTest = {;
+  const tarotTest = {
     test: 'Tarot correspondence calculation',
     passed: false,
     info: '' },
@@ -873,7 +873,7 @@ export function validateAlgorithms(): {
   testResults.push(tarotTest)
 
   // Test, 4: Verify modality calculation
-  const modalityTest = {;
+  const modalityTest = {
     test: 'Modality compatibility calculation',
     passed: false,
     info: '' },
@@ -890,7 +890,7 @@ export function validateAlgorithms(): {
   testResults.push(modalityTest)
 
   // Test, 5: Verify planetary ruler calculation
-  const rulerTest = {;
+  const rulerTest = {
     test: 'Planetary ruler compatibility calculation',
     passed: false,
     info: '' },
@@ -906,17 +906,17 @@ export function validateAlgorithms(): {
   testResults.push(rulerTest)
 
   // Test, 6: Verify enhanced recipe recommendation
-  const recipeTest = {;
+  const recipeTest = {
     test: 'Enhanced recipe recommendation generation',
     passed: false,
     info: '' },
         try {
-    const mockResult: AlchemicalResult = {;
-      elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 }
+    const mockResult: AlchemicalResult = {
+      elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
       thermodynamicProperties: { heat: 0.6, entropy: 0.4, reactivity: 0.5, gregsEnergy: 0.5 }
       kalchm: 1.2,
       monica: 0.8,
-      score: 0.7
+      score: 0.7,
     }
 
     const recommendation = generateEnhancedRecommendation(mockResult as unknown, [], 'summer')

@@ -25,7 +25,7 @@ import {
  * Empty Alchemical Properties;
  * Default/empty state for ESMS (Spirit, Essence, Matter, Substance) properties
  */
-export const _EmptyAlchemicalProperties: AlchemicalPropertiesType = {;
+export const _EmptyAlchemicalProperties: AlchemicalPropertiesType = {
   Spirit: 0,
   Essence: 0,
   Matter: 0,
@@ -36,7 +36,7 @@ export const _EmptyAlchemicalProperties: AlchemicalPropertiesType = {;
  * Default Alchemical Properties (alias for compatibility)
  * Equal distribution across all four alchemical properties (25% each)
  */
-export const _DefaultAlchemicalProperties: AlchemicalPropertiesType = {;
+export const _DefaultAlchemicalProperties: AlchemicalPropertiesType = {
   Spirit: 0.25,
   Essence: 0.25,
   Matter: 0.25,
@@ -47,7 +47,7 @@ export const _DefaultAlchemicalProperties: AlchemicalPropertiesType = {;
  * Balanced Alchemical Properties
  * Equal distribution across all four alchemical properties (25% each)
  */
-export const BalancedAlchemicalProperties: AlchemicalPropertiesType = {;
+export const BalancedAlchemicalProperties: AlchemicalPropertiesType = {
   Spirit: 0.25,
   Essence: 0.25,
   Matter: 0.25,
@@ -58,7 +58,7 @@ export const BalancedAlchemicalProperties: AlchemicalPropertiesType = {;
  * Empty Elemental Properties
  * Default/empty state for classical elemental properties
  */
-export const _EmptyElementalProperties: ElementalPropertiesType = {;
+export const _EmptyElementalProperties: ElementalPropertiesType = {
   Fire: 0,
   Water: 0,
   Earth: 0,
@@ -69,7 +69,7 @@ export const _EmptyElementalProperties: ElementalPropertiesType = {;
  * Default Elemental Properties (alias for compatibility)
  * Equal distribution across all four elements (25% each)
  */
-export const _DefaultElementalProperties: ElementalPropertiesType = {;
+export const _DefaultElementalProperties: ElementalPropertiesType = {
   Fire: 0.25,
   Water: 0.25,
   Earth: 0.25,
@@ -80,7 +80,7 @@ export const _DefaultElementalProperties: ElementalPropertiesType = {;
  * Balanced Elemental Properties
  * Equal distribution across all four elements (25% each)
  */
-export const BalancedElementalProperties: ElementalPropertiesType = {;
+export const BalancedElementalProperties: ElementalPropertiesType = {
   Fire: 0.25,
   Water: 0.25,
   Earth: 0.25,
@@ -91,7 +91,7 @@ export const BalancedElementalProperties: ElementalPropertiesType = {;
  * Default Thermodynamic Metrics
  * Safe default values for thermodynamic calculations
  */
-export const DefaultThermodynamicMetrics: ThermodynamicMetricsType = {;
+export const DefaultThermodynamicMetrics: ThermodynamicMetricsType = {
   heat: 0.5,
   entropy: 0.5,
   reactivity: 0.5,
@@ -128,7 +128,7 @@ export const _EmptyPlanetaryPositions: PlanetaryPositionsType = {} as const;
  * Default Planetary Positions
  * Basic planetary positions with default zodiac signs
  */
-export const DefaultPlanetaryPositions: PlanetaryPositionsType = {;
+export const DefaultPlanetaryPositions: PlanetaryPositionsType = {
   Sun: 'aries',
   Moon: 'cancer',
   Mercury: 'gemini',
@@ -157,7 +157,7 @@ export const DefaultLunarPhase: LunarPhaseType = 'new moon' as const;
  * Default Nutritional Content
  * Safe default nutritional values
  */
-export const DefaultNutritionalContent: NutritionalContentType = {;
+export const DefaultNutritionalContent: NutritionalContentType = {
   calories: 0,
   protein: 0,
   fat: 0,
@@ -171,7 +171,7 @@ export const DefaultNutritionalContent: NutritionalContentType = {;
  * Default Ingredient Mapping
  * Template ingredient with safe default values
  */
-export const _DefaultIngredientMapping: IngredientMappingType = {;
+export const _DefaultIngredientMapping: IngredientMappingType = {
   name: 'Unknown Ingredient',
   category: 'unspecified',
   season: ['all'],
@@ -189,7 +189,7 @@ export const _DefaultIngredientMapping: IngredientMappingType = {;
  * Default Astrological State
  * Complete default astrological state
  */
-export const _DefaultAstrologicalState: AstrologicalStateType = {;
+export const _DefaultAstrologicalState: AstrologicalStateType = {
   planetaryPositions: DefaultPlanetaryPositions,
   currentZodiac: DefaultZodiacSign,
   lunarPhase: DefaultLunarPhase,
@@ -222,7 +222,7 @@ export const _createSuccessResponse = <T>(data: T): ServiceResponseType<T> => ({
  * Create Safe Elemental Properties
  * Ensures all elemental values are valid numbers and sum to 1.0
  */
-export const _createSafeElementalProperties = (;
+export const _createSafeElementalProperties = (
   properties: Partial<ElementalPropertiesType>,
 ): ElementalPropertiesType => {;
   const fire = Number.isFinite(properties.Fire) ? Math.max(0, properties.Fire ?? 0) : 0.25
@@ -245,7 +245,7 @@ export const _createSafeElementalProperties = (;
  * Create Safe Alchemical Properties
  * Ensures all alchemical values are valid numbers and sum to 1.0
  */
-export const _createSafeAlchemicalProperties = (;
+export const _createSafeAlchemicalProperties = (
   properties: Partial<AlchemicalPropertiesType>,
 ): AlchemicalPropertiesType => {;
   const spirit = Number.isFinite(properties.Spirit) ? Math.max(0, properties.Spirit ?? 0) : 0.25
@@ -270,7 +270,7 @@ export const _createSafeAlchemicalProperties = (;
  * Create Safe Thermodynamic Metrics
  * Ensures all thermodynamic values are valid numbers within reasonable ranges
  */
-export const _createSafeThermodynamicMetrics = (;
+export const _createSafeThermodynamicMetrics = (
   metrics: Partial<ThermodynamicMetricsType>,
 ): ThermodynamicMetricsType => {
   return {;
@@ -285,7 +285,7 @@ export const _createSafeThermodynamicMetrics = (;
       ? Math.max(0.1, Math.min(1.0, metrics.gregsEnergy ?? 0.5))
       : 0.5,
     kalchm: Number.isFinite(metrics.kalchm) ? Math.max(0.1, metrics.kalchm ?? 1.0) : 1.0,
-    monica: Number.isFinite(metrics.monica) ? Math.max(0.1, metrics.monica ?? 1.0) : 1.0
+    monica: Number.isFinite(metrics.monica) ? Math.max(0.1, metrics.monica ?? 1.0) : 1.0,
   }
 }
 
@@ -294,7 +294,7 @@ export const _createSafeThermodynamicMetrics = (;
  * Ensures the provided string is a valid zodiac sign
  */
 export const _validateZodiacSign = (sign: string): anyType => {
-  const validSigns: anyType[] = [;
+  const validSigns: anyType[] = [
     'aries',
     'taurus',
     'gemini',
@@ -318,7 +318,7 @@ export const _validateZodiacSign = (sign: string): anyType => {
  * Ensures the provided string is a valid lunar phase
  */
 export const _validateLunarPhase = (phase: string): LunarPhaseType => {
-  const validPhases: LunarPhaseType[] = [;
+  const validPhases: LunarPhaseType[] = [
     'new moon',
     'waxing crescent',
     'first quarter',

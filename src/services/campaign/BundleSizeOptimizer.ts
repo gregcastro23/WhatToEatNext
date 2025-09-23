@@ -96,14 +96,14 @@ export class BundleSizeOptimizer {
       const totalSize = bundleInfo.totalSize;
       const compressedSize = Math.round(totalSize * this.COMPRESSION_RATIO)
       // Generate recommendations based on analysis
-      const recommendations = this.generateBundleRecommendations(;
+      const recommendations = this.generateBundleRecommendations(
         totalSize,
         chunks,
         assets,
         dependencies,
       ),
 
-      const analysis: BundleAnalysis = {;
+      const analysis: BundleAnalysis = {
         totalSize,
         compressedSize,
         chunks,
@@ -179,7 +179,7 @@ export class BundleSizeOptimizer {
           // Use bundle analyzer
           const output = execSync('yarn analyze 2>/dev/null || echo 'analyzer not available'', {
             encoding: 'utf8',
-            stdio: 'pipe'
+            stdio: 'pipe',
           })
 
           if (!output.includes('analyzer not available')) {
@@ -195,7 +195,7 @@ export class BundleSizeOptimizer {
       // Fallback: calculate from .next directory
       const output = execSync('du -sk .next/static | cut -f1', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       const sizeKB = parseInt(output.trim()) || 0;
@@ -214,7 +214,7 @@ export class BundleSizeOptimizer {
     try {
       const output = execSync(`du -sk ${buildDir} | cut -f1`, {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       const sizeKB = parseInt(output.trim()) || 0;
@@ -232,11 +232,11 @@ export class BundleSizeOptimizer {
   private async estimateBundleSize(): Promise<{ totalSize: number }> {
     try {
       // Calculate source code size as rough estimate
-      const output = execSync(;
+      const output = execSync(
         'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | xargs wc -c | tail -1 | awk \'{print 1}\'',
         {
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         })
 
       const sourceBytes = parseInt(output.trim()) || 0;
@@ -344,7 +344,7 @@ export class BundleSizeOptimizer {
       const deps = { ...packageJson.dependencies, ...packageJson.devDependencies }
 
       // Analyze major dependencies that impact bundle size
-      const heavyDependencies = [;
+      const heavyDependencies = [
         'react',
         'react-dom',
         'next',
@@ -414,7 +414,7 @@ export class BundleSizeOptimizer {
         lazyLoadedComponents: 0,
         potentialLazyComponents: [],
         dataFetchingOptimizations: [],
-        score: 0
+        score: 0,
       }
     }
   }
@@ -486,7 +486,7 @@ export class BundleSizeOptimizer {
     const analysis = await this.analyzeBundleSize()
     const lazyLoadingValidation = await this.validateLazyLoading()
     // Calculate overall score (0-100)
-    const sizeScore = Math.max(;
+    const sizeScore = Math.max(
       0,
       Math.min(100, (this.TARGET_BUNDLE_SIZE / Math.max(analysis.totalSize, 1)) * 100),
     )
@@ -578,7 +578,7 @@ export class BundleSizeOptimizer {
       moment: 65,
       axios: 15,
       three: 600,
-      'chart.js': 80
+      'chart.js': 80,
     }
 
     return knownSizes[name] || 20; // Default estimate
@@ -607,7 +607,7 @@ export class BundleSizeOptimizer {
     try {
       const output = execSync('find src -name '*.tsx' -o -name '*.jsx' | wc -l', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       return parseInt(output.trim()) || 0,
@@ -618,11 +618,11 @@ export class BundleSizeOptimizer {
 
   private async countLazyLoadedComponents(): Promise<number> {
     try {
-      const output = execSync(;
+      const output = execSync(
         'grep -r 'lazy\\|dynamic' src --include='*.tsx' --include='*.jsx' | wc -l',,
         {
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         })
 
       return parseInt(output.trim()) || 0,
@@ -634,11 +634,11 @@ export class BundleSizeOptimizer {
   private async identifyPotentialLazyComponents(): Promise<string[]> {
     try {
       // Find large components that could benefit from lazy loading
-      const output = execSync(;
+      const output = execSync(
         'find src -name '*.tsx' -exec wc -l {} + | sort -nr | head -10 | awk \'{print 2}\'',
         {
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         })
 
       return output
@@ -655,18 +655,18 @@ export class BundleSizeOptimizer {
 
     try {
       // Check for potential data fetching optimizations
-      const hasUseEffect = execSync(;
+      const hasUseEffect = execSync(
         'grep -r 'useEffect' src --include='*.tsx' --include='*.jsx' | wc -l',,
         {
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         })
 
-      const hasUseSWR = execSync(;
+      const hasUseSWR = execSync(
         'grep -r 'useSWR\\|useQuery' src --include='*.tsx' --include='*.jsx' | wc -l',,
         {
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         })
 
       const effectCount = parseInt(hasUseEffect.trim()) || 0;
@@ -703,21 +703,21 @@ export class BundleSizeOptimizer {
 
     const largeChunks = chunks.filter(chunk => chunk.size > this.TARGET_CHUNK_SIZE)
     if (largeChunks.length > 0) {
-      recommendations.push(;
+      recommendations.push(
         `${largeChunks.length} chunks exceed recommended size - consider code splitting`,
       )
     }
 
     const unoptimizedAssets = assets.filter(asset => !asset.optimized && asset.size > 10)
     if (unoptimizedAssets.length > 0) {
-      recommendations.push(;
+      recommendations.push(
         `${unoptimizedAssets.length} assets could be optimized for better compression`,
       )
     }
 
     const heavyDependencies = dependencies.filter(dep => dep.size > 100)
     if (heavyDependencies.length > 0) {
-      recommendations.push(;
+      recommendations.push(
         `Consider alternatives for ${heavyDependencies.length} heavy dependencies`,
       )
     }
@@ -759,7 +759,7 @@ export class BundleSizeOptimizer {
   async exportBundleData(filePath: string): Promise<void> {
     try {
       const report = await this.generateOptimizationReport()
-      const exportData = {;
+      const exportData = {
         timestamp: new Date().toISOString(),
         report,
         history: this.analysisHistory,

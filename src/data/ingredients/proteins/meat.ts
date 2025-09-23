@@ -9,7 +9,7 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
     qualities: ['robust', 'rich', 'substantial'],
     sustainabilityScore: 2,
     season: ['all'],
-    elementalProperties: { Fire: 0.7, Water: 0.1, Earth: 0.2, Air: 0.0 }
+    elementalProperties: { Fire: 0.7, Water: 0.1, Earth: 0.2, Air: 0.0 },
     sensoryProfile: {
       taste: ['Mild', 'Balanced', 'Natural'],
       aroma: ['Fresh', 'Clean', 'Subtle'],
@@ -32,7 +32,7 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
     qualities: ['light', 'lean', 'versatile'],
     sustainabilityScore: 1,
     season: ['all'],
-    elementalProperties: { Fire: 0.3, Water: 0.5, Earth: 0.2, Air: 0.0 }
+    elementalProperties: { Fire: 0.3, Water: 0.5, Earth: 0.2, Air: 0.0 },
     sensoryProfile: {
       taste: ['Mild', 'Balanced', 'Natural'],
       aroma: ['Fresh', 'Clean', 'Subtle'],

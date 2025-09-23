@@ -26,7 +26,7 @@ afterEach(() => {
 })
 
 // Global test utilities
-(global as unknown).testUtils = {;
+(global as unknown).testUtils = {
   gitMock: gitOperationsMock as unknown,
   scriptMock: scriptExecutionMock as unknown,
 
@@ -58,9 +58,9 @@ afterEach(() => {
 
   // Helper to create mock progress metrics
   createMockProgressMetrics: (overrides: Record<string, unknown> = {}) => ({
-    typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 }
+    typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },
     lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 }
-    buildPerformance: { currentTime: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 }
+    buildPerformance: { currentTime: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
     enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
     ...overrides
   }),
@@ -70,12 +70,12 @@ afterEach(() => {
     heapUsed: '45.2MB',
     heapTotal: '67.8MB',
     external: '2.1MB',
-    arrayBuffers: '1.3MB'
+    arrayBuffers: '1.3MB',
   }),
 
   cleanupMemory: () => ({
     success: true,
-    freedMemory: '5.2MB'
+    freedMemory: '5.2MB',
   })
 }
 
@@ -90,12 +90,12 @@ expect.extend({
     if (pass) {
       return {
         message: () => `expected ${received} not to be within range ${floor} - ${ceiling}`,
-        pass: true
+        pass: true,
       }
     } else {
       return {
         message: () => `expected ${received} to be within range ${floor} - ${ceiling}`,
-        pass: false
+        pass: false,
       }
     }
   }
@@ -110,12 +110,12 @@ expect.extend({
     if (pass) {
       return {;
         message: () => `expected mock not to have been called with script ${scriptPath}`,
-        pass: true
+        pass: true,
       }
     } else {
       return {
         message: () => `expected mock to have been called with script ${scriptPath}`,
-        pass: false
+        pass: false,
       }
     }
   }
@@ -133,7 +133,7 @@ declare global {
 
 // Console override for cleaner test output
 const originalConsole = console;
-global.console = {;
+global.console = {
   ...originalConsole,
   log: jest.fn() as unknown,
   warn: jest.fn() as unknown,

@@ -51,7 +51,7 @@ export const useChakraInfluencedFood = (options?: {;
     heart: 0,
     throat: 0,
     thirdEye: 0,
-    crown: 0
+    crown: 0,
   })
   const [chakraRecommendations, setChakraRecommendations] = useState<
     Record<string, EnhancedIngredient[]>
@@ -79,7 +79,7 @@ export const useChakraInfluencedFood = (options?: {;
       if (hourInfo && typeof hourInfo.planet === 'string') {;
         // Pattern, X: Safe Planet type casting with proper validation
         const planetName = hourInfo.planet.toLowerCase()
-        const validPlanets = [;
+        const validPlanets = [
           'sun',
           'moon',
           'mercury',
@@ -134,7 +134,7 @@ export const useChakraInfluencedFood = (options?: {;
   useEffect(() => {
     if (!astroLoading && currentZodiac && activePlanets) {
       // Calculate chakra energies
-      const energies = chakraService.calculateChakraEnergies(;
+      const energies = chakraService.calculateChakraEnergies(
         currentZodiac || 'aries',
         (moonSign || 'taurus'),
         // Pattern, Y: Safe Planet array casting with validation and null checking
@@ -349,7 +349,7 @@ export const useChakraInfluencedFood = (options?: {;
       setLoading(true)
 
       // Recalculate chakra energies
-      const energies = chakraService.calculateChakraEnergies(;
+      const energies = chakraService.calculateChakraEnergies(
         currentZodiac || 'aries',
         (moonSign || 'taurus'),
         // Pattern, Z: Safe Planet array casting with validation and null checking for refresh function

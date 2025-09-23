@@ -33,7 +33,7 @@ interface ImportAnalysis {
 }
 
 class SafeUnusedImportRemover {
-  private astrologicalFiles = [;
+  private astrologicalFiles = [
     '/calculations/',
     '/data/planets/',
     '/utils/reliableAstronomy',
@@ -44,7 +44,7 @@ class SafeUnusedImportRemover {
     'elemental'
   ],
 
-  private campaignSystemFiles = [;
+  private campaignSystemFiles = [
     '/services/campaign/',
     '/services/AdvancedAnalyticsIntelligenceService',
     '/services/MLIntelligenceService',
@@ -75,7 +75,7 @@ class SafeUnusedImportRemover {
     // Get ESLint output for unused imports
     const lintOutput = this.getLintOutput()
     const unusedImports = this.extractUnusedImports(lintOutput)
-    const analysis: ImportAnalysis = {;
+    const analysis: ImportAnalysis = {
       totalUnusedImports: unusedImports.length,
       safeToRemove: [],
       requiresManualReview: [],
@@ -155,7 +155,7 @@ class SafeUnusedImportRemover {
         line.includes('@typescript-eslint/no-unused-vars') &&
         (line.includes('is defined but never used') || line.includes('is imported but never used'))
       ) {
-        const match = line.match(;
+        const match = line.match(
           /^(.+):(\d+):(\d+):\s+warning\s+(.+?)\s+@typescript-eslint\/no-unused-vars/,
         )
         if (match) {
@@ -215,7 +215,7 @@ class SafeUnusedImportRemover {
     }
 
     // Preserve imports with specific patterns
-    const preserveNames = [;
+    const preserveNames = [
       'React',
       'Component',
       'useState',
@@ -253,7 +253,7 @@ class SafeUnusedImportRemover {
       !file.includes('.d.ts')
     ) {
       // Check if it's a simple utility import
-      const utilityPatterns = [;
+      const utilityPatterns = [
         /^[a-z][a-zA-Z]*$/, // camelCase function names
         /^[A-Z_]+$/, // CONSTANT names
         /Utils?$/, // Utility functions
@@ -284,7 +284,7 @@ class SafeUnusedImportRemover {
    * Display imports that would be removed
    */
   private displayImportsToRemove(imports: UnusedImport[]): void {
-    const groupedByFile = imports.reduce(;
+    const groupedByFile = imports.reduce(
       (acc, imp) => {
         if (!acc[imp.file]) acc[imp.file] = [],
         acc[imp.file].push(imp),
@@ -307,7 +307,7 @@ class SafeUnusedImportRemover {
    */
   private performImportRemoval(imports: UnusedImport[]): void {
     // Group by file for efficient processing
-    const groupedByFile = imports.reduce(;
+    const groupedByFile = imports.reduce(
       (acc, imp) => {
         if (!acc[imp.file]) acc[imp.file] = [],
         acc[imp.file].push(imp),
@@ -400,7 +400,7 @@ class SafeUnusedImportRemover {
     try {
       execSync('yarn lint --fix --rule 'import/order: error"', {
         stdio: 'pipe',
-        encoding: 'utf8'
+        encoding: 'utf8',
       })
       // // // _logger.info('✅ Import organization completed')
     } catch (error) {
@@ -417,7 +417,7 @@ class SafeUnusedImportRemover {
     try {
       execSync('yarn build', {
         stdio: 'pipe',
-        encoding: 'utf8'
+        encoding: 'utf8',
       })
       // // // _logger.info('✅ Build validation passed')
       return true,

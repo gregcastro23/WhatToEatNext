@@ -4,12 +4,12 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawAmaranth = {
   amaranth: {;
     name: 'Amaranth',
-    elementalProperties: { Earth: 0.3, Fire: 0.3, Air: 0.2, Water: 0.2 }
+    elementalProperties: { Earth: 0.3, Fire: 0.3, Air: 0.2, Water: 0.2 },
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Venus'],
       elementalAffinity: {
         base: 'Earth',
-        secondary: 'Fire'
+        secondary: 'Fire',
       }
     },
     qualities: ['nutty', 'earthy', 'gelatinous', 'gluten-free', 'protein-rich'],
@@ -20,7 +20,7 @@ const rawAmaranth = {
         appearance: 'Tiny cream-colored seeds',
         texture: 'Sticky when cooked, gelatinous',
         flavor: 'Earthy, nutty, slightly peppery',
-        uses: 'Porridges, binding agent in dishes, flour for baking'
+        uses: 'Porridges, binding agent in dishes, flour for baking',
       }
     },
     preparation: {

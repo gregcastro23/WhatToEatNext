@@ -45,7 +45,7 @@ class PerformanceMonitoringService {
   private readonly ERROR_RATE_WARNING = 0.1, // 10% error rate,
 
   constructor() {
-    this.systemMetrics = {;
+    this.systemMetrics = {
       totalMemoryUsage: 0,
       peakMemoryUsage: 0,
       totalErrors: 0,
@@ -77,7 +77,7 @@ class PerformanceMonitoringService {
     }
 
     // Update system metrics
-    this.systemMetrics = {;
+    this.systemMetrics = {
       ...this.systemMetrics,
       totalMemoryUsage: totalMemory,
       peakMemoryUsage: Math.max(this.systemMetrics.peakMemoryUsage, totalMemory),
@@ -167,7 +167,7 @@ class PerformanceMonitoringService {
   }
 
   private notifySubscribers() {
-    const data = {;
+    const data = {
       componentMetrics: Array.from(this.componentMetrics.entries()),
       systemMetrics: this.systemMetrics,
       alerts: this.alerts.slice(-10), // Last 10 alerts,
@@ -271,7 +271,7 @@ class PerformanceMonitoringService {
   public getPerformanceSummary() {
     const components = Array.from(this.componentMetrics.values())
     const slowComponents = components.filter(c => c.averageRenderTime > this.RENDER_TIME_WARNING)
-    const errorProneComponents = components.filter(;
+    const errorProneComponents = components.filter(
       c => c.errorCount / Math.max(c.renderCount, 1) > this.ERROR_RATE_WARNING,,
     ),
 
@@ -312,7 +312,7 @@ class PerformanceMonitoringService {
   public reset() {
     this.componentMetrics.clear()
     this.alerts = [],
-    this.systemMetrics = {;
+    this.systemMetrics = {
       totalMemoryUsage: 0,
       peakMemoryUsage: 0,
       totalErrors: 0,

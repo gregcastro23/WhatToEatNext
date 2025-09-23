@@ -19,33 +19,33 @@ jest.mock('@/utils/logger', () => ({
 }))
 
 describe('useEnterpriseIntelligence', () => {
-  const mockRecipeData: any = {;
+  const mockRecipeData: any = {
     id: 'test-recipe',
     name: 'Test Recipe',
     elementalProperties: { Fire: 0.3,
       Water: 0.2,
       Earth: 0.3,
-      Air: 0.2
+      Air: 0.2,
     }
   }
 
-  const mockIngredientData: any = {;
+  const mockIngredientData: any = {
     name: 'Test Ingredient',
     category: 'vegetables',
     elementalProperties: { Fire: 0.2,
       Water: 0.3,
       Earth: 0.3,
-      Air: 0.2
+      Air: 0.2,
     }
   }
 
-  const mockAstrologicalContext: any = {;
+  const mockAstrologicalContext: any = {
     zodiacSign: 'aries' as any,
     lunarPhase: 'new moon' as LunarPhase,
     elementalProperties: { Fire: 0.4,
       Water: 0.2,
       Earth: 0.2,
-      Air: 0.2
+      Air: 0.2,
     } as ElementalProperties,
     planetaryPositions: {}
   }
@@ -65,7 +65,7 @@ describe('useEnterpriseIntelligence', () => {
     const { result } = renderHook(() => useEnterpriseIntelligence())
 
     await act(async () => {
-      const analysis: any = await result.current.actions.performAnalysis(;
+      const analysis: any = await result.current.actions.performAnalysis(
         mockRecipeData,
         mockIngredientData,
         mockAstrologicalContext,
@@ -115,7 +115,7 @@ describe('useEnterpriseIntelligence', () => {
     act(() => {
       result.current.actions.updateConfig({
         enableRecipeIntelligence: false,
-        logLevel: 'error'
+        logLevel: 'error',
       })
     })
 
@@ -162,7 +162,7 @@ describe('useEnterpriseIntelligence', () => {
 
     // Test with invalid data that might cause errors
     await act(async () => {
-      const analysis: any = await resultcurrent.actions.performAnalysis(;
+      const analysis: any = await resultcurrent.actions.performAnalysis(
         {} as any,
         {} as any,
         mockAstrologicalContext

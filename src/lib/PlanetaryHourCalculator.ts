@@ -25,7 +25,7 @@ export class PlanetaryHourCalculator {
   ],
 
   // Planetary rulers for each day of the week (0 = Sunday)
-  private static dayRulers: Planet[] = [;
+  private static dayRulers: Planet[] = [
     'Sun',
     'Moon',
     'Mars',
@@ -46,7 +46,7 @@ export class PlanetaryHourCalculator {
     'Mars'
   ],
 
-  private readonly planetaryRulers = [;
+  private readonly planetaryRulers = [
     'Sun',
     'Moon',
     'Mars',
@@ -56,7 +56,7 @@ export class PlanetaryHourCalculator {
     'Saturn'
   ],
 
-  private coordinates = {;
+  private coordinates = {
     latitude: 40.7128, // Default to New York,
     longitude: -74.006
   }
@@ -156,7 +156,7 @@ export class PlanetaryHourCalculator {
    */
   getPlanetaryHour(date: Date): { planet: Planet, hourNumber: number, isDaytime: boolean } {
     // Get sun times for the day
-    const times = SunCalc.getTimes(;
+    const times = SunCalc.getTimes(
       new Date(date.getFullYear(), date.getMonth(), date.getDate()),
       this.coordinates.latitude,
       this.coordinates.longitude

@@ -40,7 +40,7 @@ const MethodImage = ({ method }: { method: string }) => (
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: '#f5f5f5'
+      background: '#f5f5f5',
     }}
   >
     <span style={{ color: '#999' }}>Image for {method}</span>

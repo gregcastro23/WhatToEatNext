@@ -112,7 +112,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
 
       log.info(`🌟 Making ${method} request to astrologize API: `, {
         url,
-        body: body ? JSON.parse(body) : 'GET params'
+        body: body ? JSON.parse(body) : 'GET params',
       })
 
       // Make the API request
@@ -129,7 +129,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
 
       const result = await response.json();
       log.info('✅ Astrologize API response received: ', {
-        dataType: result._celestialBodies ? 'Valid celestial data' : 'Unknown format'
+        dataType: result._celestialBodies ? 'Valid celestial data' : 'Unknown format',
       })
       setData(result)
     } catch (fetchError) {

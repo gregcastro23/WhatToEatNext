@@ -80,7 +80,7 @@ const signInfo: Record<
 > = {
   aries: {
     element: 'Fire',
-    decanEffects: { '1st Decan': ['Mars'], '2nd Decan': ['Sun'], '3rd Decan': ['Venus'] }
+    decanEffects: { '1st Decan': ['Mars'], '2nd Decan': ['Sun'], '3rd Decan': ['Venus'] },
     degreeEffects: {
       Mercury: [1521],
       Venus: [714],
@@ -91,7 +91,7 @@ const signInfo: Record<
   },
   taurus: {
     element: 'Earth',
-    decanEffects: { '1st Decan': ['Mercury'], '2nd Decan': ['Moon'], '3rd Decan': ['Saturn'] }
+    decanEffects: { '1st Decan': ['Mercury'], '2nd Decan': ['Moon'], '3rd Decan': ['Saturn'] },
     degreeEffects: {
       Mercury: [915],
       Venus: [18],
@@ -132,7 +132,7 @@ const signInfo: Record<
   },
   leo: {
     element: 'Fire',
-    decanEffects: { '1st Decan': ['Saturn'], '2nd Decan': ['Jupiter'], '3rd Decan': ['Mars'] }
+    decanEffects: { '1st Decan': ['Saturn'], '2nd Decan': ['Jupiter'], '3rd Decan': ['Mars'] },
     degreeEffects: {
       Mercury: [713],
       Venus: [1419],
@@ -188,7 +188,7 @@ const signInfo: Record<
   },
   sagittarius: {
     element: 'Fire',
-    decanEffects: { '1st Decan': ['Mercury'], '2nd Decan': ['Moon'], '3rd Decan': ['Saturn'] }
+    decanEffects: { '1st Decan': ['Mercury'], '2nd Decan': ['Moon'], '3rd Decan': ['Saturn'] },
     degreeEffects: {
       Mercury: [1520],
       Venus: [914],
@@ -199,7 +199,7 @@ const signInfo: Record<
   },
   capricorn: {
     element: 'Earth',
-    decanEffects: { '1st Decan': ['Jupiter'], '2nd Decan': [], '3rd Decan': ['Sun'] }
+    decanEffects: { '1st Decan': ['Jupiter'], '2nd Decan': [], '3rd Decan': ['Sun'] },
     degreeEffects: {
       Mercury: [712],
       Venus: [16],
@@ -210,7 +210,7 @@ const signInfo: Record<
   },
   aquarius: {
     element: 'Air',
-    decanEffects: { '1st Decan': ['Uranus'], '2nd Decan': ['Mercury'], '3rd Decan': ['Moon'] }
+    decanEffects: { '1st Decan': ['Uranus'], '2nd Decan': ['Mercury'], '3rd Decan': ['Moon'] },
     degreeEffects: {
       Mercury: [],
       Venus: [1320],
@@ -326,7 +326,7 @@ export class FoodAlchemySystem {
         energyValues: {
           heat: 0.8,
           entropy: 0.4,
-          reactivity: 0.6
+          reactivity: 0.6,
         }
       }
       {
@@ -342,7 +342,7 @@ export class FoodAlchemySystem {
         energyValues: {
           heat: 0.7,
           entropy: 0.5,
-          reactivity: 0.6
+          reactivity: 0.6,
         }
       }
       // Add more foods as needed
@@ -361,7 +361,7 @@ export class FoodAlchemySystem {
         energyEffects: {
           heat: 0.8,
           entropy: 0.4,
-          reactivity: 0.6
+          reactivity: 0.6,
         },
         timing: {
           optimal: ['Sun', 'Mars'],
@@ -376,7 +376,7 @@ export class FoodAlchemySystem {
         energyEffects: {
           heat: 0.3,
           entropy: 0.5,
-          reactivity: 0.4
+          reactivity: 0.4,
         },
         timing: {
           optimal: ['Moon', 'Venus'],
@@ -470,7 +470,7 @@ export class FoodAlchemySystem {
     const { Fire, Water, Air, Earth } = state.elements;
 
     // Calculate the dominant and weakest elements
-    const elementValues = [;
+    const elementValues = [
       { element: 'Fire', value: Fire }
       { element: 'Water', value: Water }
       { element: 'Air', value: Air }
@@ -677,19 +677,19 @@ export class FoodAlchemySystem {
     if (dayElements && hourElements) {
       // Generate suggestions based on the day's elements
       if (dayElements.diurnal === 'Fire' || dayElements.nocturnal === 'Fire') {
-        recommendations.push(;
+        recommendations.push(
           `${food.food} is best prepared with high-heat cooking methods like grilling or roasting today.`,
         )
       } else if (dayElements.diurnal === 'Water' || dayElements.nocturnal === 'Water') {
-        recommendations.push(;
+        recommendations.push(
           `Consider moist cooking methods like steaming or braising for ${food.food} today.`,
         )
       } else if (dayElements.diurnal === 'Air' || dayElements.nocturnal === 'Air') {
-        recommendations.push(;
+        recommendations.push(
           `${food.food} performs well with light cooking methods or raw preparations today.`,
         )
       } else if (dayElements.diurnal === 'Earth' || dayElements.nocturnal === 'Earth') {
-        recommendations.push(;
+        recommendations.push(
           `Slow, methodical cooking methods like baking are ideal for ${food.food} today.`,
         )
       }
@@ -697,22 +697,22 @@ export class FoodAlchemySystem {
       // Add time-specific recommendation based on the hour's element
       const hourElement = isDaytime ? hourElements.diurnal : hourElements.nocturnal
       if (hourElement === 'Fire') {
-        recommendations.push(;
+        recommendations.push(
           `${food.food} is best utilized in the current ${isDaytime ? 'day' : 'night' },
         hours with quick, energetic preparation.`,
         )
       } else if (hourElement === 'Water') {
-        recommendations.push(;
+        recommendations.push(
           `During these ${isDaytime ? 'day' : 'night' },
         hours, focus on bringing out ${food.food}'s aromatic qualities.`,
         )
       } else if (hourElement === 'Air') {
-        recommendations.push(;
+        recommendations.push(
           `The current ${isDaytime ? 'day' : 'night' },
         hours favor highlighting ${food.food}'s delicate flavors.`,
         )
       } else if (hourElement === 'Earth') {
-        recommendations.push(;
+        recommendations.push(
           `These ${isDaytime ? 'day' : 'night' },
         hours are perfect for enhancing ${food.food}'s grounding properties.`,
         )
@@ -729,12 +729,12 @@ export class FoodAlchemySystem {
           const dayDignity = planetaryElements[planetaryDay].dignityEffect?.[daySign];
 
           if (dayDignity && dayDignity > 0 && food.planet === planetaryDay) {
-            recommendations.push(;
+            recommendations.push(
               `${planetaryDay} is ${dayDignity > 1 ? 'exalted' : 'dignified' },
         in ${daySign}, strengthening ${food.food}'s properties.`,
             )
           } else if (dayDignity && dayDignity < 0 && food.planet === planetaryDay) {
-            recommendations.push(;
+            recommendations.push(
               `${planetaryDay} is ${dayDignity < -1 ? 'in fall' : 'in detriment' },
         in ${daySign}, requiring careful preparation of ${food.food}.`,
             )
@@ -750,7 +750,7 @@ export class FoodAlchemySystem {
           const hourDignity = planetaryElements[planetaryHour].dignityEffect?.[hourSign];
 
           if (hourDignity && hourDignity > 0 && food.planet === planetaryHour) {
-            recommendations.push(;
+            recommendations.push(
               `During this hour, ${planetaryHour}'s dignity in ${hourSign} enhances ${food.food}'s flavor profile.`,
             )
           }
@@ -777,7 +777,7 @@ export class FoodAlchemySystem {
 
       // Add aspect-based recommendations
       if (state.aspects && state.aspects.length > 0) {
-        const relevantAspects = state.aspects.filter(;
+        const relevantAspects = state.aspects.filter(
           aspect => aspect.planets.includes(planetaryDay) || aspect.planets.includes(planetaryHour),
         ),
 
@@ -786,13 +786,13 @@ export class FoodAlchemySystem {
             if (aspect.planets.includes(food.planet)) {
               const otherPlanet =
                 aspect.planets[0] === food.planet ? aspect.planets[1] : aspect.planets[0]
-              recommendations.push(;
+              recommendations.push(
                 `The conjunction between ${aspect.planets[0]} and ${aspect.planets[1]} powerfully enhances ${food.food}'s qualities.`,
               )
             }
           } else if (aspect.type === 'Trine') {
             if (aspect.planets.includes(food.planet)) {
-              recommendations.push(;
+              recommendations.push(
                 `The harmonious trine involving ${food.planet} brings out ${food.food}'s best qualities.`,
               )
             }
@@ -802,13 +802,13 @@ export class FoodAlchemySystem {
 
       // Add planetary affinity recommendations
       if (food.planet === planetaryDay) {
-        recommendations.push(;
+        recommendations.push(
           `Today is especially favorable for ${food.food} as it's ruled by ${planetaryDay}.`,
         )
       }
 
       if (food.planet === planetaryHour) {
-        recommendations.push(;
+        recommendations.push(
           `The current hour enhances ${food.food}'s ${hourElement.toLowerCase()} qualities.`,
         )
       }

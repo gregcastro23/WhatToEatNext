@@ -20,7 +20,7 @@ async function verifyIntegration(): Promise<void> {
     const config = controller.getUnintentionalAnyConfig()
 
     // // // _logger.info('✅ Factory function works')
-    // // // _logger.info(;
+    // // // _logger.info(
       `   Default config: maxFiles=${config.maxFilesPerBatch}, target=${config.targetReductionPercentage}%`,
     )
 
@@ -45,14 +45,14 @@ async function verifyIntegration(): Promise<void> {
     const customConfig: Partial<UnintentionalAnyConfig> = {
       maxFilesPerBatch: 20,
       targetReductionPercentage: 25,
-      confidenceThreshold: 0.9
+      confidenceThreshold: 0.9,
     }
 
     controller.updateUnintentionalAnyConfig(customConfig)
     const updatedConfig = controller.getUnintentionalAnyConfig()
 
     // // // _logger.info('✅ Configuration update works')
-    // // // _logger.info(;
+    // // // _logger.info(
       `   Updated config: maxFiles=${updatedConfig.maxFilesPerBatch}, target=${updatedConfig.targetReductionPercentage}%`,
     )
 
@@ -61,7 +61,7 @@ async function verifyIntegration(): Promise<void> {
     try {
       const metrics = await controller.getUnintentionalAnyMetrics()
       // // // _logger.info('✅ Metrics retrieval works')
-      // // // _logger.info(;
+      // // // _logger.info(
         `   Metrics: total=${metrics.totalAnyTypes}, intentional=${metrics.intentionalAnyTypes}, unintentional=${metrics.unintentionalAnyTypes}`,
       )
     } catch (error) {

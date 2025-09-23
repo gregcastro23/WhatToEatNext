@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react';
 
  
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-const SauceRecommender = (props: any) => (;
+const SauceRecommender = (props: any) => (
   <div className='rounded border p-4 text-gray-600'>SauceRecommender unavailable.</div>
 )
 
@@ -71,7 +71,7 @@ export default function SauceExplorer() {
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
-    Air: 0.25
+    Air: 0.25,
   })
 
   // State for all cuisines
@@ -79,7 +79,7 @@ export default function SauceExplorer() {
 
   // Load all cuisines on component mount
   useEffect(() => {
-    const cuisines = {;
+    const cuisines = {
       italian: italianCuisine,
       french: frenchCuisine,
       japanese: japaneseCuisine,
@@ -165,7 +165,7 @@ export default function SauceExplorer() {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25
+      Air: 0.25,
     })
   }
 
@@ -221,7 +221,7 @@ export default function SauceExplorer() {
                 className='w-full rounded-md border border-gray-300 p-2, focus: border-blue-500, focus: ring-2, focus: ring-blue-500',
               >
                 <option value=''>Any Protein</option>,
-                {getProteinOptions().map(protein => (;
+                {getProteinOptions().map(protein => (
                   <option key={protein} value={protein}>
                     {protein.charAt(0).toUpperCase() + protein.slice(1)}
                   </option>
@@ -243,7 +243,7 @@ export default function SauceExplorer() {
                 className='w-full rounded-md border border-gray-300 p-2, focus: border-blue-500, focus: ring-2, focus: ring-blue-500',
               >
                 <option value=''>Any Vegetable</option>,
-                {getVegetableOptions().map(vegetable => (;
+                {getVegetableOptions().map(vegetable => (
                   <option key={vegetable} value={vegetable}>
                     {vegetable.charAt(0).toUpperCase() + vegetable.slice(1)}
                   </option>
@@ -265,7 +265,7 @@ export default function SauceExplorer() {
                 className='w-full rounded-md border border-gray-300 p-2, focus: border-blue-500, focus: ring-2, focus: ring-blue-500',
               >
                 <option value=''>Any Method</option>,
-                {getCookingMethodOptions().map(method => (;
+                {getCookingMethodOptions().map(method => (
                   <option key={method} value={method}>
                     {method.charAt(0).toUpperCase() + method.slice(1)}
                   </option>

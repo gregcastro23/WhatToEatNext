@@ -25,7 +25,7 @@ import { vegetables } from '../ingredients/vegetables';
 import { vinegars } from '../ingredients/vinegars/vinegars';
 
 // Combine all protein types
-const proteins = {;
+const proteins = {
   ...meats,
   ...poultry,
   ...seafood,
@@ -55,7 +55,7 @@ function calculateKalchm(_alchemical: AlchemicalProperties): number {;
  * Calculate Monica constant based on Kalchm and thermodynamic properties
  * monica = -gregsEnergy / (reactivity * ln(kalchm))
  */
-function calculateMonica(;
+function calculateMonica(
   kalchm: number,
   thermodynamics: ThermodynamicProperties | ThermodynamicMetrics,
 ): number {
@@ -91,7 +91,7 @@ function enhanceIngredient(
   // Create alchemical properties if not present - ensure it's the correct type
   // ✅ Pattern GG-6: Safe property access for alchemical properties
   const alchemicalData = ingredient.alchemicalProperties as unknown as any;
-  const alchemicalProperties: AlchemicalProperties = {;
+  const alchemicalProperties: AlchemicalProperties = {
     Spirit: Number(alchemicalData.Spirit) || 0.25,
     Essence: Number(alchemicalData.Essence) || 0.25,
     Matter: Number(alchemicalData.Matter) || 0.25,
@@ -111,7 +111,7 @@ function enhanceIngredient(
     }
 
   // ✅ Pattern MM-1: Safe union type casting for thermodynamics parameter compatibility
-  const monica = calculateMonica(;
+  const monica = calculateMonica(
     kalchm,
     thermodynamics as unknown as ThermodynamicProperties | ThermodynamicMetrics,
   ),
@@ -141,7 +141,7 @@ function enhanceIngredient(
     metadata: {
       sourceFile: `ingredients/${sourceCategory}`,
       enhancedAt: new Date().toISOString(),
-      kalchmCalculated: true
+      kalchmCalculated: true,
     }
   }
 }
@@ -150,7 +150,7 @@ function enhanceIngredient(
  * Create a unified ingredient collection from a source collection
  */
 function createUnifiedCollection(
-  sourceCollection: { [key: string]: IngredientMapping }
+  sourceCollection: { [key: string]: IngredientMapping },
   category: string,
 ): { [key: string]: UnifiedIngredient } {
   // ✅ Pattern GG-6: Safe array operation for source collection
@@ -164,39 +164,39 @@ function createUnifiedCollection(
 }
 
 // ✅ Pattern MM-1: Safe Record type casting for createUnifiedCollection compatibility
-export const unifiedFruits = createUnifiedCollection(;
+export const unifiedFruits = createUnifiedCollection(
   fruits as { [key: string]: IngredientMapping }
   'fruits',
 )
-export const unifiedVegetables = createUnifiedCollection(;
+export const unifiedVegetables = createUnifiedCollection(
   vegetables as { [key: string]: IngredientMapping }
   'vegetables',
 )
-export const unifiedHerbs = createUnifiedCollection(;
+export const unifiedHerbs = createUnifiedCollection(
   herbs as { [key: string]: IngredientMapping }
   'herbs',
 )
-export const unifiedSpices = createUnifiedCollection(;
+export const unifiedSpices = createUnifiedCollection(
   spices as { [key: string]: IngredientMapping }
   'spices',
 )
-export const unifiedGrains = createUnifiedCollection(;
+export const unifiedGrains = createUnifiedCollection(
   grains as { [key: string]: IngredientMapping }
   'grains',
 )
-export const unifiedOils = createUnifiedCollection(;
+export const unifiedOils = createUnifiedCollection(
   oils as { [key: string]: IngredientMapping }
   'oils',
 )
-export const unifiedVinegars = createUnifiedCollection(;
+export const unifiedVinegars = createUnifiedCollection(
   vinegars as { [key: string]: IngredientMapping }
   'vinegars',
 )
-export const unifiedSeasonings = createUnifiedCollection(;
+export const unifiedSeasonings = createUnifiedCollection(
   seasonings as { [key: string]: IngredientMapping }
   'seasonings',
 )
-export const unifiedProteins = createUnifiedCollection(;
+export const unifiedProteins = createUnifiedCollection(
   proteins as { [key: string]: IngredientMapping }
   'proteins',
 )

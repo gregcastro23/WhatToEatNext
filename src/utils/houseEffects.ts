@@ -126,7 +126,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     modality: 'Mutable',
     nature: 'Cadent',
     significance: 8,
-    ruling_planet: 'Neptune'
+    ruling_planet: 'Neptune',
   }
 }
 
@@ -134,8 +134,8 @@ export const HOUSE_DATA: Record<number, HouseData> = {
  * House strength multipliers based on house nature
  */
 export const HOUSE_STRENGTH: Record<'Angular' | 'Succedent' | 'Cadent', number> = {
-  Angular: 1.0, // Strongest influence,
-  Succedent: 0.7, // Medium influence,
+  Angular: 1.0, // Strongest influence
+    Succedent: 0.7, // Medium influence,
   Cadent: 0.4, // Weakest influence
 }
 
@@ -156,7 +156,7 @@ export function calculateHouseEffect(
     Fire: 0,
     Earth: 0,
     Air: 0,
-    Water: 0
+    Water: 0,
   }
 
   // Get house data
@@ -219,7 +219,7 @@ export function calculateAllHouseEffects(
     Fire: 0,
     Earth: 0,
     Air: 0,
-    Water: 0
+    Water: 0,
   }
 
   debugLog(`Calculating house effects for ${Object.keys(planetPositions).length} planets`)

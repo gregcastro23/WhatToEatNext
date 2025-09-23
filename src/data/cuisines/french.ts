@@ -2,7 +2,7 @@
 import type { _, _ZodiacSign } from '@/types/alchemy';
 import type { Cuisine } from '@/types/cuisine';
 
-export const french: Cuisine = {;
+export const french: Cuisine = {
   id: 'french',
   name: 'French',
   description: 'Classical French cuisine emphasizing technique, tradition, and refined flavors. From rustic provincial dishes to haute cuisine, French cooking is the foundation of culinary arts.',
@@ -19,7 +19,7 @@ export const french: Cuisine = {;
         Water: 0.5,
         Earth: 0.3,
         Air: 0.1,
-        Fire: 0.1
+        Fire: 0.1,
       },
       astrologicalInfluences: ['Moon', 'Cancer', 'Venus'],
       seasonality: 'all',
@@ -40,7 +40,7 @@ export const french: Cuisine = {;
         Water: 0.4,
         Earth: 0.3,
         Air: 0.2,
-        Fire: 0.1
+        Fire: 0.1,
       },
       astrologicalInfluences: ['Jupiter', 'Mercury', 'Pisces'],
       seasonality: 'all',
@@ -61,7 +61,7 @@ export const french: Cuisine = {;
         Earth: 0.4,
         Fire: 0.3,
         Water: 0.2,
-        Air: 0.1
+        Air: 0.1,
       },
       astrologicalInfluences: ['Mars', 'Saturn', 'Scorpio'],
       seasonality: 'autumn, winter',
@@ -82,7 +82,7 @@ export const french: Cuisine = {;
         Water: 0.2,
         Fire: 0.4,
         Air: 0.3,
-        Earth: 0.1
+        Earth: 0.1,
       },
       astrologicalInfluences: ['Sun', 'Mercury', 'Leo'],
       seasonality: 'spring, summer',
@@ -103,7 +103,7 @@ export const french: Cuisine = {;
         Fire: 0.5,
         Earth: 0.3,
         Water: 0.1,
-        Air: 0.1
+        Air: 0.1,
       },
       astrologicalInfluences: ['Mars', 'Leo', 'Aries'],
       seasonality: 'summer, autumn',
@@ -111,7 +111,7 @@ export const french: Cuisine = {;
       technicalTips: 'For a deeper flavor, roast the tomatoes beforehand.',
       difficulty: 'easy',
       storageInstructions: 'Refrigerate up to 5 days, freeze up to 6 months',
-      yield: '2.5 cups'
+      yield: '2.5 cups',
     }
   },
   sauceRecommender: {
@@ -215,7 +215,7 @@ export const french: Cuisine = {;
             Earth: 0.4,
             Water: 0.3,
             Fire: 0.2,
-            Air: 0.1
+            Air: 0.1,
           },
           astrologicalInfluences: [
             'Venus - The buttery richness of the croissant',
@@ -228,7 +228,7 @@ export const french: Cuisine = {;
           },
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Taurus', 'Cancer'],
-          numberOfServings: 1
+          numberOfServings: 1,
         }
         {
           id: 'eggs-en-cocotte',
@@ -294,7 +294,7 @@ export const french: Cuisine = {;
             Water: 0.5,
             Earth: 0.3,
             Fire: 0.1,
-            Air: 0.1
+            Air: 0.1,
           },
           astrologicalInfluences: [
             'Moon - The nurturing quality of eggs and cream',
@@ -307,7 +307,7 @@ export const french: Cuisine = {;
           },
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Cancer', 'Pisces'],
-          numberOfServings: 2
+          numberOfServings: 2,
         }
         {
           id: 'classic-french-toast',
@@ -371,7 +371,7 @@ export const french: Cuisine = {;
             Fire: 0.3,
             Earth: 0.3,
             Water: 0.3,
-            Air: 0.1
+            Air: 0.1,
           },
           astrologicalInfluences: [
             'Venus - The sweet, indulgent nature',
@@ -384,7 +384,7 @@ export const french: Cuisine = {;
           },
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Taurus', 'Leo'],
-          numberOfServings: 3
+          numberOfServings: 3,
         }
       ]
     },
@@ -451,7 +451,7 @@ export const french: Cuisine = {;
             Fire: 0.3,
             Earth: 0.4,
             Water: 0.2,
-            Air: 0.1
+            Air: 0.1,
           },
           astrologicalInfluences: [
             'Taurus - The sensuous, indulgent nature',
@@ -464,7 +464,7 @@ export const french: Cuisine = {;
           },
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Taurus', 'Virgo'],
-          numberOfServings: 2
+          numberOfServings: 2,
         }
         {
           id: 'nicoise-salad',
@@ -528,7 +528,7 @@ export const french: Cuisine = {;
             Water: 0.3,
             Earth: 0.3,
             Air: 0.2,
-            Fire: 0.2
+            Fire: 0.2,
           },
           astrologicalInfluences: [
             'Mercury - The light, fresh quality',
@@ -541,7 +541,7 @@ export const french: Cuisine = {;
           },
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Gemini', 'Pisces'],
-          numberOfServings: 4
+          numberOfServings: 4,
         }
         {
           id: 'french-onion-soup',
@@ -609,7 +609,7 @@ export const french: Cuisine = {;
             Fire: 0.4,
             Earth: 0.3,
             Water: 0.2,
-            Air: 0.1
+            Air: 0.1,
           },
           astrologicalInfluences: [
             'Saturn - The slow transformation of ingredients',
@@ -622,7 +622,7 @@ export const french: Cuisine = {;
           },
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Capricorn', 'Cancer'],
-          numberOfServings: 6
+          numberOfServings: 6,
         }
       ]
     },
@@ -695,7 +695,7 @@ export const french: Cuisine = {;
             Earth: 0.5,
             Fire: 0.3,
             Water: 0.15,
-            Air: 0.05
+            Air: 0.05,
           },
           astrologicalInfluences: [
             'Saturn - The slow transformation through long cooking',
@@ -708,7 +708,7 @@ export const french: Cuisine = {;
           },
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Capricorn', 'Scorpio'],
-          numberOfServings: 6
+          numberOfServings: 6,
         }
         {
           id: 'sole-meuniere',
@@ -778,7 +778,7 @@ export const french: Cuisine = {;
             Water: 0.4,
             Fire: 0.3,
             Air: 0.2,
-            Earth: 0.1
+            Earth: 0.1,
           },
           astrologicalInfluences: [
             'Jupiter - The elegance and richness',
@@ -791,7 +791,7 @@ export const french: Cuisine = {;
           },
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Leo', 'Gemini'],
-          numberOfServings: 4
+          numberOfServings: 4,
         }
         {
           id: 'beef-bourguignon',
@@ -865,7 +865,7 @@ export const french: Cuisine = {;
             Earth: 0.6,
             Fire: 0.2,
             Water: 0.1,
-            Air: 0.1
+            Air: 0.1,
           },
           astrologicalInfluences: [
             'Saturn - The slow cooking process and aged flavors',
@@ -937,7 +937,7 @@ export const french: Cuisine = {;
             Fire: 0.3,
             Water: 0.3,
             Earth: 0.3,
-            Air: 0.1
+            Air: 0.1,
           },
           astrologicalInfluences: [
             'Venus - The sensual, creamy nature',
@@ -1019,7 +1019,7 @@ export const french: Cuisine = {;
             Earth: 0.4,
             Fire: 0.3,
             Water: 0.2,
-            Air: 0.1
+            Air: 0.1,
           },
           astrologicalInfluences: [
             'Venus - The sweet, indulgent nature',
@@ -1042,7 +1042,7 @@ export const french: Cuisine = {;
             'Bake until golden brown',
             'Cool slightly and invert onto plate'
           ],
-          timeToMake: '90 minutes'
+          timeToMake: '90 minutes',
         }
         {
           id: 'chocolate-profiteroles',
@@ -1095,7 +1095,7 @@ export const french: Cuisine = {;
             Earth: 0.3,
             Water: 0.3,
             Fire: 0.3,
-            Air: 0.1
+            Air: 0.1,
           },
           astrologicalInfluences: [
             'Venus - The indulgent, sweet quality',
@@ -1117,7 +1117,7 @@ export const french: Cuisine = {;
             'Fill with small scoops of ice cream',
             'Serve with warm chocolate sauce'
           ],
-          numberOfServings: 6
+          numberOfServings: 6,
         }
       ]
     }
@@ -1126,42 +1126,42 @@ export const french: Cuisine = {;
     {
       name: 'Sauté',
       description: 'Quick cooking in a small amount of fat over high heat',
-      elementalProperties: { Fire: 0.7, Air: 0.2, Earth: 0.1, Water: 0 }
+      elementalProperties: { Fire: 0.7, Air: 0.2, Earth: 0.1, Water: 0 },
       toolsRequired: ['sauté pan', 'wooden spoon', 'tongs'],
       bestFor: ['vegetables', 'tender cuts of meat', 'fish fillets'],
-      difficulty: 'easy'
+      difficulty: 'easy',
     }
     {
       name: 'Braise',
       description: 'Slow cooking in liquid after browning, usually covered',
-      elementalProperties: { Water: 0.5, Earth: 0.3, Fire: 0.2, Air: 0 }
+      elementalProperties: { Water: 0.5, Earth: 0.3, Fire: 0.2, Air: 0 },
       toolsRequired: ['Dutch oven', 'tongs', 'wooden spoon'],
       bestFor: ['tough cuts of meat', 'root vegetables', 'legumes'],
-      difficulty: 'medium'
+      difficulty: 'medium',
     }
     {
       name: 'Flambé',
       description: 'Igniting food with alcohol for flavor and visual effect',
-      elementalProperties: { Fire: 0.8, Air: 0.1, Earth: 0.1, Water: 0 }
+      elementalProperties: { Fire: 0.8, Air: 0.1, Earth: 0.1, Water: 0 },
       toolsRequired: ['skillet', 'long match or lighter', 'long-handled utensils'],
       bestFor: ['desserts', 'proteins', 'sauces'],
-      difficulty: 'hard'
+      difficulty: 'hard',
     }
     {
       name: 'En Papillote',
       description: 'Cooking in a sealed parchment paper packet',
-      elementalProperties: { Water: 0.4, Air: 0.4, Earth: 0.1, Fire: 0.1 }
+      elementalProperties: { Water: 0.4, Air: 0.4, Earth: 0.1, Fire: 0.1 },
       toolsRequired: ['parchment paper', 'baking sheet', 'scissors'],
       bestFor: ['fish', 'vegetables', 'delicate proteins'],
-      difficulty: 'medium'
+      difficulty: 'medium',
     }
     {
       name: 'Sous Vide',
       description: 'Cooking vacuum-sealed food in a temperature-controlled water bath',
-      elementalProperties: { Water: 0.7, Air: 0.1, Earth: 0.1, Fire: 0.1 }
+      elementalProperties: { Water: 0.7, Air: 0.1, Earth: 0.1, Fire: 0.1 },
       toolsRequired: ['sous vide immersion circulator', 'vacuum sealer', 'container'],
       bestFor: ['proteins', 'eggs', 'vegetables'],
-      difficulty: 'hard'
+      difficulty: 'hard',
     }
   ],
   regionalCuisines: {
@@ -1169,37 +1169,37 @@ export const french: Cuisine = {;
       name: 'Provençal Cuisine',
       description: 'Mediterranean-influenced cuisine from Southern France, featuring olive oil, herbs, tomatoes, and seafood',
       signature: ['bouillabaisse', 'ratatouille', 'tapenade', 'aioli'],
-      elementalProperties: { Fire: 0.3, Earth: 0.3, Water: 0.3, Air: 0.1 }
+      elementalProperties: { Fire: 0.3, Earth: 0.3, Water: 0.3, Air: 0.1 },
       astrologicalInfluences: ['Sun', 'Mercury', 'Venus'],
       seasonality: 'summer' },
         normandy: {
       name: 'Norman Cuisine',
       description: 'Butter and cream-based cuisine from Northern France, featuring apples, dairy, and seafood',
       signature: ['calvados', 'camembert', 'tarte aux pommes', 'tripes à la mode de Caen'],
-      elementalProperties: { Water: 0.4, Earth: 0.4, Fire: 0.1, Air: 0.1 }
+      elementalProperties: { Water: 0.4, Earth: 0.4, Fire: 0.1, Air: 0.1 },
       astrologicalInfluences: ['Moon', 'Venus', 'Neptune'],
       seasonality: 'autumn' },
         burgundy: {
       name: 'Burgundian Cuisine',
       description: 'Wine-centric cuisine known for slow-cooked dishes, mustard, and escargot',
       signature: ['beef bourguignon', 'coq au vin', 'escargots de Bourgogne', 'jambon persillé'],
-      elementalProperties: { Earth: 0.5, Fire: 0.2, Water: 0.2, Air: 0.1 }
+      elementalProperties: { Earth: 0.5, Fire: 0.2, Water: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Saturn', 'Mars', 'Pluto'],
       seasonality: 'winter' },
         alsace: {
       name: 'Alsatian Cuisine',
       description: 'German-influenced cuisine featuring charcuterie, sauerkraut, and white wines',
       signature: ['choucroute garnie', 'tarte flambée', 'baeckeoffe', 'kugelhopf'],
-      elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 }
+      elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
       astrologicalInfluences: ['Jupiter', 'Saturn', 'Uranus'],
-      seasonality: 'autumn, winter'
+      seasonality: 'autumn, winter',
     }
   },
   elementalProperties: {
     Earth: 0.3,
     Water: 0.3,
     Fire: 0.2,
-    Air: 0.2
+    Air: 0.2,
   },
   astrologicalInfluences: [
     'Venus - Governs the sensual, pleasure-seeking aspects of French cuisine',

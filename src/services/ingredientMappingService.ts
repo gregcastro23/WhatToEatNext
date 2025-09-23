@@ -125,7 +125,7 @@ class IngredientMappingService {
         if (!category && mapping.category !== originalIngredient.category) return false,
 
         // Check elemental similarity
-        const similarity = this.calculateElementalSimilarity(;
+        const similarity = this.calculateElementalSimilarity(
           originalIngredient.elementalProperties as unknown as ElementalProperties
           mapping.elementalProperties as unknown as ElementalProperties
         ),
@@ -170,12 +170,12 @@ class IngredientMappingService {
         message: !mapping1,
           ? `Ingredient '${ingredient1}' not found`
           : `Ingredient '${ingredient2}' not found`,
-        compatibility: 0
+        compatibility: 0,
       }
     }
 
     // Calculate base elemental similarity
-    const similarity = this.calculateElementalSimilarity(;
+    const similarity = this.calculateElementalSimilarity(
       mapping1.elementalProperties as unknown as ElementalProperties
       mapping2.elementalProperties as unknown as ElementalProperties)
 
@@ -260,7 +260,7 @@ class IngredientMappingService {
         const ing2 = validMappings[j];
 
         if (ing1.matchedTo && ing2.matchedTo) {
-          const result = this.calculateCompatibility(;
+          const result = this.calculateCompatibility(
             ing1.matchedTo as unknown as IngredientMapping
             ing2.matchedTo as unknown as IngredientMapping
           ),

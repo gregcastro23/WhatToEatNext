@@ -4,7 +4,7 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawCitrus: Record<string, Partial<IngredientMapping>> = {
   lemon: {
     name: 'Lemon',
-    elementalProperties: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 }
+    elementalProperties: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Moon'],
       favorableZodiac: ['gemini', 'cancer'],
@@ -40,13 +40,13 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         storage: {
       temperature: 'room temp or refrigerated',
       duration: '1-2 weeks',
-      notes: 'Will continue to ripen at room temperature'
+      notes: 'Will continue to ripen at room temperature',
     }
   }
 
   orange: {
     name: 'Orange',
-    elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 }
+    elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Sun', 'Venus'],
       favorableZodiac: ['leo', 'taurus'],
@@ -82,13 +82,13 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         storage: {
       temperature: 'cool room temp or refrigerated',
       duration: '2-3 weeks',
-      notes: 'Keep away from apples and bananas'
+      notes: 'Keep away from apples and bananas',
     }
   }
 
   lime: {
     name: 'Lime',
-    elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 }
+    elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 },
     qualities: ['sour', 'cooling', 'refreshing'],
     season: ['year-round'],
     category: 'fruit',
@@ -100,7 +100,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       minerals: ['potassium', 'calcium'],
       calories: 20,
       carbs_g: 7,
-      fiber_g: 1.9
+      fiber_g: 1.9,
     },
     preparation: {
       washing: true,
@@ -117,7 +117,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Moon', influence: 0.8 }
+          first: { element: 'Water', planet: 'Moon', influence: 0.8 },
           second: { element: 'Air', planet: 'Mercury', influence: 0.6 }
           third: { element: 'Water', planet: 'Moon', influence: 0.7 }
         }
@@ -127,7 +127,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
   grapefruit: {
     name: 'Grapefruit',
-    elementalProperties: { Water: 0.5, Fire: 0.2, Air: 0.2, Earth: 0.1 }
+    elementalProperties: { Water: 0.5, Fire: 0.2, Air: 0.2, Earth: 0.1 },
     qualities: ['bitter-sweet', 'tart', 'refreshing'],
     season: ['winter', 'spring'],
     category: 'fruit',
@@ -159,7 +159,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Sun', influence: 0.8 }
+          first: { element: 'Fire', planet: 'Sun', influence: 0.8 },
           second: { element: 'Water', planet: 'Jupiter', influence: 0.7 }
           third: { element: 'Fire', planet: 'Sun', influence: 0.6 }
         }
@@ -169,7 +169,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
   mandarin: {
     name: 'Mandarin',
-    elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 }
+    elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
     qualities: ['sweet', 'delicate', 'aromatic'],
     season: ['winter'],
     category: 'fruit',
@@ -201,7 +201,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Sun', influence: 0.7 }
+          first: { element: 'Fire', planet: 'Sun', influence: 0.7 },
           second: { element: 'Earth', planet: 'Venus', influence: 0.6 }
           third: { element: 'Fire', planet: 'Sun', influence: 0.5 }
         }
@@ -211,7 +211,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
   kumquat: {
     name: 'Kumquat',
-    elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 }
+    elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 },
     qualities: ['sweet-tart', 'intense', 'unique'],
     season: ['winter', 'early spring'],
     category: 'fruit',
@@ -242,7 +242,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Jupiter', influence: 0.8 }
+          first: { element: 'Fire', planet: 'Jupiter', influence: 0.8 },
           second: { element: 'Air', planet: 'Mercury', influence: 0.6 }
           third: { element: 'Earth', planet: 'Mercury', influence: 0.5 }
         }
@@ -252,7 +252,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
   yuzu: {
     name: 'Yuzu',
-    elementalProperties: { Water: 0.3, Air: 0.3, Fire: 0.3, Earth: 0.1 }
+    elementalProperties: { Water: 0.3, Air: 0.3, Fire: 0.3, Earth: 0.1 },
     qualities: ['aromatic', 'complex', 'floral'],
     season: ['winter'],
     category: 'fruit',
@@ -284,7 +284,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       elementalAffinity: {
         base: 'Air',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury', influence: 0.8 }
+          first: { element: 'Air', planet: 'Mercury', influence: 0.8 },
           second: { element: 'Water', planet: 'Venus', influence: 0.7 }
           third: { element: 'Fire', planet: 'Mercury', influence: 0.6 }
         }
@@ -294,7 +294,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
   bergamot: {
     name: 'Bergamot',
-    elementalProperties: { Water: 0.3, Air: 0.4, Fire: 0.2, Earth: 0.1 }
+    elementalProperties: { Water: 0.3, Air: 0.4, Fire: 0.2, Earth: 0.1 },
     qualities: ['fragrant', 'bitter', 'floral'],
     season: ['winter'],
     category: 'fruit',
@@ -325,7 +325,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       elementalAffinity: {
         base: 'Air',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury', influence: 0.8 }
+          first: { element: 'Air', planet: 'Mercury', influence: 0.8 },
           second: { element: 'Water', planet: 'Moon', influence: 0.7 }
           third: { element: 'Air', planet: 'Mercury', influence: 0.6 }
         }
@@ -335,7 +335,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
   calamansi: {
     name: 'Calamansi',
-    elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 }
+    elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
     qualities: ['sour', 'bright', 'complex'],
     season: ['year-round'],
     category: 'fruit',
@@ -366,7 +366,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Mars', influence: 0.8 }
+          first: { element: 'Fire', planet: 'Mars', influence: 0.8 },
           second: { element: 'Water', planet: 'Mars', influence: 0.7 }
           third: { element: 'Fire', planet: 'Sun', influence: 0.6 }
         }
@@ -376,7 +376,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
   'buddha's hand': {
     name: 'S hand',
-    elementalProperties: { Water: 0.3, Air: 0.4, Fire: 0.2, Earth: 0.1 }
+    elementalProperties: { Water: 0.3, Air: 0.4, Fire: 0.2, Earth: 0.1 },
     qualities: ['fragrant', 'sweet', 'exotic'],
     season: ['winter', 'early spring'],
     category: 'fruit',
@@ -408,7 +408,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       elementalAffinity: {
         base: 'Air',
         decanModifiers: {
-          first: { element: 'Air', planet: 'Jupiter', influence: 0.8 }
+          first: { element: 'Air', planet: 'Jupiter', influence: 0.8 },
           second: { element: 'Water', planet: 'Venus', influence: 0.7 }
           third: { element: 'Air', planet: 'Jupiter', influence: 0.6 }
         }
@@ -418,7 +418,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
   tangelo: {
     name: 'Tangelo',
-    elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 }
+    elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
     qualities: ['sweet-tart', 'juicy', 'vibrant'],
     season: ['winter'],
     category: 'fruit',
@@ -450,7 +450,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
-          first: { element: 'Fire', planet: 'Sun', influence: 0.8 }
+          first: { element: 'Fire', planet: 'Sun', influence: 0.8 },
           second: { element: 'Water', planet: 'Jupiter', influence: 0.7 }
           third: { element: 'Fire', planet: 'Sun', influence: 0.6 }
         }
@@ -460,7 +460,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
   'key lime': {
     name: 'Key lime',
-    elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 }
+    elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
     qualities: ['tart', 'aromatic', 'intense'],
     season: ['summer', 'fall'],
     category: 'fruit',
@@ -492,7 +492,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Moon', influence: 0.8 }
+          first: { element: 'Water', planet: 'Moon', influence: 0.8 },
           second: { element: 'Air', planet: 'Mercury', influence: 0.7 }
           third: { element: 'Water', planet: 'Moon', influence: 0.6 }
         }
@@ -502,7 +502,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
   clementine: {
     name: 'Clementine',
-    elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 }
+    elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
     qualities: ['sweet', 'delicate', 'refreshing'],
     season: ['winter'],
     category: 'fruit',
@@ -534,7 +534,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Venus', influence: 0.8 }
+          first: { element: 'Water', planet: 'Venus', influence: 0.8 },
           second: { element: 'Earth', planet: 'Moon', influence: 0.7 }
           third: { element: 'Water', planet: 'Venus', influence: 0.6 }
         }

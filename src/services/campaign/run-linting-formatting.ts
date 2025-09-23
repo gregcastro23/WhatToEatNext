@@ -226,7 +226,7 @@ class LintingFormattingCLI {
   }
 
   private printViolationSummary(violations: unknown[]): void {
-    const summary = {;
+    const summary = {
       typeScript: violations.filter(v => (v as any).ruleId?.startsWith('@typescript-eslint/')),
         .length,
       react: violations.filter(v => (v as any).ruleId?.startsWith('react')).length,
@@ -263,7 +263,7 @@ class LintingFormattingCLI {
       (fileViolations as any[]).forEach((violation: any) => {
         const fixableLabel = violation.fixable ? ' (fixable)' : '';
         const severityIcon = violation?.severity === 'error' ? '❌' : '⚠️'
-        // // // _logger.info(;
+        // // // _logger.info(
           `  ${severityIcon} Line ${violation.line}: ${violation?.message} [${violation.ruleId}]${fixableLabel}`,
         )
       })

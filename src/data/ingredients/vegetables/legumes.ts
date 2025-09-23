@@ -4,7 +4,7 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawLegumes = {
   'green beans': {;
     name: 'Green beans',
-    elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 }
+    elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Mercury'],
       favorableZodiac: ['taurus', 'virgo'],
@@ -17,11 +17,11 @@ const rawLegumes = {
         },
         lunarPhaseModifiers: {
           newMoon: {
-            elementalBoost: { Earth: 0.1, Air: 0.05 }
+            elementalBoost: { Earth: 0.1, Air: 0.05 },
             preparationTips: ['Quick blanching', 'Fresh preparations']
           },
           fullMoon: {
-            elementalBoost: { Water: 0.15, Earth: 0.05 }
+            elementalBoost: { Water: 0.15, Earth: 0.05 },
             preparationTips: ['Slower cooking methods', 'Fermentation']
           }
         }
@@ -59,7 +59,7 @@ const rawLegumes = {
         characteristics: 'flat, wide beans',
         texture: 'meaty, substantial',
         cooking: 'longer cooking time than standard varieties',
-        uses: 'braising, stews, substantial side dishes'
+        uses: 'braising, stews, substantial side dishes',
       }
       'yellow wax': {
         characteristics: 'golden yellow color',
@@ -70,7 +70,7 @@ const rawLegumes = {
         characteristics: 'deep purple color that turns green when cooked',
         texture: 'similar to standard green beans',
         cooking: 'best used raw or lightly cooked to preserve color',
-        uses: 'raw applications, light steaming, blanching'
+        uses: 'raw applications, light steaming, blanching',
       }
     },
     storage: {
@@ -78,13 +78,13 @@ const rawLegumes = {
       duration: '5-7 days',
       humidity: 'high',
       method: 'paper towel in plastic bag',
-      notes: 'Do not wash until ready to use'
+      notes: 'Do not wash until ready to use',
     }
   }
 
   'snap peas': {
     name: 'Snap peas',
-    elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 }
+    elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Moon'],
       favorableZodiac: ['taurus', 'cancer'],
@@ -110,7 +110,7 @@ const rawLegumes = {
       calories: 42,
       protein_g: 2.8,
       fiber_g: 2.6,
-      carbs_g: 7.5
+      carbs_g: 7.5,
     },
     preparation: {
       washing: true,
@@ -121,13 +121,13 @@ const rawLegumes = {
       duration: '3-5 days',
       humidity: 'high',
       method: 'paper towel in plastic bag',
-      notes: 'Consume quickly for best flavor and texture'
+      notes: 'Consume quickly for best flavor and texture',
     }
   }
 
   'snow peas': {
     name: 'Snow peas',
-    elementalProperties: { Water: 0.35, Air: 0.35, Earth: 0.2, Fire: 0.1 }
+    elementalProperties: { Water: 0.35, Air: 0.35, Earth: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Moon'],
       favorableZodiac: ['gemini', 'cancer'],
@@ -154,7 +154,7 @@ const rawLegumes = {
       calories: 42,
       protein_g: 2.8,
       fiber_g: 2.6,
-      carbs_g: 7.5
+      carbs_g: 7.5,
     },
     preparation: {
       washing: true,
@@ -165,13 +165,13 @@ const rawLegumes = {
       duration: '2-3 days',
       humidity: 'high',
       method: 'paper towel in plastic bag',
-      notes: 'Very perishable, use quickly'
+      notes: 'Very perishable, use quickly',
     }
   }
 
   edamame: {
     name: 'Edamame',
-    elementalProperties: { Earth: 0.5, Water: 0.3, Air: 0.1, Fire: 0.1 }
+    elementalProperties: { Earth: 0.5, Water: 0.3, Air: 0.1, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Jupiter', 'Venus'],
       favorableZodiac: ['taurus', 'virgo'],
@@ -198,7 +198,7 @@ const rawLegumes = {
       protein_g: 12,
       fiber_g: 5,
       carbs_g: 10,
-      fat_g: 5
+      fat_g: 5,
     },
     preparation: {
       washing: true,
@@ -209,13 +209,13 @@ const rawLegumes = {
       temperature: 'refrigerated or frozen',
       fresh_duration: '1-2 days',
       frozen_duration: '6-12 months',
-      notes: 'Often purchased frozen, keeps quality well'
+      notes: 'Often purchased frozen, keeps quality well',
     }
   }
 
   'lima beans': {
     name: 'Lima beans',
-    elementalProperties: { Earth: 0.5, Water: 0.3, Air: 0.1, Fire: 0.1 }
+    elementalProperties: { Earth: 0.5, Water: 0.3, Air: 0.1, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Moon'],
       favorableZodiac: ['capricorn', 'cancer'],
@@ -241,7 +241,7 @@ const rawLegumes = {
       calories: 115,
       protein_g: 8,
       fiber_g: 7,
-      carbs_g: 21
+      carbs_g: 21,
     },
     preparation: {
       shelling: 'remove from pods if fresh',
@@ -253,7 +253,7 @@ const rawLegumes = {
       fresh_shelled: '2-3 days refrigerated',
       dried: '1-2 years in airtight container',
       cooked: '3-4 days refrigerated',
-      notes: 'Frozen lima beans available year-round'
+      notes: 'Frozen lima beans available year-round',
     }
   }
 }

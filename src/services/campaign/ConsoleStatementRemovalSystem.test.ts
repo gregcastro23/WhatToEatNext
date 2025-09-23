@@ -43,7 +43,7 @@ describe('ConsoleStatementRemovalSystem', () => {
       const config: Partial<ConsoleRemovalConfig> = { maxFiles: 15;
         dryRun: false,
         preserveDebugCritical: false,
-        selectiveRemoval: false
+        selectiveRemoval: false,
       }
 
       const system: any = new ConsoleStatementRemovalSystem(config)
@@ -61,7 +61,7 @@ _logger.info('info message')
 _logger.debug('debug message')
       `,
 
-      const statements: any = (;
+      const statements: any = (
         removalSystem as unknown as { analyzeFileConsoleStatements: (filePat, h: string, content: string) => unknown[] }
       ).analyzeFileConsoleStatements('/test/file.ts', content)
 
@@ -80,7 +80,7 @@ _logger.info('test message')
 const _another: any = 'value';
       `,
 
-      const statements: any = (;
+      const statements: any = (
         removalSystem as unknown as { analyzeFileConsoleStatements: (filePat, h: string, content: string) => unknown[] }
       ).analyzeFileConsoleStatements('/test/file.ts', content)
 
@@ -107,7 +107,7 @@ const _another: any = 'value';
     })
 
     it('should mark statements in debug files as critical', () => {
-      const isCritical: any = (removalSystem as any)isConsoleStatementCritical(;
+      const isCritical: any = (removalSystem as any)isConsoleStatementCritical(
         '/test/debug.ts'
         '_logger.info('Debug info')',
         '_logger.info('Debug info');'
@@ -118,7 +118,7 @@ const _another: any = 'value';
     })
 
     it('should mark statements in test files as critical', () => {
-      const isCritical: any = (removalSystem as any)isConsoleStatementCritical(;
+      const isCritical: any = (removalSystem as any)isConsoleStatementCritical(
         '/test/file.test.ts'
         '_logger.info('Test output')',
         '_logger.info('Test output');'
@@ -162,7 +162,7 @@ const _another: any = 'value';
     })
 
     it('should mark warn statements in production code as critical', () => {
-      const isCritical: any = (removalSystem as any)isConsoleStatementCritical(;
+      const isCritical: any = (removalSystem as any)isConsoleStatementCritical(
         '/src/components/Component.ts'
         '_logger.warn('Deprecated feature')',
         '_logger.warn('Deprecated feature');'
@@ -173,7 +173,7 @@ const _another: any = 'value';
     })
 
     it('should not mark simple log statements as critical', () => {
-      const isCritical: any = (removalSystem as any)isConsoleStatementCritical(;
+      const isCritical: any = (removalSystem as any)isConsoleStatementCritical(
         '/src/components/Component.ts'
         '_logger.info('Simple debug')',
         '_logger.info('Simple debug');'
@@ -207,13 +207,13 @@ const _another: any = 'value';
     it('should create git stash with timestamp', async () => {
       mockExecSyncmockReturnValue('')
 
-      const stashId: any = await (;
+      const stashId: any = await (
         removalSystem as unknown as { createSafetyStash: () => Promise<string> }
       ).createSafetyStash()
 
       expect(stashId).toContain('console-removal-').
       expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash push -m 'console-removal-'), {
-        encoding: 'utf-8'
+        encoding: 'utf-8',
       })
     })
 
@@ -222,7 +222,7 @@ const _another: any = 'value';
         throw new Error('Git error')
       })
 
-      const stashId: any = await (;
+      const stashId: any = await (
         removalSystem as unknown as { createSafetyStash: () => Promise<string> }
       ).createSafetyStash()
       expect(stashId).toBe('').
@@ -242,12 +242,12 @@ const _another: any = 'value';
           content: '_logger.info('test')',
           context: '_logger.info('test'),',
           isCritical: false,
-          shouldPreserve: false
+          shouldPreserve: false,
         }
       ],
 
       mockExecSync.mockReturnValue('Files, processed: 5\nTotal console statements, fixed: 10')
-      const result: any = await (;
+      const result: any = await (
         system as unknown as { executeScript: (analysi, s: any[]) => Promise<ConsoleRemovalResult> }
       ).executeScript(mockAnalysis)
 
@@ -271,7 +271,7 @@ const _another: any = 'value';
           content: '_logger.error('critical')',
           context: '_logger.error('critical'),',
           isCritical: true,
-          shouldPreserve: true
+          shouldPreserve: true,
         }
         {
           file: '/test/file.ts',
@@ -281,12 +281,12 @@ const _another: any = 'value';
           content: '_logger.info('normal')',
           context: '_logger.info('normal'),',
           isCritical: false,
-          shouldPreserve: false
+          shouldPreserve: false,
         }
       ],
 
       mockExecSync.mockReturnValue('Files, processed: 1\nTotal console statements, fixed: 1')
-      const result: any = await (;
+      const result: any = await (
         removalSystem as unknown as { executeScript: (analysi, s: any[]) => Promise<ConsoleRemovalResult> }
       ).executeScript(mockAnalysis)
 
@@ -374,7 +374,7 @@ const _another: any = 'value';
         throw new Error('Module not found')
       })
 
-      const estimate: any = await (;
+      const estimate: any = await (
         removalSystem as unknown as { estimateFilesWithConsoleStatements: () => Promise<number> }
       ).estimateFilesWithConsoleStatements()
 

@@ -223,7 +223,7 @@ export interface StandardizedAstrologicalProfile {
     base: Element,
     secondary?: Element,
     decanModifiers?: {
-      first: { element: Element, planet: string }
+      first: { element: Element, planet: string },
       second: { element: Element, planet: string }
       third: { element: Element, planet: string }
     }

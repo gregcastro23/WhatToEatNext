@@ -51,7 +51,7 @@ interface PersonalizationConfig {
 
 export function usePersonalization(
   userId: string | null,
-  config: PersonalizationConfig = {;
+  config: PersonalizationConfig = {
     autoLearn: true,
     trackViews: true,
     cacheRecommendations: true,
@@ -63,21 +63,21 @@ export function usePersonalization(
     userId: userId || 'anonymous',
     preferences: {
       cuisines: [],
-      ingredients: { favorites: [], dislikes: [] }
+      ingredients: { favorites: [], dislikes: [] },
       elementalAffinities: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
       complexity: 'moderate',
       planetaryPreferences: {}
     },
     recommendations: {
       scores: [],
-      lastUpdated: 0
+      lastUpdated: 0,
     },
     learningStats: {
       totalInteractions: 0,
       confidence: 0,
-      lastActivity: 0
+      lastActivity: 0,
     },
-    isLoading: true
+    isLoading: true,
   })
 
   // Load user preferences
@@ -108,7 +108,7 @@ export function usePersonalization(
           confidence: preferences.learningConfidence,
           lastActivity: preferences.lastActivity
         },
-        isLoading: false
+        isLoading: false,
       }))
 
       const responseTime = performance.now() - startTime;
@@ -155,7 +155,7 @@ export function usePersonalization(
   }, [userId, config.autoLearn, loadPreferences])
 
   // Track ingredient preferences
-  const trackIngredientPreferences = useCallback(async (;
+  const trackIngredientPreferences = useCallback(async (
     selected: string[],
     rejected: string[] = []) => {
     if (!userId || !config.autoLearn) return,
@@ -175,7 +175,7 @@ export function usePersonalization(
   }, [userId, config.autoLearn, loadPreferences])
 
   // Track planetary interest
-  const trackPlanetaryInterest = useCallback(async (;
+  const trackPlanetaryInterest = useCallback(async (
     planetaryHour: string,
     engagement: number) => {
     if (!userId || !config.autoLearn) return,
@@ -195,7 +195,7 @@ export function usePersonalization(
   }, [userId, config.autoLearn, loadPreferences])
 
   // Get personalized recommendations
-  const getPersonalizedRecommendations = useCallback(async (;
+  const getPersonalizedRecommendations = useCallback(async (
     baseRecommendations: any[],
     context?: { planetaryHour?: string; timeOfDay?: string }
   ) => {
@@ -204,14 +204,14 @@ export function usePersonalization(
         ...rec,
         personalizedScore: rec.score || 0.5,
         reasons: ['No personalization data available'],
-        confidence: 0
+        confidence: 0,
       }))
     }
 
     const startTime = performance.now()
 
     try {
-      const personalizedScores = await userLearning.personalizeRecommendations(;
+      const personalizedScores = await userLearning.personalizeRecommendations(
         userId,
         baseRecommendations,
         context

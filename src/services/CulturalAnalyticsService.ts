@@ -214,7 +214,7 @@ export class CulturalAnalyticsService {
       const reasoning: string[] = []
 
       // Calculate proximity bonus (same cultural group)
-      const sameGroupCuisines = secondaryCuisines.filter(;
+      const sameGroupCuisines = secondaryCuisines.filter(
         cuisine => this.getCulturalGroup(cuisine) === primaryGroup,
       )
 
@@ -262,7 +262,7 @@ export class CulturalAnalyticsService {
         reasoning: ['Default cultural synergy applied due to calculation error'],
         culturalGroup: 'unknown',
         proximityBonus: 0,
-        diversityBonus: 0
+        diversityBonus: 0,
       }
     }
   }
@@ -283,7 +283,7 @@ export class CulturalAnalyticsService {
       const historicalContext = HISTORICAL_CONTEXTS[cuisineName]
 
       // Calculate cultural compatibility with current astrological state
-      const culturalCompatibility = this.calculateAstrologicalCulturalCompatibility(;
+      const culturalCompatibility = this.calculateAstrologicalCulturalCompatibility(
         cuisineName,
         astrologicalState,
       )
@@ -292,7 +292,7 @@ export class CulturalAnalyticsService {
       const synergyData = this.calculateCulturalSynergy(cuisineName)
 
       // Generate historical significance
-      const historicalSignificance = this.generateHistoricalSignificance(;
+      const historicalSignificance = this.generateHistoricalSignificance(
         cuisineName,
         historicalContext,
       )
@@ -345,7 +345,7 @@ export class CulturalAnalyticsService {
 
         if (fusionData.fusionScore > 0.6) {
           // Only recommend good fusion potential
-          const fusionRecommendation: FusionCuisineRecommendation = {;
+          const fusionRecommendation: FusionCuisineRecommendation = {
             name: this.generateFusionName(primaryCuisine, secondaryCuisine),
             parentCuisines: [primaryCuisine, secondaryCuisine],
             fusionScore: fusionData.fusionScore,
@@ -566,7 +566,7 @@ export class CulturalAnalyticsService {
       spring: 0.8,
       summer: 0.8,
       autumn: 0.8,
-      winter: 0.8
+      winter: 0.8,
     }
 
     // Adjust based on cuisine seasonal preferences

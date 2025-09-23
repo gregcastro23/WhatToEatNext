@@ -27,7 +27,7 @@ export type AlchemicalAction =
 /**
  * Reducer for the AlchemicalContext
  */
-export const _alchemicalReducer = (;
+export const _alchemicalReducer = (
   state: AlchemicalState,
   action: AlchemicalAction,
 ): AlchemicalState => {

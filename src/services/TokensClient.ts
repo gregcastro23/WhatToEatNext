@@ -21,7 +21,7 @@ export interface TokenRatesResult {
   monica: number,
   // Additional backend metrics
   projections?: {
-    nextHour: { Spirit: number, Essence: number, Matter: number, Substance: number }
+    nextHour: { Spirit: number, Essence: number, Matter: number, Substance: number },
     nextDay: { Spirit: number, Essence: number, Matter: number, Substance: number }
   }
   harmonicAnalysis?: {
@@ -77,7 +77,7 @@ export class TokensClient {
     // 1) Backend-first using centralized API client
     if (this.useBackend && this.backendUrl) {
       try {
-        const request: TokenRatesRequest = {;
+        const request: TokenRatesRequest = {
           datetime: input.datetime?.toISOString(),
           location: input.location,
           elemental: input.elemental,

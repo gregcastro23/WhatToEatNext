@@ -41,7 +41,7 @@ describe('UnusedVariablesCleanupSystem', () => {
     it('should accept custom configuration', () => {
       const config: Partial<UnusedVariablesConfig> = { maxFiles: 30;
         autoFix: true,
-        dryRun: false
+        dryRun: false,
       }
 
       const system: any = new UnusedVariablesCleanupSystem(config)
@@ -84,7 +84,7 @@ describe('UnusedVariablesCleanupSystem', () => {
     it('should create git stash with timestamp', async () => {
       mockExecSync.mockReturnValue('')
 
-      const stashId: any = await (;
+      const stashId: any = await (
         cleanupSystem as unknown as { createSafetyStash: () => Promise<string> }
       ).createSafetyStash()
 
@@ -99,7 +99,7 @@ describe('UnusedVariablesCleanupSystem', () => {
         throw new Error('Git error')
       })
 
-      const stashId: any = await (;
+      const stashId: any = await (
         cleanupSystem as unknown as { createSafetyStash: () => Promise<string> }
       ).createSafetyStash()
       expect(stashId).toBe('').
@@ -112,7 +112,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       const system: any = new UnusedVariablesCleanupSystem(config)
 ;
       mockExecSyncmockReturnValue('5 files processed\n2 variables removed\n3 variables prefixed\nsafety, score: 85.5')
-      const result: any = await (;
+      const result: any = await (
         system as unknown as { executeScript: () => Promise<UnusedVariablesResult> }
       ).executeScript()
 
@@ -133,7 +133,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       const system: any = new UnusedVariablesCleanupSystem(config)
 
       mockExecSync.mockReturnValue('10 files processed\n5 variables removed')
-      const result: any = await (;
+      const result: any = await (
         system as unknown as { executeScript: () => Promise<UnusedVariablesResult> }
       ).executeScript()
 
@@ -148,7 +148,7 @@ describe('UnusedVariablesCleanupSystem', () => {
         throw new Error('Script execution failed')
       })
 
-      const result: any = await (;
+      const result: any = await (
         cleanupSystem as unknown as { executeScript: () => Promise<UnusedVariablesResult> }
       ).executeScript()
 
@@ -164,7 +164,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       `,
 
       mockExecSync.mockReturnValue(output)
-      const result: any = await (;
+      const result: any = await (
         cleanupSystem as unknown as { executeScript: () => Promise<UnusedVariablesResult> }
       ).executeScript()
 
@@ -229,7 +229,7 @@ describe('UnusedVariablesCleanupSystem', () => {
         buildTime: 2000,
         errors: [],
         warnings: ['Test warning'],
-        safetyScore: 90.5
+        safetyScore: 90.5,
       }
 
       const report: any = cleanupSystem.generateReport(result)
@@ -252,7 +252,7 @@ describe('UnusedVariablesCleanupSystem', () => {
         buildTime: 0,
         errors: ['Test error'],
         warnings: [],
-        safetyScore: 0
+        safetyScore: 0,
       }
 
       const report: any = cleanupSystemgenerateReport(result)
@@ -270,7 +270,7 @@ describe('UnusedVariablesCleanupSystem', () => {
         throw new Error('Module not found')
       })
 
-      const estimate: any = await (;
+      const estimate: any = await (
         cleanupSystem as unknown as { estimateFilesWithUnusedVariables: () => Promise<number> }
       ).estimateFilesWithUnusedVariables()
 
@@ -287,7 +287,7 @@ describe('UnusedVariablesCleanupSystem', () => {
         buildTime: 1500,
         errors: [],
         warnings: [],
-        safetyScore: 850
+        safetyScore: 850,
       }
 
       mockFs.writeFileSync.mockImplementation(() => {})
@@ -310,7 +310,7 @@ describe('UnusedVariablesCleanupSystem', () => {
         buildTime: 1500,
         errors: [],
         warnings: [],
-        safetyScore: 85.0
+        safetyScore: 85.0,
       }
 
       mockFs.writeFileSync.mockImplementation(() => {

@@ -25,10 +25,10 @@ describe('DependencySecurityMonitor', () => {
   let testConfig: DependencySecurityConfig,
 
   beforeEach(() => {
-    testConfig = {;
+    testConfig = {
       ...DEFAULT_DEPENDENCY_SECURITY_CONFIG,
       maxDependenciesPerBatch: 5,
-      safetyValidationEnabled: true
+      safetyValidationEnabled: true,
     }
     dependencyMonitor = new DependencySecurityMonitor(testConfig)
 
@@ -45,11 +45,11 @@ describe('DependencySecurityMonitor', () => {
               {
                 source: 'CVE-2021-23337',
                 title: 'Command Injection in lodash',
-                range: '>=1.0.0 <4.17.21'
+                range: '>=1.0.0 <4.17.21',
               }
             ],
             range: '>=1.0.0 <4.17.21',
-            fixAvailable: { version: '4.17.21'
+            fixAvailable: { version: '4.17.21',
             }
           },
           axios: { severity: 'critical',
@@ -57,11 +57,11 @@ describe('DependencySecurityMonitor', () => {
               {
                 source: 'CVE-2021-3749',
                 title: 'Regular Expression Denial of Service in axios',
-                range: '>=0.8.1 <0.21.2'
+                range: '>=0.8.1 <0.21.2',
               }
             ],
             range: '>=0.8.1 <0.21.2',
-            fixAvailable: { version: '0.21.2'
+            fixAvailable: { version: '0.21.2',
             }
           }
         }
@@ -131,7 +131,7 @@ describe('DependencySecurityMonitor', () => {
         react: { current: '17.0.0',
           wanted: '17.0.2',
           latest: '18.0.0',
-          location: 'node_modules/react'
+          location: 'node_modules/react',
         }
       })
 
@@ -169,12 +169,12 @@ describe('DependencySecurityMonitor', () => {
 
   describe('applySecurityPatches', () => {
     test('applies security patches for critical vulnerabilities', async () => {
-      const config: any = {;
+      const config: any = {
         ...testConfig,
         autoUpdateEnabled: true,
         securityThresholds: {
           ...testConfig.securityThresholds,
-          autoFixCritical: true
+          autoFixCritical: true,
         }
       }
       const monitor: any = new DependencySecurityMonitor(config)
@@ -187,7 +187,7 @@ describe('DependencySecurityMonitor', () => {
           cve: 'CVE-2021-23337',
           description: 'Command Injection',
           fixedVersion: '4.17.21',
-          patchAvailable: true
+          patchAvailable: true,
         }
       ],
 
@@ -202,13 +202,13 @@ describe('DependencySecurityMonitor', () => {
     }),
 
     test('skips excluded packages', async () => {
-      const config: any = {;
+      const config: any = {
         ...testConfig,
         autoUpdateEnabled: true,
         excludedPackages: ['lodash'],
         securityThresholds: {
           ...testConfig.securityThresholds,
-          autoFixCritical: true
+          autoFixCritical: true,
         }
       }
       const monitor: any = new DependencySecurityMonitor(config)
@@ -221,7 +221,7 @@ describe('DependencySecurityMonitor', () => {
           cve: 'CVE-2021-23337',
           description: 'Command Injection',
           fixedVersion: '4.17.21',
-          patchAvailable: true
+          patchAvailable: true,
         }
       ],
 
@@ -232,13 +232,13 @@ describe('DependencySecurityMonitor', () => {
     }),
 
     test('respects security threshold settings', async () => {
-      const config: any = {;
+      const config: any = {
         ...testConfig,
         autoUpdateEnabled: true,
         securityThresholds: {
           ...testConfig.securityThresholds,
           autoFixCritical: false,
-          autoFixHigh: false
+          autoFixHigh: false,
         }
       }
       const monitor: any = new DependencySecurityMonitor(config)
@@ -251,7 +251,7 @@ describe('DependencySecurityMonitor', () => {
           cve: 'CVE-2021-23337',
           description: 'Command Injection',
           fixedVersion: '4.17.21',
-          patchAvailable: true
+          patchAvailable: true,
         }
       ],
 
@@ -262,7 +262,7 @@ describe('DependencySecurityMonitor', () => {
 
   describe('applySafeUpdates', () => {
     test('applies safe patch updates', async () => {
-      const config: any = {;
+      const config: any = {
         ..testConfig,
         autoUpdateEnabled: true,
       }
@@ -275,7 +275,7 @@ describe('DependencySecurityMonitor', () => {
           updateType: 'patch' as const,
           breakingChanges: false,
           securityFix: false,
-          testingRequired: false
+          testingRequired: false,
         }
       ],
 
@@ -287,7 +287,7 @@ describe('DependencySecurityMonitor', () => {
     })
 
     test('skips major updates requiring manual approval', async () => {
-      const config = {;
+      const config = {
         ...testConfig,
         autoUpdateEnabled: true,
         updateStrategies: [
@@ -297,7 +297,7 @@ describe('DependencySecurityMonitor', () => {
             pattern: /.*/,
             updateType: 'minor' as const,
             requiresManualApproval: true,
-            testingRequired: false
+            testingRequired: false,
           }
         ]
       }
@@ -310,7 +310,7 @@ describe('DependencySecurityMonitor', () => {
           updateType: 'major' as const,
           breakingChanges: true,
           securityFix: false,
-          testingRequired: true
+          testingRequired: true,
         }
       ],
 
@@ -358,7 +358,7 @@ describe('DependencySecurityMonitor', () => {
 
   describe('executeDependencySecurityMonitoring', () => {
     test('executes complete monitoring workflow', async () => {
-      const packageJson: any = {;
+      const packageJson: any = {
         dependencies: { lodash: '417.20' },
         devDependencies: { jest: '29.0.0' }
       }
@@ -380,16 +380,16 @@ describe('DependencySecurityMonitor', () => {
     })
 
     test('handles security scan and update workflow', async () => {
-      const config: any = {;
+      const config: any = {
         ...testConfig,
         autoUpdateEnabled: true,
         securityThresholds: {
           ...testConfig.securityThresholds,
-          autoFixCritical: true
+          autoFixCritical: true,
         }
       }
       const monitor: any = new DependencySecurityMonitor(config)
-      const packageJson: any = {;
+      const packageJson: any = {
         dependencies: { lodash: '4.17.20' }
       }
 
@@ -410,7 +410,7 @@ describe('DependencySecurityMonitor', () => {
       const outdatedError: any = new Error('Updates available') as unknown
       outdatedError.stdout = JSON.stringify({;
         lodash: { current: '4.17.20',
-          latest: '4.17.21'
+          latest: '4.17.21',
         }
       })
       mockExecSync.mockImplementationOnce(() => {
@@ -490,7 +490,7 @@ describe('DependencySecurityMonitor', () => {
           moderate: 0,
           low: 0,
           autoFixCritical: false,
-          autoFixHigh: false
+          autoFixHigh: false,
         },
         excludedPackages: ['react', 'next']
       }

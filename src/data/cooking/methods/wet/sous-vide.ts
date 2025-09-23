@@ -12,9 +12,9 @@ export const _sousVide: CookingMethodData = {
   name: 'sous_vide',
   description: 'Precision cooking method where food is vacuum-sealed and immersed in a temperature-controlled water bath for perfect doneness. The method ensures exact temperature control, allowing proteins to be cooked to precise levels of doneness while preserving moisture and enhancing texture.',
   elementalEffect: {
-    Water: 0.5, // Primary element - the cooking medium,
+    Water: 0.5, // Primary element - the cooking medium
     Earth: 0.3, // Secondary element - reflects stability and structure,
-    Fire: 0.1, // Minimal fire element - low heat application,
+    Fire: 0.1, // Minimal fire element - low heat application
     Air: 0.1, // Minimal air element - vacuum removes air
   },
   duration: {

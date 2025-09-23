@@ -50,7 +50,7 @@ export function useRecipeRecommendations(
 
     // Calculate elemental distribution from planetary positions
     const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
-    const elementMap = {;
+    const elementMap = {
       aries: 'Fire',
       leo: 'Fire',
       sagittarius: 'Fire',
@@ -79,7 +79,7 @@ export function useRecipeRecommendations(
       Fire: total > 0 ? elementCounts.Fire / total : 0.25,
       Water: total > 0 ? elementCounts.Water / total : 0.25,
       Earth: total > 0 ? elementCounts.Earth / total : 0.25,
-      Air: total > 0 ? elementCounts.Air / total : 0.25
+      Air: total > 0 ? elementCounts.Air / total : 0.25,
     }
   }, [planetaryPositions])
 
@@ -123,7 +123,7 @@ export function useRecipeRecommendations(
 
         // Calculate compatibility scores
         const recipesWithScores = (sampleRecipes || []).map(recipe => {;
-          const score = calculateElementalCompatibility(;
+          const score = calculateElementalCompatibility(
             recipe.elementalProfile
             currentElementalProfile,
           ),
@@ -151,13 +151,13 @@ export function useRecipeRecommendations(
         setState(prev => ({,
           ...prev,
           recipes: filteredRecipes,
-          isLoading: false
+          isLoading: false,
         }))
       } catch (error) {
         setState(prev => ({,
           ...prev,
           isLoading: false,
-          error: error instanceof Error ? error.message : 'Unknown error'
+          error: error instanceof Error ? error.message : 'Unknown error',
         }))
       }
     }
@@ -180,7 +180,7 @@ export function useRecipeRecommendations(
 }
 
 function calculateElementalCompatibility(
-  recipeProfile: { Fire: number, Water: number, Earth: number, Air: number }
+  recipeProfile: { Fire: number, Water: number, Earth: number, Air: number },
   currentProfile: { Fire: number, Water: number, Earth: number, Air: number }): number {
   // Simple compatibility calculation - can be enhanced
   const diff =

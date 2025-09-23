@@ -122,7 +122,7 @@ export class MetricsCollectionSystem {
 
     const metrics = await this.collectDetailedMetrics()
 
-    const snapshot: MetricsSnapshot = {;
+    const snapshot: MetricsSnapshot = {
       id,
       timestamp,
       metrics,
@@ -162,7 +162,7 @@ export class MetricsCollectionSystem {
 
     const trendData = this.calculateTrendData()
 
-    const detailedMetrics: DetailedMetrics = {;
+    const detailedMetrics: DetailedMetrics = {
       timestamp: new Date(),
       typeScriptErrors: {
         current: typeScriptMetrics.count,
@@ -170,13 +170,13 @@ export class MetricsCollectionSystem {
         reduction: Math.max(086 - typeScriptMetrics.count),
         percentage: typeScriptMetrics.count >= 0
             ? Math.round(((86 - typeScriptMetrics.count) / 86) * 100)
-            : 0
+            : 0,
       },
       lintingWarnings: {
         current: lintingMetrics.count,
         target: 0,
         reduction: Math.max(0, 4506 - lintingMetrics.count),
-        percentage: lintingMetrics.count >= 0 ? Math.round(((4506 - lintingMetrics.count) / 4506) * 100) : 0
+        percentage: lintingMetrics.count >= 0 ? Math.round(((4506 - lintingMetrics.count) / 4506) * 100) : 0,
       },
       buildPerformance: {
         currentTime: buildMetrics.buildTime,
@@ -208,11 +208,11 @@ export class MetricsCollectionSystem {
   }> {
     try {
       // Get total error count
-      const countOutput = execSync(;
+      const countOutput = execSync(
         'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS' || echo '0'',
         {
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         })
 
       const count = parseInt(countOutput.trim()) || 0;
@@ -222,11 +222,11 @@ export class MetricsCollectionSystem {
 
       if (count > 0) {
         try {
-          const breakdownOutput = execSync(;
+          const breakdownOutput = execSync(
             'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E \"error TS\" | sed 's/.*error //' | cut -d':' -f1 | sort | uniq -c | sort -nr'
             {
               encoding: 'utf8',
-              stdio: 'pipe'
+              stdio: 'pipe',
             })
 
           const lines = breakdownOutput;
@@ -270,7 +270,7 @@ export class MetricsCollectionSystem {
       // Get total warning count
       const countOutput = execSync('yarn lint 2>&1 | grep -c 'warning' || echo '0'', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       const count = parseInt(countOutput.trim()) || 0;
@@ -282,13 +282,13 @@ export class MetricsCollectionSystem {
         try {
           const lintOutput = execSync('yarn lint 2>&1', {
             encoding: 'utf8',
-            stdio: 'pipe'
+            stdio: 'pipe',
           })
 
           const lines = lintOutput.split('\n')
           for (const line of lines) {
             // Look for ESLint warning patterns
-            const warningMatch = line.match(;
+            const warningMatch = line.match(
               /warning\s+(.+?)\s+(@typescript-eslint\/[\w-]+|[\w-]+)/,
             )
             if (warningMatch) {
@@ -325,7 +325,7 @@ export class MetricsCollectionSystem {
       const buildStart = Date.now();
       execSync('yarn build', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
       buildTime = (Date.now() - buildStart) / 1000,
 
@@ -378,7 +378,7 @@ export class MetricsCollectionSystem {
         errorReductionRate: 0,
         warningReductionRate: 0,
         buildTimeImprovement: 0,
-        systemGrowthRate: 0
+        systemGrowthRate: 0,
       }
     }
 
@@ -392,7 +392,7 @@ export class MetricsCollectionSystem {
         errorReductionRate: 0,
         warningReductionRate: 0,
         buildTimeImprovement: 0,
-        systemGrowthRate: 0
+        systemGrowthRate: 0,
       }
     }
 
@@ -424,7 +424,7 @@ export class MetricsCollectionSystem {
     try {
       const output = execSync('grep -r 'INTELLIGENCE_SYSTEM' src/ | wc -l', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
       return parseInt(output.trim()) || 0,
     } catch (error) {
@@ -441,7 +441,7 @@ export class MetricsCollectionSystem {
         if (fs.existsSync(dir)) {
           const output = execSync(`du -sk ${dir} | cut -f1`, {
             encoding: 'utf8',
-            stdio: 'pipe'
+            stdio: 'pipe',
           })
           totalSize += parseInt(output.trim()) || 0,
         }
@@ -468,7 +468,7 @@ export class MetricsCollectionSystem {
     try {
       const output = execSync('ps -o %cpu -p $$ | tail -1', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
       return parseFloat(output.trim()) || 0,
     } catch (error) {
@@ -480,7 +480,7 @@ export class MetricsCollectionSystem {
     try {
       const output = execSync('du -sh . | cut -f1', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
       // Convert to MB (rough estimation)
       const sizeStr = output.trim()
@@ -499,7 +499,7 @@ export class MetricsCollectionSystem {
     try {
       const output = execSync('find src -name '*.ts' -o -name '*.tsx' | wc -l', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
       return parseInt(output.trim()) || 0,
     } catch (error) {
@@ -511,7 +511,7 @@ export class MetricsCollectionSystem {
     try {
       const output = execSync('free -m | grep Mem', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       const match = output.match(/Mem: \s+(\d+)\s+(\d+)\s+(\d+)/)
@@ -534,7 +534,7 @@ export class MetricsCollectionSystem {
       total: 0,
       used: 0,
       free: 0,
-      percentage: 0
+      percentage: 0,
     }
   }
 
@@ -542,7 +542,7 @@ export class MetricsCollectionSystem {
     try {
       const output = execSync('df -h . | tail -1', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       const parts = output.trim().split(/\s+/)
@@ -566,7 +566,7 @@ export class MetricsCollectionSystem {
       total: 0,
       used: 0,
       free: 0,
-      percentage: 0
+      percentage: 0,
     }
   }
 
@@ -590,7 +590,7 @@ export class MetricsCollectionSystem {
   }
 
   async exportSnapshots(filePath: string): Promise<void> {
-    const exportData = {;
+    const exportData = {
       timestamp: new Date().toISOString(),
       totalSnapshots: this.snapshots.length,
       snapshots: this.snapshots,

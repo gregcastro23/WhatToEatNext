@@ -68,7 +68,7 @@ export class ConsoleStatementRemovalSystem {
     this.scriptPath = path.join(process.cwd(), 'scripts/lint-fixes/fix-console-statements-only.js'),
     this.metricsFile = path.join(process.cwd(), '.console-removal-metrics.json'),
 
-    this.config = {;
+    this.config = {
       maxFiles: 10,
       dryRun: true,
       autoFix: false,
@@ -133,7 +133,7 @@ export class ConsoleStatementRemovalSystem {
   async executeBatchRemoval(totalFiles?: number): Promise<BatchRemovalResult> {
     // // // _logger.info('⚡ Starting batch processing for console statement removal...')
 
-    const batchResult: BatchRemovalResult = {;
+    const batchResult: BatchRemovalResult = {
       totalBatches: 0,
       successfulBatches: 0,
       failedBatches: 0,
@@ -141,7 +141,7 @@ export class ConsoleStatementRemovalSystem {
       totalConsoleStatementsProcessed: 0,
       averageBuildTime: 0,
       errors: [],
-      preservedCriticalStatements: 0
+      preservedCriticalStatements: 0,
     }
 
     try {
@@ -161,7 +161,7 @@ export class ConsoleStatementRemovalSystem {
         // // // _logger.info(`\n🔄 Processing batch ${i + 1}/${batchCount}...`)
 
         try {
-          const batchConfig = {;
+          const batchConfig = {
             ...this.config,
             maxFiles: this.config.batchSize
           }
@@ -301,7 +301,7 @@ export class ConsoleStatementRemovalSystem {
     }
 
     // Preserve statements with error handling context
-    const errorHandlingPatterns = [;
+    const errorHandlingPatterns = [
       /try\s*{[\s\S]*?catch/i,
       /catch\s*\(/i,
       /error/i,
@@ -315,7 +315,7 @@ export class ConsoleStatementRemovalSystem {
     }
 
     // Preserve statements with important debugging information
-    const importantPatterns = [;
+    const importantPatterns = [
       /api/i,
       /request/i,
       /response/i,
@@ -409,7 +409,7 @@ export class ConsoleStatementRemovalSystem {
    * Execute the console removal script
    */
   private async executeScript(consoleAnalysis: ConsoleStatement[]): Promise<ConsoleRemovalResult> {
-    const result: ConsoleRemovalResult = {;
+    const result: ConsoleRemovalResult = {
       success: false,
       filesProcessed: 0,
       consoleStatementsRemoved: 0,
@@ -497,7 +497,7 @@ export class ConsoleStatementRemovalSystem {
       const startTime = Date.now();
       execSync('yarn build', {
         encoding: 'utf-8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
       const buildTime = Date.now() - startTime;
 
@@ -545,7 +545,7 @@ export class ConsoleStatementRemovalSystem {
    */
   private async saveMetrics(result: ConsoleRemovalResult): Promise<void> {
     try {
-      const metrics = {;
+      const metrics = {
         timestamp: new Date().toISOString(),
         config: this.config,
         result,

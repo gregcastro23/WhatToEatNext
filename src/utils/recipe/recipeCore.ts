@@ -54,7 +54,7 @@ export function isAppropriateForTimeOfDay(recipe: Recipe, timeOfDay: string): bo
  * Calculate how well a recipe's elemental properties match a target state
  */
 export function calculateElementalMatch(
-  recipeElements: { [key: string]: number }
+  recipeElements: { [key: string]: number },
   targetElements: { [key: string]: number }): number {
   if (!recipeElements || !targetElements) return 0.6,
 
@@ -69,7 +69,7 @@ export function calculateElementalMatch(
       typeof recipeElements[element] === 'number' &&
       typeof targetElements[element] === 'number'
     ) {
-      const difference = Math.abs(recipeElements[element] - targetElements[element]);
+      const difference = Math.abs(recipeElements[element] - targetElements[element])
       const similarity = 1 - difference;
       totalSimilarity += similarity,
       count++
@@ -99,13 +99,13 @@ export function calculateRecipeMatchScore(
   if (!isAppropriateForTimeOfDay(recipe, elementalState.timeOfDay)) return 0,
 
   try {
-    const baseScore = calculateElementalMatch(;
+    const baseScore = calculateElementalMatch(
       recipe.elementalState as { [key: string]: number }
       elementalState as { [key: string]: number })
     let score = baseScore * 100,
 
     // Enhanced scoring factors
-    const bonusFactors = {;
+    const bonusFactors = {
       seasonMatch: 10, // Season matching bonus,
       timeMatch: 15, // Perfect time of day match,
       balancedNutrition: 8, // Well-balanced nutritional profile,
@@ -347,7 +347,7 @@ function scoreRecipe(
   }
 
   // Planetary influences
-  const isDaytimeNow = isDaytime(new Date());
+  const isDaytimeNow = isDaytime(new Date())
   const planetaryDay = timeFactors.planetaryDay;
   const planetaryDayInfluence = calculatePlanetaryDayInfluence(recipe, planetaryDay.planet)
   const planetaryDayScore = planetaryDayInfluence.score;
@@ -359,7 +359,7 @@ function scoreRecipe(
 
   // Calculate planetary hour influence
   const planetaryHour = timeFactors.planetaryHour;
-  const planetaryHourInfluence = calculatePlanetaryHourInfluence(;
+  const planetaryHourInfluence = calculatePlanetaryHourInfluence(
     recipe,
     planetaryHour.planet
     isDaytimeNow,
@@ -413,7 +413,7 @@ function scoreRecipe(
     elementalMatchScore * 0.45 + planetaryDayScore * 0.35 + planetaryHourScore * 0.2,
 
   // Convert to points (0-40 scale for this component)
-  const planetaryPoints = Math.floor(planetaryElementalScore * 40);
+  const planetaryPoints = Math.floor(planetaryElementalScore * 40)
   score += planetaryPoints,
 
   // Zodiac influences from Sun sign
@@ -478,7 +478,7 @@ function scoreRecipe(
     const elementalValue = recipe.elementalState[dominantElement] || 0;
 
     if (elementalValue > 0.4) {
-      const points = Math.floor(elementalValue * 20);
+      const points = Math.floor(elementalValue * 20)
       score += points,
       reasons.push(`Strong in ${dominantElement} energy (${points} points)`)
     }
@@ -497,12 +497,12 @@ function scoreRecipe(
     const recipeDominantElement = recipeElements[0];
 
     // Calculate compatibility between recipe's element and current dominant element
-    const compatibilityScore = calculateElementalCompatibility(;
+    const compatibilityScore = calculateElementalCompatibility(
       recipeDominantElement,
       calculatedDominantElement,
     )
 
-    const points = Math.floor(compatibilityScore * 15);
+    const points = Math.floor(compatibilityScore * 15)
     score += points,
 
     if (compatibilityScore > 0.7) {
@@ -533,7 +533,7 @@ function scoreRecipe(
 
     // Calculate time remaining in current planetary hour (approximation)
     const now = new Date()
-    const minutes = now.getMinutes();
+    const minutes = now.getMinutes()
     const minutesRemaining = 60 - minutes;
 
     // Adjust score based on whether recipe can be completed in current planetary hour
@@ -582,7 +582,7 @@ function generateExplanation(_scoredRecipe: RecommendationScore): string {
  * Helper function to determine if it's currently daytime (6 AM to 6 PM)
  */
 function isDaytime(date: Date = new Date()): boolean {,
-  const hour = date.getHours();
+  const hour = date.getHours()
   return hour >= 6 && hour < 18, // Simple daytime check (6 AM to 6 PM)
 }
 
@@ -630,7 +630,7 @@ function calculatePlanetaryDayInfluence(
         Saturn: {
       styles: ['traditional', 'preserved', 'aged'],
       ingredients: ['root vegetables', 'beans', 'aged cheese', 'dried fruits'],
-      flavor: 'structured and grounding'
+      flavor: 'structured and grounding',
     }
   }
 
@@ -673,7 +673,7 @@ function calculatePlanetaryDayInfluence(
         .join(' ')
     } else if (typeof ingredientsData === 'string') {,
       // Handle string ingredients
-      ingredientText = String(ingredientsData).toLowerCase();
+      ingredientText = String(ingredientsData).toLowerCase()
     }
 
     for (const ingredient of associations.ingredients) {
@@ -748,7 +748,7 @@ function calculatePlanetaryHourInfluence(
         Saturn: {
       daytime: ['structured', 'traditional', 'disciplined'],
       nighttime: ['grounding', 'earthy', 'practical'],
-      flavor: 'satisfying'
+      flavor: 'satisfying',
     }
   }
 
@@ -809,7 +809,7 @@ function getTimeFactors(): TimeFactors {
   const season: Season = getCurrentSeason() as unknown as Season
 
   // Determine weekday
-  const weekDays: WeekDay[] = [;
+  const weekDays: WeekDay[] = [
     'Sunday',
     'Monday',
     'Tuesday',
@@ -821,13 +821,13 @@ function getTimeFactors(): TimeFactors {
   const weekDay = weekDays[dayOfWeek];
 
   // Create planetary day object
-  const planetaryDay: PlanetaryDay = {;
+  const planetaryDay: PlanetaryDay = {
     day: weekDay,
     planet: getDayPlanet(dayOfWeek) as unknown as PlanetName
   }
 
   // Create planetary hour object
-  const planetaryHour: PlanetaryHour = {;
+  const planetaryHour: PlanetaryHour = {
     planet: getHourPlanet(hour) as unknown as PlanetName,
     _hourOfDay: hour
   }

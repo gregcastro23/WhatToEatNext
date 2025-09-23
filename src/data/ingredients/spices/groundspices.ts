@@ -7,8 +7,7 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
   ground_cinnamon: {
     name: 'Ground Cinnamon',
-    elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 }
-
+    elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Sun', 'Jupiter'],
       favorableZodiac: ['leo', 'sagittarius'],
@@ -46,50 +45,49 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       actions: ['blood sugar regulation', 'anti-inflammatory'],
       energetics: 'warming',
       cautions: ['blood thinning in large amounts']
-    }
-
+    },
     culinary_traditions: {
       [CUISINE_TYPES.INDIAN]: {
         name: 'dalchini',
         usage: ['garam masala', 'chai', 'biryanis', 'desserts'],
         preparation: 'ground or whole sticks',
-        cultural_notes: 'Essential in both sweet and savory dishes'
+        cultural_notes: 'Essential in both sweet and savory dishes',
       }
       [CUISINE_TYPES.CHINESE]: {
         name: 'rou gui',
         usage: ['five spice powder', 'braised dishes', 'red cooking', 'desserts'],
         preparation: 'ground or whole sticks',
-        cultural_notes: 'Key component in traditional medicine and cuisine'
+        cultural_notes: 'Key component in traditional medicine and cuisine',
       }
       [CUISINE_TYPES.MIDDLE_EASTERN]: {
         name: 'qirfah',
         usage: ['desserts', 'coffee', 'savory stews', 'rice dishes'],
         preparation: 'ground fine',
-        cultural_notes: 'Valued for both culinary and medicinal properties'
+        cultural_notes: 'Valued for both culinary and medicinal properties',
       }
       [CUISINE_TYPES.VIETNAMESE]: {
         name: 'quế',
         usage: ['pho', 'marinades', 'desserts'],
         preparation: 'whole sticks or ground',
-        cultural_notes: 'Essential in the famous beef noodle soup'
+        cultural_notes: 'Essential in the famous beef noodle soup',
       }
       [CUISINE_TYPES.GREEK]: {
         name: 'kanella',
         usage: ['pastries', 'stews', 'mulled wine'],
         preparation: 'ground fine',
-        cultural_notes: 'Common in both sweet and savory dishes'
+        cultural_notes: 'Common in both sweet and savory dishes',
       }
       [CUISINE_TYPES.MEXICAN]: {
         name: 'canela',
         usage: ['mole', 'chocolate drinks', 'desserts'],
         preparation: 'ground or sticks',
-        cultural_notes: 'Essential in traditional chocolate preparations'
+        cultural_notes: 'Essential in traditional chocolate preparations',
       }
       [CUISINE_TYPES.RUSSIAN]: {
         name: 'koritsa',
         usage: ['baked goods', 'compotes', 'tea blends'],
         preparation: 'ground or whole',
-        cultural_notes: 'Popular in winter beverages and preserves'
+        cultural_notes: 'Popular in winter beverages and preserves',
       }
     }
 
@@ -101,8 +99,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -114,7 +111,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       timing: 'As needed',
       notes: 'Standard prep for ground_cinnamon' },
         nutritionalProfile: {
-      macronutrients: {}
+      macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
     }
@@ -122,7 +119,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 
   ground_cumin: {
     name: 'Ground Cumin',
-    elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 }
+    elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
     qualities: ['earthy', 'warming', 'pungent'],
     origin: ['India', 'Iran', 'Mediterranean'],
     category: 'spice',
@@ -350,7 +347,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         preparation: {
           methods: ['standard preparation'],
           timing: 'as needed',
-          notes: 'Standard preparation for ground cumin'
+          notes: 'Standard preparation for ground cumin',
         }
       },
       culinaryProfile: {
@@ -380,44 +377,43 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       actions: ['digestive aid', 'iron-rich'],
       energetics: 'warming',
       cautions: ['none in culinary amounts']
-    }
-
+    },
     culinary_traditions: {
       [CUISINE_TYPES.INDIAN]: {
         name: 'jeera powder',
         usage: ['curries', 'dals', 'rice dishes', 'chutneys', 'raitas'],
         preparation: 'dry roasted and ground',
-        cultural_notes: 'One of the most essential spices in Indian cuisine'
+        cultural_notes: 'One of the most essential spices in Indian cuisine',
       }
       [CUISINE_TYPES.MIDDLE_EASTERN]: {
         name: 'kamoun',
         usage: ['hummus', 'falafel', 'grilled meats', 'rice pilaf', 'stews'],
         preparation: 'ground',
-        cultural_notes: 'Fundamental to Middle Eastern spice blends'
+        cultural_notes: 'Fundamental to Middle Eastern spice blends',
       }
       [CUISINE_TYPES.MEXICAN]: {
         name: 'comino molido',
         usage: ['salsas', 'beans', 'marinades', 'mole', 'rice'],
         preparation: 'ground, often toasted',
-        cultural_notes: 'Essential in Mexican spice blends and marinades'
+        cultural_notes: 'Essential in Mexican spice blends and marinades',
       }
       [CUISINE_TYPES.CHINESE]: {
         name: 'zi ran',
         usage: ['lamb dishes', 'stir-fries', 'marinades', 'noodle dishes'],
         preparation: 'ground or whole roasted',
-        cultural_notes: 'Particularly important in Northern Chinese cuisine'
+        cultural_notes: 'Particularly important in Northern Chinese cuisine',
       }
       [CUISINE_TYPES.AFRICAN]: {
         name: 'cumin',
         usage: ['stews', 'grilled meats', 'legume dishes', 'rice'],
         preparation: 'ground or dry roasted',
-        cultural_notes: 'Common in North African spice blends'
+        cultural_notes: 'Common in North African spice blends',
       }
       [CUISINE_TYPES.GREEK]: {
         name: 'kymino',
         usage: ['meat dishes', 'bean dishes', 'vegetable dishes'],
         preparation: 'ground',
-        cultural_notes: 'Used in traditional meat preparations'
+        cultural_notes: 'Used in traditional meat preparations',
       }
     }
 
@@ -431,8 +427,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -444,7 +439,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       timing: 'As needed',
       notes: 'Standard prep for ground_cumin' },
         nutritionalProfile: {
-      macronutrients: {}
+      macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
     }
@@ -457,8 +452,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 
   ground_turmeric: {
     name: 'Ground Turmeric',
-    elementalProperties: { Fire: 0.3, Earth: 0.3, Air: 0.2, Water: 0.2 }
-
+    elementalProperties: { Fire: 0.3, Earth: 0.3, Air: 0.2, Water: 0.2 },
     astrologicalProfile: {
       rulingPlanets: ['Sun', 'Mars'],
       favorableZodiac: ['leo', 'aries'],
@@ -472,15 +466,15 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Earth: 0.1, Fire: 0.05 }
+          elementalBoost: { Earth: 0.1, Fire: 0.05 },
           preparationTips: ['Begin infusing oils', 'Start medicinal preparations']
         },
         fullMoon: {
-          elementalBoost: { Fire: 0.2, Water: 0.1 }
+          elementalBoost: { Fire: 0.2, Water: 0.1 },
           preparationTips: ['Maximum potency for healing applications', 'Golden milk rituals']
         },
         waningGibbous: {
-          elementalBoost: { Earth: 0.15, Water: 0.1 }
+          elementalBoost: { Earth: 0.15, Water: 0.1 },
           preparationTips: ['Good for preservation methods', 'Pickling and fermenting']
         }
       },
@@ -590,8 +584,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     conversionRatio: {
       fresh_to_dried: '1 inch fresh = 1 tsp ground',,
       powder_to_fresh: '1 tsp powder = 1 tbsp fresh grated',
-    }
-
+    },
     affinities: [
       'black pepper',
       'ginger',
@@ -619,7 +612,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         curcumin: 'primary active compound (2-5%)',
         curcuminoids: 'group of beneficial compounds',
         volatile_oils: 'aromatic components (1-6%)',
-        turmerone: 'bioactive essential oil'
+        turmerone: 'bioactive essential oil',
       }
     }
 
@@ -631,7 +624,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       signs_of_aging: {
         color_loss: 'fades from bright yellow to pale tan',
         aroma_loss: 'diminished pungency',
-        clumping: 'indicates moisture exposure'
+        clumping: 'indicates moisture exposure',
       }
     }
 
@@ -823,7 +816,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         method: 'blended with fruits and liquids',
         ingredients: ['banana', 'mango', 'ginger', 'plant milk'],
         timing: 'add just before blending',
-        notes: 'Start with 1 / (4 || 1) tsp and adjust to taste'
+        notes: 'Start with 1 / (4 || 1) tsp and adjust to taste',
       }
     }
 
@@ -832,38 +825,38 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         name: 'haldi',
         usage: ['curry powders', 'masalas', 'dal', 'vegetable dishes', 'rice'],
         preparation: 'bloomed in ghee or oil',
-        cultural_notes: 'Fundamental to Indian cooking and traditional medicine'
+        cultural_notes: 'Fundamental to Indian cooking and traditional medicine',
       }
       [CUISINE_TYPES.MIDDLE_EASTERN]: {
         name: 'kurkum',
         usage: ['rice dishes', 'stews', 'marinades', 'spice blends'],
         preparation: 'bloomed in oil or butter',
-        cultural_notes: 'Used both as medicine and culinary colorant'
+        cultural_notes: 'Used both as medicine and culinary colorant',
       }
       [CUISINE_TYPES.THAI]: {
         name: 'khamin',
         usage: ['yellow curry paste', 'soups', 'marinades', 'fish dishes'],
         preparation: 'paste with fresh herbs',
-        cultural_notes: 'Key ingredient in southern Thai cuisine'
+        cultural_notes: 'Key ingredient in southern Thai cuisine',
       }
       // Apply surgical type casting with variable extraction for missing cuisine types
       ['indonesian']: {
         name: 'kunyit',
         usage: ['nasi kuning (yellow rice)', 'rendang', 'soto', 'jamu (herbal drinks)'],
         preparation: 'fresh or dried, often with coconut milk',
-        cultural_notes: 'Used medicinally and ritually, especially in Javanese culture'
+        cultural_notes: 'Used medicinally and ritually, especially in Javanese culture',
       }
       ['moroccan']: {
         name: 'kurkum',
         usage: ['tagines', 'rice dishes', 'vegetable preparations'],
         preparation: 'combined with other warming spices',
-        cultural_notes: 'Adds color and depth to slow-cooked dishes'
+        cultural_notes: 'Adds color and depth to slow-cooked dishes',
       }
       ['persian']: {
         name: 'zardchubeh',
         usage: ['rice dishes', 'stews', 'pickles', 'meat marinades'],
         preparation: 'often bloomed in oil',
-        cultural_notes: 'Valued for both medicinal and culinary properties'
+        cultural_notes: 'Valued for both medicinal and culinary properties',
       }
     }
 
@@ -883,7 +876,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         color: 'bright, but not fluorescent yellow',
         aroma: 'earthy, slightly bitter',
         staining: 'readily stains skin and surfaces' },
-        testing: 'Add to water - pure turmeric settles, many adulterants will create colored swirls'
+        testing: 'Add to water - pure turmeric settles, many adulterants will create colored swirls',
     }
 
     // Removed excessive sensoryProfile nesting
@@ -896,8 +889,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -907,13 +899,13 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       methods: ['Standard'],
       timing: 'As needed',
-      notes: 'Standard prep for ground_turmeric'
+      notes: 'Standard prep for ground_turmeric',
     }
   }
 
   ground_cardamom: {
     name: 'Ground Cardamom',
-    elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 }
+    elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ['aromatic', 'sweet', 'pungent'],
     origin: ['India', 'Guatemala', 'Sri Lanka'],
     category: 'spice',
@@ -938,8 +930,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       actions: ['blood sugar regulation', 'anti-inflammatory'],
       energetics: 'warming',
       cautions: ['blood thinning in large amounts']
-    }
-
+    },
     culinary_traditions: {
       [CUISINE_TYPES.INDIAN]: {
         name: 'elaichi powder',
@@ -951,25 +942,25 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         name: 'hel',
         usage: ['coffee', 'desserts', 'rice dishes', 'meat dishes'],
         preparation: 'finely ground',
-        cultural_notes: 'Essential in Arabic coffee preparation'
+        cultural_notes: 'Essential in Arabic coffee preparation',
       }
       [CUISINE_TYPES.THAI]: {
         name: 'krawaan',
         usage: ['curries', 'desserts', 'beverages'],
         preparation: 'ground or whole pods',
-        cultural_notes: 'Used in both savory and sweet preparations'
+        cultural_notes: 'Used in both savory and sweet preparations',
       }
       [CUISINE_TYPES.VIETNAMESE]: {
         name: 'thảo quả',
         usage: ['pho', 'braised dishes', 'marinades'],
         preparation: 'whole pods or ground',
-        cultural_notes: 'Important in Vietnamese spice blends'
+        cultural_notes: 'Important in Vietnamese spice blends',
       }
       [CUISINE_TYPES.RUSSIAN]: {
         name: 'kardamon',
         usage: ['baked goods', 'tea blends', 'preserves'],
         preparation: 'ground',
-        cultural_notes: 'Popular in sweet baked goods and tea'
+        cultural_notes: 'Popular in sweet baked goods and tea',
       }
     }
 
@@ -983,8 +974,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -996,7 +986,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       timing: 'As needed',
       notes: 'Standard prep for ground_cardamom' },
         nutritionalProfile: {
-      macronutrients: {}
+      macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
     }
@@ -1009,7 +999,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 
   ground_cloves: {
     name: 'Ground Cloves',
-    elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 }
+    elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
     qualities: ['intense', 'sweet', 'hot'],
     origin: ['Indonesia', 'Madagascar', 'Tanzania'],
     category: 'spice',
@@ -1042,7 +1032,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         ratios: {
           mulled_wine: '1:4:4 (cloves:cinnamon:orange peel)',
           cider: '1:4:2 (cloves:cinnamon:allspice)' },
-        notes: 'Remove after steeping to prevent bitterness'
+        notes: 'Remove after steeping to prevent bitterness',
       }
     }
 
@@ -1055,17 +1045,17 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       [CUISINE_TYPES.INDIAN]: {
         name: 'laung powder',
         usage: ['garam masala', 'rice dishes'],
-        preparation: 'ground fine'
+        preparation: 'ground fine',
       }
       [CUISINE_TYPES.CHINESE]: {
         name: 'ding xiang fen',
         usage: ['five spice powder', 'braised dishes'],
-        preparation: 'ground'
+        preparation: 'ground',
       }
       [CUISINE_TYPES.FRENCH]: {
         name: 'clou de girofle moulu',
         usage: ['mulled wine', 'marinades'],
-        preparation: 'ground'
+        preparation: 'ground',
       }
     }
 
@@ -1079,8 +1069,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -1092,7 +1081,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       timing: 'As needed',
       notes: 'Standard prep for ground_cloves' },
         nutritionalProfile: {
-      macronutrients: {}
+      macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
     }
@@ -1105,7 +1094,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 
   ground_paprika: {
     name: 'Ground Paprika',
-    elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 }
+    elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
     qualities: ['sweet', 'warm', 'earthy'],
     origin: ['Hungary', 'Spain', 'United States'],
     category: 'spice',
@@ -1130,47 +1119,46 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       actions: ['digestive aid', 'iron-rich'],
       energetics: 'warming',
       cautions: ['none in culinary amounts']
-    }
-
+    },
     culinary_traditions: {
       [CUISINE_TYPES.HUNGARIAN]: {
         name: 'édesnemes paprika',
         usage: ['goulash', 'chicken paprikash'],
-        preparation: 'added to oil'
+        preparation: 'added to oil',
       }
       [CUISINE_TYPES.SPANISH]: {
         name: 'pimentón',
         usage: ['paella', 'chorizo'],
-        preparation: 'smoked or sweet varieties'
+        preparation: 'smoked or sweet varieties',
       }
       [CUISINE_TYPES.TURKISH]: {
         name: 'kırmızı biber',
         usage: ['kebabs', 'dips'],
-        preparation: 'ground'
+        preparation: 'ground',
       }
       [CUISINE_TYPES.MIDDLE_EASTERN]: {
         name: 'paprika',
         usage: ['meat dishes', 'rice dishes', 'dips', 'marinades'],
         preparation: 'ground, various heat levels',
-        cultural_notes: 'Used for both color and flavor'
+        cultural_notes: 'Used for both color and flavor',
       }
       [CUISINE_TYPES.RUSSIAN]: {
         name: 'paprika',
         usage: ['stews', 'soups', 'meat dishes', 'sauces'],
         preparation: 'ground',
-        cultural_notes: 'Common in hearty winter dishes'
+        cultural_notes: 'Common in hearty winter dishes',
       }
       [CUISINE_TYPES.MEXICAN]: {
         name: 'pimentón',
         usage: ['salsas', 'marinades', 'rice dishes', 'beans'],
         preparation: 'ground',
-        cultural_notes: 'Often used in combination with other chiles'
+        cultural_notes: 'Often used in combination with other chiles',
       }
       [CUISINE_TYPES.GREEK]: {
         name: 'paprika',
         usage: ['meat dishes', 'potato dishes', 'sauces'],
         preparation: 'ground',
-        cultural_notes: 'Used for color and mild pepper flavor'
+        cultural_notes: 'Used for color and mild pepper flavor',
       }
     }
 
@@ -1184,8 +1172,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -1197,7 +1184,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       timing: 'As needed',
       notes: 'Standard prep for ground_paprika' },
         nutritionalProfile: {
-      macronutrients: {}
+      macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
     }
@@ -1210,7 +1197,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 
   ground_mustard: {
     name: 'Ground Mustard',
-    elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 }
+    elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ['pungent', 'sharp', 'hot'],
     origin: ['Canada', 'India', 'United Kingdom'],
     category: 'spice',
@@ -1223,8 +1210,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         conversionRatio: {
       whole_to_ground: '1 tbsp whole = 2.5 tsp ground',,
       powder_to_prepared: '1 tsp powder = 1 tbsp prepared mustard',
-    }
-
+    },
     affinities: ['pork', 'sausages', 'dressings', 'pickles', 'cheese dishes'],
 
     culinaryApplications: {
@@ -1232,7 +1218,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         name: 'Spice Rubs',
         method: 'combine with other spices',
         pairings: ['paprika', 'black pepper', 'garlic'],
-        ratios: '1:2:1 (mustard:paprika:other spices)'
+        ratios: '1:2:1 (mustard:paprika:other spices)',
       }
     }
 
@@ -1245,17 +1231,17 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       [CUISINE_TYPES.INDIAN]: {
         name: 'sarson powder',
         usage: ['pickles', 'curries'],
-        preparation: 'ground from yellow or brown seeds'
+        preparation: 'ground from yellow or brown seeds',
       }
       [CUISINE_TYPES.FRENCH]: {
         name: 'moutarde en poudre',
         usage: ['sauces', 'vinaigrettes'],
-        preparation: 'mixed with liquid'
+        preparation: 'mixed with liquid',
       }
       [CUISINE_TYPES.GERMAN]: {
         name: 'senfpulver',
         usage: ['wurst', 'sauces'],
-        preparation: 'mixed with liquid'
+        preparation: 'mixed with liquid',
       }
     }
 
@@ -1269,8 +1255,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -1282,7 +1267,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       timing: 'As needed',
       notes: 'Standard prep for ground_mustard' },
         nutritionalProfile: {
-      macronutrients: {}
+      macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
     }
@@ -1295,7 +1280,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 
   ground_fennel: {
     name: 'Ground Fennel',
-    elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 }
+    elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ['sweet', 'anise-like', 'warming'],
     origin: ['India', 'Mediterranean', 'China'],
     category: 'spice',
@@ -1335,7 +1320,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         name: 'Tomato Sauces',
         method: 'mix with other spices',
         pairings: ['cumin', 'garlic', 'coriander'],
-        ratios: '1:1:1 (fennel:cumin:garlic)'
+        ratios: '1:1:1 (fennel:cumin:garlic)',
       }
     }
 
@@ -1348,17 +1333,17 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       [CUISINE_TYPES.INDIAN]: {
         name: 'saunf powder',
         usage: ['spice blends', 'curries'],
-        preparation: 'dry roasted and ground'
+        preparation: 'dry roasted and ground',
       }
       [CUISINE_TYPES.CHINESE]: {
         name: 'xiao hui xiang fen',
         usage: ['five spice powder', 'marinades'],
-        preparation: 'ground'
+        preparation: 'ground',
       }
       [CUISINE_TYPES.ITALIAN]: {
         name: 'finocchio macinato',
         usage: ['sausages', 'pasta sauces'],
-        preparation: 'ground'
+        preparation: 'ground',
       }
     }
 
@@ -1372,8 +1357,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -1385,7 +1369,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       timing: 'As needed',
       notes: 'Standard prep for ground_fennel' },
         nutritionalProfile: {
-      macronutrients: {}
+      macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
     }
@@ -1398,7 +1382,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 
   ground_ginger: {
     name: 'Ground Ginger',
-    elementalProperties: { Fire: 0.5, Earth: 0.3, Air: 0.2, Water: 0.1 }
+    elementalProperties: { Fire: 0.5, Earth: 0.3, Air: 0.2, Water: 0.1 },
     qualities: ['warming', 'pungent', 'aromatic'],
 
     culinary_traditions: {
@@ -1406,31 +1390,31 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         name: 'gan jiang fen',
         usage: ['stir-fries', 'marinades', 'sauces', 'medicinal soups'],
         preparation: 'ground dried ginger',
-        cultural_notes: 'Important in traditional medicine and cuisine'
+        cultural_notes: 'Important in traditional medicine and cuisine',
       }
       [CUISINE_TYPES.JAPANESE]: {
         name: 'shoga',
         usage: ['curry roux', 'marinades', 'baked goods'],
         preparation: 'ground',
-        cultural_notes: 'Used in both savory and sweet dishes'
+        cultural_notes: 'Used in both savory and sweet dishes',
       }
       [CUISINE_TYPES.INDIAN]: {
         name: 'saunth',
         usage: ['masala chai', 'curries', 'desserts', 'medicinal preparations'],
         preparation: 'ground dried ginger',
-        cultural_notes: 'Valued for both culinary and medicinal properties'
+        cultural_notes: 'Valued for both culinary and medicinal properties',
       }
       [CUISINE_TYPES.KOREAN]: {
         name: 'geon-gang',
         usage: ['marinades', 'banchan', 'tea'],
         preparation: 'ground',
-        cultural_notes: 'Used in traditional preserves and marinades'
+        cultural_notes: 'Used in traditional preserves and marinades',
       }
       [CUISINE_TYPES.VIETNAMESE]: {
         name: 'gừng bột',
         usage: ['marinades', 'sauces', 'medicinal preparations'],
         preparation: 'ground',
-        cultural_notes: 'Important in traditional medicine'
+        cultural_notes: 'Important in traditional medicine',
       }
     }
 
@@ -1447,8 +1431,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -1461,7 +1444,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       timing: 'As needed',
       notes: 'Standard prep for ground_ginger' },
         nutritionalProfile: {
-      macronutrients: {}
+      macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
     }
@@ -1480,7 +1463,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 
   ground_coriander: {
     name: 'Ground Coriander',
-    elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 }
+    elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
     qualities: ['citrusy', 'warm', 'nutty'],
 
     culinary_traditions: {
@@ -1488,25 +1471,25 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         name: 'dhania powder',
         usage: ['garam masala', 'curries', 'chutneys'],
         preparation: 'dry roasted and ground',
-        cultural_notes: 'Essential base spice in Indian cuisine'
+        cultural_notes: 'Essential base spice in Indian cuisine',
       }
       [CUISINE_TYPES.THAI]: {
         name: 'phak chee pon',
         usage: ['curry pastes', 'marinades', 'soups'],
         preparation: 'freshly ground',
-        cultural_notes: 'Key ingredient in Thai curry pastes'
+        cultural_notes: 'Key ingredient in Thai curry pastes',
       }
       [CUISINE_TYPES.MIDDLE_EASTERN]: {
         name: 'kuzbara',
         usage: ['falafel', 'shawarma spice', 'stews'],
         preparation: 'ground',
-        cultural_notes: 'Common in spice blends and marinades'
+        cultural_notes: 'Common in spice blends and marinades',
       }
       [CUISINE_TYPES.MEXICAN]: {
         name: 'cilantro molido',
         usage: ['salsas', 'marinades', 'rice dishes'],
         preparation: 'ground seeds',
-        cultural_notes: 'Used in traditional Mexican spice blends'
+        cultural_notes: 'Used in traditional Mexican spice blends',
       }
     }
 
@@ -1523,8 +1506,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -1537,7 +1519,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       timing: 'As needed',
       notes: 'Standard prep for ground_coriander' },
         nutritionalProfile: {
-      macronutrients: {}
+      macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
     }
@@ -1556,7 +1538,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 
   ground_star_anise: {
     name: 'Ground Star Anise',
-    elementalProperties: { Fire: 0.3, Air: 0.4, Water: 0.2, Earth: 0.1 }
+    elementalProperties: { Fire: 0.3, Air: 0.4, Water: 0.2, Earth: 0.1 },
     qualities: ['sweet', 'licorice-like', 'warming'],
 
     culinary_traditions: {
@@ -1564,19 +1546,19 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         name: 'ba jiao fen',
         usage: ['five spice powder', 'braised dishes', 'soups'],
         preparation: 'ground',
-        cultural_notes: 'Key component of five spice powder'
+        cultural_notes: 'Key component of five spice powder',
       }
       [CUISINE_TYPES.VIETNAMESE]: {
         name: 'hoa hồi bột',
         usage: ['pho', 'marinades', 'braised dishes'],
         preparation: 'ground',
-        cultural_notes: 'Essential in Vietnamese pho'
+        cultural_notes: 'Essential in Vietnamese pho',
       }
       [CUISINE_TYPES.KOREAN]: {
         name: 'bool-poong-nip-garu',
         usage: ['braised dishes', 'marinades'],
         preparation: 'ground',
-        cultural_notes: 'Used in traditional braised dishes'
+        cultural_notes: 'Used in traditional braised dishes',
       }
     }
 
@@ -1593,8 +1575,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -1607,7 +1588,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       timing: 'As needed',
       notes: 'Standard prep for ground_star_anise' },
         nutritionalProfile: {
-      macronutrients: {}
+      macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
     }

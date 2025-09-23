@@ -41,37 +41,37 @@ const methodCategories: MethodCategory[] = [
     name: 'Dry',
     description: 'Cooking with hot air, radiation, or hot fat',
     methods: dryCookingMethods,
-    icon: '🔥'
+    icon: '🔥',
   },
   {
     name: 'Wet',
     description: 'Cooking with water or steam',
     methods: wetCookingMethods,
-    icon: '💧'
+    icon: '💧',
   },
   {
     name: 'Molecular',
     description: 'Scientific techniques that transform ingredients',
     methods: molecularCookingMethods,
-    icon: '🧪'
+    icon: '🧪',
   },
   {
     name: 'Traditional',
     description: 'Historical preservation and flavor development methods',
     methods: traditionalCookingMethods,
-    icon: '🏺'
+    icon: '🏺',
   },
   {
     name: 'Raw',
     description: 'Preparation without applying heat',
     methods: rawCookingMethods,
-    icon: '🥬'
+    icon: '🥬',
   },
   {
     name: 'Transformation',
     description: 'Methods that significantly alter food structure or preservation',
     methods: transformationMethods,
-    icon: '⚗️'
+    icon: '⚗️',
   }
 ];
 
@@ -95,7 +95,7 @@ export default function CookingMethodsPage() {
               Fire: 0.5,
               Water: 0.5,
               Earth: 0.5,
-              Air: 0.5
+              Air: 0.5,
             },
           score: Math.random() * 0.5 + 0.5, // Mock score between 0.5-1.0
           duration: (method as any).time_range || (method as any).duration || { min: 10, max: 30 },

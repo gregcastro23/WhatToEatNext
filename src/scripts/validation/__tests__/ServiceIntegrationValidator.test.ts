@@ -37,7 +37,7 @@ describe('ServiceIntegrationValidator', () => {
         validator = new ServiceIntegrationValidator(config)
 
     // Setup mock processed files
-    mockProcessedFiles = [;
+    mockProcessedFiles = [
       '/project/src/services/ApiService.ts',
       '/project/src/services/UserService.ts',
       '/project/src/components/TestComponent.tsx',
@@ -95,7 +95,7 @@ describe('ServiceIntegrationValidator', () => {
     })
 
     test('should identify service files correctly', async () => {
-      const mixedFiles: any = [;
+      const mixedFiles: any = [
         '/project/src/services/ApiService.ts',
         '/project/src/components/Component.tsx',
         '/project/src/utils/helper.ts',
@@ -131,7 +131,7 @@ describe('ServiceIntegrationValidator', () => {
         return Buffer.from('')
       })
 
-      const report: any = await validator.validateServiceIntegration(;
+      const report: any = await validator.validateServiceIntegration(
         mockProcessedFiles,
         'test-batch-1',
         baselineMetrics,
@@ -163,7 +163,7 @@ describe('ServiceIntegrationValidator', () => {
       })
 
       const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 }
-      const report: any = await validator.validateServiceIntegration(;
+      const report: any = await validator.validateServiceIntegration(
         mockProcessedFiles,
         'test-batch-1',
         baselineMetrics,
@@ -371,7 +371,7 @@ describe('ServiceIntegrationValidator', () => {
       expect(testResult.details.testResults).toEqual({
         passed: 3,
         failed: 0,
-        total: 3
+        total: 3,
       }).
     })
 
@@ -430,7 +430,7 @@ describe('ServiceIntegrationValidator', () => {
         return Buffer.from('')
       })
 
-      const report: any = await validator.validateServiceIntegration(;
+      const report: any = await validator.validateServiceIntegration(
         mockProcessedFiles,
         'test-batch-1',
         baselineMetrics,
@@ -475,7 +475,7 @@ describe('ServiceIntegrationValidator', () => {
         return Buffer.from('')
       })
 
-      const report: any = await validator.validateServiceIntegration(;
+      const report: any = await validator.validateServiceIntegration(
         mockProcessedFiles,
         'test-batch-1',
         baselineMetrics,
@@ -523,7 +523,7 @@ describe('ServiceIntegrationValidator', () => {
       })
 
       const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 }
-      const report: any = await validator.validateServiceIntegration(;
+      const report: any = await validator.validateServiceIntegration(
         mockProcessedFiles,
         'test-batch-1',
         baselineMetrics,
@@ -551,7 +551,7 @@ describe('ServiceIntegrationValidator', () => {
       const configWithDisabledValidations: Partial<ServiceIntegrationConfig> = { enableApiEndpointValidation: false;
         enableServiceMethodValidation: false,
         enableConfigurationValidation: false,
-        enableIntegrationTests: false
+        enableIntegrationTests: false,
       }
 
       const validatorWithDisabledValidations: any = new ServiceIntegrationValidator(configWithDisabledValidations);
@@ -563,7 +563,7 @@ describe('ServiceIntegrationValidator', () => {
 
     test('should respect timeout configurations', async () => {
       const configWithShortTimeouts: Partial<ServiceIntegrationConfig> = { apiTimeout: 1000;
-        testTimeout: 1000
+        testTimeout: 1000,
       }
 
       const validatorWithShortTimeouts: any = new ServiceIntegrationValidator(configWithShortTimeouts)

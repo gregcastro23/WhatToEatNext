@@ -60,7 +60,7 @@ class BatchProcessingCLI {
     this.orchestrator = new BatchProcessingOrchestrator({;
       outputDirectory: 'reports/batch-processing',
       generateReports: true,
-      interactiveMode: false
+      interactiveMode: false,
     })
   }
 

@@ -1,6 +1,6 @@
 import { createLogger } from '@/utils/logger';
 
-type MetricDelta = {;
+type MetricDelta = {
   Spirit: number,
   Essence: number,
   Matter: number,
@@ -10,7 +10,7 @@ type MetricDelta = {;
 const logger = createLogger('TelemetryDev')
 
 export const TelemetryDev = {
-  recordVectorBlend(;
+  recordVectorBlend(
     sign: string,
     alpha: number,
     deltas: MetricDelta,

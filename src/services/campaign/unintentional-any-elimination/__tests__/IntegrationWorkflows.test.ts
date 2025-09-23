@@ -67,7 +67,7 @@ describe('Integration Workflows', () => {;
   describe('Complete Classification and Replacement Workflows', () => {
     test('should execute complete workflow from classification to replacement', async () => {
       // Setup test scenario with various any types
-      const testFiles: any = {;
+      const testFiles: any = {
         'src/arrays.ts': 'const items: any[] = [], const data: Array<any> = [],',
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility,
         'src/records.ts': 'const config: Record<string, unknown> = {}; const map: { [key: string]: unknown  } = {} as any;';
@@ -93,7 +93,7 @@ describe('Integration Workflows', () => {;
         const lines: any = content.split('\n')
         for (let i: any = 0i < lines.lengthi++) {
           if (lines[i].includes(': unknown')) {
-            const context: ClassificationContext = {;
+            const context: ClassificationContext = {
               filePath,
               lineNumber: i + 1,
               codeSnippet: lines[i],
@@ -141,7 +141,7 @@ describe('Integration Workflows', () => {;
           filePath: contexts[i].filePath,
           lineNumber: contexts[i].lineNumber,
           confidence: c.confidence,
-          validationRequired: true
+          validationRequired: true,
         }))
 
       expect(replacements.length).toBeGreaterThan(0).
@@ -161,7 +161,7 @@ describe('Integration Workflows', () => {;
     })
 
     test('should handle mixed success and failure scenarios', async () => {
-      const mixedScenarios: any = {;
+      const mixedScenarios: any = {
         'src/safe.ts': 'const items: any[] = [], const data: Record<string, unknown> = {};';
         'src/risky.ts': 'const _complex: any = getComplexObject() function dangerous(param: any): any { return param, }',
         'src/intentional.ts': ' },
@@ -203,7 +203,7 @@ describe('Integration Workflows', () => {;
         enableDomainAnalysis: true,
         enableDocumentation: true,
         safetyLevel: 'MODERATE',
-        validationFrequency: 1
+        validationFrequency: 1,
       }
 
       const batchResult: any = await engine.executeBatch(config)
@@ -218,7 +218,7 @@ describe('Integration Workflows', () => {;
     })
 
     test('should preserve domain-specific intentional any types', async () => {
-      const domainSpecificFiles: any = {;
+      const domainSpecificFiles: any = {
         'src/calculations/planetary/positions.ts': `,
           const _planetaryData: any = await getReliablePlanetaryPositions();
           const _transitDates: any = validateTransitDate(planet, date, sign)
@@ -249,7 +249,7 @@ describe('Integration Workflows', () => {;
         const lines: any = content.trim().split('\n').filter(line => line.trim())
         for (let i: any = 0i < lines.lengthi++) {
           if (lines[i].includes(': unknown')) {
-            const context: ClassificationContext = {;
+            const context: ClassificationContext = {
               filePath,
               lineNumber: i + 1,
               codeSnippet: lines[i].trim(),
@@ -303,7 +303,7 @@ describe('Integration Workflows', () => {;
         enableDomainAnalysis: true,
         enableDocumentation: true,
         safetyLevel: 'HIGH',
-        validationFrequency: 3
+        validationFrequency: 3,
       }
 
       // Mock campaign execution
@@ -349,7 +349,7 @@ describe('Integration Workflows', () => {;
         enableDomainAnalysis: true,
         enableDocumentation: true,
         safetyLevel: 'MAXIMUM',
-        validationFrequency: 1
+        validationFrequency: 1,
       }
 
       const campaignResult: any = await (campaign as any)?.execute(campaignConfig)
@@ -405,7 +405,7 @@ describe('Integration Workflows', () => {;
         return '',
       })
 
-      const replacement: any = {;
+      const replacement: any = {
         original: 'any',
         replacement: 'unknown',
         filePath: 'src/test.ts',
@@ -429,7 +429,7 @@ describe('Integration Workflows', () => {;
           filePath: 'src/test1ts',
           lineNumber: 1,
           confidence: 0.9,
-          validationRequired: true
+          validationRequired: true,
         }
         {
           original: 'any',
@@ -437,7 +437,7 @@ describe('Integration Workflows', () => {;
           filePath: 'src/test2.ts',
           lineNumber: 1,
           confidence: 0.8,
-          validationRequired: true
+          validationRequired: true,
         }
       ],
 
@@ -469,7 +469,7 @@ describe('Integration Workflows', () => {;
     })
 
     test('should validate rollback integrity', async () => {
-      const replacement: any = {;
+      const replacement: any = {
         original: 'unknown[]',
         replacement: 'unknown[]',
         filePath: 'src/testts',
@@ -605,7 +605,7 @@ describe('Integration Workflows', () => {;
         enableDomainAnalysis: true,
         enableDocumentation: true,
         safetyLevel: 'MODERATE',
-        validationFrequency: 2
+        validationFrequency: 2,
       }
 
       const batchResult: any = await engine.executeBatch(config)
@@ -623,7 +623,7 @@ describe('Integration Workflows', () => {;
     test('should handle large-scale batch processing', async () => {
       // Generate a large number of files with various any type patterns
       const generateFileContent: any = (index: number) => {;
-        const patterns: any = [;
+        const patterns: any = [
           `const items${index}: unknown[] = [];`
           `const config${index}: Record<string, unknown> = {};`;
           `function process${index}(data: any): any { return data, }`,
@@ -661,7 +661,7 @@ describe('Integration Workflows', () => {;
         enableDomainAnalysis: true,
         enableDocumentation: true,
         safetyLevel: 'MODERATE',
-        validationFrequency: 5
+        validationFrequency: 5,
       }
 
       const startTime: any = Date.now()
@@ -683,19 +683,19 @@ describe('Integration Workflows', () => {;
           files: {;
             'src/test1.test.ts': 'const _mockData: any = {}; const _spy: any = jest.fn() as any;';
             'src/test2.spec.ts': 'const _fixture: any = createFixture()' },
-        expectedBehavior: 'preserve most any types due to test context'
+        expectedBehavior: 'preserve most any types due to test context',
         }
         'api-heavy': {
           files: {
             'src/api1.ts': 'const response: any = await fetch('/api'), const data: any = response.json(),',
             'src/api2.ts': 'const result: any = await apiCall(),' },
-        expectedBehavior: 'preserve API-related any types'
+        expectedBehavior: 'preserve API-related any types',
         }
         'utility-heavy': {
           files: {
             'src/util1.ts': 'const items: any[] = [], const map: Record<string, unknown> = {};';
             'src/util2.ts': 'function transform(data: any[]): unknown[] { return data, }' },
-        expectedBehavior: 'replace many utility any types'
+        expectedBehavior: 'replace many utility any types',
         }
       }
 
@@ -728,7 +728,7 @@ describe('Integration Workflows', () => {;
           enableDomainAnalysis: true,
           enableDocumentation: true,
           safetyLevel: 'MODERATE',
-          validationFrequency: 2
+          validationFrequency: 2,
         }
 
         const batchResult: any = await engine.executeBatch(config)
@@ -771,7 +771,7 @@ describe('Integration Workflows', () => {;
 
       mockFs.readFileSync.mockReturnValue('const items: any[] = [],')
 
-      const replacement: any = {;
+      const replacement: any = {
         original: 'unknown[]',
         replacement: 'unknown[]',
         filePath: 'src/test.ts',
@@ -818,7 +818,7 @@ describe('Integration Workflows', () => {;
           filePath: 'src/test.ts',
           lineNumber: 1,
           confidence: 0.9,
-          validationRequired: true
+          validationRequired: true,
         }
         {
           original: 'Record<string, unknown>',
@@ -826,7 +826,7 @@ describe('Integration Workflows', () => {;
           filePath: 'src/test.ts',
           lineNumber: 1,
           confidence: 0.8,
-          validationRequired: true
+          validationRequired: true,
         }
       ],
 

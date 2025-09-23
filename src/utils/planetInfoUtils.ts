@@ -50,7 +50,7 @@ export function getPlanetInfo(
   planetaryPositions: Record<string, unknown>,
 ): PlanetInfo | null {
   try {
-    const planetKey = planetName.toLowerCase();
+    const planetKey = planetName.toLowerCase()
     const planetPosition = planetaryPositions[planetKey];
 
     // Use safe type casting for unknown property access
@@ -74,7 +74,7 @@ export function getPlanetInfo(
     } else if (planetName === 'ascendant') {,
       normalizedPlanetName = 'Ascendant',
     } else {
-      normalizedPlanetName = planetName.charAt(0).toUpperCase() + planetName.slice(1).toLowerCase();
+      normalizedPlanetName = planetName.charAt(0).toUpperCase() + planetName.slice(1).toLowerCase()
     }
 
     // Get dignity information
@@ -117,13 +117,13 @@ export function getPlanetInfo(
         aquarius: 'The Star',
         pisces: 'The Moon' },
         const cardName = signToCard[planetSign] || 'The Fool';
-      tarotCard = {;
+      tarotCard = {
         name: cardName,
         element: MAJOR_ARCANA[cardName]?.element || 'Unknown'
       }
     } else if (PLANET_TO_MAJOR_ARCANA[normalizedPlanetName]) {
       const cardName = PLANET_TO_MAJOR_ARCANA[normalizedPlanetName];
-      tarotCard = {;
+      tarotCard = {
         name: cardName,
         element: MAJOR_ARCANA[cardName]?.element || 'Unknown'
       }
@@ -136,7 +136,7 @@ export function getPlanetInfo(
 
       // Filter aspects for this planet
       planetAspects = aspects,
-        .filter(aspect => aspect.planet1 === planetKey || aspect.planet2 === planetKey);
+        .filter(aspect => aspect.planet1 === planetKey || aspect.planet2 === planetKey)
         .map(aspect => ({,
           planet: aspect.planet1 === planetKey ? aspect.planet2 : aspect.planet1,,
           type: aspect.type,
@@ -175,7 +175,7 @@ export function getPlanetInfo(
       elementalInfluence[element] = strength
     } else {
       if (planetaryModifiers[normalizedPlanetName]) {
-        elementalInfluence = {;
+        elementalInfluence = {
           fire: planetaryModifiers[normalizedPlanetName].Fire || 0,
           water: planetaryModifiers[normalizedPlanetName].Water || 0,
           air: planetaryModifiers[normalizedPlanetName].Air || 0,
@@ -259,7 +259,7 @@ export function getPlanetInfo(
       // Use the planetary modifiers for token influence
       const planetary = planetaryModifiers[normalizedPlanetName];
       if (planetary) {
-        tokenInfluence = {;
+        tokenInfluence = {
           spirit: planetary.Spirit || 0,
           essence: planetary.Essence || 0,
           matter: planetary.Matter || 0,

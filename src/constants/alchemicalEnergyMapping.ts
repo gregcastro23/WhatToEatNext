@@ -38,7 +38,7 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     properties: {
       heat: '+',
       entropy: '+',
-      reactivity: '+'
+      reactivity: '+',
     }
   }
   {
@@ -54,7 +54,7 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     properties: {
       heat: '-',
       entropy: '+',
-      reactivity: '+'
+      reactivity: '+',
     }
   }
   {
@@ -70,7 +70,7 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     properties: {
       heat: '-',
       entropy: '-',
-      reactivity: '+'
+      reactivity: '+',
     }
   }
   {
@@ -86,13 +86,13 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     properties: {
       heat: '-',
       entropy: '-',
-      reactivity: '-'
+      reactivity: '-',
     }
   }
 ],
 
 // The Moon appears in both Essence and Matter states
-export const _SHARED_PLANETS = {;
+export const _SHARED_PLANETS = {
   Moon: ['Essence', 'Matter']
 }
 
@@ -152,11 +152,11 @@ export function calculateAlchemicalDistribution(
 ): AlchemicalProperties {
   try {
     // Initialize with balanced values
-    const distribution: AlchemicalProperties = {;
+    const distribution: AlchemicalProperties = {
       Spirit: 0.25,
       Essence: 0.25,
       Matter: 0.25,
-      Substance: 0.25
+      Substance: 0.25,
     }
 
     // Skip calculation if no positions provided
@@ -173,7 +173,7 @@ export function calculateAlchemicalDistribution(
       Spirit: 0,
       Essence: 0,
       Matter: 0,
-      Substance: 0
+      Substance: 0,
     }
 
     // Calculate the influence of each planet
@@ -225,7 +225,7 @@ export function calculateAlchemicalDistribution(
       Spirit: 0.25,
       Essence: 0.25,
       Matter: 0.25,
-      Substance: 0.25
+      Substance: 0.25,
     }
   }
 }
@@ -237,11 +237,11 @@ export function convertToElementalProperties(
   alchemicalProps: AlchemicalProperties,
 ): ElementalProperties {
   try {
-    const elementalProps: ElementalProperties = {;
+    const elementalProps: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25
+      Air: 0.25,
     }
 
     // Map alchemical properties to elemental properties
@@ -257,7 +257,7 @@ export function convertToElementalProperties(
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25
+      Air: 0.25,
     }
   }
 }

@@ -20,12 +20,12 @@ import { normalizePlanetaryPositions } from '@/utils/astrology/core';
 export class AstrologyService {
   private static instance: AstrologyService,
 
-  private currentState: AstrologicalState = {;
+  private currentState: AstrologicalState = {
     currentZodiac: 'aries',
     moonPhase: 'new moon',
     currentPlanetaryAlignment: {}
     loading: false,
-    isReady: false
+    isReady: false,
   }
 
   private constructor() {}
@@ -206,7 +206,7 @@ export class AstrologyService {
         planetaryAlignment = this.calculatePlanetaryPositions(currentDate);
       }
 
-      const state: AstrologicalState = {;
+      const state: AstrologicalState = {
         currentZodiac: this.calculateZodiacSign(currentDate),
         moonPhase: this.calculateLunarPhase(currentDate),
         currentPlanetaryAlignment: planetaryAlignment,

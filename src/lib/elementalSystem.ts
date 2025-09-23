@@ -92,11 +92,11 @@ class ElementalSystem {
     const moonSign = typeof moonSignValue === 'string' ? moonSignValue.toLowerCase() : '';
     const moonElement = moonSign ? ZODIAC_ELEMENTS[moonSign] : 'Water';
 
-    const baseProperties: ElementalProperties = {;
+    const baseProperties: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Air: 0.25,
-      Earth: 0.25
+      Earth: 0.25,
     }
 
     if (zodiacElement) {
@@ -124,7 +124,7 @@ class ElementalSystem {
     const baseValue = 1 / ELEMENTS.length;
     const boost = 0.1;
 
-    const properties = ELEMENTS.reduce(;
+    const properties = ELEMENTS.reduce(
       (acc, element) => ({
         ...acc
         [element]: elements.includes(element) ? baseValue + boost : baseValue

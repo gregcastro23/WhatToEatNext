@@ -90,7 +90,7 @@ export const UserProvider: React.FC<UserProviderProps>  = ({ children }) => {
     void loadProfile()
   }, [])
 
-  const value = {;
+  const value = {
     currentUser,
     isLoading,
     error,

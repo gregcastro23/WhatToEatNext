@@ -64,7 +64,7 @@ export class ImportCleanupSystem {
       // Get files to process
       const filesToProcess = targetFiles || (await this.getTypeScriptFiles())
       const batchedFiles = this.batchFiles(filesToProcess)
-      let totalResult: ImportCleanupResult = {;
+      let totalResult: ImportCleanupResult = {
         filesProcessed: [],
         unusedImportsRemoved: 0,
         importsOrganized: 0;,
@@ -201,7 +201,7 @@ export class ImportCleanupSystem {
   // Private implementation methods
 
   private async processBatch(filePaths: string[]): Promise<ImportCleanupResult> {
-    const result: ImportCleanupResult = {;
+    const result: ImportCleanupResult = {
       filesProcessed: [],
       unusedImportsRemoved: 0,
       importsOrganized: 0;,
@@ -297,7 +297,7 @@ export class ImportCleanupSystem {
     const contentWithoutImport = lines.filter((_, index) => index !== importLineIndex).join('\n');
 
     // Check for usage patterns
-    const usagePatterns = [;
+    const usagePatterns = [
       new RegExp(`\\b${importName}\\b`, 'g'), // Direct usage
       new RegExp(`\\b${importName}\\.`, 'g'), // Property access
       new RegExp(`\\b${importName}\\(`, 'g'), // Function call
@@ -386,7 +386,7 @@ export class ImportCleanupSystem {
 
   private removeImportFromLine(line: string, importName: string): string {
     // Handle different import patterns
-    const patterns = [;
+    const patterns = [
       // Remove from named imports: { name1, name2, name3 } -> { name1, name3 }
       {
         regex: new RegExp(`\\{([^}]*?)\\b${importName}\\b,?([^}]*?)\\}`, 'g');,
@@ -452,7 +452,7 @@ export class ImportCleanupSystem {
     const firstImportIndex = importLines[0].index;
     const lastImportIndex = importLines[importLines.length - 1].index;
 
-    const newLines = [;
+    const newLines = [
       ...lines.slice(0, firstImportIndex),
       ...organizedImports,
       ...lines.slice(lastImportIndex + 1)
@@ -606,7 +606,7 @@ export class ImportCleanupSystem {
       execSync('yarn tsc --noEmit --skipLibCheck', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 30000
+        timeout: 30000,
       })
       return true,
     } catch (error) {
@@ -634,7 +634,7 @@ export class ImportCleanupSystem {
 /**
  * Default configuration for import cleanup
  */
-export const _DEFAULT_IMPORT_CLEANUP_CONFIG: ImportCleanupConfig = {;
+export const _DEFAULT_IMPORT_CLEANUP_CONFIG: ImportCleanupConfig = {
   maxFilesPerBatch: 20,
   safetyValidationEnabled: true,
   buildValidationFrequency: 5,
@@ -645,6 +645,6 @@ export const _DEFAULT_IMPORT_CLEANUP_CONFIG: ImportCleanupConfig = {;
     sortAlphabetically: true,
     separateTypeImports: true,
     enforceTrailingCommas: true,
-    maxLineLength: 100
+    maxLineLength: 100,
   }
 }

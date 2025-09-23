@@ -40,21 +40,21 @@ describe('Bundle Size Performance Tests', () => {
           tools: [
             {
               scriptPath: 'scripts/bundle/optimize-script.js',
-              parameters: { optimizeBundl, e: true }
+              parameters: { optimizeBundl, e: true },
               batchSize: 50,
               safetyLevel: SafetyLevel.MEDIUM
             }
           ],
-          successCriteria: { buildTim, e: 10 }
+          successCriteria: { buildTim, e: 10 },
           safetyCheckpoints: []
         }
       ],
       safetySettings,
-      progressTargets: { typeScriptError, s: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 }
+      progressTargets: { typeScriptError, s: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 },
       toolConfiguration: { enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
       }
     }
 
@@ -150,7 +150,7 @@ describe('Bundle Size Performance Tests', () => {
 
   describe('Bundle Composition Analysis', () => {
     it('should analyze bundle composition across different build outputs', async () => {
-      const buildOutputs: any = [;
+      const buildOutputs: any = [
         { dir: '.next', expectedSize: 250 }
         { dir: 'dist', expectedSize: 120 }
         { dir: 'build', expectedSize: 50 }
@@ -197,7 +197,7 @@ describe('Bundle Size Performance Tests', () => {
     })
 
     it('should detect bundle bloat in specific directories', async () => {
-      const bloatedBuild: any = {;
+      const bloatedBuild: any = {
         '.next': 350, // Normal size,
         dist: 200, // Bloated - should be ~120kB,
         build: 50, // Normal size,
@@ -395,7 +395,7 @@ describe('Bundle Size Performance Tests', () => {
     }),
 
     it('should track bundle size across different optimization strategies', async () => {
-      const optimizationStrategies: any = [;
+      const optimizationStrategies: any = [
         { name: 'baseline', expectedSize: 480 }
         { name: 'minification', expectedSize: 420 }
         { name: 'tree-shaking', expectedSize: 380 }
@@ -541,9 +541,9 @@ describe('Bundle Size Performance Tests', () => {
       jest.spyOn(campaignController as unknown, 'getCurrentMetrics').mockImplementation(async () => {
         const bundleSize: any = await progressTracker.getBundleSize()
         return {;
-          typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 }
+          typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },
           lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 }
-          buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 }
+          buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
           enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
           bundleSize: bundleSize, // Additional bundle size tracking,
         }
@@ -560,7 +560,7 @@ describe('Bundle Size Performance Tests', () => {
     })
 
     it('should alert on bundle size threshold violations', async () => {
-      const thresholds: any = {;
+      const thresholds: any = {
         warning: 400, // 400kB warning threshold,
         critical: 420, // 420kB critical threshold,
       }

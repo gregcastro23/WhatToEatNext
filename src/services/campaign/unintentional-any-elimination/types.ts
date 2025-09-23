@@ -541,7 +541,7 @@ export interface SuccessRatePrediction {
   currentSuccessRate?: number,
   estimatedSuccessRate: number,
   projectedSuccessRate?: any,
-  confidenceInterval: { lower: number, upper: number }
+  confidenceInterval: { lower: number, upper: number },
   riskFactors: string[],
   estimatedTimeToComplete: number, // in minutes,
   timeToTarget?: any,

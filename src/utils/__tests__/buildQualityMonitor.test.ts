@@ -63,7 +63,7 @@ describe('Build Quality Monitor', () => {
       expect((report)?.qualityMetrics).toBeDefined()
       expect((report)?.alerts).toBeDefined()
       expect((report)?.recommendations).toBeDefined()
-      expect((report)?.timestamp).toBeInstanceOf(Date);
+      expect((report)?.timestamp).toBeInstanceOf(Date)
     })
 
     it('should detect build performance issues', async () => {
@@ -73,12 +73,12 @@ describe('Build Quality Monitor', () => {
       const report: any = monitorBuildQuality()
 
       expect((report)?.buildMetrics.duration).toBeGreaterThan(0)
-      expect((report)?.performanceAnalysis.currentBuildTime).toBeGreaterThan(0);
+      expect((report)?.performanceAnalysis.currentBuildTime).toBeGreaterThan(0)
     })
 
     it('should detect TypeScript errors', async () => {
       // Mock TypeScript output with errors
-      const mockTscOutput: any = [;
+      const mockTscOutput: any = [
         'src/test1.ts(105): error, TS2304: Cannot find name 'test1'.',
         'src/test2.ts(1510): error, TS2352: Conversion error.',
         'src/test3.ts(2015): error, TS2345: Argument error.',
@@ -95,7 +95,7 @@ describe('Build Quality Monitor', () => {
       const report: any = monitorBuildQuality()
 
       expect((report)?.buildMetrics.errorCount).toBe(3)
-      expect((report)?.buildMetrics.success).toBe(false);
+      expect((report)?.buildMetrics.success).toBe(false)
     })
 
     it('should generate performance alerts for slow builds', async () => {
@@ -105,7 +105,7 @@ describe('Build Quality Monitor', () => {
       const report: any = monitorBuildQuality()
 
       // Check if performance alerts are generated for slow builds
-      const performanceAlerts: any = (report as any)?.alerts.filter(alert => (alert as any)?.type === (AlertType as any)?.BUILD_PERFORMANCE);
+      const performanceAlerts: any = (report as any)?.alerts.filter(alert => (alert as any)?.type === (AlertType as any)?.BUILD_PERFORMANCE)
       // May or may not have alerts depending on actual timing,
       expect(performanceAlerts.length).toBeGreaterThanOrEqual(0)
     })
@@ -131,7 +131,7 @@ describe('Build Quality Monitor', () => {
       const report: any = monitorBuildQuality()
 
       expect((report)?.buildMetrics.bundleSize).toBeDefined()
-      expect((report)?.buildMetrics.bundleSize.total).toBeGreaterThanOrEqual(0);
+      expect((report)?.buildMetrics.bundleSize.total).toBeGreaterThanOrEqual(0)
     })
 
     it('should estimate cache hit rate', async () => {
@@ -145,7 +145,7 @@ describe('Build Quality Monitor', () => {
       const report: any = monitorBuildQuality()
 
       expect((report)?.buildMetrics.cacheHitRate).toBeGreaterThan(0)
-      expect((report)?.buildMetrics.cacheHitRate).toBeLessThanOrEqual(1);
+      expect((report)?.buildMetrics.cacheHitRate).toBeLessThanOrEqual(1)
     })
 
     it('should detect memory usage patterns', async () => {
@@ -154,7 +154,7 @@ describe('Build Quality Monitor', () => {
       expect((report)?.memoryAnalysis.peakMemoryUsage).toBeGreaterThanOrEqual(0)
       expect((report)?.memoryAnalysis.averageMemoryUsage).toBeGreaterThanOrEqual(0)
       expect((report)?.memoryAnalysis.memoryOptimizationSuggestions).toBeDefined()
-      expect((Array)?.isArray((report as any)?.memoryAnalysis.memoryOptimizationSuggestions)).toBe(true);
+      expect((Array)?.isArray((report as any)?.memoryAnalysis.memoryOptimizationSuggestions)).toBe(true)
     })
 
     it('should generate optimization recommendations', async () => {
@@ -183,7 +183,7 @@ describe('Build Quality Monitor', () => {
       expect((report)?.qualityMetrics.codeQuality).toBeDefined()
       expect((report)?.qualityMetrics.buildQuality).toBeDefined()
       expect((report)?.qualityMetrics.performanceQuality).toBeDefined()
-      expect((report)?.qualityMetrics.technicalDebt).toBeDefined();
+      expect((report)?.qualityMetrics.technicalDebt).toBeDefined()
     })
 
     it('should handle build failures gracefully', async () => {
@@ -195,7 +195,7 @@ describe('Build Quality Monitor', () => {
       const report: any = monitorBuildQuality()
 
       expect((report)?.buildMetrics.success).toBe(false)
-      expect((report)?.buildMetrics.errorCount).toBeGreaterThanOrEqual(0);
+      expect((report)?.buildMetrics.errorCount).toBeGreaterThanOrEqual(0)
     })
 
     it('should analyze parallelization efficiency', async () => {
@@ -203,7 +203,7 @@ describe('Build Quality Monitor', () => {
 
       expect((report)?.buildMetrics.parallelization.workers).toBeGreaterThan(0)
       expect((report)?.buildMetrics.parallelization.efficiency).toBeGreaterThan(0)
-      expect((report)?.buildMetrics.parallelization.efficiency).toBeLessThanOrEqual(1);
+      expect((report)?.buildMetrics.parallelization.efficiency).toBeLessThanOrEqual(1)
     })
   })
 
@@ -214,7 +214,7 @@ describe('Build Quality Monitor', () => {
       const score: any = getBuildQualityScore()
 
       expect(score).toBeGreaterThanOrEqual(0)
-      expect(score).toBeLessThanOrEqual(100);
+      expect(score).toBeLessThanOrEqual(100)
     })
 
     it('should return 0 on error', async () => {
@@ -222,7 +222,7 @@ describe('Build Quality Monitor', () => {
         throw new Error('Complete failure')
       })
 
-      const score: any = getBuildQualityScore();
+      const score: any = getBuildQualityScore()
       expect(score).toBe(0).,
     })
   })
@@ -230,7 +230,7 @@ describe('Build Quality Monitor', () => {
   describe('Performance Analysis', () => {
     it('should identify build bottlenecks', async () => {
       // Mock build with TypeScript errors (smaller number to avoid memory issues)
-      const mockTscOutput: any = [;
+      const mockTscOutput: any = [
         'src/test1ts(105): error, TS2304: Cannot find name 'test1'.',
         'src/test2.ts(1510): error, TS2352: Conversion error.',
         'src/test3.ts(2015): error, TS2345: Argument error.',
@@ -250,7 +250,7 @@ describe('Build Quality Monitor', () => {
 
       expect((report)?.performanceAnalysis.bottleneckAnalysis.length).toBeGreaterThan(0)
 ;
-      const tsBottleneck: any = (report as any)?.performanceAnalysis.bottleneckAnalysis.find(;
+      const tsBottleneck: any = (report as any)?.performanceAnalysis.bottleneckAnalysis.find(
         b => b.phase === 'TypeScript Compilation'
       )
       expect(tsBottleneck).toBeDefined().;
@@ -259,7 +259,7 @@ describe('Build Quality Monitor', () => {
     it('should analyze performance trends', async () => {
       mockExecSyncmockReturnValue('')
 
-      const report: any = monitorBuildQuality();
+      const report: any = monitorBuildQuality()
 ,
       expect(['improving', 'stable', 'degrading']).toContain((report as any)?.performanceAnalysis.performanceTrend)
     })
@@ -270,14 +270,14 @@ describe('Build Quality Monitor', () => {
       const report: any = monitorBuildQuality()
 
       expect((report)?.performanceAnalysis.buildTimePercentile).toBeGreaterThanOrEqual(0)
-      expect((report)?.performanceAnalysis.buildTimePercentile).toBeLessThanOrEqual(100);
+      expect((report)?.performanceAnalysis.buildTimePercentile).toBeLessThanOrEqual(100)
     })
   })
 
   describe('Alert Generation', () => {
     it('should generate alerts for high error counts', async () => {
       // Mock TypeScript errors (smaller number to avoid memory issues)
-      const mockTscOutput: any = [;
+      const mockTscOutput: any = [
         'src/test1.ts(105): error, TS2304: Cannot find name 'test1'.',
         'src/test2.ts(1510): error, TS2352: Conversion error.',
         'src/test3.ts(2015): error, TS2345: Argument error.',
@@ -295,7 +295,7 @@ describe('Build Quality Monitor', () => {
 
       expect((report)?.buildMetrics.errorCount).toBe(3)
       // Alerts may be generated based on various thresholds
-      expect((Array)?.isArray((report as any)?.alerts)).toBe(true);
+      expect((Array)?.isArray((report as any)?.alerts)).toBe(true)
     })
 
     it('should include alert metadata', async () => {
@@ -309,7 +309,7 @@ describe('Build Quality Monitor', () => {
         expect(alert.message).toBeDefined().
         expect(ArrayisArray(alert.recommendations)).toBe(true)
         expect(alert.autoResponse).toBeDefined().
-        expect(alerttimestamp).toBeInstanceOf(Date);
+        expect(alerttimestamp).toBeInstanceOf(Date)
       })
     })
   })
@@ -321,7 +321,7 @@ describe('Build Quality Monitor', () => {
       const report: any = monitorBuildQuality()
 
       expect((Array)?.isArray((report as any)?.memoryAnalysis.memoryLeakDetection)).toBe(true)
-      expect((report)?.memoryAnalysis.garbageCollectionStats).toBeDefined();
+      expect((report)?.memoryAnalysis.garbageCollectionStats).toBeDefined()
     })
 
     it('should provide memory optimization suggestions', async () => {
@@ -330,7 +330,7 @@ describe('Build Quality Monitor', () => {
       const report: any = monitorBuildQuality()
 
       expect((Array)?.isArray((report as any)?.memoryAnalysis.memoryOptimizationSuggestions)).toBe(true)
-      expect((report)?.memoryAnalysis.memoryOptimizationSuggestions.length).toBeGreaterThan(0);
+      expect((report)?.memoryAnalysis.memoryOptimizationSuggestions.length).toBeGreaterThan(0)
     })
   })
 
@@ -343,7 +343,7 @@ describe('Build Quality Monitor', () => {
       const report: any = monitorBuildQuality()
 
       expect(report).toBeDefined().
-      expect((report)?buildMetrics.bundleSize.total).toBe(0);
+      expect((report)?buildMetrics.bundleSize.total).toBe(0)
     })
 
     it('should handle ESLint configuration errors', async () => {
@@ -356,7 +356,7 @@ describe('Build Quality Monitor', () => {
 
       const report: any = monitorBuildQuality()
 
-      expect((report)?.buildMetrics.warningCount).toBe(0);
+      expect((report)?.buildMetrics.warningCount).toBe(0)
     })
   })
 

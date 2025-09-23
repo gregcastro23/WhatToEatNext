@@ -104,7 +104,7 @@ export class CodeQualityAutomationSystem {
     const startTime = Date.now()
     logger.info('Starting code quality automation system')
 
-    const result: CodeQualityAutomationResult = {;
+    const result: CodeQualityAutomationResult = {
       overallSuccess: true,
       phasesExecuted: 0,
       phasesSucceeded: 0,
@@ -119,7 +119,7 @@ export class CodeQualityAutomationSystem {
         securityVulnerabilitiesFixed: 0,
         dependencyUpdatesApplied: 0,
         buildValidationsPassed: 0,
-        buildValidationsFailed: 0
+        buildValidationsFailed: 0,
       },
       errors: [],
       warnings: [],
@@ -213,7 +213,7 @@ export class CodeQualityAutomationSystem {
   ): Promise<PhaseExecutionResult> {
     const startTime = Date.now()
 
-    const phaseResult: PhaseExecutionResult = {;
+    const phaseResult: PhaseExecutionResult = {
       phaseName: phase.name,
       system: phase.system,
       success: false,
@@ -396,7 +396,7 @@ export class CodeQualityAutomationSystem {
       execSync('yarn build', {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 120000
+        timeout: 120000,
       })
       return true,
     } catch (error) {
@@ -467,7 +467,7 @@ export class CodeQualityAutomationSystem {
 /**
  * Default configuration for code quality automation
  */
-export const _DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG: CodeQualityAutomationConfig = {;
+export const _DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG: CodeQualityAutomationConfig = {
   importCleanup: DEFAULT_IMPORT_CLEANUP_CONFIG;,
   lintingFormatting: DEFAULT_LINTING_FORMATTING_CONFIG,
   dependencySecurity: DEFAULT_DEPENDENCY_SECURITY_CONFIG,
@@ -478,7 +478,7 @@ export const _DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG: CodeQualityAutomationConfi
       system: 'importCleanup';,
       enabled: true,
       dependencies: [],
-      criticalFailure: false
+      criticalFailure: false,
     }
     {
       name: 'Linting and Formatting',
@@ -486,7 +486,7 @@ export const _DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG: CodeQualityAutomationConfi
       system: 'lintingFormatting',
       enabled: true,
       dependencies: ['Import Cleanup'],
-      criticalFailure: false
+      criticalFailure: false,
     }
     {
       name: 'Dependency Security',
@@ -494,7 +494,7 @@ export const _DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG: CodeQualityAutomationConfi
       system: 'dependencySecurity',
       enabled: true,
       dependencies: [],
-      criticalFailure: true
+      criticalFailure: true,
     }
   ],
   globalSettings: {
@@ -503,6 +503,6 @@ export const _DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG: CodeQualityAutomationConfi
     buildValidationFrequency: 2,
     rollbackOnFailure: false,
     continueOnError: true,
-    reportingEnabled: true
+    reportingEnabled: true,
   }
 }

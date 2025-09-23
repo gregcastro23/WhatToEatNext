@@ -1,4 +1,4 @@
-export const _VALID_UNITS = [;
+export const _VALID_UNITS = [
   'unit',
   'g',
   'kg',

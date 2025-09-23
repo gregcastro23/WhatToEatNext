@@ -103,11 +103,11 @@ export class ElementalCalculator {;
 
   static getSeasonalModifiers(season: Season): ElementalProperties {
     // Start with a balanced base
-    const baseModifiers: ElementalProperties = {;
+    const baseModifiers: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25
+      Air: 0.25,
     }
 
     // Normalize season to lowercase for consistency with type definition
@@ -167,11 +167,11 @@ export class ElementalCalculator {;
     }
 
     // Initialize elemental values
-    const elementalValues: ElementalProperties = {;
+    const elementalValues: ElementalProperties = {
       Fire: 0,
       Water: 0,
       Earth: 0,
-      Air: 0
+      Air: 0,
     }
 
     // Handle empty or invalid positions
@@ -276,7 +276,7 @@ export class ElementalCalculator {;
       })
     } else {
       // Handle individual planet objects
-      const planetNames = [;
+      const planetNames = [
         'sun',
         'moon',
         'mercury',
@@ -294,7 +294,7 @@ export class ElementalCalculator {;
           const planet = bodiesData[planetName];
           // Add name and label if not present
           const planetRecord = planet ;
-          const enhancedPlanet = {;
+          const enhancedPlanet = {
             ...planetRecord,
             name: planetName,
             label: planetName
@@ -318,7 +318,7 @@ export class ElementalCalculator {;
     if (!data) return
 
     // Try to find planets in a generic object structure
-    const planetNames = [;
+    const planetNames = [
       'Sun',
       'Moon',
       'Mercury',
@@ -363,7 +363,7 @@ export class ElementalCalculator {;
         if (isPlanetKey && obj[key]) {
           // Add planet name to object if not already present;
           const objKey = obj[key] as Record<string, unknown>,
-          const planetObj = {;
+          const planetObj = {
             ...objKey,
             name: isPlanetKey,
             label: isPlanetKey
@@ -585,7 +585,7 @@ export class ElementalCalculator {;
       })
 
       // Normalize score to 0-100 range
-      return totalWeight > 0 ? (matchScore / totalWeight) * 100 : 50
+      return totalWeight > 0 ? (matchScore / totalWeight) * 100 : 50,
     }
 
     // Default score if no elemental properties
@@ -653,7 +653,7 @@ export class ElementalCalculator {;
     })
 
     // Return average similarity as percentage
-    return count > 0 ? (totalSimilarity / count) * 100 : 50
+    return count > 0 ? (totalSimilarity / count) * 100 : 50,
   }
 
   private calculateElementalTotals(properties: ElementalProperties): ElementalSummary {
@@ -724,11 +724,11 @@ export class ElementalCalculator {;
   }
 
   public static combineElementalProperties(properties: ElementalProperties[]): ElementalProperties {
-    const result: ElementalProperties = {;
+    const result: ElementalProperties = {
       Fire: 0,
       Water: 0,
       Earth: 0,
-      Air: 0
+      Air: 0,
     }
 
     if (properties.length === 0) {
@@ -736,7 +736,7 @@ export class ElementalCalculator {;
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
+        Air: 0.25,
       }
     }
 

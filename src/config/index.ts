@@ -9,7 +9,7 @@ export const _config = {
       elemental: 1.5,
       timeOfDay: 1,
       celestial: 1.25,
-      traditional: 1
+      traditional: 1,
     }
   },
   elements: {

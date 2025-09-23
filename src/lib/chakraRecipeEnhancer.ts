@@ -116,7 +116,7 @@ export class ChakraRecipeEnhancer {
 
         // Create Planet type validation with enhanced safety
         const planetValidator = (name: string): Planet | null => {
-          const validPlanets: string[] = [;
+          const validPlanets: string[] = [
             'Sun',
             'Moon',
             'Mars',
@@ -138,7 +138,7 @@ export class ChakraRecipeEnhancer {
     }
 
     // Calculate current chakra energies
-    const chakraEnergies = this.chakraService.calculateChakraEnergies(;
+    const chakraEnergies = this.chakraService.calculateChakraEnergies(
       sunSign,
       moonSign,
       dominantPlanets,
@@ -188,7 +188,7 @@ export class ChakraRecipeEnhancer {
         }
 
         // Get tarot recommendations for the dominant chakra
-        const recommendations = this.chakraService.getTarotRecommendationsForChakra(;
+        const recommendations = this.chakraService.getTarotRecommendationsForChakra(
           dominantChakra === 'solarPlexus' ? 'solar plexus' : (dominantChakra as unknown),
           chakraEnergies[dominantChakra],
         )

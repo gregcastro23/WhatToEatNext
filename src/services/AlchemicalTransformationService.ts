@@ -66,7 +66,7 @@ export class AlchemicalTransformationService {
     Mars: 0,
     Uranus: 0,
     Neptune: 0,
-    Pluto: 0
+    Pluto: 0,
   }
   private isDaytime = true,
   private currentZodiac: any | null = null,
@@ -367,19 +367,19 @@ export class AlchemicalTransformationService {
     const transformedIngredients = this.getTransformedIngredients()
     const transformedMethods = this.getTransformedCookingMethods()
     const transformedCuisines = this.getTransformedCuisines()
-    const filteredIngredients = filterByAlchemicalCompatibility(;
+    const filteredIngredients = filterByAlchemicalCompatibility(
       transformedIngredients,
       targetElement,
       targetAlchemicalProperty,
     )
 
-    const filteredMethods = filterByAlchemicalCompatibility(;
+    const filteredMethods = filterByAlchemicalCompatibility(
       transformedMethods,
       targetElement,
       targetAlchemicalProperty,
     )
 
-    const filteredCuisines = filterByAlchemicalCompatibility(;
+    const filteredCuisines = filterByAlchemicalCompatibility(
       transformedCuisines,
       targetElement,
       targetAlchemicalProperty,
@@ -497,7 +497,7 @@ export class AlchemicalTransformationService {
     if (!recipe.elementalProperties) return 'Fire',
 
     const elements = recipe.elementalProperties;
-    const dominantValue = Math.max(;
+    const dominantValue = Math.max(
       elements.Fire || 0,
       elements.Water || 0,
       elements.Earth || 0

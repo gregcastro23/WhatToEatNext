@@ -127,7 +127,7 @@ export function CelestialEventNotifications({
     try {
       return new Date(timestamp).toLocaleTimeString([], {
         hour: '2-digit',
-        minute: '2-digit'
+        minute: '2-digit',
       });
     } catch {
       return new Date().toLocaleTimeString();
@@ -157,7 +157,7 @@ export function CelestialEventNotifications({
              padding: '20px',
              textAlign: 'center',
              color: '#999',
-             fontSize: '14px'
+             fontSize: '14px',
            }}>
         <div style={{ marginBottom: '8px' }}>✨</div>
         <div>No celestial events</div>
@@ -176,7 +176,7 @@ export function CelestialEventNotifications({
         alignItems: 'center',
         marginBottom: '12px',
         paddingBottom: '8px',
-        borderBottom: '1px solid #eee'
+        borderBottom: '1px solid #eee',
       }}>
         <h3 style={{ margin: 0, fontSize: '16px', fontWeight: '600' }}>
           🌟 Celestial Events
@@ -186,7 +186,7 @@ export function CelestialEventNotifications({
             width: '8px',
             height: '8px',
             borderRadius: '50%',
-            backgroundColor: isConnected ? '#22c55e' : '#ef4444'
+            backgroundColor: isConnected ? '#22c55e' : '#ef4444',
           }} />
           <button
             onClick={clearAllEvents}
@@ -197,7 +197,7 @@ export function CelestialEventNotifications({
               cursor: 'pointer',
               fontSize: '12px',
               padding: '4px 8px',
-              borderRadius: '4px'
+              borderRadius: '4px',
             }}
             onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f5f5f5'}
             onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
@@ -221,13 +221,13 @@ export function CelestialEventNotifications({
               borderLeft: `4px solid ${getEventColor(event.type)}`,
               opacity: event.visible ? 1 : 0.3,
               transition: 'all 0.3s ease',
-              position: 'relative'
+              position: 'relative',
             }}
           >
             <div style={{
               fontSize: '20px',
               marginRight: '12px',
-              flexShrink: 0
+              flexShrink: 0,
             }}>
               {getEventIcon(event.type)}
             </div>
@@ -237,7 +237,7 @@ export function CelestialEventNotifications({
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'flex-start',
-                marginBottom: '4px'
+                marginBottom: '4px',
               }}>
                 <h4 style={{
                   margin: 0,
@@ -256,7 +256,7 @@ export function CelestialEventNotifications({
                     cursor: 'pointer',
                     fontSize: '16px',
                     padding: '0',
-                    lineHeight: 1
+                    lineHeight: 1,
                   }}
                   title="Dismiss"
                 >
@@ -269,7 +269,7 @@ export function CelestialEventNotifications({
                 fontSize: '13px',
                 color: '#666',
                 lineHeight: '1.4',
-                marginBottom: '8px'
+                marginBottom: '8px',
               }}>
                 {event.description}
               </p>
@@ -279,7 +279,7 @@ export function CelestialEventNotifications({
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 fontSize: '11px',
-                color: '#999'
+                color: '#999',
               }}>
                 <span>
                   Intensity: {event.intensity.toFixed(1)}
@@ -300,7 +300,7 @@ export function CelestialEventNotifications({
           textAlign: 'center',
           marginTop: '8px',
           padding: '8px',
-          borderTop: '1px solid #eee'
+          borderTop: '1px solid #eee',
         }}>
           Showing latest {maxNotifications} events
         </div>

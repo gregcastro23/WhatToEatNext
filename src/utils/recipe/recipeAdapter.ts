@@ -18,7 +18,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   )
 
   // Create a base recipe with required properties
-  const recipe: Recipe = {;
+  const recipe: Recipe = {
     id: recipeData.id || `recipe-${Date.now()}`,
     name: recipeData.name || 'Unnamed Recipe',
     ingredients,
@@ -27,7 +27,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25
+      Air: 0.25,
     }
   }
 
@@ -47,7 +47,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   // Handle time-related properties
   const recipeDataAny = recipeData as unknown as any;
   if (recipeDataAny.timeToMake !== undefined) {
-    recipe.timeToMake = String(recipeDataAny.timeToMake);
+    recipe.timeToMake = String(recipeDataAny.timeToMake)
   }
 
   // Handle serving-related properties
@@ -64,7 +64,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25
+      Air: 0.25,
     })
   }
 
@@ -99,7 +99,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     }
 
     if (energyProfile.planetary) {
-      recipe.planetaryInfluences = {;
+      recipe.planetaryInfluences = {
         _favorable: energyProfile.planetary as string[],
         unfavorable: [], // ← Pattern GG-_6: Added missing unfavorable property
       }
@@ -113,7 +113,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
 
   // Handle dietary properties
   const dietaryTags = (recipeData.tags || []).filter(tag =>
-    [;
+    [
       'vegetarian',
       'vegan',
       'gluten-free',
@@ -157,7 +157,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     const nutritionData = recipeData.nutrition as any;
     const macronutrients = (nutritionData.macronutrients as unknown) || {}
     const micronutrients = (nutritionData.micronutrients ) || {}
-    recipe.nutrition = {;
+    recipe.nutrition = {
       calories: Number(nutritionData.calories) || 0,
       protein: Number(nutritionData.protein) || Number(macronutrients.protein) || 0,
       carbs: Number(nutritionData.carbs) || Number(macronutrients.carbs) || 0,
@@ -184,7 +184,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
 
   // Handle preparation notes
   if (recipeDataAny.preparationNotes) {
-    recipe.preparationNotes = String(recipeDataAny.preparationNotes);
+    recipe.preparationNotes = String(recipeDataAny.preparationNotes)
   }
 
   // Handle technical tips
@@ -208,12 +208,12 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
  */
 function adaptIngredients(ingredients: Recipe[]): RecipeIngredient[] {
   return (ingredients || []).map(ingredient => {
-    const recipeIngredient: RecipeIngredient = {;
+    const recipeIngredient: RecipeIngredient = {
       name: String(ingredient.name) || 'Unknown Ingredient',
       amount: Number(ingredient.amount),
       unit: String(ingredient.unit) || '' },
         if (ingredient.optional !== undefined) {
-      recipeIngredient.optional = Boolean(ingredient.optional);
+      recipeIngredient.optional = Boolean(ingredient.optional)
     }
 
     if (ingredient.preparation) {
@@ -221,7 +221,7 @@ function adaptIngredients(ingredients: Recipe[]): RecipeIngredient[] {
     }
 
     if (ingredient.category) {
-      recipeIngredient.category = String(ingredient.category);
+      recipeIngredient.category = String(ingredient.category)
     }
 
     return recipeIngredient,
@@ -251,7 +251,7 @@ export function createScoredRecipe(recipe: Recipe, matchScore: number): ScoredRe
       _zodiacalScore: 0,
       _lunarScore: 0,
       _planetaryScore: 0,
-      _seasonalScore: 0
+      _seasonalScore: 0,
     }
   }
 
@@ -269,7 +269,7 @@ export function isRecipeData(obj: unknown): obj is RecipeData {
     typeof recipeData.id === 'string' &&
     typeof recipeData.name === 'string' &&
     Array.isArray(recipeData.ingredients)
-  );
+  )
 }
 
 /**
@@ -279,7 +279,7 @@ export function isRecipeData(obj: unknown): obj is RecipeData {
  * @returns Array of type-safe Recipe objects
  */
 export function adaptAllRecipes(recipeDataArray: RecipeData[]): Recipe[] {
-  return recipeDataArray.map(recipeData => adaptRecipeData(recipeData));
+  return recipeDataArray.map(recipeData => adaptRecipeData(recipeData))
 }
 
 /**
@@ -306,7 +306,7 @@ export function extractElementalProperties(recipeData: RecipeData): ElementalPro
 export function getCookingMethodsFromRecipe(recipeData: RecipeData): string[] {
   // Try to derive cooking methods from tags if they exist
   if (recipeData.tags && Array.isArray(recipeData.tags)) {
-    const cookingMethodKeywords = [;
+    const cookingMethodKeywords = [
       'baking',
       'roasting',
       'grilling',
@@ -356,7 +356,7 @@ export function createMinimalRecipe(_name: string): Recipe {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25
+      Air: 0.25,
     }),
     instructions: [], // ← Pattern GG-4: Added missing instructions property
   }

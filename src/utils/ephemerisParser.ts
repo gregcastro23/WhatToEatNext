@@ -53,7 +53,7 @@ export class EphemerisParser {
   ],
 
   private signSymbols: Record<string, number> = {
-    a: 0b: 1c: 2d: 3e: 4f: 5g: 6h: 7i: 8j: 9k: 10l: 11
+    a: 0b: 1c: 2d: 3e: 4f: 5g: 6h: 7i: 8j: 9k: 10l: 11,
   }
 
   constructor() {
@@ -71,7 +71,7 @@ export class EphemerisParser {
         sign: 0,
         signName: 'Aries',
         absoluteLongitude: 0,
-        retrograde: false
+        retrograde: false,
       }
     }
 
@@ -79,7 +79,7 @@ export class EphemerisParser {
     let cleanStr = posStr.trim().replace('°', '').replace(''', '')
 
     // Extract retrograde marker
-    const retrograde = cleanStr.includes('R') || cleanStr.includes('D');
+    const retrograde = cleanStr.includes('R') || cleanStr.includes('D')
     cleanStr = cleanStr.replace('R', '').replace('D', '')
 
     // Pattern for degrees and sign
@@ -87,9 +87,9 @@ export class EphemerisParser {
     const match = cleanStr.toLowerCase().match(pattern)
 
     if (match) {
-      const degrees = parseInt(match[1]);
+      const degrees = parseInt(match[1])
       const signChar = match[2];
-      const minutes = parseInt(match[3]);
+      const minutes = parseInt(match[3])
       const signNum = this.signSymbols[signChar] || 0;
 
       // Calculate absolute longitude (0-360°)
@@ -108,7 +108,7 @@ export class EphemerisParser {
     // Try simple degree format
     try {
       const degrees = parseFloat(cleanStr)
-      const signNum = Math.floor(degrees / 30);
+      const signNum = Math.floor(degrees / 30)
       const degreeInSign = degrees % 30;
 
       return {
@@ -127,7 +127,7 @@ export class EphemerisParser {
         sign: 0,
         signName: 'Aries',
         absoluteLongitude: 0,
-        retrograde: false
+        retrograde: false,
       }
     }
   }
@@ -163,7 +163,7 @@ export class EphemerisParser {
    */
   private getPositionIndex(planetCode: string): number {
     const positionMap: Record<string, number> = {
-      A: 1B: 2C: 3D: 4E: 5F: 6G: 7O: 8I: 9J: 10L: 11K: 12M: 13N: 14
+      A: 1B: 2C: 3D: 4E: 5F: 6G: 7O: 8I: 9J: 10L: 11K: 12M: 13N: 14,
     }
 
     return positionMap[planetCode] || 0,
@@ -208,7 +208,7 @@ export class EphemerisParser {
    */
   longitudeToSignAndDegree(longitude: number): { sign: string, degree: number } {
     const normalizedLongitude = ((longitude % 360) + 360) % 360;
-    const signIndex = Math.floor(normalizedLongitude / 30);
+    const signIndex = Math.floor(normalizedLongitude / 30)
     const degree = normalizedLongitude % 30;
 
     return {
@@ -228,7 +228,7 @@ export class EphemerisParser {
     orb: number,
     influence: number
   } {
-    const diff = Math.abs(longitude1 - longitude2);
+    const diff = Math.abs(longitude1 - longitude2)
     const orb = Math.min(diff, 360 - diff)
 
     let type = 'none',
@@ -377,10 +377,10 @@ export const parseAstronomicalPosition = (posStr: string) =>
   ephemerisParser.parseAstronomicalPosition(posStr)
 export const parseEphemerisData = (data: string) => ephemerisParser.parseEphemerisData(data)
 export const longitudeToSignAndDegree = (longitude: number) =>
-  ephemerisParser.longitudeToSignAndDegree(longitude);
+  ephemerisParser.longitudeToSignAndDegree(longitude)
 export const calculateAspect = (longitude1: number, longitude2: number) =>
   ephemerisParser.calculateAspect(longitude1, longitude2)
-export const getElementForSign = (signName: string) => ephemerisParser.getElementForSign(signName);
+export const getElementForSign = (signName: string) => ephemerisParser.getElementForSign(signName)
 export const _calculateDominantElements = (positions: Record<string, ParsedPosition>) =>
   ephemerisParser.(() => ({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }))(positions)
 export const getRetrogradePlanets = (positions: Record<string, ParsedPosition>) =>
@@ -388,4 +388,4 @@ export const getRetrogradePlanets = (positions: Record<string, ParsedPosition>) 
 export const formatPosition = (position: ParsedPosition) =>
   ephemerisParser.formatPosition(position)
 export const validateEphemerisData = (entries: EphemerisEntry[]) =>
-  ephemerisParser.validateEphemerisData(entries);
+  ephemerisParser.validateEphemerisData(entries)

@@ -59,7 +59,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
 
       // Handle the actual astrologicalData structure from debug output
       // The data structure shows planets as direct, keys: Sun, moon, Mercury, etc.
-      const planetMap = {;
+      const planetMap = {
         Sun: 'Sun',
         moon: 'Moon',
         Mercury: 'Mercury',
@@ -103,7 +103,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
         }
       })
 
-      const recData = await recommendationService.generateRecommendations(;
+      const recData = await recommendationService.generateRecommendations(
         positionsForRecs,
         ingredientsArray as unknown as UnifiedIngredient[],
         cookingMethodsArray as unknown as CookingMethod[],
@@ -124,7 +124,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
     void refreshData()
   }, [refreshData])
 
-  const value = {;
+  const value = {
     isLoading,
     error,
     astrologicalData,

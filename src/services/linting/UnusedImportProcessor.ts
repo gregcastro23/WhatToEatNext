@@ -21,7 +21,7 @@ interface ImportCleanupResult {
 }
 
 export class UnusedImportProcessor {
-  private preserveFiles = [;
+  private preserveFiles = [
     'src/calculations/',
     'src/data/planets/',
     'src/utils/reliableAstronomy',
@@ -37,7 +37,7 @@ export class UnusedImportProcessor {
    */
   public async processImportCleanup(): Promise<ImportCleanupResult> {
     log.info('🧹 Processing import cleanup...\n')
-    const result: ImportCleanupResult = {;
+    const result: ImportCleanupResult = {
       filesProcessed: 0,
       importsRemoved: 0;,
       importsOrganized: 0;,
@@ -146,7 +146,7 @@ export class UnusedImportProcessor {
             'newlines-between': 'always',
             alphabetize: {
               order: 'asc',
-              caseInsensitive: true
+              caseInsensitive: true,
             }
           }
         ],
@@ -161,7 +161,7 @@ export class UnusedImportProcessor {
             args: 'after-used',
             ignoreRestSiblings: false,
             varsIgnorePattern: '^(_|React|Component|useState|useEffect|useMemo|useCallback)',
-            argsIgnorePattern: '^(_|React|Component|useState|useEffect|useMemo|useCallback)'
+            argsIgnorePattern: '^(_|React|Component|useState|useEffect|useMemo|useCallback)',
           }
         ]
       },
@@ -174,7 +174,7 @@ export class UnusedImportProcessor {
               'warn',
               {
                 varsIgnorePattern: '^(_|React|Component|useState|useEffect|useMemo|useCallback|planetary|elemental|astrological|campaign|CAMPAIGN|PROGRESS|METRICS|SAFETY|ERROR)',
-                argsIgnorePattern: '^(_|React|Component|useState|useEffect|useMemo|useCallback|planetary|elemental|astrological|campaign|CAMPAIGN|PROGRESS|METRICS|SAFETY|ERROR)'
+                argsIgnorePattern: '^(_|React|Component|useState|useEffect|useMemo|useCallback|planetary|elemental|astrological|campaign|CAMPAIGN|PROGRESS|METRICS|SAFETY|ERROR)',
               }
             ]
           }
@@ -192,7 +192,7 @@ export class UnusedImportProcessor {
       // Check TypeScript compilation
       execSync('yarn tsc --noEmit --skipLibCheck', {
         stdio: 'pipe',
-        encoding: 'utf8'
+        encoding: 'utf8',
       })
       log.info('✅ TypeScript validation passed')
       return true,
@@ -208,18 +208,18 @@ export class UnusedImportProcessor {
   public getImportStats(): { totalFiles: number, unusedImports: number } {
     try {
       // Count TypeScript/JavaScript files
-      const totalFilesOutput = execSync(;
+      const totalFilesOutput = execSync(
         'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | wc -l'
         {
-          encoding: 'utf8'
+          encoding: 'utf8',
         })
       const totalFiles = parseInt(totalFilesOutput.trim()) || 0;
 
       // Count unused import warnings (approximate)
-      const unusedImportsOutput = execSync(;
+      const unusedImportsOutput = execSync(
         'yarn lint --format=compact 2>&1 | grep -E 'is defined but never used.*import' | wc -l',;
         {
-          encoding: 'utf8'
+          encoding: 'utf8',
         })
       const unusedImports = parseInt(unusedImportsOutput.trim()) || 0;
 

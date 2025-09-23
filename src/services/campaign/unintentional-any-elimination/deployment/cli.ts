@@ -320,7 +320,7 @@ program
   .action(file => {
     try {
       const phases = createStandardDeploymentPhases()
-      const config = {;
+      const config = {
         version: '1.0.0',
         timestamp: new Date().toISOString(),
         phases: phases

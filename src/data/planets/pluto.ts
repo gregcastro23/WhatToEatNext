@@ -12,7 +12,7 @@ const plutoData: PlanetData = {
     Spirit: 0,
     Essence: 1,
     Matter: 1,
-    Substance: 0
+    Substance: 0,
   }
   'Diurnal Element': 'Earth',
   'Nocturnal Element': 'Water',
@@ -32,7 +32,7 @@ const plutoData: PlanetData = {
       Surface: 'Icy with mountains, glaciers and plains',
       MagneticField: 'Weak or nonexistent',
       Composition: 'Rocky core surrounded by water ice mantle',
-      NotableFeatures: 'Heart-shaped region (Tombaugh Regio), nitrogen ice glaciers, methane snow peaks'
+      NotableFeatures: 'Heart-shaped region (Tombaugh Regio), nitrogen ice glaciers, methane snow peaks',
     }
   },
   AstrologicalProperties: {
@@ -99,7 +99,7 @@ const plutoData: PlanetData = {
     Spirit: 0.3,
     Essence: 0.8,
     Matter: 0.7,
-    Substance: 0.2
+    Substance: 0.2,
   },
   FoodAssociations: [
     'black foods',
@@ -120,7 +120,7 @@ const plutoData: PlanetData = {
     Salty: 0.4,
     Bitter: 0.7,
     Umami: 0.9,
-    Spicy: 0.6
+    Spicy: 0.6,
   },
   CulinaryInfluences: [
     'Transforms ingredients through extreme processes',
@@ -135,63 +135,63 @@ const plutoData: PlanetData = {
       Opposition: 0.2,
       Trine: 0.5,
       Square: 0.1,
-      Sextile: 0.4
+      Sextile: 0.4,
     },
     Moon: {
       Conjunction: 0.6,
       Opposition: 0.1,
       Trine: 0.4,
       Square: -0.1,
-      Sextile: 0.3
+      Sextile: 0.3,
     },
     Mars: {
       Conjunction: 0.8,
       Opposition: 0.3,
       Trine: 0.6,
       Square: 0.2,
-      Sextile: 0.5
+      Sextile: 0.5,
     },
     Venus: {
       Conjunction: 0.5,
       Opposition: 0.0,
       Trine: 0.4,
       Square: -0.1,
-      Sextile: 0.2
+      Sextile: 0.2,
     },
     Jupiter: {
       Conjunction: 0.6,
       Opposition: 0.1,
       Trine: 0.5,
       Square: 0.0,
-      Sextile: 0.3
+      Sextile: 0.3,
     },
     Saturn: {
       Conjunction: 0.7,
       Opposition: 0.2,
       Trine: 0.6,
       Square: 0.1,
-      Sextile: 0.4
+      Sextile: 0.4,
     },
     Mercury: {
       Conjunction: 0.5,
       Opposition: 0.0,
       Trine: 0.4,
       Square: -0.1,
-      Sextile: 0.2
+      Sextile: 0.2,
     },
     Uranus: {
       Conjunction: 0.8,
       Opposition: 0.2,
       Trine: 0.7,
       Square: 0.0,
-      Sextile: 0.5
+      Sextile: 0.5,
     },
     Neptune: {
       Conjunction: 0.6,
       Opposition: 0.1,
       Trine: 0.5,
       Square: 0.0,
-      Sextile: 0.3
+      Sextile: 0.3,
     }
   },
   PlanetSpecific: {
@@ -203,7 +203,7 @@ const plutoData: PlanetData = {
           Fire: 0.3,
           Earth: 0.2,
           Air: 0.1,
-          Water: 0.9
+          Water: 0.9,
         },
         CookingMethods: ['fermentation', 'aging', 'smoking', 'curing', 'preserving', 'reduction'],
         FavoredIngredients: [
@@ -221,7 +221,7 @@ const plutoData: PlanetData = {
           Fire: 0.8,
           Earth: 0.2,
           Air: 0.1,
-          Water: 0.3
+          Water: 0.3,
         },
         CookingMethods: [
           'charring',
@@ -245,7 +245,7 @@ const plutoData: PlanetData = {
           Fire: 0.2,
           Earth: 0.8,
           Air: 0.1,
-          Water: 0.3
+          Water: 0.3,
         },
         CookingMethods: [
           'slow-cooking',
@@ -262,7 +262,7 @@ const plutoData: PlanetData = {
           'ancient grains',
           'geological references'
         ],
-        FlavorCombinations: 'Gradual depth development, foundations that transform, slow-revealing complexity'
+        FlavorCombinations: 'Gradual depth development, foundations that transform, slow-revealing complexity',
       }
     },
     Retrograde: {
@@ -272,7 +272,7 @@ const plutoData: PlanetData = {
         Spirit: 0.2,
         Essence: 0.7,
         Matter: 0.8,
-        Substance: 0.1
+        Substance: 0.1,
       },
       CookingMethodEffects: {
         Emphasized: [
@@ -306,7 +306,7 @@ const plutoData: PlanetData = {
         Salty: 0.5,
         Bitter: 0.6,
         Umami: 0.7,
-        Spicy: 0.5
+        Spicy: 0.5,
       }
     },
     TransitDates: {
@@ -317,7 +317,7 @@ const plutoData: PlanetData = {
           TarotCard: '2 of Pentacles',
           TarotProperties: {
             Keywords: ['balance', 'adaptability', 'juggling priorities'],
-            CulinaryAssociation: 'Balancing intense and subtle flavors, transformative techniques with traditional methods'
+            CulinaryAssociation: 'Balancing intense and subtle flavors, transformative techniques with traditional methods',
           }
         }
         '2ndDecan': {
@@ -326,7 +326,7 @@ const plutoData: PlanetData = {
           TarotCard: '3 of Pentacles',
           TarotProperties: {
             Keywords: ['mastery', 'expertise', 'collaboration'],
-            CulinaryAssociation: 'Mastery of transformative cooking processes, collaboration between ancient and modern techniques'
+            CulinaryAssociation: 'Mastery of transformative cooking processes, collaboration between ancient and modern techniques',
           }
         }
         '3rdDecan': {
@@ -335,7 +335,7 @@ const plutoData: PlanetData = {
           TarotCard: '4 of Pentacles',
           TarotProperties: {
             Keywords: ['conservation', 'security', 'long-term perspective'],
-            CulinaryAssociation: 'Preservation techniques that transform ingredients at their core, substantial and grounding foods'
+            CulinaryAssociation: 'Preservation techniques that transform ingredients at their core, substantial and grounding foods',
           }
         }
       },
@@ -346,7 +346,7 @@ const plutoData: PlanetData = {
           TarotCard: '5 of Swords',
           TarotProperties: {
             Keywords: ['conflict', 'tension', 'strategic thinking'],
-            CulinaryAssociation: 'Revolutionary approaches to food that challenge established norms, intensity in innovation'
+            CulinaryAssociation: 'Revolutionary approaches to food that challenge established norms, intensity in innovation',
           }
         }
         '2ndDecan': {
@@ -355,7 +355,7 @@ const plutoData: PlanetData = {
           TarotCard: '6 of Swords',
           TarotProperties: {
             Keywords: ['transition', 'moving away', 'mental processing'],
-            CulinaryAssociation: 'Transition from familiar to unfamiliar taste experiences, intellectual approach to deep flavors'
+            CulinaryAssociation: 'Transition from familiar to unfamiliar taste experiences, intellectual approach to deep flavors',
           }
         }
         '3rdDecan': {
@@ -364,7 +364,7 @@ const plutoData: PlanetData = {
           TarotCard: '7 of Swords',
           TarotProperties: {
             Keywords: ['strategy', 'cunning', 'independent action'],
-            CulinaryAssociation: 'Strategic combinations of intense flavors, unconventional approaches to traditional ingredients'
+            CulinaryAssociation: 'Strategic combinations of intense flavors, unconventional approaches to traditional ingredients',
           }
         }
       }

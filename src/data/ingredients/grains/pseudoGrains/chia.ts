@@ -4,12 +4,12 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawChia: Record<string, Partial<IngredientMapping>> = {
   chia: {
     name: 'Chia Seeds',
-    elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
+    elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Neptune', 'Moon'],
       elementalAffinity: {
         base: 'Water',
-        secondary: 'Earth'
+        secondary: 'Earth',
       }
     },
     qualities: ['gelatinous', 'hydrophilic', 'versatile', 'gluten-free', 'omega-rich'],

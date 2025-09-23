@@ -77,7 +77,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       Fire: 0,
       Water: 0,
       Earth: 0,
-      Air: 0
+      Air: 0,
     }
 
     Object.entries(positions).forEach(([planet, data]) => {
@@ -177,7 +177,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       const planetData = getSafePlanetaryData(data)
 
       const planetName = key.charAt(0).toUpperCase() + key.slice(1)
-      formattedPlanets[planetName] = {;
+      formattedPlanets[planetName] = {
         sign: planetData.sign || 'Unknown',
         degree: planetData.degree || 0,
         isRetrograde: planetData.isRetrograde || false,

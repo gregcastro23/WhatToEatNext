@@ -99,7 +99,7 @@ class ErrorHandlerService {
       type,
       severity,
       timestamp: new Date().toISOString(),
-      handled: true
+      handled: true,
     }
   }
 

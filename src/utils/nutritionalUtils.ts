@@ -81,7 +81,7 @@ export async function compareNutritionalValues(
 
   // Return early if either ingredient not found
   if (!profile1 || !profile2) {
-    return {;
+    return {
       ingredient1: profile1,
       ingredient2: profile2,
       differences: {}
@@ -107,7 +107,7 @@ export async function compareNutritionalValues(
       : 0,
     fiber: profile1Macros.fiber,
       ? ((profile2Macros.fiber - profile1Macros.fiber) / profile1Macros.fiber) * 100
-      : 0
+      : 0,
   }
 
   return {

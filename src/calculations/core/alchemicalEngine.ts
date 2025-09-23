@@ -17,7 +17,7 @@ interface NaturalInfluenceParams {
 // --- Core Alchemizer Engine with Kalchm and Monica Constant ---
 
 // Zodiac sign names
-const signs = {;
+const signs = {
   0: 'aries',
   1: 'taurus',
   2: 'gemini',
@@ -43,31 +43,31 @@ interface PlanetInfo {
 
 const planetInfo: Record<string, PlanetInfo> = {
   Sun: {
-    'Dignity Effect': { leo: 1, aries: 2, aquarius: -1, libra: -2 }
+    'Dignity Effect': { leo: 1, aries: 2, aquarius: -1, libra: -2 },
     Elements: ['Fire', 'Fire'],
     Alchemy: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 }
     'Diurnal Element': 'Fire',
     'Nocturnal Element': 'Fire' },
         moon: {
-    'Dignity Effect': { cancer: 1, taurus: 2, capricorn: -1, scorpio: -2 }
+    'Dignity Effect': { cancer: 1, taurus: 2, capricorn: -1, scorpio: -2 },
     Elements: ['Water', 'Water'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
     'Diurnal Element': 'Water',
     'Nocturnal Element': 'Water' },
         Mercury: {
-    'Dignity Effect': { gemini: 1, virgo: 3, sagittarius: 1, pisces: -3 }
+    'Dignity Effect': { gemini: 1, virgo: 3, sagittarius: 1, pisces: -3 },
     Elements: ['Air', 'Earth'],
     Alchemy: { Spirit: 1, Essence: 0, Matter: 0, Substance: 1 }
     'Diurnal Element': 'Air',
     'Nocturnal Element': 'Earth' },
         Venus: {
-    'Dignity Effect': { libra: 1, taurus: 1, pisces: 2, aries: -1, scorpio: -1, virgo: -2 }
+    'Dignity Effect': { libra: 1, taurus: 1, pisces: 2, aries: -1, scorpio: -1, virgo: -2 },
     Elements: ['Water', 'Earth'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
     'Diurnal Element': 'Water',
     'Nocturnal Element': 'Earth' },
         Mars: {
-    'Dignity Effect': { aries: 1, scorpio: 1, capricorn: 2, taurus: -1, libra: -1, cancer: -2 }
+    'Dignity Effect': { aries: 1, scorpio: 1, capricorn: 2, taurus: -1, libra: -1, cancer: -2 },
     Elements: ['Fire', 'Water'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
     'Diurnal Element': 'Fire',
@@ -86,35 +86,35 @@ const planetInfo: Record<string, PlanetInfo> = {
     'Diurnal Element': 'Air',
     'Nocturnal Element': 'Fire' },
         Saturn: {
-    'Dignity Effect': { aquarius: 1, capricorn: 1, libra: 2, cancer: -1, leo: -1, aries: -2 }
+    'Dignity Effect': { aquarius: 1, capricorn: 1, libra: 2, cancer: -1, leo: -1, aries: -2 },
     Elements: ['Air', 'Earth'],
     Alchemy: { Spirit: 1, Essence: 0, Matter: 1, Substance: 0 }
     'Diurnal Element': 'Air',
     'Nocturnal Element': 'Earth' },
         Uranus: {
-    'Dignity Effect': { aquarius: 1, scorpio: 2, taurus: -3 }
+    'Dignity Effect': { aquarius: 1, scorpio: 2, taurus: -3 },
     Elements: ['Water', 'Air'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
     'Diurnal Element': 'Water',
     'Nocturnal Element': 'Air' },
         Neptune: {
-    'Dignity Effect': { pisces: 1, cancer: 2, virgo: -1, capricorn: -2 }
+    'Dignity Effect': { pisces: 1, cancer: 2, virgo: -1, capricorn: -2 },
     Elements: ['Water', 'Water'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 0, Substance: 1 }
     'Diurnal Element': 'Water',
     'Nocturnal Element': 'Water' },
         Pluto: {
-    'Dignity Effect': { scorpio: 1, leo: 2, taurus: -1, aquarius: -2 }
+    'Dignity Effect': { scorpio: 1, leo: 2, taurus: -1, aquarius: -2 },
     Elements: ['Earth', 'Water'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
     'Diurnal Element': 'Earth',
     'Nocturnal Element': 'Water' },
         Ascendant: {
-    'Dignity Effect': { leo: 0, aries: 0, aquarius: 0, libra: 0 }
+    'Dignity Effect': { leo: 0, aries: 0, aquarius: 0, libra: 0 },
     Elements: ['Earth'],
     Alchemy: { Spirit: 0, Essence: 0, Matter: 1, Substance: 0 }
     'Diurnal Element': 'Earth',
-    'Nocturnal Element': 'Earth'
+    'Nocturnal Element': 'Earth',
   }
 }
 
@@ -139,7 +139,7 @@ const signInfo: Record<string, SignInfo> = {
 }
 
 // --- Types ---
-type AlchemyTotals = {;
+type AlchemyTotals = {
   Spirit: number,
   Essence: number,
   Matter: number,
@@ -150,7 +150,7 @@ type AlchemyTotals = {;
   Earth: number
 }
 
-type ThermodynamicMetrics = {;
+type ThermodynamicMetrics = {
   heat: number,
   entropy: number,
   reactivity: number,
@@ -162,7 +162,7 @@ type ThermodynamicMetrics = {;
 // --- Core Calculation Function ---
 function alchemize(_planetaryPositions: { [planet: string]: string }): ThermodynamicMetrics {
   // 1. Aggregate alchemical and elemental properties
-  const totals: AlchemyTotals = {;
+  const totals: AlchemyTotals = {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
@@ -170,7 +170,7 @@ function alchemize(_planetaryPositions: { [planet: string]: string }): Thermodyn
     Fire: 0,
     Water: 0,
     Air: 0,
-    Earth: 0
+    Earth: 0,
   }
 
   for (const planet in planetaryPositions) {
@@ -269,7 +269,7 @@ export class AlchemicalEngine {
     // Extract the compatibility score for the dominant element
     return typeof affinity.compatibility[_dominantElement] === 'number'
       ? affinity.compatibility[_dominantElement]
-      : 0.5
+      : 0.5,
   }
 
   // Proxy legacy/advanced methods for compatibility

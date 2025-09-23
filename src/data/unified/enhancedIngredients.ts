@@ -97,9 +97,9 @@ export interface EnhancedIngredient {
       fat: number,
       fiber: number
     },
-    vitamins: { [key: string]: number }
+    vitamins: { [key: string]: number },
     minerals: { [key: string]: number }
-    antioxidants?: { [key: string]: number }
+    antioxidants?: { [key: string]: number },
     benefits: string[],
     source: string
   }
@@ -344,7 +344,7 @@ export class EnhancedIngredientsSystem {
       if (!ingredient.unifiedFlavorProfile) return false
 
       // Calculate compatibility between the target flavor profile and this ingredient's profile
-      const compatibility = this.flavorProfileSystem.calculateFlavorCompatibility(;
+      const compatibility = this.flavorProfileSystem.calculateFlavorCompatibility(
         flavorProfile,
         ingredient.unifiedFlavorProfile
       ),
@@ -393,7 +393,7 @@ export class EnhancedIngredientsSystem {
               salty: 0,
               bitter: 0,
               umami: 0,
-              spicy: 0
+              spicy: 0,
             } as unknown as UnifiedFlavorProfile),
           ingredient.unifiedFlavorProfile,
         )
@@ -409,7 +409,7 @@ export class EnhancedIngredientsSystem {
               salty: 0,
               bitter: 0,
               umami: 0,
-              spicy: 0
+              spicy: 0,
             } as unknown as UnifiedFlavorProfile),
           a.unifiedFlavorProfile ||
             ({
@@ -418,7 +418,7 @@ export class EnhancedIngredientsSystem {
               salty: 0,
               bitter: 0,
               umami: 0,
-              spicy: 0
+              spicy: 0,
             } as unknown as UnifiedFlavorProfile),
         ).compatibility,
 
@@ -430,7 +430,7 @@ export class EnhancedIngredientsSystem {
               salty: 0,
               bitter: 0,
               umami: 0,
-              spicy: 0
+              spicy: 0,
             } as unknown as UnifiedFlavorProfile),
           b.unifiedFlavorProfile ||
             ({
@@ -439,7 +439,7 @@ export class EnhancedIngredientsSystem {
               salty: 0,
               bitter: 0,
               umami: 0,
-              spicy: 0
+              spicy: 0,
             } as unknown as UnifiedFlavorProfile),
         ).compatibility,
 
@@ -468,12 +468,12 @@ export class EnhancedIngredientsSystem {
         return compatibility >= tolerance,
       })
       .sort((ab) => {
-        const compatA = calculateElementalCompatibility(;
+        const compatA = calculateElementalCompatibility(
           targetIngredient.elementalProperties
           a.elementalProperties
         )
 
-        const compatB = calculateElementalCompatibility(;
+        const compatB = calculateElementalCompatibility(
           targetIngredient.elementalProperties
           b.elementalProperties
         ),
@@ -770,7 +770,7 @@ export class EnhancedIngredientsSystem {
   ): EnhancedIngredient['astrologicalProfile'] {
     // Get the dominant element
     const elementalProps = ingredient.elementalProperties
-    const dominantElement = Object.entries(elementalProps).reduce(;
+    const dominantElement = Object.entries(elementalProps).reduce(
       (max, [element, value]) => (value > max.value ? { element, value } : max),
       { element: 'Fire', value: 0 }).element as Element,
 
@@ -816,11 +816,11 @@ export class EnhancedIngredientsSystem {
     return {
       serving_size: '100g',
       calories: 0,
-      macros: { protein: 0, carbs: 0, fat: 0, fiber: 0 }
+      macros: { protein: 0, carbs: 0, fat: 0, fiber: 0 },
       vitamins: {}
       minerals: {}
       benefits: Array.isArray(ingredient.healthBenefits) ? ingredient.healthBenefits : [],
-      source: 'placeholder'
+      source: 'placeholder',
     }
   }
 
@@ -883,7 +883,7 @@ export class EnhancedIngredientsSystem {
       // Index by dominant element
       const elementalProps = ingredient.elementalProperties;
       if (elementalProps) {
-        const dominantElement = Object.entries(elementalProps).reduce(;
+        const dominantElement = Object.entries(elementalProps).reduce(
           (max, [element, value]) => (Number(value) > Number(max.value) ? { element, value } : max),
           { element: 'Fire', value: 0 }).element,
 
@@ -932,7 +932,7 @@ export class EnhancedIngredientsSystem {
     if (!ingredients || (ingredients || []).length === 0) return []
 
     // Get average elemental properties
-    const avgElementalProperties = ingredients.reduce(;
+    const avgElementalProperties = ingredients.reduce(
       (acc, ingredient) => {
         acc.Fire += ingredient.elementalProperties.Fire / (ingredients || []).length,
         acc.Water += ingredient.elementalProperties.Water / (ingredients || []).length,
@@ -1101,7 +1101,7 @@ export class EnhancedIngredientsSystem {
     }
 
     // Find dominant element
-    const dominantElement = Object.entries(elementalProps).reduce(;
+    const dominantElement = Object.entries(elementalProps).reduce(
       (max, [element, value]) => (value > max.value ? { element, value } : max),
       { element: 'Fire', value: 0 }).element as 'Fire' | 'Water' | 'Earth' | 'Air',
 
@@ -1157,7 +1157,7 @@ export class EnhancedIngredientsSystem {
         temperature: 'room temperature',
         humidity: 'low',
         duration: '6-12 months',
-        method: 'Airtight container'
+        method: 'Airtight container',
       }
     }
 
@@ -1166,7 +1166,7 @@ export class EnhancedIngredientsSystem {
         temperature: 'cool',
         humidity: 'moderate',
         duration: 'varies',
-        method: 'appropriate container'
+        method: 'appropriate container',
       })
   }
 
@@ -1209,7 +1209,7 @@ export class EnhancedIngredientsSystem {
 
     // Find dominant element
     const elementalProps = ingredient.elementalProperties;
-    const dominantElement = Object.entries(elementalProps).reduce(;
+    const dominantElement = Object.entries(elementalProps).reduce(
       (max, [element, value]) => (value > max.value ? { element, value } : max),
       { element: 'Fire', value: 0 }).element,
 
@@ -1282,9 +1282,9 @@ export class EnhancedIngredientsSystem {
    */
   private getSeasonalPeakForElement(element: Element): unknown {
     const seasonalPeaks: { [key: string]: unknown } = {
-      Fire: { northern: [67, 8], southern: [121, 2] }
-      Water: { northern: [121, 2], southern: [67, 8] }
-      Earth: { northern: [910, 11], southern: [34, 5] }
+      Fire: { northern: [67, 8], southern: [121, 2] },
+      Water: { northern: [121, 2], southern: [67, 8] },
+      Earth: { northern: [910, 11], southern: [34, 5] },
       Air: { northern: [34, 5], southern: [910, 11] }
     }
 
@@ -1368,7 +1368,7 @@ export const getSeasonalIngredients = (season: string): EnhancedIngredient[] =>
 /**
  * Find ingredients with compatible Kalchm values
  */
-export const findKalchmCompatibleIngredients = (;
+export const findKalchmCompatibleIngredients = (
   kalchm: number,
   tolerance?: number,
 ): EnhancedIngredient[] =>
@@ -1377,7 +1377,7 @@ export const findKalchmCompatibleIngredients = (;
 /**
  * Generate comprehensive ingredient recommendations
  */
-export const generateIngredientRecommendations = (;
+export const generateIngredientRecommendations = (
   criteria: IngredientSearchCriteria,
   conditions?: IngredientSystemConditions,
 ): IngredientRecommendations =>;

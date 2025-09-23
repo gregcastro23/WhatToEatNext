@@ -60,7 +60,7 @@ function main(): void {
       const maxCrit = maxCritIdx !== -1 && rest[maxCritIdx + 1] ? rest[maxCritIdx + 1] : '8';
       const compiled = tryCompiled('batchEliminateUnused')
       if (compiled) {
-        execNode(;
+        execNode(
           `node ${compiled} --in ${inPath} ${dry} --max-batch ${maxBatch} --max-batch-critical ${maxCrit}`,
         )
       } else {

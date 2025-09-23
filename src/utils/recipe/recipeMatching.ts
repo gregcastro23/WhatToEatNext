@@ -129,7 +129,7 @@ export function clearMatchCache(all = false): void {,
 /**
  * Enhanced energy matching using both absolute and relative elemental values
  */
-const calculateEnergyMatch = async (;
+const calculateEnergyMatch = async (
   recipeEnergy: ElementalProperties,
   currentEnergy: ElementalProperties,
 ): Promise<number> => {
@@ -137,7 +137,7 @@ const calculateEnergyMatch = async (;
     return 0.5, // Default match if no energy values provided
   }
 
-  const elements = ['Fire', 'Water', 'Earth', 'Air'],
+  const elements = ['Fire', 'Water', 'Earth', 'Air']
 
   // Calculate absolute elemental matching
   let absoluteScore = 0,
@@ -146,7 +146,7 @@ const calculateEnergyMatch = async (;
     const currentValue = currentEnergy[element] || 0;
 
     // Since elements are harmonious, calculate similarity score
-    const diff = Math.abs(recipeValue - currentValue);
+    const diff = Math.abs(recipeValue - currentValue)
     absoluteScore += (1 - diff) * 0.25, // 0.25 weight for each element
   }
 
@@ -158,16 +158,16 @@ const calculateEnergyMatch = async (;
 
     // Calculate relative values (element / sum of other elements)
     const recipeOthers = elements;
-      .filter(e => e !== element);
+      .filter(e => e !== element)
       .reduce((sume) => sum + (recipeEnergy[e] || 0), 0)
     const currentOthers = elements;
-      .filter(e => e !== element);
+      .filter(e => e !== element)
       .reduce((sume) => sum + (currentEnergy[e] || 0), 0)
 
     const recipeRelative = recipeOthers > 0 ? recipeValue / recipeOthers: 0;
     const currentRelative = currentOthers > 0 ? currentValue / currentOthers: 0;
 
-    const relativeDiff = Math.abs(recipeRelative - currentRelative);
+    const relativeDiff = Math.abs(recipeRelative - currentRelative)
     relativeScore += (1 - Math.min(1, relativeDiff)) * 0.25
   }
 
@@ -175,26 +175,26 @@ const calculateEnergyMatch = async (;
   let kalchmScore = 0.7; // Default score
   try {
     // Convert elemental properties to alchemical properties for kalchm calculation
-    const recipeAlchemical = {;
+    const recipeAlchemical = {
       Spirit: recipeEnergy.Fire || 0.25,
       Essence: recipeEnergy.Air || 0.25,
       Matter: recipeEnergy.Earth || 0.25,
       Substance: recipeEnergy.Water || 0.25
     }
-    const currentAlchemical = {;
+    const currentAlchemical = {
       Spirit: currentEnergy.Fire || 0.25,
       Essence: currentEnergy.Air || 0.25,
       Matter: currentEnergy.Earth || 0.25,
       Substance: currentEnergy.Water || 0.25
     }
 
-    const recipeKalchmResult = kalchmEngine.calculateKAlchm(;
+    const recipeKalchmResult = kalchmEngine.calculateKAlchm(
       recipeAlchemical.Spirit,
       recipeAlchemical.Essence,
       recipeAlchemical.Matter
       recipeAlchemical.Substance
     )
-    const currentKalchmResult = kalchmEngine.calculateKAlchm(;
+    const currentKalchmResult = kalchmEngine.calculateKAlchm(
       currentAlchemical.Spirit,
       currentAlchemical.Essence,
       currentAlchemical.Matter
@@ -255,14 +255,14 @@ export async function findBestMatches(
   // Calculate relative elemental values if we have absolute values
   let relativeElementalValues: ElementalProperties | null = null,
   if (enhancedCurrentEnergy) {
-    const totalOther = {;
+    const totalOther = {
       Fire: enhancedCurrentEnergy.Water + enhancedCurrentEnergy.Earth + enhancedCurrentEnergy.Air || 1,
       Water: enhancedCurrentEnergy.Fire + enhancedCurrentEnergy.Earth + enhancedCurrentEnergy.Air || 1,
       Earth: enhancedCurrentEnergy.Fire + enhancedCurrentEnergy.Water + enhancedCurrentEnergy.Air || 1,
       Air: enhancedCurrentEnergy.Fire + enhancedCurrentEnergy.Water + enhancedCurrentEnergy.Earth || 1
     }
 
-    relativeElementalValues = {;
+    relativeElementalValues = {
       Fire: enhancedCurrentEnergy.Fire / totalOther.Fire,
       Water: enhancedCurrentEnergy.Water / totalOther.Water,
       Earth: enhancedCurrentEnergy.Earth / totalOther.Earth,
@@ -302,7 +302,7 @@ export async function findBestMatches(
   // Calculate scores for each recipe
   const scoredRecipes = (filteredRecipes || []).map(async recipe => {;
     let score = 0
-    const elements = await getRecipeElementalProperties(recipe);
+    const elements = await getRecipeElementalProperties(recipe)
     const dominantElements = await _(() => ({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }))(elements)
 
     // Enhanced base score from elemental properties using both absolute and relative
@@ -323,7 +323,7 @@ export async function findBestMatches(
 
     // Enhanced astrological compatibility using cached data
     if (cachedData && matchFilters.astrologicalSign) {
-      const astrologicalBonus = await calculateEnhancedAstrologicalMatch(;
+      const astrologicalBonus = await calculateEnhancedAstrologicalMatch(
         recipe,
         matchFilters.astrologicalSign
         cachedData,
@@ -350,7 +350,7 @@ export async function findBestMatches(
     if (matchFilters.currentSeason) {
       const recipeSeasons = await getRecipeSeasons(recipe)
       if (
-        (recipeSeasons || []).some(;
+        (recipeSeasons || []).some(
           s => s.toLowerCase() === matchFilters.currentSeason?.toLowerCase(),,
         )
       ) {
@@ -362,7 +362,7 @@ export async function findBestMatches(
     if (matchFilters.mealType) {
       const recipeMealTypes = await getRecipeMealTypes(recipe)
       if (
-        (recipeMealTypes || []).some(;
+        (recipeMealTypes || []).some(
           mt => mt.toLowerCase() === matchFilters.mealType?.toLowerCase(),,
         )
       ) {
@@ -387,7 +387,7 @@ export async function findBestMatches(
 
     // Enhanced thermodynamic compatibility using monica constant if available
     if (cachedData?.alchemicalResult?.monica && !isNaN(cachedData.alchemicalResult.monica)) {
-      const monicaBonus = await calculateMonicaCompatibility(;
+      const monicaBonus = await calculateMonicaCompatibility(
         recipe,
         cachedData.alchemicalResult.monica
       ),
@@ -407,13 +407,13 @@ export async function findBestMatches(
         : 0.5,
       relativeElementalMatch: relativeElementalValues,
         ? await calculateEnergyMatch(elements, relativeElementalValues)
-        : 0.5
+        : 0.5,
     }
   })
 
   // Sort by score and limit results
   const results = (await Promise.all(scoredRecipes))
-    .sort((ab) => (a as ScoredItem).score - (b as ScoredItem).score);
+    .sort((ab) => (a as ScoredItem).score - (b as ScoredItem).score)
     .slice(0, limit)
 
   // Cache the results
@@ -439,7 +439,7 @@ async function applyMatchFilters(recipes: Recipe[], filters: MatchFilters): Prom
     // Dietary restrictions filter
     if (filters.dietaryRestrictions && filters.dietaryRestrictions.length > 0) {
       // Pattern, GG: Fix string vs string[] parameter mismatch for isRecipeDietaryCompatible
-      const hasIncompatibleRestriction = filters.dietaryRestrictions.some(;
+      const hasIncompatibleRestriction = filters.dietaryRestrictions.some(
         async restriction => !isRecipeDietaryCompatible(recipe, [restriction]),
       ),
       if (hasIncompatibleRestriction) return false
@@ -460,7 +460,7 @@ async function applyMatchFilters(recipes: Recipe[], filters: MatchFilters): Prom
     // Excluded ingredients filter
     if (filters.excludeIngredients && filters.excludeIngredients.length > 0) {
       // Pattern, DD: Fix string vs string[] parameter mismatch for recipeHasIngredient
-      const hasExcludedIngredient = ((await filters.excludeIngredients) || []).some(;
+      const hasExcludedIngredient = ((await filters.excludeIngredients) || []).some(
         async excluded => recipeHasIngredient(recipe, excluded),
       ),
       if (hasExcludedIngredient) return false
@@ -482,15 +482,15 @@ async function applyMatchFilters(recipes: Recipe[], filters: MatchFilters): Prom
 // ===== CALCULATION FUNCTIONS =====,
 
 const _calculateBaseElements = async (recipe: Recipe): Promise<ElementalProperties> => {
-  return await getRecipeElementalProperties(recipe);
+  return await getRecipeElementalProperties(recipe)
 }
 
-const _calculateDominantElements = async (;
+const _calculateDominantElements = async (
   elements: ElementalProperties,
 ): Promise<[string, number][]> => {
   const entries = Object.entries(elements)
   // Sort by value in descending order
-  return entries.sort((ab) => b[1] - a[1]);
+  return entries.sort((ab) => b[1] - a[1])
 }
 
 function calculateRecipeEnergyMatch(recipe: Recipe, currentEnergy: AstrologicalState): number {
@@ -534,7 +534,7 @@ function calculateElementalAlignment(recipe: Recipe, currentEnergy: Astrological
 }
 
 function calculateNutritionalMatch(
-  recipeProfile: { [key: string]: unknown }
+  recipeProfile: { [key: string]: unknown },
   userGoals: { [key: string]: unknown }): number {
   if (!recipeProfile || !userGoals) {
     return 0.5, // Default score for no data
@@ -565,11 +565,11 @@ function calculateNutritionalMatch(
         matchScore += recipeValue >= goal ? 1 : 1 - Math.min(1, (goal - recipeValue) / goal)
       } else if (key === 'fat' || key === 'carbs') {,
         // For fat and carbswe want to be close to the goal
-        const difference = Math.abs(recipeValue - goal);
+        const difference = Math.abs(recipeValue - goal)
         matchScore += 1 - Math.min(1, difference / goal)
       } else {
         // For other values, just compare directly
-        const difference = Math.abs(recipeValue - goal);
+        const difference = Math.abs(recipeValue - goal)
         matchScore += 1 - Math.min(1, difference / Math.max(1, goal))
       }
     }
@@ -590,7 +590,7 @@ function calculateAstrologicalMatch(recipeInfluence: unknown, userSign: string):
       influence.toLowerCase().includes(userSign.toLowerCase())
     )
       ? 0.9
-      : 0.3
+      : 0.3,
   }
 
   return 0.5; // Default score for unknown format
@@ -613,7 +613,7 @@ function calculateComplexityMatch(
       : currentMomentPreference,
 
   // Calculate match based on proximity
-  const difference = Math.abs(recipeValue - currentMomentValue);
+  const difference = Math.abs(recipeValue - currentMomentValue)
   return 1 - Math.min(1, difference / 5); // Assuming complexity is on a 1-5 scale
 }
 
@@ -661,7 +661,7 @@ async function calculateEnhancedAstrologicalMatch(
 
   // Use planetary positions for more accurate astrological matching
   if (cachedData.planetaryPositions) {
-    const planetaryInfluences = Object.entries(cachedData.planetaryPositions);
+    const planetaryInfluences = Object.entries(cachedData.planetaryPositions)
     for (const [planet, position] of planetaryInfluences) {
       const planetInfluence = getRecipePlanetaryInfluence(recipe, planet)
       if (planetInfluence > 0) {
@@ -698,7 +698,7 @@ async function calculateMonicaCompatibility(
   } else {
     // For simple cooking methods, moderate monica values are better
     const normalizedMonica = Math.abs(monicaConstant)
-    return Math.max(01 - Math.abs(normalizedMonica - 5) / 10);
+    return Math.max(01 - Math.abs(normalizedMonica - 5) / 10)
   }
 }
 
@@ -759,18 +759,18 @@ export async function connectIngredientsToMappings(recipe: Recipe): Promise<
         const ingredientName = typeof ingredient === 'string' ? ingredient : ingredient.name
 
         // First try to find an exact match;
-        const exactMatch = ([] as IngredientMapping[]).find(;
+        const exactMatch = ([] as IngredientMapping[]).find(
           mapping =>
             typeof mapping === 'object' &&
             mapping.name &&
-            String(mapping.name).toLowerCase() === ingredientName.toLowerCase();
+            String(mapping.name).toLowerCase() === ingredientName.toLowerCase()
         ) as unknown as IngredientMapping,
 
         if (exactMatch) {
           return {
             name: ingredientName,
             matchedTo: exactMatch,
-            confidence: 1.0
+            confidence: 1.0,
           }
         }
 
@@ -780,7 +780,7 @@ export async function connectIngredientsToMappings(recipe: Recipe): Promise<
             typeof mapping === 'object' &&
             mapping.name &&
             (String(mapping.name).toLowerCase().includes(ingredientName.toLowerCase()) ||
-              ingredientName.toLowerCase().includes(String(mapping.name).toLowerCase()));
+              ingredientName.toLowerCase().includes(String(mapping.name).toLowerCase()))
         ) as unknown as IngredientMapping[],
 
         if ((partialMatches || []).length > 0) {
@@ -795,7 +795,7 @@ export async function connectIngredientsToMappings(recipe: Recipe): Promise<
           // Pattern, FF: Ensure proper string casting for confidence calculation
           const confidence = getStringSimilarity(
             String(bestMatch.name || '')
-            String(ingredientName || '');
+            String(ingredientName || '')
           ),
 
           return {
@@ -808,7 +808,7 @@ export async function connectIngredientsToMappings(recipe: Recipe): Promise<
         // No match found
         return {
           name: ingredientName,
-          confidence: 0
+          confidence: 0,
         }
       }),
   )
@@ -878,10 +878,10 @@ function determineIngredientModality(qualities: string[] = []): string {
   }
 
   // Count occurrences of modality indicators
-  const modalityCounts = {;
+  const modalityCounts = {
     Cardinal: 0,
     Fixed: 0,
-    Mutable: 0
+    Mutable: 0,
   }
 
   // Keywords associated with each modality
@@ -939,15 +939,15 @@ function calculateModalityScore(recipeModality: string, userModality: string): n
   const compatibilityMatrix: { [key: string]: { [key: string]: number } } = {
     Cardinal: {
       Fixed: 0.4,
-      Mutable: 0.6
+      Mutable: 0.6,
     },
     Fixed: {
       Cardinal: 0.4,
-      Mutable: 0.5
+      Mutable: 0.5,
     },
     Mutable: {
       Cardinal: 0.6,
-      Fixed: 0.5
+      Fixed: 0.5,
     }
   }
 

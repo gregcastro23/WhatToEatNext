@@ -161,7 +161,7 @@ export class ExplicitAnyEliminationSystem {
       const batchResult = await this.executeExplicitAnyFixer({;
         maxFiles: this.DEFAULT_BATCH_SIZE,
         autoFix: true,
-        validateSafety: true
+        validateSafety: true,
       })
 
       results.push(batchResult)
@@ -180,7 +180,7 @@ export class ExplicitAnyEliminationSystem {
       // Check if campaign target is met
       const updatedProgress = await this.loadCampaignProgress()
       if (updatedProgress.isTargetMet) {
-        // // // _logger.info(;
+        // // // _logger.info(
           `🎯 Campaign target of ${this.CAMPAIGN_TARGET_PERCENTAGE}% reduction achieved!`,
         )
         break,
@@ -441,7 +441,7 @@ export class ExplicitAnyEliminationSystem {
       reductionAchieved: 0,
       reductionPercentage: 0,
       campaignTarget: this.CAMPAIGN_TARGET_PERCENTAGE,
-      isTargetMet: false
+      isTargetMet: false,
     }
   }
 
@@ -460,7 +460,7 @@ export class ExplicitAnyEliminationSystem {
           ? (totalReductionAchieved / progress.totalExplicitAnyStart) * 100;
           : 0,
 
-      const updatedProgress: CampaignProgress = {;
+      const updatedProgress: CampaignProgress = {
         ...progress,
         totalExplicitAnyRemaining: currentCount,
         reductionAchieved: totalReductionAchieved,

@@ -105,7 +105,7 @@ export async function POST(request: Request) {
             isHealthy: true,
             lastUpdate: currentMoment.metadata.lastUpdated,
             source: currentMoment.metadata.source,
-            dataIntegrity: Object.keys(currentMoment.planetaryPositions).length >= 10 ? 'good' : 'incomplete'
+            dataIntegrity: Object.keys(currentMoment.planetaryPositions).length >= 10 ? 'good' : 'incomplete',
           }
         })
 
@@ -152,7 +152,7 @@ export async function PUT(request: Request) {
       notebook: false,
       systemDefaults: false,
       streamlinedPositions: false,
-      accurateAstronomy: false
+      accurateAstronomy: false,
     }
 
     // Note: The updateCurrentMoment already updates all files,

@@ -4,12 +4,12 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawFlaxseed = {
   flaxseed: {;
     name: 'Flaxseed',
-    elementalProperties: { Water: 0.3, Earth: 0.3, Air: 0.3, Fire: 0.1 }
+    elementalProperties: { Water: 0.3, Earth: 0.3, Air: 0.3, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
       elementalAffinity: {
         base: 'Water',
-        secondary: 'Air'
+        secondary: 'Air',
       }
     },
     qualities: ['gelatinous', 'omega-rich', 'nutty', 'gluten-free', 'binding'],
@@ -25,7 +25,7 @@ const rawFlaxseed = {
         appearance: 'Ground powder',
         texture: 'Fine to coarse depending on grind',
         flavor: 'Nutty, can become rancid quickly',
-        uses: 'Baking, smoothies, egg substitute'
+        uses: 'Baking, smoothies, egg substitute',
       }
     },
     preparation: {

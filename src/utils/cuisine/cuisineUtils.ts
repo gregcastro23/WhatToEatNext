@@ -62,7 +62,7 @@ export function getIngredientsForCuisine(
 
   // Additional matrices can be processed here
 
-  return result,
+  return result
 }
 
 /**

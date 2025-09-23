@@ -21,14 +21,14 @@ describe('ProgressiveImprovementEngine', () => {
 
   beforeEach(() => {;
     engine = new ProgressiveImprovementEngine()
-    mockConfig = {;
+    mockConfig = {
       maxFilesPerBatch: 10,
       targetReductionPercentage: 15,
       confidenceThreshold: 0.8,
       enableDomainAnalysis: true,
       enableDocumentation: true,
       safetyLevel: 'MODERATE',
-      validationFrequency: 5
+      validationFrequency: 5,
     }
 
     // Reset mocks
@@ -144,7 +144,7 @@ describe('ProgressiveImprovementEngine', () => {
 
     test('should recommend manual intervention when needed', async () => {
       // Simulate low success rate scenario by mocking batch history
-      const lowSuccessBatch: any = {;
+      const lowSuccessBatch: any = {
         batchNumber: 1,
         filesProcessed: 5,
         anyTypesAnalyzed: 10,
@@ -174,7 +174,7 @@ describe('ProgressiveImprovementEngine', () => {
 
     test('should adjust targets based on historical performance', async () => {
       // Add successful batch history
-      const successfulBatch: any = {;
+      const successfulBatch: any = {
         batchNumber: 1,
         filesProcessed: 10,
         anyTypesAnalyzed: 20,
@@ -206,7 +206,7 @@ describe('ProgressiveImprovementEngine', () => {
       const initialBatchSize: any = initialConfig.maxFilesPerBatch;
 
       // Add low safety score batches
-      const lowSafetyBatch: any = {;
+      const lowSafetyBatch: any = {
         batchNumber: 1,
         filesProcessed: 5,
         anyTypesAnalyzed: 10,
@@ -235,7 +235,7 @@ describe('ProgressiveImprovementEngine', () => {
       const initialBatchSize: any = initialConfig.maxFilesPerBatch;
 
       // Add high performance batches
-      const highPerformanceBatch: any = {;
+      const highPerformanceBatch: any = {
         batchNumber: 1,
         filesProcessed: 10,
         anyTypesAnalyzed: 20,
@@ -464,7 +464,7 @@ describe('ProgressiveImprovementEngine', () => {
   describe('Progress Monitoring Edge Cases', () => {
     test('should detect stagnation and recommend intervention', async () => {
       // Add multiple low-progress batches to simulate stagnation
-      const stagnantBatch: any = {;
+      const stagnantBatch: any = {
         batchNumber: 1,
         filesProcessed: 5,
         anyTypesAnalyzed: 10,
@@ -502,7 +502,7 @@ describe('ProgressiveImprovementEngine', () => {
       )).toBe(true)
 
       // Simulate progress to mid-stage
-      const progressBatch: any = {;
+      const progressBatch: any = {
         batchNumber: 1,
         filesProcessed: 10,
         anyTypesAnalyzed: 20,
@@ -559,7 +559,7 @@ describe('ProgressiveImprovementEngine', () => {
           compilationErrors: 0,
           rollbacksPerformed: 0,
           executionTime: 1000,
-          safetyScore: 0.9
+          safetyScore: 0.9,
         })
       }
 

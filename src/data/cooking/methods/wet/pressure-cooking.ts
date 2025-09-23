@@ -12,7 +12,7 @@ export const _pressureCooking: CookingMethodData = {
     Fire: 0.3,
     Water: 0.8,
     Earth: 0.2,
-    Air: 0.1
+    Air: 0.1,
   },
   duration: {
     min: 5, // minutes,

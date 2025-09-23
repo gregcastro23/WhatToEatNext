@@ -176,7 +176,7 @@ class SystemValidationSuite {
     // // // _logger.info('🛡️ Validating Safety Protocols...')
 
     try {
-      const safetyTests = [;
+      const safetyTests = [
         { name: 'Backup Creation', test: () => this.testBackupCreation() }
         { name: 'Rollback Mechanism', test: () => this.testRollbackMechanism() }
         { name: 'Compilation Validation', test: () => this.testCompilationValidation() }
@@ -211,7 +211,7 @@ class SystemValidationSuite {
         passed,
         score: safetyScore,
         message: `Safety protocols: ${passedTests}/${safetyTests.length} tests passed`,
-        details: { testResults, safetyScore }
+        details: { testResults, safetyScore },
         criticalIssues: safetyScore < 80 ? ['Critical safety protocols failing'] : undefined,
         recommendations: safetyScore < 95
             ? [
@@ -243,7 +243,7 @@ class SystemValidationSuite {
 
     try {
       // Test quality gate functionality
-      const gateTests = [;
+      const gateTests = [
         'Explicit Any Prevention',
         'TypeScript Error Prevention',
         'Linting Quality',
@@ -278,7 +278,7 @@ class SystemValidationSuite {
         passed,
         score: gateScore,
         message: `Quality gates: ${functionalGates}/${gateTests.length} functional`,
-        details: { gateResults, gateScore }
+        details: { gateResults, gateScore },
         recommendations: gateScore < 90
             ? [
                 'Fix non-functional quality gates',
@@ -309,7 +309,7 @@ class SystemValidationSuite {
 
     try {
       // Test monitoring capabilities
-      const monitoringTests = [;
+      const monitoringTests = [
         { name: 'Metrics Collection', test: () => this.testMetricsCollection() }
         { name: 'Real-time Tracking', test: () => this.testRealtimeTracking() }
         { name: 'Alert System', test: () => this.testAlertSystem() }
@@ -344,7 +344,7 @@ class SystemValidationSuite {
         passed,
         score: monitoringScore,
         message: `Monitoring: ${functionalComponents}/${monitoringTests.length} components functional`,
-        details: { monitoringResults, monitoringScore }
+        details: { monitoringResults, monitoringScore },
         recommendations: monitoringScore < 85
             ? [
                 'Fix non-functional monitoring components',
@@ -449,7 +449,7 @@ class SystemValidationSuite {
 
     try {
       // Test developer workflow integration
-      const workflowTests = [;
+      const workflowTests = [
         { name: 'Pre-commit Hooks', test: () => this.testPreCommitHooks() }
         { name: 'IDE Integration', test: () => this.testIDEIntegration() }
         { name: 'Documentation Access', test: () => this.testDocumentationAccess() }
@@ -483,7 +483,7 @@ class SystemValidationSuite {
         passed,
         score: workflowScore,
         message: `Developer workflow: ${functionalComponents}/${workflowTests.length} components functional`,
-        details: { workflowResults, workflowScore }
+        details: { workflowResults, workflowScore },
         recommendations: workflowScore < 85
             ? [
                 'Improve developer tool integration',
@@ -514,7 +514,7 @@ class SystemValidationSuite {
 
     try {
       // Test data integrity
-      const integrityTests = [;
+      const integrityTests = [
         { name: 'Configuration Files', test: () => this.testConfigurationIntegrity() }
         { name: 'Metrics Data', test: () => this.testMetricsIntegrity() }
         { name: 'Progress Tracking', test: () => this.testProgressIntegrity() }
@@ -548,7 +548,7 @@ class SystemValidationSuite {
         passed,
         score: integrityScore,
         message: `Data integrity: ${validComponents}/${integrityTests.length} components valid`,
-        details: { integrityResults, integrityScore }
+        details: { integrityResults, integrityScore },
         criticalIssues: integrityScore < 80 ? ['Critical data integrity issues detected'] : undefined,
         recommendations: integrityScore < 95
             ? [
@@ -613,7 +613,7 @@ class SystemValidationSuite {
 
     try {
       // Test documentation completeness and accuracy
-      const docTests = [;
+      const docTests = [
         { name: 'Maintenance Guide', test: () => this.testMaintenanceGuide() }
         { name: 'Troubleshooting Guide', test: () => this.testTroubleshootingGuide() }
         { name: 'API Documentation', test: () => this.testAPIDocumentation() }
@@ -648,7 +648,7 @@ class SystemValidationSuite {
         passed,
         score: docScore,
         message: `Documentation: ${completeComponents}/${docTests.length} components complete`,
-        details: { docResults, docScore }
+        details: { docResults, docScore },
         recommendations: docScore < 90
             ? [
                 'Complete missing documentation',
@@ -783,13 +783,13 @@ class SystemValidationSuite {
       { code: 'const data: any[] = [],', expected: 'unintentional' }
       {
         code: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API\nconst api: any = response,',
-        expected: 'intentional'
+        expected: 'intentional',
       }
       { code: 'Record<string, any>', expected: 'unintentional' }
       { code: 'function test(param: any) {}', expected: 'unintentional' }
       {
         code: '// Intentional any type for dynamic content\nconst content: any = userInput,',
-        expected: 'intentional'
+        expected: 'intentional',
       }
     ],
   }
@@ -808,12 +808,12 @@ class SystemValidationSuite {
       {
         name: 'record_types',
         pattern: /Record<([^,>]+),\s*any>/g,
-        replacement: 'Record<1, unknown>'
+        replacement: 'Record<1, unknown>',
       }
       {
         name: 'variable_declarations',
         pattern: /:\s*any(?=\s*[,,=})\]])/g,
-        replacement: ': unknown'
+        replacement: ': unknown',
       }
     ],
   }
@@ -867,7 +867,7 @@ class SystemValidationSuite {
     // Test specific quality gate
     try {
       if (gate === 'Explicit Any Prevention') {;
-        const count = execSync(;
+        const count = execSync(
           'yarn lint --format=compact 2>/dev/null | grep '@typescript-eslint/no-explicit-any' | wc -l',,
           { encoding: 'utf8' })
         return { functional: parseInt(count.trim()) >= 0 }
@@ -907,7 +907,7 @@ class SystemValidationSuite {
       const hasMainFiles = ['execute-full-campaign.cjs', 'comprehensive-campaign.cjs'].every(file =>,
         campaignFiles.includes(file)
       ),
-      return hasMainFiles ? 90 : 60
+      return hasMainFiles ? 90 : 60,
     } catch {
       return 30
     }
@@ -929,7 +929,7 @@ class SystemValidationSuite {
   }
 
   private async testDocumentationAccess(): Promise<{ functional: boolean }> {
-    const docFiles = [;
+    const docFiles = [
       'src/scripts/unintentional-any-elimination/MAINTENANCE_GUIDE.md',
       'src/scripts/unintentional-any-elimination/TROUBLESHOOTING_GUIDE.md'
     ],
@@ -963,7 +963,7 @@ class SystemValidationSuite {
 
   private async testBackupSystems(): Promise<number> {
     // Test backup system functionality
-    const _backupFeatures = [;
+    const _backupFeatures = [
       'Automatic file backups',
       'Git stash integration',
       'Incremental backups',
@@ -1026,7 +1026,7 @@ class SystemValidationSuite {
 
   private async testReliability(): Promise<number> {
     // Test system reliability
-    const _reliabilityTests = [;
+    const _reliabilityTests = [
       'Error handling',
       'Graceful degradation',
       'Recovery mechanisms',
@@ -1040,7 +1040,7 @@ class SystemValidationSuite {
 
   private async testScalability(): Promise<number> {
     // Test system scalability
-    const _scalabilityFactors = [;
+    const _scalabilityFactors = [
       'Batch processing efficiency',
       'Memory usage scaling',
       'Processing time scaling',
@@ -1135,7 +1135,7 @@ class SystemValidationSuite {
 
     // Save detailed report
     const reportPath = '.kiro/specs/unintentional-any-elimination/system-validation-report.json';
-    const detailedReport = {;
+    const detailedReport = {
       health,
       results: this.results,
       validationDuration: duration,
@@ -1159,7 +1159,7 @@ if (require.main === module) {
     .runFullValidation()
     .then(health => {
       const exitCode = health.overallScore >= 70 ? 0 : 1
-      // // // _logger.info(;
+      // // // _logger.info(
         `\n${exitCode === 0 ? '✅' : '❌' },
         System validation ${exitCode === 0 ? 'passed' : 'failed'}`
       )

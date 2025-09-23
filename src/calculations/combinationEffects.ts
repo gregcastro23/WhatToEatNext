@@ -40,15 +40,15 @@ const COMBINATION_RULES: CombinationRule[] = [
     ingredients: ['ginger', 'garlic'],
     effect: 'amplify' as EffectType,
     modifier: 1.3,
-    elements: { Fire: 0.2 }
-    notes: 'Classic warming combination'
+    elements: { Fire: 0.2 },
+    notes: 'Classic warming combination',
   }
   {
     ingredients: ['cinnamon', 'cardamom', 'clove'],
     effect: 'amplify' as EffectType,
     modifier: 1.4,
-    elements: { Fire: 0.3, Air: 0.1 }
-    notes: 'Warming spice blend'
+    elements: { Fire: 0.3, Air: 0.1 },
+    notes: 'Warming spice blend',
   }
   // ... other rules remain the same
 ],
@@ -95,7 +95,7 @@ export function calculateCombinationEffects({
           if (!meetsConditions) return;
         }
 
-        const effect: CombinationEffect = {;
+        const effect: CombinationEffect = {
           type: rule.effect,
           strength: rule.modifier,
           description: rule.notes || '',
@@ -126,7 +126,7 @@ export function calculateCombinationEffects({
   }
 }
 
-const hasIngredientCombination = (;
+const hasIngredientCombination = (
   recipeIngredients: string[],
   combinationIngredients: string[],
 ): boolean => {
@@ -176,7 +176,7 @@ const getPairs = <T>(array: T[]): [TT][] => {;
   return pairs
 }
 
-const isHarmoniousCombination = (;
+const isHarmoniousCombination = (
   elem1: ElementalProperties,
   elem2: ElementalProperties,
 ): boolean => {
@@ -187,7 +187,7 @@ const isHarmoniousCombination = (;
   );
 }
 
-const isAntagonisticCombination = (;
+const isAntagonisticCombination = (
   elem1: ElementalProperties,
   elem2: ElementalProperties,
 ): boolean => {
@@ -204,7 +204,7 @@ const getDominantElement = (elements: ElementalProperties): Element => {;
   return Object.entries(elements).sort(([, a], [, b]) => b - a)[0][0] as Element
 }
 
-export const _suggestComplementaryIngredients = (;
+export const _suggestComplementaryIngredients = (
   currentIngredients: string[],
   season?: Season,
 ): string[] => {
@@ -229,11 +229,11 @@ export const _suggestComplementaryIngredients = (;
 }
 
 const calculateCombinedElements = (ingredients: string[]): ElementalProperties => {;
-  const combined: ElementalProperties = {;
+  const combined: ElementalProperties = {
     Fire: 0,
     Water: 0,
     Air: 0,
-    Earth: 0
+    Earth: 0,
   }
 
   ingredients.forEach(ing => {
@@ -259,23 +259,23 @@ const calculateCombinedElements = (ingredients: string[]): ElementalProperties =
 }
 
 const isHarmoniousWith = (element1: Element, element2: Element): boolean => {
-  return ELEMENT_COMBINATIONS.harmonious.some(;
+  return ELEMENT_COMBINATIONS.harmonious.some(
     ([e1e2]) => (element1 === e1 && element2 === e2) || (element1 === e2 && element2 === e1),,
   )
 }
 
-const calculateLunarEffect = (;
+const calculateLunarEffect = (
   ingredients: string[],
   lunarPhase: LunarPhase,
 ): CombinationEffect | null => {
-  const lunarModifiers = {;
-    new_moon: { modifier: 0.9, effect: 'neutralize' as EffectType }
+  const lunarModifiers = {
+    new_moon: { modifier: 0.9, effect: 'neutralize' as EffectType },
     full_moon: { modifier: 1.2, effect: 'amplify' as EffectType }
-    first_quarter: { modifier: 1.1, effect: 'synergy' as EffectType }
+    first_quarter: { modifier: 1.1, effect: 'synergy' as EffectType },
     last_quarter: { modifier: 1.1, effect: 'synergy' as EffectType }
-    waxing_crescent: { modifier: 1.05, effect: 'amplify' as EffectType }
+    waxing_crescent: { modifier: 1.05, effect: 'amplify' as EffectType },
     waning_crescent: { modifier: 0.95, effect: 'neutralize' as EffectType }
-    waxing_gibbous: { modifier: 1.15, effect: 'amplify' as EffectType }
+    waxing_gibbous: { modifier: 1.15, effect: 'amplify' as EffectType },
     waning_gibbous: { modifier: 1.05, effect: 'synergy' as EffectType }
   }
 

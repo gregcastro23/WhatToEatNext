@@ -8,7 +8,7 @@ const KalchmRecommender = ({ maxRecommendations }: { maxRecommendations?: number
 export default function WhatToEatNextPage() {
   const { cuisines, loading, error, getCuisineRecommendations } = useEnhancedRecommendations({
     datetime: new Date(),
-    useBackendInfluence: true
+    useBackendInfluence: true,
   });
 
   // Fetch enhanced cuisines on mount

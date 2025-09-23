@@ -36,4 +36,4 @@ export const _staticAlchemize = (birthInfo: unknown, horoscopeDict: unknown): Al
 }
 
 // Re-export the core functionality
-export { alchemicalEngine };
+export { alchemicalEngine }

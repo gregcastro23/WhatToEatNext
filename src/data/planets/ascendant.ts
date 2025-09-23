@@ -1,13 +1,13 @@
 import { PlanetData } from './types';
 
-const ascendantData: PlanetData = {;
+const ascendantData: PlanetData = {
   'Dignity Effect': {}
   Elements: ['Earth', 'Earth'],
   Alchemy: {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
-    Substance: 0
+    Substance: 0,
   }
   'Diurnal Element': 'Earth',
   'Nocturnal Element': 'Earth',
@@ -30,7 +30,7 @@ const ascendantData: PlanetData = {;
     Salty: 0.5,
     Bitter: 0.5,
     Umami: 0.5,
-    Spicy: 0.5
+    Spicy: 0.5,
   },
   CulinaryInfluences: [
     'Shapes overall food preferences',
@@ -45,28 +45,28 @@ const ascendantData: PlanetData = {;
       Opposition: 0.1,
       Trine: 0.5,
       Square: 0.0,
-      Sextile: 0.3
+      Sextile: 0.3,
     },
     Moon: {
       Conjunction: 0.8,
       Opposition: 0.2,
       Trine: 0.6,
       Square: 0.1,
-      Sextile: 0.4
+      Sextile: 0.4,
     },
     Venus: {
       Conjunction: 0.6,
       Opposition: 0.1,
       Trine: 0.5,
       Square: 0.0,
-      Sextile: 0.3
+      Sextile: 0.3,
     },
     Mars: {
       Conjunction: 0.5,
       Opposition: 0.0,
       Trine: 0.4,
       Square: -0.1,
-      Sextile: 0.2
+      Sextile: 0.2,
     }
   },
   PlanetSpecific: {
@@ -78,7 +78,7 @@ const ascendantData: PlanetData = {;
           Fire: 0.8,
           Earth: 0.2,
           Air: 0.3,
-          Water: 0.1
+          Water: 0.1,
         }
       },
       taurus: {
@@ -87,7 +87,7 @@ const ascendantData: PlanetData = {;
           Fire: 0.2,
           Earth: 0.8,
           Air: 0.1,
-          Water: 0.3
+          Water: 0.3,
         }
       },
       gemini: {
@@ -96,7 +96,7 @@ const ascendantData: PlanetData = {;
           Fire: 0.3,
           Earth: 0.1,
           Air: 0.8,
-          Water: 0.2
+          Water: 0.2,
         }
       },
       cancer: {
@@ -105,7 +105,7 @@ const ascendantData: PlanetData = {;
           Fire: 0.1,
           Earth: 0.3,
           Air: 0.1,
-          Water: 0.8
+          Water: 0.8,
         }
       },
       leo: {
@@ -114,7 +114,7 @@ const ascendantData: PlanetData = {;
           Fire: 0.8,
           Earth: 0.2,
           Air: 0.3,
-          Water: 0.1
+          Water: 0.1,
         }
       },
       virgo: {
@@ -124,7 +124,7 @@ const ascendantData: PlanetData = {;
           Fire: 0.2,
           Earth: 0.8,
           Air: 0.3,
-          Water: 0.1
+          Water: 0.1,
         }
       },
       libra: {
@@ -133,7 +133,7 @@ const ascendantData: PlanetData = {;
           Fire: 0.2,
           Earth: 0.2,
           Air: 0.8,
-          Water: 0.2
+          Water: 0.2,
         }
       },
       scorpio: {
@@ -142,7 +142,7 @@ const ascendantData: PlanetData = {;
           Fire: 0.3,
           Earth: 0.2,
           Air: 0.1,
-          Water: 0.8
+          Water: 0.8,
         }
       },
       sagittarius: {
@@ -151,7 +151,7 @@ const ascendantData: PlanetData = {;
           Fire: 0.8,
           Earth: 0.1,
           Air: 0.4,
-          Water: 0.1
+          Water: 0.1,
         }
       },
       capricorn: {
@@ -160,7 +160,7 @@ const ascendantData: PlanetData = {;
           Fire: 0.1,
           Earth: 0.8,
           Air: 0.2,
-          Water: 0.3
+          Water: 0.3,
         }
       },
       aquarius: {
@@ -170,7 +170,7 @@ const ascendantData: PlanetData = {;
           Fire: 0.2,
           Earth: 0.2,
           Air: 0.8,
-          Water: 0.2
+          Water: 0.2,
         }
       },
       pisces: {
@@ -179,7 +179,7 @@ const ascendantData: PlanetData = {;
           Fire: 0.1,
           Earth: 0.1,
           Air: 0.2,
-          Water: 0.9
+          Water: 0.9,
         }
       }
     }

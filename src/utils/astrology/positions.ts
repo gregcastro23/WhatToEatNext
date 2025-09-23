@@ -13,8 +13,8 @@ const debugLog = (_message: string, ..._args: unknown[]): void => {
 }
 
 // Updated reference data for July 2, 2025 at, 10: 45 PM EDT (Cancer season)
-const REFERENCE_POSITIONS = {;
-  // _Planet: [degrees, minutes, seconds, currentZodiacSign]
+const REFERENCE_POSITIONS = {
+  // _Planet: [degrees, minutes, seconds, currentZodiacSign],
   Sun: [1045, 0, 'cancer'],
   moon: [1819, 0, 'libra'],
   Mercury: [29, 0, 'leo'],
@@ -35,7 +35,7 @@ const REFERENCE_POSITIONS = {;
 const REFERENCE_DATE = new Date('2025-07-02T22:45:00-04:00') // Cancer season reference
 
 // Approximate daily motion of planets in degrees - more accurate values from ephemeris
-const DAILY_MOTION = {;
+const DAILY_MOTION = {
   Sun: 0.986,
   moon: 13.2,
   Mercury: 1.383,
@@ -53,7 +53,7 @@ const DAILY_MOTION = {;
 }
 
 // Retrograde status for July 2, 2025 positions
-const RETROGRADE_STATUS = {;
+const RETROGRADE_STATUS = {
   Sun: false,
   moon: false,
   Mercury: false, // Direct in Leo,
@@ -75,7 +75,7 @@ const RETROGRADE_STATUS = {;
  * Type definition for cached positions
  */
 interface PositionsCache {
-  positions: { [key: string]: PlanetPositionData }
+  positions: { [key: string]: PlanetPositionData },
   timestamp: number,
   date: Date
 }
@@ -111,7 +111,7 @@ let positionsCache: PositionsCache | null = null,
 const CACHE_EXPIRATION = 15 * 60 * 1000;
 
 // Zodiac signs in order
-const ZODIAC_SIGNS = [;
+const ZODIAC_SIGNS = [
   'aries',
   'taurus',
   'gemini',
@@ -168,7 +168,7 @@ export function getFallbackPlanetaryPositions(_date: Date): { [key: string]: unk
 
   // Calculate position for each planet
   for (const planet of Object.keys(REFERENCE_POSITIONS)) {
-    const refLongitude = calculateReferenceLongitude(planet);
+    const refLongitude = calculateReferenceLongitude(planet)
     const motion = DAILY_MOTION[planet] || 0;
     const isRetrograde = RETROGRADE_STATUS[planet] || false;
 
@@ -184,12 +184,12 @@ export function getFallbackPlanetaryPositions(_date: Date): { [key: string]: unk
     newLongitude = ((newLongitude % 360) + 360) % 360,
 
     // Get zodiac sign and degree
-    const signIndex = Math.floor(newLongitude / 30);
+    const signIndex = Math.floor(newLongitude / 30)
     const degree = newLongitude % 30;
     const sign = ZODIAC_SIGNS[signIndex]
 
     // Store both the raw longitude and the formatted data
-    positions[planet] = {;
+    positions[planet] = {
       sign: sign.toLowerCase(),
       degree: parseFloat(degree.toFixed(2)),
       exactLongitude: newLongitude,
@@ -252,7 +252,7 @@ export function getAccuratePlanetaryPositions(_date: Date): { [key: string]: Pla
       return positionsCache.positions,
     }
 
-    const astroTime = new Astronomy.AstroTime(date);
+    const astroTime = new Astronomy.AstroTime(date)
     const positions: { [key: string]: PlanetPositionData } = {}
 
     // Calculate position for each planet
@@ -316,12 +316,12 @@ export function getAccuratePlanetaryPositions(_date: Date): { [key: string]: Pla
     // Calculate lunar nodes
     try {
       const nodeData = calculateLunarNodes(date)
-      const NorthNode = getNodeInfo(nodeData.NorthNode);
+      const NorthNode = getNodeInfo(nodeData.NorthNode)
       positions.NorthNode = NorthNode,
 
       // Calculate South Node (opposite North Node)
       const southNodeLongitude = (nodeData.NorthNode + 180) % 360;
-      const SouthNode = getNodeInfo(southNodeLongitude);
+      const SouthNode = getNodeInfo(southNodeLongitude)
       positions.SouthNode = SouthNode,
     } catch (error) {
       debugLog(
@@ -331,7 +331,7 @@ export function getAccuratePlanetaryPositions(_date: Date): { [key: string]: Pla
     }
 
     // Update cache
-    positionsCache = {;
+    positionsCache = {
       positions,
       timestamp: Date.now(),
       date: new Date(date)
@@ -345,7 +345,7 @@ export function getAccuratePlanetaryPositions(_date: Date): { [key: string]: Pla
     )
 
     // Return fallback positions with proper type conversion
-    const fallbackData = getFallbackPlanetaryPositions(date);
+    const fallbackData = getFallbackPlanetaryPositions(date)
     const convertedPositions: { [key: string]: PlanetPositionData } = {}
 
     for (const [planet, data] of Object.entries(fallbackData)) {
@@ -366,7 +366,7 @@ export function getAccuratePlanetaryPositions(_date: Date): { [key: string]: Pla
  * @param date Date to calculate for
  * @returns Object with north node position and retrograde status
  */
-export function calculateLunarNodes(_date: Date = new Date()): {;
+export function calculateLunarNodes(_date: Date = new Date()): {
   NorthNode: number,
   isRetrograde: boolean
 } {
@@ -469,7 +469,7 @@ export function getLongitudeToZodiacPosition(_longitude: number): { sign: string
   // Calculate zodiac sign index (0-11)
   const signIndex = Math.floor(normalizedLongitude / 30)
 
-  // Calculate degree within sign (0-29.999...);
+  // Calculate degree within sign (0-29.999...)
   const degree = normalizedLongitude % 30;
 
   // Get sign name
@@ -492,7 +492,7 @@ function isPlanetRetrograde(body: Astronomy.Body, _date: Date): boolean {
     }
 
     // Create proper AstroTime objects
-    const astroTime = new Astronomy.AstroTime(date);
+    const astroTime = new Astronomy.AstroTime(date)
     const prevTime = new Astronomy.AstroTime(new Date(date.getTime() - 2 * 24 * 60 * 60 * 1000)); // 2 days before
 
     // Check if position is decreasing (retrograde)

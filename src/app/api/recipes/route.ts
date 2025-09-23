@@ -20,7 +20,7 @@ const fallbackRecipe: Recipe = {
     Fire: 0.25,
     Earth: 0.25,
     Air: 0.25,
-    Water: 0.25
+    Water: 0.25,
   },
   season: ['all'],
   mealType: ['lunch', 'dinner'],
@@ -88,7 +88,7 @@ export async function POST(request: Request) {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
+        Air: 0.25,
       },
       cuisine: body.cuisine || 'international',
       createdAt: new Date().toISOString(),
@@ -97,7 +97,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       recipe: newRecipe,
-      message: 'Recipe added successfully'
+      message: 'Recipe added successfully',
     });
   } catch (error) {
     _logger.error('Recipe submission error: ', error);

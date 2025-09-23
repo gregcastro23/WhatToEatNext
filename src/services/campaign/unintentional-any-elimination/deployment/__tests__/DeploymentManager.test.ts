@@ -43,7 +43,7 @@ describe('DeploymentManager', () => {
             args: ['Hello World'],
             timeout: 5000,
             retries: 1,
-            critical: false
+            critical: false,
           }
         ],
         rollbackTasks: [],
@@ -79,7 +79,7 @@ describe('DeploymentManager', () => {
             args: [],
             timeout: 5000,
             retries: 1,
-            critical: true
+            critical: true,
           }
         ],
         rollbackTasks: [],
@@ -118,7 +118,7 @@ describe('DeploymentManager', () => {
             args: [],
             timeout: 5000,
             retries: 1,
-            critical: true
+            critical: true,
           }
         ],
         rollbackTasks: [
@@ -129,7 +129,7 @@ describe('DeploymentManager', () => {
             args: [testFile],
             timeout: 5000,
             retries: 1,
-            critical: false
+            critical: false,
           }
         ],
         validationChecks: [],
@@ -161,7 +161,7 @@ describe('DeploymentManager', () => {
             args: ['success'],
             timeout: 5000,
             retries: 1,
-            critical: false
+            critical: false,
           }
           {
             id: 'failing-task',
@@ -179,7 +179,7 @@ describe('DeploymentManager', () => {
             args: ['another success'],
             timeout: 5000,
             retries: 1,
-            critical: false
+            critical: false,
           }
         ],
         rollbackTasks: [],
@@ -218,7 +218,7 @@ describe('DeploymentManager', () => {
             command: 'echo',
             args: ['validation success'],
             timeout: 5000,
-            expectedExitCode: 0
+            expectedExitCode: 0,
           }
         ],
         successCriteria: { buildSuccess: false,
@@ -381,7 +381,7 @@ describe('DeploymentManager', () => {
               args: ['phase 1'],
               timeout: 5000,
               retries: 1,
-              critical: false
+              critical: false,
             }
           ],
           rollbackTasks: [],
@@ -406,7 +406,7 @@ describe('DeploymentManager', () => {
               args: ['phase 2'],
               timeout: 5000,
               retries: 1,
-              critical: false
+              critical: false,
             }
           ],
           rollbackTasks: [],
@@ -444,7 +444,7 @@ describe('DeploymentManager', () => {
               args: ['success'],
               timeout: 5000,
               retries: 1,
-              critical: false
+              critical: false,
             }
           ],
           rollbackTasks: [],
@@ -469,7 +469,7 @@ describe('DeploymentManager', () => {
               args: [],
               timeout: 5000,
               retries: 1,
-              critical: true
+              critical: true,
             }
           ],
           rollbackTasks: [],
@@ -555,7 +555,7 @@ describe('DeploymentManager', () => {
             args: ['logging test'],
             timeout: 5000,
             retries: 1,
-            critical: false
+            critical: false,
           }
         ],
         rollbackTasks: [],

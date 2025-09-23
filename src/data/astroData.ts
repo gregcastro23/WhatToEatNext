@@ -1,7 +1,7 @@
 import { planetInfo as planets } from './planets/index';
 
 // Astrological signs data with consistent lowercase for all signs
-export const signs = {;
+export const signs = {
   0: 'aries',
   1: 'taurus',
   2: 'gemini',
@@ -23,13 +23,13 @@ export const planetInfo = planets;
 export const signInfo = {
   aries: {;
     Element: 'Fire',
-    Start: { Day: 21, Month: 3, Year: 2022 }
+    Start: { Day: 21, Month: 3, Year: 2022 },
     End: { Day: 19, Month: 4, Year: 2022 }
     'Major Tarot Card': 'The Emperor',
     'Minor Tarot Cards': {
       '1st Decan': '2 of Wands',
       '2nd Decan': '3 of Wands',
-      '3rd Decan': '4 of Wands'
+      '3rd Decan': '4 of Wands',
     }
     'Decan Effects': {
       '1st Decan': ['Mars'],
@@ -47,13 +47,13 @@ export const signInfo = {
     Modality: 'Cardinal' },
         taurus: {
     Element: 'Earth',
-    Start: { Day: 20, Month: 4, Year: 2022 }
+    Start: { Day: 20, Month: 4, Year: 2022 },
     End: { Day: 20, Month: 5, Year: 2022 }
     'Major Tarot Card': 'The Hierophant',
     'Minor Tarot Cards': {
       '1st Decan': '5 of Pentacles',
       '2nd Decan': '6 of Pentacles',
-      '3rd Decan': '7 of Pentacles'
+      '3rd Decan': '7 of Pentacles',
     }
     'Decan Effects': {
       '1st Decan': ['Mercury'],
@@ -71,13 +71,13 @@ export const signInfo = {
     Modality: 'Fixed' },
         gemini: {
     Element: 'Air',
-    Start: { Day: 21, Month: 5, Year: 2022 }
+    Start: { Day: 21, Month: 5, Year: 2022 },
     End: { Day: 20, Month: 6, Year: 2022 }
     'Major Tarot Card': 'The Lovers',
     'Minor Tarot Cards': {
       '1st Decan': '8 of Swords',
       '2nd Decan': '9 of Swords',
-      '3rd Decan': '10 of Swords'
+      '3rd Decan': '10 of Swords',
     }
     'Decan Effects': {
       '1st Decan': ['Jupiter'],
@@ -95,13 +95,13 @@ export const signInfo = {
     Modality: 'Mutable' },
         cancer: {
     Element: 'Water',
-    Start: { Day: 21, Month: 6, Year: 2022 }
+    Start: { Day: 21, Month: 6, Year: 2022 },
     End: { Day: 22, Month: 7, Year: 2022 }
     'Major Tarot Card': 'The Chariot',
     'Minor Tarot Cards': {
       '1st Decan': '2 of Cups',
       '2nd Decan': '3 of Cups',
-      '3rd Decan': '4 of Cups'
+      '3rd Decan': '4 of Cups',
     }
     'Decan Effects': {
       '1st Decan': ['Venus'],
@@ -119,13 +119,13 @@ export const signInfo = {
     Modality: 'Cardinal' },
         leo: {
     Element: 'Fire',
-    Start: { Day: 23, Month: 7, Year: 2022 }
+    Start: { Day: 23, Month: 7, Year: 2022 },
     End: { Day: 22, Month: 8, Year: 2022 }
     'Major Tarot Card': 'Strength',
     'Minor Tarot Cards': {
       '1st Decan': '5 of Wands',
       '2nd Decan': '6 of Wands',
-      '3rd Decan': '7 of Wands'
+      '3rd Decan': '7 of Wands',
     }
     'Decan Effects': {
       '1st Decan': ['Saturn'],
@@ -143,13 +143,13 @@ export const signInfo = {
     Modality: 'Fixed' },
         virgo: {
     Element: 'Earth',
-    Start: { Day: 23, Month: 8, Year: 2022 }
+    Start: { Day: 23, Month: 8, Year: 2022 },
     End: { Day: 22, Month: 9, Year: 2022 }
     'Major Tarot Card': 'The Hermit',
     'Minor Tarot Cards': {
       '1st Decan': '8 of Pentacles',
       '2nd Decan': '9 of Pentacles',
-      '3rd Decan': '10 of Pentacles'
+      '3rd Decan': '10 of Pentacles',
     }
     'Decan Effects': {
       '1st Decan': ['Sun'],
@@ -167,13 +167,13 @@ export const signInfo = {
     Modality: 'Mutable' },
         libra: {
     Element: 'Air',
-    Start: { Day: 23, Month: 9, Year: 2022 }
+    Start: { Day: 23, Month: 9, Year: 2022 },
     End: { Day: 22, Month: 10, Year: 2022 }
     'Major Tarot Card': 'Justice',
     'Minor Tarot Cards': {
       '1st Decan': '2 of Swords',
       '2nd Decan': '3 of Swords',
-      '3rd Decan': '4 of Swords'
+      '3rd Decan': '4 of Swords',
     }
     'Decan Effects': {
       '1st Decan': ['Moon'],
@@ -191,13 +191,13 @@ export const signInfo = {
     Modality: 'Cardinal' },
         scorpio: {
     Element: 'Water',
-    Start: { Day: 23, Month: 10, Year: 2022 }
+    Start: { Day: 23, Month: 10, Year: 2022 },
     End: { Day: 21, Month: 11, Year: 2022 }
     'Major Tarot Card': 'Death',
     'Minor Tarot Cards': {
       '1st Decan': '5 of Cups',
       '2nd Decan': '6 of Cups',
-      '3rd Decan': '7 of Cups'
+      '3rd Decan': '7 of Cups',
     }
     'Decan Effects': {
       '1st Decan': ['Mars'],
@@ -215,13 +215,13 @@ export const signInfo = {
     Modality: 'Fixed' },
         sagittarius: {
     Element: 'Fire',
-    Start: { Day: 22, Month: 11, Year: 2022 }
+    Start: { Day: 22, Month: 11, Year: 2022 },
     End: { Day: 21, Month: 12, Year: 2022 }
     'Major Tarot Card': 'Temperance',
     'Minor Tarot Cards': {
       '1st Decan': '8 of Wands',
       '2nd Decan': '9 of Wands',
-      '3rd Decan': '10 of Wands'
+      '3rd Decan': '10 of Wands',
     }
     'Decan Effects': {
       '1st Decan': ['Mercury'],
@@ -239,13 +239,13 @@ export const signInfo = {
     Modality: 'Mutable' },
         capricorn: {
     Element: 'Earth',
-    Start: { Day: 22, Month: 12, Year: 2022 }
+    Start: { Day: 22, Month: 12, Year: 2022 },
     End: { Day: 19, Month: 1, Year: 2023 }
     'Major Tarot Card': 'The Devil',
     'Minor Tarot Cards': {
       '1st Decan': '2 of Pentacles',
       '2nd Decan': '3 of Pentacles',
-      '3rd Decan': '4 of Pentacles'
+      '3rd Decan': '4 of Pentacles',
     }
     'Decan Effects': {
       '1st Decan': ['Jupiter'],
@@ -263,13 +263,13 @@ export const signInfo = {
     Modality: 'Cardinal' },
         aquarius: {
     Element: 'Air',
-    Start: { Day: 20, Month: 1, Year: 2023 }
+    Start: { Day: 20, Month: 1, Year: 2023 },
     End: { Day: 18, Month: 2, Year: 2023 }
     'Major Tarot Card': 'The Star',
     'Minor Tarot Cards': {
       '1st Decan': '5 of Swords',
       '2nd Decan': '6 of Swords',
-      '3rd Decan': '7 of Swords'
+      '3rd Decan': '7 of Swords',
     }
     'Decan Effects': {
       '1st Decan': ['Saturn'],
@@ -287,13 +287,13 @@ export const signInfo = {
     Modality: 'Fixed' },
         pisces: {
     Element: 'Water',
-    Start: { Day: 19, Month: 2, Year: 2023 }
+    Start: { Day: 19, Month: 2, Year: 2023 },
     End: { Day: 20, Month: 3, Year: 2023 }
     'Major Tarot Card': 'The Moon',
     'Minor Tarot Cards': {
       '1st Decan': '8 of Cups',
       '2nd Decan': '9 of Cups',
-      '3rd Decan': '10 of Cups'
+      '3rd Decan': '10 of Cups',
     }
     'Decan Effects': {
       '1st Decan': ['Saturn'],
@@ -308,7 +308,7 @@ export const signInfo = {
       Saturn: [2730]
     },
     Ruler: 'Jupiter',
-    Modality: 'Mutable'
+    Modality: 'Mutable',
   }
 }
 

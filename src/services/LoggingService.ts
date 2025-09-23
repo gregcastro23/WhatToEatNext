@@ -102,7 +102,7 @@ class LoggingService {
       return
     }
 
-    const logEntry: LogEntry = {;
+    const logEntry: LogEntry = {
       timestamp: new Date(),
       level,
       message,

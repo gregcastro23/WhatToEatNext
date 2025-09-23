@@ -69,11 +69,11 @@ export function generateCuisineRecommendation(
 
 export function getCuisineElementalProfile(_cuisine: string): ElementalProperties {
   const profiles: Record<string, ElementalProperties> = {
-    Mexican: { Fire: 0.8, Water: 0.3, Earth: 0.5, Air: 0.4 }
+    Mexican: { Fire: 0.8, Water: 0.3, Earth: 0.5, Air: 0.4 },
     Italian: { Fire: 0.4, Water: 0.4, Earth: 0.8, Air: 0.4 }
-    Mediterranean: { Fire: 0.3, Water: 0.8, Earth: 0.5, Air: 0.6 }
+    Mediterranean: { Fire: 0.3, Water: 0.8, Earth: 0.5, Air: 0.6 },
     Asian: { Fire: 0.5, Water: 0.6, Earth: 0.4, Air: 0.8 }
-    _Indian: { Fire: 0.9, Water: 0.3, Earth: 0.6, Air: 0.5 }
+    _Indian: { Fire: 0.9, Water: 0.3, Earth: 0.6, Air: 0.5 },
     _Thai: { Fire: 0.7, Water: 0.7, Earth: 0.4, Air: 0.6 }
   }
 
@@ -86,7 +86,7 @@ export function getMatchScoreClass(score: number): string {
   if (score >= 0.4) return 'match-fair',
   return 'match-poor' },
         export function renderScoreBadge(score: number): string {
-  const percentage = Math.round(score * 100);
+  const percentage = Math.round(score * 100)
   if (percentage >= 80) return `🌟 ${percentage}%`,
   if (percentage >= 60) return `⭐ ${percentage}%`,
   if (percentage >= 40) return `⚡ ${percentage}%`,
@@ -96,22 +96,22 @@ export function getMatchScoreClass(score: number): string {
 export function calculateElementalProfileFromZodiac(_zodiacSign: string): ElementalProperties {
   const zodiacProfiles: Record<string, ElementalProperties> = {
     // Fire signs
-    _aries: { Fire: 0.8, Water: 0.2, Earth: 0.3, Air: 0.4 }
+    _aries: { Fire: 0.8, Water: 0.2, Earth: 0.3, Air: 0.4 },
     _leo: { Fire: 0.9, Water: 0.3, Earth: 0.2, Air: 0.5 }
     _sagittarius: { Fire: 0.7, Water: 0.4, Earth: 0.3, Air: 0.6 }
 
     // Earth signs
-    _taurus: { Fire: 0.3, Water: 0.4, Earth: 0.8, Air: 0.2 }
+    _taurus: { Fire: 0.3, Water: 0.4, Earth: 0.8, Air: 0.2 },
     _virgo: { Fire: 0.2, Water: 0.5, Earth: 0.9, Air: 0.3 }
     _capricorn: { Fire: 0.4, Water: 0.3, Earth: 0.8, Air: 0.2 }
 
     // Air signs
-    _gemini: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.8 }
+    _gemini: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.8 },
     _libra: { Fire: 0.3, Water: 0.5, Earth: 0.3, Air: 0.7 }
     _aquarius: { Fire: 0.5, Water: 0.2, Earth: 0.3, Air: 0.9 }
 
     // Water signs
-    _cancer: { Fire: 0.2, Water: 0.8, Earth: 0.4, Air: 0.3 }
+    _cancer: { Fire: 0.2, Water: 0.8, Earth: 0.4, Air: 0.3 },
     _scorpio: { Fire: 0.6, Water: 0.9, Earth: 0.3, Air: 0.2 }
     _pisces: { Fire: 0.3, Water: 0.8, Earth: 0.2, Air: 0.4 }
   }
@@ -127,11 +127,11 @@ export function calculateElementalContributionsFromPlanets(
 
   // Basic planetary element contributions
   const planetaryElements: Record<string, ElementalProperties> = {
-    _sun: { Fire: 1.0, Water: 0, Earth: 0, Air: 0 }
+    _sun: { Fire: 1.0, Water: 0, Earth: 0, Air: 0 },
     _moon: { Fire: 0, Water: 1.0, Earth: 0, Air: 0 }
-    _mercury: { Fire: 0, Water: 0, Earth: 0, Air: 1.0 }
+    _mercury: { Fire: 0, Water: 0, Earth: 0, Air: 1.0 },
     _venus: { Fire: 0, Water: 0.7, Earth: 0.3, Air: 0 }
-    _mars: { Fire: 1.0, Water: 0, Earth: 0, Air: 0 }
+    _mars: { Fire: 1.0, Water: 0, Earth: 0, Air: 0 },
     _jupiter: { Fire: 0.5, Water: 0, Earth: 0, Air: 0.5 }
     _saturn: { Fire: 0, Water: 0, Earth: 1.0, Air: 0 }
   }

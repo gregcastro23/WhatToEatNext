@@ -98,7 +98,7 @@ export class EmergencyTypeScriptCampaign {
       batchSize: 10, // Reduced for maximum safety,
       buildValidationInterval: 3, // Validate every 3 files,
       maxBatches: 15, // Limit to prevent runaway execution,
-      stopOnBuildFailure: true
+      stopOnBuildFailure: true,
     })
 
     // Report batch results
@@ -142,7 +142,7 @@ export class EmergencyTypeScriptCampaign {
       const result = await this.errorFixer.executeEnhancedFixer({;
         maxFiles: 8, // Conservative batch size,
         autoFix: true,
-        validateSafety: true
+        validateSafety: true,
       })
 
       // // // _logger.info(`Files processed: ${result.filesProcessed}`)
@@ -212,7 +212,7 @@ export class EmergencyTypeScriptCampaign {
    * Create emergency campaign configuration
    */
   private createEmergencyConfig(): CampaignConfig {
-    const emergencyPhase: CampaignPhase = {;
+    const emergencyPhase: CampaignPhase = {
       id: 'emergency-typescript-elimination',
       name: 'Emergency TypeScript Error Elimination',
       description: 'Reduce TypeScript errors from 1,112 to <100 with maximum safety',
@@ -222,7 +222,7 @@ export class EmergencyTypeScriptCampaign {
           parameters: {
             maxFiles: 10,
             autoFix: true,
-            validateSafety: true
+            validateSafety: true,
           },
           batchSize: 10,
           safetyLevel: SafetyLevel.MAXIMUM
@@ -242,19 +242,19 @@ export class EmergencyTypeScriptCampaign {
         testValidationFrequency: 10,
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
-        stashRetentionDays: 7
+        stashRetentionDays: 7,
       },
       progressTargets: {
         typeScriptErrors: 100,
         lintingWarnings: 4506, // Keep current,
         buildTime: 10,
-        enterpriseSystems: 0
+        enterpriseSystems: 0,
       },
       toolConfiguration: {
         enhancedErrorFixer: 'src/services/campaign/EnhancedErrorFixerIntegration.ts',
         explicitAnyFixer: '',
         unusedVariablesFixer: '',
-        consoleStatementFixer: ''
+        consoleStatementFixer: '',
       }
     }
   }
@@ -266,7 +266,7 @@ export class EmergencyTypeScriptCampaign {
     try {
       const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS'', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
       return parseInt(output.trim()) || 0,
     } catch (error) {
@@ -281,7 +281,7 @@ export class EmergencyTypeScriptCampaign {
     try {
       execSync('yarn build', {
         stdio: 'pipe',
-        timeout: 120000
+        timeout: 120000,
       })
       return true,
     } catch (error) {

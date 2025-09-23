@@ -41,21 +41,21 @@ describe('Build Performance Tests', () => {
           tools: [
             {
               scriptPath: 'scripts/performance/test-script.js',
-              parameters: { maxFile, s: 50 }
+              parameters: { maxFile, s: 50 },
               batchSize: 50,
               safetyLevel: SafetyLevel.MEDIUM
             }
           ],
-          successCriteria: { buildTim, e: 10 }
+          successCriteria: { buildTim, e: 10 },
           safetyCheckpoints: []
         }
       ],
       safetySettings,
-      progressTargets: { typeScriptError, s: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 }
+      progressTargets: { typeScriptError, s: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 },
       toolConfiguration: { enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
       }
     }
 
@@ -342,7 +342,7 @@ describe('Build Performance Tests', () => {
       let metricsCallCount: any = 0;
       jestspyOn(progressTracker, 'getProgressMetrics').mockImplementation(async () => {
         metricsCallCount++,
-        const metrics: ProgressMetrics = { typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 }
+        const metrics: ProgressMetrics = { typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },
           lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 }
           buildPerformance: { currentTime: Math.max(712 - metricsCallCount), // Improving build time,
             targetTime: 10,
@@ -502,7 +502,7 @@ describe('Build Performance Tests', () => {
 
     it('should maintain performance with concurrent operations', async () => {
       // Run multiple progress tracking operations concurrently
-      const promises: any = [;
+      const promises: any = [
         progressTracker.getTypeScriptErrorCount()
         progressTracker.getLintingWarningCount()
         progressTracker.getEnterpriseSystemCount()
@@ -524,9 +524,9 @@ describe('Build Performance Tests', () => {
       const largeMetricsHistory: ProgressMetrics[] = []
 
       jestspyOn(progressTracker, 'getProgressMetrics').mockImplementation(async () => {
-        const metrics: ProgressMetrics = { typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 }
+        const metrics: ProgressMetrics = { typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },
           lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 }
-          buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 }
+          buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
           enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
         }
         largeMetricsHistory.push(metrics)

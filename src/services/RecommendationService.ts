@@ -41,7 +41,7 @@ interface RecommendationCriteria {
  * Interface for transformation item
  */
 interface TransformedItem extends AlchemicalItem {
-  elementalProperties: { Fire: number, Water: number, Earth: number, Air: number }
+  elementalProperties: { Fire: number, Water: number, Earth: number, Air: number },
   id: string
 }
 
@@ -117,7 +117,7 @@ export class RecommendationService {
     currentZodiac: string | null = null,
     lunarPhase: LunarPhaseWithSpaces | null = null,,
     tarotElementBoosts?: Record<ElementalCharacter, number>,
-    tarotPlanetaryBoosts?: { [key: string]: number }
+    tarotPlanetaryBoosts?: { [key: string]: number },
     aspects: PlanetaryAspect[] = []): RecommendationService {
     // Normalize planetary positions for robust, type-safe access
     this.planetaryPositions = normalizePlanetaryPositions(planetaryPositions);
@@ -275,7 +275,7 @@ export class RecommendationService {
           Fire: 0,
           Water: 0,
           Earth: 0,
-          Air: 0
+          Air: 0,
         }
 
         // Apply boosts to each element
@@ -393,7 +393,7 @@ export class RecommendationService {
     criteria: RecommendationCriteria = {}): Promise<ScoredRecipe[]> {
     try {
       if (!Array.isArray(recipes) || (recipes || []).length === 0) {
-        throw new (createError as unknown as new (;
+        throw new (createError as unknown as new (
           message: string,
           details?: Record<string, unknown>,
         ) => Error)('INVALID_REQUEST', { context: 'Empty recipe list' })
@@ -442,7 +442,7 @@ export class RecommendationService {
 
     // Enhanced alchemical score calculation using the current state and location
     if (criteria.astrologicalState && criteria.currentLocation) {
-      const alchemicalScore = this.calculateEnhancedAlchemicalScore(;
+      const alchemicalScore = this.calculateEnhancedAlchemicalScore(
         recipe,
         criteria.astrologicalState
         criteria.currentLocation
@@ -451,7 +451,7 @@ export class RecommendationService {
     } else if (criteria.astrologicalState) {
       // Fallback without location
       const fallbackLocation = { lat: 40.7128, lng: -74.006 }; // Default to NYC
-      const alchemicalScore = this.calculateEnhancedAlchemicalScore(;
+      const alchemicalScore = this.calculateEnhancedAlchemicalScore(
         recipe,
         criteria.astrologicalState
         fallbackLocation,
@@ -464,7 +464,7 @@ export class RecommendationService {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
+        Air: 0.25,
       }
       const elementalMatch = this.calculateElementalMatch(recipeElements, currentElements)
       score += elementalMatch * 0.3; // 30% weight for basic elemental matching
@@ -526,7 +526,7 @@ export class RecommendationService {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
+        Air: 0.25,
       }
 
       // Get current moment's elemental influence
@@ -559,7 +559,7 @@ export class RecommendationService {
             Spirit: 0.25,
             Essence: 0.25,
             Matter: 0.25,
-            Substance: 0.25
+            Substance: 0.25,
           },
           elementalValues: currentMomentElements,
           thermodynamics: {
@@ -568,7 +568,7 @@ export class RecommendationService {
             reactivity: 0.5,
             gregsEnergy: 0.5,
             kalchm: 1.0,
-            monicaConstant: 1.0
+            monicaConstant: 1.0,
           },
           dominantElement: 'Fire' as const,
           dominantProperty: 'Spirit' as const,
@@ -609,13 +609,13 @@ export class RecommendationService {
     currentMomentElements: ElementalProperties,
   ): number {
     // Calculate absolute elemental similarity
-    const absoluteMatch = this.calculateAbsoluteElementalMatch(;
+    const absoluteMatch = this.calculateAbsoluteElementalMatch(
       recipeElements,
       currentMomentElements,
     )
 
     // Calculate relative elemental similarity
-    const relativeMatch = this.calculateRelativeElementalMatch(;
+    const relativeMatch = this.calculateRelativeElementalMatch(
       recipeElements,
       currentMomentElements,
     )
@@ -652,7 +652,7 @@ export class RecommendationService {
       totalWeight += weight,
     }
 
-    return totalWeight > 0 ? totalSimilarity / totalWeight : 0.5
+    return totalWeight > 0 ? totalSimilarity / totalWeight : 0.5,
   }
 
   /**
@@ -670,7 +670,7 @@ export class RecommendationService {
       // Calculate relative, values: element / sum of other three
       const otherElements = elements.filter(e => e !== element);
       const recipeOthersSum = otherElements.reduce((sume) => sum + (recipeElements[e] || 0), 0)
-      const currentMomentOthersSum = otherElements.reduce(;
+      const currentMomentOthersSum = otherElements.reduce(
         (sume) => sum + (currentMomentElements[e] || 0),
         0,
       )
@@ -690,7 +690,7 @@ export class RecommendationService {
       count++
     }
 
-    return count > 0 ? totalSimilarity / count : 0.5
+    return count > 0 ? totalSimilarity / count : 0.5,
   }
 
   /**
@@ -710,7 +710,7 @@ export class RecommendationService {
     }
 
     // Check elemental harmony (elements that work well together)
-    const elementalHarmony = {;
+    const elementalHarmony = {
       Fire: ['Air', 'Fire'], // Fire enhances with Air,
       Water: ['Earth', 'Water'], // Water nourishes Earth,
       Earth: ['Water', 'Earth'], // Earth grounds Water,
@@ -718,7 +718,7 @@ export class RecommendationService {
     }
 
     const isHarmonious = elementalHarmony[recipeDominant]?.includes(currentMomentDominant) || false;
-    return isHarmonious ? 0.8 : 0.4
+    return isHarmonious ? 0.8 : 0.4,
   }
 
   /**
@@ -819,13 +819,13 @@ export class RecommendationService {
         'Season to taste with herbs and spices.'
       ],
       cookingMethod: ['balanced', 'flexible'],
-      elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+      elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       score: 0.5,
       mealType: 'any',
       season: 'any',
       difficulty: 'medium',
       preparationTime: 30,
-      servings: 2
+      servings: 2,
     }
   }
 

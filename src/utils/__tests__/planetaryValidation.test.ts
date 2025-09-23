@@ -33,17 +33,17 @@ describe('Planetary Data Validation', () => {
     it('should pass validation with valid planetary data', async () => {
       // Mock valid planetary positions
       mockGetReliablePlanetaryPositions.mockResolvedValue({
-        sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false }
+        sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
         moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false }
-        mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true }
+        mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true },
         venus: { sign: 'pisces', degree: 29.08, exactLongitude: 359.08, isRetrograde: true }
-        mars: { sign: 'cancer', degree: 22.63, exactLongitude: 112.63, isRetrograde: false }
+        mars: { sign: 'cancer', degree: 22.63, exactLongitude: 112.63, isRetrograde: false },
         jupiter: { sign: 'gemini', degree: 15.52, exactLongitude: 75.52, isRetrograde: false }
-        saturn: { sign: 'pisces', degree: 24.12, exactLongitude: 354.12, isRetrograde: false }
+        saturn: { sign: 'pisces', degree: 24.12, exactLongitude: 354.12, isRetrograde: false },
         uranus: { sign: 'taurus', degree: 24.62, exactLongitude: 54.62, isRetrograde: false }
-        neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false }
+        neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false },
         pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false }
-        northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true }
+        northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true },
         southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true }
       })
 
@@ -88,50 +88,50 @@ describe('Planetary Data Validation', () => {
       // Should still complete validation even with API failure
       expect(result).toBeDefined().
       expect(resulttimestamp).toBeInstanceOf(Date)
-      expect(result.errors.some(e => e.type === 'API_TIMEOUT')).toBe(true);
+      expect(result.errors.some(e => e.type === 'API_TIMEOUT')).toBe(true)
     })
 
     it('should validate retrograde status correctly', async () => {
       // Mock positions with retrograde data
       mockGetReliablePlanetaryPositions.mockResolvedValue({
-        mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true }
+        mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true },
         venus: { sign: 'pisces', degree: 29.08, exactLongitude: 359.08, isRetrograde: true }
-        mars: { sign: 'cancer', degree: 22.63, exactLongitude: 112.63, isRetrograde: false }
+        mars: { sign: 'cancer', degree: 22.63, exactLongitude: 112.63, isRetrograde: false },
         jupiter: { sign: 'gemini', degree: 15.52, exactLongitude: 75.52, isRetrograde: false }
-        saturn: { sign: 'pisces', degree: 24.12, exactLongitude: 354.12, isRetrograde: false }
+        saturn: { sign: 'pisces', degree: 24.12, exactLongitude: 354.12, isRetrograde: false },
         uranus: { sign: 'taurus', degree: 24.62, exactLongitude: 54.62, isRetrograde: false }
-        neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false }
+        neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false },
         pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false }
-        northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true }
+        northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true },
         southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true }
       })
 
       const result: any = validatePlanetaryData()
 
       // Should pass validation with proper retrograde data
-      expect(result.errors.filter(e => e.message.includes('retrograde')).length).toBe(0);
+      expect(result.errors.filter(e => e.message.includes('retrograde')).length).toBe(0)
     })
 
     it('should validate lunar nodes are opposite', async () => {
       // Mock positions with incorrect lunar nodes (not opposite)
       mockGetReliablePlanetaryPositions.mockResolvedValue({
-        sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false }
+        sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
         moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false }
-        mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true }
+        mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true },
         venus: { sign: 'pisces', degree: 29.08, exactLongitude: 359.08, isRetrograde: true }
-        mars: { sign: 'cancer', degree: 22.63, exactLongitude: 112.63, isRetrograde: false }
+        mars: { sign: 'cancer', degree: 22.63, exactLongitude: 112.63, isRetrograde: false },
         jupiter: { sign: 'gemini', degree: 15.52, exactLongitude: 75.52, isRetrograde: false }
-        saturn: { sign: 'pisces', degree: 24.12, exactLongitude: 354.12, isRetrograde: false }
+        saturn: { sign: 'pisces', degree: 24.12, exactLongitude: 354.12, isRetrograde: false },
         uranus: { sign: 'taurus', degree: 24.62, exactLongitude: 54.62, isRetrograde: false }
-        neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false }
+        neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false },
         pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false }
-        northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true }
+        northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true },
         southNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true }, // Same position as north node - should fail
       })
 
       const result: any = validatePlanetaryData()
       // Should detect that nodes are not opposite (either in errors or test failures)
-      const hasOppositeError: any = result.errors.some(;
+      const hasOppositeError: any = result.errors.some(
         e => e.message.includes('opposite') || e.message.includes('Lunar Node') || e.message.includes('opposition'),,
       )
       expect(hasOppositeError).toBe(true).
@@ -233,12 +233,12 @@ describe('Planetary Data Validation', () => {
   describe('Performance', () => {
     it('should complete validation within reasonable time', async () => {
       mockGetReliablePlanetaryPositions.mockResolvedValue({
-        sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false }
+        sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
         moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false }
       })
 
       const startTime: any = Date.now()
-      const result: any = validatePlanetaryData();
+      const result: any = validatePlanetaryData()
       const duration: any = Date.now() - startTime;
 
       expect(duration).toBeLessThan(30000). // Should complete within 30 seconds
@@ -270,7 +270,7 @@ describe('Planetary Data Validation', () => {
       const result: any = validatePlanetaryData()
 
       expect(result).toBeDefined().
-      expect(resulterrors.length).toBeGreaterThan(0);
+      expect(resulterrors.length).toBeGreaterThan(0)
     })
   })
 })

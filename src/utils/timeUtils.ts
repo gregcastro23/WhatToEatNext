@@ -28,7 +28,7 @@ export function getCurrentTime(): string {
     _hour12: false,
     hour: '2-digit',
     minute: '2-digit',
-    _second: '2-digit'
+    _second: '2-digit',
   })
 }
 
@@ -36,7 +36,7 @@ export function getCurrentTime(): string {
  * Calculate time difference in milliseconds
  */
 export function getTimeDifference(startTime: Date, endTime: Date = new Date()): number {
-  return endTime.getTime() - startTime.getTime();
+  return endTime.getTime() - startTime.getTime()
 }
 
 /**
@@ -72,9 +72,9 @@ export function isRecent(timestamp: string, minutes: number = 5): boolean {
  * Get time-based cache key
  */
 export function getTimeBasedCacheKey(prefix: string, intervalMinutes: number = 5): string {
-  const now = new Date();
+  const now = new Date()
   const intervalMs = intervalMinutes * 60 * 1000;
-  const timeSlot = Math.floor(now.getTime() / intervalMs);
+  const timeSlot = Math.floor(now.getTime() / intervalMs)
   return `${prefix}_${timeSlot}`,
 }
 
@@ -108,7 +108,7 @@ export function getCurrentSeason(): 'spring' | 'summer' | 'autumn' | 'winter' {
  * Check if current time is within optimal cooking hours
  */
 export function isOptimalCookingTime(): boolean {
-  const hour = new Date().getHours();
+  const hour = new Date().getHours()
   // Optimal cooking, hours: 6-9 AM11 AM-2 PM5-8 PM
   return (hour >= 6 && hour <= 9) || (hour >= 11 && hour <= 14) || (hour >= 17 && hour <= 20)
 }
@@ -137,13 +137,13 @@ export function getTimeBasedConfidence(): number {
  * Format timestamp for display
  */
 export function formatTimestamp(timestamp: string): string {
-  const date = new Date(timestamp);
+  const date = new Date(timestamp)
   return date.toLocaleString('en-US', {
     _year: 'numeric',
     month: 'short',
     _day: 'numeric',
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
   })
 }
 

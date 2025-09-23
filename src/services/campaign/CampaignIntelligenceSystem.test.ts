@@ -20,7 +20,7 @@ import { ErrorCategory } from './TypeScriptErrorAnalyzer';
 describe('Campaign Intelligence System', () => {
   describe('ERROR_PATTERN_INTELLIGENCE', () => {
     it('should analyze error patterns correctly', () => {
-      const sampleErrors: any = [;
+      const sampleErrors: any = [
         { code: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 20 }
         { code: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 18 }
         { code: 'TS2345', category: ErrorCategory.TS2345_ARGUMENT_MISMATCH, priority: 15 }
@@ -46,7 +46,7 @@ describe('Campaign Intelligence System', () => {
     })
 
     it('should generate error intelligence report', () => {
-      const patterns: ErrorPatternIntelligence = { patternRecognition: { TS2352_TYPE_CONVERSION: 10, TS2345_ARGUMENT_MISMATCH: 5 }
+      const patterns: ErrorPatternIntelligence = { patternRecognition: { TS2352_TYPE_CONVERSION: 10, TS2345_ARGUMENT_MISMATCH: 5 },
         fixSuccessRates: { TS2352_TYPE_CONVERSIO, N: 0.92, TS2345_ARGUMENT_MISMATCH: 0.87 }
         errorCategoryTrends: {
           [ErrorCategory.TS2352_TYPE_CONVERSION]: 10,
@@ -54,12 +54,12 @@ describe('Campaign Intelligence System', () => {
           [ErrorCategory.TS2698_SPREAD_TYPE]: 0,
           [ErrorCategory.TS2304_CANNOT_FIND_NAME]: 0,
           [ErrorCategory.TS2362_ARITHMETIC_OPERATION]: 0,
-          [ErrorCategory.OTHER]: 0
+          [ErrorCategory.OTHER]: 0,
         },
-        priorityOptimization: { TS2352_TYPE_CONVERSIO, N: 9.2, TS2345_ARGUMENT_MISMATCH: 4.35 }
+        priorityOptimization: { TS2352_TYPE_CONVERSIO, N: 9.2, TS2345_ARGUMENT_MISMATCH: 4.35 },
         predictiveAnalytics: { errorReductionPotential: 0.85,
           campaignDurationEstimate: 30,
-          buildStabilityPrediction: 0.94
+          buildStabilityPrediction: 0.94,
         }
       }
 
@@ -104,10 +104,10 @@ describe('Campaign Intelligence System', () => {
         reductionAchieved: 800,
         reductionPercentage: 80,
         campaignTarget: 75.5,
-        isTargetMet: true
+        isTargetMet: true,
       }
 
-      const progress: any = CAMPAIGN_PROGRESS_INTELLIGENCE.analyzeCampaignProgress(;
+      const progress: any = CAMPAIGN_PROGRESS_INTELLIGENCE.analyzeCampaignProgress(
         2420,
         2500,
         sampleFixerResults,
@@ -139,7 +139,7 @@ describe('Campaign Intelligence System', () => {
         qualityMetrics: { codeHealthScore: 0.85,
           maintainabilityIndex: 0.8,
           technicalDebtRatio: 0.15,
-          buildReliability: 0.95
+          buildReliability: 0.95,
         },
         strategicInsights: { recommendedActions: ['Increase batch size for higher throughput'],
           riskAssessment: ['Build stability risk detected'],
@@ -173,17 +173,17 @@ describe('Campaign Intelligence System', () => {
 
       const mockFixerIntegration: any = {}
 
-      const mockAnyElimination = {;
+      const mockAnyElimination = {
         showCampaignProgress: jest.fn().mockResolvedValue({ totalExplicitAnyStart: 1000,
           totalExplicitAnyRemaining: 250,
           reductionAchieved: 750,
           reductionPercentage: 75,
           campaignTarget: 75.5,
-          isTargetMet: false
+          isTargetMet: false,
         })
       }
 
-      const intelligence: any = await CAMPAIGN_ENTERPRISE_INTELLIGENCE.generateComprehensiveIntelligence(;
+      const intelligence: any = await CAMPAIGN_ENTERPRISE_INTELLIGENCE.generateComprehensiveIntelligence(
         mockErrorAnalyzer as unknown,
         mockFixerIntegration as unknown,
         mockAnyElimination as unknown,,
@@ -212,7 +212,7 @@ describe('Campaign Intelligence System', () => {
     })
 
     it('should display enterprise intelligence correctly', () => {
-      const mockIntelligence: any = {;
+      const mockIntelligence: any = {
         campaignMetrics: { errorReductionVelocity: 1.5,
           codeQualityImprovement: 0.85,
           buildStabilityScore: 0.95,
@@ -220,9 +220,9 @@ describe('Campaign Intelligence System', () => {
           enterpriseReadiness: 0.88,
           systemComplexity: 0.6,
           intelligenceDepth: 'advanced' as const,
-          campaignEffectiveness: 0.82
+          campaignEffectiveness: 0.82,
         },
-        errorPatterns: { patternRecognition: { TS2352_TYPE_CONVERSION: 10, TS2345_ARGUMENT_MISMATCH: 5 }
+        errorPatterns: { patternRecognition: { TS2352_TYPE_CONVERSION: 10, TS2345_ARGUMENT_MISMATCH: 5 },
           fixSuccessRates: {}
           errorCategoryTrends: {} as unknown,
           priorityOptimization: {}
@@ -237,7 +237,7 @@ describe('Campaign Intelligence System', () => {
           qualityMetrics: { codeHealthScore: 0.85,
             maintainabilityIndex: 0.8,
             technicalDebtRatio: 0.15,
-            buildReliability: 0.95
+            buildReliability: 0.95,
           },
           strategicInsights: { recommendedActions: [],
             riskAssessment: [],
@@ -245,7 +245,7 @@ describe('Campaign Intelligence System', () => {
             resourceOptimization: []
           }
         },
-        systemIntegration: { overallSystemIntegratio, n: 0.92 }
+        systemIntegration: { overallSystemIntegratio, n: 0.92 },
         intelligenceRecommendations: ['Test recommendation'],
         enterpriseReadinessScore: 0.88,
       }

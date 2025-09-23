@@ -51,14 +51,14 @@ const sampleMethods = [
     elementalEffect: { Fire: 0.85, Water: 0.15, Earth: 0.4, Air: 0.6 },
     duration: {
       min: 10,
-      max: 30
+      max: 30,
     },
     suitable_for: ['Meats', 'Vegetables', 'Seafood'],
     alchemicalProperties: {
       Spirit: 0.7,
       Essence: 0.3,
       Matter: 0.2,
-      Substance: 0.5
+      Substance: 0.5,
     },
     variations: [
       {
@@ -84,14 +84,14 @@ const sampleMethods = [
     elementalEffect: { Fire: 0.4, Water: 0.9, Earth: 0.2, Air: 0.3 },
     duration: {
       min: 5,
-      max: 45
+      max: 45,
     },
     suitable_for: ['Pasta', 'Vegetables', 'Eggs'],
     alchemicalProperties: {
       Spirit: 0.2,
       Essence: 0.8,
       Matter: 0.5,
-      Substance: 0.2
+      Substance: 0.2,
     }
   },
   {
@@ -104,14 +104,14 @@ const sampleMethods = [
     ,
     duration: {
       min: 20,
-      max: 120
+      max: 120,
     },
     suitable_for: ['Breads', 'Pastries', 'Casseroles'],
     alchemicalProperties: {
       Spirit: 0.4,
       Essence: 0.3,
       Matter: 0.6,
-      Substance: 0.7
+      Substance: 0.7,
     },
     variations: [
       {
@@ -132,14 +132,14 @@ const sampleMethods = [
     ,
     duration: {
       min: 5,
-      max: 30
+      max: 30,
     },
     suitable_for: ['Vegetables', 'Fish', 'Dumplings'],
     alchemicalProperties: {
       Spirit: 0.3,
       Essence: 0.8,
       Matter: 0.2,
-      Substance: 0.1
+      Substance: 0.1,
     }
   }
 ],

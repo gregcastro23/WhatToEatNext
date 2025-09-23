@@ -1,5 +1,5 @@
 // src/data/cuisines/chinese.ts
-export const chinese = {;
+export const chinese = {
   name: 'Chinese',
   description: 'Traditional Chinese cuisine with balanced flavors, varied techniques, and regional specialties. Known for harmony in taste, color, and nutrition.',
   traditionalSauces: {
@@ -14,7 +14,7 @@ export const chinese = {;
         Earth: 0.5,
         Water: 0.3,
         Fire: 0.1,
-        Air: 0.1
+        Air: 0.1,
       },
       astrologicalInfluences: ['Saturn', 'Neptune', 'capricorn'],
       seasonality: 'all',
@@ -31,7 +31,7 @@ export const chinese = {;
         Earth: 0.4,
         Fire: 0.3,
         Water: 0.2,
-        Air: 0.1
+        Air: 0.1,
       },
       astrologicalInfluences: ['Venus', 'Jupiter', 'taurus'],
       seasonality: 'all',
@@ -55,7 +55,7 @@ export const chinese = {;
         Water: 0.4,
         Fire: 0.3,
         Earth: 0.2,
-        Air: 0.1
+        Air: 0.1,
       },
       astrologicalInfluences: ['Neptune', 'Mars', 'scorpio'],
       seasonality: 'all',
@@ -72,7 +72,7 @@ export const chinese = {;
         Earth: 0.5,
         Water: 0.2,
         Fire: 0.2,
-        Air: 0.1
+        Air: 0.1,
       },
       astrologicalInfluences: ['Pluto', 'Saturn', 'capricorn'],
       seasonality: 'all',
@@ -89,12 +89,12 @@ export const chinese = {;
         Water: 0.6,
         Earth: 0.2,
         Fire: 0.1,
-        Air: 0.1
+        Air: 0.1,
       },
       astrologicalInfluences: ['Neptune', 'Moon', 'pisces'],
       seasonality: 'all',
       preparationNotes: 'Modern versions are thickened with cornstarch',
-      technicalTips: 'Add at the end of cooking to preserve flavor complexity'
+      technicalTips: 'Add at the end of cooking to preserve flavor complexity',
     }
   },
   sauceRecommender: {
@@ -179,7 +179,7 @@ export const chinese = {;
             calories: 220,
             protein: 6,
             carbs: 45,
-            fat: 2
+            fat: 2,
           },
           timeToMake: '95 minutes',
           season: ['all'],
@@ -188,7 +188,7 @@ export const chinese = {;
             Water: 0.6,
             Earth: 0.2,
             Air: 0.1,
-            Fire: 0.1
+            Fire: 0.1,
           },
           astrologicalInfluences: [
             'Moon - The nurturing, comforting quality',
@@ -225,7 +225,7 @@ export const chinese = {;
             calories: 320,
             protein: 7,
             carbs: 42,
-            fat: 14
+            fat: 14,
           },
           timeToMake: '30 minutes plus resting',
           season: ['all'],
@@ -234,7 +234,7 @@ export const chinese = {;
             Fire: 0.5,
             Air: 0.3,
             Earth: 0.1,
-            Water: 0.1
+            Water: 0.1,
           },
           astrologicalInfluences: [
             'Jupiter - The expansive, rising quality',
@@ -271,7 +271,7 @@ export const chinese = {;
             calories: 240,
             protein: 14,
             carbs: 32,
-            fat: 8
+            fat: 8,
           },
           timeToMake: '45 minutes plus soaking',
           season: ['all'],
@@ -280,7 +280,7 @@ export const chinese = {;
             Water: 0.5,
             Earth: 0.3,
             Air: 0.1,
-            Fire: 0.1
+            Fire: 0.1,
           },
           astrologicalInfluences: [
             'Moon - The nurturing, comforting quality',
@@ -345,7 +345,7 @@ export const chinese = {;
             calories: 520,
             protein: 28,
             carbs: 65,
-            fat: 18
+            fat: 18,
           },
           timeToMake: '35 minutes',
           season: ['all'],
@@ -354,7 +354,7 @@ export const chinese = {;
             Fire: 0.6,
             Earth: 0.2,
             Water: 0.1,
-            Air: 0.1
+            Air: 0.1,
           },
           astrologicalInfluences: [
             'Mars - The intense heat and spice',
@@ -383,7 +383,7 @@ export const chinese = {;
               amount: '1',
               unit: 'tbsp',
               category: 'sauce',
-              optional: true
+              optional: true,
             }
           ],
           substitutions: {
@@ -399,7 +399,7 @@ export const chinese = {;
             calories: 300,
             protein: 22,
             carbs: 8,
-            fat: 20
+            fat: 20,
           },
           timeToMake: '35 minutes',
           season: ['all'],
@@ -408,7 +408,7 @@ export const chinese = {;
             Fire: 0.6,
             Water: 0.2,
             Earth: 0.1,
-            Air: 0.1
+            Air: 0.1,
           },
           astrologicalInfluences: [
             'Mars - The fiery, aggressive flavor profile',
@@ -425,7 +425,7 @@ export const chinese = {;
               name: 'har gow (shrimp dumplings)',
               amount: '4',
               unit: 'pieces',
-              category: 'dumpling'
+              category: 'dumpling',
             }
             { name: 'siu mai (pork dumplings)', amount: '4', unit: 'pieces', category: 'dumpling' }
             { name: 'char siu bao', amount: '2', unit: 'pieces', category: 'bun' }
@@ -433,7 +433,7 @@ export const chinese = {;
               name: 'cheong fun (rice noodle rolls)',
               amount: '1',
               unit: 'plate',
-              category: 'noodle'
+              category: 'noodle',
             }
             { name: 'spring rolls', amount: '2', unit: 'pieces', category: 'appetizer' }
           ],
@@ -450,7 +450,7 @@ export const chinese = {;
             calories: 650,
             protein: 32,
             carbs: 85,
-            fat: 22
+            fat: 22,
           },
           timeToMake: 'varies (typically purchased)',
           season: ['all'],
@@ -459,7 +459,7 @@ export const chinese = {;
             Water: 0.3,
             Earth: 0.3,
             Fire: 0.2,
-            Air: 0.2
+            Air: 0.2,
           },
           astrologicalInfluences: [
             'Venus - The delicate, artful presentation',
@@ -501,7 +501,7 @@ export const chinese = {;
             calories: 650,
             protein: 45,
             carbs: 42,
-            fat: 35
+            fat: 35,
           },
           timeToMake: '26 hours',
           season: ['all'],
@@ -510,7 +510,7 @@ export const chinese = {;
             Fire: 0.4,
             Air: 0.3,
             Earth: 0.2,
-            Water: 0.1
+            Water: 0.1,
           },
           astrologicalInfluences: [
             'Sun - The golden, glistening skin',
@@ -551,7 +551,7 @@ export const chinese = {;
             calories: 450,
             protein: 35,
             carbs: 18,
-            fat: 28
+            fat: 28,
           },
           timeToMake: '35 minutes',
           season: ['all'],
@@ -560,7 +560,7 @@ export const chinese = {;
             Fire: 0.5,
             Earth: 0.2,
             Air: 0.2,
-            Water: 0.1
+            Water: 0.1,
           },
           astrologicalInfluences: [
             'Mars - The fiery, aggressive spice',
@@ -606,7 +606,7 @@ export const chinese = {;
             calories: 380,
             protein: 22,
             carbs: 40,
-            fat: 14
+            fat: 14,
           },
           timeToMake: '3 hours 15 minutes',
           season: ['all'],
@@ -615,7 +615,7 @@ export const chinese = {;
             Water: 0.4,
             Earth: 0.3,
             Air: 0.2,
-            Fire: 0.1
+            Fire: 0.1,
           },
           astrologicalInfluences: [
             'Neptune - The mysterious, hidden soup within',
@@ -654,7 +654,7 @@ export const chinese = {;
             calories: 220,
             protein: 5,
             carbs: 28,
-            fat: 10
+            fat: 10,
           },
           timeToMake: '65 minutes',
           season: ['all'],
@@ -663,7 +663,7 @@ export const chinese = {;
             Earth: 0.4,
             Fire: 0.3,
             Water: 0.2,
-            Air: 0.1
+            Air: 0.1,
           },
           astrologicalInfluences: [
             'Venus - The rich, indulgent quality',
@@ -683,7 +683,7 @@ export const chinese = {;
               amount: '1',
               unit: 'cup',
               category: 'fruit',
-              notes: 'various types'
+              notes: 'various types',
             }
             { name: 'nuts', amount: '1/2', unit: 'cup', category: 'nut', notes: 'various types' }
             { name: 'sugar', amount: '1/4', unit: 'cup', category: 'sweetener' }
@@ -708,7 +708,7 @@ export const chinese = {;
             calories: 380,
             protein: 6,
             carbs: 75,
-            fat: 8
+            fat: 8,
           },
           timeToMake: '1 hour 30 minutes',
           season: ['winter', 'lunar new year'],
@@ -717,7 +717,7 @@ export const chinese = {;
             Earth: 0.5,
             Water: 0.3,
             Fire: 0.1,
-            Air: 0.1
+            Air: 0.1,
           },
           astrologicalInfluences: [
             'Jupiter - The abundance and prosperity symbolism',
@@ -752,7 +752,7 @@ export const chinese = {;
               amount: '2',
               unit: 'tbsp',
               category: 'dairy',
-              optional: true
+              optional: true,
             }
           ],
           substitutions: {
@@ -768,7 +768,7 @@ export const chinese = {;
             calories: 280,
             protein: 3,
             carbs: 45,
-            fat: 12
+            fat: 12,
           },
           timeToMake: '40 minutes plus chilling',
           season: ['summer'],
@@ -777,7 +777,7 @@ export const chinese = {;
             Water: 0.6,
             Air: 0.2,
             Earth: 0.1,
-            Fire: 0.1
+            Fire: 0.1,
           },
           astrologicalInfluences: [
             'Moon - The cooling, refreshing quality',
@@ -795,35 +795,35 @@ export const chinese = {;
     {
       name: 'Stir-Frying',
       description: 'Quick cooking in a wok over high heat with constant motion',
-      elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 }
+      elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
       toolsRequired: ['wok', 'wok spatula', 'high BTU burner'],
       bestFor: ['vegetables', 'thinly sliced meats', 'noodles', 'rice']
     }
     {
       name: 'Steaming',
       description: 'Gentle cooking with steam that preserves nutrients and delicate flavors',
-      elementalProperties: { Water: 0.7, Air: 0.2, Earth: 0.1, Fire: 0.0 }
+      elementalProperties: { Water: 0.7, Air: 0.2, Earth: 0.1, Fire: 0.0 },
       toolsRequired: ['bamboo steamer', 'wok or pot', 'parchment paper'],
       bestFor: ['seafood', 'vegetables', 'dumplings', 'delicate proteins']
     }
     {
       name: 'Red Cooking',
       description: 'Slow braising in a soy sauce-based liquid with spices and aromatics',
-      elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 }
+      elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
       toolsRequired: ['clay pot', 'heavy-bottomed pot', 'ladle'],
       bestFor: ['tough cuts of meat', 'tofu', 'eggs', 'vegetables']
     }
     {
       name: 'Dry-Frying',
       description: 'Frying without batter in minimal oil until ingredients become dry and crispy',
-      elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0.0 }
+      elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0.0 },
       toolsRequired: ['wok', 'fine mesh strainer', 'slotted spoon'],
       bestFor: ['green beans', 'beef', 'tofu', 'mushrooms']
     }
     {
       name: 'Velveting',
       description: 'Marinating protein in egg white and cornstarch, then blanching before cooking',
-      elementalProperties: { Water: 0.5, Air: 0.3, Earth: 0.1, Fire: 0.1 }
+      elementalProperties: { Water: 0.5, Air: 0.3, Earth: 0.1, Fire: 0.1 },
       toolsRequired: ['bowl', 'strainer', 'pot', 'thermometer'],
       bestFor: ['chicken', 'beef', 'seafood', 'pork']
     }
@@ -833,37 +833,37 @@ export const chinese = {;
       name: 'Cantonese Cuisine',
       description: 'Light, fresh flavors that highlight natural tastes of ingredients, with an emphasis on steaming and stir-frying',
       signature: ['dim sum', 'steamed fish', 'char siu', 'wonton noodles'],
-      elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
+      elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
       astrologicalInfluences: ['Venus', 'Moon', 'Libra'],
       seasonality: 'all' },
         sichuan: {
       name: 'Sichuan Cuisine',
       description: 'Bold, spicy flavors featuring Sichuan peppercorns' numbing sensation (málà) and complex layering of flavors',
       signature: ['mapo tofu', 'kung pao chicken', 'dan dan noodles', 'hot pot'],
-      elementalProperties: { Fire: 0.7, Earth: 0.2, Water: 0.1, Air: 0.0 }
+      elementalProperties: { Fire: 0.7, Earth: 0.2, Water: 0.1, Air: 0.0 },
       astrologicalInfluences: ['Mars', 'Pluto', 'Scorpio'],
       seasonality: 'all' },
         shandong: {
       name: 'Shandong Cuisine',
       description: 'One of China's oldest cuisines, featuring fresh seafood, quick frying, and clear soups',
       signature: ['braised sea cucumber', 'sweet and sour carp', 'Dezhou chicken'],
-      elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 }
+      elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Jupiter', 'Saturn', 'Capricorn'],
       seasonality: 'all' },
         jiangsu: {
       name: 'Jiangsu Cuisine',
       description: 'Refined, artistically presented cuisine emphasizing seasonal ingredients and precise cutting techniques',
       signature: ['Nanjing salted duck', 'sweet and sour mandarin fish', 'beggar's chicken'],
-      elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 }
+      elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
       astrologicalInfluences: ['Mercury', 'Venus', 'Gemini'],
-      seasonality: 'all'
+      seasonality: 'all',
     }
   },
   elementalProperties: {
     Earth: 0.3,
     Fire: 0.3,
     Water: 0.3,
-    Air: 0.1
+    Air: 0.1,
   }
 }
 

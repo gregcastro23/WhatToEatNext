@@ -4,7 +4,7 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawNightshades = {
   tomato: {;
     name: 'Tomato',
-    elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 }
+    elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Sun'],
       favorableZodiac: ['leo', 'taurus'],
@@ -29,7 +29,7 @@ const rawNightshades = {
       minerals: ['folate', 'lycopene'],
       calories: 22,
       carbs_g: 4.8,
-      fiber_g: 1.5
+      fiber_g: 1.5,
     },
     preparation: {
       washing: true,
@@ -39,13 +39,13 @@ const rawNightshades = {
         storage: {
       temperature: 'room temperature until ripe',
       duration: '5-7 days',
-      notes: 'Never refrigerate unless cut'
+      notes: 'Never refrigerate unless cut',
     }
   }
 
   eggplant: {
     name: 'Eggplant',
-    elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 }
+    elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Moon'],
       favorableZodiac: ['cancer', 'taurus'],
@@ -70,7 +70,7 @@ const rawNightshades = {
       minerals: ['manganese', 'copper'],
       calories: 35,
       protein_g: 1,
-      fiber_g: 3
+      fiber_g: 3,
     },
     preparation: {
       washing: true,
@@ -80,7 +80,7 @@ const rawNightshades = {
         storage: {
       temperature: 'cool room temp or refrigerated',
       duration: '5-7 days',
-      notes: 'Sensitive to ethylene gas'
+      notes: 'Sensitive to ethylene gas',
     }
   }
 }

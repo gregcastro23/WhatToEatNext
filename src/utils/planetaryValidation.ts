@@ -43,7 +43,7 @@ export interface TestResult {
 }
 
 // Validation tolerances
-const VALIDATION_TOLERANCES = {;
+const VALIDATION_TOLERANCES = {
   _POSITION_DEGREES: 0.1,
   _TRANSIT_DAYS: 1,
   TEST_PASS_THRESHOLD: 95,
@@ -54,7 +54,7 @@ const VALIDATION_TOLERANCES = {;
  * Main validation function for planetary data
  */
 export async function validatePlanetaryData(): Promise<ValidationResult> {
-  const startTime = Date.now();
+  const startTime = Date.now()
   const errors: ValidationError[] = [];
   const warnings: ValidationWarning[] = [];
 
@@ -100,7 +100,7 @@ export async function validatePlanetaryData(): Promise<ValidationResult> {
       timestamp: new Date()
     }
   } catch (error) {
-    const criticalError: ValidationError = {;
+    const criticalError: ValidationError = {
       type: 'DATA_CORRUPTION',
       severity: 'CRITICAL',
       message: `Validation process failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
@@ -346,7 +346,7 @@ async function validatePositionChange(
 
   try {
     // Get expected daily motion for the planet
-    const _dailyMotion = getPlanetaryDailyMotion(planetName);
+    const _dailyMotion = getPlanetaryDailyMotion(planetName)
     // For now, just validate the position is reasonable
     // In a full implementation, we would compare with previous positions
 
@@ -387,7 +387,7 @@ function getPlanetaryDailyMotion(_planetName: string): number {
     saturn: 0.03,
     uranus: 0.01,
     neptune: 0.006,
-    pluto: 0.004
+    pluto: 0.004,
   }
 
   return dailyMotions[planetName.toLowerCase()] || 0.1,
@@ -402,7 +402,7 @@ async function getExpectedSignsForPlanet(planetName: string): Promise<string[]> 
     const planetData = planetModule.default;
 
     if (planetData.PlanetSpecific?.TransitDates) {
-      const currentDate = new Date();
+      const currentDate = new Date()
       const transitDates = planetData.PlanetSpecific.TransitDates;
 
       // Find signs where the planet could currently be
@@ -419,7 +419,7 @@ async function getExpectedSignsForPlanet(planetName: string): Promise<string[]> 
         const bufferedEnd = new Date(endDate.getTime() + bufferDays * 24 * 60 * 60 * 1000)
 
         if (currentDate >= bufferedStart && currentDate <= bufferedEnd) {
-          possibleSigns.push(sign);
+          possibleSigns.push(sign)
         }
       }
 
@@ -463,7 +463,7 @@ async function testPlanetaryPositionAccuracy(): Promise<TestResult> {
   const startTime = Date.now()
 
   try {
-    const positions = await getReliablePlanetaryPositions();
+    const positions = await getReliablePlanetaryPositions()
     const requiredPlanets = ['sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn'],
 
     let passedChecks = 0,
@@ -500,7 +500,7 @@ async function testPlanetaryPositionAccuracy(): Promise<TestResult> {
       testName: 'Planetary Position Accuracy',
       passed: false,
       duration: Date.now() - startTime,
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error.message : 'Unknown error',
     }
   }
 }
@@ -549,7 +549,7 @@ async function testTransitDateValidation(): Promise<TestResult> {
       testName: 'Transit Date Validation',
       passed: false,
       duration: Date.now() - startTime,
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error.message : 'Unknown error',
     }
   }
 }
@@ -562,7 +562,7 @@ async function testRetrogradeDetection(): Promise<TestResult> {
 
   try {
     const positions = await getReliablePlanetaryPositions()
-    const retrogradeCapablePlanets = [;
+    const retrogradeCapablePlanets = [
       'mercury',
       'venus',
       'mars',
@@ -603,7 +603,7 @@ async function testRetrogradeDetection(): Promise<TestResult> {
       testName: 'Retrograde Detection',
       passed: false,
       duration: Date.now() - startTime,
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error.message : 'Unknown error',
     }
   }
 }
@@ -644,7 +644,7 @@ async function testLunarNodeCalculation(): Promise<TestResult> {
 
     // Check that nodes are opposite (180 degrees apart)
     if (passed && northNode && southNode) {
-      const longitudeDiff = Math.abs(northNode.exactLongitude - southNode.exactLongitude);
+      const longitudeDiff = Math.abs(northNode.exactLongitude - southNode.exactLongitude)
       const isOpposite = Math.abs(longitudeDiff - 180) < 1, // Within 1 degree tolerance,
 
       if (!isOpposite) {
@@ -667,7 +667,7 @@ async function testLunarNodeCalculation(): Promise<TestResult> {
       testName: 'Lunar Node Calculation',
       passed: false,
       duration: Date.now() - startTime,
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error.message : 'Unknown error',
     }
   }
 }
@@ -681,7 +681,7 @@ async function testApiFallbackMechanism(): Promise<TestResult> {
   try {
     // Test that we can get positions even if APIs fail
     // This should fall back to the March 2025 positions
-    const positions = await getReliablePlanetaryPositions();
+    const positions = await getReliablePlanetaryPositions()
     const requiredPlanets = ['sun', 'moon', 'mercury', 'venus', 'mars'],
     let validPositions = 0,
 
@@ -712,7 +712,7 @@ async function testApiFallbackMechanism(): Promise<TestResult> {
       testName: 'API Fallback Mechanism',
       passed: false,
       duration: Date.now() - startTime,
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error.message : 'Unknown error',
     }
   }
 }
@@ -739,7 +739,7 @@ async function validateElementalProperties(): Promise<{
         if (planetData?.Elements && Array.isArray(planetData.Elements)) {
           const validElements = ['Fire', 'Water', 'Earth', 'Air'],
           const invalidElements = planetData.Elements.filter(
-            (el: string) => !validElements.includes(el);
+            (el: string) => !validElements.includes(el)
           ),
 
           if (invalidElements.length > 0) {

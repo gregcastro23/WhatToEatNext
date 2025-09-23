@@ -13,11 +13,11 @@ export const steaming: CookingMethodData = {
     Water: 0.6,
     Air: 0.3,
     Fire: 0.1,
-    Earth: 0.0
+    Earth: 0.0,
   },
   duration: {
     min: 5,
-    max: 45
+    max: 45,
   },
   suitable_for: [
     'vegetables',
@@ -305,6 +305,6 @@ export const steaming: CookingMethodData = {
     acid_effects: 'Acidic marinades partially cook proteins before steaming, reduce steaming time accordingly',
     sugar_interactions: 'Sugar in marinades accelerates browning in post-steam finishing techniques, enhances caramelization',
     oil_applications: 'Light oil on food surface prevents sticking and carries fat-soluble flavors, apply before steaming',
-    alcohol_evaporation: 'Alcohol in steaming liquid (wine, sake) imparts flavor but alcohol largely evaporates, use in well-ventilated area'
+    alcohol_evaporation: 'Alcohol in steaming liquid (wine, sake) imparts flavor but alcohol largely evaporates, use in well-ventilated area',
   }
 }

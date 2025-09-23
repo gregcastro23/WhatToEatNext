@@ -123,11 +123,11 @@ export function normalizeAntioxidants(antioxidants: Record<string, _unknown>): s
   if (!antioxidants) return [],
 
   if (Array.isArray(antioxidants)) {
-    return antioxidants.map(antioxidant => formatAntioxidantName(antioxidant));
+    return antioxidants.map(antioxidant => formatAntioxidantName(antioxidant))
   }
 
   if (typeof antioxidants === 'object') {,
-    return Object.keys(antioxidants).map(name => formatAntioxidantName(name));
+    return Object.keys(antioxidants).map(name => formatAntioxidantName(name))
   }
 
   return [],
@@ -319,7 +319,7 @@ export function normalizeIngredientData(
       ? (ingredient.nutritionalProfile as unknown )
       : {}
 
-  const normalized = {;
+  const normalized = {
     ...ingredient,
     nutritionalProfile: typeof ingredient.nutritionalProfile === 'object' && ingredient.nutritionalProfile !== null,
         ? {
@@ -327,19 +327,19 @@ export function normalizeIngredientData(
             vitamins: normalizeVitamins(,
               typeof nutritionalProfile.vitamins === 'object' ||
                 Array.isArray(nutritionalProfile.vitamins)
-                ? (nutritionalProfile.vitamins as unknown);
+                ? (nutritionalProfile.vitamins as unknown)
                 : {}
             ),
             minerals: normalizeMinerals(,
               typeof nutritionalProfile.minerals === 'object' ||
                 Array.isArray(nutritionalProfile.minerals)
-                ? (nutritionalProfile.minerals as unknown);
+                ? (nutritionalProfile.minerals as unknown)
                 : {}
             ),
             antioxidants: normalizeAntioxidants(,
               typeof nutritionalProfile.antioxidants === 'object' ||
                 Array.isArray(nutritionalProfile.antioxidants)
-                ? (nutritionalProfile.antioxidants as unknown);
+                ? (nutritionalProfile.antioxidants as unknown)
                 : {}
             )
           }

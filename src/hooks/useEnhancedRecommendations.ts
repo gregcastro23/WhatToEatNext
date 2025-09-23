@@ -108,7 +108,7 @@ const kitchenBackendClient = {
       astrologicalContext: {
         dominantElement: 'Fire',
         planetaryHour: 'Venus',
-        lunarPhase: 'waxing crescent'
+        lunarPhase: 'waxing crescent',
       }
     };
   }
@@ -150,7 +150,7 @@ export const useEnhancedRecommendations = () => {
         astrologicalContext: {
           dominantElement: 'Earth',
           planetaryHour: 'Sun',
-          lunarPhase: 'new moon'
+          lunarPhase: 'new moon',
         }
       };
 

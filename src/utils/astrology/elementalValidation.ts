@@ -50,11 +50,11 @@ export function validateElementalProperties(
 export function normalizeElementalProperties(
   properties: Partial<ElementalProperties>,
 ): ElementalProperties {
-  const normalized: ElementalProperties = {;
+  const normalized: ElementalProperties = {
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
-    Air: 0.25
+    Air: 0.25,
   }
 
   // Apply provided values if valid
@@ -130,10 +130,10 @@ function getElementalCompatibility(
   source: keyof ElementalProperties,
   target: keyof ElementalProperties,
 ): number {
-  const compatibilityMatrix = {;
-    Fire: { Water: 0.7, Earth: 0.7, Air: 0.8 }
+  const compatibilityMatrix = {
+    Fire: { Water: 0.7, Earth: 0.7, Air: 0.8 },
     Water: { Fire: 0.7, Earth: 0.8, Air: 0.7 }
-    Earth: { Fire: 0.7, Water: 0.8, Air: 0.7 }
+    Earth: { Fire: 0.7, Water: 0.8, Air: 0.7 },
     Air: { Fire: 0.8, Water: 0.7, Earth: 0.7 }
   }
 
@@ -161,7 +161,7 @@ export function enhanceDominantElement(properties: ElementalProperties): Element
     return normalizeElementalProperties(properties)
   }
 
-  const dominant = getDominantElement(properties);
+  const dominant = getDominantElement(properties)
   const enhanced = { ...properties }
 
   // Self-reinforcement: boost the dominant element by 10%
@@ -176,21 +176,21 @@ export function enhanceDominantElement(properties: ElementalProperties): Element
 export function createElementalProperties(
   dominantElement: keyof ElementalProperties,
   strength: number = 0.7): ElementalProperties {
-  const properties: ElementalProperties = {;
+  const properties: ElementalProperties = {
     Fire: 0.1,
     Water: 0.1,
     Earth: 0.1,
-    Air: 0.1
+    Air: 0.1,
   }
 
   // Set the dominant element strength
   properties[dominantElement] = Math.max(0.1, Math.min(1.0, strength))
 
   // Distribute remaining strength among other elements
-  const remainingStrength = Math.max(01.0 - properties[dominantElement]);
+  const remainingStrength = Math.max(01.0 - properties[dominantElement])
   const otherElements = (['Fire', 'Water', 'Earth', 'Air'] as const).filter(,
     e => e !== dominantElement
-  );
+  )
   const perElement = remainingStrength / otherElements.length;
 
   otherElements.forEach(element => {;
@@ -208,7 +208,7 @@ export function validateSelfReinforcement(properties: ElementalProperties): bool
     return false
   }
 
-  const dominant = getDominantElement(properties);
+  const dominant = getDominantElement(properties)
   const dominantValue = properties[dominant];
 
   // Dominant element should be at least 0.3 for clear self-reinforcement
@@ -225,7 +225,7 @@ export function validateSelfReinforcement(properties: ElementalProperties): bool
 /**
  * Constants for elemental calculations
  */
-export const _ELEMENTAL_CONSTANTS = {;
+export const _ELEMENTAL_CONSTANTS = {
   _MIN_ELEMENT_VALUE: 0.05,
   _MAX_ELEMENT_VALUE: 1.0,
   _DEFAULT_ELEMENT_VALUE: 0.25,

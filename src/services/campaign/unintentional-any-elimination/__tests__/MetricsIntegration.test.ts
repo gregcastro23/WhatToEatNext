@@ -347,7 +347,7 @@ describe('UnintentionalAnyCampaignScheduler', () => {
 
   describe('resolveCampaignConflicts', () => {
     it('should allow execution when no conflicts exist', () => {
-      const resolution: any = schedulerresolveCampaignConflicts(;
+      const resolution: any = schedulerresolveCampaignConflicts(
         ['other-campaign', 'unrelated-task'],
         'unintentional-any-elimination',
       )
@@ -358,7 +358,7 @@ describe('UnintentionalAnyCampaignScheduler', () => {
     })
 
     it('should detect conflicts with TypeScript campaigns', () => {
-      const resolution: any = schedulerresolveCampaignConflicts(;
+      const resolution: any = schedulerresolveCampaignConflicts(
         ['typescript-error-elimination', 'other-campaign'],
         'unintentional-any-elimination',
       )
@@ -368,7 +368,7 @@ describe('UnintentionalAnyCampaignScheduler', () => {
     })
 
     it('should detect conflicts with linting campaigns', () => {
-      const resolution: any = scheduler.resolveCampaignConflicts(;
+      const resolution: any = scheduler.resolveCampaignConflicts(
         ['linting-excellence', 'explicit-any-cleanup'],
         'unintentional-any-elimination',
       )
@@ -378,7 +378,7 @@ describe('UnintentionalAnyCampaignScheduler', () => {
     })
 
     it('should allow resolution for non-critical conflicts', () => {
-      const resolution: any = scheduler.resolveCampaignConflicts(;
+      const resolution: any = scheduler.resolveCampaignConflicts(
         ['typescript-cleanup', 'linting-improvement'],
         'unintentional-any-elimination',
       )
@@ -388,7 +388,7 @@ describe('UnintentionalAnyCampaignScheduler', () => {
     })
 
     it('should prevent execution for critical campaigns', () => {
-      const resolution: any = scheduler.resolveCampaignConflicts(;
+      const resolution: any = scheduler.resolveCampaignConflicts(
         ['critical-typescript-emergency', 'emergency-linting-fix'],
         'unintentional-any-elimination',
       )
@@ -418,7 +418,7 @@ describe('UnintentionalAnyCampaignScheduler', () => {
     })
 
     it('should delay execution for high load', () => {
-      const recommendation: any = schedulergetRecommendedExecutionTime(;
+      const recommendation: any = schedulergetRecommendedExecutionTime(
         ['campaign1', 'campaign2', 'campaign3'],
         'high',
       )

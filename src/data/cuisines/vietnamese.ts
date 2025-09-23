@@ -1,7 +1,7 @@
 // src/data/vietnamese.ts
 import type { Cuisine } from '@/types/cuisine';
 
-export const vietnamese: Cuisine = {;
+export const vietnamese: Cuisine = {
   id: 'vietnamese',
   name: 'Vietnamese',
   description: 'Traditional Vietnamese cuisine emphasizing fresh ingredients, herbs, and balanced flavors',
@@ -77,7 +77,7 @@ export const vietnamese: Cuisine = {;
             Water: 0.4,
             Fire: 0.2,
             Earth: 0.2,
-            Air: 0.2
+            Air: 0.2,
           }
         }
         {
@@ -137,7 +137,7 @@ export const vietnamese: Cuisine = {;
             Water: 0.4,
             Earth: 0.3,
             Air: 0.2,
-            Fire: 0.1
+            Fire: 0.1,
           }
         }
         {
@@ -197,7 +197,7 @@ export const vietnamese: Cuisine = {;
             Water: 0.3,
             Earth: 0.3,
             Air: 0.3,
-            Fire: 0.1
+            Fire: 0.1,
           }
         }
       ],
@@ -298,7 +298,7 @@ export const vietnamese: Cuisine = {;
             Earth: 0.3,
             Air: 0.3,
             Fire: 0.2,
-            Water: 0.2
+            Water: 0.2,
           }
         }
         {
@@ -353,7 +353,7 @@ export const vietnamese: Cuisine = {;
             Fire: 0.3,
             Earth: 0.3,
             Air: 0.2,
-            Water: 0.2
+            Water: 0.2,
           }
         }
         {
@@ -383,7 +383,7 @@ export const vietnamese: Cuisine = {;
               amount: '1',
               unit: 'whole',
               category: 'vegetable',
-              optional: true
+              optional: true,
             }
           ],
           substitutions: {
@@ -413,7 +413,7 @@ export const vietnamese: Cuisine = {;
             Fire: 0.4,
             Water: 0.3,
             Earth: 0.2,
-            Air: 0.1
+            Air: 0.1,
           }
         }
       ]
@@ -485,7 +485,7 @@ export const vietnamese: Cuisine = {;
             Water: 0.3,
             Fire: 0.3,
             Earth: 0.3,
-            Air: 0.1
+            Air: 0.1,
           }
         }
         {
@@ -539,7 +539,7 @@ export const vietnamese: Cuisine = {;
             Earth: 0.4,
             Fire: 0.3,
             Air: 0.2,
-            Water: 0.1
+            Water: 0.1,
           }
         }
       ]
@@ -571,7 +571,7 @@ export const vietnamese: Cuisine = {;
               amount: '2',
               unit: 'pieces',
               category: 'herb',
-              optional: true
+              optional: true,
             }
             { name: 'crushed ice', amount: '2', unit: 'cups', category: 'ice' }
           ],
@@ -603,7 +603,7 @@ export const vietnamese: Cuisine = {;
             Water: 0.4,
             Earth: 0.3,
             Air: 0.2,
-            Fire: 0.1
+            Fire: 0.1,
           }
         }
         {
@@ -630,7 +630,7 @@ export const vietnamese: Cuisine = {;
               amount: '2',
               unit: 'pieces',
               category: 'herb',
-              optional: true
+              optional: true,
             }
             { name: 'sesame seeds', amount: '2', unit: 'tbsp', category: 'garnish' }
             {
@@ -638,7 +638,7 @@ export const vietnamese: Cuisine = {;
               amount: '1/2',
               unit: 'cup',
               category: 'garnish',
-              optional: true
+              optional: true,
             }
           ],
           substitutions: {
@@ -668,7 +668,7 @@ export const vietnamese: Cuisine = {;
             Water: 0.4,
             Earth: 0.3,
             Air: 0.2,
-            Fire: 0.1
+            Fire: 0.1,
           }
         }
       ]
@@ -692,7 +692,7 @@ export const vietnamese: Cuisine = {;
         Water: 0.4,
         Fire: 0.3,
         Earth: 0.2,
-        Air: 0.1
+        Air: 0.1,
       },
       astrologicalInfluences: ['Neptune', 'Mars', 'Pisces'],
       seasonality: 'all',
@@ -721,7 +721,7 @@ export const vietnamese: Cuisine = {;
         Water: 0.5,
         Earth: 0.3,
         Fire: 0.1,
-        Air: 0.1
+        Air: 0.1,
       },
       astrologicalInfluences: ['Neptune', 'Moon', 'Scorpio'],
       seasonality: 'all',
@@ -750,7 +750,7 @@ export const vietnamese: Cuisine = {;
         Fire: 0.5,
         Earth: 0.2,
         Water: 0.2,
-        Air: 0.1
+        Air: 0.1,
       },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'all',
@@ -779,7 +779,7 @@ export const vietnamese: Cuisine = {;
         Earth: 0.4,
         Water: 0.3,
         Fire: 0.2,
-        Air: 0.1
+        Air: 0.1,
       },
       astrologicalInfluences: ['Saturn', 'Jupiter', 'Capricorn'],
       seasonality: 'all',
@@ -808,12 +808,12 @@ export const vietnamese: Cuisine = {;
         Fire: 0.4,
         Air: 0.3,
         Earth: 0.2,
-        Water: 0.1
+        Water: 0.1,
       },
       astrologicalInfluences: ['Mars', 'Mercury', 'Leo'],
       seasonality: 'all',
       preparationNotes: 'Most authentic when chilies and aromatics are pounded by hand in a mortar and pestle',
-      technicalTips: 'The oil should separate when fried properly, creating a vibrant red layer on top'
+      technicalTips: 'The oil should separate when fried properly, creating a vibrant red layer on top',
     }
   },
   sauceRecommender: {
@@ -975,39 +975,39 @@ export const vietnamese: Cuisine = {;
     {
       name: 'Kho (Clay Pot Braising)',
       description: 'Slow caramelization and braising in a clay pot with fish sauce and caramel',
-      elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 }
+      elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
       toolsRequired: ['clay pot', 'wooden spoon', 'caramel sauce', 'long cooking time'],
       bestFor: ['fish', 'pork', 'chicken', 'tofu', 'eggs'],
-      difficulty: 'medium'
+      difficulty: 'medium',
     }
     {
       name: 'Nướng (Grilling)',
       description: 'Aromatic grilling over charcoal, often with lemongrass marinades',
-      elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 }
+      elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
       toolsRequired: ['charcoal grill', 'bamboo skewers', 'banana leaf wrapping', 'marinade brush'],
       bestFor: ['pork', 'beef', 'seafood', 'chicken', 'meatballs'],
-      difficulty: 'medium'
+      difficulty: 'medium',
     }
     {
       name: 'Xào (Stir-frying)',
       description: 'Quick high-heat cooking that preserves fresh flavors and textures',
-      elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 }
+      elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
       toolsRequired: ['wok', 'high heat source', 'spatula', 'prep bowls'],
       bestFor: ['vegetables', 'rice noodles', 'quick meat dishes', 'tofu', 'morning glory'],
-      difficulty: 'medium'
+      difficulty: 'medium',
     }
     {
       name: 'Hấp (Steaming)',
       description: 'Gentle cooking that preserves natural flavors and nutritional content',
-      elementalProperties: { Water: 0.5, Air: 0.3, Earth: 0.1, Fire: 0.1 }
+      elementalProperties: { Water: 0.5, Air: 0.3, Earth: 0.1, Fire: 0.1 },
       toolsRequired: ['steamer basket', 'banana leaves', 'parchment paper', 'pot'],
       bestFor: ['fish', 'rice cakes', 'dumplings', 'custards', 'fresh vegetables'],
-      difficulty: 'easy'
+      difficulty: 'easy',
     }
     {
       name: 'Cuốn (Rolling/Wrapping)',
       description: 'Creating fresh rolls with rice paper or lettuce, emphasizing contrast and freshness',
-      elementalProperties: { Water: 0.3, Earth: 0.3, Air: 0.3, Fire: 0.1 }
+      elementalProperties: { Water: 0.3, Earth: 0.3, Air: 0.3, Fire: 0.1 },
       toolsRequired: ['rice paper', 'bowl of warm water', 'clean work surface', 'sharp knife'],
       bestFor: [
         'spring rolls',
@@ -1016,7 +1016,7 @@ export const vietnamese: Cuisine = {;
         'beef in betel leaf',
         'rice noodle rolls'
       ],
-      difficulty: 'easy'
+      difficulty: 'easy',
     }
   ],
   regionalCuisines: [
@@ -1032,9 +1032,9 @@ export const vietnamese: Cuisine = {;
         'fermented shrimp paste'
       ],
       cookingTechniques: ['stir-frying', 'grilling', 'steaming', 'slow simmering'],
-      elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 }
+      elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
       culturalInfluences: ['Chinese', 'French colonial', 'indigenous Vietnamese'],
-      philosophicalFoundations: 'Balance and subtlety, with respect for traditional methods and pure flavors'
+      philosophicalFoundations: 'Balance and subtlety, with respect for traditional methods and pure flavors',
     }
     {
       name: 'Central Vietnamese',
@@ -1049,9 +1049,9 @@ export const vietnamese: Cuisine = {;
         'fermented fish'
       ],
       cookingTechniques: ['slow cooking', 'fermentation', 'intricate cutting', 'spice preparation'],
-      elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 }
+      elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 },
       culturalInfluences: ['Royal Vietnamese court', 'Thai', 'Cham'],
-      philosophicalFoundations: 'Complex and sophisticated flavors that honor the royal culinary traditions'
+      philosophicalFoundations: 'Complex and sophisticated flavors that honor the royal culinary traditions',
     }
     {
       name: 'Southern Vietnamese',
@@ -1066,9 +1066,9 @@ export const vietnamese: Cuisine = {;
         'tamarind'
       ],
       cookingTechniques: ['simmering', 'caramelizing', 'quick stir-frying', 'fresh preparations'],
-      elementalProperties: { Water: 0.3, Earth: 0.3, Air: 0.2, Fire: 0.2 }
+      elementalProperties: { Water: 0.3, Earth: 0.3, Air: 0.2, Fire: 0.2 },
       culturalInfluences: ['Khmer', 'Chinese', 'Thai', 'French colonial'],
-      philosophicalFoundations: 'Embraces abundance and fusion while maintaining the essential Vietnamese balance'
+      philosophicalFoundations: 'Embraces abundance and fusion while maintaining the essential Vietnamese balance',
     }
     {
       name: 'Mekong Delta',
@@ -1089,9 +1089,9 @@ export const vietnamese: Cuisine = {;
         'fermented fish'
       ],
       cookingTechniques: ['clay pot cooking', 'fermentation', 'caramelization', 'stewing'],
-      elementalProperties: { Water: 0.5, Earth: 0.3, Fire: 0.1, Air: 0.1 }
+      elementalProperties: { Water: 0.5, Earth: 0.3, Fire: 0.1, Air: 0.1 },
       culturalInfluences: ['Khmer', 'indigenous Vietnamese', 'Chinese'],
-      philosophicalFoundations: 'Connection to river life and the bounty of the delta, with emphasis on preservation techniques'
+      philosophicalFoundations: 'Connection to river life and the bounty of the delta, with emphasis on preservation techniques',
     }
     {
       name: 'Highland Vietnamese',
@@ -1111,15 +1111,15 @@ export const vietnamese: Cuisine = {;
         'forest mushrooms'
       ],
       cookingTechniques: ['smoking', 'open fire cooking', 'bamboo tube cooking', 'preserving'],
-      elementalProperties: { Earth: 0.5, Fire: 0.3, Air: 0.1, Water: 0.1 }
+      elementalProperties: { Earth: 0.5, Fire: 0.3, Air: 0.1, Water: 0.1 },
       culturalInfluences: ['Ethnic minorities (Ê Đê, H'MôngThái)', 'Indigenous practices'],
-      philosophicalFoundations: 'Deep connection to mountain landscapes and ethnic culinary heritage'
+      philosophicalFoundations: 'Deep connection to mountain landscapes and ethnic culinary heritage',
     }
   ],
   elementalProperties: {
-    Water: 0.3, // Represents soups and broths,
+    Water: 0.3, // Represents soups and broths
     Earth: 0.3, // Represents rice and proteins,
-    Fire: 0.2, // Represents spicy elements and grilling,
+    Fire: 0.2, // Represents spicy elements and grilling
     Air: 0.2, // Represents herbs and aromatics
   }
 }

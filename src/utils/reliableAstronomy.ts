@@ -22,7 +22,7 @@ const CACHE_DURATION = 6 * 60 * 60 * 1000 // 6 hours
 /**
  * Fetch accurate planetary positions from JPL Horizons API
  */
-export async function getReliablePlanetaryPositions(;
+export async function getReliablePlanetaryPositions(
   date: Date = new Date(),
 ): Promise<Record<string, unknown>> {
   try {
@@ -34,7 +34,7 @@ export async function getReliablePlanetaryPositions(;
       positionsCache?.date === dateString &&
       Date.now() - positionsCache.timestamp < CACHE_DURATION
     ) {
-      logger.debug('Using cached planetary positions');
+      logger.debug('Using cached planetary positions')
       return positionsCache.positions,
     }
 
@@ -54,7 +54,7 @@ export async function getReliablePlanetaryPositions(;
       const positions = await fetchHorizonsData(date)
       if (positions && Object.keys(positions).length > 0) {
         // Cache the successful result
-        positionsCache = {;
+        positionsCache = {
           positions,
           timestamp: Date.now(),
           date: dateString
@@ -73,7 +73,7 @@ export async function getReliablePlanetaryPositions(;
       const positions = await fetchPublicApiData(date)
       if (positions && Object.keys(positions).length > 0) {
         // Cache the successful result
-        positionsCache = {;
+        positionsCache = {
           positions,
           timestamp: Date.now(),
           date: dateString
@@ -93,7 +93,7 @@ export async function getReliablePlanetaryPositions(;
         const positions = await fetchTimeAndDateData(date)
         if (positions && Object.keys(positions).length > 0) {
           // Cache the successful result
-          positionsCache = {;
+          positionsCache = {
             positions,
             timestamp: Date.now(),
             date: dateString
@@ -123,7 +123,7 @@ export async function getReliablePlanetaryPositions(;
  */
 async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
   // Format the date for Horizons API (YYYY-MMM-DD)
-  const months = [;
+  const months = [
     'Jan',
     'Feb',
     'Mar',
@@ -143,7 +143,7 @@ async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
   const positions: Record<string, unknown> = {}
 
   // List of major planets with their Horizons object IDs
-  const planets = [;
+  const planets = [
     { name: 'Sun', id: '10' }
     { name: 'Moon', id: '301' }
     { name: 'Mercury', id: '199' }
@@ -164,7 +164,7 @@ async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
         const url = `https: //ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND='${planet.id}'&OBJ_DATA='YES'&MAKE_EPHEM='YES'&EPHEM_TYPE='OBSERVER'&CENTER='500@399'&START_TIME='${horizonsDate}'&STOP_TIME='${horizonsDate}'&STEP_SIZE='1d'&QUANTITIES='31'`
 
         // Add a timeout to the fetch
-        const controller = new AbortController();
+        const controller = new AbortController()
         const timeoutId = setTimeout(() => controller.abort(), 5000)
 
         const response = await fetch(url, { signal: controller.signal })
@@ -194,7 +194,7 @@ async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
 
     // If we didn't get any planets, throw an error
     if (Object.keys(positions).length === 0) {
-      throw new Error('Failed to fetch any planetary positions');
+      throw new Error('Failed to fetch any planetary positions')
     }
 
     // Add lunar nodes
@@ -238,7 +238,7 @@ function processHorizonsResponse(result: string, planetName: string): unknown {
     const retroLine = lines.find(line => line.includes('retrograde'))
     const isRetrograde = !!retroLine?.includes('Yes')
 
-    return {;
+    return {
       sign,
       degree,
       exactLongitude,
@@ -258,11 +258,11 @@ function getLongitudeToZodiacSign(_longitude: number): { sign: string, degree: n
   const normalized = ((longitude % 360) + 360) % 360;
 
   // Calculate sign index and degree
-  const signIndex = Math.floor(normalized / 30);
+  const signIndex = Math.floor(normalized / 30)
   const degree = normalized % 30;
 
   // Get sign name
-  const signs = [;
+  const signs = [
     'aries',
     'taurus',
     'gemini',
@@ -289,7 +289,7 @@ function getLongitudeToZodiacSign(_longitude: number): { sign: string, degree: n
 function calculateLunarNode(date: Date, nodeType: 'northNode' | 'southNode'): unknown {
   try {
     // Calculate lunar nodes using simplified Meeus formula
-    const jd = dateToJulian(date);
+    const jd = dateToJulian(date)
     const T = (jd - 2451545.0) / 36525;
 
     // Mean longitude of ascending node (Meeus formula)
@@ -336,20 +336,20 @@ function dateToJulian(date: Date): number {
  */
 function getMarch2025Positions(date: Date | unknown = new Date()): Record<string, unknown> {
   // Ensure date is a valid Date object
-  const _validDate = date instanceof Date && !isNaN(date.getTime()) ? date : new Date();
+  const _validDate = date instanceof Date && !isNaN(date.getTime()) ? date : new Date()
   // Current accurate positions as of March 28, 2025
   const positions: Record<string, unknown> = {
-    sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false }
+    sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
     moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false }
-    mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true }
+    mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true },
     venus: { sign: 'pisces', degree: 29.08, exactLongitude: 359.08, isRetrograde: true }
-    mars: { sign: 'cancer', degree: 22.63, exactLongitude: 112.63, isRetrograde: false }
+    mars: { sign: 'cancer', degree: 22.63, exactLongitude: 112.63, isRetrograde: false },
     jupiter: { sign: 'gemini', degree: 15.52, exactLongitude: 75.52, isRetrograde: false }
-    saturn: { sign: 'pisces', degree: 24.12, exactLongitude: 354.12, isRetrograde: false }
+    saturn: { sign: 'pisces', degree: 24.12, exactLongitude: 354.12, isRetrograde: false },
     uranus: { sign: 'taurus', degree: 24.62, exactLongitude: 54.62, isRetrograde: false }
-    neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false }
+    neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false },
     pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false }
-    northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true }
+    northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true },
     southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true }
     _ascendant: { sign: 'libra', degree: 7.82, exactLongitude: 187.82, isRetrograde: false }
   }
@@ -370,7 +370,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
     const url = `https: //json.astrologyapi.com/v1/planets/tropical/geo/${formattedDate}`;
 
     // Add a timeout to the fetch request
-    const controller = new AbortController();
+    const controller = new AbortController()
     const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
 
     // Wrap the entire fetch operation in a try/catch
@@ -420,7 +420,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
             planetNameMap[planetData.name.toLowerCase()]
           ) {
             const standardName = planetNameMap[planetData.name.toLowerCase()];
-            const exactLongitude = parseFloat(planetData.longitude);
+            const exactLongitude = parseFloat(planetData.longitude)
             const { sign, degree} = getLongitudeToZodiacSign(exactLongitude)
 
             positions[standardName] = {
@@ -434,7 +434,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
       }
 
       // Ensure all planets are represented
-      const requiredPlanets = [;
+      const requiredPlanets = [
         'Sun',
         'Moon',
         'Mercury',
@@ -507,12 +507,12 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
     const auth = Buffer.from(`${apiKey}:${apiSecret}`).toString('base64')
 
     // Add a timeout to the fetch request
-    const controller = new AbortController();
+    const controller = new AbortController()
     const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
 
     try {
       // Make the request with authorization
-      const response = await fetch(;
+      const response = await fetch(
         `${baseUrl}/positions?object=sun,moon,mercury,venus,mars,jupiter,saturn,uranus,neptune,pluto&date=${formattedDate}`,,
         {
           method: 'GET',
@@ -542,7 +542,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
             objData?.position &&
             typeof objData.position?.eclipticLongitude === 'number'
           ) {
-            const planetName = objData.name.charAt(0).toUpperCase() + objData.name.slice(1);
+            const planetName = objData.name.charAt(0).toUpperCase() + objData.name.slice(1)
             const { sign, degree} = getLongitudeToZodiacSign(objData.position.eclipticLongitude)
 
             positions[planetName] = {
@@ -556,7 +556,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
       }
 
       // Check if we received sufficient data
-      const requiredPlanets = [;
+      const requiredPlanets = [
         'Sun',
         'Moon',
         'Mercury',
@@ -594,7 +594,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
       } catch (nodeError) {
         _logger.warn('Error calculating lunar nodes: ', nodeError)
         // Use fallback data for nodes
-        const fallback = getMarch2025Positions();
+        const fallback = getMarch2025Positions()
         positions.northNode = fallback.northNode,
         positions.southNode = fallback.southNode,
       }

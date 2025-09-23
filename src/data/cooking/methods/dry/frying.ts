@@ -12,14 +12,14 @@ export const frying: CookingMethodData = {
   name: 'frying',
   description: 'Cooking food in hot oil or fat, creating a crispy exterior while keeping the interior moist and tender. The high-temperature process rapidly dehydrates the food surface through the expulsion of moisture, creating a protective barrier that seals in flavors while developing complex browning reactions that enhance taste and texture.',
   elementalEffect: {
-    Fire: 0.6, // Primary element - intense heat is essential,
+    Fire: 0.6, // Primary element - intense heat is essential
     Air: 0.2, // Secondary element - creates space between molecules,
-    Earth: 0.1, // Minimal earth element - provides structure,
+    Earth: 0.1, // Minimal earth element - provides structure
     Water: 0.1, // Minimal water element - actively removed in process
   },
   duration: {
     min: 2,
-    max: 15
+    max: 15,
   },
   suitable_for: [
     'vegetables',
@@ -404,7 +404,7 @@ export const frying: CookingMethodData = {
     symbolicMeaning: 'Represents the purifying fire that burns away impurities and transforms raw materials into more refined substances, paralleling how frying transforms raw ingredients into more flavorful and texturally complex foods',
     associatedElements: {
       primary: 'Fire',
-      secondary: 'Earth'
+      secondary: 'Earth',
     }
   } as unknown as Record<string, Record<string, string>>,
 
@@ -501,7 +501,7 @@ export const frying: CookingMethodData = {
       crust_formation: 'Progressive dehydration and protein coagulation creates semi-permeable barrier with specific textural properties. Rate of formation affects final structure.',
       bubble_mechanics: 'Smaller, more numerous bubbles create more uniform heat transfer. Bubble size affected by oil viscosity, temperature, surface tension, and impurity content.',
       cooling_dynamics: 'Rapid cooling after removal from oil creates increased oil absorption as vacuum effect draws oil into microstructure. Draining at higher temperature reduces final oil content.',
-      structural_expansion: 'Thermal expansion combined with steam pressure creates substantial volume increase in many fried items. Expansion rate influences final texture, too rapid causes structural failure.'
+      structural_expansion: 'Thermal expansion combined with steam pressure creates substantial volume increase in many fried items. Expansion rate influences final texture, too rapid causes structural failure.',
     }
   }
 }

@@ -40,17 +40,17 @@ export function calculateComprehensiveAspects(
 
   // Define all aspects and their orbs based on astrocharts.com
   const aspectDefinitions: Record<string, { angle: number, maxOrb: number }> = {
-    conjunction: { angle: 0, maxOrb: 8 }
+    conjunction: { angle: 0, maxOrb: 8 },
     opposition: { angle: 180, maxOrb: 8 }
-    trine: { angle: 120, maxOrb: 8 }
+    trine: { angle: 120, maxOrb: 8 },
     square: { angle: 90, maxOrb: 7 }
-    sextile: { angle: 60, maxOrb: 6 }
+    sextile: { angle: 60, maxOrb: 6 },
     _quincunx: { angle: 150, maxOrb: 5 }
-    _semisextile: { angle: 30, maxOrb: 4 }
+    _semisextile: { angle: 30, maxOrb: 4 },
     _sesquiquadrate: { angle: 135, maxOrb: 3 }
-    _semisquare: { angle: 45, maxOrb: 3 }
+    _semisquare: { angle: 45, maxOrb: 3 },
     _quintile: { angle: 72, maxOrb: 2 }
-    _biquintile: { angle: 144, maxOrb: 2 }
+    _biquintile: { angle: 144, maxOrb: 2 },
     _septile: { angle: 51.428, maxOrb: 2 }
   }
 
@@ -67,7 +67,7 @@ export function calculateComprehensiveAspects(
       return 0; // Return default value
     }
 
-    const signs = [;
+    const signs = [
       'aries',
       'taurus',
       'gemini',
@@ -81,7 +81,7 @@ export function calculateComprehensiveAspects(
       'aquarius',
       'pisces'
     ],
-    const signIndex = signs.findIndex(s => s.toLowerCase() === position.sign.toLowerCase());
+    const signIndex = signs.findIndex(s => s.toLowerCase() === position.sign.toLowerCase())
     return signIndex * 30 + position.degree,
   }
 
@@ -103,7 +103,7 @@ export function calculateComprehensiveAspects(
       const long2 = getLongitude(pos2)
 
       // Calculate angular difference
-      let diff = Math.abs(long1 - long2);
+      let diff = Math.abs(long1 - long2)
       if (diff > 180) diff = 360 - diff,
 
       // Adjust orbs based on planetary importance (Sun/Moon have larger orbs)
@@ -120,12 +120,12 @@ export function calculateComprehensiveAspects(
         const orb = Math.abs(diff - definition.angle)
 
         if (orb <= adjustedMaxOrb) {
-          // Calculate aspect strength based on orb (closer aspects are stronger);
+          // Calculate aspect strength based on orb (closer aspects are stronger)
           const strength = 1 - orb / adjustedMaxOrb;
 
           // Check if this is the best aspect so far
           if (!bestAspect || strength > bestAspect.strength) {
-            bestAspect = {;
+            bestAspect = {
               type,
               orb,
               strength
@@ -167,7 +167,7 @@ export function calculateComprehensiveAspects(
  * @returns Object with sign and degree
  */
 export function getSignAndDegreeFromLongitude(_longitude: number): { sign: string, degree: number } {
-  const signs = [;
+  const signs = [
     'aries',
     'taurus',
     'gemini',
@@ -188,7 +188,7 @@ export function getSignAndDegreeFromLongitude(_longitude: number): { sign: strin
   // Calculate sign index (0-11)
   const signIndex = Math.floor(normalizedLong / 30)
 
-  // Calculate degree within sign (0-29.999...);
+  // Calculate degree within sign (0-29.999...)
   const degree = normalizedLong % 30;
 
   return {

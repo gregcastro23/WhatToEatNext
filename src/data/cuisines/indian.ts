@@ -1,7 +1,7 @@
 // src/data/cuisines/indian.ts
 import type { Cuisine } from '@/types/cuisine';
 
-export const indian: Cuisine = {;
+export const indian: Cuisine = {
   id: 'indian',
   name: 'Indian',
   description: 'Traditional Indian cuisine spanning diverse regional specialties, spice blends, and cooking techniques',
@@ -61,7 +61,7 @@ export const indian: Cuisine = {;
             Earth: 0.3,
             Fire: 0.4,
             Air: 0.2,
-            Water: 0.1
+            Water: 0.1,
           }
         }
         {
@@ -123,7 +123,7 @@ export const indian: Cuisine = {;
             Earth: 0.5,
             Fire: 0.3,
             Water: 0.1,
-            Air: 0.1
+            Air: 0.1,
           }
         }
         {
@@ -175,7 +175,7 @@ export const indian: Cuisine = {;
             Water: 0.4,
             Earth: 0.3,
             Fire: 0.2,
-            Air: 0.1
+            Air: 0.1,
           }
         }
       ],
@@ -206,7 +206,7 @@ export const indian: Cuisine = {;
               amount: '2',
               unit: 'pieces',
               category: 'spice',
-              optional: true
+              optional: true,
             }
           ],
           substitutions: {
@@ -236,7 +236,7 @@ export const indian: Cuisine = {;
             Earth: 0.4,
             Fire: 0.3,
             Air: 0.2,
-            Water: 0.1
+            Water: 0.1,
           }
         }
       ]
@@ -321,7 +321,7 @@ export const indian: Cuisine = {;
               amount: '2',
               unit: 'pieces',
               category: 'spice',
-              optional: true
+              optional: true,
             }
             { name: 'turmeric', amount: '1/2', unit: 'tsp', category: 'spice' }
           ],
@@ -694,7 +694,7 @@ export const indian: Cuisine = {;
               amount: '100',
               unit: 'g',
               category: 'legume',
-              optional: true
+              optional: true,
             }
           ],
           substitutions: {
@@ -749,7 +749,7 @@ export const indian: Cuisine = {;
               amount: '2',
               unit: 'whole',
               category: 'spice',
-              optional: true
+              optional: true,
             }
           ],
           substitutions: {
@@ -779,7 +779,7 @@ export const indian: Cuisine = {;
             Earth: 0.3,
             Fire: 0.4,
             Air: 0.2,
-            Water: 0.1
+            Water: 0.1,
           }
         }
       ],
@@ -1050,7 +1050,7 @@ export const indian: Cuisine = {;
         Fire: 0.5,
         Earth: 0.2,
         Water: 0.2,
-        Air: 0.1
+        Air: 0.1,
       },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'all',
@@ -1072,7 +1072,7 @@ export const indian: Cuisine = {;
         Fire: 0.3,
         Water: 0.3,
         Earth: 0.3,
-        Air: 0.1
+        Air: 0.1,
       },
       astrologicalInfluences: ['Venus', 'Moon', 'Taurus'],
       seasonality: 'all',
@@ -1089,7 +1089,7 @@ export const indian: Cuisine = {;
         Water: 0.6,
         Earth: 0.2,
         Air: 0.2,
-        Fire: 0.0
+        Fire: 0.0,
       },
       astrologicalInfluences: ['Moon', 'Venus', 'Cancer'],
       seasonality: 'all',
@@ -1106,7 +1106,7 @@ export const indian: Cuisine = {;
         Water: 0.4,
         Fire: 0.3,
         Earth: 0.2,
-        Air: 0.1
+        Air: 0.1,
       },
       astrologicalInfluences: ['Mercury', 'Saturn', 'Gemini'],
       seasonality: 'all',
@@ -1123,7 +1123,7 @@ export const indian: Cuisine = {;
         Air: 0.5,
         Water: 0.3,
         Fire: 0.2,
-        Earth: 0.0
+        Earth: 0.0,
       },
       astrologicalInfluences: ['Mercury', 'Moon', 'Virgo'],
       seasonality: 'all',
@@ -1151,7 +1151,7 @@ export const indian: Cuisine = {;
         Water: 0.5,
         Earth: 0.2,
         Fire: 0.2,
-        Air: 0.1
+        Air: 0.1,
       },
       astrologicalInfluences: ['Moon', 'Neptune', 'Pisces'],
       seasonality: 'all',
@@ -1168,12 +1168,12 @@ export const indian: Cuisine = {;
         Fire: 0.4,
         Earth: 0.3,
         Water: 0.2,
-        Air: 0.1
+        Air: 0.1,
       },
       astrologicalInfluences: ['Mars', 'Sun', 'Leo'],
       seasonality: 'all',
       preparationNotes: 'Properly caramelizing onions (bhunao) is the key to depth of flavor',
-      technicalTips: 'Prepare in large batches and freeze in portions for quick weeknight cooking'
+      technicalTips: 'Prepare in large batches and freeze in portions for quick weeknight cooking',
     }
   },
   sauceRecommender: {
@@ -1368,42 +1368,42 @@ export const indian: Cuisine = {;
     {
       name: 'Tadka',
       description: 'Tempering spices in hot oil or ghee to release flavors',
-      elementalProperties: { Fire: 0.7, Air: 0.2, Earth: 0.1, Water: 0.0 }
+      elementalProperties: { Fire: 0.7, Air: 0.2, Earth: 0.1, Water: 0.0 },
       toolsRequired: ['small tadka pan', 'spoon', 'lid', 'ladle'],
       bestFor: ['dal preparations', 'curries', 'rice dishes', 'yogurt preparations'],
-      difficulty: 'medium'
+      difficulty: 'medium',
     }
     {
       name: 'Dum',
       description: 'Slow cooking in a sealed vessel to contain flavors and moisture',
-      elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 }
+      elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
       toolsRequired: ['heavy-bottomed pot', 'dough for sealing', 'tongs', 'weight'],
       bestFor: ['biryani', 'meat curries', 'rich vegetable dishes', 'kebabs'],
-      difficulty: 'hard'
+      difficulty: 'hard',
     }
     {
       name: 'Bhunao',
       description: 'Slow sautéing to caramelize and intensify flavors',
-      elementalProperties: { Fire: 0.5, Earth: 0.3, Air: 0.1, Water: 0.1 }
+      elementalProperties: { Fire: 0.5, Earth: 0.3, Air: 0.1, Water: 0.1 },
       toolsRequired: ['heavy kadhai', 'wooden spoon', 'tongs', 'timer'],
       bestFor: ['onion-tomato masala', 'meat preparations', 'mixed vegetables', 'keema'],
-      difficulty: 'medium'
+      difficulty: 'medium',
     }
     {
       name: 'Tandoor',
       description: 'High-heat clay oven cooking for char and smoky flavor',
-      elementalProperties: { Fire: 0.8, Air: 0.1, Earth: 0.1, Water: 0.0 }
+      elementalProperties: { Fire: 0.8, Air: 0.1, Earth: 0.1, Water: 0.0 },
       toolsRequired: ['tandoor', 'skewers', 'brush', 'tongs'],
       bestFor: ['breads', 'marinated meats', 'kebabs', 'vegetables'],
-      difficulty: 'hard'
+      difficulty: 'hard',
     }
     {
       name: 'Baghar',
       description: 'Pouring hot spice-infused oil over finished dishes',
-      elementalProperties: { Fire: 0.6, Air: 0.3, Earth: 0.1, Water: 0.0 }
+      elementalProperties: { Fire: 0.6, Air: 0.3, Earth: 0.1, Water: 0.0 },
       toolsRequired: ['small pan', 'spoon', 'heat-proof container', 'strainer'],
       bestFor: ['dals', 'rice dishes', 'raita', 'curries'],
-      difficulty: 'easy'
+      difficulty: 'easy',
     }
   ],
   regionalCuisines: {
@@ -1411,37 +1411,37 @@ export const indian: Cuisine = {;
       name: 'Punjabi Cuisine',
       description: 'Hearty, rich cuisine with generous use of dairy, robust spices, and tandoor cooking',
       signature: ['butter chicken', 'dal makhani', 'amritsari kulcha', 'sarson da saag'],
-      elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 }
+      elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Mars', 'Jupiter', 'taurus'],
       seasonality: 'all' },
         bengali: {
       name: 'Bengali Cuisine',
       description: 'Delicate flavors with emphasis on fish, mustard, panch phoron spice blend and sweets',
       signature: ['maacher jhol', 'shorshe ilish', 'mishti doi', 'rasgulla'],
-      elementalProperties: { Water: 0.5, Earth: 0.2, Air: 0.2, Fire: 0.1 }
+      elementalProperties: { Water: 0.5, Earth: 0.2, Air: 0.2, Fire: 0.1 },
       astrologicalInfluences: ['Venus', 'Moon', 'cancer'],
       seasonality: 'all' },
         south_indian: {
       name: 'South Indian Cuisine',
       description: 'Predominantly rice-based with coconut, curry leaves, tamarind and complex spice blends',
       signature: ['dosa', 'idli', 'sambar', 'rasam'],
-      elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 }
+      elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Mercury', 'Sun', 'virgo'],
       seasonality: 'all' },
         gujarati: {
       name: 'Gujarati Cuisine',
       description: 'Vegetarian cuisine with balance of sweet, salty and spicy flavors',
       signature: ['dhokla', 'thepla', 'undhiyu', 'fafda-jalebi'],
-      elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 }
+      elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
       astrologicalInfluences: ['Jupiter', 'Mercury', 'gemini'],
-      seasonality: 'all'
+      seasonality: 'all',
     }
   },
   elementalProperties: {
     Fire: 0.5,
     Earth: 0.2,
     Water: 0.2,
-    Air: 0.1
+    Air: 0.1,
   }
 }
 

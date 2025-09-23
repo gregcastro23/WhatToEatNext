@@ -13,7 +13,7 @@ export function useRuneAgent(initial?: RuneAgentInput) {
     setLoading(true)
     setError(null)
     try {
-      const payload: RuneAgentInput = {;
+      const payload: RuneAgentInput = {
         datetime: input?.datetime ?? initial?.datetime,
         location: input?.location ?? initial?.location,
         context: input?.context ?? initial?.context,
@@ -36,7 +36,7 @@ export function useRuneAgent(initial?: RuneAgentInput) {
     setLoading(true)
     setError(null)
     try {
-      const payload: RuneAgentInput = {;
+      const payload: RuneAgentInput = {
         datetime: input?.datetime ?? initial?.datetime,
         location: input?.location ?? initial?.location,
         context: input?.context ?? initial?.context,
@@ -57,7 +57,7 @@ export function useRuneAgent(initial?: RuneAgentInput) {
     setLoading(true)
     setError(null)
     try {
-      const payload: RuneAgentInput = {;
+      const payload: RuneAgentInput = {
         datetime: input?.datetime ?? initial?.datetime,
         location: input?.location ?? initial?.location,
         context: input?.context ?? initial?.context,

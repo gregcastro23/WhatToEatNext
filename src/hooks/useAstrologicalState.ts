@@ -14,7 +14,7 @@ export interface AstrologyHookData {
   currentPlanetaryAlignment: PlanetaryAlignment,
   lunarPhase: LunarPhase,
   activePlanets: string[],
-  domElements: { Fire: number, Water: number, Earth: number, Air: number }
+  domElements: { Fire: number, Water: number, Earth: number, Air: number },
   loading: boolean,
   isReady: boolean,
   isDaytime: boolean,
@@ -29,7 +29,7 @@ function _createCelestialPosition(
   options?: { planetName?: string }
 ): CelestialPosition {
   // Calculate a reasonable longitude based on the zodiac sign
-  const signIndex = [;
+  const signIndex = [
     'aries',
     'taurus',
     'gemini',
@@ -61,7 +61,7 @@ function _createCelestialPosition(
       saturn: 0.03,
       uranus: 0.01,
       neptune: 0.005,
-      pluto: 0.002
+      pluto: 0.002,
     }
 
     return planetSpeeds[planetName.toLowerCase()] || 0.5,
@@ -97,20 +97,20 @@ export function useAstrologicalState(): AstrologyHookData {
     currentPlanetaryAlignment: Record<string, CelestialPosition>,
     lunarPhase: LunarPhase,
     activePlanets: string[],
-    domElements: { Fire: number, Water: number, Earth: number, Air: number }
+    domElements: { Fire: number, Water: number, Earth: number, Air: number },
     loading: boolean
   }>({
     currentZodiac: '',
     currentPlanetaryAlignment: {}
     lunarPhase: 'waxing crescent' as LunarPhase, // More reasonable default based on current actual phase,
     activePlanets: [] as string[],
-    domElements: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
-    loading: true
+    domElements: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+    loading: true,
   })
 
   // Calculate active planets based on their positions and dignities
   const getActivePlanets = useCallback(
-    (;
+    (
       positions: Record<string, { sign?: string, degree?: number, exactLongitude?: number }>,
     ): string[] => {
       if (!positions || typeof positions !== 'object') {
@@ -119,7 +119,7 @@ export function useAstrologicalState(): AstrologyHookData {
       }
 
       // List of planets we want to check
-      const planetKeys = [;
+      const planetKeys = [
         'sun',
         'moon',
         'mercury',
@@ -245,7 +245,7 @@ export function useAstrologicalState(): AstrologyHookData {
             currentZodiac,
             currentPlanetaryAlignment: memoizedPlanetaryPositions,
             activePlanets,
-            loading: false
+            loading: false,
           }
         })
         setIsReady(true)

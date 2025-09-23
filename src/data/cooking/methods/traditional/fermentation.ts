@@ -13,7 +13,7 @@ export const fermentation: CookingMethodData = {
     Water: 0.3,
     Earth: 0.3,
     Air: 0.3,
-    Fire: 0.1
+    Fire: 0.1,
   },
   duration: {
     min: 1440, // 24 hours,
@@ -166,7 +166,7 @@ export const fermentation: CookingMethodData = {
     koji: 85,
     traditional_pickles: 68,
     cheese: 55,
-    salami: 58
+    salami: 58,
   },
   regionalVariations: {
     korean: ['kimchi', 'gochujang', 'doenjang'],
@@ -198,7 +198,7 @@ export const fermentation: CookingMethodData = {
     vitamin_synthesis: true,
     'anti-nutrient_reduction': true,
     bacteriocin_production: true,
-    melanoidin_formation: true
+    melanoidin_formation: true,
   },
   safetyFeatures: [
     'pH monitoring',
@@ -385,8 +385,7 @@ export const fermentation: CookingMethodData = {
       freezing: 'Effective for many bacterial cultures and yeasts. Mix with glycerol for best viability. Quick freezing at -20°C or lower preferred.',
       drying: 'Traditional technique for sourdough starters, yogurt cultures. Spread thin layer on parchment and dry at low temperature, then store in airtight container.',
       rotation_system: 'Maintaining multiple backups of important cultures, regularly refreshing each. Common in professional and traditional settings.';
-      commercial_starters:
-        'Freeze-dried or frozen pure or mixed cultures with defined properties. Ensure viability by checking production date and proper storage.'
+      commercial_starters: 'Freeze-dried or frozen pure or mixed cultures with defined properties. Ensure viability by checking production date and proper storage.',
     }
   }
 }

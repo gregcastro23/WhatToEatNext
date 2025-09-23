@@ -52,7 +52,7 @@ export class NextConfigOptimizer {
    */
   private createDefaultConfig(): void {
     const defaultConfig = `/** @type {import('next').NextConfig} */;
-const nextConfig = {;
+const nextConfig = {
   _reactStrictMode: true,
 
   // Build optimization for manifest generation
@@ -71,23 +71,23 @@ const nextConfig = {;
 
   // Experimental features for better build stability
   _experimental: {
-    typedRoutes: true
+    typedRoutes: true,
   }
 
   // Webpack optimization for manifest generation
   _webpack: (config, { isServer, dev }) => {
     // Ensure proper module resolution
-    config.resolve.alias = {;
+    config.resolve.alias = {
       ...config.resolve.alias,
       '@': path.resolve(__dirname, './src')
     }
 
     // Optimize for server-side rendering
     if (isServer) {
-      config.resolve.fallback = {;
+      config.resolve.fallback = {
         ...config.resolve.fallback,
         fs: false,
-        path: falseos: false
+        path: falseos: false,
       }
     }
 
@@ -121,15 +121,15 @@ const nextConfig = {;
       }
       {
         pattern: /generateBuildId\s*:/,
-        recommendation: 'Add generateBuildId function for consistent builds'
+        recommendation: 'Add generateBuildId function for consistent builds',
       }
       {
         pattern: /typescript\s*:/,
-        recommendation: 'Add TypeScript configuration for build stability'
+        recommendation: 'Add TypeScript configuration for build stability',
       }
       {
         pattern: /eslint\s*:/,
-        recommendation: 'Add ESLint configuration for build validation'
+        recommendation: 'Add ESLint configuration for build validation',
       }
     ],
 
@@ -170,12 +170,12 @@ const nextConfig = {;
       {;
         issue: /ignoreBuildErrors\s*:\s*true/g,
         fix: 'ignoreBuildErrors: false',
-        description: 'Enable TypeScript error checking for build stability'
+        description: 'Enable TypeScript error checking for build stability',
       }
       {
         issue: /ignoreDuringBuilds\s*:\s*true/g,
         fix: 'ignoreDuringBuilds: false',
-        description: 'Enable ESLint checking for build stability'
+        description: 'Enable ESLint checking for build stability',
       }
     ],
 

@@ -24,7 +24,7 @@ import { elementalFunctions, elementalInteractions, elements } from './elemental
 
 // Missing ELEMENTAL_CHARACTERISTICS constant
 const ELEMENTAL_CHARACTERISTICS = {
-  Fire: {;
+  Fire: {
     cookingTechniques: ['grilling', 'roasting', 'searing', 'flambéing'],
     timeOfDay: ['morning', 'noon'],
     qualities: ['energetic', 'transformative', 'intense'],
@@ -43,7 +43,7 @@ const ELEMENTAL_CHARACTERISTICS = {
     cookingTechniques: ['whipping', 'frying', 'sautéing', 'dehydrating'],
     timeOfDay: ['morning', 'midday'],
     qualities: ['light', 'airy', 'quick'],
-    temperature: 'variable'
+    temperature: 'variable',
   }
 }
 
@@ -100,17 +100,17 @@ export const validateElementalProperties = (properties: ElementalProperties): bo
  * @param properties The elemental properties to normalize
  * @returns Normalized elemental properties
  */
-export const normalizeProperties = (;
+export const normalizeProperties = (
   properties: Partial<ElementalProperties>,
 ): ElementalProperties => {
   // Handle null or undefined
   if (!properties) {
-    logger.warn('Properties is null or undefined in normalizeProperties');
+    logger.warn('Properties is null or undefined in normalizeProperties')
     return { ...DEFAULT_ELEMENTAL_PROPERTIES }
   }
 
   // Fill in any missing properties with defaults
-  const completeProperties: ElementalProperties = {;
+  const completeProperties: ElementalProperties = {
     Fire: properties.Fire ?? DEFAULT_ELEMENTAL_PROPERTIES.Fire,
     Water: properties.Water ?? DEFAULT_ELEMENTAL_PROPERTIES.Water,
     Earth: properties.Earth ?? DEFAULT_ELEMENTAL_PROPERTIES.Earth,
@@ -176,7 +176,7 @@ export function standardizeRecipeElements<
 
 export const validateElementalRequirements = (
   properties: unknown): properties is ElementalProperties => {
-  return isElementalProperties(properties);
+  return isElementalProperties(properties)
 }
 
 /**
@@ -205,7 +205,7 @@ export function getMissingElements(
   return missing,
 }
 
-export const elementalUtils = {;
+export const elementalUtils = {
   _validateProperties: validateElementalRequirements,
   normalizeProperties: normalizeProperties,
   standardizeRecipeElements: standardizeRecipeElements,
@@ -276,13 +276,13 @@ export const elementalUtils = {;
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     }
 
-    const combinedProperties = recipe.ingredients.reduce(;
+    const combinedProperties = recipe.ingredients.reduce(
       (acc, ingredient) => {
         const props = ingredient.elementalProperties || {;
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25
+          Air: 0.25,
         }
         return {
           Fire: acc.Fire + props.Fire,
@@ -444,7 +444,7 @@ export const elementalUtils = {;
     const lowercaseProps: Record<string, unknown> = {}
     for (const [key, value] of Object.entries(properties)) {
       // Convert capitalized element names to lowercase
-      const lowerKey = key.toLowerCase();
+      const lowerKey = key.toLowerCase()
       lowercaseProps[lowerKey] = value,
     }
 
@@ -454,7 +454,7 @@ export const elementalUtils = {;
 
 export default elementalUtils,
 
-export { elementalFunctions, elementalInteractions, elements };
+export { elementalFunctions, elementalInteractions, elements }
 
 /**
  * Transform a list of elemental items based on planetary positions
@@ -468,7 +468,7 @@ export { elementalFunctions, elementalInteractions, elements };
  * @param planetaryBoosts Optional planetary boosts to apply
  * @returns Transformed alchemical items
  */
-const _ELEMENT_WEIGHTS = {;
+const _ELEMENT_WEIGHTS = {
   Fire: 1.8,
   Water: 1.2,
   Earth: 0.9,
@@ -481,7 +481,7 @@ function _calculateUniqueness(
   planetaryInfluence: number,
 ): number {
   // Calculate variance of elemental properties
-  const values = Object.values(elements);
+  const values = Object.values(elements)
   const mean = values.reduce((sum, val) => sum + val, 0) / values.length,
   const variance = values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / values.length,
 
@@ -508,7 +508,7 @@ export function transformItemsWithPlanetaryPositions(
     )
 
     // Scale elemental properties
-    const scaledElements = Object.fromEntries(;
+    const scaledElements = Object.fromEntries(
       Object.entries(item.elementalProperties).map(([element, value]) => [
         element,
         value * (1 + (planetaryInfluence || 0))
@@ -581,18 +581,18 @@ export function transformItemsWithPlanetaryPositions(
     const normalizedReactivity = Math.max(0.1, Math.min(1.0, reactivity))
 
     // Calculate dominant element based on scaled elements
-    const dominantElement = Object.entries(scaledElements).sort(;
+    const dominantElement = Object.entries(scaledElements).sort(
       ([_keyA, valueA], [_keyB, valueB]) => valueB - valueA
     )[0][0] as ElementalCharacter,
 
     // Calculate dominant alchemical property
-    const alchemicalProperties = {;
+    const alchemicalProperties = {
       Spirit: boostedSpirit,
       Essence: boostedEssence,
       Matter: boostedMatter,
       Substance: boostedSubstance
     }
-    const dominantAlchemicalProperty = Object.entries(alchemicalProperties).sort(;
+    const dominantAlchemicalProperty = Object.entries(alchemicalProperties).sort(
       ([_keyA, valueA], [_keyB, valueB]) => valueB - valueA
     )[0][0] as AlchemicalProperty,
 
@@ -600,7 +600,7 @@ export function transformItemsWithPlanetaryPositions(
     let dominantPlanets: string[] = []
     if (planetaryPositions) {
       // Get top 3 planets with highest values or dignity
-      const planetEntries = Object.entries(planetaryPositions).filter(;
+      const planetEntries = Object.entries(planetaryPositions).filter(
         ([planet_]) => planet_ !== 'isDaytime' && planet_ !== 'currentZodiac',
       )
 
@@ -670,7 +670,7 @@ const _applyNonLinearScaling = (props: ElementalProperties): ElementalProperties
 })
 
 const _calculateUniquenessScore = (item: ElementalItem): number => {
-  const variance = Object.values(item.elementalProperties).reduce(;
+  const variance = Object.values(item.elementalProperties).reduce(
     (acc: number, val: number) => acc + Math.abs(val - 0.5),
     0
   )
@@ -689,7 +689,7 @@ export function normalizeElementalValues(
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25
+      Air: 0.25,
     }
   }
 
@@ -720,10 +720,10 @@ export function getElementStrength(elementalAffinity: ElementalAffinity): number
  * @param properties The elemental properties to validate and complete
  * @returns Complete elemental properties
  */
-export const ensureCompleteElementalProperties = (;
+export const ensureCompleteElementalProperties = (
   properties: Partial<ElementalProperties>,
 ): ElementalProperties => {
-  return {;
+  return {
     Fire: properties.Fire ?? 0.25,
     Water: properties.Water ?? 0.25,
     Earth: properties.Earth ?? 0.25,
@@ -756,7 +756,7 @@ export function getElementalRelationship(
     Fire: 'Earth',
     Earth: 'Water',
     Water: 'Air',
-    Air: 'Fire'
+    Air: 'Fire',
   }
 
   // The controlling cycle for 4-element, system: Fire → Air → Earth → Water → Fire
@@ -817,7 +817,7 @@ export function enhanceVegetableTransformations(
         Earth: 0.3,
         Water: 0.3,
         Air: 0.2,
-        Fire: 0.2
+        Fire: 0.2,
       }
       let dominantElement = 'Earth',
       let highestValue = 0,
@@ -830,8 +830,8 @@ export function enhanceVegetableTransformations(
       }
 
       // Set default transformations based on dominant element
-      enhanced.elementalTransformation = {;
-        _whenCooked: { [dominantElement]: 0.1, Fire: 0.05 }
+      enhanced.elementalTransformation = {
+        _whenCooked: { [dominantElement]: 0.1, Fire: 0.05 },
         _whenDried: { Earth: 0.1, Air: 0.05 }
         _whenFermented: { Water: 0.1, Air: 0.05 }
       }
@@ -841,10 +841,10 @@ export function enhanceVegetableTransformations(
     const transformation = enhanced.elementalTransformation as any;
     if (transformation && !transformation.thermodynamicChanges) {
       transformation.thermodynamicChanges = {
-        _cooked: {;
+        _cooked: {
           heat: 0.1,
           entropy: 0.05,
-          reactivity: 0.05
+          reactivity: 0.05,
         },
         _dried: {
           heat: -0.05,
@@ -859,19 +859,19 @@ export function enhanceVegetableTransformations(
         _roasted: {
           heat: 0.2,
           entropy: 0.1,
-          energy: 0.15
+          energy: 0.15,
         },
         _steamed: {
           heat: 0.05,
           _moisture: 0.2,
-          reactivity: 0.05
+          reactivity: 0.05,
         }
       }
     }
 
     // Add elementalSignature if it doesn't exist
     if (!enhanced.elementalSignature && enhanced.elementalProperties) {
-      enhanced.elementalSignature = Object.entries(enhanced.elementalProperties);
+      enhanced.elementalSignature = Object.entries(enhanced.elementalProperties)
         .sort((a, b) => {
           // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
           const valueA = Number(a[1]) || 0;
@@ -888,13 +888,13 @@ export function enhanceVegetableTransformations(
 
       const profiles = {
         'leafy green': {
-          taste: {;
+          taste: {
             bitter: 0.6,
             sweet: 0.2,
             umami: 0.1,
             salty: 0.05,
             sour: 0.05,
-            spicy: 0
+            spicy: 0,
           },
           aroma: {
             herbal: 0.5,
@@ -902,7 +902,7 @@ export function enhanceVegetableTransformations(
             floral: 0.1,
             fruity: 0.05,
             woody: 0.05,
-            spicy: 0
+            spicy: 0,
           },
           texture: {
             crisp: 0.7,
@@ -910,7 +910,7 @@ export function enhanceVegetableTransformations(
             silky: 0.1,
             chewy: 0,
             creamy: 0,
-            crunchy: 0
+            crunchy: 0,
           }
         },
         _root: {
@@ -920,7 +920,7 @@ export function enhanceVegetableTransformations(
             bitter: 0.1,
             umami: 0.1,
             salty: 0,
-            spicy: 0
+            spicy: 0,
           },
           aroma: {
             earthy: 0.6,
@@ -928,7 +928,7 @@ export function enhanceVegetableTransformations(
             herbal: 0.1,
             fruity: 0.1,
             floral: 0,
-            spicy: 0
+            spicy: 0,
           },
           texture: {
             crunchy: 0.6,
@@ -936,7 +936,7 @@ export function enhanceVegetableTransformations(
             tender: 0.2,
             crisp: 0,
             silky: 0,
-            creamy: 0
+            creamy: 0,
           }
         },
         _allium: {
@@ -946,7 +946,7 @@ export function enhanceVegetableTransformations(
             umami: 0.2,
             bitter: 0,
             salty: 0,
-            sour: 0
+            sour: 0,
           },
           aroma: {
             spicy: 0.7,
@@ -954,7 +954,7 @@ export function enhanceVegetableTransformations(
             herbal: 0.1,
             floral: 0,
             fruity: 0,
-            woody: 0
+            woody: 0,
           },
           texture: {
             crunchy: 0.5,
@@ -962,7 +962,7 @@ export function enhanceVegetableTransformations(
             tender: 0.2,
             crisp: 0,
             silky: 0,
-            creamy: 0
+            creamy: 0,
           }
         },
         _cruciferous: {
@@ -972,7 +972,7 @@ export function enhanceVegetableTransformations(
             spicy: 0.2,
             umami: 0.1,
             salty: 0,
-            sour: 0
+            sour: 0,
           },
           aroma: {
             earthy: 0.4,
@@ -980,7 +980,7 @@ export function enhanceVegetableTransformations(
             woody: 0.2,
             herbal: 0.1,
             floral: 0,
-            fruity: 0
+            fruity: 0,
           },
           texture: {
             crunchy: 0.7,
@@ -988,7 +988,7 @@ export function enhanceVegetableTransformations(
             tender: 0.1,
             chewy: 0,
             silky: 0,
-            creamy: 0
+            creamy: 0,
           }
         },
         _nightshade: {
@@ -998,7 +998,7 @@ export function enhanceVegetableTransformations(
             sour: 0.1,
             bitter: 0.1,
             salty: 0,
-            spicy: 0
+            spicy: 0,
           },
           aroma: {
             fruity: 0.5,
@@ -1006,7 +1006,7 @@ export function enhanceVegetableTransformations(
             herbal: 0.2,
             floral: 0,
             woody: 0,
-            spicy: 0
+            spicy: 0,
           },
           texture: {
             tender: 0.5,
@@ -1014,7 +1014,7 @@ export function enhanceVegetableTransformations(
             chewy: 0.2,
             crisp: 0,
             crunchy: 0,
-            silky: 0
+            silky: 0,
           }
         },
         _squash: {
@@ -1024,7 +1024,7 @@ export function enhanceVegetableTransformations(
             nutty: 0.2,
             bitter: 0,
             salty: 0,
-            sour: 0
+            sour: 0,
           },
           aroma: {
             earthy: 0.4,
@@ -1032,7 +1032,7 @@ export function enhanceVegetableTransformations(
             woody: 0.1,
             herbal: 0.1,
             floral: 0,
-            spicy: 0
+            spicy: 0,
           },
           texture: {
             tender: 0.4,
@@ -1040,7 +1040,7 @@ export function enhanceVegetableTransformations(
             chewy: 0.2,
             crisp: 0.1,
             crunchy: 0,
-            silky: 0
+            silky: 0,
           }
         },
         _legume: {
@@ -1050,7 +1050,7 @@ export function enhanceVegetableTransformations(
             umami: 0.2,
             bitter: 0,
             salty: 0,
-            sour: 0
+            sour: 0,
           },
           aroma: {
             earthy: 0.6,
@@ -1058,7 +1058,7 @@ export function enhanceVegetableTransformations(
             herbal: 0.1,
             floral: 0,
             fruity: 0,
-            spicy: 0
+            spicy: 0,
           },
           texture: {
             tender: 0.4,
@@ -1066,7 +1066,7 @@ export function enhanceVegetableTransformations(
             chewy: 0.3,
             crisp: 0,
             crunchy: 0,
-            silky: 0
+            silky: 0,
           }
         },
         starchy: {
@@ -1076,7 +1076,7 @@ export function enhanceVegetableTransformations(
             umami: 0.2,
             bitter: 0,
             salty: 0,
-            sour: 0
+            sour: 0,
           },
           aroma: {
             earthy: 0.7,
@@ -1084,7 +1084,7 @@ export function enhanceVegetableTransformations(
             herbal: 0.1,
             floral: 0,
             fruity: 0,
-            spicy: 0
+            spicy: 0,
           },
           texture: {
             starchy: 0.6,
@@ -1092,20 +1092,20 @@ export function enhanceVegetableTransformations(
             creamy: 0.2,
             crisp: 0,
             crunchy: 0,
-            silky: 0
+            silky: 0,
           }
         }
       }
 
       // Select appropriate profile or use default
       const profile = profiles[String(subCategory)] || {
-        taste: {;
+        taste: {
           sweet: 0.25,
           bitter: 0.25,
           umami: 0.25,
           salty: 0.15,
           sour: 0.1,
-          spicy: 0
+          spicy: 0,
         },
         aroma: {
           earthy: 0.3,
@@ -1113,7 +1113,7 @@ export function enhanceVegetableTransformations(
           woody: 0.2,
           fruity: 0.1,
           floral: 0.1,
-          spicy: 0
+          spicy: 0,
         },
         texture: {
           tender: 0.3,
@@ -1121,7 +1121,7 @@ export function enhanceVegetableTransformations(
           crisp: 0.2,
           chewy: 0.1,
           creamy: 0.1,
-          silky: 0
+          silky: 0,
         }
       }
 
@@ -1153,12 +1153,12 @@ export function enhanceOilProperties(
           Fire: 0.3,
           Water: 0.2,
           Earth: 0.3,
-          Air: 0.2
+          Air: 0.2,
         }),
     )
     enhancedOil.qualities = String(
       Array.isArray(enhancedOil.qualities)
-        ? JSON.stringify(enhancedOil.qualities);
+        ? JSON.stringify(enhancedOil.qualities)
         : JSON.stringify([]),
     )
 
@@ -1181,23 +1181,23 @@ export function enhanceOilProperties(
 
       enhancedOil.sensoryProfile = String(
         JSON.stringify({
-          taste: {;
+          taste: {
             sweet: isFruity || isTropical ? 0.6 : 0.2,
             bitter: isNutty ? 0.4 : 0.1,
             umami: isNutty ? 0.5 : 0.2,
-            _rich: isNutty || isFruity ? 0.7 : 0.4
+            _rich: isNutty || isFruity ? 0.7 : 0.4,
           },
           aroma: {
             fruity: isFruity ? 0.8 : 0.1,
             nutty: isNutty ? 0.8 : 0.1,
             floral: isFloral ? 0.7 : 0.1,
             neutral: isNeutral ? 0.9 : 0.2,
-            _tropical: isTropical ? 0.8 : 0.1
+            _tropical: isTropical ? 0.8 : 0.1,
           },
           texture: {
             viscosity: isTropical || oilType.includes('olive') ? 0.7 : 0.5,
             _mouthfeel: isFruity || isNutty ? 0.8 : 0.5,
-            _richness: isFruity || isNutty || isTropical ? 0.7 : 0.4
+            _richness: isFruity || isNutty || isTropical ? 0.7 : 0.4,
           }
         })
       )
@@ -1248,10 +1248,10 @@ export function enhanceOilProperties(
         JSON.stringify({
           ...(isHighHeat
             ? {
-                frying: {;
+                frying: {
                   notes: ['Excellent for high-heat cooking'],
                   techniques: ['Deep frying', 'Stir-frying', 'Sautéing'],
-                  elementalEffect: { Fire: 0.3, Earth: 0.1 }
+                  elementalEffect: { Fire: 0.3, Earth: 0.1 },
                   alchemicalEffect: { substance: 0.3, matter: 0.2 }
                 }
               }
@@ -1261,7 +1261,7 @@ export function enhanceOilProperties(
                 cooking: {
                   notes: ['Good for medium-heat cooking'],
                   techniques: ['Sautéing', 'Pan frying', 'Roasting'],
-                  elementalEffect: { Fire: 0.2, Earth: 0.2 }
+                  elementalEffect: { Fire: 0.2, Earth: 0.2 },
                   alchemicalEffect: { matter: 0.3, essence: 0.1 }
                 }
               }
@@ -1271,17 +1271,17 @@ export function enhanceOilProperties(
                 finishing: {
                   notes: ['Best used unheated or low heat'],
                   techniques: ['Drizzling', 'Dressings', 'Dips'],
-                  elementalEffect: { Water: 0.3, Air: 0.2 }
+                  elementalEffect: { Water: 0.3, Air: 0.2 },
                   alchemicalEffect: { spirit: 0.3, essence: 0.2 }
                 }
               }
             : {}),
           ...(enhancedOil.subCategory === 'baking' || key.toLowerCase().includes('coconut')
             ? {
-                baking: {;
+                baking: {
                   notes: ['Suitable for baked goods'],
                   techniques: ['Cakes', 'Cookies', 'Breads'],
-                  elementalEffect: { Earth: 0.3, Fire: 0.1 }
+                  elementalEffect: { Earth: 0.3, Fire: 0.1 },
                   alchemicalEffect: { matter: 0.3, substance: 0.1 }
                 }
               }
@@ -1294,7 +1294,7 @@ export function enhanceOilProperties(
     if (!enhancedOil.elementalTransformation) {
       enhancedOil.elementalTransformation = String(
         JSON.stringify({
-          _whenHeated: {;
+          _whenHeated: {
             Fire: 0.2,
             Air: 0.1,
             Water: -0.1,
@@ -1335,7 +1335,7 @@ export function enhanceOilProperties(
           heat: Math.min(Math.max(heatValue, 0.3), 0.9),
           entropy: 0.4,
           reactivity: 0.6,
-          energy: 0.7
+          energy: 0.7,
         })
       )
     }
@@ -1363,7 +1363,7 @@ export function enhanceOilProperties(
         methods.push({ name: 'drizzling', potency: 1.0 })
       }
 
-      enhancedOil.recommendedCookingMethods = String(JSON.stringify(methods));
+      enhancedOil.recommendedCookingMethods = String(JSON.stringify(methods))
     }
 
     acc[key] = enhancedOil,
@@ -1390,7 +1390,7 @@ export function ensureLowercaseFormat(properties: unknown): unknown {
   const lowercaseProps: Record<string, unknown> = {}
   for (const [key, value] of Object.entries(properties)) {
     // Convert capitalized element names to lowercase
-    const lowerKey = key.toLowerCase();
+    const lowerKey = key.toLowerCase()
     lowercaseProps[lowerKey] = value,
   }
 
@@ -1400,7 +1400,7 @@ export function ensureLowercaseFormat(properties: unknown): unknown {
 /**
  * Ensures the returned object always matches the IngredientMapping interface at runtime.
  */
-export const fixIngredientMapping = (;
+export const fixIngredientMapping = (
   mapping: Partial<IngredientMapping>,
   key: string,
 ): IngredientMapping => {
@@ -1429,7 +1429,7 @@ export const fixIngredientMapping = (;
     typeof mapping.astrologicalProfile === 'object' &&
     Object.keys(mapping.astrologicalProfile).length === 0
   ) {
-    mapping.astrologicalProfile = {;
+    mapping.astrologicalProfile = {
       _rulingPlanets: [],
       _favorableZodiac: []
     }
@@ -1453,7 +1453,7 @@ export const _fixIngredientMappings = <T extends Record<string, Partial<Ingredie
     result[key] = fixIngredientMapping(mapping, key)
   })
 
-  return result,
+  return result
 }
 
 /**
@@ -1470,7 +1470,7 @@ export function fixRawIngredientMappings(
 
     const valueData = value as any;
     // Ensure elemental properties are normalized
-    const elementalProperties = normalizeProperties(;
+    const elementalProperties = normalizeProperties(
       (valueData.elementalProperties as Partial<ElementalProperties>) || {}
     )
 
@@ -1479,7 +1479,7 @@ export function fixRawIngredientMappings(
 
     // Determine base elemental affinity if not provided
     if (!astroProfile.elementalAffinity) {
-      const strongestElement = Object.entries(elementalProperties);
+      const strongestElement = Object.entries(elementalProperties)
         .sort(([, a], [, b]) => (b as number) - (a as number))[0][0]
         .toLowerCase()
 

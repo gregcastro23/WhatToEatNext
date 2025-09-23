@@ -53,7 +53,7 @@ export class ValidationIntegration {
   private qualityReports: Map<string, QualityAssuranceReport> = new Map(),
 
   constructor(config: Partial<ValidationIntegrationConfig> = {}) {
-    this.config = {;
+    this.config = {
       validationConfig: {}
       enableAutomaticValidation: true,
       enableAutomaticRollback: true,
@@ -85,7 +85,7 @@ export class ValidationIntegration {
 
     try {
       // Perform comprehensive validation
-      const validationResult = await this.validationFramework.performComprehensiveValidation(;
+      const validationResult = await this.validationFramework.performComprehensiveValidation(
         processedFiles,
         batchResult.batchId
       )
@@ -110,7 +110,7 @@ export class ValidationIntegration {
 
       // Generate quality assurance report
       if (this.config.reportingEnabled) {
-        const qualityReport = this.generateQualityAssuranceReport(;
+        const qualityReport = this.generateQualityAssuranceReport(
           batchResult,
           validationResult,
           processedFiles,
@@ -287,7 +287,7 @@ export class ValidationIntegration {
     const qualityDistribution = this.calculateQualityDistribution(reports);
     const criticalIssues = reports.filter(r => r.overallQuality === 'critical').length;
 
-    const summary = [;
+    const summary = [
       '# Quality Assurance Summary Report',
       `Generated: ${new Date().toISOString()}`,
       '',
@@ -338,12 +338,12 @@ export class ValidationIntegration {
    * Calculate quality distribution across all reports
    */
   private calculateQualityDistribution(reports: QualityAssuranceReport[]): Record<string, number> {
-    const distribution = {;
+    const distribution = {
       excellent: 0,
       good: 0,
       acceptable: 0,
       poor: 0,
-      critical: 0
+      critical: 0,
     }
 
     for (const report of reports) {
@@ -373,7 +373,7 @@ export class ValidationIntegration {
 
       // Export individual batch reports
       for (const report of this.getAllQualityReports()) {
-        const reportPath = path.join(;
+        const reportPath = path.join(
           this.config.reportingPath
           `batch-${report.batchId}-quality-report.json`,
         )

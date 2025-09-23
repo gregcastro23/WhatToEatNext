@@ -66,7 +66,7 @@ export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPosi
       setState(prev => ({,
         ...prev,
         loading: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error.message : 'Unknown error',
       }))
       _logger.error('Failed to fetch planetary positions: ', error)
     }
@@ -102,7 +102,7 @@ export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPosi
 // Hook for fetching positions for a specific date/time
 export function usePlanetaryPositionsForDate(
   date: Date,
-  location?: { latitude: number, longitude: number }
+  location?: { latitude: number, longitude: number },
   zodiacSystem: 'tropical' | 'sidereal' = 'tropical') {
   const [state, setState] = useState<PlanetaryPositionsState>({
     positions: null,
@@ -135,7 +135,7 @@ export function usePlanetaryPositionsForDate(
       setState(prev => ({,
         ...prev,
         loading: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error.message : 'Unknown error',
       }))
     }
   }, [date, location, zodiacSystem])

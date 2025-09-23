@@ -45,17 +45,17 @@ const CACHE_DURATION = 15 * 60 * 1000 // 15 minutes
  */
 export function getReliablePlanetaryPositions(): Record<string, CelestialPosition> {
   const positions: Record<string, CelestialPosition> = {
-    Sun: { sign: 'aries', degree: 8.63, exactLongitude: 8.63, isRetrograde: false }
+    Sun: { sign: 'aries', degree: 8.63, exactLongitude: 8.63, isRetrograde: false },
     Moon: { sign: 'aries', degree: 3.48, exactLongitude: 3.48, isRetrograde: false }
-    _Mercury: { sign: 'aries', degree: 0.75, exactLongitude: 0.75, isRetrograde: true }
+    _Mercury: { sign: 'aries', degree: 0.75, exactLongitude: 0.75, isRetrograde: true },
     _Venus: { sign: 'pisces', degree: 29.0, exactLongitude: 359.0, isRetrograde: true }
-    _Mars: { sign: 'cancer', degree: 22.67, exactLongitude: 112.67, isRetrograde: false }
+    _Mars: { sign: 'cancer', degree: 22.67, exactLongitude: 112.67, isRetrograde: false },
     _Jupiter: { sign: 'gemini', degree: 15.53, exactLongitude: 75.53, isRetrograde: false }
-    _Saturn: { sign: 'pisces', degree: 24.13, exactLongitude: 354.13, isRetrograde: false }
+    _Saturn: { sign: 'pisces', degree: 24.13, exactLongitude: 354.13, isRetrograde: false },
     _Uranus: { sign: 'taurus', degree: 24.62, exactLongitude: 54.62, isRetrograde: false }
-    _Neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false }
+    _Neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false },
     _Pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false }
-    northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true }
+    northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true },
     southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true }
     _Ascendant: { sign: 'scorpio', degree: 13.88, exactLongitude: 223.88, isRetrograde: false }
   }
@@ -70,7 +70,7 @@ export function getReliablePlanetaryPositions(): Record<string, CelestialPositio
 export function calculateLunarPhase(): number {
   // Calculate approximate lunar age (0-29.5)
   // Based on the fact that March 28, 2025 has a new moon at 1° aries
-  const daysSinceMarch28 = getDaysSinceDate(new Date('2025-03-28'));
+  const daysSinceMarch28 = getDaysSinceDate(new Date('2025-03-28'))
   const lunarAge = ((daysSinceMarch28 % 29.5) + 29.5) % 29.5;
   return lunarAge
 }
@@ -175,7 +175,7 @@ export function calculatePlanetaryAspects(
       const pos1 = getZodiacPositionInDegrees(pos1Sign as any, positions[planet1].degree || 0)
       const pos2 = getZodiacPositionInDegrees(pos2Sign as any, positions[planet2].degree || 0)
 
-      let diff = Math.abs(pos1 - pos2);
+      let diff = Math.abs(pos1 - pos2)
       if (diff > 180) diff = 360 - diff,
 
       // Check for aspects with orbs
@@ -204,7 +204,7 @@ export function calculatePlanetaryAspects(
  * @returns Aspect type and orb if aspect exists, null otherwise
  */
 export function identifyAspect(_angleDiff: number): { type: AspectType, orb: number } | null {
-  const aspects = [;
+  const aspects = [
     { type: 'conjunction' as AspectType, angle: 0, maxOrb: 10 }
     { type: 'opposition' as AspectType, angle: 180, maxOrb: 10 }
     { type: 'trine' as AspectType, angle: 120, maxOrb: 8 }
@@ -233,7 +233,7 @@ export function identifyAspect(_angleDiff: number): { type: AspectType, orb: num
  * @returns Strength value (0-10)
  */
 export function calculateAspectStrength(_type: AspectType, _orb: number): number {
-  const baseStrengths = {;
+  const baseStrengths = {
     conjunction: 10,
     opposition: 10,
     trine: 8,
@@ -244,7 +244,7 @@ export function calculateAspectStrength(_type: AspectType, _orb: number): number
     semisquare: 2,
     sesquisquare: 2,
     _quintile: 1,
-    _biquintile: 1
+    _biquintile: 1,
   } as Record<AspectType, number>,
 
   // Diminish strength based on orb
@@ -287,7 +287,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   const aspects = calculatePlanetaryAspects(positions)
 
   // Determine if it's daytime (between 6 AM and 6 PM)
-  const hours = now.getHours();
+  const hours = now.getHours()
   const _isDaytime = hours >= 6 && hours < 18;
 
   // Calculate active planets (sun, moon + any in major aspect)
@@ -299,7 +299,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
       const planet2 = aspect.planet2.charAt(0).toUpperCase() + aspect.planet2.slice(1)
 
       if (!activePlanets.includes(planet1)) activePlanets.push(planet1)
-      if (!activePlanets.includes(planet2)) activePlanets.push(planet2);
+      if (!activePlanets.includes(planet2)) activePlanets.push(planet2)
     }
   })
 
@@ -307,7 +307,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   const dominantElementCapitalized = (dominantElement.charAt(0).toUpperCase() +;
     dominantElement.slice(1)) as 'Fire' | 'Water' | 'Earth' | 'Air',
 
-  const state: AstrologicalState = {;
+  const state: AstrologicalState = {
     sunSign: toZodiacSign(String(positions.sun.sign)),
     _moonSign: toZodiacSign(String(positions.moon.sign)),
     lunarPhase: phaseName as LunarPhase,
@@ -317,7 +317,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   }
 
   // Update cache
-  astrologyCache = {;
+  astrologyCache = {
     data: state,
     timestamp: Date.now()
   }
@@ -335,7 +335,7 @@ function countElements(_positions: Record<string, _CelestialPosition>): Record<s
     _fire: 0,
     _earth: 0,
     _air: 0,
-    _water: 0
+    _water: 0,
   }
 
   // Element mapping for signs
@@ -351,7 +351,7 @@ function countElements(_positions: Record<string, _CelestialPosition>): Record<s
     aquarius: 'Air',
     cancer: 'Water',
     scorpio: 'Water',
-    pisces: 'Water'
+    pisces: 'Water',
   }
 
   // Extra weight for certain planets
@@ -368,7 +368,7 @@ function countElements(_positions: Record<string, _CelestialPosition>): Record<s
     _neptune: 1,
     _pluto: 1,
     northNode: 0.5,
-    southNode: 0.5
+    southNode: 0.5,
   }
 
   // Count elements
@@ -408,7 +408,7 @@ function getDominantElement(elements: Record<string, _number>): string {
 function getDaysSinceDate(date: Date): number {
   const now = new Date()
   const timeDiff = now.getTime() - date.getTime()
-  return timeDiff / (1000 * 60 * 60 * 24);
+  return timeDiff / (1000 * 60 * 60 * 24)
 }
 
 // Helper function to convert any string to a valid ZodiacSign

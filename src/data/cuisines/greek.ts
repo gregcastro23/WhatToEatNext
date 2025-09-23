@@ -1,7 +1,7 @@
 // src/data/cuisines/greek.ts
 import type { Cuisine } from '@/types/cuisine';
 
-export const greek: Cuisine = {;
+export const greek: Cuisine = {
   id: 'greek',
   name: 'Greek',
   description: 'Traditional Greek cuisine emphasizing fresh ingredients, olive oil, herbs, and regional specialties from mainland to islands',
@@ -63,7 +63,7 @@ export const greek: Cuisine = {;
             Earth: 0.5,
             Water: 0.2,
             Air: 0.2,
-            Fire: 0.1
+            Fire: 0.1,
           }
         }
         {
@@ -125,7 +125,7 @@ export const greek: Cuisine = {;
             Water: 0.4,
             Earth: 0.3,
             Air: 0.2,
-            Fire: 0.1
+            Fire: 0.1,
           }
         }
         {
@@ -190,7 +190,7 @@ export const greek: Cuisine = {;
             Fire: 0.3,
             Earth: 0.3,
             Air: 0.2,
-            Water: 0.2
+            Water: 0.2,
           }
         }
       ],
@@ -246,7 +246,7 @@ export const greek: Cuisine = {;
             Earth: 0.4,
             Fire: 0.3,
             Air: 0.2,
-            Water: 0.1
+            Water: 0.1,
           }
         }
       ]
@@ -303,7 +303,7 @@ export const greek: Cuisine = {;
             Fire: 0.3,
             Earth: 0.3,
             Air: 0.2,
-            Water: 0.2
+            Water: 0.2,
           }
         }
         {
@@ -1062,7 +1062,7 @@ export const greek: Cuisine = {;
               amount: '1/2',
               unit: 'small',
               category: 'vegetable',
-              optional: true
+              optional: true,
             }
           ],
           substitutions: {
@@ -1109,7 +1109,7 @@ export const greek: Cuisine = {;
         Water: 0.6,
         Earth: 0.2,
         Air: 0.2,
-        Fire: 0.0
+        Fire: 0.0,
       },
       astrologicalInfluences: ['Moon', 'Venus', 'Cancer'],
       seasonality: 'all',
@@ -1126,7 +1126,7 @@ export const greek: Cuisine = {;
         Water: 0.4,
         Air: 0.3,
         Fire: 0.2,
-        Earth: 0.1
+        Earth: 0.1,
       },
       astrologicalInfluences: ['Mercury', 'Moon', 'Gemini'],
       seasonality: 'winter, spring',
@@ -1148,7 +1148,7 @@ export const greek: Cuisine = {;
         Air: 0.5,
         Fire: 0.2,
         Earth: 0.2,
-        Water: 0.1
+        Water: 0.1,
       },
       astrologicalInfluences: ['Sun', 'Mercury', 'Leo'],
       seasonality: 'all',
@@ -1165,7 +1165,7 @@ export const greek: Cuisine = {;
         Earth: 0.4,
         Fire: 0.3,
         Air: 0.2,
-        Water: 0.1
+        Water: 0.1,
       },
       astrologicalInfluences: ['Mars', 'Saturn', 'Aries'],
       seasonality: 'all',
@@ -1182,12 +1182,12 @@ export const greek: Cuisine = {;
         Fire: 0.5,
         Earth: 0.3,
         Water: 0.1,
-        Air: 0.1
+        Air: 0.1,
       },
       astrologicalInfluences: ['Mars', 'Sun', 'Leo'],
       seasonality: 'summer, autumn',
       preparationNotes: 'The smokiness of the peppers is essential for authentic flavor',
-      technicalTips: 'Roast peppers directly over flame for best smoky taste'
+      technicalTips: 'Roast peppers directly over flame for best smoky taste',
     }
   },
   sauceRecommender: {
@@ -1247,42 +1247,42 @@ export const greek: Cuisine = {;
     {
       name: 'Psisimo',
       description: 'Greek-style grilling, often using olive oil, lemon, and herbs',
-      elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 }
+      elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
       toolsRequired: ['charcoal grill', 'skewers', 'brush for oil', 'tongs'],
       bestFor: ['lamb', 'pork', 'chicken', 'seafood', 'vegetables'],
-      difficulty: 'easy'
+      difficulty: 'easy',
     }
     {
       name: 'Stifado',
       description: 'Slow-cooked stew with pearl onions, wine, and tomatoes',
-      elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 }
+      elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
       toolsRequired: ['heavy pot', 'wooden spoon', 'sharp knife', 'measuring cups'],
       bestFor: ['beef', 'rabbit', 'game meat', 'octopus'],
-      difficulty: 'medium'
+      difficulty: 'medium',
     }
     {
       name: 'Sotirito',
       description: 'Shallow frying, often used for vegetables and fritters',
-      elementalProperties: { Fire: 0.5, Air: 0.3, Earth: 0.1, Water: 0.1 }
+      elementalProperties: { Fire: 0.5, Air: 0.3, Earth: 0.1, Water: 0.1 },
       toolsRequired: ['heavy-bottomed pan', 'slotted spoon', 'paper towels', 'thermometer'],
       bestFor: ['zucchini fritters', 'eggplant', 'fish', 'meatballs'],
-      difficulty: 'medium'
+      difficulty: 'medium',
     }
     {
       name: 'Yiachni',
       description: 'Braising in tomato sauce with herbs and spices',
-      elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 }
+      elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
       toolsRequired: ['Dutch oven', 'wooden spoon', 'sharp knife', 'measuring spoons'],
       bestFor: ['green beans', 'okra', 'rabbit', 'beef'],
-      difficulty: 'easy'
+      difficulty: 'easy',
     }
     {
       name: 'Plasto',
       description: 'Traditional pie-making technique with layered phyllo or other dough',
-      elementalProperties: { Earth: 0.5, Air: 0.3, Water: 0.1, Fire: 0.1 }
+      elementalProperties: { Earth: 0.5, Air: 0.3, Water: 0.1, Fire: 0.1 },
       toolsRequired: ['baking pan', 'pastry brush', 'rolling pin', 'sharp knife'],
       bestFor: ['spinach pie', 'cheese pie', 'meat pie', 'vegetable pie'],
-      difficulty: 'hard'
+      difficulty: 'hard',
     }
   ],
   regionalCuisines: {
@@ -1290,37 +1290,37 @@ export const greek: Cuisine = {;
       name: 'Cretan Cuisine',
       description: 'Focused on local ingredients, wild greens, olive oil, and rustic preparation methods',
       signature: ['dakos', 'gamopilafo', 'staka', 'sfakian pie'],
-      elementalProperties: { Earth: 0.5, Air: 0.2, Fire: 0.2, Water: 0.1 }
+      elementalProperties: { Earth: 0.5, Air: 0.2, Fire: 0.2, Water: 0.1 },
       astrologicalInfluences: ['Saturn', 'Jupiter', 'Taurus'],
       seasonality: 'all' },
         macedonia: {
       name: 'Macedonian Cuisine',
       description: 'Northern Greek cuisine with strong Balkan influences and hearty dishes',
       signature: ['bougatsa', 'pastitsada', 'gigantes plaki', 'trahana soup'],
-      elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 }
+      elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Saturn', 'Mars', 'Capricorn'],
       seasonality: 'all' },
         cyclades: {
       name: 'Cycladic Cuisine',
       description: 'Island cuisine featuring seafood, local cheeses, and sun-dried ingredients',
       signature: ['fava dip', 'kakavia fish soup', 'matsata pasta', 'louza cured pork'],
-      elementalProperties: { Water: 0.5, Air: 0.3, Earth: 0.1, Fire: 0.1 }
+      elementalProperties: { Water: 0.5, Air: 0.3, Earth: 0.1, Fire: 0.1 },
       astrologicalInfluences: ['Neptune', 'Moon', 'Pisces'],
       seasonality: 'all' },
         peloponnese: {
       name: 'Peloponnesian Cuisine',
       description: 'Rich in olive oil, citrus, and slow-cooked meat and bean dishes',
       signature: ['rooster kokkinisto', 'diples', 'kagianas', 'lagoto rabbit stew'],
-      elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 }
+      elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Mars', 'Venus', 'Aries'],
-      seasonality: 'all'
+      seasonality: 'all',
     }
   },
   elementalProperties: {
     Earth: 0.4,
     Water: 0.3,
     Fire: 0.2,
-    Air: 0.1
+    Air: 0.1,
   }
 }
 

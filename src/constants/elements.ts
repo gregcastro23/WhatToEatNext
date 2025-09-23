@@ -26,7 +26,7 @@ export const _ELEMENTAL_PROPERTIES = {
     direction: 'west',
     taste: ['sweet', 'sour'],
     colors: ['brown', 'green', 'gold'],
-    energy: 'stabilizing'
+    energy: 'stabilizing',
   }
 }
 
@@ -43,7 +43,7 @@ export const _ELEMENT_COMBINATIONS = {
   ]
 }
 
-export const _ELEMENTAL_THRESHOLDS = {;
+export const _ELEMENTAL_THRESHOLDS = {
   dominant: 0.4,
   significant: 0.25,
   present: 0.1,

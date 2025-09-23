@@ -41,7 +41,7 @@ export interface StandardizationOptions {
 export function standardizeElementalAffinity(
   value: string | { base: string, decanModifiers?: { [key: string]: unknown } }): ElementalAffinity {
   if (typeof value === 'string') {
-    return {;
+    return {
       primary: value as 'Fire' | 'Water' | 'Earth' | 'Air',
       strength: 1.0,
       compatibility: { Fire: 0.7, Water: 0.7, Earth: 0.7, Air: 0.7 }
@@ -165,7 +165,7 @@ export function validateIngredient(ingredient: Partial<Ingredient>): ValidationR
   if (ingredient.elementalProperties) {
     const elementalValidation = validateElementalProperties(ingredient.elementalProperties)
     if (!elementalValidation.isValid) {
-      errors.push(...elementalValidation.errors);
+      errors.push(...elementalValidation.errors)
     }
   } else {
     warnings.push('Missing elemental properties')
@@ -178,7 +178,7 @@ export function validateIngredient(ingredient: Partial<Ingredient>): ValidationR
       ingredientData.astrologicalPropertiesProfile || ingredientData.astrologicalProfile,
     const astroValidation = validateAstrologicalProfile(astroProfile as AstrologicalProfile)
     if (!astroValidation.isValid) {
-      warnings.push(...astroValidation.errors);
+      warnings.push(...astroValidation.errors)
     }
   }
 
@@ -277,7 +277,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
 export function cleanupIngredientsDatabase(
   ingredients: Ingredient | UnifiedIngredient[],
   _options: StandardizationOptions = {}): DataCleanupResult {
-  const result: DataCleanupResult = {;
+  const result: DataCleanupResult = {
     processed: 0,
     cleaned: 0,
     errors: 0,
@@ -294,7 +294,7 @@ export function cleanupIngredientsDatabase(
       const validation = validateIngredient(standardized)
 
       if (validation.isValid) {
-        cleanedIngredients.push(standardized);
+        cleanedIngredients.push(standardized)
         result.cleaned++,
       } else {
         result.errors++,
@@ -312,7 +312,7 @@ export function cleanupIngredientsDatabase(
     }
   })
 
-  return result,
+  return result
 }
 
 /**
@@ -327,7 +327,7 @@ export function mergeElementalProperties(
   addition: ElementalProperties,
   weight = 0.5
 ): ElementalProperties {
-  const merged = {;
+  const merged = {
     Fire: base.Fire * (1 - weight) + addition.Fire * weight,
     Water: base.Water * (1 - weight) + addition.Water * weight,
     Earth: base.Earth * (1 - weight) + addition.Earth * weight,
@@ -355,7 +355,7 @@ function createDefaultIngredient(id: string): Ingredient {
     id,
     name: 'Unknown Ingredient',
     category: 'other',
-    elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+    elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     flavorProfile: { sweet: 0, sour: 0, salty: 0, bitter: 0, umami: 0, spicy: 0 }
     season: [],
     qualities: [],
@@ -377,7 +377,7 @@ function createDefaultRecipe(id: string): Recipe {
     difficulty: 'medium',
     ingredients: [],
     instructions: [],
-    elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+    elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     astrologicalInfluences: [],
     seasons: [],
     tags: [],
@@ -434,7 +434,7 @@ function standardizeFlavorProfile(_profile: unknown): { [key: string]: number } 
       salty: 0,
       bitter: 0,
       umami: 0,
-      spicy: 0
+      spicy: 0,
     }
   }
 
@@ -447,7 +447,7 @@ function standardizeFlavorProfile(_profile: unknown): { [key: string]: number } 
     }
   })
 
-  return result,
+  return result
 }
 
 function standardizeNutritionalProfile(_profile: unknown): { [key: string]: unknown } | undefined {
@@ -480,7 +480,7 @@ function standardizeRecipeIngredients(ingredients: unknown): RecipeIngredient[] 
       return {
         name: ingredient,
         amount: 1,
-        unit: 'item'
+        unit: 'item',
       }
     }
 
@@ -499,7 +499,7 @@ function standardizeRecipeIngredients(ingredients: unknown): RecipeIngredient[] 
     return {
       name: 'Unknown',
       amount: 1,
-      unit: 'item'
+      unit: 'item',
     }
   })
 }

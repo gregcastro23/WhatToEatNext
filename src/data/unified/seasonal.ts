@@ -74,7 +74,7 @@ export interface SeasonalIngredientProfile {
 export interface SeasonalProfile {
   // Core Seasonal Data,
   elementalDominance: ElementalProperties,
-  kalchmRange: { min: number, max: number }
+  kalchmRange: { min: number, max: number },
   monicaModifiers: SeasonalMonicaModifiers,
 
   // Ingredient Data (consolidated from seasonalPatterns.ts)
@@ -100,7 +100,7 @@ export interface SeasonalTransitionProfile {
   toSeason: Season,
   transitionProgress: number, // 0-1,
   blendedElementalProfile: ElementalProperties,
-  blendedKalchmRange: { min: number, max: number }
+  blendedKalchmRange: { min: number, max: number },
   blendedMonicaModifiers: SeasonalMonicaModifiers,
   recommendedIngredients: UnifiedIngredient[],
   recommendedCookingMethods: EnhancedCookingMethod[]
@@ -118,14 +118,14 @@ export interface SeasonalRecommendations {
 
 export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
   spring: {
-    elementalDominance: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 }
+    elementalDominance: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
     kalchmRange: { min: 0.8, max: 1.2 }
     monicaModifiers: {
       temperatureAdjustment: 10,
       timingAdjustment: -5,
       intensityModifier: 'increase',
       planetaryAlignment: 0.8,
-      lunarPhaseBonus: 0.7
+      lunarPhaseBonus: 0.7,
     }
 
     // Ingredient availability (from seasonalPatterns.ts)
@@ -139,7 +139,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       fava_beans: 0.8,
       morels: 0.87,
       strawberries: 0.7,
-      new_potatoes: 0.76
+      new_potatoes: 0.76,
     }
 
     // Traditional usage (from seasonalUsage.ts)
@@ -210,20 +210,19 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       secondary_element: 'Air' },
         optimalIngredients: ['asparagus', 'spring_greens', 'morels', 'peas', 'artichokes'],
     optimalCookingMethods: ['grilling', 'roasting', 'sauteing', 'steaming'],
-    elementalInfluence: 0.8
+    elementalInfluence: 0.8,
   }
 
   summer: {
-    elementalDominance: { Fire: 0.5, Water: 0.3, Earth: 0.1, Air: 0.1 }
+    elementalDominance: { Fire: 0.5, Water: 0.3, Earth: 0.1, Air: 0.1 },
     kalchmRange: { min: 0.8, max: 1.2 }
     monicaModifiers: {
       temperatureAdjustment: -15,
       timingAdjustment: -10,
       intensityModifier: 'decrease',
       planetaryAlignment: 0.9,
-      lunarPhaseBonus: 0.8
-    }
-
+      lunarPhaseBonus: 0.8,
+    },
     ingredients: {
       tomatoes: 0.9,
       corn: 0.85,
@@ -234,7 +233,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       eggplant: 0.79,
       bell_peppers: 0.84,
       cucumbers: 0.86,
-      cherries: 0.88
+      cherries: 0.88,
     }
 
     growing: ['basil', 'rosemary', 'cilantro'],
@@ -304,20 +303,19 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       secondary_element: 'Water' },
         optimalIngredients: ['tomatoes', 'watermelon', 'berries', 'peaches', 'cucumbers'],
     optimalCookingMethods: ['grilling', 'raw', 'fermenting', 'steaming'],
-    elementalInfluence: 0.9
+    elementalInfluence: 0.9,
   }
 
   autumn: {
-    elementalDominance: { Fire: 0.1, Water: 0.3, Earth: 0.4, Air: 0.2 }
+    elementalDominance: { Fire: 0.1, Water: 0.3, Earth: 0.4, Air: 0.2 },
     kalchmRange: { min: 0.8, max: 1.2 }
     monicaModifiers: {
       temperatureAdjustment: 5,
       timingAdjustment: 10,
       intensityModifier: 'maintain',
       planetaryAlignment: 0.7,
-      lunarPhaseBonus: 0.6
-    }
-
+      lunarPhaseBonus: 0.6,
+    },
     ingredients: {
       apples: 0.9,
       pumpkin: 0.95,
@@ -328,7 +326,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       figs: 0.78,
       grapes: 0.83,
       mushrooms: 0.79,
-      pears: 0.88
+      pears: 0.88,
     }
 
     growing: ['sage', 'rosemary', 'thyme'],
@@ -398,18 +396,18 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       secondary_element: 'Water' },
         optimalIngredients: ['pumpkin', 'butternut_squash', 'apples', 'sweet_potatoes', 'pears'],
     optimalCookingMethods: ['roasting', 'baking', 'braising', 'poaching'],
-    elementalInfluence: 0.7
+    elementalInfluence: 0.7,
   }
 
   fall: {
-    elementalDominance: { Fire: 0.1, Water: 0.3, Earth: 0.4, Air: 0.2 }
+    elementalDominance: { Fire: 0.1, Water: 0.3, Earth: 0.4, Air: 0.2 },
     kalchmRange: { min: 0.8, max: 1.2 }
     monicaModifiers: {
       temperatureAdjustment: 5,
       timingAdjustment: 10,
       intensityModifier: 'maintain',
       planetaryAlignment: 0.7,
-      lunarPhaseBonus: 0.6
+      lunarPhaseBonus: 0.6,
     }
 
     // Same as autumn (supporting both terms)
@@ -423,9 +421,8 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       figs: 0.78,
       grapes: 0.83,
       mushrooms: 0.79,
-      pears: 0.88
-    }
-
+      pears: 0.88,
+    },
     growing: ['sage', 'rosemary', 'thyme'],
     herbs: ['sage', 'rosemary', 'thyme', 'bay leaf'],
     vegetables: ['pumpkin', 'squash', 'mushrooms', 'cauliflower'],
@@ -493,20 +490,19 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       secondary_element: 'Water' },
         optimalIngredients: ['pumpkin', 'butternut_squash', 'apples', 'sweet_potatoes', 'pears'],
     optimalCookingMethods: ['roasting', 'baking', 'braising', 'poaching'],
-    elementalInfluence: 0.7
+    elementalInfluence: 0.7,
   }
 
   winter: {
-    elementalDominance: { Fire: 0.2, Water: 0.4, Earth: 0.3, Air: 0.1 }
+    elementalDominance: { Fire: 0.2, Water: 0.4, Earth: 0.3, Air: 0.1 },
     kalchmRange: { min: 0.8, max: 1.2 }
     monicaModifiers: {
       temperatureAdjustment: 20,
       timingAdjustment: 15,
       intensityModifier: 'increase',
       planetaryAlignment: 0.6,
-      lunarPhaseBonus: 0.5
-    }
-
+      lunarPhaseBonus: 0.5,
+    },
     ingredients: {
       citrus: 0.85,
       kale: 0.8,
@@ -517,7 +513,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       leeks: 0.79,
       brussels_sprouts: 0.75,
       turnips: 0.77,
-      cranberries: 0.72
+      cranberries: 0.72,
     }
 
     growing: ['rosemary', 'thyme', 'sage'],
@@ -587,26 +583,25 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       secondary_element: 'Water' },
         optimalIngredients: ['root_vegetables', 'winter_squash', 'kale', 'citrus', 'pomegranates'],
     optimalCookingMethods: ['braising', 'stewing', 'roasting', 'simmering'],
-    elementalInfluence: 0.6
+    elementalInfluence: 0.6,
   }
 
   all: {
-    elementalDominance: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+    elementalDominance: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     kalchmRange: { min: 0.8, max: 1.2 }
     monicaModifiers: {
       temperatureAdjustment: 0,
       timingAdjustment: 0,
       intensityModifier: 'maintain',
       planetaryAlignment: 0.75,
-      lunarPhaseBonus: 0.65
-    }
-
+      lunarPhaseBonus: 0.65,
+    },
     ingredients: {
       onions: 0.9,
       garlic: 0.95,
       carrots: 0.85,
       potatoes: 0.88,
-      herbs: 0.8
+      herbs: 0.8,
     }
 
     growing: ['basil', 'rosemary', 'thyme', 'sage', 'oregano'],
@@ -688,7 +683,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       secondary_element: 'Fire' },
         optimalIngredients: ['garlic', 'onions', 'herbs', 'potatoes', 'carrots'],
     optimalCookingMethods: ['sauteing', 'roasting', 'simmering', 'baking'],
-    elementalInfluence: 0.75
+    elementalInfluence: 0.75,
   }
 }
 
@@ -839,13 +834,13 @@ export class UnifiedSeasonalSystem {
     const baseScore = this.getSeasonalScore(ingredient.name, season)
 
     // Kalchm compatibility
-    const kalchmCompatibility = this.calculateKalchmSeasonalCompatibility(;
+    const kalchmCompatibility = this.calculateKalchmSeasonalCompatibility(
       ingredient.kalchm ?? 0
       season,
     )
 
     // Elemental compatibility
-    const elementalCompatibility = this.calculateElementalSeasonalCompatibility(;
+    const elementalCompatibility = this.calculateElementalSeasonalCompatibility(
       ingredient.elementalProperties
       seasonProfile.elementalDominance
     )
@@ -890,7 +885,7 @@ export class UnifiedSeasonalSystem {
       }
     }
 
-    return totalWeight > 0 ? compatibility / totalWeight : 0.7
+    return totalWeight > 0 ? compatibility / totalWeight : 0.7,
   }
 
   /**
@@ -942,7 +937,7 @@ export class UnifiedSeasonalSystem {
     const effectiveKalchmRange = kalchmRange || seasonProfile.kalchmRange
 
     // Get compatible ingredients
-    const compatibleIngredients = this.getSeasonalCompatibleIngredients(;
+    const compatibleIngredients = this.getSeasonalCompatibleIngredients(
       season,
       effectiveKalchmRange,
     )
@@ -951,13 +946,13 @@ export class UnifiedSeasonalSystem {
     const optimalCookingMethods = this.getSeasonalOptimalCookingMethods(season, targetMonica)
 
     // Calculate optimization scores
-    const monicaOptimization = this.calculateSeasonalMonicaOptimization(;
+    const monicaOptimization = this.calculateSeasonalMonicaOptimization(
       season,
       targetMonica,
       optimalCookingMethods,
     ),
 
-    const kalchmHarmony = this.calculateSeasonalKalchmHarmony(;
+    const kalchmHarmony = this.calculateSeasonalKalchmHarmony(
       compatibleIngredients,
       effectiveKalchmRange,
     ),
@@ -1112,7 +1107,7 @@ export class UnifiedSeasonalSystem {
       }
     }
 
-    return validMethods > 0 ? totalOptimization / validMethods : 0.5
+    return validMethods > 0 ? totalOptimization / validMethods : 0.5,
   }
 
   /**
@@ -1159,14 +1154,14 @@ export class UnifiedSeasonalSystem {
     const toProfile = unifiedSeasonalProfiles[toSeason];
 
     // Blend elemental profiles
-    const blendedElementalProfile = this.blendElementalProperties(;
+    const blendedElementalProfile = this.blendElementalProperties(
       fromProfile.elementalDominance
       toProfile.elementalDominance
       transitionProgress,
     ),
 
     // Blend Kalchm ranges
-    const blendedKalchmRange = {;
+    const blendedKalchmRange = {
       min: fromProfile.kalchmRange.min +,
         (toProfile.kalchmRange.min - fromProfile.kalchmRange.min) * transitionProgress,
       max: fromProfile.kalchmRange.max +
@@ -1174,20 +1169,20 @@ export class UnifiedSeasonalSystem {
     }
 
     // Blend Monica modifiers
-    const blendedMonicaModifiers = this.blendMonicaModifiers(;
+    const blendedMonicaModifiers = this.blendMonicaModifiers(
       fromProfile.monicaModifiers,
       toProfile.monicaModifiers
       transitionProgress,
     )
 
     // Get transitional recommendations
-    const recommendedIngredients = this.getTransitionalIngredients(;
+    const recommendedIngredients = this.getTransitionalIngredients(
       fromSeason,
       toSeason,
       transitionProgress,
     )
 
-    const recommendedCookingMethods = this.getTransitionalCookingMethods(;
+    const recommendedCookingMethods = this.getTransitionalCookingMethods(
       fromSeason,
       toSeason,
       transitionProgress,
@@ -1247,11 +1242,11 @@ export class UnifiedSeasonalSystem {
     toSeason: Season,
     progress: number,
   ): UnifiedIngredient[] {
-    const fromIngredients = this.getSeasonalCompatibleIngredients(;
+    const fromIngredients = this.getSeasonalCompatibleIngredients(
       fromSeason,
       unifiedSeasonalProfiles[fromSeason].kalchmRange,
     ),
-    const toIngredients = this.getSeasonalCompatibleIngredients(;
+    const toIngredients = this.getSeasonalCompatibleIngredients(
       toSeason,
       unifiedSeasonalProfiles[toSeason].kalchmRange,
     ),
@@ -1324,13 +1319,13 @@ export const _getSeasonalData = (ingredientName: string, season?: Season) =>
   unifiedSeasonalSystem.getSeasonalIngredientProfile(ingredientName, season)
 export const isInSeason = (ingredientName: string, threshold?: number) =>
   unifiedSeasonalSystem.isInSeason(ingredientName, threshold)
-export const getSeasonalRecommendations = (;
+export const getSeasonalRecommendations = (
   season: Season,
   targetMonica?: number,
   kalchmRange?: { min: number, max: number }) => unifiedSeasonalSystem.getSeasonalRecommendations(season, targetMonica, kalchmRange)
 
 // Export consolidated data for backward compatibility
-export const seasonalPatterns = Object.fromEntries(;
+export const seasonalPatterns = Object.fromEntries(
   Object.entries(unifiedSeasonalProfiles || {}).map(([season, profile]) => [
     season,
     {
@@ -1341,7 +1336,7 @@ export const seasonalPatterns = Object.fromEntries(;
   ]),
 )
 
-export const seasonalUsage = Object.fromEntries(;
+export const seasonalUsage = Object.fromEntries(
   Object.entries(unifiedSeasonalProfiles || {}).map(([season, profile]) => [
     season,
     {

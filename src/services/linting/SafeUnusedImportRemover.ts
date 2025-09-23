@@ -40,7 +40,7 @@ interface ImportRemovalResult {
 }
 
 export class SafeUnusedImportRemover {
-  private readonly astrologicalPatterns = [;
+  private readonly astrologicalPatterns = [
     '/calculations/',
     '/data/planets/',
     '/utils/reliableAstronomy',
@@ -55,7 +55,7 @@ export class SafeUnusedImportRemover {
     'zodiac'
   ],
 
-  private readonly campaignSystemPatterns = [;
+  private readonly campaignSystemPatterns = [
     '/services/campaign/',
     '/services/AdvancedAnalyticsIntelligenceService',
     '/services/MLIntelligenceService',
@@ -73,7 +73,7 @@ export class SafeUnusedImportRemover {
    */
   public async processUnusedImports(dryRun: boolean = true): Promise<ImportRemovalResult> {
     log.info('🔍 Starting Safe Unused Import Analysis...\n')
-    const result: ImportRemovalResult = {;
+    const result: ImportRemovalResult = {
       totalAnalyzed: 0,
       safeToRemove: 0,
       requiresReview: 0,
@@ -81,7 +81,7 @@ export class SafeUnusedImportRemover {
       actuallyRemoved: 0,
       errors: [],
       warnings: [],
-      buildValid: false
+      buildValid: false,
     }
 
     try {
@@ -154,7 +154,7 @@ export class SafeUnusedImportRemover {
           (line.includes('is defined but never used') ||
             line.includes('is imported but never used'))
         ) {
-          const match = line.match(;
+          const match = line.match(
             /^(.+):(\d+):(\d+):\s+(warning|error)\s+(.+?)\s+@typescript-eslint\/no-unused-vars/,
           )
           if (match) {
@@ -173,7 +173,7 @@ export class SafeUnusedImportRemover {
               isDefaultImport: !message.includes('{'),
               isNamespaceImport: message.includes('* as'),
               severity: 'review',
-              reason: ''
+              reason: '',
             })
           }
         }
@@ -197,7 +197,7 @@ export class SafeUnusedImportRemover {
   } {
     log.info('📋 Categorizing imports by safety level...')
 
-    const categorized = {;
+    const categorized = {
       safe: [] as UnusedImport[],
       review: [] as UnusedImport[],
       preserve: [] as UnusedImport[]
@@ -235,7 +235,7 @@ export class SafeUnusedImportRemover {
     if (this.astrologicalPatterns.some(pattern => file.includes(pattern))) {
       return {;
         severity: 'preserve',
-        reason: 'Critical astrological calculation file'
+        reason: 'Critical astrological calculation file',
       }
     }
 
@@ -243,7 +243,7 @@ export class SafeUnusedImportRemover {
     if (this.campaignSystemPatterns.some(pattern => file.includes(pattern))) {
       return {;
         severity: 'preserve',
-        reason: 'Campaign system intelligence file'
+        reason: 'Campaign system intelligence file',
       }
     }
 
@@ -251,7 +251,7 @@ export class SafeUnusedImportRemover {
     if (importName.match(/^[A-Z]/) && file.endsWith('.tsx')) {
       return {
         severity: 'preserve',
-        reason: 'React component import in TSX file'
+        reason: 'React component import in TSX file',
       }
     }
 
@@ -259,12 +259,12 @@ export class SafeUnusedImportRemover {
     if (isTypeImport) {
       return {
         severity: 'preserve',
-        reason: 'Type import may be used in annotations'
+        reason: 'Type import may be used in annotations',
       }
     }
 
     // Safe to, remove: simple utility imports that are clearly unused
-    const safePatterns = [;
+    const safePatterns = [
       /^[a-z][a-zA-Z]*$/, // camelCase function names
       /^[A-Z_]+$/, // CONSTANT names
       /Utils?$/, // Utility functions
@@ -280,14 +280,14 @@ export class SafeUnusedImportRemover {
     ) {
       return {;
         severity: 'safe',
-        reason: 'Simple utility import that is clearly unused'
+        reason: 'Simple utility import that is clearly unused',
       }
     }
 
     // Default to requiring manual review
     return {
       severity: 'review',
-      reason: 'Requires manual review for safety'
+      reason: 'Requires manual review for safety',
     }
   }
 
@@ -330,7 +330,7 @@ export class SafeUnusedImportRemover {
    * Display imports grouped by file
    */
   private displayImportsByFile(imports: UnusedImport[]): void {
-    const groupedByFile = imports.reduce(;
+    const groupedByFile = imports.reduce(
       (acc, imp) => {
         const relativePath = path.relative(process.cwd(), imp.file)
         if (!acc[relativePath]) acc[relativePath] = [],
@@ -358,7 +358,7 @@ export class SafeUnusedImportRemover {
       // Run ESLint auto-fix with focused unused variable removal
       execSync('yarn lint --fix --rule '@typescript-eslint/no-unused-vars: error'', {
         stdio: 'pipe',
-        encoding: 'utf8'
+        encoding: 'utf8',
       })
 
       log.info('✅ Safe import removal completed')
@@ -384,7 +384,7 @@ export class SafeUnusedImportRemover {
       // Check TypeScript compilation
       execSync('yarn tsc --noEmit --skipLibCheck', {
         stdio: 'pipe',
-        encoding: 'utf8'
+        encoding: 'utf8',
       })
       log.info('✅ TypeScript validation passed')
 
@@ -405,24 +405,24 @@ export class SafeUnusedImportRemover {
   } {
     try {
       // Count TypeScript/JavaScript files
-      const totalFilesOutput = execSync(;
+      const totalFilesOutput = execSync(
         'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | wc -l'
         {
-          encoding: 'utf8'
+          encoding: 'utf8',
         })
       const totalFiles = parseInt(totalFilesOutput.trim()) || 0;
 
       // Count TypeScript files specifically
       const tsFilesOutput = execSync('find src -name '*.ts' -o -name '*.tsx' | wc -l', {
-        encoding: 'utf8'
+        encoding: 'utf8',
       })
       const typeScriptFiles = parseInt(tsFilesOutput.trim()) || 0;
 
       // Count unused import warnings (approximate)
-      const unusedImportsOutput = execSync(;
+      const unusedImportsOutput = execSync(
         'yarn lint --format=compact 2>&1 | grep -E '@typescript-eslint/no-unused-vars.*is defined but never used' | wc -l',,
         {
-          encoding: 'utf8'
+          encoding: 'utf8',
         })
       const unusedImports = parseInt(unusedImportsOutput.trim()) || 0;
 

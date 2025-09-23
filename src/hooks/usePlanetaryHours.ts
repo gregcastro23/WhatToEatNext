@@ -57,7 +57,7 @@ export function usePlanetaryHours() {
         setData(prev => ({;
           ...prev,
           isLoading: false,
-          error: error instanceof Error ? error.message : 'Unknown error'
+          error: error instanceof Error ? error.message : 'Unknown error',
         }))
       }
     }

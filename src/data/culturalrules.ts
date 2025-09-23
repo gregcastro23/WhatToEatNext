@@ -15,25 +15,25 @@ export const culturalRules: Record<string, CulturalBalance> = {
     preferredCombinations: [
       {
         foods: ['rice', 'miso soup', 'grilled fish'],
-        reason: 'Traditional ichiju-sansai (one soup, three sides) balance'
+        reason: 'Traditional ichiju-sansai (one soup, three sides) balance',
       }
       {
         foods: ['cold noodles', 'hot broth'],
-        reason: 'Temperature contrast provides balance'
+        reason: 'Temperature contrast provides balance',
       }
       {
         foods: ['rich foods', 'pickled vegetables'],
-        reason: 'Pickles aid digestion and provide contrast'
+        reason: 'Pickles aid digestion and provide contrast',
       }
     ],
     avoidCombinations: [
       {
         foods: ['green tea', 'oily foods'],
-        reason: 'Can cause stomach discomfort'
+        reason: 'Can cause stomach discomfort',
       }
       {
         foods: ['raw fish', 'dairy'],
-        reason: 'Conflicts with traditional flavor profiles'
+        reason: 'Conflicts with traditional flavor profiles',
       }
     ]
   },
@@ -48,17 +48,17 @@ export const culturalRules: Record<string, CulturalBalance> = {
     preferredCombinations: [
       {
         foods: ['hummus', 'warm pita', 'olive oil'],
-        reason: 'Traditional combination enhancing flavors and textures'
+        reason: 'Traditional combination enhancing flavors and textures',
       }
       {
         foods: ['grilled meats', 'fresh herbs', 'yogurt sauce'],
-        reason: 'Balanced protein with cooling elements'
+        reason: 'Balanced protein with cooling elements',
       }
     ],
     avoidCombinations: [
       {
         foods: ['fish', 'dairy'],
-        reason: 'Traditional dietary guideline'
+        reason: 'Traditional dietary guideline',
       }
     ]
   },
@@ -73,17 +73,17 @@ export const culturalRules: Record<string, CulturalBalance> = {
     preferredCombinations: [
       {
         foods: ['spicy curry', 'plain rice', 'fresh vegetables'],
-        reason: 'Balances heat and provides textural contrast'
+        reason: 'Balances heat and provides textural contrast',
       }
       {
         foods: ['papaya salad', 'grilled protein', 'sticky rice'],
-        reason: 'Traditional Isaan combination'
+        reason: 'Traditional Isaan combination',
       }
     ],
     avoidCombinations: [
       {
         foods: ['very spicy dishes', 'very sweet dishes'],
-        reason: 'Overwhelms palate'
+        reason: 'Overwhelms palate',
       }
     ]
   },
@@ -99,25 +99,25 @@ export const culturalRules: Record<string, CulturalBalance> = {
     preferredCombinations: [
       {
         foods: ['rice', 'stir-fried vegetables', 'protein'],
-        reason: 'Traditional balanced meal structure'
+        reason: 'Traditional balanced meal structure',
       }
       {
         foods: ['soup', 'cold dishes'],
-        reason: 'Temperature and texture contrast'
+        reason: 'Temperature and texture contrast',
       }
       {
         foods: ['congee', 'pickled vegetables'],
-        reason: 'Digestive harmony'
+        reason: 'Digestive harmony',
       }
     ],
     avoidCombinations: [
       {
         foods: ['cold drinks', 'spicy food'],
-        reason: 'Disrupts digestive balance'
+        reason: 'Disrupts digestive balance',
       }
       {
         foods: ['crab', 'persimmon'],
-        reason: 'Traditional dietary restriction'
+        reason: 'Traditional dietary restriction',
       }
     ]
   },
@@ -133,25 +133,25 @@ export const culturalRules: Record<string, CulturalBalance> = {
     preferredCombinations: [
       {
         foods: ['dal', 'rice', 'ghee'],
-        reason: 'Complete protein combination'
+        reason: 'Complete protein combination',
       }
       {
         foods: ['curry', 'yogurt', 'rice'],
-        reason: 'Balanced meal with cooling element'
+        reason: 'Balanced meal with cooling element',
       }
       {
         foods: ['spicy dishes', 'raita'],
-        reason: 'Temperature and flavor balance'
+        reason: 'Temperature and flavor balance',
       }
     ],
     avoidCombinations: [
       {
         foods: ['milk', 'fish'],
-        reason: 'Ayurvedic incompatibility'
+        reason: 'Ayurvedic incompatibility',
       }
       {
         foods: ['honey', 'hot foods'],
-        reason: 'Creates toxins according to Ayurveda'
+        reason: 'Creates toxins according to Ayurveda',
       }
     ]
   },
@@ -167,17 +167,17 @@ export const culturalRules: Record<string, CulturalBalance> = {
     preferredCombinations: [
       {
         foods: ['rice noodles', 'fresh herbs', 'protein'],
-        reason: 'Traditional pho combination'
+        reason: 'Traditional pho combination',
       }
       {
         foods: ['rice paper rolls', 'dipping sauce'],
-        reason: 'Classic pairing for texture and flavor'
+        reason: 'Classic pairing for texture and flavor',
       }
     ],
     avoidCombinations: [
       {
         foods: ['durian', 'alcohol'],
-        reason: 'Traditional belief of negative effects'
+        reason: 'Traditional belief of negative effects',
       }
     ]
   },
@@ -193,17 +193,17 @@ export const culturalRules: Record<string, CulturalBalance> = {
     preferredCombinations: [
       {
         foods: ['rice', 'kimchi', 'soup'],
-        reason: 'Traditional Korean meal structure'
+        reason: 'Traditional Korean meal structure',
       }
       {
         foods: ['grilled meat', 'lettuce wraps', 'ssamjang'],
-        reason: 'Classic Korean BBQ combination'
+        reason: 'Classic Korean BBQ combination',
       }
     ],
     avoidCombinations: [
       {
         foods: ['kimchi', 'milk'],
-        reason: 'Flavor clash and digestive concerns'
+        reason: 'Flavor clash and digestive concerns',
       }
     ]
   },
@@ -219,17 +219,17 @@ export const culturalRules: Record<string, CulturalBalance> = {
     preferredCombinations: [
       {
         foods: ['beans', 'rice', 'corn tortillas'],
-        reason: 'Complete protein combination'
+        reason: 'Complete protein combination',
       }
       {
         foods: ['spicy dishes', 'crema', 'lime'],
-        reason: 'Heat balanced with cooling elements'
+        reason: 'Heat balanced with cooling elements',
       }
     ],
     avoidCombinations: [
       {
         foods: ['fish', 'cheese'],
-        reason: 'Traditional flavor conflict'
+        reason: 'Traditional flavor conflict',
       }
     ]
   }

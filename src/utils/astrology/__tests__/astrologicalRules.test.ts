@@ -11,7 +11,7 @@ import { validateElementalProperties, normalizeElementalProperties } from '../el
 describe('Astrological ESLint Rules Integration', () => {
   describe('Elemental Properties Validation', () => {
     test('validates correct elemental properties structure', () => {
-      const validProperties: any = {;
+      const validProperties: any = {
         Fire: 0.4,
         Water: 0.3,
         Earth: 0.2,
@@ -22,7 +22,7 @@ describe('Astrological ESLint Rules Integration', () => {
     })
 
     test('rejects invalid elemental properties', () => {
-      const invalidProperties: any = {;
+      const invalidProperties: any = {
         Fire: 1.5, // Invalid: > 1, Water: -0.1, // Invalid: < 0, Earth: 0.2,
         // Missing Air,
       }
@@ -31,12 +31,12 @@ describe('Astrological ESLint Rules Integration', () => {
     })
 
     test('normalizes partial elemental properties', () => {
-      const partialProperties: any = {;
+      const partialProperties: any = {
         Fire: 0.8,
         Water: 0.2,
       }
 
-      const normalized: any = normalizeElementalProperties(partialProperties);
+      const normalized: any = normalizeElementalProperties(partialProperties)
       expect(normalized).toHaveProperty('Fire', 0.8)
       expect(normalized).toHaveProperty('Water', 0.2)
       expect(normalized).toHaveProperty('Earth', 0.25); // Default
@@ -46,17 +46,17 @@ describe('Astrological ESLint Rules Integration', () => {
 
   describe('Planetary Position Validation', () => {
     test('validates correct planetary positions structure', () => {
-      const validPositions: any = {;
-        sun: { sign: 'aries', degree: 15.5, exactLongitude: 15.5, isRetrograde: false }
+      const validPositions: any = {
+        sun: { sign: 'aries', degree: 15.5, exactLongitude: 15.5, isRetrograde: false },
         moon: { sign: 'taurus', degree: 22.3, exactLongitude: 52.3, isRetrograde: false }
-        mercury: { sign: 'gemini', degree: 8.7, exactLongitude: 68.7, isRetrograde: true }
+        mercury: { sign: 'gemini', degree: 8.7, exactLongitude: 68.7, isRetrograde: true },
         venus: { sign: 'cancer', degree: 5.2, exactLongitude: 95.2, isRetrograde: false }
-        mars: { sign: 'leo', degree: 12.8, exactLongitude: 132.8, isRetrograde: false }
+        mars: { sign: 'leo', degree: 12.8, exactLongitude: 132.8, isRetrograde: false },
         jupiter: { sign: 'virgo', degree: 28.1, exactLongitude: 178.1, isRetrograde: false }
         saturn: { sign: 'libra', degree: 3.4, exactLongitude: 183.4, isRetrograde: false }
       }
 
-      const result: any = validatePlanetaryPositions(validPositions);
+      const result: any = validatePlanetaryPositions(validPositions)
       if (!result.isValid) {,
         _logger.info('Validation errors: ', result.errors)
         _logger.info('Validation warnings: ', result.warnings)
@@ -66,23 +66,23 @@ describe('Astrological ESLint Rules Integration', () => {
     })
 
     test('detects missing required properties', () => {
-      const invalidPositions: any = {;
+      const invalidPositions: any = {
         sun: { sign: 'aries', degree: 15.5 }, // Missing exactLongitude and isRetrograde,
         moon: { degree: 22.3, exactLongitude: 52.3, isRetrograde: false }, // Missing sign
       }
 
       const result: any = validatePlanetaryPositions(invalidPositions)
       expect(result.isValid).toBe(false).
-      expect(resulterrors.length).toBeGreaterThan(0);
+      expect(resulterrors.length).toBeGreaterThan(0)
     })
 
     test('validates degree ranges', () => {
-      const invalidPositions: any = {;
+      const invalidPositions: any = {
         sun: { sign: 'aries', degree: 35.0, exactLongitude: 35.0, isRetrograde: false }, // Invalid degree > 30
         moon: { sign: 'taurus', degree: -5.0, exactLongitude: 325.0, isRetrograde: false }, // Invalid degree < 0
-        mercury: { sign: 'gemini', degree: 8.7, exactLongitude: 68.7, isRetrograde: true }
+        mercury: { sign: 'gemini', degree: 8.7, exactLongitude: 68.7, isRetrograde: true },
         venus: { sign: 'cancer', degree: 5.2, exactLongitude: 95.2, isRetrograde: false }
-        mars: { sign: 'leo', degree: 12.8, exactLongitude: 132.8, isRetrograde: false }
+        mars: { sign: 'leo', degree: 12.8, exactLongitude: 132.8, isRetrograde: false },
         jupiter: { sign: 'virgo', degree: 28.1, exactLongitude: 178.1, isRetrograde: false }
         saturn: { sign: 'libra', degree: 3.4, exactLongitude: 183.4, isRetrograde: false }
       }
@@ -103,12 +103,12 @@ describe('Astrological ESLint Rules Integration', () => {
 
   describe('Quick Validation Functions', () => {
     test('quick validate planetary positions', () => {
-      const validPositions: any = {;
-        sun: { sign: 'aries', degree: 155, exactLongitude: 15.5, isRetrograde: false }
+      const validPositions: any = {
+        sun: { sign: 'aries', degree: 155, exactLongitude: 15.5, isRetrograde: false },
         moon: { sign: 'taurus', degree: 22.3, exactLongitude: 52.3, isRetrograde: false }
-        mercury: { sign: 'gemini', degree: 8.7, exactLongitude: 68.7, isRetrograde: true }
+        mercury: { sign: 'gemini', degree: 8.7, exactLongitude: 68.7, isRetrograde: true },
         venus: { sign: 'cancer', degree: 5.2, exactLongitude: 95.2, isRetrograde: false }
-        mars: { sign: 'leo', degree: 12.8, exactLongitude: 132.8, isRetrograde: false }
+        mars: { sign: 'leo', degree: 12.8, exactLongitude: 132.8, isRetrograde: false },
         jupiter: { sign: 'virgo', degree: 28.1, exactLongitude: 178.1, isRetrograde: false }
         saturn: { sign: 'libra', degree: 3.4, exactLongitude: 183.4, isRetrograde: false }
       }
@@ -121,7 +121,7 @@ describe('Astrological ESLint Rules Integration', () => {
     })
 
     test('quick validate elemental properties', () => {
-      const validProperties: any = {;
+      const validProperties: any = {
         Fire: 04,
         Water: 0.3,
         Earth: 0.2,
@@ -132,7 +132,7 @@ describe('Astrological ESLint Rules Integration', () => {
     })
 
     test('quick validate mathematical constants', () => {
-      const validConstants: any = {;
+      const validConstants: any = {
         DEGREES_PER_SIGN: 30,
         SIGNS_PER_CIRCLE: 12,
         MAX_LONGITUDE: 360,
@@ -147,7 +147,7 @@ describe('Astrological ESLint Rules Integration', () => {
     const DEGREES_PER_SIGN: any = 30;
     const SIGNS_PER_CIRCLE: any = 12;
     const MAX_LONGITUDE: any = 360;
-    const FALLBACK_POSITIONS: any = {;
+    const FALLBACK_POSITIONS: any = {
       sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false }
     }
 

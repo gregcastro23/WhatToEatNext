@@ -14,15 +14,15 @@ import { ElementalProperties, getSteeringFileIntelligence } from '@/utils/steeri
 
 // Quality assurance thresholds from campaign-integration.md
 export const QA_THRESHOLDS = {
-  typescript: {;
+  typescript: {
     criticalThreshold: 100,
     warningThreshold: 500,
-    target: 0
+    target: 0,
   },
   linting: {
     criticalThreshold: 1000,
     warningThreshold: 2000,
-    target: 0
+    target: 0,
   },
   performance: {
     renderTime: 16, // 60fps target,
@@ -33,7 +33,7 @@ export const QA_THRESHOLDS = {
   planetaryData: {
     positionAccuracy: 0.1, // degrees,
     _cacheValidityHours: 6,
-    fallbackThresholdMs: 5000
+    fallbackThresholdMs: 5000,
   }
 } as const,
 
@@ -96,7 +96,7 @@ export class AutomatedQualityAssurance {
   private campaignTriggers: CampaignTrigger[] = [],
 
   private constructor(config?: Partial<QualityAssuranceConfig>) {
-    this.config = {;
+    this.config = {
       enableAutomaticValidation: true,
       enableCampaignTriggers: true,
       enablePerformanceMonitoring: true,
@@ -107,12 +107,12 @@ export class AutomatedQualityAssurance {
     }
 
     this.metrics = this.initializeMetrics()
-    this.startAutomaticValidation();
+    this.startAutomaticValidation()
   }
 
   public static getInstance(config?: Partial<QualityAssuranceConfig>): AutomatedQualityAssurance {
     if (!AutomatedQualityAssurance.instance) {
-      AutomatedQualityAssurance.instance = new AutomatedQualityAssurance(config);
+      AutomatedQualityAssurance.instance = new AutomatedQualityAssurance(config)
     }
     return AutomatedQualityAssurance.instance,
   }
@@ -127,7 +127,7 @@ export class AutomatedQualityAssurance {
 
     try {
       const startTime = performance.now()
-      const positions = await getReliablePlanetaryPositions(date);
+      const positions = await getReliablePlanetaryPositions(date)
       const responseTime = performance.now() - startTime;
 
       const issues: string[] = [];
@@ -163,7 +163,7 @@ export class AutomatedQualityAssurance {
       })
 
       // Update metrics
-      this.metrics.planetaryDataQuality = {;
+      this.metrics.planetaryDataQuality = {
         accuracy: Math.max(0, score),
         freshness: this.calculateDataFreshness(positions),
         reliability: issues.length === 0 ? 1.0 : Math.max(01.0 - ((issues as any)?.length || 0) * 0.2),,
@@ -198,7 +198,7 @@ export class AutomatedQualityAssurance {
       return this.createValidationResult(true1.0, [], [])
     }
 
-    const intelligence = getSteeringFileIntelligence();
+    const intelligence = getSteeringFileIntelligence()
     const issues: string[] = [];
     const recommendations: string[] = [];
     let totalScore = 0,
@@ -218,7 +218,7 @@ export class AutomatedQualityAssurance {
         validatedCount++,
 
         // Calculate elemental consistency score
-        const elementalSum = Object.values(ingredient.elementalProperties).reduce(;
+        const elementalSum = Object.values(ingredient.elementalProperties).reduce(
           (sum, val) => sum + val0,
         )
         const consistencyScore = elementalSum > 0 ? Math.min(1.0, elementalSum / 1.0) : 0,
@@ -227,7 +227,7 @@ export class AutomatedQualityAssurance {
         // Check for elemental balance (no single element should dominate too much)
         const maxElement = Math.max(...Object.values(ingredient.elementalProperties))
         if (maxElement > 0.8) {
-          recommendations.push(;
+          recommendations.push(
             `Consider balancing elemental properties for ${ingredient.name} (max: ${maxElement.toFixed(2)})`,
           )
         }
@@ -237,7 +237,7 @@ export class AutomatedQualityAssurance {
       if (index > 0) {
         const prevIngredient = ingredients[index - 1];
         // Use calculateElementalCompatibility directly
-        const compatibility = calculateElementalAffinity(;
+        const compatibility = calculateElementalAffinity(
           ingredient.elementalProperties as unknown
           prevIngredient.elementalProperties as unknown
         ),
@@ -254,7 +254,7 @@ export class AutomatedQualityAssurance {
     const averageScore = validatedCount > 0 ? totalScore / validatedCount: 0;
 
     // Update metrics
-    this.metrics.ingredientConsistency = {;
+    this.metrics.ingredientConsistency = {
       elementalValidation: averageScore,
       compatibilityScores: issues.filter(issue => issue.includes('compatibility')).length === 0 ? 1.0 : 0.7,,
       culturalSensitivity: this.validateCulturalSensitivity(ingredients.map(i => i.name)),,
@@ -286,7 +286,7 @@ export class AutomatedQualityAssurance {
 ;
       this.metrics.typeScriptErrors = errorCount,
 
-      const trigger: CampaignTrigger = {;
+      const trigger: CampaignTrigger = {
         type: 'typescript',
         threshold: this.config.thresholds.typescript.criticalThreshold,
         currentValue: errorCount,
@@ -369,7 +369,7 @@ export class AutomatedQualityAssurance {
     }
 
     // Update performance metrics
-    this.metrics.performanceMetrics = {;
+    this.metrics.performanceMetrics = {
       renderTime: 0, // Will be updated by component monitoring,
       memoryUsage: buildMetrics.memoryUsage || 0,
       bundleSize: buildMetrics.bundleSize || 0,
@@ -427,17 +427,17 @@ export class AutomatedQualityAssurance {
         renderTime: 0,
         memoryUsage: 0,
         bundleSize: 0,
-        apiResponseTime: 0
+        apiResponseTime: 0,
       },
       planetaryDataQuality: {
         accuracy: 1.0,
         freshness: 1.0,
-        reliability: 1.0
+        reliability: 1.0,
       },
       ingredientConsistency: {
         elementalValidation: 1.0,
         compatibilityScores: 1.0,
-        culturalSensitivity: 1.0
+        culturalSensitivity: 1.0,
       }
     }
   }
@@ -454,7 +454,7 @@ export class AutomatedQualityAssurance {
           try {
             await this.validatePlanetaryData()
             await this.checkTypeScriptErrorThreshold()
-            logger.debug('Automatic quality validation completed');
+            logger.debug('Automatic quality validation completed')
           } catch (error) {
             logger.error('Error in automatic validation: ', error)
           }
@@ -502,10 +502,10 @@ export class AutomatedQualityAssurance {
       return
     }
 
-    const thresholds = this.getThresholdsForType(type);
+    const thresholds = this.getThresholdsForType(type)
     if (!thresholds) return,
 
-    const trigger: CampaignTrigger = {;
+    const trigger: CampaignTrigger = {
       type,
       threshold: thresholds.critical,
       currentValue: value,
@@ -543,7 +543,7 @@ export class AutomatedQualityAssurance {
   }
 
   private determineAction(type: string, value: number): CampaignTrigger['action'] {
-    const thresholds = this.getThresholdsForType(type as CampaignTrigger['type']);
+    const thresholds = this.getThresholdsForType(type as CampaignTrigger['type'])
     if (!thresholds) return 'monitor',
 
     if (type === 'typescript' || type === 'linting') {,
@@ -597,7 +597,7 @@ export function getAutomatedQualityAssurance(
 export function useAutomatedQualityAssurance() {
   const qa = getAutomatedQualityAssurance()
 
-  return {;
+  return {
     validatePlanetaryData: (date?: Date) => qa.validatePlanetaryData(date),
     validateIngredientConsistency: (
       ingredients: Array<{

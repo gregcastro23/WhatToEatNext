@@ -92,27 +92,27 @@ export class EnhancedTransitAnalysisService {
     }
 
     // Get location-specific planetary influences
-    const locationInfluences = PlanetaryLocationService.calculateLocationPlanetaryInfluences(;
+    const locationInfluences = PlanetaryLocationService.calculateLocationPlanetaryInfluences(
       location,
       date,
     ),
 
     // Calculate enhanced planetary positions with dignity and location modifiers
-    const enhancedPositions = this.calculateEnhancedPlanetaryPositions(;
+    const enhancedPositions = this.calculateEnhancedPlanetaryPositions(
       season.planetaryPlacements as Record<string, Record<string, string>>,
       locationInfluences,
       date,
     )
 
     // Calculate aspect influences with dignity modifiers
-    const aspectInfluences = this.calculateEnhancedAspectInfluences(;
+    const aspectInfluences = this.calculateEnhancedAspectInfluences(
       season.keyAspects
       enhancedPositions,
       location,
     )
 
     // Generate location-specific recommendations
-    const locationRecommendations = this.generateLocationSpecificRecommendations(;
+    const locationRecommendations = this.generateLocationSpecificRecommendations(
       enhancedPositions,
       aspectInfluences as unknown as PlanetaryPosition[],
       season,
@@ -121,7 +121,7 @@ export class EnhancedTransitAnalysisService {
     )
 
     // Determine dominant influences
-    const dominantInfluences = this.calculateDominantInfluences(;
+    const dominantInfluences = this.calculateDominantInfluences(
       enhancedPositions,
       aspectInfluences as unknown as PlanetaryPosition[],
       season,
@@ -152,19 +152,19 @@ export class EnhancedTransitAnalysisService {
       const dignity = calculatePlanetaryDignity(planet, position.sign)
 
       // Get location influence for this planet
-      const locationInfluence = locationInfluences.find(;
+      const locationInfluence = locationInfluences.find(
         li => li.planet.toLowerCase() === planet.toLowerCase(),
       )
 
       // Calculate overall strength
-      const strength = calculatePlanetaryStrength(;
+      const strength = calculatePlanetaryStrength(
         planet,
         position as unknown as import('@/types/alchemy').PlanetaryPosition;
       )
 
       // Get planet data for culinary recommendations
       const planetData = planetInfo[planet];
-      const culinaryRecommendations = this.generatePlanetaryCulinaryRecommendations(;
+      const culinaryRecommendations = this.generatePlanetaryCulinaryRecommendations(
         planet,
         dignity,
         strength,
@@ -196,10 +196,10 @@ export class EnhancedTransitAnalysisService {
   ): { aspect: PlanetaryAspect, dignityModifiedInfluence: number, culinaryEffects: string[] }[] {
     return aspects.map(aspect => {
       // Get enhanced positions for the aspecting planets
-      const planet1Data = enhancedPositions.find(;
+      const planet1Data = enhancedPositions.find(
         ep => ep.planet.toLowerCase() === aspect.planet1.toLowerCase(),
       )
-      const planet2Data = enhancedPositions.find(;
+      const planet2Data = enhancedPositions.find(
         ep => ep.planet.toLowerCase() === aspect.planet2.toLowerCase(),
       )
 
@@ -219,7 +219,7 @@ export class EnhancedTransitAnalysisService {
       }
 
       // Generate culinary effects for this aspect
-      const culinaryEffects = this.generateAspectCulinaryEffects(;
+      const culinaryEffects = this.generateAspectCulinaryEffects(
         aspect,
         planet1Data,
         planet2Data,
@@ -239,7 +239,7 @@ export class EnhancedTransitAnalysisService {
    */
   private static generatePlanetaryCulinaryRecommendations(
     planet: string,
-    dignity: { type: string, modifier: number }
+    dignity: { type: string, modifier: number },
     strength: number,
     locationInfluence: LocationPlanetaryInfluence | undefined,
     planetData: Planet,
@@ -255,7 +255,7 @@ export class EnhancedTransitAnalysisService {
 
     // Modify recommendations based on dignity
     if (dignity.type === 'rulership' || dignity.type === 'exaltation') {
-      recommendations.push(;
+      recommendations.push(
         `Enhanced ${planet.toLowerCase()} foods - maximize traditional associations`,
       )
       recommendations.push(`Strong preparation methods reflecting ${planet} energy`)
@@ -419,7 +419,7 @@ export class EnhancedTransitAnalysisService {
     })
 
     // Determine dominant element
-    const dominantElement = Object.entries(season.dominantElements).sort(;
+    const dominantElement = Object.entries(season.dominantElements).sort(
       ([, a], [, b]) => b - a,
     )[0][0],
 
@@ -428,7 +428,7 @@ export class EnhancedTransitAnalysisService {
 
     // Calculate optimal cooking times
     const solarTimes = AstronomicalCalculations.getSolarElevation(location, date)
-    const optimalCookingTimes = [;
+    const optimalCookingTimes = [
       `Peak solar energy: ${solarTimes > 45 ? 'High-heat cooking optimal' : 'Gentle cooking preferred'}`,
       `${strongestPlanet.planet} influence: Enhanced during planetary hour`,
       `Seasonal focus: ${seasonalTheme}`

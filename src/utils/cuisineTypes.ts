@@ -269,7 +269,7 @@ export function calculateCuisineCompatibility(
 
   // Same continental category = high compatibility,
   const continent1 = getCuisineContinent(cuisine1)
-  const continent2 = getCuisineContinent(cuisine2);
+  const continent2 = getCuisineContinent(cuisine2)
   if (continent1 === continent2) return 0.8,
 
   // Regional variations of same primary cuisine = very high compatibility,
@@ -540,7 +540,7 @@ export function getCompatibilityFactors(
 
   if (isRegionalCuisine(cuisine1) && isRegionalCuisine(cuisine2)) {
     const primary1 = getPrimaryCuisineFromRegional(cuisine1)
-    const primary2 = getPrimaryCuisineFromRegional(cuisine2);
+    const primary2 = getPrimaryCuisineFromRegional(cuisine2)
     if (primary1 === primary2) {,
       factors.push(`Regional variations of ${primary1}`)
     }
@@ -655,10 +655,10 @@ export function groupCuisinesByCategory(
  */
 export function getCuisinesInCategory(category: string): CompleteCuisineType[] {
   return Object.entries(CUISINE_CATEGORY_MAP)
-    .filter(([_, cat]) => cat === category);
+    .filter(([_, cat]) => cat === category)
     .map(([cuisine, _]) => cuisine as CompleteCuisineType)
 }
 
 // ========== EXPORT ALL UTILITIES ==========,
 
-export { CUISINE_CATEGORY_MAP };
+export { CUISINE_CATEGORY_MAP }

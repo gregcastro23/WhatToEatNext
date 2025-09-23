@@ -13,11 +13,11 @@ export const broiling: CookingMethodData = {
     Fire: 0.8,
     Air: 0.1,
     Earth: 0.1,
-    Water: 0.0
+    Water: 0.0,
   },
   duration: {
     min: 3,
-    max: 15
+    max: 15,
   },
   suitable_for: [
     'steaks',
@@ -48,7 +48,7 @@ export const broiling: CookingMethodData = {
       full_moon: 1.25, // Enhanced browning effects,
       new_moon: 0.75, // Reduced intensity,
       waxing_crescent: 0.9,
-      waning_gibbous: 1.1
+      waning_gibbous: 1.1,
     }
   },
 
@@ -84,9 +84,8 @@ export const broiling: CookingMethodData = {
     proteins: 0.9,
     vitamins: 0.65,
     minerals: 0.85,
-    fats: 0.7
-  }
-
+    fats: 0.7,
+  },
   optimalTemperatures: {
     steaks: 500,
     poultry: 450,
@@ -94,7 +93,7 @@ export const broiling: CookingMethodData = {
     vegetables: 475,
     fruit: 400,
     'melting cheese': 475,
-    toasting: 450
+    toasting: 450,
   }
 
   regionalVariations: {
@@ -103,15 +102,14 @@ export const broiling: CookingMethodData = {
     japanese: ['aburi-style sushi', 'miso-glazed fish'],
     french: ['gratin dishes', 'crème brûlée finishing'],
     mediterranean: ['broiled seafood', 'vegetable mezze']
-  }
-
+  },
   chemicalChanges: {
     maillard_reaction: true,
     caramelization: true,
     moisture_evaporation: true,
     fat_rendering: true,
     protein_denaturation: true,
-    surface_dehydration: true
+    surface_dehydration: true,
   }
 
   safetyFeatures: [
@@ -215,20 +213,18 @@ export const broiling: CookingMethodData = {
       'electric broilers': 'More intense heat, may have hot spots that require repositioning food.',
       'salamander broilers':
         'Professional equipment allowing precise control and higher temperatures.',
-      'drawer broilers':
-        'Located below oven in some models, typically smaller capacity but good heat.'
+      'drawer broilers': 'Located below oven in some models, typically smaller capacity but good heat.',
     }
     'distance effects': {
       'close positioning': 'Faster cooking, more external browning, less interior cooking.',
       'distant positioning': 'Slower cooking, more even heating throughout the food.',
-      'variable positioning':
-        'Moving food closer or further during cooking allows for controlled browning.'
+      'variable positioning': 'Moving food closer or further during cooking allows for controlled browning.',
     }
     'surface treatments': {
       'oil application': 'Thin layer conducts heat better and prevents sticking.',
       'dry rubs': 'Apply before cooking, high sugar content rubs may burn.',
       'wet marinades': 'Pat dry before broiling to prevent steaming instead of browning.',
-      basting: 'Apply during cooking to add flavor and prevent drying.'
+      basting: 'Apply during cooking to add flavor and prevent drying.',
     }
   }
 }

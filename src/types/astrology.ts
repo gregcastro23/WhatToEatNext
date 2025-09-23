@@ -64,7 +64,7 @@ export type CompleteAstrologicalState = AstrologicalStateType,
  * Planetary Position Details
  * Enhanced planetary position with detailed information
  */
-export type PlanetaryPositionDetails = {;
+export type PlanetaryPositionDetails = {
   planet: string,
   sign: string,
   degree: number,
@@ -91,7 +91,7 @@ export type AspectType =
  * Planetary Aspect Details
  * Complete information about planetary aspects
  */
-export type PlanetaryAspectDetails = {;
+export type PlanetaryAspectDetails = {
   planetA: string,
   planetB: string,
   aspect: AspectType,
@@ -104,7 +104,7 @@ export type PlanetaryAspectDetails = {;
  * Birth Chart Data
  * Standardized birth chart information
  */
-export type BirthChartData = {;
+export type BirthChartData = {
   elementalState: Record<ElementalCharacter, number>,
   planetaryPositions: Record<string, number>,
   ascendant: string,
@@ -116,7 +116,7 @@ export type BirthChartData = {;
  * Astrological Profile Type
  * Complete astrological profile for ingredients or individuals
  */
-export type AstrologicalProfileType = {;
+export type AstrologicalProfileType = {
   zodiac?: StandardZodiacSign[],
   lunar?: StandardLunarPhase[],
   planetary?: PlanetaryPositionDetails[],
@@ -183,7 +183,7 @@ import { Planet, PlanetName, ZodiacSign, LunarPhase } from '@/types/celestial';
 
 // Example usage
 const foodSystem = new FoodAlchemySystem()
-const _compatibility = foodSystem.calculateFoodCompatibility(;
+const _compatibility = foodSystem.calculateFoodCompatibility(
     foodItem,
     birthChart,
     currentPlanetaryHour

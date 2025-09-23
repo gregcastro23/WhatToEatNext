@@ -4,7 +4,7 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawAlliums = {
   garlic: {;
     name: 'Garlic',
-    elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 }
+    elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Pluto'],
       favorableZodiac: ['aries', 'scorpio'],
@@ -17,15 +17,15 @@ const rawAlliums = {
         },
         lunarPhaseModifiers: {
           newMoon: {
-            elementalBoost: { Fire: 0.1, Earth: 0.05 }
+            elementalBoost: { Fire: 0.1, Earth: 0.05 },
             preparationTips: ['Best for medicinal preparations', 'Raw applications enhanced']
           },
           fullMoon: {
-            elementalBoost: { Fire: 0.2 }
+            elementalBoost: { Fire: 0.2 },
             preparationTips: ['Roasted garlic develops deeper flavor', 'Fermentation enhanced']
           },
           waxingGibbous: {
-            elementalBoost: { Fire: 0.15, Air: 0.05 }
+            elementalBoost: { Fire: 0.15, Air: 0.05 },
             preparationTips: [
               'Excellent for infusion into oils',
               'Enhanced preservation properties'
@@ -150,7 +150,7 @@ const rawAlliums = {
           preparation: {
             methods: ['standard preparation'],
             timing: 'as needed',
-            notes: 'Standard preparation for hardneck'
+            notes: 'Standard preparation for hardneck',
           }
         },
         culinaryProfile: {
@@ -282,7 +282,7 @@ const rawAlliums = {
     culinaryApplications: {
       roasted: {
         method: 'whole head with top cut off, wrapped in foil with oil',
-        temperature: { fahrenheit: 400, celsius: 200 }
+        temperature: { fahrenheit: 400, celsius: 200 },
         timing: '40-60 minutes until soft and caramelized',
         uses: ['spreads', 'mashed potatoes', 'soups', 'sauces'],
         notes: 'transforms harsh flavor to sweet and nutty',
@@ -321,7 +321,7 @@ const rawAlliums = {
       },
       confit: {
         method: 'slow cook peeled cloves in oil at low temperature',
-        temperature: { fahrenheit: 225, celsius: 110 }
+        temperature: { fahrenheit: 225, celsius: 110 },
         timing: '2-3 hours until soft and golden',
         uses: ['oil for cooking', 'spread on bread', 'flavor base'],
         notes: 'both garlic and oil become flavored',
@@ -367,7 +367,7 @@ const rawAlliums = {
       black_garlic: {
         method: 'aged in controlled humidity and temperature',
         timing: '3-4 weeks',
-        temperature: { fahrenheit: 140, celsius: 60 }
+        temperature: { fahrenheit: 140, celsius: 60 },
         humidity: '70-80%',
         uses: ['high-end cuisine', 'sauces', 'vinaigrettes'],
         notes: 'transformed through Maillard reaction, not fermentation',
@@ -396,13 +396,13 @@ const rawAlliums = {
       notes: 'Do not refrigerate whole heads, promotes sprouting',
       conditions_to_avoid: 'moisture, direct sunlight, refrigeration',
       peeled_cloves: 'refrigerate up to 1 week or submerge in oil',
-      minced: 'refrigerate up to 1 day or freeze in portions'
+      minced: 'refrigerate up to 1 day or freeze in portions',
     }
   }
 
   onion: {
     name: 'Onion',
-    elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 }
+    elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Moon'],
       favorableZodiac: ['aries', 'cancer', 'scorpio'],
@@ -416,15 +416,15 @@ const rawAlliums = {
         },
         lunarPhaseModifiers: {
           newMoon: {
-            elementalBoost: { Fire: 0.1, Air: 0.05 }
+            elementalBoost: { Fire: 0.1, Air: 0.05 },
             preparationTips: ['Good for quick pickling', 'Raw preparations enhanced']
           },
           fullMoon: {
-            elementalBoost: { Water: 0.15, Fire: 0.05 }
+            elementalBoost: { Water: 0.15, Fire: 0.05 },
             preparationTips: ['Best for caramelizing', 'Sweetness more pronounced']
           },
           waningGibbous: {
-            elementalBoost: { Earth: 0.1, Water: 0.1 }
+            elementalBoost: { Earth: 0.1, Water: 0.1 },
             preparationTips: ['Good for long-cooking methods', 'Enhanced grounding qualities']
           }
         }
@@ -469,7 +469,7 @@ const rawAlliums = {
         characteristics: 'small, elongated, copper skin, purple-tinged flesh',
         flavor: 'refined, garlicky notes, complex',
         best_uses: ['fine sauces', 'vinaigrettes', 'garnishes'],
-        notes: 'higher sugar content, considered more elegant'
+        notes: 'higher sugar content, considered more elegant',
       }
     },
     culinaryApplications: {
@@ -495,10 +495,10 @@ const rawAlliums = {
       },
       fried: {
         method: 'coat in flour or batter and deep fry',
-        temperature: { fahrenheit: 350, celsius: 175 }
+        temperature: { fahrenheit: 350, celsius: 175 },
         timing: '2-3 minutes until golden',
         preparation: 'separate into rings, soak in buttermilk',
-        notes: 'dry thoroughly before frying for crispiness'
+        notes: 'dry thoroughly before frying for crispiness',
       }
     },
     storage: {
@@ -510,14 +510,14 @@ const rawAlliums = {
       frozen: {
         preparation: 'peel, chop, freeze on tray then transfer to container',
         uses: 'only for cooked applications',
-        duration: 'up to 8 months'
+        duration: 'up to 8 months',
       }
     }
   }
 
   leek: {
     name: 'Leek',
-    elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 }
+    elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Moon'],
       favorableZodiac: ['capricorn', 'cancer'],
@@ -531,11 +531,11 @@ const rawAlliums = {
         },
         lunarPhaseModifiers: {
           firstQuarter: {
-            elementalBoost: { Earth: 0.1, Water: 0.05 }
+            elementalBoost: { Earth: 0.1, Water: 0.05 },
             preparationTips: ['Good for soups and stews', 'Balanced flavor development']
           },
           fullMoon: {
-            elementalBoost: { Water: 0.15, Earth: 0.05 }
+            elementalBoost: { Water: 0.15, Earth: 0.05 },
             preparationTips: ['Excellent for braising', 'Enhanced moisture retention']
           }
         }
@@ -593,7 +593,7 @@ const rawAlliums = {
         characteristics: 'very large, can be up to 6 inches in diameter',
         flavor: 'milder than standard leeks',
         best_uses: ['stuffing', 'roasting whole', 'large presentations'],
-        notes: 'requires longer cooking time'
+        notes: 'requires longer cooking time',
       }
     },
     culinaryApplications: {
@@ -620,7 +620,7 @@ const rawAlliums = {
         timing: '8-10 minutes',
         pre_treatment: 'blanch briefly to ensure even cooking',
         serving: 'drizzle with vinaigrette or herb oil',
-        notes: 'showcases natural sweetness with charred complexity'
+        notes: 'showcases natural sweetness with charred complexity',
       }
     },
     storage: {
@@ -632,14 +632,14 @@ const rawAlliums = {
       frozen: {
         preparation: 'clean, chop, blanch for 1 minute, shock in ice water',
         duration: 'up to 10 months',
-        best_uses: 'cooked dishes only'
+        best_uses: 'cooked dishes only',
       }
     }
   }
 
   shallot: {
     name: 'Shallot',
-    elementalProperties: { Fire: 0.3, Earth: 0.3, Air: 0.3, Water: 0.1 }
+    elementalProperties: { Fire: 0.3, Earth: 0.3, Air: 0.3, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Venus'],
       favorableZodiac: ['virgo', 'libra'],
@@ -653,11 +653,11 @@ const rawAlliums = {
         },
         lunarPhaseModifiers: {
           waxingCrescent: {
-            elementalBoost: { Air: 0.1, Fire: 0.05 }
+            elementalBoost: { Air: 0.1, Fire: 0.05 },
             preparationTips: ['Good for delicate sauces', 'Enhanced aromatic qualities']
           },
           fullMoon: {
-            elementalBoost: { Air: 0.15, Earth: 0.05 }
+            elementalBoost: { Air: 0.15, Earth: 0.05 },
             preparationTips: ['Best for vinaigrettes', 'Maximum flavor expression']
           }
         }
@@ -715,7 +715,7 @@ const rawAlliums = {
     culinaryApplications: {
       fried: {
         method: 'thinly slice and fry until crisp',
-        temperature: { fahrenheit: 325, celsius: 165 }
+        temperature: { fahrenheit: 325, celsius: 165 },
         timing: '2-3 minutes until golden brown',
         uses: ['garnish for soups', 'salads', 'steaks', 'Asian dishes'],
         notes: 'drain well on paper towels, salt immediately' },
@@ -726,10 +726,10 @@ const rawAlliums = {
         notes: 'provides aromatic foundation without dominating' },
         roasted: {
         method: 'halve and roast with olive oil',
-        temperature: { fahrenheit: 400, celsius: 200 }
+        temperature: { fahrenheit: 400, celsius: 200 },
         timing: '20-25 minutes until soft and caramelized',
         uses: ['side dish', 'accompaniment to roasted meats'],
-        variations: 'can be combined with other root vegetables'
+        variations: 'can be combined with other root vegetables',
       }
     },
     storage: {
@@ -741,14 +741,14 @@ const rawAlliums = {
       frozen: {
         preparation: 'peel, mince, freeze in ice cube trays with oil',
         duration: 'up to 3 months',
-        best_uses: 'cooking only, not raw applications'
+        best_uses: 'cooking only, not raw applications',
       }
     }
   }
 
   spring_onion: {
     name: 'Spring Onion',
-    elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 }
+    elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Mars'],
       favorableZodiac: ['virgo', 'aries'],
@@ -762,11 +762,11 @@ const rawAlliums = {
         },
         lunarPhaseModifiers: {
           newMoon: {
-            elementalBoost: { Air: 0.15, Fire: 0.05 }
+            elementalBoost: { Air: 0.15, Fire: 0.05 },
             preparationTips: ['Best for fresh applications', 'Enhanced crispness']
           },
           waxingCrescent: {
-            elementalBoost: { Water: 0.1, Air: 0.1 }
+            elementalBoost: { Water: 0.1, Air: 0.1 },
             preparationTips: ['Good for quick cooking', 'Enhanced flavor infusion']
           }
         }
@@ -814,7 +814,7 @@ const rawAlliums = {
         characteristics: 'purple-red bases, green tops',
         flavor: 'similar to regular scallions with slight color difference',
         best_uses: ['colorful garnishes', 'Asian cuisine'],
-        notes: 'less common but visually distinctive'
+        notes: 'less common but visually distinctive',
       }
     },
     culinaryApplications: {
@@ -840,7 +840,7 @@ const rawAlliums = {
         temperature: 'warm, not hot',
         timing: '30 minutes to 1 hour',
         uses: ['drizzling', 'dressings', 'finishing'],
-        notes: 'strain and refrigerate, use within 1 week'
+        notes: 'strain and refrigerate, use within 1 week',
       }
     },
     storage: {
@@ -853,13 +853,13 @@ const rawAlliums = {
         preparation: 'chop and freeze in ice cube trays',
         duration: 'up to 3 months',
         best_uses: 'cooked applications only' },
-        regrowth: 'can be regrown from roots in water or soil'
+        regrowth: 'can be regrown from roots in water or soil',
     }
   }
 
   chives: {
     name: 'Chives',
-    elementalProperties: { Air: 0.5, Fire: 0.2, Water: 0.2, Earth: 0.1 }
+    elementalProperties: { Air: 0.5, Fire: 0.2, Water: 0.2, Earth: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Uranus'],
       favorableZodiac: ['gemini', 'aquarius'],
@@ -873,11 +873,11 @@ const rawAlliums = {
         },
         lunarPhaseModifiers: {
           newMoon: {
-            elementalBoost: { Air: 0.2 }
+            elementalBoost: { Air: 0.2 },
             preparationTips: ['Fresh harvesting enhanced', 'Best for raw uses']
           },
           fullMoon: {
-            elementalBoost: { Air: 0.15, Water: 0.05 }
+            elementalBoost: { Air: 0.15, Water: 0.05 },
             preparationTips: ['Flavor more pronounced', 'Good for infusions']
           }
         }
@@ -931,7 +931,7 @@ const rawAlliums = {
         characteristics: 'purple pom-pom flowers in summer',
         flavor: 'mild, edible flowers have similar flavor to leaves',
         best_uses: ['edible garnish', 'chive blossom vinegar', 'salads'],
-        notes: 'flowers are edible and decorative'
+        notes: 'flowers are edible and decorative',
       }
     },
     culinaryApplications: {
@@ -954,7 +954,7 @@ const rawAlliums = {
         method: 'blanch briefly, blend with oil, strain',
         timing: 'blanch 10 seconds, shock in ice water',
         uses: ['drizzling', 'plating', 'finishing'],
-        notes: 'vibrant green color, use within a few days'
+        notes: 'vibrant green color, use within a few days',
       }
     },
     storage: {
@@ -969,7 +969,7 @@ const rawAlliums = {
         preparation: 'snip, freeze in ice cube trays with water or oil',
         duration: 'up to 6 months',
         best_uses: 'cooking applications only, flavor diminishes' },
-        dried: 'not recommended, loses most flavor and texture'
+        dried: 'not recommended, loses most flavor and texture',
     }
   }
 
@@ -979,7 +979,7 @@ const rawAlliums = {
       Fire: 0.35,
       Earth: 0.15,
       Air: 0.3,
-      Water: 0.2
+      Water: 0.2,
     },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Mars'],
@@ -1007,7 +1007,7 @@ const rawAlliums = {
       calories: 32,
       carbs_g: 7,
       fiber_g: 2.6,
-      protein_g: 1.8
+      protein_g: 1.8,
     },
     preparation: {
       washing: 'thoroughly between layers to remove sand / (grit || 1)',
@@ -1043,7 +1043,7 @@ const rawAlliums = {
           method: 'incorporate chopped scallions into dough',
           uses: ['traditional Chinese appetizer'],
           cooking: 'pan-fry until golden and crispy',
-          serving: 'with dipping sauce'
+          serving: 'with dipping sauce',
         }
       }
     },
@@ -1063,13 +1063,13 @@ const rawAlliums = {
 
   special_applications: {
     name: 'Special Applications',
-    elementalProperties: { Fire: 0.3, Earth: 0.3, Air: 0.2, Water: 0.2 }
+    elementalProperties: { Fire: 0.3, Earth: 0.3, Air: 0.2, Water: 0.2 },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Venus'],
       favorableZodiac: ['gemini', 'libra'],
       elementalAffinity: {
         base: 'Fire',
-        secondary: 'Earth'
+        secondary: 'Earth',
       }
     },
     qualities: ['versatile', 'traditional', 'regional'],
@@ -1083,7 +1083,7 @@ const rawAlliums = {
       minerals: ['varies'],
       calories: 0,
       carbs_g: 0,
-      fiber_g: 0
+      fiber_g: 0,
     },
     preparation: {
       washing: 'as needed',

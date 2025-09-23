@@ -82,7 +82,7 @@ const signInfo: Record<
 > = {
   aries: {
     element: 'Fire',
-    decanEffects: { '1st Decan': ['Mars'], '2nd Decan': ['Sun'], '3rd Decan': ['Venus'] }
+    decanEffects: { '1st Decan': ['Mars'], '2nd Decan': ['Sun'], '3rd Decan': ['Venus'] },
     degreeEffects: {
       Mercury: [1521],
       Venus: [714],
@@ -93,7 +93,7 @@ const signInfo: Record<
   },
   taurus: {
     element: 'Earth',
-    decanEffects: { '1st Decan': ['Mercury'], '2nd Decan': ['Moon'], '3rd Decan': ['Saturn'] }
+    decanEffects: { '1st Decan': ['Mercury'], '2nd Decan': ['Moon'], '3rd Decan': ['Saturn'] },
     degreeEffects: {
       Mercury: [915],
       Venus: [18],
@@ -134,7 +134,7 @@ const signInfo: Record<
   },
   leo: {
     element: 'Fire',
-    decanEffects: { '1st Decan': ['Saturn'], '2nd Decan': ['Jupiter'], '3rd Decan': ['Mars'] }
+    decanEffects: { '1st Decan': ['Saturn'], '2nd Decan': ['Jupiter'], '3rd Decan': ['Mars'] },
     degreeEffects: {
       Mercury: [713],
       Venus: [1419],
@@ -190,7 +190,7 @@ const signInfo: Record<
   },
   sagittarius: {
     element: 'Fire',
-    decanEffects: { '1st Decan': ['Mercury'], '2nd Decan': ['Moon'], '3rd Decan': ['Saturn'] }
+    decanEffects: { '1st Decan': ['Mercury'], '2nd Decan': ['Moon'], '3rd Decan': ['Saturn'] },
     degreeEffects: {
       Mercury: [1520],
       Venus: [914],
@@ -201,7 +201,7 @@ const signInfo: Record<
   },
   capricorn: {
     element: 'Earth',
-    decanEffects: { '1st Decan': ['Jupiter'], '2nd Decan': [], '3rd Decan': ['Sun'] }
+    decanEffects: { '1st Decan': ['Jupiter'], '2nd Decan': [], '3rd Decan': ['Sun'] },
     degreeEffects: {
       Mercury: [712],
       Venus: [16],
@@ -212,7 +212,7 @@ const signInfo: Record<
   },
   aquarius: {
     element: 'Air',
-    decanEffects: { '1st Decan': ['Uranus'], '2nd Decan': ['Mercury'], '3rd Decan': ['Moon'] }
+    decanEffects: { '1st Decan': ['Uranus'], '2nd Decan': ['Mercury'], '3rd Decan': ['Moon'] },
     degreeEffects: {
       Mercury: [],
       Venus: [1320],
@@ -289,18 +289,18 @@ export interface SystemState {
 }
 
 export class FoodAlchemySystem {
-  private readonly TOKEN_WEIGHTS = {;
+  private readonly TOKEN_WEIGHTS = {
     Spirit: 1.0,
     Essence: 0.8,
     Matter: 0.6,
-    Substance: 0.4
+    Substance: 0.4,
   }
 
-  private readonly ELEMENT_WEIGHTS = {;
+  private readonly ELEMENT_WEIGHTS = {
     Fire: 1.0,
     Water: 0.9,
     Air: 0.8,
-    Earth: 0.7
+    Earth: 0.7,
   }
 
   /**
@@ -584,7 +584,7 @@ export class FoodAlchemySystem {
     if (dayElements && hourElements) {
       // Generate suggestions based on the day's elements
       if (dayElements.diurnal === 'Fire' || dayElements.nocturnal === 'Fire') {
-        void recommendations.push(;
+        void recommendations.push(
           `${food.name} is best prepared with high-heat cooking methods like grilling or roasting today.`,
         )
       } else if (dayElements.diurnal === 'Water' || dayElements.nocturnal === 'Water') {,
@@ -604,7 +604,7 @@ export class FoodAlchemySystem {
       // Add time-specific recommendation based on the hour's element
       const hourElement = isDaytime ? hourElements.diurnal : hourElements.nocturnal;
       if (hourElement === 'Fire') {
-        void recommendations.push(;
+        void recommendations.push(
           `${food.name} is best utilized in the current ${isDaytime ? 'day' : 'night' },
         hours with quick, energetic preparation.`,
         )
@@ -719,7 +719,7 @@ export class FoodAlchemySystem {
             aspect.planets[0] === food.planetaryRuler ? aspect.planets[1] : aspect.planets[0],
 
           if (aspect.type === 'Conjunction') {
-            void recommendations.push(;
+            void recommendations.push(
               `The conjunction between ${food.planetaryRuler} and ${otherPlanet} strongly enhances ${food.name}'s qualities.`,
             )
           } else if (aspect.type === 'Trine') {,
@@ -730,7 +730,7 @@ export class FoodAlchemySystem {
             aspect.type === 'Opposition' &&
             (otherPlanet === planetaryDay || otherPlanet === planetaryHour)
           ) {
-            void recommendations.push(;
+            void recommendations.push(
               `The opposition between ${food.planetaryRuler} and ${otherPlanet} creates dynamic tension - balance ${food.name} with complementary ingredients.`,
             )
           }
@@ -761,7 +761,7 @@ export class FoodAlchemySystem {
     // Check for deficiencies in birth chart elements
     for (const element of complementaryElements) {
       if (chart.elementalState[element] < 0.3) {
-        void warnings.push(;
+        void warnings.push(
           `Your chart lacks ${element} energy. Consider balancing ${food.name} with ${element} ingredients like ${this.getSuggestions(element)}.`,
         )
       }

@@ -19,7 +19,7 @@ export function useThermodynamics(initial?: UseThermodynamicsOptions) {
     setLoading(true)
     setError(null)
     try {
-      const payload: ThermodynamicsInput = {;
+      const payload: ThermodynamicsInput = {
         elemental: input?.elemental ?? initial?.elemental,
         esms: input?.esms ?? initial?.esms,
         ingredients: input?.ingredients ?? initial?.ingredients,

@@ -5,13 +5,13 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawRefinedGrains = {
   white_rice: {;
     name: 'White Rice',
-    elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 }
+    elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Mercury'],
       favorableZodiac: ['cancer', 'virgo'] as any[],
       elementalAffinity: {
         base: 'Air',
-        secondary: 'Earth'
+        secondary: 'Earth',
       }
     },
     qualities: ['light', 'clean', 'simple', 'versatile', 'neutral'],
@@ -31,7 +31,7 @@ const rawRefinedGrains = {
         characteristics: 'short grain, creamy when cooked, high starch',
         cooking_ratio: 'varies for risotto',
         cooking_time: '18-20 minutes',
-        origin: 'Italy'
+        origin: 'Italy',
       }
     },
     preparation: {
@@ -45,24 +45,24 @@ const rawRefinedGrains = {
         risotto: {
         method: 'gradually add warm broth while stirring',
         tips: ['constant stirring releases starch', 'creates creamy texture'],
-        duration: '20-30 minutes'
+        duration: '20-30 minutes',
       }
     },
     lunarPhaseModifiers: {
       newMoon: {
-        elementalBoost: { Earth: 0.1, Water: 0.05 }
+        elementalBoost: { Earth: 0.1, Water: 0.05 },
         preparationTips: ['Good for simple preparations', 'Enhanced absorbency']
       },
       fullMoon: {
-        elementalBoost: { Water: 0.15, Air: 0.05 }
+        elementalBoost: { Water: 0.15, Air: 0.05 },
         preparationTips: ['Rice fluffs perfectly', 'Best time for aromatic varieties']
       },
       waxingCrescent: {
-        elementalBoost: { Air: 0.1, Earth: 0.05 }
+        elementalBoost: { Air: 0.1, Earth: 0.05 },
         preparationTips: ['Good for rice puddings', 'Enhances subtle flavors']
       },
       waxingGibbous: {
-        elementalBoost: { Water: 0.1, Air: 0.1 }
+        elementalBoost: { Water: 0.1, Air: 0.1 },
         preparationTips: ['Excellent for risotto', 'Creamy texture enhanced']
       }
     }
@@ -70,13 +70,13 @@ const rawRefinedGrains = {
 
   semolina: {
     name: 'Semolina',
-    elementalProperties: { Earth: 0.4, Air: 0.4, Fire: 0.2, Water: 0.1 }
+    elementalProperties: { Earth: 0.4, Air: 0.4, Fire: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Saturn'],
       favorableZodiac: ['virgo', 'capricorn'] as any[],
       elementalAffinity: {
         base: 'Earth',
-        secondary: 'Air'
+        secondary: 'Air',
       }
     },
     qualities: ['smooth', 'versatile', 'firm', 'golden', 'structured'],
@@ -86,7 +86,7 @@ const rawRefinedGrains = {
         characteristics: 'highest protein content, golden color',
         uses: ['premium pasta', 'bread making'],
         cooking_time: 'varies by application',
-        origin: 'Italy'
+        origin: 'Italy',
       }
     },
     preparation: {
@@ -108,24 +108,24 @@ const rawRefinedGrains = {
       gnocchi: {
         method: 'mix with potato and minimal liquid',
         tips: ['handle lightly to avoid toughness', 'cook until they float'],
-        duration: '1-2 minutes cooking time'
+        duration: '1-2 minutes cooking time',
       }
     },
     lunarPhaseModifiers: {
       newMoon: {
-        elementalBoost: { Earth: 0.15 }
+        elementalBoost: { Earth: 0.15 },
         preparationTips: ['Good for foundations of dishes', 'Best structure for pasta']
       },
       fullMoon: {
-        elementalBoost: { Air: 0.15, Water: 0.05 }
+        elementalBoost: { Air: 0.15, Water: 0.05 },
         preparationTips: ['Ideal for desserts', 'Enhanced moisture absorption']
       },
       firstQuarter: {
-        elementalBoost: { Earth: 0.1, Fire: 0.1 }
+        elementalBoost: { Earth: 0.1, Fire: 0.1 },
         preparationTips: ['Perfect for bread making', 'Creates excellent texture']
       },
       lastQuarter: {
-        elementalBoost: { Earth: 0.1, Air: 0.1 }
+        elementalBoost: { Earth: 0.1, Air: 0.1 },
         preparationTips: ['Good for couscous', 'Creates light, fluffy texture']
       }
     }
@@ -133,7 +133,7 @@ const rawRefinedGrains = {
 
   pearl_barley: {
     name: 'Pearl Barley',
-    elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 }
+    elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Saturn'],
       favorableZodiac: ['cancer', 'capricorn'] as any[],
@@ -153,7 +153,7 @@ const rawRefinedGrains = {
         characteristics: 'pre-steamed, faster cooking, less texture',
         cooking_ratio: '1:2.5 barley to water',
         cooking_time: '10-15 minutes',
-        processing: 'partially pre-cooked'
+        processing: 'partially pre-cooked',
       }
     },
     preparation: {
@@ -175,19 +175,19 @@ const rawRefinedGrains = {
     },
     lunarPhaseModifiers: {
       newMoon: {
-        elementalBoost: { Earth: 0.1, Water: 0.1 }
+        elementalBoost: { Earth: 0.1, Water: 0.1 },
         preparationTips: ['Good for foundation of soups', 'Absorbs flavors well']
       },
       fullMoon: {
-        elementalBoost: { Water: 0.2 }
+        elementalBoost: { Water: 0.2 },
         preparationTips: ['Creates exceptionally creamy texture', 'Best for risotto-style dishes']
       },
       waxingGibbous: {
-        elementalBoost: { Water: 0.15, Earth: 0.05 }
+        elementalBoost: { Water: 0.15, Earth: 0.05 },
         preparationTips: ['Excellent for hearty stews', 'Develops rich mouthfeel']
       },
       waningCrescent: {
-        elementalBoost: { Earth: 0.15, Air: 0.05 }
+        elementalBoost: { Earth: 0.15, Air: 0.05 },
         preparationTips: ['Good for salads', 'Enhanced nutty flavor']
       }
     }
@@ -195,13 +195,13 @@ const rawRefinedGrains = {
 
   polished_farro: {
     name: 'Polished Farro',
-    elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 }
+    elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Mercury'],
       favorableZodiac: ['capricorn', 'virgo'] as any[],
       elementalAffinity: {
         base: 'Earth',
-        secondary: 'Air'
+        secondary: 'Air',
       }
     },
     qualities: ['refined', 'hearty', 'versatile', 'nutty', 'ancient'],
@@ -216,7 +216,7 @@ const rawRefinedGrains = {
         characteristics: 'partially refined, balanced nutrition and cooking time',
         cooking_ratio: '1:2.5 farro to water',
         cooking_time: '20-25 minutes',
-        nutrition: 'moderate fiber content'
+        nutrition: 'moderate fiber content',
       }
     },
     preparation: {
@@ -229,24 +229,24 @@ const rawRefinedGrains = {
         method: 'simmer in milk or water',
         sweeteners: 'honey, maple syrup, fruit',
         tips: 'can be prepared ahead and reheated',
-        alternatives: 'can use plant-based milks'
+        alternatives: 'can use plant-based milks',
       }
     },
     lunarPhaseModifiers: {
       newMoon: {
-        elementalBoost: { Earth: 0.15, Air: 0.05 }
+        elementalBoost: { Earth: 0.15, Air: 0.05 },
         preparationTips: ['Good for new beginnings', 'Ideal for lighter preparations']
       },
       fullMoon: {
-        elementalBoost: { Air: 0.1, Water: 0.1 }
+        elementalBoost: { Air: 0.1, Water: 0.1 },
         preparationTips: ['Enhanced nutty flavors', 'Best for showcasing the grain']
       },
       firstQuarter: {
-        elementalBoost: { Earth: 0.1, Fire: 0.05 }
+        elementalBoost: { Earth: 0.1, Fire: 0.05 },
         preparationTips: ['Good for hearty dishes', 'Warming properties enhanced']
       },
       waningGibbous: {
-        elementalBoost: { Air: 0.1, Earth: 0.1 }
+        elementalBoost: { Air: 0.1, Earth: 0.1 },
         preparationTips: ['Excellent for salads', 'Textural qualities highlighted']
       }
     }
@@ -254,13 +254,13 @@ const rawRefinedGrains = {
 
   white_cornmeal: {
     name: 'White Cornmeal',
-    elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 }
+    elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Sun', 'Jupiter'],
       favorableZodiac: ['leo', 'sagittarius'] as any[],
       elementalAffinity: {
         base: 'Earth',
-        secondary: 'Fire'
+        secondary: 'Fire',
       }
     },
     qualities: ['versatile', 'mild', 'smooth', 'sweet', 'adaptable'],
@@ -270,7 +270,7 @@ const rawRefinedGrains = {
         characteristics: 'some hull and germ removed, moderate refinement',
         uses: ['traditional Southern recipes', 'grits'],
         cooking_time: '15-20 minutes',
-        nutritional_notes: 'more nutrients than fine ground'
+        nutritional_notes: 'more nutrients than fine ground',
       }
     },
     preparation: {
@@ -289,24 +289,24 @@ const rawRefinedGrains = {
         method: 'slow simmer',
         liquid: 'water, milk, or combination',
         duration: '20-30 minutes',
-        serving: 'traditionally with butter, cheese, or savory toppings'
+        serving: 'traditionally with butter, cheese, or savory toppings',
       }
     },
     lunarPhaseModifiers: {
       newMoon: {
-        elementalBoost: { Earth: 0.1, Fire: 0.1 }
+        elementalBoost: { Earth: 0.1, Fire: 0.1 },
         preparationTips: ['Good for delicate baking', 'Enhanced sweeter notes']
       },
       fullMoon: {
-        elementalBoost: { Fire: 0.15, Air: 0.05 }
+        elementalBoost: { Fire: 0.15, Air: 0.05 },
         preparationTips: ['Perfect for crispy applications', 'Browning enhanced']
       },
       waxingCrescent: {
-        elementalBoost: { Earth: 0.1, Water: 0.05 }
+        elementalBoost: { Earth: 0.1, Water: 0.05 },
         preparationTips: ['Good for creamy preparations', 'Moisture retention improved']
       },
       lastQuarter: {
-        elementalBoost: { Fire: 0.1, Earth: 0.1 }
+        elementalBoost: { Fire: 0.1, Earth: 0.1 },
         preparationTips: ['Excellent for breading', 'Creates optimal texture']
       }
     }
@@ -314,13 +314,13 @@ const rawRefinedGrains = {
 
   all_purpose_flour: {
     name: 'All-Purpose Flour',
-    elementalProperties: { Earth: 0.4, Air: 0.4, Water: 0.1, Fire: 0.1 }
+    elementalProperties: { Earth: 0.4, Air: 0.4, Water: 0.1, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Venus'],
       favorableZodiac: ['virgo', 'libra'] as any[],
       elementalAffinity: {
         base: 'Earth',
-        secondary: 'Air'
+        secondary: 'Air',
       }
     },
     qualities: ['versatile', 'balanced', 'neutral', 'adaptable', 'foundational'],
@@ -340,7 +340,7 @@ const rawRefinedGrains = {
         characteristics: 'nutrients added back after processing',
         nutritional_notes: 'contains added ironB vitamins',
         uses: 'standard for most commercial flour',
-        regulation: 'required by law in many countries'
+        regulation: 'required by law in many countries',
       }
     },
     preparation: {
@@ -358,24 +358,24 @@ const rawRefinedGrains = {
         ratio: '1:2 flour to cold water',
         method: 'mix until smooth before adding to hot liquid',
         tips: 'pour slowly while stirring to prevent lumps',
-        uses: 'quick thickening at end of cooking'
+        uses: 'quick thickening at end of cooking',
       }
     },
     lunarPhaseModifiers: {
       newMoon: {
-        elementalBoost: { Earth: 0.1, Air: 0.1 }
+        elementalBoost: { Earth: 0.1, Air: 0.1 },
         preparationTips: ['Good for starting new baking projects', 'Enhanced rising properties']
       },
       fullMoon: {
-        elementalBoost: { Air: 0.15, Water: 0.05 }
+        elementalBoost: { Air: 0.15, Water: 0.05 },
         preparationTips: ['Peak rising power for bread', 'Best gluten development']
       },
       waxingCrescent: {
-        elementalBoost: { Air: 0.1, Earth: 0.05 }
+        elementalBoost: { Air: 0.1, Earth: 0.05 },
         preparationTips: ['Good for delicate pastries', 'Creates tender textures']
       },
       waningGibbous: {
-        elementalBoost: { Earth: 0.15 }
+        elementalBoost: { Earth: 0.15 },
         preparationTips: ['Excellent for hearty baked goods', 'Enhanced structural properties']
       }
     }

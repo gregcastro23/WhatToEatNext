@@ -12,7 +12,7 @@ const neptuneData: PlanetData = {
     Spirit: 0,
     Essence: 1,
     Matter: 0,
-    Substance: 1
+    Substance: 1,
   }
   'Diurnal Element': 'Water',
   'Nocturnal Element': 'Water',
@@ -32,7 +32,7 @@ const neptuneData: PlanetData = {
       Surface: 'Gas giant with no solid surface',
       MagneticField: 'Highly irregular and displaced from center',
       Composition: 'Ice giant composed of water, ammonia and methane ices',
-      NotableFeatures: 'Deep blue color, Great Dark Spot, fastest winds in solar system'
+      NotableFeatures: 'Deep blue color, Great Dark Spot, fastest winds in solar system',
     }
   },
   AstrologicalProperties: {
@@ -100,7 +100,7 @@ const neptuneData: PlanetData = {
     Spirit: 0.8,
     Essence: 0.6,
     Matter: 0.1,
-    Substance: 0.3
+    Substance: 0.3,
   },
   FoodAssociations: [
     'seafood',
@@ -121,7 +121,7 @@ const neptuneData: PlanetData = {
     Salty: 0.6,
     Bitter: 0.3,
     Umami: 0.3,
-    Spicy: 0.1
+    Spicy: 0.1,
   },
   CulinaryInfluences: [
     'Blurs boundaries between flavors',
@@ -136,63 +136,63 @@ const neptuneData: PlanetData = {
       Opposition: 0.1,
       Trine: 0.4,
       Square: -0.1,
-      Sextile: 0.2
+      Sextile: 0.2,
     },
     Moon: {
       Conjunction: 0.7,
       Opposition: 0.3,
       Trine: 0.6,
       Square: 0.1,
-      Sextile: 0.4
+      Sextile: 0.4,
     },
     Mercury: {
       Conjunction: 0.2,
       Opposition: -0.1,
       Trine: 0.3,
       Square: -0.2,
-      Sextile: 0.1
+      Sextile: 0.1,
     },
     Saturn: {
       Conjunction: 0.1,
       Opposition: -0.3,
       Trine: 0.2,
       Square: -0.4,
-      Sextile: 0.0
+      Sextile: 0.0,
     },
     Jupiter: {
       Conjunction: 0.6,
       Opposition: 0.2,
       Trine: 0.5,
       Square: 0.0,
-      Sextile: 0.3
+      Sextile: 0.3,
     },
     Venus: {
       Conjunction: 0.7,
       Opposition: 0.3,
       Trine: 0.6,
       Square: 0.1,
-      Sextile: 0.4
+      Sextile: 0.4,
     },
     Mars: {
       Conjunction: 0.2,
       Opposition: -0.1,
       Trine: 0.3,
       Square: -0.2,
-      Sextile: 0.1
+      Sextile: 0.1,
     },
     Uranus: {
       Conjunction: 0.8,
       Opposition: 0.3,
       Trine: 0.7,
       Square: 0.1,
-      Sextile: 0.5
+      Sextile: 0.5,
     },
     Pluto: {
       Conjunction: 0.6,
       Opposition: 0.2,
       Trine: 0.5,
       Square: 0.0,
-      Sextile: 0.3
+      Sextile: 0.3,
     }
   },
   PlanetSpecific: {
@@ -203,7 +203,7 @@ const neptuneData: PlanetData = {
           Fire: 0.1,
           Earth: 0.1,
           Air: 0.2,
-          Water: 0.9
+          Water: 0.9,
         },
         CookingMethods: ['steaming', 'poaching', 'infusing', 'clarifying', 'sous vide'],
         FavoredIngredients: [
@@ -222,7 +222,7 @@ const neptuneData: PlanetData = {
           Fire: 0.1,
           Earth: 0.2,
           Air: 0.1,
-          Water: 0.8
+          Water: 0.8,
         },
         CookingMethods: [
           'gentle simmering',
@@ -246,7 +246,7 @@ const neptuneData: PlanetData = {
           Fire: 0.1,
           Earth: 0.6,
           Air: 0.2,
-          Water: 0.5
+          Water: 0.5,
         },
         CookingMethods: [
           'precise temperature control',
@@ -262,7 +262,7 @@ const neptuneData: PlanetData = {
           'digestively balanced components',
           'subtle healing elements'
         ],
-        FlavorCombinations: 'Clarifying contrasts, purifying progressions, subtly medicinal combinations'
+        FlavorCombinations: 'Clarifying contrasts, purifying progressions, subtly medicinal combinations',
       }
     },
     Retrograde: {
@@ -272,7 +272,7 @@ const neptuneData: PlanetData = {
         Spirit: 0.2,
         Essence: 0.8,
         Matter: 0.1,
-        Substance: 0.7
+        Substance: 0.7,
       },
       CookingMethodEffects: {
         Emphasized: [
@@ -305,7 +305,7 @@ const neptuneData: PlanetData = {
         Salty: 0.7,
         Bitter: 0.4,
         Umami: 0.4,
-        Spicy: 0.2
+        Spicy: 0.2,
       }
     },
     TransitDates: {
@@ -316,7 +316,7 @@ const neptuneData: PlanetData = {
           TarotCard: '8 of Cups',
           TarotProperties: {
             Keywords: ['spiritual journey', 'seeking deeper meaning', 'transcendence'],
-            CulinaryAssociation: 'Exploration of spiritual dimensions in food, transcendent dining experiences'
+            CulinaryAssociation: 'Exploration of spiritual dimensions in food, transcendent dining experiences',
           }
         }
         '2ndDecan': {
@@ -325,7 +325,7 @@ const neptuneData: PlanetData = {
           TarotCard: '9 of Cups',
           TarotProperties: {
             Keywords: ['emotional fulfillment', 'wishes granted', 'satisfaction'],
-            CulinaryAssociation: 'Dishes that evoke profound emotional satisfaction, dream-like culinary experiences'
+            CulinaryAssociation: 'Dishes that evoke profound emotional satisfaction, dream-like culinary experiences',
           }
         }
         '3rdDecan': {
@@ -334,7 +334,7 @@ const neptuneData: PlanetData = {
           TarotCard: '10 of Cups',
           TarotProperties: {
             Keywords: ['harmony', 'shared bliss', 'spiritual connection'],
-            CulinaryAssociation: 'Foods that create shared emotional experiences, communal eating with spiritual dimensions'
+            CulinaryAssociation: 'Foods that create shared emotional experiences, communal eating with spiritual dimensions',
           }
         }
       },
@@ -345,7 +345,7 @@ const neptuneData: PlanetData = {
           TarotCard: '2 of Wands',
           TarotProperties: {
             Keywords: ['future planning', 'personal power', 'expanding horizons'],
-            CulinaryAssociation: 'Visionary food concepts, pioneering culinary approaches with spiritual underpinnings'
+            CulinaryAssociation: 'Visionary food concepts, pioneering culinary approaches with spiritual underpinnings',
           }
         }
         '2ndDecan': {
@@ -354,7 +354,7 @@ const neptuneData: PlanetData = {
           TarotCard: '3 of Wands',
           TarotProperties: {
             Keywords: ['exploration', 'foresight', 'leadership'],
-            CulinaryAssociation: 'Exploratory cuisine that transcends boundaries, food that connects to cosmic energies'
+            CulinaryAssociation: 'Exploratory cuisine that transcends boundaries, food that connects to cosmic energies',
           }
         }
         '3rdDecan': {
@@ -363,7 +363,7 @@ const neptuneData: PlanetData = {
           TarotCard: '4 of Wands',
           TarotProperties: {
             Keywords: ['celebration', 'harmony', 'community'],
-            CulinaryAssociation: 'Celebratory feasts with mystical qualities, transcendent community dining experiences'
+            CulinaryAssociation: 'Celebratory feasts with mystical qualities, transcendent community dining experiences',
           }
         }
       }

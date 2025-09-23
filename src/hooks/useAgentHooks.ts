@@ -38,7 +38,7 @@ export interface AgentHookState {
  * Main agent hook for automated quality assurance integration
  */
 export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
-  const defaultConfig: AgentHookConfig = {;
+  const defaultConfig: AgentHookConfig = {
     enablePlanetaryValidation: true,
     enableIngredientValidation: true,
     enableCampaignTriggers: true,
@@ -94,7 +94,7 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
             setHookState(prev => ({,
               ...prev,
               lastValidation: Date.now(),
-              validationResults: { ...prev.validationResults, ...results }
+              validationResults: { ...prev.validationResults, ...results },
               campaignTriggers: qa.getActiveCampaignTriggers(),
               qualityMetrics: qa.getQualityMetrics()
             }))
@@ -145,7 +145,7 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
         setHookState(prev => ({,
           ...prev,
           lastValidation: Date.now(),
-          validationResults: { ...prev.validationResults, ...results }
+          validationResults: { ...prev.validationResults, ...results },
           qualityMetrics: qa.getQualityMetrics()
         }))
 

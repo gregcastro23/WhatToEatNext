@@ -13,7 +13,7 @@ jest.mock('@/data/planets/mars', () => ({
       leo: { Start: '2024-05-01',
         End: '2024-06-30' },
         virgo: { Start: '2024-07-01',
-        End: '2024-08-31'
+        End: '2024-08-31',
       }
     }
   }
@@ -24,7 +24,7 @@ jest.mock('@/data/planets/venus', () => ({
       aries: { Start: '2024-05-01',
         End: '2024-06-30' },
         taurus: { Start: '2024-07-01',
-        End: '2024-08-31'
+        End: '2024-08-31',
       }
     }
   }
@@ -60,7 +60,7 @@ describe('Planetary Position Validation', () => {
       Mars: { sign: 'cancer' as any,
         degree: 15,
         minute: 30,
-        exactLongitude: 105.5
+        exactLongitude: 105.5,
       }
     }
 
@@ -82,7 +82,7 @@ describe('Planetary Position Validation', () => {
       Mars: { sign: 'leo' as any,
         degree: 15,
         minute: 30,
-        exactLongitude: 1355
+        exactLongitude: 1355,
       }
     }
 
@@ -115,7 +115,7 @@ describe('Planetary Position Validation', () => {
     Object.values(positions).forEach(pos => {
       expect(pos).toHaveProperty('sign').
       expect(pos).toHaveProperty('degree')
-      expect(pos).toHaveProperty('exactLongitude');
+      expect(pos).toHaveProperty('exactLongitude')
     })
   })
 })

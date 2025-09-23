@@ -43,7 +43,7 @@ class AutomatedDocumentationGenerator {
   private exemptFiles: string[],
 
   constructor() {
-    this.exemptFiles = [;
+    this.exemptFiles = [
       'src/__tests__/**/*',
       'src/**/*.test.ts',
       'src/**/*.spec.ts',
@@ -60,7 +60,7 @@ class AutomatedDocumentationGenerator {
           category: AnyTypeCategory.EXTERNAL_API,
           eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API response structure',
           explanation: '// External API response with unknown structure',
-          todoComment: '// TODO: Define proper interface after API analysis'
+          todoComment: '// TODO: Define proper interface after API analysis',
         }
       ],
       [
@@ -69,7 +69,7 @@ class AutomatedDocumentationGenerator {
           category: AnyTypeCategory.LEGACY_CODE,
           eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Legacy code compatibility',
           explanation: '// Legacy system integration requires flexible typing',
-          todoComment: '// TODO: Replace with proper types during refactoring'
+          todoComment: '// TODO: Replace with proper types during refactoring',
         }
       ],
       [
@@ -77,7 +77,7 @@ class AutomatedDocumentationGenerator {
         {
           category: AnyTypeCategory.DYNAMIC_CONTENT,
           eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Dynamic user content',
-          explanation: '// User-generated content with unknown structure'
+          explanation: '// User-generated content with unknown structure',
         }
       ],
       [
@@ -85,7 +85,7 @@ class AutomatedDocumentationGenerator {
         {
           category: AnyTypeCategory.TEST_UTILITY,
           eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Test utility flexibility',
-          explanation: '// Test utility requires flexible typing for mocking'
+          explanation: '// Test utility requires flexible typing for mocking',
         }
       ],
       [
@@ -93,7 +93,7 @@ class AutomatedDocumentationGenerator {
         {
           category: AnyTypeCategory.CONFIGURATION,
           eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Configuration flexibility',
-          explanation: '// Configuration object with dynamic properties'
+          explanation: '// Configuration object with dynamic properties',
         }
       ],
       [
@@ -101,7 +101,7 @@ class AutomatedDocumentationGenerator {
         {
           category: AnyTypeCategory.LIBRARY_COMPATIBILITY,
           eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Third-party library compatibility',
-          explanation: '// Third-party library requires any type for compatibility'
+          explanation: '// Third-party library requires any type for compatibility',
         }
       ],
       [
@@ -110,7 +110,7 @@ class AutomatedDocumentationGenerator {
           category: AnyTypeCategory.TEMPORARY_MIGRATION,
           eslintComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Temporary during migration',
           explanation: '// Temporary any type during code migration',
-          todoComment: '// TODO: Replace with proper interface after migration complete'
+          todoComment: '// TODO: Replace with proper interface after migration complete',
         }
       ]
     ])
@@ -118,11 +118,11 @@ class AutomatedDocumentationGenerator {
 
   log(message: string, level: 'info' | 'warn' | 'error' | 'success' = 'info'): void {
     const timestamp = new Date().toISOString()
-    const prefix = {;
+    const prefix = {
       info: 'ℹ️',
       warn: '⚠️',
       error: '❌',
-      success: '✅'
+      success: '✅',
     }[level],
 
     // // // _logger.info(`[${timestamp}] ${prefix} ${message}`)
@@ -144,7 +144,7 @@ class AutomatedDocumentationGenerator {
 
     this.log(`📊 Found ${occurrences.length} any type occurrences`, 'info')
     const undocumented = occurrences.filter(occ => !occ.isDocumented)
-    this.log(;
+    this.log(
       `📝 ${undocumented.length} require documentation`,
       undocumented.length > 0 ? 'warn' : 'success'
     )
@@ -158,7 +158,7 @@ class AutomatedDocumentationGenerator {
         'find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.'
         {;
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         })
 
       return output.split('\n').filter(file => file.trim() && fs.existsSync(file));
@@ -187,7 +187,7 @@ class AutomatedDocumentationGenerator {
         const nextLine = i < lines.length - 1 ? lines[i + 1] : ''
 
         // Enhanced any type patterns
-        const anyPatterns = [;
+        const anyPatterns = [
           { pattern: /\bany\[\]/g, type: 'array' }
           { pattern: /Record<[^,>]+,\s*any>/g, type: 'record' }
           { pattern: /:\s*any(?=\s*[,,=})\]])/g, type: 'variable' }
@@ -526,7 +526,7 @@ if (require.main === module) {
         .findUndocumentedAnyTypes()
         .then(occurrences => {
           const undocumented = occurrences.filter(occ => !occ.isDocumented)
-          // // // _logger.info(;
+          // // // _logger.info(
             `📊 Found ${occurrences.length} any types, ${undocumented.length} undocumented`,
           )
           process.exit(0)

@@ -120,7 +120,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       if (typeof logError === 'function') {,
         logError(error, {
           context: 'NutritionalDataAdapter',
-          action: 'calculateNutritionalBalance'
+          action: 'calculateNutritionalBalance',
         })
       }
       return {
@@ -129,7 +129,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
           protein: 0,
           carbs: 0,
           fat: 0,
-          fiber: 0
+          fiber: 0,
         }
       } as import('@/types/alchemy').NutritionalProfile;
     }
@@ -158,7 +158,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       if (typeof logError === 'function') {,
         logError(error, {
           context: 'NutritionalDataAdapter',
-          action: 'convertNutritionalToElemental'
+          action: 'convertNutritionalToElemental',
         })
       }
       return createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 })
@@ -224,7 +224,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       if (typeof logError === 'function') {,
         logError(error, {
           context: 'NutritionalDataAdapter',
-          action: 'getPlanetaryNutritionalRecommendations'
+          action: 'getPlanetaryNutritionalRecommendations',
         })
       }
       return {
@@ -340,7 +340,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
   } {
     try {
       // Convert targetElements to the format expected by the original function
-      const legacyTargetElements = {;
+      const legacyTargetElements = {
         Fire: targetElements.Fire,
         Water: targetElements.Water,
         Earth: targetElements.Earth, // Convert to legacy capitalization,
@@ -355,7 +355,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       if (typeof logError === 'function') {,
         logError(error, {
           context: 'NutritionalDataAdapter',
-          action: 'evaluateNutritionalElementalBalance'
+          action: 'evaluateNutritionalElementalBalance',
         })
       }
       return {

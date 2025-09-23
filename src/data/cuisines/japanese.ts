@@ -2,7 +2,7 @@
 import type { _, _ZodiacSign } from '@/types/alchemy';
 import type { Cuisine } from '@/types/cuisine';
 
-export const japanese: Cuisine = {;
+export const japanese: Cuisine = {
   id: 'japanese',
   name: 'Japanese',
   description: 'Traditional Japanese cuisine emphasizing seasonal ingredients, harmony of flavors, and meticulous preparation techniques',
@@ -19,7 +19,7 @@ export const japanese: Cuisine = {;
         Water: 0.6,
         Earth: 0.2,
         Air: 0.1,
-        Fire: 0.1
+        Fire: 0.1,
       },
       astrologicalInfluences: ['Neptune', 'Moon', 'Pisces'],
       seasonality: 'all',
@@ -40,7 +40,7 @@ export const japanese: Cuisine = {;
         Earth: 0.4,
         Water: 0.3,
         Fire: 0.2,
-        Air: 0.1
+        Air: 0.1,
       },
       astrologicalInfluences: ['Saturn', 'Mercury', 'Taurus'],
       seasonality: 'all',
@@ -48,7 +48,7 @@ export const japanese: Cuisine = {;
       technicalTips: 'Balance sweet, salty, and umami carefully; adjust with kombu or bonito',
       difficulty: 'medium',
       storageInstructions: 'Store refrigerated up to 1 month',
-      yield: '500 ml'
+      yield: '500 ml',
     }
   },
   dishes: {
@@ -123,7 +123,7 @@ export const japanese: Cuisine = {;
             Water: 0.4,
             Earth: 0.3,
             Fire: 0.2,
-            Air: 0.1
+            Air: 0.1,
           },
           instructions: [
             'Cook rice in rice cooker',
@@ -197,7 +197,7 @@ export const japanese: Cuisine = {;
             Fire: 0.4,
             Air: 0.3,
             Earth: 0.2,
-            Water: 0.1
+            Water: 0.1,
           }
         }
         {
@@ -256,7 +256,7 @@ export const japanese: Cuisine = {;
             Earth: 0.4,
             Water: 0.3,
             Fire: 0.2,
-            Air: 0.1
+            Air: 0.1,
           }
         }
       ]
@@ -331,7 +331,7 @@ export const japanese: Cuisine = {;
             Earth: 0.5,
             Water: 0.2,
             Fire: 0.2,
-            Air: 0.1
+            Air: 0.1,
           }
         }
       ],
@@ -391,7 +391,7 @@ export const japanese: Cuisine = {;
             Water: 0.3,
             Air: 0.3,
             Earth: 0.2,
-            Fire: 0.2
+            Fire: 0.2,
           }
         }
         {
@@ -449,7 +449,7 @@ export const japanese: Cuisine = {;
             Air: 0.4,
             Water: 0.3,
             Earth: 0.2,
-            Fire: 0.1
+            Fire: 0.1,
           }
         }
       ],
@@ -487,7 +487,7 @@ export const japanese: Cuisine = {;
             Earth: 0.4,
             Fire: 0.3,
             Water: 0.2,
-            Air: 0.1
+            Air: 0.1,
           }
         }
       ]
@@ -526,7 +526,7 @@ export const japanese: Cuisine = {;
             Water: 0.4,
             Earth: 0.3,
             Air: 0.2,
-            Fire: 0.1
+            Fire: 0.1,
           }
         }
       ],
@@ -569,7 +569,7 @@ export const japanese: Cuisine = {;
             Fire: 0.4,
             Water: 0.3,
             Earth: 0.2,
-            Air: 0.1
+            Air: 0.1,
           }
         }
         {
@@ -617,7 +617,7 @@ export const japanese: Cuisine = {;
             Water: 0.4,
             Fire: 0.3,
             Earth: 0.2,
-            Air: 0.1
+            Air: 0.1,
           }
         }
       ],
@@ -653,7 +653,7 @@ export const japanese: Cuisine = {;
             Fire: 0.5,
             Air: 0.2,
             Earth: 0.2,
-            Water: 0.1
+            Water: 0.1,
           }
         }
         {
@@ -1287,7 +1287,7 @@ export const japanese: Cuisine = {;
         Water: 0.4,
         Earth: 0.3,
         Fire: 0.2,
-        Air: 0.1
+        Air: 0.1,
       },
       astrologicalInfluences: ['Saturn', 'Pluto', 'Scorpio'],
       seasonality: 'all',
@@ -1304,7 +1304,7 @@ export const japanese: Cuisine = {;
         Earth: 0.5,
         Water: 0.2,
         Fire: 0.2,
-        Air: 0.1
+        Air: 0.1,
       },
       astrologicalInfluences: ['Jupiter', 'Moon', 'Taurus'],
       seasonality: 'all',
@@ -1317,7 +1317,7 @@ export const japanese: Cuisine = {;
       keyIngredients: ['yuzu or sudachi juice', 'soy sauce', 'rice vinegar', 'dashi'],
       culinaryUses: ['dipping sauce', 'dressing', 'marinade'],
       difficulty: 'easy',
-      elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 }
+      elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
       seasonality: 'all',
       preparationNotes: 'Best when aged for several days to develop flavor',
       yield: '500ml' },
@@ -1328,7 +1328,7 @@ export const japanese: Cuisine = {;
       keyIngredients: ['soy sauce', 'mirin', 'sake', 'sugar', 'dashi'],
       culinaryUses: ['noodle dipping sauce', 'soup base', 'seasoning'],
       difficulty: 'easy',
-      elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 }
+      elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
       seasonality: 'all',
       preparationNotes: 'Can be prepared concentrated and diluted as needed',
       yield: '750ml' },
@@ -1339,10 +1339,10 @@ export const japanese: Cuisine = {;
       keyIngredients: ['soy sauce', 'mirin', 'sake', 'sugar', 'ginger'],
       culinaryUses: ['glazing', 'marinade', 'finishing sauce'],
       difficulty: 'easy',
-      elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 }
+      elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 },
       seasonality: 'all',
       preparationNotes: 'Traditionally applied in layers while grilling',
-      yield: '500ml'
+      yield: '500ml',
     }
   },
   sauceRecommender: {
@@ -1388,26 +1388,26 @@ export const japanese: Cuisine = {;
     {
       name: 'Nimono',
       description: 'Simmering ingredients in dashi-based broth with soy, mirin, and sake',
-      elementalProperties: { Water: 0.5, Earth: 0.3, Fire: 0.1, Air: 0.1 }
+      elementalProperties: { Water: 0.5, Earth: 0.3, Fire: 0.1, Air: 0.1 },
       toolsRequired: ['heavy-bottomed pot', 'otoshibuta (drop lid)', 'cooking chopsticks'],
       bestFor: ['root vegetables', 'fish', 'tofu', 'meat'],
-      difficulty: 'medium'
+      difficulty: 'medium',
     }
     {
       name: 'Tempura',
       description: 'Light batter frying technique that creates crisp, delicate coating',
-      elementalProperties: { Fire: 0.4, Air: 0.3, Water: 0.2, Earth: 0.1 }
+      elementalProperties: { Fire: 0.4, Air: 0.3, Water: 0.2, Earth: 0.1 },
       toolsRequired: ['deep pot', 'chopsticks', 'wire skimmer', 'thermometer'],
       bestFor: ['seafood', 'vegetables', 'mushrooms', 'herbs'],
-      difficulty: 'hard'
+      difficulty: 'hard',
     }
     {
       name: 'Yakimono',
       description: 'Grilling technique emphasizing simplicity and natural flavors',
-      elementalProperties: { Fire: 0.5, Earth: 0.2, Air: 0.2, Water: 0.1 }
+      elementalProperties: { Fire: 0.5, Earth: 0.2, Air: 0.2, Water: 0.1 },
       toolsRequired: ['konro grill', 'binchotan charcoal', 'metal skewers', 'tongs'],
       bestFor: ['fish', 'chicken', 'beef', 'vegetables'],
-      difficulty: 'medium'
+      difficulty: 'medium',
     }
   ],
   regionalCuisines: {
@@ -1415,7 +1415,7 @@ export const japanese: Cuisine = {;
       name: 'Kansai/Kyoto Cuisine',
       description: 'Refined, delicate flavors emphasizing natural taste of ingredients with minimal seasoning',
       signature: ['kaiseki ryori', 'yudofu', 'obanzai', 'kyogashi'],
-      elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
+      elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
       astrologicalInfluences: ['Moon', 'Venus', 'Cancer'],
       seasonality: 'strong seasonal emphasis',
       specialIngredients: [
@@ -1429,7 +1429,7 @@ export const japanese: Cuisine = {;
       name: 'Kanto/Tokyo Cuisine',
       description: 'Bolder, more soy-focused flavors with urban innovations',
       signature: ['edomae sushi', 'monjayaki', 'chankonabe', 'deep-fried foods'],
-      elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 }
+      elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Jupiter', 'Mars', 'Capricorn'],
       seasonality: 'moderate seasonal emphasis',
       specialIngredients: ['dark soy sauce', 'abundant seafood', 'creative fusion elements']
@@ -1438,7 +1438,7 @@ export const japanese: Cuisine = {;
       name: 'Hokkaido Cuisine',
       description: 'Hearty, dairy-influenced northern cuisine with abundant seafood',
       signature: ['soup curry', 'jingisukan', 'seafood bowls', 'miso ramen'],
-      elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 }
+      elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Saturn', 'Mercury', 'Taurus'],
       seasonality: 'strong winter emphasis',
       specialIngredients: ['butter', 'corn', 'potatoes', 'dairy', 'sea urchin', 'crab']

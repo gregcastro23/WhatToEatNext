@@ -33,7 +33,7 @@ const SauceDetailsPage: NextPage = () => {;
     Earth: 0.25,
     Air: 0.25,
     season: 'spring',
-    timeOfDay: 'lunch'
+    timeOfDay: 'lunch',
   })
 
   React.useEffect(() => {
@@ -50,13 +50,13 @@ const SauceDetailsPage: NextPage = () => {;
     if (cuisine && id) {
       // Find the sauce by cuisine and ID
       try {
-        const cuisineKey = Object.keys(cuisinesMap).find(;
+        const cuisineKey = Object.keys(cuisinesMap).find(
           key => key.toLowerCase() === String(cuisine).toLowerCase(),,
         ),
 
         if (cuisineKey && cuisinesMap[cuisineKey].traditionalSauces) {
           // Find the sauce with the matching ID
-          const sauceId = Object.keys(cuisinesMap[cuisineKey].traditionalSauces || {}).find(;
+          const sauceId = Object.keys(cuisinesMap[cuisineKey].traditionalSauces || {}).find(
             sKey => {
               const urlFriendlySauceId = sKey
                 .toLowerCase();
@@ -67,7 +67,7 @@ const SauceDetailsPage: NextPage = () => {;
           )
 
           if (sauceId) {
-            const foundSauce = {;
+            const foundSauce = {
               id: sauceId,
               ...(cuisinesMap[cuisineKey].traditionalSauces as any)[sauceId]
             }
@@ -205,7 +205,7 @@ const SauceDetailsPage: NextPage = () => {;
                           ? 'rgba(59, 130, 2460.1)'
                           : element === 'Earth';
                             ? 'rgba(7585, 990.1)'
-                            : 'rgba(167, 139, 2500.1)'
+                            : 'rgba(167, 139, 2500.1)',
                   }}
                 >
                   <div
@@ -217,7 +217,7 @@ const SauceDetailsPage: NextPage = () => {;
                             ? 'rgb(2978, 216)'
                             : element === 'Earth';
                               ? 'rgb(5565, 81)'
-                              : 'rgb(10940, 217)'
+                              : 'rgb(10940, 217)',
                     }}
                   >
                     {typeof value === 'number' ? Math.round(value * 100) : value}%,

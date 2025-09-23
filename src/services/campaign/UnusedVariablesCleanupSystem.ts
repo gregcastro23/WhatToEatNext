@@ -59,7 +59,7 @@ export class UnusedVariablesCleanupSystem {
     ),
     this.metricsFile = path.join(process.cwd(), '.unused-variables-cleanup-metrics.json'),
 
-    this.config = {;
+    this.config = {
       maxFiles: 20,
       autoFix: false,
       dryRun: true,
@@ -120,7 +120,7 @@ export class UnusedVariablesCleanupSystem {
   async executeBatchProcessing(totalFiles?: number): Promise<BatchProcessingResult> {
     // // // _logger.info('⚡ Starting batch processing for unused variables cleanup...')
 
-    const batchResult: BatchProcessingResult = {;
+    const batchResult: BatchProcessingResult = {
       totalBatches: 0,
       successfulBatches: 0,
       failedBatches: 0,
@@ -149,7 +149,7 @@ export class UnusedVariablesCleanupSystem {
         // // // _logger.info(`\n🔄 Processing batch ${i + 1}/${batchCount}...`)
 
         try {
-          const batchConfig = {;
+          const batchConfig = {
             ...this.config,
             maxFiles: this.config.batchSize
           }
@@ -255,7 +255,7 @@ export class UnusedVariablesCleanupSystem {
    * Execute the unused variables script
    */
   private async executeScript(): Promise<UnusedVariablesResult> {
-    const result: UnusedVariablesResult = {;
+    const result: UnusedVariablesResult = {
       success: false,
       filesProcessed: 0,
       variablesRemoved: 0,
@@ -263,7 +263,7 @@ export class UnusedVariablesCleanupSystem {
       buildTime: 0,
       errors: [],
       warnings: [],
-      safetyScore: 0
+      safetyScore: 0,
     }
 
     try {
@@ -351,7 +351,7 @@ export class UnusedVariablesCleanupSystem {
       const startTime = Date.now();
       execSync('yarn build', {
         encoding: 'utf-8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
       const buildTime = Date.now() - startTime;
 
@@ -399,7 +399,7 @@ export class UnusedVariablesCleanupSystem {
    */
   private async saveMetrics(result: UnusedVariablesResult): Promise<void> {
     try {
-      const metrics = {;
+      const metrics = {
         timestamp: new Date().toISOString(),
         config: this.config,
         result,

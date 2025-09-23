@@ -1,7 +1,7 @@
 // src/data/cuisines/korean.ts
 import type { Cuisine } from '@/types/cuisine';
 
-export const korean: Cuisine = {;
+export const korean: Cuisine = {
   id: 'korean',
   name: 'Korean',
   description: 'Traditional Korean cuisine emphasizing fermented foods, communal dining, and balanced flavors with rice, banchan, and grilled meats',
@@ -64,7 +64,7 @@ export const korean: Cuisine = {;
             Fire: 0.2,
             Water: 0.3,
             Earth: 0.3,
-            Air: 0.2
+            Air: 0.2,
           }
         }
         {
@@ -955,7 +955,7 @@ export const korean: Cuisine = {;
         Fire: 0.6,
         Earth: 0.3,
         Water: 0.1,
-        Air: 0.0
+        Air: 0.0,
       },
       astrologicalInfluences: ['Mars', 'Aries', 'Leo'],
       seasonality: 'all',
@@ -977,7 +977,7 @@ export const korean: Cuisine = {;
         Earth: 0.7,
         Water: 0.2,
         Fire: 0.1,
-        Air: 0.0
+        Air: 0.0,
       },
       astrologicalInfluences: ['Saturn', 'Taurus', 'Capricorn'],
       seasonality: 'all',
@@ -994,7 +994,7 @@ export const korean: Cuisine = {;
         Earth: 0.4,
         Fire: 0.4,
         Water: 0.1,
-        Air: 0.1
+        Air: 0.1,
       },
       astrologicalInfluences: ['Mars', 'Saturn', 'Scorpio'],
       seasonality: 'all',
@@ -1011,7 +1011,7 @@ export const korean: Cuisine = {;
         Water: 0.4,
         Earth: 0.4,
         Air: 0.1,
-        Fire: 0.1
+        Fire: 0.1,
       },
       astrologicalInfluences: ['Neptune', 'Pisces', 'Cancer'],
       seasonality: 'all',
@@ -1033,7 +1033,7 @@ export const korean: Cuisine = {;
         Fire: 0.4,
         Air: 0.3,
         Water: 0.2,
-        Earth: 0.1
+        Earth: 0.1,
       },
       astrologicalInfluences: ['Mercury', 'Gemini', 'Sagittarius'],
       seasonality: 'summer',
@@ -1050,7 +1050,7 @@ export const korean: Cuisine = {;
         Fire: 0.5,
         Earth: 0.2,
         Water: 0.2,
-        Air: 0.1
+        Air: 0.1,
       },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'all',
@@ -1067,7 +1067,7 @@ export const korean: Cuisine = {;
         Water: 0.3,
         Earth: 0.3,
         Fire: 0.2,
-        Air: 0.2
+        Air: 0.2,
       },
       astrologicalInfluences: ['Venus', 'Taurus', 'Libra'],
       seasonality: 'all',
@@ -1089,12 +1089,12 @@ export const korean: Cuisine = {;
         Air: 0.4,
         Earth: 0.4,
         Fire: 0.1,
-        Water: 0.1
+        Water: 0.1,
       },
       astrologicalInfluences: ['Mercury', 'Gemini', 'Virgo'],
       seasonality: 'all',
       preparationNotes: 'Use high-quality freshly toasted sesame oil for best flavor',
-      technicalTips: 'Add at the end of cooking to preserve volatile aromatics'
+      technicalTips: 'Add at the end of cooking to preserve volatile aromatics',
     }
   },
   sauceRecommender: {
@@ -1215,42 +1215,42 @@ export const korean: Cuisine = {;
     {
       name: 'Jjim (찜)',
       description: 'Steaming or braising technique that creates tender, juicy results',
-      elementalProperties: { Water: 0.5, Earth: 0.3, Fire: 0.1, Air: 0.1 }
+      elementalProperties: { Water: 0.5, Earth: 0.3, Fire: 0.1, Air: 0.1 },
       toolsRequired: ['stone pot', 'steamer', 'heavy pot with lid'],
       bestFor: ['meats', 'whole fish', 'root vegetables', 'egg dishes'],
-      difficulty: 'medium'
+      difficulty: 'medium',
     }
     {
       name: 'Gui (구이)',
       description: 'Grilling methods, especially for meats like samgyeopsal and bulgogi',
-      elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0.0 }
+      elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0.0 },
       toolsRequired: ['tabletop grill', 'charcoal', 'tongs', 'scissors'],
       bestFor: ['marinated meats', 'fresh pork belly', 'vegetables', 'mushrooms'],
-      difficulty: 'easy'
+      difficulty: 'easy',
     }
     {
       name: 'Jjigae (찌개)',
       description: 'Stew-making technique with rich, spicy broths',
-      elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 }
+      elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 },
       toolsRequired: ['earthenware pot', 'ladle', 'heavy-bottomed pot'],
       bestFor: ['kimchi stews', 'tofu dishes', 'seafood', 'vegetable medleys'],
-      difficulty: 'easy'
+      difficulty: 'easy',
     }
     {
       name: 'Namul (나물)',
       description: 'Technique for seasoning and preparing vegetables to preserve nutrients',
-      elementalProperties: { Earth: 0.5, Water: 0.2, Air: 0.2, Fire: 0.1 }
+      elementalProperties: { Earth: 0.5, Water: 0.2, Air: 0.2, Fire: 0.1 },
       toolsRequired: ['blanching pot', 'mixing bowls', 'dipping basket'],
       bestFor: ['wild greens', 'sprouts', 'seaweed', 'root vegetables'],
-      difficulty: 'easy'
+      difficulty: 'easy',
     }
     {
       name: 'Jeongol (전골)',
       description: 'Hot pot technique featuring communal cooking at the table',
-      elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 }
+      elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 },
       toolsRequired: ['jeongol pot', 'portable burner', 'ladle', 'chopsticks'],
       bestFor: ['thinly sliced meats', 'seafood', 'tofu', 'vegetables'],
-      difficulty: 'medium'
+      difficulty: 'medium',
     }
   ],
   regionalCuisines: {
@@ -1258,36 +1258,36 @@ export const korean: Cuisine = {;
       name: 'Seoul (Capital) Cuisine',
       description: 'Refined, royal-influenced cuisine with balanced flavors',
       signature: ['royal court dishes', 'japchae', 'bulgogi', 'refined banchan'],
-      elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 }
+      elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Jupiter', 'Mercury', 'Libra'],
       seasonality: 'moderately seasonal' },
         jeonju: {
       name: 'Jeonju (Southwest) Cuisine',
       description: 'Known as Korea's food capital, with emphasis on quality ingredients and tradition',
       signature: ['bibimbap', 'kongnamul gukbap', 'makgeolli', 'traditional banchan'],
-      elementalProperties: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 }
+      elementalProperties: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Moon', 'Venus', 'Taurus'],
       seasonality: 'highly seasonal' },
         gyeongsang: {
       name: 'Gyeongsang (Southeast) Cuisine',
       description: 'Bold, spicy flavors with substantial seafood influence',
       signature: ['dwaeji gukbap', 'milmyeon', 'agujjim', 'spicy seafood soups'],
-      elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 }
+      elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Mars', 'Pluto', 'Scorpio'],
       seasonality: 'coastal seasonal' },
         jeju: {
       name: 'Jeju Island Cuisine',
       description: 'Unique island cuisine with distinctive ingredients like black pork and abalone',
       signature: ['black pork', 'haemul dishes', 'abalone porridge', 'hallabong citrus'],
-      elementalProperties: { Water: 0.5, Earth: 0.2, Air: 0.2, Fire: 0.1 }
+      elementalProperties: { Water: 0.5, Earth: 0.2, Air: 0.2, Fire: 0.1 },
       astrologicalInfluences: ['Neptune', 'Jupiter', 'Pisces'],
-      seasonality: 'island seasonal cycle'
+      seasonality: 'island seasonal cycle',
     }
   },
   elementalProperties: {
-    Fire: 0.3, // Represents spicy elements and grilling,
+    Fire: 0.3, // Represents spicy elements and grilling
     Earth: 0.3, // Represents fermented foods and root vegetables,
-    Water: 0.2, // Represents soups and stews,
+    Water: 0.2, // Represents soups and stews
     Air: 0.2, // Represents light broths and garnishes
   }
 }

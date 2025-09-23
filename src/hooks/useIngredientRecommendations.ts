@@ -43,7 +43,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
     isLoading: true,
     error: null,
     filters: {
-      maxResults: 15
+      maxResults: 15,
     }
   })
 
@@ -54,7 +54,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
 
     // Calculate elemental distribution from planetary positions
     const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
-    const elementMap = {;
+    const elementMap = {
       aries: 'Fire',
       leo: 'Fire',
       sagittarius: 'Fire',
@@ -80,7 +80,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
       Fire: total > 0 ? elementCounts.Fire / total : 0.25,
       Water: total > 0 ? elementCounts.Water / total : 0.25,
       Earth: total > 0 ? elementCounts.Earth / total : 0.25,
-      Air: total > 0 ? elementCounts.Air / total : 0.25
+      Air: total > 0 ? elementCounts.Air / total : 0.25,
     }
   }, [planetaryPositions])
 
@@ -97,7 +97,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
             id: 'ginger',
             name: 'Ginger',
             category: 'spices',
-            elementalProfile: { Fire: 0.7, Water: 0.1, Earth: 0.1, Air: 0.1 }
+            elementalProfile: { Fire: 0.7, Water: 0.1, Earth: 0.1, Air: 0.1 },
             nutritionalBenefits: ['Anti-inflammatory', 'Digestive aid'],
             cookingMethods: ['grating', 'steaming', 'stir-frying']
           }
@@ -105,7 +105,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
             id: 'cucumber',
             name: 'Cucumber',
             category: 'vegetables',
-            elementalProfile: { Fire: 0.05, Water: 0.8, Earth: 0.1, Air: 0.05 }
+            elementalProfile: { Fire: 0.05, Water: 0.8, Earth: 0.1, Air: 0.05 },
             nutritionalBenefits: ['Hydrating', 'Cooling'],
             cookingMethods: ['raw', 'pickling']
           }
@@ -113,7 +113,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
             id: 'potato',
             name: 'Potato',
             category: 'vegetables',
-            elementalProfile: { Fire: 0.1, Water: 0.2, Earth: 0.6, Air: 0.1 }
+            elementalProfile: { Fire: 0.1, Water: 0.2, Earth: 0.6, Air: 0.1 },
             nutritionalBenefits: ['Vitamin C', 'Fiber'],
             cookingMethods: ['roasting', 'boiling', 'frying']
           }
@@ -121,7 +121,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
             id: 'basil',
             name: 'Basil',
             category: 'herbs',
-            elementalProfile: { Fire: 0.3, Water: 0.2, Earth: 0.1, Air: 0.4 }
+            elementalProfile: { Fire: 0.3, Water: 0.2, Earth: 0.1, Air: 0.4 },
             nutritionalBenefits: ['Antioxidants', 'Aromatic'],
             cookingMethods: ['fresh', 'drying', 'infusing']
           }
@@ -129,7 +129,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
             id: 'salmon',
             name: 'Salmon',
             category: 'proteins',
-            elementalProfile: { Fire: 0.4, Water: 0.4, Earth: 0.1, Air: 0.1 }
+            elementalProfile: { Fire: 0.4, Water: 0.4, Earth: 0.1, Air: 0.1 },
             nutritionalBenefits: ['Omega-3', 'Protein'],
             cookingMethods: ['grilling', 'baking', 'smoking']
           }
@@ -137,7 +137,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
             id: 'lentils',
             name: 'Lentils',
             category: 'legumes',
-            elementalProfile: { Fire: 0.1, Water: 0.3, Earth: 0.5, Air: 0.1 }
+            elementalProfile: { Fire: 0.1, Water: 0.3, Earth: 0.5, Air: 0.1 },
             nutritionalBenefits: ['Protein', 'Fiber'],
             cookingMethods: ['boiling', 'stewing']
           }
@@ -145,7 +145,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
 
         // Calculate compatibility scores
         const ingredientsWithScores = (sampleIngredients || []).map(ingredient => {
-          const score = calculateElementalCompatibility(;
+          const score = calculateElementalCompatibility(
             (ingredient as unknown)?.elementalPropertiesProfile || ingredient.elementalProfile,
             currentElementalProfile,
           ),
@@ -192,13 +192,13 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
         setState(prev => ({;
           ...prev,
           ingredients: filteredIngredients,
-          isLoading: false
+          isLoading: false,
         }))
       } catch (error) {
         setState(prev => ({;
           ...prev,
           isLoading: false,
-          error: error instanceof Error ? error.message : 'Unknown error'
+          error: error instanceof Error ? error.message : 'Unknown error',
         }))
       }
     }
@@ -223,7 +223,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
 }
 
 function calculateElementalCompatibility(
-  ingredientProfile: { Fire: number, Water: number, Earth: number, Air: number }
+  ingredientProfile: { Fire: number, Water: number, Earth: number, Air: number },
   currentProfile: { Fire: number, Water: number, Earth: number, Air: number }): number {
   // Simple compatibility calculation - can be enhanced
   const diff =
@@ -235,9 +235,9 @@ function calculateElementalCompatibility(
 }
 
 function calculateElementalAlignment(
-  ingredientProfile: { Fire: number, Water: number, Earth: number, Air: number }
+  ingredientProfile: { Fire: number, Water: number, Earth: number, Air: number },
   currentProfile: { Fire: number, Water: number, Earth: number, Air: number }): { element: string, strength: number } {
-  const alignments = [;
+  const alignments = [
     { element: 'Fire', strength: 1 - Math.abs(ingredientProfile.Fire - currentProfile.Fire) }
     { element: 'Water', strength: 1 - Math.abs(ingredientProfile.Water - currentProfile.Water) }
     { element: 'Earth', strength: 1 - Math.abs(ingredientProfile.Earth - currentProfile.Earth) }

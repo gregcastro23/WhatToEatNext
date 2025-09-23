@@ -53,11 +53,11 @@ export function useCookingMethods() {
               Fire: 0.25,
               Water: 0.25,
               Earth: 0.25,
-              Air: 0.25
+              Air: 0.25,
             },
             duration: (data as any).duration || {
               min: 10,
-              max: 60
+              max: 60,
             },
             suitable_for: (data as any).suitable_for || ['various ingredients'],
             benefits: (data as any).benefits || ['cooking'],
@@ -65,7 +65,7 @@ export function useCookingMethods() {
               Spirit: 0.5,
               Essence: 0.5,
               Matter: 0.5,
-              Substance: 0.5
+              Substance: 0.5,
             }
           }
         })
@@ -84,11 +84,11 @@ export function useCookingMethods() {
               Fire: 0.25,
               Water: 0.25,
               Earth: 0.25,
-              Air: 0.25
+              Air: 0.25,
             },
             duration: (data as any).duration || {
               min: 10,
-              max: 60
+              max: 60,
             },
             suitable_for: (data as any).suitable_for || ['various ingredients'],
             benefits: (data as any).benefits || ['cooking'],
@@ -96,14 +96,14 @@ export function useCookingMethods() {
               Spirit: 0.5,
               Essence: 0.5,
               Matter: 0.5,
-              Substance: 0.5
+              Substance: 0.5,
             }
           }
         })
 
       // Combine and deduplicate methods
       const allMethods = [...convertedMethods, ...additionalMethods],
-      const uniqueMethods = allMethods.filter(;
+      const uniqueMethods = allMethods.filter(
         (method, index, self) => index === self.findIndex(m => m.id === method.id),
       )
 

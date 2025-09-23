@@ -106,7 +106,7 @@ export interface UnifiedFlavorProfile {
 
   // Integration properties,
   cookingMethodAffinity: Record<string, number>,
-  temperatureRange: { min: number, max: number }
+  temperatureRange: { min: number, max: number },
   pairingRecommendations: string[],
   avoidCombinations: string[],
 
@@ -226,7 +226,7 @@ export class UnifiedFlavorProfileSystem {
 
     // Try case-insensitive lookup
     const normalizedId = identifier.toLowerCase()
-    const profile = Object.values(this.flavorProfiles).find(;
+    const profile = Object.values(this.flavorProfiles).find(
       p => p.id.toLowerCase() === normalizedId || p.name.toLowerCase() === normalizedId,
     )
 
@@ -257,7 +257,7 @@ export class UnifiedFlavorProfileSystem {
     profile2: UnifiedFlavorProfile,
   ): FlavorCompatibilityResult {
     // Calculate elemental harmony using our self-reinforcement principles
-    const elementalHarmony = calculateElementalCompatibility(;
+    const elementalHarmony = calculateElementalCompatibility(
       profile1.elementalFlavors
       profile2.elementalFlavors
     )
@@ -341,7 +341,7 @@ export const unifiedFlavorProfileSystem = new UnifiedFlavorProfileSystem()
 /**
  * Get a flavor profile by its identifier
  */
-export const getFlavorProfile = (;
+export const getFlavorProfile = (
   id: string,
   type?: 'cuisine' | 'planetary' | 'ingredient' | 'elemental',
 ): UnifiedFlavorProfile | undefined => unifiedFlavorProfileSystem.getFlavorProfile(id, type)
@@ -349,13 +349,13 @@ export const getFlavorProfile = (;
 /**
  * Get all flavor profiles of a specific category
  */
-export const getFlavorProfilesByCategory = (;
+export const getFlavorProfilesByCategory = (
   category: 'cuisine' | 'planetary' | 'ingredient' | 'elemental' | 'fusion',
 ): UnifiedFlavorProfile[] => unifiedFlavorProfileSystem.getFlavorProfilesByCategory(category)
 /**
  * Calculate compatibility between two flavor profiles
  */
-export const calculateFlavorCompatibility = (;
+export const calculateFlavorCompatibility = (
   profile1: UnifiedFlavorProfile,
   profile2: UnifiedFlavorProfile,
 ): FlavorCompatibilityResult =>;

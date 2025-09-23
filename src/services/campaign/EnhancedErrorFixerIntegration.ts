@@ -142,7 +142,7 @@ export class EnhancedErrorFixerIntegration {
       const batchResult = await this.executeEnhancedFixer({;
         maxFiles: options.batchSize,
         autoFix: true,
-        validateSafety: true
+        validateSafety: true,
       })
 
       results.push(batchResult)
@@ -467,7 +467,7 @@ export class EnhancedErrorFixerIntegration {
         maxFiles: 3,
         autoFix: false, // Dry run only,
         dryRun: true,
-        validateSafety: true
+        validateSafety: true,
       })
     }
 
@@ -475,7 +475,7 @@ export class EnhancedErrorFixerIntegration {
     return await this.executeEnhancedFixer({
       maxFiles: Math.min(safetyCheck.recommendedBatchSize, this.DEFAULT_BATCH_SIZE),
       autoFix: true,
-      validateSafety: true
+      validateSafety: true,
     })
   }
 }

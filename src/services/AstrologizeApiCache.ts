@@ -82,7 +82,7 @@ class AstrologizeApiCache {
     const Air = Number(elementalBalance.Air) || 0;
 
     // Absolute values (direct from alchemical result)
-    const elementalAbsolutes = {;
+    const elementalAbsolutes = {
       fire: Fire,
       water: Water,
       earth: Earth,
@@ -90,7 +90,7 @@ class AstrologizeApiCache {
     }
 
     // Relative, values: each element / sum of other three
-    const elementalRelatives = {;
+    const elementalRelatives = {
       fire: Fire / (Water + Earth + Air || 1),
       water: Water / (Fire + Earth + Air || 1),
       earth: Earth / (Fire + Water + Air || 1),
@@ -119,7 +119,7 @@ class AstrologizeApiCache {
     // Safe access to alchemical result properties
     const resultData = alchemicalResult as unknown as any;
 
-    const cachedData: CachedAstrologicalData = {;
+    const cachedData: CachedAstrologicalData = {
       timestamp: Date.now(),
       date,
       coordinates: { lat, lng }
@@ -246,7 +246,7 @@ class AstrologizeApiCache {
     lng: number,
     date: Date,
   ): {
-    elementalAbsolutes: { fire: number; water: number; earth: number, air: number }
+    elementalAbsolutes: { fire: number; water: number; earth: number, air: number },
     elementalRelatives: { fire: number; water: number; earth: number, air: number }
     thermodynamics: {
       heat: number,
@@ -287,7 +287,7 @@ class AstrologizeApiCache {
    * Private helper methods
    */
   private assessDataQuality(result: StandardizedAlchemicalResult): 'high' | 'medium' | 'low' {
-    type WithAlchemical = {;
+    type WithAlchemical = {
       elementalBalance?: Record<string, number>,
       heat?: number,
       entropy?: number,
@@ -335,7 +335,7 @@ class AstrologizeApiCache {
   }
 
   private degreeToSign(degree: number): string {
-    const signs = [;
+    const signs = [
       'aries',
       'taurus',
       'gemini',

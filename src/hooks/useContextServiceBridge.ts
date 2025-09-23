@@ -48,7 +48,7 @@ export function useAlchemicalBridge() {
   }, [isLoading, error, astrologyService])
 
   // Merge data from both sources, prioritizing services when available
-  const mergedPositions = {;
+  const mergedPositions = {
     ...contextPositions,
     ...servicePositions
   }
@@ -141,7 +141,7 @@ export function usePlanetaryHoursBridge() {
         try {
           const hourInfo = await astrologyService.getCurrentPlanetaryHour()
           // ✅ Pattern MM-1: Ensure object type for setCurrentHour state setter
-          setCurrentHour(;
+          setCurrentHour(
             typeof hourInfo === 'object' && hourInfo !== null ? hourInfo : { value: hourInfo })
 
           const dayPlanet = await astrologyService.getCurrentPlanetaryDay()

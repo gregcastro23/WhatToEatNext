@@ -4,12 +4,12 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawBuckwheat = {
   buckwheat: {;
     name: 'Buckwheat',
-    elementalProperties: { Earth: 0.4, Water: 0.1, Air: 0.2, Fire: 0.3 }
+    elementalProperties: { Earth: 0.4, Water: 0.1, Air: 0.2, Fire: 0.3 },
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Mars'],
       elementalAffinity: {
         base: 'Earth',
-        secondary: 'Fire'
+        secondary: 'Fire',
       }
     },
     qualities: ['earthy', 'robust', 'gluten-free', 'hearty', 'nutty'],
@@ -20,7 +20,7 @@ const rawBuckwheat = {
         appearance: 'Gray-purple fine powder',
         texture: 'Dense in baked goods',
         flavor: 'Distinctive earthy flavor',
-        uses: 'Blinis, soba noodles, pancakes, bread'
+        uses: 'Blinis, soba noodles, pancakes, bread',
       }
     },
     preparation: {

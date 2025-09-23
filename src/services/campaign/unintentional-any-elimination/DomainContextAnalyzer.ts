@@ -255,7 +255,7 @@ export class DomainContextAnalyzer {
     const normalizedPath = filePath.toLowerCase().replace(/\\/g, '/')
 
     // Check in priority order (test files first, then components, etc.)
-    const orderedDomains = [;
+    const orderedDomains = [
       CodeDomain.TEST,
       CodeDomain.COMPONENT,
       CodeDomain.ASTROLOGICAL,
@@ -425,14 +425,14 @@ export class DomainContextAnalyzer {
           reason:
             'Astrological calculations often require flexible typing for external astronomical data',
           confidence: 0.8,
-          suggestedAction: 'preserve'
+          suggestedAction: 'preserve',
         })
 
         if (context.codeSnippet.includes('position') || context.codeSnippet.includes('planetary')) {
           hints.push({
             reason: 'Planetary position data from external APIs may need any type for compatibility',
             confidence: 0.9,
-            suggestedAction: 'document'
+            suggestedAction: 'document',
           })
         }
         break,
@@ -441,7 +441,7 @@ export class DomainContextAnalyzer {
           hints.push({
             reason: 'Recipe and ingredient data can often use specific types',
             confidence: 0.7,
-            suggestedAction: 'replace'
+            suggestedAction: 'replace',
           })
         }
         break,
@@ -449,14 +449,14 @@ export class DomainContextAnalyzer {
       case CodeDomain.CAMPAIGN: hints.push({
           reason: 'Campaign system requires flexibility for dynamic configurations and metrics',
           confidence: 0.85,
-          suggestedAction: 'preserve'
+          suggestedAction: 'preserve',
         })
 
         if (context.codeSnippet.includes('metrics') || context.codeSnippet.includes('config')) {
           hints.push({
             reason: 'Dynamic campaign configurations benefit from flexible typing',
             confidence: 0.9,
-            suggestedAction: 'document'
+            suggestedAction: 'document',
           })
         }
         break,
@@ -464,7 +464,7 @@ export class DomainContextAnalyzer {
       case CodeDomain.TEST: hints.push({
           reason: 'Test files often need flexible typing for mocks and test data',
           confidence: 0.8,
-          suggestedAction: 'preserve'
+          suggestedAction: 'preserve',
         })
         break,
 
@@ -472,13 +472,13 @@ export class DomainContextAnalyzer {
           hints.push({
             reason: 'API responses may require any type for external service compatibility',
             confidence: 0.8,
-            suggestedAction: 'document'
+            suggestedAction: 'document',
           })
         } else {
           hints.push({
             reason: 'Service layer can often use more specific types',
             confidence: 0.6,
-            suggestedAction: 'review'
+            suggestedAction: 'review',
           })
         }
         break,
@@ -486,7 +486,7 @@ export class DomainContextAnalyzer {
       default: hints.push({
           reason: 'No domain-specific patterns detected, consider replacement',
           confidence: 0.5,
-          suggestedAction: 'review'
+          suggestedAction: 'review',
         })
     }
 
@@ -945,7 +945,7 @@ export class DomainContextAnalyzer {
     const reasons: string[] = []
 
     if (domain === CodeDomain.ASTROLOGICAL) {
-      reasons.push(;
+      reasons.push(
         'Astrological calculations require compatibility with external astronomical libraries',
       )
       reasons.push('Planetary position data structures vary between different API sources')

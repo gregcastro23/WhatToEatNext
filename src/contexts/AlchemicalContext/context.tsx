@@ -23,25 +23,25 @@ export const defaultState: AlchemicalState = {
       Venus: 0.6,
       Mars: 0.4,
       Jupiter: 0.8,
-      Saturn: 0.2
+      Saturn: 0.2,
     },
     elementalProperties: {
       Fire: 0.4,
       Water: 0.2,
       Earth: 0.2,
-      Air: 0.2
+      Air: 0.2,
     },
     alchemicalProperties: {
       Spirit: 0.3,
       Essence: 0.3,
       Matter: 0.2,
-      Substance: 0.2
+      Substance: 0.2,
     },
     thermodynamicProperties: {
       temperature: 20,
       pressure: 1,
       entropy: 0.5,
-      enthalpy: 0.5
+      enthalpy: 0.5,
     },
     timestamp: Date.now()
   },
@@ -66,7 +66,7 @@ export const _AlchemicalContext = createContext<AlchemicalContextType>({
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
-    Air: 0.25
+    Air: 0.25,
   }),
   getAlchemicalHarmony: () => 0.5,
   updateAstrologicalState: () => {},
@@ -75,7 +75,7 @@ export const _AlchemicalContext = createContext<AlchemicalContextType>({
     temperature: 20,
     pressure: 1,
     entropy: 0.5,
-    enthalpy: 0.5
+    enthalpy: 0.5,
   })
 });
 

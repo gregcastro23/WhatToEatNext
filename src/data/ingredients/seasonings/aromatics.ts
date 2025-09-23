@@ -4,7 +4,7 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawAromatics = {
   onion: {;
     name: 'Onion',
-    elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 }
+    elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Saturn'],
       favorableZodiac: ['aries', 'capricorn'],
@@ -30,7 +30,7 @@ const rawAromatics = {
         applications: {
           mirepoix: 'with carrots and celery',
           sofrito: 'with peppers and tomatoes',
-          holy_trinity: 'with celery and bell peppers'
+          holy_trinity: 'with celery and bell peppers',
         }
       }
     },
@@ -39,13 +39,13 @@ const rawAromatics = {
       humidity: 'low',
       container: 'ventilated',
       duration: '1-2 months',
-      notes: 'Keep away from potatoes'
+      notes: 'Keep away from potatoes',
     }
   }
 
   garlic: {
     name: 'Garlic',
-    elementalProperties: { Fire: 0.6, Earth: 0.3, Air: 0.1, Water: 0 }
+    elementalProperties: { Fire: 0.6, Earth: 0.3, Air: 0.1, Water: 0 },
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Pluto'],
       favorableZodiac: ['aries', 'scorpio'],
@@ -71,7 +71,7 @@ const rawAromatics = {
         applications: {
           base_flavor: 'start of many dishes',
           infused_oils: 'for finishing dishes',
-          pasta_sauces: 'essential foundation'
+          pasta_sauces: 'essential foundation',
         }
       }
     },
@@ -80,13 +80,13 @@ const rawAromatics = {
       humidity: 'moderate',
       container: 'ventilated',
       duration: '3-6 months',
-      notes: 'Do not refrigerate whole heads'
+      notes: 'Do not refrigerate whole heads',
     }
   }
 
   ginger: {
     name: 'Ginger',
-    elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0 }
+    elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0 },
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Sun'],
       favorableZodiac: ['aries', 'leo'],
@@ -118,7 +118,7 @@ const rawAromatics = {
         name: 'Galangal',
         appearance: 'harder, white flesh',
         flavor: 'citrusy, pine-like',
-        uses: 'Thai cuisine, spice blends'
+        uses: 'Thai cuisine, spice blends',
       }
     },
     culinaryApplications: {
@@ -129,7 +129,7 @@ const rawAromatics = {
         applications: {
           stir_fry: 'aromatic base',
           marinades: 'tenderizing properties',
-          teas: 'medicinal and flavorful'
+          teas: 'medicinal and flavorful',
         }
       }
     },
@@ -138,18 +138,18 @@ const rawAromatics = {
       humidity: 'moderate',
       container: 'paper bag or wrapped in paper towel',
       duration: 'fresh: 3 weeks, frozen: 6 months',
-      notes: 'Can be frozen whole or grated'
+      notes: 'Can be frozen whole or grated',
     }
   }
 
   lemongrass: {
     name: 'Lemongrass',
-    elementalProperties: { Air: 0.5, Water: 0.3, Fire: 0.2, Earth: 0 }
+    elementalProperties: { Air: 0.5, Water: 0.3, Fire: 0.2, Earth: 0 },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Venus'],
       favorableZodiac: ['gemini', 'libra'],
       elementalAffinity: {
-        base: 'Air'
+        base: 'Air',
       }
     },
     qualities: ['citrusy', 'aromatic', 'bright'],
@@ -164,7 +164,7 @@ const rawAromatics = {
         applications: {
           soups: 'thai tom yum',
           curries: 'southeast asian',
-          teas: 'medicinal brewing'
+          teas: 'medicinal brewing',
         }
       },
       paste: {
@@ -174,7 +174,7 @@ const rawAromatics = {
         applications: {
           curry_pastes: 'with chilies and galangal',
           marinades: 'with lime and garlic',
-          rubs: 'for grilled proteins'
+          rubs: 'for grilled proteins',
         }
       }
     },
@@ -183,18 +183,18 @@ const rawAromatics = {
       humidity: 'moderate',
       container: 'wrapped in damp paper towel',
       duration: '2-3 weeks fresh6 months frozen',
-      notes: 'Can be frozen whole or chopped'
+      notes: 'Can be frozen whole or chopped',
     }
   }
 
   shallot: {
     name: 'Shallot',
-    elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 }
+    elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Venus'],
       favorableZodiac: ['virgo', 'taurus'],
       elementalAffinity: {
-        base: 'Earth'
+        base: 'Earth',
       }
     },
     qualities: ['delicate', 'sweet', 'aromatic'],
@@ -209,7 +209,7 @@ const rawAromatics = {
         applications: {
           vinaigrettes: 'classic french',
           pan_sauces: 'for proteins',
-          garnishes: 'raw or fried'
+          garnishes: 'raw or fried',
         }
       }
     },
@@ -218,18 +218,18 @@ const rawAromatics = {
       humidity: 'low',
       container: 'ventilated',
       duration: '1 month',
-      notes: 'Similar to onions'
+      notes: 'Similar to onions',
     }
   }
 
   scallion: {
     name: 'Scallion',
-    elementalProperties: { Air: 0.4, Water: 0.3, Earth: 0.2, Fire: 0.1 }
+    elementalProperties: { Air: 0.4, Water: 0.3, Earth: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Moon'],
       favorableZodiac: ['gemini', 'cancer'],
       elementalAffinity: {
-        base: 'Air'
+        base: 'Air',
       }
     },
     qualities: ['fresh', 'mild', 'grassy'],
@@ -244,7 +244,7 @@ const rawAromatics = {
         applications: {
           stir_fry: 'added toward end',
           scallion_oil: 'chinese condiment',
-          pancakes: 'chinese scallion pancakes'
+          pancakes: 'chinese scallion pancakes',
         }
       }
     },
@@ -253,13 +253,13 @@ const rawAromatics = {
       humidity: 'high',
       container: 'wrapped in damp paper towel',
       duration: '1-2 weeks',
-      notes: 'Can be regrown in water from roots'
+      notes: 'Can be regrown in water from roots',
     }
   }
 
   saffron: {
     name: 'Saffron',
-    elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0 }
+    elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0 },
     astrologicalProfile: {
       rulingPlanets: ['Sun', 'Mars'],
       favorableZodiac: ['gemini', 'libra'],
@@ -284,7 +284,7 @@ const rawAromatics = {
         applications: {
           curries: 'Indian and Middle Eastern',
           rice: 'Persian and Indian',
-          tea: 'Turkish and Middle Eastern'
+          tea: 'Turkish and Middle Eastern',
         }
       },
       paste: {
@@ -294,7 +294,7 @@ const rawAromatics = {
         applications: {
           curries: 'Indian and Middle Eastern',
           rice: 'Persian and Indian',
-          tea: 'Turkish and Middle Eastern'
+          tea: 'Turkish and Middle Eastern',
         }
       }
     },
@@ -303,7 +303,7 @@ const rawAromatics = {
       humidity: 'low',
       container: 'airtight container',
       duration: '2-3 years',
-      notes: 'Keep away from light and heat'
+      notes: 'Keep away from light and heat',
     }
   }
 }

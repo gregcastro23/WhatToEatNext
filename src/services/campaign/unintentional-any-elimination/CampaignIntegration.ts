@@ -32,7 +32,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
     super(config)
 
     // Default configuration for unintentional any elimination
-    this.unintentionalAnyConfig = {;
+    this.unintentionalAnyConfig = {
       maxFilesPerBatch: 15,
       targetReductionPercentage: 15,
       confidenceThreshold: 0.8,
@@ -71,13 +71,13 @@ export class UnintentionalAnyCampaignController extends CampaignController {
       const _finalMetrics = await this.getCurrentMetrics()
       const finalUnintentionalAnyMetrics = await this.getUnintentionalAnyMetrics()
 
-      const metricsImprovement = this.calculateUnintentionalAnyImprovement(;
+      const metricsImprovement = this.calculateUnintentionalAnyImprovement(
         initialUnintentionalAnyMetrics,
         finalUnintentionalAnyMetrics,
       ),
 
       // Validate phase completion
-      const validation = await this.validateUnintentionalAnyPhaseCompletion(;
+      const validation = await this.validateUnintentionalAnyPhaseCompletion(
         phase,
         finalUnintentionalAnyMetrics,
       ),
@@ -90,14 +90,14 @@ export class UnintentionalAnyCampaignController extends CampaignController {
 
       const executionTime = Date.now() - startTime;
 
-      const result: PhaseResult = {;
+      const result: PhaseResult = {
         phaseId: phase.id,
         success: campaignResult.success,
         metricsImprovement: {
           typeScriptErrorsReduced: metricsImprovement.explicitAnyWarningsReduced,
           lintingWarningsReduced: metricsImprovement.explicitAnyWarningsReduced,
           buildTimeImproved: 0, // Not directly impacted by any elimination,
-          enterpriseSystemsAdded: 0
+          enterpriseSystemsAdded: 0,
         },
         filesProcessed: campaignResult.filesProcessed,
         errorsFixed: campaignResult.errorsFixed,
@@ -124,7 +124,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
           typeScriptErrorsReduced: 0,
           lintingWarningsReduced: 0,
           buildTimeImproved: 0,
-          enterpriseSystemsAdded: 0
+          enterpriseSystemsAdded: 0,
         },
         filesProcessed: 0,
         errorsFixed: 0,
@@ -136,7 +136,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
             timestamp: new Date(),
             description: `Unintentional Any Elimination Phase failed: ${error instanceof Error ? error.message : String(error)}`,
             severity: SafetyEventSeverity.ERROR,
-            action: 'PHASE_FAILURE'
+            action: 'PHASE_FAILURE',
           }
         ]
       }
@@ -150,7 +150,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
     baseConfig?: Partial<CampaignConfig>,
     unintentionalAnyConfig?: Partial<UnintentionalAnyConfig>,
   ): CampaignConfig {
-    const unintentionalAnyCampaign = new UnintentionalAnyEliminationCampaign(;
+    const unintentionalAnyCampaign = new UnintentionalAnyEliminationCampaign(
       unintentionalAnyConfig,
     ),
     const unintentionalAnyPhases = unintentionalAnyCampaign.createCampaignPhases()
@@ -387,7 +387,7 @@ export function createUnintentionalAnyCampaignController(
   baseConfig?: Partial<CampaignConfig>,
   unintentionalAnyConfig?: Partial<UnintentionalAnyConfig>,
 ): UnintentionalAnyCampaignController {
-  const config = UnintentionalAnyCampaignController.createUnintentionalAnyEliminationConfig(;
+  const config = UnintentionalAnyCampaignController.createUnintentionalAnyEliminationConfig(
     baseConfig,
     unintentionalAnyConfig,
   ),
@@ -406,7 +406,7 @@ export class UnintentionalAnyIntegrationHelper {
     existingConfig: CampaignConfig,
     unintentionalAnyConfig?: Partial<UnintentionalAnyConfig>,
   ): CampaignConfig {
-    const unintentionalAnyCampaign = new UnintentionalAnyEliminationCampaign(;
+    const unintentionalAnyCampaign = new UnintentionalAnyEliminationCampaign(
       unintentionalAnyConfig,
     ),
     const unintentionalAnyPhases = unintentionalAnyCampaign.createCampaignPhases()
@@ -428,7 +428,7 @@ export class UnintentionalAnyIntegrationHelper {
     return {
       explicitAnyFixer: 'src/services/campaign/unintentional-any-elimination/ProgressiveImprovementEngine.ts',
       unintentionalAnyAnalyzer: 'src/services/campaign/unintentional-any-elimination/AnyTypeClassifier.ts',
-      documentationGenerator: 'src/services/campaign/unintentional-any-elimination/AutoDocumentationGenerator.ts'
+      documentationGenerator: 'src/services/campaign/unintentional-any-elimination/AutoDocumentationGenerator.ts',
     }
   }
 
@@ -448,7 +448,7 @@ export class UnintentionalAnyIntegrationHelper {
 
     // Merge campaigns with priority-based phase ordering
     const mergedPhases: CampaignPhase[] = [];
-    const mergedSafetySettings: SafetySettings = {;
+    const mergedSafetySettings: SafetySettings = {
       maxFilesPerBatch: Math.min(...campaigns.map(c => c.safetySettings.maxFilesPerBatch)),
       buildValidationFrequency: Math.min(,
         ...campaigns.map(c => c.safetySettings.buildValidationFrequency),

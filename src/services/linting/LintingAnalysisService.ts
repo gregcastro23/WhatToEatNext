@@ -116,7 +116,7 @@ export class LintingAnalysisService {
 
       if (options.generateStrategies !== false) {
         log.info('🎯 Generating resolution strategies...')
-        const strategyResult = await this.generateResolutionStrategies(;
+        const strategyResult = await this.generateResolutionStrategies(
           categorizedErrors,
           classifications,
           fileAnalyses,
@@ -128,12 +128,12 @@ export class LintingAnalysisService {
 
       // Step, 5: Generate summary and recommendations
       log.info('📋 Generating recommendations...')
-      const summary = this.generateSummary(;
+      const summary = this.generateSummary(
         categorizedErrors,
         classifications,
         resolutionStrategies,
       )
-      const recommendations = this.generateRecommendations(;
+      const recommendations = this.generateRecommendations(
         categorizedErrors,
         classifications,
         resolutionStrategies,
@@ -141,7 +141,7 @@ export class LintingAnalysisService {
       )
 
       // Step, 6: Calculate metrics
-      const metrics = this.calculateMetrics(;
+      const metrics = this.calculateMetrics(
         startTime,
         categorizedErrors,
         classifications,
@@ -149,7 +149,7 @@ export class LintingAnalysisService {
         resolutionStrategies,
       )
 
-      const result: ComprehensiveAnalysisResult = {;
+      const result: ComprehensiveAnalysisResult = {
         summary,
         categorizedErrors,
         fileAnalyses,
@@ -237,7 +237,7 @@ export class LintingAnalysisService {
         continue;
       }
 
-      const classification = this.classificationSystem.classifyError(;
+      const classification = this.classificationSystem.classifyError(
         issue.rule,
         issue.message,
         issue.file
@@ -278,7 +278,7 @@ export class LintingAnalysisService {
     const allIssues = Object.values(categorizedErrors.byCategory).flat()
 
     // Create default project context
-    const fullProjectContext: ProjectContext = {;
+    const fullProjectContext: ProjectContext = {
       hasTests: true,
       hasCICD: false,
       teamSize: 'small',

@@ -78,7 +78,7 @@ class UnintentionalAnyCampaignController {
   private backupDirectory: string,
 
   constructor(config: Partial<CampaignConfig> = {}) {
-    this.config = {;
+    this.config = {
       targetReductionPercentage: 18, // Target 18% reduction (middle of 15-20% range),
       maxBatchSize: 25,
       maxTotalFiles: 100, // Conservative limit for full campaign,
@@ -88,7 +88,7 @@ class UnintentionalAnyCampaignController {
       ...config
     }
 
-    this.metrics = {;
+    this.metrics = {
       totalAnyTypes: 0,
       classifiedIntentional: 0,
       classifiedUnintentional: 0,
@@ -98,7 +98,7 @@ class UnintentionalAnyCampaignController {
       filesProcessed: 0,
       batchesCompleted: 0,
       reductionPercentage: 0,
-      buildStabilityScore: 100
+      buildStabilityScore: 100,
     }
 
     this.startTime = new Date();
@@ -108,11 +108,11 @@ class UnintentionalAnyCampaignController {
 
   private log(message: string, level: 'info' | 'warn' | 'error' | 'success' = 'info'): void {
     const timestamp = new Date().toISOString()
-    const prefix = {;
+    const prefix = {
       info: 'ℹ️',
       warn: '⚠️',
       error: '❌',
-      success: '✅'
+      success: '✅',
     }[level],
 
     // // // _logger.info(`[${timestamp}] ${prefix} ${message}`)
@@ -135,10 +135,10 @@ class UnintentionalAnyCampaignController {
 
   private getCurrentAnyCount(): number {
     try {
-      const lintOutput = execSync(;
+      const lintOutput = execSync(
         'yarn lint 2>&1 | grep -c '@typescript-eslint/no-explicit-any' || echo '0'',
         {
-          encoding: 'utf8'
+          encoding: 'utf8',
         })
       return parseInt(lintOutput.trim()) || 0,
     } catch (error) {
@@ -189,7 +189,7 @@ class UnintentionalAnyCampaignController {
     const lowerSnippet = codeSnippet.toLowerCase()
     // Check for intentional markers
     const hasIntentionalComment =
-      /\/\/.*intentional|\/\*.*intentional.*\*\/|eslint-disable.*no-explicit-any/i.test(;
+      /\/\/.*intentional|\/\*.*intentional.*\*\/|eslint-disable.*no-explicit-any/i.test(
         codeSnippet,
       ),
 
@@ -202,7 +202,7 @@ class UnintentionalAnyCampaignController {
         confidence: 0.95,
         category: AnyTypeCategory.DYNAMIC_CONFIG,
         requiresDocumentation: false,
-        reasoning: 'Explicitly marked as intentional with comment'
+        reasoning: 'Explicitly marked as intentional with comment',
       }
     }
 
@@ -216,7 +216,7 @@ class UnintentionalAnyCampaignController {
         confidence: 0.9,
         category: AnyTypeCategory.ERROR_HANDLING,
         requiresDocumentation: true,
-        reasoning: 'Error handling context - typically intentional'
+        reasoning: 'Error handling context - typically intentional',
       }
     }
 
@@ -230,7 +230,7 @@ class UnintentionalAnyCampaignController {
         confidence: 0.85,
         category: AnyTypeCategory.CAMPAIGN_SYSTEM,
         requiresDocumentation: true,
-        reasoning: 'Campaign system requires flexible typing for dynamic behavior'
+        reasoning: 'Campaign system requires flexible typing for dynamic behavior',
       }
     }
 
@@ -249,7 +249,7 @@ class UnintentionalAnyCampaignController {
           confidence: 0.8,
           category: AnyTypeCategory.ASTROLOGICAL_DATA,
           requiresDocumentation: true,
-          reasoning: 'Astrological calculations may require flexible typing for external library compatibility'
+          reasoning: 'Astrological calculations may require flexible typing for external library compatibility',
         }
       }
     }
@@ -265,7 +265,7 @@ class UnintentionalAnyCampaignController {
         category: AnyTypeCategory.ARRAY_TYPE,
         suggestedReplacement: codeSnippet.replace(/\bany\[\]/g, 'unknown[]'),
         requiresDocumentation: false,
-        reasoning: 'Array type can be safely replaced with unknown[]'
+        reasoning: 'Array type can be safely replaced with unknown[]',
       }
     }
 
@@ -280,7 +280,7 @@ class UnintentionalAnyCampaignController {
         category: AnyTypeCategory.RECORD_TYPE,
         suggestedReplacement: codeSnippet.replace(/Record<([^,]+),\s*any>/g, 'Record<1, unknown>'),
         requiresDocumentation: false,
-        reasoning: 'Record type can likely be replaced with unknown'
+        reasoning: 'Record type can likely be replaced with unknown',
       }
     }
 
@@ -298,7 +298,7 @@ class UnintentionalAnyCampaignController {
           '1unknown2',
         ),
         requiresDocumentation: false,
-        reasoning: 'Variable declaration can likely use unknown instead of any'
+        reasoning: 'Variable declaration can likely use unknown instead of any',
       }
     }
 
@@ -315,7 +315,7 @@ class UnintentionalAnyCampaignController {
         confidence: 0.6,
         category: AnyTypeCategory.FUNCTION_PARAMETER,
         requiresDocumentation: true,
-        reasoning: 'Function parameter any types require careful analysis - marked as intentional for safety'
+        reasoning: 'Function parameter any types require careful analysis - marked as intentional for safety',
       }
     }
 
@@ -328,7 +328,7 @@ class UnintentionalAnyCampaignController {
       confidence: 0.5,
       category: AnyTypeCategory.DYNAMIC_CONFIG,
       requiresDocumentation: true,
-      reasoning: 'Uncertain classification - marked as intentional for safety'
+      reasoning: 'Uncertain classification - marked as intentional for safety',
     }
   }
 
@@ -388,7 +388,7 @@ class UnintentionalAnyCampaignController {
       let replacements = 0,
 
       // Apply replacements in reverse order to maintain line numbers
-      const sortedReplacements = unintentionalReplacements.sort(;
+      const sortedReplacements = unintentionalReplacements.sort(
         (ab) => b.lineNumber - a.lineNumber,
       )
 
@@ -729,7 +729,7 @@ if (require.main === module) {,
     maxTotalFiles: 100,
     safetyValidationFrequency: 5,
     enableDocumentation: true,
-    enableProgressiveImprovement: true
+    enableProgressiveImprovement: true,
   })
 
   controller

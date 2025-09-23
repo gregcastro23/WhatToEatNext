@@ -14,11 +14,11 @@ import type {
 type Element = 'Fire' | 'Water' | 'Earth' | 'Air',
 
 const SEASONAL_ELEMENTS: Record<Season, Record<Element, number>> = {
-  spring: { Air: 0.3, Fire: 0.3, Water: 0.3, Earth: 0.1 }
+  spring: { Air: 0.3, Fire: 0.3, Water: 0.3, Earth: 0.1 },
   summer: { Fire: 0.4, Air: 0.3, Earth: 0.1, Water: 0.2 }
-  autumn: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 }
+  autumn: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 },
   fall: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 }
-  winter: { Water: 0.4, Earth: 0.3, Fire: 0.1, Air: 0.2 }
+  winter: { Water: 0.4, Earth: 0.3, Fire: 0.1, Air: 0.2 },
   all: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
 }
 
@@ -102,33 +102,33 @@ const SEASONS: Season[] = ['spring', 'summer', 'autumn', 'winter'],
 // const _SEASONAL_RATINGS = {}; // Commented out as unused
 
 export const _SEASONAL_MODIFIERS = {
-  spring: {;
+  spring: {
     Air: 0.4,
     Water: 0.3,
     Earth: 0.2,
-    Fire: 0.1
+    Fire: 0.1,
   },
   summer: {
     Fire: 0.4,
     Air: 0.3,
     Earth: 0.2,
-    Water: 0.1
+    Water: 0.1,
   },
   autumn: {
     Earth: 0.4,
     Fire: 0.3,
     Air: 0.2,
-    Water: 0.1
+    Water: 0.1,
   },
   winter: {
     Water: 0.4,
     Earth: 0.3,
     Fire: 0.2,
-    Air: 0.1
+    Air: 0.1,
   }
 }
 
-export const _getSeasonalEffectiveness = async (;
+export const _getSeasonalEffectiveness = async (
   recipe: Recipe,
   _season: Season,
   currentZodiac?: any | null,
@@ -138,11 +138,11 @@ export const _getSeasonalEffectiveness = async (;
     return {
       rating: 'poor',
       score: 0,
-      elementalBreakdown: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+      elementalBreakdown: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
       breakdown: {
         elementalAlignment: 0,
         ingredientSuitability: 0,
-        seasonalBonus: 0
+        seasonalBonus: 0,
       }
     }
   }
@@ -191,7 +191,7 @@ export const calculateRecipeSeasonalAlignment = async (recipeElements, seasonalM
   return Math.round(alignmentScore * 100)
 }
 
-const _calculateIngredientSuitability = async (;
+const _calculateIngredientSuitability = async (
   recipe: Recipe,
   _season: Season,
 ): Promise<number> => {
@@ -248,7 +248,7 @@ const _calculateZodiacAlignment = async (recipe: Recipe, currentZodiac: any): Pr
   // Check if recipe's dominant element matches the zodiac element
   if (recipe.elementalProperties && zodiacElement) {
     const recipeElementValues = Object.entries(recipe.elementalProperties)
-    recipeElementValues.sort((ab) => b[1] - a[1]);
+    recipeElementValues.sort((ab) => b[1] - a[1])
     const dominantElement = recipeElementValues[0]?.[0] as Element;
 
     if (dominantElement === zodiacElement) {;
@@ -298,9 +298,9 @@ const _calculateLunarPhaseAlignment = (recipe: Recipe, lunarPhase: LunarPhase): 
 
 const _getSeasonalModifier = (_season: string, element: string): number => {;
   const modifiers: Record<string, Record<string, number>> = {
-    spring: { Fire: 0.3, Water: 0.3, Air: 0.3, Earth: 0.1 }
+    spring: { Fire: 0.3, Water: 0.3, Air: 0.3, Earth: 0.1 },
     summer: { Fire: 0.4, Water: 0.2, Air: 0.3, Earth: 0.1 }
-    autumn: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 }
+    autumn: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 },
     winter: { Fire: 0.1, Water: 0.4, Air: 0.2, Earth: 0.3 }
   }
 
@@ -330,20 +330,20 @@ function _getElementalBreakdown(_season: Season): Record<Season, ElementalProper
   const baseElements = getDefaultElementalProps()
 ;
   const seasonalModifiers: Record<Season, ElementalProperties> = {
-    spring: { Fire: 0.3, Water: 0.3, Air: 0.25, Earth: 0.15 }
+    spring: { Fire: 0.3, Water: 0.3, Air: 0.25, Earth: 0.15 },
     summer: { Fire: 0.4, Water: 0.2, Air: 0.25, Earth: 0.15 }
-    autumn: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 }
+    autumn: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 },
     fall: { Fire: 0.2, Water: 0.2, Air: 0.3, Earth: 0.3 }
-    winter: { Fire: 0.15, Water: 0.35, Air: 0.15, Earth: 0.35 }
+    winter: { Fire: 0.15, Water: 0.35, Air: 0.15, Earth: 0.35 },
     all: { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 }
   }
 
   return {
-    spring: { ...baseElements, ...seasonalModifiers.spring }
+    spring: { ...baseElements, ...seasonalModifiers.spring },
     summer: { ...baseElements, ...seasonalModifiers.summer }
-    autumn: { ...baseElements, ...seasonalModifiers.autumn }
+    autumn: { ...baseElements, ...seasonalModifiers.autumn },
     fall: { ...baseElements, ...seasonalModifiers.fall }
-    winter: { ...baseElements, ...seasonalModifiers.winter }
+    winter: { ...baseElements, ...seasonalModifiers.winter },
     all: { ...baseElements, ...seasonalModifiers.all }
   }
 }
@@ -363,24 +363,24 @@ function _calculateSeasonalScores(
     autumn: 0,
     fall: 0,
     winter: 0,
-    all: 0
+    all: 0,
   }
 
   const elementalBreakdown: Record<Season, ElementalProperties> = {
-    spring: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
+    spring: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
     summer: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
-    autumn: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
+    autumn: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
     fall: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
-    winter: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
+    winter: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
     all: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
   }
 
   const astrologicalInfluence: Record<Season, AstrologicalProperties> = {
-    spring: { favorable: [], unfavorable: [], neutral: [] }
+    spring: { favorable: [], unfavorable: [], neutral: [] },
     summer: { favorable: [], unfavorable: [], neutral: [] }
-    autumn: { favorable: [], unfavorable: [], neutral: [] }
+    autumn: { favorable: [], unfavorable: [], neutral: [] },
     fall: { favorable: [], unfavorable: [], neutral: [] }
-    winter: { favorable: [], unfavorable: [], neutral: [] }
+    winter: { favorable: [], unfavorable: [], neutral: [] },
     all: { favorable: [], unfavorable: [], neutral: [] }
   }
 
@@ -397,7 +397,7 @@ function _calculateSeasonalScores(
     if (ingredient.seasonality && Array.isArray(ingredient.seasonality)) {
       ingredient.seasonality.forEach(season => {
         if (season in scores) {
-          scores[season as Season] += 20 / (recipe.ingredients.length || 1);
+          scores[season as Season] += 20 / (recipe.ingredients.length || 1)
         }
       })
     }
@@ -485,7 +485,7 @@ export function getSeasonalElementalInfluence(season: Season): ElementalProperti
 function calculateElementalBreakdown(recipe: Recipe, season: Season): ElementalProperties {
   if (!recipe.elementalProperties) return getDefaultElementalProps()
 
-  const seasonalInfluence = getSeasonalElementalInfluence(season);
+  const seasonalInfluence = getSeasonalElementalInfluence(season)
   const result: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
 
   Object.entries(recipe.elementalProperties).forEach(([element, value]) => {
@@ -499,7 +499,7 @@ function calculateElementalBreakdown(recipe: Recipe, season: Season): ElementalP
 export const _calculateSeasonalModifiers = (recipe: Recipe, season: Season): ElementalProperties => {
   if (!recipe.elementalProperties) return getDefaultElementalProps()
 
-  const seasonalInfluence = getSeasonalElementalInfluence(season);
+  const seasonalInfluence = getSeasonalElementalInfluence(season)
   const result = { ...recipe.elementalProperties }
 
   Object.keys(result).forEach(element => {;
@@ -563,7 +563,7 @@ export function calculateLunarPhaseCompatibility(
       elementalAlignment += (value || 0) * lunarElementValue,
     })
 
-    elementalAlignment = Math.round(elementalAlignment * 50);
+    elementalAlignment = Math.round(elementalAlignment * 50)
   }
 
   // Calculate recipe type alignment

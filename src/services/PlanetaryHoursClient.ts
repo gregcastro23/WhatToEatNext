@@ -61,7 +61,7 @@ export class PlanetaryHoursClient {
 
     if (this.useBackend && this.backendUrl) {
       try {
-        const request: PlanetaryHourRequest = {;
+        const request: PlanetaryHourRequest = {
           datetime: targetDate.toISOString(),
           location
         };
@@ -85,7 +85,7 @@ export class PlanetaryHoursClient {
     }
 
     // Local fallback using PlanetaryHourCalculator
-    const calculator = new PlanetaryHourCalculator(;
+    const calculator = new PlanetaryHourCalculator(
       location?.latitude,
       location?.longitude,
     )

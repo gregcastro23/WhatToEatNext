@@ -11,7 +11,7 @@ const uranusData: PlanetData = {
     Spirit: 0,
     Essence: 1,
     Matter: 1,
-    Substance: 0
+    Substance: 0,
   }
   'Diurnal Element': 'Water',
   'Nocturnal Element': 'Air',
@@ -31,7 +31,7 @@ const uranusData: PlanetData = {
       Surface: 'Gas giant with no solid surface',
       MagneticField: 'Uniquely tilted magnetic field',
       Composition: 'Ice giant composed primarily of a hot dense fluid of water, methane and ammonia',
-      NotableFeatures: 'Extreme axial tilt, complex ring system, unusual sideways rotation'
+      NotableFeatures: 'Extreme axial tilt, complex ring system, unusual sideways rotation',
     }
   },
   AstrologicalProperties: {
@@ -105,7 +105,7 @@ const uranusData: PlanetData = {
     Spirit: 0.2,
     Essence: 0.4,
     Matter: 0.4,
-    Substance: 0.6
+    Substance: 0.6,
   },
   FoodAssociations: [
     'unusual foods',
@@ -126,7 +126,7 @@ const uranusData: PlanetData = {
     Salty: 0.3,
     Bitter: 0.5,
     Umami: 0.4,
-    Spicy: 0.5
+    Spicy: 0.5,
   },
   CulinaryInfluences: [
     'Inspires radical innovation in cooking',
@@ -141,63 +141,63 @@ const uranusData: PlanetData = {
       Opposition: 0.1,
       Trine: 0.4,
       Square: -0.1,
-      Sextile: 0.3
+      Sextile: 0.3,
     },
     Moon: {
       Conjunction: 0.4,
       Opposition: 0.0,
       Trine: 0.3,
       Square: -0.2,
-      Sextile: 0.2
+      Sextile: 0.2,
     },
     Saturn: {
       Conjunction: 0.6,
       Opposition: 0.1,
       Trine: 0.5,
       Square: -0.1,
-      Sextile: 0.3
+      Sextile: 0.3,
     },
     Jupiter: {
       Conjunction: 0.7,
       Opposition: 0.2,
       Trine: 0.5,
       Square: 0.0,
-      Sextile: 0.4
+      Sextile: 0.4,
     },
     Mercury: {
       Conjunction: 0.6,
       Opposition: 0.1,
       Trine: 0.5,
       Square: -0.2,
-      Sextile: 0.3
+      Sextile: 0.3,
     },
     Venus: {
       Conjunction: 0.5,
       Opposition: 0.0,
       Trine: 0.4,
       Square: -0.3,
-      Sextile: 0.2
+      Sextile: 0.2,
     },
     Mars: {
       Conjunction: 0.7,
       Opposition: 0.2,
       Trine: 0.6,
       Square: 0.0,
-      Sextile: 0.4
+      Sextile: 0.4,
     },
     Neptune: {
       Conjunction: 0.8,
       Opposition: 0.3,
       Trine: 0.7,
       Square: 0.1,
-      Sextile: 0.5
+      Sextile: 0.5,
     },
     Pluto: {
       Conjunction: 0.8,
       Opposition: 0.2,
       Trine: 0.7,
       Square: 0.0,
-      Sextile: 0.5
+      Sextile: 0.5,
     }
   },
   PlanetSpecific: {
@@ -209,7 +209,7 @@ const uranusData: PlanetData = {
           Fire: 0.3,
           Earth: 0.2,
           Air: 0.9,
-          Water: 0.2
+          Water: 0.2,
         },
         CookingMethods: [
           'molecular gastronomy',
@@ -234,7 +234,7 @@ const uranusData: PlanetData = {
           Fire: 0.3,
           Earth: 0.2,
           Air: 0.3,
-          Water: 0.8
+          Water: 0.8,
         },
         CookingMethods: [
           'fermentation',
@@ -258,7 +258,7 @@ const uranusData: PlanetData = {
           Fire: 0.3,
           Earth: 0.2,
           Air: 0.8,
-          Water: 0.3
+          Water: 0.3,
         },
         CookingMethods: [
           'dual temperature contrasts',
@@ -274,7 +274,7 @@ const uranusData: PlanetData = {
           'deconstructed classics',
           'dual temperature components'
         ],
-        FlavorCombinations: 'Playful contrasts, surprising element combinations, intellectual flavor constructs'
+        FlavorCombinations: 'Playful contrasts, surprising element combinations, intellectual flavor constructs',
       }
     },
     Retrograde: {
@@ -284,7 +284,7 @@ const uranusData: PlanetData = {
         Spirit: 0.3,
         Essence: 0.7,
         Matter: 0.5,
-        Substance: 0.2
+        Substance: 0.2,
       },
       CookingMethodEffects: {
         Emphasized: [
@@ -316,7 +316,7 @@ const uranusData: PlanetData = {
         Salty: 0.4,
         Bitter: 0.3,
         Umami: 0.6,
-        Spicy: 0.3
+        Spicy: 0.3,
       }
     },
     TransitDates: {
@@ -327,7 +327,7 @@ const uranusData: PlanetData = {
           TarotCard: '5 of Pentacles',
           TarotProperties: {
             Keywords: ['material challenge', 'financial strain', 'resourcefulness'],
-            CulinaryAssociation: 'Finding innovative ways to use humble ingredients, transforming scarcity into abundance'
+            CulinaryAssociation: 'Finding innovative ways to use humble ingredients, transforming scarcity into abundance',
           }
         }
         '2ndDecan': {
@@ -336,7 +336,7 @@ const uranusData: PlanetData = {
           TarotCard: '6 of Pentacles',
           TarotProperties: {
             Keywords: ['generosity', 'giving and receiving', 'balance of resources'],
-            CulinaryAssociation: 'Revolutionary approaches to food distribution, sharing economy in culinary spheres'
+            CulinaryAssociation: 'Revolutionary approaches to food distribution, sharing economy in culinary spheres',
           }
         }
         '3rdDecan': {
@@ -345,7 +345,7 @@ const uranusData: PlanetData = {
           TarotCard: '7 of Pentacles',
           TarotProperties: {
             Keywords: ['assessment', 'evaluation', 'patience for results'],
-            CulinaryAssociation: 'Long-term food projects, technological advances in food cultivation and preparation'
+            CulinaryAssociation: 'Long-term food projects, technological advances in food cultivation and preparation',
           }
         }
       },
@@ -356,7 +356,7 @@ const uranusData: PlanetData = {
           TarotCard: '8 of Swords',
           TarotProperties: {
             Keywords: ['restriction', 'mental traps', 'new perspectives'],
-            CulinaryAssociation: 'Breaking free from culinary conventions, overcoming limitations in cooking methods'
+            CulinaryAssociation: 'Breaking free from culinary conventions, overcoming limitations in cooking methods',
           }
         }
         '2ndDecan': {
@@ -365,7 +365,7 @@ const uranusData: PlanetData = {
           TarotCard: '9 of Swords',
           TarotProperties: {
             Keywords: ['anxiety', 'overthinking', 'mental clarity'],
-            CulinaryAssociation: 'Foods that calm mental agitation, cognitive enhancing ingredients, mindful eating'
+            CulinaryAssociation: 'Foods that calm mental agitation, cognitive enhancing ingredients, mindful eating',
           }
         }
         '3rdDecan': {
@@ -374,7 +374,7 @@ const uranusData: PlanetData = {
           TarotCard: '10 of Swords',
           TarotProperties: {
             Keywords: ['endings', 'transformation', 'rebirth'],
-            CulinaryAssociation: 'Complete reinvention of food paradigms, technological revolution in cooking'
+            CulinaryAssociation: 'Complete reinvention of food paradigms, technological revolution in cooking',
           }
         }
       }

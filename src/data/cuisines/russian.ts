@@ -1,7 +1,7 @@
 // src/data/cuisines/russian.ts
 import { Cuisine } from '@/types/cuisine';
 
-export const russian: Cuisine = {;
+export const russian: Cuisine = {
   id: 'russian',
   name: 'Russian',
   description: 'Traditional Russian cuisine emphasizing hearty dishes, fermented foods, and preserved ingredients',
@@ -69,7 +69,7 @@ export const russian: Cuisine = {;
             Earth: 0.4,
             Water: 0.2,
             Fire: 0.2,
-            Air: 0.2
+            Air: 0.2,
           }
         }
         {
@@ -124,7 +124,7 @@ export const russian: Cuisine = {;
             Earth: 0.5,
             Water: 0.3,
             Fire: 0.1,
-            Air: 0.1
+            Air: 0.1,
           }
         }
         {
@@ -203,7 +203,7 @@ export const russian: Cuisine = {;
             Air: 0.4,
             Earth: 0.2,
             Water: 0.2,
-            Fire: 0.2
+            Fire: 0.2,
           }
         }
         {
@@ -266,7 +266,7 @@ export const russian: Cuisine = {;
             Air: 0.4,
             Earth: 0.3,
             Water: 0.2,
-            Fire: 0.1
+            Fire: 0.1,
           }
         }
       ]
@@ -331,7 +331,7 @@ export const russian: Cuisine = {;
             Water: 0.4,
             Earth: 0.3,
             Fire: 0.2,
-            Air: 0.1
+            Air: 0.1,
           }
         }
         {
@@ -402,7 +402,7 @@ export const russian: Cuisine = {;
             Earth: 0.4,
             Water: 0.3,
             Fire: 0.2,
-            Air: 0.1
+            Air: 0.1,
           }
         }
         {
@@ -468,7 +468,7 @@ export const russian: Cuisine = {;
             Water: 0.4,
             Earth: 0.3,
             Fire: 0.2,
-            Air: 0.1
+            Air: 0.1,
           }
         }
         {
@@ -520,7 +520,7 @@ export const russian: Cuisine = {;
             Water: 0.5,
             Earth: 0.2,
             Air: 0.2,
-            Fire: 0.1
+            Fire: 0.1,
           }
         }
       ],
@@ -643,7 +643,7 @@ export const russian: Cuisine = {;
             Earth: 0.4,
             Water: 0.3,
             Fire: 0.2,
-            Air: 0.1
+            Air: 0.1,
           }
         }
         {
@@ -712,7 +712,7 @@ export const russian: Cuisine = {;
             Earth: 0.4,
             Water: 0.3,
             Fire: 0.2,
-            Air: 0.1
+            Air: 0.1,
           }
         }
         {
@@ -786,7 +786,7 @@ export const russian: Cuisine = {;
             Earth: 0.5,
             Fire: 0.3,
             Water: 0.1,
-            Air: 0.1
+            Air: 0.1,
           }
         }
         {
@@ -846,7 +846,7 @@ export const russian: Cuisine = {;
             Earth: 0.4,
             Water: 0.3,
             Air: 0.2,
-            Fire: 0.1
+            Fire: 0.1,
           }
         }
       ],
@@ -900,7 +900,7 @@ export const russian: Cuisine = {;
             Earth: 0.4,
             Water: 0.3,
             Fire: 0.2,
-            Air: 0.1
+            Air: 0.1,
           }
         }
       ]
@@ -967,7 +967,7 @@ export const russian: Cuisine = {;
             Earth: 0.4,
             Water: 0.3,
             Air: 0.2,
-            Fire: 0.1
+            Fire: 0.1,
           }
         }
         {
@@ -1036,7 +1036,7 @@ export const russian: Cuisine = {;
             Earth: 0.3,
             Air: 0.3,
             Fire: 0.2,
-            Water: 0.2
+            Water: 0.2,
           }
         }
         {
@@ -1107,7 +1107,7 @@ export const russian: Cuisine = {;
             Earth: 0.3,
             Water: 0.3,
             Air: 0.3,
-            Fire: 0.1
+            Fire: 0.1,
           }
         }
         {
@@ -1178,7 +1178,7 @@ export const russian: Cuisine = {;
             Earth: 0.4,
             Fire: 0.3,
             Air: 0.2,
-            Water: 0.1
+            Water: 0.1,
           }
         }
       ],
@@ -1244,7 +1244,7 @@ export const russian: Cuisine = {;
         Water: 0.4,
         Earth: 0.3,
         Air: 0.2,
-        Fire: 0.1
+        Fire: 0.1,
       },
       astrologicalInfluences: ['Moon', 'Venus', 'Cancer'],
       seasonality: 'all',
@@ -1267,7 +1267,7 @@ export const russian: Cuisine = {;
         Fire: 0.6,
         Earth: 0.2,
         Air: 0.1,
-        Water: 0.1
+        Water: 0.1,
       },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'summer preparation, year-round use',
@@ -1290,7 +1290,7 @@ export const russian: Cuisine = {;
         Fire: 0.5,
         Earth: 0.2,
         Water: 0.2,
-        Air: 0.1
+        Air: 0.1,
       },
       astrologicalInfluences: ['Mars', 'Saturn', 'Scorpio'],
       seasonality: 'made in autumn, consumed year-round',
@@ -1313,7 +1313,7 @@ export const russian: Cuisine = {;
         Earth: 0.5,
         Water: 0.3,
         Air: 0.1,
-        Fire: 0.1
+        Fire: 0.1,
       },
       astrologicalInfluences: ['Saturn', 'Neptune', 'Virgo'],
       seasonality: 'autumn mushroom harvest, preserved for year-round use',
@@ -1330,12 +1330,12 @@ export const russian: Cuisine = {;
         Earth: 0.4,
         Fire: 0.3,
         Water: 0.2,
-        Air: 0.1
+        Air: 0.1,
       },
       astrologicalInfluences: ['Venus', 'Mars', 'Taurus'],
       seasonality: 'summer preparation, preserved for winter use',
       preparationNotes: 'Traditional preparation involves roasting eggplants over open flame for smoky flavor',
-      technicalTips: 'Let flavors marry overnight for best taste, serve at room temperature'
+      technicalTips: 'Let flavors marry overnight for best taste, serve at room temperature',
     }
   },
   sauceRecommender: {
@@ -1462,42 +1462,42 @@ export const russian: Cuisine = {;
     {
       name: 'Souring (Zakvaski)',
       description: 'Traditional fermentation techniques for preserving vegetables, dairy, and grains',
-      elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
+      elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
       toolsRequired: ['clay pots', 'wooden tools', 'brine', 'glass jars', 'weights'],
       bestFor: ['cabbage', 'cucumbers', 'beets', 'milk', 'bread starter'],
-      difficulty: 'medium'
+      difficulty: 'medium',
     }
     {
       name: 'Russian Oven Cooking',
       description: 'Slow cooking in traditional masonry stove that retains heat for extended periods',
-      elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 }
+      elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 },
       toolsRequired: ['pech (Russian oven)', 'clay pots', 'long wooden paddles', 'cast iron pots'],
       bestFor: ['stews', 'porridges', 'breads', 'slow-roasted meats', 'pies'],
-      difficulty: 'hard'
+      difficulty: 'hard',
     }
     {
       name: 'Solenije',
       description: 'Salt preservation technique creating distinctive flavors different from fermentation',
-      elementalProperties: { Earth: 0.5, Water: 0.3, Fire: 0.1, Air: 0.1 }
+      elementalProperties: { Earth: 0.5, Water: 0.3, Fire: 0.1, Air: 0.1 },
       toolsRequired: ['wooden barrels', 'salt', 'heavy weights', 'herbs', 'glass jars'],
       bestFor: ['mushrooms', 'vegetables', 'fish', 'pork fat', 'herbs'],
-      difficulty: 'easy'
+      difficulty: 'easy',
     }
     {
       name: 'Smokehouse Methods',
       description: 'Cold and hot smoking techniques for preserving fish, meat, and cheeses',
-      elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 }
+      elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
       toolsRequired: ['smoke house', 'wood chips', 'hooks', 'racks', 'temperature control'],
       bestFor: ['fish', 'game', 'sausages', 'pork fat', 'cheese'],
-      difficulty: 'hard'
+      difficulty: 'hard',
     }
     {
       name: 'Томление (Tomlenie)',
       description: 'Ultra-slow cooking/simmering method in covered pots to develop deep flavors',
-      elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 }
+      elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
       toolsRequired: ['cast iron pot', 'heat diffuser', 'slow heat source', 'wooden spoon'],
       bestFor: ['porridges', 'milk dishes', 'stews', 'root vegetables', 'grains'],
-      difficulty: 'medium'
+      difficulty: 'medium',
     }
   ],
   regionalCuisines: {
@@ -1511,21 +1511,21 @@ export const russian: Cuisine = {;
         'mushroom preparations',
         'grain porridges'
       ],
-      elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
+      elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
       astrologicalInfluences: ['Moon', 'Saturn', 'Pisces'],
       seasonality: 'strongly seasonal with emphasis on preservation' },
         central: {
       name: 'Central Russian Cuisine',
       description: 'Classic Russian dishes with simple ingredients and traditional cooking methods',
       signature: ['shchi', 'kasha', 'olivier salad', 'kotlety', 'black bread'],
-      elementalProperties: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 }
+      elementalProperties: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Saturn', 'Venus', 'Taurus'],
       seasonality: 'four distinct seasonal variations with preservation techniques' },
         siberian: {
       name: 'Siberian Cuisine',
       description: 'Hearty, calorie-rich food designed for extreme cold, featuring game and wild plants',
       signature: ['pelmeni', 'stroganina', 'cedar nuts', 'game meats', 'fish pie'],
-      elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 }
+      elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Saturn', 'Jupiter', 'Capricorn'],
       seasonality: 'short growing season with extensive preservation' },
         caucasian: {
@@ -1538,23 +1538,23 @@ export const russian: Cuisine = {;
         'herb-forward dishes',
         'fruit preserves'
       ],
-      elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 }
+      elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'longer growing season with more fresh produce' },
         volga: {
       name: 'Volga Region Cuisine',
       description: 'Diverse cuisine reflecting the multicultural Volga river basin with Tatar influences',
       signature: ['belish', 'ukha', 'river fish dishes', 'pastries', 'honey-based desserts'],
-      elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 }
+      elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Jupiter', 'Moon', 'Cancer'],
-      seasonality: 'river-influenced with seasonal fishing patterns'
+      seasonality: 'river-influenced with seasonal fishing patterns',
     }
   },
   elementalProperties: {
     Earth: 0.5,
     Water: 0.3,
     Fire: 0.1,
-    Air: 0.1
+    Air: 0.1,
   }
 }
 

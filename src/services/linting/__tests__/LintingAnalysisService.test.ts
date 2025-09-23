@@ -29,7 +29,7 @@ jest.mock('child_process', () => ({
             severity: 1,
             message: 'Unexpected any type',
             line: 5,
-            column: 10
+            column: 10,
           }
         ]
       }
@@ -194,7 +194,7 @@ describe('LintingAnalysisService', () => {
         generateStrategies: true,
         projectContext: { hasTests: true,
           teamSize: 'small',
-          riskTolerance: 'moderate'
+          riskTolerance: 'moderate',
         }
       })
 

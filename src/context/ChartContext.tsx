@@ -17,7 +17,7 @@ interface ChartContextType {
   updateChart: (data: AstrologicalChart | null) => void
 }
 
-const defaultContextValue: ChartContextType = {;
+const defaultContextValue: ChartContextType = {
   currentChart: null,
   isLoading: false,
   error: null,

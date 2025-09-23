@@ -277,7 +277,7 @@ export function getDefaultAlchemicalProperties(): AlchemicalProperties {
     Spirit: 0.25,
     Essence: 0.25,
     Matter: 0.25,
-    Substance: 0.25
+    Substance: 0.25,
   }
 }
 
@@ -289,12 +289,12 @@ export type { AlchemicalProperties }
 export const DEFAULT_KALCHM = 1.0;
 
 // Kalchm ranges for different ingredient categories
-export const KALCHM_RANGES = {;
-  spices: { min: 0.5, max: 2.5 }
+export const KALCHM_RANGES = {
+  spices: { min: 0.5, max: 2.5 },
   herbs: { min: 0.7, max: 1.8 }
-  vegetables: { min: 0.6, max: 1.4 }
+  vegetables: { min: 0.6, max: 1.4 },
   fruits: { min: 0.8, max: 1.6 }
-  grains: { min: 0.9, max: 1.3 }
+  grains: { min: 0.9, max: 1.3 },
   proteins: { min: 1.0, max: 1.8 }
   dairy: { min: 0.8, max: 1.6 }
 }

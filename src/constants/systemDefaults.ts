@@ -24,7 +24,7 @@ import {
 /**
  * Default elemental properties with balanced values
  */
-export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {;
+export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
   Fire: 0.25,
   Water: 0.25,
   Earth: 0.25,
@@ -34,7 +34,7 @@ export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {;
 /**
  * Default alchemical values with standard distribution
  */
-export const DEFAULT_ALCHEMICAL_VALUES: AlchemicalValues = {;
+export const DEFAULT_ALCHEMICAL_VALUES: AlchemicalValues = {
   Spirit: 0.29,
   Essence: 0.28,
   Matter: 0.21,
@@ -59,16 +59,16 @@ export const DEFAULT_RISING_SIGN: any = 'leo';
  * Default planetary alignment with safe values
  * NOTE: For type safety only. Do NOT use for live calculations or UI. Always use real planetary positions.
  */
-export const DEFAULT_PLANETARY_ALIGNMENT: PlanetaryAlignment = {;
-  Sun: { sign: 'aries', degree: 0 }
+export const DEFAULT_PLANETARY_ALIGNMENT: PlanetaryAlignment = {
+  Sun: { sign: 'aries', degree: 0 },
   Moon: { sign: 'taurus', degree: 0 }
-  Mercury: { sign: 'gemini', degree: 0 }
+  Mercury: { sign: 'gemini', degree: 0 },
   Venus: { sign: 'libra', degree: 0 }
-  Mars: { sign: 'aries', degree: 0 }
+  Mars: { sign: 'aries', degree: 0 },
   Jupiter: { sign: 'sagittarius', degree: 0 }
-  Saturn: { sign: 'capricorn', degree: 0 }
+  Saturn: { sign: 'capricorn', degree: 0 },
   Uranus: { sign: 'aquarius', degree: 0 }
-  Neptune: { sign: 'pisces', degree: 0 }
+  Neptune: { sign: 'pisces', degree: 0 },
   Pluto: { sign: 'scorpio', degree: 0 }
 }
 
@@ -452,73 +452,73 @@ export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = {
     sign: 'cancer' as any,
     degree: 101.48333333333333,
     exactLongitude: 101.4844,
-    isRetrograde: false
+    isRetrograde: false,
   },
   Moon: {
     sign: 'libra' as any,
     degree: 195.16666666666666,
     exactLongitude: 195.18319999999994,
-    isRetrograde: false
+    isRetrograde: false,
   },
   Mercury: {
     sign: 'leo' as any,
     degree: 127.38333333333334,
     exactLongitude: 127.38920000000002,
-    isRetrograde: false
+    isRetrograde: false,
   },
   Venus: {
     sign: 'taurus' as any,
     degree: 58.35,
     exactLongitude: 58.35340000000002,
-    isRetrograde: false
+    isRetrograde: false,
   },
   Mars: {
     sign: 'virgo' as any,
     degree: 159,
     exactLongitude: 159.0158,
-    isRetrograde: false
+    isRetrograde: false,
   },
   Jupiter: {
     sign: 'cancer' as any,
     degree: 95.3,
     exactLongitude: 95.30540000000002,
-    isRetrograde: false
+    isRetrograde: false,
   },
   Saturn: {
     sign: 'aries' as any,
     degree: 1.85,
     exactLongitude: 1.8501999999999725,
-    isRetrograde: false
+    isRetrograde: false,
   },
   Uranus: {
     sign: 'taurus' as any,
     degree: 59.8,
     exactLongitude: 59.8091,
-    isRetrograde: false
+    isRetrograde: false,
   },
   Neptune: {
     sign: 'aries' as any,
     degree: 2.1666666666666665,
     exactLongitude: 2.174699999999973,
-    isRetrograde: false
+    isRetrograde: false,
   },
   Pluto: {
     sign: 'aquarius' as any,
     degree: 303.0833333333333,
     exactLongitude: 303.09529999999995,
-    isRetrograde: false
+    isRetrograde: false,
   },
   Chiron: {
     sign: 'aries' as any,
     degree: 26.933333333333334,
     exactLongitude: 26.939399999999978,
-    isRetrograde: false
+    isRetrograde: false,
   },
   Sirius: {
     sign: 'aries' as any,
     degree: 1.7666666666666666,
     exactLongitude: 1.7726000000000113,
-    isRetrograde: false
+    isRetrograde: false,
   }
 }
 
@@ -527,7 +527,7 @@ export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = {
 /**
  * Default chakra energies with neutral values
  */
-export const DEFAULT_CHAKRA_ENERGIES: ChakraEnergies = {;
+export const DEFAULT_CHAKRA_ENERGIES: ChakraEnergies = {
   root: 0.5,
   sacral: 0.5,
   solarPlexus: 0.5,
@@ -542,7 +542,7 @@ export const DEFAULT_CHAKRA_ENERGIES: ChakraEnergies = {;
 /**
  * Default astrological state with safe values for all required properties
  */
-export const DEFAULT_ASTROLOGICAL_STATE = {;
+export const DEFAULT_ASTROLOGICAL_STATE = {
   sunSign: DEFAULT_SUN_SIGN,
   moonSign: DEFAULT_moon_SIGN,
   lunarPhase: DEFAULT_LUNAR_PHASE,
@@ -554,21 +554,21 @@ export const DEFAULT_ASTROLOGICAL_STATE = {;
   decan: {
     sunDecan: 1,
     moonDecan: 1,
-    risingDecan: 1
+    risingDecan: 1,
   },
   aspects: [],
   dominantElement: 'Fire',
   elementalProfile: DEFAULT_ELEMENTAL_PROPERTIES,
   planetaryPositions: {
-    Sun: { sign: 'aries' as any, degree: 15 }
+    Sun: { sign: 'aries' as any, degree: 15 },
     Moon: { sign: 'taurus' as any, degree: 8 }
-    Mercury: { sign: 'gemini' as any, degree: 10 }
+    Mercury: { sign: 'gemini' as any, degree: 10 },
     Venus: { sign: 'libra' as any, degree: 12 }
-    Mars: { sign: 'aries' as any, degree: 20 }
+    Mars: { sign: 'aries' as any, degree: 20 },
     Jupiter: { sign: 'sagittarius' as any, degree: 5 }
-    Saturn: { sign: 'capricorn' as any, degree: 18 }
+    Saturn: { sign: 'capricorn' as any, degree: 18 },
     Uranus: { sign: 'aquarius' as any, degree: 25 }
-    Neptune: { sign: 'pisces' as any, degree: 14 }
+    Neptune: { sign: 'pisces' as any, degree: 14 },
     Pluto: { sign: 'scorpio' as any, degree: 22 }
   },
   isDaytime: true,
@@ -603,7 +603,7 @@ export const DEFAULT_ZODIAC_ENERGIES: { [key: string]: number } = {
 /**
  * Default thermodynamic properties
  */
-export const DEFAULT_THERMODYNAMIC_PROPERTIES = {;
+export const DEFAULT_THERMODYNAMIC_PROPERTIES = {
   heat: 0.5,
   entropy: 0.5,
   reactivity: 0.5,
@@ -616,7 +616,7 @@ export const DEFAULT_THERMODYNAMIC_PROPERTIES = {;
 /**
  * Default modality distribution
  */
-export const DEFAULT_MODALITY_DISTRIBUTION = {;
+export const DEFAULT_MODALITY_DISTRIBUTION = {
   cardinal: 0.33,
   fixed: 0.33,
   mutable: 0.34
@@ -627,7 +627,7 @@ export const DEFAULT_MODALITY_DISTRIBUTION = {;
 /**
  * Default recipe elemental values
  */
-export const DEFAULT_RECIPE_ELEMENTAL_VALUES = {;
+export const DEFAULT_RECIPE_ELEMENTAL_VALUES = {
   Fire: 0.25,
   Water: 0.25,
   Earth: 0.25,
@@ -637,7 +637,7 @@ export const DEFAULT_RECIPE_ELEMENTAL_VALUES = {;
 /**
  * Default food recommendation
  */
-export const DEFAULT_FOOD_RECOMMENDATION = {;
+export const DEFAULT_FOOD_RECOMMENDATION = {
   cuisine: 'balanced',
   elements: DEFAULT_RECIPE_ELEMENTAL_VALUES,
   recommendation: 'A balanced meal with a variety of fresh ingredients',
@@ -648,7 +648,7 @@ export const DEFAULT_FOOD_RECOMMENDATION = {;
 /**
  * Default nutritional profile
  */
-export const DEFAULT_NUTRITIONAL_PROFILE = {;
+export const DEFAULT_NUTRITIONAL_PROFILE = {
   calories: 0,
   protein: 0,
   carbs: 0,
@@ -664,7 +664,7 @@ export const DEFAULT_NUTRITIONAL_PROFILE = {;
 /**
  * Default calculation parameters
  */
-export const DEFAULT_CALCULATION_PARAMS = {;
+export const DEFAULT_CALCULATION_PARAMS = {
   useAspects: true,
   usePlanetaryHours: true,
   useLunarPhase: true,
@@ -678,7 +678,7 @@ export const DEFAULT_CALCULATION_PARAMS = {;
 /**
  * Default compatibility thresholds
  */
-export const DEFAULT_COMPATIBILITY_THRESHOLDS = {;
+export const DEFAULT_COMPATIBILITY_THRESHOLDS = {
   excellent: 0.8,
   good: 0.6,
   fAir: 0.4,
@@ -691,7 +691,7 @@ export const DEFAULT_COMPATIBILITY_THRESHOLDS = {;
 /**
  * Default error message templates
  */
-export const DEFAULT_ERROR_MESSAGES = {;
+export const DEFAULT_ERROR_MESSAGES = {
   calculation: 'Error in astrological calculation',
   missing_data: 'Missing required data for calculation',
   invalid_input: 'Invalid input data provided',
@@ -706,7 +706,7 @@ export const DEFAULT_ERROR_MESSAGES = {;
 /**
  * Default retry configuration
  */
-export const DEFAULT_RETRY_CONFIG = {;
+export const DEFAULT_RETRY_CONFIG = {
   maxRetries: 3,
   retryDelay: 1000,
   backoffMultiplier: 2,
@@ -718,7 +718,7 @@ export const DEFAULT_RETRY_CONFIG = {;
 /**
  * Default system configuration
  */
-export const DEFAULT_SYSTEM_CONFIG = {;
+export const DEFAULT_SYSTEM_CONFIG = {
   enableLogging: true,
   logLevel: 'info',
   enableCaching: true,
@@ -731,7 +731,7 @@ export const DEFAULT_SYSTEM_CONFIG = {;
 /**
  * Default API configuration
  */
-export const DEFAULT_API_CONFIG = {;
+export const DEFAULT_API_CONFIG = {
   timeout: 30000,
   retries: 3,
   rateLimit: 100,

@@ -187,7 +187,7 @@ export class KiroCampaignIntegration {
               ? 'declining'
               : 'stable',
         changePercentage: Math.abs(improvement.typeScriptErrorsReduced),
-        timeframe: 'last 24 hours'
+        timeframe: 'last 24 hours',
       }
       {
         metric: 'Linting Warnings',
@@ -197,7 +197,7 @@ export class KiroCampaignIntegration {
               ? 'declining'
               : 'stable',
         changePercentage: Math.abs(improvement.lintingWarningsReduced),
-        timeframe: 'last 24 hours'
+        timeframe: 'last 24 hours',
       }
       {
         metric: 'Build Performance',
@@ -207,7 +207,7 @@ export class KiroCampaignIntegration {
               ? 'declining'
               : 'stable',
         changePercentage: Math.abs(improvement.buildTimeImproved * 10),
-        timeframe: 'last 24 hours'
+        timeframe: 'last 24 hours',
       }
     ],
 
@@ -230,7 +230,7 @@ export class KiroCampaignIntegration {
     const campaignId = `campaign_${Date.now()}`;
 
     // Create campaign status
-    const status: KiroCampaignStatus = {;
+    const status: KiroCampaignStatus = {
       campaignId,
       status: 'running',
       currentPhase: request.phaseIds[0],
@@ -278,7 +278,7 @@ export class KiroCampaignIntegration {
         timestamp: new Date(),
         description: `Campaign failed: ${(error as Error).message}`,
         severity: 'ERROR' as SafetyEvent['severity'],
-        action: 'CAMPAIGN_FAILED'
+        action: 'CAMPAIGN_FAILED',
       })
     }
 
@@ -299,7 +299,7 @@ export class KiroCampaignIntegration {
       timestamp: new Date(),
       description: 'Campaign paused by user',
       severity: 'INFO' as SafetyEvent['severity'],
-      action: 'PAUSE'
+      action: 'PAUSE',
     })
 
     return true,
@@ -319,7 +319,7 @@ export class KiroCampaignIntegration {
       timestamp: new Date(),
       description: 'Campaign resumed by user',
       severity: 'INFO' as SafetyEvent['severity'],
-      action: 'RESUME'
+      action: 'RESUME',
     })
 
     return true,
@@ -339,7 +339,7 @@ export class KiroCampaignIntegration {
       timestamp: new Date(),
       description: 'Campaign stopped by user',
       severity: 'WARNING' as SafetyEvent['severity'],
-      action: 'STOP'
+      action: 'STOP',
     })
 
     // Keep in history for a while before cleanup
@@ -360,7 +360,7 @@ export class KiroCampaignIntegration {
    */
   async scheduleCampaign(schedule: Omit<CampaignSchedule, 'id'>): Promise<string> {
     const scheduleId = `schedule_${Date.now()}`;
-    const campaignSchedule: CampaignSchedule = {;
+    const campaignSchedule: CampaignSchedule = {
       id: scheduleId,
       ...schedule,
       nextRun: this.calculateNextRun(schedule.scheduledTime, schedule.recurrence)
@@ -436,7 +436,7 @@ export class KiroCampaignIntegration {
   }> {
     const intelligence = await (
       this.intelligenceSystem as unknown as {
-        generateComprehensiveIntelligence: (;
+        generateComprehensiveIntelligence: (
           controller: unknown,
           options: Record<string, unknown>,
           context: Record<string, unknown>,
@@ -470,7 +470,7 @@ export class KiroCampaignIntegration {
         icon: 'typescript',
         enabled: true,
         estimatedDuration: 5,
-        safetyLevel: 'high'
+        safetyLevel: 'high',
       }
       {
         id: 'linting-cleanup',
@@ -479,7 +479,7 @@ export class KiroCampaignIntegration {
         icon: 'lint',
         enabled: true,
         estimatedDuration: 3,
-        safetyLevel: 'medium'
+        safetyLevel: 'medium',
       }
       {
         id: 'build-optimization',
@@ -488,7 +488,7 @@ export class KiroCampaignIntegration {
         icon: 'build',
         enabled: true,
         estimatedDuration: 10,
-        safetyLevel: 'low'
+        safetyLevel: 'low',
       }
       {
         id: 'full-campaign',
@@ -497,7 +497,7 @@ export class KiroCampaignIntegration {
         icon: 'campaign',
         enabled: true,
         estimatedDuration: 60,
-        safetyLevel: 'maximum'
+        safetyLevel: 'maximum',
       }
     ],
   }
@@ -514,7 +514,7 @@ export class KiroCampaignIntegration {
     const requestedPhases = baseConfig.phases.filter(phase => request.phaseIds.includes(phase.id))
 
     // Adjust safety settings based on request
-    const safetySettings = {;
+    const safetySettings = {
       ...baseConfig.safetySettings,
       maxFilesPerBatch: request.batchSize || baseConfig.safetySettings.maxFilesPerBatch
     }
@@ -550,9 +550,9 @@ export class KiroCampaignIntegration {
 
   private async getTargetMetrics(): Promise<ProgressMetrics> {
     return {
-      typeScriptErrors: { current: 0, target: 0, reduction: 0, percentage: 100 }
+      typeScriptErrors: { current: 0, target: 0, reduction: 0, percentage: 100 },
       lintingWarnings: { current: 0, target: 0, reduction: 0, percentage: 100 }
-      buildPerformance: { currentTime: 8, targetTime: 10, cacheHitRate: 0.9, memoryUsage: 40 }
+      buildPerformance: { currentTime: 8, targetTime: 10, cacheHitRate: 0.9, memoryUsage: 40 },
       enterpriseSystems: { current: 200, target: 200, transformedExports: 200 }
     }
   }
@@ -586,19 +586,19 @@ export class KiroCampaignIntegration {
         testValidationFrequency: 10,
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
-        stashRetentionDays: 7
+        stashRetentionDays: 7,
       },
       progressTargets: {
         typeScriptErrors: 0,
         lintingWarnings: 0,
         buildTime: 10,
-        enterpriseSystems: 200
+        enterpriseSystems: 200,
       },
       toolConfiguration: {
         enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
       }
     }
   }

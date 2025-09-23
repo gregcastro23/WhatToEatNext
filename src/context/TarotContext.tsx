@@ -24,13 +24,13 @@ interface TarotContextType {
   setTarotElementalInfluences: (influences: TarotElementalInfluences) => void
 }
 
-const defaultContext: TarotContextType = {;
+const defaultContext: TarotContextType = {
   tarotCard: null,
   tarotElementalInfluences: {
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0
+    Air: 0,
   },
   setTarotCard: () => {}
   setTarotElementalInfluences: () => {}
@@ -45,7 +45,7 @@ export const _TarotProvider = ({ children }: { children: ReactNode }) => {;
       Fire: 0,
       Water: 0,
       Earth: 0,
-      Air: 0
+      Air: 0,
     })
 
   return (

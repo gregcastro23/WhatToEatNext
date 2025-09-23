@@ -85,7 +85,7 @@ export interface SeasonalNutritionalProfile {
   priorityNutrients: string[],
   optimalFoods: string[],
   avoidanceFoods: string[],
-  kalchmRange: { min: number, max: number }
+  kalchmRange: { min: number, max: number },
   monicaModifiers: NutritionalMonicaModifiers,
   biorhythmAlignment: number
 }
@@ -134,26 +134,26 @@ export interface NutritionalRecommendations {
 // Categorize nutrients by alchemical properties (Spirit, Essence, Matter, Substance)
 export const _alchemicalNutrientMapping: { [key: string]: AlchemicalProperties } = {
   // Spirit Nutrients (Volatile, transformative)
-  vitamin_c: { Spirit: 0.8, Essence: 0.2, Matter: 0.0, Substance: 0.0 }
+  vitamin_c: { Spirit: 0.8, Essence: 0.2, Matter: 0.0, Substance: 0.0 },
   caffeine: { Spirit: 0.9, Essence: 0.1, Matter: 0.0, Substance: 0.0 }
-  capsaicin: { Spirit: 0.7, Essence: 0.3, Matter: 0.0, Substance: 0.0 }
+  capsaicin: { Spirit: 0.7, Essence: 0.3, Matter: 0.0, Substance: 0.0 },
   volatile_oils: { Spirit: 0.8, Essence: 0.2, Matter: 0.0, Substance: 0.0 }
   // Essence Nutrients (Active principles)
-  antioxidants: { Spirit: 0.3, Essence: 0.7, Matter: 0.0, Substance: 0.0 }
+  antioxidants: { Spirit: 0.3, Essence: 0.7, Matter: 0.0, Substance: 0.0 },
   flavonoids: { Spirit: 0.2, Essence: 0.8, Matter: 0.0, Substance: 0.0 }
-  omega_3: { Spirit: 0.1, Essence: 0.7, Matter: 0.1, Substance: 0.1 }
+  omega_3: { Spirit: 0.1, Essence: 0.7, Matter: 0.1, Substance: 0.1 },
   probiotics: { Spirit: 0.2, Essence: 0.6, Matter: 0.2, Substance: 0.0 }
   enzymes: { Spirit: 0.2, Essence: 0.8, Matter: 0.0, Substance: 0.0 }
   // Matter Nutrients (Physical structure)
-  protein: { Spirit: 0.0, Essence: 0.3, Matter: 0.7, Substance: 0.0 }
+  protein: { Spirit: 0.0, Essence: 0.3, Matter: 0.7, Substance: 0.0 },
   fiber: { Spirit: 0.0, Essence: 0.1, Matter: 0.8, Substance: 0.1 }
-  complex_carbs: { Spirit: 0.1, Essence: 0.2, Matter: 0.6, Substance: 0.1 }
+  complex_carbs: { Spirit: 0.1, Essence: 0.2, Matter: 0.6, Substance: 0.1 },
   calcium: { Spirit: 0.0, Essence: 0.0, Matter: 0.7, Substance: 0.3 }
   iron: { Spirit: 0.0, Essence: 0.2, Matter: 0.7, Substance: 0.1 }
   // Substance Nutrients (Stable, enduring)
-  saturated_fats: { Spirit: 0.0, Essence: 0.1, Matter: 0.2, Substance: 0.7 }
+  saturated_fats: { Spirit: 0.0, Essence: 0.1, Matter: 0.2, Substance: 0.7 },
   minerals: { Spirit: 0.0, Essence: 0.1, Matter: 0.3, Substance: 0.6 }
-  vitamin_d: { Spirit: 0.0, Essence: 0.2, Matter: 0.2, Substance: 0.6 }
+  vitamin_d: { Spirit: 0.0, Essence: 0.2, Matter: 0.2, Substance: 0.6 },
   vitamin_k: { Spirit: 0.0, Essence: 0.2, Matter: 0.3, Substance: 0.5 }
   magnesium: { Spirit: 0.0, Essence: 0.1, Matter: 0.2, Substance: 0.7 }
 }
@@ -181,7 +181,7 @@ export const elementalNutrientMapping: Record<Element, NutrientGroup> = {
       caffeine: 0.8, // Stimulating,
       theobromine: 0.6, // Mild stimulant
     },
-    totalElementalValue: 0.75
+    totalElementalValue: 0.75,
   }
 
   Water: {
@@ -205,7 +205,7 @@ export const elementalNutrientMapping: Record<Element, NutrientGroup> = {
       mucilage: 0.9, // Soothing, hydrating,
       pectin: 0.7, // Cleansing
     },
-    totalElementalValue: 0.8
+    totalElementalValue: 0.8,
   }
 
   Earth: {
@@ -229,7 +229,7 @@ export const elementalNutrientMapping: Record<Element, NutrientGroup> = {
       sterols: 0.8, // Structural support,
       cellulose: 0.9, // Fiber structure
     },
-    totalElementalValue: 0.8
+    totalElementalValue: 0.8,
   }
 
   Air: {
@@ -253,7 +253,7 @@ export const elementalNutrientMapping: Record<Element, NutrientGroup> = {
       alkaloids: 0.8, // Stimulating compounds,
       phenols: 0.7, // Light antioxidants
     },
-    totalElementalValue: 0.75
+    totalElementalValue: 0.75,
   }
 }
 
@@ -333,7 +333,7 @@ export class UnifiedNutritionalSystem {
       }
     })
 
-    return validProfiles > 0 ? totalAlignment / validProfiles : 0.5
+    return validProfiles > 0 ? totalAlignment / validProfiles : 0.5,
   }
 
   private calculatePlanetaryResonance(
@@ -360,7 +360,7 @@ export class UnifiedNutritionalSystem {
       }
     })
 
-    return validProfiles > 0 ? totalResonance / validProfiles : 0.5
+    return validProfiles > 0 ? totalResonance / validProfiles : 0.5,
   }
 
   private generateCompatibilityRecommendations(
@@ -371,7 +371,7 @@ export class UnifiedNutritionalSystem {
     const recommendations: string[] = []
 
     if (kalchmHarmony < 0.6) {
-      recommendations.push(;
+      recommendations.push(
         'Consider adjusting ingredient proportions to improve alchemical harmony',
       )
     }
@@ -474,7 +474,7 @@ export class UnifiedNutritionalSystem {
     const baseData = baseProfile as unknown;
 
     // Calculate alchemical properties from nutritional data
-    const alchemicalProperties: AlchemicalProperties = {;
+    const alchemicalProperties: AlchemicalProperties = {
       Spirit: Number(baseData.volatileCompounds || 0.2),
       Essence: Number(baseData.activeCompounds || 0.3),
       Matter: Number(baseData.structuralNutrients || 0.3),
@@ -485,7 +485,7 @@ export class UnifiedNutritionalSystem {
     const kalchm = calculateKalchm(alchemicalProperties)
 
     // Create elemental nutrient mapping
-    const elementalNutrients = {;
+    const elementalNutrients = {
       Fire: elementalNutrientMapping.Fire,
       Water: elementalNutrientMapping.Water,
       Earth: elementalNutrientMapping.Earth,
@@ -502,7 +502,7 @@ export class UnifiedNutritionalSystem {
         seasonalModifier: 1.0,
         planetaryModifier: 1.0,
         cookingMethodModifier: 1.0,
-        finalOptimizedScore: 0.7
+        finalOptimizedScore: 0.7,
       },
       astrologicalProfile: {
         rulingPlanets: ['Sun'] as PlanetName[],
@@ -512,7 +512,7 @@ export class UnifiedNutritionalSystem {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25
+          Air: 0.25,
         })
       },
       metadata: {
@@ -608,7 +608,7 @@ export const nutritionalToElemental = (profile: NutritionalProfile): ElementalPr
   }
 }
 
-export const _getZodiacNutritionalRecommendations = (;
+export const _getZodiacNutritionalRecommendations = (
   _sign: string,
 ): {
   focusNutrients: string[],
@@ -616,7 +616,7 @@ export const _getZodiacNutritionalRecommendations = (;
   avoidFoods: string[]
 } => {
   // Basic mapping - would be expanded with comprehensive data
-  const defaultRecommendations = {;
+  const defaultRecommendations = {
     focusNutrients: ['balanced_nutrition'],
     recommendedFoods: ['seasonal_vegetables', 'whole_grains'],
     avoidFoods: ['processed_foods']
@@ -625,7 +625,7 @@ export const _getZodiacNutritionalRecommendations = (;
   return defaultRecommendations,
 }
 
-export const _getPlanetaryNutritionalRecommendations = (;
+export const _getPlanetaryNutritionalRecommendations = (
   _planets: string[],
 ): {
   focusNutrients: string[],
@@ -639,7 +639,7 @@ export const _getPlanetaryNutritionalRecommendations = (;
   }
 }
 
-export const _getEnhancedPlanetaryNutritionalRecommendations = (;
+export const _getEnhancedPlanetaryNutritionalRecommendations = (
   planetaryDay: string,
   planetaryHour: string_: Date = new Date(),
 ): {
@@ -656,7 +656,7 @@ export const _getEnhancedPlanetaryNutritionalRecommendations = (;
   }
 }
 
-export const _getSeasonalNutritionalRecommendations = (;
+export const _getSeasonalNutritionalRecommendations = (
   season: string,
 ): {
   element: Element,
@@ -700,7 +700,7 @@ export const _getSeasonalNutritionalRecommendations = (;
   }
 }
 
-export const _evaluateNutritionalElementalBalance = (;
+export const _evaluateNutritionalElementalBalance = (
   profile: NutritionalProfile,
   targetElements: ElementalProperties,
 ): {
@@ -711,7 +711,7 @@ export const _evaluateNutritionalElementalBalance = (;
   const currentElements = nutritionalToElemental(profile)
 
   // Calculate deviation from target
-  const deviations = {;
+  const deviations = {
     Fire: Math.abs(currentElements.Fire - targetElements.Fire),
     Water: Math.abs(currentElements.Water - targetElements.Water),
     Earth: Math.abs(currentElements.Earth - targetElements.Earth),

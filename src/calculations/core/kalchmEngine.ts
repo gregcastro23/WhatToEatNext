@@ -56,7 +56,7 @@ export interface KalchmResult {
 /**
  * Calculate Heat using the exact formula: * Heat = (Spirit^2 + Fire^2) / (Substance + Essence + Matter + Water + (Air || 0) + (Earth || 0))^2
  */
-export function calculateHeat(;
+export function calculateHeat(
   Spirit: number,
   Fire: number,
   Substance: number,
@@ -78,7 +78,7 @@ export function calculateHeat(;
 /**
  * Calculate Entropy using the exact formula: * Entropy = (Spirit^2 + Substance^2 + Fire^2 + Air^2) / (Essence + Matter + Earth + Water)^2
  */
-export function calculateEntropy(;
+export function calculateEntropy(
   Spirit: number,
   Substance: number,
   Fire: number,
@@ -101,7 +101,7 @@ export function calculateEntropy(;
 /**
  * Calculate Reactivity using the exact formula: * Reactivity = (Spirit^2 + Substance^2 + Essence^2 + Fire^2 + Air^2 + Water^2) / (Matter + Earth)^2
  */
-export function calculateReactivity(;
+export function calculateReactivity(
   Spirit: number,
   Substance: number,
   Essence: number,
@@ -136,7 +136,7 @@ export function calculateGregsEnergy(heat: number, entropy: number, reactivity: 
 /**
  * Calculate Kalchm (K_alchm) using the exact formula: * K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
  */
-export function calculateKAlchm(;
+export function calculateKAlchm(
   Spirit: number,
   Essence: number,
   Matter: number,
@@ -160,7 +160,7 @@ export function calculateKAlchm(;
 /**
  * Calculate Monica Constant using the exact formula: * M = -Greg's Energy / (Reactivity × ln(K_alchm))
  */
-export function calculateMonicaConstant(;
+export function calculateMonicaConstant(
   gregsEnergy: number,
   reactivity: number,
   K_alchm: number,
@@ -183,24 +183,24 @@ export function calculateMonicaConstant(;
 export function calculateAlchemicalProperties(planetaryPositions: {
   [key: string]: PlanetaryPosition
 }): AlchemicalProperties {
-  const properties: AlchemicalProperties = {;
+  const properties: AlchemicalProperties = {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
-    Substance: 0
+    Substance: 0,
   }
 
   // Planetary to alchemical property mappings
-  const planetaryMappings = {;
-    Sun: { Spirit: 1.0, Essence: 0.3, Matter: 0.2, Substance: 0.1 }
+  const planetaryMappings = {
+    Sun: { Spirit: 1.0, Essence: 0.3, Matter: 0.2, Substance: 0.1 },
     moon: { Spirit: 0.2, Essence: 1.0, Matter: 0.8, Substance: 0.3 }
-    Mercury: { Spirit: 0.8, Essence: 0.2, Matter: 0.1, Substance: 0.9 }
+    Mercury: { Spirit: 0.8, Essence: 0.2, Matter: 0.1, Substance: 0.9 },
     Venus: { Spirit: 0.3, Essence: 0.9, Matter: 0.7, Substance: 0.2 }
-    Mars: { Spirit: 0.6, Essence: 0.8, Matter: 0.9, Substance: 0.1 }
+    Mars: { Spirit: 0.6, Essence: 0.8, Matter: 0.9, Substance: 0.1 },
     Jupiter: { Spirit: 0.9, Essence: 0.7, Matter: 0.2, Substance: 0.3 }
-    Saturn: { Spirit: 0.7, Essence: 0.1, Matter: 0.9, Substance: 0.8 }
+    Saturn: { Spirit: 0.7, Essence: 0.1, Matter: 0.9, Substance: 0.8 },
     Uranus: { Spirit: 0.4, Essence: 0.6, Matter: 0.3, Substance: 0.7 }
-    Neptune: { Spirit: 0.2, Essence: 0.8, Matter: 0.4, Substance: 0.6 }
+    Neptune: { Spirit: 0.2, Essence: 0.8, Matter: 0.4, Substance: 0.6 },
     Pluto: { Spirit: 0.5, Essence: 0.7, Matter: 0.9, Substance: 0.4 }
   }
 
@@ -260,7 +260,7 @@ export function calculateElementalValues(planetaryPositions: {
     aquarius: 'Air',
     taurus: 'Earth',
     virgo: 'Earth',
-    capricorn: 'Earth'
+    capricorn: 'Earth',
   }
 
   // Process each planet's sign
@@ -335,7 +335,7 @@ export function calculateKalchmResults(planetaryPositions: {
       const elementalValues = calculateElementalValues(planetaryPositions)
 
       // Calculate thermodynamic properties
-      const heat = calculateHeat(;
+      const heat = calculateHeat(
         alchemicalProperties.Spirit,
         elementalValues.Fire,
         alchemicalProperties.Substance,
@@ -346,7 +346,7 @@ export function calculateKalchmResults(planetaryPositions: {
         elementalValues.Earth
       )
 
-      const entropy = calculateEntropy(;
+      const entropy = calculateEntropy(
         alchemicalProperties.Spirit,
         alchemicalProperties.Substance,
         elementalValues.Fire,
@@ -357,7 +357,7 @@ export function calculateKalchmResults(planetaryPositions: {
         elementalValues.Water
       )
 
-      const reactivity = calculateReactivity(;
+      const reactivity = calculateReactivity(
         alchemicalProperties.Spirit,
         alchemicalProperties.Substance,
         alchemicalProperties.Essence,
@@ -370,7 +370,7 @@ export function calculateKalchmResults(planetaryPositions: {
 
       const gregsEnergy = calculateGregsEnergy(heat, entropy, reactivity)
 
-      const kalchm = calculateKAlchm(;
+      const kalchm = calculateKAlchm(
         alchemicalProperties.Spirit,
         alchemicalProperties.Essence,
         alchemicalProperties.Matter,
@@ -439,7 +439,7 @@ function getDominantProperty(properties: AlchemicalProperties): keyof Alchemical
 /**
  * Default export providing all kalchm engine functionality
  */
-const kalchmEngine = {;
+const kalchmEngine = {
   calculateHeat,
   calculateEntropy,
   calculateReactivity,

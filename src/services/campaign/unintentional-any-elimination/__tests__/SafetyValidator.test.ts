@@ -167,7 +167,7 @@ describe('SafetyValidator', () => {
         filePath: 'test.ts',
         lineNumber: 1,
         confidence: 0.9,
-        validationRequired: true
+        validationRequired: true,
       }
 
       const context: ClassificationContext = { filePath: 'test.ts',,
@@ -196,7 +196,7 @@ describe('SafetyValidator', () => {
         filePath: 'testts',
         lineNumber: 1,
         confidence: 0.8,
-        validationRequired: true
+        validationRequired: true,
       }
 
       const errorContext: ClassificationContext = { filePath: 'test.ts',,
@@ -224,7 +224,7 @@ describe('SafetyValidator', () => {
         filePath: 'test.test.ts',
         lineNumber: 1,
         confidence: 0.8,
-        validationRequired: true
+        validationRequired: true,
       }
 
       const testContext: ClassificationContext = { filePath: 'test.test.ts',,
@@ -251,7 +251,7 @@ describe('SafetyValidator', () => {
         filePath: 'api.ts',
         lineNumber: 1,
         confidence: 0.8,
-        validationRequired: true
+        validationRequired: true,
       }
 
       const apiContext: ClassificationContext = { filePath: 'api.ts',,
@@ -279,7 +279,7 @@ describe('SafetyValidator', () => {
         filePath: 'function.ts',
         lineNumber: 1,
         confidence: 0.8,
-        validationRequired: true
+        validationRequired: true,
       }
 
       const functionContext: ClassificationContext = { filePath: 'function.ts',,
@@ -311,7 +311,7 @@ describe('SafetyValidator', () => {
     })
 
     test('updates safety thresholds', () => {
-      const newThresholds: any = {;
+      const newThresholds: any = {
         minimumSafetyScore: 09,
         maximumBuildTime: 60000,
       }
@@ -335,7 +335,7 @@ describe('SafetyValidator', () => {
         filePath: 'testts',
         lineNumber: 1,
         confidence: 0.9,
-        validationRequired: true
+        validationRequired: true,
       }
 
       const mockContext: ClassificationContext = { filePath: 'test.ts',,

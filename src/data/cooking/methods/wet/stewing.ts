@@ -13,7 +13,7 @@ export const stewing: CookingMethodData = {
     Water: 0.6,
     Fire: 0.2,
     Earth: 0.2,
-    Air: 0.0
+    Air: 0.0,
   },
   duration: {
     min: 45, // 45 minutes,
@@ -107,8 +107,7 @@ export const stewing: CookingMethodData = {
     fiber: 0.9, // Very good,
     phytonutrients: 0.85, // Good,
     antioxidants: 0.85, // Good - many remain in cooking liquid
-  }
-
+  },
   optimalTemperatures: {
     meat_stews: 180, // Low simmer,
     vegetable_stews: 185, // Slightly higher,
@@ -130,8 +129,7 @@ export const stewing: CookingMethodData = {
     caribbean: ['callaloo', 'pepper pot', 'sancocho'],
     eastern_european: ['goulash', 'bigos', 'cholent'],
     north_american: ['brunswick stew', 'burgoo', 'chili']
-  }
-
+  },
   chemicalChanges: {
     protein_denaturation: true,
     collagen_conversion: true,
@@ -144,7 +142,7 @@ export const stewing: CookingMethodData = {
     lipid_oxidation: false,
     starch_gelatinization: true,
     acid_hydrolysis: true,
-    pectin_breakdown: true
+    pectin_breakdown: true,
   }
 
   safetyFeatures: [
@@ -299,7 +297,7 @@ export const stewing: CookingMethodData = {
         'Pectin between plant cells begins solubilizing around 183°F (84°C), creating tender texture while maintaining structure. Hemicellulose breaks down more readily than cellulose, explaining why some vegetables soften more uniformly than others. Cellular turgor pressure decreases through extended cooking. Acid slows pectin breakdown—acidic environments maintain firmer vegetable texture. Calcium helps maintain cell wall integrity even during extended cooking. Cell membranes become increasingly permeable, allowing flavor exchange while maintaining structure.',
       starch_transformations: 'Starch gelatinization occurs between 150-180°F (65-82°C), creating thickening and absorption of flavored liquid. Amylose leaches into cooking liquid, creating body and viscosity. Retrograded starch during cooling periods creates resistant starch with different textural properties. Extended cooking can break down gelatinized starch, reducing thickening power. Different botanical sources of starch exhibit varying gelatinization properties and stability profiles. Flour-based thickeners maintain stability better than pure starches in extended cooking.',
       flavor_compound_release: 'Vegetables release water-soluble flavor compounds readily, fat-soluble compounds require lipid phase for full expression. Enzymatic activity creates flavor precursors before heat deactivation. Longer cooking creates Maillard reactions between vegetable sugars and proteins in cooking liquid. Sulfur compounds in alliums and brassicas transform dramatically during extended cooking. Carotenoid degradation creates terpenoid derivatives contributing to aroma profile. Flavor compound solubility changes with cooking temperature, affecting release kinetics.',
-      texture_spectrum: 'Strategic addition timing creates intentional texture gradient from soft to firm. Cellular structure transformation follows predictable timeline for each vegetable type. Perfect stewed vegetables maintain identity while integrating with surrounding flavors. Dense root vegetables develop external tenderness while maintaining slight firmness at center. Gradient cooking creates multiple texture experiences within single vegetable piece. Stewing creates tendency toward uniform texture unless strategically managed through addition timing.'
+      texture_spectrum: 'Strategic addition timing creates intentional texture gradient from soft to firm. Cellular structure transformation follows predictable timeline for each vegetable type. Perfect stewed vegetables maintain identity while integrating with surrounding flavors. Dense root vegetables develop external tenderness while maintaining slight firmness at center. Gradient cooking creates multiple texture experiences within single vegetable piece. Stewing creates tendency toward uniform texture unless strategically managed through addition timing.',
     }
   }
 } as unknown as CookingMethodData,

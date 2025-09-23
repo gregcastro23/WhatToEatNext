@@ -2,7 +2,7 @@ import type { Season } from '@/types/alchemy';
 import type { ElementalState } from '@/types/elemental';
 
 // Default elemental balance
-const defaultBalance: ElementalState = {;
+const defaultBalance: ElementalState = {
   Fire: 0.25,
   Water: 0.25,
   Earth: 0.25,
@@ -11,14 +11,14 @@ const defaultBalance: ElementalState = {;
 
 // Seasonal modifiers for elemental balance
 const seasonalModifiers: Record<string, Record<string, number>> = {
-  _Spring: { Fire: 0.2, Water: 0.1, Earth: 0.0, Air: 0.3 }
+  _Spring: { Fire: 0.2, Water: 0.1, Earth: 0.0, Air: 0.3 },
   _Summer: { Fire: 0.3, Water: 0.0, Earth: 0.1, Air: 0.2 }
-  _Autumn: { Fire: 0.1, Water: 0.2, Earth: 0.3, Air: 0.0 }
+  _Autumn: { Fire: 0.1, Water: 0.2, Earth: 0.3, Air: 0.0 },
   _Winter: { Fire: 0.0, Water: 0.3, Earth: 0.2, Air: 0.1 }
 }
 
 // Base elements for calculations
-const baseElements: ElementalState = {;
+const baseElements: ElementalState = {
   Fire: 0.25,
   Water: 0.25,
   Earth: 0.25,
@@ -46,7 +46,7 @@ export function applySeasonalTransition(
   const progress = calculateProgressInPhase(currentDate, currentPhase)
   const strength = calculateSeasonalStrength(progress)
 
-  return {;
+  return {
     Fire: baseElements.Fire * (1 + strength * seasonalModifiers[currentPhase.name].Fire),
     Water: baseElements.Water * (1 + strength * seasonalModifiers[currentPhase.name].Water),
     Air: baseElements.Air * (1 + strength * seasonalModifiers[currentPhase.name].Air),

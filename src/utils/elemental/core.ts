@@ -10,7 +10,7 @@ import { Recipe } from '@/types/recipe';
 
 // --- Core Types ---
 
-export type ElementalColor = {;
+export type ElementalColor = {
   primary: string,
   secondary: string,
   text: string,
@@ -77,7 +77,7 @@ export const ELEMENTAL_COLORS: Record<keyof ElementalProperties, ElementalColor>
     secondary: '#55EFC4',
     text: '#2D3436',
     border: '#00CEC9',
-    bg: '#F0FFF4'
+    bg: '#F0FFF4',
   }
 }
 
@@ -126,7 +126,7 @@ export function validateElementalProperties(properties: ElementalProperties): bo
  * @returns Normalized elemental properties
  */
 export function normalizeProperties(properties: Partial<ElementalProperties>): ElementalProperties {
-  const normalized: ElementalProperties = {;
+  const normalized: ElementalProperties = {
     Fire: properties.Fire || 0,
     Water: properties.Water || 0,
     Earth: properties.Earth || 0,
@@ -251,7 +251,7 @@ export async function calculateDetailedElementalCompatibility(
   const userDominant = calculateDominantElement(userProps)
 
   // Calculate base compatibility
-  const baseCompatibility = calculateElementalCompatibility(;
+  const baseCompatibility = calculateElementalCompatibility(
     recipeDominant as unknown,
     userDominant as unknown,
   )
@@ -479,11 +479,11 @@ function calculateBalanceScore(
   const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'],
 
   (elements || []).forEach(element => {
-    const difference = Math.abs(recipeProps[element] - userProps[element]);
+    const difference = Math.abs(recipeProps[element] - userProps[element])
     totalDifference += difference,
   })
 
-  // Convert difference to balance score (lower difference = higher balance);
+  // Convert difference to balance score (lower difference = higher balance)
   const averageDifference = totalDifference / (elements || []).length;
   return Math.max(01 - averageDifference)
 }

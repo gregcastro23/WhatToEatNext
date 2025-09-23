@@ -25,7 +25,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       fire: 0.3,
       water: 0.3,
       earth: 0.3,
-      air: 0.1
+      air: 0.1,
     },
     seasonality: ['all'],
     cuisineAffinities: ['Mediterranean', 'Asian', 'American', 'Mexican', 'Indian'],
@@ -41,7 +41,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       fire: 0.6,
       water: 0.1,
       earth: 0.3,
-      air: 0.0
+      air: 0.0,
     },
     seasonality: ['winter', 'fall'],
     cuisineAffinities: ['American', 'French', 'Italian', 'Korean', 'Argentinian'],
@@ -57,7 +57,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       fire: 0.2,
       water: 0.6,
       earth: 0.1,
-      air: 0.1
+      air: 0.1,
     },
     seasonality: ['summer', 'fall'],
     cuisineAffinities: ['Nordic', 'Japanese', 'Pacific Northwest', 'Mediterranean'],
@@ -74,7 +74,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       fire: 0.0,
       water: 0.3,
       earth: 0.5,
-      air: 0.2
+      air: 0.2,
     },
     seasonality: ['spring', 'fall'],
     cuisineAffinities: ['Mediterranean', 'Indian', 'Middle Eastern'],
@@ -90,7 +90,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       fire: 0.4,
       water: 0.4,
       earth: 0.1,
-      air: 0.1
+      air: 0.1,
     },
     seasonality: ['summer'],
     cuisineAffinities: ['Mediterranean', 'Italian', 'Mexican', 'Spanish'],
@@ -106,7 +106,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       fire: 0.3,
       water: 0.3,
       earth: 0.1,
-      air: 0.3
+      air: 0.3,
     },
     seasonality: ['summer', 'fall'],
     cuisineAffinities: ['Mediterranean', 'Mexican', 'Chinese', 'Spanish'],
@@ -123,7 +123,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       fire: 0.1,
       water: 0.3,
       earth: 0.5,
-      air: 0.1
+      air: 0.1,
     },
     seasonality: ['all'],
     cuisineAffinities: ['Asian', 'Indian', 'Middle Eastern', 'Spanish'],
@@ -139,7 +139,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       fire: 0.1,
       water: 0.2,
       earth: 0.4,
-      air: 0.3
+      air: 0.3,
     },
     seasonality: ['all'],
     cuisineAffinities: ['South American', 'Mediterranean', 'Modern'],
@@ -156,7 +156,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       fire: 0.2,
       water: 0.1,
       earth: 0.1,
-      air: 0.6
+      air: 0.6,
     },
     seasonality: ['summer'],
     cuisineAffinities: ['Italian', 'Thai', 'Mediterranean'],
@@ -172,7 +172,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       fire: 0.5,
       water: 0.0,
       earth: 0.4,
-      air: 0.1
+      air: 0.1,
     },
     seasonality: ['all'],
     cuisineAffinities: ['Indian', 'Southeast Asian', 'Middle Eastern'],
@@ -188,7 +188,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       fire: 0.6,
       water: 0.0,
       earth: 0.2,
-      air: 0.2
+      air: 0.2,
     },
     seasonality: ['fall', 'winter'],
     cuisineAffinities: ['Middle Eastern', 'Indian', 'Mexican', 'Moroccan'],
@@ -205,7 +205,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       fire: 0.1,
       water: 0.3,
       earth: 0.3,
-      air: 0.3
+      air: 0.3,
     },
     seasonality: ['fall'],
     cuisineAffinities: ['American', 'French', 'British', 'Germanic'],
@@ -221,7 +221,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       fire: 0.2,
       water: 0.3,
       earth: 0.1,
-      air: 0.4
+      air: 0.4,
     },
     seasonality: ['winter', 'spring'],
     cuisineAffinities: ['Mediterranean', 'Middle Eastern', 'North African'],
@@ -238,7 +238,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       fire: 0.0,
       water: 0.4,
       earth: 0.5,
-      air: 0.1
+      air: 0.1,
     },
     seasonality: ['all'],
     cuisineAffinities: ['Mediterranean', 'Middle Eastern', 'Indian', 'Eastern European'],
@@ -255,7 +255,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       fire: 0.2,
       water: 0.0,
       earth: 0.5,
-      air: 0.3
+      air: 0.3,
     },
     seasonality: ['fall'],
     cuisineAffinities: ['Mediterranean', 'Middle Eastern', 'Indian', 'French'],
@@ -272,7 +272,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       fire: 0.2,
       water: 0.0,
       earth: 0.3,
-      air: 0.5
+      air: 0.5,
     },
     seasonality: ['all'],
     cuisineAffinities: ['Mediterranean', 'Italian', 'Spanish', 'Greek'],
@@ -288,7 +288,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       fire: 0.3,
       water: 0.3,
       earth: 0.3,
-      air: 0.1
+      air: 0.1,
     },
     seasonality: ['all'],
     cuisineAffinities: ['Southeast Asian', 'Caribbean', 'Indian', 'Pacific'],
@@ -301,25 +301,25 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
 
 /** * Get ingredient by name */
 export const _getIngredientByName = (name: string): IngredientElementalProperties | undefined => {
-  return ingredientElementalDatabase.find(;
+  return ingredientElementalDatabase.find(
     ingredient => ingredient.name.toLowerCase() === name.toLowerCase(),,
   )
 }
 
 /** * Get ingredients by category */
 export const _getIngredientsByCategory = (category: string): IngredientElementalProperties[] => {
-  return ingredientElementalDatabase.filter(;
+  return ingredientElementalDatabase.filter(
     ingredient => ingredient.category.toLowerCase() === category.toLowerCase(),,
   )
 }
 
 /** * Get ingredients by dominant element */
-export const _getIngredientsByElement = (;
+export const _getIngredientsByElement = (
   element: keyof ElementalProperties,
 ): IngredientElementalProperties[] => {
   return ingredientElementalDatabase.filter(ingredient => {
     const properties = ingredient.elementalProperties
-    const dominantElement = Object.entries(properties).reduce(;
+    const dominantElement = Object.entries(properties).reduce(
       (max, [elem, value]) =>
         (Number(value) || 0) > max.value ? { element: elem, value: Number(value) || 0 } : max,
       { element: '', value: 0 })

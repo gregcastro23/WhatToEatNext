@@ -53,7 +53,7 @@ export interface RecipeRecommendation {
 }
 
 // Groupings for ingredient types
-export const INGREDIENT_GROUPS = {;
+export const INGREDIENT_GROUPS = {
   PROTEINS: 'Proteins',
   VEGETABLES: 'Vegetables',
   FRUITS: 'Fruits',
@@ -71,7 +71,7 @@ export class IngredientFilterService {
 
   private constructor() {
     // Initialize with all available ingredient data
-    this.allIngredients = {;
+    this.allIngredients = {
       [INGREDIENT_GROUPS.PROTEINS]: proteins as Record<string, IngredientMapping>,
       [INGREDIENT_GROUPS.VEGETABLES]: vegetables as Record<string, IngredientMapping>,
       [INGREDIENT_GROUPS.FRUITS]: fruits as Record<string, IngredientMapping>,
@@ -105,7 +105,7 @@ export class IngredientFilterService {
       if (!this.allIngredients[category]) return,
 
       // Convert object to array of ingredients with names
-      const categoryIngredients = Object.entries(this.allIngredients[category]).map(;
+      const categoryIngredients = Object.entries(this.allIngredients[category]).map(
         ([name, data]) => ({ name, ...data }) as unknown as IngredientMapping,
       )
 
@@ -209,7 +209,7 @@ export class IngredientFilterService {
 
       // Check for required vitamins
       if (filter.vitamins && filter.vitamins.length > 0 && nutrition.vitamins) {
-        const hasAllVitamins = filter.vitamins.every(;
+        const hasAllVitamins = filter.vitamins.every(
           vitamin => nutrition.vitamins && nutrition.vitamins.includes(vitamin),
         ),
         if (!hasAllVitamins) return false
@@ -217,7 +217,7 @@ export class IngredientFilterService {
 
       // Check for required minerals
       if (filter.minerals && filter.minerals.length > 0 && nutrition.minerals) {
-        const hasAllMinerals = filter.minerals.every(;
+        const hasAllMinerals = filter.minerals.every(
           mineral => nutrition.minerals && nutrition.minerals.includes(mineral),
         ),
         if (!hasAllMinerals) return false
@@ -551,7 +551,7 @@ export class IngredientFilterService {
         return {;
           name: ingredientName,
           nutrition: ingredient.nutritionalProfile,
-          source: 'local'
+          source: 'local',
         }
       }
 
@@ -576,7 +576,7 @@ export class IngredientFilterService {
         const mainIngredient = ingredients[i];
         const otherIngredients = ingredients.filter(ing => ing !== mainIngredient).slice(02);
 
-        const recipe: RecipeRecommendation = {;
+        const recipe: RecipeRecommendation = {
           id: `local_${i + 1}`,
           title: `${mainIngredient} Recipe with ${otherIngredients.join(' and ')}`,
           image: '/placeholder-recipe.jpg',

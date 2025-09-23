@@ -40,7 +40,7 @@ export function initializeChromeApis(): void {
     // Apply Pattern GG-6: Enhanced property access with type guards
     const chromeObj = (window as unknown as any).chrome ;
     if (!chromeObj.tabs) {
-      chromeObj.tabs = {;
+      chromeObj.tabs = {
         create: function (options: { url?: string }) {
           log.info('[ChromeAPI] Mocked chrome.tabs.create called with: ', options)
 
@@ -73,7 +73,7 @@ export function initializeChromeApis(): void {
     // Initialize runtime API
     // Apply Pattern GG-6: Enhanced property access with type guards
     if (!chromeObj.runtime) {
-      chromeObj.runtime = {;
+      chromeObj.runtime = {
         _lastError: null,
         getURL: function (path: string) {
           return window.location.origin + '/' + path
@@ -83,7 +83,7 @@ export function initializeChromeApis(): void {
           return Promise.resolve({ _success: true })
         },
         _onMessage: {
-          addListener: function () {}
+          addListener: function () {},
           _removeListener: function () {}
         }
       }
@@ -108,7 +108,7 @@ export function initializeChromeApis(): void {
       const mockStorage: Record<string, Record<string, string>> = {}
 
       chromeObj.storage = {
-        _local: {;
+        _local: {
           get: function (,
             keys: string | string[] | null,
             callback?: (items: Record<string, string[]>) => void,
@@ -143,7 +143,7 @@ export function initializeChromeApis(): void {
           },
           _remove: function (keys: string | string[], callback?: () => void) {
             if (Array.isArray(keys)) {
-              keys.forEach(key => delete mockStorage[key]);
+              keys.forEach(key => delete mockStorage[key])
             } else {
               delete mockStorage[keys],
             }

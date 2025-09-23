@@ -4,12 +4,12 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawQuinoa = {
   quinoa: {;
     name: 'Quinoa',
-    elementalProperties: { Earth: 0.3, Water: 0.2, Air: 0.3, Fire: 0.2 }
+    elementalProperties: { Earth: 0.3, Water: 0.2, Air: 0.3, Fire: 0.2 },
     astrologicalProfile: {
       rulingPlanets: ['Mercury'],
       elementalAffinity: {
         base: 'Earth',
-        secondary: 'Air'
+        secondary: 'Air',
       }
     },
     qualities: ['nutty', 'fluffy', 'versatile', 'complete protein', 'gluten-free'],
@@ -21,7 +21,7 @@ const rawQuinoa = {
         texture: 'Varied',
         flavor: 'Balanced mix',
         characteristics: 'Mix of all three types',
-        uses: 'Colorful presentations, all-purpose cooking'
+        uses: 'Colorful presentations, all-purpose cooking',
       }
     },
     preparation: {

@@ -32,13 +32,13 @@ describe('Corruption Detection System - Task 6.2', () => {
   beforeEach(() => {
     jest.clearAllMocks()
 
-    mockSettings = {;
+    mockSettings = {
       maxFilesPerBatch: 15,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7
+      stashRetentionDays: 7,
     }
 
     // Mock git repository existence
@@ -211,7 +211,7 @@ import React, { Component } from 'undefined';
 
       expect(report.detectedFiles).toContain('test-file.ts')
       expect(report.severity).toBe(CorruptionSeverity.HIGH)
-      expect(report.corruptionPatterns.some(p => p.description.includes('Double comma in import destructuring'))).toBe(;
+      expect(report.corruptionPatterns.some(p => p.description.includes('Double comma in import destructuring'))).toBe(
         true,
       )
     })
@@ -226,7 +226,7 @@ import React, { Component } from 'undefined';
 
       expect(report.detectedFiles).toContain('test-file.ts')
       expect(report.severity).toBe(CorruptionSeverity.CRITICAL)
-      expect(;
+      expect(
         report.corruptionPatterns.some(p => p.description.includes('Duplicate destructuring braces in import')),;
       ).toBe(true)
     })
@@ -241,7 +241,7 @@ import React, { Component } from 'undefined';
 
       expect(report.detectedFiles).toContain('test-file.ts')
       expect(report.severity).toBe(CorruptionSeverity.CRITICAL)
-      expect(report.corruptionPatterns.some(p => p.description.includes('Corrupted namespace import syntax'))).toBe(;
+      expect(report.corruptionPatterns.some(p => p.description.includes('Corrupted namespace import syntax'))).toBe(
         true,
       )
     })
@@ -258,7 +258,7 @@ import React, { Component } from 'undefined';
 
       expect(report.detectedFiles).toContain('test-file.ts')
       expect(report.severity).toBe(CorruptionSeverity.HIGH)
-      expect(;
+      expect(
         report.corruptionPatterns.some(p => p.description.includes('Malformed import/export statement syntax'));
       ).toBe(true)
     })

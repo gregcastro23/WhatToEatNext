@@ -1,6 +1,6 @@
 import { ElementalProperties } from '@/types/alchemy';
 
-export const _getElementalAlignmentFromTarot = (tarot: {;
+export const _getElementalAlignmentFromTarot = (tarot: {
   majorArcana: string[],
   minorArcana: string[]
 }): {
@@ -46,23 +46,23 @@ const TAROT_ELEMENT_ASSOCIATIONS: Record<string, { element: keyof ElementalPrope
   'The Emperor': { element: 'Fire' }
   'The Hierophant': { element: 'Earth' }
   'The Lovers': { element: 'Air' }
-  'The Chariot': { element: 'Fire' }
+  'The Chariot': { element: 'Fire' },
   _Strength: { element: 'Fire' }
   'The Hermit': { element: 'Earth' }
-  'Wheel of Fortune': { element: 'Air' }
+  'Wheel of Fortune': { element: 'Air' },
   _Justice: { element: 'Air' }
-  'The Hanged Man': { element: 'Water' }
+  'The Hanged Man': { element: 'Water' },
   _Death: { element: 'Water' }
   _Temperance: { element: 'Water' }
   'The Devil': { element: 'Earth' }
   'The Tower': { element: 'Fire' }
   'The Star': { element: 'Air' }
   'The Moon': { element: 'Water' }
-  'The Sun': { element: 'Fire' }
+  'The Sun': { element: 'Fire' },
   _Judgement: { element: 'Fire' }
-  'The World': { element: 'Earth' }
+  'The World': { element: 'Earth' },
   _Cups: { element: 'Water' }
-  _Wands: { element: 'Fire' }
+  _Wands: { element: 'Fire' },
   _Swords: { element: 'Air' },
         Pentacles: { element: 'Earth' }
 }

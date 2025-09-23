@@ -48,7 +48,7 @@ export class FoodDataCentral {
    */
   static async searchFoods(query: string, pageSize = 10): Promise<FoodData[]> {
     try {
-      const response = await axios.post(;
+      const response = await axios.post(
         `${this.baseUrl}/foods/search`,
         {
           query,

@@ -12,9 +12,9 @@ export const _methodName: CookingMethodData = {
   name: 'method_name', // Use snake_case for the name property,
   description: 'Description of the cooking method and how it works, including key characteristics and effects on food',
   elementalEffect: {
-    Fire: 0.0, // Fire element (0.0-1.0),
+    Fire: 0.0, // Fire element (0.0-1.0)
     Water: 0.0, // Water element (0.0-1.0),
-    Earth: 0.0, // Earth element (0.0-1.0),
+    Earth: 0.0, // Earth element (0.0-1.0)
     Air: 0.0, // Air element (0.0-1.0)
   },
   duration: {
@@ -77,9 +77,8 @@ export const _methodName: CookingMethodData = {
     nutrient3: 0.0,
     nutrient4: 0.0,
     nutrient5: 0.0,
-    nutrient6: 0.0
-  }
-
+    nutrient6: 0.0,
+  },
   optimalTemperatures: {
     application1: 0, // Temperature in Fahrenheit,
     application2: 0,
@@ -88,7 +87,7 @@ export const _methodName: CookingMethodData = {
     application5: 0,
     application6: 0,
     application7: 0,
-    application8: 0
+    application8: 0,
   }
 
   regionalVariations: {
@@ -97,8 +96,7 @@ export const _methodName: CookingMethodData = {
     region3: ['variation7', 'variation8', 'variation9'],
     region4: ['variation10', 'variation11', 'variation12'],
     region5: ['variation13', 'variation14', 'variation15']
-  }
-
+  },
   chemicalChanges: {
     change1: true,
     change2: true,
@@ -107,7 +105,7 @@ export const _methodName: CookingMethodData = {
     change5: true,
     change6: true,
     change7: true,
-    change8: true
+    change8: true,
   }
 
   safetyFeatures: ['safety1', 'safety2', 'safety3', 'safety4', 'safety5', 'safety6', 'safety7'],
@@ -244,7 +242,7 @@ export const _methodName: CookingMethodData = {
         'Detailed technical information about subcategory1, including specific parameters, scientific principles, and practical applications.',
       subcategory2: 'Detailed technical information about subcategory2, including specific parameters, scientific principles, and practical applications.',
       subcategory3: 'Detailed technical information about subcategory3, including specific parameters, scientific principles, and practical applications.',
-      subcategory4: 'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.'
+      subcategory4: 'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.',
     }
   }
 }

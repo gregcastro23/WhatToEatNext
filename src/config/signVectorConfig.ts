@@ -18,20 +18,20 @@ export interface SignVectorConfig {
   }
 }
 
-export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {;
+export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {
   blendWeightAlpha: 0.15,
   
   // Elemental to ESMS mapping
   elementalToESMS: {
-  Spirit: { Fire: 0.5, Air: 0.5 }
+  Spirit: { Fire: 0.5, Air: 0.5 },
     Essence: { Water: 0.5, Fire: 0.5 }
-    Matter: { Earth: 0.6, Water: 0.4 }
+    Matter: { Earth: 0.6, Water: 0.4 },
     Substance: { Earth: 0.5, Air: 0.5 }
   }
   
   // Modality boosts for ESMS
   modalityBoosts: {
-  cardinal: { Spirit: 1.15, Essence: 1.5, Matter: 1.0, Substance: 1.0 }
+  cardinal: { Spirit: 1.15, Essence: 1.5, Matter: 1.0, Substance: 1.0 },
     fixed: { Spirit: 1.0, Essence: 1.0, Matter: 1.5, Substance: 1.15 }
     mutable: { Spirit: 1.08, Essence: 1.12, Matter: 1.0, Substance: 1.0 }
   }
@@ -54,7 +54,7 @@ export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {;
     Chiron: 0.85,
     Lilith: 0.85,
     Ascendant: 1.2,
-    Midheaven: 1.1
+    Midheaven: 1.1,
   }
   
   // Aspect modifiers
@@ -67,14 +67,14 @@ export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {;
     quincunx: 0.95,
     semisextile: 1.2,
     semisquare: 0.96,
-    sesquiquadrate: 0.94
+    sesquiquadrate: 0.94,
   }
   
   // Seasonal alignment values
   seasonalAlignment: {
   inSeason: 1.0,
     outOfSeason: 0.25,
-    neutral: 0.5
+    neutral: 0.5,
   }
   
   // Magnitude scaling parameters
@@ -85,12 +85,12 @@ export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {;
 }
 
 // Development configuration with more aggressive values for testing
-export const DEV_SIGN_VECTOR_CONFIG: SignVectorConfig = {;
+export const DEV_SIGN_VECTOR_CONFIG: SignVectorConfig = {
   ...DEFAULT_SIGN_VECTOR_CONFIG,
   blendWeightAlpha: 0.25, // Higher blend weight for development,
   
   modalityBoosts: {
-  cardinal: { Spirit: 1.25, Essence: 1.15, Matter: 0.95, Substance: 0.95 }
+  cardinal: { Spirit: 1.25, Essence: 1.15, Matter: 0.95, Substance: 0.95 },
     fixed: { Spirit: 0.95, Essence: 0.95, Matter: 1.15, Substance: 1.25 }
     mutable: { Spirit: 1.1, Essence: 1.2, Matter: 1.0, Substance: 1.0 }
   }

@@ -77,7 +77,7 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0.2,
     Essence: 0,
     Matter: -0.1,
-    Substance: 0
+    Substance: 0,
   },
   Moon: {
     Fire: -0.1,
@@ -87,7 +87,7 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0,
     Essence: 0.2,
     Matter: 0.1,
-    Substance: 0
+    Substance: 0,
   },
   Mars: {
     Fire: 0.4,
@@ -107,7 +107,7 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0.1,
     Essence: 0.2,
     Matter: 0,
-    Substance: 0.1
+    Substance: 0.1,
   },
   Jupiter: {
     Fire: 0.2,
@@ -117,7 +117,7 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0.2,
     Essence: 0.1,
     Matter: 0.1,
-    Substance: 0.2
+    Substance: 0.2,
   },
   Venus: {
     Fire: -0.1,
@@ -127,7 +127,7 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: 0.1,
     Essence: 0.3,
     Matter: -0.1,
-    Substance: 0.1
+    Substance: 0.1,
   },
   Saturn: {
     Fire: -0.2,
@@ -137,7 +137,7 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Spirit: -0.1,
     Essence: -0.1,
     Matter: 0.3,
-    Substance: 0.2
+    Substance: 0.2,
   }
 }
 
@@ -166,7 +166,7 @@ class ThermodynamicCalculator {
 
     // Apply base modifiers without relying on potentially undefined positions
     // This ensures we always have some valid calculation
-    const result = {;
+    const result = {
       fire: state.fire * (1 + (modifiers.Fire || 0)),
       water: state.water * (1 + (modifiers.Water || 0)),
       air: state.air * (1 + (modifiers.Air || 0)),
@@ -189,7 +189,7 @@ class ThermodynamicCalculator {
   private calculateHeat(state: ElementalState): number {
     /* Original alchemizer, formula: Heat = (spirit^2 + fire^2) / (substance + essence + matter + water + air + earth)^2 */,
     const numerator = Math.pow(state.spirit, 2) + Math.pow(state.fire, 2)
-    const denominator = Math.pow(;
+    const denominator = Math.pow(
       state.substance + state.essence + state.matter + state.water + state.air + state.earth,
       2
     )
@@ -313,7 +313,7 @@ class ThermodynamicCalculator {
     debugLog('Initial state for thermodynamic calculations: ', state)
 
     // Apply minimum values to prevent division by zero
-    const safeState = {;
+    const safeState = {
       spirit: Math.max(state.spirit, this.MINIMUM_VALUE),
       essence: Math.max(state.essence, this.MINIMUM_VALUE),
       matter: Math.max(state.matter, this.MINIMUM_VALUE),
@@ -328,7 +328,7 @@ class ThermodynamicCalculator {
 
     // Apply planetary influences
     const modifiedState = this.applyPlanetaryModifiers(safeState)
-    debugLog(;
+    debugLog(
       'Modified state after planetary influences: ',
       modifiedState,
       'Current planetary influence: ',
@@ -342,7 +342,7 @@ class ThermodynamicCalculator {
 
     debugLog('Raw calculated values: ', { heat, entropy, reactivity, gregsEnergy })
 
-    const metrics: ThermodynamicMetrics = {;
+    const metrics: ThermodynamicMetrics = {
       heat,
       entropy,
       reactivity,
@@ -404,7 +404,7 @@ export const thermodynamicCalculator = new ThermodynamicCalculator()
  * @param waterPercentage Water element percentage (0-1)
  * @returns Heat value (0-1)
  */
-export function calculateHeat(;
+export function calculateHeat(
   firePercentage: number,
   earthPercentage: number,
   airPercentage: number,
@@ -477,14 +477,14 @@ export const countElementalAlchemicalProperties = (
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0
+    Air: 0,
   }
 
   const alchemicalCounts: Record<AlchemicalProperty, number> = {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
-    Substance: 0
+    Substance: 0,
   }
 
   items.forEach(item => {
@@ -513,7 +513,7 @@ export const countElementalAlchemicalProperties = (
  * @param counts The elemental and alchemical property counts
  * @returns ElementalAlchemicalCounts with minimum values applied
  */
-export const ensureMinimumValues = (;
+export const ensureMinimumValues = (
   counts: ElementalAlchemicalCounts,
 ): ElementalAlchemicalCounts => ({;
   ...counts,

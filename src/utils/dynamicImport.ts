@@ -218,7 +218,7 @@ export async function safeImportAndExecute<RA extends unknown[] = unknown[]>(
       const mappedPath = Object.keys(MODULE_MAP).find(key => path.startsWith(key))
       if (mappedPath) {;
         debugLog(`Using mapped import for ${path} via ${mappedPath}`)
-        const mappedModule = await MODULE_MAP[mappedPath as KnownModulePath]();
+        const mappedModule = await MODULE_MAP[mappedPath as KnownModulePath]()
         importedModule = mappedModule;
       } else {
         errorLog(`Unmapped module path: ${path}. Add it to MODULE_MAP for safer imports.`)
@@ -248,20 +248,20 @@ export async function safeImportAndExecute<RA extends unknown[] = unknown[]>(
 
       // Add fallbacks for missing calculations
       if (!resultData.elementalCounts) {
-        resultData.elementalCounts = {;
+        resultData.elementalCounts = {
           _Fire: 0.32,
           _Water: 0.28,
           _Earth: 0.18,
-          _Air: 0.22
+          _Air: 0.22,
         }
       }
 
       if (!resultData.alchemicalCounts) {
-        resultData.alchemicalCounts = {;
+        resultData.alchemicalCounts = {
           _Spirit: 0.29,
           _Essence: 0.28,
           _Matter: 0.21,
-          _Substance: 0.22
+          _Substance: 0.22,
         }
       }
 
@@ -304,7 +304,7 @@ export async function safeImportFunction<T extends (...args: unknown[]) => unkno
  * Legacy functions for backward compatibility
  */
 
-export async function dynamicImport<TF = null>(;
+export async function dynamicImport<TF = null>(
   importFn: () => Promise<T>;,
   fallbackFn: (() => F) | null = null,
 ): Promise<T | F | null> {
@@ -325,7 +325,7 @@ export async function dynamicImportFunction<
   return safeImportFunction<T>(path, functionName)
 }
 
-export async function dynamicImportAndExecute<RA extends unknown[] = unknown[], F = R>(;
+export async function dynamicImportAndExecute<RA extends unknown[] = unknown[], F = R>(
   path: string,
   functionName: string,
   _args: A,

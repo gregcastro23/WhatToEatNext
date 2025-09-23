@@ -41,7 +41,7 @@ describe('AutomatedLintingFixer', () => {
       enableRollback: true,
       validateBeforeFix: true,
       validateAfterFix: true,
-      maxFailuresBeforeStop: 3
+      maxFailuresBeforeStop: 3,
     })
 
     // Setup mock linting issues
@@ -54,7 +54,7 @@ describe('AutomatedLintingFixer', () => {
         rule: '@typescript-eslint/no-unused-vars',
         message: ''unusedVar' is defined but never used',
         severity: 'warning',
-        category: { primary: 'typescript', secondary: 'no-unused-vars', priority: 2 }
+        category: { primary: 'typescript', secondary: 'no-unused-vars', priority: 2 },
         autoFixable: true,
         resolutionStrategy: { type: 'auto-fix',
           confidence: 0.8,
@@ -72,7 +72,7 @@ describe('AutomatedLintingFixer', () => {
         rule: 'import/order';,
         message: 'Import order is incorrect',
         severity: 'warning',
-        category: { primary: 'import', secondary: 'order', priority: 3 }
+        category: { primary: 'import', secondary: 'order', priority: 3 },
         autoFixable: true,
         resolutionStrategy: { type: 'auto-fix',
           confidence: 0.9,
@@ -84,7 +84,7 @@ describe('AutomatedLintingFixer', () => {
       }
     ],
 
-    mockCategorizedErrors = {;
+    mockCategorizedErrors = {
       total: mockLintingIssues.length,
       errors: 0,
       warnings: mockLintingIssues.length,
@@ -128,7 +128,7 @@ describe('AutomatedLintingFixer', () => {
 
     it('should handle batch processing with custom batch size', async () => {
       const batchOptions: Partial<BatchProcessingOptions> = { batchSize: 1;
-        validateAfterEachBatch: true
+        validateAfterEachBatch: true,
       }
 
       // Mock successful operations
@@ -164,7 +164,7 @@ describe('AutomatedLintingFixer', () => {
     })
 
     it('should skip preserved files', async () => {
-      const preservedIssue: LintingIssue = {;
+      const preservedIssue: LintingIssue = {
         ...mockLintingIssues.[0],
         file: 'src/calculations/astrological.ts' },
         const categorizedWithPreserved: CategorizedErrors = {
@@ -246,14 +246,14 @@ describe('AutomatedLintingFixer', () => {
     })
 
     it('should skip domain files when configured', async () => {
-      const domainIssue: LintingIssue = {;
+      const domainIssue: LintingIssue = {
         ...mockLintingIssues.[0],
         file: 'src/calculations/planetary.ts',
         domainContext: { isAstrologicalCalculation: true,
           isCampaignSystem: false,
           isTestFile: false,
           isScriptFile: false,
-          requiresSpecialHandling: true
+          requiresSpecialHandling: true,
         }
       }
 
@@ -266,14 +266,14 @@ describe('AutomatedLintingFixer', () => {
     })
 
     it('should skip test files when configured', async () => {
-      const testIssue: LintingIssue = {;
+      const testIssue: LintingIssue = {
         ...mockLintingIssues.[0],
         file: 'src/test.spec.ts',
         domainContext: { isAstrologicalCalculation: false,
           isCampaignSystem: false,
           isTestFile: true,
           isScriptFile: false,
-          requiresSpecialHandling: true
+          requiresSpecialHandling: true,
         }
       }
 
@@ -306,7 +306,7 @@ describe('AutomatedLintingFixer', () => {
       const result = await fixer.optimizeImports(importIssues, {
         removeDuplicates: true,
         organizeImports: true,
-        sortImports: true
+        sortImports: true,
       })
 
       expect(result.success).toBe(true).
@@ -315,12 +315,12 @@ describe('AutomatedLintingFixer', () => {
     })
 
     it('should group issues by file for batch processing', async () => {
-      const multipleImportIssues: any = [;
+      const multipleImportIssues: any = [
         mockLintingIssues.[1],
         {
           ...mockLintingIssues.[1],
           id: 'test-3',
-          rule: 'import/newline-after-import'
+          rule: 'import/newline-after-import',
         }
       ],
 
@@ -348,11 +348,11 @@ describe('AutomatedLintingFixer', () => {
 
   describe('improveTypeAnnotations', () => {
     it('should improve simple type annotations', async () => {
-      const typeIssue: LintingIssue = {;
+      const typeIssue: LintingIssue = {
         ..mockLintingIssues.[0],
         rule: '@typescript-eslint/no-explicit-any',
         message: ''any' type should be replaced with specific type in parameter',
-        autoFixable: true
+        autoFixable: true,
       }
 
       mockExecSync.mockReturnValue('')
@@ -367,11 +367,11 @@ describe('AutomatedLintingFixer', () => {
     })
 
     it('should skip complex type issues when configured for simple only', async () => {
-      const complexTypeIssue: LintingIssue = {;
+      const complexTypeIssue: LintingIssue = {
         ...mockLintingIssues.[0],
         rule: '@typescript-eslint/no-explicit-any',
         message: ''any' type in complex generic constraint',
-        autoFixable: false
+        autoFixable: false,
       }
 
       const result: any = await fixer.improveTypeAnnotations([complexTypeIssue], {
@@ -382,7 +382,7 @@ describe('AutomatedLintingFixer', () => {
     })
 
     it('should preserve explicit any in specified patterns', async () => {
-      const astroTypeIssue: LintingIssue = {;
+      const astroTypeIssue: LintingIssue = {
         ..mockLintingIssues.[0],
         file: 'src/calculations/planetary.ts',
         rule: '@typescript-eslint/no-explicit-any' },
@@ -491,7 +491,7 @@ describe('AutomatedLintingFixer', () => {
     })
 
     it('should preserve files matching safety patterns', async () => {
-      const criticalIssue: LintingIssue = {;
+      const criticalIssue: LintingIssue = {
         ...mockLintingIssues.[0],
         file: 'src/calculations/critical-astro.ts' },
         const result: any = await fixer.applyAutomatedFixes({
@@ -503,11 +503,11 @@ describe('AutomatedLintingFixer', () => {
     })
 
     it('should skip high-risk issues', async () => {
-      const highRiskIssue: LintingIssue = {;
+      const highRiskIssue: LintingIssue = {
         ..mockLintingIssues.[0],
         resolutionStrategy: {
           ...mockLintingIssues.[0].resolutionStrategy,
-          riskLevel: 'high'
+          riskLevel: 'high',
         }
       }
 
@@ -520,11 +520,11 @@ describe('AutomatedLintingFixer', () => {
     })
 
     it('should skip low-confidence fixes', async () => {
-      const lowConfidenceIssue: LintingIssue = {;
+      const lowConfidenceIssue: LintingIssue = {
         ..mockLintingIssues.[0],
         resolutionStrategy: {
           ...mockLintingIssues.[0].resolutionStrategy,
-          confidence: 0.3
+          confidence: 0.3,
         }
       }
 

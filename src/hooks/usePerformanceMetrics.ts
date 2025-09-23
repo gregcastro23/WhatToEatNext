@@ -33,7 +33,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {;
     lastUpdated: new Date(),
     averageRenderTime: 0,
     peakMemoryUsage: 0,
-    totalErrors: 0
+    totalErrors: 0,
   })
 
   const renderStartTime = useRef<number>(Date.now())
@@ -70,7 +70,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {;
   }, [])
 
   // Track data fetch performance
-  const trackDataFetch = useCallback(;
+  const trackDataFetch = useCallback(
     async <T>(fetchFunction: () => Promise<T>, operationName?: string): Promise<T> => {
       const startTime = performance.now()
 
@@ -191,7 +191,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {;
       lastUpdated: new Date(),
       averageRenderTime: 0,
       peakMemoryUsage: 0,
-      totalErrors: 0
+      totalErrors: 0,
     })
   }, [])
 

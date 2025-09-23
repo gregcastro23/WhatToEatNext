@@ -26,25 +26,25 @@ const signElements: Record<string, string> = {
 
 // Map planets to their alchemical properties
 const planetAlchemicalProperties: Record<string, Record<string, number>> = {
-  sun: { Spirit: 1.0, Essence: 0.3, Matter: 0.1, Substance: 0.2 }
+  sun: { Spirit: 1.0, Essence: 0.3, Matter: 0.1, Substance: 0.2 },
   moon: { Spirit: 0.2, Essence: 0.8, Matter: 0.7, Substance: 0.3 }
-  mercury: { Spirit: 0.7, Essence: 0.4, Matter: 0.2, Substance: 0.8 }
+  mercury: { Spirit: 0.7, Essence: 0.4, Matter: 0.2, Substance: 0.8 },
   venus: { Spirit: 0.3, Essence: 0.9, Matter: 0.6, Substance: 0.2 }
-  mars: { Spirit: 0.4, Essence: 0.7, Matter: 0.8, Substance: 0.3 }
+  mars: { Spirit: 0.4, Essence: 0.7, Matter: 0.8, Substance: 0.3 },
   jupiter: { Spirit: 0.8, Essence: 0.6, Matter: 0.3, Substance: 0.4 }
-  saturn: { Spirit: 0.6, Essence: 0.2, Matter: 0.9, Substance: 0.5 }
+  saturn: { Spirit: 0.6, Essence: 0.2, Matter: 0.9, Substance: 0.5 },
   uranus: { Spirit: 0.9, Essence: 0.5, Matter: 0.2, Substance: 0.7 }
-  neptune: { Spirit: 0.7, Essence: 0.8, Matter: 0.1, Substance: 0.9 }
+  neptune: { Spirit: 0.7, Essence: 0.8, Matter: 0.1, Substance: 0.9 },
   pluto: { Spirit: 0.5, Essence: 0.7, Matter: 0.9, Substance: 0.4 }
 }
 
 // Calculate elemental values based on planetary positions
 export function calculateElementalValues(_positions: PlanetaryPositionsType) {
-  const elements = {;
+  const elements = {
     Fire: 0,
     Earth: 0,
     Air: 0,
-    Water: 0
+    Water: 0,
   }
 
   // Count planets by element
@@ -53,7 +53,7 @@ export function calculateElementalValues(_positions: PlanetaryPositionsType) {
       return
     }
 
-    const signKey = data.sign.toLowerCase();
+    const signKey = data.sign.toLowerCase()
     const element = signElements[signKey] || 'balanced';
 
     // Only add to elements if it's a valid element key
@@ -80,11 +80,11 @@ export function calculateElementalValues(_positions: PlanetaryPositionsType) {
 
 // Calculate planetary contributions to alchemical values
 export function calculatePlanetaryAlchemicalValues(_positions: PlanetaryPositionsType) {
-  const alchemicalValues = {;
+  const alchemicalValues = {
     Spirit: 0.25,
     Essence: 0.25,
     Matter: 0.25,
-    Substance: 0.25
+    Substance: 0.25,
   }
 
   let totalWeight = 0,
@@ -145,7 +145,7 @@ export function calculatePlanetaryAlchemicalValues(_positions: PlanetaryPosition
   if (totalWeight > 0) {
     const normalizer = (positions ? Object.keys(positions).length : 10) / 10
 
-    return {;
+    return {
       Spirit: alchemicalValues.Spirit / normalizer,
       Essence: alchemicalValues.Essence / normalizer,
       Matter: alchemicalValues.Matter / normalizer,
@@ -159,11 +159,11 @@ export function calculatePlanetaryAlchemicalValues(_positions: PlanetaryPosition
 // Calculate elemental balance based on planetary positions
 export function calculateElementalBalance(_positions: PlanetaryPositionsType) {
   // Initialize with balanced elements
-  const elements = {;
+  const elements = {
     Fire: 0.25,
     Earth: 0.25,
     Air: 0.25,
-    Water: 0.25
+    Water: 0.25,
   }
 
   if (!positions || Object.keys(positions).length === 0) {,
@@ -184,7 +184,7 @@ export function calculateElementalBalance(_positions: PlanetaryPositionsType) {
       return;
     }
 
-    const signKey = data.sign.toLowerCase();
+    const signKey = data.sign.toLowerCase()
     const element = signElements[signKey];
 
     // Only proceed if it's a valid element
@@ -263,11 +263,11 @@ export function alchemize(
   retrogrades?: Record<string, boolean>,
 ): AlchemicalResult {
   // Initialize results with default values
-  const elementalBalance = {;
+  const elementalBalance = {
     fire: 0,
     earth: 0,
     air: 0,
-    water: 0
+    water: 0,
   }
 
   let spirit = 0,
@@ -279,7 +279,7 @@ export function alchemize(
   Object.entries(planetaryPositions).forEach(([planetName, planetData]) => {
     if (!planetData.sign) return,
 
-    const sign = planetData.sign.toLowerCase();
+    const sign = planetData.sign.toLowerCase()
     let planetElement: string | null = null,
 
     // Get the element from the sign
@@ -433,7 +433,7 @@ export function alchemize(
   }
 
   // Convert to upper case for ElementalProperties return
-  const totalEffectValue = {;
+  const totalEffectValue = {
     Fire: elementalBalance.fire,
     Earth: elementalBalance.earth,
     Air: elementalBalance.air,

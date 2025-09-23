@@ -40,13 +40,13 @@ export async function getCuisineRecommendations(): Promise<CuisineRecommendation
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
-            Air: 0.25
+            Air: 0.25,
           },
           elementalProperties: traditionData?.elementalAlignment || {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
-            Air: 0.25
+            Air: 0.25,
           },
           astrologicalInfluences: deriveAstrologicalInfluences(tradition),
           compatibilityScore: 0.8, // Default compatibility score,
@@ -54,7 +54,7 @@ export async function getCuisineRecommendations(): Promise<CuisineRecommendation
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
-            Air: 0.25
+            Air: 0.25,
           }
         }
       })

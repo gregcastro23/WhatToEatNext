@@ -71,7 +71,7 @@ declare global {
       create: (options?: Record<string, unknown>) => {
         show: () => void,
         hide: () => void,
-        update: () => voidon: (event: string, callback: (...args: unknown[]) => void) => { off: () => void }
+        update: () => voidon: (event: string, callback: (...args: unknown[]) => void) => { off: () => void },
         trigger: (event: string) => void
       },
       show: () => void,

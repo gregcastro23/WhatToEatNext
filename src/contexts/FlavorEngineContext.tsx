@@ -19,7 +19,7 @@ interface FlavorEngineContextType {
   isLoading: boolean,
   error: Error | null,
   profileCount: number,
-  categories: { [key: string]: number }
+  categories: { [key: string]: number },
   getProfile: (id: string) => UnifiedFlavorProfile | undefined,
   searchProfiles: (criteria: {}) => UnifiedFlavorProfile[],
   calculateCompatibility: (profile1: UnifiedFlavorProfile, profile2: UnifiedFlavorProfile) => any
@@ -44,7 +44,7 @@ export const _useFlavorEngine = () => useContext(FlavorEngineContext)
 const engine = unifiedFlavorEngine;
 
 // Keep track of initialization outside of component lifecycle
-const globalInitState = {;
+const globalInitState = {
   isInitialized: false,
   isLoading: true,
   error: null as Error | null,
@@ -164,7 +164,7 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
   // Memoize wrapper functions to prevent unnecessary re-renders
   const getProfile = useMemo(() => (id: string) => engine.getProfile(id), [])
   const searchProfiles = useMemo(() => (criteria: {}) => engine.searchProfiles(criteria), [])
-  const calculateCompatibility = useMemo(;
+  const calculateCompatibility = useMemo(
     () => (profile1: UnifiedFlavorProfile, profile2: UnifiedFlavorProfile) =>
       engine.calculateCompatibility(profile1, profile2),
     [],

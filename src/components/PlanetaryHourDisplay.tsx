@@ -72,7 +72,7 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
       return date.toLocaleTimeString([], {
         hour: '2-digit',
         minute: '2-digit',
-        hour12: true
+        hour12: true,
       });
     } catch {
       return new Date().toLocaleTimeString();
@@ -125,32 +125,32 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
       backgroundColor: '#fff',
       borderRadius: '12px',
       border: '1px solid #e0e0e0',
-      position: 'relative'
+      position: 'relative',
     }}>
       <div style={{
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: '16px'
+        marginBottom: '16px',
       }}>
         <h3 style={{
           margin: 0,
           fontSize: '18px',
           fontWeight: '600',
-          color: '#333'
+          color: '#333',
         }}>
           🪐 Planetary Hour
         </h3>
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '8px'
+          gap: '8px',
         }}>
           <div style={{
             width: '8px',
             height: '8px',
             borderRadius: '50%',
-            backgroundColor: isConnected ? '#22c55e' : '#ef4444'
+            backgroundColor: isConnected ? '#22c55e' : '#ef4444',
           }} />
           <span style={{ fontSize: '12px', color: '#666' }}>
             {isConnected ? 'Live' : 'Offline'}
@@ -167,12 +167,12 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
         backgroundColor: `${currentPlanet.color}15`,
         borderRadius: '8px',
         border: `2px solid ${currentPlanet.color}30`,
-        marginBottom: '16px'
+        marginBottom: '16px',
       }}>
         <div style={{
           fontSize: '48px',
           color: currentPlanet.color,
-          textShadow: '0 2px 4px rgba(0,0,0,0.1)'
+          textShadow: '0 2px 4px rgba(0,0,0,0.1)',
         }}>
           {currentPlanet.symbol}
         </div>
@@ -188,7 +188,7 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
           <p style={{
             margin: '0 0 8px 0',
             fontSize: '14px',
-            color: '#666'
+            color: '#666',
           }}>
             Currently ruling planetary hour
           </p>
@@ -197,14 +197,14 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
             alignItems: 'center',
             gap: '12px',
             fontSize: '12px',
-            color: '#666'
+            color: '#666',
           }}>
             <span>🕐 Started: {formatTime(planetaryData.hourStarted)}</span>
             <span>⏱️ Remaining: {getTimeRemaining()}</span>
           </div>
         </div>
         <div style={{
-          textAlign: 'right'
+          textAlign: 'right',
         }}>
           <div style={{
             fontSize: '24px',
@@ -215,7 +215,7 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
           </div>
           <div style={{
             fontSize: '10px',
-            color: '#666'
+            color: '#666',
           }}>
             Influence
           </div>
@@ -230,12 +230,12 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
         padding: '12px',
         backgroundColor: '#f8f9fa',
         borderRadius: '6px',
-        marginBottom: showDetails ? '16px' : '0'
+        marginBottom: showDetails ? '16px' : '0',
       }}>
         <div style={{
           fontSize: '24px',
           color: nextPlanet.color,
-          opacity: 0.7
+          opacity: 0.7,
         }}>
           {nextPlanet.symbol}
         </div>
@@ -244,13 +244,13 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
             fontSize: '14px',
             fontWeight: '500',
             color: '#333',
-            marginBottom: '2px'
+            marginBottom: '2px',
           }}>
             Next: {nextPlanet.name}
           </div>
           <div style={{
             fontSize: '12px',
-            color: '#666'
+            color: '#666',
           }}>
             In {planetaryData.timeUntilNext}
           </div>
@@ -261,7 +261,7 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
           borderRadius: '4px',
           fontSize: '10px',
           color: nextPlanet.color,
-          fontWeight: '500'
+          fontWeight: '500',
         }}>
           Upcoming
         </div>
@@ -272,25 +272,25 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(2, 1fr)',
-          gap: '12px'
+          gap: '12px',
         }}>
           <div style={{
             padding: '12px',
             backgroundColor: '#f0f9ff',
             borderRadius: '6px',
-            textAlign: 'center'
+            textAlign: 'center',
           }}>
             <div style={{
               fontSize: '16px',
               fontWeight: '600',
               color: '#0369a1',
-              marginBottom: '4px'
+              marginBottom: '4px',
             }}>
               {formatTime(currentTime)}
             </div>
             <div style={{
               fontSize: '10px',
-              color: '#0369a1'
+              color: '#0369a1',
             }}>
               Current Time
             </div>
@@ -299,19 +299,19 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
             padding: '12px',
             backgroundColor: '#f0f9ff',
             borderRadius: '6px',
-            textAlign: 'center'
+            textAlign: 'center',
           }}>
             <div style={{
               fontSize: '16px',
               fontWeight: '600',
               color: '#0369a1',
-              marginBottom: '4px'
+              marginBottom: '4px',
             }}>
               {Object.keys(PLANET_SYMBOLS).indexOf(currentPlanet.name) + 1}/7
             </div>
             <div style={{
               fontSize: '10px',
-              color: '#0369a1'
+              color: '#0369a1',
             }}>
               Planet Cycle
             </div>
@@ -326,11 +326,11 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
         textAlign: 'center',
         marginTop: '12px',
         padding: '8px',
-        borderTop: '1px solid #eee'
+        borderTop: '1px solid #eee',
       }}>
         {isConnected
           ? 'Real-time planetary calculations active'
-          : 'Using cached planetary data - reconnecting...'
+          : 'Using cached planetary data - reconnecting...',
         }
       </div>
     </div>

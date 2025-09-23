@@ -95,7 +95,7 @@ if (typeof window !== 'undefined') {
   if (!window.chrome.tabs) {
     window.chrome.tabs = {
       create: function () {
-        log.info('[ScriptReplacer] Intercepted chrome.tabs.create call');
+        log.info('[ScriptReplacer] Intercepted chrome.tabs.create call')
         return Promise.resolve({ id: 999 })
       },
       _query: function (queryInfo: unknown, callback?: Function) {

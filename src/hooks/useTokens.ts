@@ -11,7 +11,7 @@ export function useTokens(initial?: TokenRatesInput) {
     setLoading(true)
     setError(null)
     try {
-      const payload: TokenRatesInput = {;
+      const payload: TokenRatesInput = {
         datetime: input?.datetime ?? initial?.datetime,
         location: input?.location ?? initial?.location,
         elemental: input?.elemental ?? initial?.elemental,

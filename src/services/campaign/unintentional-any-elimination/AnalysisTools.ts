@@ -49,7 +49,7 @@ export class AnalysisTools {
       [CodeDomain.SERVICE]: 0,
       [CodeDomain.COMPONENT]: 0,
       [CodeDomain.UTILITY]: 0,
-      [CodeDomain.TEST]: 0
+      [CodeDomain.TEST]: 0,
     }
 
     const categoryDistribution: Record<AnyTypeCategory, number> = {
@@ -62,7 +62,7 @@ export class AnalysisTools {
       [AnyTypeCategory.RECORD_TYPE]: 0,
       [AnyTypeCategory.FUNCTION_PARAM]: 0,
       [AnyTypeCategory.RETURN_TYPE]: 0,
-      [AnyTypeCategory.TYPE_ASSERTION]: 0
+      [AnyTypeCategory.TYPE_ASSERTION]: 0,
     }
 
     const intentionalCount = { count: 0 }
@@ -88,26 +88,26 @@ export class AnalysisTools {
     }
 
     const totalCount = anyTypeOccurrences.length;
-    const distribution: DomainDistribution = {;
+    const distribution: DomainDistribution = {
       totalAnyTypes: totalCount,
       byDomain: Object.entries(domainDistribution).map(([domain, count]) => ({
         domain: domain as CodeDomain,
         count,
-        percentage: totalCount > 0 ? (count / totalCount) * 100 : 0
+        percentage: totalCount > 0 ? (count / totalCount) * 100 : 0,
       })),
       byCategory: Object.entries(categoryDistribution).map(([category, count]) => ({
         category: category as AnyTypeCategory,
         count,
-        percentage: totalCount > 0 ? (count / totalCount) * 100 : 0
+        percentage: totalCount > 0 ? (count / totalCount) * 100 : 0,
       })),
       intentionalVsUnintentional: {
         intentional: {
           count: intentionalCount.count,
-          percentage: totalCount > 0 ? (intentionalCount.count / totalCount) * 100 : 0
+          percentage: totalCount > 0 ? (intentionalCount.count / totalCount) * 100 : 0,
         },
         unintentional: {
           count: unintentionalCount.count,
-          percentage: totalCount > 0 ? (unintentionalCount.count / totalCount) * 100 : 0
+          percentage: totalCount > 0 ? (unintentionalCount.count / totalCount) * 100 : 0,
         }
       },
       analysisDate: new Date()
@@ -166,7 +166,7 @@ export class AnalysisTools {
         ? confidenceScores.reduce((sum, score) => sum + score0) / confidenceScores.length
         : 0
 
-    const report: ClassificationAccuracyReport = {;
+    const report: ClassificationAccuracyReport = {
       overallAccuracy,
       averageConfidence,
       sampleSize,
@@ -197,7 +197,7 @@ export class AnalysisTools {
 
     // Calculate trending data
     const trendingData = this.calculateTrendingMetrics(historicalData)
-    const analysis: SuccessRateAnalysis = {;
+    const analysis: SuccessRateAnalysis = {
       currentSuccessRate: currentMetrics.overallSuccessRate,
       targetSuccessRate: 85, // Target 85% success rate,
       improvementNeeded: Math.max(085 - currentMetrics.overallSuccessRate),
@@ -228,7 +228,7 @@ export class AnalysisTools {
       const classification = await this.classifier.classify(context)
       // Identify cases that need manual review;
       if (this.requiresManualReview(classification, context)) {
-        const recommendation: ManualReviewRecommendation = {;
+        const recommendation: ManualReviewRecommendation = {
           filePath: occurrence.filePath,
           lineNumber: occurrence.lineNumber,
           codeSnippet: occurrence.codeSnippet,
@@ -270,7 +270,7 @@ export class AnalysisTools {
         this.generateManualReviewRecommendations()
       ]),
 
-    const report: AnalysisReport = {;
+    const report: AnalysisReport = {
       id: `analysis-${Date.now()}`,
       timestamp: new Date(),
       domainDistribution,
@@ -430,7 +430,7 @@ export class AnalysisTools {
   private calculateConfidenceDistribution(
     scores: number[],
   ): { range: string, count: number, percentage: number }[] {
-    const ranges = [;
+    const ranges = [
       { min: 0.9, max: 1.0, label: '90-100%' }
       { min: 0.8, max: 0.9, label: '80-90%' }
       { min: 0.7, max: 0.8, label: '70-80%' }
@@ -443,7 +443,7 @@ export class AnalysisTools {
       return {
         range: range.label,
         count,
-        percentage: scores.length > 0 ? (count / scores.length) * 100 : 0
+        percentage: scores.length > 0 ? (count / scores.length) * 100 : 0,
       }
     })
   }
@@ -455,7 +455,7 @@ export class AnalysisTools {
       totalProcessed: 1250,
       successfulReplacements: 982,
       failedReplacements: 268,
-      averageConfidence: 0.82
+      averageConfidence: 0.82,
     }
   }
 
@@ -500,7 +500,7 @@ export class AnalysisTools {
         successRate: 0,
         totalAnyTypes: 0,
         unintentionalCount: 0,
-        classificationAccuracy: 0
+        classificationAccuracy: 0,
       }
     }
 
@@ -576,7 +576,7 @@ export class AnalysisTools {
     const highSuccessCategories = categorySuccessRates.filter(cat => cat.successRate > 85)
 
     if (highSuccessCategories.length > 0) {
-      recommendations.push(;
+      recommendations.push(
         `Prioritize ${highSuccessCategories.map(cat => cat.category).join(', ')} categories for quick wins`,
       )
     }
@@ -604,7 +604,7 @@ export class AnalysisTools {
     }
 
     // High-risk categories need manual review
-    const highRiskCategories = [;
+    const highRiskCategories = [
       AnyTypeCategory.EXTERNAL_API,
       AnyTypeCategory.DYNAMIC_CONFIG,
       AnyTypeCategory.LEGACY_COMPATIBILITY

@@ -4,7 +4,7 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  * Smoking: A preservation and flavoring technique that exposes food to smoke
  * from burning or smoldering material (usually wood)
  */
-export const smoking = {;
+export const smoking = {
   name: 'Smoking',
   description: 'A cooking and preservation method that exposes food to smoke from burning wood, herbs, or other materials, imparting flavor and helping preserve the food.',
   history: 'Smoking has been used for thousands of years across many cultures as a way to preserve and flavor food, particularly meats and fish. It was an essential preservation technique before refrigeration.',
@@ -13,7 +13,7 @@ export const smoking = {;
     Fire: 0.6,
     Water: 0.2,
     Earth: 0.3,
-    Air: 0.8
+    Air: 0.8,
   },
   alchemical_properties: {
     element: 'Air',

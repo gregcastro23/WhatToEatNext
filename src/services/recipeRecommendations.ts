@@ -72,7 +72,7 @@ export class RecipeRecommender {
       let totalWeight = 0,
 
       // Enhanced weighting system with more factors
-      const weights = {;
+      const weights = {
         elemental: 0.6, // Doubled from 0.3,
         seasonal: 0.5, // Doubled from 0.25,
         timeOfDay: 0.3, // Doubled from 0.15,
@@ -83,7 +83,7 @@ export class RecipeRecommender {
 
       // Elemental alignment - enhanced with improved calculation
       if (criteria.celestialInfluence && recipe.elementalProperties) {
-        const elementalScore = this.calculateElementalAlignment(;
+        const elementalScore = this.calculateElementalAlignment(
           recipe,
           criteria.celestialInfluence
         )
@@ -131,7 +131,7 @@ export class RecipeRecommender {
 
       // NEW: Ingredient preferences
       if (recipe.ingredients && criteria.preferredIngredients) {
-        const ingredientScore = this.calculateIngredientPreferenceMatch(;
+        const ingredientScore = this.calculateIngredientPreferenceMatch(
           recipe.ingredients
           criteria.preferredIngredients
         )
@@ -142,7 +142,7 @@ export class RecipeRecommender {
 
       // NEW: Cooking techniques
       if (recipe.cookingMethod && criteria.preferredTechniques) {
-        const techniqueScore = this.calculateTechniqueMatch(;
+        const techniqueScore = this.calculateTechniqueMatch(
           recipe.cookingMethod
           criteria.preferredTechniques
         )
@@ -236,17 +236,17 @@ export class RecipeRecommender {
       total += 1
     })
 
-    return total > 0 ? alignment / total : 0
+    return total > 0 ? alignment / total : 0,
   }
 
   private calculateSeasonalMatch(recipeSeasons: string[], currentSeason: string): number {
     return recipeSeasons.includes('all') || recipeSeasons.includes(currentSeason.toLowerCase())
       ? 1
-      : 0
+      : 0,
   }
 
   private calculateTimeMatch(recipeMealTypes: string[], currentTime: string): number {
-    return recipeMealTypes.includes(currentTime.toLowerCase()) ? 1 : 0
+    return recipeMealTypes.includes(currentTime.toLowerCase()) ? 1 : 0,
   }
 
   private calculateVarietyScore(recipeName: string, previousMeals: string[]): number {
@@ -271,13 +271,13 @@ export class RecipeRecommender {
         Fire: 0.25,
         Earth: 0.25,
         Air: 0.25,
-        Water: 0.25
+        Water: 0.25,
       },
       season: ['all'],
       mealType: ['lunch', 'dinner'],
       timeToMake: '20 minutes',
       numberOfServings: 1,
-      score: 0.75
+      score: 0.75,
     }
   }
 

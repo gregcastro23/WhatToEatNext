@@ -4,7 +4,7 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawSalts = {
   fleur_de_sel: {;
     name: 'Fleur De Sel',
-    elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
+    elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     qualities: ['delicate', 'moist', 'mineral'],
     origin: ['France', 'Portugal'],
     category: 'seasoning',
@@ -275,7 +275,7 @@ const rawSalts = {
           preparation: {
             methods: ['standard preparation'],
             timing: 'as needed',
-            notes: 'Standard preparation for camargue'
+            notes: 'Standard preparation for camargue',
           }
         },
         culinaryProfile: {
@@ -454,13 +454,13 @@ const rawSalts = {
       temperature: 'room temperature',
       humidity: 'low',
       container: 'ceramic or glass',
-      notes: 'Keep dry but expects some moisture'
+      notes: 'Keep dry but expects some moisture',
     }
   }
 
   maldon_salt: {
     name: 'Maldon Salt',
-    elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 }
+    elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     qualities: ['crisp', 'clean', 'flaky'],
     origin: ['United Kingdom'],
     category: 'seasoning',
@@ -515,7 +515,7 @@ const rawSalts = {
           grilled_meats: 'after resting',
           roasted_vegetables: 'while hot',
           baked_goods: 'before baking',
-          chocolate: 'before setting'
+          chocolate: 'before setting',
         }
       },
       texture_enhancement: {
@@ -548,13 +548,13 @@ const rawSalts = {
       temperature: 'room temperature',
       humidity: 'very low',
       container: 'airtight glass or ceramic',
-      notes: 'Keep very dry to maintain crunch'
+      notes: 'Keep very dry to maintain crunch',
     }
   }
 
   sea_salt: {
     name: 'Sea Salt',
-    elementalProperties: { Water: 0.6, Earth: 0.2, Air: 0.1, Fire: 0.1 }
+    elementalProperties: { Water: 0.6, Earth: 0.2, Air: 0.1, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Neptune'],
       favorableZodiac: ['cancer', 'pisces'],
@@ -568,11 +568,11 @@ const rawSalts = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Water: 0.1, Earth: 0.1 }
+          elementalBoost: { Water: 0.1, Earth: 0.1 },
           preparationTips: ['Best for brining']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 }
+          elementalBoost: { Water: 0.2 },
           preparationTips: ['Ideal for finishing dishes']
         }
       }
@@ -586,7 +586,7 @@ const rawSalts = {
         name: 'Smoked',
         appearance: 'golden-brown flakes',
         texture: 'crunchy with smoke flavor',
-        uses: 'meats, hearty dishes'
+        uses: 'meats, hearty dishes',
       }
     },
     culinaryApplications: {
@@ -598,7 +598,7 @@ const rawSalts = {
           grilled_meats: 'after resting',
           roasted_vegetables: 'while hot',
           baked_goods: 'before baking',
-          chocolate: 'before setting'
+          chocolate: 'before setting',
         }
       },
       texture_enhancement: {
@@ -607,7 +607,7 @@ const rawSalts = {
         applications: {
           salads: 'final seasoning',
           caramels: 'top garnish',
-          bread_crust: 'pre-bake sprinkle'
+          bread_crust: 'pre-bake sprinkle',
         }
       }
     },
@@ -615,13 +615,13 @@ const rawSalts = {
       temperature: 'room temperature',
       humidity: 'very low',
       container: 'airtight glass or ceramic',
-      notes: 'Keep very dry to maintain crunch'
+      notes: 'Keep very dry to maintain crunch',
     }
   }
 
   himalayan_salt: {
     name: 'Himalayan Salt',
-    elementalProperties: { Earth: 0.6, Fire: 0.2, Water: 0.1, Air: 0.1 }
+    elementalProperties: { Earth: 0.6, Fire: 0.2, Water: 0.1, Air: 0.1 },
     astrologicalProfile: {
       planetaryRuler: 'Mars',
       zodiacRuler: 'Aries',
@@ -629,11 +629,11 @@ const rawSalts = {
       energyType: 'Grounding',
       lunarPhaseModifiers: {
         new: {
-          elementalBoost: { Earth: 0.1 }
+          elementalBoost: { Earth: 0.1 },
           culinaryTip: 'Use for preserving during new moon for enhanced shelf life' },
         full: {
-          elementalBoost: { Water: 0.1 }
-          culinaryTip: 'Solutions prepared during full moon enhance mineral absorption'
+          elementalBoost: { Water: 0.1 },
+          culinaryTip: 'Solutions prepared during full moon enhance mineral absorption',
         }
       }
     },
@@ -689,7 +689,7 @@ const rawSalts = {
         name: 'Salt Flakes',
         characteristics: 'Thin, delicate crystal structures',
         culinary_uses: 'Finishing salt, garnish, textural element',
-        notes: 'Creates burst of flavor and visual appeal'
+        notes: 'Creates burst of flavor and visual appeal',
       }
     },
     colorProfiles: {
@@ -764,7 +764,7 @@ const rawSalts = {
       dietary_considerations: {
         sodium_restriction: 'Should still be limited by those on sodium-restricted diets',
         iodine_content: 'Contains some natural iodine but less than iodized salt',
-        additives: 'Free from anti-caking agents and additives found in table salt'
+        additives: 'Free from anti-caking agents and additives found in table salt',
       }
     },
     traditionalUses: {
@@ -779,7 +779,7 @@ const rawSalts = {
         cultural: {
         pakistani: 'Traditional preservative and cooking medium',
         ritual_significance: 'Used in purification ceremonies',
-        gift_giving: 'Historically given as a valuable trade good'
+        gift_giving: 'Historically given as a valuable trade good',
       }
     },
     sustainability: {
@@ -817,13 +817,13 @@ const rawSalts = {
       containers: 'Ceramic, glass, or wooden containers preferred',
       shelf_life: 'Indefinite when properly stored',
       signs_of_quality: 'Should remain dry and free-flowing, no clumping',
-      salt_mills: 'Ceramic grinding mechanism recommended to prevent corrosion'
+      salt_mills: 'Ceramic grinding mechanism recommended to prevent corrosion',
     }
   }
 
   kosher_salt: {
     name: 'Kosher Salt',
-    elementalProperties: { Earth: 0.6, Water: 0.2, Air: 0.1, Fire: 0.1 }
+    elementalProperties: { Earth: 0.6, Water: 0.2, Air: 0.1, Fire: 0.1 },
     qualities: ['clean', 'consistent', 'pure'],
     origin: ['Various'],
     category: 'salt',
@@ -840,7 +840,7 @@ const rawSalts = {
         appearance: 'dense flakes',
         texture: 'harder, compact',
         dissolution: 'moderate',
-        uses: 'home cooking standard'
+        uses: 'home cooking standard',
       }
     },
     culinaryApplications: {
@@ -868,13 +868,13 @@ const rawSalts = {
       temperature: 'room temperature',
       humidity: 'low',
       container: 'airtight container',
-      notes: 'Very stableno special requirements'
+      notes: 'Very stableno special requirements',
     }
   }
 
   table_salt: {
     name: 'Table Salt',
-    elementalProperties: { Earth: 0.7, Water: 0.1, Air: 0.1, Fire: 0.1 }
+    elementalProperties: { Earth: 0.7, Water: 0.1, Air: 0.1, Fire: 0.1 },
     qualities: ['basic', 'refined', 'uniform'],
     origin: ['Global'],
     category: 'seasoning',
@@ -904,7 +904,7 @@ const rawSalts = {
       temperature: 'room temperature',
       humidity: 'low',
       container: 'airtight container',
-      notes: 'Very stableno special requirements'
+      notes: 'Very stableno special requirements',
     }
   }
 }

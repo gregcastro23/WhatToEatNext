@@ -85,7 +85,7 @@ export class LintingWarningAnalyzer {
       const prioritizedFiles = this.prioritizeFiles(warnings)
       const recommendations = this.generateRecommendations(distribution)
 
-      const result: LintingAnalysisResult = {;
+      const result: LintingAnalysisResult = {
         distribution,
         warnings,
         prioritizedFiles,
@@ -240,15 +240,15 @@ export class LintingWarningAnalyzer {
    * Categorize warnings by type
    */
   private categorizeWarnings(warnings: LintingWarning[]): WarningDistribution {
-    const distribution: WarningDistribution = {;
-      explicitAny: { count: 0, priority: 1, files: [] }
+    const distribution: WarningDistribution = {
+      explicitAny: { count: 0, priority: 1, files: [] },
       unusedVariables: { count: 0, priority: 2, files: [] }
-      consoleStatements: { count: 0, priority: 3, files: [] }
+      consoleStatements: { count: 0, priority: 3, files: [] },
       other: { count: 0, priority: 4, files: [] }
       total: warnings.length
     }
 
-    const filesSeen = {;
+    const filesSeen = {
       explicitAny: new Set<string>(),
       unusedVariables: new Set<string>(),
       consoleStatements: new Set<string>(),
@@ -383,7 +383,7 @@ export class LintingWarningAnalyzer {
    * Save analysis results to metrics file
    */
   private async saveAnalysisResults(result: LintingAnalysisResult): Promise<void> {
-    const metrics = {;
+    const metrics = {
       timestamp: new Date().toISOString(),
       analysis: result,
       summary: {

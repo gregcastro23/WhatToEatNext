@@ -126,13 +126,13 @@ The system has successfully achieved a **36.78% reduction** in explicit-any warn
               before: `// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API response,
 const _apiResponse: any = await fetch('/api/data'),`,
               after: `// This should be preserved - it's properly documented`,
-              explanation: 'External API responses often require any types due to unknown structure'
+              explanation: 'External API responses often require any types due to unknown structure',
             }
             {
               title: 'Unintentional Any Type (Array)',
               before: `const items: any[] = [],`,
               after: `const items: unknown[] = [],`,
-              explanation: 'Array types can usually be made more specific with unknown or proper types'
+              explanation: 'Array types can usually be made more specific with unknown or proper types',
             }
           ]
         }
@@ -146,7 +146,7 @@ const _apiResponse: any = await fetch('/api/data'),`,
             type: 'multiple_choice',
             options: ['25.5%', '36.78%', '42.1%', '50.0%'],
             correctAnswer: 1,
-            explanation: 'The system achieved a 36.78% reduction (160 out of 435 warnings eliminated)'
+            explanation: 'The system achieved a 36.78% reduction (160 out of 435 warnings eliminated)',
           }
           {
             id: 'q2',
@@ -159,7 +159,7 @@ const _apiResponse: any = await fetch('/api/data'),`,
               'const config: Record<string, any> = {};'
             ],
             correctAnswer: 1,
-            explanation: 'Properly documented external API any types should be preserved'
+            explanation: 'Properly documented external API any types should be preserved',
           }
         ]
       }
@@ -211,7 +211,7 @@ const _apiResponse: any = await fetch('/api/data'),`,
                 'Unintentional - Array Type'
               ],
               correctAnswer: 0,
-              explanation: 'User input often has unknown structure, making this intentionally dynamic'
+              explanation: 'User input often has unknown structure, making this intentionally dynamic',
             }
           ]
         }
@@ -225,7 +225,7 @@ const _apiResponse: any = await fetch('/api/data'),`,
             type: 'multiple_choice',
             options: ['3', '5', '7', '10'],
             correctAnswer: 1,
-            explanation: 'There are 5 main intentional, categories: External API, Legacy, Dynamic Content, Test Utilities, Configuration'
+            explanation: 'There are 5 main intentional, categories: External API, Legacy, Dynamic Content, Test Utilities, Configuration',
           }
         ]
       }
@@ -286,7 +286,7 @@ const _apiResponse: any = await fetch('/api/data'),`,
 items.forEach(item => // // // _logger.info(item)),`,
               after: `const items: unknown[] = getData(),
 items.forEach(item => // // // _logger.info(item)),`,
-              explanation: 'unknown[] maintains type safety while allowing array operations'
+              explanation: 'unknown[] maintains type safety while allowing array operations',
             }
             {
               title: 'Record Type Replacement',
@@ -294,7 +294,7 @@ items.forEach(item => // // // _logger.info(item)),`,
 const value = config.someProperty,`,
               after: `const config: any = loadConfig(),
 const value = config.someProperty,`,
-              explanation: 'unknown values require type checking before use, improving safety'
+              explanation: 'unknown values require type checking before use, improving safety',
             }
           ]
         }
@@ -308,7 +308,7 @@ const value = config.someProperty,`,
             type: 'multiple_choice',
             options: ['85%', '90%', '95%', '100%'],
             correctAnswer: 3,
-            explanation: 'Array type replacements (any[] → unknown[]) have a 100% success rate'
+            explanation: 'Array type replacements (any[] → unknown[]) have a 100% success rate',
           }
         ]
       }
@@ -355,7 +355,7 @@ const value = config.someProperty,`,
               question: 'What is the first command to stop all running campaigns?',
               type: 'code_completion',
               correctAnswer: 'pkill -f 'unintentional-any'',
-              explanation: 'This command stops all processes related to the any elimination system'
+              explanation: 'This command stops all processes related to the any elimination system',
             }
           ]
         }
@@ -369,7 +369,7 @@ const value = config.someProperty,`,
             type: 'multiple_choice',
             options: ['Every file', 'Every 3 files', 'Every 5 files', 'Every 10 files'],
             correctAnswer: 2,
-            explanation: 'The system validates builds every 5 files to balance safety and performance'
+            explanation: 'The system validates builds every 5 files to balance safety and performance',
           }
         ]
       }
@@ -418,7 +418,7 @@ const value = config.someProperty,`,
             type: 'multiple_choice',
             options: ['280', '300', '350', '400'],
             correctAnswer: 1,
-            explanation: 'The critical threshold is 300 any types, triggering immediate attention'
+            explanation: 'The critical threshold is 300 any types, triggering immediate attention',
           }
         ]
       }
@@ -523,7 +523,7 @@ const value = config.someProperty,`,
     // // // _logger.info('\n📚 Available Modules: ')
     availableModules.forEach((module, index) => {
       const status = progress.completedModules.includes(module.id) ? '✅' : '📖'
-      // // // _logger.info(;
+      // // // _logger.info(
         `${index + 1}. ${status} ${module.name} (${module.duration} min, ${module.difficulty})`,
       )
     })
@@ -923,7 +923,7 @@ This certificate is issued by the Unintentional Any Elimination System and certi
       })
     }
 
-    const nextModules = this.getAvailableModules(progress).filter(;
+    const nextModules = this.getAvailableModules(progress).filter(
       m => !progress.completedModules.includes(m.id),
     )
 

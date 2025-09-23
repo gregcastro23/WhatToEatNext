@@ -123,7 +123,7 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       [AnyTypeCategory.RECORD_TYPE]: 0.4,
       [AnyTypeCategory.FUNCTION_PARAM]: 0.5,
       [AnyTypeCategory.RETURN_TYPE]: 0.4,
-      [AnyTypeCategory.TYPE_ASSERTION]: 0.6
+      [AnyTypeCategory.TYPE_ASSERTION]: 0.6,
     }
   },
   domain: {
@@ -170,7 +170,7 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       replacement: 'MAXIMUM',
       documentation: 'MEDIUM',
       batch_processing: 'MAXIMUM' },
-        backupRetentionDays: 7
+        backupRetentionDays: 7,
   },
   targets: {
     targetReductionPercentage: 18,
@@ -179,7 +179,7 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
     trackingIntervals: {
       metrics: 5,
       reports: 1,
-      checkpoints: 10
+      checkpoints: 10,
     },
     milestones: [
       { name: 'Initial Analysis', targetReduction: 0, timeframe: '1 day' }
@@ -231,9 +231,9 @@ export class ConfigurationManager {
    */
   private mergeWithDefaults(loadedConfig: Partial<UnintentionalAnyConfig>): UnintentionalAnyConfig {
     return {
-      classification: { ...DEFAULT_CONFIG.classification, ...loadedConfig.classification }
+      classification: { ...DEFAULT_CONFIG.classification, ...loadedConfig.classification },
       domain: { ...DEFAULT_CONFIG.domain, ...loadedConfig.domain }
-      safety: { ...DEFAULT_CONFIG.safety, ...loadedConfig.safety }
+      safety: { ...DEFAULT_CONFIG.safety, ...loadedConfig.safety },
       targets: { ...DEFAULT_CONFIG.targets, ...loadedConfig.targets }
       version: loadedConfig.version || DEFAULT_CONFIG.version,
       lastUpdated: loadedConfig.lastUpdated || DEFAULT_CONFIG.lastUpdated

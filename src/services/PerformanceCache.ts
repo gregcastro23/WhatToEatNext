@@ -273,7 +273,7 @@ export class PerformanceMonitor {
    * Snapshot current metrics
    */
   snapshot(): PerformanceMetrics {
-    const snapshot: PerformanceMetrics = {;
+    const snapshot: PerformanceMetrics = {
       calculationTime: this.currentMetrics.calculationTime || 0,
       cacheHitRate: this.currentMetrics.cacheHitRate || 0,
       memoryUsage: this.currentMetrics.memoryUsage || 0,
@@ -302,13 +302,13 @@ export class PerformanceMonitor {
     history: PerformanceMetrics[]
   } {
     if (this.metrics.length === 0) {,
-      const empty: PerformanceMetrics = {;
+      const empty: PerformanceMetrics = {
         calculationTime: 0,
         cacheHitRate: 0,
         memoryUsage: 0,
         recommendationCount: 0,
         averageResponseTime: 0,
-        peakMemoryUsage: 0
+        peakMemoryUsage: 0,
       }
       return { current: empty, average: empty, peak: empty, history: [] }
     }

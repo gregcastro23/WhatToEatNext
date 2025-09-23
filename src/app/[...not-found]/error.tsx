@@ -8,7 +8,7 @@ export default function NotFoundError({
   error,
   reset: _reset
 }: {
-  error: Error & { digest?: string }
+  error: Error & { digest?: string },
   reset: () => void
 }) {
   useEffect(() => {

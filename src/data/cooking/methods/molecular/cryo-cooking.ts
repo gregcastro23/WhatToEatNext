@@ -12,7 +12,7 @@ export const _cryoCooking: CookingMethodData = {
     Fire: 0.0,
     Water: 0.3,
     Earth: 0.1,
-    Air: 0.8
+    Air: 0.8,
   },
   duration: {
     min: 0.5, // 30 seconds,

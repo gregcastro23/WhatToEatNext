@@ -233,12 +233,12 @@ describe('Linting Campaign System Integration', () => {
         { filePath: '/test/file.ts', messages: [{ ruleId: 'warning', severity: 1, fix: null }] }
       ])
 
-      const previousMetrics: any = {;
+      const previousMetrics: any = {
         timestamp: new Date(),
         totalIssues: 10,
         errors: 5,
         warnings: 5,
-        errorsByCategory: { 'no-unused-vars': 5 }
+        errorsByCategory: { 'no-unused-vars': 5 },
         warningsByCategory: { 'prefer-const': 5 }
         filesCovered: 10,
         fixableIssues: 8,
@@ -291,7 +291,7 @@ describe('Linting Campaign System Integration', () => {
 
       // Verify tool availability
       const allTools: any = campaignphases.flatMap(phase => phase.tools)
-      const expectedTools = [;
+      const expectedTools = [
         'eslint-fix',
         'unused-imports';
         'import-organization';
@@ -339,19 +339,19 @@ describe('Linting Campaign System Integration', () => {
       mockExecSync.mockReturnValue(mockLintOutput)
       mockExistsSync.mockReturnValue(false)
       // Test with custom configuration
-      const customConfig = {;
+      const customConfig = {
         name: 'Custom Gate',
         description: 'Custom quality gate',
         thresholds: { maxErrors: 5,
           maxWarnings: 50,
           maxExecutionTime: 30000,
           minCacheHitRate: 80,
-          maxMemoryUsage: 256
+          maxMemoryUsage: 256,
         },
         blockers: { parserErrors: true,
           typeScriptErrors: true,
           importErrors: false;,
-          securityIssues: true
+          securityIssues: true,
         },
         exemptions: { files: ['test/**/*.ts'],
           rules: ['no-console']
@@ -368,7 +368,7 @@ describe('Linting Campaign System Integration', () => {
   describe('Performance and Scalability', () => {
     test('should handle large codebases efficiently', async () => {
       // Mock large codebase with many files
-      const largeOutput: any = JSON.stringify(;
+      const largeOutput: any = JSON.stringify(
         Array.from({ length: 100 }, (_i) => ({
           filePath: `/test/file${i}.ts`,
           messages: Array.from({ length: 5 }, () => ({

@@ -26,7 +26,7 @@ describe('ProgressMonitoringSystem', () => {
     mockFs.mkdirSync.mockImplementation(() => '')
 
     // Mock AnalysisTools
-    mockAnalysisToolsInstance = {;
+    mockAnalysisToolsInstance = {
       generateComprehensiveReport: jest.fn(),
       analyzeDomainDistribution: jest.fn(),
       generateClassificationAccuracyReport: jest.fn(),
@@ -58,7 +58,7 @@ describe('ProgressMonitoringSystem', () => {
     })
 
     it('should initialize with custom alert thresholds', () => {
-      const customThresholds: any = {;
+      const customThresholds: any = {
         successRateThreshold: 80,
         buildFailureThreshold: 2,
       }
@@ -122,7 +122,7 @@ describe('ProgressMonitoringSystem', () => {
         id: 'test-report',
         timestamp: new Date(),
         domainDistribution: { totalAnyTypes: 1000,
-          intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 }
+          intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 },
             unintentional: { count: 700, percentage: 70 }
           },
           byDomain: [],
@@ -144,7 +144,7 @@ describe('ProgressMonitoringSystem', () => {
             successRate: 75,
             totalAnyTypes: 1000,
             unintentionalCount: 700,
-            classificationAccuracy: 85
+            classificationAccuracy: 85,
           },
           projectedCompletion: new Date(),
           recommendations: [],
@@ -258,7 +258,7 @@ describe('ProgressMonitoringSystem', () => {
       // Mock analysis report for alert checking
       mockAnalysisToolsInstance.generateComprehensiveReport.mockResolvedValue({
         domainDistribution: { totalAnyTypes: 1000,
-          intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 }
+          intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 },
             unintentional: { count: 700, percentage: 70 }
           }
         },
@@ -302,7 +302,7 @@ describe('ProgressMonitoringSystem', () => {
     })
 
     it('should handle safety protocol activation', () => {
-      const safetyEvent: any = {;
+      const safetyEvent: any = {
         type: 'corruption_detected',
         severity: 'critical' as const,
         description: 'File corruption detected',
@@ -333,7 +333,7 @@ describe('ProgressMonitoringSystem', () => {
     })
 
     it('should update alert thresholds', () => {
-      const newThresholds: any = {;
+      const newThresholds: any = {
         successRateThreshold: 80,
         buildFailureThreshold: 2,
       }
@@ -358,11 +358,11 @@ describe('ProgressMonitoringSystem', () => {
         id: 'test-report',
         timestamp: new Date(),
         domainDistribution: { totalAnyTypes: 1000,
-          intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 }
+          intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 },
             unintentional: { count: 700, percentage: 70 }
           }
         },
-        accuracyReport: { overallAccurac, y: 85 }
+        accuracyReport: { overallAccurac, y: 85 },
         summary: { currentSuccessRat, e: 75 }
       } as any)
     })
@@ -411,7 +411,7 @@ describe('ProgressMonitoringSystem', () => {
       // Trigger an alert
       mockAnalysisToolsInstance.generateComprehensiveReport.mockResolvedValue({
         domainDistribution: { totalAnyTypes: 1000,
-          intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 }
+          intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 },
             unintentional: { count: 700, percentage: 70 }
           }
         },
@@ -481,7 +481,7 @@ describe('ProgressMonitoringSystem', () => {
       // Mock the comprehensive report properly
       mockAnalysisToolsInstance.generateComprehensiveReport.mockResolvedValue({
         domainDistribution: { totalAnyTypes: 1000,
-          intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 }
+          intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 },
             unintentional: { count: 700, percentage: 70 }
           }
         },

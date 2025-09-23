@@ -26,7 +26,7 @@ export async function calculateElementalCompatibility(
   const user = recipeElementalService.standardizeRecipe({ elementalProperties: userElemental })
 
   // Calculate simple similarity score
-  const similarity = recipeElementalService.calculateSimilarity(;
+  const similarity = recipeElementalService.calculateSimilarity(
     recipe.elementalProperties
     user.elementalProperties
   )
@@ -89,12 +89,12 @@ function calculateBalanceScore(
   userProps: ElementalProperties,
 ): number {
   // Find user's weakest element
-  const userWeakest = Object.entries(userProps).sort(;
+  const userWeakest = Object.entries(userProps).sort(
     ([, a], [, b]) => a - b,
   )[0][0] as keyof ElementalProperties,
 
   // Find user's strongest element
-  const userStrongest = Object.entries(userProps).sort(;
+  const userStrongest = Object.entries(userProps).sort(
     ([, a], [, b]) => b - a,
   )[0][0] as keyof ElementalProperties,
 
@@ -102,7 +102,7 @@ function calculateBalanceScore(
   const weakestScore = recipeProps[userWeakest] * 2; // Higher is better
 
   // Check if recipe moderates user's strongest element
-  const strongestDifference = Math.abs(recipeProps[userStrongest] - userProps[userStrongest]);
+  const strongestDifference = Math.abs(recipeProps[userStrongest] - userProps[userStrongest])
   const strongestScore = 1 - strongestDifference; // Lower difference is better
 
   // Combined balance score

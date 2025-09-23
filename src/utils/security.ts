@@ -25,7 +25,7 @@ export function enhanceSecurity() {
             const target = e.target as HTMLInputElement
             // Basic sanitization - strip out potentially harmful tags
             if (target.value) {
-              target.value = target.value.replace(;
+              target.value = target.value.replace(
                 /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
                 '',
               )

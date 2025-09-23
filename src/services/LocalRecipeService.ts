@@ -389,7 +389,7 @@ export class LocalRecipeService {
           cuisine.dishes[mealType].all &&
           Array.isArray(cuisine.dishes[mealType].all)
         ) {
-          logger.debug(;
+          logger.debug(
             `Found ${cuisine.dishes[mealType].all.length} ${mealType} recipes in 'all' season for ${cuisine.name}`,
           )
         } else if (isSpecialCase) {
@@ -460,7 +460,7 @@ export class LocalRecipeService {
                 seasonKeys: value ? Object.keys(value) : [],
                 hasAll: !!value?.all,
                 allIsArray: !!(value?.all && Array.isArray(value.all)),
-                allLength: value?.all && Array.isArray(value.all) ? value?.all?.length : 0
+                allLength: value?.all && Array.isArray(value.all) ? value?.all?.length : 0,
               }))
             }
             null2,
@@ -545,23 +545,23 @@ export class LocalRecipeService {
       } else if (dish.elementalState && typeof dish.elementalState === 'object') {,
         // Convert Record<string, number> to ElementalProperties
         const state = dish.elementalState;
-        elementalProperties = {;
+        elementalProperties = {
           Fire: state.Fire || state.fire || 0.25,
           Water: state.Water || state.water || 0.25,
           Earth: state.Earth || state.earth || 0.25,
           Air: state.Air || state.air || 0.25
         }
       } else {
-        elementalProperties = {;
+        elementalProperties = {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25
+          Air: 0.25,
         }
       }
 
       // Make sure all elemental properties are numbers
-      elementalProperties = {;
+      elementalProperties = {
         Fire: typeof elementalProperties.Fire === 'number' ? elementalProperties.Fire : 0.25,
         Water: typeof elementalProperties.Water === 'number' ? elementalProperties.Water : 0.25,
         Earth: typeof elementalProperties.Earth === 'number' ? elementalProperties.Earth : 0.25,,
@@ -682,7 +682,7 @@ export class LocalRecipeService {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25
+          Air: 0.25,
         }
       }
     }

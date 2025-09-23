@@ -23,13 +23,13 @@ describe('FullCampaignExecutor', () => {
   beforeEach(() => {;
     jest.clearAllMocks()
 
-    mockConfig = {;
+    mockConfig = {
       targetReductionPercentage: 17.5,
       targetFixCount: 300,
       maxBatchSize: 25,
       safetyThreshold: 0.7,
       enableDocumentation: true,
-      generateFinalReport: true
+      generateFinalReport: true,
     }
 
     executor = new FullCampaignExecutor(mockConfig)
@@ -310,7 +310,7 @@ describe('FullCampaignExecutor', () => {
       const domainPhase: any = result.phases[3];
 
       expect(domainPhase.details.domainResults).toBeDefined().
-      const astroResult: any = domainPhasedetails.domainResults.find(;
+      const astroResult: any = domainPhasedetails.domainResults.find(
         (r: any) => r.domain === 'astrological',
       )
       expect(astroResult).toBeDefined().
@@ -328,7 +328,7 @@ describe('FullCampaignExecutor', () => {
       const domainPhase: any = result.phases[3];
 
       expect(domainPhase.details.domainResults).toBeDefined().
-      const recipeResult: any = domainPhasedetails.domainResults.find(;
+      const recipeResult: any = domainPhasedetails.domainResults.find(
         (r: any) => r.domain === 'recipe',
       )
       expect(recipeResult).toBeDefined().
@@ -346,7 +346,7 @@ describe('FullCampaignExecutor', () => {
       const domainPhase: any = result.phases[3];
 
       expect(domainPhase.details.domainResults).toBeDefined().
-      const campaignResult: any = domainPhasedetails.domainResults.find(;
+      const campaignResult: any = domainPhasedetails.domainResults.find(
         (r: any) => r.domain === 'campaign',
       )
       expect(campaignResult).toBeDefined().
@@ -403,7 +403,7 @@ describe('FullCampaignExecutor', () => {
 
     test('should handle emergency stop conditions', async () => {
       // Mock emergency stop scenario
-      const emergencyConfig: any = {;
+      const emergencyConfig: any = {
         ...mockConfig,
         emergencyStopThreshold: 0.9, // Very high threshold,
         maxCampaignDuration: 1000 // Very short duration
@@ -450,7 +450,7 @@ describe('FullCampaignExecutor', () => {
 
   describe('Configuration Validation', () => {
     test('should handle invalid configuration gracefully', () => {
-      const invalidConfig: any = {;
+      const invalidConfig: any = {
         targetReductionPercentage: -10, // Invalid negative percentage,
         targetFixCount: -100, // Invalid negative count,
         maxBatchSize: 0 // Invalid zero batch size,

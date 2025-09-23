@@ -4,7 +4,7 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawWholeSpices = {
   star_anise: {;
     name: 'Star Anise',
-    elementalProperties: { Fire: 0.4, Air: 0.2, Water: 0.1, Earth: 0.1 }
+    elementalProperties: { Fire: 0.4, Air: 0.2, Water: 0.1, Earth: 0.1 },
     qualities: ['sweet', 'licorice-like', 'warming'],
     origin: ['China', 'Vietnam'],
     category: 'spice',
@@ -284,7 +284,7 @@ const rawWholeSpices = {
         preparation: {
           methods: ['standard preparation'],
           timing: 'as needed',
-          notes: 'Standard preparation for star anise'
+          notes: 'Standard preparation for star anise',
         }
       },
       culinaryProfile: {
@@ -307,7 +307,7 @@ const rawWholeSpices = {
       infusing: {
         method: 'add whole to liquids',
         duration: '10-20 minutes',
-        removal: 'required before serving'
+        removal: 'required before serving',
       }
     },
     culinaryApplications: {
@@ -423,13 +423,13 @@ const rawWholeSpices = {
       temperature: 'cool, dark place',
       duration: '2 years',
       container: 'airtight',
-      notes: 'Maintains potency well when whole'
+      notes: 'Maintains potency well when whole',
     }
   }
 
   cardamom_pods: {
     name: 'Cardamom Pods',
-    elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 }
+    elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Venus'],
       favorableZodiac: ['gemini', 'libra'],
@@ -457,7 +457,7 @@ const rawWholeSpices = {
         notes: 'Discard pods or use for infusing' },
         crushing: {
         method: 'lightly crush to release oils',
-        notes: 'For infusing liquids'
+        notes: 'For infusing liquids',
       }
     },
     culinaryApplications: {
@@ -527,20 +527,20 @@ const rawWholeSpices = {
         name: 'Tea Blends',
         method: 'combine with other spices',
         pairings: ['black tea', 'cinnamon', 'orange'],
-        ratios: '1 pod per 2 cups water'
+        ratios: '1 pod per 2 cups water',
       }
     },
     storage: {
       temperature: 'cool, dark place',
       duration: '2 years',
       container: 'airtight',
-      notes: 'Maintains potency well when whole'
+      notes: 'Maintains potency well when whole',
     }
   }
 
   mustard_seeds: {
     name: 'Mustard Seeds',
-    elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 }
+    elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ['pungent', 'hot', 'nutty'],
     origin: ['India', 'Canada', 'Nepal'],
     category: 'spice',
@@ -625,7 +625,7 @@ const rawWholeSpices = {
         techniques: {
           paste: 'grind with liquids',
           rustic: 'roughly crush',
-          infusion: 'heat in oil first'
+          infusion: 'heat in oil first',
         }
       },
       sauces: {
@@ -636,7 +636,7 @@ const rawWholeSpices = {
         techniques: {
           cream_sauce: 'infuse in warm cream',
           vinaigrette: 'crush and mix',
-          grainy_mustard: 'soak in vinegar'
+          grainy_mustard: 'soak in vinegar',
         }
       }
     },
@@ -644,13 +644,13 @@ const rawWholeSpices = {
       temperature: 'cool, dark place',
       duration: 'whole: 1 year',
       container: 'airtight',
-      notes: 'Seeds can be sprouted if fresh'
+      notes: 'Seeds can be sprouted if fresh',
     }
   }
 
   fennel_seeds: {
     name: 'Fennel Seeds',
-    elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 }
+    elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
     qualities: ['sweet', 'anise-like', 'warming'],
     origin: ['India', 'Mediterranean', 'China'],
     category: 'spice',
@@ -665,7 +665,7 @@ const rawWholeSpices = {
         name: 'Mediterranean',
         appearance: 'plumper, pale green',
         flavor: 'sweeter',
-        uses: 'sausages, bread'
+        uses: 'sausages, bread',
       }
     },
     culinaryApplications: {
@@ -678,7 +678,7 @@ const rawWholeSpices = {
         techniques: {
           topping: 'sprinkle on crust',
           incorporated: 'mix into dough',
-          flavored_oil: 'infuse in oil first'
+          flavored_oil: 'infuse in oil first',
         }
       },
       seafood_seasoning: {
@@ -690,7 +690,7 @@ const rawWholeSpices = {
         techniques: {
           crust: 'grind with salt',
           court_bouillon: 'add to poaching liquid',
-          steam_aromatic: 'add to steaming water'
+          steam_aromatic: 'add to steaming water',
         }
       },
       sausage_making: {
@@ -701,7 +701,7 @@ const rawWholeSpices = {
         techniques: {
           italian_style: 'whole seeds',
           chinese_style: 'ground with star anise',
-          merguez: 'combined with cumin'
+          merguez: 'combined with cumin',
         }
       }
     }
@@ -709,7 +709,7 @@ const rawWholeSpices = {
 
   coriander_seeds: {
     name: 'Coriander Seeds',
-    elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 }
+    elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },
     qualities: ['citrusy', 'nutty', 'floral'],
     origin: ['India', 'Morocco', 'Eastern Europe'],
     category: 'spice',
@@ -724,7 +724,7 @@ const rawWholeSpices = {
         name: 'Mediterranean',
         appearance: 'smaller, more oval',
         flavor: 'more citrusy',
-        uses: 'marinades, pickling'
+        uses: 'marinades, pickling',
       }
     },
     culinaryApplications: {
@@ -737,7 +737,7 @@ const rawWholeSpices = {
         techniques: {
           dry_toasting: 'until fragrant and color changes',
           wet_grinding: 'with aromatics for paste',
-          whole_tempering: 'crack and bloom in oil'
+          whole_tempering: 'crack and bloom in oil',
         }
       },
       pickling_spice: {
@@ -749,7 +749,7 @@ const rawWholeSpices = {
         techniques: {
           hot_brine: 'add to heating liquid',
           fermentation: 'add at start',
-          quick_pickle: 'lightly crush first'
+          quick_pickle: 'lightly crush first',
         }
       }
     }
@@ -757,7 +757,7 @@ const rawWholeSpices = {
 
   cumin_seeds: {
     name: 'Cumin Seeds',
-    elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 }
+    elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Saturn'],
       favorableZodiac: ['virgo', 'capricorn'],
@@ -784,7 +784,7 @@ const rawWholeSpices = {
         name: 'Iranian',
         appearance: 'longer seeds',
         flavor: 'more delicate',
-        uses: 'rice dishes, kebabs'
+        uses: 'rice dishes, kebabs',
       }
     },
     culinaryApplications: {
@@ -797,7 +797,7 @@ const rawWholeSpices = {
         techniques: {
           tadka: 'bloom and pour over',
           pilaf_base: 'start rice dishes',
-          oil_infusion: 'longer steep for oil'
+          oil_infusion: 'longer steep for oil',
         }
       },
       meat_rubs: {
@@ -809,7 +809,7 @@ const rawWholeSpices = {
         techniques: {
           dry_rub: 'grind with other spices',
           paste: 'grind with wet ingredients',
-          marinade_base: 'infuse in oil first'
+          marinade_base: 'infuse in oil first',
         }
       }
     }
@@ -817,7 +817,7 @@ const rawWholeSpices = {
 
   caraway_seeds: {
     name: 'Caraway Seeds',
-    elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 }
+    elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },
     qualities: ['warming', 'sharp', 'slightly sweet'],
     origin: ['Netherlands', 'Eastern Europe', 'Finland'],
     category: 'spice',
@@ -832,7 +832,7 @@ const rawWholeSpices = {
         name: 'Finnish',
         appearance: 'slightly larger',
         flavor: 'more intense',
-        uses: 'rye bread, aquavit'
+        uses: 'rye bread, aquavit',
       }
     },
     culinaryApplications: {
@@ -845,7 +845,7 @@ const rawWholeSpices = {
         techniques: {
           traditional_rye: 'heavy seeding',
           light_rye: 'sparse seeding',
-          crust_topping: 'press into top'
+          crust_topping: 'press into top',
         }
       },
       sauerkraut: {
@@ -857,7 +857,7 @@ const rawWholeSpices = {
         techniques: {
           traditional: 'whole seeds throughout',
           spice_packet: 'contained in muslin',
-          layered: 'between cabbage layers'
+          layered: 'between cabbage layers',
         }
       }
     }

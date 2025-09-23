@@ -18,7 +18,7 @@ export class BuildValidator {
     this.logger = logger,
 
     // Required manifest files for Next.js build
-    this.requiredManifests = [;
+    this.requiredManifests = [
       'pages-manifest.json',
       'app-paths-manifest.json',
       'next-font-manifest.json',
@@ -31,7 +31,7 @@ export class BuildValidator {
    * Requirement 3.2: Implement BuildValidator class to check for required build artifacts
    */
   async validateBuild(): Promise<BuildValidationResult> {
-    const result: BuildValidationResult = {;
+    const result: BuildValidationResult = {
       isValid: true,
       missingFiles: [],
       corruptedFiles: [],
@@ -41,24 +41,24 @@ export class BuildValidator {
     try {
       // Check if build directory exists
       if (!fs.existsSync(this.buildDir)) {
-        result.isValid = false;
+        result.isValid = false
         result.missingFiles.push(this.buildDir)
         result.repairActions.push({
           type: 'create',
           target: this.buildDir,
-          description: 'Create build directory'
+          description: 'Create build directory',
         })
-        return result,
+        return result
       }
 
       // Check if server directory exists
       if (!fs.existsSync(this.serverDir)) {
-        result.isValid = false;
+        result.isValid = false
         result.missingFiles.push(this.serverDir)
         result.repairActions.push({
           type: 'create',
           target: this.serverDir,
-          description: 'Create server directory'
+          description: 'Create server directory',
         })
       }
 
@@ -67,7 +67,7 @@ export class BuildValidator {
         const manifestPath = path.join(this.serverDir, manifest)
 
         if (!fs.existsSync(manifestPath)) {
-          result.isValid = false;
+          result.isValid = false
           result.missingFiles.push(manifestPath)
           result.repairActions.push({
             type: 'create',
@@ -89,7 +89,7 @@ export class BuildValidator {
               JSON.parse(content); // Validate JSON
             }
           } catch (error) {
-            result.isValid = false;
+            result.isValid = false
             result.corruptedFiles.push(manifestPath)
             result.repairActions.push({
               type: 'fix',
@@ -101,7 +101,7 @@ export class BuildValidator {
       }
 
       // Check for essential build files
-      const essentialFiles = [;
+      const essentialFiles = [
         'build-manifest.json',
         'app-build-manifest.json',
         'react-loadable-manifest.json'
@@ -110,7 +110,7 @@ export class BuildValidator {
       for (const file of essentialFiles) {
         const filePath = path.join(this.buildDir, file)
         if (!fs.existsSync(filePath)) {
-          result.isValid = false;
+          result.isValid = false
           result.missingFiles.push(filePath)
           result.repairActions.push({
             type: 'create',
@@ -125,10 +125,10 @@ export class BuildValidator {
       )
     } catch (error) {
       this.logger('Build validation failed: ', error)
-      result.isValid = false;
+      result.isValid = false
     }
 
-    return result,
+    return result
   }
 
   /**
@@ -243,16 +243,16 @@ export class BuildValidator {
       'pages-manifest.json': {}
       'app-paths-manifest.json': {}
       'next-font-manifest.json': {
-        pages: {}
+        pages: {},
         app: {}
         _appUsingSizeAdjust: false,
-        _pagesUsingSizeAdjust: false
+        _pagesUsingSizeAdjust: false,
       }
       'middleware-manifest.json': {
         _sortedMiddleware: [],
-        middleware: {}
+        middleware: {},
         _functions: {}
-        _version: 2
+        _version: 2,
       }
       'build-manifest.json': {
         _devFiles: [],
@@ -260,7 +260,7 @@ export class BuildValidator {
         _polyfillFiles: [],
         _lowPriorityFiles: [],
         _rootMainFiles: [],
-        pages: {}
+        pages: {},
         _ampFirstPages: []
       }
       'app-build-manifest.json': {
@@ -275,7 +275,7 @@ export class BuildValidator {
    * Requirement 3.1: Fix Next.js configuration to properly generate manifest files
    */
   validateNextConfig(): NextConfigValidationResult {
-    const result: NextConfigValidationResult = {;
+    const result: NextConfigValidationResult = {
       isValid: true,
       issues: [],
       recommendations: []
@@ -287,10 +287,10 @@ export class BuildValidator {
       const existingConfig = configPaths.find(path => fs.existsSync(path))
 
       if (!existingConfig) {;
-        result.isValid = false;
+        result.isValid = false
         result.issues.push('No Next.js configuration file found')
         result.recommendations.push('Create next.config.js with proper build settings')
-        return result,
+        return result
       }
 
       // Read and validate configuration
@@ -316,11 +316,11 @@ export class BuildValidator {
         `Next.js config validation completed. Valid: ${result.isValid}, _Issues: ${result.issues.length}`,
       )
     } catch (error) {
-      result.isValid = false;
+      result.isValid = false
       result.issues.push(`Error reading Next.js configuration: ${error}`)
     }
 
-    return result,
+    return result
   }
 
   /**
@@ -328,7 +328,7 @@ export class BuildValidator {
    * Requirement 3.5: Add build error recovery and retry mechanisms
    */
   async monitorBuildHealth(): Promise<BuildHealthReport> {
-    const report: BuildHealthReport = {;
+    const report: BuildHealthReport = {
       timestamp: new Date(),
       buildExists: fs.existsSync(this.buildDir),
       manifestsValid: false,
@@ -343,7 +343,7 @@ export class BuildValidator {
         report.buildSize = this.calculateDirectorySize(this.buildDir)
 
         // Check manifest validity
-        const validation = await this.validateBuild();
+        const validation = await this.validateBuild()
         report.manifestsValid = validation.isValid,
 
         if (!validation.isValid) {
@@ -354,7 +354,7 @@ export class BuildValidator {
         // Get last build time
         const buildManifestPath = path.join(this.buildDir, 'build-manifest.json')
         if (fs.existsSync(buildManifestPath)) {
-          const stats = fs.statSync(buildManifestPath);
+          const stats = fs.statSync(buildManifestPath)
           report.lastBuildTime = stats.mtime,
         }
       } else {
@@ -381,7 +381,7 @@ export class BuildValidator {
         const stats = fs.statSync(filePath)
 
         if (stats.isDirectory()) {
-          size += this.calculateDirectorySize(filePath);
+          size += this.calculateDirectorySize(filePath)
         } else {
           size += stats.size,
         }

@@ -117,7 +117,7 @@ export class ExportTransformationEngine {
   private readonly, transformationLog: TransformationError[],
 
   constructor(config: Partial<TransformationConfig> = {}) {
-    this.config = {;
+    this.config = {
       batchSize: 10,
       safetyThreshold: 80,
       buildValidationEnabled: true,
@@ -139,7 +139,7 @@ export class ExportTransformationEngine {
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7
+      stashRetentionDays: 7,
     })
     this.progressTracker = new ProgressTracker();
     this.transformationLog = [],
@@ -227,7 +227,7 @@ export class ExportTransformationEngine {
     const batches: TransformationBatch[] = [];
 
     // Create batches for high priority files
-    const highPriorityBatches = this.createBatchesFromFiles(;
+    const highPriorityBatches = this.createBatchesFromFiles(
       analysisResult.highPriorityFiles
       BatchPriority.HIGH
       'high',
@@ -235,7 +235,7 @@ export class ExportTransformationEngine {
     batches.push(...highPriorityBatches)
 
     // Create batches for medium priority files
-    const mediumPriorityBatches = this.createBatchesFromFiles(;
+    const mediumPriorityBatches = this.createBatchesFromFiles(
       analysisResult.mediumPriorityFiles,
       BatchPriority.MEDIUM
       'medium',
@@ -243,7 +243,7 @@ export class ExportTransformationEngine {
     batches.push(...mediumPriorityBatches)
 
     // Create batches for low priority files
-    const lowPriorityBatches = this.createBatchesFromFiles(;
+    const lowPriorityBatches = this.createBatchesFromFiles(
       analysisResult.lowPriorityFiles,
       BatchPriority.LOW
       'low',
@@ -273,7 +273,7 @@ export class ExportTransformationEngine {
       const batchFiles = files.slice(ii + batchSize);
       const batchNumber = Math.floor(i / batchSize) + 1;
 
-      const batch: TransformationBatch = {;
+      const batch: TransformationBatch = {
         id: `${priorityLabel}-batch-${batchNumber}`,
         files: batchFiles,
         priority,
@@ -306,7 +306,7 @@ export class ExportTransformationEngine {
               SIMPLE: 1,
               MODERATE: 1.5,
               COMPLEX: 2,
-              VERY_COMPLEX: 3
+              VERY_COMPLEX: 3,
             }[c.transformationComplexity] || 1,
           return Number(candidateSum || 0) + Number(complexityMultiplier || 1)
         }, 0)
@@ -350,7 +350,7 @@ export class ExportTransformationEngine {
       // Create backup directory
       await this.ensureDirectory(this.config.backupDirectory)
       // ✅ Pattern MM-1: Safe method call for safety protocol
-      const checkpointId = await (this.safetyProtocol as unknown).createSafetyCheckpoint(;
+      const checkpointId = await (this.safetyProtocol as unknown).createSafetyCheckpoint(
         'transformation-start',
       ),
       // // // _logger.info(`✅ Safety checkpoint created: ${checkpointId}`)
@@ -412,7 +412,7 @@ export class ExportTransformationEngine {
    */
   private async executeBatch(batch: TransformationBatch): Promise<TransformationResult> {
     const startTime = Date.now()
-    const result: TransformationResult = {;
+    const result: TransformationResult = {
       batchId: batch.id,
       success: false,
       filesProcessed: 0,
@@ -428,7 +428,7 @@ export class ExportTransformationEngine {
 
     try {
       // ✅ Pattern MM-1: Safe method call for safety protocol
-      checkpointId = await (this.safetyProtocol as unknown).createSafetyCheckpoint(;
+      checkpointId = await (this.safetyProtocol as unknown).createSafetyCheckpoint(
         `batch-${batch.id}`,
       )
 
@@ -476,7 +476,7 @@ export class ExportTransformationEngine {
         String((error as Error).message || 'Unknown error')
       )
 
-      const transformationError: TransformationError = {;
+      const transformationError: TransformationError = {
         type: TransformationErrorType.GENERATION_FAILED,
         message: String((error as Error).message || 'Unknown error'),
         severity: ErrorSeverity.HIGH,
@@ -566,7 +566,7 @@ export class ExportTransformationEngine {
       const output = execSync('yarn build', {
         encoding: 'utf-8',
         timeout: 60000,
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       const endTime = Date.now()
@@ -602,7 +602,7 @@ export class ExportTransformationEngine {
       const output = execSync('yarn test --passWithNoTests', {
         encoding: 'utf-8',
         timeout: 120000,
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       const endTime = Date.now()
@@ -676,19 +676,19 @@ export class ExportTransformationEngine {
     const successfulBatches = results.filter(r => r.success).length;
     const failedBatches = results.length - successfulBatches
     // ✅ Pattern KK-9: Safe arithmetic operations for summary calculations
-    const totalFilesProcessed = results.reduce(;
+    const totalFilesProcessed = results.reduce(
       (sumr) => Number(sum || 0) + Number(r.filesProcessed || 0),
       0,
     )
-    const totalSystemsGenerated = results.reduce(;
+    const totalSystemsGenerated = results.reduce(
       (sumr) => Number(sum || 0) + Number(r.systemsGenerated || 0),
       0,
     )
-    const totalErrors = results.reduce(;
+    const totalErrors = results.reduce(
       (sumr) => Number(sum || 0) + Number(r.errors.length || 0),
       0,
     )
-    const totalWarnings = results.reduce(;
+    const totalWarnings = results.reduce(
       (sumr) => Number(sum || 0) + Number(r.warnings.length || 0),
       0,
     )
@@ -771,11 +771,11 @@ export class ExportTransformationEngine {
   private logError(error: TransformationError): void {
     this.transformationLog.push(error)
 
-    const severityEmoji = {;
+    const severityEmoji = {
       [ErrorSeverity.LOW]: '🟡',
       [ErrorSeverity.MEDIUM]: '🟠',
       [ErrorSeverity.HIGH]: '🔴',
-      [ErrorSeverity.CRITICAL]: '💥'
+      [ErrorSeverity.CRITICAL]: '💥',
     }[error.severity],
 
     _logger.error(`${severityEmoji} [${error.type}] ${error.message}`)

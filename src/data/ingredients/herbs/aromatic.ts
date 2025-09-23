@@ -6,7 +6,7 @@ const rawAromaticHerbs = {
     name: 'Thyme',
     category: 'herb',
     subCategory: 'aromatic',
-    elementalProperties: { Air: 0.5, Fire: 0.3, Earth: 0.1, Water: 0.1 }
+    elementalProperties: { Air: 0.5, Fire: 0.3, Earth: 0.1, Water: 0.1 },
     nutritionalProfile: {
       calories: 0,
       protein_g: 0,
@@ -30,19 +30,19 @@ const rawAromaticHerbs = {
     },
     lunarPhaseModifiers: {
       newMoon: {
-        elementalBoost: { Air: 0.1 }
+        elementalBoost: { Air: 0.1 },
         preparationTips: ['Best for drying and preserving']
       },
       fullMoon: {
-        elementalBoost: { Air: 0.2 }
+        elementalBoost: { Air: 0.2 },
         preparationTips: ['Enhanced aromatic properties', 'Ideal for teas and infusions']
       },
       waxingCrescent: {
-        elementalBoost: { Air: 0.1, Fire: 0.05 }
+        elementalBoost: { Air: 0.1, Fire: 0.05 },
         preparationTips: ['Good for light cooking applications']
       },
       waxingGibbous: {
-        elementalBoost: { Air: 0.15, Fire: 0.1 }
+        elementalBoost: { Air: 0.15, Fire: 0.1 },
         preparationTips: ['Perfect for stocks and broths']
       }
     }
@@ -51,7 +51,7 @@ const rawAromaticHerbs = {
     name: 'Rosemary',
     category: 'herb',
     subCategory: 'aromatic',
-    elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 }
+    elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
     nutritionalProfile: {
       calories: 0,
       protein_g: 0,
@@ -75,35 +75,35 @@ const rawAromaticHerbs = {
     },
     lunarPhaseModifiers: {
       newMoon: {
-        elementalBoost: { Fire: 0.1, Earth: 0.05 }
+        elementalBoost: { Fire: 0.1, Earth: 0.05 },
         preparationTips: ['Best for subtle infusions', 'Good time for drying']
       },
       waxingCrescent: {
-        elementalBoost: { Fire: 0.15, Air: 0.05 }
+        elementalBoost: { Fire: 0.15, Air: 0.05 },
         preparationTips: ['Good for infused oils']
       },
       firstQuarter: {
-        elementalBoost: { Fire: 0.2 }
+        elementalBoost: { Fire: 0.2 },
         preparationTips: ['Ideal for grilling meats']
       },
       waxingGibbous: {
-        elementalBoost: { Fire: 0.25 }
+        elementalBoost: { Fire: 0.25 },
         preparationTips: ['Perfect for roasts and hearty dishes']
       },
       fullMoon: {
-        elementalBoost: { Fire: 0.3 }
+        elementalBoost: { Fire: 0.3 },
         preparationTips: ['Maximum potency', 'Best for medicinal preparations']
       },
       waningGibbous: {
-        elementalBoost: { Fire: 0.2, Air: 0.1 }
+        elementalBoost: { Fire: 0.2, Air: 0.1 },
         preparationTips: ['Excellent for soups and stews']
       },
       lastQuarter: {
-        elementalBoost: { Fire: 0.15, Earth: 0.1 }
+        elementalBoost: { Fire: 0.15, Earth: 0.1 },
         preparationTips: ['Good for marinades']
       },
       waningCrescent: {
-        elementalBoost: { Fire: 0.1, Earth: 0.15 }
+        elementalBoost: { Fire: 0.1, Earth: 0.15 },
         preparationTips: ['Best for subtle applications']
       }
     }
@@ -112,7 +112,7 @@ const rawAromaticHerbs = {
     name: 'Basil',
     category: 'herb',
     subCategory: 'aromatic',
-    elementalProperties: { Air: 0.5, Fire: 0.3, Earth: 0.2, Water: 0 }
+    elementalProperties: { Air: 0.5, Fire: 0.3, Earth: 0.2, Water: 0 },
     nutritionalProfile: {
       calories: 0,
       protein_g: 0,
@@ -135,11 +135,11 @@ const rawAromaticHerbs = {
       },
       lunarPhaseModifiers: {
         waxingCrescent: {
-          elementalBoost: { Air: 0.1, Fire: 0.1 }
+          elementalBoost: { Air: 0.1, Fire: 0.1 },
           preparationTips: ['Best for fresh pesto']
         },
         fullMoon: {
-          elementalBoost: { Fire: 0.2 }
+          elementalBoost: { Fire: 0.2 },
           preparationTips: ['Ideal for infused oils']
         }
       }
@@ -149,7 +149,7 @@ const rawAromaticHerbs = {
   // Added herbs with culinary properties
   lovage: {
     name: 'Lovage',
-    elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 }
+    elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Jupiter'],
       favorableZodiac: ['gemini', 'virgo', 'sagittarius'],
@@ -171,7 +171,7 @@ const rawAromaticHerbs = {
     affinities: ['potato', 'chicken', 'fish', 'tomato', 'celery'],
     cookingMethods: ['fresh', 'dried', 'infused'],
     sensoryProfile: {
-      taste: { savory: 0.8, bitter: 0.3, sweet: 0.1 }
+      taste: { savory: 0.8, bitter: 0.3, sweet: 0.1 },
       aroma: { herbaceous: 0.7, celery: 0.9, citrus: 0.2 }
       texture: { leafy: 0.8 }
     },
@@ -189,12 +189,12 @@ const rawAromaticHerbs = {
         tips: ['crush just before use']
       }
     },
-    modality: 'Cardinal'
+    modality: 'Cardinal',
   }
 
   'lemon verbena': {
     name: 'Lemon Verbena',
-    elementalProperties: { Air: 0.5, Fire: 0.3, Water: 0.1, Earth: 0.1 }
+    elementalProperties: { Air: 0.5, Fire: 0.3, Water: 0.1, Earth: 0.1 },
     nutritionalProfile: {
       calories: 0,
       protein_g: 0,
@@ -225,7 +225,7 @@ const rawAromaticHerbs = {
     affinities: ['fish', 'chicken', 'desserts', 'tea', 'fruit'],
     cookingMethods: ['infused', 'dried', 'fresh'],
     sensoryProfile: {
-      taste: { citrus: 0.9, sweet: 0.2, bitter: 0.1 }
+      taste: { citrus: 0.9, sweet: 0.2, bitter: 0.1 },
       aroma: { lemon: 0.9, floral: 0.5, green: 0.3 }
       texture: { leafy: 0.7 }
     },
@@ -249,7 +249,7 @@ const rawAromaticHerbs = {
     modality: 'Mutable' },
         savory: {
     name: 'Savory',
-    elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 }
+    elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
     nutritionalProfile: {
       calories: 0,
       protein_g: 0,
@@ -308,12 +308,12 @@ const rawAromaticHerbs = {
         tips: ['retains flavor well when dried']
       }
     },
-    modality: 'Fixed'
+    modality: 'Fixed',
   }
 
   'curry leaf': {
     name: 'Curry Leaf',
-    elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 }
+    elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
     nutritionalProfile: {
       calories: 0,
       protein_g: 0,
@@ -370,7 +370,7 @@ const rawAromaticHerbs = {
     modality: 'Cardinal' },
         chervil: {
     name: 'Chervil',
-    elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 }
+    elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
     nutritionalProfile: {
       calories: 0,
       protein_g: 0,
@@ -426,7 +426,7 @@ const rawAromaticHerbs = {
       Air: 0.4,
       Fire: 0.3,
       Earth: 0.2,
-      Water: 0.1
+      Water: 0.1,
     },
     category: 'culinary_herb',
     qualities: ['nourishing'],
@@ -447,7 +447,7 @@ const rawAromaticHerbs = {
       Air: 0.4,
       Fire: 0.3,
       Earth: 0.2,
-      Water: 0.1
+      Water: 0.1,
     },
     category: 'culinary_herb',
     qualities: ['nourishing'],
@@ -467,7 +467,7 @@ const rawAromaticHerbs = {
       Air: 0.4,
       Fire: 0.3,
       Earth: 0.2,
-      Water: 0.1
+      Water: 0.1,
     },
     category: 'culinary_herb',
     qualities: ['nourishing'],

@@ -41,9 +41,9 @@ describe('ProgressReportingSystem', () => {;
       // Mock successful campaign metrics
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
-        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 }
+        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { current: 0, target: 0, reduction: 4506, percentage: 100 }
-        buildPerformance: { currentTim, e: 8, targetTime: 10, cacheHitRate: 0.85, memoryUsage: 45 }
+        buildPerformance: { currentTim, e: 8, targetTime: 10, cacheHitRate: 0.85, memoryUsage: 45 },
         enterpriseSystems: { current: 250, target: 200, transformedExports: 250 }
         errorBreakdown: {}
         warningBreakdown: {}
@@ -53,10 +53,10 @@ describe('ProgressReportingSystem', () => {;
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
-          compilationSpeed: 25
+          compilationSpeed: 25,
         },
         resourceMetrics: { nodeMemoryUsage: process.memoryUsage(),
-          systemMemory: { total: 8192, used: 4096, free: 4096, percentage: 50 }
+          systemMemory: { total: 8192, used: 4096, free: 4096, percentage: 50 },
           diskSpace: { total: 1000000, used: 500000, free: 500000, percentage: 50 }
         },
         trendData: { errorReductionRat, e: 10, warningReductionRate: 50, buildTimeImprovement: 2, systemGrowthRate: 5 }
@@ -161,11 +161,11 @@ describe('ProgressReportingSystem', () => {;
       // Mock partial progress metrics
       mockMetricsCollectorcollectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
-        typeScriptErrors: { current: 10, target: 0, reduction: 76, percentage: 88 }
+        typeScriptErrors: { current: 10, target: 0, reduction: 76, percentage: 88 },
         lintingWarnings: { current: 500, target: 0, reduction: 4006, percentage: 89 }
-        buildPerformance: { currentTim, e: 12, targetTime: 10, cacheHitRate: 0.75, memoryUsage: 55 }
+        buildPerformance: { currentTim, e: 12, targetTime: 10, cacheHitRate: 0.75, memoryUsage: 55 },
         enterpriseSystems: { current: 150, target: 200, transformedExports: 150 }
-        errorBreakdown: { TS2352: 5, TS2345: 3, TS2698: 2 }
+        errorBreakdown: { TS2352: 5, TS2345: 3, TS2698: 2 },
         warningBreakdown: { '@typescript-eslint/no-explicit-any': 200, 'no-unused-vars': 300 }
         buildMetrics: { buildTime: 12,
           bundleSize: 480,
@@ -173,10 +173,10 @@ describe('ProgressReportingSystem', () => {;
           memoryUsage: 55,
           cpuUsage: 25,
           diskUsage: 1200,
-          compilationSpeed: 20
+          compilationSpeed: 20,
         },
         resourceMetrics: { nodeMemoryUsage: process.memoryUsage(),
-          systemMemory: { total: 8192, used: 5120, free: 3072, percentage: 62 }
+          systemMemory: { total: 8192, used: 5120, free: 3072, percentage: 62 },
           diskSpace: { total: 1000000, used: 600000, free: 400000, percentage: 60 }
         },
         trendData: { errorReductionRat, e: 5, warningReductionRate: 25, buildTimeImprovement: 1, systemGrowthRate: 3 }
@@ -247,9 +247,9 @@ describe('ProgressReportingSystem', () => {;
     test('should generate detailed phase completion report', async () => {
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
-        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 }
+        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { current: 0, target: 0, reduction: 4506, percentage: 100 }
-        buildPerformance: { currentTim, e: 8, targetTime: 10, cacheHitRate: 0.85, memoryUsage: 45 }
+        buildPerformance: { currentTim, e: 8, targetTime: 10, cacheHitRate: 0.85, memoryUsage: 45 },
         enterpriseSystems: { current: 250, target: 200, transformedExports: 250 }
         errorBreakdown: {}
         warningBreakdown: {}
@@ -259,10 +259,10 @@ describe('ProgressReportingSystem', () => {;
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
-          compilationSpeed: 25
+          compilationSpeed: 25,
         },
         resourceMetrics: { nodeMemoryUsage: process.memoryUsage(),
-          systemMemory: { total: 8192, used: 4096, free: 4096, percentage: 50 }
+          systemMemory: { total: 8192, used: 4096, free: 4096, percentage: 50 },
           diskSpace: { total: 1000000, used: 500000, free: 500000, percentage: 50 }
         },
         trendData: { errorReductionRat, e: 10, warningReductionRate: 50, buildTimeImprovement: 2, systemGrowthRate: 5 }
@@ -313,11 +313,11 @@ describe('ProgressReportingSystem', () => {;
           id: 'snapshot1',
           timestamp: new Date('2024-01-01'),
           metrics: { timestamp: new Date('2024-01-01'),
-            typeScriptErrors: { current: 50, target: 0, reduction: 36, percentage: 42 }
+            typeScriptErrors: { current: 50, target: 0, reduction: 36, percentage: 42 },
             lintingWarnings: { current: 2000, target: 0, reduction: 2506, percentage: 56 }
-            buildPerformance: { currentTim, e: 15, targetTime: 10, cacheHitRate: 0.7, memoryUsage: 60 }
+            buildPerformance: { currentTim, e: 15, targetTime: 10, cacheHitRate: 0.7, memoryUsage: 60 },
             enterpriseSystems: { current: 100, target: 200, transformedExports: 100 }
-            errorBreakdown: { TS2352: 20, TS2345: 15 }
+            errorBreakdown: { TS2352: 20, TS2345: 15 },
             warningBreakdown: { '@typescript-eslint/no-explicit-any': 800 }
             buildMetrics: { buildTime: 15,
               bundleSize: 500,
@@ -325,19 +325,19 @@ describe('ProgressReportingSystem', () => {;
               memoryUsage: 60,
               cpuUsage: 30,
               diskUsage: 1500,
-              compilationSpeed: 15
+              compilationSpeed: 15,
             },
             resourceMetrics: { nodeMemoryUsage: process.memoryUsage(),
-              systemMemory: { total: 8192, used: 4915, free: 3277, percentage: 60 }
+              systemMemory: { total: 8192, used: 4915, free: 3277, percentage: 60 },
               diskSpace: { total: 1000000, used: 600000, free: 400000, percentage: 60 }
             },
             trendData: { errorReductionRate: 8,
               warningReductionRate: 40,
               buildTimeImprovement: 1.5,
-              systemGrowthRate: 4
+              systemGrowthRate: 4,
             }
           },
-          phase: 'phase1'
+          phase: 'phase1',
         }
       ])
 
@@ -355,11 +355,11 @@ describe('ProgressReportingSystem', () => {;
 
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
-        typeScriptErrors: { current: 10, target: 0, reduction: 76, percentage: 88 }
+        typeScriptErrors: { current: 10, target: 0, reduction: 76, percentage: 88 },
         lintingWarnings: { current: 500, target: 0, reduction: 4006, percentage: 89 }
-        buildPerformance: { currentTim, e: 12, targetTime: 10, cacheHitRate: 0.75, memoryUsage: 55 }
+        buildPerformance: { currentTim, e: 12, targetTime: 10, cacheHitRate: 0.75, memoryUsage: 55 },
         enterpriseSystems: { current: 150, target: 200, transformedExports: 150 }
-        errorBreakdown: { TS2352: 5, TS2345: 3, TS2698: 2 }
+        errorBreakdown: { TS2352: 5, TS2345: 3, TS2698: 2 },
         warningBreakdown: { '@typescript-eslint/no-explicit-any': 200, 'no-unused-vars': 300 }
         buildMetrics: { buildTime: 12,
           bundleSize: 480,
@@ -367,10 +367,10 @@ describe('ProgressReportingSystem', () => {;
           memoryUsage: 55,
           cpuUsage: 25,
           diskUsage: 1200,
-          compilationSpeed: 20
+          compilationSpeed: 20,
         },
         resourceMetrics: { nodeMemoryUsage: process.memoryUsage(),
-          systemMemory: { total: 8192, used: 5120, free: 3072, percentage: 62 }
+          systemMemory: { total: 8192, used: 5120, free: 3072, percentage: 62 },
           diskSpace: { total: 1000000, used: 600000, free: 400000, percentage: 60 }
         },
         trendData: { errorReductionRat, e: 5, warningReductionRate: 25, buildTimeImprovement: 1, systemGrowthRate: 3 }
@@ -402,9 +402,9 @@ describe('ProgressReportingSystem', () => {;
         phases: [],
         keyAchievements: [],
         criticalIssues: [],
-        performanceMetrics: { typeScriptErrors: { initial: 86, current: 20, reduction: 66, reductionRate: 5 }
+        performanceMetrics: { typeScriptErrors: { initial: 86, current: 20, reduction: 66, reductionRate: 5 },
           lintingWarnings: { initial: 4506, current: 1000, reduction: 3506, reductionRate: 25 }
-          buildPerformance: { currentTim, e: 12, targetTime: 10, improvement: 1, cacheEfficiency: 0.75 }
+          buildPerformance: { currentTim, e: 12, targetTime: 10, improvement: 1, cacheEfficiency: 0.75 },
           enterpriseSystems: { initial: 0, current: 150, target: 200, growthRate: 3 }
         },
         recommendations: [],
@@ -449,9 +449,9 @@ describe('ProgressReportingSystem', () => {;
           }
         ],
         criticalIssues: [],
-        performanceMetrics: { typeScriptErrors: { initial: 86, current: 0, reduction: 86, reductionRate: 10 }
+        performanceMetrics: { typeScriptErrors: { initial: 86, current: 0, reduction: 86, reductionRate: 10 },
           lintingWarnings: { initial: 4506, current: 0, reduction: 4506, reductionRate: 50 }
-          buildPerformance: { currentTim, e: 8, targetTime: 10, improvement: 2, cacheEfficiency: 0.85 }
+          buildPerformance: { currentTim, e: 8, targetTime: 10, improvement: 2, cacheEfficiency: 0.85 },
           enterpriseSystems: { initial: 0, current: 250, target: 200, growthRate: 5 }
         },
         recommendations: [],
@@ -475,9 +475,9 @@ describe('ProgressReportingSystem', () => {;
       // Mock all required data
       mockMetricsCollectorcollectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
-        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 }
+        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { current: 0, target: 0, reduction: 4506, percentage: 100 }
-        buildPerformance: { currentTim, e: 8, targetTime: 10, cacheHitRate: 0.85, memoryUsage: 45 }
+        buildPerformance: { currentTim, e: 8, targetTime: 10, cacheHitRate: 0.85, memoryUsage: 45 },
         enterpriseSystems: { current: 250, target: 200, transformedExports: 250 }
         errorBreakdown: {}
         warningBreakdown: {}
@@ -487,10 +487,10 @@ describe('ProgressReportingSystem', () => {;
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
-          compilationSpeed: 25
+          compilationSpeed: 25,
         },
         resourceMetrics: { nodeMemoryUsage: process.memoryUsage(),
-          systemMemory: { total: 8192, used: 4096, free: 4096, percentage: 50 }
+          systemMemory: { total: 8192, used: 4096, free: 4096, percentage: 50 },
           diskSpace: { total: 1000000, used: 500000, free: 500000, percentage: 50 }
         },
         trendData: { errorReductionRat, e: 10, warningReductionRate: 50, buildTimeImprovement: 2, systemGrowthRate: 5 }
@@ -523,9 +523,9 @@ describe('ProgressReportingSystem', () => {;
     test('should maintain report history', async () => {
       mockMetricsCollector.collectDetailedMetrics.mockResolvedValue({
         timestamp: new Date(),
-        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 }
+        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { current: 0, target: 0, reduction: 4506, percentage: 100 }
-        buildPerformance: { currentTim, e: 8, targetTime: 10, cacheHitRate: 0.85, memoryUsage: 45 }
+        buildPerformance: { currentTim, e: 8, targetTime: 10, cacheHitRate: 0.85, memoryUsage: 45 },
         enterpriseSystems: { current: 250, target: 200, transformedExports: 250 }
         errorBreakdown: {}
         warningBreakdown: {}
@@ -535,10 +535,10 @@ describe('ProgressReportingSystem', () => {;
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
-          compilationSpeed: 25
+          compilationSpeed: 25,
         },
         resourceMetrics: { nodeMemoryUsage: process.memoryUsage(),
-          systemMemory: { total: 8192, used: 4096, free: 4096, percentage: 50 }
+          systemMemory: { total: 8192, used: 4096, free: 4096, percentage: 50 },
           diskSpace: { total: 1000000, used: 500000, free: 500000, percentage: 50 }
         },
         trendData: { errorReductionRat, e: 10, warningReductionRate: 50, buildTimeImprovement: 2, systemGrowthRate: 5 }

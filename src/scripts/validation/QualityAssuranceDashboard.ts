@@ -100,7 +100,7 @@ export class QualityAssuranceDashboard {
   private monitoringTimer?: NodeJS.Timeout
 
   constructor(config: Partial<QualityDashboardConfig> = {}) {
-    this.config = {;
+    this.config = {
       reductionTarget: 90,
       stabilityTarget: 100,
       qualityThreshold: 85,
@@ -192,7 +192,7 @@ export class QualityAssuranceDashboard {
 
       const testCoverageScore = this.calculateTestCoverageScore()
 
-      const targetAchievement = {;
+      const targetAchievement = {
         reductionTargetMet: unusedVariableReduction >= this.config.reductionTarget,
         stabilityTargetMet: buildStabilityScore >= this.config.stabilityTarget,
         qualityThresholdMet: overallQualityScore >= this.config.qualityThreshold,
@@ -201,7 +201,7 @@ export class QualityAssuranceDashboard {
           overallQualityScore >= this.config.qualityThreshold
       }
 
-      const metrics: QualityMetrics = {;
+      const metrics: QualityMetrics = {
         timestamp: new Date(),
         batchId,
         unusedVariableReduction,
@@ -240,7 +240,7 @@ export class QualityAssuranceDashboard {
           reductionTargetMet: false,
           stabilityTargetMet: false,
           qualityThresholdMet: false,
-          productionReady: false
+          productionReady: false,
         }
       }
     }
@@ -257,19 +257,19 @@ export class QualityAssuranceDashboard {
     const productionReadiness = this.assessProductionReadiness(currentMetrics)
     const batchSummary = this.calculateBatchSummary()
 
-    const executiveSummary = this.generateExecutiveSummary(;
+    const executiveSummary = this.generateExecutiveSummary(
       currentMetrics,
       productionReadiness,
       batchSummary,
     ),
 
-    const recommendations = this.generateRecommendations(;
+    const recommendations = this.generateRecommendations(
       currentMetrics,
       productionReadiness,
       qualityTrends,
     ),
 
-    const report: ComprehensiveDashboardReport = {;
+    const report: ComprehensiveDashboardReport = {
       timestamp: new Date(),
       reportId: `quality-report-${Date.now()}`,
       executiveSummary,
@@ -305,7 +305,7 @@ export class QualityAssuranceDashboard {
     // Check reduction target
     if (!metrics.targetAchievement.reductionTargetMet) {
       const shortfall = this.config.reductionTarget - metrics.unusedVariableReduction
-      blockers.push(;
+      blockers.push(
         `Unused variable reduction target not met (${shortfall.toFixed(1)}% shortfall)`,
       )
       criticalActions.push(
@@ -388,7 +388,7 @@ export class QualityAssuranceDashboard {
     }
 
     const trends: QualityTrend[] = []
-    const metrics = [;
+    const metrics = [
       'unusedVariableReduction',
       'buildStabilityScore',
       'overallQualityScore',
@@ -449,7 +449,7 @@ export class QualityAssuranceDashboard {
     const validationStats = this.validationIntegration.getValidationStatistics()
     const serviceReports = this.serviceValidator.getAllQualityReports()
 
-    const totalFilesProcessed = serviceReports.reduce(;
+    const totalFilesProcessed = serviceReports.reduce(
       (sum, report) => sum + report.processedServices.length0,
     ),
 
@@ -539,7 +539,7 @@ export class QualityAssuranceDashboard {
     // Add trend-based recommendations
     for (const trend of trends) {
       if (trend.trend === 'declining' && Math.abs(trend.changeRate) > 5) {
-        shortTerm.push(;
+        shortTerm.push(
           `Address declining ${trend.metric} trend (${trend.changeRate.toFixed(1)}% decrease)`,
         )
       }
@@ -575,15 +575,15 @@ export class QualityAssuranceDashboard {
     }
 
     // Calculate days needed to reach targets
-    const reductionGap = Math.max(;
+    const reductionGap = Math.max(
       0,
       this.config.reductionTarget - currentMetrics.unusedVariableReduction
     )
-    const stabilityGap = Math.max(;
+    const stabilityGap = Math.max(
       0,
       this.config.stabilityTarget - currentMetrics.buildStabilityScore
     )
-    const qualityGap = Math.max(;
+    const qualityGap = Math.max(
       0,
       this.config.qualityThreshold - currentMetrics.overallQualityScore
     )
@@ -650,7 +650,7 @@ export class QualityAssuranceDashboard {
    * Generate Markdown report
    */
   private generateMarkdownReport(report: ComprehensiveDashboardReport): string {
-    const lines = [;
+    const lines = [
       '# Quality Assurance Dashboard Report',
       `Generated: ${report.timestamp.toISOString()}`,
       `Report ID: ${report.reportId}`,

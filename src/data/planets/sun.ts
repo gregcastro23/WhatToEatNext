@@ -13,7 +13,7 @@ const sunData: PlanetData = {
     Spirit: 1,
     Essence: 0,
     Matter: 0,
-    Substance: 0
+    Substance: 0,
   }
   'Diurnal Element': 'Fire',
   'Nocturnal Element': 'Fire',
@@ -36,7 +36,7 @@ const sunData: PlanetData = {
     Salty: 0.2,
     Bitter: 0.4,
     Umami: 0.3,
-    Spicy: 0.8
+    Spicy: 0.8,
   },
   CulinaryInfluences: [
     'Enhances caramelization and browning',
@@ -51,21 +51,21 @@ const sunData: PlanetData = {
       Opposition: 0.2,
       Trine: 0.4,
       Square: 0.1,
-      Sextile: 0.3
+      Sextile: 0.3,
     },
     Jupiter: {
       Conjunction: 0.8,
       Opposition: 0.4,
       Trine: 0.6,
       Square: 0.2,
-      Sextile: 0.5
+      Sextile: 0.5,
     },
     Saturn: {
       Conjunction: -0.2,
       Opposition: -0.3,
       Trine: 0.1,
       Square: -0.4,
-      Sextile: 0.0
+      Sextile: 0.0,
     }
     // Additional aspects can be added
   },
@@ -80,7 +80,7 @@ const sunData: PlanetData = {
               Spirit: 0.8,
               Essence: 0.5,
               Matter: 0.3,
-              Substance: 0.2
+              Substance: 0.2,
             }
           },
           Winter: {
@@ -90,7 +90,7 @@ const sunData: PlanetData = {
               Spirit: 0.3,
               Essence: 0.2,
               Matter: 0.8,
-              Substance: 0.5
+              Substance: 0.5,
             }
           }
         },
@@ -102,7 +102,7 @@ const sunData: PlanetData = {
               Spirit: 0.5,
               Essence: 0.6,
               Matter: 0.3,
-              Substance: 0.4
+              Substance: 0.4,
             }
           },
           Fall: {
@@ -112,7 +112,7 @@ const sunData: PlanetData = {
               Spirit: 0.4,
               Essence: 0.5,
               Matter: 0.6,
-              Substance: 0.7
+              Substance: 0.7,
             }
           }
         }
@@ -123,7 +123,7 @@ const sunData: PlanetData = {
           CulinaryEffect: 'Time for transformative cooking techniques. Fermented foods undergo rapid change. Flavors that were previously mild become pronounced.' },
         Lunar: {
           ElementalShift: 'Temporarily increases Fire element influence',
-          CulinaryEffect: 'Increases potency of spices and herbs. Good time for smoking foods and creating flavor-intense dishes.'
+          CulinaryEffect: 'Increases potency of spices and herbs. Good time for smoking foods and creating flavor-intense dishes.',
         }
       },
       ZodiacTransit: {
@@ -134,7 +134,7 @@ const sunData: PlanetData = {
             Fire: 0.8,
             Earth: 0.2,
             Air: 0.3,
-            Water: 0.1
+            Water: 0.1,
           }
         },
         taurus: {
@@ -143,7 +143,7 @@ const sunData: PlanetData = {
             Fire: 0.3,
             Earth: 0.8,
             Air: 0.1,
-            Water: 0.2
+            Water: 0.2,
           }
         },
         gemini: {
@@ -152,7 +152,7 @@ const sunData: PlanetData = {
             Fire: 0.3,
             Earth: 0.1,
             Air: 0.8,
-            Water: 0.2
+            Water: 0.2,
           }
         },
         cancer: {
@@ -161,7 +161,7 @@ const sunData: PlanetData = {
             Fire: 0.1,
             Earth: 0.3,
             Air: 0.2,
-            Water: 0.8
+            Water: 0.8,
           }
         },
         leo: {
@@ -170,7 +170,7 @@ const sunData: PlanetData = {
             Fire: 0.9,
             Earth: 0.2,
             Air: 0.3,
-            Water: 0.1
+            Water: 0.1,
           }
         },
         virgo: {
@@ -179,7 +179,7 @@ const sunData: PlanetData = {
             Fire: 0.2,
             Earth: 0.7,
             Air: 0.3,
-            Water: 0.2
+            Water: 0.2,
           }
         },
         libra: {
@@ -188,7 +188,7 @@ const sunData: PlanetData = {
             Fire: 0.3,
             Earth: 0.2,
             Air: 0.7,
-            Water: 0.3
+            Water: 0.3,
           }
         },
         scorpio: {
@@ -197,7 +197,7 @@ const sunData: PlanetData = {
             Fire: 0.4,
             Earth: 0.2,
             Air: 0.1,
-            Water: 0.7
+            Water: 0.7,
           }
         },
         sagittarius: {
@@ -206,7 +206,7 @@ const sunData: PlanetData = {
             Fire: 0.7,
             Earth: 0.1,
             Air: 0.4,
-            Water: 0.2
+            Water: 0.2,
           }
         },
         capricorn: {
@@ -215,7 +215,7 @@ const sunData: PlanetData = {
             Fire: 0.1,
             Earth: 0.9,
             Air: 0.1,
-            Water: 0.3
+            Water: 0.3,
           }
         },
         aquarius: {
@@ -224,7 +224,7 @@ const sunData: PlanetData = {
             Fire: 0.3,
             Earth: 0.1,
             Air: 0.8,
-            Water: 0.2
+            Water: 0.2,
           }
         },
         pisces: {
@@ -233,7 +233,7 @@ const sunData: PlanetData = {
             Fire: 0.1,
             Earth: 0.2,
             Air: 0.2,
-            Water: 0.9
+            Water: 0.9,
           }
         }
       }

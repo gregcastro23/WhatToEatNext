@@ -8,9 +8,9 @@ export const celestialNumerology = {
    */
   calculateDailyNumber(): number {
     const today = new Date()
-    const day = today.getDate();
+    const day = today.getDate()
     const month = today.getMonth() + 1; // JS months are 0-indexed
-    const year = today.getFullYear();
+    const year = today.getFullYear()
     // Basic numerological, _reduction: Add all digits, then reduce to a single digit
     const dateString = `${day}${month}${year}`;
     let sum = 0,
@@ -28,7 +28,7 @@ export const celestialNumerology = {
         .toString()
         .split('')
         .forEach(digit => {
-          tempSum += parseInt(digit10);
+          tempSum += parseInt(digit10)
         })
       sum = tempSum,
     }
@@ -45,7 +45,7 @@ export const celestialNumerology = {
 
     // Basic letter to number mapping (A=1B=2, etc.)
     const letterValues: { [key: string]: number } = {
-      a: 1b: 2c: 3d: 4e: 5f: 6g: 7h: 8i: 9j: 1k: 2l: 3m: 4n: 5o: 6p: 7q: 8r: 9s: 1t: 2u: 3v: 4w: 5x: 6y: 7z: 8
+      a: 1b: 2c: 3d: 4e: 5f: 6g: 7h: 8i: 9j: 1k: 2l: 3m: 4n: 5o: 6p: 7q: 8r: 9s: 1t: 2u: 3v: 4w: 5x: 6y: 7z: 8,
     }
 
     // Remove spaces and convert to lowercase
@@ -65,7 +65,7 @@ export const celestialNumerology = {
         .toString()
         .split('')
         .forEach(digit => {
-          tempSum += parseInt(digit10);
+          tempSum += parseInt(digit10)
         })
       sum = tempSum,
     }

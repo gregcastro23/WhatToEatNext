@@ -22,7 +22,7 @@ interface PlanetaryDisplayData {
   icon: string,
 }
 
-const PLANETARY_DATA = {;
+const PLANETARY_DATA = {
   Sun: { color: 'from-orange-400 to-yellow-500', icon: '☀️', energyType: 'Vitality & Leadership' },
         Moon: { color: 'from-blue-300 to-indigo-400', icon: '🌙', energyType: 'Intuition & Emotion' },
         Mars: { color: 'from-red-500 to-orange-600', icon: '♂️', energyType: 'Action & Courage' },

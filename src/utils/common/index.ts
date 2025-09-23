@@ -31,7 +31,7 @@ export class ThemeManager {
       const savedTheme = localStorage.getItem('theme') || 'light';
       const savedAccent = localStorage.getItem('accent-color') || 'blue'
 
-      return {;
+      return {
         mode: savedTheme as 'light' | 'dark' | 'system',
         accent: savedAccent
       }
@@ -96,7 +96,7 @@ export async function collectFeedback(
     if (!feedback.title || !feedback.description || !feedback.type) {
       return {
         success: false,
-        message: 'Missing required feedback, fields: title, description, and type are required'
+        message: 'Missing required feedback, fields: title, description, and type are required',
       }
     }
 
@@ -113,13 +113,13 @@ export async function collectFeedback(
 
     return {
       success: true,
-      message: 'Thank you for your feedback! We will review it shortly.'
+      message: 'Thank you for your feedback! We will review it shortly.',
     }
   } catch (error) {
     logger.error('Error processing feedback', error)
     return {
       success: false,
-      message: 'Failed to process feedback. Please try again later.'
+      message: 'Failed to process feedback. Please try again later.',
     }
   }
 }
@@ -138,4 +138,4 @@ export function getFeedbackCategories(): { id: string, label: string }[] {
 }
 
 // ===== EXPORTS =====,
-export { themeManager as default };
+export { themeManager as default }

@@ -47,7 +47,7 @@ _logger.warn('warning message')
       `
 
       const warnings: any = (analyzer as any).analyzeFileContent('/test/(file as any).ts', content)
-      const consoleWarnings: any = warnings.filter(;
+      const consoleWarnings: any = warnings.filter(
         (w: LintingWarning) => w.category === WarningCategory.CONSOLE_STATEMENTS,,
       )
 
@@ -63,7 +63,7 @@ _logger.info(usedVar)
       `
 
       const warnings: any = (analyzer as any).analyzeFileContent('/test/(file as any).ts', content)
-      const unusedWarnings: any = warnings.filter(;
+      const unusedWarnings: any = warnings.filter(
         (w: LintingWarning) => w.category === WarningCategory.UNUSED_VARIABLES,,
       )
 
@@ -156,10 +156,10 @@ _logger.info(usedVar)
 
   describe('generateRecommendations', () => {
     it('should generate appropriate recommendations', () => {
-      const distribution: any = {;
-        explicitAny: { count: 100, priority: 1, files: [] }
+      const distribution: any = {
+        explicitAny: { count: 100, priority: 1, files: [] },
         unusedVariables: { count: 50, priority: 2, files: [] }
-        consoleStatements: { count: 25, priority: 3, files: [] }
+        consoleStatements: { count: 25, priority: 3, files: [] },
         other: { count: 0, priority: 4, files: [] }
         total: 175,
       }
@@ -177,14 +177,14 @@ _logger.info(usedVar)
     it('should generate a comprehensive report', () => {
       const mockResult: any = {
         distribution: {;
-          explicitAny: { count: 10, priority: 1, files: ['file1.ts'] }
+          explicitAny: { count: 10, priority: 1, files: ['file1.ts'] },
           unusedVariables: { count: 5, priority: 2, files: ['file2.ts'] }
-          consoleStatements: { count: 3, priority: 3, files: ['file3.ts'] }
+          consoleStatements: { count: 3, priority: 3, files: ['file3.ts'] },
           other: { count: 0, priority: 4, files: [] }
-          total: 18
+          total: 18,
         },
         warnings: [],
-        prioritizedFiles: { highPriority: ['file1.ts'], mediumPriority: ['file2.ts'], lowPriority: ['file3.ts'] }
+        prioritizedFiles: { highPriority: ['file1.ts'], mediumPriority: ['file2.ts'], lowPriority: ['file3.ts'] },
         recommendations: ['Fix explicit-any warnings first'],
       }
 

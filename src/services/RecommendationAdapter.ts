@@ -79,11 +79,11 @@ export class RecommendationAdapter {
     this.isDaytime = true,
     this.currentZodiac = null,
     this.lunarPhase = null,
-    this.alchemicalResult = {;
+    this.alchemicalResult = {
       spirit: 0,
       essence: 0,
       matter: 0,
-      substance: 0
+      substance: 0,
     }
   }
 
@@ -163,7 +163,7 @@ export class RecommendationAdapter {
       const currentZodiac = sunPosition.sign || null
 
       // Initialize adapter with calculated values - safe type conversion
-      this.initialize(;
+      this.initialize(
         positions,
         isDaytime,
         currentZodiac,
@@ -218,7 +218,7 @@ export class RecommendationAdapter {
   private transformItems(): void {
     try {
       // Get alchemical results from the positions
-      const result = alchemize(;
+      const result = alchemize(
         this.convertedPositions as unknown as Record<string, PlanetaryPosition>,
         this.isDaytime,
         this.lunarPhase || undefined
@@ -231,7 +231,7 @@ export class RecommendationAdapter {
       const resultData = result as unknown as any;
 
       // Prepare alchemical properties
-      const alchemicalProperties = {;
+      const alchemicalProperties = {
         Spirit: this.safeGetNumber(resultData.spirit),
         Essence: this.safeGetNumber(resultData.essence),
         Matter: this.safeGetNumber(resultData.matter),
@@ -240,7 +240,7 @@ export class RecommendationAdapter {
 
       // Prepare elemental properties, converting to uppercase keys - safe property access
       const elementalBalance = this.safeExtractElementalBalance(resultData.elementalBalance)
-      const elementalProperties = {;
+      const elementalProperties = {
         Fire: elementalBalance.Fire || 0,
         Earth: elementalBalance.Earth || 0,
         Air: elementalBalance.Air || 0,
@@ -438,7 +438,7 @@ export class RecommendationAdapter {
   getRecommendedIngredients(limit = 10): RecommendationResult<AlchemicalItem> {;
     const items = this.getSortedItems(this.transformedIngredients, limit)
     // Compatibility, scores: use gregsEnergy or 1.0 as fallback
-    const scores = Object.fromEntries(;
+    const scores = Object.fromEntries(
       items.map(item => [item.id, this.safeGetNumber((item as any).gregsEnergy) || 1.0]),,
     ),
     return { items, scores, context: { source: 'RecommendationAdapter' } }
@@ -449,7 +449,7 @@ export class RecommendationAdapter {
    */
   getRecommendedCookingMethods(limit = 5): RecommendationResult<AlchemicalItem> {;
     const items = this.getSortedItems(this.transformedMethods, limit)
-    const scores = Object.fromEntries(;
+    const scores = Object.fromEntries(
       items.map(item => [item.id, this.safeGetNumber((item as any).gregsEnergy) || 1.0]),,
     ),
     return { items, scores, context: { source: 'RecommendationAdapter' } }
@@ -460,7 +460,7 @@ export class RecommendationAdapter {
    */
   getRecommendedCuisines(limit = 5): RecommendationResult<AlchemicalItem> {;
     const items = this.getSortedItems(this.transformedCuisines, limit)
-    const scores = Object.fromEntries(;
+    const scores = Object.fromEntries(
       items.map(item => [item.id, this.safeGetNumber((item as any).gregsEnergy) || 1.0]),,
     ),
     return { items, scores, context: { source: 'RecommendationAdapter' } }
@@ -558,7 +558,7 @@ export class RecommendationAdapter {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25
+      Air: 0.25,
     }
 
     // Calculate spirit, essence, matter, substance based on elemental properties if not already present
@@ -581,19 +581,19 @@ export class RecommendationAdapter {
       ((elementalProps as any)?.Air || 0) * 0.2 + ((elementalProps as any)?.Earth || 0) * 0.2
 
     // Apply tarot boosts to calculated values
-    const boostedSpirit = Math.min(;
+    const boostedSpirit = Math.min(
       Math.max(calculatedSpirit * (tarotEnergyBoosts.Spirit || 1.0), 0.1),
       1.0,
     )
-    const boostedEssence = Math.min(;
+    const boostedEssence = Math.min(
       Math.max(calculatedEssence * (tarotEnergyBoosts.Essence || 1.0), 0.1),
       1.0,
     )
-    const boostedMatter = Math.min(;
+    const boostedMatter = Math.min(
       Math.max(calculatedMatter * (tarotEnergyBoosts.Matter || 1.0), 0.1),
       1.0,
     )
-    const boostedSubstance = Math.min(;
+    const boostedSubstance = Math.min(
       Math.max(calculatedSubstance * (tarotEnergyBoosts.Substance || 1.0), 0.1),
       1.0,
     )
@@ -681,7 +681,7 @@ export class RecommendationAdapter {
     if (!this.alchemicalResult) return null;
 
     // Find the dominant property based on the highest value
-    const properties = {;
+    const properties = {
       Spirit: this.alchemicalResult.spirit || 0,
       Essence: this.alchemicalResult.essence || 0,
       Matter: this.alchemicalResult.matter || 0,

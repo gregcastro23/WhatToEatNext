@@ -5,7 +5,7 @@ export class Cache {
   private cache: Map<string, { data: unknown, expiry: number | null }>,
 
   constructor(private ttl: number) {
-    this.cache = new Map();
+    this.cache = new Map()
   }
 
   /**
@@ -70,7 +70,7 @@ const DEFAULT_CACHE_TIMEOUT = 3600000;
 export const recipeCache = new Cache(DEFAULT_CACHE_TIMEOUT)
 
 // Create a simplified interface to the cache
-export const cache = {;
+export const cache = {
   get: (key: string) => recipeCache.get(key),
   set: (key: string, value: unknown, ttl?: number) => recipeCache.set(key, value, ttl),
   delete: (key: string) => recipeCache.delete(key),

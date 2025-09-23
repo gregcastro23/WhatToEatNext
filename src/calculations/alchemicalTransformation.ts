@@ -50,7 +50,7 @@ export interface AlchemicalItem extends ElementalItem {
  * @param lunarPhase Current lunar phase (optional)
  * @returns Item transformed with alchemical properties
  */
-export const transformItemWithPlanetaryPositions = (;
+export const transformItemWithPlanetaryPositions = (
   item: ElementalItem,
   planetPositions: Record<string, CelestialPosition>,
   isDaytime: boolean,
@@ -59,7 +59,7 @@ export const transformItemWithPlanetaryPositions = (;
 ): AlchemicalItem => {
   try {
     // Validate and sanitize input values
-    const sanitizedItem = {;
+    const sanitizedItem = {
       ...item,
       elementalProperties: Object.fromEntries(,
         Object.entries(item.elementalProperties).map(([key, value]) => [
@@ -86,7 +86,7 @@ export const transformItemWithPlanetaryPositions = (;
 
     // Transform elemental properties based on planetary influences
     // Apply the planetary boost to increase the effect
-    const transformedElementalProperties = transformElementalProperties(;
+    const transformedElementalProperties = transformElementalProperties(
       sanitizedItem.elementalProperties,
       alchemicalResults,
       planetaryBoost,
@@ -235,9 +235,9 @@ export const transformItemWithPlanetaryPositions = (;
         Spirit: 0.25,
   Essence: 0.25,
         Matter: 0.25,
-  Substance: 0.25
+  Substance: 0.25,
       },
-      transformedElementalProperties: { ...item.elementalProperties }
+      transformedElementalProperties: { ...item.elementalProperties },
       heat: 0.5,
   entropy: 0.5,
       reactivity: 0.5,
@@ -254,7 +254,7 @@ export const transformItemWithPlanetaryPositions = (;
 /**
  * Transform a collection of items using current planetary positions
  */
-export const _transformItemsWithPlanetaryPositions = (;
+export const _transformItemsWithPlanetaryPositions = (
   items: ElementalItem[],
   planetPositions: Record<string, CelestialPosition>,
   isDaytime: boolean,
@@ -263,7 +263,7 @@ export const _transformItemsWithPlanetaryPositions = (;
 ): AlchemicalItem[] => {
   try {
     return items.map(item =>
-      transformItemWithPlanetaryPositions(;
+      transformItemWithPlanetaryPositions(
         item,
         planetPositions,
         isDaytime,
@@ -280,9 +280,9 @@ export const _transformItemsWithPlanetaryPositions = (;
         Spirit: 0.25,
   Essence: 0.25,
         Matter: 0.25,
-  Substance: 0.25
+  Substance: 0.25,
       },
-      transformedElementalProperties: { ...item.elementalProperties }
+      transformedElementalProperties: { ...item.elementalProperties },
       heat: 0.5,
   entropy: 0.5,
       reactivity: 0.5,
@@ -300,7 +300,7 @@ export const _transformItemsWithPlanetaryPositions = (;
  * Transform elemental properties using alchemical results and planetary boost
  * This applies the alchemical influence to the base elemental properties
  */
-const transformElementalProperties = (;
+const transformElementalProperties = (
   originalProperties: Record<ElementalCharacter, number>,
   alchemicalResults: AlchemicalResults,
   planetaryBoost: number = 1.0,
@@ -376,7 +376,7 @@ const transformElementalProperties = (;
 /**
  * Apply zodiac-specific boosts to elemental properties
  */
-const applyZodiacBoost = (;
+const applyZodiacBoost = (
   transformedProperties: Record<ElementalCharacter, number>,
   zodiacSign: any,
 ): void => {
@@ -408,7 +408,7 @@ const applyZodiacBoost = (;
 /**
  * Apply cross-element influences based on elemental counts and boost
  */
-const applyElementalInfluences = (;
+const applyElementalInfluences = (
   transformedProperties: Record<ElementalCharacter, number>,
   elementalCounts: Record<ElementalCharacter, number>,
   originalProperties: Record<ElementalCharacter, number>,
@@ -441,7 +441,7 @@ const applyElementalInfluences = (;
 
     // Ensure all values remain positive
     Object.keys(transformedProperties).forEach(key => {
-      transformedProperties[key as ElementalCharacter] = Math.max(;
+      transformedProperties[key as ElementalCharacter] = Math.max(
         0.5,
         transformedProperties[key as ElementalCharacter]
       )
@@ -455,7 +455,7 @@ const applyElementalInfluences = (;
 /**
  * Calculate the dominant element from a set of elemental properties
  */
-const getDominantElement = (;
+const getDominantElement = (
   transformedProperties: Record<ElementalCharacter, number>,
 ): ElementalCharacter => {
   try {;
@@ -484,7 +484,7 @@ const getDominantElement = (;
 /**
  * Calculate the dominant alchemical property from alchemical counts
  */
-const getDominantAlchemicalProperty = (;
+const getDominantAlchemicalProperty = (
   alchemicalCounts: Record<AlchemicalProperty, number>,
 ): AlchemicalProperty => {
   try {;

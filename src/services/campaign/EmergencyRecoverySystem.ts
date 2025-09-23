@@ -88,7 +88,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: `Emergency rollback completed with options: ${JSON.stringify(options)}`,
         severity: SafetyEventSeverity.WARNING,
-        action: 'EMERGENCY_ROLLBACK_WITH_OPTIONS'
+        action: 'EMERGENCY_ROLLBACK_WITH_OPTIONS',
       })
 
       // // // _logger.info('✅ Emergency rollback completed successfully')
@@ -102,7 +102,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: errorMessage,
         severity: SafetyEventSeverity.CRITICAL,
-        action: 'EMERGENCY_ROLLBACK_FAILED'
+        action: 'EMERGENCY_ROLLBACK_FAILED',
       })
 
       throw new Error(errorMessage)
@@ -133,13 +133,13 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       // Perform hard reset to commit
       execSync(`git reset --hard ${commitHash}`, {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       // Clean untracked files
       execSync('git clean -fd', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       const validationResult = await this.validateRecoverySuccess('commit-rollback')
@@ -149,7 +149,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: `Rollback to commit ${commitHash} completed`,
         severity: SafetyEventSeverity.WARNING,
-        action: 'COMMIT_ROLLBACK'
+        action: 'COMMIT_ROLLBACK',
       })
 
       // // // _logger.info(`✅ Successfully rolled back to commit: ${commitHash}`)
@@ -163,7 +163,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: errorMessage,
         severity: SafetyEventSeverity.CRITICAL,
-        action: 'COMMIT_ROLLBACK_FAILED'
+        action: 'COMMIT_ROLLBACK_FAILED',
       })
 
       throw new Error(errorMessage)
@@ -183,7 +183,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
     // // // _logger.info('   - Reset git repository to clean state')
 
     try {
-      const result: NuclearResetResult = {;
+      const result: NuclearResetResult = {
         success: false,
         filesReset: 0,
         metricsCleared: false,
@@ -204,12 +204,12 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       const resetCommit = options.resetToCommit || (await this.findLastCleanCommit());
       execSync(`git reset --hard ${resetCommit}`, {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       execSync('git clean -fd', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       result.filesReset = await this.countResetFiles()
@@ -245,7 +245,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: `Nuclear reset completed successfully`,
         severity: SafetyEventSeverity.CRITICAL,
-        action: 'NUCLEAR_RESET_SUCCESS'
+        action: 'NUCLEAR_RESET_SUCCESS',
       })
 
       // // // _logger.info('☢️ NUCLEAR RESET COMPLETED SUCCESSFULLY')
@@ -263,7 +263,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: errorMessage,
         severity: SafetyEventSeverity.CRITICAL,
-        action: 'NUCLEAR_RESET_FAILED'
+        action: 'NUCLEAR_RESET_FAILED',
       })
 
       return {
@@ -298,7 +298,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       const tempBranch = `temp-recovery-${Date.now()}`;
       execSync(`git checkout -b ${tempBranch}`, {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       try {
@@ -310,7 +310,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
           if (fs.existsSync(target)) {
             execSync(`git checkout HEAD -- '${target}'`, {
               encoding: 'utf8',
-              stdio: 'pipe'
+              stdio: 'pipe',
             })
             // // // _logger.info(`✅ Restored: ${target}`)
           } else {
@@ -322,13 +322,13 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         const originalBranch = this.getCurrentBranch();
         execSync(`git checkout ${originalBranch}`, {
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         })
 
         // Delete temporary branch
         execSync(`git branch -D ${tempBranch}`, {
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         })
       } catch (error) {
         // Cleanup: return to original branch and delete temp branch
@@ -351,7 +351,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: `Selective recovery completed for ${targets.length} targets`,
         severity: SafetyEventSeverity.INFO,
-        action: 'SELECTIVE_RECOVERY'
+        action: 'SELECTIVE_RECOVERY',
       })
 
       // // // _logger.info(`✅ Selective recovery completed for ${targets.length} targets`)
@@ -365,7 +365,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: errorMessage,
         severity: SafetyEventSeverity.ERROR,
-        action: 'SELECTIVE_RECOVERY_FAILED'
+        action: 'SELECTIVE_RECOVERY_FAILED',
       })
 
       throw new Error(errorMessage)
@@ -379,7 +379,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
   async validateRecoverySuccess(recoveryMethod: string): Promise<RecoveryValidationResult> {
     // // // _logger.info(`🔍 Validating recovery success for method: ${recoveryMethod}`)
 
-    const result: RecoveryValidationResult = {;
+    const result: RecoveryValidationResult = {
       success: true,
       errors: [],
       warnings: [],
@@ -388,7 +388,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       metricsCleared: false,
       stashesPreserved: false,
       buildValidation: false,
-      testValidation: false
+      testValidation: false,
     }
 
     try {
@@ -462,7 +462,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         timestamp: new Date(),
         description: `Recovery validation completed: ${result.success ? 'SUCCESS' : 'FAILED'}`,
         severity: result.success ? SafetyEventSeverity.INFO : SafetyEventSeverity.ERROR,
-        action: 'RECOVERY_VALIDATION'
+        action: 'RECOVERY_VALIDATION',
       })
 
       // // // _logger.info(
@@ -497,11 +497,11 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         e.action.includes('RESET')
     )
 
-    const successfulRecoveries = recoveryEvents.filter(;
+    const successfulRecoveries = recoveryEvents.filter(
       e => e.action.includes('SUCCESS') || e.severity === SafetyEventSeverity.INFO,
     ).length,
 
-    const failedRecoveries = recoveryEvents.filter(;
+    const failedRecoveries = recoveryEvents.filter(
       e => e.action.includes('FAILED') || e.severity === SafetyEventSeverity.CRITICAL,
     ).length,
 
@@ -549,7 +549,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
     // Create backup using git archive
     execSync(`git archive --format=tar.gz --output='${backupPath}.tar.gz' HEAD`, {
       encoding: 'utf8',
-      stdio: 'pipe'
+      stdio: 'pipe',
     })
 
     // // // _logger.info(`📦 Emergency backup created: ${backupPath}.tar.gz`)
@@ -560,7 +560,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
     try {
       execSync(`git cat-file -e ${commitHash}`, {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
       return true,
     } catch {
@@ -602,7 +602,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
   }
 
   private async clearAllMetrics(): Promise<void> {
-    const metricsFiles = [;
+    const metricsFiles = [
       '.typescript-errors-metrics.json',
       '.linting-analysis-metrics.json',
       '.explicit-any-metrics.json',
@@ -638,7 +638,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       try {;
         execSync('git stash clear', {
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         })
         clearedCount = stashes.length,
       } catch (error) {
@@ -662,7 +662,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
 
   private async resetCampaignInfrastructure(): Promise<void> {
     // Reset campaign-specific directories and files
-    const campaignPaths = [;
+    const campaignPaths = [
       path.join('.kiro', 'campaign-progress.json'),
       path.join('.kiro', 'campaign-checkpoints.json'),
       path.join('.kiro', 'phase-reports')
@@ -698,7 +698,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
   }
 
   private async areMetricsCleared(): Promise<boolean> {
-    const metricsFiles = [;
+    const metricsFiles = [
       '.typescript-errors-metrics.json',
       '.linting-analysis-metrics.json',
       '.explicit-any-metrics.json'
@@ -718,7 +718,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       metricsCleared: false,
       stashesPreserved: false,
       buildValidation: false,
-      testValidation: false
+      testValidation: false,
     }
   }
 

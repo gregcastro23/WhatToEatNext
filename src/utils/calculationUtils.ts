@@ -5,11 +5,11 @@ import { elementalUtils } from './elementalUtils';
 export const calculationUtils = {
   calculateTemperatureEffect(temp: number): ElementalProperties {
     // Temperature affects Fire and Air primarily
-    const baseEffect: ElementalProperties = {;
+    const baseEffect: ElementalProperties = {
       Fire: 0,
       Air: 0,
       Water: 0,
-      Earth: 0
+      Earth: 0,
     }
 
     if (temp < 0) {
@@ -34,9 +34,9 @@ export const calculationUtils = {
 
   adjustForSeason(props: ElementalProperties, season: string): ElementalProperties {
     const seasonalModifiers: Record<string, ElementalProperties> = {
-      _spring: { Air: 0.3, Water: 0.3, Fire: 0.2, Earth: 0.2 }
+      _spring: { Air: 0.3, Water: 0.3, Fire: 0.2, Earth: 0.2 },
       _summer: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 }
-      _autumn: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 }
+      _autumn: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
       _winter: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
     }
 

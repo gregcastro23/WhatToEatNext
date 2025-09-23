@@ -132,7 +132,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0
+    Air: 0,
   })
   const [tarotPlanetaryBoosts, setTarotPlanetaryBoosts] = useState<Record<string, number>>({})
   const [currentLunarPhase, setCurrentLunarPhase] = useState<LunarPhaseWithSpaces | null>(null)
@@ -146,7 +146,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
-    Substance: 0
+    Substance: 0,
   })
 
   // Move the function declaration before any usage
@@ -162,7 +162,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
           }
 
           // Get the sign's current energy state
-          const signState = signEnergyStates.find(;
+          const signState = signEnergyStates.find(
             state =>
               state.sign &&
               position.sign &&
@@ -258,7 +258,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
           Fire: 0,
           Water: 0,
           Earth: 0,
-          Air: 0
+          Air: 0,
         }
 
         // Map suits to elements
@@ -266,7 +266,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
           Wands: 'Fire',
           Cups: 'Water',
           Pentacles: 'Earth',
-          Swords: 'Air'
+          Swords: 'Air',
         }
 
         // Calculate based on minor card
@@ -354,7 +354,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
 
   // This function will calculate alchemical values from tarot cards
   const calculateTarotEnergyBoosts = useCallback(
-    (;
+    (
       cards: TarotCard[],
     ): {
       Spirit: number,
@@ -363,11 +363,11 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
       Substance: number
     } => {
       try {
-        const result = {;
+        const result = {
           Spirit: 0,
           Essence: 0,
           Matter: 0,
-          Substance: 0
+          Substance: 0,
         }
 
         // Map elements to alchemical properties
@@ -418,7 +418,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
           Spirit: 0.25,
           Essence: 0.25,
           Matter: 0.25,
-          Substance: 0.25
+          Substance: 0.25,
         }
       }
     }

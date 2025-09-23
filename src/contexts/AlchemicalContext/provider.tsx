@@ -125,7 +125,7 @@ export const AlchemicalProvider: React.FC<{ children: ReactNode }> = ({ children
       spring: 0.8,
       summer: 1.0,
       autumn: 0.6,
-      winter: 0.4
+      winter: 0.4,
     };
     return seasonModifiers[state.currentSeason] || 0.5;
   };

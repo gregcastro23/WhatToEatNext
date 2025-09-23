@@ -21,7 +21,7 @@ const CuisinesIndexPage = () => {;
     Earth: 0.25,
     Air: 0.25,
     season: 'spring',
-    timeOfDay: 'lunch'
+    timeOfDay: 'lunch',
   })
 
   React.useEffect(() => {
@@ -136,7 +136,7 @@ const CuisinesIndexPage = () => {;
                     <div className='flex flex-wrap gap-1'>
                       {(cuisineFlavorProfiles[cuisine.id].regionalVariants ?? []).map(variant => {
                         // Find the variant cuisine ID
-                        const variantCuisineEntry = Object.entries(cuisineFlavorProfiles).find(;
+                        const variantCuisineEntry = Object.entries(cuisineFlavorProfiles).find(
                           ([_, profile]) => profile.name.toLowerCase() === variant,
                         ),
                         const variantId = variantCuisineEntry?.[0];
@@ -157,7 +157,7 @@ const CuisinesIndexPage = () => {;
               {/* Elemental Profile Preview */}
               {cuisineFlavorProfiles[cuisine.id].elementalAlignment && (
                 <div className='mb-4 grid grid-cols-4 gap-1'>
-                  {Object.entries(cuisineFlavorProfiles[cuisine.id].elementalAlignment).map(;
+                  {Object.entries(cuisineFlavorProfiles[cuisine.id].elementalAlignment).map(
                     ([element, value]) => (
                       <div key={element} className='text-center'>;
                         <div className={`text-xs font-medium ${getElementClass(element)}`}>,

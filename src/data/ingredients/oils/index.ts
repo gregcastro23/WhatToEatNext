@@ -25,7 +25,7 @@ export const _supplementOils = Object.entries(processedOils);
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 
 export const _specialtyOils = Object.entries(processedOils)
-  .filter(;
+  .filter(
     ([_, value]) =>
       !value.subCategory ||
       (value.subCategory !== 'cooking' &&
@@ -36,7 +36,7 @@ export const _specialtyOils = Object.entries(processedOils)
 
 // Export by elemental properties
 export const _fireOils = Object.entries(processedOils)
-  .filter(;
+  .filter(
     ([_, value]) =>
       value.elementalProperties.Fire >= 0.4 ||
       (typeof value.astrologicalProfile?.elementalAffinity === 'object' &&;
@@ -45,7 +45,7 @@ export const _fireOils = Object.entries(processedOils)
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 
 export const _waterOils = Object.entries(processedOils)
-  .filter(;
+  .filter(
     ([_, value]) =>
       value.elementalProperties.Water >= 0.4 ||
       (typeof value.astrologicalProfile?.elementalAffinity === 'object' &&;
@@ -54,7 +54,7 @@ export const _waterOils = Object.entries(processedOils)
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 
 export const _earthOils = Object.entries(processedOils)
-  .filter(;
+  .filter(
     ([_, value]) =>
       value.elementalProperties.Earth >= 0.4 ||
       (typeof value.astrologicalProfile?.elementalAffinity === 'object' &&;
@@ -63,7 +63,7 @@ export const _earthOils = Object.entries(processedOils)
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 
 export const _airOils = Object.entries(processedOils)
-  .filter(;
+  .filter(
     ([_, value]) =>
       value.elementalProperties.Air >= 0.4 ||
       (typeof value.astrologicalProfile?.elementalAffinity === 'object' &&;
@@ -73,7 +73,7 @@ export const _airOils = Object.entries(processedOils)
 
 // Export by culinary applications
 export const _highHeatOils = Object.entries(processedOils)
-  .filter(;
+  .filter(
     ([_, value]) =>
       (typeof value.smokePoint === 'object' &&
         value.smokePoint !== null &&

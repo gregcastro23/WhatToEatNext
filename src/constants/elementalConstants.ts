@@ -15,7 +15,7 @@ export const _ELEMENTS = ['Fire', 'Water', 'Earth', 'Air'] as const,
 /**
  * Default balanced elemental properties (25% each)
  */
-export const _DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {;
+export const _DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
   Fire: 0.25,
   Water: 0.25,
   Earth: 0.25,
@@ -25,7 +25,7 @@ export const _DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {;
 /**
  * Validation thresholds for elemental properties
  */
-export const _VALIDATION_THRESHOLDS = {;
+export const _VALIDATION_THRESHOLDS = {
   MINIMUM_ELEMENT: 0, // Minimum allowed value for any element,
   MAXIMUM_ELEMENT: 1, // Maximum allowed value for any element,
   BALANCE_PRECISION: 0.01, // Tolerance for sum of elements to be considered valid (1 ± this value)
@@ -120,7 +120,7 @@ export const _DECANS = {
   ]
 }
 
-export const _ELEMENTAL_WEIGHTS = {;
+export const _ELEMENTAL_WEIGHTS = {
   Fire: 1,
   Water: 1,
   Earth: 1,

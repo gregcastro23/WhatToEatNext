@@ -41,7 +41,7 @@ export function getCurrentSeason(): Season {
 }
 
 // Export consolidated seasonal data object that components expect
-export const _seasonalData = {;
+export const _seasonalData = {
   getCurrentSeason,
   seasonalElements,
   seasons: ['spring', 'summer', 'fall', 'winter', 'autumn', 'all'] as Season[],

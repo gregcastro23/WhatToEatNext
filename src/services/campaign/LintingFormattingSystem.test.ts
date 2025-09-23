@@ -26,10 +26,10 @@ describe('LintingFormattingSystem', () => {
   let testConfig: LintingFormattingConfig,
 
   beforeEach(() => {
-    testConfig = {;
+    testConfig = {
       ...DEFAULT_LINTING_FORMATTING_CONFIG,
       maxFilesPerBatch: 5,
-      safetyValidationEnabled: true
+      safetyValidationEnabled: true,
     }
     lintingFormattingSystem = new LintingFormattingSystem(testConfig)
 
@@ -56,7 +56,7 @@ describe('LintingFormattingSystem', () => {
               column: 15,
               ruleId: '@typescript-eslint/no-explicit-any',
               message: 'Unexpected any. Specify a different type.',
-              severity: 1
+              severity: 1,
             }
           ]
         }
@@ -83,14 +83,14 @@ describe('LintingFormattingSystem', () => {
               column: 5,
               ruleId: 'react-hooks/exhaustive-deps',
               message: 'React Hook useEffect has a missing dependency',
-              severity: 1
+              severity: 1,
             }
             {
               line: 15,
               column: 20,
               ruleId: 'react/jsx-uses-vars',
               message: 'Variable is used in JSX but not defined',
-              severity: 2
+              severity: 2,
             }
           ]
         }
@@ -229,7 +229,7 @@ const y: any = 2;
             pattern: /test/g,
             replacement: 'fixed',
             fileExtensions: ['.js'], // Only .js files,
-            enabled: true
+            enabled: true,
           }
         ],
       }
@@ -253,7 +253,7 @@ const y: any = 2;
             pattern: /test/g,
             replacement: 'fixed',
             fileExtensions: ['.ts'],
-            enabled: false
+            enabled: false,
           }
         ],
       }
@@ -296,7 +296,7 @@ const y: any = 2;
 
     test('enforces trailing commas', async () => {
       const originalContent: any = `
-const _obj = {;
+const _obj = {
   a: 1b: 2,
 }
 `,
@@ -520,7 +520,7 @@ const _greeting: any = 'Hi there';
           enforceSemicolons: false,
           enforceQuoteStyle: 'double',
           enforceLineLength: 120,
-          enforceSpacing: false
+          enforceSpacing: false,
         },
         patternBasedFixes: []
       }

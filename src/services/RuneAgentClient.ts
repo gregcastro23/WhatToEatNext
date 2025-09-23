@@ -20,7 +20,7 @@ export interface RuneResult {
   meaning: string,
   influence: {
     elemental: ElementalProperties,
-    energy: { Spirit: number, Essence: number, Matter: number, Substance: number }
+    energy: { Spirit: number, Essence: number, Matter: number, Substance: number },
     guidance: string
   }
   imageUrl?: string
@@ -47,7 +47,7 @@ export interface RuneAgentResult {
   rune: RuneResult,
   agent: AgentRecommendation,
   consciousness: {
-    mcValues: { [key: string]: number }
+    mcValues: { [key: string]: number },
     transitEffects: string[],
     momentumIndicators: {
       creativity: number,
@@ -60,7 +60,7 @@ export interface RuneAgentResult {
 
 function generateLocalRune(): RuneResult {
   // Simplified local fallback - would use more sophisticated logic
-  const runes = [;
+  const runes = [
     { symbol: '᚛', name: 'Fehu', meaning: 'Wealth, abundance, nourishment' }
     { symbol: '᚜', name: 'Uruz', meaning: 'Strength, vitality, primal energy' }
     { symbol: '᚝', name: 'Thurisaz', meaning: 'Transformation, protection, power' }
@@ -75,7 +75,7 @@ function generateLocalRune(): RuneResult {
     name: selected.name,
     meaning: selected.meaning,
     influence: {
-      elemental: { Fire: 0.3, Water: 0.2, Earth: 0.25, Air: 0.25 }
+      elemental: { Fire: 0.3, Water: 0.2, Earth: 0.25, Air: 0.25 },
       energy: { Spirit: 0.5, Essence: 0.4, Matter: 0.3, Substance: 0.6 }
       guidance: `The ${selected.name} rune suggests focusing on ${selected.meaning.toLowerCase()}`
     }
@@ -139,7 +139,7 @@ export class RuneAgentClient {
     // 1) Backend-first using centralized API client
     if (this.useBackend && this.backendUrl) {
       try {
-        const request: RuneAgentRequest = {;
+        const request: RuneAgentRequest = {
           datetime: input.datetime?.toISOString(),
           location: input.location,
           context: input.context,
@@ -164,7 +164,7 @@ export class RuneAgentClient {
     if (this.useBackend && this.backendUrl) {
       try {
         const url = new URL('/api/consciousness/live', this.backendUrl)
-        const payload = {;
+        const payload = {
           datetime: input.datetime?.toISOString() || new Date().toISOString(),
           location: input.location,
           context: input.context || 'cuisine',

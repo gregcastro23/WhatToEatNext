@@ -70,12 +70,12 @@ export function useRecommendationAnalytics(
     cacheStats: {
       hitRate: 0,
       totalEntries: 0,
-      memoryUsage: 0
+      memoryUsage: 0,
     },
     performanceTrends: {
       averageLoadTime: 0,
       averageCacheHitRate: 0,
-      performanceScore: 0
+      performanceScore: 0,
     },
     isLoading: false,
     error: null
@@ -131,7 +131,7 @@ export function useRecommendationAnalytics(
             averageCacheHitRate: performanceTrends.averageCacheHitRate,
             performanceScore: performanceTrends.performanceScore
           },
-          isLoading: false
+          isLoading: false,
         }))
       }
     } catch (error) {
@@ -140,7 +140,7 @@ export function useRecommendationAnalytics(
         setState(prev => ({,
           ...prev,
           error: error instanceof Error ? error.message : 'Unknown error',
-          isLoading: false
+          isLoading: false,
         }))
       }
     }
@@ -188,7 +188,7 @@ export function useRecommendationAnalytics(
     [enableCaching],
   )
 
-  const cacheRecommendation = useCallback(;
+  const cacheRecommendation = useCallback(
     <T>(key: string, data: T, confidenceScore?: number) => {
       if (enableCaching) {
         recommendationAnalytics.cacheRecommendation(key, data, confidenceScore)
@@ -201,7 +201,7 @@ export function useRecommendationAnalytics(
     return recommendationAnalytics.calculateConfidenceScore(factors)
   }, [])
 
-  const trackInteraction = useCallback(;
+  const trackInteraction = useCallback(
     (type: string, target: string, metadata?: Record<string, unknown>) => {
       if (enableInteractionTracking) {
         recommendationAnalytics.trackInteraction({
@@ -225,7 +225,7 @@ export function useRecommendationAnalytics(
 
   // ========== RETURN ==========,
 
-  const actions: RecommendationAnalyticsActions = {;
+  const actions: RecommendationAnalyticsActions = {
     startTiming,
     recordApiResponse,
     recordLoadTime,
@@ -249,7 +249,7 @@ export function usePerformanceTracking(_componentName: string) {
   const [, { startTiming, recordLoadTime }] = useRecommendationAnalytics({
     enablePerformanceTracking: true,
     enableCaching: false,
-    enableInteractionTracking: false
+    enableInteractionTracking: false,
   })
 
   const trackRender = useCallback(() => {;
@@ -277,7 +277,7 @@ export function useRecommendationCache<T>() {
   const [, { getCachedRecommendation, cacheRecommendation }] = useRecommendationAnalytics({
     enablePerformanceTracking: false,
     enableCaching: true,
-    enableInteractionTracking: false
+    enableInteractionTracking: false,
   })
 
   const getCached = useCallback(
@@ -287,7 +287,7 @@ export function useRecommendationCache<T>() {
     [getCachedRecommendation],
   )
 
-  const setCached = useCallback(;
+  const setCached = useCallback(
     (key: string, data: T, confidenceScore?: number) => {
       cacheRecommendation(key, data, confidenceScore)
     }
@@ -307,38 +307,38 @@ export function useInteractionTracking() {
   const [, { trackInteraction }] = useRecommendationAnalytics({
     enablePerformanceTracking: false,
     enableCaching: false,
-    enableInteractionTracking: true
+    enableInteractionTracking: true,
   })
 
-  const trackClick = useCallback(;
+  const trackClick = useCallback(
     (target: string, metadata?: Record<string, unknown>) => {
       trackInteraction('select', target, metadata)
     }
     [trackInteraction],
   )
 
-  const trackView = useCallback(;
+  const trackView = useCallback(
     (target: string, metadata?: Record<string, unknown>) => {
       trackInteraction('view', target, metadata)
     }
     [trackInteraction],
   )
 
-  const trackExpand = useCallback(;
+  const trackExpand = useCallback(
     (target: string, metadata?: Record<string, unknown>) => {
       trackInteraction('expand', target, metadata)
     }
     [trackInteraction],
   )
 
-  const trackSearch = useCallback(;
+  const trackSearch = useCallback(
     (query: string, metadata?: Record<string, unknown>) => {
       trackInteraction('search', query, metadata)
     }
     [trackInteraction],
   )
 
-  const trackFilter = useCallback(;
+  const trackFilter = useCallback(
     (filterType: string, metadata?: Record<string, unknown>) => {
       trackInteraction('filter', filterType, metadata)
     }

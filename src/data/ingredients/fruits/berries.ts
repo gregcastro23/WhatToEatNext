@@ -6,7 +6,7 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawBerries: Record<string, Partial<IngredientMapping>> = {
   blueberry: {
     name: 'Blueberry',
-    elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 }
+    elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Moon', "Venus'],
       favorableZodiac: ["cancer', "taurus'],
@@ -20,11 +20,11 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         firstQuarter: {
-          elementalBoost: { Water: 0.1, Air: 0.1 }
+          elementalBoost: { Water: 0.1, Air: 0.1 },
           preparationTips: ['Best for fresh eating']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 }
+          elementalBoost: { Water: 0.2 },
           preparationTips: ['Ideal for moonlit desserts']
         }
       }
@@ -59,7 +59,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
         manganese_mg: 0.5,
         vitamin_k_mcg: 28,
         anthocyanins_mg: 163,
-        proanthocyanidins_mg: 88
+        proanthocyanidins_mg: 88,
       }
     },
     healthBenefits: [
@@ -100,7 +100,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
         appearance: 'pink to light purple berries',
         flavor: 'mild, less acidic than blue varieties',
         common_cultivars: ["Pink Lemonade', "Pink Champagne'],
-        notes: 'Novelty variety, ornamental value'
+        notes: 'Novelty variety, ornamental value',
       }
     },
     preparation: {
@@ -126,12 +126,12 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
         method: 'juiced, infused, or muddled',
         applications: ["smoothies', "cocktails", 'infused water", 'kombucha'],
         techniques: 'muddle gently to release juice without bitterness',
-        notes: 'Beautiful natural colorant'
+        notes: 'Beautiful natural colorant',
       }
     },
     storage: {
       refrigerated: {
-        temperature: { fahrenheit: 32, celsius: 0 }
+        temperature: { fahrenheit: 32, celsius: 0 },
         duration: '1-2 weeks',
         humidity: 'moderate',
         method: 'store unwashed in breathable container',
@@ -149,7 +149,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
         preserved: {
         method: 'jam, jelly, or syrup',
         duration: 'up to 1 year sealed3 weeks opened',
-        notes: 'Process in water bath for long-term storage'
+        notes: 'Process in water bath for long-term storage',
       }
     },
     seasonality: {
@@ -163,13 +163,13 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       scandinavian: 'paired with cardamom and other warm spices',
       british: 'featured in summer puddings and fools',
       native_american: 'traditional food and medicine',
-      asian_fusion: 'incorporated into modern desserts'
+      asian_fusion: 'incorporated into modern desserts',
     }
   }
 
   strawberry: {
     name: 'Strawberry',
-    elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 }
+    elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ["Venus', "Mars'],
       favorableZodiac: ["taurus', "aries'],
@@ -183,19 +183,19 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Water: 0.1, Earth: 0.05 }
+          elementalBoost: { Water: 0.1, Earth: 0.05 },
           preparationTips: ["Good for preserving', "Make jams and jellies']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 }
+          elementalBoost: { Water: 0.2 },
           preparationTips: ["Sweetness enhanced', "Best eaten fresh']
         },
         firstQuarter: {
-          elementalBoost: { Water: 0.1, Air: 0.1 }
+          elementalBoost: { Water: 0.1, Air: 0.1 },
           preparationTips: ['Good for infusions and light desserts']
         },
         waningGibbous: {
-          elementalBoost: { Water: 0.15, Earth: 0.05 }
+          elementalBoost: { Water: 0.15, Earth: 0.05 },
           preparationTips: ['Ideal for drying or dehydrating']
         }
       }
@@ -224,13 +224,13 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       duration: '3-5 days',
       humidity: 'moderate',
-      notes: "Don't wash until ready to use"
+      notes: "Don't wash until ready to use",
     }
   }
 
   raspberry: {
     name: 'Raspberry',
-    elementalProperties: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 }
+    elementalProperties: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
     qualities: ["cooling', "sweet-tart", 'delicate"],
     season: ['summer'],
     category: 'fruit',
@@ -248,35 +248,35 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     },
     lunarPhaseModifiers: {
       newMoon: {
-        elementalBoost: { Water: 0.1, Earth: 0.05 }
+        elementalBoost: { Water: 0.1, Earth: 0.05 },
         preparationTips: ["Good for preserving', "Start jams and jellies']
       },
       waxingCrescent: {
-        elementalBoost: { Water: 0.15, Air: 0.05 }
+        elementalBoost: { Water: 0.15, Air: 0.05 },
         preparationTips: ['Good for light syrups and cordials']
       },
       firstQuarter: {
-        elementalBoost: { Water: 0.15, Air: 0.1 }
+        elementalBoost: { Water: 0.15, Air: 0.1 },
         preparationTips: ['Perfect for fresh eating and light desserts']
       },
       waxingGibbous: {
-        elementalBoost: { Water: 0.2, Air: 0.1 }
+        elementalBoost: { Water: 0.2, Air: 0.1 },
         preparationTips: ['Excellent for sorbets and mousses']
       },
       fullMoon: {
-        elementalBoost: { Water: 0.25, Air: 0.1 }
+        elementalBoost: { Water: 0.25, Air: 0.1 },
         preparationTips: ["Flavor peaks', "Ideal for special desserts']
       },
       waningGibbous: {
-        elementalBoost: { Water: 0.2, Earth: 0.1 }
+        elementalBoost: { Water: 0.2, Earth: 0.1 },
         preparationTips: ['Good for baking and pies']
       },
       lastQuarter: {
-        elementalBoost: { Water: 0.15, Earth: 0.15 }
+        elementalBoost: { Water: 0.15, Earth: 0.15 },
         preparationTips: ['Ideal for preserving and jamming']
       },
       waningCrescent: {
-        elementalBoost: { Water: 0.1, Earth: 0.2 }
+        elementalBoost: { Water: 0.1, Earth: 0.2 },
         preparationTips: ['Best for compotes and reductions']
       }
     },
@@ -288,13 +288,13 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       duration: '2-3 days',
       humidity: 'moderate',
-      notes: 'Best used quickly'
+      notes: 'Best used quickly',
     }
   }
 
   blackberry: {
     name: 'Blackberry',
-    elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
+    elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     qualities: ["sweet-tart', "wild", 'complex"],
     season: ["late summer', "early autumn'],
     category: 'fruit',
@@ -303,35 +303,35 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
     cookingMethods: ["raw', "baked", 'preserved", 'cooked'],
     lunarPhaseModifiers: {
       newMoon: {
-        elementalBoost: { Earth: 0.1, Water: 0.1 }
+        elementalBoost: { Earth: 0.1, Water: 0.1 },
         preparationTips: ["Good for starting preserves', "Subtle flavors']
       },
       waxingCrescent: {
-        elementalBoost: { Water: 0.15, Earth: 0.1 }
+        elementalBoost: { Water: 0.15, Earth: 0.1 },
         preparationTips: ['Building flavor for syrups and cordials']
       },
       firstQuarter: {
-        elementalBoost: { Water: 0.15, Air: 0.1 }
+        elementalBoost: { Water: 0.15, Air: 0.1 },
         preparationTips: ['Good for pies and cobblers']
       },
       waxingGibbous: {
-        elementalBoost: { Water: 0.2, Earth: 0.15 }
+        elementalBoost: { Water: 0.2, Earth: 0.15 },
         preparationTips: ['Excellent for jams and jellies']
       },
       fullMoon: {
-        elementalBoost: { Water: 0.25, Earth: 0.1 }
+        elementalBoost: { Water: 0.25, Earth: 0.1 },
         preparationTips: ["Flavor at peak wildness', "Best for fresh eating']
       },
       waningGibbous: {
-        elementalBoost: { Earth: 0.2, Water: 0.15 }
+        elementalBoost: { Earth: 0.2, Water: 0.15 },
         preparationTips: ['Ideal for rich sauces and reductions']
       },
       lastQuarter: {
-        elementalBoost: { Earth: 0.25, Water: 0.1 }
+        elementalBoost: { Earth: 0.25, Water: 0.1 },
         preparationTips: ['Good for wines and liqueurs']
       },
       waningCrescent: {
-        elementalBoost: { Earth: 0.2, Water: 0.05 }
+        elementalBoost: { Earth: 0.2, Water: 0.05 },
         preparationTips: ['Best for dried preparations']
       }
     },
@@ -352,13 +352,13 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       duration: '2-3 days',
       humidity: 'moderate',
-      notes: 'Use quickly for best flavor'
+      notes: 'Use quickly for best flavor',
     }
   }
 
   gooseberry: {
     name: 'Gooseberry',
-    elementalProperties: { Water: 0.3, Earth: 0.2, Air: 0.2, Fire: 0.3 }
+    elementalProperties: { Water: 0.3, Earth: 0.2, Air: 0.2, Fire: 0.3 },
     qualities: ["tart', "bright", 'complex"],
     season: ['early summer'],
     category: 'fruit',
@@ -385,19 +385,19 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       notes: 'Stores well due to firm skin' },
         lunarPhaseModifiers: {
       newMoon: {
-        elementalBoost: { Water: 0.1, Fire: 0.1 }
+        elementalBoost: { Water: 0.1, Fire: 0.1 },
         preparationTips: ['Good for starting preserves']
       },
       fullMoon: {
-        elementalBoost: { Fire: 0.2, Water: 0.1 }
+        elementalBoost: { Fire: 0.2, Water: 0.1 },
         preparationTips: ["Tartness balanced with sweetness', "Ideal for special desserts']
       },
       waxingCrescent: {
-        elementalBoost: { Fire: 0.15, Water: 0.1 }
+        elementalBoost: { Fire: 0.15, Water: 0.1 },
         preparationTips: ['Good for compotes and sauces']
       },
       lastQuarter: {
-        elementalBoost: { Earth: 0.15, Fire: 0.1 }
+        elementalBoost: { Earth: 0.15, Fire: 0.1 },
         preparationTips: ['Best for jams and preserves']
       }
     }
@@ -405,7 +405,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
 
   currant: {
     name: 'Currant',
-    elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 }
+    elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 },
     qualities: ["tart', "bright", 'jewel-like"],
     season: ['mid summer'],
     category: 'fruit',
@@ -432,19 +432,19 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       notes: 'Freeze for longer storage' },
         lunarPhaseModifiers: {
       newMoon: {
-        elementalBoost: { Water: 0.1, Fire: 0.1 }
+        elementalBoost: { Water: 0.1, Fire: 0.1 },
         preparationTips: ['Good for starting jams and jellies']
       },
       fullMoon: {
-        elementalBoost: { Fire: 0.2, Water: 0.1 }
+        elementalBoost: { Fire: 0.2, Water: 0.1 },
         preparationTips: ["Maximum flavor extraction', "Best for syrups and cordials']
       },
       waxingGibbous: {
-        elementalBoost: { Fire: 0.15, Air: 0.1 }
+        elementalBoost: { Fire: 0.15, Air: 0.1 },
         preparationTips: ['Perfect for sauces and glazes']
       },
       waningCrescent: {
-        elementalBoost: { Earth: 0.15, Water: 0.05 }
+        elementalBoost: { Earth: 0.15, Water: 0.05 },
         preparationTips: ['Good for drying or dehydrating']
       }
     }
@@ -452,7 +452,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
 
   elderberry: {
     name: 'Elderberry',
-    elementalProperties: { Water: 0.3, Air: 0.3, Earth: 0.2, Fire: 0.2 }
+    elementalProperties: { Water: 0.3, Air: 0.3, Earth: 0.2, Fire: 0.2 },
     qualities: ["tart', "medicinal", 'complex"],
     season: ["late summer', "early autumn'],
     category: 'fruit',
@@ -480,27 +480,27 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       notes: 'Best processed immediately' },
         lunarPhaseModifiers: {
       newMoon: {
-        elementalBoost: { Water: 0.1, Air: 0.1 }
+        elementalBoost: { Water: 0.1, Air: 0.1 },
         preparationTips: ['Good for starting medicinal preparations']
       },
       waxingCrescent: {
-        elementalBoost: { Water: 0.15, Air: 0.1 }
+        elementalBoost: { Water: 0.15, Air: 0.1 },
         preparationTips: ['Building medicinal potency']
       },
       firstQuarter: {
-        elementalBoost: { Air: 0.2, Water: 0.1 }
+        elementalBoost: { Air: 0.2, Water: 0.1 },
         preparationTips: ['Good for syrups and cordials']
       },
       fullMoon: {
-        elementalBoost: { Water: 0.2, Air: 0.15 }
+        elementalBoost: { Water: 0.2, Air: 0.15 },
         preparationTips: ["Maximum medicinal potency', "Best for wellness tonics']
       },
       waningGibbous: {
-        elementalBoost: { Earth: 0.15, Water: 0.15 }
+        elementalBoost: { Earth: 0.15, Water: 0.15 },
         preparationTips: ['Good for jams and preserves']
       },
       lastQuarter: {
-        elementalBoost: { Earth: 0.2, Water: 0.1 }
+        elementalBoost: { Earth: 0.2, Water: 0.1 },
         preparationTips: ['Best for elderberry wine']
       }
     }
@@ -508,7 +508,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
 
   mulberry: {
     name: 'Mulberry',
-    elementalProperties: { Water: 0.4, Earth: 0.2, Air: 0.2, Fire: 0.2 }
+    elementalProperties: { Water: 0.4, Earth: 0.2, Air: 0.2, Fire: 0.2 },
     qualities: ["sweet-tart', "earthy", 'delicate"],
     season: ["late spring', "early summer'],
     category: 'fruit',
@@ -535,19 +535,19 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       notes: 'Very perishable when ripe' },
         lunarPhaseModifiers: {
       newMoon: {
-        elementalBoost: { Water: 0.1, Earth: 0.05 }
+        elementalBoost: { Water: 0.1, Earth: 0.05 },
         preparationTips: ['Good for starting preserves']
       },
       waxingCrescent: {
-        elementalBoost: { Water: 0.15, Earth: 0.05 }
+        elementalBoost: { Water: 0.15, Earth: 0.05 },
         preparationTips: ['Building flavor for syrups']
       },
       fullMoon: {
-        elementalBoost: { Water: 0.2 }
+        elementalBoost: { Water: 0.2 },
         preparationTips: ["Best for fresh eating', "Flavor peaks']
       },
       waningGibbous: {
-        elementalBoost: { Earth: 0.15, Water: 0.1 }
+        elementalBoost: { Earth: 0.15, Water: 0.1 },
         preparationTips: ['Good for jams and preserves']
       }
     }
@@ -555,7 +555,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
 
   boysenberry: {
     name: 'Boysenberry',
-    elementalProperties: { Water: 0.4, Earth: 0.2, Air: 0.2, Fire: 0.2 }
+    elementalProperties: { Water: 0.4, Earth: 0.2, Air: 0.2, Fire: 0.2 },
     qualities: ["complex', "wine-like", 'aromatic"],
     season: ['summer'],
     category: 'fruit',
@@ -582,19 +582,19 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       notes: 'Best used immediately when ripe' },
         lunarPhaseModifiers: {
       newMoon: {
-        elementalBoost: { Water: 0.1, Earth: 0.05 }
+        elementalBoost: { Water: 0.1, Earth: 0.05 },
         preparationTips: ['Good for starting preserves']
       },
       firstQuarter: {
-        elementalBoost: { Water: 0.15, Air: 0.1 }
+        elementalBoost: { Water: 0.15, Air: 0.1 },
         preparationTips: ['Perfect for pies and cobblers']
       },
       fullMoon: {
-        elementalBoost: { Water: 0.2, Earth: 0.05 }
+        elementalBoost: { Water: 0.2, Earth: 0.05 },
         preparationTips: ["Wine-like qualities enhanced', "Best for special desserts']
       },
       waningGibbous: {
-        elementalBoost: { Earth: 0.15, Water: 0.1 }
+        elementalBoost: { Earth: 0.15, Water: 0.1 },
         preparationTips: ['Ideal for jams and preserves']
       }
     }
@@ -602,7 +602,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
 
   cloudberry: {
     name: 'Cloudberry',
-    elementalProperties: { Water: 0.3, Air: 0.3, Earth: 0.2, Fire: 0.2 }
+    elementalProperties: { Water: 0.3, Air: 0.3, Earth: 0.2, Fire: 0.2 },
     qualities: ["tart', "honey-like", 'exotic"],
     season: ['late summer'],
     category: 'fruit',
@@ -629,19 +629,19 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       notes: 'Best preserved or used immediately' },
         lunarPhaseModifiers: {
       newMoon: {
-        elementalBoost: { Air: 0.1, Water: 0.1 }
+        elementalBoost: { Air: 0.1, Water: 0.1 },
         preparationTips: ['Good for starting preserves']
       },
       firstQuarter: {
-        elementalBoost: { Air: 0.15, Water: 0.1 }
+        elementalBoost: { Air: 0.15, Water: 0.1 },
         preparationTips: ['Building flavor for jams']
       },
       fullMoon: {
-        elementalBoost: { Air: 0.2, Water: 0.1 }
+        elementalBoost: { Air: 0.2, Water: 0.1 },
         preparationTips: ["Honey-like qualities enhanced', "Best for rare desserts']
       },
       lastQuarter: {
-        elementalBoost: { Earth: 0.15, Air: 0.1 }
+        elementalBoost: { Earth: 0.15, Air: 0.1 },
         preparationTips: ['Good for preserves and liqueurs']
       }
     }

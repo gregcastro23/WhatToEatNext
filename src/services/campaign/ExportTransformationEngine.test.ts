@@ -43,14 +43,14 @@ describe('ExportTransformationEngine', () => {;
           safetyScore: 90,
           transformationCandidates: [
             {
-              export: { exportNam, e: 'testExport1', exportType: 'function', complexity: 5 }
+              export: { exportNam, e: 'testExport1', exportType: 'function', complexity: 5 },
               intelligenceSystemName: 'TEST_EXPORT_1_INTELLIGENCE_SYSTEM',
               transformationComplexity: 'MODERATE',
               safetyScore: 85,
-              estimatedBenefit: 75
+              estimatedBenefit: 75,
             }
           ],
-          category: 'CORE'
+          category: 'CORE',
         }
       ],
       mediumPriorityFiles: [
@@ -61,14 +61,14 @@ describe('ExportTransformationEngine', () => {;
           safetyScore: 85,
           transformationCandidates: [
             {
-              export: { exportNam, e: 'testExport2', exportType: 'class', complexity: 8 }
+              export: { exportNam, e: 'testExport2', exportType: 'class', complexity: 8 },
               intelligenceSystemName: 'TEST_EXPORT_2_INTELLIGENCE_SYSTEM',
               transformationComplexity: 'COMPLEX',
               safetyScore: 80,
-              estimatedBenefit: 80
+              estimatedBenefit: 80,
             }
           ],
-          category: 'CORE'
+          category: 'CORE',
         }
       ],
       lowPriorityFiles: [],
@@ -77,7 +77,7 @@ describe('ExportTransformationEngine', () => {;
         externalFiles: 0,
         totalTransformationCandidates: 2,
         averageSafetyScore: 87.5,
-        estimatedIntelligenceSystems: 2
+        estimatedIntelligenceSystems: 2,
       }
     })
 
@@ -91,7 +91,7 @@ describe('ExportTransformationEngine', () => {;
         capabilities: [],
         integrationPoints: [],
         estimatedValue: 75,
-        complexity: 'MODERATE'
+        complexity: 'MODERATE',
       }
     ])
 
@@ -246,7 +246,7 @@ describe('ExportTransformationEngine', () => {;
       const summary: any = await failingEngine.executeTransformation()
       expect(summary.failedBatches).toBeGreaterThan(0).
       expect(
-        (;
+        (
           mockSafetyProtocol as unknown as {,
             prototype: { rollbackToCheckpoin, t: jestMockedFunction<() => Promise<any>> }
           }
@@ -320,12 +320,12 @@ describe('ExportTransformationEngine', () => {;
 
   describe('batch safety scoring', () => {
     it('should calculate batch safety scores correctly', () => {
-      const mockFiles: any = [;
+      const mockFiles: any = [
         { safetyScore: 90, transformationCandidates: [{ transformationComplexit, y: 'SIMPLE' }] }
         { safetyScore: 80, transformationCandidates: [{ transformationComplexit, y: 'COMPLEX' }] }
       ],
 
-      const score: any = (;
+      const score: any = (
         engine as unknown as { calculateBatchSafetyScore: (files: any[]) => number }
       ).calculateBatchSafetyScore(mockFiles)
 
@@ -347,7 +347,7 @@ describe('ExportTransformationEngine', () => {;
         }
       ],
 
-      const duration: any = (;
+      const duration: any = (
         engine as unknown as { estimateBatchDuration: (files: any[]) => number }
       )estimateBatchDuration(mockFiles)
 
@@ -392,7 +392,7 @@ describe('ExportTransformationEngine', () => {;
     })
 
     it('should handle empty results', () => {
-      const summary: any = (;
+      const summary: any = (
         engine as unknown as {,
           generateTransformationSummary: (results: any[], duration: number) => Record<string, unknown>,
         }

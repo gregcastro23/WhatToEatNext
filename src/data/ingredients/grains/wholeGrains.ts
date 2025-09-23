@@ -5,7 +5,7 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawWholeGrains = {
   brown_rice: {;
     name: 'Brown Rice',
-    elementalProperties: { Earth: 0.5, Water: 0.3, Air: 0.1, Fire: 0.1 }
+    elementalProperties: { Earth: 0.5, Water: 0.3, Air: 0.1, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
       favorableZodiac: ['cancer', 'capricorn', 'taurus'] as any[],
@@ -20,19 +20,19 @@ const rawWholeGrains = {
       },
       lunarPhaseModifiers: {
         newMoon: {
-          elementalBoost: { Earth: 0.1, Water: 0.05 }
+          elementalBoost: { Earth: 0.1, Water: 0.05 },
           preparationTips: ['Begin sprouting process', 'Mindful cooking with minimal seasonings']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.15, Earth: 0.05 }
+          elementalBoost: { Water: 0.15, Earth: 0.05 },
           preparationTips: ['Perfect for hearty dishes', 'Enhanced digestibility']
         },
         waxingCrescent: {
-          elementalBoost: { Earth: 0.05, Water: 0.1 }
+          elementalBoost: { Earth: 0.05, Water: 0.1 },
           preparationTips: ['Good for starting fermentations', 'Basic cooking methods']
         },
         firstQuarter: {
-          elementalBoost: { Earth: 0.1, Air: 0.05 }
+          elementalBoost: { Earth: 0.1, Air: 0.05 },
           preparationTips: ['Balanced seasonings', 'Good for everyday preparations']
         }
       },
@@ -50,11 +50,12 @@ const rawWholeGrains = {
         protein: 2.5,
         carbs: 22.4,
         fat: 0.9,
-        fiber: 1.8
+        fiber: 1.8,
       },
       vitamins: {
-        B1: 0.11B3: 0.13B6: 0.14E: 0.08,
-        folate: 0.04
+        B1: 0.11,
+    B3: 0.13B6: 0.14E: 0.08,
+        folate: 0.04,
       },
       minerals: {
         manganese: 0.86,
@@ -63,7 +64,7 @@ const rawWholeGrains = {
         selenium: 0.42,
         zinc: 0.18,
         copper: 0.11,
-        iron: 0.1
+        iron: 0.1,
       },
       glycemic_index: 68,
       source: 'USDA FoodData Central' },
@@ -88,7 +89,7 @@ const rawWholeGrains = {
         benefit: 'Antioxidant Activity',
         mechanism: 'Contains phenolic compounds that combat oxidative stress',
         compounds: ['ferulic acid', 'caffeic acid', 'sinapic acid'],
-        notes: 'Most concentrated in the bran layer'
+        notes: 'Most concentrated in the bran layer',
       }
     },
     varieties: {
@@ -131,7 +132,7 @@ const rawWholeGrains = {
         flavor: 'robust, earthy, nutty',
         cooking_ratio: '1:2.5 rice to water',
         cooking_time: '45-50 minutes',
-        best_for: 'substantial side dishes, grain bowls, salads'
+        best_for: 'substantial side dishes, grain bowls, salads',
       }
     },
     affinities: [
@@ -185,7 +186,7 @@ const rawWholeGrains = {
         method: 'dry toast in pan before cooking',
         benefits: 'enhances nutty flavor',
         timing: '3-5 minutes until fragrant',
-        notes: 'Stir constantly to prevent burning'
+        notes: 'Stir constantly to prevent burning',
       }
     },
     culinaryApplications: {
@@ -211,7 +212,7 @@ const rawWholeGrains = {
         variations: {
           stovetop: 'traditional method as described above',
           rice_cooker: 'same ratio, select brown rice setting',
-          pressure_cooker: '1:1.25 rice to water, high pressure 20-22 minutes, natural release'
+          pressure_cooker: '1:1.25 rice to water, high pressure 20-22 minutes, natural release',
         }
       },
       pilaf_method: {
@@ -263,7 +264,7 @@ const rawWholeGrains = {
           classic: 'cinnamon, raisins, vanilla',
           coconut: 'coconut milk, cardamom, pistachios',
           chocolate: 'cocoa powder, almond milk, cherries' },
-        notes: 'Takes longer than white rice pudding but has nuttier flavor'
+        notes: 'Takes longer than white rice pudding but has nuttier flavor',
       }
     },
     storage: {
@@ -272,7 +273,7 @@ const rawWholeGrains = {
           room_temperature: 'up to 6 months in cool, dark place',
           refrigerator: 'up to 1 year',
           freezer: 'up to 2 years',
-          notes: 'Natural oils can go rancidso store properly'
+          notes: 'Natural oils can go rancidso store properly',
         }
       }
 
@@ -280,7 +281,7 @@ const rawWholeGrains = {
         refrigerator: {
           duration: '3-5 days',
           container: 'breathable container with paper towel',
-          notes: 'Rinse daily if storing longer than 2 days'
+          notes: 'Rinse daily if storing longer than 2 days',
         }
       }
     },
@@ -289,14 +290,14 @@ const rawWholeGrains = {
       modern_health: {
         preparations: 'grain bowls, alternative sushi, veggie burgers',
         emphasis: 'nutrient density, whole foods philosophy',
-        notes: 'Often featured in contemporary health-focused cuisines'
+        notes: 'Often featured in contemporary health-focused cuisines',
       }
     }
   }
 
   quinoa: {
     name: 'Quinoa',
-    elementalProperties: { Earth: 0.4, Air: 0.4, Water: 0.2, Fire: 0 }
+    elementalProperties: { Earth: 0.4, Air: 0.4, Water: 0.2, Fire: 0 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Mercury'],
       favorableZodiac: ['cancer', 'gemini'] as any[],
@@ -315,14 +316,14 @@ const rawWholeGrains = {
     preparation: {
       rinsing: {
         duration: '1-2 minutes',
-        purpose: 'remove saponins'
+        purpose: 'remove saponins',
       }
     }
   }
 
   kamut: {
     name: 'Kamut',
-    elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 }
+    elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
     qualities: ['buttery', 'rich', 'chewy'],
     category: 'whole_grain',
     culinaryApplications: {
@@ -333,7 +334,7 @@ const rawWholeGrains = {
         soaked_method: {
         soaking: '12-24 hours',
         cooking_time: '45-60 minutes',
-        benefits: 'improved digestibility'
+        benefits: 'improved digestibility',
       }
     },
     preparations: {
@@ -344,7 +345,7 @@ const rawWholeGrains = {
         breakfast_porridge: {
         method: 'cook longer for softer texture',
         additions: ['dried fruit', 'nuts', 'honey'],
-        service: 'hot'
+        service: 'hot',
       }
     },
     nutritionalProfile: {
@@ -353,13 +354,13 @@ const rawWholeGrains = {
       vitamins: ['e', 'b-complex'],
       calories_per_100g: 337,
       protein_g: 14.7,
-      fiber_g: 11.1
+      fiber_g: 11.1,
     }
   }
 
   spelt_berries: {
     name: 'Spelt Berries',
-    elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 }
+    elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
     qualities: ['nutty', 'complex', 'hearty'],
     category: 'whole_grain',
     culinaryApplications: {
@@ -370,7 +371,7 @@ const rawWholeGrains = {
         pressure_cooker: {
         ratio: '1:2.5 spelt to water',
         cooking_time: '25-30 minutes',
-        notes: 'natural release recommended'
+        notes: 'natural release recommended',
       }
     },
     preparations: {
@@ -381,7 +382,7 @@ const rawWholeGrains = {
         soups: {
         method: 'add to broth',
         cooking_time: '30-40 minutes in soup',
-        notes: 'adds hearty texture'
+        notes: 'adds hearty texture',
       }
     },
     nutritionalProfile: {
@@ -390,13 +391,13 @@ const rawWholeGrains = {
       vitamins: ['b3', 'b6', 'thiamin'],
       calories_per_100g: 338,
       protein_g: 14.6,
-      fiber_g: 10.7
+      fiber_g: 10.7,
     }
   }
 
   einkorn: {
     name: 'Einkorn',
-    elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 }
+    elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
     qualities: ['nutty', 'ancient', 'nutritious'],
     category: 'whole_grain',
     culinaryApplications: {
@@ -407,7 +408,7 @@ const rawWholeGrains = {
         risotto_style: {
         method: 'gradual broth addition',
         cooking_time: '25-30 minutes',
-        notes: 'stir frequently'
+        notes: 'stir frequently',
       }
     },
     preparations: {
@@ -418,7 +419,7 @@ const rawWholeGrains = {
         breakfast: {
         method: 'cook until creamy',
         additions: ['milk', 'honey', 'fruit'],
-        service: 'hot'
+        service: 'hot',
       }
     },
     nutritionalProfile: {
@@ -427,13 +428,13 @@ const rawWholeGrains = {
       vitamins: ['a', 'b-complex'],
       calories_per_100g: 340,
       protein_g: 15.3,
-      fiber_g: 8.7
+      fiber_g: 8.7,
     }
   }
 
   rye_berries: {
     name: 'Rye Berries',
-    elementalProperties: { Earth: 0.5, Water: 0.2, Air: 0.1, Fire: 0.2 }
+    elementalProperties: { Earth: 0.5, Water: 0.2, Air: 0.1, Fire: 0.2 },
     qualities: ['earthy', 'robust', 'hearty'],
     category: 'whole_grain',
     culinaryApplications: {
@@ -444,7 +445,7 @@ const rawWholeGrains = {
         soaked_method: {
         soaking: '8-12 hours',
         cooking_time: '45-60 minutes',
-        benefits: 'improved texture and digestibility'
+        benefits: 'improved texture and digestibility',
       }
     },
     preparations: {
@@ -455,7 +456,7 @@ const rawWholeGrains = {
         hearty_salads: {
         method: 'cook until chewy',
         additions: ['root vegetables', 'hardy greens', 'vinaigrette'],
-        service: 'room temperature'
+        service: 'room temperature',
       }
     },
     nutritionalProfile: {
@@ -464,13 +465,13 @@ const rawWholeGrains = {
       vitamins: ['b1', 'b3', 'b6'],
       calories_per_100g: 338,
       protein_g: 10.3,
-      fiber_g: 15.1
+      fiber_g: 15.1,
     }
   }
 
   wild_rice: {
     name: 'Wild Rice',
-    elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
+    elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     qualities: ['nutty', 'complex', 'aromatic'],
     category: 'whole_grain',
     culinaryApplications: {
@@ -480,14 +481,14 @@ const rawWholeGrains = {
         method: 'simmer until grains split' },
         pilaf_method: {
         steps: ['toast in oil', 'add aromatics', 'simmer in broth', 'steam finish'],
-        notes: 'enhances nutty flavor'
+        notes: 'enhances nutty flavor',
       }
     },
     preparations: {
       grain_blends: {
         method: 'mix with other rices',
         ratio: '1:2 wild to other rice',
-        notes: 'adds texture and nutrition'
+        notes: 'adds texture and nutrition',
       }
     },
     nutritionalProfile: {
@@ -496,13 +497,13 @@ const rawWholeGrains = {
       vitamins: ['b6', 'folate', 'niacin'],
       calories_per_100g: 357,
       protein_g: 14.7,
-      fiber_g: 6.2
+      fiber_g: 6.2,
     }
   }
 
   triticale: {
     name: 'Triticale',
-    elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 }
+    elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
     qualities: ['nutty', 'hybrid vigor', 'nutritious'],
     category: 'whole_grain',
     culinaryApplications: {
@@ -513,7 +514,7 @@ const rawWholeGrains = {
         overnight_method: {
         soaking: '8-12 hours',
         cooking_time: '30-40 minutes',
-        benefits: 'quicker cooking, better absorption'
+        benefits: 'quicker cooking, better absorption',
       }
     },
     preparations: {
@@ -524,7 +525,7 @@ const rawWholeGrains = {
         grain_salad: {
         method: 'cook until chewy',
         additions: ['roasted vegetables', 'fresh herbs', 'citrus'],
-        service: 'room temperature'
+        service: 'room temperature',
       }
     },
     nutritionalProfile: {
@@ -533,13 +534,13 @@ const rawWholeGrains = {
       vitamins: ['b1', 'b2', 'folate'],
       calories_per_100g: 336,
       protein_g: 13.1,
-      fiber_g: 9.8
+      fiber_g: 9.8,
     }
   }
 
   oats: {
     name: 'Oats',
-    elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 }
+    elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
       favorableZodiac: ['cancer', 'taurus'] as any[],
@@ -553,11 +554,11 @@ const rawWholeGrains = {
       },
       lunarPhaseModifiers: {
         waxingCrescent: {
-          elementalBoost: { Earth: 0.1, Water: 0.1 }
+          elementalBoost: { Earth: 0.1, Water: 0.1 },
           preparationTips: ['Best for overnight oats']
         },
         fullMoon: {
-          elementalBoost: { Water: 0.2 }
+          elementalBoost: { Water: 0.2 },
           preparationTips: ['Ideal for creamy porridge']
         }
       }
@@ -572,7 +573,7 @@ const rawWholeGrains = {
         long_grain: {
         characteristics: 'fluffy, separate grains',
         cooking_ratio: '1:2.25 rice to water',
-        cooking_time: '45-50 minutes'
+        cooking_time: '45-50 minutes',
       }
     },
     preparation: {
@@ -589,7 +590,7 @@ const rawWholeGrains = {
       rulingPlanets: ['Venus', 'Moon'],
       favorableZodiac: ['cancer', 'taurus'] as any[]
     },
-    elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 }
+    elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
     qualities: ['nutty', 'chewy', 'wholesome'],
     category: 'whole_grain',
     culinaryApplications: {
@@ -600,7 +601,7 @@ const rawWholeGrains = {
         soaked_method: {
         soaking: '8-12 hours',
         cooking_time: '45-60 minutes',
-        benefits: 'improved texture and digestibility'
+        benefits: 'improved texture and digestibility',
       }
     },
     preparations: {
@@ -611,7 +612,7 @@ const rawWholeGrains = {
         hearty_salads: {
         method: 'cook until chewy',
         additions: ['root vegetables', 'hardy greens', 'vinaigrette'],
-        service: 'room temperature'
+        service: 'room temperature',
       }
     },
     nutritionalProfile: {
@@ -620,7 +621,7 @@ const rawWholeGrains = {
       vitamins: ['b1', 'b3', 'b6'],
       calories_per_100g: 338,
       protein_g: 10.3,
-      fiber_g: 15.1
+      fiber_g: 15.1,
     }
   }
 }

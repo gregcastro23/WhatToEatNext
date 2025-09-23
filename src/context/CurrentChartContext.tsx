@@ -104,7 +104,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
       Fire: 0,
       Water: 0,
       Earth: 0,
-      Air: 0
+      Air: 0,
     }
 
     Object.entries(positions).forEach(([planet, data]) => {
@@ -153,7 +153,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
   }
 
   const _getHouseElement = (house: number): string => {
-    const houseElements = [;
+    const houseElements = [
       'Fire',
       'Earth',
       'Air',
@@ -230,7 +230,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
       const planetData = data as { sign?: string degree?: number }
       const planetName = key.charAt(0).toUpperCase() + key.slice(1)
-      formattedPlanets[planetName] = {;
+      formattedPlanets[planetName] = {
         sign: planetData?.sign || 'Unknown',
         degree: planetData?.degree || 0,
         isRetrograde: planetData?.isRetrograde || false,
@@ -291,7 +291,7 @@ export const useCurrentChart = () => {
           if (key === 'ascendant') return acc,
           const planetData = data as { sign?: string degree?: number }
           const planetName = key.charAt(0).toUpperCase() + key.slice(1)
-          acc[planetName] = {;
+          acc[planetName] = {
             sign: planetData?.sign || 'Unknown',
             degree: planetData?.degree || 0,
             isRetrograde: planetData?.isRetrograde || false,

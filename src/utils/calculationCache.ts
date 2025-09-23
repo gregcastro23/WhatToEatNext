@@ -34,7 +34,7 @@ export function getCachedCalculation<T>(
   ttl: number = DEFAULT_CACHE_TTL): T | Promise<T> {
   // Create a hash of the input for comparison
   const inputHash = JSON.stringify(inputObj)
-  const now = Date.now();
+  const now = Date.now()
   const cached = calculationCache[cacheKey];
 
   // Check if we have a valid cached result
@@ -54,7 +54,7 @@ export function getCachedCalculation<T>(
     if (resultOrPromise instanceof Promise) {;
       // For async functions, return a promise that caches when resolved
       return resultOrPromise.then(asyncResult => {
-        calculationCache[cacheKey] = {;
+        calculationCache[cacheKey] = {
           value: asyncResult,
           timestamp: Date.now(), // Use current time (not 'now') for actual caching,
           input: inputHash
@@ -105,10 +105,10 @@ export function getCacheStats(): {
   const keys = Object.keys(calculationCache)
   const timestamps = keys.map(key => calculationCache[key].timestamp)
 
-  return {;
+  return {
     totalEntries: keys.length,
     keys,
     oldestEntry: timestamps.length ? Math.min(...timestamps) : 0,
-    newestEntry: timestamps.length ? Math.max(...timestamps) : 0
+    newestEntry: timestamps.length ? Math.max(...timestamps) : 0,
   }
 }

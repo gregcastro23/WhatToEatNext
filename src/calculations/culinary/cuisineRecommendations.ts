@@ -20,7 +20,7 @@ export interface CuisineRecommendation {
 /**
  * Planetary cuisine associations
  */
-const PLANETARY_CUISINES = {;
+const PLANETARY_CUISINES = {
   Sun: ['Mediterranean', 'Italian', 'Spanish', 'Greek'],
   moon: ['Japanese', 'Korean', 'Scandinavian', 'British'],
   Mercury: ['Thai', 'Vietnamese', 'Lebanese', 'Moroccan'],
@@ -102,7 +102,7 @@ export function generateCuisineRecommendations(
           processedCuisines.add(cuisine)
 ;
           const compatibility = value * 0.8, // Base on elemental strength,
-          const reasons = [;
+          const reasons = [
             `Strong ${element} element aligns with ${cuisine} cuisine characteristics`
           ],
           const suggestedDishes = getSuggestedDishes(cuisine, elementalProperties)

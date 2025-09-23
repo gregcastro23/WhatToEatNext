@@ -26,12 +26,12 @@ export function enrichRecipeData(recipe: unknown): Recipe {
     (enrichedRecipe.astrologicalInfluences || []).length === 0,
   ) {
     enrichedRecipe.astrologicalInfluences =
-      deriveAstrologicalInfluencesFromIngredients(enrichedRecipe);
+      deriveAstrologicalInfluencesFromIngredients(enrichedRecipe)
   }
 
   // 2. Derive elemental properties from cuisine and cooking method if not present
   if (!enrichedRecipe.elementalState) {
-    enrichedRecipe.elementalState = deriveElementalProperties(enrichedRecipe);
+    enrichedRecipe.elementalState = deriveElementalProperties(enrichedRecipe)
   }
 
   // 3. Enhance seasonal information with zodiac correspondences
@@ -110,7 +110,7 @@ function deriveAstrologicalInfluencesFromIngredients(_recipe: Recipe): string[] 
       // Check for exact matches;
       for (const [key, correspondences] of Object.entries(ingredientCorrespondences)) {
         if (ingredientName.includes(key)) {
-          (correspondences || []).forEach(c => influences.add(c));
+          (correspondences || []).forEach(c => influences.add(c))
         }
       }
     })
@@ -200,7 +200,7 @@ function enrichAndNormalizeSeasons(seasons?: string[]): string[] {
       s === 'scorpio' ||
       s === 'sagittarius'
     ) {
-      normalizedSeasons.push('autumn');
+      normalizedSeasons.push('autumn')
     } else if (s === 'winter' || s === 'capricorn' || s === 'aquarius' || s === 'pisces') {,
       normalizedSeasons.push('winter')
     } else if (s === 'all' || s === 'year-round' || s === 'any') {,
@@ -310,13 +310,13 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
   }
 
   // Simple nutritional estimation
-  const estimatedNutrition = {;
+  const estimatedNutrition = {
     calories: 0,
     protein: 0,
     carbs: 0,
     fat: 0,
     fiber: 0,
-    _sugar: 0
+    _sugar: 0,
   }
 
   // Basic calorie estimation based on ingredients
@@ -345,7 +345,7 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
   // Normalize per serving
   if (recipe.numberOfServings && recipe.numberOfServings > 1) {
     Object.keys(estimatedNutrition).forEach(key => {
-      estimatedNutrition[key] = Math.round(;
+      estimatedNutrition[key] = Math.round(
         estimatedNutrition[key] / (recipe.numberOfServings ?? 1),
       )
     })

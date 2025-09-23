@@ -131,7 +131,7 @@ export class RecipeCuisineConnector {
       if (Array.isArray(dishArray)) {
         dishArray.forEach((dish: unknown) => {
           if (dish && typeof dish === 'object') {,
-            const recipe: CuisineRecipe = {;
+            const recipe: CuisineRecipe = {
               id: '',
               name: (dish as any)?.name || 'Unnamed Recipe',
               description: (dish as any)?.description || '',
@@ -234,7 +234,7 @@ export class RecipeCuisineConnector {
 
     // Filter by season
     if (filters.season) {
-      results = results.filter(;
+      results = results.filter(
         recipe => recipe.season?.includes(filters.season || '') || recipe.season?.includes('all'),,
       )
     }
@@ -329,7 +329,7 @@ export class RecipeCuisineConnector {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
+        Air: 0.25,
       },
       ingredients: cuisineRecipe.ingredients.map(ingredient => ({;
         name: ingredient.name,
@@ -353,7 +353,7 @@ export class RecipeCuisineConnector {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25
+        Air: 0.25,
       }
     }
   }
@@ -452,7 +452,7 @@ export class RecipeCuisineConnector {
    * Get recipe statistics
    */
   getRecipeStatistics() {
-    const stats = {;
+    const stats = {
       totalRecipes: this.getTotalRecipeCount(),
       byCuisine: this.getRecipeCountByCuisine(),
       byMealType: {} as Record<string, number>,

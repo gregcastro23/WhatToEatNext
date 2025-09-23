@@ -1,4 +1,4 @@
-export const _CUISINE_TYPES = {;
+export const _CUISINE_TYPES = {
   AFRICAN: 'african',
   CHINESE: 'chinese',
   FRENCH: 'french',

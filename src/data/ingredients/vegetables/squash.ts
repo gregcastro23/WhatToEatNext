@@ -8,7 +8,7 @@ const rawSquash = {
       Earth: 0.4,
       Water: 0.3,
       Fire: 0.2,
-      Air: 0.1
+      Air: 0.1,
     },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Saturn'],
@@ -24,7 +24,7 @@ const rawSquash = {
             planet: 'Saturn' },
         third: {
             element: 'Fire',
-            planet: 'Sun'
+            planet: 'Sun',
           }
         }
       }
@@ -54,7 +54,7 @@ const rawSquash = {
         storage: {
       temperature: 'cool, dry place',
       duration: '2-3 months',
-      notes: 'Once cut, refrigerate'
+      notes: 'Once cut, refrigerate',
     }
   },
   zucchini: {
@@ -63,7 +63,7 @@ const rawSquash = {
       Fire: 0.4204917086683852,
       Water: 0.5121388172829056,
       Earth: 0.032703628178985034,
-      Air: 0.034665845869724134
+      Air: 0.034665845869724134,
     },
     astrologicalProfile: {}
     category: 'vegetable',
@@ -108,7 +108,7 @@ const rawSquash = {
       Earth: 0.5,
       Water: 0.2,
       Fire: 0.2,
-      Air: 0.1
+      Air: 0.1,
     },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Moon'],
@@ -124,7 +124,7 @@ const rawSquash = {
             planet: 'Moon' },
         third: {
             element: 'Fire',
-            planet: 'Sun'
+            planet: 'Sun',
           }
         }
       }
@@ -154,7 +154,7 @@ const rawSquash = {
         storage: {
       temperature: 'cool, dry place',
       duration: '2-3 months whole',
-      notes: 'Cooked purée freezes well'
+      notes: 'Cooked purée freezes well',
     }
   }
   'acorn squash': {
@@ -163,7 +163,7 @@ const rawSquash = {
       Earth: 0.4,
       Water: 0.3,
       Fire: 0.2,
-      Air: 0.1
+      Air: 0.1,
     },
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Venus'],
@@ -179,7 +179,7 @@ const rawSquash = {
             planet: 'Venus' },
         third: {
             element: 'Fire',
-            planet: 'Mars'
+            planet: 'Mars',
           }
         }
       }
@@ -209,7 +209,7 @@ const rawSquash = {
         storage: {
       temperature: 'cool, dry place',
       duration: '1-2 months',
-      notes: 'Store away from apples / (pears || 1)'
+      notes: 'Store away from apples / (pears || 1)',
     }
   }
 }

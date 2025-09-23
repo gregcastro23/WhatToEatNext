@@ -113,7 +113,7 @@ export class AutomatedLintingFixer {
     this.eslintConfigPath = path.join(workspaceRoot, 'eslint.config.cjs'),
 
     // Default safety protocols
-    this.safetyProtocols = {;
+    this.safetyProtocols = {
       enableRollback: true,
       validateBeforeFix: true,
       validateAfterFix: true,
@@ -137,7 +137,7 @@ export class AutomatedLintingFixer {
     options: Partial<BatchProcessingOptions> = {}): Promise<AutomatedFixResult> {
     const startTime = new Date()
     log.info('🔧 Starting automated linting fixes with safety protocols...')
-    const batchOptions: BatchProcessingOptions = {;
+    const batchOptions: BatchProcessingOptions = {
       batchSize: 10,
       maxConcurrentBatches: 1,
       validateAfterEachBatch: true,
@@ -147,7 +147,7 @@ export class AutomatedLintingFixer {
       ...options
     }
 
-    const result: AutomatedFixResult = {;
+    const result: AutomatedFixResult = {
       success: false,
       fixedIssues: 0,
       failedIssues: 0,
@@ -163,7 +163,7 @@ export class AutomatedLintingFixer {
         issuesFixed: 0,
         issuesFailed: 0,
         validationTime: 0,
-        rollbacksPerformed: 0
+        rollbacksPerformed: 0,
       }
     }
 
@@ -190,7 +190,7 @@ export class AutomatedLintingFixer {
         this.isSafeToAutoFix(issue)
       )
 
-      log.info(;
+      log.info(
         `🎯 Processing ${autoFixableIssues.length} auto-fixable issues in batches of ${batchOptions.batchSize}`,
       )
 
@@ -232,7 +232,7 @@ export class AutomatedLintingFixer {
             rule: 'batch-error',
             message: `Batch ${i + 1} processing failed`,
             error: error instanceof Error ? error.message : String(error),
-            severity: 'error'
+            severity: 'error',
           })
 
           failureCount++,
@@ -287,7 +287,7 @@ export class AutomatedLintingFixer {
         rule: 'critical-error',
         message: 'Critical failure during automated fixing',
         error: error instanceof Error ? error.message : String(error),
-        severity: 'critical'
+        severity: 'critical',
       })
 
       return result,
@@ -301,7 +301,7 @@ export class AutomatedLintingFixer {
     issues: LintingIssue[],
     options: Partial<UnusedVariableFixOptions> = {}): Promise<AutomatedFixResult> {
     log.info('🧹 Handling unused variables...')
-    const fixOptions: UnusedVariableFixOptions = {;
+    const fixOptions: UnusedVariableFixOptions = {
       prefixWithUnderscore: true,
       removeCompletely: false,
       preservePatterns: ['**/calculations/**', '**/data/planets/**', '**/*astrological*'],
@@ -310,11 +310,11 @@ export class AutomatedLintingFixer {
       ...options
     }
 
-    const unusedVarIssues = issues.filter(;
+    const unusedVarIssues = issues.filter(
       issue => issue.rule.includes('no-unused-vars') || issue.rule.includes('unused-vars'),
     )
 
-    const result: AutomatedFixResult = {;
+    const result: AutomatedFixResult = {
       success: false,
       fixedIssues: 0,
       failedIssues: 0,
@@ -330,7 +330,7 @@ export class AutomatedLintingFixer {
         issuesFixed: 0,
         issuesFailed: 0,
         validationTime: 0,
-        rollbacksPerformed: 0
+        rollbacksPerformed: 0,
       }
     }
 
@@ -370,7 +370,7 @@ export class AutomatedLintingFixer {
           rule: issue.rule,
           message: `Failed to fix unused variable: ${issue.message}`,
           error: error instanceof Error ? error.message : String(error),
-          severity: 'error'
+          severity: 'error',
         })
       }
     }
@@ -396,7 +396,7 @@ export class AutomatedLintingFixer {
     issues: LintingIssue[],
     options: Partial<ImportOptimizationOptions> = {}): Promise<AutomatedFixResult> {
     log.info('📦 Optimizing import statements...')
-    const importOptions: ImportOptimizationOptions = {;
+    const importOptions: ImportOptimizationOptions = {
       removeDuplicates: true,
       organizeImports: true,
       removeUnused: true,
@@ -405,11 +405,11 @@ export class AutomatedLintingFixer {
       ...options
     }
 
-    const importIssues = issues.filter(;
+    const importIssues = issues.filter(
       issue => issue.category.primary === 'import' || issue.rule.startsWith('import/');
     )
 
-    const result: AutomatedFixResult = {;
+    const result: AutomatedFixResult = {
       success: false,
       fixedIssues: 0,
       failedIssues: 0,
@@ -425,7 +425,7 @@ export class AutomatedLintingFixer {
         issuesFixed: 0,
         issuesFailed: 0,
         validationTime: 0,
-        rollbacksPerformed: 0
+        rollbacksPerformed: 0,
       }
     }
 
@@ -460,7 +460,7 @@ export class AutomatedLintingFixer {
           rule: 'import-optimization';,
           message: `Failed to optimize imports`;,
           error: error instanceof Error ? error.message : String(error),
-          severity: 'error'
+          severity: 'error',
         })
       }
     }
@@ -486,7 +486,7 @@ export class AutomatedLintingFixer {
     issues: LintingIssue[],
     options: Partial<TypeAnnotationOptions> = {}): Promise<AutomatedFixResult> {
     log.info('🏷️ Improving type annotations...')
-    const typeOptions: TypeAnnotationOptions = {;
+    const typeOptions: TypeAnnotationOptions = {
       inferFromUsage: true,
       useStrictTypes: false,
       preserveExplicitAny: ['**/calculations/**', '**/data/planets/**'],
@@ -501,7 +501,7 @@ export class AutomatedLintingFixer {
         issue.category.primary === 'typescript',
     )
 
-    const result: AutomatedFixResult = {;
+    const result: AutomatedFixResult = {
       success: false,
       fixedIssues: 0,
       failedIssues: 0,
@@ -517,7 +517,7 @@ export class AutomatedLintingFixer {
         issuesFixed: 0,
         issuesFailed: 0,
         validationTime: 0,
-        rollbacksPerformed: 0
+        rollbacksPerformed: 0,
       }
     }
 
@@ -551,7 +551,7 @@ export class AutomatedLintingFixer {
           rule: issue.rule,
           message: `Failed to improve type annotation: ${issue.message}`,
           error: error instanceof Error ? error.message : String(error),
-          severity: 'error'
+          severity: 'error',
         })
       }
     }
@@ -591,7 +591,7 @@ export class AutomatedLintingFixer {
       log.info(`🔄 Rolling back to stash: ${this.currentRollbackInfo.stashId}`)
       execSync(this.currentRollbackInfo.rollbackCommand, {
         cwd: this.workspaceRoot,
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       log.info('✅ Rollback completed successfully')
@@ -611,12 +611,12 @@ export class AutomatedLintingFixer {
     try {
       execSync(`git add -A && git stash push -m '${stashMessage}'`, {
         cwd: this.workspaceRoot,
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       const stashList = execSync('git stash list', {
         cwd: this.workspaceRoot,
-        encoding: 'utf8'
+        encoding: 'utf8',
       })
 
       const stashId = stashList.split('\n')[0]?.split(':')[0] || 'stash@{0}';
@@ -645,7 +645,7 @@ export class AutomatedLintingFixer {
       results.push({
         type: 'build',
         success: true,
-        message: 'Build passed successfully'
+        message: 'Build passed successfully',
       })
     } catch (error) {
       results.push({
@@ -666,7 +666,7 @@ export class AutomatedLintingFixer {
       results.push({
         type: 'type-check',
         success: true,
-        message: 'Type checking passed'
+        message: 'Type checking passed',
       })
     } catch (error) {
       results.push({
@@ -687,14 +687,14 @@ export class AutomatedLintingFixer {
       results.push({
         type: 'lint',
         success: true,
-        message: 'Linting passed'
+        message: 'Linting passed',
       })
     } catch (error) {
       // ESLint returns non-zero exit code for warnings/errors, which is expected
       results.push({
         type: 'lint',
         success: true,
-        message: 'Linting completed (may have remaining issues)'
+        message: 'Linting completed (may have remaining issues)',
       })
     }
 
@@ -709,7 +709,7 @@ export class AutomatedLintingFixer {
         results.push({
           type: 'test',
           success: true,
-          message: 'Tests passed'
+          message: 'Tests passed',
         })
       } catch (error) {
         results.push({
@@ -770,7 +770,7 @@ export class AutomatedLintingFixer {
     batch: LintingIssue[],
     options: BatchProcessingOptions,
   ): Promise<AutomatedFixResult> {
-    const result: AutomatedFixResult = {;
+    const result: AutomatedFixResult = {
       success: false,
       fixedIssues: 0,
       failedIssues: 0,
@@ -786,7 +786,7 @@ export class AutomatedLintingFixer {
         issuesFixed: 0,
         issuesFailed: 0,
         validationTime: 0,
-        rollbacksPerformed: 0
+        rollbacksPerformed: 0,
       }
     }
 
@@ -821,7 +821,7 @@ export class AutomatedLintingFixer {
           rule: 'batch-processing',
           message: `Failed to process file in batch`,
           error: error instanceof Error ? error.message : String(error),
-          severity: 'error'
+          severity: 'error',
         })
       }
     }
@@ -843,7 +843,7 @@ export class AutomatedLintingFixer {
       const command = `npx eslint --config ${this.eslintConfigPath} --fix '${filePath}'`;
       execSync(command, {
         cwd: this.workspaceRoot,
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       return true,
@@ -868,7 +868,7 @@ export class AutomatedLintingFixer {
         const line = lines[lineIndex];
 
         // Extract variable name from the message
-        const varNameMatch = issue.message.match(;
+        const varNameMatch = issue.message.match(
           /'([^']+)' is (defined but never used|assigned a value but never used)/,
         ),
         if (varNameMatch) {
@@ -904,7 +904,7 @@ export class AutomatedLintingFixer {
         const command = `npx eslint --config ${this.eslintConfigPath} --fix '${filePath}'`;
         execSync(command, {
           cwd: this.workspaceRoot,
-          stdio: 'pipe'
+          stdio: 'pipe',
         })
         return true,
       }
@@ -918,7 +918,7 @@ export class AutomatedLintingFixer {
 
   private isSimpleTypeIssue(issue: LintingIssue): boolean {
     // Consider simple type issues that can be safely auto-fixed
-    const simplePatterns = [;
+    const simplePatterns = [
       /no-explicit-any.*parameter/,
       /no-explicit-any.*return type/
       /no-explicit-any.*variable declaration/
@@ -941,7 +941,7 @@ export class AutomatedLintingFixer {
           const command = `npx eslint --config ${this.eslintConfigPath} --fix '${issue.file}'`;
           execSync(command, {
             cwd: this.workspaceRoot,
-            stdio: 'pipe'
+            stdio: 'pipe',
           })
           return true,
         }

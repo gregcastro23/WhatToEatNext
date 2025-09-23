@@ -9,9 +9,8 @@ const rawOtherVegetables = {
       Fire: 0.7644171899336816,
       Water: 0.20342270505373083,
       Earth: 0.025567430424262617,
-      Air: 0.006592674588325188
-    }
-
+      Air: 0.006592674588325188,
+    },
     category: 'vegetable',
     subCategory: 'other',
 
@@ -22,8 +21,7 @@ const rawOtherVegetables = {
       protein_g: 2.2,
       vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
       minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
-    }
-
+    },
     season: ['spring', 'summer', 'fall', 'winter'],
 
     cookingMethods: ['roast', 'boil', 'steam', 'saute'],
@@ -38,8 +36,7 @@ const rawOtherVegetables = {
         culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -68,9 +65,8 @@ const rawOtherVegetables = {
       Fire: 0.12620732804129353,
       Water: 0.7539592539005983,
       Earth: 0.09658624330348414,
-      Air: 0.023247174754624015
-    }
-
+      Air: 0.023247174754624015,
+    },
     category: 'vegetable',
     subCategory: 'other',
 
@@ -81,8 +77,7 @@ const rawOtherVegetables = {
       protein_g: 3.27,
       vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
       minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
-    }
-
+    },
     season: ['spring', 'summer', 'fall', 'winter'],
 
     cookingMethods: ['roast', 'boil', 'steam', 'saute'],
@@ -97,8 +92,7 @@ const rawOtherVegetables = {
         culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -127,9 +121,8 @@ const rawOtherVegetables = {
       Fire: 0.34993398250536384,
       Water: 0.5760851625680805,
       Earth: 0.060653573196897174,
-      Air: 0.013327281729658358
-    }
-
+      Air: 0.013327281729658358,
+    },
     category: 'vegetable',
     subCategory: 'other',
 
@@ -140,8 +133,7 @@ const rawOtherVegetables = {
       protein_g: 0.59,
       vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
       minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
-    }
-
+    },
     season: ['spring', 'summer', 'fall', 'winter'],
 
     cookingMethods: ['roast', 'boil', 'steam', 'saute'],
@@ -158,8 +150,7 @@ const rawOtherVegetables = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -188,9 +179,8 @@ const rawOtherVegetables = {
       Fire: 0.6419553778871122,
       Water: 0.2653922372557059,
       Earth: 0.07277572775727757,
-      Air: 0.019876657099904334
-    }
-
+      Air: 0.019876657099904334,
+    },
     category: 'vegetable',
     subCategory: 'other',
 
@@ -201,8 +191,7 @@ const rawOtherVegetables = {
       protein_g: 1.93,
       vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
       minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
-    }
-
+    },
     season: ['spring', 'summer', 'fall', 'winter'],
 
     cookingMethods: ['roast', 'boil', 'steam', 'saute'],
@@ -219,8 +208,7 @@ const rawOtherVegetables = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -249,9 +237,8 @@ const rawOtherVegetables = {
       Fire: 0.4204917086683852,
       Water: 0.5121388172829056,
       Earth: 0.032703628178985034,
-      Air: 0.034665845869724134
-    }
-
+      Air: 0.034665845869724134,
+    },
     category: 'vegetable',
     subCategory: 'other',
 
@@ -282,8 +269,7 @@ const rawOtherVegetables = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -312,9 +298,8 @@ const rawOtherVegetables = {
       Fire: 0.7162207554458272,
       Water: 0.2242992223845753,
       Earth: 0.025780554575838496,
-      Air: 0.03369946759375892
-    }
-
+      Air: 0.03369946759375892,
+    },
     category: 'vegetable',
     subCategory: 'other',
 
@@ -325,8 +310,7 @@ const rawOtherVegetables = {
       protein_g: 5.42,
       vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
       minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
-    }
-
+    },
     season: ['spring', 'summer', 'fall', 'winter'],
 
     cookingMethods: ['roast', 'boil', 'steam', 'saute'],
@@ -343,8 +327,7 @@ const rawOtherVegetables = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -373,9 +356,8 @@ const rawOtherVegetables = {
       Fire: 0.7250127703047846,
       Water: 0.22259392433970013,
       Earth: 0.0397632235254054,
-      Air: 0.012630081830109875
-    }
-
+      Air: 0.012630081830109875,
+    },
     category: 'vegetable',
     subCategory: 'other',
 
@@ -386,8 +368,7 @@ const rawOtherVegetables = {
       protein_g: 1.83,
       vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
       minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
-    }
-
+    },
     season: ['spring', 'summer', 'fall', 'winter'],
 
     cookingMethods: ['roast', 'boil', 'steam', 'saute'],
@@ -404,8 +385,7 @@ const rawOtherVegetables = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -434,9 +414,8 @@ const rawOtherVegetables = {
       Fire: 0.5999612002069322,
       Water: 0.34187790998448014,
       Earth: 0.0538023797206415,
-      Air: 0.004358510087946198
-    }
-
+      Air: 0.004358510087946198,
+    },
     category: 'vegetable',
     subCategory: 'other',
 
@@ -447,8 +426,7 @@ const rawOtherVegetables = {
       protein_g: 0.69,
       vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
       minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
-    }
-
+    },
     season: ['spring', 'summer', 'fall', 'winter'],
 
     cookingMethods: ['roast', 'boil', 'steam', 'saute'],
@@ -465,8 +443,7 @@ const rawOtherVegetables = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -495,9 +472,8 @@ const rawOtherVegetables = {
       Fire: 0.2540820208475995,
       Water: 0.6474929620330214,
       Earth: 0.0792817469375333,
-      Air: 0.01914327018184585
-    }
-
+      Air: 0.01914327018184585,
+    },
     category: 'vegetable',
     subCategory: 'other',
 
@@ -508,8 +484,7 @@ const rawOtherVegetables = {
       protein_g: 1.24,
       vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
       minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
-    }
-
+    },
     season: ['spring', 'summer', 'fall', 'winter'],
 
     cookingMethods: ['roast', 'boil', 'steam', 'saute'],
@@ -526,8 +501,7 @@ const rawOtherVegetables = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -556,9 +530,8 @@ const rawOtherVegetables = {
       Fire: 0.12665862484921594,
       Water: 0.6980816374177985,
       Earth: 0.05369858749367681,
-      Air: 0.12156115023930894
-    }
-
+      Air: 0.12156115023930894,
+    },
     category: 'vegetable',
     subCategory: 'other',
 
@@ -569,8 +542,7 @@ const rawOtherVegetables = {
       protein_g: 1.7,
       vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
       minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
-    }
-
+    },
     season: ['spring', 'summer', 'fall', 'winter'],
 
     cookingMethods: ['roast', 'boil', 'steam', 'saute'],
@@ -587,8 +559,7 @@ const rawOtherVegetables = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -617,9 +588,8 @@ const rawOtherVegetables = {
       Fire: 0.9168771409581267,
       Water: 0.05222352881026636,
       Earth: 0.02167799989774528,
-      Air: 0.009221330333861648
-    }
-
+      Air: 0.009221330333861648,
+    },
     category: 'vegetable',
     subCategory: 'other',
 
@@ -630,8 +600,7 @@ const rawOtherVegetables = {
       protein_g: 1.5,
       vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
       minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
-    }
-
+    },
     season: ['spring', 'summer', 'fall', 'winter'],
 
     cookingMethods: ['roast', 'boil', 'steam', 'saute'],
@@ -648,8 +617,7 @@ const rawOtherVegetables = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -678,9 +646,8 @@ const rawOtherVegetables = {
       Fire: 0.8520337371186256,
       Water: 0.12378591584428543,
       Earth: 0.021475453284068413,
-      Air: 0.002704893753020595
-    }
-
+      Air: 0.002704893753020595,
+    },
     category: 'vegetable',
     subCategory: 'other',
 
@@ -691,8 +658,7 @@ const rawOtherVegetables = {
       protein_g: 1.25,
       vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
       minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
-    }
-
+    },
     season: ['spring', 'summer', 'fall', 'winter'],
 
     cookingMethods: ['roast', 'boil', 'steam', 'saute'],
@@ -709,8 +675,7 @@ const rawOtherVegetables = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }

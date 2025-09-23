@@ -13,11 +13,11 @@ export const roasting: CookingMethodData = {
     Fire: 0.6,
     Air: 0.2,
     Earth: 0.2,
-    Water: 0.0
+    Water: 0.0,
   },
   duration: {
     min: 15,
-    max: 240
+    max: 240,
   },
   suitable_for: [
     'meat',
@@ -404,7 +404,7 @@ export const roasting: CookingMethodData = {
       probe_thermometers: 'Continuous monitoring prevents door opening, select models with heat-resistant cables to 700°F.',
       pan_materials: 'Stainless steel with aluminum core provides durability and heat distribution, avoid non-stick for high-temperature roasting.',
       specialized_equipment: 'Vertical roasters for poultry maximize skin exposure, rotisseries provide continuous basting action.',
-      spit_roasting: 'Continuous rotation creates self-basting effect, proximity to heat source creates unique flavor development.'
+      spit_roasting: 'Continuous rotation creates self-basting effect, proximity to heat source creates unique flavor development.',
     }
   }
 }

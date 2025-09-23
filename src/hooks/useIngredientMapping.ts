@@ -33,7 +33,7 @@ export function useIngredientMapping() {
   /**
    * Find recipes matching the given criteria
    */
-  const findMatchingRecipes = useCallback(;
+  const findMatchingRecipes = useCallback(
     (
       options: {
         elementalTarget?: ElementalProperties
@@ -69,7 +69,7 @@ export function useIngredientMapping() {
     try {
       setIsLoading(true)
       setError(null)
-      const result = ingredientMappingService.suggestAlternativeIngredients(;
+      const result = ingredientMappingService.suggestAlternativeIngredients(
         ingredientName,
         options,
       ),
@@ -102,7 +102,7 @@ export function useIngredientMapping() {
       return {
         success: false,
         message: errorMessage,
-        compatibility: 0
+        compatibility: 0,
       }
     } finally {
       setIsLoading(false)
@@ -124,7 +124,7 @@ export function useIngredientMapping() {
       return {
         success: false,
         message: errorMessage,
-        mappingQuality: 0
+        mappingQuality: 0,
       }
     } finally {
       setIsLoading(false)

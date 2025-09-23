@@ -16,7 +16,7 @@ export interface TimeFactors {
 export function getCurrentTimeFactors(): TimeFactors {
   const now = new Date()
 
-  return {;
+  return {
     season: getCurrentSeason(now),
     dayOfWeek: now.getDay(),
     hour: now.getHours(),
@@ -114,7 +114,7 @@ export function calculateSeasonalAppropriateness(
   const currentIndex = seasonOrder.indexOf(currentSeason)
   const recipeIndex = seasonOrder.indexOf(recipeSeason as unknown)
 
-  // Check if it's an adjacent season (circular);
+  // Check if it's an adjacent season (circular)
   if ((currentIndex + 1) % 4 === recipeIndex || (currentIndex - 1 + 4) % 4 === recipeIndex) {,
     return 0.6; // Adjacent season, moderate appropriateness
   }
@@ -139,11 +139,11 @@ export function calculatePlanetaryTimeAffinity(_planet: Planet, hour: number): n
 
   // Planet affinities with times of day
   const affinities: Record<string, Record<string, number>> = {
-    Sun: { morning: 1.0, afternoon: 0.8, evening: 0.4, night: 0.2 }
+    Sun: { morning: 1.0, afternoon: 0.8, evening: 0.4, night: 0.2 },
     Moon: { morning: 0.4, afternoon: 0.2, evening: 0.8, night: 1.0 }
-    Mercury: { morning: 0.8, afternoon: 1.0, evening: 0.8, night: 0.4 }
+    Mercury: { morning: 0.8, afternoon: 1.0, evening: 0.8, night: 0.4 },
     Venus: { morning: 0.6, afternoon: 0.8, evening: 1.0, night: 0.7 }
-    Mars: { morning: 0.7, afternoon: 1.0, evening: 0.8, night: 0.5 }
+    Mars: { morning: 0.7, afternoon: 1.0, evening: 0.8, night: 0.5 },
     Jupiter: { morning: 0.8, afternoon: 1.0, evening: 0.7, night: 0.5 }
     Saturn: { morning: 0.5, afternoon: 0.7, evening: 0.8, night: 1.0 }
   }
@@ -164,7 +164,7 @@ export function calculatePrepTimeAppropriateness(prepTimeMinutes: number, hour: 
         ? 0.7
         : prepTimeMinutes <= 90
           ? 0.4
-          : 0.2
+          : 0.2,
   }
 
   // Afternoon: moderate prep time is okay
@@ -175,7 +175,7 @@ export function calculatePrepTimeAppropriateness(prepTimeMinutes: number, hour: 
         ? 1.0
         : prepTimeMinutes <= 120
           ? 0.7
-          : 0.4
+          : 0.4,
   }
 
   // Evening: can handle longer prep times
@@ -186,7 +186,7 @@ export function calculatePrepTimeAppropriateness(prepTimeMinutes: number, hour: 
         ? 0.8
         : prepTimeMinutes <= 120
           ? 1.0
-          : 0.7
+          : 0.7,
   }
 
   // Late night: quick recipes preferred again

@@ -14,7 +14,7 @@ const rawEggs = {
       Fire: 0.2,
       Water: 0.5,
       Earth: 0.2,
-      Air: 0.1
+      Air: 0.1,
     },
     nutritionalProfile: {
       calories: 78,
@@ -26,9 +26,9 @@ const rawEggs = {
       minerals: ['Iron', 'Phosphorus', 'Selenium', 'Zinc']
     },
     culinaryApplications: {
-      poach: { notes: ['Perfect for eggs benedict', 'Great in ramen or brothy dishes'] }
+      poach: { notes: ['Perfect for eggs benedict', 'Great in ramen or brothy dishes'] },
       fry: { notes: ['Classic sunny-side up, over-easyor over-hard preparations'] }
-      boil: { notes: ['Hard-boiled for salads', 'Soft-boiled for ramen toppings'] }
+      boil: { notes: ['Hard-boiled for salads', 'Soft-boiled for ramen toppings'] },
       bake: { notes: ['Used in baking as binding agent', 'Can be baked in dishes like shakshuka'] }
     },
     pairings: ['toast', 'avocado', 'bacon', 'spinach', 'tomato'],
@@ -47,7 +47,7 @@ const rawEggs = {
       Fire: 0.2,
       Water: 0.6,
       Earth: 0.1,
-      Air: 0.1
+      Air: 0.1,
     },
     nutritionalProfile: {
       calories: 130,
@@ -59,7 +59,7 @@ const rawEggs = {
       minerals: ['Iron', 'Phosphorus', 'Selenium', 'Zinc']
     },
     culinaryApplications: {
-      poach: { notes: ['Creates a luxurious poached egg experience'] }
+      poach: { notes: ['Creates a luxurious poached egg experience'] },
       fry: { notes: ['Produces a larger, richer fried egg'] }
       bake: {
         notes: ['Excellent for enriching baked goods', 'Creates fluffier cakes and pastries']
@@ -81,7 +81,7 @@ const rawEggs = {
       Fire: 0.1,
       Water: 0.5,
       Earth: 0.3,
-      Air: 0.1
+      Air: 0.1,
     },
     nutritionalProfile: {
       calories: 14,
@@ -93,7 +93,7 @@ const rawEggs = {
       minerals: ['Iron', 'Phosphorus', 'Selenium', 'Zinc']
     },
     culinaryApplications: {
-      poach: { notes: ['Tiny perfect bites for canapés'] }
+      poach: { notes: ['Tiny perfect bites for canapés'] },
       fry: { notes: ['Great garnish for upscale dishes'] }
       boil: { notes: ['Popular in ramen', 'Used in salads for visual appeal'] }
     },

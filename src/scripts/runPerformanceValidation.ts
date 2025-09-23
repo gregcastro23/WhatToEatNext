@@ -69,7 +69,7 @@ class PerformanceValidationCLI {
     // // // _logger.info('📈 Starting performance monitoring...\n')
 
     const interval = options.interval || 300000, // 5 minutes default,
-    const commands = [;
+    const commands = [
       { name: 'Standard Lint', cmd: 'yarn lint --max-warnings=10000', opts: {} },
       {
         name: 'Fast Lint (Cached)',
@@ -111,7 +111,7 @@ class PerformanceValidationCLI {
 
         // Generate quick report
         const report = this.monitor.generatePerformanceReport()
-        // // // _logger.info(;
+        // // // _logger.info(
           `📋 Quick Report - Avg Time: ${Math.round(report.summary.averageExecutionTime)}ms, ` +
             `Cache Rate: ${Math.round(report.summary.averageCacheHitRate)}%, ` +
             `Alerts: ${report.recentAlerts.length}\n`,
@@ -222,7 +222,7 @@ class PerformanceValidationCLI {
     const trends = this.monitor.getPerformanceTrend()
     // // // _logger.info('📈 Performance Trends (7 days)')
     // // // _logger.info('=============================')
-    // // // _logger.info(;
+    // // // _logger.info(
       `Execution Time: ${this.getTrendIcon(trends.executionTimeTrend)} ${trends.executionTimeTrend}`,
     )
     // // // _logger.info(
@@ -248,7 +248,7 @@ class PerformanceValidationCLI {
         'yarn test src/__tests__/linting/PerformanceOptimizationValidation.test.ts --verbose'
         {;
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         })
 
       // // // _logger.info(output)

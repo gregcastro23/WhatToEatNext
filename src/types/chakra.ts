@@ -151,7 +151,7 @@ export const _CHAKRAS: ChakraProperties  = {
     governs: ['Intuition', 'Imagination', 'Vision'],
     balanceIndicators: ['Clear insight', 'Strong intuition', 'Wisdom'],
     imbalanceIndicators: ['Confusion', 'Poor intuition', 'Lack of focus'],
-    planet: 'Moon'
+    planet: 'Moon',
   }
 }
 
@@ -215,7 +215,7 @@ export const _MAJOR_ARCANA_CHAKRAS: MajorArcanaChakra[]  = [
     cardName: 'The Hanged Man',
     chakraPosition: 'brow',
     planet: 'Neptune',
-    description: 'Represents surrender, new perspective, and spiritual insight, aligning with the Third Eye Chakra.'
+    description: 'Represents surrender, new perspective, and spiritual insight, aligning with the Third Eye Chakra.',
   }
   {
     cardName: 'The World',
@@ -248,7 +248,7 @@ export const _SUIT_CHAKRA_MAPPINGS: SuitChakraMapping[]  = [
     secondaryChakra: 'root',
     element: 'Fire',
     energyState: 'Spirit',
-    description: 'Wands are driven by Mars, Jupiter, and the Sun, which emphasize action, confidence, and leadership.'
+    description: 'Wands are driven by Mars, Jupiter, and the Sun, which emphasize action, confidence, and leadership.',
   }
   {
     suit: 'cups',
@@ -256,7 +256,7 @@ export const _SUIT_CHAKRA_MAPPINGS: SuitChakraMapping[]  = [
     secondaryChakra: 'sacral',
     element: 'Water',
     energyState: 'Essence',
-    description: 'Cups, influenced by Moon, Mars, Jupiter, Neptune, and Pluto, deal with emotions, relationships, and intuition.'
+    description: 'Cups, influenced by Moon, Mars, Jupiter, Neptune, and Pluto, deal with emotions, relationships, and intuition.',
   }
   {
     suit: 'swords',
@@ -264,7 +264,7 @@ export const _SUIT_CHAKRA_MAPPINGS: SuitChakraMapping[]  = [
     secondaryChakra: 'brow',
     element: 'Air',
     energyState: 'Substance',
-    description: 'Swords, ruled by Mercury, Venus, Saturn, and Uranus, focus on thought, communication, and truth.'
+    description: 'Swords, ruled by Mercury, Venus, Saturn, and Uranus, focus on thought, communication, and truth.',
   }
   {
     suit: 'pentacles',
@@ -272,7 +272,7 @@ export const _SUIT_CHAKRA_MAPPINGS: SuitChakraMapping[]  = [
     secondaryChakra: 'solarPlexus',
     element: 'Earth',
     energyState: 'Matter',
-    description: 'Pentacles, influenced by Saturn, Venus, and Mercury, deal with the material world, practicality, and security.'
+    description: 'Pentacles, influenced by Saturn, Venus, and Mercury, deal with the material world, practicality, and security.',
   }
 ],
 
@@ -288,7 +288,7 @@ export const _KEY_CARD_CHAKRA_MAPPINGS: KeyCardChakraMapping[]  = [
     cardName: 'The Magician',
     chakraPosition: 'throat',
     planet: 'Mercury',
-    description: 'Represents communication, manifestation, and creative expression, aligning with the Throat Chakra.'
+    description: 'Represents communication, manifestation, and creative expression, aligning with the Throat Chakra.',
   }
   {
     cardName: 'The High Priestess',
@@ -354,7 +354,7 @@ export const _KEY_CARD_CHAKRA_MAPPINGS: KeyCardChakraMapping[]  = [
     cardName: 'The Hanged Man',
     chakraPosition: 'brow',
     planet: 'Neptune',
-    description: 'Represents surrender, new perspective, and spiritual insight, aligning with the Third Eye Chakra.'
+    description: 'Represents surrender, new perspective, and spiritual insight, aligning with the Third Eye Chakra.',
   }
   {
     cardName: 'Death',
@@ -424,38 +424,38 @@ export const _CHAKRA_MAPPING_SUMMARY: ChakraMappingSummary[]  = [
   {
     chakra: 'root',
     majorArcana: ['The Emperor'],
-    primarySuit: 'pentacles'
+    primarySuit: 'pentacles',
   }
   {
     chakra: 'sacral',
     majorArcana: ['The Empress'],
-    secondarySuit: 'cups'
+    secondarySuit: 'cups',
   }
   {
     chakra: 'solarPlexus',
     majorArcana: ['The Tower', 'The Chariot'],
     primarySuit: 'wands',
-    secondarySuit: 'pentacles'
+    secondarySuit: 'pentacles',
   }
   {
     chakra: 'heart',
     majorArcana: ['The Lovers', 'The Star'],
-    primarySuit: 'cups'
+    primarySuit: 'cups',
   }
   {
     chakra: 'throat',
     majorArcana: ['The Magician'],
-    primarySuit: 'swords'
+    primarySuit: 'swords',
   }
   {
     chakra: 'brow',
     majorArcana: ['The High Priestess', 'The Hanged Man'],
-    secondarySuit: 'swords'
+    secondarySuit: 'swords',
   }
   {
     chakra: 'crown',
     majorArcana: ['The World', 'Judgement'],
-    secondarySuit: 'swords'
+    secondarySuit: 'swords',
   }
 ],
 export interface ChakraEnergies {

@@ -20,7 +20,7 @@ export function useAstroTarotElementalState() {
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
-    Air: 0.25
+    Air: 0.25,
   })
   const [isLoading, setIsLoading] = useState(true)
 
@@ -45,7 +45,7 @@ export function useAstroTarotElementalState() {
   }, [])
 
   // Combine astrological and tarot influences
-  const combinedState: ElementalProperties = {;
+  const combinedState: ElementalProperties = {
     Fire: Fire * 0.7 + ((tarotInfluence as any)?.Fire || 0) * 0.2,
     Water: Water * 0.7 + ((tarotInfluence as any)?.Water || 0) * 0.2,
     Earth: Earth * 0.7 + ((tarotInfluence as any)?.Earth || 0) * 0.2,
@@ -55,7 +55,7 @@ export function useAstroTarotElementalState() {
   return {
     ...combinedState,
     tarotInfluence,
-    astrologicalState: { Fire, Water, Earth, Air }
+    astrologicalState: { Fire, Water, Earth, Air },
     isLoading: astroLoading || isLoading
   }
 }

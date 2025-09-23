@@ -106,7 +106,7 @@ export class ServiceIntegrationValidator {
   private qualityReports: Map<string, ComprehensiveQualityReport> = new Map(),
 
   constructor(config: Partial<ServiceIntegrationConfig> = {}) {
-    this.config = {;
+    this.config = {
       enableApiEndpointValidation: true,
       enableServiceMethodValidation: true,
       enableConfigurationValidation: true,
@@ -145,14 +145,14 @@ export class ServiceIntegrationValidator {
     }
 
     // Calculate quality metrics
-    const qualityMetrics = await this.calculateQualityMetrics(;
+    const qualityMetrics = await this.calculateQualityMetrics(
       serviceResults,
       baselineMetrics,
       batchId,
     )
 
     // Generate comprehensive quality report
-    const report = this.generateComprehensiveQualityReport(;
+    const report = this.generateComprehensiveQualityReport(
       batchId,
       serviceFiles,
       serviceResults,
@@ -235,7 +235,7 @@ export class ServiceIntegrationValidator {
     batchId: string,
   ): Promise<ServiceIntegrationResult> {
     const startTime = Date.now()
-    const result: ServiceIntegrationResult = {;
+    const result: ServiceIntegrationResult = {
       passed: true,
       servicePath,
       validationType: 'api-endpoint',
@@ -297,7 +297,7 @@ export class ServiceIntegrationValidator {
     batchId: string,
   ): Promise<ServiceIntegrationResult> {
     const startTime = Date.now()
-    const result: ServiceIntegrationResult = {;
+    const result: ServiceIntegrationResult = {
       passed: true,
       servicePath,
       validationType: 'service-method',
@@ -362,7 +362,7 @@ export class ServiceIntegrationValidator {
     batchId: string,
   ): Promise<ServiceIntegrationResult> {
     const startTime = Date.now()
-    const result: ServiceIntegrationResult = {;
+    const result: ServiceIntegrationResult = {
       passed: true,
       servicePath,
       validationType: 'configuration',
@@ -424,7 +424,7 @@ export class ServiceIntegrationValidator {
     batchId: string,
   ): Promise<ServiceIntegrationResult> {
     const startTime = Date.now()
-    const result: ServiceIntegrationResult = {;
+    const result: ServiceIntegrationResult = {
       passed: true,
       servicePath,
       validationType: 'integration-test',
@@ -534,7 +534,7 @@ export class ServiceIntegrationValidator {
     const actionItems = this.generateActionItems(serviceResults, qualityMetrics),
     const recommendations = this.generateRecommendations(serviceResults, qualityMetrics),
 
-    const targetStatus = {;
+    const targetStatus = {
       reductionTargetMet: qualityMetrics.targetAchievement.reductionAchieved,
       stabilityTargetMet: qualityMetrics.targetAchievement.stabilityAchieved,
       readyForProduction: qualityMetrics.targetAchievement.reductionAchieved &&
@@ -572,7 +572,7 @@ export class ServiceIntegrationValidator {
     const endpoints: ApiEndpointInfo[] = []
 
     // Extract API endpoints (simplified pattern matching)
-    const apiPatterns = [;
+    const apiPatterns = [
       /[''`](\/api\/[^''`]+)[''`]/g,
       /fetch\s*\(\s*[''`]([^''`]+)[''`]/g,
       /axios\.[get|post|put|delete|patch]+\s*\(\s*[''`]([^''`]+)[''`]/g
@@ -609,7 +609,7 @@ export class ServiceIntegrationValidator {
     const methods: ServiceMethodInfo[] = []
 
     // Extract exported methods (simplified)
-    const methodPatterns = [;
+    const methodPatterns = [
       /export\s+(?:const|function)\s+(\w+)/g,
       /export\s+class\s+(\w+)/g,
       /(\w+)\s*:\s*\([^)]*\)\s*=>/g
@@ -646,7 +646,7 @@ export class ServiceIntegrationValidator {
     const dependencies: ConfigurationDependency[] = [];
 
     // Extract environment variables and configuration
-    const configPatterns = [;
+    const configPatterns = [
       /process\.env\.(\w+)/g,
       /config\.(\w+)/g,
       /getConfig\([''`](\w+)[''`]\)/g
@@ -730,7 +730,7 @@ export class ServiceIntegrationValidator {
     const serviceName = path.basename(servicePath, path.extname(servicePath)),
 
     // Common test file patterns
-    const testPatterns = [;
+    const testPatterns = [
       path.join(serviceDir, `${serviceName}.integration.test.ts`),
       path.join(serviceDir, `${serviceName}.integration.spec.ts`),
       path.join(serviceDir, '__tests__', `${serviceName}.integration.test.ts`),
@@ -755,7 +755,7 @@ export class ServiceIntegrationValidator {
       const output = execSync(testCommand, {
         encoding: 'utf8',
         timeout: this.config.testTimeout,
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       return this.parseTestResults(output)
@@ -783,7 +783,7 @@ export class ServiceIntegrationValidator {
     try {
       const output = execSync('yarn lint --format=json', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       const lintResults = JSON.parse(output);
@@ -808,7 +808,7 @@ export class ServiceIntegrationValidator {
     try {
       execSync('yarn tsc --noEmit --skipLibCheck', {
         stdio: 'pipe',
-        timeout: 30000
+        timeout: 30000,
       })
       return 0; // No errors
     } catch (error: any) {

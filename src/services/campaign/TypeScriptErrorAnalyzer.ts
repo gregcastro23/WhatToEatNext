@@ -120,7 +120,7 @@ export class TypeScriptErrorAnalyzer {
         // Clean up file path to be relative to project root
         const cleanFilePath = filePath.replace(/^.*?\/WhatToEatNext\//, ''),
 
-        const error: TypeScriptError = {;
+        const error: TypeScriptError = {
           filePath: cleanFilePath,
           line: parseInt(lineNum),
           column: parseInt(colNum),
@@ -358,7 +358,7 @@ export class TypeScriptErrorAnalyzer {
 
     // // // _logger.info('\n🔥 High-Impact Files (>10 errors): ')
     result.distribution.highImpactFiles.slice(010).forEach(file => {
-      // // // _logger.info(;
+      // // // _logger.info(
         `  ${file.filePath}: ${file.errorCount} errors (avg priority: ${file.averagePriority.toFixed(1)})`,
       )
       // // // _logger.info(`    Categories: ${file.categories.join(', ')}`)
@@ -371,7 +371,7 @@ export class TypeScriptErrorAnalyzer {
       // // // _logger.info(`     ${rec.description}\n`)
     })
 
-    const totalEstimatedReduction = result.recommendations.reduce(;
+    const totalEstimatedReduction = result.recommendations.reduce(
       (sum, rec) => sum + rec.estimatedReduction,
       0,
     )

@@ -14,11 +14,11 @@ export const spherification: CookingMethodData = {
     Water: 0.6,
     Air: 0.2,
     Earth: 0.1,
-    Fire: 0.1
+    Fire: 0.1,
   },
   duration: {
     min: 1,
-    max: 10
+    max: 10,
   },
   suitable_for: [
     'fruit juices',
@@ -102,7 +102,7 @@ export const spherification: CookingMethodData = {
     antioxidants: 0.8,
     flavor_compounds: 0.95,
     volatile_aromatics: 0.9,
-    color_pigments: 0.85
+    color_pigments: 0.85,
   },
   optimalTemperatures: {
     alginate_hydration: 70, // 70°F/21°C - room temperature,
@@ -233,7 +233,7 @@ export const spherification: CookingMethodData = {
         shelf_life: {
       basicSpheres: '1-2 hours before membrane continues to thicken',
       reverseSpheres: '2-4 days when stored in original liquid, refrigerated',
-      frozen: 'Up to 1 week when prepared using frozen reverse spherification'
+      frozen: 'Up to 1 week when prepared using frozen reverse spherification',
     }
   }
 
@@ -290,6 +290,6 @@ export const spherification: CookingMethodData = {
     proteins_and_calcium: 'Some proteins compete with alginate for calcium binding, may require increased calcium concentration.',
     salts_and_gelation: 'High salt content slows gelation process, may require longer bath times.',
     sugar_and_alginate: 'High sugar concentration competes with alginate hydration, may need adjustment of percentages.',
-    natural_calcium_content: 'Ingredients like dairy naturally high in calcium will begin to gel immediately with alginate, use reverse method.'
+    natural_calcium_content: 'Ingredients like dairy naturally high in calcium will begin to gel immediately with alginate, use reverse method.',
   }
 }

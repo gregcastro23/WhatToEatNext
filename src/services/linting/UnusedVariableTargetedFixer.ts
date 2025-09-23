@@ -45,7 +45,7 @@ export class UnusedVariableTargetedFixer {
    */
   public async fixUnusedFunctionParameters(): Promise<FixResult> {
     log.info('🔧 Fixing unused function parameters...\n')
-    const result: FixResult = {;
+    const result: FixResult = {
       filesProcessed: 0,
       variablesFixed: 0,
       errors: [],
@@ -92,7 +92,7 @@ export class UnusedVariableTargetedFixer {
    */
   public async fixUnusedDestructuredVariables(): Promise<FixResult> {
     log.info('🔧 Fixing unused destructured variables...\n')
-    const result: FixResult = {;
+    const result: FixResult = {
       filesProcessed: 0,
       variablesFixed: 0,
       errors: [],
@@ -138,7 +138,7 @@ export class UnusedVariableTargetedFixer {
    */
   public async removeUnusedImports(): Promise<FixResult> {
     log.info('🔧 Removing unused imports...\n')
-    const result: FixResult = {;
+    const result: FixResult = {
       filesProcessed: 0,
       variablesFixed: 0,
       errors: [],
@@ -149,13 +149,13 @@ export class UnusedVariableTargetedFixer {
       // Use ESLint's auto-fix for unused imports
       execSync('yarn lint --fix --rule '@typescript-eslint/no-unused-vars: error'', {
         stdio: 'pipe',
-        encoding: 'utf8'
+        encoding: 'utf8',
       })
 
       // Organize imports
       execSync('yarn lint --fix --rule 'import/order: error'', {
         stdio: 'pipe',
-        encoding: 'utf8'
+        encoding: 'utf8',
       })
 
       result.warnings.push('Used ESLint auto-fix for import cleanup')
@@ -182,7 +182,7 @@ export class UnusedVariableTargetedFixer {
         line.includes('@typescript-eslint/no-unused-vars') &&
         line.includes('Allowed unused args must match')
       ) {
-        const match = line.match(;
+        const match = line.match(
           /^(.+): (\d+):\d+:\s+warning\s+(.+?)\s+@typescript-eslint\/no-unused-vars/,
         )
         if (match) {
@@ -218,7 +218,7 @@ export class UnusedVariableTargetedFixer {
         line.includes('@typescript-eslint/no-unused-vars') &&
         line.includes('array destructuring patterns must match')
       ) {
-        const match = line.match(;
+        const match = line.match(
           /^(.+): (\d+):\d+:\s+warning\s+(.+?)\s+@typescript-eslint\/no-unused-vars/,
         )
         if (match) {
@@ -281,7 +281,7 @@ export class UnusedVariableTargetedFixer {
         const line = lines[lineIndex];
 
         // Replace parameter name with underscore prefix
-        const updatedLine = line.replace(;
+        const updatedLine = line.replace(
           new RegExp(`\\b${param.param}\\b`, 'g'),
           `_${param.param}`,
         ),
@@ -320,7 +320,7 @@ export class UnusedVariableTargetedFixer {
         const line = lines[lineIndex];
 
         // Replace variable name with underscore prefix in destructuring
-        const updatedLine = line.replace(;
+        const updatedLine = line.replace(
           new RegExp(`\\b${variable.variable}\\b`, 'g'),
           `_${variable.variable}`,
         ),
@@ -347,7 +347,7 @@ export class UnusedVariableTargetedFixer {
     try {
       execSync('yarn build', {
         stdio: 'pipe',
-        encoding: 'utf8'
+        encoding: 'utf8',
       })
       log.info('✅ Build validation passed')
       return true,

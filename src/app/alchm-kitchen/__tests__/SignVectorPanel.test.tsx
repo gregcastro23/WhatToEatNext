@@ -31,9 +31,9 @@ vi.mock('@/utils/logger', () => ({
 
 describe('SignVectorPanel', () => {
   const mockPlanetaryPositions: Record<string, PlanetaryPosition> = {
-    Sun: { sign: 'aries', degree: 15, isRetrograde: false }
+    Sun: { sign: 'aries', degree: 15, isRetrograde: false },
     Moon: { sign: 'cancer', degree: 10, isRetrograde: false }
-    Mercury: { sign: 'gemini', degree: 20, isRetrograde: false }
+    Mercury: { sign: 'gemini', degree: 20, isRetrograde: false },
     Venus: { sign: 'taurus', degree: 5, isRetrograde: false }
     Mars: { sign: 'scorpio', degree: 25, isRetrograde: false }
   }
@@ -296,7 +296,7 @@ describe('SignVectorPanel', () => {
           planet1: 'Sun',
           planet2: 'Moon',
           type: 'square',
-          orb: 5
+          orb: 5,
         }
       ],
 

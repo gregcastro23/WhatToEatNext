@@ -1,5 +1,5 @@
 // src/data/cuisines/mexican.ts
-export const mexican = {;
+export const mexican = {
   name: 'Mexican',
   description: 'Traditional Mexican cuisine featuring regional specialties, corn-based dishes, and diverse moles and salsas',
   dishes: {
@@ -859,7 +859,7 @@ export const mexican = {;
           astrologicalProfile: {
             favorableZodiac: ['leo', 'sagittarius'],
             rulingPlanets: ['sun', 'jupiter'],
-            elementalAffinity: 'Fire'
+            elementalAffinity: 'Fire',
           }
         }
         {
@@ -990,7 +990,7 @@ export const mexican = {;
         earth: 0.4,
         fire: 0.3,
         water: 0.2,
-        air: 0.1
+        air: 0.1,
       },
       astrologicalInfluences: ['pluto', 'mars', 'scorpio'],
       seasonality: 'all',
@@ -1012,7 +1012,7 @@ export const mexican = {;
         water: 0.4,
         fire: 0.3,
         air: 0.2,
-        earth: 0.1
+        earth: 0.1,
       },
       astrologicalInfluences: ['venus', 'mercury', 'gemini'],
       seasonality: 'spring, summer',
@@ -1029,7 +1029,7 @@ export const mexican = {;
         fire: 0.5,
         earth: 0.3,
         water: 0.1,
-        air: 0.1
+        air: 0.1,
       },
       astrologicalInfluences: ['mars', 'sun', 'aries'],
       seasonality: 'summer, autumn',
@@ -1046,7 +1046,7 @@ export const mexican = {;
         fire: 0.4,
         air: 0.3,
         earth: 0.2,
-        water: 0.1
+        water: 0.1,
       },
       astrologicalInfluences: ['mars', 'mercury', 'sagittarius'],
       seasonality: 'all',
@@ -1063,12 +1063,12 @@ export const mexican = {;
         earth: 0.5,
         water: 0.2,
         air: 0.2,
-        fire: 0.1
+        fire: 0.1,
       },
       astrologicalInfluences: ['saturn', 'moon', 'capricorn'],
       seasonality: 'autumn, winter',
       preparationNotes: 'Pre-Hispanic sauce that predates European influence in Mexican cuisine',
-      technicalTips: 'Toast seeds until fragrant but not burnt for optimal flavor'
+      technicalTips: 'Toast seeds until fragrant but not burnt for optimal flavor',
     }
   },
   sauceRecommender: {
@@ -1189,7 +1189,7 @@ export const mexican = {;
     {
       name: 'Nixtamalización',
       description: 'Ancient process of treating corn with calcium hydroxide to enhance nutritional value and flavor',
-      elementalProperties: { earth: 0.5, water: 0.3, fire: 0.1, air: 0.1 }
+      elementalProperties: { earth: 0.5, water: 0.3, fire: 0.1, air: 0.1 },
       toolsRequired: [
         'large pot',
         'calcium hydroxide (cal)',
@@ -1201,28 +1201,28 @@ export const mexican = {;
     {
       name: 'Asado',
       description: 'Open-fire grilling technique creating distinctive smoky flavors',
-      elementalProperties: { fire: 0.7, air: 0.2, earth: 0.1, water: 0.0 }
+      elementalProperties: { fire: 0.7, air: 0.2, earth: 0.1, water: 0.0 },
       toolsRequired: ['grill', 'mesquite wood', 'tongs', 'comal'],
       bestFor: ['meats', 'nopal cactus', 'vegetables', 'salsas', 'chiles']
     }
     {
       name: 'Guisado',
       description: 'Slow-simmered stew technique for developing deep flavors',
-      elementalProperties: { water: 0.4, earth: 0.3, fire: 0.2, air: 0.1 }
+      elementalProperties: { water: 0.4, earth: 0.3, fire: 0.2, air: 0.1 },
       toolsRequired: ['clay pot', 'cazuela', 'wooden spoon', 'steady heat source'],
       bestFor: ['meat stews', 'vegetable medleys', 'taco fillings', 'breakfast dishes']
     }
     {
       name: 'Tatemado',
       description: 'Charring technique for vegetables and chiles to develop smoky depth',
-      elementalProperties: { fire: 0.6, earth: 0.2, air: 0.1, water: 0.1 }
+      elementalProperties: { fire: 0.6, earth: 0.2, air: 0.1, water: 0.1 },
       toolsRequired: ['comal', 'direct flame', 'tongs', 'roasting basket'],
       bestFor: ['chiles', 'tomatoes', 'tomatillos', 'onions', 'salsas']
     }
     {
       name: 'Ahumado',
       description: 'Smoking technique using various woods for distinct flavors',
-      elementalProperties: { air: 0.4, fire: 0.3, earth: 0.2, water: 0.1 }
+      elementalProperties: { air: 0.4, fire: 0.3, earth: 0.2, water: 0.1 },
       toolsRequired: ['smoking chamber', 'various woods', 'temperature control', 'hooks or racks'],
       bestFor: ['meats', 'chiles', 'salt', 'cheese', 'seafood']
     }
@@ -1232,37 +1232,37 @@ export const mexican = {;
       name: 'Oaxacan Cuisine',
       description: 'Known as the 'land of seven moles' with rich indigenous culinary traditions',
       signature: ['mole negro', 'tlayudas', 'chapulines', 'quesillo', 'tamales oaxaqueños'],
-      elementalProperties: { earth: 0.5, fire: 0.2, water: 0.2, air: 0.1 }
+      elementalProperties: { earth: 0.5, fire: 0.2, water: 0.2, air: 0.1 },
       astrologicalInfluences: ['moon', 'saturn', 'taurus'],
       seasonality: 'highly seasonal with ceremonial dishes' },
         yucatan: {
       name: 'Yucatecan Cuisine',
       description: 'Maya-influenced cuisine with distinctive achiote and citrus flavors',
       signature: ['cochinita pibil', 'papadzules', 'sopa de lima', 'poc chuc', 'panuchos'],
-      elementalProperties: { water: 0.4, earth: 0.3, fire: 0.2, air: 0.1 }
+      elementalProperties: { water: 0.4, earth: 0.3, fire: 0.2, air: 0.1 },
       astrologicalInfluences: ['venus', 'mercury', 'gemini'],
       seasonality: 'tropical seasonal patterns' },
         northern: {
       name: 'Northern Cuisine',
       description: 'Meat-focused cuisine with flour tortillas and grilled specialties',
       signature: ['carne asada', 'machaca', 'flour tortillas', 'chihuahua cheese', 'burritos'],
-      elementalProperties: { fire: 0.5, earth: 0.3, air: 0.1, water: 0.1 }
+      elementalProperties: { fire: 0.5, earth: 0.3, air: 0.1, water: 0.1 },
       astrologicalInfluences: ['mars', 'sun', 'aries'],
       seasonality: 'desert and ranching seasonal patterns' },
         centralMexico: {
       name: 'Central Mexican Cuisine',
       description: 'Home to Mexico City with ancient Aztec influences and modern street food',
       signature: ['tacos al pastor', 'pozole', 'chiles en nogada', 'mole poblano', 'street corn'],
-      elementalProperties: { earth: 0.4, fire: 0.3, water: 0.2, air: 0.1 }
+      elementalProperties: { earth: 0.4, fire: 0.3, water: 0.2, air: 0.1 },
       astrologicalInfluences: ['jupiter', 'mercury', 'virgo'],
       seasonality: 'highland seasonal patterns with ceremonial dishes' },
         pacific: {
       name: 'Pacific Coast Cuisine',
       description: 'Seafood-forward cuisine with tropical fruits and fresh preparations',
       signature: ['pescado a la talla', 'aguachile', 'ceviche', 'zarandeado', 'camarones'],
-      elementalProperties: { water: 0.5, air: 0.2, fire: 0.2, earth: 0.1 }
+      elementalProperties: { water: 0.5, air: 0.2, fire: 0.2, earth: 0.1 },
       astrologicalInfluences: ['neptune', 'venus', 'pisces'],
-      seasonality: 'coastal seasonal patterns with monsoon influence'
+      seasonality: 'coastal seasonal patterns with monsoon influence',
     }
   },
   elementalProperties: {

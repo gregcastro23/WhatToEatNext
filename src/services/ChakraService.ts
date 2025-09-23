@@ -41,7 +41,7 @@ export class ChakraService {
       sagittarius: 0,
       capricorn: 0,
       aquarius: 0,
-      pisces: 0
+      pisces: 0,
     }
 
     signEnergyStates.forEach(_state => {

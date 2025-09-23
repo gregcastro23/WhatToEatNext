@@ -14,11 +14,11 @@ export const simmering: CookingMethodData = {
     Water: 0.8,
     Fire: 0.1,
     Air: 0.05,
-    Earth: 0.05
+    Earth: 0.05,
   },
   duration: {
     min: 15,
-    max: 240
+    max: 240,
   },
   suitable_for: [
     'stocks',
@@ -115,7 +115,7 @@ export const simmering: CookingMethodData = {
     fat_soluble_vitamins: 0.9,
     antioxidants: 0.6,
     phytonutrients: 0.55,
-    fiber: 0.9
+    fiber: 0.9,
   },
   optimalTemperatures: {
     general_simmer: 185, // 185°F/85°C - gentle simmer,

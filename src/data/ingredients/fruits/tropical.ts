@@ -4,8 +4,7 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
   mango: {
     name: 'Mango',
-    elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 }
-
+    elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Sun', 'Jupiter'],
       favorableZodiac: ['leo', 'taurus'],
@@ -34,8 +33,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       carbs_g: 15,
       fiber_g: 1.6,
       antioxidants: ['beta-carotene', 'zeaxanthin']
-    }
-
+    },
     preparation: {
       washing: true,
       peeling: 'required',
@@ -55,8 +53,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
         culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -67,8 +64,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
   pineapple: {
     name: 'Pineapple',
-    elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 }
-
+    elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
     astrologicalProfile: {
       rulingPlanets: ['Sun', 'Mars'],
       favorableZodiac: ['leo', 'aries'],
@@ -97,8 +93,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       carbs_g: 13,
       fiber_g: 1.4,
       enzymes: ['bromelain']
-    }
-
+    },
     preparation: {
       washing: true,
       cutting: 'remove crown and base',
@@ -116,8 +111,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
         culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -128,7 +122,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
   papaya: {
     name: 'Papaya',
-    elementalProperties: { Water: 0.5, Fire: 0.2, Air: 0.2, Earth: 0.1 }
+    elementalProperties: { Water: 0.5, Fire: 0.2, Air: 0.2, Earth: 0.1 },
     qualities: ['sweet', 'buttery', 'exotic'],
     season: ['year-round'],
     category: 'fruit',
@@ -144,8 +138,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       carbs_g: 11,
       fiber_g: 1.7,
       enzymes: ['papain']
-    }
-
+    },
     preparation: {
       washing: true,
       peeling: 'when ripe',
@@ -156,7 +149,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temp until ripe',
       duration: '5-7 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when ripe'
+      notes: 'Refrigerate when ripe',
     }
 
     // Removed excessive sensoryProfile nesting
@@ -169,8 +162,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -186,7 +178,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
   'passion fruit': {
     name: 'Passion Fruit',
-    elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.3, Earth: 0.1 }
+    elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.3, Earth: 0.1 },
     qualities: ['tart', 'aromatic', 'exotic'],
     season: ['summer', 'autumn'],
     category: 'fruit',
@@ -202,8 +194,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       carbs_g: 16,
       fiber_g: 10.4,
       antioxidants: ['beta-carotene', 'polyphenols']
-    }
-
+    },
     preparation: {
       washing: true,
       ripeness: 'wrinkled skin indicates ripeness',
@@ -213,7 +204,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temp until ripe',
       duration: '7-10 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when ripe'
+      notes: 'Refrigerate when ripe',
     }
 
     // Removed excessive sensoryProfile nesting
@@ -226,8 +217,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -243,7 +233,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
   'dragon fruit': {
     name: 'Dragon Fruit',
-    elementalProperties: { Water: 0.6, Air: 0.2, Earth: 0.1, Fire: 0.1 }
+    elementalProperties: { Water: 0.6, Air: 0.2, Earth: 0.1, Fire: 0.1 },
     qualities: ['mild', 'refreshing', 'exotic'],
     season: ['summer', 'autumn'],
     category: 'fruit',
@@ -259,8 +249,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       carbs_g: 13,
       fiber_g: 3,
       antioxidants: ['betalains', 'hydroxycinnamates']
-    }
-
+    },
     preparation: {
       washing: true,
       cutting: 'halve lengthwise',
@@ -270,7 +259,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       duration: '5-7 days',
       humidity: 'moderate',
-      notes: 'Best eaten when slightly firm'
+      notes: 'Best eaten when slightly firm',
     }
 
     // Removed excessive sensoryProfile nesting
@@ -283,8 +272,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -300,7 +288,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
   lychee: {
     name: 'Lychee',
-    elementalProperties: { Water: 0.5, Air: 0.3, Fire: 0.1, Earth: 0.1 }
+    elementalProperties: { Water: 0.5, Air: 0.3, Fire: 0.1, Earth: 0.1 },
     qualities: ['sweet', 'floral', 'delicate'],
     season: ['summer'],
     category: 'fruit',
@@ -316,8 +304,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       carbs_g: 17,
       fiber_g: 1.3,
       antioxidants: ['flavonoids', 'proanthocyanidins']
-    }
-
+    },
     preparation: {
       washing: true,
       peeling: 'remove rough skin',
@@ -327,7 +314,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       duration: '5-7 days',
       humidity: 'high',
-      notes: 'Best eaten fresh, skin will brown over time'
+      notes: 'Best eaten fresh, skin will brown over time',
     }
 
     // Removed excessive sensoryProfile nesting
@@ -340,8 +327,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -357,7 +343,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
   guava: {
     name: 'Guava',
-    elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 }
+    elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 },
     qualities: ['sweet-tart', 'fragrant', 'tropical'],
     season: ['fall', 'winter'],
     category: 'fruit',
@@ -373,8 +359,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       carbs_g: 14,
       fiber_g: 5.4,
       antioxidants: ['lycopene', 'beta-carotene']
-    }
-
+    },
     preparation: {
       washing: true,
       ripeness: 'yields slightly to pressure',
@@ -384,7 +369,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temp until ripe',
       duration: '3-4 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when ripe'
+      notes: 'Refrigerate when ripe',
     }
 
     // Removed excessive sensoryProfile nesting
@@ -397,8 +382,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -414,7 +398,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
   rambutan: {
     name: 'Rambutan',
-    elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 }
+    elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 },
     qualities: ['sweet', 'delicate', 'refreshing'],
     season: ['summer', 'fall'],
     category: 'fruit',
@@ -430,8 +414,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       carbs_g: 18.7,
       fiber_g: 0.9,
       antioxidants: ['flavonoids', 'tannins']
-    }
-
+    },
     preparation: {
       washing: true,
       peeling: 'cut through hairy skin',
@@ -441,7 +424,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       duration: '3-5 days',
       humidity: 'high',
-      notes: 'Best eaten fresh'
+      notes: 'Best eaten fresh',
     }
 
     // Removed excessive sensoryProfile nesting
@@ -454,8 +437,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -471,7 +453,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
   mangosteen: {
     name: 'Mangosteen',
-    elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 }
+    elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
     qualities: ['sweet', 'delicate', 'complex'],
     season: ['summer'],
     category: 'fruit',
@@ -487,8 +469,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       carbs_g: 15.6,
       fiber_g: 1.8,
       antioxidants: ['xanthones', 'anthocyanins']
-    }
-
+    },
     preparation: {
       washing: true,
       cutting: 'score around middle',
@@ -498,7 +479,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       duration: '5-7 days',
       humidity: 'moderate',
-      notes: 'Store in breathable container'
+      notes: 'Store in breathable container',
     }
 
     // Removed excessive sensoryProfile nesting
@@ -511,8 +492,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -528,7 +508,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
   soursop: {
     name: 'Soursop',
-    elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.1, Earth: 0.2 }
+    elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.1, Earth: 0.2 },
     qualities: ['sweet-sour', 'creamy', 'tropical'],
     season: ['summer', 'fall'],
     category: 'fruit',
@@ -544,8 +524,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       carbs_g: 16.8,
       fiber_g: 3.3,
       antioxidants: ['acetogenins', 'quercetin']
-    }
-
+    },
     preparation: {
       washing: true,
       ripeness: 'yields to gentle pressure',
@@ -555,7 +534,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temp until ripe',
       duration: '4-5 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when ripe'
+      notes: 'Refrigerate when ripe',
     }
 
     // Removed excessive sensoryProfile nesting
@@ -568,8 +547,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -585,7 +563,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
   jackfruit: {
     name: 'Jackfruit',
-    elementalProperties: { Water: 0.3, Earth: 0.3, Air: 0.2, Fire: 0.2 }
+    elementalProperties: { Water: 0.3, Earth: 0.3, Air: 0.2, Fire: 0.2 },
     qualities: ['sweet', 'meaty', 'complex'],
     season: ['summer', 'autumn'],
     category: 'fruit',
@@ -601,8 +579,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       carbs_g: 23.2,
       fiber_g: 1.5,
       antioxidants: ['carotenoids', 'flavonoids']
-    }
-
+    },
     preparation: {
       washing: true,
       cutting: 'requires skill and oil on hands',
@@ -612,7 +589,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       duration: '5-7 days',
       humidity: 'moderate',
-      notes: 'Cut pieces must be used quickly'
+      notes: 'Cut pieces must be used quickly',
     }
 
     // Removed excessive sensoryProfile nesting
@@ -625,8 +602,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -642,7 +618,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
   durian: {
     name: 'Durian',
-    elementalProperties: { Water: 0.3, Earth: 0.4, Fire: 0.2, Air: 0.1 }
+    elementalProperties: { Water: 0.3, Earth: 0.4, Fire: 0.2, Air: 0.1 },
     qualities: ['creamy', 'pungent', 'complex'],
     season: ['summer'],
     category: 'fruit',
@@ -658,8 +634,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       carbs_g: 27.1,
       fiber_g: 3.8,
       antioxidants: ['flavonoids', 'polyphenols']
-    }
-
+    },
     preparation: {
       cutting: 'careful handling required',
       opening: 'cut along seams',
@@ -669,7 +644,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       duration: '3-5 days',
       humidity: 'moderate',
-      notes: 'Freeze for longer storage'
+      notes: 'Freeze for longer storage',
     }
 
     // Removed excessive sensoryProfile nesting
@@ -682,8 +657,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -699,7 +673,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
   carambola: {
     name: 'Carambola',
-    elementalProperties: { Water: 0.6, Air: 0.2, Fire: 0.1, Earth: 0.1 }
+    elementalProperties: { Water: 0.6, Air: 0.2, Fire: 0.1, Earth: 0.1 },
     qualities: ['sweet-tart', 'crisp', 'decorative'],
     season: ['winter', 'spring'],
     category: 'fruit',
@@ -715,8 +689,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       carbs_g: 6.7,
       fiber_g: 2.8,
       antioxidants: ['epicatechin', 'gallic acid']
-    }
-
+    },
     preparation: {
       washing: true,
       cutting: 'slice crosswise for star shape',
@@ -725,7 +698,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       duration: '5-7 days',
       humidity: 'moderate',
-      notes: 'Best eaten when slightly firm'
+      notes: 'Best eaten when slightly firm',
     }
 
     // Removed excessive sensoryProfile nesting
@@ -738,8 +711,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -755,7 +727,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
   kiwi: {
     name: 'Kiwi',
-    elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.1, Earth: 0.2 }
+    elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.1, Earth: 0.2 },
     qualities: ['sweet-tart', 'bright', 'refreshing'],
     season: ['winter', 'spring'],
     category: 'fruit',
@@ -771,8 +743,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       carbs_g: 14.7,
       fiber_g: 3,
       antioxidants: ['polyphenols', 'carotenoids']
-    }
-
+    },
     preparation: {
       washing: true,
       peeling: 'optional - skin is edible',
@@ -782,7 +753,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       duration: '1-2 weeks',
       humidity: 'moderate',
-      notes: 'Will ripen other fruits if stored together'
+      notes: 'Will ripen other fruits if stored together',
     }
 
     // Removed excessive sensoryProfile nesting
@@ -795,8 +766,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -812,7 +782,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
   coconut: {
     name: 'Coconut',
-    elementalProperties: { Water: 0.4, Earth: 0.4, Air: 0.1, Fire: 0.1 }
+    elementalProperties: { Water: 0.4, Earth: 0.4, Air: 0.1, Fire: 0.1 },
     qualities: ['sweet', 'creamy', 'tropical'],
     season: ['year-round'],
     category: 'fruit',
@@ -828,8 +798,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       carbs_g: 15.2,
       fiber_g: 9,
       fats: ['medium chain triglycerides']
-    }
-
+    },
     preparation: {
       opening: 'pierce eyes and drain water',
       cracking: 'careful splitting required',
@@ -839,7 +808,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temperature whole',
       duration: '2-3 months whole',
       processed: 'refrigerate once opened',
-      notes: 'Freezes well when shredded'
+      notes: 'Freezes well when shredded',
     }
 
     // Removed excessive sensoryProfile nesting
@@ -852,8 +821,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -869,7 +837,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
   pomelo: {
     name: 'Pomelo',
-    elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 }
+    elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 },
     qualities: ['sweet-tart', 'mild', 'refreshing'],
     season: ['winter'],
     category: 'fruit',
@@ -885,8 +853,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       carbs_g: 9.6,
       fiber_g: 1.9,
       antioxidants: ['naringin', 'limonoids']
-    }
-
+    },
     preparation: {
       washing: true,
       peeling: 'remove thick rind and pith',
@@ -896,7 +863,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       duration: '1-2 weeks',
       humidity: 'moderate',
-      notes: 'Keeps well in cool conditions'
+      notes: 'Keeps well in cool conditions',
     }
 
     // Removed excessive sensoryProfile nesting
@@ -909,8 +876,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -926,7 +892,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
   longan: {
     name: 'Longan',
-    elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 }
+    elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 },
     qualities: ['sweet', 'subtle', 'refreshing'],
     season: ['late summer'],
     category: 'fruit',
@@ -942,8 +908,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       carbs_g: 15.1,
       fiber_g: 1.1,
       antioxidants: ['gallic acid', 'ellagic acid']
-    }
-
+    },
     preparation: {
       washing: true,
       peeling: 'crack and remove thin shell',
@@ -953,7 +918,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'refrigerated',
       duration: '3-5 days',
       humidity: 'high',
-      notes: 'Best eaten fresh'
+      notes: 'Best eaten fresh',
     }
 
     // Removed excessive sensoryProfile nesting
@@ -966,8 +931,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }
@@ -983,7 +947,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
   'custard apple': {
     name: 'Custard Apple',
-    elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
+    elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
     qualities: ['sweet', 'creamy', 'fragrant'],
     season: ['fall', 'winter'],
     category: 'fruit',
@@ -999,8 +963,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       carbs_g: 23.6,
       fiber_g: 4.4,
       antioxidants: ['catechins', 'kaempferol']
-    }
-
+    },
     preparation: {
       washing: true,
       ripeness: 'yields to gentle pressure',
@@ -1010,7 +973,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       temperature: 'room temp until ripe',
       duration: '2-3 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when fully ripe'
+      notes: 'Refrigerate when fully ripe',
     }
 
     // Removed excessive sensoryProfile nesting
@@ -1023,8 +986,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      }
-
+      },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
     }

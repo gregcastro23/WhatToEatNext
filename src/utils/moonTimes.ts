@@ -73,7 +73,7 @@ export function getMoonPosition(
   }
 }
 
-const moonTimesApi = {;
+const moonTimesApi = {
   calculateMoonTimes,
   getMoonIllumination,
   getMoonPosition

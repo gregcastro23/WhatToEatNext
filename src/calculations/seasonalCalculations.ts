@@ -21,10 +21,10 @@ export function calculateSeasonalEffectiveness(
   season: string,
 ): SeasonalEffectiveness {
   let totalScore = 0,
-  const breakdown = {;
+  const breakdown = {
     elementalAlignment: 0,
     ingredientSuitability: 0,
-    seasonalBonus: 0
+    seasonalBonus: 0,
   }
 
   // Normalize season to lowercase for consistent lookup

@@ -14,7 +14,7 @@ const jupiterData: PlanetData = {
     Spirit: 1,
     Essence: 1,
     Matter: 0,
-    Substance: 0
+    Substance: 0,
   }
   'Diurnal Element': 'Air',
   'Nocturnal Element': 'Fire',
@@ -36,7 +36,7 @@ const jupiterData: PlanetData = {
         'Gas giant with no solid surface, characterized by colorful bands and the Great Red Spot',
       MagneticField: 'Strongest magnetic field of any planet in the solar system',
       Composition: 'Mostly hydrogen and helium, possibly with a rocky core',
-      NotableFeatures: 'Largest planet in our solar system79 known moons, visible rings, Great Red Spot (giant storm)'
+      NotableFeatures: 'Largest planet in our solar system79 known moons, visible rings, Great Red Spot (giant storm)',
     }
   },
   AstrologicalProperties: {
@@ -173,7 +173,7 @@ const jupiterData: PlanetData = {
     Salty: 0.4,
     Bitter: 0.2,
     Umami: 0.7,
-    Spicy: 0.5
+    Spicy: 0.5,
   },
   CulinaryInfluences: [
     'Expands and enhances flavors',
@@ -195,42 +195,42 @@ const jupiterData: PlanetData = {
       Opposition: 0.4,
       Trine: 0.6,
       Square: 0.2,
-      Sextile: 0.5
+      Sextile: 0.5,
     },
     Moon: {
       Conjunction: 0.7,
       Opposition: 0.3,
       Trine: 0.6,
       Square: 0.2,
-      Sextile: 0.4
+      Sextile: 0.4,
     },
     Mercury: {
       Conjunction: 0.5,
       Opposition: 0.1,
       Trine: 0.4,
       Square: 0.0,
-      Sextile: 0.3
+      Sextile: 0.3,
     },
     Saturn: {
       Conjunction: 0.3,
       Opposition: -0.2,
       Trine: 0.4,
       Square: -0.1,
-      Sextile: 0.2
+      Sextile: 0.2,
     },
     Venus: {
       Conjunction: 0.8,
       Opposition: 0.3,
       Trine: 0.6,
       Square: 0.2,
-      Sextile: 0.5
+      Sextile: 0.5,
     },
     Mars: {
       Conjunction: 0.6,
       Opposition: 0.1,
       Trine: 0.5,
       Square: 0.0,
-      Sextile: 0.3
+      Sextile: 0.3,
     }
   },
   PlanetSpecific: {
@@ -241,7 +241,7 @@ const jupiterData: PlanetData = {
           Fire: 0.8,
           Earth: 0.2,
           Air: 0.4,
-          Water: 0.2
+          Water: 0.2,
         },
         Ingredients: [
           'international spices',
@@ -258,7 +258,7 @@ const jupiterData: PlanetData = {
           Fire: 0.2,
           Earth: 0.1,
           Air: 0.2,
-          Water: 0.9
+          Water: 0.9,
         },
         Ingredients: [
           'seafood',
@@ -276,7 +276,7 @@ const jupiterData: PlanetData = {
           Fire: 0.9,
           Earth: 0.1,
           Air: 0.4,
-          Water: 0.1
+          Water: 0.1,
         },
         Ingredients: [
           'chili peppers',
@@ -292,7 +292,7 @@ const jupiterData: PlanetData = {
           Fire: 0.3,
           Earth: 0.8,
           Air: 0.1,
-          Water: 0.2
+          Water: 0.2,
         },
         Ingredients: [
           'truffles',
@@ -311,7 +311,7 @@ const jupiterData: PlanetData = {
         Spirit: 0.8,
         Essence: 0.6,
         Matter: 0.2,
-        Substance: 0.1
+        Substance: 0.1,
       }
     },
     CulinaryTemperament: {
@@ -322,7 +322,7 @@ const jupiterData: PlanetData = {
           Fire: 0.9,
           Earth: 0.3,
           Air: 0.4,
-          Water: 0.2
+          Water: 0.2,
         },
         Recommendations: [
           'feast-style service',
@@ -339,7 +339,7 @@ const jupiterData: PlanetData = {
           Fire: 0.3,
           Earth: 0.2,
           Air: 0.9,
-          Water: 0.3
+          Water: 0.3,
         },
         Recommendations: [
           'cuisine theory',
@@ -355,7 +355,7 @@ const jupiterData: PlanetData = {
       'Cultural Fusion': 0.8,
       'Educational Dining': 0.7,
       'Festive Preparation': 0.9,
-      'Generous Hospitality': 0.9
+      'Generous Hospitality': 0.9,
     }
   }
 }

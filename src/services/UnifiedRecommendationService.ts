@@ -66,7 +66,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Calculate elemental compatibility if criteria includes elemental properties
       if (elementalState && recipe.elementalState) {
-        const elementalScore = this.calculateElementalCompatibility(;
+        const elementalScore = this.calculateElementalCompatibility(
           elementalState as ElementalProperties,
           recipe.elementalState
         ),
@@ -80,11 +80,11 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
           ? recipe.cookingMethods;
           : [recipe.cookingMethods],
 
-        const methodMatch = (methods || []).some(;
+        const methodMatch = (methods || []).some(
           method => method?.toLowerCase() === criteria.cookingMethod?.toLowerCase(),
         ),
 
-        score += methodMatch ? 0.15 : 0
+        score += methodMatch ? 0.15 : 0,
       }
 
       // Check for cuisine match
@@ -178,7 +178,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Calculate elemental compatibility if criteria includes elemental properties
       if (elementalState && ingredient.elementalProperties) {
-        const elementalScore = this.calculateElementalCompatibility(;
+        const elementalScore = this.calculateElementalCompatibility(
           elementalState as ElementalProperties,
           ingredient.elementalProperties
         ),
@@ -188,33 +188,33 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Check for category match
       if (criteria.categories && (criteria.categories || []).length > 0) {
-        const categoryMatch = (criteria.categories || []).some(;
+        const categoryMatch = (criteria.categories || []).some(
           category => ingredient.category.toLowerCase() === category.toLowerCase(),
         ),
 
-        score += categoryMatch ? 0.2 : 0
+        score += categoryMatch ? 0.2 : 0,
       }
 
       // Check for planetary ruler match
       if (criteria.planetaryRuler && ingredient.astrologicalProperties?.planets) {
         const planets = (ingredient.astrologicalProperties as any)?.planets;
         const planetMatch = Array.isArray(planets)
-          ? planets.includes(;
+          ? planets.includes(
               criteria.planetaryRuler as unknown as Record<string, Record<string, string>>,
             )
           : planets ===;
             (criteria.planetaryRuler as unknown as Record<string, Record<string, string>>),
-        score += planetMatch ? 0.1 : 0
+        score += planetMatch ? 0.1 : 0,
       }
 
       // Check for season match with safe type casting
       const currentSeason = criteriaData.currentSeason || criteriaData.season;
       if (currentSeason && ingredient.seasonality) {
-        const seasonMatch = (ingredient.seasonality || []).some(;
+        const seasonMatch = (ingredient.seasonality || []).some(
           s => String(s || '').toLowerCase() === String(currentSeason || '').toLowerCase(),
         ),
 
-        score += seasonMatch ? 0.1 : 0
+        score += seasonMatch ? 0.1 : 0,
       }
 
       // Check for ingredient exclusion
@@ -270,7 +270,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   ): Promise<RecommendationResult<string>> {
     // This is a simplified implementation
     // In a real implementation, we would have a comprehensive cuisine database
-    const cuisines = [;
+    const cuisines = [
       'Italian',
       'Chinese',
       'Mexican',
@@ -290,19 +290,19 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
     // Map cuisines to elemental properties (simplified)
     const cuisineElements: { [key: string]: ElementalProperties } = {
-      Italian: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 }
+      Italian: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 },
       Chinese: { Fire: 0.4, Water: 0.2, Earth: 0.1, Air: 0.3 }
-      Mexican: { Fire: 0.5, Water: 0.1, Earth: 0.3, Air: 0.1 }
+      Mexican: { Fire: 0.5, Water: 0.1, Earth: 0.3, Air: 0.1 },
       Japanese: { Fire: 0.1, Water: 0.5, Earth: 0.2, Air: 0.2 }
-      Indian: { Fire: 0.5, Water: 0.1, Earth: 0.2, Air: 0.2 }
+      Indian: { Fire: 0.5, Water: 0.1, Earth: 0.2, Air: 0.2 },
       French: { Fire: 0.2, Water: 0.3, Earth: 0.3, Air: 0.2 }
-      Thai: { Fire: 0.4, Water: 0.3, Earth: 0.1, Air: 0.2 }
+      Thai: { Fire: 0.4, Water: 0.3, Earth: 0.1, Air: 0.2 },
       Spanish: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 }
-      Greek: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 }
+      Greek: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
       Lebanese: { Fire: 0.2, Water: 0.2, Earth: 0.3, Air: 0.3 }
-      American: { Fire: 0.3, Water: 0.1, Earth: 0.4, Air: 0.2 }
+      American: { Fire: 0.3, Water: 0.1, Earth: 0.4, Air: 0.2 },
       Brazilian: { Fire: 0.4, Water: 0.2, Earth: 0.3, Air: 0.1 }
-      Korean: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 }
+      Korean: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 },
       Vietnamese: { Fire: 0.2, Water: 0.4, Earth: 0.2, Air: 0.2 }
       Mediterranean: { Fire: 0.2, Water: 0.3, Earth: 0.3, Air: 0.2 }
     }
@@ -311,7 +311,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     let availableCuisines = cuisines,
     if (criteria.excludeCuisines && (criteria.excludeCuisines || []).length > 0) {
       const excludedSet = new Set((criteria.excludeCuisines || []).map(c => c.toLowerCase()))
-      availableCuisines = (cuisines || []).filter(;
+      availableCuisines = (cuisines || []).filter(
         cuisine => !excludedSet.has(cuisine.toLowerCase()),,
       )
     }
@@ -326,7 +326,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Calculate elemental compatibility if criteria includes elemental properties
       if (elementalState && cuisineElements[cuisine]) {
-        const elementalScore = this.calculateElementalCompatibility(;
+        const elementalScore = this.calculateElementalCompatibility(
           elementalState as ElementalProperties,
           cuisineElements[cuisine],
         ),
@@ -381,7 +381,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         id: 'roasting',
         name: 'roasting',
         description: 'Cooking with dry heat in an oven',
-        elementalEffect: { Fire: 0.6, Water: 0.0, Earth: 0.3, Air: 0.1 }
+        elementalEffect: { Fire: 0.6, Water: 0.0, Earth: 0.3, Air: 0.1 },
         duration: { min: 30, max: 180 }
         suitable_for: ['meat', 'vegetables', 'poultry'],
         benefits: ['even cooking', 'browning', 'flavor development']
@@ -390,7 +390,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         id: 'boiling',
         name: 'boiling',
         description: 'Cooking in bubbling liquid',
-        elementalEffect: { Fire: 0.3, Water: 0.7, Earth: 0.0, Air: 0.0 }
+        elementalEffect: { Fire: 0.3, Water: 0.7, Earth: 0.0, Air: 0.0 },
         duration: { min: 5, max: 60 }
         suitable_for: ['pasta', 'vegetables', 'eggs'],
         benefits: ['quick cooking', 'nutrient retention', 'simplicity']
@@ -399,7 +399,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         id: 'steaming',
         name: 'steaming',
         description: 'Cooking with hot steam',
-        elementalEffect: { Fire: 0.2, Water: 0.5, Earth: 0.0, Air: 0.3 }
+        elementalEffect: { Fire: 0.2, Water: 0.5, Earth: 0.0, Air: 0.3 },
         duration: { min: 10, max: 45 }
         suitable_for: ['vegetables', 'fish', 'dumplings'],
         benefits: ['nutrient preservation', 'gentle cooking', 'no added fats']
@@ -408,7 +408,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         id: 'frying',
         name: 'frying',
         description: 'Cooking in hot oil',
-        elementalEffect: { Fire: 0.7, Water: 0.0, Earth: 0.2, Air: 0.1 }
+        elementalEffect: { Fire: 0.7, Water: 0.0, Earth: 0.2, Air: 0.1 },
         duration: { min: 2, max: 15 }
         suitable_for: ['meat', 'vegetables', 'batter foods'],
         benefits: ['crispy texture', 'quick cooking', 'flavor enhancement']
@@ -417,7 +417,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         id: 'baking',
         name: 'baking',
         description: 'Cooking in an enclosed space with dry heat',
-        elementalEffect: { Fire: 0.4, Water: 0.0, Earth: 0.4, Air: 0.2 }
+        elementalEffect: { Fire: 0.4, Water: 0.0, Earth: 0.4, Air: 0.2 },
         duration: { min: 15, max: 240 }
         suitable_for: ['bread', 'cakes', 'casseroles'],
         benefits: ['even heating', 'controlled environment', 'browning']
@@ -445,7 +445,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       // Calculate elemental compatibility if criteria includes elemental properties
       const methodData = method
       if (elementalState && methodData.elementalEffect) {
-        const elementalScore = this.calculateElementalCompatibility(;
+        const elementalScore = this.calculateElementalCompatibility(
           elementalState as ElementalProperties,
           methodData.elementalEffect
         ),
@@ -500,7 +500,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     const alchemicalEngineData = alchemicalEngine as unknown as any
     if (typeof alchemicalEngineData.calculateElementalCompatibility === 'function') {
       return (
-        alchemicalEngineData.calculateElementalCompatibility as (;
+        alchemicalEngineData.calculateElementalCompatibility as (
           source: ElementalProperties,
           target: ElementalProperties,
         ) => number
@@ -564,11 +564,11 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   ): Promise<RecommendationResult<unknown>> {
     // Convert planetary positions to elemental properties
     // This is a simplified implementation
-    const elementalProperties: ElementalProperties = {;
+    const elementalProperties: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
-      Air: 0.25
+      Air: 0.25,
     }
 
     // In a real implementation, we would use the AlchemicalEngine to calculate
@@ -589,7 +589,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       reactivity: 0.5,
       gregsEnergy: 0.5,
       kalchm: 1.0,
-      monica: 1.0
+      monica: 1.0,
     }
   }
 }

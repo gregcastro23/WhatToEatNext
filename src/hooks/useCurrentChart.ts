@@ -68,7 +68,7 @@ export function useCurrentChart() {
         })
 
         // Set ascendant if available
-        const newChartData: ChartData = {;
+        const newChartData: ChartData = {
           planets: planets as Record<,
             string,
             { sign: string, degree: number, isRetrograde?: boolean, exactLongitude?: number }
@@ -105,7 +105,7 @@ export function useCurrentChart() {
       Northnode: '☊',
       NorthNode: '☊',
       Southnode: '☋',
-      SouthNode: '☋'
+      SouthNode: '☋',
     }
 
     // Map of zodiac signs to their symbols
@@ -121,7 +121,7 @@ export function useCurrentChart() {
       sagittarius: '♐',
       capricorn: '♑',
       aquarius: '♒',
-      pisces: '♓'
+      pisces: '♓',
     }
 
     // Map colors for each sign based on their element
@@ -151,7 +151,7 @@ export function useCurrentChart() {
       Saturn: '#5d5d5d',
       Uranus: '#5c94bd',
       Neptune: '#438bca',
-      Pluto: '#7d2e68'
+      Pluto: '#7d2e68',
     }
 
     // Calculate actual positions based on exact longitude
@@ -238,7 +238,7 @@ export function useCurrentChart() {
           chartData.ascendant
             ? (() => {
                 // Get the sign index
-                const signIndex = Object.keys(zodiacSymbols).findIndex(;
+                const signIndex = Object.keys(zodiacSymbols).findIndex(
                   sign => sign === chartData.ascendant
                 );
                 const ascAngle = ((signIndex * 30 - 90) * Math.PI) / 180; // Start from top
@@ -256,7 +256,7 @@ export function useCurrentChart() {
             </text>
           `,
               })()
-            : ''
+            : '',
         }
         
         <!-- North Node (outside the circle at the top) -->
@@ -316,7 +316,7 @@ export function useCurrentChart() {
   }
 
   // Create chart object compatible with what CookingMethods.tsx expects
-  const chartObj = {;
+  const chartObj = {
     planetaryPositions: Object.entries(chartData.planets).reduce(,
       (acc, [key, value]) => {
         acc[key.toLowerCase()] = value,

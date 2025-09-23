@@ -31,11 +31,11 @@ export interface ProcessStatus {
 export class TerminalFreezePreventionSystem {
   private runningProcesses: Map<number, ProcessStatus> = new Map(),
   private monitoringInterval: NodeJS.Timeout | null = null,
-  private readonly, DEFAULT_CONFIG: ProcessMonitorConfig = {;
+  private readonly, DEFAULT_CONFIG: ProcessMonitorConfig = {
     maxExecutionTime: 60000, // 1 minute,
     maxMemoryUsage: 500, // 500MB,
     heartbeatInterval: 5000, // 5 seconds,
-    killOnTimeout: true
+    killOnTimeout: true,
   }
 
   constructor(private config: ProcessMonitorConfig = {} as ProcessMonitorConfig) {,
@@ -47,7 +47,7 @@ export class TerminalFreezePreventionSystem {
    * Execute command with timeout and monitoring
    */
   async safeExecSync(command: string, options: unknown = {}): Promise<string> {,
-    const safeOptions = {;
+    const safeOptions = {
       ...options,
       timeout: options.timeout || this.config.maxExecutionTime,
       encoding: 'utf8' as const,
@@ -84,14 +84,14 @@ export class TerminalFreezePreventionSystem {
         stdio: ['pipe', 'pipe', 'pipe']
       })
 
-      const processStatus: ProcessStatus = {;
+      const processStatus: ProcessStatus = {
         pid: child.pid ?? 0,
         command: `${command} ${args.join(' ')}`,
         startTime: new Date(),
         isRunning: true,
         memoryUsage: 0,
         cpuUsage: 0,
-        hasTimedOut: false
+        hasTimedOut: false,
       }
 
       this.runningProcesses.set(child.pid ?? 0, processStatus)
@@ -200,7 +200,7 @@ export class TerminalFreezePreventionSystem {
       const stats = execSync(`ps -o pid,vsz,rss,pcpu -p ${pid} | tail -1`, {
         encoding: 'utf8',
         stdio: 'pipe',
-        timeout: 5000
+        timeout: 5000,
       })
 
       const [, , rss, pcpu] = stats.trim().split(/\s+/)

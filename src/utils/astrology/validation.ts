@@ -68,66 +68,66 @@ export function getReliablePlanetaryPositions(): { [key: string]: CelestialPosit
       sign: 'gemini',
       degree: 5.93,
       exactLongitude: 65.93,
-      isRetrograde: false
+      isRetrograde: false,
     },
     moon: {
       sign: 'gemini',
       degree: 3.57,
       exactLongitude: 63.57,
-      isRetrograde: false
+      isRetrograde: false,
     },
     Mercury: {
       sign: 'gemini',
       degree: 1.98,
       exactLongitude: 61.98,
-      isRetrograde: false
+      isRetrograde: false,
     },
     Venus: {
       sign: 'aries',
       degree: 20.17,
       exactLongitude: 20.17,
-      isRetrograde: false
+      isRetrograde: false,
     },
     Mars: {
       sign: 'leo',
       degree: 18.38,
       exactLongitude: 138.38,
-      isRetrograde: false
+      isRetrograde: false,
     },
     Jupiter: {
       sign: 'gemini',
       degree: 26.87,
       exactLongitude: 86.87,
-      isRetrograde: false
+      isRetrograde: false,
     },
     _Saturn: {
       sign: 'aries',
       degree: 0.13,
       exactLongitude: 0.13,
-      isRetrograde: false
+      isRetrograde: false,
     },
     _Uranus: {
       sign: 'taurus',
       degree: 27.82,
       exactLongitude: 57.82,
-      isRetrograde: false
+      isRetrograde: false,
     },
     _Neptune: {
       sign: 'aries',
       degree: 1.77,
       exactLongitude: 1.77,
-      isRetrograde: false
+      isRetrograde: false,
     },
     _Pluto: {
       sign: 'aquarius',
       degree: 3.7,
       exactLongitude: 303.7,
-      isRetrograde: true
+      isRetrograde: true,
     }
   }
 
   // Cache the results
-  reliablePositionsCache = {;
+  reliablePositionsCache = {
     data: positions,
     timestamp: Date.now()
   }
@@ -144,7 +144,7 @@ export function calculateLunarPhase(): number {
     const now = new Date()
     const dayOfYear = getDayOfYear(now)
 
-    // Approximate lunar cycle (29.53 days);
+    // Approximate lunar cycle (29.53 days)
     const lunarCycle = 29.53;
     const cyclePosition = (dayOfYear % lunarCycle) / lunarCycle
 
@@ -319,15 +319,15 @@ export function calculatePlanetaryAspects(positions: {
 export function identifyAspect(_angleDiff: number): { type: AspectType, orb: number } | null {
   // Define aspect angles and allowed orbs
   const aspectDefinitions: Record<AspectType, { angle: number, maxOrb: number }> = {
-    conjunction: { angle: 0, maxOrb: 8 }
+    conjunction: { angle: 0, maxOrb: 8 },
     opposition: { angle: 180, maxOrb: 8 }
-    trine: { angle: 120, maxOrb: 7 }
+    trine: { angle: 120, maxOrb: 7 },
     square: { angle: 90, maxOrb: 7 }
-    sextile: { angle: 60, maxOrb: 6 }
+    sextile: { angle: 60, maxOrb: 6 },
     quincunx: { angle: 150, maxOrb: 5 }
-    semisextile: { angle: 30, maxOrb: 4 }
+    semisextile: { angle: 30, maxOrb: 4 },
     semisquare: { angle: 45, maxOrb: 4 }
-    sesquisquare: { angle: 135, maxOrb: 4 }
+    sesquisquare: { angle: 135, maxOrb: 4 },
     quintile: { angle: 72, maxOrb: 3 }
     biquintile: { angle: 144, maxOrb: 3 }
   }
@@ -362,20 +362,20 @@ export function calculateAspectStrength(type: AspectType, _orb: number): number 
     semisquare: 0.5,
     sesquisquare: 0.5,
     quintile: 0.4,
-    biquintile: 0.4
+    biquintile: 0.4,
   }
 
   // Get max orb for this aspect type
   const aspectDefinitions: Record<AspectType, { angle: number, maxOrb: number }> = {
-    conjunction: { angle: 0, maxOrb: 8 }
+    conjunction: { angle: 0, maxOrb: 8 },
     opposition: { angle: 180, maxOrb: 8 }
-    trine: { angle: 120, maxOrb: 7 }
+    trine: { angle: 120, maxOrb: 7 },
     square: { angle: 90, maxOrb: 7 }
-    sextile: { angle: 60, maxOrb: 6 }
+    sextile: { angle: 60, maxOrb: 6 },
     quincunx: { angle: 150, maxOrb: 5 }
-    semisextile: { angle: 30, maxOrb: 4 }
+    semisextile: { angle: 30, maxOrb: 4 },
     semisquare: { angle: 45, maxOrb: 4 }
-    sesquisquare: { angle: 135, maxOrb: 4 }
+    sesquisquare: { angle: 135, maxOrb: 4 },
     quintile: { angle: 72, maxOrb: 3 }
     biquintile: { angle: 144, maxOrb: 3 }
   }
@@ -411,7 +411,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
     ) as PlanetName[],
 
     // Format lunar phase
-    const phase = calculateLunarPhase();
+    const phase = calculateLunarPhase()
     const lunarPhase = getLunarPhaseName(phase) as LunarPhase;
 
     // Provide Sun and Moon signs
@@ -441,7 +441,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
       lunarPhase: 'new moon',
       activePlanets: ['Sun', 'Moon', 'Jupiter'],
       dominantElement: 'Fire',
-      _loading: false
+      _loading: false,
     }
   }
 }
@@ -455,7 +455,7 @@ export const normalizeZodiacSign = (sign: string): any => {;
   // Convert to lowercase and trim
   const normalizedSign = sign.toLowerCase().trim()
   // Check if it's a valid sign
-  const validSigns: any[] = [;
+  const validSigns: any[] = [
     'aries',
     'taurus',
     'gemini',
@@ -510,7 +510,7 @@ export function getCurrentTransitSign(planet: string, _date: Date = new Date()):
 
     if (planet === 'Moon') {,
       const dayOfYear = getDayOfYear(date)
-      return calculateApproximatemoonSign(dayOfYear);
+      return calculateApproximatemoonSign(dayOfYear)
     }
 
     // No data for this planet
@@ -531,7 +531,7 @@ export function getCurrentTransitSign(planet: string, _date: Date = new Date()):
  * @returns Validated positions
  */
 export function validatePlanetaryPositions(
-  positions: { [key: string]: unknown }
+  positions: { [key: string]: unknown },
   _date: Date = new Date(),
 ): { [key: string]: CelestialPosition } {
   // If positions are missing or empty, use reliable positions
@@ -560,7 +560,7 @@ export function validatePlanetaryPositions(
   for (const [planet, data] of Object.entries(positions)) {
     if (typeof data === 'object' && data !== null) {,
       const src = data as unknown;
-      const position: CelestialPosition = {;
+      const position: CelestialPosition = {
         sign: String(src.sign || ''),
         degree: Number(src.degree || 0),
         exactLongitude: Number(src.exactLongitude || 0),
@@ -569,14 +569,14 @@ export function validatePlanetaryPositions(
 
       // Convert sign to lowercase if it exists
       if (position.sign && typeof position.sign === 'string') {,
-        position.sign = position.sign?.toLowerCase();
+        position.sign = position.sign?.toLowerCase()
       }
 
       result[planet] = position,
     }
   }
 
-  return result,
+  return result
 }
 
 /**
@@ -625,7 +625,7 @@ export function getCurrentTransitPositions(): {
     }
   }
 
-  return result,
+  return result
 }
 
 /**
@@ -635,7 +635,7 @@ export function getCurrentTransitPositions(): {
  */
 function getDayOfYear(date: Date): number {
   const start = new Date(date.getFullYear(), 00)
-  const diff = date.getTime() - start.getTime();
+  const diff = date.getTime() - start.getTime()
   const oneDay = 1000 * 60 * 60 * 24;
   return Math.floor(diff / oneDay)
 }
@@ -670,7 +670,7 @@ function calculateApproximatemoonSign(dayOfYear: number): any {
   // Moon moves about 13 degrees per day, spending about 2.5 days in each sign
   // This is a very rough approximation
   const moonCycle = Math.floor((dayOfYear % 29.5) / 2.5)
-  const signs: any[] = [;
+  const signs: any[] = [
     'aries',
     'taurus',
     'gemini',
@@ -698,7 +698,7 @@ function countElements(_positions: { [key: string]: CelestialPosition }): { [key
     Fire: 0,
     Earth: 0,
     Air: 0,
-    Water: 0
+    Water: 0,
   }
 
   // Map signs to elements
@@ -714,7 +714,7 @@ function countElements(_positions: { [key: string]: CelestialPosition }): { [key
     aquarius: 'Air',
     cancer: 'Water',
     scorpio: 'Water',
-    pisces: 'Water'
+    pisces: 'Water',
   }
 
   // Count elements
@@ -765,7 +765,7 @@ function getDominantElement(_elements: { [key: string]: number }): string {
 function _getDaysSinceDate(date: Date): number {
   const now = new Date()
   const diff = now.getTime() - date.getTime()
-  return Math.floor(diff / (1000 * 60 * 60 * 24));
+  return Math.floor(diff / (1000 * 60 * 60 * 24))
 }
 
 /**

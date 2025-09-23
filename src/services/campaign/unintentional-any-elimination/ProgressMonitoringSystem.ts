@@ -22,7 +22,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
   constructor(alertThresholds?: Partial<AlertThresholds>) {
     super()
     this.analysisTools = new AnalysisTools()
-    this.alertThresholds = {;
+    this.alertThresholds = {
       successRateThreshold: 70,
       buildFailureThreshold: 3,
       classificationAccuracyThreshold: 80,
@@ -111,7 +111,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       const currentReport = await this.analysisTools.generateComprehensiveReport()
       const buildStability = await this.getCurrentBuildStability()
 
-      const progress: UnintentionalAnyProgress = {;
+      const progress: UnintentionalAnyProgress = {
         totalAnyTypes: currentReport.domainDistribution?.totalAnyTypes || 0,
         classifiedIntentional: currentReport.domainDistribution?.intentionalVsUnintentional?.intentional?.count || 0,
         classifiedUnintentional: currentReport.domainDistribution?.intentionalVsUnintentional?.unintentional?.count || 0,
@@ -360,7 +360,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         this.getCurrentBuildStability()
       ])
 
-      this.dashboardData = {;
+      this.dashboardData = {
         lastUpdate: new Date(),
         analysisReport,
         progressMetrics,

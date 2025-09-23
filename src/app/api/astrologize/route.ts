@@ -69,7 +69,7 @@ export async function POST(request: Request) {
   const response = await fetch(ASTROLOGIZE_API_URL, {
       method: 'POST',
       headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
   },
     body: JSON.stringify(apiPayload)
     })
@@ -156,7 +156,7 @@ function extractPlanetaryPositions(
         saturn: 'Saturn',
         uranus: 'Uranus',
         neptune: 'Neptune',
-        pluto: 'Pluto'
+        pluto: 'Pluto',
       }
       Object.entries(planetMap).forEach(([apiKey, planetName]) => {
         const planetData = celestialBodies[apiKey];

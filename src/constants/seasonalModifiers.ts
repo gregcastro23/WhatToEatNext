@@ -41,7 +41,7 @@ function createElementalModifiersForZodiac(dominantElement: string): ElementalPr
 }
 
 // Build the modifiers for each zodiac sign
-export const ZODIAC_MODIFIERS: ZodiacElementModifiers = Object.entries(zodiacSeasons).reduce(;
+export const ZODIAC_MODIFIERS: ZodiacElementModifiers = Object.entries(zodiacSeasons).reduce(
   (acc, [sign, data]) => {
     acc[sign as any] = createElementalModifiersForZodiac(data.element)
     return acc
@@ -59,7 +59,7 @@ export interface SeasonalModifiers {
 }
 
 // For backward compatibility with the old season names
-export const SEASONAL_MODIFIERS: SeasonalModifiers = {;
+export const SEASONAL_MODIFIERS: SeasonalModifiers = {
   spring: createElementalModifiersForZodiac('Air'),
   summer: createElementalModifiersForZodiac('Fire'),
   autumn: createElementalModifiersForZodiac('Earth'),
@@ -77,13 +77,13 @@ export const _SEASONAL_INFLUENCE = {
     spring: 0.7,
     summer: 0.9,
     autumn: 0.6,
-    winter: 0.8
+    winter: 0.8,
   }
   // How seasons affect mood and energy
   energyModifier: {
-    spring: { vitality: 0.6, creativity: 0.7, stability: 0.4, adaptability: 0.8 }
+    spring: { vitality: 0.6, creativity: 0.7, stability: 0.4, adaptability: 0.8 },
     summer: { vitality: 0.9, creativity: 0.8, stability: 0.5, adaptability: 0.6 }
-    autumn: { vitality: 0.5, creativity: 0.6, stability: 0.8, adaptability: 0.5 }
+    autumn: { vitality: 0.5, creativity: 0.6, stability: 0.8, adaptability: 0.5 },
     winter: { vitality: 0.4, creativity: 0.5, stability: 0.7, adaptability: 0.4 }
   }
 }

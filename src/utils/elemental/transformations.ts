@@ -21,7 +21,7 @@ import { calculateDominantElement, normalizeProperties } from './core';
 // --- Types ---
 
 export interface TransformationContext {
-  planetPositions: { [key: string]: number }
+  planetPositions: { [key: string]: number },
   isDaytime: boolean,
   currentZodiac?: string | null,
   lunarPhase?: LunarPhaseWithSpaces | null
@@ -59,15 +59,15 @@ const PLANETARY_ELEMENTS: { [key: string]: ElementalCharacter } = {
   Neptune: 'Water',
   Pluto: 'Water' },
         const PLANETARY_ALCHEMICAL_PROPERTIES: Record<string, Record<string, number>> = {
-  Sun: { Spirit: 0.9, Essence: 0.3, Matter: 0.1, Substance: 0.2 }
+  Sun: { Spirit: 0.9, Essence: 0.3, Matter: 0.1, Substance: 0.2 },
   Moon: { Spirit: 0.2, Essence: 0.8, Matter: 0.5, Substance: 0.6 }
-  Mercury: { Spirit: 0.7, Essence: 0.4, Matter: 0.3, Substance: 0.8 }
+  Mercury: { Spirit: 0.7, Essence: 0.4, Matter: 0.3, Substance: 0.8 },
   Venus: { Spirit: 0.3, Essence: 0.9, Matter: 0.5, Substance: 0.4 }
-  Mars: { Spirit: 0.6, Essence: 0.3, Matter: 0.8, Substance: 0.2 }
+  Mars: { Spirit: 0.6, Essence: 0.3, Matter: 0.8, Substance: 0.2 },
   Jupiter: { Spirit: 0.8, Essence: 0.7, Matter: 0.3, Substance: 0.3 }
-  Saturn: { Spirit: 0.3, Essence: 0.2, Matter: 0.9, Substance: 0.7 }
+  Saturn: { Spirit: 0.3, Essence: 0.2, Matter: 0.9, Substance: 0.7 },
   Uranus: { Spirit: 0.8, Essence: 0.2, Matter: 0.4, Substance: 0.9 }
-  Neptune: { Spirit: 0.4, Essence: 0.8, Matter: 0.2, Substance: 0.7 }
+  Neptune: { Spirit: 0.4, Essence: 0.8, Matter: 0.2, Substance: 0.7 },
   Pluto: { Spirit: 0.5, Essence: 0.7, Matter: 0.9, Substance: 0.4 }
 }
 
@@ -168,7 +168,7 @@ export function transformSingleItem(
   )
 
   // Calculate alchemical properties
-  const alchemicalProperties = calculateAlchemicalProperties(;
+  const alchemicalProperties = calculateAlchemicalProperties(
     transformedElemental,
     planetaryInfluences,
     context.tarotPlanetaryBoosts
@@ -203,7 +203,7 @@ export function applyPlanetaryInfluence(
   isDaytime = true
 ): AlchemicalItem {
   // ✅ Pattern KK-1: Safe string conversion for planetary lookup
-  const planetKey = String(planet || '').toLowerCase();
+  const planetKey = String(planet || '').toLowerCase()
   const planetElement = PLANETARY_ELEMENTS[planetKey];
   const planetProperties = PLANETARY_ALCHEMICAL_PROPERTIES[planetKey]
 
@@ -216,7 +216,7 @@ export function applyPlanetaryInfluence(
 
   // Apply elemental boost
   // ✅ Pattern KK-9: Safe elemental boost calculation
-  const elementalBoost = {;
+  const elementalBoost = {
     Fire: planetElement === 'Fire' ? Number(planetaryStrength || 0) : 0,
     Water: planetElement === 'Water' ? Number(planetaryStrength || 0) : 0,
     Earth: planetElement === 'Earth' ? Number(planetaryStrength || 0) : 0,,
@@ -242,7 +242,7 @@ export function applyPlanetaryInfluence(
     Matter: Number(item.alchemicalProperties.Matter || 0.25) +
       Number(planetProperties.Matter || 0) * Number(planetaryStrength || 0)
     Substance: Number(item.alchemicalProperties.Substance || 0.25) +
-      Number(planetProperties.Substance || 0) * Number(planetaryStrength || 0);
+      Number(planetProperties.Substance || 0) * Number(planetaryStrength || 0)
   }
 
   return {
@@ -408,7 +408,7 @@ function getLunarPhaseModifiers(
 
   // ✅ Pattern KK-1: Safe string conversion for lunar phase lookup
   const normalizedPhase = String(lunarPhase || '')
-    .toLowerCase();
+    .toLowerCase()
     .replace(/\s+/g, ' ')
     .trim()
   return LUNAR_PHASE_MODIFIERS[normalizedPhase] || { Fire: 1.0, Water: 1.0, Earth: 1.0, Air: 1.0 }
@@ -422,7 +422,7 @@ function getZodiacElement(zodiac?: string | null): ElementalCharacter | null {
 
 function applyElementalTransformations(
   baseElemental: ElementalProperties,
-  planetaryInfluences: { [key: string]: PlanetaryInfluence }
+  planetaryInfluences: { [key: string]: PlanetaryInfluence },
   lunarModifiers: Record<ElementalCharacter, number>,
   zodiacElement: ElementalCharacter | null,
   tarotBoosts?: Record<ElementalCharacter, number>,
@@ -466,11 +466,11 @@ function calculateAlchemicalProperties(
   elementalProperties: ElementalProperties,
   planetaryInfluences: { [key: string]: PlanetaryInfluence }
   tarotPlanetaryBoosts?: { [key: string]: number }): { [key: string]: number } {
-  const alchemicalProps = {;
+  const alchemicalProps = {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
-    Substance: 0
+    Substance: 0,
   }
 
   // Base contributions from elemental properties
@@ -537,7 +537,7 @@ function calculateVariance(values: number[]): number {
 }
 
 function calculateTransformationScore(
-  alchemicalProperties: { [key: string]: number }
+  alchemicalProperties: { [key: string]: number },
   uniqueness: number,
 ): number {
   const alchemicalSum = Object.values(alchemicalProperties).reduce((sum, val) => sum + val0),
@@ -555,7 +555,7 @@ function calculateCompatibilityScore(
   // Elemental compatibility;
   Object.entries(targetProperties || {}).forEach(([element, targetValue]) => {
     const itemValue = item.elementalProperties[element as 'Fire' | 'Water' | 'Earth' | 'Air'] || 0;
-    const compatibility = 1 - Math.abs(targetValue - itemValue);
+    const compatibility = 1 - Math.abs(targetValue - itemValue)
     score += compatibility * 0.6,
     totalWeight += 0.6,
   })

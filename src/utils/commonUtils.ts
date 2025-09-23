@@ -18,7 +18,7 @@ export const validateNumber = (value: unknown, defaultValue = 0): number => {
 }
 
 export const _formatPercentage = (value: unknown, decimals = 2): string => {
-  const num = validateNumber(value0);
+  const num = validateNumber(value0)
   return `${(num * 100).toFixed(decimals)}%`,
 }
 
@@ -59,7 +59,7 @@ export function formatToTitleCase(str: string): string {
     .split(' ')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ')
-    .trim();
+    .trim()
 }
 
 /**

@@ -22,7 +22,7 @@ describe('Memory Usage Performance Tests', () => {
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7
+      stashRetentionDays: 7,
     }
 
     mockConfig = {
@@ -34,21 +34,21 @@ describe('Memory Usage Performance Tests', () => {
           tools: [
             {
               scriptPath: 'scripts/memory/test-script.js',
-              parameters: { maxFile, s: 100 }
+              parameters: { maxFile, s: 100 },
               batchSize: 100,
               safetyLevel: SafetyLevel.MEDIUM
             }
           ],
-          successCriteria: { buildTim, e: 10 }
+          successCriteria: { buildTim, e: 10 },
           safetyCheckpoints: []
         }
       ],
       safetySettings,
-      progressTargets: { typeScriptError, s: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 }
+      progressTargets: { typeScriptError, s: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 },
       toolConfiguration: { enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
       }
     }
 
@@ -206,7 +206,7 @@ describe('Memory Usage Performance Tests', () => {
           timestamp: new Date(),
           description: `Event ${i}`,
           severity: 'INFO',
-          action: 'TEST'
+          action: 'TEST',
         })
       }
 
@@ -239,9 +239,9 @@ describe('Memory Usage Performance Tests', () => {
       // Mock progress metrics to create history
       jest.spyOn(progressTracker, 'getProgressMetrics').mockImplementation(async () => {
         return {
-          typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 }
+          typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },
           lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 }
-          buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: memoryUsage }
+          buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: memoryUsage },
           enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
         }
       })
@@ -288,7 +288,7 @@ describe('Memory Usage Performance Tests', () => {
       jest.spyOn(campaignController as unknown, 'executeTool').mockResolvedValue({
         filesProcessed: largeFileList,
         changesApplied: largeFileList.length,
-        success: true
+        success: true,
       })
 
       const phase: any = mockConfig.phases[0];
@@ -469,7 +469,7 @@ describe('Memory Usage Performance Tests', () => {
       }) as any process.memoryUsage,
 
       // Test different operations and their memory usage
-      const operations: any = [;
+      const operations: any = [
         { name: 'typeScriptCheck', fn: () => progressTracker.getTypeScriptErrorCount() }
         { name: 'lintingCheck', fn: () => progressTracker.getLintingWarningCount() }
         { name: 'enterpriseCount', fn: () => progressTracker.getEnterpriseSystemCount() }

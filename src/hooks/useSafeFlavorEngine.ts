@@ -6,7 +6,7 @@ import { useFlavorEngine } from '../contexts/FlavorEngineContext';
 import type { UnifiedFlavorProfile } from '../data/unified/unifiedFlavorEngine';
 
 // Keep track of global init state across hook instances
-const globalInitState = {;
+const globalInitState = {
   initialized: false,
   attempted: false,
   checkCount: 0,
@@ -133,7 +133,7 @@ export function useSafeFlavorEngine() {
   )
 
   // Safe compatibility calculation with error handling
-  const calculateCompatibility = useCallback(;
+  const calculateCompatibility = useCallback(
     (profile1: UnifiedFlavorProfile, profile2: UnifiedFlavorProfile) => {
       if (!isReady) return null
 

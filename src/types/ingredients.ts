@@ -69,7 +69,7 @@ export interface IngredientRecommendation {
  * Ingredient Search Criteria Type
  * Comprehensive search parameters for ingredient filtering
  */
-export type IngredientSearchCriteria = {;
+export type IngredientSearchCriteria = {
   elements?: ('Fire' | 'Water' | 'Earth' | 'Air')[],
   seasons?: Season[],
   categories?: string[],
@@ -88,7 +88,7 @@ export type IngredientSearchCriteria = {;
  * Ingredient Compatibility Result
  * Result of ingredient compatibility analysis
  */
-export type IngredientCompatibilityResult = {;
+export type IngredientCompatibilityResult = {
   primaryIngredient: string,
   compatibleIngredients: string[],
   incompatibleIngredients: string[],
@@ -101,7 +101,7 @@ export type IngredientCompatibilityResult = {;
  * Ingredient Substitution Recommendation
  * Suggested ingredient substitutions with ratios and notes
  */
-export type IngredientSubstitution = {;
+export type IngredientSubstitution = {
   originalIngredient: string,
   substitute: string,
   substitutionRatio: number, // e.g., 1.5 means use 1.5x the amount,

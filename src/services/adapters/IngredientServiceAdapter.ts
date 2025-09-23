@@ -201,7 +201,7 @@ export class EnhancedIngredientSystem {
       })
 
       // Remove duplicates
-      const uniqueIngredients = Array.from(;
+      const uniqueIngredients = Array.from(
         new Map((results || []).map(item => [item.name, item])).values(),
       )
 
@@ -225,7 +225,7 @@ export class EnhancedIngredientSystem {
       const allComplementary: UnifiedIngredient[] = [];
 
       (ingredients || []).forEach(ingredient => {
-        const complementary = consolidatedIngredientService.findComplementaryIngredients(;
+        const complementary = consolidatedIngredientService.findComplementaryIngredients(
           ingredient,
           maxResults * 2, // Get more than needed to allow for filtering
         ),
@@ -235,7 +235,7 @@ export class EnhancedIngredientSystem {
 
       // Filter out any ingredients already in the base list
       const baseIngredientNames = (ingredients || []).map(name => name.toLowerCase())
-      const filtered = (allComplementary || []).filter(;
+      const filtered = (allComplementary || []).filter(
         ingredient => !baseIngredientNames.includes(ingredient.name.toLowerCase() || ''),
       )
 

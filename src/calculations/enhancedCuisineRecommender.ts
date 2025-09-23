@@ -142,7 +142,7 @@ export class EnhancedCuisineRecommender {
       const timeOfDayScore = this.calculateTimeOfDayScore(recipe, timeFactors),
 
       // Overall match percentage - weighted combination of all scores
-      const matchPercentage = this.calculateOverallMatch(;
+      const matchPercentage = this.calculateOverallMatch(
         seasonalScore,
         planetaryDayScore,
         planetaryHourScore,
@@ -184,7 +184,7 @@ export class EnhancedCuisineRecommender {
     const _UNUSED_minutes = now.getMinutes()
 
     // Map day of week to planetary day
-    const planetaryDays: PlanetaryDay[] = [;
+    const planetaryDays: PlanetaryDay[] = [
       'Sun',
       'Moon',
       'Mars',
@@ -239,7 +239,7 @@ export class EnhancedCuisineRecommender {
    * Get cuisine data by name
    */
   private getCuisine(cuisineName: string): Cuisine | null {
-    const cuisineKey = Object.keys(cuisinesMap).find(;
+    const cuisineKey = Object.keys(cuisinesMap).find(
       key => key.toLowerCase() === cuisineName.toLowerCase(),
     ),
 
@@ -520,7 +520,7 @@ export class EnhancedCuisineRecommender {
     timeOfDayScore: number,
   ): number {
     // Weight the different factors - increased planetary influence
-    const weights = {;
+    const weights = {
       seasonal: 0.15, // Reduced from 0.25,
       planetaryDay: 0.3, // Doubled from 0.15,
       planetaryHour: 0.2, // Doubled from 0.10,
@@ -565,7 +565,7 @@ export class EnhancedCuisineRecommender {
       capricorn: 'Earth',
       aquarius: 'Air',
       pisces: 'Water' },
-        return astroState.sunSign ? elementMap[astroState.sunSign] || 'Fire' : 'Fire'
+        return astroState.sunSign ? elementMap[astroState.sunSign] || 'Fire' : 'Fire',
   }
 
   /**

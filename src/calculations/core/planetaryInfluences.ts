@@ -13,16 +13,16 @@ import { getCachedCalculation } from '../../utils/calculationCache';
  * Planetary alchemical property mappings
  * Based on traditional alchemical correspondences
  */
-export const PLANETARY_ALCHEMICAL_MAPPINGS = {;
-  Sun: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 }
+export const PLANETARY_ALCHEMICAL_MAPPINGS = {
+  Sun: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 },
   moon: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
-  Mercury: { Spirit: 1, Essence: 0, Matter: 0, Substance: 1 }
+  Mercury: { Spirit: 1, Essence: 0, Matter: 0, Substance: 1 },
   Venus: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
-  Mars: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
+  Mars: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
   Jupiter: { Spirit: 1, Essence: 1, Matter: 0, Substance: 0 }
-  Saturn: { Spirit: 1, Essence: 0, Matter: 1, Substance: 0 }
+  Saturn: { Spirit: 1, Essence: 0, Matter: 1, Substance: 0 },
   Uranus: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
-  Neptune: { Spirit: 0, Essence: 1, Matter: 0, Substance: 1 }
+  Neptune: { Spirit: 0, Essence: 1, Matter: 0, Substance: 1 },
   Pluto: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
 }
 
@@ -51,7 +51,7 @@ export const PLANETARY_ELEMENTAL_MAPPINGS = {
     Saturn: 'Earth',
     Uranus: 'Air',
     Neptune: 'Water',
-    Pluto: 'Water'
+    Pluto: 'Water',
   }
 } as const,
 
@@ -248,7 +248,7 @@ export function calculatePlanetaryHoursInfluence(_date: Date): {
   const hour = date.getHours()
 ;
   const dayRulers = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'],
-  const hourRulers = [;
+  const hourRulers = [
     'Sun',
     'Venus',
     'Mercury',
@@ -293,11 +293,11 @@ export function calculatePlanetaryHoursInfluence(_date: Date): {
  * Calculate comprehensive planetary influences
  */
 export function calculatePlanetaryInfluences(
-  planetaryPositions: { [key: string]: PlanetaryPosition }
+  planetaryPositions: { [key: string]: PlanetaryPosition },
   isDaytime: boolean = true,,
   currentDate?: Date,
 ): {
-  alchemicalInfluences: { [key: string]: number }
+  alchemicalInfluences: { [key: string]: number },
   elementalInfluences: { [key: string]: number }
   dominantPlanets: Array<{ planet: string, strength: number, element: Element }>,
   planetaryHours?: { dayRuler: string, hourRuler: string, influence: number }
@@ -312,14 +312,14 @@ export function calculatePlanetaryInfluences(
         Spirit: 0,
         Essence: 0,
         Matter: 0,
-        Substance: 0
+        Substance: 0,
       }
 
       const elementalInfluences: { [key: string]: number } = {
         Fire: 0,
         Water: 0,
         Air: 0,
-        Earth: 0
+        Earth: 0,
       }
 
       const dominantPlanets: Array<{ planet: string, strength: number, element: Element }> = [];
@@ -371,7 +371,7 @@ export function calculatePlanetaryInfluences(
     }
     300000, // 5 minute cache
   ) as {
-    alchemicalInfluences: { [key: string]: number }
+    alchemicalInfluences: { [key: string]: number },
     elementalInfluences: { [key: string]: number }
     dominantPlanets: Array<{ planet: string, strength: number, element: Element }>,
     planetaryHours?: { dayRuler: string, hourRuler: string, influence: number }
@@ -389,7 +389,7 @@ export function getPlanetaryCulinaryRecommendations(
   flavors: string[],
   timing: string[]
 } {
-  const recommendations = {;
+  const recommendations = {
     ingredients: [] as string[],
     cookingMethods: [] as string[],
     flavors: [] as string[],

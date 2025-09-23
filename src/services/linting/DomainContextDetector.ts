@@ -98,7 +98,7 @@ export class DomainContextDetector {
     const riskFactors = this.analyzeRiskFactors(domainContext, relativePath),
 
     // Determine preservation requirements
-    const preservationRequirements = await this.determinePreservationRequirements(;
+    const preservationRequirements = await this.determinePreservationRequirements(
       domainContext,
       absolutePath,
     ),
@@ -253,13 +253,13 @@ export class DomainContextDetector {
     let subtype: string | undefined
 
     // Astrological content patterns
-    const astrologicalPatterns = [;
+    const astrologicalPatterns = [
       { pattern: /planetary|planet|astro|zodiac|sign|degree|longitude/i, weight: 0.3 }
       { pattern: /mercury|venus|mars|jupiter|saturn|uranus|neptune|pluto/i, weight: 0.4 }
       {
         pattern:
           /aries|taurus|gemini|cancer|leo|virgo|libra|scorpio|sagittarius|capricorn|aquarius|pisces/i,
-        weight: 0.4
+        weight: 0.4,
       }
       { pattern: /elemental|fire|water|earth|air|element/i, weight: 0.3 }
       { pattern: /transit|retrograde|conjunction|opposition|trine|square/i, weight: 0.5 }
@@ -273,7 +273,7 @@ export class DomainContextDetector {
           type: 'content',
           pattern: pattern.source,
           weight,
-          description: 'Astrological content detected'
+          description: 'Astrological content detected',
         })
         confidenceBoost += weight,
         detectedType = 'astrological',
@@ -281,7 +281,7 @@ export class DomainContextDetector {
     }
 
     // Campaign system patterns
-    const campaignPatterns = [;
+    const campaignPatterns = [
       { pattern: /campaign|Campaign/g, weight: 0.4 }
       { pattern: /progress.*track|track.*progress/i, weight: 0.3 }
       { pattern: /safety.*protocol|protocol.*safety/i, weight: 0.4 }
@@ -298,7 +298,7 @@ export class DomainContextDetector {
           type: 'content',
           pattern: pattern.source,
           weight,
-          description: 'Campaign system content detected'
+          description: 'Campaign system content detected',
         })
         confidenceBoost += weight,
         if (!detectedType || detectedType === 'utility') {;
@@ -313,7 +313,7 @@ export class DomainContextDetector {
         type: 'content',
         pattern: 'test-framework',
         weight: 0.8,
-        description: 'Test framework usage detected'
+        description: 'Test framework usage detected',
       })
       confidenceBoost += 0.8,
       detectedType = 'test',
@@ -325,7 +325,7 @@ export class DomainContextDetector {
         type: 'content',
         pattern: 'react-component',
         weight: 0.6,
-        description: 'React component detected'
+        description: 'React component detected',
       })
       if (!detectedType || detectedType === 'utility') {;
         detectedType = 'component',
@@ -338,7 +338,7 @@ export class DomainContextDetector {
         type: 'content',
         pattern: 'service-layer',
         weight: 0.4,
-        description: 'Service layer detected'
+        description: 'Service layer detected',
       })
       if (!detectedType || detectedType === 'utility') {;
         detectedType = 'service',
@@ -386,12 +386,12 @@ export class DomainContextDetector {
           {
             rule: '@typescript-eslint/no-explicit-any',
             action: 'disable',
-            reason: 'Astrological calculations may require flexible typing for astronomical data'
+            reason: 'Astrological calculations may require flexible typing for astronomical data',
           }
           {
             rule: 'no-magic-numbers',
             action: 'disable',
-            reason: 'Astronomical constants and degrees are meaningful magic numbers'
+            reason: 'Astronomical constants and degrees are meaningful magic numbers',
           }
           {
             rule: '@typescript-eslint/no-unused-vars',
@@ -412,12 +412,12 @@ export class DomainContextDetector {
             {;
               rule: 'complexity',
               action: 'disable',
-              reason: 'Astronomical calculations can be inherently complex'
+              reason: 'Astronomical calculations can be inherently complex',
             }
             {
               rule: 'max-lines-per-function',
               action: 'disable',
-              reason: 'Complex astronomical algorithms may require longer functions'
+              reason: 'Complex astronomical algorithms may require longer functions',
             })
         }
         break,
@@ -427,7 +427,7 @@ export class DomainContextDetector {
           {
             rule: 'no-console',
             action: 'disable',
-            reason: 'Campaign systems require extensive logging for monitoring'
+            reason: 'Campaign systems require extensive logging for monitoring',
           }
           {
             rule: 'complexity',
@@ -453,7 +453,7 @@ export class DomainContextDetector {
           rules.push({;
             rule: 'no-process-exit',
             action: 'disable',
-            reason: 'Safety protocols may need to exit process in emergency situations'
+            reason: 'Safety protocols may need to exit process in emergency situations',
           })
         }
         break,
@@ -463,17 +463,17 @@ export class DomainContextDetector {
           {
             rule: '@typescript-eslint/no-explicit-any',
             action: 'disable',
-            reason: 'Test files often need flexible typing for mocks and stubs'
+            reason: 'Test files often need flexible typing for mocks and stubs',
           }
           {
             rule: 'no-console',
             action: 'disable',
-            reason: 'Console output is acceptable in test files'
+            reason: 'Console output is acceptable in test files',
           }
           {
             rule: 'max-lines',
             action: 'disable',
-            reason: 'Test files can be long due to comprehensive test cases'
+            reason: 'Test files can be long due to comprehensive test cases',
           }
           {
             rule: '@typescript-eslint/no-unused-vars',
@@ -489,17 +489,17 @@ export class DomainContextDetector {
           {
             rule: 'no-console',
             action: 'disable',
-            reason: 'Scripts typically need console output'
+            reason: 'Scripts typically need console output',
           }
           {
             rule: '@typescript-eslint/no-explicit-any',
             action: 'disable',
-            reason: 'Scripts may need flexible typing'
+            reason: 'Scripts may need flexible typing',
           }
           {
             rule: 'no-process-exit',
             action: 'disable',
-            reason: 'Scripts may need to exit with specific codes'
+            reason: 'Scripts may need to exit with specific codes',
           })
         break,
     }
@@ -539,13 +539,13 @@ export class DomainContextDetector {
             category: 'review',
             recommendation: 'Require astrological domain expert review for any changes',
             priority: 'high',
-            rationale: 'Astrological calculations require specialized knowledge'
+            rationale: 'Astrological calculations require specialized knowledge',
           }
           {
             category: 'testing',
             recommendation: 'Validate astronomical accuracy after any modifications',
             priority: 'high',
-            rationale: 'Changes could affect calculation precision'
+            rationale: 'Changes could affect calculation precision',
           })
         break,
 
@@ -555,13 +555,13 @@ export class DomainContextDetector {
             category: 'testing',
             recommendation: 'Test campaign system integration after changes',
             priority: 'high',
-            rationale: 'Campaign system changes can affect automation workflows'
+            rationale: 'Campaign system changes can affect automation workflows',
           }
           {
             category: 'deployment',
             recommendation: 'Deploy campaign changes with rollback capability',
             priority: 'medium',
-            rationale: 'Campaign system is critical for code quality automation'
+            rationale: 'Campaign system is critical for code quality automation',
           })
         break,
 
@@ -570,7 +570,7 @@ export class DomainContextDetector {
           category: 'linting',
           recommendation: 'Use relaxed linting rules appropriate for test files',
           priority: 'medium',
-          rationale: 'Test files have different quality requirements'
+          rationale: 'Test files have different quality requirements',
         })
         break,
     }
@@ -591,13 +591,13 @@ export class DomainContextDetector {
             type: 'calculation-accuracy',
             description: 'Changes may affect astronomical calculation precision',
             severity: 'critical',
-            mitigation: 'Validate against known astronomical data and transit dates'
+            mitigation: 'Validate against known astronomical data and transit dates',
           }
           {
             type: 'data-integrity',
             description: 'Planetary position data must remain accurate',
             severity: 'high',
-            mitigation: 'Cross-reference with multiple astronomical sources'
+            mitigation: 'Cross-reference with multiple astronomical sources',
           })
 
         if (filePath.includes('fallback') || filePath.includes('reliable')) {
@@ -605,7 +605,7 @@ export class DomainContextDetector {
             type: 'data-integrity',
             description: 'Fallback data is critical for system reliability',
             severity: 'critical',
-            mitigation: 'Never modify fallback astronomical data without expert validation'
+            mitigation: 'Never modify fallback astronomical data without expert validation',
           })
         }
         break,
@@ -615,7 +615,7 @@ export class DomainContextDetector {
           type: 'performance',
           description: 'Campaign system performance affects development workflow',
           severity: 'medium',
-          mitigation: 'Monitor execution time and memory usage'
+          mitigation: 'Monitor execution time and memory usage',
         })
 
         if (filePath.includes('safety') || filePath.includes('protocol')) {
@@ -623,7 +623,7 @@ export class DomainContextDetector {
             type: 'security',
             description: 'Safety protocols protect against code corruption',
             severity: 'high',
-            mitigation: 'Thoroughly test all safety mechanisms'
+            mitigation: 'Thoroughly test all safety mechanisms',
           })
         }
         break,
@@ -648,19 +648,19 @@ export class DomainContextDetector {
             element: 'constants',
             pattern: /RELIABLE_POSITIONS|FALLBACK|TRANSIT_DATES|PLANETARY_/,
             reason: 'Astronomical constants must be preserved for calculation accuracy',
-            strictness: 'absolute'
+            strictness: 'absolute',
           }
           {
             element: 'variables',
             pattern: /planet|position|degree|longitude|sign|retrograde/i,
             reason: 'Astronomical variables are critical for calculations',
-            strictness: 'high'
+            strictness: 'high',
           }
           {
             element: 'functions',
             pattern: /calculate|validate|getReliable|fallback/i,
             reason: 'Core astronomical functions must be preserved',
-            strictness: 'high'
+            strictness: 'high',
           })
         break,
 
@@ -670,13 +670,13 @@ export class DomainContextDetector {
             element: 'variables',
             pattern: /CAMPAIGN|PROGRESS|METRICS|SAFETY|ERROR_THRESHOLD/,
             reason: 'Campaign system constants control automation behavior',
-            strictness: 'high'
+            strictness: 'high',
           }
           {
             element: 'functions',
             pattern: /safety|rollback|validate|track/i,
             reason: 'Safety and tracking functions are critical',
-            strictness: 'high'
+            strictness: 'high',
           })
         break,
     }
@@ -695,25 +695,25 @@ export class DomainContextDetector {
         type: 'path',
         pattern: '/calculations/',
         weight: 0.8,
-        description: 'Astrological calculations directory'
+        description: 'Astrological calculations directory',
       }
       {
         type: 'path',
         pattern: '/data/planets/',
         weight: 0.9,
-        description: 'Planetary data directory'
+        description: 'Planetary data directory',
       }
       {
         type: 'filename',
         pattern: 'reliableAstronomy|planetaryConsistencyCheck|Astrological|Alchemical',
         weight: 0.9,
-        description: 'Astrological utility files'
+        description: 'Astrological utility files',
       }
       {
         type: 'path',
         pattern: '/services/.*Astrological|/services/.*Alchemical',
         weight: 0.8,
-        description: 'Astrological service files'
+        description: 'Astrological service files',
       }
     ])
 
@@ -723,19 +723,19 @@ export class DomainContextDetector {
         type: 'path',
         pattern: '/services/campaign/',
         weight: 0.9,
-        description: 'Campaign system directory'
+        description: 'Campaign system directory',
       }
       {
         type: 'filename',
         pattern: 'Campaign|Progress|Safety|Intelligence',
         weight: 0.8,
-        description: 'Campaign system files'
+        description: 'Campaign system files',
       }
       {
         type: 'path',
         pattern: '/types/campaign',
         weight: 0.9,
-        description: 'Campaign type definitions'
+        description: 'Campaign type definitions',
       }
     ])
 
@@ -745,13 +745,13 @@ export class DomainContextDetector {
         type: 'filename',
         pattern: '\\.test\\.|\\.spec\\.',
         weight: 0.9,
-        description: 'Test files'
+        description: 'Test files',
       }
       {
         type: 'path',
         pattern: '/__tests__/',
         weight: 0.9,
-        description: 'Test directory'
+        description: 'Test directory',
       }
     ])
 
@@ -761,13 +761,13 @@ export class DomainContextDetector {
         type: 'path',
         pattern: '/scripts/',
         weight: 0.9,
-        description: 'Scripts directory'
+        description: 'Scripts directory',
       }
       {
         type: 'filename',
         pattern: '\\.config\\.|setup\\.|install\\.',
         weight: 0.8,
-        description: 'Configuration and setup files'
+        description: 'Configuration and setup files',
       }
     ])
   }

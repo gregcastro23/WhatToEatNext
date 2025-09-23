@@ -41,7 +41,7 @@ export function getUpcomingAstroEvents(
       events.push({
         type: 'new_moon',
         date,
-        description: 'New Moon'
+        description: 'New Moon',
       })
     }
 
@@ -67,7 +67,7 @@ export function getUpcomingAstroEvents(
       events.push({
         type: 'equinox',
         date,
-        description: 'Spring Equinox (approximate)'
+        description: 'Spring Equinox (approximate)',
       })
     }
 
@@ -76,7 +76,7 @@ export function getUpcomingAstroEvents(
       events.push({
         type: 'solstice',
         date,
-        description: 'Summer Solstice (approximate)'
+        description: 'Summer Solstice (approximate)',
       })
     }
 
@@ -85,7 +85,7 @@ export function getUpcomingAstroEvents(
       events.push({
         type: 'equinox',
         date,
-        description: 'Fall Equinox (approximate)'
+        description: 'Fall Equinox (approximate)',
       })
     }
 
@@ -94,7 +94,7 @@ export function getUpcomingAstroEvents(
       events.push({
         type: 'solstice',
         date,
-        description: 'Winter Solstice (approximate)'
+        description: 'Winter Solstice (approximate)',
       })
     }
   }

@@ -13,7 +13,7 @@ export const pickling: CookingMethodData = {
     Water: 0.5,
     Earth: 0.2,
     Air: 0.2,
-    Fire: 0.1
+    Fire: 0.1,
   },
   duration: {
     min: 60, // 1 hour for quick pickles,
@@ -182,7 +182,7 @@ export const pickling: CookingMethodData = {
     flavor_compound_infusion: true,
     vegetable_dehydration: true,
     protein_denaturation: true, // In pickled proteins,
-    pH_reduction: true
+    pH_reduction: true,
   },
   safetyFeatures: [
     'Pathogen inhibition through acidity',

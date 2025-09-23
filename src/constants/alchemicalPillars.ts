@@ -28,7 +28,7 @@ export interface AlchemicalPillar {
  * The fundamental elemental nature of alchemical properties
  * Based on core principles of the alchemizer engine
  */
-export const _ALCHEMICAL_PROPERTY_ELEMENTS = {;
+export const _ALCHEMICAL_PROPERTY_ELEMENTS = {
   Spirit: { primary: 'Fire', secondary: 'Air' } // Spirit exists between Fire and Air
   Essence: { primary: 'Fire', secondary: 'Water' } // Essence exists between Fire and Water
   Matter: { primary: 'Earth', secondary: 'Water' } // Matter exists between Earth and Water
@@ -55,7 +55,7 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
     tarotAssociations: ['2 of Cups', 'Queen of Cups'],
     elementalAssociations: {
       primary: 'Water',
-  secondary: 'Earth'
+  secondary: 'Earth',
     }
   }
   {
@@ -66,13 +66,13 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Spirit: 1,
   Essence: 1,
       Matter: -1,
-  Substance: 1
+  Substance: 1,
     },
     planetaryAssociations: ['Mercury', 'Saturn'],
     tarotAssociations: ['8 of Pentacles', 'Temperance'],
     elementalAssociations: {
       primary: 'Air',
-  secondary: 'Water'
+  secondary: 'Water',
     }
   }
   {
@@ -89,7 +89,7 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
     tarotAssociations: ['6 of Swords', '8 of Wands'],
     elementalAssociations: {
       primary: 'Air',
-  secondary: 'Fire'
+  secondary: 'Fire',
     }
   }
   {
@@ -100,13 +100,13 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Spirit: 1,
   Essence: 1,
       Matter: -1,
-  Substance: 1
+  Substance: 1,
     },
     planetaryAssociations: ['Mercury', 'Neptune'],
     tarotAssociations: ['Temperance', 'The Star'],
     elementalAssociations: {
       primary: 'Water',
-  secondary: 'Air'
+  secondary: 'Air',
     }
   }
   {
@@ -123,7 +123,7 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
     tarotAssociations: ['2 of Swords', 'The Tower'],
     elementalAssociations: {
       primary: 'Fire',
-  secondary: 'Water'
+  secondary: 'Water',
     }
   }
   {
@@ -134,12 +134,12 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Spirit: 1,
   Essence: 1,
       Matter: 1,
-  Substance: 1
+  Substance: 1,
     },
     planetaryAssociations: ['Sun', 'Jupiter'],
     tarotAssociations: ['The World', 'The Star'],
     elementalAssociations: {
-      primary: 'Fire'
+      primary: 'Fire',
     }
   }
   {
@@ -156,7 +156,7 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
     tarotAssociations: ['Tower', 'King of Wands'],
     elementalAssociations: {
       primary: 'Fire',
-  secondary: 'Earth'
+  secondary: 'Earth',
     }
   }
   {
@@ -167,13 +167,13 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Spirit: 1,
   Essence: -1,
       Matter: 1,
-  Substance: 1
+  Substance: 1,
     },
     planetaryAssociations: ['Venus', 'Jupiter', 'Pluto'],
     tarotAssociations: ['3 of Cups', '10 of Pentacles'],
     elementalAssociations: {
       primary: 'Earth',
-  secondary: 'Air'
+  secondary: 'Air',
     }
   }
   {
@@ -190,7 +190,7 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
     tarotAssociations: ['The Hermit', 'Temperance'],
     elementalAssociations: {
       primary: 'Fire',
-  secondary: 'Air'
+  secondary: 'Air',
     }
   }
   {
@@ -201,13 +201,13 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Spirit: -1,
   Essence: -1,
       Matter: 1,
-  Substance: 1
+  Substance: 1,
     },
     planetaryAssociations: ['Saturn', 'Pluto'],
     tarotAssociations: ['4 of Pentacles', 'The Hanged Man'],
     elementalAssociations: {
       primary: 'Earth',
-  secondary: 'Water'
+  secondary: 'Water',
     }
   }
   {
@@ -224,7 +224,7 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
     tarotAssociations: ['Death', 'Wheel of Fortune'],
     elementalAssociations: {
       primary: 'Water',
-  secondary: 'Fire'
+  secondary: 'Fire',
     }
   }
   {
@@ -235,13 +235,13 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Spirit: -1,
   Essence: -1,
       Matter: 1,
-  Substance: 1
+  Substance: 1,
     },
     planetaryAssociations: ['Saturn', 'Venus'],
     tarotAssociations: ['4 of Pentacles', 'King of Pentacles'],
     elementalAssociations: {
       primary: 'Earth',
-  secondary: 'Air'
+  secondary: 'Air',
     }
   }
   {
@@ -258,7 +258,7 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
     tarotAssociations: ['The Sun', '3 of Wands'],
     elementalAssociations: {
       primary: 'Fire',
-  secondary: 'Water'
+  secondary: 'Water',
     }
   }
   {
@@ -269,13 +269,13 @@ export const ALCHEMICAL_PILLARS: AlchemicalPillar[] = [
       Spirit: 1,
   Essence: 1,
       Matter: 1,
-  Substance: 1
+  Substance: 1,
     },
     planetaryAssociations: ['Sun', 'Moon', 'Mercury', 'Jupiter'],
     tarotAssociations: ['The World', 'The Magician'],
     elementalAssociations: {
       primary: 'Fire',
-  secondary: 'Earth'
+  secondary: 'Earth',
     }
   }
 ],
@@ -332,9 +332,9 @@ export const ELEMENTAL_THERMODYNAMIC_PROPERTIES: Record<
     reactivity: number
   }
 > = {
-  Fire: { heat: 1.0, entropy: 0.7, reactivity: 0.8 }
+  Fire: { heat: 1.0, entropy: 0.7, reactivity: 0.8 },
   Air: { heat: 0.3, entropy: 0.9, reactivity: 0.7 }
-  Water: { heat: 0.1, entropy: 0.4, reactivity: 0.6 }
+  Water: { heat: 0.1, entropy: 0.4, reactivity: 0.6 },
   Earth: { heat: 0.2, entropy: 0.1, reactivity: 0.2 }
 }
 
@@ -350,43 +350,43 @@ export const PLANETARY_ALCHEMICAL_EFFECTS: Record<
   }
 > = {
   Sun: {
-    diurnal: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 }
+    diurnal: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 },
     nocturnal: { Spirit: 0.8, Essence: 0.2, Matter: 0, Substance: 0 }
   },
   Moon: {
-    diurnal: { Spirit: 0, Essence: 0.7, Matter: 0.3, Substance: 0 }
+    diurnal: { Spirit: 0, Essence: 0.7, Matter: 0.3, Substance: 0 },
     nocturnal: { Spirit: 0, Essence: 1, Matter: 0, Substance: 0 }
   },
   Mercury: {
-    diurnal: { Spirit: 0.7, Essence: 0, Matter: 0, Substance: 0.3 }
+    diurnal: { Spirit: 0.7, Essence: 0, Matter: 0, Substance: 0.3 },
     nocturnal: { Spirit: 0.3, Essence: 0, Matter: 0.3, Substance: 0.4 }
   },
   Venus: {
-    diurnal: { Spirit: 0, Essence: 0.6, Matter: 0.4, Substance: 0 }
+    diurnal: { Spirit: 0, Essence: 0.6, Matter: 0.4, Substance: 0 },
     nocturnal: { Spirit: 0, Essence: 0.4, Matter: 0.6, Substance: 0 }
   },
   Mars: {
-    diurnal: { Spirit: 0.3, Essence: 0.4, Matter: 0.3, Substance: 0 }
+    diurnal: { Spirit: 0.3, Essence: 0.4, Matter: 0.3, Substance: 0 },
     nocturnal: { Spirit: 0.2, Essence: 0.2, Matter: 0.6, Substance: 0 }
   },
   Jupiter: {
-    diurnal: { Spirit: 0.6, Essence: 0.4, Matter: 0, Substance: 0 }
+    diurnal: { Spirit: 0.6, Essence: 0.4, Matter: 0, Substance: 0 },
     nocturnal: { Spirit: 0.3, Essence: 0.3, Matter: 0.4, Substance: 0 }
   },
   Saturn: {
-    diurnal: { Spirit: 0.4, Essence: 0, Matter: 0.6, Substance: 0 }
+    diurnal: { Spirit: 0.4, Essence: 0, Matter: 0.6, Substance: 0 },
     nocturnal: { Spirit: 0.2, Essence: 0, Matter: 0, Substance: 0.8 }
   },
   Uranus: {
-    diurnal: { Spirit: 0.4, Essence: 0.2, Matter: 0, Substance: 0.4 }
+    diurnal: { Spirit: 0.4, Essence: 0.2, Matter: 0, Substance: 0.4 },
     nocturnal: { Spirit: 0.3, Essence: 0.3, Matter: 0, Substance: 0.4 }
   },
   Neptune: {
-    diurnal: { Spirit: 0.2, Essence: 0.6, Matter: 0, Substance: 0.2 }
+    diurnal: { Spirit: 0.2, Essence: 0.6, Matter: 0, Substance: 0.2 },
     nocturnal: { Spirit: 0, Essence: 0.5, Matter: 0, Substance: 0.5 }
   },
   Pluto: {
-    diurnal: { Spirit: 0, Essence: 0.3, Matter: 0.7, Substance: 0 }
+    diurnal: { Spirit: 0, Essence: 0.3, Matter: 0.7, Substance: 0 },
     nocturnal: { Spirit: 0, Essence: 0.3, Matter: 0.3, Substance: 0.4 }
   }
 }
@@ -395,9 +395,9 @@ export const PLANETARY_ALCHEMICAL_EFFECTS: Record<
  * Maps tarot suits to their alchemical property contributions
  */
 export const _TAROT_SUIT_ALCHEMICAL_MAPPING: Record<string, Record<AlchemicalProperty, number>> = {
-  Wands: { Spirit: 0.7, Essence: 0.2, Matter: 0.1, Substance: 0 }
+  Wands: { Spirit: 0.7, Essence: 0.2, Matter: 0.1, Substance: 0 },
   Cups: { Spirit: 0.1, Essence: 0.7, Matter: 0, Substance: 0.2 }
-  Swords: { Spirit: 0.3, Essence: 0, Matter: 0, Substance: 0.7 }
+  Swords: { Spirit: 0.3, Essence: 0, Matter: 0, Substance: 0.7 },
   Pentacles: { Spirit: 0, Essence: 0.2, Matter: 0.7, Substance: 0.1 }
 }
 
@@ -509,7 +509,7 @@ export const COOKING_METHOD_PILLAR_INTELLIGENCE = {
    * @param context - Additional context for analysis
    * @returns Enhanced pillar analysis with predictive insights
    */
-  analyzeCookingMethodPillar: (;
+  analyzeCookingMethodPillar: (
     cookingMethod: string,
     context?: {
       seasonalFactors?: string[],
@@ -618,7 +618,7 @@ export const COOKING_METHOD_PILLAR_INTELLIGENCE = {
     }
   ) => {
     const baseEffects = pillar.effects;
-    const enhancedEffects = {;
+    const enhancedEffects = {
       Spirit: baseEffects.Spirit * (1 + (Math.random() * 0.2 - 0.1)), // ±10% variation,
       Essence: baseEffects.Essence * (1 + (Math.random() * 0.2 - 0.1)),
   Matter: baseEffects.Matter * (1 + (Math.random() * 0.2 - 0.1)),
@@ -681,7 +681,7 @@ export const ELEMENTAL_THERMODYNAMIC_INTELLIGENCE = {
    * @param context - Additional context for analysis
    * @returns Enhanced thermodynamic analysis with predictive insights
    */
-  analyzeElementalThermodynamics: (;
+  analyzeElementalThermodynamics: (
     element: Element,
     context?: {
       seasonalFactors?: string[],
@@ -689,10 +689,10 @@ export const ELEMENTAL_THERMODYNAMIC_INTELLIGENCE = {
       cookingMethod?: string
     }
   ) => {
-    const baseProperties = {;
-      Fire: { heat: 0.9, entropy: 0.7, reactivity: 0.8 }
+    const baseProperties = {
+      Fire: { heat: 0.9, entropy: 0.7, reactivity: 0.8 },
       Water: { heat: 0.3, entropy: 0.9, reactivity: 0.6 }
-      Earth: { heat: 0.4, entropy: 0.4, reactivity: 0.5 }
+      Earth: { heat: 0.4, entropy: 0.4, reactivity: 0.5 },
       Air: { heat: 0.6, entropy: 0.8, reactivity: 0.7 }
     }[element],
 
@@ -751,17 +751,17 @@ export const ELEMENTAL_THERMODYNAMIC_INTELLIGENCE = {
       environmentalConditions?: Record<string, number>
     }
   ) => {
-    const elementProperties = {;
-      Fire: { heat: 0.9, entropy: 0.7, reactivity: 0.8 }
+    const elementProperties = {
+      Fire: { heat: 0.9, entropy: 0.7, reactivity: 0.8 },
       Water: { heat: 0.3, entropy: 0.9, reactivity: 0.6 }
-      Earth: { heat: 0.4, entropy: 0.4, reactivity: 0.5 }
+      Earth: { heat: 0.4, entropy: 0.4, reactivity: 0.5 },
       Air: { heat: 0.6, entropy: 0.8, reactivity: 0.7 }
     }[targetElement],
 
     const compatibleElements = Object.entries({;
-      Fire: { heat: 0.9, entropy: 0.7, reactivity: 0.8 }
+      Fire: { heat: 0.9, entropy: 0.7, reactivity: 0.8 },
       Water: { heat: 0.3, entropy: 0.9, reactivity: 0.6 }
-      Earth: { heat: 0.4, entropy: 0.4, reactivity: 0.5 }
+      Earth: { heat: 0.4, entropy: 0.4, reactivity: 0.5 },
       Air: { heat: 0.6, entropy: 0.8, reactivity: 0.7 }
     })
       .filter(
@@ -808,7 +808,7 @@ export const PLANETARY_ALCHEMICAL_INTELLIGENCE = {
    * @param context - Additional context for analysis
    * @returns Enhanced planetary analysis with predictive insights
    */
-  analyzePlanetaryAlchemy: (;
+  analyzePlanetaryAlchemy: (
     planet: string,
     context?: {
       seasonalFactors?: string[],
@@ -820,7 +820,7 @@ export const PLANETARY_ALCHEMICAL_INTELLIGENCE = {
       Spirit: 0,
   Essence: 0,
       Matter: 0,
-  Substance: 0
+  Substance: 0,
     }
 
     return {
@@ -882,10 +882,10 @@ export const PLANETARY_ALCHEMICAL_INTELLIGENCE = {
       Spirit: 0,
   Essence: 0,
       Matter: 0,
-  Substance: 0
+  Substance: 0,
     }
 
-    const compatiblePlanets = [;
+    const compatiblePlanets = [
       'Sun',
       'Moon',
       'Mercury',
@@ -903,7 +903,7 @@ export const PLANETARY_ALCHEMICAL_INTELLIGENCE = {
           Spirit: 0,
   Essence: 0,
           Matter: 0,
-  Substance: 0
+  Substance: 0,
         }
         return {
           planet,
@@ -944,7 +944,7 @@ export const TAROT_SUIT_ALCHEMICAL_INTELLIGENCE = {
    * @param context - Additional context for analysis
    * @returns Enhanced tarot analysis with predictive insights
    */
-  analyzeTarotAlchemy: (;
+  analyzeTarotAlchemy: (
     cardName: string,
     context?: {
       seasonalFactors?: string[],
@@ -956,7 +956,7 @@ export const TAROT_SUIT_ALCHEMICAL_INTELLIGENCE = {
       Spirit: 0,
   Essence: 0,
       Matter: 0,
-  Substance: 0
+  Substance: 0,
     }
 
     return {
@@ -1018,10 +1018,10 @@ export const TAROT_SUIT_ALCHEMICAL_INTELLIGENCE = {
       Spirit: 0,
   Essence: 0,
       Matter: 0,
-  Substance: 0
+  Substance: 0,
     }
 
-    const compatibleCards = [;
+    const compatibleCards = [
       'The Fool',
       'The Magician',
       'The High Priestess',
@@ -1051,7 +1051,7 @@ export const TAROT_SUIT_ALCHEMICAL_INTELLIGENCE = {
           Spirit: 0,
   Essence: 0,
           Matter: 0,
-  Substance: 0
+  Substance: 0,
         }
         return {
           card,
@@ -1140,9 +1140,9 @@ const ENHANCED_COOKING_METHODS: EnhancedCookingMethod[] = [
   name: 'Roasting',
     description: 'Dry heat cooking method that concentrates flavors through caramelization',
   category: 'dry',
-    alchemicalEffects: { Spirit: 1, Essence: 0, Matter: -1, Substance: 1 }
+    alchemicalEffects: { Spirit: 1, Essence: 0, Matter: -1, Substance: 1 },
     thermodynamics: { heat: 0.8, entropy: 0.6, reactivity: 0.7 }
-    elementalInfluence: { Fire: 0.8, Water: 0.1, Earth: 0.3, Air: 0.4 }
+    elementalInfluence: { Fire: 0.8, Water: 0.1, Earth: 0.3, Air: 0.4 },
     monicaCompatibility: {
       score: 0.85,
   factors: ['high heat', 'flavor concentration'],
@@ -1160,9 +1160,9 @@ const ENHANCED_COOKING_METHODS: EnhancedCookingMethod[] = [
   name: 'Steaming',
     description: 'Moist heat cooking using steam to preserve nutrients and delicate textures',
   category: 'wet',
-    alchemicalEffects: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
+    alchemicalEffects: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 },
     thermodynamics: { heat: 0.5, entropy: 0.3, reactivity: 0.4 }
-    elementalInfluence: { Fire: 0.2, Water: 0.8, Earth: 0.2, Air: 0.6 }
+    elementalInfluence: { Fire: 0.2, Water: 0.8, Earth: 0.2, Air: 0.6 },
     monicaCompatibility: {
       score: 0.92,
   factors: ['gentle heat', 'nutrient preservation'],
@@ -1180,9 +1180,9 @@ const ENHANCED_COOKING_METHODS: EnhancedCookingMethod[] = [
   name: 'Fermentation',
     description: 'Transformation through beneficial microorganisms',
   category: 'transformation',
-    alchemicalEffects: { Spirit: 1, Essence: 1, Matter: 0, Substance: 1 }
+    alchemicalEffects: { Spirit: 1, Essence: 1, Matter: 0, Substance: 1 },
     thermodynamics: { heat: 0.2, entropy: 0.9, reactivity: 0.8 }
-    elementalInfluence: { Fire: 0.1, Water: 0.6, Earth: 0.7, Air: 0.3 }
+    elementalInfluence: { Fire: 0.1, Water: 0.6, Earth: 0.7, Air: 0.3 },
     monicaCompatibility: {
       score: 0.95,
   factors: ['living transformation', 'probiotic benefits'],
@@ -1234,7 +1234,7 @@ export function calculatePillarKalchm(effects: Record<AlchemicalProperty, _numbe
  * @param reactivity - The reactivity value
  * @returns The calculated Greg's Energy
  */
-export function calculatePillarGregsEnergy(;
+export function calculatePillarGregsEnergy(
   heat: number,
   entropy: number,
   reactivity: number,
@@ -1250,7 +1250,7 @@ export function calculatePillarGregsEnergy(;
  * @param kalchm - The Kalchm value
  * @returns The calculated Monica constant
  */
-export function calculatePillarMonica(;
+export function calculatePillarMonica(
   gregsEnergy: number,
   reactivity: number,
   kalchm: number,
@@ -1299,14 +1299,14 @@ export function calculatePillarMonicaModifiers(_monica: number): {
     return {
       temperatureAdjustment: 0,
   timingAdjustment: 0,
-      intensityModifier: 'neutral'
+      intensityModifier: 'neutral',
     }
   }
 
   return {
     temperatureAdjustment: Math.round(monica * 15),
   timingAdjustment: Math.round(monica * 10),
-    intensityModifier: monica > 0.1 ? 'increase' : monica < -0.1 ? 'decrease' : 'maintain'
+    intensityModifier: monica > 0.1 ? 'increase' : monica < -0.1 ? 'decrease' : 'maintain',
   }
 }
 
@@ -1438,7 +1438,7 @@ export function enhanceAlchemicalPillar(_pillar: AlchemicalPillar): AlchemicalPi
     kalchm: number,
   gregsEnergy: number,
   monicaConstant: number,
-  thermodynamicProfile: { heat: number, entropy: number, reactivity: number }
+  thermodynamicProfile: { heat: number, entropy: number, reactivity: number },
     monicaClassification: string,
   monicaModifiers: {
       temperatureAdjustment: number,
@@ -1451,14 +1451,14 @@ export function enhanceAlchemicalPillar(_pillar: AlchemicalPillar): AlchemicalPi
   const thermodynamics = getCookingMethodThermodynamics(pillar.name.toLowerCase()) || {;
     heat: 0.5,
   entropy: 0.5,
-    reactivity: 0.5
+    reactivity: 0.5,
   }
 
   // Calculate Kalchm from pillar effects
   const kalchm = calculatePillarKalchm(pillar.effects)
 
   // Calculate Greg's Energy
-  const gregsEnergy = calculatePillarGregsEnergy(;
+  const gregsEnergy = calculatePillarGregsEnergy(
     thermodynamics.heat,
     thermodynamics.entropy,
     thermodynamics.reactivity
@@ -1507,7 +1507,7 @@ export function createEnhancedCookingMethod(
   }
 
   // Calculate optimal conditions based on Monica constant
-  const optimalConditions = calculateOptimalCookingConditions(;
+  const optimalConditions = calculateOptimalCookingConditions(
     enhancedPillar.monicaProperties.monicaConstant,
     enhancedPillar.monicaProperties.thermodynamicProfile
   )

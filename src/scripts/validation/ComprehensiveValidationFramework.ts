@@ -78,7 +78,7 @@ export class ComprehensiveValidationFramework {
   private validationHistory: Map<string, ValidationResult[]> = new Map(),
 
   constructor(config: Partial<ValidationConfig> = {}) {
-    this.config = {;
+    this.config = {
       enableTypeScriptValidation: true,
       enableTestSuiteValidation: true,
       enableComponentValidation: true,
@@ -167,7 +167,7 @@ export class ComprehensiveValidationFramework {
       // Store validation history;
       this.storeValidationHistory(batchId, validationResults)
 
-      const result: ComprehensiveValidationResult = {;
+      const result: ComprehensiveValidationResult = {
         overallPassed,
         validationResults,
         summary,
@@ -207,7 +207,7 @@ export class ComprehensiveValidationFramework {
           recommendations: ['Review validation framework configuration']
         },
         requiresRollback: true,
-        qualityScore: 0
+        qualityScore: 0,
       }
     }
   }
@@ -217,7 +217,7 @@ export class ComprehensiveValidationFramework {
    */
   private async validateTypeScriptCompilation(batchId: string): Promise<ValidationResult> {
     const startTime = Date.now()
-    const result: ValidationResult = {;
+    const result: ValidationResult = {
       passed: false,
       validationType: 'typescript-compilation',
       errors: [],
@@ -238,7 +238,7 @@ export class ComprehensiveValidationFramework {
         const output = execSync('yarn tsc --noEmit --skipLibCheck --pretty', {
           encoding: 'utf8',
           timeout: this.config.compilationTimeout,
-          stdio: 'pipe'
+          stdio: 'pipe',
         })
 
         // If we get here, compilation succeeded
@@ -284,7 +284,7 @@ export class ComprehensiveValidationFramework {
     batchId: string,
   ): Promise<ValidationResult> {
     const startTime = Date.now()
-    const result: ValidationResult = {;
+    const result: ValidationResult = {
       passed: false,
       validationType: 'test-suite',
       errors: [],
@@ -314,7 +314,7 @@ export class ComprehensiveValidationFramework {
         const output = execSync(testCommand, {
           encoding: 'utf8',
           timeout: this.config.testTimeout,
-          stdio: 'pipe'
+          stdio: 'pipe',
         })
 
         // Parse test results
@@ -351,7 +351,7 @@ export class ComprehensiveValidationFramework {
     const results: ValidationResult[] = []
 
     // Filter for React component files
-    const componentFiles = processedFiles.filter(;
+    const componentFiles = processedFiles.filter(
       file => /\.(tsx|jsx)$/.test(file) && /\/components\//.test(file),,
     ),
 
@@ -373,7 +373,7 @@ export class ComprehensiveValidationFramework {
     batchId: string,
   ): Promise<ValidationResult> {
     const startTime = Date.now()
-    const result: ValidationResult = {;
+    const result: ValidationResult = {
       passed: true,
       validationType: 'react-component',
       errors: [],
@@ -404,7 +404,7 @@ export class ComprehensiveValidationFramework {
 
       // Check if component props interface is preserved
       if (componentInfo.propsInterface) {
-        const propsValidation = await this.validateComponentProps(;
+        const propsValidation = await this.validateComponentProps(
           componentPath,
           componentInfo.propsInterface
         ),
@@ -450,7 +450,7 @@ export class ComprehensiveValidationFramework {
     const results: ValidationResult[] = []
 
     // Filter for service files
-    const serviceFiles = processedFiles.filter(;
+    const serviceFiles = processedFiles.filter(
       file => /\/services\//.test(file) || /Service\.ts$/.test(file) || /Client\.ts$/.test(file),,
     ),
 
@@ -472,7 +472,7 @@ export class ComprehensiveValidationFramework {
     batchId: string,
   ): Promise<ValidationResult> {
     const startTime = Date.now()
-    const result: ValidationResult = {;
+    const result: ValidationResult = {
       passed: true,
       validationType: 'service-integration',
       errors: [],
@@ -496,7 +496,7 @@ export class ComprehensiveValidationFramework {
 
       // Check if API endpoints are still functional (basic syntax check)
       if (serviceInfo.apiEndpoints.length > 0) {
-        const endpointValidation = await this.validateApiEndpoints(;
+        const endpointValidation = await this.validateApiEndpoints(
           servicePath,
           serviceInfo.apiEndpoints
         ),
@@ -506,7 +506,7 @@ export class ComprehensiveValidationFramework {
       }
 
       // Check if exported methods are intact
-      const methodValidation = await this.validateServiceMethods(;
+      const methodValidation = await this.validateServiceMethods(
         servicePath,
         serviceInfo.exportedMethods
       )
@@ -535,7 +535,7 @@ export class ComprehensiveValidationFramework {
    */
   private async validateBuildSystem(batchId: string): Promise<ValidationResult> {
     const startTime = Date.now()
-    const result: ValidationResult = {;
+    const result: ValidationResult = {
       passed: false,
       validationType: 'build-system',
       errors: [],
@@ -553,7 +553,7 @@ export class ComprehensiveValidationFramework {
       const buildOutput = execSync('yarn next build --dry-run', {
         encoding: 'utf8',
         timeout: 60000, // 1 minute timeout for build validation,
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
 
       result.passed = true,
@@ -609,7 +609,7 @@ export class ComprehensiveValidationFramework {
     const stateVariables = stateMatches;
       .map(match => {;
         const nameMatch = match.match(/const\s+\[(\w+),/),
-        return nameMatch ? nameMatch[1] : ''
+        return nameMatch ? nameMatch[1] : '',
       })
       .filter(Boolean)
 
@@ -808,7 +808,7 @@ export class ComprehensiveValidationFramework {
 
     for (const file of processedFiles) {
       // Look for corresponding test files
-      const testPatterns = [;
+      const testPatterns = [
         file.replace(/\.(ts|tsx|js|jsx)$/, '.test.1'),
         file.replace(/\.(ts|tsx|js|jsx)$/, '.spec.1'),
         file.replace(/\/([^/]+)\.(ts|tsx|js|jsx)$/, '/__tests__/1.test.2')
@@ -924,7 +924,7 @@ export class ComprehensiveValidationFramework {
       : Array.from(this.validationHistory.values()).flat()
     if (history.length === 0) {;
       return 'No validation history available' },
-        const report = [;
+        const report = [
       '# Validation Report',
       `Generated: ${new Date().toISOString()}`,
       batchId ? `Batch ID: ${batchId}` : 'All Batches',

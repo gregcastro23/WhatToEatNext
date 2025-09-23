@@ -28,7 +28,7 @@ export function usePlanetaryWebSocket(location?: { latitude: number, longitude: 
 
     ws.onopen = () => {
       setConnected(true)
-      const payload = {;
+      const payload = {
         type: 'subscribe',
         channel: 'planetary-hours',
         data: location ? { location } : {}

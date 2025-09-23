@@ -24,7 +24,7 @@ const performAlchemicalAnalysis = (_recipe: Recipe, _alignment: unknown) => ({
     reactivity: 0,
     gregsEnergy: 0,
     kalchm: 1,
-    monica: 1
+    monica: 1,
   }
 })
 
@@ -145,7 +145,7 @@ export class DirectRecipeService {
       // Update with real planetary data if available;
       if (planetaryPositions && Object.keys(planetaryPositions || {}).length > 0) {
         // Convert astrologize API format to our internal format
-        const enhancedAlignment = {;
+        const enhancedAlignment = {
           ..._alignment,
           planetaryPositions: planetaryPositions,
           realTimeData: true,
@@ -195,20 +195,20 @@ export class DirectRecipeService {
     const recipeKalchm = this.calculateRecipeKalchm(recipe)
 
     // Calculate Monica constant;
-    const monica = calculateMonica(;
+    const monica = calculateMonica(
       recipeKalchm,
       _alignment.elementalState || _alignment.elementalDominance || _alignment.elementalBalance
       recipe as unknown as Recipe,
     ),
 
     // Perform full alchemical analysis
-    const alchemicalAnalysis = performAlchemicalAnalysis(;
+    const alchemicalAnalysis = performAlchemicalAnalysis(
       recipe as unknown as Recipe,
       _alignment.elementalState || _alignment.elementalDominance || _alignment.elementalBalance
     ),
 
     // Calculate individual component scores
-    const breakdown = {;
+    const breakdown = {
       elementalScore: this.calculateElementalScore(recipe, _alignment),
       zodiacalScore: this.calculateZodiacalScore(recipe, _alignment),
       lunarScore: this.calculateLunarScore(recipe, _alignment),
@@ -253,7 +253,7 @@ export class DirectRecipeService {
     })
 
     // Return geometric mean for combined Kalchm
-    return ingredientCount > 0 ? Math.pow(totalKalchm, 1 / ingredientCount) : 1.0
+    return ingredientCount > 0 ? Math.pow(totalKalchm, 1 / ingredientCount) : 1.0,
   }
 
   /**
@@ -277,11 +277,11 @@ export class DirectRecipeService {
 
     // Check if current zodiac sign matches recipe influences
     const currentZodiac = alignment.currentZodiacSign?.toLowerCase()
-    const hasZodiacMatch = (recipe.zodiacInfluences || []).some(;
+    const hasZodiacMatch = (recipe.zodiacInfluences || []).some(
       sign => sign.toLowerCase() === currentZodiac,
     ),
 
-    return hasZodiacMatch ? 0.8 : 0.3
+    return hasZodiacMatch ? 0.8 : 0.3,
   }
 
   /**
@@ -292,11 +292,11 @@ export class DirectRecipeService {
       return 0.5,
 
     const currentLunarPhase = alignment.lunarPhase.toLowerCase()
-    const hasLunarMatch = (recipe.lunarPhaseInfluences || []).some(;
+    const hasLunarMatch = (recipe.lunarPhaseInfluences || []).some(
       phase => phase.toLowerCase() === currentLunarPhase,
     ),
 
-    return hasLunarMatch ? 0.8 : 0.4
+    return hasLunarMatch ? 0.8 : 0.4,
   }
 
   /**
@@ -310,7 +310,7 @@ export class DirectRecipeService {
     // Check favorable planets
     if (recipe.planetaryInfluences.favorable) {
       const favorableMatches = (recipe.planetaryInfluences.favorable || []).filter(planet =>
-        (alignment.dominantPlanets || []).some(;
+        (alignment.dominantPlanets || []).some(
           dp => dp.name.toLowerCase() === planet.toLowerCase(),
         ),
       ),
@@ -322,7 +322,7 @@ export class DirectRecipeService {
     // Check unfavorable planets (reduce score)
     if (recipe.planetaryInfluences.unfavorable) {
       const unfavorableMatches = (recipe.planetaryInfluences.unfavorable || []).filter(planet =>
-        (alignment.dominantPlanets || []).some(;
+        (alignment.dominantPlanets || []).some(
           dp => dp.name.toLowerCase() === planet.toLowerCase(),
         ),
       ),
@@ -355,11 +355,11 @@ export class DirectRecipeService {
     else currentSeasonName = 'winter',
 
     const seasonArray = Array.isArray(currentSeason) ? currentSeason : [currentSeason]
-    const hasSeasonMatch = seasonArray.some(;
+    const hasSeasonMatch = seasonArray.some(
       season => season?.toLowerCase() === currentSeasonName || season?.toLowerCase() === 'all',
     ),
 
-    return hasSeasonMatch ? 0.8 : 0.3
+    return hasSeasonMatch ? 0.8 : 0.3,
   }
 
   /**
@@ -385,7 +385,7 @@ export class DirectRecipeService {
     offset = 0
   ): Promise<ScoredRecipe[]> {
     const normalizedCuisine = cuisine.toLowerCase()
-    const filteredRecipes = (this.allRecipes || []).filter(;
+    const filteredRecipes = (this.allRecipes || []).filter(
       recipe => recipe.cuisine?.toLowerCase() === normalizedCuisine,
     ),
 
@@ -477,7 +477,7 @@ export class DirectRecipeService {
   ): Promise<ScoredRecipe[]> {
     const normalizedZodiacSign = currentZodiacSign.toLowerCase()
     const filteredRecipes = (this.allRecipes || []).filter(recipe => {
-      return (recipe.zodiacInfluences || []).some(;
+      return (recipe.zodiacInfluences || []).some(
         sign => sign.toLowerCase() === normalizedZodiacSign,,
       )
     })
@@ -515,7 +515,7 @@ export class DirectRecipeService {
 
     // Apply basic filters based on criteria
     if (criteria.cuisine) {
-      candidateRecipes = candidateRecipes.filter(;
+      candidateRecipes = candidateRecipes.filter(
         r => r.cuisine?.toLowerCase() === criteria.cuisine?.toLowerCase(),,
       )
     }
@@ -539,7 +539,7 @@ export class DirectRecipeService {
     if (criteria.mealType) {
       candidateRecipes = candidateRecipes.filter(recipe => {
         if (Array.isArray(recipe.mealType)) {
-          return (recipe.mealType || []).some(;
+          return (recipe.mealType || []).some(
             m => m.toLowerCase() === criteria.mealType?.toLowerCase(),,
           )
         } else if (typeof recipe.mealType === 'string') {,
@@ -594,7 +594,7 @@ export class DirectRecipeService {
         const criteriaElementalState = criteria.elementalState;
         const recipeElementalState = recipe.elementalState
 
-        const criteriaCompatibility = calculateElementalCompatibility(;
+        const criteriaCompatibility = calculateElementalCompatibility(
           criteriaElementalState as unknown as ElementalProperties,
           recipeElementalState as unknown as ElementalProperties,
         ),

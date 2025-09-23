@@ -27,65 +27,65 @@ import {;
 const testPlanetaryPositions: { [key: string]: CelestialPosition } = {
   Sun: {
     sign: 'gemini',
-    degree: 25.0
+    degree: 25.0,
   },
   moon: {
     sign: 'taurus',
-    degree: 15.5
+    degree: 15.5,
   },
   Mercury: {
     sign: 'gemini',
-    degree: 20.3
+    degree: 20.3,
   },
   Venus: {
     sign: 'taurus',
-    degree: 8.7
+    degree: 8.7,
   },
   Mars: {
     sign: 'aries',
-    degree: 12.2
+    degree: 12.2,
   },
   _Jupiter: {
     sign: 'pisces',
-    degree: 28.9
+    degree: 28.9,
   },
   _Saturn: {
     sign: 'aquarius',
-    degree: 18.4
+    degree: 18.4,
   },
   _Uranus: {
     sign: 'taurus',
-    degree: 14.1
+    degree: 14.1,
   },
   _Neptune: {
     sign: 'pisces',
-    degree: 22.8
+    degree: 22.8,
   },
   _Pluto: { sign: 'aquarius', degree: 3.0 }
 }
 
-const testAstrologicalState: AstrologicalState = {;
+const testAstrologicalState: AstrologicalState = {
   sunSign: 'gemini',
   _moonSign: 'taurus',
   _lunarPhase: 'waxing gibbous',
   _planetaryPositions: testPlanetaryPositions
 }
 
-const testRecipeElements: ElementalProperties = {;
+const testRecipeElements: ElementalProperties = {
   Fire: 0.35,
   Water: 0.25,
   Air: 0.25,
   Earth: 0.15
 }
 
-const testUserElements: ElementalProperties = {;
+const testUserElements: ElementalProperties = {
   Fire: 0.3,
   Water: 0.3,
   Air: 0.25,
   Earth: 0.15
 }
 
-const testBirthInfo = {;
+const testBirthInfo = {
   hour: 14,
   _minutes: 30,
   day: 15,
@@ -99,23 +99,23 @@ const testHoroscopeData = {
   tropical: {
     CelestialBodies: {
       Sun: {;
-        Sign: {}
+        Sign: {},
         ChartPosition: { Ecliptic: { DecimalDegrees: 64.133 } }
       },
       moon: {
-        Sign: {}
+        Sign: {},
         ChartPosition: { Ecliptic: { DecimalDegrees: 35.333 } }
       },
       Mercury: {
-        Sign: {}
+        Sign: {},
         ChartPosition: { Ecliptic: { DecimalDegrees: 59.5 } }
       },
       Venus: {
-        Sign: {}
+        Sign: {},
         ChartPosition: { Ecliptic: { DecimalDegrees: 78.75 } }
       },
       Mars: {
-        Sign: {}
+        Sign: {},
         ChartPosition: { Ecliptic: { DecimalDegrees: 12.25 } }
       }
     },
@@ -130,7 +130,7 @@ async function runComprehensiveTests() {
   try {
     // Test, 1: Basic Astro-Cuisine Match
     log.info('📊 Test, 1: Basic Astro-Cuisine Match')
-    const basicMatch = await alchemicalEngine.calculateAstroCuisineMatch(;
+    const basicMatch = await alchemicalEngine.calculateAstroCuisineMatch(
       testRecipeElements,
       testAstrologicalState,
       'spring',
@@ -149,7 +149,7 @@ async function runComprehensiveTests() {
 
     // Test, 2: Advanced Recipe Harmony Analysis
     log.info('🔬 Test, 2: Advanced Recipe Harmony Analysis')
-    const advancedHarmony = await alchemicalEngine.calculateAdvancedRecipeHarmony(;
+    const advancedHarmony = await alchemicalEngine.calculateAdvancedRecipeHarmony(
       'Pasta Primavera',
       testUserElements,
       testAstrologicalState,
@@ -166,7 +166,7 @@ async function runComprehensiveTests() {
 
     // Test, 3: Enhanced Astrological Power
     log.info('⭐ Test, 3: Enhanced Astrological Power')
-    const astrologicalPower = await alchemicalEngine.calculateAstrologicalPower(;
+    const astrologicalPower = await alchemicalEngine.calculateAstrologicalPower(
       'gemini',
       testAstrologicalState,
     )
@@ -207,7 +207,7 @@ async function runComprehensiveTests() {
       sunSign: 'gemini',
       _degreesInSign: 4.133,
       _lunarDegree: 5.333,
-      _planetaryHour: 'Mercury'
+      _planetaryHour: 'Mercury',
     })
     log.info('Natural Influences: ', naturalInfluences)
     log.info('✅ Natural influences test completed\n')
@@ -249,7 +249,7 @@ async function runComprehensiveTests() {
 
     // Test, 8: Combined Element Objects with Weights
     log.info('⚖️ Test, 8: Combined Element Objects with Weights')
-    const combinedElements = alchemicalEngine.combineElementObjects(;
+    const combinedElements = alchemicalEngine.combineElementObjects(
       testRecipeElements,
       testUserElements,
       0.7, // Recipe weight
@@ -267,7 +267,7 @@ async function runComprehensiveTests() {
       confidence: number
     }> = [],
     for (const cuisine of cuisines) {
-      const result = await alchemicalEngine.calculateAstroCuisineMatch(;
+      const result = await alchemicalEngine.calculateAstroCuisineMatch(
         testRecipeElements,
         testAstrologicalState,
         'spring',
@@ -293,14 +293,14 @@ async function runComprehensiveTests() {
     log.info('⚡ Test, 10: Performance and Caching')
     const startTime = Date.now()
     // Run the same calculation twice to test caching
-    await alchemicalEngine.calculateAdvancedRecipeHarmony(;
+    await alchemicalEngine.calculateAdvancedRecipeHarmony(
       'Pasta Primavera',
       testUserElements,
       testAstrologicalState,
     )
     const firstRunTime = Date.now() - startTime;
     const cacheStartTime = Date.now()
-    await alchemicalEngine.calculateAdvancedRecipeHarmony(;
+    await alchemicalEngine.calculateAdvancedRecipeHarmony(
       'Pasta Primavera',
       testUserElements,
       testAstrologicalState,

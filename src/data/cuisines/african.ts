@@ -2,7 +2,7 @@
 import type { _, _ZodiacSign } from '@/types/alchemy';
 import type { Cuisine } from '@/types/cuisine';
 
-export const african: Cuisine = {;
+export const african: Cuisine = {
   name: 'African',
   id: 'african',
   description: 'Rich and diverse cuisine with bold flavors, hearty stews, and complex spice profiles. Spanning from North African tagines to West African peanut stews and East African injera-based dishes.',
@@ -18,7 +18,7 @@ export const african: Cuisine = {;
         Fire: 0.8,
         Earth: 0.1,
         Air: 0.1,
-        Water: 0.0
+        Water: 0.0,
       },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'all',
@@ -35,7 +35,7 @@ export const african: Cuisine = {;
         Fire: 0.7,
         Earth: 0.2,
         Water: 0.1,
-        Air: 0.0
+        Air: 0.0,
       },
       astrologicalInfluences: ['Mars', 'Mercury', 'Aries'],
       seasonality: 'all',
@@ -52,7 +52,7 @@ export const african: Cuisine = {;
         Earth: 0.5,
         Air: 0.3,
         Fire: 0.2,
-        Water: 0.0
+        Water: 0.0,
       },
       astrologicalInfluences: ['Mercury', 'Saturn', 'Virgo'],
       seasonality: 'all',
@@ -89,7 +89,7 @@ export const african: Cuisine = {;
         Water: 0.4,
         Earth: 0.3,
         Air: 0.2,
-        Fire: 0.1
+        Fire: 0.1,
       },
       astrologicalInfluences: ['Venus', 'Neptune', 'Pisces'],
       seasonality: 'spring, summer',
@@ -106,12 +106,12 @@ export const african: Cuisine = {;
         Earth: 0.6,
         Fire: 0.2,
         Water: 0.2,
-        Air: 0.0
+        Air: 0.0,
       },
       astrologicalInfluences: ['Jupiter', 'Saturn', 'Taurus'],
       seasonality: 'all',
       preparationNotes: 'The sauce thickens significantly as it cools.',
-      technicalTips: 'Roast raw peanuts before grinding for deeper flavor.'
+      technicalTips: 'Roast raw peanuts before grinding for deeper flavor.',
     }
   },
   sauceRecommender: {
@@ -187,7 +187,7 @@ export const african: Cuisine = {;
             calories: 300,
             protein: 6,
             carbs: 50,
-            fat: 8
+            fat: 8,
           },
           timeToMake: '45 minutes',
           season: ['all'],
@@ -196,7 +196,7 @@ export const african: Cuisine = {;
             Earth: 0.4,
             Fire: 0.3,
             Air: 0.2,
-            Water: 0.1
+            Water: 0.1,
           },
           astrologicalInfluences: [
             'Venus - The sweetness and cardamom fragrance',
@@ -235,7 +235,7 @@ export const african: Cuisine = {;
             calories: 380,
             protein: 22,
             carbs: 15,
-            fat: 28
+            fat: 28,
           },
           timeToMake: '40 minutes',
           season: ['all'],
@@ -244,7 +244,7 @@ export const african: Cuisine = {;
             Fire: 0.4,
             Water: 0.3,
             Earth: 0.2,
-            Air: 0.1
+            Air: 0.1,
           },
           astrologicalInfluences: [
             'Mars - The bold, spicy tomato base',
@@ -287,7 +287,7 @@ export const african: Cuisine = {;
             calories: 320,
             protein: 18,
             carbs: 45,
-            fat: 12
+            fat: 12,
           },
           timeToMake: '40 minutes',
           season: ['all'],
@@ -296,7 +296,7 @@ export const african: Cuisine = {;
             Earth: 0.5,
             Water: 0.3,
             Fire: 0.1,
-            Air: 0.1
+            Air: 0.1,
           },
           astrologicalInfluences: [
             'Saturn - The grounding, sustaining energy of beans',
@@ -343,7 +343,7 @@ export const african: Cuisine = {;
             calories: 500,
             protein: 15,
             carbs: 90,
-            fat: 10
+            fat: 10,
           },
           timeToMake: '60 minutes',
           season: ['all'],
@@ -352,7 +352,7 @@ export const african: Cuisine = {;
             Fire: 0.5,
             Earth: 0.3,
             Water: 0.1,
-            Air: 0.1
+            Air: 0.1,
           },
           astrologicalInfluences: [
             'Sun - The vibrant red color and celebratory nature',
@@ -404,7 +404,7 @@ export const african: Cuisine = {;
             calories: 450,
             protein: 35,
             carbs: 15,
-            fat: 28
+            fat: 28,
           },
           timeToMake: '120 minutes',
           season: ['all'],
@@ -413,7 +413,7 @@ export const african: Cuisine = {;
             Fire: 0.6,
             Earth: 0.2,
             Water: 0.1,
-            Air: 0.1
+            Air: 0.1,
           },
           astrologicalInfluences: [
             'Mars - The intense heat of berbere spice',
@@ -456,7 +456,7 @@ export const african: Cuisine = {;
             calories: 450,
             protein: 35,
             carbs: 25,
-            fat: 22
+            fat: 22,
           },
           timeToMake: '90 minutes',
           season: ['all'],
@@ -465,7 +465,7 @@ export const african: Cuisine = {;
             Fire: 0.3,
             Earth: 0.3,
             Water: 0.3,
-            Air: 0.1
+            Air: 0.1,
           },
           astrologicalInfluences: [
             'Mercury - The bright citrus notes',
@@ -517,7 +517,7 @@ export const african: Cuisine = {;
             calories: 380,
             protein: 28,
             carbs: 25,
-            fat: 20
+            fat: 20,
           },
           timeToMake: '90 minutes',
           season: ['all'],
@@ -526,7 +526,7 @@ export const african: Cuisine = {;
             Earth: 0.4,
             Fire: 0.3,
             Water: 0.2,
-            Air: 0.1
+            Air: 0.1,
           },
           astrologicalInfluences: [
             'Jupiter - The complex spices and cultural fusion',
@@ -569,7 +569,7 @@ export const african: Cuisine = {;
             calories: 520,
             protein: 42,
             carbs: 28,
-            fat: 32
+            fat: 32,
           },
           timeToMake: '135 minutes',
           season: ['all'],
@@ -578,7 +578,7 @@ export const african: Cuisine = {;
             Earth: 0.6,
             Water: 0.2,
             Fire: 0.1,
-            Air: 0.1
+            Air: 0.1,
           },
           astrologicalInfluences: [
             'Saturn - The bitterness and depth of flavor',
@@ -609,7 +609,7 @@ export const african: Cuisine = {;
             calories: 520,
             protein: 38,
             carbs: 35,
-            fat: 28
+            fat: 28,
           },
           timeToMake: '75 minutes',
           season: ['all'],
@@ -618,7 +618,7 @@ export const african: Cuisine = {;
             Earth: 0.5,
             Water: 0.2,
             Fire: 0.2,
-            Air: 0.1
+            Air: 0.1,
           },
           astrologicalInfluences: [
             'Jupiter - The richness and abundance',
@@ -667,7 +667,7 @@ export const african: Cuisine = {;
             calories: 450,
             protein: 8,
             carbs: 70,
-            fat: 15
+            fat: 15,
           },
           timeToMake: '65 minutes',
           season: ['all'],
@@ -676,7 +676,7 @@ export const african: Cuisine = {;
             Fire: 0.3,
             Earth: 0.3,
             Water: 0.3,
-            Air: 0.1
+            Air: 0.1,
           },
           astrologicalInfluences: [
             'Venus - The sweet, indulgent nature',
@@ -713,7 +713,7 @@ export const african: Cuisine = {;
             calories: 300,
             protein: 6,
             carbs: 45,
-            fat: 12
+            fat: 12,
           },
           timeToMake: '50 minutes',
           season: ['all'],
@@ -722,7 +722,7 @@ export const african: Cuisine = {;
             Earth: 0.4,
             Fire: 0.3,
             Air: 0.2,
-            Water: 0.1
+            Water: 0.1,
           },
           astrologicalInfluences: [
             'Venus - The sweet indulgence',
@@ -740,42 +740,42 @@ export const african: Cuisine = {;
     {
       name: 'Slow Simmering',
       description: 'Long, gentle cooking of stews and sauces to develop deep flavors',
-      elementalProperties: { Water: 0.5, Earth: 0.3, Fire: 0.2, Air: 0.0 }
+      elementalProperties: { Water: 0.5, Earth: 0.3, Fire: 0.2, Air: 0.0 },
       toolsRequired: ['heavy-bottomed pot', 'wooden spoon', 'heat diffuser'],
       bestFor: ['stews', 'sauces', 'tough cuts of meat', 'legumes'],
-      difficulty: 'easy'
+      difficulty: 'easy',
     }
     {
       name: 'Hand Pounding',
       description: 'Traditional technique using mortar and pestle to create pastes and spice blends',
-      elementalProperties: { Earth: 0.6, Fire: 0.2, Water: 0.1, Air: 0.1 }
+      elementalProperties: { Earth: 0.6, Fire: 0.2, Water: 0.1, Air: 0.1 },
       toolsRequired: ['mortar and pestle', 'sieve'],
       bestFor: ['spice blends', 'sauces', 'pounded yam', 'fufu'],
-      difficulty: 'medium'
+      difficulty: 'medium',
     }
     {
       name: 'Clay Pot Cooking',
       description: 'Slow cooking in unglazed clay pots that enhance flavors and maintain moisture',
-      elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.2, Air: 0.0 }
+      elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.2, Air: 0.0 },
       toolsRequired: ['clay pot', 'heat diffuser', 'wooden spoon'],
       bestFor: ['stews', 'tagines', 'rice dishes', 'beans'],
-      difficulty: 'medium'
+      difficulty: 'medium',
     }
     {
       name: 'Charcoal Grilling',
       description: 'Direct heat cooking over open charcoal for smoky flavor',
-      elementalProperties: { Fire: 0.7, Air: 0.2, Earth: 0.1, Water: 0.0 }
+      elementalProperties: { Fire: 0.7, Air: 0.2, Earth: 0.1, Water: 0.0 },
       toolsRequired: ['charcoal grill', 'skewers', 'tongs'],
       bestFor: ['suya', 'kebabs', 'whole fish', 'vegetables'],
-      difficulty: 'easy'
+      difficulty: 'easy',
     }
     {
       name: 'Fermentation',
       description: 'Traditional preservation technique that develops complex flavors and probiotics',
-      elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
+      elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
       toolsRequired: ['clay pots', 'wooden tools', 'weights'],
       bestFor: ['injera', 'ogi', 'garri', 'fermented locust beans'],
-      difficulty: 'hard'
+      difficulty: 'hard',
     }
   ],
   regionalCuisines: {
@@ -783,36 +783,36 @@ export const african: Cuisine = {;
       name: 'North African Cuisine',
       description: 'Mediterranean and Arabic influenced cuisine featuring tagines, couscous, and aromatic spices',
       signature: ['tagine', 'couscous', 'harissa', 'shakshuka'],
-      elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 }
+      elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
       astrologicalInfluences: ['Mars', 'Venus', 'Mercury'],
       seasonality: 'all' },
         westAfrican: {
       name: 'West African Cuisine',
       description: 'Bold, spicy cuisine with staples like rice, cassava, plantains and palm oil',
       signature: ['jollof rice', 'fufu', 'peanut stew', 'egusi soup'],
-      elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.1, Air: 0.1 }
+      elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.1, Air: 0.1 },
       astrologicalInfluences: ['Jupiter', 'Saturn', 'Mars'],
       seasonality: 'all' },
         eastAfrican: {
       name: 'East African Cuisine',
       description: 'Diverse cuisine influenced by Arabic, Indian and indigenous traditions',
       signature: ['injera with wat', 'ugali', 'pilau', 'berbere spice'],
-      elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 }
+      elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Sun', 'Mars', 'Saturn'],
       seasonality: 'all' },
         southernAfrican: {
       name: 'Southern African Cuisine',
       description: 'Hearty cuisine combining indigenous, Dutch, Malaysian and British influences',
       signature: ['bobotie', 'biltong', 'pap', 'chakalaka'],
-      elementalProperties: { Earth: 0.5, Fire: 0.2, Water: 0.2, Air: 0.1 }
+      elementalProperties: { Earth: 0.5, Fire: 0.2, Water: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Saturn', 'Venus', 'Jupiter'],
-      seasonality: 'all'
+      seasonality: 'all',
     }
   },
   elementalProperties: {
     Earth: 0.4,
     Fire: 0.3,
     Water: 0.2,
-    Air: 0.1
+    Air: 0.1,
   }
 }

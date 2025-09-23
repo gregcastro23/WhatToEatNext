@@ -34,7 +34,7 @@ import { warmSpices } from './spices/warmSpices';
 import { enhancedVegetables } from './vegetables';
 import { allVinegars } from './vinegars/vinegars';
 
-export const proteins = {;
+export const proteins = {
   ...meatsData,
   ...poultryData,
   ...seafoodData,
@@ -42,7 +42,7 @@ export const proteins = {;
 }
 
 // Calculate elemental properties from astrological data
-const calculateElementalProperties = (;
+const calculateElementalProperties = (
   ingredientData: Ingredient | UnifiedIngredient,
 ): Record<string, number> => {
   // Use actual elemental properties if they exist
@@ -51,7 +51,7 @@ const calculateElementalProperties = (;
     Object.keys(ingredientData.elementalProperties).length > 0
   ) {
     const props = ingredientData.elementalProperties;
-    const sum = Object.values(props).reduce(;
+    const sum = Object.values(props).reduce(
       (acc: number, val: unknown) => acc + (Number(val) || 0),
       0,
     ),
@@ -144,13 +144,13 @@ function getZodiacElement(_sign: string): string | null {
 // Helper function to calculate elemental properties from category
 function calculateElementalPropertiesFromCategory(_category: string): Record<string, number> {
   const categoryElements: Record<string, Record<string, number>> = {
-    spice: { Fire: 0.6, Air: 0.3, Earth: 0.1, Water: 0.0 }
+    spice: { Fire: 0.6, Air: 0.3, Earth: 0.1, Water: 0.0 },
     culinary_herb: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 }
-    protein: { Fire: 0.4, Earth: 0.4, Water: 0.2, Air: 0.0 }
+    protein: { Fire: 0.4, Earth: 0.4, Water: 0.2, Air: 0.0 },
     oil: { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2 }
-    grain: { Earth: 0.7, Air: 0.2, Water: 0.1, Fire: 0.0 }
+    grain: { Earth: 0.7, Air: 0.2, Water: 0.1, Fire: 0.0 },
     vegetable: { Earth: 0.5, Water: 0.3, Air: 0.2, Fire: 0.0 }
-    fruit: { Water: 0.5, Air: 0.3, Earth: 0.2, Fire: 0.0 }
+    fruit: { Water: 0.5, Air: 0.3, Earth: 0.2, Fire: 0.0 },
     vinegar: { Fire: 0.2, Water: 0.4, Air: 0.3, Earth: 0.1 }
     seasoning: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 }
   }
@@ -167,12 +167,12 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
   // Create default lunar phase modifiers if none exist
   const defaultLunarPhaseModifiers = {
     newMoon: {;
-      elementalBoost: { Earth: 0.05, Water: 0.05 }
+      elementalBoost: { Earth: 0.05, Water: 0.05 },
       preparationTips: ['Best for subtle preparation methods'],
       thermodynamicEffects: { heat: -0.1, entropy: -0.05 }
     },
     fullMoon: {
-      elementalBoost: { Water: 0.1, Air: 0.05 }
+      elementalBoost: { Water: 0.1, Air: 0.05 },
       preparationTips: ['Enhanced flavor extraction'],
       thermodynamicEffects: { reactivity: 0.1, energy: 0.05 }
     }
@@ -199,7 +199,7 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
 }
 
 // Process a collection of ingredients with the new properties
-const processIngredientCollection = (;
+const processIngredientCollection = (
   collection: Record<string, unknown>,
 ): Record<string, Ingredient> => {
   return Object.entries(collection).reduce(
@@ -208,26 +208,26 @@ const processIngredientCollection = (;
         const processedIngredient = processIngredient(value as any, key)
 
         // Add alchemical and thermodynamic properties
-        const alchemicalProps = calculateAlchemicalProperties(;
+        const alchemicalProps = calculateAlchemicalProperties(
           processedIngredient as unknown as Ingredient,
         ),
-        const thermodynamicProps = calculateThermodynamicProperties(;
+        const thermodynamicProps = calculateThermodynamicProperties(
           alchemicalProps,
           ((processedIngredient as unknown as any).elementalProperties as ElementalProperties) || {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
-            Air: 0.25
+            Air: 0.25,
           })
 
         // Determine modality
-        const modality = determineIngredientModality(;
+        const modality = determineIngredientModality(
           ((processedIngredient as unknown as any).qualities as string[]) || [],
           ((processedIngredient as unknown as any).elementalProperties as ElementalProperties) || {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
-            Air: 0.25
+            Air: 0.25,
           })
 
         // Create elementalSignature (dominant elements in order)
@@ -236,7 +236,7 @@ const processIngredientCollection = (;
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
-            Air: 0.25
+            Air: 0.25,
           })
           .sort((ab) => {
             // Pattern KK-10: Final Arithmetic Elimination for data processing
@@ -278,7 +278,7 @@ export const spicesCollection = processIngredientCollection({
 })
 export const _vegetablesCollection = processIngredientCollection(enhancedVegetables)
 
-export const VALID_CATEGORIES = [;
+export const VALID_CATEGORIES = [
   'culinary_herb',
   'spice',
   'protein',
@@ -321,7 +321,7 @@ export const allIngredients = (() => {
   }
 
   // Build a list of collections in priority order (lowest to highest)
-  const collectionsList = [;
+  const collectionsList = [
     { source: processedSeasonings, priority: 1 }
     { source: processedVegetables, priority: 2 }
     { source: processedFruits, priority: 3 }

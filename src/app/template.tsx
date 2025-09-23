@@ -63,7 +63,7 @@ export default function Template({ children }: TemplateProps) {
     } catch (error) {
       errorHandler.handleError(error, {
         context: 'Template',
-        action: 'hydration'
+        action: 'hydration',
       })
       setHasError(true)
     }

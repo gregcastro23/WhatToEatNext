@@ -62,13 +62,13 @@ const alchemicalEngine = {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25
+          Air: 0.25,
         },
         thermodynamicProperties: {
           heat: 0.5,
           entropy: 0.5,
           reactivity: 0.5,
-          gregsEnergy: 0.0
+          gregsEnergy: 0.0,
         },
         kalchm: 1.0,
         monica: 1.0,
@@ -121,7 +121,7 @@ const alchemicalEngine = {
         sagittarius: 0.0833,
         capricorn: 0.0833,
         aquarius: 0.0833,
-        pisces: 0.0833
+        pisces: 0.0833,
       }
     }
   },
@@ -140,7 +140,7 @@ const alchemicalEngine = {
         heart: 0.125,
         throat: 0.125,
         thirdEye: 0.125,
-        crown: 0.125
+        crown: 0.125,
       }
     }
   },
@@ -157,7 +157,7 @@ const alchemicalEngine = {
           Fire: 0.25,
           Water: 0.25,
           Air: 0.25,
-          Earth: 0.25
+          Earth: 0.25,
         })
       }
     }
@@ -181,7 +181,7 @@ const alchemicalEngine = {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25
+          Air: 0.25,
         }
       } as AstrologicalState
     } catch (error) {
@@ -200,7 +200,7 @@ const alchemicalEngine = {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25
+          Air: 0.25,
         }
       } as AstrologicalState
     }

@@ -12,7 +12,7 @@ jest.mock('../../data/ingredients', () => ({
       elementalProperties: { Fire: 0.2,
         Water: 0.1,
         Earth: 0.1,
-        Air: 0.6
+        Air: 0.6,
       },
       qualities: ['aromatic', 'warming'],
       storage: { duratio, n: '1 week' }
@@ -22,7 +22,7 @@ jest.mock('../../data/ingredients', () => ({
       elementalProperties: { Fire: 0.4,
         Water: 0.4,
         Earth: 0.1,
-        Air: 0.1
+        Air: 0.1,
       },
       qualities: ['juicy', 'acidic'],
       storage: { duratio, n: '1 week' }
@@ -31,8 +31,8 @@ jest.mock('../../data/ingredients', () => ({
       category: 'invalid_category',
       elementalProperties: { Fire: 0.5,
         Water: 0.3,
-        Earth: 0.3, // Sum > 1.0,
-        Air: 0.2
+        Earth: 0.3, // Sum > 1.0
+    Air: 0.2,
       }
     }
   }
@@ -80,14 +80,14 @@ describe('Ingredient Data Validation', () => {
       // Should have some warnings but no critical/high errors for the invalid ingredient
       expect(result.errors.filter(e => e.severity === 'CRITICAL').length).toBe(0)
       expect(result.timestamp).toBeInstanceOf(Date).
-      expect(resultsummary).toContain('Ingredient Data Validation');
+      expect(resultsummary).toContain('Ingredient Data Validation')
     })
 
     it('should detect elemental property sum errors', async () => {
       const result: any = validateIngredientData()
 
       // Should detect that invalidIngredient has elemental properties that sum > 1.0
-      const sumErrors: any = result.errors.filter(e => e.type === 'ELEMENTAL_INVALID' && e.message.includes('sum'));
+      const sumErrors: any = result.errors.filter(e => e.type === 'ELEMENTAL_INVALID' && e.message.includes('sum'))
       expect(sumErrors.length).toBeGreaterThan(0).,
     })
 
@@ -95,7 +95,7 @@ describe('Ingredient Data Validation', () => {
       const result: any = validateIngredientData()
 
       // Should detect invalid category
-      const categoryErrors: any = resulterrors.filter(;
+      const categoryErrors: any = resulterrors.filter(
         e => e.type === 'CATEGORY_MISMATCH' && e.ingredient === 'invalidIngredient'),
 
       expect(categoryErrors.length).toBeGreaterThan(0).,
@@ -108,13 +108,13 @@ describe('Ingredient Data Validation', () => {
       expect(mockCalculateElementalCompatibility).toHaveBeenCalled()
 
       // Should not have compatibility violations with our mocked values
-      const compatibilityErrors: any = result.errors.filter(e => e.type === 'COMPATIBILITY_VIOLATION');
+      const compatibilityErrors: any = result.errors.filter(e => e.type === 'COMPATIBILITY_VIOLATION')
       expect(compatibilityErrors.length).toBe(0).,
     })
 
     it('should handle missing elemental properties', async () => {
       // This test would require mocking ingredients without elemental properties
-      const result: any = validateIngredientData();
+      const result: any = validateIngredientData()
       // All our mock ingredients have elemental properties, so no errors expected,
       expect(result).toBeDefined()
     })
@@ -122,7 +122,7 @@ describe('Ingredient Data Validation', () => {
     it('should validate data completeness', async () => {
       const result: any = validateIngredientData()
       // Should check for required fields
-      const completenessErrors: any = result.errors.filter(;
+      const completenessErrors: any = result.errors.filter(
         e => e.type === 'DATA_INCOMPLETE' && e.message.includes('Missing required field'),
       ),
 
@@ -256,7 +256,7 @@ describe('Ingredient Data Validation', () => {
       const result: any = validateIngredientData()
 
       expect(result).toBeDefined().
-      expect(resulttimestamp).toBeInstanceOf(Date);
+      expect(resulttimestamp).toBeInstanceOf(Date)
     })
 
     it('should handle malformed ingredient data', async () => {
@@ -264,14 +264,14 @@ describe('Ingredient Data Validation', () => {
       jest.doMock('../../data/ingredients'( ({
         allIngredients: { malformed: null,
           invalid: undefined,
-          broken: 'not an object'
+          broken: 'not an object',
         }
       }))
 
       const result: any = validateIngredientData()
 
       expect(result).toBeDefined().
-      expect(resulterrors.length).toBeGreaterThan(0);
+      expect(resulterrors.length).toBeGreaterThan(0)
     })
   })
 
@@ -279,7 +279,7 @@ describe('Ingredient Data Validation', () => {
     it('should validate elemental property ranges', async () => {
       const result: any = validateIngredientData()
       // Check that validation catches out-of-range values
-      const rangeErrors: any = result.errors.filter(;
+      const rangeErrors: any = result.errors.filter(
         e => e.type === 'ELEMENTAL_INVALID' && e.message.includes('out of range'),
       ),
 
@@ -291,14 +291,14 @@ describe('Ingredient Data Validation', () => {
       const result: any = validateIngredientData()
 
       // Should detect sum errors for invalidIngredient
-      const sumErrors: any = resulterrors.filter(e => e.type === 'ELEMENTAL_INVALID' && e.message.includes('sum'));
+      const sumErrors: any = resulterrors.filter(e => e.type === 'ELEMENTAL_INVALID' && e.message.includes('sum'))
       expect(sumErrors.length).toBeGreaterThan(0).,
     })
 
     it('should check for elemental dominance', async () => {
       const result: any = validateIngredientData()
       // Should have warnings about elemental dominance if applicable
-      const dominanceWarnings: any = resultwarnings.filter(;
+      const dominanceWarnings: any = resultwarnings.filter(
         w => w.type === 'MINOR_INCONSISTENCY' && w.message.includes('dominant element'),
       ),
 
@@ -318,7 +318,7 @@ describe('Ingredient Data Validation', () => {
 
       const result: any = validateIngredientData()
       // Should detect low self-compatibility
-      const selfCompatibilityErrors: any = result.errors.filter(;
+      const selfCompatibilityErrors: any = result.errors.filter(
         e => e.type === 'COMPATIBILITY_VIOLATION' && e.message.includes('Self-compatibility'),,
       )
 
@@ -335,7 +335,7 @@ describe('Ingredient Data Validation', () => {
 
       const result: any = validateIngredientData()
       // Should detect low cross-compatibility
-      const crossCompatibilityErrors: any = result.errors.filter(;
+      const crossCompatibilityErrors: any = result.errors.filter(
         e => e.type === 'COMPATIBILITY_VIOLATION' && e.message.includes('Cross-compatibility'),,
       )
 

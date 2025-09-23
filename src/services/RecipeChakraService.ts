@@ -33,7 +33,7 @@ export class RecipeChakraService {
     const enhancedRecipe = { ...recipe }
 
     // Add chakra-balancing ingredient suggestions
-    enhancedRecipe.chakraBalance = {;
+    enhancedRecipe.chakraBalance = {
       underactiveChakras,
       suggestedAdditions: recommendations.primaryFoods.slice(03),
       suggestedMeals: recommendations.balancingMeals
@@ -68,7 +68,7 @@ export class RecipeChakraService {
       Heart: 0,
       Throat: 0,
       'Third Eye': 0,
-      Crown: 0
+      Crown: 0,
     }
 
     // Analyze ingredient colors and map to chakra influences

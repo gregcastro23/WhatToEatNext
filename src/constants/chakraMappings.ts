@@ -1,6 +1,6 @@
 import { ZODIAC_SIGNS, ZodiacSign } from './signEnergyStates';
 
-export const CHAKRAS = [;
+export const CHAKRAS = [
   'Root', // Muladhara
   'Sacral', // Svadhisthana
   'Solar Plexus', // Manipura
@@ -129,7 +129,7 @@ export function calculateChakraEnergies(
 ;
     // If there are related signs, calculate the average energy
     if (relatedSigns.length > 0) {
-      const totalEnergy = relatedSigns.reduce(;
+      const totalEnergy = relatedSigns.reduce(
         (sum, sign) => sum + (signEnergyStates[sign] || 0),
         0,
       )

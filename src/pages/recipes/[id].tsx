@@ -33,7 +33,7 @@ const RecipeDetailsPage: NextPage = () => {;
     Earth: 0.25,
     Air: 0.25,
     season: 'spring',
-    timeOfDay: 'lunch'
+    timeOfDay: 'lunch',
   })
   const [selectedIngredient, setSelectedIngredient] = React.useState<RecipeIngredient | null>(null)
 

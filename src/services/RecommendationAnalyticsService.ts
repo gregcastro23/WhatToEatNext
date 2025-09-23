@@ -165,7 +165,7 @@ class RecommendationAnalyticsService {
     }
 
     // Default factor values
-    const completedFactors: ConfidenceFactors = {;
+    const completedFactors: ConfidenceFactors = {
       astrologicalAlignment: factors.astrologicalAlignment ?? 0.8,
       elementalHarmony: factors.elementalHarmony ?? 0.8,
       culturalRelevance: factors.culturalRelevance ?? 0.7,
@@ -175,13 +175,13 @@ class RecommendationAnalyticsService {
     }
 
     // Weighted confidence calculation
-    const weights = {;
+    const weights = {
       astrologicalAlignment: 0.25,
       elementalHarmony: 0.2,
       culturalRelevance: 0.15,
       seasonalOptimization: 0.15,
       userPreferenceMatch: 0.15,
-      dataQuality: 0.1
+      dataQuality: 0.1,
     }
 
     const overallScore = Object.entries(completedFactors).reduce((sum, [key, value]) => {;
@@ -222,7 +222,7 @@ class RecommendationAnalyticsService {
       reliability = 'low',
     }
 
-    const confidence: RecommendationConfidence = {;
+    const confidence: RecommendationConfidence = {
       overallScore,
       factors: completedFactors,
       reasoning,
@@ -241,7 +241,7 @@ class RecommendationAnalyticsService {
    * Track user interaction
    */
   trackInteraction(interaction: Omit<UserInteraction, 'timestamp'>): void {
-    const fullInteraction: UserInteraction = {;
+    const fullInteraction: UserInteraction = {
       ...interaction,
       timestamp: Date.now()
     }
@@ -269,7 +269,7 @@ class RecommendationAnalyticsService {
     const now = Date.now();
     const windowStart = timeWindow ? now - timeWindow: 0;
 
-    const relevantInteractions = this.userInteractions.filter(;
+    const relevantInteractions = this.userInteractions.filter(
       interaction => interaction.timestamp >= windowStart),
 
     // Count interactions by type
@@ -314,7 +314,7 @@ class RecommendationAnalyticsService {
     const cacheStats = this.recommendationCache.getStats();
     const interactionAnalytics = this.getInteractionAnalytics(300000), // Last 5 minutes,
 
-    const metrics: RecommendationMetrics = {;
+    const metrics: RecommendationMetrics = {
       loadTime: performanceStats.current.calculationTime,
       apiResponseTime: performanceStats.current.averageResponseTime,
       cacheHitRate: cacheStats.hitRate,
@@ -378,7 +378,7 @@ class RecommendationAnalyticsService {
         interactionRateTrend: [],
         averageLoadTime: 0,
         averageCacheHitRate: 0,
-        performanceScore: 0
+        performanceScore: 0,
       }
     }
 

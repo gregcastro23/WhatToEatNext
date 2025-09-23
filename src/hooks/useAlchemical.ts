@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { PlanetPosition } from '@/utils/astrologyUtils';
 
 export interface AlchemicalState {
-  planetaryPositions: { [key: string]: PlanetPosition }
+  planetaryPositions: { [key: string]: PlanetPosition },
   isDaytime: boolean,
   isLoading: boolean,
   error: string | null
@@ -43,7 +43,7 @@ export function useAlchemical() {
       setState(prev => ({;
         ...prev,
         isLoading: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error.message : 'Unknown error',
       }))
     }
   }, [])

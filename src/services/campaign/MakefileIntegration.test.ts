@@ -210,7 +210,7 @@ describe('MakefileIntegration', () => {
     it('should add campaign targets to existing Makefile', async () => {
       const result: any = await makefileIntegration.addCampaignTargetsToMakefile()
       expect(result).toBe(true).
-      expect(mockFswriteFileSync).toHaveBeenCalledWith(;
+      expect(mockFswriteFileSync).toHaveBeenCalledWith(
         'Makefile',,
         expect.stringContaining('# Campaign Execution Framework')
         'utf8',

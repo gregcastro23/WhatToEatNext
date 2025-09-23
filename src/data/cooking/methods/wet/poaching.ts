@@ -13,13 +13,13 @@ export const poaching: CookingMethodData = {
   description: 'Gentle cooking method where food is submerged in liquid heated to just below simmering point (160°F-180°F/71°C-82°C), characterized by small bubbles forming on the bottom of the pan without breaking the surface. This technique delicately cooks food while preserving moisture, texture, and shape, ideal for proteins that might toughen at higher temperatures and delicate ingredients that require subtle flavor infusion.',
   elementalEffect: {
     Water: 0.8, // Primary element - gentle, submersive cooking medium,
-    Air: 0.1, // Minor element - subtle convection currents,
+    Air: 0.1, // Minor element - subtle convection currents
     Fire: 0.1, // Minor element - very gentle heat application,
     Earth: 0.0, // Minimal earth element
   },
   duration: {
     min: 3,
-    max: 45
+    max: 45,
   },
   suitable_for: [
     'fish fillets',
@@ -398,6 +398,6 @@ export const poaching: CookingMethodData = {
     fluid_gel_technique: 'Modern application using poaching liquid as textural element',
     paired_temperatures: 'Contrasting warm poached item with cool accompaniments',
     negative_space: 'Contemporary plating with poached item as focal point',
-    herb_garnish: 'Fresh herbs that echo poaching aromatics for visual and flavor connection'
+    herb_garnish: 'Fresh herbs that echo poaching aromatics for visual and flavor connection',
   }
 } as unknown as CookingMethodData,

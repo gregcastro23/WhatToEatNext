@@ -34,7 +34,7 @@ class PlanetaryKineticsClient {
       _logger.warn('PlanetaryKineticsClient', 'No API URL configured, using fallback mode');
     }
 
-    this.config = {;
+    this.config = {
       baseUrl: apiUrl ||,
                process.env.NEXT_PUBLIC_BACKEND_URL ||
                'https: //your-planetary-agents-backend.onrender.com',
@@ -88,7 +88,7 @@ class PlanetaryKineticsClient {
     location: KineticsLocation,
     options: KineticsOptions,
     cacheKey: string): Promise<KineticsResponse> {
-    const request: KineticsRequest = {;
+    const request: KineticsRequest = {
       location,
       options: {
         includeAgentOptimization: true,
@@ -122,7 +122,7 @@ class PlanetaryKineticsClient {
       return cached as GroupDynamicsResponse;
     }
 
-    const request: GroupDynamicsRequest = {;
+    const request: GroupDynamicsRequest = {
       agentIds: userIds,
       location
     };
@@ -143,7 +143,7 @@ class PlanetaryKineticsClient {
   async getConsciousnessData(
     userId: string,
     location: KineticsLocation): Promise<KineticsResponse> {
-    const options: KineticsOptions = {;
+    const options: KineticsOptions = {
       includeResonanceMap: true,
       agentIds: [userId]
     };
@@ -187,7 +187,7 @@ class PlanetaryKineticsClient {
 
   // Private Methods
 
-  private async makeRequest<T = KineticsResponse>(;
+  private async makeRequest<T = KineticsResponse>(
     endpoint: string,
     data: KineticsRequest | GroupDynamicsRequest): Promise<T> {
     let lastError: Error;
@@ -204,7 +204,7 @@ class PlanetaryKineticsClient {
         });
 
         if (!response.ok) {
-          const error: KineticsError = new Error(;
+          const error: KineticsError = new Error(
             `Kinetics API error: ${response.status} ${response.statusText}`) as KineticsError;
           error.statusCode = response.status;
           error.isKineticsError = true;
@@ -286,7 +286,7 @@ class PlanetaryKineticsClient {
           power: [{
             hour: currentHour,
             power: 0.5,
-            planetary: 'Sun'
+            planetary: 'Sun',
           }],
           timing: {
             planetaryHours: ['Sun', 'Venus', 'Mercury'],
@@ -297,19 +297,19 @@ class PlanetaryKineticsClient {
               Fire: 2.5,
               Water: 2.5,
               Air: 2.5,
-              Earth: 2.5
+              Earth: 2.5,
             }
           }
         },
         agentOptimization: {
           recommendedAgents: ['sun'],
           powerAmplification: 1.0,
-          harmonyScore: 0.5
+          harmonyScore: 0.5,
         },
         powerPrediction: {
           nextPeak: new Date(Date.now() + 3600000).toISOString(),
           trend: 'stable',
-          confidence: 0.5
+          confidence: 0.5,
         }
       },
       computeTimeMs: 5,
@@ -323,9 +323,9 @@ class PlanetaryKineticsClient {
   private createFallbackGroupResponse(userIds: string[], location: KineticsLocation): GroupDynamicsResponse {
     const individualContributions: { [key: string]: { powerContribution: number; harmonyImpact: number } } = {};
     userIds.forEach(id => {
-      individualContributions[id] = {;
+      individualContributions[id] = {
         powerContribution: 0.5,
-        harmonyImpact: 0.5
+        harmonyImpact: 0.5,
       };
     });
 

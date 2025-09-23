@@ -15,7 +15,7 @@ export const flavorProfiles: Record<string, FlavorProfile> = {
       Earth: 0.4,
       Water: 0.3,
       Air: 0.2,
-      Fire: 0.1
+      Fire: 0.1,
     },
     taste: ['sweet', 'mellow', 'rich'],
     intensity: 0.6,
@@ -26,7 +26,7 @@ export const flavorProfiles: Record<string, FlavorProfile> = {
       Water: 0.4,
       Fire: 0.3,
       Earth: 0.2,
-      Air: 0.1
+      Air: 0.1,
     },
     taste: ['salty', 'mineral', 'sharp'],
     intensity: 0.7,
@@ -37,7 +37,7 @@ export const flavorProfiles: Record<string, FlavorProfile> = {
       Water: 0.4,
       Air: 0.3,
       Fire: 0.2,
-      Earth: 0.1
+      Earth: 0.1,
     },
     taste: ['sour', 'tart', 'bright'],
     intensity: 0.8,
@@ -48,7 +48,7 @@ export const flavorProfiles: Record<string, FlavorProfile> = {
       Fire: 0.4,
       Air: 0.3,
       Earth: 0.2,
-      Water: 0.1
+      Water: 0.1,
     },
     taste: ['bitter', 'astringent', 'complex'],
     intensity: 0.9,
@@ -59,7 +59,7 @@ export const flavorProfiles: Record<string, FlavorProfile> = {
       Earth: 0.4,
       Fire: 0.3,
       Water: 0.2,
-      Air: 0.1
+      Air: 0.1,
     },
     taste: ['savory', 'meaty', 'rich'],
     intensity: 0.7,
@@ -70,7 +70,7 @@ export const flavorProfiles: Record<string, FlavorProfile> = {
       Fire: 0.6,
       Air: 0.2,
       Earth: 0.1,
-      Water: 0.1
+      Water: 0.1,
     },
     taste: ['hot', 'pungent', 'sharp'],
     intensity: 0.9,
@@ -81,7 +81,7 @@ export const flavorProfiles: Record<string, FlavorProfile> = {
       Air: 0.5,
       Fire: 0.2,
       Earth: 0.2,
-      Water: 0.1
+      Water: 0.1,
     },
     taste: ['fragrant', 'complex', 'ethereal'],
     intensity: 0.6,
@@ -92,7 +92,7 @@ export const flavorProfiles: Record<string, FlavorProfile> = {
       Water: 0.5,
       Air: 0.3,
       Earth: 0.1,
-      Fire: 0.1
+      Fire: 0.1,
     },
     taste: ['fresh', 'mild', 'crisp'],
     intensity: 0.4,
@@ -104,7 +104,7 @@ export const flavorProfiles: Record<string, FlavorProfile> = {
       Earth: 0.6,
       Water: 0.2,
       Fire: 0.1,
-      Air: 0.1
+      Air: 0.1,
     },
     taste: ['mushroomy', 'mineral', 'deep'],
     intensity: 0.5,
@@ -116,12 +116,12 @@ export const flavorProfiles: Record<string, FlavorProfile> = {
       Fire: 0.4,
       Air: 0.4,
       Earth: 0.1,
-      Water: 0.1
+      Water: 0.1,
     },
     taste: ['sharp', 'biting', 'intense'],
     intensity: 0.8,
     pairings: ['sweet', 'umami', 'earthy'],
-    description: 'Dispersing and warming, aids circulation'
+    description: 'Dispersing and warming, aids circulation',
   }
 }
 

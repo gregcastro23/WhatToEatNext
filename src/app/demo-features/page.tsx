@@ -20,29 +20,29 @@ export default function DemoFeaturesPage() {
     <div style={{
       minHeight: '100vh',
       backgroundColor: '#f8f9fa',
-      padding: '20px'
+      padding: '20px',
     }}>
       <div style={{
         maxWidth: '1200px',
-        margin: '0 auto'
+        margin: '0 auto',
       }}>
         {/* Header */}
         <div style={{
           textAlign: 'center',
-          marginBottom: '40px'
+          marginBottom: '40px',
         }}>
           <h1 style={{
             fontSize: '32px',
             fontWeight: '700',
             color: '#333',
-            marginBottom: '8px'
+            marginBottom: '8px',
           }}>
             🔮 WhatToEatNext Advanced Features
           </h1>
           <p style={{
             fontSize: '16px',
             color: '#666',
-            margin: 0
+            margin: 0,
           }}>
             Real-time WebSocket integration and enhanced API-driven recommendations
           </p>
@@ -53,7 +53,7 @@ export default function DemoFeaturesPage() {
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
           gap: '20px',
-          marginBottom: '30px'
+          marginBottom: '30px',
         }}>
           <PlanetaryHourDisplay showDetails={true} />
           <EnergyVisualization showDetails={true} showHistory={true} />
@@ -63,7 +63,7 @@ export default function DemoFeaturesPage() {
         <div style={{
           display: 'flex',
           justifyContent: 'center',
-          marginBottom: '30px'
+          marginBottom: '30px',
         }}>
           <CelestialEventNotifications
             maxNotifications={3}
@@ -76,7 +76,7 @@ export default function DemoFeaturesPage() {
         <div style={{
           display: 'flex',
           justifyContent: 'center',
-          marginBottom: '30px'
+          marginBottom: '30px',
         }}>
           <EnhancedRecommendationEngine
             onRecipeSelect={handleRecipeSelect}
@@ -92,13 +92,13 @@ export default function DemoFeaturesPage() {
             backgroundColor: '#fff',
             maxWidth: '600px',
             margin: '0 auto',
-            boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
+            boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
           }}>
             <h3 style={{
               margin: '0 0 16px 0',
               fontSize: '20px',
               fontWeight: '600',
-              color: '#007bff'
+              color: '#007bff',
             }}>
               🍽️ Selected Recipe
             </h3>
@@ -106,14 +106,14 @@ export default function DemoFeaturesPage() {
               <h4 style={{
                 margin: '0 0 8px 0',
                 fontSize: '18px',
-                color: '#333'
+                color: '#333',
               }}>
                 {selectedRecipe.name}
               </h4>
               <p style={{
                 margin: '0 0 12px 0',
                 fontSize: '14px',
-                color: '#666'
+                color: '#666',
               }}>
                 Recipe ID: {selectedRecipe.id}
               </p>
@@ -130,7 +130,7 @@ export default function DemoFeaturesPage() {
                     textDecoration: 'none',
                     borderRadius: '6px',
                     fontSize: '14px',
-                    fontWeight: '500'
+                    fontWeight: '500',
                   }}
                 >
                   View Recipe →
@@ -146,19 +146,19 @@ export default function DemoFeaturesPage() {
           padding: '20px',
           backgroundColor: '#e7f3ff',
           borderRadius: '8px',
-          border: '1px solid #b8daff'
+          border: '1px solid #b8daff',
         }}>
           <h3 style={{
             margin: '0 0 12px 0',
             fontSize: '18px',
-            color: '#004085'
+            color: '#004085',
           }}>
             🚀 Feature Highlights
           </h3>
           <ul style={{
             margin: 0,
             paddingLeft: '20px',
-            color: '#004085'
+            color: '#004085',
           }}>
             <li><strong>Real-time Planetary Hours:</strong> Live WebSocket updates with visual countdown</li>
             <li><strong>Energy Visualization:</strong> Dynamic elemental energy charts with history tracking</li>
@@ -177,7 +177,7 @@ export default function DemoFeaturesPage() {
           borderRadius: '6px',
           border: '1px solid #dee2e6',
           fontSize: '14px',
-          color: '#6c757d'
+          color: '#6c757d',
         }}>
           <p style={{ margin: '0 0 8px 0' }}>
             <strong>Development Status:</strong> All components ready for backend integration

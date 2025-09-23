@@ -87,10 +87,10 @@ interface CLIOptions {
 
     if (this.options.severityThreshold) {
       // Adjust security thresholds based on severity level
-      const thresholds = {;
-        critical: { autoFixCritical: true, autoFixHigh: false }
+      const thresholds = {
+        critical: { autoFixCritical: true, autoFixHigh: false },
         high: { autoFixCritical: true, autoFixHigh: true }
-        moderate: { autoFixCritical: true, autoFixHigh: true }
+        moderate: { autoFixCritical: true, autoFixHigh: true },
         low: { autoFixCritical: true, autoFixHigh: true }
       }
 
@@ -258,7 +258,7 @@ interface CLIOptions {
       // // // _logger.info('\n✅ Applied Updates: ')
       (updateReport as any)?.appliedUpdates?.forEach((update: any) => {
         const securityIcon = update?.securityFix ? '🔒' : '📦'
-        // // // _logger.info(;
+        // // // _logger.info(
           `  ${securityIcon} ${update.packageName}: ${update?.currentVersion} → ${update.latestVersion}`,
         )
       })
@@ -295,7 +295,7 @@ interface CLIOptions {
   }
 
   private getSeverityIcon(severity: string): string {
-    const icons = {;
+    const icons = {
       critical: '🚨',
       high: '⚠️',
       moderate: '📋',
@@ -304,7 +304,7 @@ interface CLIOptions {
   }
 
   private getUpdateTypeIcon(updateType: string): string {
-    const icons = {;
+    const icons = {
       major: '🔴',
       minor: '🟡',
       patch: '🟢' },

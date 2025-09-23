@@ -150,7 +150,7 @@ export function safeArray<T>(value: unknown, defaultValue: T[] = []): T[] {
  * // Return user.age with default 0
  * safeProperty(user, 'age', 0, (val) => typeof val === 'number')
  */
-export function safeProperty<T>(;
+export function safeProperty<T>(
   obj: unknown,
   key: string,
   defaultValue: T,

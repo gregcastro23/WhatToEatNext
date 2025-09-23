@@ -93,7 +93,7 @@ export type TimeData = {
   [season in Season]?: Dish[];
 }
 
-export type CuisineData = {;
+export type CuisineData = {
   name: string,
   recipes: Recipe[],
   score?: number,
@@ -122,7 +122,7 @@ export type Cuisines = {
 }
 
 // Helper type for time-based context
-export type TimeOfDay = {;
+export type TimeOfDay = {
   hour: number,
   minute: number,
   period: MealTime,

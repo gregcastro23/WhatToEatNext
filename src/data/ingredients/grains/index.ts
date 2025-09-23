@@ -13,7 +13,7 @@ export const allGrains: Record<string, IngredientMapping> = fixIngredientMapping
 })
 
 // Fix the raw grains object with proper ingredient mapping structure
-const rawGrains = {;
+const rawGrains = {
   ...wholeGrains,
   ...refinedGrains,
   ...pseudoGrains
@@ -46,7 +46,7 @@ export const _grainPreparationMethods = {
         quick_method: {
       duration: '1-2 hours',
       benefits: ['shorter prep time', 'some improvement in cooking'],
-      method: 'hot water (not boiling)'
+      method: 'hot water (not boiling)',
     }
   }
 }

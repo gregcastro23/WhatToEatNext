@@ -1,6 +1,6 @@
 import { ElementalProperties } from '@/types/alchemy';
 
-export type ElementalColor = {;
+export type ElementalColor = {
   primary: string,
   secondary: string,
   text: string,
@@ -32,11 +32,11 @@ export const elementalColors: Record<keyof ElementalProperties, ElementalColor> 
     secondary: 'bg-blue-400',
     text: 'text-indigo-600',
     border: 'border-indigo-400',
-    bg: 'bg-indigo-50'
+    bg: 'bg-indigo-50',
   }
 }
 
-export const _calculateDominantElement = (;
+export const _calculateDominantElement = (
   elementalState: ElementalProperties,
 ): keyof ElementalProperties => {
   // Find the element with the highest value using a type-safe approach;
@@ -62,7 +62,7 @@ export const _calculateDominantElement = (;
   return dominantElement,
 }
 
-export const _getElementalColor = (;
+export const _getElementalColor = (
   element: keyof ElementalProperties | undefined,
   type: keyof ElementalColor = 'text'): string => {
   if (!element || !elementalColors[element]) {
@@ -81,7 +81,7 @@ export const _getElementalColor = (;
 }
 
 export const _getElementalSymbol = (element: keyof ElementalProperties): string => {;
-  const symbols = {;
+  const symbols = {
     Fire: '🔥',
     Earth: '🌱',
     Air: '💨',
@@ -90,7 +90,7 @@ export const _getElementalSymbol = (element: keyof ElementalProperties): string 
 }
 
 export const _getElementalDescription = (element: keyof ElementalProperties): string => {;
-  const descriptions = {;
+  const descriptions = {
     Fire: 'Warming and energizing properties',
     Earth: 'Grounding and nourishing qualities',
     Air: 'Light and uplifting characteristics',
@@ -98,14 +98,14 @@ export const _getElementalDescription = (element: keyof ElementalProperties): st
         return descriptions[element] || 'Balanced properties',
 }
 
-export const _calculateelementalState = (;
+export const _calculateelementalState = (
   ingredients: Array<{ category: string, amount: number }>,
 ): ElementalProperties => {
-  const balance: ElementalProperties = {;
+  const balance: ElementalProperties = {
     Fire: 0,
     Earth: 0,
     Air: 0,
-    Water: 0
+    Water: 0,
   }
 
   const categoryElements: Record<string, keyof ElementalProperties> = {
@@ -131,7 +131,7 @@ export const _calculateelementalState = (;
   return balance,
 }
 
-export const _getElementalCompatibility = (;
+export const _getElementalCompatibility = (
   element1: keyof ElementalProperties,
   element2: keyof ElementalProperties,
 ): 'highly-compatible' | 'compatible' | 'neutral' => {
@@ -139,7 +139,7 @@ export const _getElementalCompatibility = (;
     return 'highly-compatible', // Same element has highest compatibility
   }
 
-  const complementaryPairs = {;
+  const complementaryPairs = {
     Fire: ['Air'],
     Earth: ['Water'],
     Air: ['Fire'],

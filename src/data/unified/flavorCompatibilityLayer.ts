@@ -92,12 +92,12 @@ export function calculateFlavorMatch(_profile1, _profile2: {}): number {
  * @deprecated Use unified engine with cuisine profiles instead
  */
 export function calculateCuisineFlavorMatch(
-  recipeFlavorProfile: { [key: string]: number }
+  recipeFlavorProfile: { [key: string]: number },
   cuisineName: string,
 ): number {
   try {
     // Find cuisine profile in unified system
-    const cuisineProfile = unifiedFlavorEngine.getProfile(;
+    const cuisineProfile = unifiedFlavorEngine.getProfile(
       `cuisine-${cuisineName.toLowerCase().replace(/\s+/g, '-')}`,
     )
 
@@ -124,7 +124,7 @@ export function calculateCuisineFlavorMatch(
  * @deprecated Use unified engine with planetary profiles instead
  */
 export function calculatePlanetaryFlavorMatch(
-  recipeFlavors: { [key: string]: number }
+  recipeFlavors: { [key: string]: number },
   planetaryInfluences: { [key: string]: number }): number {
   try {
     // Convert recipe to unified format
@@ -135,7 +135,7 @@ export function calculatePlanetaryFlavorMatch(
 
     if (!strongestPlanet) return 0.5,
 
-    const planetProfile = unifiedFlavorEngine.getProfile(;
+    const planetProfile = unifiedFlavorEngine.getProfile(
       `planetary-${strongestPlanet[0].toLowerCase()}`,
     )
 
@@ -160,7 +160,7 @@ export function calculatePlanetaryFlavorMatch(
  */
 export function getFlavorProfileForIngredient(ingredientName: string): LegacyFlavorProfile {
   try {
-    const ingredientProfile = unifiedFlavorEngine.getProfile(;
+    const ingredientProfile = unifiedFlavorEngine.getProfile(
       `ingredient-${ingredientName.toLowerCase().replace(/\s+/g, '-')}`,
     )
 
@@ -204,7 +204,7 @@ export function findCompatibleProfiles(
  */
 export function getCuisineProfile(cuisineName: string): LegacyCuisineProfile | null {
   try {
-    const cuisineProfile = unifiedFlavorEngine.getProfile(;
+    const cuisineProfile = unifiedFlavorEngine.getProfile(
       `cuisine-${cuisineName.toLowerCase().replace(/\s+/g, '-')}`,
     )
 
@@ -256,7 +256,7 @@ export function calculateElementalCompatibility(
 
 function convertLegacyToUnified(legacyProfile, _id: string): UnifiedFlavorProfile {
   // Extract base notes from various legacy formats
-  const baseNotes: BaseFlavorNotes = {;
+  const baseNotes: BaseFlavorNotes = {
     sweet: legacyProfile.sweet || legacyProfile.flavorProfiles?.sweet || 0,
     sour: legacyProfile.sour || legacyProfile.flavorProfiles?.sour || 0,
     salty: legacyProfile.salty || legacyProfile.flavorProfiles?.salty || 0,
@@ -287,7 +287,7 @@ function convertLegacyToUnified(legacyProfile, _id: string): UnifiedFlavorProfil
       Spirit: 0.25,
       Essence: 0.25,
       Matter: 0.25,
-      Substance: 0.25
+      Substance: 0.25,
     }
 
     seasonalPeak: legacyProfile.seasonalPeak || ['spring', 'summer', 'autumn', 'winter'],
@@ -295,7 +295,7 @@ function convertLegacyToUnified(legacyProfile, _id: string): UnifiedFlavorProfil
       spring: 0.5,
       summer: 0.5,
       autumn: 0.5,
-      winter: 0.5
+      winter: 0.5,
     },
     culturalOrigins: legacyProfile.culturalOrigins || ['Universal'],
     pairingRecommendations: legacyProfile.pairingRecommendations || [],
@@ -350,7 +350,7 @@ function createMinimalProfile(
       salty: 0.25,
       bitter: 0.25,
       umami: 0.25,
-      spicy: 0.25
+      spicy: 0.25,
     },
     elementalFlavors: elementalProperties,
     intensity: 0.5,
@@ -358,7 +358,7 @@ function createMinimalProfile(
 
     kalchm: 1.0,
     monicaOptimization: 1.0,
-    alchemicalProperties: { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 }
+    alchemicalProperties: { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 },
     seasonalPeak: ['spring', 'summer', 'autumn', 'winter'],
     seasonalModifiers: {
       spring: 0.5,
@@ -366,7 +366,7 @@ function createMinimalProfile(
       autumn: 0.5,
       fall: 0.5,
       winter: 0.5,
-      all: 0.5
+      all: 0.5,
     },
     culturalOrigins: ['Universal'],
     pairingRecommendations: [],

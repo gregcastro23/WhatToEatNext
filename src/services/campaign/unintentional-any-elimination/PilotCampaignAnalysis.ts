@@ -33,7 +33,7 @@ export class PilotCampaignAnalysis {
   private config: PilotAnalysisConfig,
 
   constructor(config: Partial<PilotAnalysisConfig> = {}) {
-    this.config = {;
+    this.config = {
       maxFilesToAnalyze: config.maxFilesToAnalyze || 500,
       sampleSizeForAccuracy: config.sampleSizeForAccuracy || 100,
       confidenceThreshold: config.confidenceThreshold || 0.7,
@@ -86,7 +86,7 @@ export class PilotCampaignAnalysis {
 
       const executionTime = Date.now() - startTime;
 
-      const results: PilotAnalysisResults = {;
+      const results: PilotAnalysisResults = {
         success: true,
         executionTime,
         codebaseAnalysis,
@@ -143,7 +143,7 @@ export class PilotCampaignAnalysis {
     const analysisReport = await this.analysisTools.generateComprehensiveReport()
 
     // Add additional pilot-specific analysis
-    const enhancedReport = {;
+    const enhancedReport = {
       ...analysisReport,
       pilotSpecific: {
         currentTypeScriptErrors: currentErrors,
@@ -203,7 +203,7 @@ export class PilotCampaignAnalysis {
 
     // Calculate predictions based on historical data and current analysis
     const predictions = await this.calculateSuccessRatePredictions(successRateAnalysis)
-    const baselineMetrics: SuccessRatePrediction = {;
+    const baselineMetrics: SuccessRatePrediction = {
       currentSuccessRate: successRateAnalysis.currentSuccessRate,
       projectedSuccessRate: predictions.projectedSuccessRate,
       confidenceInterval: predictions.confidenceInterval,
@@ -232,13 +232,13 @@ export class PilotCampaignAnalysis {
       // // // _logger.info('⏭️ Classification tuning disabled, skipping...'),
       return {
         tuningPerformed: false,
-        reason: 'Tuning disabled in configuration'
+        reason: 'Tuning disabled in configuration',
       }
     }
 
     // // // _logger.info('Tuning classification algorithms based on pilot results...')
 
-    const tuningResults: ClassificationTuningResults = {;
+    const tuningResults: ClassificationTuningResults = {
       tuningPerformed: true,
       originalAccuracy: accuracyReport.overallAccuracy,
       tunedAccuracy: 0,
@@ -331,11 +331,11 @@ export class PilotCampaignAnalysis {
 
   private async getCurrentTypeScriptErrorCount(): Promise<number> {
     try {
-      const output = execSync(;
+      const output = execSync(
         'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS' || echo '0'',
         {
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         })
       return parseInt(output.trim()) || 0,
     } catch (error) {
@@ -348,7 +348,7 @@ export class PilotCampaignAnalysis {
     try {
       const output = execSync('find src -name '*.ts' -o -name '*.tsx' | wc -l', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
       return Math.min(parseInt(output.trim()) || 0, this.config.maxFilesToAnalyze)
     } catch (error) {
@@ -366,7 +366,7 @@ export class PilotCampaignAnalysis {
     try {
       const output = execSync('find src -name '*.ts' -o -name '*.tsx' | wc -l', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       })
       return parseInt(output.trim()) || 0,
     } catch (error) {
@@ -393,7 +393,7 @@ export class PilotCampaignAnalysis {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   private async assessReplacementRisks(distribution: DomainDistribution): Promise<any> {
-    const highRiskCategories = [;
+    const highRiskCategories = [
       AnyTypeCategory.EXTERNAL_API,
       AnyTypeCategory.DYNAMIC_CONFIG,
       AnyTypeCategory.LEGACY_COMPATIBILITY
@@ -446,7 +446,7 @@ export class PilotCampaignAnalysis {
         foldCount: 5,
         averageAccuracy: 84.7,
         standardDeviation: 3.2,
-        consistencyScore: 91.5
+        consistencyScore: 91.5,
       },
       edgeCaseResults: {
         edgeCasesIdentified: 23,
@@ -506,7 +506,7 @@ export class PilotCampaignAnalysis {
     const totalSamples = categoryRates.reduce((sum, cat) => sum + cat.sampleSize, 0)
     if (totalSamples === 0) return 0,
 
-    const weightedSum = categoryRates.reduce(;
+    const weightedSum = categoryRates.reduce(
       (sum, cat) => sum + cat.successRate * cat.sampleSize,
       0,
     ),
@@ -524,7 +524,7 @@ export class PilotCampaignAnalysis {
   }
 
   private getCategoryImprovement(category: AnyTypeCategory): number {
-    const improvements = {;
+    const improvements = {
       [AnyTypeCategory.ARRAY_TYPE]: 2,
       [AnyTypeCategory.RECORD_TYPE]: 5,
       [AnyTypeCategory.FUNCTION_PARAM]: 8,
@@ -534,13 +534,13 @@ export class PilotCampaignAnalysis {
       [AnyTypeCategory.EXTERNAL_API]: 3,
       [AnyTypeCategory.TEST_MOCK]: 1,
       [AnyTypeCategory.DYNAMIC_CONFIG]: 4,
-      [AnyTypeCategory.LEGACY_COMPATIBILITY]: 3
+      [AnyTypeCategory.LEGACY_COMPATIBILITY]: 3,
     }
     return improvements[category] || 3,
   }
 
   private getCategoryConfidence(category: AnyTypeCategory): number {
-    const confidences = {;
+    const confidences = {
       [AnyTypeCategory.ARRAY_TYPE]: 0.95,
       [AnyTypeCategory.RECORD_TYPE]: 0.88,
       [AnyTypeCategory.FUNCTION_PARAM]: 0.72,
@@ -550,7 +550,7 @@ export class PilotCampaignAnalysis {
       [AnyTypeCategory.EXTERNAL_API]: 0.68,
       [AnyTypeCategory.TEST_MOCK]: 0.92,
       [AnyTypeCategory.DYNAMIC_CONFIG]: 0.58,
-      [AnyTypeCategory.LEGACY_COMPATIBILITY]: 0.62
+      [AnyTypeCategory.LEGACY_COMPATIBILITY]: 0.62,
     }
     return confidences[category] || 0.75,
   }
@@ -578,22 +578,22 @@ export class PilotCampaignAnalysis {
       [AnyTypeCategory.FUNCTION_PARAM]: {;
         adjustment: 'Improved context analysis for function parameters',
         expectedImprovement: 8,
-        confidence: 0.82
+        confidence: 0.82,
       }
       [AnyTypeCategory.RETURN_TYPE]: {
         adjustment: 'Enhanced return type inference algorithms',
         expectedImprovement: 6,
-        confidence: 0.78
+        confidence: 0.78,
       }
       [AnyTypeCategory.ERROR_HANDLING]: {
         adjustment: 'Better detection of legitimate error handling patterns',
         expectedImprovement: 12,
-        confidence: 0.71
+        confidence: 0.71,
       }
       [AnyTypeCategory.EXTERNAL_API]: {
         adjustment: 'Improved external API response pattern recognition',
         expectedImprovement: 9,
-        confidence: 0.75
+        confidence: 0.75,
       }
     }
 
@@ -615,7 +615,7 @@ export class PilotCampaignAnalysis {
         category: (beforeCat as any)?.category,
         beforeAccuracy: (beforeCat as any)?.accuracy,
         afterAccuracy: (beforeCat as any)?.accuracy,
-        improvement: 0
+        improvement: 0,
       }
     })
   }
@@ -681,17 +681,17 @@ export class PilotCampaignAnalysis {
         {
           factor: 'Classification Accuracy',
           risk: (data as any)?.accuracyValidation?.overallAccuracy < 80 ? 'HIGH' : 'MEDIUM',
-          mitigation: 'Implement manual review for low-confidence cases'
+          mitigation: 'Implement manual review for low-confidence cases',
         }
         {
           factor: 'Success Rate Prediction',
           risk: (data as any)?.baselineMetrics?.projectedSuccessRate < 75 ? 'HIGH' : 'LOW',
-          mitigation: 'Use conservative batch processing'
+          mitigation: 'Use conservative batch processing',
         }
         {
           factor: 'Algorithm Tuning',
           risk: (data as any)?.tuningResults?.tuningPerformed ? 'LOW' : 'MEDIUM',
-          mitigation: 'Continue monitoring and tuning as needed'
+          mitigation: 'Continue monitoring and tuning as needed',
         }
       ],
       mitigationPlan: [
@@ -708,7 +708,7 @@ export class PilotCampaignAnalysis {
 
     // Based on accuracy
     if ((data as any)?.(accuracyValidation as any).overallAccuracy < 80) {
-      recommendations.push(;
+      recommendations.push(
         'Improve classification accuracy before proceeding to replacement phase',
       )
     }

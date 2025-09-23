@@ -34,13 +34,13 @@ describe('Safety Protocol Integration Tests', () => {;
   let mockConfig: CampaignConfig,
 
   beforeEach(() => {
-    mockSafetySettings = {;
+    mockSafetySettings = {
       maxFilesPerBatch: 25,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7
+      stashRetentionDays: 7,
     }
 
     mockConfig = {
@@ -52,22 +52,22 @@ describe('Safety Protocol Integration Tests', () => {;
           tools: [
             {
               scriptPath: 'scripts/test-script.js',
-              parameters: { maxFile, s: 10, autoFix: true }
+              parameters: { maxFile, s: 10, autoFix: true },
               batchSize: 10,
               safetyLevel: SafetyLevel.HIGH
             }
           ],
-          successCriteria: { typeScriptError, s: 0 }
+          successCriteria: { typeScriptError, s: 0 },
           safetyCheckpoints: []
         }
       ],
       safetySettings: mockSafetySettings,
-      progressTargets: { typeScriptError, s: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 }
+      progressTargets: { typeScriptError, s: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 },
       toolConfiguration: {
         enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
       }
     }
 
@@ -418,7 +418,7 @@ import type type Something, { ab } from '/module';
       recentDate.setDate(recentDate.getDate() - 3); // 3 days old
 
       // Manually add stashes to simulate age
-      const oldStash: any = {;
+      const oldStash: any = {
         id: 'old-stash',
         description: 'Old stash',
         timestamp: oldDate,
@@ -426,7 +426,7 @@ import type type Something, { ab } from '/module';
         ref: 'stash@{1}',
       }
 
-      const recentStash: any = {;
+      const recentStash: any = {
         id: 'recent-stash',
         description: 'Recent stash',
         timestamp: recentDate,
@@ -467,9 +467,9 @@ import type type Something, { ab } from '/module';
       // Mock successful execution with safety protocols,
       jest.spyOn(campaignController as unknown, 'createSafetyCheckpoint').mockResolvedValue('checkpoint-1')
       jest.spyOn(campaignController as unknown, 'getCurrentMetrics').mockResolvedValue({
-        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 }
+        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 }
-        buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 }
+        buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
         enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
       })
 

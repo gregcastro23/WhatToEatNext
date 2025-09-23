@@ -9,9 +9,9 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     name: 'Olive Oil',
     category: 'oil',
     subCategory: 'cooking',
-    elementalProperties: { Fire: 0.3, Earth: 0.3, Air: 0.2, Water: 0.2 }
+    elementalProperties: { Fire: 0.3, Earth: 0.3, Air: 0.2, Water: 0.2 },
     seasonality: ['spring', 'summer', 'fall', 'winter'],
-    smokePoint: { celsius: 207, fahrenheit: 405 }
+    smokePoint: { celsius: 207, fahrenheit: 405 },
     qualities: ['healthy', 'versatile', 'rich'],
     nutritionalProfile: {
       calories: 119,
@@ -50,11 +50,11 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         firstQuarter: {
-          elementalBoost: { Fire: 0.1, Earth: 0.1 }
+          elementalBoost: { Fire: 0.1, Earth: 0.1 },
           preparationTips: ['Best for dressings']
         },
         fullMoon: {
-          elementalBoost: { Fire: 0.2 }
+          elementalBoost: { Fire: 0.2 },
           preparationTips: ['Ideal for finishing dishes']
         }
       }
@@ -67,12 +67,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.2,
       Water: 0.3,
       Earth: 0.3,
-      Air: 0.2
+      Air: 0.2,
     },
     seasonality: ['all'],
     smokePoint: {
       celsius: 177,
-      fahrenheit: 350
+      fahrenheit: 350,
     },
     qualities: ['sweet', 'tropical', 'solid'],
     nutritionalProfile: {
@@ -97,16 +97,16 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'glass jar',
       duration: '24 months',
       temperature: 'room temperature',
-      notes: 'Solidifies below room temperature'
+      notes: 'Solidifies below room temperature',
     }
   },
   sesame_oil: {
     name: 'Sesame Oil',
     category: 'oil',
     subCategory: 'finishing',
-    elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 }
+    elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
     seasonality: ['fall', 'winter'],
-    smokePoint: { celsius: 210, fahrenheit: 410 }
+    smokePoint: { celsius: 210, fahrenheit: 410 },
     qualities: ['nutty', 'aromatic', 'warming'],
     nutritionalProfile: {
       calories: 120,
@@ -146,11 +146,11 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         waxingCrescent: {
-          elementalBoost: { Fire: 0.1, Air: 0.1 }
+          elementalBoost: { Fire: 0.1, Air: 0.1 },
           preparationTips: ['Best for stir-frying']
         },
         fullMoon: {
-          elementalBoost: { Fire: 0.2 }
+          elementalBoost: { Fire: 0.2 },
           preparationTips: ['Ideal for finishing dishes']
         }
       }
@@ -160,9 +160,9 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     name: 'Ghee',
     category: 'oil',
     subCategory: 'cooking',
-    elementalProperties: { Fire: 0.45, Water: 0.15, Earth: 0.25, Air: 0.15 }
+    elementalProperties: { Fire: 0.45, Water: 0.15, Earth: 0.25, Air: 0.15 },
     seasonality: ['spring', 'summer', 'fall', 'winter'],
-    smokePoint: { celsius: 250, fahrenheit: 482 }
+    smokePoint: { celsius: 250, fahrenheit: 482 },
     qualities: ['rich', 'nutty', 'clarified'],
     nutritionalProfile: {
       calories: 123,
@@ -186,16 +186,16 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'glass jar',
       duration: '12 months',
       temperature: 'room temperature',
-      notes: 'No refrigeration needed'
+      notes: 'No refrigeration needed',
     }
   },
   avocado_oil: {
     name: 'Avocado Oil',
     category: 'oil',
     subCategory: 'cooking',
-    elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2 }
+    elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2 },
     seasonality: ['spring', 'summer', 'fall', 'winter'],
-    smokePoint: { celsius: 271, fahrenheit: 520 }
+    smokePoint: { celsius: 271, fahrenheit: 520 },
     qualities: ['buttery', 'neutral', 'high-heat'],
     nutritionalProfile: {
       calories: 124,
@@ -220,7 +220,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '12 months',
       temperature: 'room temperature',
-      notes: 'Store away from direct light and heat'
+      notes: 'Store away from direct light and heat',
     }
   }
   'peanut oil': {
@@ -230,12 +230,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.4,
       Water: 0.2,
       Earth: 0.3,
-      Air: 0.1
+      Air: 0.1,
     },
     seasonality: ['all'],
     smokePoint: {
       celsius: 232,
-      fahrenheit: 450
+      fahrenheit: 450,
     },
     qualities: ['nutty', 'neutral', 'high-heat'],
     nutritionalProfile: {
@@ -260,7 +260,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '24 months',
       temperature: 'room temperature',
-      notes: 'Store away from heat and light'
+      notes: 'Store away from heat and light',
     }
   }
   'mustard oil': {
@@ -270,12 +270,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.5,
       Water: 0.1,
       Earth: 0.2,
-      Air: 0.2
+      Air: 0.2,
     },
     seasonality: ['all'],
     smokePoint: {
       celsius: 254,
-      fahrenheit: 490
+      fahrenheit: 490,
     },
     qualities: ['pungent', 'spicy', 'strong'],
     preparation: {
@@ -289,7 +289,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '12 months',
       temperature: 'room temperature',
-      notes: 'Keep tightly sealed'
+      notes: 'Keep tightly sealed',
     }
   }
   'walnut oil': {
@@ -299,12 +299,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.2,
       Water: 0.2,
       Earth: 0.4,
-      Air: 0.2
+      Air: 0.2,
     },
     seasonality: ['Autumn', 'Winter'],
     smokePoint: {
       celsius: 160,
-      fahrenheit: 320
+      fahrenheit: 320,
     },
     qualities: ['nutty', 'delicate', 'rich'],
     nutritionalProfile: {
@@ -329,7 +329,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '6-12 months',
       temperature: 'refrigerated',
-      notes: 'Goes rancid quickly if not refrigerated'
+      notes: 'Goes rancid quickly if not refrigerated',
     }
   }
   'rice bran oil': {
@@ -339,12 +339,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.3,
       Water: 0.2,
       Earth: 0.3,
-      Air: 0.2
+      Air: 0.2,
     },
     seasonality: ['all'],
     smokePoint: {
       celsius: 232,
-      fahrenheit: 450
+      fahrenheit: 450,
     },
     qualities: ['mild', 'neutral', 'versatile'],
     preparation: {
@@ -358,7 +358,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '24 months',
       temperature: 'room temperature',
-      notes: 'Store in a cool, dark place'
+      notes: 'Store in a cool, dark place',
     }
   }
   'chili oil': {
@@ -368,12 +368,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.6,
       Water: 0.1,
       Earth: 0.2,
-      Air: 0.1
+      Air: 0.1,
     },
     seasonality: ['all'],
     smokePoint: {
       celsius: 215,
-      fahrenheit: 420
+      fahrenheit: 420,
     },
     qualities: ['spicy', 'aromatic', 'intense'],
     preparation: {
@@ -387,7 +387,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'glass jar',
       duration: '6 months',
       temperature: 'room temperature',
-      notes: 'Keep away from direct sunlight'
+      notes: 'Keep away from direct sunlight',
     }
   }
   'perilla oil': {
@@ -397,12 +397,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.3,
       Water: 0.2,
       Earth: 0.2,
-      Air: 0.3
+      Air: 0.3,
     },
     seasonality: ['all'],
     smokePoint: {
       celsius: 165,
-      fahrenheit: 330
+      fahrenheit: 330,
     },
     qualities: ['nutty', 'grassy', 'complex'],
     preparation: {
@@ -416,7 +416,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '6 months',
       temperature: 'refrigerated',
-      notes: 'Keep refrigerated to prevent rancidity'
+      notes: 'Keep refrigerated to prevent rancidity',
     }
   }
   'camellia oil': {
@@ -426,12 +426,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.2,
       Water: 0.3,
       Earth: 0.3,
-      Air: 0.2
+      Air: 0.2,
     },
     seasonality: ['all'],
     smokePoint: {
       celsius: 245,
-      fahrenheit: 473
+      fahrenheit: 473,
     },
     qualities: ['light', 'clean', 'delicate'],
     preparation: {
@@ -445,7 +445,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '12 months',
       temperature: 'room temperature',
-      notes: 'Store in a cool, dark place'
+      notes: 'Store in a cool, dark place',
     }
   }
   'grapeseed oil': {
@@ -455,12 +455,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.2,
       Water: 0.3,
       Earth: 0.2,
-      Air: 0.3
+      Air: 0.3,
     },
     seasonality: ['all'],
     smokePoint: {
       celsius: 216,
-      fahrenheit: 421
+      fahrenheit: 421,
     },
     qualities: ['light', 'clean', 'versatile'],
     nutritionalProfile: {
@@ -486,7 +486,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '6 months',
       temperature: 'room temperature',
-      notes: 'Can go rancid quickly if not stored properly'
+      notes: 'Can go rancid quickly if not stored properly',
     }
   }
   'macadamia oil': {
@@ -496,12 +496,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.2,
       Water: 0.2,
       Earth: 0.4,
-      Air: 0.2
+      Air: 0.2,
     },
     seasonality: ['all'],
     smokePoint: {
       celsius: 210,
-      fahrenheit: 410
+      fahrenheit: 410,
     },
     qualities: ['buttery', 'rich', 'smooth'],
     preparation: {
@@ -515,7 +515,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '12 months',
       temperature: 'room temperature',
-      notes: 'Store in a cool, dark place'
+      notes: 'Store in a cool, dark place',
     }
   }
   'palm oil': {
@@ -525,12 +525,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.4,
       Water: 0.1,
       Earth: 0.4,
-      Air: 0.1
+      Air: 0.1,
     },
     seasonality: ['all'],
     smokePoint: {
       celsius: 235,
-      fahrenheit: 455
+      fahrenheit: 455,
     },
     qualities: ['rich', 'heavy', 'stable'],
     preparation: {
@@ -544,7 +544,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'opaque container',
       duration: '24 months',
       temperature: 'room temperature',
-      notes: 'Solid at room temperature'
+      notes: 'Solid at room temperature',
     }
   }
   'tea seed oil': {
@@ -554,12 +554,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.3,
       Water: 0.2,
       Earth: 0.2,
-      Air: 0.3
+      Air: 0.3,
     },
     seasonality: ['all'],
     smokePoint: {
       celsius: 252,
-      fahrenheit: 485
+      fahrenheit: 485,
     },
     qualities: ['light', 'clean', 'subtle'],
     preparation: {
@@ -573,7 +573,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '18 months',
       temperature: 'room temperature',
-      notes: 'Keep away from direct light'
+      notes: 'Keep away from direct light',
     }
   }
   'shiso oil': {
@@ -583,12 +583,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.2,
       Water: 0.2,
       Earth: 0.2,
-      Air: 0.4
+      Air: 0.4,
     },
     seasonality: ['Summer', 'Autumn'],
     smokePoint: {
       celsius: 170,
-      fahrenheit: 338
+      fahrenheit: 338,
     },
     qualities: ['herbaceous', 'aromatic', 'delicate'],
     preparation: {
@@ -602,7 +602,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '3 months',
       temperature: 'refrigerated',
-      notes: 'Best used fresh, store cold'
+      notes: 'Best used fresh, store cold',
     }
   }
   'argan oil': {
@@ -612,12 +612,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.2,
       Water: 0.2,
       Earth: 0.4,
-      Air: 0.2
+      Air: 0.2,
     },
     seasonality: ['all'],
     smokePoint: {
       celsius: 185,
-      fahrenheit: 365
+      fahrenheit: 365,
     },
     qualities: ['nutty', 'rich', 'exotic'],
     preparation: {
@@ -631,7 +631,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '12 months',
       temperature: 'room temperature',
-      notes: 'Keep tightly sealed in dark place'
+      notes: 'Keep tightly sealed in dark place',
     }
   }
   'hazelnut oil': {
@@ -641,12 +641,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.2,
       Water: 0.2,
       Earth: 0.4,
-      Air: 0.2
+      Air: 0.2,
     },
     seasonality: ['Autumn', 'Winter'],
     smokePoint: {
       celsius: 221,
-      fahrenheit: 430
+      fahrenheit: 430,
     },
     qualities: ['nutty', 'sweet', 'aromatic'],
     preparation: {
@@ -660,7 +660,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '8 months',
       temperature: 'refrigerated',
-      notes: 'Keep refrigerated to prevent rancidity'
+      notes: 'Keep refrigerated to prevent rancidity',
     }
   }
   'pistachio oil': {
@@ -670,12 +670,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.2,
       Water: 0.2,
       Earth: 0.3,
-      Air: 0.3
+      Air: 0.3,
     },
     seasonality: ['all'],
     smokePoint: {
       celsius: 160,
-      fahrenheit: 320
+      fahrenheit: 320,
     },
     qualities: ['nutty', 'delicate', 'distinctive'],
     preparation: {
@@ -689,7 +689,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '6 months',
       temperature: 'refrigerated',
-      notes: 'Store in refrigerator after opening'
+      notes: 'Store in refrigerator after opening',
     }
   }
   'hemp seed oil': {
@@ -699,12 +699,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.1,
       Water: 0.3,
       Earth: 0.3,
-      Air: 0.3
+      Air: 0.3,
     },
     seasonality: ['all'],
     smokePoint: {
       celsius: 165,
-      fahrenheit: 330
+      fahrenheit: 330,
     },
     qualities: ['grassy', 'nutty', 'earthy'],
     preparation: {
@@ -718,7 +718,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '12 months',
       temperature: 'refrigerated',
-      notes: 'Very sensitive to heat and light'
+      notes: 'Very sensitive to heat and light',
     }
   }
   'black seed oil': {
@@ -728,12 +728,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.4,
       Water: 0.2,
       Earth: 0.2,
-      Air: 0.2
+      Air: 0.2,
     },
     seasonality: ['all'],
     smokePoint: {
       celsius: 177,
-      fahrenheit: 350
+      fahrenheit: 350,
     },
     qualities: ['pungent', 'bitter', 'medicinal'],
     preparation: {
@@ -747,7 +747,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '12 months',
       temperature: 'room temperature',
-      notes: 'Keep tightly sealed in dark place'
+      notes: 'Keep tightly sealed in dark place',
     }
   }
   'almond oil': {
@@ -757,12 +757,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.2,
       Water: 0.3,
       Earth: 0.3,
-      Air: 0.2
+      Air: 0.2,
     },
     seasonality: ['all'],
     smokePoint: {
       celsius: 216,
-      fahrenheit: 420
+      fahrenheit: 420,
     },
     qualities: ['sweet', 'delicate', 'nutty'],
     nutritionalProfile: {
@@ -788,7 +788,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '12 months',
       temperature: 'refrigerated',
-      notes: 'Keep refrigerated after opening'
+      notes: 'Keep refrigerated after opening',
     }
   }
   'sunflower oil': {
@@ -798,12 +798,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.3,
       Water: 0.2,
       Earth: 0.2,
-      Air: 0.3
+      Air: 0.3,
     },
     seasonality: ['all'],
     smokePoint: {
       celsius: 232,
-      fahrenheit: 450
+      fahrenheit: 450,
     },
     qualities: ['light', 'neutral', 'versatile'],
     nutritionalProfile: {
@@ -828,7 +828,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'plastic or glass bottle',
       duration: '24 months',
       temperature: 'room temperature',
-      notes: 'Store in a cool, dark place'
+      notes: 'Store in a cool, dark place',
     }
   }
   'safflower oil': {
@@ -838,12 +838,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.3,
       Water: 0.2,
       Earth: 0.2,
-      Air: 0.3
+      Air: 0.3,
     },
     seasonality: ['all'],
     smokePoint: {
       celsius: 266,
-      fahrenheit: 510
+      fahrenheit: 510,
     },
     qualities: ['neutral', 'light', 'high-heat'],
     preparation: {
@@ -857,7 +857,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '24 months',
       temperature: 'room temperature',
-      notes: 'Store away from direct light'
+      notes: 'Store away from direct light',
     }
   }
   'white truffle oil': {
@@ -867,12 +867,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.1,
       Water: 0.2,
       Earth: 0.4,
-      Air: 0.3
+      Air: 0.3,
     },
     seasonality: ['Autumn', 'Winter'],
     smokePoint: {
       celsius: 160,
-      fahrenheit: 320
+      fahrenheit: 320,
     },
     qualities: ['intense', 'earthy', 'aromatic'],
     preparation: {
@@ -886,7 +886,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '6 months',
       temperature: 'refrigerated',
-      notes: 'Use within 6 months of opening'
+      notes: 'Use within 6 months of opening',
     }
   }
   'flaxseed oil': {
@@ -896,12 +896,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.1,
       Water: 0.3,
       Earth: 0.3,
-      Air: 0.3
+      Air: 0.3,
     },
     seasonality: ['all'],
     smokePoint: {
       celsius: 107,
-      fahrenheit: 225
+      fahrenheit: 225,
     },
     qualities: ['nutty', 'earthy', 'delicate'],
     nutritionalProfile: {
@@ -926,7 +926,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '4-6 months',
       temperature: 'refrigerated',
-      notes: 'Highly perishable, keep refrigerated'
+      notes: 'Highly perishable, keep refrigerated',
     }
   }
   'red palm oil': {
@@ -936,12 +936,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.4,
       Water: 0.1,
       Earth: 0.4,
-      Air: 0.1
+      Air: 0.1,
     },
     seasonality: ['all'],
     smokePoint: {
       celsius: 235,
-      fahrenheit: 455
+      fahrenheit: 455,
     },
     qualities: ['rich', 'earthy', 'robust'],
     preparation: {
@@ -955,7 +955,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'opaque container',
       duration: '24 months',
       temperature: 'room temperature',
-      notes: 'May solidify at cooler temperatures'
+      notes: 'May solidify at cooler temperatures',
     }
   }
   'roasted pumpkin seed oil': {
@@ -965,12 +965,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.3,
       Water: 0.2,
       Earth: 0.3,
-      Air: 0.2
+      Air: 0.2,
     },
     seasonality: ['Autumn', 'Winter'],
     smokePoint: {
       celsius: 160,
-      fahrenheit: 320
+      fahrenheit: 320,
     },
     qualities: ['nutty', 'rich', 'dark'],
     preparation: {
@@ -984,7 +984,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '12 months',
       temperature: 'refrigerated',
-      notes: 'Keep refrigerated after opening'
+      notes: 'Keep refrigerated after opening',
     }
   }
   'mustard seed oil': {
@@ -994,12 +994,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.5,
       Water: 0.1,
       Earth: 0.2,
-      Air: 0.2
+      Air: 0.2,
     },
     seasonality: ['all'],
     smokePoint: {
       celsius: 254,
-      fahrenheit: 490
+      fahrenheit: 490,
     },
     qualities: ['pungent', 'sharp', 'intense'],
     preparation: {
@@ -1013,7 +1013,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '12 months',
       temperature: 'room temperature',
-      notes: 'Store in a cool, dark place'
+      notes: 'Store in a cool, dark place',
     }
   }
   'babassu oil': {
@@ -1023,12 +1023,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.2,
       Water: 0.3,
       Earth: 0.3,
-      Air: 0.2
+      Air: 0.2,
     },
     seasonality: ['all'],
     smokePoint: {
       celsius: 232,
-      fahrenheit: 450
+      fahrenheit: 450,
     },
     qualities: ['mild', 'nutty', 'light'],
     preparation: {
@@ -1042,7 +1042,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'glass jar',
       duration: '24 months',
       temperature: 'room temperature',
-      notes: 'Solid at room temperature'
+      notes: 'Solid at room temperature',
     }
   }
   'apricot kernel oil': {
@@ -1052,12 +1052,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.2,
       Water: 0.3,
       Earth: 0.2,
-      Air: 0.3
+      Air: 0.3,
     },
     seasonality: ['all'],
     smokePoint: {
       celsius: 204,
-      fahrenheit: 400
+      fahrenheit: 400,
     },
     qualities: ['sweet', 'nutty', 'delicate'],
     preparation: {
@@ -1071,7 +1071,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '12 months',
       temperature: 'room temperature',
-      notes: 'Keep away from direct light'
+      notes: 'Keep away from direct light',
     }
   }
   'grape seed oil': {
@@ -1081,12 +1081,12 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.3,
       Water: 0.2,
       Earth: 0.2,
-      Air: 0.3
+      Air: 0.3,
     },
     seasonality: ['all'],
     smokePoint: {
       celsius: 216,
-      fahrenheit: 420
+      fahrenheit: 420,
     },
     qualities: ['clean', 'light', 'versatile'],
     nutritionalProfile: {
@@ -1112,16 +1112,16 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       container: 'dark glass bottle',
       duration: '6 months',
       temperature: 'room temperature',
-      notes: 'Store in a cool, dark place'
+      notes: 'Store in a cool, dark place',
     }
   },
   canola_oil: {
     name: 'Canola Oil',
     category: 'oil',
     subCategory: 'cooking',
-    elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.2, Air: 0.3 }
+    elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.2, Air: 0.3 },
     seasonality: ['spring', 'summer', 'fall', 'winter'],
-    smokePoint: { celsius: 204, fahrenheit: 400 }
+    smokePoint: { celsius: 204, fahrenheit: 400 },
     qualities: ['neutral', 'versatile', 'heart-healthy'],
     nutritionalProfile: {
       calories: 124,
@@ -1159,11 +1159,11 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         waxingCrescent: {
-          elementalBoost: { Air: 0.1, Fire: 0.1 }
+          elementalBoost: { Air: 0.1, Fire: 0.1 },
           preparationTips: ['Good for light sautéing']
         },
         fullMoon: {
-          elementalBoost: { Air: 0.15 }
+          elementalBoost: { Air: 0.15 },
           preparationTips: ['Best for baking']
         }
       }
@@ -1173,9 +1173,9 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     name: 'MCT Oil',
     category: 'oil',
     subCategory: 'specialty',
-    elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 }
+    elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
     seasonality: ['spring', 'summer', 'fall', 'winter'],
-    smokePoint: { celsius: 160, fahrenheit: 320 }
+    smokePoint: { celsius: 160, fahrenheit: 320 },
     qualities: ['neutral', 'odorless', 'liquid'],
     nutritionalProfile: {
       calories: 130,
@@ -1214,11 +1214,11 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         waxingCrescent: {
-          elementalBoost: { Fire: 0.2 }
+          elementalBoost: { Fire: 0.2 },
           preparationTips: ['Best added to morning beverages']
         },
         newMoon: {
-          elementalBoost: { Fire: 0.15, Air: 0.1 }
+          elementalBoost: { Fire: 0.15, Air: 0.1 },
           preparationTips: ['Ideal for fasting periods']
         }
       }

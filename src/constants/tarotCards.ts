@@ -221,7 +221,7 @@ export const _TAROT_CARDS = {
     element: 'Fire',
     energyState: 'Spirit',
     quantum: 1.0,
-    description: 'Represents the pure essence of Spirit energy - creativity, inspiration, and new beginnings'
+    description: 'Represents the pure essence of Spirit energy - creativity, inspiration, and new beginnings',
   }
   'Page of Wands': {
     name: 'Page of Wands',
@@ -247,7 +247,7 @@ export const _TAROT_CARDS = {
     element: 'Water',
     energyState: 'Essence',
     quantum: 1.0,
-    description: 'Represents the pure essence of Essence energy - emotions, intuition, and relationships'
+    description: 'Represents the pure essence of Essence energy - emotions, intuition, and relationships',
   }
   'Page of Cups': {
     name: 'Page of Cups',
@@ -273,7 +273,7 @@ export const _TAROT_CARDS = {
     element: 'Air',
     energyState: 'Matter',
     quantum: 1.0,
-    description: 'Represents the pure essence of Matter energy - intellect, clarity, and truth'
+    description: 'Represents the pure essence of Matter energy - intellect, clarity, and truth',
   }
   'Page of Swords': {
     name: 'Page of Swords',
@@ -299,7 +299,7 @@ export const _TAROT_CARDS = {
     element: 'Earth',
     energyState: 'Substance',
     quantum: 1.0,
-    description: 'Represents the pure essence of Substance energy - material wealth, stability, and practicality'
+    description: 'Represents the pure essence of Substance energy - material wealth, stability, and practicality',
   }
   'Page of Pentacles': {
     name: 'Page of Pentacles',
@@ -443,7 +443,7 @@ export const _DECAN_RULERS = {
   '330-340': 'Neptune',
   '340-350': 'Moon',
   '350-360': 'Pluto' },
-        export const _MAJOR_ARCANA = {;
+        export const _MAJOR_ARCANA = {
   'The Fool': { planet: 'Uranus', element: 'Air' }
   'The Magician': { planet: 'Mercury', element: 'Air' }
   'The High Priestess': { planet: 'Moon', element: 'Water' }
@@ -468,7 +468,7 @@ export const _DECAN_RULERS = {
   'The World': { planet: 'Saturn', element: 'Earth' }
 }
 
-export const _PLANET_TO_MAJOR_ARCANA = {;
+export const _PLANET_TO_MAJOR_ARCANA = {
   Sun: 'The Sun',
   Moon: 'The Moon',
   Mercury: 'The Magician',

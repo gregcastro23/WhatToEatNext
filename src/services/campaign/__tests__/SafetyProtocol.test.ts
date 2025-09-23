@@ -28,13 +28,13 @@ describe('SafetyProtocol', () => {
   let mockSettings: SafetySettings,
 
   beforeEach(() => {;
-    mockSettings = {;
+    mockSettings = {
       maxFilesPerBatch: 25,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7
+      stashRetentionDays: 7,
     }
 
     safetyProtocol = new SafetyProtocol(mockSettings)
@@ -137,12 +137,12 @@ describe('SafetyProtocol', () => {
     let mockStash: GitStash,
 
     beforeEach(() => {
-      mockStash = {;
+      mockStash = {
         id: 'test-stash-1',
         description: 'Test stash description',
         timestamp: new Date(),
         branch: 'main',
-        ref: 'stash@{0}'
+        ref: 'stash@{0}',
       }
 
       // Add stash to internal map
@@ -203,14 +203,14 @@ describe('SafetyProtocol', () => {
   describe('autoApplyLatestStash', () => {
     beforeEach(() => {
       // Add multiple stashes with different timestamps
-      const stash1: any = {;
+      const stash1: any = {
         id: 'stash-1',
         description: 'First stash',
         timestamp: new Date('2023-01-01'),
         branch: 'main',
         ref: 'stash@{1}',
       }
-      const stash2: any = {;
+      const stash2: any = {
         id: 'stash-2',
         description: 'Latest stash',
         timestamp: new Date('2023-01-02'),
@@ -439,7 +439,7 @@ import something, { ab } from './module';
 
   describe('emergencyRollback', () => {
     beforeEach(() => {
-      const stash: any = {;
+      const stash: any = {
         id: 'emergency-stash',
         description: 'Emergency stash',
         timestamp: new Date(),
@@ -536,7 +536,7 @@ import something, { ab } from './module';
       const recentDate: any = new Date();
       recentDate.setDate(recentDate.getDate() - 3), // 3 days old
 
-      const oldStash: any = {;
+      const oldStash: any = {
         id: 'old-stash',
         description: 'Old stash',
         timestamp: oldDate,
@@ -544,7 +544,7 @@ import something, { ab } from './module';
         ref: 'stash@{1}',
       }
 
-      const recentStash: any = {;
+      const recentStash: any = {
         id: 'recent-stash',
         description: 'Recent stash',
         timestamp: recentDate,
@@ -597,21 +597,21 @@ import something, { ab } from './module';
 
   describe('getStashStatistics', () => {
     beforeEach(() => {
-      const stash1: any = {;
+      const stash1: any = {
         id: 'campaign-phase1-1-timestamp',
         description: 'Phase 1 stash',
         timestamp: new Date('2023-01-01'),
         branch: 'main',
       }
 
-      const stash2: any = {;
+      const stash2: any = {
         id: 'campaign-phase2-2-timestamp',
         description: 'Phase 2 stash',
         timestamp: new Date('2023-01-02'),
         branch: 'main',
       }
 
-      const stash3: any = {;
+      const stash3: any = {
         id: 'campaign-phase1-3-timestamp',
         description: 'Another Phase 1 stash',
         timestamp: new Date('2023-01-03'),
@@ -736,7 +736,7 @@ import something, { ab } from './module';
           timestamp: new Date(),
           description: `Event ${i}`,
           severity: SafetyEventSeverity.INFO,
-          action: 'TEST'
+          action: 'TEST',
         })
       }
 
@@ -752,12 +752,12 @@ import something, { ab } from './module';
           timestamp: new Date(),
           description: `Event ${i}`,
           severity: SafetyEventSeverity.INFO,
-          action: 'TEST'
+          action: 'TEST',
         })
       }
 
       const events: any = (safetyProtocol as any).safetyEvents
-      expect(events[events.length - 1].description).toBe(;
+      expect(events[events.length - 1].description).toBe(
         'Event 1099',,
       )
     })

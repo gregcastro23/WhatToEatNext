@@ -22,7 +22,7 @@ export function toEngineElementalAffinity(standardAffinity: ElementalAffinity): 
   // Apply safe type casting for ElementalAffinity property access
   const affinityData = standardAffinity as unknown
 
-  return {;
+  return {
     ...standardAffinity,
     element: affinityData?.base,
     strength: affinityData?.strength || 1,

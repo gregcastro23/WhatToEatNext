@@ -14,9 +14,9 @@ import { logger } from '@/lib/logger';
 interface PerformanceMetrics {
   // Cache performance
   cacheStats: {
-    elemental: { hits: number; misses: number; hitRate: number; size: number }
+    elemental: { hits: number; misses: number; hitRate: number; size: number },
     planetary: { hits: number; misses: number; hitRate: number; size: number }
-    recipe: { hits: number; misses: number; hitRate: number; size: number }
+    recipe: { hits: number; misses: number; hitRate: number; size: number },
     user: { hits: number; misses: number; hitRate: number; size: number }
   }
 
@@ -43,16 +43,16 @@ interface PerformanceConfig {
   enableMemoryTracking: boolean,
 }
 
-export function usePerformanceMonitoring(config: PerformanceConfig = {;
+export function usePerformanceMonitoring(config: PerformanceConfig = {
   updateInterval: 5000,
   trackWebVitals: true,
   enableMemoryTracking: false
 }) {
   const [metrics, setMetrics] = useState<PerformanceMetrics>({
     cacheStats: {
-      elemental: { hits: 0, misses: 0, hitRate: 0, size: 0 }
+      elemental: { hits: 0, misses: 0, hitRate: 0, size: 0 },
       planetary: { hits: 0, misses: 0, hitRate: 0, size: 0 }
-      recipe: { hits: 0, misses: 0, hitRate: 0, size: 0 }
+      recipe: { hits: 0, misses: 0, hitRate: 0, size: 0 },
       user: { hits: 0, misses: 0, hitRate: 0, size: 0 }
     },
     renderTime: 0,
@@ -200,7 +200,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {;
       const now = Date.now()
 
       setMetrics(prev => {
-        const updated = {;
+        const updated = {
           ...prev,
           cacheStats,
           lastUpdated: now

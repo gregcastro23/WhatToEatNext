@@ -14,7 +14,7 @@ import path from 'node:path'
 
 import { classifyFileKind, isHighImpactFile } from './domainPreservation';
 
-type Finding = {;
+type Finding = {
   filePath: string,
   fileKind: ReturnType<typeof classifyFileKind>,
   variableName: string,
@@ -25,7 +25,7 @@ type Finding = {;
   confidence: number
 }
 
-type CliOptions = {;
+type CliOptions = {
   inPath: string,
   dryRun: boolean,
   maxBatch: number,
@@ -43,7 +43,7 @@ function parseArgs(argv: string[]): CliOptions {
     maxBatch: maxBatchIdx !== -1 && argv[maxBatchIdx + 1] ? Number(argv[maxBatchIdx + 1]) : 15,
     maxBatchCritical: maxBatchCriticalIdx !== -1 && argv[maxBatchCriticalIdx + 1]
         ? Number(argv[maxBatchCriticalIdx + 1])
-        : 8
+        : 8,
   }
 }
 
@@ -56,7 +56,7 @@ function execCmd(_cmd: string): { code: number, stdout: string stderr: string } 
     return {
       code: e.status ?? 1,
       stdout: e.stdout ? e.stdout.toString() : '',
-      stderr: e.stderr ? e.stderr.toString() : 'Execution failed'
+      stderr: e.stderr ? e.stderr.toString() : 'Execution failed',
     }
   }
 }

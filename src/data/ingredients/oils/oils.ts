@@ -9,9 +9,9 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     name: 'Olive Oil',
     category: 'oil',
     subCategory: 'cooking',
-    elementalProperties: { Fire: 0.3, Earth: 0.3, Air: 0.2, Water: 0.2 }
+    elementalProperties: { Fire: 0.3, Earth: 0.3, Air: 0.2, Water: 0.2 },
     seasonality: ['spring', 'summer', 'fall', 'winter'],
-    smokePoint: { celsius: 207, fahrenheit: 405 }
+    smokePoint: { celsius: 207, fahrenheit: 405 },
     qualities: ['healthy', 'versatile', 'rich'],
     nutritionalProfile: {
       serving_size: '1 tbsp',
@@ -51,11 +51,11 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         firstQuarter: {
-          elementalBoost: { Fire: 0.1, Earth: 0.1 }
+          elementalBoost: { Fire: 0.1, Earth: 0.1 },
           preparationTips: ['Best for dressings']
         },
         fullMoon: {
-          elementalBoost: { Fire: 0.2 }
+          elementalBoost: { Fire: 0.2 },
           preparationTips: ['Ideal for finishing dishes']
         }
       }
@@ -87,9 +87,9 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     name: 'Coconut Oil',
     category: 'oil',
     subCategory: 'cooking',
-    elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.3, Air: 0.1 }
+    elementalProperties: { Fire: 0.1, Water: 0.5, Earth: 0.3, Air: 0.1 },
     seasonality: ['all'],
-    smokePoint: { celsius: 177, fahrenheit: 350 }
+    smokePoint: { celsius: 177, fahrenheit: 350 },
     qualities: ['versatile', 'nourishing', 'antimicrobial', 'stable', 'aromatic', 'purifying'],
     nutritionalProfile: {
       serving_size: '1 tbsp',
@@ -131,11 +131,11 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         fullMoon: {
-          elementalBoost: { Water: 0.2 }
+          elementalBoost: { Water: 0.2 },
           preparationTips: ['Enhanced purification properties during full moon']
         },
         newMoon: {
-          elementalBoost: { Earth: 0.2 }
+          elementalBoost: { Earth: 0.2 },
           preparationTips: ['Best time for protective and grounding rituals']
         }
       }
@@ -227,9 +227,9 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     name: 'Palm Oil',
     category: 'oil',
     subCategory: 'cooking',
-    elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.4, Air: 0.1 }
+    elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.4, Air: 0.1 },
     seasonality: ['all'],
-    smokePoint: { celsius: 235, fahrenheit: 455 }
+    smokePoint: { celsius: 235, fahrenheit: 455 },
     qualities: ['versatile', 'stable', 'semi-solid', 'balanced', 'nourishing'],
     nutritionalProfile: {
       serving_size: '1 tbsp',
@@ -238,7 +238,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       saturated_fat_g: 7,
       monounsaturated_fat_g: 5,
       polyunsaturated_fat_g: 1,
-      vitamin_e_mg: 2.1
+      vitamin_e_mg: 2.1,
     },
     culinaryApplications: {
       frying: {
@@ -289,9 +289,9 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     name: 'Sesame Oil',
     category: 'oil',
     subCategory: 'finishing',
-    elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 }
+    elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
     seasonality: ['fall', 'winter'],
-    smokePoint: { celsius: 210, fahrenheit: 410 }
+    smokePoint: { celsius: 210, fahrenheit: 410 },
     qualities: ['nutty', 'aromatic', 'warming'],
     nutritionalProfile: {
       serving_size: '1 tbsp',
@@ -332,11 +332,11 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         waxingCrescent: {
-          elementalBoost: { Fire: 0.1, Air: 0.1 }
+          elementalBoost: { Fire: 0.1, Air: 0.1 },
           preparationTips: ['Best for stir-frying']
         },
         fullMoon: {
-          elementalBoost: { Fire: 0.2 }
+          elementalBoost: { Fire: 0.2 },
           preparationTips: ['Ideal for finishing dishes']
         }
       }
@@ -363,9 +363,9 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     name: 'Avocado Oil',
     category: 'oil',
     subCategory: 'cooking',
-    elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.4, Air: 0.1 }
+    elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.4, Air: 0.1 },
     seasonality: ['spring', 'summer', 'fall', 'winter'],
-    smokePoint: { celsius: 270, fahrenheit: 520 }
+    smokePoint: { celsius: 270, fahrenheit: 520 },
     qualities: ['buttery', 'nutty', 'grassy', 'versatile', 'smooth', 'rich'],
     nutritionalProfile: {
       serving_size: '1 tbsp',
@@ -406,11 +406,11 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         fullMoon: {
-          elementalBoost: { Earth: 0.2, Water: 0.1 }
+          elementalBoost: { Earth: 0.2, Water: 0.1 },
           preparationTips: ['Enhanced beauty and prosperity properties during full moon']
         },
         waxingCrescent: {
-          elementalBoost: { Water: 0.1, Earth: 0.2 }
+          elementalBoost: { Water: 0.1, Earth: 0.2 },
           preparationTips: ['Best time for healing skin treatments']
         }
       }
@@ -483,9 +483,9 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     name: 'Walnut Oil',
     category: 'oil',
     subCategory: 'finishing',
-    elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 }
+    elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     seasonality: ['fall', 'winter'],
-    smokePoint: { celsius: 160, fahrenheit: 320 }
+    smokePoint: { celsius: 160, fahrenheit: 320 },
     qualities: ['nutty', 'rich', 'aromatic', 'warming', 'complex'],
     nutritionalProfile: {
       serving_size: '1 tbsp',
@@ -562,9 +562,9 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     name: 'Almond Oil',
     category: 'oil',
     subCategory: 'specialty',
-    elementalProperties: { Fire: 0.1, Water: 0.3, Earth: 0.4, Air: 0.2 }
+    elementalProperties: { Fire: 0.1, Water: 0.3, Earth: 0.4, Air: 0.2 },
     seasonality: ['spring', 'summer', 'fall', 'winter'],
-    smokePoint: { celsius: 216, fahrenheit: 420 }
+    smokePoint: { celsius: 216, fahrenheit: 420 },
     qualities: ['subtle', 'delicate', 'sweet', 'mild', 'versatile'],
     nutritionalProfile: {
       serving_size: '1 tbsp',
@@ -625,9 +625,9 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     name: 'Sunflower Oil',
     category: 'oil',
     subCategory: 'cooking',
-    elementalProperties: { Fire: 0.4, Water: 0.1, Earth: 0.2, Air: 0.3 }
+    elementalProperties: { Fire: 0.4, Water: 0.1, Earth: 0.2, Air: 0.3 },
     seasonality: ['summer', 'fall'],
-    smokePoint: { celsius: 232, fahrenheit: 450 }
+    smokePoint: { celsius: 232, fahrenheit: 450 },
     qualities: ['light', 'neutral', 'versatile', 'sunny', 'clear', 'bright'],
     nutritionalProfile: {
       serving_size: '1 tbsp',
@@ -667,7 +667,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       },
       lunarPhaseModifiers: {
         fullMoon: {
-          elementalBoost: { Fire: 0.2, Air: 0.1 }
+          elementalBoost: { Fire: 0.2, Air: 0.1 },
           preparationTips: ['Enhanced energy properties during full moon']
         }
       }
@@ -721,9 +721,9 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     name: 'Peanut Oil',
     category: 'oil',
     subCategory: 'cooking',
-    elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 }
+    elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 },
     seasonality: ['spring', 'summer', 'fall', 'winter'],
-    smokePoint: { celsius: 232, fahrenheit: 450 }
+    smokePoint: { celsius: 232, fahrenheit: 450 },
     qualities: ['nutty', 'earthy', 'robust', 'durable', 'grounding'],
     nutritionalProfile: {
       serving_size: '1 tbsp',
@@ -801,9 +801,9 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     name: 'Rice Bran Oil',
     category: 'oil',
     subCategory: 'cooking',
-    elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 }
+    elementalProperties: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
     seasonality: ['spring', 'summer', 'fall', 'winter'],
-    smokePoint: { celsius: 232, fahrenheit: 450 }
+    smokePoint: { celsius: 232, fahrenheit: 450 },
     qualities: ['mild', 'versatile', 'stable', 'balanced', 'clean'],
     nutritionalProfile: {
       serving_size: '1 tbsp',
@@ -880,9 +880,9 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     name: 'Mustard Oil',
     category: 'oil',
     subCategory: 'cooking',
-    elementalProperties: { Fire: 0.5, Water: 0.1, Earth: 0.3, Air: 0.1 }
+    elementalProperties: { Fire: 0.5, Water: 0.1, Earth: 0.3, Air: 0.1 },
     seasonality: ['winter', 'spring'],
-    smokePoint: { celsius: 254, fahrenheit: 490 }
+    smokePoint: { celsius: 254, fahrenheit: 490 },
     qualities: ['pungent', 'strong', 'sharp', 'warming', 'stimulating'],
     nutritionalProfile: {
       serving_size: '1 tbsp',
@@ -961,9 +961,9 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     name: 'Macadamia Oil',
     category: 'oil',
     subCategory: 'finishing',
-    elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 }
+    elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.5, Air: 0.2 },
     seasonality: ['spring', 'summer', 'fall', 'winter'],
-    smokePoint: { celsius: 210, fahrenheit: 410 }
+    smokePoint: { celsius: 210, fahrenheit: 410 },
     qualities: ['buttery', 'smooth', 'delicate', 'luxurious', 'subtle'],
     nutritionalProfile: {
       serving_size: '1 tbsp',
