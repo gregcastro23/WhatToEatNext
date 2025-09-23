@@ -73,7 +73,7 @@ export class PerformanceCache<T> {
     entry.lastAccessed = now,
     this.hitCount++,
 
-    return entry.data,
+    return entry.data;
   }
 
   /**
@@ -104,15 +104,14 @@ export class PerformanceCache<T> {
    */
   has(key: string): boolean {
     const entry = this.cache.get(key);
-    if (!entry) return false,
-
+    if (!entry) return false;
     const now = Date.now()
     if (now - entry.timestamp > entry.ttl) {
       this.cache.delete(key)
       return false;
     }
 
-    return true,
+    return true;
   }
 
   /**
@@ -202,10 +201,9 @@ export class PerformanceCache<T> {
    * Estimate object size in bytes (rough calculation)
    */
   private estimateObjectSize(obj: unknown): number {
-    if (obj === null || obj === undefined) return 0,
-
-    if (typeof obj === 'string') return (obj || []).length * 2,
-    if (typeof obj === 'number') return 8,
+    if (obj === null || obj === undefined) return 0;
+    if (typeof obj === 'string') return (obj || []).length * 2;
+    if (typeof obj === 'number') return 8;
     if (typeof obj === 'boolean') return 4
 
     if (Array.isArray(obj)) {;
@@ -218,7 +216,7 @@ export class PerformanceCache<T> {
         size += (key || []).length * 2, // Key size
         size += this.estimateObjectSize(value), // Value size
       }
-      return size,
+      return size;
     }
 
     return 64; // Default size for unknown types
@@ -289,7 +287,7 @@ export class PerformanceMonitor {
       this.metrics.shift()
     }
 
-    return snapshot,
+    return snapshot;
   }
 
   /**

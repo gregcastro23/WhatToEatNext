@@ -66,8 +66,7 @@ const rawRefinedGrains = {
         preparationTips: ['Excellent for risotto', 'Creamy texture enhanced']
       }
     }
-  }
-
+  },
   semolina: {
     name: 'Semolina',
     elementalProperties: { Earth: 0.4, Air: 0.4, Fire: 0.2, Water: 0.1 },
@@ -129,8 +128,7 @@ const rawRefinedGrains = {
         preparationTips: ['Good for couscous', 'Creates light, fluffy texture']
       }
     }
-  }
-
+  },
   pearl_barley: {
     name: 'Pearl Barley',
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
@@ -191,8 +189,7 @@ const rawRefinedGrains = {
         preparationTips: ['Good for salads', 'Enhanced nutty flavor']
       }
     }
-  }
-
+  },
   polished_farro: {
     name: 'Polished Farro',
     elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
@@ -250,8 +247,7 @@ const rawRefinedGrains = {
         preparationTips: ['Excellent for salads', 'Textural qualities highlighted']
       }
     }
-  }
-
+  },
   white_cornmeal: {
     name: 'White Cornmeal',
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
@@ -310,8 +306,7 @@ const rawRefinedGrains = {
         preparationTips: ['Excellent for breading', 'Creates optimal texture']
       }
     }
-  }
-
+  },
   all_purpose_flour: {
     name: 'All-Purpose Flour',
     elementalProperties: { Earth: 0.4, Air: 0.4, Water: 0.1, Fire: 0.1 },

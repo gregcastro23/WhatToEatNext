@@ -456,8 +456,7 @@ const rawSalts = {
       container: 'ceramic or glass',
       notes: 'Keep dry but expects some moisture'
 }
-  }
-
+  },
   maldon_salt: {
     name: 'Maldon Salt',
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
@@ -550,8 +549,7 @@ const rawSalts = {
       container: 'airtight glass or ceramic',
       notes: 'Keep very dry to maintain crunch'
 }
-  }
-
+  },
   sea_salt: {
     name: 'Sea Salt',
     elementalProperties: { Water: 0.6, Earth: 0.2, Air: 0.1, Fire: 0.1 },
@@ -617,8 +615,7 @@ const rawSalts = {
       container: 'airtight glass or ceramic',
       notes: 'Keep very dry to maintain crunch'
 }
-  }
-
+  },
   himalayan_salt: {
     name: 'Himalayan Salt',
     elementalProperties: { Earth: 0.6, Fire: 0.2, Water: 0.1, Air: 0.1 },
@@ -819,8 +816,7 @@ const rawSalts = {
       signs_of_quality: 'Should remain dry and free-flowing, no clumping',
       salt_mills: 'Ceramic grinding mechanism recommended to prevent corrosion'
 }
-  }
-
+  },
   kosher_salt: {
     name: 'Kosher Salt',
     elementalProperties: { Earth: 0.6, Water: 0.2, Air: 0.1, Fire: 0.1 },
@@ -870,8 +866,7 @@ const rawSalts = {
       container: 'airtight container',
       notes: 'Very stableno special requirements'
 }
-  }
-
+  },
   table_salt: {
     name: 'Table Salt',
     elementalProperties: { Earth: 0.7, Water: 0.1, Air: 0.1, Fire: 0.1 },

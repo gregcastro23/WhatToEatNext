@@ -299,7 +299,7 @@ async function validateHealthChecks(): Promise<ValidationResult[]> {
     })
   }
 
-  return results,
+  return results;
 }
 
 /**

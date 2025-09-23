@@ -249,13 +249,13 @@ describe('ComprehensiveValidationFramework', () => {
 
             export const TestComponent: React.FC<TestComponentProps> = ({ title }: any) => {
               const [count, setCount] = useState(0)
-              return <div>{title}</div>,
+              return <div>{title}</div>;
             }
 
             export default TestComponent,
           `,
         }
-        return 'export default Component;',
+        return 'export default Component;';
       })
 
       const result: any = await framework.performComprehensiveValidation(mockProcessedFiles, 'test-batch-1')
@@ -277,7 +277,7 @@ describe('ComprehensiveValidationFramework', () => {
         if (path.toString().includes('TestComponent.tsx')) {
           return 'const Component: any = () => <div>Test</div>;' // No export
         }
-        return 'export default Component;',
+        return 'export default Component;';
       })
 
       const result: any = await framework.performComprehensiveValidation(mockProcessedFiles, 'test-batch-1')
@@ -297,7 +297,7 @@ describe('ComprehensiveValidationFramework', () => {
             export const TestComponent: any = ({ title }: TestProps) => <div>{title}</div>;
           `,
         }
-        return 'export default Component;',
+        return 'export default Component;';
       })
 
       const result: any = await framework.performComprehensiveValidation(mockProcessedFiles, 'test-batch-1')
@@ -328,7 +328,7 @@ describe('ComprehensiveValidationFramework', () => {
             export const apiClient: any = new TestService()
           `;
         }
-        return 'export default Service;',
+        return 'export default Service;';
       })
 
       const result: any = await framework.performComprehensiveValidation(mockProcessedFiles, 'test-batch-1')
@@ -355,7 +355,7 @@ describe('ComprehensiveValidationFramework', () => {
             }
           `,
         }
-        return 'export default Service;',
+        return 'export default Service;';
       })
 
       const result: any = await framework.performComprehensiveValidation(mockProcessedFiles, 'test-batch-1')

@@ -81,14 +81,14 @@ class StateValidator {
 
       logger.info('State validation passed', logInfo)
 
-      return true,
+      return true;
     } catch (error) {
       errorHandler.handleError(error, {
         context: 'StateValidator',
         action: 'validateState',
         state: JSON.stringify(state)
       })
-      return false,
+      return false;
     }
   }
 
@@ -116,15 +116,14 @@ class StateValidator {
         Object.prototype.hasOwnProperty.call(recipe, field),
       )
 
-      if (!hasRequiredFields) return false,
-
+      if (!hasRequiredFields) return false;
       // Runtime type guard for elementalProperties
       const elemProps = recipe.elementalProperties;
-      if (!elemProps || typeof elemProps !== 'object') return false,
+      if (!elemProps || typeof elemProps !== 'object') return false;
       const requiredElements = ['Fire', 'Earth', 'Air', 'Water'],
       for (const element of requiredElements) {
         if (!(element in elemProps) || typeof elemProps[element] !== 'number') {
-          return false,
+          return false;
         }
       }
       return this.validateElementalProperties(elemProps as ElementalProperties)
@@ -134,7 +133,7 @@ class StateValidator {
         action: 'validateRecipe',
         recipe: JSON.stringify(recipe)
       })
-      return false,
+      return false;
     }
   }
 }

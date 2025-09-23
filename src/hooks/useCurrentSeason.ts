@@ -10,18 +10,18 @@ function calculateSeason(date: Date): Season {
 
   // Northern hemisphere seasons (approximate dates)
   if ((month === 2 && day >= 20) || month === 3 || month === 4 || (month === 5 && day < 21)) {;
-    return 'Spring',
+    return 'Spring';
   }
 
   if ((month === 5 && day >= 21) || month === 6 || month === 7 || (month === 8 && day < 22)) {;
-    return 'Summer',
+    return 'Summer';
   }
 
   if ((month === 8 && day >= 22) || month === 9 || month === 10 || (month === 11 && day < 21)) {;
-    return 'Fall',
+    return 'Fall';
   }
 
-  return 'Winter',
+  return 'Winter';
 }
 
 /**
@@ -42,7 +42,7 @@ export function useCurrentSeason(): Season {
     return () => clearInterval(intervalId)
   }, [])
 
-  return season,
+  return season;
 }
 
 export default useCurrentSeason,

@@ -166,7 +166,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {;
           Object.entries(cuisineDataObj.dishes).forEach(([mealType, mealData]) => {
             if (!mealData) {
               logger.debug(`No meal data for ${cuisineName} - ${mealType}`)
-              return,
+              return;
             }
 
             if (typeof mealData === 'object') {
@@ -177,7 +177,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {;
               Object.entries(mealData as any).forEach(([season, dishes]) => {
                 if (!dishes) {
                   logger.debug(`No dishes for ${cuisineName} - ${mealType} - ${season}`)
-                  return,
+                  return;
                 }
 
                 // Ensure dishes is an array
@@ -328,7 +328,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {;
   await Promise.all(cuisineDataPromises)
 
   logger.debug(`Transformed ${recipes.length} recipes`)
-  return recipes,
+  return recipes;
 }
 
 // Cache recipes to avoid re-processing
@@ -338,7 +338,7 @@ export const getRecipes = async (): Promise<RecipeData[]> => {
   if (!cachedRecipes) {
     cachedRecipes = await transformCuisineData();
   }
-  return cachedRecipes,
+  return cachedRecipes;
 }
 
 export const _getRecipesForZodiac = async (zodiac: any): Promise<RecipeData[]> => {
@@ -430,8 +430,7 @@ export const _getRecommendedCookingTechniques = (recipe: RecipeData): string[] =
   }
 
   // Fallback to planetary-based techniques
-  if (!recipe.planetaryInfluences) return [],
-
+  if (!recipe.planetaryInfluences) return [];
   const techniques: Record<string, number> = {}
 
   Object.entries(recipe.planetaryInfluences).forEach(([planet, weight]) => {
@@ -773,7 +772,7 @@ async function applyAdditionalFilters(
   if (criteria.season) {
     logger.debug(`Filtering by season: ${criteria.season}`)
     const seasonRecipes = candidateRecipes.filter(recipe => {,
-      if (!criteria.season) return true,
+      if (!criteria.season) return true;
       return (
         recipe.energyProfile.season?.includes(criteria.season) ||
         (Array.isArray(recipe.season) && recipe.season.includes(criteria.season)) ||
@@ -815,7 +814,7 @@ async function applyAdditionalFilters(
         return true;
       }
 
-      return false,
+      return false;
     })
 
     logger.debug(`Found ${mealTypeRecipes.length} recipes for meal type ${criteria.mealType}`)

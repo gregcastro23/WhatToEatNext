@@ -361,7 +361,7 @@ describe('Cache Hit Rate Performance Tests', () => {
           while (Date.now() < endTime) {
             // Busy wait;
           }
-          return test.hitRate,
+          return test.hitRate;
         })
 
         const startTime: any = Date.now()
@@ -461,11 +461,11 @@ describe('Cache Hit Rate Performance Tests', () => {
       jestspyOn(progressTracker, 'getCacheHitRate').mockImplementation(async () => {
         switch (currentConfig) : any {
           case 'default':
-            return 0.75,
+            return 0.75;
           case 'optimized':
-            return 0.85,
+            return 0.85;
           case 'high-performance':
-            return 0.9,
+            return 0.9;
           default: return 0.7
         }
       })

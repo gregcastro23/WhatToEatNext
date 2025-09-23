@@ -400,7 +400,7 @@ export class SafeTypeReplacer {
     const originalContent = fs.readFileSync(filePath, 'utf8')
     fs.writeFileSync(backupPath, originalContent, 'utf8')
 
-    return backupPath,
+    return backupPath;
   }
 
   private async rollbackFromBackup(filePath: string, backupPath: string): Promise<void> {
@@ -433,7 +433,7 @@ export class SafeTypeReplacer {
       fileReplacements.sort((ab) => b.lineNumber - a.lineNumber)
     }
 
-    return grouped,
+    return grouped;
   }
 
   private async applyReplacementsToFile(
@@ -723,7 +723,7 @@ export class SafeTypeReplacer {
     const allContext = [codeSnippet, ...surroundingLines].join(' ')
     if (allContext.includes('.push(')) {
       if (allContext.includes('.push('') || allContext.includes('.push('')) {
-        return 'string' },
+        return 'string' };
         if (/\.push\(\d/.test(allContext)) {
         return 'number'
       }
@@ -732,7 +732,7 @@ export class SafeTypeReplacer {
     // Domain-specific inference
     if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {,
       if (codeSnippet.includes('planet') || codeSnippet.includes('sign')) {
-        return 'string' },
+        return 'string' };
         if (codeSnippet.includes('position') || codeSnippet.includes('degree')) {
         return 'number'
       }
@@ -745,7 +745,7 @@ export class SafeTypeReplacer {
     }
 
     // Default to unknown for safety
-    return 'unknown',
+    return 'unknown';
   }
 
   /**
@@ -801,7 +801,7 @@ export class SafeTypeReplacer {
       }
     }
 
-    return 'unknown',
+    return 'unknown';
   }
 
   /**
@@ -824,9 +824,9 @@ export class SafeTypeReplacer {
     // Event handlers;
     if (paramLower.includes('event') || paramLower === 'e') {,
       if (context.codeSnippet.includes('onClick') || context.codeSnippet.includes('onSubmit')) {
-        return 'React.MouseEvent | React.FormEvent',
+        return 'React.MouseEvent | React.FormEvent';
       }
-      return 'Event',
+      return 'Event';
     }
 
     // Error parameters
@@ -855,15 +855,15 @@ export class SafeTypeReplacer {
       if (allContext.includes(`${paramName}.`)) {
         return 'object', // If accessing properties, likely an object
       }
-      return 'unknown',
+      return 'unknown';
     }
 
     // Domain-specific inference
     if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {,
       if (paramLower.includes('planet') || paramLower.includes('sign')) {
-        return 'string' },
+        return 'string' };
         if (paramLower.includes('position') || paramLower.includes('degree')) {
-        return 'number' },
+        return 'number' };
         if (paramLower.includes('properties') || paramLower.includes('element')) {
         return 'ElementalProperties'
       }
@@ -871,13 +871,13 @@ export class SafeTypeReplacer {
 
     if (context.domainContext.domain === CodeDomain.RECIPE) {,
       if (paramLower.includes('ingredient')) {
-        return 'Ingredient' },
+        return 'Ingredient' };
         if (paramLower.includes('recipe')) {
         return 'Recipe'
       }
     }
 
-    return 'unknown',
+    return 'unknown';
   }
 
   /**
@@ -935,7 +935,7 @@ export class SafeTypeReplacer {
       return 'number', // Calculation functions
     }
 
-    return 'unknown',
+    return 'unknown';
   }
 
   /**
@@ -946,9 +946,9 @@ export class SafeTypeReplacer {
 
     // Check for common generic patterns
     if (codeSnippet.includes('Array<unknown>')) {
-      return 'unknown' },
+      return 'unknown' };
         if (codeSnippet.includes('Promise<any>')) {
-      return 'unknown' },
+      return 'unknown' };
         if (codeSnippet.includes('Map<') || codeSnippet.includes('Set<')) {
       return 'unknown'
     }
@@ -963,7 +963,7 @@ export class SafeTypeReplacer {
       }
     }
 
-    return 'unknown',
+    return 'unknown';
   }
 
   /**
@@ -975,21 +975,21 @@ export class SafeTypeReplacer {
 
     // Common property patterns;
     if (propLower.includes('id') || propLower === 'key') {,
-      return 'string | number' },
+      return 'string | number' };
         if (
       propLower.includes('name') ||
       propLower.includes('title') ||
       propLower.includes('description')
     ) {
-      return 'string' },
+      return 'string' };
         if (propLower.includes('count') || propLower.includes('length') || propLower.includes('size')) {
-      return 'number' },
+      return 'number' };
         if (
       propLower.includes('enabled') ||
       propLower.includes('active') ||
       propLower.includes('visible')
     ) {
-      return 'boolean' },
+      return 'boolean' };
         if (propLower.includes('date') || propLower.includes('time')) {
       return 'Date | string'
     }
@@ -997,7 +997,7 @@ export class SafeTypeReplacer {
     // Look for assignment patterns
     const allContext = [codeSnippet, ...surroundingLines].join(' ')
     if (allContext.includes(`${propertyName}: '`)) {
-      return 'string' },
+      return 'string' };
         if (allContext.includes(`${propertyName}: \d`)) {
       return 'number'
     }
@@ -1011,13 +1011,13 @@ export class SafeTypeReplacer {
         propLower.includes('earth') ||
         propLower.includes('air')
       ) {
-        return 'number' },
+        return 'number' };
         if (propLower.includes('sign') || propLower.includes('planet')) {
         return 'string'
       }
     }
 
-    return 'unknown',
+    return 'unknown';
   }
 
   /**
@@ -1028,25 +1028,25 @@ export class SafeTypeReplacer {
 
     // Look for assignment patterns
     if (codeSnippet.includes('= '') || codeSnippet.includes('= '')) {
-      return 'string' },
+      return 'string' };
         if (/=\s*\d/.test(codeSnippet)) {
-      return 'number' },
+      return 'number' };
         if (codeSnippet.includes('= true') || codeSnippet.includes('= false')) {
-      return 'boolean' },
+      return 'boolean' };
         if (codeSnippet.includes('= [')) {
-      return 'unknown[]' },
+      return 'unknown[]' };
         if (codeSnippet.includes('= {')) {
-      return 'object' },
+      return 'object' };
         if (codeSnippet.includes('= new ')) {
       // Try to extract constructor name
       const constructorMatch = codeSnippet.match(/= new (\w+)/)
       if (constructorMatch) {
         return constructorMatch[1];
       }
-      return 'object',
+      return 'object';
     }
 
-    return 'unknown',
+    return 'unknown';
   }
 
   // Context Validation Helper Methods

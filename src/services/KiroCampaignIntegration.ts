@@ -282,7 +282,7 @@ export class KiroCampaignIntegration {
 })
     }
 
-    return campaignId,
+    return campaignId;
   }
 
   /**
@@ -290,8 +290,7 @@ export class KiroCampaignIntegration {
    */
   async pauseCampaign(campaignId: string): Promise<boolean> {
     const status = this.activeCampaigns.get(campaignId);
-    if (!status || status.status !== 'running') return false,
-
+    if (!status || status.status !== 'running') return false;
     status.status = 'paused',
     status.lastUpdate = new Date()
     status.safetyEvents.push({,
@@ -302,7 +301,7 @@ export class KiroCampaignIntegration {
       action: 'PAUSE'
 })
 
-    return true,
+    return true;
   }
 
   /**
@@ -310,8 +309,7 @@ export class KiroCampaignIntegration {
    */
   async resumeCampaign(campaignId: string): Promise<boolean> {
     const status = this.activeCampaigns.get(campaignId);
-    if (!status || status.status !== 'paused') return false,
-
+    if (!status || status.status !== 'paused') return false;
     status.status = 'running',
     status.lastUpdate = new Date()
     status.safetyEvents.push({,
@@ -322,7 +320,7 @@ export class KiroCampaignIntegration {
       action: 'RESUME'
 })
 
-    return true,
+    return true;
   }
 
   /**
@@ -330,8 +328,7 @@ export class KiroCampaignIntegration {
    */
   async stopCampaign(campaignId: string): Promise<boolean> {
     const status = this.activeCampaigns.get(campaignId);
-    if (!status) return false,
-
+    if (!status) return false;
     status.status = 'completed',
     status.lastUpdate = new Date()
     status.safetyEvents.push({,
@@ -350,7 +347,7 @@ export class KiroCampaignIntegration {
       5 * 60 * 1000,
     ); // 5 minutes
 
-    return true,
+    return true;
   }
 
   // ========== CAMPAIGN SCHEDULING ==========,
@@ -367,7 +364,7 @@ export class KiroCampaignIntegration {
     }
 
     this.campaignSchedules.set(scheduleId, campaignSchedule)
-    return scheduleId,
+    return scheduleId;
   }
 
   /**
@@ -393,7 +390,7 @@ export class KiroCampaignIntegration {
       schedule.nextRun = this.calculateNextRun(schedule.scheduledTime, schedule.recurrence),
     }
 
-    return true,
+    return true;
   }
 
   /**
@@ -545,7 +542,7 @@ export class KiroCampaignIntegration {
       nextRun.setMonth(nextRun.getMonth() + 1)
     }
 
-    return nextRun,
+    return nextRun;
   }
 
   private async getTargetMetrics(): Promise<ProgressMetrics> {
@@ -574,7 +571,7 @@ export class KiroCampaignIntegration {
 
     nextSteps.push('Monitor progress and adjust campaign strategy as needed')
 
-    return nextSteps,
+    return nextSteps;
   }
 
   private getDefaultConfig(): CampaignConfig {

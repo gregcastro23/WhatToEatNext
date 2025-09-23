@@ -58,7 +58,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     if (!RecipeFinder.instance) {
       RecipeFinder.instance = new RecipeFinder();
     }
-    return RecipeFinder.instance,
+    return RecipeFinder.instance;
   }
 
   /**
@@ -614,7 +614,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         }
       })
       // Return zero similarity on error
-      return 0,
+      return 0;
     }
   }
 

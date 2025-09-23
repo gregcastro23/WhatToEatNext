@@ -265,13 +265,11 @@ export function calculateCuisineCompatibility(
   cuisine2: CompleteCuisineType,
 ): number {
   // Same cuisine = perfect compatibility,
-  if (cuisine1 === cuisine2) return 1.0,
-
+  if (cuisine1 === cuisine2) return 1.0;
   // Same continental category = high compatibility,
   const continent1 = getCuisineContinent(cuisine1)
   const continent2 = getCuisineContinent(cuisine2)
-  if (continent1 === continent2) return 0.8,
-
+  if (continent1 === continent2) return 0.8;
   // Regional variations of same primary cuisine = very high compatibility,
   if (isRegionalCuisine(cuisine1) && isRegionalCuisine(cuisine2)) {
     const primary1 = getPrimaryCuisineFromRegional(cuisine1)
@@ -281,26 +279,26 @@ export function calculateCuisineCompatibility(
 
   // Fusion cuisines with shared elements = moderate compatibility,
   if (isFusionCuisine(cuisine1) || isFusionCuisine(cuisine2)) {
-    return 0.6,
+    return 0.6;
   }
 
   // Dietary cuisines can work with most others = moderate compatibility,
   if (isDietaryCuisine(cuisine1) || isDietaryCuisine(cuisine2)) {
-    return 0.7,
+    return 0.7;
   }
 
   // Historical cuisines = lower compatibility with modern cuisines,
   if (isHistoricalCuisine(cuisine1) || isHistoricalCuisine(cuisine2)) {
-    return 0.4,
+    return 0.4;
   }
 
   // Street food cuisines = moderate compatibility,
   if (isStreetFoodCuisine(cuisine1) || isStreetFoodCuisine(cuisine2)) {
-    return 0.6,
+    return 0.6;
   }
 
   // Default moderate compatibility
-  return 0.5,
+  return 0.5;
 }
 
 /**
@@ -494,7 +492,7 @@ export function getRegionalCuisinesForPrimary(_primary: PrimaryCuisineType): Reg
     Fusion: []
   }
 
-  return primaryToRegional[primary] || [],
+  return primaryToRegional[primary] || [];
 }
 
 // ========== CUISINE RECOMMENDATIONS ==========,
@@ -554,7 +552,7 @@ export function getCompatibilityFactors(
     factors.push('Dietary preference alignment')
   }
 
-  return factors,
+  return factors;
 }
 
 /**
@@ -576,7 +574,7 @@ export function getCommonIngredients(
   const key = `${cuisine1}-${cuisine2}`;
   const reverseKey = `${cuisine2}-${cuisine1}`;
 
-  return commonIngredients[key] || commonIngredients[reverseKey] || [],
+  return commonIngredients[key] || commonIngredients[reverseKey] || [];
 }
 
 /**
@@ -596,7 +594,7 @@ export function getRegionalVariations(
     variations.push(`${cuisine2} (regional)`)
   }
 
-  return variations,
+  return variations;
 }
 
 // ========== CUISINE VALIDATION ==========,
@@ -647,7 +645,7 @@ export function groupCuisinesByCategory(
     groups[category].push(cuisine)
   })
 
-  return groups,
+  return groups;
 }
 
 /**

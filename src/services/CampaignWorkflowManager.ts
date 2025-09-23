@@ -175,7 +175,7 @@ export class CampaignWorkflowManager {
     }
 
     this.workflows.set(workflowId, workflow)
-    return workflowId,
+    return workflowId;
   }
 
   /**
@@ -198,7 +198,7 @@ export class CampaignWorkflowManager {
     }
 
     this.workflows.set(workflowId, workflow)
-    return workflowId,
+    return workflowId;
   }
 
   // ========== WORKFLOW MANAGEMENT ==========,
@@ -234,7 +234,7 @@ export class CampaignWorkflowManager {
     const validation = await this.validateWorkflowConfig(workflowId);
     workflow.validationResults = [validation],
 
-    return true,
+    return true;
   }
 
   /**
@@ -242,8 +242,7 @@ export class CampaignWorkflowManager {
    */
   async advanceWorkflowStep(workflowId: string): Promise<boolean> {
     const workflow = this.workflows.get(workflowId);
-    if (!workflow) return false,
-
+    if (!workflow) return false;
     const currentStep = workflow.steps[workflow.currentStep];
     if (!currentStep || currentStep.status !== 'completed') {
       return false
@@ -253,10 +252,10 @@ export class CampaignWorkflowManager {
       workflow.currentStep++,
       workflow.steps[workflow.currentStep].status = 'in_progress',
       workflow.updatedAt = new Date();
-      return true,
+      return true;
     }
 
-    return false,
+    return false;
   }
 
   /**
@@ -267,11 +266,9 @@ export class CampaignWorkflowManager {
     stepData?: Record<string, unknown>,
   ): Promise<boolean> {
     const workflow = this.workflows.get(workflowId);
-    if (!workflow) return false,
-
+    if (!workflow) return false;
     const currentStep = workflow.steps[workflow.currentStep];
-    if (!currentStep) return false,
-
+    if (!currentStep) return false;
     currentStep.status = 'completed',
     if (stepData) {
       currentStep.data = stepData;
@@ -287,7 +284,7 @@ export class CampaignWorkflowManager {
       workflow.status = 'ready',
     }
 
-    return true,
+    return true;
   }
 
   // ========== VALIDATION AND TESTING ==========,
@@ -386,7 +383,7 @@ export class CampaignWorkflowManager {
     workflow.dryRunResults.push(dryRunResult)
     workflow.updatedAt = new Date()
 ;
-    return dryRunResult,
+    return dryRunResult;
   }
 
   // ========== VERSIONING AND ROLLBACK ==========,
@@ -417,7 +414,7 @@ export class CampaignWorkflowManager {
     versions.push(version)
     this.versions.set(campaignId, versions)
 
-    return version.id,
+    return version.id;
   }
 
   /**
@@ -503,10 +500,10 @@ export class CampaignWorkflowManager {
         }
       }
 
-      return true,
+      return true;
     } catch (error) {
       _logger.error('Rollback failed: ', error)
-      return false,
+      return false;
     }
   }
 

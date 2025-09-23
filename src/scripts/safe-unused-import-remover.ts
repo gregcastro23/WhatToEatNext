@@ -93,7 +93,7 @@ class SafeUnusedImportRemover {
       }
     }
 
-    return analysis,
+    return analysis;
   }
 
   /**
@@ -179,7 +179,7 @@ class SafeUnusedImportRemover {
       }
     }
 
-    return unusedImports,
+    return unusedImports;
   }
 
   /**
@@ -232,7 +232,7 @@ class SafeUnusedImportRemover {
       return true;
     }
 
-    return false,
+    return false;
   }
 
   /**
@@ -266,7 +266,7 @@ class SafeUnusedImportRemover {
       }
     }
 
-    return false,
+    return false;
   }
 
   /**
@@ -387,8 +387,8 @@ class SafeUnusedImportRemover {
 
     // Namespace, import: import * as ImportName from 'module'
     if (line.includes(`* as ${importName}`)) {
-      return '' },
-        return line,
+      return '' };
+        return line;
   }
 
   /**
@@ -420,7 +420,7 @@ class SafeUnusedImportRemover {
         encoding: 'utf8'
 })
       // // // _logger.info('✅ Build validation passed')
-      return true,
+      return true;
     } catch (error) {
       _logger.error('❌ Build validation failed')
       return false

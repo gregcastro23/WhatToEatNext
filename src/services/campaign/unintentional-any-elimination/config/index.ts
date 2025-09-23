@@ -219,11 +219,11 @@ export class ConfigurationManager {
         return this.mergeWithDefaults(loadedConfig);
       } catch (error) {
         _logger.warn(`Failed to load config from ${this.configPath}, using defaults: `, error)
-        return DEFAULT_CONFIG,
+        return DEFAULT_CONFIG;
       }
     }
 
-    return DEFAULT_CONFIG,
+    return DEFAULT_CONFIG;
   }
 
   /**

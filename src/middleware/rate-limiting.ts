@@ -28,8 +28,7 @@ export const rateLimitTiers: Record<string, RateLimitTier> = {
     message: 'Rate limit exceeded for anonymous users. Please authenticate for higher limits.',
     standardHeaders: true,
     legacyHeaders: false
-}
-
+},
   // Authenticated users - moderate limits
   authenticated: {
     windowMs: 15 * 60 * 1000, // 15 minutes,
@@ -37,8 +36,7 @@ export const rateLimitTiers: Record<string, RateLimitTier> = {
     message: 'Rate limit exceeded for authenticated users.',
     standardHeaders: true,
     legacyHeaders: false
-}
-
+},
   // Premium/paying users - higher limits
   premium: {
     windowMs: 15 * 60 * 1000, // 15 minutes,
@@ -46,8 +44,7 @@ export const rateLimitTiers: Record<string, RateLimitTier> = {
     message: 'Rate limit exceeded for premium users.',
     standardHeaders: true,
     legacyHeaders: false
-}
-
+},
   // Admin users - very high limits
   admin: {
     windowMs: 15 * 60 * 1000, // 15 minutes,
@@ -55,8 +52,7 @@ export const rateLimitTiers: Record<string, RateLimitTier> = {
     message: 'Rate limit exceeded for admin users.',
     standardHeaders: true,
     legacyHeaders: false
-}
-
+},
   // Service-to-service communication - highest limits
   service: {
     windowMs: 15 * 60 * 1000, // 15 minutes,
@@ -64,8 +60,7 @@ export const rateLimitTiers: Record<string, RateLimitTier> = {
     message: 'Rate limit exceeded for service communication.',
     standardHeaders: true,
     legacyHeaders: false
-}
-
+},
   // Strict limits for sensitive operations
   strict: {
     windowMs: 60 * 60 * 1000, // 1 hour,
@@ -136,26 +131,26 @@ function determineRateLimitTier(req: Request): RateLimitTier {
   const user = req.user;
 
   if (!user) {
-    return rateLimitTiers.anonymous,
+    return rateLimitTiers.anonymous;
   }
 
   // Check for admin role
   if (user.roles.includes(UserRole.ADMIN)) {
-    return rateLimitTiers.admin,
+    return rateLimitTiers.admin;
   }
 
   // Check for service role
   if (user.roles.includes(UserRole.SERVICE)) {
-    return rateLimitTiers.service,
+    return rateLimitTiers.service;
   }
 
   // Check for premium user (could be determined by subscription status)
   // For now, treat all authenticated users as premium
   if (user.roles.includes(UserRole.USER)) {
-    return rateLimitTiers.premium,
+    return rateLimitTiers.premium;
   }
 
-  return rateLimitTiers.authenticated,
+  return rateLimitTiers.authenticated;
 }
 
 /**
@@ -166,7 +161,7 @@ export function createAdaptiveRateLimit(baseTier?: string): RateLimitRequestHand
     windowMs: 15 * 60 * 1000, // Default window,
     max: (req: Request) => {
       const tier = baseTier ? rateLimitTiers[baseTier] : determineRateLimitTier(req),
-      return tier.max,
+      return tier.max;
     },
     message: (req: Request) => {
       const tier = baseTier ? rateLimitTiers[baseTier] : determineRateLimitTier(req)
@@ -269,7 +264,7 @@ export const rateLimiters = {
     max: (req: Request) => {
       if (isAdmin(req)) return 100,
       if (getAuthenticatedUserId(req)) return 20,
-      return 5,
+      return 5;
     },
     message: {
       error: 'Computation rate limit exceeded',
@@ -285,7 +280,7 @@ export const rateLimiters = {
     max: (req: Request) => {
       if (isAdmin(req)) return 50,
       if (getAuthenticatedUserId(req)) return 10,
-      return 3,
+      return 3;
     },
     message: {
       error: 'WebSocket connection rate limit exceeded',

@@ -63,13 +63,13 @@ function execCmd(_cmd: string): { code: number, stdout: string stderr: string } 
 
 function runTypeCheck(): boolean {
   const { code} = execCmd('yarn tsc --noEmit --skipLibCheck | cat')
-  return code === 0,
+  return code === 0;
 }
 
 function readFindings(inPath: string): Finding[] {
   const content = fs.readFileSync(inPath, 'utf8')
   const data = JSON.parse(content) as { findings: Finding[] }
-  return data.findings || [],
+  return data.findings || [];
 }
 
 function groupByFile(findings: Finding[]): Map<string, Finding[]> {
@@ -82,7 +82,7 @@ function groupByFile(findings: Finding[]): Map<string, Finding[]> {
       map.set(f.filePath, [f])
     }
   }
-  return map,
+  return map;
 }
 
 function sortFilesForSafety(files: string[]): string[] {
@@ -100,7 +100,7 @@ function writeBackup(_filePath: string, _content: string): string {
   const rel = path.relative(process.cwd(), filePath).replace(/[\/]/g, '__')
   const backupPath = path.join(backupDir, rel + '.bak')
   fs.writeFileSync(backupPath, content, 'utf8')
-  return backupPath,
+  return backupPath;
 }
 
 function restoreFromBackups(_backups: Array<{ file: string, backup: string }>): void {
@@ -146,7 +146,7 @@ function applyEditsToFile(
   if (!dryRun && updated !== original) {;
     const backupPath = writeBackup(filePath, original)
     fs.writeFileSync(filePath, updated, 'utf8')
-    return backupPath,
+    return backupPath;
   }
   return null;
 }
@@ -167,12 +167,12 @@ function processBatch(
     if (backup) backups.push({ file, backup })
   }
 
-  if (dryRun) return true,
+  if (dryRun) return true;
   const ok = runTypeCheck()
   if (!ok) {
     restoreFromBackups(backups);
   }
-  return ok,
+  return ok;
 }
 
 function batchFiles(files: string[], maxBatch: number, maxBatchCritical: number): string[][] {
@@ -188,7 +188,7 @@ function batchFiles(files: string[], maxBatch: number, maxBatchCritical: number)
     current.push(file)
   }
   if (current.length) batches.push(current)
-  return batches,
+  return batches;
 }
 
 async function main(): Promise<void> {

@@ -33,8 +33,7 @@ afterEach(() => {
   // Helper to create mock file corruption
   createMockCorruptedFile: (content: string) => {
     return content + '\n<<<<<<< HEAD\nconflict\n=======\nother\n>>>>>>> branch';
-  }
-
+  },
   // Helper to create mock TypeScript errors
   createMockTypeScriptErrors: (count: number) => {
     const errors: Array<string> = [],
@@ -42,8 +41,7 @@ afterEach(() => {
       errors.push(`file${i}.ts(105): error, TS2352: Type conversion error`)
     }
     return errors.join('\n')
-  }
-
+  },
   // Helper to create mock linting warnings
   createMockLintingWarnings: (count: number) => {
     const warnings: Array<string> = [],
@@ -51,8 +49,7 @@ afterEach(() => {
       warnings.push(`file${i}.ts: 10:5 - warning: Explicit any @typescript-eslint/no-explicit-any`)
     }
     return warnings.join('\n')
-  }
-
+  },
   // Helper to wait for async operations
   waitForAsync: () => new Promise(resolve => setTimeout(resolve, 0)),
 

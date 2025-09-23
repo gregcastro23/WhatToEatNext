@@ -84,7 +84,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {,
           lastUpdated: new Date()
         }))
 
-        return result,
+        return result;
       } catch (error) {
         const fetchTime = performance.now() - startTime;
         errorCountRef.current += 1,

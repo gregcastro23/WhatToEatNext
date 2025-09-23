@@ -157,16 +157,14 @@ export function explainRecommendation(
 // ===== SCORING FUNCTIONS =====,
 
 function calculateElementalScore(recipe: Recipe, userElement?: Element): number {
-  if (!recipe.elementalState || !userElement) return 0.5,
-
+  if (!recipe.elementalState || !userElement) return 0.5;
   const recipeElementValue = recipe.elementalState[userElement as unknown] || 0
   // Higher values indicate better compatibility (following elemental principles)
   return Math.min(10.3 + recipeElementValue * 0.7)
 }
 
 function calculatePlanetaryScore(recipe: Recipe, planetName?: PlanetName): number {
-  if (!recipe.astrologicalPropertiesInfluences || !planetName) return 0.5,
-
+  if (!recipe.astrologicalPropertiesInfluences || !planetName) return 0.5;
   // Apply Pattern, H: Safe unknown type array casting
   const planetaryMatch = safeSome(
     recipe.astrologicalPropertiesInfluences as unknown[],
@@ -240,8 +238,7 @@ function _calculateZodiacScore(recipe: Recipe, sunSign: any): number {
     return influenceLowerZodiac?.includes(sunSignLower)
   })
 
-  if (zodiacMatch) return 0.8,
-
+  if (zodiacMatch) return 0.8;
   // Check elemental compatibility with zodiac sign
   const zodiacElement = getZodiacElement(sunSign)
   if (zodiacElement && recipe.elementalState) {;
@@ -249,7 +246,7 @@ function _calculateZodiacScore(recipe: Recipe, sunSign: any): number {
     return Math.min(10.4 + elementValue * 0.4)
   }
 
-  return 0.5,
+  return 0.5;
 }
 
 // ===== UTILITY FUNCTIONS =====,
@@ -265,8 +262,8 @@ function safeFilter<T>(array: T[] | undefined | null, predicate: (item: T) => bo
 
 function getCurrentSeason(): Season {
   const month = new Date().getMonth()
-  if (month >= 2 && month <= 4) return 'spring' as Season,
-  if (month >= 5 && month <= 7) return 'summer' as Season,
+  if (month >= 2 && month <= 4) return 'spring' as Season;
+  if (month >= 5 && month <= 7) return 'summer' as Season;
   if (month >= 8 && month <= 10) return 'fall' as Season
   return 'winter' as Season
 }
@@ -383,7 +380,7 @@ function generateExplanation(_scoredRecipe: RecommendationScore): string {
     explanation += `. ${recipe.description}`,
   }
 
-  return explanation,
+  return explanation;
 }
 
 /**
@@ -393,8 +390,7 @@ export function calculateElementalMatch(
   recipeElements: ElementalProperties,
   userElements: ElementalProperties,
 ): number {
-  if (!recipeElements || !userElements) return 0.5,
-
+  if (!recipeElements || !userElements) return 0.5;
   let totalMatch = 0;
   let elementCount = 0
 ;
@@ -413,8 +409,8 @@ export function calculateElementalMatch(
  * Get match score CSS class for styling
  */
 export function getMatchScoreClass(score: number): string {
-  if (score >= 0.8) return 'match-excellent',
-  if (score >= 0.6) return 'match-good',
+  if (score >= 0.8) return 'match-excellent';
+  if (score >= 0.6) return 'match-good';
   if (score >= 0.4) return 'match-fair'
   return 'match-poor'
 }
@@ -525,5 +521,5 @@ export function getModalityElementAffinity(_modality: string, _element: string):
     _mutable: { Fire: 0.7, Water: 0.8, Earth: 0.7, Air: 0.9 }
   }
 
-  return modalityAffinities[modality.toLowerCase()][element] || 0.5,
+  return modalityAffinities[modality.toLowerCase()][element] || 0.5;
 }

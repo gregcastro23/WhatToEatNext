@@ -81,7 +81,7 @@ export class SafetyProtocol {
       // // // _logger.info(`   Reference: ${stashRef}`)
       // // // _logger.info(`   Rollback, with: git stash apply ${stashRef}`)
 
-      return stashName,
+      return stashName;
     } catch (error) {
       this.addSafetyEvent({
         type: SafetyEventType.EMERGENCY_RECOVERY,
@@ -174,7 +174,7 @@ export class SafetyProtocol {
 
     const latestStash = stashes[0];
     await this.applyStash(latestStash.id)
-    return latestStash.id,
+    return latestStash.id;
   }
 
   /**
@@ -191,7 +191,7 @@ export class SafetyProtocol {
 
     const latestPhaseStash = phaseStashes[0];
     await this.applyStash(latestPhaseStash.id)
-    return latestPhaseStash.id,
+    return latestPhaseStash.id;
   }
 
   /**
@@ -284,7 +284,7 @@ export class SafetyProtocol {
       // // // _logger.info(`✅ No corruption detected in ${files.length} files`)
     }
 
-    return report,
+    return report;
   }
 
   /**
@@ -902,14 +902,14 @@ export class SafetyProtocol {
     }
 
     if (severity === CorruptionSeverity.HIGH || fileCount > 10) {;
-      return RecoveryAction.ROLLBACK,
+      return RecoveryAction.ROLLBACK;
     }
 
     if (severity === CorruptionSeverity.MEDIUM || fileCount > 5) {;
-      return RecoveryAction.RETRY,
+      return RecoveryAction.RETRY;
     }
 
-    return RecoveryAction.CONTINUE,
+    return RecoveryAction.CONTINUE;
   }
 
   private mapCorruptionToEventSeverity(corruption: CorruptionSeverity): SafetyEventSeverity {

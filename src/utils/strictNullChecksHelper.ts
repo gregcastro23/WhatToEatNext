@@ -83,5 +83,5 @@ export function hasProperty<T extends objectK extends PropertyKey>(
   obj: T | null | undefined,
   key: K,
 ): obj is T & Record<K, unknown> {
-  return obj != null && key in obj,
+  return obj != null && key in obj;
 }

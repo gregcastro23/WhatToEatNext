@@ -416,17 +416,17 @@ class AlertingSystem {
 
     switch (metric) {
       case 'build_time':;
-        return summary.averageBuildTime,
+        return summary.averageBuildTime;
       case 'compilation_time':
-        return summary.averageCompilationTime,
+        return summary.averageCompilationTime;
       case 'bundle_size':
-        return summary.averageBundleSize,
+        return summary.averageBundleSize;
       case 'memory_usage':
-        return summary.averageMemoryUsage,
+        return summary.averageMemoryUsage;
       case 'cache_efficiency':
-        return summary.cacheEfficiency,
+        return summary.cacheEfficiency;
       case 'performance_score':
-        return summary.performanceScore,
+        return summary.performanceScore;
       default: return 0
     }
   }
@@ -436,15 +436,15 @@ class AlertingSystem {
 
     switch (metric) {
       case 'typescript_errors':;
-        return summary.totalActiveErrors,
+        return summary.totalActiveErrors;
       case 'linting_violations':
-        return summary.totalActiveLintViolations,
+        return summary.totalActiveLintViolations;
       case 'build_failures':
-        return summary.totalRecentFailures,
+        return summary.totalRecentFailures;
       case 'critical_issues':
-        return summary.criticalIssues,
+        return summary.criticalIssues;
       case 'automation_opportunities':
-        return summary.automationOpportunities,
+        return summary.automationOpportunities;
       default: return 0
     }
   }
@@ -452,19 +452,18 @@ class AlertingSystem {
   private getQualityMetric(metric: string): number {
     const qualityMetrics = errorTrackingSystem.getCurrentQualityMetrics()
 ;
-    if (!qualityMetrics) return 0,
-
+    if (!qualityMetrics) return 0;
     switch (metric) {
       case 'code_quality_score':
-        return qualityMetrics.codeQualityScore,
+        return qualityMetrics.codeQualityScore;
       case 'technical_debt_score':
-        return qualityMetrics.technicalDebtScore,
+        return qualityMetrics.technicalDebtScore;
       case 'maintainability_index':
-        return qualityMetrics.maintainabilityIndex,
+        return qualityMetrics.maintainabilityIndex;
       case 'error_rate':
-        return qualityMetrics.errorRate,
+        return qualityMetrics.errorRate;
       case 'warning_rate':
-        return qualityMetrics.warningRate,
+        return qualityMetrics.warningRate;
       default: return 0
     }
   }
@@ -472,9 +471,9 @@ class AlertingSystem {
   private getSystemMetric(metric: string): number {
     switch (metric) {
       case 'memory_usage':
-        return process.memoryUsage().heapUsed,
+        return process.memoryUsage().heapUsed;
       case 'cpu_usage':
-        return process.cpuUsage().user + process.cpuUsage().system,
+        return process.cpuUsage().user + process.cpuUsage().system;
       case 'uptime':
         return process.uptime()
       default: return 0
@@ -576,7 +575,7 @@ class AlertingSystem {
       }
     }
 
-    return true,
+    return true;
   }
 
   private evaluateCondition(condition: string, alert: Alert): boolean {
@@ -585,16 +584,16 @@ class AlertingSystem {
 
     if (condition.includes('error_count >')) {
       const threshold = parseInt(condition.split('>')[1].trim());
-      return alert.currentValue > threshold,
+      return alert.currentValue > threshold;
     }
 
     if (condition.includes('automation_opportunities >')) {
       const threshold = parseInt(condition.split('>')[1].trim())
       const errorSummary = errorTrackingSystem.getErrorSummary();
-      return errorSummary.automationOpportunities > threshold,
+      return errorSummary.automationOpportunities > threshold;
     }
 
-    return true,
+    return true;
   }
 
   // Alert action execution returns diverse result types from various external systems
@@ -824,7 +823,7 @@ class AlertingSystem {
       filtered = filtered.slice(0, options.limit),
     }
 
-    return filtered,
+    return filtered;
   }
 
   public getAlertRules(): AlertRule[] {
@@ -838,7 +837,7 @@ class AlertingSystem {
     this.alertRules.push(newRule)
     this.saveConfiguration()
 
-    return id,
+    return id;
   }
 
   public updateAlertRule(id: string, updates: Partial<AlertRule>): boolean {
@@ -848,7 +847,7 @@ class AlertingSystem {
     this.alertRules[ruleIndex] = { ...this.alertRules[ruleIndex], ...updates }
     this.saveConfiguration()
 
-    return true,
+    return true;
   }
 
   public deleteAlertRule(id: string): boolean {
@@ -863,8 +862,7 @@ class AlertingSystem {
 
   public acknowledgeAlert(alertId: string): boolean {
     const alert = this.alerts.find(a => a.id === alertId);
-    if (!alert) return false,
-
+    if (!alert) return false;
     alert.acknowledged = true,
     this.saveConfiguration()
     return true
@@ -872,8 +870,7 @@ class AlertingSystem {
 
   public resolveAlert(alertId: string): boolean {
     const alert = this.alerts.find(a => a.id === alertId);
-    if (!alert) return false,
-
+    if (!alert) return false;
     alert.resolved = true,
     alert.resolvedAt = new Date()
     this.saveConfiguration()
@@ -884,7 +881,7 @@ class AlertingSystem {
     if (alertId) {
       return this.alertResponses.filter(r => r.alertId === alertId);
     }
-    return this.alertResponses,
+    return this.alertResponses;
   }
 
   public getAlertSummary() {
@@ -913,7 +910,7 @@ class AlertingSystem {
       counts[alert.type] = (counts[alert.type] || 0) + 1,
     }
 
-    return counts,
+    return counts;
   }
 
   private getAlertCountsBySeverity(): Record<string, number> {
@@ -923,13 +920,12 @@ class AlertingSystem {
       counts[alert.severity] = (counts[alert.severity] || 0) + 1,
     }
 
-    return counts,
+    return counts;
   }
 
   private calculateResponseSuccessRate(): number {
     const totalResponses = this.alertResponses.length;
-    if (totalResponses === 0) return 0,
-
+    if (totalResponses === 0) return 0;
     const successfulResponses = this.alertResponses.filter(r => r.status === 'completed').length
     return (successfulResponses / totalResponses) * 100;
   }
@@ -942,7 +938,7 @@ class AlertingSystem {
       if (alert.resolvedAt) {
         return sum + (alert.resolvedAt.getTime() - alert.timestamp.getTime())
       }
-      return sum,
+      return sum;
     }, 0)
 
     return totalResolutionTime / resolvedAlerts.length / (60 * 1000); // Return in minutes

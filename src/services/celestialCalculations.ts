@@ -154,7 +154,7 @@ class CelestialCalculator {
     if (!CelestialCalculator.instance) {
       CelestialCalculator.instance = new CelestialCalculator();
     }
-    return CelestialCalculator.instance,
+    return CelestialCalculator.instance;
   }
 
   private initializeCalculations(): void {
@@ -343,7 +343,7 @@ class CelestialCalculator {
       })
     })
 
-    return tarotCards,
+    return tarotCards;
   }
 
   /**
@@ -455,7 +455,7 @@ class CelestialCalculator {
       ]
     }
 
-    return safeAlignment,
+    return safeAlignment;
   }
 
   /**
@@ -820,7 +820,7 @@ class CelestialCalculator {
       dominantPlanets.push({ name: planet, influence })
     })
 
-    return dominantPlanets,
+    return dominantPlanets;
   }
 
   /**
@@ -843,13 +843,13 @@ class CelestialCalculator {
     const normalizedPhase = (daysSinceNewMoon % synodicPeriod) / synodicPeriod;
 
     // More precise phase boundaries - using proper LunarPhase format
-    if (normalizedPhase < 0.025 || normalizedPhase > 0.975) return 'new moon',
-    if (normalizedPhase < 0.235) return 'waxing crescent',
-    if (normalizedPhase < 0.265) return 'first quarter',
-    if (normalizedPhase < 0.485) return 'waxing gibbous',
-    if (normalizedPhase < 0.515) return 'full moon',
-    if (normalizedPhase < 0.735) return 'waning gibbous',
-    if (normalizedPhase < 0.765) return 'last quarter',
+    if (normalizedPhase < 0.025 || normalizedPhase > 0.975) return 'new moon';
+    if (normalizedPhase < 0.235) return 'waxing crescent';
+    if (normalizedPhase < 0.265) return 'first quarter';
+    if (normalizedPhase < 0.485) return 'waxing gibbous';
+    if (normalizedPhase < 0.515) return 'full moon';
+    if (normalizedPhase < 0.735) return 'waning gibbous';
+    if (normalizedPhase < 0.765) return 'last quarter';
     return 'waning crescent'
   }
 
@@ -924,7 +924,7 @@ class CelestialCalculator {
       balance[key as unknown] /= sum,
     })
 
-    return balance,
+    return balance;
   }
 
   /**
@@ -1032,7 +1032,7 @@ class CelestialCalculator {
       orb: 1.5
 })
 
-    return aspects,
+    return aspects;
   }
 
   /**
@@ -1069,7 +1069,7 @@ class CelestialCalculator {
       cache.set(this.TAROT_CACHE_KEY, tarotCards, 60 * 60)
     }
 
-    return tarotCards,
+    return tarotCards;
   }
 
   /**
@@ -1160,7 +1160,7 @@ class CelestialCalculator {
         })
       }
 
-      return balance,
+      return balance;
     } catch (error) {
       logger.error('Error generating recommended elemental balance: ', error),
 
@@ -1304,7 +1304,7 @@ class CelestialCalculator {
       })
     }
 
-    return energyStateBalance,
+    return energyStateBalance;
   }
 
   /**
@@ -1388,14 +1388,13 @@ class CelestialCalculator {
       })
     }
 
-    return chakraEnergies,
+    return chakraEnergies;
   }
 
   // Add type guard to validate CelestialData
   private isCelestialData(data: unknown): data is CelestialData {
     // Type guard to check if data is CelestialData
-    if (!data || typeof data !== 'object') return false,
-
+    if (!data || typeof data !== 'object') return false;
     const celestialData = data as Partial<CelestialData>
     return (
       celestialData.sun !== undefined &&
@@ -1556,7 +1555,7 @@ class CelestialCalculator {
           'Delegation',
           'Collapse', // Ten
         ]
-      }
+      },
       // Similar mappings for cups, swords, and pentacles...
       cups: {
         upright: [

@@ -114,7 +114,7 @@ interface CLIOptions {
       // // // _logger.info('')
     }
 
-    return config,
+    return config;
   }
 
   private async runFullMonitoring(securityMonitor: DependencySecurityMonitor): Promise<void> {

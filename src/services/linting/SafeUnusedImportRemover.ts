@@ -131,7 +131,7 @@ export class SafeUnusedImportRemover {
       _logger.error('❌ Import removal failed: ', error)
     }
 
-    return result,
+    return result;
   }
 
   /**
@@ -180,7 +180,7 @@ export class SafeUnusedImportRemover {
       }
 
       log.info(`📊 Found ${unusedImports.length} unused imports`)
-      return unusedImports,
+      return unusedImports;
     } catch (error) {
       _logger.error('❌ Failed to analyze unused imports: ', error);
       return []
@@ -219,7 +219,7 @@ export class SafeUnusedImportRemover {
       }
     }
 
-    return categorized,
+    return categorized;
   }
 
   /**
@@ -362,7 +362,7 @@ export class SafeUnusedImportRemover {
 })
 
       log.info('✅ Safe import removal completed')
-      return true,
+      return true;
     } catch (error: unknown) {
       // ESLint returns non-zero exit code even for successful fixes
       if (error.stdout && !error.stdout.includes('error')) {
@@ -388,7 +388,7 @@ export class SafeUnusedImportRemover {
 })
       log.info('✅ TypeScript validation passed')
 
-      return true,
+      return true;
     } catch (error) {
       _logger.error('❌ Validation failed')
       return false

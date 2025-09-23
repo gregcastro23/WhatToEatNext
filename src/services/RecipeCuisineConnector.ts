@@ -116,7 +116,7 @@ export class RecipeCuisineConnector {
       })
     }
 
-    return recipes,
+    return recipes;
   }
 
   /**
@@ -167,7 +167,7 @@ export class RecipeCuisineConnector {
    * Normalize ingredient format for consistency
    */
   private normalizeIngredients(ingredients: unknown[]): CuisineRecipe['ingredients'] {
-    return ingredients.map(ingredient => ({,
+    return ingredients.map(ingredient => ({;
       name: ingredient.name || '',
       amount: ingredient.amount || 1,
       unit: ingredient.unit || '',
@@ -182,7 +182,7 @@ export class RecipeCuisineConnector {
   private generateRecipeId(recipeName: string, cuisineName: string): string {
     const cleanName = recipeName.toLowerCase().replace(/[^a-z0-9]/g, '-'),
     const cleanCuisine = cuisineName.toLowerCase().replace(/[^a-z0-9]/g, '-'),
-    return `${cleanCuisine}-${cleanName}`,
+    return `${cleanCuisine}-${cleanName}`;
   }
 
   /**
@@ -207,7 +207,7 @@ export class RecipeCuisineConnector {
     this.recipeCache.forEach(recipe => {,
       counts[recipe.cuisine] = (counts[recipe.cuisine] || 0) + 1,
     })
-    return counts,
+    return counts;
   }
 
   /**
@@ -294,7 +294,7 @@ export class RecipeCuisineConnector {
       );
     }
 
-    return results,
+    return results;
   }
 
   /**
@@ -443,7 +443,7 @@ export class RecipeCuisineConnector {
       return cook
     }
 
-    return `${prep} prep + ${cook} cook`,
+    return `${prep} prep + ${cook} cook`;
   }
 
   /**
@@ -479,7 +479,7 @@ export class RecipeCuisineConnector {
       })
     })
 
-    return stats,
+    return stats;
   }
 }
 

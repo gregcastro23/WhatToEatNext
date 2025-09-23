@@ -200,7 +200,7 @@ export function usePersonalization(
     context?: { planetaryHour?: string, timeOfDay?: string }
   ) => {
     if (!userId) {
-      return baseRecommendations.map(rec => ({,
+      return baseRecommendations.map(rec => ({;
         ...rec,
         personalizedScore: rec.score || 0.5,
         reasons: ['No personalization data available'],
@@ -235,7 +235,7 @@ export function usePersonalization(
         responseTime
       })
 
-      return personalizedScores.map(score => ({,
+      return personalizedScores.map(score => ({;
         ...baseRecommendations.find(rec => rec.id === score.recipeId),
         personalizedScore: score.personalizedScore,
         reasons: score.reasons,
@@ -243,7 +243,7 @@ export function usePersonalization(
       }))
     } catch (error) {
       logger.error('Failed to generate personalized recommendations', { userId, error })
-      return baseRecommendations,
+      return baseRecommendations;
     }
   }, [userId, trackApiCall])
 
@@ -280,7 +280,7 @@ export function usePersonalization(
       ]
     }
 
-    return insights,
+    return insights;
   }, [data])
 
   // Auto-track page views if enabled

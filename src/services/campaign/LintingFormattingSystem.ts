@@ -179,7 +179,7 @@ export class LintingFormattingSystem {
       logger.error('Failed to detect linting violations', error)
     }
 
-    return violations,
+    return violations;
   }
 
   /**
@@ -229,7 +229,7 @@ export class LintingFormattingSystem {
       }
     }
 
-    return formattedCount,
+    return formattedCount;
   }
 
   /**
@@ -250,7 +250,7 @@ export class LintingFormattingSystem {
       }
     }
 
-    return fixesApplied,
+    return fixesApplied;
   }
 
   /**
@@ -271,7 +271,7 @@ export class LintingFormattingSystem {
       }
     }
 
-    return complianceIssuesFixed,
+    return complianceIssuesFixed;
   }
 
   // Private implementation methods
@@ -329,7 +329,7 @@ export class LintingFormattingSystem {
     }
 
     result.filesProcessed = Array.from(this.processedFiles);
-    return result,
+    return result;
   }
 
   private async runESLint(filePaths: string[], fix: boolean = false): Promise<string> {,
@@ -346,7 +346,7 @@ export class LintingFormattingSystem {
       // ESLint returns non-zero exit code when violations are found
       const errorData = error as any;
       if (errorData.stdout) {
-        return errorData.stdout,
+        return errorData.stdout;
       }
       throw error,
     }
@@ -371,7 +371,7 @@ export class LintingFormattingSystem {
         }
       }
 
-      return violations,
+      return violations;
     } catch (error) {
       logger.error('Failed to parse ESLint output', error),
       return []
@@ -390,10 +390,10 @@ export class LintingFormattingSystem {
 
       // Check if file was actually changed
       const newContent = fs.readFileSync(filePath, 'utf8')
-      return originalContent !== newContent,
+      return originalContent !== newContent;
     } catch (error) {
       logger.error(`Failed to format file ${filePath}`, error)
-      return false,
+      return false;
     }
   }
 
@@ -422,7 +422,7 @@ export class LintingFormattingSystem {
       fs.writeFileSync(filePath, modifiedContent, 'utf8')
     }
 
-    return fixesApplied,
+    return fixesApplied;
   }
 
   private async enforceStyleGuideInFile(filePath: string): Promise<number> {
@@ -523,7 +523,7 @@ export class LintingFormattingSystem {
       fs.writeFileSync(filePath, modifiedLines.join('\n'), 'utf8')
     }
 
-    return fixesApplied,
+    return fixesApplied;
   }
 
   private async getViolationBreakdown(filePaths: string[]): Promise<ViolationBreakdown> {
@@ -549,7 +549,7 @@ export class LintingFormattingSystem {
       }
     }
 
-    return breakdown,
+    return breakdown;
   }
 
   private async getSourceFiles(): Promise<string[]> {
@@ -578,7 +578,7 @@ export class LintingFormattingSystem {
         stdio: 'pipe',
         timeout: 30000
 })
-      return true,
+      return true;
     } catch (error) {
       logger.warn('Build validation failed during linting/formatting', error),
       return false

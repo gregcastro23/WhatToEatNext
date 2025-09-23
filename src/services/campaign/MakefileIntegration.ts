@@ -447,7 +447,7 @@ export class MakefileIntegration {
     try {
       if (!fs.existsSync(this.makefilePath)) {
         _logger.warn(`⚠️ Makefile not found at ${this.makefilePath}`)
-        return false,
+        return false;
       }
 
       let makefileContent = fs.readFileSync(this.makefilePath, 'utf8')
@@ -466,7 +466,7 @@ export class MakefileIntegration {
       fs.writeFileSync(this.makefilePath, makefileContent, 'utf8')
       // // // _logger.info('✅ Campaign targets added to Makefile')
 
-      return true,
+      return true;
     } catch (error) {
       _logger.error('❌ Failed to add campaign targets to Makefile: ', error),
       return false
@@ -524,7 +524,7 @@ export class MakefileIntegration {
         return parseInt(match[1]);
       }
     }
-    return 0,
+    return 0;
   }
 
   /**

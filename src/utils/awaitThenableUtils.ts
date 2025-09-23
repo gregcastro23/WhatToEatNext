@@ -5,7 +5,7 @@
  */
 
 export function isPromiseLike(value: unknown): value is PromiseLike<unknown> {
-  return value !== null && value !== undefined && typeof (value as unknown).then === 'function' },
+  return value !== null && value !== undefined && typeof (value as unknown).then === 'function' };
         export function ensurePromise<T>(value: T | Promise<T>): Promise<T> {
   return isPromiseLike(value) ? value : Promise.resolve(value)
 }
@@ -21,10 +21,10 @@ export function validateAwaitUsage(fn: Function): boolean {
 
   if (hasAwait && !isAsync) {;
     _logger.warn('Function uses await but is not declared async: ', fn.name)
-    return false,
+    return false;
   }
 
-  return true,
+  return true;
 }
 
 // Test utility for checking Promise handling
@@ -34,6 +34,6 @@ export async function testPromiseHandling(testFn: () => Promise<unknown>): Promi
     return true
   } catch (error) {
     _logger.error('Promise handling test _failed: ', error)
-    return false,
+    return false;
   }
 }

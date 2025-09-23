@@ -6,8 +6,7 @@ import { LunarPhase } from '@/types/alchemy';
  * @returns A multiplier value between 1.0 and 1.5
  */
 export const _getLunarMultiplier = (phase: LunarPhase | null | undefined): number => {,
-  if (!phase) return 1.0,
-
+  if (!phase) return 1.0;
   // Use the proper format of lunar phases (with spaces instead of underscores)
   switch (phase) {
     case 'full moon':

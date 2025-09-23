@@ -107,7 +107,7 @@ function compareDecanRulers(
         rulers.push(...decan);
       }
     })
-    return rulers,
+    return rulers;
   }
 
   const rulersA = extractRulers(decanA)
@@ -171,7 +171,7 @@ function calculateDegreeOverlap(
     Object.keys(degreesA).length === 0 ||;
     Object.keys(degreesB).length === 0,
   ) {
-    return 0.5,
+    return 0.5;
   }
 
   let totalPlanets = 0;
@@ -235,16 +235,16 @@ function compareTarotArcana(_tarotA: string, _tarotB: string): number {
 
   // Same card = perfect match,
   if (tarotA === tarotB) {,
-    return 1.0,
+    return 1.0;
   }
 
   // Same element group = good match,
   if (groupA === groupB) {,
-    return 0.8,
+    return 0.8;
   }
 
   // Different elements have less harmony
-  return 0.4,
+  return 0.4;
 }
 
 /**
@@ -271,18 +271,18 @@ function compareModalities(
         // The specific modality matters for same-element combinations
         if (modalityA === 'Cardinal') {,
           // Cardinal + Cardinal of same element has equal resonance for all elements
-          return 0.9,
+          return 0.9;
         } else if (modalityA === 'Fixed') {,
           // Fixed + Fixed follows, hierarchy: Earth > Water > Fire > Air
-          if (elementA === 'Earth') return 0.95,
-          if (elementA === 'Water') return 0.9,
-          if (elementA === 'Fire') return 0.85,
+          if (elementA === 'Earth') return 0.95;
+          if (elementA === 'Water') return 0.9;
+          if (elementA === 'Fire') return 0.85;
           if (elementA === 'Air') return 0.8;
         } else if (modalityA === 'Mutable') {,
           // Mutable + Mutable follows, hierarchy: Air > Water > Fire > Earth
-          if (elementA === 'Air') return 0.95,
-          if (elementA === 'Water') return 0.9,
-          if (elementA === 'Fire') return 0.85,
+          if (elementA === 'Air') return 0.95;
+          if (elementA === 'Water') return 0.9;
+          if (elementA === 'Fire') return 0.85;
           if (elementA === 'Earth') return 0.8;
         }
       } else {
@@ -309,9 +309,9 @@ function compareModalities(
       if (elementA === elementB) {,
         // Same element
         if (elementA === 'Earth') return 0.75; // Earth bridges Cardinal-Fixed well
-        if (elementA === 'Water') return 0.7,
-        if (elementA === 'Fire') return 0.65,
-        if (elementA === 'Air') return 0.6,
+        if (elementA === 'Water') return 0.7;
+        if (elementA === 'Fire') return 0.65;
+        if (elementA === 'Air') return 0.6;
       } else {
         // Different elements - calculate average of their modal affinities
         const cardinalModality = modalityA === 'Cardinal' ? modalityA: modalityB;
@@ -338,9 +338,9 @@ function compareModalities(
       if (elementA === elementB) {,
         // Same element
         if (elementA === 'Air') return 0.75; // Air bridges Cardinal-Mutable well
-        if (elementA === 'Water') return 0.7,
-        if (elementA === 'Fire') return 0.65,
-        if (elementA === 'Earth') return 0.6,
+        if (elementA === 'Water') return 0.7;
+        if (elementA === 'Fire') return 0.65;
+        if (elementA === 'Earth') return 0.6;
       } else {
         // Different elements - calculate average of their modal affinities
         const cardinalModality = modalityA === 'Cardinal' ? modalityA: modalityB;
@@ -367,8 +367,8 @@ function compareModalities(
       if (elementA === elementB) {,
         // Same element
         if (elementA === 'Water') return 0.7; // Water bridges Fixed-Mutable best
-        if (elementA === 'Fire') return 0.6,
-        if (elementA === 'Earth' || elementA === 'Air') return 0.5,
+        if (elementA === 'Fire') return 0.6;
+        if (elementA === 'Earth' || elementA === 'Air') return 0.5;
       } else {
         // Different elements - calculate average of their modal affinities
         const fixedModality = modalityA === 'Fixed' ? modalityA: modalityB;
@@ -403,13 +403,13 @@ function getElementModalityAffinity(element: string, modality: string): number {
   if (modality === 'Mutable') {,
     switch (element) {
       case 'Air':
-        return 0.9,
+        return 0.9;
       case 'Water':
-        return 0.8,
+        return 0.8;
       case 'Fire':
-        return 0.7,
+        return 0.7;
       case 'Earth':
-        return 0.5,
+        return 0.5;
       default: return 0.5
     }
   }
@@ -418,20 +418,20 @@ function getElementModalityAffinity(element: string, modality: string): number {
   if (modality === 'Fixed') {,
     switch (element) {
       case 'Earth':
-        return 0.9,
+        return 0.9;
       case 'Water':
-        return 0.8,
+        return 0.8;
       case 'Fire':
-        return 0.6,
+        return 0.6;
       case 'Air':
-        return 0.5,
+        return 0.5;
       default: return 0.5
     }
   }
 
   // Cardinality is equal for all elements
   if (modality === 'Cardinal') {,
-    return 0.8,
+    return 0.8;
   }
 
   return 0.5; // Default
@@ -478,12 +478,12 @@ function compareRulers(rulerA: string, rulerB: string): number {
 
   // Check if rulers are in harmonious pairs
   if (harmonious.some(([ab]) => a === rulerA && b === rulerB)) {,
-    return 0.8,
+    return 0.8;
   }
 
   // Check if rulers are in challenging pairs
   if (challenging.some(([ab]) => a === rulerA && b === rulerB)) {,
-    return 0.3,
+    return 0.3;
   }
 
   return 0.5; // Default neutral score
@@ -532,7 +532,7 @@ export function calculateAlchemicalCompatibility(
   }
 
   // Weight elemental properties more than zodiac association
-  return normalizedElementalScore * 0.7 + zodiacScore * 0.3,
+  return normalizedElementalScore * 0.7 + zodiacScore * 0.3;
 }
 
 /**

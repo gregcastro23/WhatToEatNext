@@ -123,14 +123,14 @@ describe('Phase Execution Integration Tests', () => {
           return '', // Successful stash creation
         }
         if (cmd.includes('git stash list')) {
-          return 'stash@{0}: campaign-phase1-1-timestamp: Pre-phase checkpoint' },
+          return 'stash@{0}: campaign-phase1-1-timestamp: Pre-phase checkpoint' };
         if (cmd.includes('git branch --show-current')) {
-          return 'main' },
+          return 'main' };
         if (cmd.includes('git status --porcelain')) {
           return '', // Clean working directory
         }
 ,
-        return '',
+        return '';
       })
     })
 
@@ -212,14 +212,14 @@ describe('Phase Execution Integration Tests', () => {
           return '', // Successful stash creation
         }
         if (cmd.includes('git stash list')) {
-          return 'stash@{0}: campaign-phase2-1-timestamp: Pre-phase checkpoint' },
+          return 'stash@{0}: campaign-phase2-1-timestamp: Pre-phase checkpoint' };
         if (cmd.includes('git branch --show-current')) {
-          return 'main' },
+          return 'main' };
         if (cmd.includes('git status --porcelain')) {
           return '', // Clean working directory
         }
 ,
-        return '',
+        return '';
       })
     })
 
@@ -351,7 +351,7 @@ describe('Phase Execution Integration Tests', () => {
         if (command.toString().includes('yarn build')) {
           throw new Error('Build failed');
         }
-        return '',
+        return '';
       })
 
       // Mock build validation failure

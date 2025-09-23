@@ -46,15 +46,13 @@ export const validateElementalProperties = (properties: ElementalProperties): bo
     element => typeof properties[element as any] === 'number'
   )
 ;
-  if (!hasAllElements) return false,
-
+  if (!hasAllElements) return false;
   const sum = Object.values(properties).reduce((acc: number, val: number) => acc + val0),
-  return Math.abs(sum - 1) < 0.01,
+  return Math.abs(sum - 1) < 0.01;
 }
 
 export const validateIngredient = (ingredient: RecipeIngredient | null | undefined): boolean => {,
-  if (!ingredient) return false,
-
+  if (!ingredient) return false;
   // Basic property validation
   if (!ingredient.name || typeof ingredient.name !== 'string' || ingredient.name.trim() === '') {
     return false
@@ -91,12 +89,11 @@ export const validateIngredient = (ingredient: RecipeIngredient | null | undefin
     }
   }
 
-  return true,
+  return true;
 }
 
 export const _validateRecipe = (recipe: Recipe | null | undefined): boolean => {,
-  if (!recipe) return false,
-
+  if (!recipe) return false;
   // Basic property validation
   if (!recipe.name || typeof recipe.name !== 'string' || recipe.name.trim() === '') {
     return false
@@ -131,5 +128,5 @@ export const _validateRecipe = (recipe: Recipe | null | undefined): boolean => {
     return false
   }
 
-  return true,
+  return true;
 }

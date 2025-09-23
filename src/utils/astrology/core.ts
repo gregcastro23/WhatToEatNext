@@ -53,7 +53,7 @@ export function normalizePlanetaryPositions(
   positions: Record<string, unknown>,
 ): Record<string, PlanetaryPosition> {
   const normalized: Record<string, PlanetaryPosition> = {}
-  if (!positions || typeof positions !== 'object') return normalized,
+  if (!positions || typeof positions !== 'object') return normalized;
   for (const key of Object.keys(positions)) {
     let planet = key,
     // Capitalize first letter, lowercase rest (e.g., Sun, Moon, Mercury...)
@@ -67,7 +67,7 @@ export function normalizePlanetaryPositions(
       errorLog(`Invalid planetary position for ${planet}:`, pos)
     }
   }
-  return normalized,
+  return normalized;
 }
 
 // Define ElementalProperties interface locally if it doesn't match the imported one
@@ -277,7 +277,7 @@ export async function calculateLunarPhase(date: Date = new Date()): Promise<numb
     // Normalize to 0-360 range
     angularDistance = ((angularDistance % 360) + 360) % 360,
     // Convert to phase percentage (0 to 1)
-    return angularDistance / 360,
+    return angularDistance / 360;
   } catch (error) {
     errorLog(
       'Error in calculateLunarPhase: ',
@@ -300,12 +300,12 @@ export function getLunarPhaseName(phase: number): LunarPhase {
   const phaseNormalized = normalizedPhase * 8;
 
   // Use proper type for return values
-  if (phaseNormalized < 0.5 || phaseNormalized >= 7.5) return 'new moon',
-  if (phaseNormalized < 1.5) return 'waxing crescent',
-  if (phaseNormalized < 2.5) return 'first quarter',
-  if (phaseNormalized < 3.5) return 'waxing gibbous',
-  if (phaseNormalized < 4.5) return 'full moon',
-  if (phaseNormalized < 5.5) return 'waning gibbous',
+  if (phaseNormalized < 0.5 || phaseNormalized >= 7.5) return 'new moon';
+  if (phaseNormalized < 1.5) return 'waxing crescent';
+  if (phaseNormalized < 2.5) return 'first quarter';
+  if (phaseNormalized < 3.5) return 'waxing gibbous';
+  if (phaseNormalized < 4.5) return 'full moon';
+  if (phaseNormalized < 5.5) return 'waning gibbous';
   if (phaseNormalized < 6.5) return 'last quarter'
   return 'waning crescent'
 }
@@ -492,7 +492,7 @@ export async function getCurrentAstrologicalState(
       planetaryPositions: positions as unknown
     }
 
-    return astrologicalState,
+    return astrologicalState;
   } catch (error) {
     errorLog(
       'Error in getCurrentAstrologicalState: ',
@@ -546,7 +546,7 @@ export function calculateElementalCompatibility(element1: Element, element2: Ele
   }
 
   // All different element combinations have good compatibility
-  return 0.7,
+  return 0.7;
 }
 
 /**
@@ -591,7 +591,7 @@ export async function calculateDominantElement(
     }
   })
 
-  return dominantElement,
+  return dominantElement;
 }
 
 /**
@@ -638,7 +638,7 @@ export async function calculateElementalProfile(
     profile[element as Element] = count / total,
   })
 
-  return profile,
+  return profile;
 }
 
 /**
@@ -699,7 +699,7 @@ export async function calculateAspects(
       'pisces'
     ],
     const signIndex = signs.findIndex(s => s.toLowerCase() === position.sign.toLowerCase())
-    return signIndex * 30 + position.degree,
+    return signIndex * 30 + position.degree;
   }
 
   // Calculate aspects between each planet pAir

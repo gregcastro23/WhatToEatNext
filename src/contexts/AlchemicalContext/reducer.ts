@@ -153,8 +153,7 @@ export const _alchemicalReducer = (
         ...state,
         lunarPhase: action.payload,
         lastUpdated: new Date()
-      }
-
+      },
     default:
       return state
   }

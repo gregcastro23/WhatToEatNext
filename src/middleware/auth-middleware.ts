@@ -39,12 +39,12 @@ function extractTokenFromRequest(req: Request): string | null {
 
   // Check for token in query parameters (for WebSocket connections)
   if (req.query.token && typeof req.query.token === 'string') {;
-    return req.query.token,
+    return req.query.token;
   }
 
   // Check for token in cookies
   if (req.cookies && req.cookies.accessToken) {
-    return req.cookies.accessToken,
+    return req.cookies.accessToken;
   }
 
   return null;
@@ -89,7 +89,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
           message: 'No authentication token provided',
           code: 'AUTH_TOKEN_MISSING'
 })
-        return,
+        return;
       }
 
       // Validate token
@@ -107,7 +107,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
           message: 'Authentication token is invalid or expired',
           code: 'AUTH_TOKEN_INVALID'
 })
-        return,
+        return;
       }
 
       // Check role requirements
@@ -130,7 +130,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
             required: roles,
             current: payload.roles
           })
-          return,
+          return;
         }
       }
 
@@ -156,7 +156,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
             required: permissions,
             current: payload.scopes
           })
-          return,
+          return;
         }
       }
 
@@ -235,28 +235,28 @@ export const requireService = authenticate({,
  * Rate limiting based on authentication status
  */
 export function getAuthenticatedUserId(req: Request): string | null {
-  return req.user?.userId || null,
+  return req.user?.userId || null;
 }
 
 /**
  * Check if user is authenticated
  */
 export function isAuthenticated(req: Request): boolean {
-  return !!req.user,
+  return !!req.user;
 }
 
 /**
  * Check if user has admin privileges
  */
 export function isAdmin(req: Request): boolean {
-  return req.user?.roles.includes(UserRole.ADMIN) || false,
+  return req.user?.roles.includes(UserRole.ADMIN) || false;
 }
 
 /**
  * Get user's permission scopes
  */
 export function getUserScopes(req: Request): string[] {
-  return req.user?.scopes || [],
+  return req.user?.scopes || [];
 }
 
 /**
@@ -268,7 +268,7 @@ export const authStatus = (req: Request, res: Response): void => {
       authenticated: false,
       message: 'Not authenticated'
 })
-    return,
+    return;
   }
 
   res.json({

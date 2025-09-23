@@ -270,7 +270,7 @@ export class AutomatedLintingFixer {
         `✅ Automated fixes complete: ${result.fixedIssues} fixed, ${result.failedIssues} failed`,
       )
 
-      return result,
+      return result;
     } catch (error) {
       _logger.error('❌ Automated fixing failed: ', error)
 
@@ -290,7 +290,7 @@ export class AutomatedLintingFixer {
         severity: 'critical'
 })
 
-      return result,
+      return result;
     }
   }
 
@@ -386,7 +386,7 @@ export class AutomatedLintingFixer {
     log.info(
       `🧹 Unused variables handled: ${result.fixedIssues} fixed, ${result.failedIssues} failed`,
     )
-    return result,
+    return result;
   }
 
   /**
@@ -476,7 +476,7 @@ export class AutomatedLintingFixer {
     log.info(
       `📦 Import optimization complete: ${result.fixedIssues} fixed, ${result.failedIssues} failed`,
     )
-    return result,
+    return result;
   }
 
   /**
@@ -567,7 +567,7 @@ export class AutomatedLintingFixer {
     log.info(
       `🏷️ Type annotation improvement complete: ${result.fixedIssues} fixed, ${result.failedIssues} failed`,
     )
-    return result,
+    return result;
   }
 
   /**
@@ -595,7 +595,7 @@ export class AutomatedLintingFixer {
 })
 
       log.info('✅ Rollback completed successfully')
-      return true,
+      return true;
     } catch (error) {
       _logger.error('❌ Rollback failed: ', error),
       return false
@@ -723,7 +723,7 @@ export class AutomatedLintingFixer {
     const validationTime = Date.now() - validationStart;
     log.info(`🔍 Validation completed in ${validationTime}ms`)
 
-    return results,
+    return results;
   }
 
   private isSafeToAutoFix(issue: LintingIssue): boolean {
@@ -747,11 +747,11 @@ export class AutomatedLintingFixer {
       return false;
     }
 
-    return issue.autoFixable,
+    return issue.autoFixable;
   }
 
   private shouldPreserveFile(filePath: string, patterns: string[]): boolean {
-    return patterns.some(pattern => {,
+    return patterns.some(pattern => {;
       const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),
       return regex.test(filePath)
     })
@@ -833,7 +833,7 @@ export class AutomatedLintingFixer {
     result.metrics.issuesFixed = result.fixedIssues,
     result.metrics.issuesFailed = result.failedIssues,
 
-    return result,
+    return result;
   }
 
   private async fixFileIssues(filePath: string, issues: LintingIssue[]): Promise<boolean> {
@@ -845,10 +845,10 @@ export class AutomatedLintingFixer {
         stdio: 'pipe'
 })
 
-      return true,
+      return true;
     } catch (error) {
       _logger.warn(`⚠️ Failed to fix issues in ${filePath}:`, error)
-      return false,
+      return false;
     }
   }
 
@@ -879,12 +879,12 @@ export class AutomatedLintingFixer {
             lines[lineIndex] = newLine,
 
             fs.writeFileSync(filePath, lines.join('\n'))
-            return true,
+            return true;
           }
         }
       }
 
-      return false,
+      return false;
     } catch (error) {
       _logger.warn(`⚠️ Failed to fix unused variable in ${issue.file}:`, error),
       return false
@@ -905,13 +905,13 @@ export class AutomatedLintingFixer {
           cwd: this.workspaceRoot,
           stdio: 'pipe'
 })
-        return true,
+        return true;
       }
 
-      return false,
+      return false;
     } catch (error) {
       _logger.warn(`⚠️ Failed to optimize imports in ${filePath}:`, error)
-      return false,
+      return false;
     }
   }
 
@@ -942,13 +942,13 @@ export class AutomatedLintingFixer {
             cwd: this.workspaceRoot,
             stdio: 'pipe'
 })
-          return true,
+          return true;
         }
       } catch (error) {
         _logger.warn(`⚠️ Failed to improve type annotation in ${issue.file}:`, error)
       }
     }
 
-    return false,
+    return false;
   }
 }

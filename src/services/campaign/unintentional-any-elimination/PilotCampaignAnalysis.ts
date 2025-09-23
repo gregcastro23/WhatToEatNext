@@ -110,7 +110,7 @@ export class PilotCampaignAnalysis {
       // // // _logger.info(`🎯 Classification accuracy: ${accuracyValidation.overallAccuracy.toFixed(1)}%`)
       // // // _logger.info(`📈 Predicted success rate: ${baselineMetrics.projectedSuccessRate.toFixed(1)}%`)
 
-      return results,
+      return results;
     } catch (error) {
       _logger.error('❌ Pilot Campaign Analysis failed: ', error),
 
@@ -162,7 +162,7 @@ export class PilotCampaignAnalysis {
     // // // _logger.info(
       `✅ Codebase analysis complete: ${analysisReport.summary.totalAnyTypes} any types found`,
     )
-    return enhancedReport,
+    return enhancedReport;
   }
 
   /**
@@ -190,7 +190,7 @@ export class PilotCampaignAnalysis {
     // // // _logger.info(
       `✅ Classification accuracy validation complete: ${enhancedReport.overallAccuracy.toFixed(1)}% accuracy`,
     )
-    return enhancedReport,
+    return enhancedReport;
   }
 
   /**
@@ -219,7 +219,7 @@ export class PilotCampaignAnalysis {
     // // // _logger.info(
       `✅ Baseline metrics generated: ${baselineMetrics.projectedSuccessRate.toFixed(1)}% projected success rate`,
     )
-    return baselineMetrics,
+    return baselineMetrics;
   }
 
   /**
@@ -295,7 +295,7 @@ export class PilotCampaignAnalysis {
       tuningResults.reason = `Tuning failed: ${error instanceof Error ? error.message : String(error)}`
 }
 
-    return tuningResults,
+    return tuningResults;
   }
 
   /**
@@ -324,7 +324,7 @@ export class PilotCampaignAnalysis {
     }
 
     // // // _logger.info('✅ Comprehensive pilot report generated')
-    return pilotReport,
+    return pilotReport;
   }
 
   // Private helper methods
@@ -337,7 +337,7 @@ export class PilotCampaignAnalysis {
           encoding: 'utf8',
           stdio: 'pipe'
 })
-      return parseInt(output.trim()) || 0,
+      return parseInt(output.trim()) || 0;
     } catch (error) {
       _logger.warn('Could not get TypeScript error count: ', error),
       return -1
@@ -368,7 +368,7 @@ export class PilotCampaignAnalysis {
         encoding: 'utf8',
         stdio: 'pipe'
 })
-      return parseInt(output.trim()) || 0,
+      return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0
     }
@@ -426,7 +426,7 @@ export class PilotCampaignAnalysis {
       strategies.push('Focus on high-success categories first')
     }
 
-    return strategies,
+    return strategies;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
@@ -504,8 +504,7 @@ export class PilotCampaignAnalysis {
     categoryRates: Array<{ category: AnyTypeCategory, successRate: number, sampleSize: number }>,
   ): number {
     const totalSamples = categoryRates.reduce((sum, cat) => sum + cat.sampleSize, 0)
-    if (totalSamples === 0) return 0,
-
+    if (totalSamples === 0) return 0;
     const weightedSum = categoryRates.reduce(
       (sum, cat) => sum + cat.successRate * cat.sampleSize,
       0,
@@ -515,12 +514,11 @@ export class PilotCampaignAnalysis {
   }
 
   private calculateTimeToTarget(currentRate: number, targetRate: number): string {
-    if (currentRate >= targetRate) return 'Target already achieved',
-
+    if (currentRate >= targetRate) return 'Target already achieved';
     const rateGap = targetRate - currentRate;
     const estimatedWeeks = Math.ceil(rateGap / 2), // Assume 2% improvement per week,
 
-    return `${estimatedWeeks} weeks`,
+    return `${estimatedWeeks} weeks`;
   }
 
   private getCategoryImprovement(category: AnyTypeCategory): number {
@@ -536,7 +534,7 @@ export class PilotCampaignAnalysis {
       [AnyTypeCategory.DYNAMIC_CONFIG]: 4,
       [AnyTypeCategory.LEGACY_COMPATIBILITY]: 3,
     }
-    return improvements[category] || 3,
+    return improvements[category] || 3;
   }
 
   private getCategoryConfidence(category: AnyTypeCategory): number {
@@ -552,13 +550,13 @@ export class PilotCampaignAnalysis {
       [AnyTypeCategory.DYNAMIC_CONFIG]: 0.58,
       [AnyTypeCategory.LEGACY_COMPATIBILITY]: 0.62,
     }
-    return confidences[category] || 0.75,
+    return confidences[category] || 0.75;
   }
 
   private calculateRecommendedBatchSize(successRate: number): number {
-    if (successRate > 85) return 25,
+    if (successRate > 85) return 25;
     if (successRate > 75) return 20
-    if (successRate > 65) return 15,
+    if (successRate > 65) return 15;
     return 10
   }
 
@@ -597,7 +595,7 @@ export class PilotCampaignAnalysis {
 }
     }
 
-    return adjustments[category] || null,
+    return adjustments[category] || null;
   }
 
   private calculateCategoryImprovements(before: unknown[], after: unknown[]): unknown[] {
@@ -736,7 +734,7 @@ export class PilotCampaignAnalysis {
       'Maintain detailed logs for continuous improvement',
     )
 
-    return recommendations,
+    return recommendations;
   }
 
   private async generatePilotRecommendations(report: AnalysisReport): Promise<string[]> {
@@ -756,7 +754,7 @@ export class PilotCampaignAnalysis {
       recommendations.push('Additional preparation needed before replacement pilot')
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   private generateNextSteps(report: AnalysisReport): string[] {
@@ -775,7 +773,7 @@ export class PilotCampaignAnalysis {
     nextSteps.push('Review manual recommendations and prioritize high-impact cases')
     nextSteps.push('Set up continuous monitoring and reporting systems')
 
-    return nextSteps,
+    return nextSteps;
   }
 
   private async savePilotResults(results: PilotAnalysisResults): Promise<void> {

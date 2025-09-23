@@ -89,6 +89,6 @@ export function validateOrDefault<T>(
     return validator(value) ? value : defaultValue
   } catch (error) {
     logUnexpectedValue('validateOrDefault', { value, error })
-    return defaultValue,
+    return defaultValue;
   }
 }

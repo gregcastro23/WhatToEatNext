@@ -165,8 +165,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       native_american: 'traditional food and medicine',
       asian_fusion: 'incorporated into modern desserts'
 }
-  }
-
+  },
   strawberry: {
     name: 'Strawberry',
     elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 },
@@ -226,8 +225,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       humidity: 'moderate',
       notes: "Don't wash until ready to use"
 }
-  }
-
+  },
   raspberry: {
     name: 'Raspberry',
     elementalProperties: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
@@ -290,8 +288,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       humidity: 'moderate',
       notes: 'Best used quickly'
 }
-  }
-
+  },
   blackberry: {
     name: 'Blackberry',
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
@@ -354,8 +351,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       humidity: 'moderate',
       notes: 'Use quickly for best flavor'
 }
-  }
-
+  },
   gooseberry: {
     name: 'Gooseberry',
     elementalProperties: { Water: 0.3, Earth: 0.2, Air: 0.2, Fire: 0.3 },
@@ -401,8 +397,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
         preparationTips: ['Best for jams and preserves']
       }
     }
-  }
-
+  },
   currant: {
     name: 'Currant',
     elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 },
@@ -448,8 +443,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
         preparationTips: ['Good for drying or dehydrating']
       }
     }
-  }
-
+  },
   elderberry: {
     name: 'Elderberry',
     elementalProperties: { Water: 0.3, Air: 0.3, Earth: 0.2, Fire: 0.2 },
@@ -504,8 +498,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
         preparationTips: ['Best for elderberry wine']
       }
     }
-  }
-
+  },
   mulberry: {
     name: 'Mulberry',
     elementalProperties: { Water: 0.4, Earth: 0.2, Air: 0.2, Fire: 0.2 },
@@ -551,8 +544,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
         preparationTips: ['Good for jams and preserves']
       }
     }
-  }
-
+  },
   boysenberry: {
     name: 'Boysenberry',
     elementalProperties: { Water: 0.4, Earth: 0.2, Air: 0.2, Fire: 0.2 },
@@ -598,8 +590,7 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
         preparationTips: ['Ideal for jams and preserves']
       }
     }
-  }
-
+  },
   cloudberry: {
     name: 'Cloudberry',
     elementalProperties: { Water: 0.3, Air: 0.3, Earth: 0.2, Fire: 0.2 },

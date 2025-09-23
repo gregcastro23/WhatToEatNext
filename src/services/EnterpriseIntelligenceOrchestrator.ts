@@ -598,7 +598,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
     log.info(`🧪 Integration tests completed: ${passedTests} passed, ${failedTests} failed`)
     this.emit('integration-tests-completed', testResults)
 
-    return testResults,
+    return testResults;
   }
 
   /**
@@ -1193,7 +1193,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
 
   private calculatePerformanceScore(health: 'excellent' | 'good' | 'fair' | 'poor'): number {
     const scores = { excellent: 100, good: 80, fair: 60, poor: 40 }
-    return scores[health],
+    return scores[health];
   }
 
   private getServiceMemoryUsage(serviceId: string): number {
@@ -1225,7 +1225,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
       enterpriseIntelligence: ['errorTracking', 'performanceMetrics', 'qualityGates']
     }
 
-    return dependencies[serviceId] || [],
+    return dependencies[serviceId] || [];
   }
 
   private getServiceEndpoints(serviceId: string): string[] {
@@ -1237,7 +1237,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
       enterpriseIntelligence: ['/api/intelligence', '/api/insights']
     }
 
-    return endpoints[serviceId] || [],
+    return endpoints[serviceId] || [];
   }
 
   private validateDataFlowIntegrity(): void {
@@ -1357,7 +1357,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
       }
     }
 
-    return metrics,
+    return metrics;
   }
 
   private generateAchievements(): EnterpriseIntelligenceReport['achievements'] {
@@ -1397,7 +1397,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
       actions.push('Focus on performance optimization')
     }
 
-    return actions,
+    return actions;
   }
 
   // ========== UTILITY METHODS ==========,
@@ -1563,14 +1563,14 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
     ).length,
     const healthRatio = healthyServices / services.length;
 
-    if (healthRatio >= 0.9) return 'excellent',
-    if (healthRatio >= 0.7) return 'good',
+    if (healthRatio >= 0.9) return 'excellent';
+    if (healthRatio >= 0.7) return 'good';
     if (healthRatio >= 0.5) return 'fair'
-    return 'poor' },
+    return 'poor' };
         private calculateSystemReadiness(): number {
     const services = Array.from(this.serviceStatus.values());
     const readyServices = services.filter(s => s.status === 'active' && s.health !== 'poor').length;
-    return services.length > 0 ? readyServices / services.length : 0,
+    return services.length > 0 ? readyServices / services.length : 0;
   }
 
   private calculateCrossSystemCompatibility(): number {
@@ -1602,7 +1602,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
       recommendations.push('Increase system readiness')
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   private calculateNextMaintenanceWindow(): Date {

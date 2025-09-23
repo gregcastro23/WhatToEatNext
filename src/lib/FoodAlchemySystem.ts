@@ -497,7 +497,7 @@ export class FoodAlchemySystem {
       matchScore = 0.6,
     }
 
-    return matchScore,
+    return matchScore;
   }
 
   /**
@@ -814,7 +814,7 @@ export class FoodAlchemySystem {
       }
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   private generateWarnings(food: FoodCorrespondence, state: SystemState): string[] {
@@ -878,7 +878,7 @@ export class FoodAlchemySystem {
       }
     }
 
-    return warnings,
+    return warnings;
   }
 
   private getPreparationMethods(food: FoodCorrespondence, time: Date): PreparationMethod[] {
@@ -908,7 +908,7 @@ export class FoodAlchemySystem {
     const isDaytime = time.getHours() >= 6 && time.getHours() < 18;
 
     // Filter methods compatible with the food and current time
-    return this.preparationMethods.filter(method =>,
+    return this.preparationMethods.filter(method =>;
       this.isMethodCompatible(method, food, currentPlanetaryHour, isDaytime),
     )
   }
@@ -950,7 +950,7 @@ export class FoodAlchemySystem {
     const compatibilityFactors = [elementalMatch, planetaryMatch, timeAppropriate],
     const trueFactors = compatibilityFactors.filter(Boolean).length;
 
-    return trueFactors >= 2,
+    return trueFactors >= 2;
   }
 
   // Add other methods as needed

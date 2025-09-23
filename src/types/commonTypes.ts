@@ -89,5 +89,5 @@ export function toSeason(value: string | string[]): Season | Season[] {
   if (Array.isArray(value)) {
     return value.map(v => v as Season);
   }
-  return value as Season,
+  return value as Season;
 }

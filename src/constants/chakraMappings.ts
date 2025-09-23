@@ -138,7 +138,7 @@ export function calculateChakraEnergies(
     }
   })
 
-  return chakraEnergies,
+  return chakraEnergies;
 }
 
 // Foods that balance each chakra
@@ -202,5 +202,5 @@ export function recommendFoodsForChakraBalance(
     }
   })
 
-  return recommendations,
+  return recommendations;
 }

@@ -15,7 +15,7 @@ export function enrichIngredientsWithFlavorProfiles(ingredients: Ingredient[]): 
     if (!(ingredient as unknown)?.flavorProfile) {
       (ingredient as unknown).flavorProfile = getFlavorProfileForIngredient(ingredient.name);
     }
-    return ingredient,
+    return ingredient;
   })
 }
 
@@ -70,8 +70,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.2,
     salty: 0.1,
     umami: 0.9
-}
-
+},
   // Fruits
   apple: {
     spicy: 0.0,
@@ -104,8 +103,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.1,
     salty: 0.0,
     umami: 0.0
-}
-
+},
   // Herbs & Spices
   basil: {
     spicy: 0.1,
@@ -162,8 +160,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.4,
     salty: 0.0,
     umami: 0.2
-}
-
+},
   // Meats & Proteins
   beef: {
     spicy: 0.0,
@@ -204,8 +201,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.3,
     salty: 0.1,
     umami: 0.6
-}
-
+},
   // Grains & Starches
   rice: {
     spicy: 0.0,
@@ -230,8 +226,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.2,
     salty: 0.0,
     umami: 0.2
-}
-
+},
   // Dairy & Alternatives
   butter: {
     spicy: 0.0,
@@ -298,8 +293,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.1,
     salty: 0.0,
     umami: 0.1
-}
-
+},
   // Nuts & Seeds
   almond: {
     spicy: 0.0,
@@ -332,8 +326,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.1,
     salty: 0.1,
     umami: 0.2
-}
-
+},
   // Sweeteners
   honey: {
     spicy: 0.0,
@@ -399,5 +392,5 @@ export function getFlavorProfileForIngredient(_ingredientName: string): Ingredie
   }
 
   // Return default if no match found
-  return defaultProfile,
+  return defaultProfile;
 }

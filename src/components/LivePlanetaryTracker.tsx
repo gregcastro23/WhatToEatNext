@@ -84,7 +84,7 @@ export const LivePlanetaryTracker: React.FC = () => {,
       Saturn: ['Slow-cooked stews', 'Root vegetables', 'Traditional comfort foods']
     }
 
-    return recommendations[planet] || recommendations.Sun,
+    return recommendations[planet] || recommendations.Sun;
   }
 
   // Real-time updates

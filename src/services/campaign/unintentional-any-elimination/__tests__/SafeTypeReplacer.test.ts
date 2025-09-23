@@ -11,7 +11,7 @@ import { ClassificationContext, CodeDomain, TypeReplacement } from '../types';
 
 // Type guards for safe property access
 function isValidObject(value: any): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null,
+  return typeof value === 'object' && value !== null;
 }
 
 function hasProperty<T extends string>(
@@ -218,7 +218,7 @@ describe('SafeTypeReplacer', () => {
         const pathStr: any = String(filePath),
         if (pathStr.includes('test1.ts')) return 'const items: any[] = [],',,
         if (pathStr.includes('test2.ts')) return 'const data: Record<string, unknown> = {};';
-        return 'backup content',
+        return 'backup content';
       })
 
       const result: any = await replacer.processBatch(replacements)
@@ -332,7 +332,7 @@ describe('SafeTypeReplacer', () => {
 
       mockFs.readFileSync.mockImplementation((path: any) => {
         const pathStr: any = String(path),
-        if (pathStr === filePath) return 'modified content',
+        if (pathStr === filePath) return 'modified content';
         if (pathStr === backupPath) return 'original content'
         return '';
       })
@@ -753,7 +753,7 @@ describe('SafeTypeReplacer', () => {
       mockFs.readFileSync.mockImplementation((filePath: any) => {
         if (String(filePath).includes('test1.ts')) return 'const items: any[] = [],',
         if (String(filePath).includes('test2.ts')) return 'const data: any = value,',
-        return 'backup content',
+        return 'backup content';
       })
 
       // Mock compilation to fail for the second replacement
@@ -765,7 +765,7 @@ describe('SafeTypeReplacer', () => {
           (error as any).stdout = 'error, TS2304: Cannot find name 'InvalidType''
           throw error
         }
-        return '',
+        return '';
       })
 
       const result: any = await replacer.processBatch(replacements)

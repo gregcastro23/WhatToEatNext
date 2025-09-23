@@ -114,7 +114,7 @@ class EnhancedPreCommitHook {
         .filter(file => !this.isFileExempt(file));
     } catch (error) {
       this.log(`Error getting staged files: ${error}`, 'error')
-      return [],
+      return [];
     }
   }
 
@@ -130,7 +130,7 @@ class EnhancedPreCommitHook {
     }
 
     // Check pattern matches
-    return this.config.exemptions.patterns.some(pattern => {,
+    return this.config.exemptions.patterns.some(pattern => {;
       const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),
       return regex.test(filePath)
     })
@@ -206,7 +206,7 @@ class EnhancedPreCommitHook {
           this.log(`   Details: ${JSON.stringify(failure.details, null, 2)}`, 'error')
         }
       })
-      return false,
+      return false;
     }
 
     if (passed) {
@@ -218,7 +218,7 @@ class EnhancedPreCommitHook {
       )
     }
 
-    return true,
+    return true;
   }
 
   private async checkFormatting(): Promise<PreCommitResult> {

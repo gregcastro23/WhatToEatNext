@@ -84,7 +84,7 @@ export class UnusedVariableTargetedFixer {
       result.errors.push(`Failed to get lint output: ${error}`)
     }
 
-    return result,
+    return result;
   }
 
   /**
@@ -130,7 +130,7 @@ export class UnusedVariableTargetedFixer {
       result.errors.push(`Failed to get lint output: ${error}`)
     }
 
-    return result,
+    return result;
   }
 
   /**
@@ -165,7 +165,7 @@ export class UnusedVariableTargetedFixer {
       log.info('⚠️  ESLint auto-fix completed with warnings')
     }
 
-    return result,
+    return result;
   }
 
   /**
@@ -201,7 +201,7 @@ export class UnusedVariableTargetedFixer {
       }
     }
 
-    return params,
+    return params;
   }
 
   /**
@@ -237,7 +237,7 @@ export class UnusedVariableTargetedFixer {
       }
     }
 
-    return vars,
+    return vars;
   }
 
   /**
@@ -297,7 +297,7 @@ export class UnusedVariableTargetedFixer {
       fs.writeFileSync(filePath, lines.join('\n'))
     }
 
-    return fixedCount,
+    return fixedCount;
   }
 
   /**
@@ -336,7 +336,7 @@ export class UnusedVariableTargetedFixer {
       fs.writeFileSync(filePath, lines.join('\n'))
     }
 
-    return fixedCount,
+    return fixedCount;
   }
 
   /**
@@ -350,7 +350,7 @@ export class UnusedVariableTargetedFixer {
         encoding: 'utf8'
 })
       log.info('✅ Build validation passed')
-      return true,
+      return true;
     } catch (error) {
       _logger.error('❌ Build validation failed')
       return false

@@ -266,7 +266,7 @@ export class PlanetaryHourCalculator {
       }
     }
 
-    return result,
+    return result;
   }
 
   /**

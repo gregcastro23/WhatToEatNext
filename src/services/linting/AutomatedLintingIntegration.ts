@@ -149,7 +149,7 @@ export class AutomatedLintingIntegration {
       log.info('🎉 Automated linting workflow complete!')
       this.logWorkflowResults(result)
 
-      return result,
+      return result;
     } catch (error) {
       _logger.error('❌ Automated linting workflow failed: ', error),
       throw error
@@ -209,7 +209,7 @@ export class AutomatedLintingIntegration {
       const result = await quickFixer.applyAutomatedFixes(categorizedQuickWins, batchOptions)
 
       log.info(`⚡ Quick fixes complete: ${result.fixedIssues} issues fixed`)
-      return result,
+      return result;
     } catch (error) {
       _logger.error('❌ Quick fixes failed: ', error),
       throw error
@@ -285,7 +285,7 @@ export class AutomatedLintingIntegration {
       })
 
       log.info(`🧹 Unused variable cleanup complete: ${result.fixedIssues} variables handled`)
-      return result,
+      return result;
     } catch (error) {
       _logger.error('❌ Unused variable cleanup failed: ', error),
       throw error
@@ -339,7 +339,7 @@ export class AutomatedLintingIntegration {
       })
 
       log.info(`📦 Import optimization complete: ${result.fixedIssues} imports optimized`)
-      return result,
+      return result;
     } catch (error) {
       _logger.error('❌ Import optimization failed: ', error),
       throw error
@@ -464,7 +464,7 @@ export class AutomatedLintingIntegration {
       }
     }
 
-    return fixResults,
+    return fixResults;
   }
 
   private generateWorkflowSummary(
@@ -602,7 +602,7 @@ export class AutomatedLintingIntegration {
 })
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   private calculateWorkflowMetrics(
@@ -679,7 +679,7 @@ export class AutomatedLintingIntegration {
       if (!grouped[category]) grouped[category] = [],
       grouped[category].push(issue)
     }
-    return grouped,
+    return grouped;
   }
 
   private groupIssuesByPriority(issues: LintingIssue[]): Record<number, LintingIssue[]> {
@@ -689,7 +689,7 @@ export class AutomatedLintingIntegration {
       if (!grouped[priority]) grouped[priority] = [],
       grouped[priority].push(issue)
     }
-    return grouped,
+    return grouped;
   }
 
   private groupIssuesByFile(issues: LintingIssue[]): Record<string, LintingIssue[]> {
@@ -698,7 +698,7 @@ export class AutomatedLintingIntegration {
       if (!grouped[issue.file]) grouped[issue.file] = [],
       grouped[issue.file].push(issue)
     }
-    return grouped,
+    return grouped;
   }
 
   private createEmptyFixResult(): AutomatedFixResult {

@@ -40,7 +40,7 @@ export function enrichRecipeData(recipe: unknown): Recipe {
   // 4. Add celestial timing recommendations
   enrichedRecipe.celestialTiming = deriveCelestialTiming(enrichedRecipe)
 ;
-  return enrichedRecipe as Recipe,
+  return enrichedRecipe as Recipe;
 }
 
 /**
@@ -172,7 +172,7 @@ function deriveElementalProperties(_recipe: Recipe): ElementalProperties {
     elementalProps.Air /= total,
   }
 
-  return elementalProps,
+  return elementalProps;
 }
 
 /**
@@ -212,7 +212,7 @@ function enrichAndNormalizeSeasons(seasons?: string[]): string[] {
   })
 
   // Remove duplicates
-  return [...new Set(normalizedSeasons)],
+  return [...new Set(normalizedSeasons)];
 }
 
 /**
@@ -259,7 +259,7 @@ function deriveCelestialTiming(_recipe: Recipe): {
     }
   }
 
-  return timing,
+  return timing;
 }
 
 /**

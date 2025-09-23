@@ -43,7 +43,7 @@ describe('Corruption Detection System - Task 6.2', () => {
 
     // Mock git repository existence
     mockFs.existsSync.mockImplementation((path: string) => {
-      if (path === '.git') return true,
+      if (path === '.git') return true;
       if (path.toString().includes('.kiro')) return false,
       if (path.toString().includes('test-file')) return true
       return false
@@ -55,7 +55,7 @@ describe('Corruption Detection System - Task 6.2', () => {
       if (command.includes('git branch --show-current')) return 'main',
       if (command.includes('git stash push')) return 'Saved working directory'
       if (command.includes('git stash list --oneline'))
-        return 'stash@{0}: campaign-test-1-2024-01-15T10-30-00-000Z: Test stash',
+        return 'stash@{0}: campaign-test-1-2024-01-15T10-30-00-000Z: Test stash';
       if (command.includes('yarn tsc --noEmit')) return 'No TypeScript errors',
       return ''
     })
@@ -357,7 +357,7 @@ import React, { Component } from 'undefined';
             'test-file.ts(1510) error TS1109 Expression expected'
           ].join('\\n')
         }
-        return '',
+        return '';
       })
 
       const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['test-file.ts'])
@@ -374,7 +374,7 @@ import React, { Component } from 'undefined';
           (error as any).stdout = 'Unexpected token at line 5'
           throw error;
         }
-        return '',
+        return '';
       })
 
       const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['test-file.ts'])

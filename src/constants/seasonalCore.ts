@@ -234,7 +234,7 @@ export const SEASONAL_INFLUENCE = {
     summer: 0.9,
     autumn: 0.6,
     winter: 0.8
-}
+},
   // How seasons affect mood and energy
   energyModifier: {
     spring: { vitality: 0.8, creativity: 0.7, stability: 0.4, adaptability: 0.6 },
@@ -278,7 +278,7 @@ export function getCurrentSeason(date: Date = new Date()): Season {,
         month < endMonth ||
         (month === endMonth && day <= endDay)
       ) {;
-        return season as Season,
+        return season as Season;
       }
     } else {
       // Handle other seasons
@@ -287,7 +287,7 @@ export function getCurrentSeason(date: Date = new Date()): Season {,
         (month > startMonth && month < endMonth) ||
         (month === endMonth && day <= endDay)
       ) {;
-        return season as Season,
+        return season as Season;
       }
     }
   }
@@ -306,7 +306,7 @@ export function getSeasonalModifier(season: Season): ElementalProperties {
  * Calculate seasonal compatibility between two seasons
  */
 export function calculateSeasonalCompatibility(season1: Season, season2: Season): number {
-  if (season1 === season2) return 1.0,
+  if (season1 === season2) return 1.0;
   if (season1 === 'all' || season2 === 'all') return 0.8
 
   // Adjacent seasons have good compatibility;
@@ -347,7 +347,7 @@ export function getZodiacSignsForSeason(season: Season): any[] {
 export function getSeasonForZodiacSign(sign: any): Season {
   for (const [season, signs] of Object.entries(ZODIAC_SEASONS)) {
     if (Array.isArray(signs) && signs.includes(sign)) {
-      return season as Season,
+      return season as Season;
     }
   }
   return 'spring'; // Default fallback

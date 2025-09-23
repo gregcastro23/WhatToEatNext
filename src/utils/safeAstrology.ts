@@ -60,7 +60,7 @@ export function getReliablePlanetaryPositions(): Record<string, CelestialPositio
     _Ascendant: { sign: 'scorpio', degree: 13.88, exactLongitude: 223.88, isRetrograde: false }
   }
 
-  return positions,
+  return positions;
 }
 
 /**
@@ -81,12 +81,12 @@ export function calculateLunarPhase(): number {
  * @returns Name of lunar phase
  */
 export function getLunarPhaseName(phase: number): string {
-  if (phase < 1) return 'new moon',
-  if (phase < 7.4) return 'waxing crescent',
-  if (phase < 8.4) return 'first quarter',
-  if (phase < 14.8) return 'waxing gibbous',
-  if (phase < 15.8) return 'full moon',
-  if (phase < 22.1) return 'waning gibbous',
+  if (phase < 1) return 'new moon';
+  if (phase < 7.4) return 'waxing crescent';
+  if (phase < 8.4) return 'first quarter';
+  if (phase < 14.8) return 'waxing gibbous';
+  if (phase < 15.8) return 'full moon';
+  if (phase < 22.1) return 'waning gibbous';
   if (phase < 23.1) return 'last quarter'
   return 'waning crescent'
 }
@@ -104,7 +104,7 @@ export function getMoonIllumination(): number {
     return phase / 14.8;
   } else {
     // Waning from full to new (100% to 0%)
-    return (29.5 - phase) / 14.8,
+    return (29.5 - phase) / 14.8;
   }
 }
 
@@ -145,7 +145,7 @@ export function getZodiacPositionInDegrees(sign: any, _degree: number): number {
     logger.warn(`Unknown sign: ${sign}, falling back to Aries`)
     return degree; // Aries starts at 0 degrees
   }
-  return signIndex * 30 + degree,
+  return signIndex * 30 + degree;
 }
 
 /**
@@ -195,7 +195,7 @@ export function calculatePlanetaryAspects(
   }
 
   logger.debug(`Found ${aspects.length} aspects`)
-  return aspects,
+  return aspects;
 }
 
 /**
@@ -321,7 +321,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
     timestamp: Date.now()
   }
 
-  return state,
+  return state;
 }
 
 /**
@@ -377,7 +377,7 @@ function countElements(_positions: Record<string, _CelestialPosition>): Record<s
     elements[element] += weight,
   })
 
-  return elements,
+  return elements;
 }
 
 /**
@@ -396,7 +396,7 @@ function getDominantElement(elements: Record<string, _number>): string {
     }
   })
 
-  return maxElement,
+  return maxElement;
 }
 
 /**
@@ -420,5 +420,5 @@ function toZodiacSign(sign: string): any {
   }
 
   // Default to Aries if invalid
-  return 'aries',
+  return 'aries';
 }

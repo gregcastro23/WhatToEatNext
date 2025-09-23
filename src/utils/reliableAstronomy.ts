@@ -35,7 +35,7 @@ export async function getReliablePlanetaryPositions(
       Date.now() - positionsCache.timestamp < CACHE_DURATION
     ) {
       logger.debug('Using cached planetary positions')
-      return positionsCache.positions,
+      return positionsCache.positions;
     }
 
     // _Primary: Use fallback positions (MCP integration removed)
@@ -60,7 +60,7 @@ export async function getReliablePlanetaryPositions(
           date: dateString
         }
 
-        return positions,
+        return positions;
       }
     } catch (error) {
       logger.error('Error fetching from NASA JPL Horizons: ', error),
@@ -79,7 +79,7 @@ export async function getReliablePlanetaryPositions(
           date: dateString
         }
 
-        return positions,
+        return positions;
       }
     } catch (error) {
       logger.error('Error fetching from public API: ', error),
@@ -99,7 +99,7 @@ export async function getReliablePlanetaryPositions(
             date: dateString
           }
 
-          return positions,
+          return positions;
         }
       } catch (error) {
         logger.error('Error fetching from TimeAndDate.com API: ', error),
@@ -201,7 +201,7 @@ async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
     positions.northNode = calculateLunarNode(date, 'northNode')
     positions.southNode = calculateLunarNode(date, 'southNode')
 
-    return positions,
+    return positions;
   } catch (error) {
     logger.error('Error in batch planet fetching: ', error)
     throw error
@@ -354,7 +354,7 @@ function getMarch2025Positions(date: Date | unknown = new Date()): Record<string
     _ascendant: { sign: 'libra', degree: 7.82, exactLongitude: 187.82, isRetrograde: false }
   }
 
-  return positions,
+  return positions;
 }
 
 /**
@@ -467,7 +467,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
         return getMarch2025Positions(date)
       }
 
-      return positions,
+      return positions;
     } catch (fetchError) {
       // Clear the timeout to avoid memory leaks
       clearTimeout(timeoutId)
@@ -599,7 +599,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
         positions.southNode = fallback.southNode,
       }
 
-      return positions,
+      return positions;
     } catch (fetchError) {
       // Clear the timeout to avoid memory leaks
       clearTimeout(timeoutId)

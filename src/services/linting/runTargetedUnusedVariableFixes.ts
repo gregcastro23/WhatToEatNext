@@ -26,7 +26,7 @@ async function main() {
         {
           encoding: 'utf8'
 })
-      return parseInt(output.trim()) || 0,
+      return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0
     }

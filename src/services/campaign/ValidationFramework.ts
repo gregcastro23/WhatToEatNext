@@ -813,7 +813,7 @@ export class ValidationFramework {
       recommendations.forEach(rec => // // // _logger.info(`  • ${rec}`))
     }
 
-    return validationResult,
+    return validationResult;
   }
 
   /**
@@ -907,7 +907,7 @@ export class ValidationFramework {
       // Build failure already detected above
     }
 
-    return failures,
+    return failures;
   }
 
   /**
@@ -974,6 +974,6 @@ export class ValidationFramework {
       }
     }
 
-    return recommendations,
+    return recommendations;
   }
 }

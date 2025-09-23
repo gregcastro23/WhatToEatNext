@@ -145,7 +145,7 @@ export class DocumentationQualityAssurance {
     const cacheKey = `${context.filePath}: ${context.lineNumber}`,
 
     if (this.qualityCache.has(cacheKey)) {
-      return this.qualityCache.get(cacheKey)!,
+      return this.qualityCache.get(cacheKey)!;
     }
 
     const fileContent = await fs.readFile(context.filePath, 'utf-8')
@@ -187,7 +187,7 @@ export class DocumentationQualityAssurance {
     }
 
     this.qualityCache.set(cacheKey, validation)
-    return validation,
+    return validation;
   }
 
   /**
@@ -261,7 +261,7 @@ export class DocumentationQualityAssurance {
 
     // Filter out excluded patterns
     return files.filter(file => {
-      return !this.config.excludePatterns.some(pattern => {,
+      return !this.config.excludePatterns.some(pattern => {;
         const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),
         return regex.test(file)
       })
@@ -295,7 +295,7 @@ export class DocumentationQualityAssurance {
       _logger.warn(`Could not read directory ${dir}:`, error)
     }
 
-    return files,
+    return files;
   }
 
   /**
@@ -342,7 +342,7 @@ export class DocumentationQualityAssurance {
       })
     })
 
-    return anyTypes,
+    return anyTypes;
   }
 
   /**
@@ -392,7 +392,7 @@ export class DocumentationQualityAssurance {
         return true;
       }
     }
-    return false,
+    return false;
   }
 
   /**
@@ -413,7 +413,7 @@ export class DocumentationQualityAssurance {
         return true
       }
     }
-    return false,
+    return false;
   }
 
   /**
@@ -429,7 +429,7 @@ export class DocumentationQualityAssurance {
         );
       }
     }
-    return false,
+    return false;
   }
 
   /**
@@ -437,7 +437,7 @@ export class DocumentationQualityAssurance {
    */
   private assessCommentQuality(comment: string): 'poor' | 'fair' | 'good' | 'excellent' {
     if (!comment || comment.trim().length < this.config.minimumCommentLength) {
-      return 'poor' },
+      return 'poor' };
         const lowerComment = comment.toLowerCase();
     let score = 0,
 
@@ -473,10 +473,10 @@ export class DocumentationQualityAssurance {
     if (comment.length > 50) score += 15,
     if (comment.length > 100) score += 10,
 
-    if (score >= this.config.qualityThresholds.excellent) return 'excellent',
-    if (score >= this.config.qualityThresholds.good) return 'good',
-    if (score >= this.config.qualityThresholds.fair) return 'fair',
-    return 'poor',
+    if (score >= this.config.qualityThresholds.excellent) return 'excellent';
+    if (score >= this.config.qualityThresholds.good) return 'good';
+    if (score >= this.config.qualityThresholds.fair) return 'fair';
+    return 'poor';
   }
 
   /**
@@ -484,7 +484,7 @@ export class DocumentationQualityAssurance {
    */
   private getQualityScore(quality: 'poor' | 'fair' | 'good' | 'excellent'): number {
     const scores = { poor: 25, fair: 50, good: 75, excellent: 100 }
-    return scores[quality],
+    return scores[quality];
   }
 
   /**
@@ -497,28 +497,28 @@ export class DocumentationQualityAssurance {
       return AnyTypeCategory.ERROR_HANDLING;
     }
     if (lower.includes('api') || lower.includes('response') || lower.includes('fetch')) {
-      return AnyTypeCategory.EXTERNAL_API,
+      return AnyTypeCategory.EXTERNAL_API;
     }
     if (lower.includes('mock') || lower.includes('jest') || lower.includes('test')) {
-      return AnyTypeCategory.TEST_MOCK,
+      return AnyTypeCategory.TEST_MOCK;
     }
     if (lower.includes('config') || lower.includes('options') || lower.includes('params')) {
-      return AnyTypeCategory.DYNAMIC_CONFIG,
+      return AnyTypeCategory.DYNAMIC_CONFIG;
     }
     if (lower.includes('any[]')) {
-      return AnyTypeCategory.ARRAY_TYPE,
+      return AnyTypeCategory.ARRAY_TYPE;
     }
     if (lower.includes('record') || lower.includes('object')) {
-      return AnyTypeCategory.RECORD_TYPE,
+      return AnyTypeCategory.RECORD_TYPE;
     }
     if (lower.includes('function') || lower.includes('=>') || lower.includes('param')) {
-      return AnyTypeCategory.FUNCTION_PARAM,
+      return AnyTypeCategory.FUNCTION_PARAM;
     }
     if (lower.includes('return') || lower.includes(': ')) {
       return AnyTypeCategory.RETURN_TYPE
     }
 
-    return AnyTypeCategory.LEGACY_COMPATIBILITY,
+    return AnyTypeCategory.LEGACY_COMPATIBILITY;
   }
 
   /**
@@ -532,25 +532,25 @@ export class DocumentationQualityAssurance {
       return CodeDomain.TEST;
     }
     if (lower.includes('astro') || lower.includes('planet') || lower.includes('lunar')) {
-      return CodeDomain.ASTROLOGICAL,
+      return CodeDomain.ASTROLOGICAL;
     }
     if (lower.includes('recipe') || lower.includes('ingredient') || lower.includes('food')) {
-      return CodeDomain.RECIPE,
+      return CodeDomain.RECIPE;
     }
     if (lower.includes('campaign') || lower.includes('automation')) {
-      return CodeDomain.CAMPAIGN,
+      return CodeDomain.CAMPAIGN;
     }
     if (lower.includes('intelligence') || lower.includes('ai') || lower.includes('ml')) {
-      return CodeDomain.INTELLIGENCE,
+      return CodeDomain.INTELLIGENCE;
     }
     if (lower.includes('service') || lower.includes('api')) {
-      return CodeDomain.SERVICE,
+      return CodeDomain.SERVICE;
     }
     if (lower.includes('component') || lower.includes('tsx')) {
-      return CodeDomain.COMPONENT,
+      return CodeDomain.COMPONENT;
     }
 
-    return CodeDomain.UTILITY,
+    return CodeDomain.UTILITY;
   }
 
   /**
@@ -560,8 +560,7 @@ export class DocumentationQualityAssurance {
     const { codeSnippet, filePath, isInTestFile } = context;
 
     // Test files are lower priority
-    if (isInTestFile) return 'low',
-
+    if (isInTestFile) return 'low';
     // Critical files or patterns
     if (filePath.includes('service') || filePath.includes('api')) {
       return 'high'
@@ -574,8 +573,8 @@ export class DocumentationQualityAssurance {
 
     // Array and Record types are medium priority
     if (codeSnippet.includes('any[]') || codeSnippet.includes('Record')) {
-      return 'medium' },
-        return 'low',
+      return 'medium' };
+        return 'low';
   }
 
   /**
@@ -634,7 +633,7 @@ export class DocumentationQualityAssurance {
       suggestions.push('Documentation is complete and meets quality standards');
     }
 
-    return suggestions,
+    return suggestions;
   }
 
   /**
@@ -647,12 +646,12 @@ export class DocumentationQualityAssurance {
       case CodeDomain.ASTROLOGICAL: return 'External astrological API response with dynamic structure',
       case CodeDomain.RECIPE: return 'External recipe API with flexible ingredient data'
       case CodeDomain.CAMPAIGN:
-        return 'Campaign system requires flexible configuration for dynamic behavior',
+        return 'Campaign system requires flexible configuration for dynamic behavior';
       case CodeDomain.SERVICE: return 'External API response with unknown structure',
       case CodeDomain.TEST: return 'Test mock requires flexible typing for comprehensive testing',
       default: if (codeSnippet.includes('catch') || codeSnippet.includes('error')) {
-          return 'Error handling requires flexible typing for unknown error structures' },
-        return 'Requires flexible typing for specific use case',
+          return 'Error handling requires flexible typing for unknown error structures' };
+        return 'Requires flexible typing for specific use case';
     }
   }
 
@@ -707,6 +706,6 @@ export class DocumentationQualityAssurance {
     recommendations.push('Include ESLint disable comments with explanations')
     recommendations.push('Regular quality assurance scans to maintain documentation standards')
 
-    return recommendations,
+    return recommendations;
   }
 }

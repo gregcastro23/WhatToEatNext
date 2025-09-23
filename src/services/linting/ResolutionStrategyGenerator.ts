@@ -130,7 +130,7 @@ export class ResolutionStrategyGenerator {
       fileAnalysis,
     )
 
-    return strategy,
+    return strategy;
   }
 
   /**
@@ -199,7 +199,7 @@ export class ResolutionStrategyGenerator {
       })
     }
 
-    return enhanced,
+    return enhanced;
   }
 
   /**
@@ -251,7 +251,7 @@ export class ResolutionStrategyGenerator {
       adjusted.priority = adjusted.priority === 'low' ? 'medium' : adjusted.priority,
       adjusted.type =
         adjusted.confidence && adjusted.confidence > 0.6 ? 'automated' : 'semi-automated' },
-        return adjusted,
+        return adjusted;
   }
 
   /**
@@ -288,11 +288,11 @@ export class ResolutionStrategyGenerator {
   ): ResolutionStrategy['priority'] {
     switch (errorClassification.severity.level) {
       case 'critical':
-        return 'critical',
+        return 'critical';
       case 'high':
-        return 'high',
+        return 'high';
       case 'medium':
-        return 'medium',
+        return 'medium';
       default: return 'low'
     }
   }
@@ -328,7 +328,7 @@ export class ResolutionStrategyGenerator {
       baseTime *= 2, // Domain expertise required
     }
 
-    return baseTime,
+    return baseTime;
   }
 
   /**
@@ -339,7 +339,7 @@ export class ResolutionStrategyGenerator {
     domainContext: DomainContext,
   ): ResolutionStrategy['complexity'] {
     if (domainContext.type === 'astrological' || domainContext.type === 'campaign') {;
-      return 'expert-required' },
+      return 'expert-required' };
         const complexity = errorClassification.autoFixCapability.complexity;
     if (complexity === 'manual-only') {
       return 'expert-required';
@@ -407,7 +407,7 @@ export class ResolutionStrategyGenerator {
       dependencies: [steps[0].id]
     })
 
-    return steps,
+    return steps;
   }
 
   /**
@@ -446,7 +446,7 @@ export class ResolutionStrategyGenerator {
 })
     }
 
-    return requirements,
+    return requirements;
   }
 
   /**
@@ -539,7 +539,7 @@ export class ResolutionStrategyGenerator {
 })
     }
 
-    return alternatives,
+    return alternatives;
   }
 
   /**
@@ -590,7 +590,7 @@ export class ResolutionStrategyGenerator {
       if (strategy.complexity === 'expert-required') grouped.domainSpecific.push(strategy);
     }
 
-    return grouped,
+    return grouped;
   }
 
   /**
@@ -610,7 +610,7 @@ export class ResolutionStrategyGenerator {
         return riskOrder[a.riskAssessment.overall] - riskOrder[b.riskAssessment.overall]
       }
 
-      return a.estimatedTime - b.estimatedTime,
+      return a.estimatedTime - b.estimatedTime;
     })
 
     return sorted.map(s => s.id);
@@ -626,7 +626,7 @@ export class ResolutionStrategyGenerator {
       distribution[strategy.riskAssessment.overall]++
     }
 
-    return distribution,
+    return distribution;
   }
 
   /**
@@ -658,7 +658,7 @@ export class ResolutionStrategyGenerator {
       recommendations.push('Most issues are low risk - consider aggressive automation')
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   /**

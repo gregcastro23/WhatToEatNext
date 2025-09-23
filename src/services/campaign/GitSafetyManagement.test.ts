@@ -107,7 +107,7 @@ describe('Git Safety Management - Task 6.1', () => {
         if (command.includes('git stash push')) {
           throw new Error('Git stash failed')
         }
-        return '',
+        return '';
       })
 
       await expect(safetyProtocol.createStash('test')).rejects.toThrow('Failed to create git, stash: Git stash failed')
@@ -162,7 +162,7 @@ describe('Git Safety Management - Task 6.1', () => {
 
       // Mock file existence for this specific test
       mockFs.existsSync.mockImplementation((path: string) => {
-        if (path === '.git') return true,
+        if (path === '.git') return true;
         if (path.toString().includes('campaign-stashes.json')) return true
         return false
       })
@@ -244,7 +244,7 @@ describe('Git Safety Management - Task 6.1', () => {
 
       // Mock file existence for this specific test
       mockFs.existsSync.mockImplementation((path: string) => {
-        if (path === '.git') return true,
+        if (path === '.git') return true;
         if (path.toString().includes('campaign-stashes.json')) return true
         return false
       })
@@ -332,7 +332,7 @@ describe('Git Safety Management - Task 6.1', () => {
     test('should track cleanup events', async () => {
       // Mock file existence for this specific test
       mockFs.existsSync.mockImplementation((path: string) => {
-        if (path === '.git') return true,
+        if (path === '.git') return true;
         if (path.toString().includes('campaign-stashes.json')) return true
         return false
       })

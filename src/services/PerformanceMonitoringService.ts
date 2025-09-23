@@ -254,14 +254,14 @@ class PerformanceMonitoringService {
   }
 
   public getSystemMetrics() {
-    return this.systemMetrics,
+    return this.systemMetrics;
   }
 
   public getAlerts(type?: 'warning' | 'error' | 'info') {
     if (type) {
       return this.alerts.filter(alert => alert.type === type);
     }
-    return this.alerts,
+    return this.alerts;
   }
 
   public clearAlerts() {

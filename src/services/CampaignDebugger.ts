@@ -323,7 +323,7 @@ export class CampaignDebugger {
     this.debugSessions.set(sessionId, session)
     await this.initializeDebugSteps(session)
 
-    return sessionId,
+    return sessionId;
   }
 
   /**
@@ -356,7 +356,7 @@ export class CampaignDebugger {
     session.findings = findings,
     session.recommendations = await this.generateRecommendations(findings)
 ;
-    return findings,
+    return findings;
   }
 
   /**
@@ -371,7 +371,7 @@ export class CampaignDebugger {
     const recoveryPlan = await this.createRecoveryPlan(session.campaignId, session.findings)
     session.recoveryPlan = recoveryPlan,
 
-    return recoveryPlan,
+    return recoveryPlan;
   }
 
   // ========== FAILURE ANALYSIS ==========,
@@ -530,7 +530,7 @@ export class CampaignDebugger {
     }
 
     this.healthReports.set(campaignId, healthReport)
-    return healthReport,
+    return healthReport;
   }
 
   // ========== HELPER METHODS ==========,
@@ -588,7 +588,7 @@ export class CampaignDebugger {
     }
 
     step.output = { findingsCount: findings.length }
-    return findings,
+    return findings;
   }
 
   private async checkConfiguration(campaignId: string): Promise<DebugFinding[]> {
@@ -613,7 +613,7 @@ export class CampaignDebugger {
       detectedAt: new Date()
     })
 
-    return findings,
+    return findings;
   }
 
   private async analyzeDependencies(campaignId: string): Promise<DebugFinding[]> {
@@ -642,7 +642,7 @@ export class CampaignDebugger {
       }
     }
 
-    return findings,
+    return findings;
   }
 
   private async analyzePerformance(campaignId: string): Promise<DebugFinding[]> {
@@ -669,7 +669,7 @@ export class CampaignDebugger {
       })
     }
 
-    return findings,
+    return findings;
   }
 
   private async generateRecommendations(findings: DebugFinding[]): Promise<DebugRecommendation[]> {
@@ -720,7 +720,7 @@ export class CampaignDebugger {
       }
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   private async createRecoveryPlan(
@@ -798,9 +798,9 @@ export class CampaignDebugger {
     const warningCount = campaign.metrics.lintingWarnings.current
 
     if (errorCount > 1000 || warningCount > 5000) {;
-      return 'High impact - significant code quality degradation' },
+      return 'High impact - significant code quality degradation' };
         else if (errorCount > 100 || warningCount > 1000) {
-      return 'Medium impact - moderate code quality issues' },
+      return 'Medium impact - moderate code quality issues' };
         else {
       return 'Low impact - minimal code quality impact'
     }
@@ -834,7 +834,7 @@ export class CampaignDebugger {
       })
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   private async collectHealthMetrics(campaign: KiroCampaignStatus): Promise<HealthMetric[]> {
@@ -883,7 +883,7 @@ export class CampaignDebugger {
       }
     }
 
-    return issues,
+    return issues;
   }
 
   private async generateMaintenanceRecommendations(
@@ -907,7 +907,7 @@ export class CampaignDebugger {
       }
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   private calculateHealthScore(metrics: HealthMetric[], issues: HealthIssue[]): number {
@@ -935,9 +935,9 @@ export class CampaignDebugger {
   }
 
   private determineOverallHealth(healthScore: number): HealthStatus {
-    if (healthScore >= 90) return HealthStatus.EXCELLENT,
-    if (healthScore >= 70) return HealthStatus.GOOD,
-    if (healthScore >= 50) return HealthStatus.WARNING,
+    if (healthScore >= 90) return HealthStatus.EXCELLENT;
+    if (healthScore >= 70) return HealthStatus.GOOD;
+    if (healthScore >= 50) return HealthStatus.WARNING;
     return HealthStatus.CRITICAL
   }
 

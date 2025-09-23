@@ -91,7 +91,7 @@ describe('Safety Protocol Integration Tests', () => {;
         const corruptedContent: any = `,
           function test() : any {
           <<<<<<< HEAD,
-            return 'version 1',
+            return 'version 1';
           =======
             return 'version 2'
           >>>>>>> branch
@@ -187,7 +187,7 @@ import type type Something, { ab } from '/module';
         const corruptedContent: any = `,
           function test() : any {
             if (condition != null) {
-              return 'missing closing brace',
+              return 'missing closing brace';
         `,
 
         mockFs.readFileSync.mockReturnValue(corruptedContent)
@@ -384,7 +384,7 @@ import type type Something, { ab } from '/module';
         if (command.toString().includes('git stash push')) {
           throw new Error('Git stash failed');
         }
-        return '',
+        return '';
       })
 
       await expect(safetyProtocol.createStash('Test stash')).rejects.toThrow(

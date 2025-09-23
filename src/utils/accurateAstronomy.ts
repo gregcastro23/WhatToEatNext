@@ -267,14 +267,14 @@ function zodiacStartDegree(sign: string): number {
 function calculateReferenceLongitude(planet: string): number {
   if (!REFERENCE_POSITIONS[planet]) {
     _logger.warn(`No reference position for ${planet}, using default`)
-    return 0,
+    return 0;
   }
 
   const [degrees, minutes, seconds, sign] = REFERENCE_POSITIONS[planet];
   const decimalDegrees = dmsToDecimal(degrees, minutes, seconds)
   const signStart = zodiacStartDegree(sign)
 ;
-  return (signStart + decimalDegrees) % 360,
+  return (signStart + decimalDegrees) % 360;
 }
 
 /**
@@ -317,7 +317,7 @@ export function getFallbackPlanetaryPositions(_date: Date): Record<string, Plane
     }
   }
 
-  return positions,
+  return positions;
 }
 
 /**
@@ -371,7 +371,7 @@ export async function getAccuratePlanetaryPositions(
       Date.now() - positionsCache.timestamp < CACHE_EXPIRATION
     ) {
       debugLog('Using cached planetary positions')
-      return positionsCache.positions,
+      return positionsCache.positions;
     }
 
     const astroTime = new Astronomy.AstroTime(date)
@@ -452,7 +452,7 @@ export async function getAccuratePlanetaryPositions(
       date: new Date(date)
     }
 
-    return positions,
+    return positions;
   } catch (error) {
     debugLog(
       'Error calculating planetary positions: ',
@@ -490,7 +490,7 @@ function isPlanetRetrograde(body: Astronomy.Body, _date: Date): boolean {
       diff = diff > 0 ? diff - 360 : diff + 360;
     }
 
-    return diff < 0,
+    return diff < 0;
   } catch (error) {
     debugLog(
       `Error determining retrograde for ${body}:`,
@@ -500,7 +500,7 @@ function isPlanetRetrograde(body: Astronomy.Body, _date: Date): boolean {
     if (body === Astronomy.Body.Mercury || body === Astronomy.Body.Venus) {;
       return Math.random() < 0.4; // 40% chance of retrograde (rough approximation)
     }
-    return false,
+    return false;
   }
 }
 
@@ -575,7 +575,7 @@ function _calculateMoonPosition(date: Date): number {
   const cycleProgress = (lunarCycles - Math.floor(lunarCycles)) * 360;
 
   // Moon position is sun position + cycle progress
-  return (sunPosition + cycleProgress) % 360,
+  return (sunPosition + cycleProgress) % 360;
 }
 
 /**

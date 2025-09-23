@@ -152,7 +152,7 @@ export class IntelligentPatternRecognition {
       stability: 0.75
 })
 
-    return features,
+    return features;
   }
 
   /**
@@ -204,7 +204,7 @@ export class IntelligentPatternRecognition {
       stability: 0.7
 })
 
-    return features,
+    return features;
   }
 
   /**
@@ -267,7 +267,7 @@ export class IntelligentPatternRecognition {
       stability: 0.9
 })
 
-    return features,
+    return features;
   }
 
   /**
@@ -313,7 +313,7 @@ export class IntelligentPatternRecognition {
       stability: 0.3
 })
 
-    return features,
+    return features;
   }
 
   /**
@@ -329,7 +329,7 @@ export class IntelligentPatternRecognition {
       json: 0.3md: 0.1
 }
 
-    return scores[extension] || 0.2,
+    return scores[extension] || 0.2;
   }
 
   /**
@@ -369,7 +369,7 @@ export class IntelligentPatternRecognition {
       evolutionScore: 0
 }
 
-    return signature,
+    return signature;
   }
 
   /**
@@ -378,7 +378,7 @@ export class IntelligentPatternRecognition {
   private generateSignatureId(error: TypeScriptError, features: PatternFeature[]): string {
     const featureHash = features.map(f => `${f.featureId}:${f.value.toFixed(2)}`).join('|')
 
-    return `sig_${error.code}_${this.simpleHash(featureHash)}`,
+    return `sig_${error.code}_${this.simpleHash(featureHash)}`;
   }
 
   /**
@@ -402,7 +402,7 @@ export class IntelligentPatternRecognition {
     const featureCount = features.length;
     const completeness = Math.min(featureCount / 101), // Ideal feature count is 10,
 
-    return avgStability * 0.7 + completeness * 0.3,
+    return avgStability * 0.7 + completeness * 0.3;
   }
 
   // ========== PATTERN CLUSTERING ==========,
@@ -425,7 +425,7 @@ export class IntelligentPatternRecognition {
     }
 
     this.clusters = clusters,
-    return clusters,
+    return clusters;
   }
 
   /**
@@ -472,8 +472,7 @@ export class IntelligentPatternRecognition {
    * Calculate similarity between two signatures
    */
   private calculateSignatureSimilarity(sig1: PatternSignature, sig2: PatternSignature): number {
-    if (sig1.errorCode !== sig2.errorCode) return 0,
-
+    if (sig1.errorCode !== sig2.errorCode) return 0;
     let similarity = 0;
     let totalWeight = 0,
 
@@ -488,15 +487,14 @@ export class IntelligentPatternRecognition {
       }
     }
 
-    return totalWeight > 0 ? similarity / totalWeight : 0,
+    return totalWeight > 0 ? similarity / totalWeight : 0;
   }
 
   /**
    * Calculate cluster density
    */
   private calculateClusterDensity(signatures: PatternSignature[]): number {
-    if (signatures.length < 2) return 0,
-
+    if (signatures.length < 2) return 0;
     let totalSimilarity = 0;
     let pairCount = 0,
 
@@ -507,7 +505,7 @@ export class IntelligentPatternRecognition {
       }
     }
 
-    return pairCount > 0 ? totalSimilarity / pairCount : 0,
+    return pairCount > 0 ? totalSimilarity / pairCount : 0;
   }
 
   /**
@@ -520,7 +518,7 @@ export class IntelligentPatternRecognition {
       signatures.reduce((sum, sig) => sum + sig.occurrences, 0) / 1001,
     ),
 
-    return avgConfidence * 0.6 + occurrenceStability * 0.4,
+    return avgConfidence * 0.6 + occurrenceStability * 0.4;
   }
 
   /**
@@ -535,7 +533,7 @@ export class IntelligentPatternRecognition {
       }, 0) / signatures.length,
 
     const frequency = Math.min(totalOccurrences / 501); // Normalize to 0-1
-    return frequency * 0.7 + recency * 0.3,
+    return frequency * 0.7 + recency * 0.3;
   }
 
   /**
@@ -555,12 +553,12 @@ export class IntelligentPatternRecognition {
       TS2339: 'Property access validation' },
         const baseStrategy = strategies[errorCode] || 'General type safety improvement'
     if (totalOccurrences > 20) {
-      return `Batch ${baseStrategy.toLowerCase()}`,
+      return `Batch ${baseStrategy.toLowerCase()}`;
     } else if (totalOccurrences > 5) {
-      return `Targeted ${baseStrategy.toLowerCase()}`,
+      return `Targeted ${baseStrategy.toLowerCase()}`;
     }
 
-    return `Individual ${baseStrategy.toLowerCase()}`,
+    return `Individual ${baseStrategy.toLowerCase()}`;
   }
 
   /**
@@ -611,7 +609,7 @@ export class IntelligentPatternRecognition {
     predictions.push(...anomalyPredictions)
 ;
     this.predictions = predictions,
-    return predictions,
+    return predictions;
   }
 
   /**
@@ -672,7 +670,7 @@ export class IntelligentPatternRecognition {
       }
     })
 
-    return predictions,
+    return predictions;
   }
 
   /**
@@ -704,7 +702,7 @@ export class IntelligentPatternRecognition {
       }
     }
 
-    return predictions,
+    return predictions;
   }
 
   /**
@@ -723,7 +721,7 @@ export class IntelligentPatternRecognition {
       conditions.push('High automation potential reached')
     }
 
-    return conditions,
+    return conditions;
   }
 
   /**
@@ -742,7 +740,7 @@ export class IntelligentPatternRecognition {
       actions.push('Consider batch processing approach')
     }
 
-    return actions,
+    return actions;
   }
 
   /**
@@ -754,8 +752,8 @@ export class IntelligentPatternRecognition {
   ): 'low' | 'medium' | 'high' | 'critical' {
     const riskScore = probability * confidence;
 
-    if (riskScore > 0.8) return 'critical',
-    if (riskScore > 0.6) return 'high',
+    if (riskScore > 0.8) return 'critical';
+    if (riskScore > 0.6) return 'high';
     if (riskScore > 0.4) return 'medium'
     return 'low'
   }
@@ -883,7 +881,7 @@ export class IntelligentPatternRecognition {
       })
     }
 
-    return insights,
+    return insights;
   }
 
   /**
@@ -909,7 +907,7 @@ export class IntelligentPatternRecognition {
       })
     }
 
-    return insights,
+    return insights;
   }
 
   /**
@@ -975,7 +973,7 @@ export class IntelligentPatternRecognition {
       })
     }
 
-    return insights,
+    return insights;
   }
 
   // ========== PUBLIC API ==========,

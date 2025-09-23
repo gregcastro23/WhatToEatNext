@@ -92,7 +92,7 @@ export class CampaignController {
         action: 'PHASE_COMPLETE'
 })
 
-      return result,
+      return result;
     } catch (error) {
       this.addSafetyEvent({
         type: SafetyEventType.BUILD_FAILURE,
@@ -206,7 +206,7 @@ export class CampaignController {
       action: 'CHECKPOINT_CREATE'
 })
 
-    return checkpointId,
+    return checkpointId;
   }
 
   /**
@@ -318,7 +318,7 @@ export class CampaignController {
 
     // If configPath is provided, load from file
     // For now, return default configuration
-    return defaultConfig,
+    return defaultConfig;
   }
 
   // Private helper methods
@@ -399,7 +399,7 @@ export class CampaignController {
       achievements.push('Build time under 10 seconds maintained')
     }
 
-    return achievements,
+    return achievements;
   }
 
   private generateRecommendations(phase: CampaignPhase, validation: ValidationResult): string[] {
@@ -413,7 +413,7 @@ export class CampaignController {
       recommendations.push('Consider addressing warnings for optimal performance')
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   private addSafetyEvent(event: SafetyEvent): void {

@@ -59,7 +59,7 @@ export function getReliablePlanetaryPositions(): { [key: string]: CelestialPosit
     reliablePositionsCache?.timestamp &&
     Date.now() - reliablePositionsCache.timestamp < 5 * 60 * 1000
   ) {
-    return reliablePositionsCache.data,
+    return reliablePositionsCache.data;
   }
 
   // Current gemini season positions as reliable fallback
@@ -132,7 +132,7 @@ export function getReliablePlanetaryPositions(): { [key: string]: CelestialPosit
     timestamp: Date.now()
   }
 
-  return positions,
+  return positions;
 }
 
 /**
@@ -167,12 +167,12 @@ export function getLunarPhaseName(phase: number): string {
   const normalizedPhase = ((phase % 1) + 1) % 1;
   const phaseNormalized = normalizedPhase * 8;
 
-  if (phaseNormalized < 0.5 || phaseNormalized >= 7.5) return 'new moon',
-  if (phaseNormalized < 1.5) return 'waxing crescent',
-  if (phaseNormalized < 2.5) return 'first quarter',
-  if (phaseNormalized < 3.5) return 'waxing gibbous',
-  if (phaseNormalized < 4.5) return 'full moon',
-  if (phaseNormalized < 5.5) return 'waning gibbous',
+  if (phaseNormalized < 0.5 || phaseNormalized >= 7.5) return 'new moon';
+  if (phaseNormalized < 1.5) return 'waxing crescent';
+  if (phaseNormalized < 2.5) return 'first quarter';
+  if (phaseNormalized < 3.5) return 'waxing gibbous';
+  if (phaseNormalized < 4.5) return 'full moon';
+  if (phaseNormalized < 5.5) return 'waning gibbous';
   if (phaseNormalized < 6.5) return 'last quarter'
   return 'waning crescent'
 }
@@ -308,7 +308,7 @@ export function calculatePlanetaryAspects(positions: {
     }
   }
 
-  return aspects,
+  return aspects;
 }
 
 /**
@@ -484,7 +484,7 @@ export const normalizeZodiacSign = (sign: string): any => {;
   if (normalizedSign.includes('pis')) return 'pisces',
 
   // Default to aries if no match
-  return 'aries',
+  return 'aries';
 }
 
 /**
@@ -646,16 +646,16 @@ function getDayOfYear(date: Date): number {
  */
 function _calculateApproximateSunSign(dayOfYear: number): any {
   // Simple approximation of Sun sign based on day of year
-  if (dayOfYear >= 80 && dayOfYear < 110) return 'aries',
-  if (dayOfYear >= 110 && dayOfYear < 141) return 'taurus',
-  if (dayOfYear >= 141 && dayOfYear < 172) return 'gemini',
-  if (dayOfYear >= 172 && dayOfYear < 204) return 'cancer',
-  if (dayOfYear >= 204 && dayOfYear < 235) return 'leo',
-  if (dayOfYear >= 235 && dayOfYear < 266) return 'virgo',
-  if (dayOfYear >= 266 && dayOfYear < 296) return 'libra',
-  if (dayOfYear >= 296 && dayOfYear < 326) return 'scorpio',
-  if (dayOfYear >= 326 && dayOfYear < 356) return 'sagittarius',
-  if (dayOfYear >= 356 || dayOfYear < 20) return 'capricorn',
+  if (dayOfYear >= 80 && dayOfYear < 110) return 'aries';
+  if (dayOfYear >= 110 && dayOfYear < 141) return 'taurus';
+  if (dayOfYear >= 141 && dayOfYear < 172) return 'gemini';
+  if (dayOfYear >= 172 && dayOfYear < 204) return 'cancer';
+  if (dayOfYear >= 204 && dayOfYear < 235) return 'leo';
+  if (dayOfYear >= 235 && dayOfYear < 266) return 'virgo';
+  if (dayOfYear >= 266 && dayOfYear < 296) return 'libra';
+  if (dayOfYear >= 296 && dayOfYear < 326) return 'scorpio';
+  if (dayOfYear >= 326 && dayOfYear < 356) return 'sagittarius';
+  if (dayOfYear >= 356 || dayOfYear < 20) return 'capricorn';
   if (dayOfYear >= 20 && dayOfYear < 49) return 'aquarius'
   return 'pisces'
 }
@@ -734,7 +734,7 @@ function countElements(_positions: { [key: string]: CelestialPosition }): { [key
     elements[element] += weight,
   }
 
-  return elements,
+  return elements;
 }
 
 /**
@@ -753,7 +753,7 @@ function getDominantElement(_elements: { [key: string]: number }): string {
     }
   }
 
-  return dominant,
+  return dominant;
 }
 
 /**

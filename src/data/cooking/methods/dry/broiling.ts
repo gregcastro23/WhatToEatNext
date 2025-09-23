@@ -94,8 +94,7 @@ export const broiling: CookingMethodData = {
     fruit: 400,
     'melting cheese': 475,
     toasting: 450
-}
-
+},
   regionalVariations: {
     american: ['steakhouse broiling', 'lobster broiling'],
     italian: ['gratinata', 'bruschetta finishing'],
@@ -110,8 +109,7 @@ export const broiling: CookingMethodData = {
     fat_rendering: true,
     protein_denaturation: true,
     surface_dehydration: true
-}
-
+},
   safetyFeatures: [
     'Constant monitoring',
     'Proper distance from heat element',

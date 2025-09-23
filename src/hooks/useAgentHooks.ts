@@ -150,7 +150,7 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
         }))
 
         logger.debug('Manual validation triggered: ', { type, results })
-        return results,
+        return results;
       } catch (error) {
         logger.error('Error in manual validation: ', error),
         throw error
@@ -202,7 +202,7 @@ export function usePlanetaryDataValidationHook(_autoStart: boolean = true) {,
           }
         }
 
-        return result,
+        return result;
       } catch (error) {
         logger.error('Error in planetary data validation hook: ', error),
         throw error
@@ -266,7 +266,7 @@ export function useIngredientConsistencyHook() {
           }
         }
 
-        return result,
+        return result;
       } catch (error) {
         logger.error('Error in ingredient consistency validation: ', error),
         throw error
@@ -312,7 +312,7 @@ export function useTypeScriptCampaignHook(_autoCheck: boolean = true) {,
         }
       }
 
-      return trigger,
+      return trigger;
     } catch (error) {
       logger.error('Error checking TypeScript error threshold: ', error),
       throw error
@@ -373,7 +373,7 @@ export function useBuildQualityMonitoringHook() {
           }
         }
 
-        return result,
+        return result;
       } catch (error) {
         logger.error('Error in build quality monitoring: ', error),
         throw error

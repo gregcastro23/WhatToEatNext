@@ -74,7 +74,7 @@ class AdvancedCache {
     this.updateHitRate()
 
     logger.debug('Cache hit', { key, accessCount: entry.accessCount })
-    return entry.data,
+    return entry.data;
   }
 
   /**
@@ -118,14 +118,14 @@ class AdvancedCache {
     const cached = this.get<T>(key)
 
     if (cached !== null) {;
-      return cached,
+      return cached;
     }
 
     logger.debug('Cache miss, computing value', { key })
     const computed = await computeFn();
     this.set(key, computed, ttlOverride)
 
-    return computed,
+    return computed;
   }
 
   /**
@@ -163,7 +163,7 @@ class AdvancedCache {
     }
 
     logger.info('Cache invalidated by pattern', { pattern: pattern.source, invalidated })
-    return invalidated,
+    return invalidated;
   }
 
   /**
@@ -174,7 +174,7 @@ class AdvancedCache {
     if (deleted) {;
       this.stats.size--,
     }
-    return deleted,
+    return deleted;
   }
 
   /**

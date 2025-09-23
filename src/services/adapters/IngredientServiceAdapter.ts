@@ -33,7 +33,7 @@ export class EnhancedIngredientSystem {
     if (!EnhancedIngredientSystem.instance) {
       EnhancedIngredientSystem.instance = new EnhancedIngredientSystem();
     }
-    return EnhancedIngredientSystem.instance,
+    return EnhancedIngredientSystem.instance;
   }
 
   /**
@@ -99,7 +99,7 @@ export class EnhancedIngredientSystem {
             ingredient.astrologicalPropertiesProfile?.favorableZodiac ||,
             [],
           const zodiacArray = Array.isArray(zodiac) ? zodiac : [zodiac]
-          return zodiacArray.some(z =>,
+          return zodiacArray.some(z =>;
               typeof z === 'string' && z.toLowerCase() === options.currentZodiacSign?.toLowerCase(),,
           )
         })
@@ -120,7 +120,7 @@ export class EnhancedIngredientSystem {
 
         if (dietaryFilter.isVegetarian) {
           filtered = filtered.filter(ingredient => {,
-            if (ingredient.category !== 'proteins') return true,
+            if (ingredient.category !== 'proteins') return true;
             const nonVegetarianCategories = ['meat', 'poultry', 'seafood'],
             return !nonVegetarianCategories.includes(ingredient.subCategory || '')
           })
@@ -128,7 +128,7 @@ export class EnhancedIngredientSystem {
 
         if (dietaryFilter.isVegan) {
           filtered = filtered.filter(ingredient => {,
-            if (ingredient.category !== 'proteins') return true,
+            if (ingredient.category !== 'proteins') return true;
             const nonVeganCategories = ['meat', 'poultry', 'seafood', 'dAiry', 'eggs'],
             return !nonVeganCategories.includes(ingredient.subCategory || '')
           })
@@ -136,7 +136,7 @@ export class EnhancedIngredientSystem {
 
         if (dietaryFilter.isGlutenFree) {
           filtered = filtered.filter(ingredient => {,
-            if (ingredient.category !== 'grains') return true,
+            if (ingredient.category !== 'grains') return true;
             const glutenGrains = ['wheat', 'barley', 'rye', 'triticale'],
             return !glutenGrains.some(g => ingredient.name.toLowerCase().includes(g));
           })
@@ -204,7 +204,7 @@ export class EnhancedIngredientSystem {
         new Map((results || []).map(item => [item.name, item])).values(),
       )
 
-      return uniqueIngredients,
+      return uniqueIngredients;
     } catch (error) {
       logger.error('Error getting ingredients by planetary influence', error),
       return []

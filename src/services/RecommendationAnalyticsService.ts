@@ -124,7 +124,7 @@ class RecommendationAnalyticsService {
     logger.debug(`Cache ${result ? 'hit' : 'miss' },
         for key: ${key} (${duration.toFixed(2)}ms)`)
 
-    return result,
+    return result;
   }
 
   /**
@@ -232,7 +232,7 @@ class RecommendationAnalyticsService {
     // Cache the confidence calculation
     this.confidenceCache.set(cacheKey, confidence)
 
-    return confidence,
+    return confidence;
   }
 
   // ========== USER INTERACTION ANALYTICS ==========,
@@ -330,7 +330,7 @@ class RecommendationAnalyticsService {
       this.metricsHistory = this.metricsHistory.slice(-this.maxHistorySize);
     }
 
-    return metrics,
+    return metrics;
   }
 
   /**
@@ -409,7 +409,7 @@ class RecommendationAnalyticsService {
    * Generate unique session ID
    */
   private generateSessionId(): string {
-    return `session_${Date.now()}_${Math.random().toString(36).substring(29)}`,
+    return `session_${Date.now()}_${Math.random().toString(36).substring(29)}`;
   }
 
   /**

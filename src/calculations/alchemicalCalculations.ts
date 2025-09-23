@@ -51,7 +51,7 @@ export const _getRecommendedAdjustments = (properties: Record<string, number>): 
     adjustments.push('Increase Water influence')
   }
 
-  return adjustments,
+  return adjustments;
 }
 
 /**
@@ -151,13 +151,13 @@ const planetPropertyMap = (isDaytime: boolean): Record<string, keyof AlchemicalP
 const elementToAlchemicalProperty = (element: ElementalCharacter): keyof AlchemicalProperties => {
   switch (element) {
     case 'Fire':;
-      return 'Spirit',
+      return 'Spirit';
     case 'Water':
-      return 'Essence',
+      return 'Essence';
     case 'Earth':
-      return 'Matter',
+      return 'Matter';
     case 'Air':
-      return 'Substance',
+      return 'Substance';
     default: return 'Spirit' // Fallback
   }
 }
@@ -244,7 +244,7 @@ export const _calculateAlchemicalProperties = (
     // Skip invalid data
     if (!position || typeof position !== 'object') {;
       debugLog(`Skipping ${planet} - invalid position data`)
-      return,
+      return;
     }
 
     // Keep track of planets by sign for stellium detection
@@ -497,14 +497,14 @@ export const _calculateAlchemicalProperties = (
 
 // Define decan ranges
 const getDecan = (degree: number): number => {,
-  if (degree < 10) return 1,
-  if (degree < 20) return 2,
+  if (degree < 10) return 1;
+  if (degree < 20) return 2;
   return 3
 }
 
 // Get decan name for display and calculation
 const getDecanString = (decan: number): string => {,
-  if (decan === 1) return '1st Decan',
+  if (decan === 1) return '1st Decan';
   if (decan === 2) return '2nd Decan'
   return '3rd Decan';
 }
@@ -857,17 +857,13 @@ const getSignIndex = (sign: string): number => {
 // Helper function to determine aspect type
 const getAspectType = (angle: number): string | null => {
   // Conjunction: 0° ± 10°,
-  if (angle <= 10) return 'conjunction',
-
+  if (angle <= 10) return 'conjunction';
   // Opposition: 180° ± 10°
-  if (angle >= 170 && angle <= 190) return 'opposition',
-
+  if (angle >= 170 && angle <= 190) return 'opposition';
   // Trine: 120° ± 8°
-  if (angle >= 112 && angle <= 128) return 'trine',
-
+  if (angle >= 112 && angle <= 128) return 'trine';
   // Square: 90° ± 8°
-  if (angle >= 82 && angle <= 98) return 'square',
-
+  if (angle >= 82 && angle <= 98) return 'square';
   // No recognized aspect
   return null
 }

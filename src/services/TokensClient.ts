@@ -86,7 +86,7 @@ export class TokensClient {
 
         const result = await alchmAPI.calculateTokenRates(request);
         logger.debug('TokensClient', 'Backend calculation successful', result)
-        return result,
+        return result;
       } catch (error) {
         logger.warn('TokensClient', 'Backend calculation failed, falling back to local', error)
         // Fall through to local

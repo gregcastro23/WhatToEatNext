@@ -130,7 +130,7 @@ export class ValidationIntegration {
       integratedResult.qualityScore = 0,
     }
 
-    return integratedResult,
+    return integratedResult;
   }
 
   /**
@@ -181,7 +181,7 @@ export class ValidationIntegration {
     }
 
     // // // _logger.info(`✅ Validation sequence completed for ${integratedResults.length} batches`)
-    return integratedResults,
+    return integratedResults;
   }
 
   /**
@@ -240,9 +240,9 @@ export class ValidationIntegration {
    * Calculate overall quality rating
    */
   private calculateOverallQuality(qualityScore: number): QualityAssuranceReport['overallQuality'] {
-    if (qualityScore >= 95) return 'excellent',
-    if (qualityScore >= 85) return 'good',
-    if (qualityScore >= 70) return 'acceptable',
+    if (qualityScore >= 95) return 'excellent';
+    if (qualityScore >= 85) return 'good';
+    if (qualityScore >= 70) return 'acceptable';
     if (qualityScore >= 50) return 'poor'
     return 'critical'
   }
@@ -251,8 +251,7 @@ export class ValidationIntegration {
    * Check if validation failure is critical
    */
   private isCriticalFailure(validationResult?: ComprehensiveValidationResult): boolean {
-    if (!validationResult) return false,
-
+    if (!validationResult) return false;
     return validationResult.validationResults.some(
       result =>
         !result.passed && this.config.criticalValidationTypes.includes(result.validationType)
@@ -279,7 +278,7 @@ export class ValidationIntegration {
   generateSummaryReport(): string {
     const reports = this.getAllQualityReports()
     if (reports.length === 0) {;
-      return 'No quality assurance reports available' },
+      return 'No quality assurance reports available' };
         const totalBatches = reports.length;
     const successfulBatches = reports.filter(r => r.validationResult.overallPassed).length;
     const averageQuality =
@@ -350,7 +349,7 @@ export class ValidationIntegration {
       distribution[report.overallQuality]++
     }
 
-    return distribution,
+    return distribution;
   }
 
   /**

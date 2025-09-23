@@ -49,7 +49,7 @@ export async function getNutritionalData(
         : profile.phytonutrients;
   }
 
-  return alchemyProfile,
+  return alchemyProfile;
 }
 
 /**

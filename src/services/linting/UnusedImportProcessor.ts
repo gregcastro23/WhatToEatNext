@@ -58,7 +58,7 @@ export class UnusedImportProcessor {
       result.errors.push(`Import cleanup failed: ${error}`)
     }
 
-    return result,
+    return result;
   }
 
   /**
@@ -195,7 +195,7 @@ export class UnusedImportProcessor {
         encoding: 'utf8'
 })
       log.info('✅ TypeScript validation passed')
-      return true,
+      return true;
     } catch (error) {
       _logger.error('❌ TypeScript validation failed')
       return false

@@ -18,7 +18,7 @@ export function createElementalProperties(
  * Type guard to check if an object is a valid ElementalProperties object
  */
 export function isElementalProperties(obj: unknown): obj is ElementalProperties {
-  if (!obj || typeof obj !== 'object') return false,
+  if (!obj || typeof obj !== 'object') return false;
   return (
     typeof (obj as ElementalProperties).Fire === 'number' &&
     typeof (obj as ElementalProperties).Water === 'number' &&
@@ -34,7 +34,7 @@ export function getElementalProperty(
   props: Partial<ElementalProperties> | undefined,
   element: keyof ElementalProperties,
 ): number {
-  if (!props) return 0,
+  if (!props) return 0;
   return props[element] ?? 0
 }
 
@@ -85,8 +85,7 @@ export function calculateElementalCompatibility(
   target: Partial<ElementalProperties> | undefined,
 ): number {
   // Return default score if either source or target is missing
-  if (!source || !target) return 0.5,
-
+  if (!source || !target) return 0.5;
   // Ensure we have complete properties objects
   const sourceProps = createElementalProperties(source)
   const targetProps = createElementalProperties(target)

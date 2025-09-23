@@ -186,11 +186,11 @@ function getElementClass(element: string): string {
     case 'Fire':
       return 'text-red-600'
     case 'Water':
-      return 'text-blue-600',
+      return 'text-blue-600';
     case 'Earth':
-      return 'text-green-600',
+      return 'text-green-600';
     case 'Air':
-      return 'text-sky-600',
+      return 'text-sky-600';
     default: return 'text-gray-600'
   }
 }

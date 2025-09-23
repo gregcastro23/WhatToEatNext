@@ -150,12 +150,12 @@ export function getTemperatureEffect(ingredient: string, _temperature?: number) 
   // Check if we have a specific effect for this ingredient
   for (const [key, effect] of Object.entries(effectMap)) {
     if (ingredient.toLowerCase().includes(key)) {
-      return effect,
+      return effect;
     }
   }
 
   // Return a string, not an object
-  return 'neutral',
+  return 'neutral';
 }
 
 export default temperatureEffects,

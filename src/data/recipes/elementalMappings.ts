@@ -18,15 +18,15 @@ const defaultAstrologicalInfluence: AstrologicalInfluence = {
 
 // Helper function to safely access astrologicalInfluences
 const safeGetAstrologicalInfluences = (method: unknown): AstrologicalInfluence[] => {,
-  if (!method) return [defaultAstrologicalInfluence],
+  if (!method) return [defaultAstrologicalInfluence];
   const methodData = method as {
     astrologicalInfluences?: AstrologicalInfluence | AstrologicalInfluence[];
   }
-  if (!methodData.astrologicalInfluences) return [defaultAstrologicalInfluence],
+  if (!methodData.astrologicalInfluences) return [defaultAstrologicalInfluence];
   if (Array.isArray(methodData.astrologicalInfluences)) {
-    return methodData.astrologicalInfluences,
+    return methodData.astrologicalInfluences;
   }
-  return [methodData.astrologicalInfluences],
+  return [methodData.astrologicalInfluences];
 }
 
 /**
@@ -48,7 +48,7 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
       earth: ['mushroom', 'bacon'],
       fire: ['brandy', 'pearl_onion'],
       water: ['stock', 'garlic']
-    }
+    },
     // Enhanced properties from expanded elemental characteristics
     cookingTechniques: ['Slow cooking', 'Braising', 'Simmering'],
     flavorProfiles: ['Rich', 'Complex', 'Umami', 'Earthy'],
@@ -56,8 +56,7 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
     complementaryHerbs: ['Thyme', 'Bay leaf', 'Rosemary'],
     idealTimeOfDay: ['Evening', 'Dinner'],
     seasonalRecommendation: ['Autumn', 'Winter']
-  }
-
+  },
   // Japanese Cuisine
   kaiseki_ryori: {
     elementalProperties: { Water: 0.6, Earth: 0.3, Air: 0.05, Fire: 0.05 },
@@ -73,7 +72,7 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
       water: ['seaweed', 'tofu'],
       earth: ['mushroom', 'rice'],
       air: ['grated_daikon', 'shiso']
-    }
+    },
     // Enhanced properties from expanded elemental characteristics
     cookingTechniques: ['Steaming', 'Poaching', 'Simmering'],
     flavorProfiles: ['Subtle', 'Umami', 'Light', 'Fresh'],
@@ -81,8 +80,7 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
     complementaryHerbs: ['Shiso', 'Ginger', 'Wasabi'],
     idealTimeOfDay: ['Evening', 'Night'],
     seasonalRecommendation: ['Winter', 'Spring']
-  }
-
+  },
   // Mexican Cuisine
   mole_poblano: {
     elementalProperties: { Fire: 0.5, Earth: 0.4, Air: 0.05, Water: 0.05 },
@@ -98,7 +96,7 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
       fire: ['cinnamon', 'cloves'],
       earth: ['sesame_seeds', 'tortilla'],
       air: ['achiote', 'herbs']
-    }
+    },
     // Enhanced properties from expanded elemental characteristics
     cookingTechniques: ['Roasting', 'Simmering', 'Grinding', 'Blending'],
     flavorProfiles: ['Spicy', 'Complex', 'Rich', 'Bitter', 'Sweet'],

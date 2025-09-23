@@ -28,15 +28,14 @@ export class Cache {
     const item = this.cache.get(key)
 
     // Return undefined if item doesn't exist;
-    if (!item) return undefined,
-
+    if (!item) return undefined;
     // Check if item has expired
     if (item.expiry && item.expiry < Date.now()) {
       this.delete(key)
       return undefined
     }
 
-    return item.data as T,
+    return item.data as T;
   }
 
   /**

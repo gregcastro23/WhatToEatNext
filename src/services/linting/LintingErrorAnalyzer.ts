@@ -136,7 +136,7 @@ export class LintingErrorAnalyzer {
       void log.info('✅ Linting error analysis complete')
       void this.logAnalysisSummary(categorized)
 ;
-      return categorized,
+      return categorized;
     } catch (error) {
       _logger.error('❌ Error during linting analysis: ', error),
       throw error
@@ -247,7 +247,7 @@ export class LintingErrorAnalyzer {
       `📋 Resolution plan generated: ${phases.length} phases, ${totalTime} minutes estimated`,
     )
 
-    return plan,
+    return plan;
   }
 
   /**
@@ -261,12 +261,12 @@ export class LintingErrorAnalyzer {
         cwd: this.workspaceRoot,
         maxBuffer: 10 * 1024 * 1024, // 10MB buffer
       })
-      return output,
+      return output;
     } catch (error: unknown) {
       // ESLint returns non-zero exit code when issues are found
       const err = error as { stdout?: string }
       if (err.stdout) {
-        return err.stdout,
+        return err.stdout;
       }
       throw error,
     }
@@ -292,7 +292,7 @@ export class LintingErrorAnalyzer {
         }
       }
 
-      return issues,
+      return issues;
     } catch (error) {
       _logger.error('Failed to parse ESLint output: ', error),
       return []
@@ -324,7 +324,7 @@ export class LintingErrorAnalyzer {
       resolutionStrategy
     }
 
-    return issue,
+    return issue;
   }
 
   /**
@@ -360,7 +360,7 @@ export class LintingErrorAnalyzer {
       context.isTestFile ||;
       context.isScriptFile,
 
-    return context,
+    return context;
   }
 
   /**
@@ -578,7 +578,7 @@ export class LintingErrorAnalyzer {
       categorized.byFile[issue.file].push(issue)
     }
 
-    return categorized,
+    return categorized;
   }
 
   /**

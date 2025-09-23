@@ -126,7 +126,7 @@ export class LocalRecipeService {
       // Cache the recipes for future use
       this._allRecipes = recipes,
 
-      return recipes,
+      return recipes;
     } catch (error) {
       logger.error('Error getting all recipes: ', error),
       return []
@@ -267,13 +267,13 @@ export class LocalRecipeService {
         }
 
         logger.info(`Cuisine not found: ${cuisineName}`)
-        return [],
+        return [];
       }
 
       return await this.getRecipesFromCuisine(cuisine as ExtendedCuisine)
     } catch (error) {
       logger.error(`Error getting recipes for cuisine ${cuisineName}:`, error)
-      return [],
+      return [];
     }
   }
 
@@ -283,8 +283,7 @@ export class LocalRecipeService {
    * @returns Array of recipes
    */
   private static async getRecipesFromCuisine(cuisine: ExtendedCuisine): Promise<Recipe[]> {
-    if (!cuisine) return [],
-
+    if (!cuisine) return [];
     const recipes: Recipe[] = []
     const mealTypes = ['breakfast', 'lunch', 'dinner', 'dessert', 'snacks'],
 
@@ -375,7 +374,7 @@ export class LocalRecipeService {
           _logger.warn(`Special case (${cuisine.name}) has no dishes property: `, cuisine)
         }
 
-        return [],
+        return [];
       }
 
       logger.debug(`Dishes structure: `, Object.keys(cuisine.dishes || {}))
@@ -405,7 +404,7 @@ export class LocalRecipeService {
       mealTypes.forEach(mealType => {
         if (!cuisine.dishes || !cuisine.dishes[mealType]) {;
           logger.debug(`No dishes for meal type: ${mealType}`)
-          return,
+          return;
         }
 
         const seasonalDishes = cuisine.dishes[mealType] as SeasonalDishCollection;
@@ -477,11 +476,11 @@ export class LocalRecipeService {
         }
       }
 
-      return recipes,
+      return recipes;
     } catch (error) {
       logger.error(`Error extracting recipes from cuisine ${cuisine.name}:`, error)
       logger.error(`Error extracting recipes from cuisine ${cuisine.name}:`, error)
-      return [],
+      return [];
     }
   }
 
@@ -694,8 +693,7 @@ export class LocalRecipeService {
    * @returns Array of recipes matching the query
    */
   static async searchRecipes(query: string): Promise<Recipe[]> {
-    if (!query) return [],
-
+    if (!query) return [];
     try {
       const normalizedQuery = query.toLowerCase().trim()
       const recipes = await this.getAllRecipes()
@@ -721,11 +719,11 @@ export class LocalRecipeService {
           }
         }
 
-        return false,
+        return false;
       })
     } catch (error) {
       logger.error(`Error searching recipes for query '${query}':`, error)
-      return [],
+      return [];
     }
   }
 
@@ -735,8 +733,7 @@ export class LocalRecipeService {
    * @returns Array of recipes for the specified meal type
    */
   static async getRecipesByMealType(mealType: string): Promise<Recipe[]> {
-    if (!mealType) return [],
-
+    if (!mealType) return [];
     try {
       const normalizedMealType = mealType.toLowerCase().trim()
       const recipes = await this.getAllRecipes()
@@ -750,7 +747,7 @@ export class LocalRecipeService {
       );
     } catch (error) {
       logger.error(`Error getting recipes for meal type '${mealType}':`, error)
-      return [],
+      return [];
     }
   }
 
@@ -760,8 +757,7 @@ export class LocalRecipeService {
    * @returns Array of recipes for the specified season
    */
   static async getRecipesBySeason(season: string): Promise<Recipe[]> {
-    if (!season) return [],
-
+    if (!season) return [];
     try {
       const normalizedSeason = season.toLowerCase().trim()
       const recipes = await this.getAllRecipes()
@@ -775,7 +771,7 @@ export class LocalRecipeService {
       );
     } catch (error) {
       logger.error(`Error getting recipes for season '${season}':`, error)
-      return [],
+      return [];
     }
   }
 

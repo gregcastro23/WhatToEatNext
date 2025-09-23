@@ -18,8 +18,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         third: { element: 'Earth', planet: 'Saturn' }
         }
       }
-    }
-
+    },
     qualities: ['warming', 'aromatic', 'complex'],
     origin: ['Indian Subcontinent'],
     category: 'spice',
@@ -57,8 +56,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         'black pepper': 1,
         nutmeg: 0.5
 }
-    }
-
+    },
     affinities: ['lentils', 'rice', 'meat', 'vegetables', 'yogurt'],
     cookingMethods: ['bloomed in oil', 'added to sauces', 'marinades'],
 
@@ -83,23 +81,20 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     season: ['Year-round'],
 
     nutritionalProfile: {
       macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
-    }
-
+    },
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight' },
         varieties: {}
-  }
-
+  },
   ras_el_hanout: {
     name: 'Ras El Hanout',
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
@@ -114,8 +109,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         third: { element: 'Air', planet: 'Mercury' }
         }
       }
-    }
-
+    },
     qualities: ['warming', 'complex', 'aromatic'],
     origin: ['North Africa'],
     category: 'spice',
@@ -173,23 +167,20 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     season: ['Year-round'],
 
     nutritionalProfile: {
       macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
-    }
-
+    },
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight' },
         varieties: {}
-  }
-
+  },
   herbes_de_provence: {
     name: 'Herbes De Provence',
     elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },
@@ -243,24 +234,21 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     season: ['Year-round'],
 
     nutritionalProfile: {
       macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
-    }
-
+    },
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
@@ -271,8 +259,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   chinese_five_spice: {
     name: 'Chinese Five Spice',
     elementalProperties: { Fire: 0.4, Water: 0.1, Earth: 0.1, Air: 0.1 },
@@ -308,8 +295,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         'sichuan pepper': 1,
         'licorice root': 0.5,
       }
-    }
-
+    },
     affinities: ['pork', 'duck', 'chicken', 'seafood', 'vegetables'],
 
     // Removed excessive sensoryProfile nesting
@@ -317,16 +303,14 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     season: ['Year-round'],
 
     preparation: {
@@ -337,8 +321,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
-    }
-
+    },
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
@@ -349,8 +332,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   za_atar: {
     name: 'Za Atar',
     elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
@@ -395,16 +377,14 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     season: ['Year-round'],
 
     preparation: {
@@ -415,8 +395,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
-    }
-
+    },
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
@@ -427,8 +406,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   curry_powder: {
     name: 'Curry Powder',
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
@@ -470,16 +448,14 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     season: ['Year-round'],
 
     preparation: {
@@ -490,8 +466,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
-    }
-
+    },
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
@@ -502,8 +477,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   berbere: {
     name: 'Berbere',
     elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
@@ -540,16 +514,14 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     season: ['Year-round'],
 
     preparation: {
@@ -560,8 +532,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
-    }
-
+    },
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
@@ -572,8 +543,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   dukkah: {
     name: 'Dukkah',
     elementalProperties: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
@@ -610,16 +580,14 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     season: ['Year-round'],
 
     preparation: {
@@ -630,8 +598,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
-    }
-
+    },
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
@@ -642,8 +609,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   shichimi_togarashi: {
     name: 'Shichimi Togarashi',
     elementalProperties: { Fire: 0.5, Water: 0.1, Air: 0.1, Earth: 0.1 },
@@ -681,16 +647,14 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     season: ['Year-round'],
 
     preparation: {
@@ -701,8 +665,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
-    }
-
+    },
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
@@ -713,8 +676,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   baharat: {
     name: 'Baharat',
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
@@ -751,16 +713,14 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     season: ['Year-round'],
 
     preparation: {
@@ -771,8 +731,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
-    }
-
+    },
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
@@ -783,8 +742,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   jerk_seasoning: {
     name: 'Jerk Seasoning',
     elementalProperties: { Fire: 0.5, Earth: 0.2, Air: 0.2, Water: 0.1 },
@@ -824,16 +782,14 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     season: ['Year-round'],
 
     preparation: {
@@ -844,8 +800,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
-    }
-
+    },
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',

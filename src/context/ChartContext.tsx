@@ -77,7 +77,7 @@ export function useCurrentChart() {
   if (context === undefined) {,
     throw new Error('useCurrentChart must be used within a ChartProvider')
   }
-  return context,
+  return context;
 }
 
 export default ChartContext,

@@ -163,12 +163,12 @@ class AutomatedDocumentationGenerator {
       return output.split('\n').filter(file => file.trim() && fs.existsSync(file));
     } catch (error) {
       this.log(`Error finding TypeScript files: ${error}`, 'error')
-      return [],
+      return [];
     }
   }
 
   private isFileExempt(filePath: string): boolean {
-    return this.exemptFiles.some(pattern => {,
+    return this.exemptFiles.some(pattern => {;
       const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),
       return regex.test(filePath)
     })
@@ -222,10 +222,10 @@ class AutomatedDocumentationGenerator {
         }
       }
 
-      return occurrences,
+      return occurrences;
     } catch (error) {
       this.log(`Error analyzing ${filePath}: ${error}`, 'error')
-      return [],
+      return [];
     }
   }
 
@@ -258,39 +258,39 @@ class AutomatedDocumentationGenerator {
 
     // File path based categorization
     if (filePath.includes('test') || filePath.includes('spec') || filePath.includes('mock')) {
-      return AnyTypeCategory.TEST_UTILITY,
+      return AnyTypeCategory.TEST_UTILITY;
     }
 
     if (filePath.includes('config') || filePath.includes('settings')) {
-      return AnyTypeCategory.CONFIGURATION,
+      return AnyTypeCategory.CONFIGURATION;
     }
 
     // Content based categorization
     if (/api|fetch|request|response|endpoint/i.test(fullContext)) {
-      return AnyTypeCategory.EXTERNAL_API,
+      return AnyTypeCategory.EXTERNAL_API;
     }
 
     if (/legacy|old|deprecated|migration/i.test(fullContext)) {
-      return AnyTypeCategory.LEGACY_CODE,
+      return AnyTypeCategory.LEGACY_CODE;
     }
 
     if (/user|dynamic|content|input|generated/i.test(fullContext)) {
-      return AnyTypeCategory.DYNAMIC_CONTENT,
+      return AnyTypeCategory.DYNAMIC_CONTENT;
     }
 
     if (/library|third.?party|external|vendor/i.test(fullContext)) {
-      return AnyTypeCategory.LIBRARY_COMPATIBILITY,
+      return AnyTypeCategory.LIBRARY_COMPATIBILITY;
     }
 
     if (/todo|temporary|temp|migration|refactor/i.test(fullContext)) {
-      return AnyTypeCategory.TEMPORARY_MIGRATION,
+      return AnyTypeCategory.TEMPORARY_MIGRATION;
     }
 
     if (/config|settings|options|params/i.test(fullContext)) {
-      return AnyTypeCategory.CONFIGURATION,
+      return AnyTypeCategory.CONFIGURATION;
     }
 
-    return AnyTypeCategory.UNKNOWN,
+    return AnyTypeCategory.UNKNOWN;
   }
 
   private generateDocumentation(category: AnyTypeCategory, anyType: string): string {
@@ -308,7 +308,7 @@ class AutomatedDocumentationGenerator {
       documentation += `\n${template.todoComment}`,
     }
 
-    return documentation,
+    return documentation;
   }
 
   async generateDocumentationForFile(filePath: string, dryRun: boolean = false): Promise<number> {
@@ -325,7 +325,7 @@ class AutomatedDocumentationGenerator {
         this.log(`  Line ${occ.lineNumber}: ${occ.content}`, 'info')
         this.log(`  Suggested: ${occ.suggestedDocumentation.split('\n')[0]}`, 'info')
       })
-      return undocumented.length,
+      return undocumented.length;
     }
 
     try {
@@ -350,10 +350,10 @@ class AutomatedDocumentationGenerator {
         'success',
       )
 
-      return undocumented.length,
+      return undocumented.length;
     } catch (error) {
       this.log(`Error adding documentation to ${filePath}: ${error}`, 'error')
-      return 0,
+      return 0;
     }
   }
 
@@ -507,11 +507,11 @@ Generated: ${new Date().toISOString()}
       undocumented.forEach(occ => {,
         this.log(`  ${occ.filePath}:${occ.lineNumber} - ${occ.content}`, 'error')
       })
-      return false,
+      return false;
     }
 
     this.log('✅ All any types are properly documented!', 'success')
-    return true,
+    return true;
   }
 }
 

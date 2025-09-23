@@ -70,7 +70,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
       return getEnhancedIngredient(name)
     } catch (error) {
       _logger.error(`Error getting ingredient ${name}:`, error)
-      return undefined,
+      return undefined;
     }
   }
 
@@ -82,7 +82,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
       return getIngredientsByCategory(category)
     } catch (error) {
       _logger.error(`Error getting ingredients in category ${category}:`, error)
-      return [],
+      return [];
     }
   }
 
@@ -94,7 +94,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
       return searchIngredients(criteria as unknown)
     } catch (error) {
       _logger.error('Error searching ingredients: ', error)
-      return [],
+      return [];
     }
   }
 
@@ -106,7 +106,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
       return getIngredientsByCategory(season)
     } catch (error) {
       _logger.error(`Error getting seasonal ingredients for ${season}:`, error)
-      return [],
+      return [];
     }
   }
 
@@ -121,7 +121,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
       return getFlavorProfile(id, type)
     } catch (error) {
       _logger.error(`Error getting flavor profile ${id}:`, error)
-      return undefined,
+      return undefined;
     }
   }
 
@@ -134,7 +134,7 @@ class UnifiedDataAdapter implements UnifiedDataAdapterInterface {
   ): number {
     try {
       const result = unifiedFlavorProfileSystem.calculateFlavorCompatibility(profile1, profile2)
-      return result.compatibility,
+      return result.compatibility;
     } catch (error) {
       _logger.error('Error calculating flavor compatibility: ', error)
       return 0.5; // Default moderate compatibility

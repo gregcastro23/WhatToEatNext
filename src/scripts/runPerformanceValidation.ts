@@ -262,11 +262,11 @@ class PerformanceValidationCLI {
   private getTrendIcon(trend: string): string {
     switch (trend) {
       case 'improving':
-        return '📈',
+        return '📈';
       case 'degrading':
-        return '📉',
+        return '📉';
       case 'stable':
-        return '➡️',
+        return '➡️';
       default: return '❓'
     }
   }
@@ -323,7 +323,7 @@ function parseArgs(): CLIOptions {
     }
   }
 
-  return options,
+  return options;
 }
 
 // Main execution

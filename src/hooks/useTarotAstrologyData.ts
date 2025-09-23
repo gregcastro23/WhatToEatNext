@@ -45,7 +45,7 @@ export function adaptLunarPhase(
     'Waning Gibbous': 'waning gibbous',
     'Last Quarter': 'last quarter',
     'Waning Crescent': 'waning crescent' },
-        return phaseMap[phase] || null,
+        return phaseMap[phase] || null;
 }
 
 export interface TarotAstrologyData {
@@ -74,8 +74,7 @@ export interface TarotAstrologyData {
     Essence: number,
     Matter: number,
     Substance: number
-  }
-
+  },
   // Derived data,
   tarotElementBoosts: Record<ElementalCharacter, number>,
   tarotPlanetaryBoosts: Record<string, number>,
@@ -243,7 +242,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
           }
         })
       }
-      return cardMap,
+      return cardMap;
     } catch (error) {
       logger.error('Error calculating planetary cards', error),
       return {}
@@ -349,7 +348,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
       Justice: 'Air',
       'The Hanged Man': 'Water',
       'Wheel of Fortune': 'Fire' },
-        return elementMap[cardName] || null,
+        return elementMap[cardName] || null;
   }
 
   // This function will calculate alchemical values from tarot cards
@@ -411,7 +410,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
           })
         }
 
-        return result,
+        return result;
       } catch (error) {
         logger.error('Error calculating tarot energy boosts', error),
         return {

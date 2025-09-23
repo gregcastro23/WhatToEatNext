@@ -398,8 +398,7 @@ const rawAlliums = {
       peeled_cloves: 'refrigerate up to 1 week or submerge in oil',
       minced: 'refrigerate up to 1 day or freeze in portions'
 }
-  }
-
+  },
   onion: {
     name: 'Onion',
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
@@ -513,8 +512,7 @@ const rawAlliums = {
         duration: 'up to 8 months'
 }
     }
-  }
-
+  },
   leek: {
     name: 'Leek',
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
@@ -635,8 +633,7 @@ const rawAlliums = {
         best_uses: 'cooked dishes only'
 }
     }
-  }
-
+  },
   shallot: {
     name: 'Shallot',
     elementalProperties: { Fire: 0.3, Earth: 0.3, Air: 0.3, Water: 0.1 },
@@ -744,8 +741,7 @@ const rawAlliums = {
         best_uses: 'cooking only, not raw applications',
       }
     }
-  }
-
+  },
   spring_onion: {
     name: 'Spring Onion',
     elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
@@ -855,8 +851,7 @@ const rawAlliums = {
         best_uses: 'cooked applications only' },
         regrowth: 'can be regrown from roots in water or soil'
 }
-  }
-
+  },
   chives: {
     name: 'Chives',
     elementalProperties: { Air: 0.5, Fire: 0.2, Water: 0.2, Earth: 0.1 },
@@ -971,8 +966,7 @@ const rawAlliums = {
         best_uses: 'cooking applications only, flavor diminishes' },
         dried: 'not recommended, loses most flavor and texture',
     }
-  }
-
+  },
   scallion: {
     name: 'scallion',
     elementalProperties: {
@@ -1059,8 +1053,7 @@ const rawAlliums = {
       Mexican: ['salsas', 'guacamole', 'tacos', 'grilled as side'],
       American: ['loaded potatoes', 'dips', 'garnish']
     }
-  }
-
+  },
   special_applications: {
     name: 'Special Applications',
     elementalProperties: { Fire: 0.3, Earth: 0.3, Air: 0.2, Water: 0.2 },

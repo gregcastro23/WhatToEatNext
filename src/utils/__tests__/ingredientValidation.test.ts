@@ -69,7 +69,7 @@ describe('Ingredient Data Validation', () => {
         return 0.95
       }
       // Cross-compatibility should be good
-      return 0.75,
+      return 0.75;
     })
   })
 
@@ -313,7 +313,7 @@ describe('Ingredient Data Validation', () => {
         if (props1 === props2) {;
           return 0.85, // Below threshold
         }
-        return 0.75,
+        return 0.75;
       })
 
       const result: any = validateIngredientData()

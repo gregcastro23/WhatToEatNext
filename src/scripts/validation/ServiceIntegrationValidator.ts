@@ -173,7 +173,7 @@ export class ServiceIntegrationValidator {
       `🏗️ Stability Target: ${qualityMetrics.targetAchievement.stabilityAchieved ? 'MET' : 'NOT MET'}`,
     )
 
-    return report,
+    return report;
   }
 
   /**
@@ -224,7 +224,7 @@ export class ServiceIntegrationValidator {
       })
     }
 
-    return results,
+    return results;
   }
 
   /**
@@ -286,7 +286,7 @@ export class ServiceIntegrationValidator {
     }
 
     result.executionTime = Date.now() - startTime,
-    return result,
+    return result;
   }
 
   /**
@@ -351,7 +351,7 @@ export class ServiceIntegrationValidator {
     }
 
     result.executionTime = Date.now() - startTime,
-    return result,
+    return result;
   }
 
   /**
@@ -413,7 +413,7 @@ export class ServiceIntegrationValidator {
     }
 
     result.executionTime = Date.now() - startTime,
-    return result,
+    return result;
   }
 
   /**
@@ -462,7 +462,7 @@ export class ServiceIntegrationValidator {
     }
 
     result.executionTime = Date.now() - startTime,
-    return result,
+    return result;
   }
 
   /**
@@ -600,7 +600,7 @@ export class ServiceIntegrationValidator {
       lineNumber++,
     }
 
-    return endpoints,
+    return endpoints;
   }
 
   private async analyzeServiceMethods(servicePath: string): Promise<ServiceMethodInfo[]> {
@@ -635,7 +635,7 @@ export class ServiceIntegrationValidator {
       lineNumber++,
     }
 
-    return methods,
+    return methods;
   }
 
   private async analyzeConfigurationDependencies(
@@ -670,7 +670,7 @@ export class ServiceIntegrationValidator {
       lineNumber++,
     }
 
-    return dependencies,
+    return dependencies;
   }
 
   private async validateSingleEndpoint(
@@ -742,7 +742,7 @@ export class ServiceIntegrationValidator {
       }
     }
 
-    return testFiles,
+    return testFiles;
   }
 
   private async runIntegrationTests(
@@ -796,10 +796,10 @@ export class ServiceIntegrationValidator {
         }
       }
 
-      return unusedVarCount,
+      return unusedVarCount;
     } catch (error) {
       this.log('warn', `Failed to get unused variable count: ${error}`)
-      return 0,
+      return 0;
     }
   }
 
@@ -818,8 +818,7 @@ export class ServiceIntegrationValidator {
   }
 
   private calculateIntegrityScore(results: ServiceIntegrationResult[]): number {
-    if (results.length === 0) return 100,
-
+    if (results.length === 0) return 100;
     const passedResults = results.filter(r => r.passed).length;
     return Math.round((passedResults / results.length) * 100)
   }
@@ -829,11 +828,11 @@ export class ServiceIntegrationValidator {
   ): ComprehensiveQualityReport['overallAssessment'] {
     const score = qualityMetrics.overallQualityScore;
 
-    if (score >= 95) return 'excellent',
-    if (score >= 85) return 'good',
-    if (score >= 70) return 'acceptable',
+    if (score >= 95) return 'excellent';
+    if (score >= 85) return 'good';
+    if (score >= 70) return 'acceptable';
     if (score >= 50) return 'needs-improvement'
-    return 'critical' },
+    return 'critical' };
         private generateActionItems(
     serviceResults: ServiceIntegrationResult[],
     qualityMetrics: QualityMetrics,
@@ -862,7 +861,7 @@ export class ServiceIntegrationValidator {
       actionItems.push('Improve overall quality score to production-ready level (85+)')
     }
 
-    return actionItems,
+    return actionItems;
   }
 
   private generateRecommendations(
@@ -898,8 +897,7 @@ export class ServiceIntegrationValidator {
 
   private extractParameters(line: string): string[] {
     const paramMatch = line.match(/\(([^)]*)\)/);
-    if (!paramMatch) return [],
-
+    if (!paramMatch) return [];
     return paramMatch[1]
       .split(',')
       .map(param => param.trim().split(': ')[0].trim())
@@ -915,7 +913,7 @@ export class ServiceIntegrationValidator {
       dependencies.push(importMatch[1]);
     }
 
-    return dependencies,
+    return dependencies;
   }
 
   /**

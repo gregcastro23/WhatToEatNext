@@ -105,7 +105,7 @@ export function findRecipesMatchingElementalAndIngredientRequirements(
     } as unknown,
   )
 
-  return matchedRecipes,
+  return matchedRecipes;
 }
 
 /**
@@ -145,8 +145,7 @@ export function suggestIngredientSubstitutions(recipe: Recipe, ingredientToRepla
       if (name.toLowerCase() === ingredientToReplace.toLowerCase()) return false,
 
       // Skip if not the same category (optional, depending on how flexible you want to be)
-      if (mapping.category !== ingredientMapping.matchedTo?.category) return false,
-
+      if (mapping.category !== ingredientMapping.matchedTo?.category) return false;
       // Check elemental similarity
       const similarity = calculateElementalSimilarity(
         elementalProperties as ElementalProperties,
@@ -180,8 +179,7 @@ function calculateElementalSimilarity(
   properties1: ElementalProperties,
   properties2: ElementalProperties,
 ): number {
-  if (!properties1 || !properties2) return 0,
-
+  if (!properties1 || !properties2) return 0;
   // Calculate difference for each element
   const fireDiff = Math.abs((properties1.Fire || 0) - (properties2.Fire || 0))
   const waterDiff = Math.abs((properties1.Water || 0) - (properties2.Water || 0))

@@ -161,7 +161,7 @@ export class LintingCampaignIntegration {
         improvement: result.metricsImprovement.improvementPercentage
       })
 
-      return result,
+      return result;
     } catch (error) {
       logger.error(`Error executing phase ${phase.name}:`, error)
       throw error,
@@ -346,7 +346,7 @@ export class LintingCampaignIntegration {
       // Save final report
       this.saveCampaignReport(report)
 
-      return report,
+      return report;
     } catch (error) {
       logger.error('Error generating campaign report: ', error)
       throw error,
@@ -454,7 +454,7 @@ export class LintingCampaignIntegration {
       return configs[campaignId];
     } catch (error) {
       logger.error('Error reading campaign config: ', error)
-      return undefined,
+      return undefined;
     }
   }
 

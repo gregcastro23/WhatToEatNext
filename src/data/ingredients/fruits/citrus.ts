@@ -42,8 +42,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       duration: '1-2 weeks',
       notes: 'Will continue to ripen at room temperature'
 }
-  }
-
+  },
   orange: {
     name: 'Orange',
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
@@ -84,8 +83,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
       duration: '2-3 weeks',
       notes: 'Keep away from apples and bananas'
 }
-  }
-
+  },
   lime: {
     name: 'Lime',
     elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 },
@@ -123,8 +121,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         }
       }
     }
-  }
-
+  },
   grapefruit: {
     name: 'Grapefruit',
     elementalProperties: { Water: 0.5, Fire: 0.2, Air: 0.2, Earth: 0.1 },
@@ -165,8 +162,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         }
       }
     }
-  }
-
+  },
   mandarin: {
     name: 'Mandarin',
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
@@ -207,8 +203,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         }
       }
     }
-  }
-
+  },
   kumquat: {
     name: 'Kumquat',
     elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 },
@@ -248,8 +243,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         }
       }
     }
-  }
-
+  },
   yuzu: {
     name: 'Yuzu',
     elementalProperties: { Water: 0.3, Air: 0.3, Fire: 0.3, Earth: 0.1 },
@@ -290,8 +284,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         }
       }
     }
-  }
-
+  },
   bergamot: {
     name: 'Bergamot',
     elementalProperties: { Water: 0.3, Air: 0.4, Fire: 0.2, Earth: 0.1 },
@@ -331,8 +324,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         }
       }
     }
-  }
-
+  },
   calamansi: {
     name: 'Calamansi',
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
@@ -414,8 +406,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         }
       }
     }
-  }
-
+  },
   tangelo: {
     name: 'Tangelo',
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
@@ -497,8 +488,7 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
         }
       }
     }
-  }
-
+  },
   clementine: {
     name: 'Clementine',
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },

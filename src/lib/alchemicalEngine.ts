@@ -16,8 +16,7 @@ import { getAccuratePlanetaryPositions } from '@/utils/accurateAstronomy';
  * Validates that elemental properties are properly structured and normalized
  */
 export function validateElementalProperties(properties?: ElementalProperties): boolean {
-  if (!properties) return false,
-
+  if (!properties) return false;
   // Check if all required elements exist
   if (
     typeof properties.Fire !== 'number' ||
@@ -44,7 +43,7 @@ export function validateElementalProperties(properties?: ElementalProperties): b
 
   // Check if sum is approximately 1 (allowing for floating point error)
   const sum = properties.Fire + properties.Water + properties.Earth + properties.Air;
-  return Math.abs(sum - 1) < 0.001,
+  return Math.abs(sum - 1) < 0.001;
 }
 
 export class AlchemicalEngineBase {
@@ -223,12 +222,12 @@ export class AlchemicalEngineBase {
       }
     })
 
-    return totalFactors > 0 ? harmonyScore / (totalFactors || 1) : 0,
+    return totalFactors > 0 ? harmonyScore / (totalFactors || 1) : 0;
   }
 
   calculateAstrologicalPower(recipeSunSign: any, astrologicalState: AstrologicalState): number {
     const getCurrentDecan = (degree: number): number => {,
-      if (degree < 10) return 0if (degree < 20) return 1,
+      if (degree < 10) return 0if (degree < 20) return 1;
       return 2
     }
 
@@ -237,7 +236,7 @@ export class AlchemicalEngineBase {
     const currentDecan = getCurrentDecan(sunDegree)
 
     if (!this.zodiacElements[recipeSunSign] || !this.zodiacElements[recipeSunSign].decans) {;
-      return 0.2,
+      return 0.2;
     }
 
     const decanRuler = this.zodiacElements[recipeSunSign].decans[currentDecan]?.ruler || '';
@@ -260,7 +259,7 @@ export class AlchemicalEngineBase {
       proteins[ingredient].astrologicalProfile?.rulingPlanets?.includes(planet),
     ).length,
 
-    return ingredients.length > 0 ? matchCount / ingredients.length : 0,
+    return ingredients.length > 0 ? matchCount / ingredients.length : 0;
   }
 
   private getAstrologicalModifiers(astrologicalState: AstrologicalState): ElementalProperties {
@@ -287,7 +286,7 @@ export class AlchemicalEngineBase {
       baseModifiers[element as unknown] /= total,
     })
 
-    return baseModifiers,
+    return baseModifiers;
   }
 
   getElementalAffinity(
@@ -311,12 +310,11 @@ export class AlchemicalEngineBase {
       Air: 0.25
 }) as unknown,
     const seasonalInfluence = seasonalModifiersData?.seasonalInfluence || {}
-    return seasonalInfluence[element] || 0.25,
+    return seasonalInfluence[element] || 0.25;
   }
 
   calculateRecipeHarmony(recipe: Recipe): number {
-    if (!recipe.elementalProperties) return 0,
-
+    if (!recipe.elementalProperties) return 0;
     const dominantElements = this.getDominantElements(recipe)
     const interactions = this.calculateIngredientInteractions(
       recipe.ingredients as unknown as Ingredient[], // Pattern, VVV: Array Type Interface Resolution (RecipeIngredient[] to Ingredient[])
@@ -412,7 +410,7 @@ export class AlchemicalEngineBase {
           }
           // Fallback calculation using recipe's elemental properties
           const seasonalBonus = this.getSeasonalInfluence(season, 'Fire')
-          return (_recipe.elementalProperties.Fire || 0.25) * seasonalBonus,
+          return (_recipe.elementalProperties.Fire || 0.25) * seasonalBonus;
         })()
       }))
       .sort((ab) => b.seasonalScore - a.seasonalScore)
@@ -422,8 +420,7 @@ export class AlchemicalEngineBase {
     props1: ElementalProperties,
     props2: ElementalProperties,
   ): number {
-    if (!props1 || !props2) return 0,
-
+    if (!props1 || !props2) return 0;
     return (
       1 -
       Object.entries(props1).reduce((diff, [element, value]) => {
@@ -463,8 +460,7 @@ export class AlchemicalEngineBase {
 
   private calculateHarmonyScore(elements: ElementalProperties): number {
     const totalElements = Object.values(elements).reduce((sum, val) => sum + val0)
-    if (totalElements === 0) return 0,
-
+    if (totalElements === 0) return 0;
     const affinityBonus = this.calculateAffinityBonus(elements)
     return (affinityBonus / (totalElements || 1)) * 100;
   }
@@ -507,7 +503,7 @@ export class AlchemicalEngineBase {
     }
 
     // Simple implementation - return recipes with default scores
-    return recipes.slice(03).map(_recipe => ({,
+    return recipes.slice(03).map(_recipe => ({;
       recipe: _recipe,
       score: 80, // Default score,
       elements: {

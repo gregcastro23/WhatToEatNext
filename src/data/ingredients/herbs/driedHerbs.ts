@@ -32,8 +32,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: 'airtight, dark',
       notes: 'Crush to test freshness - should be aromatic'
 }
-  }
-
+  },
   dried_oregano: {
     name: 'Dried Oregano',
     elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },
@@ -61,8 +60,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: 'airtight, dark',
       notes: 'Maintains flavor well when dried'
 }
-  }
-
+  },
   dried_thyme: {
     name: 'Dried Thyme',
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
@@ -90,8 +88,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: 'airtight, dark',
       notes: 'Whole leaves last longer than ground'
 }
-  }
-
+  },
   dried_rosemary: {
     name: 'Dried Rosemary',
     elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },
@@ -119,8 +116,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: 'airtight, dark',
       notes: 'Whole needles last longer than ground'
 }
-  }
-
+  },
   dried_sage: {
     name: 'Dried Sage',
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
@@ -151,8 +147,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       preparations: ['tea', 'infusion'],
       cautions: ['avoid therapeutic doses during pregnancy']
     }
-  }
-
+  },
   dried_bay_leaves: {
     name: 'Dried Bay Leaves',
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
@@ -180,8 +175,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: 'airtight, dark',
       notes: 'Whole leaves maintain flavor longer'
 }
-  }
-
+  },
   dried_marjoram: {
     name: 'Dried Marjoram',
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
@@ -208,8 +202,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: 'airtight, dark',
       notes: 'Replace when aroma fades'
 }
-  }
-
+  },
   dried_savory: {
     name: 'Dried Savory',
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
@@ -236,8 +229,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: 'airtight, dark',
       notes: 'Maintains strength well when dried'
 }
-  }
-
+  },
   dried_chervil: {
     name: 'Dried Chervil',
     elementalProperties: { Air: 0.5, Earth: 0.2, Water: 0.2, Fire: 0.1 },
@@ -264,8 +256,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: 'airtight, dark',
       notes: 'Loses flavor quickly when dried'
 }
-  }
-
+  },
   dried_tarragon: {
     name: 'Dried Tarragon',
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
@@ -292,8 +283,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: 'airtight, dark',
       notes: 'Replace when aroma weakens'
 }
-  }
-
+  },
   dried_dill: {
     name: 'Dried Dill',
     elementalProperties: { Air: 0.5, Water: 0.2, Earth: 0.2, Fire: 0.1 },
@@ -320,8 +310,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: 'airtight, dark',
       notes: 'Protect from light to maintain color'
 }
-  }
-
+  },
   dried_mint: {
     name: 'Dried Mint',
     elementalProperties: { Air: 0.5, Water: 0.2, Fire: 0.2, Earth: 0.1 },
@@ -352,8 +341,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       preparations: ['tea', 'infusion'],
       cautions: ['may affect iron absorption']
     }
-  }
-
+  },
   dried_fennel: {
     name: 'Dried Fennel',
     elementalProperties: { Fire: 0.3, Air: 0.3, Earth: 0.2, Water: 0.2 },
@@ -384,8 +372,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       preparations: ['tea', 'powder'],
       cautions: ['may interact with estrogen']
     }
-  }
-
+  },
   dried_parsley: {
     name: 'Dried Parsley',
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
@@ -412,8 +399,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: 'airtight, dark',
       notes: 'Color may fade but flavor remains'
 }
-  }
-
+  },
   dried_cilantro: {
     name: 'Dried Cilantro',
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
@@ -440,8 +426,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: 'airtight, dark',
       notes: 'Best in cooked dishes'
 }
-  }
-
+  },
   dried_chives: {
     name: 'Dried Chives',
     elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
@@ -468,8 +453,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: 'airtight, dark',
       notes: 'Protect from moisture'
 }
-  }
-
+  },
   dried_lemon_balm: {
     name: 'Dried Lemon Balm',
     elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
@@ -500,8 +484,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       preparations: ['tea', 'tincture'],
       cautions: ['may cause drowsiness']
     }
-  }
-
+  },
   dried_lavender: {
     name: 'Dried Lavender',
     elementalProperties: { Air: 0.5, Fire: 0.2, Earth: 0.2, Water: 0.1 },
@@ -532,8 +515,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       preparations: ['tea', 'sachet'],
       cautions: ['may cause drowsiness']
     }
-  }
-
+  },
   dried_summer_savory: {
     name: 'Dried Summer Savory',
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
@@ -560,8 +542,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: 'airtight, dark',
       notes: 'Replace when aroma fades'
 }
-  }
-
+  },
   dried_lovage: {
     name: 'Dried Lovage',
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
@@ -588,8 +569,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       container: 'airtight, dark',
       notes: 'Replace when aroma weakens'
 }
-  }
-
+  },
   chervil: {
     name: 'Chervil',
     elementalProperties: {
@@ -629,8 +609,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       vitamins: [],
       minerals: []
     }
-  }
-
+  },
   anise: {
     name: 'Anise',
     elementalProperties: {

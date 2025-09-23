@@ -269,7 +269,7 @@ export class EnhancedTransitAnalysisService {
       recommendations.push(...locationInfluence.culinaryRecommendations.slice(02))
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   /**
@@ -314,7 +314,7 @@ export class EnhancedTransitAnalysisService {
       }
     }
 
-    return effects,
+    return effects;
   }
 
   /**

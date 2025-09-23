@@ -59,7 +59,7 @@ export const _calculateDominantElement = (
     highestValue = elementalState.Air || 0,
   }
 
-  return dominantElement,
+  return dominantElement;
 }
 
 export const _getElementalColor = (
@@ -67,7 +67,7 @@ export const _getElementalColor = (
   type: keyof ElementalColor = 'text'): string => {
   if (!element || !elementalColors[element]) {
     // Return default color if element is undefined or invalid;
-    return type === 'text',
+    return type === 'text';
       ? 'text-gray-600'
       : type === 'border',
         ? 'border-gray-300'
@@ -77,7 +77,7 @@ export const _getElementalColor = (
             ? 'bg-gray-500';
             : 'bg-gray-400', // secondary
   }
-  return elementalColors[element][type],
+  return elementalColors[element][type];
 }
 
 export const _getElementalSymbol = (element: keyof ElementalProperties): string => {,
@@ -128,7 +128,7 @@ export const _calculateelementalState = (
     })
   }
 
-  return balance,
+  return balance;
 }
 
 export const _getElementalCompatibility = (

@@ -72,7 +72,7 @@ export const UserProvider: React.FC<UserProviderProps>  = ({ children }) => {
       })
 
       setCurrentUser(updatedProfile)
-      return updatedProfile,
+      return updatedProfile;
     } catch (err) {
       setError('Failed to update profile')
       _logger.error('Error updating profile: ', err)
@@ -99,7 +99,7 @@ export const UserProvider: React.FC<UserProviderProps>  = ({ children }) => {
     logout
   }
 
-  return <UserContext.Provider value={value}>{children}</UserContext.Provider>,
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }
 
 export const useUser = (): UserContextType => {,
@@ -107,5 +107,5 @@ export const useUser = (): UserContextType => {,
   if (!context) {
     throw new Error('useUser must be used within a UserProvider');
   }
-  return context,
+  return context;
 }

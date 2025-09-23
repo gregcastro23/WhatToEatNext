@@ -99,7 +99,7 @@ describe('SafetyValidator', () => {
         while (Date.now() - start < 100) {
           // Busy wait to simulate slow build;
         }
-        return '',
+        return '';
       })
 
       const slowValidator: any = new SafetyValidator(60000, {

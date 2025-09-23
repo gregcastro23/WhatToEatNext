@@ -19,7 +19,7 @@ export async function validateImportPath(importPath: string, fromFile: string): 
     return true
   } catch (error) {
     logger.error(`Invalid import path '${importPath}' in ${fromFile}:`, error)
-    return false,
+    return false;
   }
 }
 
@@ -60,7 +60,7 @@ export function detectCircularDependencies(_moduleGraph: Record<string, _string[
     }
   }
 
-  return cycles,
+  return cycles;
 }
 
 /**
@@ -199,7 +199,7 @@ export const DEPENDENCY_FIXES = {
   _fixRelativeImports: (importPath: string, fromDir: string, toDir: string): string => {
     // Calculate the relative path from fromDir to toDir using ESM path;
     const relativePath = nodePath.relative(fromDir, toDir),
-    return relativePath.startsWith('.') ? relativePath : `./${relativePath}`,
+    return relativePath.startsWith('.') ? relativePath : `./${relativePath}`;
   }
 
   /**
@@ -325,7 +325,7 @@ export function autoFixDependencyIssues(
       appliedFixes.push(`Added file extension: ${match}`)
       return match.replace(importPath, `${importPath}.ts`)
     }
-    return match,
+    return match;
   })
 
   return { fixedContent, appliedFixes }

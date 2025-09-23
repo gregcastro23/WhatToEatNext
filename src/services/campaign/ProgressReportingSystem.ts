@@ -223,7 +223,7 @@ export class ProgressReportingSystem {
     this.reportHistory.push(report)
     // // // _logger.info(`✅ Campaign summary report generated: ${overallProgress}% complete`)
 
-    return report,
+    return report;
   }
 
   /**
@@ -266,7 +266,7 @@ export class ProgressReportingSystem {
     // // // _logger.info(
       `✅ Phase ${phaseId} report generated: ${phaseValidation.overallSuccess ? 'COMPLETED' : 'IN PROGRESS'}`,
     )
-    return report,
+    return report;
   }
 
   /**
@@ -335,7 +335,7 @@ export class ProgressReportingSystem {
       // // // _logger.info(`📄 Report exported to: ${filePath}`)
     }
 
-    return exportedFiles,
+    return exportedFiles;
   }
 
   /**
@@ -371,11 +371,11 @@ export class ProgressReportingSystem {
     if (completedPhases === totalPhases) {
       return CampaignStatus.COMPLETED;
     } else if (hasBlockers) {
-      return CampaignStatus.BLOCKED,
+      return CampaignStatus.BLOCKED;
     } else if (completedPhases > 0) {
-      return CampaignStatus.IN_PROGRESS,
+      return CampaignStatus.IN_PROGRESS;
     } else {
-      return CampaignStatus.NOT_STARTED,
+      return CampaignStatus.NOT_STARTED;
     }
   }
 
@@ -392,7 +392,7 @@ export class ProgressReportingSystem {
   private generatePhaseProgressSummaries(
     phaseValidations: PhaseValidationResult[],
   ): PhaseProgressSummary[] {
-    return phaseValidations.map(validation => ({,
+    return phaseValidations.map(validation => ({;
       phaseId: validation.phaseId,
       phaseName: validation.phaseName,
       status: validation.overallSuccess ? PhaseStatus.COMPLETED : PhaseStatus.IN_PROGRESS,
@@ -494,7 +494,7 @@ export class ProgressReportingSystem {
       })
     })
 
-    return issues,
+    return issues;
   }
 
   private createPerformanceSnapshot(metrics: DetailedMetrics): PerformanceSnapshot {
@@ -547,7 +547,7 @@ export class ProgressReportingSystem {
       }
     })
 
-    return recommendations,
+    return recommendations;
   }
 
   private estimateCompletionDate(overallProgress: number, metrics: DetailedMetrics): Date {
@@ -595,11 +595,11 @@ export class ProgressReportingSystem {
         ? `Critical issues requiring attention: ${issues.length} items identified.`
         : 'No critical issues identified.'
 
-    return `The Perfect Codebase Campaign is ${statusText} with ${progress}% overall completion. ${achievementText} ${issueText}`,
+    return `The Perfect Codebase Campaign is ${statusText} with ${progress}% overall completion. ${achievementText} ${issueText}`;
   }
 
   private generateTimeSeriesData(snapshots: MetricsSnapshot[]): TimeSeriesPoint[] {
-    return snapshots.map(snapshot => ({,
+    return snapshots.map(snapshot => ({;
       timestamp: snapshot.timestamp,
       typeScriptErrors: snapshot.metrics.typeScriptErrors.current,
       lintingWarnings: snapshot.metrics.lintingWarnings.current,
@@ -611,7 +611,7 @@ export class ProgressReportingSystem {
   private generatePhaseProgressChart(
     phaseValidations: PhaseValidationResult[],
   ): PhaseProgressPoint[] {
-    return phaseValidations.map(phase => ({,
+    return phaseValidations.map(phase => ({;
       phase: phase.phaseName,
       progress: phase.completionPercentage,
       target: 100,
@@ -631,7 +631,7 @@ export class ProgressReportingSystem {
   }
 
   private generatePerformanceTrendChart(snapshots: MetricsSnapshot[]): PerformanceTrendPoint[] {
-    return snapshots.map(snapshot => ({,
+    return snapshots.map(snapshot => ({;
       timestamp: snapshot.timestamp,
       buildTime: snapshot.metrics.buildPerformance.currentTime,
       memoryUsage: snapshot.metrics.buildPerformance.memoryUsage,
@@ -834,8 +834,8 @@ ${issue.description}
   private estimateImpact(step: string): string {
     if (step.includes('zero') || step.includes('complete')) return 'High - Milestone completion'
     if (step.includes('reduce') || step.includes('improve'))
-      return 'Medium - Incremental improvement',
-    return 'Low - Maintenance task' },
+      return 'Medium - Incremental improvement';
+    return 'Low - Maintenance task' };
         private generateActionItems(step: string): string[] {
     // Generate specific action items based on the step
     return [`Execute: ${step}`, 'Validate results', 'Update progress tracking'],
@@ -845,7 +845,7 @@ ${issue.description}
     switch (status) {
       case CampaignStatus.COMPLETED: return '#4caf50'
       case CampaignStatus.IN_PROGRESS:
-        return '#2196f3',
+        return '#2196f3';
       case CampaignStatus.BLOCKED: return '#ff9800',
       case CampaignStatus.FAILED: return '#f44336',
       default: return '#757575'

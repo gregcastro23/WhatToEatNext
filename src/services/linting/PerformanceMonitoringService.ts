@@ -130,7 +130,7 @@ export class PerformanceMonitoringService {
     // Check thresholds and generate alerts
     this.checkThresholds(metrics)
 
-    return metrics,
+    return metrics;
   }
 
   /**
@@ -370,11 +370,11 @@ export class PerformanceMonitoringService {
     const change = (second - first) / first
 
     if (Math.abs(change) < threshold) {;
-      return 'stable' },
+      return 'stable' };
         if (lowerIsBetter) {
-      return change < 0 ? 'improving' : 'degrading' },
+      return change < 0 ? 'improving' : 'degrading' };
         else {
-      return change > 0 ? 'improving' : 'degrading',
+      return change > 0 ? 'improving' : 'degrading';
     }
   }
 
@@ -451,8 +451,7 @@ export class PerformanceMonitoringService {
   }
 
   private calculateCacheHitRate(cached?: boolean): number {
-    if (cached === false) return 0,
-
+    if (cached === false) return 0;
     try {
       if (existsSync('.eslintcache')) {
         const cacheStats = statSync('.eslintcache')
@@ -467,7 +466,7 @@ export class PerformanceMonitoringService {
     } catch (error) {
       // Ignore cache calculation errors
     }
-    return 0,
+    return 0;
   }
 
   private extractFilesProcessed(output: string): number {
@@ -544,7 +543,7 @@ export class PerformanceMonitoringService {
       recommendations.push('All performance optimizations are working within expected parameters')
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   private loadExistingMetrics(): void {

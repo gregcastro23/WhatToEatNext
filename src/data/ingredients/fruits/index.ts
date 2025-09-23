@@ -57,7 +57,7 @@ export const getFruitsByPreparation = (method: string): Record<string, Ingredien
 export const findCompatibleFruits = (ingredientName: string): string[] => {
   // ✅ Pattern MM-1: Safe type assertion for fruit data access,
   const fruit = fruits[String(ingredientName || '')];
-  if (!fruit) return [],
+  if (!fruit) return [];
   const fruitData = fruit as unknown as any;
   const affinitiesData = fruitData.affinities
   return Array.isArray(affinitiesData) ? (affinitiesData as string[]) : [];
@@ -267,8 +267,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
       categoryOptimization,
       categoryHarmony
     }
-  }
-
+  },
   // Seasonal Intelligence Engine
   analyzeSeasonalSystem: (
     seasonalFunc: typeof getSeasonalFruits,
@@ -362,8 +361,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
       seasonalOptimization,
       seasonalHarmony
     }
-  }
-
+  },
   // Preparation Intelligence Engine
   analyzePreparationSystem: (
     preparationFunc: typeof getFruitsByPreparation,
@@ -547,8 +545,7 @@ export const FRUIT_PREPARATION_INTELLIGENCE = {
       methodOptimization,
       methodHarmony
     }
-  }
-
+  },
   // Preparation Integrity Analysis
   analyzePreparationIntegrity: (): {
     integrityAnalysis: Record<string, unknown>,
@@ -579,7 +576,7 @@ export const FRUIT_PREPARATION_INTELLIGENCE = {
         averageIntegrity:
           testMethods.reduce((sum, method) => {
             const results = getFruitsByPreparation(method);
-            return sum + Object.keys(results).length / Object.keys(fruits).length,
+            return sum + Object.keys(results).length / Object.keys(fruits).length;
           }, 0) / testMethods.length,
         maxIntegrity: Math.max(,
           ...testMethods.map(method => {
@@ -603,7 +600,7 @@ export const FRUIT_PREPARATION_INTELLIGENCE = {
             Math.min(
               ...testMethods.map(method => {
                 const results = getFruitsByPreparation(method);
-                return Object.keys(results).length / Object.keys(fruits).length,
+                return Object.keys(results).length / Object.keys(fruits).length;
               }),
             ))
       }

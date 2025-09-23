@@ -145,7 +145,7 @@ export class LintingValidationDashboard {
     await this.generateDashboardReport(result)
 
     // // // _logger.info(`✅ Validation completed in ${Date.now() - startTime}ms`)
-    return result,
+    return result;
   }
 
   /**
@@ -175,7 +175,7 @@ export class LintingValidationDashboard {
       // Calculate quality score
       metrics.qualityScore = this.calculateQualityScore(metrics)
 ;
-      return metrics,
+      return metrics;
     } catch (error) {
       _logger.error('Error collecting linting metrics: ', error),
 
@@ -474,7 +474,7 @@ export class LintingValidationDashboard {
       )
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   /**
@@ -601,9 +601,9 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
   private loadThresholds(): AlertThreshold[] {
     try {
       const config = JSON.parse(readFileSync(this.configFile, 'utf8')),
-      return config.thresholds || this.defaultThresholds,
+      return config.thresholds || this.defaultThresholds;
     } catch {
-      return this.defaultThresholds,
+      return this.defaultThresholds;
     }
   }
 
@@ -657,15 +657,15 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
     previous: LintingMetrics,
   ): 'minor' | 'moderate' | 'major' | 'critical' {
     if (affectedMetrics.includes('parserErrors') && current.parserErrors > previous.parserErrors) {
-      return 'critical' },
+      return 'critical' };
         if (
       affectedMetrics.includes('explicitAnyErrors') &&
       current.explicitAnyErrors > previous.explicitAnyErrors + 50
     ) {
-      return 'major' },
+      return 'major' };
         if (affectedMetrics.length > 2) {
-      return 'moderate' },
-        return 'minor',
+      return 'moderate' };
+        return 'minor';
   }
 
   private generateRegressionRecommendations(affectedMetrics: string[]): string[] {
@@ -683,7 +683,7 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
       recommendations.push('Run comprehensive linting validation to identify new issues')
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   private async calculateCacheHitRate(): Promise<number> {
@@ -696,7 +696,7 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
     } catch {
       // Ignore errors
     }
-    return 0,
+    return 0;
   }
 
   private isAstrologicalFile(filePath: string): boolean {

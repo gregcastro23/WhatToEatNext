@@ -75,7 +75,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
    * Create a cache key for requests to prevent duplicate calls
    */
   const createCacheKey = useCallback((lat: number, lng: number, date: Date): string => {,
-    return `${lat}_${lng}_${date.getTime()}`,
+    return `${lat}_${lng}_${date.getTime()}`;
   }, [])
 
   /**
@@ -183,7 +183,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
             }))
           }
 
-          return data.data,
+          return data.data;
         } catch (error) {
           const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred',
           logger.error('Error fetching astrological data: ', error),
@@ -212,7 +212,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
       // Store the promise in the cache
       activeRequests.set(cacheKey, requestPromise)
 
-      return requestPromise,
+      return requestPromise;
     }
     [isClient, state.loading, useFallback, createCacheKey],
   )
@@ -276,7 +276,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
               }))
             }
 
-            return data.data,
+            return data.data;
           } catch (error) {
             logger.error('Error calculating elemental balance: ', error),
 
@@ -292,7 +292,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
         })()
 
         activeRequests.set(cacheKey, requestPromise)
-        return requestPromise,
+        return requestPromise;
       } catch (error) {
         logger.error('Error in calculateElementalBalance: ', error),
         return null
@@ -361,7 +361,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
             planetary: planetaryPositions
           }
 
-          return profile,
+          return profile;
         } catch (error) {
           logger.error('Error getting astrological profile: ', error),
           return null
@@ -371,7 +371,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
       })()
 
       activeRequests.set(cacheKey, requestPromise)
-      return requestPromise,
+      return requestPromise;
     }
     [isClient, latitude, longitude, state.loading],
   )
@@ -490,7 +490,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
         }))
       }
 
-      return elementalBalance,
+      return elementalBalance;
     } catch (error) {
       logger.error('Error using fallback elemental balance: ', error),
       return {
@@ -522,7 +522,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
       }
     })
 
-    return dominantElement,
+    return dominantElement;
   }, [state.data.elementalBalance])
 
   // Load data automatically when coordinates are available and autoLoad is true

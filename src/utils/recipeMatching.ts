@@ -84,7 +84,7 @@ export async function findBestMatches(
   // Check if we have a valid cache entry
   if (cachedEntry && Date.now() - cachedEntry.timestamp < CACHE_TTL) {
     // log.info('Using cached recipe matches')
-    return cachedEntry.data,
+    return cachedEntry.data;
   }
 
   // If recipes is null, undefined, or not an array, fetch recipes using LocalRecipeService
@@ -142,7 +142,7 @@ export async function findBestMatches(
         : b.season === (matchFilters as any).season || b.season === 'all',
 
       if (aIsInSeason && !bIsInSeason) return -1
-      if (!aIsInSeason && bIsInSeason) return 1,
+      if (!aIsInSeason && bIsInSeason) return 1;
       return 0
     })
     // log.info(`After season sorting (${(matchFilters as any)?.season}): prioritized seasonal recipes`)
@@ -160,8 +160,7 @@ export async function findBestMatches(
 
   if (matchFilters.excludeIngredients && matchFilters.excludeIngredients.length > 0) {
     filteredRecipes = filteredRecipes.filter(recipe => {,
-      if (!recipe.ingredients) return true,
-
+      if (!recipe.ingredients) return true;
       // Check if any of the excluded ingredients are in the recipe
       const hasExcludedIngredient = matchFilters.excludeIngredients?.some(excluded => {
         const lowerExcluded = excluded.toLowerCase()
@@ -179,7 +178,7 @@ export async function findBestMatches(
       })
 
       // If recipe has excluded ingredient, filter it out
-      return !hasExcludedIngredient,
+      return !hasExcludedIngredient;
     })
     // log.info(`After excludeIngredients filter: ${filteredRecipes.length} recipes remain`)
   }
@@ -203,8 +202,8 @@ export async function findBestMatches(
           bCookingMethods.some(method => matchFilters.cookingMethods?.includes(method))) ||;
         false,
 
-      if (aUsesMethod && !bUsesMethod) return -1,
-      if (!aUsesMethod && bUsesMethod) return 1,
+      if (aUsesMethod && !bUsesMethod) return -1;
+      if (!aUsesMethod && bUsesMethod) return 1;
       return 0
     })
     // log.info(`After cookingMethods, sorting: prioritized recipes with preferred methods`)
@@ -282,7 +281,7 @@ export async function findBestMatches(
     timestamp: Date.now()
   })
 
-  return sortedResults,
+  return sortedResults;
 }
 
 const _calculateBaseElements = async (recipe: Recipe): Promise<ElementalProperties> => {
@@ -327,7 +326,7 @@ const _calculateBaseElements = async (recipe: Recipe): Promise<ElementalProperti
     baseElements.Air = baseElements.Air / total,
   }
 
-  return baseElements,
+  return baseElements;
 }
 
 interface EnergyData {
@@ -526,7 +525,7 @@ function calculateElementalAlignment(_recipe: Recipe, currentEnergy: Astrologica
   const earthAlignment = 1 - Math.abs(recipeElements.Earth - currentElements.Earth)
   const airAlignment = 1 - Math.abs(recipeElements.Air - currentElements.Air)
 ;
-  return (fireAlignment + waterAlignment + earthAlignment + airAlignment) / 4,
+  return (fireAlignment + waterAlignment + earthAlignment + airAlignment) / 4;
 }
 
 // New function to calculate nutritional alignment
@@ -550,25 +549,25 @@ function calculateNutritionalAlignment(_recipe: Recipe, currentEnergy: Astrologi
   // Check for high protein preference
   const highProtein = nutritionalGoals.highProtein;
   if (highProtein && hasHighProtein(recipe)) {
-    return 0.9,
+    return 0.9;
   }
 
   // Check for low carb preference
   const lowCarb = nutritionalGoals.lowCarb;
   if (lowCarb && hasLowCarb(recipe)) {
-    return 0.9,
+    return 0.9;
   }
 
   // Check for high fiber preference
   const highFiber = nutritionalGoals.highFiber;
   if (highFiber && hasHighFiber(recipe)) {
-    return 0.9,
+    return 0.9;
   }
 
   // Check for low fat preference
   const lowFat = nutritionalGoals.lowFat;
   if (lowFat && hasLowFat(recipe)) {
-    return 0.9,
+    return 0.9;
   }
 
   return 0.5; // Default score
@@ -580,8 +579,7 @@ function hasHighProtein(recipe: Recipe): boolean {
   const recipeData = recipe as any;
   const profile = recipeData.nutritionalProfile ;
 
-  if (!profile) return false,
-
+  if (!profile) return false;
   const protein = profile.protein;
   return typeof protein === 'number' && protein >= 20;
 }
@@ -591,8 +589,7 @@ function hasLowCarb(recipe: Recipe): boolean {
   const recipeData = recipe as any;
   const profile = recipeData.nutritionalProfile ;
 
-  if (!profile) return false,
-
+  if (!profile) return false;
   const carbs = profile.carbohydrates;
   return typeof carbs === 'number' && carbs <= 30;
 }
@@ -602,10 +599,9 @@ function hasHighFiber(recipe: Recipe): boolean {
   const recipeData = recipe as any;
   const profile = recipeData.nutritionalProfile 
 ;
-  if (!profile) return false,
-
+  if (!profile) return false;
   const fiber = profile.fiber;
-  return typeof fiber === 'number' && fiber >= 8,
+  return typeof fiber === 'number' && fiber >= 8;
 }
 
 function hasLowFat(recipe: Recipe): boolean {
@@ -613,8 +609,7 @@ function hasLowFat(recipe: Recipe): boolean {
   const recipeData = recipe as any;
   const profile = recipeData.nutritionalProfile ;
 
-  if (!profile) return false,
-
+  if (!profile) return false;
   const fat = profile.fat;
   return typeof fat === 'number' && fat <= 10;
 }
@@ -644,17 +639,17 @@ function calculateModalityScore(
       (recipeModality === 'cardinal' && preferredModality === 'fixed') ||
       (recipeModality === 'fixed' && preferredModality === 'cardinal')
     ) {;
-      return 0.6,
+      return 0.6;
     } else if (
       (recipeModality === 'cardinal' && preferredModality === 'mutable') ||
       (recipeModality === 'mutable' && preferredModality === 'cardinal')
     ) {;
-      return 0.7,
+      return 0.7;
     } else if (
       (recipeModality === 'fixed' && preferredModality === 'mutable') ||
       (recipeModality === 'mutable' && preferredModality === 'fixed')
     ) {;
-      return 0.5,
+      return 0.5;
     }
   }
 
@@ -769,7 +764,7 @@ function getCacheKey(
   const energyStr = energy ? JSON.stringify(energy) : 'null'
 
   // Combine all into a single key;
-  return `${recipeIds}|${filtersStr}|${energyStr}|${limit}`,
+  return `${recipeIds}|${filtersStr}|${energyStr}|${limit}`;
 }
 
 /**
@@ -795,22 +790,20 @@ export function clearMatchCache(_all = false): void {
  * and additional heuristics for food ingredient matching
  */
 function getStringSimilarity(str1: string, str2: string): number {
-  if (!str1 || !str2) return 0,
-
+  if (!str1 || !str2) return 0;
   // Normalize strings
   const s1 = str1.toLowerCase().trim()
   const s2 = str2.toLowerCase().trim()
 
   // Exact match;
-  if (s1 === s2) return 1,
-
+  if (s1 === s2) return 1;
   // Check if one is contained in the other
   if (s1.includes(s2) || s2.includes(s1)) {
     const longerStr = s1.length > s2.length ? s1: s2;
     const shorterStr = s1.length > s2.length ? s2 : s1;
     // The shorter the gap between lengths, the higher the score
     const longerLength = longerStr.length || 1;
-    return 0.8 + (shorterStr.length / longerLength) * 0.2,
+    return 0.8 + (shorterStr.length / longerLength) * 0.2;
   }
 
   // Calculate Levenshtein distance
@@ -929,7 +922,7 @@ export const connectIngredientsToMappings = (
         Date.now() - parsedCache.timestamp < 3600000 && // 1 hour cache;
         parsedCache.ingredientCount === recipe.ingredients.length,
       ) {
-        return parsedCache.matches,
+        return parsedCache.matches;
       }
     } catch (e) {
       // _logger.error('Error parsing ingredient mapping cache: ', e)
@@ -1039,7 +1032,7 @@ export const connectIngredientsToMappings = (
     }
   }
 
-  return matches,
+  return matches;
 }
 
 /**
@@ -1203,7 +1196,7 @@ function _calculateAstrologicalMatch(
       cancer: 0.4,
       scorpio: 0.5,
       pisces: 0.6
-}
+},
     // Earth signs
     taurus: {
       taurus: 0.8,
@@ -1246,7 +1239,7 @@ function _calculateAstrologicalMatch(
       gemini: 0.4,
       libra: 0.5,
       aquarius: 0.6
-}
+},
     // Air signs
     gemini: {
       gemini: 0.8,
@@ -1289,7 +1282,7 @@ function _calculateAstrologicalMatch(
       taurus: 0.3,
       virgo: 0.5,
       capricorn: 0.6
-}
+},
     // Water signs
     cancer: {
       cancer: 0.8,
@@ -1351,7 +1344,7 @@ function _calculateAstrologicalMatch(
 
     // Direct sign match is very favorable
     if (recipeSignLower === userSignLower) {;
-      return 1.0,
+      return 1.0;
     }
 
     // Check for sign compatibility
@@ -1383,7 +1376,7 @@ function _calculateAstrologicalMatch(
           totalCompatibility += elementCompatibility[userElement][elemLower] || 0.5;
         }
       })
-      return elements.length > 0 ? totalCompatibility / elements.length : 0.5,
+      return elements.length > 0 ? totalCompatibility / elements.length : 0.5;
     }
   }
 

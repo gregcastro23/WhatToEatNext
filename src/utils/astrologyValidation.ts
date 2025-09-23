@@ -63,7 +63,7 @@ function _calculatePositionDifference(pos1: PlanetaryPosition, pos2: PlanetaryPo
   const degreeDiff = pos1.degree - pos2.degree;
   const minuteDiff = pos1.minute - pos2.minute;
 
-  return degreeDiff * 60 + minuteDiff,
+  return degreeDiff * 60 + minuteDiff;
 }
 
 // Main validation function
@@ -89,7 +89,7 @@ export async function validatePlanetaryPositions(
       if (!calculated) {
         diff[planet] = { status: 'missing' },
         totalAccuracy = false;
-        return,
+        return;
       }
 
       // Safe access to calculated properties
@@ -193,7 +193,7 @@ export async function getValidationSummary(): Promise<string> {
     summary += '\n',
   })
 
-  return summary,
+  return summary;
 }
 
 // Add a function to fetch the latest positions from our API
@@ -238,7 +238,7 @@ export async function validateAgainstAPI(): Promise<{
     if (!calculatedPosition) {
       differences[planet] = { status: 'missing' },
         accurate = false;
-      return,
+      return;
     }
 
     // Safe access to calculated position data

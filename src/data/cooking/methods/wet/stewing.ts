@@ -54,8 +54,7 @@ export const stewing: CookingMethodData = {
       waxing_crescent: 1.05, // Good for initiating stews,
       waning_gibbous: 0.95, // Less optimal
     }
-  }
-
+  },
   toolsRequired: [
     'Heavy-bottomed pot with lid',
     'Wooden or silicone spoon',
@@ -117,8 +116,7 @@ export const stewing: CookingMethodData = {
     poultry_stews: 185, // Medium temperature,
     browning_stage: 350, // Initial browning temperature,
     reduction_phase: 200, // For reducing and concentrating
-  }
-
+  },
   regionalVariations: {
     mediterranean: ['ratatouille', 'cioppino', 'bouillabaisse'],
     french: ['beef bourguignon', 'cassoulet', 'coq au vin'],
@@ -143,8 +141,7 @@ export const stewing: CookingMethodData = {
     starch_gelatinization: true,
     acid_hydrolysis: true,
     pectin_breakdown: true
-}
-
+},
   safetyFeatures: [
     'consistent heat distribution',
     'pathogen elimination through time-temperature combination',

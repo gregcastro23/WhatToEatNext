@@ -48,8 +48,7 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
     cookingTechniques: ['grilling', 'roasting', 'flambé'],
     idealMealTypes: ['brunch', 'celebratory feasts', 'summer dishes'],
     culinaryAffinity: ['mediterranean', 'mexican', 'indian']
-  }
-
+  },
   Moon: {
     name: 'Lunar',
     description: 'Comforting, nurturing flavors that soothe and calm. Lunar cuisine emphasizes creaminess and subtle, changing flavor profiles.',
@@ -71,8 +70,7 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
     cookingTechniques: ['steaming', 'poaching', 'fermenting'],
     idealMealTypes: ['evening meals', 'comfort food', 'breakfast'],
     culinaryAffinity: ['japanese', 'scandinavian', 'french']
-  }
-
+  },
   // Inner Planets
   Mercury: {
     name: 'Mercurial',
@@ -102,8 +100,7 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
     cookingTechniques: ['quick sautéing', 'flash frying', 'infusing'],
     idealMealTypes: ['appetizers', 'tapas', 'finger foods'],
     culinaryAffinity: ['spanish', 'fusion', 'lebanese']
-  }
-
+  },
   Venus: {
     name: 'Venusian',
     description: 'Harmonious, indulgent flavors that delight the senses. Venusian cuisine is luxurious, balanced, and aesthetically pleasing.',
@@ -132,8 +129,7 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
     cookingTechniques: ['baking', 'caramelizing', 'layering flavors'],
     idealMealTypes: ['desserts', 'romantic dinners', 'afternoon tea'],
     culinaryAffinity: ['french', 'viennese', 'thai']
-  }
-
+  },
   Mars: {
     name: 'Martial',
     description: 'Intense, fiery flavors that energize and excite. Martial cuisine is bold, spicy, and direct in its flavor profile.',
@@ -162,8 +158,7 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
     cookingTechniques: ['grilling', 'broiling', 'smoking', 'high heat'],
     idealMealTypes: ['protein-rich meals', 'high-energy dishes', 'post-workout food'],
     culinaryAffinity: ['korean', 'sichuanese', 'mexican']
-  }
-
+  },
   // Outer Planets
   Jupiter: {
     name: 'Jovian',
@@ -193,8 +188,7 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
     cookingTechniques: ['slow cooking', 'braising', 'feast preparation'],
     idealMealTypes: ['holiday feasts', 'celebratory meals', 'banquets'],
     culinaryAffinity: ['italian', 'moroccan', 'turkish']
-  }
-
+  },
   Saturn: {
     name: 'Saturnian',
     description: 'Structured, traditional flavors that ground and stabilize. Saturnian cuisine is disciplined, time-tested, and often preserved.',
@@ -223,8 +217,7 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
     cookingTechniques: ['fermenting', 'curing', 'aging', 'preservation methods'],
     idealMealTypes: ['traditional meals', 'winter dishes', 'practical nutrition'],
     culinaryAffinity: ['german', 'nordic', 'russian']
-  }
-
+  },
   // Transpersonal Planets
   Uranus: {
     name: 'Uranian',
@@ -258,8 +251,7 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
     ],
     idealMealTypes: ['avant-garde dining', 'food experiences', 'conceptual dishes'],
     culinaryAffinity: ['molecular', 'fusion', 'experimental']
-  }
-
+  },
   Neptune: {
     name: 'Neptunian',
     description: 'Ethereal, subtle flavors that transport and transcend. Neptunian cuisine is elusive, dreamy, and often features seafood.',
@@ -288,8 +280,7 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
     cookingTechniques: ['gentle poaching', 'infusion', 'misting', 'foam making'],
     idealMealTypes: ['seafood feasts', 'mystical dining experiences', 'ethereal desserts'],
     culinaryAffinity: ['coastal mediterranean', 'pacific', 'scandinavian']
-  }
-
+  },
   Pluto: {
     name: 'Plutonian',
     description: 'Intense, transformative flavors that challenge and regenerate. Plutonian cuisine is deeply complex and often fermented.',
@@ -355,7 +346,7 @@ export const calculateFlavorProfile = (planetaryInfluences: Record<string, numbe
     })
   }
 
-  return flavorProfile,
+  return flavorProfile;
 }
 
 /**

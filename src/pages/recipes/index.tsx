@@ -84,11 +84,11 @@ const RecipesPage: NextPage = () => {,
         return false
       }
 
-      return true,
+      return true;
     })
   }, [searchTerm, selectedCuisine, selectedDiet])
 
-  return (<div className='container mx-auto px-4 py-8'>,
+  return (<div className='container mx-auto px-4 py-8'>;
       <h1 className='mb-8 text-3xl font-bold'>All Recipes</h1>,
 
       {/* Filters and Search */}

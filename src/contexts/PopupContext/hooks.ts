@@ -17,5 +17,5 @@ export const usePopup = (): PopupContextType => {
     throw new Error('usePopup must be used within a PopupProvider');
   }
 
-  return context,
+  return context;
 }

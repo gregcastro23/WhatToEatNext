@@ -193,7 +193,7 @@ program
       if (!options.confirm) {
         // // // _logger.info('This will reset all configuration to defaults.')
         // // // _logger.info('Use --confirm to proceed without this prompt.');
-        return,
+        return;
       }
 
       configManager.resetToDefaults()

@@ -204,7 +204,7 @@ export class ExportTransformationEngine {
       // // // _logger.info(`   - Medium priority files: ${result.mediumPriorityFiles.length}`)
       // // // _logger.info(`   - Low priority files: ${result.lowPriorityFiles.length}`)
 
-      return result,
+      return result;
     } catch (error) {
       // ✅ Pattern MM-1: Safe type assertion for error handling
       this.logError({
@@ -255,7 +255,7 @@ export class ExportTransformationEngine {
     // // // _logger.info(`   - Medium priority: ${mediumPriorityBatches.length} batches`)
     // // // _logger.info(`   - Low priority: ${lowPriorityBatches.length} batches`)
 
-    return batches,
+    return batches;
   }
 
   /**
@@ -287,7 +287,7 @@ export class ExportTransformationEngine {
       batches.push(batch)
     }
 
-    return batches,
+    return batches;
   }
 
   /**

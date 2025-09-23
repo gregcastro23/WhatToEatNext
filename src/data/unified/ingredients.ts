@@ -59,8 +59,7 @@ function calculateMonica(
   kalchm: number,
   thermodynamics: ThermodynamicProperties | ThermodynamicMetrics,
 ): number {
-  if (!thermodynamics || kalchm <= 0) return 0,
-
+  if (!thermodynamics || kalchm <= 0) return 0;
   // ✅ Pattern MM-1: Safe type assertion for thermodynamics access
   const thermoData = thermodynamics as unknown as any;
   const reactivity = Number(thermoData.reactivity) || 0;
@@ -78,7 +77,7 @@ function calculateMonica(
     return -energyValue / (reactivity * lnK)
   }
 
-  return 0,
+  return 0;
 }
 
 /**
@@ -299,7 +298,7 @@ export function getIngredientsByKalchmRange(
   return Object.values(unifiedIngredients || {})
     .filter(ingredient => {
       const kalchm = Number(ingredient.kalchm || 0);
-      return kalchm >= min && kalchm <= max,
+      return kalchm >= min && kalchm <= max;
     })
     .sort((ab) => Number(b.kalchm || 0) - Number(a.kalchm || 0))
 }
@@ -312,7 +311,7 @@ export function getIngredientsByMonicaRange(_min: number, _max: number): Unified
   return Object.values(unifiedIngredients || {})
     .filter(ingredient => {
       const monica = Number(ingredient.monica || 0);
-      return monica >= min && monica <= max,
+      return monica >= min && monica <= max;
     })
     .sort((ab) => Number(a.monica || 0) - Number(b.monica || 0))
 }
@@ -328,7 +327,7 @@ export function getIngredientsByElement(
   return Object.values(unifiedIngredients || {})
     .filter(ingredient => {
       const props = ingredient.elementalProperties,
-      return props && Number(props[element] || 0) >= threshold,
+      return props && Number(props[element] || 0) >= threshold;
     })
     .sort((ab) => {
       const valueA = Number(a.elementalProperties[element] || 0)

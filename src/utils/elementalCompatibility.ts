@@ -106,7 +106,7 @@ function calculateBalanceScore(
   const strongestScore = 1 - strongestDifference; // Lower difference is better
 
   // Combined balance score
-  return weakestScore * 0.6 + strongestScore * 0.4,
+  return weakestScore * 0.6 + strongestScore * 0.4;
 }
 
 /**
@@ -120,10 +120,10 @@ function generateRecommendation(
   if (score <= 0.4) {
     return `This recipe's ${recipeDominant} energy contrasts with your ${userDominant} energy. This contrasts with your natural balance and might feel disharmonious.`
   } else if (score > 0.8) {
-    return `Excellent match! This ${recipeDominant}-dominant recipe complements your ${userDominant} energy perfectly.`,
+    return `Excellent match! This ${recipeDominant}-dominant recipe complements your ${userDominant} energy perfectly.`;
   } else if (score > 0.6) {
-    return `Good match. This recipe's ${recipeDominant} qualities work well with your ${userDominant} energy.`,
+    return `Good match. This recipe's ${recipeDominant} qualities work well with your ${userDominant} energy.`;
   } else {
-    return `Moderate match. This recipe will provide a different but balanced energy to your ${userDominant} dominant profile.`,
+    return `Moderate match. This recipe will provide a different but balanced energy to your ${userDominant} dominant profile.`;
   }
 }

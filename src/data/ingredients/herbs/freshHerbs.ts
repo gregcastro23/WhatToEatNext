@@ -38,8 +38,7 @@ const rawFreshHerbs = {
         flavonoids: 'high',
         carotenoids: 'moderate' },
         source: 'USDA FoodData Central'
-}
-
+},
     // Sensory profile (standardized)
     sensoryProfile: {
       taste: {
@@ -66,8 +65,7 @@ const rawFreshHerbs = {
         crunchy: 0.0,
         silky: 0.1
 }
-    }
-
+    },
     // Storage information (standardized)
     storage: {
       temperature: 'room temperature or refrigerated',
@@ -79,8 +77,7 @@ const rawFreshHerbs = {
         'Wrap in slightly damp paper towel if refrigerating',
         'Freeze whole leaves in olive oil in ice cube trays'
       ]
-    }
-
+    },
     // Preparation (standardized)
     preparation: {
       washing: true,
@@ -91,8 +88,7 @@ const rawFreshHerbs = {
         chopping: 'tear by hand or cut with sharp knife just before using',
         preserving: 'freeze in oil, infuse in vinegar or oil, dry' },
         notes: 'Turns black when cut with dull knife or exposed to acid for too long add at end of cooking to preserve flavor'
-}
-
+},
     // Culinary applications (standardized)
     culinaryApplications: {
       commonUses: [
@@ -130,8 +126,7 @@ const rawFreshHerbs = {
           notes: 'Use whole small leaves, add just before serving',
         }
       }
-    }
-
+    },
     // Health benefits (standardized)
     healthBenefits: [
       'Anti-inflammatory properties',
@@ -176,8 +171,7 @@ const rawFreshHerbs = {
         flavor: 'lemony, lighter than sweet basil',
         uses: 'Southeast Asian cuisine, seafood, desserts',
       }
-    }
-
+    },
     // Category-specific extension: herbs
     potency: 7, // 1-10 scale,
     aroma: {
@@ -231,8 +225,7 @@ const rawFreshHerbs = {
         preparation: 'fresh, served raw',
         regional_importance: 7
 }
-    }
-
+    },
     // Seasonal adjustments for herb growing
     seasonality: {
       planting: 'after last frost',
@@ -244,8 +237,7 @@ const rawFreshHerbs = {
         water: 'moderate, consistent moisture',
         spacing: '8-12 inches apart'
 }
-    }
-
+    },
     // Astrology / (elemental || 1) connections (standardized)
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Venus'],

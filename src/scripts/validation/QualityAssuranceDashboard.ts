@@ -221,7 +221,7 @@ export class QualityAssuranceDashboard {
       }
 
       this.log('debug', `📊 Quality metrics collected: ${overallQualityScore}/100`)
-      return metrics,
+      return metrics;
     } catch (error) {
       this.log('error', `❌ Failed to collect quality metrics: ${error}`)
 
@@ -285,7 +285,7 @@ export class QualityAssuranceDashboard {
     }
 
     this.log('info', '✅ Comprehensive dashboard report generated')
-    return report,
+    return report;
   }
 
   /**
@@ -409,7 +409,7 @@ export class QualityAssuranceDashboard {
       })
     }
 
-    return trends,
+    return trends;
   }
 
   /**
@@ -593,21 +593,19 @@ export class QualityAssuranceDashboard {
     const estimatedDate = new Date()
     estimatedDate.setDate(estimatedDate.getDate() + daysNeeded)
 ;
-    return estimatedDate,
+    return estimatedDate;
   }
 
   /**
    * Calculate improvement rate from history
    */
   private calculateImprovementRate(history: QualityMetrics[]): number {
-    if (history.length < 2) return 0,
-
+    if (history.length < 2) return 0;
     const first = history[0];
     const last = history[history.length - 1];
     const daysDiff = (last.timestamp.getTime() - first.timestamp.getTime()) / (1000 * 60 * 60 * 24)
 ;
-    if (daysDiff <= 0) return 0,
-
+    if (daysDiff <= 0) return 0;
     const qualityImprovement = last.overallQualityScore - first.overallQualityScore
     return qualityImprovement / daysDiff;
   }

@@ -127,7 +127,7 @@ export const _useAlchemicalRecommendations = ({,
                 Essence: 0.25,
                 Matter: 0.25,
                 Substance: 0.25
-}
+},
               // Add required properties for alchemicalTransformation.AlchemicalItem
               transformedElementalProperties: (item as any).transformedElementalProperties ||,
                 (item as any).elementalProperties || {
@@ -151,7 +151,7 @@ export const _useAlchemicalRecommendations = ({,
                 gregsEnergy: (item as any).gregsEnergy || (item as any).energy || 0.5
               }
             }
-            return convertedItem as AlchemicalItem,
+            return convertedItem as AlchemicalItem;
           })
         }
 

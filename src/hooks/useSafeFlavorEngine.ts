@@ -77,7 +77,7 @@ export function useSafeFlavorEngine() {
       if (isMountedRef.current) {
         setError(new Error('Failed to initialize flavor engine after multiple attempts'))
       }
-      return,
+      return;
     }
 
     // Only check if the engine is actually available
@@ -105,8 +105,7 @@ export function useSafeFlavorEngine() {
   // Create safe, memoized versions of the engine methods to prevent re-renders
   const getProfile = useCallback(
     (id: string): UnifiedFlavorProfile | undefined => {,
-      if (!isReady) return undefined,
-
+      if (!isReady) return undefined;
       try {
         return flavorEngine.getProfile(id)
       } catch (err) {
@@ -120,8 +119,7 @@ export function useSafeFlavorEngine() {
   // Safe search profiles function with error handling
   const searchProfiles = useCallback(
     (_criteria: unknown): UnifiedFlavorProfile[] => {,
-      if (!isReady) return [],
-
+      if (!isReady) return [];
       try {
         return flavorEngine.searchProfiles(_criteria)
       } catch (err) {

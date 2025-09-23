@@ -73,7 +73,7 @@ export const ErrorHandler = {
       severity: options.severity || ErrorSeverity.ERROR,
       context: options.context || {}
     })
-    return error,
+    return error;
   }
 }
 

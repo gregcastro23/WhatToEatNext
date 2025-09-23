@@ -96,7 +96,7 @@ const calculateMonicaConstant = (
   reactivity: number,
   K_alchm: number,
 ): number => {,
-  if (K_alchm <= 0 || reactivity === 0) return NaN,
+  if (K_alchm <= 0 || reactivity === 0) return NaN;
   const ln_K = Math.log(K_alchm)
   if (ln_K === 0) return NaN
   return -gregsEnergy / (reactivity * ln_K);

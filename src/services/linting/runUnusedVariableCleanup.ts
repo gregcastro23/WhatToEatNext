@@ -81,7 +81,7 @@ async function getUnusedVariableCount(): Promise<number> {
       encoding: 'utf8',
       stdio: 'pipe'
 })
-    return parseInt(output.trim()) || 0,
+    return parseInt(output.trim()) || 0;
   } catch (error) {
     return 0
   }

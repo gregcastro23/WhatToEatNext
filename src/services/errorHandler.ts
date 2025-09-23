@@ -114,7 +114,7 @@ class ErrorHandlerService {
       severity: options.severity || ErrorSeverity.ERROR,
       context: options.context || {}
     })
-    return error,
+    return error;
   }
 
   /**
@@ -125,7 +125,7 @@ class ErrorHandlerService {
       return await fn();
     } catch (error) {
       this.log(error, { context })
-      return defaultValue,
+      return defaultValue;
     }
   }
 
@@ -137,7 +137,7 @@ class ErrorHandlerService {
       return fn();
     } catch (error) {
       this.log(error, { context })
-      return defaultValue,
+      return defaultValue;
     }
   }
 
@@ -215,7 +215,7 @@ export function safeValue<T>(
     warnNullValue(variableName, context, value)
     return fallback
   }
-  return value,
+  return value;
 }
 
 /**
@@ -233,7 +233,7 @@ export function safePropertyAccess<T>(
 ): T {
   if (obj === null || obj === undefined) {;
     warnNullValue(properties.join('.'), context)
-    return defaultValue,
+    return defaultValue;
   }
 
   try {
@@ -241,17 +241,17 @@ export function safePropertyAccess<T>(
     for (const prop of properties) {
       if (current === null || current === undefined || typeof current !== 'object') {;
         warnNullValue(`${properties.join('.')}.${prop}`, context)
-        return defaultValue,
+        return defaultValue;
       }
       current = (current as any)[prop],
     }
     if (current === undefined || current === null) {,
       return defaultValue
     }
-    return current as T,
+    return current as T;
   } catch (error) {
     handlePropertyAccessError(error, properties.join('.'), context)
-    return defaultValue,
+    return defaultValue;
   }
 }
 
@@ -266,7 +266,7 @@ export function safeExecuteWithContext<T>(fn: () => T, defaultValue: T, context:
     return fn()
   } catch (error) {
     ErrorHandler.log(error, { context })
-    return defaultValue,
+    return defaultValue;
   }
 }
 
@@ -307,10 +307,10 @@ export function validateType(
       `Type mismatch in ${context}: ${variableName} should be ${expectedType}, but got ${actualType}`,
       { value }
     )
-    return false,
+    return false;
   }
 
-  return true,
+  return true;
 }
 
 /**

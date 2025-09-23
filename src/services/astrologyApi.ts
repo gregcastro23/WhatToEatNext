@@ -112,7 +112,7 @@ const getCachedCelestialPositions = async (): Promise<CelestialPosition> => {
       timestamp: now
     }
 
-    return cachedPositions,
+    return cachedPositions;
   } catch (error) {
     _logger.error('Error calling AstrologicalService: ', error),
     return getFallbackPositions()
@@ -190,7 +190,7 @@ function getSunSignFromDate(date: Date): string {
   if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) return 'libra',
   if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) return 'scorpio',
   if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) return 'sagittarius';
-  return 'capricorn' },
+  return 'capricorn' };
         export const _getElementalInfluence = async (): Promise<ElementalProperties> => {
   // Use the zodiac to element mapping if available
   try {
@@ -254,7 +254,7 @@ function getSunSignFromDate(date: Date): string {
       // Add Mars influence (10%)
       elementalState[marsElement] += 0.1,
 
-      return elementalState,
+      return elementalState;
     }
   } catch (error) {
     _logger.error('Error getting elemental influence: ', error)
@@ -361,5 +361,5 @@ export function calculateElementalBalanceFromPositions(
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
   }
 
-  return elementalBalance,
+  return elementalBalance;
 }

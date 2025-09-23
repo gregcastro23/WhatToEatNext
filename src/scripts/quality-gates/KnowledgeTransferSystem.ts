@@ -504,7 +504,7 @@ const value = config.someProperty,`,
         case '6':
           // // // _logger.info('👋 Thank you for using the training system!')
           this.rl.close()
-          return,
+          return;
         default: // // // _logger.info('❌ Invalid option. Please try again.')
       }
     }
@@ -664,7 +664,7 @@ const value = config.someProperty,`,
       )
     }
 
-    return score,
+    return score;
   }
 
   private async askAssessmentQuestion(question: Exercise): Promise<boolean> {
@@ -684,10 +684,10 @@ const value = config.someProperty,`,
         // // // _logger.info(`❌ Incorrect. ${question.explanation}`)
       }
 
-      return isCorrect,
+      return isCorrect;
     }
 
-    return false,
+    return false;
   }
 
   private async takeAssessment(userId: string): Promise<void> {
@@ -810,7 +810,7 @@ ${progress.completedModules
   .map(moduleId => {
     const module = this.trainingModules.get(moduleId)
     const score = progress.scores[moduleId] || 0;
-    return `- **${module?.name}**: ${score}%`,
+    return `- **${module?.name}**: ${score}%`;
   })
   .join('\n')}
 
@@ -839,7 +839,7 @@ This certificate is issued by the Unintentional Any Elimination System and certi
         lastActivity: new Date()
       })
     }
-    return this.userProgress.get(userId)!,
+    return this.userProgress.get(userId)!;
   }
 
   private async recordModuleCompletion(
@@ -941,7 +941,7 @@ This certificate is issued by the Unintentional Any Elimination System and certi
   }
 
   private async askQuestion(question: string): Promise<string> {
-    return new Promise(resolve => {,
+    return new Promise(resolve => {;
       this.rl.question(question, answer => {
         resolve(answer.trim());
       })

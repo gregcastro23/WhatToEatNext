@@ -156,7 +156,7 @@ export class TypeScriptErrorResolutionCampaign {
         `📈 Errors fixed: ${phase.errorsFixed}, Errors introduced: ${phase.errorsIntroduced}`,
       )
 
-      return phase,
+      return phase;
     } catch (error) {
       _logger.error(`❌ Phase ${phase.name} failed: `, error)
 
@@ -199,9 +199,8 @@ export class TypeScriptErrorResolutionCampaign {
     // Sort by enterprise relevance and safety
     unusedVariables.sort((ab) => {
       // Prioritize safe removals first
-      if (a.potentialImpact === 'safe' && b.potentialImpact !== 'safe') return -1,
-      if (b.potentialImpact === 'safe' && a.potentialImpact !== 'safe') return 1,
-
+      if (a.potentialImpact === 'safe' && b.potentialImpact !== 'safe') return -1;
+      if (b.potentialImpact === 'safe' && a.potentialImpact !== 'safe') return 1;
       // Then by business logic relevance
       const aRelevance = a.enterpriseContext?.businessLogicRelevance || 0;
       const bRelevance = b.enterpriseContext?.businessLogicRelevance || 0;
@@ -209,7 +208,7 @@ export class TypeScriptErrorResolutionCampaign {
     })
 
     // // // _logger.info(`📋 Found ${unusedVariables.length} unused variables for analysis`)
-    return unusedVariables,
+    return unusedVariables;
   }
 
   /**
@@ -262,7 +261,7 @@ export class TypeScriptErrorResolutionCampaign {
     }
 
     // // // _logger.info(`✨ Unused variable cleanup completed: `, results)
-    return results,
+    return results;
   }
 
   /**
@@ -336,7 +335,7 @@ export class TypeScriptErrorResolutionCampaign {
   private async executeTSCheck(): Promise<string> {
     // Execute TypeScript compiler check and return output
     // This would integrate with the actual tsc command
-    return 'mock typescript output' },
+    return 'mock typescript output' };
         private async analyzeVariableWithEnterpriseContext(
     variableName: string,
   ): Promise<UnusedVariableIntelligence> {

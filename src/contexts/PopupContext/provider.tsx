@@ -101,7 +101,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
       setPopups(current => current.filter(popup => popup.id !== id));
     }, duration)
 
-    return id,
+    return id;
   }
 
   const closePopup = (id: number): void => {;
@@ -115,17 +115,16 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
   }
 
   const getElementalIcon = (element?: string): string => {,
-    if (!element) return '',
-
+    if (!element) return '';
     switch (element.toLowerCase()) {
       case 'fire':
         return '🔥'
       case 'water':
-        return '💧',
+        return '💧';
       case 'air':
-        return '💨',
+        return '💨';
       case 'earth':
-        return '🌍',
+        return '🌍';
       default: return ''
     }
   }

@@ -36,7 +36,7 @@ export class RecipeEngine {
           acc[_element] = (acc[_element] || 0) + value,
         })
       }
-      return acc,
+      return acc;
     }, {} as ElementalProperties)
 
     return Object.entries(elementalProps)
@@ -56,7 +56,7 @@ export class RecipeEngine {
           props[_element] = (props[_element] || 0) + (value * (ing.amount ?? 0)) / total,
         })
       }
-      return props,
+      return props;
     }, {} as ElementalProperties)
 
     // Normalize the result
@@ -93,8 +93,7 @@ export class RecipeEngine {
    * Fallback implementation since ElementalCalculator.calculateSeasonalEffectiveness doesn't exist
    */
   private calculateSeasonalEffectivenessScore(recipe: Recipe, season: string): number {
-    if (!recipe.elementalProperties) return 0.5,
-
+    if (!recipe.elementalProperties) return 0.5;
     // Season-element mapping for effectiveness calculation
     const seasonalElements = {
       spring: { Air: 0.8, Water: 0.6, Fire: 0.4, Earth: 0.3 },
@@ -121,8 +120,7 @@ export class RecipeEngine {
     props1: ElementalProperties,
     props2: ElementalProperties,
   ): number {
-    if (!props1 || !props2) return 0,
-
+    if (!props1 || !props2) return 0;
     try {
       return (
         1 -

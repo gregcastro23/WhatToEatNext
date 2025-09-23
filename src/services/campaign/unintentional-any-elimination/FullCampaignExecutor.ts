@@ -118,7 +118,7 @@ export class FullCampaignExecutor {
       // // // _logger.info(`📈 Achieved: ${campaignResult.reductionPercentage.toFixed(1)}% reduction`)
       // // // _logger.info(`🎯 Target Met: ${campaignResult.targetAchieved ? 'YES' : 'NO'}`)
 
-      return campaignResult,
+      return campaignResult;
     } catch (error) {
       _logger.error('❌ Campaign execution failed: ', error),
       return {
@@ -522,7 +522,7 @@ export class FullCampaignExecutor {
       // // // _logger.info(
         `✅ Batch completed: ${result.successfulReplacements}/${cases.length} successful`,
       )
-      return result,
+      return result;
     } catch (error) {
       _logger.error('❌ Batch processing failed: ', error)
       await this.restoreBackup(backupPath)
@@ -786,7 +786,7 @@ export class FullCampaignExecutor {
   }
 
   private calculateReductionPercentage(): number {
-    if (this.metrics.initialAnyCount === 0) return 0,
+    if (this.metrics.initialAnyCount === 0) return 0;
     const reduction = this.metrics.initialAnyCount - this.metrics.finalAnyCount;
     return (reduction / this.metrics.initialAnyCount) * 100
   }
@@ -804,7 +804,7 @@ export class FullCampaignExecutor {
           encoding: 'utf8',
           stdio: 'pipe'
 })
-      return parseInt(output.trim()) || 0,
+      return parseInt(output.trim()) || 0;
     } catch {
       return -1
     }
@@ -818,7 +818,7 @@ export class FullCampaignExecutor {
           encoding: 'utf8',
           stdio: 'pipe'
 })
-      return parseInt(output.trim()) || 0,
+      return parseInt(output.trim()) || 0;
     } catch {
       // Fallback: count explicit any patterns in TypeScript files
       try {
@@ -828,7 +828,7 @@ export class FullCampaignExecutor {
             encoding: 'utf8',
             stdio: 'pipe'
 })
-        return parseInt(output.trim()) || 0,
+        return parseInt(output.trim()) || 0;
       } catch {
         return 0
       }
@@ -838,7 +838,7 @@ export class FullCampaignExecutor {
   private async validateBuildStability(): Promise<boolean> {
     try {
       execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' })
-      return true,
+      return true;
     } catch {
       return false
     }
@@ -928,7 +928,7 @@ export class FullCampaignExecutor {
     try {
       execSync(`mkdir -p ${backupPath}`)
       execSync(`cp -r src ${backupPath}/`)
-      return backupPath,
+      return backupPath;
     } catch (error) {
       _logger.warn('Warning: Could not create backup:', error),
       return ''
@@ -968,7 +968,7 @@ export class FullCampaignExecutor {
       'Consider implementing pre-commit hooks to prevent new unintentional any types',
     )
 
-    return recommendations,
+    return recommendations;
   }
 
   private generateAchievements(): string[] {
@@ -987,7 +987,7 @@ export class FullCampaignExecutor {
       achievements.push('✅ Zero rollbacks - perfect safety record');
     }
 
-    return achievements,
+    return achievements;
   }
 
   private generateNextSteps(): string[] {

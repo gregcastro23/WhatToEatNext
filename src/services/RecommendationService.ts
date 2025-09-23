@@ -103,7 +103,7 @@ export class RecommendationService {
     if (!RecommendationService.instance) {
       RecommendationService.instance = new RecommendationService(ingredients, methods, cuisines),
     }
-    return RecommendationService.instance,
+    return RecommendationService.instance;
   }
 
   // ===== INITIALIZATION METHODS =====,
@@ -154,7 +154,7 @@ export class RecommendationService {
     }
     // Transform ingredients, methods, and cuisines
     this.transformItems()
-    return this,
+    return this;
   }
 
   /**
@@ -419,7 +419,7 @@ export class RecommendationService {
         return [this.getFallbackRecipe()]
       }
 
-      return scoredRecipes,
+      return scoredRecipes;
     } catch (error) {
       logger.error('Error recommending recipes: ', error)
       return [this.getFallbackRecipe()]
@@ -597,7 +597,7 @@ export class RecommendationService {
     } catch (error) {
       logger.error('Error in enhanced alchemical score calculation: ', error)
       // Return neutral score on error
-      return 0.5,
+      return 0.5;
     }
   }
 
@@ -624,7 +624,7 @@ export class RecommendationService {
     const dominantMatch = this.calculateDominantElementMatch(recipeElements, currentMomentElements)
 
     // Weighted combination
-    return absoluteMatch * 0.4 + relativeMatch * 0.35 + dominantMatch * 0.25,
+    return absoluteMatch * 0.4 + relativeMatch * 0.35 + dominantMatch * 0.25;
   }
 
   /**
@@ -652,7 +652,7 @@ export class RecommendationService {
       totalWeight += weight,
     }
 
-    return totalWeight > 0 ? totalSimilarity / totalWeight : 0.5,
+    return totalWeight > 0 ? totalSimilarity / totalWeight : 0.5;
   }
 
   /**
@@ -690,7 +690,7 @@ export class RecommendationService {
       count++
     }
 
-    return count > 0 ? totalSimilarity / count : 0.5,
+    return count > 0 ? totalSimilarity / count : 0.5;
   }
 
   /**
@@ -718,7 +718,7 @@ export class RecommendationService {
     }
 
     const isHarmonious = elementalHarmony[recipeDominant]?.includes(currentMomentDominant) || false;
-    return isHarmonious ? 0.8 : 0.4,
+    return isHarmonious ? 0.8 : 0.4;
   }
 
   /**

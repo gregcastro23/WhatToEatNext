@@ -248,7 +248,7 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
     }
   })
 
-  return methods,
+  return methods;
 }
 
 // Export a ready-to-use object with all cultural cooking methods

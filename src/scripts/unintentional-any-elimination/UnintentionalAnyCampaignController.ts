@@ -127,7 +127,7 @@ class UnintentionalAnyCampaignController {
   private validateTypeScript(): boolean {
     try {
       execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' })
-      return true,
+      return true;
     } catch (error) {
       return false
     }
@@ -140,10 +140,10 @@ class UnintentionalAnyCampaignController {
         {
           encoding: 'utf8'
 })
-      return parseInt(lintOutput.trim()) || 0,
+      return parseInt(lintOutput.trim()) || 0;
     } catch (error) {
       this.log(`Error getting current any count: ${error}`, 'error')
-      return 0,
+      return 0;
     }
   }
 
@@ -175,7 +175,7 @@ class UnintentionalAnyCampaignController {
       return Array.from(filesWithAny)
     } catch (error) {
       this.log(`Error getting files with explicit any: ${error}`, 'error')
-      return [],
+      return [];
     }
   }
 
@@ -351,10 +351,10 @@ class UnintentionalAnyCampaignController {
         }
       }
 
-      return classifications,
+      return classifications;
     } catch (error) {
       this.log(`Error analyzing file ${filePath}: ${error}`, 'error')
-      return [],
+      return [];
     }
   }
 
@@ -368,7 +368,7 @@ class UnintentionalAnyCampaignController {
     }
 
     fs.copyFileSync(filePath, backupPath)
-    return backupPath,
+    return backupPath;
   }
 
   private applyReplacements(filePath: string, classifications: AnyTypeClassification[]): number {
@@ -420,7 +420,7 @@ class UnintentionalAnyCampaignController {
             `✅ Applied ${replacements} replacements to ${path.basename(filePath)}`,
             'success',
           )
-          return replacements,
+          return replacements;
         } else {
           // Rollback on compilation failure
           fs.copyFileSync(backupPath, filePath),
@@ -429,14 +429,14 @@ class UnintentionalAnyCampaignController {
             'error',
           )
           this.metrics.rollbacksPerformed++,
-          return 0,
+          return 0;
         }
       }
 
-      return 0,
+      return 0;
     } catch (error) {
       this.log(`Error applying replacements to ${filePath}: ${error}`, 'error')
-      return 0,
+      return 0;
     }
   }
 
@@ -489,10 +489,10 @@ class UnintentionalAnyCampaignController {
         )
       }
 
-      return documentations,
+      return documentations;
     } catch (error) {
       this.log(`Error documenting intentional any types in ${filePath}: ${error}`, 'error')
-      return 0,
+      return 0;
     }
   }
 
@@ -624,7 +624,7 @@ class UnintentionalAnyCampaignController {
     this.log('\n🎉 Campaign Completed!', 'success')
     this.generateFinalReport(initialAnyCount, finalAnyCount, actualReduction)
 
-    return this.metrics,
+    return this.metrics;
   }
 
   private generateFinalReport(

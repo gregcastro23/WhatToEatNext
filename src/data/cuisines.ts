@@ -58,7 +58,7 @@ function adaptElementalProperties(props: unknown): ElementalProperties {
     typeof propsData === 'object' &&,
     Object.prototype.hasOwnProperty.call(propsData, 'Fire')
   ) {
-    return propsData as ElementalProperties,
+    return propsData as ElementalProperties;
   }
 
   // Convert to the format expected by alchemy.ts

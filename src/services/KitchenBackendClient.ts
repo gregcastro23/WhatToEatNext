@@ -38,7 +38,7 @@ export class KitchenBackendClient {
         body: JSON.stringify(body)
     })
     if (!res.ok) throw new Error(`Kitchen backend error ${res.status}`)
-    return (await res.json()) as T,
+    return (await res.json()) as T;
   }
 
   async getCuisineRecommendations(

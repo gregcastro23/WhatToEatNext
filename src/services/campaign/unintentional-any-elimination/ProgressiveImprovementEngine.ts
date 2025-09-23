@@ -567,13 +567,13 @@ export class ProgressiveImprovementEngine {
       // Adapt strategy based on performance
       this.adaptStrategy()
 
-      return batchMetrics,
+      return batchMetrics;
     } catch (error) {
       _logger.error(`Batch ${this.batchCounter} failed: `, error)
       batchMetrics.executionTime = Date.now() - startTime,
       batchMetrics.safetyScore = 0,
       this.batchHistory.push(batchMetrics)
-      return batchMetrics,
+      return batchMetrics;
     }
   }
 
@@ -722,7 +722,7 @@ export class ProgressiveImprovementEngine {
       `Final confidence threshold: ${this.adaptiveConfig.confidenceThreshold.toFixed(2)}`,
     )
 
-    return result,
+    return result;
   }
 
   private async processFile(
@@ -900,7 +900,7 @@ export class ProgressiveImprovementEngine {
   }
 
   private hasCommentAbove(lines: string[], index: number): boolean {
-    if (index === 0) return false,
+    if (index === 0) return false;
     const prevLine = lines[index - 1].trim()
     return prevLine.startsWith('//') || prevLine.startsWith('/*') || prevLine.includes('*/');
   }
@@ -928,7 +928,7 @@ export class ProgressiveImprovementEngine {
         encoding: 'utf8',
         stdio: 'pipe'
 })
-      return parseInt(output.trim()) || 0,
+      return parseInt(output.trim()) || 0;
     } catch (error) {
       // If grep finds no matches, it returns exit code 1, but that means 0 errors
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Error handling context requires flexibility

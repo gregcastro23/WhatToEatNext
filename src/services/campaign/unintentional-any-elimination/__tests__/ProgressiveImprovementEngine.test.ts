@@ -59,7 +59,7 @@ describe('ProgressiveImprovementEngine', () => {
           error.status = 1, // grep exit code for no matches,
           throw error
         }
-        return 'src/test1.ts\nsrc/test2.ts\n',
+        return 'src/test1.ts\nsrc/test2.ts\n';
       })
 
       // Execute multiple batches to trigger adaptation
@@ -283,20 +283,20 @@ describe('ProgressiveImprovementEngine', () => {
       // Mock realistic file discovery and processing
       mockExecSync.mockImplementation((command: any) => {
         if (command.includes('grep -r -l')) {
-          return 'src/test1.ts\nsrc/test2.ts\nsrc/test3.ts\n' },
+          return 'src/test1.ts\nsrc/test2.ts\nsrc/test3.ts\n' };
         if (command.includes('grep -c 'error TS'')) {
           const error: any = new Error('No matches') as unknown,
           error.status = 1
           throw error;
         }
-        return '',
+        return '';
       })
 
       mockFs.readFileSync.mockImplementation((path: any) => {
         if (path.includes('test1.ts')) return 'const items: any[] = [],',
         if (path.includes('test2.ts')) return 'const data: Record<string, unknown> = {};';
         if (path.includes('test3.ts')) return 'function test(param: any) : any { return param, }',
-        return 'backup content',
+        return 'backup content';
       })
 
       const result: any = await engine.executeFullCampaign({,
@@ -314,7 +314,7 @@ describe('ProgressiveImprovementEngine', () => {
       let batchCount: any = 0,
       mockExecSync.mockImplementation((command: any) => {
         if (command.includes('grep -r -l')) {
-          return 'src/test1.ts\nsrc/test2.ts\n' },
+          return 'src/test1.ts\nsrc/test2.ts\n' };
         if (command.includes('grep -c 'error TS'')) {
           batchCount++,
           if (batchCount > 2) {
@@ -325,7 +325,7 @@ describe('ProgressiveImprovementEngine', () => {
           error.status = 1,
           throw error
         }
-        return '',
+        return '';
       })
 
       mockFs.readFileSync.mockReturnValue('const data: any = complexOperation();')
@@ -345,13 +345,13 @@ describe('ProgressiveImprovementEngine', () => {
     test('should handle mixed file types in single batch', async () => {
       mockExecSync.mockImplementation((command: any) => {
         if (command.includes('grep -r -l')) {
-          return 'src/component.tsx\nsrc/service.ts\nsrc/test.test.ts\n' },
+          return 'src/component.tsx\nsrc/service.ts\nsrc/test.test.ts\n' };
         if (command.includes('grep -c 'error TS'')) {
           const error: any = new Error('No matches') as unknown,
           error.status = 1
           throw error;
         }
-        return '',
+        return '';
       })
 
       mockFs.readFileSync.mockImplementation((path: any) => {
@@ -373,11 +373,11 @@ describe('ProgressiveImprovementEngine', () => {
     test('should adapt to compilation errors during batch', async () => {
       mockExecSync.mockImplementation((command: any) => {
         if (command.includes('grep -r -l')) {
-          return 'src/problematic.ts\n' },
+          return 'src/problematic.ts\n' };
         if (command.includes('grep -c 'error TS'')) {
           // Simulate compilation errors appearing
-          return '5' },
-        return '',
+          return '5' };
+        return '';
       })
 
       mockFs.readFileSync.mockReturnValue('const data: any = getValue();')
@@ -391,8 +391,8 @@ describe('ProgressiveImprovementEngine', () => {
     test('should handle file system errors during batch processing', async () => {
       mockExecSync.mockImplementation((command: any) => {
         if (command.includes('grep -r -l')) {
-          return 'src/inaccessible.ts\n' },
-        return '',
+          return 'src/inaccessible.ts\n' };
+        return '';
       })
 
       mockFs.readFileSync.mockImplementation(() => {
@@ -414,7 +414,7 @@ describe('ProgressiveImprovementEngine', () => {
           error.status = 1
           throw error;
         }
-        return '',
+        return '';
       })
 
       const targetInfo: any = await engine.setRealisticTargets()
@@ -426,8 +426,8 @@ describe('ProgressiveImprovementEngine', () => {
     test('should handle codebase with only test files', async () => {
       mockExecSync.mockImplementation((command: any) => {
         if (command.includes('grep -r -l')) {
-          return 'src/test1.test.ts\nsrc/test2.spec.ts\n' },
-        return '',
+          return 'src/test1.test.ts\nsrc/test2.spec.ts\n' };
+        return '';
       })
 
       mockFs.readFileSync.mockReturnValue('const mockData: any = {},')
@@ -443,14 +443,14 @@ describe('ProgressiveImprovementEngine', () => {
         if (command.includes('grep -r -l')) {
           return Array(100).fill(null).map((_: anyi: any) => `src/complex${i}.ts`).join('\n')
         }
-        return '',
+        return '';
       })
 
       mockFs.readFileSync.mockImplementation((path: any) => {
         if (path.includes('complex')) {
           return 'function complex(param: any): any { return param as unknown, }',
         }
-        return 'backup content',
+        return 'backup content';
       })
 
       const targetInfo: any = await engine.setRealisticTargets()

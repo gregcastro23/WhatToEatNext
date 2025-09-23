@@ -265,8 +265,7 @@ const rawMedicinalHerbs = {
         respiratory_relief: 'Works well with thyme and elecampane'
 }
     }
-  }
-
+  },
   elderberry: {
     name: 'Elderberry',
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.3, Fire: 0.1 },
@@ -290,8 +289,7 @@ const rawMedicinalHerbs = {
       immune_support: 'increases cytokine production',
       antioxidant: 'high in flavonoids'
 }
-  }
-
+  },
   chamomile: {
     name: 'Chamomile',
     elementalProperties: { Air: 0.4, Water: 0.4, Earth: 0.2, Fire: 0.1 },

@@ -361,8 +361,7 @@ const rawWholeSpices = {
           preparationTips: ['Use as needed', 'Season to taste']
         },
         season: ['year-round']
-      }
-
+      },
       tea_blends: {
         name: 'Tea Blends',
         method: 'combine with other spices',
@@ -425,8 +424,7 @@ const rawWholeSpices = {
       container: 'airtight',
       notes: 'Maintains potency well when whole'
 }
-  }
-
+  },
   cardamom_pods: {
     name: 'Cardamom Pods',
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
@@ -536,8 +534,7 @@ const rawWholeSpices = {
       container: 'airtight',
       notes: 'Maintains potency well when whole'
 }
-  }
-
+  },
   mustard_seeds: {
     name: 'Mustard Seeds',
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
@@ -614,8 +611,7 @@ const rawWholeSpices = {
           },
           season: ['year-round']
         }
-      }
-
+      },
       marinades: {
         name: 'Marinades',
         method: 'crush or grind',
@@ -646,8 +642,7 @@ const rawWholeSpices = {
       container: 'airtight',
       notes: 'Seeds can be sprouted if fresh'
 }
-  }
-
+  },
   fennel_seeds: {
     name: 'Fennel Seeds',
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
@@ -705,8 +700,7 @@ const rawWholeSpices = {
 }
       }
     }
-  }
-
+  },
   coriander_seeds: {
     name: 'Coriander Seeds',
     elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },
@@ -753,8 +747,7 @@ const rawWholeSpices = {
 }
       }
     }
-  }
-
+  },
   cumin_seeds: {
     name: 'Cumin Seeds',
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
@@ -813,8 +806,7 @@ const rawWholeSpices = {
 }
       }
     }
-  }
-
+  },
   caraway_seeds: {
     name: 'Caraway Seeds',
     elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },

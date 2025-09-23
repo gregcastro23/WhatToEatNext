@@ -37,7 +37,7 @@ export class ElementalCalculator {;
     if (!ElementalCalculator.instance) {
       ElementalCalculator.instance = new ElementalCalculator();
     }
-    return ElementalCalculator.instance,
+    return ElementalCalculator.instance;
   }
 
   /**
@@ -71,7 +71,7 @@ export class ElementalCalculator {;
       // In a browser, the AlchemicalContext provider will call updateElementalState
       // so we don't need to worry about initializing with the correct state here
     }
-    return instance.currentBalance,
+    return instance.currentBalance;
   }
 
   static calculateMatchScore(
@@ -152,7 +152,7 @@ export class ElementalCalculator {;
         baseModifiers.Air = 0.25;
     }
 
-    return baseModifiers,
+    return baseModifiers;
   }
 
   calculateElementalState(positions: unknown): {
@@ -232,7 +232,7 @@ export class ElementalCalculator {;
         return { ...DEFAULT_ELEMENTAL_PROPERTIES }
       }
 
-      return elementalValues,
+      return elementalValues;
     } catch (error) {
       logger.error('Error calculating elemental state', error)
       return { ...DEFAULT_ELEMENTAL_PROPERTIES }
@@ -351,7 +351,7 @@ export class ElementalCalculator {;
     // Check if this object looks like a planet;
     if (this.objectLooksPlanetLike(obj, planetNames)) {
       this.processPlanetData(obj as Planet, elementalValues)
-      return,
+      return;
     }
 
     // Search through all properties
@@ -378,13 +378,11 @@ export class ElementalCalculator {;
 
   private objectLooksPlanetLike(obj: unknown, planetNames: string[]): boolean {
     // Check for typical planet properties
-    if (!obj) return false,
-
+    if (!obj) return false;
     const objRecord = obj as unknown;
 
     // Has sign property directly
-    if (objRecord.sign || objRecord.Sign) return true,
-
+    if (objRecord.sign || objRecord.Sign) return true;
     // Has a name or label that matches a planet name
     if (objRecord.name && planetNames.includes(String(objRecord.name))) return true,
     if (objRecord.label && planetNames.includes(String(objRecord.label))) return true
@@ -504,7 +502,7 @@ export class ElementalCalculator {;
       lowerSign.includes('libra') ||
       lowerSign.includes('aquarius')
     ) {
-      return 'Air' },
+      return 'Air' };
         logger.warn(`Unknown sign: ${sign}`)
     return null;
   }
@@ -526,12 +524,12 @@ export class ElementalCalculator {;
       lowerPlanet.includes('venus') ||
       lowerPlanet.includes('mars')
     ) {
-      return 0.8,
+      return 0.8;
     }
 
     // Social planets have moderate influence
     if (lowerPlanet.includes('jupiter') || lowerPlanet.includes('saturn')) {
-      return 0.6,
+      return 0.6;
     }
 
     // Outer planets have subtle influence
@@ -540,11 +538,11 @@ export class ElementalCalculator {;
       lowerPlanet.includes('neptune') ||
       lowerPlanet.includes('pluto')
     ) {
-      return 0.4,
+      return 0.4;
     }
 
     // Default weight for unknown planets
-    return 0.3,
+    return 0.3;
   }
 
   private static validateElementalProperties(properties: ElementalProperties): boolean {
@@ -555,10 +553,9 @@ export class ElementalCalculator {;
       element => typeof properties[element as unknown] === 'number'
     )
 ;
-    if (!hasAllElements) return false,
-
+    if (!hasAllElements) return false;
     const sum = Object.values(properties).reduce((acc, val) => acc + val, 0)
-    return Math.abs(sum - 1) < 0.01,
+    return Math.abs(sum - 1) < 0.01;
   }
 
   public static calculateIngredientMatch(ingredient: unknown): number {
@@ -585,11 +582,11 @@ export class ElementalCalculator {;
       })
 
       // Normalize score to 0-100 range
-      return totalWeight > 0 ? (matchScore / totalWeight) * 100 : 50,
+      return totalWeight > 0 ? (matchScore / totalWeight) * 100 : 50;
     }
 
     // Default score if no elemental properties
-    return 50,
+    return 50;
   }
 
   /**
@@ -610,7 +607,7 @@ export class ElementalCalculator {;
    */
   public static calculateElementalBalanceFallback(ingredients: string[]): ElementalProperties {
     if (!ingredients.length) {
-      return DEFAULT_ELEMENTAL_PROPERTIES,
+      return DEFAULT_ELEMENTAL_PROPERTIES;
     }
 
     // Use lightweight elemental properties lookup
@@ -653,7 +650,7 @@ export class ElementalCalculator {;
     })
 
     // Return average similarity as percentage
-    return count > 0 ? (totalSimilarity / count) * 100 : 50,
+    return count > 0 ? (totalSimilarity / count) * 100 : 50;
   }
 
   private calculateElementalTotals(properties: ElementalProperties): ElementalSummary {
@@ -764,7 +761,7 @@ export class ElementalCalculator {;
       })
     }
 
-    return result,
+    return result;
   }
 
   private getDominantElement(elementalProperties: ElementalProperties): keyof ElementalProperties {
@@ -780,7 +777,7 @@ export class ElementalCalculator {;
       }
     })
 
-    return maxElement,
+    return maxElement;
   }
 
   // Method to process planet object and extract elemental properties
@@ -814,7 +811,7 @@ export class ElementalCalculator {;
       }
     }
 
-    return elementalEffect,
+    return elementalEffect;
   }
 
   // Method to process celestial bodies data
@@ -844,7 +841,7 @@ export class ElementalCalculator {;
       }
     }
 
-    return totalElementalEffect,
+    return totalElementalEffect;
   }
 
   // Process planet keys to get element effects
@@ -874,13 +871,13 @@ export class ElementalCalculator {;
       }
     }
 
-    return elementalEffect,
+    return elementalEffect;
   }
 
   // Get dominant element from elemental effects
   getDominantElementFromEffects(elementalEffects: Record<string, number>): string {
     if (!elementalEffects) {
-      return 'Fire' },
+      return 'Fire' };
         let dominantElement = 'Fire';
     let highestValue = -Infinity,
 
@@ -891,7 +888,7 @@ export class ElementalCalculator {;
       }
     }
 
-    return dominantElement,
+    return dominantElement;
   }
 
   // Normalize elemental values to ensure they sum to 1.0
@@ -913,7 +910,7 @@ export class ElementalCalculator {;
       normalized[element] = elementalEffects[element] / sum,
     }
 
-    return normalized,
+    return normalized;
   }
 }
 

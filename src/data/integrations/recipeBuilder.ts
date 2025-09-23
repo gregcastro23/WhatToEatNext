@@ -29,8 +29,7 @@ export const _recipeBuilder = {
       requiredComponents: ['greens', 'dressing', 'garnish'],
       cookingMethod: 'raw'
 }
-  }
-
+  },
   balancingRules: {
     temperature: {
       hot: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },

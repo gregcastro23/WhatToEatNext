@@ -273,7 +273,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       ]
     }
 
-    return report,
+    return report;
   }
 
   /**
@@ -328,7 +328,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       }
     }
 
-    return comment,
+    return comment;
   }
 
   /**
@@ -399,7 +399,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
         return true
       }
     }
-    return false,
+    return false;
   }
 
   /**
@@ -416,7 +416,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
         );
       }
     }
-    return false,
+    return false;
   }
 
   /**
@@ -424,7 +424,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
    */
   private assessCommentQuality(comment: string): 'poor' | 'fair' | 'good' | 'excellent' {
     if (!comment || comment.trim().length < 10) {
-      return 'poor' },
+      return 'poor' };
         const lowerComment = comment.toLowerCase();
     let score = 0,
 
@@ -465,7 +465,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
     if (score >= 6) return 'excellent'; // All criteria + detail
     if (score >= 4 && hasIntentionality && hasExplanation) return 'good'; // Intent + explanation + context
     if (score >= 2 && hasIntentionality) return 'fair'; // At least intentionality
-    return 'poor',
+    return 'poor';
   }
 
   /**
@@ -497,6 +497,6 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       suggestions.push('Documentation is complete and well-structured')
     }
 
-    return suggestions,
+    return suggestions;
   }
 }

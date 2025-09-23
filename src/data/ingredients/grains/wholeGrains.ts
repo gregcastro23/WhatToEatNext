@@ -276,8 +276,7 @@ const rawWholeGrains = {
           freezer: 'up to 2 years',
           notes: 'Natural oils can go rancidso store properly'
 }
-      }
-
+      },
       sprouted: {
         refrigerator: {
           duration: '3-5 days',
@@ -294,8 +293,7 @@ const rawWholeGrains = {
         notes: 'Often featured in contemporary health-focused cuisines'
 }
     }
-  }
-
+  },
   quinoa: {
     name: 'Quinoa',
     elementalProperties: { Earth: 0.4, Air: 0.4, Water: 0.2, Fire: 0 },
@@ -320,8 +318,7 @@ const rawWholeGrains = {
         purpose: 'remove saponins'
 }
     }
-  }
-
+  },
   kamut: {
     name: 'Kamut',
     elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
@@ -357,8 +354,7 @@ const rawWholeGrains = {
       protein_g: 14.7,
       fiber_g: 11.1
 }
-  }
-
+  },
   spelt_berries: {
     name: 'Spelt Berries',
     elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
@@ -394,8 +390,7 @@ const rawWholeGrains = {
       protein_g: 14.6,
       fiber_g: 10.7
 }
-  }
-
+  },
   einkorn: {
     name: 'Einkorn',
     elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
@@ -431,8 +426,7 @@ const rawWholeGrains = {
       protein_g: 15.3,
       fiber_g: 8.7
 }
-  }
-
+  },
   rye_berries: {
     name: 'Rye Berries',
     elementalProperties: { Earth: 0.5, Water: 0.2, Air: 0.1, Fire: 0.2 },
@@ -468,8 +462,7 @@ const rawWholeGrains = {
       protein_g: 10.3,
       fiber_g: 15.1
 }
-  }
-
+  },
   wild_rice: {
     name: 'Wild Rice',
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
@@ -500,8 +493,7 @@ const rawWholeGrains = {
       protein_g: 14.7,
       fiber_g: 6.2
 }
-  }
-
+  },
   triticale: {
     name: 'Triticale',
     elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
@@ -537,8 +529,7 @@ const rawWholeGrains = {
       protein_g: 13.1,
       fiber_g: 9.8
 }
-  }
-
+  },
   oats: {
     name: 'Oats',
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
@@ -583,8 +574,7 @@ const rawWholeGrains = {
         benefits: ['reduces cooking time', 'improves digestibility']
       }
     }
-  }
-
+  },
   barley: {
     name: 'Barley',
     astrologicalProfile: {

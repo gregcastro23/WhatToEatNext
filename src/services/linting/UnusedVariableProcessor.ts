@@ -87,7 +87,7 @@ export class UnusedVariableProcessor {
       }
     }
 
-    return result,
+    return result;
   }
 
   private async detectUnusedVariables(): Promise<UnusedVariableIssue[]> {
@@ -113,7 +113,7 @@ export class UnusedVariableProcessor {
         }
       }
 
-      return issues,
+      return issues;
     } catch (error) {
       // Fallback to text parsing if JSON format fails
       return this.parseUnusedVariablesFromText()
@@ -137,7 +137,7 @@ export class UnusedVariableProcessor {
         }
       }
 
-      return issues,
+      return issues;
     } catch (error) {
       _logger.warn('Could not parse unused variables: ', (error as Error).message),
       return []
@@ -230,7 +230,7 @@ export class UnusedVariableProcessor {
     if (context.includes('parameter')) return 'parameter',
     if (context.includes('import')) return 'import';
     if (context.includes('type')) return 'type'
-    return 'variable' },
+    return 'variable' };
         private groupIssuesByFile(issues: UnusedVariableIssue[]): Record<string, UnusedVariableIssue[]> {
     const grouped: Record<string, UnusedVariableIssue[]> = {}
 
@@ -241,7 +241,7 @@ export class UnusedVariableProcessor {
       grouped[issue.file].push(issue)
     }
 
-    return grouped,
+    return grouped;
   }
 
   private async processFileIssues(
@@ -332,7 +332,7 @@ export class UnusedVariableProcessor {
       }
     }
 
-    return line,
+    return line;
   }
 
   private prefixVariable(line: string, varName: string): string {
@@ -350,7 +350,7 @@ export class UnusedVariableProcessor {
       }
     }
 
-    return line,
+    return line;
   }
 
   private prefixImport(line: string, importName: string): string {
@@ -367,7 +367,7 @@ export class UnusedVariableProcessor {
       }
     }
 
-    return line,
+    return line;
   }
 
   private prefixType(line: string, typeName: string): string {
@@ -383,7 +383,7 @@ export class UnusedVariableProcessor {
       }
     }
 
-    return line,
+    return line;
   }
 
   async validateChanges(): Promise<boolean> {
@@ -397,7 +397,7 @@ export class UnusedVariableProcessor {
       execSync('yarn build', { stdio: 'pipe' })
       log.info('  ✓ Build successful')
 
-      return true,
+      return true;
     } catch (error) {
       _logger.error('❌ Validation failed: ', (error as Error).message),
       return false

@@ -139,7 +139,7 @@ export class MetricsCollectionSystem {
     }
 
     // // // _logger.info(`📊 Snapshot collected: ${id}`)
-    return snapshot,
+    return snapshot;
   }
 
   /**
@@ -196,7 +196,7 @@ export class MetricsCollectionSystem {
       trendData
     }
 
-    return detailedMetrics,
+    return detailedMetrics;
   }
 
   /**
@@ -426,7 +426,7 @@ export class MetricsCollectionSystem {
         encoding: 'utf8',
         stdio: 'pipe'
 })
-      return parseInt(output.trim()) || 0,
+      return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0
     }
@@ -447,7 +447,7 @@ export class MetricsCollectionSystem {
         }
       }
 
-      return totalSize,
+      return totalSize;
     } catch (error) {
       return 0
     }
@@ -470,7 +470,7 @@ export class MetricsCollectionSystem {
         encoding: 'utf8',
         stdio: 'pipe'
 })
-      return parseFloat(output.trim()) || 0,
+      return parseFloat(output.trim()) || 0;
     } catch (error) {
       return 0
     }
@@ -489,7 +489,7 @@ export class MetricsCollectionSystem {
       } else if (sizeStr.includes('M')) {
         return parseFloat(sizeStr)
       }
-      return 0,
+      return 0;
     } catch (error) {
       return 0
     }
@@ -501,7 +501,7 @@ export class MetricsCollectionSystem {
         encoding: 'utf8',
         stdio: 'pipe'
 })
-      return parseInt(output.trim()) || 0,
+      return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0
     }

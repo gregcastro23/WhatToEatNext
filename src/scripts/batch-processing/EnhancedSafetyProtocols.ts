@@ -188,7 +188,7 @@ export class EnhancedSafetyProtocols {
     }
 
     this.manualReviewQueue.push(request)
-    return request,
+    return request;
   }
 
   /**
@@ -262,7 +262,7 @@ export class EnhancedSafetyProtocols {
       result.requiresRollback = true,
     }
 
-    return result,
+    return result;
   }
 
   /**
@@ -286,7 +286,7 @@ export class EnhancedSafetyProtocols {
     if (reviewerNotes) {
       // // // _logger.info(`   Reviewer notes: ${reviewerNotes}`)
     }
-    return true,
+    return true;
   }
 
   /**
@@ -301,7 +301,7 @@ export class EnhancedSafetyProtocols {
     this.manualReviewQueue.splice(index1)
     // // // _logger.info(`❌ Manual review rejected for ${path.relative(process.cwd(), filePath)}`)
     // // // _logger.info(`   Reason: ${reason}`)
-    return true,
+    return true;
   }
 
   // Private helper methods
@@ -312,7 +312,7 @@ export class EnhancedSafetyProtocols {
     if (/\/components\//.test(filePath)) return 'component',
     if (/\/utils\//.test(filePath)) return 'utility',
     if (/\.(test|spec)\./.test(filePath)) return 'test'
-    return 'other' },
+    return 'other' };
         private isCoreCalculationFile(filePath: string): boolean {
     return (
       /\/src\/calculations\//.test(filePath) ||
@@ -378,7 +378,7 @@ export class EnhancedSafetyProtocols {
     unusedVariableCount: number,
     riskLevel: FileRiskAssessment['riskLevel'],
   ): boolean {
-    if (!this.config.requireManualReview) return false,
+    if (!this.config.requireManualReview) return false;
     return (
       unusedVariableCount > this.config.maxVariablesAutoProcess ||
       riskLevel === 'critical' ||
@@ -390,7 +390,7 @@ export class EnhancedSafetyProtocols {
     riskLevel: FileRiskAssessment['riskLevel'],
     fileType: FileRiskAssessment['fileType'],
   ): boolean {
-    if (!this.config.enhancedValidation) return false,
+    if (!this.config.enhancedValidation) return false;
     return (
       riskLevel === 'critical' ||
       riskLevel === 'high' ||
@@ -407,7 +407,7 @@ export class EnhancedSafetyProtocols {
       return this.config.criticalFileBatchSize
     }
     if (riskLevel === 'high' || fileType === 'service') {,
-      return this.config.serviceLayerBatchSize,
+      return this.config.serviceLayerBatchSize;
     }
     return 15; // Default batch size
   }

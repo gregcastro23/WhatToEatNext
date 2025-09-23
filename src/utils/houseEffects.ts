@@ -163,7 +163,7 @@ export function calculateHouseEffect(
   const houseData = HOUSE_DATA[house];
   if (!houseData) {
     debugLog(`House number ${house} not found in house data`)
-    return effects,
+    return effects;
   }
 
   // Get sign element
@@ -201,7 +201,7 @@ export function calculateHouseEffect(
     debugLog(`Ruling planet bonus for ${planet} in house ${house}: +0.7 to ${signElement}`)
   }
 
-  return effects,
+  return effects;
 }
 
 /**
@@ -245,5 +245,5 @@ export function calculateAllHouseEffects(
   }
 
   debugLog(`House effects calculation complete. _Results: `, totalEffects)
-  return totalEffects,
+  return totalEffects;
 }

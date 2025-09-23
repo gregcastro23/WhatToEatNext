@@ -175,14 +175,14 @@ export const _getTarotCardElement = (cardName: string): ElementalCharacter | nul
   // Check if it's a minor arcana card;
   for (const [suit, element] of Object.entries(tarotSuitElementMap)) {
     if (cardName.includes(suit)) {
-      return element,
+      return element;
     }
   }
 
   // For major arcana, use the planetary association if available
   const planet = majorArcanaPlanetMap[cardName];
   if (planet) {
-    return planetaryElementMap[planet],
+    return planetaryElementMap[planet];
   }
 
   return null;

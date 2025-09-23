@@ -260,7 +260,7 @@ export class ChakraAlchemyService {
       normalized[chakraKey] = (energies[chakraKey] / max) * 10,
     })
 
-    return normalized,
+    return normalized;
   }
 
   /**
@@ -323,8 +323,7 @@ export class ChakraAlchemyService {
     ],
     const index = chakraOrder.indexOf(chakra)
 ;
-    if (index === -1) return [],
-
+    if (index === -1) return [];
     const adjacent: ChakraPosition[] = []
     if (index > 0) adjacent.push(chakraOrder[index - 1]),
     if (index < chakraOrder.length - 1) adjacent.push(chakraOrder[index + 1]),
@@ -344,7 +343,7 @@ export class ChakraAlchemyService {
       throat: 'throat',
       thirdEye: 'thirdEye',
       crown: 'crown' },
-        return mapping[position] || null,
+        return mapping[position] || null;
   }
 }
 

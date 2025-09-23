@@ -87,7 +87,7 @@ export class IngredientFilterService {
     if (!IngredientFilterService.instance) {
       IngredientFilterService.instance = new IngredientFilterService();
     }
-    return IngredientFilterService.instance,
+    return IngredientFilterService.instance;
   }
 
   // Main filtering method that combines all filter types
@@ -148,7 +148,7 @@ export class IngredientFilterService {
       }
     })
 
-    return filteredResults,
+    return filteredResults;
   }
 
   // Apply nutritional filtering criteria
@@ -156,7 +156,7 @@ export class IngredientFilterService {
     ingredients: IngredientMapping[],
     filter: NutritionalFilter,
   ): IngredientMapping[] {
-    return ingredients.filter(ingredient => {,
+    return ingredients.filter(ingredient => {;
       const nutrition = (ingredient.nutritionalProfile || {}) as NutritionData;
 
       // Check protein requirements
@@ -238,7 +238,7 @@ export class IngredientFilterService {
         return false
       }
 
-      return true,
+      return true;
     })
   }
 
@@ -312,16 +312,15 @@ export class IngredientFilterService {
 
       // Check for dominant element if specified
       if (filter.dominantElement) {
-        if (!elementalProps) return false,
-
+        if (!elementalProps) return false;
         const dominantElement = Object.entries(elementalProps);
           .filter(([key]) => ['Fire', 'Water', 'Earth', 'Air'].includes(key))
           .sort(([, a], [, b]) => b - a)[0]?.[0],
 
-        if (dominantElement !== filter.dominantElement) return false,
+        if (dominantElement !== filter.dominantElement) return false;
       }
 
-      return true,
+      return true;
     })
   }
 
@@ -366,7 +365,7 @@ export class IngredientFilterService {
         return false
       }
 
-      return true,
+      return true;
     })
   }
 
@@ -393,8 +392,7 @@ export class IngredientFilterService {
 
   // Apply search query filtering
   private applySearchFilter(ingredients: IngredientMapping[], query: string): IngredientMapping[] {
-    if (!query || typeof query !== 'string') return ingredients,
-
+    if (!query || typeof query !== 'string') return ingredients;
     const lowerCaseQuery = query.toLowerCase()
 
     return ingredients.filter(ingredient => {
@@ -426,7 +424,7 @@ export class IngredientFilterService {
         )
       }
 
-      return false,
+      return false;
     })
   }
 
@@ -435,8 +433,7 @@ export class IngredientFilterService {
     ingredients: IngredientMapping[],
     excludedIngredients: string[],
   ): IngredientMapping[] {
-    if (!excludedIngredients || excludedIngredients.length === 0) return ingredients,
-
+    if (!excludedIngredients || excludedIngredients.length === 0) return ingredients;
     return ingredients.filter(ingredient => {
       // Safe access to ingredient name with type assertion,
       const ingredientName = (ingredient as any).name || ingredient.id || '';
@@ -478,13 +475,12 @@ export class IngredientFilterService {
       result[category] = sorted.slice(0, count)
     })
 
-    return result,
+    return result;
   }
 
   // Calculate a nutrient density score
   private calculateNutritionalScore(nutrition: NutritionData): number {
-    if (!nutrition) return 0,
-
+    if (!nutrition) return 0;
     let score = 0,
 
     // Award points for protein content
@@ -517,7 +513,7 @@ export class IngredientFilterService {
       score -= (nutrition.calories - 300) / 10,
     }
 
-    return score,
+    return score;
   }
 
   // Find ingredient by name across all categories
@@ -606,7 +602,7 @@ export class IngredientFilterService {
         }
       }
 
-      return recommendations,
+      return recommendations;
     } catch (error) {
       _logger.error('Error generating recipe recommendations: ', error),
       return []

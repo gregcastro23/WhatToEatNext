@@ -41,7 +41,7 @@ async function downloadFile(filename: string, baseUrl = BASE_URL): Promise<void>
             // _logger.warn(`Warning: File ${filename} not found, but not critical.`)
             resolve()
           }
-          return,
+          return;
         }
 
         const fileStream = fs.createWriteStream(filepath)

@@ -197,7 +197,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     recipe.flavorProfile = recipeDataAny.flavorProfile,
   }
 
-  return recipe,
+  return recipe;
 }
 
 /**
@@ -224,7 +224,7 @@ function adaptIngredients(ingredients: Recipe[]): RecipeIngredient[] {
       recipeIngredient.category = String(ingredient.category)
     }
 
-    return recipeIngredient,
+    return recipeIngredient;
   })
 }
 
@@ -255,15 +255,14 @@ export function createScoredRecipe(recipe: Recipe, matchScore: number): ScoredRe
 }
   }
 
-  return scoredRecipe,
+  return scoredRecipe;
 }
 
 /**
  * Type guard to check if an object is a RecipeData from data/recipes.ts
  */
 export function isRecipeData(obj: unknown): obj is RecipeData {
-  if (!obj || typeof obj !== 'object') return false,
-
+  if (!obj || typeof obj !== 'object') return false;
   const recipeData = obj as Partial<RecipeData>;
   return (
     typeof recipeData.id === 'string' &&
@@ -337,11 +336,11 @@ export function getCookingMethodsFromRecipe(recipeData: RecipeData): string[] {
     )
 
     if (methods.length > 0) {
-      return methods,
+      return methods;
     }
   }
 
-  return [],
+  return [];
 }
 
 /**

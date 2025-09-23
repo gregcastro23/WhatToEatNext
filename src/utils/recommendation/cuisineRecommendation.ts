@@ -81,16 +81,16 @@ export function getCuisineElementalProfile(_cuisine: string): ElementalPropertie
 }
 
 export function getMatchScoreClass(score: number): string {
-  if (score >= 0.8) return 'match-excellent',
-  if (score >= 0.6) return 'match-good',
-  if (score >= 0.4) return 'match-fair',
-  return 'match-poor' },
+  if (score >= 0.8) return 'match-excellent';
+  if (score >= 0.6) return 'match-good';
+  if (score >= 0.4) return 'match-fair';
+  return 'match-poor' };
         export function renderScoreBadge(score: number): string {
   const percentage = Math.round(score * 100)
-  if (percentage >= 80) return `🌟 ${percentage}%`,
-  if (percentage >= 60) return `⭐ ${percentage}%`,
-  if (percentage >= 40) return `⚡ ${percentage}%`,
-  return `💫 ${percentage}%`,
+  if (percentage >= 80) return `🌟 ${percentage}%`;
+  if (percentage >= 60) return `⭐ ${percentage}%`;
+  if (percentage >= 40) return `⚡ ${percentage}%`;
+  return `💫 ${percentage}%`;
 }
 
 export function calculateElementalProfileFromZodiac(_zodiacSign: string): ElementalProperties {
@@ -156,5 +156,5 @@ export function calculateElementalContributionsFromPlanets(
     contributions.Air /= total,
   }
 
-  return contributions,
+  return contributions;
 }

@@ -37,7 +37,7 @@ export function calculateSeasonalEffectiveness(
       // Using proper type access with fallback
       const seasonModifiers = SEASONAL_MODIFIERS[seasonLower] || {}
       const seasonalModifier = seasonModifiers[element as any] || 0.25;
-      return score + value * seasonalModifier,
+      return score + value * seasonalModifier;
     }
     0,
   )
@@ -140,11 +140,11 @@ function _getCurrentSeason(): Season {
   const zodiacSign = getCurrentZodiacSeason()
   // Map zodiac sign to a season;
   if (['aries', 'taurus', 'gemini'].includes(zodiacSign)) {
-    return 'spring' },
+    return 'spring' };
         else if (['cancer', 'leo', 'virgo'].includes(zodiacSign)) {
-    return 'summer' },
+    return 'summer' };
         else if (['libra', 'scorpio', 'sagittarius'].includes(zodiacSign)) {
-    return 'autumn' },
+    return 'autumn' };
         else {
     return 'winter'
   }

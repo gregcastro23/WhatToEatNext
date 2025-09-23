@@ -107,7 +107,7 @@ export class UnusedVariablesCleanupSystem {
       // Save metrics
       await this.saveMetrics(result)
 
-      return result,
+      return result;
     } catch (error) {
       _logger.error('❌ Unused variables cleanup failed: ', error),
       throw error
@@ -195,7 +195,7 @@ export class UnusedVariablesCleanupSystem {
         `\n✅ Batch processing completed: ${batchResult.successfulBatches}/${batchResult.totalBatches} batches successful`,
       )
 
-      return batchResult,
+      return batchResult;
     } catch (error) {
       _logger.error('❌ Batch processing failed: ', error),
       throw error
@@ -244,7 +244,7 @@ export class UnusedVariablesCleanupSystem {
       execSync(`git stash push -m '${stashName}'`, { encoding: 'utf-8' })
       // // // _logger.info(`📦 Created safety stash: ${stashName}`)
 
-      return stashName,
+      return stashName;
     } catch (error) {
       _logger.warn('⚠️ Could not create git stash: ', error),
       return ''
@@ -332,12 +332,12 @@ export class UnusedVariablesCleanupSystem {
 
       // // // _logger.info(`✅ Script execution completed in ${result.buildTime}ms`)
 
-      return result,
+      return result;
     } catch (error) {
       result.success = false;
       result.errors.push(`Script execution failed: ${error}`)
       _logger.error('❌ Script execution failed: ', error)
-      return result,
+      return result;
     }
   }
 
@@ -356,7 +356,7 @@ export class UnusedVariablesCleanupSystem {
       const buildTime = Date.now() - startTime;
 
       // // // _logger.info(`✅ Build validation successful (${buildTime}ms)`)
-      return true,
+      return true;
     } catch (error) {
       _logger.error('❌ Build validation failed: ', error),
       return false
@@ -387,7 +387,7 @@ export class UnusedVariablesCleanupSystem {
       const analyzer = new LintingWarningAnalyzer()
       const result = await analyzer.analyzeLintingWarnings()
 ;
-      return result.distribution.unusedVariables.files.length,
+      return result.distribution.unusedVariables.files.length;
     } catch (error) {
       _logger.warn('⚠️ Could not estimate files with unused variables, using default: ', error),
       return 100, // Default estimate

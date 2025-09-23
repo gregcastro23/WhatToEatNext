@@ -62,7 +62,7 @@ const SauceDetailsPage: NextPage = () => {,
                 .toLowerCase();
                 .replace(/ /g, '-')
                 .replace(/[^\w-]/g, ''),
-              return urlFriendlySauceId === id,
+              return urlFriendlySauceId === id;
             }
           )
 
@@ -117,7 +117,7 @@ const SauceDetailsPage: NextPage = () => {,
       </div>)
   }
 
-  return (<div className='container mx-auto px-4 py-8'>,
+  return (<div className='container mx-auto px-4 py-8'>;
       <nav className='mb-6'>,
         <Link href={`/cuisines/${cuisine}`} className='text-blue-600, hover: text-blue-800'>
           ← Back to {cuisine} cuisine

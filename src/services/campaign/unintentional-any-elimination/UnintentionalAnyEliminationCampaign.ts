@@ -210,7 +210,7 @@ export class UnintentionalAnyEliminationCampaign {
         totalAnalyzed: result.totalAnyTypesAnalyzed
       })
 
-      return result,
+      return result;
     } catch (error) {
       _logger.error('Campaign failed, initiating rollback: ', error),
 

@@ -41,8 +41,7 @@ const rawRootVegetables = {
       duration: '3-5 weeks',
       notes: 'Do not refrigerate raw'
 }
-  }
-
+  },
   parsnip: {
     name: 'Parsnip',
     elementalProperties: { Earth: 0.5, Air: 0.2, Fire: 0.2, Water: 0.1 },
@@ -71,8 +70,7 @@ const rawRootVegetables = {
       humidity: 'high',
       notes: 'Store in plastic bag with holes'
 }
-  }
-
+  },
   beet: {
     name: 'Beet',
     elementalProperties: { Earth: 0.6, Fire: 0.2, Water: 0.1, Air: 0.1 },
@@ -102,8 +100,7 @@ const rawRootVegetables = {
       humidity: 'high',
       notes: 'Remove greens, store separately',
     }
-  }
-
+  },
   turnip: {
     name: 'Turnip',
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },

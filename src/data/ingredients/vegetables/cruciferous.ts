@@ -209,8 +209,7 @@ const rawCruciferous = {
         best_uses: 'cooked applications after thawing'
 }
     }
-  }
-
+  },
   broccoli: {
     name: 'Broccoli',
     elementalProperties: { Air: 0.3, Earth: 0.3, Water: 0.2, Fire: 0.2 },
@@ -571,8 +570,7 @@ const rawCruciferous = {
         best_uses: 'soups and cooked dishes'
 }
     }
-  }
-
+  },
   kohlrabi: {
     name: 'Kohlrabi',
     elementalProperties: { Earth: 0.4, Air: 0.3, Water: 0.2, Fire: 0.1 },
@@ -673,8 +671,7 @@ const rawCruciferous = {
         best_uses: 'cooked dishes, not raw applications',
       }
     }
-  }
-
+  },
   cabbage: {
     name: 'Cabbage',
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },

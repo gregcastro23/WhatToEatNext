@@ -585,7 +585,7 @@ export class ErrorClassificationSystem {
       enhanced.riskProfile.factors.push('Domain-specific file requires expert review')
     }
 
-    return enhanced,
+    return enhanced;
   }
 
   /**

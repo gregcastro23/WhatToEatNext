@@ -79,7 +79,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     if (!UnifiedIngredientService.instance) {
       UnifiedIngredientService.instance = new UnifiedIngredientService();
     }
-    return UnifiedIngredientService.instance,
+    return UnifiedIngredientService.instance;
   }
 
   /**
@@ -107,7 +107,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       result[category] = [...ingredients],
     }
 
-    return result,
+    return result;
   }
 
   /**
@@ -118,7 +118,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     for (const ingredients of this.ingredientCache.values()) {
       void allIngredients.push(...ingredients)
     }
-    return allIngredients,
+    return allIngredients;
   }
 
   /**
@@ -134,7 +134,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       }
     }
 
-    return undefined,
+    return undefined;
   }
 
   /**
@@ -148,7 +148,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       }
     }
 
-    return [],
+    return [];
   }
 
   /**
@@ -163,7 +163,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       ),
       void result.push(...matching)
     }
-    return result,
+    return result;
   }
 
   /**
@@ -226,7 +226,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       result[category].push(_ingredient)
     }
 
-    return result,
+    return result;
   }
 
   /**
@@ -295,7 +295,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
 ;
       const similarity = this.calculateFlavorSimilarity(flavorProfile, _ingredient.flavorProfile),
 
-      return similarity >= minMatchScore,
+      return similarity >= minMatchScore;
     })
   }
 
@@ -323,7 +323,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   getIngredientsByPlanet(planet: Planet): UnifiedIngredient[] {
     const allIngredients = this.getAllIngredientsFlat()
 
-    return (allIngredients || []).filter(_ingredient => {,
+    return (allIngredients || []).filter(_ingredient => {;
       if (!(_ingredient as any)?.astrologicalProperties?.planets) return false,
 
       const planets = (_ingredient as any)?.astrologicalProperties?.planets
@@ -339,7 +339,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   getIngredientsByZodiacSign(sign: any): UnifiedIngredient[] {
     const allIngredients = this.getAllIngredientsFlat()
 
-    return (allIngredients || []).filter(_ingredient => {,
+    return (allIngredients || []).filter(_ingredient => {;
       if (!(_ingredient as any)?.astrologicalProperties?.signs) return false,
 
       const signs = (_ingredient as any)?.astrologicalProperties?.signs
@@ -544,7 +544,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       elementalProperties: ingredient.elementalPropertiesState || this.calculateElementalProperties(ingredient);
     }
 
-    return enhancedIngredient,
+    return enhancedIngredient;
   }
 
   /**
@@ -578,7 +578,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       const diff = Math.abs(elem1[element] - elem2[element]);
       compatibility += 1 - diff,
     })
-    return compatibility / elements.length,
+    return compatibility / elements.length;
   }
 
   /**
@@ -699,7 +699,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
         return false
       }
 
-      return true,
+      return true;
     })
   }
 
@@ -769,7 +769,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
         }
       }
 
-      return true,
+      return true;
     })
   }
 
@@ -829,7 +829,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
         return false
       }
 
-      return true,
+      return true;
     })
   }
 
@@ -888,7 +888,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
         return true
       }
 
-      return false,
+      return false;
     })
   }
 
@@ -903,7 +903,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       name.toLowerCase().trim()
     )
 
-    return (ingredients || []).filter(ingredient => {,
+    return (ingredients || []).filter(ingredient => {;
       const ingredientName = ingredient.name.toLowerCase() || '';
       return !normalizedExclusions.includes(ingredientName)
     })
@@ -982,7 +982,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       maxValue = elementalProperties.Air,
     }
 
-    return maxElement,
+    return maxElement;
   }
 
   /**
@@ -1010,7 +1010,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       count++
     }
 
-    return count > 0 ? similarity / count : 0,
+    return count > 0 ? similarity / count : 0;
   }
 
   /**
@@ -1032,7 +1032,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       (ing2.seasonality || []).length,
     )
 
-    return maxPossibleOverlap > 0 ? (overlappingSeasons || []).length / maxPossibleOverlap : 0.5,
+    return maxPossibleOverlap > 0 ? (overlappingSeasons || []).length / maxPossibleOverlap : 0.5;
   }
 
   /**
@@ -1125,7 +1125,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       }
     }
 
-    return result,
+    return result;
   }
 }
 

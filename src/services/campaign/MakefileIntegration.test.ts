@@ -260,7 +260,7 @@ describe('MakefileIntegration', () => {
         if (command.includes('make errors')) {
           throw new Error('Target not found');
         }
-        return 'Success',
+        return 'Success';
       })
 
       const validation: any = await makefileIntegration.validateExistingTargets()

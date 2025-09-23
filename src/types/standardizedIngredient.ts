@@ -427,7 +427,7 @@ export function isVitaminArray(vitamins: VitaminData): vitamins is string[] {
 }
 
 export function isVitaminObject(vitamins: VitaminData): vitamins is Record<string, number> {
-  return !Array.isArray(vitamins) && typeof vitamins === 'object',
+  return !Array.isArray(vitamins) && typeof vitamins === 'object';
 }
 
 export function isMineralArray(minerals: MineralData): minerals is string[] {
@@ -435,13 +435,12 @@ export function isMineralArray(minerals: MineralData): minerals is string[] {
 }
 
 export function isMineralObject(minerals: MineralData): minerals is Record<string, number> {
-  return !Array.isArray(minerals) && typeof minerals === 'object',
+  return !Array.isArray(minerals) && typeof minerals === 'object';
 }
 
 // Safe vitamin/mineral extraction utilities
 export function safeGetVitamins(profile?: StandardizedNutritionalProfile): string[] {
-  if (!profile?.vitamins) return [],
-
+  if (!profile?.vitamins) return [];
   if (isVitaminArray(profile.vitamins)) {
     return profile.vitamins
   }
@@ -450,12 +449,11 @@ export function safeGetVitamins(profile?: StandardizedNutritionalProfile): strin
     return Object.keys(profile.vitamins)
   }
 
-  return [],
+  return [];
 }
 
 export function safeGetMinerals(profile?: StandardizedNutritionalProfile): string[] {
-  if (!profile?.minerals) return [],
-
+  if (!profile?.minerals) return [];
   if (isMineralArray(profile.minerals)) {
     return profile.minerals
   }
@@ -464,7 +462,7 @@ export function safeGetMinerals(profile?: StandardizedNutritionalProfile): strin
     return Object.keys(profile.minerals)
   }
 
-  return [],
+  return [];
 }
 
 export function safeGetVitaminValues(
@@ -473,7 +471,7 @@ export function safeGetVitaminValues(
   if (!profile?.vitamins) return {}
 
   if (isVitaminObject(profile.vitamins)) {
-    return profile.vitamins,
+    return profile.vitamins;
   }
 
   if (isVitaminArray(profile.vitamins)) {
@@ -481,7 +479,7 @@ export function safeGetVitaminValues(
     return profile.vitamins.reduce(
       (acc, vitamin) => {
         acc[vitamin] = 1; // Default presence indicator
-        return acc,
+        return acc;
       }
       {} as Record<string, number>,
     )
@@ -496,7 +494,7 @@ export function safeGetMineralValues(
   if (!profile?.minerals) return {}
 
   if (isMineralObject(profile.minerals)) {
-    return profile.minerals,
+    return profile.minerals;
   }
 
   if (isMineralArray(profile.minerals)) {
@@ -504,7 +502,7 @@ export function safeGetMineralValues(
     return profile.minerals.reduce(
       (acc, mineral) => {
         acc[mineral] = 1; // Default presence indicator
-        return acc,
+        return acc;
       }
       {} as Record<string, number>,
     )
@@ -635,5 +633,5 @@ function generateRecommendations(_missingFields: string[], score: number): strin
     recommendations.push('Add planetary correspondences and lunar phase modifiers')
   }
 
-  return recommendations,
+  return recommendations;
 }

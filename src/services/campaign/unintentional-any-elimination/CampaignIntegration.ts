@@ -111,7 +111,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
       // // // _logger.info(`   Warnings fixed: ${result.warningsFixed}`)
       // // // _logger.info(`   Execution time: ${(result.executionTime / 1000).toFixed(2)}s`)
 
-      return result,
+      return result;
     } catch (error) {
       _logger.error(`❌ Unintentional Any Elimination Phase failed: `, error),
 
@@ -187,7 +187,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
       }
     }
 
-    return defaultConfig,
+    return defaultConfig;
   }
 
   /**
@@ -329,7 +329,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
     } catch (error: unknown) {
       // ESLint returns non-zero exit code when warnings/errors are found
       const err = error as { stdout?: string, message?: string }
-      return err.stdout || err.message || '',
+      return err.stdout || err.message || '';
     }
   }
 

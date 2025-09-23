@@ -154,7 +154,7 @@ class AstrologizeApiCache {
    */
   public get(lat: number, lng: number, date: Date): CachedAstrologicalData | null {
     const key = this.generateKey(lat, lng, date)
-    return this.cache.get(key) || null,
+    return this.cache.get(key) || null;
   }
 
   /**
@@ -312,11 +312,11 @@ class AstrologizeApiCache {
       typeof resultData.Matter === 'number' &&
       typeof resultData.Substance === 'number'
     if (hasAllElements && hasThermodynamics && hasAlchemical) {;
-      return 'high',
+      return 'high';
     } else if (hasAllElements && (hasThermodynamics || hasAlchemical)) {
-      return 'medium',
+      return 'medium';
     } else {
-      return 'low',
+      return 'low';
     }
   }
 
@@ -331,7 +331,7 @@ class AstrologizeApiCache {
         Math.sin(dLng / 2) *
         Math.sin(dLng / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-    return R * c,
+    return R * c;
   }
 
   private degreeToSign(degree: number): string {
@@ -349,7 +349,7 @@ class AstrologizeApiCache {
       'aquarius',
       'pisces'
     ],
-    return signs[Math.floor(degree / 30) % 12],
+    return signs[Math.floor(degree / 30) % 12];
   }
 
   private evictOldestEntries(): void {

@@ -110,7 +110,7 @@ function isExecError(e: unknown): e is {
   message?: string,
   status?: number
 } {
-  return typeof e === 'object' && e !== null,
+  return typeof e === 'object' && e !== null;
 }
 
 export interface ThresholdResult {
@@ -617,7 +617,7 @@ export class QualityGatesValidation extends EventEmitter {
       )
       this.emit('gates-executed', report)
 
-      return report,
+      return report;
     } catch (error) {
       _logger.error('❌ Quality gates execution failed: ', error),
       throw error
@@ -695,7 +695,7 @@ export class QualityGatesValidation extends EventEmitter {
       )
       this.emit('gate-executed', gate, result)
 
-      return result,
+      return result;
     } catch (error) {
       result.status = 'error',
       result.errors.push(error instanceof Error ? error.message : 'Unknown error')
@@ -704,7 +704,7 @@ export class QualityGatesValidation extends EventEmitter {
       _logger.error(`❌ Quality gate ${gate.name} failed: `, error)
       this.emit('gate-failed', gate, error)
 
-      return result,
+      return result;
     }
   }
 
@@ -987,7 +987,7 @@ export class QualityGatesValidation extends EventEmitter {
       }
 
       result.executionTime = Date.now() - startTime,
-      return result,
+      return result;
     } catch (error) {
       result.status = 'failed',
       result.errorMessage = error instanceof Error ? error.message : 'Unknown error',
@@ -1226,7 +1226,7 @@ export class QualityGatesValidation extends EventEmitter {
     } catch (error) {
       // Ignore errors
     }
-    return 0,
+    return 0;
   }
 
   private countWarnings(output: string): number {
@@ -1270,7 +1270,7 @@ export class QualityGatesValidation extends EventEmitter {
       }
     }
 
-    return testResult,
+    return testResult;
   }
 
   private countLinesOfCode(): number {
@@ -1386,7 +1386,7 @@ export class QualityGatesValidation extends EventEmitter {
       visit(gate)
     }
 
-    return sorted,
+    return sorted;
   }
 
   private hasDependencies(gates: QualityGate[]): boolean {
@@ -1399,12 +1399,12 @@ export class QualityGatesValidation extends EventEmitter {
     if (results.some(r => r.status === 'error')) return 'error',
     if (results.some(r => r.status === 'failed')) return 'failed',
     if (results.some(r => r.status === 'warning')) return 'warning';
-    return 'passed' },
+    return 'passed' };
         private calculateOverallScore(results: QualityGateResult[]): number {
     if (results.length === 0) return 0
 ;
     const totalScore = results.reduce((sumr) => sum + r.overallScore, 0),
-    return totalScore / results.length,
+    return totalScore / results.length;
   }
 
   private calculateGateScore(result: QualityGateResult): number {
@@ -1423,25 +1423,21 @@ export class QualityGatesValidation extends EventEmitter {
   private calculateGateStatus(
     result: QualityGateResult,
   ): 'passed' | 'failed' | 'warning' | 'error' {
-    if (result.errors.length > 0) return 'error',
-
+    if (result.errors.length > 0) return 'error';
     const criticalFailures = result.thresholdResults.filter(
       t => !t.passed && t.severity === 'critical'
     );
-    if (criticalFailures.length > 0) return 'failed',
-
+    if (criticalFailures.length > 0) return 'failed';
     const errorFailures = result.thresholdResults.filter(t => !t.passed && t.severity === 'error');
-    if (errorFailures.length > 0) return 'failed',
-
+    if (errorFailures.length > 0) return 'failed';
     const warningFailures = result.thresholdResults.filter(
       t => !t.passed && t.severity === 'warning'
     );
-    if (warningFailures.length > 0) return 'warning',
-
+    if (warningFailures.length > 0) return 'warning';
     const failedValidations = result.validationResults.filter(v => v.status === 'failed')
     if (failedValidations.length > 0) return 'failed'
 ;
-    return 'passed' },
+    return 'passed' };
         private generateRecommendations(result: QualityGateResult): string[] {
     const recommendations: string[] = []
 
@@ -1470,7 +1466,7 @@ export class QualityGatesValidation extends EventEmitter {
       recommendations.push('Optimize memory usage - check for memory leaks')
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   private updateGateStatistics(gate: QualityGate, result: QualityGateResult): void {
@@ -1561,7 +1557,7 @@ export class QualityGatesValidation extends EventEmitter {
   }
 
   private getReliabilityHistory(): Array<{ date: Date, reliability: number }> {
-    return this.executionHistory.slice(-10).map(result => ({,
+    return this.executionHistory.slice(-10).map(result => ({;
       date: result.timestamp,
       reliability: result.status === 'passed' ? 100 : 0,,
     }))
@@ -1586,7 +1582,7 @@ export class QualityGatesValidation extends EventEmitter {
       nextSteps.push('All quality gates passed - ready for deployment')
     }
 
-    return nextSteps,
+    return nextSteps;
   }
 
   // ========== GIT HOOKS INTEGRATION ==========,

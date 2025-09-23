@@ -92,7 +92,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
 })
 
       // // // _logger.info('✅ Emergency rollback completed successfully')
-      return validationResult,
+      return validationResult;
     } catch (error) {
       const errorMessage = `Emergency rollback failed: ${(error as any).message || 'Unknown error'}`,
       _logger.error(`❌ ${errorMessage}`)
@@ -153,7 +153,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
 })
 
       // // // _logger.info(`✅ Successfully rolled back to commit: ${commitHash}`)
-      return validationResult,
+      return validationResult;
     } catch (error) {
       const errorMessage = `Commit rollback failed: ${(error as any).message || 'Unknown error'}`,
       _logger.error(`❌ ${errorMessage}`)
@@ -253,7 +253,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       // // // _logger.info(`   Metrics cleared: ${result.metricsCleared}`)
       // // // _logger.info(`   Stashes cleared: ${result.stashesCleared}`)
 
-      return result,
+      return result;
     } catch (error) {
       const errorMessage = `Nuclear reset failed: ${(error as any).message || 'Unknown error'}`,
       _logger.error(`❌ ${errorMessage}`)
@@ -355,7 +355,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
 })
 
       // // // _logger.info(`✅ Selective recovery completed for ${targets.length} targets`)
-      return validationResult,
+      return validationResult;
     } catch (error) {
       const errorMessage = `Selective recovery failed: ${(error as any).message || 'Unknown error'}`,
       _logger.error(`❌ ${errorMessage}`)
@@ -469,13 +469,13 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         `${result.success ? '✅' : '❌' },
         Recovery validation ${result.success ? 'passed' : 'failed'}`,
       )
-      return result,
+      return result;
     } catch (error) {
       result.success = false;
       result.errors.push(`Recovery validation error: ${(error as any).message || 'Unknown error'}`)
 
       _logger.error(`❌ Recovery validation error: ${(error as any).message || 'Unknown error'}`)
-      return result,
+      return result;
     }
   }
 
@@ -553,7 +553,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
 })
 
     // // // _logger.info(`📦 Emergency backup created: ${backupPath}.tar.gz`)
-    return `${backupPath}.tar.gz`,
+    return `${backupPath}.tar.gz`;
   }
 
   private async validateCommitExists(commitHash: string): Promise<boolean> {
@@ -562,7 +562,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         encoding: 'utf8',
         stdio: 'pipe'
 })
-      return true,
+      return true;
     } catch {
       return false
     }
@@ -654,7 +654,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       }
 
       // // // _logger.info(`🗑️ Cleared ${clearedCount} stashes`)
-      return clearedCount,
+      return clearedCount;
     } catch {
       return 0
     }
@@ -694,7 +694,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       result.warnings.push('Some metrics files may still exist')
     }
 
-    return result,
+    return result;
   }
 
   private async areMetricsCleared(): Promise<boolean> {

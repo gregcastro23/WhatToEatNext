@@ -187,7 +187,7 @@ export const _filterByAlchemicalCompatibility = (
     const elementMatch = !targetElement || item.dominantElement === targetElement;
     const propertyMatch = !targetProperty || item.dominantAlchemicalProperty === targetProperty
 
-    return elementMatch || propertyMatch,
+    return elementMatch || propertyMatch;
   })
 }
 
@@ -262,7 +262,7 @@ export const _getRecommendedCookingMethodsForIngredient = async (ingredient: Alc
   log.info('COOKING METHOD RECOMMENDATIONS ENGINE END')
   log.info('===========================================\n')
 
-  return results,
+  return results;
 }
 
 /**

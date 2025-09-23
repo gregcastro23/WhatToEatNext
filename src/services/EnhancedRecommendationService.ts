@@ -59,7 +59,7 @@ export class EnhancedRecommendationService {
     if (!EnhancedRecommendationService.instance) {
       EnhancedRecommendationService.instance = new EnhancedRecommendationService();
     }
-    return EnhancedRecommendationService.instance,
+    return EnhancedRecommendationService.instance;
   }
 
   async getEnhancedCuisineRecommendations(

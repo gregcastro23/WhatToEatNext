@@ -46,7 +46,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
     if (!EnhancedFoodAlchemySystem.instance) {
       EnhancedFoodAlchemySystem.instance = new EnhancedFoodAlchemySystem();
     }
-    return EnhancedFoodAlchemySystem.instance,
+    return EnhancedFoodAlchemySystem.instance;
   }
 
   /**
@@ -84,7 +84,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
 
       // Get matching recipes from the consolidated service
       const recipes = await consolidatedRecipeService.getBestRecipeMatches(recipeCriteria, limit)
-      return recipes as unknown as ScoredRecipe[],
+      return recipes as unknown as ScoredRecipe[];
     } catch (error) {
       logger.error('Error getting recommended recipes', error),
       return []
@@ -135,7 +135,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
         planetaryInfluences,
         minMatchScore,
       )
-      return recipes as unknown as Recipe[],
+      return recipes as unknown as Recipe[];
     } catch (error) {
       logger.error('Error getting recipes for planetary alignment', error),
       return []
@@ -273,7 +273,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
     const preference: Partial<ElementalProperties> = {}
     preference[elementToBalance.name as 'Fire' | 'Water' | 'Earth' | 'Air'] = preferenceValue,
 
-    return preference,
+    return preference;
   }
 }
 

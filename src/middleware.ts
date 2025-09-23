@@ -28,7 +28,7 @@ export function middleware(_request: NextRequest) {
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
   response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
 ;
-  return response,
+  return response;
 }
 
 // Match all request paths except for API routes, static files, and _next

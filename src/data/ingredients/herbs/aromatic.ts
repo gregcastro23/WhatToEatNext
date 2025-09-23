@@ -144,8 +144,7 @@ const rawAromaticHerbs = {
         }
       }
     }
-  }
-
+  },
   // Added herbs with culinary properties
   lovage: {
     name: 'Lovage',
@@ -437,8 +436,7 @@ const rawAromaticHerbs = {
       vitamins: [],
       minerals: []
     }
-  }
-
+  },
   bay_leaf: {
     name: 'Bay Leaf',
     elementalProperties: {

@@ -31,7 +31,7 @@ export const _recipeCalculations = {
     debugLog(
       `Cuisine alignment score for ${recipeData?.name || 'Unknown Recipe'}: ${alignmentScore.toFixed(2)}`,
     )
-    return alignmentScore,
+    return alignmentScore;
   }
 
   /**
@@ -50,7 +50,7 @@ export const _recipeCalculations = {
       `Optimal cooking windows for ${recipeWindowData?.name || 'Unknown Recipe'}:`,
       optimalTimes,
     )
-    return optimalTimes,
+    return optimalTimes;
   }
 
   /**
@@ -76,6 +76,6 @@ export const _recipeCalculations = {
     debugLog(
       `Elemental boost for ${recipeBoostData?.name || 'Unknown Recipe'}: ${boost.toFixed(2)} (dominant: ${dominantElement})`,
     )
-    return boost,
+    return boost;
   }
 }

@@ -39,7 +39,7 @@ export class RecipeChakraService {
       suggestedMeals: recommendations.balancingMeals
     }
 
-    return enhancedRecipe,
+    return enhancedRecipe;
   }
 
   /**
@@ -97,15 +97,15 @@ export class RecipeChakraService {
         switch (chakra) {;
           case 'Root': return 'Add red foods like beets or root vegetables',
           case 'Sacral':
-            return 'Include orange foods like carrots or oranges',
+            return 'Include orange foods like carrots or oranges';
           case 'Solar Plexus':
-            return 'Add yellow foods like corn or yellow peppers',
+            return 'Add yellow foods like corn or yellow peppers';
           case 'Heart':
-            return 'Include green foods like leafy greens or avocados',
+            return 'Include green foods like leafy greens or avocados';
           case 'Throat':
-            return 'Add blue foods like blueberries',
+            return 'Add blue foods like blueberries';
           case 'Third Eye':
-            return 'Include purple foods like eggplant or grapes',
+            return 'Include purple foods like eggplant or grapes';
           case 'Crown':
             return 'Add violet or white foods like cauliflower'
           default: return ''
@@ -142,11 +142,11 @@ export class RecipeChakraService {
     // Try to match ingredient to a color
     for (const [color, foods] of Object.entries(colorMap)) {
       if (foods.some(food => ingredientName.toLowerCase().includes(food))) {,
-        return color,
+        return color;
       }
     }
 
     // Default color if no match
-    return 'neutral',
+    return 'neutral';
   }
 }

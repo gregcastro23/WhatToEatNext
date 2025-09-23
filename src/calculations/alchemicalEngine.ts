@@ -124,7 +124,7 @@ function safeGetElementValue(
       context: 'alchemicalEngine:safeGetElementValue',
       data: { element, props }
     })
-    return DEFAULT_ELEMENT_VALUE,
+    return DEFAULT_ELEMENT_VALUE;
   }
 }
 
@@ -377,7 +377,7 @@ export class AlchemicalEngineAdvanced {
           data: { cuisine, season }
         } as any,
       )
-      return 0.5,
+      return 0.5;
     }
   }
 
@@ -407,7 +407,7 @@ export class AlchemicalEngineAdvanced {
       totalWeight += weight,
     }
 
-    return totalWeight > 0 ? totalCompatibility / totalWeight : 0.5,
+    return totalWeight > 0 ? totalCompatibility / totalWeight : 0.5;
   }
 
   /**
@@ -515,7 +515,7 @@ export class AlchemicalEngineAdvanced {
       result[element as unknown] /= total,
     })
 
-    return result,
+    return result;
   }
 
   /**
@@ -574,7 +574,7 @@ export class AlchemicalEngineAdvanced {
         break
     }
 
-    return result,
+    return result;
   }
 
   /**
@@ -695,7 +695,7 @@ export class AlchemicalEngineAdvanced {
       baseModifiers[element as unknown] /= total,
     })
 
-    return baseModifiers,
+    return baseModifiers;
   }
 
   /**
@@ -776,7 +776,7 @@ export class AlchemicalEngineAdvanced {
         }
       })
 
-      return result,
+      return result;
     } catch (error) {
       // Provide a safe fallback if any error occurs
       log.error('Error in getElementRanking', { error })
@@ -804,7 +804,7 @@ export class AlchemicalEngineAdvanced {
    * @returns Capitalized string
    */
   capitalize(str: string): string {
-    if (!str || typeof str !== 'string') return '',
+    if (!str || typeof str !== 'string') return '';
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
   }
 }
@@ -882,7 +882,7 @@ function getAbsoluteElementValue(elementObject: Record<string, _number>): number
     return Object.values(elementObject).reduce((sum, value) => sum + value0)
   } catch (error) {
     log.error('Error in getAbsoluteElementValue: ', error)
-    return 0,
+    return 0;
   }
 }
 
@@ -1401,7 +1401,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
     }
 
     // Return the results
-    return alchmInfo as unknown as AlchemicalResult,
+    return alchmInfo as unknown as AlchemicalResult;
   } catch (error) {
     log.error('Error in alchemize function: ', error)
 
@@ -1451,13 +1451,13 @@ function getSeasonFromSunSign(sunSign: any): Season {
     const sign = sunSign.toLowerCase() as any;
 
     if (['aries', 'taurus', 'gemini'].includes(sign)) {
-      return 'spring' },
+      return 'spring' };
         else if (['cancer', 'leo', 'virgo'].includes(sign)) {
-      return 'summer' },
+      return 'summer' };
         else if (['libra', 'scorpio', 'sagittarius'].includes(sign)) {
-      return 'autumn' },
+      return 'autumn' };
         else if (['capricorn', 'aquarius', 'pisces'].includes(sign)) {
-      return 'winter' },
+      return 'winter' };
         return 'spring'; // Default if not found
   } catch (error) {
     ErrorHandler.log(
@@ -1497,12 +1497,12 @@ function _generateRecommendation(dominantElement: string): string {
 function _getSeasonsPrimaryElement(season: string): keyof ElementalProperties {
   switch (season.toLowerCase()) {
     case 'spring':
-      return 'Air',
+      return 'Air';
     case 'summer':
-      return 'Fire',
+      return 'Fire';
     case 'autumn':
     case 'fall':
-      return 'Earth',
+      return 'Earth';
     case 'winter':
       return 'Water'
     default: return 'Water'
@@ -1809,7 +1809,7 @@ export function calculateZodiacEnergies(
   // Guard against undefined or null positions
   if (!positions || typeof positions !== 'object') {
     logger.warn('Invalid positions passed to calculateZodiacEnergies', { positions })
-    return zodiacEnergies,
+    return zodiacEnergies;
   }
 
   // Planetary weights - define the influence strength of each planet
@@ -1831,7 +1831,7 @@ export function calculateZodiacEnergies(
     Object.entries(positions).forEach(([planet, data]) => {
       if (!data || typeof data !== 'object') {
         logger.debug(`Skipping invalid data for planet ${planet}`, { data })
-        return,
+        return;
       }
 
       let sign: string | null = null,
@@ -1878,7 +1878,7 @@ export function calculateZodiacEnergies(
       })
     }
 
-    return zodiacEnergies,
+    return zodiacEnergies;
   } catch (error) {
     logger.error('Error calculating zodiac energies', {
       error: error instanceof Error ? error.message : 'Unknown error'
@@ -1894,7 +1894,7 @@ export function calculateZodiacEnergies(
       zodiacEnergies[sign] = equalValue,
     })
 
-    return zodiacEnergies,
+    return zodiacEnergies;
   }
 }
 
@@ -1920,7 +1920,7 @@ export function calculateChakraEnergies(_zodiacEnergies: Record<string, _number>
     // Handle invalid zodiacEnergies
     if (!zodiacEnergies || typeof zodiacEnergies !== 'object') {
       logger.warn('Invalid zodiacEnergies provided to calculateChakraEnergies', { zodiacEnergies })
-      return chakraEnergies,
+      return chakraEnergies;
     }
 
     // Define mapping from zodiac signs to chakras
@@ -1961,7 +1961,7 @@ export function calculateChakraEnergies(_zodiacEnergies: Record<string, _number>
       // Validate sign and energy
       if (typeof energy !== 'number' || isNaN(energy)) {
         logger.debug(`Skipping invalid energy value for sign ${sign}`, { energy })
-        return,
+        return;
       }
 
       const chakras = zodiacToChakraMap[sign];
@@ -2007,7 +2007,7 @@ export function calculateChakraEnergies(_zodiacEnergies: Record<string, _number>
       })
     }
 
-    return chakraEnergies,
+    return chakraEnergies;
   } catch (error) {
     logger.error('Error calculating chakra energies', {
       error: error instanceof Error ? error.message : 'Unknown error'
@@ -2029,7 +2029,7 @@ export function calculateChakraEnergies(_zodiacEnergies: Record<string, _number>
       brow: 0.125
 } as ChakraEnergies,
 
-    return defaultEnergies,
+    return defaultEnergies;
   }
 }
 
@@ -2063,9 +2063,9 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
     // Extract active planets based on their angular position
     const activePlanets = Object.entries(positions);
       .filter(([planet, data]) => {
-        if (planet === 'sun' || planet === 'moon') return true,
+        if (planet === 'sun' || planet === 'moon') return true;
         // Consider a planet active if it has a position and is not retrograde
-        return (data as any).sign && !(data as any).isRetrograde,
+        return (data as any).sign && !(data as any).isRetrograde;
       })
       .map(([planet]) => planet)
 

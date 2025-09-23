@@ -52,7 +52,7 @@ const updateSaltCategory = (salts: IngredientMapping): IngredientMapping => {,
       ...value,
       category: 'seasoning',
       subCategory: 'salt' },
-        return acc,
+        return acc;
   }, {} as IngredientMapping)
 }
 
@@ -114,7 +114,7 @@ export const _getTraditionalCombinations = (cuisine: string): Record<string, str
     }
   })
 
-  return combinations,
+  return combinations;
 }
 
 export const _getSeasoningsByLunarPhase = (phase: string): IngredientMapping => {

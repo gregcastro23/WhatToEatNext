@@ -159,7 +159,7 @@ class ErrorTrackingSystem {
 
       // If no errors, clear existing errors
       this.markErrorsAsResolved('typescript')
-      return [],
+      return [];
     } catch (error) {
       const output =
         (error as { stdout?: string, stderr?: string }).stdout ||
@@ -170,7 +170,7 @@ class ErrorTrackingSystem {
       // Mark existing errors as resolved if they're not in the new set
       this.updateTypeScriptErrors(errors)
 ;
-      return errors,
+      return errors;
     }
   }
 
@@ -196,7 +196,7 @@ class ErrorTrackingSystem {
       }
     }
 
-    return errors,
+    return errors;
   }
 
   private updateTypeScriptErrors(newErrors: TypeScriptError[]) {
@@ -234,7 +234,7 @@ class ErrorTrackingSystem {
       const violations = this.parseLintingResults(lintResults)
 
       this.updateLintingViolations(violations);
-      return violations,
+      return violations;
     } catch (error) {
       // ESLint returns non-zero exit code when violations are found
       const output = (error as { stdout?: string }).stdout || '',
@@ -284,7 +284,7 @@ class ErrorTrackingSystem {
       }
     }
 
-    return violations,
+    return violations;
   }
 
   private mapLintSeverity(severity: number): 'error' | 'warning' | 'info' {
@@ -340,18 +340,18 @@ class ErrorTrackingSystem {
     const stack = (failure.stack || '').toLowerCase()
     // Common root cause patterns
     if (message.includes('cannot find module') || message.includes('module not found')) {;
-      return 'Missing dependency or incorrect import path' },
+      return 'Missing dependency or incorrect import path' };
         if (message.includes('typescript') && message.includes('error')) {
-      return 'TypeScript compilation errors' },
+      return 'TypeScript compilation errors' };
         if (message.includes('syntax error') || message.includes('unexpected token')) {
-      return 'JavaScript/TypeScript syntax error' },
+      return 'JavaScript/TypeScript syntax error' };
         if (message.includes('memory') || message.includes('heap')) {
-      return 'Memory allocation issue' },
+      return 'Memory allocation issue' };
         if (message.includes('timeout') || message.includes('timed out')) {
-      return 'Build process timeout' },
+      return 'Build process timeout' };
         if (stack.includes('eslint') || message.includes('linting')) {
-      return 'ESLint configuration or rule violation' },
-        return 'Unknown build issue - requires manual investigation',
+      return 'ESLint configuration or rule violation' };
+        return 'Unknown build issue - requires manual investigation';
   }
 
   private analyzeCurrentErrors() {
@@ -423,8 +423,8 @@ class ErrorTrackingSystem {
     this.errorPatterns = Array.from(patterns.values()).sort((ab) => {;
       const priorityWeight = { critical: 4, high: 3, medium: 2, low: 1 }
       const priorityDiff = priorityWeight[b.priority] - priorityWeight[a.priority];
-      if (priorityDiff !== 0) return priorityDiff,
-      return b.frequency - a.frequency,
+      if (priorityDiff !== 0) return priorityDiff;
+      return b.frequency - a.frequency;
     })
   }
 
@@ -509,7 +509,7 @@ class ErrorTrackingSystem {
         encoding: 'utf8',
         stdio: 'pipe'
 })
-      return parseInt(result.trim()) || 0,
+      return parseInt(result.trim()) || 0;
     } catch (error) {
       return 0
     }
@@ -665,7 +665,7 @@ class ErrorTrackingSystem {
       }
     }
 
-    return trends,
+    return trends;
   }
 
   private getTimeframeCutoff(timeframe: '1h' | '1d' | '1w' | '1m'): Date {
@@ -685,11 +685,11 @@ class ErrorTrackingSystem {
   private getTimeframeMs(timeframe: '1h' | '1d' | '1w' | '1m'): number {
     switch (timeframe) {
       case '1h':
-        return 60 * 60 * 1000,
+        return 60 * 60 * 1000;
       case '1d':
-        return 24 * 60 * 60 * 1000,
+        return 24 * 60 * 60 * 1000;
       case '1w':
-        return 7 * 24 * 60 * 60 * 1000,
+        return 7 * 24 * 60 * 60 * 1000;
       case '1m':
         return 30 * 24 * 60 * 60 * 1000
     }

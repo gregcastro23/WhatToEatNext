@@ -42,7 +42,7 @@ export class AlchemicalRecommendationService {
     if (!AlchemicalRecommendationService.instance) {
       AlchemicalRecommendationService.instance = new AlchemicalRecommendationService();
     }
-    return AlchemicalRecommendationService.instance,
+    return AlchemicalRecommendationService.instance;
   }
 
   /**
@@ -234,7 +234,7 @@ export class AlchemicalRecommendationService {
       `${currentSeason.charAt(0).toUpperCase() + currentSeason.slice(1)} ingredients will be especially potent.`,
     )
 
-    return recommendations,
+    return recommendations;
   }
 
   /**
@@ -260,7 +260,7 @@ export class AlchemicalRecommendationService {
         'Low kalchm levels indicate poor transformation potential - avoid fermentation or chemical leavening.'
       )
     }
-    return warnings,
+    return warnings;
   }
 
   /**
@@ -313,7 +313,7 @@ export class AlchemicalRecommendationService {
       maxValue = AirValue;
     }
 
-    return maxElement,
+    return maxElement;
   }
 
   /**

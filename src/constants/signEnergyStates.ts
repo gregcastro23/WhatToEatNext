@@ -141,7 +141,7 @@ export function calculateSignEnergyStates(
           if (aspect.planet1 === planet || aspect.planet2 === planet) {
             return mod * (ASPECT_STRENGTHS[aspect.type] || 1.0);
           }
-          return mod,
+          return mod;
         }, 1.0)
 
         planetaryModifiers[planet] = positionStrength * planetMultiplier * aspectModifier,

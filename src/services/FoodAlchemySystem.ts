@@ -745,7 +745,7 @@ export class FoodAlchemySystem {
       )
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   private identifyConflicts(
@@ -784,7 +784,7 @@ export class FoodAlchemySystem {
       }
     }
 
-    return warnings,
+    return warnings;
   }
 
   private getComplementaryElements(element: ElementalCharacter): ElementalCharacter[] {

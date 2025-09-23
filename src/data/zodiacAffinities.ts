@@ -840,7 +840,7 @@ export function getCompatibleFlavorsForModality(_modality: Modality): string[] {
     mutable: ['adaptable', 'layered', 'evolving', 'complementary', 'versatile', 'transforming']
   }
 
-  return flavorMappings[modality],
+  return flavorMappings[modality];
 }
 
 /**
@@ -900,5 +900,5 @@ export function calculateRecipeZodiacCompatibility(
   }
 
   // Combined score (weighted)
-  return modalityScore * 0.5 + elementScore * 0.5,
+  return modalityScore * 0.5 + elementScore * 0.5;
 }

@@ -82,7 +82,7 @@ export class EnhancedCuisineRecommender {
     if (!EnhancedCuisineRecommender.instance) {
       EnhancedCuisineRecommender.instance = new EnhancedCuisineRecommender();
     }
-    return EnhancedCuisineRecommender.instance,
+    return EnhancedCuisineRecommender.instance;
   }
 
   /**
@@ -275,7 +275,7 @@ export class EnhancedCuisineRecommender {
       }
     })
 
-    return allRecipes,
+    return allRecipes;
   }
 
   /**
@@ -284,21 +284,21 @@ export class EnhancedCuisineRecommender {
   private calculateSeasonalScore(recipe: RecipeData, timeFactors: TimeFactors): number {
     // If recipe has no seasonal information, give it a neutral score
     if (!recipe.season || recipe.season.length === 0) {,
-      return 0.5,
+      return 0.5;
     }
 
     // If recipe is good for all seasons, give it a good but not perfect score
     if (recipe.season.includes('all')) {
-      return 0.8,
+      return 0.8;
     }
 
     // If recipe is specifically for the current season, perfect score
     if (recipe.season.includes(timeFactors.currentSeason)) {
-      return 1.0,
+      return 1.0;
     }
 
     // Otherwise, lower score - recipe is out of season
-    return 0.3,
+    return 0.3;
   }
 
   /**
@@ -315,7 +315,7 @@ export class EnhancedCuisineRecommender {
 ;
     // If recipe has no elemental properties, give it a neutral score
     if (!recipe.elementalProperties) {
-      return 0.5,
+      return 0.5;
     }
 
     // Map planets to their elemental influences (diurnal and nocturnal elements)
@@ -359,7 +359,7 @@ export class EnhancedCuisineRecommender {
       elementalScore = Math.min(1.0, elementalScore + 0.3),
     }
 
-    return elementalScore,
+    return elementalScore;
   }
 
   /**
@@ -376,7 +376,7 @@ export class EnhancedCuisineRecommender {
 ;
     // If recipe has no elemental properties, give it a neutral score
     if (!recipe.elementalProperties) {
-      return 0.5,
+      return 0.5;
     }
 
     // Map planets to their elemental influences (diurnal and nocturnal elements)
@@ -417,7 +417,7 @@ export class EnhancedCuisineRecommender {
       elementalScore = Math.min(1.0, elementalScore + 0.3),
     }
 
-    return elementalScore,
+    return elementalScore;
   }
 
   /**
@@ -426,7 +426,7 @@ export class EnhancedCuisineRecommender {
   private calculateElementalScore(recipe: RecipeData, astroState: AstrologicalState): number {
     // If recipe has no elemental properties, give it a neutral score
     if (!recipe.elementalProperties) {
-      return 0.5,
+      return 0.5;
     }
 
     // Get dominant element from astro state
@@ -492,7 +492,7 @@ export class EnhancedCuisineRecommender {
 
     // If recipe has no meal type, give it a neutral score
     if (!recipe.mealType || recipe.mealType.length === 0) {,
-      return 0.5,
+      return 0.5;
     }
 
     // Check if any of the recipe's meal types are appropriate for the current time of day
@@ -547,7 +547,7 @@ export class EnhancedCuisineRecommender {
   private getDominantElementFromAstro(astroState: AstrologicalState): string {
     // If astroState has already calculated dominant element, use that
     if (astroState.dominantElement) {
-      return astroState.dominantElement,
+      return astroState.dominantElement;
     }
 
     // Otherwise, calculate based on Sun sign
@@ -564,7 +564,7 @@ export class EnhancedCuisineRecommender {
       capricorn: 'Earth',
       aquarius: 'Air',
       pisces: 'Water' },
-        return astroState.sunSign ? elementMap[astroState.sunSign] || 'Fire' : 'Fire',
+        return astroState.sunSign ? elementMap[astroState.sunSign] || 'Fire' : 'Fire';
   }
 
   /**
@@ -591,7 +591,7 @@ export class EnhancedCuisineRecommender {
     }
 
     // Default to no conflict if we can't determine
-    return false,
+    return false;
   }
 
   /**

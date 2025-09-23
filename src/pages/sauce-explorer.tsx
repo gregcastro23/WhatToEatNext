@@ -119,7 +119,7 @@ export default function SauceExplorer() {
       return Object.keys(cuisine.sauceRecommender.forProtein)
     }
 
-    return [],
+    return [];
   }
 
   // Get vegetable options
@@ -134,7 +134,7 @@ export default function SauceExplorer() {
       return Object.keys(cuisine.sauceRecommender.forVegetable)
     }
 
-    return [],
+    return [];
   }
 
   // Get cooking method options
@@ -149,7 +149,7 @@ export default function SauceExplorer() {
       return Object.keys(cuisine.sauceRecommender.forCookingMethod)
     }
 
-    return [],
+    return [];
   }
 
   // Reset filters
@@ -169,7 +169,7 @@ export default function SauceExplorer() {
 })
   }
 
-  return (<div className='container mx-auto px-4 py-8'>,
+  return (<div className='container mx-auto px-4 py-8'>;
       <h1 className='mb-2 text-3xl font-bold'>Sauce Explorer</h1>,
       <p className='mb-8 text-gray-600'>,
         Discover the perfect sauce for your cooking based on cuisine, ingredients, and elemental

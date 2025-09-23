@@ -85,7 +85,7 @@ export function createEnhancedError(
     error.cause = originalError,
   }
 
-  return error,
+  return error;
 }
 
 // Determine if error is recoverable
@@ -122,19 +122,19 @@ export function classifyError(error: Error | string): ErrorType {
   }
 
   if (lowerMessage.includes('validation') || lowerMessage.includes('invalid')) {
-    return ErrorType.VALIDATION,
+    return ErrorType.VALIDATION;
   }
 
   if (lowerMessage.includes('unauthorized') || lowerMessage.includes('authentication')) {
-    return ErrorType.AUTHENTICATION,
+    return ErrorType.AUTHENTICATION;
   }
 
   if (lowerMessage.includes('forbidden') || lowerMessage.includes('permission')) {
-    return ErrorType.AUTHORIZATION,
+    return ErrorType.AUTHORIZATION;
   }
 
   if (lowerMessage.includes('not found') || lowerMessage.includes('404')) {
-    return ErrorType.NOT_FOUND,
+    return ErrorType.NOT_FOUND;
   }
 
   if (
@@ -142,7 +142,7 @@ export function classifyError(error: Error | string): ErrorType {
     lowerMessage.includes('500') ||
     lowerMessage.includes('503')
   ) {
-    return ErrorType.SERVER_ERROR,
+    return ErrorType.SERVER_ERROR;
   }
 
   if (
@@ -150,14 +150,14 @@ export function classifyError(error: Error | string): ErrorType {
     lowerMessage.includes('astrological') ||
     lowerMessage.includes('zodiac')
   ) {
-    return ErrorType.ASTROLOGICAL_CALCULATION,
+    return ErrorType.ASTROLOGICAL_CALCULATION;
   }
 
   if (lowerMessage.includes('component') || lowerMessage.includes('render')) {
-    return ErrorType.COMPONENT_ERROR,
+    return ErrorType.COMPONENT_ERROR;
   }
 
-  return ErrorType.UNKNOWN,
+  return ErrorType.UNKNOWN;
 }
 
 // Error handler class
@@ -197,7 +197,7 @@ export class ErrorHandler {
 
     if (recoveryResult.success) {;
       logger.info(`Error recovered _successfully: ${enhancedError.errorId}`)
-      return recoveryResult.data,
+      return recoveryResult.data;
     }
 
     // If recovery failed, throw the enhanced error
@@ -236,8 +236,7 @@ export class ErrorHandler {
   private determineSeverity(type: ErrorType): ErrorSeverity {
     switch (type) {
       case ErrorType.AUTHENTICATION: case ErrorType.AUTHORIZATION:
-        return ErrorSeverity.HIGH,
-
+        return ErrorSeverity.HIGH;
       case ErrorType.SERVER_ERROR: return ErrorSeverity.HIGH,
 
       case ErrorType.NETWORK: case ErrorType.ASTROLOGICAL_CALCULATION:
@@ -245,8 +244,7 @@ export class ErrorHandler {
 
       case ErrorType.VALIDATION:
       case ErrorType.NOT_FOUND:
-        return ErrorSeverity.LOW,
-
+        return ErrorSeverity.LOW;
       default: return ErrorSeverity.MEDIUM
     }
   }
@@ -362,7 +360,7 @@ export function handleAsyncError<T>(
   promise: Promise<T>,
   context?: Record<string, unknown>,
 ): Promise<T> {
-  return promise.catch(error => {,
+  return promise.catch(error => {;
     return globalErrorHandler.handleError(error, context)
   })
 }

@@ -18,8 +18,7 @@ interface PerformanceMetrics {
     planetary: { hits: number; misses: number; hitRate: number; size: number }
     recipe: { hits: number; misses: number; hitRate: number; size: number },
     user: { hits: number; misses: number; hitRate: number; size: number }
-  }
-
+  },
   // Runtime performance
   renderTime: number,
   apiResponseTimes: Record<string, number>,
@@ -75,7 +74,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
       const endTime = performance.now();
       const renderTime = endTime - startTime;
       setMetrics(prev => ({ ...prev, renderTime }))
-      return renderTime,
+      return renderTime;
     }
   }, [])
 
@@ -190,7 +189,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
       recommendations.push(`High memory usage (${currentMetrics.memoryUsage.toFixed(1)}MB)`)
     }
 
-    return recommendations,
+    return recommendations;
   }, [])
 
   // Update all metrics

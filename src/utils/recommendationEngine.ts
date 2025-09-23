@@ -52,7 +52,7 @@ const WEEKDAY_CUISINE_AFFINITIES: Record<WeekDay, string[]> = {
 
 // Calculate elemental affinity score
 function calculateElementalScore(recipeElement: Element, userElement: Element): number {
-  if (recipeElement === userElement) return 1,
+  if (recipeElement === userElement) return 1;
   // Four element system - no Aether handling needed
   if (ELEMENTAL_AFFINITIES[userElement].includes(recipeElement)) return 0.7,
   return 0.3
@@ -64,7 +64,7 @@ function calculatePlanetaryScore(recipe: Recipe, planetName: PlanetName): number
   if (cuisineAffinity && recipe.cuisine && cuisineAffinity.includes(recipe.cuisine)) {
     return 1;
   }
-  return 0.3,
+  return 0.3;
 }
 
 // Calculate seasonal affinity score
@@ -79,7 +79,7 @@ function calculateSeasonalScore(_recipe: Recipe, season: Season): number {
     return 1
   }
 
-  return 0.5,
+  return 0.5;
 }
 
 // Calculate weekday affinity score
@@ -88,7 +88,7 @@ function calculateWeekdayScore(_recipe: Recipe, day: WeekDay): number {
   if (dayAffinity) {
     return 1;
   }
-  return 0.5,
+  return 0.5;
 }
 
 // Calculate meal type appropriateness
@@ -97,10 +97,9 @@ function calculateMealTypeScore(recipe: Recipe, mealType: MealType): number {
     return 1;
   }
   // Some meal types can work for others
-  if (mealType === 'Lunch' && recipe.mealType === 'Dinner') return 0.7,
-  if (mealType === 'Dinner' && recipe.mealType === 'Lunch') return 0.7,
-
-  return 0.3,
+  if (mealType === 'Lunch' && recipe.mealType === 'Dinner') return 0.7;
+  if (mealType === 'Dinner' && recipe.mealType === 'Lunch') return 0.7;
+  return 0.3;
 }
 
 // Calculate sun sign affinity - certain zodiac signs favor certain flavors/cuisines
@@ -127,7 +126,7 @@ function calculateZodiacScore(_recipe: Recipe, _sunSign: any): number {
       return 1
     }
   }
-  return 0.5,
+  return 0.5;
 }
 
 // Calculate total recommendation score
@@ -179,7 +178,7 @@ export function calculateRecommendationScore(
   }
 
   // Normalize the score
-  return score / factors,
+  return score / factors;
 }
 
 // Get top recommended recipes

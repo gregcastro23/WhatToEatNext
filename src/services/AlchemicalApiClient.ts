@@ -237,7 +237,7 @@ export class AlchemicalApiClient {
         _logger.error('WebSocket connection error: ', error)
       }
 
-      return ws,
+      return ws;
     } catch (error) {
       _logger.error('Failed to create WebSocket connection: ', error)
       return null;
@@ -274,7 +274,7 @@ export class AlchemicalApiClient {
       })
     )
 
-    return results.map(result =>,
+    return results.map(result =>;
       result.status === 'fulfilled' ? result.value : { service: 'unknown', status: 'error' })
   }
 }

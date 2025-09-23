@@ -6,10 +6,10 @@ if (typeof globalThis.getDominantElement === 'undefined') {,
   globalThis.getDominantElement =
     coreGetDominantElement ??,
     ((props: Record<string, number>) => {
-      if (!props) return 'Fire',
+      if (!props) return 'Fire';
       const entries = Object.entries(props)
-      if (entries.length === 0) return 'Fire',
-      return entries.sort((ab) => b[1] - a[1])[0][0],
+      if (entries.length === 0) return 'Fire';
+      return entries.sort((ab) => b[1] - a[1])[0][0];
     })
 }
 

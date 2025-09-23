@@ -159,7 +159,7 @@ export class ConservativeReplacementPilot {
       // // // _logger.info(
         `✅ Identified ${highConfidenceCases.length} high-confidence cases from ${filesAnalyzed} files`,
       )
-      return highConfidenceCases,
+      return highConfidenceCases;
     } catch (error) {
       _logger.error('❌ Failed to identify high-confidence cases: ', error),
       return []
@@ -331,7 +331,7 @@ export class ConservativeReplacementPilot {
         `✅ Batch ${batchNumber} completed: ${batchResult.successfulReplacements}/${batchResult.casesProcessed} successful`,
       )
 
-      return batchResult,
+      return batchResult;
     } catch (error) {
       _logger.error(`❌ Batch ${batchNumber} execution failed: `, error)
       this.safetyMetrics.batchFailures++,
@@ -398,7 +398,7 @@ export class ConservativeReplacementPilot {
         `📊 Validation, result: Build stable: ${validationResult.buildStable}, Safety score: ${safetyScore.toFixed(2)}`,
       )
 
-      return validationResult,
+      return validationResult;
     } catch (error) {
       _logger.error('❌ Real-time validation failed: ', error),
       return {
@@ -589,7 +589,7 @@ export class ConservativeReplacementPilot {
       }
     }
 
-    return occurrences,
+    return occurrences;
   }
 
   private getSurroundingLines(lines: string[], index: number, context = 2): string[] {,
@@ -603,7 +603,7 @@ export class ConservativeReplacementPilot {
       const previousLine = lines[index - 1].trim()
       return previousLine.startsWith('//') || previousLine.startsWith('/*');
     }
-    return false,
+    return false;
   }
 
   private inferDomain(filePath: string): string {
@@ -612,18 +612,18 @@ export class ConservativeReplacementPilot {
       filePath.includes('planet') ||
       filePath.includes('calculation')
     ) {
-      return 'astrological' },
+      return 'astrological' };
         if (
       filePath.includes('recipe') ||
       filePath.includes('ingredient') ||
       filePath.includes('food')
     ) {
-      return 'recipe' },
+      return 'recipe' };
         if (filePath.includes('campaign') || filePath.includes('intelligence')) {
-      return 'campaign' },
+      return 'campaign' };
         if (filePath.includes('service') || filePath.includes('api')) {
-      return 'service' },
-        return 'utility',
+      return 'service' };
+        return 'utility';
   }
 
   private isHighConfidenceCase(classification: AnyTypeClassification): boolean {
@@ -649,10 +649,10 @@ export class ConservativeReplacementPilot {
 
     if (classification.category === AnyTypeCategory.RECORD_TYPE) {,
       // Only simple Record types
-      return classification.suggestedReplacement?.includes('unknown') || false,
+      return classification.suggestedReplacement?.includes('unknown') || false;
     }
 
-    return false,
+    return false;
   }
 
    
@@ -701,7 +701,7 @@ export class ConservativeReplacementPilot {
       }
     }
 
-    return grouped,
+    return grouped;
   }
 
   private selectBatchFiles(
@@ -732,7 +732,7 @@ export class ConservativeReplacementPilot {
       }
     }
 
-    return selectedFiles,
+    return selectedFiles;
   }
 
   private isProcessed(case_: TypeReplacement, processedCount: number): boolean {
@@ -763,7 +763,7 @@ export class ConservativeReplacementPilot {
           encoding: 'utf8',
           stdio: 'pipe'
 })
-      return parseInt(output.trim()) || 0,
+      return parseInt(output.trim()) || 0;
     } catch (error) {
       return -1, // Error in getting count
     }
@@ -795,8 +795,7 @@ export class ConservativeReplacementPilot {
 
   private calculateSafetyScore(): number {
     const totalBatches = this.batchResults.length;
-    if (totalBatches === 0) return 1.0,
-
+    if (totalBatches === 0) return 1.0;
     const successfulBatches = this.batchResults.filter(b => b.buildStable && !b.rollbackPerformed,
     ).length,
     const baseScore = successfulBatches / totalBatches;

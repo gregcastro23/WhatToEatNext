@@ -148,7 +148,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
         benefits: baseMethod.benefits || [],
         variations: [], // Initialize empty variations array
       }
-      return acc,
+      return acc;
     }
     {}
   ),
@@ -195,7 +195,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
           ],
         }
         // Don't add as a standalone method
-        return methods,
+        return methods;
       }
     }
 
@@ -225,7 +225,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
         variations: [], // Initialize empty variations array
       } as CookingMethodData,
     }
-    return methods,
+    return methods;
   }, {})
 }
 
@@ -370,8 +370,7 @@ function areSimilarMethods(method1: string, method2: string): boolean {
   const normalized1 = normalizeMethodName(method1)
   const normalized2 = normalizeMethodName(method2)
   // If normalized names are identical, they're definitely similar
-  if (normalized1 === normalized2) return true,
-
+  if (normalized1 === normalized2) return true;
   // Check if one name is contained within the other
   if (normalized1.includes(normalized2) || normalized2.includes(normalized1)) {
     return true
@@ -382,8 +381,7 @@ function areSimilarMethods(method1: string, method2: string): boolean {
     .split(' ')
     .filter(word => word.length > 3 && normalized2.includes(word))
 ;
-  if (commonWords.length > 0) return true,
-
+  if (commonWords.length > 0) return true;
   // Check for common method variations
   const methodPairs = [
     ['grill', 'grilling', 'bbq', 'barbecue', 'barbequing'],
@@ -408,7 +406,7 @@ function areSimilarMethods(method1: string, method2: string): boolean {
     }
   }
 
-  return false,
+  return false;
 }
 
 /**
@@ -495,7 +493,7 @@ function calculatePlanetaryDayInfluence(
     elementalScore = Math.min(1.0, elementalScore + 0.3),
   }
 
-  return elementalScore,
+  return elementalScore;
 }
 
 /**
@@ -536,7 +534,7 @@ function calculatePlanetaryHourInfluence(
     elementalScore = Math.min(1.0, elementalScore + 0.3),
   }
 
-  return elementalScore,
+  return elementalScore;
 }
 
 /**
@@ -1388,8 +1386,7 @@ function calculateLunarMethodAffinity(method: CookingMethod, phase: LunarPhase):
 }
 
 function _calculateAspectMethodAffinity(aspects: PlanetaryAspect[], method: CookingMethod): number {
-  if (!aspects || aspects.length === 0) return 0.5,
-
+  if (!aspects || aspects.length === 0) return 0.5;
   let totalAffinity = 0;
   let aspectCount = 0,
 
@@ -1508,7 +1505,7 @@ function getAstrologicalElementalProfile(
     return astroData.elementalProfile as ElementalProperties
   }
   if (astroData.elementalState && Object.keys(astroData.elementalState ).length > 0) {
-    return astroData.elementalState as ElementalProperties,
+    return astroData.elementalState as ElementalProperties;
   }
 
   // 2. Fallback: Calculate a simplified profile based only on the zodiac (Sun) sign

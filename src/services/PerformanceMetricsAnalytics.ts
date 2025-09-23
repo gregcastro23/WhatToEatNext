@@ -309,7 +309,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     )
 
     this.emit('snapshot-captured', snapshot)
-    return snapshot,
+    return snapshot;
   }
 
   /**
@@ -474,7 +474,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       return value * (units[unit] || 1)
     }
 
-    return 0,
+    return 0;
   }
 
   /**
@@ -685,7 +685,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         encoding: 'utf8',
         timeout: 10000
 })
-      return parseInt(output.trim()) || 0,
+      return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0
     }
@@ -1073,7 +1073,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       )
     }
 
-    return alerts,
+    return alerts;
   }
 
   /**
@@ -1384,7 +1384,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
 
     return recommendations.sort((ab) => {
       const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 }
-      return priorityOrder[a.priority] - priorityOrder[b.priority],
+      return priorityOrder[a.priority] - priorityOrder[b.priority];
     })
   }
 

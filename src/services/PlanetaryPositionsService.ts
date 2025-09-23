@@ -40,7 +40,7 @@ function normalizeFromEngine(raw: Record<string, { sign: any; degree: number; ex
       isRetrograde: !!p?.isRetrograde
     }
   })
-  return out,
+  return out;
 }
 
 export class PlanetaryPositionsService {
@@ -54,13 +54,13 @@ export class PlanetaryPositionsService {
       // Primary: local astrologize API wrapper
       const positions = await apiGetCurrent(location, zodiacSystem)
       cache = { key, positions, timestamp: Date.now() }
-      return positions,
+      return positions;
     } catch (err) {
       logger.warn('Primary current positions failed, falling back to engine', err)
       const raw = engGetAccurate(new Date())
       const norm = normalizeFromEngine(raw as any);
       cache = { key, positions: norm, timestamp: Date.now() }
-      return norm,
+      return norm;
     }
   }
 
@@ -75,13 +75,13 @@ export class PlanetaryPositionsService {
       // Primary: local astrologize API wrapper
       const positions = await getPlanetaryPositionsForDateTime(date, location, zodiacSystem)
       cache = { key, positions, timestamp: Date.now() }
-      return positions,
+      return positions;
     } catch (err) {
       logger.warn('Primary dated positions failed, falling back to engine', err)
       const raw = engGetAccurate(date)
       const norm = normalizeFromEngine(raw as any);
       cache = { key, positions: norm, timestamp: Date.now() }
-      return norm,
+      return norm;
     }
   }
 }

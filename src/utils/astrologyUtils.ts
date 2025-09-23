@@ -200,7 +200,7 @@ export async function calculateLunarPhase(date: Date = new Date()): Promise<numb
     angularDistance = ((angularDistance % 360) + 360) % 360,
 
     // Convert to phase percentage (0 to 1)
-    return angularDistance / 360,
+    return angularDistance / 360;
   } catch (error) {
     errorLog(
       'Error in calculateLunarPhase: ',
@@ -223,12 +223,12 @@ export function getLunarPhaseName(phase: number): LunarPhase {
   const phaseNormalized = normalizedPhase * 8;
 
   // Use proper type for return values
-  if (phaseNormalized < 0.5 || phaseNormalized >= 7.5) return 'new moon',
-  if (phaseNormalized < 1.5) return 'waxing crescent',
-  if (phaseNormalized < 2.5) return 'first quarter',
-  if (phaseNormalized < 3.5) return 'waxing gibbous',
-  if (phaseNormalized < 4.5) return 'full moon',
-  if (phaseNormalized < 5.5) return 'waning gibbous',
+  if (phaseNormalized < 0.5 || phaseNormalized >= 7.5) return 'new moon';
+  if (phaseNormalized < 1.5) return 'waxing crescent';
+  if (phaseNormalized < 2.5) return 'first quarter';
+  if (phaseNormalized < 3.5) return 'waxing gibbous';
+  if (phaseNormalized < 4.5) return 'full moon';
+  if (phaseNormalized < 5.5) return 'waning gibbous';
   if (phaseNormalized < 6.5) return 'last quarter'
   return 'waning crescent'
 }
@@ -291,19 +291,19 @@ export async function getMoonIllumination(date: Date = new Date()): Promise<numb
       switch (phaseName) {;
         case 'new moon': return 0,
         case 'waxing crescent':
-          return 25,
+          return 25;
         case 'first quarter':
-          return 50,
+          return 50;
         case 'waxing gibbous':
-          return 75,
+          return 75;
         case 'full moon':
-          return 100,
+          return 100;
         case 'waning gibbous':
-          return 75,
+          return 75;
         case 'last quarter':
-          return 50,
+          return 50;
         case 'waning crescent':
-          return 25,
+          return 25;
         default: return 50
       }
     } catch (_fallbackError) {
@@ -382,7 +382,7 @@ export async function calculatePlanetaryPositions(
         }
       })
 
-      return formattedPositions,
+      return formattedPositions;
     } catch (error) {
       errorLog('Error in getAccuratePlanetaryPositions: ', error)
       throw error; // Rethrow to fallback
@@ -395,7 +395,7 @@ export async function calculatePlanetaryPositions(
     Object.values(defaults).forEach(p => {
       p.error = true,
     })
-    return defaults,
+    return defaults;
   }
 }
 
@@ -416,7 +416,7 @@ function _standardizePlanetName(_planet: string): string {
     neptune: 'Neptune',
     pluto: 'Pluto' },
         const lowerPlanet = planet.toLowerCase()
-  return nameMap[lowerPlanet] || planet,
+  return nameMap[lowerPlanet] || planet;
 }
 
 /**
@@ -456,7 +456,7 @@ function _validatePlanetaryPositions(positions: Record<string, _number>): boolea
 
     if (!planetKey) {;
       errorLog(`Missing position for ${requiredPlanet}`)
-      return false,
+      return false;
     }
 
     const longitude = positions[planetKey];
@@ -467,11 +467,11 @@ function _validatePlanetaryPositions(positions: Record<string, _number>): boolea
       errorLog(`Invalid position for ${requiredPlanet}: ${longitude}`)
     }
 
-    return isValid,
+    return isValid;
   })
 
   debugLog('Validation result: ', validation)
-  return validation,
+  return validation;
 }
 
 function _calculatePlanetPosition(
@@ -618,7 +618,7 @@ function calculateInnerPlanetLongitude(_jd: number, _planet: string): number {
     const trueAnomaly = meanAnomaly + 2 * planetData.ecc * Math.sin((meanAnomaly * Math.PI) / 180)
     const longitude = (trueAnomaly + longitudeOfPerihelion) % 360;
 
-    return longitude,
+    return longitude;
   } catch (error) {
     errorLog(`Error calculating ${planet} longitude: `, error)
     // Fallback to simple calculation
@@ -688,7 +688,7 @@ function calculateOuterPlanetLongitude(_jd: number, _planet: string): number {
     // Calculate current longitude based on daily motion
     const longitude = (planetData.epochLongitude + daysSinceEpoch * planetData.dailyMotion) % 360;
 
-    return longitude,
+    return longitude;
   } catch (error) {
     errorLog(`Error calculating ${planet} longitude: `, error)
     // Fallback to very simple calculation based on orbital period
@@ -742,7 +742,7 @@ function _calculateFallbackPositions(_date: Date): Record<string, number> {
     positions[planet] = ((yearFraction * 360) / data.period + data.offset) % 360,
   }
 
-  return positions,
+  return positions;
 }
 
 // Add missing PLANETARY_JOYS constant
@@ -826,7 +826,7 @@ export function getTraditionalRuler(_sign: string): string {
     pisces: 'Jupiter', // Traditional ruler (before Neptune)
   }
 
-  return rulers[sign] || '',
+  return rulers[sign] || '';
 }
 
 /**
@@ -1404,7 +1404,7 @@ export function calculateAspects(
       'pisces'
     ],
     const signIndex = signs.findIndex(s => s.toLowerCase() === position.sign.toLowerCase())
-    return signIndex * 30 + position.degree,
+    return signIndex * 30 + position.degree;
   }
 
   // Calculate aspects between each planet pair
@@ -1542,12 +1542,12 @@ export async function getCurrentAstrologicalState(
       .filter(([planet, position]) => {
         // Always include outer planets in activePlanets array
         if (['Uranus', 'Neptune', 'Pluto'].includes(planet)) {
-          return true,
+          return true;
         }
 
         // For traditional planets, check for dignity
         const dignity = getPlanetaryDignityInfo(planet, position.sign)
-        return dignity.type === 'Domicile' || dignity.type === 'Exaltation',
+        return dignity.type === 'Domicile' || dignity.type === 'Exaltation';
       })
       .map(([planet]) => planet.toLowerCase())
 
@@ -1556,7 +1556,7 @@ export async function getCurrentAstrologicalState(
       Object.entries(planetaryPositions).reduce(
         (acc, [planet, pos]) => {
           acc[planet] = { sign: pos.sign, degree: pos.degree }
-          return acc,
+          return acc;
         }
         {} as Record<string, { sign: string, degree: number }>,
       ),
@@ -1701,7 +1701,7 @@ export function getDefaultPlanetaryPositions(): Record<string, PlanetPosition> {
   }
 
   debugLog('Using updated current planetary positions:', currentPositions)
-  return currentPositions,
+  return currentPositions;
 }
 
 /**
@@ -1731,7 +1731,7 @@ export function getZodiacSign(longitude: number): string {
   // Each sign spans 30 degrees
   const signIndex = Math.min(11, Math.floor(adjustedLong / 30))
 
-  return signs[signIndex],
+  return signs[signIndex];
 }
 
 const PLANETARY_ORBS: Record<string, number> = {
@@ -1905,7 +1905,7 @@ function _calculatePlanetPositionsInternal(_date: Date): Record<string, number> 
   positions.Neptune = (daysSinceEpoch * 0.006 + 315) % 360,
   positions.Pluto = (daysSinceEpoch * 0.004 + 180) % 360,
 
-  return positions,
+  return positions;
 }
 
 /**
@@ -2146,10 +2146,10 @@ export const _parseAstroChartAspects = (
       })
     }
 
-    return aspects,
+    return aspects;
   } catch (error) {
     _logger.error('Error parsing AstroCharts aspects: ', error)
-    return [],
+    return [];
   }
 }
 
@@ -2195,7 +2195,7 @@ export function getZodiacElementalInfluence(_sign: any): Element {
     capricorn: 'Earth',
     aquarius: 'Air',
     pisces: 'Water' },
-        return zodiacElementMap[sign],
+        return zodiacElementMap[sign];
 }
 
 /**
@@ -2239,7 +2239,7 @@ export function calculateElementalCompatibility(element1: Element, element2: Ele
 }
   }
 
-  return elementRelationships[element1][element2],
+  return elementRelationships[element1][element2];
 }
 
 /**
@@ -2288,7 +2288,7 @@ export function calculateDominantElement(
     }
   }
 
-  return dominantElement,
+  return dominantElement;
 }
 
 /**
@@ -2338,7 +2338,7 @@ export function calculateElementalProfile(
     Water: elementalCounts['Water'] / totalPoints
   }
 
-  return elementalProfile,
+  return elementalProfile;
 }
 
 /**
@@ -2421,7 +2421,7 @@ export function transformItemsWithPlanetaryPositions(
         seasonalResonance: calculateSeasonalResonance(dominantElement)
       } as unknown as AlchemicalItem,
 
-      return alchemicalItem,
+      return alchemicalItem;
     })
   } catch (error) {
       errorLog(
@@ -2529,7 +2529,7 @@ function calculateCurrentElementalInfluence(
       })
     }
 
-    return influence,
+    return influence;
   } catch (error) {
       errorLog(
         'Error calculating elemental influence: ',
@@ -2605,7 +2605,7 @@ function getDominantElementFromProperties(properties: ElementalProperties): Elem
       (max, [element, value]) => (value > max.value ? { element, value } : max),
       { element: 'Fire' as ElementalCharacter, value: 0 })
 
-    return dominant.element,
+    return dominant.element;
   } catch (error) {
     return 'Fire'
   }
@@ -2745,7 +2745,7 @@ function calculateElementalTransformations(
       }
     })
 
-    return transformations,
+    return transformations;
   } catch (error) {
     return []
   }
@@ -2762,7 +2762,7 @@ function calculateSeasonalResonance(_dominantElement: ElementalCharacter): Seaso
     Water: ['winter']
   }
 
-  return seasonalMap[dominantElement] || ['all'],
+  return seasonalMap[dominantElement] || ['all'];
 }
 
 /**
@@ -2798,9 +2798,9 @@ function calculatePlanetaryStrength(_planetaryPositions: { [key: string]: unknow
       }
     })
 
-    return planetCount > 0 ? totalStrength / planetCount : 0.5,
+    return planetCount > 0 ? totalStrength / planetCount : 0.5;
   } catch (error) {
-    return 0.5,
+    return 0.5;
   }
 }
 
@@ -2826,6 +2826,6 @@ function calculateOverallAlchemicalScore(
 ;
     return Math.max(0, Math.min(1, score))
   } catch (error) {
-    return 0.5,
+    return 0.5;
   }
 }

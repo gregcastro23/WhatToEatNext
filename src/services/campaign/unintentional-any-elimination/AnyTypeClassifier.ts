@@ -235,7 +235,7 @@ export class AnyTypeClassifier {
       }
     }
 
-    return results,
+    return results;
   }
 
   /**
@@ -423,24 +423,23 @@ export class AnyTypeClassifier {
   }
 
   private categorizeFromComment(comment?: string): AnyTypeCategory {
-    if (!comment) return AnyTypeCategory.LEGACY_COMPATIBILITY,
-
+    if (!comment) return AnyTypeCategory.LEGACY_COMPATIBILITY;
     const lowerComment = comment.toLowerCase()
 
     if (lowerComment.includes('external') || lowerComment.includes('api')) {
       return AnyTypeCategory.EXTERNAL_API;
     }
     if (lowerComment.includes('error') || lowerComment.includes('catch')) {
-      return AnyTypeCategory.ERROR_HANDLING,
+      return AnyTypeCategory.ERROR_HANDLING;
     }
     if (lowerComment.includes('test') || lowerComment.includes('mock')) {
-      return AnyTypeCategory.TEST_MOCK,
+      return AnyTypeCategory.TEST_MOCK;
     }
     if (lowerComment.includes('config') || lowerComment.includes('dynamic')) {
-      return AnyTypeCategory.DYNAMIC_CONFIG,
+      return AnyTypeCategory.DYNAMIC_CONFIG;
     }
 
-    return AnyTypeCategory.LEGACY_COMPATIBILITY,
+    return AnyTypeCategory.LEGACY_COMPATIBILITY;
   }
 
   private matchesErrorHandling(context: ClassificationContext): boolean {
@@ -487,8 +486,8 @@ export class AnyTypeClassifier {
         if (context.codeSnippet.includes('Record<number, any>')) {
       return 'Record<number, unknown>' },
         if (context.codeSnippet.includes('[key: string]: any')) {
-      return '[key: string]: unknown' },
-        return 'unknown',
+      return '[key: string]: unknown' };
+        return 'unknown';
   }
 
   private analyzeDomainSpecific(context: ClassificationContext): AnyTypeClassification | null {
@@ -1038,8 +1037,7 @@ export class AnyTypeClassifier {
   }
 
   private calculateTestMockConfidence(context: ClassificationContext): number {
-    if (!context.isInTestFile) return 0,
-
+    if (!context.isInTestFile) return 0;
     const codeWithSurrounding = this.getCombinedCode(context);
     let confidence = 0,
 
@@ -1113,7 +1111,7 @@ export class AnyTypeClassifier {
       }
     }
 
-    return 0,
+    return 0;
   }
 
   private calculateRecordTypeConfidence(context: ClassificationContext): number {
@@ -1130,7 +1128,7 @@ export class AnyTypeClassifier {
       }
     }
 
-    return 0,
+    return 0;
   }
 
   // Helper methods for classification logic
@@ -1221,28 +1219,28 @@ export class AnyTypeClassifier {
   private suggestFunctionParamReplacement(context: ClassificationContext): string {
     // Analyze parameter usage to suggest better types
     if (context.codeSnippet.includes('string') || context.codeSnippet.includes('String')) {
-      return 'string' },
+      return 'string' };
         if (context.codeSnippet.includes('number') || context.codeSnippet.includes('Number')) {
-      return 'number' },
+      return 'number' };
         if (context.codeSnippet.includes('boolean') || context.codeSnippet.includes('Boolean')) {
-      return 'boolean' },
-        return 'unknown',
+      return 'boolean' };
+        return 'unknown';
   }
 
   private suggestReturnTypeReplacement(context: ClassificationContext): string {
     // Analyze return statements to suggest better types
     const codeWithSurrounding = this.getCombinedCode(context)
     if (/return\s+\d+/.test(codeWithSurrounding)) {;
-      return 'number' },
+      return 'number' };
         if (/return\s+['"`]/.test(codeWithSurrounding)) {
-      return 'string' },
+      return 'string' };
         if (/return\s+(true|false)/.test(codeWithSurrounding)) {
-      return 'boolean' },
+      return 'boolean' };
         if (/return\s+\[/.test(codeWithSurrounding)) {
-      return 'unknown[]' },
+      return 'unknown[]' };
         if (/return\s+\{/.test(codeWithSurrounding)) {
       return 'Record<string, unknown>' },
-        return 'unknown',
+        return 'unknown';
   }
 
   private calculateDefaultConfidence(context: ClassificationContext): number {
@@ -1274,9 +1272,9 @@ export class AnyTypeClassifier {
 
   private getDefaultReasoning(context: ClassificationContext, confidence: number): string {
     if (confidence > 0.6) {
-      return 'Moderate confidence - may be intentional but lacks clear documentation' },
+      return 'Moderate confidence - may be intentional but lacks clear documentation' };
         else if (confidence > 0.4) {
-      return 'Low-moderate confidence - likely unintentional but requires careful review' },
+      return 'Low-moderate confidence - likely unintentional but requires careful review' };
         else {
       return 'Low confidence - appears unintentional and suitable for replacement'
     }
@@ -1285,10 +1283,10 @@ export class AnyTypeClassifier {
   private getDefaultSuggestedReplacement(context: ClassificationContext): string {
     // Simple heuristics for default replacement
     if (context.codeSnippet.includes('[]')) {
-      return 'unknown[]' },
+      return 'unknown[]' };
         if (context.codeSnippet.includes('Record') || context.codeSnippet.includes('{')) {
       return 'Record<string, unknown>' },
-        return 'unknown',
+        return 'unknown';
   }
 
   // Contextual analysis helper methods

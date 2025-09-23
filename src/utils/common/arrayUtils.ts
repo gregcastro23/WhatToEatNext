@@ -19,7 +19,7 @@ export function isNonEmptyArray<T>(value: T | T[] | undefined | null): value is 
  * - Otherwise, wrap the single value in an array
  */
 export function toArray<T>(value: T | T[] | undefined | null): T[] {
-  if (value === undefined || value === null) return [],
+  if (value === undefined || value === null) return [];
   return Array.isArray(value) ? value : [value]
 }
 
@@ -87,7 +87,7 @@ export function safeFilter<T>(
  * Get the first element of an array or the value itself if it's not an array
  */
 export function safeFirst<T>(arr: T | T[] | undefined | null): T | undefined {
-  if (arr === undefined || arr === null) return undefined,
+  if (arr === undefined || arr === null) return undefined;
   return Array.isArray(arr) ? arr[0] : arr
 }
 

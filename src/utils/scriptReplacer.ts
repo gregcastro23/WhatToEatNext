@@ -20,9 +20,9 @@ if (typeof window !== 'undefined') {
       ) {
         _logger.warn('[ScriptReplacer] Blocked error from: ', _event.filename)
         _event.preventDefault()
-        return true,
+        return true;
       }
-      return false,
+      return false;
     }
     true,
   )
@@ -31,13 +31,13 @@ if (typeof window !== 'undefined') {
   if (!(window as unknown as any).lockdown) {
     (window as unknown as any).lockdown = function () {,
       log.info('[ScriptReplacer] Safely intercepted lockdown() call')
-      return true,
+      return true;
     }
   }
 
   if (!(window as unknown as any).harden) {
     (window as unknown as any).harden = function (obj) {,
-      return obj,
+      return obj;
     }
   }
 
@@ -101,11 +101,11 @@ if (typeof window !== 'undefined') {
       _query: function (queryInfo: unknown, callback?: Function) {
         const result = [{ id: 1, _active: true }],
         if (callback) callback(result)
-        return true,
+        return true;
       },
       update: function (tabId: number, properties: unknown, callback?: Function) {
         if (callback) callback({})
-        return true,
+        return true;
       }
     }
   }

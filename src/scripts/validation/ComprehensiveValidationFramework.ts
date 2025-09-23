@@ -179,7 +179,7 @@ export class ComprehensiveValidationFramework {
       this.log('info', `📊 Overall Result: ${overallPassed ? 'PASSED' : 'FAILED'}`)
       this.log('info', `🎯 Quality Score: ${result.qualityScore}/100`)
 
-      return result,
+      return result;
     } catch (error) {
       this.log('error', `❌ Comprehensive validation failed: ${error}`)
 
@@ -338,7 +338,7 @@ export class ComprehensiveValidationFramework {
     }
 
     result.executionTime = Date.now() - startTime,
-    return result,
+    return result;
   }
 
   /**
@@ -362,7 +362,7 @@ export class ComprehensiveValidationFramework {
       results.push(result)
     }
 
-    return results,
+    return results;
   }
 
   /**
@@ -437,7 +437,7 @@ export class ComprehensiveValidationFramework {
     }
 
     result.executionTime = Date.now() - startTime,
-    return result,
+    return result;
   }
 
   /**
@@ -461,7 +461,7 @@ export class ComprehensiveValidationFramework {
       results.push(result)
     }
 
-    return results,
+    return results;
   }
 
   /**
@@ -527,7 +527,7 @@ export class ComprehensiveValidationFramework {
     }
 
     result.executionTime = Date.now() - startTime,
-    return result,
+    return result;
   }
 
   /**
@@ -568,7 +568,7 @@ export class ComprehensiveValidationFramework {
     }
 
     result.executionTime = Date.now() - startTime,
-    return result,
+    return result;
   }
 
   // Helper methods for analysis and validation
@@ -609,7 +609,7 @@ export class ComprehensiveValidationFramework {
     const stateVariables = stateMatches;
       .map(match => {,
         const nameMatch = match.match(/const\s+\[(\w+),/),
-        return nameMatch ? nameMatch[1] : '',
+        return nameMatch ? nameMatch[1] : '';
       })
       .filter(Boolean)
 
@@ -822,7 +822,7 @@ export class ComprehensiveValidationFramework {
       }
     }
 
-    return testFiles,
+    return testFiles;
   }
 
   private parseTestResults(output: string | Buffer): {
@@ -855,7 +855,7 @@ export class ComprehensiveValidationFramework {
       }
     }
 
-    return errorTypes,
+    return errorTypes;
   }
 
   private calculateValidationSummary(
@@ -923,7 +923,7 @@ export class ComprehensiveValidationFramework {
       ? this.validationHistory.get(batchId) || []
       : Array.from(this.validationHistory.values()).flat()
     if (history.length === 0) {;
-      return 'No validation history available' },
+      return 'No validation history available' };
         const report = [
       '# Validation Report',
       `Generated: ${new Date().toISOString()}`,

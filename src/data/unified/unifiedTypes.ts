@@ -114,8 +114,7 @@ export function createUnifiedIngredient(name: string, category: string): Unified
  * Type guard to check if an object is a valid UnifiedIngredient
  */
 export function isUnifiedIngredient(obj: unknown): obj is UnifiedIngredient {
-  if (!obj || typeof obj !== 'object') return false,
-
+  if (!obj || typeof obj !== 'object') return false;
   const ingredient = obj as Partial<UnifiedIngredient>;
   return (
     typeof ingredient.name === 'string' &&

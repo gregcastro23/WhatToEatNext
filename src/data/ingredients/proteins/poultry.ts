@@ -1020,8 +1020,7 @@ const rawPoultry = {
           usage: 'Condiment, flavoring for congee, moon cake filling',
           significance: 'Traditional preserving technique'
 }
-      }
-
+      },
       thai: {
         name: 'Thai',
         ped_yang: {

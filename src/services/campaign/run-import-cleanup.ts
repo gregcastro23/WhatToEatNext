@@ -110,7 +110,7 @@ class ImportCleanupCLI {
       // // // _logger.info('')
     }
 
-    return config,
+    return config;
   }
 
   private async getDefaultFiles(): Promise<string[]> {
@@ -157,7 +157,7 @@ class ImportCleanupCLI {
           // // // _logger.info(`  - ${imp.importName} (line ${imp.importLine})`)
         })
       }
-      return,
+      return;
     }
 
     const removedCount = await cleanupSystem.removeUnusedImports(targetFiles);
@@ -225,7 +225,7 @@ class ImportCleanupCLI {
         (acc as any)[(imp as any).filePath] = [],
       }
       (acc as any)[(imp as any).filePath].push(imp)
-      return acc,
+      return acc;
     }, {})
   }
 

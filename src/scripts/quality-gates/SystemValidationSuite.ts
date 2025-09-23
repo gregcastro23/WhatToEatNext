@@ -821,7 +821,7 @@ class SystemValidationSuite {
   private async testReplacementPattern(pattern: any): Promise<number> {
     // Simplified replacement test - return mock success rate
     const mockSuccessRates = { array_types: 100, record_types: 95, variable_declarations: 90 }
-    return mockSuccessRates[pattern.name] || 80,
+    return mockSuccessRates[pattern.name] || 80;
   }
 
   private async testBackupCreation(): Promise<{ passed: boolean }> {
@@ -907,7 +907,7 @@ class SystemValidationSuite {
       const hasMainFiles = ['execute-full-campaign.cjs', 'comprehensive-campaign.cjs'].every(file =>,
         campaignFiles.includes(file)
       ),
-      return hasMainFiles ? 90 : 60,
+      return hasMainFiles ? 90 : 60;
     } catch {
       return 30
     }
@@ -917,7 +917,7 @@ class SystemValidationSuite {
     // Test CI/CD integration
     const cicdFiles = ['.github/workflows/quality-gates.yml', '.husky/pre-commit'],
     const existingFiles = cicdFiles.filter(file => fs.existsSync(file));
-    return (existingFiles.length / cicdFiles.length) * 100,
+    return (existingFiles.length / cicdFiles.length) * 100;
   }
 
   private async testPreCommitHooks(): Promise<{ functional: boolean }> {

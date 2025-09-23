@@ -284,15 +284,15 @@ describe('ProgressTracker', () => {
   describe('getBundleSize', () => {
     it('should calculate bundle size from build directories', async () => {
       mockFs.existsSync.mockImplementation(path => {
-        return path === '.next' || path === 'dist',
+        return path === '.next' || path === 'dist';
       })
 
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('du -sk .next')) {;
-          return '300' },
+          return '300' };
         if (command.toString().includes('du -sk dist')) {
-          return '120' },
-        return '',
+          return '120' };
+        return '';
       })
 
       const size: any = await progressTracker.getBundleSize(),

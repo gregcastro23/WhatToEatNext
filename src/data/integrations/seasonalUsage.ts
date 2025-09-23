@@ -48,8 +48,7 @@ const _CuisineType = {
         'Consider fermentation and pickling for slower transformations (7 of Pentacles)'
       ]
     }
-  }
-
+  },
   summer: {
     growing: ['basil', 'rosemary', 'cilantro'],
     cuisines: {
@@ -87,8 +86,7 @@ const _CuisineType = {
         'Perfect cooking techniques with attention to detail (8 of Pentacles)'
       ]
     }
-  }
-
+  },
   autumn: {
     growing: ['sage', 'rosemary', 'thyme'],
     cuisines: {
@@ -126,8 +124,7 @@ const _CuisineType = {
         'Balance workload with efficient meal preparation (10 of Wands)'
       ]
     }
-  }
-
+  },
   winter: {
     growing: ['rosemary', 'thyme', 'sage'],
     cuisines: {
@@ -165,8 +162,7 @@ const _CuisineType = {
         'Create dishes that bring joy and fulfillment (9 of Cups10 of Cups)'
       ]
     }
-  }
-
+  },
   all: {
     growing: ['basil', 'rosemary', 'thyme', 'sage', 'oregano'],
     cuisines: {

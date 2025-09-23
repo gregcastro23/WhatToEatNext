@@ -128,7 +128,7 @@ export class ElementalRecommendationService {
       Air: ['Spring', 'Early Summer']
     }
 
-    return seasonalMap[element] || ['Any season'],
+    return seasonalMap[element] || ['Any season'];
   }
 }
 

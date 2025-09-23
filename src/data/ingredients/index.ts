@@ -120,7 +120,7 @@ function getPlanetaryElement(_planet: string): string | null {
     Uranus: 'Air',
     Saturn: 'Earth',
     Pluto: 'Earth' },
-        return planetElements[planet] || null,
+        return planetElements[planet] || null;
 }
 
 // Helper function to get zodiac element
@@ -138,7 +138,7 @@ function getZodiacElement(_sign: string): string | null {
     cancer: 'Water',
     scorpio: 'Water',
     pisces: 'Water' },
-        return signElements[sign.toLowerCase()] || null,
+        return signElements[sign.toLowerCase()] || null;
 }
 
 // Helper function to calculate elemental properties from category
@@ -195,7 +195,7 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
     ...ingredientData
   })
 
-  return standardized as Ingredient,
+  return standardized as Ingredient;
 }
 
 // Process a collection of ingredients with the new properties
@@ -261,7 +261,7 @@ const processIngredientCollection = (
       } catch (error) {
         _logger.warn(`Skipping invalid ingredient ${key}:`, error)
       }
-      return acc,
+      return acc;
     }
     {} as Record<string, Ingredient>,
   )
@@ -364,7 +364,7 @@ export const allIngredients = (() => {
     }
   })
 
-  return finalResult,
+  return finalResult;
 })()
 
 // Get a complete list of all ingredient names

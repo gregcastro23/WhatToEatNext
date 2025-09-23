@@ -22,7 +22,7 @@ export class RecipeElementalService {
     if (!RecipeElementalService.instance) {
       RecipeElementalService.instance = new RecipeElementalService();
     }
-    return RecipeElementalService.instance,
+    return RecipeElementalService.instance;
   }
 
   /**

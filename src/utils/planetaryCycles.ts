@@ -19,8 +19,7 @@ export const planetaryCycles = {
       phase: 0, // No phase offset,
       amplitude: 0.2, // Tertiary influence strength
     }
-  }
-
+  },
   Essence: {
     primary: {
       period: 2.1, // Lunar cycle,
@@ -37,8 +36,7 @@ export const planetaryCycles = {
       phase: 0, // No phase offset,
       amplitude: 0.3, // Tertiary influence strength
     }
-  }
-
+  },
   Matter: {
     primary: {
       period: 1.88, // Mars cycle,
@@ -55,8 +53,7 @@ export const planetaryCycles = {
       phase: 0, // No phase offset,
       amplitude: 0.3, // Tertiary influence strength
     }
-  }
-
+  },
   Substance: {
     primary: {
       period: 0.62, // Venus cycle,
@@ -206,7 +203,7 @@ export function calculateTokenizedValues(_date: Date = new Date()): {
     Substance: calculateTokenValue('Substance', daysSinceEpoch)
   }
 
-  return values,
+  return values;
 }
 
 /**

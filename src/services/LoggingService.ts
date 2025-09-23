@@ -63,7 +63,7 @@ class LoggingService {
     if (!LoggingService.instance) {
       LoggingService.instance = new LoggingService();
     }
-    return LoggingService.instance,
+    return LoggingService.instance;
   }
 
   public setLogLevel(level: LogLevel): void {
@@ -186,7 +186,7 @@ class LoggingService {
         const errorStr = entry.error ? ` ERROR: ${entry.error.message}` : ''
         const dataStr = entry.data ? ` DATA: ${JSON.stringify(entry.data)}` : ''
 
-        return `[${timestamp}] ${level}: ${entry.message}${context}${errorStr}${dataStr}`,
+        return `[${timestamp}] ${level}: ${entry.message}${context}${errorStr}${dataStr}`;
       })
       .join('\n')
   }

@@ -174,7 +174,7 @@ export const CUISINE_ALIASES: Record<string, PrimaryCuisineType> = {
  */
 export function resolveCuisineType(cuisineName: string): PrimaryCuisineType | string {
   const normalizedName = cuisineName.toLowerCase().replace(/[^a-z]/g, '')
-  return CUISINE_ALIASES[normalizedName] || cuisineName,
+  return CUISINE_ALIASES[normalizedName] || cuisineName;
 }
 
 /**
@@ -195,7 +195,7 @@ export function getRegionalCuisines(primaryCuisine: PrimaryCuisineType): string[
  */
 export function isRegionalCuisine(cuisineName: string): boolean {
   const normalizedName = cuisineName.toLowerCase().replace(/[^a-z]/g, '')
-  return normalizedName in CUISINE_ALIASES,
+  return normalizedName in CUISINE_ALIASES;
 }
 
 /**
@@ -205,7 +205,7 @@ export function isRegionalCuisine(cuisineName: string): boolean {
  */
 export function getPrimaryCuisine(regionalCuisine: string): PrimaryCuisineType | undefined {
   const normalizedName = regionalCuisine.toLowerCase().replace(/[^a-z]/g, '')
-  return CUISINE_ALIASES[normalizedName],
+  return CUISINE_ALIASES[normalizedName];
 }
 
 // ========== VALIDATION FUNCTIONS ==========,
@@ -251,7 +251,7 @@ export function normalizeCuisineName(cuisineName: string): string {
 
   // For primary cuisines, return with proper casing
   if (isValidPrimaryCuisine(cuisineName)) {
-    return cuisineName,
+    return cuisineName;
   }
 
   // Otherwise, return the original name with proper casing

@@ -42,13 +42,13 @@ describe('FullCampaignExecutor', () => {
     // Mock successful build validation
     mockExecSync.mockImplementation((command: string) => {
       if (command.includes('tsc --noEmit')) {
-        return '' },
+        return '' };
         if (command.includes('grep -c 'error TS'')) {
-        return '0' },
+        return '0' };
         if (command.includes('find src')) {
-        return 'src/test1.ts\nsrc/test2.ts\nsrc/test3.ts',
+        return 'src/test1.ts\nsrc/test2.ts\nsrc/test3.ts';
       }
-      return '',
+      return '';
     })
   })
 
@@ -93,7 +93,7 @@ describe('FullCampaignExecutor', () => {
         if (command.includes('tsc --noEmit')) {
           throw new Error('Build failed')
         }
-        return '',
+        return '';
       })
 
       const result: any = await executor.executeFullCampaign()
@@ -198,9 +198,9 @@ describe('FullCampaignExecutor', () => {
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('grep -c 'error TS'')) {
           // Simulate error reduction
-          return Math.random() > 0.5 ? '100' : '80' },
+          return Math.random() > 0.5 ? '100' : '80' };
         if (command.includes('find src')) return 'src/test1.ts\nsrc/test2.ts',
-        return '',
+        return '';
       })
 
       const result: any = await executor.executeFullCampaign()
@@ -244,9 +244,9 @@ describe('FullCampaignExecutor', () => {
           if (callCount > 2) {
             throw new Error('Build failed')
           }
-          return '',
+          return '';
         }
-        return '',
+        return '';
       })
 
       const result: any = await executor.executeFullCampaign()
@@ -302,8 +302,8 @@ describe('FullCampaignExecutor', () => {
       // Mock astrological files
       mockExecSyncmockImplementation((command: string) => {
         if (command.includes('find src')) {
-          return 'src/calculations/astrology.ts\nsrc/services/astrological.ts' },
-        return '',
+          return 'src/calculations/astrology.ts\nsrc/services/astrological.ts' };
+        return '';
       })
 
       const result: any = await executor.executeFullCampaign(),
@@ -320,8 +320,8 @@ describe('FullCampaignExecutor', () => {
       // Mock recipe files
       mockExecSyncmockImplementation((command: string) => {
         if (command.includes('find src')) {
-          return 'src/data/recipes.ts\nsrc/components/recipe.tsx' },
-        return '',
+          return 'src/data/recipes.ts\nsrc/components/recipe.tsx' };
+        return '';
       })
 
       const result: any = await executor.executeFullCampaign(),
@@ -338,8 +338,8 @@ describe('FullCampaignExecutor', () => {
       // Mock campaign files
       mockExecSyncmockImplementation((command: string) => {
         if (command.includes('find src')) {
-          return 'src/services/campaign/controller.ts\nsrc/services/metrics.ts' },
-        return '',
+          return 'src/services/campaign/controller.ts\nsrc/services/metrics.ts' };
+        return '';
       })
 
       const result: any = await executor.executeFullCampaign(),
@@ -390,9 +390,9 @@ describe('FullCampaignExecutor', () => {
           if (buildCallCount > 3) {
             throw new Error('Build failed after replacement')
           }
-          return '',
+          return '';
         }
-        return '',
+        return '';
       })
 
       const result: any = await executor.executeFullCampaign()

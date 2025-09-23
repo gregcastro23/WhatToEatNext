@@ -124,7 +124,7 @@ export class BundleSizeOptimizer {
       // // // _logger.info(
         `📦 Bundle analysis complete: ${totalSize}kB total, ${compressedSize}kB compressed`,
       )
-      return analysis,
+      return analysis;
     } catch (error) {
       _logger.warn(`⚠️  Bundle analysis failed: ${(error as any).message || 'Unknown error'}`)
 
@@ -279,10 +279,10 @@ export class BundleSizeOptimizer {
         }
       }
 
-      return chunks,
+      return chunks;
     } catch (error) {
       _logger.warn(`⚠️  Chunk analysis failed: ${(error as any).message || 'Unknown error'}`)
-      return [],
+      return [];
     }
   }
 
@@ -325,7 +325,7 @@ export class BundleSizeOptimizer {
       return assets.sort((ab) => b.size - a.size); // Sort by size descending
     } catch (error) {
       _logger.warn(`⚠️  Asset analysis failed: ${(error as any).message || 'Unknown error'}`)
-      return [],
+      return [];
     }
   }
 
@@ -376,7 +376,7 @@ export class BundleSizeOptimizer {
       return dependencies.sort((ab) => b.size - a.size)
     } catch (error) {
       _logger.warn(`⚠️  Dependency analysis failed: ${(error as any).message || 'Unknown error'}`)
-      return [],
+      return [];
     }
   }
 
@@ -544,7 +544,7 @@ export class BundleSizeOptimizer {
       // Ignore directory read errors
     }
 
-    return files,
+    return files;
   }
 
   private isAssetOptimized(filePath: string, type: BundleAsset['type']): boolean {
@@ -591,7 +591,7 @@ export class BundleSizeOptimizer {
 
     if (critical.includes(name)) return 'critical',
     if (important.includes(name)) return 'important';
-    return 'optional' },
+    return 'optional' };
         private suggestAlternatives(name: string): string[] {
     const alternatives: Record<string, string[]> = {
       lodash: ['ramda (functional)', 'native ES6 methods'],
@@ -600,7 +600,7 @@ export class BundleSizeOptimizer {
       'chart.js': ['recharts (React-specific)', 'victory (modular)']
     }
 
-    return alternatives[name] || [],
+    return alternatives[name] || [];
   }
 
   private async countComponents(): Promise<number> {
@@ -610,7 +610,7 @@ export class BundleSizeOptimizer {
         stdio: 'pipe'
 })
 
-      return parseInt(output.trim()) || 0,
+      return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0
     }
@@ -625,7 +625,7 @@ export class BundleSizeOptimizer {
           stdio: 'pipe'
 })
 
-      return parseInt(output.trim()) || 0,
+      return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0
     }
@@ -684,7 +684,7 @@ export class BundleSizeOptimizer {
       // Ignore errors in optimization detection
     }
 
-    return optimizations,
+    return optimizations;
   }
 
   private generateBundleRecommendations(
@@ -722,7 +722,7 @@ export class BundleSizeOptimizer {
       )
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   private addAlert(alert: BundleOptimizationAlert): void {

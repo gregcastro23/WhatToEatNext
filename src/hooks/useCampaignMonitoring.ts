@@ -163,11 +163,11 @@ export const useCampaignMonitoring = (
         if (success) {
           await refreshData();
         }
-        return success,
+        return success;
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Failed to pause campaign',
         setState(prev => ({ ...prev, error: errorMessage }))
-        return false,
+        return false;
       }
     }
     [refreshData],
@@ -181,11 +181,11 @@ export const useCampaignMonitoring = (
         if (success) {
           await refreshData();
         }
-        return success,
+        return success;
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Failed to resume campaign',
         setState(prev => ({ ...prev, error: errorMessage }))
-        return false,
+        return false;
       }
     }
     [refreshData],
@@ -200,11 +200,11 @@ export const useCampaignMonitoring = (
           await refreshData(),
           onCampaignComplete?.(campaignId)
         }
-        return success,
+        return success;
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Failed to stop campaign',
         setState(prev => ({ ...prev, error: errorMessage }))
-        return false,
+        return false;
       }
     }
     [refreshData, onCampaignComplete],

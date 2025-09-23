@@ -41,7 +41,7 @@ function getPropInfo(key: string, value: unknown): PropInfo {
     info.value = String(value)
   }
 
-  return info,
+  return info;
 }
 
 /**
@@ -86,7 +86,7 @@ export function withRenderTracking<P extends object>(
           _logger.warn(`📊 ${componentName} render #${newCount}`)
         }
 
-        return newCount,
+        return newCount;
       })
 
       // Calculate and track render time
@@ -96,7 +96,7 @@ export function withRenderTracking<P extends object>(
       }
     }, [firstRender, props])
 
-    return (<div data-component={componentName} data-render-count={renderCount}>,
+    return (<div data-component={componentName} data-render-count={renderCount}>;
         {process.env.NODE_ENV === 'development' && (,
           <div
             style={{,
@@ -126,7 +126,7 @@ export function withRenderTracking<P extends object>(
   // Set display name for better debugging
   TrackedComponent.displayName = displayName,
 
-  return TrackedComponent,
+  return TrackedComponent;
 }
 
 /**
@@ -145,7 +145,7 @@ export function withRenderTracking<P extends object>(
 export function trackRenders(nameOrComponent: string | ComponentType<any>, _name?: string) {
   // Called as @trackRenders('Name')
   if (typeof nameOrComponent === 'string') {
-    return function <P extends object>(Component: ComponentType<P>) {,
+    return function <P extends object>(Component: ComponentType<P>) {;
       return withRenderTracking(Component, nameOrComponent)
     }
   }

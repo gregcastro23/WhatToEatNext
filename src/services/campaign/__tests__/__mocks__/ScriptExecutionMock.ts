@@ -194,7 +194,7 @@ export class ScriptExecutionMock {
     parameters: ScriptParameters,
     timestamp: Date
   }> {
-    return [...this.executionHistory],
+    return [...this.executionHistory];
   }
 
   /**

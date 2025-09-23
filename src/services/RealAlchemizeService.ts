@@ -155,7 +155,7 @@ function getPlanetaryDignity(_planet: string, _sign: string): number {
     }
   }
 
-  return dignityMap[planet][sign.toLowerCase()] || 0,
+  return dignityMap[planet][sign.toLowerCase()] || 0;
 }
 
 /**
@@ -329,7 +329,7 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
       }
     }
 
-    return convertedPositions,
+    return convertedPositions;
   } catch (error) {
     _logger.warn('Error loading planetary positions from file, using fallback data: ', error)
     return getFallbackPlanetaryPositions()

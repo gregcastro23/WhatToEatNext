@@ -106,7 +106,7 @@ export class LintingProgressTracker {
       this.saveMetrics(fullMetrics)
 
       logger.info(`Linting metrics collected: ${fullMetrics.totalIssues} total issues`)
-      return fullMetrics,
+      return fullMetrics;
     } catch (error) {
       logger.error('Error collecting linting metrics: ', error)
       throw error
@@ -134,7 +134,7 @@ export class LintingProgressTracker {
       }
 
       logger.info('Linting progress report generated')
-      return report,
+      return report;
     } catch (error) {
       logger.error('Error generating progress report: ', error)
       throw error
@@ -206,7 +206,7 @@ export class LintingProgressTracker {
         }
       })
 
-      return allGatesPassed,
+      return allGatesPassed;
     } catch (error) {
       logger.error('Error evaluating quality gates: ', error)
       return false
@@ -226,7 +226,7 @@ export class LintingProgressTracker {
         maxBuffer: 10 * 1024 * 1024, // 10MB buffer
       })
 
-      return result,
+      return result;
     } catch (error) {
       // ESLint returns non-zero exit code when issues are found
       // The output is still valid JSON in error.stdout
@@ -345,8 +345,7 @@ export class LintingProgressTracker {
    */
   private calculateTrendForPeriod(history: LintingMetrics[], since: Date): number {
     const recentMetrics = history.filter(m => new Date(m.timestamp) >= since);
-    if (recentMetrics.length < 2) return 0,
-
+    if (recentMetrics.length < 2) return 0;
     const oldest = recentMetrics[0];
     const newest = recentMetrics[recentMetrics.length - 1];
 
@@ -406,9 +405,9 @@ export class LintingProgressTracker {
    */
   private assessRisk(report: LintingProgressReport): 'low' | 'medium' | 'high' {
     const { currentMetrics, improvement } = reportif (currentMetrics.errors > 100 || improvement.percentageImprovement < -10) {
-      return 'high' },
+      return 'high' };
         else if (currentMetrics.errors > 10 || improvement.percentageImprovement < 0) {
-      return 'medium' },
+      return 'medium' };
         else {
       return 'low'
     }
@@ -437,7 +436,7 @@ export class LintingProgressTracker {
       recommendations.push('Consider optimizing linting performance with caching')
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   /**
@@ -476,7 +475,7 @@ export class LintingProgressTracker {
     } catch (error) {
       logger.warn('Error reading previous metrics: ', error)
     }
-    return undefined,
+    return undefined;
   }
 
   private getLatestMetrics(): LintingMetrics | undefined {
@@ -493,7 +492,7 @@ export class LintingProgressTracker {
     } catch (error) {
       logger.warn('Error reading metrics history: ', error)
     }
-    return [],
+    return [];
   }
 
   private getMemoryUsage(): number {

@@ -83,7 +83,7 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
           categories: globalInitState.categories
         })
       }
-      return,
+      return;
     }
 
     // Only attempt initialization once globally

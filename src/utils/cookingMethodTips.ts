@@ -626,7 +626,7 @@ export function getTechnicalTips(methodName: string): string[] {
       }
   }
 
-  return tips,
+  return tips;
 }
 
 /**
@@ -677,7 +677,7 @@ export function getMethodDetails(methodName: string): string {
 
         const methodObj = methodData as { expertTips?: string[], category?: string }
         if (methodObj?.description) {
-          return methodObj.description,
+          return methodObj.description;
         } else {
           return `${methodName} is a cooking technique that transforms ingredients through specific application of heat, pressure, or chemical processes. It affects texture, flavor, and nutritional properties in unique ways.`,
         }
@@ -1038,5 +1038,5 @@ export function getIdealIngredients(methodName: string): string[] {
       }
   }
 
-  return ingredients,
+  return ingredients;
 }

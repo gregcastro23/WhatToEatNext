@@ -260,7 +260,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
     // Persist metrics
     this.persistMetrics(metrics)
 
-    return metrics,
+    return metrics;
   }
 
   /**
@@ -272,7 +272,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
         encoding: 'utf8',
         stdio: 'pipe'
 })
-      return parseInt(output.trim()) || 0,
+      return parseInt(output.trim()) || 0;
     } catch {
       return -1, // Error getting count
     }
@@ -284,7 +284,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
   private async getSuccessRate(): Promise<number> {
     // This would integrate with the actual campaign metrics
     // For now, return a placeholder
-    return 0.85,
+    return 0.85;
   }
 
   /**
@@ -293,7 +293,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
   private async getBuildStatus(): Promise<'success' | 'failed' | 'unknown'> {
     try {
       execSync('yarn build', { stdio: 'pipe' })
-      return 'success',
+      return 'success';
     } catch {
       return 'failed'
     }
@@ -307,7 +307,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
       execSync('npx tsx src/services/campaign/unintentional-any-elimination/config/cli.ts validate', {
         stdio: 'pipe'
 })
-      return true,
+      return true;
     } catch {
       return false
     }
@@ -398,8 +398,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
    * Get baseline error count
    */
   private getBaselineErrorCount(): number {
-    if (this.metricsHistory.length === 0) return 0,
-
+    if (this.metricsHistory.length === 0) return 0;
     const recent = this.metricsHistory.slice(-10);
     const sum = recent.reduce((accm) => acc + m.typescriptErrors, 0),
     return Math.floor(sum / recent.length)

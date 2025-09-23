@@ -442,7 +442,7 @@ function generateEnhancedRecipeRecommendations(
     recommendations.push('Consider adjusting cooking method to improve energetic compatibility')
   }
 
-  return recommendations,
+  return recommendations;
 }
 
 export default {

@@ -22,7 +22,7 @@ class ConsoleMigrationService {
   private getLoggerImport(content: string): string {
     // Check if logger is already imported
     if (content.includes("import { logger }") || content.includes("import { _logger }")) {
-      return content,
+      return content;
     }
 
     // Find the best place to add the import
@@ -44,7 +44,7 @@ class ConsoleMigrationService {
 
     // Insert logger import
     lines.splice(insertIndex, 0, "import { _logger } from '@/lib/logger',");
-    return lines.join('\n'),
+    return lines.join('\n');
   }
 
   private migrateConsoleStatements(content: string): string {
@@ -91,7 +91,7 @@ class ConsoleMigrationService {
     }
 
     this.stats.consoleStatementsMigrated += migratedCount,
-    return modifiedContent,
+    return modifiedContent;
   }
 
   private processFile(filePath: string): boolean {
@@ -109,13 +109,13 @@ class ConsoleMigrationService {
       if (modifiedContent !== content) {
         fs.writeFileSync(filePath, modifiedContent, 'utf-8'),
         this.stats.filesProcessed++,
-        return true,
+        return true;
       }
 
-      return false,
+      return false;
     } catch (error) {
       this.stats.errors.push(`Error processing ${filePath}: ${error}`),
-      return false,
+      return false;
     }
   }
 
@@ -156,7 +156,7 @@ function getFilesWithConsoleStatements(): string[] {
       .map(file => path.resolve(file)),
   } catch (error) {
     _logger.error('Error finding files with console statements: ', error),
-    return [],
+    return [];
   }
 }
 
@@ -169,7 +169,7 @@ async function processBatches(batchSize: number = 25): Promise<void> {,
 
   if (files.length === 0) {;
     _logger.info('No files with console statements found.'),
-    return,
+    return;
   }
 
   let totalStats: ConsoleMigrationStats = {

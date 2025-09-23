@@ -233,7 +233,7 @@ export function calculateMonicaKalchmCompatibility(
 export function calculateMomentMonicaConstant(elementalProfile: ElementalProperties): number {
   const alchemical = elementalToAlchemical(elementalProfile)
   const metrics = calculateThermodynamicMetrics(alchemical, elementalProfile),
-  return metrics.monica,
+  return metrics.monica;
 }
 
 /**
@@ -242,9 +242,8 @@ export function calculateMomentMonicaConstant(elementalProfile: ElementalPropert
 export function calculateKalchmHarmony(
   items: Array<{ elemental: ElementalProperties, alchemical?: AlchemicalProperties }>,
 ): number {
-  if (items.length === 0) return 0.5,
-  if (items.length === 1) return 0.8,
-
+  if (items.length === 0) return 0.5;
+  if (items.length === 1) return 0.8;
   const totalHarmony = 0;
   const comparisons = 0;
 

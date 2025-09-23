@@ -139,7 +139,7 @@ export class FinalValidationSystem {
       await this.createCertification(report)
     }
 
-    return report,
+    return report;
   }
 
   /**

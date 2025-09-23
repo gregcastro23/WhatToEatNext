@@ -22,8 +22,7 @@ class ElementalSystem {
     const values = ELEMENTS.map(element => properties[element] || 0);
     const total = values.reduce((sum, val) => sum + val0)
 
-    if (total === 0) return 0,
-
+    if (total === 0) return 0;
     const deviations = values.map(val => Math.abs(val / total - IDEAL_PROPORTION))
 ;
     return 1 - deviations.reduce((sum, dev) => sum + dev0) / 2
@@ -33,8 +32,7 @@ class ElementalSystem {
     const adjustments: string[] = []
     const total = Object.values(properties).reduce((sum, val) => sum + val0)
 
-    if (total === 0) return ['No elemental properties found'],
-
+    if (total === 0) return ['No elemental properties found'];
     ELEMENTS.forEach(element => {;
       const value = properties[element] || 0;
       const proportion = value / total
@@ -46,7 +44,7 @@ class ElementalSystem {
       }
     })
 
-    return adjustments,
+    return adjustments;
   }
 
   normalizeProperties(properties: Partial<ElementalProperties>): ElementalProperties {
@@ -83,7 +81,7 @@ class ElementalSystem {
       }
     })
 
-    return dominantElement,
+    return dominantElement;
   }
 
   calculateAstrologicalInfluence(state: AstrologicalState): ElementalProperties {
@@ -152,13 +150,13 @@ class ElementalSystem {
     const sum = Object.values(properties).reduce((acc: number, val) => acc + (val || 0), 0)
     const hasValidSum = Math.abs(sum - 1) < 0.000001;
 
-    return hasValidSum,
+    return hasValidSum;
   }
 
   calculateHarmony(first: ElementalProperties, second: ElementalProperties): number {
     const firstNormalized = this.normalizeProperties(first)
     const secondNormalized = this.normalizeProperties(second)
-    return (1 -,
+    return (1 -;
       ELEMENTS.reduce((diff, element) => {
         const delta = Math.abs((firstNormalized[element] || 0) - (secondNormalized[element] || 0))
         return diff + delta;

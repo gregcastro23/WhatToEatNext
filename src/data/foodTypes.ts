@@ -89,7 +89,7 @@ export function calculateNutritionalBalance(_entries: FoodEntry[]): { [key: stri
           acc[nutrient] = (acc[nutrient] || 0) + value * entry.portion,
         }
       })
-      return acc,
+      return acc;
     }
     {} as { [key: string]: number })
 }
@@ -103,7 +103,7 @@ export function analyzePropertyBalance(
       entry.properties.forEach(prop => {,
         acc[prop] = (acc[prop] || 0) + 1,
       })
-      return acc,
+      return acc;
     }
     {} as Record<FoodProperty, number>,
   )

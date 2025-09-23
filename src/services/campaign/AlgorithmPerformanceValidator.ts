@@ -126,10 +126,10 @@ export class AlgorithmPerformanceValidator {
       }
 
       // // // _logger.info(`🚀 Completed ${benchmarks.length} performance benchmarks`)
-      return benchmarks,
+      return benchmarks;
     } catch (error) {
       _logger.warn(`⚠️  Performance benchmarking failed: ${(error as Error).message}`)
-      return [],
+      return [];
     }
   }
 
@@ -179,7 +179,7 @@ export class AlgorithmPerformanceValidator {
       // // // _logger.info(
         `💾 Cache validation complete: ${(overallHitRate * 100).toFixed(1)}% hit rate, ${efficiency.toFixed(1)}% efficiency`,
       )
-      return cacheMetrics,
+      return cacheMetrics;
     } catch (error) {
       _logger.warn(`⚠️  Cache validation failed: ${(error as Error).message}`)
 
@@ -265,10 +265,10 @@ export class AlgorithmPerformanceValidator {
       // // // _logger.info(
         `🔍 Regression analysis complete: ${regressionTests.filter(t => t.regressionDetected).length}/${regressionTests.length} regressions detected`,
       )
-      return regressionTests,
+      return regressionTests;
     } catch (error) {
       _logger.warn(`⚠️  Regression detection failed: ${(error as Error).message}`)
-      return [],
+      return [];
     }
   }
 
@@ -327,7 +327,7 @@ export class AlgorithmPerformanceValidator {
         })
       }
 
-      return improvementMaintained,
+      return improvementMaintained;
     } catch (error) {
       _logger.warn(`⚠️  Improvement validation failed: ${(error as Error).message}`),
       return false
@@ -711,12 +711,11 @@ export class AlgorithmPerformanceValidator {
       benchmarks.sort((ab) => a.timestamp.getTime() - b.timestamp.getTime())
     }
 
-    return groups,
+    return groups;
   }
 
   private calculateBenchmarkScore(benchmarks: PerformanceBenchmark[]): number {
-    if (benchmarks.length === 0) return 0,
-
+    if (benchmarks.length === 0) return 0;
     const passingBenchmarks = benchmarks.filter(b => b.status === 'passing').length;
     const degradedBenchmarks = benchmarks.filter(b => b.status === 'degraded').length;
 

@@ -42,7 +42,7 @@ import { logger } from '@/utils/logger';
 // Note: These functions are not yet implemented in calculations/index
 // Using placeholder implementations for now
 const calculateSeasonalOptimization = (seasonality: string, currentSeason: string): number => {,
-  if (seasonality === 'all' || seasonality === currentSeason) return 0.9,
+  if (seasonality === 'all' || seasonality === currentSeason) return 0.9;
   if (seasonality.includes(currentSeason)) return 0.8,
   return 0.6
 }
@@ -75,7 +75,7 @@ const calculateAstrologicalAlignment = (
     if (ingredient.zodiacInfluences?.includes(zodiacSign as any)) {
       return bonus + 0.02, // 2% per matching ingredient
     }
-    return bonus,
+    return bonus;
   }, 0)
 
   alignment += Math.min(zodiacIngredientBonus, 0.15); // Cap at 15%
@@ -251,7 +251,7 @@ export class AdvancedAnalyticsIntelligenceService {
         `Advanced analytics intelligence analysis completed with confidence: ${result.confidence.toFixed(2)}`,
       )
 
-      return result,
+      return result;
     } catch (error) {
       this.handleError('generateAdvancedAnalyticsIntelligence', error),
       throw error
@@ -626,7 +626,7 @@ export class AdvancedAnalyticsIntelligenceService {
       })
     })
 
-    return matrix,
+    return matrix;
   }
 
   private analyzeIngredientSynergy(
@@ -666,7 +666,7 @@ export class AdvancedAnalyticsIntelligenceService {
       }
     })
 
-    return network,
+    return network;
   }
 
   private calculateIngredientOptimizationPotential(
@@ -896,7 +896,7 @@ export class AdvancedAnalyticsIntelligenceService {
 
   private calculateComplexityDimension(recipe: Recipe): number {,
     const complexityFactors = { easy: 0.3, medium: 0.6, hard: 0.9 }
-    return complexityFactors[recipe.difficulty as keyof typeof complexityFactors] || 0.6,
+    return complexityFactors[recipe.difficulty as keyof typeof complexityFactors] || 0.6;
   }
 
   private calculateCulturalDimension(
@@ -945,7 +945,7 @@ export class AdvancedAnalyticsIntelligenceService {
 
   private calculateSkillComplexity(recipe: Recipe): number {
     const complexityFactors = { easy: 0.2, medium: 0.5, hard: 0.8 }
-    return complexityFactors[recipe.difficulty as keyof typeof complexityFactors] || 0.5,
+    return complexityFactors[recipe.difficulty as keyof typeof complexityFactors] || 0.5;
   }
 
   // Recipe optimization calculations - TODO: Implement advanced optimization algorithms
@@ -954,7 +954,7 @@ export class AdvancedAnalyticsIntelligenceService {
     _astrologicalContext: AstrologicalContext,
   ): number {
     // TODO: Analyze flavor profiles, elemental balances, and astrological influences
-    return 0.75,
+    return 0.75;
   }
 
   private calculateNutritionalOptimization(
@@ -1081,7 +1081,7 @@ export class AdvancedAnalyticsIntelligenceService {
 
     // Normalize by number of pairs
     const pairs = (ingredients.length * (ingredients.length - 1)) / 2;
-    return pairs > 0 ? synergy / pairs : 0.5,
+    return pairs > 0 ? synergy / pairs : 0.5;
   }
 
   // Recipe prediction calculations - TODO: Implement predictive modeling
@@ -1128,7 +1128,7 @@ export class AdvancedAnalyticsIntelligenceService {
     _astrologicalContext: AstrologicalContext,
   ): number {
     // TODO: Analyze flavor interactions, complementary profiles, and enhancement effects
-    return 0.8,
+    return 0.8;
   }
 
   private calculateNutritionalSynergy(
@@ -1136,7 +1136,7 @@ export class AdvancedAnalyticsIntelligenceService {
     _astrologicalContext: AstrologicalContext,
   ): number {
     // TODO: Analyze nutritional interactions, bioavailability, and absorption synergies
-    return 0.75,
+    return 0.75;
   }
 
   private calculateCulturalSynergy(
@@ -1170,7 +1170,7 @@ export class AdvancedAnalyticsIntelligenceService {
     if (key in basicSubstitutions) {
       return basicSubstitutions[key];
     }
-    return [],
+    return [];
   }
 
   private calculateIngredientSynergyScore(
@@ -1487,7 +1487,7 @@ export class AdvancedAnalyticsIntelligenceService {
     const levels = { debug: 0, info: 1, warn: 2, error: 3 }
     const configLevel = levels[this.config.logLevel] || 1;
     const messageLevel = levels[level as keyof typeof levels] || 1;
-    return messageLevel >= configLevel,
+    return messageLevel >= configLevel;
   }
 
   // ========== DEFAULT RESULTS ==========
@@ -1711,7 +1711,7 @@ export const _AdvancedRecipeAnalyticsIntelligence = {
       {} as CuisineData,
       context,
     )
-    return result.recipeAnalytics,
+    return result.recipeAnalytics;
   }
 }
 
@@ -1727,7 +1727,7 @@ export const _AdvancedIngredientAnalyticsIntelligence = {
       {} as CuisineData,
       context,
     )
-    return result.ingredientAnalytics,
+    return result.ingredientAnalytics;
   }
 }
 
@@ -1740,7 +1740,7 @@ export const _AdvancedCuisineAnalyticsIntelligence = {
       cuisine,
       context,
     )
-    return result.cuisineAnalytics,
+    return result.cuisineAnalytics;
   }
 }
 
@@ -1756,7 +1756,7 @@ export const _AdvancedAstrologicalAnalyticsIntelligence = {
       culinaryContext.cuisine || ({} as CuisineData),
       astrologicalState,
     )
-    return result.astrologicalAnalytics,
+    return result.astrologicalAnalytics;
   }
 }
 

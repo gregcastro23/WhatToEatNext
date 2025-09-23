@@ -208,7 +208,7 @@ export function getCuisineRecommendations(
             if ((planetaryRulers as unknown as string[]).includes(planet)) {
               return acc + 0.05, // Small bonus for each ruling planet present
             }
-            return acc,
+            return acc;
           }
           0,
         )
@@ -251,14 +251,14 @@ export function calculateElementalMatch(
     totalMatch += elementMatch,
   })
 
-  return totalMatch / elements.length,
+  return totalMatch / elements.length;
 }
 
 // renderScoreBadge function (causing error in CuisineRecommender.tsx)
 export function renderScoreBadge(score: number): string {
   const scoreClass = getMatchScoreClass(score)
   const percentage = Math.round(score * 100)
-  return `<span class='score-badge ${scoreClass}'>${percentage}%</span>`,
+  return `<span class='score-badge ${scoreClass}'>${percentage}%</span>`;
 }
 
 // calculateElementalContributionsFromPlanets function (causing errors in debug components)
@@ -293,7 +293,7 @@ export function calculateElementalContributionsFromPlanets(
     contributions.Air = contributions.Air / total,
   }
 
-  return contributions,
+  return contributions;
 }
 
 // Helper functions for planetary calculations

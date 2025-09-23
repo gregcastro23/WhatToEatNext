@@ -41,8 +41,7 @@ const rawNightshades = {
       duration: '5-7 days',
       notes: 'Never refrigerate unless cut'
 }
-  }
-
+  },
   eggplant: {
     name: 'Eggplant',
     elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },

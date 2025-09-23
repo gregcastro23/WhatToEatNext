@@ -74,14 +74,12 @@ export const preloadCalculations = {
   onCalculationHover: () => {
     lazyCalculations.alchemical()
     lazyCalculations.elemental()
-  }
-
+  },
   // Preload when user hovers over recipe recommendation UI
   onRecommendationHover: () => {
     lazyCalculations.recommendations()
     lazyUnifiedData.enhancedIngredients()
-  }
-
+  },
   // Preload when user hovers over astrological features
   onAstrologicalHover: () => {
     lazyCalculations.astrological()
@@ -101,9 +99,8 @@ export const bundleOptimization = {
       low: 10000,     // 10KB - load immediately for low priority
     }
 
-    return moduleSize > thresholds[priority],
-  }
-
+    return moduleSize > thresholds[priority];
+  },
   // Get estimated module size (mock implementation - in production use webpack-bundle-analyzer)
   getModuleSize: (modulePath: string): number => {
     // This would be replaced with actual bundle analysis;
@@ -138,12 +135,10 @@ export const performanceMonitoring = {
 }
       localStorage.setItem('modulePerformance', JSON.stringify(perfData))
     }
-  }
-
+  },
   // Get performance recommendations
   getPerformanceRecommendations: () => {
-    if (typeof window === 'undefined') return [],
-
+    if (typeof window === 'undefined') return [];
     const perfData = JSON.parse(localStorage.getItem('modulePerformance') || '{}')
     const recommendations: string[] = [],
 
@@ -153,6 +148,6 @@ export const performanceMonitoring = {
       }
     })
 
-    return recommendations,
+    return recommendations;
   }
 }

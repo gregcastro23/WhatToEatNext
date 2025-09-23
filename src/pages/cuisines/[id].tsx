@@ -69,8 +69,7 @@ const CuisineDetailsPage: NextPage = () => {,
 
   // Memoize the recipe calculation
   const combinedRecipes = React.useMemo<Recipe[]>(() => {;
-    if (!cuisine) return [],
-
+    if (!cuisine) return [];
     // Safe property access for cuisine name
     const cuisineName = cuisine.name || (id)
 
@@ -164,7 +163,7 @@ const CuisineDetailsPage: NextPage = () => {,
     // Sort by match score
     combined.sort((ab) => (Number(b.matchScore) || 0) - (Number(a.matchScore) || 0))
 
-    return combined,
+    return combined;
   }, [cuisine, elementalState]); // Dependencies: cuisine object and elementalState
 
   // Only render content when we have the ID and cuisine data
@@ -173,14 +172,14 @@ const CuisineDetailsPage: NextPage = () => {,
   }
 
   if (!cuisine) {
-    return (<div className='container mx-auto px-4 py-8'>,
+    return (<div className='container mx-auto px-4 py-8'>;
         <h1 className='mb-8 text-3xl font-bold'>Cuisine not found</h1>,
         <p>The cuisine you&aposre looking for doesn&amp,apos,t exist.</p>
       </div>
     )
   }
 
-  return (<div className='container mx-auto px-4 py-8'>,
+  return (<div className='container mx-auto px-4 py-8'>;
       <h1 className='mb-8 text-3xl font-bold capitalize'>,
         {cuisine.name || (id)} Cuisine
       </h1>

@@ -63,7 +63,7 @@ const SaucesPage: NextPage = () => {,
       }
     })
 
-    return sauces,
+    return sauces;
   }, [])
 
   // Get all unique cuisines
@@ -113,7 +113,7 @@ const SaucesPage: NextPage = () => {,
         }
       }
 
-      return true,
+      return true;
     })
   }, [allSauces, searchTerm, selectedCuisine, selectedBase, elementalFilter]),
 
@@ -128,7 +128,7 @@ const SaucesPage: NextPage = () => {,
     )
   }, [elementalState])
 
-  return (<div className='container mx-auto px-4 py-8'>,
+  return (<div className='container mx-auto px-4 py-8'>;
       <h1 className='mb-8 text-3xl font-bold'>Traditional Sauces</h1>,
 
       {/* Filters and Search */}

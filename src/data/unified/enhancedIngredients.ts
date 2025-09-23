@@ -70,8 +70,7 @@ export interface EnhancedIngredient {
     },
     preparationMethods: string[],
     flavorProfile?: FlavorProfile
-  }
-
+  },
   // Enhanced Astrological Properties
   astrologicalProfile: {
     planetaryRuler: PlanetName,
@@ -85,8 +84,7 @@ export interface EnhancedIngredient {
     lunarAffinity: LunarPhase[],
     planetaryHours: string[],
     thermodynamicProperties?: ThermodynamicProperties
-  }
-
+  },
   // Enhanced Nutritional Profile
   nutritionalProfile: {
     serving_size: string,
@@ -102,8 +100,7 @@ export interface EnhancedIngredient {
     antioxidants?: { [key: string]: number },
     benefits: string[],
     source: string
-  }
-
+  },
   // Enhanced Metadata
   metadata: {
     sourceFile: string,
@@ -167,8 +164,7 @@ export interface IngredientSystemConditions {
  * Type guard to check if an object is a valid EnhancedIngredient
  */
 export function isEnhancedIngredient(obj: unknown): obj is EnhancedIngredient {
-  if (!obj || typeof obj !== 'object') return false,
-
+  if (!obj || typeof obj !== 'object') return false;
   const ingredient = obj as Partial<EnhancedIngredient>;
   return (
     typeof ingredient.name === 'string' &&
@@ -281,9 +277,9 @@ export class EnhancedIngredientsSystem {
     if (criteria.kalchmRange) {
       results = (results || []).filter(ingredient => {
         const kalchmRange = criteria.kalchmRange,
-        if (!kalchmRange) return true,
+        if (!kalchmRange) return true;
         const ingredientKalchm = ingredient.kalchm || 0;
-        return ingredientKalchm >= kalchmRange.min && ingredientKalchm <= kalchmRange.max,
+        return ingredientKalchm >= kalchmRange.min && ingredientKalchm <= kalchmRange.max;
       })
     }
 
@@ -326,7 +322,7 @@ export class EnhancedIngredientsSystem {
       )
     }
 
-    return results,
+    return results;
   }
 
   // ===== FLAVOR PROFILE INTEGRATION =====,
@@ -336,8 +332,7 @@ export class EnhancedIngredientsSystem {
    */
   getIngredientsForFlavorProfile(flavorProfileId: string): EnhancedIngredient[] {
     const flavorProfile = this.flavorProfileSystem.getFlavorProfile(flavorProfileId);
-    if (!flavorProfile) return [],
-
+    if (!flavorProfile) return [];
     // Get ingredients with connected flavor profiles
     return Object.values(this.ingredients).filter(ingredient => {
       if (!ingredient.unifiedFlavorProfile) return false
@@ -348,7 +343,7 @@ export class EnhancedIngredientsSystem {
         ingredient.unifiedFlavorProfile
       ),
 
-      return compatibility.compatibility > 0.7,
+      return compatibility.compatibility > 0.7;
     })
   }
 
@@ -378,11 +373,9 @@ export class EnhancedIngredientsSystem {
     return Object.values(this.ingredients)
       .filter(ingredient => {
         // Skip the same ingredient,
-        if (ingredient.name === targetIngredient.name) return false,
-
+        if (ingredient.name === targetIngredient.name) return false;
         // Check if ingredient has a flavor profile
-        if (!ingredient.unifiedFlavorProfile) return false,
-
+        if (!ingredient.unifiedFlavorProfile) return false;
         // Calculate compatibility
         const compatibility = this.flavorProfileSystem.calculateFlavorCompatibility(targetProfile ||
             ({,
@@ -396,7 +389,7 @@ export class EnhancedIngredientsSystem {
           ingredient.unifiedFlavorProfile,
         )
 
-        return compatibility.compatibility >= tolerance,
+        return compatibility.compatibility >= tolerance;
       })
       .sort((ab) => {
         const compatA = this.flavorProfileSystem.calculateFlavorCompatibility(targetProfile ||
@@ -439,7 +432,7 @@ export class EnhancedIngredientsSystem {
 } as unknown as UnifiedFlavorProfile),
         ).compatibility,
 
-        return compatB - compatA,
+        return compatB - compatA;
       })
   }
 
@@ -453,14 +446,13 @@ export class EnhancedIngredientsSystem {
     return Object.values(this.ingredients)
       .filter(ingredient => {
         // Skip the same ingredient,
-        if (ingredient.name === targetIngredient.name) return false,
-
+        if (ingredient.name === targetIngredient.name) return false;
         // Calculate elemental compatibility
         const compatibility = calculateElementalCompatibility(targetIngredient.elementalProperties
           ingredient.elementalProperties,
         ),
 
-        return compatibility >= tolerance,
+        return compatibility >= tolerance;
       })
       .sort((ab) => {
         const compatA = calculateElementalCompatibility(
@@ -494,7 +486,7 @@ export class EnhancedIngredientsSystem {
   getIngredientsByKalchmRange(min: number, max: number): EnhancedIngredient[] {
     return Object.values(this.ingredients).filter(ingredient => {
       const kalchm = ingredient.kalchm || 0
-      return kalchm >= min && kalchm <= max,
+      return kalchm >= min && kalchm <= max;
     })
   }
 
@@ -519,7 +511,7 @@ export class EnhancedIngredientsSystem {
     const normalizedStdDev = 1 / (1 + stdDev)
 
     // Combine geometric mean and normalized standard deviation;
-    return geometricMean * 0.7 + normalizedStdDev * 0.3,
+    return geometricMean * 0.7 + normalizedStdDev * 0.3;
   }
 
   // ===== SEASONAL INTEGRATION =====,
@@ -700,7 +692,7 @@ export class EnhancedIngredientsSystem {
       enhanced[enhancedIngredient.name] = enhancedIngredient,
     })
 
-    return enhanced,
+    return enhanced;
   }
 
   /**
@@ -850,9 +842,9 @@ export class EnhancedIngredientsSystem {
     if (ingredient.monica) qualityPoints += 1,
 
     // Determine quality level
-    if (qualityPoints >= 7) return 'high',
-    if (qualityPoints >= 4) return 'medium',
-    return 'low',
+    if (qualityPoints >= 7) return 'high';
+    if (qualityPoints >= 4) return 'medium';
+    return 'low';
   }
 
   /**
@@ -1041,7 +1033,7 @@ export class EnhancedIngredientsSystem {
       return [...fromDifferentCategories, ...kalchmMatches]
     }
 
-    return fromDifferentCategories,
+    return fromDifferentCategories;
   }
 
   /**
@@ -1319,9 +1311,9 @@ export class EnhancedIngredientsSystem {
    * Get Kalchm range string
    */
   private getKalchmRange(kalchm: number): string {
-    if (kalchm <= 0.5) return 'very_low',
-    if (kalchm <= 1.0) return 'low',
-    if (kalchm <= 1.5) return 'moderate',
+    if (kalchm <= 0.5) return 'very_low';
+    if (kalchm <= 1.0) return 'low';
+    if (kalchm <= 1.5) return 'moderate';
     if (kalchm <= 2.0) return 'high'
     return 'very_high'
   }

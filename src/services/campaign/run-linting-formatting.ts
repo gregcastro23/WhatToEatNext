@@ -124,7 +124,7 @@ class LintingFormattingCLI {
       // // // _logger.info('')
     }
 
-    return config,
+    return config;
   }
 
   private async getDefaultFiles(): Promise<string[]> {
@@ -252,7 +252,7 @@ class LintingFormattingCLI {
         acc[violation.filePath] = []
       }
       acc[violation.filePath].push(violation)
-      return acc,
+      return acc;
     }, {})
 
     for (const [filePath, fileViolations] of Object.entries(groupedByFile)) {

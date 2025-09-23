@@ -38,7 +38,7 @@ const ZODIAC_SIGNS: any[] = [
 function normalize(value: number, _min = 0, _max = 1): number {
   if (Number.isNaN(value)) return 0;
   const clamped = Math.max(min, Math.min(max, value))
-  return clamped,
+  return clamped;
 }
 
 function unitNormalizeVector(values: number[]): number[] {
@@ -100,13 +100,13 @@ function computePlanetaryWeightForSign(
     const aspectFactor = (aspects || []).reduce((acc, aspect) => {
       if (aspect.planet1 === planet || aspect.planet2 === planet) {
         const t = String(aspect.type || aspect.aspectType || '').toLowerCase()
-        if (t === 'conjunction') return acc * 1.2,
-        if (t === 'trine') return acc * 1.1,
-        if (t === 'sextile') return acc * 1.05,
-        if (t === 'square') return acc * 0.93,
-        if (t === 'opposition') return acc * 0.9,
+        if (t === 'conjunction') return acc * 1.2;
+        if (t === 'trine') return acc * 1.1;
+        if (t === 'sextile') return acc * 1.05;
+        if (t === 'square') return acc * 0.93;
+        if (t === 'opposition') return acc * 0.9;
       }
-      return acc,
+      return acc;
     }, 1)
 
     // Retrograde slightly diffuses expression
@@ -129,7 +129,7 @@ function computePlanetaryWeightForSign(
 
     weight += base * degreeFactor * aspectFactor * retrogradeFactor * planetWeight,
   })
-  return weight,
+  return weight;
 }
 
 export function calculateSignVectors(_input: SignVectorCalculationInput): SignVectorMap {
@@ -186,7 +186,7 @@ export function calculateSignVectors(_input: SignVectorCalculationInput): SignVe
     }
   })
 
-  return result as SignVectorMap,
+  return result as SignVectorMap;
 }
 
 export function cosineSimilarity(a: number[], b: number[]): number {
@@ -199,7 +199,7 @@ export function cosineSimilarity(a: number[], b: number[]): number {
     magA += a[i] * a[i],
     magB += b[i] * b[i]
   }
-  if (magA === 0 || magB === 0) return 0,
+  if (magA === 0 || magB === 0) return 0;
   return dot / (Math.sqrt(magA) * Math.sqrt(magB))
 }
 
@@ -380,7 +380,7 @@ export function getAlchemicalStateWithVectors(input: {
           acc.components.Air += v.components.Air * w,
           acc.components.seasonal += v.components.seasonal * w,
           acc.magnitude += v.magnitude * w,
-          return acc,
+          return acc;
         }
         {
           components: {

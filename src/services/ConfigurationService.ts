@@ -60,7 +60,7 @@ class ConfigurationServiceImpl {
     if (!ConfigurationServiceImpl.instance) {
       ConfigurationServiceImpl.instance = new ConfigurationServiceImpl();
     }
-    return ConfigurationServiceImpl.instance,
+    return ConfigurationServiceImpl.instance;
   }
 
   /**
@@ -156,7 +156,7 @@ class ConfigurationServiceImpl {
     } catch (error) {
       _logger.warn('Failed to load configuration history: ', error)
     }
-    return [],
+    return [];
   }
 
   /**
@@ -174,7 +174,7 @@ class ConfigurationServiceImpl {
     if (typeof sectionData === 'object' && sectionData !== null) {;
       return { ...sectionData } as ConfigurationState[K],
     }
-    return sectionData,
+    return sectionData;
   }
 
   /**
@@ -369,7 +369,7 @@ class ConfigurationServiceImpl {
       }
     }
 
-    return success,
+    return success;
   }
 
   /**
@@ -449,7 +449,7 @@ class ConfigurationServiceImpl {
       this.configHistory.push(update)
       this.notifyListeners(update)
 
-      return true,
+      return true;
     } catch (error) {
       _logger.error('Failed to import configuration: ', error);
       return false

@@ -57,5 +57,5 @@ export function useAlchmWebSocket(): WebSocketState {
     }
   }, [])
 
-  return state,
+  return state;
 }

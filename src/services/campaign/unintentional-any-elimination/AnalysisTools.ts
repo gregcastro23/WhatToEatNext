@@ -114,7 +114,7 @@ export class AnalysisTools {
     }
 
     // // // _logger.info(`Domain distribution analysis complete: ${totalCount} any types found`)
-    return distribution,
+    return distribution;
   }
 
   /**
@@ -180,7 +180,7 @@ export class AnalysisTools {
     }
 
     // // // _logger.info(`Classification accuracy report complete: ${overallAccuracy.toFixed(1)}% accuracy`)
-    return report,
+    return report;
   }
 
   /**
@@ -211,7 +211,7 @@ export class AnalysisTools {
     // // // _logger.info(
       `Success rate analysis complete: ${currentMetrics.overallSuccessRate.toFixed(1)}% current success rate`,
     )
-    return analysis,
+    return analysis;
   }
 
   /**
@@ -247,13 +247,13 @@ export class AnalysisTools {
     // Sort by priority (high to low)
     recommendations.sort((ab) => {
       const priorityOrder = { high: 3, medium: 2, low: 1 }
-      return priorityOrder[b.priority] - priorityOrder[a.priority],
+      return priorityOrder[b.priority] - priorityOrder[a.priority];
     })
 
     // // // _logger.info(
       `Manual review recommendations complete: ${recommendations.length} cases identified`,
     )
-    return recommendations,
+    return recommendations;
   }
 
   /**
@@ -293,7 +293,7 @@ export class AnalysisTools {
     await this.saveAnalysisHistory()
 
     // // // _logger.info('Comprehensive analysis report generated successfully')
-    return report,
+    return report;
   }
 
   // Private helper methods
@@ -328,7 +328,7 @@ export class AnalysisTools {
       _logger.warn('Error finding any types: ', error)
     }
 
-    return occurrences,
+    return occurrences;
   }
 
   private async createClassificationContext(occurrence: {
@@ -407,7 +407,7 @@ export class AnalysisTools {
 
     // Test mocks should be in test files
     if (classification.category === AnyTypeCategory.TEST_MOCK) {;
-      return context.isInTestFile,
+      return context.isInTestFile;
     }
 
     // Array types should contain array syntax
@@ -437,7 +437,7 @@ export class AnalysisTools {
       { min: 0.0, max: 0.6, label: '0-60%' }
     ],
 
-    return ranges.map(range => {,
+    return ranges.map(range => {;
       const count = scores.filter(score => score >= range.min && score < range.max).length;
       return {
         range: range.label,
@@ -537,7 +537,7 @@ export class AnalysisTools {
     const projectedDate = new Date()
     projectedDate.setDate(projectedDate.getDate() + daysNeeded)
 ;
-    return projectedDate,
+    return projectedDate;
   }
 
   private async generateSuccessRateRecommendations(
@@ -580,7 +580,7 @@ export class AnalysisTools {
       )
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   private requiresManualReview(
@@ -621,7 +621,7 @@ export class AnalysisTools {
     }
 
     if (context.domainContext.intentionalityHints.length > 2) {
-      return 'Complex domain context with multiple intentionality hints' },
+      return 'Complex domain context with multiple intentionality hints' };
         if (classification.isIntentional && classification.suggestedReplacement) {
       return 'Conflicting, signals: classified as intentional but has suggested replacement' },
         return `High-risk category: ${classification.category}`
@@ -645,7 +645,7 @@ export class AnalysisTools {
     }
 
     // Low, priority: High confidence, simple cases
-    return 'low',
+    return 'low';
   }
 
   private async generateSuggestedActions(
@@ -674,7 +674,7 @@ export class AnalysisTools {
       )
     }
 
-    return actions,
+    return actions;
   }
 
   private estimateReviewEffort(
@@ -692,7 +692,7 @@ export class AnalysisTools {
     }
 
     // Low, effort: Simple cases
-    return 'low' },
+    return 'low' };
         private async findRelatedOccurrences(occurrence: {
     filePath: string,
     lineNumber: number,
@@ -733,14 +733,14 @@ export class AnalysisTools {
     const topDomain = distribution.byDomain.reduce((max, current) =>
       current.count > max.count ? current : max
     ),
-    return topDomain.domain,
+    return topDomain.domain;
   }
 
   private getTopCategory(distribution: DomainDistribution): AnyTypeCategory {
     const topCategory = distribution.byCategory.reduce((max, current) =>
       current.count > max.count ? current : max
     ),
-    return topCategory.category,
+    return topCategory.category;
   }
 
   private loadAnalysisHistory(): void {

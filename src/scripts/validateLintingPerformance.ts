@@ -429,7 +429,7 @@ export const _testVariable = 'test';
     } catch (error) {
       // Ignore cache calculation errors
     }
-    return 0,
+    return 0;
   }
 
   private extractFilesProcessed(output: string): number {

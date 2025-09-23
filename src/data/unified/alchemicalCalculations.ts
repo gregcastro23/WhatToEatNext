@@ -56,7 +56,7 @@ export function calculateKalchm(alchemicalProps: AlchemicalProperties): number {
   const numerator = Math.pow(safespirit, safespirit) * Math.pow(safeessence, safeessence)
   const denominator = Math.pow(safematter, safematter) * Math.pow(safesubstance, safesubstance)
 
-  return numerator / denominator,
+  return numerator / denominator;
 }
 
 /**
@@ -102,11 +102,9 @@ export function calculateThermodynamics(
  * Formula: M = -Greg's Energy / (Reactivity * ln(Kalchm))
  */;
 export function calculateMonica(gregsEnergy: number, reactivity: number, kalchm: number): number {
-  if (kalchm <= 0) return NaN,
-
+  if (kalchm <= 0) return NaN;
   const lnKalchm = Math.log(kalchm);
-  if (lnKalchm === 0) return NaN,
-
+  if (lnKalchm === 0) return NaN;
   return -gregsEnergy / (reactivity * lnKalchm)
 }
 
@@ -186,7 +184,7 @@ export function calculateKalchmCompatibility(kalchm1: number, kalchm2: number): 
   const ratio = Math.min(kalchm1, kalchm2) / Math.max(kalchm1, kalchm2)
 
   // Convert ratio to compatibility score (0.7 minimum for good compatibility)
-  return 0.7 + ratio * 0.3,
+  return 0.7 + ratio * 0.3;
 }
 
 // ===== CUISINE ENHANCEMENT FUNCTIONS =====,
@@ -222,7 +220,7 @@ export function findKalchmSimilarIngredients(
   ingredientPool: AlchemicalIngredient[],
   tolerance = 0.2
 ): AlchemicalIngredient[] {
-  return (ingredientPool || []).filter(ingredient => {,
+  return (ingredientPool || []).filter(ingredient => {;
     const compatibility = calculateKalchmCompatibility(targetKalchm, ingredient.kalchm)
     return compatibility >= 0.9 - tolerance; // High compatibility threshold
   })
@@ -238,15 +236,15 @@ export function validateAlchemicalProperties(props: AlchemicalProperties): boole
 
   // Check if all values are positive numbers
   if (Spirit <= 0 || Essence <= 0 || Matter <= 0 || Substance <= 0) {
-    return false,
+    return false;
   }
 
   // Check if values are within reasonable bounds (0-2 scale)
   if (Spirit > 2 || Essence > 2 || Matter > 2 || Substance > 2) {
-    return false,
+    return false;
   }
 
-  return true,
+  return true;
 }
 
 /**

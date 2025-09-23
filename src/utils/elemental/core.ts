@@ -117,7 +117,7 @@ export function validateElementalProperties(properties: ElementalProperties): bo
     }
   }
 
-  return true,
+  return true;
 }
 
 /**
@@ -165,7 +165,7 @@ export function calculateDominantElement(
     }
   })
 
-  return dominantElement,
+  return dominantElement;
 }
 
 /**
@@ -180,7 +180,7 @@ export function getElementalColor(
   if (!element || !ELEMENTAL_COLORS[element]) {;
     return ELEMENTAL_COLORS.Fire[type], // Default to Fire
   }
-  return ELEMENTAL_COLORS[element][type],
+  return ELEMENTAL_COLORS[element][type];
 }
 
 /**
@@ -217,7 +217,7 @@ export function getElementalCompatibility(
   }
 
   // All different element combinations have good compatibility
-  return 'compatible',
+  return 'compatible';
 }
 
 /**
@@ -233,7 +233,7 @@ export function calculateElementalCompatibility(element1: Element, element2: Ele
   }
 
   // All different element combinations have good compatibility
-  return 0.7,
+  return 0.7;
 }
 
 /**
@@ -317,7 +317,7 @@ export function combineElementalProperties(
 ): ElementalProperties {
   const aWeight = 1 - bWeight
 
-  return normalizeProperties({,
+  return normalizeProperties({;
     Fire: a.Fire * aWeight + b.Fire * bWeight,
     Water: a.Water * aWeight + b.Water * bWeight,
     Earth: a.Earth * aWeight + b.Earth * bWeight,
@@ -337,7 +337,7 @@ export function calculateElementalState(recipe: Recipe | null | undefined): Elem
 
   // Use existing elemental properties if available
   if (recipe.elementalState && validateElementalProperties(recipe.elementalState as unknown)) {
-    return recipe.elementalState as ElementalProperties,
+    return recipe.elementalState as ElementalProperties;
   }
 
   // Calculate from ingredients if available
@@ -452,7 +452,7 @@ export function getElementalCharacteristics(_element: Element): ElementalCharact
     }
   }
 
-  return characteristics[element],
+  return characteristics[element];
 }
 
 // --- Helper Functions ---
@@ -467,7 +467,7 @@ function calculateComplementaryScore(
   }
 
   // All different combinations have good complementary scores
-  return 0.7,
+  return 0.7;
 }
 
 function calculateBalanceScore(
@@ -497,11 +497,11 @@ function generateCompatibilityRecommendation(
   const recipeDominantStr = (recipeDominant).toLowerCase()
   const userDominantStr = (userDominant).toLowerCase()
   if (score >= 0.8) {;
-    return `Excellent match! This ${recipeDominantStr}-dominant recipe aligns perfectly with your ${userDominantStr} energy.`,
+    return `Excellent match! This ${recipeDominantStr}-dominant recipe aligns perfectly with your ${userDominantStr} energy.`;
   } else if (score >= 0.6) {
-    return `Good compatibility. This ${recipeDominantStr}-based recipe complements your ${userDominantStr} nature well.`,
+    return `Good compatibility. This ${recipeDominantStr}-based recipe complements your ${userDominantStr} nature well.`;
   } else if (score >= 0.4) {
-    return `Moderate match. This ${recipeDominantStr} recipe offers a different but harmonious energy to your ${userDominantStr} state.`,
+    return `Moderate match. This ${recipeDominantStr} recipe offers a different but harmonious energy to your ${userDominantStr} state.`;
   } else {
     return `This ${recipeDominantStr} recipe provides a contrasting energy to your ${userDominantStr} nature, which can be balancing.`,
   }

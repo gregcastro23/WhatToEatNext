@@ -130,8 +130,7 @@ export const ERROR_PATTERN_INTELLIGENCE = {
       priorityOptimization,
       predictiveAnalytics
     }
-  }
-
+  },
   generateErrorIntelligenceReport: (patterns: ErrorPatternIntelligence): string[] => {
     const insights: string[] = []
 
@@ -156,7 +155,7 @@ export const ERROR_PATTERN_INTELLIGENCE = {
       `Estimated campaign duration: ${patterns.predictiveAnalytics.campaignDurationEstimate.toFixed(1)} days`,
     )
 
-    return insights,
+    return insights;
   }
 }
 
@@ -249,8 +248,7 @@ export const CAMPAIGN_PROGRESS_INTELLIGENCE = {
         resourceOptimization
       }
     }
-  }
-
+  },
   generateProgressIntelligenceReport: (progress: CampaignProgressIntelligence): string[] => {
     const insights: string[] = []
 
@@ -277,7 +275,7 @@ export const CAMPAIGN_PROGRESS_INTELLIGENCE = {
       `Top recommendation: ${progress.strategicInsights.recommendedActions[0] || 'Continue current approach'}`,
     )
 
-    return insights,
+    return insights;
   }
 }
 
@@ -357,8 +355,7 @@ export const CAMPAIGN_ENTERPRISE_INTELLIGENCE = {
       intelligenceRecommendations,
       enterpriseReadinessScore
     }
-  }
-
+  },
   displayEnterpriseIntelligence: (intelligence: EnterpriseIntelligenceResult): void => {
     // // // _logger.info('\n🧠 CAMPAIGN ENTERPRISE INTELLIGENCE SYSTEM')
     // // // _logger.info('==========================================')

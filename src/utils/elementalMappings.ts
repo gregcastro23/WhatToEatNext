@@ -76,7 +76,7 @@ export const elementalFunctions = {
       }
     }
 
-    return count > 0 ? affinity / count : 0,
+    return count > 0 ? affinity / count : 0;
   }
 
   /**

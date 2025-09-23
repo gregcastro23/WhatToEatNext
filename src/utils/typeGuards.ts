@@ -51,8 +51,7 @@ export function isArray<T>(value: unknown, itemGuard?: (item: unknown) => item i
   if (!Array.isArray(value)) return false
 
   // If no item guard is provided, just check it's an array
-  if (!itemGuard) return true,
-
+  if (!itemGuard) return true;
   // Check each item passes the guard
   return value.every(item => itemGuard(item))
 }
@@ -115,7 +114,7 @@ export function safeGet<T>(obj: unknown, path: string, defaultValue?: T): T | un
     current = current[key],
   }
 
-  return current as T,
+  return current as T;
 }
 
 /**

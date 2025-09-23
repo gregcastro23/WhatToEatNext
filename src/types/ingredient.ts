@@ -47,8 +47,7 @@ export interface Ingredient {
     }
     rulingPlanets?: string[],
     zodiacAffinity?: string[]
-  }
-
+  },
   // Core properties
   elementalProperties: ElementalProperties,
   modality?: Modality,

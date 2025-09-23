@@ -6,25 +6,24 @@ import { LunarPhase, LunarPhaseWithSpaces } from '../types/alchemy';
 export function convertToLunarPhase(
   phase: LunarPhaseWithSpaces | null | undefined,
 ): LunarPhase | undefined {
-  if (!phase) return undefined,
-
+  if (!phase) return undefined;
   // LunarPhase and LunarPhaseWithSpaces have exactly the same string values
   // but TypeScript doesn't automatically recognize this compatibility
   switch (phase) {
     case 'new moon':
-      return 'new moon' as LunarPhase,
+      return 'new moon' as LunarPhase;
     case 'waxing crescent':
-      return 'waxing crescent' as LunarPhase,
+      return 'waxing crescent' as LunarPhase;
     case 'first quarter':
-      return 'first quarter' as LunarPhase,
+      return 'first quarter' as LunarPhase;
     case 'waxing gibbous':
-      return 'waxing gibbous' as LunarPhase,
+      return 'waxing gibbous' as LunarPhase;
     case 'full moon':
-      return 'full moon' as LunarPhase,
+      return 'full moon' as LunarPhase;
     case 'waning gibbous':
-      return 'waning gibbous' as LunarPhase,
+      return 'waning gibbous' as LunarPhase;
     case 'last quarter':
-      return 'last quarter' as LunarPhase,
+      return 'last quarter' as LunarPhase;
     case 'waning crescent':
       return 'waning crescent' as LunarPhase
     default:

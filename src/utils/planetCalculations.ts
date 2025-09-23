@@ -60,7 +60,7 @@ function getSignFromLongitude(longitude: number): string {
     'pisces'
   ],
   const signIndex = Math.floor((longitude % 360) / 30)
-  return signs[signIndex],
+  return signs[signIndex];
 }
 
 // Add to your existing function or file

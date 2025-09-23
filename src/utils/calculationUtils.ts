@@ -41,8 +41,7 @@ export const calculationUtils = {
     }
 
     const modifier = seasonalModifiers[season.toLowerCase()];
-    if (!modifier) return props,
-
+    if (!modifier) return props;
     return elementalUtils.combineProperties(props, modifier)
   }
 }

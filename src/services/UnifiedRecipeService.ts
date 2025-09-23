@@ -19,7 +19,7 @@ export class UnifiedRecipeService {
     if (!UnifiedRecipeService.instance) {
       UnifiedRecipeService.instance = new UnifiedRecipeService();
     }
-    return UnifiedRecipeService.instance,
+    return UnifiedRecipeService.instance;
   }
 
   /**
@@ -31,7 +31,7 @@ export class UnifiedRecipeService {
       return []
     } catch (error) {
       errorHandler.log(error, { context: 'UnifiedRecipeService.getAllRecipes' })
-      return [],
+      return [];
     }
   }
 
@@ -57,7 +57,7 @@ export class UnifiedRecipeService {
       return []
     } catch (error) {
       errorHandler.log(error, { context: 'UnifiedRecipeService.searchRecipes' })
-      return [],
+      return [];
     }
   }
   /**
@@ -75,7 +75,7 @@ export class UnifiedRecipeService {
           cuisine && typeof cuisine === 'string' ? cuisine.toLowerCase() : cuisine,
         return recipeCuisine === targetCuisine;
       })
-      return filtered as unknown as ExtendedRecipe[],
+      return filtered as unknown as ExtendedRecipe[];
     } catch (error) {
       _logger.error('Error getting recipes for cuisine: ', error),
       return []

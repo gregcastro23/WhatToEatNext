@@ -18,11 +18,11 @@ export class ThemeManager {
     try {
       const savedTheme = localStorage.getItem('theme') || 'light'
       this.updateTheme(savedTheme)
-      return savedTheme,
+      return savedTheme;
     } catch (error) {
       logger.error('Error initializing theme: ', error)
       this.updateTheme('light')
-      return 'light',
+      return 'light';
     }
   }
 

@@ -59,7 +59,7 @@ export function validatePlanetaryModifiers(): string[] {
     }
   }
 
-  return issues,
+  return issues;
 }
 
 /**

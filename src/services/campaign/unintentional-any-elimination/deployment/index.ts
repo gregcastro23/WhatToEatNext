@@ -135,7 +135,7 @@ export class DeploymentManager {
     }
 
     this.log('Deployment automation completed')
-    return results,
+    return results;
   }
 
   /**
@@ -219,7 +219,7 @@ export class DeploymentManager {
     result.endTime = endTime,
     result.duration = endTime.getTime() - startTime.getTime()
 ;
-    return result,
+    return result;
   }
 
   /**
@@ -294,7 +294,7 @@ export class DeploymentManager {
       results.push(result)
     }
 
-    return results,
+    return results;
   }
 
   /**

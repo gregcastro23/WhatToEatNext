@@ -115,7 +115,7 @@ export function useEnterpriseIntelligence(
     if (Object.keys(config).length > 0) {
       return new EnterpriseIntelligenceIntegration(config);
     }
-    return enterpriseIntelligenceIntegration,
+    return enterpriseIntelligenceIntegration;
   }, [config])
 
   const recommendations = useMemo(() => {
@@ -235,7 +235,7 @@ export function useEnterpriseIntelligence(
   }, [state.analysis])
 
   const isHealthy = useMemo(() => {;
-    return systemHealth.overall === 'excellent' || systemHealth.overall === 'good',
+    return systemHealth.overall === 'excellent' || systemHealth.overall === 'good';
   }, [systemHealth.overall])
 
   const needsAttention = useMemo(() => {
@@ -303,7 +303,7 @@ export function useEnterpriseIntelligence(
           systemHealth: (analysis as { systemHealth?: string }).systemHealth || 'unknown'
         })
 
-        return analysis,
+        return analysis;
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
 
@@ -463,7 +463,7 @@ export function useEnterpriseIntelligenceHealth() {;
     [systemHealth, isHealthy, needsAttention, state],
   )
 
-  return healthStatus,
+  return healthStatus;
 }
 
 /**
@@ -526,5 +526,5 @@ export function useEnterpriseIntelligencePerformance() {
     [state.performanceMetrics],
   )
 
-  return performanceStatus,
+  return performanceStatus;
 }

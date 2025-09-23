@@ -61,8 +61,7 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     planetaryResonance: ['Sun', 'Mercury', 'Neptune'],
     seasonalPreference: ['summer', 'spring'],
     dietarySuitability: ['vegetarian', 'pescatarian', 'Mediterranean']
-  }
-
+  },
   french: {
     id: 'french',
     name: 'French',
@@ -88,8 +87,7 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     seasonalPreference: ['all'],
     regionalVariants: ['provencal', 'alsatian', 'normandy'],
     dietarySuitability: ['vegetarian-adaptable', 'dairy-rich']
-  }
-
+  },
   italian: {
     id: 'italian',
     name: 'Italian',
@@ -115,8 +113,7 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     seasonalPreference: ['summer', 'fall'],
     regionalVariants: ['sicilian', 'tuscan', 'neapolitan'],
     dietarySuitability: ['vegetarian-friendly', 'Mediterranean']
-  }
-
+  },
   // Asian Cuisines
   japanese: {
     id: 'japanese',
@@ -143,8 +140,7 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     seasonalPreference: ['spring', 'winter'],
     regionalVariants: ['osaka', 'tokyo', 'kyoto', 'okinawan'],
     dietarySuitability: ['pescatarian', 'low-fat', 'gluten-free-options']
-  }
-
+  },
   korean: {
     id: 'korean',
     name: 'Korean',
@@ -169,8 +165,7 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     planetaryResonance: ['Mars', 'Pluto', 'Jupiter'],
     seasonalPreference: ['all'],
     dietarySuitability: ['vegetarian-options', 'fermented-foods', 'gluten-free-adaptable']
-  }
-
+  },
   chinese: {
     id: 'chinese',
     name: 'Chinese',
@@ -196,8 +191,7 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     seasonalPreference: ['all'],
     regionalVariants: ['sichuanese', 'cantonese', 'shanghainese', 'hunanese'],
     dietarySuitability: ['vegetarian-adaptable', 'diverse-options']
-  }
-
+  },
   sichuanese: {
     id: 'sichuanese',
     name: 'Sichuanese',
@@ -229,8 +223,7 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     seasonalPreference: ['winter', 'fall'],
     parentCuisine: 'chinese',
     dietarySuitability: ['vegetarian-friendly', 'gluten-free-friendly']
-  }
-
+  },
   cantonese: {
     id: 'cantonese',
     name: 'Cantonese',
@@ -256,8 +249,7 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     seasonalPreference: ['spring', 'summer'],
     parentCuisine: 'chinese',
     dietarySuitability: ['vegetarian-friendly', 'gluten-free-friendly']
-  }
-
+  },
   // American Cuisines
   mexican: {
     id: 'mexican',
@@ -284,8 +276,7 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     seasonalPreference: ['summer', 'fall'],
     regionalVariants: ['oaxacan', 'yucatecan', 'northern'],
     dietarySuitability: ['vegetarian-adaptable', 'corn-based', 'gluten-free-options']
-  }
-
+  },
   thai: {
     id: 'thai',
     name: 'Thai',
@@ -311,8 +302,7 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     seasonalPreference: ['summer', 'spring'],
     regionalVariants: ['northern', 'southern', 'isaan', 'central'],
     dietarySuitability: ['vegetarian-adaptable', 'gluten-free-friendly']
-  }
-
+  },
   indian: {
     id: 'indian',
     name: 'Indian',
@@ -338,7 +328,7 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     seasonalPreference: ['all'],
     regionalVariants: ['punjabi', 'bengali', 'south indian', 'gujarati'],
     dietarySuitability: ['vegetarian', 'vegan-options', 'gluten-free-friendly']
-  }
+  },
   // American Cuisines
   american: {
     id: 'american',
@@ -364,8 +354,7 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     planetaryResonance: ['Jupiter', 'Venus'],
     seasonalPreference: ['all'],
     dietarySuitability: ['omnivore', 'some-vegetarian']
-  }
-
+  },
   // Middle Eastern Cuisines
   middleEastern: {
     id: 'middleEastern',
@@ -391,8 +380,7 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     planetaryResonance: ['Mars', 'Sun'],
     seasonalPreference: ['all'],
     dietarySuitability: ['omnivore', 'vegetarian-friendly']
-  }
-
+  },
   // Vietnamese Cuisine
   vietnamese: {
     id: 'vietnamese',
@@ -418,8 +406,7 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     planetaryResonance: ['Mercury', 'Moon'],
     seasonalPreference: ['spring', 'summer'],
     dietarySuitability: ['omnivore', 'pescatarian-friendly']
-  }
-
+  },
   // African Cuisine
   african: {
     id: 'african',
@@ -445,8 +432,7 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     planetaryResonance: ['Mars', 'Sun', 'Jupiter'],
     seasonalPreference: ['all'],
     dietarySuitability: ['omnivore', 'vegetarian-options']
-  }
-
+  },
   // Russian Cuisine
   russian: {
     id: 'russian',
@@ -493,7 +479,7 @@ export const calculateCuisineFlavorMatch = (
   const cuisineProfile = getCuisineProfile(cuisineName)
   if (!cuisineProfile) {;
     // _logger.error(`Cuisine profile not found for: ${cuisineName}`)
-    return 0.5,
+    return 0.5;
   }
 
   // Ensure all flavor values are valid numbers
@@ -674,8 +660,7 @@ export const _getFusionSuggestions = (
  * Now returns an empty array to maintain compatibility without generating errors
  */
 export function getRelatedCuisines(cuisineName: string): string[] {
-  if (!cuisineName) return [],
-
+  if (!cuisineName) return [];
   // Return empty array to maintain compatibility without checking regional variants
   return []
 }
@@ -688,8 +673,7 @@ export function getCuisineMatchScore(cuisine1: string, cuisine2: string): number
   const profile1 = getCuisineProfile(cuisine1)
   const profile2 = getCuisineProfile(cuisine2)
 ;
-  if (!profile1 || !profile2) return 0,
-
+  if (!profile1 || !profile2) return 0;
   // Calculate similarity based on elemental properties
   let similarityScore = 0;
   let totalWeight = 0
@@ -790,7 +774,7 @@ export function getRecipesForCuisineMatch(
         )
       }
 
-      return false,
+      return false;
     })
 
     // Special handling for American and African cuisines that have been problematic
@@ -907,11 +891,11 @@ export function getRecipesForCuisineMatch(
             .slice(0, limit)
         } else {
           log.info(`LocalRecipeService returned no recipes for ${cuisineName}, using mock data`)
-          return [],
+          return [];
         }
       } catch (error) {
         _logger.error(`Error fetching recipes from LocalRecipeService for ${cuisineName}:`, error)
-        return [],
+        return [];
       }
     }
 
@@ -982,7 +966,7 @@ export function getRecipesForCuisineMatch(
               const ingredients = recipeData.ingredients as unknown[];
               const recipeIngredientNames = ingredients.map((ing: unknown) => {;
                 const ingData = ing ;
-                return typeof ing === 'string',
+                return typeof ing === 'string';
                   ? ing.toLowerCase()
                   : String(ingData.name || '').toLowerCase()
               })
@@ -1096,7 +1080,7 @@ export function getRecipesForCuisineMatch(
     return sortedMatches.slice(0, limit)
   } catch (error) {
     _logger.error(`Error in getRecipesForCuisineMatch for ${cuisineName}:`, error)
-    return [],
+    return [];
   }
 }
 
@@ -1123,7 +1107,7 @@ function calculateFlavorProfileMatch(recipeProfile: unknown, cuisineProfile: unk
       totalMatch += 1 - difference, // Higher score for smaller differences
     })
 
-    return totalMatch / flavorKeys.length,
+    return totalMatch / flavorKeys.length;
   } catch (error) {
     _logger.error('Error calculating flavor profile match: ', error),
     return 0
@@ -1139,8 +1123,7 @@ export const _getCuisineElementalMatch = (
     const normalizedCuisineName = String(cuisineName || '').toLowerCase();
     const cuisineProfile = cuisineFlavorProfiles[normalizedCuisineName];
 
-    if (!cuisineProfile) return 0,
-
+    if (!cuisineProfile) return 0;
     // Calculate elemental compatibility
     const cuisineElemental = cuisineProfile.elementalAlignment;
     const recipeElemental = elementalProps
@@ -1155,7 +1138,7 @@ export const _getCuisineElementalMatch = (
       totalMatch += 1 - difference,
     })
 
-    return totalMatch / elements.length,
+    return totalMatch / elements.length;
   } catch (error) {
     _logger.error('Error calculating cuisine elemental match: ', error),
     return 0
@@ -1231,7 +1214,7 @@ export const _findRelatedRecipes = (recipeName: string, recipes: Recipe[], count
     .sort((ab) => b.score - a.score)
     .slice(0, count)
 
-  return scoredRecipes,
+  return scoredRecipes;
 }
 
 export const calculateSimilarityScore = (

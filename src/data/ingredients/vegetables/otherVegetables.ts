@@ -39,8 +39,7 @@ const rawOtherVegetables = {
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
 
     preparation: {
@@ -95,8 +94,7 @@ const rawOtherVegetables = {
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
 
     preparation: {
@@ -145,16 +143,14 @@ const rawOtherVegetables = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
 
     preparation: {
@@ -203,16 +199,14 @@ const rawOtherVegetables = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
 
     preparation: {
@@ -264,16 +258,14 @@ const rawOtherVegetables = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
 
     preparation: {
@@ -322,16 +314,14 @@ const rawOtherVegetables = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
 
     preparation: {
@@ -380,16 +370,14 @@ const rawOtherVegetables = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
 
     preparation: {
@@ -438,16 +426,14 @@ const rawOtherVegetables = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
 
     preparation: {
@@ -496,16 +482,14 @@ const rawOtherVegetables = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
 
     preparation: {
@@ -554,16 +538,14 @@ const rawOtherVegetables = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
 
     preparation: {
@@ -612,16 +594,14 @@ const rawOtherVegetables = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
 
     preparation: {
@@ -670,16 +650,14 @@ const rawOtherVegetables = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
 
     preparation: {

@@ -381,7 +381,7 @@ export class CulturalAnalyticsService {
         return groupName
       }
     }
-    return 'other',
+    return 'other';
   }
 
   private static calculateSeasonalCulturalBonus(cuisine: string, season: string): number {
@@ -392,10 +392,10 @@ export class CulturalAnalyticsService {
 
     const seasonalPrefs = culinaryTradition.astrologicalProfile.seasonalPreference;
     if (seasonalPrefs.includes(season) || seasonalPrefs.includes('all')) {
-      return 0.05,
+      return 0.05;
     }
 
-    return 0,
+    return 0;
   }
 
   private static calculateAstrologicalCulturalCompatibility(
@@ -417,7 +417,7 @@ export class CulturalAnalyticsService {
     context?: CulturalContext,
   ): string {
     if (!context) {
-      return `${cuisine} cuisine has deep cultural roots and represents centuries of culinary evolution.`,
+      return `${cuisine} cuisine has deep cultural roots and represents centuries of culinary evolution.`;
     }
 
     return (
@@ -429,7 +429,7 @@ export class CulturalAnalyticsService {
 
   private static generateCulturalContext(cuisine: string, context?: CulturalContext): string {
     if (!context) {
-      return `${cuisine} cuisine reflects the cultural values and traditions of its region.`,
+      return `${cuisine} cuisine reflects the cultural values and traditions of its region.`;
     }
 
     return (
@@ -444,8 +444,7 @@ export class CulturalAnalyticsService {
     elementalProfile: ElementalProperties,
   ): number {
     const culinaryTradition = culinaryTraditions[cuisine];
-    if (!culinaryTradition) return 0.7,
-
+    if (!culinaryTradition) return 0.7;
     // Calculate based on elemental balance - more balanced = higher fusion potential,
     const elementalValues = Object.values(elementalProfile)
     const balance = 1 - (Math.max(...elementalValues) - Math.min(...elementalValues));
@@ -454,8 +453,7 @@ export class CulturalAnalyticsService {
 
   private static calculateCulturalDiversityScore(cuisine: string): number {
     const historicalContext = HISTORICAL_CONTEXTS[cuisine];
-    if (!historicalContext) return 0.5,
-
+    if (!historicalContext) return 0.5;
     // Score based on number of cultural influences
     const influenceCount = historicalContext.culturalInfluences.length;
     const adaptationCount = historicalContext.globalAdaptations.length
@@ -523,7 +521,7 @@ export class CulturalAnalyticsService {
         const key1 = `${cuisine1}-${cuisine2}`;
     const key2 = `${cuisine2}-${cuisine1}`;
 
-    return combinations[key1] || combinations[key2] || `${cuisine1}-${cuisine2} Fusion`,
+    return combinations[key1] || combinations[key2] || `${cuisine1}-${cuisine2} Fusion`;
   }
 
   private static generateFusionDishes(cuisine1: string, cuisine2: string): string[] {
@@ -582,7 +580,7 @@ export class CulturalAnalyticsService {
       })
     }
 
-    return optimization,
+    return optimization;
   }
 
   private static getDefaultCulturalAnalytics(cuisineName: string): CulturalAnalytics {

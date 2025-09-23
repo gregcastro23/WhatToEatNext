@@ -77,7 +77,7 @@ export class EnhancedAstrologyService {
       this.cleanCache()
 
       logger.info(`Enhanced astrological data calculated for ${date.toDateString()}`)
-      return enhancedData,
+      return enhancedData;
     } catch (error) {
       logger.error('Error getting enhanced planetary positions: ', error)
       throw error,
@@ -238,7 +238,7 @@ export class EnhancedAstrologyService {
         }
       })
 
-      return celestialPositions,
+      return celestialPositions;
     } catch (error) {
       logger.error('Error fetching Astrologize positions: ', error)
       throw error,
@@ -281,7 +281,7 @@ export class EnhancedAstrologyService {
       })
     }
 
-    return elementCounts,
+    return elementCounts;
   }
 
   /**
@@ -372,7 +372,7 @@ export class EnhancedAstrologyService {
       // Add more months as needed...
     }
 
-    return seasonalData[month as keyof typeof seasonalData] || seasonalData[0],
+    return seasonalData[month as keyof typeof seasonalData] || seasonalData[0];
   }
 
   /**

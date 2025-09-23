@@ -31,7 +31,7 @@ export class FoodDataCentral {
         }
       })
 
-      return response.data,
+      return response.data;
     } catch (error) {
       _logger.error('Error fetching food data: ', error),
       // Return a minimal valid structure if the API call fails
@@ -61,7 +61,7 @@ export class FoodDataCentral {
           }
         })
 
-      return response.data.foods || [],
+      return response.data.foods || [];
     } catch (error) {
       _logger.error('Error searching foods: ', error),
       return []

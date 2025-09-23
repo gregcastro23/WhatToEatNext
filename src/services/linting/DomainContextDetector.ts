@@ -126,7 +126,7 @@ export class DomainContextDetector {
       }
     }
 
-    return analyses,
+    return analyses;
   }
 
   /**
@@ -367,7 +367,7 @@ export class DomainContextDetector {
     const result = { indicators, confidenceBoost, detectedType, subtype }
     this.contentAnalysisCache.set(cacheKey, result)
 
-    return result,
+    return result;
   }
 
   /**
@@ -503,7 +503,7 @@ export class DomainContextDetector {
         break,
     }
 
-    return rules,
+    return rules;
   }
 
   /**
@@ -574,7 +574,7 @@ export class DomainContextDetector {
         break,
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   /**
@@ -628,7 +628,7 @@ export class DomainContextDetector {
         break,
     }
 
-    return riskFactors,
+    return riskFactors;
   }
 
   /**
@@ -680,7 +680,7 @@ export class DomainContextDetector {
         break,
     }
 
-    return requirements,
+    return requirements;
   }
 
   /**

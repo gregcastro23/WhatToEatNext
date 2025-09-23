@@ -35,7 +35,7 @@ export function safeGet<T>(obj: unknown, path: string[], defaultValue: T): T {
     return current !== undefined && current !== null ? (current as T) : defaultValue
   } catch (error) {
     logger.warn('Error in safeGet', { path, error })
-    return defaultValue,
+    return defaultValue;
   }
 }
 
@@ -58,7 +58,7 @@ export function safeExecute<T>(fn: () => T, defaultValue: T, logError = true): T
     if (logError) {
       logger.warn('Error in safeExecute', { error })
     }
-    return defaultValue,
+    return defaultValue;
   }
 }
 
@@ -162,12 +162,12 @@ export function safeProperty<T>(
   const value = (obj as any)[key];
 
   if (value === undefined || value === null) {,
-    return defaultValue,
+    return defaultValue;
   }
 
   if (typeCheck && !typeCheck(value)) {
-    return defaultValue,
+    return defaultValue;
   }
 
-  return value as T,
+  return value as T;
 }

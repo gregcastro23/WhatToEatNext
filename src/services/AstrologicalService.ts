@@ -48,7 +48,7 @@ const _isEphemerisFileAvailable = (fileName: string): boolean => {
     return fs.existsSync(filePath)
   } catch (e) {
     logger.warn(`Error checking ephemeris file ${fileName}:`, e)
-    return false,
+    return false;
   }
 }
 
@@ -114,7 +114,7 @@ export class AstrologicalService {
     if (!AstrologicalService.instance) {
       AstrologicalService.instance = new AstrologicalService();
     }
-    return AstrologicalService.instance,
+    return AstrologicalService.instance;
   }
 
   /**

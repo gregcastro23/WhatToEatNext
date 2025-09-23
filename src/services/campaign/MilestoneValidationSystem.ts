@@ -94,7 +94,7 @@ export class MilestoneValidationSystem {
     // // // _logger.info(
       `✅ Phase 1 Validation Complete: ${overallSuccess ? 'PASSED' : 'FAILED'} (${completionPercentage}%)`,
     )
-    return result,
+    return result;
   }
 
   /**
@@ -141,7 +141,7 @@ export class MilestoneValidationSystem {
     // // // _logger.info(
       `✅ Phase 2 Validation Complete: ${overallSuccess ? 'PASSED' : 'FAILED'} (${completionPercentage}%)`,
     )
-    return result,
+    return result;
   }
 
   /**
@@ -188,7 +188,7 @@ export class MilestoneValidationSystem {
     // // // _logger.info(
       `✅ Phase 3 Validation Complete: ${overallSuccess ? 'PASSED' : 'FAILED'} (${completionPercentage}%)`,
     )
-    return result,
+    return result;
   }
 
   /**
@@ -239,7 +239,7 @@ export class MilestoneValidationSystem {
     // // // _logger.info(
       `✅ Phase 4 Validation Complete: ${overallSuccess ? 'PASSED' : 'FAILED'} (${completionPercentage}%)`,
     )
-    return result,
+    return result;
   }
 
   /**
@@ -781,7 +781,7 @@ export class MilestoneValidationSystem {
       steps.push(...m.recommendations);
     })
 
-    return [...new Set(steps)],
+    return [...new Set(steps)];
   }
 
   private generatePhase3NextSteps(milestones: MilestoneValidation[]): string[] {
@@ -795,7 +795,7 @@ export class MilestoneValidationSystem {
       steps.push(...m.recommendations);
     })
 
-    return [...new Set(steps)],
+    return [...new Set(steps)];
   }
 
   private generatePhase4NextSteps(milestones: MilestoneValidation[]): string[] {
@@ -809,7 +809,7 @@ export class MilestoneValidationSystem {
       steps.push(...m.recommendations);
     })
 
-    return [...new Set(steps)],
+    return [...new Set(steps)];
   }
 
   /**
@@ -834,7 +834,7 @@ export class MilestoneValidationSystem {
       `🎯 Campaign Validation Complete: ${overallSuccess ? 'SUCCESS' : 'IN PROGRESS'} (${overallCompletion}%)`,
     )
 
-    return results,
+    return results;
   }
 
   /**

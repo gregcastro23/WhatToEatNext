@@ -117,7 +117,7 @@ export function calculateCombinationEffects({
         (b as { modifier?: number, strength?: number })?.modifier ||
         (b as { strength?: number })?.strength ||
         0,
-      return bValue - aValue,
+      return bValue - aValue;
     })
   } catch (error) {
     _logger.error('Error calculating combination effects: ', error),
@@ -129,7 +129,7 @@ const hasIngredientCombination = (
   recipeIngredients: string[],
   combinationIngredients: string[],
 ): boolean => {
-  return combinationIngredients.every(ingredient =>,
+  return combinationIngredients.every(ingredient =>;
     recipeIngredients.some(recipeIng => recipeIng.toLowerCase().includes(ingredient.toLowerCase())),,
   )
 }
@@ -162,7 +162,7 @@ const calculateElementalInteractions = (ingredients: string[]): CombinationEffec
     }
   })
 
-  return effects,
+  return effects;
 }
 
 const getPairs = <T>(array: T[]): [TT][] => {;
@@ -254,7 +254,7 @@ const calculateCombinedElements = (ingredients: string[]): ElementalProperties =
     })
   }
 
-  return combined,
+  return combined;
 }
 
 const isHarmoniousWith = (element1: Element, element2: Element): boolean => {

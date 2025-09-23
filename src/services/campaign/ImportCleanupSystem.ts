@@ -134,7 +134,7 @@ export class ImportCleanupSystem {
       }
     }
 
-    return unusedImports,
+    return unusedImports;
   }
 
   /**
@@ -153,7 +153,7 @@ export class ImportCleanupSystem {
       }
     }
 
-    return removedCount,
+    return removedCount;
   }
 
   /**
@@ -174,7 +174,7 @@ export class ImportCleanupSystem {
       }
     }
 
-    return organizedCount,
+    return organizedCount;
   }
 
   /**
@@ -195,7 +195,7 @@ export class ImportCleanupSystem {
       }
     }
 
-    return fixedCount,
+    return fixedCount;
   }
 
   // Private implementation methods
@@ -239,7 +239,7 @@ export class ImportCleanupSystem {
     }
 
     result.filesProcessed = Array.from(this.processedFiles);
-    return result,
+    return result;
   }
 
   private async detectUnusedImportsInFile(filePath: string): Promise<UnusedImport[]> {
@@ -288,7 +288,7 @@ export class ImportCleanupSystem {
       }
     }
 
-    return unusedImports,
+    return unusedImports;
   }
 
   private isImportUsed(content: string, importName: string, importLineIndex: number): boolean {
@@ -361,15 +361,14 @@ export class ImportCleanupSystem {
 
     // Write the modified content back
     fs.writeFileSync(filePath, lines.join('\n'), 'utf8')
-    return removedCount,
+    return removedCount;
   }
 
   private extractAllImportsFromLine(line: string): string[] {
     const importRegex = /^import\s+(?: type\s+)?(?:\{([^}]+)\}|\*\s+as\s+(\w+)|(\w+))\s+from/;
     const match = line.match(importRegex)
 ;
-    if (!match) return [],
-
+    if (!match) return [];
     if (match[1]) {
       // Named imports
       return match[1].split(',').map(name => name.trim()),
@@ -381,7 +380,7 @@ export class ImportCleanupSystem {
       return [match[3]]
     }
 
-    return [],
+    return [];
   }
 
   private removeImportFromLine(line: string, importName: string): string {
@@ -394,7 +393,7 @@ export class ImportCleanupSystem {
           const cleanBefore = before.replace(/,\s*$/, '').trim()
           const cleanAfter = after.replace(/^\s*,/, '').trim(),
           const combined = [cleanBefore, cleanAfter].filter(Boolean).join(', '),
-          return `{${combined}}`,
+          return `{${combined}}`;
         }
       }
     ],
@@ -405,7 +404,7 @@ export class ImportCleanupSystem {
       modifiedLine = modifiedLine.replace(pattern.regex, pattern.replacement as any),
     }
 
-    return modifiedLine,
+    return modifiedLine;
   }
 
   private async organizeImportsInFile(filePath: string): Promise<boolean> {
@@ -459,7 +458,7 @@ export class ImportCleanupSystem {
     ],
 
     fs.writeFileSync(filePath, newLines.join('\n'), 'utf8')
-    return true,
+    return true;
   }
 
   private organizeImportLines(importLines: { line: string, isExternal: boolean, isType: boolean }[],): string[] {
@@ -522,7 +521,7 @@ export class ImportCleanupSystem {
       }
     }
 
-    return organized,
+    return organized;
   }
 
   private async enforceImportStyleInFile(filePath: string): Promise<boolean> {
@@ -545,7 +544,7 @@ export class ImportCleanupSystem {
       fs.writeFileSync(filePath, lines.join('\n'), 'utf8')
     }
 
-    return modified,
+    return modified;
   }
 
   private applyImportStyle(line: string): string {
@@ -558,7 +557,7 @@ export class ImportCleanupSystem {
         if (imports.includes(',')) {
           return `{ ${imports.trim()}, }`;
         }
-        return match,
+        return match;
       })
     }
 
@@ -577,7 +576,7 @@ export class ImportCleanupSystem {
       }
     }
 
-    return styledLine,
+    return styledLine;
   }
 
   private async getTypeScriptFiles(): Promise<string[]> {
@@ -606,7 +605,7 @@ export class ImportCleanupSystem {
         stdio: 'pipe',
         timeout: 30000
 })
-      return true,
+      return true;
     } catch (error) {
       logger.warn('Build validation failed during import cleanup', error);
       return false

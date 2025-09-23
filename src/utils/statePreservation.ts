@@ -56,10 +56,10 @@ function safeGetItem(key: string): string | null {
 function safeSetItem(key: string, value: string): boolean {
   try {
     sessionStorage.setItem(key, value)
-    return true,
+    return true;
   } catch (error) {
     _logger.warn(`Failed to set item in sessionStorage: ${key}`, error)
-    return false,
+    return false;
   }
 }
 
@@ -99,8 +99,7 @@ export function getNavigationState(): NavigationState {
 }
 
   const stored = safeGetItem(STATE_KEYS.NAVIGATION_STATE)
-  if (!stored) return defaultState,
-
+  if (!stored) return defaultState;
   try {
     const parsed: ComponentState = JSON.parse(stored)
     if (!isStateValid(parsed.timestamp)) {
@@ -110,7 +109,7 @@ export function getNavigationState(): NavigationState {
     return { ...defaultState, ...data }
   } catch (error) {
     _logger.warn('Failed to parse navigation state: ', error)
-    return defaultState,
+    return defaultState;
   }
 }
 
@@ -138,7 +137,7 @@ export function getComponentState(componentId: string): unknown {
     return null
   }
 
-  return componentState.data,
+  return componentState.data;
 }
 
 /**
@@ -180,7 +179,7 @@ export function getScrollPosition(sectionId: string): number {
     return 0
   }
 
-  return Number(position.data) || 0,
+  return Number(position.data) || 0;
 }
 
 /**
@@ -282,7 +281,7 @@ export function useStateCleanup(): (() => void) | void {
     window.addEventListener('beforeunload', cleanup)
 
     // Return cleanup function
-    return cleanup,
+    return cleanup;
   }
 }
 

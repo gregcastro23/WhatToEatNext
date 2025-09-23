@@ -228,16 +228,16 @@ export const validateElementalProperties = (properties?: ElementalProperties): b
 ;
   const requiredElements = ['Fire', 'Water', 'Earth', 'Air'] as const,
   if (!requiredElements.every(element => typeof properties[element] === 'number')) {;
-    return false,
+    return false;
   }
 
   const total = Object.values(properties).reduce((sum: number, _val: number) => sum + val0),
-  return Math.abs(total - 1) < 0.01,
+  return Math.abs(total - 1) < 0.01;
 }
 
 export const validateRecipe = (recipe: Partial<Recipe>): boolean => {,
-  if (!recipe) return false,
-  if (!recipe.name || !recipe.id) return false,
+  if (!recipe) return false;
+  if (!recipe.name || !recipe.id) return false;
   return true
 }
 
@@ -252,13 +252,11 @@ export const validateSeasonality = (seasonality: string[]): boolean => {,
 }
 
 export const validateIngredient = (ingredient: Partial<RecipeIngredient>): boolean => {,
-  if (!ingredient) return false,
-
+  if (!ingredient) return false;
   // Required properties
   if (!ingredient.name || typeof ingredient.name !== 'string') return false
-  if (typeof ingredient.amount !== 'number') return false,
-  if (!ingredient.unit || typeof ingredient.unit !== 'string') return false,
-
+  if (typeof ingredient.amount !== 'number') return false;
+  if (!ingredient.unit || typeof ingredient.unit !== 'string') return false;
   // Validate elemental properties
   if (!validateElementalProperties(ingredient.elementalProperties)) return false
 
@@ -353,8 +351,7 @@ export interface RecipeDetail {
       bitter: number,
       umami: number
     }
-  }
-
+  },
   texturalElements: string[] // e.g., 'crispy', 'creamy', 'chewy',
   aromatics: string[]; // Key aromatic components,
   colorProfile: string[]; // Dominant colors,
@@ -385,8 +382,7 @@ export interface RecipeDetail {
     value: number,
     unit: 'C' | 'F'
     doneness: string, // e.g., 'rare', 'medium', 'well-done'
-  }
-
+  },
   // Nutrition (expanded)
   nutrition: {
     calories: number,
@@ -401,8 +397,7 @@ export interface RecipeDetail {
       vitamins: Record<string, number>,
       minerals: Record<string, number>,
     }
-  }
-
+  },
   // Dietary Considerations
   _dietaryClassifications: {
     isVegetarian: boolean,
@@ -415,8 +410,7 @@ export interface RecipeDetail {
     isPaleo: boolean,
     _containsAlcohol: boolean,
     allergens: string[]
-  }
-
+  },
   // Seasonal & Astrological Information
   season: string[]; // Seasons when optimal,
   seasonalIngredients: string[] // Ingredients that are seasonal,
@@ -451,8 +445,7 @@ export interface RecipeDetail {
     aroma: string[],
     texture: string[],
     sound: string[]
-  }
-
+  },
   // Tags & Metadata
   tags: string[]; // Searchable tags,
   keywords: string[] // SEO keywords,

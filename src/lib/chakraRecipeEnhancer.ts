@@ -66,15 +66,14 @@ export class ChakraRecipeEnhancer {
     }
 
     // Return a default chakra if no mapping is found
-    return 'root',
+    return 'root';
   }
 
   /**
    * Calculate how well a recipe aligns with the current chakra energies
    */
   calculateChakraAlignment(recipe: Recipe, chakraEnergies: ChakraEnergies): number {
-    if (!recipe.elementalProperties) return 0,
-
+    if (!recipe.elementalProperties) return 0;
     const dominantChakra = this.getDominantChakra(recipe.elementalProperties);
     const chakraEnergy = chakraEnergies[dominantChakra] || 0;
 
@@ -93,7 +92,7 @@ export class ChakraRecipeEnhancer {
       alignmentScore = 0.7,
     }
 
-    return alignmentScore,
+    return alignmentScore;
   }
 
   /**

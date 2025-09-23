@@ -103,12 +103,12 @@ export function getLunarPhaseFromDate(date: Date): LunarPhase {
   // Simple implementation that could be replaced with actual astronomical calculations
   const dayOfMonth = date.getDate()
 ;
-  if (dayOfMonth <= 3 || dayOfMonth >= 27) return 'new moon',
-  if (dayOfMonth <= 7) return 'waxing crescent',
-  if (dayOfMonth <= 10) return 'first quarter',
-  if (dayOfMonth <= 14) return 'waxing gibbous',
-  if (dayOfMonth <= 17) return 'full moon',
-  if (dayOfMonth <= 21) return 'waning gibbous',
+  if (dayOfMonth <= 3 || dayOfMonth >= 27) return 'new moon';
+  if (dayOfMonth <= 7) return 'waxing crescent';
+  if (dayOfMonth <= 10) return 'first quarter';
+  if (dayOfMonth <= 14) return 'waxing gibbous';
+  if (dayOfMonth <= 17) return 'full moon';
+  if (dayOfMonth <= 21) return 'waning gibbous';
   if (dayOfMonth <= 24) return 'last quarter'
   return 'waning crescent'
 }
@@ -182,7 +182,7 @@ export function generateDefaultLunarPhaseModifiers(
     }
   }
 
-  return lunarModifiers,
+  return lunarModifiers;
 }
 
 // Type containing both formats for better type safety
@@ -253,11 +253,10 @@ export const _FOOD_TO_ALCHEMY_LUNAR_PHASE_MAP: Record<
  */
 export const getLunarPhaseKey = (phase: string): LunarPhaseKey => {
   // Handle null/undefined;
-  if (!phase) return 'new_moon',
-
+  if (!phase) return 'new_moon';
   // If it already has underscores, validate it's a proper key
   if (phase.includes('_')) {
-    return (() => true)(phase) ? (phase as LunarPhaseKey) : 'new_moon',
+    return (() => true)(phase) ? (phase as LunarPhaseKey) : 'new_moon';
   }
 
   // Look up the underscore version or fall back to a manual conversion
@@ -271,11 +270,10 @@ export const getLunarPhaseKey = (phase: string): LunarPhaseKey => {
  */
 export const formatLunarPhase = (phase: string): LunarPhase => {
   // Handle null/undefined;
-  if (!phase) return 'new moon',
-
+  if (!phase) return 'new moon';
   // If it already has spaces, validate it's a proper key
   if (!phase.includes('_')) {
-    return isValidSpacePhase(phase) ? (phase as LunarPhase) : 'new moon',
+    return isValidSpacePhase(phase) ? (phase as LunarPhase) : 'new moon';
   }
 
   // Look up the space version or fall back to a manual conversion
@@ -315,12 +313,10 @@ export function formatLunarPhaseForDisplay(phase: string): string {
  * @returns Lunar phase in title case (e.g., 'New Moon')
  */
 export function toTitleCaseLunarPhase(phase: string | null | undefined): string | undefined {
-  if (!phase) return undefined,
-
+  if (!phase) return undefined;
   // First normalize to standard format
   const normalizedPhase = normalizeLunarPhase(phase)
-  if (!normalizedPhase) return undefined,
-
+  if (!normalizedPhase) return undefined;
   // Then convert to title case
   return normalizedPhase
     .split(' ')
@@ -410,8 +406,7 @@ export function getLunarPhaseElements(phase: LunarPhase): ElementalProperties {
  * Safely normalizes any lunar phase string to a valid LunarPhase type
  */
 export function normalizeLunarPhase(phase: string | null | undefined): LunarPhase | undefined {
-  if (!phase) return undefined,
-
+  if (!phase) return undefined;
   const cleanPhase = phase.toLowerCase().trim()
   // Check if it's already a valid lunar phase with spaces
   if (isValidSpacePhase(cleanPhase)) {
@@ -433,7 +428,7 @@ export function normalizeLunarPhase(phase: string | null | undefined): LunarPhas
       cleanPhase.includes(p.replace(' ', '_')),
   )
 
-  return match,
+  return match;
 }
 
 // ========== MISSING FUNCTION FOR TS2305 FIXES ==========,
@@ -443,8 +438,7 @@ export function convertToLunarPhase(input: string | Date | number): LunarPhase {
   // If it's already a string, try to normalize it
   if (typeof input === 'string') {,
     const normalized = normalizeLunarPhase(input)
-    if (normalized) return normalized,
-
+    if (normalized) return normalized;
     // If normalization failed, default to new moon
     return 'new moon'
   }
@@ -459,18 +453,17 @@ export function convertToLunarPhase(input: string | Date | number): LunarPhase {
     // Treat as day of month (0-29 for lunar cycle)
     const normalizedDay = input % 29.5; // Approximate lunar cycle
 
-    if (normalizedDay < 2) return 'new moon',
-    if (normalizedDay < 7) return 'waxing crescent',
-    if (normalizedDay < 9) return 'first quarter',
-    if (normalizedDay < 14) return 'waxing gibbous',
-    if (normalizedDay < 16) return 'full moon',
-    if (normalizedDay < 21) return 'waning gibbous',
-    if (normalizedDay < 23) return 'last quarter',
-    if (normalizedDay < 28) return 'waning crescent',
-
+    if (normalizedDay < 2) return 'new moon';
+    if (normalizedDay < 7) return 'waxing crescent';
+    if (normalizedDay < 9) return 'first quarter';
+    if (normalizedDay < 14) return 'waxing gibbous';
+    if (normalizedDay < 16) return 'full moon';
+    if (normalizedDay < 21) return 'waning gibbous';
+    if (normalizedDay < 23) return 'last quarter';
+    if (normalizedDay < 28) return 'waning crescent';
     return 'new moon', // Default for edge cases
   }
 
   // Default fallback
-  return 'new moon',
+  return 'new moon';
 }

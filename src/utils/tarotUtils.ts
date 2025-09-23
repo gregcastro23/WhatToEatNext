@@ -35,7 +35,7 @@ export const _getElementalAlignmentFromTarot = (tarot: {
     })
   }
 
-  return alignment,
+  return alignment;
 }
 
 const TAROT_ELEMENT_ASSOCIATIONS: Record<string, { element: keyof ElementalProperties }> = {

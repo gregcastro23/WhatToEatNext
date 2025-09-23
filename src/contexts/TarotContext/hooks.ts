@@ -17,5 +17,5 @@ export const useTarotContext = (): TarotContextType => {
     throw new Error('useTarotContext must be used within a TarotProvider');
   }
 
-  return context,
+  return context;
 }

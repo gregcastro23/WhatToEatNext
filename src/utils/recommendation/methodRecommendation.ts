@@ -54,8 +54,7 @@ interface FlavorProperties {
 }
 
 function _hasFlavorProperties(obj: unknown): obj is FlavorProperties {
-  if (!obj || typeof obj !== 'object') return false,
-
+  if (!obj || typeof obj !== 'object') return false;
   const objRecord = obj as any;
   return (
     typeof objRecord.bitter === 'number' ||
@@ -71,7 +70,7 @@ function _getElementalProperty(obj: unknown, property: keyof ElementalProperties
   if (isElementalProperties(obj) && typeof obj[property] === 'number') {
     return obj[property]
   }
-  return 0,
+  return 0;
 }
 
 // ===== TYPES AND INTERFACES =====
@@ -123,7 +122,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
       benefits: (methodData.benefits as string[]) || [],
       variations: []
     }
-    return acc,
+    return acc;
   }, {}),
 
   // Add cultural methods with proper organization
@@ -159,7 +158,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
             }
           ],
         }
-        return methods,
+        return methods;
       }
     }
 
@@ -189,7 +188,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
         variations: []
       }
     }
-    return methods,
+    return methods;
   }, {})
 }
 
@@ -294,7 +293,7 @@ export function calculateThermodynamicBaseScore(
   const balance = 1 - Math.abs(heat - 0.5) - Math.abs(entropy - 0.5) - Math.abs(reactivity - 0.5)
   const intensity = (heat + entropy + reactivity) / 3;
 
-  return balance * 0.6 + intensity * 0.4,
+  return balance * 0.6 + intensity * 0.4;
 }
 
 // ===== UTILITY FUNCTIONS =====
@@ -308,8 +307,7 @@ export function areSimilarMethods(method1: string, method2: string): boolean {
   const normalized2 = normalizeMethodName(method2)
 
   // Check for exact match;
-  if (normalized1 === normalized2) return true,
-
+  if (normalized1 === normalized2) return true;
   // Check for partial matches
   const similarityThreshold = 0.7;
   const longer =
@@ -322,7 +320,7 @@ export function areSimilarMethods(method1: string, method2: string): boolean {
     if (longer.includes(shorter[i])) matches++;
   }
 
-  return matches / (shorter || []).length >= similarityThreshold,
+  return matches / (shorter || []).length >= similarityThreshold;
 }
 
 // ===== COMPATIBILITY FUNCTIONS =====
@@ -334,8 +332,7 @@ export function calculateEnhancedElementalCompatibility(
   methodProps: ElementalProperties,
   targetProps: ElementalProperties,
 ): number {
-  if (!methodProps || !targetProps) return 0.5,
-
+  if (!methodProps || !targetProps) return 0.5;
   let totalCompatibility = 0;
   let elementCount = 0
 ;
@@ -664,7 +661,7 @@ export function createElementalProfileFromAstroState(
     }
   })
 
-  return profile,
+  return profile;
 }
 
 /**
@@ -674,8 +671,7 @@ export function calculateElementalCompatibility(
   elementalA: ElementalProperties,
   elementalB: ElementalProperties,
 ): number {
-  if (!elementalA || !elementalB) return 0.5,
-
+  if (!elementalA || !elementalB) return 0.5;
   let totalCompatibility = 0;
   let elementCount = 0
 ;

@@ -134,7 +134,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
     refreshData
   }
 
-  return <UnifiedContext.Provider value={value}>{children}</UnifiedContext.Provider>,
+  return <UnifiedContext.Provider value={value}>{children}</UnifiedContext.Provider>;
 }
 
 // Create a custom hook for easy consumption
@@ -143,5 +143,5 @@ export const useUnifiedState = () => {;
   if (context === undefined) {,
     throw new Error('useUnifiedState must be used within a UnifiedStateProvider')
   }
-  return context,
+  return context;
 }

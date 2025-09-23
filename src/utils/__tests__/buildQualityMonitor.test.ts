@@ -351,7 +351,7 @@ describe('Build Quality Monitor', () => {
         if (command.includes('lint')) {
           throw new Error('ESLint not configured')
         }
-        return '',
+        return '';
       })
 
       const report: any = monitorBuildQuality()

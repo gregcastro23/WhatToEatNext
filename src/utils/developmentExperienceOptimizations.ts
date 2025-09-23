@@ -85,7 +85,7 @@ export class DevelopmentExperienceOptimizer {
     if (!DevelopmentExperienceOptimizer.instance) {
       DevelopmentExperienceOptimizer.instance = new DevelopmentExperienceOptimizer()
     }
-    return DevelopmentExperienceOptimizer.instance,
+    return DevelopmentExperienceOptimizer.instance;
   }
 
   /**
@@ -126,8 +126,7 @@ export class DevelopmentExperienceOptimizer {
           '@calculations/*': ['./src/calculations/*'],
           '@hooks/*': ['./src/hooks/*'],
           '@contexts/*': ['./src/contexts/*']
-        }
-
+        },
         // Enhanced type definitions
         _lib: ['dom', 'dom.iterable', 'es6', 'es2018', 'es2020'],
         _allowJs: true,
@@ -138,8 +137,7 @@ export class DevelopmentExperienceOptimizer {
         _jsx: 'preserve',
         _noEmit: true,
         _resolveJsonModule: true
-}
-
+},
       // Include patterns for faster compilation
       _include: ['next-env.d.ts', '**/*.ts', '**/*.tsx', '.next/types/**/*.ts'],
 
@@ -447,7 +445,7 @@ export type {
       recommendations.development.push('Use faster development server')
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   /**
@@ -584,7 +582,7 @@ export type {
         : [importMatch[2] || importMatch[3]]
 
       // Check if any imported name is used in the code
-      return importedNames.some(name => {,
+      return importedNames.some(name => {;
         const regex = new RegExp(`\\b${name}\\b`, 'g')
         return regex.test(codeBody)
       })

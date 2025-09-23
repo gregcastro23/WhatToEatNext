@@ -390,7 +390,7 @@ function getPlanetaryDailyMotion(_planetName: string): number {
     pluto: 0.004
 }
 
-  return dailyMotions[planetName.toLowerCase()] || 0.1,
+  return dailyMotions[planetName.toLowerCase()] || 0.1;
 }
 
 /**
@@ -880,7 +880,7 @@ function generateValidationSummary(
     }
   }
 
-  return summary,
+  return summary;
 }
 
 /**

@@ -61,19 +61,16 @@ const nextConfig = {
   // TypeScript configuration
   typescript: {
     ignoreBuildErrors: false, // Enable for production stability
-  }
-
+  },
   // ESLint configuration
   eslint: {
     ignoreDuringBuilds: false, // Enable for production stability,
     _dirs: ['src']
-  }
-
+  },
   // Experimental features for better build stability
   _experimental: {
     typedRoutes: true
-}
-
+},
   // Webpack optimization for manifest generation
   _webpack: (config, { isServer, dev }) => {
     // Ensure proper module resolution
@@ -91,12 +88,11 @@ const nextConfig = {
 }
     }
 
-    return config,
-  }
-
+    return config;
+  },
   // Generate proper build ID for consistent builds,
   generateBuildId: async () => {
-    return process.env.BUILD_ID || \`build-\${Date.now()}\`,
+    return process.env.BUILD_ID || \`build-\${Date.now()}\`;
   }
 }
 

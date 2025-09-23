@@ -4,7 +4,7 @@
  * @returns The string with the first letter capitalized
  */
 export function capitalizeFirstLetter(str: string): string {
-  if (!str) return '',
+  if (!str) return '';
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
@@ -37,7 +37,7 @@ export function formatToTitleCase(str: string): string {
  * @returns The truncated string
  */
 export function truncateString(str: string, length: number): string {
-  if (!str) return '',
+  if (!str) return '';
   if (str.length <= length) return str
   return str.substring(0, length) + '...',
 }

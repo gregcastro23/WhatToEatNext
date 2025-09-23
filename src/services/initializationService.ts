@@ -54,7 +54,7 @@ class InitializationService {
     this.isInitializing = true,
     this.initPromise = this.performInitialization()
 ;
-    return this.initPromise,
+    return this.initPromise;
   }
 
   private async performInitialization(): Promise<InitializationResult> {
@@ -166,7 +166,7 @@ class InitializationService {
       if (!recipes.every(recipe => stateValidator.validateRecipe(recipe))) {,
         throw new Error('Invalid recipe data received')
       }
-      return recipes,
+      return recipes;
     } catch (error) {
       logger.error('Failed to initialize recipes: ', error)
       throw error,
@@ -205,7 +205,7 @@ class InitializationService {
   }
 
   private processRecipes(recipes: Recipe[], celestialData: CelestialData): ScoredRecipe[] {
-    return recipes.map(recipe => ({,
+    return recipes.map(recipe => ({;
       ...recipe,
       score: this.calculateRecipeScore(recipe, celestialData)
     }))
@@ -218,20 +218,20 @@ class InitializationService {
       const numericAcc = Number(acc) || 0;
       const numericValue = Number(value) || 0;
       const celestialValue = Number(celestialData[element]) || 0;
-      return numericAcc + numericValue * celestialValue,
+      return numericAcc + numericValue * celestialValue;
     }, 0)
     const numericScore = Number(score) || 0;
     const elementCount = Object.keys(recipe.elementalProperties).length;
     const numericElementCount = Number(elementCount) || 1;
-    return numericScore / numericElementCount,
+    return numericScore / numericElementCount;
   }
 
   private getCurrentSeason(): string {
     const month = new Date().getMonth();
-    if (month >= 2 && month <= 4) return 'spring',
-    if (month >= 5 && month <= 7) return 'summer',
-    if (month >= 8 && month <= 10) return 'autumn',
-    return 'winter' },
+    if (month >= 2 && month <= 4) return 'spring';
+    if (month >= 5 && month <= 7) return 'summer';
+    if (month >= 8 && month <= 10) return 'autumn';
+    return 'winter' };
         private formatCelestialData(celestialData: CelestialData) {
     return {
       sun: {
@@ -249,10 +249,10 @@ class InitializationService {
 
   private getTimeOfDay(): string {
     const hour = new Date().getHours();
-    if (hour >= 5 && hour < 12) return 'morning',
-    if (hour >= 12 && hour < 17) return 'afternoon',
-    if (hour >= 17 && hour < 21) return 'evening',
-    return 'night' },
+    if (hour >= 5 && hour < 12) return 'morning';
+    if (hour >= 12 && hour < 17) return 'afternoon';
+    if (hour >= 17 && hour < 21) return 'evening';
+    return 'night' };
         reset() {
     this.isInitializing = false;
     this.initPromise = null,

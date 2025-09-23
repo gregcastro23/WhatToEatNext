@@ -44,7 +44,7 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
       _method: 'GET',
       _headers: {
         'Content-Type': 'application/json',
-      }
+      },
       // Short timeout to prevent long waits
       _signal: AbortSignal.timeout(3000)
     })
@@ -86,7 +86,7 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
       timestamp: Date.now()
     }
 
-    return positions,
+    return positions;
   } catch (error) {
     logger.warn('Error fetching from API: ', error)
     return null
@@ -121,7 +121,7 @@ export async function getPlanetaryPositions(): Promise<Record<string, CelestialP
   // Try using cached data first if it's recent
   if (positionsCache && Date.now() - positionsCache.timestamp < CACHE_DURATION) {
     logger.debug('Using cached planetary positions')
-    return positionsCache.data,
+    return positionsCache.data;
   }
 
   // Try sources in order of accuracy/recency

@@ -278,9 +278,8 @@ function calculateSimilarity(str1: string, str2: string): number {
   const len1 = str1.length;
   const len2 = str2.length;
 
-  if (len1 === 0) return len2,
-  if (len2 === 0) return len1,
-
+  if (len1 === 0) return len2;
+  if (len2 === 0) return len1;
   const matrix = Array(len2 + 1)
     .fill(null)
     .map(() => Array(len1 + 1).fill(null))
@@ -300,7 +299,7 @@ function calculateSimilarity(str1: string, str2: string): number {
   }
 
   const maxLen = Math.max(len1, len2)
-  return (maxLen - matrix[len2][len1]) / maxLen,
+  return (maxLen - matrix[len2][len1]) / maxLen;
 }
 
 /**
@@ -572,7 +571,7 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
             ? cookingTimeValue;
             : '30',
       const cookTime = parseInt(timeStr, 10) || 30,
-      if (cookTime < filters.cookingTime.min || cookTime > filters.cookingTime.max) return false,
+      if (cookTime < filters.cookingTime.min || cookTime > filters.cookingTime.max) return false;
     }
 
     // Cuisine types
@@ -609,6 +608,6 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
       if (!filters.spiciness.includes(itemSpiciness)) return false;
     }
 
-    return true,
+    return true;
   })
 }

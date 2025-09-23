@@ -266,7 +266,7 @@ export const _getDignityMultiplier = (dignity: PlanetaryDignity): number => {,
     Fall: 0.5,
     Neutral: 1.0
 }
-  return multipliers[dignity] || 1.0,
+  return multipliers[dignity] || 1.0;
 }
 
 /**
@@ -364,7 +364,7 @@ const _calculateSeasonalAlignment = (zodiacSign: string, item: unknown): number 
   // Calculate alignment based on the cuisine's elemental properties
   // Higher value if the cuisine aligns with the season's element
   const itemData = item as { elementalProperties?: Record<string, number> }
-  return itemData.elementalProperties?.[seasonalElement] || 0.1,
+  return itemData.elementalProperties?.[seasonalElement] || 0.1;
 }
 
 /**
@@ -402,7 +402,7 @@ export const getLunarPhaseBoost = (lunarPhase: LunarPhase): number => {
 
   // Calculate boost based on lunar phase intensity
   // This will vary between 0.15 and 0.4 depending on the phase
-  return 0.15 + ((influence as any)?.intensity || 0) * 0.2,
+  return 0.15 + ((influence as any)?.intensity || 0) * 0.2;
 }
 
 /**
@@ -437,7 +437,7 @@ export const _formatelementalState = (elements: Partial<Record<string, number>>)
     .map(([elem, val]) => `${elem} ${Math.round(((val as number) || 0) * 100)}%`)
     .join(' · ')
 
-  return validEntries,
+  return validEntries;
 }
 
 export default planetaryFoodAssociations,

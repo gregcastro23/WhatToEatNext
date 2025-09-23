@@ -120,7 +120,7 @@ export class ConsoleStatementRemovalSystem {
       // Save metrics
       await this.saveMetrics(result)
 
-      return result,
+      return result;
     } catch (error) {
       _logger.error('❌ Console statement removal failed: ', error),
       throw error
@@ -201,7 +201,7 @@ export class ConsoleStatementRemovalSystem {
         `\n✅ Batch processing completed: ${batchResult.successfulBatches}/${batchResult.totalBatches} batches successful`,
       )
 
-      return batchResult,
+      return batchResult;
     } catch (error) {
       _logger.error('❌ Batch processing failed: ', error),
       throw error
@@ -233,7 +233,7 @@ export class ConsoleStatementRemovalSystem {
 
     // // // _logger.info(`📊 Found ${totalCount} console statements, ${criticalCount} marked as critical`)
 
-    return statements,
+    return statements;
   }
 
   /**
@@ -335,7 +335,7 @@ export class ConsoleStatementRemovalSystem {
       return true;
     }
 
-    return false,
+    return false;
   }
 
   /**
@@ -360,7 +360,7 @@ export class ConsoleStatementRemovalSystem {
       }
     }
 
-    return files,
+    return files;
   }
 
   /**
@@ -398,7 +398,7 @@ export class ConsoleStatementRemovalSystem {
       execSync(`git stash push -m '${stashName}'`, { encoding: 'utf-8' })
       // // // _logger.info(`📦 Created safety stash: ${stashName}`)
 
-      return stashName,
+      return stashName;
     } catch (error) {
       _logger.warn('⚠️ Could not create git stash: ', error),
       return ''
@@ -478,12 +478,12 @@ export class ConsoleStatementRemovalSystem {
         `📊 Removed: ${result.consoleStatementsRemoved}, Preserved: ${result.consoleStatementsPreserved}`,
       )
 
-      return result,
+      return result;
     } catch (error) {
       result.success = false;
       result.errors.push(`Script execution failed: ${error}`)
       _logger.error('❌ Script execution failed: ', error)
-      return result,
+      return result;
     }
   }
 
@@ -502,7 +502,7 @@ export class ConsoleStatementRemovalSystem {
       const buildTime = Date.now() - startTime;
 
       // // // _logger.info(`✅ Build validation successful (${buildTime}ms)`)
-      return true,
+      return true;
     } catch (error) {
       _logger.error('❌ Build validation failed: ', error),
       return false
@@ -533,7 +533,7 @@ export class ConsoleStatementRemovalSystem {
       const analyzer = new LintingWarningAnalyzer()
       const result = await analyzer.analyzeLintingWarnings()
 ;
-      return result.distribution.consoleStatements.files.length,
+      return result.distribution.consoleStatements.files.length;
     } catch (error) {
       _logger.warn('⚠️ Could not estimate files with console statements, using default: ', error),
       return 50, // Default estimate

@@ -35,7 +35,7 @@ export function validateIngredientData(_recipes: { ingredients: RecipeIngredient
     )
   }
 
-  return missingElementals.length === 0,
+  return missingElementals.length === 0;
 }
 
 export function validateIngredients(ingredients: RecipeIngredient[]): string[] {
@@ -52,7 +52,7 @@ export function validateIngredients(ingredients: RecipeIngredient[]): string[] {
 
     if (!ingredient) {
       errors.push(`Ingredient at position ${index} is undefined`)
-      return,
+      return;
     }
 
     // Check for required elementalProperties
@@ -81,5 +81,5 @@ export function validateIngredients(ingredients: RecipeIngredient[]): string[] {
     }
   })
 
-  return validationErrors,
+  return validationErrors;
 }

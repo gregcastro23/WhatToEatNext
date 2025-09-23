@@ -31,7 +31,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
       Water: 0.2,
       Earth: 0.3,
       Air: 0.2
-}
+},
     // Enhanced Recipe interface compatibility
     ingredients: [],
     instructions: [],

@@ -124,7 +124,7 @@ describe('SafetyProtocol', () => {
         if (command.toString().includes('git stash push')) {
           throw new Error('Git stash failed');
         }
-        return '',
+        return '';
       })
 
       await expect(safetyProtocol.createStash('Test stash')).rejects.toThrow(
@@ -191,7 +191,7 @@ describe('SafetyProtocol', () => {
         if (command.toString().includes('git stash apply')) {
           throw new Error('Git stash apply failed');
         }
-        return '',
+        return '';
       })
 
       await expect(safetyProtocol.applyStash('test-stash-1')).rejects.toThrow(
@@ -262,9 +262,9 @@ describe('SafetyProtocol', () => {
       mockFs.readFileSync.mockReturnValue(`
         function test() : any {
         <<<<<<< HEAD
-          return 'version 1',
+          return 'version 1';
         =======
-          return 'version 2',
+          return 'version 2';
         >>>>>>> branch
         }
       `)
@@ -292,7 +292,7 @@ describe('SafetyProtocol', () => {
     it('should detect syntax corruption', async () => {
       mockFs.readFileSync.mockReturnValue(`
         function test() : any {
-          return 'missing closing brace',
+          return 'missing closing brace';
       `)
 
       const report: any = await safetyProtocol.detectCorruption(['file1.ts'])
@@ -576,7 +576,7 @@ import something, { ab } from './module',
         if (command.toString().includes('git stash drop')) {
           throw new Error('Stash not found');
         }
-        return '',
+        return '';
       })
 
       // Should not throw error

@@ -49,7 +49,7 @@ src/data/ingredients/spices.ts: 12:Record<string, unknown>,
         if (filePath.includes('spices.ts')) {
           return 'const _spiceData: Record<string, unknown> = {};';
         }
-        return '',
+        return '';
       })
 
       const distribution: any = await analysisTools.analyzeDomainDistribution()
@@ -205,7 +205,7 @@ src/legacy.ts: 3:oldData: any
         if (filePath.includes('legacy.ts')) {
           return 'const _oldData: any = legacySystem.getData(),',
         }
-        return '',
+        return '';
       })
 
       // Mock related occurrences search
@@ -213,7 +213,7 @@ src/legacy.ts: 3:oldData: any
         if (command.includes('grep -n')) {
           return '1: const config: any = getConfig(),\n5: other: any = value,',
         }
-        return '',
+        return '';
       })
 
       const recommendations: any = await analysisTools.generateManualReviewRecommendations()
@@ -258,7 +258,7 @@ src/legacy.ts: 3:oldData: any
         if (command.includes('grep -n')) {
           return '1: const data: any = value,\n3: other: any = something,\n7: more: any[],',
         }
-        return '',
+        return '';
       })
 
       const recommendations: any = await analysisTools.generateManualReviewRecommendations()

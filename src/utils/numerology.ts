@@ -80,9 +80,9 @@ export const celestialNumerology = {
     // Map each number to an element
     switch (number) {
       case, 1: case 9:
-        return 'Fire',
+        return 'Fire';
       case, 2: case 7:
-        return 'Water',
+        return 'Water';
       case, 4: case 8:
         return 'Earth'
       case, 3: case 5:
@@ -117,8 +117,7 @@ export const celestialNumerology = {
    * Get the dominant element from elemental properties
    */
   getDominantElement(elementalProperties: unknown): string {
-    if (!elementalProperties) return 'Fire',
-
+    if (!elementalProperties) return 'Fire';
     // Find the element with the highest value
     let maxElement = 'Fire';
     let maxValue = 0
@@ -130,7 +129,7 @@ export const celestialNumerology = {
       }
     })
 
-    return maxElement,
+    return maxElement;
   }
 }
 

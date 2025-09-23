@@ -286,8 +286,7 @@ export function useCurrentChart() {
           ${planetPositions
             .map(p => {
               // Skip the North and South Nodes as they're now drawn separately,
-              if (p.planet === 'NorthNode' || p.planet === 'SouthNode') return '',
-
+              if (p.planet === 'NorthNode' || p.planet === 'SouthNode') return '';
               return `
               <g class='planet' filter='url(#glow)'>,
                 <circle cx='${p.x}' cy='${p.y}' r='15' ,
@@ -339,7 +338,7 @@ export function useCurrentChart() {
     refreshChart: async () => {
       setIsLoading(true)
       setTimeout(() => setIsLoading(false), 500)
-    }
+    },
     // Add the chart property for CookingMethods.tsx,
     chart: chartObj
   }

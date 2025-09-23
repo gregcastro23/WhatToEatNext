@@ -40,9 +40,9 @@ export type Item = IngredientItem | RecipeItem | FoodItem,
 
 // Type guards
 export function isIngredientItem(item: Item): item is IngredientItem {
-  return item.type === 'ingredient' },
+  return item.type === 'ingredient' };
         export function isRecipeItem(item: Item): item is RecipeItem {
-  return item.type === 'recipe' },
+  return item.type === 'recipe' };
         export function isFoodItem(item: Item): item is FoodItem {
   return item.type === 'food';
 }

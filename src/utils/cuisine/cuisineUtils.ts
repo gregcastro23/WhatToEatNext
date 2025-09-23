@@ -13,7 +13,7 @@ import { herbCuisineMatrix } from '../../data/integrations/herbCuisineMatrix';
 export function getCuisinePAirings(ingredientName: string, category: IngredientCategory): string[] {
   switch (category) {
     case 'grain': const grainData = grainCuisineMatrix[ingredientName] as unknown,
-      return grainData?.cuisines || [],
+      return grainData?.cuisines || [];
     case 'culinary_herb':
       return herbCuisineMatrix[ingredientName] || []
     // Additional categories can be added as their matrix files are created
@@ -103,5 +103,5 @@ export function getSharedIngredients(
     }
   }
 
-  return shared,
+  return shared;
 }

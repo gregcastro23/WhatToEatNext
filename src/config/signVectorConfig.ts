@@ -27,15 +27,13 @@ export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {
     Essence: { Water: 0.5, Fire: 0.5 }
     Matter: { Earth: 0.6, Water: 0.4 },
     Substance: { Earth: 0.5, Air: 0.5 }
-  }
-  
+  },
   // Modality boosts for ESMS
   modalityBoosts: {
   cardinal: { Spirit: 1.15, Essence: 1.5, Matter: 1.0, Substance: 1.0 },
     fixed: { Spirit: 1.0, Essence: 1.0, Matter: 1.5, Substance: 1.15 }
     mutable: { Spirit: 1.08, Essence: 1.12, Matter: 1.0, Substance: 1.0 }
-  }
-  
+  },
   // Planetary weight configuration
   planetaryWeights: {
   Sun: 1.5,
@@ -55,8 +53,7 @@ export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {
     Lilith: 0.85,
     Ascendant: 1.2,
     Midheaven: 1.1
-}
-  
+},
   // Aspect modifiers
   aspectModifiers: {
   conjunction: 1.2,
@@ -68,15 +65,13 @@ export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {
     semisextile: 1.2,
     semisquare: 0.96,
     sesquiquadrate: 0.94
-}
-  
+},
   // Seasonal alignment values
   seasonalAlignment: {
   inSeason: 1.0,
     outOfSeason: 0.25,
     neutral: 0.5
-}
-  
+},
   // Magnitude scaling parameters
   magnitudeScaling: {
   maxPlanetaryWeight: 6, // Used to normalize planetary weight,
@@ -135,7 +130,7 @@ export function getSignVectorConfig(): SignVectorConfig {
   if (process.env.NODE_ENV === 'production') {
     return DEFAULT_SIGN_VECTOR_CONFIG;
   }
-  return DEV_SIGN_VECTOR_CONFIG,
+  return DEV_SIGN_VECTOR_CONFIG;
 }
 
 // Allow runtime configuration updates (primarily for development)

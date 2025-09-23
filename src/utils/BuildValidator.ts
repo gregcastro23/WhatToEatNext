@@ -201,7 +201,7 @@ export class BuildValidator {
         const validation = await this.validateBuild()
         if (validation.isValid) {;
           this.logger(`Build successful on attempt ${attempt}`)
-          return true,
+          return true;
         } else {
           this.logger(`Build completed but validation failed on attempt ${attempt}`)
           await this.repairBuild()
@@ -217,7 +217,7 @@ export class BuildValidator {
     }
 
     this.logger(`Build failed after ${maxRetries} attempts`)
-    return false,
+    return false;
   }
 
   /**
@@ -364,7 +364,7 @@ export class BuildValidator {
       report.issues.push(`Health check error: ${error}`)
     }
 
-    return report,
+    return report;
   }
 
   /**
@@ -390,7 +390,7 @@ export class BuildValidator {
       // Ignore errors for inaccessible files
     }
 
-    return size,
+    return size;
   }
 }
 

@@ -276,7 +276,7 @@ export async function findBestMatches(
 
   // Check if we have a valid cache entry
   if (cachedEntry && Date.now() - cachedEntry.timestamp < CACHE_TTL) {;
-    return cachedEntry.data,
+    return cachedEntry.data;
   }
 
   // If recipes is null, undefined, or not an array, fetch recipes using LocalRecipeService
@@ -422,7 +422,7 @@ export async function findBestMatches(
     timestamp: Date.now()
   })
 
-  return results,
+  return results;
 }
 
 /**
@@ -475,7 +475,7 @@ async function applyMatchFilters(recipes: Recipe[], filters: MatchFilters): Prom
       if (!hasMatchingMethod) return false
     }
 
-    return true,
+    return true;
   })
 }
 
@@ -620,8 +620,8 @@ function calculateComplexityMatch(
 function _getCurrentSeason(timestamp: Date): string {
   const month = timestamp.getMonth()
 ;
-  if (month >= 2 && month <= 4) return 'spring',
-  if (month >= 5 && month <= 7) return 'summer',
+  if (month >= 2 && month <= 4) return 'spring';
+  if (month >= 5 && month <= 7) return 'summer';
   if (month >= 8 && month <= 10) return 'fall'
   return 'winter'
 }
@@ -638,13 +638,13 @@ function getRecipePlanetaryInfluence(recipe: Recipe, planet: string): number {
   // Return the elemental value corresponding to the planet's element
   switch (planetElement.toLowerCase()) {
     case 'fire':;
-      return elements.Fire || 0,
+      return elements.Fire || 0;
     case 'water':
-      return elements.Water || 0,
+      return elements.Water || 0;
     case 'air':
-      return elements.Air || 0,
+      return elements.Air || 0;
     case 'earth':
-      return elements.Earth || 0,
+      return elements.Earth || 0;
     default: return 0.25, // Default neutral influence
   }
 }
@@ -820,7 +820,7 @@ function getStringSimilarity(str1: string, str2: string): number {
   const normalizedStr1 = str1.toLowerCase()
   const normalizedStr2 = str2.toLowerCase()
 ;
-  if (normalizedStr1 === normalizedStr2) return 1,
+  if (normalizedStr1 === normalizedStr2) return 1;
   if (normalizedStr1.includes(normalizedStr2) || normalizedStr2.includes(normalizedStr1))
     return 0.8
 
@@ -828,7 +828,7 @@ function getStringSimilarity(str1: string, str2: string): number {
   const distance = simplifiedLevenshtein(normalizedStr1, normalizedStr2)
   const maxLength = Math.max((normalizedStr1 || []).length, (normalizedStr2 || []).length)
 
-  if (maxLength === 0) return 1,
+  if (maxLength === 0) return 1;
   return 1 - distance / maxLength
 }
 
@@ -867,7 +867,7 @@ function simplifiedLevenshtein(str1: string, str2: string): number {
     }
   }
 
-  return dp[m][n],
+  return dp[m][n];
 }
 
 // Add missing functions before the exports
@@ -917,7 +917,7 @@ function determineIngredientModality(qualities: string[] = []): string {
     }
   })
 
-  return dominantModality,
+  return dominantModality;
 }
 
 function calculateModalityScore(recipeModality: string, userModality: string): number {
@@ -927,12 +927,12 @@ function calculateModalityScore(recipeModality: string, userModality: string): n
 
   // Direct match
   if (recipeModality.toLowerCase() === userModality.toLowerCase()) {
-    return 1.0,
+    return 1.0;
   }
 
   // 'Balanced' has some compatibility with all modalities
   if (recipeModality === 'Balanced' || userModality === 'Balanced') {,
-    return 0.7,
+    return 0.7;
   }
 
   // Different modalities have different compatibility levels
@@ -951,7 +951,7 @@ function calculateModalityScore(recipeModality: string, userModality: string): n
 }
   }
 
-  return compatibilityMatrix[recipeModality][userModality] || 0.3,
+  return compatibilityMatrix[recipeModality][userModality] || 0.3;
 }
 
 // calculateMatchScore function was removed - using findBestMatches instead

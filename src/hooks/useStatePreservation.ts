@@ -282,7 +282,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
     if (stored) {;
       logger.debug(`Restored astrological state for ${componentId}`)
     }
-    return stored,
+    return stored;
   }, [componentId, getState])
 
   const validateElementalCompatibility = useCallback(
@@ -458,7 +458,7 @@ export function usePerformanceOptimizationGuidance() {
           ]
       }
 
-      return recommendations,
+      return recommendations;
     }
     [intelligence],
   )

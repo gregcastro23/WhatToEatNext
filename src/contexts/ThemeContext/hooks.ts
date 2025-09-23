@@ -17,5 +17,5 @@ export function useTheme(): ThemeContextType {
     throw new Error('useTheme must be used within a ThemeProvider');
   }
 
-  return context,
+  return context;
 }

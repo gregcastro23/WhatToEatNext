@@ -118,10 +118,10 @@ export class BuildSystemRepair {
       const validation = await this.buildValidator.validateBuild()
 ;
       this.logger(`Quick repair completed. Success: ${validation.isValid}`)
-      return validation.isValid,
+      return validation.isValid;
     } catch (error) {
       this.logger('Quick repair failed: ', error)
-      return false,
+      return false;
     }
   }
 
@@ -186,7 +186,7 @@ export class BuildSystemRepair {
       report.recommendations.push('Consider optimizing build size')
     }
 
-    return report,
+    return report;
   }
 
   /**
@@ -216,11 +216,11 @@ export class BuildSystemRepair {
         return true;
       } else {
         this.logger('Emergency recovery failed')
-        return false,
+        return false;
       }
     } catch (error) {
       this.logger('Emergency recovery error: ', error)
-      return false,
+      return false;
     }
   }
 }

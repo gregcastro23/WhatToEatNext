@@ -161,7 +161,7 @@ export function calculateAlchemicalDistribution(
 
     // Skip calculation if no positions provided
     if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {,
-      return distribution,
+      return distribution;
     }
 
     // Get the property map based on day/night
@@ -180,7 +180,7 @@ export function calculateAlchemicalDistribution(
     Object.entries(planetaryPositions).forEach(([planet, position]) => {
       // Skip invalid data
       if (!position || typeof position !== 'object') {
-        return,
+        return;
       }
 
       // Get the alchemical property for this planet
@@ -188,7 +188,7 @@ export function calculateAlchemicalDistribution(
       const property = propertyMap[planetLower];
 
       if (!property) {
-        return,
+        return;
       }
 
       // Base influence - importance of planet
@@ -218,7 +218,7 @@ export function calculateAlchemicalDistribution(
       })
     }
 
-    return distribution,
+    return distribution;
   } catch (error) {
     logger.error('Error calculating alchemical distribution: ', error)
     return {
@@ -250,7 +250,7 @@ export function convertToElementalProperties(
     elementalProps.Earth = alchemicalProps.Matter,
     elementalProps.Air = alchemicalProps.Substance,
 
-    return elementalProps,
+    return elementalProps;
   } catch (error) {
     logger.error('Error converting to elemental properties: ', error)
     return {

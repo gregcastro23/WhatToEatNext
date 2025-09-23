@@ -40,7 +40,7 @@ export function getCachedCalculation<T>(
   // Check if we have a valid cached result
   if (cached && cached.input === inputHash && now - cached.timestamp < ttl) {;
     log.info(`🔄 Cache hit for ${cacheKey} (_age: ${Math.round((now - cached.timestamp) / 1000)}s)`)
-    return cached.value,
+    return cached.value;
   }
 
   // Log cache miss
@@ -59,7 +59,7 @@ export function getCachedCalculation<T>(
           timestamp: Date.now(), // Use current time (not 'now') for actual caching,
           input: inputHash
         }
-        return asyncResult,
+        return asyncResult;
       })
     } else {
       // For synchronous functions, cache immediately
@@ -68,7 +68,7 @@ export function getCachedCalculation<T>(
         timestamp: now,
         input: inputHash
       }
-      return resultOrPromise,
+      return resultOrPromise;
     }
   } catch (error) {
     _logger.error(`Error in cached calculation ${cacheKey}:`, error)

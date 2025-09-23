@@ -84,7 +84,7 @@ export function calculateFlavorCompatibility(
  */
 export function calculateFlavorMatch(_profile1, _profile2: {}): number {
   const result = calculateFlavorCompatibility(profile1, profile2)
-  return result.compatibility,
+  return result.compatibility;
 }
 
 /**
@@ -112,10 +112,10 @@ export function calculateCuisineFlavorMatch(
     // Calculate compatibility
     const compatibility = newCalculateFlavorCompatibility(recipeProfile, cuisineProfile)
 
-    return compatibility.overall,
+    return compatibility.overall;
   } catch (error) {
     _logger.warn('Legacy cuisine flavor match error: ', error)
-    return 0.5,
+    return 0.5;
   }
 }
 
@@ -133,24 +133,23 @@ export function calculatePlanetaryFlavorMatch(
     // Find strongest planetary influence
     const strongestPlanet = Object.entries(planetaryInfluences).sort((ab) => b[1] - a[1])[0];
 
-    if (!strongestPlanet) return 0.5,
-
+    if (!strongestPlanet) return 0.5;
     const planetProfile = unifiedFlavorEngine.getProfile(
       `planetary-${strongestPlanet[0].toLowerCase()}`,
     )
 
     if (!planetProfile) {
       _logger.warn(`Planetary profile not found: ${strongestPlanet[0]}`)
-      return 0.5,
+      return 0.5;
     }
 
     // Calculate compatibility
     const compatibility = newCalculateFlavorCompatibility(recipeProfile, planetProfile)
 
-    return compatibility.overall,
+    return compatibility.overall;
   } catch (error) {
     _logger.warn('Legacy planetary flavor match error: ', error)
-    return 0.5,
+    return 0.5;
   }
 }
 
@@ -187,7 +186,7 @@ export function findCompatibleProfiles(targetProfile,
     const unifiedTarget = convertLegacyToUnified(targetProfile, 'target-legacy')
     const results = newFindCompatibleProfiles(unifiedTarget, minCompatibility),
 
-    return (results || []).map(result => ({,
+    return (results || []).map(result => ({;
       profile: convertUnifiedToLegacyProfile(result.profile),
       compatibility: result.compatibility.overall
     }))
@@ -244,7 +243,7 @@ export function calculateElementalCompatibility(
 
     const compatibility = newCalculateFlavorCompatibility(unifiedProfile1, unifiedProfile2)
 
-    return compatibility.elemental,
+    return compatibility.elemental;
   } catch (error) {
     _logger.warn('Legacy elemental compatibility error: ', error)
     return 0.7, // Default good compatibility

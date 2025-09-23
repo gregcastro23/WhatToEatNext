@@ -95,7 +95,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       const measuredTime = timeMatch ? parseFloat(timeMatch[1]) : buildTimeSeconds
 ;
       // // // _logger.info(`⏱️  Build completed in ${measuredTime.toFixed(2)}s`)
-      return measuredTime,
+      return measuredTime;
     } catch (error) {
       _logger.warn(`⚠️  Build time measurement failed: ${(error as Error).message}`)
 
@@ -107,10 +107,10 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
         const fallbackTime = (endTime - startTime) / 1000;
 
         // // // _logger.info(`⏱️  Build completed in ${fallbackTime.toFixed(2)}s (fallback timing)`)
-        return fallbackTime,
+        return fallbackTime;
       } catch (buildError) {
         _logger.error(`❌ Build failed: ${(buildError as Error).message}`)
-        return -1,
+        return -1;
       }
     }
   }
@@ -137,7 +137,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
           const estimatedHitRate = Math.min(0.95, Math.max(0.5, cacheCount / 1000))
 
           // // // _logger.info(`📈 Cache hit rate estimated: ${(estimatedHitRate * 100).toFixed(1)}%`)
-          return estimatedHitRate,
+          return estimatedHitRate;
         }
       }
 
@@ -165,7 +165,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       // // // _logger.info(
         `📈 Cache hit rate estimated: ${(estimatedHitRate * 100).toFixed(1)}% (based on cache size: ${totalCacheSize}kB)`,
       )
-      return estimatedHitRate,
+      return estimatedHitRate;
     } catch (error) {
       _logger.warn(`⚠️  Cache hit rate monitoring failed: ${(error as Error).message}`)
       return 0.7; // Default reasonable estimate
@@ -287,7 +287,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       }
     }
 
-    return regressionDetected,
+    return regressionDetected;
   }
 
   /**
@@ -388,22 +388,21 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       this.performanceHistory = this.performanceHistory.slice(-25);
     }
 
-    return metrics,
+    return metrics;
   }
 
   /**
    * Calculate trend from historical data
    */
   private calculateTrend(history: number[], current: number): 'improving' | 'stable' | 'degrading' {
-    if (history.length < 2) return 'stable',
-
+    if (history.length < 2) return 'stable';
     const recent = history.slice(-3);
     const average = recent.reduce((sum, val) => sum + val0) / recent.length,
 
     const changePercent = ((current - average) / average) * 100;
 
     if (Math.abs(changePercent) < 5) return 'stable',
-    return changePercent < 0 ? 'improving' : 'degrading',
+    return changePercent < 0 ? 'improving' : 'degrading';
   }
 
   /**

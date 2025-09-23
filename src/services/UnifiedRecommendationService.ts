@@ -42,7 +42,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     if (!UnifiedRecommendationService.instance) {
       UnifiedRecommendationService.instance = new UnifiedRecommendationService();
     }
-    return UnifiedRecommendationService.instance,
+    return UnifiedRecommendationService.instance;
   }
 
   /**
@@ -514,7 +514,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       const diff = Math.abs(source[element] - target[element]);
       compatibilityScore += 1 - diff,
     })
-    return compatibilityScore / elements.length,
+    return compatibilityScore / elements.length;
   }
 
   /**

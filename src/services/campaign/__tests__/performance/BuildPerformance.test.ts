@@ -84,9 +84,9 @@ describe('Build Performance Tests', () => {
           while (Date.now() < endTime) {
             // Busy wait to simulate build time;
           }
-          return '',
+          return '';
         }
-        return '',
+        return '';
       })
 
       const buildTime: any = await progressTracker.getBuildTime()
@@ -105,9 +105,9 @@ describe('Build Performance Tests', () => {
           while (Date.now() < endTime) {
             // Busy wait;
           }
-          return '',
+          return '';
         }
-        return '',
+        return '';
       })
 
       const buildTime: any = await progressTracker.getBuildTime()
@@ -120,7 +120,7 @@ describe('Build Performance Tests', () => {
         if (command.toString().includes('yarn build')) {
           throw new Error('Build compilation failed');
         }
-        return '',
+        return '';
       })
 
       const buildTime: any = await progressTracker.getBuildTime(),
@@ -141,9 +141,9 @@ describe('Build Performance Tests', () => {
           while (Date.now() < endTime) {
             // Busy wait
           }
-          return '',
+          return '';
         }
-        return '',
+        return '';
       }),
 
       // Measure build time multiple times
@@ -225,7 +225,7 @@ describe('Build Performance Tests', () => {
     it('should validate bundle size under 420kB target', async () => {
       // Mock bundle size measurement
       mockFs.existsSync.mockImplementation(path => {
-        return path === '.next' || path === 'dist',
+        return path === '.next' || path === 'dist';
       })
 
       mockExecSync.mockImplementation(command => {
@@ -236,7 +236,7 @@ describe('Build Performance Tests', () => {
         if (cmd.includes('du -sk dist')) {
           return '100', // 100kB
         }
-        return '',
+        return '';
       })
 
       const bundleSize: any = await progressTracker.getBundleSize()
@@ -252,7 +252,7 @@ describe('Build Performance Tests', () => {
         if (command.toString().includes('du -sk')) {;
           return '500', // 500kB - exceeds target
         }
-        return '',
+        return '';
       })
 
       const bundleSize: any = await progressTracker.getBundleSize(),
@@ -352,7 +352,7 @@ describe('Build Performance Tests', () => {
           enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
         }
         performanceHistory.push(metrics)
-        return metrics,
+        return metrics;
       })
 
       // Collect performance metrics over multiple calls
@@ -388,7 +388,7 @@ describe('Build Performance Tests', () => {
           compilationTimes.push(Date.now() - startTime)
           return '0'; // No errors
         }
-        return '',
+        return '';
       }),
 
       // Run multiple TypeScript error checks
@@ -419,7 +419,7 @@ describe('Build Performance Tests', () => {
           lintingTimes.push(Date.now() - startTime)
           return '0'; // No warnings
         }
-        return '',
+        return '';
       }),
 
       // Run multiple linting checks
@@ -450,7 +450,7 @@ describe('Build Performance Tests', () => {
           countingTimes.push(Date.now() - startTime)
           return '150'; // 150 systems found
         }
-        return '',
+        return '';
       }),
 
       // Run multiple enterprise system counts
@@ -487,7 +487,7 @@ describe('Build Performance Tests', () => {
         if (cmd.includes('grep -r 'INTELLIGENCE_SYSTEM'')) {
           return '1000', // 1,000 enterprise systems
         }
-        return '',
+        return '';
       })
 
       const metrics: any = await progressTracker.getProgressMetrics()
@@ -530,7 +530,7 @@ describe('Build Performance Tests', () => {
           enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
         }
         largeMetricsHistory.push(metrics)
-        return metrics,
+        return metrics;
       })
 
       // Generate large metrics history

@@ -57,7 +57,7 @@ Examples:
       } else {
         // // // _logger.info(`Current TypeScript errors: ${count}`)
       }
-      return,
+      return;
     }
 
     // // // _logger.info('🚀 Starting TypeScript Error Analysis...')

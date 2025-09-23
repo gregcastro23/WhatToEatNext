@@ -91,7 +91,7 @@ export function calculateOptimalPortions<T extends { amount: number }>(
   // Lower power = smaller portions for easier digestion;
   const portionModifier = (powerLevel * powerMultiplier - 0.5) * 0.3 + 1.0;
 
-  return basePortions.map(portion => ({,
+  return basePortions.map(portion => ({;
     ...portion,
     amount: Math.round(portion.amount * portionModifier * 100) / 100
   }))

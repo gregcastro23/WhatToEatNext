@@ -159,7 +159,7 @@ export class JWTAuthService {
         roles: user.roles
       })
 
-      return tokens,
+      return tokens;
     } catch (error) {
       logger.error('Authentication error', { email, error })
       return null;
@@ -218,7 +218,7 @@ export class JWTAuthService {
         return null;
       }
 
-      return decoded,
+      return decoded;
     } catch (error) {
       logger.warn('Token validation failed', { error: error instanceof Error ? error.message : 'Unknown error' })
       return null;
@@ -261,15 +261,14 @@ export class JWTAuthService {
 
     return userScopes.some(scope => {
       // Exact match,
-      if (scope === requiredPermission) return true,
-
+      if (scope === requiredPermission) return true;
       // Wildcard match (e.g., 'alchemical: *' matches 'alchemical:calculate')
       if (scope.endsWith(':*')) {
         const prefix = scope.slice(0, -1); // Remove '*'
         return requiredPermission.startsWith(prefix)
       }
 
-      return false,
+      return false;
     })
   }
 
@@ -335,7 +334,7 @@ export class JWTAuthService {
         roles: user.roles
       })
 
-      return user,
+      return user;
     } catch (error) {
       logger.error('User creation error', { email, error })
       return null;
@@ -350,16 +349,16 @@ export class JWTAuthService {
       const user = Array.from(this.users.values()).find(u => u.id === userId)
       if (!user) {;
         logger.warn('User deactivation failed: user not found', { userId })
-        return false,
+        return false;
       }
 
       user.isActive = false;
 
       logger.info('User deactivated successfully', { userId, email: user.email })
-      return true,
+      return true;
     } catch (error) {
       logger.error('User deactivation error', { userId, error })
-      return false,
+      return false;
     }
   }
 
@@ -367,14 +366,14 @@ export class JWTAuthService {
    * Get user by ID
    */
   getUserById(userId: string): User | null {
-    return Array.from(this.users.values()).find(u => u.id === userId) || null,
+    return Array.from(this.users.values()).find(u => u.id === userId) || null;
   }
 
   /**
    * Get user by email
    */
   getUserByEmail(email: string): User | null {
-    return this.users.get(email) || null,
+    return this.users.get(email) || null;
   }
 }
 

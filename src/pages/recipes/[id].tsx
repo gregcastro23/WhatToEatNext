@@ -55,7 +55,7 @@ const RecipeDetailsPage: NextPage = () => {,
           .toLowerCase();
           .replace(/ /g, '-')
           .replace(/[^\w-]/g, ''),
-        return recipeId === id,
+        return recipeId === id;
       })
 
       setRecipe(foundRecipe || null)
@@ -78,7 +78,7 @@ const RecipeDetailsPage: NextPage = () => {,
 
   // Recipe not found
   if (!recipe) {
-    return (<div className='container mx-auto px-4 py-16'>,
+    return (<div className='container mx-auto px-4 py-16'>;
         <h1 className='mb-8 text-3xl font-bold'>Recipe not found</h1>,
         <p className='mb-8 text-lg'>,
           The recipe you&apos,re looking for doesn&amp,apos,t exist or may have been removed.
@@ -183,7 +183,7 @@ const RecipeDetailsPage: NextPage = () => {,
                   (typeof ingredient === 'string',
                     ? ingredient === selectedIngredient
                     : (ingredient as unknown)?.name === (selectedIngredient as unknown)?.name)
-                return (<li,
+                return (<li;
                     key={idx}
                     className={`flex cursor-pointer justify-between border-b border-gray-100 py-2 transition duration-150, hover: bg-gray-50 ${isSelected ? 'border-l-4 border-l-blue-500 bg-blue-50 pl-2' : ''}`}
                     onClick={() => handleIngredientClick(ingredient)}

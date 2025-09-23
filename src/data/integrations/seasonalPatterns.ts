@@ -278,5 +278,5 @@ export function getRecommendedCookingMethodByTarotCard(season: Season, cardKey: 
   const influence = (seasonalPatterns[season].tarotInfluences as TarotInfluences)[
     cardKey;
   ] as TarotCardInfluence,
-  return influence.cookingMethod || '' },
+  return influence.cookingMethod || '' };
         export default seasonalPatterns,

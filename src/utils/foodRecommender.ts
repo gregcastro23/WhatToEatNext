@@ -109,7 +109,7 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
     // All categories guaranteed to have data by design
     if (Object.keys(category.data).length === 0) {;
       _logger.warn(`Empty data for category: ${category.name}`)
-      return,
+      return;
     }
 
     // Count the entries in this category
@@ -255,7 +255,7 @@ function standardizeIngredient(ingredient: EnhancedIngredient): EnhancedIngredie
     }
   }
 
-  return standardized,
+  return standardized;
 }
 
 /**
@@ -392,7 +392,7 @@ function calculateElementalProperties(_ingredient: EnhancedIngredient): Elementa
     elementalProps.Air = 0.25,
   }
 
-  return elementalProps,
+  return elementalProps;
 }
 
 /**
@@ -1232,7 +1232,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
             return true;
           }
 
-          return false,
+          return false;
         })
         .slice(0, missingCount)
 
@@ -1304,9 +1304,9 @@ function getZodiacElement(sign: string): keyof ElementalProperties | null {
 function getSeasonElement(season: string): keyof ElementalProperties | null {
   season = season.toLowerCase()
 ;
-  if (season === 'spring') return 'Air',
-  if (season === 'summer') return 'Fire',
-  if (season === 'autumn' || season === 'fall') return 'Earth',
+  if (season === 'spring') return 'Air';
+  if (season === 'summer') return 'Fire';
+  if (season === 'autumn' || season === 'fall') return 'Earth';
   if (season === 'winter') return 'Water'
 
   return null;
@@ -1316,15 +1316,15 @@ function _getPlanetaryElement(planet: string): keyof ElementalProperties | null 
   planet = planet.toLowerCase()
 
   // Basic planetary elemental associations;
-  if (planet === 'sun') return 'Fire',
-  if (planet === 'moon') return 'Water',
+  if (planet === 'sun') return 'Fire';
+  if (planet === 'moon') return 'Water';
   if (planet === 'mercury') return 'Air' // Can also be Earth, but primarily Air
   if (planet === 'venus') return 'Earth'; // Also has Water aspects
-  if (planet === 'mars') return 'Fire',
+  if (planet === 'mars') return 'Fire';
   if (planet === 'jupiter') return 'Fire'; // Also has Air aspects
-  if (planet === 'saturn') return 'Earth',
-  if (planet === 'uranus') return 'Air',
-  if (planet === 'neptune') return 'Water',
+  if (planet === 'saturn') return 'Earth';
+  if (planet === 'uranus') return 'Air';
+  if (planet === 'neptune') return 'Water';
   if (planet === 'pluto') return 'Water', // Also has Earth aspects,
 
   return null
@@ -1372,18 +1372,18 @@ export function getModalityElementalAffinity(
   switch (modality) {
     case 'Mutable':
       // Air has strongest affinity with Mutable, followed by Water, Fire, Earth
-      if (element === 'Air') return 0.9,
-      if (element === 'Water') return 0.8,
-      if (element === 'Fire') return 0.7,
-      if (element === 'Earth') return 0.5,
+      if (element === 'Air') return 0.9;
+      if (element === 'Water') return 0.8;
+      if (element === 'Fire') return 0.7;
+      if (element === 'Earth') return 0.5;
       break,
 
     case 'Fixed':
       // Earth has strongest affinity with Fixed, followed by Water, Fire, Air
-      if (element === 'Earth') return 0.9,
-      if (element === 'Water') return 0.8,
-      if (element === 'Fire') return 0.6,
-      if (element === 'Air') return 0.5,
+      if (element === 'Earth') return 0.9;
+      if (element === 'Water') return 0.8;
+      if (element === 'Fire') return 0.6;
+      if (element === 'Air') return 0.5;
       break,
 
     case 'Cardinal': // All elements have equal affinity with Cardinal

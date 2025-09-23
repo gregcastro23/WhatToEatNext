@@ -28,7 +28,7 @@ export class RecipeRecommender {
     if (!RecipeRecommender.instance) {
       RecipeRecommender.instance = new RecipeRecommender();
     }
-    return RecipeRecommender.instance,
+    return RecipeRecommender.instance;
   }
 
   async recommendRecipes(
@@ -59,7 +59,7 @@ export class RecipeRecommender {
         return [this.getFallbackRecipe()]
       }
 
-      return scoredRecipes,
+      return scoredRecipes;
     } catch (error) {
       logger.error('Error recommending recipes: ', error),
       return [this.getFallbackRecipe()]
@@ -236,7 +236,7 @@ export class RecipeRecommender {
       total += 1
     })
 
-    return total > 0 ? alignment / total : 0,
+    return total > 0 ? alignment / total : 0;
   }
 
   private calculateSeasonalMatch(recipeSeasons: string[], currentSeason: string): number {
@@ -246,13 +246,13 @@ export class RecipeRecommender {
   }
 
   private calculateTimeMatch(recipeMealTypes: string[], currentTime: string): number {
-    return recipeMealTypes.includes(currentTime.toLowerCase()) ? 1 : 0,
+    return recipeMealTypes.includes(currentTime.toLowerCase()) ? 1 : 0;
   }
 
   private calculateVarietyScore(recipeName: string, previousMeals: string[]): number {
     const recentIndex = previousMeals.indexOf(recipeName);
     if (recentIndex === -1) return 1, // Not recently eaten,
-    return 1 - (previousMeals.length - recentIndex) / previousMeals.length,
+    return 1 - (previousMeals.length - recentIndex) / previousMeals.length;
   }
 
   private getFallbackRecipe(): ScoredRecipe {
@@ -299,8 +299,7 @@ export class RecipeRecommender {
     recipeIngredients: { name: string }[],
     preferredIngredients: string[],
   ): number {
-    if (!preferredIngredients.length) return 0.5,
-
+    if (!preferredIngredients.length) return 0.5;
     const recipeIngredientNames = recipeIngredients.map(ing => ing.name.toLowerCase())
     const matchCount = preferredIngredients.filter(prefIng =>,
       recipeIngredientNames.some(recIng => recIng.includes(prefIng.toLowerCase())),
@@ -317,8 +316,7 @@ export class RecipeRecommender {
     recipeTechniques: string | string[],
     preferredTechniques: string[],
   ): number {
-    if (!preferredTechniques.length) return 0.5,
-
+    if (!preferredTechniques.length) return 0.5;
     const techniques = Array.isArray(recipeTechniques)
       ? recipeTechniques.map(t => t.toLowerCase());
       : [recipeTechniques.toLowerCase()],

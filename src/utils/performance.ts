@@ -137,9 +137,9 @@ export function collectPerformanceMetrics(): PerformanceMetrics {
       }
     }
 
-    return metrics,
+    return metrics;
   } catch (error) {
     logger.error('Error collecting performance metrics', error)
-    return metrics,
+    return metrics;
   }
 }

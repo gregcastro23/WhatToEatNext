@@ -109,7 +109,7 @@ export class ChakraService {
       }
     })
 
-    return recommendations,
+    return recommendations;
   }
 
   /**
@@ -179,6 +179,6 @@ export class ChakraService {
       suggestions.push('Consider a rainbow diet with foods of all colors to balance all chakras');
     }
 
-    return suggestions,
+    return suggestions;
   }
 }

@@ -119,18 +119,16 @@ class IngredientMappingService {
         if (name.toLowerCase() === ingredientName.toLowerCase()) return false,
 
         // Filter by category if specified
-        if (category && mapping.category !== category) return false,
-
+        if (category && mapping.category !== category) return false;
         // Otherwise match the original ingredient's category
-        if (!category && mapping.category !== originalIngredient.category) return false,
-
+        if (!category && mapping.category !== originalIngredient.category) return false;
         // Check elemental similarity
         const similarity = this.calculateElementalSimilarity(
           originalIngredient.elementalProperties as unknown as ElementalProperties
           mapping.elementalProperties as unknown as ElementalProperties
         ),
 
-        return similarity >= similarityThreshold,
+        return similarity >= similarityThreshold;
       })
       .map(([name, mapping]) => ({
         name,
@@ -300,8 +298,7 @@ class IngredientMappingService {
     properties1: ElementalProperties,
     properties2: ElementalProperties,
   ): number {
-    if (!properties1 || !properties2) return 0,
-
+    if (!properties1 || !properties2) return 0;
     // Calculate difference for each element
     const fireDiff = Math.abs((properties1.Fire || 0) - (properties2.Fire || 0))
     const waterDiff = Math.abs((properties1.Water || 0) - (properties2.Water || 0))

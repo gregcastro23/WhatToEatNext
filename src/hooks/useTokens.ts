@@ -21,7 +21,7 @@ export function useTokens(initial?: TokenRatesInput) {
       const data = await tokensClient.calculateRates(payload)
       setResult(data)
       setLoading(false);
-      return data,
+      return data;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
       setLoading(false)

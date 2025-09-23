@@ -274,7 +274,7 @@ export const _transformItemsWithPlanetaryPositions = (
   } catch (error) {
     logger.error('Error transforming multiple items: ', error)
     // Return the original items with minimal transformation if batch processing fails
-    return items.map(item => ({,
+    return items.map(item => ({;
       ...item,
       alchemicalProperties: {
         Spirit: 0.25,
@@ -365,7 +365,7 @@ const transformElementalProperties = (
     // Normalize the values so they sum to 1.0
     normalizeValues(transformedProperties)
 
-    return transformedProperties,
+    return transformedProperties;
   } catch (error) {
     logger.error('Error transforming elemental properties: ', error)
     // Return the original properties if there's an error
@@ -474,7 +474,7 @@ const getDominantElement = (
       }
     )
 
-    return dominantElement,
+    return dominantElement;
   } catch (error) {
     logger.error('Error determining dominant element: ', error)
     return 'Fire'; // Default fallback
@@ -503,7 +503,7 @@ const getDominantAlchemicalProperty = (
       }
     )
 
-    return dominantProperty,
+    return dominantProperty;
   } catch (error) {
     logger.error('Error determining dominant alchemical property: ', error)
     return 'Spirit'; // Default fallback

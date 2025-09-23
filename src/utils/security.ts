@@ -45,7 +45,7 @@ export function enhanceSecurity() {
     // Log security initialization
     logger.info('Security enhancements initialized')
 
-    return true,
+    return true;
   } catch (error) {
     logger.error('Failed to initialize security enhancements', error)
     return false

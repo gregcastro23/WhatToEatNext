@@ -35,10 +35,10 @@ function getUnusedVariables() {
       }
     }
 
-    return unusedVars,
+    return unusedVars;
   } catch (error) {
     // _logger.error('Error running ESLint: ', error)
-    return [],
+    return [];
   }
 }
 

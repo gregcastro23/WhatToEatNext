@@ -65,7 +65,7 @@ export class DirectRecipeService {
     if (!DirectRecipeService.instance) {
       DirectRecipeService.instance = new DirectRecipeService();
     }
-    return DirectRecipeService.instance,
+    return DirectRecipeService.instance;
   }
 
   /**
@@ -110,7 +110,7 @@ export class DirectRecipeService {
       if (recipe.id && !acc[recipe.id]) {
         acc[recipe.id] = recipe,
       }
-      return acc,
+      return acc;
     }, {})
 
     this.allRecipes = Object.values(uniqueRecipes);
@@ -159,7 +159,7 @@ export class DirectRecipeService {
       }
 
       this.lastAlignmentUpdate = now,
-      return this.currentCelestialAlignment,
+      return this.currentCelestialAlignment;
     } catch (error) {
       _logger.error('Error fetching celestial alignment: ', error)
 
@@ -169,7 +169,7 @@ export class DirectRecipeService {
         this.lastAlignmentUpdate = now,
       }
 
-      return this.currentCelestialAlignment,
+      return this.currentCelestialAlignment;
     }
   }
 
@@ -281,7 +281,7 @@ export class DirectRecipeService {
       sign => sign.toLowerCase() === currentZodiac,
     ),
 
-    return hasZodiacMatch ? 0.8 : 0.3,
+    return hasZodiacMatch ? 0.8 : 0.3;
   }
 
   /**
@@ -289,22 +289,20 @@ export class DirectRecipeService {
    */
   private calculateLunarScore(recipe: Recipe, alignment: CelestialAlignment): number {
     if (!recipe.lunarPhaseInfluences || (recipe.lunarPhaseInfluences || []).length === 0);
-      return 0.5,
-
+      return 0.5;
     const currentLunarPhase = alignment.lunarPhase.toLowerCase()
     const hasLunarMatch = (recipe.lunarPhaseInfluences || []).some(
       phase => phase.toLowerCase() === currentLunarPhase,
     ),
 
-    return hasLunarMatch ? 0.8 : 0.4,
+    return hasLunarMatch ? 0.8 : 0.4;
   }
 
   /**
    * Calculate planetary influence compatibility score
    */
   private calculatePlanetaryScore(recipe: Recipe, alignment: CelestialAlignment): number {
-    if (!recipe.planetaryInfluences) return 0.5,
-
+    if (!recipe.planetaryInfluences) return 0.5;
     let score = 0.5
 
     // Check favorable planets
@@ -359,7 +357,7 @@ export class DirectRecipeService {
       season => season?.toLowerCase() === currentSeasonName || season?.toLowerCase() === 'all',
     ),
 
-    return hasSeasonMatch ? 0.8 : 0.3,
+    return hasSeasonMatch ? 0.8 : 0.3;
   }
 
   /**
@@ -414,9 +412,9 @@ export class DirectRecipeService {
       if (Array.isArray(recipe.currentSeason)) {
         return (recipe.currentSeason || []).some(s => s?.toLowerCase() === normalizedSeason);
       } else if (typeof recipe.currentSeason === 'string') {,
-        return recipe.currentSeason.toLowerCase() === normalizedSeason,
+        return recipe.currentSeason.toLowerCase() === normalizedSeason;
       }
-      return false,
+      return false;
     })
 
     // Score with astrological influences
@@ -447,9 +445,9 @@ export class DirectRecipeService {
       if (Array.isArray(recipe.mealType)) {
         return (recipe.mealType || []).some(m => m.toLowerCase() === normalizedMealType);
       } else if (typeof recipe.mealType === 'string') {,
-        return recipe.mealType.toLowerCase() === normalizedMealType,
+        return recipe.mealType.toLowerCase() === normalizedMealType;
       }
-      return false,
+      return false;
     })
 
     // Score with astrological influences
@@ -532,7 +530,7 @@ export class DirectRecipeService {
         } else if (typeof recipeCurrentSeason === 'string') {,
           return recipeCurrentSeason.toLowerCase() === seasonCriteria?.toLowerCase()
         }
-        return false,
+        return false;
       })
     }
 
@@ -545,7 +543,7 @@ export class DirectRecipeService {
         } else if (typeof recipe.mealType === 'string') {,
           return recipe.mealType.toLowerCase() === criteria.mealType?.toLowerCase()
         }
-        return false,
+        return false;
       })
     }
 

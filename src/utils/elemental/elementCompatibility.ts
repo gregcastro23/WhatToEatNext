@@ -103,7 +103,7 @@ export function enhanceElementalProfile(profile: Record<Element, _number>): Reco
     })
   }
 
-  return enhancedProfile,
+  return enhancedProfile;
 }
 
 /**

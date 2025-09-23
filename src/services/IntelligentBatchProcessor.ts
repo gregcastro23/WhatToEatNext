@@ -323,7 +323,7 @@ export class IntelligentBatchProcessor extends EventEmitter {;
     }
 
     log.info(`✅ Created ${batches.length} intelligent batches`)
-    return batches,
+    return batches;
   }
 
   /**
@@ -403,7 +403,7 @@ export class IntelligentBatchProcessor extends EventEmitter {;
       }
     }
 
-    return groups,
+    return groups;
   }
 
   /**
@@ -500,7 +500,7 @@ export class IntelligentBatchProcessor extends EventEmitter {;
       }
     }
 
-    return groups,
+    return groups;
   }
 
   /**
@@ -532,7 +532,7 @@ export class IntelligentBatchProcessor extends EventEmitter {;
       TS2322: 0.7
 }
 
-    return patternScores[error.code] || 0.5,
+    return patternScores[error.code] || 0.5;
   }
 
   /**
@@ -656,7 +656,7 @@ export class IntelligentBatchProcessor extends EventEmitter {;
 
     if (queue.status !== 'idle') {
       log.info(`⚠️  Queue ${queueId} is already ${queue.status}`)
-      return,
+      return;
     }
 
     queue.status = 'processing',
@@ -773,7 +773,7 @@ export class IntelligentBatchProcessor extends EventEmitter {;
       const result = this.parseFixerOutput(output);
       result.executionTime = Date.now() - startTime,
 
-      return result,
+      return result;
     } catch (error) {
       throw new Error(
         `Job execution failed: ${error instanceof Error ? error.message : String(error)}`,
@@ -788,7 +788,7 @@ export class IntelligentBatchProcessor extends EventEmitter {;
     const maxFiles = Math.min(job.errors.length25), // Limit to prevent overflow,
     const errorCodes = [...new Set(job.errors.map(e => e.code))].join(','),
 
-    return `node scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js --max-files=${maxFiles} --auto-fix --error-codes=${errorCodes}`,
+    return `node scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js --max-files=${maxFiles} --auto-fix --error-codes=${errorCodes}`;
   }
 
   /**
@@ -945,7 +945,7 @@ export class IntelligentBatchProcessor extends EventEmitter {;
       }
 
       this.rollbackData.set(rollbackId, rollbackData)
-      return rollbackData,
+      return rollbackData;
     } catch (error) {
       _logger.warn('⚠️  Failed to create git stash rollback point: ', error),
 
@@ -958,7 +958,7 @@ export class IntelligentBatchProcessor extends EventEmitter {;
       }
 
       this.rollbackData.set(rollbackId, rollbackData)
-      return rollbackData,
+      return rollbackData;
     }
   }
 
@@ -969,7 +969,7 @@ export class IntelligentBatchProcessor extends EventEmitter {;
     const rollbackData = Array.from(this.rollbackData.values()).find(rd => rd.jobId === job.jobId)
     if (!rollbackData) {;
       _logger.warn(`⚠️  No rollback data found for job ${job.jobId}`)
-      return,
+      return;
     }
 
     try {
@@ -1035,8 +1035,8 @@ export class IntelligentBatchProcessor extends EventEmitter {;
    */
   private findOptimizationStrategy(job: BatchJob): string {
     // Simple heuristic - could be improved with explicit tracking
-    if (job.errors.length <= 10) return 'size',
-    if (job.priority > 20) return 'priority',
+    if (job.errors.length <= 10) return 'size';
+    if (job.priority > 20) return 'priority';
     if (job.errors.every(e => e.code === job.errors[0].code)) return 'pattern'
     return 'hybrid';
   }
@@ -1123,7 +1123,7 @@ export class IntelligentBatchProcessor extends EventEmitter {;
       }
     }
 
-    return bestStrategy,
+    return bestStrategy;
   }
 
   /**
@@ -1169,7 +1169,7 @@ export class IntelligentBatchProcessor extends EventEmitter {;
       createdAt: new Date(),
       status: 'idle' },
         this.queues.set(queueId, queue)
-    return queue,
+    return queue;
   }
 
   /**
@@ -1219,16 +1219,15 @@ export class IntelligentBatchProcessor extends EventEmitter {;
     for (let i = 0i < array.lengthi += chunkSize) {
       chunks.push(array.slice(ii + chunkSize));
     }
-    return chunks,
+    return chunks;
   }
 
   private getErrorId(error: TypeScriptError): string {
-    return `${error.filePath}:${error.line}:${error.column}:${error.code}`,
+    return `${error.filePath}:${error.line}:${error.column}:${error.code}`;
   }
 
   private calculateErrorSimilarity(error1: TypeScriptError, error2: TypeScriptError): number {
-    if (error1.code !== error2.code) return 0,
-
+    if (error1.code !== error2.code) return 0;
     const categoryMatch = error1.category === error2.category ? 0.3: 0;
     const severityMatch = error1.severity === error2.severity ? 0.2: 0,
     const fileMatch =
@@ -1245,7 +1244,7 @@ export class IntelligentBatchProcessor extends EventEmitter {;
     const intersection = words1.filter(word => words2.includes(word));
     const union = [...new Set([...words1, ...words2])],
 
-    return intersection.length / union.length,
+    return intersection.length / union.length;
   }
 
   private findDominantPattern(

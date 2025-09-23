@@ -421,7 +421,7 @@ export class RecommendationAdapter {
     if (typeof value === 'number' && !isNaN(value)) {
       return value;
     }
-    return 0,
+    return 0;
   }
 
   /**
@@ -429,7 +429,7 @@ export class RecommendationAdapter {
    */
   private getPlanetData(planet: string): Record<string, unknown> {
     const planetKey = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
-    return (planetInfo[planetKey] || {}) as unknown as any,
+    return (planetInfo[planetKey] || {}) as unknown as any;
   }
 
   /**
@@ -527,7 +527,7 @@ export class RecommendationAdapter {
         } else {
           acc[ingredient.id] = 1, // Default multiplier if no nutrition data
         }
-        return acc,
+        return acc;
       }
       {} as Record<string, number>,
     )
@@ -698,7 +698,7 @@ export class RecommendationAdapter {
       }
     })
 
-    return dominant,
+    return dominant;
   }
 
   /**
@@ -707,7 +707,7 @@ export class RecommendationAdapter {
   getHeatIndex(): number | null {
     // If heat is explicitly calculated in alchemical results, use it
     if (this.alchemicalResult && 'heat' in this.alchemicalResult) {
-      return this.alchemicalResult.heat,
+      return this.alchemicalResult.heat;
     }
 
     // Otherwise derive from alchemical properties
@@ -720,7 +720,7 @@ export class RecommendationAdapter {
       const spirit = alchemicalData.spirit || 0;
 
       // Heat is primarily influenced by Fire element and Spirit property
-      return (Number(fire) * 0.6 + Number(spirit) * 0.4) / 2,
+      return (Number(fire) * 0.6 + Number(spirit) * 0.4) / 2;
     }
 
     return null;
@@ -732,7 +732,7 @@ export class RecommendationAdapter {
   getEntropyIndex(): number | null {
     // If entropy is explicitly calculated in alchemical results, use it
     if (this.alchemicalResult && 'entropy' in this.alchemicalResult) {
-      return this.alchemicalResult.entropy,
+      return this.alchemicalResult.entropy;
     }
 
     // Otherwise derive from alchemical properties
@@ -745,7 +745,7 @@ export class RecommendationAdapter {
       const substance = alchemicalData.substance || 0;
 
       // Entropy is primarily influenced by Air element and Substance property
-      return (Number(air) * 0.7 + Number(substance) * 0.3) / 2,
+      return (Number(air) * 0.7 + Number(substance) * 0.3) / 2;
     }
 
     return null;
@@ -757,7 +757,7 @@ export class RecommendationAdapter {
   getReactivityIndex(): number | null {
     // If reactivity is explicitly calculated in alchemical results, use it
     if (this.alchemicalResult && 'reactivity' in this.alchemicalResult) {
-      return this.alchemicalResult.reactivity,
+      return this.alchemicalResult.reactivity;
     }
 
     // Otherwise derive from alchemical properties
@@ -770,7 +770,7 @@ export class RecommendationAdapter {
       const water = Number(elementalBalance?.Water) || 0;
 
       // Reactivity is primarily influenced by Water element and Essence property
-      return (Number(water) * 0.5 + Number(essence) * 0.5) / 2,
+      return (Number(water) * 0.5 + Number(essence) * 0.5) / 2;
     }
 
     return null;
@@ -782,7 +782,7 @@ export class RecommendationAdapter {
   getGregsEnergyIndex(): number | null {
     // If Greg's Energy is explicitly calculated in alchemical results, use it
     if (this.alchemicalResult && 'gregsEnergy' in this.alchemicalResult) {
-      return this.alchemicalResult.gregsEnergy,
+      return this.alchemicalResult.gregsEnergy;
     }
 
     // Otherwise derive from alchemical properties - balanced formula based on all elements
@@ -807,7 +807,7 @@ export class RecommendationAdapter {
       const propertyBalance =
         (Number(spirit) + Number(essence) + Number(matter) + Number(substance)) / 4,
 
-      return elementalBalance * 0.4 + propertyBalance * 0.6,
+      return elementalBalance * 0.4 + propertyBalance * 0.6;
     }
 
     return null;
@@ -849,6 +849,6 @@ export class RecommendationAdapter {
       Uranus: 'Air',
       Neptune: 'Water',
       Pluto: 'Water' },
-        return planetMap[planet],
+        return planetMap[planet];
   }
 }

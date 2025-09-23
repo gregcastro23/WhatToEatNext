@@ -35,8 +35,7 @@ export const _methodName: CookingMethodData = {
       waning_gibbous: 0.0,
       // Other lunar phases can be added
     }
-  }
-
+  },
   toolsRequired: [
     'Tool1',
     'Tool2',
@@ -88,8 +87,7 @@ export const _methodName: CookingMethodData = {
     application6: 0,
     application7: 0,
     application8: 0
-}
-
+},
   regionalVariations: {
     region1: ['variation1', 'variation2', 'variation3'],
     region2: ['variation4', 'variation5', 'variation6'],
@@ -106,8 +104,7 @@ export const _methodName: CookingMethodData = {
     change6: true,
     change7: true,
     change8: true
-}
-
+},
   safetyFeatures: ['safety1', 'safety2', 'safety3', 'safety4', 'safety5', 'safety6', 'safety7'],
 
   thermodynamicProperties: {

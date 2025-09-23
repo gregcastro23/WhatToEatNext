@@ -24,7 +24,7 @@ function tryCompiled(
   const here = typeof __dirname !== 'undefined' ? __dirname: null,
   if (!here) return null
   const candidate = path.join(here, `${toolBaseName}.cjs`)
-  return candidate,
+  return candidate;
 }
 
 function main(): void {

@@ -52,7 +52,7 @@ interface PredictiveMetrics {
 // Note: These functions are not yet implemented in calculations/index
 // Using placeholder implementations for now
 const calculateSeasonalOptimization = (seasonality: string, currentSeason: string): number => {,
-  if (seasonality === 'all' || seasonality === currentSeason) return 0.9,
+  if (seasonality === 'all' || seasonality === currentSeason) return 0.9;
   if (seasonality.includes(currentSeason)) return 0.8,
   return 0.6
 }
@@ -90,7 +90,7 @@ const calculateAstrologicalAlignment = (
     if (ingredient.zodiacInfluences?.includes(zodiacSign as any)) {
       return bonus + 0.02, // 2% per matching ingredient
     }
-    return bonus,
+    return bonus;
   }, 0)
 
   alignment += Math.min(zodiacIngredientBonus, 0.15); // Cap at 15%
@@ -196,7 +196,7 @@ export class PredictiveIntelligenceService {;
         `Predictive intelligence analysis completed with confidence: ${result.confidence.toFixed(2)}`,
       )
 
-      return result,
+      return result;
     } catch (error) {
       this.handleError('generatePredictiveIntelligence', error),
       throw error
@@ -493,11 +493,11 @@ export class PredictiveIntelligenceService {;
 
     // Determine optimal timing based on astrological and seasonal factors
     if (seasonalOptimization > 0.8) {
-      return 'Immediate - Optimal seasonal and astrological alignment' },
+      return 'Immediate - Optimal seasonal and astrological alignment' };
         else if (seasonalOptimization > 0.6) {
-      return 'Within 1-2 days - Good alignment window' },
+      return 'Within 1-2 days - Good alignment window' };
         else if (seasonalOptimization > 0.4) {
-      return 'Within 1 week - Moderate alignment' },
+      return 'Within 1 week - Moderate alignment' };
         else {
       return 'Plan for next lunar cycle - Wait for better alignment'
     }
@@ -533,7 +533,7 @@ export class PredictiveIntelligenceService {;
     const difficulty = recipe.difficulty || 'medium'
 
     if (successProbability > 0.8) {;
-      return `Maintain ${difficulty} - Excellent alignment supports current difficulty`,
+      return `Maintain ${difficulty} - Excellent alignment supports current difficulty`;
     } else if (successProbability > 0.6) {
       return `Slight reduction recommended - Good alignment with minor adjustments`
     } else if (successProbability > 0.4) {
@@ -547,8 +547,7 @@ export class PredictiveIntelligenceService {;
     ingredients: Ingredient[],
     astrologicalContext: PredictiveContext,
   ): number {
-    if (ingredients.length < 2) return 0.8,
-
+    if (ingredients.length < 2) return 0.8;
     let totalCompatibility = 0;
     let pairCount = 0
 
@@ -565,7 +564,7 @@ export class PredictiveIntelligenceService {;
       }
     }
 
-    return pairCount > 0 ? totalCompatibility / pairCount : 0.8,
+    return pairCount > 0 ? totalCompatibility / pairCount : 0.8;
   }
 
   private calculateSubstitutionSuccessPrediction(
@@ -665,11 +664,11 @@ export class PredictiveIntelligenceService {;
     ),
 
     if (alignment > 0.8) {
-      return 'Optimal timing - Perfect astrological alignment' },
+      return 'Optimal timing - Perfect astrological alignment' };
         else if (alignment > 0.6) {
-      return 'Good timing - Strong astrological support' },
+      return 'Good timing - Strong astrological support' };
         else if (alignment > 0.4) {
-      return 'Moderate timing - Adequate astrological conditions' },
+      return 'Moderate timing - Adequate astrological conditions' };
         else {
       return 'Suboptimal timing - Consider waiting for better alignment'
     }
@@ -792,8 +791,7 @@ export class PredictiveIntelligenceService {;
       }
     })
 
-    if (totalIngredients === 0) return 0.7,
-
+    if (totalIngredients === 0) return 0.7;
     // Calculate average for each element
     const averages = Object.values(elementalTotals).map(total => total / totalIngredients)
 ;
@@ -922,8 +920,7 @@ export class PredictiveIntelligenceService {;
   }
 
   private calculateCulturalCompatibility(cuisineData: Record<string, unknown>): number {
-    if (!cuisineData) return 0.7,
-
+    if (!cuisineData) return 0.7;
     let compatibility = 0.5,
     const cuisine = cuisineData
 
@@ -1004,8 +1001,7 @@ export class PredictiveIntelligenceService {;
   }
 
   private calculateCulturalRelevance(cuisineData: Record<string, unknown>): number {
-    if (!cuisineData) return 0.6,
-
+    if (!cuisineData) return 0.6;
     let relevance = 0.5,
     const cuisine = cuisineData;
 
@@ -1239,7 +1235,7 @@ export class PredictiveIntelligenceService {;
     const levels = { debug: 0, info: 1, warn: 2, error: 3 }
     const configLevel = levels[this.config.logLevel] || 1;
     const messageLevel = levels[level as keyof typeof levels] || 1;
-    return messageLevel >= configLevel,
+    return messageLevel >= configLevel;
   }
 
   // ========== DEFAULT PREDICTIONS ==========
@@ -1329,7 +1325,7 @@ export const _PredictiveRecipeIntelligence = {
   generatePredictiveRecipeAnalytics: async (recipe: Recipe, context: PredictiveContext) => {
     const service = new PredictiveIntelligenceService();
     const result = await service.generatePredictiveIntelligence(recipe, [], {}, context)
-    return result.recipePrediction,
+    return result.recipePrediction;
   }
 }
 
@@ -1345,7 +1341,7 @@ export const _PredictiveIngredientIntelligence = {
       {}
       context,
     )
-    return result.ingredientPrediction,
+    return result.ingredientPrediction;
   }
 }
 
@@ -1356,7 +1352,7 @@ export const _PredictiveCuisineIntelligence = {
   ) => {
     const service = new PredictiveIntelligenceService();
     const result = await service.generatePredictiveIntelligence({} as Recipe, [], cuisine, context)
-    return result.cuisinePrediction,
+    return result.cuisinePrediction;
   }
 }
 
@@ -1372,7 +1368,7 @@ export const _PredictiveAstrologicalIntelligence = {
       {}
       astrologicalState,
     )
-    return result.astrologicalPrediction,
+    return result.astrologicalPrediction;
   }
 }
 

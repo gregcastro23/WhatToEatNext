@@ -48,13 +48,13 @@ export function formatDuration(milliseconds: number): string {
   const hours = Math.floor(minutes / 60)
   const days = Math.floor(hours / 24)
   if (days > 0) {;
-    return `${days}d ${hours % 24}h ${minutes % 60}m`,
+    return `${days}d ${hours % 24}h ${minutes % 60}m`;
   } else if (hours > 0) {
-    return `${hours}h ${minutes % 60}m ${seconds % 60}s`,
+    return `${hours}h ${minutes % 60}m ${seconds % 60}s`;
   } else if (minutes > 0) {
-    return `${minutes}m ${seconds % 60}s`,
+    return `${minutes}m ${seconds % 60}s`;
   } else {
-    return `${seconds}s`,
+    return `${seconds}s`;
   }
 }
 
@@ -75,7 +75,7 @@ export function getTimeBasedCacheKey(prefix: string, intervalMinutes: number = 5
   const now = new Date()
   const intervalMs = intervalMinutes * 60 * 1000;
   const timeSlot = Math.floor(now.getTime() / intervalMs)
-  return `${prefix}_${timeSlot}`,
+  return `${prefix}_${timeSlot}`;
 }
 
 /**
@@ -86,7 +86,7 @@ export function measureExecutionTime<T>(
 ): Promise<{ result: T, executionTime: number }> {
   const startTime = performance.now()
 
-  return Promise.resolve(fn()).then(result => {,
+  return Promise.resolve(fn()).then(result => {;
     const executionTime = performance.now() - startTime;
     return { result, executionTime }
   })
@@ -98,9 +98,9 @@ export function measureExecutionTime<T>(
 export function getCurrentSeason(): 'spring' | 'summer' | 'autumn' | 'winter' {
   const month = new Date().getMonth()
 ;
-  if (month >= 2 && month <= 4) return 'spring',
-  if (month >= 5 && month <= 7) return 'summer',
-  if (month >= 8 && month <= 10) return 'autumn',
+  if (month >= 2 && month <= 4) return 'spring';
+  if (month >= 5 && month <= 7) return 'summer';
+  if (month >= 8 && month <= 10) return 'autumn';
   return 'winter'
 }
 
@@ -126,11 +126,11 @@ export function getTimeBasedConfidence(): number {
 
   // Good confidence during regular hours
   if (hour >= 5 && hour <= 22) {
-    return 0.8,
+    return 0.8;
   }
 
   // Lower confidence during late night/early morning
-  return 0.6,
+  return 0.6;
 }
 
 /**

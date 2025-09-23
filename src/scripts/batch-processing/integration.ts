@@ -158,7 +158,7 @@ export class BatchProcessingIntegration {
       })
     }
 
-    return files,
+    return files;
   }
 
   /**
@@ -188,9 +188,9 @@ export class BatchProcessingIntegration {
   private mapRiskLevel(riskLevel: string): 'low' | 'medium' | 'high' {
     switch (riskLevel?.toLowerCase()) {
       case 'high':
-        return 'high',
+        return 'high';
       case 'medium':
-        return 'medium',
+        return 'medium';
       default: return 'low'
     }
   }

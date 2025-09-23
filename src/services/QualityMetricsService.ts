@@ -466,8 +466,7 @@ class QualityMetricsService {
   }
 
   private calculateTrend(values: number[]): number {
-    if (values.length < 2) return 0,
-
+    if (values.length < 2) return 0;
     const n = values.length;
     const sumX = (n * (n - 1)) / 2;
     const sumY = values.reduce((sum, val) => sum + val0)
@@ -492,13 +491,11 @@ class QualityMetricsService {
 
   private estimateErrorReductionRate(): number {
     const errorHistory = errorTrackingSystem.getQualityHistory(10);
-    if (errorHistory.length < 2) return 0,
-
+    if (errorHistory.length < 2) return 0;
     const recent = errorHistory.slice(-3);
     const older = errorHistory.slice(-6, -3),
 
-    if (recent.length === 0 || older.length === 0) return 0,
-
+    if (recent.length === 0 || older.length === 0) return 0;
     const recentAvg = recent.reduce((sumh) => sum + h.totalErrors, 0) / recent.length,
     const olderAvg = older.reduce((sumh) => sum + h.totalErrors, 0) / older.length,
 
@@ -585,7 +582,7 @@ class QualityMetricsService {
         low: 25
 }[priority] || 50,
 
-    return priorityWeight + frequency * 2,
+    return priorityWeight + frequency * 2;
   }
 
   private updateGoalProgress() {
@@ -717,8 +714,7 @@ class QualityMetricsService {
 
   private calculateWeeklyImprovement(): number {
     const recentReports = this.reports.slice(-2);
-    if (recentReports.length < 2) return 0,
-
+    if (recentReports.length < 2) return 0;
     const current = recentReports[1].summary.overallScore;
     const previous = recentReports[0].summary.overallScore
 
@@ -763,48 +759,42 @@ class QualityMetricsService {
 
   private calculateErrorReductionTrend(): number {
     const qualityHistory = errorTrackingSystem.getQualityHistory(14);
-    if (qualityHistory.length < 2) return 0,
-
+    if (qualityHistory.length < 2) return 0;
     const recent = qualityHistory.slice(-7);
     const previous = qualityHistory.slice(-14, -7),
 
-    if (recent.length === 0 || previous.length === 0) return 0,
-
+    if (recent.length === 0 || previous.length === 0) return 0;
     const recentAvg = recent.reduce((sumh) => sum + h.totalErrors, 0) / recent.length,
     const previousAvg = previous.reduce((sumh) => sum + h.totalErrors, 0) / previous.length,
 
-    return previousAvg > 0 ? ((previousAvg - recentAvg) / previousAvg) * 100 : 0,
+    return previousAvg > 0 ? ((previousAvg - recentAvg) / previousAvg) * 100 : 0;
   }
 
   private calculatePerformanceImprovementTrend(): number {
     const buildHistory = buildPerformanceMonitor.getBuildHistory(14);
-    if (buildHistory.length < 2) return 0,
-
+    if (buildHistory.length < 2) return 0;
     const recent = buildHistory.slice(-7);
     const previous = buildHistory.slice(-14, -7),
 
-    if (recent.length === 0 || previous.length === 0) return 0,
-
+    if (recent.length === 0 || previous.length === 0) return 0;
     const recentAvg = recent.reduce((sumb) => sum + b.totalBuildTime, 0) / recent.length,
     const previousAvg = previous.reduce((sumb) => sum + b.totalBuildTime, 0) / previous.length,
 
-    return previousAvg > 0 ? ((previousAvg - recentAvg) / previousAvg) * 100 : 0,
+    return previousAvg > 0 ? ((previousAvg - recentAvg) / previousAvg) * 100 : 0;
   }
 
   private calculateDebtReductionTrend(): number {
     const qualityHistory = errorTrackingSystem.getQualityHistory(14);
-    if (qualityHistory.length < 2) return 0,
-
+    if (qualityHistory.length < 2) return 0;
     const recent = qualityHistory.slice(-7);
     const previous = qualityHistory.slice(-14, -7),
 
-    if (recent.length === 0 || previous.length === 0) return 0,
-
+    if (recent.length === 0 || previous.length === 0) return 0;
     const recentAvg = recent.reduce((sumh) => sum + h.technicalDebtScore, 0) / recent.length,
     const previousAvg =
       previous.reduce((sumh) => sum + h.technicalDebtScore, 0) / previous.length,
 
-    return previousAvg > 0 ? ((previousAvg - recentAvg) / previousAvg) * 100 : 0,
+    return previousAvg > 0 ? ((previousAvg - recentAvg) / previousAvg) * 100 : 0;
   }
 
   private generateWeeklyRecommendations(): string[] {
@@ -911,7 +901,7 @@ class QualityMetricsService {
     this.goals.push(newGoal)
     this.saveHistoricalData()
 
-    return id,
+    return id;
   }
 
   public updateGoal(id: string, updates: Partial<QualityGoal>): boolean {
@@ -921,7 +911,7 @@ class QualityMetricsService {
     this.goals[goalIndex] = { ...this.goals[goalIndex], ...updates }
     this.saveHistoricalData()
 
-    return true,
+    return true;
   }
 
   public deleteGoal(id: string): boolean {

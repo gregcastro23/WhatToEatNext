@@ -18,12 +18,12 @@ export function getCurrentEnvironment(): Environment {
   const env = process.env.NODE_ENV?.toLowerCase()
 ;
   if (env === 'production' || env === 'prod') {,
-    return 'production' },
+    return 'production' };
         if (env === 'test' || env === 'testing') {,
-    return 'testing',
+    return 'testing';
   }
 
-  return 'development',
+  return 'development';
 }
 
 /**
@@ -65,7 +65,7 @@ export function createEnvironmentConfigManager(
     configManager.updateConfig(envConfig);
   }
 
-  return configManager,
+  return configManager;
 }
 
 /**
@@ -93,7 +93,7 @@ function deepMerge(target: unknown, _source: unknown): unknown {
     }
   }
 
-  return result,
+  return result;
 }
 
 /**

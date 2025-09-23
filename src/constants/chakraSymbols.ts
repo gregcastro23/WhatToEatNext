@@ -80,7 +80,7 @@ export const CHAKRA_HERBS: Record<string, string[]> = {
 
 // Helper function to convert from capitalized chakra name to key format
 export function normalizeChakraKey(chakraName: string | undefined | null): string {
-  if (!chakraName) return '',
+  if (!chakraName) return '';
   if (chakraName.toLowerCase() === 'solar plexus') return 'solarPlexus',
   if (chakraName.toLowerCase() === 'third eye') return 'brow',
   return chakraName.toLowerCase()
@@ -88,8 +88,8 @@ export function normalizeChakraKey(chakraName: string | undefined | null): strin
 
 // Helper function to convert from key format to display name
 export function getChakraDisplayName(chakraKey: string): string {
-  if (chakraKey === 'solarPlexus') return 'Solar Plexus',
-  if (chakraKey === 'brow') return 'Third Eye',
+  if (chakraKey === 'solarPlexus') return 'Solar Plexus';
+  if (chakraKey === 'brow') return 'Third Eye';
   return chakraKey.charAt(0).toUpperCase() + chakraKey.slice(1)
 }
 
@@ -131,16 +131,14 @@ export const CHAKRA_MANTRA_INTELLIGENCE = {
         throat: Math.random() * 140 + 360, // 360-500 Hz,
         brow: Math.random() * 120 + 380, // 380-500 Hz,
         crown: Math.random() * 100 + 400, // 400-500 Hz
-      }
-
+      },
       // Mantra effectiveness metrics
       effectiveness: {
         pronunciationAccuracy: Math.random() * 0.3 + 0.7, // 70-100% accuracy,
         vibrationalResonance: Math.random() * 0.25 + 0.75, // 75-100% resonance,
         energyTransmission: Math.random() * 0.2 + 0.8, // 80-100% transmission,
         chakraActivation: Math.random() * 0.15 + 0.85, // 85-100% activation
-      }
-
+      },
       // Advanced vibrational analysis
       advancedVibrations: {
         harmonicResonance: {
@@ -206,7 +204,7 @@ export const CHAKRA_MANTRA_INTELLIGENCE = {
       )
     }
 
-    return recommendations,
+    return recommendations;
   }
 }
 
@@ -230,16 +228,14 @@ export const CHAKRA_VISUAL_INTELLIGENCE = {
         symbolicResonance: Math.random() * 0.2 + 0.8, // 80-100% resonance,
         energyTransmission: Math.random() * 0.15 + 0.85, // 85-100% transmission,
         visualHarmony: Math.random() * 0.1 + 0.9, // 90-100% harmony
-      }
-
+      },
       // Color analysis
       colorAnalysis: {
         colorBalance: Math.random() * 0.2 + 0.8, // 80-100% balance,
         colorHarmony: Math.random() * 0.15 + 0.85, // 85-100% harmony,
         colorResonance: Math.random() * 0.25 + 0.75, // 75-100% resonance,
         colorEffectiveness: Math.random() * 0.1 + 0.9, // 90-100% effectiveness
-      }
-
+      },
       // Advanced visual analysis
       advancedVisual: {
         geometricAnalysis: {
@@ -300,7 +296,7 @@ export const CHAKRA_VISUAL_INTELLIGENCE = {
       recommendations.push('Strengthen geometric symmetry for better visual balance')
     }
 
-    return recommendations,
+    return recommendations;
   }
 }
 
@@ -323,16 +319,14 @@ export const CHAKRA_NUTRITIONAL_INTELLIGENCE = {
         nutritionalBalance: Math.random() * 0.2 + 0.8, // 80-100% balance,
         energyEnhancement: Math.random() * 0.15 + 0.85, // 85-100% enhancement,
         chakraSupport: Math.random() * 0.1 + 0.9, // 90-100% support
-      }
-
+      },
       // Dietary analysis
       dietaryAnalysis: {
         foodCompatibility: Math.random() * 0.2 + 0.8, // 80-100% compatibility,
         nutritionalDensity: Math.random() * 0.25 + 0.75, // 75-100% density,
         energyValue: Math.random() * 0.15 + 0.85, // 85-100% energy value,
         dietaryEffectiveness: Math.random() * 0.1 + 0.9, // 90-100% effectiveness
-      }
-
+      },
       // Advanced nutritional analysis
       advancedNutritional: {
         seasonalAlignment: {
@@ -382,7 +376,7 @@ export const CHAKRA_NUTRITIONAL_INTELLIGENCE = {
       recommendations.push('Strengthen pranic value for better energetic resonance')
     }
 
-    return recommendations,
+    return recommendations;
   }
 }
 
@@ -406,16 +400,14 @@ export const CHAKRA_FUNCTIONAL_INTELLIGENCE = {
         systemIntegration: Math.random() * 0.2 + 0.8, // 80-100% integration,
         performanceOptimization: Math.random() * 0.15 + 0.85, // 85-100% optimization,
         functionalHarmony: Math.random() * 0.1 + 0.9, // 90-100% harmony
-      }
-
+      },
       // Herbal analysis
       herbalAnalysis: {
         herbEffectiveness: Math.random() * 0.2 + 0.8, // 80-100% effectiveness,
         herbCompatibility: Math.random() * 0.25 + 0.75, // 75-100% compatibility,
         herbResonance: Math.random() * 0.15 + 0.85, // 85-100% resonance,
         herbIntegration: Math.random() * 0.1 + 0.9, // 90-100% integration
-      }
-
+      },
       // Advanced functional analysis
       advancedFunctional: {
         operationalAnalysis: {
@@ -469,7 +461,7 @@ export const CHAKRA_FUNCTIONAL_INTELLIGENCE = {
       recommendations.push('Strengthen system efficiency for better operational balance')
     }
 
-    return recommendations,
+    return recommendations;
   }
 }
 
@@ -498,16 +490,14 @@ export const CHAKRA_DEMONSTRATION_PLATFORM = {
         platformIntegration: Math.random() * 0.2 + 0.8, // 80-100% integration,
         userExperience: Math.random() * 0.15 + 0.85, // 85-100% user experience,
         platformHarmony: Math.random() * 0.1 + 0.9, // 90-100% harmony
-      }
-
+      },
       // System analysis
       systemAnalysis: {
         systemCoherence: Math.random() * 0.2 + 0.8, // 80-100% coherence,
         systemIntegration: Math.random() * 0.25 + 0.75, // 75-100% integration,
         systemResonance: Math.random() * 0.15 + 0.85, // 85-100% resonance,
         systemEffectiveness: Math.random() * 0.1 + 0.9, // 90-100% effectiveness
-      }
-
+      },
       // Advanced platform analysis
       advancedPlatform: {
         demonstrationAnalysis: {
@@ -561,7 +551,7 @@ export const CHAKRA_DEMONSTRATION_PLATFORM = {
       recommendations.push('Strengthen clarity effectiveness for better platform balance')
     }
 
-    return recommendations,
+    return recommendations;
   }
 }
 
@@ -583,8 +573,7 @@ export const PHASE_32_CHAKRA_INTELLIGENCE_SUMMARY = {
         systemEffectiveness: Math.random() * 0.2 + 0.8, // 80-100% effectiveness,
         integrationLevel: Math.random() * 0.15 + 0.85, // 85-100% integration,
         overallHarmony: Math.random() * 0.1 + 0.9, // 90-100% harmony
-      }
-
+      },
       // Individual system summaries
       systemSummaries: {
         mantraIntelligence: {
@@ -612,8 +601,7 @@ export const PHASE_32_CHAKRA_INTELLIGENCE_SUMMARY = {
           integration: Math.random() * 0.25 + 0.75, // 75-100% integration,
           resonance: Math.random() * 0.15 + 0.85, // 85-100% resonance
         }
-      }
-
+      },
       // Comprehensive recommendations
       comprehensiveRecommendations: [
         'Enhance mantra vibrational frequencies for improved chakra activation',
@@ -663,7 +651,7 @@ function generateMantraRecommendations(analysis: {
     )
   }
 
-  return recommendations,
+  return recommendations;
 }
 
 function generateVisualRecommendations(analysis: {
@@ -690,7 +678,7 @@ function generateVisualRecommendations(analysis: {
     recommendations.push('Strengthen geometric symmetry for better visual balance')
   }
 
-  return recommendations,
+  return recommendations;
 }
 
 function generateNutritionalRecommendations(analysis: {
@@ -720,7 +708,7 @@ function generateNutritionalRecommendations(analysis: {
     recommendations.push('Strengthen pranic value for better energetic resonance')
   }
 
-  return recommendations,
+  return recommendations;
 }
 
 function generateFunctionalRecommendations(analysis: {
@@ -750,7 +738,7 @@ function generateFunctionalRecommendations(analysis: {
     recommendations.push('Strengthen system efficiency for better operational balance')
   }
 
-  return recommendations,
+  return recommendations;
 }
 
 function generatePlatformRecommendations(analysis: {
@@ -777,5 +765,5 @@ function generatePlatformRecommendations(analysis: {
     recommendations.push('Strengthen clarity effectiveness for better platform balance')
   }
 
-  return recommendations,
+  return recommendations;
 }

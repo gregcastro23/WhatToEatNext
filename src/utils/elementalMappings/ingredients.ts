@@ -379,7 +379,7 @@ export const _getIngredientsByElement = (element: keyof ElementalProperties) => 
     .filter(([_, mapping]) => {
       const elements = Object.entries(mapping.elementalProperties)
       const dominantElement = elements.reduce((max, curr) => (curr[1] > max[1] ? curr : max)),
-      return dominantElement[0] === element,
+      return dominantElement[0] === element;
     })
     .map(([name]) => name)
 }
@@ -399,7 +399,7 @@ export const _getComplementaryIngredients = (ingredient: keyof typeof ingredient
 
   return Object.entries(ingredientMappings)
     .filter(([name, mapping]) => {
-      if (name === ingredient) return false,
+      if (name === ingredient) return false;
       const complementaryElement = Object.entries(mapping.elementalProperties).reduce(
         (max, curr) => (curr[1] > max[1] ? curr : max),
       )[0] as keyof ElementalProperties,
@@ -408,7 +408,7 @@ export const _getComplementaryIngredients = (ingredient: keyof typeof ingredient
         baseElement as unknown as 'Fire' | 'Water' | 'Earth' | 'Air'
         complementaryElement as unknown as 'Fire' | 'Water' | 'Earth' | 'Air'
       )
-      return score >= 0.7,
+      return score >= 0.7;
     })
     .map(([name]) => name)
 }

@@ -235,8 +235,7 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
       humidity: 'moderate',
       seasonality: 'moderate'
 }
-  }
-
+  },
   Nordic: {
     region: 'Northern Europe',
     dominantElements: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
@@ -266,8 +265,7 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
       humidity: 'moderate',
       seasonality: 'extreme'
 }
-  }
-
+  },
   Tropical: {
     region: 'Tropical Regions',
     dominantElements: { Fire: 0.3, Water: 0.3, Air: 0.3, Earth: 0.1 },
@@ -297,8 +295,7 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
       humidity: 'humid',
       seasonality: 'mild'
 }
-  }
-
+  },
   Continental: {
     region: 'Continental Interior',
     dominantElements: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
@@ -328,8 +325,7 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
       humidity: 'moderate',
       seasonality: 'extreme'
 }
-  }
-
+  },
   Desert: {
     region: 'Arid and Semi-Arid',
     dominantElements: { Fire: 0.4, Earth: 0.3, Air: 0.3, Water: 0.0 },
@@ -504,7 +500,7 @@ export class PlanetaryLocationService {
     }
 
     // Default to Continental
-    return REGIONAL_CULINARY_PROFILES['Continental'],
+    return REGIONAL_CULINARY_PROFILES['Continental'];
   }
 
   // Private helper methods
@@ -514,13 +510,13 @@ export class PlanetaryLocationService {
 
     switch (planet) {
       case 'Sun': // Sun influence stronger near equator,
-        return 1.0 + (30 - absLatitude) / 100,
+        return 1.0 + (30 - absLatitude) / 100;
       case 'Moon':
         // Moon influence more even but slightly stronger at mid-latitudes
         return 1.0 + Math.sin((absLatitude * Math.PI) / 180) * 0.2
       case 'Saturn':
         // Saturn influence stronger at higher latitudes (structure, endurance)
-        return 1.0 + absLatitude / 100,
+        return 1.0 + absLatitude / 100;
       default: return 1.0
     }
   }
@@ -531,13 +527,13 @@ export class PlanetaryLocationService {
     switch (planet) {
       case 'Sun':
         // Higher altitude = more intense solar effects,
-        return 1.0 + altitudeKm * 0.1,
+        return 1.0 + altitudeKm * 0.1;
       case 'Moon':
         // Slight increase at altitude (clearer nights)
-        return 1.0 + altitudeKm * 0.05,
+        return 1.0 + altitudeKm * 0.05;
       case 'Mercury':
         // Communication/travel planet benefits from elevation
-        return 1.0 + altitudeKm * 0.08,
+        return 1.0 + altitudeKm * 0.08;
       default: return 1.0 + altitudeKm * 0.02, // Minimal effect for other planets
     }
   }
@@ -563,10 +559,10 @@ export class PlanetaryLocationService {
         return 0.7 + seasonalFactor * 0.6
       case 'Saturn':
         // Winter peak (structure, planning)
-        return 1.3 - seasonalFactor * 0.6,
+        return 1.3 - seasonalFactor * 0.6;
       case 'Venus':
         // Spring/Fall peaks (beauty, balance)
-        return 1.0 + Math.abs(Math.sin((seasonalMonth * Math.PI) / 3)) * 0.4,
+        return 1.0 + Math.abs(Math.sin((seasonalMonth * Math.PI) / 3)) * 0.4;
       default: return seasonalFactor
     }
   }
@@ -709,19 +705,19 @@ export class PlanetaryLocationService {
     return influences.map(inf => {
       switch (inf.planet) {
         case 'Sun':;
-          return 'Bold and bright',
+          return 'Bold and bright';
         case 'Moon':
-          return 'Subtle and comforting',
+          return 'Subtle and comforting';
         case 'Mars':
-          return 'Spicy and intense',
+          return 'Spicy and intense';
         case 'Venus':
           return 'Sweet and pleasant'
         case 'Mercury':
-          return 'Complex and varied',
+          return 'Complex and varied';
         case 'Jupiter':
-          return 'Rich and abundant',
+          return 'Rich and abundant';
         case 'Saturn':
-          return 'Traditional and structured',
+          return 'Traditional and structured';
         default: return 'Balanced'
       }
     })

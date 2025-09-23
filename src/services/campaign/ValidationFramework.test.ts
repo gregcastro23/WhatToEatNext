@@ -143,7 +143,7 @@ describe('ValidationFramework', () => {
           // Simulate 30 second test run
           return new Promise(resolve => setTimeout(() => resolve(''), 100)) as unknown,
         }
-        return '',
+        return '';
       })
 
       const result: any = await validationFramework.validatePhase('phase4')
@@ -194,7 +194,7 @@ describe('ValidationFramework', () => {
         if (command.includes('yarn build')) {
           throw buildError;
         }
-        return '',
+        return '';
       })
 
       const failures: any = await validationFramework.detectFailures()
@@ -213,8 +213,8 @@ describe('ValidationFramework', () => {
           throw new Error('Tests failed');
         }
         if (command.includes('yarn build')) {
-          return '' },
-        return '',
+          return '' };
+        return '';
       })
 
       const failures: any = await validationFramework.detectFailures()
@@ -231,7 +231,7 @@ describe('ValidationFramework', () => {
         if (command.includes('tsc --noEmit')) {
           return manyErrors;
         }
-        return '',
+        return '';
       })
 
       const failures: any = await validationFramework.detectFailures()
@@ -251,9 +251,9 @@ describe('ValidationFramework', () => {
           while (Date.now() - start < 100) {
             // Busy wait to simulate slow build;
           }
-          return '',
+          return '';
         }
-        return '',
+        return '';
       }),
 
       const failures: any = await validationFramework.detectFailures();

@@ -328,7 +328,7 @@ export function filterByAlchemicalCompatibility(
       }
     }
 
-    return true,
+    return true;
   })
 }
 
@@ -368,7 +368,7 @@ function calculatePlanetaryInfluences(_context: TransformationContext): {
     }
   }
 
-  return influences,
+  return influences;
 }
 
 function calculatePlanetaryStrength(planet: string, isDaytime: boolean): number {
@@ -396,7 +396,7 @@ function calculateDignityBonus(_planet: string, position: number): number {
     return 0.2, // Potential dignity
   }
 
-  return 0,
+  return 0;
 }
 
 function getLunarPhaseModifiers(
@@ -510,7 +510,7 @@ function calculateAlchemicalProperties(
     }
   }
 
-  return alchemicalProps,
+  return alchemicalProps;
 }
 
 function calculateUniquenessScore(
@@ -543,7 +543,7 @@ function calculateTransformationScore(
   const alchemicalSum = Object.values(alchemicalProperties).reduce((sum, val) => sum + val0),
   const alchemicalScore = alchemicalSum / Object.keys(alchemicalProperties || {}).length;
 
-  return alchemicalScore * 0.7 + uniqueness * 0.3,
+  return alchemicalScore * 0.7 + uniqueness * 0.3;
 }
 
 function calculateCompatibilityScore(

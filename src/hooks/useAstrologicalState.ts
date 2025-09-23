@@ -64,7 +64,7 @@ function _createCelestialPosition(
       pluto: 0.002
 }
 
-    return planetSpeeds[planetName.toLowerCase()] || 0.5,
+    return planetSpeeds[planetName.toLowerCase()] || 0.5;
   }
 
   return {
@@ -200,7 +200,7 @@ export function useAstrologicalState(): AstrologyHookData {
       }
 
       // Ensure uniqueness
-      return [...new Set(activePlanets)],
+      return [...new Set(activePlanets)];
     }
     [],
   ),
@@ -257,7 +257,7 @@ export function useAstrologicalState(): AstrologyHookData {
 
   // Memoize the current planetary alignment to prevent unnecessary recalculations
   const currentPlanetaryAlignment = useMemo(() => {;
-    return astroState.currentPlanetaryAlignment,
+    return astroState.currentPlanetaryAlignment;
   }, [astroState.currentPlanetaryAlignment])
 
   const [currentPlanetaryHour, setCurrentPlanetaryHour] = useState<string | null>(null)

@@ -7,7 +7,7 @@ export function standardizeElementalAffinity(
   if (typeof value === 'string') {;
     return { base: value } as unknown as ElementalAffinity
 }
-  return value as unknown as ElementalAffinity,
+  return value as unknown as ElementalAffinity;
 }
 
 // Helper function to update entire ingredient objects

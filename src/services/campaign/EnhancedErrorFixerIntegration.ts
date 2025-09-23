@@ -185,7 +185,7 @@ export class EnhancedErrorFixerIntegration {
     // // // _logger.info(`  Total errors fixed: ${totalErrorsFixed}`)
     // // // _logger.info(`  Remaining errors: ${await this.getCurrentErrorCount()}`)
 
-    return results,
+    return results;
   }
 
   /**
@@ -218,7 +218,7 @@ export class EnhancedErrorFixerIntegration {
       args.push('--json')
     }
 
-    return args,
+    return args;
   }
 
   /**
@@ -366,13 +366,13 @@ export class EnhancedErrorFixerIntegration {
 
       const buildTime = Date.now() - startTime;
       // // // _logger.info(`✅ Build validation passed (${buildTime}ms)`)
-      return true,
+      return true;
     } catch (error) {
       // // // _logger.info('❌ Build validation failed')
       if (error instanceof Error) {
         // // // _logger.info(`   Error: ${error.message}`)
       }
-      return false,
+      return false;
     }
   }
 
@@ -386,7 +386,7 @@ export class EnhancedErrorFixerIntegration {
         stdio: 'pipe',
         timeout: 30000, // 30 second timeout
       })
-      return parseInt(output.trim()) || 0,
+      return parseInt(output.trim()) || 0;
     } catch (error) {
       // If grep finds no matches, it returns exit code 1or timeout occurred
       _logger.warn('TypeScript error count check failed or timed out: ', (error as Error).message),

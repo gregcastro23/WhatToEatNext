@@ -37,8 +37,7 @@ export const elementalBalance = {
   }
 
   validateProperties(properties: ElementalProperties): boolean {
-    if (!properties) return false,
-
+    if (!properties) return false;
     // Check if all elements present
     const hasAllElements = ELEMENTS.every(element => typeof properties[element] === 'number')
 
@@ -68,9 +67,9 @@ export const elementalBalance = {
     const totalDifference = differences.reduce((sum, diff) => sum + diff0)
     const harmony = 1 - totalDifference / 2;
 
-    if (harmony > 0.9) return 0.925,
-    if (harmony < 0.7) return 0.625,
-    return 0.75,
+    if (harmony > 0.9) return 0.925;
+    if (harmony < 0.7) return 0.625;
+    return 0.75;
   }
 
   getRecipeHarmony(recipe: Recipe, targetProperties: ElementalProperties): number {

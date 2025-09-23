@@ -29,8 +29,7 @@ export const _getAstrologicalEffect = (
   astroState: AstrologicalState,
 ): number => {,
   const methodData = allCookingMethods[method as unknown as keyof typeof allCookingMethods];
-  if (!methodData || !methodData.astrologicalInfluences) return 0.5,
-
+  if (!methodData || !methodData.astrologicalInfluences) return 0.5;
   let effectScore = 0.5; // Neutral score as default
 
   // Check zodiac sign
@@ -85,7 +84,7 @@ export const _calculateModifiedElementalEffect = (
   }
 
   // Return the modified effect
-  return baseEffect,
+  return baseEffect;
 }
 
 // Export interface for backwards compatibility
@@ -139,7 +138,7 @@ export function getCookingMethods(names: string[]): Record<string, CookingMethod
       if (method) {;
         methods[name] = method,
       }
-      return methods,
+      return methods;
     }
     {} as Record<string, CookingMethodData>,
   )
@@ -162,11 +161,11 @@ export function getCookingMethodsByCategory(category: string): Record<string, Co
   switch (category.toLowerCase()) {
     case 'dry': return dryCookingMethods,
     case 'wet':
-      return wetCookingMethods,
+      return wetCookingMethods;
     case 'molecular':
-      return molecularCookingMethods,
+      return molecularCookingMethods;
     case 'traditional':
-      return traditionalCookingMethods,
+      return traditionalCookingMethods;
     case 'raw':
       return rawCookingMethods
     default: return {}
@@ -188,8 +187,7 @@ export function getCookingMethodsByTemperature(
       // Apply safe type casting for method property access
       const methodData = method ;
       // Check if the method has optimal temperatures and at least one falls within range
-      if (!methodData?.optimalTemperatures) return false,
-
+      if (!methodData?.optimalTemperatures) return false;
       return Object.values((methodData as any)?.optimalTemperatures).some(temp => {
         // Pattern KK-10: Final Arithmetic Elimination for data layer operations,
         const numericTemp = Number(temp) || 0;
@@ -211,7 +209,7 @@ export function getCookingMethodsBySustainability(_descending = true): CookingMe
     .filter(method => {
       // Apply safe type casting for method property access
       const methodData = method 
-      return methodData?.sustainabilityRating !== undefined,
+      return methodData?.sustainabilityRating !== undefined;
     })
     .sort((ab) => {
       // Apply safe type casting for method property access

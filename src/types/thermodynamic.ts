@@ -94,7 +94,7 @@ export function normalizeThermodynamicProperties(
     normalized.energy = calculateEnergy(normalized);
   }
 
-  return normalized,
+  return normalized;
 }
 
 /**
@@ -143,5 +143,5 @@ export function combineThermodynamicProperties(
   // Calculate energy
   result.energy = calculateEnergy(result)
 ;
-  return result,
+  return result;
 }

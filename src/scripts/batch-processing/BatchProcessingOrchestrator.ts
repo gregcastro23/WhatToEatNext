@@ -140,7 +140,7 @@ export class BatchProcessingOrchestrator {
       `   Risk, Distribution: Low(${riskSummary.low}) Medium(${riskSummary.medium}) High(${riskSummary.high}) Critical(${riskSummary.critical})`,
     )
 
-    return plan,
+    return plan;
   }
 
   /**
@@ -209,7 +209,7 @@ export class BatchProcessingOrchestrator {
       await this.generateCampaignReport()
     }
 
-    return this.currentCampaign,
+    return this.currentCampaign;
   }
 
   /**
@@ -248,7 +248,7 @@ export class BatchProcessingOrchestrator {
    * Convert risk assessments back to file processing info
    */
   private convertAssessmentsToFileInfo(assessments: FileRiskAssessment[]): FileProcessingInfo[] {
-    return assessments.map(assessment => ({,
+    return assessments.map(assessment => ({;
       filePath: assessment.filePath,
       relativePath: assessment.relativePath,
       isHighImpact: assessment.riskLevel === 'high' || assessment.riskLevel === 'critical',,
@@ -287,7 +287,7 @@ export class BatchProcessingOrchestrator {
       batches++
     }
 
-    return batches,
+    return batches;
   }
 
   /**
@@ -295,11 +295,11 @@ export class BatchProcessingOrchestrator {
    */
   private formatDuration(minutes: number): string {
     if (minutes < 60) {
-      return `${minutes} minutes`,
+      return `${minutes} minutes`;
     }
     const hours = Math.floor(minutes / 60);
     const remainingMinutes = minutes % 60;
-    return `${hours}h ${remainingMinutes}m`,
+    return `${hours}h ${remainingMinutes}m`;
   }
 
   /**
@@ -395,8 +395,7 @@ export class BatchProcessingOrchestrator {
    * Generate Markdown summary report
    */
   private generateMarkdownSummary(): string {
-    if (!this.currentCampaign) return '',
-
+    if (!this.currentCampaign) return '';
     const campaign = this.currentCampaign;
     const duration = campaign.endTime
       ? campaign.endTime.getTime() - campaign.startTime.getTime();

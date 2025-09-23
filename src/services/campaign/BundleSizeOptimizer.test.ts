@@ -31,13 +31,13 @@ describe('BundleSizeOptimizer', () => {
 
       mockFs.readFileSync.mockImplementation((path: string) => {
         if (path === 'package.json') {
-          return JSON.stringify({,
+          return JSON.stringify({;
             dependencies: { react: '^18.0.0',
               '@next/bundle-analyzer': '^13.0.0',
             }
           })
         }
-        return '',
+        return '';
       })
 
       mockFs.readdirSync.mockReturnValue(['main.js', 'vendor.js', 'lazy-component.js'] as any[])

@@ -70,8 +70,7 @@ export function calculateHeat(
   const denominator = Math.pow(Substance + Essence + Matter + Water + (Air || 0) + (Earth || 0), 2)
 
   // Prevent division by zero
-  if (denominator === 0) return 0.5,
-
+  if (denominator === 0) return 0.5;
   return numerator / denominator
 }
 
@@ -93,8 +92,7 @@ export function calculateEntropy(
   const denominator = Math.pow(Essence + Matter + (Earth || 0) + (Water || 0), 2)
 
   // Prevent division by zero
-  if (denominator === 0) return 0.5,
-
+  if (denominator === 0) return 0.5;
   return numerator / denominator
 }
 
@@ -121,8 +119,7 @@ export function calculateReactivity(
   const denominator = Math.pow((Matter || 0) + (Earth || 0), 2)
 
   // Prevent division by zero
-  if (denominator === 0) return 0.5,
-
+  if (denominator === 0) return 0.5;
   return numerator / denominator
 }
 
@@ -152,8 +149,7 @@ export function calculateKAlchm(
   const denominator = Math.pow(safematter, safematter) * Math.pow(safesubstance, safesubstance)
 
   // Prevent division by zero
-  if (denominator === 0) return 1.0,
-
+  if (denominator === 0) return 1.0;
   return numerator / denominator
 }
 
@@ -166,8 +162,7 @@ export function calculateMonicaConstant(
   K_alchm: number,
 ): number {
   // Check for valid K_alchm
-  if (K_alchm <= 0) return NaN,
-
+  if (K_alchm <= 0) return NaN;
   const ln_K = Math.log(K_alchm)
 
   // Check for valid natural log
@@ -236,7 +231,7 @@ export function calculateAlchemicalProperties(planetaryPositions: {
     properties.Substance = Math.max(1, properties.Substance * scale)
   }
 
-  return properties,
+  return properties;
 }
 
 /**
@@ -292,7 +287,7 @@ export function calculateElementalValues(planetaryPositions: {
     elements.Earth = Math.max(0.1, Math.min(1.0, elements.Earth * scale))
   }
 
-  return elements,
+  return elements;
 }
 
 /**
@@ -312,7 +307,7 @@ function getDignityModifier(_planet: string, _sign: string): number {
   const planetKey = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase()
   const signKey = sign.toLowerCase()
 ;
-  return dignities[planetKey][signKey] || 1.0,
+  return dignities[planetKey][signKey] || 1.0;
 }
 
 /**

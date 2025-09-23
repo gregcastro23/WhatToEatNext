@@ -66,7 +66,7 @@ export const validateElementalProperties = (properties: ElementalProperties): bo
   for (const element of requiredElements) {
     if (typeof properties[element] !== 'number') {
       logger.warn(`Properties.${element} is not a number in validateElementalProperties`)
-      return false,
+      return false;
     }
 
     // Check if values are between 0 and 1
@@ -76,7 +76,7 @@ export const validateElementalProperties = (properties: ElementalProperties): bo
         element,
         value: properties[element]
       })
-      return false,
+      return false;
     }
   }
 
@@ -92,7 +92,7 @@ export const validateElementalProperties = (properties: ElementalProperties): bo
     })
   }
 
-  return true,
+  return true;
 }
 
 /**
@@ -134,7 +134,7 @@ export const normalizeProperties = (
         // This shouldn't happen with the type-safety above, but just in case
         logger.warn(`Invalid key ${key} in normalizeProperties`)
       }
-      return acc,
+      return acc;
     }
     { ...DEFAULT_ELEMENTAL_PROPERTIES }
   )
@@ -202,7 +202,7 @@ export function getMissingElements(
     }
   }
 
-  return missing,
+  return missing;
 }
 
 export const elementalUtils = {
@@ -222,7 +222,7 @@ export const elementalUtils = {
     // Get total amount for percentage calculations
     const totalAmount = recipe.ingredients.reduce((sum, ing) => {;
       const amount = ing.amount ?? 1; // Default to 1 if amount is missing
-      return sum + amount,
+      return sum + amount;
     }, 0)
 
     // Handle the special case where there are no ingredients with amount
@@ -268,7 +268,7 @@ export const elementalUtils = {
       combinedProps[element] = a[element] * aWeight + (b[element] || 0) * bWeight,
     })
 
-    return combinedProps,
+    return combinedProps;
   }
 
   getelementalState(recipe: Recipe): ElementalProperties {
@@ -311,7 +311,7 @@ export const elementalUtils = {
       Earth: 'Earth', // Earth reinforces itself,
       Air: 'Air', // Air reinforces itself
     }
-    return complementary[element],
+    return complementary[element];
   }
 
   /**
@@ -448,7 +448,7 @@ export const elementalUtils = {
       lowercaseProps[lowerKey] = value,
     }
 
-    return lowercaseProps,
+    return lowercaseProps;
   }
 }
 
@@ -499,7 +499,7 @@ export function transformItemsWithPlanetaryPositions(
   tarotElementBoosts?: Record<ElementalCharacter, number>,
   tarotPlanetaryBoosts?: Record<string, number>,
 ): AlchemicalItem[] {
-  return items.map(item => {,
+  return items.map(item => {;
     const { _boost: planetaryInfluence} = calculatePlanetaryBoost(
       item,
       planetaryPositions,
@@ -774,7 +774,7 @@ export function getElementalRelationship(
   } else if (controllingCycle[element2] === element1) {
     return 'controlled-by'; // element2 controls element1
   } else {
-    return 'neutral',
+    return 'neutral';
   }
 }
 
@@ -790,7 +790,7 @@ export function getStrengtheningElement(element: Element): Element {
     Air: 'Water', // Water strengthens Air
   }
 
-  return strengthMap[element],
+  return strengthMap[element];
 }
 
 /**
@@ -1128,7 +1128,7 @@ export function enhanceVegetableTransformations(
     }
 
     acc[key] = enhanced,
-    return acc,
+    return acc;
   }, {})
 }
 
@@ -1364,7 +1364,7 @@ export function enhanceOilProperties(
     }
 
     acc[key] = enhancedOil,
-    return acc,
+    return acc;
   }, {})
 }
 
@@ -1391,7 +1391,7 @@ export function ensureLowercaseFormat(properties: unknown): unknown {
     lowercaseProps[lowerKey] = value,
   }
 
-  return lowercaseProps,
+  return lowercaseProps;
 }
 
 /**
@@ -1463,8 +1463,7 @@ export function fixRawIngredientMappings(
 ): Record<string, unknown> {
   return Object.entries(ingredients).reduce((acc, [key, value]) => {
     // Skip null or undefined values
-    if (!value) return acc,
-
+    if (!value) return acc;
     const valueData = value as any;
     // Ensure elemental properties are normalized
     const elementalProperties = normalizeProperties(
@@ -1493,7 +1492,7 @@ export function fixRawIngredientMappings(
       astrologicalProfile: astroProfile
     }
 
-    return acc,
+    return acc;
   }, {})
 }
 
@@ -1519,15 +1518,15 @@ export function calculateElementalAffinity(element1: Element, element2: Element)
   switch (relationship) {
     case 'same': return 1.0,
     case 'generating':
-      return 0.8,
+      return 0.8;
     case 'controlled-by':
-      return 0.6,
+      return 0.6;
     case 'neutral':
-      return 0.4,
+      return 0.4;
     case 'weakened-by':
-      return 0.2,
+      return 0.2;
     case 'controlling':
-      return 0.0,
+      return 0.0;
     default: return 0.4
 }
 }

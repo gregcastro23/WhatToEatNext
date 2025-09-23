@@ -90,8 +90,7 @@ const rawPeppers = {
       duration: 'whole: 2-3 years, ground: 3-4 months',
       notes: 'Best stored whole and ground as needed'
 }
-  }
-
+  },
   white_pepper: {
     name: 'White Pepper',
     elementalProperties: { Fire: 0.5, Earth: 0.3, Air: 0.2, Water: 0 },
@@ -150,8 +149,7 @@ const rawPeppers = {
       duration: 'whole: 1-2 years, ground: 2-3 months',
       notes: 'More delicate than black pepper'
 }
-  }
-
+  },
   pink_peppercorn: {
     name: 'Pink Peppercorn',
     elementalProperties: { Air: 0.4, Fire: 0.3, Water: 0.2, Earth: 0.1 },
@@ -200,8 +198,7 @@ const rawPeppers = {
       warning: 'May cause reaction in people with tree nut allergies',
       related_to: 'cashews and mangoes'
 }
-  }
-
+  },
   szechuan_peppercorn: {
     name: 'Szechuan Peppercorn',
     elementalProperties: { Fire: 0.5, Air: 0.3, Wood: 0.2, Water: 0, Earth: 0.1 },
@@ -238,8 +235,7 @@ const rawPeppers = {
       duration: 'whole: 1-2 years, ground: 1 month',
       notes: 'Volatile oils dissipate quickly when ground'
 }
-  }
-
+  },
   long_pepper: {
     name: 'Long Pepper',
     elementalProperties: { Fire: 0.6, Earth: 0.3, Air: 0.1, Water: 0 },

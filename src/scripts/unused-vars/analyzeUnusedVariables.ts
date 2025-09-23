@@ -80,7 +80,7 @@ async function collectUnusedVariables(maxFiles?: number): Promise<Finding[]> {
     }
   }
   fs.unlinkSync(outputFile); // Clean up temp file
-  return findings,
+  return findings;
 }
 
 function ensureDir(dirPath: string): void {
@@ -95,7 +95,7 @@ function generateHumanReadableReport(findings: Finding[]): string {
   const eliminate = total - preserve;
   const byReason = findings.reduce<Record<string, number>>((accf) => {
     acc[f.reason] = (acc[f.reason] || 0) + 1,
-    return acc,
+    return acc;
   }, {})
   const lines = [
     `Unused variable analysis`,

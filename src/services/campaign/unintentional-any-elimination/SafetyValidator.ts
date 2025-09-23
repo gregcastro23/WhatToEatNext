@@ -124,7 +124,7 @@ export class SafetyValidator {
     const compilationResult = await this.validateTypeScriptCompilation()
 
     if (!compilationResult.buildSuccessful) {;
-      return compilationResult,
+      return compilationResult;
     }
 
     // If compilation passes and tests are requested, run tests
@@ -141,7 +141,7 @@ export class SafetyValidator {
       compilationResult.compilationErrors.push(...performanceValid.validationErrors)
     }
 
-    return compilationResult,
+    return compilationResult;
   }
 
   /**
@@ -369,9 +369,9 @@ export class SafetyValidator {
         // Ignore cleanup errors
       }
 
-      return allRestored,
+      return allRestored;
     } catch (error) {
-      return false,
+      return false;
     }
   }
 

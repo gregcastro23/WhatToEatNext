@@ -16,8 +16,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
         third: { element: 'Air', planet: 'Mercury' }
         }
       }
-    }
-
+    },
     qualities: ['sweet', 'cooling', 'nourishing'],
     season: ['summer'],
     category: 'fruit',
@@ -56,12 +55,10 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
     varieties: {}
-  }
-
+  },
   pineapple: {
     name: 'Pineapple',
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
@@ -76,8 +73,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
         third: { element: 'Air', planet: 'Jupiter' }
         }
       }
-    }
-
+    },
     qualities: ['sweet-tart', 'warming', 'cleansing'],
     season: ['spring', 'summer'],
     category: 'fruit',
@@ -114,12 +110,10 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
     varieties: {}
-  }
-
+  },
   papaya: {
     name: 'Papaya',
     elementalProperties: { Water: 0.5, Fire: 0.2, Air: 0.2, Earth: 0.1 },
@@ -157,16 +151,14 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
     varieties: {}
 
@@ -211,16 +203,14 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
     varieties: {}
 
@@ -265,16 +255,14 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
     varieties: {}
 
@@ -282,8 +270,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   lychee: {
     name: 'Lychee',
     elementalProperties: { Water: 0.5, Air: 0.3, Fire: 0.1, Earth: 0.1 },
@@ -320,16 +307,14 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
     varieties: {}
 
@@ -337,8 +322,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   guava: {
     name: 'Guava',
     elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 },
@@ -375,16 +359,14 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
     varieties: {}
 
@@ -392,8 +374,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   rambutan: {
     name: 'Rambutan',
     elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 },
@@ -430,16 +411,14 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
     varieties: {}
 
@@ -447,8 +426,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   mangosteen: {
     name: 'Mangosteen',
     elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
@@ -485,16 +463,14 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
     varieties: {}
 
@@ -502,8 +478,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   soursop: {
     name: 'Soursop',
     elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.1, Earth: 0.2 },
@@ -540,16 +515,14 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
     varieties: {}
 
@@ -557,8 +530,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   jackfruit: {
     name: 'Jackfruit',
     elementalProperties: { Water: 0.3, Earth: 0.3, Air: 0.2, Fire: 0.2 },
@@ -595,16 +567,14 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
     varieties: {}
 
@@ -612,8 +582,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   durian: {
     name: 'Durian',
     elementalProperties: { Water: 0.3, Earth: 0.4, Fire: 0.2, Air: 0.1 },
@@ -650,16 +619,14 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
     varieties: {}
 
@@ -667,8 +634,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   carambola: {
     name: 'Carambola',
     elementalProperties: { Water: 0.6, Air: 0.2, Fire: 0.1, Earth: 0.1 },
@@ -704,16 +670,14 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
     varieties: {}
 
@@ -721,8 +685,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   kiwi: {
     name: 'Kiwi',
     elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.1, Earth: 0.2 },
@@ -759,16 +722,14 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
     varieties: {}
 
@@ -776,8 +737,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   coconut: {
     name: 'Coconut',
     elementalProperties: { Water: 0.4, Earth: 0.4, Air: 0.1, Fire: 0.1 },
@@ -814,16 +774,14 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
     varieties: {}
 
@@ -831,8 +789,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   pomelo: {
     name: 'Pomelo',
     elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 },
@@ -869,16 +826,14 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
     varieties: {}
 
@@ -886,8 +841,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   longan: {
     name: 'Longan',
     elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 },
@@ -924,16 +878,14 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
     varieties: {}
 
@@ -978,16 +930,14 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
     varieties: {}
 

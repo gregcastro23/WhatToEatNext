@@ -474,7 +474,7 @@ function standardizeRecipeIngredients(ingredients: unknown): RecipeIngredient[] 
     return []
   }
 
-  return (ingredients || []).map(ingredient => {,
+  return (ingredients || []).map(ingredient => {;
     if (typeof ingredient === 'string') {,
       return {
         name: ingredient,
@@ -508,7 +508,7 @@ function standardizeNutritionalInfo(_info: unknown): { [key: string]: unknown } 
     return undefined
   }
 
-  return info as any,
+  return info as any;
 }
 
 function validateDifficulty(difficulty: unknown): boolean {

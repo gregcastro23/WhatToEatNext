@@ -198,7 +198,7 @@ export class ScriptIntegrationSystem {
     // Log execution summary
     this.logExecutionSummary(scriptId, result)
 
-    return result,
+    return result;
   }
 
   /**
@@ -218,7 +218,7 @@ export class ScriptIntegrationSystem {
 })
 
       if (result.metrics) {
-        return result.metrics,
+        return result.metrics;
       }
 
       // Fallback: try to read metrics file directly
@@ -310,10 +310,10 @@ export class ScriptIntegrationSystem {
         resetMetrics: true,
         silent: true
 })
-      return true,
+      return true;
     } catch (error) {
       _logger.warn(`⚠️ Could not reset metrics for ${scriptId}:`, error)
-      return false,
+      return false;
     }
   }
 
@@ -364,7 +364,7 @@ export class ScriptIntegrationSystem {
       args.push('--reset-metrics')
     }
 
-    return args,
+    return args;
   }
 
   /**
@@ -403,7 +403,7 @@ export class ScriptIntegrationSystem {
             lastRunTime: jsonData.safetyMetrics.lastRunTime || ''
           }
         }
-        return result,
+        return result;
       }
     } catch (error) {
       // Continue with text parsing
@@ -460,7 +460,7 @@ export class ScriptIntegrationSystem {
       }
     }
 
-    return result,
+    return result;
   }
 
   /**

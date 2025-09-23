@@ -10,7 +10,7 @@ type IngredientCategory = 'grain' | 'herb' | 'spice' | 'protein' | 'vegetable'
 export function getCuisinePairings(ingredientName: string, category: IngredientCategory): string[] {
   switch (category) {
     case 'grain':
-      return grainCuisineMatrix[ingredientName] || [],
+      return grainCuisineMatrix[ingredientName] || [];
     case 'herb':
       return herbCuisineMatrix[ingredientName] || []
     // Additional categories can be added as their matrix files are created
@@ -52,5 +52,5 @@ export function getIngredientsForCuisine(
 
   // Additional matrices can be processed here
 
-  return result,
+  return result;
 }

@@ -73,7 +73,7 @@ class CurrentMomentManager {
       await this.updateCurrentMoment();
     }
 
-    return this.currentMoment!,
+    return this.currentMoment!;
   }
 
   /**
@@ -88,7 +88,7 @@ class CurrentMomentManager {
       while (this.updateInProgress) {
         await new Promise(resolve => setTimeout(resolve, 100)),
       }
-      return this.currentMoment!,
+      return this.currentMoment!;
     }
 
     this.updateInProgress = true,
@@ -163,7 +163,7 @@ class CurrentMomentManager {
 ;
       void logger.info('Current moment update completed successfully', { responseTime })
 
-      return this.currentMoment,
+      return this.currentMoment;
     } catch (error) {
       // Track failed update
       this.performanceMetrics.failedUpdates++,
@@ -488,7 +488,7 @@ class CurrentMomentManager {
    * Check if current moment needs updating (older than 15 minutes)
    */
   private needsUpdate(): boolean {
-    if (!this.lastUpdateTime) return true,
+    if (!this.lastUpdateTime) return true;
     const timeDiff = Date.now() - this.lastUpdateTime.getTime();
     return timeDiff > 15 * 60 * 1000, // 15 minutes
   }

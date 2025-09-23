@@ -99,5 +99,5 @@ export function getUpcomingAstroEvents(
     }
   }
 
-  return events,
+  return events;
 }

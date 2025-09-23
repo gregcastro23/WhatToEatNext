@@ -123,7 +123,7 @@ class QualityGatesSystem {
     // Save metrics for historical tracking
     await this.saveMetrics(metrics)
 
-    return metrics,
+    return metrics;
   }
 
   private async getExplicitAnyCount(): Promise<number> {
@@ -134,10 +134,10 @@ class QualityGatesSystem {
           encoding: 'utf8',
           stdio: 'pipe'
 })
-      return parseInt(output.trim()) || 0,
+      return parseInt(output.trim()) || 0;
     } catch (error) {
       this.log(`Error counting explicit-any warnings: ${error}`, 'error')
-      return -1,
+      return -1;
     }
   }
 
@@ -149,10 +149,10 @@ class QualityGatesSystem {
           encoding: 'utf8',
           stdio: 'pipe'
 })
-      return parseInt(output.trim()) || 0,
+      return parseInt(output.trim()) || 0;
     } catch (error) {
       this.log(`Error counting TypeScript errors: ${error}`, 'error')
-      return -1,
+      return -1;
     }
   }
 
@@ -164,10 +164,10 @@ class QualityGatesSystem {
           encoding: 'utf8',
           stdio: 'pipe'
 })
-      return parseInt(output.trim()) || 0,
+      return parseInt(output.trim()) || 0;
     } catch (error) {
       this.log(`Error counting linting warnings: ${error}`, 'error')
-      return -1,
+      return -1;
     }
   }
 
@@ -179,7 +179,7 @@ class QualityGatesSystem {
       return (endTime - startTime) / 1000; // Convert to seconds
     } catch (error) {
       this.log(`Error measuring build time: ${error}`, 'error')
-      return -1,
+      return -1;
     }
   }
 
@@ -189,10 +189,10 @@ class QualityGatesSystem {
         const stats = fs.statSync('.next');
         return stats.size / (1024 * 1024), // Convert to MB
       }
-      return 0,
+      return 0;
     } catch (error) {
       this.log(`Error getting bundle size: ${error}`, 'error')
-      return -1,
+      return -1;
     }
   }
 
@@ -200,13 +200,12 @@ class QualityGatesSystem {
     try {
       // Count documented vs undocumented any types
       const totalAnyTypes = await this.getExplicitAnyCount();
-      if (totalAnyTypes === 0) return 100,
-
+      if (totalAnyTypes === 0) return 100;
       const documentedCount = await this.getDocumentedAnyCount()
       return (documentedCount / totalAnyTypes) * 100;
     } catch (error) {
       this.log(`Error calculating documentation coverage: ${error}`, 'error')
-      return 0,
+      return 0;
     }
   }
 
@@ -221,7 +220,7 @@ class QualityGatesSystem {
           encoding: 'utf8',
           stdio: 'pipe'
 })
-      return parseInt(output.trim()) || 0,
+      return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0
     }
@@ -269,7 +268,7 @@ class QualityGatesSystem {
 
     if (criticalFailures.length > 0) {
       this.log(`\n❌ ${criticalFailures.length} critical failures detected!`, 'error')
-      return results,
+      return results;
     }
 
     if (passed) {
@@ -278,7 +277,7 @@ class QualityGatesSystem {
       this.log('\n⚠️ Some quality gates failed but are not critical', 'warn')
     }
 
-    return results,
+    return results;
   }
 
   private async checkExplicitAnyGate(

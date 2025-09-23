@@ -13,7 +13,7 @@ function calculateSeasonalEffectiveness(recipe: Partial<Recipe>, season: string)
     return 0.5 // Default medium effectiveness if no seasonality data
   }
 
-  return recipe.seasonality[season as keyof typeof recipe.seasonality] || 0.5,
+  return recipe.seasonality[season as keyof typeof recipe.seasonality] || 0.5;
 }
 
 test('seasonal calculations work correctly', () => {

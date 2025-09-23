@@ -59,10 +59,10 @@ export async function getCuisineRecommendations(): Promise<CuisineRecommendation
         }
       })
 
-    return recommendations,
+    return recommendations;
   } catch (error) {
     _logger.error('Error getting cuisine recommendations: ', error)
-    return [],
+    return [];
   }
 }
 
@@ -82,12 +82,12 @@ function deriveAstrologicalInfluences(tradition: unknown): string[] {
     (astroProfile as any)?.influences.length > 0 &&
     !(astroProfile as any)?.influences.includes('Universal')
   ) {
-    return (astroProfile as any)?.influences,
+    return (astroProfile as any)?.influences;
   }
 
   // Otherwise, use ruling planets from astrologicalProfile if available
   if (astroProfile?.rulingPlanets && (astroProfile as any)?.rulingPlanets.length > 0) {
-    return (astroProfile as any)?.rulingPlanets,
+    return (astroProfile as any)?.rulingPlanets;
   }
 
   // Collect influences from regional cuisines if available
@@ -118,5 +118,5 @@ function deriveAstrologicalInfluences(tradition: unknown): string[] {
   }
 
   // Return empty array instead of showing empty section
-  return [],
+  return [];
 }

@@ -100,7 +100,7 @@ export function getUserFoodCompatibility(
   )
 
   // Weight factors (favoring elemental compatibility over just sign compatibility)
-  return baseAffinity * 0.4 + elementalCompatibility * 0.6,
+  return baseAffinity * 0.4 + elementalCompatibility * 0.6;
 }
 
 /**
@@ -212,7 +212,7 @@ export function generatePersonalizedMealPlan(
     userSign
   )
 
-  return mealPlan,
+  return mealPlan;
   */
 }
 

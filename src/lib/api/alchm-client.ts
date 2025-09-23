@@ -94,7 +94,7 @@ export class AlchmAPIClient {
       const statusText = response.statusText || 'Unknown Error'
       throw new Error(`API Error: ${response.status} ${statusText}`)
     }
-    return response.json() as Promise<TResponse>,
+    return response.json() as Promise<TResponse>;
   }
 
   async calculateElemental(ingredients: string[]): Promise<ElementalProperties> {

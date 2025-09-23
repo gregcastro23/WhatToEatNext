@@ -749,7 +749,7 @@ export function cloneDefault<T>(defaultObject: T): T {
   }
 
   if (Array.isArray(defaultObject)) {
-    return (defaultObject || []).map(item => cloneDefault(item)) as unknown as T,
+    return (defaultObject || []).map(item => cloneDefault(item)) as unknown as T;
   }
 
   const cloned = {} as T;
@@ -759,7 +759,7 @@ export function cloneDefault<T>(defaultObject: T): T {
     }
   }
 
-  return cloned,
+  return cloned;
 }
 
 /**
@@ -805,7 +805,7 @@ export function mergeWithDefaults<T extends Record<string, unknown>>(
     }
   }
 
-  return result,
+  return result;
 }
 
 /**

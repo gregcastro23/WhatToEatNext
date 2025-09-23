@@ -129,7 +129,7 @@ export function getSeasonalCookingRecommendations(_season: string): {
     }
   }
 
-  return recommendations[seasonKey] || recommendations.spring,
+  return recommendations[seasonKey] || recommendations.spring;
 }
 
 /**
@@ -240,7 +240,7 @@ function generateSeasonalRecommendations(
     recommendations.push('Consider timing preparation with a more favorable lunar phase')
   }
 
-  return recommendations,
+  return recommendations;
 }
 
 export default {

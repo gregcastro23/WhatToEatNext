@@ -101,5 +101,5 @@ export function useRecovery() {
   if (!context) {
     throw new Error('useRecovery must be used within RecoveryProvider');
   }
-  return context,
+  return context;
 }

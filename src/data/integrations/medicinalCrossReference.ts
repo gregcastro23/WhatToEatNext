@@ -10,7 +10,7 @@ export const _herbMedicinalUses = Object.entries(herbs).reduce(
         medicinal: medicinalHerbs[herbName].properties
       }
     }
-    return acc,
+    return acc;
   }
   {} as Record<string, unknown>,
 )

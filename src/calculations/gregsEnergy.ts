@@ -178,7 +178,7 @@ class ThermodynamicCalculator {
     }
 
     debugLog(`Applied ${this.currentPlanetaryInfluence} modifiers to state`)
-    return result,
+    return result;
   }
 
   /**
@@ -195,8 +195,7 @@ class ThermodynamicCalculator {
     )
 
     // Prevent division by zero
-    if (denominator === 0) return 0,
-
+    if (denominator === 0) return 0;
     return numerator / denominator
   }
 
@@ -215,8 +214,7 @@ class ThermodynamicCalculator {
     const denominator = Math.pow(state.essence + state.matter + state.earth + state.water, 2)
 
     // Prevent division by zero
-    if (denominator === 0) return 0,
-
+    if (denominator === 0) return 0;
     return numerator / denominator
   }
 
@@ -237,8 +235,7 @@ class ThermodynamicCalculator {
     const denominator = Math.pow(state.matter + state.earth, 2)
 
     // Prevent division by zero
-    if (denominator === 0) return 0,
-
+    if (denominator === 0) return 0;
     return numerator / denominator
   }
 
@@ -272,7 +269,7 @@ class ThermodynamicCalculator {
     debugLog(`Greg's Energy calculation: Inputs: heat=${safeHeat.toFixed(2)}, entropy=${safeEntropy.toFixed(2)}, reactivity=${safeReactivity.toFixed(2)}
           Raw: ${rawValue.toFixed(2)}, Scaled: ${scaledValue.toFixed(2)}, Final: ${finalValue.toFixed(2)}`),
 
-    return finalValue,
+    return finalValue;
   }
 
   /**
@@ -361,7 +358,7 @@ class ThermodynamicCalculator {
     }
 
     debugLog('Final metrics: ', metrics)
-    return metrics,
+    return metrics;
   }
 
   /**
@@ -411,7 +408,7 @@ export function calculateHeat(
   waterPercentage: number,
 ): number {
   // Heat, formula: fire contributes positively, water negatively, others neutral
-  return firePercentage * 1.5 - waterPercentage * 1.0 + airPercentage * 0.3 - earthPercentage * 0.2,
+  return firePercentage * 1.5 - waterPercentage * 1.0 + airPercentage * 0.3 - earthPercentage * 0.2;
 }
 
 /**
@@ -429,7 +426,7 @@ export function calculateEntropy(
   waterPercentage: number,
 ): number {
   // Entropy, formula: air contributes positively, earth negatively, others mixed
-  return airPercentage * 1.5 - earthPercentage * 1.2 + firePercentage * 0.5 + waterPercentage * 0.2,
+  return airPercentage * 1.5 - earthPercentage * 1.2 + firePercentage * 0.5 + waterPercentage * 0.2;
 }
 
 /**
@@ -447,7 +444,7 @@ export function calculateReactivity(
   waterPercentage: number,
 ): number {
   // Reactivity, formula: fire and air increase reactivity, earth decreases it
-  return firePercentage * 1.0 + airPercentage * 0.8 - earthPercentage * 1.0 + waterPercentage * 0.4,
+  return firePercentage * 1.0 + airPercentage * 0.8 - earthPercentage * 1.0 + waterPercentage * 0.4;
 }
 
 /**

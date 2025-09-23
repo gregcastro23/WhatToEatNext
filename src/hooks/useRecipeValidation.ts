@@ -139,7 +139,7 @@ export function useRecipeValidation() {
       })
     }
 
-    return errors,
+    return errors;
   }
 
   // Generate smart suggestions
@@ -206,7 +206,7 @@ export function useRecipeValidation() {
 })
     }
 
-    return suggestions,
+    return suggestions;
   }
 
   // Main validation function

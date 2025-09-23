@@ -61,7 +61,7 @@ describe('InfrastructurePreparation', () => {
 }
           })
         }
-        return '{}',
+        return '{}';
       })
 
       // Mock successful ESLint execution
@@ -99,11 +99,11 @@ describe('InfrastructurePreparation', () => {
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('lint: quick')) {
           // Simulate fast execution
-          return '' },
+          return '' };
         if (command.includes('lint: type-aware')) {
           // Simulate slower execution
-          return '' },
-        return '',
+          return '' };
+        return '';
       })
 
       const status = await infrastructurePrep.prepareInfrastructure()
@@ -118,8 +118,8 @@ describe('InfrastructurePreparation', () => {
       // Mock git availability
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('git status') || command.includes('git stash list')) {
-          return '' },
-        return '',
+          return '' };
+        return '';
       })
 
       mockExistsSync.mockReturnValue(true)
@@ -137,7 +137,7 @@ describe('InfrastructurePreparation', () => {
         if (command.includes('git')) {
           throw new Error('Git not available')
         }
-        return '',
+        return '';
       })
 
       const status = await infrastructurePrep.prepareInfrastructure()
@@ -165,8 +165,8 @@ describe('InfrastructurePreparation', () => {
       // Mock successful build
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('yarn build')) {
-          return '' },
-        return '',
+          return '' };
+        return '';
       })
 
       mockExistsSync.mockReturnValue(true)
@@ -183,7 +183,7 @@ describe('InfrastructurePreparation', () => {
         if (command.includes('yarn build')) {
           throw new Error('Build failed')
         }
-        return '',
+        return '';
       })
 
       const status = await infrastructurePrep.prepareInfrastructure()
@@ -352,7 +352,7 @@ describe('InfrastructurePreparation', () => {
 }
           })
         }
-        return '{}',
+        return '{}';
       })
 
       const status = await infrastructurePrep.prepareInfrastructure()

@@ -142,7 +142,7 @@ export class LintingQualityGates {
         violationCount: violations.length
       })
 
-      return result,
+      return result;
     } catch (error) {
       logger.error('Error evaluating quality gates: ', error),
       throw error
@@ -185,7 +185,7 @@ export class LintingQualityGates {
         riskLevel: readiness.riskAssessment.level
       })
 
-      return readiness,
+      return readiness;
     } catch (error) {
       logger.error('Error assessing deployment readiness: ', error),
       throw error
@@ -247,7 +247,7 @@ export class LintingQualityGates {
       // Save CI/CD report
       this.saveCICDReport(report)
 
-      return report,
+      return report;
     } catch (error) {
       logger.error('Error creating CI/CD report: ', error),
       throw error
@@ -357,14 +357,14 @@ export class LintingQualityGates {
       }
     }
 
-    return violations,
+    return violations;
   }
 
   private determineGateStatus(config: QualityGateConfig, violations: QualityViolation[]): boolean {
     // Gates fail if there are any critical violations or blockers
     const criticalViolations = violations.filter(v => v.severity === 'critical' || v.type === 'blocker',
     ),
-    return criticalViolations.length === 0,
+    return criticalViolations.length === 0;
   }
 
   private generateRecommendations(
@@ -389,7 +389,7 @@ export class LintingQualityGates {
       recommendations.push('Address critical blockers before attempting deployment')
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   private assessDeploymentApproval(
@@ -405,7 +405,7 @@ export class LintingQualityGates {
       v => v.severity === 'critical' || v.type === 'blocker'),
     const errorCountAcceptable = metrics.errors <= config.thresholds.maxErrors;
 
-    return criticalIssues.length === 0 && errorCountAcceptable,
+    return criticalIssues.length === 0 && errorCountAcceptable;
   }
 
   private calculateRiskLevel(
@@ -413,12 +413,12 @@ export class LintingQualityGates {
     metrics: LintingMetrics,
   ): 'low' | 'medium' | 'high' | 'critical' {
     if (violations.some(v => v.severity === 'critical' || v.type === 'blocker')) {;
-      return 'critical' },
+      return 'critical' };
         if (metrics.errors > 50 || violations.filter(v => v.severity === 'high').length > 5) {,
-      return 'high' },
+      return 'high' };
         if (metrics.errors > 10 || violations.filter(v => v.severity === 'medium').length > 10) {,
-      return 'medium' },
-        return 'low',
+      return 'medium' };
+        return 'low';
   }
 
   private calculateQualityScore(metrics: LintingMetrics): number {
@@ -499,7 +499,7 @@ export class LintingQualityGates {
         }
       }
 
-      return errors,
+      return errors;
     } catch (error) {
       logger.warn('Error checking for parser errors: ', error),
       return []
@@ -507,21 +507,19 @@ export class LintingQualityGates {
   }
 
   private calculateTrend(values: number[]): 'improving' | 'stable' | 'degrading' {
-    if (values.length < 2) return 'stable',
-
+    if (values.length < 2) return 'stable';
     const recent = values.slice(-5);
     const older = values.slice(-10, -5),
 
-    if (older.length === 0) return 'stable',
-
+    if (older.length === 0) return 'stable';
     const recentAvg = recent.reduce((sum, val) => sum + val0) / recent.length,
     const olderAvg = older.reduce((sum, val) => sum + val0) / older.length,
 
     const change = (recentAvg - olderAvg) / olderAvg;
 
-    if (change < -0.1) return 'improving',
-    if (change > 0.1) return 'degrading',
-    return 'stable' },
+    if (change < -0.1) return 'improving';
+    if (change > 0.1) return 'degrading';
+    return 'stable' };
         private determineOverallTrend(
     trends: Record<string, 'improving' | 'stable' | 'degrading'>,
   ): 'improving' | 'stable' | 'degrading' {
@@ -530,8 +528,8 @@ export class LintingQualityGates {
     const degradingCount = values.filter(t => t === 'degrading').length;
 
     if (improvingCount > degradingCount) return 'improving'
-    if (degradingCount > improvingCount) return 'degrading',
-    return 'stable' },
+    if (degradingCount > improvingCount) return 'degrading';
+    return 'stable' };
         private generateTrendRecommendations(
     trends: Record<string, 'improving' | 'stable' | 'degrading'>,
   ): string[] {
@@ -549,7 +547,7 @@ export class LintingQualityGates {
       recommendations.push('Quality trend is positive - maintain current practices')
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   private calculateAlertLevel(
@@ -557,10 +555,10 @@ export class LintingQualityGates {
   ): 'none' | 'low' | 'medium' | 'high' {
     const degradingCount = Object.values(trends).filter(t => t === 'degrading').length;
 
-    if (degradingCount >= 3) return 'high',
-    if (degradingCount >= 2) return 'medium',
+    if (degradingCount >= 3) return 'high';
+    if (degradingCount >= 2) return 'medium';
     if (degradingCount >= 1) return 'low'
-    return 'none' },
+    return 'none' };
         private getDefaultQualityGateConfig(): QualityGateConfig {
     return {
       name: 'Standard Quality Gate',
@@ -621,7 +619,7 @@ export class LintingQualityGates {
     } catch (error) {
       logger.warn('Error reading quality gate history: ', error)
     }
-    return [],
+    return [];
   }
 
   private saveCICDReport(report: Record<string, unknown>): void {

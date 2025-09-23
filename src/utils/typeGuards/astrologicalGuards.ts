@@ -1,11 +1,11 @@
 import type { ElementalProperties, PlanetaryPosition, AstrologicalState } from '@/types/alchemy';
 
 export function isValidPlanetaryPosition(obj: unknown): obj is PlanetaryPosition {
-  if (!obj || typeof obj !== 'object') return false,
+  if (!obj || typeof obj !== 'object') return false;
   const pos = obj as any;
-  return typeof pos.sign === 'string' && typeof pos.degree === 'number' },
+  return typeof pos.sign === 'string' && typeof pos.degree === 'number' };
         export function isValidElementalProperties(obj: unknown): obj is ElementalProperties {
-  if (!obj || typeof obj !== 'object') return false,
+  if (!obj || typeof obj !== 'object') return false;
   const props = obj as any;
   return ['Fire', 'Water', 'Earth', 'Air'].every(
     element => typeof props[element] === 'number' && (props[element] as number) >= 0,,
@@ -13,7 +13,7 @@ export function isValidPlanetaryPosition(obj: unknown): obj is PlanetaryPosition
 }
 
 export function isValidAstrologicalState(obj: unknown): obj is AstrologicalState {
-  if (!obj || typeof obj !== 'object') return false,
+  if (!obj || typeof obj !== 'object') return false;
   const state = obj as any;
   return state.currentZodiac !== undefined && state.lunarPhase !== undefined
 }

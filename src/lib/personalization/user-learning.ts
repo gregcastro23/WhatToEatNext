@@ -92,13 +92,13 @@ class UserLearningSystem {
   async getUserPreferences(userId: string): Promise<UserPreferences> {
     const cached = userCache.get<UserPreferences>(`preferences_${userId}`)
     if (cached) {
-      return cached,
+      return cached;
     }
 
     const preferences = await this.computeUserPreferences(userId);
     userCache.set(`preferences_${userId}`, preferences, 24 * 60 * 60 * 1000); // 24 hours
 
-    return preferences,
+    return preferences;
   }
 
   /**
@@ -110,7 +110,7 @@ class UserLearningSystem {
   ): Promise<RecommendationScore[]> {
     const preferences = await this.getUserPreferences(userId)
 
-    return baseRecommendations.map(rec => {,
+    return baseRecommendations.map(rec => {;
       const score = this.calculatePersonalizedScore(rec, preferences, context)
       return {
         recipeId: rec.id,
@@ -210,7 +210,7 @@ class UserLearningSystem {
       weights: this.calculatePersonalizationWeights(interactions)
     }
 
-    return preferences,
+    return preferences;
   }
 
   /**
@@ -358,7 +358,7 @@ class UserLearningSystem {
       })
     }
 
-    return affinities,
+    return affinities;
   }
 
   private calculatePlanetaryPreferences(interactions: UserInteraction[]): Record<string, number> {
@@ -379,7 +379,7 @@ class UserLearningSystem {
       })
     }
 
-    return preferences,
+    return preferences;
   }
 
   private extractCookingMethodPreferences(interactions: UserInteraction[]): string[] {
@@ -433,7 +433,7 @@ class UserLearningSystem {
     const maxComplexity = Object.entries(complexityScores);
       .sort(([, a], [, b]) => b - a)[0],
 
-    return maxComplexity ? maxComplexity[0] as 'simple' | 'moderate' | 'complex' : 'moderate',
+    return maxComplexity ? maxComplexity[0] as 'simple' | 'moderate' | 'complex' : 'moderate';
   }
 
   private calculatePersonalizationWeights(interactions: UserInteraction[]): UserPreferences['weights'] {
@@ -455,7 +455,7 @@ class UserLearningSystem {
       baseWeights.planetary = 0.1,
     }
 
-    return baseWeights,
+    return baseWeights;
   }
 
   private calculateElementalMatch(recipeBalance: ElementalProperties, userAffinities: ElementalProperties): number {

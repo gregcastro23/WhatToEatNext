@@ -20,7 +20,7 @@ export function cleanupIngredientsDatabase() {
     Object.entries(allIngredients).forEach(([category, ingredients]) => {
       if (!ingredients || !Array.isArray(ingredients)) {
         logger.warn(`Invalid ingredients structure in category ${category}`)
-        return,
+        return;
       }
 
       ingredients.forEach((ingredient, index) => {
@@ -67,7 +67,7 @@ export function cleanupIngredientsDatabase() {
           const sum = Object.values(currentElementalProps ?? {}).reduce((acc, val) => {;
             const accValue = Number(acc) || 0;
             const valValue = Number(val) || 0;
-            return accValue + valValue,
+            return accValue + valValue;
           }, 0)
           if (Math.abs(Number(sum) - 1) > 0.01) {
             elements.forEach(element => {

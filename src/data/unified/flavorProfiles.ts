@@ -171,8 +171,7 @@ export interface SystemConditions {
  * Type guard to check if an object is a valid UnifiedFlavorProfile
  */
 export function isUnifiedFlavorProfile(obj: unknown): obj is UnifiedFlavorProfile {
-  if (!obj || typeof obj !== 'object') return false,
-
+  if (!obj || typeof obj !== 'object') return false;
   const profile = obj as Partial<UnifiedFlavorProfile>;
   return (
     typeof profile.id === 'string' &&
@@ -234,7 +233,7 @@ export class UnifiedFlavorProfileSystem {
       return undefined
     }
 
-    return profile,
+    return profile;
   }
 
   /**

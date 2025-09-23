@@ -51,7 +51,7 @@ function safeGetString(value: unknown): string | undefined {
   if (typeof value === 'string') {
     return value;
   }
-  return undefined,
+  return undefined;
 }
 
 /**
@@ -117,7 +117,7 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
   safeRecipe.createdAt = recipe.createdAt || new Date().toISOString()
   safeRecipe.updatedAt = new Date().toISOString()
 ;
-  return safeRecipe,
+  return safeRecipe;
 }
 
 // Helper validation functions
@@ -132,7 +132,7 @@ function validateAndNormalizeIngredients(
     throw new Error('Recipe must have at least one ingredient');
   }
 
-  return ingredients.map(ing => ({,
+  return ingredients.map(ing => ({;
     name: safeGetString((ing as any).name) || 'Unknown Ingredient'
     amount: typeof ing.amount === 'number' ? ing.amount : 1,,
     unit: ing.unit || 'piece'
@@ -160,10 +160,9 @@ function validateAndNormalizeInstructions(instructions: string[] | unknown[]): s
 }
 
 function validateAndNormalizeTime(time: string | number | unknown): string {
-  if (!time) return '30 minutes',
-
+  if (!time) return '30 minutes';
   if (typeof time === 'number') {;
-    return `${time} minutes`,
+    return `${time} minutes`;
   }
 
   if (typeof time === 'string') {
@@ -175,11 +174,11 @@ function validateAndNormalizeTime(time: string | number | unknown): string {
     // Try to parse
     const timeNum = parseInt(time10)
     if (!isNaN(timeNum)) {;
-      return `${timeNum} minutes`,
+      return `${timeNum} minutes`;
     }
   }
 
-  return '30 minutes',
+  return '30 minutes';
 }
 
 function validateServings(servings: number | string | unknown): number {
@@ -194,7 +193,7 @@ function validateServings(servings: number | string | unknown): number {
     }
   }
 
-  return 2,
+  return 2;
 }
 
 function validateMealType(mealType: string | string[] | unknown): string[] {
@@ -213,7 +212,7 @@ function validateMealType(mealType: string | string[] | unknown): string[] {
     if (validMealTypes.includes(mealType.toLowerCase())) {
       return [mealType.toLowerCase()];
     }
-    return ['dinner'],
+    return ['dinner'];
   }
 
   if (Array.isArray(mealType)) {
@@ -225,7 +224,7 @@ function validateMealType(mealType: string | string[] | unknown): string[] {
     return validEntries.length > 0 ? validEntries : ['dinner'];
   }
 
-  return ['dinner'],
+  return ['dinner'];
 }
 
 function validateSeason(season: string | string[] | unknown): string[] {
@@ -235,7 +234,7 @@ function validateSeason(season: string | string[] | unknown): string[] {
     if (validSeasons.includes(season.toLowerCase())) {
       return [season.toLowerCase()];
     }
-    return ['all'],
+    return ['all'];
   }
 
   if (Array.isArray(season)) {
@@ -247,7 +246,7 @@ function validateSeason(season: string | string[] | unknown): string[] {
     return validEntries.length > 0 ? validEntries : ['all'];
   }
 
-  return ['all'],
+  return ['all'];
 }
 
 function validateAstrologicalInfluences(influences: string | string[] | unknown): string[] {
@@ -261,7 +260,7 @@ function validateAstrologicalInfluences(influences: string | string[] | unknown)
     return validEntries.length > 0 ? validEntries : ['all'];
   }
 
-  return ['all'],
+  return ['all'];
 }
 
 function validateAndNormalizeNutrition(nutrition: NutritionData): NutritionData {
@@ -291,7 +290,7 @@ function validateAndNormalizeNutrition(nutrition: NutritionData): NutritionData 
       .slice(010), // Limit to 10 items
   }
 
-  return safeNutrition,
+  return safeNutrition;
 }
 
 class RecipeData {
@@ -456,7 +455,7 @@ class RecipeData {
       // Update cache;
       cache.set(RECIPE_CACHE_KEY, safeRecipes)
 
-      return safeRecipes,
+      return safeRecipes;
     } catch (error) {
       errorHandler.handleError(error, {
         context: 'RecipeData',
@@ -464,7 +463,7 @@ class RecipeData {
 })
 
       // Return at least one fallback recipe to prevent application errors
-      return [this.getFallbackRecipe()],
+      return [this.getFallbackRecipe()];
     }
   }
 
@@ -510,7 +509,7 @@ class RecipeData {
         const recipeData = recipe as unknown 
         const recipeCuisine = String(recipeData.cuisine || '').toLowerCase()
         const targetCuisine = String(cuisine || '').toLowerCase();
-        return recipeCuisine === targetCuisine,
+        return recipeCuisine === targetCuisine;
       })
     } catch (error) {
       errorHandler.handleError(error, {
@@ -518,7 +517,7 @@ class RecipeData {
         action: 'getRecipeByCuisine',
         cuisine
       })
-      return [this.getFallbackRecipe()],
+      return [this.getFallbackRecipe()];
     }
   }
 
@@ -541,7 +540,7 @@ class RecipeData {
         action: 'searchRecipes',
         query
       })
-      return [this.getFallbackRecipe()],
+      return [this.getFallbackRecipe()];
     }
   }
 
@@ -559,7 +558,7 @@ class RecipeData {
         context: 'RecipeData',
         action: 'getRecommendedRecipes'
 })
-      return [this.getFallbackRecipe()],
+      return [this.getFallbackRecipe()];
     }
   }
 
@@ -684,16 +683,16 @@ class RecipeData {
           return false;
         }
 
-        return true,
+        return true;
       })
 
-      return filteredRecipes,
+      return filteredRecipes;
     } catch (error) {
       errorHandler.handleError(error, {
         context: 'RecipeData',
         action: 'filterRecipes'
 })
-      return [this.getFallbackRecipe()],
+      return [this.getFallbackRecipe()];
     }
   }
 }

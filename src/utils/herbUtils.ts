@@ -13,15 +13,12 @@ export const _herbUtils = {
     return Object.entries(herbs)
       .filter(([_, herb]) => herb.culinary_traditions?.[cuisine])
       .map(([name_]) => name)
-  }
-
+  },
   _findComplementary: (herbName: string, cuisine: string) => {
     const herb = herbs[herbName];
-    if (!herb.culinary_traditions?.[cuisine]) return [],
-
+    if (!herb.culinary_traditions?.[cuisine]) return [];
     return herb.culinary_traditions[cuisine].pairings
-  }
-
+  },
   _getSeasonalRecommendations: (season: string, cuisine: string) => {
     return seasonalHerbGuide[season].cuisines[cuisine] || []
   }

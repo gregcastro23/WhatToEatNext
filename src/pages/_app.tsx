@@ -48,10 +48,10 @@ export default function App({ Component, pageProps }: AppProps) {
           event.message.includes('Assignment to constant variable')
         ) {
           event.preventDefault()
-          return true,
+          return true;
         }
       }
-      return false,
+      return false;
     }
 
     // Function to ensure error handling scripts are loaded

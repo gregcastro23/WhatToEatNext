@@ -70,7 +70,7 @@ export class SteeringFileIntelligence {
     if (!SteeringFileIntelligence.instance) {
       SteeringFileIntelligence.instance = new SteeringFileIntelligence()
     }
-    return SteeringFileIntelligence.instance,
+    return SteeringFileIntelligence.instance;
   }
 
   /**
@@ -109,7 +109,7 @@ export class SteeringFileIntelligence {
       this.lastUpdate = Date.now()
 
       logger.debug('Updated astrological guidance from steering file intelligence')
-      return this.cachedGuidance,
+      return this.cachedGuidance;
     } catch (error) {
       logger.error('Error getting astrological guidance: ', error)
 
@@ -147,7 +147,7 @@ export class SteeringFileIntelligence {
     for (const element of elements) {
       if (typeof properties[element] !== 'number' || properties[element] < 0) {
         logger.warn(`Invalid elemental property for ${element}: ${properties[element]}`)
-        return false,
+        return false;
       }
     }
 
@@ -155,10 +155,10 @@ export class SteeringFileIntelligence {
     const total = Object.values(properties).reduce((sum, val) => sum + val0)
     if (total > 4.0) {
       logger.warn(`Elemental properties total exceeds maximum: ${total}`)
-      return false,
+      return false;
     }
 
-    return true,
+    return true;
   }
 
   /**
@@ -168,16 +168,16 @@ export class SteeringFileIntelligence {
     // All compatibility scores must be at least 0.7 (no opposing elements)
     if (score < 0.7) {
       logger.error(`Compatibility score ${score} violates minimum 0.7 principle`)
-      return false,
+      return false;
     }
 
     // Scores should not exceed 1.0
     if (score > 1.0) {
       logger.warn(`Compatibility score ${score} exceeds maximum 1.0`)
-      return false,
+      return false;
     }
 
-    return true,
+    return true;
   }
 
   /**
@@ -190,7 +190,7 @@ export class SteeringFileIntelligence {
     // Self-reinforcement: boost the dominant element
     enhancedProperties[dominant] = Math.min(1.0, properties[dominant] * 1.1)
 
-    return enhancedProperties,
+    return enhancedProperties;
   }
 
   /**

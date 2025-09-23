@@ -51,7 +51,7 @@ export class ServicesManager {
     if (!ServicesManager.instance) {
       ServicesManager.instance = new ServicesManager();
     }
-    return ServicesManager.instance,
+    return ServicesManager.instance;
   }
 
   /**

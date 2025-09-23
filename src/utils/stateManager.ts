@@ -119,7 +119,7 @@ class StateManager {
       StateManager.instance = new StateManager()
       await StateManager.instance.initializeState()
     }
-    return StateManager.instance,
+    return StateManager.instance;
   }
 
   private loadInitialState(): AppState {
@@ -135,7 +135,7 @@ class StateManager {
             cached.ui.activeFilters = new Set(ui.activeFilters as string[])
           }
         }
-        return cached,
+        return cached;
       }
 
       const stored = typeof window !== 'undefined' ? localStorage.getItem(this.STORAGE_KEY) : null,
@@ -159,8 +159,7 @@ class StateManager {
 
   // Add helper to validate the state structure
   private isValidAppState(obj: unknown): obj is AppState {
-    if (!obj || typeof obj !== 'object') return false,
-
+    if (!obj || typeof obj !== 'object') return false;
     const data = obj as any;
     return !!(data.recipes && data.celestial && data.user && data.ui)
   }

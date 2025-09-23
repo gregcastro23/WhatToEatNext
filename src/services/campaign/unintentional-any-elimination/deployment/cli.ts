@@ -102,7 +102,7 @@ program
           // // // _logger.info(`    Tasks: ${phase.tasks.length}`)
           // // // _logger.info(`    Validations: ${phase.validationChecks.length}`)
         })
-        return,
+        return;
       }
 
       // Execute deployment

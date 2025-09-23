@@ -127,7 +127,7 @@ export class SafeBatchProcessor {
       `   Success Rate: ${((results.filter(r => r.success).length / results.length) * 100).toFixed(1)}%`,
     )
 
-    return results,
+    return results;
   }
 
   /**
@@ -224,7 +224,7 @@ export class SafeBatchProcessor {
       stashId,
     )
 
-    return result,
+    return result;
   }
 
   /**
@@ -262,7 +262,7 @@ export class SafeBatchProcessor {
 
       // Within same risk level, process files with fewer variables first
       if (a.unusedVariableCount !== b.unusedVariableCount) {
-        return a.unusedVariableCount - b.unusedVariableCount,
+        return a.unusedVariableCount - b.unusedVariableCount;
       }
 
       // Finally, sort alphabetically for consistency
@@ -296,7 +296,7 @@ export class SafeBatchProcessor {
       batches.push(currentBatch)
     }
 
-    return batches,
+    return batches;
   }
 
   /**
@@ -308,7 +308,7 @@ export class SafeBatchProcessor {
       return this.config.maxBatchSizeCritical
     }
 
-    return this.config.maxBatchSize,
+    return this.config.maxBatchSize;
   }
 
   /**
@@ -374,10 +374,10 @@ export class SafeBatchProcessor {
         stdio: 'pipe',
         timeout: 30000, // 30 second timeout
       })
-      return true,
+      return true;
     } catch (error) {
       this.log('debug', `TypeScript compilation failed: ${error}`)
-      return false,
+      return false;
     }
   }
 

@@ -114,7 +114,7 @@ export class AutomatedQualityAssurance {
     if (!AutomatedQualityAssurance.instance) {
       AutomatedQualityAssurance.instance = new AutomatedQualityAssurance(config)
     }
-    return AutomatedQualityAssurance.instance,
+    return AutomatedQualityAssurance.instance;
   }
 
   /**
@@ -306,7 +306,7 @@ export class AutomatedQualityAssurance {
         })
       }
 
-      return trigger,
+      return trigger;
     } catch (error) {
       logger.error('Error checking TypeScript error threshold: ', error),
       return null
@@ -483,7 +483,7 @@ export class AutomatedQualityAssurance {
   private calculateDataFreshness(_positions: Record<string, unknown>): number {
     // In a real implementation, this would check the timestamp of the data
     // For now, return 1.0 (fresh) as a placeholder
-    return 1.0,
+    return 1.0;
   }
 
   private validateCulturalSensitivity(ingredientNames: string[]): number {
@@ -493,7 +493,7 @@ export class AutomatedQualityAssurance {
       sensitiveTerms.some(term => name.toLowerCase().includes(term)),
     ),
 
-    return issues.length === 0 ? 1.0 : Math.max(01.0 - ((issues as any)?.length || 0) * 0.2),
+    return issues.length === 0 ? 1.0 : Math.max(01.0 - ((issues as any)?.length || 0) * 0.2);
   }
 
   private checkCampaignTriggers(type: CampaignTrigger['type'], value: number): void {
@@ -543,18 +543,17 @@ export class AutomatedQualityAssurance {
 
   private determineAction(type: string, value: number): CampaignTrigger['action'] {
     const thresholds = this.getThresholdsForType(type as CampaignTrigger['type'])
-    if (!thresholds) return 'monitor',
-
+    if (!thresholds) return 'monitor';
     if (type === 'typescript' || type === 'linting') {,
       // For error counts, higher values are worse
-      if (value > thresholds.critical) return 'emergency',
-      if (value > thresholds.warning) return 'campaign',
-      return 'monitor' },
+      if (value > thresholds.critical) return 'emergency';
+      if (value > thresholds.warning) return 'campaign';
+      return 'monitor' };
         else {
       // For scores, lower values are worse
-      if (value < 0.7) return 'emergency',
-      if (value < thresholds.critical) return 'campaign',
-      if (value < thresholds.warning) return 'warn',
+      if (value < 0.7) return 'emergency';
+      if (value < thresholds.critical) return 'campaign';
+      if (value < thresholds.warning) return 'warn';
       return 'monitor'
     }
   }

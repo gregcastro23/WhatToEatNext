@@ -168,7 +168,7 @@ function calculateCuisineElementalAlignment(_cuisine: string): ElementalProperti
     alignment = { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 }
   }
 
-  return alignment,
+  return alignment;
 }
 
 /**
@@ -193,7 +193,7 @@ function generateCuisineReasons(
     reasons.push(`Good planetary alignment for this cuisine style`)
   }
 
-  return reasons,
+  return reasons;
 }
 
 /**

@@ -158,11 +158,11 @@ export class CulinaryAstrologer {
       const elementalAffinity = data.astrologicalProfile?.elementalAffinity;
       // Handle cases where elementalAffinity might be a string or an object with a base property
       if (typeof elementalAffinity === 'string') {,
-        return elementalAffinity === dominantElement,
+        return elementalAffinity === dominantElement;
       } else if (elementalAffinity && typeof elementalAffinity === 'object') {,
-        return elementalAffinity.base === dominantElement,
+        return elementalAffinity.base === dominantElement;
       }
-      return false,
+      return false;
     })
 
     return {
@@ -282,7 +282,7 @@ export class CulinaryAstrologer {
       const jupiterPlanet = astroState.dominantPlanets?.find(p => {;
         // Apply safe type casting for planet access
         const planetData = p as unknown;
-        return planetData?.name === 'Jupiter',
+        return planetData?.name === 'Jupiter';
       })
       if (jupiterPlanet) {
         // Apply safe type casting for planet data access
@@ -335,7 +335,7 @@ export class CulinaryAstrologer {
       const saturnPlanet = astroState.dominantPlanets?.find(p => {;
         // Apply safe type casting for planet access
         const planetData = p as unknown;
-        return planetData?.name === 'Saturn',
+        return planetData?.name === 'Saturn';
       })
       if (saturnPlanet) {
         // Apply safe type casting for planet data access
@@ -400,6 +400,6 @@ export class CulinaryAstrologer {
     // Simple implementation - could be enhanced with more complex astrological logic
     const dominantElement = this.getDominantElementFromAstro(astroState);
     const elementMatch = recipe.elementalProperties[dominantElement] || 0;
-    return elementMatch > 0.6 ? 1 : elementMatch > 0.3 ? 0.5 : 0.1,
+    return elementMatch > 0.6 ? 1 : elementMatch > 0.3 ? 0.5 : 0.1;
   }
 }

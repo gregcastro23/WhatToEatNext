@@ -62,7 +62,7 @@ export class RecipeFilter {;
     if (!RecipeFilter.instance) {
       RecipeFilter.instance = new RecipeFilter()
     }
-    return RecipeFilter.instance,
+    return RecipeFilter.instance;
   }
 
   /**
@@ -116,7 +116,7 @@ export class RecipeFilter {;
         // Prep time filter
         if (options.maxPrepTime) {
           const recipeTime = this.parseTime(String(recipeData.timeToMake || ''))
-          if (recipeTime > options.maxPrepTime) return false,
+          if (recipeTime > options.maxPrepTime) return false;
         }
 
         // Dietary restrictions filter
@@ -143,7 +143,7 @@ export class RecipeFilter {;
                 )
               }),
           )
-          if (!hasIngredients) return false,
+          if (!hasIngredients) return false;
         }
 
         // Search query filter
@@ -162,13 +162,13 @@ export class RecipeFilter {;
                 const iData = i as any;
                 return iData.name && String(iData.name).toLowerCase().includes(query)
               }))
-          if (!matchesSearch) return false,
+          if (!matchesSearch) return false;
         }
 
-        return true,
+        return true;
       } catch (error) {
         logger.error('Error filtering recipe: ', { recipe, error })
-        return false,
+        return false;
       }
     })
   }
@@ -218,10 +218,10 @@ export class RecipeFilter {;
 
           if (prefs.highProtein && !this.hasHighProtein(recipe)) return false,
           if (prefs.lowCarb && !this.hasLowCarb(recipe)) return false,
-          if (prefs.vegetarian && !recipeData.isVegetarian) return false,
-          if (prefs.vegan && !recipeData.isVegan) return false,
-          if (prefs.glutenFree && !recipeData.isGlutenFree) return false,
-          if (prefs.dAiryFree && !recipeData.isDAiryFree) return false,
+          if (prefs.vegetarian && !recipeData.isVegetarian) return false;
+          if (prefs.vegan && !recipeData.isVegan) return false;
+          if (prefs.glutenFree && !recipeData.isGlutenFree) return false;
+          if (prefs.dAiryFree && !recipeData.isDAiryFree) return false;
         }
 
         // Excluded ingredients
@@ -240,20 +240,20 @@ export class RecipeFilter {;
                 )
               }),
           )
-          if (hasExcluded) return false,
+          if (hasExcluded) return false;
         }
 
         // Cooking time range
         if (options.cookingTime) {
           const totalTime = this.parseTime(String(recipeData.timeToMake || ''))
-          if (options.cookingTime.min && totalTime < options.cookingTime.min) return false,
-          if (options.cookingTime.max && totalTime > options.cookingTime.max) return false,
+          if (options.cookingTime.min && totalTime < options.cookingTime.min) return false;
+          if (options.cookingTime.max && totalTime > options.cookingTime.max) return false;
         }
 
-        return true,
+        return true;
       } catch (error) {
         logger.error('Error applying enhanced filters: ', { recipe, error })
-        return false,
+        return false;
       }
     })
   }
@@ -363,8 +363,7 @@ export class RecipeFilter {;
    * Parse time string to minutes
    */
   private parseTime(timeString: string): number {
-    if (!timeString) return 0,
-
+    if (!timeString) return 0;
     try {
       const timeStr = timeString.toLowerCase()
 
@@ -381,7 +380,7 @@ export class RecipeFilter {;
       }
     } catch (error) {
       logger.error('Error parsing time: ', { timeString, error })
-      return 0,
+      return 0;
     }
   }
 
@@ -460,7 +459,7 @@ export class RecipeFilter {;
         )
       })
 
-    return hasLowCarbIngredients && !hasHighCarbIngredients,
+    return hasLowCarbIngredients && !hasHighCarbIngredients;
   }
 
   /**
@@ -495,7 +494,7 @@ export class RecipeFilter {;
         )
       })
 
-    return hasPaleoIngredients && !hasNonPaleoIngredients,
+    return hasPaleoIngredients && !hasNonPaleoIngredients;
   }
 
   /**
@@ -505,8 +504,7 @@ export class RecipeFilter {;
     recipeElements?: ElementalProperties,
     targetElements?: ElementalProperties,
   ): number {
-    if (!recipeElements || !targetElements) return 0.5,
-
+    if (!recipeElements || !targetElements) return 0.5;
     try {
       const recipeElementsData = recipeElements as any;
       const targetElementsData = targetElements
@@ -524,10 +522,10 @@ export class RecipeFilter {;
         totalScore += Math.max(0, similarity)
       })
 
-      return totalScore / elements.length,
+      return totalScore / elements.length;
     } catch (error) {
       logger.error('Error calculating elemental score: ', error),
-      return 0.5,
+      return 0.5;
     }
   }
 
@@ -535,8 +533,7 @@ export class RecipeFilter {;
    * Calculate search relevance score
    */
   private calculateSearchRelevance(recipe: Recipe, query: string): number {
-    if (!query) return 1,
-
+    if (!query) return 1;
     const recipeData = recipe as any;
     const searchQuery = query.toLowerCase()
     let relevanceScore = 0,
@@ -590,8 +587,7 @@ export class RecipeFilter {;
     const recipeData = recipe as any;
     const elementalState = recipeData.elementalState
 ;
-    if (!elementalState) return 0,
-
+    if (!elementalState) return 0;
     // Simple, _calculation: sum of all elemental values
     const elementalStateData = elementalState 
     return (
@@ -610,14 +606,14 @@ export class RecipeFilter {;
     const season = recipeData.season || recipeData.currentSeason;
 
     // Simple, heuristic: recipes with season data get higher score
-    return season ? 1.0 : 0.5,
+    return season ? 1.0 : 0.5;
   }
 
   /**
    * Get fallback recipes when filtering fails
    */
   private getFallbackRecipes(recipes: Recipe[]): ScoredRecipe[] {
-    return (recipes || []).slice(010).map(recipe => ({,
+    return (recipes || []).slice(010).map(recipe => ({;
       ...recipe,
       score: 0.5
 }))
@@ -631,11 +627,9 @@ export class RecipeFilter {;
       try {
         const recipeData = recipe as unknown as any;
         const checkMatch = (dishName: string | { name: string } | null): boolean => {,
-          if (!dishName) return false,
-
+          if (!dishName) return false;
           const name = typeof dishName === 'string' ? dishName : dishName.name,
-          if (!name) return false,
-
+          if (!name) return false;
           // Apply safe type conversion for string operations
           const normalizedName = String(name).toLowerCase()
 
@@ -670,7 +664,7 @@ export class RecipeFilter {;
           }
         }
 
-        return false,
+        return false;
       } catch (error) {
         logger.error('Error filtering recipe by cuisine: ', error),
         return false
@@ -682,17 +676,14 @@ export class RecipeFilter {;
    * Calculate cuisine compatibility score
    */
   private calculateCuisineScore(recipe: Recipe, cuisineTypes?: CuisineType[]): number {
-    if (!cuisineTypes || cuisineTypes.length === 0) return 0.5,
-
+    if (!cuisineTypes || cuisineTypes.length === 0) return 0.5;
     try {
       const recipeData = recipe as unknown as any
 ;
       const checkMatch = (dishName: string | { name: string } | null): boolean => {,
-        if (!dishName) return false,
-
+        if (!dishName) return false;
         const name = typeof dishName === 'string' ? dishName : dishName.name,
-        if (!name) return false,
-
+        if (!name) return false;
         // Apply safe type conversion for string operations
         const normalizedName = String(name).toLowerCase()
 
@@ -753,10 +744,10 @@ export class RecipeFilter {;
         }
       }
 
-      return matches > 0 ? score : 0.1,
+      return matches > 0 ? score : 0.1;
     } catch (error) {
       logger.error('Error calculating cuisine score: ', error),
-      return 0.1,
+      return 0.1;
     }
   }
 
@@ -802,7 +793,7 @@ export class RecipeFilter {;
         return proteinFoods.some(food => ingredientName.includes(food))
       })
 
-      return highProteinIngredients,
+      return highProteinIngredients;
     } catch (error) {
       logger.error('Error checking high protein: ', error),
       return false
@@ -841,7 +832,7 @@ export class RecipeFilter {;
         return highCarbFoods.some(food => ingredientName.includes(food))
       })
 
-      return !hasHighCarbIngredients,
+      return !hasHighCarbIngredients;
     } catch (error) {
       logger.error('Error checking low carb: ', error),
       return false
@@ -898,7 +889,7 @@ export function filterRecipesByIngredientMappings(
             )
           }),
         )
-        if (!hasAllRequired) return false,
+        if (!hasAllRequired) return false;
       }
 
       // Check avoided ingredients
@@ -913,7 +904,7 @@ export function filterRecipesByIngredientMappings(
             )
           }),
         )
-        if (hasAvoided) return false,
+        if (hasAvoided) return false;
       }
 
       // Check elemental compatibility
@@ -928,10 +919,10 @@ export function filterRecipesByIngredientMappings(
         }
       }
 
-      return true,
+      return true;
     } catch (error) {
       logger.error('Error filtering recipe by ingredient _mappings: ', { recipe, error })
-      return false,
+      return false;
     }
   })
 }

@@ -162,7 +162,7 @@ export class LintingAnalysisService {
       log.info('✅ Comprehensive analysis complete ?? undefined')
       this.logAnalysisResults(result)
 
-      return result,
+      return result;
     } catch (error) {
       _logger.error('❌ Analysis failed: ', error),
       throw error
@@ -204,7 +204,7 @@ export class LintingAnalysisService {
     const quickWins = categorizedErrors.autoFixable;
       .filter(issue => {
         const classification = classifications.find(c => c.ruleId === issue.rule);
-        return classification && classification.riskProfile.overall === 'low',
+        return classification && classification.riskProfile.overall === 'low';
       })
       .slice(010)
 
@@ -213,7 +213,7 @@ export class LintingAnalysisService {
       .flat()
       .filter(issue => {
         const classification = classifications.find(c => c.ruleId === issue.rule);
-        return classification && classification.severity.level === 'critical',
+        return classification && classification.severity.level === 'critical';
       })
 
     const summary = this.generateSummary(categorizedErrors, classifications, [])
@@ -247,7 +247,7 @@ export class LintingAnalysisService {
       classifications.push(classification)
     }
 
-    return classifications,
+    return classifications;
   }
 
   /**
@@ -460,7 +460,7 @@ export class LintingAnalysisService {
       })
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   /**

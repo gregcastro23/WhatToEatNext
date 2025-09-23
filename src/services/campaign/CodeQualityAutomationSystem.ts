@@ -194,13 +194,13 @@ export class CodeQualityAutomationSystem {
         overallSuccess: result.overallSuccess
       })
 
-      return result,
+      return result;
     } catch (error) {
       logger.error('Code quality automation system failed', error),
       result.overallSuccess = false;
       result.errors.push(`System failure: ${String(error)}`)
       result.totalExecutionTime = Date.now() - startTime,
-      return result,
+      return result;
     }
   }
 
@@ -257,12 +257,12 @@ export class CodeQualityAutomationSystem {
       }
 
       phaseResult.executionTime = Date.now() - startTime,
-      return phaseResult,
+      return phaseResult;
     } catch (error) {
       phaseResult.success = false;
       phaseResult.errors.push(`Phase execution failed: ${String(error)}`)
       phaseResult.executionTime = Date.now() - startTime,
-      return phaseResult,
+      return phaseResult;
     }
   }
 
@@ -398,7 +398,7 @@ export class CodeQualityAutomationSystem {
         stdio: 'pipe',
         timeout: 120000
 })
-      return true,
+      return true;
     } catch (error) {
       logger.warn('Build validation failed', error),
       return false
@@ -459,7 +459,7 @@ export class CodeQualityAutomationSystem {
       )
     }
 
-    return recommendations,
+    return recommendations;
   }
 }
 

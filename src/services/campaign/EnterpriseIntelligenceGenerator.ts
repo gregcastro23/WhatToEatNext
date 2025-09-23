@@ -115,7 +115,7 @@ export class EnterpriseIntelligenceGenerator {
     }
 
     // // // _logger.info(`🎉 Generated ${results.length} intelligence systems ?? undefined`)
-    return results,
+    return results;
   }
 
   /**
@@ -160,12 +160,12 @@ export class EnterpriseIntelligenceGenerator {
 
     switch (exportType) {
       case 'function':
-        return (this.templates.get('FUNCTION_INTELLIGENCE') || this.templates.get('DEFAULT'))!,
+        return (this.templates.get('FUNCTION_INTELLIGENCE') || this.templates.get('DEFAULT'))!;
       case 'class':
-        return (this.templates.get('CLASS_INTELLIGENCE') || this.templates.get('DEFAULT'))!,
+        return (this.templates.get('CLASS_INTELLIGENCE') || this.templates.get('DEFAULT'))!;
       case 'interface':
       case 'type':
-        return (this.templates.get('TYPE_INTELLIGENCE') || this.templates.get('DEFAULT'))!,
+        return (this.templates.get('TYPE_INTELLIGENCE') || this.templates.get('DEFAULT'))!;
       case 'const':
       case 'variable':
         return (this.templates.get('DATA_INTELLIGENCE') || this.templates.get('DEFAULT'))!
@@ -234,7 +234,7 @@ export class EnterpriseIntelligenceGenerator {
       })
     }
 
-    return baseCapabilities,
+    return baseCapabilities;
   }
 
   /**
@@ -281,7 +281,7 @@ export class EnterpriseIntelligenceGenerator {
       })
     }
 
-    return integrationPoints,
+    return integrationPoints;
   }
 
   /**
@@ -404,7 +404,7 @@ export interface TrendData {
       }
 
       this.updatePerformanceMetrics(startTime)
-      return analysis,
+      return analysis;
     } catch (error) {
       this.handleError('analyzePatterns', error),
       throw error
@@ -452,7 +452,7 @@ export interface TrendData {
       this.analytics.recommendations = recommendations,
       this.updatePerformanceMetrics(startTime)
       
-      return recommendations,
+      return recommendations;
     } catch (error) {
       this.handleError('generateRecommendations', error),
       return []
@@ -483,7 +483,7 @@ ${capabilities.map(cap => `          '${cap.name}': '${cap.description}'`).join(
       }
 
       this.updatePerformanceMetrics(startTime)
-      return demonstration,
+      return demonstration;
     } catch (error) {
       this.handleError('demonstrateCapabilities', error),
       return {}
@@ -609,7 +609,7 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
   new ${systemName}(config)
 `,
 
-    return code,
+    return code;
   }
 
   /**
@@ -740,7 +740,7 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
       performance: this.measurePerformance(data),
       recommendations: this.generateFunctionRecommendations(data)
     }
-    return analysis,
+    return analysis;
     `,
   }
 
@@ -757,7 +757,7 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
       inheritance: this.analyzeInheritance(data),
       instantiation: this.trackInstantiation(data)
     }
-    return analysis,
+    return analysis;
     `,
   }
 
@@ -774,7 +774,7 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
       usage: this.trackTypeUsage(data),
       compatibility: this.checkTypeCompatibility(data)
     }
-    return analysis,
+    return analysis;
     `,
   }
 
@@ -791,7 +791,7 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
       validation: this.validateDataStructure(data),
       optimization: this.suggestDataOptimizations(data)
     }
-    return analysis,
+    return analysis;
     `,
   }
 
@@ -807,7 +807,7 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
       riskAssessment: this.assessRisks(data),
       strategicRecommendations: this.generateStrategicRecommendations(data)
     }
-    return insights,
+    return insights;
     `,
   }
 
@@ -895,10 +895,10 @@ app.get('/api/intelligence/${systemName.toLowerCase()}', async (req, res) => {
         VERY_COMPLEX: 4
 }[baseComplexity] + capabilityComplexity,
 
-    if (totalComplexity <= 3) return GenerationComplexity.SIMPLE,
-    if (totalComplexity <= 5) return GenerationComplexity.MODERATE,
-    if (totalComplexity <= 7) return GenerationComplexity.COMPLEX,
-    return GenerationComplexity.VERY_COMPLEX,
+    if (totalComplexity <= 3) return GenerationComplexity.SIMPLE;
+    if (totalComplexity <= 5) return GenerationComplexity.MODERATE;
+    if (totalComplexity <= 7) return GenerationComplexity.COMPLEX;
+    return GenerationComplexity.VERY_COMPLEX;
   }
 
   /**
@@ -927,7 +927,7 @@ app.get('/api/intelligence/${systemName.toLowerCase()}', async (req, res) => {
           [GenerationComplexity.COMPLEX]: 3,
           [GenerationComplexity.VERY_COMPLEX]: 4,
         }[r.complexity],
-        return sum + complexityValue,
+        return sum + complexityValue;
       }, 0) / results.length,
     const estimatedTotalValue = results.reduce((sumr) => sum + r.estimatedValue, 0)
 

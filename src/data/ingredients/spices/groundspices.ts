@@ -19,8 +19,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         third: { element: 'Earth', planet: 'Saturn' }
         }
       }
-    }
-
+    },
     qualities: ['warming', 'sweet', 'pungent'],
     origin: ['Sri Lanka', 'Indonesia', 'China'],
     category: 'spice',
@@ -89,8 +88,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         preparation: 'ground or whole',
         cultural_notes: 'Popular in winter beverages and preserves'
 }
-    }
-
+    },
     sensoryProfile: {
       taste: ['Mild'],
       aroma: ['Fresh'],
@@ -102,8 +100,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     season: ['Year-round'],
 
     preparation: {
@@ -115,8 +112,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       micronutrients: {}
       healthBenefits: ['Nutritious']
     }
-  }
-
+  },
   ground_cumin: {
     name: 'Ground Cumin',
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
@@ -360,8 +356,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         preparationTips: ['Use as needed', 'Season to taste']
       },
       season: ['year-round']
-    }
-
+    },
     conversionRatio: {
       whole_to_ground: '1 tbsp whole = 2.5 tsp ground',,
       fresh_to_dried: 'not applicable' },
@@ -422,16 +417,14 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     season: ['Year-round'],
 
     preparation: {
@@ -442,14 +435,12 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
-    }
-
+    },
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   ground_turmeric: {
     name: 'Ground Turmeric',
     elementalProperties: { Fire: 0.3, Earth: 0.3, Air: 0.2, Water: 0.2 },
@@ -479,8 +470,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         }
       },
       aspectEnhancers: ['Sun trine Mars', 'Jupiter in Leo']
-    }
-
+    },
     qualities: ['bitter', 'earthy', 'pungent', 'warming', 'vibrant'],
     origin: ['India', 'Southeast Asia', 'Indonesia', 'China'],
     category: 'spice',
@@ -579,8 +569,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         },
         season: ['year-round']
       }
-    }
-
+    },
     conversionRatio: {
       fresh_to_dried: '1 inch fresh = 1 tsp ground',,
       powder_to_fresh: '1 tsp powder = 1 tbsp fresh grated'
@@ -614,8 +603,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         volatile_oils: 'aromatic components (1-6%)',
         turmerone: 'bioactive essential oil'
 }
-    }
-
+    },
     storage: {
       temperature: 'cool, dark place',
       duration: '9-12 months',
@@ -626,8 +614,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         aroma_loss: 'diminished pungency',
         clumping: 'indicates moisture exposure'
 }
-    }
-
+    },
     medicinalProperties: {
       actions: [
         'Anti-inflammatory (potent COX-2 inhibitor)',
@@ -734,8 +721,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         'May stimulate gallbladder contractions',
         'Can lower blood sugar (monitor if diabetic)'
       ]
-    }
-
+    },
     culinaryApplications: {
       curries: {
         name: 'Curries',
@@ -818,8 +804,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         timing: 'add just before blending',
         notes: 'Start with 1 / (4 || 1) tsp and adjust to taste'
 }
-    }
-
+    },
     culinary_traditions: {
       [CUISINE_TYPES.INDIAN]: {
         name: 'haldi',
@@ -858,8 +843,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         preparation: 'often bloomed in oil',
         cultural_notes: 'Valued for both medicinal and culinary properties'
 }
-    }
-
+    },
     historical_significance: {
       traditional_uses: [
         'Sacred herb in Hindu religious ceremonies',
@@ -884,16 +868,14 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     season: ['Year-round'],
 
     preparation: {
@@ -901,8 +883,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       timing: 'As needed',
       notes: 'Standard prep for ground_turmeric'
 }
-  }
-
+  },
   ground_cardamom: {
     name: 'Ground Cardamom',
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
@@ -969,16 +950,14 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     season: ['Year-round'],
 
     preparation: {
@@ -989,14 +968,12 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
-    }
-
+    },
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   ground_cloves: {
     name: 'Ground Cloves',
     elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
@@ -1034,8 +1011,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
           cider: '1:4:2 (cloves:cinnamon:allspice)' },
         notes: 'Remove after steeping to prevent bitterness'
 }
-    }
-
+    },
     storage: {
       temperature: 'cool, dark place',
       duration: 'whole: 1 year, ground: 3 months',
@@ -1064,16 +1040,14 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     season: ['Year-round'],
 
     preparation: {
@@ -1084,14 +1058,12 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
-    }
-
+    },
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   ground_paprika: {
     name: 'Ground Paprika',
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
@@ -1167,16 +1139,14 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     season: ['Year-round'],
 
     preparation: {
@@ -1187,14 +1157,12 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
-    }
-
+    },
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   ground_mustard: {
     name: 'Ground Mustard',
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
@@ -1220,8 +1188,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         pairings: ['paprika', 'black pepper', 'garlic'],
         ratios: '1:2:1 (mustard:paprika:other spices)'
 }
-    }
-
+    },
     storage: {
       temperature: 'cool, dark place',
       duration: '6 months',
@@ -1250,16 +1217,14 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     season: ['Year-round'],
 
     preparation: {
@@ -1270,14 +1235,12 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
-    }
-
+    },
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   ground_fennel: {
     name: 'Ground Fennel',
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
@@ -1322,8 +1285,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         pairings: ['cumin', 'garlic', 'coriander'],
         ratios: '1:1:1 (fennel:cumin:garlic)'
 }
-    }
-
+    },
     storage: {
       temperature: 'cool, dark place',
       duration: '6 months',
@@ -1352,16 +1314,14 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     season: ['Year-round'],
 
     preparation: {
@@ -1372,14 +1332,12 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
-    }
-
+    },
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   ground_ginger: {
     name: 'Ground Ginger',
     elementalProperties: { Fire: 0.5, Earth: 0.3, Air: 0.2, Water: 0.1 },
@@ -1416,8 +1374,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         preparation: 'ground',
         cultural_notes: 'Important in traditional medicine'
 }
-    }
-
+    },
     category: 'Uncategorized',
     subCategory: 'Uncategorized',
 
@@ -1426,16 +1383,14 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
     season: ['Year-round'],
 
@@ -1447,8 +1402,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
-    }
-
+    },
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
@@ -1459,8 +1413,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   ground_coriander: {
     name: 'Ground Coriander',
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
@@ -1491,8 +1444,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         preparation: 'ground seeds',
         cultural_notes: 'Used in traditional Mexican spice blends'
 }
-    }
-
+    },
     category: 'Uncategorized',
     subCategory: 'Uncategorized',
 
@@ -1501,16 +1453,14 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
     season: ['Year-round'],
 
@@ -1522,8 +1472,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
-    }
-
+    },
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
@@ -1534,8 +1483,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
-
+  },
   ground_star_anise: {
     name: 'Ground Star Anise',
     elementalProperties: { Fire: 0.3, Air: 0.4, Water: 0.2, Earth: 0.1 },
@@ -1560,8 +1508,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         preparation: 'ground',
         cultural_notes: 'Used in traditional braised dishes'
 }
-    }
-
+    },
     category: 'Uncategorized',
     subCategory: 'Uncategorized',
 
@@ -1570,16 +1517,14 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
       },
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    }
-
+    },
     origin: ['Unknown'],
     season: ['Year-round'],
 
@@ -1591,8 +1536,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       macronutrients: {},
       micronutrients: {}
       healthBenefits: ['Nutritious']
-    }
-
+    },
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',

@@ -28,7 +28,7 @@ export function useThermodynamics(initial?: UseThermodynamicsOptions) {
       const data = await thermodynamicsClient.calculate(payload)
       setResult(data)
       setLoading(false);
-      return data,
+      return data;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
       setLoading(false)

@@ -177,7 +177,7 @@ export class AlchemicalService {
     if (!AlchemicalService.instance) {
       AlchemicalService.instance = new AlchemicalService();
     }
-    return AlchemicalService.instance,
+    return AlchemicalService.instance;
   }
 
   /**
@@ -249,7 +249,7 @@ export class AlchemicalService {
       convertedPositions[planet] = `${position.sign}:${position.degree}`,
     })
     this.planetPositions = convertedPositions,
-    return this,
+    return this;
   }
 
   /**
@@ -587,7 +587,7 @@ export class AlchemicalService {
       Air: ['spring', 'Early Summer']
     }
 
-    return seasonalMap[element as unknown as string] || ['Any season'],
+    return seasonalMap[element as unknown as string] || ['Any season'];
   }
 }
 

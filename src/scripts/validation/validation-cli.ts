@@ -260,7 +260,7 @@ class ValidationCLI {
         const batchHistory = history.get(options.batchId)
         if (!batchHistory) {;
           // // // _logger.info(`No history found for batch: ${options.batchId}`)
-          return,
+          return;
         }
 
         // // // _logger.info(`\n📋 History for batch: ${options.batchId}`)

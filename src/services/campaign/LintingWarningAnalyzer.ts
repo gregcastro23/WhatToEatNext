@@ -93,7 +93,7 @@ export class LintingWarningAnalyzer {
       }
 
       await this.saveAnalysisResults(result)
-      return result,
+      return result;
     } catch (error) {
       _logger.error('❌ Error analyzing linting warnings: ', error),
       throw error
@@ -121,7 +121,7 @@ export class LintingWarningAnalyzer {
       }
     }
 
-    return warnings,
+    return warnings;
   }
 
   /**
@@ -146,7 +146,7 @@ export class LintingWarningAnalyzer {
       }
     }
 
-    return files,
+    return files;
   }
 
   /**
@@ -215,7 +215,7 @@ export class LintingWarningAnalyzer {
       }
     }
 
-    return warnings,
+    return warnings;
   }
 
   /**
@@ -278,7 +278,7 @@ export class LintingWarningAnalyzer {
     distribution.consoleStatements.files = Array.from(filesSeen.consoleStatements)
     distribution.other.files = Array.from(filesSeen.other)
 ;
-    return distribution,
+    return distribution;
   }
 
   /**
@@ -376,7 +376,7 @@ export class LintingWarningAnalyzer {
       )
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   /**
@@ -411,7 +411,7 @@ export class LintingWarningAnalyzer {
       if (fs.existsSync(this.metricsFile)) {
         const content = fs.readFileSync(this.metricsFile, 'utf-8')
         const metrics = JSON.parse(content);
-        return metrics.analysis,
+        return metrics.analysis;
       }
     } catch (error) {
       _logger.warn('⚠️ Could not load previous analysis: ', error)

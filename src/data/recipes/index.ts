@@ -24,7 +24,7 @@ const flattenCuisineRecipes = (cuisines: unknown) => {;
     }
   })
 
-  return allRecipes,
+  return allRecipes;
 }
 
 // Export alias for compatibility

@@ -140,7 +140,7 @@ export async function safeImportAndExecuteKnown<RA extends unknown[] = unknown[]
       return null;
     }
 
-    return func(..._args) as R,
+    return func(..._args) as R;
   } catch (error) {
     errorLog(`Import and execute failed for ${functionName} from ${path}:`, error)
     return null;
@@ -170,7 +170,7 @@ export async function safeImportFunctionKnown<T extends (...args: unknown[]) => 
       return null;
     }
 
-    return func as T,
+    return func as T;
   } catch (error) {
     errorLog(`Import failed for ${functionName} from ${path}:`, error)
     return null;
@@ -265,7 +265,7 @@ export async function safeImportAndExecute<RA extends unknown[] = unknown[]>(
 }
       }
 
-      return calculatedResults,
+      return calculatedResults;
     }
 
     return null;

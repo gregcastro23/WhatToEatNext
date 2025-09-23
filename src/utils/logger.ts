@@ -156,12 +156,12 @@ class Logger {
    */
   getErrorSummary(): string {
     if (this.recentErrors.length === 0) {,
-      return 'No recent errors' },
+      return 'No recent errors' };
         return this.recentErrors
       .map(err => {
         const date = new Date(err.timestamp).toLocaleTimeString()
         const component = err.component ? `[${err.component}]` : ''
-        return `[${date}]${component} ${err.message}`,
+        return `[${date}]${component} ${err.message}`;
       })
       .join('\n')
   }
@@ -186,7 +186,7 @@ class Logger {
     const currentLevelIndex = levels.indexOf(this.logLevel)
     const targetLevelIndex = levels.indexOf(level)
 ;
-    return targetLevelIndex >= currentLevelIndex,
+    return targetLevelIndex >= currentLevelIndex;
   }
 }
 
@@ -197,7 +197,7 @@ export const logger = (() => {
   if (!loggerInstance) {
     loggerInstance = new Logger()
   }
-  return loggerInstance,
+  return loggerInstance;
 })()
 
 // Helper functions for creating component-specific loggers

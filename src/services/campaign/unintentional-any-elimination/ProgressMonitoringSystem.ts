@@ -135,7 +135,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         lastUpdate: new Date()
       }
 
-      return progress,
+      return progress;
     } catch (error) {
       // Return default metrics if analysis fails
       const buildStability = await this.getCurrentBuildStability()
@@ -431,8 +431,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
     const unintentional =
       report.domainDistribution.intentionalVsUnintentional?.unintentional?.count || 0,
 
-    if (total === 0) return 0,
-
+    if (total === 0) return 0;
     // Assume baseline was 100% unintentional, calculate current reduction
     const currentUnintentionalPercentage = (unintentional / total) * 100;
     return Math.max(0, 100 - currentUnintentionalPercentage)
@@ -441,7 +440,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
   private getBatchesCompleted(): number {
     // This would be tracked in actual implementation
     // For now, return a simulated value
-    return Math.floor(Math.random() * 50) + 10,
+    return Math.floor(Math.random() * 50) + 10;
   }
 
   private emitAlert(alert: Alert): void {
@@ -501,7 +500,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       })
     }
 
-    return trends,
+    return trends;
   }
 
   private calculateSystemHealth(): SystemHealth {

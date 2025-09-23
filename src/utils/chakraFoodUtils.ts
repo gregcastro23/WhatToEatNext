@@ -311,7 +311,7 @@ function generateBalancingMeals(
     meals.push('Nourishing soup with root vegetables and leafy greens')
   }
 
-  return meals,
+  return meals;
 }
 
 /**

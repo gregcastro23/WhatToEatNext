@@ -43,7 +43,7 @@ export function getCurrentDecan(
     const decanStart = Math.floor(absoluteDegree / 10) * 10;
     const decanEnd = decanStart + 10;
 
-    return `${decanStart}-${decanEnd}` as DecanKey,
+    return `${decanStart}-${decanEnd}` as DecanKey;
   }
 
   // Fallback to date-based calculation if no sun position is provided
@@ -61,7 +61,7 @@ export function getCurrentDecan(
   const decanStart = Math.floor(approxDegree / 10) * 10;
   const decanEnd = decanStart + 10;
 
-  return `${decanStart}-${decanEnd}` as DecanKey,
+  return `${decanStart}-${decanEnd}` as DecanKey;
 }
 
 export function getTarotCardForDate(date: Date) {
@@ -71,7 +71,7 @@ export function getTarotCardForDate(date: Date) {
 }
 
 export function getRecipesForTarotCard(card: unknown): string[] {
-  if (!card) return [],
+  if (!card) return [];
   // Apply safe type casting for card access
   const cardData = card as unknown as {
     name?: string,
@@ -80,7 +80,7 @@ export function getRecipesForTarotCard(card: unknown): string[] {
     energies?: Record<string, number>,
     [key: string]: unknown
   }
-  return cardData?.associatedRecipes || [],
+  return cardData?.associatedRecipes || [];
 }
 
 export function getMajorArcanaForDecan(decan: DecanKey) {
@@ -441,7 +441,7 @@ export function getQuantumValueForCard(card: unknown): number {
     case 'essence':
     case 'substance':
     case 'matter':
-      return 4,
+      return 4;
     default: return 0
   }
 }
@@ -501,7 +501,7 @@ export function getRecipeFiltersFromTarot(tarotCards: {
       (filters.elementalProperties[tarotCards.majorCard.element] || 0) + 0.5,
   }
 
-  return filters,
+  return filters;
 }
 
 /**
@@ -585,7 +585,7 @@ function complementaryElement(_element: string): string {
     Water: 'Fire',
     Earth: 'Air',
     Air: 'Earth' },
-        return complementaryMap[element] || element,
+        return complementaryMap[element] || element;
 }
 
 // Add the missing getFlavorProfile function

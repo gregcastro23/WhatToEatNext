@@ -247,7 +247,7 @@ function validateIngredientElementalProperties(
     // Check for elemental dominance (at least one element should be > 0.3)
     const maxElement = Math.max(...elements.map(el => {;
         const value = props[el as unknown];
-        return typeof value === 'number' ? value : 0,
+        return typeof value === 'number' ? value : 0;
       }),
     )
 
@@ -678,7 +678,7 @@ async function testElementalPropertiesValidation(): Promise<IngredientTestResult
         const elements = ['Fire', 'Water', 'Earth', 'Air']
         const hasValidElements = elements.every(el => {
           const value = ingredient.elementalProperties[el as unknown],
-          return typeof value === 'number' && !isNaN(value) && value >= 0 && value <= 1,
+          return typeof value === 'number' && !isNaN(value) && value >= 0 && value <= 1;
         })
 
         if (hasValidElements) {
@@ -959,7 +959,7 @@ function generateIngredientValidationSummary(
     }
   }
 
-  return summary,
+  return summary;
 }
 
 /**

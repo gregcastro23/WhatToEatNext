@@ -20,7 +20,7 @@ function safeGetStringArray(value: unknown): string[] {
   if (Array.isArray(value)) {
     return value.filter(item => typeof item === 'string')
   }
-  return [],
+  return [];
 }
 
 function safeGetNumber(value: unknown): number {
@@ -39,7 +39,7 @@ function safeGetElementalProperties(value: unknown): ElementalProperties | undef
       return props as ElementalProperties;
     }
   }
-  return undefined,
+  return undefined;
 }
 
 function safeGetIngredientName(ingredient: unknown): string | undefined {
@@ -49,7 +49,7 @@ function safeGetIngredientName(ingredient: unknown): string | undefined {
   if (ingredient && typeof ingredient === 'object') {
     return safeGetString((ingredient as any).name)
   }
-  return undefined,
+  return undefined;
 }
 
 // Constants
@@ -210,21 +210,21 @@ function calculateEnhancedPlanetaryInfluence(
   const saturnInfluence = (saturn as { influence?: number }).influence || 1.0;
 
   // Apply planetary day specific calculations
-  if (planetaryDay === 'Jupiter') return jupiterInfluence,
-  if (planetaryDay === 'Saturn') return saturnInfluence,
-  return 1.0,
+  if (planetaryDay === 'Jupiter') return jupiterInfluence;
+  if (planetaryDay === 'Saturn') return saturnInfluence;
+  return 1.0;
 }
 
 function calculateLunarPhaseModifier(lunarPhaseData: unknown): number {
   // Use lunar phase data to calculate modifiers
   const phaseData = lunarPhaseData as { modifier?: number }
-  return phaseData.modifier || 1.0,
+  return phaseData.modifier || 1.0;
 }
 
 function calculateAstrologicalBridgeModifier(astrologicalBridge: unknown): number {
   // Use astrological bridge for enhanced compatibility scoring
   const bridge = astrologicalBridge as { compatibility?: number }
-  return bridge.compatibility || 1.0,
+  return bridge.compatibility || 1.0;
 }
 
 // Combine all real ingredients data
@@ -265,7 +265,7 @@ function getAllIngredients(): Ingredient[] {;
     })
   })
 
-  return allIngredients,
+  return allIngredients;
 }
 
 /**
@@ -394,11 +394,11 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Enhanc
         if (isMercuryAssociatedIngredient(ingredientB.name || '')) bHasAffinity += mercuryBoost,
       }
 
-      return bHasAffinity - aHasAffinity,
+      return bHasAffinity - aHasAffinity;
     })
   }
 
-  return filteredIngredients,
+  return filteredIngredients;
 }
 
 /**
@@ -504,8 +504,7 @@ export async function getIngredientRecommendations(
       const ingredientName = safeGetIngredientName(ingredient)
       if (options.excludeIngredients?.includes(ingredientName || '')) return false,
       if (options.includeOnly && !options.includeOnly.includes(ingredientName || '')) return false,
-      if (options.category && ingredient.category !== options.category) return false,
-
+      if (options.category && ingredient.category !== options.category) return false;
       // Filter by dietary preference if specified
       if (options.dietaryPreferences && options.dietaryPreferences.length > 0) {
         const dietaryMatches = options.dietaryPreferences.some(pref =>
@@ -523,10 +522,10 @@ export async function getIngredientRecommendations(
             safeGetElementalProperties((ingredient as unknown as any).elementalProperties)
           ),
 
-        if (ingredientModality !== options.modalityPreference) return false,
+        if (ingredientModality !== options.modalityPreference) return false;
       }
 
-      return true,
+      return true;
     })
     .map(ingredient => {
       // Calculate elemental score (30% of total)
@@ -668,7 +667,7 @@ export async function getIngredientRecommendations(
               }
             | undefined,
           const profile = analysis?.flavorProfile;
-          return profile && typeof profile === 'object' && profile !== null,
+          return profile && typeof profile === 'object' && profile !== null;
             ? (profile as Record<string, number>)
             : {}
         })(),
@@ -697,7 +696,7 @@ export async function getIngredientRecommendations(
     }
   })
 
-  return groupedRecommendations,
+  return groupedRecommendations;
 }
 
 // Helper function to calculate modality score
@@ -705,11 +704,9 @@ function calculateModalityScore(qualities: string[], preferredModality?: Modalit
   // Get the ingredient's modality based on qualities
   const ingredientModality = determineIngredientModality(qualities)
   // If no preferred modality, return neutral score
-  if (!preferredModality) return 0.5,
-
+  if (!preferredModality) return 0.5;
   // Return 1.0 for exact match0.5 for partial match0.0 for mismatch
-  if (ingredientModality === preferredModality) return 1.0,
-
+  if (ingredientModality === preferredModality) return 1.0;
   // Consider partial matches based on modality compatibility
   const compatibleModalities = {
     Cardinal: ['Mutable'],
@@ -718,10 +715,10 @@ function calculateModalityScore(qualities: string[], preferredModality?: Modalit
   }
 
   if (compatibleModalities[preferredModality].includes(ingredientModality)) {
-    return 0.7,
+    return 0.7;
   }
 
-  return 0.3,
+  return 0.3;
 }
 
 /**
@@ -858,8 +855,7 @@ function calculateEnhancedPlanetaryScore(
   })
 
   // If there are no factors to consider, return neutral score
-  if (totalFactors === 0) return 0.5,
-
+  if (totalFactors === 0) return 0.5;
   // Return normalized score (0-1 range)
   return Math.min(1, score / (totalFactors + 0.5))
 }
@@ -930,7 +926,7 @@ export function calculateElementalInfluences(
     })
   }
 
-  return elementalInfluences,
+  return elementalInfluences;
 }
 
 /**
@@ -1105,7 +1101,7 @@ function isVenusAssociatedIngredient(ingredientName: string): boolean {
     }
   }
 
-  return false,
+  return false;
 }
 
 /**
@@ -1158,7 +1154,7 @@ function isMarsAssociatedIngredient(ingredientName: string): boolean {
     }
   }
 
-  return false,
+  return false;
 }
 
 /**
@@ -1701,7 +1697,7 @@ function calculateVenusInfluence(
     // This would be checked against the current lunar phase in a full implementation
   }
 
-  return score,
+  return score;
 }
 
 // Enhance ingredient scoring with Venus influence
@@ -1728,7 +1724,7 @@ function _enhanceVenusIngredientScoring(
   const venusInfluence = calculateVenusInfluence(ingredient, zodiacSign, isVenusRetrograde)
 
   // Apply Venus influence to the base score (weight it appropriately)
-  return score + venusInfluence * 0.3,
+  return score + venusInfluence * 0.3;
 }
 
 // Enhanced function to boost Venus-ruled ingredients based on detailed Venus data
@@ -1893,7 +1889,7 @@ function calculateMarsInfluence(
     }
   }
 
-  return score,
+  return score;
 }
 
 /**
@@ -1951,8 +1947,7 @@ function enhanceMarsIngredientScoring(
 
 // Add the new function for Mercury associated ingredients
 function isMercuryAssociatedIngredient(ingredientName: string): boolean {
-  if (!ingredientName) return false,
-
+  if (!ingredientName) return false;
   const lowerIngredient = ingredientName.toLowerCase()
 
   // Check direct Mercury food associations
@@ -2047,7 +2042,7 @@ function isMercuryAssociatedIngredient(ingredientName: string): boolean {
     }
   }
 
-  return false,
+  return false;
 }
 
 // Add the function to calculate Mercury influence on ingredients
@@ -2222,7 +2217,7 @@ function calculateMercuryInfluence(
     }
   }
 
-  return score,
+  return score;
 }
 
 // Add the function to enhance Mercury ingredient scoring
@@ -2309,9 +2304,9 @@ function determineIngredientModality(
 ;
   // If there's a clear quality indicator, use that
   if (hasCardinalQuality && !hasFixedQuality && !hasMutableQuality) {
-    return 'Cardinal' },
+    return 'Cardinal' };
         if (hasFixedQuality && !hasCardinalQuality && !hasMutableQuality) {
-    return 'Fixed' },
+    return 'Fixed' };
         if (hasMutableQuality && !hasCardinalQuality && !hasFixedQuality) {
     return 'Mutable'
   }
@@ -2328,22 +2323,22 @@ function determineIngredientModality(
       case 'Air':;
         // Air has strongest affinity with Mutable, then Cardinal, then Fixed
         if (Air > 0.4) {
-          return 'Mutable' },
+          return 'Mutable' };
         break,
       case 'Earth':
         // Earth has strongest affinity with Fixed, then Cardinal, then Mutable
         if (Earth > 0.4) {
-          return 'Fixed' },
+          return 'Fixed' };
         break,
       case 'Fire':
         // Fire has balanced affinities but leans Cardinal
         if (Fire > 0.4) {
-          return 'Cardinal' },
+          return 'Cardinal' };
         break,
       case 'Water': // Water is balanced between Fixed and Mutable
         if (Water > 0.4) {
           // Slightly favor Mutable for Wateras per our hierarchy
-          return Water > 0.6 ? 'Mutable' : 'Fixed' },
+          return Water > 0.6 ? 'Mutable' : 'Fixed' };
         break,
     }
 
@@ -2354,16 +2349,16 @@ function determineIngredientModality(
 
     // Return the modality with the highest score
     if (mutableScore > fixedScore && mutableScore > cardinalScore) {
-      return 'Mutable' },
+      return 'Mutable' };
         else if (fixedScore > mutableScore && fixedScore > cardinalScore) {
-      return 'Fixed' },
+      return 'Fixed' };
         else {
       return 'Cardinal'
     }
   }
 
   // Default to Mutable if no clear indicators are found
-  return 'Mutable',
+  return 'Mutable';
 }
 
 /**
@@ -2383,7 +2378,7 @@ function getDominantElement(elementalProperties: ElementalProperties): keyof Ele
     }
   })
 
-  return dominantElement,
+  return dominantElement;
 }
 
 /**
@@ -2807,7 +2802,7 @@ function calculatePlanetaryHourInfluence(
     elementalMatch = Math.min(1.0, elementalMatch + 0.3),
   }
 
-  return elementalMatch,
+  return elementalMatch;
 }
 
 /**
@@ -3177,7 +3172,7 @@ function generateRecommendationsForIngredient(
     }
   }
 
-  return recs,
+  return recs;
 }
 
 // ... existing code ...

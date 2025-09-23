@@ -79,7 +79,7 @@ const loadVegetables = async (): Promise<Record<string, unknown>> => {
       _logger.error('Error loading vegetables: ', error)
     }
   }
-  return vegetables,
+  return vegetables;
 }
 
 const loadFruits = async (): Promise<Record<string, unknown>> => {
@@ -91,7 +91,7 @@ const loadFruits = async (): Promise<Record<string, unknown>> => {
       _logger.error('Error loading fruits: ', error)
     }
   }
-  return fruits,
+  return fruits;
 }
 
 const loadHerbs = async (): Promise<Record<string, unknown>> => {
@@ -103,7 +103,7 @@ const loadHerbs = async (): Promise<Record<string, unknown>> => {
       _logger.error('Error loading herbs: ', error)
     }
   }
-  return herbs,
+  return herbs;
 }
 
 const loadSpices = async (): Promise<Record<string, unknown>> => {
@@ -115,7 +115,7 @@ const loadSpices = async (): Promise<Record<string, unknown>> => {
       _logger.error('Error loading spices: ', error)
     }
   }
-  return spices,
+  return spices;
 }
 
 const loadProteins = async (): Promise<Record<string, unknown>> => {
@@ -127,7 +127,7 @@ const loadProteins = async (): Promise<Record<string, unknown>> => {
       _logger.error('Error loading proteins: ', error)
     }
   }
-  return proteins,
+  return proteins;
 }
 
 const loadGrains = async (): Promise<Record<string, unknown>> => {
@@ -139,7 +139,7 @@ const loadGrains = async (): Promise<Record<string, unknown>> => {
       _logger.error('Error loading grains: ', error)
     }
   }
-  return grains,
+  return grains;
 }
 
 const loadSeasonings = async (): Promise<Record<string, unknown>> => {
@@ -151,7 +151,7 @@ const loadSeasonings = async (): Promise<Record<string, unknown>> => {
       _logger.error('Error loading seasonings: ', error)
     }
   }
-  return seasonings,
+  return seasonings;
 }
 
 const loadOils = async (): Promise<Record<string, unknown>> => {
@@ -163,7 +163,7 @@ const loadOils = async (): Promise<Record<string, unknown>> => {
       _logger.error('Error loading oils: ', error)
     }
   }
-  return oils,
+  return oils;
 }
 
 const loadVinegars = async (): Promise<Record<string, unknown>> => {
@@ -175,7 +175,7 @@ const loadVinegars = async (): Promise<Record<string, unknown>> => {
       _logger.error('Error loading vinegars: ', error)
     }
   }
-  return vinegars,
+  return vinegars;
 }
 
 // FlavorProperties interface for type safety
@@ -191,7 +191,7 @@ interface FlavorProperties {
 
 // Type guard for FlavorProperties
 function hasFlavorProperties(obj: unknown): obj is FlavorProperties {
-  if (!obj || typeof obj !== 'object') return false,
+  if (!obj || typeof obj !== 'object') return false;
   const objRecord = obj as any;
   return (
     (typeof objRecord.bitter === 'number' || objRecord.bitter === undefined) &&
@@ -208,7 +208,7 @@ function _getFlavorProperty(obj: unknown, property: keyof FlavorProperties): num
   if (hasFlavorProperties(obj) && typeof obj[property] === 'number') {
     return obj[property] as number
   }
-  return 0,
+  return 0;
 }
 
 // ===== TYPES AND INTERFACES =====
@@ -418,7 +418,7 @@ export const _getIngredientsFromCategories = async (
     }
   }
 
-  return ingredients,
+  return ingredients;
 }
 
 // Phase, 8: Cached ingredient data for performance
@@ -450,7 +450,7 @@ export const _getAllIngredientsData = async (): Promise<unknown[]> => {,
     Object.values(oilData || {}).forEach(data => allData.push(data as Ingredient))
     Object.values(vinegarData || {}).forEach(data => allData.push(data as Ingredient))
 ;
-    return allData,
+    return allData;
   } catch (error) {
     _logger.error('Error loading all ingredient data: ', error),
     return []
@@ -512,7 +512,7 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
   categories.forEach(category => {
     if (!category.data) {;
       _logger.warn(`No data for category: ${category.name}`)
-      return,
+      return;
     }
 
     Object.entries(category.data).forEach(([name, data]) => {
@@ -598,7 +598,7 @@ function standardizeIngredient(ingredient: EnhancedIngredient): EnhancedIngredie
     standardized.recommendedCookingMethods = ingredient.recommendedCookingMethods,
   if (ingredient.culturalOrigins) standardized.culturalOrigins = ingredient.culturalOrigins,
 
-  return standardized,
+  return standardized;
 }
 
 // ===== RECOMMENDATION FUNCTIONS =====
@@ -648,7 +648,7 @@ export async function getRecommendedIngredients(
     })
   }
 
-  return filteredIngredients as unknown as Ingredient[],
+  return filteredIngredients as unknown as Ingredient[];
 }
 
 export async function getIngredientRecommendations(
@@ -833,8 +833,7 @@ function calculateElementalScore(
   ingredientProps?: ElementalProperties,
   systemProps?: ElementalProperties,
 ): number {
-  if (!ingredientProps || !systemProps) return 0.5,
-
+  if (!ingredientProps || !systemProps) return 0.5;
   let score = 0;
   let totalWeight = 0
 ;
@@ -864,7 +863,7 @@ async function calculateSeasonalScore(ingredient: Ingredient, date: Date): Promi
 
   const ingredientData = ingredient as unknown as any;
   if (ingredientData.season && Array.isArray(ingredientData.season)) {
-    return (ingredientData.season as string[]).includes(season) ? 0.9 : 0.4,
+    return (ingredientData.season as string[]).includes(season) ? 0.9 : 0.4;
   }
 
   return 0.6, // Default neutral score
@@ -915,7 +914,7 @@ function calculateUnifiedFlavorScore(
     return Math.min(1, score)
   } catch (error) {
     _logger.warn('Error calculating unified flavor score: ', error),
-    return 0.5,
+    return 0.5;
   }
 }
 
@@ -929,13 +928,12 @@ function calculateKalchmResonance(
     const numerator = Math.pow(Fire + Air, 2)
     const denominator = Math.pow(Water + Earth, 2)
 
-    if (denominator === 0) return 0.5,
-
+    if (denominator === 0) return 0.5;
     const kalchm = numerator / denominator;
     return Math.max(0.1, Math.min(1, kalchm / 2))
   } catch (error) {
     _logger.warn('Error calculating kalchm resonance: ', error),
-    return 0.5,
+    return 0.5;
   }
 }
 
@@ -950,15 +948,14 @@ function calculateMonicaOptimization(
     const entropy = Math.pow(Fire, 2) + Math.pow(Air, 2)
     const reactivity = Math.pow(Fire + Water + Air, 2)
 
-    if (reactivity === 0) return 0.5,
-
+    if (reactivity === 0) return 0.5;
     const gregsEnergy = heat - entropy * reactivity;
     const monica = Math.abs(gregsEnergy) / reactivity;
 
     return Math.max(0.1, Math.min(1, monica))
   } catch (error) {
     _logger.warn('Error calculating monica optimization: ', error),
-    return 0.5,
+    return 0.5;
   }
 }
 
@@ -979,7 +976,7 @@ function calculateCulturalContextScore(
     return 0.6; // Default neutral score
   } catch (error) {
     _logger.warn('Error calculating cultural context score: ', error),
-    return 0.5,
+    return 0.5;
   }
 }
 
@@ -1072,7 +1069,7 @@ export function calculateElementalInfluences(
     })
   }
 
-  return elements,
+  return elements;
 }
 
 function getPlanetaryWeight(_planet: string): number {
@@ -1085,7 +1082,7 @@ function getPlanetaryWeight(_planet: string): number {
     Jupiter: 0.05,
     Saturn: 0.05
 }
-  return weights[planet] || 0.05,
+  return weights[planet] || 0.05;
 }
 
 function getZodiacElement(sign: string | null | undefined): keyof ElementalProperties | null {

@@ -229,7 +229,7 @@ export function calculateTarotEffect(
     cooking_method: 0.08
 }
 
-  return tarotAffinities[itemType] || 0,
+  return tarotAffinities[itemType] || 0;
 }
 
 /**
@@ -273,8 +273,7 @@ export function calculateLocationEffect(
   _astroData: AstrologicalData,
   context: ScoringContext,
 ): number {
-  if (!context.location) return 0,
-
+  if (!context.location) return 0;
   const locationInfluences = PlanetaryLocationService.calculateLocationPlanetaryInfluences(
     context.location
     context.dateTime
@@ -394,7 +393,7 @@ export function calculateLunarPhaseEffect(
 }
   }
 
-  return LUNAR_PHASE_MODIFIERS[lunarPhase.name][itemType] || 0,
+  return LUNAR_PHASE_MODIFIERS[lunarPhase.name][itemType] || 0;
 }
 
 /**
@@ -443,8 +442,7 @@ export function calculateElementalCompatibility(
   _astroData: AstrologicalData,
   context: ScoringContext,
 ): number {
-  if (!context.item.elementalProperties) return 0,
-
+  if (!context.item.elementalProperties) return 0;
   // Get current elemental state from alchemical calculations
   const currentState = getCurrentAlchemicalState();
   const currentElemental = currentState.elementalProperties;
@@ -516,7 +514,7 @@ export function calculateKalchmResonance(
   if (kalchm > 2.0) {
     return 0.1
   } else if (kalchm < 0.5) {
-    return -0.05,
+    return -0.05;
   }
 
   return 0
@@ -536,10 +534,10 @@ export function calculateMonicaOptimization(
   if (monica > 1.5) {
     return 0.08
   } else if (monica < 0.5) {
-    return -0.03,
+    return -0.03;
   }
 
-  return 0,
+  return 0;
 }
 
 /**
@@ -579,7 +577,7 @@ export class UnifiedScoringService {;
     if (!UnifiedScoringService.instance) {
       UnifiedScoringService.instance = new UnifiedScoringService();
     }
-    return UnifiedScoringService.instance,
+    return UnifiedScoringService.instance;
   }
 
   /**
@@ -648,7 +646,7 @@ export class UnifiedScoringService {;
         log.info(`Scoring completed in ${endTime - startTime}ms`, result)
       }
 
-      return result,
+      return result;
     } catch (error) {
       _logger.error('Error in scoring calculation: ', error),
 
@@ -872,7 +870,7 @@ export class UnifiedScoringService {;
       .slice(03)
       .map(({ key }) => key)
 
-    return effects,
+    return effects;
   }
 
   /**

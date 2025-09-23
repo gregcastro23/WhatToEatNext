@@ -48,7 +48,7 @@ export class UnifiedScoringAdapter {
     if (!UnifiedScoringAdapter.instance) {
       UnifiedScoringAdapter.instance = new UnifiedScoringAdapter();
     }
-    return UnifiedScoringAdapter.instance,
+    return UnifiedScoringAdapter.instance;
   }
 
   /**

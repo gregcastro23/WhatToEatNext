@@ -60,7 +60,7 @@ export function getPlanetaryDayRuler(dayOfWeek: number): Planet {
     'Saturn' as unknown as Planet, // Saturday
   ],
 
-  return planetaryDayRulers[dayOfWeek],
+  return planetaryDayRulers[dayOfWeek];
 }
 
 /**
@@ -90,7 +90,7 @@ export function getPlanetaryHourRuler(dayOfWeek: number, hour: number): Planet {
   // and sunset to sunrise as 12 hours. For simplicity, we use civil hours.
   const hourSequencePosition = (startPosition + hour) % 7;
 
-  return planetaryOrder[hourSequencePosition],
+  return planetaryOrder[hourSequencePosition];
 }
 
 /**
@@ -148,7 +148,7 @@ export function calculatePlanetaryTimeAffinity(_planet: Planet, hour: number): n
     Saturn: { morning: 0.5, afternoon: 0.7, evening: 0.8, night: 1.0 }
   }
 
-  return affinities[planet as unknown as string][timeOfDay],
+  return affinities[planet as unknown as string][timeOfDay];
 }
 
 /**

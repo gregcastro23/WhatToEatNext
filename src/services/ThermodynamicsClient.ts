@@ -80,7 +80,7 @@ export class ThermodynamicsClient {
           const ingredients = input.ingredients.map(i => String(i))
           const result = await alchmAPI.calculateThermodynamics(ingredients);
           logger.debug('ThermodynamicsClient', 'Backend calculation successful', result)
-          return result,
+          return result;
         }
       } catch (error) {
         logger.warn('ThermodynamicsClient', 'Backend calculation failed, falling back to local', error)

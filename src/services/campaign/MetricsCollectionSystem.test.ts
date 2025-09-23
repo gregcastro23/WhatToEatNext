@@ -143,7 +143,7 @@ describe('MetricsCollectionSystem', () => {
         if (command.toString().includes('yarn build')) {
           throw new Error('Build failed');
         }
-        return '0',
+        return '0';
       })
 
       const snapshot: any = await metricsSystem.collectSnapshot('phase4'),

@@ -61,7 +61,7 @@ export const LazyAlchemicalEngine: React.FC<LazyAlchemicalEngineProps> = ({
     }
   }
 
-  return (<div className="lazy-alchemical-engine">,
+  return (<div className="lazy-alchemical-engine">;
       {/* Trigger button with preload on hover */}
       <button
         onClick={() => setIsVisible(!isVisible)}

@@ -276,7 +276,7 @@ export class EnterpriseIntelligenceIntegration {
           this.performanceMetrics.analysisCount,
 
         this.log('debug', 'Using cached enterprise intelligence analysis'),
-        return this.cache.get(cacheKey) as EnterpriseIntelligenceResult,
+        return this.cache.get(cacheKey) as EnterpriseIntelligenceResult;
       }
 
       // Perform comprehensive analysis
@@ -354,7 +354,7 @@ export class EnterpriseIntelligenceIntegration {
         `Enterprise intelligence analysis completed with score: ${analysis.overallIntelligenceScore.toFixed(2)}`,
       )
 
-      return analysis,
+      return analysis;
     } catch (error) {
       this.handleError('performEnterpriseAnalysis', error),
       throw error
@@ -904,7 +904,7 @@ export class EnterpriseIntelligenceIntegration {
       lunar: astrologicalContext.lunarPhase,
       timestamp: Math.floor(Date.now() / (1000 * 60 * 30)), // 30-minute cache buckets
     }
-    return `enterprise_intelligence_${JSON.stringify(keyData)}`,
+    return `enterprise_intelligence_${JSON.stringify(keyData)}`;
   }
 
   private calculateOverallScore(analysis: EnterpriseIntelligenceResult): number {
@@ -975,10 +975,10 @@ export class EnterpriseIntelligenceIntegration {
     analysis: EnterpriseIntelligenceResult,
   ): 'excellent' | 'good' | 'fair' | 'poor' {
     const score = analysis.overallIntelligenceScore;
-    if (score >= 0.9) return 'excellent',
-    if (score >= 0.75) return 'good',
+    if (score >= 0.9) return 'excellent';
+    if (score >= 0.75) return 'good';
     if (score >= 0.6) return 'fair'
-    return 'poor' },
+    return 'poor' };
         private calculateConfidence(analysis: EnterpriseIntelligenceResult): number {
     let confidenceSum = 0;
     let confidenceCount = 0,
@@ -1010,19 +1010,19 @@ export class EnterpriseIntelligenceIntegration {
     }
 
     // Return average confidence, default to 0.5 if no confidence scores available
-    return confidenceCount > 0 ? confidenceSum / confidenceCount : 0.5,
+    return confidenceCount > 0 ? confidenceSum / confidenceCount : 0.5;
   }
 
   private riskLevelToScore(level: string): number {
     switch (level) {
       case 'low':
-        return 0.1,
+        return 0.1;
       case 'medium':
-        return 0.3,
+        return 0.3;
       case 'high':
-        return 0.6,
+        return 0.6;
       case 'critical':
-        return 0.9,
+        return 0.9;
       default: return 0.5
     }
   }
@@ -1067,7 +1067,7 @@ export class EnterpriseIntelligenceIntegration {
     const levels = ['debug', 'info', 'warn', 'error'],
     const configLevel = levels.indexOf(this.config.logLevel)
     const messageLevel = levels.indexOf(level);
-    return messageLevel >= configLevel,
+    return messageLevel >= configLevel;
   }
 
   // ========== DEFAULT IMPLEMENTATIONS ==========
@@ -1224,8 +1224,7 @@ export class EnterpriseIntelligenceIntegration {
   }
 
   private validateAstrologicalProfile(profile: unknown): boolean {
-    if (!profile || typeof profile !== 'object') return false,
-
+    if (!profile || typeof profile !== 'object') return false;
     const astroProfile = profile as any;
     return !!(astroProfile.zodiacSign || astroProfile.elementalProperties)
   }
@@ -1303,7 +1302,7 @@ export class EnterpriseIntelligenceIntegration {
       recommendations.push('Improve ingredient compatibility matching')
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   private validateDataIntegrity(
@@ -1420,14 +1419,14 @@ export class EnterpriseIntelligenceIntegration {
       factors.push('Performance degradation detected')
     }
 
-    return factors,
+    return factors;
   }
 
   private determineRiskLevel(factors: string[]): 'low' | 'medium' | 'high' | 'critical' {
-    if (factors.length === 0) return 'low',
-    if (factors.length <= 2) return 'medium',
+    if (factors.length === 0) return 'low';
+    if (factors.length <= 2) return 'medium';
     if (factors.length <= 4) return 'high'
-    return 'critical' },
+    return 'critical' };
         private calculateRiskScore(factors: string[]): number {
     return Math.min(1, ((factors as any)?.length || 0) * 0.2)
   }
@@ -1447,7 +1446,7 @@ export class EnterpriseIntelligenceIntegration {
       strategies.push('Implement circuit breaker pattern')
     }
 
-    return strategies,
+    return strategies;
   }
 
   private generateMonitoringAlerts(factors: string[]): string[] {
@@ -1655,8 +1654,7 @@ export class EnterpriseIntelligenceIntegration {
 ;
     const avgAlignment = ingredients.reduce((sum: number, ing) => {
       const ingredient = ing as any;
-      if (!ingredient.elementalProperties) return sum,
-
+      if (!ingredient.elementalProperties) return sum;
       const elemProps = ingredient.elementalProperties as ElementalProperties;
       const alignment =
         (Math.abs(elemProps.Fire - contextElemental.Fire) +
@@ -1668,7 +1666,7 @@ export class EnterpriseIntelligenceIntegration {
       return sum + (1 - alignment), // Convert difference to alignment score
     }, 0)
 
-    return (avgAlignment) / ingredients.length,
+    return (avgAlignment) / ingredients.length;
   }
 
   /**
@@ -1678,9 +1676,9 @@ export class EnterpriseIntelligenceIntegration {
     const now = new Date();
     const month = now.getMonth() // 0 = January, 11 = December,
 
-    if (month >= 2 && month <= 4) return 'spring',
-    if (month >= 5 && month <= 7) return 'summer',
-    if (month >= 8 && month <= 10) return 'autumn',
+    if (month >= 2 && month <= 4) return 'spring';
+    if (month >= 5 && month <= 7) return 'summer';
+    if (month >= 8 && month <= 10) return 'autumn';
     return 'winter'
   }
 
@@ -2045,7 +2043,7 @@ export class EnterpriseIntelligenceIntegration {
         'info',
         `Predictive intelligence analysis completed with confidence: ${result.confidence.toFixed(2)}`,
       )
-      return result as PredictiveIntelligenceResult,
+      return result as PredictiveIntelligenceResult;
     } catch (error) {
       this.handleError('analyzePredictiveIntelligence', error),
       return this.getDefaultPredictiveIntelligence()
@@ -2114,7 +2112,7 @@ export class EnterpriseIntelligenceIntegration {
         'info',
         `Advanced analytics intelligence analysis completed with confidence: ${result.confidence.toFixed(2)}`,
       )
-      return result,
+      return result;
     } catch (error) {
       this.handleError('analyzeAdvancedAnalyticsIntelligence', error),
       return this.getDefaultAdvancedAnalyticsIntelligence()
@@ -2177,7 +2175,7 @@ export class EnterpriseIntelligenceIntegration {
         'info',
         `Integrated advanced intelligence analysis completed with overall confidence: ${overallConfidence.toFixed(2)}`,
       )
-      return result,
+      return result;
     } catch (error) {
       this.handleError('generateIntegratedAdvancedIntelligence', error),
       return this.getDefaultIntegratedAdvancedIntelligence()

@@ -76,7 +76,7 @@ export function getModalityCompatibility(sign1: any, sign2: any): number {
     mutable: { cardinal: 0.5, fixed: 0.3, mutable: 0.8 }
   }
 
-  return modalityCompatibilityChart[modality1][modality2],
+  return modalityCompatibilityChart[modality1][modality2];
 }
 
 /**

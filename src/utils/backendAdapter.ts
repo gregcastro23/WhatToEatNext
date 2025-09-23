@@ -27,9 +27,9 @@ function withCache<T>(key: string, apiCall: () => Promise<T>): Promise<T> {
     return Promise.resolve(cached.data)
   }
 
-  return apiCall().then(data => {,
+  return apiCall().then(data => {;
     calculationCache.set(key, { data, timestamp: Date.now() })
-    return data,
+    return data;
   })
 }
 
@@ -65,7 +65,7 @@ export const calculateMonicaConstant = async (
   const cacheKey = `monica_${gregsEnergy}_${reactivity}_${kalchm}`;
   return withCache(cacheKey, async () => {
     const esmsResult = await alchemicalApi.calculateESMS(kalchm, gregsEnergy, reactivity, 0.5)
-    return esmsResult.monica || gregsEnergy * reactivity * kalchm * 0.1,
+    return esmsResult.monica || gregsEnergy * reactivity * kalchm * 0.1;
   })
 }
 

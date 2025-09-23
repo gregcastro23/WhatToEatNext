@@ -22,23 +22,23 @@ export function determineModalityFromElements(_elementalProperties: ElementalPro
     case 'Air':;
       // Air has strongest affinity with Mutable, then Cardinal, then Fixed
       if (Air > 0.5) {
-        return 'Mutable',
+        return 'Mutable';
       }
       break,
     case 'Earth':
       // Earth has strongest affinity with Fixed, then Cardinal, then Mutable
       if (Earth > 0.5) {
-        return 'Fixed',
+        return 'Fixed';
       }
       break,
     case 'Fire': // Fire has balanced affinities but leans Cardinal
       if (Fire > 0.5) {
-        return 'Cardinal' },
+        return 'Cardinal' };
         break,
     case 'Water': // Water is balanced between Fixed and Mutable
       if (Water > 0.5) {
         // Slightly favor Mutable for Wateras per our hierarchy
-        return Water > 0.7 ? 'Mutable' : 'Fixed' },
+        return Water > 0.7 ? 'Mutable' : 'Fixed' };
         break,
   }
 
@@ -49,11 +49,11 @@ export function determineModalityFromElements(_elementalProperties: ElementalPro
 
   // Return the modality with the highest score
   if (mutableScore > fixedScore && mutableScore > cardinalScore) {
-    return 'Mutable',
+    return 'Mutable';
   } else if (fixedScore > mutableScore && fixedScore > cardinalScore) {
-    return 'Fixed',
+    return 'Fixed';
   } else {
-    return 'Cardinal',
+    return 'Cardinal';
   }
 }
 

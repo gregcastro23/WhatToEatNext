@@ -261,15 +261,15 @@ MAINTENANCE PROCEDURES: 📅 Daily: Health checks and critical issue detection
   private getStatusDisplay(status: string): string {
     switch (status) {
       case 'excellent':
-        return '🏆 EXCELLENT',
+        return '🏆 EXCELLENT';
       case 'good':
         return '👍 GOOD'
       case 'improving':
-        return '📈 IMPROVING',
+        return '📈 IMPROVING';
       case 'warning':
-        return '⚠️ WARNING',
+        return '⚠️ WARNING';
       case 'critical':
-        return '🚨 CRITICAL',
+        return '🚨 CRITICAL';
       default: return '❓ UNKNOWN'
     }
   }
@@ -283,11 +283,11 @@ MAINTENANCE PROCEDURES: 📅 Daily: Health checks and critical issue detection
   private getGateStatusIcon(status: string): string {
     switch (status) {
       case 'passing':
-        return '✅',
+        return '✅';
       case 'warning':
-        return '⚠️',
+        return '⚠️';
       case 'failing':
-        return '❌',
+        return '❌';
       default: return '❓'
     }
   }

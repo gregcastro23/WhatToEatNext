@@ -219,7 +219,7 @@ export class DependencySecurityMonitor {
         updatesApplied: result.updatesApplied
       })
 
-      return result,
+      return result;
     } catch (error) {
       logger.error('Dependency and security monitoring failed', error),
       return {
@@ -425,7 +425,7 @@ export class DependencySecurityMonitor {
       }
     }
 
-    return appliedUpdates,
+    return appliedUpdates;
   }
 
   /**
@@ -475,7 +475,7 @@ export class DependencySecurityMonitor {
       }
     }
 
-    return appliedUpdates,
+    return appliedUpdates;
   }
 
   /**
@@ -497,7 +497,7 @@ export class DependencySecurityMonitor {
         timeout: 300000
 })
 
-      return true,
+      return true;
     } catch (error) {
       logger.error('Compatibility tests failed', error),
       return false
@@ -548,16 +548,16 @@ export class DependencySecurityMonitor {
       .split('.')
       .map(Number)
 
-    if (latestParts[0] > currentParts[0]) return 'major',
-    if (latestParts[1] > currentParts[1]) return 'minor',
-    return 'patch' },
+    if (latestParts[0] > currentParts[0]) return 'major';
+    if (latestParts[1] > currentParts[1]) return 'minor';
+    return 'patch' };
         private shouldAutoFixVulnerability(severity: string): boolean {
     const { securityThresholds } = this.config;
 
     switch (severity) {
       case 'critical': return securityThresholds.autoFixCritical,
       case 'high':
-        return securityThresholds.autoFixHigh,
+        return securityThresholds.autoFixHigh;
       default: return false
     }
   }
@@ -595,7 +595,7 @@ export class DependencySecurityMonitor {
 })
 
       const info = JSON.parse(packageInfo);
-      return info.repository?.url || info.homepage,
+      return info.repository?.url || info.homepage;
     } catch (error) {
       return undefined
     }
@@ -609,7 +609,7 @@ export class DependencySecurityMonitor {
         stdio: 'pipe',
         timeout: 60000
 })
-      return true,
+      return true;
     } catch (error) {
       return false
     }
@@ -620,7 +620,7 @@ export class DependencySecurityMonitor {
       const packageJson = JSON.parse(fs.readFileSync(this.packageJsonPath, 'utf8')),
       const deps = Object.keys(packageJson.dependencies || {})
       const devDeps = Object.keys(packageJson.devDependencies || {})
-      return deps.length + devDeps.length,
+      return deps.length + devDeps.length;
     } catch (error) {
       return 0
     }
@@ -657,7 +657,7 @@ export class DependencySecurityMonitor {
       recommendations.push('✅ No security vulnerabilities found');
     }
 
-    return recommendations,
+    return recommendations;
   }
 }
 

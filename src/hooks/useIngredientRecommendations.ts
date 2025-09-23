@@ -260,8 +260,8 @@ function generateRecommendationReason(
   const timeContext = isDaytime ? 'daytime solar' : 'nighttime lunar'
 
   if (dominantElement === currentDominant) {;
-    return `Strong ${dominantElement} alignment with current ${timeContext} energies enhances compatibility`,
+    return `Strong ${dominantElement} alignment with current ${timeContext} energies enhances compatibility`;
   } else {
-    return `${dominantElement} element provides balancing energy to complement ${currentDominant} influence during ${timeContext}`,
+    return `${dominantElement} element provides balancing energy to complement ${currentDominant} influence during ${timeContext}`;
   }
 }

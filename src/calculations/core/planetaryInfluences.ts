@@ -449,7 +449,7 @@ export function getPlanetaryCulinaryRecommendations(
     }
   })
 
-  return recommendations,
+  return recommendations;
 }
 
 export default {

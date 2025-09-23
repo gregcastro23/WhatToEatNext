@@ -266,7 +266,7 @@ describe('End-to-End Campaign Integration Tests', () => {
           }
         }
         metricsHistory.push(metrics)
-        return metrics,
+        return metrics;
       })
 
       // Execute all phases
@@ -359,9 +359,9 @@ describe('End-to-End Campaign Integration Tests', () => {
       mockFs.readFileSync.mockReturnValue(`
         function test() : any {
         <<<<<<< HEAD
-          return 'conflict',
+          return 'conflict';
         =======
-          return 'other',
+          return 'other';
         >>>>>>> branch
         }
       `)
@@ -388,7 +388,7 @@ describe('End-to-End Campaign Integration Tests', () => {
         if (command.toString().includes('yarn build')) {
           throw new Error('Build compilation failed');
         }
-        return '',
+        return '';
       })
 
       jest.spyOn(progressTracker, 'getBuildTime').mockResolvedValue(-1)

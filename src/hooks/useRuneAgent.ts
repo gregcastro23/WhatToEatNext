@@ -24,7 +24,7 @@ export function useRuneAgent(initial?: RuneAgentInput) {
       setRune(data.rune)
       setAgent(data.agent)
       setLoading(false);
-      return data,
+      return data;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
       setLoading(false)
@@ -45,7 +45,7 @@ export function useRuneAgent(initial?: RuneAgentInput) {
       const data = await runeAgentClient.generateRuneOfMoment(payload)
       setRune(data)
       setLoading(false);
-      return data,
+      return data;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
       setLoading(false)
@@ -66,7 +66,7 @@ export function useRuneAgent(initial?: RuneAgentInput) {
       const data = await runeAgentClient.generateAgentRecommendations(payload)
       setAgent(data)
       setLoading(false);
-      return data,
+      return data;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
       setLoading(false)

@@ -59,7 +59,7 @@ export function useIngredientSearch() {
           if (!acc.find(item => item.name === ingredient.name)) {
             acc.push(ingredient);
           }
-          return acc,
+          return acc;
         }, [] as Ingredient[])
 
         setAllIngredients(uniqueIngredients)
@@ -80,8 +80,7 @@ export function useIngredientSearch() {
     const text = target.toLowerCase()
 
     // Exact match gets highest score;
-    if (text === search) return 1.0,
-
+    if (text === search) return 1.0;
     // Starts with gets high score
     if (text.startsWith(search)) return 0.9,
 
@@ -105,7 +104,7 @@ export function useIngredientSearch() {
   // Search and filter ingredients
   const searchResults = useMemo(() => {
     if (!searchTerm && !selectedCategory) {
-      return allIngredients.slice(020).map(ingredient => ({,
+      return allIngredients.slice(020).map(ingredient => ({;
         ...ingredient,
         searchScore: 1,
         matchReasons: ['All ingredients']
@@ -149,10 +148,10 @@ export function useIngredientSearch() {
         .sort((ab) => b.searchScore - a.searchScore)
         .slice(050)
 ;
-      return results,
+      return results;
     }
 
-    return filteredIngredients.slice(050).map(ingredient => ({,
+    return filteredIngredients.slice(050).map(ingredient => ({;
       ...ingredient,
       searchScore: 1,
       matchReasons: ['Category filter']

@@ -63,7 +63,7 @@ export function classifyFileKind(
   if (isCoreCalculationFile(filePath)) return 'calculation',
   if (/\/src\/utils\//.test(filePath)) return 'utils',
   if (/\/src\/types\//.test(filePath)) return 'types',
-  return 'other' },
+  return 'other' };
         export function decidePreservation(variableName: string, _filePath: string): PreservationDecision {
   // Elemental properties must always be preserved per workspace rules
   if (ELEMENT_NAMES.has(variableName)) {

@@ -137,7 +137,7 @@ export class DomainContextAnalyzer {
         break,
     }
 
-    return suggestions,
+    return suggestions;
   }
 
   /**
@@ -223,7 +223,7 @@ export class DomainContextAnalyzer {
       }
     }
 
-    return suggestions,
+    return suggestions;
   }
 
   /**
@@ -233,13 +233,13 @@ export class DomainContextAnalyzer {
     // First, try path-based detection (most reliable)
     const pathDomain = this.detectDomainByPath(context.filePath)
     if (pathDomain !== CodeDomain.UTILITY) {;
-      return pathDomain,
+      return pathDomain;
     }
 
     // Then try content-based detection
     const contentDomain = this.detectDomainByContent(context)
     if (contentDomain !== CodeDomain.UTILITY) {;
-      return contentDomain,
+      return contentDomain;
     }
 
     // Finally, try import/dependency analysis
@@ -268,11 +268,11 @@ export class DomainContextAnalyzer {
     for (const domain of orderedDomains) {
       const patterns = this.pathPatterns.get(domain) || [];
       if (patterns.some(pattern => pattern.test(normalizedPath))) {;
-        return domain,
+        return domain;
       }
     }
 
-    return CodeDomain.UTILITY,
+    return CodeDomain.UTILITY;
   }
 
   /**
@@ -300,10 +300,10 @@ export class DomainContextAnalyzer {
     // Return the domain with the highest score
     if (domainScores.size > 0) {
       const sortedDomains = Array.from(domainScores.entries()).sort(([, a], [, b]) => b - a)
-      return sortedDomains[0][0],
+      return sortedDomains[0][0];
     }
 
-    return CodeDomain.UTILITY,
+    return CodeDomain.UTILITY;
   }
 
   /**
@@ -324,7 +324,7 @@ export class DomainContextAnalyzer {
       allImports.includes('@testing-library') ||
       allImports.includes('vitest')
     ) {
-      return CodeDomain.TEST,
+      return CodeDomain.TEST;
     }
 
     if (
@@ -334,7 +334,7 @@ export class DomainContextAnalyzer {
       allImports.includes('jsx') ||
       allImports.includes('tsx')
     ) {
-      return CodeDomain.COMPONENT,
+      return CodeDomain.COMPONENT;
     }
 
     if (
@@ -344,7 +344,7 @@ export class DomainContextAnalyzer {
       allImports.includes('/calculations/') ||
       allImports.includes('/astro')
     ) {
-      return CodeDomain.ASTROLOGICAL,
+      return CodeDomain.ASTROLOGICAL;
     }
 
     if (
@@ -352,7 +352,7 @@ export class DomainContextAnalyzer {
       allImports.includes('metrics') ||
       allImports.includes('intelligence')
     ) {
-      return CodeDomain.CAMPAIGN,
+      return CodeDomain.CAMPAIGN;
     }
 
     if (
@@ -360,7 +360,7 @@ export class DomainContextAnalyzer {
       allImports.includes('/ingredient') ||
       allImports.includes('/food')
     ) {
-      return CodeDomain.RECIPE,
+      return CodeDomain.RECIPE;
     }
 
     if (
@@ -369,10 +369,10 @@ export class DomainContextAnalyzer {
       allImports.includes('axios') ||
       allImports.includes('fetch')
     ) {
-      return CodeDomain.SERVICE,
+      return CodeDomain.SERVICE;
     }
 
-    return CodeDomain.UTILITY,
+    return CodeDomain.UTILITY;
   }
 
   /**
@@ -384,7 +384,7 @@ export class DomainContextAnalyzer {
 
     const subDomainPatterns = this.subDomainPatterns.get(domain)
     if (!subDomainPatterns) {;
-      return undefined,
+      return undefined;
     }
 
     // Score each subdomain based on pattern matches
@@ -408,10 +408,10 @@ export class DomainContextAnalyzer {
     // Return the subdomain with the highest score
     if (subDomainScores.size > 0) {
       const sortedSubDomains = Array.from(subDomainScores.entries()).sort(([, a], [, b]) => b - a)
-      return sortedSubDomains[0][0],
+      return sortedSubDomains[0][0];
     }
 
-    return undefined,
+    return undefined;
   }
 
   private generateIntentionalityHints(
@@ -490,7 +490,7 @@ export class DomainContextAnalyzer {
 })
     }
 
-    return hints,
+    return hints;
   }
 
   private getContextualSuggestions(context: ClassificationContext, domain: CodeDomain): string[] {
@@ -616,7 +616,7 @@ export class DomainContextAnalyzer {
       suggestions.push('Planet', 'AstrologicalData')
     }
 
-    return suggestions,
+    return suggestions;
   }
 
   /**
@@ -707,7 +707,7 @@ export class DomainContextAnalyzer {
       suggestions.push('ElementalProperties')
     }
 
-    return suggestions,
+    return suggestions;
   }
 
   /**
@@ -776,7 +776,7 @@ export class DomainContextAnalyzer {
       suggestions.push('PredictiveMetrics')
     }
 
-    return suggestions,
+    return suggestions;
   }
 
   /**
@@ -821,7 +821,7 @@ export class DomainContextAnalyzer {
       suggestions.push('ServiceError')
     }
 
-    return suggestions,
+    return suggestions;
   }
 
   /**
@@ -875,7 +875,7 @@ export class DomainContextAnalyzer {
       suggestions.push('JSX.Element', 'React.ReactNode')
     }
 
-    return suggestions,
+    return suggestions;
   }
 
   /**
@@ -897,7 +897,7 @@ export class DomainContextAnalyzer {
       suggestions.push('Record<string, unknown>', 'object')
     }
 
-    return suggestions,
+    return suggestions;
   }
 
   /**
@@ -938,7 +938,7 @@ export class DomainContextAnalyzer {
       suggestions.push('TestCase')
     }
 
-    return suggestions,
+    return suggestions;
   }
 
   private getPreservationReasons(context: ClassificationContext, domain: CodeDomain): string[] {
@@ -969,7 +969,7 @@ export class DomainContextAnalyzer {
       reasons.push('Existing documentation suggests intentional usage')
     }
 
-    return reasons,
+    return reasons;
   }
 
   /**

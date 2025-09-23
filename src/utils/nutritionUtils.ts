@@ -79,8 +79,7 @@ const mineralsByCategory: Record<string, string[]> = {
 }
 
 export const calculateNutritionalScore = (nutrition: NutritionalProfile): number => {,
-  if (!nutrition) return 0,
-
+  if (!nutrition) return 0;
   // Safe property access for macros
   const macros = (nutrition as unknown)?.macros || {}
   const baseScore =

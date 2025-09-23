@@ -71,5 +71,5 @@ export function usePlanetaryHours() {
     return () => clearInterval(interval)
   }, [])
 
-  return data,
+  return data;
 }

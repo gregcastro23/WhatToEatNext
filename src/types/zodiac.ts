@@ -63,12 +63,12 @@ export const _getZodiacSign = (date: Date): any => {,
     const { startMonth, startDay, endMonth, endDay } = range;
 
     if ((month === startMonth && day >= startDay) || (month === endMonth && day <= endDay)) {,
-      return sign as unknown,
+      return sign as unknown;
     }
   }
 
   // Default to capricorn if no match (shouldn't happen with proper ranges)
-  return 'capricorn',
+  return 'capricorn';
 }
 
 export const _getElementalAffinity = (sign: any): keyof ElementalProperties => {,

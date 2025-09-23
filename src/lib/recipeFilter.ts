@@ -68,7 +68,7 @@ export const _recipeFilter = {
             recipeDietaryRestrictions.includes(restriction)
           );
         }
-        return false,
+        return false;
       })
     }
 
@@ -130,6 +130,6 @@ export const _recipeFilter = {
       })
     }
 
-    return filteredRecipes,
+    return filteredRecipes;
   }
 }

@@ -106,7 +106,7 @@ class BatchProcessingCLI {
       })
     }
 
-    return files,
+    return files;
   }
 
   /**
@@ -117,7 +117,7 @@ class BatchProcessingCLI {
       case 'high':
         return 'high'
       case 'medium':
-        return 'medium',
+        return 'medium';
       default: return 'low'
     }
   }
@@ -180,7 +180,7 @@ class BatchProcessingCLI {
         // // // _logger.info(`   Files to process: ${plan.automaticProcessing.length}`)
         // // // _logger.info(`   Manual reviews needed: ${plan.manualReviewRequired.length}`)
         // // // _logger.info(`   Estimated batches: ${plan.estimatedBatches}`)
-        return,
+        return;
       }
 
       const campaign = await this.orchestrator.executeCampaign(files)

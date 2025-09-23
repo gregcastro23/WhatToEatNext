@@ -73,7 +73,7 @@ describe('Bundle Size Performance Tests', () => {
     it('should validate bundle size under 420kB target', async () => {
       // Mock optimal bundle size
       mockFs.existsSync.mockImplementation(path => {
-        return path === '.next' || path === 'dist',
+        return path === '.next' || path === 'dist';
       })
 
       mockExecSync.mockImplementation(command => {
@@ -84,7 +84,7 @@ describe('Bundle Size Performance Tests', () => {
         if (cmd.includes('du -sk dist')) {
           return '100', // 100kB
         }
-        return '',
+        return '';
       })
 
       const bundleSize: any = await progressTracker.getBundleSize()
@@ -100,7 +100,7 @@ describe('Bundle Size Performance Tests', () => {
         if (command.toString().includes('du -sk')) {;
           return '450', // 450kB - exceeds 420kB target
         }
-        return '',
+        return '';
       })
 
       const bundleSize: any = await progressTracker.getBundleSize()
@@ -129,7 +129,7 @@ describe('Bundle Size Performance Tests', () => {
           const optimization: any = Math.min(100, optimizationStep * 20), // Up to 100kB reduction,
           return Math.max(350, baseSize - optimization).toString()
         }
-        return '',
+        return '';
       })
 
       // Collect bundle sizes over multiple measurements
@@ -167,7 +167,7 @@ describe('Bundle Size Performance Tests', () => {
             return output.expectedSize.toString()
           }
         }
-        return '',
+        return '';
       })
 
       const bundleSize: any = await progressTracker.getBundleSize();
@@ -187,7 +187,7 @@ describe('Bundle Size Performance Tests', () => {
         if (command.toString().includes('du -sk .next')) {;
           return '380', // 380kB
         }
-        return '',
+        return '';
       })
 
       const bundleSize: any = await progressTracker.getBundleSize()
@@ -214,7 +214,7 @@ describe('Bundle Size Performance Tests', () => {
             return size.toString()
           }
         }
-        return '',
+        return '';
       })
 
       const bundleSize: any = await progressTracker.getBundleSize()
@@ -232,8 +232,8 @@ describe('Bundle Size Performance Tests', () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('du -sk')) {;
           // Lazy loading should reduce main bundle size,
-          return lazyLoadingEnabled ? '320' : '450' },
-        return '',
+          return lazyLoadingEnabled ? '320' : '450' };
+        return '';
       })
 
       // Before lazy loading
@@ -255,8 +255,8 @@ describe('Bundle Size Performance Tests', () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('du -sk')) {;
           // Tree shaking should remove unused code,
-          return treeShakingEnabled ? '380' : '480' },
-        return '',
+          return treeShakingEnabled ? '380' : '480' };
+        return '';
       })
 
       // Before tree shaking
@@ -280,13 +280,13 @@ describe('Bundle Size Performance Tests', () => {
           if (codeSplittingEnabled != null) {
             // Code splitting creates multiple smaller bundles;
             // Main bundle should be smaller,
-            return '280' },
+            return '280' };
         else {
             // Single large bundle
             return '440'
           }
         }
-        return '',
+        return '';
       })
 
       // Before code splitting
@@ -308,8 +308,8 @@ describe('Bundle Size Performance Tests', () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('du -sk')) {;
           // Compression should reduce bundle size significantly,
-          return compressionEnabled ? '300' : '500' },
-        return '',
+          return compressionEnabled ? '300' : '500' };
+        return '';
       })
 
       // Before compression
@@ -339,7 +339,7 @@ describe('Bundle Size Performance Tests', () => {
           const regression: any = executionCount * 25, // 25kB increase per execution,
           return (baseSize + regression).toString()
         }
-        return '',
+        return '';
       })
 
       const bundleSizes: number[] = [];
@@ -373,7 +373,7 @@ describe('Bundle Size Performance Tests', () => {
           const optimization: any = optimizationStep * 30, // 30kB reduction per step,
           return Math.max(320, baseSize - optimization).toString()
         }
-        return '',
+        return '';
       })
 
       const bundleSizes: number[] = [];
@@ -411,7 +411,7 @@ describe('Bundle Size Performance Tests', () => {
           if (command.toString().includes('du -sk')) {
             return strategy.expectedSize.toString();
           }
-          return '',
+          return '';
         })
 
         const bundleSize: any = await progressTracker.getBundleSize()
@@ -454,9 +454,9 @@ describe('Bundle Size Performance Tests', () => {
             // Busy wait;
           }
           analysisTimes.push(Date.now() - startTime)
-          return '400',
+          return '400';
         }
-        return '',
+        return '';
       }),
 
       // Perform multiple bundle size analyses
@@ -485,7 +485,7 @@ describe('Bundle Size Performance Tests', () => {
           }
           return '2000'; // 2MB bundle - very large
         }
-        return '',
+        return '';
       })
 
       const startTime: any = Date.now()
@@ -507,7 +507,7 @@ describe('Bundle Size Performance Tests', () => {
           while (Date.now() < endTime) {
             // Busy wait;
           }
-          return '400',
+          return '400';
         }
         return ''
       }),
@@ -534,7 +534,7 @@ describe('Bundle Size Performance Tests', () => {
         if (command.toString().includes('du -sk')) {;
           return '390', // Under target
         }
-        return '',
+        return '';
       })
 
       // Mock campaign execution with bundle monitoring
@@ -574,7 +574,7 @@ describe('Bundle Size Performance Tests', () => {
           if (command.toString().includes('du -sk')) {
             return testSize.toString();
           }
-          return '',
+          return '';
         })
 
         const bundleSize: any = await progressTracker.getBundleSize(),

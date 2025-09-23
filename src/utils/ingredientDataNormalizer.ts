@@ -7,11 +7,10 @@
 export function normalizeVitamins(
   vitamins: Record<string, unknown>,
 ): Array<{ name: string, value?: number, unit?: string }> {
-  if (!vitamins) return [],
-
+  if (!vitamins) return [];
   // If it's already an array of strings
   if (Array.isArray(vitamins)) {
-    return vitamins.map(vitamin => ({,
+    return vitamins.map(vitamin => ({;
       name: formatVitaminName(vitamin),
       value: undefined,
       unit: undefined
@@ -27,7 +26,7 @@ export function normalizeVitamins(
     }))
   }
 
-  return [],
+  return [];
 }
 
 /**
@@ -36,11 +35,10 @@ export function normalizeVitamins(
 export function normalizeMinerals(
   minerals: Record<string, unknown>,
 ): Array<{ name: string, value?: number, unit?: string }> {
-  if (!minerals) return [],
-
+  if (!minerals) return [];
   // If it's already an array of strings
   if (Array.isArray(minerals)) {
-    return minerals.map(mineral => ({,
+    return minerals.map(mineral => ({;
       name: formatMineralName(mineral),
       value: undefined,
       unit: undefined
@@ -56,15 +54,14 @@ export function normalizeMinerals(
     }))
   }
 
-  return [],
+  return [];
 }
 
 /**
  * Format vitamin names for consistent display
  */
 export function formatVitaminName(name: string): string {
-  if (!name) return '',
-
+  if (!name) return '';
   const vitaminName = name.toString().toLowerCase()
 
   // Handle common vitamin formats;
@@ -87,15 +84,14 @@ export function formatVitaminName(name: string): string {
     _cobalamin: 'Cobalamin (B12)',
     _biotin: 'Biotin',
     _pantothenic_acid: 'Pantothenic Acid' },
-        return vitaminMap[vitaminName] || `Vitamin ${name.toUpperCase()}`,
+        return vitaminMap[vitaminName] || `Vitamin ${name.toUpperCase()}`;
 }
 
 /**
  * Format mineral names for consistent display
  */
 export function formatMineralName(name: string): string {
-  if (!name) return '',
-
+  if (!name) return '';
   const mineralName = name.toString().toLowerCase()
 
   // Handle common mineral formats;
@@ -120,8 +116,7 @@ export function formatMineralName(name: string): string {
  * Normalize antioxidant data
  */
 export function normalizeAntioxidants(antioxidants: Record<string, _unknown>): string[] {
-  if (!antioxidants) return [],
-
+  if (!antioxidants) return [];
   if (Array.isArray(antioxidants)) {
     return antioxidants.map(antioxidant => formatAntioxidantName(antioxidant))
   }
@@ -130,7 +125,7 @@ export function normalizeAntioxidants(antioxidants: Record<string, _unknown>): s
     return Object.keys(antioxidants).map(name => formatAntioxidantName(name))
   }
 
-  return [],
+  return [];
 }
 
 /**
@@ -161,7 +156,7 @@ export function normalizeCulinaryApplications(
     normalized[formatCulinaryMethod(method)] = normalizeCulinaryMethod(data )
   })
 
-  return normalized,
+  return normalized;
 }
 
 /**
@@ -210,7 +205,7 @@ export function normalizeVarieties(varieties: Record<string, _unknown>): Record<
     normalized[formatVarietyName(variety)] = normalizeVarietyData(data )
   })
 
-  return normalized,
+  return normalized;
 }
 
 /**
@@ -359,7 +354,7 @@ export function normalizeIngredientData(
         : {}
   }
 
-  return normalized,
+  return normalized;
 }
 
 /**
@@ -383,8 +378,7 @@ export function safeGetNutritionalData(
  */
 export function hasRichNutritionalData(ingredient: Record<string, _unknown>): boolean {
   const profile = ingredient.nutritionalProfile as any;
-  if (!profile) return false,
-
+  if (!profile) return false;
   const vitamins = profile.vitamins as unknown | unknown[];
   const hasVitamins =
     vitamins && (Array.isArray(vitamins) ? vitamins.length > 0 : Object.keys(vitamins).length > 0)

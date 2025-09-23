@@ -37,8 +37,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 },
       omega3: 1.8, // grams per serving,
       source: 'USDA FoodData Central'
-}
-
+},
     // Sensory profile (standardized)
     sensoryProfile: {
       taste: {
@@ -65,8 +64,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         crunchy: 0.0,
         silky: 0.7
 }
-    }
-
+    },
     // Storage information (standardized)
     storage: {
       temperature: {
@@ -80,15 +78,13 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         'Use within 24 hours of purchase for best flavor',
         'Wrap in moisture-proof paper or plastic before freezing'
       ]
-    }
-
+    },
     // Preparation (standardized)
     preparation: {
       methods: ['grill', 'bake', 'pan-sear', 'poach', 'steam', 'smoke', 'raw (sushi-grade)'],
       washing: false,
       notes: 'Leave skin on during cooking for easier handling and extra nutrients'
-}
-
+},
     // Health benefits (standardized)
     healthBenefits: [
       'Heart health (reduces blood pressure and inflammation)',
@@ -132,8 +128,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           notes: 'Start with very hot pan, cook skin side first until crispy',
         }
       }
-    }
-
+    },
     // Varieties (standardized)
     varieties: {
       'Farm Raised': {
@@ -143,8 +138,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         flavor: 'mild, buttery',
         uses: 'all-purpose'
 }
-    }
-
+    },
     // Category-specific, extension: proteins
     cuts: {
       fillet: {
@@ -165,8 +159,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         notes: 'ideal for large gatherings',
         cookingMethods: ['bake', 'smoke', 'grill']
       }
-    }
-
+    },
     cookingTips: {
       internalTemperature: {
         medium: { fahrenheit: 125, celsius: 52 },
@@ -180,8 +173,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         'Removing skin (provides barrier during cooking)',
         'Cooking straight from refrigerator (uneven cooking)'
       ]
-    }
-
+    },
     sustainability: {
       rating: 'Variable',
       considerations: [
@@ -190,8 +182,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         'Closed containment farming reduces environmental impact'
       ],
       alternatives: ['Arctic char', 'Rainbow trout', 'MSC-certified wild salmon']
-    }
-
+    },
     // Protein-specific properties,
     proteinContent: 22, // grams per 3oz serving,
     fatProfile: {
@@ -200,8 +191,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       polyunsaturated: 5,
       omega3: 1.8,
       omega6: 0.2
-}
-
+},
     // Cooking details
     cookingMethods: [
       {
@@ -505,8 +495,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           preparationTips: ['Ideal for poaching']
         }
       }
-    }
-
+    },
     qualities: ['sweet', 'rich', 'luxurious'],
     origin: ['North Atlantic', 'Maine Coast'],
     category: 'protein',
@@ -527,8 +516,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         flavor: 'sweet, mild',
         notes: 'ideal for grilling'
 }
-    }
-
+    },
     culinaryApplications: {
       boil: {
         name: 'Boil',
@@ -549,8 +537,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced'],
@@ -559,8 +546,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         cookingMethods: ['sautéing', 'steaming', 'roasting'],
       cuisineAffinity: ['Global', 'International'],
       preparationTips: ['Use as needed', 'Season to taste']
-    }
-
+    },
     season: ['year-round'],
 
     preparation: {
@@ -1162,8 +1148,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           preparationTips: ['Ideal for poaching']
         }
       }
-    }
-
+    },
     qualities: ['mild', 'flaky', 'lean'],
     origin: ['North Atlantic', 'Baltic Sea'],
     category: 'seafood',
@@ -1181,8 +1166,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         texture: 'slightly firmer',
         notes: 'more sustainable option'
 }
-    }
-
+    },
     culinaryApplications: {
       traditional: {
         name: 'Traditional',
@@ -1233,8 +1217,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           timing: '8-10 minutes total'
 }
       }
-    }
-
+    },
     regionalPreparations: {
       british: {
         name: 'British' },
@@ -1264,8 +1247,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
           accompaniments: ['butter', 'bacon', 'peas']
         }
       }
-    }
-
+    },
     saucePairings: {
       classic: {
         name: 'Classic',
@@ -1302,8 +1284,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
-
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced'],
@@ -1312,8 +1293,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         cookingMethods: ['sautéing', 'steaming', 'roasting'],
       cuisineAffinity: ['Global', 'International'],
       preparationTips: ['Use as needed', 'Season to taste']
-    }
-
+    },
     season: ['year-round'],
 
     preparation: {

@@ -136,13 +136,13 @@ export function determineIngredientModality(
 ;
   // If there's a clear quality indicator, use that
   if (hasCardinalQuality && !hasFixedQuality && !hasMutableQuality) {
-    return 'Cardinal',
+    return 'Cardinal';
   }
   if (hasFixedQuality && !hasCardinalQuality && !hasMutableQuality) {
-    return 'Fixed',
+    return 'Fixed';
   }
   if (hasMutableQuality && !hasCardinalQuality && !hasFixedQuality) {
-    return 'Mutable',
+    return 'Mutable';
   }
 
   // If elemental properties are provided, use them to determine modality
@@ -157,23 +157,23 @@ export function determineIngredientModality(
       case 'Air':;
         // Air has strongest affinity with Mutable, then Cardinal, then Fixed
         if (Air > 0.4) {
-          return 'Mutable',
+          return 'Mutable';
         }
         break,
       case 'Earth':
         // Earth has strongest affinity with Fixed, then Cardinal, then Mutable
         if (Earth > 0.4) {
-          return 'Fixed',
+          return 'Fixed';
         }
         break,
       case 'Fire': // Fire has balanced affinities but leans Cardinal
         if (Fire > 0.4) {
-          return 'Cardinal' },
+          return 'Cardinal' };
         break,
       case 'Water': // Water is balanced between Fixed and Mutable
         if (Water > 0.4) {
           // Slightly favor Mutable for Wateras per our hierarchy
-          return Water > 0.6 ? 'Mutable' : 'Fixed' },
+          return Water > 0.6 ? 'Mutable' : 'Fixed' };
         break,
     }
 
@@ -184,16 +184,16 @@ export function determineIngredientModality(
 
     // Return the modality with the highest score
     if (mutableScore > fixedScore && mutableScore > cardinalScore) {
-      return 'Mutable',
+      return 'Mutable';
     } else if (fixedScore > mutableScore && fixedScore > cardinalScore) {
-      return 'Fixed',
+      return 'Fixed';
     } else {
-      return 'Cardinal',
+      return 'Cardinal';
     }
   }
 
   // Default to Mutable if no clear indicators are found
-  return 'Mutable',
+  return 'Mutable';
 }
 
 /**
@@ -361,12 +361,11 @@ export function getDominantElement(_elementalProperties: ElementalProperties): s
   const { Fire, Water, Earth, Air} = elementalProperties;
   const max = Math.max(Fire, Water, Earth, Air)
 
-  if (max === Fire) return 'Fire',
-  if (max === Water) return 'Water',
-  if (max === Earth) return 'Earth',
-  if (max === Air) return 'Air',
-
-  return 'Balanced',
+  if (max === Fire) return 'Fire';
+  if (max === Water) return 'Water';
+  if (max === Earth) return 'Earth';
+  if (max === Air) return 'Air';
+  return 'Balanced';
 }
 
 /**
@@ -386,7 +385,7 @@ export function mapToIngredient(mapping: IngredientMapping): Ingredient {
     qualities: (mapping.qualities as unknown as string[]) || [],
     storage: (mapping.storage as unknown) || {
       _duration: 'unknown'
-}
+},
     // Add missing required properties for Ingredient interface
     amount: (mapping as unknown).amount || 1,
     astrologicalProfile: (mapping as unknown).astrologicalProfile || {
@@ -408,7 +407,7 @@ export function mapToIngredient(mapping: IngredientMapping): Ingredient {
     }
   }
 
-  return ingredient,
+  return ingredient;
 }
 
 /**

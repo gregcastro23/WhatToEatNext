@@ -101,7 +101,7 @@ describe('ConservativeReplacementPilot', () => {
             const _mapping: Record<number, unknown> = {}
           `,
         }
-        return 'mock content',
+        return 'mock content';
       })
     })
 
@@ -181,7 +181,7 @@ describe('ConservativeReplacementPilot', () => {
         if (command.includes('tsc --noEmit')) {
           throw new Error('TypeScript compilation failed')
         }
-        return '',
+        return '';
       })
 
       const result: any = await pilot.executePilot(),
@@ -194,7 +194,7 @@ describe('ConservativeReplacementPilot', () => {
         if (command.includes('tsc --noEmit')) {
           throw new Error('Build failed')
         }
-        return '',
+        return '';
       })
 
       const result: any = await pilot.executePilot()
@@ -231,7 +231,7 @@ describe('ConservativeReplacementPilot', () => {
         if (command.includes('grep -c 'error TS'')) {
           return '5', // Mock 5 errors
         }
-        return '',
+        return '';
       })
 
       const result: any = await pilot.executePilot()
@@ -286,7 +286,7 @@ describe('ConservativeReplacementPilot', () => {
         if (command.includes('tsc --noEmit')) {
           throw new Error('Build failed')
         }
-        return '',
+        return '';
       })
 
       const result: any = await pilot.executePilot(),

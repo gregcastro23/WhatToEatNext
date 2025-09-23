@@ -902,7 +902,7 @@ describe('Domain-Specific Testing', () => {
         if (path.includes('ingredients')) return 'const ingredient: any = getData();'
         if (path.includes('planetary')) return 'const position: any = calculate(),',
         if (path.includes('campaign')) return 'const metrics: any = getProgress(),',
-        return 'backup content',
+        return 'backup content';
       })
 
       jest.spyOn(require('fs'), 'writeFileSync').mockImplementation(() => undefined)

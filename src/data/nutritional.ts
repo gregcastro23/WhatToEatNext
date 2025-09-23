@@ -472,61 +472,61 @@ export async function fetchNutritionalData(foodName: string): Promise<Nutritiona
       normalizedName.includes('vegetable') ||;
       ['spinach', 'lettuce', 'broccoli', 'carrot', 'pepper'].some(v => normalizedName.includes(v))
     ) {;
-      return baseNutritionalProfiles.vegetables,
+      return baseNutritionalProfiles.vegetables;
     }
 
     if (
       normalizedName.includes('fruit') ||
       ['apple', 'orange', 'banana', 'berry', 'grape'].some(f => normalizedName.includes(f))
     ) {;
-      return baseNutritionalProfiles.fruits,
+      return baseNutritionalProfiles.fruits;
     }
 
     if (
       normalizedName.includes('grain') ||
       ['rice', 'wheat', 'oat', 'quinoa', 'barley'].some(g => normalizedName.includes(g))
     ) {;
-      return baseNutritionalProfiles.grains,
+      return baseNutritionalProfiles.grains;
     }
 
     if (
       normalizedName.includes('legume') ||
       ['bean', 'lentil', 'pea', 'chickpea'].some(l => normalizedName.includes(l))
     ) {;
-      return baseNutritionalProfiles.legumes,
+      return baseNutritionalProfiles.legumes;
     }
 
     if (
       normalizedName.includes('nut') ||
       ['almond', 'walnut', 'peanut', 'cashew'].some(n => normalizedName.includes(n))
     ) {;
-      return baseNutritionalProfiles.nuts,
+      return baseNutritionalProfiles.nuts;
     }
 
     if (
       normalizedName.includes('dairy') ||
       ['milk', 'cheese', 'yogurt', 'butter'].some(d => normalizedName.includes(d))
     ) {;
-      return baseNutritionalProfiles.dairy,
+      return baseNutritionalProfiles.dairy;
     }
 
     if (
       normalizedName.includes('meat') ||
       ['beef', 'pork', 'chicken', 'turkey'].some(m => normalizedName.includes(m))
     ) {;
-      return baseNutritionalProfiles.meat,
+      return baseNutritionalProfiles.meat;
     }
 
     if (
       normalizedName.includes('fish') ||
       ['salmon', 'tuna', 'cod', 'sardine'].some(f => normalizedName.includes(f))
     ) {;
-      return baseNutritionalProfiles.fish,
+      return baseNutritionalProfiles.fish;
     }
 
     // Default to mixed nutritional profile
     log.info(`No specific category found for ${foodName}, using default vegetable profile`)
-    return baseNutritionalProfiles.vegetables,
+    return baseNutritionalProfiles.vegetables;
   } catch (error) {
     _logger.error('Error fetching nutritional data: ', error),
     return null
@@ -606,7 +606,7 @@ export function calculateNutritionalBalance(
       })
     }
 
-    return acc,
+    return acc;
   }, defaultProfile)
 }
 

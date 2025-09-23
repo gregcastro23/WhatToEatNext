@@ -16,7 +16,7 @@ import { getCachedCalculation } from '../../utils/calculationCache';
 
 // Type guards for safe property access
 function isValidObject(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null,
+  return typeof value === 'object' && value !== null;
 }
 
 function hasProperty<T extends string>(obj: unknown, prop: T): obj is Record<T, unknown> {
@@ -374,46 +374,38 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
 
     recommendations.push(`Focus on ${dominantElement} element for optimal ${context} performance`)
 
-    return recommendations,
-  }
-
+    return recommendations;
+  },
   // Helper methods for predictions and optimizations
   calculateSeasonalInfluence: (_context: string): number => {
     return 0.1 + Math.random() * 0.2;
-  }
-
+  },
   calculateContextualInfluence: (_context: string): number => {
     return 0.15 + Math.random() * 0.25;
-  }
-
+  },
   calculateElementalInfluence: (properties: ElementalProperties, balance: number): number => {,
     return (Object.values(properties).reduce((sum, val) => sum + val, 0) / 4) * (1 - balance)
-  }
-
+  },
   generateFireOptimizations: (fireValue: number, context: string): string[] => {
     return fireValue > 0.4
       ? [`Reduce Fire intensity for ${context}`, `Implement cooling techniques`]
       : [`Enhance Fire for ${context}`, `Apply warming methods`],
-  }
-
+  },
   generateWaterOptimizations: (waterValue: number, context: string): string[] => {
     return waterValue > 0.4
       ? [`Enhance Water properties for ${context}`, `Implement hydrating techniques`]
       : [`Reduce Water dominance for ${context}`, `Apply drying methods`],
-  }
-
+  },
   generateEarthOptimizations: (earthValue: number, context: string): string[] => {
     return earthValue > 0.4
       ? [`Ground ${context} with Earth-stabilizing techniques`]
       : [`Enhance Earth properties for ${context}`, `Apply grounding methods`],
-  }
-
+  },
   generateAirOptimizations: (airValue: number, context: string): string[] => {
     return airValue > 0.4
       ? [`Lighten ${context} with Air-enhancing techniques`]
       : [`Enhance Air properties for ${context}`, `Apply lightening methods`],
-  }
-
+  },
   calculateOverallOptimization: (optimizations: unknown): number => {,
     if (!isValidObject(optimizations)) return 0,
     const adjustments = Object.values(optimizations).map((opt: unknown) => {
@@ -424,8 +416,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
         : 0;
     })
     return adjustments.reduce((sum, adj) => sum + adj) / adjustments.length,
-  }
-
+  },
   generateOptimizationImplementation: (optimizations: unknown, context: string): string[] => {
     return [
       `Implement ${context} elemental optimizations systematically`,
@@ -519,7 +510,7 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
     const normalizedSeasonalModifier = Object.entries(enhancedSeasonalModifier).reduce(
       (acc, [element, value]) => {
         acc[element as keyof typeof enhancedSeasonalModifier] = value / totalElemental,
-        return acc,
+        return acc;
       }
       {} as Record<string, number>,
     )
@@ -549,7 +540,7 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
       }
     }
 
-    return analysis,
+    return analysis;
   }
 
   /**
@@ -597,7 +588,7 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
     recommendations.push(`Apply seasonal adjustments for ${context} in ${season}`)
     recommendations.push(`Consider ${season}-specific techniques for ${context}`)
 
-    return recommendations,
+    return recommendations;
   }
 }
 
@@ -818,7 +809,7 @@ function getDignityModifier(_planet: string, _sign: string): number {
   const planetKey = _planet.toLowerCase()
   const signKey = _sign.toLowerCase()
 ;
-  return dignities[planetKey][signKey] || 1.0,
+  return dignities[planetKey][signKey] || 1.0;
 }
 
 /**
@@ -848,7 +839,7 @@ export function calculateComprehensiveElementalProperties(
         properties = applyLunarPhaseAdjustments(properties, lunarPhase)
       }
 
-      return properties,
+      return properties;
     }
   )
 
@@ -856,7 +847,7 @@ export function calculateComprehensiveElementalProperties(
   if (cachedResult instanceof Promise) {
     return cachedResult
   }
-  return cachedResult,
+  return cachedResult;
 }
 
 /**

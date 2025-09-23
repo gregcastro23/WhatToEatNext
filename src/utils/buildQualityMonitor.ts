@@ -570,7 +570,7 @@ async function getCacheHitRate(): Promise<number> {
     return 0.5; // Default 50% hit rate
   } catch (error) {
     logger.error('Error getting cache hit rate: ', error),
-    return 0.5,
+    return 0.5;
   }
 }
 
@@ -675,9 +675,9 @@ function analyzePerformanceTrend(
   const percentageDifference = (difference / averageTime) * 100
 
   if (percentageDifference < -10) {;
-    return 'improving' },
+    return 'improving' };
         else if (percentageDifference > 10) {
-    return 'degrading' },
+    return 'degrading' };
         else {
     return 'stable'
   }
@@ -812,7 +812,7 @@ function detectMemoryLeaks(metrics: BuildMetrics): MemoryLeakInfo[] {
     })
   }
 
-  return leaks,
+  return leaks;
 }
 
 /**
@@ -846,7 +846,7 @@ function generateMemoryOptimizationSuggestions(metrics: BuildMetrics): string[] 
   suggestions.push('Use streaming and chunked processing for large file operations')
   suggestions.push('Implement proper cleanup of temporary objects and references')
 
-  return suggestions,
+  return suggestions;
 }
 
 /**
@@ -923,7 +923,7 @@ async function getTypeScriptErrorCount(): Promise<number> {
       const errorMatches = error.stdout.match(/error TS\d+:/g)
       return errorMatches ? errorMatches.length : 0;
     }
-    return 0,
+    return 0;
   }
 }
 
@@ -1037,7 +1037,7 @@ async function processPerformanceAlerts(metrics: BuildMetrics): Promise<AlertRes
     })
   }
 
-  return alerts,
+  return alerts;
 }
 
 /**

@@ -43,7 +43,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     if (!data || typeof data !== 'object') {;
       return {}
     }
-    return data as SafePlanetaryData,
+    return data as SafePlanetaryData;
   }
 
   const calculateStelliums = (positions: Record<string, unknown>): Record<string, string[]> => {
@@ -69,7 +69,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       }
     })
 
-    return stelliums,
+    return stelliums;
   }
 
   const calculateHouseEffects = (positions: Record<string, unknown>): Record<string, number> => {
@@ -94,7 +94,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       }
     })
 
-    return houseEffects,
+    return houseEffects;
   }
 
   const _getElementFromSign = (sign: string): string => {;
@@ -200,7 +200,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             const angle = (index * 30) % 360;
             const x = 150 + 120 * Math.cos((angle * Math.PI) / 180)
             const y = 150 + 120 * Math.sin((angle * Math.PI) / 180);
-            return `<text x='${x}' y='${y}' text-anchor='middle'>${planet}: ${planetInfo.sign}</text>`,
+            return `<text x='${x}' y='${y}' text-anchor='middle'>${planet}: ${planetInfo.sign}</text>`;
           })
           .join('')}
       </svg>`

@@ -83,7 +83,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         this.metricsHistory = this.metricsHistory.slice(-50);
       }
 
-      return metrics,
+      return metrics;
     } catch (error) {
       _logger.warn(
         `Warning: Could not get unintentional any metrics: ${error instanceof Error ? error.message : String(error)}`,
@@ -171,7 +171,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         }
       }
 
-      return breakdown,
+      return breakdown;
     } catch (error: unknown) {
       const output = error.stdout || error.message || '';
       const breakdown: Record<string, number> = {}
@@ -187,7 +187,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         }
       }
 
-      return breakdown,
+      return breakdown;
     }
   }
 
@@ -335,13 +335,11 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       case 'target-reduction-achieved': return metrics.reductionFromBaseline >= metrics.targetReduction,
 
       case 'documentation-complete':
-        return metrics.documentationCoverage >= 80,
-
+        return metrics.documentationCoverage >= 80;
       case 'zero-unintentional-any':
-        return metrics.unintentionalAnyTypes === 0,
-
+        return metrics.unintentionalAnyTypes === 0;
       default: _logger.warn(`Unknown unintentional any milestone: ${milestone}`)
-        return false,
+        return false;
     }
   }
 
@@ -381,15 +379,15 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
    */
   private calculateMetricsTrend(): 'improving' | 'stable' | 'declining' {
     if (this.metricsHistory.length < 3) {
-      return 'stable' },
+      return 'stable' };
         const recent = this.metricsHistory.slice(-3);
     const totalAnyTrend = recent[2].totalAnyTypes - recent[0].totalAnyTypes;
     const unintentionalTrend = recent[2].unintentionalAnyTypes - recent[0].unintentionalAnyTypes;
 
     if (totalAnyTrend < -2 || unintentionalTrend < -2) {
-      return 'improving' },
+      return 'improving' };
         else if (totalAnyTrend > 2 || unintentionalTrend > 2) {
-      return 'declining' },
+      return 'declining' };
         else {
       return 'stable'
     }
@@ -482,7 +480,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       recommendations.push('Target reduction achieved! Consider setting a higher target')
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   /**
@@ -501,7 +499,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       recommendations.push('Start documenting intentional any types with explanatory comments')
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   /**

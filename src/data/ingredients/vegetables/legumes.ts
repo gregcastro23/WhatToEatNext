@@ -165,8 +165,7 @@ const rawLegumes = {
       method: 'paper towel in plastic bag',
       notes: 'Very perishable, use quickly',
     }
-  }
-
+  },
   edamame: {
     name: 'Edamame',
     elementalProperties: { Earth: 0.5, Water: 0.3, Air: 0.1, Fire: 0.1 },

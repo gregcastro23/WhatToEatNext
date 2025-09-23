@@ -37,7 +37,7 @@ export class AstrologyService {
     if (!AstrologyService.instance) {
       AstrologyService.instance = new AstrologyService();
     }
-    return AstrologyService.instance,
+    return AstrologyService.instance;
   }
 
   /**
@@ -65,7 +65,7 @@ export class AstrologyService {
       this.currentState.currentPlanetaryAlignment = celestialPositions,
       this.currentState.isReady = true,
 
-      return celestialPositions,
+      return celestialPositions;
     } catch (error) {
       _logger.warn('Astrologize API failed, using cached data: ', error)
       if (forceRefresh || !this.currentState.isReady) {
@@ -112,7 +112,7 @@ export class AstrologyService {
     if (forceRefresh || !this.currentState.isReady) {
       await this.refreshAstrologicalState()
     }
-    return this.currentState.isDaytime || false,
+    return this.currentState.isDaytime || false;
   }
 
   /**
@@ -122,7 +122,7 @@ export class AstrologyService {
     if (forceRefresh || !this.currentState.isReady) {
       await this.refreshAstrologicalState()
     }
-    return this.currentState.planetaryHour,
+    return this.currentState.planetaryHour;
   }
 
   /**
@@ -154,7 +154,7 @@ export class AstrologyService {
       hours.push(hourRulers[hourIndex])
     }
 
-    return hours,
+    return hours;
   }
 
   /**
@@ -166,7 +166,7 @@ export class AstrologyService {
     // Planetary day rulers;
     const dayRulers: Planet[] = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'],
 
-    return dayRulers[dayOfWeek],
+    return dayRulers[dayOfWeek];
   }
 
   /**
@@ -240,19 +240,19 @@ export class AstrologyService {
     if ((month === 10 && day >= 22) || (month === 11 && day <= 21)) return 'sagittarius',
     if ((month === 11 && day >= 22) || (month === 0 && day <= 19)) return 'capricorn',
     if ((month === 0 && day >= 20) || (month === 1 && day <= 18)) return 'aquarius',
-    return 'pisces' },
+    return 'pisces' };
         private calculateLunarPhase(date: Date): LunarPhase {
     // Very simplified calculation - in real implementation this would be more accurate
     const dayOfMonth = date.getDate()
 ;
-    if (dayOfMonth <= 3) return 'new moon',
-    if (dayOfMonth <= 7) return 'waxing crescent',
-    if (dayOfMonth <= 10) return 'first quarter',
-    if (dayOfMonth <= 14) return 'waxing gibbous',
-    if (dayOfMonth <= 17) return 'full moon',
-    if (dayOfMonth <= 21) return 'waning gibbous',
-    if (dayOfMonth <= 24) return 'last quarter',
-    return 'waning crescent' },
+    if (dayOfMonth <= 3) return 'new moon';
+    if (dayOfMonth <= 7) return 'waxing crescent';
+    if (dayOfMonth <= 10) return 'first quarter';
+    if (dayOfMonth <= 14) return 'waxing gibbous';
+    if (dayOfMonth <= 17) return 'full moon';
+    if (dayOfMonth <= 21) return 'waning gibbous';
+    if (dayOfMonth <= 24) return 'last quarter';
+    return 'waning crescent' };
         private calculatePlanetaryPositions(date: Date): PlanetaryAlignment {
     // This would contain complex astronomical calculations in a real implementation
     // For now, return default positions
@@ -279,7 +279,7 @@ export class AstrologyService {
     const planetOfDay = dayRulers[dayOfWeek];
     const hourIndex = (hourRulers.indexOf(planetOfDay) + hour) % 7;
 
-    return hourRulers[hourIndex],
+    return hourRulers[hourIndex];
   }
 }
 

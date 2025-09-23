@@ -58,9 +58,9 @@ describe('Integration Workflows', () => {;
         throw error;
       }
       if (command.includes('grep -r -l')) {
-        return 'src/test1.ts\nsrc/test2.ts\n',
+        return 'src/test1.ts\nsrc/test2.ts\n';
       }
-      return '',
+      return '';
     })
   })
 
@@ -84,7 +84,7 @@ describe('Integration Workflows', () => {;
             return content
           }
         }
-        return 'backup content',
+        return 'backup content';
       })
 
       // Step, 1: Analyze domain context for each file
@@ -175,7 +175,7 @@ describe('Integration Workflows', () => {;
             return content
           }
         }
-        return 'backup content',
+        return 'backup content';
       })
 
       // Mock compilation to fail for risky replacements
@@ -194,7 +194,7 @@ describe('Integration Workflows', () => {;
           (error as any).status = 1
           throw error;
         }
-        return '',
+        return '';
       })
 
       const config: UnintentionalAnyConfig = { maxFilesPerBatch: 3,,
@@ -240,7 +240,7 @@ describe('Integration Workflows', () => {;
             return content
           }
         }
-        return 'backup content',
+        return 'backup content';
       })
 
       // Process each domain-specific file
@@ -311,7 +311,7 @@ describe('Integration Workflows', () => {;
         if ((path as any).includes('test')) {
           return 'const items: any[] = [], const data: Record<string, unknown> = {};';
         }
-        return 'backup content',
+        return 'backup content';
       })
 
       const campaignResult: any = await (campaign as any)?.execute(campaignConfig)
@@ -337,9 +337,9 @@ describe('Integration Workflows', () => {;
           throw error
         }
         if (command.includes('grep -r -l')) {
-          return 'src/problematic.ts\n',
+          return 'src/problematic.ts\n';
         }
-        return '',
+        return '';
       })
 
       mockFs.readFileSync.mockReturnValue('const dangerous: any = performRiskyOperation();')
@@ -402,7 +402,7 @@ describe('Integration Workflows', () => {;
           (error as any).stdout = 'error, TS2322: Type 'unknown' is not assignable to type 'string''
           throw error
         }
-        return '',
+        return '';
       })
 
       const replacement: any = {
@@ -444,7 +444,7 @@ describe('Integration Workflows', () => {;
       mockFs.readFileSync.mockImplementation((path: any) => {
         if ((path as any).includes('test1')) return 'const items: any[] = [],',
         if ((path as any).includes('test2')) return 'const data: any = getValue(),',
-        return 'backup content',
+        return 'backup content';
       })
 
       // Mock overall build failure after individual replacements succeed
@@ -458,7 +458,7 @@ describe('Integration Workflows', () => {;
             throw error
           }
         }
-        return '',
+        return '';
       })
 
       const result: any = await replacer.processBatch(multipleReplacements)
@@ -483,7 +483,7 @@ describe('Integration Workflows', () => {;
         if ((path as any).includes('.backup')) {
           return originalContent
         }
-        return originalContent,
+        return originalContent;
       })
 
       // Mock compilation failure to trigger rollback
@@ -521,7 +521,7 @@ describe('Integration Workflows', () => {;
               event.preventDefault()
               onSelect(recipe)
             }
-            return <div onClick={handleClick}>{recipe.name}</div>,
+            return <div onClick={handleClick}>{recipe.name}</div>;
           }
         `,
         'src/services/ApiService.ts': `
@@ -544,7 +544,7 @@ describe('Integration Workflows', () => {;
         `,
         'src/utils/helpers.ts': `
           export const processItems: any = (items: any[]): unknown[] => {
-            return items.map((item: any) => ({,
+            return items.map((item: any) => ({;
               ...item,
               id: item.id || generateId()
             }))
@@ -584,7 +584,7 @@ describe('Integration Workflows', () => {;
             return content
           }
         }
-        return 'backup content',
+        return 'backup content';
       })
 
       mockExecSync.mockImplementation((command: any) => {
@@ -596,7 +596,7 @@ describe('Integration Workflows', () => {;
           (error as any).status = 1
           throw error;
         }
-        return '',
+        return '';
       })
 
       const config: UnintentionalAnyConfig = { maxFilesPerBatch: 4,,
@@ -630,7 +630,7 @@ describe('Integration Workflows', () => {;
           `const response${index}: unknown = await fetch('/api/${index}');`;
           `} catch (error$: any {index}: unknown) { _logger.info(error${index}); }`
         ],
-        return patterns[index % patterns.length],
+        return patterns[index % patterns.length];
       }
 
       const fileCount: any = 50
@@ -643,7 +643,7 @@ describe('Integration Workflows', () => {;
           (error as any).status = 1
           throw error;
         }
-        return '',
+        return '';
       })
 
       mockFs.readFileSync.mockImplementation((path: any) => {
@@ -652,7 +652,7 @@ describe('Integration Workflows', () => {;
           const index: any = parseInt(match[1])
           return generateFileContent(index);
         }
-        return 'backup content',
+        return 'backup content';
       })
 
       const config: UnintentionalAnyConfig = { maxFilesPerBatch: 10,,
@@ -707,7 +707,7 @@ describe('Integration Workflows', () => {;
               return content
             }
           }
-          return 'backup content',
+          return 'backup content';
         })
 
         mockExecSync.mockImplementation((command: any) => {
@@ -719,7 +719,7 @@ describe('Integration Workflows', () => {;
             (error as any).status = 1
             throw error;
           }
-          return '',
+          return '';
         })
 
         const config: UnintentionalAnyConfig = { maxFilesPerBatch: Object.keys(files).length,,
@@ -764,9 +764,9 @@ describe('Integration Workflows', () => {;
           }
         }
         if (command.includes('grep -r -l')) {
-          return 'src/test.ts\n',
+          return 'src/test.ts\n';
         }
-        return '',
+        return '';
       })
 
       mockFs.readFileSync.mockReturnValue('const items: any[] = [],')
@@ -795,7 +795,7 @@ describe('Integration Workflows', () => {;
         if ((path as any).includes('.backup')) {
           return backupContent;
         }
-        return originalContent,
+        return originalContent;
       })
 
       mockFs.writeFileSync.mockImplementation((path: any, content: any) => {

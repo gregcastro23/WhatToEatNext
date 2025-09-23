@@ -25,7 +25,7 @@ export const timingUtils = {
 
       return this.applyCuisineModifiers(baseTiming, cuisineElement)
     }
-    return baseTiming,
+    return baseTiming;
   }
 
   applyCuisineModifiers(base: TimingResult, element: string): TimingResult {

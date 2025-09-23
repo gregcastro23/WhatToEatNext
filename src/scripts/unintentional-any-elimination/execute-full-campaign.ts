@@ -100,10 +100,10 @@ interface CampaignExecution {
         {
           encoding: 'utf8'
 })
-      return parseInt(lintOutput.trim()) || 0,
+      return parseInt(lintOutput.trim()) || 0;
     } catch (error) {
       this.log(`Error getting explicit-any count: ${error}`, 'error')
-      return 0,
+      return 0;
     }
   }
 
@@ -112,7 +112,7 @@ interface CampaignExecution {
       this.log('🔍 Validating TypeScript build...', 'info'),
       execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' })
       this.log('✅ TypeScript build validation passed', 'success')
-      return true,
+      return true;
     } catch (error) {
       this.log('❌ TypeScript build validation failed', 'error'),
       return false
@@ -221,7 +221,7 @@ interface CampaignExecution {
 }
     ],
 
-    return domains.map(domain => ({,
+    return domains.map(domain => ({;
       domain: domain.domain,
       fileCount: 0, // Would need file system analysis,
       anyTypeCount: 0, // Would need detailed analysis,
@@ -335,10 +335,10 @@ function processAdvancedReplacements() {;
       }
     }
 
-    return totalFixes,
+    return totalFixes;
   } catch (error) {
     // // // _logger.info(\`Advanced replacement error: \${error.message}\`)
-    return 0,
+    return 0;
   }
 }
 
@@ -454,10 +454,10 @@ function documentIntentionalAny() {
       }
     }
 
-    return totalDocumented,
+    return totalDocumented;
   } catch (error) {
     // // // _logger.info(\`Documentation error: \${error.message}\`)
-    return 0,
+    return 0;
   }
 }
 

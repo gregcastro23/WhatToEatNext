@@ -235,8 +235,7 @@ export const spherification: CookingMethodData = {
       reverseSpheres: '2-4 days when stored in original liquid, refrigerated',
       frozen: 'Up to 1 week when prepared using frozen reverse spherification'
 }
-  }
-
+  },
   expertTips: [
     'For perfectly clear spheres, filter all solutions through fine-mesh strainer or cheesecloth twice',
     'Rest alginate solutions for 24 hours in refrigerator to fully hydrate and remove air bubbles',

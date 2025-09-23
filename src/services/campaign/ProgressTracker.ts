@@ -32,7 +32,7 @@ export class ProgressTracker {
 })
 
       const count = parseInt(output.trim()) || 0;
-      return count,
+      return count;
     } catch (error) {
       // If grep finds no matches, it returns exit code 1, but that means 0 errors
       // Apply Pattern GG-6: Enhanced property access with type guards
@@ -76,7 +76,7 @@ export class ProgressTracker {
         }
       }
 
-      return breakdown,
+      return breakdown;
     } catch (error) {
       // Apply Pattern GG-6: Safe property access for error message
       const errorData = error as any;
@@ -99,7 +99,7 @@ export class ProgressTracker {
 })
 
       const count = parseInt(output.trim()) || 0;
-      return count,
+      return count;
     } catch (error) {
       // If grep finds no matches, it returns exit code 1, but that means 0 warnings
       // Apply Pattern GG-6: Enhanced property access with type guards
@@ -138,7 +138,7 @@ export class ProgressTracker {
         }
       }
 
-      return breakdown,
+      return breakdown;
     } catch (error) {
       // Apply Pattern GG-6: Safe property access for error message
       const errorData = error as any;
@@ -164,7 +164,7 @@ export class ProgressTracker {
       const endTime = Date.now();
       const buildTimeSeconds = (endTime - startTime) / 1000;
 
-      return buildTimeSeconds,
+      return buildTimeSeconds;
     } catch (error) {
       // Apply Pattern GG-6: Safe property access for error message
       const errorData = error as any;
@@ -187,14 +187,14 @@ export class ProgressTracker {
 })
 
       const count = parseInt(output.trim()) || 0;
-      return count,
+      return count;
     } catch (error) {
       // Apply Pattern GG-6: Safe property access for error message
       const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error',
       _logger.warn(`Warning: Could not count enterprise systems: ${errorMessage}`)
-      return 0,
+      return 0;
     }
   }
 
@@ -212,7 +212,7 @@ export class ProgressTracker {
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error',
       _logger.warn(`Warning: Could not measure cache hit rate: ${errorMessage}`)
-      return 0,
+      return 0;
     }
   }
 
@@ -232,7 +232,7 @@ export class ProgressTracker {
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error',
       _logger.warn(`Warning: Could not measure memory usage: ${errorMessage}`)
-      return 0,
+      return 0;
     }
   }
 
@@ -257,14 +257,14 @@ export class ProgressTracker {
         }
       }
 
-      return totalSize,
+      return totalSize;
     } catch (error) {
       // Apply Pattern GG-6: Safe property access for error message
       const errorData = error as any;
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error',
       _logger.warn(`Warning: Could not measure bundle size: ${errorMessage}`)
-      return 0,
+      return 0;
     }
   }
 
@@ -314,7 +314,7 @@ export class ProgressTracker {
       this.metricsHistory = this.metricsHistory.slice(-50);
     }
 
-    return metrics,
+    return metrics;
   }
 
   /**
@@ -325,23 +325,17 @@ export class ProgressTracker {
 
     switch (milestone) {
       case 'zero-typescript-errors':;
-        return metrics.typeScriptErrors.current === 0,
-
+        return metrics.typeScriptErrors.current === 0;
       case 'zero-linting-warnings':
-        return metrics.lintingWarnings.current === 0,
-
+        return metrics.lintingWarnings.current === 0;
       case 'build-time-under-10s':
-        return metrics.buildPerformance.currentTime <= 10,
-
+        return metrics.buildPerformance.currentTime <= 10;
       case 'enterprise-systems-200':
-        return metrics.enterpriseSystems.current >= 200,
-
+        return metrics.enterpriseSystems.current >= 200;
       case 'phase-1-complete':
-        return metrics.typeScriptErrors.current === 0,
-
+        return metrics.typeScriptErrors.current === 0;
       case 'phase-2-complete':
-        return metrics.lintingWarnings.current === 0,
-
+        return metrics.lintingWarnings.current === 0;
       case 'phase-3-complete':
         return metrics.enterpriseSystems.current >= 200
 

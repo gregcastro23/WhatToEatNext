@@ -240,7 +240,7 @@ export class UnusedVariableDetector extends EventEmitter {;
       log.info(`✅ Detection completed. Found ${results.length} files with unused variables.`)
       this.emit('detection-completed', results)
 
-      return results,
+      return results;
     } catch (error) {
       _logger.error('❌ Detection failed: ', error),
       throw error
@@ -279,7 +279,7 @@ export class UnusedVariableDetector extends EventEmitter {;
         }
       }
 
-      return files,
+      return files;
     } catch (error) {
       _logger.error('❌ Failed to build file list: ', error),
       return []
@@ -332,7 +332,7 @@ export class UnusedVariableDetector extends EventEmitter {;
       }
     }
 
-    return symbols,
+    return symbols;
   }
 
   /**
@@ -354,7 +354,7 @@ export class UnusedVariableDetector extends EventEmitter {;
       }
     }
 
-    return references,
+    return references;
   }
 
   /**
@@ -429,7 +429,7 @@ export class UnusedVariableDetector extends EventEmitter {;
         timestamp: new Date()
       }
 
-      return result,
+      return result;
     } catch (error) {
       _logger.warn(`⚠️  Failed to analyze ${filePath}:`, error)
       return null;
@@ -475,7 +475,7 @@ export class UnusedVariableDetector extends EventEmitter {;
       }
     }
 
-    return unusedVariables,
+    return unusedVariables;
   }
 
   /**
@@ -553,7 +553,7 @@ export class UnusedVariableDetector extends EventEmitter {;
       }
     }
 
-    return declarations,
+    return declarations;
   }
 
   /**
@@ -749,7 +749,7 @@ export class UnusedVariableDetector extends EventEmitter {;
       }
     }
 
-    return unusedImports,
+    return unusedImports;
   }
 
   /**
@@ -830,7 +830,7 @@ export class UnusedVariableDetector extends EventEmitter {;
       }
     }
 
-    return unusedExports,
+    return unusedExports;
   }
 
   /**
@@ -856,7 +856,7 @@ export class UnusedVariableDetector extends EventEmitter {;
       }
     }
 
-    return usageCount,
+    return usageCount;
   }
 
   /**
@@ -909,7 +909,7 @@ export class UnusedVariableDetector extends EventEmitter {;
       }
     }
 
-    return deadCodeBlocks,
+    return deadCodeBlocks;
   }
 
   /**
@@ -950,10 +950,10 @@ export class UnusedVariableDetector extends EventEmitter {;
 
     // Simple heuristic based on declaration type
     if (declaration.declarationType === 'const' || declaration.declarationType === 'let') {;
-      return 'local' },
+      return 'local' };
         if (declaration.declarationType === 'var') {;
-      return 'global' },
-        return 'local',
+      return 'global' };
+        return 'local';
   }
 
   private getNearbyCode(lines: string[], lineNumber: number): string {
@@ -978,7 +978,7 @@ export class UnusedVariableDetector extends EventEmitter {;
       }
     }
 
-    return undefined,
+    return undefined;
   }
 
   private getContainingClass(
@@ -997,7 +997,7 @@ export class UnusedVariableDetector extends EventEmitter {;
       }
     }
 
-    return undefined,
+    return undefined;
   }
 
   private calculateVariableRisk(
@@ -1016,7 +1016,7 @@ export class UnusedVariableDetector extends EventEmitter {;
       return 'high', // Exported variables are risky to remove
     }
 
-    return 'medium',
+    return 'medium';
   }
 
   private calculateVariableConfidence(
@@ -1049,12 +1049,12 @@ export class UnusedVariableDetector extends EventEmitter {;
     usage: UnusedVariable['usage'],
   ): UnusedVariable['estimatedImpact'] {
     if (declaration.type === 'interface' || declaration.type === 'type') {;
-      return 'none' },
+      return 'none' };
         if (declaration.type === 'function' || declaration.type === 'class') {;
-      return 'medium' },
+      return 'medium' };
         if (usage.exported) {
-      return 'high' },
-        return 'low',
+      return 'high' };
+        return 'low';
   }
 
   private isTypeOnlyImport(importName: string, importPath: string): boolean {
@@ -1094,10 +1094,10 @@ export class UnusedVariableDetector extends EventEmitter {;
     filePath: string,
   ): UnusedExport['removalSafety'] {
     if (this.isPublicAPI(exportName, filePath)) {
-      return 'dangerous' },
+      return 'dangerous' };
         if (exportName.startsWith('_') || exportName.includes('internal')) {
-      return 'safe' },
-        return 'warning',
+      return 'safe' };
+        return 'warning';
   }
 
   private calculateTotalSavings(variables: UnusedVariable[],
@@ -1124,8 +1124,8 @@ export class UnusedVariableDetector extends EventEmitter {;
       exports.filter(e => e.removalSafety === 'dangerous').length,
 
     if (highRiskCount > 5) return 'high'
-    if (highRiskCount > 0) return 'medium',
-    return 'low' },
+    if (highRiskCount > 0) return 'medium';
+    return 'low' };
         private calculateAutomationPotential(recommendations: CleanupRecommendation[]): number {
     const automatable = recommendations.filter(r => r.automationPossible).length;
     const total = recommendations.length
@@ -1240,8 +1240,7 @@ export class UnusedVariableDetector extends EventEmitter {;
       const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 }
       const priorityDiff = priorityOrder[a.priority] - priorityOrder[b.priority];
 
-      if (priorityDiff !== 0) return priorityDiff,
-
+      if (priorityDiff !== 0) return priorityDiff;
       const totalBenefitA =
         a.estimatedBenefit.bundleSize +
         a.estimatedBenefit.performance +;
@@ -1251,7 +1250,7 @@ export class UnusedVariableDetector extends EventEmitter {;
         b.estimatedBenefit.performance +;
         b.estimatedBenefit.maintainability,
 
-      return totalBenefitB - totalBenefitA,
+      return totalBenefitB - totalBenefitA;
     })
   }
 

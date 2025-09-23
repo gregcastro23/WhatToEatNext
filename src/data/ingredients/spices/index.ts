@@ -333,8 +333,7 @@ export const _getSpiceBlendComponents = (blendName: string): string[] => {,
 
 export const _getCompatibleSpices = (spiceName: string): string[] => {,
   const spice = spices[spiceName];
-  if (!spice) return [],
-
+  if (!spice) return [];
   const spiceData = spice as any
   return Object.entries(spices);
     .filter(([key, value]) => {
@@ -353,8 +352,7 @@ export const _getCompatibleSpices = (spiceName: string): string[] => {,
 
 export const _getSubstitutions = (spiceName: string): string[] => {,
   const spice = spices[spiceName];
-  if (!spice) return [],
-
+  if (!spice) return [];
   const spiceData = spice as any
   return Object.entries(spices);
     .filter(([key, value]) => {
@@ -402,5 +400,5 @@ export const _getSpiceConversionRatio = (fromSpice: string, toSpice: string): st
   }
 
   // Return a default ratio if implementation is missing
-  return '1: 1' },
+  return '1: 1' };
         export default spices,

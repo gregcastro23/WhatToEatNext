@@ -77,7 +77,7 @@ export const american: Cuisine = {
             Water: 0.4,
             Earth: 0.4,
             Air: 0.1
-}
+},
           // Enhanced with moon phase affinities
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
           zodiacInfluences: ['cancer', 'taurus'],
@@ -155,7 +155,7 @@ export const american: Cuisine = {
             Water: 0.3,
             Earth: 0.5,
             Air: 0.1
-}
+},
           // Enhanced with moon phase affinities
           lunarPhaseInfluences: ['new moon', 'waxing crescent'],
           zodiacInfluences: ['virgo', 'taurus'],
@@ -228,7 +228,7 @@ export const american: Cuisine = {
             Water: 0.3,
             Earth: 0.4,
             Air: 0.0
-}
+},
           // Enhanced with moon phase affinities
           lunarPhaseInfluences: ['full moon', 'waning gibbous'],
           zodiacInfluences: ['taurus', 'cancer', 'scorpio'],
@@ -2167,14 +2167,14 @@ export const american: Cuisine = {
       astrologicalInfluences: ['Mercury', 'Uranus', 'Gemini'],
       seasonality: 'year-round fresh ingredients'
 }
-  }
+  },
   // Enhanced elemental properties with more balanced distribution
   elementalProperties: {
     Fire: 0.3, // Grilling, BBQ, spicy elements,
     Water: 0.2, // Stews, soups, steaming,
     Earth: 0.3, // Root vegetables, grains, hearty foods,
     Air: 0.2, // Light preparations, whipped dishes
-  }
+  },
   // Added astrological influences
   astrologicalInfluences: [
     'Jupiter', // Abundance and generosity in portions

@@ -30,7 +30,7 @@ const CACHE_DURATION = 15 * 60 * 1000 // 15 minutes
 export function getCurrentPlanetaryPositions(): { [key: string]: CelestialPosition } {
   // Check cache first
   if (positionsCache && Date.now() - positionsCache.timestamp < CACHE_DURATION) {
-    return positionsCache.positions,
+    return positionsCache.positions;
   }
 
   // Current accurate planetary positions (May 25, 2025)
@@ -238,7 +238,7 @@ export function getCurrentPlanetaryPositions(): { [key: string]: CelestialPositi
     timestamp: new Date().toISOString()
   })
 
-  return validatedPositions,
+  return validatedPositions;
 }
 
 /**
@@ -280,7 +280,7 @@ function validatePositionsWithTransitDates(_positions: { [key: string]: Celestia
     }
   }
 
-  return validatedPositions,
+  return validatedPositions;
 }
 
 /**
@@ -336,7 +336,7 @@ export function getPlanetaryPositionsForDate(_date: Date): { [key: string]: Cele
     }
   }
 
-  return adjustedPositions,
+  return adjustedPositions;
 }
 
 /**
@@ -380,7 +380,7 @@ export function getCurrentLunarPhase(): number {
 
   // Lunar cycle is approximately 29.5 days;
   const lunarAge = ((daysSinceNewmoon % 29.5) + 29.5) % 29.5;
-  return lunarAge,
+  return lunarAge;
 }
 
 /**
@@ -389,13 +389,13 @@ export function getCurrentLunarPhase(): number {
 export function getCurrentLunarPhaseName(): string {
   const phase = getCurrentLunarPhase()
 ;
-  if (phase < 1) return 'new moon',
-  if (phase < 7.4) return 'waxing crescent',
-  if (phase < 8.4) return 'first quarter',
-  if (phase < 14.8) return 'waxing gibbous',
-  if (phase < 15.8) return 'full moon',
-  if (phase < 22.1) return 'waning gibbous',
-  if (phase < 23.1) return 'last quarter',
+  if (phase < 1) return 'new moon';
+  if (phase < 7.4) return 'waxing crescent';
+  if (phase < 8.4) return 'first quarter';
+  if (phase < 14.8) return 'waxing gibbous';
+  if (phase < 15.8) return 'full moon';
+  if (phase < 22.1) return 'waning gibbous';
+  if (phase < 23.1) return 'last quarter';
   return 'waning crescent'
 }
 
@@ -410,7 +410,7 @@ export function getmoonIllumination(): number {
     return phase / 14.8;
   } else {
     // Waning from full to new
-    return (29.5 - phase) / 14.8,
+    return (29.5 - phase) / 14.8;
   }
 }
 
@@ -424,17 +424,17 @@ export function validatePositionsStructure(_positions: { [key: string]: unknown 
     const position = positions[planet];
     if (!position || typeof position !== 'object') {
       logger.warn(`Missing or invalid position for ${planet}`)
-      return false,
+      return false;
     }
 
     const pos = position as any;
     if (!pos.sign || typeof pos.degree !== 'number') {
       logger.warn(`Invalid position structure for ${planet}`, pos)
-      return false,
+      return false;
     }
   }
 
-  return true,
+  return true;
 }
 
 /**

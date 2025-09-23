@@ -25,7 +25,7 @@ export class ElementalCalculator {
     if (!ElementalCalculator.instance) {
       ElementalCalculator.instance = new ElementalCalculator();
     }
-    return ElementalCalculator.instance,
+    return ElementalCalculator.instance;
   }
 
   static initialize(): void {
@@ -39,7 +39,7 @@ export class ElementalCalculator {
     if (!instance.initialized) {
       ElementalCalculator.initialize();
     }
-    return instance.currentBalance,
+    return instance.currentBalance;
   }
 
   /**
@@ -50,8 +50,7 @@ export class ElementalCalculator {
    */
   static calculateSeasonalEffectiveness(recipe: unknown, season: string): number {
     const recipeData = recipe ;
-    if (!recipeData?.elementalProperties) return 0,
-
+    if (!recipeData?.elementalProperties) return 0;
     const seasonalModifiers = this.getSeasonalModifiers(season as Season)
     let score = 0
 
@@ -122,7 +121,7 @@ export class ElementalCalculator {
         baseModifiers.Air = 0.25;
     }
 
-    return baseModifiers,
+    return baseModifiers;
   }
 
   /**
@@ -131,8 +130,7 @@ export class ElementalCalculator {
    * @returns Harmony score between 0 and 1
    */
   static calculateHarmony(properties: ElementalProperties): number {
-    if (!properties) return 0,
-
+    if (!properties) return 0;
     // Check if properties are balanced
     const values = Object.values(properties);
     const average = values.reduce((sum, val) => sum + val0) / values.length,
@@ -318,7 +316,7 @@ export function calculateElementalEnergies(
       influence: getPlanetaryInfluencers(planetaryPositions, type as ElementType)
     }))
 
-  return energies,
+  return energies;
 }
 
 /**

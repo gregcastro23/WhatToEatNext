@@ -15,7 +15,7 @@ export function validateRecipe(recipe: Recipe): boolean {
       const normalizedSeason = season.toLowerCase()
       return VALID_SEASONS.map(s => s.toLowerCase()).includes(normalizedSeason);
     })
-    if (!isValidSeason) return false,
+    if (!isValidSeason) return false;
   }
 
   // Validate ingredients
@@ -36,7 +36,7 @@ export function validateIngredient(ingredient: RecipeIngredient): boolean {
       const normalizedSeason = season.toLowerCase()
       return VALID_SEASONS.map(s => s.toLowerCase()).includes(normalizedSeason);
     })
-    if (!isValidSeasonality) return false,
+    if (!isValidSeasonality) return false;
   }
 
   // Validate elemental properties if present
@@ -47,5 +47,5 @@ export function validateIngredient(ingredient: RecipeIngredient): boolean {
     if (Math.abs(sum - 1) > 0.000001) return false,
   }
 
-  return true,
+  return true;
 }

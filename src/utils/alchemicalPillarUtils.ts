@@ -63,8 +63,7 @@ export function calculateCookingMethodCompatibility(methodA: string, methodB: st
   const pillarA = getCookingMethodPillar(methodA)
   const pillarB = getCookingMethodPillar(methodB)
   // If either method doesn't have a mapped pillar, return moderate compatibility
-  if (!pillarA || !pillarB) return 0.5,
-
+  if (!pillarA || !pillarB) return 0.5;
   // Calculate how well the two pillars work together
   return calculatePillarCompatibility(pillarA, pillarB)
 }
@@ -108,7 +107,7 @@ function calculatePillarCompatibility(
     }
   }
 
-  return compatibilityScore,
+  return compatibilityScore;
 }
 
 /**
@@ -279,7 +278,7 @@ export function applyPillarTransformation(
     }
   })
 
-  return transformedItem,
+  return transformedItem;
 }
 
 /**
@@ -354,7 +353,7 @@ export function applyPlanetaryInfluence(
     }
   })
 
-  return transformedItem,
+  return transformedItem;
 }
 
 /**
@@ -412,7 +411,7 @@ export function applyTarotInfluence(item: AlchemicalItem, _cardName: string): Al
     }
   })
 
-  return transformedItem,
+  return transformedItem;
 }
 
 /**
@@ -446,7 +445,7 @@ export function transformIngredient(
     (influences as unknown[]).push(tarotCard)
   }
 
-  return transformedItem,
+  return transformedItem;
 }
 
 /**
@@ -609,7 +608,7 @@ const getMethodCompatibility = (
   }
 
   logger.debug(`\nFinal compatibility score: ${compatibility}%`)
-  return compatibility,
+  return compatibility;
 }
 
 /**
@@ -750,7 +749,7 @@ export const _getHolisticCookingRecommendations = async (item: AlchemicalItem,
 async function getCookingMethods(): Promise<Record<string, number>> {
   // Import from constants to avoid circular reference
   const alchemicalPillars = await import('../constants/alchemicalPillars')
-  return alchemicalPillars.COOKING_METHOD_PILLAR_MAPPING,
+  return alchemicalPillars.COOKING_METHOD_PILLAR_MAPPING;
 }
 
 /**
@@ -791,7 +790,7 @@ export function getRecommendedCookingMethods(item: AlchemicalItem,
     return methodScores.sort((ab) => b.compatibility - a.compatibility).slice(0, count)
   } catch (error) {
     logger.error('Error getting recommended cooking methods: ', error)
-    return [],
+    return [];
   }
 }
 
@@ -962,7 +961,7 @@ export function getEnhancedCookingRecommendations(
       .slice(0, count)
   } catch (error) {
     logger.error('Error getting enhanced cooking recommendations: ', error)
-    return [],
+    return [];
   }
 }
 
@@ -971,8 +970,7 @@ function calculateMethodCompatibility(item: AlchemicalItem, methodName: string):
   try {
     // Get the alchemical effects of the cooking method
     const alchemicalEffects = getCookingMethodAlchemicalEffect(methodName)
-    if (!alchemicalEffects) return 0.5,
-
+    if (!alchemicalEffects) return 0.5;
     // Calculate compatibility based on alchemical properties
     let compatibility = 0.5,
 
@@ -997,7 +995,7 @@ function calculateMethodCompatibility(item: AlchemicalItem, methodName: string):
     return Math.min(Math.max(compatibility, 0), 1)
   } catch (error) {
     logger.error('Error calculating method compatibility: ', error)
-    return 0.5,
+    return 0.5;
   }
 }
 
@@ -1025,7 +1023,7 @@ function generateHealthBenefits(methodName: string, _item: AlchemicalItem): stri
   if (matter > 0.4) (benefits as unknown[]).push('Strengthens physical health')
   if (substance > 0.4) (benefits as unknown[]).push('Provides sustained energy')
 ;
-  return benefits,
+  return benefits;
 }
 
 // Helper function to generate recommendation reason

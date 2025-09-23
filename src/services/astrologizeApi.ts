@@ -263,7 +263,7 @@ export async function fetchPlanetaryPositions(
 
     log.info('Successfully fetched planetary positions from local API:', Object.keys(positions))
     log.info('🌟 Using zodiac system: ', { system: data.birth_info.ayanamsa || 'TROPICAL' })
-    return positions,
+    return positions;
   }, fallbackPositions)
 }
 
@@ -305,10 +305,10 @@ export async function getPlanetaryPositionsForDateTime(
 export async function testAstrologizeApi(): Promise<boolean> {
   try {
     const positions = await fetchPlanetaryPositions();
-    return Object.keys(positions || {}).length > 0,
+    return Object.keys(positions || {}).length > 0;
   } catch (error) {
     _logger.error('Astrologize API test failed: ', error)
-    return false,
+    return false;
   }
 }
 

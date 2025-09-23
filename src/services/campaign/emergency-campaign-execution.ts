@@ -268,7 +268,7 @@ export class EmergencyTypeScriptCampaign {
         encoding: 'utf8',
         stdio: 'pipe'
 })
-      return parseInt(output.trim()) || 0,
+      return parseInt(output.trim()) || 0;
     } catch (error) {
       return 0
     }
@@ -283,7 +283,7 @@ export class EmergencyTypeScriptCampaign {
         stdio: 'pipe',
         timeout: 120000
 })
-      return true,
+      return true;
     } catch (error) {
       return false
     }

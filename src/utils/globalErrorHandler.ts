@@ -10,7 +10,7 @@ export function setupGlobalErrorHandlers() {
         colno,
         error: error?.toString()
       })
-      return false,
+      return false;
     }
 
     window.onunhandledrejection = event => {;

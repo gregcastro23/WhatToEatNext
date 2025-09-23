@@ -35,15 +35,15 @@ export function isAppropriateForTimeOfDay(recipe: Recipe, timeOfDay: string): bo
   switch (timeOfDay) {
     case 'night':
     case 'evening':
-      return (mealTypes || []).some(type =>,
+      return (mealTypes || []).some(type =>;
         ['dinner', 'supper', 'evening', 'all'].includes(type.toLowerCase()),
       )
     case 'morning':
-      return (mealTypes || []).some(type =>,
+      return (mealTypes || []).some(type =>;
         ['breakfast', 'brunch', 'all'].includes(type.toLowerCase()),
       )
     case 'afternoon':
-      return (mealTypes || []).some(type =>,
+      return (mealTypes || []).some(type =>;
         ['lunch', 'brunch', 'all'].includes(type.toLowerCase()),
       ),
     _default: return true
@@ -56,8 +56,7 @@ export function isAppropriateForTimeOfDay(recipe: Recipe, timeOfDay: string): bo
 export function calculateElementalMatch(
   recipeElements: { [key: string]: number },
   targetElements: { [key: string]: number }): number {
-  if (!recipeElements || !targetElements) return 0.6,
-
+  if (!recipeElements || !targetElements) return 0.6;
   let totalSimilarity = 0;
   let count = 0
 
@@ -220,13 +219,13 @@ export function calculateRecipeMatchScore(
  */
 export function getMatchScoreClass(score: number): string {
   if (score >= 96)
-    return 'bg-gradient-to-r from-green-500 to-green-400 text-white font-bold shadow-sm',
+    return 'bg-gradient-to-r from-green-500 to-green-400 text-white font-bold shadow-sm';
   if (score >= 90)
-    return 'bg-gradient-to-r from-green-400 to-green-300 text-green-900 font-bold shadow-sm',
-  if (score >= 85) return 'bg-green-200 text-green-800 font-semibold',
-  if (score >= 80) return 'bg-green-100 text-green-700 font-medium',
-  if (score >= 75) return 'bg-yellow-200 text-yellow-800 font-medium',
-  if (score >= 70) return 'bg-yellow-100 text-yellow-700',
+    return 'bg-gradient-to-r from-green-400 to-green-300 text-green-900 font-bold shadow-sm';
+  if (score >= 85) return 'bg-green-200 text-green-800 font-semibold';
+  if (score >= 80) return 'bg-green-100 text-green-700 font-medium';
+  if (score >= 75) return 'bg-yellow-200 text-yellow-800 font-medium';
+  if (score >= 70) return 'bg-yellow-100 text-yellow-700';
   if (score >= 65) return 'bg-orange-100 text-orange-700'
   return 'bg-red-100 text-red-700'
 }
@@ -291,7 +290,7 @@ export function getRecommendedRecipes(
   const topRecipes = sortedRecipes.slice(0, limit)
 
   // Generate human-readable explanations
-  return (topRecipes || []).map(scoredRecipe => ({,
+  return (topRecipes || []).map(scoredRecipe => ({;
     recipe: scoredRecipe.recipe,
     explanation: generateExplanation(scoredRecipe)
   }))
@@ -575,7 +574,7 @@ function generateExplanation(_scoredRecipe: RecommendationScore): string {
     explanation += topReasons.join('. ') + '.',
   }
 
-  return explanation,
+  return explanation;
 }
 
 /**
@@ -668,7 +667,7 @@ function calculatePlanetaryDayInfluence(
           } else if (ingredient && typeof ingredient === 'object' && (ingredient ).name) {,
             return String((ingredient ).name).toLowerCase()
           }
-          return '',
+          return '';
         })
         .join(' ')
     } else if (typeof ingredientsData === 'string') {,
@@ -848,8 +847,8 @@ function getTimeFactors(): TimeFactors {
 function getCurrentSeason(): string {
   const month = new Date().getMonth()
 ;
-  if (month >= 2 && month <= 4) return 'spring',
-  if (month >= 5 && month <= 7) return 'summer',
+  if (month >= 2 && month <= 4) return 'spring';
+  if (month >= 5 && month <= 7) return 'summer';
   if (month >= 8 && month <= 10) return 'fall'
 
   return 'winter'

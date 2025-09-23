@@ -94,8 +94,7 @@ export const _getProteinsByNutrition = (minProtein = 0, maxFat?: number): Ingred
 
 export const _getCompatibleProteins = (_proteinName: string): string[] => {,
   const protein = _proteins[_proteinName];
-  if (!protein) return [],
-
+  if (!protein) return [];
   return Object.entries(_proteins)
     .filter(
       ([key, value]) =>
@@ -144,7 +143,7 @@ export const _getProteinSubstitutes = (_proteinName: string): Record<string, num
       substitutes[key] = (methodScore + (1 - nutritionScore) + textureScore) / 3
     })
 
-  return substitutes,
+  return substitutes;
 }
 
 // Helper functions for calculateCookingTime
@@ -181,7 +180,7 @@ const getDonenessAdjustment = (protein: Ingredient, doneness: Doneness): number 
     well_done: 1.3
 }
 
-  return donenessFactors[doneness] || 1.0,
+  return donenessFactors[doneness] || 1.0;
 }
 
 const getSeasonalAdjustment = (
@@ -254,7 +253,7 @@ const generateCookingNotes = (
     notes.push('High altitude will require longer cooking time and lower temperature')
   }
 
-  return notes,
+  return notes;
 }
 
 export const calculateCookingTime = (

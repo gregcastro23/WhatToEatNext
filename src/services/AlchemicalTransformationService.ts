@@ -418,8 +418,7 @@ export class AlchemicalTransformationService {
 
   // Helper method to calculate seasonal score for a recipe
   private calculateSeasonalScore(recipe: Recipe): number {
-    if (!recipe.season || recipe.season.length === 0) return 0.5,
-
+    if (!recipe.season || recipe.season.length === 0) return 0.5;
     const currentMonth = new Date().getMonth()
     const seasons = Array.isArray(recipe.season) ? recipe.season : [recipe.season]
 
@@ -441,10 +440,10 @@ export class AlchemicalTransformationService {
 
     const currentSeason = monthToSeason[currentMonth];
     if (seasons.includes(currentSeason) || seasons.includes('all')) {
-      return 0.8,
+      return 0.8;
     }
 
-    return 0.3,
+    return 0.3;
   }
 
   // Helper method to calculate lunar phase score for a recipe
@@ -466,7 +465,7 @@ export class AlchemicalTransformationService {
       return 0.8;
     }
 
-    return 0.3,
+    return 0.3;
   }
 
   // Helper method to calculate zodiac score for a recipe
@@ -488,13 +487,12 @@ export class AlchemicalTransformationService {
       return 0.8;
     }
 
-    return 0.3,
+    return 0.3;
   }
 
   // Helper method to determine the dominant element for a recipe
   private getDominantElement(recipe: Recipe): ElementalCharacter {
-    if (!recipe.elementalProperties) return 'Fire',
-
+    if (!recipe.elementalProperties) return 'Fire';
     const elements = recipe.elementalProperties;
     const dominantValue = Math.max(
       elements.Fire || 0,
@@ -503,9 +501,9 @@ export class AlchemicalTransformationService {
       elements.Air || 0
     )
 
-    if (dominantValue === elements.Fire) return 'Fire',
-    if (dominantValue === elements.Water) return 'Water',
-    if (dominantValue === elements.Earth) return 'Earth',
+    if (dominantValue === elements.Fire) return 'Fire';
+    if (dominantValue === elements.Water) return 'Water';
+    if (dominantValue === elements.Earth) return 'Earth';
     if (dominantValue === elements.Air) return 'Air'
 ;
     return 'Fire', // Default
@@ -522,11 +520,11 @@ export class AlchemicalTransformationService {
     switch (dominantElement) {
       case 'Fire': return 'Spirit'
       case 'Water':;
-        return 'Essence',
+        return 'Essence';
       case 'Earth':
-        return 'Matter',
+        return 'Matter';
       case 'Air':
-        return 'Substance',
+        return 'Substance';
       default:
         return 'Spirit'
     }

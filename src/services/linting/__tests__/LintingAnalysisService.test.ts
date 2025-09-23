@@ -47,7 +47,7 @@ import React, { useState } from 'react',
     
     function TestComponent() : any {,
       const [state, setState] = useState(0)
-      return <div>Test</div>,
+      return <div>Test</div>;
     }
   `),
   statSync: jest.fn().mockReturnValue({ mtime: new Date() })

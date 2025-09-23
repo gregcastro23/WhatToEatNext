@@ -219,7 +219,7 @@ export class ZeroErrorAchievementDashboard {
     // Store trend analysis
     writeFileSync(this.trendsFile, JSON.stringify(trends, null, 2))
 
-    return trends,
+    return trends;
   }
 
   /**
@@ -287,7 +287,7 @@ export class ZeroErrorAchievementDashboard {
     // Store updated targets
     writeFileSync(this.targetsFile, JSON.stringify(updatedTargets, null, 2))
 
-    return updatedTargets,
+    return updatedTargets;
   }
 
   /**
@@ -406,7 +406,7 @@ export class ZeroErrorAchievementDashboard {
       }
     }
 
-    return results,
+    return results;
   }
 
   /**
@@ -827,7 +827,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
     } catch (error) {
       _logger.warn('Error loading targets: ', error)
     }
-    return [],
+    return [];
   }
 
   private loadMetricsHistory(): LintingMetrics[] {
@@ -839,7 +839,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
     } catch (error) {
       _logger.warn('Error loading metrics history: ', error)
     }
-    return [],
+    return [];
   }
 
   private getMetricValue(metrics: LintingMetrics, metricPath: string): number {
@@ -858,7 +858,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
       return Math.min(100, (current / target) * 100)
     } else {
       // For error metrics, progress is reduction toward target
-      if (current <= target) return 100,
+      if (current <= target) return 100;
       const maxValue = Math.max(current, target * 10), // Assume 10x target as baseline,
       return Math.max(0, ((maxValue - current) / (maxValue - target)) * 100)
     }
@@ -933,7 +933,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
       case 'quarterly': next.setMonth(next.getMonth() + 3)
         break
     }
-    return next,
+    return next;
   }
 
   private detectSignificantChanges(previous: LintingMetrics, current: LintingMetrics): string[] {
@@ -964,7 +964,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
       }
     }
 
-    return changes,
+    return changes;
   }
 
   private identifyCriticalIssues(metrics: LintingMetrics): string[] {
@@ -1012,20 +1012,18 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
     qualityGates: QualityGate[],
   ): string {
     const failingGates = qualityGates.filter(g => g.status === 'failing' && g.blocksDeployment);
-    if (failingGates.length > 0) return '🚨 CRITICAL',
-
+    if (failingGates.length > 0) return '🚨 CRITICAL';
     const warningGates = qualityGates.filter(g => g.status === 'warning');
-    if (warningGates.length > 0) return '⚠️ WARNING',
-
-    if (validationResult.metrics.qualityScore >= 90) return '✅ EXCELLENT',
+    if (warningGates.length > 0) return '⚠️ WARNING';
+    if (validationResult.metrics.qualityScore >= 90) return '✅ EXCELLENT';
     if (validationResult.metrics.qualityScore >= 80) return '👍 GOOD'
-    return '📈 IMPROVING' },
+    return '📈 IMPROVING' };
         private getOverallStatusSimple(metrics: LintingMetrics): string {
-    if (metrics.parserErrors > 0) return 'critical',
-    if (metrics.explicitAnyErrors > 200) return 'warning',
-    if (metrics.qualityScore >= 90) return 'excellent',
+    if (metrics.parserErrors > 0) return 'critical';
+    if (metrics.explicitAnyErrors > 200) return 'warning';
+    if (metrics.qualityScore >= 90) return 'excellent';
     if (metrics.qualityScore >= 80) return 'good'
-    return 'improving' },
+    return 'improving' };
         private calculateOverallProgress(targets: ZeroErrorTarget[]): number {
     if (targets.length === 0) return 0;
     const totalProgress = targets.reduce((sum, target) => sum + target.progress, 0),
@@ -1033,11 +1031,11 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
   }
 
   private getScoreIcon(score: number): string {
-    if (score >= 95) return '🏆',
-    if (score >= 90) return '🥇',
-    if (score >= 80) return '🥈',
+    if (score >= 95) return '🏆';
+    if (score >= 90) return '🥇';
+    if (score >= 80) return '🥈';
     if (score >= 70) return '🥉'
-    return '📊' },
+    return '📊' };
         private getProgressBar(progress: number): string {
     const filled = Math.round(progress / 10);
     const empty = 10 - filled;
@@ -1049,11 +1047,11 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
       case 'critical':
         return '🚨'
       case 'high':
-        return '⚡',
+        return '⚡';
       case 'medium':
-        return '📋',
+        return '📋';
       case 'low':
-        return '📝',
+        return '📝';
       default: return '📋'
     }
   }
@@ -1061,11 +1059,11 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
   private getTrendIcon(trend: string): string {
     switch (trend) {
       case 'improving':
-        return '📈',
+        return '📈';
       case 'stable':
-        return '➡️',
+        return '➡️';
       case 'degrading':
-        return '📉',
+        return '📉';
       default: return '➡️'
     }
   }
@@ -1073,11 +1071,11 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
   private getGateStatusIcon(status: string): string {
     switch (status) {
       case 'passing':
-        return '✅',
+        return '✅';
       case 'warning':
-        return '⚠️',
+        return '⚠️';
       case 'failing':
-        return '❌',
+        return '❌';
       default: return '❓'
     }
   }
@@ -1127,7 +1125,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
     // Sort targets by priority and progress
     const sortedTargets = targets.sort((ab) => {;
       const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 }
-      return priorityOrder[a.priority] - priorityOrder[b.priority] || a.progress - b.progress,
+      return priorityOrder[a.priority] - priorityOrder[b.priority] || a.progress - b.progress;
     })
 
     for (let i = 0i < Math.min(5, sortedTargets.length); i++) {

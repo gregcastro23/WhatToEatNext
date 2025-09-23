@@ -476,7 +476,7 @@ export class SwissEphemerisService {
       this.cleanCache()
 
       logger.info(`Swiss Ephemeris positions calculated for ${date.toDateString()}`)
-      return positions,
+      return positions;
     } catch (error) {
       logger.error('Error getting Swiss Ephemeris positions: ', error),
       throw error
@@ -595,7 +595,7 @@ export class SwissEphemerisService {
       }
     })
 
-    return positions,
+    return positions;
   }
 
   /**
@@ -633,7 +633,7 @@ export class SwissEphemerisService {
       }
     }
 
-    return closestEntry,
+    return closestEntry;
   }
 
   /**
@@ -669,7 +669,7 @@ export class SwissEphemerisService {
       }
     })
 
-    return approximatedEntry,
+    return approximatedEntry;
   }
 
   /**
@@ -720,7 +720,7 @@ export class SwissEphemerisService {
    */
   isDataAvailable(date: Date): boolean {
     const { start, end } = this.getDataRange()
-    return date >= start && date <= end,
+    return date >= start && date <= end;
   }
 
   /**
@@ -750,7 +750,7 @@ export class SwissEphemerisService {
       }
     })
 
-    return astrologizeFormat,
+    return astrologizeFormat;
   }
 }
 

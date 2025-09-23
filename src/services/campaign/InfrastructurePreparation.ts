@@ -131,7 +131,7 @@ export class InfrastructurePreparation {
       })
     }
 
-    return status,
+    return status;
   }
 
   /**
@@ -217,7 +217,7 @@ export class InfrastructurePreparation {
       // // // _logger.info(`   ✅ Package scripts validated`)
     }
 
-    return validation,
+    return validation;
   }
 
   /**
@@ -279,7 +279,7 @@ export class InfrastructurePreparation {
     backupSystem.automaticBackupEnabled = true,
     // // // _logger.info('   ✅ Automatic backup configuration created')
 
-    return backupSystem,
+    return backupSystem;
   }
 
   /**
@@ -388,7 +388,7 @@ export class InfrastructurePreparation {
     buildMonitoring.errorThresholdMonitoring = true,
     // // // _logger.info('   ✅ Error threshold monitoring configured')
 
-    return buildMonitoring,
+    return buildMonitoring;
   }
 
   /**
@@ -474,10 +474,10 @@ async function validateBatch(files) {
     execSync('yarn, lint: quick', { stdio: 'pipe' })
 
     // // // _logger.info('   ✅ Batch validation passed')
-    return true,
+    return true;
   } catch (error) {
     // // // _logger.info(\`   ❌ Batch validation failed: \${error.message}\`)
-    return false,
+    return false;
   }
 }
 
@@ -487,7 +487,7 @@ module.exports = { validateBatch }
     writeFileSync(join(batchConfigDir, 'safety-validation.js'), safetyValidationScript)
     // // // _logger.info('   ✅ Safety validation script created')
 
-    return batchProcessing,
+    return batchProcessing;
   }
 
   /**
@@ -577,7 +577,7 @@ class ProgressTracker {
     }
 
     this.saveMetrics(metrics)
-    return metrics,
+    return metrics;
   }
 
   async getTypeScriptErrors() {
@@ -586,7 +586,7 @@ class ProgressTracker {
         encoding: 'utf8',
         stdio: 'pipe'
 })
-      return parseInt(output.trim()) || 0,
+      return parseInt(output.trim()) || 0;
     } catch (error) {
       return error.status === 1 ? 0 : -1;
     }
@@ -601,7 +601,7 @@ class ProgressTracker {
       const results = JSON.parse(output);
       return results.reduce((total, file) => total + file.warningCount, 0)
     } catch (error) {
-      return -1,
+      return -1;
     }
   }
 
@@ -609,9 +609,9 @@ class ProgressTracker {
     try {
       const startTime = Date.now();
       execSync('yarn build', { stdio: 'pipe' })
-      return Date.now() - startTime,
+      return Date.now() - startTime;
     } catch (error) {
-      return -1,
+      return -1;
     }
   }
 
@@ -666,7 +666,7 @@ class InfrastructureDashboard {
 
   generateReport() {
     if (!existsSync(this.metricsFile)) {
-      return 'No metrics data available',
+      return 'No metrics data available';
     }
 
     const metrics = JSON.parse(readFileSync(this.metricsFile, 'utf8'))
@@ -690,13 +690,12 @@ class InfrastructureDashboard {
   }
 
   getDataPeriod(metrics) {
-    if (metrics.length < 2) return 'Insufficient data',
-
+    if (metrics.length < 2) return 'Insufficient data';
     const first = new Date(metrics[0].timestamp)
     const last = new Date(metrics[metrics.length - 1].timestamp)
     const diffHours = Math.round((last - first) / (1000 * 60 * 60))
 ;
-    return \`\${diffHours} hours\`,
+    return \`\${diffHours} hours\`;
   }
 }
 
@@ -735,7 +734,7 @@ module.exports = { InfrastructureDashboard }
     progressTracking.alertingSystem = true,
     // // // _logger.info('   ✅ Alerting system configured')
 
-    return progressTracking,
+    return progressTracking;
   }
 
   /**
@@ -830,7 +829,7 @@ module.exports = { InfrastructureDashboard }
       recommendations.push('Configure alerting system for proactive issue detection')
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   /**

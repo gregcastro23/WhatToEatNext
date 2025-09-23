@@ -11,7 +11,7 @@ import { unifiedIngredients } from './ingredients';
 
 // Type guards for safe property access
 function isValidObject(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null,
+  return typeof value === 'object' && value !== null;
 }
 
 function hasProperty<T extends string>(obj: unknown, prop: T): obj is Record<T, unknown> {
@@ -255,7 +255,7 @@ export class RecipeEnhancer {
       Air: 1.05
 }
 
-    return elementKalchm[element.toLowerCase()] || 1.0,
+    return elementKalchm[element.toLowerCase()] || 1.0;
   }
 
   /**
@@ -345,11 +345,11 @@ export class RecipeEnhancer {
    */
   static determineAlchemicalClassification(kalchm: number, monica: number | null): string {
     if (monica === null) {,
-      return kalchm > 1.0 ? 'Spirit-Dominant' : 'Matter-Dominant' },
-        if (kalchm > 1.2) return 'Highly Volatile',
-    if (kalchm > 1.0) return 'Transformative',
-    if (kalchm > 0.8) return 'Balanced',
-    return 'Grounding',
+      return kalchm > 1.0 ? 'Spirit-Dominant' : 'Matter-Dominant' };
+        if (kalchm > 1.2) return 'Highly Volatile';
+    if (kalchm > 1.0) return 'Transformative';
+    if (kalchm > 0.8) return 'Balanced';
+    return 'Grounding';
   }
 
   /**
@@ -447,7 +447,7 @@ export class RecipeEnhancer {
         break
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   /**
@@ -482,7 +482,7 @@ export class RecipeEnhancer {
       recipeData?.astrologicalAffinities?.planets &&
       recipeData.astrologicalAffinities.planets.length > 0
     ) {;
-      return recipeData.astrologicalAffinities.planets[0] + ' hour' },
+      return recipeData.astrologicalAffinities.planets[0] + ' hour' };
         if (recipeData?.zodiacInfluences && recipeData.zodiacInfluences.length > 0) {
       // Map zodiac to planetary rulers
       const zodiacPlanets: { [key: string]: string } = {
@@ -549,8 +549,7 @@ export class RecipeEnhancer {
         ingredientKalchmBreakdown: kalchmResult.breakdown,
         elementalBalance,
         alchemicalClassification
-      }
-
+      },
       // ADD cooking optimization
       cookingOptimization: {
         optimalTemperature,
@@ -558,8 +557,7 @@ export class RecipeEnhancer {
         monicaAdjustments,
         elementalCookingMethod,
         thermodynamicRecommendations
-      }
-
+      },
       // ADD enhancement metadata
       enhancementMetadata: {
         phase3Enhanced: true,
@@ -572,7 +570,7 @@ export class RecipeEnhancer {
       }
     }
 
-    return enhancedRecipe,
+    return enhancedRecipe;
   }
 }
 
@@ -617,7 +615,7 @@ export class RecipeAnalyzer {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility;
       const alchemicalData = recipe.alchemicalProperties as any;
       const elementalBalance = alchemicalData?.elementalBalance
-      return elementalBalance && elementalBalance[element] >= threshold,
+      return elementalBalance && elementalBalance[element] >= threshold;
     })
   }
 

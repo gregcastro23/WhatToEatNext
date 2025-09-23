@@ -106,7 +106,7 @@ export function validatePlanetaryPositions(
     }
   }
 
-  return validatedPositions,
+  return validatedPositions;
 }
 
 /**
@@ -129,7 +129,7 @@ function getBaseSignLongitude(sign: any): number {
   ],
 
   const index = signs.indexOf(sign)
-  return index * 30,
+  return index * 30;
 }
 
 /**
@@ -171,5 +171,5 @@ export function getCurrentTransitPositions(): Record<string, PlanetPosition> {
     }
   }
 
-  return positions,
+  return positions;
 }

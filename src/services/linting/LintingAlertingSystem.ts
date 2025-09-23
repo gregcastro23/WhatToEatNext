@@ -148,7 +148,7 @@ export class LintingAlertingSystem {
       }
     }
 
-    return events,
+    return events;
   }
 
   /**
@@ -342,11 +342,11 @@ export class LintingAlertingSystem {
       if (lastAlert) {;
         const cooldownMs = this.config.regressionDetection.cooldownPeriod * 60 * 1000;
         if (Date.now() - lastAlert.getTime() < cooldownMs) {
-          return false,
+          return false;
         }
       }
 
-      return true,
+      return true;
     })
   }
 
@@ -383,7 +383,7 @@ export class LintingAlertingSystem {
 })
     }
 
-    return actions,
+    return actions;
   }
 
   // Auto-response implementations
@@ -548,11 +548,11 @@ export class LintingAlertingSystem {
   private getPerformanceMetricValue(metrics: LintingMetrics, metric: string): number {
     switch (metric) {
       case 'duration':
-        return metrics.performanceMetrics.lintingDuration,
+        return metrics.performanceMetrics.lintingDuration;
       case 'memory':
-        return metrics.performanceMetrics.memoryUsage,
+        return metrics.performanceMetrics.memoryUsage;
       case 'cacheHitRate':
-        return metrics.performanceMetrics.cacheHitRate,
+        return metrics.performanceMetrics.cacheHitRate;
       case 'filesPerSecond':
         return (
           metrics.performanceMetrics.filesProcessed /
@@ -572,7 +572,7 @@ export class LintingAlertingSystem {
   private calculateImpact(severity: string): 'low' | 'medium' | 'high' {
     switch (severity) {
       case 'critical':
-        return 'high',
+        return 'high';
       case 'error':
         return 'medium'
       default: return 'low'
@@ -598,11 +598,11 @@ export class LintingAlertingSystem {
   private getSeverityIcon(severity: string): string {
     switch (severity) {
       case 'critical':
-        return '🚨',
+        return '🚨';
       case 'error':
-        return '❌',
+        return '❌';
       case 'warning':
-        return '⚠️',
+        return '⚠️';
       case 'info':
         return 'ℹ️'
       default:

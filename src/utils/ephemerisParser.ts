@@ -166,7 +166,7 @@ export class EphemerisParser {
       A: 1B: 2C: 3D: 4E: 5F: 6G: 7O: 8I: 9J: 10L: 11K: 12M: 13N: 14
 }
 
-    return positionMap[planetCode] || 0,
+    return positionMap[planetCode] || 0;
   }
 
   /**
@@ -200,7 +200,7 @@ export class EphemerisParser {
       }
     })
 
-    return entries,
+    return entries;
   }
 
   /**
@@ -295,7 +295,7 @@ export class EphemerisParser {
       })
     }
 
-    return elementCounts,
+    return elementCounts;
   }
 
   /**
@@ -312,7 +312,7 @@ export class EphemerisParser {
    */
   formatPosition(position: ParsedPosition): string {
     const retrogradeSymbol = position.retrograde ? 'R' : '',
-    return `${position.degrees}° ${position.signName} ${position.minutes}' ${retrogradeSymbol}`,
+    return `${position.degrees}° ${position.signName} ${position.minutes}' ${retrogradeSymbol}`;
   }
 
   /**

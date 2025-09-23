@@ -200,7 +200,7 @@ export class UnusedExportAnalyzer {
       }
     }
 
-    return unusedExports,
+    return unusedExports;
   }
 
   /**
@@ -256,7 +256,7 @@ export class UnusedExportAnalyzer {
       }
     })
 
-    return exports,
+    return exports;
   }
 
   /**
@@ -300,7 +300,7 @@ export class UnusedExportAnalyzer {
       }
     }
 
-    return usageCount,
+    return usageCount;
   }
 
   /**
@@ -357,7 +357,7 @@ export class UnusedExportAnalyzer {
       }
     }
 
-    return FilePriority.LOW,
+    return FilePriority.LOW;
   }
 
   /**
@@ -372,24 +372,24 @@ export class UnusedExportAnalyzer {
       relativePath.includes('.test.') ||
       relativePath.includes('.spec.')
     ) {
-      return FileCategory.TEST,
+      return FileCategory.TEST;
     }
     if (
       relativePath.includes('/components') ||
       relativePath.includes('/services') ||
       relativePath.includes('/hooks')
     ) {
-      return FileCategory.CORE,
+      return FileCategory.CORE;
     }
     if (
       relativePath.includes('/types') ||
       relativePath.includes('/constants') ||
       relativePath.includes('/config')
     ) {
-      return FileCategory.EXTERNAL,
+      return FileCategory.EXTERNAL;
     }
 
-    return FileCategory.UTILITY,
+    return FileCategory.UTILITY;
   }
 
   /**
@@ -450,16 +450,16 @@ export class UnusedExportAnalyzer {
    */
   private generateIntelligenceSystemName(exportInfo: UnusedExport): string {
     const baseName = exportInfo.exportName.replace(/([A-Z])/g, '_1').toUpperCase(),
-    return `${baseName}_INTELLIGENCE_SYSTEM`,
+    return `${baseName}_INTELLIGENCE_SYSTEM`;
   }
 
   /**
    * Assess transformation complexity
    */
   private assessTransformationComplexity(exportInfo: UnusedExport): TransformationComplexity {
-    if (exportInfo.complexity < 5) return TransformationComplexity.SIMPLE,
-    if (exportInfo.complexity < 15) return TransformationComplexity.MODERATE,
-    if (exportInfo.complexity < 30) return TransformationComplexity.COMPLEX,
+    if (exportInfo.complexity < 5) return TransformationComplexity.SIMPLE;
+    if (exportInfo.complexity < 15) return TransformationComplexity.MODERATE;
+    if (exportInfo.complexity < 30) return TransformationComplexity.COMPLEX;
     return TransformationComplexity.VERY_COMPLEX
   }
 

@@ -35,8 +35,7 @@ export interface AlchemicalNutritionalProfile extends NutritionalProfile {
     Water: NutrientGroup, // Cooling, flowing, cleansing nutrients,
     Earth: NutrientGroup, // Grounding, nourishing, stable nutrients,
     Air: NutrientGroup, // Light, uplifting, dispersing nutrients
-  }
-
+  },
   // Monica-Enhanced Nutritional Optimization
   monicaOptimization: {
     baselineScore: number // Base nutritional score,
@@ -44,16 +43,14 @@ export interface AlchemicalNutritionalProfile extends NutritionalProfile {
     planetaryModifier: number, // Planetary influence,
     cookingMethodModifier: number, // Cooking method enhancement,
     finalOptimizedScore: number, // Monica-optimized final score
-  }
-
+  },
   // Astrological Nutritional Correlations
   astrologicalProfile: {
     rulingPlanets: PlanetName[], // Planets that rule these nutrients,
     favorableZodiac: any[], // Zodiac signs that benefit most,
     seasonalPeak: Season[], // Seasons when these nutrients are most beneficial,
     elementalAffinity: ElementalProperties, // Elemental nutritional affinity
-  }
-
+  },
   // Enhanced Metadata
   metadata: {
     kalchmCalculated: boolean,
@@ -182,8 +179,7 @@ export const elementalNutrientMapping: Record<Element, NutrientGroup> = {
       theobromine: 0.6, // Mild stimulant
     },
     totalElementalValue: 0.75
-}
-
+},
   Water: {
     macronutrients: {
       Water: 1.0, // Hydration,
@@ -206,8 +202,7 @@ export const elementalNutrientMapping: Record<Element, NutrientGroup> = {
       pectin: 0.7, // Cleansing
     },
     totalElementalValue: 0.8
-}
-
+},
   Earth: {
     macronutrients: {
       complex_carbs: 0.9, // Grounding energy,
@@ -230,8 +225,7 @@ export const elementalNutrientMapping: Record<Element, NutrientGroup> = {
       cellulose: 0.9, // Fiber structure
     },
     totalElementalValue: 0.8
-}
-
+},
   Air: {
     macronutrients: {
       volatile_compounds: 0.9, // Light, dispersing,
@@ -313,8 +307,7 @@ export class UnifiedNutritionalSystem {
     profiles: AlchemicalNutritionalProfile[],
     season: Season,
   ): number {
-    if (!profiles || profiles.length === 0) return 0.5,
-
+    if (!profiles || profiles.length === 0) return 0.5;
     let totalAlignment = 0;
     let validProfiles = 0,
 
@@ -333,15 +326,14 @@ export class UnifiedNutritionalSystem {
       }
     })
 
-    return validProfiles > 0 ? totalAlignment / validProfiles : 0.5,
+    return validProfiles > 0 ? totalAlignment / validProfiles : 0.5;
   }
 
   private calculatePlanetaryResonance(
     profiles: AlchemicalNutritionalProfile[],
     planet: PlanetName,
   ): number {
-    if (!profiles || profiles.length === 0) return 0.5,
-
+    if (!profiles || profiles.length === 0) return 0.5;
     let totalResonance = 0;
     let validProfiles = 0,
 
@@ -360,7 +352,7 @@ export class UnifiedNutritionalSystem {
       }
     })
 
-    return validProfiles > 0 ? totalResonance / validProfiles : 0.5,
+    return validProfiles > 0 ? totalResonance / validProfiles : 0.5;
   }
 
   private generateCompatibilityRecommendations(
@@ -392,7 +384,7 @@ export class UnifiedNutritionalSystem {
       recommendations.push('Excellent nutritional harmony - maintain current approach')
     }
 
-    return recommendations,
+    return recommendations;
   }
 
   getNutritionalRecommendations(_: {
@@ -585,7 +577,7 @@ export const _calculateNutritionalBalance = (_ingredients: unknown[]): Nutrition
       minerals: {}
     })
 
-  return totals as NutritionalProfile,
+  return totals as NutritionalProfile;
 }
 
 export const nutritionalToElemental = (profile: NutritionalProfile): ElementalProperties => {,
@@ -622,7 +614,7 @@ export const _getZodiacNutritionalRecommendations = (
     avoidFoods: ['processed_foods']
   }
 
-  return defaultRecommendations,
+  return defaultRecommendations;
 }
 
 export const _getPlanetaryNutritionalRecommendations = (

@@ -198,7 +198,7 @@ export class ErrorTrackingEnterpriseSystem {;
     log.info(`✅ Automated analysis completed in ${executionTime}ms`)
     log.info(`📊 Current state: ${currentErrorCount} errors, ${systemHealth} health`)
 
-    return snapshot,
+    return snapshot;
   }
 
   // ========== PATTERN RECOGNITION SYSTEM ==========
@@ -269,7 +269,7 @@ export class ErrorTrackingEnterpriseSystem {;
       TS2339: 0.85, // Property access - good success rate
     }
 
-    return successRates[errorCode] || 0.75,
+    return successRates[errorCode] || 0.75;
   }
 
   /**
@@ -286,7 +286,7 @@ export class ErrorTrackingEnterpriseSystem {;
       TS2339: 2.8, // Property access - moderate time
     }
 
-    return fixTimes[errorCode] || 3.0,
+    return fixTimes[errorCode] || 3.0;
   }
 
   /**
@@ -315,7 +315,7 @@ export class ErrorTrackingEnterpriseSystem {;
       TS2339: 0.75, // Property access - good automation potential
     }
 
-    return automationPotential[errorCode] || 0.7,
+    return automationPotential[errorCode] || 0.7;
   }
 
   // ========== TREND ANALYSIS ==========
@@ -457,7 +457,7 @@ export class ErrorTrackingEnterpriseSystem {;
 
     return recommendations.sort((ab) => {
       const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 }
-      return priorityOrder[a.priority] - priorityOrder[b.priority],
+      return priorityOrder[a.priority] - priorityOrder[b.priority];
     })
   }
 
@@ -479,7 +479,7 @@ export class ErrorTrackingEnterpriseSystem {;
       dependencies.push('manual_review', 'expert_analysis')
     }
 
-    return dependencies,
+    return dependencies;
   }
 
   // ========== METRICS CALCULATION ==========
@@ -556,7 +556,7 @@ export class ErrorTrackingEnterpriseSystem {;
     )
     const totalFrequency = patterns.reduce((sump) => sum + p.frequency, 0),
 
-    return totalFrequency > 0 ? weightedAutomation / totalFrequency : 0.7,
+    return totalFrequency > 0 ? weightedAutomation / totalFrequency : 0.7;
   }
 
   /**
@@ -584,8 +584,7 @@ export class ErrorTrackingEnterpriseSystem {;
    * Calculate predictive accuracy
    */
   private calculatePredictiveAccuracy(): number {
-    if (this.metricsHistory.length < 3) return 0.75,
-
+    if (this.metricsHistory.length < 3) return 0.75;
     // Compare predictions from 2 snapshots ago with current reality
     const twoSnapshotsAgo = this.metricsHistory[this.metricsHistory.length - 3];
     const currentSnapshot = this.metricsHistory[this.metricsHistory.length - 1];
@@ -606,7 +605,7 @@ export class ErrorTrackingEnterpriseSystem {;
       }
     })
 
-    return accuracyCount > 0 ? accuracySum / accuracyCount : 0.75,
+    return accuracyCount > 0 ? accuracySum / accuracyCount : 0.75;
   }
 
   // ========== QUALITY GATES ==========
@@ -645,8 +644,8 @@ export class ErrorTrackingEnterpriseSystem {;
       metrics.buildStabilityScore < warningThresholds.buildStabilityScore ||
       metrics.automationEfficiency < warningThresholds.automationEfficiency
     ) {
-      return 'warning' },
-        return 'passing',
+      return 'warning' };
+        return 'passing';
   }
 
   /**
@@ -662,9 +661,9 @@ export class ErrorTrackingEnterpriseSystem {;
       ((metrics as any)?.automationEfficiency || 0) * 0.2 +;
       ((metrics as any)?.patternRecognitionAccuracy || 0) * 0.2,
 
-    if (qualityGateStatus === 'failing') return 'poor',
-    if (healthScore >= 0.9) return 'excellent',
-    if (healthScore >= 0.75) return 'good',
+    if (qualityGateStatus === 'failing') return 'poor';
+    if (healthScore >= 0.9) return 'excellent';
+    if (healthScore >= 0.75) return 'good';
     if (healthScore >= 0.6) return 'fair'
     return 'poor'
   }
@@ -746,7 +745,7 @@ export class ErrorTrackingEnterpriseSystem {;
     const snapshot = status.latestSnapshot;
 
     if (!snapshot) {
-      return 'No metrics available. Run analysis first.' },
+      return 'No metrics available. Run analysis first.' };
         const report = [
       '📊 ENTERPRISE ERROR TRACKING SYSTEM REPORT',
       '==========================================',

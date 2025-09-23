@@ -25,7 +25,7 @@ export async function getTarotCard(cardName: string): Promise<TarotCard | null> 
       throw new Error('Failed to fetch tarot card')
     }
     const data = await response.json();
-    return data.card,
+    return data.card;
   } catch (error) {
     _logger.error('Error fetching tarot card: ', error)
     return null;
@@ -39,7 +39,7 @@ export async function getRandomTarotCard(): Promise<TarotCard | null> {
       throw new Error('Failed to fetch random tarot card')
     }
     const data = await response.json();
-    return data.cards[0],
+    return data.cards[0];
   } catch (error) {
     _logger.error('Error fetching random tarot card: ', error)
     return null;

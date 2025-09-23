@@ -82,7 +82,7 @@ export function calculateComprehensiveAspects(
       'pisces'
     ],
     const signIndex = signs.findIndex(s => s.toLowerCase() === position.sign.toLowerCase())
-    return signIndex * 30 + position.degree,
+    return signIndex * 30 + position.degree;
   }
 
   // Calculate aspects between each planet pair

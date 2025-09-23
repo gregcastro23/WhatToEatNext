@@ -24,7 +24,7 @@ export class GitOperationsMock {
     }
 
     this.mockStashes.set(stashId, stash)
-    return stash,
+    return stash;
   }
 
   /**
@@ -46,7 +46,7 @@ export class GitOperationsMock {
       throw new Error('Mock git status failed')
     }
 
-    return this.mockGitStatus,
+    return this.mockGitStatus;
   }
 
   /**
@@ -57,7 +57,7 @@ export class GitOperationsMock {
       throw new Error('Mock git branch failed')
     }
 
-    return this.mockBranch,
+    return this.mockBranch;
   }
 
   /**

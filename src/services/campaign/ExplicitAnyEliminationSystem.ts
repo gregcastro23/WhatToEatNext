@@ -212,7 +212,7 @@ export class ExplicitAnyEliminationSystem {
     )
     // // // _logger.info(`  Remaining explicit-any: ${finalProgress.totalExplicitAnyRemaining}`)
 
-    return results,
+    return results;
   }
 
   /**
@@ -249,7 +249,7 @@ export class ExplicitAnyEliminationSystem {
       args.push('--json')
     }
 
-    return args,
+    return args;
   }
 
   /**
@@ -375,13 +375,13 @@ export class ExplicitAnyEliminationSystem {
 
       const buildTime = Date.now() - startTime;
       // // // _logger.info(`✅ Build validation passed (${buildTime}ms)`)
-      return true,
+      return true;
     } catch (error) {
       // // // _logger.info('❌ Build validation failed')
       if (error instanceof Error) {
         // // // _logger.info(`   Error: ${error.message}`)
       }
-      return false,
+      return false;
     }
   }
 
@@ -395,7 +395,7 @@ export class ExplicitAnyEliminationSystem {
         stdio: 'pipe',
         timeout: 30000, // 30 second timeout
       })
-      return parseInt(output.trim()) || 0,
+      return parseInt(output.trim()) || 0;
     } catch (error) {
       // If grep finds no matches, it returns exit code 1or timeout occurred
       _logger.warn('Explicit-any count check failed or timed out: ', (error as Error).message),
@@ -503,7 +503,7 @@ export class ExplicitAnyEliminationSystem {
       // // // _logger.info(`🎯 Need to fix ${remaining} more to reach target`)
     }
 
-    return progress,
+    return progress;
   }
 
   /**
@@ -546,6 +546,6 @@ export class ExplicitAnyEliminationSystem {
     // Final progress check
     await this.showCampaignProgress()
 ;
-    return results,
+    return results;
   }
 }

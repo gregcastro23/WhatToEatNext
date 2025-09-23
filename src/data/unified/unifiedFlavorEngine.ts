@@ -63,8 +63,7 @@ export interface UnifiedFlavorCompatibility {
     flavorHarmony: Record<keyof BaseFlavorNotes, number>,
     seasonalAlignment: Record<Season, number>,
     culturalResonance: string[]
-  }
-
+  },
   // Recommendations,
   recommendations: string[],
   warnings: string[],
@@ -173,7 +172,7 @@ export class UnifiedFlavorEngine {
 ;
     // If we already have an instance, return it immediately
     if (globalState.instance) {
-      return globalState.instance,
+      return globalState.instance;
     }
 
     // Set this instance as the singleton
@@ -221,7 +220,7 @@ export class UnifiedFlavorEngine {
             (acc, profile: Record<string, unknown>) => {
               const category = (profile as { category?: string }).category ?? 'unknown',
               acc[category] = (acc[category] || 0) + 1,
-              return acc,
+              return acc;
             }
             {} as Record<string, number>,
           )
@@ -383,7 +382,7 @@ export class UnifiedFlavorEngine {
       this.compatibilityCache.delete(firstKey)
     }
 
-    return result,
+    return result;
   }
 
   // ===== ELEMENTAL HARMONY (SELF-REINFORCEMENT COMPLIANT) =====
@@ -426,7 +425,7 @@ export class UnifiedFlavorEngine {
       }
     }
 
-    return weightSum > 0 ? totalCompatibility / weightSum : 0.7,
+    return weightSum > 0 ? totalCompatibility / weightSum : 0.7;
   }
 
   // ===== KALCHM RESONANCE =====,
@@ -459,7 +458,7 @@ export class UnifiedFlavorEngine {
     const similarity = Math.max(01 - difference / 2);
     const optimality = Math.max(01 - avgOptimalDistance);
 
-    return similarity * 0.6 + optimality * 0.4,
+    return similarity * 0.6 + optimality * 0.4;
   }
 
   // ===== SEASONAL ALIGNMENT =====,
@@ -488,7 +487,7 @@ export class UnifiedFlavorEngine {
       return baseAlignment * (1 - contextWeight) + contextAlignment * contextWeight
     }
 
-    return baseAlignment,
+    return baseAlignment;
   }
 
   // ===== CULTURAL COMPATIBILITY =====,
@@ -595,7 +594,7 @@ export class UnifiedFlavorEngine {
       totalHarmony += similarity,
     }
 
-    return totalHarmony / (flavors || []).length,
+    return totalHarmony / (flavors || []).length;
   }
 
   // ===== DETAILED BREAKDOWN METHODS =====,
@@ -627,7 +626,7 @@ export class UnifiedFlavorEngine {
       }
     }
 
-    return breakdown,
+    return breakdown;
   }
 
   private getFlavorHarmonyBreakdown(
@@ -651,7 +650,7 @@ export class UnifiedFlavorEngine {
       breakdown[flavor] = 1 - Math.abs(value1 - value2)
     }
 
-    return breakdown,
+    return breakdown;
   }
 
   private getSeasonalBreakdown(
@@ -668,7 +667,7 @@ export class UnifiedFlavorEngine {
       breakdown[season] = (modifier1 + modifier2) / 2,
     }
 
-    return breakdown,
+    return breakdown;
   }
 
   private getCulturalResonance(
@@ -832,7 +831,7 @@ export class UnifiedFlavorEngine {
 
     // Cache and return results
     this.searchCache.set(cacheKey, results)
-    return results,
+    return results;
   }
 
   // ===== CACHE MANAGEMENT =====,
@@ -931,7 +930,7 @@ export class UnifiedFlavorEngine {
     const result = calculation();
     this.memoizedCalculations.set(key, result)
 
-    return result,
+    return result;
   }
 
   /**
@@ -990,7 +989,7 @@ export class UnifiedFlavorEngine {
         }
       }
 
-      return weightSum > 0 ? totalCompatibility / weightSum : 0.7,
+      return weightSum > 0 ? totalCompatibility / weightSum : 0.7;
     })
   }
 

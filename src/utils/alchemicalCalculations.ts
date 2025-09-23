@@ -152,7 +152,7 @@ export function calculatePlanetaryAlchemicalValues(_positions: PlanetaryPosition
     }
   }
 
-  return alchemicalValues,
+  return alchemicalValues;
 }
 
 // Calculate elemental balance based on planetary positions
@@ -214,7 +214,7 @@ export function calculateElementalBalance(_positions: PlanetaryPositionsType) {
     }
   }
 
-  return elements,
+  return elements;
 }
 
 // Interface for alchemical result

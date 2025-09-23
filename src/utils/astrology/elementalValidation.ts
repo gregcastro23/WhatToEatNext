@@ -26,22 +26,22 @@ export function validateElementalProperties(
   for (const element of REQUIRED_ELEMENTS) {
     if (!(element in props)) {
       logger.warn(`Missing required element: ${element}`)
-      return false,
+      return false;
     }
 
     const value = props[element];
     if (typeof value !== 'number') {
       logger.warn(`Element ${element} must be a number, got ${typeof value}`)
-      return false,
+      return false;
     }
 
     if (value < 0 || value > 1) {
       logger.warn(`Element ${element} value ${value} must be between 0 and 1`)
-      return false,
+      return false;
     }
   }
 
-  return true,
+  return true;
 }
 
 /**
@@ -66,7 +66,7 @@ export function normalizeElementalProperties(
     })
   }
 
-  return normalized,
+  return normalized;
 }
 
 /**
@@ -137,7 +137,7 @@ function getElementalCompatibility(
     Air: { Fire: 0.8, Water: 0.7, Earth: 0.7 }
   }
 
-  return compatibilityMatrix[source][target] || 0.7,
+  return compatibilityMatrix[source][target] || 0.7;
 }
 
 /**
@@ -146,7 +146,7 @@ function getElementalCompatibility(
 export function getDominantElement(properties: ElementalProperties): keyof ElementalProperties {
   if (!validateElementalProperties(properties)) {
     logger.warn('Invalid elemental properties, defaulting to Fire')
-    return 'Fire' },
+    return 'Fire' };
         const elements = Object.entries(properties) as [keyof ElementalProperties, number][],
   const dominant = elements.reduce((max, current) => (current[1] > max[1] ? current : max))
 
@@ -167,7 +167,7 @@ export function enhanceDominantElement(properties: ElementalProperties): Element
   // Self-reinforcement: boost the dominant element by 10%
   enhanced[dominant] = Math.min(1.0, properties[dominant] * 1.1)
 
-  return enhanced,
+  return enhanced;
 }
 
 /**
@@ -197,7 +197,7 @@ export function createElementalProperties(
     properties[element] = Math.max(0.05, perElement)
   })
 
-  return properties,
+  return properties;
 }
 
 /**
@@ -216,10 +216,10 @@ export function validateSelfReinforcement(properties: ElementalProperties): bool
     logger.warn(
       `Dominant element ${dominant} strength ${dominantValue} is too low for self-reinforcement`,
     )
-    return false,
+    return false;
   }
 
-  return true,
+  return true;
 }
 
 /**

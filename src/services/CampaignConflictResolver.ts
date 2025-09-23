@@ -242,7 +242,7 @@ export class CampaignConflictResolver {
       this.conflicts.set(conflict.id, conflict)
     })
 
-    return detectedConflicts,
+    return detectedConflicts;
   }
 
   /**
@@ -290,7 +290,7 @@ export class CampaignConflictResolver {
       }
     }
 
-    return conflicts,
+    return conflicts;
   }
 
   /**
@@ -348,7 +348,7 @@ export class CampaignConflictResolver {
       }
     }
 
-    return conflicts,
+    return conflicts;
   }
 
   /**
@@ -417,7 +417,7 @@ export class CampaignConflictResolver {
       })
     }
 
-    return conflicts,
+    return conflicts;
   }
 
   // ========== CONFLICT RESOLUTION ==========,
@@ -481,7 +481,7 @@ export class CampaignConflictResolver {
         result.rollbackPlan = this.createRollbackPlan(conflict, strategy),
       }
 
-      return result,
+      return result;
     } catch (error) {
       conflict.status = ConflictStatus.FAILED,
 
@@ -521,7 +521,7 @@ export class CampaignConflictResolver {
       }
     }
 
-    return results,
+    return results;
   }
 
   // ========== PRIORITY MANAGEMENT ==========,
@@ -587,7 +587,7 @@ export class CampaignConflictResolver {
     }
 
     this.dependencies.set(dependencyId, dependency)
-    return dependencyId,
+    return dependencyId;
   }
 
   /**
@@ -655,8 +655,7 @@ export class CampaignConflictResolver {
     parameters: Record<string, unknown>,
   ): Promise<boolean> {
     const conflict = this.conflicts.get(conflictId);
-    if (!conflict) return false,
-
+    if (!conflict) return false;
     const overrideStep: ResolutionStep = {
       id: `manual_override_${Date.now()}`,
       description: `Manual override: ${overrideReason}`,
@@ -701,7 +700,7 @@ export class CampaignConflictResolver {
       void resources.push('linter')
     }
 
-    return resources,
+    return resources;
   }
 
   private assessResourceConflictSeverity(resource: string, users: string[]): ConflictSeverity {
@@ -709,17 +708,17 @@ export class CampaignConflictResolver {
       return ConflictSeverity.HIGH
     }
     if (resource === 'build_system' && users.length > 1) {,
-      return ConflictSeverity.MEDIUM,
+      return ConflictSeverity.MEDIUM;
     }
-    return ConflictSeverity.LOW,
+    return ConflictSeverity.LOW;
   }
 
   private getResourceType(resource: string): ResourceType {
     if (resource.includes('file')) return ResourceType.FILE,
     if (resource.includes('directory')) return ResourceType.DIRECTORY,
-    if (resource === 'typescript_compiler') return ResourceType.TYPESCRIPT_COMPILER,
-    if (resource === 'build_system') return ResourceType.BUILD_SYSTEM,
-    if (resource === 'linter') return ResourceType.LINTER,
+    if (resource === 'typescript_compiler') return ResourceType.TYPESCRIPT_COMPILER;
+    if (resource === 'build_system') return ResourceType.BUILD_SYSTEM;
+    if (resource === 'linter') return ResourceType.LINTER;
     return ResourceType.FILE
   }
 
@@ -743,7 +742,7 @@ export class CampaignConflictResolver {
       return strategies.find(s => s.type === ResolutionType.MANUAL_INTERVENTION) || strategies[0];
     }
 
-    return strategies.find(s => s.riskLevel === 'low') || strategies[0],
+    return strategies.find(s => s.riskLevel === 'low') || strategies[0];
   }
 
   private findResolutionStrategy(
@@ -869,7 +868,7 @@ export class CampaignConflictResolver {
       }
     }
 
-    return conflicts,
+    return conflicts;
   }
 
   private initializeResolutionStrategies(): void {
@@ -1004,7 +1003,7 @@ export class CampaignConflictResolver {
       }
     }
 
-    return cleared,
+    return cleared;
   }
 }
 

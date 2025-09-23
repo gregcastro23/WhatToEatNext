@@ -408,8 +408,7 @@ export const _TAROT_SUIT_ALCHEMICAL_MAPPING: Record<string, Record<AlchemicalPro
  */
 export function getCookingMethodPillar(cookingMethod: string): AlchemicalPillar | undefined {
   const pillerId = COOKING_METHOD_PILLAR_MAPPING[cookingMethod.toLowerCase()];
-  if (!pillerId) return undefined,
-
+  if (!pillerId) return undefined;
   return ALCHEMICAL_PILLARS.find(pillar => pillar.id === pillerId);
 }
 
@@ -446,8 +445,7 @@ export function getCookingMethodThermodynamics(_cookingMethod: string): {
   const primaryProps = ELEMENTAL_THERMODYNAMIC_PROPERTIES[primaryElement];
 
   // If no secondary element, return primary properties
-  if (!secondaryElement) return primaryProps,
-
+  if (!secondaryElement) return primaryProps;
   // If secondary element exists, blend properties (70% primary, 30% secondary)
   const secondaryProps = ELEMENTAL_THERMODYNAMIC_PROPERTIES[secondaryElement];
   return {
@@ -1087,30 +1085,26 @@ export interface EnhancedCookingMethod {;
   Essence: number,
     Matter: number,
   Substance: number
-  }
-
+  },
   // Thermodynamic properties
   thermodynamics: {
     heat: number,
   entropy: number,
     reactivity: number
-  }
-
+  },
   // Elemental influences
   elementalInfluence: {
     Fire: number,
   Water: number,
     Earth: number,
   Air: number
-  }
-
+  },
   // Monica compatibility metrics
   monicaCompatibility: {
     score: number,
   factors: string[],
     enhancedProperties: string[]
-  }
-
+  },
   // Additional properties,
   techniques: string[],
   equipment: string[],
@@ -1217,7 +1211,7 @@ export function calculatePillarKalchm(effects: Record<AlchemicalProperty, _numbe
   const numerator = Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)
   const denominator = Math.pow(Matter, Matter) * Math.pow(Substance, Substance)
 
-  return numerator / denominator,
+  return numerator / denominator;
 }
 
 /**
@@ -1269,14 +1263,14 @@ export function calculatePillarMonica(
  */
 export function determinePillarMonicaClassification(monica: number, kalchm: number): string {
   if (isNaN(monica)) {
-    return kalchm > 1.0 ? 'Spirit-Dominant Pillar' : 'Matter-Dominant Pillar' },
+    return kalchm > 1.0 ? 'Spirit-Dominant Pillar' : 'Matter-Dominant Pillar' };
         if (Math.abs(monica) > 2.0) {
-    return 'Highly Volatile Pillar' },
+    return 'Highly Volatile Pillar' };
         if (Math.abs(monica) > 1.0) {
-    return 'Transformative Pillar' },
+    return 'Transformative Pillar' };
         if (Math.abs(monica) > 0.5) {
-    return 'Balanced Pillar' },
-        return 'Stable Pillar',
+    return 'Balanced Pillar' };
+        return 'Stable Pillar';
 }
 
 /**
@@ -1565,5 +1559,5 @@ export function findCookingMethodsByMonicaRange(minMonica: number, maxMonica: nu
     }
   }
 
-  return methods,
+  return methods;
 }

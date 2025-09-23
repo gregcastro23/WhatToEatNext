@@ -97,7 +97,7 @@ export class TypeScriptErrorAnalyzer {
       })
 
       // If no errors, return empty array
-      return [],
+      return [];
     } catch (error: unknown) {
       const output = error.stdout || error.stderr || '';
       return this.parseErrorsFromOutput(output)
@@ -136,7 +136,7 @@ export class TypeScriptErrorAnalyzer {
     }
 
     // // // _logger.info(`📊 Found ${errors.length} TypeScript errors`)
-    return errors,
+    return errors;
   }
 
   /**
@@ -145,15 +145,15 @@ export class TypeScriptErrorAnalyzer {
   private categorizeError(code: string): ErrorCategory {
     switch (code) {
       case 'TS2352':
-        return ErrorCategory.TS2352_TYPE_CONVERSION,
+        return ErrorCategory.TS2352_TYPE_CONVERSION;
       case 'TS2345':
-        return ErrorCategory.TS2345_ARGUMENT_MISMATCH,
+        return ErrorCategory.TS2345_ARGUMENT_MISMATCH;
       case 'TS2698':
-        return ErrorCategory.TS2698_SPREAD_TYPE,
+        return ErrorCategory.TS2698_SPREAD_TYPE;
       case 'TS2304':
-        return ErrorCategory.TS2304_CANNOT_FIND_NAME,
+        return ErrorCategory.TS2304_CANNOT_FIND_NAME;
       case 'TS2362':
-        return ErrorCategory.TS2362_ARITHMETIC_OPERATION,
+        return ErrorCategory.TS2362_ARITHMETIC_OPERATION;
       default: return ErrorCategory.OTHER
     }
   }
@@ -188,7 +188,7 @@ export class TypeScriptErrorAnalyzer {
     if (message.includes('Conversion of type')) priority += 8; // TS2352 specific
     if (message.includes('Argument of type')) priority += 6; // TS2345 specific
 
-    return priority,
+    return priority;
   }
 
   /**
@@ -202,11 +202,11 @@ export class TypeScriptErrorAnalyzer {
 
     // Medium severity - type safety issues but not build-breaking
     if (this.MEDIUM_PRIORITY_ERRORS.includes(code)) {
-      return ErrorSeverity.MEDIUM,
+      return ErrorSeverity.MEDIUM;
     }
 
     // Low severity - style or minor issues
-    return ErrorSeverity.LOW,
+    return ErrorSeverity.LOW;
   }
 
   /**
@@ -408,7 +408,7 @@ export class TypeScriptErrorAnalyzer {
         stdio: 'pipe',
         timeout: 30000, // 30 second timeout
       })
-      return parseInt(output.trim()) || 0,
+      return parseInt(output.trim()) || 0;
     } catch (error) {
       // If grep finds no matches, it returns exit code 1or timeout occurred
       _logger.warn('TypeScript error count check failed or timed out: ', (error as Error).message),

@@ -69,7 +69,7 @@ describe('ServiceIntegrationValidator', () => {
             }
           `,
         }
-        return 'export default Service;',
+        return 'export default Service;';
       })
 
       // Mock successful lint and build

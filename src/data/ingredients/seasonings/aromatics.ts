@@ -41,8 +41,7 @@ const rawAromatics = {
       duration: '1-2 months',
       notes: 'Keep away from potatoes'
 }
-  }
-
+  },
   garlic: {
     name: 'Garlic',
     elementalProperties: { Fire: 0.6, Earth: 0.3, Air: 0.1, Water: 0 },
@@ -82,8 +81,7 @@ const rawAromatics = {
       duration: '3-6 months',
       notes: 'Do not refrigerate whole heads'
 }
-  }
-
+  },
   ginger: {
     name: 'Ginger',
     elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0 },
@@ -140,8 +138,7 @@ const rawAromatics = {
       duration: 'fresh: 3 weeks, frozen: 6 months',
       notes: 'Can be frozen whole or grated'
 }
-  }
-
+  },
   lemongrass: {
     name: 'Lemongrass',
     elementalProperties: { Air: 0.5, Water: 0.3, Fire: 0.2, Earth: 0 },
@@ -185,8 +182,7 @@ const rawAromatics = {
       duration: '2-3 weeks fresh6 months frozen',
       notes: 'Can be frozen whole or chopped'
 }
-  }
-
+  },
   shallot: {
     name: 'Shallot',
     elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
@@ -220,8 +216,7 @@ const rawAromatics = {
       duration: '1 month',
       notes: 'Similar to onions'
 }
-  }
-
+  },
   scallion: {
     name: 'Scallion',
     elementalProperties: { Air: 0.4, Water: 0.3, Earth: 0.2, Fire: 0.1 },
@@ -255,8 +250,7 @@ const rawAromatics = {
       duration: '1-2 weeks',
       notes: 'Can be regrown in water from roots'
 }
-  }
-
+  },
   saffron: {
     name: 'Saffron',
     elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0 },

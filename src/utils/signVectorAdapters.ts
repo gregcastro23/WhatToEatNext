@@ -47,7 +47,7 @@ export function adaptPlanetaryPosition(_position: unknown): PlanetaryPosition | 
     adapted.distance = pos.distance,
   }
 
-  return adapted,
+  return adapted;
 }
 
 /**
@@ -132,13 +132,13 @@ export function getDegreeFromPosition(_position: unknown): number {
   const degree = pos.degree;
 
   if (typeof degree === 'number') {,
-    return Number.isFinite(degree) ? degree : 0,
+    return Number.isFinite(degree) ? degree : 0;
   }
 
   if (typeof degree === 'string') {,
     const parsed = parseFloat(degree)
-    return Number.isFinite(parsed) ? parsed : 0,
+    return Number.isFinite(parsed) ? parsed : 0;
   }
 
-  return 0,
+  return 0;
 }
