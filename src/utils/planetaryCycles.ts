@@ -78,7 +78,7 @@ export const planetaryCycles = {
  * Defines how each planet affects elemental and token energies
  * Values represent percentage modifications to base values
  */
-export const _planetaryModifiers: Record<string, Record<string, number>> = {
+export const planetaryModifiers: Record<string, Record<string, number>> = {
   _Sun: {
     Fire: 0.3,
     Water: -0.1,

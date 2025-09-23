@@ -1,8 +1,8 @@
-import {LunarPhase} from './alchemy';
+import { LunarPhase } from './alchemy';
 import {
-  validateRecipe as validateAlchemyRecipe,
-  validateIngredient as validateAlchemyIngredient,
-  validateElementalProperties as validateAlchemyElementalProps
+    validateElementalProperties as validateAlchemyElementalProps,
+    validateIngredient as validateAlchemyIngredient,
+    validateRecipe as validateAlchemyRecipe
 } from './validators';
 
 // Primary elemental properties interface - used throughout the application
@@ -542,3 +542,30 @@ export interface RecipeFilters {
 // Export aliases for compatibility
 export type Ingredient = ingredient; // Capitalized version
 export type RecipeData = RecipeDetail; // Alias for compatibility
+
+export type RecipeIdentifier = string;
+export type RecipeSeason = Season | string;
+
+export interface RecipeNutrition {
+  calories?: number;
+  protein?: number;
+  carbs?: number;
+  fat?: number;
+  vitamins?: string[];
+  minerals?: string[];
+  macronutrients?: {
+    protein?: number;
+    carbs?: number;
+    fat?: number;
+  };
+  micronutrients?: {
+    vitamins?: Record<string, number>;
+    minerals?: Record<string, number>;
+  };
+}
+
+export interface RecipePlanetaryInfluences {
+  _favorable: string[];
+  unfavorable: string[];
+  neutral?: string[];
+}

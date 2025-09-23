@@ -23,26 +23,29 @@ export interface SignVectorComponents {
   seasonal: number
 }
 
-export type SignDirection = 'cardinal' | 'fixed' | 'mutable'
+export type SignDirection = 'cardinal' | 'fixed' | 'mutable';
+
 export interface SignVector {
   sign: any,
-  _magnitude: number, // 0-1: intensity of sign expression at the moment,
-  direction: SignDirection; // dominant modality expression,
+  _magnitude: number, // 0-1: intensity of sign expression at the moment
+  direction: SignDirection; // dominant modality expression
   components: SignVectorComponents // multi-dimensional breakdown
 }
 
 export interface SignVectorCalculationInput {
-  planetaryPositions: Record<string, PlanetaryPosition>,
-  aspects?: PlanetaryAspect[],
+  planetaryPositions: Record<string, PlanetaryPosition>;
+  aspects?: PlanetaryAspect[];
   season?: Season
 }
 
-export type SignVectorMap = Record<ZodiacSign, SignVector>,
+export type SignVectorMap = Record<ZodiacSign, SignVector>;
 
 export interface SignVectorCompatibilityResult {
-  similarity: number // 0-1 cosine similarity across components,
-  dominantSharedAxis: 'modality' | 'elemental' | 'seasonal' | 'none' },
-        export function signVectorComponentsToArray(components: SignVectorComponents): number[] {
+  similarity: number // 0-1 cosine similarity across components
+  dominantSharedAxis: 'modality' | 'elemental' | 'seasonal' | 'none'
+}
+
+export function signVectorComponentsToArray(components: SignVectorComponents): number[] {
   return [
     components.cardinal,
     components.fixed,
@@ -52,5 +55,5 @@ export interface SignVectorCompatibilityResult {
     components.Earth,
     components.Air,
     components.seasonal
-  ],
+  ];
 }
