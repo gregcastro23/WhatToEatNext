@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useServices } from '@/hooks/useServices';
 
 // Inline temporary fallbacks for missing shared components
-const CookingMethodsSection = ({;
+const CookingMethodsSection = ({
   methods,
   onSelectMethod,
   selectedMethodId,
@@ -22,7 +22,7 @@ const CookingMethodsSection = ({;
     {methods.map(m => {
       const method = m as any
       return (
-        <button;
+        <button
           key={String(method.id)}
           onClick={() => onSelectMethod(m)}
           className={`w-full rounded border p-3 text-left ${selectedMethodId === method.id ? 'bg-blue-50' : 'bg-white'}`}
@@ -42,13 +42,13 @@ export { CookingMethodsSection };
 
 // Sample cooking methods for testing
 const sampleMethods = [
-  {;
+  {
     id: 'grilling',
     name: 'Grilling',
     description: 'Cooking food over direct heat, usually on a grill with Fire or charcoal beneath.',
     score: 0.85,
     culturalOrigin: 'Global',
-    elementalEffect: { Fire: 0.85, Water: 0.15, Earth: 0.4, Air: 0.6 }
+    elementalEffect: { Fire: 0.85, Water: 0.15, Earth: 0.4, Air: 0.6 },
     duration: {
       min: 10,
       max: 30
@@ -66,7 +66,7 @@ const sampleMethods = [
         name: 'Charcoal Grilling',
         description: 'Grilling with charcoal for a smoky flavor.',
         elementalEffect: { Fire: 0.9, Water: 0.1, Earth: 0.5, Air: 0.5 }
-      }
+      },
       {
         id: 'gas-grilling',
         name: 'Gas Grilling',
@@ -74,14 +74,14 @@ const sampleMethods = [
         elementalEffect: { Fire: 0.75, Water: 0.15, Earth: 0.3, Air: 0.7 }
       }
     ]
-  }
+  },
   {
     id: 'boiling',
     name: 'Boiling',
     description: 'Cooking food in Water heated to its boiling point.',
     score: 0.7,
     culturalOrigin: 'Global',
-    elementalEffect: { Fire: 0.4, Water: 0.9, Earth: 0.2, Air: 0.3 }
+    elementalEffect: { Fire: 0.4, Water: 0.9, Earth: 0.2, Air: 0.3 },
     duration: {
       min: 5,
       max: 45
@@ -93,7 +93,7 @@ const sampleMethods = [
       Matter: 0.5,
       Substance: 0.2
     }
-  }
+  },
   {
     id: 'baking',
     name: 'Baking',
@@ -101,6 +101,7 @@ const sampleMethods = [
     score: 0.75,
     culturalOrigin: 'Global',
     elementalEffect: { Fire: 0.7, Water: 0.3, Earth: 0.7, Air: 0.6 }
+    ,
     duration: {
       min: 20,
       max: 120
@@ -120,7 +121,7 @@ const sampleMethods = [
         elementalEffect: { Fire: 0.8, Water: 0.2, Earth: 0.6, Air: 0.6 }
       }
     ]
-  }
+  },
   {
     id: 'steaming',
     name: 'Steaming',
@@ -128,6 +129,7 @@ const sampleMethods = [
     score: 0.65,
     culturalOrigin: 'Asian',
     elementalEffect: { Fire: 0.3, Water: 0.8, Earth: 0.2, Air: 0.7 }
+    ,
     duration: {
       min: 5,
       max: 30
@@ -152,7 +154,7 @@ export default function CookingMethodsSectionTestPage() {
   // Get services
   useServices()
 
-  const handleSelectMethod = (method: unknown) => {;
+  const handleSelectMethod = (method: unknown) => {
     const methodObj = method as any;
     setSelectedMethodId(String(methodObj.id))
   }
@@ -160,29 +162,28 @@ export default function CookingMethodsSectionTestPage() {
   return (
     <div className='mx-auto max-w-6xl px-4 py-8'>
       <h1 className='mb-8 text-2xl font-bold'>CookingMethodsSection Component Migration Test</h1>
-;
       {/* Controls */}
       <div className='mb-8 rounded-lg bg-gray-50 p-4'>
         <h2 className='mb-3 text-lg font-semibold'>Component Controls</h2>
         <div className='flex flex-wrap gap-4'>
           <div>
             <label className='flex items-center gap-2'>
-              <input;
-                type='checkbox',
+              <input
+                type='checkbox'
                 checked={showToggle}
                 onChange={e => setShowToggle(e.target.checked)}
-                className='rounded',
+                className='rounded'
               />
               <span>Show Toggle</span>
             </label>
           </div>
           <div>
             <label className='flex items-center gap-2'>
-              <input;
-                type='checkbox',
+              <input
+                type='checkbox'
                 checked={initiallyExpanded}
                 onChange={e => setInitiallyExpanded(e.target.checked)}
-                className='rounded',
+                className='rounded'
               />
               <span>Initially Expanded</span>
             </label>
@@ -190,7 +191,7 @@ export default function CookingMethodsSectionTestPage() {
           <div>
             <button
               onClick={() => setSelectedMethodId(null)}
-              className='rounded bg-blue-50 px-3 py-1 text-blue-700, hover: bg-blue-100',
+              className='rounded bg-blue-50 px-3 py-1 text-blue-700 hover:bg-blue-100'
             >
               Clear Selection
             </button>
@@ -199,7 +200,7 @@ export default function CookingMethodsSectionTestPage() {
 
         {selectedMethodId && (
           <div className='mt-3 rounded-lg bg-blue-50 p-3'>
-            <p className='text-sm text-blue-800'>;
+            <p className='text-sm text-blue-800'>
               Selected Method: {' '}
               <strong>
                 {methods.find(m => m.id === selectedMethodId)?.name || selectedMethodId}
@@ -210,12 +211,12 @@ export default function CookingMethodsSectionTestPage() {
       </div>
 
       {/* Comparison */}
-      <div className='grid grid-cols-1 gap-8'>;
+      <div className='grid grid-cols-1 gap-8'>
         {/* Original Implementation */}
         <div className='rounded-lg border p-6 shadow-md'>
           <h2 className='mb-4 text-xl font-semibold'>🔄 Original Implementation</h2>
           <div className='rounded-lg bg-white'>
-            <CookingMethodsSection;
+            <CookingMethodsSection
               methods={methods}
               onSelectMethod={handleSelectMethod}
               selectedMethodId={selectedMethodId}
@@ -229,7 +230,7 @@ export default function CookingMethodsSectionTestPage() {
         <div className='rounded-lg border p-6 shadow-md'>
           <h2 className='mb-4 text-xl font-semibold'>✨ Migrated Implementation</h2>
           <div className='rounded-lg bg-white'>
-            <CookingMethodsSectionMigrated;
+            <CookingMethodsSectionMigrated
               methods={methods}
               onSelectMethod={handleSelectMethod}
               selectedMethodId={selectedMethodId}

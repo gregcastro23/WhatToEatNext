@@ -8,14 +8,14 @@
 import LivePlanetaryTracker from '@/components/LivePlanetaryTracker';
 import { Metadata } from 'next';
 
-export const metadata: Metadata = {;
+export const metadata: Metadata = {
   title: 'Live Planetary Tracking | alchm.kitchen',
   description: 'Experience real-time planetary hour tracking with live WebSocket updates. Phase 26 advanced features.',
 }
 
 export default function LivePlanetaryDemoPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">;
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
       {/* Page Header */}
       <div className="container mx-auto px-4 py-8">
         <div className="text-center mb-8">
@@ -23,14 +23,13 @@ export default function LivePlanetaryDemoPage() {
             🌟 Live Planetary Tracking
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Experience real-time planetary hour tracking with our advanced WebSocket integration.;
+            Experience real-time planetary hour tracking with our advanced WebSocket integration.
             Watch as planetary influences update live, providing optimal cooking guidance based on celestial energies.
           </p>
           <div className="mt-4 inline-flex items-center px-4 py-2 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">
             ⚡ Phase 26: Advanced Real-Time Features
           </div>
         </div>
-;
         {/* Live Planetary Tracker Component */}
         <LivePlanetaryTracker />
 
@@ -40,7 +39,7 @@ export default function LivePlanetaryDemoPage() {
             🚀 Phase 26 Advanced Features
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">;
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Real-Time Updates */}
             <div className="bg-white rounded-xl shadow-lg p-6">
               <div className="text-3xl mb-4">🔄</div>
@@ -50,7 +49,6 @@ export default function LivePlanetaryDemoPage() {
                 without page refresh.
               </p>
             </div>
-;
             {/* Mobile Optimized */}
             <div className="bg-white rounded-xl shadow-lg p-6">
               <div className="text-3xl mb-4">📱</div>
@@ -60,7 +58,6 @@ export default function LivePlanetaryDemoPage() {
                 interactions and adaptive layouts.
               </p>
             </div>
-;
             {/* Performance Enhanced */}
             <div className="bg-white rounded-xl shadow-lg p-6">
               <div className="text-3xl mb-4">⚡</div>
@@ -127,7 +124,7 @@ export default function LivePlanetaryDemoPage() {
 
           <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg">
             <div className="text-sm text-blue-800">
-              <strong>Phase 26 Achievement:</strong> Real-time planetary tracking with production WebSocket;
+              <strong>Phase 26 Achievement:</strong> Real-time planetary tracking with production WebSocket
               infrastructure, demonstrating our enterprise-grade real-time capabilities. This feature
               showcases the 87% computational load reduction achieved through strategic backend migration.
             </div>
@@ -139,7 +136,7 @@ export default function LivePlanetaryDemoPage() {
           <div className="space-x-4">
             <a
               href="/backend-status"
-              className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover: bg-blue-700 transition-colors"
+              className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
               📊 Backend Status
             </a>
@@ -152,5 +149,5 @@ export default function LivePlanetaryDemoPage() {
           </div>
         </div>
       </div>
-    </div>);
+    </div>)
 }

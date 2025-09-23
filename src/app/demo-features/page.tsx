@@ -17,21 +17,21 @@ export default function DemoFeaturesPage() {
   }
 
   return (
-    <div style={{;
+    <div style={{
       minHeight: '100vh',
       backgroundColor: '#f8f9fa',
       padding: '20px'
     }}>
-      <div style={{;
+      <div style={{
         maxWidth: '1200px',
         margin: '0 auto'
       }}>
         {/* Header */}
-        <div style={{;
+        <div style={{
           textAlign: 'center',
           marginBottom: '40px'
         }}>
-          <h1 style={{;
+          <h1 style={{
             fontSize: '32px',
             fontWeight: '700',
             color: '#333',
@@ -39,7 +39,7 @@ export default function DemoFeaturesPage() {
           }}>
             🔮 WhatToEatNext Advanced Features
           </h1>
-          <p style={{;
+          <p style={{
             fontSize: '16px',
             color: '#666',
             margin: 0
@@ -49,7 +49,7 @@ export default function DemoFeaturesPage() {
         </div>
 
         {/* Top Row - Real-time displays */}
-        <div style={{;
+        <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
           gap: '20px',
@@ -60,7 +60,7 @@ export default function DemoFeaturesPage() {
         </div>
 
         {/* Middle Row - Notifications */}
-        <div style={{;
+        <div style={{
           display: 'flex',
           justifyContent: 'center',
           marginBottom: '30px'
@@ -73,7 +73,7 @@ export default function DemoFeaturesPage() {
         </div>
 
         {/* Bottom Row - Recommendation Engine */}
-        <div style={{;
+        <div style={{
           display: 'flex',
           justifyContent: 'center',
           marginBottom: '30px'
@@ -85,7 +85,7 @@ export default function DemoFeaturesPage() {
 
         {/* Selected Recipe Display */}
         {selectedRecipe && (
-          <div style={{;
+          <div style={{
             border: '2px solid #007bff',
             borderRadius: '12px',
             padding: '20px',
@@ -94,7 +94,7 @@ export default function DemoFeaturesPage() {
             margin: '0 auto',
             boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
           }}>
-            <h3 style={{;
+            <h3 style={{
               margin: '0 0 16px 0',
               fontSize: '20px',
               fontWeight: '600',
@@ -103,14 +103,14 @@ export default function DemoFeaturesPage() {
               🍽️ Selected Recipe
             </h3>
             <div>
-              <h4 style={{;
+              <h4 style={{
                 margin: '0 0 8px 0',
                 fontSize: '18px',
                 color: '#333'
               }}>
                 {selectedRecipe.name}
               </h4>
-              <p style={{;
+              <p style={{
                 margin: '0 0 12px 0',
                 fontSize: '14px',
                 color: '#666'
@@ -122,7 +122,7 @@ export default function DemoFeaturesPage() {
                   href={selectedRecipe.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{;
+                  style={{
                     display: 'inline-block',
                     padding: '8px 16px',
                     backgroundColor: '#007bff',
@@ -134,27 +134,28 @@ export default function DemoFeaturesPage() {
                   }}
                 >
                   View Recipe →
-                </a>)}
+                </a>
+              )}
             </div>
           </div>
         )}
 
         {/* Info Section */}
-        <div style={{;
+        <div style={{
           marginTop: '40px',
           padding: '20px',
           backgroundColor: '#e7f3ff',
           borderRadius: '8px',
           border: '1px solid #b8daff'
         }}>
-          <h3 style={{;
+          <h3 style={{
             margin: '0 0 12px 0',
             fontSize: '18px',
             color: '#004085'
           }}>
             🚀 Feature Highlights
           </h3>
-          <ul style={{;
+          <ul style={{
             margin: 0,
             paddingLeft: '20px',
             color: '#004085'
@@ -169,7 +170,7 @@ export default function DemoFeaturesPage() {
         </div>
 
         {/* Development Info */}
-        <div style={{;
+        <div style={{
           marginTop: '20px',
           padding: '16px',
           backgroundColor: '#f8f9fa',
