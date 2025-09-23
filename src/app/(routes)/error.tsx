@@ -6,14 +6,14 @@ import { logger } from '@/utils/logger';
 
 export default function RouteError({
   error,
-  reset
+  reset,
 }: {
-  error: Error & { digest?: string }
-  reset: () => void
+  error: Error & { digest?: string };
+  reset: () => void;
 }) {
   useEffect(() => {
-    logger.error('Route error: ', error)
-  }, [error])
+    logger.error('Route error: ', error);
+  }, [error]);
 
   return (
     <div className='flex min-h-[50vh] flex-col items-center justify-center p-4'>
@@ -27,5 +27,6 @@ export default function RouteError({
           Try again
         </button>
       </div>
-    </div>);
+    </div>
+  );
 }
