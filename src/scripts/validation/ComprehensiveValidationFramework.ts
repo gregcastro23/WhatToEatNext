@@ -62,7 +62,7 @@ export interface ComponentValidationInfo {
   componentName: string,
   hasTests: boolean,
   exportedFunctions: string[],
-  importedDependencies: string[];
+  importedDependencies: string[];,
   propsInterface?: string,
   stateVariables: string[]
 }
@@ -208,7 +208,7 @@ export class ComprehensiveValidationFramework {
           totalExecutionTime: Date.now() - startTime,
           criticalIssues: ['Validation framework failure'],
           recommendations: ['Review validation framework configuration']
-        }
+        },
         requiresRollback: true,
         qualityScore: 0
       }
@@ -555,7 +555,7 @@ export class ComprehensiveValidationFramework {
       // Test Next.js build process (dry run)
       const buildOutput = execSync('yarn next build --dry-run', {
         encoding: 'utf8',
-        timeout: 60000, // 1 minute timeout for build validation
+        timeout: 60000, // 1 minute timeout for build validation,
         stdio: 'pipe'
       })
 

@@ -1,15 +1,15 @@
 // Application configuration
 
 interface ApiConfig {
-  celestialUpdateInterval: number; // milliseconds
-  timeout: number // milliseconds
+  celestialUpdateInterval: number; // milliseconds,
+  timeout: number // milliseconds,
   retryCount: number,
   baseUrl: string
 }
 
 interface AstrologyConfig {
   defaultTimezoneName: string,
-  retrogradeThreshold: number, // planet speed below this value is considered retrograde
+  retrogradeThreshold: number, // planet speed below this value is considered retrograde,
   aspectOrbs: Record<string, number>; // orbs for different aspects in degrees
 }
 
@@ -26,8 +26,8 @@ export const config: AppConfig = {
   debug: isDev,
 
   api: {
-    celestialUpdateInterval: 3600000, // 1 hour in milliseconds
-    timeout: 10000, // 10 seconds
+    celestialUpdateInterval: 3600000, // 1 hour in milliseconds,
+    timeout: 10000, // 10 seconds,
     retryCount: 3,
     baseUrl:
       process.env.API_BASE_URL ||
@@ -36,7 +36,7 @@ export const config: AppConfig = {
 
   astrology: {
     defaultTimezoneName: 'UTC',
-    retrogradeThreshold: 0, // speeds less than 0 indicate retrograde motion
+    retrogradeThreshold: 0, // speeds less than 0 indicate retrograde motion,
     aspectOrbs: {
       conjunction: 8,
       _opposition: 8,

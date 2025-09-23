@@ -22,7 +22,7 @@ export interface Ingredient {
     | string
     | {
         container?: string,
-        duration: string
+        duration: string,
         temperature?:
           | string
           | {

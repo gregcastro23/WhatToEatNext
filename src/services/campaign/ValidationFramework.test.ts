@@ -98,7 +98,7 @@ describe('ValidationFramework', () => {
       // Mock linting warnings present
       mockExecSyncmockReturnValue(`
         warning: @typescript-eslint/no-explicit-any found, warning: no-unused-vars found,
-        warning: no-console found
+        warning: no-console found,
       `),
 
       const result: any = await validationFramework.validatePhase('phase2')

@@ -396,7 +396,7 @@ export const getTarotCardsForDate = (
 
   // Create the minor card object with element
   const minorCard: TarotCard = {
-    name: tarotCard.name
+    name: tarotCard.name,
     suit,
     number,
     keywords: 'keywords' in tarotCard ? tarotCard.keywords : [],
@@ -572,7 +572,7 @@ export const _getTarotFoodRecommendations = (
   const insights = `The ${tarotCards.minorCard.name} suggests a ${element.toLowerCase()} energy today, complemented by ${foodElement.toLowerCase()} foods. ${tarotCards.majorCard.name} adds ${planetaryInfluence} energy, best expressed through ${cookingApproach} cooking.`,
 
   return {
-    dailyCard: tarotCards.minorCard.name, // ← Pattern GG-6: Added dailyCard property with minor card name
+    dailyCard: tarotCards.minorCard.name, // ← Pattern GG-6: Added dailyCard property with minor card name,
     element,
     foodElement,
     recommendedRecipes,
@@ -602,19 +602,19 @@ function getFlavorProfile(_element: string, _foodElement: string): string[] {
       Air: ['aromatic and spicy', 'crispy textures', 'exotic spices'],
       Earth: ['hearty and warm', 'grilled flavors', 'bold seasonings'],
       Fire: ['intense heat', 'bold spices', 'smoky flavors']
-    }
+    },
     Water: {
       Fire: ['sweet and savory', 'caramelized', 'complex flavors'],
       Air: ['light and refreshing', 'herbal notes', 'delicate sauces'],
       Earth: ['rich and creamy', 'subtle herbs', 'nourishing broths'],
       Water: ['subtle sweetness', 'gentle flavors', 'soothing elements']
-    }
+    },
     Earth: {
       Fire: ['robust and hearty', 'slow-cooked', 'deeply satisfying'],
       Air: ['layered flavors', 'mixed textures', 'aromatic herbs'],
       Water: ['umami rich', 'nutritious broths', 'comforting stews'],
       Earth: ['grounding flavors', 'root vegetables', 'earthy herbs']
-    }
+    },
     Air: {
       Fire: ['crispy and light', 'quick cooking', 'bright flavors'],
       Water: ['light and refreshing', 'citrus notes', 'creative pairings'],

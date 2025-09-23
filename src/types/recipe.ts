@@ -18,8 +18,8 @@ export interface ElementalProperties {
 export interface RecipeIngredient {
   id?: string
   name: string,
-  amount: number, // Keep as number for calculations
-  unit: string
+  amount: number, // Keep as number for calculations,
+  unit: string,
   category?: string,
   optional?: boolean,
   preparation?: string,
@@ -59,7 +59,7 @@ export interface Recipe {
   yield?: string
 
   // Elemental properties (required)
-  elementalProperties: ElementalProperties
+  elementalProperties: ElementalProperties,
 
   // Meal and cuisine classification
   mealType?: string | string[]
@@ -293,34 +293,34 @@ export interface RecipeDetail {
   cuisine: string,
 
   // Time & Serving
-  prepTime: string // e.g., '20 minutes'
-  cookTime: string // e.g., '45 minutes'
+  prepTime: string // e.g., '20 minutes',
+  cookTime: string // e.g., '45 minutes',
   totalTime?: string; // Optional calculated total
   restTime?: string; // For recipes that need resting/marinating
-  numberOfServings: number
+  numberOfServings: number,
   yield?: string; // For recipes that produce specific amounts
 
   // Culinary Classifications
-  course: string[] // e.g., ['appetizer', 'main', 'dessert']
-  mealType: string[] // e.g., ['breakfast', 'lunch', 'dinner']
-  dishType: string[] // e.g., ['soup', 'stew', 'salad', 'sandwich']
+  course: string[] // e.g., ['appetizer', 'main', 'dessert'],
+  mealType: string[] // e.g., ['breakfast', 'lunch', 'dinner'],
+  dishType: string[] // e.g., ['soup', 'stew', 'salad', 'sandwich'],
 
   // Technique Details
-  cookingMethod: string[]; // Primary cooking methods used
-  cookingTechniques: string[]; // Specific techniques employed
-  equipmentNeeded: string[]; // Required kitchen equipment
-  skillsRequired: string[] // e.g., 'knife skills', 'sauce making'
+  cookingMethod: string[]; // Primary cooking methods used,
+  cookingTechniques: string[]; // Specific techniques employed,
+  equipmentNeeded: string[]; // Required kitchen equipment,
+  skillsRequired: string[] // e.g., 'knife skills', 'sauce making',
 
   // Ingredients (enhanced)
   ingredients: {
     name: string,
     amount: string,
     unit: string,
-    preparation: string, // e.g., 'finely diced', 'julienned'
-    optional: boolean
+    preparation: string, // e.g., 'finely diced', 'julienned',
+    optional: boolean,
     substitutes?: string[]; // Possible substitutions
     notes?: string; // Special notes about the ingredient
-    category: string // e.g., 'protein', 'vegetable', 'spice'
+    category: string // e.g., 'protein', 'vegetable', 'spice',
     function?: string // Culinary function: 'base', 'seasoning', 'garnish'
     cookingPoint?: string // When to add this ingredient
   }[]
@@ -328,12 +328,12 @@ export interface RecipeDetail {
   // Recipe Structure
   componentParts?: {
     // For complex recipes with multiple elements
-    name: string // e.g., 'sauce', 'filling', 'dough'
-    ingredients: unknown[]; // Ingredients specific to this component
+    name: string // e.g., 'sauce', 'filling', 'dough',
+    ingredients: unknown[]; // Ingredients specific to this component,
     instructions: string[] // Instructions specific to this component
   }[]
 
-  instructions: string[] // Main instructions
+  instructions: string[] // Main instructions,
   instructionSections?: {
     // For recipes with distinct preparation phases
     title: string,
@@ -342,12 +342,12 @@ export interface RecipeDetail {
 
   // Flavor Profile & Culinary Theory
   flavorProfile: {
-    primary: string[]; // Primary flavors
-    accent: string[]; // Accent flavors
-    base: string[]; // Base notes
+    primary: string[]; // Primary flavors,
+    accent: string[]; // Accent flavors,
+    base: string[]; // Base notes,
     tasteBalance: {
       // Assessed proportions of five basic tastes
-      sweet: number // 0-10 scale
+      sweet: number // 0-10 scale,
       salty: number,
       sour: number,
       bitter: number,
@@ -355,12 +355,12 @@ export interface RecipeDetail {
     }
   }
 
-  texturalElements: string[] // e.g., 'crispy', 'creamy', 'chewy'
-  aromatics: string[]; // Key aromatic components
-  colorProfile: string[]; // Dominant colors
+  texturalElements: string[] // e.g., 'crispy', 'creamy', 'chewy',
+  aromatics: string[]; // Key aromatic components,
+  colorProfile: string[]; // Dominant colors,
 
   // Cultural & Historical Context
-  origin: string; // Specific region of origin
+  origin: string; // Specific region of origin,
   history?: string; // Brief history of the dish
   traditionalOccasion?: string[]; // Traditional occasions for serving
   regionalVariations?: string[] // Notable regional variations
@@ -390,7 +390,7 @@ export interface RecipeDetail {
   // Nutrition (expanded)
   nutrition: {
     calories: number,
-    servingSize: string, // Defined serving
+    servingSize: string, // Defined serving,
     macronutrients: {
       protein: number,
       carbs: number,
@@ -418,8 +418,8 @@ export interface RecipeDetail {
   }
 
   // Seasonal & Astrological Information
-  season: string[]; // Seasons when optimal
-  seasonalIngredients: string[] // Ingredients that are seasonal
+  season: string[]; // Seasons when optimal,
+  seasonalIngredients: string[] // Ingredients that are seasonal,
 
   // Enhanced astrological properties
   elementalProperties: {
@@ -433,8 +433,8 @@ export interface RecipeDetail {
   zodiacInfluences: any[],
   lunarPhaseInfluences: LunarPhase[],
   planetaryInfluences: {
-    favorable: string[]; // Planet names that enhance this recipe
-    unfavorable: string[]; // Planet names that diminish this recipe
+    favorable: string[]; // Planet names that enhance this recipe,
+    unfavorable: string[]; // Planet names that diminish this recipe,
     neutral: string[] // Planet names with minimal effect
   }
 
@@ -455,8 +455,8 @@ export interface RecipeDetail {
   }
 
   // Tags & Metadata
-  tags: string[]; // Searchable tags
-  keywords: string[] // SEO keywords
+  tags: string[]; // Searchable tags,
+  keywords: string[] // SEO keywords,
 
   // Timestamp properties
   createdAt?: string
@@ -464,7 +464,7 @@ export interface RecipeDetail {
 }
 
 export interface RecipeProps {
-  recipe: Recipe
+  recipe: Recipe,
   // Add these props to the interface if they're needed
   score?: number
   elements?: ElementalProperties,

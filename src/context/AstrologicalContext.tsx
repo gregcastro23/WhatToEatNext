@@ -31,11 +31,11 @@ interface _ {
 
 // Define the context type
 interface AstrologicalContextType {
-  currentZodiac: string;
-  astrologicalState: AstrologicalState | null;
-  chakraEnergies: ChakraEnergies | null;
-  loading: boolean;
-  error: string | null;
+  currentZodiac: string;,
+  astrologicalState: AstrologicalState | null;,
+  chakraEnergies: ChakraEnergies | null;,
+  loading: boolean;,
+  error: string | null;,
   updateZodiac: (zodiac: string) => void;
 }
 
@@ -98,16 +98,16 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
         currentZodiac: zodiac as unknown,
         sunSign: zodiac as unknown, // Add sunSign property,
         moonSign: zodiac as unknown, // Add moonSign property,
-        planetaryHour: planetaryHour, // Add planetary hour
+        planetaryHour: planetaryHour, // Add planetary hour,
         planetaryPositions: {
           sun: { sign: zodiac, degree: 15 }
           moon: { sign: zodiac, degree: 20 }
-        }
+        },
         lunarPhase: 'full moon' as const,
         currentSeason: 'spring',
         elements: elementalProperties,
         alchemicalValues: alchemicalValues, // Add alchemical values,
-        dominantElement: Object.entries(elementalProperties).reduce((ab) =>
+        dominantElement: Object.entries(elementalProperties).reduce((ab) =>,
           elementalProperties[a[0] as keyof SafeElementalProperties] >
           elementalProperties[b[0] as keyof SafeElementalProperties]
             ? a

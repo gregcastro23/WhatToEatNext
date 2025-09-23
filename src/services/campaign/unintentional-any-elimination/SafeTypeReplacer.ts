@@ -246,8 +246,8 @@ export class SafeTypeReplacer {
           // Check if we can infer a more specific array type
           const inferredType = this.inferArrayElementType(context)
           return match.replace('any[]', `${inferredType}[]`)
-        }
-        validator: (context: ClassificationContext) =>
+        },
+        validator: (context: ClassificationContext) =>,
           context.codeSnippet.includes('any[]') && !this.isInErrorHandlingContext(context),
         priority: 1
       }
@@ -262,8 +262,8 @@ export class SafeTypeReplacer {
             /Record<\s*string\s*,\s*any\s*>/,
             `Record<string, ${inferredValueType}>`,
           )
-        }
-        validator: (context: ClassificationContext) =>
+        },
+        validator: (context: ClassificationContext) =>,
           context.codeSnippet.includes('Record<string, any>') &&
           !this.isInErrorHandlingContext(context) &&
           !this.isDynamicConfigContext(context)
@@ -279,8 +279,8 @@ export class SafeTypeReplacer {
             /Record<\s*number\s*,\s*any\s*>/,
             `Record<number, ${inferredValueType}>`,
           )
-        }
-        validator: (context: ClassificationContext) =>
+        },
+        validator: (context: ClassificationContext) =>,
           context.codeSnippet.includes('Record<number, any>') &&
           !this.isInErrorHandlingContext(context)
         priority: 2
@@ -292,8 +292,8 @@ export class SafeTypeReplacer {
         replacement: (match: string, context: ClassificationContext) => {
           const inferredValueType = this.inferIndexSignatureValueType(context)
           return match.replace('any', inferredValueType)
-        }
-        validator: (context: ClassificationContext) =>
+        },
+        validator: (context: ClassificationContext) =>,
           context.codeSnippet.includes('[key: string]: any') &&
           !this.isInErrorHandlingContext(context)
         priority: 3
@@ -309,8 +309,8 @@ export class SafeTypeReplacer {
             return match.replace('any', inferredType)
           }
           return match.replace('any', 'unknown')
-        }
-        validator: (context: ClassificationContext) =>
+        },
+        validator: (context: ClassificationContext) =>,
           this.isFunctionParameterContext(context) &&
           !this.isInErrorHandlingContext(context) &&
           !this.isEventHandlerContext(context)
@@ -327,8 +327,8 @@ export class SafeTypeReplacer {
             return match.replace('any', inferredType)
           }
           return match.replace('any', 'unknown')
-        }
-        validator: (context: ClassificationContext) =>
+        },
+        validator: (context: ClassificationContext) =>,
           context.codeSnippet.includes('=>') && !this.isInErrorHandlingContext(context)
         priority: 4
       }
@@ -339,8 +339,8 @@ export class SafeTypeReplacer {
         replacement: (match: string, context: ClassificationContext) => {
           const inferredReturnType = this.inferReturnType(context)
           return match.replace('any', inferredReturnType)
-        }
-        validator: (context: ClassificationContext) =>
+        },
+        validator: (context: ClassificationContext) =>,
           this.isFunctionReturnTypeContext(context) &&
           !this.isInErrorHandlingContext(context) &&
           !this.isExternalApiContext(context)
@@ -353,8 +353,8 @@ export class SafeTypeReplacer {
         replacement: (match: string, context: ClassificationContext) => {
           const inferredGenericType = this.inferGenericType(context)
           return match.replace('any', inferredGenericType)
-        }
-        validator: (context: ClassificationContext) =>
+        },
+        validator: (context: ClassificationContext) =>,
           context.codeSnippet.includes('<any>') && !this.isInErrorHandlingContext(context)
         priority: 6
       }
@@ -369,8 +369,8 @@ export class SafeTypeReplacer {
             return match.replace('any', inferredType)
           }
           return match.replace('any', 'unknown')
-        }
-        validator: (context: ClassificationContext) =>
+        },
+        validator: (context: ClassificationContext) =>,
           this.isObjectPropertyContext(context) && !this.isInErrorHandlingContext(context)
         priority: 7
       }
@@ -382,8 +382,8 @@ export class SafeTypeReplacer {
           // Try to infer from assignment or usage
           const inferredType = this.inferVariableType(context)
           return match.replace('any', inferredType)
-        }
-        validator: (context: ClassificationContext) =>
+        },
+        validator: (context: ClassificationContext) =>,
           !this.isInErrorHandlingContext(context) &&
           !this.isExternalApiContext(context) &&
           !this.isDynamicConfigContext(context)

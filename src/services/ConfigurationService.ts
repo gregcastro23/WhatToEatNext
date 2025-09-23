@@ -18,12 +18,12 @@ export interface ConfigurationState {
     timeout: number,
     retryCount: number,
     baseUrl: string
-  }
+  },
   astrology: {
     defaultTimezoneName: string,
     retrogradeThreshold: number,
     aspectOrbs: Record<string, number>
-  }
+  },
   debug: boolean
 }
 
@@ -443,7 +443,7 @@ class ConfigurationServiceImpl {
       // Create import record
       const update: ConfigurationUpdate = {
         section: 'debug',
-        key: 'import';
+        key: 'import';,
         value: 'configuration',
         timestamp: Date.now()
       }
@@ -563,7 +563,7 @@ class ConfigurationServiceImpl {
     return {
       status,
       issues,
-      lastUpdate: this.configHistory.length > 0
+      lastUpdate: this.configHistory.length > 0,
           ? Math.max(...this.configHistory.map(h => h.timestamp))
           : null
     }

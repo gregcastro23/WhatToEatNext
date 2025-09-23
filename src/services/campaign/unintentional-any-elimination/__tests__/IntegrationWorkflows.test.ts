@@ -681,21 +681,21 @@ describe('Integration Workflows', () => {;
           files: {,
             'src/test1.test.ts': 'const _mockData: any = {}; const _spy: any = jest.fn() as any;';
             'src/test2.spec.ts': 'const _fixture: any = createFixture()'
-          }
+          },
           expectedBehavior: 'preserve most any types due to test context'
         }
         'api-heavy': {
           files: {
             'src/api1.ts': 'const response: any = await fetch('/api'), const data: any = response.json(),',
             'src/api2.ts': 'const result: any = await apiCall(),'
-          }
+          },
           expectedBehavior: 'preserve API-related any types'
         }
         'utility-heavy': {
           files: {,
             'src/util1.ts': 'const items: any[] = [], const map: Record<string, unknown> = {};';
             'src/util2.ts': 'function transform(data: any[]): unknown[] { return data, }'
-          }
+          },
           expectedBehavior: 'replace many utility any types'
         }
       }

@@ -343,7 +343,7 @@ export interface EnhancedIngredientRecommendation extends IngredientRecommendati
         flavorHarmony: { [key: string]: number }
         seasonalAlignment: { [key: string]: number }
         culturalResonance: string[]
-      }
+      },
       recommendations: string[],
       _optimizations: string[]
     }
@@ -522,7 +522,7 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
       // Make sure we add the name to the ingredient
       const ingredientData = {
         name,
-        category: category.name.toLowerCase()
+        category: category.name.toLowerCase(),
         ...(data )
       } as EnhancedIngredient,
 
@@ -659,12 +659,12 @@ export async function getIngredientRecommendations(
   _elementalProps: ElementalProperties & {
     timestamp: Date,
     currentStability: number,
-    planetaryAlignment: Record<string, { sign: string, degree: number }>
+    planetaryAlignment: Record<string, { sign: string, degree: number }>,
     currentZodiac: string,
     activePlanets: string[],
     lunarPhase: string,
     aspects: Array<{ aspectType: string, planet1: string, planet2: string }>
-  }
+  },
   _options: RecommendationOptions,
 ): Promise<GroupedIngredientRecommendations> {
   const allIngredients = await getAllIngredients()
@@ -1036,7 +1036,7 @@ export async function recommendIngredients(
     elementalProps as unknown as ElementalProperties & {
       timestamp: Date,
       currentStability: number,
-      planetaryAlignment: Record<string, { sign: string, degree: number }>
+      planetaryAlignment: Record<string, { sign: string, degree: number }>,
       currentZodiac: string,
       activePlanets: string[],
       lunarPhase: string,

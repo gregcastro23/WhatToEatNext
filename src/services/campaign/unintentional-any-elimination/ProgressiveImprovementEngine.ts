@@ -229,28 +229,28 @@ export class ProgressiveImprovementEngine {
       {
         percentage: Math.floor(recommendedTarget * 0.25),
         description: 'Initial progress - focus on high-confidence array types',
-        estimatedBatches: Math.ceil(
+        estimatedBatches: Math.ceil(,
           (((candidateFiles as any)?.length || 0) * 0.2) / this.adaptiveConfig.maxFilesPerBatch
         )
       }
       {
         percentage: Math.floor(recommendedTarget * 0.5),
         description: 'Mid-point - expand to Record types and simple patterns',
-        estimatedBatches: Math.ceil(
+        estimatedBatches: Math.ceil(,
           (((candidateFiles as any)?.length || 0) * 0.2) / this.adaptiveConfig.maxFilesPerBatch
         )
       }
       {
         percentage: Math.floor(recommendedTarget * 0.75),
         description: 'Advanced progress - tackle more complex patterns',
-        estimatedBatches: Math.ceil(
+        estimatedBatches: Math.ceil(,
           (((candidateFiles as any)?.length || 0) * 0.2) / this.adaptiveConfig.maxFilesPerBatch
         )
       }
       {
         percentage: recommendedTarget,
         description: 'Target achievement - complete remaining high-confidence cases',
-        estimatedBatches: Math.ceil(
+        estimatedBatches: Math.ceil(,
           (((candidateFiles as any)?.length || 0) * 0.2) / this.adaptiveConfig.maxFilesPerBatch
         )
       }
@@ -1092,7 +1092,7 @@ export class ProgressiveImprovementEngine {
         target: 0,
         reduction: 0,
         percentage: 0
-      }
+      },
       lintingWarnings: { current: 0, target: 0, reduction: 0, percentage: 0 }
       buildPerformance: { currentTime: 0, targetTime: 0, cacheHitRate: 0, memoryUsage: 0 }
       enterpriseSystems: { current: 0, target: 0, transformedExports: 0 }

@@ -16,8 +16,8 @@ export async function GET() {
       version: process.env.npm_package_version || '1.0.0',
       environment: process.env.NODE_ENV || 'development',
       services: {
-        database: 'not_applicable', // We don't use a database
-        cache: 'memory', // Using in-memory cache
+        database: 'not_applicable', // We don't use a database,
+        cache: 'memory', // Using in-memory cache,
         external_apis: 'available', // Assume available unless we check
       }
     }

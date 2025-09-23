@@ -48,7 +48,7 @@ export interface RecipeRecommendation {
       amount: number,
       unit: string
     }>,
-  }
+  },
   usedIngredients: string[]
 }
 
@@ -589,7 +589,7 @@ export class IngredientFilterService {
               { name: 'Protein', amount: 15 + i * 5, unit: 'g' }
               { name: 'Carbs', amount: 30 + i * 10, unit: 'g' }
             ]
-          }
+          },
           usedIngredients: [mainIngredient, ...otherIngredients]
         }
 

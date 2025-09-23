@@ -265,7 +265,7 @@ describe('BundleSizeOptimizer', () => {
         JSON.stringify({
           dependencies: { react: '^18.0.0',
             'react-dom': '^18.0.0'
-            lodash: '^4.0.0'
+            lodash: '^4.0.0',
             'chart.js': '^3.0.0'
           }
         }),

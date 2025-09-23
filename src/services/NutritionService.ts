@@ -16,17 +16,17 @@ export class NutritionService {
         fat: this.getNutrientValue(foodData, '204'),
         fiber: this.getNutrientValue(foodData, '291'),
         sugars: this.getNutrientValue(foodData, '269')
-      }
+      },
       vitamins: {
         vitaminC: this.getNutrientValue(foodData, '401'),
         vitaminA: this.getNutrientValue(foodData, '318'),
         vitaminD: this.getNutrientValue(foodData, '328')
-      }
+      },
       minerals: {
         iron: this.getNutrientValue(foodData, '303'),
         calcium: this.getNutrientValue(foodData, '301'),
         potassium: this.getNutrientValue(foodData, '306')
-      }
+      },
       phytonutrients: this.extractPhytonutrients(foodData)
     }
   }

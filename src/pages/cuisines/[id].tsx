@@ -44,7 +44,7 @@ const CuisineDetailsPage: NextPage = () => {;
     const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     setElementalState({
       ...currentState
-      season: 'spring', // Default value since getCurrentElementalState doesn&apost provide season
+      season: 'spring', // Default value since getCurrentElementalState doesn&apost provide season,
       timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn&apost provide timeOfDay
     })
   }, [])

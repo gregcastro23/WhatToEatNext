@@ -328,12 +328,12 @@ export interface CookingProfile {
     medium: Temperature,
     medium_well: Temperature,
     well_done: Temperature
-  }
+  },
   restingTime: {
     minimum: number, // minutes,
     recommended: number,
     maximum: number
-  }
+  },
   carryoverCooking: {
     expectedRise: Temperature,
     restingConditions: string[]
@@ -346,7 +346,7 @@ export interface SafetyThresholds {
   dangerZone: {
     min: Temperature,
     max: Temperature
-  }
+  },
   maximumRestTime: number // minutes at room temperature
 }
 
@@ -355,17 +355,17 @@ export interface SeasonalAdjustment {
     cookingTemp: Temperature,
     timeAdjustment: number, // percentage,
     methodPreference: CookingMethod[]
-  }
+  },
   winter: {
     cookingTemp: Temperature,
     timeAdjustment: number,
     methodPreference: CookingMethod[]
-  }
+  },
   humidity: {
     high: {
       timeAdjustment: number,
       notes: string[]
-    }
+    },
     low: {
       timeAdjustment: number,
       notes: string[]

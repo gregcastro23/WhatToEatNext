@@ -106,7 +106,7 @@ interface CookingMethodData {
   duration: {
     min: number,
     max: number
-  }
+  },
   suitable_for: string[],
   benefits: string[],
   astrologicalInfluences?: {
@@ -142,7 +142,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
           Water: 0,
           Earth: 0,
           Air: 0
-        }
+        },
         duration: { min: 10, max: 30 }, // Default duration,
         suitable_for: baseMethod.suitable_for || [],
         benefits: baseMethod.benefits || [],
@@ -177,7 +177,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
                 Water: 0,
                 Earth: 0,
                 Air: 0
-              }
+              },
               toolsRequired: culturalMethod.toolsRequired || [],
               bestFor: culturalMethod.bestFor || [],
               culturalOrigin: culturalMethod.culturalOrigin,
@@ -187,7 +187,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
                 unfavorableZodiac:
                   (culturalMethod.astrologicalInfluences?.unfavorableZodiac as any[]) || [],
                 dominantPlanets: culturalMethod.astrologicalInfluences?.dominantPlanets || []
-              }
+              },
               duration: { min: 10, max: 30 }
               suitable_for: culturalMethod.bestFor || [],
               benefits: [],
@@ -211,7 +211,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
           Water: 0,
           Earth: 0,
           Air: 0
-        }
+        },
         toolsRequired: culturalMethod.toolsRequired || [],
         bestFor: culturalMethod.bestFor || [],
         culturalOrigin: culturalMethod.culturalOrigin,
@@ -220,7 +220,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
           unfavorableZodiac:
             (culturalMethod.astrologicalInfluences?.unfavorableZodiac as any[]) || [],
           dominantPlanets: culturalMethod.astrologicalInfluences?.dominantPlanets || []
-        }
+        },
         duration: { min: 10, max: 30 }
         suitable_for: culturalMethod.bestFor || [],
         benefits: [],

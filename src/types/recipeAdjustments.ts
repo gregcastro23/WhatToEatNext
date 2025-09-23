@@ -39,11 +39,11 @@ export interface RecipeOptimizationResult {
     _cookTimeChange: number,
     _restTimeChange: number,
     reason: string
-  }
+  },
   temperatureChanges: {
     temperatureChange: number,
     reason: string
-  }
+  },
   kalchmImpact: number,
   _monicaImpact: number,
   confidence: number
@@ -55,7 +55,7 @@ export interface RecipeBuildingContext {
     zodiacSign: string,
     _lunarPhase: string,
     _planetaryInfluences: Record<string, number>
-  }
+  },
   _preferences: {
     targetKalchm?: number,
     kalchmTolerance?: number,
@@ -98,7 +98,7 @@ export interface EnhancedRecipeBuildingResult {
     _ingredients: unknown[],
     _instructions: string[],
     _metadata: Record<string, unknown>,
-  }
+  },
   _optimizationResult: RecipeOptimizationResult,
   _cuisineIntegration: CuisineIntegrationResult,
   _seasonalAdaptation: SeasonalAdaptationResult,

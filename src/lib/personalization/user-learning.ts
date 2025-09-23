@@ -42,7 +42,7 @@ interface UserPreferences {
   // Interaction history
   totalInteractions: number,
   lastActivity: number,
-  learningConfidence: number; // 0-1 score
+  learningConfidence: number; // 0-1 score,
 
   // Personalization weights
   weights: {
@@ -141,7 +141,7 @@ class UserLearningSystem {
         ...recipeData,
         interactionType,
         weight: interactionType === 'cook' ? 3 : interactionType === 'save' ? 2 : 1
-      }
+      },
       timestamp: Date.now(),
       context: this.getCurrentContext()
     }
@@ -159,7 +159,7 @@ class UserLearningSystem {
       data: {
         selected: selectedIngredients,
         rejected: rejectedIngredients
-      }
+      },
       timestamp: Date.now(),
       context: this.getCurrentContext()
     }
@@ -177,7 +177,7 @@ class UserLearningSystem {
       data: {
         planet: planetaryHour,
         engagement // 0-1 score based on time spent, clicks, etc.
-      }
+      },
       timestamp: Date.now(),
       context: { planetaryHour }
     }
@@ -208,7 +208,7 @@ class UserLearningSystem {
       complexityPreference: this.calculateComplexityPreference(interactions),
       totalInteractions: interactions.length,
       lastActivity: Math.max(...interactions.map(i => i.timestamp)),
-      learningConfidence: Math.min(interactions.length / 100, 1), // Max confidence at 100 interactions
+      learningConfidence: Math.min(interactions.length / 100, 1), // Max confidence at 100 interactions,
       weights: this.calculatePersonalizationWeights(interactions)
     }
 

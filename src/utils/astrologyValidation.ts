@@ -126,7 +126,7 @@ export async function validatePlanetaryPositions(
           degree: degreeDiff > 1 ? `${refPosition.degree}° ≠ ${formattedCalculated.degree}°` : null,
           minute:
             minuteDiff > 5 ? `${refPosition.minute}' ≠ ${formattedCalculated.minute || 0}'` : null,
-          retrograde: !retrogradeMatch
+          retrograde: !retrogradeMatch,
             ? `${refPosition.isRetrograde} ≠ ${formattedCalculated.isRetrograde}`
             : null
         }
@@ -273,10 +273,10 @@ export async function validateAgainstAPI(): Promise<{
         degree: degreeDiff > 1 ? `${refPosition.degree}° ≠ ${formattedCalculated.degree}°` : null,
         minute:
           minuteDiff > 5 ? `${refPosition.minute}' ≠ ${formattedCalculated.minute || 0}'` : null,
-        retrograde: !retrogradeMatch
+        retrograde: !retrogradeMatch,
           ? `${refPosition.isRetrograde} ≠ ${formattedCalculated.isRetrograde}`
           : null
-      }
+      },
       accurate: planetAccurate
     }
 

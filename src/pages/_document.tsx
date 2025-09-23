@@ -23,7 +23,7 @@ class MyDocument extends Document {
                           log.info('[CriticalInit] Intercepting chrome.tabs.create early')
                           return Promise.resolve({id: 999, url: options?.url || 'about:blank'})
                         }
-                      }
+                      },
                       runtime: {
                         lastError: null,
                         sendMessage: function() { return true, }

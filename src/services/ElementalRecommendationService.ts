@@ -24,11 +24,11 @@ export class ElementalRecommendationService {
       cookingTechniques: elementalUtils.getSuggestedCookingTechniques(properties),
       // ✅ Pattern MM-1: getComplementaryElement returns element key, convert to string and wrap in array
       complementaryIngredients: [elementalUtils.getComplementaryElement(dominantElement) as string],
-      flavorProfiles: utilsService.getFlavorProfileRecommendations &&
+      flavorProfiles: utilsService.getFlavorProfileRecommendations &&,
         typeof utilsService.getFlavorProfileRecommendations === 'function'
           ? utilsService.getFlavorProfileRecommendations(properties)
           : [],
-      healthBenefits: utilsService.getHealthBenefits && typeof utilsService.getHealthBenefits === 'function'
+      healthBenefits: utilsService.getHealthBenefits && typeof utilsService.getHealthBenefits === 'function',
           ? utilsService.getHealthBenefits(properties)
           : [],
       timeOfDay: elementalUtils.getRecommendedTimeOfDay(properties),

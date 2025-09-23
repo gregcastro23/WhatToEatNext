@@ -195,13 +195,13 @@ export class UnifiedNutritionalService {
           Essence: 0.25,
           Matter: 0.25,
           Substance: 0.25
-        }
+        },
         elementalProperties: enhanced.elementalProperties || {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
           Air: 0.25
-        }
+        },
         kalchm: enhanced.kalchm || 0,
         monica: enhanced.monica || 0
       }
@@ -538,7 +538,7 @@ export class UnifiedNutritionalService {
             Water: 0,
             Earth: 0,
             Air: 0
-          }
+          },
           seasonalAlignment: 0,
           planetaryResonance: 0,
           healthBenefits: [],
@@ -578,7 +578,7 @@ export class UnifiedNutritionalService {
       }
 
       return {
-        kalchm: enhanced.kalchm
+        kalchm: enhanced.kalchm,
         elementalBreakdown,
         seasonalAlignment,
         planetaryResonance,
@@ -594,7 +594,7 @@ export class UnifiedNutritionalService {
           Water: 0,
           Earth: 0,
           Air: 0
-        }
+        },
         seasonalAlignment: 0,
         planetaryResonance: 0,
         healthBenefits: [],

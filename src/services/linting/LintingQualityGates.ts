@@ -24,13 +24,13 @@ export interface QualityGateConfig {
     maxExecutionTime: number, // milliseconds,
     minCacheHitRate: number, // percentage,
     maxMemoryUsage: number, // MB
-  }
+  },
   blockers: {
     parserErrors: boolean,
     typeScriptErrors: boolean,
-    importErrors: boolean;
+    importErrors: boolean;,
     securityIssues: boolean
-  }
+  },
   exemptions: {
     files: string[],
     rules: string[],
@@ -73,7 +73,7 @@ export interface DeploymentReadiness {
   confidence: number, // 0-100,
   blockers: string[],
   warnings: string[],
-  qualityScore: number, // 0-100
+  qualityScore: number, // 0-100,
   riskAssessment: {
     level: 'low' | 'medium' | 'high' | 'critical',
     factors: string[],
@@ -122,7 +122,7 @@ export class LintingQualityGates {
       const riskLevel = this.calculateRiskLevel(violations, metrics)
 
       const result: QualityGateResult = {
-        gateName: config.name
+        gateName: config.name,
         passed,
         timestamp: new Date(),
         metrics,
@@ -203,13 +203,13 @@ export class LintingQualityGates {
       errors: number,
       warnings: number,
       fixableIssues: number
-    }
+    },
     qualityGates: {
       passed: boolean,
       riskLevel: 'low' | 'medium' | 'high' | 'critical',
       violationCount: number
-    }
-    blockers: string[]
+    },
+    blockers: string[],
     recommendations?: string[],
     performance: { executionTime: number, memoryUsage: number, cacheHitRate: number }
   }> {
@@ -223,18 +223,18 @@ export class LintingQualityGates {
           approved: readiness.ready,
           confidence: readiness.confidence,
           qualityScore: readiness.qualityScore
-        }
+        },
         metrics: {
           totalIssues: gateResult.metrics.totalIssues,
           errors: gateResult.metrics.errors,
           warnings: gateResult.metrics.warnings,
           fixableIssues: gateResult.metrics.fixableIssues
-        }
+        },
         qualityGates: {
           passed: gateResult.passed,
           riskLevel: gateResult.riskLevel,
           violationCount: gateResult.violations.length
-        }
+        },
         blockers: readiness.blockers,
         recommendations: gateResult.recommendations,
         performance: {
@@ -278,7 +278,7 @@ export class LintingQualityGates {
       const trends: Record<string, 'improving' | 'stable' | 'degrading'> = {
         errorTrend: this.calculateTrend(recent.map(r => r.metrics.errors)),
         warningTrend: this.calculateTrend(recent.map(r => r.metrics.warnings)),
-        performanceTrend: this.calculateTrend(
+        performanceTrend: this.calculateTrend(,
           recent.map(r => r.metrics.performanceMetrics.executionTime),,
         ),
         qualityTrend: this.calculateTrend(recent.map(r => this.calculateQualityScore(r.metrics))),,
@@ -475,7 +475,7 @@ export class LintingQualityGates {
     }
 
     return {
-      level: gateResult.riskLevel
+      level: gateResult.riskLevel,
       factors,
       mitigations
     }
@@ -587,13 +587,13 @@ export class LintingQualityGates {
         maxExecutionTime: 60000,
         minCacheHitRate: 70,
         maxMemoryUsage: 512
-      }
+      },
       blockers: {
         parserErrors: true,
         typeScriptErrors: true,
-        importErrors: true;
+        importErrors: true;,
         securityIssues: true
-      }
+      },
       exemptions: {
         files: [],
         rules: []

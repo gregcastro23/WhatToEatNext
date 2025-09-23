@@ -253,67 +253,67 @@ const rawWholeSpices = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-              }
+              },
               culinaryProfile: {
                 flavorProfile: {
                   primary: ['balanced'],
                   secondary: ['versatile'],
                   notes: 'Versatile flavorProfile for various uses'
-                }
+                },
                 cookingMethods: ['sautéing', 'steaming', 'roasting'],
                 cuisineAffinity: ['Global', 'International'],
                 preparationTips: ['Use as needed', 'Season to taste']
-              }
+              },
               season: ['year-round']
-            }
+            },
             culinaryProfile: {
               flavorProfile: {
                 primary: ['balanced'],
                 secondary: ['versatile'],
                 notes: 'Versatile flavorProfile for various uses'
-              }
+              },
               cookingMethods: ['sautéing', 'steaming', 'roasting'],
               cuisineAffinity: ['Global', 'International'],
               preparationTips: ['Use as needed', 'Season to taste']
-            }
+            },
             season: ['year-round']
-          }
+          },
           cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
-        }
+        },
         season: ['year-round'],
         preparation: {
           methods: ['standard preparation'],
           timing: 'as needed',
           notes: 'Standard preparation for star anise'
         }
-      }
+      },
       culinaryProfile: {
         flavorProfile: {
           primary: ['balanced'],
           secondary: ['versatile'],
           notes: 'Versatile star anise for various uses'
-        }
+        },
         cookingMethods: ['sautéing', 'steaming', 'roasting'],
         cuisineAffinity: ['Global', 'International'],
         preparationTips: ['Use as needed', 'Season to taste']
-      }
+      },
       season: ['year-round']
-    }
+    },
     preparation: {
       toasting: {
         method: 'dry toast until fragrant',
         duration: '2-3 minutes',
         notes: 'Watch carefully to prevent burning'
-      }
+      },
       grinding: 'grind as needed',
       infusing: {
         method: 'add whole to liquids',
         duration: '10-20 minutes',
         removal: 'required before serving'
       }
-    }
+    },
     culinaryApplications: {
       broths: {
         name: 'Broths',
@@ -354,17 +354,17 @@ const rawWholeSpices = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-        }
+        },
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
             notes: 'Versatile broths for various uses'
-          }
+          },
           cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
-        }
+        },
         season: ['year-round']
       }
 
@@ -411,20 +411,20 @@ const rawWholeSpices = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-        }
+        },
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
             notes: 'Versatile tea blends for various uses'
-          }
+          },
           cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
-        }
+        },
         season: ['year-round']
       }
-    }
+    },
     storage: {
       temperature: 'cool, dark place',
       duration: '2 years',
@@ -447,7 +447,7 @@ const rawWholeSpices = {
           third: { element: 'Earth', planet: 'Saturn' }
         }
       }
-    }
+    },
     qualities: ['aromatic', 'complex', 'intense'],
     origin: ['India', 'Guatemala', 'Sri Lanka'],
     category: 'spice',
@@ -458,16 +458,16 @@ const rawWholeSpices = {
         method: 'light dry toast',
         duration: '1-2 minutes',
         notes: 'Just until fragrant'
-      }
+      },
       grinding: {
         method: 'remove seeds from pods',
         notes: 'Discard pods or use for infusing'
-      }
+      },
       crushing: {
         method: 'lightly crush to release oils',
         notes: 'For infusing liquids'
       }
-    }
+    },
     culinaryApplications: {
       rice_dishes: {
         name: 'Rice Dishes',
@@ -496,19 +496,19 @@ const rawWholeSpices = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-        }
+        },
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
             notes: 'Versatile rice dishes for various uses'
-          }
+          },
           cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
-        }
+        },
         season: ['year-round']
-      }
+      },
       curries: {
         name: 'Curries',
         method: 'add whole pods during cooking',
@@ -520,26 +520,26 @@ const rawWholeSpices = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-        }
+        },
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
             notes: 'Versatile curries for various uses'
-          }
+          },
           cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
-        }
+        },
         season: ['year-round']
-      }
+      },
       tea_blends: {
         name: 'Tea Blends',
         method: 'combine with other spices',
         pairings: ['black tea', 'cinnamon', 'orange'],
         ratios: '1 pod per 2 cups water'
       }
-    }
+    },
     storage: {
       temperature: 'cool, dark place',
       duration: '2 years',
@@ -583,20 +583,20 @@ const rawWholeSpices = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-        }
+        },
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
             notes: 'Versatile mustard seeds for various uses'
-          }
+          },
           cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
-        }
+        },
         season: ['year-round']
       }
-    }
+    },
     culinaryApplications: {
       tempering: {
         name: 'Tempering',
@@ -613,17 +613,17 @@ const rawWholeSpices = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-          }
+          },
           culinaryProfile: {
             flavorProfile: {
               primary: ['balanced'],
               secondary: ['versatile'],
               notes: 'Versatile tempering for various uses'
-            }
+            },
             cookingMethods: ['sautéing', 'steaming', 'roasting'],
             cuisineAffinity: ['Global', 'International'],
             preparationTips: ['Use as needed', 'Season to taste']
-          }
+          },
           season: ['year-round']
         }
       }
@@ -639,7 +639,7 @@ const rawWholeSpices = {
           rustic: 'roughly crush',
           infusion: 'heat in oil first'
         }
-      }
+      },
       sauces: {
         name: 'Sauces',
         method: 'toast and grind or leave whole',
@@ -651,7 +651,7 @@ const rawWholeSpices = {
           grainy_mustard: 'soak in vinegar'
         }
       }
-    }
+    },
     storage: {
       temperature: 'cool, dark place',
       duration: 'whole: 1 year',
@@ -673,14 +673,14 @@ const rawWholeSpices = {
         appearance: 'greener, thinner',
         flavor: 'more aromatic',
         uses: 'curries, digestive'
-      }
+      },
       Mediterranean: {
         name: 'Mediterranean',
         appearance: 'plumper, pale green',
         flavor: 'sweeter',
         uses: 'sausages, bread'
       }
-    }
+    },
     culinaryApplications: {
       bread_baking: {
         name: 'Bread Baking',
@@ -693,7 +693,7 @@ const rawWholeSpices = {
           incorporated: 'mix into dough',
           flavored_oil: 'infuse in oil first'
         }
-      }
+      },
       seafood_seasoning: {
         name: 'Seafood Seasoning',
         method: 'crush or leave whole',
@@ -705,7 +705,7 @@ const rawWholeSpices = {
           court_bouillon: 'add to poaching liquid',
           steam_aromatic: 'add to steaming water'
         }
-      }
+      },
       sausage_making: {
         name: 'Sausage Making',
         method: 'lightly crush',
@@ -733,14 +733,14 @@ const rawWholeSpices = {
         appearance: 'larger, more round',
         flavor: 'more aromatic',
         uses: 'curries, spice blends'
-      }
+      },
       Mediterranean: {
         name: 'Mediterranean',
         appearance: 'smaller, more oval',
         flavor: 'more citrusy',
         uses: 'marinades, pickling'
       }
-    }
+    },
     culinaryApplications: {
       curry_base: {
         name: 'Curry Base',
@@ -753,7 +753,7 @@ const rawWholeSpices = {
           wet_grinding: 'with aromatics for paste',
           whole_tempering: 'crack and bloom in oil'
         }
-      }
+      },
       pickling_spice: {
         name: 'Pickling Spice',
         method: 'use whole',
@@ -783,7 +783,7 @@ const rawWholeSpices = {
           third: { element: 'Air', planet: 'Uranus' }
         }
       }
-    }
+    },
     qualities: ['earthy', 'warm', 'pungent'],
     origin: ['India', 'Iran', 'Turkey'],
     category: 'spice',
@@ -794,14 +794,14 @@ const rawWholeSpices = {
         appearance: 'small, dark',
         flavor: 'intense, earthy',
         uses: 'curries, tempering'
-      }
+      },
       Iranian: {
         name: 'Iranian',
         appearance: 'longer seeds',
         flavor: 'more delicate',
         uses: 'rice dishes, kebabs'
       }
-    }
+    },
     culinaryApplications: {
       tempering: {
         name: 'Tempering',
@@ -814,7 +814,7 @@ const rawWholeSpices = {
           pilaf_base: 'start rice dishes',
           oil_infusion: 'longer steep for oil'
         }
-      }
+      },
       meat_rubs: {
         name: 'Meat Rubs',
         method: 'toast and grind',
@@ -843,14 +843,14 @@ const rawWholeSpices = {
         appearance: 'curved, dark',
         flavor: 'traditional strength',
         uses: 'bread, cheese'
-      }
+      },
       Finnish: {
         name: 'Finnish',
         appearance: 'slightly larger',
         flavor: 'more intense',
         uses: 'rye bread, aquavit'
       }
-    }
+    },
     culinaryApplications: {
       bread_baking: {
         name: 'Bread Baking',
@@ -863,7 +863,7 @@ const rawWholeSpices = {
           light_rye: 'sparse seeding',
           crust_topping: 'press into top'
         }
-      }
+      },
       sauerkraut: {
         name: 'Sauerkraut',
         method: 'add whole to cabbage',

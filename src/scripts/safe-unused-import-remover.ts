@@ -19,7 +19,7 @@ interface UnusedImport {
   file: string,
   line: number,
   column: number,
-  importName: string;
+  importName: string;,
   message: string,
   isTypeImport: boolean,
   isDefaultImport: boolean,

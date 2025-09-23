@@ -397,7 +397,7 @@ export async function validateAstrologicalCalculation(
     elementalProperties?: unknown,
     constants?: Record<string, number>,
     date?: Date
-  }
+  },
   options: ValidationOptions = {}
 ): Promise<ValidationResult> {
   const { _validateTransits = false} = options;

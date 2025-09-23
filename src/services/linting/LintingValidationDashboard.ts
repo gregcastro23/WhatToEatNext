@@ -16,7 +16,7 @@ export interface LintingMetrics {
   warnings: number,
   parserErrors: number,
   explicitAnyErrors: number,
-  importOrderIssues: number;
+  importOrderIssues: number;,
   unusedVariables: number,
   reactHooksIssues: number,
   consoleStatements: number,
@@ -24,13 +24,13 @@ export interface LintingMetrics {
     astrologicalCalculations: number,
     campaignSystem: number,
     testFiles: number
-  }
+  },
   performanceMetrics: {
     lintingDuration: number,
     cacheHitRate: number,
     memoryUsage: number,
     filesProcessed: number
-  }
+  },
   qualityScore: number // 0-100,
   regressionDetected: boolean
 }
@@ -187,7 +187,7 @@ export class LintingValidationDashboard {
         warnings: -1,
         parserErrors: -1,
         explicitAnyErrors: -1,
-        importOrderIssues: -1;
+        importOrderIssues: -1;,
         unusedVariables: -1,
         reactHooksIssues: -1,
         consoleStatements: -1,
@@ -195,13 +195,13 @@ export class LintingValidationDashboard {
           astrologicalCalculations: -1,
           campaignSystem: -1,
           testFiles: -1
-        }
+        },
         performanceMetrics: {
           lintingDuration: Date.now() - startTime,
           cacheHitRate: 0,
           memoryUsage: process.memoryUsage().heapUsed / 1024 / 1024,
           filesProcessed: 0
-        }
+        },
         qualityScore: 0,
         regressionDetected: false
       }
@@ -285,7 +285,7 @@ export class LintingValidationDashboard {
         cacheHitRate: 0,
         memoryUsage: 0,
         filesProcessed: lintResults.length
-      }
+      },
       qualityScore: 0, // Will be calculated,
       regressionDetected: false
     }
@@ -398,7 +398,7 @@ export class LintingValidationDashboard {
     )
 
     return {
-      detected: affectedMetrics.length > 0
+      detected: affectedMetrics.length > 0,
       affectedMetrics,
       severity,
       recommendations: this.generateRegressionRecommendations(affectedMetrics),

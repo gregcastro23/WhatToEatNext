@@ -27,10 +27,10 @@ export const ingredientMappings = {
       Earth: 0.2,
       Air: 0.1,
       Water: 0
-    }
+    },
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Sun'],
-      favorableZodiac: ['aries', 'leo', 'sagittarius'], // Convert to lowercase
+      favorableZodiac: ['aries', 'leo', 'sagittarius'], // Convert to lowercase,
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
@@ -39,7 +39,7 @@ export const ingredientMappings = {
           third: { element: 'Earth', planet: 'Saturn' }
         }
       }
-    }
+    },
     season: ['all']
   }),
 
@@ -49,10 +49,10 @@ export const ingredientMappings = {
       Earth: 0.3,
       Air: 0.1,
       Water: 0
-    }
+    },
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Pluto'],
-      favorableZodiac: ['scorpio', 'capricorn'], // Convert to lowercase
+      favorableZodiac: ['scorpio', 'capricorn'], // Convert to lowercase,
       elementalAffinity: {
         base: 'Fire',
         decanModifiers: {
@@ -61,7 +61,7 @@ export const ingredientMappings = {
           third: { element: 'Air', planet: 'Uranus' }
         }
       }
-    }
+    },
     season: ['all']
   }),
 
@@ -72,12 +72,12 @@ export const ingredientMappings = {
       Air: 0.2,
       Earth: 0,
       Water: 0
-    }
+    },
     astrologicalProfile: {
       rulingPlanets: ['Sun', 'Jupiter'],
-      favorableZodiac: ['leo', 'sagittarius'], // Convert to lowercase
+      favorableZodiac: ['leo', 'sagittarius'], // Convert to lowercase,
       elementalAffinity: 'Fire'
-    }
+    },
     season: ['fall', 'winter']
   }),
 
@@ -87,12 +87,12 @@ export const ingredientMappings = {
       Fire: 0.3,
       Earth: 0.1,
       Water: 0
-    }
+    },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Venus'],
-      favorableZodiac: ['gemini', 'libra'], // Convert to lowercase
+      favorableZodiac: ['gemini', 'libra'], // Convert to lowercase,
       elementalAffinity: 'Air'
-    }
+    },
     season: ['fall', 'winter']
   }),
 
@@ -103,7 +103,7 @@ export const ingredientMappings = {
       Air: 0.2,
       Earth: 0.1,
       Water: 0
-    }
+    },
     season: ['fall', 'winter']
   }),
 
@@ -114,12 +114,12 @@ export const ingredientMappings = {
       Air: 0.4,
       Fire: 0,
       Earth: 0
-    }
+    },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Neptune'],
-      favorableZodiac: ['cancer', 'pisces'], // Convert to lowercase
+      favorableZodiac: ['cancer', 'pisces'], // Convert to lowercase,
       elementalAffinity: 'Water'
-    }
+    },
     season: ['spring', 'summer']
   }),
 
@@ -130,7 +130,7 @@ export const ingredientMappings = {
       Air: 0.2,
       Fire: 0,
       Earth: 0
-    }
+    },
     season: ['summer']
   }),
 
@@ -141,12 +141,12 @@ export const ingredientMappings = {
       Water: 0.3,
       Fire: 0,
       Air: 0
-    }
+    },
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Pluto'],
-      favorableZodiac: ['capricorn', 'scorpio'], // Convert to lowercase
+      favorableZodiac: ['capricorn', 'scorpio'], // Convert to lowercase,
       elementalAffinity: 'Earth'
-    }
+    },
     season: ['fall', 'spring']
   }),
 
@@ -157,7 +157,7 @@ export const ingredientMappings = {
       Earth: 0.4,
       Fire: 0,
       Air: 0
-    }
+    },
     season: ['all']
   }),
 
@@ -169,7 +169,7 @@ export const ingredientMappings = {
       Air: 0.2,
       Earth: 0.1,
       Fire: 0
-    }
+    },
     season: ['all']
   }),
 
@@ -179,12 +179,12 @@ export const ingredientMappings = {
       Fire: 0.5,
       Water: 0,
       Air: 0
-    }
+    },
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Saturn'],
-      favorableZodiac: ['capricorn', 'taurus'], // Convert to lowercase
+      favorableZodiac: ['capricorn', 'taurus'], // Convert to lowercase,
       elementalAffinity: 'Earth'
-    }
+    },
     season: ['all']
   }),
 
@@ -194,12 +194,12 @@ export const ingredientMappings = {
       Fire: 0.3,
       Earth: 0.3,
       Water: 0
-    }
+    },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Venus'],
-      favorableZodiac: ['virgo', 'taurus'], // Convert to lowercase
+      favorableZodiac: ['virgo', 'taurus'], // Convert to lowercase,
       elementalAffinity: 'Air'
-    }
+    },
     season: ['all']
   }),
 
@@ -210,7 +210,7 @@ export const ingredientMappings = {
       Earth: 0.5,
       Fire: 0,
       Air: 0
-    }
+    },
     season: ['all']
   }),
 
@@ -221,7 +221,7 @@ export const ingredientMappings = {
       Air: 0.4,
       Water: 0.2,
       Fire: 0
-    }
+    },
     season: ['spring', 'fall']
   }),
 
@@ -231,7 +231,7 @@ export const ingredientMappings = {
       Earth: 0.4,
       Water: 0,
       Air: 0
-    }
+    },
     season: ['all']
   }),
 
@@ -241,7 +241,7 @@ export const ingredientMappings = {
       Air: 0.1,
       Water: 0,
       Earth: 0
-    }
+    },
     season: ['summer', 'fall']
   }),
 
@@ -251,7 +251,7 @@ export const ingredientMappings = {
       Fire: 0.3,
       Earth: 0.2,
       Water: 0
-    }
+    },
     season: ['summer']
   }),
 
@@ -261,7 +261,7 @@ export const ingredientMappings = {
       Earth: 0.4,
       Fire: 0.2,
       Water: 0
-    }
+    },
     season: ['autumn', 'winter']
   }),
 
@@ -271,7 +271,7 @@ export const ingredientMappings = {
       Air: 0.3,
       Earth: 0.3,
       Water: 0
-    }
+    },
     season: ['all']
   }),
 
@@ -281,7 +281,7 @@ export const ingredientMappings = {
       Earth: 0.3,
       Fire: 0.2,
       Water: 0
-    }
+    },
     season: ['all']
   }),
 
@@ -292,12 +292,12 @@ export const ingredientMappings = {
       Water: 0.3,
       Air: 0.1,
       Fire: 0
-    }
+    },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['cancer', 'virgo'], // Changed to lowercase
+      favorableZodiac: ['cancer', 'virgo'], // Changed to lowercase,
       elementalAffinity: 'Earth'
-    }
+    },
     season: ['all']
   }),
 
@@ -308,10 +308,10 @@ export const ingredientMappings = {
       Water: 0.3,
       Air: 0.2,
       Fire: 0
-    }
+    },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Saturn'],
-      favorableZodiac: ['taurus', 'capricorn'], // Changed to lowercase
+      favorableZodiac: ['taurus', 'capricorn'], // Changed to lowercase,
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
@@ -320,7 +320,7 @@ export const ingredientMappings = {
           third: { element: 'Air', planet: 'Mercury' }
         }
       }
-    }
+    },
     season: ['fall']
   }),
 
@@ -330,10 +330,10 @@ export const ingredientMappings = {
       Water: 0.3,
       Fire: 0.2,
       Air: 0.1
-    }
+    },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Moon'],
-      favorableZodiac: ['taurus', 'cancer'], // Changed to lowercase
+      favorableZodiac: ['taurus', 'cancer'], // Changed to lowercase,
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
@@ -342,7 +342,7 @@ export const ingredientMappings = {
           third: { element: 'Fire', planet: 'Sun' }
         }
       }
-    }
+    },
     season: ['year-round']
   }),
 
@@ -353,10 +353,10 @@ export const ingredientMappings = {
       Water: 0.3,
       Air: 0.2,
       Fire: 0, // Add missing required property
-    }
+    },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Saturn'],
-      favorableZodiac: ['cancer', 'capricorn'], // Convert to lowercase
+      favorableZodiac: ['cancer', 'capricorn'], // Convert to lowercase,
       elementalAffinity: {
         base: 'Earth',
         decanModifiers: {
@@ -364,18 +364,18 @@ export const ingredientMappings = {
           second: { element: 'Water', planet: 'Saturn' }
           third: { element: 'Air', planet: 'Mercury' }
         }
-      }
+      },
       _lunarPhaseModifiers: {
         newMoon: {
           elementalBoost: { Earth: 0.1, Water: 0.1 }
           preparationTips: ['Best for soaking and sprouting']
-        }
+        },
         _fullMoon: {
           elementalBoost: { Water: 0.2 }
           preparationTips: ['Ideal for creamy rice dishes']
         }
       }
-    }
+    },
     season: ['all']
   })
 } as const,

@@ -80,7 +80,7 @@ export type CulinaryAnalysisResponse = ServiceResponseType<{
     ingredients: string[],
     cookingMethods: string[],
     seasonalTiming: string[]
-  }
+  },
   warnings: string[]
 }>,
 
@@ -241,7 +241,7 @@ export interface StandardizedPlanetaryPosition {
   /**
    * Degree within the sign (0-29)
    */
-  degree: number
+  degree: number,
 
   /**
    * Exact longitude in degrees (0-360)

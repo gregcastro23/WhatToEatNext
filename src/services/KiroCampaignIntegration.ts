@@ -30,7 +30,7 @@ export interface KiroCampaignStatus {
   campaignId: string,
   status: 'idle' | 'running' | 'paused' | 'completed' | 'failed',
   currentPhase?: string,
-  progress: number // 0-100%
+  progress: number // 0-100%,
   metrics: ProgressMetrics,
   safetyEvents: SafetyEvent[],
   lastUpdate: Date,
@@ -60,7 +60,7 @@ export interface QuickAction {
   description: string,
   icon: string,
   enabled: boolean,
-  estimatedDuration: number, // minutes
+  estimatedDuration: number, // minutes,
   safetyLevel: 'low' | 'medium' | 'high' | 'maximum'
 }
 
@@ -73,7 +73,7 @@ export interface CampaignResult {
     errorsReduced: number,
     warningsReduced: number,
     buildTimeImproved: number
-  }
+  },
   duration: number // minutes
 }
 
@@ -592,13 +592,13 @@ export class KiroCampaignIntegration {
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
         stashRetentionDays: 7
-      }
+      },
       progressTargets: {
         typeScriptErrors: 0,
         lintingWarnings: 0,
         buildTime: 10,
         enterpriseSystems: 200
-      }
+      },
       toolConfiguration: {
         enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',

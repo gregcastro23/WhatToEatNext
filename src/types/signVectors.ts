@@ -27,8 +27,8 @@ export type SignDirection = 'cardinal' | 'fixed' | 'mutable',
 
 export interface SignVector {
   sign: any,
-  _magnitude: number, // 0-1: intensity of sign expression at the moment
-  direction: SignDirection; // dominant modality expression
+  _magnitude: number, // 0-1: intensity of sign expression at the moment,
+  direction: SignDirection; // dominant modality expression,
   components: SignVectorComponents // multi-dimensional breakdown
 }
 
@@ -41,7 +41,7 @@ export interface SignVectorCalculationInput {
 export type SignVectorMap = Record<ZodiacSign, SignVector>,
 
 export interface SignVectorCompatibilityResult {
-  similarity: number // 0-1 cosine similarity across components
+  similarity: number // 0-1 cosine similarity across components,
   dominantSharedAxis: 'modality' | 'elemental' | 'seasonal' | 'none'
 }
 

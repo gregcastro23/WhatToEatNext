@@ -65,18 +65,18 @@ export interface QualityReport {
     improvement: number,
     keyAchievements: string[],
     majorIssues: string[]
-  }
+  },
   metrics: {
     codeQuality: number,
     performance: number,
     maintainability: number,
     technicalDebt: number
-  }
+  },
   trends: {
     errorReduction: number,
     performanceImprovement: number,
     debtReduction: number
-  }
+  },
   insights: QualityInsight[],
   predictions: QualityPrediction[],
   recommendations: string[]
@@ -540,7 +540,7 @@ class QualityMetricsService {
           impact: bottleneck.errorCount > 10 ? 'high' : 'medium',
           effort: bottleneck.complexity > 200 ? 'high' : 'medium',
           files: [bottleneck.file],
-          estimatedHours: Math.min(
+          estimatedHours: Math.min(,
             40,
             Math.max(
               2,
@@ -665,18 +665,18 @@ class QualityMetricsService {
         improvement: this.calculateWeeklyImprovement(),
         keyAchievements: this.getKeyAchievements(),
         majorIssues: this.getMajorIssues()
-      }
+      },
       metrics: {
         codeQuality: qualityMetrics?.codeQualityScore || 0,
         performance: buildSummary.performanceScore,
         maintainability: qualityMetrics?.maintainabilityIndex || 0,
         technicalDebt: qualityMetrics?.technicalDebtScore || 0
-      }
+      },
       trends: {
         errorReduction: this.calculateErrorReductionTrend(),
         performanceImprovement: this.calculatePerformanceImprovementTrend(),
         debtReduction: this.calculateDebtReductionTrend()
-      }
+      },
       insights: this.insights.slice(-10),
       predictions: this.predictions,
       recommendations: this.generateWeeklyRecommendations()
@@ -706,7 +706,7 @@ class QualityMetricsService {
       codeQuality: (qualityMetrics as Record<string, number>)?.codeQualityScore || 0,
       performance: (buildSummary as Record<string, number>).performanceScore || 0,
       maintainability: (qualityMetrics as Record<string, number>)?.maintainabilityIndex || 0,
-      technicalDebt: Math.max(
+      technicalDebt: Math.max(,
         0,
         100 - ((qualityMetrics as Record<string, number>)?.technicalDebtScore || 0),
       )

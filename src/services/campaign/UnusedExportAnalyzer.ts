@@ -519,7 +519,7 @@ export class UnusedExportAnalyzer {
       fileAnalyses.reduce((sumf) => sum + f.safetyScore, 0) / fileAnalyses.length,
 
     return {
-      totalFiles: fileAnalyses.length
+      totalFiles: fileAnalyses.length,
       totalUnusedExports,
       highPriorityFiles,
       mediumPriorityFiles,

@@ -66,7 +66,7 @@ export class SafetyValidator {
     this.safetyThresholds = {
       minimumSafetyScore: 0.7,
       maximumErrorCount: 10,
-      maximumBuildTime: 30000, // 30 seconds
+      maximumBuildTime: 30000, // 30 seconds,
       minimumTestCoverage: 0.8,
       ...safetyThresholds
     }

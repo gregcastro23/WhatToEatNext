@@ -15,7 +15,7 @@ const rawAromaticHerbs = {
       fiber_g: 0,
       vitamins: [],
       minerals: []
-    }
+    },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Venus'],
       favorableZodiac: ['gemini', 'libra', 'aquarius'],
@@ -27,26 +27,26 @@ const rawAromaticHerbs = {
           third: { element: 'Earth', planet: 'Saturn' }
         }
       }
-    }
+    },
     lunarPhaseModifiers: {
       newMoon: {
         elementalBoost: { Air: 0.1 }
         preparationTips: ['Best for drying and preserving']
-      }
+      },
       fullMoon: {
         elementalBoost: { Air: 0.2 }
         preparationTips: ['Enhanced aromatic properties', 'Ideal for teas and infusions']
-      }
+      },
       waxingCrescent: {
         elementalBoost: { Air: 0.1, Fire: 0.05 }
         preparationTips: ['Good for light cooking applications']
-      }
+      },
       waxingGibbous: {
         elementalBoost: { Air: 0.15, Fire: 0.1 }
         preparationTips: ['Perfect for stocks and broths']
       }
     }
-  }
+  },
   rosemary: {
     name: 'Rosemary',
     category: 'herb',
@@ -60,7 +60,7 @@ const rawAromaticHerbs = {
       fiber_g: 0,
       vitamins: [],
       minerals: []
-    }
+    },
     astrologicalProfile: {
       rulingPlanets: ['Sun', 'Mars'],
       favorableZodiac: ['leo', 'aries', 'sagittarius'],
@@ -72,42 +72,42 @@ const rawAromaticHerbs = {
           third: { element: 'Earth', planet: 'Pluto' }
         }
       }
-    }
+    },
     lunarPhaseModifiers: {
       newMoon: {
         elementalBoost: { Fire: 0.1, Earth: 0.05 }
         preparationTips: ['Best for subtle infusions', 'Good time for drying']
-      }
+      },
       waxingCrescent: {
         elementalBoost: { Fire: 0.15, Air: 0.05 }
         preparationTips: ['Good for infused oils']
-      }
+      },
       firstQuarter: {
         elementalBoost: { Fire: 0.2 }
         preparationTips: ['Ideal for grilling meats']
-      }
+      },
       waxingGibbous: {
         elementalBoost: { Fire: 0.25 }
         preparationTips: ['Perfect for roasts and hearty dishes']
-      }
+      },
       fullMoon: {
         elementalBoost: { Fire: 0.3 }
         preparationTips: ['Maximum potency', 'Best for medicinal preparations']
-      }
+      },
       waningGibbous: {
         elementalBoost: { Fire: 0.2, Air: 0.1 }
         preparationTips: ['Excellent for soups and stews']
-      }
+      },
       lastQuarter: {
         elementalBoost: { Fire: 0.15, Earth: 0.1 }
         preparationTips: ['Good for marinades']
-      }
+      },
       waningCrescent: {
         elementalBoost: { Fire: 0.1, Earth: 0.15 }
         preparationTips: ['Best for subtle applications']
       }
     }
-  }
+  },
   basil: {
     name: 'Basil',
     category: 'herb',
@@ -121,7 +121,7 @@ const rawAromaticHerbs = {
       fiber_g: 0,
       vitamins: [],
       minerals: []
-    }
+    },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Moon'],
       favorableZodiac: ['gemini', 'cancer'],
@@ -132,12 +132,12 @@ const rawAromaticHerbs = {
           second: { element: 'Fire', planet: 'Moon' }
           third: { element: 'Earth', planet: 'Venus' }
         }
-      }
+      },
       lunarPhaseModifiers: {
         waxingCrescent: {
           elementalBoost: { Air: 0.1, Fire: 0.1 }
           preparationTips: ['Best for fresh pesto']
-        }
+        },
         fullMoon: {
           elementalBoost: { Fire: 0.2 }
           preparationTips: ['Ideal for infused oils']
@@ -162,7 +162,7 @@ const rawAromaticHerbs = {
           third: { element: 'Air', planet: 'Saturn' }
         }
       }
-    }
+    },
     qualities: ['warming', 'aromatic', 'digestive', 'stimulating'],
     origin: ['Mediterranean', 'Western Asia'],
     season: ['spring', 'summer'],
@@ -174,7 +174,7 @@ const rawAromaticHerbs = {
       taste: { savory: 0.8, bitter: 0.3, sweet: 0.1 }
       aroma: { herbaceous: 0.7, celery: 0.9, citrus: 0.2 }
       texture: { leafy: 0.8 }
-    }
+    },
     culinaryUses: ['soups', 'stews', 'broths', 'pickling', 'salad dressings'],
     flavor: 'Intense celery-like flavor with hints of anise and parsley',
     preparation: {
@@ -182,13 +182,13 @@ const rawAromaticHerbs = {
         storage: 'stem in water, refrigerated',
         duration: '1 week',
         tips: ['use sparingly due to strong flavor']
-      }
+      },
       dried: {
         storage: 'airtight container',
         duration: '6 months',
         tips: ['crush just before use']
       }
-    }
+    },
     modality: 'Cardinal'
   }
 
@@ -203,7 +203,7 @@ const rawAromaticHerbs = {
       fiber_g: 0,
       vitamins: [],
       minerals: []
-    }
+    },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Venus'],
       favorableZodiac: ['gemini', 'libra', 'aquarius'],
@@ -216,7 +216,7 @@ const rawAromaticHerbs = {
           third: { element: 'Air', planet: 'Uranus' }
         }
       }
-    }
+    },
     qualities: ['cooling', 'uplifting', 'refreshing', 'calming'],
     origin: ['South America'],
     season: ['summer'],
@@ -228,7 +228,7 @@ const rawAromaticHerbs = {
       taste: { citrus: 0.9, sweet: 0.2, bitter: 0.1 }
       aroma: { lemon: 0.9, floral: 0.5, green: 0.3 }
       texture: { leafy: 0.7 }
-    }
+    },
     culinaryUses: ['herbal teas', 'desserts', 'syrups', 'cocktails', 'marinades'],
     flavor: 'Intense lemon flavor with floral notes, stronger than lemongrass',
     preparation: {
@@ -236,16 +236,16 @@ const rawAromaticHerbs = {
         storage: 'wrapped in damp paper towel, refrigerated',
         duration: '5 days',
         tips: ['bruise leaves to release aroma']
-      }
+      },
       dried: {
         storage: 'dark glass container',
         duration: '8 months',
         tips: ['retains aroma well when dried']
-      }
+      },
       infusions: {
         techniques: ['steep in hot water', 'infuse in cream or sugar']
       }
-    }
+    },
     modality: 'Mutable'
   }
 
@@ -260,7 +260,7 @@ const rawAromaticHerbs = {
       fiber_g: 0,
       vitamins: [],
       minerals: []
-    }
+    },
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Saturn'],
       favorableZodiac: ['aries', 'scorpio', 'capricorn'],
@@ -273,7 +273,7 @@ const rawAromaticHerbs = {
           third: { element: 'Water', planet: 'Pluto' }
         }
       }
-    }
+    },
     qualities: ['warming', 'stimulating', 'digestive', 'astringent'],
     origin: ['Mediterranean'],
     season: ['summer'],
@@ -285,31 +285,31 @@ const rawAromaticHerbs = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
+    },
     culinaryUses: ['bean dishes', 'meat stews', 'sausages', 'herb blends', 'vinegars'],
     flavor: 'Peppery, thyme-like flavor with hints of oregano and marjoram',
     varieties: {
       summer_savory: {
         flavor: 'milder, with notes of thyme and mint',
         best_uses: ['fresh applications', 'delicate dishes']
-      }
+      },
       winter_savory: {
         flavor: 'stronger, more pungent and earthy',
         best_uses: ['hearty stews', 'long cooking times']
       }
-    }
+    },
     preparation: {
       fresh: {
         storage: 'wrapped in paper towel, refrigerated',
         duration: '1 week',
         tips: ['add at beginning of cooking']
-      }
+      },
       dried: {
         storage: 'airtight container',
         duration: '1 year',
         tips: ['retains flavor well when dried']
       }
-    }
+    },
     modality: 'Fixed'
   }
 
@@ -324,7 +324,7 @@ const rawAromaticHerbs = {
       fiber_g: 0,
       vitamins: [],
       minerals: []
-    }
+    },
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Jupiter'],
       favorableZodiac: ['aries', 'scorpio', 'sagittarius'],
@@ -337,7 +337,7 @@ const rawAromaticHerbs = {
           third: { element: 'Water', planet: 'Pluto' }
         }
       }
-    }
+    },
     qualities: ['warming', 'stimulating', 'digestive', 'aromatic'],
     origin: ['India', 'Sri Lanka'],
     season: ['year-round'],
@@ -349,7 +349,7 @@ const rawAromaticHerbs = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
+    },
     culinaryUses: ['dal', 'curries', 'rice dishes', 'chutneys', 'vegetable dishes'],
     flavor: 'Complex citrus and nutty flavor that is the foundation of many Indian dishes',
     preparation: {
@@ -357,18 +357,18 @@ const rawAromaticHerbs = {
         storage: 'wrapped in paper towel, refrigerated',
         duration: '1-2 weeks',
         tips: ['can be frozen for longer storage']
-      }
+      },
       cooking: {
         techniques: ['tempered in hot oil', 'fried as first ingredient', 'whole leaves'],
         tips: ['typically left in dish, though not always eaten']
       }
-    }
+    },
     traditional: {
       south_indian: {
         dishes: ['tadka dal', 'sambar', 'rasam', 'coconut chutney'],
         techniques: ['tempered in hot ghee or oil']
       }
-    }
+    },
     modality: 'Cardinal'
   }
 
@@ -383,7 +383,7 @@ const rawAromaticHerbs = {
       fiber_g: 0,
       vitamins: [],
       minerals: []
-    }
+    },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Moon'],
       favorableZodiac: ['virgo', 'gemini', 'cancer'],
@@ -396,7 +396,7 @@ const rawAromaticHerbs = {
           third: { element: 'Earth', planet: 'Venus' }
         }
       }
-    }
+    },
     qualities: ['cooling', 'delicate', 'digestive', 'balancing'],
     origin: ['Caucasus', 'Russia'],
     season: ['spring', 'fall'],
@@ -408,7 +408,7 @@ const rawAromaticHerbs = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
+    },
     culinaryUses: ['fine sauces', 'egg dishes', 'salads', 'soups', 'fish dishes'],
     flavor: 'Delicate flavor similar to parsley with subtle anise notes',
     preparation: {
@@ -416,12 +416,12 @@ const rawAromaticHerbs = {
         storage: 'stem in water, refrigerated',
         duration: '2-3 days',
         tips: ['very perishable', 'add at the end of cooking']
-      }
+      },
       cooking: {
         techniques: ['add last minute', 'quick sauté', 'raw in dressings'],
         tips: ['heat destroys flavor quickly']
       }
-    }
+    },
     traditionalUses: {}
     modality: 'Mutable'
   }
@@ -433,7 +433,7 @@ const rawAromaticHerbs = {
       Fire: 0.3,
       Earth: 0.2,
       Water: 0.1
-    }
+    },
     category: 'culinary_herb',
     qualities: ['nourishing'],
     nutritionalProfile: {
@@ -454,7 +454,7 @@ const rawAromaticHerbs = {
       Fire: 0.3,
       Earth: 0.2,
       Water: 0.1
-    }
+    },
     category: 'culinary_herb',
     qualities: ['nourishing'],
     nutritionalProfile: {
@@ -466,7 +466,7 @@ const rawAromaticHerbs = {
       vitamins: [],
       minerals: []
     }
-  }
+  },
   anise: {
     name: 'Anise',
     elementalProperties: {
@@ -474,7 +474,7 @@ const rawAromaticHerbs = {
       Fire: 0.3,
       Earth: 0.2,
       Water: 0.1
-    }
+    },
     category: 'culinary_herb',
     qualities: ['nourishing'],
     nutritionalProfile: {

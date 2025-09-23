@@ -25,7 +25,7 @@ import {
 } from './LintingFormattingSystem';
 
 export interface CodeQualityAutomationConfig {
-  importCleanup: ImportCleanupConfig;
+  importCleanup: ImportCleanupConfig;,
   lintingFormatting: LintingFormattingConfig,
   dependencySecurity: DependencySecurityConfig,
   executionOrder: AutomationPhase[],
@@ -44,7 +44,7 @@ export interface GlobalAutomationSettings {
 export interface AutomationPhase {
   name: string,
   description: string,
-  system: 'importCleanup' | 'lintingFormatting' | 'dependencySecurity';
+  system: 'importCleanup' | 'lintingFormatting' | 'dependencySecurity';,
   enabled: boolean,
   dependencies: string[],
   criticalFailure: boolean
@@ -75,7 +75,7 @@ export interface PhaseExecutionResult {
 
 export interface GlobalQualityMetrics {
   filesProcessed: number,
-  importIssuesFixed: number;
+  importIssuesFixed: number;,
   lintingViolationsFixed: number,
   formattingIssuesFixed: number,
   securityVulnerabilitiesFixed: number,
@@ -113,14 +113,14 @@ export class CodeQualityAutomationSystem {
       phaseResults: [],
       globalMetrics: {
         filesProcessed: 0,
-        importIssuesFixed: 0;
+        importIssuesFixed: 0;,
         lintingViolationsFixed: 0,
         formattingIssuesFixed: 0,
         securityVulnerabilitiesFixed: 0,
         dependencyUpdatesApplied: 0,
         buildValidationsPassed: 0,
         buildValidationsFailed: 0
-      }
+      },
       errors: [],
       warnings: [],
       recommendations: []
@@ -469,14 +469,14 @@ export class CodeQualityAutomationSystem {
  * Default configuration for code quality automation
  */
 export const _DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG: CodeQualityAutomationConfig = {
-  importCleanup: DEFAULT_IMPORT_CLEANUP_CONFIG;
+  importCleanup: DEFAULT_IMPORT_CLEANUP_CONFIG;,
   lintingFormatting: DEFAULT_LINTING_FORMATTING_CONFIG,
   dependencySecurity: DEFAULT_DEPENDENCY_SECURITY_CONFIG,
   executionOrder: [
     {
       name: 'Import Cleanup',
-      description: 'Clean up unused imports and organize import statements';
-      system: 'importCleanup';
+      description: 'Clean up unused imports and organize import statements';,
+      system: 'importCleanup';,
       enabled: true,
       dependencies: [],
       criticalFailure: false

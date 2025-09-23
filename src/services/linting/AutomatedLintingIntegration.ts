@@ -37,7 +37,7 @@ export interface AutomatedLintingWorkflowResult {
     unusedVariables?: AutomatedFixResult,
     imports?: AutomatedFixResult;
     typeAnnotations?: AutomatedFixResult
-  }
+  },
   summary: WorkflowSummary,
   recommendations: WorkflowRecommendation[],
   metrics: WorkflowMetrics
@@ -311,7 +311,7 @@ export class AutomatedLintingIntegration {
     try {
       // Analyze for import-related issues
       const analysis = await this.analysisService.performComprehensiveAnalysis({
-        focusAreas: ['import'];
+        focusAreas: ['import'];,
         generateStrategies: false
       })
 
@@ -371,7 +371,7 @@ export class AutomatedLintingIntegration {
         maxFailures = 10,
         requireManualApproval = false
         break,
-      default: // moderate
+      default: // moderate,
         maxFailures = 5,
         requireManualApproval = analysis.summary.criticalIssuesCount > 5
     }
@@ -508,7 +508,7 @@ export class AutomatedLintingIntegration {
       totalIssuesFixed: totalFixed,
       totalIssuesFailed: totalFailed,
       automationSuccessRate,
-      timeToCompletion: Date.now() - workflowStart
+      timeToCompletion: Date.now() - workflowStart,
       safetyEventsTriggered,
       rollbacksPerformed,
       overallSuccess: fixResults.automated.success && automationSuccessRate > 0.7

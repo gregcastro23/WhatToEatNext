@@ -516,14 +516,14 @@ const _greeting: any = 'Hi there';
           enforceImportRules: false,
           maxWarningsThreshold: 500,
           customRuleOverrides: { 'no-console': 'off' }
-        }
+        },
         formattingRules: { enforceConsistentIndentation: false,
           enforceTrailingCommas: false,
           enforceSemicolons: false,
           enforceQuoteStyle: 'double',
           enforceLineLength: 120,
           enforceSpacing: false
-        }
+        },
         patternBasedFixes: []
       }
 

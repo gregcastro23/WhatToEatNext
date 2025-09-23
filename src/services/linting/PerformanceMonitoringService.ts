@@ -52,9 +52,9 @@ export class PerformanceMonitoringService {
     this.thresholds = {
       maxExecutionTime: 30000, // 30 seconds,
       maxMemoryUsage: 4096 * 1024 * 1024, // 4GB,
-      minCacheHitRate: 70, // 70%
+      minCacheHitRate: 70, // 70%,
       maxIncrementalTime: 10000, // 10 seconds,
-      minPerformanceImprovement: 60, // 60%
+      minPerformanceImprovement: 60, // 60%,
       ...thresholds
     }
 
@@ -270,7 +270,7 @@ export class PerformanceMonitoringService {
       averageMemoryUsage: number,
       averageCacheHitRate: number,
       totalAlerts: number
-    }
+    },
     performanceImprovement: ReturnType<typeof this.validatePerformanceImprovement>,
     parallelProcessing: ReturnType<typeof this.validateParallelProcessing>,
     memoryOptimization: ReturnType<typeof this.validateMemoryOptimization>,

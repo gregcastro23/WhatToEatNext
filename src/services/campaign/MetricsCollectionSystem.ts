@@ -36,7 +36,7 @@ export interface ResourceMetrics {
     free: number,
     used: number,
     percentage: number
-  }
+  },
   diskSpace: {
     total: number,
     free: number,
@@ -172,25 +172,25 @@ export class MetricsCollectionSystem {
           typeScriptMetrics.count >= 0
             ? Math.round(((86 - typeScriptMetrics.count) / 86) * 100)
             : 0
-      }
+      },
       lintingWarnings: {
         current: lintingMetrics.count,
         target: 0,
         reduction: Math.max(0, 4506 - lintingMetrics.count),
         percentage:
           lintingMetrics.count >= 0 ? Math.round(((4506 - lintingMetrics.count) / 4506) * 100) : 0
-      }
+      },
       buildPerformance: {
         currentTime: buildMetrics.buildTime,
         targetTime: 10,
         cacheHitRate: buildMetrics.cacheHitRate,
         memoryUsage: buildMetrics.memoryUsage
-      }
+      },
       enterpriseSystems: {
         current: enterpriseSystemCount,
         target: 200,
         transformedExports: Math.max(0, enterpriseSystemCount - 0)
-      }
+      },
       errorBreakdown: typeScriptMetrics.breakdown,
       warningBreakdown: lintingMetrics.breakdown,
       buildMetrics,

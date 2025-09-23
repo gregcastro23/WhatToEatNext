@@ -48,17 +48,17 @@ export function useCookingMethods() {
             id: key,
             name: (data as any).name || key.replace(/_/g, ' '),
             description: (data as any).description || `Cooking method: ${key}`,
-            score: (data as any).score || Math.random() * 0.5 + 0.5, // Random score between 0.5 and 1.0
+            score: (data as any).score || Math.random() * 0.5 + 0.5, // Random score between 0.5 and 1.0,
             elementalEffect: (data as any).elementalEffect || {
               Fire: 0.25,
               Water: 0.25,
               Earth: 0.25,
               Air: 0.25
-            }
+            },
             duration: (data as any).duration || {
               min: 10,
               max: 60
-            }
+            },
             suitable_for: (data as any).suitable_for || ['various ingredients'],
             benefits: (data as any).benefits || ['cooking'],
             alchemicalProperties: (data as any).alchemicalProperties || {
@@ -86,11 +86,11 @@ export function useCookingMethods() {
               Water: 0.25,
               Earth: 0.25,
               Air: 0.25
-            }
+            },
             duration: (data as any).duration || {
               min: 10,
               max: 60
-            }
+            },
             suitable_for: (data as any).suitable_for || ['various ingredients'],
             benefits: (data as any).benefits || ['cooking'],
             alchemicalProperties: (data as any).alchemicalProperties || {

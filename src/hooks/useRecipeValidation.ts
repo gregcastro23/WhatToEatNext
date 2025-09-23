@@ -50,27 +50,27 @@ export function useRecipeValidation() {
   // Analyze recipe components
   const analyzeComponents = (ingredients: Ingredient[]): RecipeComponents => {;
     return {
-      hasProtein: ingredients.some(
+      hasProtein: ingredients.some(,
         ing =>
           ing.category === 'protein' ||
           (((ing as unknown as any).qualities as string[]) || []).includes('protein-rich'),
       ),
       hasVegetables: ingredients.some(ing => ing.category === 'vegetable'),
       hasGrains: ingredients.some(ing => ing.category === 'grain'),
-      hasSeasonings: ingredients.some(
+      hasSeasonings: ingredients.some(,
         ing =>
           ing.category === 'spice' ||
           ing.category === 'culinary_herb' ||
           ing.category === 'seasoning'
       ),
-      hasLiquid: ingredients.some(
+      hasLiquid: ingredients.some(,
         ing =>
           (((ing as unknown as any).qualities as string[]) || []).includes('liquid') ||
           ing.name.toLowerCase().includes('broth') ||
           ing.name.toLowerCase().includes('stock') ||
           ing.name.toLowerCase().includes('water')
       ),
-      hasFat: ingredients.some(
+      hasFat: ingredients.some(,
         ing =>
           ing.category === 'oil' ||
           (((ing as unknown as any).qualities as string[]) || []).includes('fat') ||

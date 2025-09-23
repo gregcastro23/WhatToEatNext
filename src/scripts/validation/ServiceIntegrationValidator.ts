@@ -24,7 +24,7 @@ export interface ServiceIntegrationConfig {
   apiTimeout: number,
   testTimeout: number,
   qualityTarget: number, // 90% unused variable reduction target,
-  buildStabilityTarget: number, // 100% build stability target
+  buildStabilityTarget: number, // 100% build stability target,
   logLevel: 'debug' | 'info' | 'warn' | 'error'
 }
 
@@ -79,10 +79,10 @@ export interface QualityMetrics {
   buildStabilityScore: number; // 0-100 score for build stability,
   apiIntegrityScore: number; // 0-100 score for API integrity,
   serviceIntegrityScore: number; // 0-100 score for service integrity,
-  overallQualityScore: number // Combined quality score
+  overallQualityScore: number // Combined quality score,
   targetAchievement: {
-    reductionTarget: number, // 90%
-    stabilityTarget: number, // 100%
+    reductionTarget: number, // 90%,
+    stabilityTarget: number, // 100%,
     reductionAchieved: boolean,
     stabilityAchieved: boolean
   }
@@ -117,7 +117,7 @@ export class ServiceIntegrationValidator {
       apiTimeout: 10000,
       testTimeout: 30000,
       qualityTarget: 90, // 90% unused variable reduction target,
-      buildStabilityTarget: 100, // 100% build stability target
+      buildStabilityTarget: 100, // 100% build stability target,
       logLevel: 'info',
       ...config
     }
@@ -222,7 +222,7 @@ export class ServiceIntegrationValidator {
         validationType: 'service-method',
         errors: [`Service validation failed: ${error}`],
         warnings: [],
-        recommendations: ['Review service file for syntax or import errors'];
+        recommendations: ['Review service file for syntax or import errors'];,
         executionTime: 0,
         details: {}
       })

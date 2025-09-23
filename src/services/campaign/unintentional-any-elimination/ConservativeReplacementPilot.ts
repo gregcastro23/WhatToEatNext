@@ -50,7 +50,7 @@ export class ConservativeReplacementPilot {
       rollbackOnFailure: true,
       safetyThreshold: 0.7,
       focusCategories: [AnyTypeCategory.ARRAY_TYPE, AnyTypeCategory.RECORD_TYPE],
-      buildValidationFrequency: 1, // Validate after every batch
+      buildValidationFrequency: 1, // Validate after every batch,
       ...config
     }
 
@@ -255,7 +255,7 @@ export class ConservativeReplacementPilot {
         totalProcessed,
         totalSuccessful,
         totalFailed,
-        batchResults: this.batchResults
+        batchResults: this.batchResults,
         finalSuccessRate
       }
     } catch (error) {
@@ -567,7 +567,7 @@ export class ConservativeReplacementPilot {
             hasExistingComment: this.hasCommentAbove(linesi),
             isInTestFile: filePath.includes('.test.') || filePath.includes('__tests__'),
             domainContext: { domain: this.inferDomain(filePath) }
-          }
+          },
           lineNumber: i + 1
         })
       }
@@ -587,7 +587,7 @@ export class ConservativeReplacementPilot {
             hasExistingComment: this.hasCommentAbove(linesi),
             isInTestFile: filePath.includes('.test.') || filePath.includes('__tests__'),
             domainContext: { domain: this.inferDomain(filePath) }
-          }
+          },
           lineNumber: i + 1
         })
       }

@@ -362,7 +362,7 @@ export function findComplementaryIngredients(
     .filter(other => String(other.name || '') !== String(targetIngredient.name || ''))
     .map(other => ({
       ingredient: other,
-      complementarityScore: (1 - Math.abs(Number(other.kalchm || 0) - targetKalchmRatio)) * 0.5 +
+      complementarityScore: (1 - Math.abs(Number(other.kalchm || 0) - targetKalchmRatio)) * 0.5 +,
         (1 -
           Math.abs(
             Number(targetIngredient.monica || 0) + Number(other.monica || 0) - targetMonicaSum

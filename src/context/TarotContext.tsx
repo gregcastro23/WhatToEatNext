@@ -31,7 +31,7 @@ const defaultContext: TarotContextType = {
     Water: 0,
     Earth: 0,
     Air: 0
-  }
+  },
   setTarotCard: () => {}
   setTarotElementalInfluences: () => {}
 }

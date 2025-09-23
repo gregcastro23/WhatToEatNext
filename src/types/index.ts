@@ -30,9 +30,9 @@ export interface Ingredient {
   elementalProperties: ElementalProperties,
   astrologicalProfile: {
     elementalAffinity: {
-      base: string
+      base: string,
       secondary?: string
-    }
+    },
     rulingPlanets: string[],
     zodiacAffinity?: string[]
   }
@@ -66,17 +66,17 @@ export interface FilterOptions {
     vegan: boolean,
     glutenFree: boolean,
     dairyFree: boolean
-  }
+  },
   time: {
     quick: boolean,
     medium: boolean,
     long: boolean
-  }
+  },
   spice: {
     mild: boolean,
     medium: boolean,
     spicy: boolean
-  }
+  },
   temperature: {
     hot: boolean,
     cold: boolean

@@ -164,57 +164,57 @@ export function getCurrentPlanetaryPositions(): { [key: string]: CelestialPositi
       degree: 101.48333333333333,
       exactLongitude: 101.4844,
       isRetrograde: false
-    }
+    },
     Moon: {
       sign: 'libra',
       degree: 195.16666666666666,
       exactLongitude: 195.18319999999994,
       isRetrograde: false
-    }
+    },
     Mercury: {
       sign: 'leo',
       degree: 127.38333333333334,
       exactLongitude: 127.38920000000002,
       isRetrograde: false
-    }
+    },
     Venus: {
       sign: 'taurus',
       degree: 58.35,
       exactLongitude: 58.35340000000002,
       isRetrograde: false
-    }
+    },
     Mars: { sign: 'virgo', degree: 159, exactLongitude: 159.0158, isRetrograde: false }
     Jupiter: {
       sign: 'cancer',
       degree: 95.3,
       exactLongitude: 95.30540000000002,
       isRetrograde: false
-    }
+    },
     Saturn: {
       sign: 'aries',
       degree: 1.85,
       exactLongitude: 1.8501999999999725,
       isRetrograde: false
-    }
+    },
     Uranus: { sign: 'taurus', degree: 59.8, exactLongitude: 59.8091, isRetrograde: false }
     Neptune: {
       sign: 'aries',
       degree: 2.1666666666666665,
       exactLongitude: 2.174699999999973,
       isRetrograde: false
-    }
+    },
     Pluto: {
       sign: 'aquarius',
       degree: 303.0833333333333,
       exactLongitude: 303.09529999999995,
       isRetrograde: false
-    }
+    },
     _Chiron: {
       sign: 'aries',
       degree: 26.933333333333334,
       exactLongitude: 26.939399999999978,
       isRetrograde: false
-    }
+    },
     _Sirius: {
       sign: 'aries',
       degree: 1.7666666666666666,
@@ -304,7 +304,7 @@ export function getPlanetaryPositionsForDate(_date: Date): { [key: string]: Cele
     Uranus: 0.01,
     Neptune: 0.006,
     Pluto: 0.004,
-    _NorthNode: -0.05, // Nodes move backwards
+    _NorthNode: -0.05, // Nodes move backwards,
     southNode: -0.05,
     Ascendant: 1.0, // Approximation
   }

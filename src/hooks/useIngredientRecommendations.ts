@@ -176,9 +176,9 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
             category: ingredient.category,
             elementalProperties: ingredient.elementalProfile,
             nutritionalContent: undefined
-          }
+          },
           matchScore: ingredient.score || 0,
-          elementalCompatibility: calculateElementalCompatibility(
+          elementalCompatibility: calculateElementalCompatibility(,
             ingredient.elementalProfile
             currentElementalProfile,
           ),

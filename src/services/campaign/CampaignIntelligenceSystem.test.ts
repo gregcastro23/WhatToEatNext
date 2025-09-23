@@ -55,7 +55,7 @@ describe('Campaign Intelligence System', () => {
           [ErrorCategory.TS2304_CANNOT_FIND_NAME]: 0,
           [ErrorCategory.TS2362_ARITHMETIC_OPERATION]: 0,
           [ErrorCategory.OTHER]: 0
-        }
+        },
         priorityOptimization: { TS2352_TYPE_CONVERSIO, N: 9.2, TS2345_ARGUMENT_MISMATCH: 4.35 }
         predictiveAnalytics: { errorReductionPotential: 0.85,
           campaignDurationEstimate: 30,
@@ -135,12 +135,12 @@ describe('Campaign Intelligence System', () => {
           projectedCompletion: new Date('2025-02-01'),
           efficiencyTrends: [1.21.51.8],
           bottleneckIdentification: ['Low error fixing velocity']
-        }
+        },
         qualityMetrics: { codeHealthScore: 0.85,
           maintainabilityIndex: 0.8,
           technicalDebtRatio: 0.15,
           buildReliability: 0.95
-        }
+        },
         strategicInsights: { recommendedActions: ['Increase batch size for higher throughput'],
           riskAssessment: ['Build stability risk detected'],
           opportunityIdentification: ['High success rate - consider aggressive mode'],
@@ -221,30 +221,30 @@ describe('Campaign Intelligence System', () => {
           systemComplexity: 0.6,
           intelligenceDepth: 'advanced' as const,
           campaignEffectiveness: 0.82
-        }
+        },
         errorPatterns: { patternRecognition: { TS2352_TYPE_CONVERSION: 10, TS2345_ARGUMENT_MISMATCH: 5 }
           fixSuccessRates: {}
           errorCategoryTrends: {} as unknown,
           priorityOptimization: {}
           predictiveAnalytics: {}
-        }
+        },
         progressAnalysis: { velocityAnalysis: {
             currentVelocity: 1.5,
             projectedCompletion: new Date('2025-02-01'),
             efficiencyTrends: [],
             bottleneckIdentification: []
-          }
+          },
           qualityMetrics: { codeHealthScore: 0.85,
             maintainabilityIndex: 0.8,
             technicalDebtRatio: 0.15,
             buildReliability: 0.95
-          }
+          },
           strategicInsights: { recommendedActions: [],
             riskAssessment: [],
             opportunityIdentification: [],
             resourceOptimization: []
           }
-        }
+        },
         systemIntegration: { overallSystemIntegratio, n: 0.92 }
         intelligenceRecommendations: ['Test recommendation'],
         enterpriseReadinessScore: 0.88,

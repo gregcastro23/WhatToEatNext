@@ -11,7 +11,7 @@ const rawFlaxseed = {
         base: 'Water',
         secondary: 'Air'
       }
-    }
+    },
     qualities: ['gelatinous', 'omega-rich', 'nutty', 'gluten-free', 'binding'],
     category: 'pseudo_grain',
     origin: ['Middle East', 'Mediterranean', 'widely cultivated worldwide'],
@@ -21,14 +21,14 @@ const rawFlaxseed = {
         texture: 'Similar to brown',
         flavor: 'Milder, lighter flavor than brown',
         uses: 'Visually appealing in lighter dishes, often more expensive'
-      }
+      },
       meal: {
         appearance: 'Ground powder',
         texture: 'Fine to coarse depending on grind',
         flavor: 'Nutty, can become rancid quickly',
         uses: 'Baking, smoothies, egg substitute'
       }
-    }
+    },
     preparation: {
       fresh: {
         duration: 'No cooking required, ground for best nutrition',
@@ -38,15 +38,15 @@ const rawFlaxseed = {
           'Mix with water (1:3 ratio) for egg substitute',
           'Add to dishes after cooking to preserve nutrients'
         ]
-      }
+      },
       methods: ['ground', 'soaked', 'incorporated into batter', 'sprinkled whole']
-    }
+    },
     storage: {
       container: 'Airtight container',
       duration: 'Up to 1 year (whole seeds), 1-2 weeks (ground)',
       temperature: 'Cool, dark place (whole), refrigerated or frozen (ground)',
       notes: 'High oil content means ground flaxseed spoils quickly'
-    }
+    },
     pairingRecommendations: {
       complementary: ['oats', 'yogurt', 'smoothies', 'breads', 'muffins', 'granola'],
       contrasting: ['fruits', 'honey', 'maple syrup'],

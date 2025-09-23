@@ -52,7 +52,7 @@ export function adaptLunarPhase(
 
 export interface TarotAstrologyData {
   // Astrological data,
-  currentPlanetaryAlignment: Record<
+  currentPlanetaryAlignment: Record<,
     string,
     {
       sign: string,
@@ -206,7 +206,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
       const cards = getTarotCardsForDate(currentDate, sunPosition)
       setTarotCards({
         minorCard: cards.minorCard || null,
-        majorCard: cards.majorCard
+        majorCard: cards.majorCard,
           ? ({
               name: cards.majorCard.name,
               planet: cards.majorCard.planet,

@@ -36,22 +36,22 @@ export interface WarningDistribution {
     count: number,
     priority: number,
     files: string[]
-  }
+  },
   unusedVariables: {
     count: number,
     priority: number,
     files: string[]
-  }
+  },
   consoleStatements: {
     count: number,
     priority: number,
     files: string[]
-  }
+  },
   other: {
     count: number,
     priority: number,
     files: string[]
-  }
+  },
   total: number
 }
 
@@ -62,7 +62,7 @@ export interface LintingAnalysisResult {
     highPriority: string[],
     mediumPriority: string[],
     lowPriority: string[]
-  }
+  },
   recommendations: string[]
 }
 
@@ -339,7 +339,7 @@ export class LintingWarningAnalyzer {
 
     return {
       highPriority: sortedFiles.slice(0, highPriorityCount).map(([file]) => file),
-      mediumPriority: sortedFiles
+      mediumPriority: sortedFiles,
         .slice(highPriorityCount, highPriorityCount + mediumPriorityCount)
         .map(([file]) => file)
       lowPriority: sortedFiles.slice(highPriorityCount + mediumPriorityCount).map(([file]) => file)

@@ -73,7 +73,7 @@ interface PlanetaryInfluence {
 interface HoroscopeData {
   tropical: {
     CelestialBodies: Record<string, unknown>,
-    Ascendant: Record<string, unknown>
+    Ascendant: Record<string, unknown>,
     Aspects: Record<string, unknown>,
     [key: string]: unknown
   }
@@ -302,17 +302,17 @@ export class AlchemicalEngineAdvanced {
           Water: 0.25,
           Earth: 0.25,
           Air: 0.25
-        }
+        },
         thermodynamicProperties: {
           heat: totalScore * 0.1,
           entropy: 0.5,
           reactivity: 0.5,
           gregsEnergy: totalScore * 0.05
-        }
+        },
         kalchm: 1.0,
         monica: 1.0,
         score: totalScore
-      }
+      },
       confidence: totalScore / 100,
       factors: [
         `Astronomical match: ${astronomicalScore}`,
@@ -492,7 +492,7 @@ export class AlchemicalEngineAdvanced {
     season: string,
   ): PlanetaryInfluence {
     return {
-      planet: 'Sun', // Default to Sun as primary influence
+      planet: 'Sun', // Default to Sun as primary influence,
       sign: (astrologicalState.currentZodiac || 'aries') ?? 'aries',
       element: element as unknown as Element,
       strength: this.seasonalModifiers[season][element] || 0.5
@@ -1019,7 +1019,7 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
         capricorn: {}
         aquarius: {}
         pisces: {}
-      }
+      },
       Planets: {
         Sun: {}
         Moon: {}
@@ -1423,13 +1423,13 @@ export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): 
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
-      }
+      },
       thermodynamicProperties: {
         heat,
         entropy,
         reactivity,
         gregsEnergy: heat - entropy * reactivity, // ← Pattern HH-4: Using gregsEnergy instead of energy
-      }
+      },
       kalchm: 1.0,
       monica: 1.0,
       score: 0.5,
@@ -1578,7 +1578,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<Record<string, unkn
                 ArcDegreesInSign: pos.degree,
                 DecimalDegrees: pos.exactLongitude
               }
-            }
+            },
             exactLongitude: pos.exactLongitude,
             isRetrograde: pos.isRetrograde || false
           }
@@ -1700,7 +1700,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<Record<string, unkn
             Ecliptic: {
               ArcDegreesInSign: degree
             }
-          }
+          },
           exactLongitude: exactLongitude
         }
       })
@@ -1730,37 +1730,37 @@ async function calculateCurrentPlanetaryPositions(): Promise<Record<string, unkn
         Degree: 15,
         ChartPosition: { Ecliptic: { ArcDegreesInSign: 15 } }
         exactLongitude: 15
-      }
+      },
       Moon: {
         Sign: { label: 'Cancer' }
         Degree: 10,
         ChartPosition: { Ecliptic: { ArcDegreesInSign: 10 } }
         exactLongitude: 100
-      }
+      },
       Mercury: {
         Sign: { label: 'Taurus' }
         Degree: 5,
         ChartPosition: { Ecliptic: { ArcDegreesInSign: 5 } }
         exactLongitude: 35
-      }
+      },
       Venus: {
         Sign: { label: 'Gemini' }
         Degree: 12,
         ChartPosition: { Ecliptic: { ArcDegreesInSign: 12 } }
         exactLongitude: 72
-      }
+      },
       Mars: {
         Sign: { label: 'Leo' }
         Degree: 8,
         ChartPosition: { Ecliptic: { ArcDegreesInSign: 8 } }
         exactLongitude: 128
-      }
+      },
       Jupiter: {
         Sign: { label: 'Libra' }
         Degree: 20,
         ChartPosition: { Ecliptic: { ArcDegreesInSign: 20 } }
         exactLongitude: 200
-      }
+      },
       Saturn: {
         Sign: { label: 'Capricorn' }
         Degree: 15,
@@ -1783,7 +1783,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<Record<string, unkn
         Sign: { label: 'Aries' }
         Degree: 15,
         ChartPosition: { Ecliptic: { ArcDegreesInSign: 15 } }
-      }
+      },
       Moon: {
         Sign: { label: 'Cancer' }
         Degree: 10,
@@ -1938,13 +1938,13 @@ export function calculateChakraEnergies(_zodiacEnergies: Record<string, _number>
     const zodiacToChakraMap: Record<string, ChakraPosition[]> = {
       // Root chakra is associated with earth signs
       taurus: ['root'],
-      virgo: ['root', 'throat'], // Virgo influences multiple chakras
+      virgo: ['root', 'throat'], // Virgo influences multiple chakras,
       capricorn: ['root'],
 
       // Sacral chakra is associated with water signs
       cancer: ['sacral'],
-      scorpio: ['sacral', 'brow'], // Scorpio influences sacral and brow chakras
-      pisces: ['sacral', 'heart'], // Pisces influences multiple chakras
+      scorpio: ['sacral', 'brow'], // Scorpio influences sacral and brow chakras,
+      pisces: ['sacral', 'heart'], // Pisces influences multiple chakras,
 
       // Solar plexus is associated with fire signs
       aries: ['solarPlexus'],
@@ -2133,7 +2133,7 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
-      }
+      },
       planetaryPositions: {}
       timestamp: new Date(),
       dominantElement: 'Fire',
@@ -2217,13 +2217,13 @@ function safeAlchemize(_birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): Al
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
-      }
+      },
       thermodynamicProperties: {
         heat,
         entropy,
         reactivity,
         gregsEnergy: heat - entropy * reactivity, // ← Pattern HH-4: Using gregsEnergy instead of energy
-      }
+      },
       kalchm: 1.0,
       monica: 1.0,
       score: 0.5,
@@ -2277,13 +2277,13 @@ function alchemizeWithSafety(
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
-      }
+      },
       thermodynamicProperties: {
         heat,
         entropy,
         reactivity,
         gregsEnergy: heat - entropy * reactivity, // ← Pattern HH-4: Using gregsEnergy instead of energy
-      }
+      },
       kalchm: 1.0,
       monica: 1.0,
       score: 0.5,
@@ -2311,13 +2311,13 @@ function alchemizeWithSafety(
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
-      }
+      },
       thermodynamicProperties: {
         heat,
         entropy,
         reactivity,
         gregsEnergy: heat - entropy * reactivity, // ← Pattern HH-4: Using gregsEnergy instead of energy
-      }
+      },
       kalchm: 1.0,
       monica: 1.0,
       score: 0.5,

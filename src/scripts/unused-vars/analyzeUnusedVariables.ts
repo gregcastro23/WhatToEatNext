@@ -4,7 +4,7 @@
   - Classifies variables via domainPreservation rules
   - Outputs a JSON and human-readable report with confidence scoring,
 
-  Usage: yarn ts-node src/scripts/unused-vars/analyzeUnusedVariables.ts --out reports/unused-vars.json --max 2000
+  Usage: yarn ts-node src/scripts/unused-vars/analyzeUnusedVariables.ts --out reports/unused-vars.json --max 2000,
 */
 
 import childProcess from 'node:child_process';

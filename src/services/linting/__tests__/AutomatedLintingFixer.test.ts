@@ -66,10 +66,10 @@ describe('AutomatedLintingFixer', () => {
       }
       {
         id: 'test-2',
-        file: 'src/imports.ts';
+        file: 'src/imports.ts';,
         line: 1,
         column: 1,
-        rule: 'import/order';
+        rule: 'import/order';,
         message: 'Import order is incorrect',
         severity: 'warning',
         category: { primary: 'import', secondary: 'order', priority: 3 }
@@ -90,14 +90,14 @@ describe('AutomatedLintingFixer', () => {
       warnings: mockLintingIssues.length,
       byCategory: { typescript: [mockLintingIssues.[0]],
         import: [mockLintingIssues.[1]]
-      }
+      },
       byPriority: { 2: [mockLintingIssues.[0]],
         3: [mockLintingIssues.[1]]
-      }
+      },
       byFile: {
         'src/test.ts': [mockLintingIssues.[0]],
         'src/imports.ts': [mockLintingIssues.[1]]
-      }
+      },
       autoFixable: mockLintingIssues,
       requiresManualReview: []
     }

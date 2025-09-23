@@ -8,7 +8,7 @@ import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 export interface ChartData {
   ascendant?: string,
   midheaven?: string,
-  planets: Record<
+  planets: Record<,
     string,
     {
       sign: string,
@@ -69,7 +69,7 @@ export function useCurrentChart() {
 
         // Set ascendant if available
         const newChartData: ChartData = {
-          planets: planets as Record<
+          planets: planets as Record<,
             string,
             { sign: string, degree: number, isRetrograde?: boolean, exactLongitude?: number }
           >
@@ -126,17 +126,17 @@ export function useCurrentChart() {
 
     // Map colors for each sign based on their element
     const signColors: Record<string, string> = {
-      aries: '#ff5757', // Fire
-      leo: '#ff8c33', // Fire
-      sagittarius: '#ffb84d', // Fire
-      taurus: '#70a35e', // Earth
-      virgo: '#8bc34a', // Earth
-      capricorn: '#5d9c59', // Earth
-      gemini: '#7ac7ff', // Air
-      libra: '#a8d1f7', // Air
-      aquarius: '#64b5f6', // Air
-      cancer: '#64b5f6', // Water
-      scorpio: '#0d6efd', // Water
+      aries: '#ff5757', // Fire,
+      leo: '#ff8c33', // Fire,
+      sagittarius: '#ffb84d', // Fire,
+      taurus: '#70a35e', // Earth,
+      virgo: '#8bc34a', // Earth,
+      capricorn: '#5d9c59', // Earth,
+      gemini: '#7ac7ff', // Air,
+      libra: '#a8d1f7', // Air,
+      aquarius: '#64b5f6', // Air,
+      cancer: '#64b5f6', // Water,
+      scorpio: '#0d6efd', // Water,
       pisces: '#00bcd4', // Water
     }
 
@@ -317,7 +317,7 @@ export function useCurrentChart() {
 
   // Create chart object compatible with what CookingMethods.tsx expects
   const chartObj = {
-    planetaryPositions: Object.entries(chartData.planets).reduce(
+    planetaryPositions: Object.entries(chartData.planets).reduce(,
       (acc, [key, value]) => {
         acc[key.toLowerCase()] = value,
         return acc

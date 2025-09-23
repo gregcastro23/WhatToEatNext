@@ -93,10 +93,10 @@ class SystemValidationSuite {
         score: accuracy,
         message: `Classification accuracy: ${accuracy.toFixed(1)}%`,
         details: {
-          totalTests: testCases.length
+          totalTests: testCases.length,
           correctClassifications,
           accuracy
-        }
+        },
         recommendations:
           accuracy < 90
             ? [
@@ -146,7 +146,7 @@ class SystemValidationSuite {
         details: {
           patternstested: patternCount,
           averageSuccessRate
-        }
+        },
         recommendations:
           averageSuccessRate < 85
             ? [

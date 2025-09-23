@@ -305,7 +305,7 @@ export async function safeImportFunction<T extends (...args: unknown[]) => unkno
  */
 
 export async function dynamicImport<TF = null>(
-  importFn: () => Promise<T>;
+  importFn: () => Promise<T>;,
   fallbackFn: (() => F) | null = null,
 ): Promise<T | F | null> {
   debugLog('dynamicImport is deprecated, use safeImportFunction instead')

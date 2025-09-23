@@ -14,11 +14,11 @@ export const _distilling: CookingMethodData = {
     Water: 0.3,
     Earth: 0.1,
     Air: 0.6
-  }
+  },
   duration: {
-    min: 60, // 1 hour
+    min: 60, // 1 hour,
     max: 480, // 8 hours
-  }
+  },
   suitable_for: ['Herbs', 'Flowers', 'Fruits', 'Grains', 'Spices', 'Fermented liquids'],
   benefits: [
     'Creates concentrated extracts with medicinal properties',
@@ -35,9 +35,9 @@ export const _distilling: CookingMethodData = {
     'Molecular distillation (for specific compounds at very low pressures)'
   ],
   optimalTemperatures: {
-    ethanol: 78, // °C (ethanol boiling point)
+    ethanol: 78, // °C (ethanol boiling point),
     essential: 200, // °C (for higher boiling point compounds)
-  }
+  },
   toolsRequired: [
     'Still (pot still or column still)',
     'Condenser',

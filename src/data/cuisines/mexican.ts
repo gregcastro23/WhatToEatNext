@@ -50,7 +50,7 @@ export const mexican = {
             eggs: ['tofu scramble', 'chickpea scramble'],
             'queso fresco': ['vegan cheese', 'avocado'],
             'corn tortillas': ['flour tortillas', 'gluten-free tortillas']
-          }
+          },
           servingSize: 1,
           allergens: ['egg', 'dairy'],
           prepTime: '10 minutes',
@@ -67,7 +67,7 @@ export const mexican = {
             fat: 28,
             vitamins: ['A', 'C', 'D'],
             minerals: ['Iron', 'Potassium']
-          }
+          },
           season: ['all'],
           mealType: ['breakfast', 'brunch']
         }
@@ -116,7 +116,7 @@ export const mexican = {
             eggs: ['tofu scramble', 'chickpea scramble'],
             crema: ['cashew cream', 'coconut cream'],
             'queso fresco': ['vegan cheese', 'nutritional yeast']
-          }
+          },
           servingSize: 2,
           allergens: ['dairy', 'egg'],
           prepTime: '15 minutes',
@@ -133,7 +133,7 @@ export const mexican = {
             fat: 24,
             vitamins: ['A', 'C', 'K'],
             minerals: ['Calcium', 'Iron']
-          }
+          },
           season: ['all'],
           mealType: ['breakfast', 'brunch']
         }
@@ -173,7 +173,7 @@ export const mexican = {
             'bolillo rolls': ['sourdough', 'gluten-free bread'],
             cheese: ['vegan cheese', 'cashew cheese'],
             'refried beans': ['black bean spread', 'pinto bean spread']
-          }
+          },
           servingSize: 2,
           allergens: ['dairy', 'wheat'],
           prepTime: '10 minutes',
@@ -190,7 +190,7 @@ export const mexican = {
             fat: 16,
             vitamins: ['C', 'B12'],
             minerals: ['Iron', 'Calcium']
-          }
+          },
           season: ['all'],
           mealType: ['breakfast', 'snack']
         }
@@ -238,7 +238,7 @@ export const mexican = {
             'queso fresco': ['vegan cheese', 'tofu feta'],
             crema: ['cashew cream', 'vegan sour cream'],
             'chipotle peppers': ['smoked paprika', 'ancho chile']
-          }
+          },
           servingSize: 4,
           allergens: ['dairy'],
           prepTime: '20 minutes',
@@ -255,7 +255,7 @@ export const mexican = {
             fat: 18,
             vitamins: ['B12', 'C'],
             minerals: ['Iron', 'Calcium']
-          }
+          },
           season: ['all'],
           mealType: ['breakfast', 'dinner']
         }
@@ -299,7 +299,7 @@ export const mexican = {
             eggs: ['tofu scramble', 'chickpea scramble'],
             ham: ['tempeh', 'seitan', 'mushrooms'],
             plantains: ['sweet bananas', 'sweet potatoes']
-          }
+          },
           servingSize: 4,
           allergens: ['egg'],
           prepTime: '15 minutes',
@@ -316,7 +316,7 @@ export const mexican = {
             fat: 24,
             vitamins: ['A', 'C', 'B12'],
             minerals: ['Iron', 'Potassium']
-          }
+          },
           season: ['all'],
           mealType: ['breakfast', 'brunch']
         }
@@ -351,7 +351,7 @@ export const mexican = {
             milk: ['almond milk', 'oat milk', 'coconut milk'],
             honey: ['agave nectar', 'maple syrup'],
             'mixed fruits': ['any seasonal fruits']
-          }
+          },
           servingSize: 2,
           allergens: ['dairy'],
           prepTime: '5 minutes',
@@ -368,12 +368,12 @@ export const mexican = {
             fat: 6,
             vitamins: ['C', 'D'],
             minerals: ['Calcium', 'Potassium']
-          }
+          },
           season: ['summer'],
           mealType: ['breakfast', 'snack']
         }
       ]
-    }
+    },
     lunch: {
       all: [
         {
@@ -408,7 +408,7 @@ export const mexican = {
             chicken: ['chickpeas', 'mushrooms', 'jackfruit'],
             chayote: ['zucchini', 'summer squash'],
             'Mexican rice': ['white rice', 'quinoa']
-          }
+          },
           servingSize: 6,
           allergens: ['none'],
           prepTime: '30 minutes',
@@ -425,7 +425,7 @@ export const mexican = {
             fat: 12,
             vitamins: ['A', 'C', 'B6'],
             minerals: ['Iron', 'Potassium']
-          }
+          },
           season: ['all', 'winter'],
           mealType: ['lunch', 'dinner', 'healing']
         }
@@ -455,7 +455,7 @@ export const mexican = {
             fat: 8,
             vitamins: ['C', 'B12'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           timeToMake: '20 minutes',
           season: ['summer'],
           mealType: ['lunch']
@@ -495,7 +495,7 @@ export const mexican = {
             'pork shoulder': ['jackfruit', 'mushrooms', 'seitan'],
             'dried hominy': ['canned hominy'],
             'guajillo chiles': ['New Mexico chiles', 'California chiles']
-          }
+          },
           servingSize: 8,
           allergens: ['none'],
           prepTime: '30 minutes',
@@ -512,12 +512,12 @@ export const mexican = {
             fat: 22,
             vitamins: ['A', 'C', 'B12'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['autumn', 'winter'],
           mealType: ['lunch', 'dinner', 'celebration']
         }
       ]
-    }
+    },
     dinner: {
       all: [
         {
@@ -553,7 +553,7 @@ export const mexican = {
             turkey: ['chicken', 'mushrooms', 'seitan'],
             almonds: ['pumpkin seeds'],
             chocolate: ['dairy-free chocolate']
-          }
+          },
           servingSize: 10,
           allergens: ['nuts'],
           prepTime: '2 hours',
@@ -570,7 +570,7 @@ export const mexican = {
             fat: 32,
             vitamins: ['A', 'B6', 'E'],
             minerals: ['Iron', 'Magnesium']
-          }
+          },
           season: ['all'],
           mealType: ['dinner', 'celebration', 'special occasion']
         }
@@ -613,7 +613,7 @@ export const mexican = {
             'ground pork': ['mushroom mixture', 'plant-based meat'],
             'Mexican cream': ['cashew cream', 'almond cream'],
             walnuts: ['pecans', 'almonds']
-          }
+          },
           servingSize: 6,
           allergens: ['nuts', 'dairy'],
           prepTime: '45 minutes',
@@ -630,7 +630,7 @@ export const mexican = {
             fat: 48,
             vitamins: ['A', 'C', 'E'],
             minerals: ['Iron', 'Calcium']
-          }
+          },
           season: ['late summer', 'early fall'],
           mealType: ['dinner', 'celebration']
         }
@@ -679,7 +679,7 @@ export const mexican = {
             'pork shoulder': ['jackfruit', 'seitan', 'mushrooms'],
             'sour orange': ['lime juice + orange juice'],
             'banana leaves': ['parchment paper', 'foil']
-          }
+          },
           servingSize: 8,
           allergens: ['none'],
           prepTime: '1 hour plus marinating',
@@ -696,7 +696,7 @@ export const mexican = {
             fat: 28,
             vitamins: ['B12', 'C'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['all'],
           mealType: ['lunch', 'dinner', 'celebration']
         }
@@ -733,7 +733,7 @@ export const mexican = {
             'goat/beef': ['jackfruit', 'mushrooms', 'seitan'],
             'dried chiles': ['chile powder blend'],
             vinegar: ['apple cider vinegar', 'lime juice']
-          }
+          },
           servingSize: 8,
           allergens: ['none'],
           prepTime: '1 hour plus marinating',
@@ -750,7 +750,7 @@ export const mexican = {
             fat: 24,
             vitamins: ['B12', 'A'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['all'],
           mealType: ['lunch', 'dinner', 'celebration']
         }
@@ -793,7 +793,7 @@ export const mexican = {
             lard: ['vegetable shortening', 'coconut oil'],
             pork: ['jackfruit', 'mushrooms', 'beans'],
             'corn husks': ['banana leaves']
-          }
+          },
           servingSize: 20,
           allergens: ['none'],
           prepTime: '2 hours',
@@ -810,7 +810,7 @@ export const mexican = {
             fat: 14,
             vitamins: ['A', 'C'],
             minerals: ['Iron', 'Potassium']
-          }
+          },
           season: ['all', 'christmas'],
           mealType: ['breakfast', 'dinner', 'celebration']
         }
@@ -840,13 +840,13 @@ export const mexican = {
             fat: 28,
             vitamins: ['B12', 'C'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           timeToMake: '12 hours',
           season: ['winter'],
           mealType: ['dinner']
         }
       ]
-    }
+    },
     dessert: {
       all: [
         {
@@ -866,7 +866,7 @@ export const mexican = {
             fat: 10,
             vitamins: ['A', 'D'],
             minerals: ['Calcium']
-          }
+          },
           timeToMake: '60 minutes',
           season: ['all'],
           mealType: ['dessert'],
@@ -899,7 +899,7 @@ export const mexican = {
             fat: 12,
             vitamins: ['B1', 'B2'],
             minerals: ['Iron']
-          }
+          },
           timeToMake: '45 minutes',
           season: ['all'],
           mealType: ['dessert']
@@ -923,14 +923,14 @@ export const mexican = {
             fat: 0,
             vitamins: ['C', 'A'],
             minerals: ['Potassium']
-          }
+          },
           timeToMake: '240 minutes',
           season: ['summer'],
           mealType: ['dessert']
         }
       ]
     }
-  }
+  },
   soups: {
     all: [
       {
@@ -965,7 +965,7 @@ export const mexican = {
           chicken: ['chickpeas', 'mushrooms', 'jackfruit'],
           chayote: ['zucchini', 'summer squash'],
           'Mexican rice': ['white rice', 'quinoa']
-        }
+        },
         servingSize: 6,
         allergens: ['none'],
         prepTime: '30 minutes',
@@ -982,12 +982,12 @@ export const mexican = {
           fat: 12,
           vitamins: ['A', 'C', 'B6'],
           minerals: ['Iron', 'Potassium']
-        }
+        },
         season: ['all', 'winter'],
         mealType: ['lunch', 'dinner', 'healing']
       }
     ]
-  }
+  },
   traditionalSauces: {
     mole: {
       name: 'Mole',
@@ -1006,13 +1006,13 @@ export const mexican = {
         fire: 0.3,
         water: 0.2,
         air: 0.1
-      }
+      },
       astrologicalInfluences: ['pluto', 'mars', 'scorpio'],
       seasonality: 'all',
       preparationNotes:
         'Traditionally prepared over multiple days for celebrations and special occasions',
       technicalTips: 'Toast ingredients separately to develop maximum flavor complexity'
-    }
+    },
     salsaVerde: {
       name: 'Salsa Verde',
       description: 'Tangy green sauce made from tomatillos, chiles, and herbs',
@@ -1030,12 +1030,12 @@ export const mexican = {
         fire: 0.3,
         air: 0.2,
         earth: 0.1
-      }
+      },
       astrologicalInfluences: ['venus', 'mercury', 'gemini'],
       seasonality: 'spring, summer',
       preparationNotes: 'Can be served raw or cooked depending on desired flavor profile',
       technicalTips: 'Roasting ingredients before blending adds smoky depth'
-    }
+    },
     salsaRoja: {
       name: 'Salsa Roja',
       description: 'Rich red sauce made from tomatoes and dried chiles',
@@ -1048,13 +1048,13 @@ export const mexican = {
         earth: 0.3,
         water: 0.1,
         air: 0.1
-      }
+      },
       astrologicalInfluences: ['mars', 'sun', 'aries'],
       seasonality: 'summer, autumn',
       preparationNotes:
         'Most traditional version uses dried chiles rehydrated and blended with tomatoes',
       technicalTips: 'Straining after blending creates a smoother texture'
-    }
+    },
     adobo: {
       name: 'Adobo',
       description: 'Chile-based marinade with vinegar and spices',
@@ -1067,13 +1067,13 @@ export const mexican = {
         air: 0.3,
         earth: 0.2,
         water: 0.1
-      }
+      },
       astrologicalInfluences: ['mars', 'mercury', 'sagittarius'],
       seasonality: 'all',
       preparationNotes: 'Originally used as a preservation technique, now primarily for flavor',
       technicalTips:
         'Longer marinating creates deeper flavor, but can break down delicate proteins'
-    }
+    },
     pipian: {
       name: 'Pipián',
       description: 'Pre-Hispanic sauce based on ground pumpkin seeds',
@@ -1086,13 +1086,13 @@ export const mexican = {
         water: 0.2,
         air: 0.2,
         fire: 0.1
-      }
+      },
       astrologicalInfluences: ['saturn', 'moon', 'capricorn'],
       seasonality: 'autumn, winter',
       preparationNotes: 'Pre-Hispanic sauce that predates European influence in Mexican cuisine',
       technicalTips: 'Toast seeds until fragrant but not burnt for optimal flavor'
     }
-  }
+  },
   sauceRecommender: {
     forProtein: {
       chicken: ['mole poblano', 'pipián verde', 'salsa verde', 'adobo', 'tinga sauce'],
@@ -1106,7 +1106,7 @@ export const mexican = {
         'aguachile dressing'
       ],
       vegetables: ['pipián', 'salsa ranchera', 'mole verde', 'chipotle cream', 'salsa de semillas']
-    }
+    },
     forVegetable: {
       root: ['mole colorado', 'pipián', 'chile colorado', 'adobo', 'salsa macha'],
       leafy: ['salsa verde', 'pepita dressing', 'avocado crema', 'lime dressing', 'cilantro sauce'],
@@ -1125,7 +1125,7 @@ export const mexican = {
         'salsa macha',
         'epazote butter'
       ]
-    }
+    },
     forCookingMethod: {
       grilling: [
         'salsa roja asada',
@@ -1156,7 +1156,7 @@ export const mexican = {
         'pico de gallo',
         'salsa cruda'
       ]
-    }
+    },
     byAstrological: {
       fire: [
         'salsa macha',
@@ -1174,7 +1174,7 @@ export const mexican = {
         'chimichurri mexicano',
         'citrus salsas'
       ]
-    }
+    },
     byRegion: {
       oaxaca: [
         'mole negro',
@@ -1199,14 +1199,14 @@ export const mexican = {
         'salsa ranchera'
       ],
       pacific: ['salsa huichol', 'chamoy', 'salsa negra', 'salsa de mariscos', 'aguachile']
-    }
+    },
     byDietary: {
       vegetarian: ['salsa verde', 'guacamole', 'pico de gallo', 'pipián verde', 'mole verde'],
       vegan: ['salsa roja', 'salsa cruda', 'salsa macha', 'chimichurri mexicano', 'salsa bandera'],
       glutenFree: ['all traditional salsas', 'mojo de ajo', 'salsa macha', 'adobo', 'aguachile'],
       dairyFree: ['salsa verde', 'salsa roja', 'pico de gallo', 'salsa macha', 'mole negro']
     }
-  }
+  },
   cookingTechniques: [
     {
       name: 'Nixtamalización',
@@ -1258,7 +1258,7 @@ export const mexican = {
       elementalProperties: { earth: 0.5, fire: 0.2, water: 0.2, air: 0.1 }
       astrologicalInfluences: ['moon', 'saturn', 'taurus'],
       seasonality: 'highly seasonal with ceremonial dishes'
-    }
+    },
     yucatan: {
       name: 'Yucatecan Cuisine',
       description: 'Maya-influenced cuisine with distinctive achiote and citrus flavors',
@@ -1266,7 +1266,7 @@ export const mexican = {
       elementalProperties: { water: 0.4, earth: 0.3, fire: 0.2, air: 0.1 }
       astrologicalInfluences: ['venus', 'mercury', 'gemini'],
       seasonality: 'tropical seasonal patterns'
-    }
+    },
     northern: {
       name: 'Northern Cuisine',
       description: 'Meat-focused cuisine with flour tortillas and grilled specialties',
@@ -1274,7 +1274,7 @@ export const mexican = {
       elementalProperties: { fire: 0.5, earth: 0.3, air: 0.1, water: 0.1 }
       astrologicalInfluences: ['mars', 'sun', 'aries'],
       seasonality: 'desert and ranching seasonal patterns'
-    }
+    },
     centralMexico: {
       name: 'Central Mexican Cuisine',
       description: 'Home to Mexico City with ancient Aztec influences and modern street food',
@@ -1282,7 +1282,7 @@ export const mexican = {
       elementalProperties: { earth: 0.4, fire: 0.3, water: 0.2, air: 0.1 }
       astrologicalInfluences: ['jupiter', 'mercury', 'virgo'],
       seasonality: 'highland seasonal patterns with ceremonial dishes'
-    }
+    },
     pacific: {
       name: 'Pacific Coast Cuisine',
       description: 'Seafood-forward cuisine with tropical fruits and fresh preparations',
@@ -1291,7 +1291,7 @@ export const mexican = {
       astrologicalInfluences: ['neptune', 'venus', 'pisces'],
       seasonality: 'coastal seasonal patterns with monsoon influence'
     }
-  }
+  },
   elementalProperties: {
     fire: 0.3, // Represents chiles and grilling,
     earth: 0.3, // Represents corn and beans,

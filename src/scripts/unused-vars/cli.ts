@@ -1,6 +1,6 @@
 /*
   CLI orchestrator for the domain-aware unused-variable campaign.
-  Commands: - analyze: run ESLint-based analysis and generate reports
+  Commands: - analyze: run ESLint-based analysis and generate reports,
     - batch: process batches with safety protocols (dry-run by default)
     - baseline: create or update baseline metrics
 */
@@ -74,7 +74,7 @@ function main(): void {
       // For future live updates for now, ensure baseline exists
       updateProgress({})
       break,
-    }
+    },
     default: {
       // // // _logger.info('Usage: yarn unused-vars <baseline|analyze|batch|progress> [options]')
     }

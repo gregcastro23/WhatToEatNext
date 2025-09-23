@@ -74,7 +74,7 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
   const toggleDietaryRestriction = (restriction: string) => {
     setState(prev => ({
       ...prev,
-      dietaryRestrictions: prev.dietaryRestrictions.includes(restriction)
+      dietaryRestrictions: prev.dietaryRestrictions.includes(restriction),
         ? prev.dietaryRestrictions.filter(r => r !== restriction)
         : [...prev.dietaryRestrictions, restriction]
     }))
@@ -83,7 +83,7 @@ export function EnhancedRecommendationEngine({ onRecipeSelect, className = '' }:
   const toggleCuisinePreference = (cuisine: string) => {
     setState(prev => ({
       ...prev,
-      cuisinePreferences: prev.cuisinePreferences.includes(cuisine)
+      cuisinePreferences: prev.cuisinePreferences.includes(cuisine),
         ? prev.cuisinePreferences.filter(c => c !== cuisine)
         : [...prev.cuisinePreferences, cuisine]
     }))

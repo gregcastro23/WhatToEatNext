@@ -36,7 +36,7 @@ export interface EnhancedPlanetaryPosition {
   dignity: {
     type: 'rulership' | 'exaltation' | 'detriment' | 'fall' | 'neutral',
     modifier: number
-  }
+  },
   strength: number,
   locationInfluence: number,
   culinaryRecommendations: string[]
@@ -59,7 +59,7 @@ export interface EnhancedTransitInfluence {
     cookingMethods: string[],
     flavorProfiles: string[],
     timing: string[]
-  }
+  },
   dominantInfluences: {
     strongestPlanet: EnhancedPlanetaryPosition,
     dominantElement: string,
@@ -180,7 +180,7 @@ export class EnhancedTransitAnalysisService {
         isRetrograde: Boolean(position.isRetrograde) || false,
         dignity,
         strength,
-        locationInfluence: locationInfluence?.finalInfluence || 1.0
+        locationInfluence: locationInfluence?.finalInfluence || 1.0,
         culinaryRecommendations
       } as EnhancedPlanetaryPosition,
     })
@@ -228,7 +228,7 @@ export class EnhancedTransitAnalysisService {
 
       return {
         aspect,
-        dignityModifiedInfluence: dignityModifiedInfluence ?? aspect.influence
+        dignityModifiedInfluence: dignityModifiedInfluence ?? aspect.influence,
         culinaryEffects
       }
     })

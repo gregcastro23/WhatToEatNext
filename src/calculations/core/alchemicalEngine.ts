@@ -48,35 +48,35 @@ const planetInfo: Record<string, PlanetInfo> = {
     Alchemy: { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 }
     'Diurnal Element': 'Fire',
     'Nocturnal Element': 'Fire'
-  }
+  },
   moon: {
     'Dignity Effect': { cancer: 1, taurus: 2, capricorn: -1, scorpio: -2 }
     Elements: ['Water', 'Water'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
     'Diurnal Element': 'Water',
     'Nocturnal Element': 'Water'
-  }
+  },
   Mercury: {
     'Dignity Effect': { gemini: 1, virgo: 3, sagittarius: 1, pisces: -3 }
     Elements: ['Air', 'Earth'],
     Alchemy: { Spirit: 1, Essence: 0, Matter: 0, Substance: 1 }
     'Diurnal Element': 'Air',
     'Nocturnal Element': 'Earth'
-  }
+  },
   Venus: {
     'Dignity Effect': { libra: 1, taurus: 1, pisces: 2, aries: -1, scorpio: -1, virgo: -2 }
     Elements: ['Water', 'Earth'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
     'Diurnal Element': 'Water',
     'Nocturnal Element': 'Earth'
-  }
+  },
   Mars: {
     'Dignity Effect': { aries: 1, scorpio: 1, capricorn: 2, taurus: -1, libra: -1, cancer: -2 }
     Elements: ['Fire', 'Water'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
     'Diurnal Element': 'Fire',
     'Nocturnal Element': 'Water'
-  }
+  },
   Jupiter: {
     'Dignity Effect': {
       pisces: 1,
@@ -85,40 +85,40 @@ const planetInfo: Record<string, PlanetInfo> = {
       gemini: -1,
       virgo: -1,
       capricorn: -2
-    }
+    },
     Elements: ['Air', 'Fire'],
     Alchemy: { Spirit: 1, Essence: 1, Matter: 0, Substance: 0 }
     'Diurnal Element': 'Air',
     'Nocturnal Element': 'Fire'
-  }
+  },
   Saturn: {
     'Dignity Effect': { aquarius: 1, capricorn: 1, libra: 2, cancer: -1, leo: -1, aries: -2 }
     Elements: ['Air', 'Earth'],
     Alchemy: { Spirit: 1, Essence: 0, Matter: 1, Substance: 0 }
     'Diurnal Element': 'Air',
     'Nocturnal Element': 'Earth'
-  }
+  },
   Uranus: {
     'Dignity Effect': { aquarius: 1, scorpio: 2, taurus: -3 }
     Elements: ['Water', 'Air'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
     'Diurnal Element': 'Water',
     'Nocturnal Element': 'Air'
-  }
+  },
   Neptune: {
     'Dignity Effect': { pisces: 1, cancer: 2, virgo: -1, capricorn: -2 }
     Elements: ['Water', 'Water'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 0, Substance: 1 }
     'Diurnal Element': 'Water',
     'Nocturnal Element': 'Water'
-  }
+  },
   Pluto: {
     'Dignity Effect': { scorpio: 1, leo: 2, taurus: -1, aquarius: -2 }
     Elements: ['Earth', 'Water'],
     Alchemy: { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
     'Diurnal Element': 'Earth',
     'Nocturnal Element': 'Water'
-  }
+  },
   Ascendant: {
     'Dignity Effect': { leo: 0, aries: 0, aquarius: 0, libra: 0 }
     Elements: ['Earth'],

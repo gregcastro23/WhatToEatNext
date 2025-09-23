@@ -10,9 +10,9 @@ declare global {
 }
 
 export interface KineticsRecommendationEvent {
-  recommendationType: 'temporal' | 'elemental' | 'aspect';
-  kineticScore: number;
-  powerLevel: number;
+  recommendationType: 'temporal' | 'elemental' | 'aspect';,
+  kineticScore: number;,
+  powerLevel: number;,
   userAction: 'view' | 'select' | 'prepare';
 }
 
@@ -26,7 +26,7 @@ export function trackKineticsRecommendation(event: KineticsRecommendationEvent):
       window.gtag('event', 'kinetics_recommendation', {
         event_category: 'food_recommendations',
         event_label: event.recommendationType,
-        value: Math.round(event.kineticScore * 100), // Convert to 0-100 scale
+        value: Math.round(event.kineticScore * 100), // Convert to 0-100 scale,
         custom_parameter_1: event.powerLevel,
         custom_parameter_2: event.userAction
       });
@@ -42,9 +42,9 @@ export function trackKineticsRecommendation(event: KineticsRecommendationEvent):
  * Track when kinetics enhancement improves recommendations
  */
 export function trackKineticsImprovement(data: {
-  baseRecommendationCount: number;
-  enhancedRecommendationCount: number;
-  averageKineticScore: number;
+  baseRecommendationCount: number;,
+  enhancedRecommendationCount: number;,
+  averageKineticScore: number;,
   powerLevel: number;
 }): void {
   if (typeof window !== 'undefined' && window.gtag) {
@@ -77,7 +77,7 @@ export function withKineticsTracking<T>(
 ) {
   if (recommendation.kineticScore) {
     trackKineticsRecommendation({
-      recommendationType: 'aspect', // Default type
+      recommendationType: 'aspect', // Default type,
       kineticScore: recommendation.kineticScore,
       powerLevel,
       userAction: action

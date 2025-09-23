@@ -20,19 +20,19 @@ export interface PerformanceMetrics {
     target: number,
     average: number,
     trend: 'improving' | 'stable' | 'degrading'
-  }
+  },
   cacheHitRate: {
     current: number,
     target: number,
     average: number,
     trend: 'improving' | 'stable' | 'degrading'
-  }
+  },
   memoryUsage: {
     current: number,
     target: number,
     peak: number,
     average: number
-  }
+  },
   bundleSize: {
     current: number,
     target: number,
@@ -66,7 +66,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
   private monitoringInterval: NodeJS.Timeout | null = null,
   private readonly PERFORMANCE_TARGETS = {
     buildTime: 10, // seconds,
-    cacheHitRate: 0.8, // 80%
+    cacheHitRate: 0.8, // 80%,
     memoryUsage: 50, // MB,
     bundleSize: 420, // kB
   }
@@ -362,19 +362,19 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
         target: this.PERFORMANCE_TARGETS.buildTime,
         average: buildTimeAvg,
         trend: buildTimeTrend
-      }
+      },
       cacheHitRate: {
         current: cacheHitRate,
         target: this.PERFORMANCE_TARGETS.cacheHitRate,
         average: cacheHitRateAvg,
         trend: cacheHitRateTrend
-      }
+      },
       memoryUsage: {
         current: memoryUsage.current,
         target: this.PERFORMANCE_TARGETS.memoryUsage,
         peak: memoryUsage.peak,
         average: memoryUsageAvg
-      }
+      },
       bundleSize: {
         current: bundleSize,
         target: this.PERFORMANCE_TARGETS.bundleSize,
@@ -523,7 +523,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
     try {
       const report = await this.generatePerformanceReport()
       const exportData = {
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
         report,
         history: this.performanceHistory,
         alerts: this.alerts,

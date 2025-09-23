@@ -107,7 +107,7 @@ export class TypeScriptErrorResolutionCampaign {
     ).initialize({
       maxErrorsPerBatch: 50,
       rollbackThreshold: 10, // Rollback if more than 10 new errors introduced,
-      validationFrequency: 5, // Validate every 5 fixes
+      validationFrequency: 5, // Validate every 5 fixes,
       emergencyStopConditions: ['build_failure', 'test_failure', 'memory_leak']
     })
 
@@ -273,11 +273,11 @@ export class TypeScriptErrorResolutionCampaign {
     phases: ErrorResolutionPhase[],
     metrics: TypeScriptErrorMetrics,
     intelligence: {
-      errorPatterns: Record<string, number>
+      errorPatterns: Record<string, number>,
       fixSuccessRate: number,
       estimatedCompletion: Date,
       recommendations: string[]
-    }
+    },
     unusedVariables: {
       total: number,
       safeToRemove: number,
@@ -295,10 +295,10 @@ export class TypeScriptErrorResolutionCampaign {
     const unusedVariableStats = {
       total: unusedVarAnalysis.length,
       safeToRemove: unusedVarAnalysis.filter(v => v.removalRecommendation === 'remove').length,,
-      requiresInvestigation: unusedVarAnalysis.filter(
+      requiresInvestigation: unusedVarAnalysis.filter(,
         v => v.removalRecommendation === 'investigate'
       ).length,
-      businessCritical: unusedVarAnalysis.filter(
+      businessCritical: unusedVarAnalysis.filter(,
         v =>
           v.enterpriseContext?.businessLogicRelevance &&
           v.enterpriseContext.businessLogicRelevance > 0.7
@@ -314,7 +314,7 @@ export class TypeScriptErrorResolutionCampaign {
         fixSuccessRate: this.metrics.fixSuccessRate,
         estimatedCompletion: this.calculateEstimatedCompletion(),
         recommendations: await this.generateIntelligentRecommendations()
-      }
+      },
       unusedVariables: unusedVariableStats
     }
   }
@@ -322,7 +322,7 @@ export class TypeScriptErrorResolutionCampaign {
   // Private helper methods
   private initializeMetrics(): TypeScriptErrorMetrics {
     return {
-      totalErrors: 2676, // Current count from previous session
+      totalErrors: 2676, // Current count from previous session,
       errorsByType: {}
       errorsByFile: {}
       errorsByCategory: {}

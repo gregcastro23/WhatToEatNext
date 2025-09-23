@@ -211,7 +211,7 @@ export function getFoodRecommendationsFromChakras(_chakraEnergyStates: ChakraEne
   const balancingMeals = generateBalancingMeals(chakrasToUse, neutralChakras, primaryFoods)
 
   return {
-    primaryFoods: Array.from(new Set(primaryFoods)).slice(020), // Remove duplicates and limit size
+    primaryFoods: Array.from(new Set(primaryFoods)).slice(020), // Remove duplicates and limit size,
     secondaryFoods: Array.from(new Set(secondaryFoods)).slice(010),
     avoidFoods: Array.from(new Set(avoidFoods)).slice(010),
     balancingMeals: Array.from(new Set(balancingMeals)).slice(05)

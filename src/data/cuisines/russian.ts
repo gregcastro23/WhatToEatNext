@@ -47,7 +47,7 @@ export const russian: Cuisine = {
             tvorog: ['cottage cheese', 'firm tofu'],
             'sour cream': ['greek yogurt', 'coconut yogurt'],
             flour: ['gluten-free flour blend', 'almond flour']
-          }
+          },
           servingSize: 4,
           allergens: ['dairy', 'eggs', 'gluten'],
           prepTime: '15 minutes',
@@ -64,7 +64,7 @@ export const russian: Cuisine = {
             fat: 18,
             vitamins: ['B12', 'D'],
             minerals: ['Calcium', 'Phosphorus']
-          }
+          },
           season: ['all'],
           mealType: ['breakfast'],
           elementalProperties: {
@@ -98,7 +98,7 @@ export const russian: Cuisine = {
             milk: ['oat milk', 'almond milk', 'soy milk'],
             butter: ['plant-based butter', 'coconut oil'],
             'buckwheat groats': ['steel-cut oats', 'quinoa']
-          }
+          },
           servingSize: 4,
           allergens: ['dairy'],
           prepTime: '5 minutes',
@@ -120,7 +120,7 @@ export const russian: Cuisine = {
             fat: 8,
             vitamins: ['B1', 'B2'],
             minerals: ['Iron', 'Magnesium']
-          }
+          },
           season: ['all'],
           mealType: ['breakfast'],
           elementalProperties: {
@@ -176,7 +176,7 @@ export const russian: Cuisine = {
             flour: ['gluten-free flour blend', 'buckwheat flour'],
             milk: ['almond milk', 'oat milk'],
             'sour cream': ['coconut yogurt', 'cashew cream']
-          }
+          },
           servingSize: 6,
           allergens: ['dairy', 'eggs', 'gluten'],
           prepTime: '15 minutes',
@@ -200,7 +200,7 @@ export const russian: Cuisine = {
             fat: 6,
             vitamins: ['A', 'D'],
             minerals: ['Iron', 'Calcium']
-          }
+          },
           season: ['all'],
           mealType: ['breakfast', 'dessert'],
           elementalProperties: {
@@ -246,7 +246,7 @@ export const russian: Cuisine = {
             buttermilk: ['almond milk + vinegar', 'soy milk + lemon juice'],
             flour: ['gluten-free flour blend', 'buckwheat flour'],
             eggs: ['flax eggs', 'commercial egg replacer']
-          }
+          },
           servingSize: 4,
           allergens: ['dairy', 'eggs', 'gluten'],
           prepTime: '10 minutes',
@@ -264,7 +264,7 @@ export const russian: Cuisine = {
             fat: 9,
             vitamins: ['B12', 'D'],
             minerals: ['Calcium', 'Iron']
-          }
+          },
           season: ['all'],
           mealType: ['breakfast'],
           elementalProperties: {
@@ -275,7 +275,7 @@ export const russian: Cuisine = {
           }
         }
       ]
-    }
+    },
     lunch: {
       all: [
         {
@@ -313,7 +313,7 @@ export const russian: Cuisine = {
             beef: ['mushrooms', 'seitan', 'tempeh'],
             'sour cream': ['cashew cream', 'coconut yogurt'],
             'beef broth': ['mushroom broth', 'vegetable broth']
-          }
+          },
           servingSize: 8,
           allergens: ['dairy'],
           prepTime: '30 minutes',
@@ -330,7 +330,7 @@ export const russian: Cuisine = {
             fat: 18,
             vitamins: ['A', 'C', 'B12'],
             minerals: ['Iron', 'Potassium']
-          }
+          },
           season: ['winter', 'autumn'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
@@ -385,7 +385,7 @@ export const russian: Cuisine = {
             'ground meat mix': ['mushroom mix', 'lentil mix'],
             'sour cream': ['cashew cream', 'coconut yogurt'],
             butter: ['olive oil', 'vegan butter']
-          }
+          },
           servingSize: 6,
           allergens: ['gluten', 'eggs', 'dairy'],
           prepTime: '60 minutes',
@@ -402,7 +402,7 @@ export const russian: Cuisine = {
             fat: 16,
             vitamins: ['B12', 'B6'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['winter'],
           mealType: ['dinner'],
           elementalProperties: {
@@ -452,7 +452,7 @@ export const russian: Cuisine = {
             'pork or beef': ['mushrooms', 'tempeh'],
             'sour cream': ['cashew cream', 'coconut yogurt'],
             'meat broth': ['vegetable broth', 'mushroom broth']
-          }
+          },
           servingSize: 6,
           allergens: ['dairy'],
           prepTime: '25 minutes',
@@ -469,7 +469,7 @@ export const russian: Cuisine = {
             fat: 16,
             vitamins: ['C', 'K', 'B12'],
             minerals: ['Iron', 'Potassium']
-          }
+          },
           season: ['all'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
@@ -505,7 +505,7 @@ export const russian: Cuisine = {
             'white fish': ['salmon', 'trout'],
             potatoes: ['parsnips', 'celery root'],
             'fresh dill': ['parsley', 'chives']
-          }
+          },
           servingSize: 6,
           allergens: ['fish'],
           prepTime: '20 minutes',
@@ -522,7 +522,7 @@ export const russian: Cuisine = {
             fat: 6,
             vitamins: ['B12', 'D'],
             minerals: ['Omega-3', 'Selenium']
-          }
+          },
           season: ['all'],
           mealType: ['lunch'],
           elementalProperties: {
@@ -565,13 +565,13 @@ export const russian: Cuisine = {
             fat: 28,
             vitamins: ['B12', 'C'],
             minerals: ['Iron', 'Sodium']
-          }
+          },
           timeToMake: '90 minutes',
           season: ['winter'],
           mealType: ['lunch']
         }
       ]
-    }
+    },
     dinner: {
       all: [
         {
@@ -624,7 +624,7 @@ export const russian: Cuisine = {
             'beef tenderloin': ['portobello mushrooms', 'seitan'],
             'sour cream': ['cashew cream', 'coconut cream'],
             'egg noodles': ['gluten-free pasta', 'rice']
-          }
+          },
           servingSize: 6,
           allergens: ['dairy', 'gluten', 'eggs'],
           prepTime: '20 minutes',
@@ -646,7 +646,7 @@ export const russian: Cuisine = {
             fat: 28,
             vitamins: ['B12', 'D'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['all'],
           mealType: ['dinner'],
           elementalProperties: {
@@ -694,7 +694,7 @@ export const russian: Cuisine = {
             'ground meat': ['lentils', 'mushroom mix', 'beyond meat'],
             'sour cream': ['cashew cream', 'coconut yogurt'],
             'white rice': ['brown rice', 'quinoa']
-          }
+          },
           servingSize: 6,
           allergens: ['dairy'],
           prepTime: '45 minutes',
@@ -716,7 +716,7 @@ export const russian: Cuisine = {
             fat: 18,
             vitamins: ['C', 'B12'],
             minerals: ['Iron', 'Calcium']
-          }
+          },
           season: ['all'],
           mealType: ['dinner'],
           elementalProperties: {
@@ -769,7 +769,7 @@ export const russian: Cuisine = {
             'ground meat mix': ['mushroom mix', 'beyond meat', 'impossible meat'],
             bread: ['gluten-free bread', 'breadcrumbs'],
             milk: ['plant-based milk', 'broth']
-          }
+          },
           servingSize: 6,
           allergens: ['dairy', 'gluten'],
           prepTime: '20 minutes',
@@ -791,7 +791,7 @@ export const russian: Cuisine = {
             fat: 24,
             vitamins: ['B12', 'B6'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['all'],
           mealType: ['dinner'],
           elementalProperties: {
@@ -834,7 +834,7 @@ export const russian: Cuisine = {
             bologna: ['ham', 'tofu', 'tempeh'],
             mayonnaise: ['vegan mayonnaise', 'cashew dressing'],
             eggs: ['tofu', 'chickpeas']
-          }
+          },
           servingSize: 8,
           allergens: ['eggs', 'dairy'],
           prepTime: '40 minutes',
@@ -852,7 +852,7 @@ export const russian: Cuisine = {
             fat: 18,
             vitamins: ['A', 'C', 'B12'],
             minerals: ['Potassium', 'Iron']
-          }
+          },
           season: ['winter', 'all'],
           mealType: ['dinner', 'appetizer'],
           elementalProperties: {
@@ -890,7 +890,7 @@ export const russian: Cuisine = {
             beef: ['mushrooms', 'seitan', 'jackfruit'],
             'beef broth': ['mushroom broth', 'vegetable broth'],
             potatoes: ['parsnips', 'turnips']
-          }
+          },
           servingSize: 6,
           allergens: ['none'],
           prepTime: '30 minutes',
@@ -907,7 +907,7 @@ export const russian: Cuisine = {
             fat: 24,
             vitamins: ['A', 'B12'],
             minerals: ['Iron', 'Potassium']
-          }
+          },
           season: ['winter'],
           mealType: ['dinner'],
           elementalProperties: {
@@ -918,7 +918,7 @@ export const russian: Cuisine = {
           }
         }
       ]
-    }
+    },
     dessert: {
       all: [
         {
@@ -958,7 +958,7 @@ export const russian: Cuisine = {
             tvorog: ['cashew cheese', 'silken tofu blend'],
             butter: ['coconut oil', 'vegan butter'],
             'dried fruit': ['candied fruit', 'fresh berries']
-          }
+          },
           servingSize: 12,
           allergens: ['dairy', 'nuts'],
           prepTime: '30 minutes',
@@ -975,7 +975,7 @@ export const russian: Cuisine = {
             fat: 32,
             vitamins: ['A', 'D'],
             minerals: ['Calcium', 'Phosphorus']
-          }
+          },
           season: ['spring'],
           mealType: ['dessert'],
           elementalProperties: {
@@ -1028,7 +1028,7 @@ export const russian: Cuisine = {
             flour: ['gluten-free flour blend', 'almond flour'],
             tvorog: ['cashew cheese', 'tofu blend'],
             butter: ['vegan butter', 'coconut oil']
-          }
+          },
           servingSize: 8,
           allergens: ['dairy', 'eggs', 'gluten'],
           prepTime: '30 minutes',
@@ -1045,7 +1045,7 @@ export const russian: Cuisine = {
             fat: 22,
             vitamins: ['A', 'D', 'B12'],
             minerals: ['Calcium']
-          }
+          },
           season: ['all'],
           mealType: ['dessert', 'snack'],
           elementalProperties: {
@@ -1100,7 +1100,7 @@ export const russian: Cuisine = {
             flour: ['gluten-free flour blend', 'rice flour mix'],
             'sour cream': ['coconut cream', 'cashew cream'],
             eggs: ['flax eggs', 'commercial egg replacer']
-          }
+          },
           servingSize: 6,
           allergens: ['gluten', 'eggs', 'dairy'],
           prepTime: '45 minutes',
@@ -1117,7 +1117,7 @@ export const russian: Cuisine = {
             fat: 8,
             vitamins: ['C', 'A'],
             minerals: ['Iron', 'Potassium']
-          }
+          },
           season: ['summer'],
           mealType: ['dessert'],
           elementalProperties: {
@@ -1171,7 +1171,7 @@ export const russian: Cuisine = {
             flour: ['gluten-free flour blend', 'spelt flour'],
             honey: ['agave nectar', 'maple syrup'],
             butter: ['coconut oil', 'vegan butter']
-          }
+          },
           servingSize: 24,
           allergens: ['gluten', 'eggs', 'dairy'],
           prepTime: '30 minutes',
@@ -1189,7 +1189,7 @@ export const russian: Cuisine = {
             fat: 3,
             vitamins: ['B1', 'B2'],
             minerals: ['Iron', 'Calcium']
-          }
+          },
           season: ['winter', 'autumn'],
           mealType: ['dessert', 'snack'],
           elementalProperties: {
@@ -1230,14 +1230,14 @@ export const russian: Cuisine = {
             fat: 8,
             vitamins: ['B1', 'B2'],
             minerals: ['Iron']
-          }
+          },
           timeToMake: '120 minutes',
           season: ['winter'],
           mealType: ['dessert']
         }
       ]
     }
-  }
+  },
   traditionalSauces: {
     smetana: {
       name: 'Smetana',
@@ -1263,14 +1263,14 @@ export const russian: Cuisine = {
         Earth: 0.3,
         Air: 0.2,
         Fire: 0.1
-      }
+      },
       astrologicalInfluences: ['Moon', 'Venus', 'Cancer'],
       seasonality: 'all',
       preparationNotes:
         'Traditionally fermented at room temperature for 24-48 hours to develop flavor and texture',
       technicalTips:
         'Use as a finishing touch, adding after cooking to preserve its probiotic properties'
-    }
+    },
     adjika: {
       name: 'Adjika',
       description: 'Spicy pepper and herb paste from the Caucasus region',
@@ -1289,13 +1289,13 @@ export const russian: Cuisine = {
         Earth: 0.2,
         Air: 0.1,
         Water: 0.1
-      }
+      },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'summer preparation, year-round use',
       preparationNotes:
         'Traditionally ground with stone mortar and pestle, then fermented in clay pots',
       technicalTips: 'Can be used raw or cooked intensity mellows with cooking'
-    }
+    },
     khrenovina: {
       name: 'Khrenovina',
       description: 'Fiery horseradish and tomato sauce',
@@ -1314,14 +1314,14 @@ export const russian: Cuisine = {
         Earth: 0.2,
         Water: 0.2,
         Air: 0.1
-      }
+      },
       astrologicalInfluences: ['Mars', 'Saturn', 'Scorpio'],
       seasonality: 'made in autumn, consumed year-round',
       preparationNotes:
         'Often prepared during harvest season when horseradish is at its most pungent',
       technicalTips:
         'Grate horseradish in well-ventilated area or underwater to prevent eye irritation'
-    }
+    },
     gribnoj_soys: {
       name: 'Gribnoj Sous',
       description: 'Rich mushroom sauce with sour cream base',
@@ -1340,13 +1340,13 @@ export const russian: Cuisine = {
         Water: 0.3,
         Air: 0.1,
         Fire: 0.1
-      }
+      },
       astrologicalInfluences: ['Saturn', 'Neptune', 'Virgo'],
       seasonality: 'autumn mushroom harvest, preserved for year-round use',
       preparationNotes: 'Traditionally made with foraged wild mushrooms dried mushrooms are reconstituted in winter',
       technicalTips:
         'Brown mushrooms thoroughly to develop full umami flavor before adding liquids'
-    }
+    },
     ikra: {
       name: 'Ikra Baklazhanaya',
       description: 'Smoky eggplant caviar spread',
@@ -1359,14 +1359,14 @@ export const russian: Cuisine = {
         Fire: 0.3,
         Water: 0.2,
         Air: 0.1
-      }
+      },
       astrologicalInfluences: ['Venus', 'Mars', 'Taurus'],
       seasonality: 'summer preparation, preserved for winter use',
       preparationNotes:
         'Traditional preparation involves roasting eggplants over open flame for smoky flavor',
       technicalTips: 'Let flavors marry overnight for best taste, serve at room temperature'
     }
-  }
+  },
   sauceRecommender: {
     forProtein: {
       beef: [
@@ -1404,7 +1404,7 @@ export const russian: Cuisine = {
         'blackcurrant sauce',
         'adjika'
       ]
-    }
+    },
     forVegetable: {
       root: ['smetana', 'brown butter', 'dill sauce', 'mushroom gravy', 'beet sauce'],
       leafy: [
@@ -1417,7 +1417,7 @@ export const russian: Cuisine = {
       mushroom: ['sour cream', 'garlic butter', 'dill sauce', 'wine reduction', 'walnut oil'],
       pickled: ['honey drizzle', 'sunflower oil', 'mustard sauce', 'smetana', 'herb oil'],
       preserved: ['horseradish cream', 'mustard sauce', 'herb oil', 'garlic sauce', 'sour cream']
-    }
+    },
     forCookingMethod: {
       baking: ['smetana glaze', 'egg wash', 'honey glaze', 'mushroom sauce', 'garlic butter'],
       boiling: [
@@ -1442,7 +1442,7 @@ export const russian: Cuisine = {
         'kvas reduction',
         'sour pickle sauce'
       ]
-    }
+    },
     byAstrological: {
       fire: ['adjika', 'hot mustard', 'pepper sauce', 'horseradish cream', 'spicy tomato'],
       earth: ['mushroom sauce', 'potato sauce', 'beet sauce', 'dill-sour cream', 'cabbage sauce'],
@@ -1454,7 +1454,7 @@ export const russian: Cuisine = {
         'honey-herb dressing',
         'berry vinegar'
       ]
-    }
+    },
     byRegion: {
       northern: ['mushroom sauce', 'fish broth', 'berry sauce', 'herb butter', 'sour milk sauce'],
       southern: ['adjika', 'tomato sauces', 'garlic sauce', 'herb oils', 'fruit compotes'],
@@ -1473,7 +1473,7 @@ export const russian: Cuisine = {
         'berry reductions'
       ],
       volga: ['fish sauce', 'mustard sauce', 'sour cream', 'dill sauce', 'horseradish cream']
-    }
+    },
     byDietary: {
       vegetarian: ['mushroom sauce', 'berry sauce', 'herb oil', 'smetana', 'vegetable reductions'],
       vegan: ['herb oil', 'berry sauce', 'kvass reduction', 'mushroom broth', 'vegetable purees'],
@@ -1486,7 +1486,7 @@ export const russian: Cuisine = {
         'tomato-based sauce'
       ]
     }
-  }
+  },
   cookingTechniques: [
     {
       name: 'Souring (Zakvaski)',
@@ -1547,7 +1547,7 @@ export const russian: Cuisine = {
       elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
       astrologicalInfluences: ['Moon', 'Saturn', 'Pisces'],
       seasonality: 'strongly seasonal with emphasis on preservation'
-    }
+    },
     central: {
       name: 'Central Russian Cuisine',
       description: 'Classic Russian dishes with simple ingredients and traditional cooking methods',
@@ -1555,7 +1555,7 @@ export const russian: Cuisine = {
       elementalProperties: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 }
       astrologicalInfluences: ['Saturn', 'Venus', 'Taurus'],
       seasonality: 'four distinct seasonal variations with preservation techniques'
-    }
+    },
     siberian: {
       name: 'Siberian Cuisine',
       description:
@@ -1564,7 +1564,7 @@ export const russian: Cuisine = {
       elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 }
       astrologicalInfluences: ['Saturn', 'Jupiter', 'Capricorn'],
       seasonality: 'short growing season with extensive preservation'
-    }
+    },
     caucasian: {
       name: 'Caucasian-Influenced Russian Cuisine',
       description:
@@ -1579,7 +1579,7 @@ export const russian: Cuisine = {
       elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 }
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'longer growing season with more fresh produce'
-    }
+    },
     volga: {
       name: 'Volga Region Cuisine',
       description:
@@ -1589,7 +1589,7 @@ export const russian: Cuisine = {
       astrologicalInfluences: ['Jupiter', 'Moon', 'Cancer'],
       seasonality: 'river-influenced with seasonal fishing patterns'
     }
-  }
+  },
   elementalProperties: {
     Earth: 0.5,
     Water: 0.3,

@@ -87,15 +87,15 @@ export const _elementalCompatibility: Record<
   Fire: {
     compatible: ['Fire'],
     incompatible: ['Air', 'Water', 'Earth']
-  }
+  },
   Earth: {
     compatible: ['Earth'],
     incompatible: ['Fire', 'Air', 'Water']
-  }
+  },
   Air: {
     compatible: ['Air'],
     incompatible: ['Earth', 'Water', 'Fire']
-  }
+  },
   Water: {
     compatible: ['Water'],
     incompatible: ['Fire', 'Air', 'Earth']
@@ -131,7 +131,7 @@ export const _elementalCharacteristics: Record<
     moodEffects: ['Energizing', 'Stimulating', 'Uplifting', 'Motivating', 'Passionate'],
     culinaryHerbs: ['Cayenne', 'Chili', 'Mustard', 'Cumin', 'Peppercorn'],
     timeOfDay: ['Noon', 'Early afternoon']
-  }
+  },
   Earth: {
     qualities: ['Cool', 'Dry', 'Stable', 'Solid', 'Grounding'],
     keywords: ['Grounding', 'Practical', 'Material', 'Reliable', 'Structured'],
@@ -144,7 +144,7 @@ export const _elementalCharacteristics: Record<
     moodEffects: ['Stabilizing', 'Grounding', 'Comforting', 'Satisfying', 'Nourishing'],
     culinaryHerbs: ['Thyme', 'Rosemary', 'Sage', 'Bay leaf', 'Black truffle'],
     timeOfDay: ['Late afternoon', 'Early evening']
-  }
+  },
   Air: {
     qualities: ['Warm', 'Moist', 'Mobile', 'Light', 'Communicative'],
     keywords: ['Intellectual', 'Communication', 'Social', 'Movement', 'Connection'],
@@ -163,7 +163,7 @@ export const _elementalCharacteristics: Record<
     moodEffects: ['Uplifting', 'Clarifying', 'Refreshing', 'Invigorating', 'Inspiring'],
     culinaryHerbs: ['Mint', 'Basil', 'Cilantro', 'Dill', 'Lemongrass'],
     timeOfDay: ['Morning', 'Sunrise']
-  }
+  },
   Water: {
     qualities: ['Cool', 'Moist', 'Flowing', 'Adaptable', 'Receptive'],
     keywords: ['Emotional', 'Intuitive', 'Nurturing', 'Healing', 'Connecting'],

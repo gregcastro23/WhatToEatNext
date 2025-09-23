@@ -15,29 +15,29 @@ export const textureProfiles: Record<
       Air: 0.3,
       Earth: 0.2,
       Water: 0
-    }
+    },
     characteristics: ['crunchy', 'brittle', 'light'],
     methods: ['frying', 'baking', 'dehydrating'],
     pairings: ['creamy', 'smooth']
-  }
+  },
   creamy: {
     elementalProperties: {
       Water: 0.5,
       Earth: 0.3,
       Air: 0.2,
       Fire: 0
-    }
+    },
     characteristics: ['smooth', 'rich', 'coating'],
     methods: ['blending', 'emulsifying', 'churning'],
     pairings: ['crispy', 'crunchy']
-  }
+  },
   tender: {
     elementalProperties: {
       Water: 0.4,
       Earth: 0.3,
       Fire: 0.2,
       Air: 0.1
-    }
+    },
     characteristics: ['soft', 'yielding', 'moist'],
     methods: ['braising', 'steaming', 'poaching'],
     pairings: ['crispy', 'chewy']

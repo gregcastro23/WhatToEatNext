@@ -70,11 +70,11 @@ declare global {
     // Elemental properties with validation constraints
     interface ElementalProperties {
       /** Fire element strength (0-1) - Energy, spice, quick cooking, transformation */
-      Fire: number
+      Fire: number,
       /** Water element strength (0-1) - Cooling, fluid, steaming, nourishment */
-      Water: number
+      Water: number,
       /** Earth element strength (0-1) - Grounding, root vegetables, slow cooking, stability */
-      Earth: number
+      Earth: number,
       /** Air element strength (0-1) - Light, leafy greens, raw preparations, clarity */
       Air: number
     }
@@ -112,7 +112,7 @@ declare global {
       /** Whether it's currently daytime */
       isDaytime: boolean,
       /** Active planetary influences */
-      activePlanets: Planet[]
+      activePlanets: Planet[],
       /** Current season */
       season: 'spring' | 'summer' | 'autumn' | 'winter'
     }
@@ -120,7 +120,7 @@ declare global {
     // Culinary astrology calculations with enhanced typing
     interface CulinaryAstrologyData {
       /** Current dominant element based on planetary positions */
-      dominantElement: Element
+      dominantElement: Element,
       /** Recommended cooking methods with astrological reasoning */
       recommendedMethods: Array<{
         method: string,
@@ -191,7 +191,7 @@ declare global {
 // Enhanced ingredient type with comprehensive astrological data
 export interface EnhancedIngredient {
   /** Ingredient name */
-  name: string
+  name: string,
   /** Category (e.g., 'vegetables', 'grains', 'spices') */
   category: string,
   /** Elemental properties following self-reinforcement principles */
@@ -205,9 +205,9 @@ export interface EnhancedIngredient {
     /** Compatible cooking methods */
     cookingMethods: string[],
     /** Seasonal availability */
-    seasonality: Array<'spring' | 'summer' | 'autumn' | 'winter'>
+    seasonality: Array<'spring' | 'summer' | 'autumn' | 'winter'>,
     /** Ingredient pairings */
-    pairings: string[]
+    pairings: string[],
     /** Preparation tips */
     preparationTips: string[]
   }
@@ -235,7 +235,7 @@ export interface EnhancedRecipe {
   /** Unique recipe identifier */
   id: string,
   /** Recipe name */
-  name: string
+  name: string,
   /** List of ingredients with quantities */
   ingredients: Array<{
     ingredient: EnhancedIngredient,
@@ -254,7 +254,7 @@ export interface EnhancedRecipe {
   /** Astrological optimization data */
   astrologicalOptimization: Astrology.CulinaryAstrologyData,
   /** Overall elemental balance of the recipe */
-  elementalBalance: Astrology.ElementalProperties
+  elementalBalance: Astrology.ElementalProperties,
   /** Timing information */
   timing: {
     prepTime: number,
@@ -270,7 +270,7 @@ export interface EnhancedRecipe {
   /** Serving information */
   servings: number,
   /** Difficulty level */
-  difficulty: 'beginner' | 'intermediate' | 'advanced' | 'expert'
+  difficulty: 'beginner' | 'intermediate' | 'advanced' | 'expert',
   /** Cultural context */
   culturalContext?: {
     cuisine: string,
@@ -291,7 +291,7 @@ export interface EnhancedCookingMethod {
   /** Planetary correspondences */
   planetaryCorrespondences: Astrology.Planet[],
   /** Benefits of using this method */
-  benefits: string[]
+  benefits: string[],
   /** Optimal timing for this method */
   optimalTiming: {
     planetaryHours: Astrology.Planet[],
@@ -305,7 +305,7 @@ export interface EnhancedCookingMethod {
     unit: 'celsius' | 'fahrenheit'
   }
   /** Equipment needed */
-  equipment: string[]
+  equipment: string[],
   /** Difficulty level */
   difficulty: 'easy' | 'medium' | 'hard'
 }
@@ -319,7 +319,7 @@ export interface EnhancedCuisineProfile {
   /** Elemental alignment of the cuisine */
   elementalAlignment: Astrology.ElementalProperties,
   /** Dominant planetary influences */
-  planetaryInfluences: Astrology.Planet[]
+  planetaryInfluences: Astrology.Planet[],
   /** Signature modifications for different elemental dominances */
   signatureModifications: Record<string, string>,
   /** Astrological profile */

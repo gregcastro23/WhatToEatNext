@@ -23,7 +23,7 @@ export interface CulturalCookingMethod {
     _Water: number,
     _Earth: number,
     _Air: number
-  }
+  },
   culturalOrigin: string,
   toolsRequired?: string[],
   bestFor?: string[]

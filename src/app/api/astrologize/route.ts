@@ -11,7 +11,7 @@ const logger = createLogger('AstrologizeAPI')
 // Interface for the API request
 interface AstrologizeRequest {
   year: number,
-  month: number, // 0-indexed (January = 0, February = 1, etc.)
+  month: number, // 0-indexed (January = 0, February = 1, etc.),
   date: number,
   hour: number,
   minute: number,
@@ -51,7 +51,7 @@ export async function POST(request: Request) {
     // Prepare the API request payload
     const apiPayload: AstrologizeRequest = {
       year,
-      month: apiMonth, // Use 0-indexed month
+      month: apiMonth, // Use 0-indexed month,
       date,
       hour,
       minute,
@@ -70,7 +70,7 @@ export async function POST(request: Request) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
       body: JSON.stringify(apiPayload)
     })
 

@@ -55,27 +55,27 @@ const CULTURAL_GROUPS = {
     cuisines: ['chinese', 'japanese', 'korean', 'vietnamese', 'thai', 'sichuanese'],
     characteristics: ['rice-based', 'umami-focused', 'balance-oriented', 'seasonal'],
     sharedPrinciples: ['five elements', 'yin-yang balance', 'seasonal harmony']
-  }
+  },
   south_asian: {
     cuisines: ['indian'],
     characteristics: ['spice-complex', 'ayurvedic', 'vegetarian-friendly', 'medicinal'],
     sharedPrinciples: ['six tastes', 'dosha balance', 'medicinal cooking']
-  }
+  },
   mediterranean: {
     cuisines: ['italian', 'greek', 'spanish', 'middle-eastern', 'mediterranean'],
     characteristics: ['olive oil-based', 'herb-rich', 'seafood-focused', 'communal'],
     sharedPrinciples: ['simplicity', 'fresh ingredients', 'social dining']
-  }
+  },
   european: {
     cuisines: ['french', 'italian', 'spanish', 'greek'],
     characteristics: ['technique-focused', 'wine-paired', 'seasonal', 'refined'],
     sharedPrinciples: ['culinary artistry', 'terroir', 'classical techniques']
-  }
+  },
   latin_american: {
     cuisines: ['mexican'],
     characteristics: ['corn-based', 'chili-focused', 'indigenous-influenced', 'festive'],
     sharedPrinciples: ['indigenous wisdom', 'celebration food', 'heat balance']
-  }
+  },
   african: {
     cuisines: ['african'],
     characteristics: ['grain-based', 'communal', 'spice-rich', 'preservation-focused'],
@@ -96,7 +96,7 @@ const HISTORICAL_CONTEXTS: Record<string, CulturalContext> = {
     traditionalOccasions: ['tea ceremony', 'seasonal festivals', 'New Year celebrations'],
     modernEvolution: ['kaiseki refinement', 'bento culture', 'fusion innovations'],
     globalAdaptations: ['sushi worldwide', 'ramen culture', 'Japanese-French fusion']
-  }
+  },
   chinese: {
     origin: 'China',
     historicalPeriod: '3000 BCE - present',
@@ -104,7 +104,7 @@ const HISTORICAL_CONTEXTS: Record<string, CulturalContext> = {
     traditionalOccasions: ['Chinese New Year', 'Mid-Autumn Festival', 'family gatherings'],
     modernEvolution: ['regional specialization', 'Cantonese refinement', 'Sichuan popularity'],
     globalAdaptations: ['American Chinese', 'fusion techniques', 'dim sum culture']
-  }
+  },
   indian: {
     origin: 'Indian subcontinent',
     historicalPeriod: '3000 BCE - present',
@@ -121,7 +121,7 @@ const HISTORICAL_CONTEXTS: Record<string, CulturalContext> = {
       'global spice trade'
     ],
     globalAdaptations: ['curry houses worldwide', 'Indian-British fusion', 'vegetarian influence']
-  }
+  },
   italian: {
     origin: 'Italy',
     historicalPeriod: 'Roman Empire - present',
@@ -134,7 +134,7 @@ const HISTORICAL_CONTEXTS: Record<string, CulturalContext> = {
     traditionalOccasions: ['Sunday family meals', 'harvest festivals', 'religious celebrations'],
     modernEvolution: ['pasta perfection', 'pizza globalization', 'slow food movement'],
     globalAdaptations: ['Italian-American', 'pizza worldwide', 'pasta culture']
-  }
+  },
   french: {
     origin: 'France',
     historicalPeriod: 'Medieval - present',
@@ -147,7 +147,7 @@ const HISTORICAL_CONTEXTS: Record<string, CulturalContext> = {
     traditionalOccasions: ['harvest celebrations', 'religious feasts', 'family gatherings'],
     modernEvolution: ['haute cuisine development', 'nouvelle cuisine', 'bistro culture'],
     globalAdaptations: ['French technique worldwide', 'culinary schools', 'fine dining standards']
-  }
+  },
   mexican: {
     origin: 'Mexico',
     historicalPeriod: 'Pre-Columbian - present',
@@ -164,7 +164,7 @@ const HISTORICAL_CONTEXTS: Record<string, CulturalContext> = {
       'modern Mexican movement'
     ],
     globalAdaptations: ['Tex-Mex fusion', 'taco culture', 'Mexican-American cuisine']
-  }
+  },
   thai: {
     origin: 'Thailand',
     historicalPeriod: '13th century - present',
@@ -314,7 +314,7 @@ export class CulturalAnalyticsService {
       const modernAdaptations = this.generateModernAdaptations(cuisineName, historicalContext),
 
       return {
-        culturalSynergy: synergyData.score
+        culturalSynergy: synergyData.score,
         culturalCompatibility,
         historicalSignificance,
         culturalContext,
@@ -355,7 +355,7 @@ export class CulturalAnalyticsService {
             recommendedDishes: this.generateFusionDishes(primaryCuisine, secondaryCuisine),
             culturalNotes: this.generateFusionCulturalNotes(primaryCuisine, secondaryCuisine),
             blendRatio: fusionData.blendRatio,
-            seasonalOptimization: this.calculateSeasonalFusionOptimization(
+            seasonalOptimization: this.calculateSeasonalFusionOptimization(,
               primaryCuisine,
               secondaryCuisine,
             )

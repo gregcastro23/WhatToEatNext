@@ -8,7 +8,7 @@
 // Campaign and workflow service types
 export interface CampaignConfig {
   campaignId: string,
-  _campaignType: | 'typescript-fixes'
+  _campaignType: | 'typescript-fixes',
     | 'linting-improvements'
     | 'explicit-any-reduction'
     | 'build-optimization',
@@ -76,7 +76,7 @@ export interface QualityGateConfig {
     coveragePercentage?: number,
     performanceScore?: number
     buildTime?: number
-  }
+  },
   blocksDeployment: boolean,
   _notificationChannels: string[]
 }
@@ -91,7 +91,7 @@ export interface QualityGateResult {
     coveragePercentage: number,
     performanceScore: number,
     _buildTimeMs: number
-  }
+  },
   violations: QualityViolation[],
   timestamp: Date,
   executionTime: number
@@ -136,7 +136,7 @@ export interface Alert {
     _thresholdValue: number,
     file?: string,
     context?: string
-  }
+  },
   _resolved: boolean,
   resolvedAt?: Date
 }
@@ -173,7 +173,7 @@ export interface RecipeServiceResult<T = unknown> {,
     type: 'validation' | 'network' | 'parsing' | 'system',
     message: string,
     code?: string
-  }
+  },
   metadata: {
     source: string,
     _cached: boolean,
@@ -204,7 +204,7 @@ export interface EnterpriseAnalysisContext {
     analysisType: string,
     dataSource: string,
     _filters: EnterpriseFilter[]
-  }
+  },
   metadata: Record<string, string | number | boolean>,
 }
 
@@ -341,11 +341,11 @@ export interface SecurityConfig {
   _rateLimiting: {
     enabled: boolean,
     requestsPerMinute?: number
-  }
+  },
   validation: {
     inputSanitization: boolean,
     outputSanitization: boolean
-  }
+  },
   encryption: {
     enabled: boolean,
     algorithm?: string

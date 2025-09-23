@@ -20,7 +20,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   // Create a base recipe with required properties
   const recipe: Recipe = {
     id: recipeData.id || `recipe-${Date.now()}`,
-    name: recipeData.name || 'Unnamed Recipe'
+    name: recipeData.name || 'Unnamed Recipe',
     ingredients,
     instructions: recipeData.instructions || ['Combine ingredients and cook as desired.'],
     elementalProperties: ((recipeData as unknown as any).elementalState as ElementalProperties) || {

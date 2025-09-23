@@ -610,32 +610,32 @@ function calculatePlanetaryDayInfluence(
       styles: ['roasting', 'grilling', 'baking'],
       ingredients: ['citrus', 'sunflower', 'saffron', 'cinnamon', 'honey'],
       flavor: 'bright and vibrant'
-    }
+    },
     moon: {
       styles: ['steaming', 'poaching', 'simmering'],
       ingredients: ['dairy', 'coconut', 'cucumber', 'mushroom', 'vanilla'],
       flavor: 'subtle and soothing'
-    }
+    },
     Mars: {
       styles: ['frying', 'searing', 'spicy'],
       ingredients: ['peppers', 'garlic', 'onion', 'red meat', 'ginger'],
       flavor: 'bold and spicy'
-    }
+    },
     Mercury: {
       styles: ['stir-frying', 'quick cooking', 'diverse'],
       ingredients: ['seeds', 'nuts', 'herbs', 'leafy greens', 'berries'],
       flavor: 'complex and varied'
-    }
+    },
     Jupiter: {
       styles: ['slow cooking', 'feasting', 'abundance'],
       ingredients: ['fruits', 'rich meats', 'wine', 'sage', 'nutmeg'],
       flavor: 'generous and expansive'
-    }
+    },
     Venus: {
       styles: ['sweet', 'artistic', 'delicate'],
       ingredients: ['berries', 'flowers', 'chocolate', 'honey', 'butter'],
       flavor: 'sweet and pleasing'
-    }
+    },
     Saturn: {
       styles: ['traditional', 'preserved', 'aged'],
       ingredients: ['root vegetables', 'beans', 'aged cheese', 'dried fruits'],
@@ -734,32 +734,32 @@ function calculatePlanetaryHourInfluence(
       daytime: ['energizing', 'warming', 'bright'],
       nighttime: ['comforting', 'golden', 'radiant'],
       flavor: 'invigorating'
-    }
+    },
     moon: {
       daytime: ['cooling', 'refreshing', 'hydrating'],
       nighttime: ['soothing', 'calming', 'comforting'],
       flavor: 'nurturing'
-    }
+    },
     Mars: {
       daytime: ['stimulating', 'spicy', 'lively'],
       nighttime: ['warming', 'passionate', 'deep'],
       flavor: 'energetic'
-    }
+    },
     Mercury: {
       daytime: ['light', 'varied', 'clever'],
       nighttime: ['thoughtful', 'diverse', 'balanced'],
       flavor: 'stimulating'
-    }
+    },
     Jupiter: {
       daytime: ['abundant', 'expansive', 'celebratory'],
       nighttime: ['rich', 'festive', 'indulgent'],
       flavor: 'abundant'
-    }
+    },
     Venus: {
       daytime: ['beautiful', 'harmonious', 'balanced'],
       nighttime: ['sensual', 'sweet', 'indulgent'],
       flavor: 'pleasing'
-    }
+    },
     Saturn: {
       daytime: ['structured', 'traditional', 'disciplined'],
       nighttime: ['grounding', 'earthy', 'practical'],

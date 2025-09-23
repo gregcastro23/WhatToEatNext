@@ -98,7 +98,7 @@ function getCacheKey(
   limit: number,
 ): string {
   return JSON.stringify({
-    recipeCount: recipes?.length || 0 || 0
+    recipeCount: recipes?.length || 0 || 0,
     filters,
     energy,
     limit,
@@ -404,10 +404,10 @@ export async function findBestMatches(
       matchedIngredients: await connectIngredientsToMappings(recipe),
       matchScore: Math.min(1, Math.max(0, score / 100)), // Normalize to 0-1,
       enhancedMatch: true, // Flag to indicate enhanced matching was used,
-      absoluteElementalMatch: enhancedCurrentEnergy
+      absoluteElementalMatch: enhancedCurrentEnergy,
         ? await calculateEnergyMatch(elements, enhancedCurrentEnergy)
         : 0.5,
-      relativeElementalMatch: relativeElementalValues
+      relativeElementalMatch: relativeElementalValues,
         ? await calculateEnergyMatch(elements, relativeElementalValues)
         : 0.5
     }
@@ -948,11 +948,11 @@ function calculateModalityScore(recipeModality: string, userModality: string): n
     Cardinal: {
       Fixed: 0.4,
       Mutable: 0.6
-    }
+    },
     Fixed: {
       Cardinal: 0.4,
       Mutable: 0.5
-    }
+    },
     Mutable: {
       Cardinal: 0.6,
       Fixed: 0.5

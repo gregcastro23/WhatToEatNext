@@ -576,34 +576,34 @@ export function generateEnhancedRecommendation(
     Fire: {
       ingredients: ['chicken', 'lamb', 'peppers', 'chili'],
       flavors: ['spicy', 'sour', 'aromatic'],
-      methods: dominantModality === 'Mutable'
+      methods: dominantModality === 'Mutable',
           ? ['stir-frying', 'grilling', 'quick roasting']
           : dominantModality === 'Fixed'
             ? ['slow roasting', 'smoking', 'ember cooking']
             : ['grilling', 'roasting', 'flame cooking']
-    }
+    },
     Water: {
       ingredients: ['fish', 'shellfish', 'cucumber', 'melon'],
       flavors: ['salty', 'subtle', 'aromatic'],
-      methods: dominantModality === 'Mutable'
+      methods: dominantModality === 'Mutable',
           ? ['poaching', 'steaming', 'marinating']
           : dominantModality === 'Fixed'
             ? ['slow simmering', 'fermenting', 'curing']
             : ['steaming', 'poaching', 'chilling']
-    }
+    },
     Earth: {
       ingredients: ['beef', 'root vegetables', 'mushrooms', 'grains'],
       flavors: ['savory', 'umami', 'bitter'],
-      methods: dominantModality === 'Mutable'
+      methods: dominantModality === 'Mutable',
           ? ['baking', 'roasting', 'toasting']
           : dominantModality === 'Fixed'
             ? ['slow-cooking', 'clay pot cooking', 'pressure cooking']
             : ['braising', 'baking', 'pressure cooking']
-    }
+    },
     Air: {
       ingredients: ['poultry', 'leafy greens', 'legumes', 'seeds'],
       flavors: ['light', 'aromatic', 'tangy'],
-      methods: dominantModality === 'Mutable'
+      methods: dominantModality === 'Mutable',
           ? ['whipping', 'aerating', 'cold infusing']
           : dominantModality === 'Fixed'
             ? ['aging', 'curing', 'fermenting']
@@ -620,7 +620,7 @@ export function generateEnhancedRecommendation(
           : 'direct, purposeful'
       } preparations with clear flavors`,
       ingredients: ['fresh seasonal produce', 'simple proteins']
-    }
+    },
     Fixed: {
       style: `${
         dominantElement === 'Earth' || dominantElement === 'Water'
@@ -628,7 +628,7 @@ export function generateEnhancedRecommendation(
           : 'lasting, concentrated'
       } dishes with depth of flavor`,
       ingredients: ['preserved items', 'slow-cooked components']
-    }
+    },
     Mutable: {
       style: `${
         dominantElement === 'Air' || dominantElement === 'Water'
@@ -707,7 +707,7 @@ export function generateEnhancedRecommendation(
       elementalInfluence: `${dominantElement} element suggests ${eleRecs.methods[0]} ${mainIngredient}`,
       decanic: `Current decan influences favor ${flavor} flavors`,
       planetary: `Planetary positions suggest ${modRecs.style}`,
-      seasonal: season
+      seasonal: season,
         ? `${season.charAt(0).toUpperCase() + season.slice(1)} calls for ${seasonalInfluence.boost.join(', ')}`
         : 'No seasonal data provided',
       modalityInfluence: `${dominantModality} ${dominantElement} particularly favors ${naturalAffinity > 0.7 ? 'strong' : 'moderate'} ${cookingMethod} techniques`
@@ -733,19 +733,19 @@ function getSeasonalAdjustments(
     spring: {
       boost: ['asparagus', 'peas', 'strawberries', 'leafy greens', 'sprouts'],
       avoid: ['heavy stews', 'root vegetables', 'preserved foods']
-    }
+    },
     summer: {
       boost: ['tomatoes', 'peppers', 'berries', 'stone fruits', 'fresh herbs'],
       avoid: ['slow-cooked', 'braised dishes', 'heavy sauces']
-    }
+    },
     fall: {
       boost: ['squash', 'apples', 'pears', 'mushrooms', 'root vegetables'],
       avoid: ['cooling foods', 'raw preparations', 'tropical fruits']
-    }
+    },
     autumn: {
       boost: ['squash', 'apples', 'pears', 'mushrooms', 'root vegetables'],
       avoid: ['cooling foods', 'raw preparations', 'tropical fruits']
-    }
+    },
     winter: {
       boost: ['citrus', 'winter greens', 'preserved foods', 'warming spices'],
       avoid: ['raw preparations', 'cooling foods', 'summery dishes']
@@ -771,19 +771,19 @@ function getSeasonalAdjustments(
       summer: { extraBoost: ['chili peppers', 'garlic'], extraAvoid: [] }
       autumn: { extraBoost: ['ginger', 'warming spices'], extraAvoid: ['raw greens'] }
       winter: { extraBoost: ['warming spices', 'chilis'], extraAvoid: [] }
-    }
+    },
     Water: {
       spring: { extraBoost: ['fresh fish', 'herbs'], extraAvoid: [] }
       summer: { extraBoost: ['cucumber', 'watermelon'], extraAvoid: ['heating spices'] }
       autumn: { extraBoost: ['pears', 'apples'], extraAvoid: [] }
       winter: { extraBoost: ['citrus', 'broths'], extraAvoid: [] }
-    }
+    },
     Earth: {
       spring: { extraBoost: ['new potatoes', 'spring onions'], extraAvoid: [] }
       summer: { extraBoost: ['corn', 'beans'], extraAvoid: ['heavy stews'] }
       autumn: { extraBoost: ['root vegetables', 'squash'], extraAvoid: [] }
       winter: { extraBoost: ['preserved roots', 'slow-cooked dishes'], extraAvoid: ['raw foods'] }
-    }
+    },
     Air: {
       spring: { extraBoost: ['herbs', 'sprouts'], extraAvoid: [] }
       summer: { extraBoost: ['berries', 'light grains'], extraAvoid: ['heavy sauces'] }
@@ -965,18 +965,18 @@ interface EnhancedAlchemicalResult {
     Water: number,
     Earth: number,
     Air: number
-  }
+  },
   modalities: {
     Cardinal: number,
     Fixed: number,
     Mutable: number
-  }
+  },
   qualities: {
     Hot: number,
     Dry: number,
     Cold: number,
     Wet: number
-  }
+  },
   dominant: {
     element: string,
     modality: string,

@@ -103,7 +103,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
             return {
               ...ingredient,
               kineticScore,
-              temporalCategory: currentPowerLevel > 0.7 ? 'energizing' :
+              temporalCategory: currentPowerLevel > 0.7 ? 'energizing' :,
                               currentPowerLevel < 0.4 ? 'grounding' : 'balanced',
               aspectPhase,
               dominantElement,
@@ -174,7 +174,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
           return {
             ...ingredient,
             kineticScore,
-            temporalCategory: currentPowerLevel > 0.7 ? 'energizing' :
+            temporalCategory: currentPowerLevel > 0.7 ? 'energizing' :,
                             currentPowerLevel < 0.4 ? 'grounding' : 'balanced',
             aspectPhase,
             dominantElement,

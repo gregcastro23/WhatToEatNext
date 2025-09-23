@@ -103,7 +103,7 @@ export interface MonicaOptimizedRecipe extends EnhancedRecipe {
       essenceNutrients: string[],
       matterNutrients: string[],
       substanceNutrients: string[]
-    }
+    },
     elementalNutrition: ElementalProperties,
     kalchmNutritionalBalance: number,
     monicaNutritionalHarmony: number
@@ -147,13 +147,13 @@ export interface SeasonalRecipeAdaptation {
       cookTimeChange: number,
       restTimeChange: number,
       reason: string
-    }
+    },
     temperatureAdjustments: {
       temperatureChange: number,
       reason: string,
       seasonalBenefit: string
     }
-  }
+  },
   seasonalScore: number,
   kalchmImprovement: number,
   monicaImprovement: number
@@ -187,13 +187,13 @@ export interface PlanetaryRecipeRecommendation {
     lunarPhaseAlignment: number,
     zodiacHarmony: number,
     astrologicalScore: number
-  }
+  },
   optimalCookingTime: {
     startTime: string,
     duration: string,
     planetaryWindow: string,
     lunarConsiderations: string
-  }
+  },
   energeticProfile: {
     spiritualEnergy: number,
     emotionalResonance: number,
@@ -488,7 +488,7 @@ export class UnifiedRecipeBuildingSystem {
           reason:
             (timingAdjustments as unknown as TimingAdjustment)?.reason ||
             'Seasonal timing optimization'
-        }
+        },
         temperatureAdjustments: {
           temperatureChange: (temperatureAdjustments as unknown as TemperatureAdjustment)?.temperature || 0,
           reason:
@@ -603,7 +603,7 @@ export class UnifiedRecipeBuildingSystem {
     const energeticProfile = this.calculateEnergeticProfile(baseRecipe.recipe, planetaryAlignment),
 
     return {
-      recipe: baseRecipe.recipe
+      recipe: baseRecipe.recipe,
       planetaryAlignment,
       optimalCookingTime,
       energeticProfile
@@ -854,27 +854,27 @@ export class UnifiedRecipeBuildingSystem {
         high: 'Dawn cooking aligns with Spring's rising energy',
         medium: 'Mid-morning preparation captures growth energy',
         low: 'Evening cooking grounds Spring's active energy'
-      }
+      },
       summer: {
         high: 'Noon cooking maximizes Summer's peak energy',
         medium: 'Late afternoon balances Summer intensity',
         low: 'Early morning or late evening for cooling'
-      }
+      },
       autumn: {
         high: 'Afternoon cooking gathers Autumn's harvest energy',
         medium: 'Sunset preparation for balanced transformation',
         low: 'Evening cooking enhances Autumn's introspection'
-      }
+      },
       fall: {
         high: 'Afternoon cooking gathers Fall's harvest energy',
         medium: 'Sunset preparation for balanced transformation',
         low: 'Evening cooking enhances Fall's introspection'
-      }
+      },
       winter: {
         high: 'Midday cooking counters Winter's dormancy',
         medium: 'Late afternoon for warming comfort',
         low: 'Long, slow evening cooking for deep nourishment'
-      }
+      },
       all: {
         high: 'Solar noon maximizes any season's energy',
         medium: 'Golden hour cooking for balanced energy',
@@ -938,7 +938,7 @@ export class UnifiedRecipeBuildingSystem {
         roast: 0.5,
         braise: 0.3,
         stew: 0.2
-      }
+      },
       winter: {
         braise: 1.0,
         stew: 0.95,
@@ -948,7 +948,7 @@ export class UnifiedRecipeBuildingSystem {
         saute: 0.6,
         grill: 0.4,
         raw: 0.2
-      }
+      },
       spring: {
         steam: 0.95,
         saute: 0.9,
@@ -957,7 +957,7 @@ export class UnifiedRecipeBuildingSystem {
         grill: 0.7,
         roast: 0.6,
         stew: 0.4
-      }
+      },
       autumn: {
         roast: 0.95,
         bake: 0.9,
@@ -966,7 +966,7 @@ export class UnifiedRecipeBuildingSystem {
         stew: 0.75,
         grill: 0.6,
         raw: 0.4
-      }
+      },
       fall: {
         roast: 0.95,
         bake: 0.9,
@@ -975,7 +975,7 @@ export class UnifiedRecipeBuildingSystem {
         stew: 0.75,
         grill: 0.6,
         raw: 0.4
-      }
+      },
       all: {
         saute: 0.8,
         roast: 0.75,
@@ -1694,8 +1694,8 @@ export class UnifiedRecipeBuildingSystem {
       originalMonica,
       optimizedMonica,
       optimizationScore,
-      temperatureAdjustments: [0.951.01.05], // Slight temperature variations for fusion
-      timingAdjustments: [0.91.01.1], // Timing adjustments for multiple cuisines
+      temperatureAdjustments: [0.951.01.05], // Slight temperature variations for fusion,
+      timingAdjustments: [0.91.01.1], // Timing adjustments for multiple cuisines,
       intensityModifications: ['balanced fusion', 'cultural harmony', 'integrated techniques'],
       planetaryTimingRecommendations: [
         'Optimal during Venus hours for harmony',

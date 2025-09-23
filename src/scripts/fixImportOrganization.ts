@@ -25,7 +25,7 @@ interface ImportIssue {
 
 interface ImportAnalysis {
   duplicateImports: ImportIssue[],
-  importOrderIssues: ImportIssue[];
+  importOrderIssues: ImportIssue[];,
   circularDependencies: ImportIssue[],
   namedImportIssues: ImportIssue[],
   totalIssues: number
@@ -76,7 +76,7 @@ class ImportOrganizationFixer {
       const results = JSON.parse(eslintOutput)
       const analysis: ImportAnalysis = {
         duplicateImports: [],
-        importOrderIssues: [];
+        importOrderIssues: [];,
         circularDependencies: [],
         namedImportIssues: [],
         totalIssues: 0
@@ -129,7 +129,7 @@ class ImportOrganizationFixer {
     // Fallback analysis using file system scanning
     const analysis: ImportAnalysis = {
       duplicateImports: [],
-      importOrderIssues: [];
+      importOrderIssues: [];,
       circularDependencies: [],
       namedImportIssues: [],
       totalIssues: 0
@@ -167,8 +167,8 @@ class ImportOrganizationFixer {
               file,
               line: lineNumbers[1],
               column: 1,
-              rule: 'import/no-duplicates';
-              message: `Duplicate import from '${source}'`;
+              rule: 'import/no-duplicates';,
+              message: `Duplicate import from '${source}'`;,
               severity: 'error'
             })
           }
@@ -218,7 +218,7 @@ class ImportOrganizationFixer {
           string,
           {
             lines: number[],
-            imports: string[];
+            imports: string[];,
             defaultImport?: string,
             namespaceImport?: string
           }

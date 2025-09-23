@@ -24,7 +24,7 @@ export interface UnifiedFlavorProfile {
   baseNotes: BaseFlavorNotes,
   elementalFlavors: ElementalProperties,
   intensity: number, // 0-1 scale,
-  complexity: number // 0-1 scale
+  complexity: number // 0-1 scale,
 
   // Alchemical integration,
   kalchm: number,
@@ -40,7 +40,7 @@ export interface UnifiedFlavorProfile {
   // Advanced properties,
   preparationMethods: string[],
   nutritionalSynergy: number,
-  temperatureOptimal: number, // Celsius
+  temperatureOptimal: number, // Celsius,
 
   // Metadata,
   description: string,
@@ -49,19 +49,19 @@ export interface UnifiedFlavorProfile {
 }
 
 export interface UnifiedFlavorCompatibility {
-  overall: number; // 0-1 scale (primary score)
-  elemental: number; // Elemental harmony (self-reinforcement)
+  overall: number; // 0-1 scale (primary score),
+  elemental: number; // Elemental harmony (self-reinforcement),
   kalchm: number; // Kalchm resonance,
   monica: number; // Monica optimization,
   seasonal: number; // Seasonal alignment,
   cultural: number // Cultural compatibility,
   nutritional: number, // Nutritional synergy,
-  preparation: number, // Preparation method compatibility
+  preparation: number, // Preparation method compatibility,
 
   // Detailed breakdown
   breakdown: {
     elementalDetails: Record<keyof ElementalProperties, number>,
-    flavorHarmony: Record<keyof BaseFlavorNotes, number>
+    flavorHarmony: Record<keyof BaseFlavorNotes, number>,
     seasonalAlignment: Record<Season, number>,
     culturalResonance: string[]
   }
@@ -331,7 +331,7 @@ export class UnifiedFlavorEngine {
 
     // Generate detailed breakdown
     const breakdown = {
-      elementalDetails: this.getElementalBreakdown(
+      elementalDetails: this.getElementalBreakdown(,
         _profile1.elementalFlavors
         _profile2.elementalFlavors
       ),
@@ -685,7 +685,7 @@ export class UnifiedFlavorEngine {
   // ===== ADVICE GENERATION =====,
 
   private generateAdvice(
-    scores: Omit<
+    scores: Omit<,
       UnifiedFlavorCompatibility,
       'breakdown' | 'recommendations' | 'warnings' | 'optimizations'
     >,

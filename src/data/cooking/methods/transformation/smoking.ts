@@ -17,12 +17,12 @@ export const smoking = {
     Water: 0.2,
     Earth: 0.3,
     Air: 0.8
-  }
+  },
   alchemical_properties: {
     element: 'Air',
     planetary_influence: 'Mars',
     effect_on_ingredients: 'Increases Spirit and Matter, transforms Substance into Essence'
-  }
+  },
   benefits: [
     'Adds complex smoky flavor',
     'Preserves food naturally',
@@ -37,19 +37,19 @@ export const smoking = {
     'Liquid smoke (concentrated smoke flavor for adding to dishes)'
   ],
   duration: {
-    min: 30, // minutes
+    min: 30, // minutes,
     max: 1440, // 24 hours
-  }
+  },
   temperature_range: {
     cold_smoking: {
-      min: 20, // °C
+      min: 20, // °C,
       max: 30, // °C
-    }
+    },
     hot_smoking: {
-      min: 65, // °C
+      min: 65, // °C,
       max: 120, // °C
     }
-  }
+  },
   toolsRequired: ['Smoker', 'Wood chips or pellets', 'Thermometer', 'Rack'],
   famous_dishes: ['Smoked salmon', 'Bacon', 'Texas brisket', 'Smoked cheese', 'Pastrami'],
   health_benefits: [

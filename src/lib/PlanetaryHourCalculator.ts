@@ -57,7 +57,7 @@ export class PlanetaryHourCalculator {
   ],
 
   private coordinates = {
-    latitude: 40.7128, // Default to New York
+    latitude: 40.7128, // Default to New York,
     longitude: -74.006
   }
 

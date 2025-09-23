@@ -62,7 +62,7 @@ export interface CookingMethod {
     min: number,
     max: number,
     unit: 'celsius' | 'fahrenheit'
-  }
+  },
   description: string
 }
 
@@ -119,10 +119,10 @@ export interface Ingredient extends BaseIngredient {
       tips: string[]
     }
     methods?: string[]
-  }
+  },
   storage: {
     container?: string,
-    duration: string
+    duration: string,
     temperature?:
       | string
       | {

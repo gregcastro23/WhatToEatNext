@@ -15,18 +15,18 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       aroma: ['Fresh', 'Clean', 'Subtle'],
       texture: ['Pleasant', 'Smooth', 'Appealing'],
       notes: 'Characteristic beef profile'
-    }
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced'],
         secondary: ['versatile'],
         notes: 'Versatile beef for various uses'
-      }
+      },
       cookingMethods: ['grilling', 'roasting', 'braising'],
       cuisineAffinity: ['american', 'european'],
       preparationTips: ['allow to reach room temperature before cooking', 'season generously']
     }
-  }
+  },
   chicken: {
     name: 'Chicken',
     description: 'White meat from poultry, available in various cuts with different properties.',
@@ -40,17 +40,17 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       aroma: ['Fresh', 'Clean', 'Subtle'],
       texture: ['Pleasant', 'Smooth', 'Appealing'],
       notes: 'Characteristic chicken profile'
-    }
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['mild', 'savory'],
         notes: 'Versatile for many cuisines.'
-      }
+      },
       cookingMethods: ['roasting', 'grilling', 'frying', 'poaching'],
       cuisineAffinity: ['global'],
       preparationTips: ['Cook to internal temperature of 165°F.', 'Brining enhances moisture.']
     }
-  }
+  },
   pork: {
     name: 'Pork',
     description: 'Meat from pigs, known for its rich flavor and versatility.',
@@ -64,18 +64,18 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['savory', 'umami'],
         secondary: ['sweet'],
         notes: 'Excellent with fruits like apple and cherry.'
-      }
+      },
       cookingMethods: ['roasting', 'braising', 'grilling', 'smoking'],
       cuisineAffinity: ['asian', 'american', 'german'],
       preparationTips: ['Do not overcook.', 'Works well with rubs and marinades.']
     }
-  }
+  },
   lamb: {
     name: 'Lamb',
     description: 'Meat from young sheep, with a distinct, slightly gamy flavor.',
@@ -89,13 +89,13 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    }
+    },
     culinaryProfile: {
       flavorProfile: {
         primary: ['gamy', 'earthy'],
         secondary: ['herbaceous'],
         notes: 'Complemented by herbs like rosemary and mint.'
-      }
+      },
       cookingMethods: ['roasting', 'grilling', 'braising'],
       cuisineAffinity: ['mediterranean', 'middle_eastern'],
       preparationTips: ['Best served medium-rare.', 'Fat carries a lot of the flavor.']

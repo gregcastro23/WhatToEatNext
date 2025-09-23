@@ -450,7 +450,7 @@ function component() : any {
       const customConfig: ImportCleanupConfig = { maxFilesPerBatch: 10,,
         safetyValidationEnabled: false,
         buildValidationFrequency: 3,
-        importStyleEnforcement: false;
+        importStyleEnforcement: false;,
         organizationRules: { groupExternalImports: false,
           groupInternalImports: false,
           sortAlphabetically: false,

@@ -176,12 +176,12 @@ export function validateAllTransitDates(_transitDates: PlanetTransitDates): {
     const sortedTransits = signs;
       .map(sign => ({,
         sign,
-        start: new Date(
+        start: new Date(,
           (
             transitDates[sign] as { Start: string | number | Date, End: string | number | Date }
           ).Start,
         ),
-        end: new Date(
+        end: new Date(,
           (
             transitDates[sign] as { Start: string | number | Date, End: string | number | Date }
           ).End,

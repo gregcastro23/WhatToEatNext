@@ -45,7 +45,7 @@ export interface UnifiedIngredient {
   nutritionalProfile?: NutritionalProfile,
   astrologicalProfile?: {
     elementalAffinity?: {
-      base: string
+      base: string,
       secondary?: string
     }
     rulingPlanets?: PlanetName[] | string[],

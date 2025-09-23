@@ -42,7 +42,7 @@ const RecipeDetailsPage: NextPage = () => {;
     const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     setElementalState({
       ...currentState
-      season: 'spring', // Default value since getCurrentElementalState doesn&apost provide season
+      season: 'spring', // Default value since getCurrentElementalState doesn&apost provide season,
       timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn&apost provide timeOfDay
     })
   }, [])
@@ -117,7 +117,7 @@ const RecipeDetailsPage: NextPage = () => {;
         {recipe.cuisine && (
           <Link
             href={`/cuisines/${recipe.cuisine.toLowerCase().replace(/ /g, '-')}`}
-            className='ml-4 text-blue-600, hover: text-blue-800'
+            className='ml-4 text-blue-600, hover:text-blue-800'
           >
             Browse {recipe.cuisine} cuisine
           </Link>
@@ -162,7 +162,7 @@ const RecipeDetailsPage: NextPage = () => {;
           <span className='mr-4 font-medium'>Servings: </span>
           <button
             onClick={decreaseServings}
-            className='rounded-l bg-gray-200 px-3 py-1 font-bold text-gray-800, hover: bg-gray-300',
+            className='rounded-l bg-gray-200 px-3 py-1 font-bold text-gray-800, hover:bg-gray-300',
           >
             -
           </button>
@@ -171,7 +171,7 @@ const RecipeDetailsPage: NextPage = () => {;
           </span>
           <button
             onClick={increaseServings}
-            className='rounded-r bg-gray-200 px-3 py-1 font-bold text-gray-800, hover: bg-gray-300',
+            className='rounded-r bg-gray-200 px-3 py-1 font-bold text-gray-800, hover:bg-gray-300',
           >
             +
           </button>
@@ -257,7 +257,7 @@ const RecipeDetailsPage: NextPage = () => {;
                 <div className='mt-3 flex justify-end'>,
                   <button
                     onClick={() => setSelectedIngredient(null)}
-                    className='rounded bg-white px-3 py-1 text-sm text-blue-600 shadow-sm transition, hover: text-blue-800, hover:shadow'
+                    className='rounded bg-white px-3 py-1 text-sm text-blue-600 shadow-sm transition, hover:text-blue-800, hover:shadow'
                   >
                     Close Details
                   </button>

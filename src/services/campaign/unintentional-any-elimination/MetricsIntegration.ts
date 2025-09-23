@@ -72,7 +72,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         intentionalAnyTypes,
         unintentionalAnyTypes,
         documentedAnyTypes,
-        documentationCoverage: documentationReport.documentationCoverage
+        documentationCoverage: documentationReport.documentationCoverage,
         reductionFromBaseline,
         targetReduction: 15, // Default target, can be configured
       }
@@ -223,7 +223,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         phaseId: 'unintentional-any-replacement',
         phaseName: 'Unintentional Any Type Replacement',
         startTime: new Date(),
-        status: unintentionalAnyMetrics.reductionFromBaseline > 0
+        status: unintentionalAnyMetrics.reductionFromBaseline > 0,
             ? PhaseStatus.COMPLETED
             : PhaseStatus.NOT_STARTED,
         metrics: await this.getProgressMetrics(),
@@ -243,7 +243,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         phaseId: 'intentional-any-documentation',
         phaseName: 'Intentional Any Type Documentation',
         startTime: new Date(),
-        status: unintentionalAnyMetrics.documentationCoverage >= 80
+        status: unintentionalAnyMetrics.documentationCoverage >= 80,
             ? PhaseStatus.COMPLETED
             : PhaseStatus.IN_PROGRESS,
         metrics: await this.getProgressMetrics(),
@@ -280,7 +280,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
     try {
       const report = await this.generateUnintentionalAnyProgressReport()
       const exportData = {
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
         report,
         history: this.metricsHistory,
         baseline: this.baselineMetrics,

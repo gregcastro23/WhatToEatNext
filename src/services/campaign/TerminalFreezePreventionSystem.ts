@@ -305,7 +305,7 @@ export class TerminalFreezePreventionSystem {
     }
 
     return {
-      detected: suspiciousProcesses.length > 0
+      detected: suspiciousProcesses.length > 0,
       suspiciousProcesses,
       recommendations
     }

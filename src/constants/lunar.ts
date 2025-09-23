@@ -5,31 +5,31 @@ export const _LUNAR_PHASES = {
       Water: 0.4,
       Air: 0.1,
       Earth: 0.4
-    }
+    },
     qualities: ['introspective', 'beginning'],
     duration: 1,
     enhancedCategories: ['seeds', 'sprouts', 'root vegetables'],
     cookingMethods: ['simple cooking', 'sprouting', 'fermenting']
-  }
+  },
   waxingCrescent: {
     elementalModifier: {
       Fire: 0.2,
       Water: 0.3,
       Air: 0.3,
       Earth: 0.2
-    }
+    },
     qualities: ['building', 'expanding'],
     duration: 6.5,
     enhancedCategories: ['leafy greens', 'fresh herbs', 'young vegetables'],
     cookingMethods: ['light steaming', 'quick cooking', 'infusing']
-  }
+  },
   firstQuarter: {
     elementalModifier: {
       Fire: 0.3,
       Water: 0.2,
       Air: 0.3,
       Earth: 0.2
-    }
+    },
     qualities: ['active', 'manifesting'],
     duration: 1,
     enhancedCategories: ['fruits', 'flowers', 'above-ground vegetables'],
@@ -39,7 +39,7 @@ export const _LUNAR_PHASES = {
 }
 
 export const _LUNAR_CYCLE = {
-  averageDuration: 29.53059, // days
+  averageDuration: 29.53059, // days,
   phases: [
     'new',
     'waxingCrescent',
@@ -51,14 +51,14 @@ export const _LUNAR_CYCLE = {
     'waningCrescent'
   ],
   elementalInfluence: {
-    strengthMultiplier: 0.15, // 15% influence on elemental balance
+    strengthMultiplier: 0.15, // 15% influence on elemental balance,
     peakDuration: 3, // days around full/new moon where influence is strongest
   }
 }
 
 // Lunar days information
 export const _LUNAR_DAYS = {
-  total: 30, // Traditional lunar calendar has 30 days
+  total: 30, // Traditional lunar calendar has 30 days,
   favorableDays: [35, 811, 1316, 1821, 2324, 2629],
   challengingDays: [47, 912, 1419, 2227],
   neutralDays: [12, 610, 1517, 2025, 2830],

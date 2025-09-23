@@ -9,9 +9,9 @@
  * Standard interface for thermodynamic properties
  */
 export interface ThermodynamicProperties {
-  heat: number; // Rate of thermal energy transfer (0-1)
-  entropy: number; // Degree of structural breakdown (0-1)
-  reactivity: number; // Rate of chemical interactions (0-1)
+  heat: number; // Rate of thermal energy transfer (0-1),
+  entropy: number; // Degree of structural breakdown (0-1),
+  reactivity: number; // Rate of chemical interactions (0-1),
   energy?: number // Overall energy transfer efficiency (derived value)
 }
 
@@ -28,9 +28,9 @@ export interface BasicThermodynamicProperties {
  * Extended thermodynamic properties with additional metrics
  */
 export interface ExtendedThermodynamicProperties extends ThermodynamicProperties {
-  resonance: number; // Energy alignment/harmony (0-1)
-  potential: number; // Stored energetic potential (0-1)
-  _stability: number; // Resistance to transformation (0-1)
+  resonance: number; // Energy alignment/harmony (0-1),
+  potential: number; // Stored energetic potential (0-1),
+  _stability: number; // Resistance to transformation (0-1),
   _dynamism: number // Rate of energy exchange (0-1)
 }
 
@@ -40,7 +40,7 @@ export interface ExtendedThermodynamicProperties extends ThermodynamicProperties
 export interface ThermodynamicTransition {
   _initialState: ThermodynamicProperties,
   _finalState: ThermodynamicProperties,
-  _transitionTime: number, // in minutes
+  _transitionTime: number, // in minutes,
   catalysts?: string[]; // Elements that speed up the transition
   inhibitors?: string[] // Elements that slow down the transition
 }
@@ -52,7 +52,7 @@ export interface TemperatureEffect {
   _range: {
     min: number // temperature in Celsius,
     max: number
-  }
+  },
   thermodynamicEffect: ThermodynamicProperties,
   notes?: string
 }

@@ -90,20 +90,20 @@ export const spices: Record<string, IngredientMapping> = fixIngredientMappings({
           third: { element: 'Air', planet: 'Uranus' }
         }
       }
-    }
+    },
     qualities: ['earthy', 'warm', 'aromatic'],
     category: 'spice',
     varieties: {
       Indian: {
         origin: 'India',
         flavor: 'intense'
-      }
+      },
       MiddleEastern: {
         origin: 'Middle East',
         flavor: 'balanced'
       }
     }
-  }
+  },
   cinnamon: {
     name: 'cinnamon',
     elementalProperties: { Fire: 0.57, Air: 0.23, Earth: 0.12, Water: 0.08 }
@@ -117,39 +117,39 @@ export const spices: Record<string, IngredientMapping> = fixIngredientMappings({
           second: { element: 'Air', planet: 'Moon' }
           third: { element: 'Earth', planet: 'Venus' }
         }
-      }
+      },
       lunarPhaseModifiers: {
         newMoon: {
           elementalBoost: { Fire: 0.1, Earth: 0.05 }
           preparationTips: ['Good for subtle infusions']
-        }
+        },
         fullMoon: {
           elementalBoost: { Fire: 0.2 }
           preparationTips: ['Spice potency enhanced', 'Ideal for ceremonial uses']
-        }
+        },
         waxingCrescent: {
           elementalBoost: { Fire: 0.15 }
           preparationTips: ['Good for baking applications']
-        }
+        },
         firstQuarter: {
           elementalBoost: { Fire: 0.1, Air: 0.1 }
           preparationTips: ['Ideal for tea blends']
         }
       }
-    }
+    },
     qualities: ['warm', 'sweet', 'aromatic'],
     category: 'spice',
     varieties: {
       Ceylon: {
         origin: 'Sri Lanka',
         flavor: 'delicate, citrusy'
-      }
+      },
       Cassia: {
         origin: 'China',
         flavor: 'strong, spicy'
       }
     }
-  }
+  },
   cayenne: {
     name: 'cayenne',
     elementalProperties: { Fire: 0.72, Earth: 0.15, Air: 0.08, Water: 0.05 }
@@ -163,30 +163,30 @@ export const spices: Record<string, IngredientMapping> = fixIngredientMappings({
           second: { element: 'Earth', planet: 'Pluto' }
           third: { element: 'Air', planet: 'Uranus' }
         }
-      }
+      },
       lunarPhaseModifiers: {
         newMoon: {
           elementalBoost: { Fire: 0.1 }
           preparationTips: ['Use sparingly', 'Good for subtle heat']
-        }
+        },
         waxingCrescent: {
           elementalBoost: { Fire: 0.15 }
           preparationTips: ['Building heat for marinades']
-        }
+        },
         firstQuarter: {
           elementalBoost: { Fire: 0.2 }
           preparationTips: ['Ideal for medium-spicy dishes']
-        }
+        },
         waxingGibbous: {
           elementalBoost: { Fire: 0.25 }
           preparationTips: ['Strong heat for bold dishes']
-        }
+        },
         fullMoon: {
           elementalBoost: { Fire: 0.3 }
           preparationTips: ['Maximum heat potential', 'Best for spicy feasts']
         }
       }
-    }
+    },
     qualities: ['hot', 'spicy', 'stimulating'],
     category: 'spice',
     varieties: {
@@ -195,7 +195,7 @@ export const spices: Record<string, IngredientMapping> = fixIngredientMappings({
         flavor: 'very hot'
       }
     }
-  }
+  },
   paprika: {
     elementalProperties: { Fire: 0.45, Earth: 0.3, Air: 0.15, Water: 0.1 }
     name: 'paprika',
@@ -205,43 +205,43 @@ export const spices: Record<string, IngredientMapping> = fixIngredientMappings({
       sweet: {
         flavor: 'mild, fruity',
         heatLevel: 2
-      }
+      },
       smoked: {
         flavor: 'smoky, rich',
         heatLevel: 3
-      }
+      },
       hot: {
         flavor: 'spicy, robust',
         heatLevel: 6
       }
-    }
+    },
     lunarPhaseModifiers: {
       newMoon: {
         elementalBoost: { Earth: 0.1, Fire: 0.05 }
         preparationTips: ['Good for subtle color and flavor']
-      }
+      },
       waxingCrescent: {
         elementalBoost: { Fire: 0.1, Earth: 0.05 }
         preparationTips: ['Building flavor for rubs and marinades']
-      }
+      },
       firstQuarter: {
         elementalBoost: { Fire: 0.15, Earth: 0.1 }
         preparationTips: ['Ideal for stews and goulash']
-      }
+      },
       fullMoon: {
         elementalBoost: { Fire: 0.2, Earth: 0.1 }
         preparationTips: ['Color and flavor most vibrant', 'Best for showcase dishes']
-      }
+      },
       waningGibbous: {
         elementalBoost: { Earth: 0.15, Fire: 0.1 }
         preparationTips: ['Good for hearty roasted dishes']
-      }
+      },
       waningCrescent: {
         elementalBoost: { Earth: 0.2 }
         preparationTips: ['Best for subtle, earthy applications']
       }
     }
-  }
+  },
   turmeric: {
     elementalProperties: { Fire: 0.3, Earth: 0.5, Air: 0.1, Water: 0.1 }
     name: 'turmeric',
@@ -255,31 +255,31 @@ export const spices: Record<string, IngredientMapping> = fixIngredientMappings({
       newMoon: {
         elementalBoost: { Earth: 0.15 }
         preparationTips: ['Good for starting cleansing routines', 'Subtle medicinal use']
-      }
+      },
       waxingCrescent: {
         elementalBoost: { Earth: 0.1, Fire: 0.1 }
         preparationTips: ['Building healing properties', 'Good for curries']
-      }
+      },
       firstQuarter: {
         elementalBoost: { Fire: 0.15, Earth: 0.15 }
         preparationTips: ['Medicinal potency increasing', 'Ideal for golden milk']
-      }
+      },
       waxingGibbous: {
         elementalBoost: { Earth: 0.2, Fire: 0.1 }
         preparationTips: ['Strong healing properties', 'Good for therapeutic dishes']
-      }
+      },
       fullMoon: {
         elementalBoost: { Earth: 0.25, Fire: 0.1 }
         preparationTips: ['Maximum medicinal potency', 'Best for healing rituals']
-      }
+      },
       waningGibbous: {
         elementalBoost: { Earth: 0.2, Water: 0.1 }
         preparationTips: ['Good for detoxifying recipes']
-      }
+      },
       lastQuarter: {
         elementalBoost: { Earth: 0.15, Water: 0.1 }
         preparationTips: ['Balancing properties for savory dishes']
-      }
+      },
       waningCrescent: {
         elementalBoost: { Earth: 0.1, Water: 0.15 }
         preparationTips: ['Gentle applications', 'Good for subtle coloring']

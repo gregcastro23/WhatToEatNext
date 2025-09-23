@@ -309,12 +309,12 @@ export interface DomainDistribution {
     intentional: {
       count: number,
       percentage: number
-    }
+    },
     unintentional: {
       count: number,
       percentage: number
     }
-  }
+  },
   analysisDate: Date
 }
 
@@ -332,7 +332,7 @@ export interface ClassificationAccuracyReport {
     count: number,
     percentage: number
   }>,
-  reportDate: Date
+  reportDate: Date,
   pilotEnhancements?: {
     manualReviewSimulation: any,
     crossValidation: any,
@@ -401,7 +401,7 @@ export interface AnalysisReport {
     baselineMetrics: BaselineMetrics,
     successPrediction: SuccessRatePrediction,
     recommendations: string[]
-  }
+  },
   summary: {
     totalAnyTypes: number,
     unintentionalCount: number,
@@ -486,7 +486,7 @@ export interface AlertSummary {
 }
 
 export interface SystemHealth {
-  score: number // 0-100
+  score: number // 0-100,
   status: 'healthy' | 'warning' | 'critical',
   lastCheck: Date,
   issues: string[]
@@ -545,7 +545,7 @@ export interface SuccessRatePrediction {
   projectedSuccessRate?: any,
   confidenceInterval: { lower: number, upper: number }
   riskFactors: string[],
-  estimatedTimeToComplete: number, // in minutes
+  estimatedTimeToComplete: number, // in minutes,
   timeToTarget?: any,
   categoryPredictions?: any,
   recommendedBatchSize: number,

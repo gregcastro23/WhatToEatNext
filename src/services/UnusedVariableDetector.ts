@@ -26,12 +26,12 @@ import { log } from '@/services/LoggingService';
 export interface UnusedVariable {
   variableId: string,
   name: string,
-  type: 'variable' | 'function' | 'class' | 'interface' | 'import' | 'export';
+  type: 'variable' | 'function' | 'class' | 'interface' | 'import' | 'export';,
   filePath: string,
   line: number,
   column: number,
   scope: 'local' | 'module' | 'global',
-  declarationType: | 'const'
+  declarationType: | 'const',
     | 'let'
     | 'var'
     | 'function'
@@ -47,13 +47,13 @@ export interface UnusedVariable {
     called: boolean,
     exported: boolean,
     imported: boolean
-  }
+  },
   context: {
     nearbyCode: string,
     containingFunction?: string,
     containingClass?: string,
     containingModule: string
-  }
+  },
   riskLevel: 'low' | 'medium' | 'high',
   confidence: number,
   estimatedImpact: 'none' | 'low' | 'medium' | 'high',
@@ -61,10 +61,10 @@ export interface UnusedVariable {
 }
 
 export interface UnusedImport {
-  importId: string;
-  importName: string;
-  importPath: string;
-  importType: 'default' | 'named' | 'namespace' | 'side-effect';
+  importId: string;,
+  importName: string;,
+  importPath: string;,
+  importType: 'default' | 'named' | 'namespace' | 'side-effect';,
   filePath: string,
   line: number,
   usageCount: number,
@@ -106,7 +106,7 @@ export interface DeadCodeBlock {
 
 export interface CleanupRecommendation {
   recommendationId: string,
-  type: 'variable' | 'import' | 'export' | 'function' | 'class' | 'block';
+  type: 'variable' | 'import' | 'export' | 'function' | 'class' | 'block';,
   priority: 'low' | 'medium' | 'high' | 'critical',
   action: 'remove' | 'optimize' | 'refactor' | 'investigate',
   target: string,
@@ -116,7 +116,7 @@ export interface CleanupRecommendation {
     bundleSize: number,
     performance: number,
     maintainability: number
-  }
+  },
   risks: string[],
   automationPossible: boolean,
   dependencies: string[],
@@ -136,7 +136,7 @@ export interface DetectionResult {
     totalSavings: number,
     riskLevel: 'low' | 'medium' | 'high',
     automationPotential: number
-  }
+  },
   timestamp: Date
 }
 
@@ -421,7 +421,7 @@ export class UnusedVariableDetector extends EventEmitter {
         recommendations,
         summary: {
           totalUnused,
-          totalSavings: this.calculateTotalSavings(
+          totalSavings: this.calculateTotalSavings(,
             filteredVariables,
             unusedImports,
             unusedExports,
@@ -429,7 +429,7 @@ export class UnusedVariableDetector extends EventEmitter {
           ),
           riskLevel: this.calculateRiskLevel(filteredVariables, unusedImports, unusedExports),
           automationPotential: this.calculateAutomationPotential(recommendations)
-        }
+        },
         timestamp: new Date()
       }
 
@@ -461,14 +461,14 @@ export class UnusedVariableDetector extends EventEmitter {
           line: declaration.line,
           column: declaration.column,
           scope: this.determineScope(declaration, content),
-          declarationType: declaration.declarationType
+          declarationType: declaration.declarationType,
           usage,
           context: {
             nearbyCode: this.getNearbyCode(lines, declaration.line),
             containingFunction: this.getContainingFunction(declaration, content),
             containingClass: this.getContainingClass(declaration, content),
             containingModule: path.basename(filePath)
-          }
+          },
           riskLevel: this.calculateVariableRisk(declaration, usage),
           confidence: this.calculateVariableConfidence(declaration, usage, content),
           estimatedImpact: this.calculateVariableImpact(declaration, usage),
@@ -763,23 +763,23 @@ export class UnusedVariableDetector extends EventEmitter {
    * Create unused import object
    */
   private createUnusedImport(
-    importName: string;
-    importPath: string;
-    importType: UnusedImport['importType'];
+    importName: string;,
+    importPath: string;,
+    importType: UnusedImport['importType'];,
     filePath: string,
     line: number,
     usageCount: number,
   ): UnusedImport {
     return {
-      importId: `import_${importName}_${line}`;
+      importId: `import_${importName}_${line}`;,
       importName;
       importPath;
       importType;
       filePath,
       line,
       usageCount,
-      isTypeOnly: this.isTypeOnlyImport(importName, importPath);
-      isDevelopmentOnly: this.isDevelopmentOnlyImport(importPath);
+      isTypeOnly: this.isTypeOnlyImport(importName, importPath);,
+      isDevelopmentOnly: this.isDevelopmentOnlyImport(importPath);,
       relatedExports: [],
       estimatedSavings: this.calculateImportSavings(importPath)
     }
@@ -1124,7 +1124,7 @@ export class UnusedVariableDetector extends EventEmitter {
 
   private calculateTotalSavings(
     variables: UnusedVariable[],
-    imports: UnusedImport[];
+    imports: UnusedImport[];,
     exports: UnusedExport[],
     blocks: DeadCodeBlock[],
   ): number {
@@ -1140,7 +1140,7 @@ export class UnusedVariableDetector extends EventEmitter {
 
   private calculateRiskLevel(
     variables: UnusedVariable[],
-    imports: UnusedImport[];
+    imports: UnusedImport[];,
     exports: UnusedExport[],
   ): 'low' | 'medium' | 'high' {
     const highRiskCount =
@@ -1163,7 +1163,7 @@ export class UnusedVariableDetector extends EventEmitter {
 
   private generateRecommendations(
     variables: UnusedVariable[],
-    imports: UnusedImport[];
+    imports: UnusedImport[];,
     exports: UnusedExport[],
     blocks: DeadCodeBlock[],
     _options: DetectionOptions,
@@ -1185,7 +1185,7 @@ export class UnusedVariableDetector extends EventEmitter {
             bundleSize: 50,
             performance: 0.1,
             maintainability: 0.3
-          }
+          },
           risks: (variable.riskLevel as string) === 'high' ? ['May break external dependencies'] : [],
           automationPossible: variable.riskLevel === 'low' && variable.confidence > 0.9,
           dependencies: [],
@@ -1197,19 +1197,19 @@ export class UnusedVariableDetector extends EventEmitter {
     // Import recommendations
     for (const importItem of imports) {
       recommendations.push({
-        recommendationId: `rec_import_${importItem.importId}`;
-        type: 'import';
+        recommendationId: `rec_import_${importItem.importId}`;,
+        type: 'import';,
         priority: 'high',
         action: 'remove',
-        target: importItem.importName;
-        filePath: importItem.filePath;
-        description: `Remove unused import '${importItem.importName}' from '${importItem.importPath}'`;
+        target: importItem.importName;,
+        filePath: importItem.filePath;,
+        description: `Remove unused import '${importItem.importName}' from '${importItem.importPath}'`;,
         estimatedBenefit: {
-          bundleSize: importItem.estimatedSavings.bundleSize;
-          performance: importItem.estimatedSavings.loadTime / 1000;
+          bundleSize: importItem.estimatedSavings.bundleSize;,
+          performance: importItem.estimatedSavings.loadTime / 1000;,
           maintainability: 0.2
-        }
-        risks: importItem.isDevelopmentOnly ? [] : ['May be used for side effects'];
+        },
+        risks: importItem.isDevelopmentOnly ? [] : ['May be used for side effects'];,
         automationPossible: true,
         dependencies: [],
         implementation: [`Remove import on line ${importItem.line} in ${importItem.filePath}`]
@@ -1231,7 +1231,7 @@ export class UnusedVariableDetector extends EventEmitter {
             bundleSize: 30,
             performance: 0.05,
             maintainability: 0.2
-          }
+          },
           risks:
             exportItem.removalSafety === 'warning' ? ['May be used by external consumers'] : [],,
           automationPossible: exportItem.removalSafety === 'safe',,
@@ -1255,7 +1255,7 @@ export class UnusedVariableDetector extends EventEmitter {
           bundleSize: (block.endLine - block.startLine) * 20,
           performance: block.estimatedRemovalBenefit,
           maintainability: 0.5
-        }
+        },
         risks: block.isReachable ? ['Code might be reachable in some scenarios'] : [],
         automationPossible: !block.isReachable,
         dependencies: block.dependencies,

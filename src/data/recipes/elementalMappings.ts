@@ -41,7 +41,7 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
       favorableZodiac: ['taurus', 'capricorn'],
       optimalAspects: ['Venus trine Mars'],
       techniqueEnhancers: safeGetAstrologicalInfluences(cookingMethods.braising)
-    }
+    },
     cuisine: culinaryTraditions.french,
     ingredientBalance: {
       base: ['chicken', 'red_wine'],
@@ -66,7 +66,7 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
       favorableZodiac: ['pisces', 'virgo'],
       optimalAspects: ['Moon conjunct Mercury'],
       techniqueEnhancers: safeGetAstrologicalInfluences(cookingMethods.steaming)
-    }
+    },
     cuisine: culinaryTraditions.japanese,
     ingredientBalance: {
       base: ['dashi', 'seasonal_fish'],
@@ -91,7 +91,7 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
       favorableZodiac: ['leo', 'sagittarius'],
       optimalAspects: ['Sun trine Jupiter'],
       techniqueEnhancers: safeGetAstrologicalInfluences(cookingMethods.simmering)
-    }
+    },
     cuisine: culinaryTraditions.mexican,
     ingredientBalance: {
       base: ['chocolate', 'chiles'],

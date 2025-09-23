@@ -19,7 +19,7 @@ interface TrainingModule {
   name: string,
   description: string,
   prerequisites: string[],
-  duration: number, // minutes
+  duration: number, // minutes,
   difficulty: 'beginner' | 'intermediate' | 'advanced',
   content: TrainingContent[],
   assessment: Assessment
@@ -123,7 +123,7 @@ The system has successfully achieved a **36.78% reduction** in explicit-any warn
           examples: [
             {
               title: 'Intentional Any Type (External API)',
-              before: `// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API response
+              before: `// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API response,
 const _apiResponse: any = await fetch('/api/data'),`,
               after: `// This should be preserved - it's properly documented`,
               explanation:
@@ -288,17 +288,17 @@ const _apiResponse: any = await fetch('/api/data'),`,
           examples: [
             {
               title: 'Array Type Replacement',
-              before: `const items: any[] = getData();
+              before: `const items: any[] = getData();,
 items.forEach(item => // // // _logger.info(item)),`,
-              after: `const items: unknown[] = getData()
+              after: `const items: unknown[] = getData(),
 items.forEach(item => // // // _logger.info(item)),`,
               explanation: 'unknown[] maintains type safety while allowing array operations'
             }
             {
               title: 'Record Type Replacement',
-              before: `const config: Record<string, any> = loadConfig()
+              before: `const config: Record<string, any> = loadConfig(),
 const value = config.someProperty,`,
-              after: `const config: any = loadConfig()
+              after: `const config: any = loadConfig(),
 const value = config.someProperty,`,
               explanation: 'unknown values require type checking before use, improving safety'
             }

@@ -15,11 +15,11 @@ export const grilling: CookingMethodData = {
     Air: 0.2,
     Earth: 0.1,
     Water: 0.0
-  }
+  },
   duration: {
     min: 2,
     max: 30
-  }
+  },
   suitable_for: ['meats', 'poultry', 'seafood', 'vegetables', 'fruit', 'bread', 'pizza', 'kebabs'],
   benefits: [
     'imparts smoky flavor',
@@ -34,12 +34,12 @@ export const grilling: CookingMethodData = {
     unfavorableZodiac: ['cancer', 'scorpio', 'pisces'] as any[],
     dominantPlanets: ['Mars', 'Sun', 'Jupiter'],
     lunarPhaseEffect: {
-      full_moon: 1.2, // Enhanced flame intensity
-      new_moon: 0.8, // Reduced flavor development
-      waxing_gibbous: 1.1, // Good balance
+      full_moon: 1.2, // Enhanced flame intensity,
+      new_moon: 0.8, // Reduced flavor development,
+      waxing_gibbous: 1.1, // Good balance,
       waning_crescent: 0.9, // Slightly reduced effect
     }
-  }
+  },
   toolsRequired: [
     'Grill (gas, charcoal, or wood-fired)',
     'Long-handled tongs or spatula',
@@ -67,28 +67,28 @@ export const grilling: CookingMethodData = {
     vitamins: 0.7,
     minerals: 0.9,
     fats: 0.6, // Some lost through dripping
-  }
+  },
   optimalTemperatures: {
     steak: 450,
     chicken: 375,
     fish: 400,
     vegetables: 425,
     fruit: 350
-  }
+  },
   regionalVariations: {
     argentine: ['asado', 'parrilla technique'],
     korean: ['bulgogi', 'galbi'],
     american: ['barbecue', 'Santa Maria-style'],
     japanese: ['yakitori', 'robatayaki'],
     middle_eastern: ['kebab', 'meshwi']
-  }
+  },
   chemicalChanges: {
     maillard_reaction: true,
     caramelization: true,
     fat_rendering: true,
     smoke_particle_adhesion: true,
     protein_denaturation: true
-  }
+  },
   safetyFeatures: [
     'Proper fire management',
     'Food temperature monitoring',
@@ -97,9 +97,9 @@ export const grilling: CookingMethodData = {
     'Fire extinguisher nearby'
   ],
   thermodynamicProperties: {
-    heat: 0.9, // Very high direct heat
-    entropy: 0.65, // Significant structural transformation
-    reactivity: 0.85, // High chemical reactivity (Maillard, carbonization)
+    heat: 0.9, // Very high direct heat,
+    entropy: 0.65, // Significant structural transformation,
+    reactivity: 0.85, // High chemical reactivity (Maillard, carbonization),
     gregsEnergy: -12.35, // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
@@ -124,9 +124,9 @@ export const grilling: CookingMethodData = {
     'Rotisserie grilling for even cooking'
   ],
 
-  sustainabilityRating: 0.55, // Varies widely based on fuel source (charcoal vs. gas vs. electric)
+  sustainabilityRating: 0.55, // Varies widely based on fuel source (charcoal vs. gas vs. electric),
 
-  equipmentComplexity: 0.5, // Relatively simple but requires technique and attention
+  equipmentComplexity: 0.5, // Relatively simple but requires technique and attention,
 
   healthConsiderations: [
     'Fat rendering reduces overall fat content',

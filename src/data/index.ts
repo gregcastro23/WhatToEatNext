@@ -18,17 +18,17 @@ export const FoodData = {
   cuisines,
   cooking: {
     methods: allCookingMethods
-  }
+  },
   recipes: {
     all: allRecipes,
     getAll: getAllRecipes
-  }
+  },
   patterns: {
     seasonal: seasonalPatterns,
     flavors: flavorProfiles,
     textures: textureProfiles,
     temperature: temperatureEffects
-  }
+  },
   sauces: {
     all: allSauces,
     recommendations: sauceRecommendations,
@@ -36,7 +36,7 @@ export const FoodData = {
       italian: italianSauces,
       mexican: mexicanSauces
     }
-  }
+  },
   nutrition: {
     profiles: baseNutritionalProfiles,
     calculateBalance: calculateNutritionalBalance,

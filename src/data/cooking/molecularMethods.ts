@@ -46,7 +46,7 @@ export const molecularCookingMethods: Record<
       reactivity: 0.8,
       gregsEnergy: 0.2 - ((0 as any)?.4 || 0) * 0.2
     }
-  }
+  },
   gelification: {
     name: 'Gelification',
     description:
@@ -73,7 +73,7 @@ export const molecularCookingMethods: Record<
       reactivity: 0.6,
       gregsEnergy: 0.5 - ((0 as any)?.3 || 0) * 0.2
     }
-  }
+  },
   emulsification: {
     name: 'Emulsification',
     description:
@@ -100,7 +100,7 @@ export const molecularCookingMethods: Record<
       reactivity: 0.5,
       gregsEnergy: 0.3 - ((0 as any)?.7 || 0) * 0.2
     }
-  }
+  },
   cryo_cooking: {
     name: 'Cryo-Cooking',
     description:

@@ -54,7 +54,7 @@ export const american: Cuisine = {
             buttermilk: ['yogurt+milk', 'milk+lemon juice'],
             'maple syrup': ['honey', 'agave nectar'],
             butter: ['coconut oil', 'vegetable oil']
-          }
+          },
           servingSize: 4,
           allergens: ['gluten', 'dairy', 'eggs'],
           prepTime: '10 minutes',
@@ -71,7 +71,7 @@ export const american: Cuisine = {
             fat: 16,
             vitamins: ['B12', 'D'],
             minerals: ['Calcium', 'Phosphorus']
-          }
+          },
           season: ['all'],
           mealType: ['breakfast'],
           elementalProperties: {
@@ -134,7 +134,7 @@ export const american: Cuisine = {
             'whole grain bread': ['sourdough', 'gluten-free bread'],
             avocado: ['hummus', 'nut butter'],
             eggs: ['tofu', 'chickpeas']
-          }
+          },
           servingSize: 1,
           allergens: ['gluten', 'eggs'],
           prepTime: '5 minutes',
@@ -150,7 +150,7 @@ export const american: Cuisine = {
             fat: 24,
             vitamins: ['E', 'K', 'B12'],
             minerals: ['Potassium', 'Iron']
-          }
+          },
           season: ['spring', 'summer'],
           mealType: ['breakfast', 'brunch'],
           elementalProperties: {
@@ -207,7 +207,7 @@ export const american: Cuisine = {
             'pork sausage': ['turkey sausage', 'vegetarian sausage'],
             butter: ['vegetable shortening', 'coconut oil'],
             milk: ['almond milk', 'oat milk']
-          }
+          },
           servingSize: 6,
           allergens: ['gluten', 'dairy'],
           prepTime: '20 minutes',
@@ -223,7 +223,7 @@ export const american: Cuisine = {
             fat: 36,
             vitamins: ['A', 'D'],
             minerals: ['Calcium', 'Iron']
-          }
+          },
           season: ['autumn', 'winter'],
           mealType: ['breakfast'],
           elementalProperties: {
@@ -281,7 +281,7 @@ export const american: Cuisine = {
             fat: 22,
             vitamins: ['A', 'C', 'B12'],
             minerals: ['Calcium', 'Iron']
-          }
+          },
           timeToMake: '30 minutes',
           season: ['spring'],
           mealType: ['breakfast', 'brunch'],
@@ -290,7 +290,7 @@ export const american: Cuisine = {
             Water: 0.3,
             Earth: 0.2,
             Air: 0.4
-          }
+          },
           lunarPhaseInfluences: ['waxing crescent', 'first quarter'],
           zodiacInfluences: ['aries', 'taurus'],
           astrologicalAffinities: {
@@ -327,7 +327,7 @@ export const american: Cuisine = {
             fat: 8,
             vitamins: ['C', 'K', 'B12'],
             minerals: ['Potassium', 'Magnesium']
-          }
+          },
           timeToMake: '15 minutes',
           season: ['summer'],
           mealType: ['breakfast'],
@@ -336,7 +336,7 @@ export const american: Cuisine = {
             Water: 0.5,
             Earth: 0.4,
             Air: 0.1
-          }
+          },
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
           zodiacInfluences: ['cancer', 'leo'],
           astrologicalAffinities: {
@@ -385,7 +385,7 @@ export const american: Cuisine = {
             fat: 12,
             vitamins: ['A', 'E'],
             minerals: ['Iron', 'Magnesium']
-          }
+          },
           timeToMake: '30 minutes',
           season: ['autumn'],
           mealType: ['breakfast'],
@@ -394,7 +394,7 @@ export const american: Cuisine = {
             Water: 0.2,
             Earth: 0.6,
             Air: 0.0
-          }
+          },
           lunarPhaseInfluences: ['waning gibbous', 'last quarter'],
           zodiacInfluences: ['virgo', 'libra'],
           astrologicalAffinities: {
@@ -431,7 +431,7 @@ export const american: Cuisine = {
             fat: 14,
             vitamins: ['C', 'E'],
             minerals: ['Iron', 'Selenium']
-          }
+          },
           timeToMake: '65 minutes',
           season: ['winter'],
           mealType: ['breakfast'],
@@ -440,7 +440,7 @@ export const american: Cuisine = {
             Water: 0.2,
             Earth: 0.5,
             Air: 0.1
-          }
+          },
           lunarPhaseInfluences: ['new moon', 'waning crescent'],
           zodiacInfluences: ['capricorn', 'aquarius'],
           astrologicalAffinities: {
@@ -450,7 +450,7 @@ export const american: Cuisine = {
           }
         }
       ]
-    }
+    },
     lunch: {
       all: [
         {
@@ -519,7 +519,7 @@ export const american: Cuisine = {
             'ground beef': ['ground turkey', 'impossible burger', 'beyond burger'],
             'cheddar cheese': ['american cheese', 'dairy-free cheese'],
             'hamburger buns': ['lettuce wraps', 'gluten-free buns']
-          }
+          },
           servingSize: 4,
           allergens: ['gluten', 'dairy'],
           prepTime: '15 minutes',
@@ -536,7 +536,7 @@ export const american: Cuisine = {
             fat: 28,
             vitamins: ['B12', 'B6'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['all', 'summer'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
@@ -544,7 +544,7 @@ export const american: Cuisine = {
             Water: 0.1,
             Earth: 0.3,
             Air: 0.1
-          }
+          },
           lunarPhaseInfluences: ['full moon', 'first quarter'],
           zodiacInfluences: ['aries', 'leo', 'taurus'],
           astrologicalAffinities: {
@@ -619,7 +619,7 @@ export const american: Cuisine = {
             chicken: ['turkey', 'tofu', 'chickpeas'],
             bacon: ['turkey bacon', 'tempeh bacon'],
             'blue cheese': ['feta', 'dairy-free cheese']
-          }
+          },
           servingSize: 4,
           allergens: ['egg', 'dairy'],
           prepTime: '30 minutes',
@@ -636,7 +636,7 @@ export const american: Cuisine = {
             fat: 32,
             vitamins: ['A', 'K', 'B12'],
             minerals: ['Iron', 'Calcium']
-          }
+          },
           season: ['all', 'summer'],
           mealType: ['lunch'],
           elementalProperties: {
@@ -644,7 +644,7 @@ export const american: Cuisine = {
             Water: 0.4,
             Earth: 0.3,
             Air: 0.1
-          }
+          },
           lunarPhaseInfluences: ['first quarter', 'waxing gibbous'],
           zodiacInfluences: ['virgo', 'libra'],
           astrologicalAffinities: {
@@ -694,7 +694,7 @@ export const american: Cuisine = {
             clams: ['canned clams', 'white fish'],
             'heavy cream': ['half and half', 'coconut milk'],
             bacon: ['salt pork', 'olive oil']
-          }
+          },
           servingSize: 6,
           allergens: ['dairy', 'shellfish'],
           prepTime: '20 minutes',
@@ -710,7 +710,7 @@ export const american: Cuisine = {
             fat: 22,
             vitamins: ['B12', 'D'],
             minerals: ['Iron', 'Zinc', 'Iodine']
-          }
+          },
           season: ['autumn', 'winter'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
@@ -718,7 +718,7 @@ export const american: Cuisine = {
             Water: 0.6,
             Earth: 0.2,
             Air: 0.1
-          }
+          },
           lunarPhaseInfluences: ['full moon', 'waning gibbous'],
           zodiacInfluences: ['cancer', 'pisces'],
           astrologicalAffinities: {
@@ -755,7 +755,7 @@ export const american: Cuisine = {
             fat: 25,
             vitamins: ['A', 'K', 'C'],
             minerals: ['Calcium', 'Folate']
-          }
+          },
           timeToMake: '45 minutes',
           season: ['spring'],
           mealType: ['lunch', 'brunch'],
@@ -764,7 +764,7 @@ export const american: Cuisine = {
             Water: 0.2,
             Earth: 0.3,
             Air: 0.4
-          }
+          },
           lunarPhaseInfluences: ['waxing crescent', 'first quarter'],
           zodiacInfluences: ['taurus', 'gemini'],
           astrologicalAffinities: {
@@ -813,7 +813,7 @@ export const american: Cuisine = {
             fat: 24,
             vitamins: ['B12', 'E'],
             minerals: ['Zinc', 'Copper']
-          }
+          },
           timeToMake: '25 minutes',
           season: ['summer'],
           mealType: ['lunch'],
@@ -822,7 +822,7 @@ export const american: Cuisine = {
             Water: 0.7,
             Earth: 0.2,
             Air: 0.1
-          }
+          },
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
           zodiacInfluences: ['cancer', 'scorpio'],
           astrologicalAffinities: {
@@ -871,7 +871,7 @@ export const american: Cuisine = {
             fat: 14,
             vitamins: ['B3', 'B6'],
             minerals: ['Iron', 'Selenium']
-          }
+          },
           timeToMake: '10 minutes',
           season: ['autumn'],
           mealType: ['lunch'],
@@ -880,7 +880,7 @@ export const american: Cuisine = {
             Water: 0.3,
             Earth: 0.4,
             Air: 0.3
-          }
+          },
           lunarPhaseInfluences: ['waning gibbous', 'last quarter'],
           zodiacInfluences: ['virgo', 'libra'],
           astrologicalAffinities: {
@@ -929,7 +929,7 @@ export const american: Cuisine = {
             fat: 22,
             vitamins: ['C', 'B12'],
             minerals: ['Potassium', 'Calcium']
-          }
+          },
           timeToMake: '40 minutes',
           season: ['winter'],
           mealType: ['lunch', 'dinner'],
@@ -938,7 +938,7 @@ export const american: Cuisine = {
             Water: 0.4,
             Earth: 0.4,
             Air: 0.1
-          }
+          },
           lunarPhaseInfluences: ['waning crescent', 'new moon'],
           zodiacInfluences: ['capricorn', 'taurus'],
           astrologicalAffinities: {
@@ -948,7 +948,7 @@ export const american: Cuisine = {
           }
         }
       ]
-    }
+    },
     dinner: {
       all: [
         {
@@ -990,7 +990,7 @@ export const american: Cuisine = {
             'pork ribs': ['beef ribs', 'seitan ribs'],
             'BBQ sauce': ['homemade sauce', 'keto BBQ sauce'],
             'brown sugar': ['honey', 'maple syrup']
-          }
+          },
           servingSize: 4,
           allergens: ['none'],
           prepTime: '30 minutes',
@@ -1007,7 +1007,7 @@ export const american: Cuisine = {
             fat: 38,
             vitamins: ['B12', 'B6'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['summer', 'all'],
           mealType: ['dinner'],
           elementalProperties: {
@@ -1015,7 +1015,7 @@ export const american: Cuisine = {
             Water: 0.0,
             Earth: 0.3,
             Air: 0.0
-          }
+          },
           lunarPhaseInfluences: ['full moon', 'first quarter'],
           zodiacInfluences: ['aries', 'leo'],
           astrologicalAffinities: {
@@ -1066,7 +1066,7 @@ export const american: Cuisine = {
             'ground beef': ['ground turkey', 'plant-based ground'],
             breadcrumbs: ['oats', 'crushed crackers'],
             milk: ['plant milk', 'cream']
-          }
+          },
           servingSize: 6,
           allergens: ['gluten', 'egg', 'dairy'],
           prepTime: '25 minutes',
@@ -1082,7 +1082,7 @@ export const american: Cuisine = {
             fat: 30,
             vitamins: ['B12', 'B6', 'C'],
             minerals: ['Iron', 'Potassium']
-          }
+          },
           season: ['autumn', 'winter', 'all'],
           mealType: ['dinner'],
           elementalProperties: {
@@ -1090,7 +1090,7 @@ export const american: Cuisine = {
             Water: 0.2,
             Earth: 0.5,
             Air: 0.0
-          }
+          },
           lunarPhaseInfluences: ['waning gibbous', 'full moon'],
           zodiacInfluences: ['taurus', 'cancer'],
           astrologicalAffinities: {
@@ -1153,7 +1153,7 @@ export const american: Cuisine = {
             chicken: ['seitan', 'cauliflower'],
             buttermilk: ['plant milk with vinegar'],
             'all-purpose flour': ['gluten-free flour blend']
-          }
+          },
           servingSize: 6,
           allergens: ['gluten', 'dairy'],
           prepTime: '30 minutes plus marinating time',
@@ -1169,7 +1169,7 @@ export const american: Cuisine = {
             fat: 52,
             vitamins: ['B12', 'A'],
             minerals: ['Iron', 'Selenium']
-          }
+          },
           season: ['all'],
           mealType: ['dinner'],
           elementalProperties: {
@@ -1177,7 +1177,7 @@ export const american: Cuisine = {
             Water: 0.2,
             Earth: 0.4,
             Air: 0.0
-          }
+          },
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
           zodiacInfluences: ['leo', 'taurus'],
           astrologicalAffinities: {
@@ -1233,7 +1233,7 @@ export const american: Cuisine = {
             fat: 28,
             vitamins: ['A', 'C', 'B12'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           timeToMake: '60 minutes',
           season: ['spring'],
           mealType: ['dinner'],
@@ -1242,7 +1242,7 @@ export const american: Cuisine = {
             Water: 0.2,
             Earth: 0.4,
             Air: 0.1
-          }
+          },
           lunarPhaseInfluences: ['waxing crescent', 'first quarter'],
           zodiacInfluences: ['aries', 'taurus'],
           astrologicalAffinities: {
@@ -1304,7 +1304,7 @@ export const american: Cuisine = {
             fat: 20,
             vitamins: ['D', 'B12', 'C'],
             minerals: ['Omega-3', 'Potassium']
-          }
+          },
           timeToMake: '40 minutes',
           season: ['summer'],
           mealType: ['dinner'],
@@ -1313,7 +1313,7 @@ export const american: Cuisine = {
             Water: 0.4,
             Earth: 0.3,
             Air: 0.1
-          }
+          },
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
           zodiacInfluences: ['pisces', 'cancer', 'leo'],
           astrologicalAffinities: {
@@ -1362,7 +1362,7 @@ export const american: Cuisine = {
             fat: 28,
             vitamins: ['A', 'B12'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           timeToMake: '4 hours',
           season: ['autumn'],
           mealType: ['dinner'],
@@ -1371,7 +1371,7 @@ export const american: Cuisine = {
             Water: 0.1,
             Earth: 0.5,
             Air: 0.0
-          }
+          },
           lunarPhaseInfluences: ['waning gibbous', 'last quarter'],
           zodiacInfluences: ['taurus', 'capricorn'],
           astrologicalAffinities: {
@@ -1420,7 +1420,7 @@ export const american: Cuisine = {
             fat: 36,
             vitamins: ['B12', 'B3'],
             minerals: ['Selenium', 'Phosphorus']
-          }
+          },
           timeToMake: '5 hours',
           season: ['winter'],
           mealType: ['dinner', 'holiday'],
@@ -1429,7 +1429,7 @@ export const american: Cuisine = {
             Water: 0.3,
             Earth: 0.3,
             Air: 0.3
-          }
+          },
           lunarPhaseInfluences: ['new moon', 'waning crescent'],
           zodiacInfluences: ['capricorn', 'sagittarius'],
           astrologicalAffinities: {
@@ -1439,7 +1439,7 @@ export const american: Cuisine = {
           }
         }
       ]
-    }
+    },
     dessert: {
       all: [
         {
@@ -1475,7 +1475,7 @@ export const american: Cuisine = {
             'all-purpose flour': ['gluten-free flour blend', 'whole wheat pastry flour'],
             butter: ['vegan butter', 'coconut oil'],
             sugar: ['coconut sugar', 'maple sugar']
-          }
+          },
           servingSize: 8,
           allergens: ['gluten', 'dairy'],
           prepTime: '45 minutes',
@@ -1491,7 +1491,7 @@ export const american: Cuisine = {
             fat: 18,
             vitamins: ['C', 'A'],
             minerals: ['Iron', 'Calcium']
-          }
+          },
           season: ['autumn', 'all'],
           mealType: ['dessert'],
           elementalProperties: {
@@ -1499,7 +1499,7 @@ export const american: Cuisine = {
             Water: 0.3,
             Earth: 0.6,
             Air: 0.0
-          }
+          },
           lunarPhaseInfluences: ['full moon', 'waning gibbous'],
           zodiacInfluences: ['taurus', 'virgo'],
           astrologicalAffinities: {
@@ -1565,7 +1565,7 @@ export const american: Cuisine = {
             'all-purpose flour': ['gluten-free flour blend', 'almond flour'],
             butter: ['coconut oil', 'vegan butter'],
             eggs: ['flax eggs', 'applesauce']
-          }
+          },
           servingSize: 24,
           allergens: ['gluten', 'dairy', 'eggs'],
           prepTime: '15 minutes',
@@ -1582,7 +1582,7 @@ export const american: Cuisine = {
             fat: 10,
             vitamins: ['A', 'E'],
             minerals: ['Iron', 'Calcium']
-          }
+          },
           season: ['all'],
           mealType: ['dessert', 'snack'],
           elementalProperties: {
@@ -1590,7 +1590,7 @@ export const american: Cuisine = {
             Water: 0.1,
             Earth: 0.7,
             Air: 0.0
-          }
+          },
           lunarPhaseInfluences: ['new moon', 'waxing crescent'],
           zodiacInfluences: ['taurus', 'cancer', 'leo'],
           astrologicalAffinities: {
@@ -1644,7 +1644,7 @@ export const american: Cuisine = {
             'cream cheese': ['non-dairy cream cheese', 'tofu-based alternative'],
             'graham crackers': ['digestive biscuits', 'gluten-free cookies'],
             eggs: ['silken tofu', 'commercial egg replacer']
-          }
+          },
           servingSize: 12,
           allergens: ['gluten', 'dairy', 'eggs'],
           prepTime: '30 minutes',
@@ -1661,7 +1661,7 @@ export const american: Cuisine = {
             fat: 32,
             vitamins: ['A', 'D'],
             minerals: ['Calcium', 'Phosphorus']
-          }
+          },
           season: ['all'],
           mealType: ['dessert'],
           elementalProperties: {
@@ -1669,7 +1669,7 @@ export const american: Cuisine = {
             Water: 0.2,
             Earth: 0.7,
             Air: 0.1
-          }
+          },
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
           zodiacInfluences: ['taurus', 'cancer', 'libra'],
           astrologicalAffinities: {
@@ -1712,7 +1712,7 @@ export const american: Cuisine = {
             fat: 24,
             vitamins: ['C', 'A'],
             minerals: ['Calcium', 'Potassium']
-          }
+          },
           timeToMake: '35 minutes',
           season: ['spring'],
           mealType: ['dessert'],
@@ -1721,7 +1721,7 @@ export const american: Cuisine = {
             Water: 0.4,
             Earth: 0.5,
             Air: 0.0
-          }
+          },
           lunarPhaseInfluences: ['waxing crescent', 'first quarter'],
           zodiacInfluences: ['taurus', 'gemini'],
           astrologicalAffinities: {
@@ -1777,7 +1777,7 @@ export const american: Cuisine = {
             fat: 22,
             vitamins: ['A', 'D'],
             minerals: ['Calcium', 'Iron']
-          }
+          },
           timeToMake: '30 minutes plus freezing time',
           season: ['summer'],
           mealType: ['dessert'],
@@ -1786,7 +1786,7 @@ export const american: Cuisine = {
             Water: 0.3,
             Earth: 0.5,
             Air: 0.1
-          }
+          },
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
           zodiacInfluences: ['cancer', 'leo'],
           astrologicalAffinities: {
@@ -1829,7 +1829,7 @@ export const american: Cuisine = {
             fat: 14,
             vitamins: ['A', 'E'],
             minerals: ['Iron', 'Calcium']
-          }
+          },
           timeToMake: '1 hour',
           season: ['autumn'],
           mealType: ['dessert'],
@@ -1838,7 +1838,7 @@ export const american: Cuisine = {
             Water: 0.2,
             Earth: 0.6,
             Air: 0.0
-          }
+          },
           lunarPhaseInfluences: ['waning gibbous', 'last quarter'],
           zodiacInfluences: ['virgo', 'libra'],
           astrologicalAffinities: {
@@ -1887,7 +1887,7 @@ export const american: Cuisine = {
             fat: 7,
             vitamins: ['E', 'B6'],
             minerals: ['Iron', 'Calcium']
-          }
+          },
           timeToMake: '3 hours including chilling',
           season: ['winter'],
           mealType: ['dessert', 'holiday'],
@@ -1896,7 +1896,7 @@ export const american: Cuisine = {
             Water: 0.0,
             Earth: 0.7,
             Air: 0.0
-          }
+          },
           lunarPhaseInfluences: ['new moon', 'waning crescent'],
           zodiacInfluences: ['capricorn', 'sagittarius'],
           astrologicalAffinities: {
@@ -1907,7 +1907,7 @@ export const american: Cuisine = {
         }
       ]
     }
-  }
+  },
   traditionalSauces: {
     bbqSauce: {
       name: 'BBQ Sauce',
@@ -1933,12 +1933,12 @@ export const american: Cuisine = {
         Earth: 0.3,
         Water: 0.2,
         Air: 0.0
-      }
+      },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'summer',
       preparationNotes: 'Traditionally simmered slowly to develop deep flavor and thicken',
       technicalTips: 'Balance acid, sweetness, and spice to complement the meat it will accompany'
-    }
+    },
     ranchDressing: {
       name: 'Ranch Dressing',
       description: 'Creamy, herb-flecked dressing with buttermilk and garlic notes',
@@ -1951,12 +1951,12 @@ export const american: Cuisine = {
         Earth: 0.2,
         Water: 0.6,
         Air: 0.2
-      }
+      },
       astrologicalInfluences: ['Venus', 'Moon', 'Taurus'],
       seasonality: 'all',
       preparationNotes: 'Best when made fresh and allowed to rest for flavors to meld',
       technicalTips: 'Use fresh herbs when possible for brightest flavor'
-    }
+    },
     hotSauce: {
       name: 'Hot Sauce',
       description: 'Fiery, vinegar-based sauce with chili peppers for heat',
@@ -1969,12 +1969,12 @@ export const american: Cuisine = {
         Earth: 0.0,
         Water: 0.1,
         Air: 0.0
-      }
+      },
       astrologicalInfluences: ['Mars', 'Pluto', 'Aries'],
       seasonality: 'all',
       preparationNotes: 'Can be fermented for complex flavor or used fresh for bright heat',
       technicalTips: 'Control heat level by adjusting pepper types and quantity'
-    }
+    },
     gravySauce: {
       name: 'Gravy',
       description: 'Rich, savory sauce made from meat drippings and thickened with flour',
@@ -1992,12 +1992,12 @@ export const american: Cuisine = {
         Earth: 0.5,
         Water: 0.3,
         Air: 0.0
-      }
+      },
       astrologicalInfluences: ['Saturn', 'Jupiter', 'Taurus'],
       seasonality: 'autumn and winter',
       preparationNotes: 'Must be made while cooking protein for authentic flavor from drippings',
       technicalTips: 'Use a whisk to prevent lumps and incorporate flour smoothly'
-    }
+    },
     mapleGlaze: {
       name: 'Maple Glaze',
       description: 'Sweet and rich syrup reduction for breakfast items and desserts',
@@ -2015,13 +2015,13 @@ export const american: Cuisine = {
         Earth: 0.4,
         Water: 0.5,
         Air: 0.0
-      }
+      },
       astrologicalInfluences: ['Venus', 'Jupiter', 'Libra'],
       seasonality: 'autumn and winter',
       preparationNotes: 'Grade B maple syrup offers more robust flavor for cooking',
       technicalTips: 'Reduce slowly to prevent burning the sugars'
     }
-  }
+  },
   sauceRecommender: {
     forProtein: {
       beef: ['bbqSauce', 'gravySauce', 'steak sauce', 'horseradish sauce'],
@@ -2029,7 +2029,7 @@ export const american: Cuisine = {
       pork: ['bbqSauce', 'mapleGlaze', 'apple sauce', 'mustard sauce'],
       seafood: ['tartar sauce', 'cocktail sauce', 'lemon butter', 'remoulade'],
       turkey: ['gravySauce', 'cranberry sauce', 'mapleGlaze', 'herb butter']
-    }
+    },
     forVegetable: {
       greens: [
         'ranchDressing',
@@ -2041,27 +2041,27 @@ export const american: Cuisine = {
       nightshades: ['ranchDressing', 'hotSauce', 'aioli', 'chipotle mayo'],
       cruciferous: ['cheese sauce', 'ranchDressing', 'lemon butter', 'hollandaise'],
       alliums: ['bbqSauce', 'gravySauce', 'butter sauce', 'balsamic glaze']
-    }
+    },
     forCookingMethod: {
       grilling: ['bbqSauce', 'chimichurri', 'herb butter', 'hotSauce'],
       frying: ['ranchDressing', 'aioli', 'hotSauce', 'ketchup'],
       baking: ['gravySauce', 'cheese sauce', 'herb butter', 'honey glaze'],
       roasting: ['gravySauce', 'mapleGlaze', 'herb oil', 'pan sauce'],
       steaming: ['lemon butter', 'hollandaise', 'herb oil', 'remoulade']
-    }
+    },
     byAstrological: {
       fire: ['hotSauce', 'bbqSauce', 'spicy aioli', 'chipotle sauce'],
       earth: ['gravySauce', 'mushroom sauce', 'herb butter', 'cheese sauce'],
       air: ['light vinaigrettes', 'herb oils', 'lemon butter', 'citrus sauce'],
       water: ['ranchDressing', 'cream sauces', 'tartar sauce', 'remoulade']
-    }
+    },
     byRegion: {
       southern: ['bbqSauce', 'gravySauce', 'hot sauce', 'remoulade'],
       newEngland: ['tartar sauce', 'clam sauce', 'maple syrup', 'cranberry sauce'],
       southwest: ['hotSauce', 'salsa', 'chipotle sauce', 'queso'],
       midwest: ['ranchDressing', 'gravySauce', 'cheese sauce', 'steak sauce'],
       westCoast: ['avocado sauce', 'citrus vinaigrette', 'herb oils', 'fresh salsa']
-    }
+    },
     byDietary: {
       vegan: ['cashew cream', 'avocado sauce', 'olive oil', 'nutritional yeast sauce'],
       keto: ['butter sauces', 'mayonnaise-based', 'oil-based vinaigrettes', 'alfredo sauce'],
@@ -2074,7 +2074,7 @@ export const american: Cuisine = {
       dairyFree: ['oil-based', 'vinaigrettes', 'nut creams', 'coconut-based sauces'],
       lowSodium: ['herb oils', 'fruit reductions', 'vinegar-based', 'spice blends']
     }
-  }
+  },
   cookingTechniques: [
     {
       name: 'Barbecuing',
@@ -2144,7 +2144,7 @@ export const american: Cuisine = {
       elementalProperties: { Fire: 0.3, Earth: 0.4, Water: 0.2, Air: 0.1 }
       astrologicalInfluences: ['Venus', 'Jupiter', 'Taurus'],
       seasonality: 'year-round with seasonal ingredients'
-    }
+    },
     newEngland: {
       name: 'New England Cuisine',
       description: 'Seafood-forward cuisine with British colonial roots and seasonal emphasis',
@@ -2152,7 +2152,7 @@ export const american: Cuisine = {
       elementalProperties: { Fire: 0.1, Earth: 0.3, Water: 0.5, Air: 0.1 }
       astrologicalInfluences: ['Moon', 'Neptune', 'Cancer'],
       seasonality: 'highly seasonal'
-    }
+    },
     southwest: {
       name: 'Southwestern Cuisine',
       description: 'Bold flavors influenced by Mexican, Spanish, and Native American traditions',
@@ -2160,7 +2160,7 @@ export const american: Cuisine = {
       elementalProperties: { Fire: 0.6, Earth: 0.3, Water: 0.0, Air: 0.1 }
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'desert adaptations with seasonal celebrations'
-    }
+    },
     midwest: {
       name: 'Midwestern Cuisine',
       description: 'Hearty comfort food emphasizing locally grown ingredients and German influence',
@@ -2174,7 +2174,7 @@ export const american: Cuisine = {
       elementalProperties: { Fire: 0.2, Earth: 0.6, Water: 0.1, Air: 0.1 }
       astrologicalInfluences: ['Saturn', 'Venus', 'Capricorn'],
       seasonality: 'strongly seasonal with preservation techniques'
-    }
+    },
     california: {
       name: 'California Cuisine',
       description: 'Fresh, produce-forward cooking with Mediterranean and Asian influences',

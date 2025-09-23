@@ -13,16 +13,16 @@ import dynamic from 'next/dynamic';
  */
 export const lazyCalculations = {
   // Alchemical calculations - loaded on demand
-  alchemical: () => import('@/calculations/alchemical');
+  alchemical: () => import('@/calculations/alchemical');,
 
   // Astrological calculations - loaded on demand
-  astrological: () => import('@/calculations/astrological');
+  astrological: () => import('@/calculations/astrological');,
 
   // Elemental calculations - loaded on demand
-  elemental: () => import('@/calculations/elemental');
+  elemental: () => import('@/calculations/elemental');,
 
   // Thermodynamics calculations - loaded on demand
-  thermodynamics: () => import('@/calculations/thermodynamics');
+  thermodynamics: () => import('@/calculations/thermodynamics');,
 
   // Complex recommendation algorithms - loaded on demand
   recommendations: () => import('@/calculations/recommendations');
@@ -33,16 +33,16 @@ export const lazyCalculations = {
  */
 export const lazyUnifiedData = {
   // Enhanced ingredients system - loaded on demand
-  enhancedIngredients: () => import('@/data/unified/enhancedIngredients');
+  enhancedIngredients: () => import('@/data/unified/enhancedIngredients');,
 
   // Cuisine integrations - loaded on demand
-  cuisineIntegrations: () => import('@/data/unified/cuisineIntegrations');
+  cuisineIntegrations: () => import('@/data/unified/cuisineIntegrations');,
 
   // Flavor engine - loaded on demand
-  flavorEngine: () => import('@/data/unified/unifiedFlavorEngine');
+  flavorEngine: () => import('@/data/unified/unifiedFlavorEngine');,
 
   // Recipe building system - loaded on demand
-  recipeBuilding: () => import('@/data/unified/recipeBuilding');
+  recipeBuilding: () => import('@/data/unified/recipeBuilding');,
 
   // Alchemical calculations data - loaded on demand
   alchemicalCalculations: () => import('@/data/unified/alchemicalCalculations');
@@ -52,11 +52,11 @@ export const lazyUnifiedData = {
  * Create a lazy-loaded component with loading fallback
  */
 export function createLazyComponent<T extends ComponentType<any>>(
-  importFunc: () => Promise<{ default: T }>;
+  importFunc: () => Promise<{ default: T }>;,
   loadingComponent?: ComponentType
 ) {
   return dynamic(importFunc, {
-    loading: loadingComponent || (() => (
+    loading: loadingComponent || (() => (,
       <div className="flex items-center justify-center p-4">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
         <span className="ml-2 text-gray-600">Loading calculation engine...</span>
@@ -96,8 +96,8 @@ export const bundleOptimization = {
   // Check if module should be loaded immediately or lazy
   shouldLazyLoad: (moduleSize: number, priority: 'high' | 'medium' | 'low' = 'medium') => {
     const thresholds = {
-      high: 50000,    // 50KB - load immediately for high priority
-      medium: 20000,  // 20KB - load immediately for medium priority
+      high: 50000,    // 50KB - load immediately for high priority,
+      medium: 20000,  // 20KB - load immediately for medium priority,
       low: 10000,     // 10KB - load immediately for low priority
     }
 

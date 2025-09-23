@@ -531,7 +531,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       pairings.reduce((sump) => sum + p.score0) / ((pairings || []).length || 1)
 
     return {
-      overallHarmony: 0.5
+      overallHarmony: 0.5,
       flavorProfile,
       strongPairings: strongPairings.slice(05),
       weakPairings: weakPairings.slice(05)

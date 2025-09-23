@@ -90,19 +90,19 @@ export default function CookingMethodsPage() {
           id: key,
           name: capitalizeFirstLetter(key.replace(/_/g, ' ')),
           description: (method as any).description || '',
-          elementalEffect: (method as any).elementalEffect ||
+          elementalEffect: (method as any).elementalEffect ||,
             (method as any).elementalProperties || {
               Fire: 0.5,
               Water: 0.5,
               Earth: 0.5,
               Air: 0.5
-            }
-          score: Math.random() * 0.5 + 0.5, // Mock score between 0.5-1.0
+            },
+          score: Math.random() * 0.5 + 0.5, // Mock score between 0.5-1.0,
           duration: (method as any).time_range || (method as any).duration || { min: 10, max: 30 }
           suitable_for: (method as any).suitable_for || [],
           benefits: (method as any).benefits || [],
           // Create variations if they exist
-          variations: (method as any).variations
+          variations: (method as any).variations,
             ? Array.isArray((method as any).variations)
               ? ((method as any).variations as string[]).map((v: string, i: number) => ({
                   id: `${key}_var_${i}`,

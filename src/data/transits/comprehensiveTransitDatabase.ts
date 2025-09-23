@@ -78,7 +78,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           Uranus: { sign: 'taurus', degree: 27, exactLongitude: 57, isRetrograde: false }
           Neptune: { sign: 'aries', degree: 1, exactLongitude: 1, isRetrograde: false }
           Pluto: { sign: 'aquarius', degree: 3, exactLongitude: 303, isRetrograde: false }
-        }
+        },
         seasonalThemes: [
           'New beginnings',
           'Dynamic energy',
@@ -134,7 +134,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           Uranus: { sign: 'taurus', degree: 29, exactLongitude: 59, isRetrograde: false }
           Neptune: { sign: 'aries', degree: 2, exactLongitude: 2, isRetrograde: false }
           Pluto: { sign: 'aquarius', degree: 4, exactLongitude: 304, isRetrograde: false }
-        }
+        },
         seasonalThemes: [
           'Stability',
           'Sensual pleasures',
@@ -190,7 +190,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           Uranus: { sign: 'taurus', degree: 1, exactLongitude: 31, isRetrograde: false }
           Neptune: { sign: 'aries', degree: 3, exactLongitude: 3, isRetrograde: false }
           Pluto: { sign: 'aquarius', degree: 5, exactLongitude: 305, isRetrograde: false }
-        }
+        },
         seasonalThemes: [
           'Communication',
           'Variety',
@@ -286,7 +286,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           Uranus: { sign: 'taurus', degree: 20, exactLongitude: 50, isRetrograde: false }
           Neptune: { sign: 'aries', degree: 5, exactLongitude: 5, isRetrograde: false }
           Pluto: { sign: 'aquarius', degree: 8, exactLongitude: 308, isRetrograde: true }
-        }
+        },
         seasonalThemes: [
           'Communication',
           'Variety',
@@ -342,7 +342,7 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
           Uranus: { sign: 'taurus', degree: 22, exactLongitude: 52, isRetrograde: false }
           Neptune: { sign: 'aries', degree: 7, exactLongitude: 7, isRetrograde: false }
           Pluto: { sign: 'aquarius', degree: 6, exactLongitude: 306, isRetrograde: true }
-        }
+        },
         seasonalThemes: [
           'Nurturing',
           'Comfort',

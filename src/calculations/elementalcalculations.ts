@@ -217,8 +217,8 @@ function getPlanetaryInfluencers(
     Earth: ['venus', 'saturn', 'pluto'],
     Air: ['mercury', 'uranus', 'jupiter'],
     // Added extended elements mapped to core planetary influences
-    Metal: ['venus', 'saturn', 'mercury'], // Structure, clarity, precision - maps to Earth/Air qualities
-    Wood: ['sun', 'mars', 'jupiter'], // Growth, flexibility, expansion - maps to Fire qualities
+    Metal: ['venus', 'saturn', 'mercury'], // Structure, clarity, precision - maps to Earth/Air qualities,
+    Wood: ['sun', 'mars', 'jupiter'], // Growth, flexibility, expansion - maps to Fire qualities,
     Void: ['mercury', 'uranus', 'neptune'], // Space, potential, emptiness - maps to Air/Water qualities
   }
 

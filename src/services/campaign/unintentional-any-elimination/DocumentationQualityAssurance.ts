@@ -126,11 +126,11 @@ export class DocumentationQualityAssurance {
     return {
       totalIntentionalAnyTypes: totalAnyTypes,
       documentedTypes,
-      undocumentedTypes: undocumentedTypes.length
+      undocumentedTypes: undocumentedTypes.length,
       documentationCoverage,
       qualityBreakdown,
       undocumentedFiles: [...new Set(undocumentedTypes.map(t => t.filePath))],,
-      recommendations: this.generateRecommendations(
+      recommendations: this.generateRecommendations(,
         documentationCoverage,
         qualityBreakdown,
         undocumentedTypes,

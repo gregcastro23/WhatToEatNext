@@ -338,7 +338,7 @@ export function getAlchemicalStateWithVectors(input: {
     gregsEnergy: number,
     kalchm: number,
     monica: number
-  }
+  },
   config: typeof VECTOR_CONFIG
 } {
   const { planetaryPositions, aspects, season, _governing = 'dominant'} = input;
@@ -392,7 +392,7 @@ export function getAlchemicalStateWithVectors(input: {
             Earth: 0,
             Air: 0,
             seasonal: 0
-          }
+          },
           magnitude: 0
         } as unknown as SignVector,
       )

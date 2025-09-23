@@ -60,7 +60,7 @@ export const TargetConfigSchema = z;
         checkpoints: z.number().min(1)
       })
       .strict(),
-    milestones: z.array(
+    milestones: z.array(,
       z
         .object({
           name: z.string().min(1),

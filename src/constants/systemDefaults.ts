@@ -453,67 +453,67 @@ export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = {
     degree: 101.48333333333333,
     exactLongitude: 101.4844,
     isRetrograde: false
-  }
+  },
   Moon: {
     sign: 'libra' as any,
     degree: 195.16666666666666,
     exactLongitude: 195.18319999999994,
     isRetrograde: false
-  }
+  },
   Mercury: {
     sign: 'leo' as any,
     degree: 127.38333333333334,
     exactLongitude: 127.38920000000002,
     isRetrograde: false
-  }
+  },
   Venus: {
     sign: 'taurus' as any,
     degree: 58.35,
     exactLongitude: 58.35340000000002,
     isRetrograde: false
-  }
+  },
   Mars: {
     sign: 'virgo' as any,
     degree: 159,
     exactLongitude: 159.0158,
     isRetrograde: false
-  }
+  },
   Jupiter: {
     sign: 'cancer' as any,
     degree: 95.3,
     exactLongitude: 95.30540000000002,
     isRetrograde: false
-  }
+  },
   Saturn: {
     sign: 'aries' as any,
     degree: 1.85,
     exactLongitude: 1.8501999999999725,
     isRetrograde: false
-  }
+  },
   Uranus: {
     sign: 'taurus' as any,
     degree: 59.8,
     exactLongitude: 59.8091,
     isRetrograde: false
-  }
+  },
   Neptune: {
     sign: 'aries' as any,
     degree: 2.1666666666666665,
     exactLongitude: 2.174699999999973,
     isRetrograde: false
-  }
+  },
   Pluto: {
     sign: 'aquarius' as any,
     degree: 303.0833333333333,
     exactLongitude: 303.09529999999995,
     isRetrograde: false
-  }
+  },
   Chiron: {
     sign: 'aries' as any,
     degree: 26.933333333333334,
     exactLongitude: 26.939399999999978,
     isRetrograde: false
-  }
+  },
   Sirius: {
     sign: 'aries' as any,
     degree: 1.7666666666666666,
@@ -555,7 +555,7 @@ export const DEFAULT_ASTROLOGICAL_STATE = {
     sunDecan: 1,
     moonDecan: 1,
     risingDecan: 1
-  }
+  },
   aspects: [],
   dominantElement: 'Fire',
   elementalProfile: DEFAULT_ELEMENTAL_PROPERTIES,
@@ -570,7 +570,7 @@ export const DEFAULT_ASTROLOGICAL_STATE = {
     Uranus: { sign: 'aquarius' as any, degree: 25 }
     Neptune: { sign: 'pisces' as any, degree: 14 }
     Pluto: { sign: 'scorpio' as any, degree: 22 }
-  }
+  },
   isDaytime: true,
   activePlanets: ['Sun', 'Moon'],
   activeAspects: [],

@@ -23,7 +23,7 @@ const RecipesPage: NextPage = () => {
     const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     setElementalState({
       ...currentState
-      season: 'spring', // Default value since getCurrentElementalState doesn't provide season
+      season: 'spring', // Default value since getCurrentElementalState doesn't provide season,
       timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn't provide timeOfDay
     })
   }, [])
@@ -152,7 +152,7 @@ const RecipesPage: NextPage = () => {
                 setSelectedCuisine('')
                 setSelectedDiet('')
               }}
-              className='rounded-md bg-gray-200 px-4 py-2 text-gray-700, hover: bg-gray-300'
+              className='rounded-md bg-gray-200 px-4 py-2 text-gray-700, hover:bg-gray-300'
             >
               Clear Filters
             </button>
@@ -177,7 +177,7 @@ const RecipesPage: NextPage = () => {
                 <Link
                   href={`/recipes/${recipeId}`}
                   key={recipeId}
-                  className='block overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow, hover: shadow-md',
+                  className='block overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow, hover:shadow-md',
                 >
                   <div className='p-5'>
                     <div className='mb-1 flex items-center justify-between'>

@@ -29,39 +29,39 @@ const testPlanetaryPositions: { [key: string]: CelestialPosition } = {
   Sun: {
     sign: 'gemini',
     degree: 25.0
-  }
+  },
   moon: {
     sign: 'taurus',
     degree: 15.5
-  }
+  },
   Mercury: {
     sign: 'gemini',
     degree: 20.3
-  }
+  },
   Venus: {
     sign: 'taurus',
     degree: 8.7
-  }
+  },
   Mars: {
     sign: 'aries',
     degree: 12.2
-  }
+  },
   _Jupiter: {
     sign: 'pisces',
     degree: 28.9
-  }
+  },
   _Saturn: {
     sign: 'aquarius',
     degree: 18.4
-  }
+  },
   _Uranus: {
     sign: 'taurus',
     degree: 14.1
-  }
+  },
   _Neptune: {
     sign: 'pisces',
     degree: 22.8
-  }
+  },
   _Pluto: { sign: 'aquarius', degree: 3.0 }
 }
 
@@ -102,24 +102,24 @@ const testHoroscopeData = {
       Sun: {
         Sign: {}
         ChartPosition: { Ecliptic: { DecimalDegrees: 64.133 } }
-      }
+      },
       moon: {
         Sign: {}
         ChartPosition: { Ecliptic: { DecimalDegrees: 35.333 } }
-      }
+      },
       Mercury: {
         Sign: {}
         ChartPosition: { Ecliptic: { DecimalDegrees: 59.5 } }
-      }
+      },
       Venus: {
         Sign: {}
         ChartPosition: { Ecliptic: { DecimalDegrees: 78.75 } }
-      }
+      },
       Mars: {
         Sign: {}
         ChartPosition: { Ecliptic: { DecimalDegrees: 12.25 } }
       }
-    }
+    },
     _Ascendant: {}
     _Aspects: {}
   }

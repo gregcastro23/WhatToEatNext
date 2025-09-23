@@ -157,28 +157,28 @@ export interface QualityMetrics {
     buildSuccess: boolean,
     errorCount: number,
     warningCount: number
-  }
+  },
   testMetrics: {
     totalTests: number,
     passedTests: number,
     failedTests: number,
     coverage: number,
     testTime: number
-  }
+  },
   codeQualityMetrics: {
     linesOfCode: number,
     complexity: number,
     maintainabilityIndex: number,
     technicalDebt: number,
     duplicateCodePercent: number
-  }
+  },
   performanceMetrics: {
     cpuUsage: number,
     memoryUsage: number,
     diskUsage: number,
     networkLatency: number,
     responseTimes: number[]
-  }
+  },
   securityMetrics: {
     vulnerabilityCount: number,
     securityScore: number,
@@ -220,19 +220,19 @@ export interface QualityReport {
     totalExecutionTime: number,
     criticalIssues: string[],
     recommendations: string[]
-  }
+  },
   trends: {
     scoreHistory: Array<{ date: Date, score: number }>,
     performanceHistory: Array<{ date: Date, time: number }>,
     reliabilityHistory: Array<{ date: Date, reliability: number }>,
-  }
+  },
   nextSteps: string[]
 }
 
 export interface ValidationHook {
   hookId: string,
   name: string,
-  type: | 'pre-commit'
+  type: | 'pre-commit',
     | 'pre-push'
     | 'post-commit'
     | 'post-push'
@@ -317,7 +317,7 @@ export class QualityGatesValidation extends EventEmitter {
           thresholdId: 'build_time',
           metric: 'buildTime',
           operator: 'lt',
-          value: 120000, // 2 minutes
+          value: 120000, // 2 minutes,
           severity: 'warning',
           description: 'Build time should be under 2 minutes'
         }
@@ -928,9 +928,9 @@ export class QualityGatesValidation extends EventEmitter {
       metric: threshold.metric,
       actualValue,
       expectedValue,
-      operator: threshold.operator
+      operator: threshold.operator,
       passed,
-      severity: threshold.severity
+      severity: threshold.severity,
       deviation,
       message
     }
@@ -1207,7 +1207,7 @@ export class QualityGatesValidation extends EventEmitter {
       cpuUsage: ((cpuUsage.user + cpuUsage.system) / 1000000) * 100,
       memoryUsage: (memoryUsage.heapUsed / memoryUsage.heapTotal) * 100,
       diskUsage: 50, // Mock value,
-      networkLatency: 10, // Mock value
+      networkLatency: 10, // Mock value,
       responseTimes: [100, 150, 200, 120, 180]
     }
   }
@@ -1744,7 +1744,7 @@ export class QualityGatesValidation extends EventEmitter {
       isExecuting: this.isExecuting,
       totalGates: this.qualityGates.size,
       enabledGates,
-      totalHooks: this.validationHooks.size
+      totalHooks: this.validationHooks.size,
       enabledHooks,
       lastExecution
     }

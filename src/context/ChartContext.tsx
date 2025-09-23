@@ -6,7 +6,7 @@ interface AstrologicalChart {
   planets: Record<string, { sign: string; degree: number, minute: number }>,
   houses: Record<string, { sign: string, degree: number }>,
   aspects: Array<{ planet1: string; planet2: string; type: string, degree: number }>,
-  timestamp: Date
+  timestamp: Date,
   [key: string]: unknown
 }
 

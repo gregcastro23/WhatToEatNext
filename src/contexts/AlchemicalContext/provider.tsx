@@ -117,7 +117,7 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }>  = ({ c
         logger.debug('Synchronizing alchemical values from astrologicalState to root state')
         dispatch({
           type: 'SET_ALCHEMICAL_VALUES',
-          payload: state.astrologicalState.alchemicalValues &&
+          payload: state.astrologicalState.alchemicalValues &&,
             Object.keys(state.astrologicalState.alchemicalValues).length === 4
               ? (state.astrologicalState.alchemicalValues as {
                   Spirit: number,
@@ -132,7 +132,7 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }>  = ({ c
       // If astrologicalState exists but doesn't have alchemicalValues, add them from root state
       const updatedAstroState = {
         ...state.astrologicalState,
-        alchemicalValues: state.alchemicalValues && Object.keys(state.alchemicalValues).length === 4
+        alchemicalValues: state.alchemicalValues && Object.keys(state.alchemicalValues).length === 4,
             ? state.alchemicalValues
             : { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 }
       }
@@ -327,10 +327,10 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }>  = ({ c
         dispatch,
         planetaryPositions: planetaryPositions as unknown,
         isDaytime,
-        updatePlanetaryPositions: updatePlanetaryPositions as (
+        updatePlanetaryPositions: updatePlanetaryPositions as (,
           positions: Record<string, unknown>,
         ) => void,
-        refreshPlanetaryPositions: refreshPlanetaryPositions as () => Promise<
+        refreshPlanetaryPositions: refreshPlanetaryPositions as () => Promise<,
           Record<string, unknown>
         >,
         setDaytime,

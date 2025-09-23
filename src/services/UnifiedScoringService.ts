@@ -66,8 +66,8 @@ export interface ScoringBreakdown {
  * Complete scoring result with metadata
  */
 export interface ScoringResult {
-  score: number; // Final normalized score (0-1)
-  confidence: number // Confidence in the result (0-1)
+  score: number; // Final normalized score (0-1),
+  confidence: number // Confidence in the result (0-1),
   breakdown: ScoringBreakdown,
   sources: string[],
   notes: string[],
@@ -150,12 +150,12 @@ export interface AstrologicalData {
       alignment: number,
       recommendation: string
     }
-  }
+  },
   lunarPhase: {
     name: LunarPhase,
     illumination: number,
     effect: string
-  }
+  },
   dignity: Record<Planet, number>,
   houses?: Record<string, number>,
   source: 'astrologize' | 'swiss_ephemeris' | 'fallback',

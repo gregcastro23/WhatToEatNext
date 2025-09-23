@@ -9,7 +9,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 export interface DomainContext {
-  type: | 'astrological'
+  type: | 'astrological',
     | 'campaign'
     | 'test'
     | 'script'
@@ -25,7 +25,7 @@ export interface DomainContext {
 }
 
 export interface ContextIndicator {
-  type: 'filename' | 'path' | 'content' | 'imports' | 'exports';
+  type: 'filename' | 'path' | 'content' | 'imports' | 'exports';,
   pattern: string,
   weight: number,
   description: string
@@ -60,7 +60,7 @@ export interface RiskFactor {
 }
 
 export interface PreservationRequirement {
-  element: 'constants' | 'variables' | 'functions' | 'imports' | 'comments';
+  element: 'constants' | 'variables' | 'functions' | 'imports' | 'comments';,
   pattern: RegExp,
   reason: string,
   strictness: 'absolute' | 'high' | 'medium' | 'low'

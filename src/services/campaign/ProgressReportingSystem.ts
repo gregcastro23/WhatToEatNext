@@ -75,19 +75,19 @@ export interface PerformanceSnapshot {
     current: number,
     reduction: number,
     reductionRate: number, // per hour
-  }
+  },
   lintingWarnings: {
     initial: number,
     current: number,
     reduction: number,
     reductionRate: number, // per hour
-  }
+  },
   buildPerformance: {
     currentTime: number,
     targetTime: number,
     improvement: number,
     cacheEfficiency: number
-  }
+  },
   enterpriseSystems: {
     initial: number,
     current: number,
@@ -509,19 +509,19 @@ export class ProgressReportingSystem {
         current: metrics.typeScriptErrors.current,
         reduction: metrics.typeScriptErrors.reduction,
         reductionRate: metrics.trendData.errorReductionRate
-      }
+      },
       lintingWarnings: {
         initial: 4506,
         current: metrics.lintingWarnings.current,
         reduction: metrics.lintingWarnings.reduction,
         reductionRate: metrics.trendData.warningReductionRate
-      }
+      },
       buildPerformance: {
         currentTime: metrics.buildPerformance.currentTime,
         targetTime: 10,
         improvement: metrics.trendData.buildTimeImprovement,
         cacheEfficiency: metrics.buildPerformance.cacheHitRate
-      }
+      },
       enterpriseSystems: {
         initial: 0,
         current: metrics.enterpriseSystems.current,

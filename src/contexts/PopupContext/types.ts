@@ -42,7 +42,7 @@ export type Popup = {
 }
 
 export type PopupContextType = {
-  showPopup: (message: string, options?: PopupOptions) => number
+  showPopup: (message: string, options?: PopupOptions) => number,
   closePopup: (id: number) => void
 }
 

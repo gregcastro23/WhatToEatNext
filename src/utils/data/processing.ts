@@ -90,7 +90,7 @@ export function standardizeIngredient(ingredient: unknown): Ingredient {
     cookingMethods: Array.isArray(raw.cookingMethods) ? raw.cookingMethods || [].map(String) : [],
     pairings: Array.isArray(raw.pairings) ? raw.pairings || [].map(String) : [],
     storage: raw.storage ? String(raw.storage) : undefined,
-    preparationTips: Array.isArray(raw.preparationTips)
+    preparationTips: Array.isArray(raw.preparationTips),
       ? raw.preparationTips || [].map(String)
       : []
   } as Ingredient,
@@ -115,12 +115,12 @@ export function standardizeRecipe(recipe: unknown): Recipe {
     cuisine: String(raw.cuisine || 'international'),
     mealType: Array.isArray(raw.mealType) ? raw.mealType || [].map(String) : ['dinner'],
     servings: typeof raw.servings === 'number' ? raw.servings : 4,,
-    prepTime: typeof raw.prepTime === 'number'
+    prepTime: typeof raw.prepTime === 'number',
         ? `${raw.prepTime} minutes`
         : typeof raw.prepTime === 'string'
           ? raw.prepTime
           : '30 minutes',
-    cookTime: typeof raw.cookTime === 'number'
+    cookTime: typeof raw.cookTime === 'number',
         ? `${raw.cookTime} minutes`
         : typeof raw.cookTime === 'string'
           ? raw.cookTime
@@ -129,7 +129,7 @@ export function standardizeRecipe(recipe: unknown): Recipe {
     ingredients: standardizeRecipeIngredients(raw.ingredients),
     instructions: Array.isArray(raw.instructions) ? raw.instructions || [].map(String) : [],
     elementalProperties: standardizeElementalProperties(raw.elementalState),
-    astrologicalInfluences: Array.isArray(raw.astrologicalInfluences)
+    astrologicalInfluences: Array.isArray(raw.astrologicalInfluences),
       ? raw.astrologicalInfluences || [].map(String)
       : [],
     seasons: standardizeSeasons(raw.seasons),
@@ -418,11 +418,11 @@ function _standardizeAstrologicalProfile(profile: unknown): AstrologicalProfile 
   }
   const prof = profile as unknown;
   return {
-    elementalAffinity: standardizeElementalAffinity(
+    elementalAffinity: standardizeElementalAffinity(,
       String((prof.elementalAffinity as any).base || '')
     ),
     rulingPlanets: Array.isArray(prof.rulingPlanets) ? (prof.rulingPlanets || []).map(String) : [],
-    favorableZodiac: Array.isArray(prof.favorableZodiac)
+    favorableZodiac: Array.isArray(prof.favorableZodiac),
       ? (prof.favorableZodiac || []).map(String)
       : []
   } as unknown as AstrologicalProfile,

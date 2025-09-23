@@ -157,7 +157,7 @@ describe('AlertingSystem', () => {
         type: 'error',
         metric: 'typescript_errors',
         condition: 'greater_than',
-        threshold: 100, // Mock returns 150so this should trigger
+        threshold: 100, // Mock returns 150so this should trigger,
         severity: 'warning',
         enabled: true,
         cooldownMinutes: 5,
@@ -192,7 +192,7 @@ describe('AlertingSystem', () => {
         type: 'error',
         metric: 'typescript_errors',
         condition: 'greater_than',
-        threshold: 1000, // Mock returns 150so this should NOT trigger
+        threshold: 1000, // Mock returns 150so this should NOT trigger,
         severity: 'critical',
         enabled: true,
         cooldownMinutes: 5,
@@ -224,7 +224,7 @@ describe('AlertingSystem', () => {
         threshold: 100,
         severity: 'warning',
         enabled: true,
-        cooldownMinutes: 0.01, // Very short cooldown for testing (0.6 seconds)
+        cooldownMinutes: 0.01, // Very short cooldown for testing (0.6 seconds),
         escalationMinutes: 120,
         autoResponse: false,
         responseActions: [],

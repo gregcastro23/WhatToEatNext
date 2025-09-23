@@ -16,7 +16,7 @@ interface CachedAstrologicalData {
   coordinates: {
     lat: number,
     lng: number
-  }
+  },
   astrologicalState: AstrologicalState,
   alchemicalResult: StandardizedAlchemicalResult,
   planetaryPositions: Record<string, PlanetaryPosition>,
@@ -26,13 +26,13 @@ interface CachedAstrologicalData {
     water: number,
     earth: number,
     air: number
-  }
+  },
   elementalRelatives: {
-    fire: number; // fire/(water+earth+air)
-    water: number; // water/(fire+earth+air)
-    earth: number // earth/(fire+water+air)
+    fire: number; // fire/(water+earth+air),
+    water: number; // water/(fire+earth+air),
+    earth: number // earth/(fire+water+air),
     air: number // air/(fire+water+earth)
-  }
+  },
   thermodynamics: {
     heat: number,
     entropy: number,
@@ -40,7 +40,7 @@ interface CachedAstrologicalData {
     gregsEnergy: number,
     kalchm: number,
     monica: number
-  }
+  },
   quality: 'high' | 'medium' | 'low' // Data quality indicator
 }
 
@@ -120,7 +120,7 @@ class AstrologizeApiCache {
     const resultData = alchemicalResult as unknown as any;
 
     const cachedData: CachedAstrologicalData = {
-      timestamp: Date.now()
+      timestamp: Date.now(),
       date,
       coordinates: { lat, lng }
       astrologicalState,
@@ -135,7 +135,7 @@ class AstrologizeApiCache {
         gregsEnergy: Number(resultData.energy) || 0,
         kalchm: Number(resultData.kalchm) || 1,
         monica: Number(resultData.monica) || 1
-      }
+      },
       quality: this.assessDataQuality(alchemicalResult)
     }
 
@@ -256,7 +256,7 @@ class AstrologizeApiCache {
       gregsEnergy: number,
       kalchm: number,
       monica: number
-    }
+    },
     quality: 'high' | 'medium' | 'low'
   } | null {
     const cached = this.get(lat, lng, date)

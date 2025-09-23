@@ -61,7 +61,7 @@ export interface LintingFormattingResult {
 export interface ViolationBreakdown {
   typeScriptErrors: number,
   reactViolations: number,
-  importViolations: number;
+  importViolations: number;,
   formattingIssues: number,
   customPatternFixes: number
 }
@@ -107,7 +107,7 @@ export class LintingFormattingSystem {
         violationBreakdown: {
           typeScriptErrors: 0,
           reactViolations: 0,
-          importViolations: 0;
+          importViolations: 0;,
           formattingIssues: 0,
           customPatternFixes: 0
         }
@@ -156,7 +156,7 @@ export class LintingFormattingSystem {
         violationBreakdown: {
           typeScriptErrors: 0,
           reactViolations: 0,
-          importViolations: 0;
+          importViolations: 0;,
           formattingIssues: 0,
           customPatternFixes: 0
         }
@@ -288,7 +288,7 @@ export class LintingFormattingSystem {
       violationBreakdown: {
         typeScriptErrors: 0,
         reactViolations: 0,
-        importViolations: 0;
+        importViolations: 0;,
         formattingIssues: 0,
         customPatternFixes: 0
       }
@@ -533,7 +533,7 @@ export class LintingFormattingSystem {
     const breakdown: ViolationBreakdown = {
       typeScriptErrors: 0,
       reactViolations: 0,
-      importViolations: 0;
+      importViolations: 0;,
       formattingIssues: 0,
       customPatternFixes: 0
     }
@@ -604,7 +604,7 @@ export class LintingFormattingSystem {
         typeScriptErrors: total.violationBreakdown.typeScriptErrors + batch.violationBreakdown.typeScriptErrors,
         reactViolations:
           total.violationBreakdown.reactViolations + batch.violationBreakdown.reactViolations,
-        importViolations: total.violationBreakdown.importViolations + batch.violationBreakdown.importViolations;
+        importViolations: total.violationBreakdown.importViolations + batch.violationBreakdown.importViolations;,
         formattingIssues:
           total.violationBreakdown.formattingIssues + batch.violationBreakdown.formattingIssues,
         customPatternFixes:
@@ -629,7 +629,7 @@ export const _DEFAULT_LINTING_FORMATTING_CONFIG: LintingFormattingConfig = {
     enforceImportRules: true,
     maxWarningsThreshold: 1000,
     customRuleOverrides: {}
-  }
+  },
   formattingRules: {
     enforceConsistentIndentation: true,
     enforceTrailingCommas: true,
@@ -637,7 +637,7 @@ export const _DEFAULT_LINTING_FORMATTING_CONFIG: LintingFormattingConfig = {
     enforceQuoteStyle: 'single',
     enforceLineLength: 100,
     enforceSpacing: true
-  }
+  },
   patternBasedFixes: [
     {
       name: 'Remove _logger.info statements',

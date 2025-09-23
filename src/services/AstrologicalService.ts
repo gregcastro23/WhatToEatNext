@@ -77,7 +77,7 @@ export type AstrologicalAnalysisResponse = ServiceResponseType<{
   recommendations: string[],
   warnings: string[],
   detailedAnalysis: {
-    planetaryInfluences: Record<string, number>
+    planetaryInfluences: Record<string, number>,
     aspectPatterns: PlanetaryAspectDetails[],
     elementalBalance: ElementalPropertiesType
   }
@@ -267,7 +267,7 @@ export class AstrologicalService {
           Essence: 0.25,
           Matter: 0.25,
           Substance: 0.25
-        }
+        },
         compatibilityScore: 0.75
       }
 

@@ -32,9 +32,9 @@ export interface ElementalAlchemicalCounts {
  * Thermodynamic metrics for energy calculations
  */
 export interface ThermodynamicMetrics {
-  heat: number, // Thermal energy from celestial friction (0-1)
-  entropy: number, // Disorder in planetary system (0-1)
-  reactivity: number, // Chemical potential for transformation (0-1)
+  heat: number, // Thermal energy from celestial friction (0-1),
+  entropy: number, // Disorder in planetary system (0-1),
+  reactivity: number, // Chemical potential for transformation (0-1),
   gregsEnergy: number, // Free energy metric (0-1)
 }
 
@@ -46,7 +46,7 @@ export interface ElementalState {
   water: number; // Fluid/adaptive capacity,
   air: number; // Gaseous/diffusive quality,
   earth: number // Solid/stabilizing force,
-  spirit: number, // Ethereal/creative essence (non-material)
+  spirit: number, // Ethereal/creative essence (non-material),
   essence: number, // Vital/animating principle,
   matter: number, // Physical manifestation,
   substance: number, // Structural integrity
@@ -78,7 +78,7 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Essence: 0,
     Matter: -0.1,
     Substance: 0
-  }
+  },
   Moon: {
     Fire: -0.1,
     Water: 0.3,
@@ -88,7 +88,7 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Essence: 0.2,
     Matter: 0.1,
     Substance: 0
-  }
+  },
   Mars: {
     Fire: 0.4,
     Water: -0.2,
@@ -98,7 +98,7 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Essence: -0.1,
     Matter: 0.2,
     Substance: -0.1
-  }
+  },
   Mercury: {
     Fire: 0.1,
     Water: 0.1,
@@ -108,7 +108,7 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Essence: 0.2,
     Matter: 0,
     Substance: 0.1
-  }
+  },
   Jupiter: {
     Fire: 0.2,
     Water: 0.2,
@@ -118,7 +118,7 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Essence: 0.1,
     Matter: 0.1,
     Substance: 0.2
-  }
+  },
   Venus: {
     Fire: -0.1,
     Water: 0.2,
@@ -128,7 +128,7 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Essence: 0.3,
     Matter: -0.1,
     Substance: 0.1
-  }
+  },
   Saturn: {
     Fire: -0.2,
     Water: -0.1,
@@ -274,7 +274,7 @@ class ThermodynamicCalculator {
     // Detailed logging of the calculation
     debugLog(`Greg's Energy calculation:
           Inputs: heat=${safeHeat.toFixed(2)}, entropy=${safeEntropy.toFixed(2)}, reactivity=${safeReactivity.toFixed(2)}
-          Raw: ${rawValue.toFixed(2)}, Scaled: ${scaledValue.toFixed(2)}, Final: ${finalValue.toFixed(2)}`)
+          Raw: ${rawValue.toFixed(2)}, Scaled: ${scaledValue.toFixed(2)}, Final: ${finalValue.toFixed(2)}`),
 
     return finalValue,
   }

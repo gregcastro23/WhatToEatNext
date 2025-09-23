@@ -14,11 +14,11 @@ export const _cryoCooking: CookingMethodData = {
     Water: 0.3,
     Earth: 0.1,
     Air: 0.8
-  }
+  },
   duration: {
-    min: 0.5, // 30 seconds
+    min: 0.5, // 30 seconds,
     max: 10, // 10 minutes
-  }
+  },
   suitable_for: [
     'Creams',
     'Mousses',
@@ -44,9 +44,9 @@ export const _cryoCooking: CookingMethodData = {
     'Smoke freezing (capturing frozen smoke)'
   ],
   optimalTemperatures: {
-    liquidNitrogen: -196, // °C
+    liquidNitrogen: -196, // °C,
     dryIce: -78, // °C
-  }
+  },
   toolsRequired: [
     'Liquid nitrogen',
     'Dry ice',

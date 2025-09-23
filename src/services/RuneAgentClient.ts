@@ -89,19 +89,19 @@ function generateLocalAgent(context: string = 'cuisine'): AgentRecommendation {
       archetype: 'Wise Cook',
       guidance: 'Balance flavors with elemental harmony',
       specialties: ['fusion', 'seasonal cooking', 'elemental balance']
-    }
+    },
     recipe: {
       name: 'Recipe Alchemist',
       archetype: 'Transformative Chef',
       guidance: 'Transform simple ingredients into magical dishes',
       specialties: ['ingredient transformation', 'flavor alchemy', 'nutritional optimization']
-    }
+    },
     ingredient: {
       name: 'Ingredient Oracle',
       archetype: 'Nature\'s Voice',
       guidance: 'Choose ingredients that resonate with your current energy',
       specialties: ['seasonal selection', 'energetic properties', 'healing foods']
-    }
+    },
     cooking_method: {
       name: 'Method Master',
       archetype: 'Technique Guardian',
@@ -205,7 +205,7 @@ export class RuneAgentClient {
         stability: 1 - alchemicalState.thermodynamicProperties.reactivity,
         transformation: alchemicalState.thermodynamicProperties.heat,
         harmony: alchemicalState.score
-      }
+      },
       transitEffects: ['Current planetary alignment supports culinary exploration'],
       momentumIndicators: {
         creativity: alchemicalState.thermodynamicProperties.entropy,

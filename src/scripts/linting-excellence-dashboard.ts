@@ -380,7 +380,7 @@ class LintingExcellenceDashboardCLI {
           } catch {
             return false
           }
-        }
+        },
         fix: 'Fix TypeScript compilation errors'
       }
     ],

@@ -44,19 +44,19 @@ interface UserPreferences {
     colorScheme: string,
     fontSize: number,
     animations: boolean
-  }
+  },
   dietary: {
     restrictions: DietaryRestriction[],
     favorites: string[],
     excluded: string[],
     spiciness: 'mild' | 'medium' | 'hot'
-  }
+  },
   cooking: {
     preferredMethods: string[],
     maxPrepTime: number,
     servingSize: number,
     complexity: 'simple' | 'moderate' | 'complex'
-  }
+  },
   cuisines: {
     preferred: CuisineType[],
     excluded: CuisineType[]
@@ -71,13 +71,13 @@ interface AppState {
     recent: string[],
     loading: boolean,
     error: string | null
-  }
+  },
   celestial: {
     elementalState: ElementalProperties,
     season: string,
     moonPhase: string,
     lastUpdated: number
-  }
+  },
   user: {
     preferences: UserPreferences,
     history: {
@@ -85,7 +85,7 @@ interface AppState {
       cooked: string[],
       rated: Record<string, number>
     }
-  }
+  },
   ui: {
     activeFilters: Set<string>,
     searchQuery: string,
@@ -178,18 +178,18 @@ class StateManager {
         recent: [],
         loading: false,
         error: null
-      }
+      },
       celestial: {
         elementalState: {
           Fire: 0.25,
           Earth: 0.25,
           Air: 0.25,
           Water: 0.25
-        }
+        },
         season: 'spring',
         moonPhase: 'new',
         lastUpdated: Date.now()
-      }
+      },
       user: {
         preferences: {
           theme: {
@@ -197,30 +197,30 @@ class StateManager {
             colorScheme: 'default',
             fontSize: 16,
             animations: true
-          }
+          },
           dietary: {
             restrictions: [],
             favorites: [],
             excluded: [],
             spiciness: 'medium'
-          }
+          },
           cooking: {
             preferredMethods: [],
             maxPrepTime: 60,
             servingSize: 2,
             complexity: 'moderate'
-          }
+          },
           cuisines: {
             preferred: [],
             excluded: []
           }
-        }
+        },
         history: {
           viewed: [],
           cooked: [],
           rated: {}
         }
-      }
+      },
       ui: {
         activeFilters: new Set(),
         searchQuery: '',
@@ -392,7 +392,7 @@ class StateManager {
 
   addNotification(type: 'success' | 'error' | 'info', message: string): void {
     const notification = {
-      id: Date.now().toString()
+      id: Date.now().toString(),
       type,
       message,
       timestamp: Date.now()

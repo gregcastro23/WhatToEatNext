@@ -159,7 +159,7 @@ export async function calculateActivePlanets(
         scorpio: 'mars',
         sagittarius: 'jupiter',
         capricorn: 'saturn',
-        aquarius: 'saturn', // Traditional ruler
+        aquarius: 'saturn', // Traditional ruler,
         pisces: 'jupiter', // Traditional ruler
       }
 

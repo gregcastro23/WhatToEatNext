@@ -19,24 +19,24 @@ const rawFreshHerbs = {
         carbs: 0.1,
         fat: 0.0,
         fiber: 0.1
-      }
+      },
       vitamins: {
-        K: 0.13, // Values as percentage of RDA
+        K: 0.13, // Values as percentage of RDA,
         A: 0.03C: 0.02,
         folate: 0.01B6: 0.01
-      }
+      },
       minerals: {
         manganese: 0.03,
         calcium: 0.01,
         iron: 0.01,
         magnesium: 0.01,
         potassium: 0.01
-      }
+      },
       antioxidants: {
         phenolics: 'high',
         flavonoids: 'high',
         carotenoids: 'moderate'
-      }
+      },
       source: 'USDA FoodData Central'
     }
 
@@ -49,7 +49,7 @@ const rawFreshHerbs = {
         bitter: 0.2,
         umami: 0.0,
         spicy: 0.2
-      }
+      },
       aroma: {
         floral: 0.6,
         fruity: 0.3,
@@ -57,7 +57,7 @@ const rawFreshHerbs = {
         spicy: 0.3,
         earthy: 0.1,
         woody: 0.0
-      }
+      },
       texture: {
         crisp: 0.3,
         tender: 0.8,
@@ -90,7 +90,7 @@ const rawFreshHerbs = {
         drying: 'air-dry or use lowest setting on dehydrator',
         chopping: 'tear by hand or cut with sharp knife just before using',
         preserving: 'freeze in oil, infuse in vinegar or oil, dry'
-      }
+      },
       notes: 'Turns black when cut with dull knife or exposed to acid for too long add at end of cooking to preserve flavor'
     }
 
@@ -118,14 +118,14 @@ const rawFreshHerbs = {
         ],
         contrasting: ['strawberry', 'peach', 'watermelon', 'balsamic vinegar', 'chocolate'],
         toAvoid: ['strong spices', 'prolonged cooking', 'bitter greens']
-      }
+      },
       seasonalPeak: ['summer'],
       techniques: {
         pesto: {
           method: 'food processor or mortar and pestle',
           ingredients: ['olive oil', 'pine nuts', 'parmesan', 'garlic', 'salt'],
           notes: 'Use only the leaves, adjust garlic to taste'
-        }
+        },
         caprese: {
           method: 'layered or arranged',
           ingredients: ['tomato', 'mozzarella', 'olive oil', 'balsamic'],
@@ -154,7 +154,7 @@ const rawFreshHerbs = {
         flavor: 'sweet with slight peppery notes',
         uses: 'Italian cuisine, pesto, tomato dishes',
         oil_content: 0.7, // percentage
-      }
+      },
       thai_basil: {
         name: 'Thai Basil',
         appearance: 'narrower leaves, purple stems',
@@ -162,7 +162,7 @@ const rawFreshHerbs = {
         flavor: 'more stable under high heat than sweet basil',
         uses: 'Southeast Asian cuisine, stir-fries, curries',
         oil_content: 0.6
-      }
+      },
       holy_basil: {
         name: 'Holy Basil (Tulsi)',
         appearance: 'fuzzy leaves, often purplish',
@@ -170,7 +170,7 @@ const rawFreshHerbs = {
         flavor: 'peppery, clove-like',
         uses: 'Indian cuisine, medicinal tea, stir-fries',
         oil_content: 0.8
-      }
+      },
       lemon_basil: {
         name: 'Lemon Basil',
         appearance: 'light green, narrow leaves',
@@ -181,30 +181,30 @@ const rawFreshHerbs = {
     }
 
     // Category-specific extension: herbs
-    potency: 7, // 1-10 scale
+    potency: 7, // 1-10 scale,
     aroma: {
-      intensity: 8, // 1-10 scale
-      volatility: 9, // How quickly aroma dissipates (1-10)
+      intensity: 8, // 1-10 scale,
+      volatility: 9, // How quickly aroma dissipates (1-10),
       mainCompounds: ['linalool', 'eugenol', 'citral', 'limonene', 'methyl chavicol']
-    }
+    },
     drying: {
       methods: ['air-drying', 'dehydrator', 'microwave', 'oven'],
-      flavorRetention: 0.4, // 40% of flavor retained when dried
+      flavorRetention: 0.4, // 40% of flavor retained when dried,
       bestPractices: [
         'Harvest before flowering for best flavor',
         'Dry quickly in well-ventilated area',
         'Store in airtight container away from light'
       ]
-    }
+    },
     timing: {
       addEarly: false,
       addLate: true,
       notes: 'Add in last few minutes of cooking or after removing from heat'
-    }
+    },
     substitutions: ['oregano', 'thyme', 'tarragon', 'mint'],
 
     // Herb-specific properties
-    essentialOilContent: 0.5, // percentage
+    essentialOilContent: 0.5, // percentage,
     aromaticCompounds: [
       {
         name: 'Linalool',
@@ -261,17 +261,17 @@ const rawFreshHerbs = {
           second: { element: 'Fire', planet: 'Venus' }
           third: { element: 'Water', planet: 'Jupiter' }
         }
-      }
+      },
       lunarPhaseModifiers: {
         newMoon: {
           elementalBoost: { Air: 0.1, Water: 0.05 }
           preparationTips: ['Harvest in morning', 'Gentle processing']
-        }
+        },
         fullMoon: {
           elementalBoost: { Air: 0.15, Fire: 0.1 }
           preparationTips: ['Enhanced aroma when harvested', 'Good for infusions']
         }
-      }
+      },
       aspectEnhancers: ['Mercury trine Venus', 'Jupiter in Libra']
     }
   }

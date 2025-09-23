@@ -19,18 +19,18 @@ export const QA_THRESHOLDS = {
     criticalThreshold: 100,
     warningThreshold: 500,
     target: 0
-  }
+  },
   linting: {
     criticalThreshold: 1000,
     warningThreshold: 2000,
     target: 0
-  }
+  },
   performance: {
     renderTime: 16, // 60fps target,
     memoryUsage: 50, // MB,
     bundleSize: 250, // KB,
     apiResponseTime: 2000, // 2 seconds
-  }
+  },
   planetaryData: {
     positionAccuracy: 0.1, // degrees,
     _cacheValidityHours: 6,
@@ -46,12 +46,12 @@ export interface QualityMetrics {
     memoryUsage: number,
     bundleSize: number,
     apiResponseTime: number
-  }
+  },
   planetaryDataQuality: {
     accuracy: number,
     freshness: number,
     reliability: number
-  }
+  },
   ingredientConsistency: {
     elementalValidation: number,
     compatibilityScores: number,
@@ -431,12 +431,12 @@ export class AutomatedQualityAssurance {
         memoryUsage: 0,
         bundleSize: 0,
         apiResponseTime: 0
-      }
+      },
       planetaryDataQuality: {
         accuracy: 1.0,
         freshness: 1.0,
         reliability: 1.0
-      }
+      },
       ingredientConsistency: {
         elementalValidation: 1.0,
         compatibilityScores: 1.0,

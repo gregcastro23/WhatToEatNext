@@ -15,7 +15,7 @@ const _mockPlanetaryData = {
     _bitter: 0.2,
     _umami: 0.6,
     _spicy: 0.3
-  }
+  },
   _foodAssociations: ['vegetables', 'grains', 'fruits', 'proteins'],
   _herbalAssociations: { Herbs: ['basil', 'thyme', 'mint', 'rosemary'] }
 }
@@ -119,7 +119,7 @@ export function generateTopSauceRecommendations(
         elemental: Math.round(elementalMatchScore * 100),
         astrological: Math.round(astrologicalScore * 100),
         flavor: Math.round(flavorMatchScore * 100)
-      }
+      },
       reasoning: [
         `${Math.round(elementalMatchScore * 100)}% elemental compatibility.`,
         `Aligns with the energy of ${currentPlanetaryDay}.`,

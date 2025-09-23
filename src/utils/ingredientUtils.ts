@@ -111,7 +111,7 @@ function _calculateSpiritValue(flavorProfile: FlavorProfile): number {
  * @returns The modality (Cardinal, Fixed, or Mutable)
  */
 export function determineIngredientModality(
-  qualities: string[] = []
+  qualities: string[] = [],
   elementalProperties?: ElementalProperties,
 ): any {
   // Ensure qualities is an array
@@ -386,7 +386,7 @@ export function mapToIngredient(mapping: IngredientMapping): Ingredient {
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-    }
+    },
     qualities: (mapping.qualities as unknown as string[]) || [],
     storage: (mapping.storage as unknown ) || {
       _duration: 'unknown'
@@ -424,7 +424,7 @@ export function ingredientToRecipeIngredient(
   unit = 'item'
 ): RecipeIngredient {
   return {
-    name: ingredient.name
+    name: ingredient.name,
     amount,
     unit,
     category: ingredient.category || 'culinary_herb',

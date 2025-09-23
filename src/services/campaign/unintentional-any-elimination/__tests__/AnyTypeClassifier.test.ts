@@ -255,7 +255,7 @@ describe('AnyTypeClassifier', () => {
             intentionalityHints: [],
             suggestedTypes: [],
             preservationReasons: []
-          }
+          },
           surroundingLines: [
             'const planetaryData: any = await getReliablePlanetaryPositions(),',,
             'const _transitDates: any = validateTransitDate(planet, date, sign),',
@@ -279,7 +279,7 @@ describe('AnyTypeClassifier', () => {
             intentionalityHints: [],
             suggestedTypes: [],
             preservationReasons: []
-          }
+          },
           surroundingLines: [
             'const _ingredientData: any = await fetchIngredientInfo(),',,
             'const _elementalProperties: any = calculateElementalBalance(),',
@@ -303,7 +303,7 @@ describe('AnyTypeClassifier', () => {
             intentionalityHints: [],
             suggestedTypes: [],
             preservationReasons: []
-          }
+          },
           surroundingLines: [
             'const campaignSettings: any = loadDynamicConfig(),',,
             'const _adaptiveStrategy: any = adjustCampaignBehavior(),',
@@ -327,7 +327,7 @@ describe('AnyTypeClassifier', () => {
             intentionalityHints: [],
             suggestedTypes: [],
             preservationReasons: []
-          }
+          },
           surroundingLines: [
             'const response: any = await externalService.call(),',,
             'const _mappedData: any = transformServiceResponse(response),',

@@ -32,7 +32,7 @@ describe('Campaign Infrastructure', () => {
           corruptionDetectionEnabled: true,
           automaticRollbackEnabled: true,
           stashRetentionDays: 7
-        }
+        },
         progressTargets: { typeScriptErrors: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 }
         toolConfiguration: {
           enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',

@@ -16,11 +16,11 @@ export const simmering: CookingMethodData = {
     Fire: 0.1,
     Air: 0.05,
     Earth: 0.05
-  }
+  },
   duration: {
     min: 15,
     max: 240
-  }
+  },
   suitable_for: [
     'stocks',
     'soups',
@@ -60,16 +60,16 @@ export const simmering: CookingMethodData = {
     dominantPlanets: ['Moon', 'Neptune', 'Venus'],
     rulingPlanets: ['Moon', 'Venus'],
     lunarPhaseEffect: {
-      full_moon: 1.4, // Strongly enhanced water energy
-      new_moon: 0.7, // Significantly diminished water energy
-      waxing_gibbous: 1.2, // Moderate enhancement
-      waning_crescent: 0.8, // Moderate reduction
-      first_quarter: 1.1, // Minor enhancement
-      third_quarter: 0.9, // Minor reduction
-      waxing_crescent: 1.05, // Slight enhancement
+      full_moon: 1.4, // Strongly enhanced water energy,
+      new_moon: 0.7, // Significantly diminished water energy,
+      waxing_gibbous: 1.2, // Moderate enhancement,
+      waning_crescent: 0.8, // Moderate reduction,
+      first_quarter: 1.1, // Minor enhancement,
+      third_quarter: 0.9, // Minor reduction,
+      waxing_crescent: 1.05, // Slight enhancement,
       waning_gibbous: 0.95, // Slight reduction
     }
-  }
+  },
   toolsRequired: [
     'Heavy-bottomed pot or Dutch oven',
     'Heat source with good control',
@@ -109,7 +109,7 @@ export const simmering: CookingMethodData = {
     'Freshly ground spices to finish'
   ],
   nutrientRetention: {
-    vitamins: 0.65, // Better retention than boiling
+    vitamins: 0.65, // Better retention than boiling,
     minerals: 0.7,
     proteins: 0.95,
     carbohydrates: 0.97,
@@ -117,19 +117,19 @@ export const simmering: CookingMethodData = {
     antioxidants: 0.6,
     phytonutrients: 0.55,
     fiber: 0.9
-  }
+  },
   optimalTemperatures: {
-    general_simmer: 185, // 185°F/85°C - gentle simmer
-    poaching_simmer: 160, // 160-180°F/71-82°C for delicate proteins
-    stock_simmer: 195, // 195°F/90°C for stocks
-    sauce_reduction: 190, // 190°F/88°C for reduction without burning
-    soup_simmer: 185, // 185°F/85°C for soups
-    stew_simmer: 180, // 180°F/82°C for stews
-    custard_simmer: 175, // 175°F/79°C for custards
-    fish_simmer: 165, // 165°F/74°C for fish
-    beans_simmer: 195, // 195°F/90°C for dried beans
+    general_simmer: 185, // 185°F/85°C - gentle simmer,
+    poaching_simmer: 160, // 160-180°F/71-82°C for delicate proteins,
+    stock_simmer: 195, // 195°F/90°C for stocks,
+    sauce_reduction: 190, // 190°F/88°C for reduction without burning,
+    soup_simmer: 185, // 185°F/85°C for soups,
+    stew_simmer: 180, // 180°F/82°C for stews,
+    custard_simmer: 175, // 175°F/79°C for custards,
+    fish_simmer: 165, // 165°F/74°C for fish,
+    beans_simmer: 195, // 195°F/90°C for dried beans,
     meat_simmer: 190, // 190°F/88°C for tough cuts
-  }
+  },
   regionalVariations: {
     french: [
       'mirepoix base for stocks',
@@ -169,22 +169,22 @@ export const simmering: CookingMethodData = {
       'palm oil infusions',
       'fish stew techniques'
     ]
-  }
+  },
   chemicalChanges: {
-    collagen_conversion: true, // Collagen to gelatin conversion
-    protein_denaturation: true, // Slower, more controlled than boiling
-    starch_gelatinization: true, // Complete but gentle
-    pectin_softening: true, // Thorough breakdown
-    volatile_compound_preservation: true, // Better than boiling
-    flavor_infusion: true, // Excellent for flavor exchange
-    fat_emulsification: true, // For sauces and stews
-    Maillard_reaction: false, // Temperature too low
-    caramelization: false, // Temperature too low
-    enzyme_deactivation: true, // Complete deactivation
-    vitamin_degradation: true, // Less than boiling but still occurs
-    flavor_concentration: true, // Through gentle reduction
+    collagen_conversion: true, // Collagen to gelatin conversion,
+    protein_denaturation: true, // Slower, more controlled than boiling,
+    starch_gelatinization: true, // Complete but gentle,
+    pectin_softening: true, // Thorough breakdown,
+    volatile_compound_preservation: true, // Better than boiling,
+    flavor_infusion: true, // Excellent for flavor exchange,
+    fat_emulsification: true, // For sauces and stews,
+    Maillard_reaction: false, // Temperature too low,
+    caramelization: false, // Temperature too low,
+    enzyme_deactivation: true, // Complete deactivation,
+    vitamin_degradation: true, // Less than boiling but still occurs,
+    flavor_concentration: true, // Through gentle reduction,
     cell_wall_breakdown: true, // Complete breakdown for vegetables
-  }
+  },
   safetyFeatures: [
     'Lower temperature reduces risk of burns compared to boiling',
     'Less splashing than rapid boiling',
@@ -201,9 +201,9 @@ export const simmering: CookingMethodData = {
     'Use caution when removing heavy pots from heat'
   ],
   thermodynamicProperties: {
-    heat: 0.6, // Moderate heat transfer rate
-    entropy: 0.5, // Moderate structural disruption
-    reactivity: 0.4, // Moderate chemical reactions
+    heat: 0.6, // Moderate heat transfer rate,
+    entropy: 0.5, // Moderate structural disruption,
+    reactivity: 0.4, // Moderate chemical reactions,
     gregsEnergy: -0.35, // Calculated using heat - (entropy * reactivity), // gregsEnergy = heat - (entropy * reactivity),
   } as ThermodynamicProperties,
 
@@ -261,7 +261,7 @@ export const simmering: CookingMethodData = {
     'Appropriate for therapeutic cooking (congee, broths)'
   ],
 
-  sustainabilityRating: 0.85, // High - energy efficient over time with minimal waste
+  sustainabilityRating: 0.85, // High - energy efficient over time with minimal waste,
 
   equipmentComplexity: 0.3, // Low - requires basic equipment available worldwide
 }

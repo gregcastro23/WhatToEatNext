@@ -80,8 +80,8 @@ export class UnintentionalAnyEliminationCampaign {
               maxFiles: this.config.maxFilesPerBatch,
               analysisOnly: true,
               confidenceThreshold: this.config.confidenceThreshold
-            }
-            batchSize: this.config.maxFilesPerBatch
+            },
+            batchSize: this.config.maxFilesPerBatch,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
             safetyLevel: 'MAXIMUM' as any
           }
@@ -91,7 +91,7 @@ export class UnintentionalAnyEliminationCampaign {
             // Validate that analysis completed without errors
             return true
           }
-        }
+        },
         safetyCheckpoints: [
           {
             id: 'pre-analysis',
@@ -114,8 +114,8 @@ export class UnintentionalAnyEliminationCampaign {
               enableReplacement: true,
               confidenceThreshold: this.config.confidenceThreshold,
               targetReduction: this.config.targetReductionPercentage
-            }
-            batchSize: this.config.maxFilesPerBatch
+            },
+            batchSize: this.config.maxFilesPerBatch,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
             safetyLevel: 'MAXIMUM' as any
           }
@@ -126,7 +126,7 @@ export class UnintentionalAnyEliminationCampaign {
             const currentCount = await this.progressTracker.getTypeScriptErrorCount()
             return currentCount >= 0, // Basic validation that build still works
           }
-        }
+        },
         safetyCheckpoints: [
           {
             id: 'pre-replacement',
@@ -155,8 +155,8 @@ export class UnintentionalAnyEliminationCampaign {
               enableDocumentation: this.config.enableDocumentation,
               documentationStyle: 'comprehensive',
               qualityAssurance: true
-            }
-            batchSize: this.config.maxFilesPerBatch
+            },
+            batchSize: this.config.maxFilesPerBatch,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
             safetyLevel: 'HIGH' as any
           }
@@ -166,7 +166,7 @@ export class UnintentionalAnyEliminationCampaign {
             // Validate that documentation was added
             return true
           }
-        }
+        },
         safetyCheckpoints: [
           {
             id: 'pre-documentation',
@@ -277,7 +277,7 @@ export class UnintentionalAnyEliminationCampaign {
           lintingWarningsReduced: result.unintentionalTypesReplaced,
           buildTimeImproved: 0,
           enterpriseSystemsAdded: 0
-        }
+        },
         filesProcessed: result.totalAnyTypesAnalyzed,
         errorsFixed: result.unintentionalTypesReplaced,
         warningsFixed: result.unintentionalTypesReplaced,
@@ -295,7 +295,7 @@ export class UnintentionalAnyEliminationCampaign {
           lintingWarningsReduced: 0,
           buildTimeImproved: 0,
           enterpriseSystemsAdded: 0
-        }
+        },
         filesProcessed: 0,
         errorsFixed: 0,
         warningsFixed: 0,

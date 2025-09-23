@@ -39,7 +39,7 @@ export const indian: Cuisine = {
             'dosa batter': ['quinoa dosa batter', 'mung bean dosa batter'],
             ghee: ['oil', 'vegan butter'],
             'potato filling': ['cauliflower filling', 'mixed vegetable filling']
-          }
+          },
           servingSize: 2,
           allergens: ['none'],
           prepTime: '15 minutes',
@@ -56,7 +56,7 @@ export const indian: Cuisine = {
             fat: 8,
             vitamins: ['B12', 'C', 'D'],
             minerals: ['Iron', 'Potassium']
-          }
+          },
           season: ['all'],
           mealType: ['breakfast', 'lunch'],
           elementalProperties: {
@@ -102,7 +102,7 @@ export const indian: Cuisine = {
             'whole wheat flour': ['gluten-free flour blend', 'millet flour'],
             butter: ['oil', 'ghee', 'vegan butter'],
             yogurt: ['plant-based yogurt', 'mashed pumpkin']
-          }
+          },
           servingSize: 4,
           allergens: ['gluten', 'dairy'],
           prepTime: '30 minutes',
@@ -119,7 +119,7 @@ export const indian: Cuisine = {
             fat: 12,
             vitamins: ['B1', 'C'],
             minerals: ['Iron', 'Potassium']
-          }
+          },
           season: ['all'],
           mealType: ['breakfast'],
           elementalProperties: {
@@ -154,7 +154,7 @@ export const indian: Cuisine = {
             'idli rice': ['parboiled rice'],
             'urad dal': ['quick idli mix'],
             'sambar powder': ['homemade spice blend']
-          }
+          },
           servingSize: 4,
           allergens: ['none'],
           prepTime: '8 hours',
@@ -172,7 +172,7 @@ export const indian: Cuisine = {
             fat: 6,
             vitamins: ['B12', 'C'],
             minerals: ['Iron', 'Calcium']
-          }
+          },
           season: ['all'],
           mealType: ['breakfast'],
           elementalProperties: {
@@ -217,7 +217,7 @@ export const indian: Cuisine = {
             peanuts: ['cashews', 'roasted chana'],
             'curry leaves': ['bay leaves'],
             'flattened rice': ['quinoa flakes']
-          }
+          },
           servingSize: 2,
           allergens: ['peanuts'],
           prepTime: '10 minutes',
@@ -234,7 +234,7 @@ export const indian: Cuisine = {
             fat: 12,
             vitamins: ['B1', 'E'],
             minerals: ['Iron', 'Magnesium']
-          }
+          },
           season: ['all'],
           mealType: ['breakfast', 'snack'],
           elementalProperties: {
@@ -245,7 +245,7 @@ export const indian: Cuisine = {
           }
         }
       ]
-    }
+    },
     lunch: {
       all: [
         {
@@ -275,7 +275,7 @@ export const indian: Cuisine = {
             ghee: ['oil', 'vegan butter'],
             asafoetida: ['garlic powder', 'omit'],
             'yellow lentils': ['red lentils', 'split mung dal']
-          }
+          },
           servingSize: 4,
           allergens: ['none'],
           prepTime: '10 minutes',
@@ -292,7 +292,7 @@ export const indian: Cuisine = {
             fat: 8,
             vitamins: ['B1', 'C'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['all'],
           mealType: ['lunch', 'dinner']
         }
@@ -335,7 +335,7 @@ export const indian: Cuisine = {
             yogurt: ['coconut yogurt', 'cashew yogurt'],
             'curry leaves': ['bay leaves'],
             'gram flour': ['chickpea flour']
-          }
+          },
           servingSize: 4,
           allergens: ['dairy'],
           prepTime: '15 minutes',
@@ -352,7 +352,7 @@ export const indian: Cuisine = {
             fat: 8,
             vitamins: ['B12', 'D'],
             minerals: ['Calcium', 'Phosphorus']
-          }
+          },
           season: ['summer'],
           mealType: ['lunch']
         }
@@ -391,7 +391,7 @@ export const indian: Cuisine = {
             cream: ['cashew cream', 'coconut cream'],
             butter: ['vegan butter', 'oil'],
             'black lentils': ['brown lentils']
-          }
+          },
           servingSize: 6,
           allergens: ['dairy'],
           prepTime: 'overnight + 30 minutes',
@@ -408,12 +408,12 @@ export const indian: Cuisine = {
             fat: 22,
             vitamins: ['A', 'K'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['winter'],
           mealType: ['lunch', 'dinner']
         }
       ]
-    }
+    },
     dinner: {
       all: [
         {
@@ -455,7 +455,7 @@ export const indian: Cuisine = {
             chicken: ['cauliflower', 'seitan', 'paneer'],
             cream: ['cashew cream', 'coconut cream'],
             butter: ['vegan butter', 'oil']
-          }
+          },
           servingSize: 4,
           allergens: ['dairy'],
           prepTime: 'overnight + 30 minutes',
@@ -472,7 +472,7 @@ export const indian: Cuisine = {
             fat: 42,
             vitamins: ['A', 'D', 'B12'],
             minerals: ['Iron', 'Calcium']
-          }
+          },
           season: ['all'],
           mealType: ['dinner']
         }
@@ -516,7 +516,7 @@ export const indian: Cuisine = {
             lamb: ['chicken', 'jackfruit', 'mushrooms'],
             ghee: ['oil', 'vegan butter'],
             yogurt: ['coconut yogurt', 'cashew yogurt']
-          }
+          },
           servingSize: 6,
           allergens: ['dairy'],
           prepTime: '2 hours',
@@ -533,7 +533,7 @@ export const indian: Cuisine = {
             fat: 28,
             vitamins: ['B12', 'B6'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['all'],
           mealType: ['dinner', 'special occasion']
         }
@@ -564,7 +564,7 @@ export const indian: Cuisine = {
             paneer: ['firm tofu', 'tempeh'],
             cream: ['cashew cream', 'coconut cream'],
             spinach: ['swiss chard', 'mustard greens']
-          }
+          },
           servingSize: 4,
           allergens: ['dairy'],
           prepTime: '20 minutes',
@@ -581,7 +581,7 @@ export const indian: Cuisine = {
             fat: 20,
             vitamins: ['A', 'K', 'C'],
             minerals: ['Iron', 'Calcium']
-          }
+          },
           season: ['winter'],
           mealType: ['lunch', 'dinner']
         }
@@ -612,7 +612,7 @@ export const indian: Cuisine = {
             'all-purpose flour': ['whole wheat flour'],
             yogurt: ['plant-based yogurt'],
             ghee: ['oil']
-          }
+          },
           servingSize: 6,
           allergens: ['gluten', 'dairy'],
           prepTime: 'overnight + 30 minutes',
@@ -629,7 +629,7 @@ export const indian: Cuisine = {
             fat: 16,
             vitamins: ['B6', 'C'],
             minerals: ['Iron', 'Folate']
-          }
+          },
           season: ['winter'],
           mealType: ['breakfast', 'lunch']
         }
@@ -660,7 +660,7 @@ export const indian: Cuisine = {
             paneer: ['tofu', 'mixed vegetables'],
             cream: ['cashew cream', 'coconut cream'],
             cashews: ['almonds', 'sunflower seeds']
-          }
+          },
           servingSize: 4,
           allergens: ['dairy', 'nuts'],
           prepTime: '45 minutes',
@@ -677,7 +677,7 @@ export const indian: Cuisine = {
             fat: 34,
             vitamins: ['A', 'D'],
             minerals: ['Calcium', 'Iron']
-          }
+          },
           season: ['winter'],
           mealType: ['dinner', 'special occasion']
         }
@@ -714,7 +714,7 @@ export const indian: Cuisine = {
             'black salt': ['regular salt'],
             tamarind: ['lime juice'],
             'sprouted moong': ['boiled chickpeas']
-          }
+          },
           servingSize: 4,
           allergens: ['gluten'],
           prepTime: '30 minutes',
@@ -731,7 +731,7 @@ export const indian: Cuisine = {
             fat: 4,
             vitamins: ['C', 'B6'],
             minerals: ['Iron', 'Potassium']
-          }
+          },
           season: ['summer'],
           mealType: ['snack', 'appetizer']
         }
@@ -770,7 +770,7 @@ export const indian: Cuisine = {
             eggplant: ['zucchini', 'mushrooms'],
             'green chilies': ['red chili powder', 'black pepper'],
             'fresh tomatoes': ['canned tomatoes']
-          }
+          },
           servingSize: 4,
           allergens: [],
           prepTime: '20 minutes',
@@ -787,7 +787,7 @@ export const indian: Cuisine = {
             fat: 8,
             vitamins: ['C', 'K', 'B6'],
             minerals: ['Potassium', 'Manganese']
-          }
+          },
           season: ['summer', 'autumn'],
           mealType: ['dinner'],
           elementalProperties: {
@@ -844,7 +844,7 @@ export const indian: Cuisine = {
             lamb: ['beef', 'mushrooms', 'seitan'],
             yogurt: ['coconut yogurt', 'cashew yogurt'],
             'kashmiri chilies': ['paprika + cayenne']
-          }
+          },
           servingSize: 6,
           allergens: ['dairy'],
           prepTime: '30 minutes',
@@ -861,12 +861,12 @@ export const indian: Cuisine = {
             fat: 38,
             vitamins: ['B12', 'D'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['winter'],
           mealType: ['dinner']
         }
       ]
-    }
+    },
     dessert: {
       all: [
         {
@@ -902,7 +902,7 @@ export const indian: Cuisine = {
             'milk powder': ['almond flour blend', 'coconut milk powder'],
             ghee: ['vegetable oil'],
             milk: ['plant-based milk']
-          }
+          },
           servingSize: 15,
           allergens: ['dairy', 'gluten'],
           prepTime: '30 minutes',
@@ -919,7 +919,7 @@ export const indian: Cuisine = {
             fat: 8,
             vitamins: ['D', 'A'],
             minerals: ['Calcium']
-          }
+          },
           season: ['all'],
           mealType: ['dessert']
         }
@@ -955,7 +955,7 @@ export const indian: Cuisine = {
             milk: ['full-fat plant milk + agar'],
             pistachios: ['almonds', 'cashews'],
             'rose water': ['kewra water', 'vanilla']
-          }
+          },
           servingSize: 8,
           allergens: ['dairy', 'nuts'],
           prepTime: '45 minutes',
@@ -972,7 +972,7 @@ export const indian: Cuisine = {
             fat: 10,
             vitamins: ['D', 'B12'],
             minerals: ['Calcium', 'Potassium']
-          }
+          },
           season: ['all'],
           mealType: ['dessert']
         }
@@ -1002,7 +1002,7 @@ export const indian: Cuisine = {
             milk: ['coconut milk', 'cashew milk'],
             pistachios: ['any nuts'],
             sugar: ['jaggery', 'date syrup']
-          }
+          },
           servingSize: 6,
           allergens: ['dairy', 'nuts'],
           prepTime: '30 minutes',
@@ -1020,7 +1020,7 @@ export const indian: Cuisine = {
             fat: 12,
             vitamins: ['A', 'D'],
             minerals: ['Calcium', 'Phosphorus']
-          }
+          },
           season: ['summer'],
           mealType: ['dessert']
         }
@@ -1043,14 +1043,14 @@ export const indian: Cuisine = {
             fat: 12,
             vitamins: ['A', 'D'],
             minerals: ['Calcium', 'Phosphorus']
-          }
+          },
           timeToMake: '240 minutes',
           season: ['summer'],
           mealType: ['dessert']
         }
       ]
     }
-  }
+  },
   traditionalSauces: {
     tandoori: {
       name: 'Tandoori Marinade',
@@ -1070,14 +1070,14 @@ export const indian: Cuisine = {
         Earth: 0.2,
         Water: 0.2,
         Air: 0.1
-      }
+      },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'all',
       preparationNotes:
         'Allow marination for at least 4 hours, preferably overnight for best flavor',
       technicalTips:
         'For authentic color, use Kashmiri chili powder which adds color without excess heat'
-    }
+    },
     tikka_masala: {
       name: 'Tikka Masala',
       description: 'Rich tomato-based curry sauce with cream and aromatic spices',
@@ -1095,12 +1095,12 @@ export const indian: Cuisine = {
         Water: 0.3,
         Earth: 0.3,
         Air: 0.1
-      }
+      },
       astrologicalInfluences: ['Venus', 'Moon', 'Taurus'],
       seasonality: 'all',
       preparationNotes: 'Allow the sauce to simmer gently to develop complex flavors',
       technicalTips: 'Add kasuri methi (dried fenugreek leaves) at the end for authentic aroma'
-    }
+    },
     raita: {
       name: 'Raita',
       description: 'Cooling yogurt condiment with vegetables and spices',
@@ -1113,12 +1113,12 @@ export const indian: Cuisine = {
         Earth: 0.2,
         Air: 0.2,
         Fire: 0.0
-      }
+      },
       astrologicalInfluences: ['Moon', 'Venus', 'Cancer'],
       seasonality: 'all',
       preparationNotes: 'Use thick, strained yogurt for best texture',
       technicalTips: 'Salt and drain cucumber to prevent watery raita'
-    }
+    },
     tamarind_chutney: {
       name: 'Tamarind Chutney',
       description: 'Sweet and sour condiment made from tamarind pulp, jaggery and spices',
@@ -1131,12 +1131,12 @@ export const indian: Cuisine = {
         Fire: 0.3,
         Earth: 0.2,
         Air: 0.1
-      }
+      },
       astrologicalInfluences: ['Mercury', 'Saturn', 'Gemini'],
       seasonality: 'all',
       preparationNotes: 'Balance sweet, sour, and spicy elements carefully',
       technicalTips: 'Strain thoroughly for smooth consistency'
-    }
+    },
     coriander_mint_chutney: {
       name: 'Coriander-Mint Chutney',
       description: 'Fresh, vibrant green chutney with herbs and green chilies',
@@ -1149,12 +1149,12 @@ export const indian: Cuisine = {
         Water: 0.3,
         Fire: 0.2,
         Earth: 0.0
-      }
+      },
       astrologicalInfluences: ['Mercury', 'Moon', 'Virgo'],
       seasonality: 'all',
       preparationNotes: 'Use ice water when blending to maintain bright green color',
       technicalTips: 'Add a small amount of yogurt for creamier texture and longer shelf life'
-    }
+    },
     coconut_curry: {
       name: 'Coconut Curry Sauce',
       description: 'Creamy, aromatic sauce with coconut milk and south Indian spices',
@@ -1178,12 +1178,12 @@ export const indian: Cuisine = {
         Earth: 0.2,
         Fire: 0.2,
         Air: 0.1
-      }
+      },
       astrologicalInfluences: ['Moon', 'Neptune', 'Pisces'],
       seasonality: 'all',
       preparationNotes: 'Temper spices properly to release their flavors into the coconut milk',
       technicalTips: 'Use full-fat coconut milk for richness, light coconut milk may separate'
-    }
+    },
     onion_tomato_masala: {
       name: 'Onion-Tomato Masala',
       description: 'Foundational sauce of caramelized onions and tomatoes for North Indian curries',
@@ -1196,13 +1196,13 @@ export const indian: Cuisine = {
         Earth: 0.3,
         Water: 0.2,
         Air: 0.1
-      }
+      },
       astrologicalInfluences: ['Mars', 'Sun', 'Leo'],
       seasonality: 'all',
       preparationNotes: 'Properly caramelizing onions (bhunao) is the key to depth of flavor',
       technicalTips: 'Prepare in large batches and freeze in portions for quick weeknight cooking'
     }
-  }
+  },
   sauceRecommender: {
     forProtein: {
       chicken: ['tandoori marinade', 'tikka masala', 'korma', 'kadhai masala', 'coconut curry'],
@@ -1230,7 +1230,7 @@ export const indian: Cuisine = {
         'mirchi ka salan',
         'tomato chutney base'
       ]
-    }
+    },
     forVegetable: {
       leafy: [
         'palak sauce',
@@ -1269,7 +1269,7 @@ export const indian: Cuisine = {
         'sambhar base',
         'peanut sauce'
       ]
-    }
+    },
     forCookingMethod: {
       tandoor: [
         'tandoori marinade',
@@ -1313,7 +1313,7 @@ export const indian: Cuisine = {
         'ginger-garlic base',
         'dry mango spice'
       ]
-    }
+    },
     byAstrological: {
       fire: [
         'laal maas sauce',
@@ -1325,7 +1325,7 @@ export const indian: Cuisine = {
       earth: ['dal makhani sauce', 'korma paste', 'malai sauce', 'shahi gravy', 'tempering oil'],
       air: ['raita', 'green chutney', 'kadhi sauce', 'tamarind chutney', 'coriander_mint_chutney'],
       water: ['coconut curry sauce', 'moilee gravy', 'dahi wali gravy', 'rasam', 'kadhi']
-    }
+    },
     byRegion: {
       north: ['makhani sauce', 'korma', 'kadhai masala', 'yakhni', 'onion_tomato_masala'],
       south: ['sambar', 'rasam', 'chettinad masala', 'moilee gravy', 'coconut_curry'],
@@ -1339,7 +1339,7 @@ export const indian: Cuisine = {
         'bhut jolokia oil',
         'fish sauce'
       ]
-    }
+    },
     byDietary: {
       vegetarian: ['palak sauce', 'coconut curry', 'kadhi sauce', 'sambar', 'tikka_masala'],
       vegan: ['chana masala', 'tadka dal', 'bharta masala', 'amchur sauce', 'coconut_curry'],
@@ -1364,7 +1364,7 @@ export const indian: Cuisine = {
         'suran masala',
         'arbi gravy'
       ]
-    }
+    },
     byFlavor: {
       spicy: [
         'vindaloo paste',
@@ -1442,7 +1442,7 @@ export const indian: Cuisine = {
       elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 }
       astrologicalInfluences: ['Mars', 'Jupiter', 'taurus'],
       seasonality: 'all'
-    }
+    },
     bengali: {
       name: 'Bengali Cuisine',
       description:
@@ -1451,7 +1451,7 @@ export const indian: Cuisine = {
       elementalProperties: { Water: 0.5, Earth: 0.2, Air: 0.2, Fire: 0.1 }
       astrologicalInfluences: ['Venus', 'Moon', 'cancer'],
       seasonality: 'all'
-    }
+    },
     south_indian: {
       name: 'South Indian Cuisine',
       description:
@@ -1460,7 +1460,7 @@ export const indian: Cuisine = {
       elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 }
       astrologicalInfluences: ['Mercury', 'Sun', 'virgo'],
       seasonality: 'all'
-    }
+    },
     gujarati: {
       name: 'Gujarati Cuisine',
       description: 'Vegetarian cuisine with balance of sweet, salty and spicy flavors',
@@ -1469,7 +1469,7 @@ export const indian: Cuisine = {
       astrologicalInfluences: ['Jupiter', 'Mercury', 'gemini'],
       seasonality: 'all'
     }
-  }
+  },
   elementalProperties: {
     Fire: 0.5,
     Earth: 0.2,

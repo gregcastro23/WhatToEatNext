@@ -73,13 +73,13 @@ export interface UseEnterpriseIntelligenceReturn {
     validation: string[],
     safety: string[],
     optimization: string[]
-  }
+  },
   systemHealth: {
     overall: 'excellent' | 'good' | 'fair' | 'poor',
     score: number,
     issues: string[],
     warnings: string[]
-  }
+  },
   isHealthy: boolean,
   needsAttention: boolean
 }

@@ -21,19 +21,19 @@ interface QualityGateConfig {
     warningThreshold: number,
     criticalThreshold: number,
     baselineCount: number
-  }
+  },
   typescript: {
     maxErrors: number,
     criticalErrorTypes: string[]
-  }
+  },
   linting: {
     maxWarnings: number,
     criticalRules: string[]
-  }
+  },
   performance: {
     maxBuildTime: number, // seconds,
     maxBundleSize: number, // MB
-  }
+  },
   documentation: {
     requireDocumentedAnyTypes: boolean,
     minCoveragePercent: number
@@ -70,23 +70,23 @@ class QualityGatesSystem {
         warningThreshold: 280,
         criticalThreshold: 300,
         baselineCount: 275, // Current, achievement: 36.78% reduction
-      }
+      },
       typescript: {
         maxErrors: 0,
         criticalErrorTypes: ['TS2304', 'TS2339', 'TS2345', 'TS2322']
-      }
+      },
       linting: {
-        maxWarnings: 4500, // Current baseline
+        maxWarnings: 4500, // Current baseline,
         criticalRules: [
           '@typescript-eslint/no-explicit-any',
           '@typescript-eslint/no-unused-vars',
           'react-hooks/exhaustive-deps'
         ]
-      }
+      },
       performance: {
         maxBuildTime: 30,
         maxBundleSize: 10
-      }
+      },
       documentation: {
         requireDocumentedAnyTypes: true,
         minCoveragePercent: 80
@@ -598,9 +598,9 @@ Last Audit: ${metrics.lastAuditDate.toISOString()}
 
     const workflow = `name: Quality, Gateson:
   push:
-    branches: [ main, develop ]
+    branches: [ main, develop ],
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main, develop ],
 
 jobs:
   quality-gates:
@@ -613,20 +613,20 @@ jobs:
       uses: actions/setup-node@v4,
       with:
         node-version: '20'
-        cache: 'yarn'
+        cache: 'yarn',
 
     - name: Install dependencies,
-      run: yarn install --frozen-lockfile
+      run: yarn install --frozen-lockfile,
 
     - name: Run Quality Gates,
-      run: node src/scripts/quality-gates/QualityGatesSystem.ts ci-cd
+      run: node src/scripts/quality-gates/QualityGatesSystem.ts ci-cd,
 
     - name: Upload Quality Report,
       uses: actions/upload-artifact@v4,
-      if: always()
+      if: always(),
       with:
-        name: quality-report
-        path: .kiro/specs/unintentional-any-elimination/quality-metrics.json
+        name: quality-report,
+        path: .kiro/specs/unintentional-any-elimination/quality-metrics.json,
 
     - name: Comment PR with Quality Status,
       if: github.event_name == 'pull_request',
@@ -727,15 +727,15 @@ echo '📊 Audit completed at $(date)'
     // Create audit configuration
     const auditConfig = {
       schedule: {
-        daily: '0 9 * * *', // 9 AM daily
-        weekly: '0 9 * * 1', // 9 AM Monday
+        daily: '0 9 * * *', // 9 AM daily,
+        weekly: '0 9 * * 1', // 9 AM Monday,
         monthly: '0 9 1 * *', // 9 AM 1st of month
-      }
+      },
       notifications: {
         email: process.env.AUDIT_EMAIL || 'dev-team@example.com',
         slack: process.env.AUDIT_SLACK_WEBHOOK || '',
         teams: process.env.AUDIT_TEAMS_WEBHOOK || ''
-      }
+      },
       thresholds: this.config,
       actions: {
         onCritical: 'trigger-emergency-campaign',
@@ -857,7 +857,7 @@ if (require.main === module) {,
         })
       break,
 
-    default: // // // _logger.info(`
+    default: // // // _logger.info(`,
 Usage: node QualityGatesSystem.ts <command>
 
 Commands:

@@ -14,8 +14,8 @@ import { log } from '@/services/LoggingService';
 
 interface ImportCleanupResult {
   filesProcessed: number,
-  importsRemoved: number;
-  importsOrganized: number;
+  importsRemoved: number;,
+  importsOrganized: number;,
   errors: string[],
   warnings: string[]
 }
@@ -39,8 +39,8 @@ export class UnusedImportProcessor {
     log.info('🧹 Processing import cleanup...\n')
     const result: ImportCleanupResult = {
       filesProcessed: 0,
-      importsRemoved: 0;
-      importsOrganized: 0;
+      importsRemoved: 0;,
+      importsOrganized: 0;,
       errors: [],
       warnings: []
     }
@@ -164,7 +164,7 @@ export class UnusedImportProcessor {
             argsIgnorePattern: '^(_|React|Component|useState|useEffect|useMemo|useCallback)'
           }
         ]
-      }
+      },
       overrides: [
         {
           // Preserve critical astrological and campaign files,

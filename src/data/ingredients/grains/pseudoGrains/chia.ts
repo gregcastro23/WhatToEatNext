@@ -11,7 +11,7 @@ const rawChia: Record<string, Partial<IngredientMapping>> = {
         base: 'Water',
         secondary: 'Earth'
       }
-    }
+    },
     qualities: ['gelatinous', 'hydrophilic', 'versatile', 'gluten-free', 'omega-rich'],
     category: 'pseudo_grain',
     origin: ['Central America', 'Mexico', 'Guatemala'],
@@ -25,15 +25,15 @@ const rawChia: Record<string, Partial<IngredientMapping>> = {
           'Stir after adding to liquid to prevent clumping',
           'Can be used directly in baking without soaking'
         ]
-      }
+      },
       methods: ['soaked', 'ground', 'raw sprinkled', 'incorporated into batter']
-    }
+    },
     storage: {
       container: 'Airtight container',
       duration: 'Up to 2 years (dry), 5-7 days (prepared)',
       temperature: 'Cool, dark place (dry), refrigerated (prepared)',
       notes: 'High oil content, but surprisingly shelf-stable when kept dry'
-    }
+    },
     pairingRecommendations: {
       complementary: ['fruits', 'yogurt', 'oats', 'honey', 'cinnamon', 'almond milk', 'coconut'],
       contrasting: ['citrus', 'spices', 'chocolate'],

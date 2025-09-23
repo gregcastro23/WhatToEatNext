@@ -137,7 +137,7 @@ export class AlchemicalRecommendationService {
           // Fallback to basic elemental compatibility
           return {
             ingredient,
-            score: this.engine.calculateElementalCompatibility(
+            score: this.engine.calculateElementalCompatibility(,
               elementalProperties,
               ingredient.elementalProperties
             ),
@@ -166,7 +166,7 @@ export class AlchemicalRecommendationService {
     return methods
       .map(method => ({
         method,
-        score: this.engine.calculateElementalCompatibility(
+        score: this.engine.calculateElementalCompatibility(,
           elementalProperties,
           ((method as unknown as any).elementalState as ElementalProperties) || {
             Fire: 0.25,

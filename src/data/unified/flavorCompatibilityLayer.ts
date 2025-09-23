@@ -220,7 +220,7 @@ export function getCuisineProfile(cuisineName: string): LegacyCuisineProfile | n
         bitter: cuisineProfile.baseNotes.bitter,
         umami: cuisineProfile.baseNotes.umami,
         spicy: cuisineProfile.baseNotes.spicy
-      }
+      },
       elementalProperties: cuisineProfile.elementalFlavors,
       signatureIngredients: cuisineProfile.pairingRecommendations,
       signatureTechniques: cuisineProfile.preparationMethods,
@@ -298,7 +298,7 @@ function convertLegacyToUnified(legacyProfile, _id: string): UnifiedFlavorProfil
       summer: 0.5,
       autumn: 0.5,
       winter: 0.5
-    }
+    },
     culturalOrigins: legacyProfile.culturalOrigins || ['Universal'],
     pairingRecommendations: legacyProfile.pairingRecommendations || [],
 
@@ -353,7 +353,7 @@ function createMinimalProfile(
       bitter: 0.25,
       umami: 0.25,
       spicy: 0.25
-    }
+    },
     elementalFlavors: elementalProperties,
     intensity: 0.5,
     complexity: 0.5,
@@ -369,7 +369,7 @@ function createMinimalProfile(
       fall: 0.5,
       winter: 0.5,
       all: 0.5
-    }
+    },
     culturalOrigins: ['Universal'],
     pairingRecommendations: [],
 

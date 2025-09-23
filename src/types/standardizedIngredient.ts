@@ -603,14 +603,14 @@ export function assessDataCompleteness(ingredient: StandardizedIngredient): Data
 
   return {
     overall: overallScore,
-    nutrition: ingredient.nutritionalProfile
+    nutrition: ingredient.nutritionalProfile,
       ? Math.round((Object.keys(ingredient.nutritionalProfile).length / 15) * 100)
       : 0,
-    culinary: ingredient.culinaryApplications
+    culinary: ingredient.culinaryApplications,
       ? Math.round((Object.keys(ingredient.culinaryApplications).length / 10) * 100)
       : 0,
     astrology: ingredient.astrologicalProfile ? 85 : 0,
-    varieties: ingredient.varieties
+    varieties: ingredient.varieties,
       ? Math.min(100, Object.keys(ingredient.varieties).length * 25)
       : 0,
     storage: ingredient.storage ? 90 : 0,

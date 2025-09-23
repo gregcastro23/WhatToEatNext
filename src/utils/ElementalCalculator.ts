@@ -21,7 +21,7 @@ export function calculateMatchScore(
 
   // Ensure each elemental property is a valid number
   const validatedProperties = {
-    Fire: typeof elementalProperties.Fire === 'number' && !isNaN(elementalProperties.Fire)
+    Fire: typeof elementalProperties.Fire === 'number' && !isNaN(elementalProperties.Fire),
         ? elementalProperties.Fire
         : 0.25,
     Water:
@@ -50,7 +50,7 @@ export function calculateMatchScore(
 
   // Validate elementalState to avoid NaN results
   const validatedState = {
-    Fire: typeof elementalState.Fire === 'number' && !isNaN(elementalState.Fire)
+    Fire: typeof elementalState.Fire === 'number' && !isNaN(elementalState.Fire),
         ? elementalState.Fire
         : 0.25,
     Water:

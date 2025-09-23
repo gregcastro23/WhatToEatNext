@@ -20,12 +20,12 @@ export const seasonalUsage = {
       greek: {
         combinations: ['mint + parsley', 'dill + garlic'],
         dishes: ['spring lamb', 'fresh salads']
-      }
+      },
       italian: {
         combinations: ['basil + tomato', 'pea + mint'],
         dishes: ['primavera pasta', 'spring risotto']
       }
-    }
+    },
     herbs: ['mint', 'chives', 'parsley', 'dill'],
     vegetables: ['asparagus', 'peas', 'artichokes', 'spring onions'],
     tarotAssociations: {
@@ -58,12 +58,12 @@ export const seasonalUsage = {
       greek: {
         combinations: ['cucumber + mint', 'tomato + feta'],
         dishes: ['tzatziki', 'greek salad', 'souvlaki']
-      }
+      },
       italian: {
         combinations: ['tomato + basil', 'zucchini + mint'],
         dishes: ['caprese salad', 'summer pasta', 'grilled vegetables']
       }
-    }
+    },
     herbs: ['basil', 'oregano', 'tarragon', 'cilantro'],
     vegetables: ['tomatoes', 'zucchini', 'eggplant', 'peppers'],
     tarotAssociations: {
@@ -97,12 +97,12 @@ export const seasonalUsage = {
       greek: {
         combinations: ['spinach + feta', 'lamb + herbs'],
         dishes: ['moussaka', 'stuffed peppers', 'roasted lamb']
-      }
+      },
       french: {
         combinations: ['mushroom + thyme', 'apple + cinnamon'],
         dishes: ['ratatouille', 'mushroom soup', 'apple tart']
       }
-    }
+    },
     herbs: ['sage', 'rosemary', 'thyme', 'bay leaf'],
     vegetables: ['pumpkin', 'squash', 'mushrooms', 'cauliflower'],
     tarotAssociations: {
@@ -136,12 +136,12 @@ export const seasonalUsage = {
       greek: {
         combinations: ['lemon + oregano', 'olive + herb'],
         dishes: ['avgolemono soup', 'winter stews', 'baked fish']
-      }
+      },
       french: {
         combinations: ['thyme + red wine', 'rosemary + garlic'],
         dishes: ['beef bourguignon', 'cassoulet', 'onion soup']
       }
-    }
+    },
     herbs: ['rosemary', 'thyme', 'sage', 'bay leaf'],
     vegetables: ['kale', 'brussels sprouts', 'root vegetables', 'cabbage'],
     tarotAssociations: {
@@ -176,7 +176,7 @@ export const seasonalUsage = {
         combinations: ['garlic + herbs', 'lemon + herbs'],
         dishes: ['roasted meats', 'soups', 'stews']
       }
-    }
+    },
     herbs: ['parsley', 'thyme', 'rosemary', 'bay leaf', 'oregano'],
     vegetables: ['onions', 'garlic', 'carrots', 'potatoes'],
     tarotAssociations: {

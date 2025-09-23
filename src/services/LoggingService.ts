@@ -205,14 +205,14 @@ const logger = LoggingService.getInstance()
  
 export const log = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  debug: (message: string, context?: LogContext, data?: any) =>
+  debug: (message: string, context?: LogContext, data?: any) =>,
     logger.debug(message, context, data),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   info: (message: string, context?: LogContext, data?: any) => logger.info(message, context, data),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   warn: (message: string, context?: LogContext, data?: any) => logger.warn(message, context, data),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  error: (message: string, context?: LogContext, error?: Error, data?: any) =>
+  error: (message: string, context?: LogContext, error?: Error, data?: any) =>,
     logger.error(message, context, error, data)
 }
 

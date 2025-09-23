@@ -26,7 +26,7 @@ export interface LintingIssue {
 }
 
 export interface IssueCategory {
-  primary: 'import' | 'typescript' | 'react' | 'style' | 'domain';
+  primary: 'import' | 'typescript' | 'react' | 'style' | 'domain';,
   secondary: string,
   priority: 1 | 2 | 3 | 4
 }
@@ -41,7 +41,7 @@ export interface DomainContext {
 
 export interface ResolutionStrategy {
   type: 'auto-fix' | 'manual-review' | 'rule-adjustment' | 'ignore',
-  confidence: number, // 0-1
+  confidence: number, // 0-1,
   riskLevel: 'low' | 'medium' | 'high',
   requiredValidation: ValidationRequirement[],
   estimatedEffort: number, // minutes,
@@ -158,7 +158,7 @@ export class LintingErrorAnalyzer {
         id: 'auto-fix',
         name: 'Automated Fixes',
         issues: categorizedErrors.autoFixable,
-        estimatedTime: Math.ceil(((categorizedErrors.autoFixable as any)?.length || 0) * 0.2), // 0.1 min per issue
+        estimatedTime: Math.ceil(((categorizedErrors.autoFixable as any)?.length || 0) * 0.2), // 0.1 min per issue,
         riskLevel: 'low',
         dependencies: []
       }
@@ -174,10 +174,10 @@ export class LintingErrorAnalyzer {
 
     if (importStyleIssues.length > 0) {
       const importStylePhase: ResolutionPhase = {
-        id: 'import-style';
+        id: 'import-style';,
         name: 'Import and Style Fixes',
-        issues: importStyleIssues;
-        estimatedTime: Math.ceil(((importStyleIssues as any)?.length || 0) * 0.2), // 0.5 min per issue
+        issues: importStyleIssues;,
+        estimatedTime: Math.ceil(((importStyleIssues as any)?.length || 0) * 0.2), // 0.5 min per issue,
         riskLevel: 'medium',
         dependencies: ['auto-fix']
       }
@@ -192,7 +192,7 @@ export class LintingErrorAnalyzer {
         id: 'typescript',
         name: 'TypeScript Fixes',
         issues: typescriptIssues,
-        estimatedTime: Math.ceil(typescriptIssues.length * 2), // 2 min per issue
+        estimatedTime: Math.ceil(typescriptIssues.length * 2), // 2 min per issue,
         riskLevel: 'high',
         dependencies: ['auto-fix', 'import-style']
       }
@@ -207,7 +207,7 @@ export class LintingErrorAnalyzer {
         id: 'react',
         name: 'React Fixes',
         issues: reactIssues,
-        estimatedTime: Math.ceil(reactIssues.length * 1), // 1 min per issue
+        estimatedTime: Math.ceil(reactIssues.length * 1), // 1 min per issue,
         riskLevel: 'medium',
         dependencies: ['typescript']
       }
@@ -222,7 +222,7 @@ export class LintingErrorAnalyzer {
         id: 'domain',
         name: 'Domain-Specific Fixes',
         issues: domainIssues,
-        estimatedTime: Math.ceil(domainIssues.length * 3), // 3 min per issue (requires domain knowledge)
+        estimatedTime: Math.ceil(domainIssues.length * 3), // 3 min per issue (requires domain knowledge),
         riskLevel: 'high',
         dependencies: ['typescript', 'react']
       }
@@ -319,7 +319,7 @@ export class LintingErrorAnalyzer {
       message: String(rawIssue.message || ''),
       severity: Number(rawIssue.severity) === 2 ? 'error' : 'warning',
       category,
-      autoFixable: Boolean((rawIssue as any).fix)
+      autoFixable: Boolean((rawIssue as any).fix),
       domainContext,
       resolutionStrategy
     }
@@ -374,8 +374,8 @@ export class LintingErrorAnalyzer {
     // Import-related issues
     if (rule.startsWith('import/')) {
       return {
-        primary: 'import';
-        secondary: rule.replace('import/', '');
+        primary: 'import';,
+        secondary: rule.replace('import/', '');,
         priority: 2
       }
     }
@@ -402,7 +402,7 @@ export class LintingErrorAnalyzer {
     if (domainContext.requiresSpecialHandling) {
       return {
         primary: 'domain',
-        secondary: domainContext.isAstrologicalCalculation
+        secondary: domainContext.isAstrologicalCalculation,
           ? 'astrological'
           : domainContext.isCampaignSystem
             ? 'campaign'

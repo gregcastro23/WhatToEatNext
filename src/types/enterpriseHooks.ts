@@ -94,11 +94,11 @@ export interface EnterpriseIntelligenceAnalysisState {
     dataIntegrity: {
       issues: string[],
       score: number
-    }
+    },
     astrologicalConsistency: {
       issues: string[],
       score: number
-    }
+    },
     overallValid: boolean
   }
   safetyIntelligence?: {
@@ -106,7 +106,7 @@ export interface EnterpriseIntelligenceAnalysisState {
     nutritionalConcerns: string[],
     interactionWarnings: string[],
     safetyScore: number
-  }
+  },
   timestamp: Date,
   processingTime: number
 }
@@ -141,7 +141,7 @@ export type EnterpriseIntelligenceHook = EnterpriseIntelligenceHookState &,
 export interface ChakraAnalysisContext {
   chakraType: 'root' | 'sacral' | 'solarPlexus' | 'heart' | 'throat' | 'brow' | 'crown',
   analysisMode: 'mantra' | 'visual' | 'nutritional' | 'functional' | 'platform',
-  analysisData: Record<string, unknown>
+  analysisData: Record<string, unknown>,
   chakraProperties: {
     color: string,
     element: string,

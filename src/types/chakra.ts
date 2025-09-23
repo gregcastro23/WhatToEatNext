@@ -82,7 +82,7 @@ export const _CHAKRAS: ChakraProperties  = {
     balanceIndicators: ['Security', 'Stability', 'Groundedness'],
     imbalanceIndicators: ['Fear', 'Anxiety', 'Survival issues'],
     planet: 'Saturn'
-  }
+  },
   sacral: {
     name: 'Sacral Chakra',
     sanskritName: 'Swadhisthana',
@@ -93,7 +93,7 @@ export const _CHAKRAS: ChakraProperties  = {
     balanceIndicators: ['Passion', 'Joy', 'Healthy boundaries'],
     imbalanceIndicators: ['Emotional issues', 'Addiction', 'Detachment'],
     planet: 'Jupiter'
-  }
+  },
   solarPlexus: {
     name: 'Solar Plexus Chakra',
     sanskritName: 'Manipura',
@@ -104,7 +104,7 @@ export const _CHAKRAS: ChakraProperties  = {
     balanceIndicators: ['Confidence', 'Motivation', 'Purpose'],
     imbalanceIndicators: ['Control issues', 'Lack of direction', 'Perfectionism'],
     planet: 'Mars'
-  }
+  },
   heart: {
     name: 'Heart Chakra',
     sanskritName: 'Anahata',
@@ -115,7 +115,7 @@ export const _CHAKRAS: ChakraProperties  = {
     balanceIndicators: ['Empathy', 'Openness', 'Connection'],
     imbalanceIndicators: ['Grief', 'Isolation', 'Resentment'],
     planet: 'Venus'
-  }
+  },
   throat: {
     name: 'Throat Chakra',
     sanskritName: 'Vishuddha',
@@ -126,7 +126,7 @@ export const _CHAKRAS: ChakraProperties  = {
     balanceIndicators: ['Clear communication', 'Authentic expression', 'Active listening'],
     imbalanceIndicators: ['Communication issues', 'Dishonesty', 'Inability to express'],
     planet: 'Mercury'
-  }
+  },
   brow: {
     name: 'Third Eye Chakra',
     sanskritName: 'Ajna',
@@ -137,7 +137,7 @@ export const _CHAKRAS: ChakraProperties  = {
     balanceIndicators: ['Clear insight', 'Strong intuition', 'Wisdom'],
     imbalanceIndicators: ['Confusion', 'Poor intuition', 'Lack of focus'],
     planet: 'Moon'
-  }
+  },
   crown: {
     name: 'Crown Chakra',
     sanskritName: 'Sahasrara',
@@ -148,7 +148,7 @@ export const _CHAKRAS: ChakraProperties  = {
     balanceIndicators: ['Enlightenment', 'Spiritual connection', 'Inner wisdom'],
     imbalanceIndicators: ['Closed-mindedness', 'Isolation', 'Over-intellectualization'],
     planet: 'Sun'
-  }
+  },
   thirdEye: {
     name: 'Third Eye Chakra',
     sanskritName: 'Ajna',

@@ -84,7 +84,7 @@ export class ValidationFramework {
     this.phaseValidations.set('phase1', {
       phaseId: 'phase1',
       phaseName: 'TypeScript Error Elimination',
-      successThreshold: 1.0, // Must achieve 100% - zero errors
+      successThreshold: 1.0, // Must achieve 100% - zero errors,
       criteria: [
         {
           id: 'typescript-errors-zero',
@@ -229,7 +229,7 @@ export class ValidationFramework {
     this.phaseValidations.set('phase2', {
       phaseId: 'phase2',
       phaseName: 'Linting Excellence Achievement',
-      successThreshold: 1.0, // Must achieve 100% - zero warnings
+      successThreshold: 1.0, // Must achieve 100% - zero warnings,
       criteria: [
         {
           id: 'linting-warnings-zero',
@@ -420,7 +420,7 @@ export class ValidationFramework {
     this.phaseValidations.set('phase3', {
       phaseId: 'phase3',
       phaseName: 'Enterprise Intelligence Transformation',
-      successThreshold: 0.9, // 90% threshold for intelligence systems
+      successThreshold: 0.9, // 90% threshold for intelligence systems,
       criteria: [
         {
           id: 'enterprise-systems-count',
@@ -563,7 +563,7 @@ export class ValidationFramework {
     this.phaseValidations.set('phase4', {
       phaseId: 'phase4',
       phaseName: 'Performance Optimization Maintenance',
-      successThreshold: 0.8, // 80% threshold for performance metrics
+      successThreshold: 0.8, // 80% threshold for performance metrics,
       criteria: [
         {
           id: 'build-time-target',

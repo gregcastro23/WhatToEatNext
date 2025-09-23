@@ -134,7 +134,7 @@ class AlertingSystem {
           type: 'performance',
           metric: 'build_time',
           condition: 'greater_than',
-          threshold: 120000, // 2 minutes
+          threshold: 120000, // 2 minutes,
           severity: 'critical',
           enabled: true,
           cooldownMinutes: 15,
@@ -184,7 +184,7 @@ class AlertingSystem {
                 campaignType: 'typescript-error-reduction',
                 maxFiles: 20,
                 safetyLevel: 'HIGH'
-              }
+              },
               conditions: ['error_count > 500'],
               retryCount: 1,
               timeoutSeconds: 1800
@@ -225,7 +225,7 @@ class AlertingSystem {
           type: 'system',
           metric: 'memory_usage',
           condition: 'greater_than',
-          threshold: 512 * 1024 * 1024, // 512MB
+          threshold: 512 * 1024 * 1024, // 512MB,
           severity: 'warning',
           enabled: true,
           cooldownMinutes: 10,
@@ -265,7 +265,7 @@ class AlertingSystem {
               config: {
                 campaignType: 'technical-debt-reduction',
                 priority: 'high'
-              }
+              },
               conditions: [],
               retryCount: 1,
               timeoutSeconds: 300
@@ -294,7 +294,7 @@ class AlertingSystem {
               config: {
                 message: 'Critical alert requires immediate attention',
                 channels: ['console', 'file']
-              }
+              },
               conditions: [],
               retryCount: 1,
               timeoutSeconds: 30
@@ -316,7 +316,7 @@ class AlertingSystem {
               config: {
                 campaignType: 'automated-error-fix',
                 conservative: true
-              }
+              },
               conditions: ['automation_opportunities > 5'],
               retryCount: 1,
               timeoutSeconds: 600
@@ -499,7 +499,7 @@ class AlertingSystem {
       severity: rule.severity,
       title: rule.name,
       description: `${rule.description}. Current value: ${currentValue}, Threshold: ${rule.threshold}`,
-      threshold: rule.threshold
+      threshold: rule.threshold,
       currentValue,
       timestamp: new Date(),
       acknowledged: false,

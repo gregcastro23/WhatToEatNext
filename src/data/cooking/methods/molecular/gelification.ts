@@ -15,11 +15,11 @@ export const gelification: CookingMethodData = {
     Water: 0.4,
     Air: 0.05,
     Fire: 0.05
-  }
+  },
   duration: {
     min: 10,
     max: 60
-  }
+  },
   suitable_for: [
     'fruit purees',
     'stock reductions',
@@ -64,12 +64,12 @@ export const gelification: CookingMethodData = {
     unfavorableZodiac: ['aries', 'leo', 'sagittarius'] as any[],
     dominantPlanets: ['Mercury', 'Saturn', 'Neptune'],
     lunarPhaseEffect: {
-      full_moon: 1.2, // Enhanced gel firmness
-      new_moon: 0.8, // Reduced setting power
-      waning_crescent: 0.8, // Difficult gel formation
+      full_moon: 1.2, // Enhanced gel firmness,
+      new_moon: 0.8, // Reduced setting power,
+      waning_crescent: 0.8, // Difficult gel formation,
       waxing_gibbous: 1.1, // Good balance of elasticity
     }
-  }
+  },
   toolsRequired: [
     'Precision scale (0.1g accuracy)',
     'Immersion blender',
@@ -125,19 +125,19 @@ export const gelification: CookingMethodData = {
     'Plant ash or charcoal elements for visual drama'
   ],
   nutrientRetention: {
-    dietaryFiber: 1.25, // Increased due to added hydrocolloids
+    dietaryFiber: 1.25, // Increased due to added hydrocolloids,
     antioxidants: 0.9,
     vitamins: 0.85,
     minerals: 0.9,
-    enzymes: 0.95, // Well preserved in cold-set applications
-    probiotics: 0.85, // Some survival in appropriate environments
-    phenolic_compounds: 0.88, // Good retention of plant phenolics
-    carotenoids: 0.8, // Some degradation during processing
-    volatile_aromas: 0.75, // Some loss during heating phase
+    enzymes: 0.95, // Well preserved in cold-set applications,
+    probiotics: 0.85, // Some survival in appropriate environments,
+    phenolic_compounds: 0.88, // Good retention of plant phenolics,
+    carotenoids: 0.8, // Some degradation during processing,
+    volatile_aromas: 0.75, // Some loss during heating phase,
     protein_integrity: 0.92, // Generally well preserved
-  }
+  },
   optimalTemperatures: {
-    agar_dissolution: 185, // In Fahrenheit
+    agar_dissolution: 185, // In Fahrenheit,
     gellan_gum_dissolution: 195,
     gelatin_dissolution: 140,
     setting_temperature: 45,
@@ -145,14 +145,14 @@ export const gelification: CookingMethodData = {
     kappa_carrageenan_hydration: 160,
     iota_carrageenan_hydration: 150,
     locust_bean_gum_hydration: 185,
-    methyl_cellulose_hydration: 32, // Cold hydration required
-    pectin_activation: 220, // High methoxyl pectin
-    xanthan_hydration: 75, // Cold hydration possible
+    methyl_cellulose_hydration: 32, // Cold hydration required,
+    pectin_activation: 220, // High methoxyl pectin,
+    xanthan_hydration: 75, // Cold hydration possible,
     konjac_hydration: 195,
     low_acyl_gellan_dissolution: 185,
     high_acyl_gellan_dissolution: 195,
     lambda_carrageenan_hydration: 140
-  }
+  },
   regionalVariations: {
     french: ['consommé gels', 'foie gras terrines', 'modern patisserie'],
     spanish: ['el bulli-inspired spherifications', 'textural landscapes'],
@@ -163,23 +163,23 @@ export const gelification: CookingMethodData = {
     mexican: ['mole gels', 'agave syrup textures', 'chili oil suspensions'],
     chinese: ['tea-infused textures', 'five-spice layered gels', 'dim sum reimagined'],
     indian: ['curry essence gels', 'lassi spheres', 'spice-infused structures']
-  }
+  },
   chemicalChanges: {
     polymer_chain_formation: true,
     hydrogen_bonding: true,
     structural_alignment: true,
     syneresis: true,
     flavor_encapsulation: true,
-    ionic_cross_linking: true, // Especially with calcium-reactive gels
-    protein_denaturation: true, // In gelatin and protein-rich media
-    polysaccharide_configuration: true, // Helix formation in many hydrocolloids
-    junction_zone_development: true, // Where polymer chains interact
-    phase_separation: true, // When incompatible hydrocolloids mixed
-    thixotropic_changes: true, // Time-dependent viscosity changes
-    retrogradation: true, // Especially in starch-based systems
-    moisture_migration: true, // Movement of water within gel structure
+    ionic_cross_linking: true, // Especially with calcium-reactive gels,
+    protein_denaturation: true, // In gelatin and protein-rich media,
+    polysaccharide_configuration: true, // Helix formation in many hydrocolloids,
+    junction_zone_development: true, // Where polymer chains interact,
+    phase_separation: true, // When incompatible hydrocolloids mixed,
+    thixotropic_changes: true, // Time-dependent viscosity changes,
+    retrogradation: true, // Especially in starch-based systems,
+    moisture_migration: true, // Movement of water within gel structure,
     conformational_transitions: true, // Temperature-dependent structural changes
-  }
+  },
   safetyFeatures: [
     'Use food-grade hydrocolloids only',
     'Proper measurement of additives',
@@ -198,9 +198,9 @@ export const gelification: CookingMethodData = {
     'Maintain strict hygiene during extended processing times'
   ],
   thermodynamicProperties: {
-    heat: 0.35, // Low-moderate heat for hydration
-    entropy: 0.55, // Significant transformation of structure
-    reactivity: 0.6, // Moderate-high chemical reactions
+    heat: 0.35, // Low-moderate heat for hydration,
+    entropy: 0.55, // Significant transformation of structure,
+    reactivity: 0.6, // Moderate-high chemical reactions,
     gregsEnergy: -10.35, // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
@@ -248,9 +248,9 @@ export const gelification: CookingMethodData = {
     'Electrically conductive edible gels for interactive experiences'
   ],
 
-  sustainabilityRating: 0.65, // Moderate - depends on sourcing of hydrocolloids
+  sustainabilityRating: 0.65, // Moderate - depends on sourcing of hydrocolloids,
 
-  equipmentComplexity: 0.75, // Requires specific equipment and precision
+  equipmentComplexity: 0.75, // Requires specific equipment and precision,
 
   healthConsiderations: [
     'Most hydrocolloids are naturally-derived dietary fibers',
@@ -375,7 +375,7 @@ export const gelification: CookingMethodData = {
         'Creates soft, elastic gels with calcium ions. Minimal syneresis and excellent freeze-thaw stability. Produces translucent rather than transparent gels. Good for dairy applications due to protein compatibility.',
       pectin:
         'Fruit-derived, high-methoxyl requires sugar and acid, low-methoxyl requires calcium. Amidated forms offer improved stability in varying conditions. Creates gels with clean fruit flavor release and smooth texture.'
-    }
+    },
     physical_properties: {
       gel_strength:
         'Measured in grams (bloom strength for gelatin) or compression force. Affected by concentration, temperature history, and ion availability. Can be measured precisely with texture analyzer or estimated with penetrometer.',
@@ -389,7 +389,7 @@ export const gelification: CookingMethodData = {
         'Light transmission through gel, affected by hydrocolloid type, concentration, and setting conditions. Measured in percentage light transmission - higher quality gels exceed 85% clarity.',
       mouthfeel:
         'Sensory perception including firmness, brittleness, creaminess, and melting properties. Different hydrocolloids create distinctive release patterns during consumption.'
-    }
+    },
     advanced_techniques: {
       fluid_gels:
         'Created by shearing gel during setting phase, producing partially connected polymer network with controlled flow properties. Used for sauce-like applications with suspended particles. Typically utilize agar or gellan gum at 0.3-0.8%.',
@@ -401,7 +401,7 @@ export const gelification: CookingMethodData = {
         'Applying physical pressure during gel setting to create anisotropic structures with directional properties. Results in gels with different mechanical behavior depending on direction of force application.',
       micro_gelification:
         'Creating microscopic gel particles through controlled shearing or precise droplet formation. Used for \'caviar\' effects or controlled mouthfeel modification in liquid systems.'
-    }
+    },
     equipment_specifications: {
       temperature_control:
         'Precise control within ±1°F (0.5°C) essential for reproducible results. Water baths and precision immersion circulators preferred over direct heat application.',

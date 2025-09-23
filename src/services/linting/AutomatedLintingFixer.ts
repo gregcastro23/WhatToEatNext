@@ -427,7 +427,7 @@ export class AutomatedLintingFixer {
         endTime: new Date(),
         totalTime: 0,
         filesProcessed: 0,
-        issuesAttempted: importIssues.length;
+        issuesAttempted: importIssues.length;,
         issuesFixed: 0,
         issuesFailed: 0,
         validationTime: 0,
@@ -463,8 +463,8 @@ export class AutomatedLintingFixer {
         result.failedIssues += fileIssues.length,
         result.errors.push({
           file: filePath,
-          rule: 'import-optimization';
-          message: `Failed to optimize imports`;
+          rule: 'import-optimization';,
+          message: `Failed to optimize imports`;,
           error: error instanceof Error ? error.message : String(error),
           severity: 'error'
         })

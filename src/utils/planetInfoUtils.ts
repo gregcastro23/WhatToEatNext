@@ -15,11 +15,11 @@ export interface PlanetInfo {
   dignity: {
     type: string,
     strength: number
-  }
+  },
   tarotCard: {
     name: string,
     element: string
-  }
+  },
   aspects: {
     planet: string,
     type: string,
@@ -30,7 +30,7 @@ export interface PlanetInfo {
     water: number,
     air: number,
     earth: number
-  }
+  },
   tokenInfluence: {
     spirit: number,
     essence: number,

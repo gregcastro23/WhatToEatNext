@@ -256,7 +256,7 @@ export class FlavorProfileMigration {
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
-      }
+      },
       intensity: this.calculateCuisineIntensity(cuisineData),
       complexity: this.calculateCuisineComplexity(cuisineData),
 
@@ -327,7 +327,7 @@ export class FlavorProfileMigration {
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
-      }
+      },
       intensity: (planetData.intensity) || 0.5,
       complexity: (planetData.complexity) || 0.5,
 
@@ -400,7 +400,7 @@ export class FlavorProfileMigration {
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
-      }
+      },
       intensity: Number(flavorData.intensity) || 0.5,
       complexity: 0.5,
 
@@ -408,7 +408,7 @@ export class FlavorProfileMigration {
       monicaOptimization: 1.0,
       alchemicalProperties: this.getDefaultAlchemicalProperties(),
 
-      seasonalPeak: (flavorData.seasonalPeak as Season[]) || [
+      seasonalPeak: (flavorData.seasonalPeak as Season[]) || [,
         'spring',
         'summer',
         'autumn',
@@ -730,7 +730,7 @@ export class FlavorProfileMigration {
           complexityBonus: 0.0,
           harmonicResonance: 0.5,
           temperatureOptimal: 20
-        }
+        },
         seasonalVariation: {
           spring: 1.0,
           summer: 1.0,
@@ -738,7 +738,7 @@ export class FlavorProfileMigration {
           fall: 1.0,
           winter: 1.0,
           all: 1.0
-        }
+        },
         monicaOptimization: 1.0,
         optimalTiming: {
           planetaryHour: false,

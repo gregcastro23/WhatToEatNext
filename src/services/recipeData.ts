@@ -77,7 +77,7 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
     name: safeGetString((recipe as any).name) || 'Unnamed Recipe',
     description: safeGetString((recipe as any).description) || '',
     cuisine: safeGetString((recipe as any).cuisine) || '',
-    ingredients: validateAndNormalizeIngredients(
+    ingredients: validateAndNormalizeIngredients(,
       Array.isArray(recipe.ingredients) ? (recipe.ingredients as Partial<RecipeIngredient>[]) : [],
     ),
     instructions: validateAndNormalizeInstructions(recipe.instructions || []),
@@ -353,7 +353,7 @@ class RecipeData {
             safeGetString((mappingData.cuisine ).description) ||
             '',
           elementalProperties: elementalProps as ElementalProperties,
-          ingredients: Array.isArray(mappingData.ingredients)
+          ingredients: Array.isArray(mappingData.ingredients),
             ? (mappingData.ingredients as unknown[]).map((ing: unknown) => {
                 const ingData = ing as any
                 return {
@@ -368,7 +368,7 @@ class RecipeData {
           timeToMake: String(mappingData.timeToMake) || '30 minutes',
           energyProfile: mappingData.energyProfile || {}
           // Critical, field: always ensure astrologicalInfluences is set,
-          astrologicalInfluences: mappingData.astrologicalInfluences
+          astrologicalInfluences: mappingData.astrologicalInfluences,
             ? Array.isArray(mappingData.astrologicalInfluences)
               ? (mappingData.astrologicalInfluences as string[])
               : [String(mappingData.astrologicalInfluences)]
@@ -377,12 +377,12 @@ class RecipeData {
                 ? ((mappingData.astrologicalProfile ).rulingPlanets as string[])
                 : [String((mappingData.astrologicalProfile ).rulingPlanets)]
               : ['all'],
-          season: Array.isArray(mappingData.seasonalProperties)
+          season: Array.isArray(mappingData.seasonalProperties),
             ? (mappingData.seasonalProperties as string[])
             : Array.isArray(mappingData.season)
               ? (mappingData.season as string[])
               : ['all'],
-          mealType: Array.isArray(mappingData.mealType)
+          mealType: Array.isArray(mappingData.mealType),
             ? (mappingData.mealType as string[])
             : ['dinner'],
           numberOfServings: typeof mappingData.servings === 'number' ? mappingData.servings : 2,
@@ -416,7 +416,7 @@ class RecipeData {
       // Then ensure all other properties are valid
       return ensureRecipeProperties({
         ...recipe
-        elementalProperties: ((withElementalProps as any)
+        elementalProperties: ((withElementalProps as any),
           .elementalProperties as ElementalProperties) || {
           Fire: 0.25,
           Water: 0.25,
@@ -488,7 +488,7 @@ class RecipeData {
         Earth: 0.25,
         Air: 0.25,
         Water: 0.25
-      }
+      },
       season: ['all'],
       mealType: ['lunch', 'dinner'],
       cuisine: 'international',

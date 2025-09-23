@@ -51,7 +51,7 @@ export interface FoodEntry {
     fat: number,
     fiber?: number,
     [key: string]: number | undefined
-  }
+  },
   elementalProperties: ElementalProperties,
   category: string,
   properties: FoodProperty[],

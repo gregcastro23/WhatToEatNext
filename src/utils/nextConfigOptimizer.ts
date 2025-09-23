@@ -65,7 +65,7 @@ const nextConfig = {
 
   // ESLint configuration
   eslint: {
-    ignoreDuringBuilds: false, // Enable for production stability
+    ignoreDuringBuilds: false, // Enable for production stability,
     _dirs: ['src']
   }
 

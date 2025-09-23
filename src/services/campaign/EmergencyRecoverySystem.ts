@@ -518,7 +518,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       recoveryEvents.length > 0 ? recoveryEvents[recoveryEvents.length - 1].timestamp : undefined,
 
     return {
-      totalRecoveries: recoveryEvents.length
+      totalRecoveries: recoveryEvents.length,
       successfulRecoveries,
       failedRecoveries,
       nuclearResets,

@@ -66,7 +66,7 @@ export interface DebugRecommendation {
   title: string,
   description: string,
   actionItems: ActionItem[],
-  estimatedEffort: number, // hours
+  estimatedEffort: number, // hours,
   riskLevel: 'low' | 'medium' | 'high',
   category: RecommendationCategory
 }
@@ -496,7 +496,7 @@ export class CampaignDebugger {
             metric: 'build_exit_code',
             operator: 'equals',
             value: 0
-          }
+          },
           automated: true
         }
       ]
@@ -789,7 +789,7 @@ export class CampaignDebugger {
             metric: 'health_score',
             operator: 'greater_than',
             value: 80
-          }
+          },
           automated: true
         }
       ]
@@ -850,7 +850,7 @@ export class CampaignDebugger {
         name: 'Error Rate',
         value: campaign.metrics.typeScriptErrors.current,
         unit: 'errors',
-        status: campaign.metrics.typeScriptErrors.current > 100
+        status: campaign.metrics.typeScriptErrors.current > 100,
             ? MetricStatus.CRITICAL
             : MetricStatus.HEALTHY,
         threshold: 100,
@@ -860,7 +860,7 @@ export class CampaignDebugger {
         name: 'Build Time',
         value: campaign.metrics.buildPerformance.currentTime,
         unit: 'seconds',
-        status: campaign.metrics.buildPerformance.currentTime > 30
+        status: campaign.metrics.buildPerformance.currentTime > 30,
             ? MetricStatus.WARNING
             : MetricStatus.HEALTHY,
         threshold: 30,
@@ -902,7 +902,7 @@ export class CampaignDebugger {
       if (issue.severity === IssueSeverity.HIGH || issue.severity === IssueSeverity.CRITICAL) {
         recommendations.push({
           id: `maint_${issue.id}`,
-          priority: issue.severity === IssueSeverity.CRITICAL
+          priority: issue.severity === IssueSeverity.CRITICAL,
               ? MaintenancePriority.CRITICAL
               : MaintenancePriority.HIGH
           title: `Address: ${issue.title}`,
@@ -958,13 +958,13 @@ export class CampaignDebugger {
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
         stashRetentionDays: 7
-      }
+      },
       progressTargets: {
         typeScriptErrors: 0,
         lintingWarnings: 0,
         buildTime: 10,
         enterpriseSystems: 200
-      }
+      },
       toolConfiguration: {
         enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',

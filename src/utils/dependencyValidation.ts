@@ -97,12 +97,12 @@ export async function validateBarrelExports(
  */
 export const PROBLEMATIC_PATTERNS = [
   {
-    pattern: /import.*from.*['']\.\/.*index['']/;
+    pattern: /import.*from.*['']\.\/.*index['']/;,
     message:
       'Avoid importing from index files in the same directory - import directly from source files'
   }
   {
-    pattern: /import.*from.*['']\.\.\/\.\.\/.*index['']/;
+    pattern: /import.*from.*['']\.\.\/\.\.\/.*index['']/;,
     message: 'Deep relative imports to index files can create circular dependencies'
   }
   {
@@ -115,7 +115,7 @@ export const PROBLEMATIC_PATTERNS = [
  * Validate import statement against problematic patterns
  */
 export function validateImportStatement(
-  importStatement: string;
+  importStatement: string;,
   filePath: string,
 ): {
   isValid: boolean,
@@ -288,7 +288,7 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
   const circularDependencies = detectCircularDependencies(moduleGraph)
 
   return {
-    totalFiles: tsFiles.length
+    totalFiles: tsFiles.length,
     validFiles,
     invalidFiles,
     circularDependencies,

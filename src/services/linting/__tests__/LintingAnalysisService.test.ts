@@ -11,13 +11,13 @@ import { LintingAnalysisService } from '../LintingAnalysisService';
 
 // Mock child_process to prevent actual ESLint execution during tests
 jest.mock('child_process', () => ({
-  execSync: jest.fn().mockReturnValue(
+  execSync: jest.fn().mockReturnValue(,
     JSON.stringify([
       {
         filePath: '/test/src/App.tsx',
         messages: [
           {
-            ruleId: 'import/order';
+            ruleId: 'import/order';,
             severity: 2,
             message: 'Import order is incorrect',
             line: 1,
@@ -40,7 +40,7 @@ jest.mock('child_process', () => ({
 // Mock fs to prevent actual file system access during tests
 jest.mock('fs', () => ({
   existsSync: jest.fn().mockReturnValue(true),
-  readFileSync: jest.fn().mockReturnValue(`
+  readFileSync: jest.fn().mockReturnValue(`,
 import React, { useState } from 'react';
     
     const _component: any = {}

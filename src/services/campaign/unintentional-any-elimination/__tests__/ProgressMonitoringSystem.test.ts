@@ -124,18 +124,18 @@ describe('ProgressMonitoringSystem', () => {
         domainDistribution: { totalAnyTypes: 1000,
           intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 }
             unintentional: { count: 700, percentage: 70 }
-          }
+          },
           byDomain: [],
           byCategory: [],
           analysisDate: new Date()
-        }
+        },
         accuracyReport: { overallAccuracy: 85,
           averageConfidence: 0.8,
           sampleSize: 100,
           categoryAccuracy: [],
           confidenceDistribution: [],
           reportDate: new Date()
-        }
+        },
         successRateAnalysis: { currentSuccessRate: 75,
           targetSuccessRate: 85,
           improvementNeeded: 10,
@@ -145,11 +145,11 @@ describe('ProgressMonitoringSystem', () => {
             totalAnyTypes: 1000,
             unintentionalCount: 700,
             classificationAccuracy: 85
-          }
+          },
           projectedCompletion: new Date(),
           recommendations: [],
           analysisDate: new Date()
-        }
+        },
         manualReviewRecommendations: [],
         summary: { totalAnyTypes: 1000,
           unintentionalCount: 700,
@@ -261,7 +261,7 @@ describe('ProgressMonitoringSystem', () => {
           intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 }
             unintentional: { count: 700, percentage: 70 }
           }
-        }
+        },
         summary: { currentSuccessRat, e: 60 }, // Below threshold
         accuracyReport: { overallAccurac, y: 70 } // Below threshold
       } as any)
@@ -361,7 +361,7 @@ describe('ProgressMonitoringSystem', () => {
           intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 }
             unintentional: { count: 700, percentage: 70 }
           }
-        }
+        },
         accuracyReport: { overallAccurac, y: 85 }
         summary: { currentSuccessRat, e: 75 }
       } as any)
@@ -414,7 +414,7 @@ describe('ProgressMonitoringSystem', () => {
           intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 }
             unintentional: { count: 700, percentage: 70 }
           }
-        }
+        },
         summary: { currentSuccessRat, e: 60 }
       } as any)
 
@@ -484,7 +484,7 @@ describe('ProgressMonitoringSystem', () => {
           intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 }
             unintentional: { count: 700, percentage: 70 }
           }
-        }
+        },
         summary: { currentSuccessRat, e: 75, totalAnyTypes: 1000 }
       } as any)
 

@@ -61,7 +61,7 @@ describe('LintingProgressTracker', () => {
         fixableIssues: 2,
         errorsByCategory: {
           'no-console': 1
-        }
+        },
         warningsByCategory: {
           'no-unused-vars': 1,
           'prefer-const': 1
@@ -195,16 +195,16 @@ describe('LintingProgressTracker', () => {
             memoryUsage: 128,
             cacheHitRate: 0.9
           }
-        }
+        },
         improvement: { totalIssuesReduced: 25,
           errorsReduced: 8,
           warningsReduced: 17,
           percentageImprovement: 50
-        }
+        },
         trends: { last24Hours: 10,
           last7Days: 20,
           last30Days: 30
-        }
+        },
         qualityGates: { zeroErrors: false,
           warningsUnderThreshold: true,
           performanceAcceptable: true
@@ -316,7 +316,7 @@ describe('LintingProgressTracker', () => {
         fixableIssues: 1,
         errorsByCategory: {
           'no-console': 1
-        }
+        },
         warningsByCategory: {
           'no-unused-vars': 1,
           unknown: 1

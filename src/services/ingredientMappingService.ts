@@ -135,7 +135,7 @@ class IngredientMappingService {
       })
       .map(([name, mapping]) => ({
         name,
-        similarity: this.calculateElementalSimilarity(
+        similarity: this.calculateElementalSimilarity(,
           originalIngredient.elementalProperties as unknown as ElementalProperties
           mapping.elementalProperties as unknown as ElementalProperties
         ),
@@ -168,7 +168,7 @@ class IngredientMappingService {
     if (!mapping1 || !mapping2) {
       return {
         success: false,
-        message: !mapping1
+        message: !mapping1,
           ? `Ingredient '${ingredient1}' not found`
           : `Ingredient '${ingredient2}' not found`,
         compatibility: 0

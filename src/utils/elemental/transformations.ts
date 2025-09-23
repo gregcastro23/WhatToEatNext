@@ -184,7 +184,7 @@ export function transformSingleItem(
     elementalProperties: transformedElemental,
     alchemicalProperties,
     uniqueness: ((item as unknown as any).uniqueness) || uniqueness,
-    planetaryInfluences: ((item as unknown as any).planetaryInfluences as string[]) ||
+    planetaryInfluences: ((item as unknown as any).planetaryInfluences as string[]) ||,
       Object.keys(planetaryInfluences)
     _lunarPhaseEffect: context.lunarPhase || 'new Moon',
     _zodiacInfluence: context.currentZodiac || 'aries',
@@ -261,7 +261,7 @@ export function applyPlanetaryInfluence(
         : []),
       String(planet || '')
     ],
-    transformationScore: calculateTransformationScore(
+    transformationScore: calculateTransformationScore(,
       alchemicalBoost,
       Number((item as unknown as any).uniqueness) || 0.5,
     )
@@ -369,7 +369,7 @@ function calculatePlanetaryInfluences(_context: TransformationContext): {
     influences[planet] = {
       element,
       strength,
-      isDiurnal: context.isDaytime
+      isDiurnal: context.isDaytime,
       dignityBonus
     }
   }

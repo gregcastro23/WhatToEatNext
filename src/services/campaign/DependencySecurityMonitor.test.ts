@@ -51,7 +51,7 @@ describe('DependencySecurityMonitor', () => {
             range: '>=1.0.0 <4.17.21',
             fixAvailable: { version: '4.17.21'
             }
-          }
+          },
           axios: { severity: 'critical',
             via: [
               {
@@ -128,7 +128,7 @@ describe('DependencySecurityMonitor', () => {
           wanted: '4.17.21',
           latest: '4.17.21',
           location: 'node_modules/lodash'
-        }
+        },
         react: { current: '17.0.0',
           wanted: '17.0.2',
           latest: '18.0.0',
@@ -492,7 +492,7 @@ describe('DependencySecurityMonitor', () => {
           low: 0,
           autoFixCritical: false,
           autoFixHigh: false
-        }
+        },
         excludedPackages: ['react', 'next']
       }
 

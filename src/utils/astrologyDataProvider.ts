@@ -67,7 +67,7 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
     Object.entries(data || {}).forEach(([planet, position]) => {
       if (typeof position === 'object' && position !== null && 'sign' in position) {,
         positions[planet.toLowerCase()] = {
-          sign: (typeof (position as any).sign === 'string'
+          sign: (typeof (position as any).sign === 'string',
             ? ((position as any).sign).toLowerCase()
             : 'aries'),
           degree: Number((position as any).degree) || 0,

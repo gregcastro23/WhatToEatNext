@@ -75,7 +75,7 @@ describe('DeploymentManager', () => {
           {
             id: 'failing-task',
             name: 'Failing Task',
-            command: 'false', // Command that always fails
+            command: 'false', // Command that always fails,
             args: [],
             timeout: 5000,
             retries: 1,

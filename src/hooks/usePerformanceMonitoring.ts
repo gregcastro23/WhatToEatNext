@@ -54,7 +54,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
       planetary: { hits: 0, misses: 0, hitRate: 0, size: 0 }
       recipe: { hits: 0, misses: 0, hitRate: 0, size: 0 }
       user: { hits: 0, misses: 0, hitRate: 0, size: 0 }
-    }
+    },
     renderTime: 0,
     apiResponseTimes: {}
     timeToInteractive: 0,

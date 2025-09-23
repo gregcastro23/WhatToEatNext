@@ -7,7 +7,7 @@ import { Ingredient, ElementalProperties } from './index';
 export interface RecipeIngredient {
   // Core ingredient identification
   id?: string,
-  name: string
+  name: string,
 
   // Recipe-specific properties,
   amount: number,
@@ -27,7 +27,7 @@ export interface RecipeIngredient {
   // Astrological profile for recipe context
   astrologicalProfile?: {
     _elementalAffinity: {
-      base: string
+      base: string,
       secondary?: string
     }
     rulingPlanets?: string[],

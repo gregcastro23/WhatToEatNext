@@ -166,7 +166,7 @@ export class PredictiveIntelligenceService {
       // Generate comprehensive predictive analysis
       const result: PredictiveIntelligenceResult = {
         recipePrediction: await this.generateRecipePrediction(recipeData, astrologicalContext),
-        ingredientPrediction: await this.generateIngredientPrediction(
+        ingredientPrediction: await this.generateIngredientPrediction(,
           ingredientData,
           astrologicalContext,
         ),
@@ -1336,7 +1336,7 @@ export const _PredictiveRecipeIntelligence = {
 }
 
 export const _PredictiveIngredientIntelligence = {
-  generatePredictiveIngredientAnalytics: async (
+  generatePredictiveIngredientAnalytics: async (,
     ingredients: Ingredient[],
     context: PredictiveContext,
   ) => {
@@ -1352,7 +1352,7 @@ export const _PredictiveIngredientIntelligence = {
 }
 
 export const _PredictiveCuisineIntelligence = {
-  generatePredictiveCuisineAnalytics: async (
+  generatePredictiveCuisineAnalytics: async (,
     cuisine: Record<string, unknown>,
     context: PredictiveContext,
   ) => {
@@ -1363,7 +1363,7 @@ export const _PredictiveCuisineIntelligence = {
 }
 
 export const _PredictiveAstrologicalIntelligence = {
-  generatePredictiveAstrologicalAnalytics: async (
+  generatePredictiveAstrologicalAnalytics: async (,
     astrologicalState: PredictiveContext,
     _culinaryContext: Record<string, unknown>,
   ) => {

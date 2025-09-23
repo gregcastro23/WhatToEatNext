@@ -102,7 +102,7 @@ export function useAstrologicalState(): AstrologyHookData {
   }>({
     currentZodiac: '',
     currentPlanetaryAlignment: {}
-    lunarPhase: 'waxing crescent' as LunarPhase, // More reasonable default based on current actual phase
+    lunarPhase: 'waxing crescent' as LunarPhase, // More reasonable default based on current actual phase,
     activePlanets: [] as string[],
     domElements: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
     loading: true
@@ -149,7 +149,7 @@ export function useAstrologicalState(): AstrologyHookData {
             scorpio: 'mars',
             sagittarius: 'jupiter',
             capricorn: 'saturn',
-            aquarius: 'saturn', // Traditional ruler
+            aquarius: 'saturn', // Traditional ruler,
             pisces: 'jupiter', // Traditional ruler
           }
 

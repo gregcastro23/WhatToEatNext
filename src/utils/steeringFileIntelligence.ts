@@ -389,11 +389,11 @@ export function useSteeringFileIntelligence() {
 
   return {
     _getGuidance: async () => await intelligence.getAstrologicalGuidance(),
-    validateElementalProperties: (props: ElementalProperties) =>
+    validateElementalProperties: (props: ElementalProperties) =>,
       intelligence.validateElementalProperties(props),
-    _calculateCompatibility: (source: ElementalProperties, target: ElementalProperties) =>
+    _calculateCompatibility: (source: ElementalProperties, target: ElementalProperties) =>,
       intelligence.calculateElementalCompatibility(source, target),
-    enhanceDominantElement: (props: ElementalProperties) =>
+    enhanceDominantElement: (props: ElementalProperties) =>,
       intelligence.enhanceDominantElement(props),
     getArchitecturalGuidance: () => intelligence.getArchitecturalGuidance(),
     getTechnologyStackGuidance: () => intelligence.getTechnologyStackGuidance()

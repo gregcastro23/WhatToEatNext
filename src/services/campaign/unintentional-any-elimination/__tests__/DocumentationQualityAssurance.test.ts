@@ -411,28 +411,28 @@ describe('DocumentationQualityAssurance', () => {
           context: { filePath: 'src/servicets',
             codeSnippet: 'processData(data: any): void',
             isInTestFile: false
-          }
+          },
           expectedSeverity: 'high'
         }
         {
           context: { filePath: 'src/component.tsx',
             codeSnippet: 'const _props: any = {}',,
             isInTestFile: false
-          }
+          },
           expectedSeverity: 'low'
         }
         {
           context: { filePath: 'src/test.test.ts',
             codeSnippet: 'const mock: any = {}',,
             isInTestFile: true
-          }
+          },
           expectedSeverity: 'low'
         }
         {
           context: { filePath: 'src/utils.ts',
             codeSnippet: 'function process(data: any[]): any',
             isInTestFile: false
-          }
+          },
           expectedSeverity: 'medium'
         }
       ],

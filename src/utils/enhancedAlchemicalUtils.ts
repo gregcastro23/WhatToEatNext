@@ -80,9 +80,9 @@ export function getUserFoodCompatibility(
 ) {
   // Map food elements to zodiac signs for compatibility calculation
   const foodSignMap: Record<string, ZodiacSign> = {
-    Fire: 'aries' as any, // Could also use leo or sagittarius
-    Water: 'cancer' as any, // Could also use scorpio or pisces
-    Earth: 'taurus' as any, // Could also use virgo or capricorn
+    Fire: 'aries' as any, // Could also use leo or sagittarius,
+    Water: 'cancer' as any, // Could also use scorpio or pisces,
+    Earth: 'taurus' as any, // Could also use virgo or capricorn,
     Air: 'gemini' as any, // Could also use libra or aquarius
   }
 
@@ -146,19 +146,19 @@ export function generatePersonalizedMealPlan(
     appetizer: {
       suggestion: '',
       explanation: ''
-    }
+    },
     _mainCourse: {
       suggestion: `${baseRecommendation.cookingMethod} ${baseRecommendation.mainIngredient} with ${baseRecommendation.secondaryIngredient}`,
       explanation: baseRecommendation.reasoning.elementalInfluence
-    }
+    },
     dessert: {
       suggestion: '',
       explanation: ''
-    }
+    },
     beverage: {
       suggestion: '',
       explanation: ''
-    }
+    },
     overallHarmony: 0,
     astrological: {
       dominant: alchemicalResult.dominant,
@@ -278,7 +278,7 @@ export function enhanceAlchemicalCalculations(
   if (userSign) {
     return {
       type: 'fullMealPlan',
-      result: generatePersonalizedMealPlan(
+      result: generatePersonalizedMealPlan(,
         alchemicalResult,
         userSign,
         season || 'spring',

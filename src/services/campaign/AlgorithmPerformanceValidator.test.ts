@@ -306,7 +306,7 @@ describe('AlgorithmPerformanceValidator', () => {
           name: 'slow_algorithm',
           category: 'algorithm',
           baseline: 100,
-          current: 150, // Worse than baseline
+          current: 150, // Worse than baseline,
           improvement: -0.5,
           target: 50,
           status: 'failing',

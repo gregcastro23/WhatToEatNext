@@ -98,7 +98,7 @@ export const _useAlchemicalRecommendations = ({;
           topMethods: adapter.getRecommendedCookingMethods(count || 3).items,
           topCuisines: adapter.getRecommendedCuisines(count || 3).items,
           dominantElement: adapter.getDominantElement() || 'Fire',
-          dominantAlchemicalProperty: (adapter.getDominantAlchemicalProperty() ||
+          dominantAlchemicalProperty: (adapter.getDominantAlchemicalProperty() ||,
             'Spirit') as AlchemicalProperty,
           heat: adapter.getHeatIndex() || 0.5,
           entropy: adapter.getEntropyIndex() || 0.5,
@@ -121,7 +121,7 @@ export const _useAlchemicalRecommendations = ({;
                 Water: 0.25,
                 Earth: 0.25,
                 Air: 0.25
-              }
+              },
               alchemicalProperties: (item as any).alchemicalProperties || {
                 Spirit: 0.25,
                 Essence: 0.25,
@@ -129,13 +129,13 @@ export const _useAlchemicalRecommendations = ({;
                 Substance: 0.25
               }
               // Add required properties for alchemicalTransformation.AlchemicalItem
-              transformedElementalProperties: (item as any).transformedElementalProperties ||
+              transformedElementalProperties: (item as any).transformedElementalProperties ||,
                 (item as any).elementalProperties || {
                   Fire: 0.25,
                   Water: 0.25,
                   Earth: 0.25,
                   Air: 0.25
-                }
+                },
               heat: (item as any).heat || 0.5,
               entropy: (item as any).entropy || 0.5,
               reactivity: (item as any).reactivity || 0.5,
@@ -172,7 +172,7 @@ export const _useAlchemicalRecommendations = ({;
             Water: 0,
             Earth: 0,
             Air: 0
-          }
+          },
           alchemicalProperties: {
             Spirit: 0,
             Essence: 0,

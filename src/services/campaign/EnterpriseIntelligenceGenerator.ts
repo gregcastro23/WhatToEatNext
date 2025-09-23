@@ -253,7 +253,7 @@ export class EnterpriseIntelligenceGenerator {
     integrationPoints.push({
       target: 'src/app/intelligence/index.ts',
       method: IntegrationMethod.DIRECT_IMPORT,
-      code: `import { ${systemName} } from '../intelligence/${systemName}';`;
+      code: `import { ${systemName} } from '../intelligence/${systemName}';`;,
       priority: IntegrationPriority.HIGH
     })
 
@@ -376,13 +376,13 @@ export class ${systemName} {
         memoryUsage: 0,
         cacheHitRate: 0,
         errorRate: 0
-      }
+      },
       patternAnalysis: {
         commonPatterns: [],
         anomalies: [],
         trends: [],
         insights: []
-      }
+      },
       recommendations: []
     }
 
@@ -539,13 +539,13 @@ ${capabilities
         memoryUsage: 0,
         cacheHitRate: 0,
         errorRate: 0
-      }
+      },
       patternAnalysis: {
         commonPatterns: [],
         anomalies: [],
         trends: [],
         insights: []
-      }
+      },
       recommendations: []
     }
   }

@@ -138,7 +138,7 @@ export class IntelligentPatternRecognition {
     features.push({
       featureId: 'syntax_message_length',
       name: 'Message Length',
-      value: Math.min(error.message.length / 2001), // Normalize to 0-1
+      value: Math.min(error.message.length / 2001), // Normalize to 0-1,
       weight: ((this.FEATURE_WEIGHTS as any)?.syntax || 0) * 0.2,
       category: 'syntax',
       stability: 0.8
@@ -201,7 +201,7 @@ export class IntelligentPatternRecognition {
     features.push({
       featureId: 'semantic_generic_complexity',
       name: 'Generic Type Complexity',
-      value: Math.min(genericMatches.length / 51), // Normalize to 0-1
+      value: Math.min(genericMatches.length / 51), // Normalize to 0-1,
       weight: ((this.FEATURE_WEIGHTS as any)?.semantic || 0) * 0.2,
       category: 'semantic',
       stability: 0.7
@@ -221,7 +221,7 @@ export class IntelligentPatternRecognition {
     features.push({
       featureId: 'structural_path_depth',
       name: 'File Path Depth',
-      value: Math.min(pathDepth / 101), // Normalize to 0-1
+      value: Math.min(pathDepth / 101), // Normalize to 0-1,
       weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2,
       category: 'structural',
       stability: 0.9
@@ -243,7 +243,7 @@ export class IntelligentPatternRecognition {
     features.push({
       featureId: 'structural_line_position',
       name: 'Line Position',
-      value: Math.min(error.line / 10001), // Normalize to 0-1
+      value: Math.min(error.line / 10001), // Normalize to 0-1,
       weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2,
       category: 'structural',
       stability: 0.6
@@ -253,7 +253,7 @@ export class IntelligentPatternRecognition {
     features.push({
       featureId: 'structural_column_position',
       name: 'Column Position',
-      value: Math.min(error.column / 1001), // Normalize to 0-1
+      value: Math.min(error.column / 1001), // Normalize to 0-1,
       weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2,
       category: 'structural',
       stability: 0.5
@@ -283,7 +283,7 @@ export class IntelligentPatternRecognition {
     features.push({
       featureId: 'contextual_priority',
       name: 'Error Priority',
-      value: error.priority / 30, // Normalize to 0-1 (assuming max priority is 30)
+      value: error.priority / 30, // Normalize to 0-1 (assuming max priority is 30),
       weight: ((this.FEATURE_WEIGHTS as any)?.contextual || 0) * 0.2,
       category: 'contextual',
       stability: 0.8
@@ -310,7 +310,7 @@ export class IntelligentPatternRecognition {
     features.push({
       featureId: 'contextual_time_of_day',
       name: 'Time of Day',
-      value: currentHour / 24, // Normalize to 0-1
+      value: currentHour / 24, // Normalize to 0-1,
       weight: ((this.FEATURE_WEIGHTS as any)?.contextual || 0) * 0.2,
       category: 'contextual',
       stability: 0.3
@@ -639,7 +639,7 @@ export class IntelligentPatternRecognition {
 
     return {
       predictionId: `pred_${cluster.clusterId}_${Date.now()}`,
-      targetCategory: cluster.centerSignature.category
+      targetCategory: cluster.centerSignature.category,
       probability,
       confidence,
       timeframe,
@@ -822,7 +822,7 @@ export class IntelligentPatternRecognition {
 
     return {
       evolutionId: `evo_${oldSignature.signatureId}_${Date.now()}`,
-      patternId: oldSignature.signatureId
+      patternId: oldSignature.signatureId,
       changeVector,
       changeRate,
       adaptationScore,

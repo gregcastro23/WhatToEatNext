@@ -35,14 +35,14 @@ const dairy = Object.entries(proteins)
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 
 export interface EnhancedIngredient {
-  name: string
+  name: string,
   category?: string,
   elementalProperties: ElementalProperties,
   astrologicalProfile: {
     elementalAffinity: {
       base: string,
       decanModifiers?: Record<string, unknown>
-    }
+    },
     rulingPlanets: string[],
     favorableZodiac?: any[]
   }
@@ -56,7 +56,7 @@ export interface EnhancedIngredient {
       fat: number,
       fiber: number,
       _sugars: number
-    }
+    },
     vitamins: Record<string, number>,
     minerals: Record<string, number>,
     phytonutrients: Record<string, number>,
@@ -119,7 +119,7 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
       // Make sure we add the name to the ingredient
       const ingredientData = {
         name,
-        category: category.name.toLowerCase()
+        category: category.name.toLowerCase(),
         ...(data )
       } as EnhancedIngredient,
 
@@ -219,8 +219,8 @@ function standardizeIngredient(ingredient: EnhancedIngredient): EnhancedIngredie
   standardized.astrologicalProfile = standardized.astrologicalProfile ?? {
     elementalAffinity: {
       base: standardized.category?.toLowerCase().includes('vegetable') ? 'Earth' : 'Earth'
-    }
-    rulingPlanets: standardized.category?.toLowerCase().includes('vegetable')
+    },
+    rulingPlanets: standardized.category?.toLowerCase().includes('vegetable'),
       ? ['Moon', 'Venus']
       : ['Mercury']
   }

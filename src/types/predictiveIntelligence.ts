@@ -115,7 +115,7 @@ export interface PredictionInput {
     name: string,
     _type: string,
     _characteristics: string[]
-  }
+  },
   context: PredictiveContext,
   historicalData?: TimeSeriesData[],
   modelWeights?: PredictiveModelWeights

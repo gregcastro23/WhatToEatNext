@@ -16,12 +16,12 @@ interface AstrologicalCulinaryGuidance {
     name: string,
     rationale: string,
     optimalTiming: string
-  }
+  },
   ingredientFocus: {
     element: string,
     examples: string[],
     pairingTip: string
-  }
+  },
   cuisineRecommendation: CuisineRecommendation
 }
 
@@ -249,7 +249,7 @@ export class CulinaryAstrologer {
         return {
           name,
           alignmentScore: this.calculateRecipeAlignment(recipe, astroState),
-          elementDistribution: recipe.elementalProperties
+          elementDistribution: recipe.elementalProperties,
           planetaryActivators
         }
       })

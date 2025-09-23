@@ -25,7 +25,7 @@ export const _recipeFilter = {
       spiciness?: number,
       complexity?: number,
       elementalState?: ElementalProperties
-    }
+    },
     sortOptions: { by: string, direction: 'asc' | 'desc' }
   ): Promise<Recipe[]> {
     let filteredRecipes = [...recipes],
@@ -109,7 +109,7 @@ export const _recipeFilter = {
           }
           return {
             ...recipe,
-            matchScore: calculateElementalHarmony(
+            matchScore: calculateElementalHarmony(,
               recipeElementalProps,
               filters.elementalState as ElementalProperties
             ).elementalHarmony

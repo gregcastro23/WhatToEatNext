@@ -65,9 +65,9 @@ describe('PilotCampaignAnalysis', () => {;
           intentionalVsUnintentional: {
             intentional: { count: 45, percentage: 30 }
             unintentional: { count: 105, percentage: 70 }
-          }
+          },
           analysisDate: new Date()
-        }
+        },
         accuracyReport: {
           overallAccuracy: 85.5,
           averageConfidence: 0.82,
@@ -75,7 +75,7 @@ describe('PilotCampaignAnalysis', () => {;
           categoryAccuracy: [],
           confidenceDistribution: [],
           reportDate: new Date()
-        }
+        },
         successRateAnalysis: {
           currentSuccessRate: 78.5,
           targetSuccessRate: 85,
@@ -87,11 +87,11 @@ describe('PilotCampaignAnalysis', () => {;
             totalAnyTypes: 150,
             unintentionalCount: 105,
             classificationAccuracy: 85.5
-          }
+          },
           projectedCompletion: new Date(),
           recommendations: [],
           analysisDate: new Date()
-        }
+        },
         manualReviewRecommendations: [],
         summary: {
           totalAnyTypes: 150,
@@ -127,7 +127,7 @@ describe('PilotCampaignAnalysis', () => {;
           totalAnyTypes: 150,
           unintentionalCount: 105,
           classificationAccuracy: 85.5
-        }
+        },
         projectedCompletion: new Date(),
         recommendations: [],
         analysisDate: new Date()
@@ -173,9 +173,9 @@ describe('PilotCampaignAnalysis', () => {;
           intentionalVsUnintentional: {
             intentional: { count: 30, percentage: 30 }
             unintentional: { count: 70, percentage: 70 }
-          }
+          },
           analysisDate: new Date()
-        }
+        },
         accuracyReport: {
           overallAccurac,
           y: 80,
@@ -184,7 +184,7 @@ describe('PilotCampaignAnalysis', () => {;
           categoryAccuracy: [],
           confidenceDistribution: [],
           reportDate: new Date()
-        }
+        },
         successRateAnalysis: {
           currentSuccessRat,
           e: 75,
@@ -197,11 +197,11 @@ describe('PilotCampaignAnalysis', () => {;
             totalAnyTypes: 100,
             unintentionalCount: 70,
             classificationAccuracy: 80
-          }
+          },
           projectedCompletion: new Date(),
           recommendations: [],
           analysisDate: new Date()
-        }
+        },
         manualReviewRecommendations: [],
         summary: {
           totalAnyType,
@@ -235,7 +235,7 @@ describe('PilotCampaignAnalysis', () => {;
           totalAnyTypes: 100,
           unintentionalCount: 70,
           classificationAccuracy: 80
-        }
+        },
         projectedCompletion: new Date(),
         recommendations: [],
         analysisDate: new Date()
@@ -293,9 +293,9 @@ describe('PilotCampaignAnalysis', () => {;
           intentionalVsUnintentional: {
             intentional: { count: 15, percentage: 30 }
             unintentional: { count: 35, percentage: 70 }
-          }
+          },
           analysisDate: new Date()
-        }
+        },
         accuracyReport: {
           overallAccurac,
           y: 75,
@@ -304,7 +304,7 @@ describe('PilotCampaignAnalysis', () => {;
           categoryAccuracy: [],
           confidenceDistribution: [],
           reportDate: new Date()
-        }
+        },
         successRateAnalysis: {
           currentSuccessRat,
           e: 70,
@@ -317,11 +317,11 @@ describe('PilotCampaignAnalysis', () => {;
             totalAnyTypes: 50,
             unintentionalCount: 35,
             classificationAccuracy: 75
-          }
+          },
           projectedCompletion: new Date(),
           recommendations: [],
           analysisDate: new Date()
-        }
+        },
         manualReviewRecommendations: [],
         summary: {
           totalAnyType,
@@ -355,7 +355,7 @@ describe('PilotCampaignAnalysis', () => {;
           totalAnyTypes: 50,
           unintentionalCount: 35,
           classificationAccuracy: 75
-        }
+        },
         projectedCompletion: new Date(),
         recommendations: [],
         analysisDate: new Date()
@@ -396,9 +396,9 @@ describe('PilotCampaignAnalysis', () => {;
           intentionalVsUnintentional: {
             intentional: { count: 30, percentage: 30 }
             unintentional: { count: 70, percentage: 70 }
-          }
+          },
           analysisDate: new Date()
-        }
+        },
         accuracyReport: {
           overallAccurac,
           y: 70,
@@ -407,7 +407,7 @@ describe('PilotCampaignAnalysis', () => {;
           categoryAccuracy: [{ categor, y: 'FUNCTION_PARAM', accuracy: 60, sampleCount: 20 }],
           confidenceDistribution: [],
           reportDate: new Date()
-        }
+        },
         successRateAnalysis: {
           currentSuccessRat,
           e: 65,
@@ -420,11 +420,11 @@ describe('PilotCampaignAnalysis', () => {;
             totalAnyTypes: 100,
             unintentionalCount: 70,
             classificationAccuracy: 70
-          }
+          },
           projectedCompletion: new Date(),
           recommendations: [],
           analysisDate: new Date()
-        }
+        },
         manualReviewRecommendations: [],
         summary: {
           totalAnyType,
@@ -458,7 +458,7 @@ describe('PilotCampaignAnalysis', () => {;
           totalAnyTypes: 100,
           unintentionalCount: 70,
           classificationAccuracy: 70
-        }
+        },
         projectedCompletion: new Date(),
         recommendations: [],
         analysisDate: new Date()
@@ -486,9 +486,9 @@ describe('PilotCampaignAnalysis', () => {;
           intentionalVsUnintentional: {
             intentional: { count: 30, percentage: 30 }
             unintentional: { count: 70, percentage: 70 }
-          }
+          },
           analysisDate: new Date()
-        }
+        },
         accuracyReport: {
           overallAccurac,
           y: 85,
@@ -497,7 +497,7 @@ describe('PilotCampaignAnalysis', () => {;
           categoryAccuracy: [],
           confidenceDistribution: [],
           reportDate: new Date()
-        }
+        },
         successRateAnalysis: {
           currentSuccessRat,
           e: 80,
@@ -510,11 +510,11 @@ describe('PilotCampaignAnalysis', () => {;
             totalAnyTypes: 100,
             unintentionalCount: 70,
             classificationAccuracy: 85
-          }
+          },
           projectedCompletion: new Date(),
           recommendations: [],
           analysisDate: new Date()
-        }
+        },
         manualReviewRecommendations: [],
         summary: {
           totalAnyType,
@@ -548,7 +548,7 @@ describe('PilotCampaignAnalysis', () => {;
           totalAnyTypes: 100,
           unintentionalCount: 70,
           classificationAccuracy: 85
-        }
+        },
         projectedCompletion: new Date(),
         recommendations: [],
         analysisDate: new Date()
@@ -576,9 +576,9 @@ describe('PilotCampaignAnalysis', () => {;
           intentionalVsUnintentional: {
             intentional: { count: 30, percentage: 30 }
             unintentional: { count: 70, percentage: 70 }
-          }
+          },
           analysisDate: new Date()
-        }
+        },
         accuracyReport: {
           overallAccurac,
           y: 85,
@@ -587,7 +587,7 @@ describe('PilotCampaignAnalysis', () => {;
           categoryAccuracy: [],
           confidenceDistribution: [],
           reportDate: new Date()
-        }
+        },
         successRateAnalysis: {
           currentSuccessRat,
           e: 80,
@@ -600,11 +600,11 @@ describe('PilotCampaignAnalysis', () => {;
             totalAnyTypes: 100,
             unintentionalCount: 70,
             classificationAccuracy: 85
-          }
+          },
           projectedCompletion: new Date(),
           recommendations: [],
           analysisDate: new Date()
-        }
+        },
         manualReviewRecommendations: [],
         summary: {
           totalAnyType,
@@ -638,7 +638,7 @@ describe('PilotCampaignAnalysis', () => {;
           totalAnyTypes: 100,
           unintentionalCount: 70,
           classificationAccuracy: 85
-        }
+        },
         projectedCompletion: new Date(),
         recommendations: [],
         analysisDate: new Date()

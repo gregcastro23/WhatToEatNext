@@ -16,7 +16,7 @@ export interface PerformanceBenchmark {
   baseline: number, // milliseconds,
   current: number; // milliseconds,
   improvement: number // percentage,
-  target: number, // milliseconds
+  target: number, // milliseconds,
   status: 'passing' | 'failing' | 'degraded',
   samples: number[],
   timestamp: Date
@@ -29,21 +29,21 @@ export interface CachePerformanceMetrics {
     avgResponseTime: number,
     size: number,
     maxSize: number
-  }
+  },
   tier2: {
     name: 'redis',
     hitRate: number,
     avgResponseTime: number,
     size: number,
     maxSize: number
-  }
+  },
   tier3: {
     name: 'database',
     hitRate: number,
     avgResponseTime: number,
     queryCount: number,
     avgQueryTime: number
-  }
+  },
   overall: {
     hitRate: number,
     avgResponseTime: number,
@@ -193,7 +193,7 @@ export class AlgorithmPerformanceValidator {
           avgResponseTime: 50,
           queryCount: 0,
           avgQueryTime: 50
-        }
+        },
         overall: { hitRate: 0.7, avgResponseTime: 15, efficiency: 70 }
       }
     }
@@ -243,7 +243,7 @@ export class AlgorithmPerformanceValidator {
           currentPerformance: current.current,
           regressionDetected,
           regressionPercentage,
-          threshold: this.REGRESSION_THRESHOLD * 100
+          threshold: this.REGRESSION_THRESHOLD * 100,
           recommendations
         })
 
@@ -760,7 +760,7 @@ export class AlgorithmPerformanceValidator {
     try {
       const report = await this.generatePerformanceReport()
       const exportData = {
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
         report,
         benchmarkHistory: this.benchmarkHistory,
         alerts: this.alerts

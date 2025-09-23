@@ -56,7 +56,7 @@ export interface AlchemicalState {
     Water: number,
     Earth: number,
     Air: number
-  }
+  },
   lunarPhase: string,
   dominantElement: string,
   planetaryHour: string,
@@ -74,7 +74,7 @@ export interface AlchemicalState {
   // Additional properties to match context
   currentSeason?: string,
   timeOfDay?: string,
-  astrologicalState: AstrologicalState
+  astrologicalState: AstrologicalState,
   currentEnergy?: {
     zodiacEnergy: string,
     lunarEnergy: string,

@@ -348,7 +348,7 @@ describe('Build Performance Tests', () => {
             targetTime: 10,
             cacheHitRate: Math.min(0.90.6 + metricsCallCount * 0.1), // Improving cache hit rate,
             memoryUsage: Math.max(3555 - metricsCallCount * 5), // Improving memory usage
-          }
+          },
           enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
         }
         performanceHistory.push(metrics)

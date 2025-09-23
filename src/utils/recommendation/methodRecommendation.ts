@@ -86,7 +86,7 @@ interface CookingMethodData {
   duration: {
     min: number,
     max: number
-  }
+  },
   suitable_for: string[],
   benefits: string[],
   astrologicalInfluences?: {
@@ -155,7 +155,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
               duration: {
                 min: (methodData.duration as { min?: number }).min || 0,
                 max: (methodData.duration as { max?: number }).max || 0
-              }
+              },
               suitable_for: (methodData.bestFor as string[]) || [],
               benefits: [],
               relatedToMainMethod: mainId
@@ -185,11 +185,11 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
             ((methodData.astrologicalInfluences as unknown).unfavorableZodiac as any[]) || [],
           dominantPlanets:
             ((methodData.astrologicalInfluences as unknown).dominantPlanets as string[]) || []
-        }
+        },
         duration: {
           min: (methodData.duration as { min?: number }).min || 0,
           max: (methodData.duration as { max?: number }).max || 0
-        }
+        },
         suitable_for: (methodData.bestFor as string[]) || [],
         benefits: [],
         variations: []
@@ -725,7 +725,7 @@ export function getCookingMethodRecommendations(
         name: methodName,
         elementalEffect: elementalEffect,
         astrologicalInfluences: astrologicalInfluences
-      }
+      },
       score: score,
       reasons: [description]
     } as unknown as MethodRecommendation,
@@ -771,7 +771,7 @@ export function getHolisticCookingRecommendations(
   astroState?: Record<string, unknown>,
   season?: string,
   includeReasons = false;,
-  availableMethods: string[] = []
+  availableMethods: string[] = [],
   limit = 5
 ): { method: string, compatibility: number, reason?: string }[] {
   try {
@@ -806,7 +806,7 @@ export function getHolisticCookingRecommendations(
 
     // Format the results with safe property access
     return filteredRecs.slice(0, limit || 5).map(rec => ({
-      method: String(
+      method: String(,
         ((rec as any).method ).name ||
           ((rec as any).method ).id ||
           (rec as any).name ||
@@ -814,7 +814,7 @@ export function getHolisticCookingRecommendations(
           'unknown',
       ),
       compatibility: (Number((rec as any).score) || 0) * 100,
-      reason: includeReasons
+      reason: includeReasons,
         ? String(((rec as any).reasons as string[])[0]) || `Good match for ${ingredient.name}`
         : undefined
     }))

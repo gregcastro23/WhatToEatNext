@@ -79,7 +79,7 @@ class UnintentionalAnyCampaignController {
 
   constructor(config: Partial<CampaignConfig> = {}) {
     this.config = {
-      targetReductionPercentage: 18, // Target 18% reduction (middle of 15-20% range)
+      targetReductionPercentage: 18, // Target 18% reduction (middle of 15-20% range),
       maxBatchSize: 25,
       maxTotalFiles: 100, // Conservative limit for full campaign,
       safetyValidationFrequency: 5,
@@ -295,7 +295,7 @@ class UnintentionalAnyCampaignController {
         isIntentional: false,
         confidence: 0.75,
         category: AnyTypeCategory.VARIABLE_DECLARATION,
-        suggestedReplacement: codeSnippet.replace(
+        suggestedReplacement: codeSnippet.replace(,
           /(\b(?:const|let|var)\s+\w+\s*:\s*)any(\s*=)/g
           '1unknown2',
         ),
@@ -560,7 +560,7 @@ class UnintentionalAnyCampaignController {
       replacementsAttempted,
       replacementsSuccessful,
       compilationErrors,
-      rollbacksPerformed: this.metrics.rollbacksPerformed
+      rollbacksPerformed: this.metrics.rollbacksPerformed,
       executionTime,
       safetyScore
     }

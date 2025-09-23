@@ -57,7 +57,7 @@ export interface ScoredRecipe extends Recipe {
 
 // Define a simplified Ingredient type
 export interface Ingredient {
-  name: string
+  name: string,
   [key: string]: unknown
 }
 

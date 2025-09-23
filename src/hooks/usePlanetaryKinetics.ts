@@ -37,31 +37,31 @@ export interface UsePlanetaryKineticsOptions {
 
 export interface UsePlanetaryKineticsReturn {
   // Core kinetics data
-  kinetics: KineticsResponse | null;
-  groupDynamics: GroupDynamicsResponse | null;
+  kinetics: KineticsResponse | null;,
+  groupDynamics: GroupDynamicsResponse | null;,
 
   // Loading and error states
-  isLoading: boolean;
-  error: string | null;
-  isOnline: boolean;
-  lastUpdate: Date | null;
+  isLoading: boolean;,
+  error: string | null;,
+  isOnline: boolean;,
+  lastUpdate: Date | null;,
 
   // Enhanced food recommendations
-  temporalRecommendations: TemporalFoodRecommendation | null;
-  elementalRecommendations: string[];
-  aspectEnhancedRecommendations: KineticsEnhancedRecommendation | null;
+  temporalRecommendations: TemporalFoodRecommendation | null;,
+  elementalRecommendations: string[];,
+  aspectEnhancedRecommendations: KineticsEnhancedRecommendation | null;,
 
   // Current state analysis
-  currentPowerLevel: number;
-  dominantElement: string;
-  aspectPhase: 'applying' | 'exact' | 'separating' | null;
-  seasonalInfluence: string;
+  currentPowerLevel: number;,
+  dominantElement: string;,
+  aspectPhase: 'applying' | 'exact' | 'separating' | null;,
+  seasonalInfluence: string;,
 
   // Actions
-  refreshKinetics: () => Promise<void>;
-  fetchGroupDynamics: (userIds: string[]) => Promise<void>;
-  calculatePortions: <T extends { amount: number }>(portions: T[]) => T[];
-  clearCache: () => void;
+  refreshKinetics: () => Promise<void>;,
+  fetchGroupDynamics: (userIds: string[]) => Promise<void>;,
+  calculatePortions: <T extends { amount: number }>(portions: T[]) => T[];,
+  clearCache: () => void;,
 
   // Health monitoring
   checkHealth: () => Promise<{ status: string; latency: number }>;

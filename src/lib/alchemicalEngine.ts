@@ -80,7 +80,7 @@ export class AlchemicalEngineBase {
         { degrees: [1020], element: 'Fire', ruler: 'Sun' }
         { degrees: [2030], element: 'Fire', ruler: 'Jupiter' }
       ]
-    }
+    },
     taurus: {
       baseElement: 'Earth',
       decans: [
@@ -88,7 +88,7 @@ export class AlchemicalEngineBase {
         { degrees: [1020], element: 'Earth', ruler: 'Mercury' }
         { degrees: [2030], element: 'Earth', ruler: 'Saturn' }
       ]
-    }
+    },
     leo: {
       baseElement: 'Fire',
       decans: [
@@ -96,7 +96,7 @@ export class AlchemicalEngineBase {
         { degrees: [1020], element: 'Fire', ruler: 'Sun' }
         { degrees: [2030], element: 'Fire', ruler: 'Jupiter' }
       ]
-    }
+    },
     sagittarius: {
       baseElement: 'Fire',
       decans: [
@@ -104,7 +104,7 @@ export class AlchemicalEngineBase {
         { degrees: [1020], element: 'Fire', ruler: 'Sun' }
         { degrees: [2030], element: 'Fire', ruler: 'Jupiter' }
       ]
-    }
+    },
     virgo: {
       baseElement: 'Earth',
       decans: [
@@ -112,7 +112,7 @@ export class AlchemicalEngineBase {
         { degrees: [1020], element: 'Earth', ruler: 'Mercury' }
         { degrees: [2030], element: 'Earth', ruler: 'Saturn' }
       ]
-    }
+    },
     capricorn: {
       baseElement: 'Earth',
       decans: [
@@ -120,7 +120,7 @@ export class AlchemicalEngineBase {
         { degrees: [1020], element: 'Earth', ruler: 'Mercury' }
         { degrees: [2030], element: 'Earth', ruler: 'Saturn' }
       ]
-    }
+    },
     gemini: {
       baseElement: 'Air',
       decans: [
@@ -128,7 +128,7 @@ export class AlchemicalEngineBase {
         { degrees: [1020], element: 'Air', ruler: 'Sun' }
         { degrees: [2030], element: 'Air', ruler: 'Jupiter' }
       ]
-    }
+    },
     libra: {
       baseElement: 'Air',
       decans: [
@@ -136,7 +136,7 @@ export class AlchemicalEngineBase {
         { degrees: [1020], element: 'Air', ruler: 'Sun' }
         { degrees: [2030], element: 'Air', ruler: 'Jupiter' }
       ]
-    }
+    },
     aquarius: {
       baseElement: 'Air',
       decans: [
@@ -144,7 +144,7 @@ export class AlchemicalEngineBase {
         { degrees: [1020], element: 'Air', ruler: 'Sun' }
         { degrees: [2030], element: 'Air', ruler: 'Jupiter' }
       ]
-    }
+    },
     cancer: {
       baseElement: 'Water',
       decans: [
@@ -152,7 +152,7 @@ export class AlchemicalEngineBase {
         { degrees: [1020], element: 'Water', ruler: 'Mercury' }
         { degrees: [2030], element: 'Water', ruler: 'Saturn' }
       ]
-    }
+    },
     scorpio: {
       baseElement: 'Water',
       decans: [
@@ -160,7 +160,7 @@ export class AlchemicalEngineBase {
         { degrees: [1020], element: 'Water', ruler: 'Mercury' }
         { degrees: [2030], element: 'Water', ruler: 'Saturn' }
       ]
-    }
+    },
     pisces: {
       baseElement: 'Water',
       decans: [
@@ -510,7 +510,7 @@ export class AlchemicalEngineBase {
     // Simple implementation - return recipes with default scores
     return recipes.slice(03).map(_recipe => ({
       recipe: _recipe,
-      score: 80, // Default score
+      score: 80, // Default score,
       elements: {
         Fire: 0.25,
         Water: 0.25,

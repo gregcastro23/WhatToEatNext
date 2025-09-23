@@ -43,28 +43,28 @@ class Logger {
           // Silent failure - logging errors should not break application
           _logger.warn(`[LOGGER-ERROR] Failed to log debug message for ${component}:`, e)
         }
-      }
+      },
       log: (message: string, ...args: unknown[]): void => {
         try {
           this.info(message, { component, args })
         } catch (e) {
           _logger.warn(`[LOGGER-ERROR] Failed to log message for ${component}:`, e)
         }
-      }
+      },
       info: (message: string, ...args: unknown[]): void => {
         try {
           this.info(message, { component, args })
         } catch (e) {
           _logger.warn(`[LOGGER-ERROR] Failed to log info message for ${component}:`, e)
         }
-      }
+      },
       warn: (message: string, ...args: unknown[]): void => {
         try {
           this.warn(message, { component, args })
         } catch (e) {
           _logger.warn(`[LOGGER-ERROR] Failed to log warning for ${component}:`, e)
         }
-      }
+      },
       error: (message: string, ...args: unknown[]): void => {
         try {
           this.error(message, { component, args })

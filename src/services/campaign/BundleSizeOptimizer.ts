@@ -40,7 +40,7 @@ export interface DependencyAnalysis {
   name: string,
   size: number,
   version: string,
-  usage: 'critical' | 'important' | 'optional';
+  usage: 'critical' | 'important' | 'optional';,
   alternatives: string[]
 }
 
@@ -769,7 +769,7 @@ export class BundleSizeOptimizer {
     try {
       const report = await this.generateOptimizationReport()
       const exportData = {
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
         report,
         history: this.analysisHistory,
         alerts: this.alerts

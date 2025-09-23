@@ -29,7 +29,7 @@ declare module 'astronomia' {
         lon: number,
         lat: number,
         range: number
-      }
+      },
       name: string
     }
   }

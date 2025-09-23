@@ -273,7 +273,7 @@ export class RecipeRecommender {
         Earth: 0.25,
         Air: 0.25,
         Water: 0.25
-      }
+      },
       season: ['all'],
       mealType: ['lunch', 'dinner'],
       timeToMake: '20 minutes',

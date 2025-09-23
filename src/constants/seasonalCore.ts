@@ -30,37 +30,37 @@ export const SCORE_THRESHOLDS = {
  */
 export const SEASONAL_MODIFIERS: Record<Season, ElementalProperties> = {
   spring: {
-    Air: 0.4, // Dominant - movement, growth, communication
-    Water: 0.3, // Strong - nourishment, flow
-    Earth: 0.2, // Moderate - grounding new growth
+    Air: 0.4, // Dominant - movement, growth, communication,
+    Water: 0.3, // Strong - nourishment, flow,
+    Earth: 0.2, // Moderate - grounding new growth,
     Fire: 0.1, // Minimal - gentle warmth
-  }
+  },
   summer: {
-    Fire: 0.4, // Dominant - heat, energy, expansion
-    Air: 0.3, // Strong - movement, activity
-    Water: 0.2, // Moderate - cooling balance
+    Fire: 0.4, // Dominant - heat, energy, expansion,
+    Air: 0.3, // Strong - movement, activity,
+    Water: 0.2, // Moderate - cooling balance,
     Earth: 0.1, // Minimal - stability
-  }
+  },
   autumn: {
-    Earth: 0.4, // Dominant - harvest, grounding, stability
-    Air: 0.3, // Strong - change, transformation
-    Fire: 0.2, // Moderate - warmth before winter
+    Earth: 0.4, // Dominant - harvest, grounding, stability,
+    Air: 0.3, // Strong - change, transformation,
+    Fire: 0.2, // Moderate - warmth before winter,
     Water: 0.1, // Minimal - preparation for winter
-  }
+  },
   winter: {
-    Water: 0.4, // Dominant - introspection, depth, rest
-    Earth: 0.3, // Strong - stability, preservation
-    Fire: 0.2, // Moderate - inner warmth
+    Water: 0.4, // Dominant - introspection, depth, rest,
+    Earth: 0.3, // Strong - stability, preservation,
+    Fire: 0.2, // Moderate - inner warmth,
     Air: 0.1, // Minimal - stillness
-  }
+  },
   fall: {
-    Earth: 0.4, // Alias for autumn
+    Earth: 0.4, // Alias for autumn,
     Air: 0.3,
     Fire: 0.2,
     Water: 0.1
-  }
+  },
   all: {
-    Fire: 0.25, // Balanced for all-season items
+    Fire: 0.25, // Balanced for all-season items,
     Air: 0.25,
     Water: 0.25,
     Earth: 0.25
@@ -87,7 +87,7 @@ export const ZODIAC_SEASONS: Record<Season, ZodiacSign[]> = {
   summer: ['cancer', 'leo', 'virgo'],
   autumn: ['libra', 'scorpio', 'sagittarius'],
   winter: ['capricorn', 'aquarius', 'pisces'],
-  fall: ['libra', 'scorpio', 'sagittarius'], // Alias for autumn
+  fall: ['libra', 'scorpio', 'sagittarius'], // Alias for autumn,
   all: [
     'aries',
     'taurus',
@@ -130,7 +130,7 @@ export const SEASONAL_PROPERTIES = {
     // Health and mood
     healthFocus: ['detoxification', 'liver support', 'energy renewal'],
     moodEffects: ['optimistic', 'energizing', 'creative', 'social']
-  }
+  },
   summer: {
     elementalModifier: SEASONAL_MODIFIERS.summer,
     qualities: ['expansive', 'active', 'abundant', 'hot'],
@@ -151,7 +151,7 @@ export const SEASONAL_PROPERTIES = {
     // Health and mood
     healthFocus: ['cooling', 'hydration', 'heart health'],
     moodEffects: ['joyful', 'active', 'social', 'confident']
-  }
+  },
   autumn: {
     elementalModifier: SEASONAL_MODIFIERS.autumn,
     qualities: ['contracting', 'descending', 'harvesting', 'grounding'],
@@ -172,7 +172,7 @@ export const SEASONAL_PROPERTIES = {
     // Health and mood
     healthFocus: ['immune support', 'digestive strength', 'grounding'],
     moodEffects: ['contemplative', 'grounding', 'introspective', 'grateful']
-  }
+  },
   winter: {
     elementalModifier: SEASONAL_MODIFIERS.winter,
     qualities: ['contracting', 'storing', 'deep', 'still'],
@@ -202,7 +202,7 @@ export const SEASONAL_PROPERTIES = {
  * Seasonal transition periods and dates
  */
 export const SEASONAL_TRANSITIONS = {
-  daysPerTransition: 21, // 3 weeks of transition between seasons
+  daysPerTransition: 21, // 3 weeks of transition between seasons,
   transitionPoints: {
     springToSummer: { month: 5, day: 15 }, // June 15
     summerToAutumn: { month: 8, day: 15 }, // September 15

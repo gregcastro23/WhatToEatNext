@@ -41,17 +41,17 @@ const ELEMENTAL_CUISINES = {
     cuisines: ['Mexican', 'Indian', 'Thai', 'Cajun', 'Ethiopian'],
     characteristics: ['Spicy', 'Grilled', 'Roasted', 'High heat cooking'],
     ingredients: ['Chili peppers', 'Ginger', 'Garlic', 'Spices']
-  }
+  },
   Water: {
     cuisines: ['Japanese', 'Scandinavian', 'Coastal', 'Seafood'],
     characteristics: ['Steamed', 'Boiled', 'Raw', 'Liquid-based'],
     ingredients: ['Fish', 'Seaweed', 'Rice', 'Broths']
-  }
+  },
   Air: {
     cuisines: ['Mediterranean', 'Lebanese', 'Greek', 'Light'],
     characteristics: ['Light', 'Airy', 'Whipped', 'Fermented'],
     ingredients: ['Herbs', 'Citrus', 'Olive oil', 'Fresh vegetables']
-  }
+  },
   Earth: {
     cuisines: ['German', 'Russian', 'British', 'Comfort food'],
     characteristics: ['Hearty', 'Roasted', 'Baked', 'Grounding'],

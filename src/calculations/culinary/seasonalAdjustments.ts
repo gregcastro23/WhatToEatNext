@@ -108,19 +108,19 @@ export function getSeasonalCookingRecommendations(_season: string): {
       ingredients: ['Fresh greens', 'Young vegetables', 'Herbs', 'Light proteins'],
       flavors: ['Fresh', 'Green', 'Mild', 'Cleansing'],
       timing: ['Morning', 'Early afternoon', 'Light meals']
-    }
+    },
     summer: {
       cookingMethods: ['Grilling', 'Cold preparations', 'Minimal cooking', 'Smoking'],
       ingredients: ['Fruits', 'Light vegetables', 'Cooling herbs', 'Lean proteins'],
       flavors: ['Cooling', 'Refreshing', 'Bright', 'Citrusy'],
       timing: ['Early morning', 'Evening', 'Cold dishes']
-    }
+    },
     autumn: {
       cookingMethods: ['Roasting', 'Braising', 'Slow cooking', 'Baking'],
       ingredients: ['Root vegetables', 'Squashes', 'Warming spices', 'Hearty proteins'],
       flavors: ['Warming', 'Rich', 'Spiced', 'Comforting'],
       timing: ['Afternoon', 'Evening', 'Longer cooking times']
-    }
+    },
     winter: {
       cookingMethods: ['Slow braising', 'Stewing', 'Deep roasting', 'Pressure cooking'],
       ingredients: ['Stored vegetables', 'Preserved foods', 'Warming herbs', 'Rich proteins'],
@@ -145,7 +145,7 @@ export function calculateSeasonalEffectiveness(
     seasonalAlignment: number,
     lunarAlignment: number,
     overallHarmony: number
-  }
+  },
   recommendations: string[]
 } {
   const seasonKey = season.toLowerCase()

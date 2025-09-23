@@ -197,9 +197,9 @@ function calculateDominantElementAlignment(
 
   // Check elemental harmony (some elements work well together)
   const elementalHarmony = {
-    Fire: ['Air', 'Fire'], // Fire works with Air and itself
-    Water: ['Earth', 'Water'], // Water works with Earth and itself
-    Earth: ['Water', 'Earth'], // Earth works with Water and itself
+    Fire: ['Air', 'Fire'], // Fire works with Air and itself,
+    Water: ['Earth', 'Water'], // Water works with Earth and itself,
+    Earth: ['Water', 'Earth'], // Earth works with Water and itself,
     Air: ['Fire', 'Air'], // Air works with Fire and itself
   }
 
@@ -369,9 +369,9 @@ function estimateRecipeThermodynamics(_elements: ElementalProperties) {
   const { Fire, Water, Earth, Air} = elements;
 
   return {
-    heat: (Fire + Air * 0.5) / 1.5, // Fire and Air contribute to heat
-    entropy: (Water + Air) / 2, // Water and Air contribute to entropy
-    reactivity: (Fire + Water) / 2, // Fire and Water are reactive
+    heat: (Fire + Air * 0.5) / 1.5, // Fire and Air contribute to heat,
+    entropy: (Water + Air) / 2, // Water and Air contribute to entropy,
+    reactivity: (Fire + Water) / 2, // Fire and Water are reactive,
     gregsEnergy: (Fire + Water + Earth + Air) / 4, // Overall energy
   }
 }

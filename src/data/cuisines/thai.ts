@@ -55,7 +55,7 @@ export const thai: Cuisine = {
             'ground pork': ['minced mushrooms', 'crumbled tofu', 'plant-based meat'],
             'soft-boiled egg': ['silken tofu', 'century egg'],
             'soy sauce': ['tamari', 'coconut aminos']
-          }
+          },
           servingSize: 4,
           allergens: ['soy', 'eggs'],
           prepTime: '10 minutes',
@@ -71,7 +71,7 @@ export const thai: Cuisine = {
             fat: 8,
             vitamins: ['B6', 'B12'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['all'],
           mealType: ['breakfast'],
           elementalProperties: {
@@ -115,7 +115,7 @@ export const thai: Cuisine = {
             shrimp: ['firm tofu', 'mushrooms', 'chicken'],
             'fish sauce': ['soy sauce', 'coconut aminos'],
             'jasmine rice': ['brown rice', 'quinoa']
-          }
+          },
           servingSize: 4,
           allergens: ['shellfish', 'fish', 'soy'],
           prepTime: '15 minutes',
@@ -132,7 +132,7 @@ export const thai: Cuisine = {
             fat: 6,
             vitamins: ['B12', 'C'],
             minerals: ['Iron', 'Iodine']
-          }
+          },
           season: ['all'],
           mealType: ['breakfast'],
           elementalProperties: {
@@ -174,7 +174,7 @@ export const thai: Cuisine = {
             'all-purpose flour': ['gluten-free flour blend', 'rice flour mix'],
             'palm sugar': ['brown sugar', 'coconut sugar'],
             'pandan leaves': ['pandan extract', 'vanilla extract']
-          }
+          },
           servingSize: 6,
           allergens: ['gluten', 'eggs', 'dairy'],
           prepTime: '20 minutes',
@@ -192,7 +192,7 @@ export const thai: Cuisine = {
             fat: 14,
             vitamins: ['A', 'D', 'E'],
             minerals: ['Calcium', 'Iron']
-          }
+          },
           season: ['all'],
           mealType: ['breakfast', 'snack'],
           elementalProperties: {
@@ -234,7 +234,7 @@ export const thai: Cuisine = {
             eggs: ['JUST Egg', 'chickpea flour mixture'],
             'fish sauce': ['soy sauce', 'coconut aminos'],
             sriracha: ['chili garlic sauce', 'sambal oelek']
-          }
+          },
           servingSize: 2,
           allergens: ['eggs', 'fish'],
           prepTime: '5 minutes',
@@ -251,7 +251,7 @@ export const thai: Cuisine = {
             fat: 16,
             vitamins: ['B12', 'D'],
             minerals: ['Iron', 'Selenium']
-          }
+          },
           season: ['all'],
           mealType: ['breakfast', 'lunch'],
           elementalProperties: {
@@ -301,7 +301,7 @@ export const thai: Cuisine = {
             'minced pork': ['ground chicken', 'crumbled tofu', 'mushrooms'],
             'fish sauce': ['soy sauce', 'coconut aminos'],
             'jasmine rice': ['brown rice', 'quinoa']
-          }
+          },
           servingSize: 4,
           allergens: ['fish', 'soy'],
           prepTime: '15 minutes',
@@ -322,7 +322,7 @@ export const thai: Cuisine = {
             fat: 8,
             vitamins: ['B12', 'D'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['all'],
           mealType: ['breakfast'],
           elementalProperties: {
@@ -333,7 +333,7 @@ export const thai: Cuisine = {
           }
         }
       ]
-    }
+    },
     lunch: {
       all: [
         {
@@ -381,7 +381,7 @@ export const thai: Cuisine = {
             'minced chicken': ['minced pork', 'crumbled tofu', 'chopped mushrooms'],
             'holy basil': ['Thai basil', 'regular basil'],
             'oyster sauce': ['vegetarian oyster sauce', 'mushroom sauce']
-          }
+          },
           servingSize: 2,
           allergens: ['fish', 'shellfish', 'soy'],
           prepTime: '15 minutes',
@@ -398,7 +398,7 @@ export const thai: Cuisine = {
             fat: 28,
             vitamins: ['A', 'C', 'K'],
             minerals: ['Iron', 'Potassium']
-          }
+          },
           season: ['all'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
@@ -448,7 +448,7 @@ export const thai: Cuisine = {
             fat: 28,
             vitamins: ['A', 'B12', 'D'],
             minerals: ['Iron', 'Calcium']
-          }
+          },
           timeToMake: '45 minutes',
           season: ['all'],
           mealType: ['lunch'],
@@ -500,7 +500,7 @@ export const thai: Cuisine = {
             'green papaya': ['shredded carrot', 'green mango'],
             'dried shrimp': ['toasted peanuts', 'crispy tofu'],
             'fish sauce': ['soy sauce', 'coconut aminos']
-          }
+          },
           servingSize: 2,
           allergens: ['fish', 'shellfish', 'peanuts'],
           prepTime: '20 minutes',
@@ -517,7 +517,7 @@ export const thai: Cuisine = {
             fat: 4,
             vitamins: ['C', 'A', 'K'],
             minerals: ['Potassium', 'Calcium']
-          }
+          },
           season: ['all'],
           mealType: ['lunch', 'dinner', 'appetizer'],
           elementalProperties: {
@@ -555,7 +555,7 @@ export const thai: Cuisine = {
             shrimp: ['tofu', 'mushrooms', 'chicken'],
             'kaffir lime leaves': ['lime zest', 'bay leaves'],
             galangal: ['ginger', 'turmeric']
-          }
+          },
           servingSize: 4,
           allergens: ['shellfish', 'fish'],
           prepTime: '15 minutes',
@@ -572,7 +572,7 @@ export const thai: Cuisine = {
             fat: 10,
             vitamins: ['B12', 'C', 'D'],
             minerals: ['Iodine', 'Zinc']
-          }
+          },
           season: ['all'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
@@ -618,7 +618,7 @@ export const thai: Cuisine = {
             shrimp: ['tofu', 'mushrooms'],
             'ground pork': ['ground chicken', 'crumbled tofu'],
             'fish sauce': ['soy sauce', 'coconut aminos']
-          }
+          },
           servingSize: 4,
           allergens: ['shellfish', 'fish', 'peanuts'],
           prepTime: '20 minutes',
@@ -635,7 +635,7 @@ export const thai: Cuisine = {
             fat: 12,
             vitamins: ['B12', 'C'],
             minerals: ['Iron', 'Potassium']
-          }
+          },
           season: ['summer'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
@@ -682,7 +682,7 @@ export const thai: Cuisine = {
             fat: 16,
             vitamins: ['C', 'A', 'K'],
             minerals: ['Potassium', 'Iron']
-          }
+          },
           timeToMake: '20 minutes',
           season: ['summer'],
           mealType: ['lunch'],
@@ -722,7 +722,7 @@ export const thai: Cuisine = {
             fat: 28,
             vitamins: ['B12', 'D', 'K'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           timeToMake: '180 minutes',
           season: ['winter'],
           mealType: ['lunch'],
@@ -767,7 +767,7 @@ export const thai: Cuisine = {
             fat: 28,
             vitamins: ['D', 'B12', 'C'],
             minerals: ['Iron', 'Calcium']
-          }
+          },
           timeToMake: '35 minutes',
           season: ['winter'],
           mealType: ['lunch'],
@@ -776,12 +776,12 @@ export const thai: Cuisine = {
             Fire: 0.3,
             Earth: 0.2,
             Air: 0.1
-          }
+          },
           astrologicalProfile: {
             favorableZodiac: ['cancer', 'pisces'],
             rulingPlanets: ['moon', 'venus'],
             elementalAffinity: 'Water'
-          }
+          },
           astrologicalInfluences: ['neptune', 'mars', 'pisces']
         }
         {
@@ -817,7 +817,7 @@ export const thai: Cuisine = {
             fat: 18,
             vitamins: ['B12', 'Iron', 'A'],
             minerals: ['Zinc', 'Iron']
-          }
+          },
           timeToMake: '45 minutes',
           season: ['winter'],
           mealType: ['lunch'],
@@ -829,7 +829,7 @@ export const thai: Cuisine = {
           }
         }
       ]
-    }
+    },
     dinner: {
       all: [
         {
@@ -874,7 +874,7 @@ export const thai: Cuisine = {
             'fish sauce': ['soy sauce', 'coconut aminos'],
             'palm sugar': ['brown sugar', 'coconut sugar'],
             'tamarind paste': ['lime juice + brown sugar']
-          }
+          },
           servingSize: 4,
           allergens: ['peanuts', 'eggs', 'soy', 'fish'],
           prepTime: '30 minutes',
@@ -891,7 +891,7 @@ export const thai: Cuisine = {
             fat: 16,
             vitamins: ['A', 'C', 'E'],
             minerals: ['Iron', 'Calcium']
-          }
+          },
           season: ['all'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
@@ -940,7 +940,7 @@ export const thai: Cuisine = {
             fat: 28,
             vitamins: ['B12', 'K', 'A'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           timeToMake: '20 minutes',
           season: ['all'],
           mealType: ['dinner'],
@@ -991,7 +991,7 @@ export const thai: Cuisine = {
             'sea bass': ['snapper', 'cod', 'tilapia'],
             'fish sauce': ['soy sauce', 'coconut aminos'],
             'chicken stock': ['vegetable stock', 'water']
-          }
+          },
           servingSize: 4,
           allergens: ['fish'],
           prepTime: '20 minutes',
@@ -1008,7 +1008,7 @@ export const thai: Cuisine = {
             fat: 12,
             vitamins: ['D', 'B12', 'C'],
             minerals: ['Selenium', 'Omega-3']
-          }
+          },
           season: ['all'],
           mealType: ['dinner'],
           elementalProperties: {
@@ -1048,7 +1048,7 @@ export const thai: Cuisine = {
             'palm seeds': ['lychee', 'longan'],
             'grass jelly': ['agar jelly', 'coconut jelly'],
             'red beans': ['mung beans', 'black beans']
-          }
+          },
           servingSize: 4,
           allergens: ['tree nuts (coconut)'],
           prepTime: '30 minutes',
@@ -1065,7 +1065,7 @@ export const thai: Cuisine = {
             fat: 8,
             vitamins: ['A', 'C'],
             minerals: ['Iron', 'Potassium']
-          }
+          },
           season: ['summer'],
           mealType: ['dessert'],
           elementalProperties: {
@@ -1110,7 +1110,7 @@ export const thai: Cuisine = {
             fat: 12,
             vitamins: ['B12', 'C', 'D'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           timeToMake: '25 minutes',
           season: ['summer'],
           mealType: ['dinner'],
@@ -1159,7 +1159,7 @@ export const thai: Cuisine = {
             'beef chuck': ['jackfruit', 'seitan', 'mushrooms'],
             'palm sugar': ['brown sugar', 'coconut sugar'],
             'tamarind paste': ['lime juice + brown sugar']
-          }
+          },
           servingSize: 6,
           allergens: ['peanuts', 'tree nuts (coconut)'],
           prepTime: '30 minutes',
@@ -1176,7 +1176,7 @@ export const thai: Cuisine = {
             fat: 38,
             vitamins: ['B12', 'A', 'E'],
             minerals: ['Iron', 'Potassium']
-          }
+          },
           season: ['autumn', 'winter'],
           mealType: ['dinner'],
           elementalProperties: {
@@ -1228,7 +1228,7 @@ export const thai: Cuisine = {
             'tiger prawns': ['tofu', 'mushrooms', 'fish'],
             'evaporated milk': ['coconut milk', 'cashew cream'],
             'nam prik pao': ['roasted chili paste', 'sambal oelek']
-          }
+          },
           servingSize: 4,
           allergens: ['shellfish', 'dairy'],
           prepTime: '20 minutes',
@@ -1245,7 +1245,7 @@ export const thai: Cuisine = {
             fat: 22,
             vitamins: ['D', 'B12', 'C'],
             minerals: ['Zinc', 'Iron']
-          }
+          },
           season: ['autumn', 'winter'],
           mealType: ['dinner'],
           elementalProperties: {
@@ -1297,7 +1297,7 @@ export const thai: Cuisine = {
             'beef tenderloin': ['seitan', 'mushrooms', 'tofu'],
             'fish sauce': ['soy sauce', 'coconut aminos'],
             'palm sugar': ['coconut sugar', 'brown sugar']
-          }
+          },
           servingSize: 4,
           allergens: ['peanuts', 'tree nuts (coconut)', 'fish'],
           prepTime: '20 minutes',
@@ -1314,7 +1314,7 @@ export const thai: Cuisine = {
             fat: 45,
             vitamins: ['B12', 'E', 'K'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['autumn', 'winter'],
           mealType: ['dinner'],
           elementalProperties: {
@@ -1367,7 +1367,7 @@ export const thai: Cuisine = {
             'pickled mustard greens': ['sauerkraut', 'kimchi'],
             lime: ['lemon', 'vinegar'],
             'chili oil': ['sriracha', 'sambal']
-          }
+          },
           servingSize: 4,
           allergens: ['eggs', 'wheat', 'tree nuts (coconut)'],
           prepTime: '30 minutes',
@@ -1384,7 +1384,7 @@ export const thai: Cuisine = {
             fat: 42,
             vitamins: ['A', 'D', 'K'],
             minerals: ['Iron', 'Calcium']
-          }
+          },
           season: ['autumn', 'winter'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
@@ -1395,7 +1395,7 @@ export const thai: Cuisine = {
           }
         }
       ]
-    }
+    },
     dessert: {
       all: [
         {
@@ -1441,7 +1441,7 @@ export const thai: Cuisine = {
             'palm sugar': ['coconut sugar', 'raw sugar'],
             'pandan leaves': ['vanilla extract'],
             'fresh mango': ['ripe peaches', 'sweet papaya']
-          }
+          },
           servingSize: 4,
           allergens: ['tree nuts (coconut)'],
           prepTime: '20 minutes',
@@ -1459,7 +1459,7 @@ export const thai: Cuisine = {
             fat: 10,
             vitamins: ['A', 'C'],
             minerals: ['Potassium', 'Manganese']
-          }
+          },
           season: ['spring', 'summer'],
           mealType: ['dessert'],
           elementalProperties: {
@@ -1502,7 +1502,7 @@ export const thai: Cuisine = {
             'water chestnuts': ['jicama', 'Asian pear'],
             'palm sugar': ['coconut sugar', 'raw sugar'],
             jackfruit: ['lychee', 'longan']
-          }
+          },
           servingSize: 4,
           allergens: ['tree nuts (coconut)'],
           prepTime: '30 minutes',
@@ -1520,7 +1520,7 @@ export const thai: Cuisine = {
             fat: 16,
             vitamins: ['E', 'K'],
             minerals: ['Manganese', 'Copper']
-          }
+          },
           season: ['summer'],
           mealType: ['dessert'],
           elementalProperties: {
@@ -1562,7 +1562,7 @@ export const thai: Cuisine = {
             'glutinous rice flour': ['regular rice flour', 'tapioca starch'],
             'palm sugar': ['brown sugar', 'coconut sugar'],
             'pandan extract': ['vanilla extract']
-          }
+          },
           servingSize: 4,
           allergens: ['tree nuts (coconut)'],
           prepTime: '25 minutes',
@@ -1579,7 +1579,7 @@ export const thai: Cuisine = {
             fat: 10,
             vitamins: ['E'],
             minerals: ['Calcium', 'Iron']
-          }
+          },
           season: ['all'],
           mealType: ['dessert'],
           elementalProperties: {
@@ -1621,7 +1621,7 @@ export const thai: Cuisine = {
             'kabocha pumpkin': ['butternut squash', 'acorn squash'],
             'palm sugar': ['coconut sugar', 'brown sugar'],
             'pandan leaves': ['vanilla extract']
-          }
+          },
           servingSize: 8,
           allergens: ['eggs', 'tree nuts (coconut)'],
           prepTime: '20 minutes',
@@ -1637,7 +1637,7 @@ export const thai: Cuisine = {
             fat: 12,
             vitamins: ['A', 'E'],
             minerals: ['Potassium', 'Iron']
-          }
+          },
           season: ['autumn', 'winter'],
           mealType: ['dessert'],
           elementalProperties: {
@@ -1677,7 +1677,7 @@ export const thai: Cuisine = {
             'palm seeds': ['lychee', 'longan'],
             'grass jelly': ['agar jelly', 'coconut jelly'],
             'red beans': ['mung beans', 'black beans']
-          }
+          },
           servingSize: 4,
           allergens: ['tree nuts (coconut)'],
           prepTime: '30 minutes',
@@ -1694,7 +1694,7 @@ export const thai: Cuisine = {
             fat: 8,
             vitamins: ['A', 'C'],
             minerals: ['Iron', 'Potassium']
-          }
+          },
           season: ['summer'],
           mealType: ['dessert'],
           elementalProperties: {
@@ -1705,7 +1705,7 @@ export const thai: Cuisine = {
           }
         }
       ]
-    }
+    },
     snacks: {
       all: [
         {
@@ -1734,7 +1734,7 @@ export const thai: Cuisine = {
             'rice flour': ['all-purpose flour', 'gluten-free flour blend'],
             'coconut milk': ['regular milk', 'plant-based milk'],
             bananas: ['plantains', 'sweet potato']
-          }
+          },
           servingSize: 4,
           allergens: ['tree nuts (coconut)', 'sesame'],
           prepTime: '15 minutes',
@@ -1751,7 +1751,7 @@ export const thai: Cuisine = {
             fat: 12,
             vitamins: ['B6', 'C'],
             minerals: ['Potassium', 'Magnesium']
-          }
+          },
           season: ['all'],
           mealType: ['snack', 'dessert'],
           elementalProperties: {
@@ -1763,7 +1763,7 @@ export const thai: Cuisine = {
         }
       ]
     }
-  }
+  },
   traditionalSauces: {
     namPlaWaan: {
       name: 'Nam Pla Wan (Sweet Fish Sauce)',
@@ -1777,13 +1777,13 @@ export const thai: Cuisine = {
         Fire: 0.3,
         Earth: 0.2,
         Air: 0.1
-      }
+      },
       astrologicalInfluences: ['Neptune', 'Mars', 'Pisces'],
       seasonality: 'all',
       preparationNotes:
         'Balance is key - should achieve equal sweet, sour, and salty notes with heat according to preference',
       technicalTips: 'Palm sugar can be melted with a little water to help it dissolve more easily'
-    }
+    },
     namPhrik: {
       name: 'Nam Phrik (Chili Paste)',
       description:
@@ -1809,14 +1809,14 @@ export const thai: Cuisine = {
         Earth: 0.2,
         Water: 0.1,
         Air: 0.1
-      }
+      },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'all',
       preparationNotes:
         'Traditional preparation involves pounding in a mortar and pestle to develop complex flavors',
       technicalTips:
         'Roasting ingredients before pounding enhances aroma and reduces raw spiciness'
-    }
+    },
     padThaiSauce: {
       name: 'Pad Thai Sauce',
       description: 'Sweet-sour-salty sauce that defines Thailand's most famous noodle dish',
@@ -1835,14 +1835,14 @@ export const thai: Cuisine = {
         Water: 0.3,
         Fire: 0.2,
         Air: 0.1
-      }
+      },
       astrologicalInfluences: ['Venus', 'Mercury', 'Taurus'],
       seasonality: 'all',
       preparationNotes:
         'Balance of sour from tamarind, sweet from palm sugar, and salty from fish sauce is crucial',
       technicalTips:
         'Prepare in advance and reduce to concentrate flavors before adding to noodles'
-    }
+    },
     currySauces: {
       name: 'Curry Pastes/Sauces',
       description: 'Aromatic spice and herb pastes that form the foundation of Thai curries',
@@ -1869,14 +1869,14 @@ export const thai: Cuisine = {
         Earth: 0.3,
         Water: 0.2,
         Air: 0.1
-      }
+      },
       astrologicalInfluences: ['Mars', 'Jupiter', 'Leo'],
       seasonality: 'all',
       preparationNotes:
         'Traditional preparation requires significant time pounding ingredients to release oils and flavor compounds',
       technicalTips:
         'Fry paste in coconut cream (the thick part that rises to the top of coconut milk) until aromatic and oil separates'
-    }
+    },
     srirachaSauce: {
       name: 'Sriracha Sauce',
       description:
@@ -1902,14 +1902,14 @@ export const thai: Cuisine = {
         Water: 0.2,
         Earth: 0.2,
         Air: 0.1
-      }
+      },
       astrologicalInfluences: ['Mars', 'Mercury', 'Sagittarius'],
       seasonality: 'all',
       preparationNotes:
         'Traditional Thai version is tangier and thinner than the popular American version',
       technicalTips: 'Fermentation develops depth of flavor beyond simple chili heat'
     }
-  }
+  },
   sauceRecommender: {
     forProtein: {
       chicken: ['nam jim gai', 'green curry', 'prik king', 'pad thai sauce', 'nam jim jaew'],
@@ -1929,7 +1929,7 @@ export const thai: Cuisine = {
         'green curry'
       ],
       tofu: ['peanut sauce', 'massaman curry', 'sweet soy glaze', 'tamarind sauce', 'red curry']
-    }
+    },
     forVegetable: {
       leafy: ['nam jim', 'sweet fish sauce', 'sesame-soy dressing', 'coconut-lime', 'peanut sauce'],
       root: [
@@ -1954,7 +1954,7 @@ export const thai: Cuisine = {
         'black pepper sauce',
         'light soy'
       ]
-    }
+    },
     forCookingMethod: {
       grilling: [
         'nam jim jaew',
@@ -1985,7 +1985,7 @@ export const thai: Cuisine = {
         'khao soi'
       ],
       salads: ['som tam dressing', 'yam dressing', 'larb dressing', 'nam tok', 'plaa dressing']
-    }
+    },
     byAstrological: {
       fire: ['nam phrik', 'jungle curry', 'dried chili dip', 'sriracha', 'prik king'],
       water: [
@@ -2009,7 +2009,7 @@ export const thai: Cuisine = {
         'citrus vinaigrettes',
         'lemongrass dips'
       ]
-    }
+    },
     byRegion: {
       northern: ['nam phrik num', 'nam phrik ong', 'jaew bong', 'sai ua paste', 'hang lay curry'],
       northeastern: [
@@ -2027,7 +2027,7 @@ export const thai: Cuisine = {
         'sator sauce',
         'gaeng tai pla'
       ]
-    }
+    },
     byDietary: {
       vegetarian: [
         'peanut sauce',
@@ -2058,7 +2058,7 @@ export const thai: Cuisine = {
         'herb infused oils'
       ]
     }
-  }
+  },
   cookingTechniques: [
     {
       name: 'Wok Cooking (Pad)',

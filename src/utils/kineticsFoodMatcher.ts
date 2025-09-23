@@ -20,18 +20,18 @@ import type {
 import type { ElementalProperties } from '@/types/alchemy';
 
 export interface FoodItem {
-  id: string;
-  name: string;
-  tags: string[];
-  elementalProfile: ElementalProperties;
-  basePortionSize: number;
+  id: string;,
+  name: string;,
+  tags: string[];,
+  elementalProfile: ElementalProperties;,
+  basePortionSize: number;,
   nutritionalDensity: number;
 }
 
 export interface UserPreferences {
-  cuisineTypes: string[];
-  dietaryRestrictions: string[];
-  allergies: string[];
+  cuisineTypes: string[];,
+  dietaryRestrictions: string[];,
+  allergies: string[];,
   energyPreference?: 'high' | 'moderate' | 'low';
 }
 

@@ -62,12 +62,12 @@ export interface EnhancedIngredient {
       humidity: string,
       duration: string,
       method: string
-    }
+    },
     seasonality: {
       peak: Season[],
       available: Season[],
       optimal: Season[]
-    }
+    },
     preparationMethods: string[],
     flavorProfile?: FlavorProfile
   }
@@ -81,7 +81,7 @@ export interface EnhancedIngredient {
     seasonalPeak: {
       northern: number[],
       southern: number[]
-    }
+    },
     lunarAffinity: LunarPhase[],
     planetaryHours: string[],
     thermodynamicProperties?: ThermodynamicProperties
@@ -96,7 +96,7 @@ export interface EnhancedIngredient {
       carbs: number,
       fat: number,
       fiber: number
-    }
+    },
     vitamins: { [key: string]: number }
     minerals: { [key: string]: number }
     antioxidants?: { [key: string]: number }
@@ -685,7 +685,7 @@ export class EnhancedIngredientsSystem {
       traditional: this.findTraditionalPairings(targetIngredient),
       innovative: this.findInnovativePairings(targetIngredient),
       seasonal: this.findSeasonalPairings(targetIngredient),
-      kalchmHarmonious: this.findKalchmCompatibleIngredients(targetIngredient.kalchm || 1.00.15)
+      kalchmHarmonious: this.findKalchmCompatibleIngredients(targetIngredient.kalchm || 1.00.15),
         .filter(i => i.name !== targetIngredient.name)
         .slice(05)
     }
@@ -750,7 +750,7 @@ export class EnhancedIngredientsSystem {
     const elementalProps = ingredient.elementalProperties
 
     return {
-      cookingMethods: this.getCookingMethodsForCategory(
+      cookingMethods: this.getCookingMethodsForCategory(,
         category,
         elementalProps,
       ) as unknown as CookingMethod[],
@@ -776,7 +776,7 @@ export class EnhancedIngredientsSystem {
     ).element as Element,
 
     return {
-      planetaryRuler: (ingredient.planetaryRuler ||
+      planetaryRuler: (ingredient.planetaryRuler ||,
         this.getPlanetaryRulerForElement(
           dominantElement,
         )) as unknown as import('@/types/celestial').Planet;
@@ -806,7 +806,7 @@ export class EnhancedIngredientsSystem {
           carbs: Number((existingProfile.macros as any).carbs || 0),
           fat: Number((existingProfile.macros as any).fat || 0),
           fiber: Number((existingProfile.macros as any).fiber || 0)
-        }
+        },
         vitamins: (existingProfile.vitamins as Record<string, number>) || {}
         minerals: (existingProfile.minerals as Record<string, number>) || {}
         benefits: Array.isArray(ingredient.healthBenefits) ? ingredient.healthBenefits : [],
@@ -956,7 +956,7 @@ export class EnhancedIngredientsSystem {
         // Score by compatibility
         .map(ingredient => ({
           ingredient,
-          score: calculateElementalCompatibility(
+          score: calculateElementalCompatibility(,
             avgElementalProperties,
             ingredient.elementalProperties
           )
@@ -986,7 +986,7 @@ export class EnhancedIngredientsSystem {
         .filter(other => other.name !== ingredient.name)
         .map(other => ({,
           ingredient: other,
-          score: calculateElementalCompatibility(
+          score: calculateElementalCompatibility(,
             ingredient.elementalProperties
             other.elementalProperties
           )
@@ -1126,43 +1126,43 @@ export class EnhancedIngredientsSystem {
         humidity: 'moderate',
         duration: '1-2 weeks',
         method: 'refrigerate'
-      }
+      },
       vegetables: {
         temperature: 'cool',
         humidity: 'high',
         duration: '1-2 weeks',
         method: 'refrigerate'
-      }
+      },
       herbs: {
         temperature: 'cool',
         humidity: 'moderate',
         duration: '5-7 days',
         method: 'refrigerate wrapped in damp paper towel'
-      }
+      },
       spices: {
         temperature: 'room temperature',
         humidity: 'low',
         duration: '6-12 months',
         method: 'Airtight container in a dark place'
-      }
+      },
       grains: {
         temperature: 'room temperature',
         humidity: 'low',
         duration: '6-12 months',
         method: 'Airtight container'
-      }
+      },
       oils: {
         temperature: 'cool',
         humidity: 'low',
         duration: '3-6 months',
         method: 'dark bottle, away from heat'
-      }
+      },
       proteins: {
         temperature: 'cold',
         humidity: 'low',
         duration: '2-4 days',
         method: 'refrigerate or freeze'
-      }
+      },
       seasonings: {
         temperature: 'room temperature',
         humidity: 'low',
@@ -1200,17 +1200,17 @@ export class EnhancedIngredientsSystem {
         peak: ['summer'],
         optimal: ['summer', 'fall'],
         available: ['spring', 'summer', 'fall']
-      }
+      },
       Water: {
         peak: ['winter'],
         optimal: ['winter', 'spring'],
         available: ['fall', 'winter', 'spring']
-      }
+      },
       Earth: {
         peak: ['fall'],
         optimal: ['fall', 'winter'],
         available: ['summer', 'fall', 'winter']
-      }
+      },
       Air: {
         peak: ['spring'],
         optimal: ['spring', 'summer'],

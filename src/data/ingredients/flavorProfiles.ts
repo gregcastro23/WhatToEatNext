@@ -48,7 +48,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.1,
     salty: 0.0,
     umami: 0.2
-  }
+  },
   carrot: {
     spicy: 0.0,
     sweet: 0.7,
@@ -56,7 +56,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.1,
     salty: 0.0,
     umami: 0.2
-  }
+  },
   spinach: {
     spicy: 0.0,
     sweet: 0.1,
@@ -64,7 +64,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.5,
     salty: 0.1,
     umami: 0.3
-  }
+  },
   mushroom: {
     spicy: 0.0,
     sweet: 0.1,
@@ -82,7 +82,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.1,
     salty: 0.0,
     umami: 0.0
-  }
+  },
   lemon: {
     spicy: 0.0,
     sweet: 0.1,
@@ -90,7 +90,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.3,
     salty: 0.0,
     umami: 0.0
-  }
+  },
   orange: {
     spicy: 0.0,
     sweet: 0.6,
@@ -98,7 +98,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.2,
     salty: 0.0,
     umami: 0.0
-  }
+  },
   strawberry: {
     spicy: 0.0,
     sweet: 0.7,
@@ -116,7 +116,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.2,
     salty: 0.0,
     umami: 0.2
-  }
+  },
   cilantro: {
     spicy: 0.1,
     sweet: 0.1,
@@ -133,7 +133,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.2,
     salty: 0.1,
     umami: 0.1
-  }
+  },
   turmeric: {
     spicy: 0.3,
     sweet: 0.1,
@@ -141,7 +141,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.5,
     salty: 0.0,
     umami: 0.2
-  }
+  },
   cardamom: {
     spicy: 0.4,
     sweet: 0.3,
@@ -157,7 +157,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.3,
     salty: 0.0,
     umami: 0.0
-  }
+  },
   saffron: {
     spicy: 0.1,
     sweet: 0.2,
@@ -175,7 +175,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.1,
     salty: 0.2,
     umami: 0.9
-  }
+  },
   chicken: {
     spicy: 0.0,
     sweet: 0.1,
@@ -183,7 +183,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.0,
     salty: 0.1,
     umami: 0.6
-  }
+  },
   fish: {
     spicy: 0.0,
     sweet: 0.1,
@@ -191,7 +191,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.0,
     salty: 0.2,
     umami: 0.8
-  }
+  },
   tofu: {
     spicy: 0.0,
     sweet: 0.1,
@@ -199,7 +199,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.1,
     salty: 0.1,
     umami: 0.3
-  }
+  },
   tempeh: {
     spicy: 0.0,
     sweet: 0.1,
@@ -217,7 +217,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.0,
     salty: 0.0,
     umami: 0.1
-  }
+  },
   pasta: {
     spicy: 0.0,
     sweet: 0.2,
@@ -225,7 +225,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.0,
     salty: 0.1,
     umami: 0.1
-  }
+  },
   quinoa: {
     spicy: 0.0,
     sweet: 0.1,
@@ -243,7 +243,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.0,
     salty: 0.3,
     umami: 0.3
-  }
+  },
   cheese: {
     spicy: 0.0,
     sweet: 0.2,
@@ -251,7 +251,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.1,
     salty: 0.5,
     umami: 0.8
-  }
+  },
   yogurt: {
     spicy: 0.0,
     sweet: 0.2,
@@ -277,7 +277,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.3,
     salty: 0.8,
     umami: 0.9
-  }
+  },
   miso: {
     spicy: 0.0,
     sweet: 0.2,
@@ -285,7 +285,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.2,
     salty: 0.7,
     umami: 0.9
-  }
+  },
   kimchi: {
     spicy: 0.7,
     sweet: 0.1,
@@ -293,7 +293,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.1,
     salty: 0.6,
     umami: 0.7
-  }
+  },
   vinegar: {
     spicy: 0.0,
     sweet: 0.0,
@@ -311,7 +311,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.2,
     salty: 0.1,
     umami: 0.2
-  }
+  },
   walnut: {
     spicy: 0.0,
     sweet: 0.2,
@@ -319,7 +319,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
     bitter: 0.4,
     salty: 0.0,
     umami: 0.3
-  }
+  },
   sesame: {
     spicy: 0.0,
     sweet: 0.2,

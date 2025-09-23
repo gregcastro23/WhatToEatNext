@@ -89,7 +89,7 @@ export interface CookingMethodRecommendationCriteria {
  */
 export interface RecommendationResult<T> {
   /** Recommended items */
-  items: T[]
+  items: T[],
   /** Compatibility scores for each recommended item */
   scores: { [key: string]: number }
   /** Additional context or explanation for recommendations */

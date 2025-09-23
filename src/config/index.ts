@@ -2,7 +2,7 @@ export const _config = {
   api: {
     celestialUpdateInterval: 5 * 60 * 1000, // 5 minutes,
     cacheTimeout: 3600000, // 1 hour in milliseconds
-  }
+  },
   scoring: {
     weights: {
       seasonal: 2,
@@ -11,7 +11,7 @@ export const _config = {
       celestial: 1.25,
       traditional: 1
     }
-  }
+  },
   elements: {
     Fire: { complement: 'Fire', harmony: 'Air' }
     Water: { complement: 'Water', harmony: 'Earth' }

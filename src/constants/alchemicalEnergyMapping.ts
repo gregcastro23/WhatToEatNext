@@ -14,7 +14,7 @@ export interface AlchemicalEnergyState {
   planets: {
     daytime: string[],
     nighttime: string[]
-  }
+  },
   elements: string[],
   properties: {
     heat: '+' | '-',
@@ -33,7 +33,7 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     planets: {
       daytime: ['Sun', 'Jupiter', 'Saturn', 'Mercury'],
       nighttime: []
-    }
+    },
     elements: ['Fire', 'Air'],
     properties: {
       heat: '+',
@@ -49,7 +49,7 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     planets: {
       daytime: [],
       nighttime: ['Mercury', 'Neptune']
-    }
+    },
     elements: ['Air', 'Earth'],
     properties: {
       heat: '-',
@@ -65,7 +65,7 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     planets: {
       daytime: ['Venus', 'Mars'],
       nighttime: ['Jupiter', 'Neptune']
-    }
+    },
     elements: ['Fire', 'Water'],
     properties: {
       heat: '-',
@@ -81,7 +81,7 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     planets: {
       daytime: [],
       nighttime: ['Venus', 'Saturn', 'Mars', 'Uranus']
-    }
+    },
     elements: ['Water', 'Earth'],
     properties: {
       heat: '-',
@@ -101,15 +101,15 @@ const logger = createLogger('alchemicalEnergyMapping')
 
 // Define day/night element maps for all planets
 export const _planetElementMap = (isDaytime: boolean): Record<string, string> => ({
-  sun: 'Fire', // Sun is always Fire
-  moon: 'Water', // Moon is always Water
+  sun: 'Fire', // Sun is always Fire,
+  moon: 'Water', // Moon is always Water,
   mercury: isDaytime ? 'Air' : 'Earth',
   venus: isDaytime ? 'Water' : 'Earth',
   mars: isDaytime ? 'Fire' : 'Water',
   jupiter: isDaytime ? 'Air' : 'Fire',
   saturn: isDaytime ? 'Air' : 'Earth',
   uranus: isDaytime ? 'Water' : 'Air',
-  neptune: 'Water', // Neptune is always Water
+  neptune: 'Water', // Neptune is always Water,
   pluto: isDaytime ? 'Earth' : 'Water',
   northnode: 'Fire',
   southnode: 'Earth',
@@ -119,15 +119,15 @@ export const _planetElementMap = (isDaytime: boolean): Record<string, string> =>
 
 // Define day/night alchemical property maps
 export const planetPropertyMap = (isDaytime: boolean): Record<string, string> => ({
-  sun: 'Spirit', // Always Spirit
-  moon: 'Essence', // Always Essence
+  sun: 'Spirit', // Always Spirit,
+  moon: 'Essence', // Always Essence,
   mercury: isDaytime ? 'Spirit' : 'Matter',
   venus: isDaytime ? 'Essence' : 'Matter',
   mars: isDaytime ? 'Essence' : 'Essence',
   jupiter: isDaytime ? 'Spirit' : 'Spirit',
   saturn: isDaytime ? 'Spirit' : 'Matter',
   uranus: isDaytime ? 'Essence' : 'Substance',
-  neptune: 'Essence', // Always Essence
+  neptune: 'Essence', // Always Essence,
   pluto: isDaytime ? 'Matter' : 'Essence',
   northnode: 'Spirit',
   southnode: 'Matter',

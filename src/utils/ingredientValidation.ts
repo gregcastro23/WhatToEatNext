@@ -23,7 +23,7 @@ export interface IngredientValidationResult {
 }
 
 export interface IngredientValidationError {
-  type: | 'ELEMENTAL_INVALID'
+  type: | 'ELEMENTAL_INVALID',
     | 'COMPATIBILITY_VIOLATION'
     | 'ALCHEMICAL_MISMATCH'
     | 'DATA_INCOMPLETE'
@@ -38,7 +38,7 @@ export interface IngredientValidationError {
 }
 
 export interface IngredientValidationWarning {
-  type: 'MINOR_INCONSISTENCY' | 'DATA_OUTDATED' | 'PERFORMANCE_SLOW' | 'MISSING_OPTIONAL'
+  type: 'MINOR_INCONSISTENCY' | 'DATA_OUTDATED' | 'PERFORMANCE_SLOW' | 'MISSING_OPTIONAL',
   ingredient?: string,
   property?: string,
   message: string,

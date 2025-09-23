@@ -35,12 +35,12 @@ describe('UnintentionalAnyCampaignController', () => {
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
         stashRetentionDays: 7
-      }
+      },
       progressTargets: { typeScriptErrors: 0,
         lintingWarnings: 0,
         buildTime: 10,
         enterpriseSystems: 200
-      }
+      },
       toolConfiguration: { enhancedErrorFixer: 'test-script.js',
         explicitAnyFixer: 'test-script.js',
         unusedVariablesFixer: 'test-script.js',
@@ -216,12 +216,12 @@ describe('UnintentionalAnyIntegrationHelper', () => {
           corruptionDetectionEnabled: true,
           automaticRollbackEnabled: true,
           stashRetentionDays: 7
-        }
+        },
         progressTargets: { typeScriptErrors: 0,
           lintingWarnings: 0,
           buildTime: 10,
           enterpriseSystems: 200
-        }
+        },
         toolConfiguration: { enhancedErrorFixer: 'test-script.js',
           explicitAnyFixer: 'test-script.js',
           unusedVariablesFixer: 'test-script.js',
@@ -265,12 +265,12 @@ describe('UnintentionalAnyIntegrationHelper', () => {
           corruptionDetectionEnabled: true,
           automaticRollbackEnabled: true,
           stashRetentionDays: 7
-        }
+        },
         progressTargets: { typeScriptErrors: 0,
           lintingWarnings: 0,
           buildTime: 10,
           enterpriseSystems: 200
-        }
+        },
         toolConfiguration: { enhancedErrorFixer: 'test-scriptjs',
           explicitAnyFixer: 'test-script.js',
           unusedVariablesFixer: 'test-script.js',
@@ -292,12 +292,12 @@ describe('UnintentionalAnyIntegrationHelper', () => {
           corruptionDetectionEnabled: true,
           automaticRollbackEnabled: true,
           stashRetentionDays: 7
-        }
+        },
         progressTargets: { typeScriptErrors: 0,
           lintingWarnings: 0,
           buildTime: 10,
           enterpriseSystems: 200
-        }
+        },
         toolConfiguration: { enhancedErrorFixer: 'test-script.js',
           explicitAnyFixer: 'test-script.js',
           unusedVariablesFixer: 'test-script.js',

@@ -158,7 +158,7 @@ export function suggestIngredientSubstitutions(recipe: Recipe, ingredientToRepla
     })
     .map(([name, mapping]) => ({
       name,
-      similarity: calculateElementalSimilarity(
+      similarity: calculateElementalSimilarity(,
         elementalProperties as ElementalProperties,
         mapping.elementalProperties
       ),

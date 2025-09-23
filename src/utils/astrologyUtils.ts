@@ -599,7 +599,7 @@ function calculateInnerPlanetLongitude(_jd: number, _planet: string): number {
         peri: 29.1241, // Argument of perihelion,
         node: 48.3313, // Longitude of ascending node,
         period: 87.969, // Orbital period in days
-      }
+      },
       venus: {
         sma: 0.723332, // Semi-major axis in AU,
         ecc: 0.006772, // Eccentricity,
@@ -650,31 +650,31 @@ function calculateOuterPlanetLongitude(_jd: number, _planet: string): number {
         epochLongitude: 355.45332,
         epochDate: 2451545.0, // J2000,
         dailyMotion: 0.5240207766
-      }
+      },
       jupiter: {
         period: 4332.59,
         epochLongitude: 34.40438,
         epochDate: 2451545.0,
         dailyMotion: 0.0830853001
-      }
+      },
       saturn: {
         period: 10759.22,
         epochLongitude: 50.077471,
         epochDate: 2451545.0,
         dailyMotion: 0.0334442282
-      }
+      },
       uranus: {
         period: 30688.5,
         epochLongitude: 314.055005,
         epochDate: 2451545.0,
         dailyMotion: 0.011725806
-      }
+      },
       neptune: {
         period: 60182,
         epochLongitude: 304.348665,
         epochDate: 2451545.0,
         dailyMotion: 0.0059802665
-      }
+      },
       pluto: {
         period: 90560,
         epochLongitude: 238.92881,
@@ -825,10 +825,10 @@ export function getTraditionalRuler(_sign: string): string {
     leo: 'Sun',
     virgo: 'Mercury',
     libra: 'Venus',
-    scorpio: 'Mars', // Traditional ruler (before Pluto)
+    scorpio: 'Mars', // Traditional ruler (before Pluto),
     sagittarius: 'Jupiter',
     capricorn: 'Saturn',
-    aquarius: 'Saturn', // Traditional ruler (before Uranus)
+    aquarius: 'Saturn', // Traditional ruler (before Uranus),
     pisces: 'Jupiter', // Traditional ruler (before Neptune)
   }
 
@@ -1584,7 +1584,7 @@ export async function getCurrentAstrologicalState(
       planetaryPositions,
       activePlanets,
       planetaryHour: planetaryHour ,
-      aspects: aspects as import('@/types/celestial').PlanetaryAspect[];
+      aspects: aspects as import('@/types/celestial').PlanetaryAspect[];,
       tarotElementBoosts: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
       tarotPlanetaryBoosts: {}
     }
@@ -1625,89 +1625,89 @@ export function getDefaultPlanetaryPositions(): Record<string, PlanetPosition> {
       minute: 45,
       exactLongitude: 100.75, // 10° 45' Cancer,
       isRetrograde: false
-    }
+    },
     Moon: {
       sign: 'libra',
       degree: 18,
       minute: 19,
       exactLongitude: 198.32, // 18° 19' Libra,
       isRetrograde: false
-    }
+    },
     Mercury: {
       sign: 'leo',
       degree: 2,
       minute: 9,
       exactLongitude: 122.15, // 2° 9' Leo,
       isRetrograde: false
-    }
+    },
     Venus: {
       sign: 'leo',
       degree: 14,
       minute: 51,
       exactLongitude: 134.85, // 14° 51' Leo,
       isRetrograde: false
-    }
+    },
     Mars: {
       sign: 'taurus',
       degree: 25,
       minute: 25,
       exactLongitude: 55.42, // 25° 25' Taurus,
       isRetrograde: false
-    }
+    },
     Jupiter: {
       sign: 'gemini',
       degree: 12,
       minute: 44,
       exactLongitude: 72.73, // 12° 44' Gemini,
       isRetrograde: false
-    }
+    },
     Saturn: {
       sign: 'pisces',
       degree: 19,
       minute: 17,
       exactLongitude: 349.28, // 19° 17' Pisces,
       isRetrograde: false
-    }
+    },
     Uranus: {
       sign: 'taurus',
       degree: 26,
       minute: 9,
       exactLongitude: 56.15, // 26° 9' Taurus,
       isRetrograde: false
-    }
+    },
     Neptune: {
       sign: 'aries',
       degree: 29,
       minute: 55,
       exactLongitude: 29.92, // 29° 55' Aries,
       isRetrograde: false
-    }
+    },
     Pluto: {
       sign: 'aquarius',
       degree: 1,
       minute: 53,
       exactLongitude: 301.88, // 1° 53' Aquarius,
       isRetrograde: true
-    }
+    },
     northNode: {
       sign: 'pisces',
       degree: 26,
       minute: 33,
-      exactLongitude: 356.55, // Position in 330-360 degrees (pisces)
+      exactLongitude: 356.55, // Position in 330-360 degrees (pisces),
       isRetrograde: true
-    }
+    },
     southNode: {
       sign: 'virgo',
       degree: 26,
       minute: 33,
       exactLongitude: 176.55, // Position in 150-180 degrees (virgo), opposite to North Node,
       isRetrograde: true
-    }
+    },
     Ascendant: {
       sign: 'sagittarius',
       degree: 3,
       minute: 58,
-      exactLongitude: 243.97, // Position in 240-270 degrees (sagittarius)
+      exactLongitude: 243.97, // Position in 240-270 degrees (sagittarius),
       isRetrograde: false
     }
   }
@@ -2234,19 +2234,19 @@ export function calculateElementalCompatibility(element1: Element, element2: Ele
       Earth: 0.5,
       Air: 0.8,
       Water: 0.2
-    }
+    },
     Earth: {
       Fire: 0.5,
       Earth: 1.0,
       Air: 0.3,
       Water: 0.9
-    }
+    },
     Air: {
       Fire: 0.8,
       Earth: 0.3,
       Air: 1.0,
       Water: 0.4
-    }
+    },
     Water: {
       Fire: 0.2,
       Earth: 0.9,
@@ -2426,11 +2426,11 @@ export function transformItemsWithPlanetaryPositions(
         reactivity: thermodynamicProperties.reactivity,
         gregsEnergy: thermodynamicProperties.gregsEnergy,
         dominantAlchemicalProperty: 'Essence' as AlchemicalProperty,
-        planetaryBoost: 1.0 + compatibilityScore * 0.5, // Calculate based on compatibility
+        planetaryBoost: 1.0 + compatibilityScore * 0.5, // Calculate based on compatibility,
         dominantPlanets: [] as string[],
         planetaryDignities: {} as Record<string, unknown>,
         // Optional legacy properties,
-        transformations: calculateElementalTransformations(
+        transformations: calculateElementalTransformations(,
           item.elementalProperties,
           currentElementalInfluence,
         ) as Array<{ from: Element, to: Element, _intensity: number }>,
@@ -2478,7 +2478,7 @@ export function transformItemsWithPlanetaryPositions(
           entropy: 0.5,
           reactivity: 0.5,
           gregsEnergy: 0.5
-        }
+        },
         transformations: [],
         seasonalResonance: []
       } as AlchemicalItem,
@@ -2753,7 +2753,7 @@ function calculateElementalTransformations(
         if (influenceStrength > 0.3) {
           transformations.push({
             primary: element as Element,
-            _secondary: element as Element, // Same element enhances itself
+            _secondary: element as Element, // Same element enhances itself,
             effect: 'enhance',
             _potency: strength * influenceStrength,
             _resultingElement: element as Element

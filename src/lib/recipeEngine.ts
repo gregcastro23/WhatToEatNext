@@ -71,7 +71,7 @@ export class RecipeEngine {
     return availableRecipes
       .map(other => ({,
         ...other,
-        harmonyScore: this.calculateHarmonyBetween(
+        harmonyScore: this.calculateHarmonyBetween(,
           recipe.elementalProperties
           other.elementalProperties
         )

@@ -34,7 +34,7 @@ export const _CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
     governs: ['Survival', 'Grounding', 'Security', 'Basic needs'],
     balanceIndicators: ['Stability', 'Security', 'Presence'],
     imbalanceIndicators: ['Fear', 'Anxiety', 'Disconnection']
-  }
+  },
   Sacral: {
     name: 'Sacral',
     sanskritName: 'Svadhisthana',
@@ -54,7 +54,7 @@ export const _CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
     governs: ['Personal power', 'Will', 'Confidence', 'Self-esteem'],
     balanceIndicators: ['Confidence', 'Purpose', 'Drive'],
     imbalanceIndicators: ['Control issues', 'Lack of direction', 'Low self-esteem']
-  }
+  },
   Heart: {
     name: 'Heart',
     sanskritName: 'Anahata',
@@ -64,7 +64,7 @@ export const _CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
     governs: ['Love', 'Compassion', 'Harmony', 'Connection'],
     balanceIndicators: ['Empathy', 'Compassion', 'Self-love'],
     imbalanceIndicators: ['Isolation', 'Bitterness', 'Fear of intimacy']
-  }
+  },
   Throat: {
     name: 'Throat',
     sanskritName: 'Vishuddha',
@@ -84,7 +84,7 @@ export const _CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
     governs: ['Intuition', 'Perception', 'Insight', 'Wisdom'],
     balanceIndicators: ['Clear intuition', 'Insight', 'Good judgment'],
     imbalanceIndicators: ['Confusion', 'Lack of focus', 'Poor memory']
-  }
+  },
   Crown: {
     name: 'Crown',
     sanskritName: 'Sahasrara',

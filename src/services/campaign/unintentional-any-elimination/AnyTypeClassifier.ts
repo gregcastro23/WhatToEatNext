@@ -152,7 +152,7 @@ export class AnyTypeClassifier {
           isIntentional,
           confidence: bestScore,
           reasoning: contextualReasoning,
-          suggestedReplacement: isIntentional
+          suggestedReplacement: isIntentional,
             ? undefined
             : this.getSuggestedReplacement(bestCategory, context),
           requiresDocumentation: isIntentional,

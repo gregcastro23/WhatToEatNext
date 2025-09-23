@@ -92,7 +92,7 @@ export const _unifiedSeasonalSystem = {
   seasonalUsage,
 
   // Utility functions
-  getSeasonalIngredients: (season: Season = getCurrentSeason(), minScore = 0.6) => {;
+  getSeasonalIngredients: (season: Season = getCurrentSeason(), minScore = 0.6) => {;,
     const seasonData = seasonalPatterns[season] || {}
     return Object.entries(seasonData)
       .filter(
@@ -110,7 +110,7 @@ export const _unifiedSeasonalSystem = {
     const usage = seasonalUsage[season] || {}
 
     return {
-      topIngredients: Object.entries(ingredients)
+      topIngredients: Object.entries(ingredients),
         .filter(([_key, value]) => typeof value === 'number' && value > 0.7),
         .sort(([, a], [, b]) => (b as number) - (a as number))
         .slice(010)

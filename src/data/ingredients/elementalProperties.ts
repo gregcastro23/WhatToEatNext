@@ -26,7 +26,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       water: 0.3,
       earth: 0.3,
       air: 0.1
-    }
+    },
     seasonality: ['all'],
     cuisineAffinities: ['Mediterranean', 'Asian', 'American', 'Mexican', 'Indian'],
     flavorProfile: ['mild', 'adaptable', 'savory'],
@@ -42,7 +42,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       water: 0.1,
       earth: 0.3,
       air: 0.0
-    }
+    },
     seasonality: ['winter', 'fall'],
     cuisineAffinities: ['American', 'French', 'Italian', 'Korean', 'Argentinian'],
     flavorProfile: ['rich', 'umami', 'robust'],
@@ -58,7 +58,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       water: 0.6,
       earth: 0.1,
       air: 0.1
-    }
+    },
     seasonality: ['summer', 'fall'],
     cuisineAffinities: ['Nordic', 'Japanese', 'Pacific Northwest', 'Mediterranean'],
     flavorProfile: ['rich', 'buttery', 'delicate'],
@@ -75,7 +75,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       water: 0.3,
       earth: 0.5,
       air: 0.2
-    }
+    },
     seasonality: ['spring', 'fall'],
     cuisineAffinities: ['Mediterranean', 'Indian', 'Middle Eastern'],
     flavorProfile: ['earthy', 'mild', 'verdant'],
@@ -91,7 +91,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       water: 0.4,
       earth: 0.1,
       air: 0.1
-    }
+    },
     seasonality: ['summer'],
     cuisineAffinities: ['Mediterranean', 'Italian', 'Mexican', 'Spanish'],
     flavorProfile: ['sweet', 'acidic', 'umami'],
@@ -107,7 +107,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       water: 0.3,
       earth: 0.1,
       air: 0.3
-    }
+    },
     seasonality: ['summer', 'fall'],
     cuisineAffinities: ['Mediterranean', 'Mexican', 'Chinese', 'Spanish'],
     flavorProfile: ['sweet', 'crisp', 'mild'],
@@ -124,7 +124,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       water: 0.3,
       earth: 0.5,
       air: 0.1
-    }
+    },
     seasonality: ['all'],
     cuisineAffinities: ['Asian', 'Indian', 'Middle Eastern', 'Spanish'],
     flavorProfile: ['neutral', 'subtle', 'adaptable'],
@@ -140,7 +140,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       water: 0.2,
       earth: 0.4,
       air: 0.3
-    }
+    },
     seasonality: ['all'],
     cuisineAffinities: ['South American', 'Mediterranean', 'Modern'],
     flavorProfile: ['nutty', 'earthy', 'subtle'],
@@ -157,7 +157,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       water: 0.1,
       earth: 0.1,
       air: 0.6
-    }
+    },
     seasonality: ['summer'],
     cuisineAffinities: ['Italian', 'Thai', 'Mediterranean'],
     flavorProfile: ['aromatic', 'peppery', 'sweet'],
@@ -173,7 +173,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       water: 0.0,
       earth: 0.4,
       air: 0.1
-    }
+    },
     seasonality: ['all'],
     cuisineAffinities: ['Indian', 'Southeast Asian', 'Middle Eastern'],
     flavorProfile: ['earthy', 'bitter', 'warming'],
@@ -189,7 +189,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       water: 0.0,
       earth: 0.2,
       air: 0.2
-    }
+    },
     seasonality: ['fall', 'winter'],
     cuisineAffinities: ['Middle Eastern', 'Indian', 'Mexican', 'Moroccan'],
     flavorProfile: ['warm', 'sweet', 'spicy'],
@@ -206,7 +206,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       water: 0.3,
       earth: 0.3,
       air: 0.3
-    }
+    },
     seasonality: ['fall'],
     cuisineAffinities: ['American', 'French', 'British', 'Germanic'],
     flavorProfile: ['sweet', 'tart', 'crisp'],
@@ -222,7 +222,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       water: 0.3,
       earth: 0.1,
       air: 0.4
-    }
+    },
     seasonality: ['winter', 'spring'],
     cuisineAffinities: ['Mediterranean', 'Middle Eastern', 'North African'],
     flavorProfile: ['acidic', 'bright', 'citrusy'],
@@ -239,7 +239,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       water: 0.4,
       earth: 0.5,
       air: 0.1
-    }
+    },
     seasonality: ['all'],
     cuisineAffinities: ['Mediterranean', 'Middle Eastern', 'Indian', 'Eastern European'],
     flavorProfile: ['tangy', 'creamy', 'tart'],
@@ -256,7 +256,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       water: 0.0,
       earth: 0.5,
       air: 0.3
-    }
+    },
     seasonality: ['fall'],
     cuisineAffinities: ['Mediterranean', 'Middle Eastern', 'Indian', 'French'],
     flavorProfile: ['nutty', 'earthy', 'buttery'],
@@ -273,7 +273,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       water: 0.0,
       earth: 0.3,
       air: 0.5
-    }
+    },
     seasonality: ['all'],
     cuisineAffinities: ['Mediterranean', 'Italian', 'Spanish', 'Greek'],
     flavorProfile: ['fruity', 'peppery', 'grassy'],
@@ -289,7 +289,7 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
       water: 0.3,
       earth: 0.3,
       air: 0.1
-    }
+    },
     seasonality: ['all'],
     cuisineAffinities: ['Southeast Asian', 'Caribbean', 'Indian', 'Pacific'],
     flavorProfile: ['tropical', 'sweet', 'nutty'],

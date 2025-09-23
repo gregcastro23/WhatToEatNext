@@ -49,7 +49,7 @@ export interface ConflictResolutionStrategy {
   description: string,
   type: ResolutionType,
   priority: number,
-  estimatedDuration: number, // minutes
+  estimatedDuration: number, // minutes,
   riskLevel: 'low' | 'medium' | 'high',
   requiresApproval: boolean,
   steps: ResolutionStep[]
@@ -66,7 +66,7 @@ export interface ResolutionStep {
 
 export interface CampaignPriority {
   campaignId: string,
-  priority: number, // 1-10, higher is more important;
+  priority: number, // 1-10, higher is more important;,
   reason: string,
   setBy: string,
   setAt: Date,
@@ -537,7 +537,7 @@ export class CampaignConflictResolver {
   ): void {
     const campaignPriority: CampaignPriority = {
       campaignId,
-      priority: Math.max(1, Math.min(10, priority)), // Clamp between 1-10
+      priority: Math.max(1, Math.min(10, priority)), // Clamp between 1-10,
       reason,
       setBy,
       setAt: new Date()
@@ -869,7 +869,7 @@ export class CampaignConflictResolver {
           type: ConflictType.SCHEDULING_CONFLICT,
           severity: ConflictSeverity.MEDIUM,
           description: 'Campaign scheduling conflict detected',
-          involvedCampaigns: [], // Would be populated with actual campaign IDs
+          involvedCampaigns: [], // Would be populated with actual campaign IDs,
           conflictingResources: [],
           detectedAt: new Date(),
           status: ConflictStatus.DETECTED

@@ -128,7 +128,7 @@ export async function POST(request: Request) {
       timestamp: new Date().toISOString(),
       request: {
         useCustomDate,
-        customDateTime: useCustomDate
+        customDateTime: useCustomDate,
           ? new Date(year ?? 2024, (month ?? 1) - 1, date, hour, minute).toISOString()
           : null,
         location: { latitude, longitude }

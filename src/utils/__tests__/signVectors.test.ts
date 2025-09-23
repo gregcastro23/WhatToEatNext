@@ -80,7 +80,7 @@ describe('signVectors', () => {
   planetaryPositions: {
           Sun: { sign: null as any, degree: NaN, isRetrograde: undefined as any }
           Moon: { sign: 'invalid' as any, degree: -100, isRetrograde: false }
-        }
+        },
         aspects: undefined as any
       }
 
@@ -112,7 +112,7 @@ describe('signVectors', () => {
   planetaryPositions: {
           Sun: { sign: 'aries', degree: 15, isRetrograde: false }
           Moon: { sign: 'aries', degree: 18, isRetrograde: false }
-        }
+        },
         aspects: [
           {
             planet1: 'Sun',
@@ -128,7 +128,7 @@ describe('signVectors', () => {
   planetaryPositions: {
           Sun: { sign: 'aries', degree: 15, isRetrograde: false }
           Moon: { sign: 'aries', degree: 18, isRetrograde: false }
-        }
+        },
         aspects: [0]
       }
 
@@ -449,7 +449,7 @@ describe('signVectors', () => {
         planetaryPositions: {
           ..mockPlanetaryPositions
           Ascendant: { sign: 'libra', degree: 0, isRetrograde: false }
-        }
+        },
         governing: 'ensemble' as const
       }
 
@@ -476,7 +476,7 @@ describe('signVectors', () => {
         planetaryPositions: {
   Sun: undefined as any,
           Moon: undefined as any
-        }
+        },
         governing: 'sun' as const
       }
 
@@ -504,7 +504,7 @@ describe('signVectors', () => {
       const input = {
         planetaryPositions: {
   Sun: { sign: '' as any, degree: Infinity, isRetrograde: null as any }
-        }
+        },
         aspects: [
           {
             planet1: null as any,

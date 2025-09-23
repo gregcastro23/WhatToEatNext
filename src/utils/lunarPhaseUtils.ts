@@ -136,7 +136,7 @@ export function generateDefaultLunarPhaseModifiers(
       description: `New Moon effects on ${ingredientName}`,
       keywords: ['subtle', 'preparation', 'beginnings'],
       preparationTips: [`Good for subtle ${category} preparations`]
-    }
+    },
     _fullMoon: {
       elementalModifiers: { Fire: 0.4, Water: 0.1, Earth: 0.1, Air: 0.4 }
       elementalBoost: { [dominantElement]: 0.2 }
@@ -338,43 +338,43 @@ export const LUNAR_PHASE_ELEMENTS: Record<LunarPhaseWithUnderscores, ElementalPr
     Water: 0.4,
     Earth: 0.2,
     Air: 0.3
-  }
+  },
   waxing_crescent: {
     Fire: 0.2,
     Water: 0.3,
     Earth: 0.2,
     Air: 0.3
-  }
+  },
   first_quarter: {
     Fire: 0.3,
     Water: 0.2,
     Earth: 0.2,
     Air: 0.3
-  }
+  },
   waxing_gibbous: {
     Fire: 0.4,
     Water: 0.2,
     Earth: 0.1,
     Air: 0.3
-  }
+  },
   full_moon: {
     Fire: 0.4,
     Water: 0.1,
     Earth: 0.1,
     Air: 0.4
-  }
+  },
   waning_gibbous: {
     Fire: 0.3,
     Water: 0.2,
     Earth: 0.2,
     Air: 0.3
-  }
+  },
   last_quarter: {
     Fire: 0.2,
     Water: 0.3,
     Earth: 0.3,
     Air: 0.2
-  }
+  },
   waning_crescent: {
     Fire: 0.1,
     Water: 0.4,

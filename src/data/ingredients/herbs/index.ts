@@ -58,7 +58,7 @@ function generateHerbValues(elementalProps: Record<string, _number>): Record<str
     potency: Math.min(10, Math.max(1, potency)),
     flavor_complexity: Math.min(10, Math.max(1, flavor_complexity)),
     preservation_factor: Math.min(10, Math.max(1, preservation_factor)),
-    infusion_speed: Math.min(
+    infusion_speed: Math.min(,
       10,
       Math.max(1, Math.round(10 - preservation_factor + Math.random() * 2)),
     )
@@ -109,14 +109,14 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
         aromatic_compounds: ['linalool', 'eugenol'],
         flavor_profile: 'sweet with slight peppery notes',
         oil_content: 0.7, // percentage
-      }
+      },
       thai_basil: {
         aroma: 'anise-like, spicy',
         best_uses: ['asian', 'stir-fry', 'soups'],
         aromatic_compounds: ['methyl chavicol', 'eugenol'],
         flavor_profile: 'anise-like with spicy notes',
         oil_content: 0.6
-      }
+      },
       holy_basil: {
         aroma: 'spicy, complex',
         best_uses: ['indian', 'tea', 'medicinal'],
@@ -125,7 +125,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
         flavor_profile: 'peppery, clove-like',
         oil_content: 0.8
       }
-    }
+    },
     culinaryTraditions: {
       [CUISINE_TYPES.ITALIAN]: {
         name: 'basilico',
@@ -148,14 +148,14 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
         cultural_notes: 'Part of fresh herb plate',
         regional_importance: 7
       }
-    }
+    },
     preparation: {
       fresh: {
         storage: 'stem in water, room temp',
         duration: '1 week',
         tips: ['avoid cold', 'avoid cutting'],
         quality_retention: 0.8, // 80% of flavor retained
-      }
+      },
       dried: {
         storage: 'airtight container',
         duration: '6 months',
@@ -175,7 +175,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
         cooling_factor: 8,
         aromatic_compounds: ['menthol', 'menthone'],
         oil_content: 1.2
-      }
+      },
       spearmint: {
         aroma: 'sweet, less intense than peppermint',
         cooling_factor: 6,
@@ -190,12 +190,12 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
     qualities: ['piney', 'resinous', 'aromatic'],
     category: 'culinary_herb',
     heat_resistance: 8, // Ability to withstand cooking heat,
-    extraction_efficiency: 6, // How easily flavors infuse into oils / (liquids || 1)
+    extraction_efficiency: 6, // How easily flavors infuse into oils / (liquids || 1),
     varieties: {
       upright: {
         oil_content: 1.5,
         growth_habit: 'tall, straight stems'
-      }
+      },
       creeping: {
         oil_content: 1.3,
         growth_habit: 'low, spreading'
@@ -212,20 +212,20 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
         conditions: 'warm, dry, good airflow',
         duration: '1-2 weeks',
         best_for: ['woody herbs', 'large leaf herbs']
-      }
+      },
       dehydrator: {
         temperature: '95-115°F',
         duration: '2-6 hours',
         best_for: ['tender herbs', 'flowers']
       }
-    }
+    },
     storage: {
       dried_herbs: {
         container: 'airtight, dark glass',
         location: 'cool, dark place',
         duration: '6-12 months',
         tips: ['check for moisture', 'label with date', 'crush to release oils']
-      }
+      },
       fresh_herbs: {
         methods: {
           refrigerator: {
@@ -248,13 +248,13 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
         storage: 'wrapped in paper towel, refrigerated',
         duration: '1 week',
         tips: ['freeze for longer storage']
-      }
+      },
       dried: {
         storage: 'airtight container',
         duration: '3 months',
         notes: 'loses significant flavor when dried'
       }
-    }
+    },
     culinaryUses: ['curries', 'dal', 'chutneys', 'rice dishes', 'tempering'],
     flavor: 'Complex citrus and nutty flavor with an intense aroma',
     qualities_detailed: {
@@ -262,11 +262,11 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
       intensity: 7,
       complexity: 8,
       texture: { leafy: 0.7, firm: 0.4 }
-    }
+    },
     regional_importance: {
       south_indian: 9,
       sri_lankan: 8
-    }
+    },
     pairings: ['mustard seeds', 'coconut', 'lentils', 'asafoetida', 'turmeric']
   }) as Partial<IngredientMapping>,
 
@@ -280,20 +280,20 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
         storage: 'wrapped in damp paper, refrigerated',
         duration: '2 weeks',
         tips: ['use outer stems for tea, inner for cooking']
-      }
+      },
       dried: {
         storage: 'airtight container',
         duration: '6 months',
         notes: 'good for teas, less suitable for cooking'
       }
-    }
+    },
     culinaryUses: ['curries', 'soups', 'marinades', 'teas', 'stir-fries'],
     flavor: 'Bright citrus flavor with grassy undertones',
     regional_importance: {
       thai: 9,
       vietnamese: 9,
       malaysian: 8
-    }
+    },
     pairings: ['coconut milk', 'chili', 'lime', 'ginger', 'garlic']
   }) as Partial<IngredientMapping>,
 
@@ -308,7 +308,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
       japanese: 9,
       korean: 8,
       vietnamese: 7
-    }
+    },
     pairings: ['fish', 'rice', 'cucumber', 'ume plum', 'tofu']
   }) as Partial<IngredientMapping>
 })

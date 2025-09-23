@@ -1171,17 +1171,17 @@ function _calculateAstrologicalMatch(
     aries: {
       aries: 0.8,
       leo: 0.9,
-      sagittarius: 0.9, // Fire signs (good)
+      sagittarius: 0.9, // Fire signs (good),
       gemini: 0.8,
       libra: 0.7,
-      aquarius: 0.8, // Air signs (good)
+      aquarius: 0.8, // Air signs (good),
       taurus: 0.4,
       virgo: 0.5,
-      capricorn: 0.5, // Earth signs (challenging)
+      capricorn: 0.5, // Earth signs (challenging),
       cancer: 0.5,
       scorpio: 0.6,
       pisces: 0.4, // Water signs (challenging)
-    }
+    },
     leo: {
       aries: 0.9,
       leo: 0.8,
@@ -1195,7 +1195,7 @@ function _calculateAstrologicalMatch(
       cancer: 0.5,
       scorpio: 0.5,
       pisces: 0.4
-    }
+    },
     sagittarius: {
       aries: 0.9,
       leo: 0.9,
@@ -1224,7 +1224,7 @@ function _calculateAstrologicalMatch(
       gemini: 0.4,
       libra: 0.6,
       aquarius: 0.3
-    }
+    },
     virgo: {
       taurus: 0.9,
       virgo: 0.8,
@@ -1238,7 +1238,7 @@ function _calculateAstrologicalMatch(
       gemini: 0.6,
       libra: 0.5,
       aquarius: 0.5
-    }
+    },
     capricorn: {
       taurus: 0.9,
       virgo: 0.9,
@@ -1267,7 +1267,7 @@ function _calculateAstrologicalMatch(
       taurus: 0.4,
       virgo: 0.6,
       capricorn: 0.4
-    }
+    },
     libra: {
       gemini: 0.9,
       libra: 0.8,
@@ -1281,7 +1281,7 @@ function _calculateAstrologicalMatch(
       taurus: 0.6,
       virgo: 0.5,
       capricorn: 0.5
-    }
+    },
     aquarius: {
       gemini: 0.9,
       libra: 0.9,
@@ -1310,7 +1310,7 @@ function _calculateAstrologicalMatch(
       gemini: 0.4,
       libra: 0.5,
       aquarius: 0.4
-    }
+    },
     scorpio: {
       cancer: 0.9,
       scorpio: 0.8,
@@ -1324,7 +1324,7 @@ function _calculateAstrologicalMatch(
       gemini: 0.3,
       libra: 0.6,
       aquarius: 0.4
-    }
+    },
     pisces: {
       cancer: 0.9,
       scorpio: 0.9,

@@ -29,7 +29,7 @@ export interface AlchemicalIngredient {
   alchemicalProperties: AlchemicalProperties,
 
   // Kalchm Value (Intrinsic Alchemical Equilibrium)
-  kalchm: number
+  kalchm: number,
 
   // Additional properties
   flavorProfile?: { [key: string]: number }
@@ -163,7 +163,7 @@ export function enhanceIngredientWithAlchemy(ingredient: {
   name: string,
   category: string,
   subcategory?: string,
-  elementalProperties: ElementalProperties
+  elementalProperties: ElementalProperties,
   [key: string]: unknown
 }): AlchemicalIngredient {
   // Derive alchemical properties from elemental properties

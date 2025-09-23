@@ -3,9 +3,9 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Helper function for generating consistent numeric values
 const generateVegetableAttributes = (vegData: {;
-  water: number // water content percentage (0-100)
-  fiber: number; // fiber content (0-10 scale)
-  bitterness: number // bitterness level (0-10 scale)
+  water: number // water content percentage (0-100),
+  fiber: number; // fiber content (0-10 scale),
+  bitterness: number // bitterness level (0-10 scale),
   cooking_time: number // typical cooking time in minutes
 }) => {
   return {
@@ -13,10 +13,10 @@ const generateVegetableAttributes = (vegData: {;
     fiber_density: vegData.fiber,
     bitterness: vegData.bitterness,
     cooking_time_minutes: vegData.cooking_time,
-    volume_reduction: Math.round(((vegData as any)?.water || 0) * 0.2) / 10, // How much it shrinks when cooked (1-10 scale)
+    volume_reduction: Math.round(((vegData as any)?.water || 0) * 0.2) / 10, // How much it shrinks when cooked (1-10 scale),
     seasonal_peak_months: [], // Will be set individually,
     cell_wall_strength: Math.round(10 - vegData.water / (10 || 1) + vegData.fiber / (2 || 1)), // Structural integrity when cooked,
-    nutrient_density: Math.round(
+    nutrient_density: Math.round(,
       ((vegData as any)?.fiber || 0) * 0.2 +
         (100 - vegData.water) * 0.05 +
         Math.min(7, vegData.bitterness) * 0.3,
@@ -67,7 +67,7 @@ const rawLeafyGreens = {
       bitterness: 7,
       cooking_time: 8
     }),
-    seasonal_peak_months: [1011, 121, 2], // Oct-Feb
+    seasonal_peak_months: [1011, 121, 2], // Oct-Feb,
     nutritionalProfile: {
       serving_size: '1 cup, raw (67g)',
       calories: 33,
@@ -76,12 +76,12 @@ const rawLeafyGreens = {
         carbs: 6.7,
         fat: 0.5,
         fiber: 2.5
-      }
+      },
       vitamins: {
         A: 0.206, // Values as percentage of RDA,
         C: 0.134K: 0.684B6: 0.14E: 0.1,
         folate: 0.07B2: 0.09
-      }
+      },
       minerals: {
         calcium: 0.15,
         potassium: 0.08,
@@ -89,16 +89,16 @@ const rawLeafyGreens = {
         manganese: 0.32,
         copper: 0.11,
         iron: 0.06
-      }
+      },
       phytonutrients: {
         glucosinolates: 0.85,
         quercetin: 0.52,
         kaempferol: 0.47,
         lutein: 0.4,
         zeaxanthin: 0.38
-      }
+      },
       source: 'USDA FoodData Central'
-    }
+    },
     sensoryProfile: {
       taste: {
         sweet: 0.1,
@@ -107,7 +107,7 @@ const rawLeafyGreens = {
         bitter: 0.7,
         umami: 0.3,
         spicy: 0.0
-      }
+      },
       aroma: {
         floral: 0.1,
         fruity: 0.0,
@@ -115,7 +115,7 @@ const rawLeafyGreens = {
         spicy: 0.1,
         earthy: 0.7,
         woody: 0.5
-      }
+      },
       texture: {
         crisp: 0.7,
         tender: 0.2,
@@ -124,7 +124,7 @@ const rawLeafyGreens = {
         crunchy: 0.5,
         silky: 0.0
       }
-    }
+    },
     storage: {
       temperature: 'refrigerated',
       duration: '5-7 days',
@@ -139,7 +139,7 @@ const rawLeafyGreens = {
         method: 'blanch for 2 minutes, shock in ice water',
         duration: '8-10 months'
       }
-    }
+    },
     preparation: {
       washing: true,
       methods: ['raw', 'steamed', 'sautéed', 'baked', 'blanched', 'braised', 'fermented', 'juiced'],
@@ -147,9 +147,9 @@ const rawLeafyGreens = {
         stemming: 'remove tough stems for raw applications',
         massage: 'massage with oil and salt to tenderize for raw use',
         chopping: 'chop finely for smoother texture in soups and stews'
-      }
+      },
       notes: 'Becomes sweeter after frost exposure or light cooking'
-    }
+    },
     culinaryApplications: {
       commonUses: ['salads', 'smoothies', 'sautés', 'soups', 'chips', 'braises', 'stews'],
       pairingRecommendations: {
@@ -165,21 +165,21 @@ const rawLeafyGreens = {
         ],
         contrasting: ['bacon', 'sausage', 'sweet potato', 'cranberry', 'white beans'],
         toAvoid: ['delicate herbs', 'subtle fish']
-      }
+      },
       seasonalPeak: ['fall', 'winter', 'early spring'],
       techniques: {
         salad: {
           method: 'raw, massaged with oil and salt',
           ingredients: ['lemon juice', 'olive oil', 'salt', 'garlic'],
           notes: 'Massage 2-3 minutes to break down fibers'
-        }
+        },
         chips: {
           method: 'baked or dehydrated',
           temperature: { fahrenheit: 300, celsius: 150 }
           timing: '10-15 minutes',
           ingredients: ['olive oil', 'salt', 'nutritional yeast'],
           notes: 'Space evenly and watch carefully to prevent burning'
-        }
+        },
         sauté: {
           method: 'quick cook in hot oil',
           timing: '5-7 minutes',
@@ -187,7 +187,7 @@ const rawLeafyGreens = {
           notes: 'Add liquid to help wilt if needed'
         }
       }
-    }
+    },
     healthBenefits: [
       'Anti-inflammatory properties',
       'Supports cardiovascular health',
@@ -206,7 +206,7 @@ const rawLeafyGreens = {
         flavor: 'peppery, slightly bitter',
         uses: 'salads, chips, sautés',
         nutritionalDifferences: 'Higher in fiber than other varieties'
-      }
+      },
       Lacinato: {
         name: 'Lacinato (Dinosaur) Kale',
         appearance: 'long, narrow, bumpy dark leaves',
@@ -222,7 +222,7 @@ const rawLeafyGreens = {
         flavor: 'mild, slightly sweet',
         uses: 'salads, quick cooking',
         nutritionalDifferences: 'Higher in anthocyanins'
-      }
+      },
       Redbor: {
         name: 'Redbor Kale',
         appearance: 'deep purple-red, curly',
@@ -230,13 +230,13 @@ const rawLeafyGreens = {
         flavor: 'earthy, robust',
         uses: 'garnishes, sturdy cooking applications'
       }
-    }
+    },
     seasonality: ['fall', 'winter', 'early spring'],
     harvestMaturity: {
       days: '50-65 days from seed',
       size: '8-10 inches tall',
       signs: ['deep color', 'firm leaves', 'fully developed leaves']
-    }
+    },
     cooking: {
       methodsRanked: {
         sauté: 9,
@@ -247,20 +247,20 @@ const rawLeafyGreens = {
         bake: 7,
         soup: 9,
         ferment: 6
-      }
+      },
       cookingTimesByMethod: {
         sauté: '5-7 minutes',
         steam: '5 minutes',
         roast: '10-15 minutes',
         blanch: '2-3 minutes',
         bake: '15-20 minutes'
-      }
+      },
       doneness: [
         'Leaves become deeper green',
         'Texture softens but maintains some structure',
         'Stems are tender when pierced'
       ]
-    }
+    },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Saturn'],
       favorableZodiac: ['virgo', 'capricorn'],
@@ -272,44 +272,44 @@ const rawLeafyGreens = {
           second: { element: 'Earth', planet: 'Saturn' }
           third: { element: 'Water', planet: 'Moon' }
         }
-      }
+      },
       lunarPhaseModifiers: {
         newMoon: {
           elementalBoost: { Air: 0.1, Earth: 0.05 }
           preparationTips: ['Light preparations', 'Quick cooking methods']
-        }
+        },
         fullMoon: {
           elementalBoost: { Water: 0.15, Air: 0.05 }
           preparationTips: ['Fermentation', 'Longer cooking processes']
         }
-      }
+      },
       aspectEnhancers: ['Mercury trine Saturn', 'Moon in Virgo']
-    }
+    },
     waterContent: 84, // percentage,
     fiberContent: 9, // 1-10 scale,
     bitternessLevel: 7, // 1-10 scale,
     cookingTimeMinutes: 8,
-    volumeReduction: 6.7, // How much it shrinks when cooked (1-10 scale)
+    volumeReduction: 6.7, // How much it shrinks when cooked (1-10 scale),
     cellWallStrength: 9, // Structural integrity when cooked,
-    nutrientDensity: 8.5, // 1-10 scale
+    nutrientDensity: 8.5, // 1-10 scale,
     processingEffects: {
       cooking: {
         nutrientRetention: 0.7, // 70% retention,
-        volumeChange: 0.4, // Reduces to 40% of original volume
+        volumeChange: 0.4, // Reduces to 40% of original volume,
         flavorChange: 'reduced bitterness, enhanced sweetness'
-      }
+      },
       freezing: {
-        nutrientRetention: 0.9, // 90% retention
+        nutrientRetention: 0.9, // 90% retention,
         textureChange: 'softens cell structure',
         bestPrepMethod: 'blanch before freezing'
-      }
+      },
       drying: {
         nutrientRetention: 0.8,
-        flavorConcentration: 1.8, // Concentrates by 1.8x
+        flavorConcentration: 1.8, // Concentrates by 1.8x,
         rehydrationMethod: 'soak in warm water for 20 minutes'
       }
     }
-  }
+  },
   spinach: {
     name: 'Spinach',
     elementalProperties: { Water: 0.42, Air: 0.31, Earth: 0.22, Fire: 0.05 }
@@ -323,19 +323,19 @@ const rawLeafyGreens = {
           second: { element: 'Air', planet: 'Mercury' }
           third: { element: 'Earth', planet: 'Venus' }
         }
-      }
+      },
       lunarPhaseModifiers: {
         fullMoon: {
           elementalBoost: { Water: 0.15, Air: 0.05 }
           preparationTips: ['Gentle steaming', 'Fresh in salads']
-        }
+        },
         newMoon: {
           elementalBoost: { Air: 0.1 }
           preparationTips: ['Quick sautéing', 'Light seasoning']
         }
-      }
+      },
       aspectEnhancers: ['Moon trine Mercury', 'Venus in Cancer']
-    }
+    },
     qualities: ['cooling', 'moistening', 'cleansing'],
     season: ['spring', 'fall'],
     category: 'vegetable',
@@ -350,7 +350,7 @@ const rawLeafyGreens = {
     }),
     seasonal_peak_months: [34, 59, 10], // Mar-May, Sep-Oct,
     iron_content: 6.5, // Scale 1-10,
-    oxalate_level: 8.2, // Scale 1-10
+    oxalate_level: 8.2, // Scale 1-10,
     nutritionalProfile: {
       fiber: 'moderate',
       vitamins: ['k', 'a', 'c', 'folate'],
@@ -359,12 +359,12 @@ const rawLeafyGreens = {
       protein_g: 2.9,
       fiber_g: 2.2,
       vitamin_density: 8.7
-    }
+    },
     preparation: {
       washing: true,
       stemming: 'optional',
       notes: 'Will reduce significantly when cooked'
-    }
+    },
     storage: {
       temperature: 'refrigerated',
       duration: '5-7 days',
@@ -385,19 +385,19 @@ const rawLeafyGreens = {
           second: { element: 'Earth', planet: 'Saturn' }
           third: { element: 'Air', planet: 'Jupiter' }
         }
-      }
+      },
       lunarPhaseModifiers: {
         fullMoon: {
           elementalBoost: { Water: 0.15, Earth: 0.1 }
           preparationTips: ['Braising', 'Slow cooking']
-        }
+        },
         quarterMoon: {
           elementalBoost: { Earth: 0.1 }
           preparationTips: ['Sautéing with aromatics', 'Cooking with grains']
         }
-      }
+      },
       aspectEnhancers: ['Venus trine Saturn', 'Jupiter in Taurus']
-    }
+    },
     qualities: ['cooling', 'cleansing'],
     season: ['summer', 'fall'],
     category: 'vegetable',
@@ -411,9 +411,9 @@ const rawLeafyGreens = {
       cooking_time: 5
     }),
     seasonal_peak_months: [67, 89], // Jun-Sep,
-    stalk_to_leaf_ratio: 0.6, // Higher means more stalk
+    stalk_to_leaf_ratio: 0.6, // Higher means more stalk,
     color_varieties: ['green', 'red', 'yellow', 'rainbow'],
-    colorant_strength: 6.2, // How much it colors cooking liquid1-10
+    colorant_strength: 6.2, // How much it colors cooking liquid1-10,
     nutritionalProfile: {
       fiber: 'high',
       vitamins: ['k', 'a', 'c'],
@@ -422,12 +422,12 @@ const rawLeafyGreens = {
       protein_g: 1.8,
       fiber_g: 1.9,
       vitamin_density: 7.9
-    }
+    },
     preparation: {
       washing: true,
       stemming: 'separate stems from leaves',
       notes: 'Cook stems longer than leaves'
-    }
+    },
     storage: {
       temperature: 'refrigerated',
       duration: '3-5 days',

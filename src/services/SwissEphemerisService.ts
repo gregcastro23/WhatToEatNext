@@ -29,7 +29,7 @@ export interface SwissEphemerisData {
   I: number; // Neptune,
   J: number; // Pluto,
   L: number; // North Node,
-  K: number; // South Node
+  K: number; // South Node,
   M?: number; // Chiron (optional)
   N?: number; // Lilith (optional)
   // Sign information
@@ -356,7 +356,7 @@ const SEASONAL_TRANSITS: Record<string, SeasonalTransit[]> = {
         Mercury: { sign: 'pisces', degree: 28, exactLongitude: 358, isRetrograde: true }
         Venus: { sign: 'pisces', degree: 26, exactLongitude: 356, isRetrograde: true }
         Mars: { sign: 'cancer', degree: 24, exactLongitude: 114, isRetrograde: false }
-      }
+      },
       seasonalThemes: ['New beginnings', 'Dynamic energy', 'Bold flavors', 'Spicy dishes'],
       culinaryInfluences: [
         'Fire element cooking',
@@ -387,7 +387,7 @@ const SEASONAL_TRANSITS: Record<string, SeasonalTransit[]> = {
         Mercury: { sign: 'aries', degree: 8, exactLongitude: 38, isRetrograde: false }
         Venus: { sign: 'aries', degree: 22, exactLongitude: 52, isRetrograde: false }
         Mars: { sign: 'leo', degree: 18, exactLongitude: 138, isRetrograde: false }
-      }
+      },
       seasonalThemes: ['Stability', 'Sensual pleasures', 'Comfort foods', 'Rich flavors'],
       culinaryInfluences: [
         'Slow cooking',
@@ -434,7 +434,7 @@ const SEASONAL_TRANSITS: Record<string, SeasonalTransit[]> = {
         Uranus: { sign: 'taurus', degree: 20, exactLongitude: 50, isRetrograde: false }
         Neptune: { sign: 'aries', degree: 5, exactLongitude: 5, isRetrograde: false }
         Pluto: { sign: 'aquarius', degree: 8, exactLongitude: 308, isRetrograde: true }
-      }
+      },
       seasonalThemes: ['Communication', 'Variety', 'Light dishes', 'Fresh ingredients'],
       culinaryInfluences: [
         'Quick cooking methods',

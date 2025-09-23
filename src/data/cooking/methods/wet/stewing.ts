@@ -15,11 +15,11 @@ export const stewing: CookingMethodData = {
     Fire: 0.2,
     Earth: 0.2,
     Air: 0.0
-  }
+  },
   duration: {
     min: 45, // 45 minutes,
     max: 480, // 8 hours
-  }
+  },
   suitable_for: [
     'tough meat cuts',
     'root vegetables',
@@ -164,7 +164,7 @@ export const stewing: CookingMethodData = {
   thermodynamicProperties: {
     heat: 0.35, // Low to moderate heat,
     entropy: 0.6, // Significant transformation over time,
-    reactivity: 0.45, // Moderate chemical reactions
+    reactivity: 0.45, // Moderate chemical reactions,
     gregsEnergy: -0.55, // Calculated using heat - (entropy * reactivity), // Calculated, gregsEnergy: heat - (entropy * reactivity)
   } as unknown as ThermodynamicProperties,
 
@@ -203,7 +203,7 @@ export const stewing: CookingMethodData = {
 
   sustainabilityRating: 0.9, // Very high - efficient, utilizes tough cuts, one-pot cooking,
 
-  equipmentComplexity: 0.25, // Low - basic equipment with some specialized items optional
+  equipmentComplexity: 0.25, // Low - basic equipment with some specialized items optional,
 
   healthConsiderations: [
     'Complete cooking ensures food safety through pathogen destruction',
@@ -310,7 +310,7 @@ export const stewing: CookingMethodData = {
         'Adding room temperature ingredients causes temporary temperature drop—stagger additions to maintain stability. Minimize lid removal to reduce heat loss (each removal extends cooking time by approximately 5 minutes). Larger volumes recover more slowly but maintain better stability. Preheating additions (liquids, vegetables) maintains better temperature curve. Recovery rate directly impacts protein texture—rapid temperature changes can cause toughening. Proper temperature recovery critical after stirring or ingredient addition.',
       gradient_formation:
         'Natural temperature gradients form in stewing vessels—slightly higher at bottom, cooler at top. Strategic ingredient placement can leverage gradient for texture control. Surface exposure creates concentration through evaporation at liquid-air interface. Convection currents distribute heat but not uniformly through dense ingredients. Slow rotation of ingredients during cooking ensures even exposure to temperature zones. Extended cooking gradually minimizes gradient effects as flavors and temperatures equilibrate.'
-    }
+    },
     fluid_dynamics: {
       convection_currents:
         'Natural convection distributes heat and flavor compounds through stewing liquid. Gentle bubbling creates controlled circulation without excessive agitation. Viscosity increases gradually, slowing convection but improving flavor cohesion. Vessel shape affects current formation—wider vessels create more surface evaporation, taller vessels create stronger vertical currents. Excessive stirring disrupts protein structure in tender ingredients, rely on natural convection when possible. Ingredients blocking liquid movement create uneven cooking zones.',
@@ -320,7 +320,7 @@ export const stewing: CookingMethodData = {
         'Salt creates osmotic pressure gradient, drawing moisture from ingredients while allowing flavor compounds to penetrate. Cellular membranes become increasingly permeable during extended cooking. Equilibration occurs gradually between ingredients and surrounding liquid. Seasoning throughout cooking maintains optimal osmotic gradient for flavor exchange. Osmotic pressure affects perceived texture of ingredients—too much salt early can draw excessive moisture from proteins.',
       emulsion_stability:
         'Gelatin provides natural emulsification of rendered fats into cooking liquid. Gentle agitation through convection currents creates and maintains emulsion without breaking protein structures. Stable emulsions form gradually over extended cooking periods. Temperature drops can destabilize emulsions, causing fat separation. Acidic components help maintain emulsion stability. Reheating previously cooled stews requires gentle temperature increase to re-emulsify fats.'
-    }
+    },
     collagen_dynamics: {
       conversion_kinetics:
         'Collagen triple helix begins unwinding around 140°F (60°C). Conversion to gelatin accelerates between 160-180°F (71-82°C). Rate follows logarithmic curve—initial conversion rapid, then slowing as available collagen decreases. Different animal tissues contain varying collagen types with different conversion rates. Age of animal significantly impacts collagen density and conversion timeline. Conversion requires both sufficient temperature and time—neither can be sacrificed without affecting result.',
@@ -330,7 +330,7 @@ export const stewing: CookingMethodData = {
         'Optimal tenderness achieved when sufficient collagen converts while maintaining muscle fiber integrity. Overcooked collagen can dissolve structure completely, creating mushy texture. Collagen-rich cuts (shoulder, shank, oxtail) develop superior texture compared to lean cuts. Temperature control critical—excessive heat toughens proteins before collagen can convert. Different tissues within same cut convert at different rates, creating texture gradient. Connective tissue membranes soften but may remain identifiable in properly stewed meats.',
       visual_indicators:
         'Successful collagen conversion creates distinctive glossy sheen in liquid. Meat fibers separate easily but maintain structural identity. Connective tissue transforms from white/silvery to translucent. Bubbling behavior changes as gelatin concentration increases—bubbles become smaller and more persistent. Liquid developing body that coats spoon indicates proper gelatin development. Color deepens as conversion progresses.'
-    }
+    },
     flavor_chemistry: {
       compound_creation:
         'Maillard reactions during initial browning create hundreds of new flavor compounds not present in raw ingredients. Slow hydrolysis of proteins creates free amino acids that enhance flavor complexity and umami. Caramelization of sugars produces furans, maltols, and other compounds contributing depth. Lipid oxidation creates desirable flavor compounds in controlled amounts. Extended cooking allows enzymatic activity to create flavor precursors before heat deactivation. Reactions continue throughout cooking as new compounds form and interact.',
@@ -340,7 +340,7 @@ export const stewing: CookingMethodData = {
         'Properly developed stews stimulate all five basic tastes plus umami. Metallic, astringent notes should diminish through extended cooking. Flavor compounds bind to proteins and fats, creating lingering mouthfeel and perception. Temperature affects taste perception significantly—same stew tastes different at various serving temperatures. Cooled and reheated stews present more integrated flavor profile due to continued passive compound interaction during resting period. Salt perception changes throughout cooking as it integrates into cellular structures.',
       aromatic_evolution:
         'Volatile compounds continue transforming throughout cooking process. Primary aromas from raw ingredients yield to secondary and tertiary notes. Sulfur compounds from alliums transform from sharp to sweet notes. Terpenoids from herbs partially volatilize while integrating into fat phase. Aromatic alcohols convert to esters during extended cooking, creating fruity undertones. Phenolic compounds from browned meat create foundational aromatic base. Complex spice blends develop orchestrated aromatic profile as cooking progresses.'
-    }
+    },
     vegetable_transformations: {
       cell_wall_dynamics:
         'Pectin between plant cells begins solubilizing around 183°F (84°C), creating tender texture while maintaining structure. Hemicellulose breaks down more readily than cellulose, explaining why some vegetables soften more uniformly than others. Cellular turgor pressure decreases through extended cooking. Acid slows pectin breakdown—acidic environments maintain firmer vegetable texture. Calcium helps maintain cell wall integrity even during extended cooking. Cell membranes become increasingly permeable, allowing flavor exchange while maintaining structure.',

@@ -27,7 +27,7 @@ interface TestIngredient {
 
 interface TestResult {
   ingredient: TestIngredient,
-  holisticRecommendations: Array<{ method: string, compatibility: number, reason: string }>
+  holisticRecommendations: Array<{ method: string, compatibility: number, reason: string }>,
   standardRecommendations: Array<{ method: string, compatibility: number }>
 }
 

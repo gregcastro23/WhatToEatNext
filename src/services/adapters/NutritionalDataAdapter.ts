@@ -359,7 +359,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         })
       }
       return {
-        score: 0.5, // Default moderate score
+        score: 0.5, // Default moderate score,
         imbalances: [],
         recommendations: []
       }

@@ -152,7 +152,7 @@ class LintingPerformanceValidator {
         testName: 'Enhanced Caching Performance',
         passed,
         metrics,
-        expectedImprovement: 70, // Target 60-80%
+        expectedImprovement: 70, // Target 60-80%,
         actualImprovement: improvement,
         details: `Cache hit rate: ${metrics.cacheHitRate}%, Time reduction: ${improvement.toFixed(1)}%`
       })
@@ -171,7 +171,7 @@ class LintingPerformanceValidator {
           cacheHitRate: 0,
           filesProcessed: 0,
           parallelProcesses: 0
-        }
+        },
         expectedImprovement: 70,
         actualImprovement: 0,
         details: `Error: ${error}`
@@ -236,7 +236,7 @@ class LintingPerformanceValidator {
           cacheHitRate: 0,
           filesProcessed: 0,
           parallelProcesses: 0
-        }
+        },
         expectedImprovement: 40,
         actualImprovement: 0,
         details: `Error: ${error}`
@@ -310,7 +310,7 @@ class LintingPerformanceValidator {
           cacheHitRate: 0,
           filesProcessed: 0,
           parallelProcesses: 0
-        }
+        },
         expectedImprovement: 20,
         actualImprovement: 0,
         details: `Error: ${error}`
@@ -359,7 +359,7 @@ export const _testVariable = 'test';
           passed,
           metrics,
           expectedImprovement: 90, // Expected massive improvement for incremental,
-          actualImprovement: this.baselineMetrics
+          actualImprovement: this.baselineMetrics,
             ? ((this.baselineMetrics.executionTime - incrementalTime) /
                 this.baselineMetrics.executionTime) *
               100
@@ -387,7 +387,7 @@ export const _testVariable = 'test';
           cacheHitRate: 0,
           filesProcessed: 0,
           parallelProcesses: 0
-        }
+        },
         expectedImprovement: 90,
         actualImprovement: 0,
         details: `Error: ${error}`
@@ -497,7 +497,7 @@ export const _testVariable = 'test';
 
     // Save detailed report
     const reportData = {
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
       overallPassed,
       passedTests,
       totalTests,

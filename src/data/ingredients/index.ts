@@ -172,7 +172,7 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
       elementalBoost: { Earth: 0.05, Water: 0.05 }
       preparationTips: ['Best for subtle preparation methods'],
       thermodynamicEffects: { heat: -0.1, entropy: -0.05 }
-    }
+    },
     fullMoon: {
       elementalBoost: { Water: 0.1, Air: 0.05 }
       preparationTips: ['Enhanced flavor extraction'],
@@ -185,7 +185,7 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
   const standardized = standardizeIngredient({
     name: name,
     category: ingredientData.category || 'culinary_herb',
-    elementalProperties: calculateElementalProperties(
+    elementalProperties: calculateElementalProperties(,
       ingredientData as unknown as Ingredient | UnifiedIngredient,
     ),
     qualities: Array.isArray(ingredientData.qualities) ? ingredientData.qualities : [],
@@ -256,7 +256,7 @@ const processIngredientCollection = (
           alchemicalProperties: alchemicalProps,
           thermodynamicProperties: thermodynamicProps,
           modality,
-          elementalSignature: elementalSignature.length > 0 ? elementalSignature : undefined
+          elementalSignature: elementalSignature.length > 0 ? elementalSignature : undefined,
           // Process other enhanced properties if they exist
           astrologicalCorrespondence: (processedIngredient as unknown as any).astrologicalCorrespondence || undefined,
           pairingRecommendations:

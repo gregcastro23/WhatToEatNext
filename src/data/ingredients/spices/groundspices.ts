@@ -340,40 +340,40 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-            }
+            },
             culinaryProfile: {
               flavorProfile: {
                 primary: ['balanced'],
                 secondary: ['versatile'],
                 notes: 'Versatile flavorProfile for various uses'
-              }
+              },
               cookingMethods: ['sautéing', 'steaming', 'roasting'],
               cuisineAffinity: ['Global', 'International'],
               preparationTips: ['Use as needed', 'Season to taste']
-            }
+            },
             season: ['year-round']
-          }
+          },
           cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
-        }
+        },
         season: ['year-round'],
         preparation: {
           methods: ['standard preparation'],
           timing: 'as needed',
           notes: 'Standard preparation for ground cumin'
         }
-      }
+      },
       culinaryProfile: {
         flavorProfile: {
           primary: ['balanced'],
           secondary: ['versatile'],
           notes: 'Versatile ground cumin for various uses'
-        }
+        },
         cookingMethods: ['sautéing', 'steaming', 'roasting'],
         cuisineAffinity: ['Global', 'International'],
         preparationTips: ['Use as needed', 'Season to taste']
-      }
+      },
       season: ['year-round']
     }
 
@@ -487,21 +487,21 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
           second: { element: 'Earth', planet: 'Mars' }
           third: { element: 'Air', planet: 'Mercury' }
         }
-      }
+      },
       lunarPhaseModifiers: {
         newMoon: {
           elementalBoost: { Earth: 0.1, Fire: 0.05 }
           preparationTips: ['Begin infusing oils', 'Start medicinal preparations']
-        }
+        },
         fullMoon: {
           elementalBoost: { Fire: 0.2, Water: 0.1 }
           preparationTips: ['Maximum potency for healing applications', 'Golden milk rituals']
-        }
+        },
         waningGibbous: {
           elementalBoost: { Earth: 0.15, Water: 0.1 }
           preparationTips: ['Good for preservation methods', 'Pickling and fermenting']
         }
-      }
+      },
       aspectEnhancers: ['Sun trine Mars', 'Jupiter in Leo']
     }
 
@@ -551,19 +551,19 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-        }
+        },
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
             notes: 'Versatile alleppey for various uses'
-          }
+          },
           cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
-        }
+        },
         season: ['year-round']
-      }
+      },
       Madras: {
         name: 'Madras Turmeric',
         origin: 'Tamil Nadu, India',
@@ -592,17 +592,17 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-        }
+        },
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
             notes: 'Versatile madras for various uses'
-          }
+          },
           cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
-        }
+        },
         season: ['year-round']
       }
     }
@@ -694,19 +694,19 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-          }
+          },
           culinaryProfile: {
             flavorProfile: {
               primary: ['balanced'],
               secondary: ['versatile'],
               notes: 'Versatile ayurveda for various uses'
-            }
+            },
             cookingMethods: ['sautéing', 'steaming', 'roasting'],
             cuisineAffinity: ['Global', 'International'],
             preparationTips: ['Use as needed', 'Season to taste']
-          }
+          },
           season: ['year-round']
-        }
+        },
         tcm: {
           name: 'Traditional Chinese Medicine',
           categorization: 'invigorates blood, resolves stagnation',
@@ -717,19 +717,19 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-          }
+          },
           culinaryProfile: {
             flavorProfile: {
               primary: ['balanced'],
               secondary: ['versatile'],
               notes: 'Versatile tcm for various uses'
-            }
+            },
             cookingMethods: ['sautéing', 'steaming', 'roasting'],
             cuisineAffinity: ['Global', 'International'],
             preparationTips: ['Use as needed', 'Season to taste']
-          }
+          },
           season: ['year-round']
-        }
+        },
         western_herbalism: {
           name: 'Western Herbalism',
           applications: ['digestive support', 'liver health', 'inflammation'],
@@ -739,25 +739,25 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-          }
+          },
           culinaryProfile: {
             flavorProfile: {
               primary: ['balanced'],
               secondary: ['versatile'],
               notes: 'Versatile western herbalism for various uses'
-            }
+            },
             cookingMethods: ['sautéing', 'steaming', 'roasting'],
             cuisineAffinity: ['Global', 'International'],
             preparationTips: ['Use as needed', 'Season to taste']
-          }
+          },
           season: ['year-round']
         }
-      }
+      },
       bioavailability: {
         challenges: 'poorly absorbed on its own (1-2%)',
         enhancers: ['black pepper (piperine)', 'fats / (oils || 1)', 'heating'],
         synergists: ['ginger', 'black pepper', 'long pepper']
-      }
+      },
       cautions: [
         'May interact with anticoagulant medications',
         'Avoid therapeutic doses during pregnancy',
@@ -780,22 +780,22 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-          }
+          },
           culinaryProfile: {
             flavorProfile: {
               primary: ['balanced'],
               secondary: ['versatile'],
               notes: 'Versatile curries for various uses'
-            }
+            },
             cookingMethods: ['sautéing', 'steaming', 'roasting'],
             cuisineAffinity: ['Global', 'International'],
             preparationTips: ['Use as needed', 'Season to taste']
-          }
+          },
           season: ['year-round']
-        }
+        },
         techniques: 'bloom in hot oil to release flavor and reduce raw taste',
         notes: 'Start with small amounts to avoid overwhelming'
-      }
+      },
       golden_milk: {
         name: 'Golden Milk',
         method: 'simmered in milk with spices',
@@ -807,19 +807,19 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-        }
+        },
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
             notes: 'Versatile golden milk for various uses'
-          }
+          },
           cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
-        }
+        },
         season: ['year-round']
-      }
+      },
       rice_dishes: {
         name: 'Rice Dishes',
         method: 'added to cooking liquid',
@@ -827,27 +827,27 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         timing: 'add at beginning of cooking',
         techniques: 'toast briefly with rice before adding liquid',
         notes: 'Creates beautiful golden color and subtle flavor'
-      }
+      },
       marinades: {
         name: 'Marinades',
         method: 'mixed with acids and oils',
         applications: ['poultry', 'fish', 'tofu', 'vegetables'],
         timing: 'marinate 2-24 hours depending on protein',
         notes: 'Adds color and earthy flavor, tenderizes proteins'
-      }
+      },
       vegetable_dishes: {
         name: 'Vegetable Dishes',
         method: 'added to sautés or roasts',
         applications: ['cauliflower', 'potatoes', 'root vegetables', 'greens'],
         timing: 'add early in cooking process',
         notes: 'Enhances earthiness of vegetables'
-      }
+      },
       medicinal_preparations: {
         name: 'Medicinal Preparations',
         method: 'various medicinal forms',
         applications: ['golden paste', 'turmeric honey', 'teas', 'tonics'],
         notes: 'Always combine with black pepper and fat for absorption'
-      }
+      },
       smoothies: {
         name: 'Smoothies',
         method: 'blended with fruits and liquids',
@@ -915,7 +915,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         color: 'bright, but not fluorescent yellow',
         aroma: 'earthy, slightly bitter',
         staining: 'readily stains skin and surfaces'
-      }
+      },
       testing: 'Add to water - pure turmeric settles, many adulterants will create colored swirls'
     }
 
@@ -1078,9 +1078,9 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         ratios: {
           basic_glaze: '1:8:4 (cloves:brown, sugar:mustard)',
           fruit_glaze: '1:8:8 (cloves:brown, sugar:juice)'
-        }
+        },
         notes: 'Traditional with studded whole cloves'
-      }
+      },
       mulled_beverages: {
         name: 'Mulled Beverages',
         method: 'simmer in liquid',
@@ -1089,7 +1089,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         ratios: {
           mulled_wine: '1:4:4 (cloves:cinnamon:orange peel)',
           cider: '1:4:2 (cloves:cinnamon:allspice)'
-        }
+        },
         notes: 'Remove after steeping to prevent bitterness'
       }
     }
@@ -1386,25 +1386,25 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         method: 'sprinkle before cooking',
         pairings: ['cumin', 'garlic', 'coriander'],
         ratios: '1:1:1 (fennel:cumin:garlic)'
-      }
+      },
       pork: {
         name: 'Pork',
         method: 'mix with other spices',
         pairings: ['cumin', 'garlic', 'coriander'],
         ratios: '1:1:1 (fennel:cumin:garlic)'
-      }
+      },
       sausages: {
         name: 'Sausages',
         method: 'mix with other spices',
         pairings: ['cumin', 'garlic', 'coriander'],
         ratios: '1:1:1 (fennel:cumin:garlic)'
-      }
+      },
       bread: {
         name: 'Bread',
         method: 'mix with other spices',
         pairings: ['cumin', 'garlic', 'coriander'],
         ratios: '1:1:1 (fennel:cumin:garlic)'
-      }
+      },
       tomato_sauces: {
         name: 'Tomato Sauces',
         method: 'mix with other spices',

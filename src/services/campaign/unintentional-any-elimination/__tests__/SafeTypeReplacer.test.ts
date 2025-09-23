@@ -743,7 +743,7 @@ describe('SafeTypeReplacer', () => {
         }
         {
           original: 'any',
-          replacement: 'InvalidType', // This should cause compilation error
+          replacement: 'InvalidType', // This should cause compilation error,
           filePath: 'test2.ts',
           lineNumber: 1,
           confidence: 0.8,

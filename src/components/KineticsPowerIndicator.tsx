@@ -6,7 +6,7 @@
 import React from 'react';
 
 export interface KineticsPowerIndicatorProps {
-  powerLevel: number; // 0-1 range
+  powerLevel: number; // 0-1 range,
   className?: string;
 }
 

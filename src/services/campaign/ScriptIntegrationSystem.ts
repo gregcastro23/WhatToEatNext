@@ -90,7 +90,7 @@ export class ScriptIntegrationSystem {
         validateSafety: true,
         dryRun: false,
         interactive: true
-      }
+      },
       safetyLevel: 'maximum',
       maxBatchSize: 25,
       requiresGitClean: true,
@@ -106,7 +106,7 @@ export class ScriptIntegrationSystem {
         validateSafety: true,
         dryRun: false,
         interactive: true
-      }
+      },
       safetyLevel: 'high',
       maxBatchSize: 50,
       requiresGitClean: true,
@@ -122,7 +122,7 @@ export class ScriptIntegrationSystem {
         validateSafety: true,
         dryRun: false,
         interactive: true
-      }
+      },
       safetyLevel: 'high',
       maxBatchSize: 100,
       requiresGitClean: true,
@@ -135,7 +135,7 @@ export class ScriptIntegrationSystem {
       defaultOptions: {
         dryRun: true,
         validateSafety: true
-      }
+      },
       safetyLevel: 'medium',
       maxBatchSize: 50,
       requiresGitClean: false,

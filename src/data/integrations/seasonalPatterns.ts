@@ -54,11 +54,11 @@ export const seasonalPatterns: Record<Season, SeasonalPattern> = {
         effect: 0.7,
         ingredients: ['rhubarb', 'fava_beans'],
         cookingMethod: 'slow_cooking'
-      }
+      },
       dominant_element: 'Fire',
       secondary_element: 'Air'
     }
-  }
+  },
   summer: {
     tomatoes: 0.9,
     corn: 0.85,
@@ -95,11 +95,11 @@ export const seasonalPatterns: Record<Season, SeasonalPattern> = {
         effect: 0.8,
         ingredients: ['corn', 'summer_squash'],
         cookingMethod: 'roasting'
-      }
+      },
       dominant_element: 'Fire',
       secondary_element: 'Water'
     }
-  }
+  },
   autumn: {
     apples: 0.9,
     pumpkin: 0.95,
@@ -136,11 +136,11 @@ export const seasonalPatterns: Record<Season, SeasonalPattern> = {
         effect: 0.65,
         ingredients: ['grapes', 'mushrooms'],
         cookingMethod: 'quick_cooking'
-      }
+      },
       dominant_element: 'Earth',
       secondary_element: 'Water'
     }
-  }
+  },
   fall: {
     apples: 0.9,
     pumpkin: 0.95,
@@ -177,11 +177,11 @@ export const seasonalPatterns: Record<Season, SeasonalPattern> = {
         effect: 0.65,
         ingredients: ['grapes', 'mushrooms'],
         cookingMethod: 'quick_cooking'
-      }
+      },
       dominant_element: 'Earth',
       secondary_element: 'Water'
     }
-  }
+  },
   winter: {
     citrus: 0.85,
     kale: 0.8,
@@ -218,11 +218,11 @@ export const seasonalPatterns: Record<Season, SeasonalPattern> = {
         effect: 0.85,
         ingredients: ['persimmons', 'cranberries'],
         cookingMethod: 'baking'
-      }
+      },
       dominant_element: 'Water',
       secondary_element: 'Earth'
     }
-  }
+  },
   all: {
     onions: 0.9,
     garlic: 0.9,
@@ -244,25 +244,25 @@ export const seasonalPatterns: Record<Season, SeasonalPattern> = {
         effect: 0.9,
         ingredients: ['garlic', 'pepper'],
         cookingMethod: 'high_heat'
-      }
+      },
       ace_of_cups: {
         element: 'Water',
         effect: 0.9,
         ingredients: ['eggs', 'rice'],
         cookingMethod: 'simmering'
-      }
+      },
       ace_of_swords: {
         element: 'Air',
         effect: 0.9,
         ingredients: ['herbs', 'olive_oil'],
         cookingMethod: 'infusing'
-      }
+      },
       ace_of_pentacles: {
         element: 'Earth',
         effect: 0.9,
         ingredients: ['potatoes', 'beans'],
         cookingMethod: 'roasting'
-      }
+      },
       dominant_element: 'balanced',
       secondary_element: 'balanced'
     }

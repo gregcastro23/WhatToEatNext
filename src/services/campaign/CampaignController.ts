@@ -112,7 +112,7 @@ export class CampaignController {
           lintingWarningsReduced: 0,
           buildTimeImproved: 0,
           enterpriseSystemsAdded: 0
-        }
+        },
         filesProcessed: 0,
         errorsFixed: 0,
         warningsFixed: 0,
@@ -243,7 +243,7 @@ export class CampaignController {
     return {
       phaseId: phase.id,
       phaseName: phase.name,
-      startTime: new Date(), // This should be tracked properly
+      startTime: new Date(), // This should be tracked properly,
       status: validation.success ? PhaseStatus.COMPLETED : PhaseStatus.IN_PROGRESS,
       metrics: currentMetrics,
       achievements: this.generateAchievements(phase, currentMetrics),
@@ -273,7 +273,7 @@ export class CampaignController {
           ],
           successCriteria: {
             typeScriptErrors: 0
-          }
+          },
           safetyCheckpoints: []
         }
         {
@@ -290,7 +290,7 @@ export class CampaignController {
           ],
           successCriteria: {
             lintingWarnings: 0
-          }
+          },
           safetyCheckpoints: []
         }
       ],
@@ -301,13 +301,13 @@ export class CampaignController {
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
         stashRetentionDays: 7
-      }
+      },
       progressTargets: {
         typeScriptErrors: 0,
         lintingWarnings: 0,
         buildTime: 10,
         enterpriseSystems: 200
-      }
+      },
       toolConfiguration: {
         enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
@@ -351,19 +351,19 @@ export class CampaignController {
         target: 0,
         reduction: 0,
         percentage: 0
-      }
+      },
       lintingWarnings: {
         current: 4506,
         target: 0,
         reduction: 0,
         percentage: 0
-      }
+      },
       buildPerformance: {
         currentTime: 8.5,
         targetTime: 10,
         cacheHitRate: 0.8,
         memoryUsage: 45
-      }
+      },
       enterpriseSystems: {
         current: 0,
         target: 200,

@@ -70,7 +70,7 @@ export interface RecipeSearchFilters {
 
 // Recipe import result
 export interface RecipeImportResult {
-  success: boolean
+  success: boolean,
   recipe?: Recipe,
   warnings?: string[],
   errors?: string[],
@@ -319,7 +319,7 @@ export class RecipeCuisineConnector {
    */
   convertToBuilderFormat(cuisineRecipe: CuisineRecipe): Recipe {
     return {
-      id: `cuisine-${cuisineRecipe.cuisine}-${cuisineRecipe.name}`
+      id: `cuisine-${cuisineRecipe.cuisine}-${cuisineRecipe.name}`,
         .toLowerCase()
         .replace(/\s+/g, '-'),
       name: cuisineRecipe.name,
@@ -330,7 +330,7 @@ export class RecipeCuisineConnector {
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
-      }
+      },
       ingredients: cuisineRecipe.ingredients.map(ingredient => ({
         name: ingredient.name,
         amount: Number(ingredient.amount) || 1,
@@ -345,7 +345,7 @@ export class RecipeCuisineConnector {
         fat: 0,
         vitamins: [],
         minerals: []
-      }
+      },
       timeToMake: this.formatTimeToMake(cuisineRecipe.prepTime, cuisineRecipe.cookTime),
       season: cuisineRecipe.season || ['all'],
       mealType: cuisineRecipe.mealType || ['lunch'],

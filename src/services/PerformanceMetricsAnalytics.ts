@@ -28,25 +28,25 @@ export interface SystemMetrics {
     loadAverage: number[],
     cores: number,
     model: string
-  }
+  },
   memory: {
     used: number,
     total: number,
     free: number,
     usage: number
-  }
+  },
   disk: {
     used: number,
     total: number,
     free: number,
     usage: number
-  }
+  },
   network: {
     bytesIn: number,
     bytesOut: number,
     packetsIn: number,
     packetsOut: number
-  }
+  },
   timestamp: Date
 }
 
@@ -95,7 +95,7 @@ export interface TestMetrics {
     branches: number,
     functions: number,
     statements: number
-  }
+  },
   duration: number,
   timestamp: Date
 }
@@ -149,7 +149,7 @@ export interface PerformanceReport {
     performanceGrade: 'A' | 'B' | 'C' | 'D' | 'F',
     topIssues: string[],
     improvements: string[]
-  }
+  },
   trends: PerformanceTrend[],
   recommendations: PerformanceRecommendation[],
   metrics: {
@@ -157,7 +157,7 @@ export interface PerformanceReport {
     build: BuildMetrics,
     typescript: TypeScriptMetrics,
     test: TestMetrics
-  }
+  },
   timestamp: Date
 }
 
@@ -279,7 +279,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       typeScriptMetrics,
       testMetrics,
       timestamp: new Date(),
-      healthScore: this.calculateHealthScore(
+      healthScore: this.calculateHealthScore(,
         systemMetrics,
         buildMetrics,
         typeScriptMetrics,
@@ -358,7 +358,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       return {
         usage: cpuUsage,
         loadAverage,
-        cores: (await import('os')).cpus().length;
+        cores: (await import('os')).cpus().length;,
         model: (await import('os')).cpus()[0]?.model || 'Unknown'
       }
     } catch (error) {
@@ -1240,7 +1240,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         build: latestSnapshot.buildMetrics,
         typescript: latestSnapshot.typeScriptMetrics,
         test: latestSnapshot.testMetrics
-      }
+      },
       timestamp: new Date()
     }
   }
@@ -1282,7 +1282,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
 
     return {
       avgHealthScore,
-      totalAlerts: allAlerts.length
+      totalAlerts: allAlerts.length,
       criticalAlerts,
       performanceGrade,
       topIssues,
@@ -1362,7 +1362,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         impact: 'medium',
         effort: 'low',
         estimatedImprovement: 15,
-        implementation: ['Analyze bundle size', 'Optimize imports', 'Enable build caching'];
+        implementation: ['Analyze bundle size', 'Optimize imports', 'Enable build caching'];,
         dependencies: ['build_analysis'],
         resources: ['Build Optimization Guide']
       })
@@ -1406,7 +1406,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         performanceGrade: 'F',
         topIssues: [],
         improvements: []
-      }
+      },
       trends: [],
       recommendations: [],
       metrics: {
@@ -1414,7 +1414,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         build: this.getDefaultBuildMetrics(),
         typescript: this.getDefaultTypeScriptMetrics(),
         test: this.getDefaultTestMetrics()
-      }
+      },
       timestamp: new Date()
     }
   }

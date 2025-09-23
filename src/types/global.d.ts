@@ -73,7 +73,7 @@ declare global {
         hide: () => void,
         update: () => voidon: (event: string, callback: (...args: unknown[]) => void) => { off: () => void }
         trigger: (event: string) => void
-      }
+      },
       show: () => void,
       hide: () => void,
       update: () => voidon: (event: string, callback: (...args: unknown[]) => void) => { off: () => void }

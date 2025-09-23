@@ -236,12 +236,12 @@ class CelestialCalculator {
 
       // Build complete celestial alignment (using type assertion due to interface mismatch)
       const alignment = {
-        date: now.toISOString()
+        date: now.toISOString(),
         zodiacSign,
         dominantPlanets,
         lunarPhase,
         elementalBalance,
-        aspectInfluences: this.calculatePlanetaryAspects(now).map(
+        aspectInfluences: this.calculatePlanetaryAspects(now).map(,
           aspect =>
             ({
               planet1: aspect.planets[0],
@@ -400,7 +400,7 @@ class CelestialCalculator {
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
-      }
+      },
       aspectInfluences: [],
       astrologicalInfluences: ['Sun', 'Moon', 'libra', 'all']
     } as unknown as CelestialAlignment,
@@ -464,7 +464,7 @@ class CelestialCalculator {
   private getFallbackAlignment(): CelestialAlignment {
     return {
       date: new Date().toISOString(),
-      zodiacSign: 'libra' as any, // Balance
+      zodiacSign: 'libra' as any, // Balance,
       dominantPlanets: [
         { name: 'Sun', influence: 0.5 }
         { name: 'Moon', influence: 0.5 }
@@ -475,7 +475,7 @@ class CelestialCalculator {
         Earth: 0.25,
         Air: 0.25,
         Water: 0.25
-      }
+      },
       aspectInfluences: [],
       astrologicalInfluences: ['Sun', 'Moon', 'libra', 'all'], // Ensure this is always present and has values
     } as unknown as CelestialAlignment,
@@ -792,12 +792,12 @@ class CelestialCalculator {
         aquarius: 0.8, // Modern rulership,
         scorpio: 0.5, // Exaltation,
         leo: 0.3, // Detriment
-      }
+      },
       Neptune: {
         pisces: 0.8, // Modern rulership,
         cancer: 0.5, // Exaltation,
         virgo: 0.3, // Detriment
-      }
+      },
       Pluto: {
         scorpio: 0.8, // Modern rulership,
         aquarius: 0.5, // Currently in Aquarius long-term,
@@ -1329,8 +1329,8 @@ class CelestialCalculator {
   ): ChakraEnergies {
     const chakraEnergies: ChakraEnergies = {
       root: 0.1, // Earth, Matter,
-      sacral: 0.1, // Water, Essence (lower)
-      solarPlexus: 0.1, // Fire, Essence (upper)
+      sacral: 0.1, // Water, Essence (lower),
+      solarPlexus: 0.1, // Fire, Essence (upper),
       heart: 0.1, // Air/Water balance,
       throat: 0.1, // Air, Substance,
       thirdEye: 0.1, // Water/Air, Essence/Substance,
@@ -1636,7 +1636,7 @@ class CelestialCalculator {
           'Disconnection',
           'Misalignment', // Ten
         ]
-      }
+      },
       swords: {
         upright: [
           'Clarity',
@@ -1702,7 +1702,7 @@ class CelestialCalculator {
           'Regeneration',
           'Inevitable end', // Ten
         ]
-      }
+      },
       pentacles: {
         upright: [
           'Prosperity',

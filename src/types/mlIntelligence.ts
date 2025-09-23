@@ -77,7 +77,7 @@ export interface AstrologicalPrediction {
     favorableIngredients: string[],
     cookingMethodRecommendations: string[],
     seasonalAlignment: number
-  }
+  },
   confidence: number
 }
 
@@ -100,7 +100,7 @@ export interface MLMetrics {
 // Additional interface for ingredient compatibility service
 export interface IngredientCompatibilityResult {
   mlCompatibilityScore: number,
-  pairwiseCompatibilityMatrix: Record<string, Record<string, number>>
+  pairwiseCompatibilityMatrix: Record<string, Record<string, number>>,
   substitutionRecommendations: Record<string, string[]>,
   flavorSynergyPredictions: string[]
 }
@@ -112,7 +112,7 @@ export interface MLIntelligenceResult {
     cookingMethodOptimization: string[],
     flavorEnhancementSuggestions: string[],
     nutritionalOptimization: string[]
-  }
+  },
   ingredientPairing: IngredientCompatibilityResult,
   cuisineFusion: {
     mlFusionScore: number,
@@ -120,13 +120,13 @@ export interface MLIntelligenceResult {
     culturalHarmonyPrediction: number,
     innovationPotential: number,
     recommendedFusionTechniques: string[]
-  }
+  },
   astrologicalPrediction: {
     mlAlignmentScore: number,
     optimalTimingPrediction: string,
     planetaryInfluenceOptimization: number,
     cosmicHarmonyEnhancement: string[]
-  }
+  },
   confidence: number,
   timestamp: string
 }

@@ -103,7 +103,7 @@ export interface PlanetData {
 
 // Type for Moon-specific data
 export interface MoonSpecificData {
-  Phases: Record<
+  Phases: Record<,
     string,
     {
       Spirit: number,
@@ -117,7 +117,7 @@ export interface MoonSpecificData {
     North: {
       Element: string,
       CulinaryEffect: string
-    }
+    },
     South: {
       Element: string,
       CulinaryEffect: string
@@ -132,23 +132,23 @@ export interface SunSpecificData {
       Summer: {
         Element: string,
         CulinaryEffect: string
-      }
+      },
       Winter: {
         Element: string,
         CulinaryEffect: string
       }
-    }
+    },
     Equinox: {
       Spring: {
         Element: string,
         CulinaryEffect: string
-      }
+      },
       Fall: {
         Element: string,
         CulinaryEffect: string
       }
     }
-  }
+  },
   Eclipse: {
     Solar: {
       ElementalShift: string,
@@ -163,7 +163,7 @@ export interface MercurySpecificData {
   CommunicationEffects: {
     Direct: string,
     Retrograde: string
-  }
+  },
   FlavorModulation: {
     Direct: Record<string, number>,
     Retrograde: Record<string, number>,

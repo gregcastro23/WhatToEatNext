@@ -43,7 +43,7 @@ export const middleEastern: Cuisine = {
             eggs: ['soft tofu', 'chickpea flour mixture'],
             'pita bread': ['gluten-free pita', 'crusty bread'],
             'bell peppers': ['roasted red peppers', 'zucchini']
-          }
+          },
           servingSize: 2,
           allergens: ['eggs'],
           prepTime: '10 minutes',
@@ -60,7 +60,7 @@ export const middleEastern: Cuisine = {
             fat: 22,
             vitamins: ['A', 'C', 'D'],
             minerals: ['Iron', 'Calcium']
-          }
+          },
           timeToMake: '25 minutes',
           season: ['all'],
           mealType: ['breakfast', 'brunch'],
@@ -98,7 +98,7 @@ export const middleEastern: Cuisine = {
             'fava beans': ['lima beans', 'chickpeas'],
             parsley: ['cilantro', 'mint'],
             tomatoes: ['cucumber', 'radishes']
-          }
+          },
           servingSize: 4,
           allergens: ['none'],
           prepTime: '10 minutes',
@@ -115,7 +115,7 @@ export const middleEastern: Cuisine = {
             fat: 16,
             vitamins: ['C', 'K', 'B6'],
             minerals: ['Iron', 'Folate']
-          }
+          },
           timeToMake: '20 minutes',
           season: ['all'],
           mealType: ['breakfast'],
@@ -158,7 +158,7 @@ export const middleEastern: Cuisine = {
             'bread flour': ['all-purpose flour', 'gluten-free flour blend'],
             'za'atar': ['dried oregano + sesame seeds + sumac'],
             'olive oil': ['grapeseed oil', 'avocado oil']
-          }
+          },
           servingSize: 6,
           allergens: ['gluten'],
           prepTime: '20 minutes',
@@ -175,7 +175,7 @@ export const middleEastern: Cuisine = {
             fat: 12,
             vitamins: ['E', 'K'],
             minerals: ['Iron', 'Calcium']
-          }
+          },
           season: ['all'],
           mealType: ['breakfast'],
           elementalProperties: {
@@ -221,7 +221,7 @@ export const middleEastern: Cuisine = {
             yogurt: ['Greek yogurt', 'coconut yogurt'],
             'za'atar': ['dried thyme + sesame seeds'],
             'pita bread': ['gluten-free bread', 'vegetables']
-          }
+          },
           servingSize: 6,
           allergens: ['dairy'],
           prepTime: '10 minutes',
@@ -238,7 +238,7 @@ export const middleEastern: Cuisine = {
             fat: 14,
             vitamins: ['B12', 'D'],
             minerals: ['Calcium', 'Probiotics']
-          }
+          },
           season: ['all'],
           mealType: ['breakfast'],
           elementalProperties: {
@@ -249,7 +249,7 @@ export const middleEastern: Cuisine = {
           }
         }
       ]
-    }
+    },
     lunch: {
       all: [
         {
@@ -279,7 +279,7 @@ export const middleEastern: Cuisine = {
             jameed: ['yogurt + salt', 'buttermilk'],
             lamb: ['beef', 'chicken'],
             'pine nuts': ['walnuts', 'almonds']
-          }
+          },
           servingSize: 6,
           allergens: ['dairy', 'nuts'],
           prepTime: '30 minutes',
@@ -296,7 +296,7 @@ export const middleEastern: Cuisine = {
             fat: 38,
             vitamins: ['B12', 'D'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['all'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
@@ -339,7 +339,7 @@ export const middleEastern: Cuisine = {
             'pita bread': ['gluten-free bread', 'crackers'],
             sumac: ['lemon zest + salt'],
             'pomegranate molasses': ['balsamic reduction']
-          }
+          },
           servingSize: 4,
           allergens: ['gluten'],
           prepTime: '20 minutes',
@@ -356,7 +356,7 @@ export const middleEastern: Cuisine = {
             fat: 4,
             vitamins: ['C', 'A', 'K'],
             minerals: ['Iron', 'Potassium']
-          }
+          },
           season: ['summer'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
@@ -367,7 +367,7 @@ export const middleEastern: Cuisine = {
           }
         }
       ]
-    }
+    },
     dinner: {
       winter: [
         {
@@ -410,7 +410,7 @@ export const middleEastern: Cuisine = {
             'ground lamb': ['ground beef', 'plant-based ground'],
             béchamel: ['cashew cream sauce', 'almond milk sauce'],
             eggplant: ['zucchini', 'mushrooms']
-          }
+          },
           servingSize: 8,
           allergens: ['dairy', 'gluten'],
           prepTime: '45 minutes',
@@ -427,7 +427,7 @@ export const middleEastern: Cuisine = {
             fat: 34,
             vitamins: ['B12', 'A', 'C'],
             minerals: ['Iron', 'Calcium']
-          }
+          },
           season: ['winter'],
           mealType: ['dinner'],
           elementalProperties: {
@@ -475,7 +475,7 @@ export const middleEastern: Cuisine = {
             'lamb shoulder': ['beef shoulder', 'jackfruit'],
             'pine nuts': ['cashews', 'almonds'],
             'mixed spices': ['baharat', 'ras el hanout']
-          }
+          },
           servingSize: 8,
           allergens: ['nuts'],
           prepTime: '60 minutes',
@@ -492,7 +492,7 @@ export const middleEastern: Cuisine = {
             fat: 48,
             vitamins: ['B12', 'B6', 'E'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['winter'],
           mealType: ['dinner'],
           elementalProperties: {
@@ -548,7 +548,7 @@ export const middleEastern: Cuisine = {
             'lamb kofta': ['beef kofta', 'plant-based kofta'],
             'chicken shish': ['tofu shish', 'seitan'],
             flatbread: ['gluten-free pita', 'lettuce wraps']
-          }
+          },
           servingSize: 4,
           allergens: ['gluten'],
           prepTime: '30 minutes',
@@ -565,7 +565,7 @@ export const middleEastern: Cuisine = {
             fat: 32,
             vitamins: ['B12', 'C', 'A'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['summer'],
           mealType: ['dinner'],
           elementalProperties: {
@@ -600,7 +600,7 @@ export const middleEastern: Cuisine = {
             'brown lentils': ['green lentils', 'black lentils'],
             rice: ['bulgur', 'quinoa'],
             'olive oil': ['vegetable oil', 'ghee']
-          }
+          },
           servingSize: 6,
           allergens: ['none'],
           prepTime: '15 minutes',
@@ -617,7 +617,7 @@ export const middleEastern: Cuisine = {
             fat: 14,
             vitamins: ['B1', 'B6'],
             minerals: ['Iron', 'Folate']
-          }
+          },
           season: ['all'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
@@ -674,7 +674,7 @@ export const middleEastern: Cuisine = {
             'chicken thighs': ['lamb', 'seitan', 'jackfruit'],
             'pita bread': ['flatbread', 'gluten-free wrap'],
             'shawarma spice mix': ['curry powder + cumin + paprika']
-          }
+          },
           servingSize: 8,
           allergens: ['gluten'],
           prepTime: '30 minutes',
@@ -691,7 +691,7 @@ export const middleEastern: Cuisine = {
             fat: 22,
             vitamins: ['B12', 'B6'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['all'],
           mealType: ['dinner']
         }
@@ -722,7 +722,7 @@ export const middleEastern: Cuisine = {
             walnuts: ['pistachios', 'almonds'],
             butter: ['ghee', 'clarified butter'],
             honey: ['sugar syrup', 'agave']
-          }
+          },
           servingSize: 24,
           allergens: ['nuts', 'gluten'],
           prepTime: '45 minutes',
@@ -739,7 +739,7 @@ export const middleEastern: Cuisine = {
             fat: 22,
             vitamins: ['E'],
             minerals: ['Magnesium']
-          }
+          },
           season: ['all'],
           mealType: ['dessert'],
           elementalProperties: {
@@ -778,7 +778,7 @@ export const middleEastern: Cuisine = {
             chickpeas: ['fava beans', 'split peas'],
             parsley: ['more cilantro', 'mint'],
             'vegetable oil': ['grapeseed oil', 'sunflower oil']
-          }
+          },
           servingSize: 6,
           allergens: ['none'],
           prepTime: '12 hours soaking',
@@ -795,7 +795,7 @@ export const middleEastern: Cuisine = {
             fat: 12,
             vitamins: ['C', 'K', 'B6'],
             minerals: ['Iron', 'Folate']
-          }
+          },
           season: ['all'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
@@ -838,7 +838,7 @@ export const middleEastern: Cuisine = {
             'puff pastry': ['croissants', 'bread'],
             'whole milk': ['almond milk', 'oat milk'],
             'heavy cream': ['coconut cream', 'cashew cream']
-          }
+          },
           servingSize: 8,
           allergens: ['dairy', 'nuts', 'gluten'],
           prepTime: '20 minutes',
@@ -855,7 +855,7 @@ export const middleEastern: Cuisine = {
             fat: 32,
             vitamins: ['A', 'D'],
             minerals: ['Calcium']
-          }
+          },
           season: ['winter'],
           mealType: ['dessert'],
           elementalProperties: {
@@ -899,7 +899,7 @@ export const middleEastern: Cuisine = {
             'akkawi cheese': ['mozzarella', 'fresh cheese'],
             ghee: ['clarified butter', 'butter'],
             'orange blossom water': ['rose water', 'vanilla']
-          }
+          },
           servingSize: 12,
           allergens: ['dairy', 'nuts', 'gluten'],
           prepTime: '40 minutes',
@@ -916,7 +916,7 @@ export const middleEastern: Cuisine = {
             fat: 24,
             vitamins: ['A', 'E'],
             minerals: ['Calcium']
-          }
+          },
           season: ['all'],
           mealType: ['dessert', 'breakfast'],
           elementalProperties: {
@@ -958,7 +958,7 @@ export const middleEastern: Cuisine = {
             'ground lamb': ['ground beef', 'ground chicken'],
             'seven spices': ['baharat', 'kebab spice mix'],
             sumac: ['lemon zest']
-          }
+          },
           servingSize: 6,
           allergens: ['none'],
           prepTime: '30 minutes',
@@ -975,7 +975,7 @@ export const middleEastern: Cuisine = {
             fat: 26,
             vitamins: ['B12', 'B6'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['all'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
@@ -1011,7 +1011,7 @@ export const middleEastern: Cuisine = {
             'chicken pieces': ['lamb', 'beef'],
             'pine nuts': ['almonds', 'cashews'],
             'white rice': ['brown rice', 'freekeh']
-          }
+          },
           servingSize: 8,
           allergens: ['nuts'],
           prepTime: '45 minutes',
@@ -1028,7 +1028,7 @@ export const middleEastern: Cuisine = {
             fat: 24,
             vitamins: ['A', 'C', 'B12'],
             minerals: ['Iron', 'Potassium']
-          }
+          },
           season: ['all'],
           mealType: ['dinner'],
           elementalProperties: {
@@ -1040,7 +1040,7 @@ export const middleEastern: Cuisine = {
         }
       ]
     }
-  }
+  },
   traditionalSauces: {
     tahini: {
       name: 'Tahini',
@@ -1060,13 +1060,13 @@ export const middleEastern: Cuisine = {
         Water: 0.2,
         Air: 0.2,
         Fire: 0.1
-      }
+      },
       astrologicalInfluences: ['Venus', 'Moon', 'taurus'],
       seasonality: 'all',
       preparationNotes: 'Traditionally ground with stone mills to preserve flavor and nutrients',
       technicalTips:
         'Stir well before using as natural separation occurs. Add water slowly when thinning'
-    }
+    },
     hummus: {
       name: 'Hummus',
       description: 'Creamy chickpea dip with tahini, garlic, and lemon',
@@ -1085,14 +1085,14 @@ export const middleEastern: Cuisine = {
         Water: 0.3,
         Air: 0.2,
         Fire: 0.1
-      }
+      },
       astrologicalInfluences: ['Jupiter', 'Mercury', 'virgo'],
       seasonality: 'all',
       preparationNotes:
         'Each region claims to make the most authentic version. Texture can range from rustic to silky smooth',
       technicalTips:
         'Cook chickpeas with baking soda to help break down skins for smoother texture'
-    }
+    },
     zaatar: {
       name: 'Za'atar Oil',
       description: 'Herb and sesame blend mixed with olive oil for dipping and spreading',
@@ -1113,13 +1113,13 @@ export const middleEastern: Cuisine = {
         Earth: 0.3,
         Fire: 0.2,
         Water: 0.1
-      }
+      },
       astrologicalInfluences: ['Mercury', 'Venus', 'gemini'],
       seasonality: 'all, with fresh variations in spring',
       preparationNotes:
         'Family recipes are closely guarded secrets, with regional variations in proportions',
       technicalTips: 'Mix with high-quality olive oil just before serving to preserve aromatics'
-    }
+    },
     harissa: {
       name: 'Harissa',
       description: 'Hot chile paste with garlic, spices, and olive oil',
@@ -1132,13 +1132,13 @@ export const middleEastern: Cuisine = {
         Earth: 0.2,
         Air: 0.1,
         Water: 0.1
-      }
+      },
       astrologicalInfluences: ['Mars', 'Sun', 'aries'],
       seasonality: 'all',
       preparationNotes: 'Traditional preservation technique for chiles in North African cuisine',
       technicalTips:
         'A little goes a long way. Store with a layer of olive oil on top to preserve freshness'
-    }
+    },
     toum: {
       name: 'Toum',
       description: 'Intense garlic sauce with an airy, creamy texture',
@@ -1157,7 +1157,7 @@ export const middleEastern: Cuisine = {
         Fire: 0.3,
         Water: 0.2,
         Earth: 0.1
-      }
+      },
       astrologicalInfluences: ['Mercury', 'Mars', 'gemini'],
       seasonality: 'all',
       preparationNotes:
@@ -1165,7 +1165,7 @@ export const middleEastern: Cuisine = {
       technicalTips:
         'Slow oil incorporation is essential for proper emulsification and fluffy texture'
     }
-  }
+  },
   sauceRecommender: {
     forProtein: {
       lamb: [
@@ -1185,7 +1185,7 @@ export const middleEastern: Cuisine = {
         'zhug',
         'spiced tomato'
       ]
-    }
+    },
     forVegetable: {
       root: [
         'tahini sauce',
@@ -1222,7 +1222,7 @@ export const middleEastern: Cuisine = {
         'tahini',
         'preserved lemon'
       ]
-    }
+    },
     forCookingMethod: {
       grilling: ['toum', 'harissa', 'chermoula', 'sumac-onion', 'zhug'],
       baking: [
@@ -1241,13 +1241,13 @@ export const middleEastern: Cuisine = {
         'pomegranate vinaigrette',
         'tahini-citrus'
       ]
-    }
+    },
     byAstrological: {
       fire: ['harissa', 'zhug', 'chermoula', 'hot pepper paste', 'garlic-chili oil'],
       earth: ['tahini', 'hummus', 'baba ganoush', 'walnut-pomegranate', 'chickpea-olive'],
       water: ['yogurt sauces', 'tarator', 'cucumber-mint', 'lemon-herb', 'rosewater-honey'],
       air: ['za'atar oil', 'herb-infused oils', 'citrus dressings', 'sumac-onion', 'mint-lemon']
-    }
+    },
     byRegion: {
       levant: ['tahini sauce', 'toum', 'za'atar oil', 'yogurt-cucumber', 'pomegranate molasses'],
       northAfrica: [
@@ -1272,7 +1272,7 @@ export const middleEastern: Cuisine = {
         'saffron-honey'
       ],
       turkish: ['red pepper paste', 'yogurt-garlic', 'isot butter', 'pomegranate', 'sumac-onion']
-    }
+    },
     byDietary: {
       vegetarian: [
         'tahini sauce',
@@ -1285,7 +1285,7 @@ export const middleEastern: Cuisine = {
       glutenFree: ['tahini sauce', 'harissa', 'chermoula', 'yogurt-based sauces', 'herb oils'],
       dairyFree: ['tahini sauce', 'pomegranate molasses', 'herb oils', 'chermoula', 'zhug']
     }
-  }
+  },
   cookingTechniques: [
     {
       name: 'Mezze Preparation',
@@ -1351,7 +1351,7 @@ export const middleEastern: Cuisine = {
       elementalProperties: { Earth: 0.4, Water: 0.2, Air: 0.2, Fire: 0.2 }
       astrologicalInfluences: ['Venus', 'Mercury', 'gemini'],
       seasonality: 'heavily influenced by seasonal produce'
-    }
+    },
     persian: {
       name: 'Persian Cuisine',
       description:
@@ -1360,7 +1360,7 @@ export const middleEastern: Cuisine = {
       elementalProperties: { Earth: 0.3, Air: 0.3, Fire: 0.2, Water: 0.2 }
       astrologicalInfluences: ['Venus', 'Sun', 'Libra'],
       seasonality: 'aligned with ancient festivals and seasonal transitions'
-    }
+    },
     northAfrican: {
       name: 'North African Cuisine',
       description:
@@ -1369,7 +1369,7 @@ export const middleEastern: Cuisine = {
       elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 }
       astrologicalInfluences: ['Mars', 'Sun', 'aries'],
       seasonality: 'desert-influenced seasonal patterns'
-    }
+    },
     arabian: {
       name: 'Arabian Peninsula Cuisine',
       description:
@@ -1378,7 +1378,7 @@ export const middleEastern: Cuisine = {
       elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 }
       astrologicalInfluences: ['Saturn', 'Moon', 'capricorn'],
       seasonality: 'oasis agriculture with date harvest emphasis'
-    }
+    },
     turkish: {
       name: 'Turkish-Influenced Cuisine',
       description: 'Ottoman culinary legacy with layered flavors, yogurt, and regional variations',
@@ -1387,7 +1387,7 @@ export const middleEastern: Cuisine = {
       astrologicalInfluences: ['Jupiter', 'Venus', 'taurus'],
       seasonality: 'four distinct seasons with special holiday dishes'
     }
-  }
+  },
   elementalProperties: {
     Fire: 0.2,
     Water: 0.3,

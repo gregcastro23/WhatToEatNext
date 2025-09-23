@@ -369,7 +369,7 @@ export class MilestoneValidationSystem {
       metrics: {} as ProgressMetrics, // Not using full metrics for this validation
       criteria,
       failureReasons,
-      recommendations: success
+      recommendations: success,
         ? []
         : ['Fix build errors before proceeding', 'Check for syntax or import issues']
     }
@@ -410,7 +410,7 @@ export class MilestoneValidationSystem {
       metrics,
       criteria,
       failureReasons,
-      recommendations: success
+      recommendations: success,
         ? []
         : ['Continue with systematic linting fixes', 'Focus on high-priority warning types']
     }
@@ -517,7 +517,7 @@ export class MilestoneValidationSystem {
       metrics,
       criteria,
       failureReasons,
-      recommendations: success
+      recommendations: success,
         ? []
         : ['Continue transforming unused exports to intelligence systems']
     }
@@ -605,7 +605,7 @@ export class MilestoneValidationSystem {
       metrics: {} as ProgressMetrics,
       criteria,
       failureReasons,
-      recommendations: success
+      recommendations: success,
         ? []
         : ['Ensure all intelligence systems have complete functionality']
     }
@@ -636,7 +636,7 @@ export class MilestoneValidationSystem {
       metrics,
       criteria,
       failureReasons,
-      recommendations: success
+      recommendations: success,
         ? []
         : ['Optimize build performance with caching and bundling improvements']
     }
@@ -856,12 +856,12 @@ export class MilestoneValidationSystem {
       phases: allPhaseResults,
       summary: {
         overallSuccess: allPhaseResults.every(r => r.overallSuccess),,
-        completionPercentage: Math.round(
+        completionPercentage: Math.round(,
           allPhaseResults.reduce((sumr) => sum + r.completionPercentage, 0) /
             allPhaseResults.length,
         ),
         totalMilestones: allPhaseResults.reduce((sumr) => sum + r.milestones.length0),
-        passedMilestones: allPhaseResults.reduce(
+        passedMilestones: allPhaseResults.reduce(,
           (sumr) => sum + r.milestones.filter(m => m.success).length,,
           0,
         )

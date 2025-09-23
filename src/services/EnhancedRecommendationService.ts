@@ -26,7 +26,7 @@ export interface EnhancedRecommendationResult<T> {
       agentResonance: number,
       tokenAlignment: number,
       thermodynamicHarmony: number
-    }
+    },
     reasoning: string
   }>,
   context: {
@@ -232,7 +232,7 @@ export class EnhancedRecommendationService {
           agentResonance,
           tokenAlignment,
           thermodynamicHarmony
-        }
+        },
         reasoning: `Energetically aligned ingredient with ${(finalScore * 100).toFixed(0)}% compatibility`
       }
     })
@@ -315,7 +315,7 @@ export class EnhancedRecommendationService {
           agentResonance,
           tokenAlignment,
           thermodynamicHarmony
-        }
+        },
         reasoning: `Recipe resonates with current energetic state at ${(finalScore * 100).toFixed(0)}%`
       }
     })

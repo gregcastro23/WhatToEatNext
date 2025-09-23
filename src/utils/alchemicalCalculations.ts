@@ -229,7 +229,7 @@ export interface AlchemicalResult {
     earth: number,
     air: number,
     water: number
-  }
+  },
   dominantElement: string,
   recommendation: string,
   'Total Effect Value': {

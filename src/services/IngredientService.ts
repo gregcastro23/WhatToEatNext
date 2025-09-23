@@ -61,7 +61,7 @@ export interface RecipeRecommendation {
       amount: number,
       unit: string
     }>,
-  }
+  },
   usedIngredients: string[],
   season?: string | string[],
   elementalProperties?: ElementalProperties,
@@ -197,7 +197,7 @@ export class IngredientService implements IngredientServiceInterface {
             name,
             category,
             ...data
-            elementalProperties: (data.elementalState ||
+            elementalProperties: (data.elementalState ||,
               createElementalProperties({
                 Fire: 0,
                 Water: 0,
@@ -205,16 +205,16 @@ export class IngredientService implements IngredientServiceInterface {
                 Air: 0
               })) as unknown as ElementalProperties,
             alchemicalProperties: {
-              Spirit: Number(
+              Spirit: Number(,
                 ((data as any).alchemicalProperties ).Spirit || (data as any).Spirit || 0
               ),
-              Essence: Number(
+              Essence: Number(,
                 ((data as any).alchemicalProperties ).Essence || (data as any).Essence || 0
               ),
-              Matter: Number(
+              Matter: Number(,
                 ((data as any).alchemicalProperties ).Matter || (data as any).Matter || 0
               ),
-              Substance: Number(
+              Substance: Number(,
                 ((data as any).alchemicalProperties ).Substance ||
                   (data as any).Substance ||
                   0,

@@ -181,7 +181,7 @@ export class ErrorTrackingEnterpriseSystem {
     const snapshot: ErrorTrackingSnapshot = {
       timestamp: new Date(),
       metrics,
-      patterns: Array.from(this.patterns.values())
+      patterns: Array.from(this.patterns.values()),
       trends,
       recommendations,
       qualityGateStatus,

@@ -37,8 +37,8 @@ export class PilotCampaignAnalysis {
       maxFilesToAnalyze: config.maxFilesToAnalyze || 500,
       sampleSizeForAccuracy: config.sampleSizeForAccuracy || 100,
       confidenceThreshold: config.confidenceThreshold || 0.7,
-      enableTuning: config.enableTuning !== false;
-      generateDetailedReports: config.generateDetailedReports !== false;
+      enableTuning: config.enableTuning !== false;,
+      generateDetailedReports: config.generateDetailedReports !== false;,
       outputDirectory: config.outputDirectory || '.kiro/campaign-reports/pilot-analysis',
       ...config
     }
@@ -151,8 +151,8 @@ export class PilotCampaignAnalysis {
           maxFilesAnalyzed: this.config.maxFilesToAnalyze,
           actualFilesAnalyzed: await this.getActualFilesAnalyzed(),
           coveragePercentage: await this.calculateAnalysisCoverage()
-        }
-        domainBreakdown: await this.generateDetailedDomainBreakdown(
+        },
+        domainBreakdown: await this.generateDetailedDomainBreakdown(,
           analysisReport.domainDistribution
         ),
         riskAssessment: await this.assessReplacementRisks(analysisReport.domainDistribution)
@@ -378,11 +378,11 @@ export class PilotCampaignAnalysis {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   private async generateDetailedDomainBreakdown(distribution: DomainDistribution): Promise<any> {
     return {
-      highestRiskDomains: distribution.byDomain
+      highestRiskDomains: distribution.byDomain,
         .filter(d => d.count > 10)
         .sort((ab) => b.count - a.count)
         .slice(03),
-      lowestRiskDomains: distribution.byDomain
+      lowestRiskDomains: distribution.byDomain,
         .filter(d => d.count > 0)
         .sort((ab) => a.count - b.count)
         .slice(03),
@@ -443,13 +443,13 @@ export class PilotCampaignAnalysis {
           'Edge cases in error handling',
           'Ambiguous external API patterns'
         ]
-      }
+      },
       crossValidationResults: {
         foldCount: 5,
         averageAccuracy: 84.7,
         standardDeviation: 3.2,
         consistencyScore: 91.5
-      }
+      },
       edgeCaseResults: {
         edgeCasesIdentified: 23,
         edgeCaseAccuracy: 72.1,
@@ -458,7 +458,7 @@ export class PilotCampaignAnalysis {
           'Any types in dynamic import statements';
           'Conditional any types based on environment'
         ]
-      }
+      },
       domainAccuracy: [
         { domain: CodeDomain.ASTROLOGICAL, accuracy: 89.2 }
         { domain: CodeDomain.RECIPE, accuracy: 91.7 }
@@ -479,11 +479,11 @@ export class PilotCampaignAnalysis {
     const weightedSuccessRate = this.calculateWeightedSuccessRate(analysis.categorySuccessRates)
 
     return {
-      projectedSuccessRate: Math.min(weightedSuccessRate, 92), // Cap at 92% to be realistic
+      projectedSuccessRate: Math.min(weightedSuccessRate, 92), // Cap at 92% to be realistic,
       confidenceInterval: {
         lower: weightedSuccessRate - 5,
         upper: Math.min(weightedSuccessRate + 395)
-      }
+      },
       timeToTarget: this.calculateTimeToTarget(currentRate, targetRate),
       riskFactors: [
         'Complex domain contexts may reduce success rate',
@@ -641,7 +641,7 @@ export class PilotCampaignAnalysis {
         classificationAccuracy: accuracyScore,
         projectedSuccessRate: successRateScore,
         algorithmTuning: tuningScore
-      }
+      },
       blockers:
         overallReadiness < 70
           ? [

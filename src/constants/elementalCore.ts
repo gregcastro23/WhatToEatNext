@@ -197,7 +197,7 @@ export const ELEMENTAL_CHARACTERISTICS = {
     healthBenefits: ['metabolism boost', 'circulation improvement', 'immune strengthening'],
     moodEffects: ['energizing', 'stimulating', 'uplifting', 'motivating', 'passionate'],
     effects: ['stimulating', 'energizing', 'warming']
-  }
+  },
   Water: {
     // Basic properties
     qualities: ['cold', 'wet', 'flowing', 'adaptable', 'receptive'],
@@ -224,7 +224,7 @@ export const ELEMENTAL_CHARACTERISTICS = {
     healthBenefits: ['hydration', 'emotional balance', 'detoxification', 'cooling'],
     moodEffects: ['calming', 'soothing', 'introspective', 'healing', 'nurturing'],
     effects: ['cooling', 'calming', 'hydrating']
-  }
+  },
   Earth: {
     // Basic properties
     qualities: ['cold', 'dry', 'stable', 'solid', 'grounding'],
@@ -251,7 +251,7 @@ export const ELEMENTAL_CHARACTERISTICS = {
     healthBenefits: ['digestive support', 'nutritional density', 'sustained energy'],
     moodEffects: ['stabilizing', 'grounding', 'comforting', 'satisfying', 'nourishing'],
     effects: ['grounding', 'stabilizing', 'nourishing']
-  }
+  },
   Air: {
     // Basic properties
     qualities: ['hot', 'wet', 'mobile', 'light', 'communicative'],

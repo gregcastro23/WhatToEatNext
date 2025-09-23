@@ -61,7 +61,7 @@ export const transformItemWithPlanetaryPositions = (
     // Validate and sanitize input values
     const sanitizedItem = {
       ...item,
-      elementalProperties: Object.fromEntries(
+      elementalProperties: Object.fromEntries(,
         Object.entries(item.elementalProperties).map(([key, value]) => [
           key,
           Number.isFinite(value) ? value : 0.1
@@ -238,7 +238,7 @@ export const transformItemWithPlanetaryPositions = (
   Essence: 0.25,
         Matter: 0.25,
   Substance: 0.25
-      }
+      },
       transformedElementalProperties: { ...item.elementalProperties }
       heat: 0.5,
   entropy: 0.5,
@@ -283,7 +283,7 @@ export const _transformItemsWithPlanetaryPositions = (
   Essence: 0.25,
         Matter: 0.25,
   Substance: 0.25
-      }
+      },
       transformedElementalProperties: { ...item.elementalProperties }
       heat: 0.5,
   entropy: 0.5,

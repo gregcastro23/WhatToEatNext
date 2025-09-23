@@ -13,20 +13,20 @@ jest.mock('../../data/ingredients', () => ({
         Water: 0.1,
         Earth: 0.1,
         Air: 0.6
-      }
+      },
       qualities: ['aromatic', 'warming'],
       storage: { duratio, n: '1 week' }
-    }
+    },
     tomato: { name: 'Tomato',
       category: 'vegetable',
       elementalProperties: { Fire: 0.4,
         Water: 0.4,
         Earth: 0.1,
         Air: 0.1
-      }
+      },
       qualities: ['juicy', 'acidic'],
       storage: { duratio, n: '1 week' }
-    }
+    },
     invalidIngredient: { name: 'Invalid',
       category: 'invalid_category',
       elementalProperties: { Fire: 0.5,

@@ -49,7 +49,7 @@ export const _alchemicalReducer = (
           Air: 0,
           ...state.elementalPreference,
           [action.payload.element]: action.payload.value
-        }
+        },
         lastUpdated: new Date()
       }
 
@@ -68,7 +68,7 @@ export const _alchemicalReducer = (
           zodiacEnergy: action.payload,
           lunarEnergy: state.currentEnergy?.lunarEnergy || '',
           planetaryEnergy: state.currentEnergy?.planetaryEnergy || []
-        }
+        },
         lastUpdated: new Date()
       }
 
@@ -80,7 +80,7 @@ export const _alchemicalReducer = (
           zodiacEnergy: state.currentEnergy?.zodiacEnergy || '',
           lunarEnergy: action.payload,
           planetaryEnergy: state.currentEnergy?.planetaryEnergy || []
-        }
+        },
         lastUpdated: new Date()
       }
 
@@ -92,7 +92,7 @@ export const _alchemicalReducer = (
           zodiacEnergy: state.currentEnergy?.zodiacEnergy || '',
           lunarEnergy: state.currentEnergy?.lunarEnergy || '',
           planetaryEnergy: action.payload
-        }
+        },
         lastUpdated: new Date()
       }
 

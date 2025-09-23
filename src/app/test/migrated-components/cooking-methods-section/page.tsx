@@ -52,14 +52,14 @@ const sampleMethods = [
     duration: {
       min: 10,
       max: 30
-    }
+    },
     suitable_for: ['Meats', 'Vegetables', 'Seafood'],
     alchemicalProperties: {
       Spirit: 0.7,
       Essence: 0.3,
       Matter: 0.2,
       Substance: 0.5
-    }
+    },
     variations: [
       {
         id: 'charcoal-grilling',
@@ -85,7 +85,7 @@ const sampleMethods = [
     duration: {
       min: 5,
       max: 45
-    }
+    },
     suitable_for: ['Pasta', 'Vegetables', 'Eggs'],
     alchemicalProperties: {
       Spirit: 0.2,
@@ -104,14 +104,14 @@ const sampleMethods = [
     duration: {
       min: 20,
       max: 120
-    }
+    },
     suitable_for: ['Breads', 'Pastries', 'Casseroles'],
     alchemicalProperties: {
       Spirit: 0.4,
       Essence: 0.3,
       Matter: 0.6,
       Substance: 0.7
-    }
+    },
     variations: [
       {
         id: 'roasting',
@@ -131,7 +131,7 @@ const sampleMethods = [
     duration: {
       min: 5,
       max: 30
-    }
+    },
     suitable_for: ['Vegetables', 'Fish', 'Dumplings'],
     alchemicalProperties: {
       Spirit: 0.3,
@@ -190,7 +190,7 @@ export default function CookingMethodsSectionTestPage() {
           <div>
             <button
               onClick={() => setSelectedMethodId(null)}
-              className='rounded bg-blue-50 px-3 py-1 text-blue-700, hover: bg-blue-100',
+              className='rounded bg-blue-50 px-3 py-1 text-blue-700, hover:bg-blue-100',
             >
               Clear Selection
             </button>

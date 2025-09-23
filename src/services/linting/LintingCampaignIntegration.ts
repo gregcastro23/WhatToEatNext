@@ -24,7 +24,7 @@ export interface LintingCampaignConfig {
     maxErrors: number,
     maxWarnings: number,
     targetReduction: number
-  }
+  },
   safetyProtocols: string[],
   notifications: {
     onProgress: boolean,
@@ -45,7 +45,7 @@ export interface LintingCampaignPhase {
     errorReduction: number,
     warningReduction: number,
     performanceThreshold: number
-  }
+  },
   estimatedDuration: number // minutes
 }
 
@@ -62,7 +62,7 @@ export interface CampaignExecutionResult {
     warningsBefore: number,
     warningsAfter: number,
     improvementPercentage: number
-  }
+  },
   executionTime: number,
   issues: string[],
   recommendations: string[]
@@ -142,7 +142,7 @@ export class LintingCampaignIntegration {
           warningsBefore: prePhaseReport.currentMetrics.warnings,
           warningsAfter: postPhaseReport.currentMetrics.warnings,
           improvementPercentage: postPhaseReport.improvement.percentageImprovement
-        }
+        },
         executionTime: Date.now() - startTime,
         issues: toolResults.issues,
         recommendations: toolResults.recommendations
@@ -337,7 +337,7 @@ export class LintingCampaignIntegration {
             (activeCampaign as any)?.baselineMetrics.warnings -
             currentReport.currentMetrics.warnings,
           percentageImprovement: currentReport.improvement.percentageImprovement
-        }
+        },
         phasesExecuted: (activeCampaign as any)?.phasesExecuted || [],
         qualityGatesStatus: currentReport.qualityGates,
         recommendations:
@@ -375,19 +375,19 @@ export class LintingCampaignIntegration {
               errorReduction: 50,
               warningReduction: 100,
               performanceThreshold: 60000
-            }
+            },
             estimatedDuration: 15
           }
           {
-            id: 'phase-2-imports';
+            id: 'phase-2-imports';,
             name: 'Import Organization',
-            description: 'Clean up and organize import statements';
-            tools: ['unused-imports', 'import-organization'];
+            description: 'Clean up and organize import statements';,
+            tools: ['unused-imports', 'import-organization'];,
             successCriteria: {
               errorReduction: 20,
               warningReduction: 200,
               performanceThreshold: 60000
-            }
+            },
             estimatedDuration: 30
           }
           {
@@ -399,7 +399,7 @@ export class LintingCampaignIntegration {
               errorReduction: 10,
               warningReduction: 50,
               performanceThreshold: 60000
-            }
+            },
             estimatedDuration: 45
           }
           {
@@ -411,7 +411,7 @@ export class LintingCampaignIntegration {
               errorReduction: 5,
               warningReduction: 30,
               performanceThreshold: 60000
-            }
+            },
             estimatedDuration: 20
           }
         ],
@@ -419,7 +419,7 @@ export class LintingCampaignIntegration {
           maxErrors: 0,
           maxWarnings: 100,
           targetReduction: 80
-        }
+        },
         safetyProtocols: ['backup-before-changes', 'validate-build', 'rollback-on-failure'],
         notifications: {
           onProgress: true,

@@ -51,7 +51,7 @@ export interface FixRecommendation {
   category: ErrorCategory,
   errorCount: number,
   fixStrategy: string,
-  estimatedEffort: number, // minutes
+  estimatedEffort: number, // minutes,
   batchSize: number,
   priority: number,
   successRate: number
@@ -118,9 +118,9 @@ export enum SafetyLevel {
 
 // Configuration constants
 const ERROR_THRESHOLDS = {
-  CRITICAL: 500, // Emergency campaign mode
-  HIGH: 200, // Aggressive campaign mode
-  MEDIUM: 100, // Standard campaign mode
+  CRITICAL: 500, // Emergency campaign mode,
+  HIGH: 200, // Aggressive campaign mode,
+  MEDIUM: 100, // Standard campaign mode,
   MONITORING: 50, // Proactive monitoring only
 }
 
@@ -200,7 +200,7 @@ export async function analyzeTypeScriptErrors(): Promise<CampaignTriggerResult> 
         highImpactFiles: [],
         priorityRanking: [],
         campaignRecommendations: []
-      }
+      },
       recommendations: [],
       batchSchedule: { batches: [], totalEstimatedTime: 0, safetyProtocols: [] }
       estimatedDuration: 0,
@@ -312,7 +312,7 @@ function parseTypeScriptErrors(errorOutput: string): TypeScriptError[] {
         line: lineNum,
         column: colNum,
         code,
-        message: message.trim()
+        message: message.trim(),
         category,
         priority,
         severity
@@ -452,7 +452,7 @@ function generateCampaignRecommendations(
     recommendations.push({
       mode: CampaignMode.EMERGENCY,
       phases: ['typescript-error-elimination', 'build-stabilization', 'safety-validation'],
-      estimatedDuration: Math.ceil(totalErrors * 0.5), // 30 seconds per error
+      estimatedDuration: Math.ceil(totalErrors * 0.5), // 30 seconds per error,
       safetyLevel: SafetyLevel.MAXIMUM,
       description: `Emergency campaign for ${totalErrors} critical errors`
     })
@@ -460,7 +460,7 @@ function generateCampaignRecommendations(
     recommendations.push({
       mode: CampaignMode.AGGRESSIVE,
       phases: ['typescript-error-elimination', 'targeted-fixes'],
-      estimatedDuration: Math.ceil(totalErrors * 0.3), // 18 seconds per error
+      estimatedDuration: Math.ceil(totalErrors * 0.3), // 18 seconds per error,
       safetyLevel: SafetyLevel.HIGH,
       description: `Aggressive campaign for ${totalErrors} high-priority errors`
     })
@@ -468,7 +468,7 @@ function generateCampaignRecommendations(
     recommendations.push({
       mode: CampaignMode.STANDARD,
       phases: ['targeted-error-reduction'],
-      estimatedDuration: Math.ceil(totalErrors * 0.2), // 12 seconds per error
+      estimatedDuration: Math.ceil(totalErrors * 0.2), // 12 seconds per error,
       safetyLevel: SafetyLevel.MEDIUM,
       description: `Standard campaign for ${totalErrors} errors`
     })
@@ -634,7 +634,7 @@ function createBatchSchedule(
     const batch: ProcessingBatch = {
       id: generateBatchId(),
       category: recommendation.category,
-      files: [], // Would be populated with actual file paths
+      files: [], // Would be populated with actual file paths,
       batchSize: recommendation.batchSize,
       estimatedDuration: recommendation.estimatedEffort,
       safetyLevel: determineSafetyLevel(mode),

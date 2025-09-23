@@ -9,7 +9,7 @@ const rawSquash = {
       Water: 0.3,
       Fire: 0.2,
       Air: 0.1
-    }
+    },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Saturn'],
       favorableZodiac: ['taurus', 'capricorn'],
@@ -19,18 +19,18 @@ const rawSquash = {
           first: {
             element: 'Earth',
             planet: 'Venus'
-          }
+          },
           second: {
             element: 'Water',
             planet: 'Saturn'
-          }
+          },
           third: {
             element: 'Fire',
             planet: 'Sun'
           }
         }
       }
-    }
+    },
     qualities: ['warming', 'nourishing', 'grounding'],
     season: ['fall', 'winter'],
     category: 'vegetable',
@@ -49,18 +49,18 @@ const rawSquash = {
       antioxidants: ['beta-carotene'],
       glycemic_index: 51,
       notes: 'High in beta-carotene and vitamin A'
-    }
+    },
     preparation: {
       peeling: 'required',
       cutting: 'halve, remove seeds',
       notes: 'Can be pre-cut and roasted'
-    }
+    },
     storage: {
       temperature: 'cool, dry place',
       duration: '2-3 months',
       notes: 'Once cut, refrigerate'
     }
-  }
+  },
   zucchini: {
     name: 'zucchini',
     elementalProperties: {
@@ -68,7 +68,7 @@ const rawSquash = {
       Water: 0.5121388172829056,
       Earth: 0.032703628178985034,
       Air: 0.034665845869724134
-    }
+    },
     astrologicalProfile: {}
     category: 'vegetable',
     subCategory: 'squash',
@@ -79,7 +79,7 @@ const rawSquash = {
       protein_g: 1.21,
       vitamins: ['a', 'c', 'k', 'b6', 'folate'],
       minerals: ['potassium', 'manganese', 'magnesium']
-    }
+    },
     season: ['summer'],
     cookingMethods: ['saute', 'roast', 'grill', 'raw', 'steam', 'bake'],
     qualities: ['versatile', 'mild', 'tender', 'hydrating'],
@@ -88,24 +88,24 @@ const rawSquash = {
         method: 'Slice or dice, sauté with olive oil until tender-crisp',
         timing: '3-5 minutes',
         pairings: ['garlic', 'basil', 'tomatoes', 'parmesan']
-      }
+      },
       grilled: {
         method: 'Slice lengthwise, brush with oil, grill until charred',
         timing: '2-3 minutes per side',
         pairings: ['lemon', 'herbs', 'feta', 'balsamic']
-      }
+      },
       baked: {
         method: 'Hollow out and stuff with fillings, bake until tender',
         timing: '20-25 minutes at 375°F',
         pairings: ['ground meat', 'rice', 'tomato sauce', 'cheese']
-      }
+      },
       spiralized: {
         method: 'Use spiralizer to create noodle-like strands',
         timing: 'Cook 1-3 minutes or serve raw',
         pairings: ['pasta sauce', 'pesto', 'olive oil', 'lemon']
       }
     }
-  }
+  },
   pumpkin: {
     name: 'Pumpkin',
     elementalProperties: {
@@ -113,7 +113,7 @@ const rawSquash = {
       Water: 0.2,
       Fire: 0.2,
       Air: 0.1
-    }
+    },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Moon'],
       favorableZodiac: ['taurus', 'cancer'],
@@ -123,18 +123,18 @@ const rawSquash = {
           first: {
             element: 'Earth',
             planet: 'Venus'
-          }
+          },
           second: {
             element: 'Water',
             planet: 'Moon'
-          }
+          },
           third: {
             element: 'Fire',
             planet: 'Sun'
           }
         }
       }
-    }
+    },
     qualities: ['warming', 'grounding', 'nourishing'],
     season: ['fall'],
     category: 'vegetable',
@@ -153,12 +153,12 @@ const rawSquash = {
       antioxidants: ['beta-carotene', 'lutein', 'zeaxanthin'],
       glycemic_index: 75,
       notes: 'Excellent source of vitamin A and beta-carotene'
-    }
+    },
     preparation: {
       cutting: 'quarter, remove seeds',
       peeling: 'after cooking easier',
       notes: 'Save seeds for roasting'
-    }
+    },
     storage: {
       temperature: 'cool, dry place',
       duration: '2-3 months whole',
@@ -172,7 +172,7 @@ const rawSquash = {
       Water: 0.3,
       Fire: 0.2,
       Air: 0.1
-    }
+    },
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Venus'],
       favorableZodiac: ['capricorn', 'taurus'],
@@ -182,18 +182,18 @@ const rawSquash = {
           first: {
             element: 'Earth',
             planet: 'Saturn'
-          }
+          },
           second: {
             element: 'Water',
             planet: 'Venus'
-          }
+          },
           third: {
             element: 'Fire',
             planet: 'Mars'
           }
         }
       }
-    }
+    },
     qualities: ['warming', 'grounding'],
     season: ['fall', 'winter'],
     category: 'vegetable',
@@ -212,12 +212,12 @@ const rawSquash = {
       sugar_g: 0,
       glycemic_index: 40,
       notes: 'Good source of vitamin C and potassium'
-    }
+    },
     preparation: {
       washing: true,
       cutting: 'halve, remove seeds',
       notes: 'No need to peel'
-    }
+    },
     storage: {
       temperature: 'cool, dry place',
       duration: '1-2 months',

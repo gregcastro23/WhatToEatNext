@@ -3,23 +3,23 @@ export const _CHAKRA_ORDER = ['crown', 'brow', 'throat', 'heart', 'solarPlexus',
 
 // Map of chakra positions to their symbols
 export const CHAKRA_SYMBOLS: Record<string, string> = {
-  root: '▼', // Downward-pointing triangle
-  sacral: '○', // Circle
-  solarPlexus: '△', // Upward-pointing triangle
-  heart: '✦', // Star
-  throat: '◯', // Circle
-  brow: '◎', // Circle with dot
+  root: '▼', // Downward-pointing triangle,
+  sacral: '○', // Circle,
+  solarPlexus: '△', // Upward-pointing triangle,
+  heart: '✦', // Star,
+  throat: '◯', // Circle,
+  brow: '◎', // Circle with dot,
   crown: '☼', // Sun
 }
 
 // Sanskrit bija (seed) mantras for each chakra
 export const CHAKRA_BIJA_MANTRAS: Record<string, string> = {
-  root: 'लं', // LAM
-  sacral: 'वं', // VAM
-  solarPlexus: 'रं', // RAM
-  heart: 'यं', // YAM
-  throat: 'हं', // HAM
-  brow: 'ॐ', // OM
+  root: 'लं', // LAM,
+  sacral: 'वं', // VAM,
+  solarPlexus: 'रं', // RAM,
+  heart: 'यं', // YAM,
+  throat: 'हं', // HAM,
+  brow: 'ॐ', // OM,
   crown: '✧', // Silent
 }
 
@@ -148,7 +148,7 @@ export const CHAKRA_MANTRA_INTELLIGENCE = {
           overtones: Math.random() * 0.25 + 0.75, // 75-100% overtone resonance,
           harmonics: Math.random() * 0.3 + 0.7, // 70-100% harmonic resonance,
           subharmonics: Math.random() * 0.35 + 0.65, // 65-100% subharmonic resonance
-        }
+        },
         temporalAnalysis: {
           shortTerm: Math.random() * 0.15 + 0.85, // 85-100% short-term effectiveness,
           mediumTerm: Math.random() * 0.2 + 0.8, // 80-100% medium-term effectiveness,
@@ -247,7 +247,7 @@ export const CHAKRA_VISUAL_INTELLIGENCE = {
           proportion: Math.random() * 0.25 + 0.75, // 75-100% proportion,
           balance: Math.random() * 0.15 + 0.85, // 85-100% balance,
           harmony: Math.random() * 0.1 + 0.9, // 90-100% harmony
-        }
+        },
         energyFlow: {
           visualFlow: Math.random() * 0.2 + 0.8, // 80-100% visual flow,
           energyDirection: Math.random() * 0.25 + 0.75, // 75-100% direction,
@@ -340,7 +340,7 @@ export const CHAKRA_NUTRITIONAL_INTELLIGENCE = {
           summerAlignment: Math.random() * 0.25 + 0.75, // 75-100% summer alignment,
           autumnAlignment: Math.random() * 0.2 + 0.8, // 80-100% autumn alignment,
           winterAlignment: Math.random() * 0.25 + 0.75, // 75-100% winter alignment
-        }
+        },
         energeticAnalysis: {
           pranicValue: Math.random() * 0.15 + 0.85, // 85-100% pranic value,
           vitalForce: Math.random() * 0.2 + 0.8, // 80-100% vital force,
@@ -423,7 +423,7 @@ export const CHAKRA_FUNCTIONAL_INTELLIGENCE = {
           operationalBalance: Math.random() * 0.25 + 0.75, // 75-100% operational balance,
           functionalFlow: Math.random() * 0.15 + 0.85, // 85-100% functional flow,
           systemHarmony: Math.random() * 0.1 + 0.9, // 90-100% system harmony
-        }
+        },
         integrationAnalysis: {
           crossChakraIntegration: Math.random() * 0.2 + 0.8, // 80-100% cross-chakra integration,
           systemCoherence: Math.random() * 0.25 + 0.75, // 75-100% system coherence,
@@ -515,7 +515,7 @@ export const CHAKRA_DEMONSTRATION_PLATFORM = {
           integrationEfficiency: Math.random() * 0.25 + 0.75, // 75-100% integration efficiency,
           userEngagement: Math.random() * 0.15 + 0.85, // 85-100% user engagement,
           platformBalance: Math.random() * 0.1 + 0.9, // 90-100% platform balance
-        }
+        },
         comprehensiveAnalysis: {
           overallEffectiveness: Math.random() * 0.2 + 0.8, // 80-100% overall effectiveness,
           systemHarmony: Math.random() * 0.25 + 0.75, // 75-100% system harmony,
@@ -591,22 +591,22 @@ export const PHASE_32_CHAKRA_INTELLIGENCE_SUMMARY = {
           effectiveness: Math.random() * 0.2 + 0.8, // 80-100% effectiveness,
           integration: Math.random() * 0.25 + 0.75, // 75-100% integration,
           resonance: Math.random() * 0.15 + 0.85, // 85-100% resonance
-        }
+        },
         visualIntelligence: {
           effectiveness: Math.random() * 0.25 + 0.75, // 75-100% effectiveness,
           integration: Math.random() * 0.2 + 0.8, // 80-100% integration,
           resonance: Math.random() * 0.15 + 0.85, // 85-100% resonance
-        }
+        },
         nutritionalIntelligence: {
           effectiveness: Math.random() * 0.2 + 0.8, // 80-100% effectiveness,
           integration: Math.random() * 0.25 + 0.75, // 75-100% integration,
           resonance: Math.random() * 0.15 + 0.85, // 85-100% resonance
-        }
+        },
         functionalIntelligence: {
           effectiveness: Math.random() * 0.25 + 0.75, // 75-100% effectiveness,
           integration: Math.random() * 0.2 + 0.8, // 80-100% integration,
           resonance: Math.random() * 0.15 + 0.85, // 85-100% resonance
-        }
+        },
         demonstrationPlatform: {
           effectiveness: Math.random() * 0.2 + 0.8, // 80-100% effectiveness,
           integration: Math.random() * 0.25 + 0.75, // 75-100% integration,

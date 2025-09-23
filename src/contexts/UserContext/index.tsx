@@ -17,7 +17,7 @@ interface UserProfile {
 const userService = {
   getUserProfile: async (userId: string): Promise<UserProfile> => {
     return { userId, name: 'Mock User', email: 'mock@example.com' }
-  }
+  },
   saveUserProfile: async (profile: Partial<UserProfile>): Promise<UserProfile> => {
     return { userId: profile.userId || 'mock', ...profile } as UserProfile,
   }

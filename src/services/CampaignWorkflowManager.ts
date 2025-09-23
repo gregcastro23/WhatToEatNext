@@ -33,7 +33,7 @@ export interface CampaignTemplate {
   description: string,
   category: 'typescript' | 'linting' | 'performance' | 'comprehensive',
   difficulty: 'beginner' | 'intermediate' | 'advanced',
-  estimatedDuration: number, // minutes
+  estimatedDuration: number, // minutes,
   phases: CampaignPhaseTemplate[],
   safetySettings: SafetySettings,
   prerequisites: string[],
@@ -50,8 +50,8 @@ export interface CampaignPhaseTemplate {
     lintingWarnings?: number,
     buildTime?: number
     customValidation?: string // Function name or description
-  }
-  estimatedDuration: number // minutes
+  },
+  estimatedDuration: number // minutes,
   riskLevel: 'low' | 'medium' | 'high'
 }
 
@@ -90,13 +90,13 @@ export interface WorkflowStep {
   id: string,
   name: string,
   description: string,
-  type: | 'template_selection'
+  type: | 'template_selection',
     | 'configuration'
     | 'validation'
     | 'dry_run'
     | 'approval'
     | 'execution',
-  status: 'pending' | 'in_progress' | 'completed' | 'skipped' | 'failed'
+  status: 'pending' | 'in_progress' | 'completed' | 'skipped' | 'failed',
   data?: Record<string, unknown>,
   validationRules?: ValidationRule[]
 }
@@ -567,27 +567,27 @@ export class CampaignWorkflowManager {
                   description: 'Maximum files to process',
                   defaultValue: 15,
                   required: true
-                }
+                },
                 autoFix: {
                   type: 'boolean',
                   description: 'Enable automatic fixes',
                   defaultValue: true,
                   required: false
-                }
+                },
                 validateSafety: {
                   type: 'boolean',
                   description: 'Enable safety validation',
                   defaultValue: true,
                   required: false
                 }
-              }
+              },
               batchSize: 15,
               safetyLevel: 'MAXIMUM'
             }
           ],
           successCriteria: {
             typeScriptErrors: 0
-          }
+          },
           estimatedDuration: 30,
           riskLevel: 'medium'
         }
@@ -599,7 +599,7 @@ export class CampaignWorkflowManager {
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
         stashRetentionDays: 7
-      }
+      },
       prerequisites: ['TypeScript project', 'Git repository'],
       expectedOutcomes: [
         'Zero TypeScript compilation errors',
@@ -632,21 +632,21 @@ export class CampaignWorkflowManager {
                   description: 'Maximum files to process',
                   defaultValue: 25,
                   required: true
-                }
+                },
                 continueFrom: {
                   type: 'string',
                   description: 'Continue from percentage',
                   defaultValue: '0%',
                   required: false
                 }
-              }
+              },
               batchSize: 25,
               safetyLevel: 'HIGH'
             }
           ],
           successCriteria: {
             lintingWarnings: 0
-          }
+          },
           estimatedDuration: 20,
           riskLevel: 'low'
         }
@@ -658,7 +658,7 @@ export class CampaignWorkflowManager {
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
         stashRetentionDays: 7
-      }
+      },
       prerequisites: ['ESLint configuration', 'TypeScript project'],
       expectedOutcomes: [
         'Zero linting warnings',
@@ -692,7 +692,7 @@ export class CampaignWorkflowManager {
                   defaultValue: 15,
                   required: true
                 }
-              }
+              },
               batchSize: 15,
               safetyLevel: 'MAXIMUM'
             }
@@ -717,7 +717,7 @@ export class CampaignWorkflowManager {
                   defaultValue: 25,
                   required: true
                 }
-              }
+              },
               batchSize: 25,
               safetyLevel: 'HIGH'
             }
@@ -742,7 +742,7 @@ export class CampaignWorkflowManager {
                   defaultValue: true,
                   required: false
                 }
-              }
+              },
               batchSize: 10,
               safetyLevel: 'MEDIUM'
             }
@@ -759,7 +759,7 @@ export class CampaignWorkflowManager {
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
         stashRetentionDays: 14
-      }
+      },
       prerequisites: ['TypeScript project', 'ESLint configuration', 'Build system'],
       expectedOutcomes: [
         'Zero TypeScript errors',
@@ -875,7 +875,7 @@ export class CampaignWorkflowManager {
           description: phaseTemplate.description,
           tools: phaseTemplate.tools.map(toolTemplate => ({
             scriptPath: toolTemplate.scriptPath,
-            parameters: Object.fromEntries(
+            parameters: Object.fromEntries(,
               Object.entries(toolTemplate.parameters).map(([key, param]) => [
                 key,
                 param.defaultValue
@@ -897,7 +897,7 @@ export class CampaignWorkflowManager {
         lintingWarnings: 0,
         buildTime: 10,
         enterpriseSystems: 200
-      }
+      },
       toolConfiguration: {
         enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
@@ -952,13 +952,13 @@ export class CampaignWorkflowManager {
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
         stashRetentionDays: 7
-      }
+      },
       progressTargets: {
         typeScriptErrors: 0,
         lintingWarnings: 0,
         buildTime: 10,
         enterpriseSystems: 200
-      }
+      },
       toolConfiguration: {
         enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',

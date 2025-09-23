@@ -20,11 +20,11 @@ interface PersonalizationData {
     ingredients: {
       favorites: string[],
       dislikes: string[],
-    }
+    },
     elementalAffinities: ElementalProperties,
     complexity: 'simple' | 'moderate' | 'complex',
     planetaryPreferences: Record<string, number>,
-  }
+  },
   recommendations: {
     scores: Array<{
       id: string,
@@ -33,12 +33,12 @@ interface PersonalizationData {
       confidence: number,
     }>,
     lastUpdated: number,
-  }
+  },
   learningStats: {
     totalInteractions: number,
     confidence: number,
     lastActivity: number,
-  }
+  },
   isLoading: boolean,
 }
 
@@ -68,16 +68,16 @@ export function usePersonalization(
       elementalAffinities: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
       complexity: 'moderate',
       planetaryPreferences: {}
-    }
+    },
     recommendations: {
       scores: [],
       lastUpdated: 0
-    }
+    },
     learningStats: {
       totalInteractions: 0,
       confidence: 0,
       lastActivity: 0
-    }
+    },
     isLoading: true
   })
 
@@ -99,16 +99,16 @@ export function usePersonalization(
           ingredients: {
             favorites: preferences.favoriteIngredients,
             dislikes: preferences.dislikedIngredients
-          }
+          },
           elementalAffinities: preferences.elementalAffinities,
           complexity: preferences.complexityPreference,
           planetaryPreferences: preferences.planetaryPreferences
-        }
+        },
         learningStats: {
           totalInteractions: preferences.totalInteractions,
           confidence: preferences.learningConfidence,
           lastActivity: preferences.lastActivity
-        }
+        },
         isLoading: false
       }))
 
@@ -135,7 +135,7 @@ export function usePersonalization(
       cookingMethod: string,
       complexity: string,
       elementalBalance: ElementalProperties,
-    }
+    },
     interactionType: 'view' | 'save' | 'cook'
   ) => {
     if (!userId || !config.autoLearn) return,
@@ -257,7 +257,7 @@ export function usePersonalization(
 
     const insights = {
       // Learning progress
-      learningStage: learningStats.confidence < 0.3 ? 'early' :
+      learningStage: learningStats.confidence < 0.3 ? 'early' :,
                     learningStats.confidence < 0.7 ? 'developing' : 'mature',
 
       // Top preferences
@@ -265,11 +265,11 @@ export function usePersonalization(
       topIngredients: preferences.ingredients.favorites.slice(0, 5),
 
       // Elemental dominance
-      dominantElement: Object.entries(preferences.elementalAffinities)
+      dominantElement: Object.entries(preferences.elementalAffinities),
         .sort(([, a], [, b]) => b - a)[0]?.[0] || 'balanced',
 
       // Planetary preferences
-      topPlanets: Object.entries(preferences.planetaryPreferences)
+      topPlanets: Object.entries(preferences.planetaryPreferences),
         .sort(([, a], [, b]) => b - a)
         .slice(0, 3)
         .map(([planet]) => planet),

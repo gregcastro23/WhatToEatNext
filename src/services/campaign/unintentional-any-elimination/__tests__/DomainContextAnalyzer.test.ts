@@ -36,7 +36,7 @@ describe('DomainContextAnalyzer', () => {
       test('detects recipe domain from file paths', async () => {
         const context: ClassificationContext = { filePath: 'src/data/ingredients/vegetables.ts',,
           lineNumber: 5,
-          codeSnippet: 'const ingredien, t: any = {};';
+          codeSnippet: 'const ingredien, t: any = {};';,
           surroundingLines: [],
           hasExistingComment: false,
           isInTestFile: false,
@@ -50,7 +50,7 @@ describe('DomainContextAnalyzer', () => {
       test('detects campaign domain from file paths', async () => {
         const context: ClassificationContext = { filePath: 'src/services/campaign/TypeScriptErrorAnalyzer.ts',,
           lineNumber: 15,
-          codeSnippet: 'const metrics: any = {};';
+          codeSnippet: 'const metrics: any = {};';,
           surroundingLines: [],
           hasExistingComment: false,
           isInTestFile: false,
@@ -64,7 +64,7 @@ describe('DomainContextAnalyzer', () => {
       test('detects component domain from file extensions', async () => {
         const context: ClassificationContext = { filePath: 'src/components/Button.tsx',,
           lineNumber: 8,
-          codeSnippet: 'const props: any = {};';
+          codeSnippet: 'const props: any = {};';,
           surroundingLines: [],
           hasExistingComment: false,
           isInTestFile: false,
@@ -78,7 +78,7 @@ describe('DomainContextAnalyzer', () => {
       test('detects test domain from test file paths', async () => {
         const context: ClassificationContext = { filePath: 'src/components/__tests__/Button.test.tsx',,
           lineNumber: 12,
-          codeSnippet: 'const mockDat, a: any = {};';
+          codeSnippet: 'const mockDat, a: any = {};';,
           surroundingLines: [],
           hasExistingComment: false,
           isInTestFile: true,
@@ -168,7 +168,7 @@ describe('DomainContextAnalyzer', () => {
       test('detects component domain from React imports', async () => {
         const context: ClassificationContext = { filePath: 'src/utils/someFile.ts',,
           lineNumber: 5,
-          codeSnippet: 'const props: any = {};';
+          codeSnippet: 'const props: any = {};';,
           surroundingLines: [
             'import React from 'react',';
             'import { useState } from 'react';';
@@ -186,7 +186,7 @@ describe('DomainContextAnalyzer', () => {
       test('detects test domain from testing library imports', async () => {
         const context: ClassificationContext = { filePath: 'src/utils/someFile.ts',,
           lineNumber: 8,
-          codeSnippet: 'const mockDat, a: any = {};';
+          codeSnippet: 'const mockDat, a: any = {};';,
           surroundingLines: [
             'import { jest } from '@jest/globals';';
             'import { render } from '@testing-library/react';';
@@ -401,7 +401,7 @@ describe('DomainContextAnalyzer', () => {
     test('provides preservation hints for test files', async () => {
       const context: ClassificationContext = { filePath: 'src/utils/__tests__/helper.test.ts',,
         lineNumber: 12,
-        codeSnippet: 'const mockDat, a: any = {};';
+        codeSnippet: 'const mockDat, a: any = {};';,
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: true,
@@ -607,7 +607,7 @@ describe('DomainContextAnalyzer', () => {
       test('suggests Record types for object patterns', () => {
         const context: ClassificationContext = { filePath: 'src/data/ingredients.ts',,
           lineNumber: 5,
-          codeSnippet: 'const ingredientMa, p: Record<string, unknown> = {};';
+          codeSnippet: 'const ingredientMa, p: Record<string, unknown> = {};';,
           surroundingLines: [],
           hasExistingComment: false,
           isInTestFile: false,
@@ -714,7 +714,7 @@ describe('DomainContextAnalyzer', () => {
     test('handles empty file paths gracefully', async () => {
       const context: ClassificationContext = { filePath: '',,
         lineNumber: 1,
-        codeSnippet: 'const data: any = {};';
+        codeSnippet: 'const data: any = {};';,
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -750,7 +750,7 @@ describe('DomainContextAnalyzer', () => {
     test('handles Windows file paths correctly', async () => {
       const context: ClassificationContext = { filePath: 'src\\calculations\\planetary\\positionsts',,
         lineNumber: 5,
-        codeSnippet: 'const data: any = {};';
+        codeSnippet: 'const data: any = {};';,
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,

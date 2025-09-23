@@ -107,19 +107,19 @@ export const _SEASONAL_MODIFIERS = {
     Water: 0.3,
     Earth: 0.2,
     Fire: 0.1
-  }
+  },
   summer: {
     Fire: 0.4,
     Air: 0.3,
     Earth: 0.2,
     Water: 0.1
-  }
+  },
   autumn: {
     Earth: 0.4,
     Fire: 0.3,
     Air: 0.2,
     Water: 0.1
-  }
+  },
   winter: {
     Water: 0.4,
     Earth: 0.3,
@@ -356,7 +356,7 @@ function _calculateSeasonalScores(
   currentZodiac?: any | null,
   lunarPhase?: LunarPhase | null,
 ): {
-  seasonalScores: Record<Season, number>
+  seasonalScores: Record<Season, number>,
   elementalBreakdown: Record<Season, ElementalProperties>,
   astrologicalInfluence: Record<Season, AstrologicalProperties>
 } {

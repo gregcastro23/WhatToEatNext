@@ -40,12 +40,12 @@ export interface LintingProgressReport {
     errorsReduced: number,
     warningsReduced: number,
     percentageImprovement: number
-  }
+  },
   trends: {
     last24Hours: number,
     last7Days: number,
     last30Days: number
-  }
+  },
   qualityGates: {
     zeroErrors: boolean,
     warningsUnderThreshold: boolean,

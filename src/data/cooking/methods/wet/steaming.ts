@@ -15,11 +15,11 @@ export const steaming: CookingMethodData = {
     Air: 0.3,
     Fire: 0.1,
     Earth: 0.0
-  }
+  },
   duration: {
     min: 5,
     max: 45
-  }
+  },
   suitable_for: [
     'vegetables',
     'fish',
@@ -55,12 +55,12 @@ export const steaming: CookingMethodData = {
     unfavorableZodiac: ['leo', 'aries', 'virgo'] as any[],
     dominantPlanets: ['Moon', 'Venus', 'Neptune'],
     lunarPhaseEffect: {
-      full_moon: 1.25, // Enhanced moisture retention
-      new_moon: 0.85, // Diminished vapor production
-      waxing_crescent: 1.1, // Slight enhancement
+      full_moon: 1.25, // Enhanced moisture retention,
+      new_moon: 0.85, // Diminished vapor production,
+      waxing_crescent: 1.1, // Slight enhancement,
       waning_gibbous: 0.9, // Slight reduction
     }
-  }
+  },
   toolsRequired: [
     'Steamer basket/insert (stainless steel or silicone)',
     'Pot with tight-fitting lid',
@@ -101,29 +101,29 @@ export const steaming: CookingMethodData = {
     'Yogurt-based sauces for steamed vegetables'
   ],
   nutrientRetention: {
-    vitamins: 0.9, // Excellent retention of water-soluble vitamins
-    minerals: 0.95, // Minimal loss to cooking medium
-    proteins: 0.95, // Gentle denaturation preserves structure
-    antioxidants: 0.9, // Limited oxidation
-    color_compounds: 0.85, // Good chlorophyll preservation
-    water_soluble_vitamins: 0.85, // Some B and C vitamins retained
-    fat_soluble_vitamins: 0.95, // AD, EK vitamins well preserved
+    vitamins: 0.9, // Excellent retention of water-soluble vitamins,
+    minerals: 0.95, // Minimal loss to cooking medium,
+    proteins: 0.95, // Gentle denaturation preserves structure,
+    antioxidants: 0.9, // Limited oxidation,
+    color_compounds: 0.85, // Good chlorophyll preservation,
+    water_soluble_vitamins: 0.85, // Some B and C vitamins retained,
+    fat_soluble_vitamins: 0.95, // AD, EK vitamins well preserved,
     phytochemicals: 0.9, // Beneficial plant compounds mostly intact
-  }
+  },
   optimalTemperatures: {
-    water_base: 212, // °F - Boiling water to produce steam at sea level
-    food_chamber: 200, // °F - Approximate temperature reaching food
-    dim_sum_dumplings: 210, // °F - Traditional Chinese dumpling temperature
-    fish_fillets: 185, // °F - Delicate white fish optimal temperature
-    vegetables_leafy: 200, // °F - Spinach, chard, collards
-    vegetables_root: 205, // °F - Carrots, beets, turnips
-    custards: 180, // °F - Egg-based mixtures to prevent curdling
-    poultry: 200, // °F - Chicken breasts, duck
-    whole_fish: 190, // °F - Preserves moisture in larger items
-    sticky_rice: 205, // °F - For proper glutinous rice cooking
-    bao_buns: 210, // °F - Chinese steamed buns
+    water_base: 212, // °F - Boiling water to produce steam at sea level,
+    food_chamber: 200, // °F - Approximate temperature reaching food,
+    dim_sum_dumplings: 210, // °F - Traditional Chinese dumpling temperature,
+    fish_fillets: 185, // °F - Delicate white fish optimal temperature,
+    vegetables_leafy: 200, // °F - Spinach, chard, collards,
+    vegetables_root: 205, // °F - Carrots, beets, turnips,
+    custards: 180, // °F - Egg-based mixtures to prevent curdling,
+    poultry: 200, // °F - Chicken breasts, duck,
+    whole_fish: 190, // °F - Preserves moisture in larger items,
+    sticky_rice: 205, // °F - For proper glutinous rice cooking,
+    bao_buns: 210, // °F - Chinese steamed buns,
     puddings: 190, // °F - Sweet or savory pudding mixtures
-  }
+  },
   regionalVariations: {
     chinese: [
       'bamboo steamer techniques (stacked for multiple items)',
@@ -166,18 +166,18 @@ export const steaming: CookingMethodData = {
       'humitas (fresh corn dumplings)',
       'Chilean curanto (pit steaming)'
     ]
-  }
+  },
   chemicalChanges: {
-    gentle_protein_denaturation: true, // Proteins unfold without toughening at 140-165°F
-    starch_hydration: true, // Water absorption into starch granules
-    water_soluble_vitamin_preservation: true, // Limited leaching of B and C vitamins
-    minimal_lipid_oxidation: true, // Low-temperature prevents fat rancidity
-    chlorophyll_retention: true, // Green color preserved in vegetables
-    enzyme_inactivation: true, // Beneficial for certain root vegetables
-    carotenoid_preservation: true, // Orange/yellow pigments maintain integrity
-    gelatinization: true, // Proper cooking of rice and starchy foods
+    gentle_protein_denaturation: true, // Proteins unfold without toughening at 140-165°F,
+    starch_hydration: true, // Water absorption into starch granules,
+    water_soluble_vitamin_preservation: true, // Limited leaching of B and C vitamins,
+    minimal_lipid_oxidation: true, // Low-temperature prevents fat rancidity,
+    chlorophyll_retention: true, // Green color preserved in vegetables,
+    enzyme_inactivation: true, // Beneficial for certain root vegetables,
+    carotenoid_preservation: true, // Orange/yellow pigments maintain integrity,
+    gelatinization: true, // Proper cooking of rice and starchy foods,
     anthocyanin_stability: true, // Preservation of blue/purple plant pigments
-  }
+  },
   safetyFeatures: [
     'No risk of burning food (temperature cannot exceed 212°F at sea level)',
     'Consistent gentle cooking temperature (self-regulating system)',
@@ -190,9 +190,9 @@ export const steaming: CookingMethodData = {
     'Ensure food reaches proper internal temperature (especially poultry at 165°F)'
   ],
   thermodynamicProperties: {
-    heat: 0.6, // Moderate heat transfer rate
-    entropy: 0.45, // Gentle structural transformations
-    reactivity: 0.3, // Low chemical reactivity (minimal browning)
+    heat: 0.6, // Moderate heat transfer rate,
+    entropy: 0.45, // Gentle structural transformations,
+    reactivity: 0.3, // Low chemical reactivity (minimal browning),
     gregsEnergy: -8.35, // Calculated using heat - (entropy * reactivity), // gregsEnergy = heat - (entropy * reactivity),
   } as ThermodynamicProperties,
 
@@ -226,9 +226,9 @@ export const steaming: CookingMethodData = {
     'Flash-steaming for vegetables to maintain crispness'
   ],
 
-  sustainabilityRating: 0.85, // Highly efficient energy and water usage
+  sustainabilityRating: 0.85, // Highly efficient energy and water usage,
 
-  equipmentComplexity: 0.3, // Basic equipment with some specialized options
+  equipmentComplexity: 0.3, // Basic equipment with some specialized options,
 
   healthConsiderations: [
     'Preserves more nutrients than most other cooking methods (particularly water-soluble vitamins)',

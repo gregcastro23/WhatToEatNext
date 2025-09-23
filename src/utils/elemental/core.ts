@@ -22,7 +22,7 @@ export interface ElementalCompatibility {
   dominantPAir: {
     recipe: keyof ElementalProperties,
     user: keyof ElementalProperties
-  }
+  },
   complementaryScore: number // 0-1 score for how well elements complement each other,
   balanceScore: number // 0-1 score for overall balance,
   recommendation: string // Text recommendation
@@ -60,21 +60,21 @@ export const ELEMENTAL_COLORS: Record<keyof ElementalProperties, ElementalColor>
     text: '#D63031',
     border: '#FF7675',
     bg: '#FFF5F5'
-  }
+  },
   Water: {
     primary: '#0984E3',
     secondary: '#74B9FF',
     text: '#2D3436',
     border: '#81ECEC',
     bg: '#F0F8FF'
-  }
+  },
   Earth: {
     primary: '#6C5CE7',
     secondary: '#A29BFE',
     text: '#2D3436',
     border: '#FDCB6E',
     bg: '#FFFBF0'
-  }
+  },
   Air: {
     primary: '#00B894',
     secondary: '#55EFC4',
@@ -279,7 +279,7 @@ export async function calculateDetailedElementalCompatibility(
     }
     complementaryScore,
     balanceScore,
-    recommendation: generateCompatibilityRecommendation(
+    recommendation: generateCompatibilityRecommendation(,
       compatibility,
       recipeDominant,
       userDominant,
@@ -425,7 +425,7 @@ export function getElementalCharacteristics(_element: Element): ElementalCharact
       cookingMethods: ['Grilling', 'Roasting', 'Searing', 'Flambéing'],
       flavors: ['Spicy', 'Pungent', 'Warming'],
       colors: ['Red', 'Orange', 'Yellow']
-    }
+    },
     Water: {
       name: 'Water',
       description: 'Cooling, flowing, adaptive energy that brings calm and flexibility',
@@ -435,7 +435,7 @@ export function getElementalCharacteristics(_element: Element): ElementalCharact
       cookingMethods: ['Steaming', 'Boiling', 'Poaching', 'Braising'],
       flavors: ['Sweet', 'Salty', 'Cooling'],
       colors: ['Blue', 'Indigo', 'Deep Purple']
-    }
+    },
     Earth: {
       name: 'Earth',
       description: 'Grounding, nourishing, stable energy that brings strength and endurance',
@@ -445,7 +445,7 @@ export function getElementalCharacteristics(_element: Element): ElementalCharact
       cookingMethods: ['Baking', 'Slow Cooking', 'Stewing', 'Fermenting'],
       flavors: ['Sweet', 'earthy', 'Rich'],
       colors: ['Brown', 'Green', 'Yellow']
-    }
+    },
     Air: {
       name: 'Air',
       description: 'Light, fresh, inspiring energy that brings clarity and movement',

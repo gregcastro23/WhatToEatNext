@@ -60,6 +60,11 @@
   "exclude": [
     "node_modules",
     "docs/**",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "**/__tests__/**",
     "**/* 2.*",
     "**/* 3.*",
     "**/* 2/**",

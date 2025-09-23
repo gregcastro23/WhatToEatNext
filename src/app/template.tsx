@@ -77,7 +77,7 @@ export default function Template({ children }: TemplateProps) {
           <p className='mb-4'>Please try refreshing the page</p>
           <button
             onClick={() => window.location.reload()}
-            className='rounded bg-blue-500 px-4 py-2 text-white, hover: bg-blue-600',
+            className='rounded bg-blue-500 px-4 py-2 text-white, hover:bg-blue-600',
           >
             Refresh Page
           </button>

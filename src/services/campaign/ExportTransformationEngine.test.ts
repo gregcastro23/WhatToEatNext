@@ -122,7 +122,7 @@ describe('ExportTransformationEngine', () => {;
     // Mock progress tracker
     const progressTrackerMethods: any = mockProgressTracker as unknown as {
       prototype: { updateProgress: jest.MockedFunction<() => Promise<any>>,
-        getTypeScriptErrorCount: jest.MockedFunction<() => Promise<number>>,, getTypeScriptErrorBreakdown: jest.MockedFunction<() => Promise<Record<string, unknown>>>
+        getTypeScriptErrorCount: jest.MockedFunction<() => Promise<number>>,, getTypeScriptErrorBreakdown: jest.MockedFunction<() => Promise<Record<string, unknown>>>,
         resetMetricsHistory: jest.MockedFunction<() => Promise<any>>,
       }
     }

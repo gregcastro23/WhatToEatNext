@@ -16,12 +16,12 @@ export const chinese = {
         Water: 0.3,
         Fire: 0.1,
         Air: 0.1
-      }
+      },
       astrologicalInfluences: ['Saturn', 'Neptune', 'capricorn'],
       seasonality: 'all',
       preparationNotes: 'Traditionally fermented for months or years to develop complexity',
       technicalTips: 'Use light soy for flavor, dark soy for color and deeper notes'
-    }
+    },
     hoisin: {
       name: 'Hoisin Sauce',
       description: 'Sweet and savory sauce with a thick consistency',
@@ -34,12 +34,12 @@ export const chinese = {
         Fire: 0.3,
         Water: 0.2,
         Air: 0.1
-      }
+      },
       astrologicalInfluences: ['Venus', 'Jupiter', 'taurus'],
       seasonality: 'all',
       preparationNotes: 'Balance of sweet and savory can vary by region and brand',
       technicalTips: 'Thin with water or rice wine for a lighter glaze'
-    }
+    },
     xo: {
       name: 'XO Sauce',
       description: 'Luxury seafood sauce with deep umami flavors',
@@ -59,13 +59,13 @@ export const chinese = {
         Fire: 0.3,
         Earth: 0.2,
         Air: 0.1
-      }
+      },
       astrologicalInfluences: ['Neptune', 'Mars', 'scorpio'],
       seasonality: 'all',
       preparationNotes:
         'Traditionally requires expensive ingredients and significant preparation time',
       technicalTips: 'A little goes a long way - use sparingly to add depth'
-    }
+    },
     black_bean: {
       name: 'Black Bean Sauce',
       description: 'Savory sauce made from fermented black soybeans',
@@ -78,12 +78,12 @@ export const chinese = {
         Water: 0.2,
         Fire: 0.2,
         Air: 0.1
-      }
+      },
       astrologicalInfluences: ['Pluto', 'Saturn', 'capricorn'],
       seasonality: 'all',
       preparationNotes: 'Beans are typically rinsed before use to moderate saltiness',
       technicalTips: 'Mash beans slightly to release more flavor when cooking'
-    }
+    },
     oyster: {
       name: 'Oyster Sauce',
       description: 'Rich, savory sauce with sweet undertones made from oyster extracts',
@@ -96,13 +96,13 @@ export const chinese = {
         Earth: 0.2,
         Fire: 0.1,
         Air: 0.1
-      }
+      },
       astrologicalInfluences: ['Neptune', 'Moon', 'pisces'],
       seasonality: 'all',
       preparationNotes: 'Modern versions are thickened with cornstarch',
       technicalTips: 'Add at the end of cooking to preserve flavor complexity'
     }
-  }
+  },
   sauceRecommender: {
     forProtein: {
       chicken: ['oyster sauce', 'black bean sauce', 'hoisin sauce'],
@@ -110,41 +110,41 @@ export const chinese = {
       pork: ['sweet and sour sauce', 'hoisin sauce', 'black bean sauce'],
       fish: ['ginger-scallion sauce', 'sweet soy glaze', 'Sichuan garlic sauce'],
       tofu: ['mapo sauce', 'brown bean sauce', 'garlic sauce']
-    }
+    },
     forVegetable: {
       leafy: ['garlic sauce', 'oyster sauce', 'light soy sauce'],
       root: ['brown bean sauce', 'XO sauce', 'sweet and sour sauce'],
       mushrooms: ['oyster sauce', 'ginger sauce', 'light soy sauce'],
       eggplant: ['garlic sauce', 'yuxiang sauce', 'sweet bean sauce'],
       beans: ['sichuan pepper oil', 'black bean sauce', 'chili garlic sauce']
-    }
+    },
     forCookingMethod: {
       stir_fry: ['light soy sauce', 'oyster sauce', 'hoisin sauce'],
       steaming: ['ginger-scallion oil', 'black bean sauce', 'light soy sauce'],
       braising: ['master stock', 'dark soy sauce', 'red cooking sauce'],
       roasting: ['maltose glaze', 'five-spice marinade', 'hoisin sauce'],
       boiling: ['dipping sauce', 'chili oil', 'sesame sauce']
-    }
+    },
     byAstrological: {
       fire: ['chili oil', 'spicy bean paste', 'XO sauce'],
       earth: ['dark soy sauce', 'black bean sauce', 'hoisin sauce'],
       air: ['white pepper sauce', 'light vinegar dressing', 'clear broths'],
       water: ['oyster sauce', 'ginger sauce', 'delicate seafood-based sauces']
-    }
+    },
     byRegion: {
       cantonese: ['oyster sauce', 'hoisin sauce', 'sweet soy sauce'],
       sichuan: ['chili oil', 'doubanjiang', 'fish-fragrant sauce'],
       hunan: ['black bean chili sauce', 'sour-hot sauce', 'salted chili sauce'],
       shanghainese: ['sweet soy sauce', 'rice wine sauce', 'red cooking sauce'],
       northern: ['bean paste', 'garlic sauce', 'sesame paste']
-    }
+    },
     byDietary: {
       vegetarian: ['mushroom sauce', 'sweet bean sauce', 'light soy sauce'],
       vegan: ['garlic sauce', 'rice vinegar dressing', 'sweet and sour sauce'],
       glutenFree: ['tamari', 'rice wine sauce', 'ginger scallion sauce'],
       dairyFree: ['light soy sauce', 'black bean sauce', 'garlic sauce']
     }
-  }
+  },
   dishes: {
     breakfast: {
       all: [
@@ -177,7 +177,7 @@ export const chinese = {
           substitutions: {
             'century egg': ['salted duck egg', 'fresh egg'],
             'jasmine rice': ['short-grain rice', 'broken rice']
-          }
+          },
           servingSize: 4,
           allergens: ['egg (optional)'],
           prepTime: '5 minutes',
@@ -187,7 +187,7 @@ export const chinese = {
             protein: 6,
             carbs: 45,
             fat: 2
-          }
+          },
           timeToMake: '95 minutes',
           season: ['all'],
           mealType: ['breakfast'],
@@ -196,7 +196,7 @@ export const chinese = {
             Earth: 0.2,
             Air: 0.1,
             Fire: 0.1
-          }
+          },
           astrologicalInfluences: [
             'Moon - The nurturing, comforting quality',
             'cancer - The connection to home and tradition'
@@ -224,7 +224,7 @@ export const chinese = {
           substitutions: {
             'all-purpose flour': ['cake flour mixture'],
             'vegetable oil': ['peanut oil', 'canola oil']
-          }
+          },
           servingSize: 4,
           allergens: ['gluten'],
           prepTime: '15 minutes plus resting',
@@ -234,7 +234,7 @@ export const chinese = {
             protein: 7,
             carbs: 42,
             fat: 14
-          }
+          },
           timeToMake: '30 minutes plus resting',
           season: ['all'],
           mealType: ['breakfast'],
@@ -243,7 +243,7 @@ export const chinese = {
             Air: 0.3,
             Earth: 0.1,
             Water: 0.1
-          }
+          },
           astrologicalInfluences: [
             'Jupiter - The expansive, rising quality',
             'leo - The golden, crisp exterior'
@@ -271,7 +271,7 @@ export const chinese = {
           substitutions: {
             'homemade soy milk': ['unsweetened store-bought soy milk'],
             youtiao: ['plain fried breadsticks']
-          }
+          },
           servingSize: 4,
           allergens: ['soy', 'gluten'],
           prepTime: '15 minutes plus soaking',
@@ -281,7 +281,7 @@ export const chinese = {
             protein: 14,
             carbs: 32,
             fat: 8
-          }
+          },
           timeToMake: '45 minutes plus soaking',
           season: ['all'],
           mealType: ['breakfast'],
@@ -290,7 +290,7 @@ export const chinese = {
             Earth: 0.3,
             Air: 0.1,
             Fire: 0.1
-          }
+          },
           astrologicalInfluences: [
             'Moon - The nurturing, comforting quality',
             'taurus - The satisfying, grounding nature'
@@ -301,7 +301,7 @@ export const chinese = {
       summer: [],
       autumn: [],
       winter: []
-    }
+    },
     lunch: {
       all: [
         {
@@ -346,7 +346,7 @@ export const chinese = {
             'sui mi ya cai': ['preserved mustard greens', 'pickled mustard stems'],
             'Sichuan peppercorns': ['black pepper with lemon zest'],
             'ground pork': ['ground chicken', 'firm tofu']
-          }
+          },
           servingSize: 4,
           allergens: ['gluten', 'sesame'],
           prepTime: '15 minutes',
@@ -356,7 +356,7 @@ export const chinese = {
             protein: 28,
             carbs: 65,
             fat: 18
-          }
+          },
           timeToMake: '35 minutes',
           season: ['all'],
           mealType: ['lunch', 'dinner'],
@@ -365,7 +365,7 @@ export const chinese = {
             Earth: 0.2,
             Water: 0.1,
             Air: 0.1
-          }
+          },
           astrologicalInfluences: [
             'Mars - The intense heat and spice',
             'Scorpio - The complex, transformative flavors'
@@ -401,7 +401,7 @@ export const chinese = {
             doubanjiang: ['Korean gochujang', 'miso paste with chili'],
             'ground pork': ['ground beef', 'finely chopped mushrooms'],
             'soft tofu': ['medium-firm tofu']
-          }
+          },
           servingSize: 4,
           allergens: ['soy'],
           prepTime: '15 minutes',
@@ -411,7 +411,7 @@ export const chinese = {
             protein: 22,
             carbs: 8,
             fat: 20
-          }
+          },
           timeToMake: '35 minutes',
           season: ['all'],
           mealType: ['lunch', 'dinner'],
@@ -420,7 +420,7 @@ export const chinese = {
             Water: 0.2,
             Earth: 0.1,
             Air: 0.1
-          }
+          },
           astrologicalInfluences: [
             'Mars - The fiery, aggressive flavor profile',
             'Pluto - The transformative, intense experience'
@@ -453,7 +453,7 @@ export const chinese = {
             'har gow': ['vegetable dumplings'],
             'siu mai': ['chicken siu mai', 'vegetable dumplings'],
             'char siu bao': ['vegetable buns']
-          }
+          },
           servingSize: 2,
           allergens: ['shellfish', 'gluten', 'soy'],
           prepTime: 'varies',
@@ -463,7 +463,7 @@ export const chinese = {
             protein: 32,
             carbs: 85,
             fat: 22
-          }
+          },
           timeToMake: 'varies (typically purchased)',
           season: ['all'],
           mealType: ['lunch'],
@@ -472,7 +472,7 @@ export const chinese = {
             Earth: 0.3,
             Fire: 0.2,
             Air: 0.2
-          }
+          },
           astrologicalInfluences: [
             'Venus - The delicate, artful presentation',
             'Mercury - The variety and choice within one meal'
@@ -483,7 +483,7 @@ export const chinese = {
       summer: [],
       autumn: [],
       winter: []
-    }
+    },
     dinner: {
       all: [
         {
@@ -505,7 +505,7 @@ export const chinese = {
             maltose: ['honey', 'corn syrup'],
             'five-spice powder': ['DIY blend of cinnamon, cloves, fennel, star anise, peppercorns'],
             'thin pancakes': ['flour tortillas', 'mandarin pancakes']
-          }
+          },
           servingSize: 4,
           allergens: ['gluten'],
           prepTime: '24 hours',
@@ -515,7 +515,7 @@ export const chinese = {
             protein: 45,
             carbs: 42,
             fat: 35
-          }
+          },
           timeToMake: '26 hours',
           season: ['all'],
           mealType: ['dinner'],
@@ -524,7 +524,7 @@ export const chinese = {
             Air: 0.3,
             Earth: 0.2,
             Water: 0.1
-          }
+          },
           astrologicalInfluences: [
             'Sun - The golden, glistening skin',
             'Jupiter - The ceremonial, celebratory nature'
@@ -556,7 +556,7 @@ export const chinese = {
             'chicken thighs': ['tofu', 'tempeh', 'seitan'],
             peanuts: ['cashews', 'almonds'],
             'Sichuan peppercorns': ['black pepper with lime zest']
-          }
+          },
           servingSize: 4,
           allergens: ['peanuts', 'soy'],
           prepTime: '20 minutes',
@@ -566,7 +566,7 @@ export const chinese = {
             protein: 35,
             carbs: 18,
             fat: 28
-          }
+          },
           timeToMake: '35 minutes',
           season: ['all'],
           mealType: ['dinner'],
@@ -575,7 +575,7 @@ export const chinese = {
             Earth: 0.2,
             Air: 0.2,
             Water: 0.1
-          }
+          },
           astrologicalInfluences: [
             'Mars - The fiery, aggressive spice',
             'aries - The bold, direct flavors'
@@ -611,7 +611,7 @@ export const chinese = {
             'ground pork': ['ground chicken', 'ground beef'],
             'pork skin gelatin': ['unflavored gelatin with chicken stock'],
             'Shaoxing wine': ['dry sherry', 'mirin']
-          }
+          },
           servingSize: 6,
           allergens: ['gluten', 'soy'],
           prepTime: '3 hours',
@@ -621,7 +621,7 @@ export const chinese = {
             protein: 22,
             carbs: 40,
             fat: 14
-          }
+          },
           timeToMake: '3 hours 15 minutes',
           season: ['all'],
           mealType: ['dinner'],
@@ -630,7 +630,7 @@ export const chinese = {
             Earth: 0.3,
             Air: 0.2,
             Fire: 0.1
-          }
+          },
           astrologicalInfluences: [
             'Neptune - The mysterious, hidden soup within',
             'cancer - The nurturing, comforting quality'
@@ -641,7 +641,7 @@ export const chinese = {
       summer: [],
       autumn: [],
       winter: []
-    }
+    },
     dessert: {
       all: [
         {
@@ -660,7 +660,7 @@ export const chinese = {
           substitutions: {
             'pastry dough': ['puff pastry', 'shortcrust pastry'],
             'evaporated milk': ['whole milk', 'half-and-half']
-          }
+          },
           servingSize: 12,
           allergens: ['eggs', 'dairy', 'gluten'],
           prepTime: '45 minutes',
@@ -670,7 +670,7 @@ export const chinese = {
             protein: 5,
             carbs: 28,
             fat: 10
-          }
+          },
           timeToMake: '65 minutes',
           season: ['all'],
           mealType: ['dessert'],
@@ -679,7 +679,7 @@ export const chinese = {
             Fire: 0.3,
             Water: 0.2,
             Air: 0.1
-          }
+          },
           astrologicalInfluences: [
             'Venus - The rich, indulgent quality',
             'taurus - The sensual, grounded experience'
@@ -715,7 +715,7 @@ export const chinese = {
             lard: ['vegetable shortening', 'coconut oil'],
             'red bean paste': ['lotus seed paste', 'date paste'],
             'glutinous rice': ['sushi rice']
-          }
+          },
           servingSize: 8,
           allergens: ['tree nuts'],
           prepTime: '30 minutes',
@@ -725,7 +725,7 @@ export const chinese = {
             protein: 6,
             carbs: 75,
             fat: 8
-          }
+          },
           timeToMake: '1 hour 30 minutes',
           season: ['winter', 'lunar new year'],
           mealType: ['dessert'],
@@ -734,7 +734,7 @@ export const chinese = {
             Water: 0.3,
             Fire: 0.1,
             Air: 0.1
-          }
+          },
           astrologicalInfluences: [
             'Jupiter - The abundance and prosperity symbolism',
             'Venus - The sweet, luxurious nature'
@@ -776,7 +776,7 @@ export const chinese = {
             pomelo: ['grapefruit', 'orange'],
             'sago pearls': ['tapioca pearls', 'chia seeds'],
             'coconut milk': ['half-and-half', 'almond milk']
-          }
+          },
           servingSize: 4,
           allergens: ['dairy (if using condensed milk)'],
           prepTime: '20 minutes',
@@ -786,7 +786,7 @@ export const chinese = {
             protein: 3,
             carbs: 45,
             fat: 12
-          }
+          },
           timeToMake: '40 minutes plus chilling',
           season: ['summer'],
           mealType: ['dessert'],
@@ -795,7 +795,7 @@ export const chinese = {
             Air: 0.2,
             Earth: 0.1,
             Fire: 0.1
-          }
+          },
           astrologicalInfluences: [
             'Moon - The cooling, refreshing quality',
             'Venus - The sweet, tropical indulgence'
@@ -807,7 +807,7 @@ export const chinese = {
       autumn: [],
       winter: []
     }
-  }
+  },
   cookingTechniques: [
     {
       name: 'Stir-Frying',
@@ -854,7 +854,7 @@ export const chinese = {
       elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
       astrologicalInfluences: ['Venus', 'Moon', 'Libra'],
       seasonality: 'all'
-    }
+    },
     sichuan: {
       name: 'Sichuan Cuisine',
       description:
@@ -863,7 +863,7 @@ export const chinese = {
       elementalProperties: { Fire: 0.7, Earth: 0.2, Water: 0.1, Air: 0.0 }
       astrologicalInfluences: ['Mars', 'Pluto', 'Scorpio'],
       seasonality: 'all'
-    }
+    },
     shandong: {
       name: 'Shandong Cuisine',
       description:
@@ -872,7 +872,7 @@ export const chinese = {
       elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 }
       astrologicalInfluences: ['Jupiter', 'Saturn', 'Capricorn'],
       seasonality: 'all'
-    }
+    },
     jiangsu: {
       name: 'Jiangsu Cuisine',
       description:
@@ -882,7 +882,7 @@ export const chinese = {
       astrologicalInfluences: ['Mercury', 'Venus', 'Gemini'],
       seasonality: 'all'
     }
-  }
+  },
   elementalProperties: {
     Earth: 0.3,
     Fire: 0.3,

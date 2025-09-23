@@ -59,7 +59,7 @@ class BuildPerformanceMonitor {
     totalBuild: 60000, // 1 minute,
     bundleSize: 5 * 1024 * 1024, // 5MB,
     memoryUsage: 512 * 1024 * 1024, // 512MB,
-    cacheHitRate: 0.8, // 80%
+    cacheHitRate: 0.8, // 80%,
     astrologicalCalculation: 2000, // 2 seconds,
     regressionThreshold: 0.2, // 20% regression
   }

@@ -39,7 +39,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     nature: 'Angular',
     significance: 10,
     ruling_planet: 'Mars'
-  }
+  },
   2: {
     number: 2,
     name: 'House of Value',
@@ -48,7 +48,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     nature: 'Succedent',
     significance: 7,
     ruling_planet: 'Venus'
-  }
+  },
   3: {
     number: 3,
     name: 'House of Communication',
@@ -57,7 +57,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     nature: 'Cadent',
     significance: 6,
     ruling_planet: 'Mercury'
-  }
+  },
   4: {
     number: 4,
     name: 'House of Home',
@@ -66,7 +66,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     nature: 'Angular',
     significance: 9,
     ruling_planet: 'Moon'
-  }
+  },
   5: {
     number: 5,
     name: 'House of Pleasure',
@@ -75,7 +75,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     nature: 'Succedent',
     significance: 7,
     ruling_planet: 'Sun'
-  }
+  },
   6: {
     number: 6,
     name: 'House of Health',
@@ -84,7 +84,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     nature: 'Cadent',
     significance: 6,
     ruling_planet: 'Mercury'
-  }
+  },
   7: {
     number: 7,
     name: 'House of Partnership',
@@ -93,7 +93,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     nature: 'Angular',
     significance: 9,
     ruling_planet: 'Venus'
-  }
+  },
   8: {
     number: 8,
     name: 'House of Transformation',
@@ -102,7 +102,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     nature: 'Succedent',
     significance: 8,
     ruling_planet: 'Pluto'
-  }
+  },
   9: {
     number: 9,
     name: 'House of Philosophy',
@@ -111,7 +111,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     nature: 'Cadent',
     significance: 7,
     ruling_planet: 'Jupiter'
-  }
+  },
   10: {
     number: 10,
     name: 'House of Social Status',
@@ -120,7 +120,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     nature: 'Angular',
     significance: 10,
     ruling_planet: 'Saturn'
-  }
+  },
   11: {
     number: 11,
     name: 'House of Friendship',
@@ -129,7 +129,7 @@ export const HOUSE_DATA: Record<number, HouseData> = {
     nature: 'Succedent',
     significance: 7,
     ruling_planet: 'Uranus'
-  }
+  },
   12: {
     number: 12,
     name: 'House of Unconscious',

@@ -5,7 +5,7 @@ const uranusData: PlanetData = {
     aquarius: 1,
     scorpio: 2,
     taurus: -3
-  }
+  },
   Elements: ['Water', 'Air'],
   Alchemy: {
     Spirit: 0,
@@ -20,7 +20,7 @@ const uranusData: PlanetData = {
     DistanceFromEarth: {
       Minimum: '1.6 billion miles (2.57 billion km)',
       Maximum: '1.98 billion miles (3.18 billion km)'
-    }
+    },
     Diameter: '31,518 miles (50,724 km)',
     SurfaceTemperature: '-357°F (-216°C)',
     AtmosphericComposition: 'Hydrogen (83%), Helium (15%), Methane (2%)',
@@ -35,7 +35,7 @@ const uranusData: PlanetData = {
         'Ice giant composed primarily of a hot dense fluid of water, methane and ammonia',
       NotableFeatures: 'Extreme axial tilt, complex ring system, unusual sideways rotation'
     }
-  }
+  },
   AstrologicalProperties: {
     AlchemicalName: 'The Great Awakener',
     BeneficType: 'Transpersonal Malefic',
@@ -43,7 +43,7 @@ const uranusData: PlanetData = {
     CyclePeriod: {
       Return: '84 years',
       Retrograde: 'Annual, approximately 150 days'
-    }
+    },
     Exaltation: 'Scorpio',
     Fall: 'Taurus',
     Detriment: ['Leo'],
@@ -73,7 +73,7 @@ const uranusData: PlanetData = {
     ],
     Animals: ['peacock', 'zebra', 'unusual hybrids', 'extinct species'],
     Stones: ['uranium glass', 'aquamarine', 'fluorite', 'amazonite', 'labradorite', 'opal']
-  }
+  },
   ElementalConnections: {
     DayEmission: 'Electrical impulses through water',
     NightEmission: 'Disruptive air currents',
@@ -82,7 +82,7 @@ const uranusData: PlanetData = {
       Neptune: ['Water'],
       Mercury: ['Air'],
       Saturn: ['Air']
-    }
+    },
     AssociatedQualities: [
       'sudden',
       'erratic',
@@ -91,7 +91,7 @@ const uranusData: PlanetData = {
       'disruptive',
       'innovative'
     ]
-  }
+  },
   HerbalAssociations: {
     Herbs: ['clary sage', 'star anise', 'skullcap', 'valerian', 'betony', 'mugwort'],
     Flowers: ['bird of paradise', 'blue orchid', 'lotus', 'poppy', 'snapdragon'],
@@ -103,13 +103,13 @@ const uranusData: PlanetData = {
       'electrical aromas',
       'unusual spice combinations'
     ]
-  }
+  },
   RetrogradeEffect: {
     Spirit: 0.2,
     Essence: 0.4,
     Matter: 0.4,
     Substance: 0.6
-  }
+  },
   FoodAssociations: [
     'unusual foods',
     'exotic ingredients',
@@ -130,7 +130,7 @@ const uranusData: PlanetData = {
     Bitter: 0.5,
     Umami: 0.4,
     Spicy: 0.5
-  }
+  },
   CulinaryInfluences: [
     'Inspires radical innovation in cooking',
     'Combines unexpected flavors and textures',
@@ -145,56 +145,56 @@ const uranusData: PlanetData = {
       Trine: 0.4,
       Square: -0.1,
       Sextile: 0.3
-    }
+    },
     Moon: {
       Conjunction: 0.4,
       Opposition: 0.0,
       Trine: 0.3,
       Square: -0.2,
       Sextile: 0.2
-    }
+    },
     Saturn: {
       Conjunction: 0.6,
       Opposition: 0.1,
       Trine: 0.5,
       Square: -0.1,
       Sextile: 0.3
-    }
+    },
     Jupiter: {
       Conjunction: 0.7,
       Opposition: 0.2,
       Trine: 0.5,
       Square: 0.0,
       Sextile: 0.4
-    }
+    },
     Mercury: {
       Conjunction: 0.6,
       Opposition: 0.1,
       Trine: 0.5,
       Square: -0.2,
       Sextile: 0.3
-    }
+    },
     Venus: {
       Conjunction: 0.5,
       Opposition: 0.0,
       Trine: 0.4,
       Square: -0.3,
       Sextile: 0.2
-    }
+    },
     Mars: {
       Conjunction: 0.7,
       Opposition: 0.2,
       Trine: 0.6,
       Square: 0.0,
       Sextile: 0.4
-    }
+    },
     Neptune: {
       Conjunction: 0.8,
       Opposition: 0.3,
       Trine: 0.7,
       Square: 0.1,
       Sextile: 0.5
-    }
+    },
     Pluto: {
       Conjunction: 0.8,
       Opposition: 0.2,
@@ -202,7 +202,7 @@ const uranusData: PlanetData = {
       Square: 0.0,
       Sextile: 0.5
     }
-  }
+  },
   PlanetSpecific: {
     ZodiacTransit: {
       aquarius: {
@@ -213,7 +213,7 @@ const uranusData: PlanetData = {
           Earth: 0.2,
           Air: 0.9,
           Water: 0.2
-        }
+        },
         CookingMethods: [
           'molecular gastronomy',
           'sous vide',
@@ -231,7 +231,7 @@ const uranusData: PlanetData = {
         ],
         FlavorCombinations:
           'Unexpected contrasts, electrically-charged sensations, synesthesia-inducing pairings'
-      }
+      },
       scorpio: {
         FoodFocus:
           'Transformative foods with unusual depth, unexpected flavor combinations with intensity',
@@ -240,7 +240,7 @@ const uranusData: PlanetData = {
           Earth: 0.2,
           Air: 0.3,
           Water: 0.8
-        }
+        },
         CookingMethods: [
           'fermentation',
           'smoking',
@@ -256,7 +256,7 @@ const uranusData: PlanetData = {
           'color-changing elements'
         ],
         FlavorCombinations: 'Intense contrasts, transformed flavors, deep unexpected harmonies'
-      }
+      },
       gemini: {
         FoodFocus:
           'Dual-natured preparations, foods that transform while eating, interactive dining',
@@ -265,7 +265,7 @@ const uranusData: PlanetData = {
           Earth: 0.2,
           Air: 0.8,
           Water: 0.3
-        }
+        },
         CookingMethods: [
           'dual temperature contrasts',
           'tableside transformations',
@@ -283,7 +283,7 @@ const uranusData: PlanetData = {
         FlavorCombinations:
           'Playful contrasts, surprising element combinations, intellectual flavor constructs'
       }
-    }
+    },
     Retrograde: {
       CulinaryEffect:
         'Revisiting innovative techniques, tempering extreme experimentation, finding balance between tradition and innovation',
@@ -292,7 +292,7 @@ const uranusData: PlanetData = {
         Essence: 0.7,
         Matter: 0.5,
         Substance: 0.2
-      }
+      },
       CookingMethodEffects: {
         Emphasized: [
           'fusion of traditional and modern techniques',
@@ -304,7 +304,7 @@ const uranusData: PlanetData = {
           'excessive novelty',
           'innovation without purpose'
         ]
-      }
+      },
       IngredientEffects: {
         Emphasized: [
           'forgotten ingredients',
@@ -316,7 +316,7 @@ const uranusData: PlanetData = {
           'excessive artificiality',
           'technology without purpose'
         ]
-      }
+      },
       FlavorModulation: {
         Sweet: 0.6,
         Sour: 0.4,
@@ -325,7 +325,7 @@ const uranusData: PlanetData = {
         Umami: 0.6,
         Spicy: 0.3
       }
-    }
+    },
     TransitDates: {
       taurus: {
         '1stDecan': {
@@ -358,7 +358,7 @@ const uranusData: PlanetData = {
               'Long-term food projects, technological advances in food cultivation and preparation'
           }
         }
-      }
+      },
       gemini: {
         '1stDecan': {
           Start: '2025-09-01',

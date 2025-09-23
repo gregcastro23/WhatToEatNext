@@ -18,9 +18,9 @@ const _mockESLintOutput = [
     filePath: '/project/src/App.tsx',
     messages: [
       {
-        ruleId: 'import/order';
+        ruleId: 'import/order';,
         severity: 2,
-        message: 'There should be at least one empty line between import groups';
+        message: 'There should be at least one empty line between import groups';,
         line: 1,
         column: 1,
         fix: { range: [5151], text: '\n' }
@@ -93,7 +93,7 @@ function demonstrateErrorClassification() {
   // Classify different types of errors
   const testCases = [
     {
-      rule: 'import/order';
+      rule: 'import/order';,
       message: 'Import order incorrect',
       file: 'src/App.tsx',
       hasAutoFix: true
@@ -181,7 +181,7 @@ async function demonstrateDomainContextDetection() {
           indicators: [],
           specialRules: [],
           handlingRecommendations: []
-        }
+        },
         riskFactors: [],
         preservationRequirements: []
       }
@@ -230,7 +230,7 @@ function demonstrateResolutionStrategies() {
     projectContext: { hasTests: boolean, teamSize: string, riskTolerance: string }
   }> = [
     {
-      errorClassification: classifier.classifyError(
+      errorClassification: classifier.classifyError(,
         'import/order';
         'Import order incorrect',
         'src/App.tsx'
@@ -241,7 +241,7 @@ function demonstrateResolutionStrategies() {
       projectContext: { hasTests: true, teamSize: 'small', riskTolerance: 'moderate' }
     }
     {
-      errorClassification: classifier.classifyError(
+      errorClassification: classifier.classifyError(,
         '@typescript-eslint/no-explicit-any',
         'Unexpected any',
         'src/calculations/astrology.ts'
@@ -252,7 +252,7 @@ function demonstrateResolutionStrategies() {
         filePath: 'src/calculations/astrology.ts',
         riskFactors: [],
         preservationRequirements: []
-      }
+      },
       projectContext: { hasTests: true, teamSize: 'small', riskTolerance: 'conservative' }
     }
   ],
@@ -291,11 +291,11 @@ function demonstrateCompleteWorkflow() {
     byCategory: {
       import: [
         {
-          id: 'src/App.tsx:1:1:import/order';
+          id: 'src/App.tsx:1:1:import/order';,
           file: 'src/App.tsx',
           line: 1,
           column: 1,
-          rule: 'import/order';
+          rule: 'import/order';,
           message: 'Import order incorrect',
           severity: 'error',
           category: { primary: 'import', secondary: 'order', priority: 2 }
@@ -352,7 +352,7 @@ function demonstrateCompleteWorkflow() {
           }
         } as LintingIssue
       ]
-    }
+    },
     byPriority: {}
     byFile: {}
     autoFixable: [],

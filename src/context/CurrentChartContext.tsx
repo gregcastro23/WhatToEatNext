@@ -21,7 +21,7 @@ export interface ChartData {
   planetaryPositions: Record<string, unknown>,
   ascendant?: string,
   midheaven?: string,
-  planets: Record<
+  planets: Record<,
     string,
     {
       sign: string,
@@ -286,7 +286,7 @@ export const useCurrentChart = () => {
   }
   return {
     chartData: {
-      planets: Object.entries(context.chart.planetaryPositions).reduce(
+      planets: Object.entries(context.chart.planetaryPositions).reduce(,
         (acc, [key, data]) => {
           if (key === 'ascendant') return acc,
           const planetData = data as { sign?: string degree?: number }
@@ -302,7 +302,7 @@ export const useCurrentChart = () => {
         {} as Record<string, unknown>,
       ),
       ascendant: ascendantData?.sign
-    }
+    },
     createChartSvg: context.createChartSvg,
     isLoading: context.loading,
     error: context.error,

@@ -5,11 +5,11 @@ import type { ElementalProperties } from '@/types/alchemy';
  * Interface for elemental compatibility results
  */
 export interface ElementalCompatibility {
-  compatibility: number // 0-1 score
+  compatibility: number // 0-1 score,
   dominantPair: {
     recipe: keyof ElementalProperties,
     user: keyof ElementalProperties
-  }
+  },
   complementaryScore: number; // 0-1 score for how well elements complement each other,
   balanceScore: number; // 0-1 score for overall balance,
   recommendation: string // Text recommendation

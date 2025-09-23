@@ -566,7 +566,7 @@ export class RecommendationService {
             Essence: 0.25,
             Matter: 0.25,
             Substance: 0.25
-          }
+          },
           elementalValues: currentMomentElements,
           thermodynamics: {
             heat: 0.5,
@@ -575,7 +575,7 @@ export class RecommendationService {
             gregsEnergy: 0.5,
             kalchm: 1.0,
             monicaConstant: 1.0
-          }
+          },
           dominantElement: 'Fire' as const,
           dominantProperty: 'Spirit' as const,
           timestamp: Date.now().toString()
@@ -717,9 +717,9 @@ export class RecommendationService {
 
     // Check elemental harmony (elements that work well together)
     const elementalHarmony = {
-      Fire: ['Air', 'Fire'], // Fire enhances with Air
-      Water: ['Earth', 'Water'], // Water nourishes Earth
-      Earth: ['Water', 'Earth'], // Earth grounds Water
+      Fire: ['Air', 'Fire'], // Fire enhances with Air,
+      Water: ['Earth', 'Water'], // Water nourishes Earth,
+      Earth: ['Water', 'Earth'], // Earth grounds Water,
       Air: ['Fire', 'Air'], // Air feeds Fire
     }
 

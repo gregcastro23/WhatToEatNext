@@ -104,12 +104,12 @@ export class AnalysisTools {
         intentional: {
           count: intentionalCount.count,
           percentage: totalCount > 0 ? (intentionalCount.count / totalCount) * 100 : 0
-        }
+        },
         unintentional: {
           count: unintentionalCount.count,
           percentage: totalCount > 0 ? (unintentionalCount.count / totalCount) * 100 : 0
         }
-      }
+      },
       analysisDate: new Date()
     }
 
@@ -442,7 +442,7 @@ export class AnalysisTools {
     return ranges.map(range => {
       const count = scores.filter(score => score >= range.min && score < range.max).length;
       return {
-        range: range.label
+        range: range.label,
         count,
         percentage: scores.length > 0 ? (count / scores.length) * 100 : 0
       }
@@ -731,7 +731,7 @@ export class AnalysisTools {
           const lineNumber = parseInt(match[1])
           if (lineNumber !== occurrence.lineNumber) {
             relatedOccurrences.push({
-              filePath: occurrence.filePath
+              filePath: occurrence.filePath,
               lineNumber
             })
           }

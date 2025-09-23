@@ -299,7 +299,7 @@ class RecommendationAnalyticsService {
     const averageSessionDuration = (now - sessionStart) / 60000; // in minutes
 
     return {
-      totalInteractions: relevantInteractions.length
+      totalInteractions: relevantInteractions.length,
       interactionsByType,
       interactionRate,
       mostInteractedTargets,

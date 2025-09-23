@@ -64,7 +64,7 @@ export interface CampaignReport {
     totalPreserved: number,
     successRate: number,
     timeElapsed: number
-  }
+  },
   recommendations: string[]
 }
 
@@ -122,7 +122,7 @@ export class BatchProcessingOrchestrator {
     const estimatedDuration = this.formatDuration(estimatedMinutes)
 
     const plan: ProcessingPlan = {
-      totalFiles: files.length
+      totalFiles: files.length,
       automaticProcessing,
       manualReviewRequired,
       estimatedBatches,
@@ -167,7 +167,7 @@ export class BatchProcessingOrchestrator {
         totalPreserved: 0,
         successRate: 0,
         timeElapsed: 0
-      }
+      },
       recommendations: []
     }
 
@@ -317,7 +317,7 @@ export class BatchProcessingOrchestrator {
       totalEliminated: stats.totalEliminated,
       totalPreserved: stats.totalPreserved,
       successRate: totalBatches > 0 ? (successfulBatches / totalBatches) * 100 : 0,
-      timeElapsed: this.currentCampaign.endTime
+      timeElapsed: this.currentCampaign.endTime,
         ? this.currentCampaign.endTime.getTime() - this.currentCampaign.startTime.getTime()
         : Date.now() - this.currentCampaign.startTime.getTime()
     }

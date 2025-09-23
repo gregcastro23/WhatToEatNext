@@ -336,7 +336,7 @@ export class AlchemicalTransformationService {
 
       return {
         recipe,
-        compatibility: parseFloat(compatibility.toFixed(2))
+        compatibility: parseFloat(compatibility.toFixed(2)),
         dominantElement,
         dominantAlchemicalProperty,
         alchemicalScore: parseFloat(alchemicalScore.toFixed(2)),
@@ -428,16 +428,16 @@ export class AlchemicalTransformationService {
     // Map months to seasons
     const monthToSeason: Record<number, string> = {
       0: 'winter',
-      1: 'winter', // Jan, Feb
+      1: 'winter', // Jan, Feb,
       2: 'spring',
       3: 'spring',
-      4: 'spring', // Mar, Apr, May
+      4: 'spring', // Mar, Apr, May,
       5: 'summer',
       6: 'summer',
-      7: 'summer', // Jun, Jul, Aug
+      7: 'summer', // Jun, Jul, Aug,
       8: 'fall',
       9: 'fall',
-      10: 'fall', // Sep, Oct, Nov
+      10: 'fall', // Sep, Oct, Nov,
       11: 'winter', // Dec
     }
 

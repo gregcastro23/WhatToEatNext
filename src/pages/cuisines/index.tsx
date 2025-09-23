@@ -29,7 +29,7 @@ const CuisinesIndexPage = () => {;
     const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     setElementalState({
       ...currentState
-      season: 'spring', // Default value since getCurrentElementalState doesn't provide season
+      season: 'spring', // Default value since getCurrentElementalState doesn't provide season,
       timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn't provide timeOfDay
     })
   }, [])
@@ -101,7 +101,7 @@ const CuisinesIndexPage = () => {;
                 <Link
                   key={rec.item.type}
                   href={`/cuisines/${rec.item.type.toLowerCase()}`}
-                  className='block rounded-lg bg-white p-4 shadow-sm transition-transform duration-200, hover: scale-[1.01]'
+                  className='block rounded-lg bg-white p-4 shadow-sm transition-transform duration-200, hover:scale-[1.01]'
                 >
                   <div className='flex items-center justify-between'>,
                     <div className='text-lg font-semibold'>{rec.item.name}</div>
@@ -121,7 +121,7 @@ const CuisinesIndexPage = () => {;
         {mainCuisines.map(cuisine => (
           <div
             key={cuisine.id}
-            className='overflow-hidden rounded-lg bg-white shadow-md transition-transform duration-200, hover: scale-105',
+            className='overflow-hidden rounded-lg bg-white shadow-md transition-transform duration-200, hover:scale-105',
           >
             <div className='p-5'>
               <h3 className='mb-2 text-xl font-bold'>{cuisine.name}</h3>,
@@ -174,7 +174,7 @@ const CuisinesIndexPage = () => {;
 
               <Link
                 href={`/cuisines/${cuisine.id}`}
-                className='inline-block w-full rounded-md bg-amber-500 px-4 py-2 text-center text-white transition-colors, hover: bg-amber-600'
+                className='inline-block w-full rounded-md bg-amber-500 px-4 py-2 text-center text-white transition-colors, hover:bg-amber-600'
               >
                 Explore {cuisine.name} Cuisine
               </Link>

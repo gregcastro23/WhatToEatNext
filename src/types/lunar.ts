@@ -57,7 +57,7 @@ export interface LunarInfluence {
     Water: number,
     Earth: number,
     Air: number
-  }
+  },
   description: string
 }
 

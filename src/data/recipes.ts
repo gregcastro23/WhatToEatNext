@@ -246,36 +246,36 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
 
                     // Create the recipe entry
                     const recipeData: RecipeData = {
-                      id: `${cuisineName}-${mealType}-${dishData.name}`
+                      id: `${cuisineName}-${mealType}-${dishData.name}`,
                         .replace(/\s+/g, '-')
                         .toLowerCase()
                       name: dishData.name || '',
                       description: dishData.description || `A traditional ${cuisineName} dish`,
                       ingredients: transformedIngredients,
-                      instructions: Array.isArray(dishData.instructions)
+                      instructions: Array.isArray(dishData.instructions),
                         ? dishData.instructions
                         : Array.isArray(dishData.preparationSteps)
                           ? dishData.preparationSteps
                           : ['Prepare according to traditional methods'],
                       cuisine: cuisineName,
                       energyProfile: {
-                        zodiac: Array.isArray(dishData.zodiac)
+                        zodiac: Array.isArray(dishData.zodiac),
                           ? (dishData.zodiac as any[])
                           : undefined,
-                        lunar: Array.isArray(dishData.lunar)
+                        lunar: Array.isArray(dishData.lunar),
                           ? (dishData.lunar as LunarPhase[])
                           : undefined,
-                        planetary: Array.isArray(dishData.planetary)
+                        planetary: Array.isArray(dishData.planetary),
                           ? dishData.planetary
                           : undefined,
                         season:
                           season !== 'all'
                             ? [season as Season]
                             : (['spring', 'summer', 'autumn', 'winter'] as Season[])
-                      }
+                      },
                       tags: Array.isArray(dishData.tags) ? dishData.tags : [],
                       timeToMake: dishData.timeToMake || dishData.cookTime || 30,
-                      flavorProfile: flavorProfile
+                      flavorProfile: flavorProfile,
                         ? {
                             spicy: Number((flavorProfile ).spicy) || 0,
                             sweet: Number((flavorProfile ).sweet) || 0,
@@ -289,7 +289,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
                       regionalCuisine: dishData.regionalCuisine || cuisineName,
 
                       // Standardized fields,
-                      servingSize: dishData.servingSize || dishData.numberOfServings || 4
+                      servingSize: dishData.servingSize || dishData.numberOfServings || 4,
                       substitutions,
                       tools: Array.isArray(dishData.tools) ? dishData.tools : [],
                       spiceLevel:
@@ -301,7 +301,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
                             : 1,
                       nutrition: dishData.nutrition,
                       preparationNotes: dishData.preparationNotes,
-                      technicalTips: Array.isArray(dishData.technicalTips)
+                      technicalTips: Array.isArray(dishData.technicalTips),
                         ? dishData.technicalTips
                         : [],
 
@@ -401,7 +401,7 @@ export const _getRecipesForPlanetaryAlignment = async (
     .filter(recipe => recipe.flavorProfile)
     .map(recipe => ({
       ...recipe,
-      matchScore: recipe.flavorProfile
+      matchScore: recipe.flavorProfile,
         ? calculatePlanetaryFlavorMatch(recipe.flavorProfile, planetaryInfluences)
         : 0
     }))
@@ -616,7 +616,7 @@ export const getBestRecipeMatches = async (
             flavorProfile,
             elementalProperties: recipeData.elementalProperties,
             energyProfile: {
-              season: Array.isArray(recipeData.season)
+              season: Array.isArray(recipeData.season),
                 ? (recipeData.season as Season[])
                 : typeof recipeData.season === 'string'
                   ? [recipeData.season as Season]
@@ -624,7 +624,7 @@ export const getBestRecipeMatches = async (
               zodiac: [],
               lunar: [],
               planetary: []
-            }
+            },
             tags: [
               ...(Array.isArray(recipeData.mealType)
                 ? recipeData.mealType
@@ -639,7 +639,7 @@ export const getBestRecipeMatches = async (
                   : []
               ).map(s => String(s).toLowerCase()),
             ],
-            timeToMake: recipeData.timeToMake
+            timeToMake: recipeData.timeToMake,
             // Use the matchScore or matchPercentage if provided, otherwise use a default score,
             matchScore:
               recipeData.matchScore ||
@@ -705,7 +705,7 @@ export const getBestRecipeMatches = async (
               instructions,
               cuisine,
               energyProfile: {
-                season: Array.isArray(season)
+                season: Array.isArray(season),
                   ? (season as Season[])
                   : typeof season === 'string'
                     ? [season as Season]
@@ -713,7 +713,7 @@ export const getBestRecipeMatches = async (
                 zodiac: [],
                 lunar: [],
                 planetary: []
-              }
+              },
               tags: [
                 ...(Array.isArray(mealType)
                   ? mealType
@@ -1087,11 +1087,11 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
             Water: 0.25,
             Earth: 0.25,
             Air: 0.25
-          }
-          season: Array.isArray(recipe.season)
+          },
+          season: Array.isArray(recipe.season),
             ? recipe.season
             : [recipe.season as Season] || ['all'],
-          mealType: Array.isArray(recipe.mealType)
+          mealType: Array.isArray(recipe.mealType),
             ? recipe.mealType
             : [recipe.mealType] || ['dinner'],
           matchPercentage: recipe.matchPercentage || 0,

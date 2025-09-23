@@ -327,7 +327,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         'fennel seeds': 2,
         cloves: 1,
         'sichuan pepper': 1
-      }
+      },
       Southern: {
         name: 'Southern',
         'star anise': 2,
@@ -413,7 +413,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         oregano: 1,
         marjoram: 1,
         salt: 0.5
-      }
+      },
       Palestinian: {
         name: 'Palestinian',
         'dried thyme': 2,
@@ -727,7 +727,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       Tokyo: {
         name: 'Tokyo',
         'orange peel': 2, // more citrus
-      }
+      },
       Kyoto: {
         name: 'Kyoto',
         'black sesame': 2,
@@ -804,7 +804,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       Turkish: {
         name: 'Turkish',
         mint: 0.5, // additional
-      }
+      },
       Gulf: {
         name: 'Gulf',
         'lime powder': 1, // additional
@@ -883,7 +883,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
         // Wet paste version
         'green onions': 2,
         'soy sauce': 1
-      }
+      },
       Western: {
         name: 'Western',
         'scotch bonnet': 1, // reduced heat

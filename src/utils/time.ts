@@ -84,7 +84,7 @@ export function getTimeFactors() {
     _planetaryDay: {
       day: dayOfWeek,
       planet: planetaryDayMap[dayOfWeek]
-    }
+    },
     planetaryHour: {
       hourOfDay: hour,
       planet: planetaryHour

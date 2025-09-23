@@ -109,7 +109,7 @@ export class EnhancedAstrologyService {
       dominantElements: seasonalAnalysis?.dominantElements || {}
       keyAspects: (seasonalAnalysis?.keyAspects as unknown as Planet[]) || [],
       retrogradePlanets: seasonalAnalysis?.retrogradePlanets || [],
-      eclipseSeasons: [], // TODO: Implement eclipse season calculation
+      eclipseSeasons: [], // TODO: Implement eclipse season calculation,
       majorTransits: [], // TODO: Implement major transit calculation
     }
   }
@@ -147,10 +147,10 @@ export class EnhancedAstrologyService {
       culinaryInfluences: ((currentSeason as unknown as any).culinaryInfluences as string[]) || [],
       dominantElements:
         ((currentSeason as unknown as any).dominantElements as Record<string, number>) || {}
-      recommendedCuisines: this.getRecommendedCuisines(
+      recommendedCuisines: this.getRecommendedCuisines(,
         ((currentSeason as unknown as any).dominantElements as Record<string, number>) || {}
       ),
-      recommendedCookingMethods: this.getRecommendedCookingMethods(
+      recommendedCookingMethods: this.getRecommendedCookingMethods(,
         ((currentSeason as unknown as any).dominantElements as Record<string, number>) || {}
       ),
       alchemicalProperties:
@@ -355,7 +355,7 @@ export class EnhancedAstrologyService {
         recommendedCuisines: ['Italian', 'French', 'Comfort food'],
         cookingMethods: ['Slow cooking', 'Braising', 'Baking'],
         alchemicalProperties: { Spirit: 0.2, Essence: 0.3, Matter: 0.4, Substance: 0.1 }
-      }
+      },
       1: {
         // February
         themes: ['Romance', 'Indulgence', 'Rich flavors'],
@@ -364,7 +364,7 @@ export class EnhancedAstrologyService {
         recommendedCuisines: ['French', 'Italian', 'Comfort food'],
         cookingMethods: ['Slow cooking', 'Baking', 'Rich sauces'],
         alchemicalProperties: { Spirit: 0.1, Essence: 0.4, Matter: 0.4, Substance: 0.1 }
-      }
+      },
       2: {
         // March
         themes: ['Spring awakening', 'Fresh ingredients', 'Light dishes'],

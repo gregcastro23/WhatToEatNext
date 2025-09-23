@@ -42,10 +42,10 @@ export const signInfo = {
       Mars: [2226],
       Jupiter: [16],
       Saturn: [2730]
-    }
+    },
     Ruler: 'Mars',
     Modality: 'Cardinal'
-  }
+  },
   taurus: {
     Element: 'Earth',
     Start: { Day: 20, Month: 4, Year: 2022 }
@@ -67,10 +67,10 @@ export const signInfo = {
       Mars: [2730],
       Jupiter: [1622],
       Saturn: [2326]
-    }
+    },
     Ruler: 'Venus',
     Modality: 'Fixed'
-  }
+  },
   gemini: {
     Element: 'Air',
     Start: { Day: 21, Month: 5, Year: 2022 }
@@ -92,10 +92,10 @@ export const signInfo = {
       Mars: [2630],
       Jupiter: [814],
       Saturn: [2225]
-    }
+    },
     Ruler: 'Mercury',
     Modality: 'Mutable'
-  }
+  },
   cancer: {
     Element: 'Water',
     Start: { Day: 21, Month: 6, Year: 2022 }
@@ -117,10 +117,10 @@ export const signInfo = {
       Mars: [16],
       Jupiter: [713],
       Saturn: [2830]
-    }
+    },
     Ruler: 'Moon',
     Modality: 'Cardinal'
-  }
+  },
   leo: {
     Element: 'Fire',
     Start: { Day: 23, Month: 7, Year: 2022 }
@@ -142,10 +142,10 @@ export const signInfo = {
       Mars: [2630],
       Jupiter: [2025],
       Saturn: [16]
-    }
+    },
     Ruler: 'Sun',
     Modality: 'Fixed'
-  }
+  },
   virgo: {
     Element: 'Earth',
     Start: { Day: 23, Month: 8, Year: 2022 }
@@ -167,10 +167,10 @@ export const signInfo = {
       Mars: [2530],
       Jupiter: [1418],
       Saturn: [1924]
-    }
+    },
     Ruler: 'Mercury',
     Modality: 'Mutable'
-  }
+  },
   libra: {
     Element: 'Air',
     Start: { Day: 23, Month: 9, Year: 2022 }
@@ -192,10 +192,10 @@ export const signInfo = {
       Mars: [16],
       Jupiter: [1219],
       Saturn: [16]
-    }
+    },
     Ruler: 'Venus',
     Modality: 'Cardinal'
-  }
+  },
   scorpio: {
     Element: 'Water',
     Start: { Day: 23, Month: 10, Year: 2022 }
@@ -217,10 +217,10 @@ export const signInfo = {
       Mars: [16],
       Jupiter: [714],
       Saturn: [2830]
-    }
+    },
     Ruler: 'Mars',
     Modality: 'Fixed'
-  }
+  },
   sagittarius: {
     Element: 'Fire',
     Start: { Day: 22, Month: 11, Year: 2022 }
@@ -242,10 +242,10 @@ export const signInfo = {
       Mars: [16],
       Jupiter: [18],
       Saturn: [2125]
-    }
+    },
     Ruler: 'Jupiter',
     Modality: 'Mutable'
-  }
+  },
   capricorn: {
     Element: 'Earth',
     Start: { Day: 22, Month: 12, Year: 2022 }
@@ -267,10 +267,10 @@ export const signInfo = {
       Mars: [1318],
       Jupiter: [1319],
       Saturn: [2630]
-    }
+    },
     Ruler: 'Saturn',
     Modality: 'Cardinal'
-  }
+  },
   aquarius: {
     Element: 'Air',
     Start: { Day: 20, Month: 1, Year: 2023 }
@@ -292,10 +292,10 @@ export const signInfo = {
       Mars: [2630],
       Jupiter: [2125],
       Saturn: [16]
-    }
+    },
     Ruler: 'Saturn',
     Modality: 'Fixed'
-  }
+  },
   pisces: {
     Element: 'Water',
     Start: { Day: 19, Month: 2, Year: 2023 }
@@ -317,7 +317,7 @@ export const signInfo = {
       Mars: [2126],
       Jupiter: [914],
       Saturn: [2730]
-    }
+    },
     Ruler: 'Jupiter',
     Modality: 'Mutable'
   }

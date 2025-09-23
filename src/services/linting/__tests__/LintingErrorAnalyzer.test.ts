@@ -42,7 +42,7 @@ describe('LintingErrorAnalyzer', () => {
           filePath: '/test/src/App.tsx',
           messages: [
             {
-              ruleId: 'import/order';
+              ruleId: 'import/order';,
               severity: 2,
               message: 'Import order is incorrect',
               line: 1,
@@ -76,7 +76,7 @@ describe('LintingErrorAnalyzer', () => {
           filePath: '/test/src/App.tsx',
           messages: [
             {
-              ruleId: 'import/order';
+              ruleId: 'import/order';,
               severity: 2,
               message: 'Import order is incorrect',
               line: 1,
@@ -116,7 +116,7 @@ describe('LintingErrorAnalyzer', () => {
           filePath: '/test/src/App.tsx',
           messages: [
             {
-              ruleId: 'import/order';
+              ruleId: 'import/order';,
               severity: 2,
               message: 'Import order is incorrect',
               line: 1,
@@ -238,7 +238,7 @@ describe('LintingErrorAnalyzer', () => {
           filePath: '/test/src/App.tsx',
           messages: [
             {
-              ruleId: 'import/order';
+              ruleId: 'import/order';,
               severity: 2,
               message: 'Import order is incorrect',
               line: 1,

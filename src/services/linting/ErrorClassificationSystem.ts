@@ -35,7 +35,7 @@ export interface SeverityFactor {
 
 export interface AutoFixCapability {
   canAutoFix: boolean,
-  confidence: number, // 0-1
+  confidence: number, // 0-1,
   complexity: 'trivial' | 'simple' | 'moderate' | 'complex' | 'manual-only',
   prerequisites: string[],
   risks: AutoFixRisk[]
@@ -43,7 +43,7 @@ export interface AutoFixCapability {
 
 export interface AutoFixRisk {
   type: 'breaking-change' | 'logic-change' | 'performance-impact' | 'side-effects',
-  probability: number, // 0-1
+  probability: number, // 0-1,
   impact: 'low' | 'medium' | 'high',
   mitigation: string
 }
@@ -205,7 +205,7 @@ export class ErrorClassificationSystem {
     }
 
     return {
-      totalAutoFixable: autoFixable.length
+      totalAutoFixable: autoFixable.length,
       safeAutoFixes,
       riskyAutoFixes,
       manualOnlyFixes,
@@ -219,12 +219,12 @@ export class ErrorClassificationSystem {
   private initializeRuleClassifications(): void {
     // Import/Export Rules
     this.addRuleClassification('import/order', {
-      ruleId: 'import/order';
+      ruleId: 'import/order';,
       category: {
         primary: 'style',
-        secondary: 'import-organization';
+        secondary: 'import-organization';,
         description: 'Import statements should be organized consistently'
-      }
+      },
       severity: {
         level: 'low',
         score: 20,
@@ -232,21 +232,21 @@ export class ErrorClassificationSystem {
           { factor: 'Code Readability', weight: 0.8, description: 'Affects code organization' }
         ],
         businessImpact: 'cosmetic'
-      }
+      },
       autoFixCapability: {
         canAutoFix: true,
         confidence: 0.95,
         complexity: 'trivial',
         prerequisites: [],
         risks: []
-      }
+      },
       domainImpact: {
         affectsAstrology: false,
         affectsCampaign: false,
         affectsCore: false,
         specialHandlingRequired: false,
         expertiseRequired: []
-      }
+      },
       riskProfile: {
         overall: 'low',
         factors: ['Cosmetic change only'],
@@ -255,12 +255,12 @@ export class ErrorClassificationSystem {
     })
 
     this.addRuleClassification('import/no-unresolved', {
-      ruleId: 'import/no-unresolved';
+      ruleId: 'import/no-unresolved';,
       category: {
         primary: 'logic',
         secondary: 'module-resolution',
         description: 'Import paths must resolve to actual modules'
-      }
+      },
       severity: {
         level: 'high',
         score: 85,
@@ -269,7 +269,7 @@ export class ErrorClassificationSystem {
           { factor: 'Runtime Errors', weight: 0.9, description: 'May cause runtime failures' }
         ],
         businessImpact: 'blocking'
-      }
+      },
       autoFixCapability: {
         canAutoFix: false,
         confidence: 0.3,
@@ -283,14 +283,14 @@ export class ErrorClassificationSystem {
             mitigation: 'Verify all import paths before applying fixes'
           }
         ]
-      }
+      },
       domainImpact: {
         affectsAstrology: false,
         affectsCampaign: false,
         affectsCore: true,
         specialHandlingRequired: true,
         expertiseRequired: ['Module bundling', 'TypeScript configuration']
-      }
+      },
       riskProfile: {
         overall: 'high',
         factors: ['Can break builds', 'Affects module loading'],
@@ -305,7 +305,7 @@ export class ErrorClassificationSystem {
         primary: 'maintainability',
         secondary: 'type-safety',
         description: 'Explicit any types reduce type safety benefits'
-      }
+      },
       severity: {
         level: 'medium',
         score: 60,
@@ -314,7 +314,7 @@ export class ErrorClassificationSystem {
           { factor: 'Code Quality', weight: 0.6, description: 'Makes code less maintainable' }
         ],
         businessImpact: 'degrading'
-      }
+      },
       autoFixCapability: {
         canAutoFix: false,
         confidence: 0.2,
@@ -328,14 +328,14 @@ export class ErrorClassificationSystem {
             mitigation: 'Careful type analysis and testing required'
           }
         ]
-      }
+      },
       domainImpact: {
         affectsAstrology: true,
         affectsCampaign: true,
         affectsCore: true,
         specialHandlingRequired: true,
         expertiseRequired: ['TypeScript', 'Domain knowledge']
-      }
+      },
       riskProfile: {
         overall: 'medium',
         factors: ['Requires type analysis', 'Domain-specific knowledge needed'],
@@ -349,7 +349,7 @@ export class ErrorClassificationSystem {
         primary: 'maintainability',
         secondary: 'code-cleanliness',
         description: 'Unused variables clutter code and may indicate bugs'
-      }
+      },
       severity: {
         level: 'medium',
         score: 45,
@@ -358,7 +358,7 @@ export class ErrorClassificationSystem {
           { factor: 'Potential Bugs', weight: 0.5, description: 'May indicate incomplete logic' }
         ],
         businessImpact: 'cosmetic'
-      }
+      },
       autoFixCapability: {
         canAutoFix: true,
         confidence: 0.7,
@@ -372,14 +372,14 @@ export class ErrorClassificationSystem {
             mitigation: 'Verify variable is truly unused before removal'
           }
         ]
-      }
+      },
       domainImpact: {
         affectsAstrology: true,
         affectsCampaign: true,
         affectsCore: false,
         specialHandlingRequired: true,
         expertiseRequired: ['Domain knowledge for critical variables']
-      }
+      },
       riskProfile: {
         overall: 'low',
         factors: ['Usually safe to remove', 'May affect domain calculations'],
@@ -397,7 +397,7 @@ export class ErrorClassificationSystem {
         primary: 'logic',
         secondary: 'react-hooks',
         description: 'useEffect dependencies must be complete to avoid bugs'
-      }
+      },
       severity: {
         level: 'high',
         score: 80,
@@ -410,7 +410,7 @@ export class ErrorClassificationSystem {
           { factor: 'Performance', weight: 0.7, description: 'May cause unnecessary re-renders' }
         ],
         businessImpact: 'degrading'
-      }
+      },
       autoFixCapability: {
         canAutoFix: true,
         confidence: 0.4,
@@ -430,14 +430,14 @@ export class ErrorClassificationSystem {
             mitigation: 'Performance testing after dependency changes'
           }
         ]
-      }
+      },
       domainImpact: {
         affectsAstrology: true,
         affectsCampaign: false,
         affectsCore: true,
         specialHandlingRequired: true,
         expertiseRequired: ['React hooks', 'Component lifecycle']
-      }
+      },
       riskProfile: {
         overall: 'high',
         factors: ['Can cause infinite loops', 'Complex dependency analysis required'],
@@ -456,7 +456,7 @@ export class ErrorClassificationSystem {
         primary: 'style',
         secondary: 'debugging',
         description: 'Console statements should not be in production code'
-      }
+      },
       severity: {
         level: 'low',
         score: 25,
@@ -468,7 +468,7 @@ export class ErrorClassificationSystem {
           }
         ],
         businessImpact: 'cosmetic'
-      }
+      },
       autoFixCapability: {
         canAutoFix: true,
         confidence: 0.8,
@@ -482,17 +482,17 @@ export class ErrorClassificationSystem {
             mitigation: 'Preserve _logger.warn and _logger.error for important logging'
           }
         ]
-      }
+      },
       domainImpact: {
         affectsAstrology: true,
         affectsCampaign: true,
         affectsCore: false,
         specialHandlingRequired: true,
         expertiseRequired: ['Debugging context']
-      }
+      },
       riskProfile: {
         overall: 'low',
-        factors: ['May remove important debugging info'];
+        factors: ['May remove important debugging info'];,
         mitigationStrategies: [
           'Preserve error and warning logs',
           'Replace with proper logging service'
@@ -518,13 +518,13 @@ export class ErrorClassificationSystem {
         primary: 'style',
         secondary: 'unknown',
         description: `Unknown rule: ${ruleId}`
-      }
+      },
       severity: {
         level: 'medium',
         score: 50,
         factors: [{ factor: 'Unknown Impact', weight: 0.5, description: 'Impact not analyzed' }],
         businessImpact: 'cosmetic'
-      }
+      },
       autoFixCapability: {
         canAutoFix: false,
         confidence: 0.1,
@@ -538,14 +538,14 @@ export class ErrorClassificationSystem {
             mitigation: 'Manual analysis required for unknown rule'
           }
         ]
-      }
+      },
       domainImpact: {
         affectsAstrology: false,
         affectsCampaign: false,
         affectsCore: false,
         specialHandlingRequired: false,
         expertiseRequired: ['ESLint rule analysis']
-      }
+      },
       riskProfile: {
         overall: 'medium',
         factors: ['Unknown rule impact'],

@@ -15,23 +15,23 @@ interface MonitoringConfig {
   metrics: {
     enabled: boolean,
     interval: number, // minutes,
-    retention: number, // days
+    retention: number, // days,
     thresholds: {
       errorIncrease: number,
       successRateDecrease: number,
       buildFailureRate: number
     }
-  }
+  },
   alerts: {
     enabled: boolean,
     channels: AlertChannel[],
     conditions: AlertCondition[]
-  }
+  },
   logging: {
     level: 'debug' | 'info' | 'warn' | 'error',
     retention: number, // days,
     maxFileSize: string
-  }
+  },
   healthChecks: {
     enabled: boolean,
     interval: number, // minutes,
@@ -78,7 +78,7 @@ function createMonitoringConfig(): MonitoringConfig {
         successRateDecrease: 1 - campaignConfig.targets.minSuccessRate,
         buildFailureRate: 0.1
       }
-    }
+    },
     alerts: {
       enabled: true,
       channels: [
@@ -88,7 +88,7 @@ function createMonitoringConfig(): MonitoringConfig {
           config: {
             colors: true,
             timestamps: true
-          }
+          },
           enabled: true
         }
         {
@@ -98,7 +98,7 @@ function createMonitoringConfig(): MonitoringConfig {
             path: '.kiro/logs/unintentional-any-alerts.log',
             maxSize: '10MB',
             rotate: true
-          }
+          },
           enabled: true
         }
       ],
@@ -139,12 +139,12 @@ function createMonitoringConfig(): MonitoringConfig {
           enabled: true
         }
       ]
-    }
+    },
     logging: {
       level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',,
       retention: 14,
       maxFileSize: '50MB'
-    }
+    },
     healthChecks: {
       enabled: true,
       interval: 15,

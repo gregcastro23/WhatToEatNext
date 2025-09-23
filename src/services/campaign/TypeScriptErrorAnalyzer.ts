@@ -250,7 +250,7 @@ export class TypeScriptErrorAnalyzer {
       .sort((ab) => b.errorCount - a.errorCount)
 
     return {
-      totalErrors: errors.length
+      totalErrors: errors.length,
       errorsByCategory,
       errorsByFile,
       priorityRanking,

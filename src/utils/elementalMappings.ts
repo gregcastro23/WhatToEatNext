@@ -10,19 +10,19 @@ export const elements: Record<Element, ElementalProperties> = {
     _dryness: 0.8,
     _transformation: 0.7,
     _expansion: 0.6
-  }
+  },
   Water: {
     cold: 0.9,
     _moisture: 1.0,
     _fluidity: 0.8,
     _dissolution: 0.7
-  }
+  },
   Air: {
     movement: 0.9,
     _lightness: 1.0,
     _dispersion: 0.8,
     _communication: 0.7
-  }
+  },
   Earth: {
     stability: 1.0,
     _density: 0.9,
@@ -37,19 +37,19 @@ export const elementalInteractions: Record<Element, Record<Element, number>> = {
     Earth: 0.7, // good compatibility,
     Air: 0.8, // strengthens,
     Fire: 1.0, // self - highest compatibility
-  }
+  },
   Water: {
     Fire: 0.7, // good compatibility,
     Earth: 0.8, // strengthens,
     Air: 0.7, // good compatibility,
     Water: 1.0, // self - highest compatibility
-  }
+  },
   Earth: {
     Fire: 0.7, // good compatibility,
     Water: 0.8, // strengthens,
     Air: 0.7, // good compatibility,
     Earth: 1.0, // self - highest compatibility
-  }
+  },
   Air: {
     Fire: 0.8, // strengthens,
     Water: 0.7, // good compatibility,

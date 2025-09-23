@@ -142,7 +142,7 @@ export class MLIntelligenceService {
       // Generate comprehensive ML analysis
       const result: MLIntelligenceResult = {
         recipeOptimization: await this.generateRecipeOptimization(recipeData, _astrologicalContext),
-        ingredientPairing: await this.generateIngredientPairing(
+        ingredientPairing: await this.generateIngredientPairing(,
           ingredientData,
           _astrologicalContext,
         ),
@@ -904,17 +904,17 @@ export class MLIntelligenceService {
         default: 'Consider longer marination for enhanced flavor',
         fire: 'High heat grilling aligns with current Fire energy',
         water: 'Use marinades with citrus for Water element balance'
-      }
+      },
       baking: {
         default: 'Adjust temperature for optimal texture',
         earth: 'Lower temperature (325°F) for Earth element grounding',
         air: 'Higher temperature (400°F) for Air element lightness'
-      }
+      },
       frying: {
         default: 'Use high smoke point oils for better results',
         fire: 'Quick high-heat frying maximizes Fire element',
         water: 'Consider steam-frying with liquid for balance'
-      }
+      },
       roasting: {
         default: 'Rotate halfway through for even cooking',
         fire: 'High heat (425°F) caramelization',
@@ -1484,7 +1484,7 @@ export const _MLCuisineFusionIntelligence = {
 }
 
 export const _MLAstrologicalPredictionIntelligence = {
-  predictAstrologicalAlignment: async (
+  predictAstrologicalAlignment: async (,
     astrologicalState: MLContext,
     _culinaryContext: Record<string, unknown>,
   ) => {

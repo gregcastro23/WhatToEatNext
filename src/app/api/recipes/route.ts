@@ -21,7 +21,7 @@ const fallbackRecipe: Recipe = {
     Earth: 0.25,
     Air: 0.25,
     Water: 0.25
-  }
+  },
   season: ['all'],
   mealType: ['lunch', 'dinner'],
   cuisine: 'international',
@@ -89,7 +89,7 @@ export async function POST(request: Request) {
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
-      }
+      },
       cuisine: body.cuisine || 'international',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()

@@ -24,19 +24,19 @@ interface PreCommitConfig {
     documentation: boolean,
     performance: boolean,
     formatting: boolean
-  }
+  },
   thresholds: {
     maxNewAnyTypes: number,
     maxTypeScriptErrors: number,
     maxLintingWarnings: number,
     minDocumentationCoverage: number,
     maxBuildTimeIncrease: number, // percentage
-  }
+  },
   autoFix: {
     formatting: boolean,
     linting: boolean,
     documentation: boolean
-  }
+  },
   exemptions: {
     files: string[],
     directories: string[],
@@ -64,21 +64,21 @@ class EnhancedPreCommitHook {
         typescript: true,
         linting: true,
         documentation: true,
-        performance: false, // Disabled for pre-commit (too slow)
+        performance: false, // Disabled for pre-commit (too slow),
         formatting: true
-      }
+      },
       thresholds: {
         maxNewAnyTypes: 5,
         maxTypeScriptErrors: 0,
         maxLintingWarnings: 50, // Allow some increase for staged files,
         minDocumentationCoverage: 80,
         maxBuildTimeIncrease: 20, // 20% increase allowed
-      }
+      },
       autoFix: {
         formatting: true,
         linting: true,
         documentation: false, // Require manual review
-      }
+      },
       exemptions: {
         files: ['package.json', 'yarn.lock', 'tsconfig.json'],
         directories: ['node_modules', '.next', 'dist', '.git'],
@@ -418,7 +418,7 @@ class EnhancedPreCommitHook {
       return {
         check: 'Explicit Any Prevention',
         passed: approved,
-        message: approved
+        message: approved,
           ? 'No explicit any regression detected'
           : 'Explicit any regression detected',
         severity: approved ? 'info' : 'critical',
@@ -455,7 +455,7 @@ class EnhancedPreCommitHook {
       return {
         check: 'Documentation Coverage',
         passed: isValid,
-        message: isValid
+        message: isValid,
           ? 'All any types properly documented'
           : 'Some any types lack documentation',
         severity: isValid ? 'info' : 'warning',
@@ -495,7 +495,7 @@ class EnhancedPreCommitHook {
     } catch (error) {
       return {
         check: 'Performance Impact',
-        passed: true, // Don't block commits on performance check failures
+        passed: true, // Don't block commits on performance check failures,
         message: `Performance check skipped: ${error}`,
         severity: 'info',
         autoFixed: false
@@ -602,7 +602,7 @@ if (require.main === module) {,
         })
       break,
 
-    default: // // // _logger.info(`
+    default: // // // _logger.info(`,
 Usage: node EnhancedPreCommitHook.ts <command>
 
 Commands:

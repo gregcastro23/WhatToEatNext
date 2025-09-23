@@ -92,7 +92,7 @@ export function createErrorResponse<T>(
       message,
       // Only include details in development environment,
       details: process.env.NODE_ENV === 'development' ? details : undefined,
-    }
+    },
     metadata: { timestamp: Date.now(), version: API_VERSION }
   }
 }

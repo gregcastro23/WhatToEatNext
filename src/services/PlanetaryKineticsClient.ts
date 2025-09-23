@@ -36,11 +36,11 @@ class PlanetaryKineticsClient {
     }
 
     this.config = {
-      baseUrl: apiUrl ||
+      baseUrl: apiUrl ||,
                process.env.NEXT_PUBLIC_BACKEND_URL ||
                'https://your-planetary-agents-backend.onrender.com',
-      cacheTTL: Number(process.env.NEXT_PUBLIC_KINETICS_CACHE_TTL) || 300000, // 5 minutes
-      timeout: 10000, // 10 seconds
+      cacheTTL: Number(process.env.NEXT_PUBLIC_KINETICS_CACHE_TTL) || 300000, // 5 minutes,
+      timeout: 10000, // 10 seconds,
       retryAttempts: 2,
       ...config
     };
@@ -205,7 +205,7 @@ class PlanetaryKineticsClient {
           headers: {
             'Content-Type': 'application/json',
             'User-Agent': 'WhatToEatNext-KineticsClient/1.0'
-          }
+          },
           body: JSON.stringify(data),
           signal: AbortSignal.timeout(this.config.timeout)
         });
@@ -299,7 +299,7 @@ class PlanetaryKineticsClient {
           timing: {
             planetaryHours: ['Sun', 'Venus', 'Mercury'],
             seasonalInfluence: this.getCurrentSeason()
-          }
+          },
           elemental: {
             totals: {
               Fire: 2.5,
@@ -308,18 +308,18 @@ class PlanetaryKineticsClient {
               Earth: 2.5
             }
           }
-        }
+        },
         agentOptimization: {
           recommendedAgents: ['sun'],
           powerAmplification: 1.0,
           harmonyScore: 0.5
-        }
+        },
         powerPrediction: {
           nextPeak: new Date(Date.now() + 3600000).toISOString(),
           trend: 'stable',
           confidence: 0.5
         }
-      }
+      },
       computeTimeMs: 5,
       cacheHit: false,
       metadata: {
@@ -345,7 +345,7 @@ class PlanetaryKineticsClient {
         momentumFlow: 'sustained',
         groupResonance: 0.5,
         individualContributions
-      }
+      },
       computeTimeMs: 5,
       cacheHit: false,
       metadata: {

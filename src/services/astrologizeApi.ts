@@ -27,7 +27,7 @@ interface AstrologizePlanetData {
     key: string,
     zodiac: string,
     label: string
-  }
+  },
   ChartPosition: {
     Ecliptic: {
       DecimalDegrees: number,
@@ -37,7 +37,7 @@ interface AstrologizePlanetData {
         seconds: number
       }
     }
-  }
+  },
   isRetrograde: boolean
 }
 
@@ -55,7 +55,7 @@ interface AstrologizeResponse {
     uranus: AstrologizePlanetData,
     neptune: AstrologizePlanetData,
     pluto: AstrologizePlanetData
-  }
+  },
   birth_info: {
     year: number,
     month: number,
@@ -139,7 +139,7 @@ export async function fetchPlanetaryPositions(
         minute: 11,
         exactLongitude: 80.18,
         isRetrograde: false
-      }
+      },
       Venus: { sign: 'aries', degree: 28, minute: 6, exactLongitude: 28.1, isRetrograde: false }
       Mars: { sign: 'leo', degree: 22, minute: 48, exactLongitude: 142.8, isRetrograde: false }
       Jupiter: {
@@ -148,7 +148,7 @@ export async function fetchPlanetaryPositions(
         minute: 44,
         exactLongitude: 88.73,
         isRetrograde: false
-      }
+      },
       Saturn: { sign: 'aries', degree: 0, minute: 41, exactLongitude: 0.68, isRetrograde: false }
       Uranus: {
         sign: 'taurus',
@@ -156,7 +156,7 @@ export async function fetchPlanetaryPositions(
         minute: 17,
         exactLongitude: 58.28,
         isRetrograde: false
-      }
+      },
       Neptune: { sign: 'aries', degree: 1, minute: 55, exactLongitude: 1.92, isRetrograde: false }
       Pluto: { sign: 'aquarius', degree: 3, minute: 36, exactLongitude: 303.6, isRetrograde: true }
       Ascendant: {
@@ -196,7 +196,7 @@ export async function fetchPlanetaryPositions(
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
-        }
+        },
         signal: AbortSignal.timeout(5000), // 5 second timeout for faster fallback
       })
     } else {
@@ -205,7 +205,7 @@ export async function fetchPlanetaryPositions(
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
-        }
+        },
         body: JSON.stringify(requestData),
         signal: AbortSignal.timeout(5000), // 5 second timeout for faster fallback
       })

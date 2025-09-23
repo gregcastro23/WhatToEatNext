@@ -108,7 +108,7 @@ export interface BatchSchedule {
     minPriority: number,
     maxRetries: number,
     patterns: string[]
-  }
+  },
   optimization: BatchOptimization,
   lastRun?: Date,
   nextRun?: Date,
@@ -123,17 +123,17 @@ export interface BatchMetrics {
   activeJobs: number,
   averageExecutionTime: number,
   successRate: number,
-  throughput: number, // jobs per minute
+  throughput: number, // jobs per minute,
   resourceUtilization: {
     cpu: number,
     memory: number,
     disk: number
-  }
+  },
   errorReduction: {
     totalErrors: number,
     errorsFixed: number,
     reductionRate: number
-  }
+  },
   qualityMetrics: {
     buildStability: number,
     testStability: number,
@@ -195,7 +195,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         maxBatchSize: 30,
         sizeGrowthRate: 0.1,
         sizeShrinkRate: 0.2
-      }
+      },
       effectiveness: 0.75,
       successRate: 0.8,
       averageTime: 120,
@@ -211,7 +211,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         similarityThreshold: 0.8,
         patternWeight: 0.7,
         diversityBonus: 0.3
-      }
+      },
       effectiveness: 0.85,
       successRate: 0.85,
       averageTime: 150,
@@ -227,7 +227,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         highPriorityThreshold: 20,
         mediumPriorityThreshold: 10,
         priorityWeight: 0.8
-      }
+      },
       effectiveness: 0.8,
       successRate: 0.82,
       averageTime: 100,
@@ -244,7 +244,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         memoryThreshold: 80,
         diskThreshold: 90,
         resourceWeight: 0.6
-      }
+      },
       effectiveness: 0.7,
       successRate: 0.75,
       averageTime: 180,
@@ -261,7 +261,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         patternWeight: 0.3,
         priorityWeight: 0.2,
         resourceWeight: 0.2
-      }
+      },
       effectiveness: 0.9,
       successRate: 0.88,
       averageTime: 130,
@@ -1377,7 +1377,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         totalErrors: 0, // Would need tracking,
         errorsFixed: 0,
         reductionRate: 0
-      }
+      },
       qualityMetrics: {
         buildStability: 0.85,
         testStability: 0.9,

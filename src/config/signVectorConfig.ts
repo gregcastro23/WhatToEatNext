@@ -11,7 +11,7 @@ export interface SignVectorConfig {
   inSeason: number,
     outOfSeason: number,
   neutral: number
-  }
+  },
   magnitudeScaling: {
   maxPlanetaryWeight: number,
     seasonalContribution: number
@@ -19,7 +19,7 @@ export interface SignVectorConfig {
 }
 
 export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {
-  blendWeightAlpha: 0.15
+  blendWeightAlpha: 0.15,
   
   // Elemental to ESMS mapping
   elementalToESMS: {
@@ -87,7 +87,7 @@ export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {
 // Development configuration with more aggressive values for testing
 export const DEV_SIGN_VECTOR_CONFIG: SignVectorConfig = {
   ...DEFAULT_SIGN_VECTOR_CONFIG,
-  blendWeightAlpha: 0.25, // Higher blend weight for development
+  blendWeightAlpha: 0.25, // Higher blend weight for development,
   
   modalityBoosts: {
   cardinal: { Spirit: 1.25, Essence: 1.15, Matter: 0.95, Substance: 0.95 }
@@ -107,23 +107,23 @@ export function mergeSignVectorConfig(
     elementalToESMS: {
       ...base.elementalToESMS
       ...(overrides.elementalToESMS || {})
-    }
+    },
     modalityBoosts: {
       ...base.modalityBoosts
       ...(overrides.modalityBoosts || {})
-    }
+    },
     planetaryWeights: {
       ...base.planetaryWeights
       ...(overrides.planetaryWeights || {})
-    }
+    },
     aspectModifiers: {
       ...base.aspectModifiers
       ...(overrides.aspectModifiers || {})
-    }
+    },
     seasonalAlignment: {
       ...base.seasonalAlignment
       ...(overrides.seasonalAlignment || {})
-    }
+    },
     magnitudeScaling: {
       ...base.magnitudeScaling
       ...(overrides.magnitudeScaling || {})

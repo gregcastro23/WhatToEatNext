@@ -182,7 +182,7 @@ _logger.info(usedVar)
           consoleStatements: { count: 3, priority: 3, files: ['file3.ts'] }
           other: { count: 0, priority: 4, files: [] }
           total: 18
-        }
+        },
         warnings: [],
         prioritizedFiles: { highPriority: ['file1.ts'], mediumPriority: ['file2.ts'], lowPriority: ['file3.ts'] }
         recommendations: ['Fix explicit-any warnings first'],

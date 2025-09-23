@@ -16,7 +16,7 @@ const rawSalts = {
         texture: 'moist, delicate flakes',
         minerality: 'high',
         uses: 'premium finishing'
-      }
+      },
       Camargue: {
         name: 'Camargue',
         appearance: 'white crystals',
@@ -245,54 +245,54 @@ const rawSalts = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-                }
+                },
                 culinaryProfile: {
                   flavorProfile: {
                     primary: ['balanced'],
                     secondary: ['versatile'],
                     notes: 'Versatile flavorProfile for various uses'
-                  }
+                  },
                   cookingMethods: ['sautéing', 'steaming', 'roasting'],
                   cuisineAffinity: ['Global', 'International'],
                   preparationTips: ['Use as needed', 'Season to taste']
-                }
+                },
                 season: ['year-round']
-              }
+              },
               culinaryProfile: {
                 flavorProfile: {
                   primary: ['balanced'],
                   secondary: ['versatile'],
                   notes: 'Versatile flavorProfile for various uses'
-                }
+                },
                 cookingMethods: ['sautéing', 'steaming', 'roasting'],
                 cuisineAffinity: ['Global', 'International'],
                 preparationTips: ['Use as needed', 'Season to taste']
-              }
+              },
               season: ['year-round']
-            }
+            },
             cookingMethods: ['sautéing', 'steaming', 'roasting'],
             cuisineAffinity: ['Global', 'International'],
             preparationTips: ['Use as needed', 'Season to taste']
-          }
+          },
           season: ['year-round'],
           preparation: {
             methods: ['standard preparation'],
             timing: 'as needed',
             notes: 'Standard preparation for camargue'
           }
-        }
+        },
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
             notes: 'Versatile camargue for various uses'
-          }
+          },
           cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
-        }
+        },
         season: ['year-round']
-      }
+      },
       Portuguese: {
         name: 'Portuguese',
         appearance: 'white pyramidal crystals',
@@ -332,26 +332,26 @@ const rawSalts = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-        }
+        },
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
             notes: 'Versatile portuguese for various uses'
-          }
+          },
           cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
-        }
+        },
         season: ['year-round']
       }
-    }
+    },
     harvesting: {
       method: 'hand-harvested from surface',
       timing: 'summer months only',
       conditions: 'specific wind and weather required',
       traditional_tools: ['wooden rake', 'woven basket']
-    }
+    },
     culinaryApplications: {
       finishing: {
         name: 'Finishing',
@@ -400,21 +400,21 @@ const rawSalts = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-          }
+          },
           culinaryProfile: {
             flavorProfile: {
               primary: ['balanced'],
               secondary: ['versatile'],
               notes: 'Versatile finishing for various uses'
-            }
+            },
             cookingMethods: ['sautéing', 'steaming', 'roasting'],
             cuisineAffinity: ['Global', 'International'],
             preparationTips: ['Use as needed', 'Season to taste']
-          }
+          },
           season: ['year-round']
-        }
+        },
         notes: 'Do not use for cooking - heat destroys texture'
-      }
+      },
       garnishing: {
         name: 'Garnishing',
         method: 'pinch and sprinkle',
@@ -443,21 +443,21 @@ const rawSalts = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-          }
+          },
           culinaryProfile: {
             flavorProfile: {
               primary: ['balanced'],
               secondary: ['versatile'],
               notes: 'Versatile garnishing for various uses'
-            }
+            },
             cookingMethods: ['sautéing', 'steaming', 'roasting'],
             cuisineAffinity: ['Global', 'International'],
             preparationTips: ['Use as needed', 'Season to taste']
-          }
+          },
           season: ['year-round']
         }
       }
-    }
+    },
     storage: {
       temperature: 'room temperature',
       humidity: 'low',
@@ -501,20 +501,20 @@ const rawSalts = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-        }
+        },
         culinaryProfile: {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
             notes: 'Versatile maldon salt for various uses'
-          }
+          },
           cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
-        }
+        },
         season: ['year-round']
       }
-    }
+    },
     culinaryApplications: {
       finishing: {
         name: 'Finishing',
@@ -526,7 +526,7 @@ const rawSalts = {
           baked_goods: 'before baking',
           chocolate: 'before setting'
         }
-      }
+      },
       texture_enhancement: {
         name: 'Texture Enhancement',
         method: 'strategic placement',
@@ -539,21 +539,21 @@ const rawSalts = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-          }
+          },
           culinaryProfile: {
             flavorProfile: {
               primary: ['balanced'],
               secondary: ['versatile'],
               notes: 'Versatile texture enhancement for various uses'
-            }
+            },
             cookingMethods: ['sautéing', 'steaming', 'roasting'],
             cuisineAffinity: ['Global', 'International'],
             preparationTips: ['Use as needed', 'Season to taste']
-          }
+          },
           season: ['year-round']
         }
       }
-    }
+    },
     storage: {
       temperature: 'room temperature',
       humidity: 'very low',
@@ -575,18 +575,18 @@ const rawSalts = {
           second: { element: 'Earth', planet: 'Neptune' }
           third: { element: 'Air', planet: 'Mercury' }
         }
-      }
+      },
       lunarPhaseModifiers: {
         newMoon: {
           elementalBoost: { Water: 0.1, Earth: 0.1 }
           preparationTips: ['Best for brining']
-        }
+        },
         fullMoon: {
           elementalBoost: { Water: 0.2 }
           preparationTips: ['Ideal for finishing dishes']
         }
       }
-    }
+    },
     qualities: ['delicate', 'moist', 'mineral'],
     origin: ['Various'],
     category: 'seasoning',
@@ -598,7 +598,7 @@ const rawSalts = {
         texture: 'crunchy with smoke flavor',
         uses: 'meats, hearty dishes'
       }
-    }
+    },
     culinaryApplications: {
       finishing: {
         name: 'Finishing',
@@ -610,7 +610,7 @@ const rawSalts = {
           baked_goods: 'before baking',
           chocolate: 'before setting'
         }
-      }
+      },
       texture_enhancement: {
         name: 'Texture Enhancement',
         method: 'strategic placement',
@@ -620,7 +620,7 @@ const rawSalts = {
           bread_crust: 'pre-bake sprinkle'
         }
       }
-    }
+    },
     storage: {
       temperature: 'room temperature',
       humidity: 'very low',
@@ -641,13 +641,13 @@ const rawSalts = {
         new: {
           elementalBoost: { Earth: 0.1 }
           culinaryTip: 'Use for preserving during new moon for enhanced shelf life'
-        }
+        },
         full: {
           elementalBoost: { Water: 0.1 }
           culinaryTip: 'Solutions prepared during full moon enhance mineral absorption'
         }
       }
-    }
+    },
     qualities: ['mineral-rich', 'grounding', 'purifying', 'alkalizing', 'preservative'],
     category: 'mineral salt',
     origin: ['Khewra Salt Mine', 'Punjab region', 'Pakistan', 'Himalayan foothills'],
@@ -657,7 +657,7 @@ const rawSalts = {
       depth: 'Mined from depths of 200-700 meters',
       composition:
         'Primarily sodium chloride with trace minerals that create the characteristic pink color'
-    }
+    },
     mineralContent: {
       primaryMinerals: {
         sodium_chloride: '97-98%',
@@ -665,7 +665,7 @@ const rawSalts = {
         potassium: '0.28-0.50%',
         magnesium: '0.16-0.36%',
         iron: '0.004-0.021%'
-      }
+      },
       traceMinerals: [
         'zinc',
         'copper',
@@ -678,51 +678,51 @@ const rawSalts = {
         'vanadium'
       ],
       totalTraceElements: 'Contains up to 84 different trace minerals'
-    }
+    },
     varieties: {
       fine: {
         name: 'Fine Ground',
         characteristics: 'Powdery texture, dissolves quickly',
         culinary_uses: 'Baking, seasoning during cooking, spice blends',
         notes: 'Most versatile for everyday cooking'
-      }
+      },
       medium: {
         name: 'Medium Ground',
         characteristics: 'Granular texture with moderate dissolution rate',
         culinary_uses: 'General cooking, table salt, brining',
         notes: 'Good balance between texture and function'
-      }
+      },
       coarse: {
         name: 'Coarse Ground',
         characteristics: 'Larger crystals with slow dissolution',
         culinary_uses: 'Salt crusts, rubs, finishing, salt grinders',
         notes: 'Provides textural element and visual appeal'
-      }
+      },
       blocks: {
         name: 'Salt Blocks / (Slabs || 1)',
         characteristics: 'Solid pieces used for cooking and serving',
         culinary_uses: 'Cooking surface, cold food presentation, salt plate cooking',
         notes: 'Imparts subtle mineral flavor to foods placed on it'
-      }
+      },
       flakes: {
         name: 'Salt Flakes',
         characteristics: 'Thin, delicate crystal structures',
         culinary_uses: 'Finishing salt, garnish, textural element',
         notes: 'Creates burst of flavor and visual appeal'
       }
-    }
+    },
     colorProfiles: {
       light_pink: 'Lower iron content, more subtle mineral flavor',
       medium_pink: 'Standard variety, balanced mineral content',
       deep_pink: 'Higher iron content, more pronounced mineral notes',
       white_inclusions: 'Areas with higher sodium chloride concentration'
-    }
+    },
     culinaryApplications: {
       seasoning: {
         name: 'Basic Seasoning',
         methods: ['During cooking', 'Table salt', 'Pre-cooking application'],
         notes: 'More complex flavor profile than regular salt'
-      }
+      },
       curing: {
         name: 'Curing and Preservation',
         methods: ['Dry curing meats', 'Preserving fish', 'Fermentation processes'],
@@ -741,7 +741,7 @@ const rawSalts = {
           'Roasted vegetables'
         ],
         notes: 'Use coarse grind or flakes for maximum visual and textural impact'
-      }
+      },
       salt_block_cooking: {
         name: 'Salt Block Cooking',
         methods: [
@@ -752,14 +752,14 @@ const rawSalts = {
         temperature_handling: 'Must be heated slowly to prevent cracking',
         maintenance: 'Clean with damp cloth, never use soap, air dry completely',
         notes: 'Imparts subtle mineral salinity and conducts heat effectively'
-      }
+      },
       brining: {
         name: 'Brining Solutions',
         methods: ['Wet brines for poultry and pork', 'Vegetable pickling', 'Cheese making'],
         ratio: 'Standard, brine: 1 cup salt to 1 gallon water',
         enhancement_ingredients: ['Sugar', 'Herbs', 'Spices', 'Aromatics'],
         notes: 'Creates more complex mineral profile than table salt brines'
-      }
+      },
       specialty: {
         name: 'Specialty Applications',
         methods: [
@@ -769,14 +769,14 @@ const rawSalts = {
           'Cocktail rim salt'
         ]
       }
-    }
+    },
     flavor: {
       profile: 'Complex mineral with subtle earthy notes',
       saltiness_level: 'Moderate to high depending on crystal size',
       aftertatse: 'Lingering mineral complexity',
       mouthfeel: 'Clean, smooth with varied texture based on grind',
       comparison_to_regular_salt: 'Less sharp, more rounded flavor profile with mineral complexity'
-    }
+    },
     nutritionalConsiderations: {
       mineral_content: 'Higher in trace minerals than refined salt',
       sodium_content: 'Approximately 98% sodium chloride, similar to table salt',
@@ -787,43 +787,43 @@ const rawSalts = {
           'May contain slightly lower sodium by volume due to larger crystal structure',
           'Some practitioners suggest improved hydration from trace minerals'
         ]
-      }
+      },
       dietary_considerations: {
         sodium_restriction: 'Should still be limited by those on sodium-restricted diets',
         iodine_content: 'Contains some natural iodine but less than iodized salt',
         additives: 'Free from anti-caking agents and additives found in table salt'
       }
-    }
+    },
     traditionalUses: {
       ayurvedic: {
         properties: 'Considered warming and grounding',
         applications: ['Digestive aid', 'Electrolyte balance', 'Used in 'sole' water solutions']
-      }
+      },
       therapeutic: {
         salt_rooms: 'Used in halotherapy for respiratory conditions',
         salt_lamps: 'Believed to release negative ions when heated',
         salt_baths: 'Used for skin conditions and relaxation'
-      }
+      },
       cultural: {
         pakistani: 'Traditional preservative and cooking medium',
         ritual_significance: 'Used in purification ceremonies',
         gift_giving: 'Historically given as a valuable trade good'
       }
-    }
+    },
     sustainability: {
       mining_practices: {
         traditional: 'Uses room and pillar mining techniques dating back centuries',
         modern: 'Combination of hand extraction and mechanical methods',
         environmental_impact:
           'Lower impact than industrial salt production but concerns about over-extraction'
-      }
+      },
       alternatives: [
         'Sea salt for lower environmental footprint',
         'Local unrefined salts to reduce transportation emissions'
       ],
       sourcing_considerations:
         'Verify authentic sourcing from Khewra region due to prevalence of counterfeit products'
-    }
+    },
     pairing: {
       enhances: [
         'Dark chocolate',
@@ -835,7 +835,7 @@ const rawSalts = {
       ],
       contrasts: ['Sweet desserts', 'Creamy dairy', 'Bitter greens'],
       complements: ['Black pepper', 'Lemon', 'Fresh herbs', 'Olive oil', 'Aged cheeses']
-    }
+    },
     culinaryTips: [
       'Use larger crystals as finishing salt for textural contrast',
       'Grind just before use for maximum flavor',
@@ -867,7 +867,7 @@ const rawSalts = {
         texture: 'light, crushable',
         dissolution: 'quick',
         uses: 'professional kitchen standard'
-      }
+      },
       Morton: {
         name: 'Morton',
         appearance: 'dense flakes',
@@ -875,7 +875,7 @@ const rawSalts = {
         dissolution: 'moderate',
         uses: 'home cooking standard'
       }
-    }
+    },
     culinaryApplications: {
       cooking: {
         name: 'Cooking',
@@ -885,19 +885,19 @@ const rawSalts = {
           seasoning: 'meats before cooking',
           pasta_water: '1 tbsp per quart',
           baking: 'dough and batters'
-        }
+        },
         conversion_ratios: {
           table_salt: '1 tsp table = 1.25 tsp Morton = 2 tsp Diamond',,
           weight_based: '1 gram = 1 gram (any brand)'
         }
-      }
+      },
       koshering: {
         name: 'Koshering',
         method: 'coat meat surface',
         timing: '1 hour before cooking',
         process: ['apply salt liberally', 'rest for 1 hour', 'rinse thoroughly', 'pat dry']
       }
-    }
+    },
     storage: {
       temperature: 'room temperature',
       humidity: 'low',
@@ -922,19 +922,19 @@ const rawSalts = {
           seasoning: 'meats before cooking',
           pasta_water: '1 tbsp per quart',
           baking: 'dough and batters'
-        }
+        },
         conversion_ratios: {
           table_salt: '1 tsp table = 1.25 tsp Morton = 2 tsp Diamond',,
           weight_based: '1 gram = 1 gram (any brand)'
         }
-      }
+      },
       koshering: {
         name: 'Koshering',
         method: 'coat meat surface',
         timing: '1 hour before cooking',
         process: ['apply salt liberally', 'rest for 1 hour', 'rinse thoroughly', 'pat dry']
       }
-    }
+    },
     storage: {
       temperature: 'room temperature',
       humidity: 'low',

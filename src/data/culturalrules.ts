@@ -36,7 +36,7 @@ export const culturalRules: Record<string, CulturalBalance> = {
         reason: 'Conflicts with traditional flavor profiles'
       }
     ]
-  }
+  },
   middleEastern: {
     cuisineId: 'middleEastern',
     principles: [
@@ -61,7 +61,7 @@ export const culturalRules: Record<string, CulturalBalance> = {
         reason: 'Traditional dietary guideline'
       }
     ]
-  }
+  },
   thai: {
     cuisineId: 'thai',
     principles: [
@@ -86,7 +86,7 @@ export const culturalRules: Record<string, CulturalBalance> = {
         reason: 'Overwhelms palate'
       }
     ]
-  }
+  },
   chinese: {
     cuisineId: 'chinese',
     principles: [
@@ -120,7 +120,7 @@ export const culturalRules: Record<string, CulturalBalance> = {
         reason: 'Traditional dietary restriction'
       }
     ]
-  }
+  },
   indian: {
     cuisineId: 'indian',
     principles: [
@@ -154,7 +154,7 @@ export const culturalRules: Record<string, CulturalBalance> = {
         reason: 'Creates toxins according to Ayurveda'
       }
     ]
-  }
+  },
   vietnamese: {
     cuisineId: 'vietnamese',
     principles: [
@@ -180,7 +180,7 @@ export const culturalRules: Record<string, CulturalBalance> = {
         reason: 'Traditional belief of negative effects'
       }
     ]
-  }
+  },
   korean: {
     cuisineId: 'korean',
     principles: [
@@ -206,7 +206,7 @@ export const culturalRules: Record<string, CulturalBalance> = {
         reason: 'Flavor clash and digestive concerns'
       }
     ]
-  }
+  },
   mexican: {
     cuisineId: 'mexican',
     principles: [

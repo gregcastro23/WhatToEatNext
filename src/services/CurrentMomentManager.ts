@@ -27,7 +27,7 @@ export interface CurrentMomentData {
     latitude: number,
     longitude: number,
     timezone: string
-  }
+  },
   planetaryPositions: Record<string, PlanetPosition>,
   metadata: {
     source: 'api' | 'calculated' | 'fallback',
@@ -511,14 +511,14 @@ class CurrentMomentManager {
         minute: 44,
         exactLongitude: 72.73,
         isRetrograde: false
-      }
+      },
       Saturn: {
         sign: 'pisces',
         degree: 19,
         minute: 17,
         exactLongitude: 349.28,
         isRetrograde: false
-      }
+      },
       Uranus: { sign: 'taurus', degree: 26, minute: 9, exactLongitude: 56.15, isRetrograde: false }
       Neptune: {
         sign: 'aries',
@@ -526,14 +526,14 @@ class CurrentMomentManager {
         minute: 55,
         exactLongitude: 29.92,
         isRetrograde: false
-      }
+      },
       Pluto: {
         sign: 'aquarius',
         degree: 1,
         minute: 53,
         exactLongitude: 301.88,
         isRetrograde: true
-      }
+      },
       Ascendant: {
         sign: 'capricorn',
         degree: 20,

@@ -279,7 +279,7 @@ export class ExportTransformationEngine {
         priority,
         estimatedDuration: this.estimateBatchDuration(batchFiles),
         safetyScore: this.calculateBatchSafetyScore(batchFiles),
-        transformationCandidates: batchFiles.reduce(
+        transformationCandidates: batchFiles.reduce(,
           (sumf) => sum + f.transformationCandidates.length0,
         )
       }
@@ -653,7 +653,7 @@ export class ExportTransformationEngine {
       errorLogPath,
       JSON.stringify(
         {
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
           // ✅ Pattern MM-1: Safe type assertion for error logging,
           error: String((error as Error).message || 'Unknown critical failure'),
           stack: String((error as Error).stack || ''),
@@ -717,7 +717,7 @@ export class ExportTransformationEngine {
           }
 
     return {
-      totalBatches: results.length
+      totalBatches: results.length,
       successfulBatches,
       failedBatches,
       totalFilesProcessed,

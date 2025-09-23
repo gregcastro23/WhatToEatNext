@@ -575,7 +575,7 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
         customChecks: [
           {
             name: 'Configuration File Exists',
-            validator: async () =>
+            validator: async () =>,
               existsSync('.kiro/campaign-configs/unintentional-any-elimination.json')
           }
         ]

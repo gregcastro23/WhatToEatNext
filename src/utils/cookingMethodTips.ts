@@ -595,7 +595,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push('Allow frozen items to temper slightly before serving to enhance flavor release')
       break,
 
-    default: // Get expert tips from the cooking method data
+    default: // Get expert tips from the cooking method data,
       try {
         const allMethods = getAllCookingMethodNames()
         const methodData = allMethods.find(;

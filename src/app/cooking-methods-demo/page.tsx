@@ -72,7 +72,7 @@ export default function CookingMethodsDemoPage() {
         id: `${prefix}_${key}`,
         name,
         description: (method as any).description || '',
-        elementalEffect: (method as any).elementalEffect ||
+        elementalEffect: (method as any).elementalEffect ||,
           (method as any).elementalProperties || {
             Fire: Math.random(),
             Water: Math.random(),
@@ -84,7 +84,7 @@ export default function CookingMethodsDemoPage() {
         suitable_for: (method as any).suitable_for || [],
         benefits: (method as any).benefits || [],
         // Create variations if they exist
-        variations: (method as any).variations
+        variations: (method as any).variations,
           ? Array.isArray((method as any).variations)
             ? ((method as any).variations as string[]).map((v: string, i: number) => ({
                 id: `${prefix}_${key}_var_${i}`,
@@ -95,7 +95,7 @@ export default function CookingMethodsDemoPage() {
                   Water: Math.random(),
                   Earth: Math.random(),
                   Air: Math.random()
-                }
+                },
                 score: score - 0.1 + Math.random() * 0.2, // Slightly vary from parent score
               }))
             : []

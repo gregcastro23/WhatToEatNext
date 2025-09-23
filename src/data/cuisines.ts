@@ -37,7 +37,7 @@ const _: Recipe = {
   timeToMake: 30, // minutes,
   numberOfServings: 4,
   elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }, // ← Pattern GG-4: Added missing elementalProperties
-  instructions: ['Prepare ingredients', 'Follow cooking method'], // ← Pattern GG-4: Added missing instructions
+  instructions: ['Prepare ingredients', 'Follow cooking method'], // ← Pattern GG-4: Added missing instructions,
   nutrition: {
     calories: 0,
     protein: 0,
@@ -45,7 +45,7 @@ const _: Recipe = {
     fat: 0,
     vitamins: [],
     minerals: []
-  }
+  },
   season: ['all'],
   mealType: ['any']
 }
@@ -77,12 +77,12 @@ function adaptCuisine(cuisine: unknown): AlchemyCuisine {
   return {
     ...cuisineData
     // Convert elementalProperties if present,
-    elementalProperties: cuisineData.elementalProperties
+    elementalProperties: cuisineData.elementalProperties,
       ? adaptElementalProperties(cuisineData.elementalProperties)
       : undefined,
 
     // Convert elementalState if present,
-    elementalState: cuisineData.elementalState
+    elementalState: cuisineData.elementalState,
       ? adaptElementalProperties(cuisineData.elementalState)
       : undefined
   }

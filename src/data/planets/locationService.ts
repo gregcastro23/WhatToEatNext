@@ -65,12 +65,12 @@ export interface LocationCulinaryRecommendation {
     cookingMethods: string[],
     flavorProfiles: string[],
     nutritionalFocus: string[]
-  }
+  },
   localOptimalTiming: {
     solarCooking: string[],
     moonPhases: Record<string, string[]>,
     planetaryHours: Record<string, string[]>
-  }
+  },
   weatherConsiderations: {
     hotWeather: string[],
     coldWeather: string[],
@@ -229,7 +229,7 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
       summer: ['Tomatoes', 'Eggplant', 'Zucchini', 'Fresh fish', 'Melons'],
       autumn: ['Grapes', 'Olives', 'Nuts', 'Mushrooms', 'Root vegetables'],
       winter: ['Citrus', 'Preserved foods', 'Legumes', 'Cabbage', 'Cured meats']
-    }
+    },
     culturalInfluences: ['Greek', 'Italian', 'Spanish', 'Turkish', 'Moroccan'],
     planetaryAffinities: { Sun: 0.8, Venus: 0.7, Jupiter: 0.6, Mars: 0.5 }
     climateConsiderations: {
@@ -260,7 +260,7 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
         'Hearty grains',
         'Stored roots'
       ]
-    }
+    },
     culturalInfluences: ['Danish', 'Swedish', 'Norwegian', 'Finnish', 'Icelandic'],
     planetaryAffinities: { Moon: 0.8, Saturn: 0.7, Neptune: 0.6, Mercury: 0.5 }
     climateConsiderations: {
@@ -291,7 +291,7 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
       summer: ['Mangoes', 'Chilies', 'Lemongrass', 'Lime', 'Cooling herbs'],
       autumn: ['Rice harvest', 'Nuts', 'Dried spices', 'Preserved fish', 'Root vegetables'],
       winter: ['Citrus', 'Dried fruits', 'Fermented items', 'Preserved vegetables', 'Aged spices']
-    }
+    },
     culturalInfluences: ['Thai', 'Vietnamese', 'Indian', 'Caribbean', 'Pacific Islander'],
     planetaryAffinities: { Sun: 0.9, Mars: 0.7, Venus: 0.6, Mercury: 0.8 }
     climateConsiderations: {
@@ -322,7 +322,7 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
         'Dairy products',
         'Hearty stews'
       ]
-    }
+    },
     culturalInfluences: ['German', 'Polish', 'Russian', 'Hungarian', 'Czech'],
     planetaryAffinities: { Saturn: 0.8, Jupiter: 0.7, Earth: 0.6, Mars: 0.5 }
     climateConsiderations: {
@@ -365,7 +365,7 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
         'Spice blends',
         'Warming foods'
       ]
-    }
+    },
     culturalInfluences: [
       'Middle Eastern',
       'North African',
@@ -410,7 +410,7 @@ export class PlanetaryLocationService {
     const localOptimalTiming = {
       solarCooking: this.getSolarCookingTimes(coordinates, date),
       moonPhases: { [lunarPhase.phase]: [lunarPhase.culinaryEffect] }
-      planetaryHours: Object.fromEntries(
+      planetaryHours: Object.fromEntries(,
         Object.entries(planetaryHours).map(([key, value]) => [key, [value.influence]]),
       )
     }
@@ -463,7 +463,7 @@ export class PlanetaryLocationService {
         latitudeEffect,
         seasonalAdjustment,
         finalInfluence,
-        culinaryRecommendations: this.getPlanetaryCulinaryRecommendations(
+        culinaryRecommendations: this.getPlanetaryCulinaryRecommendations(,
           planetName,
           finalInfluence,
           planetData,
@@ -647,7 +647,7 @@ export class PlanetaryLocationService {
         ...this.getMethodsForClimate(regionalProfile.climateConsiderations, season)
       ].slice(08),
       flavorProfiles: this.getFlavorProfilesForInfluences(topInfluences),
-      nutritionalFocus: this.getNutritionalFocusForSeason(
+      nutritionalFocus: this.getNutritionalFocusForSeason(,
         season,
         regionalProfile.climateConsiderations
       )
@@ -679,13 +679,13 @@ export class PlanetaryLocationService {
     const { temperature, humidity } = regionalProfile.climateConsiderations;
 
     return {
-      hotWeather: temperature === 'tropical'
+      hotWeather: temperature === 'tropical',
           ? ['Cooling foods', 'Raw preparations', 'Hydrating ingredients', 'Quick cooking methods']
           : ['Light cooking', 'Cold soups', 'Fresh salads', 'Minimal heat cooking'],
-      coldWeather: temperature === 'cold'
+      coldWeather: temperature === 'cold',
           ? ['Warming spices', 'Hot broths', 'Slow-cooked stews', 'Calorie-dense foods']
           : ['Moderate warming foods', 'Cooked vegetables', 'Warm beverages'],
-      humidity: humidity === 'humid'
+      humidity: humidity === 'humid',
           ? ['Light, non-greasy foods', 'Fresh preparations', 'Cooling herbs']
           : ['Moistening foods', 'Broths and soups', 'Oil-rich preparations'],
       pressure: [

@@ -114,7 +114,7 @@ export function withRenderTracking<P extends object>(
           >
             <span>{componentName}</span>
             <span>
-              Renders: <strong>{renderCount}</strong>
+              Renders: <strong>{renderCount}</strong>,
               {renderTime > 0 && <span> ({renderTime.toFixed(1)}ms)</span>}
             </span>
           </div>

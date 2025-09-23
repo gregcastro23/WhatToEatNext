@@ -16,7 +16,7 @@ const rawStoneFruit = {
           third: { element: 'Air', planet: 'Mercury' }
         }
       }
-    }
+    },
     qualities: ['sweet', 'juicy', 'fragrant'],
     season: ['summer'],
     category: 'fruit',
@@ -31,20 +31,20 @@ const rawStoneFruit = {
       carbs_g: 10,
       fiber_g: 1.5,
       antioxidants: ['beta-carotene', 'lutein']
-    }
+    },
     preparation: {
       washing: true,
       ripeness: 'yields to gentle pressure',
       cutting: 'slice along natural seam',
       notes: 'Can be peeled if desired'
-    }
+    },
     storage: {
       temperature: 'room temp until ripe',
       duration: '3-5 days',
       ripening: 'room temperature',
       notes: 'Refrigerate when ripe'
     }
-  }
+  },
   plum: {
     name: 'Plum',
     elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 }
@@ -59,7 +59,7 @@ const rawStoneFruit = {
           third: { element: 'Air', planet: 'Uranus' }
         }
       }
-    }
+    },
     qualities: ['sweet-tart', 'juicy', 'refreshing'],
     season: ['summer', 'early fall'],
     category: 'fruit',
@@ -74,20 +74,20 @@ const rawStoneFruit = {
       carbs_g: 8,
       fiber_g: 0.9,
       antioxidants: ['anthocyanins', 'quercetin']
-    }
+    },
     preparation: {
       washing: true,
       ripeness: 'slight give when pressed',
       cutting: 'slice around pit',
       notes: 'Some varieties are better for cooking'
-    }
+    },
     storage: {
       temperature: 'room temp until ripe',
       duration: '3-5 days',
       ripening: 'room temperature',
       notes: 'Refrigerate when ripe'
     }
-  }
+  },
   apricot: {
     name: 'Apricot',
     elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 }
@@ -105,20 +105,20 @@ const rawStoneFruit = {
       carbs_g: 3.9,
       fiber_g: 0.7,
       antioxidants: ['beta-carotene', 'lutein']
-    }
+    },
     preparation: {
       washing: true,
       ripeness: 'gentle squeeze',
       cutting: 'halve and twist',
       notes: 'Best eaten when fully ripe'
-    }
+    },
     storage: {
       temperature: 'room temp until ripe',
       duration: '2-3 days',
       ripening: 'room temperature',
       notes: 'Very perishable when ripe'
     }
-  }
+  },
   cherry: {
     name: 'Cherry',
     elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 }
@@ -136,20 +136,20 @@ const rawStoneFruit = {
       carbs_g: 12,
       fiber_g: 1.6,
       antioxidants: ['anthocyanins', 'quercetin']
-    }
+    },
     preparation: {
       washing: true,
       pitting: 'recommended',
       sorting: 'remove stems and damaged fruit',
       notes: 'Can be used with or without pits'
-    }
+    },
     storage: {
       temperature: 'refrigerated',
       duration: '4-7 days',
       humidity: 'moderate',
       notes: 'Store unwashed until ready to use'
     }
-  }
+  },
   nectarine: {
     name: 'Nectarine',
     elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 }
@@ -167,20 +167,20 @@ const rawStoneFruit = {
       carbs_g: 10.5,
       fiber_g: 1.7,
       antioxidants: ['beta-carotene', 'lutein']
-    }
+    },
     preparation: {
       washing: true,
       ripeness: 'yields to gentle pressure',
       cutting: 'slice along natural seam',
       notes: 'No peeling required unlike peaches'
-    }
+    },
     storage: {
       temperature: 'room temp until ripe',
       duration: '3-5 days',
       ripening: 'room temperature',
       notes: 'Refrigerate when ripe'
     }
-  }
+  },
   greengage: {
     name: 'Greengage',
     elementalProperties: { Water: 0.4, Fire: 0.1, Air: 0.2, Earth: 0.3 }
@@ -198,20 +198,20 @@ const rawStoneFruit = {
       carbs_g: 8.5,
       fiber_g: 1.1,
       antioxidants: ['chlorophyll', 'beta-carotene']
-    }
+    },
     preparation: {
       washing: true,
       ripeness: 'should yield slightly',
       cutting: 'halve and twist',
       notes: 'Best eaten when fully ripe'
-    }
+    },
     storage: {
       temperature: 'room temp until ripe',
       duration: '3-4 days',
       ripening: 'room temperature',
       notes: 'Refrigerate when fully ripe'
     }
-  }
+  },
   damson: {
     name: 'Damson',
     elementalProperties: { Water: 0.3, Fire: 0.2, Air: 0.2, Earth: 0.3 }
@@ -229,13 +229,13 @@ const rawStoneFruit = {
       carbs_g: 7.5,
       fiber_g: 1.7,
       antioxidants: ['anthocyanins', 'quercetin']
-    }
+    },
     preparation: {
       washing: true,
       ripeness: 'firm but yielding',
       cooking: 'usually cooked before eating',
       notes: 'Too tart for most raw applications'
-    }
+    },
     storage: {
       temperature: 'refrigerated',
       duration: '5-7 days',

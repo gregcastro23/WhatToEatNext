@@ -57,11 +57,11 @@ export const ENERGY_STATES: Record<ZodiacSign, { baseEnergy: number, currentEner
   sagittarius: {
     baseEnergy: BASE_SIGN_ENERGIES.sagittarius,
     currentEnergy: BASE_SIGN_ENERGIES.sagittarius
-  }
+  },
   capricorn: {
     baseEnergy: BASE_SIGN_ENERGIES.capricorn,
     currentEnergy: BASE_SIGN_ENERGIES.capricorn
-  }
+  },
   aquarius: { baseEnergy: BASE_SIGN_ENERGIES.aquarius, currentEnergy: BASE_SIGN_ENERGIES.aquarius }
   pisces: { baseEnergy: BASE_SIGN_ENERGIES.pisces, currentEnergy: BASE_SIGN_ENERGIES.pisces }
 }

@@ -49,8 +49,8 @@ export const _PLANETARY_RULERSHIPS: Record<string, ZodiacSign[]> = {
   mars: ['aries', 'scorpio'],
   jupiter: ['sagittarius', 'pisces'],
   saturn: ['capricorn', 'aquarius'],
-  uranus: ['aquarius'], // Modern rulership
-  neptune: ['pisces'], // Modern rulership
+  uranus: ['aquarius'], // Modern rulership,
+  neptune: ['pisces'], // Modern rulership,
   pluto: ['scorpio'], // Modern rulership
 }
 
@@ -65,8 +65,8 @@ export const _PLANETARY_EXALTATIONS: Record<string, ZodiacSign> = {
   mars: 'capricorn',
   jupiter: 'cancer',
   saturn: 'libra',
-  uranus: 'scorpio', // Modern assignment
-  neptune: 'cancer', // Modern assignment
+  uranus: 'scorpio', // Modern assignment,
+  neptune: 'cancer', // Modern assignment,
   pluto: 'leo', // Modern assignment
 }
 

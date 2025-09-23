@@ -6,7 +6,7 @@ const neptuneData: PlanetData = {
     cancer: 2,
     virgo: -1,
     capricorn: -2
-  }
+  },
   Elements: ['Water', 'Water'],
   Alchemy: {
     Spirit: 0,
@@ -21,7 +21,7 @@ const neptuneData: PlanetData = {
     DistanceFromEarth: {
       Minimum: '2.7 billion miles (4.3 billion km)',
       Maximum: '2.9 billion miles (4.7 billion km)'
-    }
+    },
     Diameter: '30,599 miles (49,244 km)',
     SurfaceTemperature: '-373°F (-225°C)',
     AtmosphericComposition: 'Hydrogen (80%), Helium (19%), Methane (1.5%)',
@@ -35,7 +35,7 @@ const neptuneData: PlanetData = {
       Composition: 'Ice giant composed of water, ammonia and methane ices',
       NotableFeatures: 'Deep blue color, Great Dark Spot, fastest winds in solar system'
     }
-  }
+  },
   AstrologicalProperties: {
     AlchemicalName: 'The Mystic',
     BeneficType: 'Transpersonal Divine',
@@ -43,7 +43,7 @@ const neptuneData: PlanetData = {
     CyclePeriod: {
       Return: '165 years',
       Retrograde: 'Annual, approximately 158 days'
-    }
+    },
     Exaltation: 'Cancer',
     Fall: 'Capricorn',
     Detriment: ['Virgo'],
@@ -73,7 +73,7 @@ const neptuneData: PlanetData = {
     ],
     Animals: ['fish', 'dolphins', 'jellyfish', 'octopus', 'seahorse', 'water creatures'],
     Stones: ['aquamarine', 'moonstone', 'pearl', 'selenite', 'blue sapphire', 'neptunite']
-  }
+  },
   ElementalConnections: {
     DayEmission: 'Mists and vapors over water',
     NightEmission: 'Dreamlike water currents',
@@ -82,7 +82,7 @@ const neptuneData: PlanetData = {
       Moon: ['Water'],
       Uranus: ['Water'],
       Venus: ['Water']
-    }
+    },
     AssociatedQualities: [
       'subtle',
       'ethereal',
@@ -91,19 +91,19 @@ const neptuneData: PlanetData = {
       'transcendent',
       'illusory'
     ]
-  }
+  },
   HerbalAssociations: {
     Herbs: ['mugwort', 'blue lotus', 'water lily', 'wormwood', 'jasmine', 'lotus root'],
     Flowers: ['lotus', 'lily', 'iris', 'orchid', 'water hyacinth'],
     Woods: ['driftwood', 'willow', 'sea pine', 'mangrove'],
     Scents: ['oceanic', 'frankincense', 'myrrh', 'mugwort', 'lotus', 'sandalwood']
-  }
+  },
   RetrogradeEffect: {
     Spirit: 0.8,
     Essence: 0.6,
     Matter: 0.1,
     Substance: 0.3
-  }
+  },
   FoodAssociations: [
     'seafood',
     'seaweed',
@@ -124,7 +124,7 @@ const neptuneData: PlanetData = {
     Bitter: 0.3,
     Umami: 0.3,
     Spicy: 0.1
-  }
+  },
   CulinaryInfluences: [
     'Blurs boundaries between flavors',
     'Creates ethereal and dreamy presentations',
@@ -139,56 +139,56 @@ const neptuneData: PlanetData = {
       Trine: 0.4,
       Square: -0.1,
       Sextile: 0.2
-    }
+    },
     Moon: {
       Conjunction: 0.7,
       Opposition: 0.3,
       Trine: 0.6,
       Square: 0.1,
       Sextile: 0.4
-    }
+    },
     Mercury: {
       Conjunction: 0.2,
       Opposition: -0.1,
       Trine: 0.3,
       Square: -0.2,
       Sextile: 0.1
-    }
+    },
     Saturn: {
       Conjunction: 0.1,
       Opposition: -0.3,
       Trine: 0.2,
       Square: -0.4,
       Sextile: 0.0
-    }
+    },
     Jupiter: {
       Conjunction: 0.6,
       Opposition: 0.2,
       Trine: 0.5,
       Square: 0.0,
       Sextile: 0.3
-    }
+    },
     Venus: {
       Conjunction: 0.7,
       Opposition: 0.3,
       Trine: 0.6,
       Square: 0.1,
       Sextile: 0.4
-    }
+    },
     Mars: {
       Conjunction: 0.2,
       Opposition: -0.1,
       Trine: 0.3,
       Square: -0.2,
       Sextile: 0.1
-    }
+    },
     Uranus: {
       Conjunction: 0.8,
       Opposition: 0.3,
       Trine: 0.7,
       Square: 0.1,
       Sextile: 0.5
-    }
+    },
     Pluto: {
       Conjunction: 0.6,
       Opposition: 0.2,
@@ -196,7 +196,7 @@ const neptuneData: PlanetData = {
       Square: 0.0,
       Sextile: 0.3
     }
-  }
+  },
   PlanetSpecific: {
     ZodiacTransit: {
       pisces: {
@@ -206,7 +206,7 @@ const neptuneData: PlanetData = {
           Earth: 0.1,
           Air: 0.2,
           Water: 0.9
-        }
+        },
         CookingMethods: ['steaming', 'poaching', 'infusing', 'clarifying', 'sous vide'],
         FavoredIngredients: [
           'seafood',
@@ -218,7 +218,7 @@ const neptuneData: PlanetData = {
         ],
         FlavorCombinations:
           'Subtle layering, barely perceptible transitions, ethereal flavor landscapes'
-      }
+      },
       cancer: {
         FoodFocus:
           'Emotionally soothing foods with nostalgic qualities, nurturing dishes with gentle flavors',
@@ -227,7 +227,7 @@ const neptuneData: PlanetData = {
           Earth: 0.2,
           Air: 0.1,
           Water: 0.8
-        }
+        },
         CookingMethods: [
           'gentle simmering',
           'braising',
@@ -244,7 +244,7 @@ const neptuneData: PlanetData = {
         ],
         FlavorCombinations:
           'Nurturing blends, emotionally evocative tastes, soothing progressive flavor profiles'
-      }
+      },
       virgo: {
         FoodFocus:
           'Precise ethereal presentations that bring clarity to subtlety, healing food experiences',
@@ -253,7 +253,7 @@ const neptuneData: PlanetData = {
           Earth: 0.6,
           Air: 0.2,
           Water: 0.5
-        }
+        },
         CookingMethods: [
           'precise temperature control',
           'delicate herbal infusions',
@@ -271,7 +271,7 @@ const neptuneData: PlanetData = {
         FlavorCombinations:
           'Clarifying contrasts, purifying progressions, subtly medicinal combinations'
       }
-    }
+    },
     Retrograde: {
       CulinaryEffect:
         'Clarifying previously confused flavor combinations, bringing definition to ethereal dishes',
@@ -280,7 +280,7 @@ const neptuneData: PlanetData = {
         Essence: 0.8,
         Matter: 0.1,
         Substance: 0.7
-      }
+      },
       CookingMethodEffects: {
         Emphasized: [
           'clarifying techniques',
@@ -292,7 +292,7 @@ const neptuneData: PlanetData = {
           'confusing flavor combinations',
           'disorganized aesthetic'
         ]
-      }
+      },
       IngredientEffects: {
         Emphasized: [
           'clarifying agents',
@@ -305,7 +305,7 @@ const neptuneData: PlanetData = {
           'confusing mixtures',
           'deceptive presentations'
         ]
-      }
+      },
       FlavorModulation: {
         Sweet: 0.4,
         Sour: 0.3,
@@ -314,7 +314,7 @@ const neptuneData: PlanetData = {
         Umami: 0.4,
         Spicy: 0.2
       }
-    }
+    },
     TransitDates: {
       pisces: {
         '1stDecan': {
@@ -347,7 +347,7 @@ const neptuneData: PlanetData = {
               'Foods that create shared emotional experiences, communal eating with spiritual dimensions'
           }
         }
-      }
+      },
       aries: {
         '1stDecan': {
           Start: '2036-02-20',

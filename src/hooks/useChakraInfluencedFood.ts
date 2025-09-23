@@ -452,7 +452,7 @@ export const useChakraInfluencedFood = (options?: {
             scoreDetails: {
               ...(ingredient.scoreDetails || {}),
               chakraScore: chakraScore
-            }
+            },
             score: (ingredient.score || 0) * 0.7 + chakraScore * 0.3
           }
         })

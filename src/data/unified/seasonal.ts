@@ -28,7 +28,7 @@ import { unifiedIngredients } from './ingredients';
 export interface SeasonalMonicaModifiers {
   temperatureAdjustment: number // Temperature adjustment for seasonal cooking,
   timingAdjustment: number, // Timing adjustment percentage,
-  intensityModifier: string, // 'increase' | 'decrease' | 'maintain'
+  intensityModifier: string, // 'increase' | 'decrease' | 'maintain',
   planetaryAlignment: number, // Seasonal planetary alignment bonus,
   lunarPhaseBonus: number, // Seasonal lunar phase sensitivity
 }
@@ -75,7 +75,7 @@ export interface SeasonalProfile {
   // Core Seasonal Data,
   elementalDominance: ElementalProperties,
   kalchmRange: { min: number, max: number }
-  monicaModifiers: SeasonalMonicaModifiers
+  monicaModifiers: SeasonalMonicaModifiers,
 
   // Ingredient Data (consolidated from seasonalPatterns.ts)
   ingredients: { [key: string]: number }; // ingredient name -> availability score
@@ -83,7 +83,7 @@ export interface SeasonalProfile {
   // Traditional Usage (from seasonalUsage.ts)
   growing: string[]; // Herbs/ingredients growing in season,
   herbs: string[]; // Seasonal herbs,
-  vegetables: string[] // Seasonal vegetables
+  vegetables: string[] // Seasonal vegetables,
   cuisines: { [key: string]: SeasonalCuisineProfile }; // Cuisine-specific data
 
   // Astrological Data (consolidated from seasonalUsage.ts)
@@ -150,7 +150,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       greek: {
         combinations: ['mint + parsley', 'dill + garlic'],
         dishes: ['spring lamb', 'fresh salads']
-      }
+      },
       italian: {
         combinations: ['basil + tomato', 'pea + mint'],
         dishes: ['primavera pasta', 'spring risotto']
@@ -203,10 +203,10 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
           effect: 0.7,
           ingredients: ['rhubarb', 'fava_beans'],
           cookingMethod: 'simmering' as unknown as CookingMethod
-        }
+        },
         dominant_element: 'Fire',
         secondary_element: 'Air'
-      }
+      },
       dominant_element: 'Fire',
       secondary_element: 'Air'
     }
@@ -247,7 +247,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       greek: {
         combinations: ['cucumber + mint', 'tomato + feta'],
         dishes: ['tzatziki', 'greek salad', 'souvlaki']
-      }
+      },
       italian: {
         combinations: ['tomato + basil', 'zucchini + mint'],
         dishes: ['caprese salad', 'summer pasta', 'grilled vegetables']
@@ -300,10 +300,10 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
           effect: 0.8,
           ingredients: ['corn', 'summer_squash'],
           cookingMethod: 'roasting' as unknown as CookingMethod
-        }
+        },
         dominant_element: 'Fire',
         secondary_element: 'Water'
-      }
+      },
       dominant_element: 'Fire',
       secondary_element: 'Water'
     }
@@ -344,7 +344,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       greek: {
         combinations: ['spinach + feta', 'lamb + herbs'],
         dishes: ['moussaka', 'stuffed peppers', 'roasted lamb']
-      }
+      },
       french: {
         combinations: ['mushroom + thyme', 'apple + cinnamon'],
         dishes: ['ratatouille', 'mushroom soup', 'apple tart']
@@ -397,10 +397,10 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
           effect: 0.65,
           ingredients: ['grapes', 'mushrooms'],
           cookingMethod: 'sauteing' as unknown as CookingMethod
-        }
+        },
         dominant_element: 'Earth',
         secondary_element: 'Water'
-      }
+      },
       dominant_element: 'Earth',
       secondary_element: 'Water'
     }
@@ -442,7 +442,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       greek: {
         combinations: ['spinach + feta', 'lamb + herbs'],
         dishes: ['moussaka', 'stuffed peppers', 'roasted lamb']
-      }
+      },
       french: {
         combinations: ['mushroom + thyme', 'apple + cinnamon'],
         dishes: ['ratatouille', 'mushroom soup', 'apple tart']
@@ -495,10 +495,10 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
           effect: 0.65,
           ingredients: ['grapes', 'mushrooms'],
           cookingMethod: 'sauteing' as unknown as CookingMethod
-        }
+        },
         dominant_element: 'Earth',
         secondary_element: 'Water'
-      }
+      },
       dominant_element: 'Earth',
       secondary_element: 'Water'
     }
@@ -539,7 +539,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       greek: {
         combinations: ['lemon + oregano', 'olive + herb'],
         dishes: ['avgolemono soup', 'winter stews', 'baked fish']
-      }
+      },
       french: {
         combinations: ['thyme + red wine', 'rosemary + garlic'],
         dishes: ['beef bourguignon', 'cassoulet', 'onion soup']
@@ -592,10 +592,10 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
           effect: 0.85,
           ingredients: ['persimmons', 'cranberries'],
           cookingMethod: 'simmering' as unknown as CookingMethod
-        }
+        },
         dominant_element: 'Earth',
         secondary_element: 'Water'
-      }
+      },
       dominant_element: 'Earth',
       secondary_element: 'Water'
     }
@@ -678,28 +678,28 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
           effect: 0.8,
           ingredients: ['garlic', 'herbs'],
           cookingMethod: 'sauteing' as unknown as CookingMethod
-        }
+        },
         ace_of_cups: {
           element: 'Water',
           effect: 0.8,
           ingredients: ['onions', 'carrots'],
           cookingMethod: 'simmering' as unknown as CookingMethod
-        }
+        },
         ace_of_swords: {
           element: 'Air',
           effect: 0.8,
           ingredients: ['herbs', 'potatoes'],
           cookingMethod: 'roasting' as unknown as CookingMethod
-        }
+        },
         ace_of_pentacles: {
           element: 'Earth',
           effect: 0.8,
           ingredients: ['root_vegetables', 'grains'],
           cookingMethod: 'baking' as unknown as CookingMethod
-        }
+        },
         dominant_element: 'Earth',
         secondary_element: 'Fire'
-      }
+      },
       dominant_element: 'Earth',
       secondary_element: 'Fire'
     }
@@ -919,7 +919,7 @@ export class UnifiedSeasonalSystem {
       lunarPhase?: LunarPhase,
       planetaryHour?: PlanetName,
       temperature?: number
-    }
+    },
     seasonProfile: SeasonalProfile,
   ): number {
     let modifier = 1.0,
@@ -984,7 +984,7 @@ export class UnifiedSeasonalSystem {
     return {
       ingredients: compatibleIngredients,
       cookingMethods: optimalCookingMethods,
-      recipes: [], // Will be populated when recipe system is unified
+      recipes: [], // Will be populated when recipe system is unified,
       monicaOptimization,
       kalchmHarmony
     }
@@ -1188,7 +1188,7 @@ export class UnifiedSeasonalSystem {
 
     // Blend Kalchm ranges
     const blendedKalchmRange = {
-      min: fromProfile.kalchmRange.min +
+      min: fromProfile.kalchmRange.min +,
         (toProfile.kalchmRange.min - fromProfile.kalchmRange.min) * transitionProgress,
       max:
         fromProfile.kalchmRange.max +

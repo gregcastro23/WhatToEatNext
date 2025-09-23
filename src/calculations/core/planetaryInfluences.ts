@@ -41,7 +41,7 @@ export const PLANETARY_ELEMENTAL_MAPPINGS = {
     Uranus: 'Water',
     Neptune: 'Water',
     Pluto: 'Earth'
-  }
+  },
   nocturnal: {
     Sun: 'Fire',
     moon: 'Water',
@@ -65,55 +65,55 @@ export const PLANETARY_DIGNITIES = {
     exaltation: ['aries'],
     detriment: ['aquarius'],
     fall: ['libra']
-  }
+  },
   moon: {
     rulership: ['cancer'],
     exaltation: ['taurus'],
     detriment: ['capricorn'],
     fall: ['scorpio']
-  }
+  },
   Mercury: {
     rulership: ['gemini', 'virgo'],
     exaltation: ['virgo'],
     detriment: ['sagittarius', 'pisces'],
     fall: ['pisces']
-  }
+  },
   Venus: {
     rulership: ['taurus', 'libra'],
     exaltation: ['pisces'],
     detriment: ['aries', 'scorpio'],
     fall: ['virgo']
-  }
+  },
   Mars: {
     rulership: ['aries', 'scorpio'],
     exaltation: ['capricorn'],
     detriment: ['taurus', 'libra'],
     fall: ['cancer']
-  }
+  },
   Jupiter: {
     rulership: ['sagittarius', 'pisces'],
     exaltation: ['cancer'],
     detriment: ['gemini', 'virgo'],
     fall: ['capricorn']
-  }
+  },
   Saturn: {
     rulership: ['capricorn', 'aquarius'],
     exaltation: ['libra'],
     detriment: ['cancer', 'leo'],
     fall: ['aries']
-  }
+  },
   Uranus: {
     rulership: ['aquarius'],
     exaltation: ['scorpio'],
     detriment: ['leo'],
     fall: ['taurus']
-  }
+  },
   Neptune: {
     rulership: ['pisces'],
     exaltation: ['cancer'],
     detriment: ['virgo'],
     fall: ['capricorn']
-  }
+  },
   Pluto: {
     rulership: ['scorpio'],
     exaltation: ['leo'],

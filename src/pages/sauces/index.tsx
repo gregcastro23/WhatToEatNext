@@ -35,7 +35,7 @@ const SaucesPage: NextPage = () => {
     const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     setElementalState({
       ...currentState
-      season: 'spring', // Default value since getCurrentElementalState doesn't provide season
+      season: 'spring', // Default value since getCurrentElementalState doesn't provide season,
       timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn't provide timeOfDay
     })
   }, [])
@@ -222,7 +222,7 @@ const SaucesPage: NextPage = () => {
                           : element === 'Earth'
                             ? 'rgba(7585, 990.1)'
                             : 'rgba(167, 139, 2500.1)',
-                    color: element === 'Fire'
+                    color: element === 'Fire',
                         ? 'rgb(18528, 28)'
                         : element === 'Water'
                           ? 'rgb(2978, 216)'
@@ -238,7 +238,7 @@ const SaucesPage: NextPage = () => {
               ))}
 
             <button
-              className='ml-auto rounded border border-blue-400 px-2 py-1 text-xs text-blue-600, hover: bg-blue-50'
+              className='ml-auto rounded border border-blue-400 px-2 py-1 text-xs text-blue-600, hover:bg-blue-50'
               onClick={() => setElementalFilter(dominantElement)}
             >
               Match {dominantElement}
@@ -253,7 +253,7 @@ const SaucesPage: NextPage = () => {
                 setSelectedBase('')
                 setElementalFilter(null)
               }}
-              className='rounded-md bg-gray-200 px-4 py-2 text-gray-700, hover: bg-gray-300'
+              className='rounded-md bg-gray-200 px-4 py-2 text-gray-700, hover:bg-gray-300'
             >
               Clear Filters
             </button>
@@ -280,7 +280,7 @@ const SaucesPage: NextPage = () => {
               <Link
                 href={`/sauces/${cuisineId}/${sauceId}`}
                 key={`${cuisineId}-${sauceId}`}
-                className='block overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow, hover: shadow-md',
+                className='block overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow, hover:shadow-md',
               >
                 <div className='p-5'>
                   <h2 className='mb-2 text-xl font-semibold, hover:text-blue-600'>{sauce.name}</h2>,
@@ -322,7 +322,7 @@ const SaucesPage: NextPage = () => {
                                     : element === 'Earth'
                                       ? 'rgba(7585, 990.1)'
                                       : 'rgba(167, 139, 2500.1)',
-                              color: element === 'Fire'
+                              color: element === 'Fire',
                                   ? 'rgb(18528, 28)'
                                   : element === 'Water'
                                     ? 'rgb(2978, 216)'

@@ -76,7 +76,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     specificFoods: ['Oranges', 'Lemons', 'Honey', 'Saffron', 'Cinnamon', 'Wheat'],
     cuisines: ['Mediterranean', 'Indian', 'Middle Eastern'],
     elementalBoost: { Fire: 0.3, Air: 0.1 }
-  }
+  },
   Moon: {
     name: 'Moon',
     elements: ['Water'],
@@ -85,7 +85,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     specificFoods: ['Cucumber', 'Lettuce', 'Milk', 'Yogurt', 'White fish', 'Rice'],
     cuisines: ['Japanese', 'Nordic', 'Coastal'],
     elementalBoost: { Water: 0.3, Earth: 0.1 }
-  }
+  },
   Mercury: {
     name: 'Mercury',
     elements: ['Air', 'Earth'],
@@ -94,7 +94,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     specificFoods: ['Almonds', 'Fennel', 'Mint', 'Celery', 'Mixed greens'],
     cuisines: ['Fusion', 'Contemporary', 'Diverse'],
     elementalBoost: { Air: 0.2, Earth: 0.2 }
-  }
+  },
   Venus: {
     name: 'Venus',
     elements: ['Earth', 'Water'],
@@ -103,7 +103,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     specificFoods: ['Apples', 'Berries', 'Chocolate', 'Vanilla', 'Cream'],
     cuisines: ['French', 'Italian', 'Dessert-focused'],
     elementalBoost: { Earth: 0.2, Water: 0.2 }
-  }
+  },
   Mars: {
     name: 'Mars',
     elements: ['Fire'],
@@ -112,7 +112,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     specificFoods: ['Red meat', 'Chili', 'Garlic', 'Onions', 'Red wine'],
     cuisines: ['Spicy', 'BBQ', 'Grilled'],
     elementalBoost: { Fire: 0.4 }
-  }
+  },
   Jupiter: {
     name: 'Jupiter',
     elements: ['Fire', 'Air'],
@@ -121,7 +121,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     specificFoods: ['Fig', 'Asparagus', 'Salmon', 'Sage', 'Nutmeg'],
     cuisines: ['Abundant', 'Festive', 'Celebratory'],
     elementalBoost: { Fire: 0.2, Air: 0.2 }
-  }
+  },
   Saturn: {
     name: 'Saturn',
     elements: ['Earth'],
@@ -130,7 +130,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     specificFoods: ['Potatoes', 'Beets', 'Rye', 'Lentils', 'Black tea'],
     cuisines: ['Rustic', 'Traditional', 'Preserved'],
     elementalBoost: { Earth: 0.4 }
-  }
+  },
   Uranus: {
     name: 'Uranus',
     elements: ['Air'],
@@ -139,7 +139,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     specificFoods: ['Exotic fruits', 'Molecular gastronomy items', 'Fermented foods'],
     cuisines: ['Experimental', 'Avant-garde', 'Futuristic'],
     elementalBoost: { Air: 0.4 }
-  }
+  },
   Neptune: {
     name: 'Neptune',
     elements: ['Water'],
@@ -148,7 +148,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     specificFoods: ['Seaweed', 'White wine', 'Delicate fish', 'Coconut'],
     cuisines: ['Ethereal', 'Subtle', 'Inspired'],
     elementalBoost: { Water: 0.4 }
-  }
+  },
   Pluto: {
     name: 'Pluto',
     elements: ['Water', 'Fire'],
@@ -157,7 +157,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     specificFoods: ['Dark chocolate', 'Coffee', 'Mushrooms', 'Aged cheese'],
     cuisines: ['Intense', 'Complex', 'Deep'],
     elementalBoost: { Water: 0.2, Fire: 0.2 }
-  }
+  },
   Rahu: {
     name: 'Rahu',
     elements: ['Air', 'Fire'],
@@ -166,7 +166,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     specificFoods: ['Exotic spices', 'Foreign delicacies', 'Smoky flavors', 'Powerful stimulants'],
     cuisines: ['Fusion', 'Unexpected combinations', 'Foreign cuisines'],
     elementalBoost: { Air: 0.2, Fire: 0.2 }
-  }
+  },
   Ketu: {
     name: 'Ketu',
     elements: ['Fire', 'Water'],
@@ -236,7 +236,7 @@ export const _calculatePlanetaryBoost = (
 
   return {
     boost: parseFloat(boost.toFixed(2)),
-    dominantPlanets: Array.from(new Set(dominantPlanets)), // Fix for Set iteration in older JS versions
+    dominantPlanets: Array.from(new Set(dominantPlanets)), // Fix for Set iteration in older JS versions,
     dignities
   }
 }

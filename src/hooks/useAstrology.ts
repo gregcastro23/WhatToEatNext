@@ -29,7 +29,7 @@ interface AstrologyState {
     lunarPhase: LunarPhase | null,
     elementalBalance: Record<string, number> | null,
     aspectsInfluence: number | null
-  }
+  },
   lastUpdated: number | null
 }
 
@@ -42,7 +42,7 @@ const initialAstrologyState: AstrologyState = {
     lunarPhase: null,
     elementalBalance: null,
     aspectsInfluence: null
-  }
+  },
   lastUpdated: null
 }
 
@@ -248,7 +248,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
-              }
+              },
               body: JSON.stringify({
                 latitude: calcLat,
                 longitude: calcLng,
@@ -330,7 +330,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
-            }
+            },
             body: JSON.stringify({
               latitude: calcLatitude,
               longitude: calcLongitude,
@@ -403,7 +403,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
               planetaryPositions: positions,
               currentSign,
               lunarPhase
-            }
+            },
             lastUpdated: Date.now()
           }) as AstrologyState,
       )

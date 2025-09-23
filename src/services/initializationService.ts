@@ -30,7 +30,7 @@ export interface CelestialData {
 }
 
 interface InitializationResult {
-  success: boolean
+  success: boolean,
   data?: {
     recipes: ScoredRecipe[],
     favorites: string[],
@@ -107,7 +107,7 @@ class InitializationService {
           zodiacEnergy: '',
           lunarEnergy: '',
           planetaryEnergy: []
-        }
+        },
         errorMessage: '',
         errors: [],
         zodiacEnergy: '',
@@ -118,7 +118,7 @@ class InitializationService {
           Essence: 0.25,
           Matter: 0.25,
           Substance: 0.25
-        }
+        },
         lunarPhase: 'new moon',
         currentTime: new Date()
       } as unknown)
@@ -240,7 +240,7 @@ class InitializationService {
         sign: celestialData.sun?.sign || '',
         degree: celestialData.sun?.degree,
         exactLongitude: celestialData.sun?.exactLongitude
-      }
+      },
       moon: {
         sign: celestialData.moon?.sign || '',
         degree: celestialData.moon?.degree,

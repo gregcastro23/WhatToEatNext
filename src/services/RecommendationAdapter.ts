@@ -42,7 +42,7 @@ interface TransformedItem extends AlchemicalItem {
     Water: number,
     Earth: number,
     Air: number
-  }
+  },
   id: string
 }
 

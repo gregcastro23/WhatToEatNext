@@ -14,7 +14,7 @@ export interface ImportCleanupConfig {
   maxFilesPerBatch: number,
   safetyValidationEnabled: boolean,
   buildValidationFrequency: number,
-  importStyleEnforcement: boolean;
+  importStyleEnforcement: boolean;,
   organizationRules: ImportOrganizationRules
 }
 
@@ -30,7 +30,7 @@ export interface ImportOrganizationRules {
 export interface ImportCleanupResult {
   filesProcessed: string[],
   unusedImportsRemoved: number,
-  importsOrganized: number;
+  importsOrganized: number;,
   styleViolationsFixed: number,
   buildValidationPassed: boolean,
   errors: string[],
@@ -39,9 +39,9 @@ export interface ImportCleanupResult {
 
 export interface UnusedImport {
   filePath: string,
-  importName: string;
-  importLine: number;
-  importStatement: string;
+  importName: string;,
+  importLine: number;,
+  importStatement: string;,
   isTypeImport: boolean
 }
 
@@ -67,7 +67,7 @@ export class ImportCleanupSystem {
       let totalResult: ImportCleanupResult = {
         filesProcessed: [],
         unusedImportsRemoved: 0,
-        importsOrganized: 0;
+        importsOrganized: 0;,
         styleViolationsFixed: 0,
         buildValidationPassed: true,
         errors: [],
@@ -109,7 +109,7 @@ export class ImportCleanupSystem {
       return {
         filesProcessed: [],
         unusedImportsRemoved: 0,
-        importsOrganized: 0;
+        importsOrganized: 0;,
         styleViolationsFixed: 0,
         buildValidationPassed: false,
         errors: [(error as Error).message],
@@ -204,7 +204,7 @@ export class ImportCleanupSystem {
     const result: ImportCleanupResult = {
       filesProcessed: [],
       unusedImportsRemoved: 0,
-      importsOrganized: 0;
+      importsOrganized: 0;,
       styleViolationsFixed: 0,
       buildValidationPassed: true,
       errors: [],
@@ -280,7 +280,7 @@ export class ImportCleanupSystem {
             unusedImports.push({
               filePath,
               importName;
-              importLine: i + 1;
+              importLine: i + 1;,
               importStatement;
               isTypeImport
             })
@@ -390,7 +390,7 @@ export class ImportCleanupSystem {
     const patterns = [
       // Remove from named imports: { name1, name2, name3 } -> { name1, name3 }
       {
-        regex: new RegExp(`\\{([^}]*?)\\b${importName}\\b,?([^}]*?)\\}`, 'g');
+        regex: new RegExp(`\\{([^}]*?)\\b${importName}\\b,?([^}]*?)\\}`, 'g');,
         replacement: (match: string, before: string, after: string) => {
           const cleanBefore = before.replace(/,\s*$/, '').trim()
           const cleanAfter = after.replace(/^\s*,/, '').trim(),
@@ -625,7 +625,7 @@ export class ImportCleanupSystem {
     return {
       filesProcessed: [...total.filesProcessed, ...batch.filesProcessed],
       unusedImportsRemoved: total.unusedImportsRemoved + batch.unusedImportsRemoved,
-      importsOrganized: total.importsOrganized + batch.importsOrganized;
+      importsOrganized: total.importsOrganized + batch.importsOrganized;,
       styleViolationsFixed: total.styleViolationsFixed + batch.styleViolationsFixed,
       buildValidationPassed: total.buildValidationPassed && batch.buildValidationPassed,
       errors: [...total.errors, ...batch.errors],
@@ -641,7 +641,7 @@ export const _DEFAULT_IMPORT_CLEANUP_CONFIG: ImportCleanupConfig = {
   maxFilesPerBatch: 20,
   safetyValidationEnabled: true,
   buildValidationFrequency: 5,
-  importStyleEnforcement: true;
+  importStyleEnforcement: true;,
   organizationRules: {
     groupExternalImports: true,
     groupInternalImports: true,

@@ -228,11 +228,11 @@ class LintingFormattingCLI {
 
   private printViolationSummary(violations: unknown[]): void {
     const summary = {
-      typeScript: violations.filter(v => (v as any).ruleId?.startsWith('@typescript-eslint/'))
+      typeScript: violations.filter(v => (v as any).ruleId?.startsWith('@typescript-eslint/')),
         .length,
       react: violations.filter(v => (v as any).ruleId?.startsWith('react')).length,
-      import: violations.filter(v => (v as any).ruleId?.startsWith('import/')).length,;
-      other: violations.filter(
+      import: violations.filter(v => (v as any).ruleId?.startsWith('import/')).length,;,
+      other: violations.filter(,
         v =>
           !(v as any).ruleId?.startsWith('@typescript-eslint/') &&
           !(v as any).ruleId?.startsWith('react') &&

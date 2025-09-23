@@ -275,13 +275,13 @@ export const _createSafeThermodynamicMetrics = (
 ): ThermodynamicMetricsType => {
   return {
     heat: Number.isFinite(metrics.heat) ? Math.max(0.1, Math.min(1.0, metrics.heat ?? 0.5)) : 0.5,
-    entropy: Number.isFinite(metrics.entropy)
+    entropy: Number.isFinite(metrics.entropy),
       ? Math.max(0.1, Math.min(1.0, metrics.entropy ?? 0.5))
       : 0.5,
-    reactivity: Number.isFinite(metrics.reactivity)
+    reactivity: Number.isFinite(metrics.reactivity),
       ? Math.max(0.1, Math.min(1.0, metrics.reactivity ?? 0.5))
       : 0.5,
-    gregsEnergy: Number.isFinite(metrics.gregsEnergy)
+    gregsEnergy: Number.isFinite(metrics.gregsEnergy),
       ? Math.max(0.1, Math.min(1.0, metrics.gregsEnergy ?? 0.5))
       : 0.5,
     kalchm: Number.isFinite(metrics.kalchm) ? Math.max(0.1, metrics.kalchm ?? 1.0) : 1.0,

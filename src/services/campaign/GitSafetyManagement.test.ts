@@ -346,7 +346,7 @@ describe('Git Safety Management - Task 6.1', () => {
             'old-stash': {
               id: 'old-stash',
               description: 'Old stash',
-              timestamp: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(), // 10 days old
+              timestamp: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(), // 10 days old,
               branch: 'main',
               ref: 'stash@{0}'
             }

@@ -1,6 +1,6 @@
 /*
   Centralized API client scaffold.
-  Note: Replace placeholder types with generated backend types when available.
+  Note: Replace placeholder types with generated backend types when available.,
 */
 
 export type ElementalProperties = {

@@ -2,7 +2,7 @@ import SunCalc from 'suncalc';
 import { _logger } from '@/lib/logger';
 
 interface SolarPosition {
-  azimuth: number, // Sun azimuth in radians (direction along the horizon)
+  azimuth: number, // Sun azimuth in radians (direction along the horizon),
   altitude: number, // Sun altitude above the horizon in radians,
   declination: number, // Declination in radians,
   rightAscension: number, // Right ascension in radians

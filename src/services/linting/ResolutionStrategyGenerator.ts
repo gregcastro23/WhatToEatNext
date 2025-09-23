@@ -13,7 +13,7 @@ export interface ResolutionStrategy {
   type: 'automated' | 'semi-automated' | 'manual' | 'configuration',
   priority: 'critical' | 'high' | 'medium' | 'low',
   confidence: number, // 0-1,
-  estimatedTime: number // minutes
+  estimatedTime: number // minutes,
   complexity: 'trivial' | 'simple' | 'moderate' | 'complex' | 'expert-required',
   steps: ResolutionStep[],
   prerequisites: Prerequisite[],
@@ -380,7 +380,7 @@ export class ResolutionStrategyGenerator {
         action: 'execute-command',
         details: {
           command: `npx eslint --fix --rule ${errorClassification.ruleId}`
-        }
+        },
         automatable: true,
         estimatedTime: 1,
         dependencies: []
@@ -396,7 +396,7 @@ export class ResolutionStrategyGenerator {
             'Implement appropriate fix',
             'Ensure fix aligns with project standards'
           ]
-        }
+        },
         automatable: false,
         estimatedTime: 10,
         dependencies: []
@@ -410,7 +410,7 @@ export class ResolutionStrategyGenerator {
       action: 'validate-build',
       details: {
         validationChecks: ['Build passes', 'Tests pass', 'Linting passes']
-      }
+      },
       automatable: true,
       estimatedTime: 2,
       dependencies: [steps[0].id]
@@ -684,8 +684,8 @@ export class ResolutionStrategyGenerator {
       estimatedTime: 1,
       steps: [
         {
-          id: 'auto-fix-imports';
-          description: 'Automatically reorder imports';
+          id: 'auto-fix-imports';,
+          description: 'Automatically reorder imports';,
           action: 'execute-command',
           details: { command: 'npx eslint --fix --rule import/order' }
           automatable: true,
@@ -713,7 +713,7 @@ export class ResolutionStrategyGenerator {
               'Identify proper type definition',
               'Consider union types or generics'
             ]
-          }
+          },
           automatable: false,
           estimatedTime: 10,
           dependencies: []

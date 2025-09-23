@@ -92,19 +92,19 @@ function getPlanetaryDignity(_planet: string, _sign: string): number {
       aries: 2,
       aquarius: -1,
       libra: -2
-    }
+    },
     Moon: {
       cancer: 1,
       taurus: 2,
       capricorn: -1,
       scorpio: -2
-    }
+    },
     Mercury: {
       gemini: 1,
       virgo: 3,
       sagittarius: 1,
       pisces: -3
-    }
+    },
     Venus: {
       libra: 1,
       taurus: 1,
@@ -112,7 +112,7 @@ function getPlanetaryDignity(_planet: string, _sign: string): number {
       aries: -1,
       scorpio: -1,
       virgo: -2
-    }
+    },
     Mars: {
       aries: 1,
       scorpio: 1,
@@ -120,7 +120,7 @@ function getPlanetaryDignity(_planet: string, _sign: string): number {
       taurus: -1,
       libra: -1,
       cancer: -2
-    }
+    },
     Jupiter: {
       pisces: 1,
       sagittarius: 1,
@@ -128,7 +128,7 @@ function getPlanetaryDignity(_planet: string, _sign: string): number {
       gemini: -1,
       virgo: -1,
       capricorn: -2
-    }
+    },
     Saturn: {
       aquarius: 1,
       capricorn: 1,
@@ -136,18 +136,18 @@ function getPlanetaryDignity(_planet: string, _sign: string): number {
       cancer: -1,
       leo: -1,
       aries: -2
-    }
+    },
     Uranus: {
       aquarius: 1,
       scorpio: 2,
       taurus: -3
-    }
+    },
     Neptune: {
       pisces: 1,
       cancer: 2,
       virgo: -1,
       capricorn: -2
-    }
+    },
     Pluto: {
       scorpio: 1,
       leo: 2,
@@ -278,13 +278,13 @@ export function alchemize(
       Water: Water / Math.max(1, Fire + Water + Air + Earth),
       Earth: Earth / Math.max(1, Fire + Water + Air + Earth),
       Air: Air / Math.max(1, Fire + Water + Air + Earth)
-    }
+    },
     thermodynamicProperties: {
       heat,
       entropy,
       reactivity,
       gregsEnergy
-    }
+    },
     esms: { Spirit, Essence, Matter, Substance }
     kalchm,
     monica,
@@ -294,7 +294,7 @@ export function alchemize(
     metadata: {
       source: 'alchemize',
       dominantElement,
-      dominantModality: 'Cardinal', // Simplified for now
+      dominantModality: 'Cardinal', // Simplified for now,
       sunSign: planetaryPositions['Sun'].sign || '',
       chartRuler: getZodiacElement(planetaryPositions['Sun'].sign || 'aries')
     }

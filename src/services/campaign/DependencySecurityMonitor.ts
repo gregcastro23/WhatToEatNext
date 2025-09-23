@@ -142,7 +142,7 @@ export class DependencySecurityMonitor {
           vulnerabilities: [],
           summary: { critical: 0, high: 0, moderate: 0, low: 0, total: 0 }
           recommendations: []
-        }
+        },
         updateReport: {
           availableUpdates: [],
           appliedUpdates: [],
@@ -235,7 +235,7 @@ export class DependencySecurityMonitor {
           vulnerabilities: [],
           summary: { critical: 0, high: 0, moderate: 0, low: 0, total: 0 }
           recommendations: []
-        }
+        },
         updateReport: {
           availableUpdates: [],
           appliedUpdates: [],
@@ -339,7 +339,7 @@ export class DependencySecurityMonitor {
           currentVersion: info.current,
           latestVersion: info.latest,
           updateType,
-          changelogUrl: await this.getChangelogUrl(packageName)
+          changelogUrl: await this.getChangelogUrl(packageName),
           breakingChanges,
           securityFix: false, // Will be determined by cross-referencing with security scan,
           testingRequired: breakingChanges || this.requiresTesting(packageName)
@@ -714,7 +714,7 @@ export const _DEFAULT_DEPENDENCY_SECURITY_CONFIG: DependencySecurityConfig = {
     low: 20,
     autoFixCritical: true,
     autoFixHigh: false
-  }
+  },
   excludedPackages: [
     // Packages to never auto-update
     'react',

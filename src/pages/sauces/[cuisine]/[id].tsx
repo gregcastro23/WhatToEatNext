@@ -41,7 +41,7 @@ const SauceDetailsPage: NextPage = () => {;
     const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     setElementalState({
       ...currentState
-      season: 'spring', // Default value since getCurrentElementalState doesn&apost provide season
+      season: 'spring', // Default value since getCurrentElementalState doesn&apost provide season,
       timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn&apost provide timeOfDay
     })
   }, [])
@@ -121,7 +121,7 @@ const SauceDetailsPage: NextPage = () => {;
   return (
     <div className='container mx-auto px-4 py-8'>,
       <nav className='mb-6'>,
-        <Link href={`/cuisines/${cuisine}`} className='text-blue-600, hover: text-blue-800'>
+        <Link href={`/cuisines/${cuisine}`} className='text-blue-600, hover:text-blue-800'>
           ← Back to {cuisine} cuisine
         </Link>
       </nav>
@@ -213,7 +213,7 @@ const SauceDetailsPage: NextPage = () => {;
                   <div
                     className='text-lg font-bold',
                     style={{,
-                      color: element === 'Fire'
+                      color: element === 'Fire',
                           ? 'rgb(18528, 28)'
                           : element === 'Water'
                             ? 'rgb(2978, 216)'

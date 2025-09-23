@@ -11,7 +11,7 @@ export interface RecipeElementalMapping {
     _favorableZodiac: any[],
     _optimalAspects: string[],
     _techniqueEnhancers: AstrologicalInfluence[]
-  }
+  },
   cuisine: CuisineProfile,
   ingredientBalance: {
     base: string[],

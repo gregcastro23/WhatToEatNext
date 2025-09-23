@@ -16,11 +16,11 @@ export const spherification: CookingMethodData = {
     Air: 0.2,
     Earth: 0.1,
     Fire: 0.1
-  }
+  },
   duration: {
     min: 1,
     max: 10
-  }
+  },
   suitable_for: [
     'fruit juices',
     'purees',
@@ -49,12 +49,12 @@ export const spherification: CookingMethodData = {
     unfavorableZodiac: ['taurus', 'virgo', 'capricorn'] as any[],
     dominantPlanets: ['Neptune', 'Uranus', 'Mercury'],
     lunarPhaseEffect: {
-      full_moon: 1.4, // Enhanced spherification
-      new_moon: 0.7, // Difficult to form spheres
-      waxing_gibbous: 1.2, // Good membrane formation
+      full_moon: 1.4, // Enhanced spherification,
+      new_moon: 0.7, // Difficult to form spheres,
+      waxing_gibbous: 1.2, // Good membrane formation,
       waning_crescent: 0.8, // Unstable membranes
     }
-  }
+  },
   toolsRequired: [
     'Digital scale (precision to 0.1g)',
     'Immersion blender (for dissolving hydrocolloids)',
@@ -104,16 +104,16 @@ export const spherification: CookingMethodData = {
     flavor_compounds: 0.95,
     volatile_aromatics: 0.9,
     color_pigments: 0.85
-  }
+  },
   optimalTemperatures: {
-    alginate_hydration: 70, // 70°F/21°C - room temperature
-    alginate_solution: 40, // 40°F/4°C - refrigerated for removing air bubbles
-    calcium_bath: 39, // 39°F/4°C - cold for best spherification
-    setting_bath: 39, // 39°F/4°C - cold inhibits continued gelation
-    service_cold: 39, // 39°F/4°C - for cold presentations
-    service_room: 68, // 68°F/20°C - for immediate consumption
+    alginate_hydration: 70, // 70°F/21°C - room temperature,
+    alginate_solution: 40, // 40°F/4°C - refrigerated for removing air bubbles,
+    calcium_bath: 39, // 39°F/4°C - cold for best spherification,
+    setting_bath: 39, // 39°F/4°C - cold inhibits continued gelation,
+    service_cold: 39, // 39°F/4°C - for cold presentations,
+    service_room: 68, // 68°F/20°C - for immediate consumption,
     working_environment: 68, // 68°F/20°C - ideal room temperature
-  }
+  },
   regionalVariations: {
     spanish: [
       'modern tapas applications',
@@ -138,17 +138,17 @@ export const spherification: CookingMethodData = {
       'chili-infused micro-spheres'
     ],
     middle_eastern: ['aromatic tea spheres', 'rosewater pearls', 'tahini-based applications']
-  }
+  },
   chemicalChanges: {
-    ionic_gelation: true, // Cross-linking of alginate polymers with calcium ions
-    membrane_formation: true, // Development of semi-permeable membrane
-    osmotic_pressure: true, // Liquid exchange across membrane
-    selective_permeability: true, // Controlled diffusion of molecules
-    polymer_chain_reorganization: true, // Structural changes in alginate
-    diffusion_limitation: true, // Limited ion movement after initial shell formation
-    sol_gel_transition: true, // Change from liquid solution to semi-solid state
+    ionic_gelation: true, // Cross-linking of alginate polymers with calcium ions,
+    membrane_formation: true, // Development of semi-permeable membrane,
+    osmotic_pressure: true, // Liquid exchange across membrane,
+    selective_permeability: true, // Controlled diffusion of molecules,
+    polymer_chain_reorganization: true, // Structural changes in alginate,
+    diffusion_limitation: true, // Limited ion movement after initial shell formation,
+    sol_gel_transition: true, // Change from liquid solution to semi-solid state,
     hydrocolloid_hydration: true, // Water binding to polysaccharide chains
-  }
+  },
   safetyFeatures: [
     'Use food-grade chemicals only (USP or equivalent grade)',
     'Proper measurement of additives (1% sodium alginate = 10g per 1L)',
@@ -160,9 +160,9 @@ export const spherification: CookingMethodData = {
     'Avoid cross-contamination between calcium and alginate solutions'
   ],
   thermodynamicProperties: {
-    heat: 0.15, // Minimal heat involvement
-    entropy: 0.4, // Moderate structural transformation
-    reactivity: 0.65, // High chemical reactivity (ionic gelation)
+    heat: 0.15, // Minimal heat involvement,
+    entropy: 0.4, // Moderate structural transformation,
+    reactivity: 0.65, // High chemical reactivity (ionic gelation),
     gregsEnergy: -0.15, // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
@@ -196,9 +196,9 @@ export const spherification: CookingMethodData = {
     'Color-changing spheres (using pH-sensitive natural colors)'
   ],
 
-  sustainabilityRating: 0.4, // Chemicals and precise measurements create waste
+  sustainabilityRating: 0.4, // Chemicals and precise measurements create waste,
 
-  equipmentComplexity: 0.85, // Requires specialized ingredients and precise measurements
+  equipmentComplexity: 0.85, // Requires specialized ingredients and precise measurements,
 
   healthConsiderations: [
     'Uses approved food additives in small quantities (sodium alginate is derived from seaweed)',
@@ -216,11 +216,11 @@ export const spherification: CookingMethodData = {
     basicProcedure: {
       description:
         'Dissolve sodium alginate in flavored liquid (0.5-1% by weight), rest 24 hours to hydrate and remove air bubbles, then drop into calcium bath (0.5-1% calcium chloride) to form spheres'
-    }
+    },
     reverseProcedure: {
       description:
         'Mix calcium salt (calcium lactate gluconate 1-2%) into flavored liquid, then drop into sodium alginate bath (0.5% solution) for spheres with liquid centers'
-    }
+    },
     requiredAdditives: {
       sodium_alginate: '0.5-1% by weight of liquid (higher % = firmer membrane)',
       calcium_chloride: '0.5-1% by weight of bath (higher % = faster reaction)',
@@ -230,14 +230,14 @@ export const spherification: CookingMethodData = {
       xanthan_gum: '0.1-0.2% to stabilize alcohol or increase viscosity',
       calcium_lactate: '0.5-1% alternative to calcium chloride with less bitter taste',
       sodium_hexametaphosphate: '0.1% to sequester existing calcium in liquids'
-    }
+    },
     pHRequirements: {
       idealRange: '4.0-6.0 (alginate won\'t gel properly below pH 3.8)',
       acidicSolutions: 'May require sodium citrate to adjust pH, test with pH meter',
       alcoholicSolutions: 'May require xanthan gum stabilizer (0.1-0.2%) to prevent separation',
       highCalciumLiquids:
         'Use sodium hexametaphosphate to sequester calcium before basic spherification'
-    }
+    },
     shelf_life: {
       basicSpheres: '1-2 hours before membrane continues to thicken',
       reverseSpheres: '2-4 days when stored in original liquid, refrigerated',

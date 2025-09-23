@@ -643,7 +643,7 @@ export class SafetyProtocol {
       timestamps.length > 0 ? new Date(Math.max(...timestamps.map(t => t.getTime()))) : undefined,
 
     return {
-      total: stashes.length
+      total: stashes.length,
       byPhase,
       oldestStash,
       newestStash
@@ -672,13 +672,13 @@ export class SafetyProtocol {
     // Check for import corruption patterns (based on existing scripts)
     const importCorruptionPatterns = [
       {
-        regex: /import @\/types\s+from '[^']*'\s*,/g;
-        description: 'Corrupted type import statement';
+        regex: /import @\/types\s+from '[^']*'\s*,/g;,
+        description: 'Corrupted type import statement';,
         severity: CorruptionSeverity.HIGH
       }
       {
-        regex: /import @\/services\s+from '[^']*'\s*,/g;
-        description: 'Corrupted service import statement';
+        regex: /import @\/services\s+from '[^']*'\s*,/g;,
+        description: 'Corrupted service import statement';,
         severity: CorruptionSeverity.HIGH
       }
       {
@@ -777,17 +777,17 @@ export class SafetyProtocol {
     // Import/Export corruption patterns based on existing script knowledge
     const importExportCorruptionPatterns = [
       {
-        regex: /import\s+\{\s*\}\s+from\s+[''][^'']*[''];?/g;
-        description: 'Empty import statement';
+        regex: /import\s+\{\s*\}\s+from\s+[''][^'']*[''];?/g;,
+        description: 'Empty import statement';,
         severity: CorruptionSeverity.MEDIUM
       }
       {
-        regex: /import\s+[^{]*\s+from\s+['']undefined[''],?/g;
+        regex: /import\s+[^{]*\s+from\s+['']undefined[''],?/g;,
         description: 'Import from undefined module',
         severity: CorruptionSeverity.HIGH
       }
       {
-        regex: /import\s+[^{]*\s+from\s+['']['']\s*,?/g;
+        regex: /import\s+[^{]*\s+from\s+['']['']\s*,?/g;,
         description: 'Import from empty string',
         severity: CorruptionSeverity.HIGH
       }
@@ -797,18 +797,18 @@ export class SafetyProtocol {
         severity: CorruptionSeverity.MEDIUM
       }
       {
-        regex: /import\s+[^{]*\s+from\s+[''][^'']*['']\s+from\s+[''][^'']*[''],?/g;
-        description: 'Duplicate from clause in import';
+        regex: /import\s+[^{]*\s+from\s+[''][^'']*['']\s+from\s+[''][^'']*[''],?/g;,
+        description: 'Duplicate from clause in import';,
         severity: CorruptionSeverity.HIGH
       }
       {
-        regex: /import\s*\{\s*[^}]*,\s*,\s*[^}]*\}\s*from/g;
-        description: 'Double comma in import destructuring';
+        regex: /import\s*\{\s*[^}]*,\s*,\s*[^}]*\}\s*from/g;,
+        description: 'Double comma in import destructuring';,
         severity: CorruptionSeverity.HIGH
       }
       {
-        regex: /import\s*\{\s*[^}]*\s+as\s+as\s+[^}]*\}\s*from/g;
-        description: 'Duplicate 'as' keyword in import';
+        regex: /import\s*\{\s*[^}]*\s+as\s+as\s+[^}]*\}\s*from/g;,
+        description: 'Duplicate 'as' keyword in import';,
         severity: CorruptionSeverity.HIGH
       }
       {
@@ -817,18 +817,18 @@ export class SafetyProtocol {
         severity: CorruptionSeverity.HIGH
       }
       {
-        regex: /import\s+[^{]*\s+from\s+['']@\/[^'']*\s+@\/[^'']*[''],?/g;
-        description: 'Corrupted path alias in import';
+        regex: /import\s+[^{]*\s+from\s+['']@\/[^'']*\s+@\/[^'']*[''],?/g;,
+        description: 'Corrupted path alias in import';,
         severity: CorruptionSeverity.HIGH
       }
       {
-        regex: /import\s+[^{]*\s+from\s+[''][^'']*\.\.[^'']*\.\.[^'']*[''],?/g;
+        regex: /import\s+[^{]*\s+from\s+[''][^'']*\.\.[^'']*\.\.[^'']*[''],?/g;,
         description: 'Corrupted relative path with multiple ..',
         severity: CorruptionSeverity.MEDIUM
       }
       {
-        regex: /import\s*\{\s*[^}]*\s*\}\s*\{\s*[^}]*\s*\}\s*from/g;
-        description: 'Duplicate destructuring braces in import';
+        regex: /import\s*\{\s*[^}]*\s*\}\s*\{\s*[^}]*\s*\}\s*from/g;,
+        description: 'Duplicate destructuring braces in import';,
         severity: CorruptionSeverity.CRITICAL
       }
       {
@@ -837,13 +837,13 @@ export class SafetyProtocol {
         severity: CorruptionSeverity.HIGH
       }
       {
-        regex: /import\s+type\s+type\s+/g;
-        description: 'Duplicate type keyword in import';
+        regex: /import\s+type\s+type\s+/g;,
+        description: 'Duplicate type keyword in import';,
         severity: CorruptionSeverity.HIGH
       }
       {
-        regex: /import\s*\*\s+as\s+\*\s+as\s+/g;
-        description: 'Corrupted namespace import syntax';
+        regex: /import\s*\*\s+as\s+\*\s+as\s+/g;,
+        description: 'Corrupted namespace import syntax';,
         severity: CorruptionSeverity.CRITICAL
       }
     ],
@@ -887,7 +887,7 @@ export class SafetyProtocol {
       if (matches) {
         patterns.push({
           pattern: pattern.source,
-          description: 'Malformed import/export statement syntax';
+          description: 'Malformed import/export statement syntax';,
           files: [filePath]
         })
         severity = CorruptionSeverity.HIGH,

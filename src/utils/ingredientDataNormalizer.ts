@@ -192,7 +192,7 @@ function normalizeCulinaryMethod(_data: Record<string, _unknown>): {
 
   return {
     notes: Array.isArray(data.notes) ? data.notes : data.notes ? [data.notes] : [],
-    techniques: Array.isArray(data.techniques)
+    techniques: Array.isArray(data.techniques),
       ? data.techniques
       : data.techniques
         ? [data.techniques]
@@ -247,7 +247,7 @@ function normalizeVarietyData(_data: Record<string, _unknown>): {
     appearance: data.appearance || '',
     texture: data.texture || '',
     flavor: data.flavor || data.flavour || '',
-    bestUses: Array.isArray(data.best_uses)
+    bestUses: Array.isArray(data.best_uses),
       ? data.best_uses
       : Array.isArray(data.bestUses)
         ? data.bestUses
@@ -300,7 +300,7 @@ export function normalizePreparation(
     peeling: preparation.peeling || '',
     cutting: preparation.cutting || '',
     cooking: preparation.cooking || '',
-    tips: Array.isArray(preparation.tips)
+    tips: Array.isArray(preparation.tips),
       ? preparation.tips
       : preparation.tips
         ? [preparation.tips]
@@ -325,22 +325,22 @@ export function normalizeIngredientData(
 
   const normalized = {
     ...ingredient,
-    nutritionalProfile: typeof ingredient.nutritionalProfile === 'object' && ingredient.nutritionalProfile !== null
+    nutritionalProfile: typeof ingredient.nutritionalProfile === 'object' && ingredient.nutritionalProfile !== null,
         ? {
             ...(nutritionalProfile || {}),
-            vitamins: normalizeVitamins(
+            vitamins: normalizeVitamins(,
               typeof nutritionalProfile.vitamins === 'object' ||
                 Array.isArray(nutritionalProfile.vitamins)
                 ? (nutritionalProfile.vitamins as unknown)
                 : {}
             ),
-            minerals: normalizeMinerals(
+            minerals: normalizeMinerals(,
               typeof nutritionalProfile.minerals === 'object' ||
                 Array.isArray(nutritionalProfile.minerals)
                 ? (nutritionalProfile.minerals as unknown)
                 : {}
             ),
-            antioxidants: normalizeAntioxidants(
+            antioxidants: normalizeAntioxidants(,
               typeof nutritionalProfile.antioxidants === 'object' ||
                 Array.isArray(nutritionalProfile.antioxidants)
                 ? (nutritionalProfile.antioxidants as unknown)
@@ -348,17 +348,17 @@ export function normalizeIngredientData(
             )
           }
         : undefined,
-    culinaryApplications: typeof ingredient.culinaryApplications === 'object' &&
+    culinaryApplications: typeof ingredient.culinaryApplications === 'object' &&,
       ingredient.culinaryApplications !== null
         ? normalizeCulinaryApplications(ingredient.culinaryApplications as unknown)
         : {}
-    varieties: typeof ingredient.varieties === 'object' && ingredient.varieties !== null
+    varieties: typeof ingredient.varieties === 'object' && ingredient.varieties !== null,
         ? normalizeVarieties(ingredient.varieties as unknown)
         : {}
-    storage: typeof ingredient.storage === 'object' && ingredient.storage !== null
+    storage: typeof ingredient.storage === 'object' && ingredient.storage !== null,
         ? normalizeStorage(ingredient.storage as unknown)
         : {}
-    preparation: typeof ingredient.preparation === 'object' && ingredient.preparation !== null
+    preparation: typeof ingredient.preparation === 'object' && ingredient.preparation !== null,
         ? normalizePreparation(ingredient.preparation as unknown)
         : {}
   }

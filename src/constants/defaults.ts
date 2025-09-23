@@ -79,7 +79,7 @@ export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = {
     degree: 15,
     exactLongitude: 15.5,
     isRetrograde: false
-  }
+  },
   moon: {
     sign: 'taurus',
     degree: 8,
@@ -104,7 +104,7 @@ export const _DEFAULT_ASTROLOGICAL_STATE = {
     sunDecan: 1,
     moonDecan: 1,
     risingDecan: 1
-  }
+  },
   aspects: [],
   dominantElement: 'Fire',
   elementalProfile: {
@@ -112,7 +112,7 @@ export const _DEFAULT_ASTROLOGICAL_STATE = {
     Water: 0.25,
     Earth: 0.25,
     Air: 0.25
-  }
+  },
   planetaryPositions: DEFAULT_PLANETARY_POSITIONS,
   isDaytime: true,
   activePlanets: ['sun', 'moon'],

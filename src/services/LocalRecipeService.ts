@@ -186,7 +186,7 @@ export class LocalRecipeService {
               id: directCuisine.id,
               name: directCuisine.name,
               hasDishes: !!directCuisine.dishes,
-              dishTypes: directCuisine.dishes
+              dishTypes: directCuisine.dishes,
                 ? Object.keys(directCuisine.dishes).join(', ')
                 : 'none',
               breakfast: (() => {
@@ -519,7 +519,7 @@ export class LocalRecipeService {
 
         return {
           name: ing.name || '',
-          amount: ing.amount
+          amount: ing.amount,
             ? typeof ing.amount === 'string'
               ? parseFloat(ing.amount) || 1
               : ing.amount
@@ -529,7 +529,7 @@ export class LocalRecipeService {
           category: ing.category || '',
           optional: ing.optional || false,
           notes: ing.notes || '',
-          substitutes: Array.isArray(ing.swaps)
+          substitutes: Array.isArray(ing.swaps),
             ? ing.swaps
             : Array.isArray(ing.substitutes)
               ? ing.substitutes
@@ -644,25 +644,25 @@ export class LocalRecipeService {
         isGlutenFree: dish.isGlutenFree || dish.dietaryInfo?.includes('gluten-free') || false,
         isDairyFree: dish.isDairyFree || dish.dietaryInfo?.includes('dairy-free') || false,
         nutrition: nutrition,
-        astrologicalInfluences: Array.isArray(dish.astrologicalInfluences)
+        astrologicalInfluences: Array.isArray(dish.astrologicalInfluences),
           ? dish.astrologicalInfluences
           : [],
-        zodiacInfluences: Array.isArray(dish.zodiacInfluences)
+        zodiacInfluences: Array.isArray(dish.zodiacInfluences),
           ? (dish.zodiacInfluences as any[])
           : [],
-        lunarPhaseInfluences: Array.isArray(dish.lunarPhaseInfluences)
+        lunarPhaseInfluences: Array.isArray(dish.lunarPhaseInfluences),
           ? (dish.lunarPhaseInfluences as LunarPhase[])
           : [],
         planetaryInfluences: {
           favorable: dish.planetaryInfluences?.favorable || [],
           unfavorable: dish.planetaryInfluences?.unfavorable || []
-        }
+        },
         cookingMethods: Array.isArray(dish.cookingMethods) ? dish.cookingMethods : [],
         // New fields,
         substitutions: substitutions,
         tools: Array.isArray(dish.tools) ? dish.tools : [],
         servingSize: typeof servingSize === 'number' ? servingSize : parseInt(servingSize) || 4,
-        spiceLevel: dish.spiceLevel === 'hot' ||
+        spiceLevel: dish.spiceLevel === 'hot' ||,
           dish.spiceLevel === 'mild' ||
           dish.spiceLevel === 'medium' ||
           dish.spiceLevel === 'very hot'

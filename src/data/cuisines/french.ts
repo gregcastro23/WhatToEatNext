@@ -21,7 +21,7 @@ export const french: Cuisine = {
         Earth: 0.3,
         Air: 0.1,
         Fire: 0.1
-      }
+      },
       astrologicalInfluences: ['Moon', 'Cancer', 'Venus'],
       seasonality: 'all',
       preparationNotes:
@@ -31,7 +31,7 @@ export const french: Cuisine = {
       storageInstructions:
         'Refrigerate up to 3 days, cover surface with plastic wrap to prevent skin formation',
       yield: '2 cups'
-    }
+    },
     veloute: {
       name: 'Velouté',
       description: 'A light stock-based sauce thickened with a blonde roux',
@@ -45,7 +45,7 @@ export const french: Cuisine = {
         Earth: 0.3,
         Air: 0.2,
         Fire: 0.1
-      }
+      },
       astrologicalInfluences: ['Jupiter', 'Mercury', 'Pisces'],
       seasonality: 'all',
       preparationNotes: 'The stock must be relatively clear and the roux cooked to a blonde stage.',
@@ -53,7 +53,7 @@ export const french: Cuisine = {
       difficulty: 'medium',
       storageInstructions: 'Refrigerate up to 2 days, reheat gently while whisking',
       yield: '2 cups'
-    }
+    },
     espagnole: {
       name: 'Espagnole (Brown Sauce)',
       description: 'A brown stock-based sauce thickened with a brown roux',
@@ -67,7 +67,7 @@ export const french: Cuisine = {
         Fire: 0.3,
         Water: 0.2,
         Air: 0.1
-      }
+      },
       astrologicalInfluences: ['Mars', 'Saturn', 'Scorpio'],
       seasonality: 'autumn, winter',
       preparationNotes: 'The roux must be browned correctly to develop the deep color and flavor.',
@@ -75,7 +75,7 @@ export const french: Cuisine = {
       difficulty: 'hard',
       storageInstructions: 'Refrigerate up to 4 days, freeze up to 3 months',
       yield: '3 cups'
-    }
+    },
     hollandaise: {
       name: 'Hollandaise',
       description: 'An emulsion of butter and lemon juice using egg yolks as the emulsifier',
@@ -89,7 +89,7 @@ export const french: Cuisine = {
         Fire: 0.4,
         Air: 0.3,
         Earth: 0.1
-      }
+      },
       astrologicalInfluences: ['Sun', 'Mercury', 'Leo'],
       seasonality: 'spring, summer',
       preparationNotes: 'Temperature control is critical to prevent curdling or breaking.',
@@ -97,7 +97,7 @@ export const french: Cuisine = {
       difficulty: 'hard',
       storageInstructions: 'Best served immediately, can hold warm for up to 1 hour in bain-marie',
       yield: '1 cup'
-    }
+    },
     tomato: {
       name: 'Tomato Sauce',
       description: 'A sauce based on tomatoes, with aromatic vegetables and stock',
@@ -111,7 +111,7 @@ export const french: Cuisine = {
         Earth: 0.3,
         Water: 0.1,
         Air: 0.1
-      }
+      },
       astrologicalInfluences: ['Mars', 'Leo', 'Aries'],
       seasonality: 'summer, autumn',
       preparationNotes: 'Can be smooth or chunky depending on the preparation method.',
@@ -120,7 +120,7 @@ export const french: Cuisine = {
       storageInstructions: 'Refrigerate up to 5 days, freeze up to 6 months',
       yield: '2.5 cups'
     }
-  }
+  },
   sauceRecommender: {
     forProtein: {
       chicken: ['veloute', 'supreme', 'allemande'],
@@ -129,38 +129,38 @@ export const french: Cuisine = {
       lamb: ['espagnole', 'mint', 'rosemary jus'],
       pork: ['robert', 'charcutiere', 'diable'],
       game: ['grand veneur', 'poivrade', 'chasseur']
-    }
+    },
     forVegetable: {
       asparagus: ['hollandaise', 'maltaise', 'mousseline'],
       potatoes: ['bechamel', 'mornay', 'cream sauce'],
       mushrooms: ['espagnole', 'duxelles', 'forestiere'],
       greens: ['vinaigrette', 'ravigote', 'gribiche']
-    }
+    },
     forCookingMethod: {
       roasting: ['jus lie', 'demi-glace', 'au poivre'],
       poaching: ['veloute', 'vin blanc', 'nage'],
       grilling: ['bearnaise', 'bordelaise', 'maitre d'hotel butter'],
       braising: ['espagnole', 'romesco', 'chasseur']
-    }
+    },
     byAstrological: {
       fire: ['espagnole', 'bearnaise', 'spicy tomato'],
       earth: ['bechamel', 'mornay', 'mushroom'],
       air: ['vinaigrette', 'ravigote', 'herb-infused'],
       water: ['veloute', 'hollandaise', 'beurre blanc']
-    }
+    },
     byDietary: {
       vegetarian: ['bechamel', 'tomato', 'romesco'],
       vegan: ['tomato', 'mushroom', 'herb oil'],
       glutenFree: ['hollandaise', 'beurre blanc', 'herb oil'],
       dairyFree: ['tomato', 'herb oils', 'jus']
-    }
+    },
     byRegion: {
       provence: ['rouille', 'pistou', 'tapenade'],
       burgundy: ['meurette', 'dijon mustard', 'red wine'],
       normandy: ['cream', 'apple', 'calvados'],
       alsace: ['riesling', 'beer', 'sauerkraut']
     }
-  }
+  },
   dishes: {
     breakfast: {
       all: [
@@ -192,7 +192,7 @@ export const french: Cuisine = {
             croissant: ['sourdough bread', 'whole grain bread'],
             'whole milk': ['almond milk', 'oat milk'],
             'French butter': ['plant-based butter']
-          }
+          },
           servingSize: 1,
           allergens: ['dairy', 'gluten'],
           prepTime: '5 minutes',
@@ -216,7 +216,7 @@ export const french: Cuisine = {
             fat: 24,
             vitamins: ['A', 'D'],
             minerals: ['Calcium']
-          }
+          },
           timeToMake: '15 minutes',
           season: ['all'],
           mealType: ['breakfast'],
@@ -225,7 +225,7 @@ export const french: Cuisine = {
             Water: 0.3,
             Fire: 0.2,
             Air: 0.1
-          }
+          },
           astrologicalInfluences: [
             'Venus - The buttery richness of the croissant',
             'Mercury - The stimulating effects of coffee'
@@ -234,7 +234,7 @@ export const french: Cuisine = {
             planets: ['Moon', 'Venus'],
             signs: ['Taurus', 'Cancer'],
             lunarPhases: ['First Quarter', 'Full Moon']
-          }
+          },
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Taurus', 'Cancer'],
           numberOfServings: 1
@@ -271,7 +271,7 @@ export const french: Cuisine = {
             'crème fraîche': ['soy cream', 'almond cream'],
             eggs: ['vegan egg substitute'],
             butter: ['olive oil']
-          }
+          },
           servingSize: 2,
           allergens: ['eggs', 'dairy'],
           prepTime: '5 minutes',
@@ -296,7 +296,7 @@ export const french: Cuisine = {
             fat: 26,
             vitamins: ['A', 'D', 'B12'],
             minerals: ['Iron', 'Calcium']
-          }
+          },
           timeToMake: '20 minutes',
           season: ['all'],
           mealType: ['breakfast'],
@@ -305,7 +305,7 @@ export const french: Cuisine = {
             Earth: 0.3,
             Fire: 0.1,
             Air: 0.1
-          }
+          },
           astrologicalInfluences: [
             'Moon - The nurturing quality of eggs and cream',
             'Neptune - The dreamy texture of baked eggs'
@@ -314,7 +314,7 @@ export const french: Cuisine = {
             planets: ['Moon', 'Neptune'],
             signs: ['Cancer', 'Pisces'],
             lunarPhases: ['First Quarter', 'Full Moon']
-          }
+          },
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Cancer', 'Pisces'],
           numberOfServings: 2
@@ -348,7 +348,7 @@ export const french: Cuisine = {
             brioche: ['gluten-free milk bread', 'challah'],
             'whole milk': ['almond milk', 'soy milk'],
             'clarified butter': ['coconut oil', 'ghee']
-          }
+          },
           servingSize: 3,
           allergens: ['eggs', 'dairy', 'gluten'],
           prepTime: '10 minutes',
@@ -374,7 +374,7 @@ export const french: Cuisine = {
             fat: 24,
             vitamins: ['A', 'D', 'E'],
             minerals: ['Calcium', 'Iron']
-          }
+          },
           timeToMake: '25 minutes',
           season: ['all'],
           mealType: ['breakfast'],
@@ -383,7 +383,7 @@ export const french: Cuisine = {
             Earth: 0.3,
             Water: 0.3,
             Air: 0.1
-          }
+          },
           astrologicalInfluences: [
             'Venus - The sweet, indulgent nature',
             'Jupiter - The expansive, celebratory quality'
@@ -392,13 +392,13 @@ export const french: Cuisine = {
             planets: ['Venus', 'Jupiter'],
             signs: ['Taurus', 'Leo'],
             lunarPhases: ['First Quarter', 'Full Moon']
-          }
+          },
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Taurus', 'Leo'],
           numberOfServings: 3
         }
       ]
-    }
+    },
     lunch: {
       all: [
         {
@@ -431,7 +431,7 @@ export const french: Cuisine = {
             'white ham': ['vegetarian ham', 'smoked turkey'],
             'Gruyère cheese': ['Emmental', 'Swiss cheese'],
             'white sandwich bread': ['gluten-free bread']
-          }
+          },
           servingSize: 2,
           allergens: ['dairy', 'gluten', 'eggs'],
           prepTime: '15 minutes',
@@ -456,7 +456,7 @@ export const french: Cuisine = {
             fat: 38,
             vitamins: ['B12', 'D', 'A'],
             minerals: ['Calcium', 'Iron']
-          }
+          },
           timeToMake: '25 minutes',
           season: ['all'],
           mealType: ['lunch', 'dinner'],
@@ -465,7 +465,7 @@ export const french: Cuisine = {
             Earth: 0.4,
             Water: 0.2,
             Air: 0.1
-          }
+          },
           astrologicalInfluences: [
             'Taurus - The sensuous, indulgent nature',
             'Venus - The harmonious balance of flavors'
@@ -474,7 +474,7 @@ export const french: Cuisine = {
             planets: ['Taurus', 'Venus'],
             signs: ['Taurus', 'Virgo'],
             lunarPhases: ['First Quarter', 'Full Moon']
-          }
+          },
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Taurus', 'Virgo'],
           numberOfServings: 2
@@ -508,7 +508,7 @@ export const french: Cuisine = {
             tuna: ['marinated tempeh', 'chickpeas'],
             anchovies: ['capers', 'black olives'],
             eggs: ['firm tofu']
-          }
+          },
           servingSize: 4,
           allergens: ['eggs', 'fish'],
           prepTime: '20 minutes',
@@ -534,7 +534,7 @@ export const french: Cuisine = {
             fat: 32,
             vitamins: ['D', 'B12', 'K'],
             minerals: ['Iron', 'Omega-3']
-          }
+          },
           timeToMake: '35 minutes',
           season: ['spring', 'summer'],
           mealType: ['lunch'],
@@ -543,7 +543,7 @@ export const french: Cuisine = {
             Earth: 0.3,
             Air: 0.2,
             Fire: 0.2
-          }
+          },
           astrologicalInfluences: [
             'Mercury - The light, fresh quality',
             'Neptune - The Mediterranean sea influence'
@@ -552,7 +552,7 @@ export const french: Cuisine = {
             planets: ['Mercury', 'Neptune'],
             signs: ['Gemini', 'Pisces'],
             lunarPhases: ['First Quarter', 'Full Moon']
-          }
+          },
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Gemini', 'Pisces'],
           numberOfServings: 4
@@ -588,7 +588,7 @@ export const french: Cuisine = {
             'beef stock': ['vegetable stock'],
             'Gruyère cheese': ['Emmental', 'plant-based cheese'],
             butter: ['olive oil']
-          }
+          },
           servingSize: 6,
           allergens: ['dairy', 'gluten'],
           prepTime: '20 minutes',
@@ -616,7 +616,7 @@ export const french: Cuisine = {
             fat: 22,
             vitamins: ['C', 'B1'],
             minerals: ['Iron', 'Calcium']
-          }
+          },
           timeToMake: '90 minutes',
           season: ['autumn', 'winter'],
           mealType: ['lunch', 'dinner'],
@@ -625,7 +625,7 @@ export const french: Cuisine = {
             Earth: 0.3,
             Water: 0.2,
             Air: 0.1
-          }
+          },
           astrologicalInfluences: [
             'Saturn - The slow transformation of ingredients',
             'Moon - The comforting, nurturing quality'
@@ -634,13 +634,13 @@ export const french: Cuisine = {
             planets: ['Saturn', 'Moon'],
             signs: ['Capricorn', 'Cancer'],
             lunarPhases: ['First Quarter', 'Full Moon']
-          }
+          },
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Capricorn', 'Cancer'],
           numberOfServings: 6
         }
       ]
-    }
+    },
     dinner: {
       all: [
         {
@@ -676,7 +676,7 @@ export const french: Cuisine = {
             chicken: ['mushroom medley', 'seitan'],
             lardons: ['smoked tofu'],
             'red wine': ['mushroom stock with red wine vinegar']
-          }
+          },
           servingSize: 6,
           allergens: ['alcohol'],
           prepTime: '30 minutes',
@@ -703,7 +703,7 @@ export const french: Cuisine = {
             fat: 32,
             vitamins: ['B12', 'A', 'D'],
             minerals: ['Iron', 'Zinc', 'Potassium']
-          }
+          },
           timeToMake: '120 minutes',
           season: ['autumn', 'winter'],
           mealType: ['dinner'],
@@ -712,7 +712,7 @@ export const french: Cuisine = {
             Fire: 0.3,
             Water: 0.15,
             Air: 0.05
-          }
+          },
           astrologicalInfluences: [
             'Saturn - The slow transformation through long cooking',
             'Pluto - The deep flavors revealed through reduction'
@@ -721,7 +721,7 @@ export const french: Cuisine = {
             planets: ['Saturn', 'Pluto'],
             signs: ['Capricorn', 'Scorpio'],
             lunarPhases: ['First Quarter', 'Full Moon']
-          }
+          },
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Capricorn', 'Scorpio'],
           numberOfServings: 6
@@ -761,7 +761,7 @@ export const french: Cuisine = {
             sole: ['flounder', 'eggplant for vegetarian version'],
             butter: ['plant-based brown butter'],
             flour: ['gluten-free flour']
-          }
+          },
           servingSize: 4,
           allergens: ['fish', 'dairy', 'gluten'],
           prepTime: '10 minutes',
@@ -787,7 +787,7 @@ export const french: Cuisine = {
             fat: 32,
             vitamins: ['D', 'B12', 'A'],
             minerals: ['Selenium', 'Iodine']
-          }
+          },
           timeToMake: '25 minutes',
           season: ['all'],
           mealType: ['dinner'],
@@ -796,7 +796,7 @@ export const french: Cuisine = {
             Fire: 0.3,
             Air: 0.2,
             Earth: 0.1
-          }
+          },
           astrologicalInfluences: [
             'Jupiter - The elegance and richness',
             'Mercury - The bright, quick quality'
@@ -805,7 +805,7 @@ export const french: Cuisine = {
             planets: ['Jupiter', 'Mercury'],
             signs: ['Leo', 'Gemini'],
             lunarPhases: ['First Quarter', 'Full Moon']
-          }
+          },
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Leo', 'Gemini'],
           numberOfServings: 4
@@ -876,7 +876,7 @@ export const french: Cuisine = {
             fat: 38,
             vitamins: ['B12', 'A', 'D'],
             minerals: ['Iron', 'Zinc', 'Potassium']
-          }
+          },
           timeToMake: '3 hours 45 minutes',
           season: ['autumn', 'winter'],
           mealType: ['dinner'],
@@ -885,7 +885,7 @@ export const french: Cuisine = {
             Fire: 0.2,
             Water: 0.1,
             Air: 0.1
-          }
+          },
           astrologicalInfluences: [
             'Saturn - The slow cooking process and aged flavors',
             'Pluto - The transformative quality and depth'
@@ -894,12 +894,12 @@ export const french: Cuisine = {
             planets: ['Saturn', 'Pluto'],
             signs: ['Capricorn', 'Scorpio'],
             lunarPhases: ['First Quarter', 'Full Moon']
-          }
+          },
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Capricorn', 'Scorpio']
         }
       ]
-    }
+    },
     dessert: {
       all: [
         {
@@ -925,7 +925,7 @@ export const french: Cuisine = {
             'heavy cream': ['coconut cream', 'almond cream'],
             'egg yolks': ['plant-based substitute'],
             sugar: ['coconut sugar']
-          }
+          },
           servingSize: 6,
           allergens: ['dairy', 'eggs'],
           prepTime: '20 minutes',
@@ -949,7 +949,7 @@ export const french: Cuisine = {
             fat: 29,
             vitamins: ['A', 'D', 'E'],
             minerals: ['Calcium']
-          }
+          },
           timeToMake: '55 minutes plus chilling',
           season: ['all'],
           mealType: ['dessert'],
@@ -958,7 +958,7 @@ export const french: Cuisine = {
             Water: 0.3,
             Earth: 0.3,
             Air: 0.1
-          }
+          },
           astrologicalInfluences: [
             'Venus - The sensual, creamy nature',
             'Sun - The fire element in caramelization'
@@ -967,7 +967,7 @@ export const french: Cuisine = {
             planets: ['Venus', 'Sun'],
             signs: ['Taurus', 'Leo'],
             lunarPhases: ['First Quarter', 'Full Moon']
-          }
+          },
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Taurus', 'Leo'],
           instructions: [
@@ -1016,7 +1016,7 @@ export const french: Cuisine = {
             apples: ['pears', 'quinces'],
             butter: ['plant-based butter'],
             'shortcrust pastry': ['puff pastry']
-          }
+          },
           servingSize: 8,
           allergens: ['dairy', 'gluten'],
           prepTime: '45 minutes',
@@ -1033,7 +1033,7 @@ export const french: Cuisine = {
             fat: 22,
             vitamins: ['A', 'C'],
             minerals: ['Iron', 'Calcium']
-          }
+          },
           season: ['autumn', 'winter'],
           mealType: ['dessert'],
           elementalProperties: {
@@ -1041,7 +1041,7 @@ export const french: Cuisine = {
             Fire: 0.3,
             Water: 0.2,
             Air: 0.1
-          }
+          },
           astrologicalInfluences: [
             'Venus - The sweet, indulgent nature',
             'Jupiter - The transformative quality'
@@ -1050,7 +1050,7 @@ export const french: Cuisine = {
             planets: ['Venus', 'Jupiter'],
             signs: ['Taurus', 'Virgo'],
             lunarPhases: ['First Quarter', 'Full Moon']
-          }
+          },
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Taurus', 'Virgo'],
           instructions: [
@@ -1086,7 +1086,7 @@ export const french: Cuisine = {
             'vanilla ice cream': ['coconut ice cream', 'sorbet'],
             'dark chocolate': ['vegan chocolate'],
             butter: ['plant-based butter']
-          }
+          },
           servingSize: 6,
           allergens: ['dairy', 'eggs', 'gluten'],
           prepTime: '45 minutes',
@@ -1110,7 +1110,7 @@ export const french: Cuisine = {
             fat: 26,
             vitamins: ['A', 'D'],
             minerals: ['Calcium', 'Iron']
-          }
+          },
           timeToMake: '75 minutes',
           season: ['all'],
           mealType: ['dessert'],
@@ -1119,7 +1119,7 @@ export const french: Cuisine = {
             Water: 0.3,
             Fire: 0.3,
             Air: 0.1
-          }
+          },
           astrologicalInfluences: [
             'Venus - The indulgent, sweet quality',
             'Jupiter - The expansive, celebratory nature'
@@ -1128,7 +1128,7 @@ export const french: Cuisine = {
             planets: ['Venus', 'Jupiter'],
             signs: ['Taurus', 'Leo'],
             lunarPhases: ['First Quarter', 'Full Moon']
-          }
+          },
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Taurus', 'Leo'],
           instructions: [
@@ -1144,7 +1144,7 @@ export const french: Cuisine = {
         }
       ]
     }
-  }
+  },
   cookingTechniques: [
     {
       name: 'Sauté',
@@ -1196,7 +1196,7 @@ export const french: Cuisine = {
       elementalProperties: { Fire: 0.3, Earth: 0.3, Water: 0.3, Air: 0.1 }
       astrologicalInfluences: ['Sun', 'Mercury', 'Venus'],
       seasonality: 'summer'
-    }
+    },
     normandy: {
       name: 'Norman Cuisine',
       description:
@@ -1205,7 +1205,7 @@ export const french: Cuisine = {
       elementalProperties: { Water: 0.4, Earth: 0.4, Fire: 0.1, Air: 0.1 }
       astrologicalInfluences: ['Moon', 'Venus', 'Neptune'],
       seasonality: 'autumn'
-    }
+    },
     burgundy: {
       name: 'Burgundian Cuisine',
       description: 'Wine-centric cuisine known for slow-cooked dishes, mustard, and escargot',
@@ -1213,7 +1213,7 @@ export const french: Cuisine = {
       elementalProperties: { Earth: 0.5, Fire: 0.2, Water: 0.2, Air: 0.1 }
       astrologicalInfluences: ['Saturn', 'Mars', 'Pluto'],
       seasonality: 'winter'
-    }
+    },
     alsace: {
       name: 'Alsatian Cuisine',
       description: 'German-influenced cuisine featuring charcuterie, sauerkraut, and white wines',
@@ -1222,13 +1222,13 @@ export const french: Cuisine = {
       astrologicalInfluences: ['Jupiter', 'Saturn', 'Uranus'],
       seasonality: 'autumn, winter'
     }
-  }
+  },
   elementalProperties: {
     Earth: 0.3,
     Water: 0.3,
     Fire: 0.2,
     Air: 0.2
-  }
+  },
   astrologicalInfluences: [
     'Venus - Governs the sensual, pleasure-seeking aspects of French cuisine',
     'Jupiter - Influences the celebratory and abundant nature of French dining',

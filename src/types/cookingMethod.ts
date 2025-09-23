@@ -16,7 +16,7 @@ export interface CookingMethodData {
   duration: {
     min: number,
     max: number
-  }
+  },
   suitable_for: string[],
   benefits: string[],
 

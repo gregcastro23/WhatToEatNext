@@ -30,12 +30,12 @@ export interface RecommendationAnalyticsState {
     hitRate: number,
     totalEntries: number,
     memoryUsage: number
-  }
+  },
   performanceTrends: {
     averageLoadTime: number,
     averageCacheHitRate: number,
     performanceScore: number
-  }
+  },
   isLoading: boolean,
   error: string | null
 }
@@ -45,7 +45,7 @@ export interface RecommendationAnalyticsActions {
   recordApiResponse: (duration: number) => void,
   recordLoadTime: (duration: number) => void,
   getCachedRecommendation: <T>(key: string) => T | null,
-  cacheRecommendation: <T>(key: string, data: T, confidenceScore?: number) => void
+  cacheRecommendation: <T>(key: string, data: T, confidenceScore?: number) => void,
   calculateConfidence: (factors: unknown) => RecommendationConfidence,
   trackInteraction: (type: string, target: string, metadata?: Record<string, unknown>) => void,
   getAnalyticsSnapshot: () => AnalyticsSnapshot,
@@ -72,12 +72,12 @@ export function useRecommendationAnalytics(
       hitRate: 0,
       totalEntries: 0,
       memoryUsage: 0
-    }
+    },
     performanceTrends: {
       averageLoadTime: 0,
       averageCacheHitRate: 0,
       performanceScore: 0
-    }
+    },
     isLoading: false,
     error: null
   })
@@ -126,12 +126,12 @@ export function useRecommendationAnalytics(
             hitRate: cacheStats.recommendation.hitRate,
             totalEntries: cacheStats.recommendation.totalEntries,
             memoryUsage: cacheStats.recommendation.memoryUsage
-          }
+          },
           performanceTrends: {
             averageLoadTime: performanceTrends.averageLoadTime,
             averageCacheHitRate: performanceTrends.averageCacheHitRate,
             performanceScore: performanceTrends.performanceScore
-          }
+          },
           isLoading: false
         }))
       }

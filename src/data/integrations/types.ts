@@ -9,7 +9,7 @@ export interface RecipeTemplate {
 export interface BalancingRules {
   temperature: {
     [key: string]: ElementalProperties
-  }
+  },
   texture: {
     [key: string]: ElementalProperties
   }
@@ -41,6 +41,6 @@ export interface TemperatureRange {
   range: {
     min: number,
     max: number
-  }
+  },
   elementalEffect: ElementalProperties
 }

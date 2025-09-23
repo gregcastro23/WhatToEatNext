@@ -66,7 +66,7 @@ const rawOtherVegetables = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
+  },
   artichoke: {
     name: 'artichoke',
 
@@ -131,7 +131,7 @@ const rawOtherVegetables = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
+  },
   cucumber: {
     name: 'cucumber',
 
@@ -196,7 +196,7 @@ const rawOtherVegetables = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
+  },
   okra: {
     name: 'okra',
 
@@ -261,7 +261,7 @@ const rawOtherVegetables = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
+  },
   zucchini: {
     name: 'zucchini',
 
@@ -330,7 +330,7 @@ const rawOtherVegetables = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
+  },
   peas: {
     name: 'petite peas',
 
@@ -395,7 +395,7 @@ const rawOtherVegetables = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
+  },
   green_beans: {
     name: 'green beans',
 
@@ -460,7 +460,7 @@ const rawOtherVegetables = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
+  },
   celery: {
     name: 'celery',
 
@@ -525,7 +525,7 @@ const rawOtherVegetables = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
+  },
   fennel: {
     name: 'fennel',
 
@@ -590,7 +590,7 @@ const rawOtherVegetables = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
+  },
   kohlrabi: {
     name: 'kohlrabi',
 
@@ -655,7 +655,7 @@ const rawOtherVegetables = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
+  },
   bok_choy: {
     name: 'bok choy',
 
@@ -720,7 +720,7 @@ const rawOtherVegetables = {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  }
+  },
   endive: {
     name: 'escarole',
 

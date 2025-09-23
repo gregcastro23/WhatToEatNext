@@ -39,32 +39,32 @@ export class ChakraAlchemyService {
       energyState: 'Matter',
       elements: ['Water', 'Earth'],
       properties: { heat: '-', entropy: '-', reactivity: '-' }
-    }
+    },
     sacral: {
       energyState: 'Essence',
       elements: ['Water', 'Fire'],
       properties: { heat: '-', entropy: '-', reactivity: '+' }
-    }
+    },
     solarPlexus: {
       energyState: 'Essence',
       elements: ['Fire', 'Water'],
       properties: { heat: '-', entropy: '-', reactivity: '+' }
-    }
+    },
     heart: {
       energyState: 'Essence/Spirit',
       elements: ['Air', 'Fire'],
       properties: { heat: '±', entropy: '±', reactivity: '+' }
-    }
+    },
     throat: {
       energyState: 'Substance',
       elements: ['Air', 'Earth'],
       properties: { heat: '-', entropy: '+', reactivity: '+' }
-    }
+    },
     thirdEye: {
       energyState: 'Essence',
       elements: ['Water', 'Air', 'Fire'],
       properties: { heat: '-', entropy: '-', reactivity: '+' }
-    }
+    },
     crown: {
       energyState: 'Spirit',
       elements: ['Fire', 'Air'],
@@ -160,7 +160,7 @@ export class ChakraAlchemyService {
     planetaryHour: Planet,
   ): ChakraEnergies {
     const energies: ChakraEnergies = {
-      root: 0.2, // Base value to ensure all chakras have some energy
+      root: 0.2, // Base value to ensure all chakras have some energy,
       sacral: 0.2,
       solarPlexus: 0.2,
       heart: 0.2,

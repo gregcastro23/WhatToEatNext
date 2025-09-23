@@ -379,7 +379,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
-        }
+        },
         signal: controller.signal
       })
 
@@ -407,7 +407,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
         uranus: 'Uranus',
         neptune: 'Neptune',
         pluto: 'Pluto',
-        _rahu: 'northNode', // Rahu is North Node in Vedic astrology
+        _rahu: 'northNode', // Rahu is North Node in Vedic astrology,
         _ketu: 'southNode', // Ketu is South Node in Vedic astrology
       }
 
@@ -520,7 +520,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
           headers: {
             Authorization: `Basic ${auth}`,
             'Content-Type': 'application/json'
-          }
+          },
           signal: controller.signal
         }
       )

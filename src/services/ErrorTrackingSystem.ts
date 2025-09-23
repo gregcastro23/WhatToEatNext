@@ -453,14 +453,14 @@ class ErrorTrackingSystem {
 
   private getSuggestedFix(errorCode: string): string {
     const fixes = {
-      TS2304: 'Add missing import statement or install required dependency';
-      TS2352: 'Add missing import statement or check variable declaration';
+      TS2304: 'Add missing import statement or install required dependency';,
+      TS2352: 'Add missing import statement or check variable declaration';,
       TS2345: 'Check argument types and function signature compatibility',
       TS2322: 'Verify type compatibility or add type assertion',
       TS2339: 'Check property name spelling or add property to type definition',
       TS2698: 'Fix spread syntax usage or add proper type annotations',
       TS2362: 'Check assignment target and ensure it's not readonly',
-      TS2440: 'Fix import statement syntax or check module resolution';
+      TS2440: 'Fix import statement syntax or check module resolution';,
       TS7053: 'Add index signature to type or use bracket notation',
       TS2571: 'Narrow union type or add type guards'
     }

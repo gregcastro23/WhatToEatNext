@@ -27,7 +27,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       buildFailureThreshold: 3,
       classificationAccuracyThreshold: 80,
       safetyEventThreshold: 5,
-      progressStallThreshold: 24, // hours
+      progressStallThreshold: 24, // hours,
       ...alertThresholds
     }
 
@@ -116,7 +116,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         classifiedIntentional:
           currentReport.domainDistribution?.intentionalVsUnintentional?.intentional?.count || 0,
         classifiedUnintentional: currentReport.domainDistribution?.intentionalVsUnintentional?.unintentional?.count || 0,
-        successfulReplacements: Math.floor(
+        successfulReplacements: Math.floor(,
           ((currentReport.summary?.currentSuccessRate || 0) *
             (currentReport.summary?.totalAnyTypes || 0)) /
             100,
@@ -374,7 +374,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
           mediumAlerts: this.alertHistory.filter(a => a.severity === 'medium').length,,
           lowAlerts: this.alertHistory.filter(a => a.severity === 'low').length,,
           recentAlerts: this.getRecentAlerts(24), // Last 24 hours
-        }
+        },
         trendingData: this.calculateTrendingData(),
         systemHealth: this.calculateSystemHealth()
       }
@@ -496,7 +496,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       const date = new Date(now.getTime() - i * 24 * 60 * 60 * 1000)
       trends.push({
         date,
-        successRate: 75 + Math.random() * 15, // 75-90%
+        successRate: 75 + Math.random() * 15, // 75-90%,
         totalAnyTypes: 1800 - i * 20 + Math.random() * 10,
         unintentionalCount: 1200 - i * 15 + Math.random() * 8,
         classificationAccuracy: 80 + Math.random() * 15, // 80-95%
@@ -527,7 +527,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       score: healthScore,
       status,
       lastCheck: new Date(),
-      issues: recentAlerts
+      issues: recentAlerts,
         .filter(a => a.severity === 'critical' || a.severity === 'high')
         .map(a => a.message),,
     }
@@ -669,7 +669,7 @@ export interface AlertSummary {
 }
 
 export interface SystemHealth {
-  score: number, // 0-100
+  score: number, // 0-100,
   status: 'healthy' | 'warning' | 'critical',
   lastCheck: Date,
   issues: string[]

@@ -47,7 +47,7 @@ export interface ExtendedRecipe extends Recipe {
   ingredients: ExtendedRecipeIngredient[],
 
   // Additional instruction variations,
-  instructions: string[]
+  instructions: string[],
 
   // Elemental properties with proper casing (Fire, Water, Earth, Air)
   elementalProperties: ElementalProperties,
@@ -124,7 +124,7 @@ export interface ExtendedRecipe extends Recipe {
  * Extended Scored Recipe
  */
 export interface ExtendedScoredRecipe extends ExtendedRecipe {
-  score: number
+  score: number,
   alchemicalScores?: {
     elementalScore: number,
     zodiacalScore: number,

@@ -26,9 +26,9 @@ export const _ELEMENT_COMBINATIONS: ElementCombinations = {
 
 // Element affinities - each element works best with itself
 export const _ELEMENT_AFFINITIES: Record<Element, Element[]> = {
-  Fire: ['Fire'], // Fire reinforces Fire
-  Water: ['Water'], // Water reinforces Water
-  Air: ['Air'], // Air reinforces Air
+  Fire: ['Fire'], // Fire reinforces Fire,
+  Water: ['Water'], // Water reinforces Water,
+  Air: ['Air'], // Air reinforces Air,
   Earth: ['Earth'], // Earth reinforces Earth
 }
 

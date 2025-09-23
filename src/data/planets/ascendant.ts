@@ -31,7 +31,7 @@ const ascendantData: PlanetData = {
     Bitter: 0.5,
     Umami: 0.5,
     Spicy: 0.5
-  }
+  },
   CulinaryInfluences: [
     'Shapes overall food preferences',
     'Determines physical response to different foods',
@@ -46,21 +46,21 @@ const ascendantData: PlanetData = {
       Trine: 0.5,
       Square: 0.0,
       Sextile: 0.3
-    }
+    },
     Moon: {
       Conjunction: 0.8,
       Opposition: 0.2,
       Trine: 0.6,
       Square: 0.1,
       Sextile: 0.4
-    }
+    },
     Venus: {
       Conjunction: 0.6,
       Opposition: 0.1,
       Trine: 0.5,
       Square: 0.0,
       Sextile: 0.3
-    }
+    },
     Mars: {
       Conjunction: 0.5,
       Opposition: 0.0,
@@ -68,7 +68,7 @@ const ascendantData: PlanetData = {
       Square: -0.1,
       Sextile: 0.2
     }
-  }
+  },
   PlanetSpecific: {
     SignInfluence: {
       aries: {
@@ -80,7 +80,7 @@ const ascendantData: PlanetData = {
           Air: 0.3,
           Water: 0.1
         }
-      }
+      },
       taurus: {
         FoodFocus: 'Sensual eating experiences, rich foods, appreciation for quality ingredients',
         Elements: {
@@ -89,7 +89,7 @@ const ascendantData: PlanetData = {
           Air: 0.1,
           Water: 0.3
         }
-      }
+      },
       gemini: {
         FoodFocus: 'Variety in meals, interest in food knowledge, enjoyment of food conversation',
         Elements: {
@@ -98,7 +98,7 @@ const ascendantData: PlanetData = {
           Air: 0.8,
           Water: 0.2
         }
-      }
+      },
       cancer: {
         FoodFocus: 'Emotional connection to food, nurturing meals, traditional family recipes',
         Elements: {
@@ -107,7 +107,7 @@ const ascendantData: PlanetData = {
           Air: 0.1,
           Water: 0.8
         }
-      }
+      },
       leo: {
         FoodFocus: 'Dramatic presentations, generous portions, celebratory dining experiences',
         Elements: {
@@ -116,7 +116,7 @@ const ascendantData: PlanetData = {
           Air: 0.3,
           Water: 0.1
         }
-      }
+      },
       virgo: {
         FoodFocus:
           'Healthy and precise preparations, attention to nutritional details, clean eating',
@@ -126,7 +126,7 @@ const ascendantData: PlanetData = {
           Air: 0.3,
           Water: 0.1
         }
-      }
+      },
       libra: {
         FoodFocus: 'Beautiful presentation, balanced flavors, social dining experiences',
         Elements: {
@@ -135,7 +135,7 @@ const ascendantData: PlanetData = {
           Air: 0.8,
           Water: 0.2
         }
-      }
+      },
       scorpio: {
         FoodFocus: 'Intense flavors, mysterious ingredients, transformative cooking methods',
         Elements: {
@@ -144,7 +144,7 @@ const ascendantData: PlanetData = {
           Air: 0.1,
           Water: 0.8
         }
-      }
+      },
       sagittarius: {
         FoodFocus: 'International cuisines, adventurous eating, philosophical approach to food',
         Elements: {
@@ -153,7 +153,7 @@ const ascendantData: PlanetData = {
           Air: 0.4,
           Water: 0.1
         }
-      }
+      },
       capricorn: {
         FoodFocus: 'Traditional recipes, disciplined approach to meals, quality over quantity',
         Elements: {
@@ -162,7 +162,7 @@ const ascendantData: PlanetData = {
           Air: 0.2,
           Water: 0.3
         }
-      }
+      },
       aquarius: {
         FoodFocus:
           'Innovative food concepts, unusual combinations, intellectual approach to eating',
@@ -172,7 +172,7 @@ const ascendantData: PlanetData = {
           Air: 0.8,
           Water: 0.2
         }
-      }
+      },
       pisces: {
         FoodFocus: 'Intuitive cooking, creative presentations, ethereal flavors and experiences',
         Elements: {

@@ -457,7 +457,7 @@ describe('FullCampaignExecutor', () => {
   describe('Configuration Validation', () => {
     test('should handle invalid configuration gracefully', () => {
       const invalidConfig: any = {
-        targetReductionPercentage: -10, // Invalid negative percentage
+        targetReductionPercentage: -10, // Invalid negative percentage,
         targetFixCount: -100, // Invalid negative count,
         maxBatchSize: 0 // Invalid zero batch size,
       }

@@ -23,7 +23,7 @@ export interface ClassificationConfig {
   /** Keywords that indicate intentional any usage */
   intentionalKeywords: string[],
   /** File patterns to treat as test files */
-  testFilePatterns: string[]
+  testFilePatterns: string[],
   /** Categories with their default confidence scores */
   categoryDefaults: Record<AnyTypeCategory, number>,
 }
@@ -47,7 +47,7 @@ export interface SafetyConfig {
   /** TypeScript compilation timeout in milliseconds */
   compilationTimeout: number,
   /** Maximum rollback attempts before stopping */
-  maxRollbackAttempts: number
+  maxRollbackAttempts: number,
   /** Safety level for different operations */
   safetyLevels: Record<string, SafetyLevel>,
   /** Backup retention period in days */
@@ -81,7 +81,7 @@ export interface UnintentionalAnyConfig {
   safety: SafetyConfig,
   targets: TargetConfig,
   /** Configuration version for compatibility */
-  version: string
+  version: string,
   /** Last updated timestamp */
   lastUpdated: string
 }
@@ -126,7 +126,7 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       [AnyTypeCategory.RETURN_TYPE]: 0.4,
       [AnyTypeCategory.TYPE_ASSERTION]: 0.6
     }
-  }
+  },
   domain: {
     typeSuggestions: {
       astrological: ['PlanetaryPosition', 'ElementalProperties', 'AstrologicalData'],
@@ -135,7 +135,7 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       service: ['ApiResponse', 'ServiceConfig', 'ErrorResponse'],
       component: ['ComponentProps', 'ComponentState', 'EventHandler'],
       utility: ['UtilityFunction', 'HelperType', 'GenericType']
-    }
+    },
     pathPatterns: {
       astrological: ['**/calculations/**', '**/astrology/**', '**/planetary/**'],
       recipe: ['**/recipe/**', '**/ingredient/**', '**/cooking/**'],
@@ -143,7 +143,7 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       service: ['**/services/**', '**/api/**', '**/client/**'],
       component: ['**/components/**', '**/ui/**', '**/pages/**'],
       utility: ['**/utils/**', '**/helpers/**', '**/lib/**']
-    }
+    },
     contentPatterns: {
       astrological: ['planetary', 'elemental', 'zodiac', 'transit', 'retrograde'],
       recipe: ['ingredient', 'recipe', 'cooking', 'nutrition', 'flavor'],
@@ -151,7 +151,7 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       service: ['service', 'api', 'client', 'request', 'response'],
       component: ['component', 'props', 'state', 'render', 'jsx'],
       utility: ['util', 'helper', 'function', 'type', 'generic']
-    }
+    },
     elementalAssociations: {
       astrological: ['Fire', 'Water', 'Earth', 'Air'],
       recipe: ['Fire', 'Water', 'Earth', 'Air'],
@@ -160,7 +160,7 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       component: ['Air', 'Fire'],
       utility: ['Air', 'Earth']
     }
-  }
+  },
   safety: {
     maxBatchSize: 25,
     validationFrequency: 5,
@@ -171,9 +171,9 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       replacement: 'MAXIMUM',
       documentation: 'MEDIUM',
       batch_processing: 'MAXIMUM'
-    }
+    },
     backupRetentionDays: 7
-  }
+  },
   targets: {
     targetReductionPercentage: 18,
     minSuccessRate: 0.8,
@@ -182,14 +182,14 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       metrics: 5,
       reports: 1,
       checkpoints: 10
-    }
+    },
     milestones: [
       { name: 'Initial Analysis', targetReduction: 0, timeframe: '1 day' }
       { name: 'Conservative Phase', targetReduction: 5, timeframe: '3 days' }
       { name: 'Progressive Phase', targetReduction: 12, timeframe: '1 week' }
       { name: 'Target Achievement', targetReduction: 18, timeframe: '2 weeks' }
     ]
-  }
+  },
   version: '1.0.0',
   lastUpdated: new Date().toISOString()
 }

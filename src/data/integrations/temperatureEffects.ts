@@ -18,11 +18,11 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Air: 0.2,
       Earth: 0.1,
       Fire: 0
-    }
+    },
     description: 'Preservation and crystallization of flavors',
     recommendedMethods: ['raw', 'frozen desserts'],
     cautions: ['texture changes', 'dulled flavors']
-  }
+  },
   cold: {
     min: 1,
     max: 10,
@@ -31,11 +31,11 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Air: 0.3,
       Earth: 0.2,
       Fire: 0
-    }
+    },
     description: 'Refreshing and crisp qualities',
     recommendedMethods: ['raw', 'chilled preparations', 'cold infusion'],
     cautions: ['reduced aroma', 'numbed taste buds']
-  }
+  },
   cool: {
     min: 11,
     max: 21,
@@ -44,11 +44,11 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Air: 0.3,
       Earth: 0.2,
       Fire: 0.1
-    }
+    },
     description: 'Balanced temperature for subtle flavors',
     recommendedMethods: ['room temperature service', 'light preparation'],
     cautions: ['temperature fluctuation']
-  }
+  },
   room: {
     min: 22,
     max: 30,
@@ -57,11 +57,11 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Earth: 0.3,
       Water: 0.2,
       Fire: 0.1
-    }
+    },
     description: 'Natural state for most ingredients',
     recommendedMethods: ['fermentation', 'proofing', 'resting'],
     cautions: ['food safety time limits']
-  }
+  },
   warm: {
     min: 31,
     max: 49,
@@ -70,11 +70,11 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Air: 0.3,
       Earth: 0.2,
       Water: 0.2
-    }
+    },
     description: 'Enhanced aromatics and flavors',
     recommendedMethods: ['warming', 'tempering', 'slow cooking'],
     cautions: ['protein degradation begins']
-  }
+  },
   hot: {
     min: 50,
     max: 100,
@@ -83,11 +83,11 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Air: 0.3,
       Water: 0.1,
       Earth: 0.1
-    }
+    },
     description: 'Active cooking and transformation',
     recommendedMethods: ['boiling', 'steaming', 'poaching'],
     cautions: ['moisture loss', 'overcooking risk']
-  }
+  },
   very_hot: {
     min: 101,
     max: 200,
@@ -96,11 +96,11 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Air: 0.2,
       Earth: 0.1,
       Water: 0
-    }
+    },
     description: 'Intense heat transformation',
     recommendedMethods: ['roasting', 'baking', 'frying'],
     cautions: ['burning risk', 'rapid moisture loss']
-  }
+  },
   extreme: {
     min: 201,
     max: 300,
@@ -109,7 +109,7 @@ export const temperatureEffects: Record<string, TemperatureRange> = {
       Air: 0.2,
       Water: 0,
       Earth: 0
-    }
+    },
     description: 'Extreme transformation and caramelization',
     recommendedMethods: ['grilling', 'broiling', 'searing'],
     cautions: ['very short cooking time', 'high burning risk']

@@ -55,7 +55,7 @@ export const vietnamese: Cuisine = {
             'beef bones': ['chicken bones', 'mushroom broth'],
             'beef slices': ['chicken', 'tofu', 'mushrooms'],
             'hoisin sauce': ['soy sauce', 'coconut aminos']
-          }
+          },
           servingSize: 6,
           allergens: ['soy'],
           prepTime: '30 minutes',
@@ -72,7 +72,7 @@ export const vietnamese: Cuisine = {
             fat: 16,
             vitamins: ['B12', 'C', 'A'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['all'],
           mealType: ['breakfast', 'lunch'],
           elementalProperties: {
@@ -116,7 +116,7 @@ export const vietnamese: Cuisine = {
             chicken: ['turkey', 'tofu', 'mushrooms'],
             'fish sauce': ['soy sauce', 'coconut aminos'],
             'fried shallots': ['fried garlic', 'crispy onions']
-          }
+          },
           servingSize: 4,
           allergens: ['fish'],
           prepTime: '15 minutes',
@@ -133,7 +133,7 @@ export const vietnamese: Cuisine = {
             fat: 8,
             vitamins: ['B6', 'B12'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['all'],
           mealType: ['breakfast'],
           elementalProperties: {
@@ -177,7 +177,7 @@ export const vietnamese: Cuisine = {
             'ground pork': ['minced mushrooms', 'tofu'],
             'fish sauce': ['soy sauce', 'coconut aminos'],
             'wood ear mushrooms': ['shiitake mushrooms']
-          }
+          },
           servingSize: 4,
           allergens: ['fish'],
           prepTime: '30 minutes',
@@ -194,7 +194,7 @@ export const vietnamese: Cuisine = {
             fat: 6,
             vitamins: ['B1', 'B6'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['all'],
           mealType: ['breakfast'],
           elementalProperties: {
@@ -223,13 +223,13 @@ export const vietnamese: Cuisine = {
             fat: 8,
             vitamins: ['B1', 'B2'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           timeToMake: '45 minutes',
           season: ['winter'],
           mealType: ['breakfast']
         }
       ]
-    }
+    },
     lunch: {
       all: [
         {
@@ -279,7 +279,7 @@ export const vietnamese: Cuisine = {
             'pork belly': ['chicken', 'tofu', 'mushrooms'],
             pate: ['mushroom pate', 'hummus'],
             mayonnaise: ['vegan mayo']
-          }
+          },
           servingSize: 4,
           allergens: ['wheat', 'eggs'],
           prepTime: '30 minutes',
@@ -296,7 +296,7 @@ export const vietnamese: Cuisine = {
             fat: 22,
             vitamins: ['A', 'C'],
             minerals: ['Iron', 'Calcium']
-          }
+          },
           season: ['all'],
           mealType: ['lunch'],
           elementalProperties: {
@@ -335,7 +335,7 @@ export const vietnamese: Cuisine = {
             'ground pork': ['chicken', 'turkey', 'plant-based meat'],
             'fish sauce': ['soy sauce', 'coconut aminos'],
             'green papaya': ['carrots', 'daikon']
-          }
+          },
           servingSize: 4,
           allergens: ['fish'],
           prepTime: '45 minutes',
@@ -352,7 +352,7 @@ export const vietnamese: Cuisine = {
             fat: 18,
             vitamins: ['B12', 'C'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['spring', 'summer'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
@@ -396,7 +396,7 @@ export const vietnamese: Cuisine = {
             'beef shank': ['brisket', 'tofu'],
             'pork knuckles': ['pork belly', 'mushrooms'],
             'shrimp paste': ['miso paste']
-          }
+          },
           servingSize: 6,
           allergens: ['shellfish'],
           prepTime: '40 minutes',
@@ -413,7 +413,7 @@ export const vietnamese: Cuisine = {
             fat: 18,
             vitamins: ['B12', 'C'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['all'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
@@ -424,7 +424,7 @@ export const vietnamese: Cuisine = {
           }
         }
       ]
-    }
+    },
     dinner: {
       all: [
         {
@@ -469,7 +469,7 @@ export const vietnamese: Cuisine = {
             catfish: ['salmon', 'mackerel', 'tofu'],
             'fish sauce': ['soy sauce', 'coconut aminos'],
             'coconut water': ['water', 'stock']
-          }
+          },
           servingSize: 4,
           allergens: ['fish'],
           prepTime: '20 minutes',
@@ -486,7 +486,7 @@ export const vietnamese: Cuisine = {
             fat: 25,
             vitamins: ['D', 'B12'],
             minerals: ['Omega-3', 'Iron']
-          }
+          },
           season: ['all'],
           mealType: ['dinner'],
           elementalProperties: {
@@ -524,7 +524,7 @@ export const vietnamese: Cuisine = {
             'pork chops': ['chicken thighs', 'tofu steaks'],
             'fish sauce': ['soy sauce', 'coconut aminos'],
             'broken rice': ['jasmine rice', 'brown rice']
-          }
+          },
           servingSize: 4,
           allergens: ['fish', 'eggs'],
           prepTime: '30 minutes',
@@ -541,7 +541,7 @@ export const vietnamese: Cuisine = {
             fat: 25,
             vitamins: ['B12', 'D'],
             minerals: ['Iron', 'Zinc']
-          }
+          },
           season: ['all'],
           mealType: ['dinner'],
           elementalProperties: {
@@ -552,7 +552,7 @@ export const vietnamese: Cuisine = {
           }
         }
       ]
-    }
+    },
     dessert: {
       all: [
         {
@@ -588,7 +588,7 @@ export const vietnamese: Cuisine = {
             'palm sugar': ['brown sugar', 'coconut sugar'],
             'pandan jelly': ['grass jelly', 'agar jelly'],
             'coconut milk': ['almond milk', 'oat milk']
-          }
+          },
           servingSize: 4,
           allergens: ['tree nuts (coconut)'],
           prepTime: '30 minutes',
@@ -606,7 +606,7 @@ export const vietnamese: Cuisine = {
             fat: 12,
             vitamins: ['B1', 'E'],
             minerals: ['Iron', 'Magnesium']
-          }
+          },
           season: ['summer'],
           mealType: ['dessert'],
           elementalProperties: {
@@ -655,7 +655,7 @@ export const vietnamese: Cuisine = {
             'palm sugar': ['brown sugar', 'coconut sugar'],
             'coconut milk': ['almond milk', 'oat milk'],
             'pandan leaves': ['vanilla extract']
-          }
+          },
           servingSize: 6,
           allergens: ['tree nuts (coconut)', 'peanuts'],
           prepTime: '15 minutes',
@@ -672,7 +672,7 @@ export const vietnamese: Cuisine = {
             fat: 12,
             vitamins: ['B6', 'C'],
             minerals: ['Potassium', 'Magnesium']
-          }
+          },
           season: ['all'],
           mealType: ['dessert'],
           elementalProperties: {
@@ -684,7 +684,7 @@ export const vietnamese: Cuisine = {
         }
       ]
     }
-  }
+  },
   traditionalSauces: {
     nuocCham: {
       name: 'Nước Chấm',
@@ -705,13 +705,13 @@ export const vietnamese: Cuisine = {
         Fire: 0.3,
         Earth: 0.2,
         Air: 0.1
-      }
+      },
       astrologicalInfluences: ['Neptune', 'Mars', 'Pisces'],
       seasonality: 'all',
       preparationNotes:
         'Balance is critical - should harmonize sweet, sour, salty, and spicy flavors in perfect proportion',
       technicalTips: 'Let sit for at least 15 minutes before serving to allow flavors to meld'
-    }
+    },
     nuocMam: {
       name: 'Nước Mắm (Fish Sauce)',
       description: 'Fermented anchovy sauce that forms the foundation of Vietnamese cuisine',
@@ -736,14 +736,14 @@ export const vietnamese: Cuisine = {
         Earth: 0.3,
         Fire: 0.1,
         Air: 0.1
-      }
+      },
       astrologicalInfluences: ['Neptune', 'Moon', 'Scorpio'],
       seasonality: 'all',
       preparationNotes:
         'Traditional production takes at least 12 months of fermentation in wooden barrels',
       technicalTips:
         'High-quality fish sauce should have a deep amber color and complex aroma beyond just fishiness'
-    }
+    },
     tuongOt: {
       name: 'Tương Ớt (Chili Sauce)',
       description: 'Vietnamese-style fermented chili sauce with garlic and vinegar',
@@ -768,12 +768,12 @@ export const vietnamese: Cuisine = {
         Earth: 0.2,
         Water: 0.2,
         Air: 0.1
-      }
+      },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'all',
       preparationNotes: 'Traditional recipes often include fermentation to develop deeper flavor',
       technicalTips: 'Roasting or charring chilies first adds complexity and tempers raw heat'
-    }
+    },
     tuongDen: {
       name: 'Tương Đen (Black Bean Sauce)',
       description: 'Fermented soybean sauce used in Vietnamese-Chinese fusion dishes',
@@ -798,13 +798,13 @@ export const vietnamese: Cuisine = {
         Water: 0.3,
         Fire: 0.2,
         Air: 0.1
-      }
+      },
       astrologicalInfluences: ['Saturn', 'Jupiter', 'Capricorn'],
       seasonality: 'all',
       preparationNotes:
         'Often used in dishes showing Chinese culinary influence in Vietnamese cuisine',
       technicalTips: 'Toast in oil before using to release aromatics and reduce raw bean flavor'
-    }
+    },
     saTe: {
       name: 'Sa Tế (Vietnamese Sateay Sauce)',
       description: 'Aromatic lemongrass and chili paste used in soups and stir-fries',
@@ -829,7 +829,7 @@ export const vietnamese: Cuisine = {
         Air: 0.3,
         Earth: 0.2,
         Water: 0.1
-      }
+      },
       astrologicalInfluences: ['Mars', 'Mercury', 'Leo'],
       seasonality: 'all',
       preparationNotes:
@@ -837,7 +837,7 @@ export const vietnamese: Cuisine = {
       technicalTips:
         'The oil should separate when fried properly, creating a vibrant red layer on top'
     }
-  }
+  },
   sauceRecommender: {
     forProtein: {
       beef: ['nước chấm', 'sa tế', 'lime-pepper-salt dip', 'ginger fish sauce', 'hoisin sauce'],
@@ -857,7 +857,7 @@ export const vietnamese: Cuisine = {
         'tamarind dip'
       ],
       tofu: ['nước chấm chay', 'tương đen', 'ginger soy sauce', 'tamarind sauce', 'peanut sauce']
-    }
+    },
     forVegetable: {
       leafy: [
         'nước chấm',
@@ -882,7 +882,7 @@ export const vietnamese: Cuisine = {
         'sesame oil',
         'sweet-sour sauce'
       ]
-    }
+    },
     forCookingMethod: {
       grilling: [
         'lime-pepper-salt dip',
@@ -919,7 +919,7 @@ export const vietnamese: Cuisine = {
         'herbs and lime',
         'mắm nêm'
       ]
-    }
+    },
     byAstrological: {
       fire: ['sa tế', 'tương ớt', 'spicy nước chấm', 'chili oil', 'black pepper sauce'],
       water: [
@@ -937,7 +937,7 @@ export const vietnamese: Cuisine = {
         'scallion oil',
         'light herb sauces'
       ]
-    }
+    },
     byDietary: {
       vegan: [
         'soy sauce dip',
@@ -967,7 +967,7 @@ export const vietnamese: Cuisine = {
         'ginger sauce',
         'chili oil'
       ]
-    }
+    },
     byRegion: {
       northern: [
         'simple nước chấm',
@@ -992,7 +992,7 @@ export const vietnamese: Cuisine = {
         'mắm nêm'
       ]
     }
-  }
+  },
   cookingTechniques: [
     {
       name: 'Kho (Clay Pot Braising)',

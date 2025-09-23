@@ -29,7 +29,7 @@ export class UnifiedScoringExample {
         latitude: 40.7128,
         longitude: -74.006,
         timezone: 'America/New_York'
-      }
+      },
       item: {
         name: 'Basil',
         type: 'ingredient',
@@ -38,7 +38,7 @@ export class UnifiedScoringExample {
           Water: 0.1,
           Earth: 0.2,
           Air: 0.4
-        }
+        },
         seasonality: ['summer', 'spring'],
         planetaryRulers: ['Mercury', 'Mars'],
         flavorProfile: {
@@ -46,18 +46,18 @@ export class UnifiedScoringExample {
           bitter: 0.1,
           spicy: 0.3,
           aromatic: 0.8
-        }
+        },
         culturalOrigins: ['Italian', 'Mediterranean']
-      }
+      },
       preferences: {
         intensityPreference: 'moderate',
         complexityPreference: 'simple',
         culturalPreferences: ['Italian']
-      }
+      },
       options: {
         debugMode: true,
         weights: {
-          seasonalEffect: 1.2, // Boost seasonal importance
+          seasonalEffect: 1.2, // Boost seasonal importance,
           elementalCompatibility: 1.1, // Boost elemental compatibility
         }
       }
@@ -76,7 +76,7 @@ export class UnifiedScoringExample {
         latitude: 34.0522,
         longitude: -118.2437,
         timezone: 'America/Los_Angeles'
-      }
+      },
       item: {
         name: 'Grilling',
         type: 'cooking_method',
@@ -85,7 +85,7 @@ export class UnifiedScoringExample {
           Water: 0.05,
           Earth: 0.1,
           Air: 0.05
-        }
+        },
         seasonality: ['summer'],
         planetaryRulers: ['Mars', 'Sun'],
         flavorProfile: {
@@ -93,11 +93,11 @@ export class UnifiedScoringExample {
           charred: 0.7,
           intense: 0.8
         }
-      }
+      },
       preferences: {
         intensityPreference: 'intense',
         complexityPreference: 'moderate'
-      }
+      },
       options: {
         debugMode: true
       }
@@ -120,7 +120,7 @@ export class UnifiedScoringExample {
           Water: 0.3,
           Earth: 0.4,
           Air: 0.1
-        }
+        },
         seasonality: ['autumn', 'winter'],
         planetaryRulers: ['Moon', 'Saturn'],
         flavorProfile: {
@@ -128,18 +128,18 @@ export class UnifiedScoringExample {
           earthy: 0.8,
           creamy: 0.7,
           savory: 0.8
-        }
+        },
         culturalOrigins: ['Italian']
-      }
+      },
       preferences: {
         dietaryRestrictions: ['Vegetarian'],
         culturalPreferences: ['Italian', 'Mediterranean'],
         intensityPreference: 'moderate',
         complexityPreference: 'complex'
-      }
+      },
       options: {
         weights: {
-          thermalDynamicEffect: 0.8, // Reduce thermodynamic importance for comfort food
+          thermalDynamicEffect: 0.8, // Reduce thermodynamic importance for comfort food,
           seasonalEffect: 1.3, // Boost seasonal importance
         }
       }
@@ -158,7 +158,7 @@ export class UnifiedScoringExample {
         latitude: 35.6762,
         longitude: 139.6503,
         timezone: 'Asia/Tokyo'
-      }
+      },
       item: {
         name: 'Japanese',
         type: 'cuisine',
@@ -167,25 +167,25 @@ export class UnifiedScoringExample {
           Water: 0.4,
           Earth: 0.25,
           Air: 0.2
-        }
-        seasonality: ['spring', 'summer', 'autumn', 'winter'], // Year-round
+        },
+        seasonality: ['spring', 'summer', 'autumn', 'winter'], // Year-round,
         planetaryRulers: ['Moon', 'Mercury'],
         flavorProfile: {
           umami: 0.9,
           subtle: 0.8,
           clean: 0.9,
           balanced: 0.95
-        }
+        },
         culturalOrigins: ['Japanese', 'East Asian']
-      }
+      },
       preferences: {
         culturalPreferences: ['Japanese', 'Asian'],
         intensityPreference: 'mild',
         complexityPreference: 'moderate'
-      }
+      },
       options: {
         weights: {
-          locationEffect: 1.5, // Boost location importance (we're in Japan)
+          locationEffect: 1.5, // Boost location importance (we're in Japan),
           culturalScore: 1.2, // Custom weight for cultural alignment
         }
       }

@@ -11,7 +11,7 @@ const rawBuckwheat = {
         base: 'Earth',
         secondary: 'Fire'
       }
-    }
+    },
     qualities: ['earthy', 'robust', 'gluten-free', 'hearty', 'nutty'],
     category: 'pseudo_grain',
     origin: ['Central Asia', 'Eastern Europe', 'Russia'],
@@ -22,7 +22,7 @@ const rawBuckwheat = {
         flavor: 'Distinctive earthy flavor',
         uses: 'Blinis, soba noodles, pancakes, bread'
       }
-    }
+    },
     preparation: {
       fresh: {
         duration: '15-20 minutes (raw), 10-15 minutes (roasted)',
@@ -32,15 +32,15 @@ const rawBuckwheat = {
           'Toast raw buckwheat for nuttier flavor',
           'Use 1:2 buckwheat to water ratio'
         ]
-      }
+      },
       methods: ['boiled', 'toasted', 'ground into flour', 'sprouted']
-    }
+    },
     storage: {
       container: 'Airtight container',
       duration: 'Up to 2 months (raw), 3-4 months (roasted), 2-3 days (cooked)',
       temperature: 'Cool, dark place (dry), refrigerated (cooked)',
       notes: 'Raw buckwheat has higher oil content and can spoil faster than roasted'
-    }
+    },
     pairingRecommendations: {
       complementary: ['mushrooms', 'onions', 'herbs', 'butter', 'eggs', 'cabbage'],
       contrasting: ['light fruits', 'yogurt', 'honey'],

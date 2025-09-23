@@ -583,7 +583,7 @@ if (require.main === module) {
         })
       break,
 
-    default: // // // _logger.info(`
+    default: // // // _logger.info(`,
 Usage: node AutomatedDocumentationGenerator.ts <command>
 
 Commands:

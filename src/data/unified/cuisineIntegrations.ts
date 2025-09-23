@@ -62,13 +62,13 @@ import { herbCuisineMatrix } from '../integrations/herbCuisineMatrix';
 
 export interface CuisineMonicaProfile {
   baseMonicaConstant: number, // Base Monica constant for cuisine,
-  seasonalModifiers: Record<Season, number>, // Seasonal Monica adjustments
+  seasonalModifiers: Record<Season, number>, // Seasonal Monica adjustments,
   cookingMethodOptimization: { [key: string]: number }; // Method-specific Monica optimization
   temperaturePreferences: {
     // Temperature preferences for Monica optimization,
     optimal: number,
     range: { min: number, max: number }
-  }
+  },
   timingAdjustments: {
     // Timing adjustments for Monica optimization,
     preparationTime: number, // Preparation time modifier,
@@ -92,13 +92,13 @@ export interface CuisineCompatibilityProfile {
 export interface CuisineSeasonalAdaptation {
   season: Season,
   adaptedIngredients: UnifiedIngredient[], // Season-appropriate ingredients,
-  adaptedCookingMethods: CookingMethod[] // Season-appropriate methods
+  adaptedCookingMethods: CookingMethod[] // Season-appropriate methods,
   seasonalModifiers: {
     temperatureAdjustment: number,
     timingAdjustment: number,
     intensityModifier: string,
     zodiacAlignment?: any, // Astrological alignment for season
-  }
+  },
   traditionalSeasonalDishes: string[],
   monicaOptimization: number,
   kalchmHarmony: number
@@ -159,7 +159,7 @@ export interface CuisineIngredientAnalysis {
     averageKalchm: number,
     kalchmRange: { min: number, max: number }
     kalchmDistribution: { [key: string]: number }; // Kalchm ranges and their frequencies
-  }
+  },
   elementalProfile: ElementalProperties,
   seasonalAvailability: Record<Season, number>,
   commonIngredients: UnifiedIngredient[],
@@ -173,7 +173,7 @@ export interface UnifiedCuisineIntegration {
   cuisineCompatibility: Record<string, Record<string, CuisineCompatibilityProfile>>,
 
   // Cuisine-Specific Cooking Methods,
-  cuisineCookingMethods: Record<
+  cuisineCookingMethods: Record<,
     string,
     {
       traditional: EnhancedCookingMethod[],
@@ -216,20 +216,20 @@ export const enhancedCuisineMatrix = {
     white_rice: {
       cuisines: ['japanese', 'chinese', 'korean', 'indian', 'thai'],
       flavorProfileType: FlavorProfileType.SAVORY
-    }
+    },
     brown_rice: {
       cuisines: ['american', 'macrobiotic', 'health_focused'],
       flavorProfileType: FlavorProfileType.NEUTRAL
-    }
+    },
     quinoa: {
       cuisines: ['peruvian', 'bolivian', 'health_focused'],
       flavorProfileType: FlavorProfileType.HERBAL
-    }
+    },
     semolina: {
       cuisines: ['italian', 'north_african', 'indian'],
       flavorProfileType: FlavorProfileType.WARM
     }
-  }
+  },
   herb: herbCuisineMatrix || {
     basil: ['italian', 'thai', 'mediterranean'],
     cilantro: ['mexican', 'indian', 'thai', 'vietnamese'],
@@ -287,18 +287,18 @@ export const cuisineMonicaConstants: { [key: string]: CuisineMonicaProfile } = {
       fall: 1.15,
       winter: 1.05,
       all: 1.15
-    }
+    },
     cookingMethodOptimization: {
       pasta_making: 1.25,
       risotto: 1.2,
       grilling: 1.15,
       braising: 1.1,
       roasting: 1.18
-    }
+    },
     temperaturePreferences: {
       optimal: 375,
       range: { min: 325, max: 425 }
-    }
+    },
     timingAdjustments: {
       preparationTime: 1.1,
       cookingTime: 1.0,
@@ -315,18 +315,18 @@ export const cuisineMonicaConstants: { [key: string]: CuisineMonicaProfile } = {
       fall: 1.25,
       winter: 1.3,
       all: 1.25
-    }
+    },
     cookingMethodOptimization: {
       stir_frying: 1.35,
       steaming: 1.15,
       braising: 1.2,
       deep_frying: 1.3,
       smoking: 1.1
-    }
+    },
     temperaturePreferences: {
       optimal: 400,
       range: { min: 350, max: 500 }
-    }
+    },
     timingAdjustments: {
       preparationTime: 1.3,
       cookingTime: 0.8,
@@ -343,18 +343,18 @@ export const cuisineMonicaConstants: { [key: string]: CuisineMonicaProfile } = {
       fall: 1.35,
       winter: 1.4,
       all: 1.35
-    }
+    },
     cookingMethodOptimization: {
       tempering: 1.45,
       slow_cooking: 1.25,
       tandoor: 1.4,
       curry_making: 1.35,
       pressure_cooking: 1.2
-    }
+    },
     temperaturePreferences: {
       optimal: 350,
       range: { min: 300, max: 450 }
-    }
+    },
     timingAdjustments: {
       preparationTime: 1.4,
       cookingTime: 1.2,
@@ -371,18 +371,18 @@ export const cuisineMonicaConstants: { [key: string]: CuisineMonicaProfile } = {
       fall: 1.2,
       winter: 1.25,
       all: 1.2
-    }
+    },
     cookingMethodOptimization: {
       sauteing: 1.25,
       braising: 1.3,
       roasting: 1.2,
       poaching: 1.15,
       confit: 1.35
-    }
+    },
     temperaturePreferences: {
       optimal: 350,
       range: { min: 300, max: 400 }
-    }
+    },
     timingAdjustments: {
       preparationTime: 1.3,
       cookingTime: 1.1,
@@ -399,18 +399,18 @@ export const cuisineMonicaConstants: { [key: string]: CuisineMonicaProfile } = {
       fall: 1.1,
       winter: 1.15,
       all: 1.1
-    }
+    },
     cookingMethodOptimization: {
       steaming: 1.2,
       grilling: 1.15,
       simmering: 1.1,
       raw: 1.25,
       tempura: 1.3
-    }
+    },
     temperaturePreferences: {
       optimal: 325,
       range: { min: 275, max: 375 }
-    }
+    },
     timingAdjustments: {
       preparationTime: 1.2,
       cookingTime: 0.9,
@@ -427,18 +427,18 @@ export const cuisineMonicaConstants: { [key: string]: CuisineMonicaProfile } = {
       fall: 1.3,
       winter: 1.25,
       all: 1.3
-    }
+    },
     cookingMethodOptimization: {
       grilling: 1.35,
       roasting: 1.3,
       braising: 1.25,
       frying: 1.32,
       smoking: 1.2
-    }
+    },
     temperaturePreferences: {
       optimal: 400,
       range: { min: 350, max: 450 }
-    }
+    },
     timingAdjustments: {
       preparationTime: 1.1,
       cookingTime: 1.0,
@@ -455,18 +455,18 @@ export const cuisineMonicaConstants: { [key: string]: CuisineMonicaProfile } = {
       fall: 1.25,
       winter: 1.2,
       all: 1.28
-    }
+    },
     cookingMethodOptimization: {
       stir_frying: 1.35,
       steaming: 1.2,
       grilling: 1.3,
       curry_making: 1.32,
       raw: 1.25
-    }
+    },
     temperaturePreferences: {
       optimal: 375,
       range: { min: 325, max: 425 }
-    }
+    },
     timingAdjustments: {
       preparationTime: 1.2,
       cookingTime: 0.9,
@@ -483,18 +483,18 @@ export const cuisineMonicaConstants: { [key: string]: CuisineMonicaProfile } = {
       fall: 1.22,
       winter: 1.2,
       all: 1.22
-    }
+    },
     cookingMethodOptimization: {
       grilling: 1.28,
       roasting: 1.25,
       braising: 1.2,
       baking: 1.15,
       smoking: 1.18
-    }
+    },
     temperaturePreferences: {
       optimal: 375,
       range: { min: 325, max: 425 }
-    }
+    },
     timingAdjustments: {
       preparationTime: 1.2,
       cookingTime: 1.1,
@@ -511,18 +511,18 @@ export const cuisineMonicaConstants: { [key: string]: CuisineMonicaProfile } = {
       fall: 1.15,
       winter: 1.1,
       all: 1.18
-    }
+    },
     cookingMethodOptimization: {
       grilling: 1.25,
       roasting: 1.2,
       braising: 1.15,
       sauteing: 1.22,
       baking: 1.18
-    }
+    },
     temperaturePreferences: {
       optimal: 375,
       range: { min: 325, max: 425 }
-    }
+    },
     timingAdjustments: {
       preparationTime: 1.1,
       cookingTime: 1.0,
@@ -539,18 +539,18 @@ export const cuisineMonicaConstants: { [key: string]: CuisineMonicaProfile } = {
       fall: 1.2,
       winter: 1.25,
       all: 1.2
-    }
+    },
     cookingMethodOptimization: {
       stir_frying: 1.3,
       steaming: 1.2,
       braising: 1.18,
       grilling: 1.15,
       deep_frying: 1.25
-    }
+    },
     temperaturePreferences: {
       optimal: 375,
       range: { min: 325, max: 450 }
-    }
+    },
     timingAdjustments: {
       preparationTime: 1.2,
       cookingTime: 0.9,
@@ -1276,7 +1276,7 @@ export class UnifiedCuisineIntegrationSystem {
         indian: ['Curry Risotto', 'Tandoori Pizza', 'Masala Pasta'],
         japanese: ['Sushi Pizza', 'Miso Carbonara', 'Tempura Arancini'],
         mexican: ['Taco Pasta', 'Salsa Verde Risotto', 'Enchilada Lasagna']
-      }
+      },
       chinese: {
         indian: ['Curry Fried Rice', 'Tandoori Dumplings', 'Masala Noodles'],
         mexican: ['Kung Pao Tacos', 'Sweet and Sour Enchiladas', 'General Tso Burritos'],
@@ -1319,7 +1319,7 @@ export class UnifiedCuisineIntegrationSystem {
             temperatureAdjustment: 0,
             timingAdjustment: 0,
             intensityModifier: 'normal'
-          }
+          },
           traditionalSeasonalDishes: this.getTraditionalSeasonalDishes(cuisine1, cuisine2, season),
           monicaOptimization: 0.5,
           kalchmHarmony: this.calculateKalchmHarmonyBetweenCuisines(cuisine1, cuisine2)
@@ -1377,7 +1377,7 @@ export class UnifiedCuisineIntegrationSystem {
             const monicaModifiers = profileData.monicaModifiers as any;
             return String(monicaModifiers.intensityModifier || 'normal')
           })()
-        }
+        },
         traditionalSeasonalDishes: this.getTraditionalSeasonalDishes(cuisine1, cuisine2, season),
         monicaOptimization: seasonalOptimization,
         kalchmHarmony: this.calculateKalchmHarmonyBetweenCuisines(cuisine1, cuisine2)
@@ -1667,7 +1667,7 @@ export class UnifiedCuisineIntegrationSystem {
 
       contributingCuisines.push({
         cuisine,
-        monica: monica.baseMonicaConstant
+        monica: monica.baseMonicaConstant,
         weight,
         contribution
       })
@@ -1922,7 +1922,7 @@ export class UnifiedCuisineIntegrationSystem {
       kalchmRange: {
         min: kalchmValues.length > 0 ? Math.min(...kalchmValues) : 0,
         max: kalchmValues.length > 0 ? Math.max(...kalchmValues) : 0
-      }
+      },
       kalchmDistribution: this.calculateKalchmDistribution(kalchmValues)
     }
 

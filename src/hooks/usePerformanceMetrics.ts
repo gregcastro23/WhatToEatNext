@@ -63,7 +63,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {
     setMetrics(prev => ({,
       ...prev,
       renderTime,
-      componentRenderCount: renderCountRef.current
+      componentRenderCount: renderCountRef.current,
       averageRenderTime,
       lastUpdated: new Date()
     }))

@@ -19,47 +19,47 @@ const planetaryElements: Record<
     diurnal: 'Fire',
     nocturnal: 'Fire',
     dignityEffect: { leo: 1, aries: 2, aquarius: -1, libra: -2 }
-  }
+  },
   Moon: {
     diurnal: 'Water',
     nocturnal: 'Water',
     dignityEffect: { cancer: 1, taurus: 2, capricorn: -1, scorpio: -2 }
-  }
+  },
   Mercury: {
     diurnal: 'Air',
     nocturnal: 'Earth',
     dignityEffect: { gemini: 1, virgo: 3, sagittarius: 1, pisces: -3 }
-  }
+  },
   Venus: {
     diurnal: 'Water',
     nocturnal: 'Earth',
     dignityEffect: { libra: 1, taurus: 1, pisces: 2, aries: -1, scorpio: -1, virgo: -2 }
-  }
+  },
   Mars: {
     diurnal: 'Fire',
     nocturnal: 'Water',
     dignityEffect: { aries: 1, scorpio: 1, capricorn: 2, taurus: -1, libra: -1, cancer: -2 }
-  }
+  },
   Jupiter: {
     diurnal: 'Air',
     nocturnal: 'Fire',
     dignityEffect: { pisces: 1, sagittarius: 1, cancer: 2, gemini: -1, virgo: -1, capricorn: -2 }
-  }
+  },
   Saturn: {
     diurnal: 'Air',
     nocturnal: 'Earth',
     dignityEffect: { aquarius: 1, capricorn: 1, libra: 2, cancer: -1, leo: -1, aries: -2 }
-  }
+  },
   Uranus: {
     diurnal: 'Water',
     nocturnal: 'Air',
     dignityEffect: { aquarius: 1, scorpio: 2, taurus: -3 }
-  }
+  },
   Neptune: {
     diurnal: 'Water',
     nocturnal: 'Water',
     dignityEffect: { pisces: 1, cancer: 2, virgo: -1, capricorn: -2 }
-  }
+  },
   Pluto: {
     diurnal: 'Earth',
     nocturnal: 'Water',
@@ -88,7 +88,7 @@ const signInfo: Record<
       Jupiter: [16],
       Saturn: [2730]
     }
-  }
+  },
   taurus: {
     element: 'Earth',
     decanEffects: { '1st Decan': ['Mercury'], '2nd Decan': ['Moon'], '3rd Decan': ['Saturn'] }
@@ -99,14 +99,14 @@ const signInfo: Record<
       Jupiter: [1622],
       Saturn: [2326]
     }
-  }
+  },
   gemini: {
     element: 'Air',
     decanEffects: {
       '1st Decan': ['Jupiter'],
       '2nd Decan': ['Mars'],
       '3rd Decan': ['Uranus', 'Sun']
-    }
+    },
     degreeEffects: {
       Mercury: [17],
       Venus: [1520],
@@ -114,14 +114,14 @@ const signInfo: Record<
       Jupiter: [814],
       Saturn: [2225]
     }
-  }
+  },
   cancer: {
     element: 'Water',
     decanEffects: {
       '1st Decan': ['Venus'],
       '2nd Decan': ['Mercury', 'Pluto'],
       '3rd Decan': ['Neptune', 'Moon']
-    }
+    },
     degreeEffects: {
       Mercury: [1420],
       Venus: [2127],
@@ -129,7 +129,7 @@ const signInfo: Record<
       Jupiter: [713],
       Saturn: [2830]
     }
-  }
+  },
   leo: {
     element: 'Fire',
     decanEffects: { '1st Decan': ['Saturn'], '2nd Decan': ['Jupiter'], '3rd Decan': ['Mars'] }
@@ -140,14 +140,14 @@ const signInfo: Record<
       Jupiter: [2025],
       Saturn: [16]
     }
-  }
+  },
   virgo: {
     element: 'Earth',
     decanEffects: {
       '1st Decan': ['Mars', 'Sun'],
       '2nd Decan': ['Venus'],
       '3rd Decan': ['Mercury']
-    }
+    },
     degreeEffects: {
       Mercury: [17],
       Venus: [813],
@@ -155,14 +155,14 @@ const signInfo: Record<
       Jupiter: [1418],
       Saturn: [1924]
     }
-  }
+  },
   libra: {
     element: 'Air',
     decanEffects: {
       '1st Decan': ['Moon'],
       '2nd Decan': ['Saturn', 'Uranus'],
       '3rd Decan': ['Jupiter']
-    }
+    },
     degreeEffects: {
       Mercury: [2024],
       Venus: [711],
@@ -170,14 +170,14 @@ const signInfo: Record<
       Jupiter: [1219],
       Saturn: [16]
     }
-  }
+  },
   scorpio: {
     element: 'Water',
     decanEffects: {
       '1st Decan': ['Pluto'],
       '2nd Decan': ['Neptune', 'Sun'],
       '3rd Decan': ['Venus']
-    }
+    },
     degreeEffects: {
       Mercury: [2227],
       Venus: [1521],
@@ -185,7 +185,7 @@ const signInfo: Record<
       Jupiter: [714],
       Saturn: [2830]
     }
-  }
+  },
   sagittarius: {
     element: 'Fire',
     decanEffects: { '1st Decan': ['Mercury'], '2nd Decan': ['Moon'], '3rd Decan': ['Saturn'] }
@@ -196,7 +196,7 @@ const signInfo: Record<
       Jupiter: [18],
       Saturn: [2125]
     }
-  }
+  },
   capricorn: {
     element: 'Earth',
     decanEffects: { '1st Decan': ['Jupiter'], '2nd Decan': [], '3rd Decan': ['Sun'] }
@@ -207,7 +207,7 @@ const signInfo: Record<
       Jupiter: [1319],
       Saturn: [2630]
     }
-  }
+  },
   aquarius: {
     element: 'Air',
     decanEffects: { '1st Decan': ['Uranus'], '2nd Decan': ['Mercury'], '3rd Decan': ['Moon'] }
@@ -218,14 +218,14 @@ const signInfo: Record<
       Jupiter: [2125],
       Saturn: [16]
     }
-  }
+  },
   pisces: {
     element: 'Water',
     decanEffects: {
       '1st Decan': ['Saturn', 'Neptune', 'Venus'],
       '2nd Decan': ['Jupiter'],
       '3rd Decan': ['Pisces', 'Mars']
-    }
+    },
     degreeEffects: {
       Mercury: [1520],
       Venus: [18],
@@ -245,7 +245,7 @@ export interface FoodCorrespondence {
   alchemy: {
     day: number[],
     night: number[]
-  }
+  },
   energyValues: {
     heat: number,
     entropy: number,
@@ -275,7 +275,7 @@ export interface FoodCompatibility {
     dignityBonus?: number,
     decanBonus?: number,
     aspectBonus?: number
-  }
+  },
   recommendations: string[],
   warnings: string[],
   preparationMethods: PreparationMethod[]
@@ -289,7 +289,7 @@ export interface PreparationMethod {
     heat: number,
     entropy: number,
     reactivity: number
-  }
+  },
   timing: {
     optimal: Planet[],
     acceptable: Planet[],
@@ -322,7 +322,7 @@ export class FoodAlchemySystem {
         alchemy: {
           day: [0.80.40.6],
           night: [0.60.30.5]
-        }
+        },
         energyValues: {
           heat: 0.8,
           entropy: 0.4,
@@ -338,7 +338,7 @@ export class FoodAlchemySystem {
         alchemy: {
           day: [0.70.50.6],
           night: [0.50.40.5]
-        }
+        },
         energyValues: {
           heat: 0.7,
           entropy: 0.5,
@@ -362,7 +362,7 @@ export class FoodAlchemySystem {
           heat: 0.8,
           entropy: 0.4,
           reactivity: 0.6
-        }
+        },
         timing: {
           optimal: ['Sun', 'Mars'],
           acceptable: ['Jupiter'],
@@ -377,7 +377,7 @@ export class FoodAlchemySystem {
           heat: 0.3,
           entropy: 0.5,
           reactivity: 0.4
-        }
+        },
         timing: {
           optimal: ['Moon', 'Venus'],
           acceptable: ['Mercury'],
@@ -437,8 +437,8 @@ export class FoodAlchemySystem {
         dignityBonus: (dayDignityBonus || 0) + (hourDignityBonus || 0),
         decanBonus: dayDecanBonus,
         aspectBonus
-      }
-      recommendations: this.generateRecommendations(
+      },
+      recommendations: this.generateRecommendations(,
         food,
         state,
         time,

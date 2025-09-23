@@ -26,8 +26,8 @@ export const _DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
  * Validation thresholds for elemental properties
  */
 export const _VALIDATION_THRESHOLDS = {
-  MINIMUM_ELEMENT: 0, // Minimum allowed value for any element
-  MAXIMUM_ELEMENT: 1, // Maximum allowed value for any element
+  MINIMUM_ELEMENT: 0, // Minimum allowed value for any element,
+  MAXIMUM_ELEMENT: 1, // Maximum allowed value for any element,
   BALANCE_PRECISION: 0.01, // Tolerance for sum of elements to be considered valid (1 ± this value)
 }
 
@@ -146,7 +146,7 @@ export const _ELEMENTAL_CHARACTERISTICS = {
     tastes: ['spicy', 'bitter'],
     cuisine: ['mexican', 'thai', 'cajun', 'szechuan', 'indian'],
     effects: ['stimulating', 'energizing', 'warming']
-  }
+  },
   Water: {
     qualities: ['Cool', 'Moist', 'Flowing', 'Adaptable', 'Receptive'],
     keywords: ['Emotional', 'Intuitive', 'Nurturing', 'Healing', 'Connecting'],
@@ -162,7 +162,7 @@ export const _ELEMENTAL_CHARACTERISTICS = {
     tastes: ['sweet', 'bland'],
     cuisine: ['japanese', 'cantonese', 'scandinavian', 'oceanic'],
     effects: ['cooling', 'calming', 'hydrating']
-  }
+  },
   Earth: {
     qualities: ['Cool', 'Dry', 'Stable', 'Solid', 'Grounding'],
     keywords: ['Grounding', 'Practical', 'Material', 'Reliable', 'Structured'],
@@ -178,7 +178,7 @@ export const _ELEMENTAL_CHARACTERISTICS = {
     tastes: ['salty', 'umami'],
     cuisine: ['french', 'german', 'russian', 'mediterranean'],
     effects: ['grounding', 'stabilizing', 'nourishing']
-  }
+  },
   Air: {
     qualities: ['Warm', 'Moist', 'Mobile', 'Light', 'Communicative'],
     keywords: ['Intellectual', 'Communication', 'Social', 'Movement', 'Connection'],

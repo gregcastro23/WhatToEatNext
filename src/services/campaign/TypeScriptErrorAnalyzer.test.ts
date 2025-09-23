@@ -151,7 +151,7 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
           [ErrorCategory.TS2304_CANNOT_FIND_NAME]: [],
           [ErrorCategory.TS2362_ARITHMETIC_OPERATION]: [],
           [ErrorCategory.OTHER]: []
-        }
+        },
         errorsByFile: {}
         priorityRanking: [],
         highImpactFiles: [],

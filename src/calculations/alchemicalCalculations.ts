@@ -114,7 +114,7 @@ export interface AlchemicalResults {
 
 // Define day/night element maps for all planets based on original engine
 const planetElementMap = (isDaytime: boolean): Record<string, ElementalCharacter> => ({
-  sun: 'Fire', // Sun is always Fire
+  sun: 'Fire', // Sun is always Fire,
   moon: 'Water', // Moon is always Water,
   mercury: isDaytime ? 'Air' : 'Earth',
   venus: isDaytime ? 'Water' : 'Earth',
@@ -132,7 +132,7 @@ const planetElementMap = (isDaytime: boolean): Record<string, ElementalCharacter
 
 // Define day/night alchemical property maps
 const planetPropertyMap = (isDaytime: boolean): Record<string, keyof AlchemicalProperties> => ({
-  sun: 'Spirit', // Always Spirit
+  sun: 'Spirit', // Always Spirit,
   moon: 'Essence', // Always Essence,
   mercury: isDaytime ? 'Substance' : 'Matter',
   venus: isDaytime ? 'Essence' : 'Matter',
@@ -517,57 +517,57 @@ const decanRulers: Record<string, Record<string, string[]>> = {
     '1st Decan': ['Mars'],
     '2nd Decan': ['Sun'],
     '3rd Decan': ['Venus']
-  }
+  },
   taurus: {
     '1st Decan': ['Mercury'],
     '2nd Decan': ['Moon'],
     '3rd Decan': ['Saturn']
-  }
+  },
   gemini: {
     '1st Decan': ['Jupiter'],
     '2nd Decan': ['Mars'],
     '3rd Decan': ['Uranus', 'Sun']
-  }
+  },
   cancer: {
     '1st Decan': ['Venus'],
     '2nd Decan': ['Mercury', 'Pluto'],
     '3rd Decan': ['Neptune', 'Moon']
-  }
+  },
   leo: {
     '1st Decan': ['Saturn'],
     '2nd Decan': ['Jupiter'],
     '3rd Decan': ['Mars']
-  }
+  },
   virgo: {
     '1st Decan': ['Mars', 'Sun'],
     '2nd Decan': ['Venus'],
     '3rd Decan': ['Mercury']
-  }
+  },
   libra: {
     '1st Decan': ['Moon'],
     '2nd Decan': ['Saturn', 'Uranus'],
     '3rd Decan': ['Jupiter']
-  }
+  },
   scorpio: {
     '1st Decan': ['Pluto'],
     '2nd Decan': ['Neptune', 'Sun'],
     '3rd Decan': ['Venus']
-  }
+  },
   sagittarius: {
     '1st Decan': ['Mercury'],
     '2nd Decan': ['Moon'],
     '3rd Decan': ['Saturn']
-  }
+  },
   capricorn: {
     '1st Decan': ['Jupiter'],
     '2nd Decan': [],
     '3rd Decan': ['Sun']
-  }
+  },
   aquarius: {
     '1st Decan': ['Uranus'],
     '2nd Decan': ['Mercury'],
     '3rd Decan': ['Moon']
-  }
+  },
   pisces: {
     '1st Decan': ['Saturn', 'Neptune', 'Venus'],
     '2nd Decan': ['Jupiter'],
@@ -583,77 +583,77 @@ const degreeEffects: Record<string, Record<string, number[]>> = {
     mars: [2226],
     jupiter: [16],
     saturn: [2730]
-  }
+  },
   taurus: {
     mercury: [915],
     venus: [18],
     mars: [2730],
     jupiter: [1622],
     saturn: [2326]
-  }
+  },
   gemini: {
     mercury: [17],
     venus: [1520],
     mars: [2630],
     jupiter: [814],
     saturn: [2225]
-  }
+  },
   cancer: {
     mercury: [1420],
     venus: [2127],
     mars: [16],
     jupiter: [713],
     saturn: [2830]
-  }
+  },
   leo: {
     mercury: [713],
     venus: [1419],
     mars: [2630],
     jupiter: [2025],
     saturn: [16]
-  }
+  },
   virgo: {
     mercury: [17],
     venus: [813],
     mars: [2530],
     jupiter: [1418],
     saturn: [1924]
-  }
+  },
   libra: {
     mercury: [2024],
     venus: [711],
-    mars: [], // Empty array indicates no special degrees
+    mars: [], // Empty array indicates no special degrees,
     jupiter: [1219],
     saturn: [16]
-  }
+  },
   scorpio: {
     mercury: [2227],
     venus: [1521],
     mars: [16],
     jupiter: [714],
     saturn: [2830]
-  }
+  },
   sagittarius: {
     mercury: [1520],
     venus: [914],
-    mars: [], // Empty array indicates no special degrees
+    mars: [], // Empty array indicates no special degrees,
     jupiter: [18],
     saturn: [2125]
-  }
+  },
   capricorn: {
     mercury: [712],
     venus: [16],
-    mars: [], // Empty array indicates no special degrees
+    mars: [], // Empty array indicates no special degrees,
     jupiter: [1319],
     saturn: [2630]
-  }
+  },
   aquarius: {
-    mercury: [], // Empty array indicates no special degrees
+    mercury: [], // Empty array indicates no special degrees,
     venus: [1320],
     mars: [2630],
     jupiter: [2125],
     saturn: [16]
-  }
+  },
   pisces: {
     mercury: [1520],
     venus: [18],
@@ -1068,7 +1068,7 @@ export function alchemize(
       entropy: essence / (spirit + essence + matter + substance) || 0.25,
       reactivity: matter / (spirit + essence + matter + substance) || 0.25,
       gregsEnergy: substance / (spirit + essence + matter + substance) || 0.25
-    }
+    },
     kalchm: (spirit + essence) / (matter + substance) || 1.0,
     monica: Math.sqrt(spirit * essence * matter * substance) || 0.5,
     score: (spirit + essence + matter + substance) / 4 || 0.5,

@@ -114,7 +114,7 @@ export interface IngredientMapping {
 export interface AstrologicalProfile {
   rulingPlanet?: string,
   zodiacAffinity?: any[],
-  elementalAlignment: ElementalProperties
+  elementalAlignment: ElementalProperties,
   planetaryCorrespondences?: Record<string, number>,
   seasonalPreferences?: SeasonalPreferences
 }
@@ -164,7 +164,7 @@ export interface SearchFilters {
   _cookingTime: {
     min: number,
     max: number
-  }
+  },
   cuisineTypes: string[],
   _mealTypes: string[],
   _spiciness: string[],
@@ -269,7 +269,7 @@ export interface RecipeIngredient {
   id?: string,
   ingredientId?: string,
   name: string,
-  amount: number, // Standardized to 'amount' not 'quantity'
+  amount: number, // Standardized to 'amount' not 'quantity',
   unit: string,
   preparation?: string,
   optional?: boolean,

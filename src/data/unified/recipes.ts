@@ -86,7 +86,7 @@ export interface EnhancedRecipe {
       entropy: number,
       reactivity: number,
       gregsEnergy: number
-    }
+    },
     ingredientKalchmBreakdown: Array<{
       name: string,
       kalchm: number,
@@ -104,7 +104,7 @@ export interface EnhancedRecipe {
       temperatureAdjustment?: number,
       timingAdjustment?: number,
       intensityModifier?: string
-    }
+    },
     elementalCookingMethod: string,
     thermodynamicRecommendations: string[]
   }
@@ -549,7 +549,7 @@ export class RecipeEnhancer {
 
       // ADD new alchemical properties
       alchemicalProperties: {
-        totalKalchm: kalchmResult.totalKalchm
+        totalKalchm: kalchmResult.totalKalchm,
         monicaConstant,
         thermodynamicProfile: thermodynamics,
         ingredientKalchmBreakdown: kalchmResult.breakdown,

@@ -17,11 +17,11 @@ export interface AlertingConfig {
     enabled: boolean,
     sensitivity: 'low' | 'medium' | 'high',
     cooldownPeriod: number, // minutes
-  }
+  },
   performanceMonitoring: {
     enabled: boolean,
     thresholds: PerformanceThreshold[]
-  }
+  },
   autoResponse: {
     enabled: boolean,
     actions: AutoResponseAction[]
@@ -232,7 +232,7 @@ export class LintingAlertingSystem {
         metric: alert.metric,
         currentValue: alert.currentValue,
         threshold: alert.threshold
-      }
+      },
       actions: this.generateKiroActions(alert)
     }
 
@@ -444,30 +444,30 @@ export class LintingAlertingSystem {
         enabled: true,
         sensitivity: 'medium',
         cooldownPeriod: 15, // 15 minutes
-      }
+      },
       performanceMonitoring: {
         enabled: true,
         thresholds: [
           {
             metric: 'duration',
-            threshold: 30000, // 30 seconds
+            threshold: 30000, // 30 seconds,
             severity: 'warning',
             message: 'Linting duration exceeds 30 seconds'
           }
           {
             metric: 'memory',
-            threshold: 512, // 512 MB
+            threshold: 512, // 512 MB,
             severity: 'warning',
             message: 'Memory usage exceeds 512MB'
           }
           {
             metric: 'cacheHitRate',
-            threshold: 0.5, // 50%
+            threshold: 0.5, // 50%,
             severity: 'warning',
             message: 'Cache hit rate below 50%'
           }
         ]
-      }
+      },
       autoResponse: {
         enabled: true,
         actions: [

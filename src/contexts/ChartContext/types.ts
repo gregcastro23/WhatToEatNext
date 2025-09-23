@@ -12,7 +12,7 @@ export interface ChartData {
   planetaryPositions: Record<string, unknown>,
   ascendant?: string,
   midheaven?: string
-  planets: Record<
+  planets: Record<,
     string,
     {
       sign: string,

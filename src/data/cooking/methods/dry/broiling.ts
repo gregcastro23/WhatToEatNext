@@ -15,11 +15,11 @@ export const broiling: CookingMethodData = {
     Air: 0.1,
     Earth: 0.1,
     Water: 0.0
-  }
+  },
   duration: {
     min: 3,
     max: 15
-  }
+  },
   suitable_for: [
     'steaks',
     'chops',
@@ -46,8 +46,8 @@ export const broiling: CookingMethodData = {
     unfavorableZodiac: ['cancer', 'pisces', 'scorpio'] as any[],
     dominantPlanets: ['Mars', 'Sun', 'Mercury'],
     lunarPhaseEffect: {
-      full_moon: 1.25, // Enhanced browning effects
-      new_moon: 0.75, // Reduced intensity
+      full_moon: 1.25, // Enhanced browning effects,
+      new_moon: 0.75, // Reduced intensity,
       waxing_crescent: 0.9,
       waning_gibbous: 1.1
     }
@@ -125,9 +125,9 @@ export const broiling: CookingMethodData = {
   ],
 
   thermodynamicProperties: {
-    heat: 0.95, // Very high localized heat
-    entropy: 0.7, // Significant surface transformation
-    reactivity: 0.8, // High chemical reactivity on food surface
+    heat: 0.95, // Very high localized heat,
+    entropy: 0.7, // Significant surface transformation,
+    reactivity: 0.8, // High chemical reactivity on food surface,
     gregsEnergy: -0.75, // Calculated using heat - (entropy * reactivity), // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
@@ -155,9 +155,9 @@ export const broiling: CookingMethodData = {
     'Combination convection-broil methods'
   ],
 
-  sustainabilityRating: 0.7, // Generally energy efficient due to short cooking times
+  sustainabilityRating: 0.7, // Generally energy efficient due to short cooking times,
 
-  equipmentComplexity: 0.3, // Very simple, uses existing oven equipment
+  equipmentComplexity: 0.3, // Very simple, uses existing oven equipment,
 
   healthConsiderations: [
     'Minimal added fat required',

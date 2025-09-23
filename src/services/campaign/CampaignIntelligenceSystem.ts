@@ -38,13 +38,13 @@ export interface CampaignProgressIntelligence {
     projectedCompletion: Date,
     efficiencyTrends: number[],
     bottleneckIdentification: string[]
-  }
+  },
   qualityMetrics: {
     codeHealthScore: number,
     maintainabilityIndex: number,
     technicalDebtRatio: number,
     buildReliability: number
-  }
+  },
   strategicInsights: {
     recommendedActions: string[],
     riskAssessment: string[],
@@ -235,13 +235,13 @@ export const CAMPAIGN_PROGRESS_INTELLIGENCE = {
         projectedCompletion,
         efficiencyTrends,
         bottleneckIdentification
-      }
+      },
       qualityMetrics: {
         codeHealthScore,
         maintainabilityIndex,
         technicalDebtRatio,
         buildReliability
-      }
+      },
       strategicInsights: {
         recommendedActions,
         riskAssessment,
@@ -286,7 +286,7 @@ export const CAMPAIGN_PROGRESS_INTELLIGENCE = {
  * Master system that integrates all campaign intelligence systems
  */
 export const CAMPAIGN_ENTERPRISE_INTELLIGENCE = {
-  generateComprehensiveIntelligence: async (
+  generateComprehensiveIntelligence: async (,
     errorAnalyzer: TypeScriptErrorAnalyzer,
     fixerIntegration: EnhancedErrorFixerIntegration,
     anyElimination: ExplicitAnyEliminationSystem,
@@ -314,7 +314,7 @@ export const CAMPAIGN_ENTERPRISE_INTELLIGENCE = {
       codeQualityImprovement: progressAnalysis.qualityMetrics.codeHealthScore,
       buildStabilityScore: progressAnalysis.qualityMetrics.buildReliability,
       technicalDebtReduction: 1 - progressAnalysis.qualityMetrics.technicalDebtRatio,
-      enterpriseReadiness: Math.min(
+      enterpriseReadiness: Math.min(,
         0.95
         (errorReductionRate + progressAnalysis.qualityMetrics.codeHealthScore) / 2
       ),
@@ -499,7 +499,7 @@ export const _CAMPAIGN_INTELLIGENCE_DEMO = {
     const demonstrationSummary = {
       intelligenceSystemsCount: 3,
       analysisMethodsCount: 6,
-      metricsGeneratedCount: Object.keys(integrationMetrics).length +
+      metricsGeneratedCount: Object.keys(integrationMetrics).length +,
         Object.keys(errorPatternDemo.patternRecognition).length +
         Object.keys(progressAnalysisDemo.qualityMetrics).length,
       enterpriseReadinessLevel: enterpriseIntelligenceDemo.campaignMetrics.intelligenceDepth,

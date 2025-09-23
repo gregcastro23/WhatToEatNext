@@ -98,7 +98,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
           lintingWarningsReduced: metricsImprovement.explicitAnyWarningsReduced,
           buildTimeImproved: 0, // Not directly impacted by any elimination,
           enterpriseSystemsAdded: 0
-        }
+        },
         filesProcessed: campaignResult.filesProcessed,
         errorsFixed: campaignResult.errorsFixed,
         warningsFixed: campaignResult.warningsFixed,
@@ -125,7 +125,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
           lintingWarningsReduced: 0,
           buildTimeImproved: 0,
           enterpriseSystemsAdded: 0
-        }
+        },
         filesProcessed: 0,
         errorsFixed: 0,
         warningsFixed: 0,
@@ -170,14 +170,14 @@ export class UnintentionalAnyCampaignController extends CampaignController {
         automaticRollbackEnabled: true,
         stashRetentionDays: 7,
         ...baseConfig?.safetySettings
-      }
+      },
       progressTargets: {
         typeScriptErrors: 0,
         lintingWarnings: 0,
         buildTime: 10,
         enterpriseSystems: 200,
         ...baseConfig?.progressTargets
-      }
+      },
       toolConfiguration: {
         enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer:
@@ -206,7 +206,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
         totalAnyTypes: explicitAnyWarnings,
         intentionalAnyTypes: documentationReport.totalIntentionalAnyTypes,
         unintentionalAnyTypes: explicitAnyWarnings - documentationReport.totalIntentionalAnyTypes,
-        documentedAnyTypes: Math.round(
+        documentedAnyTypes: Math.round(,
           (documentationReport.totalIntentionalAnyTypes *
             documentationReport.documentationCoverage) /
             100,
@@ -453,10 +453,10 @@ export class UnintentionalAnyIntegrationHelper {
     const mergedPhases: CampaignPhase[] = [];
     const mergedSafetySettings: SafetySettings = {
       maxFilesPerBatch: Math.min(...campaigns.map(c => c.safetySettings.maxFilesPerBatch)),
-      buildValidationFrequency: Math.min(
+      buildValidationFrequency: Math.min(,
         ...campaigns.map(c => c.safetySettings.buildValidationFrequency),
       ),
-      testValidationFrequency: Math.min(
+      testValidationFrequency: Math.min(,
         ...campaigns.map(c => c.safetySettings.testValidationFrequency),
       ),
       corruptionDetectionEnabled: campaigns.every(c => c.safetySettings.corruptionDetectionEnabled),

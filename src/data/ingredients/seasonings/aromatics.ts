@@ -16,7 +16,7 @@ const rawAromatics = {
           third: { element: 'Water', planet: 'Neptune' }
         }
       }
-    }
+    },
     qualities: ['pungent', 'savory', 'sweet when cooked'],
     origin: ['Global'],
     category: 'aromatic',
@@ -33,7 +33,7 @@ const rawAromatics = {
           holy_trinity: 'with celery and bell peppers'
         }
       }
-    }
+    },
     storage: {
       temperature: 'cool, dry place',
       humidity: 'low',
@@ -57,7 +57,7 @@ const rawAromatics = {
           third: { element: 'Air', planet: 'Uranus' }
         }
       }
-    }
+    },
     qualities: ['pungent', 'spicy', 'medicinal'],
     origin: ['Central Asia'],
     category: 'aromatic',
@@ -74,7 +74,7 @@ const rawAromatics = {
           pasta_sauces: 'essential foundation'
         }
       }
-    }
+    },
     storage: {
       temperature: 'cool, dry place',
       humidity: 'moderate',
@@ -98,7 +98,7 @@ const rawAromatics = {
           third: { element: 'Earth', planet: 'Saturn' }
         }
       }
-    }
+    },
     qualities: ['warming', 'pungent', 'aromatic'],
     origin: ['Southeast Asia'],
     category: 'spice',
@@ -109,20 +109,20 @@ const rawAromatics = {
         appearance: 'thin skin, juicy flesh',
         flavor: 'mild, less fibrous',
         uses: 'fresh applications, pickling'
-      }
+      },
       Mature: {
         name: 'Mature',
         appearance: 'thick skin, fibrous',
         flavor: 'strong, spicy',
         uses: 'cooking, powdering'
-      }
+      },
       Galangal: {
         name: 'Galangal',
         appearance: 'harder, white flesh',
         flavor: 'citrusy, pine-like',
         uses: 'Thai cuisine, spice blends'
       }
-    }
+    },
     culinaryApplications: {
       fresh: {
         name: 'Fresh',
@@ -134,7 +134,7 @@ const rawAromatics = {
           teas: 'medicinal and flavorful'
         }
       }
-    }
+    },
     storage: {
       temperature: 'room temperature or refrigerated',
       humidity: 'moderate',
@@ -153,7 +153,7 @@ const rawAromatics = {
       elementalAffinity: {
         base: 'Air'
       }
-    }
+    },
     qualities: ['citrusy', 'aromatic', 'bright'],
     origin: ['Southeast Asia'],
     category: 'aromatic',
@@ -168,7 +168,7 @@ const rawAromatics = {
           curries: 'southeast asian',
           teas: 'medicinal brewing'
         }
-      }
+      },
       paste: {
         name: 'Paste',
         method: 'finely minced inner core',
@@ -179,7 +179,7 @@ const rawAromatics = {
           rubs: 'for grilled proteins'
         }
       }
-    }
+    },
     storage: {
       temperature: 'refrigerated',
       humidity: 'moderate',
@@ -198,7 +198,7 @@ const rawAromatics = {
       elementalAffinity: {
         base: 'Earth'
       }
-    }
+    },
     qualities: ['delicate', 'sweet', 'aromatic'],
     origin: ['Southeast Asia'],
     category: 'aromatic',
@@ -214,7 +214,7 @@ const rawAromatics = {
           garnishes: 'raw or fried'
         }
       }
-    }
+    },
     storage: {
       temperature: 'cool, dry place',
       humidity: 'low',
@@ -233,7 +233,7 @@ const rawAromatics = {
       elementalAffinity: {
         base: 'Air'
       }
-    }
+    },
     qualities: ['fresh', 'mild', 'grassy'],
     origin: ['Asia'],
     category: 'aromatic',
@@ -249,7 +249,7 @@ const rawAromatics = {
           pancakes: 'chinese scallion pancakes'
         }
       }
-    }
+    },
     storage: {
       temperature: 'refrigerated',
       humidity: 'high',
@@ -273,7 +273,7 @@ const rawAromatics = {
           third: { element: 'Air', planet: 'Venus' }
         }
       }
-    }
+    },
     qualities: ['aromatic', 'warm', 'floral'],
     origin: ['Iran'],
     category: 'aromatic',
@@ -288,7 +288,7 @@ const rawAromatics = {
           rice: 'Persian and Indian',
           tea: 'Turkish and Middle Eastern'
         }
-      }
+      },
       paste: {
         name: 'Paste',
         method: 'finely ground',
@@ -299,7 +299,7 @@ const rawAromatics = {
           tea: 'Turkish and Middle Eastern'
         }
       }
-    }
+    },
     storage: {
       temperature: 'cool, dry place',
       humidity: 'low',

@@ -267,7 +267,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
         fair: 0,
         good: 0,
         excellent: 0
-      }
+      },
       undocumentedFiles: [],
       recommendations: [
         'Add explanatory comments for all intentional any types',

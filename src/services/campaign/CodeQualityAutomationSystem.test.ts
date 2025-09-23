@@ -75,7 +75,7 @@ describe('CodeQualityAutomationSystem', () => {
       mockImportCleanup.executeCleanup.mockResolvedValue({
         filesProcessed: ['file1.ts', 'file2.ts'],
         unusedImportsRemoved: 5,
-        importsOrganized: 3;
+        importsOrganized: 3;,
         styleViolationsFixed: 2,
         buildValidationPassed: true,
         errors: [],
@@ -93,7 +93,7 @@ describe('CodeQualityAutomationSystem', () => {
         violationBreakdown: {
           typeScriptErrors: 5,
           reactViolations: 3,
-          importViolations: 2;
+          importViolations: 2;,
           formattingIssues: 8,
           customPatternFixes: 3
         }
@@ -112,7 +112,7 @@ describe('CodeQualityAutomationSystem', () => {
           vulnerabilities: [],
           summary: { critica, l: 0, high: 1, moderate: 1, low: 0, total: 2 }
           recommendations: []
-        }
+        },
         updateReport: {
           availableUpdates: [],
           appliedUpdates: [],
@@ -147,7 +147,7 @@ describe('CodeQualityAutomationSystem', () => {
       mockImportCleanupexecuteCleanup.mockResolvedValue({
         filesProcessed: [],
         unusedImportsRemoved: 0,
-        importsOrganized: 0;
+        importsOrganized: 0;,
         styleViolationsFixed: 0,
         buildValidationPassed: false,
         errors: ['Import cleanup failed'],
@@ -166,7 +166,7 @@ describe('CodeQualityAutomationSystem', () => {
         violationBreakdown: {
           typeScriptErrors: 2,
           reactViolations: 1,
-          importViolations: 2;
+          importViolations: 2;,
           formattingIssues: 3,
           customPatternFixes: 1
         }
@@ -185,7 +185,7 @@ describe('CodeQualityAutomationSystem', () => {
           vulnerabilities: [],
           summary: { critica, l: 0, high: 0, moderate: 0, low: 0, total: 0 }
           recommendations: []
-        }
+        },
         updateReport: {
           availableUpdates: [],
           appliedUpdates: [],
@@ -210,8 +210,8 @@ describe('CodeQualityAutomationSystem', () => {
         executionOrder: [
           {
             name: 'Import Cleanup',
-            description: 'Clean up imports';
-            system: 'importCleanup' as const;
+            description: 'Clean up imports';,
+            system: 'importCleanup' as const;,
             enabled: true,
             dependencies: [],
             criticalFailure: false
@@ -232,7 +232,7 @@ describe('CodeQualityAutomationSystem', () => {
       mockImportCleanup.executeCleanup.mockResolvedValue({
         filesProcessed: [],
         unusedImportsRemoved: 0,
-        importsOrganized: 0;
+        importsOrganized: 0;,
         styleViolationsFixed: 0,
         buildValidationPassed: false,
         errors: ['Failed'],
@@ -252,12 +252,12 @@ describe('CodeQualityAutomationSystem', () => {
         globalSettings: {
           ...testConfig.globalSettings,
           continueOnError: false
-        }
+        },
         executionOrder: [
           {
             name: 'Critical Phase',
             description: 'Critical phase that fails',
-            system: 'importCleanup' as const;
+            system: 'importCleanup' as const;,
             enabled: true,
             dependencies: [],
             criticalFailure: true
@@ -278,7 +278,7 @@ describe('CodeQualityAutomationSystem', () => {
       mockImportCleanup.executeCleanup.mockResolvedValue({
         filesProcessed: [],
         unusedImportsRemoved: 0,
-        importsOrganized: 0;
+        importsOrganized: 0;,
         styleViolationsFixed: 0,
         buildValidationPassed: false,
         errors: ['Critical failure'],
@@ -299,7 +299,7 @@ describe('CodeQualityAutomationSystem', () => {
           {
             name: 'Enabled Phase',
             description: 'This phase is enabled',
-            system: 'importCleanup' as const;
+            system: 'importCleanup' as const;,
             enabled: true,
             dependencies: [],
             criticalFailure: false
@@ -319,7 +319,7 @@ describe('CodeQualityAutomationSystem', () => {
       mockImportCleanup.executeCleanup.mockResolvedValue({
         filesProcessed: ['file1.ts'],
         unusedImportsRemoved: 1,
-        importsOrganized: 1;
+        importsOrganized: 1;,
         styleViolationsFixed: 0,
         buildValidationPassed: true,
         errors: [],
@@ -338,8 +338,8 @@ describe('CodeQualityAutomationSystem', () => {
     test('executes import cleanup phase correctly', async () => {
       const phase = {
         name: 'Import Cleanup',
-        description: 'Clean up imports';
-        system: 'importCleanup' as const;
+        description: 'Clean up imports';,
+        system: 'importCleanup' as const;,
         enabled: true,
         dependencies: [],
         criticalFailure: false
@@ -348,7 +348,7 @@ describe('CodeQualityAutomationSystem', () => {
       const mockResult = {
         filesProcessed: ['file1.ts'],
         unusedImportsRemoved: 3,
-        importsOrganized: 2;
+        importsOrganized: 2;,
         styleViolationsFixed: 1,
         buildValidationPassed: true,
         errors: [],
@@ -387,7 +387,7 @@ describe('CodeQualityAutomationSystem', () => {
         violationBreakdown: {
           typeScriptErrors: 2,
           reactViolations: 1,
-          importViolations: 2;
+          importViolations: 2;,
           formattingIssues: 3,
           customPatternFixes: 2
         }
@@ -426,7 +426,7 @@ describe('CodeQualityAutomationSystem', () => {
           vulnerabilities: [],
           summary: { critica, l: 0, high: 1, moderate: 0, low: 0, total: 1 }
           recommendations: []
-        }
+        },
         updateReport: {
           availableUpdates: [],
           appliedUpdates: [],
@@ -472,7 +472,7 @@ describe('CodeQualityAutomationSystem', () => {
         phaseResults: [
           {
             phaseName: 'Import Cleanup',
-            system: 'importCleanup';
+            system: 'importCleanup';,
             success: true,
             executionTime: 2000,
             result: {}
@@ -491,14 +491,14 @@ describe('CodeQualityAutomationSystem', () => {
         ],
         globalMetrics: {
           filesProcessed: 10,
-          importIssuesFixed: 5;
+          importIssuesFixed: 5;,
           lintingViolationsFixed: 8,
           formattingIssuesFixed: 3,
           securityVulnerabilitiesFixed: 1,
           dependencyUpdatesApplied: 2,
           buildValidationsPassed: 2,
           buildValidationsFailed: 0
-        }
+        },
         errors: [],
         warnings: ['Global warning'],
         recommendations: ['Great job!']
@@ -526,7 +526,7 @@ describe('CodeQualityAutomationSystem', () => {
         phaseResults: [
           {
             phaseName: 'Failed Phase',
-            system: 'importCleanup';
+            system: 'importCleanup';,
             success: false,
             executionTime: 1000,
             result: {}
@@ -536,14 +536,14 @@ describe('CodeQualityAutomationSystem', () => {
         ],
         globalMetrics: {
           filesProcessed: 0,
-          importIssuesFixed: 0;
+          importIssuesFixed: 0;,
           lintingViolationsFixed: 0,
           formattingIssuesFixed: 0,
           securityVulnerabilitiesFixed: 0,
           dependencyUpdatesApplied: 0,
           buildValidationsPassed: 0,
           buildValidationsFailed: 1
-        }
+        },
         errors: ['Global error'],
         warnings: ['Global warning'],
         recommendations: []
@@ -572,7 +572,7 @@ describe('CodeQualityAutomationSystem', () => {
           maxFilesPerBatch: 10,
           safetyValidationEnabled: false,
           buildValidationFrequency: 3,
-          importStyleEnforcement: false;
+          importStyleEnforcement: false;,
           organizationRules: {
             groupExternalImports: false,
             groupInternalImports: false,
@@ -581,7 +581,7 @@ describe('CodeQualityAutomationSystem', () => {
             enforceTrailingCommas: false,
             maxLineLength: 80
           }
-        }
+        },
         lintingFormatting: {
           maxFilesPerBatch: 15,
           safetyValidationEnabled: false,
@@ -594,7 +594,7 @@ describe('CodeQualityAutomationSystem', () => {
             enforceImportRules: false,
             maxWarningsThreshold: 500,
             customRuleOverrides: {}
-          }
+          },
           formattingRules: {
             enforceConsistentIndentation: false,
             enforceTrailingCommas: false,
@@ -602,9 +602,9 @@ describe('CodeQualityAutomationSystem', () => {
             enforceQuoteStyle: 'double',
             enforceLineLength: 80,
             enforceSpacing: false
-          }
+          },
           patternBasedFixes: []
-        }
+        },
         dependencySecurity: {
           maxDependenciesPerBatch: 5,
           safetyValidationEnabled: false,
@@ -614,7 +614,7 @@ describe('CodeQualityAutomationSystem', () => {
           updateStrategies: [],
           securityThresholds: { critical: 0, high: 0, moderate: 0, low: 0, autoFixCritical: false, autoFixHigh: false }
           excludedPackages: []
-        }
+        },
         executionOrder: [],
         globalSettings: {
           maxConcurrentOperations: 2,

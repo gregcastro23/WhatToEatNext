@@ -116,7 +116,7 @@ describe('Astrological Validation Utilities', () => {
 
     test('should reject invalid element values', () => {
       const invalidProperties: any = {
-        Fire: 1.5, // Too high
+        Fire: 1.5, // Too high,
         Water: -0.1, // Too low,
         Earth: 0.3,
         Air: 0.2,
@@ -298,15 +298,15 @@ describe('Astrological Validation Utilities', () => {
       const validInput: any = {
         planetaryPositions: { sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false }
           moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false }
-        }
+        },
         elementalProperties: { Fire: 0.7,
           Water: 0.1,
           Earth: 0.1,
           Air: 0.1
-        }
+        },
         constants: { DEGREES_PER_SIGN: 30,
           MAX_LONGITUDE: 360
-        }
+        },
         date: new Date('2024-04-01')
       }
 
@@ -317,11 +317,11 @@ describe('Astrological Validation Utilities', () => {
     test('should collect all validation errors and warnings', async () => {
       const invalidInput: any = {
         planetaryPositions: { sun: { sign: 'aries', degree: 85 }, // Missing properties
-        }
+        },
         elementalProperties: { Fire: 1.5, // Invalid value,
-          Water: 0.1
+          Water: 0.1,
           // Missing elements
-        }
+        },
         constants: { DEGREES_PER_SIGN: NaN, // Invalid constant
         }
       }

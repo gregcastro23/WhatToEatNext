@@ -94,7 +94,7 @@ describe('MetricsCollectionSystem', () => {
         .mockReturnValueOnce('10') // Warning count
         .mockReturnValueOnce(`
           warning: Unused variable 'test' @typescript-eslint/no-unused-vars, warning: Explicit any type @typescript-eslint/no-explicit-any,
-          warning: Console statement no-console
+          warning: Console statement no-console,
         `), // Linting output
 
       const snapshot: any = await metricsSystem.collectSnapshot('phase2')

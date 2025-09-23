@@ -16,11 +16,11 @@ export const boiling: CookingMethodData = {
     Fire: 0.2,
     Air: 0.1,
     Earth: 0.0
-  }
+  },
   duration: {
     min: 3,
     max: 120
-  }
+  },
   suitable_for: [
     'pasta',
     'rice',
@@ -60,16 +60,16 @@ export const boiling: CookingMethodData = {
     dominantPlanets: ['Moon', 'Neptune', 'Jupiter'],
     rulingPlanets: ['Moon', 'Neptune'],
     lunarPhaseEffect: {
-      full_moon: 1.3, // Enhanced water energy
-      new_moon: 0.8, // Diminished water energy
-      waxing_gibbous: 1.1, // Moderate enhancement
-      waning_crescent: 0.9, // Slight reduction
-      first_quarter: 1.05, // Minor enhancement
-      third_quarter: 0.95, // Minor reduction
-      waxing_crescent: 1.0, // Neutral
+      full_moon: 1.3, // Enhanced water energy,
+      new_moon: 0.8, // Diminished water energy,
+      waxing_gibbous: 1.1, // Moderate enhancement,
+      waning_crescent: 0.9, // Slight reduction,
+      first_quarter: 1.05, // Minor enhancement,
+      third_quarter: 0.95, // Minor reduction,
+      waxing_crescent: 1.0, // Neutral,
       waning_gibbous: 1.0, // Neutral
     }
-  }
+  },
   toolsRequired: [
     'Large pot or stockpot',
     'Heat source',
@@ -111,7 +111,7 @@ export const boiling: CookingMethodData = {
     'Pickled elements for brightness'
   ],
   nutrientRetention: {
-    vitamins: 0.5, // Water-soluble vitamins leach into cooking water
+    vitamins: 0.5, // Water-soluble vitamins leach into cooking water,
     minerals: 0.65,
     proteins: 0.9,
     carbohydrates: 0.95,
@@ -119,10 +119,10 @@ export const boiling: CookingMethodData = {
     antioxidants: 0.4,
     phytonutrients: 0.45,
     fiber: 0.85
-  }
+  },
   optimalTemperatures: {
-    rolling_boil: 212, // 212°F/100°C at sea level
-    high_altitude_boil: 203, // Approximate for 5000ft elevation
+    rolling_boil: 212, // 212°F/100°C at sea level,
+    high_altitude_boil: 203, // Approximate for 5000ft elevation,
     blanching: 212,
     eggs_soft_boiled: 212,
     eggs_hard_boiled: 212,
@@ -134,7 +134,7 @@ export const boiling: CookingMethodData = {
     leafy_greens: 212,
     dumplings: 212,
     custard_water_bath: 180, // Gentle boil for water bath
-  }
+  },
   regionalVariations: {
     italian: [
       'pasta al dente technique',
@@ -173,7 +173,7 @@ export const boiling: CookingMethodData = {
       'precise timing for various lentil types'
     ],
     african: ['fufu preparation techniques', 'pounded yam methods', 'bean cake preparation']
-  }
+  },
   chemicalChanges: {
     starch_gelatinization: true,
     protein_denaturation: true,
@@ -187,7 +187,7 @@ export const boiling: CookingMethodData = {
     flavor_compound_volatilization: true,
     mineral_release: true,
     collagen_conversion: true
-  }
+  },
   safetyFeatures: [
     'Water boils at a consistent temperature (100°C at sea level)',
     'Kills most pathogens and bacteria when held at full boil for sufficient time',
@@ -205,9 +205,9 @@ export const boiling: CookingMethodData = {
     'Be aware of altitude effects on boiling point and cooking times'
   ],
   thermodynamicProperties: {
-    heat: 0.8, // High heat transfer rate
-    entropy: 0.65, // Moderate-high structural disruption
-    reactivity: 0.45, // Moderate chemical reactions (no Maillard)
+    heat: 0.8, // High heat transfer rate,
+    entropy: 0.65, // Moderate-high structural disruption,
+    reactivity: 0.45, // Moderate chemical reactions (no Maillard),
     gregsEnergy: -12.35, // Calculated using heat - (entropy * reactivity), // gregsEnergy = heat - (entropy * reactivity),
   } as ThermodynamicProperties,
 
@@ -270,9 +270,9 @@ export const boiling: CookingMethodData = {
     'Foundational cooking method for many cultural staples and comfort foods'
   ],
 
-  sustainabilityRating: 0.65, // Moderate energy usage, but can be efficient with lid use
+  sustainabilityRating: 0.65, // Moderate energy usage, but can be efficient with lid use,
 
-  equipmentComplexity: 0.2, // Simple equipment requirements
+  equipmentComplexity: 0.2, // Simple equipment requirements,
 
   healthConsiderations: [
     'Leaching of water-soluble vitamins (BC) into cooking water',

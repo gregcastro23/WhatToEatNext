@@ -95,7 +95,7 @@ export interface UnifiedFlavorProfile {
   alchemicalProperties: AlchemicalValues,
 
   // Kalchm value,
-  kalchm: number
+  kalchm: number,
 
   // Enhanced metadata,
   intensity: number,

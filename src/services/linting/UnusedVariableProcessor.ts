@@ -19,7 +19,7 @@ interface UnusedVariableIssue {
   line: number,
   column: number,
   variableName: string,
-  type: 'variable' | 'parameter' | 'import' | 'type';
+  type: 'variable' | 'parameter' | 'import' | 'type';,
   context: string,
   isCritical: boolean,
   canAutoFix: boolean
@@ -184,7 +184,7 @@ export class UnusedVariableProcessor {
       line: parseInt(lineStr),
       column: parseInt(colStr),
       variableName,
-      type: this.determineVariableType(context)
+      type: this.determineVariableType(context),
       context,
       isCritical,
       canAutoFix: !isCritical && (isTest || this.canSafelyPrefix(variableName))

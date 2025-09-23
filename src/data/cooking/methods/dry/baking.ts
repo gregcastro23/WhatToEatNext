@@ -15,11 +15,11 @@ export const baking: CookingMethodData = {
     Air: 0.3,
     Earth: 0.2,
     Water: 0.1
-  }
+  },
   duration: {
     min: 20,
     max: 180
-  }
+  },
   suitable_for: ['breads', 'pastries', 'casseroles', 'meat', 'vegetables', 'desserts', 'gratins'],
   benefits: [
     'even cooking',
@@ -33,12 +33,12 @@ export const baking: CookingMethodData = {
     unfavorableZodiac: ['cancer', 'pisces', 'scorpio'] as any[],
     dominantPlanets: ['Sun', 'Mars'],
     lunarPhaseEffect: {
-      full_moon: 1.2, // Enhanced rising
-      new_moon: 0.8, // Reduced rising
-      waxing_gibbous: 1.1, // Moderate enhancement
+      full_moon: 1.2, // Enhanced rising,
+      new_moon: 0.8, // Reduced rising,
+      waxing_gibbous: 1.1, // Moderate enhancement,
       waning_gibbous: 0.9, // Slight reduction
     }
-  }
+  },
   toolsRequired: [
     'Oven',
     'Baking sheet',
@@ -72,22 +72,22 @@ export const baking: CookingMethodData = {
     proteins: 0.75,
     vitamins: 0.65,
     minerals: 0.8
-  }
+  },
   optimalTemperatures: {
-    bread: 425, // Begins at 450°F with steam, reduces to 400°F
-    cookies: 350, // Chewy cookies at 325°F, crisp cookies at 375°F
-    cake: 325, // Pound cakes at 350°F, light sponges at 325°F
+    bread: 425, // Begins at 450°F with steam, reduces to 400°F,
+    cookies: 350, // Chewy cookies at 325°F, crisp cookies at 375°F,
+    cake: 325, // Pound cakes at 350°F, light sponges at 325°F,
     'roast vegetables': 400, // Dense root vegetables at 425°F, delicate at 375°F
-    pizza: 500, // Neapolitan style up to 800°FNY style at 500-550°F
-    fish: 375, // Whole fish at 350°F, fillets at 400°F
-    poultry: 375, // Dark meat at 350°F, white meat at 375°F
-    beef: 350, // Prime rib at 225-250°F, roasts at 350°F
-    pork: 350, // Tenderloin at 400°F, shoulder at 300°F
-    pastry: 400, // Puff pastry at 400°F, shortcrust at 375°F
-    custards: 325, // Never exceed 350°F to prevent curdling
-    meringues: 225, // Slow-dry at 200-225°F for crisp exterior
+    pizza: 500, // Neapolitan style up to 800°FNY style at 500-550°F,
+    fish: 375, // Whole fish at 350°F, fillets at 400°F,
+    poultry: 375, // Dark meat at 350°F, white meat at 375°F,
+    beef: 350, // Prime rib at 225-250°F, roasts at 350°F,
+    pork: 350, // Tenderloin at 400°F, shoulder at 300°F,
+    pastry: 400, // Puff pastry at 400°F, shortcrust at 375°F,
+    custards: 325, // Never exceed 350°F to prevent curdling,
+    meringues: 225, // Slow-dry at 200-225°F for crisp exterior,
     'fruit desserts': 350, // Crisps, cobblers, and pies
-  }
+  },
   regionalVariations: {
     french: [
       'bain-marie (water bath for custards)',
@@ -111,16 +111,16 @@ export const baking: CookingMethodData = {
     ],
     nordic: ['rye bread techniques', 'slow fermentation methods', 'cardamom-infused pastries'],
     american: ['sheet pan cooking', 'drop biscuits', 'deep dish pies']
-  }
+  },
   chemicalChanges: {
-    maillard_reaction: true, // Occurs between 280°F-330°F with proteins and reducing sugars
-    caramelization: true, // Begins around 320°F with simple sugars
-    gelatinization: true, // Starch granules absorb water and swell at 140°F-160°F
-    protein_denaturation: true, // Proteins change structure and set at 140°F-165°F
-    enzymatic_browning: false, // Limited in baking due to heat inactivation
-    hydrolysis: true, // Breaking down of complex molecules in presence of water
+    maillard_reaction: true, // Occurs between 280°F-330°F with proteins and reducing sugars,
+    caramelization: true, // Begins around 320°F with simple sugars,
+    gelatinization: true, // Starch granules absorb water and swell at 140°F-160°F,
+    protein_denaturation: true, // Proteins change structure and set at 140°F-165°F,
+    enzymatic_browning: false, // Limited in baking due to heat inactivation,
+    hydrolysis: true, // Breaking down of complex molecules in presence of water,
     fermentation: true, // In yeast-leavened products before baking
-  }
+  },
   safetyFeatures: [
     'Monitor internal temperature with thermometer (145°F for whole cuts, 165°F for poultry)',
     'Use oven mitts or heat-resistant gloves to prevent burns',
@@ -130,9 +130,9 @@ export const baking: CookingMethodData = {
     'Never leave unattended for extended periods'
   ],
   thermodynamicProperties: {
-    heat: 0.65, // Moderate-high heat penetrating the food
-    entropy: 0.55, // Moderate breakdown of structures, protein denaturation
-    reactivity: 0.7, // Significant Maillard reactions, caramelization
+    heat: 0.65, // Moderate-high heat penetrating the food,
+    entropy: 0.55, // Moderate breakdown of structures, protein denaturation,
+    reactivity: 0.7, // Significant Maillard reactions, caramelization,
     gregsEnergy: 0.65 - (0.55 || 0) * 0.2, // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
@@ -168,9 +168,9 @@ export const baking: CookingMethodData = {
     'Wood-fired ovens with thermal mass for extended heat retention and unique flavor'
   ],
 
-  sustainabilityRating: 0.75, // Relatively efficient in energy usage compared to other cooking methods
+  sustainabilityRating: 0.75, // Relatively efficient in energy usage compared to other cooking methods,
 
-  equipmentComplexity: 0.45, // Basic ovens are simple, but specialized equipment adds complexity
+  equipmentComplexity: 0.45, // Basic ovens are simple, but specialized equipment adds complexity,
 
   healthConsiderations: [
     'Lower fat cooking method compared to frying (can reduce calories)',
@@ -272,7 +272,7 @@ export const baking: CookingMethodData = {
         'Thermal mass provides heat retention. Temperature gradient from back (hottest) to front. Radiant heat from dome produces rapid surface cooking.',
       steam_injected:
         'Introduces humidity during initial baking phase. Critical for proper expansion and crust development in artisan breads.'
-    }
+    },
     flour_types: {
       bread_flour: '12-14% protein content. High gluten formation for structure in yeasted breads.',
       all_purpose: '10-12% protein. Versatile for most baking applications.',
@@ -284,7 +284,7 @@ export const baking: CookingMethodData = {
         'Italian classification for finely ground flour. Variable protein content depending on type.',
       gluten_free_blends:
         'Combinations of rice, tapioca, potato, and other non-wheat flours with stabilizers.'
-    }
+    },
     leavening_agents: {
       baking_soda:
         'Sodium bicarbonate (NaHCO3). Requires acid to activate. Acts immediately upon mixing and exposure to heat.',
@@ -295,7 +295,7 @@ export const baking: CookingMethodData = {
       steam:
         'Physical leavening from water expanding as it converts to gas. Primary agent in puff pastry, choux paste, and popovers.',
       eggs: 'Mechanical leavening from incorporated air, particularly in whipped whites or whole eggs.'
-    }
+    },
     mixing_methods: {
       creaming:
         'Beating fat and sugar to incorporate air before adding remaining ingredients. Creates fine, tender crumb in cakes and cookies.',

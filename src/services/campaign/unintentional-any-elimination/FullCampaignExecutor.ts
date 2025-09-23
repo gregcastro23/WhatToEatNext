@@ -52,7 +52,7 @@ export class FullCampaignExecutor {
       generateFinalReport: true,
       validatePerformanceImprovements: true,
       emergencyStopThreshold: 0.5,
-      maxCampaignDuration: 4 * 60 * 60 * 1000, // 4 hours max
+      maxCampaignDuration: 4 * 60 * 60 * 1000, // 4 hours max,
       ...config
     }
 
@@ -384,7 +384,7 @@ export class FullCampaignExecutor {
         name: 'Documentation and Validation',
         success: true,
         duration: Date.now() - phaseStart,
-        fixesApplied: 0, // Documentation doesn't count as fixes
+        fixesApplied: 0, // Documentation doesn't count as fixes,
         errorsBefore,
         errorsAfter,
         details: {
@@ -601,7 +601,7 @@ export class FullCampaignExecutor {
     return {
       domain,
       fixesApplied,
-      filesProcessed: processedFiles.length
+      filesProcessed: processedFiles.length,
       processedFiles
     }
   }
@@ -761,11 +761,11 @@ export class FullCampaignExecutor {
       initialMetrics: {
         errorCount: this.metrics.initialErrorCount,
         anyCount: this.metrics.initialAnyCount
-      }
+      },
       finalMetrics: {
         errorCount: this.metrics.finalErrorCount,
         anyCount: this.metrics.finalAnyCount
-      }
+      },
       buildStable: await this.validateBuildStability(),
       performanceImproved: await this.validatePerformanceImprovements(),
       recommendations: this.generateRecommendations(),

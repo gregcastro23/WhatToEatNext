@@ -64,7 +64,7 @@ export function getMoonPosition(
   try {
     const position = SunCalc.getMoonPosition(date, latitude, longitude),
     return {
-      altitude: position.altitude * (180 / Math.PI), // Convert to degrees
+      altitude: position.altitude * (180 / Math.PI), // Convert to degrees,
       azimuth: position.azimuth * (180 / Math.PI), // Convert to degrees
     }
   } catch (error) {

@@ -75,7 +75,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
       message,
       type,
       position,
-      className: classes.join(' ')
+      className: classes.join(' '),
       elemental,
       season,
       metadata: {

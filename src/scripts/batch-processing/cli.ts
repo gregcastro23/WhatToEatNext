@@ -25,12 +25,12 @@ interface AnalysisReport {
     analysisDate: string,
     totalVariables: number,
     analyzer: string
-  }
+  },
   summary: {
     total: number,
     preserved: number,
     forElimination: number
-  }
+  },
   detailedResults: Array<{
     id: string,
     filePath: string,
@@ -44,7 +44,7 @@ interface AnalysisReport {
       domain: string,
       reason: string,
       confidence: number
-    }
+    },
     eliminationStrategy: {
       method: string,
       confidence: number,
@@ -163,7 +163,7 @@ class BatchProcessingCLI {
           autoRollbackOnError: !options.noRollback,
           createGitStash: !options.noStash,
           logLevel: options.verbose ? 'debug' : 'info'
-        }
+        },
         safetyProtocols: {
           maxVariablesAutoProcess: parseInt(options.maxVars) || 20,
           requireManualReview: !options.skipReview,

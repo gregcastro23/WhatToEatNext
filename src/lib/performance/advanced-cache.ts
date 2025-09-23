@@ -271,7 +271,7 @@ export async function initializeCaches(): Promise<void> {
             timeRemaining: '45:30',
             energyType: 'Vitality & Leadership'
           }
-        }
+        },
         ttl: 15 * 60 * 1000
       }
     ])

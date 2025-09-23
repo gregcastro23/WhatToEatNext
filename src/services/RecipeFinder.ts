@@ -474,7 +474,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           instructions: [],
           cuisine: 'Unknown',
           elementalProperties: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
-        }
+        },
         error: {
           code: 'PROCESSING_ERROR',
           message: 'Failed to generate recipe',
@@ -518,7 +518,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           instructions: [],
           cuisine: params.cuisines.join('-'),
           elementalProperties: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
-        }
+        },
         error: {
           code: 'PROCESSING_ERROR',
           message: 'Failed to generate fusion recipe',

@@ -17,7 +17,7 @@ import { PerformanceMonitoringService } from '../services/linting/PerformanceMon
 import { LintingPerformanceValidator } from './validateLintingPerformance';
 
 interface CLIOptions {
-  command: 'validate' | 'monitor' | 'report' | 'test'
+  command: 'validate' | 'monitor' | 'report' | 'test',
   continuous?: boolean,
   interval?: number,
   verbose?: boolean,

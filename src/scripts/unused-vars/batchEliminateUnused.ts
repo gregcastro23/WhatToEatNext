@@ -5,7 +5,7 @@
   - Eliminates low-risk variables; prefixes high-value variables instead
   - Runs type-check after each batch; auto-rollback on failure,
 
-  Usage: yarn ts-node src/scripts/unused-vars/batchEliminateUnused.ts --in reports/unused-vars.json --dry-run
+  Usage: yarn ts-node src/scripts/unused-vars/batchEliminateUnused.ts --in reports/unused-vars.json --dry-run,
 */
 
 import childProcess from 'node:child_process';

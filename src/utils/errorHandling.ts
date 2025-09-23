@@ -297,7 +297,7 @@ export class ErrorHandler {
   // Get error statistics
   getErrorStats(): {
     total: number,
-    byType: Record<ErrorType, number>
+    byType: Record<ErrorType, number>,
     bySeverity: Record<ErrorSeverity, number>,
     recent: EnhancedError[]
   } {
@@ -310,7 +310,7 @@ export class ErrorHandler {
     })
 
     return {
-      total: this.errorQueue.length
+      total: this.errorQueue.length,
       byType,
       bySeverity,
       recent: this.errorQueue.slice(-10), // Last 10 errors
@@ -337,7 +337,7 @@ globalErrorHandler.addRecoveryStrategy({
       return JSON.parse(cachedData)
     }
     throw new Error('No cached astrological data available')
-  }
+  },
   fallback: () => {
     // Return default astrological state
     return {

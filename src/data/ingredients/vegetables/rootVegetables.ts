@@ -16,7 +16,7 @@ const rawRootVegetables = {
           third: { element: 'Air', planet: 'Mercury' }
         }
       }
-    }
+    },
     qualities: ['grounding', 'warming', 'nourishing'],
     season: ['fall', 'winter'],
     category: 'vegetable',
@@ -30,13 +30,13 @@ const rawRootVegetables = {
       calories: 103,
       carbs_g: 24,
       fiber_g: 4
-    }
+    },
     preparation: {
       washing: true,
       peeling: 'optional',
       cutting: 'uniform size for even cooking',
       notes: 'Can be pre-cooked and reheated'
-    }
+    },
     storage: {
       temperature: 'cool dark place',
       duration: '3-5 weeks',
@@ -60,13 +60,13 @@ const rawRootVegetables = {
       calories: 75,
       carbs_g: 18,
       fiber_g: 5
-    }
+    },
     preparation: {
       washing: true,
       peeling: 'recommended',
       cutting: 'uniform pieces',
       notes: 'Smaller ones are more tender'
-    }
+    },
     storage: {
       temperature: 'refrigerated',
       duration: '2-3 weeks',
@@ -92,13 +92,13 @@ const rawRootVegetables = {
       carbs_g: 10,
       fiber_g: 2.8,
       antioxidants: ['betalains', 'nitrates']
-    }
+    },
     preparation: {
       washing: true,
       peeling: 'after cooking',
       roasting: 'wrap in foil with olive oil',
       notes: 'Wear gloves to prevent staining'
-    }
+    },
     storage: {
       temperature: 'refrigerated',
       duration: '2-3 weeks',
@@ -123,13 +123,13 @@ const rawRootVegetables = {
       calories: 28,
       carbs_g: 6,
       fiber_g: 2
-    }
+    },
     preparation: {
       washing: true,
       peeling: 'recommended for larger ones',
       cutting: 'uniform pieces',
       notes: 'Smaller ones are sweeter'
-    }
+    },
     storage: {
       temperature: 'refrigerated',
       duration: '2-3 weeks',

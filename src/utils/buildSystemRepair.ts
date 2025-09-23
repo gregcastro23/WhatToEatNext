@@ -161,7 +161,7 @@ export class BuildSystemRepair {
       timestamp: new Date(),
       validation: await this.buildValidator.validateBuild(),
       health: await this.buildValidator.monitorBuildHealth(),
-      configValidation: this.buildValidator.validateNextConfig() as unknown as Record<
+      configValidation: this.buildValidator.validateNextConfig() as unknown as Record<,
         string,
         unknown
       >,

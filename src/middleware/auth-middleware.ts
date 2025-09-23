@@ -278,7 +278,7 @@ export const authStatus = (req: Request, res: Response): void => {
       email: req.user.email,
       roles: req.user.roles,
       scopes: req.user.scopes
-    }
+    },
     token: {
       issuer: req.user.iss,
       issuedAt: new Date(req.user.iat * 1000),

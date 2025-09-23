@@ -23,11 +23,11 @@ type CelestialPosition = {
     uranus: { sign: string, degree: number, minutes: number, isRetrograde?: boolean }
     neptune: { sign: string, degree: number, minutes: number, isRetrograde?: boolean }
     pluto: { sign: string, degree: number, minutes: number, isRetrograde?: boolean }
-  }
+  },
   time: {
     hours: number,
     minutes: number
-  }
+  },
   timestamp: number
 }
 
@@ -74,7 +74,7 @@ export const _getCelestialPositionsForDate = async (date: Date): Promise<Celesti
       time: {
         hours: date.getHours(),
         minutes: date.getMinutes()
-      }
+      },
       timestamp: date.getTime()
     }
   } catch (error) {
@@ -108,7 +108,7 @@ const getCachedCelestialPositions = async (): Promise<CelestialPosition> => {
       time: {
         hours: currentDate.getHours(),
         minutes: currentDate.getMinutes()
-      }
+      },
       timestamp: now
     }
 
@@ -138,7 +138,7 @@ const getFallbackPositions = (date: Date = new Date()): CelestialPosition => {
       time: {
         hours: date.getHours(),
         minutes: date.getMinutes()
-      }
+      },
       timestamp: timestamp
     }
   } catch (error) {
@@ -152,7 +152,7 @@ const getFallbackPositions = (date: Date = new Date()): CelestialPosition => {
       time: {
         hours: date.getHours(),
         minutes: date.getMinutes()
-      }
+      },
       timestamp: timestamp
     }
   }
@@ -324,7 +324,7 @@ export function calculateElementalBalanceFromPositions(
 
   // Define planetary weights - some planets have more influence than others
   const planetaryWeights = {
-    sun: 0.25, // Sun and Moon are most important;
+    sun: 0.25, // Sun and Moon are most important;,
     moon: 0.25,
     mercury: 0.1, // Inner planets,
     venus: 0.1,

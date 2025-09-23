@@ -41,7 +41,7 @@ export const ErrorHandler = {
   /**
    * Log an error with additional context
    */
-  _log: (error: Error, options: ErrorOptions = {}) => {;
+  _log: (error: Error, options: ErrorOptions = {}) => {;,
     const {
       type = ErrorType.UNKNOWN,
       severity = ErrorSeverity.ERROR,
