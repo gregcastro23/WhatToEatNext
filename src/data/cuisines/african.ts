@@ -21,13 +21,13 @@ export const african: Cuisine = {
         Earth: 0.1,
         Air: 0.1,
         Water: 0.0
-      },
+      }
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'all',
       preparationNotes:
         'Traditionally dry-roasted and ground by hand, though now commercial versions are widely available.',
       technicalTips: 'Toast the spices before grinding for maximum flavor development.'
-    },
+    }
     harissa: {
       name: 'Harissa',
       description: 'North African hot chili pepper paste with garlic, olive oil and spices',
@@ -40,12 +40,12 @@ export const african: Cuisine = {
         Earth: 0.2,
         Water: 0.1,
         Air: 0.0
-      },
+      }
       astrologicalInfluences: ['Mars', 'Mercury', 'Aries'],
       seasonality: 'all',
       preparationNotes: 'Can be preserved in olive oil for months when refrigerated.',
       technicalTips: 'For milder harissa, remove seeds from peppers before processing.'
-    },
+    }
     duqqa: {
       name: 'Duqqa',
       description: 'Egyptian dry spice blend with nuts, herbs, and spices',
@@ -58,12 +58,12 @@ export const african: Cuisine = {
         Air: 0.3,
         Fire: 0.2,
         Water: 0.0
-      },
+      }
       astrologicalInfluences: ['Mercury', 'Saturn', 'Virgo'],
       seasonality: 'all',
       preparationNotes: 'Each family has their own recipe - proportions vary significantly.',
       technicalTips: 'Allow to cool completely before storing to maintain crunch.'
-    },
+    }
     chermoula: {
       name: 'Chermoula',
       description:
@@ -97,14 +97,14 @@ export const african: Cuisine = {
         Earth: 0.3,
         Air: 0.2,
         Fire: 0.1
-      },
+      }
       astrologicalInfluences: ['Venus', 'Neptune', 'Pisces'],
       seasonality: 'spring, summer',
       preparationNotes:
         'Traditionally prepared by hand-grinding all ingredients in a mortar and pestle to release maximum flavor. Best made fresh, but can be stored for up to a week refrigerated.',
       technicalTips:
         'Balance acidity with enough olive oil for a smooth emulsion. For best results, allow flavors to marry for at least 30 minutes before using.'
-    },
+    }
     peanut: {
       name: 'West African Peanut Sauce',
       description: 'Rich, creamy sauce made from ground peanuts, tomatoes, and spices',
@@ -117,13 +117,13 @@ export const african: Cuisine = {
         Fire: 0.2,
         Water: 0.2,
         Air: 0.0
-      },
+      }
       astrologicalInfluences: ['Jupiter', 'Saturn', 'Taurus'],
       seasonality: 'all',
       preparationNotes: 'The sauce thickens significantly as it cools.',
       technicalTips: 'Roast raw peanuts before grinding for deeper flavor.'
     }
-  },
+  }
   sauceRecommender: {
     forProtein: {
       chicken: ['chermoula', 'harissa', 'yassa sauce'],
@@ -131,39 +131,39 @@ export const african: Cuisine = {
       beef: ['berbere', 'peanut sauce', 'harissa'],
       lamb: ['harissa', 'chermoula', 'duqqa'],
       goat: ['berbere', 'peanut sauce', 'suya spice']
-    },
+    }
     forVegetable: {
       okra: ['peanut sauce', 'palm oil sauce'],
       eggplant: ['chermoula', 'harissa', 'shito'],
       greens: ['peanut sauce', 'palm oil', 'berbere'],
       squash: ['moroccan spice', 'harissa', 'duqqa'],
       legumes: ['berbere', 'peanut sauce', 'zhug']
-    },
+    }
     forCookingMethod: {
       grilling: ['suya spice', 'chermoula', 'pili pili'],
       stewing: ['berbere', 'peanut sauce', 'ras el hanout'],
       roasting: ['duqqa', 'harissa', 'chermoula'],
       frying: ['shito', 'harissa', 'berbere']
-    },
+    }
     byAstrological: {
       fire: ['berbere', 'harissa', 'pili pili'],
       earth: ['peanut sauce', 'duqqa', 'suya spice'],
       air: ['chermoula', 'duqqa', 'moroccan spice'],
       water: ['palm oil sauce', 'peanut sauce', 'dipping sauce']
-    },
+    }
     byRegion: {
       northAfrican: ['harissa', 'chermoula', 'ras el hanout'],
       westAfrican: ['peanut sauce', 'palm oil sauce', 'suya spice'],
       eastAfrican: ['berbere', 'pili pili', 'mchuzi mix'],
       southAfrican: ['chakalaka', 'monkey gland sauce', 'atchar']
-    },
+    }
     byDietary: {
       vegetarian: ['chermoula', 'duqqa', 'harissa'],
       vegan: ['harissa', 'chermoula', 'peanut sauce'],
       glutenFree: ['pili pili', 'suya spice', 'chermoula'],
       dairyFree: ['harissa', 'duqqa', 'berbere']
     }
-  },
+  }
   dishes: {
     breakfast: {
       all: [
@@ -174,22 +174,22 @@ export const african: Cuisine = {
           cuisine: 'african',
           cookingMethods: ['frying', 'dough-kneading'],
           ingredients: [
-            { name: 'flour', amount: '2', unit: 'cups', category: 'grain' },
-            { name: 'sugar', amount: '1/4', unit: 'cup', category: 'sweetener' },
+            { name: 'flour', amount: '2', unit: 'cups', category: 'grain' }
+            { name: 'sugar', amount: '1/4', unit: 'cup', category: 'sweetener' }
             {
               name: 'coconut milk',
               amount: '1',
               unit: 'cup',
               category: 'dairy',
               swaps: ['regular milk']
-            },
-            { name: 'yeast', amount: '2', unit: 'tsp', category: 'leavening' },
+            }
+            { name: 'yeast', amount: '2', unit: 'tsp', category: 'leavening' }
             { name: 'cardamom', amount: '1', unit: 'tsp', category: 'spice', swaps: ['cinnamon'] }
           ],
           substitutions: {
             'coconut milk': ['regular milk', 'almond milk'],
             cardamom: ['cinnamon', 'nutmeg']
-          },
+          }
           servingSize: 12,
           allergens: ['gluten'],
           prepTime: '15 minutes',
@@ -199,7 +199,7 @@ export const african: Cuisine = {
             protein: 6,
             carbs: 50,
             fat: 8
-          },
+          }
           timeToMake: '45 minutes',
           season: ['all'],
           mealType: ['breakfast'],
@@ -208,36 +208,36 @@ export const african: Cuisine = {
             Fire: 0.3,
             Air: 0.2,
             Water: 0.1
-          },
+          }
           astrologicalInfluences: [
             'Venus - The sweetness and cardamom fragrance',
             'Jupiter - The rising, expansive quality of the dough'
           ]
-        },
+        }
         {
           name: 'Shakshuka',
           description: 'North African eggs poached in spiced tomato sauce with peppers and onions',
           cuisine: 'african',
           cookingMethods: ['poaching', 'simmering'],
           ingredients: [
-            { name: 'eggs', amount: '4', unit: 'large', category: 'protein', swaps: ['firm tofu'] },
-            { name: 'tomatoes', amount: '4', unit: 'medium', category: 'vegetable' },
-            { name: 'onion', amount: '1', unit: 'large', category: 'vegetable' },
+            { name: 'eggs', amount: '4', unit: 'large', category: 'protein', swaps: ['firm tofu'] }
+            { name: 'tomatoes', amount: '4', unit: 'medium', category: 'vegetable' }
+            { name: 'onion', amount: '1', unit: 'large', category: 'vegetable' }
             {
               name: 'bell peppers',
               amount: '2',
               unit: 'medium',
               category: 'vegetable',
               swaps: ['roasted red peppers']
-            },
-            { name: 'garlic', amount: '3', unit: 'cloves', category: 'vegetable' },
-            { name: 'cumin', amount: '1', unit: 'tsp', category: 'spice' },
+            }
+            { name: 'garlic', amount: '3', unit: 'cloves', category: 'vegetable' }
+            { name: 'cumin', amount: '1', unit: 'tsp', category: 'spice' }
             { name: 'paprika', amount: '1', unit: 'tsp', category: 'spice' }
           ],
           substitutions: {
             eggs: ['firm tofu'],
             'bell peppers': ['roasted red peppers']
-          },
+          }
           servingSize: 4,
           allergens: ['eggs'],
           prepTime: '15 minutes',
@@ -247,7 +247,7 @@ export const african: Cuisine = {
             protein: 22,
             carbs: 15,
             fat: 28
-          },
+          }
           timeToMake: '40 minutes',
           season: ['all'],
           mealType: ['breakfast'],
@@ -256,12 +256,12 @@ export const african: Cuisine = {
             Water: 0.3,
             Earth: 0.2,
             Air: 0.1
-          },
+          }
           astrologicalInfluences: [
             'Mars - The bold, spicy tomato base',
             'Sun - The bright egg yolks and life-giving energy'
           ]
-        },
+        }
         {
           name: 'Ful Medames',
           description: 'Egyptian breakfast of stewed fava beans with olive oil, lemon, and herbs',
@@ -274,22 +274,22 @@ export const african: Cuisine = {
               unit: 'cups',
               category: 'legume',
               swaps: ['canned fava beans']
-            },
+            }
             {
               name: 'olive oil',
               amount: '3',
               unit: 'tbsp',
               category: 'oil',
               swaps: ['vegetable oil']
-            },
-            { name: 'lemon juice', amount: '2', unit: 'tbsp', category: 'condiment' },
-            { name: 'garlic', amount: '2', unit: 'cloves', category: 'vegetable' },
+            }
+            { name: 'lemon juice', amount: '2', unit: 'tbsp', category: 'condiment' }
+            { name: 'garlic', amount: '2', unit: 'cloves', category: 'vegetable' }
             { name: 'cumin', amount: '1', unit: 'tsp', category: 'spice' }
           ],
           substitutions: {
             'fava beans': ['canned fava beans', 'broad beans'],
             'olive oil': ['vegetable oil', 'ghee']
-          },
+          }
           servingSize: 4,
           allergens: ['legumes'],
           prepTime: '10 minutes',
@@ -299,7 +299,7 @@ export const african: Cuisine = {
             protein: 18,
             carbs: 45,
             fat: 12
-          },
+          }
           timeToMake: '40 minutes',
           season: ['all'],
           mealType: ['breakfast'],
@@ -308,7 +308,7 @@ export const african: Cuisine = {
             Water: 0.3,
             Fire: 0.1,
             Air: 0.1
-          },
+          }
           astrologicalInfluences: [
             'Saturn - The grounding, sustaining energy of beans',
             'Mercury - The bright lemon and herb notes'
@@ -319,7 +319,7 @@ export const african: Cuisine = {
       summer: [],
       autumn: [],
       winter: []
-    },
+    }
     lunch: {
       all: [
         {
@@ -329,12 +329,12 @@ export const african: Cuisine = {
           cuisine: 'african',
           cookingMethods: ['simmering', 'one-pot cooking'],
           ingredients: [
-            { name: 'rice', amount: '2', unit: 'cups', category: 'grain' },
-            { name: 'tomato paste', amount: '1', unit: 'can', category: 'condiment' },
-            { name: 'onions', amount: '2', unit: 'whole', category: 'vegetable' },
-            { name: 'bell peppers', amount: '1', unit: 'whole', category: 'vegetable' },
-            { name: 'garlic', amount: '3', unit: 'cloves', category: 'vegetable' },
-            { name: 'ginger', amount: '1', unit: 'tbsp', category: 'spice' },
+            { name: 'rice', amount: '2', unit: 'cups', category: 'grain' }
+            { name: 'tomato paste', amount: '1', unit: 'can', category: 'condiment' }
+            { name: 'onions', amount: '2', unit: 'whole', category: 'vegetable' }
+            { name: 'bell peppers', amount: '1', unit: 'whole', category: 'vegetable' }
+            { name: 'garlic', amount: '3', unit: 'cloves', category: 'vegetable' }
+            { name: 'ginger', amount: '1', unit: 'tbsp', category: 'spice' }
             {
               name: 'chicken broth',
               amount: '4',
@@ -346,7 +346,7 @@ export const african: Cuisine = {
           substitutions: {
             'chicken broth': ['vegetable broth', 'beef broth'],
             'long grain rice': ['basmati rice', 'jasmine rice']
-          },
+          }
           servingSize: 6,
           allergens: [],
           prepTime: '20 minutes',
@@ -356,7 +356,7 @@ export const african: Cuisine = {
             protein: 15,
             carbs: 90,
             fat: 10
-          },
+          }
           timeToMake: '60 minutes',
           season: ['all'],
           mealType: ['lunch', 'dinner'],
@@ -365,12 +365,12 @@ export const african: Cuisine = {
             Earth: 0.3,
             Water: 0.1,
             Air: 0.1
-          },
+          }
           astrologicalInfluences: [
             'Sun - The vibrant red color and celebratory nature',
             'Mars - The spicy, bold character'
           ]
-        },
+        }
         {
           name: 'Doro Wat',
           description: 'Spicy Ethiopian chicken stew with berbere spice and boiled eggs',
@@ -383,18 +383,18 @@ export const african: Cuisine = {
               unit: 'kg',
               category: 'protein',
               swaps: ['chicken thighs']
-            },
+            }
             {
               name: 'berbere spice',
               amount: '1/4',
               unit: 'cup',
               category: 'spice',
               swaps: ['mild paprika + cayenne']
-            },
-            { name: 'onions', amount: '3', unit: 'large', category: 'vegetable' },
-            { name: 'garlic', amount: '8', unit: 'cloves', category: 'vegetable' },
-            { name: 'ginger', amount: '2', unit: 'tbsp', category: 'spice' },
-            { name: 'eggs', amount: '6', unit: 'whole', category: 'protein' },
+            }
+            { name: 'onions', amount: '3', unit: 'large', category: 'vegetable' }
+            { name: 'garlic', amount: '8', unit: 'cloves', category: 'vegetable' }
+            { name: 'ginger', amount: '2', unit: 'tbsp', category: 'spice' }
+            { name: 'eggs', amount: '6', unit: 'whole', category: 'protein' }
             {
               name: 'niter kibbeh',
               amount: '1/2',
@@ -407,7 +407,7 @@ export const african: Cuisine = {
             'niter kibbeh': ['ghee', 'butter'],
             berbere: ['mix of paprika, cayenne, and warm spices'],
             'chicken legs': ['chicken thighs', 'chicken breast']
-          },
+          }
           servingSize: 6,
           allergens: ['eggs', 'dairy'],
           prepTime: '45 minutes',
@@ -417,7 +417,7 @@ export const african: Cuisine = {
             protein: 35,
             carbs: 15,
             fat: 28
-          },
+          }
           timeToMake: '120 minutes',
           season: ['all'],
           mealType: ['lunch', 'dinner'],
@@ -426,12 +426,12 @@ export const african: Cuisine = {
             Earth: 0.2,
             Water: 0.1,
             Air: 0.1
-          },
+          }
           astrologicalInfluences: [
             'Mars - The intense heat of berbere spice',
             'Saturn - The slow, transformative cooking process'
           ]
-        },
+        }
         {
           name: 'Yassa Poulet',
           description: 'Senegalese marinated chicken with caramelized onions and lemon',
@@ -444,22 +444,22 @@ export const african: Cuisine = {
               unit: 'whole',
               category: 'protein',
               swaps: ['chicken pieces']
-            },
-            { name: 'onions', amount: '4', unit: 'large', category: 'vegetable' },
-            { name: 'lemon juice', amount: '1/2', unit: 'cup', category: 'acid' },
+            }
+            { name: 'onions', amount: '4', unit: 'large', category: 'vegetable' }
+            { name: 'lemon juice', amount: '1/2', unit: 'cup', category: 'acid' }
             {
               name: 'dijon mustard',
               amount: '2',
               unit: 'tbsp',
               category: 'condiment',
               swaps: ['yellow mustard']
-            },
+            }
             { name: 'garlic', amount: '6', unit: 'cloves', category: 'vegetable' }
           ],
           substitutions: {
             'whole chicken': ['chicken pieces', 'chicken thighs'],
             'dijon mustard': ['yellow mustard', 'grain mustard']
-          },
+          }
           servingSize: 6,
           allergens: ['mustard'],
           prepTime: '30 minutes',
@@ -469,7 +469,7 @@ export const african: Cuisine = {
             protein: 35,
             carbs: 25,
             fat: 22
-          },
+          }
           timeToMake: '90 minutes',
           season: ['all'],
           mealType: ['lunch', 'dinner'],
@@ -478,7 +478,7 @@ export const african: Cuisine = {
             Earth: 0.3,
             Water: 0.3,
             Air: 0.1
-          },
+          }
           astrologicalInfluences: [
             'Mercury - The bright citrus notes',
             'Venus - The sweet caramelized onions'
@@ -489,7 +489,7 @@ export const african: Cuisine = {
       summer: [],
       autumn: [],
       winter: []
-    },
+    }
     dinner: {
       all: [
         {
@@ -504,23 +504,23 @@ export const african: Cuisine = {
               unit: 'g',
               category: 'protein',
               swaps: ['ground beef']
-            },
+            }
             {
               name: 'bread',
               amount: '2',
               unit: 'slices',
               category: 'grain',
               swaps: ['gluten-free bread']
-            },
-            { name: 'milk', amount: '2', unit: 'cups', category: 'dairy' },
-            { name: 'eggs', amount: '3', unit: 'large', category: 'protein' },
-            { name: 'curry powder', amount: '2', unit: 'tbsp', category: 'spice' },
+            }
+            { name: 'milk', amount: '2', unit: 'cups', category: 'dairy' }
+            { name: 'eggs', amount: '3', unit: 'large', category: 'protein' }
+            { name: 'curry powder', amount: '2', unit: 'tbsp', category: 'spice' }
             { name: 'raisins', amount: '1/2', unit: 'cup', category: 'fruit' }
           ],
           substitutions: {
             'ground lamb': ['ground beef', 'ground turkey'],
             bread: ['gluten-free bread', 'breadcrumbs']
-          },
+          }
           servingSize: 8,
           allergens: ['dairy', 'eggs', 'wheat', 'tree nuts'],
           prepTime: '30 minutes',
@@ -530,7 +530,7 @@ export const african: Cuisine = {
             protein: 28,
             carbs: 25,
             fat: 20
-          },
+          }
           timeToMake: '90 minutes',
           season: ['all'],
           mealType: ['dinner'],
@@ -539,12 +539,12 @@ export const african: Cuisine = {
             Fire: 0.3,
             Water: 0.2,
             Air: 0.1
-          },
+          }
           astrologicalInfluences: [
             'Jupiter - The complex spices and cultural fusion',
             'Moon - The comforting, nurturing quality'
           ]
-        },
+        }
         {
           name: 'Ndolé',
           description: 'Cameroonian stew with bitter leaves and peanuts',
@@ -557,22 +557,22 @@ export const african: Cuisine = {
               unit: 'g',
               category: 'vegetable',
               swaps: ['collard greens']
-            },
-            { name: 'beef', amount: '500', unit: 'g', category: 'protein' },
-            { name: 'raw peanuts', amount: '2', unit: 'cups', category: 'protein' },
+            }
+            { name: 'beef', amount: '500', unit: 'g', category: 'protein' }
+            { name: 'raw peanuts', amount: '2', unit: 'cups', category: 'protein' }
             {
               name: 'dried shrimp',
               amount: '100',
               unit: 'g',
               category: 'seafood',
               swaps: ['shrimp paste']
-            },
+            }
             { name: 'stock', amount: '4', unit: 'cups', category: 'liquid' }
           ],
           substitutions: {
             'bitter leaves': ['collard greens', 'kale'],
             'dried shrimp': ['shrimp paste', 'fish sauce']
-          },
+          }
           servingSize: 6,
           allergens: ['peanuts', 'shellfish'],
           prepTime: '45 minutes',
@@ -582,7 +582,7 @@ export const african: Cuisine = {
             protein: 42,
             carbs: 28,
             fat: 32
-          },
+          }
           timeToMake: '135 minutes',
           season: ['all'],
           mealType: ['dinner'],
@@ -591,28 +591,28 @@ export const african: Cuisine = {
             Water: 0.2,
             Fire: 0.1,
             Air: 0.1
-          },
+          }
           astrologicalInfluences: [
             'Saturn - The bitterness and depth of flavor',
             'Jupiter - The richness of the peanuts'
           ]
-        },
+        }
         {
           name: 'Maafe',
           description: 'West African peanut stew with meat and vegetables',
           cuisine: 'african',
           cookingMethods: ['stewing', 'simmering'],
           ingredients: [
-            { name: 'lamb', amount: '500', unit: 'g', category: 'protein', swaps: ['chicken'] },
-            { name: 'peanut butter', amount: '1', unit: 'cup', category: 'protein' },
-            { name: 'sweet potatoes', amount: '2', unit: 'large', category: 'vegetable' },
-            { name: 'tomatoes', amount: '3', unit: 'medium', category: 'vegetable' },
+            { name: 'lamb', amount: '500', unit: 'g', category: 'protein', swaps: ['chicken'] }
+            { name: 'peanut butter', amount: '1', unit: 'cup', category: 'protein' }
+            { name: 'sweet potatoes', amount: '2', unit: 'large', category: 'vegetable' }
+            { name: 'tomatoes', amount: '3', unit: 'medium', category: 'vegetable' }
             { name: 'spinach', amount: '200', unit: 'g', category: 'vegetable' }
           ],
           substitutions: {
             lamb: ['chicken', 'beef'],
             'sweet potatoes': ['regular potatoes', 'butternut squash']
-          },
+          }
           servingSize: 6,
           allergens: ['peanuts'],
           prepTime: '25 minutes',
@@ -622,7 +622,7 @@ export const african: Cuisine = {
             protein: 38,
             carbs: 35,
             fat: 28
-          },
+          }
           timeToMake: '75 minutes',
           season: ['all'],
           mealType: ['dinner'],
@@ -631,7 +631,7 @@ export const african: Cuisine = {
             Water: 0.2,
             Fire: 0.2,
             Air: 0.1
-          },
+          }
           astrologicalInfluences: [
             'Jupiter - The richness and abundance',
             'Taurus - The earthy, satisfying quality'
@@ -642,7 +642,7 @@ export const african: Cuisine = {
       summer: [],
       autumn: [],
       winter: []
-    },
+    }
     dessert: {
       all: [
         {
@@ -651,26 +651,26 @@ export const african: Cuisine = {
           cuisine: 'african',
           cookingMethods: ['baking', 'sauce-making'],
           ingredients: [
-            { name: 'flour', amount: '1', unit: 'cup', category: 'grain' },
-            { name: 'sugar', amount: '1', unit: 'cup', category: 'sweetener' },
-            { name: 'milk', amount: '1', unit: 'cup', category: 'dairy' },
-            { name: 'eggs', amount: '2', unit: 'whole', category: 'protein' },
+            { name: 'flour', amount: '1', unit: 'cup', category: 'grain' }
+            { name: 'sugar', amount: '1', unit: 'cup', category: 'sweetener' }
+            { name: 'milk', amount: '1', unit: 'cup', category: 'dairy' }
+            { name: 'eggs', amount: '2', unit: 'whole', category: 'protein' }
             {
               name: 'apricot jam',
               amount: '1/2',
               unit: 'cup',
               category: 'spread',
               swaps: ['peach jam']
-            },
-            { name: 'butter', amount: '1/2', unit: 'cup', category: 'dairy' },
-            { name: 'vanilla extract', amount: '1', unit: 'tsp', category: 'flavoring' },
+            }
+            { name: 'butter', amount: '1/2', unit: 'cup', category: 'dairy' }
+            { name: 'vanilla extract', amount: '1', unit: 'tsp', category: 'flavoring' }
             { name: 'vinegar', amount: '1', unit: 'tsp', category: 'acid' }
           ],
           substitutions: {
             'apricot jam': ['peach jam', 'orange marmalade'],
             'heavy cream': ['evaporated milk'],
             'white vinegar': ['apple cider vinegar']
-          },
+          }
           servingSize: 8,
           allergens: ['eggs', 'dairy', 'gluten'],
           prepTime: '20 minutes',
@@ -680,7 +680,7 @@ export const african: Cuisine = {
             protein: 8,
             carbs: 70,
             fat: 15
-          },
+          }
           timeToMake: '65 minutes',
           season: ['all'],
           mealType: ['dessert'],
@@ -689,34 +689,34 @@ export const african: Cuisine = {
             Earth: 0.3,
             Water: 0.3,
             Air: 0.1
-          },
+          }
           astrologicalInfluences: [
             'Venus - The sweet, indulgent nature',
             'Sun - The warm, comforting quality'
           ]
-        },
+        }
         {
           name: 'Coconut Chin Chin',
           description: 'West African fried pastry snack with coconut',
           cuisine: 'african',
           cookingMethods: ['frying', 'dough-making'],
           ingredients: [
-            { name: 'flour', amount: '3', unit: 'cups', category: 'grain' },
+            { name: 'flour', amount: '3', unit: 'cups', category: 'grain' }
             {
               name: 'coconut',
               amount: '1',
               unit: 'cup',
               category: 'nut',
               swaps: ['desiccated coconut']
-            },
-            { name: 'sugar', amount: '1/2', unit: 'cup', category: 'sweetener' },
-            { name: 'eggs', amount: '2', unit: 'large', category: 'protein' },
+            }
+            { name: 'sugar', amount: '1/2', unit: 'cup', category: 'sweetener' }
+            { name: 'eggs', amount: '2', unit: 'large', category: 'protein' }
             { name: 'nutmeg', amount: '1/2', unit: 'tsp', category: 'spice', swaps: ['cinnamon'] }
           ],
           substitutions: {
             coconut: ['desiccated coconut', 'coconut flour'],
             nutmeg: ['cinnamon', 'cardamom']
-          },
+          }
           servingSize: 8,
           allergens: ['eggs', 'wheat'],
           prepTime: '30 minutes',
@@ -726,7 +726,7 @@ export const african: Cuisine = {
             protein: 6,
             carbs: 45,
             fat: 12
-          },
+          }
           timeToMake: '50 minutes',
           season: ['all'],
           mealType: ['dessert', 'snack'],
@@ -735,7 +735,7 @@ export const african: Cuisine = {
             Fire: 0.3,
             Air: 0.2,
             Water: 0.1
-          },
+          }
           astrologicalInfluences: [
             'Venus - The sweet indulgence',
             'Mercury - The crisp texture and intricate shapes'
@@ -747,46 +747,46 @@ export const african: Cuisine = {
       autumn: [],
       winter: []
     }
-  },
+  }
   cookingTechniques: [
     {
       name: 'Slow Simmering',
       description: 'Long, gentle cooking of stews and sauces to develop deep flavors',
-      elementalProperties: { Water: 0.5, Earth: 0.3, Fire: 0.2, Air: 0.0 },
+      elementalProperties: { Water: 0.5, Earth: 0.3, Fire: 0.2, Air: 0.0 }
       toolsRequired: ['heavy-bottomed pot', 'wooden spoon', 'heat diffuser'],
       bestFor: ['stews', 'sauces', 'tough cuts of meat', 'legumes'],
       difficulty: 'easy'
-    },
+    }
     {
       name: 'Hand Pounding',
       description:
         'Traditional technique using mortar and pestle to create pastes and spice blends',
-      elementalProperties: { Earth: 0.6, Fire: 0.2, Water: 0.1, Air: 0.1 },
+      elementalProperties: { Earth: 0.6, Fire: 0.2, Water: 0.1, Air: 0.1 }
       toolsRequired: ['mortar and pestle', 'sieve'],
       bestFor: ['spice blends', 'sauces', 'pounded yam', 'fufu'],
       difficulty: 'medium'
-    },
+    }
     {
       name: 'Clay Pot Cooking',
       description: 'Slow cooking in unglazed clay pots that enhance flavors and maintain moisture',
-      elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.2, Air: 0.0 },
+      elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.2, Air: 0.0 }
       toolsRequired: ['clay pot', 'heat diffuser', 'wooden spoon'],
       bestFor: ['stews', 'tagines', 'rice dishes', 'beans'],
       difficulty: 'medium'
-    },
+    }
     {
       name: 'Charcoal Grilling',
       description: 'Direct heat cooking over open charcoal for smoky flavor',
-      elementalProperties: { Fire: 0.7, Air: 0.2, Earth: 0.1, Water: 0.0 },
+      elementalProperties: { Fire: 0.7, Air: 0.2, Earth: 0.1, Water: 0.0 }
       toolsRequired: ['charcoal grill', 'skewers', 'tongs'],
       bestFor: ['suya', 'kebabs', 'whole fish', 'vegetables'],
       difficulty: 'easy'
-    },
+    }
     {
       name: 'Fermentation',
       description:
         'Traditional preservation technique that develops complex flavors and probiotics',
-      elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
+      elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
       toolsRequired: ['clay pots', 'wooden tools', 'weights'],
       bestFor: ['injera', 'ogi', 'garri', 'fermented locust beans'],
       difficulty: 'hard'
@@ -798,39 +798,39 @@ export const african: Cuisine = {
       description:
         'Mediterranean and Arabic influenced cuisine featuring tagines, couscous, and aromatic spices',
       signature: ['tagine', 'couscous', 'harissa', 'shakshuka'],
-      elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
+      elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 }
       astrologicalInfluences: ['Mars', 'Venus', 'Mercury'],
       seasonality: 'all'
-    },
+    }
     westAfrican: {
       name: 'West African Cuisine',
       description: 'Bold, spicy cuisine with staples like rice, cassava, plantains and palm oil',
       signature: ['jollof rice', 'fufu', 'peanut stew', 'egusi soup'],
-      elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.1, Air: 0.1 },
+      elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.1, Air: 0.1 }
       astrologicalInfluences: ['Jupiter', 'Saturn', 'Mars'],
       seasonality: 'all'
-    },
+    }
     eastAfrican: {
       name: 'East African Cuisine',
       description: 'Diverse cuisine influenced by Arabic, Indian and indigenous traditions',
       signature: ['injera with wat', 'ugali', 'pilau', 'berbere spice'],
-      elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
+      elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 }
       astrologicalInfluences: ['Sun', 'Mars', 'Saturn'],
       seasonality: 'all'
-    },
+    }
     southernAfrican: {
       name: 'Southern African Cuisine',
       description: 'Hearty cuisine combining indigenous, Dutch, Malaysian and British influences',
       signature: ['bobotie', 'biltong', 'pap', 'chakalaka'],
-      elementalProperties: { Earth: 0.5, Fire: 0.2, Water: 0.2, Air: 0.1 },
+      elementalProperties: { Earth: 0.5, Fire: 0.2, Water: 0.2, Air: 0.1 }
       astrologicalInfluences: ['Saturn', 'Venus', 'Jupiter'],
       seasonality: 'all'
     }
-  },
+  }
   elementalProperties: {
     Earth: 0.4,
     Fire: 0.3,
     Water: 0.2,
     Air: 0.1
   }
-},
+}

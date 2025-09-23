@@ -25,4 +25,4 @@ export const _getLunarMultiplier = (phase: LunarPhase | null | undefined): numbe
     default:
       return 1.0 // Baseline influence
   }
-},
+}

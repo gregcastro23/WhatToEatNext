@@ -84,7 +84,7 @@ _logger.info(usedVar)
           severity: 'warning',
           message: 'Unexpected any',
           category: WarningCategory.EXPLICIT_ANY
-        },
+        }
         {
           file: '/test/file2.ts',
           line: 2,
@@ -93,7 +93,7 @@ _logger.info(usedVar)
           severity: 'warning',
           message: 'Unused variable',
           category: WarningCategory.UNUSED_VARIABLES
-        },
+        }
         {
           file: '/test/file3.ts',
           line: 3,
@@ -126,7 +126,7 @@ _logger.info(usedVar)
           severity: 'warning',
           message: 'Unexpected any',
           category: WarningCategory.EXPLICIT_ANY
-        },
+        }
         {
           file: '/test/high-priority.ts',
           line: 2,
@@ -135,7 +135,7 @@ _logger.info(usedVar)
           severity: 'warning',
           message: 'Unexpected any',
           category: WarningCategory.EXPLICIT_ANY
-        },
+        }
         {
           file: '/test/low-priority.ts',
           line: 1,
@@ -157,12 +157,12 @@ _logger.info(usedVar)
   describe('generateRecommendations', () => {
     it('should generate appropriate recommendations', () => {
       const distribution: any = {
-        explicitAny: { count: 100, priority: 1, files: [] },
-        unusedVariables: { count: 50, priority: 2, files: [] },
-        consoleStatements: { count: 25, priority: 3, files: [] },
-        other: { count: 0, priority: 4, files: [] },
+        explicitAny: { count: 100, priority: 1, files: [] }
+        unusedVariables: { count: 50, priority: 2, files: [] }
+        consoleStatements: { count: 25, priority: 3, files: [] }
+        other: { count: 0, priority: 4, files: [] }
         total: 175,
-      },
+      }
 
       const recommendations: any = (analyzer as any).generateRecommendations(distribution)
 
@@ -177,16 +177,16 @@ _logger.info(usedVar)
     it('should generate a comprehensive report', () => {
       const mockResult: any = {
         distribution: {
-          explicitAny: { count: 10, priority: 1, files: ['file1.ts'] },
-          unusedVariables: { count: 5, priority: 2, files: ['file2.ts'] },
-          consoleStatements: { count: 3, priority: 3, files: ['file3.ts'] },
-          other: { count: 0, priority: 4, files: [] },
+          explicitAny: { count: 10, priority: 1, files: ['file1.ts'] }
+          unusedVariables: { count: 5, priority: 2, files: ['file2.ts'] }
+          consoleStatements: { count: 3, priority: 3, files: ['file3.ts'] }
+          other: { count: 0, priority: 4, files: [] }
           total: 18
-        },
+        }
         warnings: [],
-        prioritizedFiles: { highPriority: ['file1.ts'], mediumPriority: ['file2.ts'], lowPriority: ['file3.ts'] },
+        prioritizedFiles: { highPriority: ['file1.ts'], mediumPriority: ['file2.ts'], lowPriority: ['file3.ts'] }
         recommendations: ['Fix explicit-any warnings first'],
-      },
+      }
 
       const report: any = analyzer.generateReport(mockResult)
 

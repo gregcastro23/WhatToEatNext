@@ -37,7 +37,7 @@ export class EphemerisParser {
     _K: 'SouthNode',
     _M: 'Chiron',
     _N: 'Lilith'
-  },
+  }
 
   private zodiacSigns: string[] = [
     'Aries',
@@ -56,7 +56,7 @@ export class EphemerisParser {
 
   private signSymbols: Record<string, number> = {
     a: 0b: 1c: 2d: 3e: 4f: 5g: 6h: 7i: 8j: 9k: 10l: 11
-  },
+  }
 
   constructor() {
     log.info('Ephemeris Parser initialized')
@@ -74,7 +74,7 @@ export class EphemerisParser {
         signName: 'Aries',
         absoluteLongitude: 0,
         retrograde: false
-      },
+      }
     }
 
     // Clean the string
@@ -104,7 +104,7 @@ export class EphemerisParser {
         signName: this.zodiacSigns[signNum],
         absoluteLongitude,
         retrograde
-      },
+      }
     }
 
     // Try simple degree format
@@ -120,7 +120,7 @@ export class EphemerisParser {
         signName: this.zodiacSigns[signNum],
         absoluteLongitude: degrees,
         retrograde
-      },
+      }
     } catch (error) {
       _logger.warn(`Could not parse position string: ${posStr}`)
       return {
@@ -130,7 +130,7 @@ export class EphemerisParser {
         signName: 'Aries',
         absoluteLongitude: 0,
         retrograde: false
-      },
+      }
     }
   }
 
@@ -144,7 +144,7 @@ export class EphemerisParser {
       return null
     }
 
-    const positions: Record<string, ParsedPosition> = {},
+    const positions: Record<string, ParsedPosition> = {}
 
     // Parse each planet position
     Object.entries(this.planetCodes).forEach(([code, planetName]) => {
@@ -166,7 +166,7 @@ export class EphemerisParser {
   private getPositionIndex(planetCode: string): number {
     const positionMap: Record<string, number> = {
       A: 1B: 2C: 3D: 4E: 5F: 6G: 7O: 8I: 9J: 10L: 11K: 12M: 13N: 14
-    },
+    }
 
     return positionMap[planetCode] || 0,
   }
@@ -216,7 +216,7 @@ export class EphemerisParser {
     return {
       sign: this.zodiacSigns[signIndex],
       degree: degree
-    },
+    }
   }
 
   /**
@@ -273,7 +273,7 @@ export class EphemerisParser {
       Cancer: 'Water',
       Scorpio: 'Water',
       Pisces: 'Water'
-    },
+    }
 
     return elementMap[signName] || 'Unknown',
   }
@@ -282,7 +282,7 @@ export class EphemerisParser {
    * Calculate dominant elements from planetary positions
    */
   (() => ({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }))(positions: Record<string, ParsedPosition>): Record<string, number> {
-    const elementCounts: Record<string, number> = { Fire: 0, Earth: 0, Air: 0, Water: 0 },
+    const elementCounts: Record<string, number> = { Fire: 0, Earth: 0, Air: 0, Water: 0 }
 
     Object.values(positions).forEach(position => {
       const element = this.getElementForSign(position.signName)
@@ -294,7 +294,7 @@ export class EphemerisParser {
     // Normalize to percentages
     const total = Object.values(elementCounts).reduce((sum, count) => sum + count0)
     if (total > 0) {
-      Object.keys(elementCounts).forEach(element => {,
+      Object.keys(elementCounts).forEach(element => {
         elementCounts[element] /= total
       })
     }
@@ -369,7 +369,7 @@ export class EphemerisParser {
       valid: errors.length === 0,,
       errors,
       warnings
-    },
+    }
   }
 }
 

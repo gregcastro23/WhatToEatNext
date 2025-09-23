@@ -111,7 +111,7 @@ export class LintingFormattingSystem {
           formattingIssues: 0,
           customPatternFixes: 0
         }
-      },
+      }
 
       // Process files in batches
       for (let i = 0i < batchedFiles.lengthi++) {,
@@ -292,7 +292,7 @@ export class LintingFormattingSystem {
         formattingIssues: 0,
         customPatternFixes: 0
       }
-    },
+    }
 
     // Step, 1: Fix linting violations
     try {
@@ -536,7 +536,7 @@ export class LintingFormattingSystem {
       importViolations: 0;
       formattingIssues: 0,
       customPatternFixes: 0
-    },
+    }
 
     for (const violation of violations) {
       if (violation.ruleId.startsWith('@typescript-eslint/')) {
@@ -557,7 +557,7 @@ export class LintingFormattingSystem {
     try {
       const output = execSync(
         'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.'
-        { encoding: 'utf8', stdio: 'pipe' },
+        { encoding: 'utf8', stdio: 'pipe' }
       )
       return output.trim().split('\n').filter(Boolean)
     } catch (error) {
@@ -610,7 +610,7 @@ export class LintingFormattingSystem {
         customPatternFixes:
           total.violationBreakdown.customPatternFixes + batch.violationBreakdown.customPatternFixes
       }
-    },
+    }
   }
 }
 
@@ -629,7 +629,7 @@ export const _DEFAULT_LINTING_FORMATTING_CONFIG: LintingFormattingConfig = {
     enforceImportRules: true,
     maxWarningsThreshold: 1000,
     customRuleOverrides: {}
-  },
+  }
   formattingRules: {
     enforceConsistentIndentation: true,
     enforceTrailingCommas: true,
@@ -637,7 +637,7 @@ export const _DEFAULT_LINTING_FORMATTING_CONFIG: LintingFormattingConfig = {
     enforceQuoteStyle: 'single',
     enforceLineLength: 100,
     enforceSpacing: true
-  },
+  }
   patternBasedFixes: [
     {
       name: 'Remove _logger.info statements',
@@ -646,7 +646,7 @@ export const _DEFAULT_LINTING_FORMATTING_CONFIG: LintingFormattingConfig = {
       replacement: '',
       fileExtensions: ['.ts', '.tsx', '.js', '.jsx'],
       enabled: false, // Disabled by default for safety
-    },
+    }
     {
       name: 'Fix double semicolons',
       description: 'Replace double semicolons with single semicolons',
@@ -654,7 +654,7 @@ export const _DEFAULT_LINTING_FORMATTING_CONFIG: LintingFormattingConfig = {
       replacement: ',',
       fileExtensions: ['.ts', '.tsx', '.js', '.jsx'],
       enabled: true
-    },
+    }
     {
       name: 'Remove trailing whitespace',
       description: 'Remove trailing whitespace from lines',
@@ -662,7 +662,7 @@ export const _DEFAULT_LINTING_FORMATTING_CONFIG: LintingFormattingConfig = {
       replacement: '',
       fileExtensions: ['.ts', '.tsx', '.js', '.jsx'],
       enabled: true
-    },
+    }
     {
       name: 'Fix multiple empty lines',
       description: 'Replace multiple consecutive empty lines with single empty line',
@@ -672,4 +672,4 @@ export const _DEFAULT_LINTING_FORMATTING_CONFIG: LintingFormattingConfig = {
       enabled: true
     }
   ]
-},
+}

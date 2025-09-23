@@ -51,7 +51,7 @@ export interface FoodEntry {
     fat: number,
     fiber?: number,
     [key: string]: number | undefined
-  },
+  }
   elementalProperties: ElementalProperties,
   category: string,
   properties: FoodProperty[],
@@ -60,12 +60,12 @@ export interface FoodEntry {
 
 // Daily nutrition targets
 export const nutritionTargets = {
-  calories: { min: 1800, max: 2400, unit: 'kcal' },
-  protein: { min: 50, max: 100, unit: 'g' },
-  carbs: { min: 225, max: 325, unit: 'g' },
-  fats: { min: 44, max: 78, unit: 'g' },
+  calories: { min: 1800, max: 2400, unit: 'kcal' }
+  protein: { min: 50, max: 100, unit: 'g' }
+  carbs: { min: 225, max: 325, unit: 'g' }
+  fats: { min: 44, max: 78, unit: 'g' }
   fiber: { min: 25, max: 35, unit: 'g' }
-},
+}
 
 // Cultural balance rules that extend existing cuisine data
 export interface CulturalBalance {
@@ -91,8 +91,8 @@ export function calculateNutritionalBalance(_entries: FoodEntry[]): { [key: stri
         }
       })
       return acc,
-    },
-    {} as { [key: string]: number },
+    }
+    {} as { [key: string]: number }
   )
 }
 
@@ -106,7 +106,7 @@ export function analyzePropertyBalance(
         acc[prop] = (acc[prop] || 0) + 1,
       })
       return acc,
-    },
+    }
     {} as Record<FoodProperty, number>,
   )
 
@@ -242,4 +242,4 @@ export const foodTypes = {
   calculateNutritionalBalance,
   analyzePropertyBalance,
   findComplementaryDishes
-},
+}

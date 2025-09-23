@@ -58,7 +58,7 @@ export async function getReliablePlanetaryPositions(
           positions,
           timestamp: Date.now(),
           date: dateString
-        },
+        }
 
         return positions,
       }
@@ -77,7 +77,7 @@ export async function getReliablePlanetaryPositions(
           positions,
           timestamp: Date.now(),
           date: dateString
-        },
+        }
 
         return positions,
       }
@@ -97,7 +97,7 @@ export async function getReliablePlanetaryPositions(
             positions,
             timestamp: Date.now(),
             date: dateString
-          },
+          }
 
           return positions,
         }
@@ -140,19 +140,19 @@ async function fetchHorizonsData(date: Date): Promise<Record<string, unknown>> {
   const horizonsDate = `${date.getFullYear()}-${months[date.getMonth()]}-${date.getDate().toString().padStart(2, '0')}`,
 
   // Initialize positions object
-  const positions: Record<string, unknown> = {},
+  const positions: Record<string, unknown> = {}
 
   // List of major planets with their Horizons object IDs
   const planets = [
-    { name: 'Sun', id: '10' },
-    { name: 'Moon', id: '301' },
-    { name: 'Mercury', id: '199' },
-    { name: 'Venus', id: '299' },
-    { name: 'Mars', id: '499' },
-    { name: 'Jupiter', id: '599' },
-    { name: 'Saturn', id: '699' },
-    { name: 'Uranus', id: '799' },
-    { name: 'Neptune', id: '899' },
+    { name: 'Sun', id: '10' }
+    { name: 'Moon', id: '301' }
+    { name: 'Mercury', id: '199' }
+    { name: 'Venus', id: '299' }
+    { name: 'Mars', id: '499' }
+    { name: 'Jupiter', id: '599' }
+    { name: 'Saturn', id: '699' }
+    { name: 'Uranus', id: '799' }
+    { name: 'Neptune', id: '899' }
     { name: 'Pluto', id: '999' }
   ],
 
@@ -243,7 +243,7 @@ function processHorizonsResponse(result: string, planetName: string): unknown {
       degree,
       exactLongitude,
       isRetrograde
-    },
+    }
   } catch (error) {
     logger.error(`Error processing ${planetName} data:`, error)
     return null;
@@ -280,7 +280,7 @@ function getLongitudeToZodiacSign(_longitude: number): { sign: string, degree: n
   return {
     sign: signs[signIndex],
     degree: Math.round(degree * 100) / 100, // Round to 2 decimal places
-  },
+  }
 }
 
 /**
@@ -309,15 +309,15 @@ function calculateLunarNode(date: Date, nodeType: 'northNode' | 'southNode'): un
       degree,
       exactLongitude: longitude,
       isRetrograde: true, // Both nodes are always retrograde
-    },
+    }
   } catch (error) {
     logger.error(`Error calculating ${nodeType}:`, error)
 
     // Return fixed values from March 2025
     if (nodeType === 'northNode') {
-      return { sign: 'pisces', degree: 26.54, exactLongitude: 356.54, isRetrograde: true },
+      return { sign: 'pisces', degree: 26.54, exactLongitude: 356.54, isRetrograde: true }
     } else {
-      return { sign: 'virgo', degree: 26.54, exactLongitude: 176.54, isRetrograde: true },
+      return { sign: 'virgo', degree: 26.54, exactLongitude: 176.54, isRetrograde: true }
     }
   }
 }
@@ -339,20 +339,20 @@ function getMarch2025Positions(date: Date | unknown = new Date()): Record<string
   const _validDate = date instanceof Date && !isNaN(date.getTime()) ? date : new Date()
   // Current accurate positions as of March 28, 2025
   const positions: Record<string, unknown> = {
-    sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
-    moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
-    mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true },
-    venus: { sign: 'pisces', degree: 29.08, exactLongitude: 359.08, isRetrograde: true },
-    mars: { sign: 'cancer', degree: 22.63, exactLongitude: 112.63, isRetrograde: false },
-    jupiter: { sign: 'gemini', degree: 15.52, exactLongitude: 75.52, isRetrograde: false },
-    saturn: { sign: 'pisces', degree: 24.12, exactLongitude: 354.12, isRetrograde: false },
-    uranus: { sign: 'taurus', degree: 24.62, exactLongitude: 54.62, isRetrograde: false },
-    neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false },
-    pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false },
-    northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true },
-    southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true },
+    sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false }
+    moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false }
+    mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true }
+    venus: { sign: 'pisces', degree: 29.08, exactLongitude: 359.08, isRetrograde: true }
+    mars: { sign: 'cancer', degree: 22.63, exactLongitude: 112.63, isRetrograde: false }
+    jupiter: { sign: 'gemini', degree: 15.52, exactLongitude: 75.52, isRetrograde: false }
+    saturn: { sign: 'pisces', degree: 24.12, exactLongitude: 354.12, isRetrograde: false }
+    uranus: { sign: 'taurus', degree: 24.62, exactLongitude: 54.62, isRetrograde: false }
+    neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false }
+    pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false }
+    northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true }
+    southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true }
     _ascendant: { sign: 'libra', degree: 7.82, exactLongitude: 187.82, isRetrograde: false }
-  },
+  }
 
   return positions,
 }
@@ -379,7 +379,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
-        },
+        }
         signal: controller.signal
       })
 
@@ -393,7 +393,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
       const data = await response.json()
 
       // Process the response
-      const positions: Record<string, unknown> = {},
+      const positions: Record<string, unknown> = {}
 
       // Map of planet names to standardize
       const planetNameMap: Record<string, string> = {
@@ -409,7 +409,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
         pluto: 'Pluto',
         _rahu: 'northNode', // Rahu is North Node in Vedic astrology
         _ketu: 'southNode', // Ketu is South Node in Vedic astrology
-      },
+      }
 
       // Process each planet
       if (data && Array.isArray(data)) {
@@ -429,7 +429,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
               degree,
               exactLongitude,
               isRetrograde: planetData?.isRetrograde === true,,
-            },
+            }
           }
         })
       }
@@ -520,9 +520,9 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
           headers: {
             Authorization: `Basic ${auth}`,
             'Content-Type': 'application/json'
-          },
+          }
           signal: controller.signal
-        },
+        }
       )
 
       // Clear the timeout
@@ -535,7 +535,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
       const data = await response.json()
 
       // Process the response
-      const positions: Record<string, unknown> = {},
+      const positions: Record<string, unknown> = {}
 
       if (data?.objects && Array.isArray(data.objects)) {
         data.objects.forEach((obj: unknown) => {
@@ -553,7 +553,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
               degree,
               exactLongitude: objData.position.eclipticLongitude,
               isRetrograde: objData.position?.isRetrograde === true,,
-            },
+            }
           }
         })
       }

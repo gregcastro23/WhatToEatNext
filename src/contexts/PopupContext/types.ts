@@ -10,13 +10,13 @@ export type ElementalInfluence = {
   isHarmonious?: boolean,
   primaryElement?: string,
   secondaryElement?: string
-},
+}
 
 export type PopupMetadata = {
   sunSign?: string,
   moonSign?: string,
   season?: string
-},
+}
 
 export type PopupOptions = {
   duration?: number,
@@ -28,7 +28,7 @@ export type PopupOptions = {
   animation?: string,
   className?: string,
   elemental?: ElementalInfluence
-},
+}
 
 export type Popup = {
   id: number,
@@ -39,13 +39,13 @@ export type Popup = {
   elemental?: ElementalInfluence,
   season?: string,
   metadata?: PopupMetadata
-},
+}
 
 export type PopupContextType = {
   showPopup: (message: string, options?: PopupOptions) => number
   closePopup: (id: number) => void
-},
+}
 
 export type PopupProviderProps = {
   children: ReactNode
-},
+}

@@ -15,11 +15,11 @@ export interface PlanetInfo {
   dignity: {
     type: string,
     strength: number
-  },
+  }
   tarotCard: {
     name: string,
     element: string
-  },
+  }
   aspects: {
     planet: string,
     type: string,
@@ -30,13 +30,13 @@ export interface PlanetInfo {
     water: number,
     air: number,
     earth: number
-  },
+  }
   tokenInfluence: {
     spirit: number,
     essence: number,
     matter: number,
     substance: number
-  },
+  }
 }
 
 /**
@@ -78,7 +78,7 @@ export function getPlanetInfo(
     }
 
     // Get dignity information
-    let dignity = { type: 'Neutral', strength: 0 },
+    let dignity = { type: 'Neutral', strength: 0 }
 
     // Don't calculate dignity for Ascendant and Lunar Nodes
     if (
@@ -90,12 +90,12 @@ export function getPlanetInfo(
         dignity = getPlanetaryDignityInfo(normalizedPlanetName, planetSign),
       } catch (error) {
         _logger.error(`Error getting dignity for ${normalizedPlanetName}:`, error)
-        dignity = { type: 'Neutral', strength: 0 },
+        dignity = { type: 'Neutral', strength: 0 }
       }
     }
 
     // Get tarot card correspondence
-    let tarotCard = { name: 'Unknown', element: 'Unknown' },
+    let tarotCard = { name: 'Unknown', element: 'Unknown' }
 
     // For Ascendant or Lunar Nodes, set tarot card based on sign
     if (
@@ -117,19 +117,19 @@ export function getPlanetInfo(
         capricorn: 'The Devil',
         aquarius: 'The Star',
         pisces: 'The Moon'
-      },
+      }
 
       const cardName = signToCard[planetSign] || 'The Fool';
       tarotCard = {
         name: cardName,
         element: MAJOR_ARCANA[cardName]?.element || 'Unknown'
-      },
+      }
     } else if (PLANET_TO_MAJOR_ARCANA[normalizedPlanetName]) {
       const cardName = PLANET_TO_MAJOR_ARCANA[normalizedPlanetName];
       tarotCard = {
         name: cardName,
         element: MAJOR_ARCANA[cardName]?.element || 'Unknown'
-      },
+      }
     }
 
     // Calculate aspects - handle special cases for lunar nodes
@@ -152,7 +152,7 @@ export function getPlanetInfo(
 
     // Get elemental influence
     // Special handling for ascendant, lunar nodes and outer planets
-    let elementalInfluence = { fire: 0, water: 0, air: 0, earth: 0 },
+    let elementalInfluence = { fire: 0, water: 0, air: 0, earth: 0 }
 
     if (
       normalizedPlanetName === 'Ascendant' ||
@@ -173,7 +173,7 @@ export function getPlanetInfo(
         cancer: 'Water',
         scorpio: 'Water',
         pisces: 'Water'
-      },
+      }
 
       const element = signToElement[planetSign] || 'air';
       // North Node emphasizes its element, South Node has less influence
@@ -186,7 +186,7 @@ export function getPlanetInfo(
           water: planetaryModifiers[normalizedPlanetName].Water || 0,
           air: planetaryModifiers[normalizedPlanetName].Air || 0,
           earth: planetaryModifiers[normalizedPlanetName].Earth || 0
-        },
+        }
       } else {
         _logger.warn(`No planetary modifier found for ${normalizedPlanetName}`)
       }
@@ -194,7 +194,7 @@ export function getPlanetInfo(
 
     // Get token influence
     // Special handling for ascendant and lunar nodes
-    let tokenInfluence = { spirit: 0, essence: 0, matter: 0, substance: 0 },
+    let tokenInfluence = { spirit: 0, essence: 0, matter: 0, substance: 0 }
 
     if (
       normalizedPlanetName === 'Ascendant' ||
@@ -215,7 +215,7 @@ export function getPlanetInfo(
         cancer: 'Water',
         scorpio: 'Water',
         pisces: 'Water'
-      },
+      }
 
       const element = signToElement[planetSign] || 'air';
 
@@ -273,7 +273,7 @@ export function getPlanetInfo(
           essence: planetary.Essence || 0,
           matter: planetary.Matter || 0,
           substance: planetary.Substance || 0
-        },
+        }
       } else {
         _logger.warn(`No planetary token influence for ${normalizedPlanetName}`)
       }
@@ -290,7 +290,7 @@ export function getPlanetInfo(
       aspects: planetAspects,
       elementalInfluence,
       tokenInfluence
-    },
+    }
   } catch (error) {
     _logger.error('Error in getPlanetInfo:', error)
     return null

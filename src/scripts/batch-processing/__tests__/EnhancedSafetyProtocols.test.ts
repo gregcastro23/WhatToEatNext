@@ -28,7 +28,7 @@ describe('EnhancedSafetyProtocols', () => {
       requireManualReview: true,
       enhancedValidation: true,
       createDetailedBackups: true
-    },
+    }
 
     safetyProtocols = new EnhancedSafetyProtocols(config)
 
@@ -124,7 +124,7 @@ describe('EnhancedSafetyProtocols', () => {
         recommendedBatchSize: 5,
         riskFactors: ['Core astrological calculation file', 'High unused variable count (25)'],
         mitigationStrategies: ['Use minimum batch size (5 files)', 'Mandatory manual review required']
-      },
+      }
 
       const reviewRequest: any = safetyProtocols.createManualReviewRequest(assessment)
 
@@ -150,7 +150,7 @@ describe('EnhancedSafetyProtocols', () => {
         recommendedBatchSize: 8,
         riskFactors: ['Service layer business logic'],
         mitigationStrategies: ['Enhanced API integration testing']
-      },
+      }
 
       const reviewRequest: any = safetyProtocols.createManualReviewRequest(assessment)
 
@@ -173,7 +173,7 @@ describe('EnhancedSafetyProtocols', () => {
         recommendedBatchSize: 10,
         riskFactors: [],
         mitigationStrategies: []
-      },
+      }
 
       safetyProtocols.createManualReviewRequest(assessment)
       const pendingReviews: any = safetyProtocols.getPendingManualReviews()
@@ -193,7 +193,7 @@ describe('EnhancedSafetyProtocols', () => {
         recommendedBatchSize: 10,
         riskFactors: [],
         mitigationStrategies: []
-      },
+      }
 
       safetyProtocols.createManualReviewRequest(assessment)
       const success: any = safetyProtocols.approveManualReview('/project/src/test.ts', 'Looks good')
@@ -213,7 +213,7 @@ describe('EnhancedSafetyProtocols', () => {
         recommendedBatchSize: 10,
         riskFactors: [],
         mitigationStrategies: []
-      },
+      }
 
       safetyProtocols.createManualReviewRequest(assessment)
       const success: any = safetyProtocols.rejectManualReview('/project/src/test.ts', 'Too risky')
@@ -284,7 +284,7 @@ describe('EnhancedSafetyProtocols', () => {
         const Water: any = 0.2;
         const Earth: any = 0.5
         const Air: any = 0.3
-        function calculateElemental() : any { return Fire + Water, },
+        function calculateElemental() : any { return Fire + Water, }
       `)
 
       const result: any = await safetyProtocols.performEnhancedValidation(;
@@ -301,7 +301,7 @@ describe('EnhancedSafetyProtocols', () => {
         const Fire: any = 0.8
         const Water: any = 0.2
         // Missing Earth and Air
-        function calculateElemental() : any { return Fire + Water, },
+        function calculateElemental() : any { return Fire + Water, }
       `)
 
       const result: any = await safetyProtocols.performEnhancedValidation(;
@@ -317,7 +317,7 @@ describe('EnhancedSafetyProtocols', () => {
   describe('Configuration Options', () => {
     test('should respect disabled manual review option', () => {
       const configWithoutReview: Partial<HighImpactFileConfig> = { requireManualReview: false
-      },
+      }
 
       const protocolsNoReview: any = new EnhancedSafetyProtocols(configWithoutReview)
       const assessment: any = protocolsNoReview.assessFileRisk(;
@@ -330,7 +330,7 @@ describe('EnhancedSafetyProtocols', () => {
 
     test('should respect disabled enhanced validation option', () => {
       const configWithoutValidation: Partial<HighImpactFileConfig> = { enhancedValidation: false
-      },
+      }
 
       const protocolsNoValidation: any = new EnhancedSafetyProtocols(configWithoutValidation)
       const assessment: any = protocolsNoValidationassessFileRisk(;
@@ -343,7 +343,7 @@ describe('EnhancedSafetyProtocols', () => {
 
     test('should respect custom variable threshold', () => {
       const configCustomThreshold: Partial<HighImpactFileConfig> = { maxVariablesAutoProcess: 10 // Lower threshold
-      },
+      }
 
       const protocolsCustom: any = new EnhancedSafetyProtocols(configCustomThreshold)
       const assessment: any = protocolsCustomassessFileRisk(;
@@ -357,7 +357,7 @@ describe('EnhancedSafetyProtocols', () => {
     test('should respect custom batch sizes', () => {
       const configCustomBatch: Partial<HighImpactFileConfig> = { criticalFileBatchSize: 3;
         serviceLayerBatchSize: 6
-      },
+      }
 
       const protocolsCustom: any = new EnhancedSafetyProtocols(configCustomBatch)
 

@@ -8,73 +8,73 @@ export const planetaryCycles = {
       period: 1.88, // Mars cycle,
       phase: Math.PI / 6, // 30 degree offset,
       amplitude: 0.5, // Primary influence strength
-    },
+    }
     secondary: {
       period: 0.24, // Mercury cycle,
       phase: Math.PI / 4, // 45 degree offset,
       amplitude: 0.3, // Secondary influence strength
-    },
+    }
     tertiary: {
       period: 0.62, // Venus cycle,
       phase: 0, // No phase offset,
       amplitude: 0.2, // Tertiary influence strength
     }
-  },
+  }
 
   Essence: {
     primary: {
       period: 2.1, // Lunar cycle,
       phase: Math.PI / 3, // 60 degree offset,
       amplitude: 0.4, // Primary influence strength
-    },
+    }
     secondary: {
       period: 0.62, // Venus cycle,
       phase: Math.PI / 8, // 22.5 degree offset,
       amplitude: 0.3, // Secondary influence strength
-    },
+    }
     tertiary: {
       period: 1.88, // Mars cycle,
       phase: 0, // No phase offset,
       amplitude: 0.3, // Tertiary influence strength
     }
-  },
+  }
 
   Matter: {
     primary: {
       period: 1.88, // Mars cycle,
       phase: Math.PI / 4, // 45 degree offset,
       amplitude: 0.4, // Primary influence strength
-    },
+    }
     secondary: {
       period: 0.24, // Mercury cycle,
       phase: Math.PI / 6, // 30 degree offset,
       amplitude: 0.3, // Secondary influence strength
-    },
+    }
     tertiary: {
       period: 0.62, // Venus cycle,
       phase: 0, // No phase offset,
       amplitude: 0.3, // Tertiary influence strength
     }
-  },
+  }
 
   Substance: {
     primary: {
       period: 0.62, // Venus cycle,
       phase: Math.PI / 6, // 30 degree offset,
       amplitude: 0.5, // Primary influence strength
-    },
+    }
     secondary: {
       period: 1.88, // Mars cycle,
       phase: Math.PI / 4, // 45 degree offset,
       amplitude: 0.3, // Secondary influence strength
-    },
+    }
     tertiary: {
       period: 0.24, // Mercury cycle,
       phase: 0, // No phase offset,
       amplitude: 0.2, // Tertiary influence strength
     }
   }
-},
+}
 
 /**
  * Planetary Modifiers
@@ -91,7 +91,7 @@ export const _planetaryModifiers: Record<string, Record<string, number>> = {
     Essence: 0,
     Matter: -0.1,
     Substance: 0
-  },
+  }
   _Moon: {
     Fire: -0.1,
     Water: 0.3,
@@ -101,7 +101,7 @@ export const _planetaryModifiers: Record<string, Record<string, number>> = {
     Essence: 0.2,
     Matter: 0.1,
     Substance: 0
-  },
+  }
   Mercury: {
     Fire: 0,
     Water: 0,
@@ -111,7 +111,7 @@ export const _planetaryModifiers: Record<string, Record<string, number>> = {
     Essence: 0,
     Matter: 0,
     Substance: 0.2
-  },
+  }
   Venus: {
     Fire: -0.1,
     Water: 0.2,
@@ -121,7 +121,7 @@ export const _planetaryModifiers: Record<string, Record<string, number>> = {
     Essence: 0.2,
     Matter: 0,
     Substance: 0.1
-  },
+  }
   Mars: {
     Fire: 0.3,
     Water: -0.1,
@@ -131,7 +131,7 @@ export const _planetaryModifiers: Record<string, Record<string, number>> = {
     Essence: 0.1,
     Matter: 0.2,
     Substance: -0.1
-  },
+  }
   _Jupiter: {
     Fire: 0.1,
     Water: 0,
@@ -141,7 +141,7 @@ export const _planetaryModifiers: Record<string, Record<string, number>> = {
     Essence: 0.1,
     Matter: 0,
     Substance: 0
-  },
+  }
   _Saturn: {
     Fire: -0.1,
     Water: 0,
@@ -151,7 +151,7 @@ export const _planetaryModifiers: Record<string, Record<string, number>> = {
     Essence: 0,
     Matter: 0.3,
     Substance: 0.1
-  },
+  }
   _Uranus: {
     Fire: 0.1,
     Water: 0.2,
@@ -161,7 +161,7 @@ export const _planetaryModifiers: Record<string, Record<string, number>> = {
     Essence: 0.1,
     Matter: 0.1,
     Substance: 0.3
-  },
+  }
   _Neptune: {
     Fire: -0.1,
     Water: 0.4,
@@ -171,7 +171,7 @@ export const _planetaryModifiers: Record<string, Record<string, number>> = {
     Essence: 0.3,
     Matter: 0,
     Substance: 0.3
-  },
+  }
   _Pluto: {
     Fire: 0.2,
     Water: 0.2,
@@ -182,7 +182,7 @@ export const _planetaryModifiers: Record<string, Record<string, number>> = {
     Matter: 0.3,
     Substance: 0.1
   }
-},
+}
 
 /**
  * Calculate token values based on planetary cycles
@@ -204,7 +204,7 @@ export function calculateTokenizedValues(_date: Date = new Date()): {
     Essence: calculateTokenValue('Essence', daysSinceEpoch),
     Matter: calculateTokenValue('Matter', daysSinceEpoch),
     Substance: calculateTokenValue('Substance', daysSinceEpoch)
-  },
+  }
 
   return values,
 }

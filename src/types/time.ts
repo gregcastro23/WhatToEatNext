@@ -41,7 +41,7 @@ const DAY_RULERS: Record<WeekDay, PlanetName> = {
   Thursday: 'Jupiter',
   Friday: 'Venus',
   Saturday: 'Saturn'
-},
+}
 
 // Chaldean order of planets used for planetary hours
 const PLANETARY_HOUR_SEQUENCE: PlanetName[] = [
@@ -100,7 +100,7 @@ export function getTimeFactors(): TimeFactors {
   const planetaryDay: PlanetaryDay = {
     day: weekDay,
     planet: DAY_RULERS[weekDay]
-  },
+  }
 
   // Calculate planetary hour
   // First, determine sunrise and sunset times (approximate)
@@ -121,7 +121,7 @@ export function getTimeFactors(): TimeFactors {
   const planetaryHour: PlanetaryHour = {
     planet: hourPlanet,
     hourOfDay: planetaryHourOfDay
-  },
+  }
 
   // Determine meal type based on time of day
   let mealType: MealType,
@@ -143,5 +143,5 @@ export function getTimeFactors(): TimeFactors {
     planetaryHour,
     weekDay,
     mealType
-  },
+  }
 }

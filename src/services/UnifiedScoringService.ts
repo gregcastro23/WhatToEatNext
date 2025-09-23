@@ -21,7 +21,7 @@ import type {
   Planet,
   PlanetaryAspect,
   PlanetaryPosition
-} from '../types/celestial',
+} from '../types/celestial';
 import type { CuisineType, DietaryRestriction, Season } from '../types/constants';
 
 import { getCurrentAlchemicalState } from './RealAlchemizeService';
@@ -76,7 +76,7 @@ export interface ScoringResult {
     location?: GeographicCoordinates,
     dominantEffects: string[],
     warnings: string[]
-  },
+  }
 }
 
 /**
@@ -109,7 +109,7 @@ export interface ScoringContext {
     // Intentionally, any: Item properties vary by type (ingredient/recipe/cuisine/method)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
     [key: string]: any
-  },
+  }
 
   // User preferences
   preferences?: {
@@ -121,7 +121,7 @@ export interface ScoringContext {
     // Intentionally, any: User preferences can include custom fields
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
     [key: string]: any
-  },
+  }
 
   // Calculation options
   options?: {
@@ -129,7 +129,7 @@ export interface ScoringContext {
     excludeEffects?: string[],
     weights?: Partial<ScoringBreakdown>,
     debugMode?: boolean
-  },
+  }
 }
 
 /**
@@ -149,13 +149,13 @@ export interface AstrologicalData {
       currentSeason: Season,
       alignment: number,
       recommendation: string
-    },
-  },
+    }
+  }
   lunarPhase: {
     name: LunarPhase,
     illumination: number,
     effect: string
-  },
+  }
   dignity: Record<Planet, number>,
   houses?: Record<string, number>,
   source: 'astrologize' | 'swiss_ephemeris' | 'fallback',
@@ -229,7 +229,7 @@ export function calculateTarotEffect(
     recipe: 0.1,
     cuisine: 0.15,
     cooking_method: 0.08
-  },
+  }
 
   return tarotAffinities[itemType] || 0,
 }
@@ -316,7 +316,7 @@ export function calculateLunarPhaseEffect(
       recipe: 0.05,
       cuisine: 0.1,
       cooking_method: 0.15
-    },
+    }
     'waxing crescent': {
       elemental: 0.15,
       seasonal: 0.15,
@@ -327,7 +327,7 @@ export function calculateLunarPhaseEffect(
       recipe: 0.1,
       cuisine: 0.05,
       cooking_method: 0.1
-    },
+    }
     'first quarter': {
       elemental: 0.1,
       seasonal: 0.1,
@@ -338,7 +338,7 @@ export function calculateLunarPhaseEffect(
       recipe: 0.15,
       cuisine: 0.1,
       cooking_method: 0.15
-    },
+    }
     'waxing gibbous': {
       elemental: 0.05,
       seasonal: 0.05,
@@ -349,7 +349,7 @@ export function calculateLunarPhaseEffect(
       recipe: 0.2,
       cuisine: 0.15,
       cooking_method: 0.1
-    },
+    }
     'full moon': {
       elemental: 0.2,
       seasonal: 0.2,
@@ -360,7 +360,7 @@ export function calculateLunarPhaseEffect(
       recipe: 0.25,
       cuisine: 0.2,
       cooking_method: 0.05
-    },
+    }
     'waning gibbous': {
       elemental: 0.1,
       seasonal: 0.1,
@@ -371,7 +371,7 @@ export function calculateLunarPhaseEffect(
       recipe: 0.15,
       cuisine: 0.25,
       cooking_method: 0
-    },
+    }
     'last quarter': {
       elemental: 0,
       seasonal: 0,
@@ -382,7 +382,7 @@ export function calculateLunarPhaseEffect(
       recipe: 0.05,
       cuisine: 0.1,
       cooking_method: -0.05
-    },
+    }
     'waning crescent': {
       elemental: -0.05,
       seasonal: -0.05,
@@ -394,7 +394,7 @@ export function calculateLunarPhaseEffect(
       cuisine: 0.05,
       cooking_method: 0.1
     }
-  },
+  }
 
   return LUNAR_PHASE_MODIFIERS[lunarPhase.name][itemType] || 0,
 }
@@ -608,7 +608,7 @@ export class UnifiedScoringService {
         kalchmResonance: calculateKalchmResonance(astroData, context),
         monicaOptimization: calculateMonicaOptimization(astroData, context),
         retrogradeEffect: calculateRetrogradeEffect(astroData, context)
-      },
+      }
 
       // 3. Apply custom weights if provided
       if (context.options?.weights) {
@@ -642,7 +642,7 @@ export class UnifiedScoringService {
           dominantEffects,
           warnings
         }
-      },
+      }
 
       // Debug logging
       if (context.options?.debugMode) {
@@ -666,7 +666,7 @@ export class UnifiedScoringService {
           dominantEffects: [],
           warnings: ['Calculation error - using fallback score']
         }
-      },
+      }
     }
   }
 
@@ -713,7 +713,7 @@ export class UnifiedScoringService {
     try {
       const response = await fetch('/api/astrologize', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' }
         body: JSON.stringify({
           year: context.dateTime.getFullYear(),
           month: context.dateTime.getMonth() + 1,
@@ -749,10 +749,10 @@ export class UnifiedScoringService {
         ...aspect,
         strength: 0.5, // Default strength for fallback data
       })),
-      transits: { active: [], seasonal: {} },
-      lunarPhase: { name: 'new moon' as LunarPhase, illumination: 0.5, effect: 'Neutral' },
+      transits: { active: [], seasonal: {} }
+      lunarPhase: { name: 'new moon' as LunarPhase, illumination: 0.5, effect: 'Neutral' }
       dignity: {} as Record<Planet, number>
-    },
+    }
   }
 
   /**
@@ -762,12 +762,12 @@ export class UnifiedScoringService {
     return {
       planetaryPositions: {} as Record<Planet, PlanetaryPosition>,
       aspects: [],
-      transits: { active: [], seasonal: {} },
-      lunarPhase: { name: 'new moon' as LunarPhase, illumination: 0.5, effect: 'Neutral' },
+      transits: { active: [], seasonal: {} }
+      lunarPhase: { name: 'new moon' as LunarPhase, illumination: 0.5, effect: 'Neutral' }
       dignity: {} as Record<Planet, number>,
       source: 'fallback' as const,
       confidence: 0.1
-    },
+    }
   }
 
   /**
@@ -777,10 +777,10 @@ export class UnifiedScoringService {
     // This would transform the actual API response
     // The exact structure depends on what the Astrologize API returns
     return {
-      planetaryPositions: data.planets || {},
+      planetaryPositions: data.planets || {}
       aspects: data.aspects || [],
       dignity: data.dignity || {}
-    },
+    }
   }
 
   /**
@@ -802,7 +802,7 @@ export class UnifiedScoringService {
       kalchmResonance: 0.5,
       monicaOptimization: 0.4,
       retrogradeEffect: 0.6
-    },
+    }
 
     let totalWeightedScore = 0,
     let totalWeight = 0,
@@ -906,4 +906,4 @@ export class UnifiedScoringService {
 // Export convenience function
 export const scoreRecommendation = (context: ScoringContext): Promise<ScoringResult> => {
   return UnifiedScoringService.getInstance().scoreRecommendation(context)
-},
+}

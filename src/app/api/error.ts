@@ -40,8 +40,8 @@ export function handleApiError(error: unknown): NextResponse {
     {
       error: message,
       ...(details ? { details } : {})
-    },
-    { status: statusCode },
+    }
+    { status: statusCode }
   )
 }
 
@@ -76,6 +76,6 @@ export function handleServerError(error: unknown) {
       headers: {
         'Content-Type': 'application/json'
       }
-    },
+    }
   )
 }

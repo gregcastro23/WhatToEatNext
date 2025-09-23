@@ -23,14 +23,14 @@ interface PlanetaryDisplayData {
 }
 
 const PLANETARY_DATA = {
-  Sun: { color: 'from-orange-400 to-yellow-500', icon: '☀️', energyType: 'Vitality & Leadership' },
-  Moon: { color: 'from-blue-300 to-indigo-400', icon: '🌙', energyType: 'Intuition & Emotion' },
-  Mars: { color: 'from-red-500 to-orange-600', icon: '♂️', energyType: 'Action & Courage' },
-  Mercury: { color: 'from-yellow-400 to-green-400', icon: '☿', energyType: 'Communication & Learning' },
-  Jupiter: { color: 'from-purple-500 to-blue-600', icon: '♃', energyType: 'Expansion & Wisdom' },
-  Venus: { color: 'from-pink-400 to-rose-500', icon: '♀', energyType: 'Love & Beauty' },
+  Sun: { color: 'from-orange-400 to-yellow-500', icon: '☀️', energyType: 'Vitality & Leadership' }
+  Moon: { color: 'from-blue-300 to-indigo-400', icon: '🌙', energyType: 'Intuition & Emotion' }
+  Mars: { color: 'from-red-500 to-orange-600', icon: '♂️', energyType: 'Action & Courage' }
+  Mercury: { color: 'from-yellow-400 to-green-400', icon: '☿', energyType: 'Communication & Learning' }
+  Jupiter: { color: 'from-purple-500 to-blue-600', icon: '♃', energyType: 'Expansion & Wisdom' }
+  Venus: { color: 'from-pink-400 to-rose-500', icon: '♀', energyType: 'Love & Beauty' }
   Saturn: { color: 'from-gray-600 to-blue-800', icon: '♄', energyType: 'Structure & Discipline' }
-},
+}
 
 export const LivePlanetaryTracker: React.FC = () => {
   const { isConnected, lastPlanetaryHour, lastEnergyUpdate } = useAlchmWebSocket()
@@ -70,7 +70,7 @@ export const LivePlanetaryTracker: React.FC = () => {
       logger.error('Error updating planetary display', error)
       setIsLoading(false)
     }
-  },
+  }
 
   // Generate contextual recommendations based on current planetary influence
   const generateRecommendations = (planet: string): string[] => {
@@ -82,10 +82,10 @@ export const LivePlanetaryTracker: React.FC = () => {
       Jupiter: ['Rich, abundant meals', 'Purple foods', 'Celebration-worthy dishes'],
       Venus: ['Sweet desserts', 'Beautiful plated foods', 'Rose or floral ingredients'],
       Saturn: ['Slow-cooked stews', 'Root vegetables', 'Traditional comfort foods']
-    },
+    }
 
     return recommendations[planet] || recommendations.Sun,
-  },
+  }
 
   // Real-time updates
   useEffect(() => {
@@ -239,6 +239,6 @@ export const LivePlanetaryTracker: React.FC = () => {
       </div>
     </div>
   )
-},
+}
 
 export default LivePlanetaryTracker,

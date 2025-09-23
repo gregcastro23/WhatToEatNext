@@ -23,7 +23,7 @@ jest.mock('child_process', () => ({
             line: 1,
             column: 1,
             fix: { range: [010], text: 'fixed import' }
-          },
+          }
           {
             ruleId: '@typescript-eslint/no-explicit-any',
             severity: 1,
@@ -195,7 +195,7 @@ describe('LintingAnalysisService', () => {
         projectContext: { hasTests: true,
           teamSize: 'small',
           riskTolerance: 'moderate'
-        },
+        }
       })
 
       // Verify all components worked together

@@ -4,7 +4,7 @@ import {
   calculatePlanetaryPositions,
   calculateSunSign,
   calculateLunarPhase
-} from '../utils/astrologyUtils',
+} from '../utils/astrologyUtils';
 import {elementalUtils, _getCurrentElementalState} from '../utils/elementalUtils';
 
 import {AstrologicalService, _getLatestAstrologicalState} from './AstrologicalService';
@@ -13,23 +13,23 @@ type CelestialPosition = {
   sunSign: string,
   moonPhase: string,
   planetaryPositions: {
-    sun: { sign: string, degree: number, minutes: number, isRetrograde?: boolean },
-    moon: { sign: string, degree: number, minutes: number, isRetrograde?: boolean },
-    mercury: { sign: string, degree: number, minutes: number, isRetrograde?: boolean },
-    venus: { sign: string, degree: number, minutes: number, isRetrograde?: boolean },
-    mars: { sign: string, degree: number, minutes: number, isRetrograde?: boolean },
-    jupiter: { sign: string, degree: number, minutes: number, isRetrograde?: boolean },
-    saturn: { sign: string, degree: number, minutes: number, isRetrograde?: boolean },
-    uranus: { sign: string, degree: number, minutes: number, isRetrograde?: boolean },
-    neptune: { sign: string, degree: number, minutes: number, isRetrograde?: boolean },
-    pluto: { sign: string, degree: number, minutes: number, isRetrograde?: boolean },
-  },
+    sun: { sign: string, degree: number, minutes: number, isRetrograde?: boolean }
+    moon: { sign: string, degree: number, minutes: number, isRetrograde?: boolean }
+    mercury: { sign: string, degree: number, minutes: number, isRetrograde?: boolean }
+    venus: { sign: string, degree: number, minutes: number, isRetrograde?: boolean }
+    mars: { sign: string, degree: number, minutes: number, isRetrograde?: boolean }
+    jupiter: { sign: string, degree: number, minutes: number, isRetrograde?: boolean }
+    saturn: { sign: string, degree: number, minutes: number, isRetrograde?: boolean }
+    uranus: { sign: string, degree: number, minutes: number, isRetrograde?: boolean }
+    neptune: { sign: string, degree: number, minutes: number, isRetrograde?: boolean }
+    pluto: { sign: string, degree: number, minutes: number, isRetrograde?: boolean }
+  }
   time: {
     hours: number,
     minutes: number
-  },
+  }
   timestamp: number
-},
+}
 
 let cachedPositions: CelestialPosition | null = null,
 const CACHE_DURATION = 3600000 // 1 hour in milliseconds
@@ -41,7 +41,7 @@ export const _getCurrentCelestialPositions = async (): Promise<CelestialPosition
     _logger.error('Error fetching celestial positions:', error),
     return getFallbackPositions()
   }
-},
+}
 
 // Add a new function to get positions for a specific date
 export const _getCelestialPositionsForDate = async (date: Date): Promise<CelestialPosition> => {
@@ -51,7 +51,7 @@ export const _getCelestialPositionsForDate = async (date: Date): Promise<Celesti
     const sunSign = calculateSunSign(date)
     const lunarPhase = await calculateLunarPhase(date)
     // Map positions to planetary alignment structure
-    const planetaryPositions: Record<string, unknown> = {},
+    const planetaryPositions: Record<string, unknown> = {}
     Object.entries(positions).forEach(([planet, position]) => {
       // Handle numeric positions
       const degreeValue =
@@ -64,7 +64,7 @@ export const _getCelestialPositionsForDate = async (date: Date): Promise<Celesti
         sign: sign.toLowerCase(),
         degree: degreeValue % 30,
         element: getZodiacElement(sign)
-      },
+      }
     })
 
     return {
@@ -74,14 +74,14 @@ export const _getCelestialPositionsForDate = async (date: Date): Promise<Celesti
       time: {
         hours: date.getHours(),
         minutes: date.getMinutes()
-      },
+      }
       timestamp: date.getTime()
-    },
+    }
   } catch (error) {
     _logger.error('Error calculating positions for date:', error),
     return getFallbackPositions(date)
   }
-},
+}
 
 const getCachedCelestialPositions = async (): Promise<CelestialPosition> => {
   const now = Date.now()
@@ -96,7 +96,7 @@ const getCachedCelestialPositions = async (): Promise<CelestialPosition> => {
     // Apply safe type casting for service method access
     const astroService = AstrologicalService as unknown as {
       getStateForDate?: (date: Date) => Promise<unknown>
-    },
+    }
     const astroState = await (astroService?.getStateForDate
       ? astroService.getStateForDate(currentDate)
       : astroService.getCurrentState?.(currentDate))
@@ -108,16 +108,16 @@ const getCachedCelestialPositions = async (): Promise<CelestialPosition> => {
       time: {
         hours: currentDate.getHours(),
         minutes: currentDate.getMinutes()
-      },
+      }
       timestamp: now
-    },
+    }
 
     return cachedPositions,
   } catch (error) {
     _logger.error('Error calling AstrologicalService:', error),
     return getFallbackPositions()
   }
-},
+}
 
 const getFallbackPositions = (date: Date = new Date()): CelestialPosition => {
   const timestamp = date.getTime()
@@ -126,7 +126,7 @@ const getFallbackPositions = (date: Date = new Date()): CelestialPosition => {
     // Apply safe type casting for service method access
     const astroService = AstrologicalService as unknown as {
       getStateForDate?: (date: Date) => Promise<unknown>
-    },
+    }
     const _fallbackStatePromise = astroService?.getStateForDate;
       ? astroService.getStateForDate(date)
       : astroService.getCurrentState?.(date)
@@ -138,9 +138,9 @@ const getFallbackPositions = (date: Date = new Date()): CelestialPosition => {
       time: {
         hours: date.getHours(),
         minutes: date.getMinutes()
-      },
+      }
       timestamp: timestamp
-    },
+    }
   } catch (error) {
     _logger.error('Error getting fallback positions:', error),
 
@@ -152,26 +152,26 @@ const getFallbackPositions = (date: Date = new Date()): CelestialPosition => {
       time: {
         hours: date.getHours(),
         minutes: date.getMinutes()
-      },
+      }
       timestamp: timestamp
-    },
+    }
   }
-},
+}
 
 // Helper function to get static planetary positions
 function getStaticPlanetaryPositions(): CelestialPosition['planetaryPositions'] {
   return {
-    sun: { sign: 'aries', degree: 14, minutes: 37 },
-    moon: { sign: 'cancer', degree: 2, minutes: 40 },
-    mercury: { sign: 'pisces', degree: 27, minutes: 19, isRetrograde: true },
-    venus: { sign: 'pisces', degree: 26, minutes: 13, isRetrograde: true },
-    mars: { sign: 'cancer', degree: 24, minutes: 39 },
-    jupiter: { sign: 'gemini', degree: 16, minutes: 28 },
-    saturn: { sign: 'pisces', degree: 24, minutes: 51 },
-    uranus: { sign: 'taurus', degree: 24, minutes: 54 },
-    neptune: { sign: 'aries', degree: 0, minutes: 10 },
+    sun: { sign: 'aries', degree: 14, minutes: 37 }
+    moon: { sign: 'cancer', degree: 2, minutes: 40 }
+    mercury: { sign: 'pisces', degree: 27, minutes: 19, isRetrograde: true }
+    venus: { sign: 'pisces', degree: 26, minutes: 13, isRetrograde: true }
+    mars: { sign: 'cancer', degree: 24, minutes: 39 }
+    jupiter: { sign: 'gemini', degree: 16, minutes: 28 }
+    saturn: { sign: 'pisces', degree: 24, minutes: 51 }
+    uranus: { sign: 'taurus', degree: 24, minutes: 54 }
+    neptune: { sign: 'aries', degree: 0, minutes: 10 }
     pluto: { sign: 'aquarius', degree: 3, minutes: 36 }
-  },
+  }
 }
 
 // Helper function to calculate sun sign from date
@@ -239,7 +239,7 @@ export const _getElementalInfluence = async (): Promise<ElementalProperties> => 
         Water: 0,
         Earth: 0,
         Air: 0
-      },
+      }
 
       // Add Sun influence (30%)
       elementalState[sunElement] += 0.3,
@@ -263,8 +263,8 @@ export const _getElementalInfluence = async (): Promise<ElementalProperties> => 
   }
 
   // Fallback to default
-  return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-},
+  return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+}
 
 // Helper function to get element from zodiac sign
 function getElementFromZodiac(sign: string): string {
@@ -320,7 +320,7 @@ export function calculateElementalBalanceFromPositions(
     Water: 0,
     Earth: 0,
     Air: 0
-  },
+  }
 
   // Define planetary weights - some planets have more influence than others
   const planetaryWeights = {
@@ -334,7 +334,7 @@ export function calculateElementalBalanceFromPositions(
     uranus: 0.02, // Distant planets have less immediate influence,
     neptune: 0.02,
     pluto: 0.02
-  },
+  }
 
   // Calculate total influence
   let totalInfluence = 0,
@@ -360,7 +360,7 @@ export function calculateElementalBalanceFromPositions(
     })
   } else {
     // If no influence, use balanced distribution
-    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
   }
 
   return elementalBalance,

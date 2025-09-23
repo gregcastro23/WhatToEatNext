@@ -38,7 +38,7 @@ class AdvancedCache {
       size: 0,
       maxSize,
       hitRate: 0
-    },
+    }
 
     // Cleanup expired entries every 5 minutes
     setInterval(() => this.cleanup(), 5 * 60 * 1000)
@@ -95,7 +95,7 @@ class AdvancedCache {
       ttl,
       accessCount: 1,
       lastAccessed: now
-    },
+    }
 
     const wasExisting = this.cache.has(key)
     this.cache.set(key, entry)
@@ -193,7 +193,7 @@ class AdvancedCache {
    * Get cache statistics
    */
   getStats(): CacheStats {
-    return { ...this.stats },
+    return { ...this.stats }
   }
 
   /**
@@ -270,8 +270,8 @@ export async function initializeCaches(): Promise<void> {
             influence: 0.7,
             timeRemaining: '45:30',
             energyType: 'Vitality & Leadership'
-          },
-        },
+          }
+        }
         ttl: 15 * 60 * 1000
       }
     ])
@@ -281,9 +281,9 @@ export async function initializeCaches(): Promise<void> {
       {
         key: 'elemental_base_properties',
         computeFn: async () => ({
-          Fire: { energy: 'hot', quality: 'dry', direction: 'South' },
-          Water: { energy: 'cold', quality: 'wet', direction: 'West' },
-          Earth: { energy: 'cold', quality: 'dry', direction: 'North' },
+          Fire: { energy: 'hot', quality: 'dry', direction: 'South' }
+          Water: { energy: 'cold', quality: 'wet', direction: 'West' }
+          Earth: { energy: 'cold', quality: 'dry', direction: 'North' }
           Air: { energy: 'hot', quality: 'wet', direction: 'East' }
         }),
         ttl: 60 * 60 * 1000
@@ -308,7 +308,7 @@ export function getCacheMetrics() {
     planetary: planetaryCache.getStats(),
     recipe: recipeCache.getStats(),
     user: userCache.getStats()
-  },
+  }
 }
 
 export default AdvancedCache,

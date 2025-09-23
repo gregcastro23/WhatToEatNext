@@ -14,11 +14,11 @@ export const curing: CookingMethodData = {
     Water: 0.2,
     Earth: 0.8,
     Air: 0.3
-  },
+  }
   duration: {
     min: 180, // 3 hours
     max: 8640, // 6 months (in minutes)
-  },
+  }
   suitable_for: ['Meats', 'Fish', 'Vegetables', 'Eggs', 'Citrus peels'],
   benefits: [
     'Preservation without artificial additives',
@@ -37,7 +37,7 @@ export const curing: CookingMethodData = {
   optimalTemperatures: {
     refrigeration: 1, // °C (refrigeration temperature)
     cool: 18, // °C (cool room temperature)
-  },
+  }
   toolsRequired: [
     'Salt',
     'Curing salts',
@@ -52,4 +52,4 @@ export const curing: CookingMethodData = {
     'Nitrates and nitrites used in some curing may form nitrosamines',
     'Proper technique is essential to prevent harmful bacterial growth'
   ]
-},
+}

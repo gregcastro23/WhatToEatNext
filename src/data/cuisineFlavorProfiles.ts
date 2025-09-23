@@ -16,7 +16,7 @@ export interface CuisineFlavorProfile {
     bitter: number,
     salty: number,
     umami: number
-  },
+  }
   elementalAlignment: ElementalProperties,
   signatureTechniques: string[],
   signatureIngredients: string[],
@@ -48,20 +48,20 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.4,
       salty: 0.6,
       umami: 0.5
-    },
+    }
     elementalAlignment: {
       Fire: 0.3,
       Earth: 0.3,
       Water: 0.3,
       Air: 0.1
-    },
+    }
     signatureTechniques: ['grilling', 'braising', 'marinating'],
     signatureIngredients: ['olive oil', 'tomatoes', 'lemons', 'herbs', 'garlic'],
     traditionalMealPatterns: ['small plates', 'family-style', 'late dining'],
     planetaryResonance: ['Sun', 'Mercury', 'Neptune'],
     seasonalPreference: ['summer', 'spring'],
     dietarySuitability: ['vegetarian', 'pescatarian', 'Mediterranean']
-  },
+  }
 
   french: {
     id: 'french',
@@ -74,13 +74,13 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.3,
       salty: 0.5,
       umami: 0.8
-    },
+    }
     elementalAlignment: {
       Earth: 0.55,
       Water: 0.25,
       Fire: 0.1,
       Air: 0.1
-    },
+    }
     signatureTechniques: ['sautéing', 'sous vide', 'flambéing', 'reduction'],
     signatureIngredients: ['butter', 'wine', 'cream', 'shallots', 'herbs de provence'],
     traditionalMealPatterns: ['course-based dining', 'wine pairings', 'sauces'],
@@ -88,7 +88,7 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     seasonalPreference: ['all'],
     regionalVariants: ['provencal', 'alsatian', 'normandy'],
     dietarySuitability: ['vegetarian-adaptable', 'dairy-rich']
-  },
+  }
 
   italian: {
     id: 'italian',
@@ -101,13 +101,13 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.3,
       salty: 0.6,
       umami: 0.7
-    },
+    }
     elementalAlignment: {
       Earth: 0.5,
       Fire: 0.3,
       Water: 0.1,
       Air: 0.1
-    },
+    }
     signatureTechniques: ['al dente pasta cooking', 'slow simmering', 'grilling'],
     signatureIngredients: ['tomatoes', 'olive oil', 'basil', 'parmesan', 'garlic'],
     traditionalMealPatterns: ['antipasti', 'primi', 'secondi', 'family-style'],
@@ -115,7 +115,7 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     seasonalPreference: ['summer', 'fall'],
     regionalVariants: ['sicilian', 'tuscan', 'neapolitan'],
     dietarySuitability: ['vegetarian-friendly', 'Mediterranean']
-  },
+  }
 
   // Asian Cuisines
   japanese: {
@@ -129,13 +129,13 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.3,
       salty: 0.6,
       umami: 0.9
-    },
+    }
     elementalAlignment: {
       Water: 0.65,
       Earth: 0.2,
       Air: 0.1,
       Fire: 0.05
-    },
+    }
     signatureTechniques: ['raw preparation', 'steaming', 'quick grilling', 'fermentation'],
     signatureIngredients: ['dashi', 'soy sauce', 'mirin', 'rice', 'seaweed'],
     traditionalMealPatterns: ['seasonal focus', 'multiple small dishes', 'ichiju-sansai'],
@@ -143,7 +143,7 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     seasonalPreference: ['spring', 'winter'],
     regionalVariants: ['osaka', 'tokyo', 'kyoto', 'okinawan'],
     dietarySuitability: ['pescatarian', 'low-fat', 'gluten-free-options']
-  },
+  }
 
   korean: {
     id: 'korean',
@@ -156,20 +156,20 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.2,
       salty: 0.6,
       umami: 0.7
-    },
+    }
     elementalAlignment: {
       Fire: 0.5,
       Earth: 0.3,
       Water: 0.1,
       Air: 0.1
-    },
+    }
     signatureTechniques: ['fermentation', 'grilling', 'stewing'],
     signatureIngredients: ['gochujang', 'kimchi', 'sesame', 'garlic', 'soy sauce'],
     traditionalMealPatterns: ['banchan', 'communal dining', 'balanced meals'],
     planetaryResonance: ['Mars', 'Pluto', 'Jupiter'],
     seasonalPreference: ['all'],
     dietarySuitability: ['vegetarian-options', 'fermented-foods', 'gluten-free-adaptable']
-  },
+  }
 
   chinese: {
     id: 'chinese',
@@ -182,13 +182,13 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.3,
       salty: 0.6,
       umami: 0.7
-    },
+    }
     elementalAlignment: {
       Fire: 0.3,
       Earth: 0.4,
       Water: 0.2,
       Air: 0.1
-    },
+    }
     signatureTechniques: ['stir-frying', 'steaming', 'braising', 'double-frying'],
     signatureIngredients: ['soy sauce', 'rice', 'ginger', 'garlic', 'scallions'],
     traditionalMealPatterns: ['balance of flavors and textures', 'shared dishes', 'rice-based'],
@@ -196,7 +196,7 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     seasonalPreference: ['all'],
     regionalVariants: ['sichuanese', 'cantonese', 'shanghainese', 'hunanese'],
     dietarySuitability: ['vegetarian-adaptable', 'diverse-options']
-  },
+  }
 
   sichuanese: {
     id: 'sichuanese',
@@ -209,13 +209,13 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.4,
       salty: 0.5,
       umami: 0.6
-    },
+    }
     elementalAlignment: {
       Fire: 0.7,
       Earth: 0.1,
       Water: 0.1,
       Air: 0.1
-    },
+    }
     signatureTechniques: ['dry-frying', 'double-frying', 'stir-frying', 'steaming'],
     signatureIngredients: [
       'Sichuan peppercorns',
@@ -229,7 +229,7 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     seasonalPreference: ['winter', 'fall'],
     parentCuisine: 'chinese',
     dietarySuitability: ['vegetarian-friendly', 'gluten-free-friendly']
-  },
+  }
 
   cantonese: {
     id: 'cantonese',
@@ -242,13 +242,13 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.3,
       salty: 0.5,
       umami: 0.7
-    },
+    }
     elementalAlignment: {
       Water: 0.4,
       Earth: 0.3,
       Fire: 0.2,
       Air: 0.1
-    },
+    }
     signatureTechniques: ['steaming', 'stir-frying', 'roasting', 'double-boiling'],
     signatureIngredients: ['fresh seafood', 'soy sauce', 'ginger', 'scallions', 'rice wine'],
     traditionalMealPatterns: ['family-style', 'dim sum', 'fresh ingredients'],
@@ -256,7 +256,7 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     seasonalPreference: ['spring', 'summer'],
     parentCuisine: 'chinese',
     dietarySuitability: ['vegetarian-friendly', 'gluten-free-friendly']
-  },
+  }
 
   // American Cuisines
   mexican: {
@@ -270,13 +270,13 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.2,
       salty: 0.5,
       umami: 0.4
-    },
+    }
     elementalAlignment: {
       Fire: 0.55,
       Earth: 0.25,
       Water: 0.1,
       Air: 0.1
-    },
+    }
     signatureTechniques: ['nixtamalization', 'grilling', 'slow cooking', 'frying'],
     signatureIngredients: ['corn', 'chilies', 'tomatoes', 'avocado', 'lime'],
     traditionalMealPatterns: ['multiple elements combined', 'salsas and condiments'],
@@ -284,7 +284,7 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     seasonalPreference: ['summer', 'fall'],
     regionalVariants: ['oaxacan', 'yucatecan', 'northern'],
     dietarySuitability: ['vegetarian-adaptable', 'corn-based', 'gluten-free-options']
-  },
+  }
 
   thai: {
     id: 'thai',
@@ -297,13 +297,13 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.3,
       salty: 0.6,
       umami: 0.5
-    },
+    }
     elementalAlignment: {
       Fire: 0.4,
       Water: 0.3,
       Earth: 0.2,
       Air: 0.1
-    },
+    }
     signatureTechniques: ['stir-frying', 'pounding', 'grilling', 'steaming'],
     signatureIngredients: ['lemongrass', 'fish sauce', 'chilies', 'coconut milk', 'thai basil'],
     traditionalMealPatterns: ['balance of flavors', 'shared dishes', 'rice-centric'],
@@ -311,7 +311,7 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     seasonalPreference: ['summer', 'spring'],
     regionalVariants: ['northern', 'southern', 'isaan', 'central'],
     dietarySuitability: ['vegetarian-adaptable', 'gluten-free-friendly']
-  },
+  }
 
   indian: {
     id: 'indian',
@@ -324,13 +324,13 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.3,
       salty: 0.6,
       umami: 0.4
-    },
+    }
     elementalAlignment: {
       Fire: 0.5,
       Earth: 0.3,
       Water: 0.1,
       Air: 0.1
-    },
+    }
     signatureTechniques: ['tempering', 'slow cooking', 'tandoor', 'curry-making'],
     signatureIngredients: ['garam masala', 'ghee', 'chilies', 'turmeric', 'ginger-garlic'],
     traditionalMealPatterns: ['thali', 'variety of flavors', 'balanced nutrition'],
@@ -338,7 +338,7 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     seasonalPreference: ['all'],
     regionalVariants: ['punjabi', 'bengali', 'south indian', 'gujarati'],
     dietarySuitability: ['vegetarian', 'vegan-options', 'gluten-free-friendly']
-  },
+  }
   // American Cuisines
   american: {
     id: 'american',
@@ -351,20 +351,20 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.2,
       salty: 0.7,
       umami: 0.5
-    },
+    }
     elementalAlignment: {
       Fire: 0.3,
       Water: 0.2,
       Earth: 0.4,
       Air: 0.1
-    },
+    }
     signatureTechniques: ['grilling', 'barbecuing', 'frying', 'baking'],
     signatureIngredients: ['beef', 'corn', 'potatoes', 'cheese'],
     traditionalMealPatterns: ['breakfast', 'lunch', 'dinner'],
     planetaryResonance: ['Jupiter', 'Venus'],
     seasonalPreference: ['all'],
     dietarySuitability: ['omnivore', 'some-vegetarian']
-  },
+  }
 
   // Middle Eastern Cuisines
   middleEastern: {
@@ -378,20 +378,20 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.3,
       salty: 0.5,
       umami: 0.4
-    },
+    }
     elementalAlignment: {
       Fire: 0.4,
       Water: 0.2,
       Earth: 0.3,
       Air: 0.1
-    },
+    }
     signatureTechniques: ['roasting', 'grilling', 'stewing', 'stuffing'],
     signatureIngredients: ['lamb', 'rice', 'chickpeas', 'tahini', 'sumac'],
     traditionalMealPatterns: ['mezze', 'family-style', 'communal'],
     planetaryResonance: ['Mars', 'Sun'],
     seasonalPreference: ['all'],
     dietarySuitability: ['omnivore', 'vegetarian-friendly']
-  },
+  }
 
   // Vietnamese Cuisine
   vietnamese: {
@@ -405,20 +405,20 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.2,
       salty: 0.6,
       umami: 0.6
-    },
+    }
     elementalAlignment: {
       Fire: 0.2,
       Water: 0.5,
       Earth: 0.2,
       Air: 0.1
-    },
+    }
     signatureTechniques: ['steaming', 'stir-frying', 'grilling', 'fresh preparation'],
     signatureIngredients: ['rice', 'fish sauce', 'herbs', 'lime', 'chili'],
     traditionalMealPatterns: ['pho', 'family-style', 'fresh rolls'],
     planetaryResonance: ['Mercury', 'Moon'],
     seasonalPreference: ['spring', 'summer'],
     dietarySuitability: ['omnivore', 'pescatarian-friendly']
-  },
+  }
 
   // African Cuisine
   african: {
@@ -432,20 +432,20 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.3,
       salty: 0.5,
       umami: 0.4
-    },
+    }
     elementalAlignment: {
       Fire: 0.5,
       Water: 0.2,
       Earth: 0.2,
       Air: 0.1
-    },
+    }
     signatureTechniques: ['stewing', 'grilling', 'steaming', 'fermentation'],
     signatureIngredients: ['yams', 'plantains', 'millet', 'berbere', 'peanuts'],
     traditionalMealPatterns: ['communal', 'one-pot', 'grain-based'],
     planetaryResonance: ['Mars', 'Sun', 'Jupiter'],
     seasonalPreference: ['all'],
     dietarySuitability: ['omnivore', 'vegetarian-options']
-  },
+  }
 
   // Russian Cuisine
   russian: {
@@ -459,23 +459,23 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
       bitter: 0.3,
       salty: 0.7,
       umami: 0.5
-    },
+    }
     elementalAlignment: {
       Fire: 0.2,
       Water: 0.3,
       Earth: 0.4,
       Air: 0.1
-    },
+    }
     signatureTechniques: ['braising', 'pickling', 'smoking', 'slow-cooking'],
     signatureIngredients: ['beets', 'cabbage', 'potatoes', 'dill', 'sour cream'],
     traditionalMealPatterns: ['zakuski', 'hearty meals', 'tea culture'],
     planetaryResonance: ['Saturn', 'Moon'],
     seasonalPreference: ['autumn', 'winter'],
     dietarySuitability: ['omnivore', 'some-vegetarian']
-  },
+  }
 
   // More cuisines as needed...
-},
+}
 
 /**
  * Calculate match between recipe's flavor profile and cuisine's expected profile
@@ -497,7 +497,7 @@ export const calculateCuisineFlavorMatch = (
   }
 
   // Ensure all flavor values are valid numbers
-  const validatedRecipeProfile: Record<string, number> = {},
+  const validatedRecipeProfile: Record<string, number> = {}
   for (const [flavor, value] of Object.entries(recipeFlavorProfile)) {
     if (typeof value === 'number' && !isNaN(value)) {
       validatedRecipeProfile[flavor] = value,
@@ -559,7 +559,7 @@ export const calculateCuisineFlavorMatch = (
 
   // Ensure result is valid and in proper range
   return Math.min(Math.max(transformedScore, 0), 1)
-},
+}
 
 /**
  * Get recommended cuisines for a recipe based on flavor profile similarity,
@@ -578,7 +578,7 @@ export const _getRecommendedCuisines = (
         cuisine: cuisineName,
         matchScore,
         isParent: !!_profile.regionalVariants?.length
-      },
+      }
     })
     .filter(result => result !== null && result.matchScore > 0.6) as {
     cuisine: string,
@@ -611,7 +611,7 @@ export const _getRecommendedCuisines = (
   return [...results, ...regionalResults]
     .sort((ab) => b.matchScore - a.matchScore)
     .map(({ cuisine, matchScore }) => ({ cuisine, matchScore }))
-},
+}
 
 /**
  * Get fusion suggestions based on compatible cuisine flavor profiles,
@@ -625,7 +625,7 @@ export const _getFusionSuggestions = (
   const profile2 = getCuisineProfile(cuisine2)
 
   if (!profile1 || !profile2) {
-    return { compatibility: 0, techniques: [], ingredients: [] },
+    return { compatibility: 0, techniques: [], ingredients: [] }
   }
 
   // Calculate flavor profile compatibility
@@ -666,8 +666,8 @@ export const _getFusionSuggestions = (
     compatibility: compatibility,
     techniques,
     ingredients
-  },
-},
+  }
+}
 
 /**
  * Get cuisines related to the input cuisine, like regional variants or related traditions
@@ -1044,14 +1044,14 @@ export function getRecipesForCuisineMatch(
               ...(recipe )
               matchScore: finalScore,
               matchPercentage: Math.round(finalScore * 100)
-            },
+            }
           } catch (scoreError) {
             _logger.error(`Error scoring recipe match for ${cuisineName}:`, scoreError)
             return {
               ...(recipe )
               matchScore: 0.5,
               matchPercentage: 50
-            },
+            }
           }
         })
         .filter(recipe => Number((recipe as unknown).matchScore || 0) >= 0.5) // Only include reasonably good matches,
@@ -1160,7 +1160,7 @@ export const _getCuisineElementalMatch = (
     _logger.error('Error calculating cuisine elemental match:', error),
     return 0
   }
-},
+}
 
 export const _calculateCuisineSimilarity = (cuisine1: string, cuisine2: string): number => {
   const profile1 = getCuisineProfile(cuisine1)
@@ -1210,7 +1210,7 @@ export const _calculateCuisineSimilarity = (cuisine1: string, cuisine2: string):
   totalWeight += 0.6,
 
   return totalWeight > 0 ? similarityScore / totalWeight : 0.5
-},
+}
 
 export const _findRelatedRecipes = (recipeName: string, recipes: Recipe[], count = 3): Recipe[] => {
   const scoredRecipes = recipes;
@@ -1226,13 +1226,13 @@ export const _findRelatedRecipes = (recipeName: string, recipes: Recipe[], count
       return {
         ...recipe,
         score: nameSimilarity
-      },
+      }
     })
     .sort((ab) => b.score - a.score)
     .slice(0, count)
 
   return scoredRecipes,
-},
+}
 
 export const calculateSimilarityScore = (
   elementalProps1: ElementalProperties,
@@ -1252,4 +1252,4 @@ export const calculateSimilarityScore = (
   })
 
   return count > 0 ? similarity / count : 0.5
-},
+}

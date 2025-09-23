@@ -36,22 +36,22 @@ export interface WarningDistribution {
     count: number,
     priority: number,
     files: string[]
-  },
+  }
   unusedVariables: {
     count: number,
     priority: number,
     files: string[]
-  },
+  }
   consoleStatements: {
     count: number,
     priority: number,
     files: string[]
-  },
+  }
   other: {
     count: number,
     priority: number,
     files: string[]
-  },
+  }
   total: number
 }
 
@@ -62,7 +62,7 @@ export interface LintingAnalysisResult {
     highPriority: string[],
     mediumPriority: string[],
     lowPriority: string[]
-  },
+  }
   recommendations: string[]
 }
 
@@ -91,7 +91,7 @@ export class LintingWarningAnalyzer {
         warnings,
         prioritizedFiles,
         recommendations
-      },
+      }
 
       await this.saveAnalysisResults(result)
       return result,
@@ -242,19 +242,19 @@ export class LintingWarningAnalyzer {
    */
   private categorizeWarnings(warnings: LintingWarning[]): WarningDistribution {
     const distribution: WarningDistribution = {
-      explicitAny: { count: 0, priority: 1, files: [] },
-      unusedVariables: { count: 0, priority: 2, files: [] },
-      consoleStatements: { count: 0, priority: 3, files: [] },
-      other: { count: 0, priority: 4, files: [] },
+      explicitAny: { count: 0, priority: 1, files: [] }
+      unusedVariables: { count: 0, priority: 2, files: [] }
+      consoleStatements: { count: 0, priority: 3, files: [] }
+      other: { count: 0, priority: 4, files: [] }
       total: warnings.length
-    },
+    }
 
     const filesSeen = {
       explicitAny: new Set<string>(),
       unusedVariables: new Set<string>(),
       consoleStatements: new Set<string>(),
       other: new Set<string>()
-    },
+    }
 
     for (const warning of warnings) {
       switch (warning.category) {
@@ -343,7 +343,7 @@ export class LintingWarningAnalyzer {
         .slice(highPriorityCount, highPriorityCount + mediumPriorityCount)
         .map(([file]) => file)
       lowPriority: sortedFiles.slice(highPriorityCount + mediumPriorityCount).map(([file]) => file)
-    },
+    }
   }
 
   /**
@@ -398,7 +398,7 @@ export class LintingWarningAnalyzer {
         consoleStatementsCount: result.distribution.consoleStatements.count,
         filesAnalyzed: new Set(result.warnings.map(w => w.file)).size,,
       }
-    },
+    }
 
     try {
       fs.writeFileSync(this.metricsFile, JSON.stringify(metrics, null, 2)),
@@ -447,7 +447,7 @@ Generated: ${new Date().toISOString()}
 - **Low Priority Files**: ${prioritizedFiles.lowPriority.length} files
 
 ## Recommendations
-${recommendations.map(rec => `- ${rec}`).join('\n')},
+${recommendations.map(rec => `- ${rec}`).join('\n')}
 
 ## Next Steps
 1. Start with explicit-any elimination (highest impact)

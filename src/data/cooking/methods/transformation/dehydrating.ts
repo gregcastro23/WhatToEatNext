@@ -14,11 +14,11 @@ export const _dehydrating: CookingMethodData = {
     Water: 0.1,
     Earth: 0.2,
     Air: 0.9
-  },
+  }
   duration: {
     min: 120, // 2 hours
     max: 2880, // 48 hours
-  },
+  }
   suitable_for: ['Fruits', 'Vegetables', 'Herbs', 'Meats', 'Mushrooms', 'Flowers', 'Seeds'],
   benefits: [
     'Preserves most nutrients',
@@ -39,7 +39,7 @@ export const _dehydrating: CookingMethodData = {
   optimalTemperatures: {
     low: 35, // °C (95°F)
     high: 70, // °C (158°F)
-  },
+  }
   toolsRequired: [
     'Food dehydrator',
     'Oven',
@@ -55,4 +55,4 @@ export const _dehydrating: CookingMethodData = {
     'Proper storage needed to prevent moisture reabsorption',
     'Insufficient drying can lead to mold growth'
   ]
-},
+}

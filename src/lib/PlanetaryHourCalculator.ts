@@ -12,7 +12,7 @@ export class PlanetaryHourCalculator {
     Thursday: ['Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon', 'Saturn'],
     Friday: ['Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars', 'Sun'],
     Saturday: ['Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon']
-  },
+  }
 
   private static dayNames: string[] = [
     'Sunday',
@@ -59,11 +59,11 @@ export class PlanetaryHourCalculator {
   private coordinates = {
     latitude: 40.7128, // Default to New York
     longitude: -74.006
-  },
+  }
 
   constructor(latitude?: number, longitude?: number) {
     if (latitude !== undefined && longitude !== undefined) {
-      this.coordinates = { latitude, longitude },
+      this.coordinates = { latitude, longitude }
     }
   }
 
@@ -71,7 +71,7 @@ export class PlanetaryHourCalculator {
    * Set the location coordinates
    */
   public setCoordinates(latitude: number, longitude: number): void {
-    this.coordinates = { latitude, longitude },
+    this.coordinates = { latitude, longitude }
   }
 
   /**
@@ -210,7 +210,7 @@ export class PlanetaryHourCalculator {
         ],
       hourNumber: hourIndex,
       isDaytime
-    },
+    }
   }
 
   /**
@@ -310,6 +310,6 @@ export class PlanetaryHourCalculator {
         ],
       hourNumber: hourIndex,
       isDaytime: this.isDaytime(date)
-    },
+    }
   }
 }

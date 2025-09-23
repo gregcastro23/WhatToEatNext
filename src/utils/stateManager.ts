@@ -13,7 +13,7 @@ interface ScoredRecipe extends Recipe {
     elemental: number,
     _seasonal: number,
     _astrological: number
-  },
+  }
 }
 
 type DietaryRestriction =
@@ -44,23 +44,23 @@ interface UserPreferences {
     colorScheme: string,
     fontSize: number,
     animations: boolean
-  },
+  }
   dietary: {
     restrictions: DietaryRestriction[],
     favorites: string[],
     excluded: string[],
     spiciness: 'mild' | 'medium' | 'hot'
-  },
+  }
   cooking: {
     preferredMethods: string[],
     maxPrepTime: number,
     servingSize: number,
     complexity: 'simple' | 'moderate' | 'complex'
-  },
+  }
   cuisines: {
     preferred: CuisineType[],
     excluded: CuisineType[]
-  },
+  }
 }
 
 interface AppState {
@@ -71,21 +71,21 @@ interface AppState {
     recent: string[],
     loading: boolean,
     error: string | null
-  },
+  }
   celestial: {
     elementalState: ElementalProperties,
     season: string,
     moonPhase: string,
     lastUpdated: number
-  },
+  }
   user: {
     preferences: UserPreferences,
     history: {
       viewed: string[],
       cooked: string[],
       rated: Record<string, number>
-    },
-  },
+    }
+  }
   ui: {
     activeFilters: Set<string>,
     searchQuery: string,
@@ -98,7 +98,7 @@ interface AppState {
       message: string,
       timestamp: number
     }>,
-  },
+  }
 }
 
 /**
@@ -178,18 +178,18 @@ class StateManager {
         recent: [],
         loading: false,
         error: null
-      },
+      }
       celestial: {
         elementalState: {
           Fire: 0.25,
           Earth: 0.25,
           Air: 0.25,
           Water: 0.25
-        },
+        }
         season: 'spring',
         moonPhase: 'new',
         lastUpdated: Date.now()
-      },
+      }
       user: {
         preferences: {
           theme: {
@@ -197,30 +197,30 @@ class StateManager {
             colorScheme: 'default',
             fontSize: 16,
             animations: true
-          },
+          }
           dietary: {
             restrictions: [],
             favorites: [],
             excluded: [],
             spiciness: 'medium'
-          },
+          }
           cooking: {
             preferredMethods: [],
             maxPrepTime: 60,
             servingSize: 2,
             complexity: 'moderate'
-          },
+          }
           cuisines: {
             preferred: [],
             excluded: []
           }
-        },
+        }
         history: {
           viewed: [],
           cooked: [],
           rated: {}
         }
-      },
+      }
       ui: {
         activeFilters: new Set(),
         searchQuery: '',
@@ -229,7 +229,7 @@ class StateManager {
         sidebarOpen: false,
         notifications: []
       }
-    },
+    }
   }
 
   private async initializeState() {
@@ -266,7 +266,7 @@ class StateManager {
         Water: influences.elementalBalance?.Water || 0,
         Earth: influences.elementalBalance?.Earth || 0,
         Air: influences.elementalBalance?.Air || 0
-      },
+      }
 
       this.setState({
         celestial: {
@@ -289,7 +289,7 @@ class StateManager {
           // Convert Set to array for serialization,
           activeFilters: Array.from(this.state.ui.activeFilters)
         }
-      },
+      }
 
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(serializable))
       cache.set(this.STORAGE_KEY, this.state)
@@ -300,11 +300,11 @@ class StateManager {
 
   // Public API
   getState(): AppState {
-    return { ...this.state },
+    return { ...this.state }
   }
 
   setState(updates: Partial<AppState>): void {
-    this.state = { ...this.state, ...updates },
+    this.state = { ...this.state, ...updates }
     this.notifyListeners()
     this.saveState()
   }
@@ -327,7 +327,7 @@ class StateManager {
           this.listeners.delete(key)
         }
       }
-    },
+    }
   }
 
   private notifyListeners(): void {
@@ -396,7 +396,7 @@ class StateManager {
       type,
       message,
       timestamp: Date.now()
-    },
+    }
 
     const notifications = [notification, ...this.state.ui.notifications].slice(05)
 

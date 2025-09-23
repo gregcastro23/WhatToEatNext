@@ -32,7 +32,7 @@ interface TestSuiteReport {
     performanceTests: boolean,
     integrationTests: boolean,
     comprehensiveValidation: boolean
-  },
+  }
 }
 
 class LintingTestRunner {
@@ -86,7 +86,7 @@ class LintingTestRunner {
       totalDuration,
       results,
       summary: this.generateSummary(results)
-    },
+    }
 
     void this.generateReport(report)
     void this.displaySummary(report)
@@ -113,7 +113,7 @@ class LintingTestRunner {
         duration,
         errors: [],
         warnings: this.extractWarnings(output)
-      },
+      }
     } catch (error: unknown) {
       const duration = Date.now() - startTime
 
@@ -123,7 +123,7 @@ class LintingTestRunner {
         duration,
         errors: this.extractErrors(error.stdout || error.message),
         warnings: this.extractWarnings(error.stdout || '')
-      },
+      }
     }
   }
 
@@ -163,7 +163,7 @@ class LintingTestRunner {
       performanceTests: getTestResult('LintingPerformance'),
       integrationTests: getTestResult('AutomatedErrorResolution'),
       comprehensiveValidation: getTestResult('ComprehensiveLintingTestSuite')
-    },
+    }
   }
 
   private generateReport(report: TestSuiteReport): void {
@@ -236,8 +236,8 @@ ${report.results
 ### ${result.testFile}
 - **Status**: ${result.passed ? '✅ PASSED' : '❌ FAILED'}
 - **Duration**: ${result.duration}ms
-${result.errors.length > 0 ? `- **Errors**: ${result.errors.length}\n${result.errors.map(e => `  - ${e}`).join('\n')}` : ''},
-${result.warnings.length > 0 ? `- **Warnings**: ${result.warnings.length}\n${result.warnings.map(w => `  - ${w}`).join('\n')}` : ''},
+${result.errors.length > 0 ? `- **Errors**: ${result.errors.length}\n${result.errors.map(e => `  - ${e}`).join('\n')}` : ''}
+${result.warnings.length > 0 ? `- **Warnings**: ${result.warnings.length}\n${result.warnings.map(w => `  - ${w}`).join('\n')}` : ''}
 `,
   )
   .join('\n')}
@@ -366,7 +366,7 @@ ${report.results
         name: 'ESLint Configuration',
         passed: issues.length === 0,,
         issues
-      },
+      }
     } catch (error) {
       return {
         name: 'ESLint Configuration',
@@ -405,13 +405,13 @@ ${report.results
         name: 'Astrological Rules',
         passed: issues.length === 0,,
         issues
-      },
+      }
     } catch (error) {
       return {
         name: 'Astrological Rules',
         passed: false,
         issues: ['Failed to load astrological rules file']
-      },
+      }
     }
   }
 
@@ -443,13 +443,13 @@ ${report.results
         name: 'Performance Settings',
         passed: issues.length === 0,,
         issues
-      },
+      }
     } catch (error) {
       return {
         name: 'Performance Settings',
         passed: false,
         issues: ['Failed to validate performance settings']
-      },
+      }
     }
   }
 
@@ -473,7 +473,7 @@ ${report.results
       name: 'Integration Points',
       passed: issues.length === 0,,
       issues
-    },
+    }
   }
 }
 
@@ -502,5 +502,5 @@ if (require.main === module) {
   main()
 }
 
-export { LintingTestRunner },
-export type { TestResult, TestSuiteReport },
+export { LintingTestRunner };
+export type { TestResult, TestSuiteReport }

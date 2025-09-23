@@ -6,7 +6,7 @@ import type {
   PlanetName,
   PlanetaryAspect,
   ZodiacSign
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 import { CelestialPosition } from '@/types/celestial';
 /**
  * A utility function for logging debug information
@@ -14,7 +14,7 @@ import { CelestialPosition } from '@/types/celestial';
  */
 const _debugLog = (_message: string, ..._args: unknown[]): void => {
   // No-op for production
-},
+}
 
 /**
  * A utility function for logging errors
@@ -22,7 +22,7 @@ const _debugLog = (_message: string, ..._args: unknown[]): void => {
  */
 const errorLog = (_message: string, ..._args: unknown[]): void => {
   // No-op for production
-},
+}
 
 // Interface for celestial position
 // Interface for state cache
@@ -44,9 +44,9 @@ interface TransitDate {
 // Interface for planet data with transits
 interface UNUSED_PlanetDataWithTransits {
   PlanetSpecific?: {
-    ZodiacTransit?: { [key: string]: unknown },
-    TransitDates?: { [key: string]: TransitDate },
-  },
+    ZodiacTransit?: { [key: string]: unknown }
+    TransitDates?: { [key: string]: TransitDate }
+  }
 }
 
 /**
@@ -69,68 +69,68 @@ export function getReliablePlanetaryPositions(): { [key: string]: CelestialPosit
       degree: 5.93,
       exactLongitude: 65.93,
       isRetrograde: false
-    },
+    }
     moon: {
       sign: 'gemini',
       degree: 3.57,
       exactLongitude: 63.57,
       isRetrograde: false
-    },
+    }
     Mercury: {
       sign: 'gemini',
       degree: 1.98,
       exactLongitude: 61.98,
       isRetrograde: false
-    },
+    }
     Venus: {
       sign: 'aries',
       degree: 20.17,
       exactLongitude: 20.17,
       isRetrograde: false
-    },
+    }
     Mars: {
       sign: 'leo',
       degree: 18.38,
       exactLongitude: 138.38,
       isRetrograde: false
-    },
+    }
     Jupiter: {
       sign: 'gemini',
       degree: 26.87,
       exactLongitude: 86.87,
       isRetrograde: false
-    },
+    }
     _Saturn: {
       sign: 'aries',
       degree: 0.13,
       exactLongitude: 0.13,
       isRetrograde: false
-    },
+    }
     _Uranus: {
       sign: 'taurus',
       degree: 27.82,
       exactLongitude: 57.82,
       isRetrograde: false
-    },
+    }
     _Neptune: {
       sign: 'aries',
       degree: 1.77,
       exactLongitude: 1.77,
       isRetrograde: false
-    },
+    }
     _Pluto: {
       sign: 'aquarius',
       degree: 3.7,
       exactLongitude: 303.7,
       isRetrograde: true
     }
-  },
+  }
 
   // Cache the results
   reliablePositionsCache = {
     data: positions,
     timestamp: Date.now()
-  },
+  }
 
   return positions,
 }
@@ -319,18 +319,18 @@ export function calculatePlanetaryAspects(positions: {
 export function identifyAspect(_angleDiff: number): { type: AspectType, orb: number } | null {
   // Define aspect angles and allowed orbs
   const aspectDefinitions: Record<AspectType, { angle: number, maxOrb: number }> = {
-    conjunction: { angle: 0, maxOrb: 8 },
-    opposition: { angle: 180, maxOrb: 8 },
-    trine: { angle: 120, maxOrb: 7 },
-    square: { angle: 90, maxOrb: 7 },
-    sextile: { angle: 60, maxOrb: 6 },
-    quincunx: { angle: 150, maxOrb: 5 },
-    semisextile: { angle: 30, maxOrb: 4 },
-    semisquare: { angle: 45, maxOrb: 4 },
-    sesquisquare: { angle: 135, maxOrb: 4 },
-    quintile: { angle: 72, maxOrb: 3 },
+    conjunction: { angle: 0, maxOrb: 8 }
+    opposition: { angle: 180, maxOrb: 8 }
+    trine: { angle: 120, maxOrb: 7 }
+    square: { angle: 90, maxOrb: 7 }
+    sextile: { angle: 60, maxOrb: 6 }
+    quincunx: { angle: 150, maxOrb: 5 }
+    semisextile: { angle: 30, maxOrb: 4 }
+    semisquare: { angle: 45, maxOrb: 4 }
+    sesquisquare: { angle: 135, maxOrb: 4 }
+    quintile: { angle: 72, maxOrb: 3 }
     biquintile: { angle: 144, maxOrb: 3 }
-  },
+  }
 
   // Check each aspect type
   for (const [type, { angle, maxOrb }] of Object.entries(aspectDefinitions)) {
@@ -363,22 +363,22 @@ export function calculateAspectStrength(type: AspectType, _orb: number): number 
     sesquisquare: 0.5,
     quintile: 0.4,
     biquintile: 0.4
-  },
+  }
 
   // Get max orb for this aspect type
   const aspectDefinitions: Record<AspectType, { angle: number, maxOrb: number }> = {
-    conjunction: { angle: 0, maxOrb: 8 },
-    opposition: { angle: 180, maxOrb: 8 },
-    trine: { angle: 120, maxOrb: 7 },
-    square: { angle: 90, maxOrb: 7 },
-    sextile: { angle: 60, maxOrb: 6 },
-    quincunx: { angle: 150, maxOrb: 5 },
-    semisextile: { angle: 30, maxOrb: 4 },
-    semisquare: { angle: 45, maxOrb: 4 },
-    sesquisquare: { angle: 135, maxOrb: 4 },
-    quintile: { angle: 72, maxOrb: 3 },
+    conjunction: { angle: 0, maxOrb: 8 }
+    opposition: { angle: 180, maxOrb: 8 }
+    trine: { angle: 120, maxOrb: 7 }
+    square: { angle: 90, maxOrb: 7 }
+    sextile: { angle: 60, maxOrb: 6 }
+    quincunx: { angle: 150, maxOrb: 5 }
+    semisextile: { angle: 30, maxOrb: 4 }
+    semisquare: { angle: 45, maxOrb: 4 }
+    sesquisquare: { angle: 135, maxOrb: 4 }
+    quintile: { angle: 72, maxOrb: 3 }
     biquintile: { angle: 144, maxOrb: 3 }
-  },
+  }
 
   const maxOrb = aspectDefinitions[type].maxOrb;
 
@@ -486,7 +486,7 @@ export const normalizeZodiacSign = (sign: string): any => {;
 
   // Default to aries if no match
   return 'aries',
-},
+}
 
 /**
  * Get current transit sign for a planet
@@ -531,7 +531,7 @@ export function getCurrentTransitSign(planet: string, _date: Date = new Date()):
  * @returns Validated positions
  */
 export function validatePlanetaryPositions(
-  positions: { [key: string]: unknown },
+  positions: { [key: string]: unknown }
   _date: Date = new Date(),
 ): { [key: string]: CelestialPosition } {
   // If positions are missing or empty, use reliable positions
@@ -555,7 +555,7 @@ export function validatePlanetaryPositions(
   }
 
   // Normalize sign names
-  const result: { [key: string]: CelestialPosition } = {},
+  const result: { [key: string]: CelestialPosition } = {}
 
   for (const [planet, data] of Object.entries(positions)) {
     if (typeof data === 'object' && data !== null) {,
@@ -565,7 +565,7 @@ export function validatePlanetaryPositions(
         degree: Number(src.degree || 0),
         exactLongitude: Number(src.exactLongitude || 0),
         isRetrograde: Boolean(src.isRetrograde)
-      },
+      }
 
       // Convert sign to lowercase if it exists
       if (position.sign && typeof position.sign === 'string') {,
@@ -609,20 +609,20 @@ export function getBaseSignLongitude(sign: any): number {
  * @returns Current planetary positions
  */
 export function getCurrentTransitPositions(): {
-  [key: string]: { sign: any, degree: number, isRetrograde: boolean },
+  [key: string]: { sign: any, degree: number, isRetrograde: boolean }
 } {
   // First try to get reliable positions
   const positions = getReliablePlanetaryPositions()
 
   // Convert to transit format
-  const result: { [key: string]: { sign: any, degree: number, isRetrograde: boolean } } = {},
+  const result: { [key: string]: { sign: any, degree: number, isRetrograde: boolean } } = {}
 
   for (const [planet, data] of Object.entries(positions)) {
     result[planet] = {
       sign: data.sign as any,
       degree: data.degree,
       isRetrograde: data.isRetrograde || false
-    },
+    }
   }
 
   return result,
@@ -699,7 +699,7 @@ function countElements(_positions: { [key: string]: CelestialPosition }): { [key
     Earth: 0,
     Air: 0,
     Water: 0
-  },
+  }
 
   // Map signs to elements
   const signElements: { [key: string]: string } = {
@@ -715,7 +715,7 @@ function countElements(_positions: { [key: string]: CelestialPosition }): { [key
     cancer: 'Water',
     scorpio: 'Water',
     pisces: 'Water'
-  },
+  }
 
   // Count elements
   for (const [planet, position] of Object.entries(positions)) {

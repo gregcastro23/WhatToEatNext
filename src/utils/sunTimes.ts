@@ -44,7 +44,7 @@ export function calculateSunTimes(
       nightEnd: times.nightEnd || null,
       night: times.night || null,
       nadir: times.nadir || null
-    },
+    }
   } catch (error) {
     _logger.error('Error calculating sun times:', error)
     return {
@@ -60,7 +60,7 @@ export function calculateSunTimes(
       nightEnd: null,
       night: null,
       nadir: null
-    },
+    }
   }
 }
 

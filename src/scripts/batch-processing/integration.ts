@@ -42,7 +42,7 @@ export class BatchProcessingIntegration {
       skipValidation: false,
       skipManualReview: false,
       ...config
-    },
+    }
 
     this.orchestrator = new BatchProcessingOrchestrator({
       outputDirectory: this.config.outputDirectory!,
@@ -55,7 +55,7 @@ export class BatchProcessingIntegration {
         autoRollbackOnError: true,
         createGitStash: true,
         logLevel: 'info'
-      },
+      }
       safetyProtocols: {
         maxVariablesAutoProcess: 20,
         requireManualReview: !this.config.skipManualReview,

@@ -20,11 +20,11 @@ interface PersonalizationData {
     ingredients: {
       favorites: string[],
       dislikes: string[],
-    },
+    }
     elementalAffinities: ElementalProperties,
     complexity: 'simple' | 'moderate' | 'complex',
     planetaryPreferences: Record<string, number>,
-  },
+  }
   recommendations: {
     scores: Array<{
       id: string,
@@ -33,12 +33,12 @@ interface PersonalizationData {
       confidence: number,
     }>,
     lastUpdated: number,
-  },
+  }
   learningStats: {
     totalInteractions: number,
     confidence: number,
     lastActivity: number,
-  },
+  }
   isLoading: boolean,
 }
 
@@ -64,20 +64,20 @@ export function usePersonalization(
     userId: userId || 'anonymous',
     preferences: {
       cuisines: [],
-      ingredients: { favorites: [], dislikes: [] },
-      elementalAffinities: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      ingredients: { favorites: [], dislikes: [] }
+      elementalAffinities: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
       complexity: 'moderate',
       planetaryPreferences: {}
-    },
+    }
     recommendations: {
       scores: [],
       lastUpdated: 0
-    },
+    }
     learningStats: {
       totalInteractions: 0,
       confidence: 0,
       lastActivity: 0
-    },
+    }
     isLoading: true
   })
 
@@ -99,16 +99,16 @@ export function usePersonalization(
           ingredients: {
             favorites: preferences.favoriteIngredients,
             dislikes: preferences.dislikedIngredients
-          },
+          }
           elementalAffinities: preferences.elementalAffinities,
           complexity: preferences.complexityPreference,
           planetaryPreferences: preferences.planetaryPreferences
-        },
+        }
         learningStats: {
           totalInteractions: preferences.totalInteractions,
           confidence: preferences.learningConfidence,
           lastActivity: preferences.lastActivity
-        },
+        }
         isLoading: false
       }))
 
@@ -135,7 +135,7 @@ export function usePersonalization(
       cookingMethod: string,
       complexity: string,
       elementalBalance: ElementalProperties,
-    },
+    }
     interactionType: 'view' | 'save' | 'cook'
   ) => {
     if (!userId || !config.autoLearn) return,
@@ -283,7 +283,7 @@ export function usePersonalization(
         ...(Object.keys(preferences.planetaryPreferences).length < 3 ?
           ['Explore planetary hours to enhance timing guidance'] : [])
       ]
-    },
+    }
 
     return insights,
   }, [data])
@@ -297,11 +297,11 @@ export function usePersonalization(
         // Track general engagement
         userLearning.trackInteraction(userId, {
           type: 'recipe_view',
-          data: { type: 'page_visit' },
+          data: { type: 'page_visit' }
           timestamp: Date.now()
         })
       }
-    },
+    }
 
     document.addEventListener('visibilitychange', handleVisibilityChange)
     return () => document.removeEventListener('visibilitychange', handleVisibilityChange)
@@ -339,7 +339,7 @@ export function usePersonalization(
     hasPersonalizationData: data.learningStats.totalInteractions > 0,
     personalizationStrength: data.learningStats.confidence,
     isPersonalizationMature: data.learningStats.confidence >= 0.7
-  },
+  }
 }
 
 export default usePersonalization,

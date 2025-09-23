@@ -14,7 +14,7 @@ import {
   Recipe,
   Season,
   ZodiacSign
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 import {_PlanetaryAlignment} from '@/types/celestial';
 import type { ScoredRecipe } from '@/types/recipe';
 
@@ -67,7 +67,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       lunarPhase?: LunarPhase,
       dietaryPreferences?: string[],
       ingredients?: string[]
-    } = {},
+    } = {}
     limit: number = 10
   ): Promise<ScoredRecipe[]> {
     try {
@@ -81,7 +81,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
         ...criteria,
         flavorProfile,
         elementalPreference: this.createElementalPreferenceFromState(state)
-      },
+      }
 
       // Get matching recipes from the consolidated service
       const recipes = await consolidatedRecipeService.getBestRecipeMatches(recipeCriteria, limit)
@@ -109,7 +109,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       }
 
       // Create a planetary influences object from the positions
-      const planetaryInfluences: { [key: string]: number } = {},
+      const planetaryInfluences: { [key: string]: number } = {}
 
       for (const [planet, position] of Object.entries(state.planetaryPositions)) {
         // Apply surgical type casting with variable extraction
@@ -162,7 +162,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
         isVegan?: boolean,
         isGlutenFree?: boolean,
         isDAiryFree?: boolean
-      },
+      }
       maxResults?: number
     } = {}
   ): UnifiedIngredient[] {
@@ -225,7 +225,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       bitter: Math.min(1, Fire * 0.2 + Air * 0.5 + reactivity * 0.3),
       salty: Math.min(1, Earth * 0.7 + Water * 0.3),
       umami: Math.min(1, Earth * 0.4 + Fire * 0.3 + reactivity * 0.3)
-    },
+    }
   }
 
   /**
@@ -241,7 +241,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       planetaryPositions: state.planetaryPositions,
       // Add other relevant state properties
       ...(state as unknown)
-    },
+    }
   }
 
   /**
@@ -256,9 +256,9 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
     // Find the element that needs balancing the most
     // (the element that's furthest from 0.25, the ideal balance)
     const elements = [
-      { name: 'Fire', value: Fire, diff: Math.abs(Fire - 0.25) },
-      { name: 'Water', value: Water, diff: Math.abs(Water - 0.25) },
-      { name: 'Earth', value: Earth, diff: Math.abs(Earth - 0.25) },
+      { name: 'Fire', value: Fire, diff: Math.abs(Fire - 0.25) }
+      { name: 'Water', value: Water, diff: Math.abs(Water - 0.25) }
+      { name: 'Earth', value: Earth, diff: Math.abs(Earth - 0.25) }
       { name: 'Air', value: Air, diff: Math.abs(Air - 0.25) }
     ],
 
@@ -272,7 +272,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
     const preferenceValue = elementToBalance.value < 0.25 ? 0.8 : 0.2
 
     // Create a preference object with just the element that needs balancing
-    const preference: Partial<ElementalProperties> = {},
+    const preference: Partial<ElementalProperties> = {}
     preference[elementToBalance.name as 'Fire' | 'Water' | 'Earth' | 'Air'] = preferenceValue,
 
     return preference,

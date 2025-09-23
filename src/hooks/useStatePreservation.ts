@@ -10,7 +10,7 @@ import {
   saveNavigationState,
   saveScrollPosition,
   useStateCleanup
-} from '@/utils/statePreservation',
+} from '@/utils/statePreservation';
 import { ElementalProperties, useSteeringFileIntelligence } from '@/utils/steeringFileIntelligence';
 
 /**
@@ -40,7 +40,7 @@ export function useNavigationState() {
       if (saveTimeoutRef.current) {
         clearTimeout(saveTimeoutRef.current)
       }
-    },
+    }
   }, [])
 
   return useMemo(() => ({ saveState, getState }), [saveState, getState])
@@ -62,7 +62,7 @@ export function useComponentState<T = unknown>(componentId: string, initialState
       saveTimeoutRef.current = setTimeout(() => {
         saveComponentState(componentId, state)
       }, 100); // 100ms debounce for component state
-    },
+    }
     [componentId],
   )
 
@@ -81,7 +81,7 @@ export function useComponentState<T = unknown>(componentId: string, initialState
       if (saveTimeoutRef.current) {
         clearTimeout(saveTimeoutRef.current)
       }
-    },
+    }
   }, [])
 
   return useMemo(
@@ -100,7 +100,7 @@ export function useScrollPreservation(sectionId: string) {
     (position?: number) => {
       const pos = position !== undefined ? position : window.scrollY
       saveScrollPosition(sectionId, pos)
-    },
+    }
     [sectionId],
   )
 
@@ -134,10 +134,10 @@ export function useScrollPreservation(sectionId: string) {
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current)
       }
-    },
+    }
   }, [handleScroll])
 
-  return { saveScrollPosition: saveScrollPositionInternal, restoreScrollPosition },
+  return { saveScrollPosition: saveScrollPositionInternal, restoreScrollPosition }
 }
 
 /**
@@ -162,9 +162,9 @@ export function useFormStatePreservation<T extends Record<string, unknown>>(
   const saveFormState = useCallback(
     (values: Partial<T>) => {
       const currentState = getState() || initialValues
-      const updatedState = { ...currentState, ...values },
+      const updatedState = { ...currentState, ...values }
       saveState(updatedState)
-    },
+    }
     [saveState, getState, initialValues],
   )
 
@@ -177,7 +177,7 @@ export function useFormStatePreservation<T extends Record<string, unknown>>(
     saveState(initialValues)
   }, [saveState, initialValues])
 
-  return { saveFormState, restoreFormState, clearFormState },
+  return { saveFormState, restoreFormState, clearFormState }
 }
 
 /**
@@ -189,7 +189,7 @@ export function useSelectionState<T = unknown>(selectionId: string, initialSelec
   const saveSelection = useCallback(
     (selection: T) => {
       saveState(selection)
-    },
+    }
     [saveState],
   )
 
@@ -203,7 +203,7 @@ export function useSelectionState<T = unknown>(selectionId: string, initialSelec
     }
   }, [saveState, initialSelection])
 
-  return { saveSelection, restoreSelection, clearSelection },
+  return { saveSelection, restoreSelection, clearSelection }
 }
 
 /**
@@ -229,7 +229,7 @@ export function useNavigationContext() {
           context.fromPage || 'unknown'
         ].slice(-10)
       })
-    },
+    }
     [saveState, getState],
   )
 
@@ -243,7 +243,7 @@ export function useNavigationContext() {
     return history[history.length - 1] || null
   }, [getState])
 
-  return { preserveContext, restoreContext, getLastPage },
+  return { preserveContext, restoreContext, getLastPage }
 }
 
 /**
@@ -264,7 +264,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
           ...state,
           timestamp: Date.now(),
           componentId
-        },
+        }
 
         saveState(enhancedState)
         logger.debug(`Saved astrological state for ${componentId}`)
@@ -273,7 +273,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
         // Fallback to basic state saving
         saveState(state)
       }
-    },
+    }
     [componentId, saveState],
   )
 
@@ -295,8 +295,8 @@ export function useAstrologicalStatePreservation(_componentId: string) {
         isValid: true,
         meetsMinimumThreshold: compatibility >= 0.7,
         isSelfReinforcing: compatibility >= 0.9
-      },
-    },
+      }
+    }
     [],
   )
 
@@ -307,14 +307,14 @@ export function useAstrologicalStatePreservation(_componentId: string) {
         'Use React.memo for expensive components'
         'Implement proper error handling'
       ]
-    },
+    }
   }, [])
 
   const getTechnologyStackGuidance = useCallback(() => {
     return {
-      react: { version: '19.1.0', features: ['concurrent', 'suspense'] },
+      react: { version: '19.1.0', features: ['concurrent', 'suspense'] }
       typescript: { version: '5.1.6', strictMode: true }
-    },
+    }
   }, [])
 
   return {
@@ -323,7 +323,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
     validateElementalCompatibility,
     getArchitecturalGuidance,
     getTechnologyStackGuidance
-  },
+  }
 }
 
 /**
@@ -344,7 +344,7 @@ export function useCulturalSensitivityGuidance() {
         respectfulRepresentation: true,
         diverseCulinaryTraditions: true,
         accessibilityCompliant: true
-      },
+      }
 
       const issues: string[] = [];
       const recommendations: string[] = []
@@ -375,8 +375,8 @@ export function useCulturalSensitivityGuidance() {
         issues,
         recommendations,
         isCompliant: issues.length === 0,,
-      },
-    },
+      }
+    }
     [intelligence],
   )
 
@@ -400,13 +400,13 @@ export function useCulturalSensitivityGuidance() {
         'Support keyboard navigation',
         'Include screen reader compatible content'
       ]
-    },
+    }
   }, [])
 
   return {
     validateCulturalContent,
     getInclusiveLanguageGuidelines
-  },
+  }
 }
 
 /**
@@ -423,7 +423,7 @@ export function usePerformanceOptimizationGuidance() {
         react: techGuidance.react,
         performance: archGuidance.performance,
         specific: [] as string[]
-      },
+      }
 
       // Component-specific recommendations
       switch (componentType) {
@@ -460,7 +460,7 @@ export function usePerformanceOptimizationGuidance() {
       }
 
       return recommendations,
-    },
+    }
     [intelligence],
   )
 
@@ -476,7 +476,7 @@ export function usePerformanceOptimizationGuidance() {
         memoryUsage: 50, // MB,
         bundleSize: 250, // KB for component chunks,
         apiResponseTime: 2000, // 2 seconds
-      },
+      }
 
       const issues: string[] = [];
       const recommendations: string[] = []
@@ -508,13 +508,13 @@ export function usePerformanceOptimizationGuidance() {
         recommendations,
         isOptimal: issues.length === 0,,
         thresholds
-      },
-    },
+      }
+    }
     [],
   )
 
   return {
     getOptimizationRecommendations,
     validatePerformanceMetrics
-  },
+  }
 }

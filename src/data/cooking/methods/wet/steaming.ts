@@ -15,11 +15,11 @@ export const steaming: CookingMethodData = {
     Air: 0.3,
     Fire: 0.1,
     Earth: 0.0
-  },
+  }
   duration: {
     min: 5,
     max: 45
-  },
+  }
   suitable_for: [
     'vegetables',
     'fish',
@@ -60,7 +60,7 @@ export const steaming: CookingMethodData = {
       waxing_crescent: 1.1, // Slight enhancement
       waning_gibbous: 0.9, // Slight reduction
     }
-  },
+  }
   toolsRequired: [
     'Steamer basket/insert (stainless steel or silicone)',
     'Pot with tight-fitting lid',
@@ -109,7 +109,7 @@ export const steaming: CookingMethodData = {
     water_soluble_vitamins: 0.85, // Some B and C vitamins retained
     fat_soluble_vitamins: 0.95, // AD, EK vitamins well preserved
     phytochemicals: 0.9, // Beneficial plant compounds mostly intact
-  },
+  }
   optimalTemperatures: {
     water_base: 212, // °F - Boiling water to produce steam at sea level
     food_chamber: 200, // °F - Approximate temperature reaching food
@@ -123,7 +123,7 @@ export const steaming: CookingMethodData = {
     sticky_rice: 205, // °F - For proper glutinous rice cooking
     bao_buns: 210, // °F - Chinese steamed buns
     puddings: 190, // °F - Sweet or savory pudding mixtures
-  },
+  }
   regionalVariations: {
     chinese: [
       'bamboo steamer techniques (stacked for multiple items)',
@@ -166,7 +166,7 @@ export const steaming: CookingMethodData = {
       'humitas (fresh corn dumplings)',
       'Chilean curanto (pit steaming)'
     ]
-  },
+  }
   chemicalChanges: {
     gentle_protein_denaturation: true, // Proteins unfold without toughening at 140-165°F
     starch_hydration: true, // Water absorption into starch granules
@@ -177,7 +177,7 @@ export const steaming: CookingMethodData = {
     carotenoid_preservation: true, // Orange/yellow pigments maintain integrity
     gelatinization: true, // Proper cooking of rice and starchy foods
     anthocyanin_stability: true, // Preservation of blue/purple plant pigments
-  },
+  }
   safetyFeatures: [
     'No risk of burning food (temperature cannot exceed 212°F at sea level)',
     'Consistent gentle cooking temperature (self-regulating system)',
@@ -277,7 +277,7 @@ export const steaming: CookingMethodData = {
       'Peel if necessary, cut to uniform sizes (1-2 inch pieces), pre-soak very dense vegetables for 10-15 minutes',
     greens:
       'Wash thoroughly, remove tough stems, leave whole for easy removal or chop for inclusion in dishes'
-  },
+  }
 
   timingConsiderations: {
     preheating:
@@ -294,7 +294,7 @@ export const steaming: CookingMethodData = {
     rice: 'White rice: 30-35 minutes, glutinous/sticky rice: 25-30 minutes, brown rice: 45-50 minutes',
     rest_after:
       'Fish: 2-3 minutes, chicken: 5-10 minutes, vegetables: serve immediately, rice: 5-10 minutes'
-  },
+  }
 
   doneness_indicators: {
     fish: 'Flesh turns from translucent to opaque; flakes easily with fork internal temperature 145°F',
@@ -309,7 +309,7 @@ export const steaming: CookingMethodData = {
       'Wrappers become translucent, filling reaches appropriate temperature (meat 165°F), dough not sticky',
     bao_buns:
       'Dough springs back when touched lightly, increase in size by 50%, no raw dough in center'
-  },
+  }
 
   ingredientInteractions: {
     stacking_effects:
@@ -330,4 +330,4 @@ export const steaming: CookingMethodData = {
     alcohol_evaporation:
       'Alcohol in steaming liquid (wine, sake) imparts flavor but alcohol largely evaporates, use in well-ventilated area'
   }
-},
+}

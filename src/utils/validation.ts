@@ -53,7 +53,7 @@ export function validateRecipe(recipe: Recipe) {
 }
 
 // Re-export validation functions from elemental utilities
-export { isElementalProperties } from './elemental/elementalUtils',
+export { isElementalProperties } from './elemental/elementalUtils';
 
 // Type guard to check if a string is a valid elemental property key
 export function isElementalPropertyKey(

@@ -11,7 +11,7 @@ import {
   Recipe,
   RecipeIngredient,
   ElementalProperties as RecipeElementalProperties
-} from './recipe',
+} from './recipe';
 
 /**
  * Extended Recipe Ingredient with all accessed properties
@@ -71,8 +71,8 @@ export interface ExtendedRecipe extends Recipe {
       sour: number,
       bitter: number,
       umami: number
-    },
-  },
+    }
+  }
 
   texturalElements?: string[],
   aromatics?: string[],
@@ -87,7 +87,7 @@ export interface ExtendedRecipe extends Recipe {
     beverages?: string[],
     sides?: string[],
     condiments?: string[]
-  },
+  }
 
   nutrition?: {
     calories?: number,
@@ -97,8 +97,8 @@ export interface ExtendedRecipe extends Recipe {
       carbs: number,
       fat: number,
       fiber: number
-    },
-  },
+    }
+  }
 
   seasonalIngredients?: string[],
   chefNotes?: string[],
@@ -112,7 +112,7 @@ export interface ExtendedRecipe extends Recipe {
     aroma: string[],
     texture: string[],
     sound: string[]
-  },
+  }
 
   keywords?: string[]
 
@@ -131,7 +131,7 @@ export interface ExtendedScoredRecipe extends ExtendedRecipe {
     lunarScore: number,
     planetaryScore: number,
     seasonalScore: number
-  },
+  }
 }
 
 /**
@@ -157,7 +157,7 @@ export function toExtendedRecipe(recipe: Recipe): ExtendedRecipe {
     notes: recipe.notes || '',
     preparation: recipe.preparation || '',
     preparationNotes: recipe.preparationNotes || '',
-    ingredients: (recipe.ingredients || []).map(ingredient => {,
+    ingredients: (recipe.ingredients || []).map(ingredient => {
       const extendedIngredient = ingredient as unknown as any;
       return {
         ...ingredient,
@@ -170,7 +170,7 @@ export function toExtendedRecipe(recipe: Recipe): ExtendedRecipe {
         optional:
           typeof extendedIngredient.optional === 'boolean' ? extendedIngredient.optional : false,,
         notes: typeof extendedIngredient.notes === 'string' ? extendedIngredient.notes : '',,
-      },
+      }
     })
   } as ExtendedRecipe,
 }

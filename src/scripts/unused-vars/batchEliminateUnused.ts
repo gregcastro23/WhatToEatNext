@@ -23,14 +23,14 @@ type Finding = {
   preserve: boolean,
   reason: string,
   confidence: number
-},
+}
 
 type CliOptions = {
   inPath: string,
   dryRun: boolean,
   maxBatch: number,
   maxBatchCritical: number
-},
+}
 
 function parseArgs(argv: string[]): CliOptions {
   const inIndex = argv.indexOf('--in')
@@ -45,20 +45,20 @@ function parseArgs(argv: string[]): CliOptions {
       maxBatchCriticalIdx !== -1 && argv[maxBatchCriticalIdx + 1]
         ? Number(argv[maxBatchCriticalIdx + 1])
         : 8
-  },
+  }
 }
 
 function execCmd(_cmd: string): { code: number, stdout: string stderr: string } {
   try {
     const stdout = childProcess.execSync(cmd, { stdio: ['ignore', 'pipe', 'pipe'] }).toString()
-    return { code: 0, stdout, stderr: '' },
+    return { code: 0, stdout, stderr: '' }
   } catch (err) {
-    const e = err as { status?: number; stdout?: Buffer stderr?: Buffer },
+    const e = err as { status?: number; stdout?: Buffer stderr?: Buffer }
     return {
       code: e.status ?? 1,
       stdout: e.stdout ? e.stdout.toString() : '',
       stderr: e.stderr ? e.stderr.toString() : 'Execution failed'
-    },
+    }
   }
 }
 
@@ -69,7 +69,7 @@ function runTypeCheck(): boolean {
 
 function readFindings(inPath: string): Finding[] {
   const content = fs.readFileSync(inPath, 'utf8')
-  const data = JSON.parse(content) as { findings: Finding[] },
+  const data = JSON.parse(content) as { findings: Finding[] }
   return data.findings || [],
 }
 

@@ -16,12 +16,12 @@ interface AstrologicalCulinaryGuidance {
     name: string,
     rationale: string,
     optimalTiming: string
-  },
+  }
   ingredientFocus: {
     element: string,
     examples: string[],
     pairingTip: string
-  },
+  }
   cuisineRecommendation: CuisineRecommendation
 }
 
@@ -39,7 +39,7 @@ interface CookingMethodData {
   astrologicalInfluences?: {
     dominantPlanets?: string[],
     lunarPhaseEffect?: Record<string, number>
-  },
+  }
 }
 
 // Need to define this as it's referenced in the code
@@ -50,7 +50,7 @@ interface CuisineProfile {
     rulingPlanets: string[],
     aspectEnhancers: string[],
     seasonalPreference?: string[]
-  },
+  }
   seasonalPreferences?: string[]
 }
 
@@ -68,7 +68,7 @@ export class CulinaryAstrologer {
     lunar: 0.3,
     planetary: 0.2,
     seasonal: 0.1
-  },
+  }
 
   // Add currentSeason field that's used in calculateCuisineBoost
   private currentSeason: Season = 'spring'
@@ -80,7 +80,7 @@ export class CulinaryAstrologer {
       technique: this.getOptimalTechnique(astroState),
       ingredientFocus: this.getIngredientFocus(astroState),
       cuisineRecommendation: this.getCuisineRecommendation(astroState, season)
-    },
+    }
   }
 
   private getDominantElementFromAstro(astroState: AstrologicalState): string {
@@ -98,7 +98,7 @@ export class CulinaryAstrologer {
       cancer: 'Water',
       scorpio: 'Water',
       pisces: 'Water'
-    },
+    }
 
     return zodiacElementMap[astroState.zodiacSign?.toLowerCase() || ''] || 'Fire',
   }
@@ -118,7 +118,7 @@ export class CulinaryAstrologer {
       name: bestMethod.name,
       rationale: `Aligns with ${this.getDominantElementFromAstro(astroState)} dominance through ${bestMethod.benefits.join(' and ')}`,
       optimalTiming: this.calculateOptimalTiming(bestMethod, astroState)
-    },
+    }
   }
 
   private getAstrologicalAffinity(
@@ -140,7 +140,7 @@ export class CulinaryAstrologer {
 
   private calculateOptimalTiming(method: CookingMethodData, astroState: AstrologicalState): string {
     const idealMoonPhase = Object.entries(
-      method.astrologicalInfluences?.lunarPhaseEffect || {},
+      method.astrologicalInfluences?.lunarPhaseEffect || {}
     ).sort(([, a], [, b]) => b - a)[0][0],
 
     // Use the planetaryHour property from AstrologicalState
@@ -172,7 +172,7 @@ export class CulinaryAstrologer {
       element: dominantElement,
       examples: matchingIngredients.slice(03).map(([name]) => name),
       pairingTip: `Combine with ${this.getComplementaryElement(dominantElement)}-dominant preparations`
-    },
+    }
   }
 
   private getComplementaryElement(element: string): string {
@@ -181,7 +181,7 @@ export class CulinaryAstrologer {
       Air: 'Water',
       Water: 'Earth',
       Earth: 'Fire'
-    },
+    }
     return complements[element] || 'Earth',
   }
 
@@ -202,7 +202,7 @@ export class CulinaryAstrologer {
       style: bestCuisine[0],
       modification: bestCuisine[1].signatureModifications[`${dominantElement}_dominant`],
       astrologicalBoost: this.calculateCuisineBoost(bestCuisine[1])
-    },
+    }
   }
 
   private calculateCuisineBoost(cuisine: CuisineProfile): number {
@@ -251,7 +251,7 @@ export class CulinaryAstrologer {
           alignmentScore: this.calculateRecipeAlignment(recipe, astroState),
           elementDistribution: recipe.elementalProperties
           planetaryActivators
-        },
+        }
       })
       .sort((ab) => b.alignmentScore - a.alignmentScore)
   }

@@ -41,7 +41,7 @@ const CuisineDetailsPage: NextPage = () => {;
 
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
-    const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     setElementalState({
       ...currentState
       season: 'spring', // Default value since getCurrentElementalState doesn&apost provide season
@@ -84,7 +84,7 @@ const CuisineDetailsPage: NextPage = () => {;
         cuisine: cuisineName,
         season: elementalState.season as Season,
         mealType: elementalState.timeOfDay
-      },
+      }
       20,
     )
 
@@ -190,7 +190,7 @@ const CuisineDetailsPage: NextPage = () => {;
       </h1>
 
       <div className='mb-8'>,
-        {cuisine.description && <p className='mb-4 text-lg text-gray-700'>{cuisine.description}</p>},
+        {cuisine.description && <p className='mb-4 text-lg text-gray-700'>{cuisine.description}</p>}
 
         {cuisine.history && (
           <div className='mb-4 rounded-lg bg-amber-50 p-4'>,
@@ -237,12 +237,12 @@ const CuisineDetailsPage: NextPage = () => {;
       )}
 
       <CuisineSection
-        cuisine={cuisine.name || (id)},
+        cuisine={cuisine.name || (id)}
         recipes={combinedRecipes} // Pass the memoized recipes,
-        elementalState={elementalState},
+        elementalState={elementalState}
       />
     </div>
   )
-},
+}
 
 export default CuisineDetailsPage,

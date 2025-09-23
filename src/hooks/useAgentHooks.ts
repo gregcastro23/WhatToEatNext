@@ -14,7 +14,7 @@ import {
   CampaignTrigger,
   QualityMetrics,
   QualityAssuranceConfig
-} from '@/utils/automatedQualityAssurance',
+} from '@/utils/automatedQualityAssurance';
 import { logger } from '@/utils/logger';
 import { ElementalProperties } from '@/utils/steeringFileIntelligence';
 
@@ -44,15 +44,15 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
     enableCampaignTriggers: true,
     enablePerformanceMonitoring: true,
     validationInterval: 5, // 5 minutes
-  },
+  }
 
-  const finalConfig = { ...defaultConfig, ...config },
+  const finalConfig = { ...defaultConfig, ...config }
   const qa = getAutomatedQualityAssurance()
 
   const [hookState, setHookState] = useState<AgentHookState>({
     isActive: false,
     lastValidation: 0,
-    validationResults: {},
+    validationResults: {}
     campaignTriggers: [],
     qualityMetrics: qa.getQualityMetrics()
   })
@@ -70,7 +70,7 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
       () => {
         void (async () => {
           try {
-            const results: Record<string, ValidationResult> = {},
+            const results: Record<string, ValidationResult> = {}
 
             // Planetary data validation
             if (finalConfig.enablePlanetaryValidation) {
@@ -94,7 +94,7 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
             setHookState(prev => ({,
               ...prev,
               lastValidation: Date.now(),
-              validationResults: { ...prev.validationResults, ...results },
+              validationResults: { ...prev.validationResults, ...results }
               campaignTriggers: qa.getActiveCampaignTriggers(),
               qualityMetrics: qa.getQualityMetrics()
             }))
@@ -104,7 +104,7 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
             logger.error('Error in agent hooks validation cycle:', error)
           }
         })()
-      },
+      }
       finalConfig.validationInterval * 60 * 1000,
     )
 
@@ -126,7 +126,7 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
   const triggerValidation = useCallback(
     async (type?: 'planetary' | 'ingredient' | 'typescript' | 'all') => {
       try {
-        const results: Record<string, ValidationResult> = {},
+        const results: Record<string, ValidationResult> = {}
 
         if (!type || type === 'all' || type === 'planetary') {,
           results.planetary = await qa.validatePlanetaryData()
@@ -145,7 +145,7 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
         setHookState(prev => ({,
           ...prev,
           lastValidation: Date.now(),
-          validationResults: { ...prev.validationResults, ...results },
+          validationResults: { ...prev.validationResults, ...results }
           qualityMetrics: qa.getQualityMetrics()
         }))
 
@@ -155,7 +155,7 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
         logger.error('Error in manual validation:', error),
         throw error
       }
-    },
+    }
     [qa],
   )
 
@@ -163,7 +163,7 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
   useEffect(() => {
     return () => {
       stopAgentHooks()
-    },
+    }
   }, [stopAgentHooks])
 
   return {
@@ -172,7 +172,7 @@ export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
     stopAgentHooks,
     triggerValidation,
     isActive: hookState.isActive
-  },
+  }
 }
 
 /**
@@ -209,7 +209,7 @@ export function usePlanetaryDataValidationHook(_autoStart: boolean = true) {,
       } finally {
         setIsValidating(false)
       }
-    },
+    }
     [qa],
   )
 
@@ -225,7 +225,7 @@ export function usePlanetaryDataValidationHook(_autoStart: boolean = true) {,
     isValidating,
     validatePlanetaryData,
     isValid: validationResult?.isValid ?? null
-  },
+  }
 }
 
 /**
@@ -273,7 +273,7 @@ export function useIngredientConsistencyHook() {
       } finally {
         setIsValidating(false)
       }
-    },
+    }
     [qa],
   )
 
@@ -282,7 +282,7 @@ export function useIngredientConsistencyHook() {
     isValidating,
     validateIngredients,
     isValid: validationResult?.isValid ?? null
-  },
+  }
 }
 
 /**
@@ -337,7 +337,7 @@ export function useTypeScriptCampaignHook(_autoCheck: boolean = true) {,
     isChecking,
     checkErrorThreshold,
     isTriggered: campaignTrigger?.triggered ?? false
-  },
+  }
 }
 
 /**
@@ -380,7 +380,7 @@ export function useBuildQualityMonitoringHook() {
       } finally {
         setIsMonitoring(false)
       }
-    },
+    }
     [qa],
   )
 
@@ -389,7 +389,7 @@ export function useBuildQualityMonitoringHook() {
     isMonitoring,
     monitorBuildQuality,
     isQualityGood: qualityResult?.isValid ?? null
-  },
+  }
 }
 
 /**
@@ -417,7 +417,7 @@ export function useQualityMetricsHook(_updateInterval: number = 30000) {,
     metrics,
     lastUpdate,
     updateMetrics
-  },
+  }
 }
 
 /**
@@ -430,7 +430,7 @@ export function useAgentHookConfiguration() {
     (config: Partial<QualityAssuranceConfig>) => {
       qa.updateConfig(config)
       logger.info('Agent hook configuration updated:', config)
-    },
+    }
     [qa],
   )
 
@@ -441,5 +441,5 @@ export function useAgentHookConfiguration() {
   return {
     updateConfiguration,
     getActiveTriggers
-  },
+  }
 }

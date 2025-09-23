@@ -23,29 +23,29 @@ export interface SeasonalRecommendations {
     recipes: string[],
     techniques: string[],
     energies: string[]
-  },
+  }
   summer: {
     ingredients: string[],
     recipes: string[],
     techniques: string[],
     energies: string[]
-  },
+  }
   autumn: {
     ingredients: string[],
     recipes: string[],
     techniques: string[],
     energies: string[]
-  },
+  }
   winter: {
     ingredients: string[],
     recipes: string[],
     techniques: string[],
     energies: string[]
-  },
+  }
   general: {
     transitions: string[],
     _balancing: string[]
-  },
+  }
 }
 
 // getCurrentSeason function type (causing error in AlchemicalRecommendationService.ts)
@@ -70,5 +70,5 @@ export interface recipe {
     _Water: number,
     _Earth: number,
     Air: number
-  },
+  }
 }

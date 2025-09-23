@@ -10,7 +10,7 @@ import {
   calculateChakraEnergies as _calculateChakraEnergies,
   calculateZodiacEnergies as _calculateZodiacEnergies,
   alchemize
-} from '@/calculations/alchemicalEngine',
+} from '@/calculations/alchemicalEngine';
 import { AlchemicalEngineBase } from '@/lib/alchemicalEngine';
 import type {
   AstrologicalState,
@@ -18,17 +18,17 @@ import type {
   ChakraEnergies,
   HoroscopeData,
   StandardizedAlchemicalResult
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 
 // Re-export the main functions and classes
-export { AlchemicalEngineAdvanced, AlchemicalEngineBase },
+export { AlchemicalEngineAdvanced, AlchemicalEngineBase };
 
 // Re-export the main alchemize function
-export { alchemize },
+export { alchemize };
 
 // Create and export a unified default object with all alchemical functionality
 const alchemicalEngine = {
-  alchemize: (birthInfo: BirthInfo, horoscopeDict: HoroscopeData): StandardizedAlchemicalResult => {,
+  alchemize: (birthInfo: BirthInfo, horoscopeDict: HoroscopeData): StandardizedAlchemicalResult => {
     try {
       const tropical = horoscopeDict.tropical as any | undefined;
       const extendedHoroscope = {
@@ -39,7 +39,7 @@ const alchemicalEngine = {
           Ascendant: tropical?.Ascendant || (horoscopeDict as any).Ascendant || {},
           Aspects: tropical?.Aspects || (horoscopeDict as any).Aspects || {}
         }
-      },
+      }
       return alchemize(birthInfo, extendedHoroscope)
     } catch (error) {
       _logger.error('Error in alchemize:', error)
@@ -80,11 +80,11 @@ const alchemicalEngine = {
           description: 'Fallback result due to error.',
           attributes: []
         }
-      },
+      }
     }
   },
 
-  // Re-export functions from the calculations/alchemicalEngine module,
+  // Re-export functions from the calculations/alchemicalEngine module
   calculateCurrentPlanetaryPositions: async (): Promise<Record<string, unknown>> => {
     try {
       // Import and call the function from the source module
@@ -98,7 +98,7 @@ const alchemicalEngine = {
       return {
         Sun: { Sign: { label: 'Aries' } },
         Moon: { Sign: { label: 'Cancer' } }
-      },
+      }
     }
   },
 
@@ -122,11 +122,11 @@ const alchemicalEngine = {
         capricorn: 0.0833,
         aquarius: 0.0833,
         pisces: 0.0833
-      },
+      }
     }
   },
 
-  calculateChakraEnergies: (zodiacEnergies: Record<string, number>): ChakraEnergies => {,
+  calculateChakraEnergies: (zodiacEnergies: Record<string, number>): ChakraEnergies => {
     try {
       // Use ESM import binding
       return _calculateChakraEnergies(zodiacEnergies)
@@ -141,12 +141,12 @@ const alchemicalEngine = {
         throat: 0.125,
         thirdEye: 0.125,
         crown: 0.125
-      },
+      }
     }
   },
 
   // Add a convenient factory method to create engine instances with error handling
-  createEngine: (advanced: boolean = false) => {;
+  createEngine: (advanced: boolean = false) => {
     try {
       return advanced ? new AlchemicalEngineAdvanced() : new AlchemicalEngineBase()
     } catch (error) {
@@ -159,11 +159,11 @@ const alchemicalEngine = {
           Air: 0.25,
           Earth: 0.25
         })
-      },
+      }
     }
   },
 
-  // Add getCurrentAstrologicalState method for AstrologicalContext,
+  // Add getCurrentAstrologicalState method for AstrologicalContext
   getCurrentAstrologicalState: async (): Promise<AstrologicalState> => {
     try {
       // Simple implementation that returns a minimal valid state
@@ -183,7 +183,7 @@ const alchemicalEngine = {
           Earth: 0.25,
           Air: 0.25
         }
-      } as AstrologicalState,
+      } as AstrologicalState
     } catch (error) {
       _logger.error('Error getting current astrological state:', error)
       return {
@@ -202,16 +202,16 @@ const alchemicalEngine = {
           Earth: 0.25,
           Air: 0.25
         }
-      } as AstrologicalState,
+      } as AstrologicalState
     }
   }
-},
+}
 
 // Create and export the alchemical engine instance
 export const _alchemicalEngineInstance = new AlchemicalEngineBase()
 
 // Export the alchemicalEngine object as well
-export { alchemicalEngine },
+export { alchemicalEngine };
 
 // Default export for compatibility
 export default {
@@ -219,4 +219,4 @@ export default {
   AlchemicalEngineAdvanced,
   alchemize,
   alchemicalEngine
-},
+}

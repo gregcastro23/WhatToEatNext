@@ -77,7 +77,7 @@ export class EnhancedErrorFixerIntegration {
         safetyScore: result.safetyScore,
         warnings: result.warnings,
         errors: result.errors
-      },
+      }
     } catch (error) {
       _logger.error('❌ Enhanced Error Fixer execution failed:', error),
 
@@ -90,7 +90,7 @@ export class EnhancedErrorFixerIntegration {
         executionTime: Date.now() - startTime,
         warnings: [],
         errors: [error instanceof Error ? error.message : String(error)]
-      },
+      }
     }
   }
 
@@ -262,7 +262,7 @@ export class EnhancedErrorFixerIntegration {
         }
       })
 
-      child.on('close', code => {,
+      child.on('close', code => {
         const success = code === 0;
         const output = stdout + stderr
 
@@ -348,7 +348,7 @@ export class EnhancedErrorFixerIntegration {
       safetyScore,
       warnings,
       errors
-    },
+    }
   }
 
   /**
@@ -436,7 +436,7 @@ export class EnhancedErrorFixerIntegration {
         safetyScore: result.safetyScore || 0.5,
         issues: result.errors,
         recommendedBatchSize: this.DEFAULT_BATCH_SIZE
-      },
+      }
     } catch (error) {
       _logger.error('❌ Safety validation failed:', error),
 
@@ -445,7 +445,7 @@ export class EnhancedErrorFixerIntegration {
         safetyScore: 0,
         issues: [error instanceof Error ? error.message : String(error)],
         recommendedBatchSize: 3, // Conservative batch size
-      },
+      }
     }
   }
 

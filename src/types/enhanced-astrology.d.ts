@@ -141,7 +141,7 @@ declare global {
         lunarPhase: string,
         planetaryHour: Planet,
         optimalDays: string[]
-      },
+      }
       /** Elemental balance recommendations */
       elementalBalance: ElementalProperties
     }
@@ -210,7 +210,7 @@ export interface EnhancedIngredient {
     pairings: string[]
     /** Preparation tips */
     preparationTips: string[]
-  },
+  }
   /** Optional nutritional data */
   nutritionalData?: {
     calories: number,
@@ -220,14 +220,14 @@ export interface EnhancedIngredient {
     fiber: number,
     vitamins: string[],
     minerals: string[]
-  },
+  }
   /** Cultural significance and sensitivity */
   culturalContext?: {
     origin: string,
     traditionalUses: string[],
     culturalSignificance: string,
     respectfulUsage: string[]
-  },
+  }
 }
 
 // Enhanced recipe type with astrological optimization
@@ -265,8 +265,8 @@ export interface EnhancedRecipe {
       bestPlanetaryHour: Astrology.Planet,
       bestLunarPhase: string,
       bestSeason: string
-    },
-  },
+    }
+  }
   /** Serving information */
   servings: number,
   /** Difficulty level */
@@ -277,7 +277,7 @@ export interface EnhancedRecipe {
     region: string,
     traditionalSignificance: string,
     modernAdaptations: string[]
-  },
+  }
 }
 
 // Cooking method with astrological correspondences
@@ -297,13 +297,13 @@ export interface EnhancedCookingMethod {
     planetaryHours: Astrology.Planet[],
     lunarPhases: string[],
     seasons: string[]
-  },
+  }
   /** Temperature range */
   temperatureRange?: {
     min: number,
     max: number,
     unit: 'celsius' | 'fahrenheit'
-  },
+  }
   /** Equipment needed */
   equipment: string[]
   /** Difficulty level */
@@ -327,13 +327,13 @@ export interface EnhancedCuisineProfile {
     rulingPlanets: Astrology.Planet[],
     aspectEnhancers: string[],
     seasonalPreferences: string[]
-  },
+  }
   /** Cultural sensitivity guidelines */
   culturalGuidelines: {
     respectfulRepresentation: string[],
     traditionalContext: string,
     modernAdaptations: string[]
-  },
+  }
 }
 
 // Export commonly used types for easy importing
@@ -345,14 +345,14 @@ export type ElementalProperties = Astrology.ElementalProperties,
 export type AstrologicalState = Astrology.AstrologicalState,
 export type CulinaryAstrologyData = Astrology.CulinaryAstrologyData,
 
-export type { EnhancedCookingMethod, EnhancedCuisineProfile, EnhancedIngredient, EnhancedRecipe },
+export type { EnhancedCookingMethod, EnhancedCuisineProfile, EnhancedIngredient, EnhancedRecipe }
 
 // Utility type for component props that use astrological data
 export type WithAstrologicalData<T = {}> = T & {,
   astrologicalState?: Astrology.AstrologicalState,
   elementalProperties?: Astrology.ElementalProperties
   onAstrologicalUpdate?: (state: Astrology.AstrologicalState) => void
-},
+}
 
 // Utility type for components that can be culturally sensitive
 export type WithCulturalSensitivity<T = {}> = T & {,
@@ -360,8 +360,8 @@ export type WithCulturalSensitivity<T = {}> = T & {,
     respectTraditionalUses: boolean,
     acknowledgeOrigins: boolean,
     useInclusiveLanguage: boolean
-  },
-},
+  }
+}
 
 // Utility type for performance-optimized components
 export type WithPerformanceOptimization<T = {}> = T & {,
@@ -369,5 +369,5 @@ export type WithPerformanceOptimization<T = {}> = T & {,
     enableMemoization: boolean,
     enableLazyLoading: boolean,
     enableVirtualization: boolean
-  },
-},
+  }
+}

@@ -75,7 +75,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         documentationCoverage: documentationReport.documentationCoverage
         reductionFromBaseline,
         targetReduction: 15, // Default target, can be configured
-      },
+      }
 
       // Store in history
       this.metricsHistory.push(metrics)
@@ -97,7 +97,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         documentationCoverage: 0,
         reductionFromBaseline: 0,
         targetReduction: 15
-      },
+      }
     }
   }
 
@@ -111,7 +111,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
     return {
       ...baseMetrics
       unintentionalAnyMetrics
-    },
+    }
   }
 
   /**
@@ -158,7 +158,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         stdio: 'pipe'
       })
 
-      const breakdown: Record<string, number> = {},
+      const breakdown: Record<string, number> = {}
       const lines = output.split('\n')
 
       for (const line of lines) {
@@ -174,7 +174,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       return breakdown,
     } catch (error: unknown) {
       const output = error.stdout || error.message || ''
-      const breakdown: Record<string, number> = {},
+      const breakdown: Record<string, number> = {}
       const lines = output.split('\n')
 
       for (const line of lines) {
@@ -218,7 +218,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
               ]
             : [],
         recommendations: this.generateUnintentionalAnyRecommendations(unintentionalAnyMetrics)
-      },
+      }
       {
         phaseId: 'unintentional-any-replacement',
         phaseName: 'Unintentional Any Type Replacement',
@@ -238,7 +238,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
               ]
             : [],
         recommendations: this.generateReplacementRecommendations(unintentionalAnyMetrics)
-      },
+      }
       {
         phaseId: 'intentional-any-documentation',
         phaseName: 'Intentional Any Type Documentation',
@@ -285,7 +285,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         history: this.metricsHistory,
         baseline: this.baselineMetrics,
         fileBreakdown: await this.getExplicitAnyBreakdownByFile()
-      },
+      }
 
       fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2))
       // // // _logger.info(`📊 Unintentional Any metrics exported to: ${filePath}`)
@@ -319,7 +319,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       alerts: this.generateAlerts(metrics),
       recommendations: this.generateUnintentionalAnyRecommendations(metrics),
       lastUpdated: new Date()
-    },
+    }
   }
 
   /**
@@ -369,7 +369,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         unintentionalAnyTypesReduced: 0,
         documentationImproved: 0,
         reductionRate: 0
-      },
+      }
     }
 
     const first = this.metricsHistory[0];
@@ -380,7 +380,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       unintentionalAnyTypesReduced: first.unintentionalAnyTypes - latest.unintentionalAnyTypes,
       documentationImproved: latest.documentationCoverage - first.documentationCoverage,
       reductionRate: latest.reductionFromBaseline
-    },
+    }
   }
 
   /**
@@ -589,7 +589,7 @@ export class UnintentionalAnyCampaignScheduler {
         shouldTrigger: true,
         reason: `High number of unintentional any types: ${metrics.unintentionalAnyTypes}`,
         priority: 'high'
-      },
+      }
     }
 
     if (metrics.reductionFromBaseline < -5) {
@@ -606,7 +606,7 @@ export class UnintentionalAnyCampaignScheduler {
         shouldTrigger: true,
         reason: `Moderate number of unintentional any types: ${metrics.unintentionalAnyTypes}`,
         priority: 'medium'
-      },
+      }
     }
 
     if (metrics.documentationCoverage < 50) {
@@ -623,14 +623,14 @@ export class UnintentionalAnyCampaignScheduler {
         shouldTrigger: true,
         reason: `Some unintentional any types present: ${metrics.unintentionalAnyTypes}`,
         priority: 'low'
-      },
+      }
     }
 
     return {
       shouldTrigger: false,
       reason: 'No significant unintentional any issues detected',
       priority: 'low'
-    },
+    }
   }
 
   /**
@@ -656,7 +656,7 @@ export class UnintentionalAnyCampaignScheduler {
         canProceed: true,
         conflictingCampaigns: [],
         resolution: 'No conflicts detected, can proceed'
-      },
+      }
     }
 
     // Check if conflicts can be resolved
@@ -669,14 +669,14 @@ export class UnintentionalAnyCampaignScheduler {
         canProceed: true,
         conflictingCampaigns,
         resolution: 'Conflicts can be resolved by coordinating batch processing'
-      },
+      }
     }
 
     return {
       canProceed: false,
       conflictingCampaigns,
       resolution: 'Wait for critical campaigns to complete before proceeding'
-    },
+    }
   }
 
   /**
@@ -715,6 +715,6 @@ export class UnintentionalAnyCampaignScheduler {
       recommendedTime,
       reason,
       estimatedDuration
-    },
+    }
   }
 }

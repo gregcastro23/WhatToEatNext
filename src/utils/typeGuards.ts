@@ -157,7 +157,7 @@ export function isError(value: unknown): value is Error {
  * Safe cast to Record type
  */
 export function asRecord(value: unknown): Record<string, unknown> {
-  return isObject(value) ? value : {},
+  return isObject(value) ? value : {}
 }
 
 /**

@@ -98,7 +98,7 @@ describe('SafetyValidator', () => {
         const start: any = Date.now()
         while (Date.now() - start < 100) {
           // Busy wait to simulate slow build
-        },
+        }
         return '',
       })
 
@@ -168,7 +168,7 @@ describe('SafetyValidator', () => {
         lineNumber: 1,
         confidence: 0.9,
         validationRequired: true
-      },
+      }
 
       const context: ClassificationContext = { filePath: 'test.ts',,
         lineNumber: 1,
@@ -181,7 +181,7 @@ describe('SafetyValidator', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      },
+      }
 
       const result: any = validator.calculateSafetyScore(replacement, context)
 
@@ -197,7 +197,7 @@ describe('SafetyValidator', () => {
         lineNumber: 1,
         confidence: 0.8,
         validationRequired: true
-      },
+      }
 
       const errorContext: ClassificationContext = { filePath: 'test.ts',,
         lineNumber: 1,
@@ -210,7 +210,7 @@ describe('SafetyValidator', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      },
+      }
 
       const result: any = validator.calculateSafetyScore(replacement, errorContext)
 
@@ -225,7 +225,7 @@ describe('SafetyValidator', () => {
         lineNumber: 1,
         confidence: 0.8,
         validationRequired: true
-      },
+      }
 
       const testContext: ClassificationContext = { filePath: 'test.test.ts',,
         lineNumber: 1,
@@ -238,7 +238,7 @@ describe('SafetyValidator', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      },
+      }
 
       const result: any = validator.calculateSafetyScore(replacement, testContext)
 
@@ -252,7 +252,7 @@ describe('SafetyValidator', () => {
         lineNumber: 1,
         confidence: 0.8,
         validationRequired: true
-      },
+      }
 
       const apiContext: ClassificationContext = { filePath: 'api.ts',,
         lineNumber: 1,
@@ -265,7 +265,7 @@ describe('SafetyValidator', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      },
+      }
 
       const result: any = validator.calculateSafetyScore(replacement, apiContext)
 
@@ -280,7 +280,7 @@ describe('SafetyValidator', () => {
         lineNumber: 1,
         confidence: 0.8,
         validationRequired: true
-      },
+      }
 
       const functionContext: ClassificationContext = { filePath: 'function.ts',,
         lineNumber: 1,
@@ -293,7 +293,7 @@ describe('SafetyValidator', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      },
+      }
 
       const result: any = validator.calculateSafetyScore(replacement, functionContext)
 
@@ -314,7 +314,7 @@ describe('SafetyValidator', () => {
       const newThresholds: any = {
         minimumSafetyScore: 09,
         maximumBuildTime: 60000,
-      },
+      }
 
       validator.updateSafetyThresholds(newThresholds)
       const updatedThresholds: any = validator.getSafetyThresholds()
@@ -336,7 +336,7 @@ describe('SafetyValidator', () => {
         lineNumber: 1,
         confidence: 0.9,
         validationRequired: true
-      },
+      }
 
       const mockContext: ClassificationContext = { filePath: 'test.ts',,
         lineNumber: 1,
@@ -349,7 +349,7 @@ describe('SafetyValidator', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      },
+      }
 
       const result: any = fastValidator.calculateSafetyScore(mockReplacement, mockContext)
       expect(result.isValid).toBe(true).

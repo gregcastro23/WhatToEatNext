@@ -5,13 +5,13 @@
  */
 
 // Export all from alchemical calculations
-export { calculateAlchemicalProperties as calculateCoreAlchemicalProperties } from './alchemicalCalculations',
+export { calculateAlchemicalProperties as calculateCoreAlchemicalProperties } from './alchemicalCalculations';
 
 // Export all from alchemical engine
 export {
   alchemize as coreAlchemize,
   AlchemicalEngine as CoreAlchemicalEngine
-} from './alchemicalEngine',
+} from './alchemicalEngine';
 
 // Export all from elemental calculations
 export {
@@ -31,7 +31,7 @@ export {
   ELEMENTAL_ANALYSIS_INTELLIGENCE,
   SEASONAL_ELEMENTAL_INTELLIGENCE,
   default as elementalCalculations
-} from './elementalCalculations',
+} from './elementalCalculations';
 
 // Export all from kalchm engine
 export {
@@ -42,11 +42,11 @@ export {
   type ElementalValues,
   type ThermodynamicResults,
   default as kalchmEngine
-} from './kalchmEngine',
+} from './kalchmEngine';
 
 // Export all from planetary influences
 export {
   calculatePlanetaryInfluences,
   getPlanetaryCulinaryRecommendations,
   default as planetaryInfluences
-} from './planetaryInfluences',
+} from './planetaryInfluences';

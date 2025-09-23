@@ -28,7 +28,7 @@ const categoryUpdaters = {
   spices: updateSpices,
   oils: updateOils,
   vinegars: updateVinegars
-},
+}
 
 // All categories in the order they should be processed
 const ALL_CATEGORIES = [
@@ -99,4 +99,4 @@ if (typeof require !== 'undefined' && require.main === module) {
 }
 
 // Export for use in other scripts if needed
-export { updateCategories },
+export { updateCategories };

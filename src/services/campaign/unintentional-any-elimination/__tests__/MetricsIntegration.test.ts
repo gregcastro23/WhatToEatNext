@@ -6,7 +6,7 @@
 import {
     UnintentionalAnyCampaignScheduler,
     UnintentionalAnyProgressTracker
-} from '../MetricsIntegration',
+} from '../MetricsIntegration';
 
 
 // Mock child_process to avoid actual command execution in tests

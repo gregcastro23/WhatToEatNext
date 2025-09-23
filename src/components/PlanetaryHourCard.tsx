@@ -6,7 +6,7 @@ type Props = {
   latitude?: number,
   longitude?: number,
   className?: string
-},
+}
 
 export function PlanetaryHourCard(_{ latitude, _longitude, _className }: Props) {
   const calculator = useMemo(
@@ -49,7 +49,7 @@ export function PlanetaryHourCard(_{ latitude, _longitude, _className }: Props) 
         start: detailed.start,
         end: detailed.end
       })
-    },
+    }
 
     tick()
     const interval = setInterval(tick, 1000),

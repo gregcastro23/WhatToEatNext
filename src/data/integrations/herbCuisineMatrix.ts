@@ -8,6 +8,6 @@ export const _herbCuisineMatrix = Object.entries(herbs).reduce(
       acc[herbName] = Object.keys(herb.culinary_traditions)
     }
     return acc,
-  },
+  }
   {} as Record<string, string[]>,
 )

@@ -16,11 +16,11 @@ export const boiling: CookingMethodData = {
     Fire: 0.2,
     Air: 0.1,
     Earth: 0.0
-  },
+  }
   duration: {
     min: 3,
     max: 120
-  },
+  }
   suitable_for: [
     'pasta',
     'rice',
@@ -69,7 +69,7 @@ export const boiling: CookingMethodData = {
       waxing_crescent: 1.0, // Neutral
       waning_gibbous: 1.0, // Neutral
     }
-  },
+  }
   toolsRequired: [
     'Large pot or stockpot',
     'Heat source',
@@ -119,7 +119,7 @@ export const boiling: CookingMethodData = {
     antioxidants: 0.4,
     phytonutrients: 0.45,
     fiber: 0.85
-  },
+  }
   optimalTemperatures: {
     rolling_boil: 212, // 212°F/100°C at sea level
     high_altitude_boil: 203, // Approximate for 5000ft elevation
@@ -134,7 +134,7 @@ export const boiling: CookingMethodData = {
     leafy_greens: 212,
     dumplings: 212,
     custard_water_bath: 180, // Gentle boil for water bath
-  },
+  }
   regionalVariations: {
     italian: [
       'pasta al dente technique',
@@ -173,7 +173,7 @@ export const boiling: CookingMethodData = {
       'precise timing for various lentil types'
     ],
     african: ['fufu preparation techniques', 'pounded yam methods', 'bean cake preparation']
-  },
+  }
   chemicalChanges: {
     starch_gelatinization: true,
     protein_denaturation: true,
@@ -187,7 +187,7 @@ export const boiling: CookingMethodData = {
     flavor_compound_volatilization: true,
     mineral_release: true,
     collagen_conversion: true
-  },
+  }
   safetyFeatures: [
     'Water boils at a consistent temperature (100°C at sea level)',
     'Kills most pathogens and bacteria when held at full boil for sufficient time',

@@ -4,7 +4,7 @@ import {
   calculateChakraEnergies,
   recommendFoodsForChakraBalance,
   CHAKRA_PROPERTIES
-} from '../constants/chakraMappings',
+} from '../constants/chakraMappings';
 import { SignEnergyState, ZodiacSign } from '../constants/signEnergyStates';
 
 export interface ChakraEnergyState {
@@ -15,7 +15,7 @@ export interface ChakraEnergyState {
     color: string,
     element: string,
     planet: string
-  },
+  }
   balanceState: 'balanced' | 'underactive' | 'overactive',
   relatedSigns: any[],
   recommendedFoods: string[]
@@ -42,7 +42,7 @@ export class ChakraService {
       capricorn: 0,
       aquarius: 0,
       pisces: 0
-    },
+    }
 
     signEnergyStates.forEach(_state => {
       if (_state.sign && _state.sign in signEnergyRecord) {
@@ -57,7 +57,7 @@ export class ChakraService {
     const foodRecommendations = recommendFoodsForChakraBalance(chakraEnergies)
 
     // Create detailed chakra energy states
-    return CHAKRAS.map(chakra => {,
+    return CHAKRAS.map(chakra => {
       const energyLevel = chakraEnergies[chakra]
 
       // Determine balance state
@@ -87,11 +87,11 @@ export class ChakraService {
           color: properties.color,
           element: properties.element,
           planet: properties.planet
-        },
+        }
         balanceState,
         relatedSigns,
         recommendedFoods: foodRecommendations[chakra] || []
-      },
+      }
     })
   }
 
@@ -120,7 +120,7 @@ export class ChakraService {
    */
   public suggestDietaryAdjustments(
     chakraEnergyStates: ChakraEnergyState[],
-    state?: { moonPhase?: string, sunSign?: string },
+    state?: { moonPhase?: string, sunSign?: string }
   ): string[] {
     const suggestions: string[] = [];
 

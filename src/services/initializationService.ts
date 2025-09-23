@@ -15,12 +15,12 @@ export interface CelestialData {
     sign?: string,
     degree?: number
     exactLongitude?: number
-  },
+  }
   moon?: {
     sign?: string,
     degree?: number,
     exactLongitude?: number
-  },
+  }
   // Include elemental values
   Fire?: number,
   Water?: number,
@@ -35,7 +35,7 @@ interface InitializationResult {
     recipes: ScoredRecipe[],
     favorites: string[],
     celestialData: CelestialData
-  },
+  }
   error?: string
 }
 
@@ -107,7 +107,7 @@ class InitializationService {
           zodiacEnergy: '',
           lunarEnergy: '',
           planetaryEnergy: []
-        },
+        }
         errorMessage: '',
         errors: [],
         zodiacEnergy: '',
@@ -118,7 +118,7 @@ class InitializationService {
           Essence: 0.25,
           Matter: 0.25,
           Substance: 0.25
-        },
+        }
         lunarPhase: 'new moon',
         currentTime: new Date()
       } as unknown)
@@ -136,7 +136,7 @@ class InitializationService {
           favorites: userState.recipes.favorites,
           celestialData
         }
-      },
+      }
     } catch (error) {
       errorHandler.handleError(error, {
         context: 'InitializationService',
@@ -154,7 +154,7 @@ class InitializationService {
       return {
         success: false,
         error: 'Failed to initialize application after multiple attempts'
-      },
+      }
     } finally {
       this.isInitializing = false;
     }
@@ -180,7 +180,7 @@ class InitializationService {
       return await manager.getState()
     } catch (error) {
       logger.warn('Failed to load user state, using defaults:', error)
-      return { recipes: { favorites: [] } },
+      return { recipes: { favorites: [] } }
     }
   }
 
@@ -191,8 +191,8 @@ class InitializationService {
       // Convert CelestialAlignment to CelestialData format with safe property access
       const alignmentData = alignment as any
       return {
-        sun: alignmentData?.sun || { sign: '', degree: 0, exactLongitude: 0 },
-        moon: alignmentData?.moon || { sign: '', degree: 0, exactLongitude: 0 },
+        sun: alignmentData?.sun || { sign: '', degree: 0, exactLongitude: 0 }
+        moon: alignmentData?.moon || { sign: '', degree: 0, exactLongitude: 0 }
         Fire: alignmentData?.Fire || 0.25,
         Water: alignmentData?.Water || 0.25,
         Earth: alignmentData?.Earth || 0.25,
@@ -240,13 +240,13 @@ class InitializationService {
         sign: celestialData.sun?.sign || '',
         degree: celestialData.sun?.degree,
         exactLongitude: celestialData.sun?.exactLongitude
-      },
+      }
       moon: {
         sign: celestialData.moon?.sign || '',
         degree: celestialData.moon?.degree,
         exactLongitude: celestialData.moon?.exactLongitude
       }
-    },
+    }
   }
 
   private getTimeOfDay(): string {
@@ -271,7 +271,7 @@ class InitializationService {
       Water: celestialData.Water || 0.25,
       Earth: celestialData.Earth || 0.25,
       Air: celestialData.Air || 0.25
-    },
+    }
   }
 }
 

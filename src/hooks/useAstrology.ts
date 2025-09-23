@@ -29,7 +29,7 @@ interface AstrologyState {
     lunarPhase: LunarPhase | null,
     elementalBalance: Record<string, number> | null,
     aspectsInfluence: number | null
-  },
+  }
   lastUpdated: number | null
 }
 
@@ -42,9 +42,9 @@ const initialAstrologyState: AstrologyState = {
     lunarPhase: null,
     elementalBalance: null,
     aspectsInfluence: null
-  },
+  }
   lastUpdated: null
-},
+}
 
 /**
  * React hook for accessing astrological data and calculations
@@ -68,7 +68,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
     setIsClient(true)
     return () => {
       isMountedRef.current = false;
-    },
+    }
   })
 
   /**
@@ -154,7 +154,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
           if (!response || !(response as unknown).ok) {
             const errorData = (await (response as unknown)?.json?.()) || {;
               error: `API error: ${(response as unknown)?.status || 'Network error'}`
-            },
+            }
             throw new Error(
               errorData.error || `API error: ${(response as unknown)?.status || 'Unknown'}`,
             )
@@ -213,7 +213,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
       activeRequests.set(cacheKey, requestPromise)
 
       return requestPromise,
-    },
+    }
     [isClient, state.loading, useFallback, createCacheKey],
   )
 
@@ -248,7 +248,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
-              },
+              }
               body: JSON.stringify({
                 latitude: calcLat,
                 longitude: calcLng,
@@ -298,7 +298,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
         logger.error('Error in calculateElementalBalance:', error),
         return null
       }
-    },
+    }
     [isClient, latitude, longitude, useFallback, state.loading],
   )
 
@@ -330,7 +330,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
-            },
+            }
             body: JSON.stringify({
               latitude: calcLatitude,
               longitude: calcLongitude,
@@ -362,7 +362,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
             zodiac: [data.data.currentSign],
             lunar: [data.data.lunarPhase],
             planetary: planetaryPositions
-          },
+          }
 
           return profile,
         } catch (error) {
@@ -375,7 +375,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
 
       activeRequests.set(cacheKey, requestPromise)
       return requestPromise,
-    },
+    }
     [isClient, latitude, longitude, state.loading],
   )
 
@@ -403,7 +403,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
               planetaryPositions: positions,
               currentSign,
               lunarPhase
-            },
+            }
             lastUpdated: Date.now()
           }) as AstrologyState,
       )
@@ -412,7 +412,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
         positions,
         currentSign,
         lunarPhase
-      },
+      }
     } catch (error) {
       logger.error('Error using fallback data:', error),
       return null
@@ -432,7 +432,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
-      },
+      }
 
       // Simple calculation based on sign elements
       const signElements: Record<string, string> = {
@@ -448,7 +448,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
         cancer: 'Water',
         scorpio: 'Water',
         pisces: 'Water'
-      },
+      }
 
       // Planet weights
       const weights: Record<string, number> = {
@@ -459,7 +459,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
         mars: 1,
         jupiter: 1,
         saturn: 1
-      },
+      }
 
       let totalWeight = 0,
 
@@ -478,7 +478,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
 
       // Normalize
       if (totalWeight > 0) {
-        Object.keys(elementalBalance).forEach(element => {,
+        Object.keys(elementalBalance).forEach(element => {
           elementalBalance[element as keyof typeof elementalBalance] /= totalWeight
         })
       }
@@ -501,7 +501,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
-      },
+      }
     }
   }, [])
 
@@ -557,7 +557,7 @@ export function useAstrology(_options: AstrologyOptions = {}) {,
     getDominantElement,
     refreshData,
     isClient
-  },
+  }
 }
 
 export default useAstrology,

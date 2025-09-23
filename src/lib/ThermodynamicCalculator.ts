@@ -11,20 +11,20 @@ export class ThermodynamicCalculator {
     let totalHeat = 0,
     let totalWeight = 0,
 
-    ingredients.forEach(ingredient => {,
+    ingredients.forEach(ingredient => {
       let heatValue = 0.5; // Default neutral value
       let weight = 1; // Default weight
 
       // Extract ingredient data with safe property access
       const ingredientData = ingredient as {;
         spiciness?: number,
-        elementalProperties?: { Fire?: number; Water?: number Earth?: number Air?: number },
+        elementalProperties?: { Fire?: number; Water?: number Earth?: number Air?: number }
         cookingTemperature?: number,
         proteinContent?: number,
         moistureContent?: number,
         name?: string
         [key: string]: unknown
-      },
+      }
       const spiciness = ingredientData?.spiciness;
       const elementalProperties = ingredientData?.elementalProperties;
       const cookingTemperature = ingredientData?.cookingTemperature
@@ -71,15 +71,15 @@ export class ThermodynamicCalculator {
 
     // Check for diversity in ingredient types
     const categories = new Set()
-    ingredients.forEach(ingredient => {,
+    ingredients.forEach(ingredient => {
       // Extract ingredient data with safe property access
       const ingredientData = ingredient as {;
         spiciness?: number,
-        elementalProperties?: { Fire?: number; Water?: number; Earth?: number Air?: number },
+        elementalProperties?: { Fire?: number; Water?: number; Earth?: number Air?: number }
         moistureContent?: number,
         proteinContent?: number
         [key: string]: unknown
-      },
+      }
       const category = ingredientData?.category;
       const fermented = ingredientData?.fermented;
       const complexity = ingredientData?.complexity;
@@ -126,18 +126,18 @@ export class ThermodynamicCalculator {
     let totalReactivity = 0,
     let totalWeight = 0,
 
-    ingredients.forEach(ingredient => {,
+    ingredients.forEach(ingredient => {
       let reactivityValue = 0.5; // Default neutral value
       let weight = 1; // Default weight
 
       // Extract ingredient data with safe property access
       const ingredientData = ingredient as {;
         spiciness?: number,
-        elementalProperties?: { Fire?: number; Water?: number; Earth?: number Air?: number },
+        elementalProperties?: { Fire?: number; Water?: number; Earth?: number Air?: number }
         moistureContent?: number,
         proteinContent?: number
         [key: string]: unknown
-      },
+      }
       const pH = ingredientData?.pH;
       const alcoholContent = ingredientData?.alcoholContent;
       const enzymeActivity = ingredientData?.enzymeActivity;

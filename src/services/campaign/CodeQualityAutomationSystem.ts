@@ -12,17 +12,17 @@ import {
   DEFAULT_DEPENDENCY_SECURITY_CONFIG,
   DependencySecurityConfig,
   DependencySecurityMonitor
-} from './DependencySecurityMonitor',
+} from './DependencySecurityMonitor';
 import {
   DEFAULT_IMPORT_CLEANUP_CONFIG,
   ImportCleanupConfig,
   ImportCleanupSystem
-} from './ImportCleanupSystem',
+} from './ImportCleanupSystem';
 import {
   DEFAULT_LINTING_FORMATTING_CONFIG,
   LintingFormattingConfig,
   LintingFormattingSystem
-} from './LintingFormattingSystem',
+} from './LintingFormattingSystem';
 
 export interface CodeQualityAutomationConfig {
   importCleanup: ImportCleanupConfig;
@@ -120,11 +120,11 @@ export class CodeQualityAutomationSystem {
         dependencyUpdatesApplied: 0,
         buildValidationsPassed: 0,
         buildValidationsFailed: 0
-      },
+      }
       errors: [],
       warnings: [],
       recommendations: []
-    },
+    }
 
     try {
       // Execute phases in configured order
@@ -221,7 +221,7 @@ export class CodeQualityAutomationSystem {
       result: null,
       errors: [],
       warnings: []
-    },
+    }
 
     try {
       switch (phase.system) {
@@ -480,7 +480,7 @@ export const _DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG: CodeQualityAutomationConfi
       enabled: true,
       dependencies: [],
       criticalFailure: false
-    },
+    }
     {
       name: 'Linting and Formatting',
       description: 'Fix linting violations and format code consistently',
@@ -488,7 +488,7 @@ export const _DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG: CodeQualityAutomationConfi
       enabled: true,
       dependencies: ['Import Cleanup'],
       criticalFailure: false
-    },
+    }
     {
       name: 'Dependency Security',
       description: 'Scan for vulnerabilities and update dependencies',
@@ -506,4 +506,4 @@ export const _DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG: CodeQualityAutomationConfi
     continueOnError: true,
     reportingEnabled: true
   }
-},
+}

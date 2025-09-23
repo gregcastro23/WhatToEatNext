@@ -4,7 +4,7 @@ import {
     currentMomentManager,
     getCurrentMoment,
     updateCurrentMoment
-} from '@/services/CurrentMomentManager',
+} from '@/services/CurrentMomentManager';
 import { createLogger } from '@/utils/logger';
 
 const logger = createLogger('CurrentMomentAPI')
@@ -46,7 +46,7 @@ export async function GET(request: Request) {
             performanceMetrics.updateFrequency[new Date().toISOString().slice(0, 16)] || 0
         }
       }
-    },
+    }
 
     return NextResponse.json(response)
   } catch (error) {
@@ -58,8 +58,8 @@ export async function GET(request: Request) {
         error: 'Failed to get current moment data',
         details: error instanceof Error ? error.message : 'Unknown error',
         timestamp: new Date().toISOString()
-      },
-      { status: 500 },
+      }
+      { status: 500 }
     )
   }
 }
@@ -118,8 +118,8 @@ export async function POST(request: Request) {
             error: 'Invalid action',
             validActions: ['update', 'status'],
             timestamp: new Date().toISOString()
-          },
-          { status: 400 },
+          }
+          { status: 400 }
         )
     }
   } catch (error) {
@@ -131,8 +131,8 @@ export async function POST(request: Request) {
         error: 'Failed to process current moment request',
         details: error instanceof Error ? error.message : 'Unknown error',
         timestamp: new Date().toISOString()
-      },
-      { status: 500 },
+      }
+      { status: 500 }
     )
   }
 }
@@ -158,7 +158,7 @@ export async function PUT(request: Request) {
       systemDefaults: false,
       streamlinedPositions: false,
       accurateAstronomy: false
-    },
+    }
 
     // Note: The updateCurrentMoment already updates all files,
     // so this is more of a status report
@@ -193,8 +193,8 @@ export async function PUT(request: Request) {
         error: 'Failed to process selective update',
         details: error instanceof Error ? error.message : 'Unknown error',
         timestamp: new Date().toISOString()
-      },
-      { status: 500 },
+      }
+      { status: 500 }
     )
   }
 }

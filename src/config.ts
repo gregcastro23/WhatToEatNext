@@ -32,7 +32,7 @@ export const config: AppConfig = {
     baseUrl:
       process.env.API_BASE_URL ||
       (isDev ? 'http://localhost:3000/api' : 'https://yourdomain.com/api')
-  },
+  }
 
   astrology: {
     defaultTimezoneName: 'UTC',
@@ -46,4 +46,4 @@ export const config: AppConfig = {
       quincunx: 3
     }
   }
-},
+}

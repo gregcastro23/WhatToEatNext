@@ -23,7 +23,7 @@ describe('Memory Usage Performance Tests', () => {
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
       stashRetentionDays: 7
-    },
+    }
 
     mockConfig = {
       phases: [
@@ -34,23 +34,23 @@ describe('Memory Usage Performance Tests', () => {
           tools: [
             {
               scriptPath: 'scripts/memory/test-script.js',
-              parameters: { maxFile, s: 100 },
+              parameters: { maxFile, s: 100 }
               batchSize: 100,
               safetyLevel: SafetyLevel.MEDIUM
             }
           ],
-          successCriteria: { buildTim, e: 10 },
+          successCriteria: { buildTim, e: 10 }
           safetyCheckpoints: []
         }
       ],
       safetySettings,
-      progressTargets: { typeScriptError, s: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 },
+      progressTargets: { typeScriptError, s: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 }
       toolConfiguration: { enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
-    },
+    }
 
     progressTracker = new ProgressTracker()
     campaignController = new CampaignController(mockConfig)
@@ -128,7 +128,7 @@ describe('Memory Usage Performance Tests', () => {
           external: 5 * 1024 * 1024,
           rss: heapUsed * 1.5,
           arrayBuffers: 2 * 1024 * 1024,
-        },
+        }
       }) as any process.memoryUsage,
 
       // Collect multiple memory readings
@@ -164,7 +164,7 @@ describe('Memory Usage Performance Tests', () => {
           external: 5 * 1024 * 1024,
           rss: simulatedMemoryLeak * 1.5 * 1024 * 1024,
           arrayBuffers: 2 * 1024 * 1024
-        },
+        }
       }) as any process.memoryUsage,
 
       const memoryReadings: number[] = [];
@@ -196,7 +196,7 @@ describe('Memory Usage Performance Tests', () => {
           external: 5 * 1024 * 1024,
           rss: memoryUsage * 1.5 * 1024 * 1024,
           arrayBuffers: 2 * 1024 * 1024
-        },
+        }
       }) as any process.memoryUsage,
 
       // Create many safety events to test memory management
@@ -233,17 +233,17 @@ describe('Memory Usage Performance Tests', () => {
           external: 5 * 1024 * 1024,
           rss: memoryUsage * 1.5 * 1024 * 1024,
           arrayBuffers: 2 * 1024 * 1024
-        },
+        }
       }) as any process.memoryUsage,
 
       // Mock progress metrics to create history
       jest.spyOn(progressTracker, 'getProgressMetrics').mockImplementation(async () => {
         return {
-          typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },
-          lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
-          buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: memoryUsage },
+          typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 }
+          lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 }
+          buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: memoryUsage }
           enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
-        },
+        }
       })
 
       // Generate large metrics history
@@ -278,7 +278,7 @@ describe('Memory Usage Performance Tests', () => {
           external: 5 * 1024 * 1024,
           rss: (baseMemory + memoryIncrease) * 1.5 * 1024 * 1024,
           arrayBuffers: 2 * 1024 * 1024
-        },
+        }
       }) as any process.memoryUsage,
 
       // Simulate processing large number of files
@@ -317,7 +317,7 @@ describe('Memory Usage Performance Tests', () => {
           external: 5 * 1024 * 1024,
           rss: (baseMemory + variation) * 1.5 * 1024 * 1024,
           arrayBuffers: 2 * 1024 * 1024
-        },
+        }
       }) as any process.memoryUsage,
 
       // Run multiple concurrent operations
@@ -354,7 +354,7 @@ describe('Memory Usage Performance Tests', () => {
           external: 5 * 1024 * 1024,
           rss: baseMemory * 1.5 * 1024 * 1024,
           arrayBuffers: 2 * 1024 * 1024
-        },
+        }
       }) as any process.memoryUsage,
 
       // Normal operation
@@ -396,7 +396,7 @@ describe('Memory Usage Performance Tests', () => {
           external: 5 * 1024 * 1024,
           rss: totalMemory * 1.5 * 1024 * 1024,
           arrayBuffers: 2 * 1024 * 1024,
-        },
+        }
       }) as any process.memoryUsage,
 
       // Collect memory snapshots during various operations
@@ -435,7 +435,7 @@ describe('Memory Usage Performance Tests', () => {
         enterpriseCount: [],
         buildTime: [],
         progressMetrics: [],
-      },
+      }
 
       let operationType: any = 'default',
       process.memoryUsage = jest.fn().mockImplementation(() => {
@@ -465,16 +465,16 @@ describe('Memory Usage Performance Tests', () => {
           external: 5 * 1024 * 1024,
           rss: baseMemory * 1.5 * 1024 * 1024,
           arrayBuffers: 2 * 1024 * 1024
-        },
+        }
       }) as any process.memoryUsage,
 
       // Test different operations and their memory usage
       const operations: any = [
-        { name: 'typeScriptCheck', fn: () => progressTracker.getTypeScriptErrorCount() },
-        { name: 'lintingCheck', fn: () => progressTracker.getLintingWarningCount() },
-        { name: 'enterpriseCount', fn: () => progressTracker.getEnterpriseSystemCount() },
-        { name: 'buildTime', fn: () => progressTracker.getBuildTime() },
-        { name: 'progressMetrics', fn: () => progressTracker.getProgressMetrics() },
+        { name: 'typeScriptCheck', fn: () => progressTracker.getTypeScriptErrorCount() }
+        { name: 'lintingCheck', fn: () => progressTracker.getLintingWarningCount() }
+        { name: 'enterpriseCount', fn: () => progressTracker.getEnterpriseSystemCount() }
+        { name: 'buildTime', fn: () => progressTracker.getBuildTime() }
+        { name: 'progressMetrics', fn: () => progressTracker.getProgressMetrics() }
       ],
 
       for (const operation of operations) {

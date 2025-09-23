@@ -30,7 +30,7 @@ interface RecipeData {
     planets?: string[],
     zodiac?: string[],
     lunar?: string[]
-  },
+  }
   zodiacInfluences?: string[],
   lunarPhaseInfluences?: string[],
   allergens?: string[]
@@ -123,7 +123,7 @@ export class EnhancedCuisineRecommender {
 
     // Filter by dietary restrictions if specified
     const dietaryFilteredRecipes = dietaryRestrictions?.length;
-      ? filteredRecipes.filter(recipe => {,
+      ? filteredRecipes.filter(recipe => {
           const recipeDietary = recipe.dietaryInfo || []
           return dietaryRestrictions.every(
             restriction =>
@@ -168,7 +168,7 @@ export class EnhancedCuisineRecommender {
         ingredients: recipe.ingredients || [],
         season: recipe.season || [],
         mealType: recipe.mealType || []
-      },
+      }
     })
 
     // Sort by match percentage and return top count
@@ -322,17 +322,17 @@ export class EnhancedCuisineRecommender {
 
     // Map planets to their elemental influences (diurnal and nocturnal elements)
     const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> = {
-      Sun: { diurnal: 'Fire', nocturnal: 'Fire' },
-      Moon: { diurnal: 'Water', nocturnal: 'Water' },
-      Mercury: { diurnal: 'Air', nocturnal: 'Earth' },
-      Venus: { diurnal: 'Water', nocturnal: 'Earth' },
-      Mars: { diurnal: 'Fire', nocturnal: 'Water' },
-      Jupiter: { diurnal: 'Air', nocturnal: 'Fire' },
-      Saturn: { diurnal: 'Air', nocturnal: 'Earth' },
-      Uranus: { diurnal: 'Water', nocturnal: 'Air' },
-      Neptune: { diurnal: 'Water', nocturnal: 'Water' },
+      Sun: { diurnal: 'Fire', nocturnal: 'Fire' }
+      Moon: { diurnal: 'Water', nocturnal: 'Water' }
+      Mercury: { diurnal: 'Air', nocturnal: 'Earth' }
+      Venus: { diurnal: 'Water', nocturnal: 'Earth' }
+      Mars: { diurnal: 'Fire', nocturnal: 'Water' }
+      Jupiter: { diurnal: 'Air', nocturnal: 'Fire' }
+      Saturn: { diurnal: 'Air', nocturnal: 'Earth' }
+      Uranus: { diurnal: 'Water', nocturnal: 'Air' }
+      Neptune: { diurnal: 'Water', nocturnal: 'Water' }
       Pluto: { diurnal: 'Earth', nocturnal: 'Water' }
-    },
+    }
 
     // Get the elements associated with the current planetary day
     const dayElements = planetaryElements[planetaryDay];
@@ -383,17 +383,17 @@ export class EnhancedCuisineRecommender {
 
     // Map planets to their elemental influences (diurnal and nocturnal elements)
     const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> = {
-      Sun: { diurnal: 'Fire', nocturnal: 'Fire' },
-      Moon: { diurnal: 'Water', nocturnal: 'Water' },
-      Mercury: { diurnal: 'Air', nocturnal: 'Earth' },
-      Venus: { diurnal: 'Water', nocturnal: 'Earth' },
-      Mars: { diurnal: 'Fire', nocturnal: 'Water' },
-      Jupiter: { diurnal: 'Air', nocturnal: 'Fire' },
-      Saturn: { diurnal: 'Air', nocturnal: 'Earth' },
-      Uranus: { diurnal: 'Water', nocturnal: 'Air' },
-      Neptune: { diurnal: 'Water', nocturnal: 'Water' },
+      Sun: { diurnal: 'Fire', nocturnal: 'Fire' }
+      Moon: { diurnal: 'Water', nocturnal: 'Water' }
+      Mercury: { diurnal: 'Air', nocturnal: 'Earth' }
+      Venus: { diurnal: 'Water', nocturnal: 'Earth' }
+      Mars: { diurnal: 'Fire', nocturnal: 'Water' }
+      Jupiter: { diurnal: 'Air', nocturnal: 'Fire' }
+      Saturn: { diurnal: 'Air', nocturnal: 'Earth' }
+      Uranus: { diurnal: 'Water', nocturnal: 'Air' }
+      Neptune: { diurnal: 'Water', nocturnal: 'Water' }
       Pluto: { diurnal: 'Earth', nocturnal: 'Water' }
-    },
+    }
 
     // Get the elements associated with the current planetary hour
     const hourElements = planetaryElements[planetaryHour];
@@ -490,7 +490,7 @@ export class EnhancedCuisineRecommender {
       dinner: ['evening'],
       dessert: ['afternoon', 'evening'],
       snack: ['morning', 'afternoon', 'evening']
-    },
+    }
 
     // If recipe has no meal type, give it a neutral score
     if (!recipe.mealType || recipe.mealType.length === 0) {,
@@ -528,7 +528,7 @@ export class EnhancedCuisineRecommender {
       elemental: 0.15, // Reduced from 0.20,
       astrological: 0.1, // Reduced from 0.15,
       timeOfDay: 0.1, // Reduced from 0.15
-    },
+    }
 
     // Calculate weighted score with stronger emphasis on planetary factors
     const weightedScore =
@@ -566,7 +566,7 @@ export class EnhancedCuisineRecommender {
       capricorn: 'Earth',
       aquarius: 'Air',
       pisces: 'Water'
-    },
+    }
 
     return astroState.sunSign ? elementMap[astroState.sunSign] || 'Fire' : 'Fire'
   }
@@ -584,7 +584,7 @@ export class EnhancedCuisineRecommender {
         'gluten-free': ['gluten', 'wheat'],
         'dairy-free': ['dairy', 'milk', 'cream', 'cheese'],
         'nut-free': ['nuts', 'peanuts', 'almonds', 'walnuts']
-      },
+      }
 
       const restrictedItems = restrictionMap[restriction.toLowerCase()];
       if (restrictedItems) {

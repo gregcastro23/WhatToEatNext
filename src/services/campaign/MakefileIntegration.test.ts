@@ -299,7 +299,7 @@ describe('MakefileIntegration', () => {
 
       // Check that all campaign targets are included
       const targets: any = makefileIntegration.getCampaignTargets()
-      targets.forEach(target => {,
+      targets.forEach(target => {
         expect(writtenContent).toContain(`${target.name}: `)
         expect(writtenContent).toContain(target.description)
       })

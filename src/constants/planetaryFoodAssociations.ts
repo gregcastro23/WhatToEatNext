@@ -76,7 +76,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     specificFoods: ['Oranges', 'Lemons', 'Honey', 'Saffron', 'Cinnamon', 'Wheat'],
     cuisines: ['Mediterranean', 'Indian', 'Middle Eastern'],
     elementalBoost: { Fire: 0.3, Air: 0.1 }
-  },
+  }
   Moon: {
     name: 'Moon',
     elements: ['Water'],
@@ -85,7 +85,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     specificFoods: ['Cucumber', 'Lettuce', 'Milk', 'Yogurt', 'White fish', 'Rice'],
     cuisines: ['Japanese', 'Nordic', 'Coastal'],
     elementalBoost: { Water: 0.3, Earth: 0.1 }
-  },
+  }
   Mercury: {
     name: 'Mercury',
     elements: ['Air', 'Earth'],
@@ -94,7 +94,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     specificFoods: ['Almonds', 'Fennel', 'Mint', 'Celery', 'Mixed greens'],
     cuisines: ['Fusion', 'Contemporary', 'Diverse'],
     elementalBoost: { Air: 0.2, Earth: 0.2 }
-  },
+  }
   Venus: {
     name: 'Venus',
     elements: ['Earth', 'Water'],
@@ -103,7 +103,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     specificFoods: ['Apples', 'Berries', 'Chocolate', 'Vanilla', 'Cream'],
     cuisines: ['French', 'Italian', 'Dessert-focused'],
     elementalBoost: { Earth: 0.2, Water: 0.2 }
-  },
+  }
   Mars: {
     name: 'Mars',
     elements: ['Fire'],
@@ -112,7 +112,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     specificFoods: ['Red meat', 'Chili', 'Garlic', 'Onions', 'Red wine'],
     cuisines: ['Spicy', 'BBQ', 'Grilled'],
     elementalBoost: { Fire: 0.4 }
-  },
+  }
   Jupiter: {
     name: 'Jupiter',
     elements: ['Fire', 'Air'],
@@ -121,7 +121,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     specificFoods: ['Fig', 'Asparagus', 'Salmon', 'Sage', 'Nutmeg'],
     cuisines: ['Abundant', 'Festive', 'Celebratory'],
     elementalBoost: { Fire: 0.2, Air: 0.2 }
-  },
+  }
   Saturn: {
     name: 'Saturn',
     elements: ['Earth'],
@@ -130,7 +130,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     specificFoods: ['Potatoes', 'Beets', 'Rye', 'Lentils', 'Black tea'],
     cuisines: ['Rustic', 'Traditional', 'Preserved'],
     elementalBoost: { Earth: 0.4 }
-  },
+  }
   Uranus: {
     name: 'Uranus',
     elements: ['Air'],
@@ -139,7 +139,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     specificFoods: ['Exotic fruits', 'Molecular gastronomy items', 'Fermented foods'],
     cuisines: ['Experimental', 'Avant-garde', 'Futuristic'],
     elementalBoost: { Air: 0.4 }
-  },
+  }
   Neptune: {
     name: 'Neptune',
     elements: ['Water'],
@@ -148,7 +148,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     specificFoods: ['Seaweed', 'White wine', 'Delicate fish', 'Coconut'],
     cuisines: ['Ethereal', 'Subtle', 'Inspired'],
     elementalBoost: { Water: 0.4 }
-  },
+  }
   Pluto: {
     name: 'Pluto',
     elements: ['Water', 'Fire'],
@@ -157,7 +157,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     specificFoods: ['Dark chocolate', 'Coffee', 'Mushrooms', 'Aged cheese'],
     cuisines: ['Intense', 'Complex', 'Deep'],
     elementalBoost: { Water: 0.2, Fire: 0.2 }
-  },
+  }
   Rahu: {
     name: 'Rahu',
     elements: ['Air', 'Fire'],
@@ -166,7 +166,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     specificFoods: ['Exotic spices', 'Foreign delicacies', 'Smoky flavors', 'Powerful stimulants'],
     cuisines: ['Fusion', 'Unexpected combinations', 'Foreign cuisines'],
     elementalBoost: { Air: 0.2, Fire: 0.2 }
-  },
+  }
   Ketu: {
     name: 'Ketu',
     elements: ['Fire', 'Water'],
@@ -176,7 +176,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
     cuisines: ['Ascetic', 'Monastic', 'Purifying'],
     elementalBoost: { Fire: 0.2, Water: 0.2 }
   }
-},
+}
 
 /**
  * Planetary cooking guide interface for recommendation algorithm
@@ -200,7 +200,7 @@ export const _calculatePlanetaryBoost = (
 ) => {
   let boost = 0,
   const dominantPlanets: string[] = []
-  const dignities: Record<string, PlanetaryDignityDetails> = {},
+  const dignities: Record<string, PlanetaryDignityDetails> = {}
 
   // Planetary position calculations
   Object.entries(planetPositions).forEach(([_planet, _position]) => {
@@ -220,7 +220,7 @@ export const _calculatePlanetaryBoost = (
         type: 'Neutral' as PlanetaryDignity,
         strength: baseBoost,
         favorableZodiacSigns: currentZodiac ? [currentZodiac] : []
-      },
+      }
     }
   })
 
@@ -238,19 +238,19 @@ export const _calculatePlanetaryBoost = (
     boost: parseFloat(boost.toFixed(2)),
     dominantPlanets: Array.from(new Set(dominantPlanets)), // Fix for Set iteration in older JS versions
     dignities
-  },
-},
+  }
+}
 
 // Helper functions for calculations
 const _getTriplicityRulers = (_zodiacSign?: string | null): Planet[] => {
   // Implementation depends on your zodiac mappings
   return ['Sun', 'Mars', 'Jupiter'] as Planet[]
-},
+}
 
 const _getSeasonalMultiplier = (): number => {;
   // Implementation depends on your seasonal logic
   return 1.0
-},
+}
 
 /**
  * Get dignity multiplier for calculations
@@ -267,9 +267,9 @@ export const _getDignityMultiplier = (dignity: PlanetaryDignity): number => {
     Detriment: 0.7,
     Fall: 0.5,
     Neutral: 1.0
-  },
+  }
   return multipliers[dignity] || 1.0,
-},
+}
 
 /**
  * Get zodiac boost based on elemental properties
@@ -289,7 +289,7 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
     cancer: 'Water',
     scorpio: 'Water',
     pisces: 'Water'
-  },
+  }
 
   // Normalize zodiac sign to lowercase for lookup
   const normalizedSign = zodiacSign.toLowerCase()
@@ -299,7 +299,7 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
   const itemData = item as {
     elementalProperties?: Record<string, number>,
     zodiacInfluences?: string[]
-  },
+  }
   if (!itemData.elementalProperties) {
     return 0.1; // Minimum boost if no elemental data
   }
@@ -336,7 +336,7 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
 
   // Return normalized boost value (0-1 range)
   return Math.min(0.7, Math.max(0.1, totalBoost))
-},
+}
 
 // Helper function to calculate seasonal alignment
 const _calculateSeasonalAlignment = (zodiacSign: string, item: unknown): number => {
@@ -354,7 +354,7 @@ const _calculateSeasonalAlignment = (zodiacSign: string, item: unknown): number 
     capricorn: 'winter',
     aquarius: 'winter',
     pisces: 'winter'
-  },
+  }
 
   const season = seasonMap[zodiacSign];
 
@@ -364,15 +364,15 @@ const _calculateSeasonalAlignment = (zodiacSign: string, item: unknown): number 
     summer: 'Fire',
     autumn: 'Earth',
     winter: 'Water'
-  },
+  }
 
   const seasonalElement = seasonalElements[season];
 
   // Calculate alignment based on the cuisine's elemental properties
   // Higher value if the cuisine aligns with the season's element
-  const itemData = item as { elementalProperties?: Record<string, number> },
+  const itemData = item as { elementalProperties?: Record<string, number> }
   return itemData.elementalProperties?.[seasonalElement] || 0.1,
-},
+}
 
 /**
  * Calculate boost based on lunar phase
@@ -390,42 +390,42 @@ export const getLunarPhaseBoost = (lunarPhase: LunarPhase): number => {
       intensity: number
     }
   > = {
-    'new moon': { element: 'Fire', alchemical: 'Spirit', intensity: 0.8 },
-    'waxing crescent': { element: 'Fire', alchemical: 'Spirit', intensity: 0.7 },
-    'first quarter': { element: 'Air', alchemical: 'Substance', intensity: 0.6 },
-    'waxing gibbous': { element: 'Air', alchemical: 'Substance', intensity: 0.7 },
-    'full moon': { element: 'Water', alchemical: 'Essence', intensity: 0.8 },
-    'waning gibbous': { element: 'Water', alchemical: 'Essence', intensity: 0.7 },
-    'last quarter': { element: 'Earth', alchemical: 'Matter', intensity: 0.6 },
+    'new moon': { element: 'Fire', alchemical: 'Spirit', intensity: 0.8 }
+    'waxing crescent': { element: 'Fire', alchemical: 'Spirit', intensity: 0.7 }
+    'first quarter': { element: 'Air', alchemical: 'Substance', intensity: 0.6 }
+    'waxing gibbous': { element: 'Air', alchemical: 'Substance', intensity: 0.7 }
+    'full moon': { element: 'Water', alchemical: 'Essence', intensity: 0.8 }
+    'waning gibbous': { element: 'Water', alchemical: 'Essence', intensity: 0.7 }
+    'last quarter': { element: 'Earth', alchemical: 'Matter', intensity: 0.6 }
     'waning crescent': { element: 'Earth', alchemical: 'Matter', intensity: 0.7 }
-  },
+  }
 
   // Get lunar influence data or provide fallback
   const influence = lunarInfluences[lunarPhase] || {
     element: 'Water',
     alchemical: 'Essence',
     intensity: 0.5
-  },
+  }
 
   // Calculate boost based on lunar phase intensity
   // This will vary between 0.15 and 0.4 depending on the phase
   return 0.15 + ((influence as any)?.intensity || 0) * 0.2,
-},
+}
 
 /**
  * Get flavor boost from planetary associations
  */
-export const _getFlavorBoost = (_planet: Planet, _ingredient: unknown): number => {,
+export const _getFlavorBoost = (_planet: Planet, _ingredient: unknown): number => {
   const ingredientData = _ingredient  as {
     name?: string,
     planetaryRulers?: string[],
     elementalCharacter?: string
-  },
-  const elementBoost = planetaryFoodAssociations[_planet].elementalBoost || {},
+  }
+  const elementBoost = planetaryFoodAssociations[_planet].elementalBoost || {}
   return Object.entries(elementBoost).reduce((acc, [element, boost]) => {
     return acc + (ingredientData.elementalProperties?.[element] || 0) * (boost || 0)
   }, 0)
-},
+}
 
 /**
  * Get nutritional synergy between ingredient and planet
@@ -433,7 +433,7 @@ export const _getFlavorBoost = (_planet: Planet, _ingredient: unknown): number =
 export const _getNutritionalSynergy = (_planet: Planet, _ingredient: unknown): string[] => {
   // Implementation depends on your nutritional data
   return []
-},
+}
 
 /**
  * Format elemental balance for display
@@ -445,6 +445,6 @@ export const _formatelementalState = (elements: Partial<Record<string, number>>)
     .join(' · ')
 
   return validEntries,
-},
+}
 
 export default planetaryFoodAssociations,

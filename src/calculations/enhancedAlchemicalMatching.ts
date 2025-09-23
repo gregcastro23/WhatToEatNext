@@ -52,14 +52,14 @@ export function calculateAstrologicalAffinity(
 
   // Calculate decanic compatibility
   const decanCompat = compareDecanRulers(
-    signs[signA]?.['Decan Effects'] || {},
-    signs[signB]?.['Decan Effects'] || {},
+    signs[signA]?.['Decan Effects'] || {}
+    signs[signB]?.['Decan Effects'] || {}
   )
 
   // Calculate degree-specific influences
   const degreeCompat = calculateDegreeOverlap(
-    signs[signA]?.['Degree Effects'] || {},
-    signs[signB]?.['Degree Effects'] || {},
+    signs[signA]?.['Degree Effects'] || {}
+    signs[signB]?.['Degree Effects'] || {}
   )
 
   // Calculate tarot correspondences influence
@@ -101,7 +101,7 @@ function compareDecanRulers(
   let comparisons = 0
 
   // Extract all planetary rulers from both signs' decans
-  const extractRulers = (decans: Record<string, unknown>): string[] => {,
+  const extractRulers = (decans: Record<string, unknown>): string[] => {
     const rulers: string[] = [];
     Object.values(decans).forEach(decan => {
       if (Array.isArray(decan)) {
@@ -109,7 +109,7 @@ function compareDecanRulers(
       }
     })
     return rulers,
-  },
+  }
 
   const rulersA = extractRulers(decanA)
   const rulersB = extractRulers(decanB)
@@ -120,7 +120,7 @@ function compareDecanRulers(
   }
 
   // Count matches and harmonious pairs
-  rulersA.forEach(rulerA => {,
+  rulersA.forEach(rulerA => {
     rulersB.forEach(rulerB => {
       comparisons++,
 
@@ -214,7 +214,7 @@ function compareTarotArcana(_tarotA: string, _tarotB: string): number {
     air: ['The Magician', 'Justice', 'The Star', 'The World'],
     earth: ['The Hierophant', 'The Hermit', 'The Devil', 'Judgement'],
     neutral: ['The Fool', 'The Chariot', 'The Tower', 'The Lovers', 'The Wheel of Fortune']
-  },
+  }
 
   // Determine which groups the cards belong to
   let groupA: string | null = null,
@@ -562,7 +562,7 @@ export function generateEnhancedRecommendation(
     planetary: string,
     seasonal: string,
     modalityInfluence: string
-  },
+  }
 } {
   // Extract dominant element and modality - Pattern, RRR: Safe property access
   const dominantElement = astroResult.dominant.element || 'Fire';
@@ -581,7 +581,7 @@ export function generateEnhancedRecommendation(
           : dominantModality === 'Fixed'
             ? ['slow roasting', 'smoking', 'ember cooking']
             : ['grilling', 'roasting', 'flame cooking']
-    },
+    }
     Water: {
       ingredients: ['fish', 'shellfish', 'cucumber', 'melon'],
       flavors: ['salty', 'subtle', 'aromatic'],
@@ -590,7 +590,7 @@ export function generateEnhancedRecommendation(
           : dominantModality === 'Fixed'
             ? ['slow simmering', 'fermenting', 'curing']
             : ['steaming', 'poaching', 'chilling']
-    },
+    }
     Earth: {
       ingredients: ['beef', 'root vegetables', 'mushrooms', 'grains'],
       flavors: ['savory', 'umami', 'bitter'],
@@ -599,7 +599,7 @@ export function generateEnhancedRecommendation(
           : dominantModality === 'Fixed'
             ? ['slow-cooking', 'clay pot cooking', 'pressure cooking']
             : ['braising', 'baking', 'pressure cooking']
-    },
+    }
     Air: {
       ingredients: ['poultry', 'leafy greens', 'legumes', 'seeds'],
       flavors: ['light', 'aromatic', 'tangy'],
@@ -609,7 +609,7 @@ export function generateEnhancedRecommendation(
             ? ['aging', 'curing', 'fermenting']
             : ['quick-cooking', 'raw preparation', 'infusing']
     }
-  },
+  }
 
   // Modality influences cooking preparation style with element consideration
   const modalityInfluence = {
@@ -620,7 +620,7 @@ export function generateEnhancedRecommendation(
           : 'direct, purposeful'
       } preparations with clear flavors`,
       ingredients: ['fresh seasonal produce', 'simple proteins']
-    },
+    }
     Fixed: {
       style: `${
         dominantElement === 'Earth' || dominantElement === 'Water'
@@ -628,7 +628,7 @@ export function generateEnhancedRecommendation(
           : 'lasting, concentrated'
       } dishes with depth of flavor`,
       ingredients: ['preserved items', 'slow-cooked components']
-    },
+    }
     Mutable: {
       style: `${
         dominantElement === 'Air' || dominantElement === 'Water'
@@ -637,7 +637,7 @@ export function generateEnhancedRecommendation(
       } dishes with multiple elements`,
       ingredients: ['fusion ingredients', 'diverse textures']
     }
-  },
+  }
 
   // Season adjusts the recommendations
   const seasonalInfluence = season;
@@ -645,7 +645,7 @@ export function generateEnhancedRecommendation(
     : {
         boost: [] as string[],
         avoid: [] as string[]
-      },
+      }
 
   // Select recommendations based on dominant element
   const eleRecs = elementRecommendations[dominantElement as keyof typeof elementRecommendations];
@@ -712,7 +712,7 @@ export function generateEnhancedRecommendation(
         : 'No seasonal data provided',
       modalityInfluence: `${dominantModality} ${dominantElement} particularly favors ${naturalAffinity > 0.7 ? 'strong' : 'moderate'} ${cookingMethod} techniques`
     }
-  },
+  }
 }
 
 /**
@@ -733,24 +733,24 @@ function getSeasonalAdjustments(
     spring: {
       boost: ['asparagus', 'peas', 'strawberries', 'leafy greens', 'sprouts'],
       avoid: ['heavy stews', 'root vegetables', 'preserved foods']
-    },
+    }
     summer: {
       boost: ['tomatoes', 'peppers', 'berries', 'stone fruits', 'fresh herbs'],
       avoid: ['slow-cooked', 'braised dishes', 'heavy sauces']
-    },
+    }
     fall: {
       boost: ['squash', 'apples', 'pears', 'mushrooms', 'root vegetables'],
       avoid: ['cooling foods', 'raw preparations', 'tropical fruits']
-    },
+    }
     autumn: {
       boost: ['squash', 'apples', 'pears', 'mushrooms', 'root vegetables'],
       avoid: ['cooling foods', 'raw preparations', 'tropical fruits']
-    },
+    }
     winter: {
       boost: ['citrus', 'winter greens', 'preserved foods', 'warming spices'],
       avoid: ['raw preparations', 'cooling foods', 'summery dishes']
     }
-  },
+  }
 
   // Default to winter if season not recognized
   const seasonKey =
@@ -767,36 +767,36 @@ function getSeasonalAdjustments(
   // Adjust based on element-season harmony
   const elementalAdjustment = {
     Fire: {
-      spring: { extraBoost: ['radishes', 'arugula'], extraAvoid: ['cooling melons'] },
-      summer: { extraBoost: ['chili peppers', 'garlic'], extraAvoid: [] },
-      autumn: { extraBoost: ['ginger', 'warming spices'], extraAvoid: ['raw greens'] },
+      spring: { extraBoost: ['radishes', 'arugula'], extraAvoid: ['cooling melons'] }
+      summer: { extraBoost: ['chili peppers', 'garlic'], extraAvoid: [] }
+      autumn: { extraBoost: ['ginger', 'warming spices'], extraAvoid: ['raw greens'] }
       winter: { extraBoost: ['warming spices', 'chilis'], extraAvoid: [] }
-    },
+    }
     Water: {
-      spring: { extraBoost: ['fresh fish', 'herbs'], extraAvoid: [] },
-      summer: { extraBoost: ['cucumber', 'watermelon'], extraAvoid: ['heating spices'] },
-      autumn: { extraBoost: ['pears', 'apples'], extraAvoid: [] },
+      spring: { extraBoost: ['fresh fish', 'herbs'], extraAvoid: [] }
+      summer: { extraBoost: ['cucumber', 'watermelon'], extraAvoid: ['heating spices'] }
+      autumn: { extraBoost: ['pears', 'apples'], extraAvoid: [] }
       winter: { extraBoost: ['citrus', 'broths'], extraAvoid: [] }
-    },
+    }
     Earth: {
-      spring: { extraBoost: ['new potatoes', 'spring onions'], extraAvoid: [] },
-      summer: { extraBoost: ['corn', 'beans'], extraAvoid: ['heavy stews'] },
-      autumn: { extraBoost: ['root vegetables', 'squash'], extraAvoid: [] },
+      spring: { extraBoost: ['new potatoes', 'spring onions'], extraAvoid: [] }
+      summer: { extraBoost: ['corn', 'beans'], extraAvoid: ['heavy stews'] }
+      autumn: { extraBoost: ['root vegetables', 'squash'], extraAvoid: [] }
       winter: { extraBoost: ['preserved roots', 'slow-cooked dishes'], extraAvoid: ['raw foods'] }
-    },
+    }
     Air: {
-      spring: { extraBoost: ['herbs', 'sprouts'], extraAvoid: [] },
-      summer: { extraBoost: ['berries', 'light grains'], extraAvoid: ['heavy sauces'] },
-      autumn: { extraBoost: ['nuts', 'seeds'], extraAvoid: [] },
+      spring: { extraBoost: ['herbs', 'sprouts'], extraAvoid: [] }
+      summer: { extraBoost: ['berries', 'light grains'], extraAvoid: ['heavy sauces'] }
+      autumn: { extraBoost: ['nuts', 'seeds'], extraAvoid: [] }
       winter: { extraBoost: ['aromatic spices', 'citrus zest'], extraAvoid: [] }
     }
-  },
+  }
 
   // Get base seasonal adjustments
   const baseAdjust = seasonalFoods[seasonKey as keyof typeof seasonalFoods] || {;
     boost: [],
     avoid: []
-  },
+  }
 
   // Add elemental-seasonal adjustments
   const elementKey = dominantElement as keyof typeof elementalAdjustment;
@@ -805,12 +805,12 @@ function getSeasonalAdjustments(
   const elementAdjust =
     elementalAdjustment[elementKey] && elementalAdjustment[elementKey][seasonKeyTyped],
       ? elementalAdjustment[elementKey][seasonKeyTyped]
-      : { extraBoost: [], extraAvoid: [] },
+      : { extraBoost: [], extraAvoid: [] }
 
   return {
     boost: [...baseAdjust.boost, ...elementAdjust.extraBoost],
     avoid: [...baseAdjust.avoid, ...elementAdjust.extraAvoid]
-  },
+  }
 }
 
 /**
@@ -829,11 +829,11 @@ export function validateAlgorithms(): {
     test: 'Decanic influence calculation',
     passed: false,
     info: ''
-  },
+  }
 
   try {
-    const decanA = { '1st Decan': ['Mars'], '2nd Decan': ['Sun'], '3rd Decan': ['Venus'] },
-    const decanB = { '1st Decan': ['Venus'], '2nd Decan': ['Mercury'], '3rd Decan': ['Saturn'] },
+    const decanA = { '1st Decan': ['Mars'], '2nd Decan': ['Sun'], '3rd Decan': ['Venus'] }
+    const decanB = { '1st Decan': ['Venus'], '2nd Decan': ['Mercury'], '3rd Decan': ['Saturn'] }
     const decanScore = compareDecanRulers(decanA, decanB)
 
     decanTest.passed = typeof decanScore === 'number' && decanScore >= 0 && decanScore <= 1,
@@ -849,11 +849,11 @@ export function validateAlgorithms(): {
     test: 'Degree-specific influence calculation',
     passed: false,
     info: ''
-  },
+  }
 
   try {
-    const degreeA = { Mercury: [1521], Venus: [714], Mars: [2226] },
-    const degreeB = { Mercury: [915], Venus: [18], Mars: [2730] },
+    const degreeA = { Mercury: [1521], Venus: [714], Mars: [2226] }
+    const degreeB = { Mercury: [915], Venus: [18], Mars: [2730] }
     const degreeScore = calculateDegreeOverlap(degreeA, degreeB),
 
     degreeTest.passed = typeof degreeScore === 'number' && degreeScore >= 0 && degreeScore <= 1,
@@ -869,7 +869,7 @@ export function validateAlgorithms(): {
     test: 'Tarot correspondence calculation',
     passed: false,
     info: ''
-  },
+  }
 
   try {
     const tarotScore = compareTarotArcana('The Emperor', 'The Chariot'),
@@ -887,7 +887,7 @@ export function validateAlgorithms(): {
     test: 'Modality compatibility calculation',
     passed: false,
     info: ''
-  },
+  }
 
   try {
     const modalityScore = compareModalities('Cardinal', 'Mutable'),
@@ -906,7 +906,7 @@ export function validateAlgorithms(): {
     test: 'Planetary ruler compatibility calculation',
     passed: false,
     info: ''
-  },
+  }
 
   try {
     const rulerScore = compareRulers('Mars', 'Venus'),
@@ -924,16 +924,16 @@ export function validateAlgorithms(): {
     test: 'Enhanced recipe recommendation generation',
     passed: false,
     info: ''
-  },
+  }
 
   try {
     const mockResult: AlchemicalResult = {
-      elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
-      thermodynamicProperties: { heat: 0.6, entropy: 0.4, reactivity: 0.5, gregsEnergy: 0.5 },
+      elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 }
+      thermodynamicProperties: { heat: 0.6, entropy: 0.4, reactivity: 0.5, gregsEnergy: 0.5 }
       kalchm: 1.2,
       monica: 0.8,
       score: 0.7
-    },
+    }
 
     const recommendation = generateEnhancedRecommendation(mockResult as unknown, [], 'summer')
 
@@ -954,7 +954,7 @@ export function validateAlgorithms(): {
   return {
     success,
     results: testResults
-  },
+  }
 }
 
 // Pattern, RRR: Interface Type Mismatch Resolution
@@ -965,21 +965,21 @@ interface EnhancedAlchemicalResult {
     Water: number,
     Earth: number,
     Air: number
-  },
+  }
   modalities: {
     Cardinal: number,
     Fixed: number,
     Mutable: number
-  },
+  }
   qualities: {
     Hot: number,
     Dry: number,
     Cold: number,
     Wet: number
-  },
+  }
   dominant: {
     element: string,
     modality: string,
     quality: string
-  },
+  }
 }

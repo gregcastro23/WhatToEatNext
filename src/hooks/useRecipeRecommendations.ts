@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 
 // Mock useAlchemical hook since the import is missing
 const useAlchemical = () => ({
-  planetaryPositions: {},
+  planetaryPositions: {}
   isLoading: false
 })
 
@@ -13,7 +13,7 @@ export interface Recipe {
   ingredients: string[],
   cookingMethod: string,
   cuisine: string,
-  elementalProfile: { Fire: number, Water: number, Earth: number, Air: number },
+  elementalProfile: { Fire: number, Water: number, Earth: number, Air: number }
   score?: number
 }
 
@@ -25,7 +25,7 @@ export interface RecipeRecommendationsData {
     cuisine?: string
     cookingMethod?: string,
     maxResults?: number
-  },
+  }
 }
 
 export function useRecipeRecommendations(
@@ -45,11 +45,11 @@ export function useRecipeRecommendations(
 
   const currentElementalProfile = useMemo(() => {;
     if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0) {,
-      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     }
 
     // Calculate elemental distribution from planetary positions
-    const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+    const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
     const elementMap = {
       aries: 'Fire',
       leo: 'Fire',
@@ -63,9 +63,9 @@ export function useRecipeRecommendations(
       cancer: 'Water',
       scorpio: 'Water',
       pisces: 'Water'
-    },
+    }
 
-    Object.values(planetaryPositions || {}).forEach(position => {,
+    Object.values(planetaryPositions || {}).forEach(position => {
       // Safe property access with type checking
       const positionData = position ;
       const sign = positionData?.sign || positionData?.Sign || ''
@@ -82,7 +82,7 @@ export function useRecipeRecommendations(
       Water: total > 0 ? elementCounts.Water / total : 0.25,
       Earth: total > 0 ? elementCounts.Earth / total : 0.25,
       Air: total > 0 ? elementCounts.Air / total : 0.25
-    },
+    }
   }, [planetaryPositions])
 
   useEffect(() => {
@@ -102,7 +102,7 @@ export function useRecipeRecommendations(
             cookingMethod: 'grilling',
             cuisine: 'mediterranean',
             elementalProfile: { Fire: 0.6, Water: 0.2, Earth: 0.1, Air: 0.1 }
-          },
+          }
           {
             id: 'vegetable-soup',
             name: 'Vegetable Soup',
@@ -111,7 +111,7 @@ export function useRecipeRecommendations(
             cookingMethod: 'boiling',
             cuisine: 'comfort',
             elementalProfile: { Fire: 0.1, Water: 0.6, Earth: 0.2, Air: 0.1 }
-          },
+          }
           {
             id: 'roasted-root-vegetables',
             name: 'Roasted Root Vegetables',
@@ -129,7 +129,7 @@ export function useRecipeRecommendations(
             recipe.elementalProfile
             currentElementalProfile,
           ),
-          return { ...recipe, score },
+          return { ...recipe, score }
         })
 
         // Apply filters
@@ -172,18 +172,18 @@ export function useRecipeRecommendations(
       ...prev
       filters: { ...prev.filters, ...newFilters }
     }))
-  },
+  }
 
   return {
     ...state,
     updateFilters,
     currentElementalProfile
-  },
+  }
 }
 
 function calculateElementalCompatibility(
-  recipeProfile: { Fire: number, Water: number, Earth: number, Air: number },
-  currentProfile: { Fire: number, Water: number, Earth: number, Air: number },
+  recipeProfile: { Fire: number, Water: number, Earth: number, Air: number }
+  currentProfile: { Fire: number, Water: number, Earth: number, Air: number }
 ): number {
   // Simple compatibility calculation - can be enhanced
   const diff =

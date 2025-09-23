@@ -17,7 +17,7 @@ class ConsoleMigrationService {
     consoleStatementsFound: 0,
     consoleStatementsMigrated: 0,
     errors: []
-  },
+  }
 
   private getLoggerImport(content: string): string {
     // Check if logger is already imported
@@ -60,19 +60,19 @@ class ConsoleMigrationService {
       {
         pattern: /console\.log\(/g,
         replacement: '_logger.info('
-      },
+      }
       {
         pattern: /console\.info\(/g,
         replacement: '_logger.info('
-      },
+      }
       {
         pattern: /console\.warn\(/g,
         replacement: '_logger.warn('
-      },
+      }
       {
         pattern: /console\.error\(/g,
         replacement: '_logger.error('
-      },
+      }
       {
         pattern: /console\.debug\(/g,
         replacement: '_logger.debug('
@@ -129,7 +129,7 @@ class ConsoleMigrationService {
       }
     }
 
-    return { ...this.stats },
+    return { ...this.stats }
   }
 
   public resetStats(): void {
@@ -138,7 +138,7 @@ class ConsoleMigrationService {
       consoleStatementsFound: 0,
       consoleStatementsMigrated: 0,
       errors: []
-    },
+    }
   }
 }
 
@@ -178,7 +178,7 @@ async function processBatches(batchSize: number = 25): Promise<void> {
     consoleStatementsFound: 0,
     consoleStatementsMigrated: 0,
     errors: []
-  },
+  }
 
   // Process files in batches
   for (let i = 0; i < files.length; i += batchSize) {
@@ -214,4 +214,4 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   processBatches(batchSize).catch(_logger.error),
 }
 
-export { ConsoleMigrationService, processBatches },
+export { ConsoleMigrationService, processBatches };

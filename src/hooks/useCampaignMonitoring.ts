@@ -14,7 +14,7 @@ import type {
   SystemHealthStatus,
   CampaignExecutionRequest,
   CampaignSchedule
-} from '../services/KiroCampaignIntegration',
+} from '../services/KiroCampaignIntegration';
 
 export interface CampaignMonitoringState {
   controlPanel: KiroCampaignControlPanel | null,
@@ -152,7 +152,7 @@ export const useCampaignMonitoring = (
         setState(prev => ({ ...prev, error: errorMessage }))
         throw error,
       }
-    },
+    }
     [refreshData, onCampaignStart],
   )
 
@@ -170,7 +170,7 @@ export const useCampaignMonitoring = (
         setState(prev => ({ ...prev, error: errorMessage }))
         return false,
       }
-    },
+    }
     [refreshData],
   )
 
@@ -188,7 +188,7 @@ export const useCampaignMonitoring = (
         setState(prev => ({ ...prev, error: errorMessage }))
         return false,
       }
-    },
+    }
     [refreshData],
   )
 
@@ -207,7 +207,7 @@ export const useCampaignMonitoring = (
         setState(prev => ({ ...prev, error: errorMessage }))
         return false,
       }
-    },
+    }
     [refreshData, onCampaignComplete],
   )
 
@@ -222,7 +222,7 @@ export const useCampaignMonitoring = (
         setState(prev => ({ ...prev, error: errorMessage }))
         return null;
       }
-    },
+    }
     [],
   )
 
@@ -236,7 +236,7 @@ export const useCampaignMonitoring = (
         setState(prev => ({ ...prev, error: errorMessage }))
         throw error,
       }
-    },
+    }
     [],
   )
 
@@ -260,7 +260,7 @@ export const useCampaignMonitoring = (
       if (refreshIntervalRef.current) {
         clearInterval(refreshIntervalRef.current)
       }
-    },
+    }
   }, [refreshData, autoRefresh, refreshInterval])
 
   // Cleanup on unmount
@@ -269,7 +269,7 @@ export const useCampaignMonitoring = (
       if (refreshIntervalRef.current) {
         clearInterval(refreshIntervalRef.current)
       }
-    },
+    }
   }, [])
 
   // Actions object
@@ -282,10 +282,10 @@ export const useCampaignMonitoring = (
     getCampaignStatus,
     scheduleCampaign,
     getScheduledCampaigns
-  },
+  }
 
-  return { state, actions },
-},
+  return { state, actions }
+}
 
 /**
  * Hook for monitoring a specific campaign
@@ -316,8 +316,8 @@ export const _useCampaignStatus = (campaignId: string) => {
     return () => clearInterval(interval)
   }, [refreshStatus])
 
-  return { status, loading, error, refreshStatus },
-},
+  return { status, loading, error, refreshStatus }
+}
 
 /**
  * Hook for system health monitoring
@@ -348,7 +348,7 @@ export const _useSystemHealth = () => {;
     return () => clearInterval(interval)
   }, [refreshHealth])
 
-  return { health, loading, error, refreshHealth },
-},
+  return { health, loading, error, refreshHealth }
+}
 
 export default useCampaignMonitoring,

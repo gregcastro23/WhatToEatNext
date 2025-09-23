@@ -14,7 +14,7 @@ import {
   CodeDomain,
   DocumentationReport,
   DocumentationValidation
-} from './types',
+} from './types';
 
 export interface QualityAssuranceConfig {
   sourceDirectories: string[],
@@ -25,7 +25,7 @@ export interface QualityAssuranceConfig {
     excellent: number,
     good: number,
     fair: number
-  },
+  }
 }
 
 export interface UndocumentedAnyType {
@@ -70,9 +70,9 @@ export class DocumentationQualityAssurance {
         excellent: 90,
         good: 70,
         fair: 50
-      },
+      }
       ...config
-    },
+    }
   }
 
   /**
@@ -86,7 +86,7 @@ export class DocumentationQualityAssurance {
       fair: 0,
       good: 0,
       excellent: 0
-    },
+    }
 
     let totalAnyTypes = 0,
     let documentedTypes = 0,
@@ -135,7 +135,7 @@ export class DocumentationQualityAssurance {
         qualityBreakdown,
         undocumentedTypes,
       )
-    },
+    }
   }
 
   /**
@@ -186,7 +186,7 @@ export class DocumentationQualityAssurance {
       eslintDisableHasExplanation,
       isComplete,
       suggestions
-    },
+    }
 
     this.qualityCache.set(cacheKey, validation)
     return validation,
@@ -206,7 +206,7 @@ export class DocumentationQualityAssurance {
       fair: 0,
       good: 0,
       excellent: 0
-    },
+    }
     let totalQualityScore = 0,
 
     for (const filePath of files) {
@@ -247,7 +247,7 @@ export class DocumentationQualityAssurance {
       qualityDistribution,
       averageQualityScore,
       compliancePercentage
-    },
+    }
   }
 
   /**
@@ -337,7 +337,7 @@ export class DocumentationQualityAssurance {
                 suggestedTypes: [],
                 preservationReasons: []
               }
-            },
+            }
             anyTypes.push(context)
           }
         }
@@ -361,7 +361,7 @@ export class DocumentationQualityAssurance {
         return {
           comment: line.replace(/^\/\/\s*/, ''),
           hasComment: true
-        },
+        }
       }
       if (line && line.startsWith('/*')) {
         // Handle multi-line comments
@@ -377,11 +377,11 @@ export class DocumentationQualityAssurance {
         return {
           comment: comment.trim(),
           hasComment: true
-        },
+        }
       }
     }
 
-    return { comment: '', hasComment: false },
+    return { comment: '', hasComment: false }
   }
 
   /**
@@ -487,7 +487,7 @@ export class DocumentationQualityAssurance {
    * Get numeric quality score
    */
   private getQualityScore(quality: 'poor' | 'fair' | 'good' | 'excellent'): number {
-    const scores = { poor: 25, fair: 50, good: 75, excellent: 100 },
+    const scores = { poor: 25, fair: 50, good: 75, excellent: 100 }
     return scores[quality],
   }
 

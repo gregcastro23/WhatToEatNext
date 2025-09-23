@@ -13,7 +13,7 @@ import {
     ClassificationContext,
     CodeDomain,
     TypeReplacement
-} from '../types',
+} from '../types';
 
 describe('Domain-Specific Testing', () => {
   let classifier: AnyTypeClassifier
@@ -46,7 +46,7 @@ describe('Domain-Specific Testing', () => {
       intentionalityHints: [],
       suggestedTypes: [],
       preservationReasons: []
-    },
+    }
   })
 
   describe('Astrological Code Analysis and Preservation', () => {
@@ -57,7 +57,7 @@ describe('Domain-Specific Testing', () => {
           'src/calculations/planetary/positions.ts',
           CodeDomain.ASTROLOGICAL,
           [
-            'import { getReliablePlanetaryPositions } from '@/utils/reliableAstronomy',';
+            'import { getReliablePlanetaryPositions } from '@/utils/reliableAstronomy';';
             'export async function calculateCurrentPositions() : any {'
           ]
         )
@@ -80,7 +80,7 @@ describe('Domain-Specific Testing', () => {
           'src/calculations/ephemeris/calculator.ts',
           CodeDomain.ASTROLOGICAL,
           [
-            'import { astronomyEngine } from 'astronomy-engine',';
+            'import { astronomyEngine } from 'astronomy-engine';';
             'function calculateTransits(startDate: Date, endDate: Date) : any {'
           ]
         )
@@ -133,7 +133,7 @@ describe('Domain-Specific Testing', () => {
           'src/calculations/elemental/harmony.ts',
           CodeDomain.ASTROLOGICAL,
           [
-            'import { ElementalProperties } from '@/types',';
+            'import { ElementalProperties } from '@/types';';
             'function calculateCompatibility(source: ElementalProperties, target: ElementalProperties): any {'
           ]
         )
@@ -218,7 +218,7 @@ describe('Domain-Specific Testing', () => {
           'src/calculations/houses/systems.ts',
           CodeDomain.ASTROLOGICAL,
           [
-            'import { HouseSystem } from '@/types/astrology',';
+            'import { HouseSystem } from '@/types/astrology';';
             'export function calculateHouses(lat: number, lon: number, time: Date): any {'
           ]
         )
@@ -254,7 +254,7 @@ describe('Domain-Specific Testing', () => {
           'src/data/ingredients/processor.ts',
           CodeDomain.RECIPE,
           [
-            'import { Ingredient } from '@/types',';
+            'import { Ingredient } from '@/types';';
             'export function processIngredient(name: string): Ingredient {'
           ]
         )
@@ -326,7 +326,7 @@ describe('Domain-Specific Testing', () => {
           'src/data/nutrition/calculatorts',
           CodeDomain.RECIPE,
           [
-            'import { NutritionalInfo } from '@/types',';
+            'import { NutritionalInfo } from '@/types';';
             'function calculateNutrition(ingredient: Ingredient): NutritionalInfo {'
           ]
         )
@@ -344,7 +344,7 @@ describe('Domain-Specific Testing', () => {
           'src/data/recipes/builder.ts',
           CodeDomain.RECIPE,
           [
-            'import { Recipe, Ingredient, CookingInstruction } from '@/types',';
+            'import { Recipe, Ingredient, CookingInstruction } from '@/types';';
             'export function buildRecipe(ingredients: Ingredient[], instructions: CookingInstruction[]): Recipe {'
           ]
         )
@@ -360,7 +360,7 @@ describe('Domain-Specific Testing', () => {
           'src/data/cooking/methods.ts',
           CodeDomain.RECIPE,
           [
-            'import { CookingMethod } from '@/types',';
+            'import { CookingMethod } from '@/types';';
             'export function selectOptimalMethod(ingredients: Ingredient[]): CookingMethod {'
           ]
         )
@@ -376,7 +376,7 @@ describe('Domain-Specific Testing', () => {
           'src/data/cuisines/classifier.ts',
           CodeDomain.RECIPE,
           [
-            'import { CuisineType } from '@/types',';
+            'import { CuisineType } from '@/types';';
             'function classifyCuisine(recipe: Recipe): CuisineType {'
           ]
         )
@@ -517,7 +517,7 @@ describe('Domain-Specific Testing', () => {
           'src/services/campaign/ProgressTracker.ts',
           CodeDomain.CAMPAIGN,
           [
-            'import { ProgressMetrics } from '@/types',';
+            'import { ProgressMetrics } from '@/types';';
             'function calculateProgress(): ProgressMetrics {'
           ]
         )
@@ -549,7 +549,7 @@ describe('Domain-Specific Testing', () => {
           'src/services/campaign/TypeScriptErrorAnalyzer.ts',
           CodeDomain.CAMPAIGN,
           [
-            'import { TypeScriptError } from '@/types',';
+            'import { TypeScriptError } from '@/types';';
             'function analyzeTypeScriptErrors(): TypeScriptError[] {'
           ]
         )
@@ -677,7 +677,7 @@ describe('Domain-Specific Testing', () => {
           } else if (contextfilePath.includes('Recipe')) {
             expect(classification.suggestedReplacement).toBe('RecipeService').
           }
-        },
+        }
       })
 
       test('should preserve external service integration flexibility', async () => {
@@ -788,7 +788,7 @@ describe('Domain-Specific Testing', () => {
           'src/services/validation/SchemaBuilder.ts',
           CodeDomain.SERVICE,
           [
-            'import { ValidationSchema } from '@/types',';
+            'import { ValidationSchema } from '@/types';';
             'function buildValidationSchema(rules: ValidationRule[]): ValidationSchema {'
           ]
         )
@@ -822,7 +822,7 @@ describe('Domain-Specific Testing', () => {
           'src/services/errors/ApiErrorHandler.ts',
           CodeDomain.SERVICE,
           [
-            'import { ApiError } from '@/types',';
+            'import { ApiError } from '@/types';';
             'function handleApiError(response: Response): ApiError {'
           ]
         )
@@ -879,7 +879,7 @@ describe('Domain-Specific Testing', () => {
           lineNumber: 1,
           confidence: 0.9,
           validationRequired: true
-        },
+        }
         {
           original: 'any',
           replacement: 'PlanetaryPosition',
@@ -887,7 +887,7 @@ describe('Domain-Specific Testing', () => {
           lineNumber: 1,
           confidence: 0.8,
           validationRequired: true
-        },
+        }
         {
           original: 'any',
           replacement: 'ProgressMetrics',

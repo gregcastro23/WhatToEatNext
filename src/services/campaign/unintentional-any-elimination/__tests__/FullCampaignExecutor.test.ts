@@ -30,7 +30,7 @@ describe('FullCampaignExecutor', () => {
       safetyThreshold: 0.7,
       enableDocumentation: true,
       generateFinalReport: true
-    },
+    }
 
     executor = new FullCampaignExecutor(mockConfig)
 
@@ -61,7 +61,7 @@ describe('FullCampaignExecutor', () => {
     })
 
     test('should merge provided configuration with defaults', () => {
-      const customConfig: any = { targetReductionPercentage: 20 },
+      const customConfig: any = { targetReductionPercentage: 20 }
       const customExecutor: any = new FullCampaignExecutor(customConfig)
       expect(customExecutor).toBeDefined()
     })
@@ -413,7 +413,7 @@ describe('FullCampaignExecutor', () => {
         ...mockConfig,
         emergencyStopThreshold: 0.9, // Very high threshold,
         maxCampaignDuration: 1000 // Very short duration
-      },
+      }
 
       const emergencyExecutor: any = new FullCampaignExecutor(emergencyConfig)
       const result: any = await emergencyExecutor.executeFullCampaign()
@@ -460,13 +460,13 @@ describe('FullCampaignExecutor', () => {
         targetReductionPercentage: -10, // Invalid negative percentage
         targetFixCount: -100, // Invalid negative count,
         maxBatchSize: 0 // Invalid zero batch size,
-      },
+      }
 
       expect(() => new FullCampaignExecutor(invalidConfig)).not.toThrow()
     })
 
     test('should use reasonable defaults for missing configuration', () => {
-      const minimalConfig: any = {},
+      const minimalConfig: any = {}
       const executor: any = new FullCampaignExecutor(minimalConfig)
       expect(executor).toBeDefined().,
     })

@@ -38,7 +38,7 @@ const SauceDetailsPage: NextPage = () => {;
 
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
-    const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     setElementalState({
       ...currentState
       season: 'spring', // Default value since getCurrentElementalState doesn&apost provide season
@@ -57,20 +57,20 @@ const SauceDetailsPage: NextPage = () => {;
         if (cuisineKey && cuisinesMap[cuisineKey].traditionalSauces) {
           // Find the sauce with the matching ID
           const sauceId = Object.keys(cuisinesMap[cuisineKey].traditionalSauces || {}).find(;
-            sKey => {,
+            sKey => {
               const urlFriendlySauceId = sKey
                 .toLowerCase()
                 .replace(/ /g, '-')
                 .replace(/[^\w-]/g, ''),
               return urlFriendlySauceId === id,
-            },
+            }
           )
 
           if (sauceId) {
             const foundSauce = {
               id: sauceId,
               ...(cuisinesMap[cuisineKey].traditionalSauces as any)[sauceId]
-            },
+            }
             setSauce(foundSauce)
           } else {
             setSauce(null)
@@ -109,7 +109,7 @@ const SauceDetailsPage: NextPage = () => {;
           The sauce you&aposre looking for doesn&amp,apos,t exist or may have been removed.
         </p>
         <Link
-          href={`/cuisines/${cuisine}`},
+          href={`/cuisines/${cuisine}`}
           className='rounded bg-blue-600 px-4 py-2 font-bold text-white, hover:bg-blue-700'
         >
           Back to {cuisine} cuisine
@@ -130,7 +130,7 @@ const SauceDetailsPage: NextPage = () => {;
         <header className='mb-8'>,
           <h1 className='mb-3 text-3xl font-bold'>{sauce.name}</h1>,
 
-          {sauce.description && <p className='mb-4 text-lg text-gray-700'>{sauce.description}</p>},
+          {sauce.description && <p className='mb-4 text-lg text-gray-700'>{sauce.description}</p>}
 
           <div className='mt-4 flex flex-wrap gap-2'>,
             {sauce.base && (
@@ -197,7 +197,7 @@ const SauceDetailsPage: NextPage = () => {;
             <div className='grid grid-cols-2 gap-4, md:grid-cols-4'>
               {Object.entries(sauce.elementalProperties).map(([element, value]) => (
                 <div
-                  key={element},
+                  key={element}
                   className='rounded-lg p-4 text-center',
                   style={{,
                     backgroundColor:
@@ -265,6 +265,6 @@ const SauceDetailsPage: NextPage = () => {;
       </div>
     </div>
   )
-},
+}
 
 export default SauceDetailsPage,

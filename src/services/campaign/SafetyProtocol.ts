@@ -18,7 +18,7 @@ import {
   SafetyEventType,
   SafetySettings,
   ValidationResult
-} from '../../types/campaign',
+} from '../../types/campaign';
 
 export class SafetyProtocol {
   private settings: SafetySettings
@@ -65,7 +65,7 @@ export class SafetyProtocol {
         timestamp: new Date(),
         branch: this.getCurrentBranch(),
         ref: stashRef
-      },
+      }
 
       this.stashes.set(stashName, stash)
       this.saveStashTracking()
@@ -267,7 +267,7 @@ export class SafetyProtocol {
       corruptionPatterns,
       severity: maxSeverity,
       recommendedAction
-    },
+    }
 
     if (detectedFiles.length > 0) {
       this.addSafetyEvent({
@@ -339,7 +339,7 @@ export class SafetyProtocol {
       corruptionPatterns,
       severity: maxSeverity,
       recommendedAction
-    },
+    }
   }
 
   /**
@@ -419,7 +419,7 @@ export class SafetyProtocol {
           corruptionPatterns,
           severity: maxSeverity,
           recommendedAction: RecoveryAction.CONTINUE
-        },
+        }
       }
 
       const tscOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
@@ -469,7 +469,7 @@ export class SafetyProtocol {
       corruptionPatterns,
       severity: maxSeverity,
       recommendedAction
-    },
+    }
   }
 
   /**
@@ -522,7 +522,7 @@ export class SafetyProtocol {
           success: false,
           errors: ['Not a git repository'],
           warnings: []
-        },
+        }
       }
 
       // Check for uncommitted changes
@@ -538,13 +538,13 @@ export class SafetyProtocol {
         success: true,
         errors: [],
         warnings
-      },
+      }
     } catch (error) {
       return {
         success: false,
         errors: [`Git validation failed: ${(error as any).message || 'Unknown error'}`],
         warnings: []
-      },
+      }
     }
   }
 
@@ -625,7 +625,7 @@ export class SafetyProtocol {
     newestStash?: Date
   } {
     const stashes = Array.from(this.stashes.values())
-    const byPhase: Record<string, number> = {},
+    const byPhase: Record<string, number> = {}
 
     // Count stashes by phase
     for (const stash of stashes) {
@@ -647,7 +647,7 @@ export class SafetyProtocol {
       byPhase,
       oldestStash,
       newestStash
-    },
+    }
   }
 
   /**
@@ -675,22 +675,22 @@ export class SafetyProtocol {
         regex: /import @\/types\s+from '[^']*'\s*,/g;
         description: 'Corrupted type import statement';
         severity: CorruptionSeverity.HIGH
-      },
+      }
       {
         regex: /import @\/services\s+from '[^']*'\s*,/g;
         description: 'Corrupted service import statement';
         severity: CorruptionSeverity.HIGH
-      },
+      }
       {
         regex: /<<<<<<|>>>>>>|======/g,
         description: 'Git merge conflict markers',
         severity: CorruptionSeverity.CRITICAL
-      },
+      }
       {
         regex: /\bposit:\s*anyi:\s*anyo:\s*anyn:\s*anys:/g,
         description: 'Corrupted parameter names',
         severity: CorruptionSeverity.MEDIUM
-      },
+      }
       {
         regex: /\bcate:\s*anyg:\s*anyo:\s*anyr:\s*anyy:/g,
         description: 'Corrupted parameter names',
@@ -734,7 +734,7 @@ export class SafetyProtocol {
       severity = CorruptionSeverity.HIGH,
     }
 
-    return { patterns, severity },
+    return { patterns, severity }
   }
 
   private hasSyntaxCorruption(content: string): boolean {
@@ -780,67 +780,67 @@ export class SafetyProtocol {
         regex: /import\s+\{\s*\}\s+from\s+[''][^'']*[''];?/g;
         description: 'Empty import statement';
         severity: CorruptionSeverity.MEDIUM
-      },
+      }
       {
         regex: /import\s+[^{]*\s+from\s+['']undefined[''],?/g;
         description: 'Import from undefined module',
         severity: CorruptionSeverity.HIGH
-      },
+      }
       {
         regex: /import\s+[^{]*\s+from\s+['']['']\s*,?/g;
         description: 'Import from empty string',
         severity: CorruptionSeverity.HIGH
-      },
+      }
       {
         regex: /export\s+\{\s*\}\s*;?/g,
         description: 'Empty export statement',
         severity: CorruptionSeverity.MEDIUM
-      },
+      }
       {
         regex: /import\s+[^{]*\s+from\s+[''][^'']*['']\s+from\s+[''][^'']*[''],?/g;
         description: 'Duplicate from clause in import';
         severity: CorruptionSeverity.HIGH
-      },
+      }
       {
         regex: /import\s*\{\s*[^}]*,\s*,\s*[^}]*\}\s*from/g;
         description: 'Double comma in import destructuring';
         severity: CorruptionSeverity.HIGH
-      },
+      }
       {
         regex: /import\s*\{\s*[^}]*\s+as\s+as\s+[^}]*\}\s*from/g;
         description: 'Duplicate 'as' keyword in import';
         severity: CorruptionSeverity.HIGH
-      },
+      }
       {
         regex: /export\s*\{\s*[^}]*,\s*,\s*[^}]*\}/g,
         description: 'Double comma in export destructuring',
         severity: CorruptionSeverity.HIGH
-      },
+      }
       {
         regex: /import\s+[^{]*\s+from\s+['']@\/[^'']*\s+@\/[^'']*[''],?/g;
         description: 'Corrupted path alias in import';
         severity: CorruptionSeverity.HIGH
-      },
+      }
       {
         regex: /import\s+[^{]*\s+from\s+[''][^'']*\.\.[^'']*\.\.[^'']*[''],?/g;
         description: 'Corrupted relative path with multiple ..',
         severity: CorruptionSeverity.MEDIUM
-      },
+      }
       {
         regex: /import\s*\{\s*[^}]*\s*\}\s*\{\s*[^}]*\s*\}\s*from/g;
         description: 'Duplicate destructuring braces in import';
         severity: CorruptionSeverity.CRITICAL
-      },
+      }
       {
         regex: /export\s+default\s+default\s+/g,
         description: 'Duplicate default keyword in export',
         severity: CorruptionSeverity.HIGH
-      },
+      }
       {
         regex: /import\s+type\s+type\s+/g;
         description: 'Duplicate type keyword in import';
         severity: CorruptionSeverity.HIGH
-      },
+      }
       {
         regex: /import\s*\*\s+as\s+\*\s+as\s+/g;
         description: 'Corrupted namespace import syntax';
@@ -894,7 +894,7 @@ export class SafetyProtocol {
       }
     }
 
-    return { patterns, severity },
+    return { patterns, severity }
   }
 
   private determineRecoveryAction(severity: CorruptionSeverity, fileCount: number): RecoveryAction {
@@ -962,7 +962,7 @@ export class SafetyProtocol {
             timestamp: string,
             branch: string,
             ref?: string
-          },
+          }
           this.stashes.set(id, {
             ...stash,
             timestamp: new Date(stash.timestamp)
@@ -996,7 +996,7 @@ export class SafetyProtocol {
         counter: this.stashCounter,
         stashes: Object.fromEntries(this.stashes.entries()),
         lastUpdated: new Date().toISOString()
-      },
+      }
 
       fs.writeFileSync(stashTrackingPath, JSON.stringify(data, null, 2))
     } catch (error) {

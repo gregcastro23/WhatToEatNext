@@ -309,12 +309,12 @@ export interface DomainDistribution {
     intentional: {
       count: number,
       percentage: number
-    },
+    }
     unintentional: {
       count: number,
       percentage: number
-    },
-  },
+    }
+  }
   analysisDate: Date
 }
 
@@ -338,7 +338,7 @@ export interface ClassificationAccuracyReport {
     crossValidation: any,
     edgeCaseAnalysis: any,
     domainSpecificAccuracy: any
-  },
+  }
 }
 
 export interface SuccessRateAnalysis {
@@ -367,7 +367,7 @@ export interface TrendingData {
     totalAnyTypesChange: number,
     unintentionalCountChange: number,
     classificationAccuracyChange: number
-  },
+  }
 }
 
 export interface ManualReviewRecommendation {
@@ -401,7 +401,7 @@ export interface AnalysisReport {
     baselineMetrics: BaselineMetrics,
     successPrediction: SuccessRatePrediction,
     recommendations: string[]
-  },
+  }
   summary: {
     totalAnyTypes: number,
     unintentionalCount: number,
@@ -410,7 +410,7 @@ export interface AnalysisReport {
     manualReviewCases: number,
     topDomain: CodeDomain,
     topCategory: AnyTypeCategory
-  },
+  }
 }
 
 export interface AnalysisMetrics {
@@ -543,7 +543,7 @@ export interface SuccessRatePrediction {
   currentSuccessRate?: number,
   estimatedSuccessRate: number,
   projectedSuccessRate?: any,
-  confidenceInterval: { lower: number, upper: number },
+  confidenceInterval: { lower: number, upper: number }
   riskFactors: string[],
   estimatedTimeToComplete: number, // in minutes
   timeToTarget?: any,

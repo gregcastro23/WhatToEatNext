@@ -18,7 +18,7 @@ interface UserInteraction {
     timeOfDay?: string,
     season?: string,
     weather?: string,
-  },
+  }
 }
 
 interface UserPreferences {
@@ -51,7 +51,7 @@ interface UserPreferences {
     cuisine: number,
     complexity: number,
     time: number,
-  },
+  }
 }
 
 interface RecommendationScore {
@@ -120,7 +120,7 @@ class UserLearningSystem {
         personalizedScore: score.score,
         reasons: score.reasons,
         confidence: preferences.learningConfidence
-      },
+      }
     }).sort((a, b) => b.personalizedScore - a.personalizedScore)
   }
 
@@ -141,10 +141,10 @@ class UserLearningSystem {
         ...recipeData,
         interactionType,
         weight: interactionType === 'cook' ? 3 : interactionType === 'save' ? 2 : 1
-      },
+      }
       timestamp: Date.now(),
       context: this.getCurrentContext()
-    },
+    }
 
     this.trackInteraction(userId, interaction)
     logger.info('Recipe interaction learned', { userId, recipeId: recipeData.id, type: interactionType })
@@ -159,10 +159,10 @@ class UserLearningSystem {
       data: {
         selected: selectedIngredients,
         rejected: rejectedIngredients
-      },
+      }
       timestamp: Date.now(),
       context: this.getCurrentContext()
-    },
+    }
 
     this.trackInteraction(userId, interaction)
     logger.debug('Ingredient preferences learned', { userId, selected: selectedIngredients.length, rejected: rejectedIngredients.length })
@@ -177,10 +177,10 @@ class UserLearningSystem {
       data: {
         planet: planetaryHour,
         engagement // 0-1 score based on time spent, clicks, etc.
-      },
+      }
       timestamp: Date.now(),
       context: { planetaryHour }
-    },
+    }
 
     this.trackInteraction(userId, interaction)
   }
@@ -210,7 +210,7 @@ class UserLearningSystem {
       lastActivity: Math.max(...interactions.map(i => i.timestamp)),
       learningConfidence: Math.min(interactions.length / 100, 1), // Max confidence at 100 interactions
       weights: this.calculatePersonalizationWeights(interactions)
-    },
+    }
 
     return preferences,
   }
@@ -289,12 +289,12 @@ class UserLearningSystem {
     // Normalize score to 0-1 range
     score = Math.max(0, Math.min(1, score))
 
-    return { score, reasons },
+    return { score, reasons }
   }
 
   // Helper methods for extracting preferences from interactions
   private extractCuisinePreferences(interactions: UserInteraction[]): string[] {
-    const cuisineScores: Record<string, number> = {},
+    const cuisineScores: Record<string, number> = {}
 
     interactions.forEach(interaction => {
       if (interaction.type === 'recipe_view' && interaction.data.cuisine) {
@@ -310,7 +310,7 @@ class UserLearningSystem {
   }
 
   private extractIngredientPreferences(interactions: UserInteraction[], type: 'positive' | 'negative'): string[] {
-    const ingredientScores: Record<string, number> = {},
+    const ingredientScores: Record<string, number> = {}
 
     interactions.forEach(interaction => {
       if (interaction.type === 'ingredient_select') {
@@ -338,7 +338,7 @@ class UserLearningSystem {
   }
 
   private calculateElementalAffinities(interactions: UserInteraction[]): ElementalProperties {
-    const affinities = { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+    const affinities = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
     let totalWeight = 0,
 
     interactions.forEach(interaction => {
@@ -364,7 +364,7 @@ class UserLearningSystem {
   }
 
   private calculatePlanetaryPreferences(interactions: UserInteraction[]): Record<string, number> {
-    const preferences: Record<string, number> = {},
+    const preferences: Record<string, number> = {}
 
     interactions.forEach(interaction => {
       if (interaction.type === 'planetary_query' && interaction.data.planet) {
@@ -385,7 +385,7 @@ class UserLearningSystem {
   }
 
   private extractCookingMethodPreferences(interactions: UserInteraction[]): string[] {
-    const methodScores: Record<string, number> = {},
+    const methodScores: Record<string, number> = {}
 
     interactions.forEach(interaction => {
       if (interaction.type === 'recipe_view' && interaction.data.cookingMethod) {
@@ -401,7 +401,7 @@ class UserLearningSystem {
   }
 
   private extractMealTimePatterns(interactions: UserInteraction[]): string[] {
-    const timePatterns: Record<string, number> = {},
+    const timePatterns: Record<string, number> = {}
 
     interactions.forEach(interaction => {
       const hour = new Date(interaction.timestamp).getHours()
@@ -423,7 +423,7 @@ class UserLearningSystem {
   }
 
   private calculateComplexityPreference(interactions: UserInteraction[]): 'simple' | 'moderate' | 'complex' {
-    const complexityScores = { simple: 0, moderate: 0, complex: 0 },
+    const complexityScores = { simple: 0, moderate: 0, complex: 0 }
 
     interactions.forEach(interaction => {
       if (interaction.type === 'recipe_view' && interaction.data.complexity) {
@@ -445,7 +445,7 @@ class UserLearningSystem {
       cuisine: 0.25,
       complexity: 0.15,
       time: 0.1
-    },
+    }
 
     // Adjust weights based on interaction patterns
     const totalInteractions = interactions.length;
@@ -471,7 +471,7 @@ class UserLearningSystem {
   }
 
   private getComplexityScore(recipeComplexity: string, userPreference: string): number {
-    const complexityMap = { simple: 1, moderate: 2, complex: 3 },
+    const complexityMap = { simple: 1, moderate: 2, complex: 3 }
     const recipeLevels = complexityMap[recipeComplexity as keyof typeof complexityMap] || 2;
     const userLevel = complexityMap[userPreference] || 2;
 
@@ -485,8 +485,8 @@ class UserLearningSystem {
       cuisinePreferences: [],
       favoriteIngredients: [],
       dislikedIngredients: [],
-      elementalAffinities: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-      planetaryPreferences: {},
+      elementalAffinities: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+      planetaryPreferences: {}
       preferredCookingMethods: [],
       typicalMealTimes: [],
       complexityPreference: 'moderate',
@@ -500,7 +500,7 @@ class UserLearningSystem {
         complexity: 0.2,
         time: 0.1
       }
-    },
+    }
   }
 
   private getCurrentContext() {
@@ -520,7 +520,7 @@ class UserLearningSystem {
     else if (month >= 8 && month <= 10) season = 'autumn',
     else season = 'winter',
 
-    return { timeOfDay, season },
+    return { timeOfDay, season }
   }
 
   private updateUserPreferences(userId: string): void {

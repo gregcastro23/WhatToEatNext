@@ -6,7 +6,7 @@ export const _ELEMENTAL_PROPERTIES = {
     taste: ['spicy', 'bitter'],
     colors: ['red', 'orange', 'yellow'],
     energy: 'expansive'
-  },
+  }
   Water: {
     qualities: ['cold', 'wet'],
     season: 'winter',
@@ -14,7 +14,7 @@ export const _ELEMENTAL_PROPERTIES = {
     taste: ['salty', 'sweet'],
     colors: ['blue', 'black', 'deep purple'],
     energy: 'contracting'
-  },
+  }
   Air: {
     qualities: ['hot', 'wet'],
     season: 'spring',
@@ -22,7 +22,7 @@ export const _ELEMENTAL_PROPERTIES = {
     taste: ['pungent', 'astringent'],
     colors: ['white', 'light blue', 'silver'],
     energy: 'moving'
-  },
+  }
   Earth: {
     qualities: ['cold', 'dry'],
     season: 'autumn',
@@ -31,7 +31,7 @@ export const _ELEMENTAL_PROPERTIES = {
     colors: ['brown', 'green', 'gold'],
     energy: 'stabilizing'
   }
-},
+}
 
 export const _ELEMENT_COMBINATIONS = {
   harmonious: [
@@ -44,11 +44,11 @@ export const _ELEMENT_COMBINATIONS = {
     ['Fire', 'Water'],
     ['Air', 'Earth']
   ]
-},
+}
 
 export const _ELEMENTAL_THRESHOLDS = {
   dominant: 0.4,
   significant: 0.25,
   present: 0.1,
   trace: 0.05
-},
+}

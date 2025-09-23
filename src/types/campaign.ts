@@ -57,24 +57,24 @@ export interface ProgressMetrics {
     target: number,
     reduction: number,
     percentage: number
-  },
+  }
   lintingWarnings: {
     current: number,
     target: number,
     reduction: number,
     percentage: number
-  },
+  }
   buildPerformance: {
     currentTime: number,
     targetTime: number,
     cacheHitRate: number,
     memoryUsage: number
-  },
+  }
   enterpriseSystems: {
     current: number,
     target: number,
     transformedExports: number
-  },
+  }
 }
 
 export interface PhaseResult {

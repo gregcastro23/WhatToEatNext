@@ -30,7 +30,7 @@ import {
   GenerateRecipeParams,
   GenerateFusionRecipeParams,
   AdaptRecipeForSeasonParams
-} from './RecipeApiInterfaces',
+} from './RecipeApiInterfaces';
 
 /**
  * Criteria for searching and filtering recipes
@@ -191,7 +191,7 @@ export interface RecipeServiceInterface {
    * @param recipe The recipe to analyze
    * @returns The dominant element and its value
    */
-  getDominantElement(recipe: Recipe): { element: keyof ElementalProperties, value: number },
+  getDominantElement(recipe: Recipe): { element: keyof ElementalProperties, value: number }
 
   /**
    * Calculate the similarity between two recipes based on their elemental properties

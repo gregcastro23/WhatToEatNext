@@ -7,7 +7,7 @@ const AstrologizeDemo = () => (
 export const _metadata: Metadata = {
   title: 'Astrologize API Demo',
   description: 'Demo page for the Astrologize API integration'
-},
+}
 
 export default function AstrologizeDemoPage() {
   return (

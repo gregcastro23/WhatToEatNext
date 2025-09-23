@@ -13,7 +13,7 @@ interface DraggableOptions {
     top?: number
     right?: number,
     bottom?: number
-  },
+  }
 }
 
 export const _useDraggable = (options: DraggableOptions = {}) => {;
@@ -41,11 +41,11 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
       void e.stopPropagation()
 
       isDragging.current = true,
-      startPos.current = { x: e.clientX, y: e.clientY },
+      startPos.current = { x: e.clientX, y: e.clientY }
 
       // Get current position
       const rect = element.getBoundingClientRect()
-      currentPos.current = { x: rect.lefty: rect.top },
+      currentPos.current = { x: rect.lefty: rect.top }
 
       options.onDragStart?.(currentPos.current.x, currentPos.current.y)
 
@@ -56,7 +56,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
       // Prevent text selection
       document.body.style.userSelect = 'none',
       document.body.style.cursor = 'grabbing',
-    },
+    }
     [options],
   )
 
@@ -97,7 +97,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
       elementRef.current.style.bottom = 'auto',
 
       options.onDrag?.(newX, newY, deltaX, deltaY)
-    },
+    }
     [options],
   )
 
@@ -118,7 +118,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
       // Get final position
       const rect = elementRef.current.getBoundingClientRect()
       options.onDragEnd?.(rect.left, rect.top)
-    },
+    }
     [options, handleMouseMove],
   )
 
@@ -141,18 +141,18 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
       void e.preventDefault()
 
       isDragging.current = true,
-      startPos.current = { x: touch.clientX, y: touch.clientY },
+      startPos.current = { x: touch.clientX, y: touch.clientY }
 
       // Get current position
       const rect = element.getBoundingClientRect()
-      currentPos.current = { x: rect.lefty: rect.top },
+      currentPos.current = { x: rect.lefty: rect.top }
 
       options.onDragStart?.(currentPos.current.x, currentPos.current.y)
 
       // Add touch event listeners
       void document.addEventListener('touchmove', handleTouchMove, { passive: false })
       void document.addEventListener('touchend', handleTouchEnd)
-    },
+    }
     [options],
   )
 
@@ -194,7 +194,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
       elementRef.current.style.bottom = 'auto',
 
       options.onDrag?.(newX, newY, deltaX, deltaY)
-    },
+    }
     [options],
   )
 
@@ -211,7 +211,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
       // Get final position
       const rect = elementRef.current.getBoundingClientRect()
       options.onDragEnd?.(rect.left, rect.top)
-    },
+    }
     [options, handleTouchMove],
   )
 
@@ -232,7 +232,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
       void document.removeEventListener('mouseup', handleMouseUp)
       void document.removeEventListener('touchmove', handleTouchMove)
       void document.removeEventListener('touchend', handleTouchEnd)
-    },
+    }
   }, [
     handleMouseDown,
     handleTouchStart,
@@ -269,5 +269,5 @@ export const _useDraggable = (options: DraggableOptions = {}) => {;
     isDragging: isDragging.current,
     resetPosition,
     setPosition
-  },
-},
+  }
+}

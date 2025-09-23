@@ -22,69 +22,69 @@ import {
   AstrologicalState,
   ZodiacSign,
   CelestialPosition
-} from './types/alchemy',
+} from './types/alchemy';
 
 // Test data - using the planetary positions from our previous conversation
 const testPlanetaryPositions: { [key: string]: CelestialPosition } = {
   Sun: {
     sign: 'gemini',
     degree: 25.0
-  },
+  }
   moon: {
     sign: 'taurus',
     degree: 15.5
-  },
+  }
   Mercury: {
     sign: 'gemini',
     degree: 20.3
-  },
+  }
   Venus: {
     sign: 'taurus',
     degree: 8.7
-  },
+  }
   Mars: {
     sign: 'aries',
     degree: 12.2
-  },
+  }
   _Jupiter: {
     sign: 'pisces',
     degree: 28.9
-  },
+  }
   _Saturn: {
     sign: 'aquarius',
     degree: 18.4
-  },
+  }
   _Uranus: {
     sign: 'taurus',
     degree: 14.1
-  },
+  }
   _Neptune: {
     sign: 'pisces',
     degree: 22.8
-  },
+  }
   _Pluto: { sign: 'aquarius', degree: 3.0 }
-},
+}
 
 const testAstrologicalState: AstrologicalState = {
   sunSign: 'gemini',
   _moonSign: 'taurus',
   _lunarPhase: 'waxing gibbous',
   _planetaryPositions: testPlanetaryPositions
-},
+}
 
 const testRecipeElements: ElementalProperties = {
   Fire: 0.35,
   Water: 0.25,
   Air: 0.25,
   Earth: 0.15
-},
+}
 
 const testUserElements: ElementalProperties = {
   Fire: 0.3,
   Water: 0.3,
   Air: 0.25,
   Earth: 0.15
-},
+}
 
 const testBirthInfo = {
   hour: 14,
@@ -94,36 +94,36 @@ const testBirthInfo = {
   _year: 1990,
   _latitude: 40.7128,
   _longitude: -74.006
-},
+}
 
 const testHoroscopeData = {
   tropical: {
     CelestialBodies: {
       Sun: {
-        Sign: {},
+        Sign: {}
         ChartPosition: { Ecliptic: { DecimalDegrees: 64.133 } }
-      },
+      }
       moon: {
-        Sign: {},
+        Sign: {}
         ChartPosition: { Ecliptic: { DecimalDegrees: 35.333 } }
-      },
+      }
       Mercury: {
-        Sign: {},
+        Sign: {}
         ChartPosition: { Ecliptic: { DecimalDegrees: 59.5 } }
-      },
+      }
       Venus: {
-        Sign: {},
+        Sign: {}
         ChartPosition: { Ecliptic: { DecimalDegrees: 78.75 } }
-      },
+      }
       Mars: {
-        Sign: {},
+        Sign: {}
         ChartPosition: { Ecliptic: { DecimalDegrees: 12.25 } }
       }
-    },
-    _Ascendant: {},
+    }
+    _Ascendant: {}
     _Aspects: {}
   }
-},
+}
 
 async function runComprehensiveTests() {
   log.info('🧪 Starting Comprehensive Alchemical Engine Tests\n')

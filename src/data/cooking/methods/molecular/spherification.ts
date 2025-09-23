@@ -16,11 +16,11 @@ export const spherification: CookingMethodData = {
     Air: 0.2,
     Earth: 0.1,
     Fire: 0.1
-  },
+  }
   duration: {
     min: 1,
     max: 10
-  },
+  }
   suitable_for: [
     'fruit juices',
     'purees',
@@ -54,7 +54,7 @@ export const spherification: CookingMethodData = {
       waxing_gibbous: 1.2, // Good membrane formation
       waning_crescent: 0.8, // Unstable membranes
     }
-  },
+  }
   toolsRequired: [
     'Digital scale (precision to 0.1g)',
     'Immersion blender (for dissolving hydrocolloids)',
@@ -104,7 +104,7 @@ export const spherification: CookingMethodData = {
     flavor_compounds: 0.95,
     volatile_aromatics: 0.9,
     color_pigments: 0.85
-  },
+  }
   optimalTemperatures: {
     alginate_hydration: 70, // 70°F/21°C - room temperature
     alginate_solution: 40, // 40°F/4°C - refrigerated for removing air bubbles
@@ -113,7 +113,7 @@ export const spherification: CookingMethodData = {
     service_cold: 39, // 39°F/4°C - for cold presentations
     service_room: 68, // 68°F/20°C - for immediate consumption
     working_environment: 68, // 68°F/20°C - ideal room temperature
-  },
+  }
   regionalVariations: {
     spanish: [
       'modern tapas applications',
@@ -138,7 +138,7 @@ export const spherification: CookingMethodData = {
       'chili-infused micro-spheres'
     ],
     middle_eastern: ['aromatic tea spheres', 'rosewater pearls', 'tahini-based applications']
-  },
+  }
   chemicalChanges: {
     ionic_gelation: true, // Cross-linking of alginate polymers with calcium ions
     membrane_formation: true, // Development of semi-permeable membrane
@@ -148,7 +148,7 @@ export const spherification: CookingMethodData = {
     diffusion_limitation: true, // Limited ion movement after initial shell formation
     sol_gel_transition: true, // Change from liquid solution to semi-solid state
     hydrocolloid_hydration: true, // Water binding to polysaccharide chains
-  },
+  }
   safetyFeatures: [
     'Use food-grade chemicals only (USP or equivalent grade)',
     'Proper measurement of additives (1% sodium alginate = 10g per 1L)',
@@ -216,11 +216,11 @@ export const spherification: CookingMethodData = {
     basicProcedure: {
       description:
         'Dissolve sodium alginate in flavored liquid (0.5-1% by weight), rest 24 hours to hydrate and remove air bubbles, then drop into calcium bath (0.5-1% calcium chloride) to form spheres'
-    },
+    }
     reverseProcedure: {
       description:
         'Mix calcium salt (calcium lactate gluconate 1-2%) into flavored liquid, then drop into sodium alginate bath (0.5% solution) for spheres with liquid centers'
-    },
+    }
     requiredAdditives: {
       sodium_alginate: '0.5-1% by weight of liquid (higher % = firmer membrane)',
       calcium_chloride: '0.5-1% by weight of bath (higher % = faster reaction)',
@@ -230,20 +230,20 @@ export const spherification: CookingMethodData = {
       xanthan_gum: '0.1-0.2% to stabilize alcohol or increase viscosity',
       calcium_lactate: '0.5-1% alternative to calcium chloride with less bitter taste',
       sodium_hexametaphosphate: '0.1% to sequester existing calcium in liquids'
-    },
+    }
     pHRequirements: {
       idealRange: '4.0-6.0 (alginate won\'t gel properly below pH 3.8)',
       acidicSolutions: 'May require sodium citrate to adjust pH, test with pH meter',
       alcoholicSolutions: 'May require xanthan gum stabilizer (0.1-0.2%) to prevent separation',
       highCalciumLiquids:
         'Use sodium hexametaphosphate to sequester calcium before basic spherification'
-    },
+    }
     shelf_life: {
       basicSpheres: '1-2 hours before membrane continues to thicken',
       reverseSpheres: '2-4 days when stored in original liquid, refrigerated',
       frozen: 'Up to 1 week when prepared using frozen reverse spherification'
     }
-  },
+  }
 
   expertTips: [
     'For perfectly clear spheres, filter all solutions through fine-mesh strainer or cheesecloth twice',
@@ -278,7 +278,7 @@ export const spherification: CookingMethodData = {
     oils: 'Mix with lecithin (1%) to create emulsion that can accept alginate or calcium.',
     high_sugar_liquids:
       'May require reduced alginate percentage (0.4-0.5%) due to binding competition with sugars.'
-  },
+  }
 
   timingConsiderations: {
     alginate_hydration:
@@ -295,7 +295,7 @@ export const spherification: CookingMethodData = {
       'Frozen reverse spheres must thaw at least 50% before serving for proper texture.',
     prep_timing:
       'Prepare solutions at least 24 hours before service, actual spherification should be done 10-30 minutes before serving.'
-  },
+  }
 
   doneness_indicators: {
     basic_spheres:
@@ -307,7 +307,7 @@ export const spherification: CookingMethodData = {
       'Surface tension creates slight resistance when touched, membrane is continuous with no weak spots.',
     over_gelled: 'Sphere feels firm throughout with reduced liquid center, membrane too thick.',
     under_gelled: 'Membrane breaks easily when handled, sphere loses shape outside of liquid.'
-  },
+  }
 
   ingredientInteractions: {
     calcium_and_alginate:
@@ -323,4 +323,4 @@ export const spherification: CookingMethodData = {
     natural_calcium_content:
       'Ingredients like dairy naturally high in calcium will begin to gel immediately with alginate, use reverse method.'
   }
-},
+}

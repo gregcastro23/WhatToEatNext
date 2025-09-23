@@ -17,11 +17,11 @@ export const braising: CookingMethodData = {
     Fire: 0.3, // Secondary element - initial sear and sustained heat
     Earth: 0.2, // Tertiary element - grounding and substantive
     Air: 0.1, // Minimal element - small amount of trapped steam
-  },
+  }
   duration: {
     min: 60,
     max: 480, // Extended maximum time for large, tough cuts
-  },
+  }
   suitable_for: [
     'tough meats',
     'root vegetables',
@@ -75,7 +75,7 @@ export const braising: CookingMethodData = {
       last_quarter: 1.2, // Ideal for finishing and reduction
       waning_crescent: 1.15, // Excellent for slow transformation
     }
-  },
+  }
   toolsRequired: [
     'Dutch oven or heavy-bottomed pot with lid',
     'Tongs',
@@ -130,7 +130,7 @@ export const braising: CookingMethodData = {
     antioxidants: 0.8, // Many extracted and preserved in liquid
     amino_acids: 0.92, // Excellent preservation with enhanced bioavailability
     phenolics: 0.7, // Moderate retention of plant compounds
-  },
+  }
   optimalTemperatures: {
     initial_sear: 450, // °F, for Maillard reaction development
     braising_phase: 325, // °F, general braising temperature
@@ -142,7 +142,7 @@ export const braising: CookingMethodData = {
     collagen_conversion: 320, // °F, optimal for collagen to gelatin
     fish_braise: 300, // °F, gentle for delicate proteins
     liquid_simmer: 205, // °F, ideal braising liquid temperature (just below boiling)
-  },
+  }
   regionalVariations: {
     french: [
       'boeuf bourguignon (beef in red wine)',
@@ -173,7 +173,7 @@ export const braising: CookingMethodData = {
     german: ['sauerbraten (sour roast)', 'rinderrouladen (beef rolls)'],
     jewish: ['cholent (sabbath stew)', 'tzimmes (sweet stew with carrots)'],
     american: ['pot roast', 'yankee pot roast', 'mississippi pot roast']
-  },
+  }
   chemicalChanges: {
     collagen_breakdown: true, // Conversion of collagen to gelatin via hydrolysis
     maillard_reaction: true, // Complex browning from amino acids and reducing sugars
@@ -187,7 +187,7 @@ export const braising: CookingMethodData = {
     acid_tenderization: true, // Breakdown of protein structures through acid action
     lipid_oxidation: false, // Minimized by liquid environment
     mineral_transfer: true, // Migration of minerals from bones to liquid
-  },
+  }
   safetyFeatures: [
     'Handle heavy pot with care (ergonomic lifting)',
     'Use oven mitts for hot lids and handles',
@@ -287,14 +287,14 @@ export const braising: CookingMethodData = {
       essence: 1, // Increases essential qualities and concentrates flavors
       matter: -1, // Decreases rigid material structure through softening
       substance: -1, // Decreases original substance as it transforms
-    },
+    }
     symbolicMeaning:
       'Represents the alchemical principle of solving et coagula (dissolve and recombine) where elements must be broken down before being reconstructed in more harmonious forms. In braising, tough ingredients are slowly dissolved and transformed into tender, flavorful substances with new properties.',
     associatedElements: {
       primary: 'Water', // Dissolving and transformative
       secondary: 'Fire', // Catalyst for change and transformation
     }
-  },
+  }
 
   /**
    * Extended cooking notes

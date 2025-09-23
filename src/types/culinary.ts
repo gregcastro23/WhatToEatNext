@@ -13,28 +13,28 @@ export interface CulinaryProfile {
     secondary: string[],
     intensity: 'mild' | 'moderate' | 'strong',
     umami: number, // 0-1 scale
-  },
+  }
 
   /** Texture characteristics */
   texture: {
     raw: string,
     cooked: string,
     mouthfeel: string
-  },
+  }
 
   /** Best cooking methods for this ingredient */
   cookingMethods: {
     primary: string[],
     secondary: string[],
     bestResults: string
-  },
+  }
 
   /** Cuisine affinities where this ingredient is commonly used */
   cuisineAffinities: {
     primary: CuisineType[],
     secondary: CuisineType[],
     regionalUses: Record<string, string>
-  },
+  }
 
   /** Classic ingredient pairings */
   pairings: {
@@ -43,35 +43,35 @@ export interface CulinaryProfile {
     herbs: string[],
     dairy: string[],
     acids: string[]
-  },
+  }
 
   /** Common culinary uses */
   culinaryUses: {
     primary: string[],
     secondary: string[],
     presentation: string
-  },
+  }
 
   /** Seasonal availability */
   seasonality: {
     peak: string[],
     available: string[],
     storage: string
-  },
+  }
 
   /** Storage and shelf life information */
   shelfLife: {
     fresh: string,
     frozen: string,
     preserved: string
-  },
+  }
 
   /** Possible substitutions */
   substitutions: {
     similar: string[],
     texture: string[],
     flavor: string[]
-  },
+  }
 
   /** Additional culinary notes */
   notes: string,
@@ -484,7 +484,7 @@ export const _CUISINE_CATEGORY_MAP: Record<CompleteCuisineType, string> = {
   'Pub-Food': 'Street-Food',
   'Diner-Food': 'Street-Food',
   Barbecue: 'Street-Food'
-},
+}
 
 /**
  * Master type for ingredient categories
@@ -733,4 +733,4 @@ export type DishType =
   | 'dip',
 
 // Re-export CuisineType from cuisineAliases for backwards compatibility
-export type { PrimaryCuisineType as CuisineType } from './cuisineAliases',
+export type { PrimaryCuisineType as CuisineType } from './cuisineAliases';

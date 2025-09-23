@@ -15,11 +15,11 @@ export const baking: CookingMethodData = {
     Air: 0.3,
     Earth: 0.2,
     Water: 0.1
-  },
+  }
   duration: {
     min: 20,
     max: 180
-  },
+  }
   suitable_for: ['breads', 'pastries', 'casseroles', 'meat', 'vegetables', 'desserts', 'gratins'],
   benefits: [
     'even cooking',
@@ -38,7 +38,7 @@ export const baking: CookingMethodData = {
       waxing_gibbous: 1.1, // Moderate enhancement
       waning_gibbous: 0.9, // Slight reduction
     }
-  },
+  }
   toolsRequired: [
     'Oven',
     'Baking sheet',
@@ -72,7 +72,7 @@ export const baking: CookingMethodData = {
     proteins: 0.75,
     vitamins: 0.65,
     minerals: 0.8
-  },
+  }
   optimalTemperatures: {
     bread: 425, // Begins at 450°F with steam, reduces to 400°F
     cookies: 350, // Chewy cookies at 325°F, crisp cookies at 375°F
@@ -87,7 +87,7 @@ export const baking: CookingMethodData = {
     custards: 325, // Never exceed 350°F to prevent curdling
     meringues: 225, // Slow-dry at 200-225°F for crisp exterior
     'fruit desserts': 350, // Crisps, cobblers, and pies
-  },
+  }
   regionalVariations: {
     french: [
       'bain-marie (water bath for custards)',
@@ -111,7 +111,7 @@ export const baking: CookingMethodData = {
     ],
     nordic: ['rye bread techniques', 'slow fermentation methods', 'cardamom-infused pastries'],
     american: ['sheet pan cooking', 'drop biscuits', 'deep dish pies']
-  },
+  }
   chemicalChanges: {
     maillard_reaction: true, // Occurs between 280°F-330°F with proteins and reducing sugars
     caramelization: true, // Begins around 320°F with simple sugars
@@ -120,7 +120,7 @@ export const baking: CookingMethodData = {
     enzymatic_browning: false, // Limited in baking due to heat inactivation
     hydrolysis: true, // Breaking down of complex molecules in presence of water
     fermentation: true, // In yeast-leavened products before baking
-  },
+  }
   safetyFeatures: [
     'Monitor internal temperature with thermometer (145°F for whole cuts, 165°F for poultry)',
     'Use oven mitts or heat-resistant gloves to prevent burns',
@@ -217,7 +217,7 @@ export const baking: CookingMethodData = {
     salt: 'Diamond Crystal kosher salt is half as dense as table salt adjust measurements accordingly. Salt inhibits yeast activity in direct contact add after initial fermentation begins for better rise. Fine sea salt distributes evenly in doughs.',
     sugar:
       'Granulated for creaming, superfine for meringues, brown for moisture and molasses flavor. Hygroscopic properties affect texture and moisture retention. Invert sugar (honey, corn syrup) improves browning and extends shelf life.'
-  },
+  }
 
   timingConsiderations: {
     rest_before:
@@ -229,7 +229,7 @@ export const baking: CookingMethodData = {
     carryover_cooking:
       'Large roasts temperature will rise 5-15°F after removal from oven. For medium-rare beef, remove at 125-130°F to achieve 135-140°F final temperature. Poultry may rise 5-10°F. Custards continue setting as they cool.',
     resting_dough: 'Refrigerate cookie dough 24-36 hours for deeper flavor pizza dough 2-5 days. Sourdough bread benefits from 12-24 hour cold fermentation. Enriched doughs require 8-12 hours refrigeration for flavor development. Pâte feuilletée (puff pastry) requires 30-minute rests between folds.'
-  },
+  }
 
   doneness_indicators: {
     bread:
@@ -245,7 +245,7 @@ export const baking: CookingMethodData = {
       'Puff pastry should have visible layers and golden color. Pie crust golden brown with no translucent areas. Shortcrust pale golden with firm texture. Enriched doughs deep golden with hollow sound when tapped.',
     custards:
       'Slight wobble in center but set edges. Will firm further upon cooling. Should reach internal temperature of 170-175°F for food safety. Visible thickening and coating the back of a spoon when using as sauce base.'
-  },
+  }
 
   ingredientInteractions: {
     acids_and_bases:
@@ -255,7 +255,7 @@ export const baking: CookingMethodData = {
     proteins: 'Set structure when heated create browning reactions with sugars. Egg proteins coagulate at different temperatures: yolks 149-158°F, whites 140-149°F. Gluten development provides structure and chew, particularly in bread. Milk proteins contribute to browning.',
     starches: 'Absorb moisture; provide structure gelatinize when heated with moisture. Different starches gelatinize at different temperatures: wheat 140-158°F, cornstarch 155-158°F. Pre-gelatinized starches (modified) thicken without heat. Starch retrogradation causes staling.',
     salt: 'Strengthens gluten; enhances flavor; controls yeast activity affects browning. Salt tightens gluten structure for better gas retention in bread. Inhibits yeast activity when in direct contact. Contributes to flavor perception of sweetness without adding sugars.'
-  },
+  }
 
   technicalNotes: {
     oven_types: {
@@ -272,7 +272,7 @@ export const baking: CookingMethodData = {
         'Thermal mass provides heat retention. Temperature gradient from back (hottest) to front. Radiant heat from dome produces rapid surface cooking.',
       steam_injected:
         'Introduces humidity during initial baking phase. Critical for proper expansion and crust development in artisan breads.'
-    },
+    }
     flour_types: {
       bread_flour: '12-14% protein content. High gluten formation for structure in yeasted breads.',
       all_purpose: '10-12% protein. Versatile for most baking applications.',
@@ -284,7 +284,7 @@ export const baking: CookingMethodData = {
         'Italian classification for finely ground flour. Variable protein content depending on type.',
       gluten_free_blends:
         'Combinations of rice, tapioca, potato, and other non-wheat flours with stabilizers.'
-    },
+    }
     leavening_agents: {
       baking_soda:
         'Sodium bicarbonate (NaHCO3). Requires acid to activate. Acts immediately upon mixing and exposure to heat.',
@@ -295,7 +295,7 @@ export const baking: CookingMethodData = {
       steam:
         'Physical leavening from water expanding as it converts to gas. Primary agent in puff pastry, choux paste, and popovers.',
       eggs: 'Mechanical leavening from incorporated air, particularly in whipped whites or whole eggs.'
-    },
+    }
     mixing_methods: {
       creaming:
         'Beating fat and sugar to incorporate air before adding remaining ingredients. Creates fine, tender crumb in cakes and cookies.',
@@ -309,4 +309,4 @@ export const baking: CookingMethodData = {
         'Folding fat between dough layers. Creates distinct, flaky layers in puff pastry, croissants, and Danish pastries.'
     }
   }
-},
+}

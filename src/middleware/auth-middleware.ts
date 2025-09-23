@@ -15,7 +15,7 @@ declare global {
       authTokens?: {
         accessToken: string,
         refreshToken?: string,
-      },
+      }
     }
   }
 }
@@ -186,7 +186,7 @@ export function authenticate(options: AuthMiddlewareOptions = {}) {
         code: 'AUTH_SERVICE_ERROR'
       })
     }
-  },
+  }
 }
 
 /**
@@ -278,14 +278,14 @@ export const authStatus = (req: Request, res: Response): void => {
       email: req.user.email,
       roles: req.user.roles,
       scopes: req.user.scopes
-    },
+    }
     token: {
       issuer: req.user.iss,
       issuedAt: new Date(req.user.iat * 1000),
       expiresAt: new Date(req.user.exp * 1000)
     }
   })
-},
+}
 
 export default {
   authenticate,
@@ -299,4 +299,4 @@ export default {
   isAuthenticated,
   isAdmin,
   getUserScopes
-},
+}

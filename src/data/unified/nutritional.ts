@@ -11,7 +11,7 @@ import type {
   _,
   CookingMethod,
   _
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 import type { NutritionalProfile } from '@/types/nutrition';
 import type { Season } from '@/types/seasons';
 import type { ZodiacSign } from '@/types/zodiac';
@@ -35,7 +35,7 @@ export interface AlchemicalNutritionalProfile extends NutritionalProfile {
     Water: NutrientGroup, // Cooling, flowing, cleansing nutrients,
     Earth: NutrientGroup, // Grounding, nourishing, stable nutrients,
     Air: NutrientGroup, // Light, uplifting, dispersing nutrients
-  },
+  }
 
   // Monica-Enhanced Nutritional Optimization
   monicaOptimization: {
@@ -44,7 +44,7 @@ export interface AlchemicalNutritionalProfile extends NutritionalProfile {
     planetaryModifier: number, // Planetary influence,
     cookingMethodModifier: number, // Cooking method enhancement,
     finalOptimizedScore: number, // Monica-optimized final score
-  },
+  }
 
   // Astrological Nutritional Correlations
   astrologicalProfile: {
@@ -52,7 +52,7 @@ export interface AlchemicalNutritionalProfile extends NutritionalProfile {
     favorableZodiac: any[], // Zodiac signs that benefit most,
     seasonalPeak: Season[], // Seasons when these nutrients are most beneficial,
     elementalAffinity: ElementalProperties, // Elemental nutritional affinity
-  },
+  }
 
   // Enhanced Metadata
   metadata: {
@@ -60,7 +60,7 @@ export interface AlchemicalNutritionalProfile extends NutritionalProfile {
     monicaOptimized: boolean,
     lastUpdated: Date,
     sourceData: string[]
-  },
+  }
 }
 
 export interface NutrientGroup {
@@ -85,7 +85,7 @@ export interface SeasonalNutritionalProfile {
   priorityNutrients: string[],
   optimalFoods: string[],
   avoidanceFoods: string[],
-  kalchmRange: { min: number, max: number },
+  kalchmRange: { min: number, max: number }
   monicaModifiers: NutritionalMonicaModifiers,
   biorhythmAlignment: number
 }
@@ -134,29 +134,29 @@ export interface NutritionalRecommendations {
 // Categorize nutrients by alchemical properties (Spirit, Essence, Matter, Substance)
 export const _alchemicalNutrientMapping: { [key: string]: AlchemicalProperties } = {
   // Spirit Nutrients (Volatile, transformative)
-  vitamin_c: { Spirit: 0.8, Essence: 0.2, Matter: 0.0, Substance: 0.0 },
-  caffeine: { Spirit: 0.9, Essence: 0.1, Matter: 0.0, Substance: 0.0 },
-  capsaicin: { Spirit: 0.7, Essence: 0.3, Matter: 0.0, Substance: 0.0 },
-  volatile_oils: { Spirit: 0.8, Essence: 0.2, Matter: 0.0, Substance: 0.0 },
+  vitamin_c: { Spirit: 0.8, Essence: 0.2, Matter: 0.0, Substance: 0.0 }
+  caffeine: { Spirit: 0.9, Essence: 0.1, Matter: 0.0, Substance: 0.0 }
+  capsaicin: { Spirit: 0.7, Essence: 0.3, Matter: 0.0, Substance: 0.0 }
+  volatile_oils: { Spirit: 0.8, Essence: 0.2, Matter: 0.0, Substance: 0.0 }
   // Essence Nutrients (Active principles)
-  antioxidants: { Spirit: 0.3, Essence: 0.7, Matter: 0.0, Substance: 0.0 },
-  flavonoids: { Spirit: 0.2, Essence: 0.8, Matter: 0.0, Substance: 0.0 },
-  omega_3: { Spirit: 0.1, Essence: 0.7, Matter: 0.1, Substance: 0.1 },
-  probiotics: { Spirit: 0.2, Essence: 0.6, Matter: 0.2, Substance: 0.0 },
-  enzymes: { Spirit: 0.2, Essence: 0.8, Matter: 0.0, Substance: 0.0 },
+  antioxidants: { Spirit: 0.3, Essence: 0.7, Matter: 0.0, Substance: 0.0 }
+  flavonoids: { Spirit: 0.2, Essence: 0.8, Matter: 0.0, Substance: 0.0 }
+  omega_3: { Spirit: 0.1, Essence: 0.7, Matter: 0.1, Substance: 0.1 }
+  probiotics: { Spirit: 0.2, Essence: 0.6, Matter: 0.2, Substance: 0.0 }
+  enzymes: { Spirit: 0.2, Essence: 0.8, Matter: 0.0, Substance: 0.0 }
   // Matter Nutrients (Physical structure)
-  protein: { Spirit: 0.0, Essence: 0.3, Matter: 0.7, Substance: 0.0 },
-  fiber: { Spirit: 0.0, Essence: 0.1, Matter: 0.8, Substance: 0.1 },
-  complex_carbs: { Spirit: 0.1, Essence: 0.2, Matter: 0.6, Substance: 0.1 },
-  calcium: { Spirit: 0.0, Essence: 0.0, Matter: 0.7, Substance: 0.3 },
-  iron: { Spirit: 0.0, Essence: 0.2, Matter: 0.7, Substance: 0.1 },
+  protein: { Spirit: 0.0, Essence: 0.3, Matter: 0.7, Substance: 0.0 }
+  fiber: { Spirit: 0.0, Essence: 0.1, Matter: 0.8, Substance: 0.1 }
+  complex_carbs: { Spirit: 0.1, Essence: 0.2, Matter: 0.6, Substance: 0.1 }
+  calcium: { Spirit: 0.0, Essence: 0.0, Matter: 0.7, Substance: 0.3 }
+  iron: { Spirit: 0.0, Essence: 0.2, Matter: 0.7, Substance: 0.1 }
   // Substance Nutrients (Stable, enduring)
-  saturated_fats: { Spirit: 0.0, Essence: 0.1, Matter: 0.2, Substance: 0.7 },
-  minerals: { Spirit: 0.0, Essence: 0.1, Matter: 0.3, Substance: 0.6 },
-  vitamin_d: { Spirit: 0.0, Essence: 0.2, Matter: 0.2, Substance: 0.6 },
-  vitamin_k: { Spirit: 0.0, Essence: 0.2, Matter: 0.3, Substance: 0.5 },
+  saturated_fats: { Spirit: 0.0, Essence: 0.1, Matter: 0.2, Substance: 0.7 }
+  minerals: { Spirit: 0.0, Essence: 0.1, Matter: 0.3, Substance: 0.6 }
+  vitamin_d: { Spirit: 0.0, Essence: 0.2, Matter: 0.2, Substance: 0.6 }
+  vitamin_k: { Spirit: 0.0, Essence: 0.2, Matter: 0.3, Substance: 0.5 }
   magnesium: { Spirit: 0.0, Essence: 0.1, Matter: 0.2, Substance: 0.7 }
-},
+}
 
 // Elemental nutritional categorization (Self-Reinforcement Compliant)
 export const elementalNutrientMapping: Record<Element, NutrientGroup> = {
@@ -165,97 +165,97 @@ export const elementalNutrientMapping: Record<Element, NutrientGroup> = {
       protein: 0.8, // Building, energizing,
       simple_carbs: 0.6, // Quick energy,
       spicy_compounds: 0.9, // Heating compounds
-    },
+    }
     micronutrients: {
       vitamin_b12: 0.8, // Energy metabolism,
       iron: 0.9, // Circulation, energy,
       zinc: 0.7, // Immune function,
       vitamin_b6: 0.6, // Protein metabolism
-    },
+    }
     phytonutrients: {
       capsaicin: 0.9, // Heat-generating,
       gingerol: 0.8, // Warming,
       allicin: 0.7, // Stimulating
-    },
+    }
     bioactiveCompounds: {
       caffeine: 0.8, // Stimulating,
       theobromine: 0.6, // Mild stimulant
-    },
+    }
     totalElementalValue: 0.75
-  },
+  }
 
   Water: {
     macronutrients: {
       Water: 1.0, // Hydration,
       electrolytes: 0.9, // Fluid balance,
       omega_3: 0.8, // Flowing, cooling
-    },
+    }
     micronutrients: {
       potassium: 0.9, // Fluid balance,
       sodium: 0.7, // Electrolyte balance,
       vitamin_c: 0.8, // Cleansing, immunity,
       folate: 0.6, // Cellular renewal
-    },
+    }
     phytonutrients: {
       anthocyanins: 0.8, // Cooling, anti-inflammatory,
       cucurbitacins: 0.9, // Cooling compounds,
       menthol: 0.8, // Cooling sensation
-    },
+    }
     bioactiveCompounds: {
       mucilage: 0.9, // Soothing, hydrating,
       pectin: 0.7, // Cleansing
-    },
+    }
     totalElementalValue: 0.8
-  },
+  }
 
   Earth: {
     macronutrients: {
       complex_carbs: 0.9, // Grounding energy,
       fiber: 0.9, // Structural support,
       healthy_fats: 0.7, // Stable energy
-    },
+    }
     micronutrients: {
       calcium: 0.9, // Structural support,
       magnesium: 0.8, // Grounding, calming,
       phosphorus: 0.8, // Bone structure,
       vitamin_d: 0.7, // Bone health
-    },
+    }
     phytonutrients: {
       lignans: 0.8, // Structural compounds,
       saponins: 0.7, // Grounding compounds,
       tannins: 0.6, // Stabilizing compounds
-    },
+    }
     bioactiveCompounds: {
       sterols: 0.8, // Structural support,
       cellulose: 0.9, // Fiber structure
-    },
+    }
     totalElementalValue: 0.8
-  },
+  }
 
   Air: {
     macronutrients: {
       volatile_compounds: 0.9, // Light, dispersing,
       essential_oils: 0.8, // Aromatic, uplifting,
       simple_sugars: 0.6, // Quick, light energy
-    },
+    }
     micronutrients: {
       vitamin_c: 0.8, // Antioxidant, cleansing,
       b_vitamins: 0.7, // Mental clarity,
       folate: 0.8, // Cellular communication,
       thiamine: 0.7, // Nerve function
-    },
+    }
     phytonutrients: {
       terpenes: 0.9, // Aromatic compounds,
       limonene: 0.8, // Uplifting citrus compounds,
       menthol: 0.7, // Refreshing compounds
-    },
+    }
     bioactiveCompounds: {
       alkaloids: 0.8, // Stimulating compounds,
       phenols: 0.7, // Light antioxidants
-    },
+    }
     totalElementalValue: 0.75
   }
-},
+}
 
 // ===== CORE NUTRITIONAL ANALYSIS SYSTEM =====,
 
@@ -278,9 +278,9 @@ export class UnifiedNutritionalSystem {
   private calculateElementalBalance(profiles?: AlchemicalNutritionalProfile[]): number {
     if (!profiles || profiles.length === 0) return 0.5
 
-    const totalElementalValues = { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+    const totalElementalValues = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
 
-    profiles.forEach(profile => {,
+    profiles.forEach(profile => {
       const profileData = profile as unknown;
       const nutrients = profileData.elementalNutrients
 
@@ -318,7 +318,7 @@ export class UnifiedNutritionalSystem {
     let totalAlignment = 0,
     let validProfiles = 0,
 
-    profiles.forEach(profile => {,
+    profiles.forEach(profile => {
       const profileData = profile as unknown;
       const astroProfile = profileData.astrologicalProfile
 
@@ -345,7 +345,7 @@ export class UnifiedNutritionalSystem {
     let totalResonance = 0,
     let validProfiles = 0,
 
-    profiles.forEach(profile => {,
+    profiles.forEach(profile => {
       const profileData = profile as unknown;
       const astroProfile = profileData.astrologicalProfile
 
@@ -423,7 +423,7 @@ export class UnifiedNutritionalSystem {
       season?: Season,
       planetaryHour?: PlanetName,
       targetElements?: ElementalProperties
-    },
+    }
   ): NutritionalCompatibilityAnalysis {
     // Calculate Kalchm harmony
     const kalchmHarmony =
@@ -464,7 +464,7 @@ export class UnifiedNutritionalSystem {
         planetaryResonance,
         elementalBalance,
       )
-    },
+    }
   }
 
   createAlchemicalNutritionalProfile(
@@ -480,7 +480,7 @@ export class UnifiedNutritionalSystem {
       Essence: Number(baseData.activeCompounds || 0.3),
       Matter: Number(baseData.structuralNutrients || 0.3),
       Substance: Number(baseData.stableNutrients || 0.2)
-    },
+    }
 
     // Calculate Kalchm value
     const kalchm = calculateKalchm(alchemicalProperties)
@@ -491,7 +491,7 @@ export class UnifiedNutritionalSystem {
       Water: elementalNutrientMapping.Water,
       Earth: elementalNutrientMapping.Earth,
       Air: elementalNutrientMapping.Air
-    },
+    }
 
     return {
       ...baseProfile,
@@ -504,7 +504,7 @@ export class UnifiedNutritionalSystem {
         planetaryModifier: 1.0,
         cookingMethodModifier: 1.0,
         finalOptimizedScore: 0.7
-      },
+      }
       astrologicalProfile: {
         rulingPlanets: ['Sun'] as PlanetName[],
         favorableZodiac: ['Leo'] as unknown as any[],
@@ -515,14 +515,14 @@ export class UnifiedNutritionalSystem {
           Earth: 0.25,
           Air: 0.25
         })
-      },
+      }
       metadata: {
         kalchmCalculated: true,
         monicaOptimized: false,
         lastUpdated: new Date(),
         sourceData: ['base_profile']
       }
-    },
+    }
   }
 }
 
@@ -536,9 +536,9 @@ export const _calculateNutritionalBalance = (_ingredients: unknown[]): Nutrition
       carbohydrates: 0,
       fat: 0,
       fiber: 0,
-      vitamins: {},
+      vitamins: {}
       minerals: {}
-    },
+    }
   }
 
   // Aggregate nutritional values from ingredients
@@ -552,7 +552,7 @@ export const _calculateNutritionalBalance = (_ingredients: unknown[]): Nutrition
         fiber: number,
         vitamins: Record<string, unknown>,
         minerals: Record<string, unknown>
-      },
+      }
       ingredient,
     ) => {
       const ingredientData = ingredient as any;
@@ -569,26 +569,26 @@ export const _calculateNutritionalBalance = (_ingredients: unknown[]): Nutrition
         vitamins: {
           ...acc.vitamins
           ...((nutritionData.vitamins ) || {})
-        },
+        }
         minerals: {
           ...acc.minerals
           ...((nutritionData.minerals ) || {})
         }
-      },
-    },
+      }
+    }
     {
       calories: 0,
       protein: 0,
       carbohydrates: 0,
       fat: 0,
       fiber: 0,
-      vitamins: {},
+      vitamins: {}
       minerals: {}
-    },
+    }
   )
 
   return totals as NutritionalProfile,
-},
+}
 
 export const nutritionalToElemental = (profile: NutritionalProfile): ElementalProperties => {;
   const profileData = profile as unknown;
@@ -607,8 +607,8 @@ export const nutritionalToElemental = (profile: NutritionalProfile): ElementalPr
     Water: Number(profileData.waterContent || 0.3) / total, // Hydrating elements
     Earth: (fiber * 0.8 + fat * 0.2) / total, // Grounding nutrients,
     Air: Number(profileData.volatiles || 0.1) / total, // Light, dispersing elements
-  },
-},
+  }
+}
 
 export const _getZodiacNutritionalRecommendations = (
   _sign: string,
@@ -622,10 +622,10 @@ export const _getZodiacNutritionalRecommendations = (
     focusNutrients: ['balanced_nutrition'],
     recommendedFoods: ['seasonal_vegetables', 'whole_grains'],
     avoidFoods: ['processed_foods']
-  },
+  }
 
   return defaultRecommendations,
-},
+}
 
 export const _getPlanetaryNutritionalRecommendations = (
   _planets: string[],
@@ -638,8 +638,8 @@ export const _getPlanetaryNutritionalRecommendations = (
     focusNutrients: ['elemental_balance'],
     healthAreas: ['overall_vitality'],
     recommendedFoods: ['planetary_foods']
-  },
-},
+  }
+}
 
 export const _getEnhancedPlanetaryNutritionalRecommendations = (
   planetaryDay: string,
@@ -655,8 +655,8 @@ export const _getEnhancedPlanetaryNutritionalRecommendations = (
     focusNutrients: ['planetary_alignment'],
     healthAreas: ['temporal_health'],
     recommendedFoods: ['time_aligned_foods']
-  },
-},
+  }
+}
 
 export const _getSeasonalNutritionalRecommendations = (
   season: string,
@@ -674,34 +674,34 @@ export const _getSeasonalNutritionalRecommendations = (
         element: 'Air',
         focusNutrients: ['cleansing_nutrients', 'vitamin_c'],
         seasonalFoods: ['spring_greens', 'citrus']
-      },
+      }
     case 'summer':
       return {
         element: 'Fire',
         focusNutrients: ['hydrating_nutrients', 'cooling_foods'],
         seasonalFoods: ['summer_fruits', 'cooling_herbs']
-      },
+      }
     case 'fall':
     case 'autumn':
       return {
         element: 'Earth',
         focusNutrients: ['grounding_nutrients', 'warming_spices'],
         seasonalFoods: ['root_vegetables', 'squashes']
-      },
+      }
     case 'winter':
       return {
         element: 'Water',
         focusNutrients: ['warming_nutrients', 'stored_energy'],
         seasonalFoods: ['preserved_foods', 'warming_teas']
-      },
+      }
     default:
       return {
         element: 'Earth',
         focusNutrients: ['balanced_nutrition'],
         seasonalFoods: ['year_round_foods']
-      },
+      }
   }
-},
+}
 
 export const _evaluateNutritionalElementalBalance = (
   profile: NutritionalProfile,
@@ -719,7 +719,7 @@ export const _evaluateNutritionalElementalBalance = (
     Water: Math.abs(currentElements.Water - targetElements.Water),
     Earth: Math.abs(currentElements.Earth - targetElements.Earth),
     Air: Math.abs(currentElements.Air - targetElements.Air)
-  },
+  }
 
   const totalDeviation = Object.values(deviations).reduce((sum, dev) => sum + dev0)
   const score = Math.max(01 - totalDeviation / 2); // Max deviation is 2
@@ -734,8 +734,8 @@ export const _evaluateNutritionalElementalBalance = (
     }
   })
 
-  return { score, imbalances, recommendations },
-},
+  return { score, imbalances, recommendations }
+}
 
 // ===== SINGLETON INSTANCE =====,
 export const _unifiedNutritionalSystem = new UnifiedNutritionalSystem()

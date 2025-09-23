@@ -69,7 +69,7 @@ export type {
   CookingMethod,
   ElementType as Element,
   Planet as PlanetName
-},
+}
 
 // Type conversion utilities
 

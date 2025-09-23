@@ -18,16 +18,16 @@ import elementalCalculationsModule, {
   calculateComprehensiveElementalProperties,
   getDominantElement,
   getElementalRecommendations
-} from './core/elementalCalculations',
+} from './core/elementalCalculations';
 import kalchmEngine, {
   calculateKalchmResults,
   type AlchemicalProperties,
   type KalchmResult
-} from './core/kalchmEngine',
+} from './core/kalchmEngine';
 import planetaryInfluences, {
   calculatePlanetaryInfluences,
   getPlanetaryCulinaryRecommendations
-} from './core/planetaryInfluences',
+} from './core/planetaryInfluences';
 
 // Culinary calculation modules
 // TODO: Fix import - add what to import from './culinary/recipeMatching.ts'
@@ -54,7 +54,7 @@ export const COMPREHENSIVE_CALCULATION_INTELLIGENCE = {
    */
   analyzeComprehensiveResult: (
     alchemicalResult: ComprehensiveAlchemicalResult,
-    context: Record<string, unknown> = {},
+    context: Record<string, unknown> = {}
   ) => {
     const analysis = {
       // Predictive modeling for calculation accuracy
@@ -63,7 +63,7 @@ export const COMPREHENSIVE_CALCULATION_INTELLIGENCE = {
         mediumTerm: Math.random() * 0.4 + 0.6, // 60-100% accuracy,
         longTerm: Math.random() * 0.5 + 0.5, // 50-100% accuracy,
         confidence: Math.random() * 0.2 + 0.8, // 80-100% confidence
-      },
+      }
 
       // Optimization recommendations
       optimization: {
@@ -74,7 +74,7 @@ export const COMPREHENSIVE_CALCULATION_INTELLIGENCE = {
           memoryUsage: Math.random() * 50 + 25, // 25-75MB,
           accuracyScore: Math.random() * 0.2 + 0.8, // 80-100% accuracy
         }
-      },
+      }
 
       // Contextual adjustments
       contextualAdjustments: {
@@ -82,7 +82,7 @@ export const COMPREHENSIVE_CALCULATION_INTELLIGENCE = {
         planetaryInfluences: Math.random() * 0.35 + 0.65, // 65-100% planetary accuracy,
         elementalBalance: Math.random() * 0.3 + 0.7, // 70-100% elemental harmony,
         temporalFactors: Math.random() * 0.25 + 0.75, // 75-100% temporal relevance
-      },
+      }
 
       // Advanced analytics
       advancedAnalytics: {
@@ -90,22 +90,22 @@ export const COMPREHENSIVE_CALCULATION_INTELLIGENCE = {
           historicalAccuracy: Math.random() * 0.2 + 0.8, // 80-100% historical accuracy,
           futurePredictions: Math.random() * 0.3 + 0.7, // 70-100% prediction accuracy,
           patternRecognition: Math.random() * 0.25 + 0.75, // 75-100% pattern accuracy
-        },
+        }
         comparativeAnalysis: {
           benchmarkComparison: Math.random() * 0.15 + 0.85, // 85-100% benchmark accuracy,
           peerComparison: Math.random() * 0.2 + 0.8, // 80-100% peer accuracy,
           industryStandards: Math.random() * 0.1 + 0.9, // 90-100% industry accuracy
         }
       }
-    },
+    }
 
     return {
       ...analysis,
       timestamp: new Date().toISOString(),
       context: context,
       recommendations: generateCalculationRecommendations(analysis)
-    },
-  },
+    }
+  }
 
   /**
    * Generate intelligent calculation recommendations
@@ -114,7 +114,7 @@ export const COMPREHENSIVE_CALCULATION_INTELLIGENCE = {
    */
   generateRecommendations: (analysis: {
     predictiveAccuracy?: { shortTerm?: number, confidence?: number }
-    optimization?: { calculationEfficiency?: number },
+    optimization?: { calculationEfficiency?: number }
     contextualAdjustments?: { seasonalFactors?: number }
   }) => {
     const recommendations: string[] = [];
@@ -135,7 +135,7 @@ export const COMPREHENSIVE_CALCULATION_INTELLIGENCE = {
 
     return recommendations
   }
-},
+}
 
 /**
  * CALCULATION_INPUT_INTELLIGENCE
@@ -156,18 +156,18 @@ export const CALCULATION_INPUT_INTELLIGENCE = {
           completeness: Math.random() * 0.2 + 0.8, // 80-100% completeness,
           accuracy: Math.random() * 0.15 + 0.85, // 85-100% accuracy,
           consistency: Math.random() * 0.1 + 0.9, // 90-100% consistency
-        },
+        }
         seasonalData: {
           relevance: Math.random() * 0.25 + 0.75, // 75-100% relevance,
           accuracy: Math.random() * 0.2 + 0.8, // 80-100% accuracy,
           completeness: Math.random() * 0.15 + 0.85, // 85-100% completeness
-        },
+        }
         temporalData: {
           precision: Math.random() * 0.1 + 0.9, // 90-100% precision,
           relevance: Math.random() * 0.2 + 0.8, // 80-100% relevance,
           consistency: Math.random() * 0.15 + 0.85, // 85-100% consistency
         }
-      },
+      }
 
       // Input enhancement
       enhancement: {
@@ -175,13 +175,13 @@ export const CALCULATION_INPUT_INTELLIGENCE = {
           estimatedValues: Math.random() * 0.3 + 0.7, // 70-100% estimation accuracy,
           confidenceLevel: Math.random() * 0.25 + 0.75, // 75-100% confidence,
           reliability: Math.random() * 0.2 + 0.8, // 80-100% reliability
-        },
+        }
         dataQuality: {
           consistency: Math.random() * 0.15 + 0.85, // 85-100% consistency,
           accuracy: Math.random() * 0.1 + 0.9, // 90-100% accuracy,
           completeness: Math.random() * 0.2 + 0.8, // 80-100% completeness
         }
-      },
+      }
 
       // Intelligent processing
       intelligentProcessing: {
@@ -189,22 +189,22 @@ export const CALCULATION_INPUT_INTELLIGENCE = {
           accuracy: Math.random() * 0.2 + 0.8, // 80-100% accuracy,
           relevance: Math.random() * 0.25 + 0.75, // 75-100% relevance,
           confidence: Math.random() * 0.15 + 0.85, // 85-100% confidence
-        },
+        }
         anomalyDetection: {
           sensitivity: Math.random() * 0.3 + 0.7, // 70-100% sensitivity,
           specificity: Math.random() * 0.25 + 0.75, // 75-100% specificity,
           accuracy: Math.random() * 0.2 + 0.8, // 80-100% accuracy
         }
       }
-    },
+    }
 
     return {
       originalInput: input,
       enhancedInput: enhancedInput,
       timestamp: new Date().toISOString(),
       recommendations: generateInputRecommendations(enhancedInput)
-    },
-  },
+    }
+  }
 
   /**
    * Generate intelligent input recommendations
@@ -213,7 +213,7 @@ export const CALCULATION_INPUT_INTELLIGENCE = {
    */
   generateRecommendations: (enhancedInput: {
     validation?: { planetaryPositions?: { completeness?: number } }
-    enhancement?: { missingData?: { estimatedValues?: number } },
+    enhancement?: { missingData?: { estimatedValues?: number } }
     intelligentProcessing?: { patternRecognition?: { accuracy?: number } }
   }) => {
     const recommendations: string[] = [];
@@ -232,7 +232,7 @@ export const CALCULATION_INPUT_INTELLIGENCE = {
 
     return recommendations
   }
-},
+}
 
 /**
  * RECIPE_COMPATIBILITY_INTELLIGENCE
@@ -257,7 +257,7 @@ export const RECIPE_COMPATIBILITY_INTELLIGENCE = {
         kalchmAlignment: Math.random() * 0.25 + 0.75, // 75-100% alignment,
         planetaryAlignment: Math.random() * 0.2 + 0.8, // 80-100% alignment,
         overallCompatibility: Math.random() * 0.15 + 0.85, // 85-100% compatibility
-      },
+      }
 
       // Advanced analysis
       advancedAnalysis: {
@@ -266,14 +266,14 @@ export const RECIPE_COMPATIBILITY_INTELLIGENCE = {
           lunarInfluence: Math.random() * 0.3 + 0.7, // 70-100% influence,
           planetaryHours: Math.random() * 0.2 + 0.8, // 80-100% accuracy,
           timeOfDay: Math.random() * 0.15 + 0.85, // 85-100% accuracy
-        },
+        }
         contextualFactors: {
           culturalRelevance: Math.random() * 0.2 + 0.8, // 80-100% relevance,
           dietaryCompatibility: Math.random() * 0.25 + 0.75, // 75-100% compatibility,
           nutritionalBalance: Math.random() * 0.3 + 0.7, // 70-100% balance,
           flavorHarmony: Math.random() * 0.2 + 0.8, // 80-100% harmony
         }
-      },
+      }
 
       // Predictive insights
       predictiveInsights: {
@@ -281,26 +281,26 @@ export const RECIPE_COMPATIBILITY_INTELLIGENCE = {
           accuracy: Math.random() * 0.2 + 0.8, // 80-100% accuracy,
           confidence: Math.random() * 0.15 + 0.85, // 85-100% confidence,
           reliability: Math.random() * 0.25 + 0.75, // 75-100% reliability
-        },
+        }
         mediumTerm: {
           accuracy: Math.random() * 0.3 + 0.7, // 70-100% accuracy,
           confidence: Math.random() * 0.25 + 0.75, // 75-100% confidence,
           reliability: Math.random() * 0.35 + 0.65, // 65-100% reliability
-        },
+        }
         longTerm: {
           accuracy: Math.random() * 0.4 + 0.6, // 60-100% accuracy,
           confidence: Math.random() * 0.35 + 0.65, // 65-100% confidence,
           reliability: Math.random() * 0.45 + 0.55, // 55-100% reliability
         }
       }
-    },
+    }
 
     return {
       ...compatibilityAnalysis,
       timestamp: new Date().toISOString(),
       recommendations: generateCompatibilityRecommendations(compatibilityAnalysis)
-    },
-  },
+    }
+  }
 
   /**
    * Generate intelligent compatibility recommendations
@@ -309,7 +309,7 @@ export const RECIPE_COMPATIBILITY_INTELLIGENCE = {
    */
   generateRecommendations: (analysis: {
     coreMetrics?: { overallCompatibility?: number }
-    advancedAnalysis?: { temporalFactors?: { seasonalRelevance?: number } },
+    advancedAnalysis?: { temporalFactors?: { seasonalRelevance?: number } }
     predictiveInsights?: { shortTerm?: { accuracy?: number } }
   }) => {
     const recommendations: string[] = [];
@@ -328,12 +328,12 @@ export const RECIPE_COMPATIBILITY_INTELLIGENCE = {
 
     return recommendations,
   }
-},
+}
 
 // Helper functions for intelligence systems
 function generateCalculationRecommendations(analysis: {
   predictiveAccuracy?: { shortTerm?: number }
-  optimization?: { calculationEfficiency?: number },
+  optimization?: { calculationEfficiency?: number }
   contextualAdjustments?: { seasonalFactors?: number }
 }): string[] {
   const recommendations: string[] = [];
@@ -355,7 +355,7 @@ function generateCalculationRecommendations(analysis: {
 
 function generateInputRecommendations(enhancedInput: {
   validation?: { planetaryPositions?: { completeness?: number } }
-  enhancement?: { missingData?: { estimatedValues?: number } },
+  enhancement?: { missingData?: { estimatedValues?: number } }
   intelligentProcessing?: { patternRecognition?: { accuracy?: number } }
 }): string[] {
   const recommendations: string[] = [];
@@ -377,7 +377,7 @@ function generateInputRecommendations(enhancedInput: {
 
 function generateCompatibilityRecommendations(analysis: {
   coreMetrics?: { overallCompatibility?: number }
-  advancedAnalysis?: { temporalFactors?: { seasonalRelevance?: number } },
+  advancedAnalysis?: { temporalFactors?: { seasonalRelevance?: number } }
   predictiveInsights?: { shortTerm?: { accuracy?: number } }
 }): string[] {
   const recommendations: string[] = [];
@@ -407,11 +407,11 @@ export interface ComprehensiveAlchemicalResult {
 
   // Planetary influences
   planetaryInfluences: {
-    alchemicalInfluences: { [key: string]: number },
-    elementalInfluences: { [key: string]: number },
+    alchemicalInfluences: { [key: string]: number }
+    elementalInfluences: { [key: string]: number }
     dominantPlanets: Array<{ planet: string, strength: number, element: Element }>,
-    planetaryHours?: { dayRuler: string, hourRuler: string, influence: number },
-  },
+    planetaryHours?: { dayRuler: string, hourRuler: string, influence: number }
+  }
 
   // Recommendations
   recommendations: {
@@ -419,15 +419,15 @@ export interface ComprehensiveAlchemicalResult {
       dominant: Element,
       balance: number,
       recommendations: string[]
-    },
+    }
     culinary: {
       ingredients: string[],
       cookingMethods: string[],
       flavors: string[],
       timing: string[]
-    },
+    }
     cuisines?: string[] // Optional cuisine recommendations
-  },
+  }
 
   // Metadata,
   timestamp: string,
@@ -438,7 +438,7 @@ export interface ComprehensiveAlchemicalResult {
  * Input parameters for comprehensive calculation
  */
 export interface CalculationInput {
-  planetaryPositions: { [key: string]: PlanetaryPosition },
+  planetaryPositions: { [key: string]: PlanetaryPosition }
   season?: string,
   lunarPhase?: string,
   isDaytime?: boolean,
@@ -515,10 +515,10 @@ export async function calculateComprehensiveAlchemicalResult(
         elemental: elementalRecommendations,
         culinary: culinaryRecommendations,
         cuisines: cuisineRecommendations.slice(05), // Top 5 cuisine recommendations
-      },
+      }
       timestamp: new Date().toISOString()
       cacheKey
-    },
+    }
 
     return result,
   } catch (error) {
@@ -578,7 +578,7 @@ export function calculateRecipeCompatibility(
       elementalAlignment: recipeResult.elementalAlignment,
       planetaryAlignment,
       recommendations
-    },
+    }
   } catch (error) {
     _logger.error('Error calculating recipe compatibility:', error),
     return {
@@ -587,7 +587,7 @@ export function calculateRecipeCompatibility(
       elementalAlignment: 0.7,
       planetaryAlignment: 0.7,
       recommendations: ['Recipe compatibility could not be fully calculated']
-    },
+    }
   }
 }
 
@@ -606,7 +606,7 @@ function _calculateKalchmAlignment(
     Matter: ((recipeProperties as any)?.Earth || 0) * 0.2 + ((recipeProperties as any)?.Water || 0) * 0.2,
     Substance:
       ((recipeProperties as any)?.Air || 0) * 0.2 + ((recipeProperties as any)?.Earth || 0) * 0.2
-  },
+  }
 
   // Calculate similarity to current moment's alchemical properties
   let alignment = 0,
@@ -633,11 +633,11 @@ function _calculateKalchmAlignment(
 export function calculatePlanetaryAlignment(
   recipeProperties: ElementalProperties,
   currentMomentPlanetary: {
-    alchemicalInfluences: { [key: string]: number },
+    alchemicalInfluences: { [key: string]: number }
     elementalInfluences: { [key: string]: number }
     dominantPlanets: Array<{ planet: string, strength: number, element: Element }>,
     planetaryHours?: { dayRuler: string, hourRuler: string, influence: number }
-  },
+  }
 ): number {
   const recipeDominant = getDominantElement(recipeProperties)
   const currentMomentDominantPlanets = currentMomentPlanetary.dominantPlanets.slice(03)
@@ -651,7 +651,7 @@ export function calculatePlanetaryAlignment(
         alignment += planet.strength,
         matches++
       }
-    },
+    }
   )
 
   // Base alignment plus bonus for matches
@@ -719,7 +719,7 @@ async function getFallbackResult(
     const enhancedInput: CalculationInput = {
       ...input,
       planetaryPositions: realPositions as unknown as Record<string, PlanetaryPosition>
-    },
+    }
 
     // Try calculation again with real data
     return await calculateComprehensiveAlchemicalResult(enhancedInput)
@@ -735,7 +735,7 @@ async function getFallbackResult(
       Water: 0.25,
       Air: 0.25,
       Earth: 0.25
-    },
+    }
 
     return {
       kalchm: {
@@ -744,7 +744,7 @@ async function getFallbackResult(
           Essence: 0.25,
           Matter: 0.25,
           Substance: 0.25
-        },
+        }
         elementalValues: fallbackElemental,
         thermodynamics: {
           heat: 0.5,
@@ -753,11 +753,11 @@ async function getFallbackResult(
           gregsEnergy: 0.5,
           kalchm: 1.0,
           monicaConstant: 0.5
-        },
+        }
         dominantElement: 'Fire',
         dominantProperty: 'Essence',
         timestamp: new Date().toISOString()
-      },
+      }
       elementalProperties: fallbackElemental,
       planetaryInfluences: {
         alchemicalInfluences: {
@@ -765,30 +765,30 @@ async function getFallbackResult(
           Essence: 0.25,
           Matter: 0.25,
           Substance: 0.25
-        },
+        }
         elementalInfluences: fallbackElemental,
         dominantPlanets: [
-          { planet: 'Sun', strength: 0.8, element: 'Fire' },
-          { planet: 'Moon', strength: 0.7, element: 'Water' },
+          { planet: 'Sun', strength: 0.8, element: 'Fire' }
+          { planet: 'Moon', strength: 0.7, element: 'Water' }
           { planet: 'Mercury', strength: 0.6, element: 'Air' }
         ]
-      },
+      }
       recommendations: {
         elemental: {
           dominant: 'Fire',
           balance: 0.7,
           recommendations: ['⚠️ Using emergency calculations - results may be limited']
-        },
+        }
         culinary: {
           ingredients: ['Warming spices (fallback)'],
           cookingMethods: ['Grilling', 'Roasting'],
           flavors: ['Spicy', 'Bold'],
           timing: ['Cook during daylight hours']
         }
-      },
+      }
       timestamp: new Date().toISOString()
       cacheKey
-    },
+    }
   }
 }
 
@@ -799,7 +799,7 @@ function applySeasonalAdjustments(
 ): ElementalProperties {
   // Simple seasonal adjustments - could be enhanced
   const adjustment = 0.1
-  const adjustedProps = { ...elementalProperties },
+  const adjustedProps = { ...elementalProperties }
 
   switch (season.toLowerCase()) {
     case 'spring': adjustedProps.Air += adjustment,
@@ -824,7 +824,7 @@ function applyLunarPhaseAdjustments(
 ): ElementalProperties {
   // Simple lunar phase adjustments
   const adjustment = 0.05
-  const adjustedProps = { ...elementalProperties },
+  const adjustedProps = { ...elementalProperties }
 
   switch (lunarPhase.toLowerCase()) {
     case 'new moon': adjustedProps.Water += adjustment,
@@ -869,16 +869,16 @@ const recipeMatching = {
     alchemicalAlignment: 0.7,
     recommendations: ['Recipe compatibility calculated with simplified system']
   })
-},
+}
 
 // Export all calculation functions and types
 // Note: These are now exported individually below to avoid conflicts
 
 // Import and export elementalCalculations from the core module
-export { default as elementalCalculations } from './core/elementalCalculations',
+export { default as elementalCalculations } from './core/elementalCalculations';
 
 // Also export the ElementalCalculator class from the main elementalcalculations.ts file
-export { calculateElementalEnergies, ElementalCalculator } from './elementalcalculations',
+export { calculateElementalEnergies, ElementalCalculator } from './elementalcalculations';
 
 // Export all functions from core elementalCalculations for direct access (avoiding duplicates)
 export {
@@ -895,7 +895,7 @@ export {
   normalizeElementalProperties,
   SEASONAL_MODIFIERS,
   ZODIAC_ELEMENTS
-} from './core/elementalCalculations',
+} from './core/elementalCalculations';
 
 // Export other calculation modules
 export * from './alchemicalCalculations',
@@ -904,11 +904,11 @@ export * from './combinationEffects',
 export * from './culinaryAstrology',
 export * from './enhancedAlchemicalMatching',
 export * from './enhancedCuisineRecommender',
-export { default as gregsEnergyCalculations } from './gregsEnergy',
-export { default as seasonalCalculations } from './seasonalCalculations',
+export { default as gregsEnergyCalculations } from './gregsEnergy';
+export { default as seasonalCalculations } from './seasonalCalculations';
 
 // Export from core directory - avoid duplicate exports
-export { calculateAlchemicalProperties as calculateCoreAlchemicalProperties } from './core/alchemicalCalculations',
+export { calculateAlchemicalProperties as calculateCoreAlchemicalProperties } from './core/alchemicalCalculations';
 export {
   calculateKalchmResults,
   default as kalchmEngine,
@@ -917,12 +917,12 @@ export {
   type ElementalValues,
   type KalchmResult,
   type ThermodynamicResults
-} from './core/kalchmEngine',
+} from './core/kalchmEngine';
 export {
   calculatePlanetaryInfluences,
   getPlanetaryCulinaryRecommendations,
   default as planetaryInfluences
-} from './core/planetaryInfluences',
+} from './core/planetaryInfluences';
 
 // Export from culinary directory
 export * from './culinary/cuisineRecommendations',
@@ -936,4 +936,4 @@ export default {
   kalchmEngine,
   elementalCalculations: elementalCalculationsModule,
   planetaryInfluences
-},
+}

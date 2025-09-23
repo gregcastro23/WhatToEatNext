@@ -22,7 +22,7 @@ interface PlanetDataWithTransits {
   PlanetSpecific?: {
     ZodiacTransit?: Record<string, unknown>,
     TransitDates?: Record<string, TransitDate>
-  },
+  }
 }
 
 // Map planets to their data files
@@ -37,14 +37,14 @@ const planetDataMap: Record<string, PlanetDataWithTransits> = {
   Uranus: uranusData,
   Neptune: neptuneData,
   Pluto: plutoData
-},
+}
 
 /**
  * Converts a string like 'Taurus' to lowercase 'taurus' to match ZodiacSign type
  */
 const normalizeZodiacSign = (sign: string): any => {;
   return sign.toLowerCase() as any
-},
+}
 
 /**
  * Gets current zodiac sign for a planet based on transit dates
@@ -83,7 +83,7 @@ export function validatePlanetaryPositions(
   date: Date = new Date(),
 ): Record<string, PlanetPosition> {
   // Clone the positions to avoid mutating the original
-  const validatedPositions = { ...positions },
+  const validatedPositions = { ...positions }
 
   // Check each planet against its transit dates
   for (const [planet, position] of Object.entries(validatedPositions)) {
@@ -103,7 +103,7 @@ export function validatePlanetaryPositions(
         // Recalculate exact longitude based on new sign,
         exactLongitude:
           getBaseSignLongitude(transitSign) + position.degree + (position.minute / 60 || 0)
-      },
+      }
     }
   }
 
@@ -139,22 +139,22 @@ function getBaseSignLongitude(sign: any): number {
  */
 export function getCurrentTransitPositions(): Record<string, PlanetPosition> {
   const _currentDate = new Date()
-  const positions: Record<string, PlanetPosition> = {},
+  const positions: Record<string, PlanetPosition> = {}
 
   // Current planetary positions (May 16, 2024) from user input
   const hardcodedPositions: Record<string, { sign: any; degree: number, minute: number }> = {
-    Sun: { sign: 'taurus', degree: 27, minute: 12 },
-    Moon: { sign: 'capricorn', degree: 25, minute: 36 },
-    Mercury: { sign: 'taurus', degree: 13, minute: 17 },
-    Venus: { sign: 'aries', degree: 12, minute: 10 },
-    Mars: { sign: 'leo', degree: 13, minute: 44 },
-    Jupiter: { sign: 'gemini', degree: 24, minute: 53 },
-    Saturn: { sign: 'pisces', degree: 29, minute: 25 },
-    Uranus: { sign: 'taurus', degree: 27, minute: 17 },
-    Neptune: { sign: 'aries', degree: 1, minute: 33 },
-    Pluto: { sign: 'aquarius', degree: 3, minute: 46 },
+    Sun: { sign: 'taurus', degree: 27, minute: 12 }
+    Moon: { sign: 'capricorn', degree: 25, minute: 36 }
+    Mercury: { sign: 'taurus', degree: 13, minute: 17 }
+    Venus: { sign: 'aries', degree: 12, minute: 10 }
+    Mars: { sign: 'leo', degree: 13, minute: 44 }
+    Jupiter: { sign: 'gemini', degree: 24, minute: 53 }
+    Saturn: { sign: 'pisces', degree: 29, minute: 25 }
+    Uranus: { sign: 'taurus', degree: 27, minute: 17 }
+    Neptune: { sign: 'aries', degree: 1, minute: 33 }
+    Pluto: { sign: 'aquarius', degree: 3, minute: 46 }
     _Ascendant: { sign: 'libra', degree: 23, minute: 47 }
-  },
+  }
 
   // Use the hardcoded positions from May 16, 2024
   for (const [planet, data] of Object.entries(hardcodedPositions)) {
@@ -169,7 +169,7 @@ export function getCurrentTransitPositions(): Record<string, PlanetPosition> {
       minute,
       exactLongitude,
       _isRetrograde: planet === 'Pluto', // Only Pluto is retrograde currently,
-    },
+    }
   }
 
   return positions,

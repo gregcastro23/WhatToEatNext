@@ -21,60 +21,60 @@ const baseCuisine: Cuisine = {
   id: 'base',
   name: '',
   description: '',
-  motherSauces: {},
+  motherSauces: {}
   dishes: {
     breakfast: {
       spring: [],
       summer: [],
       autumn: [],
       winter: []
-    },
+    }
     lunch: {
       spring: [],
       summer: [],
       autumn: [],
       winter: []
-    },
+    }
     dinner: {
       spring: [],
       summer: [],
       autumn: [],
       winter: []
-    },
+    }
     dessert: {
       spring: [],
       summer: [],
       autumn: [],
       winter: []
     }
-  },
-  traditionalSauces: {},
+  }
+  traditionalSauces: {}
   sauceRecommender: {
-    forProtein: {},
-    forVegetable: {},
-    forCookingMethod: {},
-    byAstrological: {},
-    byRegion: {},
+    forProtein: {}
+    forVegetable: {}
+    forCookingMethod: {}
+    byAstrological: {}
+    byRegion: {}
     byDietary: {}
-  },
+  }
   cookingTechniques: [],
-  regionalCuisines: {},
+  regionalCuisines: {}
   elementalProperties: {
     Fire: 0,
     Water: 0.75,
     Earth: 0.65,
     Air: 0
-  },
+  }
   astrologicalInfluences: []
-},
+}
 
 // Process the recipes to combine seasonal and 'all' categories
 const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
-  if (!cuisine) return { ...baseCuisine },
+  if (!cuisine) return { ...baseCuisine }
 
   // Helper to combine 'all' recipes with seasonal ones
   const combineRecipes = (mealType: unknown) => {
-    if (!mealType) return { spring: [], summer: [], autumn: [], winter: [] },
+    if (!mealType) return { spring: [], summer: [], autumn: [], winter: [] }
 
     // Use safe type casting for mealType property access
     const mealData = mealType as any;
@@ -88,8 +88,8 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
       summer: [...(Array.isArray(mealData.summer) ? mealData.summer : []), ...allRecipes],
       autumn: [...(Array.isArray(mealData.autumn) ? mealData.autumn : []), ...allRecipes],
       winter: [...(Array.isArray(mealData.winter) ? mealData.winter : []), ...allRecipes]
-    },
-  },
+    }
+  }
 
   // Ensure the cuisine has at least a valid ID and name
   const name = cuisine.name || '';
@@ -99,24 +99,24 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
     id,
     name,
     description: cuisine.description || '',
-    motherSauces: cuisine.motherSauces || {},
+    motherSauces: cuisine.motherSauces || {}
     dishes: {
       breakfast: combineRecipes(cuisine.dishes?.breakfast),
       lunch: combineRecipes(cuisine.dishes?.lunch),
       dinner: combineRecipes(cuisine.dishes?.dinner),
       dessert: combineRecipes(cuisine.dishes?.dessert)
-    },
-    traditionalSauces: cuisine.traditionalSauces || {},
+    }
+    traditionalSauces: cuisine.traditionalSauces || {}
     sauceRecommender: {
-      forProtein: cuisine.sauceRecommender?.forProtein || {},
-      forVegetable: cuisine.sauceRecommender?.forVegetable || {},
-      forCookingMethod: cuisine.sauceRecommender?.forCookingMethod || {},
-      byAstrological: cuisine.sauceRecommender?.byAstrological || {},
-      byRegion: cuisine.sauceRecommender?.byRegion || {},
+      forProtein: cuisine.sauceRecommender?.forProtein || {}
+      forVegetable: cuisine.sauceRecommender?.forVegetable || {}
+      forCookingMethod: cuisine.sauceRecommender?.forCookingMethod || {}
+      byAstrological: cuisine.sauceRecommender?.byAstrological || {}
+      byRegion: cuisine.sauceRecommender?.byRegion || {}
       byDietary: cuisine.sauceRecommender?.byDietary || {}
-    },
+    }
     cookingTechniques: Array.isArray(cuisine.cookingTechniques) ? cuisine.cookingTechniques : [],
-    regionalCuisines: cuisine.regionalCuisines || {},
+    regionalCuisines: cuisine.regionalCuisines || {}
     elementalProperties: cuisine.elementalProperties ||
       (cuisine as any).elementalState || { ...baseCuisine.elementalProperties }, // For backward compatibility
     regionalVarieties: cuisine.regionalCuisines ? Object.keys(cuisine.regionalCuisines).length : 0,
@@ -124,7 +124,7 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
       ? cuisine.astrologicalInfluences
       : []
   } as Cuisine; // Use type assertion to ensure the return type is Cuisine
-},
+}
 
 // Create and export the cuisines map with validated structures
 export const cuisinesMap = {
@@ -160,7 +160,7 @@ export const CUISINES = {
       Earth: 0.3,
       Air: 0.2
     }
-  },
+  }
   chinese: {
     name: 'Chinese',
     elementalProperties: {
@@ -169,7 +169,7 @@ export const CUISINES = {
       Earth: 0.3,
       Air: 0.1
     }
-  },
+  }
   japanese: {
     name: 'Japanese',
     elementalProperties: {
@@ -178,7 +178,7 @@ export const CUISINES = {
       Earth: 0.2,
       Air: 0.2
     }
-  },
+  }
   indian: {
     name: 'Indian',
     elementalProperties: {
@@ -187,7 +187,7 @@ export const CUISINES = {
       Earth: 0.2,
       Air: 0.2
     }
-  },
+  }
   french: {
     name: 'French',
     elementalProperties: {
@@ -196,7 +196,7 @@ export const CUISINES = {
       Earth: 0.3,
       Air: 0.2
     }
-  },
+  }
   italian: {
     name: 'Italian',
     elementalProperties: {
@@ -205,7 +205,7 @@ export const CUISINES = {
       Water: 0.2,
       Air: 0.1
     }
-  },
+  }
   african: {
     name: 'African',
     elementalProperties: {
@@ -214,7 +214,7 @@ export const CUISINES = {
       Water: 0.2,
       Air: 0.1
     }
-  },
+  }
   middleEastern: {
     name: 'Middle Eastern',
     elementalProperties: {
@@ -223,7 +223,7 @@ export const CUISINES = {
       Water: 0.2,
       Air: 0.2
     }
-  },
+  }
   greek: {
     name: 'Greek',
     elementalProperties: {
@@ -232,7 +232,7 @@ export const CUISINES = {
       Water: 0.3,
       Air: 0.2
     }
-  },
+  }
   mexican: {
     name: 'Mexican',
     elementalProperties: {
@@ -241,7 +241,7 @@ export const CUISINES = {
       Water: 0.1,
       Air: 0.1
     }
-  },
+  }
   thai: {
     name: 'Thai',
     elementalProperties: {
@@ -250,7 +250,7 @@ export const CUISINES = {
       Earth: 0.2,
       Air: 0.1
     }
-  },
+  }
   vietnamese: {
     name: 'Vietnamese',
     elementalProperties: {
@@ -259,7 +259,7 @@ export const CUISINES = {
       Earth: 0.2,
       Air: 0.2
     }
-  },
+  }
   korean: {
     name: 'Korean',
     elementalProperties: {
@@ -268,7 +268,7 @@ export const CUISINES = {
       Water: 0.2,
       Air: 0.2
     }
-  },
+  }
   russian: {
     name: 'Russian',
     elementalProperties: {
@@ -288,8 +288,8 @@ export type CuisineData = {
     Water: number,
     Earth: number,
     Air: number
-  },
-},
+  }
+}
 
 // Ensure type safety
 export type Cuisines = typeof CUISINES,

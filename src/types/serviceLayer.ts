@@ -36,7 +36,7 @@ export interface CampaignMetrics {
     averageProcessingTime: number,
     _memoryUsage: number,
     _cacheHitRate: number
-  },
+  }
 }
 
 export interface CampaignResult {
@@ -50,7 +50,7 @@ export interface CampaignResult {
     backupPaths: string[],
     _logFiles: string[],
     _reportFiles: string[]
-  },
+  }
 }
 
 export interface CampaignError {
@@ -76,7 +76,7 @@ export interface QualityGateConfig {
     coveragePercentage?: number,
     performanceScore?: number
     buildTime?: number
-  },
+  }
   blocksDeployment: boolean,
   _notificationChannels: string[]
 }
@@ -91,7 +91,7 @@ export interface QualityGateResult {
     coveragePercentage: number,
     performanceScore: number,
     _buildTimeMs: number
-  },
+  }
   violations: QualityViolation[],
   timestamp: Date,
   executionTime: number
@@ -136,7 +136,7 @@ export interface Alert {
     _thresholdValue: number,
     file?: string,
     context?: string
-  },
+  }
   _resolved: boolean,
   resolvedAt?: Date
 }
@@ -163,7 +163,7 @@ export interface RecipeQueryParams {
     zodiacSign?: string,
     lunarPhase?: string,
     elementalPreferences?: string[]
-  },
+  }
 }
 
 export interface RecipeServiceResult<T = unknown> {,
@@ -173,13 +173,13 @@ export interface RecipeServiceResult<T = unknown> {,
     type: 'validation' | 'network' | 'parsing' | 'system',
     message: string,
     code?: string
-  },
+  }
   metadata: {
     source: string,
     _cached: boolean,
     executionTime: number,
     timestamp: Date
-  },
+  }
 }
 
 // Enterprise intelligence service types
@@ -204,7 +204,7 @@ export interface EnterpriseAnalysisContext {
     analysisType: string,
     dataSource: string,
     _filters: EnterpriseFilter[]
-  },
+  }
   metadata: Record<string, string | number | boolean>,
 }
 
@@ -226,7 +226,7 @@ export interface EnterpriseServiceResult<T = unknown> {,
     version: string,
     model?: string
     timestamp: Date
-  },
+  }
 }
 
 // Linting service types
@@ -271,7 +271,7 @@ export interface LintingMessage {
   fix?: {
     range: [number, number],
     text: string
-  },
+  }
   suggestions?: LintingSuggestion[]
 }
 
@@ -281,7 +281,7 @@ export interface LintingSuggestion {
   fix: {
     range: [number, number],
     text: string
-  },
+  }
 }
 
 // Generic service response wrapper
@@ -341,13 +341,13 @@ export interface SecurityConfig {
   _rateLimiting: {
     enabled: boolean,
     requestsPerMinute?: number
-  },
+  }
   validation: {
     inputSanitization: boolean,
     outputSanitization: boolean
-  },
+  }
   encryption: {
     enabled: boolean,
     algorithm?: string
-  },
+  }
 }

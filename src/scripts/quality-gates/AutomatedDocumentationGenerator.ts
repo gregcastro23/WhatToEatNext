@@ -166,7 +166,7 @@ class AutomatedDocumentationGenerator {
         {
           encoding: 'utf8',
           stdio: 'pipe'
-        },
+        }
       )
 
       return output.split('\n').filter(file => file.trim() && fs.existsSync(file))
@@ -196,18 +196,18 @@ class AutomatedDocumentationGenerator {
 
         // Enhanced any type patterns
         const anyPatterns = [
-          { pattern: /\bany\[\]/g, type: 'array' },
-          { pattern: /Record<[^,>]+,\s*any>/g, type: 'record' },
-          { pattern: /:\s*any(?=\s*[,,=})\]])/g, type: 'variable' },
-          { pattern: /\{\s*\[key:\s*string\]:\s*any\s*\}/g, type: 'index_signature' },
-          { pattern: /<[^>]*,\s*any>/g, type: 'generic' },
-          { pattern: /\([^)]*:\s*any[^)]*\)/g, type: 'parameter' },
-          { pattern: /as\s+any(?!\w)/g, type: 'assertion' },
-          { pattern: /any\s*\|/g, type: 'union' },
-          { pattern: /\|\s*any(?!\w)/g, type: 'union' },
-          { pattern: /=\s*any(?=\s*[,,}\]])/g, type: 'assignment' },
-          { pattern: /:\s*any\s*=/g, type: 'initialization' },
-          { pattern: /Promise<any>/g, type: 'promise' },
+          { pattern: /\bany\[\]/g, type: 'array' }
+          { pattern: /Record<[^,>]+,\s*any>/g, type: 'record' }
+          { pattern: /:\s*any(?=\s*[,,=})\]])/g, type: 'variable' }
+          { pattern: /\{\s*\[key:\s*string\]:\s*any\s*\}/g, type: 'index_signature' }
+          { pattern: /<[^>]*,\s*any>/g, type: 'generic' }
+          { pattern: /\([^)]*:\s*any[^)]*\)/g, type: 'parameter' }
+          { pattern: /as\s+any(?!\w)/g, type: 'assertion' }
+          { pattern: /any\s*\|/g, type: 'union' }
+          { pattern: /\|\s*any(?!\w)/g, type: 'union' }
+          { pattern: /=\s*any(?=\s*[,,}\]])/g, type: 'assignment' }
+          { pattern: /:\s*any\s*=/g, type: 'initialization' }
+          { pattern: /Promise<any>/g, type: 'promise' }
           { pattern: /Array<any>/g, type: 'array_generic' }
         ],
 
@@ -261,7 +261,7 @@ class AutomatedDocumentationGenerator {
   private categorizeAnyType(
     filePath: string,
     line: string,
-    context: { previousLine: string, nextLine: string },
+    context: { previousLine: string, nextLine: string }
   ): AnyTypeCategory {
     const { previousLine, nextLine } = context;
     const fullContext = `${previousLine} ${line} ${nextLine}`.toLowerCase()
@@ -604,4 +604,4 @@ Examples:
   }
 }
 
-export { AnyTypeCategory, AnyTypeOccurrence, AutomatedDocumentationGenerator },
+export { AnyTypeCategory, AnyTypeOccurrence, AutomatedDocumentationGenerator };

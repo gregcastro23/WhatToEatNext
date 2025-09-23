@@ -32,7 +32,7 @@ const SaucesPage: NextPage = () => {
 
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
-    const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     setElementalState({
       ...currentState
       season: 'spring', // Default value since getCurrentElementalState doesn't provide season
@@ -144,8 +144,8 @@ const SaucesPage: NextPage = () => {
               id='search',
               className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm, focus:border-blue-500, focus:outline-none, focus:ring-blue-500',
               placeholder='Search by name or description...'
-              value={searchTerm},
-              onChange={e => setSearchTerm(e.target.value)},
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
             />
           </div>
 
@@ -156,8 +156,8 @@ const SaucesPage: NextPage = () => {
             <select
               id='cuisine',
               className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm, focus:border-blue-500, focus:outline-none, focus:ring-blue-500'
-              value={selectedCuisine},
-              onChange={e => setSelectedCuisine(e.target.value)},
+              value={selectedCuisine}
+              onChange={e => setSelectedCuisine(e.target.value)}
             >
               <option value=''>All Cuisines</option>,
               {availableCuisines.map(cuisine => (,
@@ -175,8 +175,8 @@ const SaucesPage: NextPage = () => {
             <select
               id='base',
               className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm, focus:border-blue-500, focus:outline-none, focus:ring-blue-500'
-              value={selectedBase},
-              onChange={e => setSelectedBase(e.target.value)},
+              value={selectedBase}
+              onChange={e => setSelectedBase(e.target.value)}
             >
               <option value=''>All Bases</option>,
               {availableBases.map(base => (,
@@ -194,8 +194,8 @@ const SaucesPage: NextPage = () => {
             <select
               id='element',
               className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm, focus:border-blue-500, focus:outline-none, focus:ring-blue-500'
-              value={elementalFilter || ''},
-              onChange={e => setElementalFilter(e.target.value || null)},
+              value={elementalFilter || ''}
+              onChange={e => setElementalFilter(e.target.value || null)}
             >
               <option value=''>All Elements</option>,
               <option value='Fire'>Fire</option>,
@@ -211,7 +211,7 @@ const SaucesPage: NextPage = () => {
               .filter(([key]) => ['Fire', 'Water', 'Earth', 'Air'].includes(key))
               .map(([element, value]) => (
                 <div
-                  key={element},
+                  key={element}
                   className='flex items-center gap-1 rounded px-2 py-1 text-xs',
                   style={{,
                     backgroundColor:
@@ -233,13 +233,13 @@ const SaucesPage: NextPage = () => {
                 >
                   <span>{element}</span>
                   <span>{Math.round(Number(value) * 100)}%</span>
-                  {element === dominantElement && <span className='ml-1'>★</span>},
+                  {element === dominantElement && <span className='ml-1'>★</span>}
                 </div>
               ))}
 
             <button
               className='ml-auto rounded border border-blue-400 px-2 py-1 text-xs text-blue-600, hover: bg-blue-50'
-              onClick={() => setElementalFilter(dominantElement)},
+              onClick={() => setElementalFilter(dominantElement)}
             >
               Match {dominantElement}
             </button>
@@ -278,8 +278,8 @@ const SaucesPage: NextPage = () => {
 
             return (
               <Link
-                href={`/sauces/${cuisineId}/${sauceId}`},
-                key={`${cuisineId}-${sauceId}`},
+                href={`/sauces/${cuisineId}/${sauceId}`}
+                key={`${cuisineId}-${sauceId}`}
                 className='block overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow, hover: shadow-md',
               >
                 <div className='p-5'>
@@ -353,6 +353,6 @@ const SaucesPage: NextPage = () => {
       </div>
     </div>
   )
-},
+}
 
 export default SaucesPage,

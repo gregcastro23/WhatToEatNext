@@ -3,7 +3,7 @@ import type {
   ElementalProperties,
   ZodiacSign,
   ThermodynamicProperties
-} from './shared',
+} from './shared';
 
 /**
  * Interface defining the structure of cooking method data
@@ -16,7 +16,7 @@ export interface CookingMethodData {
   duration: {
     min: number,
     max: number
-  },
+  }
   suitable_for: string[],
   benefits: string[],
 
@@ -27,7 +27,7 @@ export interface CookingMethodData {
     lunarPhaseEffect?: Record<string, number>,
     dominantPlanets?: string[]
     rulingPlanets?: string[]
-  },
+  }
 
   thermodynamicProperties?: ThermodynamicProperties,
 
@@ -73,4 +73,4 @@ export interface CookingMethodData {
 }
 
 // Export alias for compatibility
-export type { CookingMethod } from './shared',
+export type { CookingMethod } from './shared';

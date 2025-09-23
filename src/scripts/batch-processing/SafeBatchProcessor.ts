@@ -74,7 +74,7 @@ export class SafeBatchProcessor {
       createGitStash: true,
       logLevel: 'info',
       ...config
-    },
+    }
   }
 
   /**
@@ -153,7 +153,7 @@ export class SafeBatchProcessor {
       warnings: [],
       processingTime: 0,
       stashId: undefined
-    },
+    }
 
     try {
       // Create git stash before processing if enabled
@@ -250,7 +250,7 @@ export class SafeBatchProcessor {
     const eliminated = Math.floor(((fileInfo as any)?.unusedVariableCount || 0) * 0.2); // 70% elimination rate
     const preserved = fileInfo.unusedVariableCount - eliminated;
 
-    return { eliminated, preserved },
+    return { eliminated, preserved }
   }
 
   /**
@@ -259,7 +259,7 @@ export class SafeBatchProcessor {
   private sortFilesByRisk(files: FileProcessingInfo[]): FileProcessingInfo[] {
     return files.sort((ab) => {
       // Process low-risk files first
-      const riskOrder = { low: 1, medium: 2, high: 3 },
+      const riskOrder = { low: 1, medium: 2, high: 3 }
       if (riskOrder[a.riskLevel] !== riskOrder[b.riskLevel]) {
         return riskOrder[a.riskLevel] - riskOrder[b.riskLevel]
       }
@@ -401,7 +401,7 @@ export class SafeBatchProcessor {
       compilationStatus,
       errorCount,
       stashId
-    },
+    }
 
     this.checkpoints.push(checkpoint)
     this.log('debug', `📍 Created safety checkpoint: ${id}`)
@@ -417,7 +417,7 @@ export class SafeBatchProcessor {
       totalPreserved: this.totalPreserved,
       checkpointsCreated: this.checkpoints.length,
       lastCheckpoint: this.checkpoints[this.checkpoints.length - 1]
-    },
+    }
   }
 
   /**
@@ -431,7 +431,7 @@ export class SafeBatchProcessor {
    * Log message with appropriate level
    */
   private log(level: 'debug' | 'info' | 'warn' | 'error', message: string): void {
-    const levels = { debug: 0, info: 1, warn: 2, error: 3 },
+    const levels = { debug: 0, info: 1, warn: 2, error: 3 }
     const configLevel = levels[this.config.logLevel];
     const messageLevel = levels[level];
 

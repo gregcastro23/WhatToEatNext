@@ -3,4 +3,4 @@ export const _DEFAULT_ELEMENTAL_PROPS = {
   Water: 0.25,
   Earth: 0.25,
   Air: 0.25
-},
+}

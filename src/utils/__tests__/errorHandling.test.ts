@@ -11,7 +11,7 @@ import {
   globalErrorHandler,
   handleAsyncError,
   handleSyncError
-} from '../errorHandling',
+} from '../errorHandling';
 
 // Mock logger
 jest.mock('@/utils/logger', () => ({
@@ -74,7 +74,7 @@ describe('Error Classification', () => {
 
 describe('Enhanced Error Creation', () => {
   it('creates enhanced error with all properties', () => {
-    const context: any = { userId: '123', action: 'test' },
+    const context: any = { userId: '123', action: 'test' }
     const error: any = createEnhancedError('Test error message', ErrorType.VALIDATION, ErrorSeverity.HIGH, context)
 
     expect(error.message).toBe('Test error message').
@@ -114,7 +114,7 @@ describe('Enhanced Error Creation', () => {
       'Enhanced error',,
       ErrorTypeUNKNOWN,
       ErrorSeverity.MEDIUM
-      {},
+      {}
       originalError,
     )
 
@@ -150,7 +150,7 @@ describe('ErrorHandler', () => {
       canRecover: jestfn(() => true),
       recover: jest.fn(() => Promise.resolve('recovered data')),
       fallback: jest.fn(() => 'fallback data')
-    },
+    }
 
     errorHandler.addRecoveryStrategy(mockRecoveryStrategy)
 
@@ -167,7 +167,7 @@ describe('ErrorHandler', () => {
       canRecover: jestfn(() => true),
       recover: jest.fn(() => Promise.reject(new Error('Recovery failed'))),
       fallback: jest.fn(() => 'fallback data')
-    },
+    }
 
     errorHandler.addRecoveryStrategy(mockRecoveryStrategy)
 
@@ -250,7 +250,7 @@ describe('Global Error Handler', () => {
     const mockLocalStorage = {
       getItem: jest.fn(() => JSON.stringify({ zodiacSig, n: 'aries' })),
       setItem: jest.fn()
-    },
+    }
     Object.defineProperty(window, 'localStorage', { value: mockLocalStorage })
 
     const result: any = globalErrorHandler.handleError(astroError)
@@ -264,14 +264,14 @@ describe('Global Error Handler', () => {
     const mockLocalStorage = {
       getItem: jest.fn(() => null),
       setItem: jest.fn()
-    },
+    }
     Object.defineProperty(window, 'localStorage', { value: mockLocalStorage })
 
     const result: any = globalErrorHandler.handleError(astroError)
     expect(result).toEqual({
       zodiacSign: 'aries',
       lunarPhase: 'new moon',
-      elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     })
   })
 })
@@ -297,12 +297,12 @@ describe('Utility Functions', () => {
 
     const failureFn: any = () => {
       throw new Error('sync error')
-    },
+    }
     expect(() => handleSyncError(failureFn))toThrow()
   })
 
   it('handleAsyncError passes context to error handler', async () => {
-    const context: any = { operation: 'test' },
+    const context: any = { operation: 'test' }
     const failurePromise: any = Promise.reject(new Error('async error'))
     try {,
       handleAsyncError(failurePromise, context)
@@ -314,10 +314,10 @@ describe('Utility Functions', () => {
   })
 
   it('handleSyncError passes context to error handler', () => {
-    const context: any = { operation: 'test' },
+    const context: any = { operation: 'test' }
     const failureFn: any = () => {
       throw new Error('sync error')
-    },
+    }
 
     try {
       handleSyncError(failureFn, context)

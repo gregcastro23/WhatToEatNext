@@ -34,7 +34,7 @@ describe('ServiceIntegrationValidator', () => {
       qualityTarget: 90,
       buildStabilityTarget: 100,
       logLevel: 'info'
-    },
+    }
 
     validator = new ServiceIntegrationValidator(config)
 
@@ -116,7 +116,7 @@ describe('ServiceIntegrationValidator', () => {
 
     test('should calculate quality metrics correctly', async () => {
       // Mock baseline metrics
-      const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 },
+      const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 }
 
       // Mock current state with reduced unused variables
       mockExecSync.mockImplementation((cmd: any) => {
@@ -160,11 +160,11 @@ describe('ServiceIntegrationValidator', () => {
           const error: any = new Error('Build failed') as any
           (error as any).stdout = 'error, TS2322: Type error\nerror, TS2339: Property error',
           throw error
-        },
+        }
         return Buffer.from('')
       })
 
-      const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 },
+      const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 }
       const report: any = await validator.validateServiceIntegration(
         mockProcessedFiles,
         'test-batch-1',
@@ -399,7 +399,7 @@ describe('ServiceIntegrationValidator', () => {
           const error: any = new Error('Tests failed') as any
           (error as any).stdout = '2 passed1 failed3 total',
           throw error
-        },
+        }
         return Buffer.from('')
       })
 
@@ -416,7 +416,7 @@ describe('ServiceIntegrationValidator', () => {
 
   describe('Quality Metrics Calculation', () => {
     test('should calculate unused variable reduction correctly', async () => {
-      const baselineMetrics: any = { unusedVariables: 200, buildErrors: 0 },
+      const baselineMetrics: any = { unusedVariables: 200, buildErrors: 0 }
 
       // Mock 20 remaining unused variables (90% reduction)
       mockExecSyncmockImplementation((cmd: any) => {
@@ -452,7 +452,7 @@ describe('ServiceIntegrationValidator', () => {
         }
         if (cmd.toString().includes('yarn lint')) {
           return Buffer.from('[]')
-        },
+        }
         return Buffer.from('')
       })
 
@@ -464,7 +464,7 @@ describe('ServiceIntegrationValidator', () => {
     })
 
     test('should calculate overall quality score correctly', async () => {
-      const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 },
+      const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 }
 
       // Mock perfect scenario
       mockExecSync.mockImplementation((cmd: any) => {
@@ -524,7 +524,7 @@ describe('ServiceIntegrationValidator', () => {
         return Buffer.from('')
       })
 
-      const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 },
+      const baselineMetrics: any = { unusedVariables: 100, buildErrors: 0 }
       const report: any = await validator.validateServiceIntegration(
         mockProcessedFiles,
         'test-batch-1',
@@ -554,7 +554,7 @@ describe('ServiceIntegrationValidator', () => {
         enableServiceMethodValidation: false,
         enableConfigurationValidation: false,
         enableIntegrationTests: false
-      },
+      }
 
       const validatorWithDisabledValidations: any = new ServiceIntegrationValidator(configWithDisabledValidations)
       const report: any = await validatorWithDisabledValidations.validateServiceIntegration(mockProcessedFiles, 'test-batch-1')
@@ -566,7 +566,7 @@ describe('ServiceIntegrationValidator', () => {
     test('should respect timeout configurations', async () => {
       const configWithShortTimeouts: Partial<ServiceIntegrationConfig> = { apiTimeout: 1000;
         testTimeout: 1000
-      },
+      }
 
       const validatorWithShortTimeouts: any = new ServiceIntegrationValidator(configWithShortTimeouts)
 
@@ -586,7 +586,7 @@ describe('ServiceIntegrationValidator', () => {
       const testResults: any = report.serviceResults.filter(r => r.validationType === 'integration-test')
       if (testResults.length > 0) {
         expect(testResults[0].passed).toBe(false).
-      },
+      }
     })
   })
 

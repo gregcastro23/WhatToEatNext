@@ -4,7 +4,7 @@ import { ZodiacSign, ElementalProperties } from '@/types/alchemy';
 // Create element modifiers based on zodiac sign's element
 type ZodiacElementModifiers = {
   [key in ZodiacSign]: ElementalProperties
-},
+}
 
 // Helper function to create elemental modifiers based on dominant element
 function createElementalModifiersForZodiac(dominantElement: string): ElementalProperties {
@@ -41,7 +41,7 @@ function createElementalModifiersForZodiac(dominantElement: string): ElementalPr
           : dominantElement === 'Water'
             ? 0.3
             : 0.2
-  },
+  }
 }
 
 // Build the modifiers for each zodiac sign
@@ -49,7 +49,7 @@ export const ZODIAC_MODIFIERS: ZodiacElementModifiers = Object.entries(zodiacSea
   (acc, [sign, data]) => {
     acc[sign as any] = createElementalModifiersForZodiac(data.element)
     return acc
-  },
+  }
   {} as ZodiacElementModifiers,
 )
 
@@ -72,7 +72,7 @@ export const SEASONAL_MODIFIERS: SeasonalModifiers = {
   fall: createElementalModifiersForZodiac('Earth'),
   // Add zodiac signs to the seasonal modifiers for direct access
   ...ZODIAC_MODIFIERS
-},
+}
 
 // Influence of seasonal factors on food preferences and energy levels
 export const _SEASONAL_INFLUENCE = {
@@ -82,14 +82,14 @@ export const _SEASONAL_INFLUENCE = {
     summer: 0.9,
     autumn: 0.6,
     winter: 0.8
-  },
+  }
   // How seasons affect mood and energy
   energyModifier: {
-    spring: { vitality: 0.6, creativity: 0.7, stability: 0.4, adaptability: 0.8 },
-    summer: { vitality: 0.9, creativity: 0.8, stability: 0.5, adaptability: 0.6 },
-    autumn: { vitality: 0.5, creativity: 0.6, stability: 0.8, adaptability: 0.5 },
+    spring: { vitality: 0.6, creativity: 0.7, stability: 0.4, adaptability: 0.8 }
+    summer: { vitality: 0.9, creativity: 0.8, stability: 0.5, adaptability: 0.6 }
+    autumn: { vitality: 0.5, creativity: 0.6, stability: 0.8, adaptability: 0.5 }
     winter: { vitality: 0.4, creativity: 0.5, stability: 0.7, adaptability: 0.4 }
   }
-},
+}
 
 export default SEASONAL_MODIFIERS,

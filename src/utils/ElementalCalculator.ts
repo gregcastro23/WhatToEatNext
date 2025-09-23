@@ -6,7 +6,7 @@ export function calculateMatchScore(
     season?: string,
     cuisine?: string,
     preferHigherContrast?: boolean
-  },
+  }
 ) {
   // Validate input properties to avoid NaN results
   if (!elementalProperties || typeof elementalProperties !== 'object') {
@@ -16,7 +16,7 @@ export function calculateMatchScore(
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-    },
+    }
   }
 
   // Ensure each elemental property is a valid number
@@ -36,7 +36,7 @@ export function calculateMatchScore(
       typeof elementalProperties.Air === 'number' && !isNaN(elementalProperties.Air)
         ? elementalProperties.Air
         : 0.25
-  },
+  }
 
   if (!elementalState || Object.keys(elementalState).length === 0) {,
     // If no elemental state is provided, use a standard distribution
@@ -45,7 +45,7 @@ export function calculateMatchScore(
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-    },
+    }
   }
 
   // Validate elementalState to avoid NaN results
@@ -65,7 +65,7 @@ export function calculateMatchScore(
       typeof elementalState.Air === 'number' && !isNaN(elementalState.Air)
         ? elementalState.Air
         : 0.25
-  },
+  }
 
   // Calculate similarity score between the ingredient's elemental properties and current elemental state
   let similarityScore = 0,
@@ -134,7 +134,7 @@ export function calculateMatchScore(
       try {
         // Use dynamic import to avoid circular dependencies
         import('../data/cuisineFlavorProfiles')
-          .then(module => {,
+          .then(module => {
             const { _getCuisineProfile} = module
             const cuisineProfile = getCuisineProfile(options.cuisine || '')
 

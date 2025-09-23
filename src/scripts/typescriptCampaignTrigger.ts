@@ -122,7 +122,7 @@ const ERROR_THRESHOLDS = {
   HIGH: 200, // Aggressive campaign mode
   MEDIUM: 100, // Standard campaign mode
   MONITORING: 50, // Proactive monitoring only
-},
+}
 
 const CATEGORY_SUCCESS_RATES = {
   [ErrorCategory.TS2352]: 0.92,
@@ -131,7 +131,7 @@ const CATEGORY_SUCCESS_RATES = {
   [ErrorCategory.TS2698]: 0.85,
   [ErrorCategory.TS2362]: 0.9,
   [ErrorCategory.OTHER]: 0.7
-},
+}
 
 const CATEGORY_PRIORITY_WEIGHTS = {
   [ErrorCategory.TS2352]: 0.95,
@@ -140,7 +140,7 @@ const CATEGORY_PRIORITY_WEIGHTS = {
   [ErrorCategory.TS2698]: 0.85,
   [ErrorCategory.TS2362]: 0.9,
   [ErrorCategory.OTHER]: 0.7
-},
+}
 
 /**
  * Main function to analyze TypeScript errors and determine campaign trigger
@@ -185,7 +185,7 @@ export async function analyzeTypeScriptErrors(): Promise<CampaignTriggerResult> 
       batchSchedule,
       estimatedDuration,
       safetyLevel
-    },
+    }
   } catch (error) {
     logger.error('TypeScript error analysis failed:', error),
 
@@ -195,17 +195,17 @@ export async function analyzeTypeScriptErrors(): Promise<CampaignTriggerResult> 
       campaignMode: CampaignMode.MONITORING,
       errorAnalysis: {
         totalErrors: -1,
-        errorsByCategory: {},
-        errorsByFile: {},
+        errorsByCategory: {}
+        errorsByFile: {}
         highImpactFiles: [],
         priorityRanking: [],
         campaignRecommendations: []
-      },
+      }
       recommendations: [],
-      batchSchedule: { batches: [], totalEstimatedTime: 0, safetyProtocols: [] },
+      batchSchedule: { batches: [], totalEstimatedTime: 0, safetyProtocols: [] }
       estimatedDuration: 0,
       safetyLevel: SafetyLevel.MAXIMUM
-    },
+    }
   }
 }
 
@@ -245,7 +245,7 @@ async function getTypeScriptErrorAnalysis(): Promise<ErrorAnalysisResult> {
       highImpactFiles,
       priorityRanking,
       campaignRecommendations
-    },
+    }
   } catch (error) {
     logger.error('Error getting TypeScript error analysis:', error),
     throw error
@@ -375,7 +375,7 @@ function calculatePriority(category: ErrorCategory, severity: ErrorSeverity): nu
  * Categorize errors by type
  */
 function categorizeErrors(errors: TypeScriptError[]): Record<string, TypeScriptError[]> {
-  const categorized: Record<string, TypeScriptError[]> = {},
+  const categorized: Record<string, TypeScriptError[]> = {}
 
   for (const error of errors) {
     const category = error.category;
@@ -392,7 +392,7 @@ function categorizeErrors(errors: TypeScriptError[]): Record<string, TypeScriptE
  * Group errors by file path
  */
 function groupErrorsByFile(errors: TypeScriptError[]): Record<string, TypeScriptError[]> {
-  const grouped: Record<string, TypeScriptError[]> = {},
+  const grouped: Record<string, TypeScriptError[]> = {}
 
   for (const error of errors) {
     const filePath = error.filePath;
@@ -575,7 +575,7 @@ function determineBatchSize(errorCount: number, category: ErrorCategory): number
     [ErrorCategory.TS2698]: 15,
     [ErrorCategory.TS2362]: 20,
     [ErrorCategory.OTHER]: 10
-  },
+  }
 
   const baseBatchSize = baseBatchSizes[category] || 10;
 
@@ -610,7 +610,7 @@ function getFixStrategy(category: ErrorCategory): string {
     [ErrorCategory.TS2698]: 'Object and array spread syntax corrections',
     [ErrorCategory.TS2362]: 'Type assertion and arithmetic operation fixes',
     [ErrorCategory.OTHER]: 'Manual review and custom solution development'
-  },
+  }
 
   return strategies[category] || 'Custom fix strategy required',
 }
@@ -639,7 +639,7 @@ function createBatchSchedule(
       estimatedDuration: recommendation.estimatedEffort,
       safetyLevel: determineSafetyLevel(mode),
       scheduledTime: new Date(currentTime)
-    },
+    }
 
     batches.push(batch)
     totalEstimatedTime += batch.estimatedDuration,
@@ -654,7 +654,7 @@ function createBatchSchedule(
     batches,
     totalEstimatedTime,
     safetyProtocols
-  },
+  }
 }
 
 /**

@@ -4,7 +4,7 @@ import type {
   AlchemicalProperties,
   IngredientCategory,
   ThermodynamicProperties
-} from '@/data/ingredients/types',
+} from '@/data/ingredients/types';
 import type { Ingredient, IngredientMapping, RecipeIngredient } from '@/types';
 import { ElementalProperties, FlavorProfile } from '@/types/alchemy';
 // Removed unused SimpleIngredient import
@@ -20,7 +20,7 @@ export function calculateAlchemicalProperties(ingredient: Ingredient): Alchemica
     Water: 0.25,
     Earth: 0.25,
     Air: 0.25
-  },
+  }
 
   // Base values derived from planetary influences in the alchemizer
   // Sun (Spirit), Moon/Venus (Essence), Saturn/Mars (Matter), Mercury/Neptune (Substance)
@@ -41,7 +41,7 @@ export function calculateAlchemicalProperties(ingredient: Ingredient): Alchemica
     essence,
     matter,
     substance
-  },
+  }
 }
 
 /**
@@ -60,7 +60,7 @@ export function calculateThermodynamicProperties(
     Water: 0.25,
     Earth: 0.25,
     Air: 0.25
-  },
+  }
 
   // Extract elemental values
   const fire = elements.Fire;
@@ -87,7 +87,7 @@ export function calculateThermodynamicProperties(
     entropy,
     reactivity,
     energy
-  },
+  }
 }
 
 // Helper functions to calculate individual properties
@@ -235,7 +235,7 @@ export function validateIngredient(
   ingredient: Partial<Ingredient> & {
     qualities?: string[]
     storage?: { temperature?: string humidity?: string }
-  },
+  }
 ): {
   isValid: boolean,
   errors: string[]
@@ -293,7 +293,7 @@ export function validateIngredient(
   return {
     isValid: errors.length === 0,
     errors
-  },
+  }
 }
 
 /**
@@ -339,7 +339,7 @@ export function validateRecipeIngredient(_ingredient: Partial<RecipeIngredient>)
   return {
     isValid: errors.length === 0,
     errors
-  },
+  }
 }
 
 /**
@@ -355,7 +355,7 @@ export function mergeElementalProperties(
     Water: base.Water * (1 - weight) + addition.Water * weight,
     Earth: base.Earth * (1 - weight) + addition.Earth * weight,
     Air: base.Air * (1 - weight) + addition.Air * weight
-  },
+  }
 }
 
 /**
@@ -386,15 +386,15 @@ export function mapToIngredient(mapping: IngredientMapping): Ingredient {
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-    },
+    }
     qualities: (mapping.qualities as unknown as string[]) || [],
     storage: (mapping.storage as unknown ) || {
       _duration: 'unknown'
-    },
+    }
     // Add missing required properties for Ingredient interface
     amount: (mapping as unknown ).amount || 1,
     astrologicalProfile: (mapping as unknown ).astrologicalProfile || {
-      _elementalAffinity: { base: 'Earth' },
+      _elementalAffinity: { base: 'Earth' }
       _rulingPlanets: [],
       _zodiacAffinity: []
     }
@@ -446,7 +446,7 @@ export function normalizeElementalProperties(_properties: ElementalProperties): 
 
   if (sum === 0) {
     // If all values are 0, return an evenly balanced set
-    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
   }
 
   return {
@@ -454,5 +454,5 @@ export function normalizeElementalProperties(_properties: ElementalProperties): 
     Water: Water / sum,
     Earth: Earth / sum,
     Air: Air / sum
-  },
+  }
 }

@@ -336,7 +336,7 @@ export class MakefileIntegration {
         output: `DRY, RUN: make ${target}`,
         executionTime: 0,
         target
-      },
+      }
     }
 
     const startTime = Date.now()
@@ -357,7 +357,7 @@ export class MakefileIntegration {
         output: output || '',
         executionTime,
         target
-      },
+      }
     } catch (error: unknown) {
       const executionTime = Date.now() - startTime
 
@@ -367,7 +367,7 @@ export class MakefileIntegration {
         output: error.stdout || error.message || '',
         executionTime,
         target
-      },
+      }
     }
   }
 
@@ -561,6 +561,6 @@ export class MakefileIntegration {
     return {
       valid: missing.length === 0,,
       missing
-    },
+    }
   }
 }

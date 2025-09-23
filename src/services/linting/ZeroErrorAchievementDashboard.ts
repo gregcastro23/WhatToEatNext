@@ -16,7 +16,7 @@ import {
   LintingMetrics,
   Alert,
   ValidationResult
-} from './LintingValidationDashboard',
+} from './LintingValidationDashboard';
 
 export interface ZeroErrorTarget {
   metric: string,
@@ -56,7 +56,7 @@ export interface TrendAnalysis {
     sevenDays: number,
     thirtyDays: number,
     ninetyDays: number
-  },
+  }
   confidence: number // 0-1
 }
 
@@ -174,7 +174,7 @@ export class ZeroErrorAchievementDashboard {
       } catch (error) {
         _logger.error(`❌ [${new Date().toISOString()}] Monitoring error:`, error)
       }
-    },
+    }
 
     // Initial run
     await monitoringLoop()
@@ -236,21 +236,21 @@ export class ZeroErrorAchievementDashboard {
         deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 1 week
         priority: 'critical' as const,
         strategy: 'Immediate syntax error fixes with TypeScript compiler validation'
-      },
+      }
       {
         metric: 'explicitAnyErrors',
         targetValue: 0,
         deadline: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 1 month
         priority: 'high' as const,
         strategy: 'Systematic type inference and interface generation'
-      },
+      }
       {
         metric: 'totalIssues',
         targetValue: 500,
         deadline: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000), // 3 months
         priority: 'medium' as const,
         strategy: 'Comprehensive automated fixing with domain-specific preservation'
-      },
+      }
       {
         metric: 'qualityScore',
         targetValue: 95,
@@ -303,7 +303,7 @@ export class ZeroErrorAchievementDashboard {
         status: 'passing',
         blocksDeployment: true,
         lastCheck: new Date()
-      },
+      }
       {
         id: 'explicit-any-limit',
         name: 'Explicit Any Limit',
@@ -312,7 +312,7 @@ export class ZeroErrorAchievementDashboard {
         status: 'passing',
         blocksDeployment: true,
         lastCheck: new Date()
-      },
+      }
       {
         id: 'quality-score-minimum',
         name: 'Minimum Quality Score',
@@ -321,7 +321,7 @@ export class ZeroErrorAchievementDashboard {
         status: 'passing',
         blocksDeployment: false,
         lastCheck: new Date()
-      },
+      }
       {
         id: 'performance-threshold',
         name: 'Performance Threshold',
@@ -488,7 +488,7 @@ ${data.qualityGates
 ## 🔍 Current Metrics Breakdown
 
 ### Critical Issues
-- **Parser Errors**: ${data.validationResult.metrics.parserErrors} ${data.validationResult.metrics.parserErrors === 0 ? '✅' : '🚨'},
+- **Parser Errors**: ${data.validationResult.metrics.parserErrors} ${data.validationResult.metrics.parserErrors === 0 ? '✅' : '🚨'}
 - **TypeScript Errors**: ${data.validationResult.metrics.errors}
 - **Explicit Any Errors**: ${data.validationResult.metrics.explicitAnyErrors} ${data.validationResult.metrics.explicitAnyErrors < 100 ? '✅' : '⚡'}
 
@@ -533,8 +533,8 @@ ${
 ### ${this.maintenanceProcedures.get(id)?.name || id}
 - **Status**: ${result.success ? '✅ SUCCESS' : '❌ FAILED'}
 - **Duration**: ${result.duration}ms
-- **Issues**: ${result.issues.length === 0 ? 'None' : result.issues.join(', ')},
-- **Improvements**: ${result.improvements.length === 0 ? 'None' : result.improvements.join(', ')},
+- **Issues**: ${result.issues.length === 0 ? 'None' : result.issues.join(', ')}
+- **Improvements**: ${result.improvements.length === 0 ? 'None' : result.improvements.join(', ')}
 `,
         )
         .join('')
@@ -600,14 +600,14 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
         qualityGatesPassing: data.qualityGates.filter(g => g.status === 'passing').length,,
         totalQualityGates: data.qualityGates.length,
         criticalIssues: this.identifyCriticalIssues(data.validationResult.metrics).length
-      },
+      }
       metrics: data.validationResult.metrics,
       targets: data.targets,
       trends: data.trendAnalysis,
       qualityGates: data.qualityGates,
       alerts: data.validationResult.alerts,
       maintenance: Object.fromEntries(data.maintenanceResults)
-    },
+    }
 
     writeFileSync(
       join(this.dashboardDir, 'zero-error-achievement-dashboard.json')
@@ -661,7 +661,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
             improvements,
             nextActions:
               issues.length > 0 ? ['Run comprehensive validation', 'Fix critical issues'] : []
-          },
+          }
         } catch (error) {
           return {
             success: false,
@@ -669,7 +669,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
             issues: [(error as Error).toString()],
             improvements: [],
             nextActions: ['Investigate health check failure']
-          },
+          }
         }
       }
     })
@@ -703,7 +703,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
             issues,
             improvements,
             nextActions: []
-          },
+          }
         } catch (error) {
           issues.push(`Cache optimization failed: ${error}`)
           return {
@@ -712,7 +712,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
             issues,
             improvements,
             nextActions: ['Manual cache cleanup required']
-          },
+          }
         }
       }
     })
@@ -760,7 +760,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
             issues,
             improvements,
             nextActions: []
-          },
+          }
         } catch (error) {
           issues.push(`Metrics cleanup failed: ${error}`)
           return {
@@ -769,7 +769,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
             issues,
             improvements,
             nextActions: ['Manual metrics cleanup required']
-          },
+          }
         }
       }
     })
@@ -789,7 +789,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
           status: 'passing',
           blocksDeployment: true,
           lastCheck: new Date()
-        },
+        }
         {
           id: 'explicit-any-limit',
           name: 'Explicit Any Limit',
@@ -798,7 +798,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
           status: 'passing',
           blocksDeployment: true,
           lastCheck: new Date()
-        },
+        }
         {
           id: 'quality-score-minimum',
           name: 'Minimum Quality Score',
@@ -910,7 +910,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
       direction = 'degrading',
     }
 
-    return { direction, velocity: slope, confidence },
+    return { direction, velocity: slope, confidence }
   }
 
   private projectFuture(
@@ -921,7 +921,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
       sevenDays: Math.max(0, currentValue + velocity * 7),
       thirtyDays: Math.max(0, currentValue + velocity * 30),
       ninetyDays: Math.max(0, currentValue + velocity * 90)
-    },
+    }
   }
 
   private calculateNextRun(lastRun: Date, frequency: string): Date {
@@ -947,9 +947,9 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
     const threshold = 0.1, // 10% change threshold,
 
     const metricsToCheck = [
-      { key: 'totalIssues', name: 'Total Issues' },
-      { key: 'parserErrors', name: 'Parser Errors' },
-      { key: 'explicitAnyErrors', name: 'Explicit Any Errors' },
+      { key: 'totalIssues', name: 'Total Issues' }
+      { key: 'parserErrors', name: 'Parser Errors' }
+      { key: 'explicitAnyErrors', name: 'Explicit Any Errors' }
       { key: 'qualityScore', name: 'Quality Score' }
     ],
 
@@ -1007,7 +1007,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
       parserErrors: metrics.parserErrors,
       explicitAnyErrors: metrics.explicitAnyErrors,
       criticalIssues: this.identifyCriticalIssues(metrics).length
-    },
+    }
 
     writeFileSync(statusFile, JSON.stringify(status, null, 2))
   }
@@ -1141,7 +1141,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
 
     // Sort targets by priority and progress
     const sortedTargets = targets.sort((ab) => {
-      const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 },
+      const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 }
       return priorityOrder[a.priority] - priorityOrder[b.priority] || a.progress - b.progress,
     })
 

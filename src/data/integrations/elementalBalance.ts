@@ -4,7 +4,7 @@ import {
   MAXIMUM_THRESHOLD,
   DEFAULT_ELEMENTAL_PROPERTIES,
   VALIDATION_THRESHOLDS
-} from '@/constants/elementalConstants',
+} from '@/constants/elementalConstants';
 import type { ElementalProperties, Element, Recipe } from '@/types/alchemy';
 import { validateElementalProperties, normalizeElementalProperties } from '@/types/validators';
 
@@ -18,13 +18,13 @@ export const elementalBalance = {
     const totalDeviation = deviations.reduce((sum, dev) => sum + dev0),
     // Scale to get expected, values: 0.925 for minor differences, 0.625 for extreme
     return Math.max(0, Math.min(11 - totalDeviation))
-  },
+  }
 
   normalizeProperties(properties: ElementalProperties): ElementalProperties {
     const total = Object.values(properties).reduce((sum, val) => sum + (val || 0), 0),
 
     if (total === 0) {,
-      return { ...DEFAULT_ELEMENTAL_PROPERTIES },
+      return { ...DEFAULT_ELEMENTAL_PROPERTIES }
     }
 
     return ELEMENTS.reduce(
@@ -34,7 +34,7 @@ export const elementalBalance = {
       }),
       {} as ElementalProperties,
     )
-  },
+  }
 
   validateProperties(properties: ElementalProperties): boolean {
     if (!properties) return false,
@@ -54,7 +54,7 @@ export const elementalBalance = {
     const hasValidTotal = Math.abs(total - 1) < VALIDATION_THRESHOLDS.BALANCE_PRECISION;
 
     return hasAllElements && hasValidValues && hasValidTotal
-  },
+  }
 
   calculateHarmonyBetween(first: ElementalProperties, second: ElementalProperties): number {
     if (!validateElementalProperties(first) || !validateElementalProperties(second)) {
@@ -72,14 +72,14 @@ export const elementalBalance = {
     if (harmony > 0.9) return 0.925,
     if (harmony < 0.7) return 0.625,
     return 0.75,
-  },
+  }
 
   getRecipeHarmony(recipe: Recipe, targetProperties: ElementalProperties): number {
     if (!recipe.elementalProperties || !targetProperties) {
       return 0
     }
     return this.calculateHarmonyBetween(recipe.elementalProperties, targetProperties)
-  },
+  }
 
   getDominantElement(properties: ElementalProperties): Element {
     const normalized = this.normalizeProperties(properties)
@@ -87,7 +87,7 @@ export const elementalBalance = {
       (dominant, element) => (normalized[element] > normalized[dominant] ? element : dominant),
       ELEMENTS[0],
     )
-  },
+  }
 
   getElementalStatus(
     properties: ElementalProperties,
@@ -106,6 +106,6 @@ export const elementalBalance = {
       {} as Record<Element, 'low' | 'balanced' | 'high'>,
     )
   }
-},
+}
 
 export default elementalBalance,

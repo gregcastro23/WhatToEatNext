@@ -9,7 +9,7 @@ import type {
   IngredientMapping,
   ThermodynamicMetrics,
   ThermodynamicProperties
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 
 // TODO: Fix import - add what to import from './unifiedTypes.ts'
 import { createElementalProperties } from '../../utils/elemental/elementalUtils';
@@ -30,7 +30,7 @@ const proteins = {
   ...poultry,
   ...seafood,
   ...plantBased
-},
+}
 
 /**
  * Calculate Kalchm value based on alchemical properties
@@ -96,7 +96,7 @@ function enhanceIngredient(
     Essence: Number(alchemicalData.Essence) || 0.25,
     Matter: Number(alchemicalData.Matter) || 0.25,
     Substance: Number(alchemicalData.Substance) || 0.25
-  },
+  }
 
   // Calculate Kalchm value
   const kalchm = calculateKalchm(alchemicalProperties)
@@ -108,7 +108,7 @@ function enhanceIngredient(
       entropy: 0.5,
       reactivity: 0.5,
       gregsEnergy: 0.5 - ((0 as any)?.5 || 0) * 0.2
-    },
+    }
 
   // ✅ Pattern MM-1: Safe union type casting for thermodynamics parameter compatibility
   const monica = calculateMonica(
@@ -150,7 +150,7 @@ function enhanceIngredient(
  * Create a unified ingredient collection from a source collection
  */
 function createUnifiedCollection(
-  sourceCollection: { [key: string]: IngredientMapping },
+  sourceCollection: { [key: string]: IngredientMapping }
   category: string,
 ): { [key: string]: UnifiedIngredient } {
   // ✅ Pattern GG-6: Safe array operation for source collection
@@ -158,46 +158,46 @@ function createUnifiedCollection(
     (result, [key, ingredient]) => {
       result[key] = enhanceIngredient(ingredient, category),
       return result
-    },
+    }
     {} as Record<string, UnifiedIngredient>,
   )
 }
 
 // ✅ Pattern MM-1: Safe Record type casting for createUnifiedCollection compatibility
 export const unifiedFruits = createUnifiedCollection(
-  fruits as { [key: string]: IngredientMapping },
+  fruits as { [key: string]: IngredientMapping }
   'fruits',
 )
 export const unifiedVegetables = createUnifiedCollection(
-  vegetables as { [key: string]: IngredientMapping },
+  vegetables as { [key: string]: IngredientMapping }
   'vegetables',
 )
 export const unifiedHerbs = createUnifiedCollection(
-  herbs as { [key: string]: IngredientMapping },
+  herbs as { [key: string]: IngredientMapping }
   'herbs',
 )
 export const unifiedSpices = createUnifiedCollection(
-  spices as { [key: string]: IngredientMapping },
+  spices as { [key: string]: IngredientMapping }
   'spices',
 )
 export const unifiedGrains = createUnifiedCollection(
-  grains as { [key: string]: IngredientMapping },
+  grains as { [key: string]: IngredientMapping }
   'grains',
 )
 export const unifiedOils = createUnifiedCollection(
-  oils as { [key: string]: IngredientMapping },
+  oils as { [key: string]: IngredientMapping }
   'oils',
 )
 export const unifiedVinegars = createUnifiedCollection(
-  vinegars as { [key: string]: IngredientMapping },
+  vinegars as { [key: string]: IngredientMapping }
   'vinegars',
 )
 export const unifiedSeasonings = createUnifiedCollection(
-  seasonings as { [key: string]: IngredientMapping },
+  seasonings as { [key: string]: IngredientMapping }
   'seasonings',
 )
 export const unifiedProteins = createUnifiedCollection(
-  proteins as { [key: string]: IngredientMapping },
+  proteins as { [key: string]: IngredientMapping }
   'proteins',
 )
 
@@ -212,7 +212,7 @@ export const unifiedIngredients: { [key: string]: UnifiedIngredient } = {
   ...unifiedVinegars,
   ...unifiedSeasonings,
   ...unifiedProteins
-},
+}
 
 // Helper functions for working with unified ingredients
 
@@ -327,7 +327,7 @@ export function getIngredientsByElement(
 ): UnifiedIngredient[] {
   // ✅ Pattern GG-6: Safe property access for elemental properties
   return Object.values(unifiedIngredients || {})
-    .filter(ingredient => {,
+    .filter(ingredient => {
       const props = ingredient.elementalProperties
       return props && Number(props[element] || 0) >= threshold,
     })
@@ -375,7 +375,7 @@ export function findComplementaryIngredients(
 }
 
 // Re-export UnifiedIngredient type for direct imports
-export type { UnifiedIngredient } from './unifiedTypes',
+export type { UnifiedIngredient } from './unifiedTypes';
 
 // Export default
 export default unifiedIngredients,

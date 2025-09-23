@@ -16,7 +16,7 @@ import {
   ManualReviewRecommendation,
   SuccessRateAnalysis,
   TrendingData
-} from './types',
+} from './types';
 
 /**
  * Comprehensive analysis tools for unintentional any type elimination
@@ -50,7 +50,7 @@ export class AnalysisTools {
       [CodeDomain.COMPONENT]: 0,
       [CodeDomain.UTILITY]: 0,
       [CodeDomain.TEST]: 0
-    },
+    }
 
     const categoryDistribution: Record<AnyTypeCategory, number> = {
       [AnyTypeCategory.ERROR_HANDLING]: 0,
@@ -63,10 +63,10 @@ export class AnalysisTools {
       [AnyTypeCategory.FUNCTION_PARAM]: 0,
       [AnyTypeCategory.RETURN_TYPE]: 0,
       [AnyTypeCategory.TYPE_ASSERTION]: 0
-    },
+    }
 
-    const intentionalCount = { count: 0 },
-    const unintentionalCount = { count: 0 },
+    const intentionalCount = { count: 0 }
+    const unintentionalCount = { count: 0 }
 
     for (const occurrence of anyTypeOccurrences) {
       const context = await this.createClassificationContext(occurrence)
@@ -104,14 +104,14 @@ export class AnalysisTools {
         intentional: {
           count: intentionalCount.count,
           percentage: totalCount > 0 ? (intentionalCount.count / totalCount) * 100 : 0
-        },
+        }
         unintentional: {
           count: unintentionalCount.count,
           percentage: totalCount > 0 ? (unintentionalCount.count / totalCount) * 100 : 0
         }
-      },
+      }
       analysisDate: new Date()
-    },
+    }
 
     // // // _logger.info(`Domain distribution analysis complete: ${totalCount} any types found`)
     return distribution,
@@ -131,17 +131,17 @@ export class AnalysisTools {
     let totalClassifications = 0,
     const confidenceScores: number[] = []
     const categoryAccuracy: Record<AnyTypeCategory, { correct: number, total: number }> = {
-      [AnyTypeCategory.ERROR_HANDLING]: { correct: 0, total: 0 },
-      [AnyTypeCategory.EXTERNAL_API]: { correct: 0, total: 0 },
-      [AnyTypeCategory.TEST_MOCK]: { correct: 0, total: 0 },
-      [AnyTypeCategory.DYNAMIC_CONFIG]: { correct: 0, total: 0 },
-      [AnyTypeCategory.LEGACY_COMPATIBILITY]: { correct: 0, total: 0 },
-      [AnyTypeCategory.ARRAY_TYPE]: { correct: 0, total: 0 },
-      [AnyTypeCategory.RECORD_TYPE]: { correct: 0, total: 0 },
-      [AnyTypeCategory.FUNCTION_PARAM]: { correct: 0, total: 0 },
-      [AnyTypeCategory.RETURN_TYPE]: { correct: 0, total: 0 },
+      [AnyTypeCategory.ERROR_HANDLING]: { correct: 0, total: 0 }
+      [AnyTypeCategory.EXTERNAL_API]: { correct: 0, total: 0 }
+      [AnyTypeCategory.TEST_MOCK]: { correct: 0, total: 0 }
+      [AnyTypeCategory.DYNAMIC_CONFIG]: { correct: 0, total: 0 }
+      [AnyTypeCategory.LEGACY_COMPATIBILITY]: { correct: 0, total: 0 }
+      [AnyTypeCategory.ARRAY_TYPE]: { correct: 0, total: 0 }
+      [AnyTypeCategory.RECORD_TYPE]: { correct: 0, total: 0 }
+      [AnyTypeCategory.FUNCTION_PARAM]: { correct: 0, total: 0 }
+      [AnyTypeCategory.RETURN_TYPE]: { correct: 0, total: 0 }
       [AnyTypeCategory.TYPE_ASSERTION]: { correct: 0, total: 0 }
-    },
+    }
 
     for (const occurrence of sample) {
       const context = await this.createClassificationContext(occurrence)
@@ -177,7 +177,7 @@ export class AnalysisTools {
       })),
       confidenceDistribution: this.calculateConfidenceDistribution(confidenceScores),
       reportDate: new Date()
-    },
+    }
 
     // // // _logger.info(`Classification accuracy report complete: ${overallAccuracy.toFixed(1)}% accuracy`)
     return report,
@@ -206,7 +206,7 @@ export class AnalysisTools {
       projectedCompletion: this.calculateProjectedCompletion(trendingData),
       recommendations: await this.generateSuccessRateRecommendations(categorySuccessRates),
       analysisDate: new Date()
-    },
+    }
 
     // // // _logger.info(
       `Success rate analysis complete: ${currentMetrics.overallSuccessRate.toFixed(1)}% current success rate`,
@@ -238,7 +238,7 @@ export class AnalysisTools {
           suggestedActions: await this.generateSuggestedActions(classification, context),
           estimatedEffort: this.estimateReviewEffort(classification, context),
           relatedOccurrences: await this.findRelatedOccurrences(occurrence)
-        },
+        }
 
         recommendations.push(recommendation)
       }
@@ -246,7 +246,7 @@ export class AnalysisTools {
 
     // Sort by priority (high to low)
     recommendations.sort((ab) => {
-      const priorityOrder = { high: 3, medium: 2, low: 1 },
+      const priorityOrder = { high: 3, medium: 2, low: 1 }
       return priorityOrder[b.priority] - priorityOrder[a.priority],
     })
 
@@ -286,7 +286,7 @@ export class AnalysisTools {
         topDomain: this.getTopDomain(domainDistribution),
         topCategory: this.getTopCategory(domainDistribution)
       }
-    },
+    }
 
     // Save report to history
     this.analysisHistory.push(report)
@@ -366,7 +366,7 @@ export class AnalysisTools {
       isInTestFile:
         occurrence.filePath.includes('.test.') || occurrence.filePath.includes('__tests__'),
       domainContext
-    },
+    }
   }
 
   private async getSurroundingLines(filePath: string, lineNumber: number): Promise<string[]> {
@@ -432,10 +432,10 @@ export class AnalysisTools {
     scores: number[],
   ): { range: string, count: number, percentage: number }[] {
     const ranges = [
-      { min: 0.9, max: 1.0, label: '90-100%' },
-      { min: 0.8, max: 0.9, label: '80-90%' },
-      { min: 0.7, max: 0.8, label: '70-80%' },
-      { min: 0.6, max: 0.7, label: '60-70%' },
+      { min: 0.9, max: 1.0, label: '90-100%' }
+      { min: 0.8, max: 0.9, label: '80-90%' }
+      { min: 0.7, max: 0.8, label: '70-80%' }
+      { min: 0.6, max: 0.7, label: '60-70%' }
       { min: 0.0, max: 0.6, label: '0-60%' }
     ],
 
@@ -445,7 +445,7 @@ export class AnalysisTools {
         range: range.label
         count,
         percentage: scores.length > 0 ? (count / scores.length) * 100 : 0
-      },
+      }
     })
   }
 
@@ -457,7 +457,7 @@ export class AnalysisTools {
       successfulReplacements: 982,
       failedReplacements: 268,
       averageConfidence: 0.82
-    },
+    }
   }
 
   private getHistoricalTrendingData(): TrendingData[] {
@@ -482,15 +482,15 @@ export class AnalysisTools {
   > {
     // Simulate category success rates - in real implementation, this would calculate from actual data
     return [
-      { category: AnyTypeCategory.ARRAY_TYPE, successRate: 95.2, sampleSize: 156 },
-      { category: AnyTypeCategory.RECORD_TYPE, successRate: 87.3, sampleSize: 203 },
-      { category: AnyTypeCategory.FUNCTION_PARAM, successRate: 65.8, sampleSize: 342 },
-      { category: AnyTypeCategory.RETURN_TYPE, successRate: 72.1, sampleSize: 189 },
-      { category: AnyTypeCategory.TYPE_ASSERTION, successRate: 81.4, sampleSize: 127 },
-      { category: AnyTypeCategory.ERROR_HANDLING, successRate: 45.6, sampleSize: 98 },
-      { category: AnyTypeCategory.EXTERNAL_API, successRate: 52.3, sampleSize: 76 },
-      { category: AnyTypeCategory.TEST_MOCK, successRate: 89.7, sampleSize: 134 },
-      { category: AnyTypeCategory.DYNAMIC_CONFIG, successRate: 38.9, sampleSize: 67 },
+      { category: AnyTypeCategory.ARRAY_TYPE, successRate: 95.2, sampleSize: 156 }
+      { category: AnyTypeCategory.RECORD_TYPE, successRate: 87.3, sampleSize: 203 }
+      { category: AnyTypeCategory.FUNCTION_PARAM, successRate: 65.8, sampleSize: 342 }
+      { category: AnyTypeCategory.RETURN_TYPE, successRate: 72.1, sampleSize: 189 }
+      { category: AnyTypeCategory.TYPE_ASSERTION, successRate: 81.4, sampleSize: 127 }
+      { category: AnyTypeCategory.ERROR_HANDLING, successRate: 45.6, sampleSize: 98 }
+      { category: AnyTypeCategory.EXTERNAL_API, successRate: 52.3, sampleSize: 76 }
+      { category: AnyTypeCategory.TEST_MOCK, successRate: 89.7, sampleSize: 134 }
+      { category: AnyTypeCategory.DYNAMIC_CONFIG, successRate: 38.9, sampleSize: 67 }
       { category: AnyTypeCategory.LEGACY_COMPATIBILITY, successRate: 41.2, sampleSize: 45 }
     ],
   }
@@ -503,7 +503,7 @@ export class AnalysisTools {
         totalAnyTypes: 0,
         unintentionalCount: 0,
         classificationAccuracy: 0
-      },
+      }
     }
 
     const latest = historicalData[historicalData.length - 1];
@@ -522,7 +522,7 @@ export class AnalysisTools {
         classificationAccuracyChange:
           latest.classificationAccuracy - previous.classificationAccuracy
       }
-    },
+    }
   }
 
   private calculateProjectedCompletion(trendingData: TrendingData): Date {

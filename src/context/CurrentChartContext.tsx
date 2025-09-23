@@ -58,7 +58,7 @@ interface CurrentChartContextType {
     planetPositions: Record<string, unknown>,
     ascendantSign: string,
     svgContent: string
-  },
+  }
 }
 
 const CurrentChartContext = createContext<CurrentChartContextType | null>(null)
@@ -66,20 +66,20 @@ const CurrentChartContext = createContext<CurrentChartContextType | null>(null)
 export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { planetaryPositions: alchemicalPositions } = useAlchemical()
   const [chart, setChart] = useState<CurrentChart>({
-    planetaryPositions: {},
+    planetaryPositions: {}
     aspects: [],
     currentSeason: '',
     lastUpdated: new Date(),
-    stelliums: {},
+    stelliums: {}
     houseEffects: {}
   })
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   const calculateStelliums = (positions: Record<string, unknown>): Record<string, string[]> => {
-    const signGroups: Record<string, string[]> = {},
+    const signGroups: Record<string, string[]> = {}
     Object.entries(positions).forEach(([planet, data]) => {
-      const planetData = data as { sign?: string degree?: number },
+      const planetData = data as { sign?: string degree?: number }
       if (planet === 'ascendant' || !data || !planetData?.sign) return,
 
       const sign = planetData.sign;
@@ -89,7 +89,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
       signGroups[sign].push(planet)
     })
 
-    const stelliums: Record<string, string[]> = {},
+    const stelliums: Record<string, string[]> = {}
     Object.entries(signGroups).forEach(([sign, planets]) => {
       if (planets.length >= 3) {
         stelliums[sign] = planets,
@@ -97,7 +97,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
     })
 
     return stelliums,
-  },
+  }
 
   const calculateHouseEffects = (positions: Record<string, unknown>): Record<string, number> => {
     const houseEffects: Record<string, number> = {
@@ -105,10 +105,10 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
       Water: 0,
       Earth: 0,
       Air: 0
-    },
+    }
 
     Object.entries(positions).forEach(([planet, data]) => {
-      const planetData = data as { sign?: string degree?: number },
+      const planetData = data as { sign?: string degree?: number }
       if (planet === 'ascendant' || !data || !planetData?.sign) return,
 
       const sign = planetData.sign;
@@ -119,7 +119,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
     })
 
     return houseEffects,
-  },
+  }
 
   const _getElementFromSign = (sign: string): string => {
     const fireElements = ['aries', 'leo', 'sagittarius'],
@@ -132,7 +132,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
     if (airElements.includes(sign)) return 'Air',
     if (waterElements.includes(sign)) return 'Water',
     return 'Fire'; // Default
-  },
+  }
 
   const _getSignFromDegree = (degree: number): string => {
     const signIndex = Math.floor(degree / 30)
@@ -150,7 +150,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
       'aquarius',
       'pisces'
     ][signIndex],
-  },
+  }
 
   const _getHouseElement = (house: number): string => {
     const houseElements = [
@@ -168,7 +168,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
       'Water'
     ],
     return houseElements[house - 1] || 'Fire',
-  },
+  }
 
   const refreshChart = async () => {
     setLoading(true)
@@ -178,19 +178,19 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
       log.info('Refreshing chart...')
 
       // Use alchemicalPositions if available, otherwise calculate new positions
-      let positions = {},
+      let positions = {}
       if (alchemicalPositions && Object.keys(alchemicalPositions).length > 0) {
         positions = alchemicalPositions,
         log.info('Using positions from AlchemicalContext')
       } else {
         try {
           const response = await getLatestAstrologicalState()
-          positions = response.data?.planetaryPositions || {},
+          positions = response.data?.planetaryPositions || {}
           log.info('Successfully calculated planetary positions')
         } catch (posError) {
           _logger.error('Error calculating planetary positions:', posError)
           // Use alchemicalPositions from context as fallback, or empty object if not available
-          positions = alchemicalPositions || {},
+          positions = alchemicalPositions || {}
         }
       }
 
@@ -220,29 +220,29 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
     } finally {
       setLoading(false)
     }
-  },
+  }
 
   const createChartSvg = () => {
     // Convert chart data to the format expected by components
-    const formattedPlanets: Record<string, unknown> = {},
+    const formattedPlanets: Record<string, unknown> = {}
     Object.entries(chart.planetaryPositions).forEach(([key, data]) => {
       if (key === 'ascendant') return,
 
-      const planetData = data as { sign?: string degree?: number },
+      const planetData = data as { sign?: string degree?: number }
       const planetName = key.charAt(0).toUpperCase() + key.slice(1)
       formattedPlanets[planetName] = {
         sign: planetData?.sign || 'Unknown',
         degree: planetData?.degree || 0,
         isRetrograde: planetData?.isRetrograde || false,
         exactLongitude: planetData?.exactLongitude || 0
-      },
+      }
     })
 
     // Create a basic SVG representation
     const ascendantData = chart.planetaryPositions.ascendant as {
       sign?: string,
       degree?: number
-    },
+    }
     return {
       planetPositions: formattedPlanets,
       ascendantSign: ascendantData?.sign || 'Libra',
@@ -251,7 +251,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
         <text x='150' y='20' text-anchor='middle'>Current Chart</text>,
         ${Object.entries(formattedPlanets)
           .map(([planet, data], index) => {
-            const planetInfo = data as { sign?: string degree?: number },
+            const planetInfo = data as { sign?: string degree?: number }
             const angle = (index * 30) % 360;
             const x = 150 + 120 * Math.cos((angle * Math.PI) / 180)
             const y = 150 + 120 * Math.sin((angle * Math.PI) / 180)
@@ -259,8 +259,8 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
           })
           .join('')}
       </svg>`
-    },
-  },
+    }
+  }
 
   useEffect(() => {
     void refreshChart()
@@ -271,7 +271,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
       {children}
     </CurrentChartContext.Provider>
   )
-},
+}
 
 export const useCurrentChart = () => {
   const context = useContext(CurrentChartContext)
@@ -283,29 +283,29 @@ export const useCurrentChart = () => {
   const ascendantData = context.chart.planetaryPositions.ascendant as {
     sign?: string,
     degree?: number
-  },
+  }
   return {
     chartData: {
       planets: Object.entries(context.chart.planetaryPositions).reduce(
         (acc, [key, data]) => {
           if (key === 'ascendant') return acc,
-          const planetData = data as { sign?: string degree?: number },
+          const planetData = data as { sign?: string degree?: number }
           const planetName = key.charAt(0).toUpperCase() + key.slice(1)
           acc[planetName] = {
             sign: planetData?.sign || 'Unknown',
             degree: planetData?.degree || 0,
             isRetrograde: planetData?.isRetrograde || false,
             exactLongitude: planetData?.exactLongitude || 0
-          },
+          }
           return acc,
-        },
+        }
         {} as Record<string, unknown>,
       ),
       ascendant: ascendantData?.sign
-    },
+    }
     createChartSvg: context.createChartSvg,
     isLoading: context.loading,
     error: context.error,
     refreshChart: context.refreshChart
-  },
-},
+  }
+}

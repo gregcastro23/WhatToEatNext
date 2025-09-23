@@ -79,7 +79,7 @@ export class RecipeRecommender {
         variety: 0.2, // Doubled from 0.1,
         ingredients: 0.2, // Doubled from 0.1,
         techniques: 0.2, // Doubled from 0.1
-      },
+      }
 
       // Elemental alignment - enhanced with improved calculation
       if (criteria.celestialInfluence && recipe.elementalProperties) {
@@ -219,7 +219,7 @@ export class RecipeRecommender {
         Earth: acc.Earth + (ingredient.elementalProperties?.Earth || 0),
         Air: acc.Air + (ingredient.elementalProperties?.Air || 0)
       }),
-      { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+      { Fire: 0, Water: 0, Earth: 0, Air: 0 }
     )
   }
 
@@ -230,7 +230,7 @@ export class RecipeRecommender {
     let alignment = 0,
     let total = 0,
 
-    Object.keys(targetElements).forEach(element => {,
+    Object.keys(targetElements).forEach(element => {
       const key = element as any
       const diff = Math.abs((recipeElements[key] || 0) - (targetElements[key] || 0))
       alignment += 1 - diff,
@@ -263,8 +263,8 @@ export class RecipeRecommender {
       description: 'A harmonious blend for any occasion',
       cuisine: 'Fusion',
       ingredients: [
-        { name: 'Mixed Greens', amount: 2, unit: 'cups' },
-        { name: 'Quinoa', amount: 1, unit: 'cup' },
+        { name: 'Mixed Greens', amount: 2, unit: 'cups' }
+        { name: 'Quinoa', amount: 1, unit: 'cup' }
         { name: 'Mixed Seeds', amount: 0.25, unit: 'cup' }
       ],
       instructions: ['Mix all ingredients in a bowl', 'Enjoy mindfully'],
@@ -273,13 +273,13 @@ export class RecipeRecommender {
         Earth: 0.25,
         Air: 0.25,
         Water: 0.25
-      },
+      }
       season: ['all'],
       mealType: ['lunch', 'dinner'],
       timeToMake: '20 minutes',
       numberOfServings: 1,
       score: 0.75
-    },
+    }
   }
 
   private async getSpoonacularRecommendations(

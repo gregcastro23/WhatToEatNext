@@ -17,7 +17,7 @@ import {
   IngredientMappingType,
   AstrologicalStateType,
   ServiceResponseType
-} from '../types/alchemy',
+} from '../types/alchemy';
 
 // ========== PHASE, 2: TYPE DEFAULTS ==========
 
@@ -163,7 +163,7 @@ export const DefaultNutritionalContent: NutritionalContentType = {
   fat: 0,
   carbohydrates: 0,
   fiber: 0,
-  vitamins: {},
+  vitamins: {}
   minerals: {}
 } as const,
 
@@ -183,7 +183,7 @@ export const _DefaultIngredientMapping: IngredientMappingType = {
   sustainabilityScore: 0.5,
   qualities: [],
   culinaryApplications: {}
-},
+}
 
 /**
  * Default Astrological State
@@ -238,8 +238,8 @@ export const _createSafeElementalProperties = (
     Water: water * normalizer,
     Earth: earth * normalizer,
     Air: air * normalizer
-  },
-},
+  }
+}
 
 /**
  * Create Safe Alchemical Properties
@@ -263,8 +263,8 @@ export const _createSafeAlchemicalProperties = (
     Essence: essence * normalizer,
     Matter: matter * normalizer,
     Substance: substance * normalizer
-  },
-},
+  }
+}
 
 /**
  * Create Safe Thermodynamic Metrics
@@ -286,8 +286,8 @@ export const _createSafeThermodynamicMetrics = (
       : 0.5,
     kalchm: Number.isFinite(metrics.kalchm) ? Math.max(0.1, metrics.kalchm ?? 1.0) : 1.0,
     monica: Number.isFinite(metrics.monica) ? Math.max(0.1, metrics.monica ?? 1.0) : 1.0
-  },
-},
+  }
+}
 
 /**
  * Validate Zodiac Sign
@@ -311,7 +311,7 @@ export const _validateZodiacSign = (sign: string): anyType => {
 
   const normalizedSign = sign.toLowerCase() as anyType;
   return validSigns.includes(normalizedSign) ? normalizedSign : DefaultZodiacSign
-},
+}
 
 /**
  * Validate Lunar Phase
@@ -331,4 +331,4 @@ export const _validateLunarPhase = (phase: string): LunarPhaseType => {
 
   const normalizedPhase = phase.toLowerCase() as LunarPhaseType;
   return validPhases.includes(normalizedPhase) ? normalizedPhase : DefaultLunarPhase
-},
+}

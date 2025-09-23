@@ -320,7 +320,7 @@ export class CampaignDebugger {
       debugSteps: [],
       findings: [],
       recommendations: []
-    },
+    }
 
     this.debugSessions.set(sessionId, session)
     await this.initializeDebugSteps(session)
@@ -424,7 +424,7 @@ export class CampaignDebugger {
       contributingFactors,
       impactAssessment,
       recommendations
-    },
+    }
   }
 
   // ========== RECOVERY MECHANISMS ==========,
@@ -444,7 +444,7 @@ export class CampaignDebugger {
       completedSteps: ['step1', 'step2'],
       failedSteps: [],
       rollbackRequired: false
-    },
+    }
   }
 
   /**
@@ -458,19 +458,19 @@ export class CampaignDebugger {
         description: 'Immediately stop all campaign operations',
         type: RecoveryStepType.CORRECTIVE,
         action: 'stop_campaign',
-        parameters: { campaignId, force: true },
+        parameters: { campaignId, force: true }
         estimatedDuration: 1,
         criticalPath: true,
         rollbackable: false,
         validationRequired: false
-      },
+      }
       {
         id: 'create_backup',
         name: 'Create Emergency Backup',
         description: 'Create backup of current system state',
         type: RecoveryStepType.PREVENTIVE,
         action: 'create_backup',
-        parameters: { includeWorkspace: true },
+        parameters: { includeWorkspace: true }
         estimatedDuration: 5,
         criticalPath: true,
         rollbackable: false,
@@ -496,11 +496,11 @@ export class CampaignDebugger {
             metric: 'build_exit_code',
             operator: 'equals',
             value: 0
-          },
+          }
           automated: true
         }
       ]
-    },
+    }
   }
 
   // ========== HEALTH MONITORING ==========,
@@ -529,7 +529,7 @@ export class CampaignDebugger {
       healthMetrics,
       issues,
       recommendations
-    },
+    }
 
     this.healthReports.set(campaignId, healthReport)
     return healthReport,
@@ -546,10 +546,10 @@ export class CampaignDebugger {
         type: DebugStepType.CONFIGURATION_CHECK,
         status: DebugStepStatus.PENDING,
         startTime: new Date(),
-        output: {},
+        output: {}
         errors: [],
         warnings: []
-      },
+      }
       {
         id: 'dependency_analysis',
         name: 'Dependency Analysis',
@@ -557,10 +557,10 @@ export class CampaignDebugger {
         type: DebugStepType.DEPENDENCY_ANALYSIS,
         status: DebugStepStatus.PENDING,
         startTime: new Date(),
-        output: {},
+        output: {}
         errors: [],
         warnings: []
-      },
+      }
       {
         id: 'performance_analysis',
         name: 'Performance Analysis',
@@ -568,7 +568,7 @@ export class CampaignDebugger {
         type: DebugStepType.PERFORMANCE_ANALYSIS,
         status: DebugStepStatus.PENDING,
         startTime: new Date(),
-        output: {},
+        output: {}
         errors: [],
         warnings: []
       }
@@ -591,7 +591,7 @@ export class CampaignDebugger {
         break
     }
 
-    step.output = { findingsCount: findings.length },
+    step.output = { findingsCount: findings.length }
     return findings,
   }
 
@@ -693,7 +693,7 @@ export class CampaignDebugger {
                 id: 'update_config',
                 description: 'Update campaign configuration',
                 type: ActionType.UPDATE_CONFIG,
-                parameters: { configPath: 'campaign_config.json' },
+                parameters: { configPath: 'campaign_config.json' }
                 estimatedDuration: 10,
                 automated: true
               }
@@ -714,7 +714,7 @@ export class CampaignDebugger {
                 id: 'tune_performance',
                 description: 'Optimize performance settings',
                 type: ActionType.UPDATE_CONFIG,
-                parameters: { optimizeFor: 'performance' },
+                parameters: { optimizeFor: 'performance' }
                 estimatedDuration: 30,
                 automated: false
               }
@@ -743,7 +743,7 @@ export class CampaignDebugger {
       description: 'Perform detailed diagnosis of the campaign failure',
       type: RecoveryStepType.DIAGNOSTIC,
       action: 'run_diagnosis',
-      parameters: { campaignId, findings: findings.map(f => f.id) },
+      parameters: { campaignId, findings: findings.map(f => f.id) }
       estimatedDuration: 10,
       criticalPath: false,
       rollbackable: false,
@@ -762,7 +762,7 @@ export class CampaignDebugger {
           description: finding.description,
           type: RecoveryStepType.CORRECTIVE,
           action: 'apply_fix',
-          parameters: { findingId: finding.id, automated: true },
+          parameters: { findingId: finding.id, automated: true }
           estimatedDuration: 15,
           criticalPath: true,
           rollbackable: true,
@@ -789,11 +789,11 @@ export class CampaignDebugger {
             metric: 'health_score',
             operator: 'greater_than',
             value: 80
-          },
+          }
           automated: true
         }
       ]
-    },
+    }
   }
 
   private async getCampaignStatus(campaignId: string): Promise<KiroCampaignStatus | null> {
@@ -830,7 +830,7 @@ export class CampaignDebugger {
             id: 'setup_build_monitoring',
             description: 'Set up build system health monitoring',
             type: ActionType.UPDATE_CONFIG,
-            parameters: { enableMonitoring: true },
+            parameters: { enableMonitoring: true }
             estimatedDuration: 30,
             automated: false
           }
@@ -855,7 +855,7 @@ export class CampaignDebugger {
             : MetricStatus.HEALTHY,
         threshold: 100,
         trend: 'stable'
-      },
+      }
       {
         name: 'Build Time',
         value: campaign.metrics.buildPerformance.currentTime,
@@ -958,20 +958,20 @@ export class CampaignDebugger {
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
         stashRetentionDays: 7
-      },
+      }
       progressTargets: {
         typeScriptErrors: 0,
         lintingWarnings: 0,
         buildTime: 10,
         enterpriseSystems: 200
-      },
+      }
       toolConfiguration: {
         enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
-    },
+    }
   }
 
   // ========== PUBLIC API ==========,

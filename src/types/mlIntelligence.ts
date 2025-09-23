@@ -77,7 +77,7 @@ export interface AstrologicalPrediction {
     favorableIngredients: string[],
     cookingMethodRecommendations: string[],
     seasonalAlignment: number
-  },
+  }
   confidence: number
 }
 
@@ -112,7 +112,7 @@ export interface MLIntelligenceResult {
     cookingMethodOptimization: string[],
     flavorEnhancementSuggestions: string[],
     nutritionalOptimization: string[]
-  },
+  }
   ingredientPairing: IngredientCompatibilityResult,
   cuisineFusion: {
     mlFusionScore: number,
@@ -120,13 +120,13 @@ export interface MLIntelligenceResult {
     culturalHarmonyPrediction: number,
     innovationPotential: number,
     recommendedFusionTechniques: string[]
-  },
+  }
   astrologicalPrediction: {
     mlAlignmentScore: number,
     optimalTimingPrediction: string,
     planetaryInfluenceOptimization: number,
     cosmicHarmonyEnhancement: string[]
-  },
+  }
   confidence: number,
   timestamp: string
 }

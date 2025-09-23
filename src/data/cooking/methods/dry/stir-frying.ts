@@ -15,11 +15,11 @@ export const _stirFrying: CookingMethodData = {
     Air: 0.3,
     Earth: 0.1,
     Water: 0.1
-  },
+  }
   duration: {
     min: 3,
     max: 10
-  },
+  }
   suitable_for: [
     'vegetables',
     'thin meats',
@@ -47,7 +47,7 @@ export const _stirFrying: CookingMethodData = {
       first_quarter: 1.1, // Good balance
       third_quarter: 0.95, // Slight reduction
     }
-  },
+  }
   toolsRequired: [
     'Wok or high-sided pan',
     'Spatula or wok ladle',
@@ -74,27 +74,27 @@ export const _stirFrying: CookingMethodData = {
     minerals: 0.9,
     proteins: 0.95,
     antioxidants: 0.8
-  },
+  }
   optimalTemperatures: {
     vegetables: 450,
     meat: 475,
     seafood: 450,
     preheating_wok: 500,
     aromatics: 400
-  },
+  }
   regionalVariations: {
     chinese: ['bao technique', 'yángchǎo', 'Cantonese quick-fry'],
     japanese: ['teppanyaki style', 'yakisoba technique'],
     thai: ['pad phak', 'pad see ew technique'],
     korean: ['bokkeum', 'chapchae preparation']
-  },
+  }
   chemicalChanges: {
     maillard_reaction: true,
     caramelization: true,
     protein_denaturation: true,
     enzyme_deactivation: true,
     minimal_nutrient_leaching: true
-  },
+  }
   safetyFeatures: [
     'Use proper ventilation',
     'Keep handle positioned safely',
@@ -141,4 +141,4 @@ export const _stirFrying: CookingMethodData = {
     'Low moisture loss preserves natural food quality',
     'Can adjust oil and salt content for health needs'
   ]
-},
+}

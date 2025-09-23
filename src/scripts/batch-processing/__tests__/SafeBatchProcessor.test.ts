@@ -31,7 +31,7 @@ describe('SafeBatchProcessor', () => {;
       autoRollbackOnError: true,
       createGitStash: true,
       logLevel: 'info'
-    },
+    }
 
     processor = new SafeBatchProcessor(config)
 
@@ -45,7 +45,7 @@ describe('SafeBatchProcessor', () => {;
         unusedVariableCount: 3,
         riskLevel: 'low',
         fileType: 'utility'
-      },
+      }
       {
         filePath: '/project/src/services/api.ts',
         relativePath: 'src/services/api.ts',
@@ -54,7 +54,7 @@ describe('SafeBatchProcessor', () => {;
         unusedVariableCount: 8,
         riskLevel: 'medium',
         fileType: 'service'
-      },
+      }
       {
         filePath: '/project/src/calculations/planetary.ts',
         relativePath: 'src/calculations/planetary.ts',
@@ -243,7 +243,7 @@ describe('SafeBatchProcessor', () => {;
 
   describe('Configuration Options', () => {
     test('should respect disabled validation option', async () => {
-      const configWithoutValidation: Partial<BatchProcessingConfig> = { validateAfterEachBatch: false },
+      const configWithoutValidation: Partial<BatchProcessingConfig> = { validateAfterEachBatch: false }
 
       const processorNoValidation: any = new SafeBatchProcessor(configWithoutValidation)
       const results: any = await processorNoValidationprocessBatches([mockFiles[0]])
@@ -253,7 +253,7 @@ describe('SafeBatchProcessor', () => {;
     })
 
     test('should respect disabled rollback option', async () => {
-      const configWithoutRollback: Partial<BatchProcessingConfig> = { autoRollbackOnError: false },
+      const configWithoutRollback: Partial<BatchProcessingConfig> = { autoRollbackOnError: false }
 
       const processorNoRollback: any = new SafeBatchProcessor(configWithoutRollback)
 
@@ -271,7 +271,7 @@ describe('SafeBatchProcessor', () => {;
     })
 
     test('should respect disabled git stash option', async () => {
-      const configWithoutStash: Partial<BatchProcessingConfig> = { createGitStash: false },
+      const configWithoutStash: Partial<BatchProcessingConfig> = { createGitStash: false }
 
       const processorNoStash: any = new SafeBatchProcessor(configWithoutStash)
       const results: any = await processorNoStash.processBatches([mockFiles[0]])

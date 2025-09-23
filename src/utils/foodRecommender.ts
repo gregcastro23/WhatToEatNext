@@ -9,7 +9,7 @@ import {
   poultry,
   proteins,
   seafood
-} from '@/data/ingredients/proteins',
+} from '@/data/ingredients/proteins';
 import { seasonings } from '@/data/ingredients/seasonings';
 import { spices } from '@/data/ingredients/spices';
 // Removed unused, import: IngredientMapping
@@ -21,7 +21,7 @@ import type {
   /* LunarPhase, Season, Element, */ AstrologicalState,
   ElementalProperties,
   ZodiacSign
-} from '@/types',
+} from '@/types';
 // Removed unused, _imports: LunarPhase, Season, Element
 import type { Modality, Planet } from '@/types/celestial';
 
@@ -42,10 +42,10 @@ export interface EnhancedIngredient {
     elementalAffinity: {
       base: string,
       decanModifiers?: Record<string, unknown>
-    },
+    }
     rulingPlanets: string[],
     favorableZodiac?: any[]
-  },
+  }
   flavorProfile?: Record<string, number>,
   season?: string[]
   nutritionalProfile?: {
@@ -56,11 +56,11 @@ export interface EnhancedIngredient {
       fat: number,
       fiber: number,
       _sugars: number
-    },
+    }
     vitamins: Record<string, number>,
     minerals: Record<string, number>,
     phytonutrients: Record<string, number>,
-  },
+  }
   score?: number
   scoreDetails?: Record<string, number>,
   subCategory?: string,
@@ -83,20 +83,20 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
 
   // Define all categories
   const categories = [
-    { name: 'Spices', data: spices },
-    { name: 'Plant-Based Proteins', data: plantBased },
-    { name: 'Meats', data: meats },
-    { name: 'Poultry', data: poultry },
-    { name: 'Seafood', data: seafood },
-    { name: 'Eggs', data: eggs },
-    { name: 'Legumes', data: legumes },
-    { name: 'Dairy', data: dairy },
-    { name: 'Herbs', data: herbs },
-    { name: 'Fruits', data: fruits },
-    { name: 'Grains', data: grains },
-    { name: 'Vegetables', data: vegetables },
-    { name: 'Oils', data: oils },
-    { name: 'Seasonings', data: seasonings },
+    { name: 'Spices', data: spices }
+    { name: 'Plant-Based Proteins', data: plantBased }
+    { name: 'Meats', data: meats }
+    { name: 'Poultry', data: poultry }
+    { name: 'Seafood', data: seafood }
+    { name: 'Eggs', data: eggs }
+    { name: 'Legumes', data: legumes }
+    { name: 'Dairy', data: dairy }
+    { name: 'Herbs', data: herbs }
+    { name: 'Fruits', data: fruits }
+    { name: 'Grains', data: grains }
+    { name: 'Vegetables', data: vegetables }
+    { name: 'Oils', data: oils }
+    { name: 'Seasonings', data: seasonings }
     { name: 'Vinegars', data: vinegars }
   ],
 
@@ -186,14 +186,14 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
 
   // At the end of the getAllIngredients function, add standardization
   return validIngredients.map(ingredient => standardizeIngredient(ingredient))
-},
+}
 
 /**
  * Standardizes an ingredient's data structure to ensure consistent format
  */
 function standardizeIngredient(ingredient: EnhancedIngredient): EnhancedIngredient {
   // Create a copy of the ingredient to avoid modifying the original
-  const standardized = { ...ingredient },
+  const standardized = { ...ingredient }
 
   // Ensure elementalProperties exists (using nullish coalescing for better performance)
   standardized.elementalProperties =
@@ -204,7 +204,7 @@ function standardizeIngredient(ingredient: EnhancedIngredient): EnhancedIngredie
     standardized.elementalProperties = {
       ...standardized.elementalProperties,
       Earth: Math.max(standardized.elementalProperties.Earth || 00.4)
-    },
+    }
 
     // Normalize elemental properties after modification
     const sum = Object.values(standardized.elementalProperties).reduce((ab) => a + b0)
@@ -219,11 +219,11 @@ function standardizeIngredient(ingredient: EnhancedIngredient): EnhancedIngredie
   standardized.astrologicalProfile = standardized.astrologicalProfile ?? {
     elementalAffinity: {
       base: standardized.category?.toLowerCase().includes('vegetable') ? 'Earth' : 'Earth'
-    },
+    }
     rulingPlanets: standardized.category?.toLowerCase().includes('vegetable')
       ? ['Moon', 'Venus']
       : ['Mercury']
-  },
+  }
 
   // Ensure favorableZodiac exists
   if (!standardized.astrologicalProfile.favorableZodiac) {
@@ -239,7 +239,7 @@ function standardizeIngredient(ingredient: EnhancedIngredient): EnhancedIngredie
   if (typeof standardized.astrologicalProfile.elementalAffinity === 'string') {
     standardized.astrologicalProfile.elementalAffinity = {
       base: standardized.astrologicalProfile.elementalAffinity
-    },
+    }
   }
 
   // Ensure rulingPlanets is an array
@@ -269,7 +269,7 @@ function calculateElementalProperties(_ingredient: EnhancedIngredient): Elementa
     Water: 0,
     Earth: 0,
     Air: 0
-  },
+  }
 
   // Adjust based on category
   if (ingredient.category) {
@@ -503,7 +503,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       thursday: 'jupiter',
       friday: 'venus',
       saturday: 'saturn'
-    },
+    }
 
     // Calculate planetary day influence (35% weight)
     let planetaryDayScore = 0.5; // Default neutral score
@@ -854,7 +854,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
     // Get user preferences from the state manager if available
     // instead of using a placeholder assumption
     const astroStateData = astroState as any;
-    const userPreferences = astroStateData.userPreferences || {},
+    const userPreferences = astroStateData.userPreferences || {}
     const tastePreferences = (userPreferences ).taste || {
       sweet: 0.5,
       salty: 0.5,
@@ -862,7 +862,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       bitter: 0.5,
       umami: 0.5,
       spicy: 0.5
-    },
+    }
 
     if (standardized.sensoryProfile) {
       const sensory = standardized.sensoryProfile as unknown;
@@ -1013,14 +1013,14 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
         planetaryDay: planetaryDayScore,
         planetaryHour: planetaryHourScore
       }
-    },
+    }
   })
 
   // Sort all ingredients by score first
   const allScoredIngredients = scoredIngredients.sort((ab) => (b.score || 0) - (a.score || 0))
 
   // Group by category
-  const categoryGroups: Record<string, EnhancedIngredient[]> = {},
+  const categoryGroups: Record<string, EnhancedIngredient[]> = {}
 
   // Define the categories we want to ensure have enough items
   const targetCategories = [
@@ -1257,7 +1257,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
 
   // Return the results sorted by score
   return resultIngredients.sort((ab) => (b.score || 0) - (a.score || 0))
-},
+}
 
 /**
  * Get top ingredient matches based on elemental properties and other factors
@@ -1268,7 +1268,7 @@ export const _getTopIngredientMatches = (
 ): EnhancedIngredient[] => {
   // Simply use our main recommendation function but with the requested limit
   return getRecommendedIngredients(astroState).slice(0, limit)
-},
+}
 
 /**
  * Helper function to format factor names for display
@@ -1278,7 +1278,7 @@ export const _formatFactorName = (factor: string): string => {
     .replace('Score', '')
     .replace(/([A-Z])/g, ' 1')
     .replace(/^./, str => str.toUpperCase()),
-},
+}
 
 // Ensure you don't need to check the type anymore when using elementalAffinity
 function _getElementalAffinity(ingredient: EnhancedIngredient): string {
@@ -1344,17 +1344,17 @@ function isDaytime(date: Date = new Date()): boolean {
  * Map planets to their elemental influences (diurnal and nocturnal elements)
  */
 const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> = {
-  sun: { diurnal: 'Fire', nocturnal: 'Fire' },
-  moon: { diurnal: 'Water', nocturnal: 'Water' },
-  mercury: { diurnal: 'Air', nocturnal: 'Earth' },
-  venus: { diurnal: 'Water', nocturnal: 'Earth' },
-  mars: { diurnal: 'Fire', nocturnal: 'Water' },
-  jupiter: { diurnal: 'Air', nocturnal: 'Fire' },
-  saturn: { diurnal: 'Air', nocturnal: 'Earth' },
-  uranus: { diurnal: 'Water', nocturnal: 'Air' },
-  neptune: { diurnal: 'Water', nocturnal: 'Water' },
+  sun: { diurnal: 'Fire', nocturnal: 'Fire' }
+  moon: { diurnal: 'Water', nocturnal: 'Water' }
+  mercury: { diurnal: 'Air', nocturnal: 'Earth' }
+  venus: { diurnal: 'Water', nocturnal: 'Earth' }
+  mars: { diurnal: 'Fire', nocturnal: 'Water' }
+  jupiter: { diurnal: 'Air', nocturnal: 'Fire' }
+  saturn: { diurnal: 'Air', nocturnal: 'Earth' }
+  uranus: { diurnal: 'Water', nocturnal: 'Air' }
+  neptune: { diurnal: 'Water', nocturnal: 'Water' }
   pluto: { diurnal: 'Earth', nocturnal: 'Water' }
-},
+}
 
 /**
  * Gets the affinity score between an element and modality based on our hierarchical model.

@@ -55,33 +55,33 @@ const CULTURAL_GROUPS = {
     cuisines: ['chinese', 'japanese', 'korean', 'vietnamese', 'thai', 'sichuanese'],
     characteristics: ['rice-based', 'umami-focused', 'balance-oriented', 'seasonal'],
     sharedPrinciples: ['five elements', 'yin-yang balance', 'seasonal harmony']
-  },
+  }
   south_asian: {
     cuisines: ['indian'],
     characteristics: ['spice-complex', 'ayurvedic', 'vegetarian-friendly', 'medicinal'],
     sharedPrinciples: ['six tastes', 'dosha balance', 'medicinal cooking']
-  },
+  }
   mediterranean: {
     cuisines: ['italian', 'greek', 'spanish', 'middle-eastern', 'mediterranean'],
     characteristics: ['olive oil-based', 'herb-rich', 'seafood-focused', 'communal'],
     sharedPrinciples: ['simplicity', 'fresh ingredients', 'social dining']
-  },
+  }
   european: {
     cuisines: ['french', 'italian', 'spanish', 'greek'],
     characteristics: ['technique-focused', 'wine-paired', 'seasonal', 'refined'],
     sharedPrinciples: ['culinary artistry', 'terroir', 'classical techniques']
-  },
+  }
   latin_american: {
     cuisines: ['mexican'],
     characteristics: ['corn-based', 'chili-focused', 'indigenous-influenced', 'festive'],
     sharedPrinciples: ['indigenous wisdom', 'celebration food', 'heat balance']
-  },
+  }
   african: {
     cuisines: ['african'],
     characteristics: ['grain-based', 'communal', 'spice-rich', 'preservation-focused'],
     sharedPrinciples: ['community sharing', 'spice mastery', 'resourcefulness']
   }
-},
+}
 
 const HISTORICAL_CONTEXTS: Record<string, CulturalContext> = {
   japanese: {
@@ -96,7 +96,7 @@ const HISTORICAL_CONTEXTS: Record<string, CulturalContext> = {
     traditionalOccasions: ['tea ceremony', 'seasonal festivals', 'New Year celebrations'],
     modernEvolution: ['kaiseki refinement', 'bento culture', 'fusion innovations'],
     globalAdaptations: ['sushi worldwide', 'ramen culture', 'Japanese-French fusion']
-  },
+  }
   chinese: {
     origin: 'China',
     historicalPeriod: '3000 BCE - present',
@@ -104,7 +104,7 @@ const HISTORICAL_CONTEXTS: Record<string, CulturalContext> = {
     traditionalOccasions: ['Chinese New Year', 'Mid-Autumn Festival', 'family gatherings'],
     modernEvolution: ['regional specialization', 'Cantonese refinement', 'Sichuan popularity'],
     globalAdaptations: ['American Chinese', 'fusion techniques', 'dim sum culture']
-  },
+  }
   indian: {
     origin: 'Indian subcontinent',
     historicalPeriod: '3000 BCE - present',
@@ -121,7 +121,7 @@ const HISTORICAL_CONTEXTS: Record<string, CulturalContext> = {
       'global spice trade'
     ],
     globalAdaptations: ['curry houses worldwide', 'Indian-British fusion', 'vegetarian influence']
-  },
+  }
   italian: {
     origin: 'Italy',
     historicalPeriod: 'Roman Empire - present',
@@ -134,7 +134,7 @@ const HISTORICAL_CONTEXTS: Record<string, CulturalContext> = {
     traditionalOccasions: ['Sunday family meals', 'harvest festivals', 'religious celebrations'],
     modernEvolution: ['pasta perfection', 'pizza globalization', 'slow food movement'],
     globalAdaptations: ['Italian-American', 'pizza worldwide', 'pasta culture']
-  },
+  }
   french: {
     origin: 'France',
     historicalPeriod: 'Medieval - present',
@@ -147,7 +147,7 @@ const HISTORICAL_CONTEXTS: Record<string, CulturalContext> = {
     traditionalOccasions: ['harvest celebrations', 'religious feasts', 'family gatherings'],
     modernEvolution: ['haute cuisine development', 'nouvelle cuisine', 'bistro culture'],
     globalAdaptations: ['French technique worldwide', 'culinary schools', 'fine dining standards']
-  },
+  }
   mexican: {
     origin: 'Mexico',
     historicalPeriod: 'Pre-Columbian - present',
@@ -164,7 +164,7 @@ const HISTORICAL_CONTEXTS: Record<string, CulturalContext> = {
       'modern Mexican movement'
     ],
     globalAdaptations: ['Tex-Mex fusion', 'taco culture', 'Mexican-American cuisine']
-  },
+  }
   thai: {
     origin: 'Thailand',
     historicalPeriod: '13th century - present',
@@ -177,7 +177,7 @@ const HISTORICAL_CONTEXTS: Record<string, CulturalContext> = {
     traditionalOccasions: ['Songkran festival', 'Buddhist ceremonies', 'royal celebrations'],
     modernEvolution: ['street food culture', 'royal cuisine preservation', 'global popularity'],
     globalAdaptations: ['Thai restaurants worldwide', 'pad thai popularity', 'curry adaptations']
-  },
+  }
   'middle-eastern': {
     origin: 'Middle East',
     historicalPeriod: 'Ancient civilizations - present',
@@ -186,7 +186,7 @@ const HISTORICAL_CONTEXTS: Record<string, CulturalContext> = {
     modernEvolution: ['regional specialization', 'health consciousness', 'diaspora influence'],
     globalAdaptations: ['Mediterranean diet', 'hummus popularity', 'Middle Eastern fusion']
   }
-},
+}
 
 // ===== CULTURAL ANALYTICS SERVICE =====,
 
@@ -254,7 +254,7 @@ export class CulturalAnalyticsService {
         culturalGroup: primaryGroup,
         proximityBonus,
         diversityBonus
-      },
+      }
     } catch (error) {
       logger.error('Error calculating cultural synergy:', error),
       return {
@@ -263,7 +263,7 @@ export class CulturalAnalyticsService {
         culturalGroup: 'unknown',
         proximityBonus: 0,
         diversityBonus: 0
-      },
+      }
     }
   }
 
@@ -276,7 +276,7 @@ export class CulturalAnalyticsService {
     astrologicalState: {
       zodiacSign: any,
       lunarPhase: LunarPhase
-    },
+    }
   ): CulturalAnalytics {
     try {
       const culturalRulesData = culturalRules[cuisineName];
@@ -322,7 +322,7 @@ export class CulturalAnalyticsService {
         culturalDiversityScore,
         traditionalPrinciples,
         modernAdaptations
-      },
+      }
     } catch (error) {
       logger.error('Error generating cultural analytics:', error),
       return this.getDefaultCulturalAnalytics(cuisineName)
@@ -359,7 +359,7 @@ export class CulturalAnalyticsService {
               primaryCuisine,
               secondaryCuisine,
             )
-          },
+          }
 
           fusionRecommendations.push(fusionRecommendation)
         }
@@ -402,7 +402,7 @@ export class CulturalAnalyticsService {
 
   private static calculateAstrologicalCulturalCompatibility(
     cuisine: string,
-    astrologicalState: { zodiacSign: any, lunarPhase: LunarPhase },
+    astrologicalState: { zodiacSign: any, lunarPhase: LunarPhase }
   ): number {
     const culinaryTradition = culinaryTraditions[cuisine]
     if (!culinaryTradition.astrologicalProfile) {
@@ -512,7 +512,7 @@ export class CulturalAnalyticsService {
       culturalHarmony = 0.7,
     }
 
-    return { fusionScore, culturalHarmony, blendRatio },
+    return { fusionScore, culturalHarmony, blendRatio }
   }
 
   private static generateFusionName(cuisine1: string, cuisine2: string): string {
@@ -523,7 +523,7 @@ export class CulturalAnalyticsService {
       'thai-mediterranean': 'Thai-Mediterranean',
       'korean-mexican': 'K-Mex',
       'vietnamese-french': 'Franco-Vietnamese'
-    },
+    }
 
     const key1 = `${cuisine1}-${cuisine2}`;
     const key2 = `${cuisine2}-${cuisine1}`;
@@ -538,7 +538,7 @@ export class CulturalAnalyticsService {
       'indian-mexican': ['Curry Tacos', 'Tandoori Quesadillas', 'Masala Burritos'],
       'thai-mediterranean': ['Tom Yum Pasta', 'Pad Thai Paella', 'Green Curry Risotto'],
       'korean-mexican': ['Kimchi Tacos', 'Bulgogi Burritos', 'Korean BBQ Quesadillas']
-    },
+    }
 
     const key1 = `${cuisine1}-${cuisine2}`;
     const key2 = `${cuisine2}-${cuisine1}`;
@@ -572,7 +572,7 @@ export class CulturalAnalyticsService {
       summer: 0.8,
       autumn: 0.8,
       winter: 0.8
-    },
+    }
 
     // Adjust based on cuisine seasonal preferences
     const tradition1 = culinaryTraditions[cuisine1];
@@ -582,7 +582,7 @@ export class CulturalAnalyticsService {
       tradition1.seasonalPreferences?.includes('all') ||
       tradition2.seasonalPreferences?.includes('all')
     ) {
-      Object.keys(optimization).forEach(season => {,
+      Object.keys(optimization).forEach(season => {
         optimization[season] = 0.9
       })
     }
@@ -604,6 +604,6 @@ export class CulturalAnalyticsService {
         'Seasonal ingredients'
       ],
       modernAdaptations: ['Contemporary techniques', 'Global influences', 'Modern presentations']
-    },
+    }
   }
 }

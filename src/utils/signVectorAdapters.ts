@@ -24,7 +24,7 @@ export function adaptPlanetaryPosition(_position: unknown): PlanetaryPosition | 
   sign: sign as 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' | 'virgo' | 'libra' | 'scorpio' | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces',
     degree: Number.isFinite(degree) ? degree : 0,
     isRetrograde: Boolean(pos.isRetrograde)
-  },
+  }
 
   // Add optional fields if present
   if (typeof pos.house === 'number') {,
@@ -60,7 +60,7 @@ export function adaptPlanetaryPositions(
     return null
   }
 
-  const adapted: Record<string, PlanetaryPosition> = {},
+  const adapted: Record<string, PlanetaryPosition> = {}
   let hasValidData = false;
 
   for (const [planet, position] of Object.entries(positions)) {

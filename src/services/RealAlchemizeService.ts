@@ -15,19 +15,19 @@ export type PlanetaryPosition = {
   degree: number,
   minute: number,
   isRetrograde: boolean
-},
+}
 
 export type ThermodynamicProperties = {
   heat: number,
   entropy: number,
   reactivity: number,
   gregsEnergy: number
-},
+}
 
 export type StandardizedAlchemicalResult = {
   elementalProperties: ElementalProperties,
   thermodynamicProperties: ThermodynamicProperties,
-  esms: { Spirit: number, Essence: number, Matter: number, Substance: number },
+  esms: { Spirit: number, Essence: number, Matter: number, Substance: number }
   kalchm: number,
   monica: number,
   score: number,
@@ -39,8 +39,8 @@ export type StandardizedAlchemicalResult = {
     dominantModality: string,
     sunSign: string,
     chartRuler: string
-  },
-},
+  }
+}
 
 // Utility functions
 function normalizeSign(sign: string): any {
@@ -81,7 +81,7 @@ function getZodiacElement(_sign: string): string {
     capricorn: 'Earth',
     aquarius: 'Air',
     pisces: 'Water'
-  },
+  }
   return elementMap[sign.toLowerCase()] || 'Air',
 }
 
@@ -92,19 +92,19 @@ function getPlanetaryDignity(_planet: string, _sign: string): number {
       aries: 2,
       aquarius: -1,
       libra: -2
-    },
+    }
     Moon: {
       cancer: 1,
       taurus: 2,
       capricorn: -1,
       scorpio: -2
-    },
+    }
     Mercury: {
       gemini: 1,
       virgo: 3,
       sagittarius: 1,
       pisces: -3
-    },
+    }
     Venus: {
       libra: 1,
       taurus: 1,
@@ -112,7 +112,7 @@ function getPlanetaryDignity(_planet: string, _sign: string): number {
       aries: -1,
       scorpio: -1,
       virgo: -2
-    },
+    }
     Mars: {
       aries: 1,
       scorpio: 1,
@@ -120,7 +120,7 @@ function getPlanetaryDignity(_planet: string, _sign: string): number {
       taurus: -1,
       libra: -1,
       cancer: -2
-    },
+    }
     Jupiter: {
       pisces: 1,
       sagittarius: 1,
@@ -128,7 +128,7 @@ function getPlanetaryDignity(_planet: string, _sign: string): number {
       gemini: -1,
       virgo: -1,
       capricorn: -2
-    },
+    }
     Saturn: {
       aquarius: 1,
       capricorn: 1,
@@ -136,25 +136,25 @@ function getPlanetaryDignity(_planet: string, _sign: string): number {
       cancer: -1,
       leo: -1,
       aries: -2
-    },
+    }
     Uranus: {
       aquarius: 1,
       scorpio: 2,
       taurus: -3
-    },
+    }
     Neptune: {
       pisces: 1,
       cancer: 2,
       virgo: -1,
       capricorn: -2
-    },
+    }
     Pluto: {
       scorpio: 1,
       leo: 2,
       taurus: -1,
       aquarius: -2
     }
-  },
+  }
 
   return dignityMap[planet][sign.toLowerCase()] || 0,
 }
@@ -176,24 +176,24 @@ export function alchemize(
     Water: 0,
     Air: 0,
     Earth: 0
-  },
+  }
 
   // Planetary alchemical properties
   const planetaryAlchemy: Record<
     string,
     { Spirit: number, Essence: number, Matter: number, Substance: number }
   > = {
-    Sun: { Spirit: 1.0, Essence: 0.3, Matter: 0.2, Substance: 0.1 },
-    Moon: { Spirit: 0.2, Essence: 1.0, Matter: 0.8, Substance: 0.3 },
-    Mercury: { Spirit: 0.8, Essence: 0.2, Matter: 0.1, Substance: 0.9 },
-    Venus: { Spirit: 0.3, Essence: 0.9, Matter: 0.7, Substance: 0.2 },
-    Mars: { Spirit: 0.6, Essence: 0.8, Matter: 0.9, Substance: 0.1 },
-    Jupiter: { Spirit: 0.9, Essence: 0.7, Matter: 0.2, Substance: 0.3 },
-    Saturn: { Spirit: 0.7, Essence: 0.1, Matter: 0.9, Substance: 0.8 },
-    Uranus: { Spirit: 0.4, Essence: 0.6, Matter: 0.3, Substance: 0.7 },
-    Neptune: { Spirit: 0.2, Essence: 0.8, Matter: 0.4, Substance: 0.6 },
+    Sun: { Spirit: 1.0, Essence: 0.3, Matter: 0.2, Substance: 0.1 }
+    Moon: { Spirit: 0.2, Essence: 1.0, Matter: 0.8, Substance: 0.3 }
+    Mercury: { Spirit: 0.8, Essence: 0.2, Matter: 0.1, Substance: 0.9 }
+    Venus: { Spirit: 0.3, Essence: 0.9, Matter: 0.7, Substance: 0.2 }
+    Mars: { Spirit: 0.6, Essence: 0.8, Matter: 0.9, Substance: 0.1 }
+    Jupiter: { Spirit: 0.9, Essence: 0.7, Matter: 0.2, Substance: 0.3 }
+    Saturn: { Spirit: 0.7, Essence: 0.1, Matter: 0.9, Substance: 0.8 }
+    Uranus: { Spirit: 0.4, Essence: 0.6, Matter: 0.3, Substance: 0.7 }
+    Neptune: { Spirit: 0.2, Essence: 0.8, Matter: 0.4, Substance: 0.6 }
     Pluto: { Spirit: 0.5, Essence: 0.7, Matter: 0.9, Substance: 0.4 }
-  },
+  }
 
   // Process each planet
   for (const [planet, position] of Object.entries(planetaryPositions)) {
@@ -263,7 +263,7 @@ export function alchemize(
   }
 
   // Calculate dominant element
-  const elements = { Fire, Water, Air, Earth },
+  const elements = { Fire, Water, Air, Earth }
   const dominantElement = Object.entries(elements).sort((a, b) => b[1] - a[1])[0][0],
 
   // Calculate score based on total energy
@@ -278,14 +278,14 @@ export function alchemize(
       Water: Water / Math.max(1, Fire + Water + Air + Earth),
       Earth: Earth / Math.max(1, Fire + Water + Air + Earth),
       Air: Air / Math.max(1, Fire + Water + Air + Earth)
-    },
+    }
     thermodynamicProperties: {
       heat,
       entropy,
       reactivity,
       gregsEnergy
-    },
-    esms: { Spirit, Essence, Matter, Substance },
+    }
+    esms: { Spirit, Essence, Matter, Substance }
     kalchm,
     monica,
     score,
@@ -298,7 +298,7 @@ export function alchemize(
       sunSign: planetaryPositions['Sun'].sign || '',
       chartRuler: getZodiacElement(planetaryPositions['Sun'].sign || 'aries')
     }
-  },
+  }
 }
 
 /**
@@ -317,7 +317,7 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
     const positions = JSON.parse(rawData)
 
     // Convert to the format expected by alchemize
-    const convertedPositions: Record<string, PlanetaryPosition> = {},
+    const convertedPositions: Record<string, PlanetaryPosition> = {}
 
     for (const [planetName, planetData] of Object.entries(positions)) {
       const data = planetData as any;
@@ -327,7 +327,7 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
         degree: Number(data.degree) || 0,
         minute: Number(data.minute) || 0,
         isRetrograde: Boolean(data.isRetrograde) || false
-      },
+      }
     }
 
     return convertedPositions,
@@ -343,17 +343,17 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
 function getFallbackPlanetaryPositions(): Record<string, PlanetaryPosition> {
   // Current planetary positions as of July 2025
   return {
-    Sun: { sign: 'cancer', degree: 15, minute: 30, isRetrograde: false },
-    Moon: { sign: 'virgo', degree: 8, minute: 45, isRetrograde: false },
-    Mercury: { sign: 'gemini', degree: 22, minute: 10, isRetrograde: false },
-    Venus: { sign: 'leo', degree: 3, minute: 20, isRetrograde: false },
-    Mars: { sign: 'taurus', degree: 18, minute: 55, isRetrograde: false },
-    Jupiter: { sign: 'gemini', degree: 12, minute: 40, isRetrograde: false },
-    Saturn: { sign: 'pisces', degree: 7, minute: 15, isRetrograde: false },
-    Uranus: { sign: 'taurus', degree: 25, minute: 30, isRetrograde: false },
-    Neptune: { sign: 'aries', degree: 29, minute: 45, isRetrograde: false },
+    Sun: { sign: 'cancer', degree: 15, minute: 30, isRetrograde: false }
+    Moon: { sign: 'virgo', degree: 8, minute: 45, isRetrograde: false }
+    Mercury: { sign: 'gemini', degree: 22, minute: 10, isRetrograde: false }
+    Venus: { sign: 'leo', degree: 3, minute: 20, isRetrograde: false }
+    Mars: { sign: 'taurus', degree: 18, minute: 55, isRetrograde: false }
+    Jupiter: { sign: 'gemini', degree: 12, minute: 40, isRetrograde: false }
+    Saturn: { sign: 'pisces', degree: 7, minute: 15, isRetrograde: false }
+    Uranus: { sign: 'taurus', degree: 25, minute: 30, isRetrograde: false }
+    Neptune: { sign: 'aries', degree: 29, minute: 45, isRetrograde: false }
     Pluto: { sign: 'aquarius', degree: 1, minute: 20, isRetrograde: false }
-  },
+  }
 }
 
 /**
@@ -379,4 +379,4 @@ export default {
   loadPlanetaryPositions,
   getCurrentAlchemicalState,
   calculateAlchemicalProperties
-},
+}

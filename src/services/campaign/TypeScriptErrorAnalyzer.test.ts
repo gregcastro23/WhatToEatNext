@@ -105,7 +105,7 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
           category: ErrorCategory.TS2352_TYPE_CONVERSION,
           priority: 20,
           severity: ErrorSeverity.HIGH
-        },
+        }
         {
           filePath: 'src/test1.ts',
           line: 2,
@@ -115,7 +115,7 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
           category: ErrorCategory.TS2345_ARGUMENT_MISMATCH,
           priority: 18,
           severity: ErrorSeverity.HIGH
-        },
+        }
         {
           filePath: 'src/test2.ts',
           line: 1,
@@ -125,7 +125,7 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
           category: ErrorCategory.TS2352_TYPE_CONVERSION,
           priority: 15,
           severity: ErrorSeverity.HIGH
-        },
+        }
       ],
 
       const distributionMethod: any = (analyzer as any).createErrorDistribution.bind(analyzer)
@@ -151,11 +151,11 @@ src/types/index.ts(51): error, TS2304: Cannot find name 'UnknownType'.
           [ErrorCategory.TS2304_CANNOT_FIND_NAME]: [],
           [ErrorCategory.TS2362_ARITHMETIC_OPERATION]: [],
           [ErrorCategory.OTHER]: []
-        },
-        errorsByFile: {},
+        }
+        errorsByFile: {}
         priorityRanking: [],
         highImpactFiles: [],
-      },
+      }
 
       const recommendMethod: any = (analyzer as any).generateRecommendations.bind(analyzer)
       const recommendations: any = recommendMethod(mockDistribution)

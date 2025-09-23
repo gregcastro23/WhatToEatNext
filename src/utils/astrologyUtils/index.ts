@@ -4,4 +4,4 @@
 export * from '../astrologyUtils',
 
 // Explicitly re-export the getPlanetaryDignity function to make sure it's exported
-export { getPlanetaryDignity } from '../astrologyUtils',
+export { getPlanetaryDignity } from '../astrologyUtils';

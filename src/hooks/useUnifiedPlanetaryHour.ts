@@ -54,7 +54,7 @@ export function useUnifiedPlanetaryHour(options: UseUnifiedPlanetaryHourOptions 
         setState(prev => ({ ...prev, loading: false, error: err instanceof Error ? err.message : 'Unknown error' }))
       }
     })()
-    return () => { cancelled = true },
+    return () => { cancelled = true }
   }, [location?.latitude, location?.longitude])
 
   // Realtime override when available
@@ -81,7 +81,7 @@ export function useUnifiedPlanetaryHour(options: UseUnifiedPlanetaryHourOptions 
     error: state.error,
     source: state.source,
     connected
-  },
+  }
 }
 
 export default useUnifiedPlanetaryHour,

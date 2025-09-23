@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { PlanetPosition } from '@/utils/astrologyUtils';
 
 export interface AlchemicalState {
-  planetaryPositions: { [key: string]: PlanetPosition },
+  planetaryPositions: { [key: string]: PlanetPosition }
   isDaytime: boolean,
   isLoading: boolean,
   error: string | null
@@ -11,7 +11,7 @@ export interface AlchemicalState {
 
 export function useAlchemical() {
   const [state, setState] = useState<AlchemicalState>({
-    planetaryPositions: {},
+    planetaryPositions: {}
     isDaytime: true,
     isLoading: true,
     error: null
@@ -34,7 +34,7 @@ export function useAlchemical() {
       const isDaytime = hour >= 6 && hour < 18;
 
       setState({
-        planetaryPositions: data.positions || {},
+        planetaryPositions: data.positions || {}
         isDaytime,
         isLoading: false,
         error: null
@@ -55,5 +55,5 @@ export function useAlchemical() {
   return {
     ...state,
     refresh: fetchPlanetaryPositions
-  },
+  }
 }

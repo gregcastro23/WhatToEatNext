@@ -9,7 +9,7 @@ import {
   BatchPriority,
   TransformationErrorType,
   ErrorSeverity
-} from './ExportTransformationEngine',
+} from './ExportTransformationEngine';
 import { ProgressTracker } from './ProgressTracker';
 import { SafetyProtocol } from './SafetyProtocol';
 import { UnusedExportAnalyzer } from './UnusedExportAnalyzer';
@@ -43,7 +43,7 @@ describe('ExportTransformationEngine', () => {;
           safetyScore: 90,
           transformationCandidates: [
             {
-              export: { exportNam, e: 'testExport1', exportType: 'function', complexity: 5 },
+              export: { exportNam, e: 'testExport1', exportType: 'function', complexity: 5 }
               intelligenceSystemName: 'TEST_EXPORT_1_INTELLIGENCE_SYSTEM',
               transformationComplexity: 'MODERATE',
               safetyScore: 85,
@@ -61,7 +61,7 @@ describe('ExportTransformationEngine', () => {;
           safetyScore: 85,
           transformationCandidates: [
             {
-              export: { exportNam, e: 'testExport2', exportType: 'class', complexity: 8 },
+              export: { exportNam, e: 'testExport2', exportType: 'class', complexity: 8 }
               intelligenceSystemName: 'TEST_EXPORT_2_INTELLIGENCE_SYSTEM',
               transformationComplexity: 'COMPLEX',
               safetyScore: 80,
@@ -86,7 +86,7 @@ describe('ExportTransformationEngine', () => {;
       {
         systemName: 'TEST_SYSTEM_1',
         filePath: '/output/TEST_SYSTEM_1.ts',
-        originalExport: { exportNam, e: 'testExport1', exportType: 'function' },
+        originalExport: { exportNam, e: 'testExport1', exportType: 'function' }
         generatedCode: 'generated code',
         capabilities: [],
         integrationPoints: [],
@@ -110,8 +110,8 @@ describe('ExportTransformationEngine', () => {;
         rollbackToCheckpoint: jest.MockedFunction<() => Promise<any>>,, emergencyRollback: jest.MockedFunction<() => Promise<any>>,
         createStash: jest.MockedFunction<() => Promise<string>>,, createCheckpointStash: jest.MockedFunction<() => Promise<string>>,
         getSafetyEvents: jest.MockedFunction<() => Promise<unknown[]>>,
-      },
-    },
+      }
+    }
     safetyProtocolMethods.prototype.createSafetyCheckpoint = jest.fn().mockResolvedValue('checkpoint-123')
     safetyProtocolMethods.prototype.rollbackToCheckpoint = jest.fn().mockResolvedValue(undefined)
     safetyProtocolMethods.prototype.emergencyRollback = jest.fn().mockResolvedValue(undefined)
@@ -124,8 +124,8 @@ describe('ExportTransformationEngine', () => {;
       prototype: { updateProgress: jest.MockedFunction<() => Promise<any>>,
         getTypeScriptErrorCount: jest.MockedFunction<() => Promise<number>>,, getTypeScriptErrorBreakdown: jest.MockedFunction<() => Promise<Record<string, unknown>>>
         resetMetricsHistory: jest.MockedFunction<() => Promise<any>>,
-      },
-    },
+      }
+    }
     progressTrackerMethods.prototype.updateProgress = jest.fn().mockResolvedValue(undefined)
     progressTrackerMethods.prototype.getTypeScriptErrorCount = jest.fn().mockResolvedValue(0)
     progressTrackerMethods.prototype.getTypeScriptErrorBreakdown = jest.fn().mockResolvedValue({})
@@ -188,7 +188,7 @@ describe('ExportTransformationEngine', () => {;
       expect(
         (
           mockSafetyProtocol as unknown as {
-            prototype: { createSafetyCheckpoint: jest.MockedFunction<(checkpoin, t: string) => Promise<string>> },
+            prototype: { createSafetyCheckpoint: jest.MockedFunction<(checkpoin, t: string) => Promise<string>> }
           }
         ).prototype.createSafetyCheckpoint,
       ).toHaveBeenCalledWith('transformation-start')
@@ -201,7 +201,7 @@ describe('ExportTransformationEngine', () => {;
       expect(
         (
           mockSafetyProtocol as unknown as {
-            prototype: { emergencyRollbac, k: jest.MockedFunction<() => Promise<any>> },
+            prototype: { emergencyRollbac, k: jest.MockedFunction<() => Promise<any>> }
           }
         ).prototype.emergencyRollback,
       ).toHaveBeenCalled()
@@ -248,7 +248,7 @@ describe('ExportTransformationEngine', () => {;
       expect(
         (
           mockSafetyProtocol as unknown as {,
-            prototype: { rollbackToCheckpoin, t: jestMockedFunction<() => Promise<any>> },
+            prototype: { rollbackToCheckpoin, t: jestMockedFunction<() => Promise<any>> }
           }
         ).prototype.rollbackToCheckpoint,
       ).toHaveBeenCalled()
@@ -287,7 +287,7 @@ describe('ExportTransformationEngine', () => {;
       expect(
         (
           mockSafetyProtocol as unknown as {
-            prototype: { createSafetyCheckpoin, t: jest.MockedFunction<() => Promise<string>> },
+            prototype: { createSafetyCheckpoin, t: jest.MockedFunction<() => Promise<string>> }
           }
         ).prototype.createSafetyCheckpoint,
       ).toHaveBeenCalledTimes(3); // start + 2 batches
@@ -321,12 +321,12 @@ describe('ExportTransformationEngine', () => {;
   describe('batch safety scoring', () => {
     it('should calculate batch safety scores correctly', () => {
       const mockFiles: any = [
-        { safetyScore: 90, transformationCandidates: [{ transformationComplexit, y: 'SIMPLE' }] },
-        { safetyScore: 80, transformationCandidates: [{ transformationComplexit, y: 'COMPLEX' }] },
+        { safetyScore: 90, transformationCandidates: [{ transformationComplexit, y: 'SIMPLE' }] }
+        { safetyScore: 80, transformationCandidates: [{ transformationComplexit, y: 'COMPLEX' }] }
       ],
 
       const score: any = (
-        engine as unknown as { calculateBatchSafetyScore: (files: any[]) => number },
+        engine as unknown as { calculateBatchSafetyScore: (files: any[]) => number }
       ).calculateBatchSafetyScore(mockFiles)
 
       expect(score).toBeLessThan(85). // Should be penalized for complex candidate
@@ -344,11 +344,11 @@ describe('ExportTransformationEngine', () => {;
       const mockFiles: any = [
         {
           transformationCandidates: [{ transformationComplexit, y: 'SIMPLE' }, { transformationComplexity: 'COMPLEX' }]
-        },
+        }
       ],
 
       const duration: any = (
-        engine as unknown as { estimateBatchDuration: (files: any[]) => number },
+        engine as unknown as { estimateBatchDuration: (files: any[]) => number }
       )estimateBatchDuration(mockFiles)
 
       expect(duration).toBeGreaterThan(2). // Base time + complexity

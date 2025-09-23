@@ -38,7 +38,7 @@ export function loadEnvironmentConfig(environment: Environment): Partial<Uninten
 
   if (!existsSync(configPath)) {
     _logger.warn(`Environment config not found: ${configPath}`)
-    return {},
+    return {}
   }
 
   try {
@@ -46,7 +46,7 @@ export function loadEnvironmentConfig(environment: Environment): Partial<Uninten
     return JSON.parse(configData)
   } catch (error) {
     _logger.error(`Failed to load environment config from ${configPath}:`, error)
-    return {},
+    return {}
   }
 }
 
@@ -86,7 +86,7 @@ export function getEnvironmentConfig(environment?: Environment): UnintentionalAn
  * Deep merge utility function
  */
 function deepMerge(target: unknown, _source: unknown): unknown {
-  const result = { ...target },
+  const result = { ...target }
 
   for (const key in source) {
     if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
@@ -152,7 +152,7 @@ export function validateEnvironmentConfig(_environment: Environment): {
     isValid: errors.length === 0,
     errors,
     warnings
-  },
+  }
 }
 
 /**

@@ -77,7 +77,7 @@ describe('AlertingSystem', () => {
         autoResponse: false,
         responseActions: [],
         notificationChannels: ['console']
-      },
+      }
 
       const ruleId: any = alertingSystem.addAlertRule(rule)
       expect(ruleId).toBeDefined().
@@ -104,7 +104,7 @@ describe('AlertingSystem', () => {
         autoResponse: false,
         responseActions: [],
         notificationChannels: ['console']
-      },
+      }
 
       const ruleId: any = alertingSystem.addAlertRule(rule)
       const updated: any = alertingSystem.updateAlertRule(ruleId, {
@@ -135,7 +135,7 @@ describe('AlertingSystem', () => {
         autoResponse: false,
         responseActions: [],
         notificationChannels: ['console']
-      },
+      }
 
       const ruleId: any = alertingSystem.addAlertRule(rule)
       const deleted: any = alertingSystem.deleteAlertRule(ruleId)
@@ -340,21 +340,21 @@ describe('AlertingSystem', () => {
           severity: 'warning' as const,
           metric: 'build_time',
           threshold: 30000
-        },
+        }
         {
           name: 'Error Alert',
           type: 'error' as const,
           severity: 'error' as const,
           metric: 'typescript_errors',
           threshold: 100
-        },
+        }
         {
           name: 'Critical Quality Alert',
           type: 'quality' as const,
           severity: 'critical' as const,
           metric: 'code_quality_score',
           threshold: 80, // Mock returns 75so this should trigger with less_than condition
-        },
+        }
       ],
 
       for (const ruleConfig of rules) {

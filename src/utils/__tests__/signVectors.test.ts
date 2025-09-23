@@ -9,19 +9,19 @@ import {
   blendESMS,
   getAlchemicalStateWithVectors,
   VECTOR_CONFIG
-} from '../signVectors',
+} from '../signVectors';
 
 describe('signVectors', () => {
   let mockPlanetaryPositions: Record<string, PlanetaryPosition>,
   let mockAspects: PlanetaryAspect[0], 
   beforeEach(() => {
     mockPlanetaryPositions = {
-      Sun: { sign: 'aries', degree: 15, isRetrograde: false },
-      Moon: { sign: 'cancer', degree: 10, isRetrograde: false },
-      Mercury: { sign: 'gemini', degree: 20, isRetrograde: false },
-      Venus: { sign: 'taurus', degree: 5, isRetrograde: false },
+      Sun: { sign: 'aries', degree: 15, isRetrograde: false }
+      Moon: { sign: 'cancer', degree: 10, isRetrograde: false }
+      Mercury: { sign: 'gemini', degree: 20, isRetrograde: false }
+      Venus: { sign: 'taurus', degree: 5, isRetrograde: false }
       Mars: { sign: 'scorpio', degree: 25, isRetrograde: false }
-    },
+    }
 
     mockAspects = [
       {
@@ -30,7 +30,7 @@ describe('signVectors', () => {
         type: 'square',
         orb: 5,
         isApplying: true
-      },
+      }
       {
         planet1: 'Mercury',
         planet2: 'Venus',
@@ -47,7 +47,7 @@ describe('signVectors', () => {
   planetaryPositions: mockPlanetaryPositions,
         aspects: mockAspects,
         season: 'spring'
-      },
+      }
 
       const result = calculateSignVectors(input)
 
@@ -62,9 +62,9 @@ describe('signVectors', () => {
 
     it('should handle empty planetary positions', () => {
       const input: SignVectorCalculationInput = {
-  planetaryPositions: {},
+  planetaryPositions: {}
         aspects: [0]
-      },
+      }
 
       const result = calculateSignVectors(input)
 
@@ -78,11 +78,11 @@ describe('signVectors', () => {
     it('should handle malformed planetary data gracefully', () => {
       const input: SignVectorCalculationInput = {
   planetaryPositions: {
-          Sun: { sign: null as any, degree: NaN, isRetrograde: undefined as any },
+          Sun: { sign: null as any, degree: NaN, isRetrograde: undefined as any }
           Moon: { sign: 'invalid' as any, degree: -100, isRetrograde: false }
-        },
+        }
         aspects: undefined as any
-      },
+      }
 
       const result = calculateSignVectors(input)
 
@@ -92,14 +92,14 @@ describe('signVectors', () => {
 
     it('should apply seasonal alignment correctly', () => {
       const springInput: SignVectorCalculationInput = {
-  planetaryPositions: { Sun: { sign: 'aries', degree: 15, isRetrograde: false } },
+  planetaryPositions: { Sun: { sign: 'aries', degree: 15, isRetrograde: false } }
         season: 'spring'
-      },
+      }
 
       const winterInput: SignVectorCalculationInput = {
-  planetaryPositions: { Sun: { sign: 'aries', degree: 15, isRetrograde: false } },
+  planetaryPositions: { Sun: { sign: 'aries', degree: 15, isRetrograde: false } }
         season: 'winter'
-      },
+      }
 
       const springResult = calculateSignVectors(springInput)
       const winterResult = calculateSignVectors(winterInput)
@@ -110,9 +110,9 @@ describe('signVectors', () => {
     it('should apply aspect modifiers correctly', () => {
       const withConjunction: SignVectorCalculationInput = {
   planetaryPositions: {
-          Sun: { sign: 'aries', degree: 15, isRetrograde: false },
+          Sun: { sign: 'aries', degree: 15, isRetrograde: false }
           Moon: { sign: 'aries', degree: 18, isRetrograde: false }
-        },
+        }
         aspects: [
           {
             planet1: 'Sun',
@@ -122,15 +122,15 @@ describe('signVectors', () => {
             isApplying: true
           }
         ]
-      },
+      }
 
       const withoutAspects: SignVectorCalculationInput = {
   planetaryPositions: {
-          Sun: { sign: 'aries', degree: 15, isRetrograde: false },
+          Sun: { sign: 'aries', degree: 15, isRetrograde: false }
           Moon: { sign: 'aries', degree: 18, isRetrograde: false }
-        },
+        }
         aspects: [0]
-      },
+      }
 
       const resultWithAspect = calculateSignVectors(withConjunction)
       const resultWithoutAspect = calculateSignVectors(withoutAspects)
@@ -143,13 +143,13 @@ describe('signVectors', () => {
   planetaryPositions: {
           Mercury: { sign: 'gemini', degree: 15, isRetrograde: true }
         }
-      },
+      }
 
       const withoutRetrograde: SignVectorCalculationInput = {
   planetaryPositions: {
           Mercury: { sign: 'gemini', degree: 15, isRetrograde: false }
         }
-      },
+      }
 
       const retroResult = calculateSignVectors(withRetrograde)
       const directResult = calculateSignVectors(withoutRetrograde)
@@ -160,7 +160,7 @@ describe('signVectors', () => {
     it('should normalize modality and elemental vectors correctly', () => {
       const input: SignVectorCalculationInput = {
   planetaryPositions: mockPlanetaryPositions
-      },
+      }
 
       const result = calculateSignVectors(input)
 
@@ -233,7 +233,7 @@ describe('signVectors', () => {
           Air: 0.2,
           seasonal: 0.9
         }
-      },
+      }
 
       const vectorB = {
         sign: 'leo' as const,
@@ -249,7 +249,7 @@ describe('signVectors', () => {
           Air: 0.3,
           seasonal: 0.8
         }
-      },
+      }
 
       const result = compareSignVectors(vectorA, vectorB)
 
@@ -273,7 +273,7 @@ describe('signVectors', () => {
           Air: 0.25,
           seasonal: 0.5
         }
-      },
+      }
 
       const modalityDominant2 = {
         sign: 'cancer' as const,
@@ -289,7 +289,7 @@ describe('signVectors', () => {
           Air: 0.3,
           seasonal: 0.4
         }
-      },
+      }
 
       const result = compareSignVectors(modalityDominant1, modalityDominant2)
       expect(result.dominantSharedAxis).toBe('modality').
@@ -312,7 +312,7 @@ describe('signVectors', () => {
           Air: 0.5,
           seasonal: 0.9
         }
-      },
+      }
 
       const esms = signVectorToESMS(vector)
 
@@ -340,7 +340,7 @@ describe('signVectors', () => {
           Air: 0,
           seasonal: 0.5
         }
-      },
+      }
 
       const fixedVector = {
         sign: 'taurus' as const,
@@ -356,7 +356,7 @@ describe('signVectors', () => {
           Air: 0,
           seasonal: 0.5
         }
-      },
+      }
 
       const cardinalESMS = signVectorToESMS(cardinalVector)
       const fixedESMS = signVectorToESMS(fixedVector)
@@ -368,8 +368,8 @@ describe('signVectors', () => {
 
   describe('blendESMS', () => {
     it('should blend ESMS properties correctly with default alpha', () => {
-      const base = { Spirit: 0.4, Essence: 0.3, Matter: 0.2, Substance: 0.1 },
-      const contribution = { Spirit: 0.1, Essence: 0.2, Matter: 0.3, Substance: 0.4 },
+      const base = { Spirit: 0.4, Essence: 0.3, Matter: 0.2, Substance: 0.1 }
+      const contribution = { Spirit: 0.1, Essence: 0.2, Matter: 0.3, Substance: 0.4 }
       const result = blendESMS(base, contribution)
 
       expect(result.Spirit).toBeLessThan(base.Spirit)
@@ -380,8 +380,8 @@ describe('signVectors', () => {
     })
 
     it('should handle custom alpha values', () => {
-      const base = { Spirit: 04, Essence: 0.3, Matter: 0.2, Substance: 0.1 },
-      const contribution = { Spirit: 0.1, Essence: 0.2, Matter: 0.3, Substance: 0.4 },
+      const base = { Spirit: 04, Essence: 0.3, Matter: 0.2, Substance: 0.1 }
+      const contribution = { Spirit: 0.1, Essence: 0.2, Matter: 0.3, Substance: 0.4 }
       const result0 = blendESMS(base, contribution, 0)
       const result1 = blendESMS(base, contribution, 1)
       const result05 = blendESMS(base, contribution, 0.5)
@@ -400,7 +400,7 @@ describe('signVectors', () => {
         aspects: mockAspects,
         season: 'spring' as const,
         governing: 'sun' as const
-      },
+      }
 
       const result = getAlchemicalStateWithVectors(input)
 
@@ -424,7 +424,7 @@ describe('signVectors', () => {
       const input = {
         planetaryPositions: mockPlanetaryPositions,
         governing: 'moon' as const
-      },
+      }
 
       const result = getAlchemicalStateWithVectors(input)
 
@@ -434,7 +434,7 @@ describe('signVectors', () => {
     it('should calculate with dominant governing (default)', () => {
       const input = {
         planetaryPositions: mockPlanetaryPositions
-      },
+      }
 
       const result = getAlchemicalStateWithVectors(input)
 
@@ -449,9 +449,9 @@ describe('signVectors', () => {
         planetaryPositions: {
           ..mockPlanetaryPositions
           Ascendant: { sign: 'libra', degree: 0, isRetrograde: false }
-        },
+        }
         governing: 'ensemble' as const
-      },
+      }
 
       const result = getAlchemicalStateWithVectors(input)
 
@@ -461,9 +461,9 @@ describe('signVectors', () => {
 
     it('should handle missing planetary data gracefully', () => {
       const input = {
-        planetaryPositions: {},
+        planetaryPositions: {}
         governing: 'sun' as const
-      },
+      }
 
       const result = getAlchemicalStateWithVectors(input)
 
@@ -476,9 +476,9 @@ describe('signVectors', () => {
         planetaryPositions: {
   Sun: undefined as any,
           Moon: undefined as any
-        },
+        }
         governing: 'sun' as const
-      },
+      }
 
       const result = getAlchemicalStateWithVectors(input)
 
@@ -488,7 +488,7 @@ describe('signVectors', () => {
     it('should produce normalized ESMS values', () => {
       const input = {
         planetaryPositions: mockPlanetaryPositions
-      },
+      }
 
       const result = getAlchemicalStateWithVectors(input)
 
@@ -504,7 +504,7 @@ describe('signVectors', () => {
       const input = {
         planetaryPositions: {
   Sun: { sign: '' as any, degree: Infinity, isRetrograde: null as any }
-        },
+        }
         aspects: [
           {
             planet1: null as any,
@@ -516,7 +516,7 @@ describe('signVectors', () => {
         ],
         season: null as any,
         governing: 'invalid' as any
-      },
+      }
 
       expect(() => getAlchemicalStateWithVectors(input))not.toThrow()
       const result = getAlchemicalStateWithVectors(input)

@@ -5,7 +5,7 @@ export const retryChunkLoad = () => {
       window.location.reload()
     }
   }
-},
+}
 
 if (typeof window !== 'undefined') {
   window.addEventListener('error', event => {

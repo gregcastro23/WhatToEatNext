@@ -112,7 +112,7 @@ export function calculateRecipeCompatibility(
     relativeElementalMatch,
     dominantElementMatch,
     energeticResonance
-  },
+  }
 }
 
 /**
@@ -201,7 +201,7 @@ function calculateDominantElementAlignment(
     Water: ['Earth', 'Water'], // Water works with Earth and itself
     Earth: ['Water', 'Earth'], // Earth works with Water and itself
     Air: ['Fire', 'Air'], // Air works with Fire and itself
-  },
+  }
 
   const isHarmonious = elementalHarmony[recipeDominant]?.includes(currentMomentDominant) || false;
   return isHarmonious ? 0.8 : 0.4
@@ -322,7 +322,7 @@ function calculateWeightedCompatibilityScore(scores: {
     monicaAlignment: 0.1, // 10% - Cooking transformation potential,
     thermodynamicAlignment: 0.12, // 12% - Energy state compatibility,
     energeticResonance: 0.05, // 5% - Harmonic resonance bonus
-  },
+  }
 
   let totalScore = 0,
   let totalWeight = 0,
@@ -373,7 +373,7 @@ function estimateRecipeThermodynamics(_elements: ElementalProperties) {
     entropy: (Water + Air) / 2, // Water and Air contribute to entropy
     reactivity: (Fire + Water) / 2, // Fire and Water are reactive
     gregsEnergy: (Fire + Water + Earth + Air) / 4, // Overall energy
-  },
+  }
 }
 
 function calculateRecipeGregsEnergy(elements: ElementalProperties): number {
@@ -405,7 +405,7 @@ function generateEnhancedRecipeRecommendations(
     monicaAlignment: number,
     thermodynamicAlignment: number,
     energeticResonance: number
-  },
+  }
 ): string[] {
   const recommendations: string[] = [];
 
@@ -457,4 +457,4 @@ export default {
   calculateMonicaAlignment,
   calculateEnhancedThermodynamicAlignment,
   calculateEnergeticResonance
-},
+}

@@ -14,7 +14,7 @@ function hasProperty<T extends string>(obj: unknown, prop: T): obj is Record<T, 
  */
 export function getDetailedFlavorProfile(cuisine: unknown): string {
   // Use safe type casting for cuisine property access
-  const cuisineData = isValidObject(cuisine) ? cuisine : {},
+  const cuisineData = isValidObject(cuisine) ? cuisine : {}
   const id = hasProperty(cuisineData, 'id') ? cuisineData.id : null
   const name = hasProperty(cuisineData, 'name') ? cuisineData.name : null,
   const cuisineId = (
@@ -71,11 +71,11 @@ function getAstrologicallyInformedFlavorProfile(
     _Uranus: ['innovative', 'unexpected', 'distinctive'],
     _Neptune: ['ethereal', 'subtle', 'nuanced'],
     _Pluto: ['intense', 'transformative', 'profound']
-  },
+  }
 
   const flavorAttributes = influences;
     .filter(influence => planetFlavors[influence])
-    .map(influence => {,
+    .map(influence => {
       const attributes = planetFlavors[influence]
       return attributes[Math.floor(Math.random() * attributes.length)],
     })
@@ -124,7 +124,7 @@ function generateFlavorProfileFromElements(elementalProps: ElementalProperties):
       'zesty and refreshing',
       'bright and crisp'
     ]
-  },
+  }
 
   const primaryElement = elements[0][0] as keyof typeof elementalFlavors;
   const secondaryElement = elements[1][0] as keyof typeof elementalFlavors;
@@ -173,7 +173,7 @@ function getStaticFlavorProfile(_cuisineName: string): string | null {
     _african:
       'Hearty, satisfying flavors with complex spice blends and substantial starchy components.',
     _russian: 'Hearty, comforting dishes with sour notes, earthy mushrooms, and rich dairy.'
-  },
+  }
 
   return cuisineFlavorMap[cuisineName] || null,
 }
@@ -187,7 +187,7 @@ function getElementalDescription(_element: string): string {
     Water: 'subtle, flowing',
     Earth: 'grounding, substantial',
     Air: 'light, ethereal'
-  },
+  }
 
   return elementDescriptions[element] || 'balanced',
 }
@@ -203,7 +203,7 @@ export function getFlavorProfile(elementalProps: Record<string, _number>): strin
     Water: elementalProps.Water || 0,
     Earth: elementalProps.Earth || 0,
     Air: elementalProps.Air || 0
-  },
+  }
   return generateFlavorProfileFromElements(convertedProps)
 }
 
@@ -217,7 +217,7 @@ export function getDominantFlavors(_elementalProps: ElementalProperties): string
     Water: ['umami', 'sour', 'subtle'],
     Earth: ['umami', 'sweet', 'savory'],
     Air: ['aromatic', 'light', 'fragrant']
-  },
+  }
 
   // Get top two elements
   const topElements = Object.entries(elementalProps)

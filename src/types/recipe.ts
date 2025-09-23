@@ -3,7 +3,7 @@ import {
   validateRecipe as validateAlchemyRecipe,
   validateIngredient as validateAlchemyIngredient,
   validateElementalProperties as validateAlchemyElementalProps
-} from './validators',
+} from './validators';
 
 // Primary elemental properties interface - used throughout the application
 export interface ElementalProperties {
@@ -96,8 +96,8 @@ export interface Recipe {
       sour: number,
       bitter: number,
       umami: number
-    },
-  },
+    }
+  }
   texturalElements?: string[],
   aromatics?: string[],
   colorProfile?: string[]
@@ -114,7 +114,7 @@ export interface Recipe {
     beverages?: string[],
     sides?: string[],
     condiments?: string[],
-  },
+  }
 
   // Technical details
   cookingTemperature?: {
@@ -126,7 +126,7 @@ export interface Recipe {
     value: number,
     unit: 'C' | 'F',
     doneness: string
-  },
+  }
 
   // Enhanced astrological properties
   astrologicalInfluences?: string[]
@@ -136,7 +136,7 @@ export interface Recipe {
     favorable: string[],
     unfavorable: string[],
     neutral?: string[],
-  },
+  }
 
   // Nutritional information
   nutrition?: {
@@ -151,14 +151,14 @@ export interface Recipe {
       carbs: number,
       fat: number,
       fiber: number
-    },
+    }
     micronutrients?: {
       vitamins: Record<string, number>,
       minerals: Record<string, number>
-    },
+    }
     vitamins?: string[],
     minerals?: string[],
-  },
+  }
 
   // Chef's notes and guidance
   preparationNotes?: string
@@ -211,7 +211,7 @@ export interface Recipe {
     _lunarScore: number,
     _planetaryScore: number,
     _seasonalScore: number
-  },
+  }
 
   // Allow additional dynamic properties for extensibility
   [key: string]: unknown
@@ -233,23 +233,23 @@ export const validateElementalProperties = (properties?: ElementalProperties): b
 
   const total = Object.values(properties).reduce((sum: number, _val: number) => sum + val0),
   return Math.abs(total - 1) < 0.01,
-},
+}
 
 export const validateRecipe = (recipe: Partial<Recipe>): boolean => {
   if (!recipe) return false,
   if (!recipe.name || !recipe.id) return false,
   return true
-},
+}
 
 export const validateSeason = (season: string): boolean => {
   const validSeasons = ['spring', 'summer', 'autumn', 'winter'],
   return validSeasons.includes(season.toLowerCase())
-},
+}
 
 export const validateSeasonality = (seasonality: string[]): boolean => {
   if (!Array.isArray(seasonality)) return false,
   return seasonality.every(season => validateSeason(season))
-},
+}
 
 export const validateIngredient = (ingredient: Partial<RecipeIngredient>): boolean => {
   if (!ingredient) return false,
@@ -266,7 +266,7 @@ export const validateIngredient = (ingredient: Partial<RecipeIngredient>): boole
   if (ingredient.seasonality && !validateSeasonality(ingredient.seasonality)) return false
 
   return true
-},
+}
 
 // Re-export validators with descriptive names
 export const _validateElementalPropertiesExt = validateAlchemyElementalProps
@@ -353,7 +353,7 @@ export interface RecipeDetail {
       bitter: number,
       umami: number
     }
-  },
+  }
 
   texturalElements: string[] // e.g., 'crispy', 'creamy', 'chewy'
   aromatics: string[]; // Key aromatic components
@@ -371,7 +371,7 @@ export interface RecipeDetail {
     beverages?: string[],
     sides?: string[],
     condiments?: string[],
-  },
+  }
 
   // Technical Culinary Details
   cookingTemperature?: {
@@ -400,8 +400,8 @@ export interface RecipeDetail {
     micronutrients?: {
       vitamins: Record<string, number>,
       minerals: Record<string, number>,
-    },
-  },
+    }
+  }
 
   // Dietary Considerations
   _dietaryClassifications: {
@@ -483,11 +483,11 @@ export interface RecipeSearchCriteria {
   prepTimeRange?: {
     min?: number,
     max?: number,
-  },
+  }
   servings?: {
     min?: number,
     max?: number,
-  },
+  }
   spiceLevel?: string[],
   skillLevel?: string[],
   elements?: ElementalProperties,
@@ -533,14 +533,14 @@ export interface RecipeFilters {
   prepTime?: {
     min?: number,
     max?: number,
-  },
+  }
   difficulty?: string[],
   elements?: {
     Fire?: number,
     Water?: number,
     Earth?: number,
     Air?: number,
-  },
+  }
   includeIngredients?: string[],
   excludeIngredients?: string[],
   zodiacSigns?: string[],

@@ -9,7 +9,7 @@ import type {
   AspectType,
   PlanetaryAspect,
   CelestialBody
-} from '../types/alchemy',
+} from '../types/alchemy';
 import type { LunarPhase } from '../types/shared';
 // astronomia calculator removed - using direct calculations
 import { cache } from '../utils/cache';
@@ -21,11 +21,11 @@ const TAROT_ELEMENTAL_MAPPING: Record<
   string,
   { Element: string, Spirit: number, Essence: number, Matter: number, Substance: number }
 > = {
-  wands: { Element: 'Fire', Spirit: 0.9, Essence: 0.3, Matter: 0.2, Substance: 0.4 },
-  cups: { Element: 'Water', Essence: 0.8, Spirit: 0.4, Matter: 0.3, Substance: 0.5 },
-  swords: { Element: 'Air', Substance: 0.8, Spirit: 0.5, Matter: 0.3, Essence: 0.4 },
+  wands: { Element: 'Fire', Spirit: 0.9, Essence: 0.3, Matter: 0.2, Substance: 0.4 }
+  cups: { Element: 'Water', Essence: 0.8, Spirit: 0.4, Matter: 0.3, Substance: 0.5 }
+  swords: { Element: 'Air', Substance: 0.8, Spirit: 0.5, Matter: 0.3, Essence: 0.4 }
   pentacles: { Element: 'Earth', Matter: 0.9, Spirit: 0.2, Substance: 0.4, Essence: 0.3 }
-},
+}
 
 // Tarot zodiac associations
 const TAROT_ZODIAC_MAPPING: Record<string, string[]> = {
@@ -41,7 +41,7 @@ const TAROT_ZODIAC_MAPPING: Record<string, string[]> = {
   capricorn: ['Devil', 'World'],
   aquarius: ['Star', 'Fool'],
   pisces: ['Moon', 'Hanged Man']
-},
+}
 
 // Planetary tarot associations
 const TAROT_PLANETARY_MAPPING: Record<string, string[]> = {
@@ -55,7 +55,7 @@ const TAROT_PLANETARY_MAPPING: Record<string, string[]> = {
   Uranus: ['Fool', 'Star'],
   Neptune: ['Hanged Man', 'Moon'],
   Pluto: ['Death', 'Judgment']
-},
+}
 
 // Add minor arcana mappings after the existing major arcana mappings
 // Minor arcana cards mapped to dates in the year - 36 decans of 10 days each
@@ -103,15 +103,15 @@ const MINOR_ARCANA_DATE_MAPPING = {
   seven_of_pentacles: { startMonth: 1, startDay: 19, endMonth: 1, endDay: 28 }, // pisces decan 1
   eight_of_pentacles: { startMonth: 1, startDay: 29, endMonth: 2, endDay: 10 }, // pisces decan 2
   nine_of_pentacles: { startMonth: 2, startDay: 11, endMonth: 2, endDay: 20 }, // pisces decan 3
-},
+}
 
 // Minor arcana elemental affinities
 const MINOR_ARCANA_ELEMENTAL_AFFINITIES = {
-  wands: { element: 'Fire', energyState: 'Spirit' },
-  cups: { element: 'Water', energyState: 'Essence' },
-  swords: { element: 'Air', energyState: 'Substance' },
+  wands: { element: 'Fire', energyState: 'Spirit' }
+  cups: { element: 'Water', energyState: 'Essence' }
+  swords: { element: 'Air', energyState: 'Substance' }
   pentacles: { element: 'Earth', energyState: 'Matter' }
-},
+}
 
 interface CelestialPosition {
   sign: string,
@@ -194,19 +194,19 @@ class CelestialCalculator {
       const zodiacSign = this.determineZodiacSign(month, day)
 
       // Get current planetary positions
-      let planetaryPositions: PlanetaryPositionRecord = {},
+      let planetaryPositions: PlanetaryPositionRecord = {}
       try {
         // Use fallback positions since astronomia has been removed
         throw new Error('Astronomy calculator removed - using fallback positions')
       } catch (error) {
         // Fallback to default positions if we can't calculate them
         planetaryPositions = {
-          sun: { sign: zodiacSign.toLowerCase(), degree: 15 },
-          moon: { sign: this.calculateMoonSign(now), degree: 10 },
+          sun: { sign: zodiacSign.toLowerCase(), degree: 15 }
+          moon: { sign: this.calculateMoonSign(now), degree: 10 }
           uranus: { sign: 'taurus', degree: 24 }, // Current positions as of 2025
-          neptune: { sign: 'aries', degree: 0 },
+          neptune: { sign: 'aries', degree: 0 }
           pluto: { sign: 'aquarius', degree: 3 }
-        },
+        }
       }
 
       // Determine planetary influences based on day of week, hour, and actual positions
@@ -375,7 +375,7 @@ class CelestialCalculator {
       suit,
       description: `Tarot card associated with ${zodiacAssociation || planetaryAssociation || 'universal forces'}`,
       planetaryInfluences: planetaryAssociation ? { [planetaryAssociation]: 1.0 } : undefined
-    },
+    }
   }
 
   /**
@@ -391,7 +391,7 @@ class CelestialCalculator {
       date: new Date().toISOString(),
       zodiacSign: 'libra' as any,
       dominantPlanets: [
-        { name: 'Sun', influence: 0.5 },
+        { name: 'Sun', influence: 0.5 }
         { name: 'Moon', influence: 0.5 }
       ],
       lunarPhase: 'full moon' as LunarPhase,
@@ -400,7 +400,7 @@ class CelestialCalculator {
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
-      },
+      }
       aspectInfluences: [],
       astrologicalInfluences: ['Sun', 'Moon', 'libra', 'all']
     } as unknown as CelestialAlignment,
@@ -466,7 +466,7 @@ class CelestialCalculator {
       date: new Date().toISOString(),
       zodiacSign: 'libra' as any, // Balance
       dominantPlanets: [
-        { name: 'Sun', influence: 0.5 },
+        { name: 'Sun', influence: 0.5 }
         { name: 'Moon', influence: 0.5 }
       ],
       lunarPhase: 'full moon' as LunarPhase,
@@ -475,7 +475,7 @@ class CelestialCalculator {
         Earth: 0.25,
         Air: 0.25,
         Water: 0.25
-      },
+      }
       aspectInfluences: [],
       astrologicalInfluences: ['Sun', 'Moon', 'libra', 'all'], // Ensure this is always present and has values
     } as unknown as CelestialAlignment,
@@ -533,7 +533,7 @@ class CelestialCalculator {
       cancer: { type: 'Exaltation', strength: 0.7 }, // Exaltation
       capricorn: { type: 'Detriment', strength: -0.5 }, // Detriment
       virgo: { type: 'Fall', strength: -0.6 }, // Fall
-    },
+    }
 
     const saturnDignities: Record<string, { type: string, strength: number }> = {
       capricorn: { type: 'Domicile', strength: 0.9 }, // Traditional rulership
@@ -541,7 +541,7 @@ class CelestialCalculator {
       libra: { type: 'Exaltation', strength: 0.7 }, // Exaltation
       cancer: { type: 'Detriment', strength: -0.5 }, // Detriment
       aries: { type: 'Fall', strength: -0.6 }, // Fall
-    },
+    }
 
     // Calculate base influences based on dignities
     let jupiterDignityName = '',
@@ -652,7 +652,7 @@ class CelestialCalculator {
     jupiterInfluence = Math.max(0.1, Math.min(0.9, jupiterInfluence))
     saturnInfluence = Math.max(0.1, Math.min(0.9, saturnInfluence))
 
-    return { jupiterInfluence, saturnInfluence, jupiterEffect, saturnEffect },
+    return { jupiterInfluence, saturnInfluence, jupiterEffect, saturnEffect }
   }
 
   /**
@@ -707,7 +707,7 @@ class CelestialCalculator {
 
     // Create dominant planets array with weights
     const dominantPlanets: CelestialBody[] = [
-      { name: dayRuler, influence: 0.7 },
+      { name: dayRuler, influence: 0.7 }
       { name: hourRuler, influence: 0.5 }
     ],
 
@@ -728,7 +728,7 @@ class CelestialCalculator {
           dominantPlanets[sunIndex] = {
             ...dominantPlanets[sunIndex],
             effect: `in ${sunPos.sign}`
-          },
+          }
         }
       }
     }
@@ -763,7 +763,7 @@ class CelestialCalculator {
           ...dominantPlanets[jupiterIndex],
           influence: Math.max(dominantPlanets[jupiterIndex].influence || 0, jupiterInfluence),
           effect: jupiterEffect
-        },
+        }
       }
     }
 
@@ -781,7 +781,7 @@ class CelestialCalculator {
           ...dominantPlanets[saturnIndex],
           influence: Math.max(dominantPlanets[saturnIndex].influence || 0, saturnInfluence),
           effect: saturnEffect
-        },
+        }
       }
     }
 
@@ -792,22 +792,22 @@ class CelestialCalculator {
         aquarius: 0.8, // Modern rulership,
         scorpio: 0.5, // Exaltation,
         leo: 0.3, // Detriment
-      },
+      }
       Neptune: {
         pisces: 0.8, // Modern rulership,
         cancer: 0.5, // Exaltation,
         virgo: 0.3, // Detriment
-      },
+      }
       Pluto: {
         scorpio: 0.8, // Modern rulership,
         aquarius: 0.5, // Currently in Aquarius long-term,
         taurus: 0.3, // Detriment
       }
-    },
+    }
 
     outerPlanets.forEach(planet => {
       // Get the planet's current position from the passed positions or default values
-      const position = planetaryPositions[planet.toLowerCase()] || { sign: '', degree: 0 },
+      const position = planetaryPositions[planet.toLowerCase()] || { sign: '', degree: 0 }
       const sign = position.sign.toLowerCase() || '';
 
       // Base influence for outer planets
@@ -868,7 +868,7 @@ class CelestialCalculator {
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-    },
+    }
 
     // Apply zodiac influence
     const zodiacElements: Record<string, keyof ElementalProperties> = {
@@ -884,7 +884,7 @@ class CelestialCalculator {
       cancer: 'Water',
       scorpio: 'Water',
       pisces: 'Water'
-    },
+    }
 
     const zodiacElement = zodiacElements[zodiacSign.toLowerCase()];
     if (zodiacElement) {
@@ -903,7 +903,7 @@ class CelestialCalculator {
       Pluto: 'Earth',
       Mercury: 'Air',
       Uranus: 'Air'
-    },
+    }
 
     dominantPlanets.forEach(planet => {
       const element = planetElements[planet.name]
@@ -1180,7 +1180,7 @@ class CelestialCalculator {
         Earth: 0.25,
         Air: 0.25,
         Water: 0.25
-      },
+      }
     }
   }
 
@@ -1194,7 +1194,7 @@ class CelestialCalculator {
       Essence: 0.25,
       Matter: 0.25,
       Substance: 0.25
-    },
+    }
 
     // Skip calculation if missing required data
     if (!alignment.dominantPlanets || !alignment.zodiacSign) {
@@ -1335,7 +1335,7 @@ class CelestialCalculator {
       throat: 0.1, // Air, Substance,
       thirdEye: 0.1, // Water/Air, Essence/Substance,
       crown: 0.1, // Fire/Spirit
-    },
+    }
 
     // Map elements to chakras
     const elementalBalance = alignment.elementalBalance || {
@@ -1343,7 +1343,7 @@ class CelestialCalculator {
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-    },
+    }
     chakraEnergies.root += ((elementalBalance as any)?.Earth || 0) * 0.2,
     chakraEnergies.sacral += ((elementalBalance as any)?.Water || 0) * 0.2,
     chakraEnergies.solarPlexus += ((elementalBalance as any)?.Fire || 0) * 0.2,
@@ -1467,7 +1467,7 @@ class CelestialCalculator {
           eight: 8,
           nine: 9,
           ten: 10
-        },
+        }
         const value = valueMap[cardName.split('_')[0]] || 0;
 
         // Get elemental association
@@ -1490,7 +1490,7 @@ class CelestialCalculator {
           suit: suit as 'wands' | 'cups' | 'swords' | 'pentacles',
           description: `Minor Arcana card for ${zodiacSign}, representing the current period`,
           planetaryInfluences: {}, // Minor arcana are more linked to decans than planets
-        },
+        }
       }
     }
 
@@ -1569,7 +1569,7 @@ class CelestialCalculator {
           'Delegation',
           'Collapse', // Ten
         ]
-      },
+      }
       // Similar mappings for cups, swords, and pentacles...
       cups: {
         upright: [
@@ -1636,7 +1636,7 @@ class CelestialCalculator {
           'Disconnection',
           'Misalignment', // Ten
         ]
-      },
+      }
       swords: {
         upright: [
           'Clarity',
@@ -1702,7 +1702,7 @@ class CelestialCalculator {
           'Regeneration',
           'Inevitable end', // Ten
         ]
-      },
+      }
       pentacles: {
         upright: [
           'Prosperity',
@@ -1769,7 +1769,7 @@ class CelestialCalculator {
           'Fleeting success', // Ten
         ]
       }
-    },
+    }
 
     // Adjust for zero-indexing of arrays
     const index = Math.max(0, Math.min(value - 19))

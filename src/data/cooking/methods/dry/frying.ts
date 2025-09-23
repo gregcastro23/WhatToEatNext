@@ -17,11 +17,11 @@ export const frying: CookingMethodData = {
     Air: 0.2, // Secondary element - creates space between molecules
     Earth: 0.1, // Minimal earth element - provides structure
     Water: 0.1, // Minimal water element - actively removed in process
-  },
+  }
   duration: {
     min: 2,
     max: 15
-  },
+  }
   suitable_for: [
     'vegetables',
     'meats',
@@ -87,7 +87,7 @@ export const frying: CookingMethodData = {
       first_quarter: 1.0, // Neutral effect
       last_quarter: 0.9, // Slightly diminished results
     }
-  },
+  }
   toolsRequired: [
     'Deep fryer or deep pan',
     'Thermometer (oil/candy)',
@@ -172,7 +172,7 @@ export const frying: CookingMethodData = {
     b_vitamins: 0.65, // Moderate losses of water-soluble B vitamins
     polyphenols: 0.7, // Partial retention depending on compound
     fiber: 0.9, // Minimal impact on fiber content
-  },
+  }
   optimalTemperatures: {
     french_fries_first_fry: 325, // °F, blanching stage
     french_fries_second_fry: 375, // °F, crisping stage
@@ -198,7 +198,7 @@ export const frying: CookingMethodData = {
     ice_cream: 390, // °F, ultra-fast frying to create crust before melting
     pickle_chips: 365, // °F, quick cooking to maintain crunch
     mozzarella_sticks: 350, // °F, melts cheese while browning coating
-  },
+  }
   regionalVariations: {
     japanese: [
       'tempura (light, airy batter)',
@@ -250,7 +250,7 @@ export const frying: CookingMethodData = {
       'acarajé (black-eyed pea fritters)',
       'bolinho de bacalhau (cod fritters)'
     ]
-  },
+  }
   chemicalChanges: {
     maillard_reaction: true, // Non-enzymatic browning between amino acids and sugars
     caramelization: true, // Direct heating of sugars creating complex flavor compounds
@@ -270,7 +270,7 @@ export const frying: CookingMethodData = {
     air_pocket_creation: true, // Formation of steam pockets that create texture
     pyrolysis: true, // Decomposition of compounds under extreme heat
     hydrolysis: true, // Breakdown of structures through water interaction
-  },
+  }
   safetyFeatures: [
     'Use oils with high smoke points (peanut, sunflower, canola, rice bran)',
     'Keep water away from hot oil to prevent dangerous splattering',
@@ -403,7 +403,7 @@ export const frying: CookingMethodData = {
       essence: '1', // Increases essential qualities and concentrated flavors
       matter: '1', // Increases material substance and structural stability
       substance: '-1', // Decreases raw substance through dehydration and breakdown
-    },
+    }
     symbolicMeaning:
       'Represents the purifying fire that burns away impurities and transforms raw materials into more refined substances, paralleling how frying transforms raw ingredients into more flavorful and texturally complex foods',
     associatedElements: {
@@ -457,7 +457,7 @@ export const frying: CookingMethodData = {
       'For fried cheese, freeze briefly for 15-20 minutes before coating. For ice cream frying, freeze hard for at least 4 hours, then dip in batter with additional egg whites for quick-setting crust.',
     pre_cooking:
       'For twice-cooked methods, par-fry at lower temperature (325-335°F) until items are cooked but not browned, cool completely, then finish at higher temperature (365-375°F) for service.'
-  },
+  }
 
   timingConsiderations: {
     rest_before:
@@ -472,7 +472,7 @@ export const frying: CookingMethodData = {
       'Most fried items deteriorate rapidly, consume within 15-30 minutes of cooking. For maintaining crispness during holding, use warming oven with rack (never covered or stacked). Some items (Korean fried chicken) can be refrigerated and refried successfully.',
     service_window:
       'Optimal texture and flavor peak at 2-5 minutes after draining. Crispy coatings begin degrading immediately, accelerating after 15 minutes. Timing of sauce application affects texture duration (immediate saucing shortens crisp window).'
-  },
+  }
 
   doneness_indicators: {
     color:
@@ -491,7 +491,7 @@ export const frying: CookingMethodData = {
       'For tempura, batter turns semi-transparent and crisp. For breaded items, coating develops small surface bubbles when perfectly done. For churros, surface ridges develop golden highlights while valleys remain lighter.',
     structural_integrity:
       'Properly fried items maintain shape when lifted from oil. Coatings adhere firmly without detachment. Battered items develop rigid shell that maintains form.'
-  },
+  }
 
   ingredientInteractions: {
     protein_fat:
@@ -512,7 +512,7 @@ export const frying: CookingMethodData = {
       'Chemical leaveners (baking powder) or biological agents (yeast) create carbon dioxide bubbles that expand dramatically in hot oil. Pre-expansion through fermentation or whipping creates initial air cells that further expand during frying.',
     oil_quality_changes:
       'Fresh oil has different frying characteristics than used oil. Moderate use (3-4 times) often improves flavor development in certain applications. High-polyunsaturated oils degrade faster than more saturated fats during repeated use.'
-  },
+  }
 
   technicalNotes: {
     oil_characteristics: {
@@ -526,7 +526,7 @@ export const frying: CookingMethodData = {
         'Oils cool at different rates due to specific heat capacity differences. Higher viscosity oils (palm, coconut) maintain temperature longer than thinner oils.',
       oil_blending:
         'Combining oils can optimize properties: high-heat tolerance oils with flavor-enhancing oils. Common commercial blend: 80% neutral oil with 20% flavor-enhancing oil.'
-    },
+    }
     batter_science: {
       gluten_development:
         'Minimal gluten development desired for most batters. Inhibited by: minimal mixing, cold temperature, alcohol addition, fat incorporation, acid addition, or substituting non-gluten flours.',
@@ -538,7 +538,7 @@ export const frying: CookingMethodData = {
         'Thicker batters create thicker coatings but may trap more steam, thinner batters create lacier, crispier coatings. Optimal viscosity depends on application: thin for tempura, moderate for fish, thick for fritters.',
       temperature_effects:
         'Cold batter creates more contrast between exterior and interior temperatures, generating more steam pressure and creating crispier results.'
-    },
+    }
     equipment_considerations: {
       thermal_mass:
         'Heavier vessels maintain temperature better during food addition. Cast iron retains heat exceptionally well but reacts slowly to temperature adjustments.',
@@ -550,7 +550,7 @@ export const frying: CookingMethodData = {
         'Deeper vessels minimize oil surface area (reducing oxidation) but require more oil volume. Wider vessels improve capacity but increase surface oxidation.',
       filtration_capabilities:
         'Integrated filtration systems extend oil life by removing food particles that accelerate degradation. Double-filtration (coarse then fine) most effective.'
-    },
+    }
     physical_transformations: {
       moisture_barrier:
         'Steam released from food creates protective barrier temporarily limiting oil absorption. Most oil absorption occurs during cooling phase as steam pressure subsides.',
@@ -564,4 +564,4 @@ export const frying: CookingMethodData = {
         'Thermal expansion combined with steam pressure creates substantial volume increase in many fried items. Expansion rate influences final texture, too rapid causes structural failure.'
     }
   }
-},
+}

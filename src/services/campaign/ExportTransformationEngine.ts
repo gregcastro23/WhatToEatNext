@@ -14,7 +14,7 @@ import {
   EnterpriseIntelligenceGenerator,
   GenerationResult,
   GenerationSummary
-} from './EnterpriseIntelligenceGenerator',
+} from './EnterpriseIntelligenceGenerator';
 import { ProgressTracker } from './ProgressTracker';
 import { SafetyProtocol } from './SafetyProtocol';
 import { UnusedExportAnalyzer, FileAnalysis, AnalysisResult } from './UnusedExportAnalyzer';
@@ -128,7 +128,7 @@ export class ExportTransformationEngine {
       maxRetries: 3,
       dryRun: false,
       ...config
-    },
+    }
 
     this.analyzer = new UnusedExportAnalyzer()
     // ✅ Pattern MM-1: Safe constructor call with proper arguments
@@ -282,7 +282,7 @@ export class ExportTransformationEngine {
         transformationCandidates: batchFiles.reduce(
           (sumf) => sum + f.transformationCandidates.length0,
         )
-      },
+      }
 
       batches.push(batch)
     }
@@ -422,7 +422,7 @@ export class ExportTransformationEngine {
       duration: 0,
       rollbackPerformed: false,
       generationResults: []
-    },
+    }
 
     let checkpointId: string | null = null
 
@@ -482,7 +482,7 @@ export class ExportTransformationEngine {
         severity: ErrorSeverity.HIGH,
         recoverable: true,
         timestamp: new Date()
-      },
+      }
 
       result.errors.push(transformationError)
       this.logError(transformationError)
@@ -578,7 +578,7 @@ export class ExportTransformationEngine {
         errors: [],
         warnings: [],
         duration: (endTime - startTime) / 1000
-      },
+      }
     } catch (error) {
       const endTime = Date.now()
 
@@ -589,7 +589,7 @@ export class ExportTransformationEngine {
         errors: [String((error as Error).message || 'Unknown build error')],
         warnings: [],
         duration: (endTime - startTime) / 1000
-      },
+      }
     }
   }
 
@@ -614,7 +614,7 @@ export class ExportTransformationEngine {
         errors: [],
         warnings: [],
         duration: (endTime - startTime) / 1000
-      },
+      }
     } catch (error) {
       const endTime = Date.now()
 
@@ -625,7 +625,7 @@ export class ExportTransformationEngine {
         errors: [String((error as Error).message || 'Unknown test error')],
         warnings: [],
         duration: (endTime - startTime) / 1000
-      },
+      }
     }
   }
 
@@ -658,7 +658,7 @@ export class ExportTransformationEngine {
           error: String((error as Error).message || 'Unknown critical failure'),
           stack: String((error as Error).stack || ''),
           transformationLog: this.transformationLog
-        },
+        }
         null2,
       ),
     )
@@ -714,7 +714,7 @@ export class ExportTransformationEngine {
             averageComplexity: 0,
             estimatedTotalValue: 0,
             generationsByCategory: {}
-          },
+          }
 
     return {
       totalBatches: results.length
@@ -728,7 +728,7 @@ export class ExportTransformationEngine {
       averageBatchDuration,
       successRate,
       generationSummary
-    },
+    }
   }
 
   /**
@@ -760,7 +760,7 @@ export class ExportTransformationEngine {
       Object.entries(summary.generationSummary.generationsByCategory).forEach(
         ([category, count]) => {
           // // // _logger.info(`  ${category}: ${count}`)
-        },
+        }
       )
     }
   }
@@ -796,7 +796,7 @@ export class ExportTransformationEngine {
    * Get transformation configuration
    */
   getConfig(): TransformationConfig {
-    return { ...this.config },
+    return { ...this.config }
   }
 
   /**

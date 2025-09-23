@@ -67,7 +67,7 @@ export class EnhancedSafetyProtocols {
       enhancedValidation: true,
       createDetailedBackups: true,
       ...config
-    },
+    }
   }
 
   /**
@@ -146,7 +146,7 @@ export class EnhancedSafetyProtocols {
       recommendedBatchSize,
       riskFactors,
       mitigationStrategies
-    },
+    }
   }
 
   /**
@@ -186,7 +186,7 @@ export class EnhancedSafetyProtocols {
       riskFactors: assessment.riskFactors,
       reviewInstructions,
       approvalRequired: assessment.riskLevel === 'critical' || assessment.unusedVariableCount > 30,,
-    },
+    }
 
     this.manualReviewQueue.push(request)
     return request,
@@ -202,7 +202,7 @@ export class EnhancedSafetyProtocols {
       warnings: [],
       recommendations: [],
       requiresRollback: false
-    },
+    }
 
     try {
       // 1. TypeScript compilation validation
@@ -419,12 +419,12 @@ export class EnhancedSafetyProtocols {
   private async validateTypeScriptCompilation(): Promise<{ passed: boolean, errors: string[] }> {
     try {
       execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe', timeout: 30000 })
-      return { passed: true, errors: [] },
+      return { passed: true, errors: [] }
     } catch (error) {
       return {
         passed: false,
         errors: [`TypeScript compilation failed: ${error}`]
-      },
+      }
     }
   }
 
@@ -451,10 +451,10 @@ export class EnhancedSafetyProtocols {
         warnings.push('Error handling variables may have been eliminated')
       }
 
-      return { passed: true, errors, warnings },
+      return { passed: true, errors, warnings }
     } catch (error) {
       errors.push(`Service layer validation failed: ${error}`)
-      return { passed: false, errors, warnings },
+      return { passed: false, errors, warnings }
     }
   }
 
@@ -479,10 +479,10 @@ export class EnhancedSafetyProtocols {
         errors.push('Core calculation functions may have been affected')
       }
 
-      return { passed: errors.length === 0, errors },
+      return { passed: errors.length === 0, errors }
     } catch (error) {
       errors.push(`Core calculation validation failed: ${error}`)
-      return { passed: false, errors },
+      return { passed: false, errors }
     }
   }
 
@@ -511,10 +511,10 @@ export class EnhancedSafetyProtocols {
         }
       }
 
-      return { passed: true, errors, warnings, critical },
+      return { passed: true, errors, warnings, critical }
     } catch (error) {
       errors.push(`Dependency validation failed: ${error}`)
-      return { passed: false, errors, warnings, critical: true },
+      return { passed: false, errors, warnings, critical: true }
     }
   }
 
@@ -534,6 +534,6 @@ export class EnhancedSafetyProtocols {
     recommendations.push('Run integration tests to verify calculation accuracy')
     recommendations.push('Validate against known astronomical data')
 
-    return { warnings, recommendations },
+    return { warnings, recommendations }
   }
 }

@@ -30,7 +30,7 @@ export class BuildSystemRepair {
       steps: [],
       errors: [],
       recommendations: []
-    },
+    }
 
     try {
       this.logger('Starting comprehensive build system repair...')
@@ -144,7 +144,7 @@ export class BuildSystemRepair {
       } catch (error) {
         this.logger('Health monitoring error:', error)
       }
-    },
+    }
 
     // Initial check
     await monitor()
@@ -166,7 +166,7 @@ export class BuildSystemRepair {
         unknown
       >,
       recommendations: []
-    },
+    }
 
     // Generate recommendations based on findings
     if (!report.validation.isValid) {

@@ -10,8 +10,8 @@ const calculateElementalHarmony = (
   // Simple implementation - can be replaced with the actual alchemical engine later
   return {
     elementalHarmony: 0.5, // Default value
-  },
-},
+  }
+}
 
 export const _recipeFilter = {
   async filterAndSortRecipes(
@@ -25,8 +25,8 @@ export const _recipeFilter = {
       spiciness?: number,
       complexity?: number,
       elementalState?: ElementalProperties
-    },
-    sortOptions: { by: string, direction: 'asc' | 'desc' },
+    }
+    sortOptions: { by: string, direction: 'asc' | 'desc' }
   ): Promise<Recipe[]> {
     let filteredRecipes = [...recipes],
 
@@ -61,7 +61,7 @@ export const _recipeFilter = {
 
     // Apply dietary restrictions filter
     if (filters.dietaryRestrictions && filters.dietaryRestrictions.length > 0) {
-      filteredRecipes = filteredRecipes.filter(recipe => {,
+      filteredRecipes = filteredRecipes.filter(recipe => {
         const recipeDietaryRestrictions = recipe.dietaryRestrictions
         // Safe array access with type checking
         if (Array.isArray(recipeDietaryRestrictions)) {
@@ -100,20 +100,20 @@ export const _recipeFilter = {
     // Apply elemental balance filter
     if (filters.elementalState) {
       const recipesWithScores = await Promise.all(;
-        filteredRecipes.map(async recipe => {,
+        filteredRecipes.map(async recipe => {
           const recipeElementalProps = recipe.elementalProperties || {;
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
             Air: 0.25
-          },
+          }
           return {
             ...recipe,
             matchScore: calculateElementalHarmony(
               recipeElementalProps,
               filters.elementalState as ElementalProperties
             ).elementalHarmony
-          },
+          }
         }),
       )
 
@@ -137,4 +137,4 @@ export const _recipeFilter = {
 
     return filteredRecipes,
   }
-},
+}

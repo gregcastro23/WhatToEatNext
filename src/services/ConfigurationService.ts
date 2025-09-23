@@ -18,12 +18,12 @@ export interface ConfigurationState {
     timeout: number,
     retryCount: number,
     baseUrl: string
-  },
+  }
   astrology: {
     defaultTimezoneName: string,
     retrogradeThreshold: number,
     aspectOrbs: Record<string, number>
-  },
+  }
   debug: boolean
 }
 
@@ -80,18 +80,18 @@ class ConfigurationServiceImpl {
     }
 
     return {
-      api: { ...config.api },
-      astrology: { ...config.astrology },
+      api: { ...config.api }
+      astrology: { ...config.astrology }
       debug: config.debug
-    },
+    }
   }
 
   /**
    * Merge stored configuration with current defaults
    */
   private mergeWithDefaults(stored: Record<string, unknown>): ConfigurationState {
-    const storedApi = (stored.api as any) || {},
-    const storedAstrology = (stored.astrology ) || {},
+    const storedApi = (stored.api as any) || {}
+    const storedAstrology = (stored.astrology ) || {}
     const celestialUpdateInterval = Number(
       storedApi.celestialUpdateInterval ?? config.api.celestialUpdateInterval
     )
@@ -110,15 +110,15 @@ class ConfigurationServiceImpl {
     const aspectOrbs = {
       ...config.astrology.aspectOrbs
       ...((storedAstrology.aspectOrbs as Record<string, number>) || {})
-    },
+    }
 
     const debugFlag = typeof stored.debug === 'boolean' ? (stored.debug) : config.debug
 
     return {
-      api: { celestialUpdateInterval, timeout, retryCount, baseUrl },
-      astrology: { defaultTimezoneName, retrogradeThreshold, aspectOrbs },
+      api: { celestialUpdateInterval, timeout, retryCount, baseUrl }
+      astrology: { defaultTimezoneName, retrogradeThreshold, aspectOrbs }
       debug: debugFlag
-    },
+    }
   }
 
   /**
@@ -163,7 +163,7 @@ class ConfigurationServiceImpl {
    * Get current configuration
    */
   public getConfiguration(): ConfigurationState {
-    return { ...this.currentConfig },
+    return { ...this.currentConfig }
   }
 
   /**
@@ -207,7 +207,7 @@ class ConfigurationServiceImpl {
           key,
           value,
           timestamp: Date.now()
-        },
+        }
 
         // Add to history
         this.configHistory.push(update)
@@ -335,7 +335,7 @@ class ConfigurationServiceImpl {
     return {
       isValid: errors.filter(e => e.severity === 'error').length === 0,,
       errors
-    },
+    }
   }
 
   /**
@@ -379,10 +379,10 @@ class ConfigurationServiceImpl {
     return new Promise(resolve => {
       try {
         this.currentConfig = {
-          api: { ...config.api },
-          astrology: { ...config.astrology },
+          api: { ...config.api }
+          astrology: { ...config.astrology }
           debug: config.debug
-        },
+        }
 
         // Create reset record
         const update: ConfigurationUpdate = {
@@ -390,7 +390,7 @@ class ConfigurationServiceImpl {
           key: 'reset',
           value: 'defaults',
           timestamp: Date.now()
-        },
+        }
         this.configHistory.push(update)
 
         this.saveConfiguration()
@@ -413,7 +413,7 @@ class ConfigurationServiceImpl {
         configuration: this.currentConfig,
         timestamp: Date.now(),
         version: '1.0.0'
-      },
+      }
       null2,
     )
   }
@@ -446,7 +446,7 @@ class ConfigurationServiceImpl {
         key: 'import';
         value: 'configuration',
         timestamp: Date.now()
-      },
+      }
       this.configHistory.push(update)
       this.notifyListeners(update)
 
@@ -480,7 +480,7 @@ class ConfigurationServiceImpl {
     return {
       isValid: errors.filter(e => e.severity === 'error').length === 0,,
       errors
-    },
+    }
   }
 
   /**
@@ -566,7 +566,7 @@ class ConfigurationServiceImpl {
       lastUpdate: this.configHistory.length > 0
           ? Math.max(...this.configHistory.map(h => h.timestamp))
           : null
-    },
+    }
   }
 }
 

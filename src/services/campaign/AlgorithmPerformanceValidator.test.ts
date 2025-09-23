@@ -255,7 +255,7 @@ describe('AlgorithmPerformanceValidator', () => {
           status: 'failing',
           samples: [95],
           timestamp: new Date()
-        },
+        }
       ])
 
       await validator.runPerformanceBenchmarks()
@@ -312,7 +312,7 @@ describe('AlgorithmPerformanceValidator', () => {
           status: 'failing',
           samples: [150],
           timestamp: new Date()
-        },
+        }
       ])
 
       const report: any = await validator.generatePerformanceReport()

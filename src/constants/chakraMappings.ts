@@ -34,7 +34,7 @@ export const _CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
     governs: ['Survival', 'Grounding', 'Security', 'Basic needs'],
     balanceIndicators: ['Stability', 'Security', 'Presence'],
     imbalanceIndicators: ['Fear', 'Anxiety', 'Disconnection']
-  },
+  }
   Sacral: {
     name: 'Sacral',
     sanskritName: 'Svadhisthana',
@@ -44,7 +44,7 @@ export const _CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
     governs: ['Creativity', 'Passion', 'Pleasure', 'Sexuality'],
     balanceIndicators: ['Flow', 'Pleasure', 'Emotional balance'],
     imbalanceIndicators: ['Emotional volatility', 'Lack of desire', 'Creative blocks']
-  },
+  }
   'Solar Plexus': {
     name: 'Solar Plexus',
     sanskritName: 'Manipura',
@@ -54,7 +54,7 @@ export const _CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
     governs: ['Personal power', 'Will', 'Confidence', 'Self-esteem'],
     balanceIndicators: ['Confidence', 'Purpose', 'Drive'],
     imbalanceIndicators: ['Control issues', 'Lack of direction', 'Low self-esteem']
-  },
+  }
   Heart: {
     name: 'Heart',
     sanskritName: 'Anahata',
@@ -64,7 +64,7 @@ export const _CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
     governs: ['Love', 'Compassion', 'Harmony', 'Connection'],
     balanceIndicators: ['Empathy', 'Compassion', 'Self-love'],
     imbalanceIndicators: ['Isolation', 'Bitterness', 'Fear of intimacy']
-  },
+  }
   Throat: {
     name: 'Throat',
     sanskritName: 'Vishuddha',
@@ -74,7 +74,7 @@ export const _CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
     governs: ['Communication', 'Expression', 'Truth', 'Authenticity'],
     balanceIndicators: ['Clear communication', 'Authentic expression', 'Active listening'],
     imbalanceIndicators: ['Inability to express', 'Dishonesty', 'Fear of speaking up']
-  },
+  }
   'Third Eye': {
     name: 'Third Eye',
     sanskritName: 'Ajna',
@@ -84,7 +84,7 @@ export const _CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
     governs: ['Intuition', 'Perception', 'Insight', 'Wisdom'],
     balanceIndicators: ['Clear intuition', 'Insight', 'Good judgment'],
     imbalanceIndicators: ['Confusion', 'Lack of focus', 'Poor memory']
-  },
+  }
   Crown: {
     name: 'Crown',
     sanskritName: 'Sahasrara',
@@ -95,7 +95,7 @@ export const _CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
     balanceIndicators: ['Spiritual connection', 'Awareness', 'Presence'],
     imbalanceIndicators: ['Disconnection', 'Apathy', 'Materialism']
   }
-},
+}
 
 // Chakra to Zodiac Sign mappings
 export const CHAKRA_ZODIAC_MAPPINGS: Record<Chakra, ZodiacSign[]> = {
@@ -106,14 +106,14 @@ export const CHAKRA_ZODIAC_MAPPINGS: Record<Chakra, ZodiacSign[]> = {
   Throat: ['gemini', 'virgo'],
   'Third Eye': ['pisces', 'sagittarius'],
   Crown: ['aquarius', 'pisces']
-},
+}
 
 // Zodiac Sign to Chakra mappings (reverse of above)
 export const _ZODIAC_CHAKRA_MAPPINGS: Record<ZodiacSign, Chakra[]> = ZODIAC_SIGNS.reduce(
   (mappings, sign) => {
     mappings[sign] = CHAKRAS.filter(chakra => CHAKRA_ZODIAC_MAPPINGS[chakra].includes(sign))
     return mappings
-  },
+  }
   {} as Record<ZodiacSign, Chakra[]>,
 )
 
@@ -186,7 +186,7 @@ export const CHAKRA_BALANCING_FOODS: Record<Chakra, string[]> = {
     'Fasting-friendly foods',
     'Detoxifying herbs (sage, peppermint)'
   ]
-},
+}
 
 // Recommend foods based on chakra energy levels
 export function recommendFoodsForChakraBalance(

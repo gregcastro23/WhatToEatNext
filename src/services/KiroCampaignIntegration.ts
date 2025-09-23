@@ -15,14 +15,14 @@ import {
   PhaseStatus,
   ProgressReport,
   ValidationResult
-} from '../types/campaign',
+} from '../types/campaign';
 
 import { CampaignController } from './campaign/CampaignController';
 import {_CAMPAIGN_INTELLIGENCE_DEMO as CampaignIntelligenceSystem} from './campaign/CampaignIntelligenceSystem';
 import {ProgressTracker} from './campaign/ProgressTracker';
 
 // Re-export required types for external components
-export type { CampaignPhase, ValidationResult } from '../types/campaign',
+export type { CampaignPhase, ValidationResult } from '../types/campaign';
 
 // ========== KIRO INTEGRATION TYPES ==========,
 
@@ -73,7 +73,7 @@ export interface CampaignResult {
     errorsReduced: number,
     warningsReduced: number,
     buildTimeImproved: number
-  },
+  }
   duration: number // minutes
 }
 
@@ -117,7 +117,7 @@ export class KiroCampaignIntegration {
     this.progressTracker = new ProgressTracker()
     this.intelligenceSystem = CampaignIntelligenceSystem as unknown as {,
       initialize: (config: Record<string, unknown>) => Promise<void>
-    },
+    }
   }
 
   // ========== REAL-TIME MONITORING ==========,
@@ -137,7 +137,7 @@ export class KiroCampaignIntegration {
       systemHealth,
       quickActions,
       recentResults
-    },
+    }
   }
 
   /**
@@ -191,7 +191,7 @@ export class KiroCampaignIntegration {
               : 'stable',
         changePercentage: Math.abs(improvement.typeScriptErrorsReduced),
         timeframe: 'last 24 hours'
-      },
+      }
       {
         metric: 'Linting Warnings',
         trend:
@@ -202,7 +202,7 @@ export class KiroCampaignIntegration {
               : 'stable',
         changePercentage: Math.abs(improvement.lintingWarningsReduced),
         timeframe: 'last 24 hours'
-      },
+      }
       {
         metric: 'Build Performance',
         trend:
@@ -243,7 +243,7 @@ export class KiroCampaignIntegration {
       metrics: await this.progressTracker.getProgressMetrics(),
       safetyEvents: [],
       lastUpdate: new Date()
-    },
+    }
 
     this.activeCampaigns.set(campaignId, status)
 
@@ -351,7 +351,7 @@ export class KiroCampaignIntegration {
     setTimeout(
       () => {
         this.activeCampaigns.delete(campaignId)
-      },
+      }
       5 * 60 * 1000,
     ); // 5 minutes
 
@@ -369,7 +369,7 @@ export class KiroCampaignIntegration {
       id: scheduleId,
       ...schedule,
       nextRun: this.calculateNextRun(schedule.scheduledTime, schedule.recurrence)
-    },
+    }
 
     this.campaignSchedules.set(scheduleId, campaignSchedule)
     return scheduleId,
@@ -424,7 +424,7 @@ export class KiroCampaignIntegration {
           currentMetrics: status.metrics,
           targetMetrics: await this.getTargetMetrics(),
           estimatedCompletion: status.estimatedCompletion || new Date()
-        },
+        }
       }
     }
 
@@ -456,7 +456,7 @@ export class KiroCampaignIntegration {
       intelligence,
       recommendations,
       nextSteps
-    },
+    }
   }
 
   // ========== HELPER METHODS ==========,
@@ -476,7 +476,7 @@ export class KiroCampaignIntegration {
         enabled: true,
         estimatedDuration: 5,
         safetyLevel: 'high'
-      },
+      }
       {
         id: 'linting-cleanup',
         name: 'Linting Cleanup',
@@ -485,7 +485,7 @@ export class KiroCampaignIntegration {
         enabled: true,
         estimatedDuration: 3,
         safetyLevel: 'medium'
-      },
+      }
       {
         id: 'build-optimization',
         name: 'Build Optimization',
@@ -494,7 +494,7 @@ export class KiroCampaignIntegration {
         enabled: true,
         estimatedDuration: 10,
         safetyLevel: 'low'
-      },
+      }
       {
         id: 'full-campaign',
         name: 'Full Quality Campaign',
@@ -522,7 +522,7 @@ export class KiroCampaignIntegration {
     const safetySettings = {
       ...baseConfig.safetySettings,
       maxFilesPerBatch: request.batchSize || baseConfig.safetySettings.maxFilesPerBatch
-    },
+    }
 
     if (request.safetyLevel === 'conservative') {,
       safetySettings.maxFilesPerBatch = Math.min(safetySettings.maxFilesPerBatch, 10),
@@ -536,7 +536,7 @@ export class KiroCampaignIntegration {
       ...baseConfig,
       phases: requestedPhases,
       safetySettings
-    },
+    }
   }
 
   private calculateNextRun(scheduledTime: Date, recurrence?: string): Date {
@@ -555,11 +555,11 @@ export class KiroCampaignIntegration {
 
   private async getTargetMetrics(): Promise<ProgressMetrics> {
     return {
-      typeScriptErrors: { current: 0, target: 0, reduction: 0, percentage: 100 },
-      lintingWarnings: { current: 0, target: 0, reduction: 0, percentage: 100 },
-      buildPerformance: { currentTime: 8, targetTime: 10, cacheHitRate: 0.9, memoryUsage: 40 },
+      typeScriptErrors: { current: 0, target: 0, reduction: 0, percentage: 100 }
+      lintingWarnings: { current: 0, target: 0, reduction: 0, percentage: 100 }
+      buildPerformance: { currentTime: 8, targetTime: 10, cacheHitRate: 0.9, memoryUsage: 40 }
       enterpriseSystems: { current: 200, target: 200, transformedExports: 200 }
-    },
+    }
   }
 
   private generateNextSteps(intelligence: unknown): string[] {
@@ -592,20 +592,20 @@ export class KiroCampaignIntegration {
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
         stashRetentionDays: 7
-      },
+      }
       progressTargets: {
         typeScriptErrors: 0,
         lintingWarnings: 0,
         buildTime: 10,
         enterpriseSystems: 200
-      },
+      }
       toolConfiguration: {
         enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
-    },
+    }
   }
 }
 

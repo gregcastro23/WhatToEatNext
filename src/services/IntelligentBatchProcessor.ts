@@ -108,7 +108,7 @@ export interface BatchSchedule {
     minPriority: number,
     maxRetries: number,
     patterns: string[]
-  },
+  }
   optimization: BatchOptimization,
   lastRun?: Date,
   nextRun?: Date,
@@ -128,17 +128,17 @@ export interface BatchMetrics {
     cpu: number,
     memory: number,
     disk: number
-  },
+  }
   errorReduction: {
     totalErrors: number,
     errorsFixed: number,
     reductionRate: number
-  },
+  }
   qualityMetrics: {
     buildStability: number,
     testStability: number,
     safetyScore: number
-  },
+  }
 }
 
 // ========== INTELLIGENT BATCH PROCESSOR ==========
@@ -166,7 +166,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
     minSuccessRate: 0.6,
     maxRetries: 3,
     timeoutMultiplier: 1.5
-  },
+  }
 
   // Performance tracking
   private performanceHistory: Array<{
@@ -195,7 +195,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         maxBatchSize: 30,
         sizeGrowthRate: 0.1,
         sizeShrinkRate: 0.2
-      },
+      }
       effectiveness: 0.75,
       successRate: 0.8,
       averageTime: 120,
@@ -211,7 +211,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         similarityThreshold: 0.8,
         patternWeight: 0.7,
         diversityBonus: 0.3
-      },
+      }
       effectiveness: 0.85,
       successRate: 0.85,
       averageTime: 150,
@@ -227,7 +227,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         highPriorityThreshold: 20,
         mediumPriorityThreshold: 10,
         priorityWeight: 0.8
-      },
+      }
       effectiveness: 0.8,
       successRate: 0.82,
       averageTime: 100,
@@ -244,7 +244,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         memoryThreshold: 80,
         diskThreshold: 90,
         resourceWeight: 0.6
-      },
+      }
       effectiveness: 0.7,
       successRate: 0.75,
       averageTime: 180,
@@ -261,7 +261,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         patternWeight: 0.3,
         priorityWeight: 0.2,
         resourceWeight: 0.2
-      },
+      }
       effectiveness: 0.9,
       successRate: 0.88,
       averageTime: 130,
@@ -489,9 +489,9 @@ export class IntelligentBatchProcessor extends EventEmitter {
 
     // Group by score ranges
     const scoreRanges = [
-      { min: 0.8, max: 1.0, key: 'high_score' },
-      { min: 0.6, max: 0.8, key: 'medium_score' },
-      { min: 0.4, max: 0.6, key: 'low_score' },
+      { min: 0.8, max: 1.0, key: 'high_score' }
+      { min: 0.6, max: 0.8, key: 'medium_score' }
+      { min: 0.4, max: 0.6, key: 'low_score' }
       { min: 0.0, max: 0.4, key: 'very_low_score' }
     ],
 
@@ -535,7 +535,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       TS2345: 0.8,
       TS2362: 0.75,
       TS2322: 0.7
-    },
+    }
 
     return patternScores[error.code] || 0.5,
   }
@@ -570,7 +570,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
   private calculateOptimalBatchSize(
     errors: TypeScriptError[],
     optimization: BatchOptimization,
-    resourceUtil: { cpu: number, memory: number, disk: number },
+    resourceUtil: { cpu: number, memory: number, disk: number }
   ): number {
     const baseSize = optimization.parameters.maxBatchSize || 20;
 
@@ -614,7 +614,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       retryCount: 0,
       maxRetries: this.adaptiveParameters.maxRetries,
       createdAt: new Date()
-    },
+    }
   }
 
   /**
@@ -861,7 +861,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       warnings,
       errors,
       executionTime: 0, // Will be set by caller
-    },
+    }
   }
 
   /**
@@ -886,15 +886,15 @@ export class IntelligentBatchProcessor extends EventEmitter {
 
     // Check for critical errors
     if (result.errors.length > 0) {
-      return { success: false, error: `Critical errors: ${result.errors.join(', ')}` },
+      return { success: false, error: `Critical errors: ${result.errors.join(', ')}` }
     }
 
     // Check if we actually fixed some errors
     if (result.errorsFixed === 0) {
-      return { success: false, error: 'No errors were fixed' },
+      return { success: false, error: 'No errors were fixed' }
     }
 
-    return { success: true },
+    return { success: true }
   }
 
   /**
@@ -948,7 +948,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         modifiedFiles: [],
         gitStashRef: stashRef,
         timestamp: new Date()
-      },
+      }
 
       this.rollbackData.set(rollbackId, rollbackData)
       return rollbackData,
@@ -961,7 +961,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         jobId: job.jobId,
         modifiedFiles: [],
         timestamp: new Date()
-      },
+      }
 
       this.rollbackData.set(rollbackId, rollbackData)
       return rollbackData,
@@ -1175,7 +1175,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       successRate: 0,
       createdAt: new Date(),
       status: 'idle'
-    },
+    }
 
     this.queues.set(queueId, queue)
     return queue,
@@ -1279,7 +1279,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       complexity: 'medium',
       automationPotential: 0.6,
       lastSeen: new Date()
-    },
+    }
   }
 
   private getResourceUtilization(): { cpu: number, memory: number, disk: number } {
@@ -1292,9 +1292,9 @@ export class IntelligentBatchProcessor extends EventEmitter {
         cpu: Math.random() * 20 + 10, // Mock CPU usage,
         memory: Math.min(100, memoryPercent),
         disk: Math.random() * 30 + 20, // Mock disk usage
-      },
+      }
     } catch (error) {
-      return { cpu: 20, memory: 30, disk: 25 },
+      return { cpu: 20, memory: 30, disk: 25 }
     }
   }
 
@@ -1319,7 +1319,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         optimizations: Array.from(this.optimizations.entries()),
         schedules: Array.from(this.schedules.entries()),
         rollbackData: Array.from(this.rollbackData.entries())
-      },
+      }
 
       await fs.promises.writeFile(
         '.intelligent-batch-processor.json'
@@ -1377,7 +1377,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         totalErrors: 0, // Would need tracking,
         errorsFixed: 0,
         reductionRate: 0
-      },
+      }
       qualityMetrics: {
         buildStability: 0.85,
         testStability: 0.9,
@@ -1393,7 +1393,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
   updateOptimizationParameters(optimizationId: string, parameters: Record<string, number>): void {
     const optimization = this.optimizations.get(optimizationId)
     if (optimization) {
-      optimization.parameters = { ...optimization.parameters, ...parameters },
+      optimization.parameters = { ...optimization.parameters, ...parameters }
       optimization.adaptations++,
       this.persistData()
     }
@@ -1419,7 +1419,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       queuesCount: this.queues.size,
       optimizationsCount: this.optimizations.size,
       activeJobs
-    },
+    }
   }
 }
 

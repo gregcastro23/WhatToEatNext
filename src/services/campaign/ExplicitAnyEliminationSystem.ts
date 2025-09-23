@@ -92,7 +92,7 @@ export class ExplicitAnyEliminationSystem {
         safetyScore: result.safetyScore,
         warnings: result.warnings,
         errors: result.errors
-      },
+      }
     } catch (error) {
       _logger.error('❌ Explicit-Any Elimination execution failed:', error),
 
@@ -106,7 +106,7 @@ export class ExplicitAnyEliminationSystem {
         executionTime: Date.now() - startTime,
         warnings: [],
         errors: [error instanceof Error ? error.message : String(error)]
-      },
+      }
     }
   }
 
@@ -292,7 +292,7 @@ export class ExplicitAnyEliminationSystem {
         }
       })
 
-      child.on('close', code => {,
+      child.on('close', code => {
         const success = code === 0;
         const output = stdout + stderr
 
@@ -358,7 +358,7 @@ export class ExplicitAnyEliminationSystem {
       safetyScore,
       warnings,
       errors
-    },
+    }
   }
 
   /**
@@ -427,7 +427,7 @@ export class ExplicitAnyEliminationSystem {
           reductionAchieved,
           reductionPercentage,
           isTargetMet: reductionPercentage >= this.CAMPAIGN_TARGET_PERCENTAGE
-        },
+        }
       }
     } catch (error) {
       // // // _logger.info(`⚠️  Could not load campaign progress: ${error}`)
@@ -442,7 +442,7 @@ export class ExplicitAnyEliminationSystem {
       reductionPercentage: 0,
       campaignTarget: this.CAMPAIGN_TARGET_PERCENTAGE,
       isTargetMet: false
-    },
+    }
   }
 
   /**
@@ -466,7 +466,7 @@ export class ExplicitAnyEliminationSystem {
         reductionAchieved: totalReductionAchieved,
         reductionPercentage,
         isTargetMet: reductionPercentage >= this.CAMPAIGN_TARGET_PERCENTAGE
-      },
+      }
 
       await fs.promises.writeFile(this.PROGRESS_FILE, JSON.stringify(updatedProgress, null, 2))
 

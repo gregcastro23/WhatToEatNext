@@ -12,7 +12,7 @@ const ELEMENTAL_AFFINITIES: Record<Element, Element[]> = {
   Air: ['Air', 'Fire'],
   Water: ['Water', 'Earth'],
   // _Note: Four element system only - no Aether
-},
+}
 
 // Planetary affinities for cuisines
 const PLANET_CUISINE_AFFINITIES: Record<PlanetName, string[]> = {
@@ -28,7 +28,7 @@ const PLANET_CUISINE_AFFINITIES: Record<PlanetName, string[]> = {
   _Neptune: ['Ethereal', 'Mystical', 'Fluid', 'Oceanic'],
   _Pluto: ['Transformative', 'Intense', 'Powerful', 'Regenerative'],
   _Ascendant: ['Personal', 'Identity', 'Self-expression', 'Signature']
-},
+}
 
 // Season to cuisine mapping
 const SEASONAL_CUISINE_AFFINITIES: Record<Season, string[]> = {
@@ -36,7 +36,7 @@ const SEASONAL_CUISINE_AFFINITIES: Record<Season, string[]> = {
   _Summer: ['Mexican', 'Greek', 'Indian', 'BBQ', 'Salads'],
   _Fall: ['American', 'German', 'Hearty', 'Spiced'],
   _Winter: ['Slow-cooked', 'Soup', 'Stew', 'Rich', 'Warming']
-},
+}
 
 // Weekday to cuisine mapping
 const WEEKDAY_CUISINE_AFFINITIES: Record<WeekDay, string[]> = {
@@ -47,7 +47,7 @@ const WEEKDAY_CUISINE_AFFINITIES: Record<WeekDay, string[]> = {
   _Thursday: ['Hearty', 'Abundant', 'Social'],
   _Friday: ['Festive', 'Indulgent', 'Special'],
   _Saturday: ['Complex', 'Experimental', 'Project Cooking']
-},
+}
 
 // Time of day to meal type mapping is already in time.ts
 
@@ -119,7 +119,7 @@ function calculateZodiacScore(_recipe: Recipe, _sunSign: any): number {
     _capricorn: ['Traditional', 'Classic', 'Quality'],
     _aquarius: ['Unusual', 'Innovative', 'Unexpected'],
     _pisces: ['Ethereal', 'Delicate', 'Romantic']
-  },
+  }
 
   const signAffinity = zodiacAffinities[sunSign];
   if (signAffinity && recipe.name) {

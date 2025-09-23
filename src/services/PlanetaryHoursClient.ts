@@ -34,7 +34,7 @@ function parseBackendResult(data: unknown): PlanetaryHourResult | null {
   const start = typeof obj.start === 'string' ? new Date(obj.start) : undefined;
   const end = typeof obj.end === 'string' ? new Date(obj.end) : undefined;
 
-  return { planet: planet as Planet, hourNumber, isDaytime, start, end },
+  return { planet: planet as Planet, hourNumber, isDaytime, start, end }
 }
 
 /**
@@ -76,7 +76,7 @@ export class PlanetaryHoursClient {
           isDaytime: result.isDaytime,
           start: result.start ? new Date(result.start) : undefined,
           end: result.end ? new Date(result.end) : undefined
-        },
+        }
       } catch (error) {
         logger.warn('PlanetaryHoursClient', 'Backend calculation failed, falling back to local', error)
         // Fall through to local calculation
@@ -96,7 +96,7 @@ export class PlanetaryHoursClient {
       isDaytime: detailed.isDaytime,
       start: detailed.start,
       end: detailed.end
-    },
+    }
   }
 }
 

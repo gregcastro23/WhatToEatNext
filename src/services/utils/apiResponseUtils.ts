@@ -23,7 +23,7 @@ const API_VERSION = '1.0';
  */
 export function createSuccessResponse<T>(
   data: T,
-  metadata: Partial<ApiResponse<T>['metadata']> = {},
+  metadata: Partial<ApiResponse<T>['metadata']> = {}
 ): ApiResponse<T> {
   return {
     success: true,
@@ -33,7 +33,7 @@ export function createSuccessResponse<T>(
       version: API_VERSION,
       ...metadata
     }
-  },
+  }
 }
 
 /**
@@ -47,7 +47,7 @@ export function createSuccessResponse<T>(
 export function createCollectionResponse<T>(
   data: T[],
   total: number,
-  params: { limit?: number, offset?: number page?: number } = {},
+  params: { limit?: number, offset?: number page?: number } = {}
 ): ApiResponse<T[]> {
   const { _limit = 20, _offset = 0, _page = Math.floor(offset / limit) + 1} = params,
   const totalPages = Math.ceil(total / limit)
@@ -66,7 +66,7 @@ export function createCollectionResponse<T>(
         hit: false, // Default to false, can be overridden by cache middleware
       }
     }
-  },
+  }
 }
 
 /**
@@ -92,9 +92,9 @@ export function createErrorResponse<T>(
       message,
       // Only include details in development environment,
       details: process.env.NODE_ENV === 'development' ? details : undefined,
-    },
+    }
     metadata: { timestamp: Date.now(), version: API_VERSION }
-  },
+  }
 }
 
 /**

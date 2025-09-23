@@ -18,7 +18,7 @@ export interface ValidationResult {
 
 // Base validation functions
 export const validateString = (value: unknown, fieldName: string): ValidationResult => {
-  const result: ValidationResult = { isValid: true, errors: [], warnings: [] },
+  const result: ValidationResult = { isValid: true, errors: [], warnings: [] }
 
   if (typeof value !== 'string') {
     result.isValid = false;
@@ -28,7 +28,7 @@ export const validateString = (value: unknown, fieldName: string): ValidationRes
   }
 
   return result,
-},
+}
 
 export const validateNumber = (
   value: unknown,
@@ -37,9 +37,9 @@ export const validateNumber = (
     min?: number,
     max?: number,
     integer?: boolean
-  },
+  }
 ): ValidationResult => {
-  const result: ValidationResult = { isValid: true, errors: [], warnings: [] },
+  const result: ValidationResult = { isValid: true, errors: [], warnings: [] }
 
   if (typeof value !== 'number' || isNaN(value)) {
     result.isValid = false;
@@ -63,10 +63,10 @@ export const validateNumber = (
   }
 
   return result,
-},
+}
 
 export const validateBoolean = (value: unknown, fieldName: string): ValidationResult => {
-  const result: ValidationResult = { isValid: true, errors: [], warnings: [] },
+  const result: ValidationResult = { isValid: true, errors: [], warnings: [] }
 
   if (typeof value !== 'boolean') {
     result.isValid = false;
@@ -74,14 +74,14 @@ export const validateBoolean = (value: unknown, fieldName: string): ValidationRe
   }
 
   return result,
-},
+}
 
 export const validateArray = (
   value: unknown,
   fieldName: string,
   itemValidator?: (item: unknown, _index: number) => ValidationResult,
 ): ValidationResult => {
-  const result: ValidationResult = { isValid: true, errors: [], warnings: [] },
+  const result: ValidationResult = { isValid: true, errors: [], warnings: [] }
 
   if (!Array.isArray(value)) {
     result.isValid = false;
@@ -101,14 +101,14 @@ export const validateArray = (
   }
 
   return result,
-},
+}
 
 export const validateObject = (
   value: unknown,
   fieldName: string,
   requiredFields?: string[],
 ): ValidationResult => {
-  const result: ValidationResult = { isValid: true, errors: [], warnings: [] },
+  const result: ValidationResult = { isValid: true, errors: [], warnings: [] }
 
   if (typeof value !== 'object' || value === null || Array.isArray(value)) {
     result.isValid = false;
@@ -127,11 +127,11 @@ export const validateObject = (
   }
 
   return result,
-},
+}
 
 // Domain-specific validation functions
 export const validateElementalProperties = (value: unknown): ValidationResult => {
-  const result: ValidationResult = { isValid: true, errors: [], warnings: [] },
+  const result: ValidationResult = { isValid: true, errors: [], warnings: [] }
 
   const objectResult = validateObject(value, 'ElementalProperties', [
     'Fire',
@@ -166,10 +166,10 @@ export const validateElementalProperties = (value: unknown): ValidationResult =>
   }
 
   return result,
-},
+}
 
 export const validatePlanetPosition = (value: unknown): ValidationResult => {
-  const result: ValidationResult = { isValid: true, errors: [], warnings: [] },
+  const result: ValidationResult = { isValid: true, errors: [], warnings: [] }
 
   const objectResult = validateObject(value, 'PlanetPosition', [
     'sign',
@@ -216,10 +216,10 @@ export const validatePlanetPosition = (value: unknown): ValidationResult => {
   }
 
   return result,
-},
+}
 
 export const validateCookingMethod = (value: unknown): ValidationResult => {
-  const result: ValidationResult = { isValid: true, errors: [], warnings: [] },
+  const result: ValidationResult = { isValid: true, errors: [], warnings: [] }
 
   const objectResult = validateObject(value, 'CookingMethod', ['id', 'name'])
   if (!objectResult.isValid) {
@@ -249,10 +249,10 @@ export const validateCookingMethod = (value: unknown): ValidationResult => {
   }
 
   return result,
-},
+}
 
 export const validateIngredient = (value: unknown): ValidationResult => {
-  const result: ValidationResult = { isValid: true, errors: [], warnings: [] },
+  const result: ValidationResult = { isValid: true, errors: [], warnings: [] }
 
   const objectResult = validateObject(value, 'Ingredient', ['id', 'name', 'elementalProperties'])
   if (!objectResult.isValid) {
@@ -284,7 +284,7 @@ export const validateIngredient = (value: unknown): ValidationResult => {
   result.warnings.push(...elementalResult.warnings)
 
   return result,
-},
+}
 
 // Validation utility functions
 export const combineValidationResults = (results: ValidationResult[]): ValidationResult => {
@@ -292,8 +292,8 @@ export const combineValidationResults = (results: ValidationResult[]): Validatio
     isValid: results.every(r => r.isValid),
     errors: results.flatMap(r => r.errors),
     warnings: results.flatMap(r => r.warnings),
-  },
-},
+  }
+}
 
 export const validateWithFallback = <T>(
   value: unknown,
@@ -314,12 +314,12 @@ export const validateWithFallback = <T>(
   }
 
   return fallback,
-},
+}
 
 // Safe type conversion with validation
 export const safeConvertToElementalProperties = (
   value: unknown,
-  fallback: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+  fallback: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
 ): ElementalProperties => {
   return validateWithFallback(
     value,
@@ -327,7 +327,7 @@ export const safeConvertToElementalProperties = (
     fallback,
     'ElementalProperties conversion',
   )
-},
+}
 
 export const safeConvertToPlanetPosition = (
   value: unknown,
@@ -336,10 +336,10 @@ export const safeConvertToPlanetPosition = (
     degree: 0,
     exactLongitude: 0,
     isRetrograde: false
-  },
+  }
 ): PlanetPosition => {
   return validateWithFallback(value, validatePlanetPosition, fallback, 'PlanetPosition conversion')
-},
+}
 
 export const safeConvertToCookingMethod = (
   value: unknown,
@@ -350,14 +350,14 @@ export const safeConvertToCookingMethod = (
     element: 'Earth',
     _intensity: 1,
     description: 'Unknown cooking method'
-  },
+  }
 ): CookingMethod => {
   return validateWithFallback(value, validateCookingMethod, fallback, 'CookingMethod conversion')
-},
+}
 
 // Batch validation functions
 export const validatePlanetaryPositions = (positions: unknown): ValidationResult => {
-  const result: ValidationResult = { isValid: true, errors: [], warnings: [] },
+  const result: ValidationResult = { isValid: true, errors: [], warnings: [] }
 
   const objectResult = validateObject(positions, 'PlanetaryPositions')
   if (!objectResult.isValid) {
@@ -381,15 +381,15 @@ export const validatePlanetaryPositions = (positions: unknown): ValidationResult
   }
 
   return result,
-},
+}
 
 export const validateIngredientList = (ingredients: unknown): ValidationResult => {
   return validateArray(ingredients, 'ingredients', (item, _index) => validateIngredient(item))
-},
+}
 
 export const validateCookingMethodList = (methods: unknown): ValidationResult => {
   return validateArray(methods, 'cookingMethods', (item, _index) => validateCookingMethod(item))
-},
+}
 
 // Export all validation functions
 export default {
@@ -419,4 +419,4 @@ export default {
   safeConvertToElementalProperties,
   safeConvertToPlanetPosition,
   safeConvertToCookingMethod
-},
+}

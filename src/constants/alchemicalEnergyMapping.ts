@@ -3,7 +3,7 @@ import {
   CelestialPosition,
   AlchemicalProperties,
   ThermodynamicProperties
-} from '@/types/celestial',
+} from '@/types/celestial';
 import { createLogger } from '@/utils/logger';
 
 export interface AlchemicalEnergyState {
@@ -14,13 +14,13 @@ export interface AlchemicalEnergyState {
   planets: {
     daytime: string[],
     nighttime: string[]
-  },
+  }
   elements: string[],
   properties: {
     heat: '+' | '-',
     entropy: '+' | '-',
     reactivity: '+' | '-'
-  },
+  }
 }
 
 // Alchemical energy states based on the provided table
@@ -33,14 +33,14 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     planets: {
       daytime: ['Sun', 'Jupiter', 'Saturn', 'Mercury'],
       nighttime: []
-    },
+    }
     elements: ['Fire', 'Air'],
     properties: {
       heat: '+',
       entropy: '+',
       reactivity: '+'
     }
-  },
+  }
   {
     name: 'Substance',
     level: 'Middle',
@@ -49,14 +49,14 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     planets: {
       daytime: [],
       nighttime: ['Mercury', 'Neptune']
-    },
+    }
     elements: ['Air', 'Earth'],
     properties: {
       heat: '-',
       entropy: '+',
       reactivity: '+'
     }
-  },
+  }
   {
     name: 'Essence',
     level: 'Middle',
@@ -65,14 +65,14 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     planets: {
       daytime: ['Venus', 'Mars'],
       nighttime: ['Jupiter', 'Neptune']
-    },
+    }
     elements: ['Fire', 'Water'],
     properties: {
       heat: '-',
       entropy: '-',
       reactivity: '+'
     }
-  },
+  }
   {
     name: 'Matter',
     level: 'Lowest',
@@ -81,7 +81,7 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
     planets: {
       daytime: [],
       nighttime: ['Venus', 'Saturn', 'Mars', 'Uranus']
-    },
+    }
     elements: ['Water', 'Earth'],
     properties: {
       heat: '-',
@@ -94,7 +94,7 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
 // The Moon appears in both Essence and Matter states
 export const _SHARED_PLANETS = {
   Moon: ['Essence', 'Matter']
-},
+}
 
 // Create a component-specific logger
 const logger = createLogger('alchemicalEnergyMapping')
@@ -141,7 +141,7 @@ const _: Record<string, string> = {
   Essence: 'Water',
   Matter: 'Earth',
   Substance: 'Air'
-},
+}
 
 /**
  * Calculate the distribution of alchemical properties based on planetary positions
@@ -157,7 +157,7 @@ export function calculateAlchemicalDistribution(
       Essence: 0.25,
       Matter: 0.25,
       Substance: 0.25
-    },
+    }
 
     // Skip calculation if no positions provided
     if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {,
@@ -174,7 +174,7 @@ export function calculateAlchemicalDistribution(
       Essence: 0,
       Matter: 0,
       Substance: 0
-    },
+    }
 
     // Calculate the influence of each planet
     Object.entries(planetaryPositions).forEach(([planet, position]) => {
@@ -212,7 +212,7 @@ export function calculateAlchemicalDistribution(
 
     // Normalize the influences to sum to 1
     if (totalInfluence > 0) {
-      Object.keys(influences).forEach(property => {,
+      Object.keys(influences).forEach(property => {
         distribution[property as keyof AlchemicalProperties] =
           influences[property] / totalInfluence
       })
@@ -226,7 +226,7 @@ export function calculateAlchemicalDistribution(
       Essence: 0.25,
       Matter: 0.25,
       Substance: 0.25
-    },
+    }
   }
 }
 
@@ -242,7 +242,7 @@ export function convertToElementalProperties(
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-    },
+    }
 
     // Map alchemical properties to elemental properties
     elementalProps.Fire = alchemicalProps.Spirit,
@@ -258,7 +258,7 @@ export function convertToElementalProperties(
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-    },
+    }
   }
 }
 
@@ -289,7 +289,7 @@ export function calculateThermodynamicProperties(
       entropy,
       reactivity,
       gregsEnergy
-    },
+    }
   } catch (error) {
     logger.error('Error calculating thermodynamic properties:', error)
     return {
@@ -297,6 +297,6 @@ export function calculateThermodynamicProperties(
       entropy: 0.5,
       reactivity: 0.5,
       gregsEnergy: -0.35, // Calculated using heat - (entropy * reactivity), // Default Greg's Energy calculation
-    },
+    }
   }
 }

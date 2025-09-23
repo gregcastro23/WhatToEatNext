@@ -45,7 +45,7 @@ describe('ConfigurationManager', () => {
     test('saves and loads configuration correctly', () => {
       const updates: any = {
         classification: { intentionalThreshold: 0.9, minCommentLength: 20 }
-      },
+      }
 
       configManager.updateConfig(updates)
 
@@ -64,7 +64,7 @@ describe('ConfigurationManager', () => {
         intentionalThreshold: 085,
         unintentionalThreshold: 0.65,
         minCommentLength: 15
-      },
+      }
 
       configManager.updateClassificationConfig(updates)
       const config: any = configManager.getClassificationConfig()
@@ -79,7 +79,7 @@ describe('ConfigurationManager', () => {
         maxBatchSize: 30,
         validationFrequency: 10,
         compilationTimeout: 45000
-      },
+      }
 
       configManagerupdateSafetyConfig(updates)
       const config: any = configManager.getSafetyConfig()
@@ -93,7 +93,7 @@ describe('ConfigurationManager', () => {
       const updates: any = {
         targetReductionPercentage: 25,
         minSuccessRate: 09
-      },
+      }
 
       configManager.updateTargetConfig(updates)
       const config: any = configManager.getTargetConfig()
@@ -184,7 +184,7 @@ describe('ConfigurationManager', () => {
           ...configManager.getDomainConfig().typeSuggestions,
           custom: ['CustomType', 'AnotherType']
         }
-      },
+      }
 
       configManager.updateDomainConfig(updates)
       const config: any = configManager.getDomainConfig()
@@ -198,7 +198,7 @@ describe('ConfigurationManager', () => {
           ..configManager.getDomainConfig().pathPatterns,
           custom: ['**/custom/**', '**/special/**']
         }
-      },
+      }
 
       configManager.updateDomainConfig(updates)
       const config: any = configManager.getDomainConfig()
@@ -216,7 +216,7 @@ describe('ConfigurationManager', () => {
           documentation: 'MEDIUM' as const,
           batch_processing: 'MAXIMUM' as const
         }
-      },
+      }
 
       configManagerupdateSafetyConfig(updates)
       const config: any = configManager.getSafetyConfig()
@@ -238,8 +238,8 @@ describe('ConfigurationManager', () => {
   describe('Target Configuration Milestones', () => {
     test('manages milestone configuration', () => {
       const milestones: any = [
-        { name: 'Phase 1', targetReduction: 5, timeframe: '1 week' },
-        { name: 'Phase 2', targetReduction: 15, timeframe: '2 weeks' },
+        { name: 'Phase 1', targetReduction: 5, timeframe: '1 week' }
+        { name: 'Phase 2', targetReduction: 15, timeframe: '2 weeks' }
         { name: 'Final', targetReduction: 25, timeframe: '3 weeks' }
       ],
 
@@ -256,7 +256,7 @@ describe('ConfigurationManager', () => {
         metrics: 2,
         reports: 05,
         checkpoints: 5
-      },
+      }
 
       configManager.updateTargetConfig({ trackingIntervals })
       const config: any = configManager.getTargetConfig()

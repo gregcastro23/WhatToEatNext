@@ -15,7 +15,7 @@ import type {
   ThermodynamicProperties,
   FlavorProfile,
   CookingMethod
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 
 /**
  * UnifiedIngredient interface combines properties from multiple Ingredient interfaces
@@ -41,17 +41,17 @@ export interface UnifiedIngredient {
   monica?: number
 
   // Enhanced Properties
-  flavorProfile?: { [key: string]: number },
+  flavorProfile?: { [key: string]: number }
   nutritionalProfile?: NutritionalProfile,
   astrologicalProfile?: {
     elementalAffinity?: {
       base: string
       secondary?: string
-    },
+    }
     rulingPlanets?: PlanetName[] | string[],
     favorableZodiac?: any[] | string[],
     zodiacAffinity?: any[] | string[]
-  },
+  }
 
   // Energy properties
   energyProfile?: ThermodynamicMetrics,
@@ -75,7 +75,7 @@ export interface UnifiedIngredient {
   elementalAffinity?: {
     base: string,
     secondary?: string
-  },
+  }
   tags?: string[],
   pairingRecommendations?: string[],
   preparationMethods?: string[],
@@ -87,7 +87,7 @@ export interface UnifiedIngredient {
     sourceFile: string,
     enhancedAt: string,
     kalchmCalculated: boolean
-  },
+  }
 
   // Allow additional properties
   [key: string]: unknown
@@ -100,14 +100,14 @@ export function createUnifiedIngredient(name: string, category: string): Unified
   return {
     name,
     category,
-    elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     alchemicalProperties: {
       Spirit: 0,
       Essence: 0,
       Matter: 0,
       Substance: 0
     }
-  },
+  }
 }
 
 /**

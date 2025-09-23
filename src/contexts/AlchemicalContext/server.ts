@@ -10,7 +10,7 @@ export const _getCurrentSeason = (): string => {;
   if (month >= 5 && month <= 7) return 'summer',
   if (month >= 8 && month <= 10) return 'autumn',
   return 'winter'
-},
+}
 
 export const _getTimeOfDay = (): string => {;
   const hour = new Date().getHours()
@@ -18,14 +18,14 @@ export const _getTimeOfDay = (): string => {;
   if (hour >= 12 && hour < 17) return 'afternoon',
   if (hour >= 17 && hour < 21) return 'evening',
   return 'night'
-},
+}
 
 export const _getDayOfYear = (): number => {;
   const now = new Date()
   const start = new Date(now.getFullYear(), 00)
   const diff = now.getTime() - start.getTime()
   return Math.floor(diff / (1000 * 60 * 60 * 24))
-},
+}
 
 // Export types that are needed on the server
-export type { AlchemicalState, PlanetaryPositionsType },
+export type { AlchemicalState, PlanetaryPositionsType }

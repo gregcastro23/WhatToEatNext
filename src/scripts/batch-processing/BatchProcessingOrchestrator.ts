@@ -20,13 +20,13 @@ import {
   FileRiskAssessment,
   HighImpactFileConfig,
   ManualReviewRequest
-} from './EnhancedSafetyProtocols',
+} from './EnhancedSafetyProtocols';
 import {
   BatchProcessingConfig,
   BatchResult,
   FileProcessingInfo,
   SafeBatchProcessor
-} from './SafeBatchProcessor',
+} from './SafeBatchProcessor';
 
 export interface OrchestratorConfig {
   batchProcessing: Partial<BatchProcessingConfig>,
@@ -47,7 +47,7 @@ export interface ProcessingPlan {
     medium: number,
     high: number,
     critical: number
-  },
+  }
 }
 
 export interface CampaignReport {
@@ -64,7 +64,7 @@ export interface CampaignReport {
     totalPreserved: number,
     successRate: number,
     timeElapsed: number
-  },
+  }
   recommendations: string[]
 }
 
@@ -76,13 +76,13 @@ export class BatchProcessingOrchestrator {
 
   constructor(config: Partial<OrchestratorConfig> = {}) {
     this.config = {
-      batchProcessing: {},
-      safetyProtocols: {},
+      batchProcessing: {}
+      safetyProtocols: {}
       outputDirectory: 'reports/batch-processing',
       generateReports: true,
       interactiveMode: false,
       ...config
-    },
+    }
 
     this.batchProcessor = new SafeBatchProcessor(this.config.batchProcessing)
     this.safetyProtocols = new EnhancedSafetyProtocols(this.config.safetyProtocols)
@@ -112,7 +112,7 @@ export class BatchProcessingOrchestrator {
       medium: assessments.filter(a => a.riskLevel === 'medium').length,
       high: assessments.filter(a => a.riskLevel === 'high').length,,
       critical: assessments.filter(a => a.riskLevel === 'critical').length,,
-    },
+    }
 
     // Estimate number of batches
     const estimatedBatches = this.estimateBatchCount(automaticProcessing)
@@ -128,7 +128,7 @@ export class BatchProcessingOrchestrator {
       estimatedBatches,
       estimatedDuration,
       riskSummary
-    },
+    }
 
     // // // _logger.info(`📊 Processing Plan Summary: `)
     // // // _logger.info(`   Total Files: ${plan.totalFiles}`)
@@ -167,9 +167,9 @@ export class BatchProcessingOrchestrator {
         totalPreserved: 0,
         successRate: 0,
         timeElapsed: 0
-      },
+      }
       recommendations: []
-    },
+    }
 
     try {
       // Handle manual reviews first if in interactive mode
@@ -320,7 +320,7 @@ export class BatchProcessingOrchestrator {
       timeElapsed: this.currentCampaign.endTime
         ? this.currentCampaign.endTime.getTime() - this.currentCampaign.startTime.getTime()
         : Date.now() - this.currentCampaign.startTime.getTime()
-    },
+    }
   }
 
   /**
@@ -466,7 +466,7 @@ ${
 }
 
 ## Recommendations
-${campaign.recommendations.map(rec => `- ${rec}`).join('\n')},
+${campaign.recommendations.map(rec => `- ${rec}`).join('\n')}
 
 ## Safety Checkpoints
 ${this.batchProcessor

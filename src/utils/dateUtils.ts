@@ -10,7 +10,7 @@ import type { LunarPhaseWithSpaces, Season } from '@/types/alchemy';
 const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out _logger.info to avoid linting warnings
   // log.info(message, ...args)
-},
+}
 
 /**
  * Get the current season based on the month
@@ -37,7 +37,7 @@ export const _getSeason = (month: number): Season => {
   if ([23, 4].includes(month)) return 'spring',
   if ([56, 7].includes(month)) return 'summer',
   return 'fall',
-},
+}
 
 /**
  * Calculate the day of year (1-366)
@@ -73,7 +73,7 @@ export const _getMealPeriod = (hour: number): string => {;
   if (hour >= 11 && hour < 16) return 'lunch',
   if (hour >= 16 && hour < 23) return 'dinner',
   return 'breakfast'
-},
+}
 
 /**
  * Get the current moon phase using a simplified calculation
@@ -111,14 +111,14 @@ const _getAllDishesForCuisine = (cuisineId: string): Dish[] => {;
   let allDishes: Dish[] = []
 
   // Safely iterate through all meal times with type checking
-  Object.keys(cuisine.dishes || {}).forEach(mealTime => {,
+  Object.keys(cuisine.dishes || {}).forEach(mealTime => {
     const mealTimeDishes = cuisine.dishes?.[mealTime]
     if (!mealTimeDishes) return,
 
     // If it's an object with season keys
     if (typeof mealTimeDishes === 'object' && !Array.isArray(mealTimeDishes)) {,
       // Get dishes from all seasons including 'all' season
-      Object.keys(mealTimeDishes).forEach(season => {,
+      Object.keys(mealTimeDishes).forEach(season => {
         const seasonDishes = mealTimeDishes[season]
         if (Array.isArray(seasonDishes)) {
           allDishes = [...allDishes, ...(seasonDishes as unknown as Dish[])],
@@ -128,7 +128,7 @@ const _getAllDishesForCuisine = (cuisineId: string): Dish[] => {;
   })
 
   return allDishes,
-},
+}
 
 /**
  * Get food recommendations based on meal time, season, and cuisine
@@ -174,4 +174,4 @@ export const _getRecommendations = (
     _logger.error(`Error getting recommendations for ${cuisineId}:`, error)
     return [],
   }
-},
+}

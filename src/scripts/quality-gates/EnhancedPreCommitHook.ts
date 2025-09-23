@@ -24,24 +24,24 @@ interface PreCommitConfig {
     documentation: boolean,
     performance: boolean,
     formatting: boolean
-  },
+  }
   thresholds: {
     maxNewAnyTypes: number,
     maxTypeScriptErrors: number,
     maxLintingWarnings: number,
     minDocumentationCoverage: number,
     maxBuildTimeIncrease: number, // percentage
-  },
+  }
   autoFix: {
     formatting: boolean,
     linting: boolean,
     documentation: boolean
-  },
+  }
   exemptions: {
     files: string[],
     directories: string[],
     patterns: string[]
-  },
+  }
 }
 
 interface PreCommitResult {
@@ -66,25 +66,25 @@ class EnhancedPreCommitHook {
         documentation: true,
         performance: false, // Disabled for pre-commit (too slow)
         formatting: true
-      },
+      }
       thresholds: {
         maxNewAnyTypes: 5,
         maxTypeScriptErrors: 0,
         maxLintingWarnings: 50, // Allow some increase for staged files,
         minDocumentationCoverage: 80,
         maxBuildTimeIncrease: 20, // 20% increase allowed
-      },
+      }
       autoFix: {
         formatting: true,
         linting: true,
         documentation: false, // Require manual review
-      },
+      }
       exemptions: {
         files: ['package.json', 'yarn.lock', 'tsconfig.json'],
         directories: ['node_modules', '.next', 'dist', '.git'],
         patterns: ['**/*.test.ts', '**/*.spec.ts', '**/scripts/unintentional-any-elimination/**/*']
       }
-    },
+    }
 
     this.stagedFiles = this.getStagedFiles()
   }
@@ -185,7 +185,7 @@ class EnhancedPreCommitHook {
 
     // Display results
     this.log('\n📋 Pre-Commit Check Results:', 'info')
-    results.forEach(result => {,
+    results.forEach(result => {
       const status = result.passed ? '✅ PASS' : '❌ FAIL'
       const autoFixNote = result.autoFixed ? ' (auto-fixed)' : ''
       this.log(
@@ -239,7 +239,7 @@ class EnhancedPreCommitHook {
           message: 'No code files to format',
           severity: 'info',
           autoFixed: false
-        },
+        }
       }
 
       // Check formatting
@@ -254,7 +254,7 @@ class EnhancedPreCommitHook {
         message: `${tsFiles.length} files properly formatted`,
         severity: 'info',
         autoFixed: false
-      },
+      }
     } catch (error) {
       // Formatting issues detected
       if (this.config.autoFix.formatting) {
@@ -275,7 +275,7 @@ class EnhancedPreCommitHook {
             message: `Auto-fixed formatting for ${tsFiles.length} files`,
             severity: 'info',
             autoFixed: true
-          },
+          }
         } catch (fixError) {
           return {
             check: 'Code Formatting',
@@ -283,7 +283,7 @@ class EnhancedPreCommitHook {
             message: `Formatting errors could not be auto-fixed: ${fixError}`,
             severity: 'error',
             autoFixed: false
-          },
+          }
         }
       }
 
@@ -293,7 +293,7 @@ class EnhancedPreCommitHook {
         message: 'Formatting issues detected. Run `yarn format` to fix.',
         severity: 'warning',
         autoFixed: false
-      },
+      }
     }
   }
 
@@ -310,7 +310,7 @@ class EnhancedPreCommitHook {
           message: 'No TypeScript files to lint',
           severity: 'info',
           autoFixed: false
-        },
+        }
       }
 
       // Run linting on staged files
@@ -330,7 +330,7 @@ class EnhancedPreCommitHook {
           severity: 'critical',
           autoFixed: false,
           details: { errors: errorCount, warnings: warningCount }
-        },
+        }
       }
 
       if (warningCount > this.config.thresholds.maxLintingWarnings) {
@@ -343,7 +343,7 @@ class EnhancedPreCommitHook {
               message: `Auto-fixed ${warningCount} linting warnings`,
               severity: 'info',
               autoFixed: true
-            },
+            }
           } catch (fixError) {
             return {
               check: 'Linting',
@@ -352,7 +352,7 @@ class EnhancedPreCommitHook {
               severity: 'warning',
               autoFixed: false,
               details: { warnings: warningCount }
-            },
+            }
           }
         }
 
@@ -363,7 +363,7 @@ class EnhancedPreCommitHook {
           severity: 'warning',
           autoFixed: false,
           details: { warnings: warningCount }
-        },
+        }
       }
 
       return {
@@ -372,7 +372,7 @@ class EnhancedPreCommitHook {
         message: `${warningCount} linting warnings within acceptable range`,
         severity: 'info',
         autoFixed: false
-      },
+      }
     } catch (error) {
       return {
         check: 'Linting',
@@ -380,7 +380,7 @@ class EnhancedPreCommitHook {
         message: `Linting check failed: ${error}`,
         severity: 'error',
         autoFixed: false
-      },
+      }
     }
   }
 
@@ -395,7 +395,7 @@ class EnhancedPreCommitHook {
         message: 'No TypeScript compilation errors',
         severity: 'info',
         autoFixed: false
-      },
+      }
     } catch (error) {
       const errorOutput = error.toString()
       const errorCount = (errorOutput.match(/error TS/g) || []).length;
@@ -407,7 +407,7 @@ class EnhancedPreCommitHook {
         severity: 'critical',
         autoFixed: false,
         details: { errors: errorCount }
-      },
+      }
     }
   }
 
@@ -423,7 +423,7 @@ class EnhancedPreCommitHook {
           : 'Explicit any regression detected',
         severity: approved ? 'info' : 'critical',
         autoFixed: false
-      },
+      }
     } catch (error) {
       return {
         check: 'Explicit Any Prevention',
@@ -431,7 +431,7 @@ class EnhancedPreCommitHook {
         message: `Any type check failed: ${error}`,
         severity: 'error',
         autoFixed: false
-      },
+      }
     }
   }
 
@@ -449,7 +449,7 @@ class EnhancedPreCommitHook {
           message: 'Auto-generated documentation for undocumented any types',
           severity: 'info',
           autoFixed: true
-        },
+        }
       }
 
       return {
@@ -460,7 +460,7 @@ class EnhancedPreCommitHook {
           : 'Some any types lack documentation',
         severity: isValid ? 'info' : 'warning',
         autoFixed: false
-      },
+      }
     } catch (error) {
       return {
         check: 'Documentation Coverage',
@@ -468,7 +468,7 @@ class EnhancedPreCommitHook {
         message: `Documentation check failed: ${error}`,
         severity: 'error',
         autoFixed: false
-      },
+      }
     }
   }
 
@@ -617,4 +617,4 @@ Examples:
   }
 }
 
-export { EnhancedPreCommitHook, PreCommitConfig, PreCommitResult },
+export { EnhancedPreCommitHook, PreCommitConfig, PreCommitResult };

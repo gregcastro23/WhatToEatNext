@@ -15,11 +15,11 @@ export const broiling: CookingMethodData = {
     Air: 0.1,
     Earth: 0.1,
     Water: 0.0
-  },
+  }
   duration: {
     min: 3,
     max: 15
-  },
+  }
   suitable_for: [
     'steaks',
     'chops',
@@ -51,7 +51,7 @@ export const broiling: CookingMethodData = {
       waxing_crescent: 0.9,
       waning_gibbous: 1.1
     }
-  },
+  }
 
   toolsRequired: [
     'Oven with broiler element',
@@ -86,7 +86,7 @@ export const broiling: CookingMethodData = {
     vitamins: 0.65,
     minerals: 0.85,
     fats: 0.7
-  },
+  }
 
   optimalTemperatures: {
     steaks: 500,
@@ -96,7 +96,7 @@ export const broiling: CookingMethodData = {
     fruit: 400,
     'melting cheese': 475,
     toasting: 450
-  },
+  }
 
   regionalVariations: {
     american: ['steakhouse broiling', 'lobster broiling'],
@@ -104,7 +104,7 @@ export const broiling: CookingMethodData = {
     japanese: ['aburi-style sushi', 'miso-glazed fish'],
     french: ['gratin dishes', 'crème brûlée finishing'],
     mediterranean: ['broiled seafood', 'vegetable mezze']
-  },
+  }
 
   chemicalChanges: {
     maillard_reaction: true,
@@ -113,7 +113,7 @@ export const broiling: CookingMethodData = {
     fat_rendering: true,
     protein_denaturation: true,
     surface_dehydration: true
-  },
+  }
 
   safetyFeatures: [
     'Constant monitoring',
@@ -192,7 +192,7 @@ export const broiling: CookingMethodData = {
     fruits: 'Sprinkle with sugar for better caramelization. Cut to uniform sizes for even cooking.',
     bread:
       'Slightly dry bread works better than very fresh. Apply thin layer of fat to prevent burning.'
-  },
+  }
 
   timingConsiderations: {
     'thin cuts': 'About 3-5 minutes per side. Look for sizzling and browning before flipping.',
@@ -200,7 +200,7 @@ export const broiling: CookingMethodData = {
     vegetables: '2-4 minutes per side, looking for slight char and tenderness.',
     'finishing dishes': '1-3 minutes total, watching constantly for desired browning level.',
     'delicate items': 'As little as 1-2 minutes total. Position further from heat element.'
-  },
+  }
 
   doneness_indicators: {
     'visual cues': 'Surface browning, bubbling, caramelization, or slight charring on edges.',
@@ -210,7 +210,7 @@ export const broiling: CookingMethodData = {
       'For meats, follow standard temperature guidelines (e.g., 135°F for medium-rare steak).',
     'timing benchmarks':
       'Thin items (≤1/2 inch): 2-4 minutes total, Medium items (1 inch): 8-10 minutes total, Thick items (>1 inch): 12-15 minutes total.'
-  },
+  }
 
   ingredientInteractions: {
     sugars: 'Caramelize quickly and can burn easily add sweet glazes in final minutes only.',
@@ -219,7 +219,7 @@ export const broiling: CookingMethodData = {
     marinades: 'High sugar content marinades can burn, wipe excess marinade before broiling.',
     herbs: 'Fresh herbs may burn, use in compound butters or apply after cooking.',
     acids: 'Can denature proteins before cooking, limit marinating time for acidic marinades.'
-  },
+  }
 
   technicalNotes: {
     'equipment variations': {
@@ -229,13 +229,13 @@ export const broiling: CookingMethodData = {
         'Professional equipment allowing precise control and higher temperatures.',
       'drawer broilers':
         'Located below oven in some models, typically smaller capacity but good heat.'
-    },
+    }
     'distance effects': {
       'close positioning': 'Faster cooking, more external browning, less interior cooking.',
       'distant positioning': 'Slower cooking, more even heating throughout the food.',
       'variable positioning':
         'Moving food closer or further during cooking allows for controlled browning.'
-    },
+    }
     'surface treatments': {
       'oil application': 'Thin layer conducts heat better and prevents sticking.',
       'dry rubs': 'Apply before cooking, high sugar content rubs may burn.',
@@ -243,4 +243,4 @@ export const broiling: CookingMethodData = {
       basting: 'Apply during cooking to add flavor and prevent drying.'
     }
   }
-},
+}

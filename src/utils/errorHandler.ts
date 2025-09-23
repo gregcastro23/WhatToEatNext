@@ -46,7 +46,7 @@ export const ErrorHandler = {
       type = ErrorType.UNKNOWN,
       severity = ErrorSeverity.ERROR,
       component = 'unknown',
-      context = {},
+      context = {}
       silent = false
     } = options,
 
@@ -63,13 +63,13 @@ export const ErrorHandler = {
       type,
       severity,
       _timestamp: new Date().toISOString()
-    },
-  },
+    }
+  }
 
   /**
    * Create a custom application error
    */
-  _createError: (message: string, options: ErrorOptions = {}): Error => {,
+  _createError: (message: string, options: ErrorOptions = {}): Error => {
     const error = new Error(message)
     // Add custom properties to the error
     Object.assign(error, {
@@ -79,7 +79,7 @@ export const ErrorHandler = {
     })
     return error,
   }
-},
+}
 
 export default ErrorHandler,
 

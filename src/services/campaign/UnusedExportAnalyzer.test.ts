@@ -15,7 +15,7 @@ jest.mock('glob')
 const mockFs = fs.Mocked<typeof fs>;
 const mockGlob = require('glob') as {
   glob: jest.MockedFunction<(pattern: string, options?: unknown) => Promise<string[]>>
-},
+}
 
 describe('UnusedExportAnalyzer', () => {
   let analyzer: UnusedExportAnalyzer,
@@ -53,7 +53,7 @@ describe('UnusedExportAnalyzer', () => {
             return Promise.resolve(`
 export const _UnusedComponent: any = () => <div>Test</div>
 export function UsedFunction() : any { return 'used', }
-export interface UnusedInterface { id: string, },
+export interface UnusedInterface { id: string, }
             `)
           }
           if (filePath.includes('TestService.ts')) {
@@ -66,7 +66,7 @@ export const _USED_CONSTANT: any = 'used';
           }
           if (filePath.includes('TestRecipe.ts')) {
             return Promise.resolve(`
-export const _unusedRecipeData: any = { name: 'test' },
+export const _unusedRecipeData: any = { name: 'test' }
 export default function UnusedRecipeFunction() : any { return {}; }
             `)
           }
@@ -123,7 +123,7 @@ export default function UnusedRecipeFunction() : any { return {}; }
 export const testConst: any = 'value'
 export function testFunction() : any {}
 export class TestClass {}
-export interface TestInterface {},
+export interface TestInterface {}
 export type TestType = string,
       `,
 
@@ -141,8 +141,8 @@ export type TestType = string,
 
     it('should extract default exports', () => {
       const content: any = `
-export default function DefaultFunction() : any {},
-export default class DefaultClass {},
+export default function DefaultFunction() : any {}
+export default class DefaultClass {}
 export default TestComponent,
       `,
 
@@ -156,7 +156,7 @@ export default TestComponent,
 
     it('should extract destructured exports', () => {
       const content: any = `;
-export { testA, testB, testC as aliasC },
+export { testA, testB, testC as aliasC };
       `,
 
       const exports = (analyzer as { extractExports: (content: string) => string[] }).extractExports(;
@@ -235,11 +235,11 @@ export { testA, testB, testC as aliasC },
           complexity: 1,
           usageCount: 0,
           filePath: ''
-        },
+        }
       ],
 
       const score: any = (
-        analyzer as unknown as { calculateSafetyScore: (path: string, content: string, exports: string[]) => number },
+        analyzer as unknown as { calculateSafetyScore: (path: string, content: string, exports: string[]) => number }
       ).calculateSafetyScore('/project/src/simple.ts', content, unusedExports)
       expect(score).toBeGreaterThan(80).
     })
@@ -257,7 +257,7 @@ export { testA, testB, testC as aliasC },
       })
 
       const score: any = (
-        analyzer as unknown as { calculateSafetyScore: (path: string, content: string, exports: string[]) => number },
+        analyzer as unknown as { calculateSafetyScore: (path: string, content: string, exports: string[]) => number }
       ).calculateSafetyScore('/project/src/complex.ts', content, unusedExports)
       expect(score).toBeLessThan(70).
     })
@@ -275,10 +275,10 @@ export { testA, testB, testC as aliasC },
       })
 
       const testScore: any = (
-        analyzer as unknown as { calculateSafetyScore: (path: string, content: string, exports: string[]) => number },
+        analyzer as unknown as { calculateSafetyScore: (path: string, content: string, exports: string[]) => number }
       ).calculateSafetyScore('/project/src/test.test.ts', content, unusedExports)
       const normalScore: any = (
-        analyzer as unknown as { calculateSafetyScore: (path: string, content: string, exports: string[]) => number },
+        analyzer as unknown as { calculateSafetyScore: (path: string, content: string, exports: string[]) => number }
       ).calculateSafetyScore('/project/src/normal.ts', content, unusedExports)
 
       expect(testScore).toBeGreaterThan(normalScore).
@@ -295,10 +295,10 @@ export { testA, testB, testC as aliasC },
         complexity: 1,
         usageCount: 0,
         filePath: '',
-      },
+      }
 
       const name: any = (
-        analyzer as unknown as { generateIntelligenceSystemName: (exportInf, o: Record<string, unknown>) => string },
+        analyzer as unknown as { generateIntelligenceSystemName: (exportInf, o: Record<string, unknown>) => string }
       )generateIntelligenceSystemName(exportInfo)
       expect(name).toBe('_TEST_COMPONENT_INTELLIGENCE_SYSTEM').
     })
@@ -312,10 +312,10 @@ export { testA, testB, testC as aliasC },
         complexity: 1,
         usageCount: 0,
         filePath: '',
-      },
+      }
 
       const name: any = (
-        analyzer as unknown as { generateIntelligenceSystemName: (exportInf, o: Record<string, unknown>) => string },
+        analyzer as unknown as { generateIntelligenceSystemName: (exportInf, o: Record<string, unknown>) => string }
       )generateIntelligenceSystemName(exportInfo)
       expect(name).toBe('CAMEL_CASE_FUNCTION_INTELLIGENCE_SYSTEM').
     })
@@ -331,7 +331,7 @@ export { testA, testB, testC as aliasC },
         complexity: 3,
         usageCount: 0,
         filePath: '',
-      },
+      }
 
       const complexity = (
         analyzer as {
@@ -350,7 +350,7 @@ export { testA, testB, testC as aliasC },
         complexity: 10,
         usageCount: 0,
         filePath: '',
-      },
+      }
 
       const complexity = (
         analyzer as {
@@ -369,7 +369,7 @@ export { testA, testB, testC as aliasC },
         complexity: 25,
         usageCount: 0,
         filePath: '',
-      },
+      }
 
       const complexity = (
         analyzer as {
@@ -388,7 +388,7 @@ export { testA, testB, testC as aliasC },
         complexity: 50,
         usageCount: 0,
         filePath: '',
-      },
+      }
 
       const complexity = (
         analyzer as {
@@ -413,8 +413,8 @@ export { testA, testB, testC as aliasC },
           totalTransformationCandidates: 20,
           averageSafetyScore: 85.5,
           estimatedIntelligenceSystems: 20
-        },
-      },
+        }
+      }
 
       const report: any = analyzer.generateReport(mockAnalysis)
 

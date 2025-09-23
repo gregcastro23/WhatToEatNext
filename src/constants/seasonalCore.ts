@@ -20,7 +20,7 @@ export const SCORE_THRESHOLDS = {
   GOOD: 60,
   MODERATE: 40,
   POOR: 20
-},
+}
 
 // ===== SEASONAL ELEMENTAL MODIFIERS =====,
 
@@ -34,38 +34,38 @@ export const SEASONAL_MODIFIERS: Record<Season, ElementalProperties> = {
     Water: 0.3, // Strong - nourishment, flow
     Earth: 0.2, // Moderate - grounding new growth
     Fire: 0.1, // Minimal - gentle warmth
-  },
+  }
   summer: {
     Fire: 0.4, // Dominant - heat, energy, expansion
     Air: 0.3, // Strong - movement, activity
     Water: 0.2, // Moderate - cooling balance
     Earth: 0.1, // Minimal - stability
-  },
+  }
   autumn: {
     Earth: 0.4, // Dominant - harvest, grounding, stability
     Air: 0.3, // Strong - change, transformation
     Fire: 0.2, // Moderate - warmth before winter
     Water: 0.1, // Minimal - preparation for winter
-  },
+  }
   winter: {
     Water: 0.4, // Dominant - introspection, depth, rest
     Earth: 0.3, // Strong - stability, preservation
     Fire: 0.2, // Moderate - inner warmth
     Air: 0.1, // Minimal - stillness
-  },
+  }
   fall: {
     Earth: 0.4, // Alias for autumn
     Air: 0.3,
     Fire: 0.2,
     Water: 0.1
-  },
+  }
   all: {
     Fire: 0.25, // Balanced for all-season items
     Air: 0.25,
     Water: 0.25,
     Earth: 0.25
   }
-},
+}
 
 /**
  * Balanced elemental properties for reference
@@ -75,7 +75,7 @@ export const BALANCED_ELEMENTS: ElementalProperties = {
   Air: 0.25,
   Water: 0.25,
   Earth: 0.25
-},
+}
 
 // ===== ZODIAC SEASONAL ASSOCIATIONS =====,
 
@@ -102,7 +102,7 @@ export const ZODIAC_SEASONS: Record<Season, ZodiacSign[]> = {
     'aquarius',
     'pisces'
   ]
-},
+}
 
 // ===== COMPREHENSIVE SEASONAL PROPERTIES =====,
 
@@ -130,7 +130,7 @@ export const SEASONAL_PROPERTIES = {
     // Health and mood
     healthFocus: ['detoxification', 'liver support', 'energy renewal'],
     moodEffects: ['optimistic', 'energizing', 'creative', 'social']
-  },
+  }
   summer: {
     elementalModifier: SEASONAL_MODIFIERS.summer,
     qualities: ['expansive', 'active', 'abundant', 'hot'],
@@ -151,7 +151,7 @@ export const SEASONAL_PROPERTIES = {
     // Health and mood
     healthFocus: ['cooling', 'hydration', 'heart health'],
     moodEffects: ['joyful', 'active', 'social', 'confident']
-  },
+  }
   autumn: {
     elementalModifier: SEASONAL_MODIFIERS.autumn,
     qualities: ['contracting', 'descending', 'harvesting', 'grounding'],
@@ -172,7 +172,7 @@ export const SEASONAL_PROPERTIES = {
     // Health and mood
     healthFocus: ['immune support', 'digestive strength', 'grounding'],
     moodEffects: ['contemplative', 'grounding', 'introspective', 'grateful']
-  },
+  }
   winter: {
     elementalModifier: SEASONAL_MODIFIERS.winter,
     qualities: ['contracting', 'storing', 'deep', 'still'],
@@ -194,7 +194,7 @@ export const SEASONAL_PROPERTIES = {
     healthFocus: ['kidney support', 'deep nourishment', 'rest'],
     moodEffects: ['introspective', 'calm', 'deep', 'restorative']
   }
-},
+}
 
 // ===== SEASONAL TRANSITIONS =====,
 
@@ -209,7 +209,7 @@ export const SEASONAL_TRANSITIONS = {
     autumnToWinter: { month: 11, day: 15 }, // December 15
     winterToSpring: { month: 2, day: 15 }, // March 15
   }
-},
+}
 
 /**
  * Date ranges for each season
@@ -220,7 +220,7 @@ export const SEASON_DATE_RANGES = {
   autumn: { startMonth: 8, startDay: 15, endMonth: 11, endDay: 14 }, // Aug 15 - Nov 14
   fall: { startMonth: 8, startDay: 15, endMonth: 11, endDay: 14 }, // Alias for autumn
   winter: { startMonth: 11, startDay: 15, endMonth: 2, endDay: 14 }, // Nov 15 - Feb 14
-},
+}
 
 // ===== SEASONAL INFLUENCE SYSTEM =====,
 
@@ -234,15 +234,15 @@ export const SEASONAL_INFLUENCE = {
     summer: 0.9,
     autumn: 0.6,
     winter: 0.8
-  },
+  }
   // How seasons affect mood and energy
   energyModifier: {
-    spring: { vitality: 0.8, creativity: 0.7, stability: 0.4, adaptability: 0.6 },
-    summer: { vitality: 0.9, creativity: 0.8, stability: 0.3, adaptability: 0.7 },
-    autumn: { vitality: 0.6, creativity: 0.6, stability: 0.6, adaptability: 0.5 },
+    spring: { vitality: 0.8, creativity: 0.7, stability: 0.4, adaptability: 0.6 }
+    summer: { vitality: 0.9, creativity: 0.8, stability: 0.3, adaptability: 0.7 }
+    autumn: { vitality: 0.6, creativity: 0.6, stability: 0.6, adaptability: 0.5 }
     winter: { vitality: 0.4, creativity: 0.5, stability: 0.7, adaptability: 0.4 }
   }
-},
+}
 
 // ===== VALIDATION THRESHOLDS =====,
 
@@ -253,7 +253,7 @@ export const VALIDATION_THRESHOLDS = {
   MINIMUM_ELEMENT: 0,
   MAXIMUM_ELEMENT: 1,
   BALANCE_PRECISION: 0.000001
-},
+}
 
 // ===== UTILITY FUNCTIONS =====,
 
@@ -368,7 +368,7 @@ export function applySeasonalModifier(
     Water: baseProperties.Water * (1 - strength) + modifier.Water * strength,
     Earth: baseProperties.Earth * (1 - strength) + modifier.Earth * strength,
     Air: baseProperties.Air * (1 - strength) + modifier.Air * strength
-  },
+  }
 }
 
 export default {
@@ -388,4 +388,4 @@ export default {
   getZodiacSignsForSeason,
   getSeasonForZodiacSign,
   applySeasonalModifier
-},
+}

@@ -17,15 +17,15 @@ export interface AlertingConfig {
     enabled: boolean,
     sensitivity: 'low' | 'medium' | 'high',
     cooldownPeriod: number, // minutes
-  },
+  }
   performanceMonitoring: {
     enabled: boolean,
     thresholds: PerformanceThreshold[]
-  },
+  }
   autoResponse: {
     enabled: boolean,
     actions: AutoResponseAction[]
-  },
+  }
 }
 
 export interface AlertChannel {
@@ -140,7 +140,7 @@ export class LintingAlertingSystem {
           threshold: threshold.threshold,
           impact: this.calculateImpact(threshold.severity),
           autoResponseTriggered: false
-        },
+        }
 
         events.push(event)
         // // // _logger.info(
@@ -232,9 +232,9 @@ export class LintingAlertingSystem {
         metric: alert.metric,
         currentValue: alert.currentValue,
         threshold: alert.threshold
-      },
+      }
       actions: this.generateKiroActions(alert)
-    },
+    }
 
     const kiroFile = '.kiro/notifications/linting-alerts.json';
     writeFileSync(kiroFile, JSON.stringify(kiroAlert, null, 2))
@@ -258,7 +258,7 @@ export class LintingAlertingSystem {
       threshold: alert.threshold,
       message: alert.message,
       source: 'linting-excellence-dashboard'
-    },
+    }
 
     try {
       // Use curl for webhook (Node.js fetch might not be available)
@@ -426,17 +426,17 @@ export class LintingAlertingSystem {
       channels: [
         {
           type: 'console',
-          config: {},
+          config: {}
           severityFilter: ['warning', 'error', 'critical']
-        },
+        }
         {
           type: 'file',
-          config: { file: '.kiro/metrics/alerts.log' },
+          config: { file: '.kiro/metrics/alerts.log' }
           severityFilter: ['error', 'critical']
-        },
+        }
         {
           type: 'kiro',
-          config: {},
+          config: {}
           severityFilter: ['critical']
         }
       ],
@@ -444,7 +444,7 @@ export class LintingAlertingSystem {
         enabled: true,
         sensitivity: 'medium',
         cooldownPeriod: 15, // 15 minutes
-      },
+      }
       performanceMonitoring: {
         enabled: true,
         thresholds: [
@@ -453,13 +453,13 @@ export class LintingAlertingSystem {
             threshold: 30000, // 30 seconds
             severity: 'warning',
             message: 'Linting duration exceeds 30 seconds'
-          },
+          }
           {
             metric: 'memory',
             threshold: 512, // 512 MB
             severity: 'warning',
             message: 'Memory usage exceeds 512MB'
-          },
+          }
           {
             metric: 'cacheHitRate',
             threshold: 0.5, // 50%
@@ -467,7 +467,7 @@ export class LintingAlertingSystem {
             message: 'Cache hit rate below 50%'
           }
         ]
-      },
+      }
       autoResponse: {
         enabled: true,
         actions: [
@@ -475,7 +475,7 @@ export class LintingAlertingSystem {
             trigger: 'performance_degradation',
             action: 'enableCache',
             parameters: {}
-          },
+          }
           {
             trigger: 'memory_exceeded',
             action: 'reduceBatchSize',
@@ -483,7 +483,7 @@ export class LintingAlertingSystem {
           }
         ]
       }
-    },
+    }
   }
 
   private loadSuppressions(): void {
@@ -545,7 +545,7 @@ export class LintingAlertingSystem {
       suppressedAlerts: [],
       resolvedAlerts: [],
       performanceEvents: []
-    },
+    }
   }
 
   private getPerformanceMetricValue(metrics: LintingMetrics, metric: string): number {

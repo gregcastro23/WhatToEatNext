@@ -1,6 +1,6 @@
 // Add CSS module declarations
 declare module '*.module.css' {
-  const classes: { [key: string]: string },
+  const classes: { [key: string]: string }
   export default classes,
 }
 

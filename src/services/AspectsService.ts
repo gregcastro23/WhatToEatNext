@@ -16,7 +16,7 @@ export class AspectsService {
   static calculateFromPositions(positions: Record<string, PlanetaryPosition>) {
     const minimal = AspectsService.toMinimal(positions)
     const { _aspects, elementalEffects} = calculateAspects(minimal as any)
-    return { aspects, elementalEffects },
+    return { aspects, elementalEffects }
   }
 }
 

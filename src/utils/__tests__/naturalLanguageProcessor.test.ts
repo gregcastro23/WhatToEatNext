@@ -71,10 +71,10 @@ describe('naturalLanguageProcessor', () => {
 
   describe('enhancedSearch', () => {
     const mockItems: any = [
-      { id: 1, name: 'Italian Pasta', description: 'Delicious pasta from Italy' },
-      { id: 2, name: 'Chinese Noodles', description: 'Traditional Chinese noodle dish' },
-      { id: 3, name: 'Japanese Ramen', description: 'Authentic ramen from Japan' },
-      { id: 4, name: 'Thai Pad Thai', description: 'Classic Thai stir-fried noodles' },
+      { id: 1, name: 'Italian Pasta', description: 'Delicious pasta from Italy' }
+      { id: 2, name: 'Chinese Noodles', description: 'Traditional Chinese noodle dish' }
+      { id: 3, name: 'Japanese Ramen', description: 'Authentic ramen from Japan' }
+      { id: 4, name: 'Thai Pad Thai', description: 'Classic Thai stir-fried noodles' }
     ],
 
     it('performs exact match search', () => {
@@ -125,7 +125,7 @@ describe('naturalLanguageProcessor', () => {
         mealType: 'dinner',
         spiciness: 'mild',
         dietaryRestrictions: ['vegetarian']
-      },
+      }
       {
         id: 2,
         name: 'Spicy Thai Curry',
@@ -135,7 +135,7 @@ describe('naturalLanguageProcessor', () => {
         mealType: 'dinner',
         spiciness: 'hot',
         dietaryRestrictions: ['vegan']
-      },
+      }
       {
         id: 3,
         name: 'Quick Breakfast',
@@ -145,7 +145,7 @@ describe('naturalLanguageProcessor', () => {
         mealType: 'breakfast',
         spiciness: 'mild',
         dietaryRestrictions: []
-      },
+      }
     ],
 
     it('filters by dietary restrictions', () => {
@@ -153,12 +153,12 @@ describe('naturalLanguageProcessor', () => {
         query: '',
         dietaryRestrictions: ['vegetarian'],
         difficultyLevel: [],
-        cookingTime: { min: 0, max: 480 },
+        cookingTime: { min: 0, max: 480 }
         cuisineTypes: [],
         mealTypes: [],
         spiciness: [],
         ingredients: [],
-      },
+      }
 
       const results: any = applyFilters(mockItems, filters)
 
@@ -171,12 +171,12 @@ describe('naturalLanguageProcessor', () => {
         query: '',
         dietaryRestrictions: [],
         difficultyLevel: ['easy'],
-        cookingTime: { min: 0, max: 480 },
+        cookingTime: { min: 0, max: 480 }
         cuisineTypes: [],
         mealTypes: [],
         spiciness: [],
         ingredients: [],
-      },
+      }
 
       const results: any = applyFilters(mockItems, filters)
 
@@ -189,12 +189,12 @@ describe('naturalLanguageProcessor', () => {
         query: '',
         dietaryRestrictions: [],
         difficultyLevel: [],
-        cookingTime: { min: 0, max: 30 },
+        cookingTime: { min: 0, max: 30 }
         cuisineTypes: [],
         mealTypes: [],
         spiciness: [],
         ingredients: [],
-      },
+      }
 
       const results: any = applyFilters(mockItems, filters)
 
@@ -207,12 +207,12 @@ describe('naturalLanguageProcessor', () => {
         query: '',
         dietaryRestrictions: [],
         difficultyLevel: [],
-        cookingTime: { min: 0, max: 480 },
+        cookingTime: { min: 0, max: 480 }
         cuisineTypes: ['italian'],
         mealTypes: [],
         spiciness: [],
         ingredients: [],
-      },
+      }
 
       const results: any = applyFilters(mockItems, filters)
 
@@ -225,12 +225,12 @@ describe('naturalLanguageProcessor', () => {
         query: '',
         dietaryRestrictions: [],
         difficultyLevel: [],
-        cookingTime: { min: 0, max: 480 },
+        cookingTime: { min: 0, max: 480 }
         cuisineTypes: [],
         mealTypes: ['breakfast'],
         spiciness: [],
         ingredients: [],
-      },
+      }
 
       const results: any = applyFilters(mockItems, filters)
 
@@ -243,12 +243,12 @@ describe('naturalLanguageProcessor', () => {
         query: '',
         dietaryRestrictions: [],
         difficultyLevel: [],
-        cookingTime: { min: 0, max: 480 },
+        cookingTime: { min: 0, max: 480 }
         cuisineTypes: [],
         mealTypes: [],
         spiciness: ['hot'],
         ingredients: [],
-      },
+      }
 
       const results: any = applyFilters(mockItems, filters)
 
@@ -261,12 +261,12 @@ describe('naturalLanguageProcessor', () => {
         query: '',
         dietaryRestrictions: [],
         difficultyLevel: ['easy'],
-        cookingTime: { min: 0, max: 30 },
+        cookingTime: { min: 0, max: 30 }
         cuisineTypes: [],
         mealTypes: ['breakfast'],
         spiciness: [],
         ingredients: [],
-      },
+      }
 
       const results: any = applyFilters(mockItems, filters)
 
@@ -279,12 +279,12 @@ describe('naturalLanguageProcessor', () => {
         query: '',
         dietaryRestrictions: ['vegan'],
         difficultyLevel: ['hard'],
-        cookingTime: { min: 0, max: 480 },
+        cookingTime: { min: 0, max: 480 }
         cuisineTypes: [],
         mealTypes: [],
         spiciness: [],
         ingredients: [],
-      },
+      }
 
       const results: any = applyFilters(mockItems, filters)
 

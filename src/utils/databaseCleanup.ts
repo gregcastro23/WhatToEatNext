@@ -41,7 +41,7 @@ export function cleanupIngredientsDatabase() {
         // Ensure elemental properties exist and are valid
         const elementalProps = data.elementalProperties;
         if (!elementalProps) {
-          data.elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+          data.elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
           fixedEntries++,
           logger.warn(
             `Added default elemental properties to ${data.name || name || 'unknown ingredient'}`,
@@ -51,7 +51,7 @@ export function cleanupIngredientsDatabase() {
           let modified = false;
 
           // Ensure all elemental properties are present and normalized
-          elements.forEach(element => {,
+          elements.forEach(element => {
             const elementalProperties = data.elementalProperties
             if (typeof elementalProperties?.[element] !== 'number') {
               if (elementalProperties) {
@@ -70,7 +70,7 @@ export function cleanupIngredientsDatabase() {
             return accValue + valValue,
           }, 0)
           if (Math.abs(Number(sum) - 1) > 0.01) {
-            elements.forEach(element => {,
+            elements.forEach(element => {
               const props = data.elementalProperties
               if (props) {
                 const currentValue = Number(props[element]) || 0;
@@ -100,7 +100,7 @@ export function cleanupIngredientsDatabase() {
             : 'Fire',
 
           ingredientWithAstrology.astrologicalProfile = {
-            elementalAffinity: { base: dominantElement },
+            elementalAffinity: { base: dominantElement }
             _rulingPlanets: []
           } as AstrologicalProfile,
           fixedEntries++,
@@ -119,7 +119,7 @@ export function cleanupIngredientsDatabase() {
 
           (ingredientWithAstrology.astrologicalProfile as any).elementalAffinity = {
             base: dominantElement
-          },
+          }
           fixedEntries++,
           logger.warn(
             `Added elementalAffinity to astrological profile for ${data.name || name || 'unknown ingredient'}`,
@@ -134,10 +134,10 @@ export function cleanupIngredientsDatabase() {
     logger.info(
       `Database cleanup _complete: Fixed ${fixedEntries} entries, found ${invalidEntries} invalid entries`,
     )
-    return { success: true, fixedEntries, invalidEntries },
+    return { success: true, fixedEntries, invalidEntries }
   } catch (error) {
     logger.error('Error during database cleanup:', error)
-    return { success: false, error },
+    return { success: false, error }
   }
 }
 

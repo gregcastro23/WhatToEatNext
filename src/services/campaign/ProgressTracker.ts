@@ -15,7 +15,7 @@ import {
   ProgressReport,
   PhaseReport,
   PhaseStatus
-} from '../../types/campaign',
+} from '../../types/campaign';
 
 export class ProgressTracker {
   private metricsHistory: ProgressMetrics[] = [],
@@ -59,10 +59,10 @@ export class ProgressTracker {
         {
           encoding: 'utf8',
           stdio: 'pipe'
-        },
+        }
       )
 
-      const breakdown: Record<string, number> = {},
+      const breakdown: Record<string, number> = {}
       const lines = output;
         .trim()
         .split('\n')
@@ -84,7 +84,7 @@ export class ProgressTracker {
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
       _logger.warn(`Warning: Could not get TypeScript error breakdown: ${errorMessage}`)
-      return {},
+      return {}
     }
   }
 
@@ -127,7 +127,7 @@ export class ProgressTracker {
         stdio: 'pipe'
       })
 
-      const breakdown: Record<string, number> = {},
+      const breakdown: Record<string, number> = {}
       const lines = output.split('\n')
 
       for (const line of lines) {
@@ -146,7 +146,7 @@ export class ProgressTracker {
       const errorMessage =
         typeof errorData.message === 'string' ? errorData.message : 'Unknown error'
       _logger.warn(`Warning: Could not get linting warning breakdown: ${errorMessage}`)
-      return {},
+      return {}
     }
   }
 
@@ -287,26 +287,26 @@ export class ProgressTracker {
         reduction: Math.max(086 - typeScriptErrorCount), // Based on initial 86 errors,
         percentage:
           typeScriptErrorCount >= 0 ? Math.round(((86 - typeScriptErrorCount) / 86) * 100) : 0
-      },
+      }
       lintingWarnings: {
         current: lintingWarningCount,
         target: 0,
         reduction: Math.max(0, 4506 - lintingWarningCount), // Based on initial 4506 warnings,
         percentage:
           lintingWarningCount >= 0 ? Math.round(((4506 - lintingWarningCount) / 4506) * 100) : 0
-      },
+      }
       buildPerformance: {
         currentTime: buildTime,
         targetTime: 10,
         cacheHitRate: cacheHitRate,
         memoryUsage: memoryUsage
-      },
+      }
       enterpriseSystems: {
         current: enterpriseSystemCount,
         target: 200,
         transformedExports: Math.max(0, enterpriseSystemCount - 0), // Assuming starting from 0
       }
-    },
+    }
 
     // Store metrics in history
     this.metricsHistory.push(metrics)
@@ -372,25 +372,25 @@ export class ProgressTracker {
         target: 0,
         reduction: 86,
         percentage: 100
-      },
+      }
       lintingWarnings: {
         current: 0,
         target: 0,
         reduction: 4506,
         percentage: 100
-      },
+      }
       buildPerformance: {
         currentTime: 8,
         targetTime: 10,
         cacheHitRate: 0.8,
         memoryUsage: 45
-      },
+      }
       enterpriseSystems: {
         current: 200,
         target: 200,
         transformedExports: 200
       }
-    },
+    }
 
     // Calculate overall progress
     const typeScriptProgress = currentMetrics.typeScriptErrors.percentage;
@@ -422,7 +422,7 @@ export class ProgressTracker {
           currentMetrics.typeScriptErrors.current > 0
             ? ['Continue with Enhanced TypeScript Error Fixer v3.0']
             : []
-      },
+      }
       {
         phaseId: 'phase2',
         phaseName: 'Linting Excellence Achievement',
@@ -458,7 +458,7 @@ export class ProgressTracker {
       currentMetrics,
       targetMetrics,
       estimatedCompletion
-    },
+    }
   }
 
   /**
@@ -483,7 +483,7 @@ export class ProgressTracker {
         lintingWarningsReduced: 0,
         buildTimeImproved: 0,
         enterpriseSystemsAdded: 0
-      },
+      }
     }
 
     const first = this.metricsHistory[0];
@@ -508,7 +508,7 @@ export class ProgressTracker {
         report,
         history: this.metricsHistory,
         improvement: this.getMetricsImprovement()
-      },
+      }
 
       fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2))
       // // // _logger.info(`📊 Metrics exported to: ${filePath}`)

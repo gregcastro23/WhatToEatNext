@@ -80,7 +80,7 @@ describe('ScriptIntegrationSystem', () => {
       const options: ScriptExecutionOptions = { maxFiles: 10,,
         autoFix: true,
         dryRun: false
-      },
+      }
 
       await scriptSystemexecuteScript('typescript-enhanced-v3', options)
 
@@ -125,7 +125,7 @@ describe('ScriptIntegrationSystem', () => {
           safetyScore: 0.85,
           recommendedBatchSize: 15,
           lastRunTime: '2025-01-01T00:00:0000Z'
-        },
+        }
       })
       mockExecSync.mockReturnValue(jsonOutput)
 
@@ -165,7 +165,7 @@ describe('ScriptIntegrationSystem', () => {
         safetyMetrics: { totalRuns: 5,
           successfulRuns: 4,
           safetyScore: 0.8
-        },
+        }
       })
       mockFs.existsSync.mockReturnValue(true)
       mockExecSync.mockReturnValue(jsonOutput)
@@ -277,7 +277,7 @@ describe('ScriptIntegrationSystem', () => {
         json: true,
         silent: true,
         resetMetrics: true
-      },
+      }
 
       mockFsexistsSync.mockReturnValue(true)
       mockExecSync.mockReturnValue('test output')

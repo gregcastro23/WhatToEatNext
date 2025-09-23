@@ -40,7 +40,7 @@ describe('Git Safety Management - Task 6.1', () => {
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
       stashRetentionDays: 7
-    },
+    }
 
     // Mock git repository existence
     mockFs.existsSync.mockImplementation((path: string) => {
@@ -240,8 +240,8 @@ describe('Git Safety Management - Task 6.1', () => {
             branch: 'main',
             ref: 'stash@{0}'
           }
-        },
-      },
+        }
+      }
 
       // Mock file existence for this specific test
       mockFs.existsSync.mockImplementation((path: string) => {
@@ -298,7 +298,7 @@ describe('Git Safety Management - Task 6.1', () => {
       const settingsWithoutAutoRollback: any = {
         ...mockSettings,
         automaticRollbackEnabled: false
-      },
+      }
 
       const protocol: any = new SafetyProtocol(settingsWithoutAutoRollback)
       const validation: any = await protocol.validateGitState()

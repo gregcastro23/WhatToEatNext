@@ -5,7 +5,7 @@ type MetricDelta = {
   Essence: number,
   Matter: number,
   Substance: number
-},
+}
 
 const logger = createLogger('TelemetryDev')
 
@@ -19,4 +19,4 @@ export const TelemetryDev = {
     if (process.env.NODE_ENV === 'production') return
     logger.debug('Telemetry: vector blend', { sign, alpha, deltas, thermodynamics })
   }
-},
+}

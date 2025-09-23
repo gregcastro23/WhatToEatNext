@@ -48,7 +48,7 @@ describe('LintingErrorAnalyzer', () => {
               line: 1,
               column: 1,
               fix: { range: [010], text: 'fixed' }
-            },
+            }
             {
               ruleId: '@typescript-eslint/no-explicit-any',
               severity: 1,
@@ -82,14 +82,14 @@ describe('LintingErrorAnalyzer', () => {
               line: 1,
               column: 1,
               fix: { range: [010], text: 'fixed' }
-            },
+            }
             {
               ruleId: '@typescript-eslint/no-explicit-any',
               severity: 1,
               message: 'Unexpected any type',
               line: 5,
               column: 10
-            },
+            }
             {
               ruleId: 'react-hooks/exhaustive-deps',
               severity: 1,
@@ -168,7 +168,7 @@ describe('LintingErrorAnalyzer', () => {
               column: 10
             }
           ]
-        },
+        }
       ])
 
       mockExecSync.mockReturnValue(mockOutput)
@@ -193,7 +193,7 @@ describe('LintingErrorAnalyzer', () => {
               column: 10
             }
           ]
-        },
+        }
       ])
 
       mockExecSync.mockReturnValue(mockOutput)
@@ -218,7 +218,7 @@ describe('LintingErrorAnalyzer', () => {
               column: 10
             }
           ]
-        },
+        }
       ])
 
       mockExecSync.mockReturnValue(mockOutput)
@@ -244,7 +244,7 @@ describe('LintingErrorAnalyzer', () => {
               line: 1,
               column: 1,
               fix: { range: [010], text: 'fixed' }
-            },
+            }
             {
               ruleId: '@typescript-eslint/no-explicit-any',
               severity: 1,
@@ -280,7 +280,7 @@ describe('LintingErrorAnalyzer', () => {
               column: 10
             }
           ]
-        },
+        }
       ])
 
       mockExecSync.mockReturnValue(mockOutput)

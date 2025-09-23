@@ -20,7 +20,7 @@ declare global {
           options?: chrome.tabs.SendMessageOptions,
           callback?: (response: unknown) => void,
         ) => void,
-      },
+      }
       runtime?: {
         lastError?: chrome.runtime.LastError | null,
         getURL?: (path: string) => string
@@ -40,8 +40,8 @@ declare global {
               sendResponse: (response?: unknown) => void,
             ) => boolean | void | Promise<unknown>,
           ) => void
-        },
-      },
+        }
+      }
       storage?: {
         local?: {
           get?: (
@@ -49,36 +49,36 @@ declare global {
             callback: (items: Record<string, unknown>) => void,
           ) => void,
           set?: (items: Record<string, unknown>, callback?: () => void) => void
-        },
+        }
         sync?: {
           get?: (
             keys: string | string[] | Record<string, unknown> | null,
             callback: (items: Record<string, unknown>) => void,
           ) => void,
           set?: (items: Record<string, unknown>, callback?: () => void) => void
-        },
-      },
+        }
+      }
       i18n?: {
         getMessage?: (messageName: string, substitutions?: string | string[]) => string
-      },
+      }
       extension?: {
         getURL?: (path: string) => string
-      },
-    },
+      }
+    }
 
     // Popup.js mock replacement
     popup?: {
       create: (options?: Record<string, unknown>) => {
         show: () => void,
         hide: () => void,
-        update: () => voidon: (event: string, callback: (...args: unknown[]) => void) => { off: () => void },
+        update: () => voidon: (event: string, callback: (...args: unknown[]) => void) => { off: () => void }
         trigger: (event: string) => void
-      },
+      }
       show: () => void,
       hide: () => void,
-      update: () => voidon: (event: string, callback: (...args: unknown[]) => void) => { off: () => void },
+      update: () => voidon: (event: string, callback: (...args: unknown[]) => void) => { off: () => void }
       trigger: (event: string) => void
-    },
+    }
 
     // Tracking flags for our script replacer
     __scriptReplacerInitialized?: boolean,
@@ -122,4 +122,4 @@ declare global {
   }
 }
 
-export {},
+export {}

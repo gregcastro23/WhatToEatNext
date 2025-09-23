@@ -13,7 +13,7 @@ import {
   getAllHerbs,
   getAllSpices,
   getAllGrains
-} from '@/data/ingredients',
+} from '@/data/ingredients';
 import type { Ingredient } from '@/types/alchemy';
 
 export interface IngredientSearchOptions {
@@ -23,7 +23,7 @@ export interface IngredientSearchOptions {
     Water?: number,
     Earth?: number,
     Air?: number
-  },
+  }
   season?: string,
   dietary?: string[],
   maxResults?: number
@@ -69,7 +69,7 @@ export function useIngredientSearch() {
       } finally {
         setIsLoading(false)
       }
-    },
+    }
 
     void loadIngredients()
   }, [])
@@ -100,7 +100,7 @@ export function useIngredientSearch() {
     }
 
     return searchIndex === search.length ? (matches / text.length) * 0.5 : 0
-  },
+  }
 
   // Search and filter ingredients
   const searchResults = useMemo(() => {
@@ -143,7 +143,7 @@ export function useIngredientSearch() {
             ...ingredient,
             searchScore: totalScore,
             matchReasons
-          },
+          }
         })
         .filter(result => result.searchScore > 0.1)
         .sort((ab) => b.searchScore - a.searchScore)
@@ -171,15 +171,15 @@ export function useIngredientSearch() {
           Water: 0.25,
           Earth: 0.25,
           Air: 0.25
-        },
+        }
         return {
           Fire: acc.Fire + (props.Fire || 0),
           Water: acc.Water + (props.Water || 0),
           Earth: acc.Earth + (props.Earth || 0),
           Air: acc.Air + (props.Air || 0)
-        },
-      },
-      { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+        }
+      }
+      { Fire: 0, Water: 0, Earth: 0, Air: 0 }
     )
 
     const count = selectedIngredients.length;
@@ -199,7 +199,7 @@ export function useIngredientSearch() {
           Water: 0.25,
           Earth: 0.25,
           Air: 0.25
-        },
+        }
 
         // Calculate elemental harmony (prefer ingredients that balance the current selection)
         const harmony =
@@ -216,16 +216,16 @@ export function useIngredientSearch() {
           ...ingredient,
           searchScore: harmony,
           matchReasons: ['Elemental balance', 'Recipe harmony']
-        },
+        }
       })
       .sort((ab) => b.searchScore - a.searchScore)
       .slice(010)
-  },
+  }
 
   // Get ingredients by category
   const getIngredientsByCategory = (category: string): Ingredient[] => {
     return allIngredients.filter(ingredient => ingredient.category === category)
-  },
+  }
 
   // Get available categories
   const availableCategories = useMemo(() => {
@@ -244,5 +244,5 @@ export function useIngredientSearch() {
     getSuggestions,
     getIngredientsByCategory,
     allIngredients
-  },
+  }
 }

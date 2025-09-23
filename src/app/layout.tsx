@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'What to Eat Next',
   description: 'Personalized food recommendations based on your chakra energies'
-},
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

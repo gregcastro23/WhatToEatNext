@@ -46,7 +46,7 @@ export class RecipeEngine {
 
   calculateIngredientProportions(recipe: Recipe): ElementalProperties {
     if (!recipe.ingredients.length) {
-      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     }
 
     const total = recipe.ingredients.reduce((sum, ing) => sum + (ing.amount ?? 0), 0)
@@ -97,11 +97,11 @@ export class RecipeEngine {
 
     // Season-element mapping for effectiveness calculation
     const seasonalElements = {
-      spring: { Air: 0.8, Water: 0.6, Fire: 0.4, Earth: 0.3 },
-      summer: { Fire: 0.8, Air: 0.6, Earth: 0.4, Water: 0.3 },
-      autumn: { Earth: 0.8, Water: 0.6, Air: 0.4, Fire: 0.3 },
+      spring: { Air: 0.8, Water: 0.6, Fire: 0.4, Earth: 0.3 }
+      summer: { Fire: 0.8, Air: 0.6, Earth: 0.4, Water: 0.3 }
+      autumn: { Earth: 0.8, Water: 0.6, Air: 0.4, Fire: 0.3 }
       winter: { Water: 0.8, Earth: 0.6, Fire: 0.4, Air: 0.3 }
-    },
+    }
 
     const seasonMultipliers =
       seasonalElements[season.toLowerCase() as keyof typeof seasonalElements] ||

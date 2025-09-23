@@ -21,7 +21,7 @@ import {
   ReplacementStrategy,
   SafetyProtocolError,
   TypeReplacement
-} from './types',
+} from './types';
 
 export class SafeTypeReplacer {
   private strategies: ReplacementStrategy[],
@@ -73,7 +73,7 @@ export class SafeTypeReplacer {
             : [],
         warnings: [],
         recommendations: []
-      },
+      }
     }
 
     if (!safetyValidation.isValid) {
@@ -83,7 +83,7 @@ export class SafeTypeReplacer {
         failedReplacements: [replacement],
         compilationErrors: safetyValidation.validationErrors,
         rollbackPerformed: false
-      },
+      }
     }
 
     const backupPath = await this.createBackup(replacement.filePath)
@@ -109,7 +109,7 @@ export class SafeTypeReplacer {
               compilationErrors: [`Rollback verification failed: ${rollbackVerification.error}`],
               rollbackPerformed: true,
               backupPath
-            },
+            }
           }
 
           return result
@@ -129,7 +129,7 @@ export class SafeTypeReplacer {
             compilationErrors: [error instanceof Error ? error.message : String(error)],
             rollbackPerformed: true,
             backupPath
-          },
+          }
         }
 
         // Wait briefly before retry
@@ -146,7 +146,7 @@ export class SafeTypeReplacer {
       compilationErrors: ['Maximum retries exceeded'],
       rollbackPerformed: true,
       backupPath
-    },
+    }
   }
 
   /**
@@ -203,7 +203,7 @@ export class SafeTypeReplacer {
           failedReplacements: replacements,
           compilationErrors: buildValidation.compilationErrors,
           rollbackPerformed: true
-        },
+        }
       }
 
       // Validate rollback capability
@@ -224,7 +224,7 @@ export class SafeTypeReplacer {
         failedReplacements,
         compilationErrors,
         rollbackPerformed: false
-      },
+      }
     } catch (error) {
       // Emergency rollback
       await this.rollbackAllFiles(backupPaths)
@@ -246,11 +246,11 @@ export class SafeTypeReplacer {
           // Check if we can infer a more specific array type
           const inferredType = this.inferArrayElementType(context)
           return match.replace('any[]', `${inferredType}[]`)
-        },
+        }
         validator: (context: ClassificationContext) =>
           context.codeSnippet.includes('any[]') && !this.isInErrorHandlingContext(context),
         priority: 1
-      },
+      }
 
       // Record type replacement with validation (Record<string, any> → Record<string, unknown>)
       {
@@ -262,13 +262,13 @@ export class SafeTypeReplacer {
             /Record<\s*string\s*,\s*any\s*>/,
             `Record<string, ${inferredValueType}>`,
           )
-        },
+        }
         validator: (context: ClassificationContext) =>
           context.codeSnippet.includes('Record<string, any>') &&
           !this.isInErrorHandlingContext(context) &&
           !this.isDynamicConfigContext(context)
         priority: 2
-      },
+      }
 
       // Generic Record replacement (Record<number, any> → Record<number, unknown>)
       {
@@ -279,12 +279,12 @@ export class SafeTypeReplacer {
             /Record<\s*number\s*,\s*any\s*>/,
             `Record<number, ${inferredValueType}>`,
           )
-        },
+        }
         validator: (context: ClassificationContext) =>
           context.codeSnippet.includes('Record<number, any>') &&
           !this.isInErrorHandlingContext(context)
         priority: 2
-      },
+      }
 
       // Index signature replacement ([key: string]: any → [key: string]: unknown)
       {
@@ -292,12 +292,12 @@ export class SafeTypeReplacer {
         replacement: (match: string, context: ClassificationContext) => {
           const inferredValueType = this.inferIndexSignatureValueType(context)
           return match.replace('any', inferredValueType)
-        },
+        }
         validator: (context: ClassificationContext) =>
           context.codeSnippet.includes('[key: string]: any') &&
           !this.isInErrorHandlingContext(context)
         priority: 3
-      },
+      }
 
       // Function parameter analysis and replacement
       {
@@ -309,13 +309,13 @@ export class SafeTypeReplacer {
             return match.replace('any', inferredType)
           }
           return match.replace('any', 'unknown')
-        },
+        }
         validator: (context: ClassificationContext) =>
           this.isFunctionParameterContext(context) &&
           !this.isInErrorHandlingContext(context) &&
           !this.isEventHandlerContext(context)
         priority: 4
-      },
+      }
 
       // Function parameter in arrow functions
       {
@@ -327,11 +327,11 @@ export class SafeTypeReplacer {
             return match.replace('any', inferredType)
           }
           return match.replace('any', 'unknown')
-        },
+        }
         validator: (context: ClassificationContext) =>
           context.codeSnippet.includes('=>') && !this.isInErrorHandlingContext(context)
         priority: 4
-      },
+      }
 
       // Return type inference and replacement
       {
@@ -339,13 +339,13 @@ export class SafeTypeReplacer {
         replacement: (match: string, context: ClassificationContext) => {
           const inferredReturnType = this.inferReturnType(context)
           return match.replace('any', inferredReturnType)
-        },
+        }
         validator: (context: ClassificationContext) =>
           this.isFunctionReturnTypeContext(context) &&
           !this.isInErrorHandlingContext(context) &&
           !this.isExternalApiContext(context)
         priority: 5
-      },
+      }
 
       // Generic type parameter replacement
       {
@@ -353,11 +353,11 @@ export class SafeTypeReplacer {
         replacement: (match: string, context: ClassificationContext) => {
           const inferredGenericType = this.inferGenericType(context)
           return match.replace('any', inferredGenericType)
-        },
+        }
         validator: (context: ClassificationContext) =>
           context.codeSnippet.includes('<any>') && !this.isInErrorHandlingContext(context)
         priority: 6
-      },
+      }
 
       // Object property type replacement
       {
@@ -369,11 +369,11 @@ export class SafeTypeReplacer {
             return match.replace('any', inferredType)
           }
           return match.replace('any', 'unknown')
-        },
+        }
         validator: (context: ClassificationContext) =>
           this.isObjectPropertyContext(context) && !this.isInErrorHandlingContext(context)
         priority: 7
-      },
+      }
 
       // Simple variable type replacement (fallback)
       {
@@ -382,7 +382,7 @@ export class SafeTypeReplacer {
           // Try to infer from assignment or usage
           const inferredType = this.inferVariableType(context)
           return match.replace('any', inferredType)
-        },
+        }
         validator: (context: ClassificationContext) =>
           !this.isInErrorHandlingContext(context) &&
           !this.isExternalApiContext(context) &&
@@ -484,7 +484,7 @@ export class SafeTypeReplacer {
       errors.push(error instanceof Error ? error.message : String(error))
     }
 
-    return { applied, failed, errors },
+    return { applied, failed, errors }
   }
 
   private async validateTypeScriptCompilation(): Promise<{ success: boolean, errors: string[] }> {
@@ -492,7 +492,7 @@ export class SafeTypeReplacer {
     return {
       success: buildResult.buildSuccessful,
       errors: buildResult.compilationErrors
-    },
+    }
   }
 
   private ensureBackupDirectory(): void {
@@ -525,7 +525,7 @@ export class SafeTypeReplacer {
           ],
           rollbackPerformed: false,
           backupPath
-        },
+        }
       }
 
       // Apply replacement
@@ -543,7 +543,7 @@ export class SafeTypeReplacer {
           ],
           rollbackPerformed: false,
           backupPath
-        },
+        }
       }
 
       // Write modified content
@@ -563,7 +563,7 @@ export class SafeTypeReplacer {
           compilationErrors: compilationResult.errors,
           rollbackPerformed: true,
           backupPath
-        },
+        }
       }
 
       return {
@@ -573,7 +573,7 @@ export class SafeTypeReplacer {
         compilationErrors: [],
         rollbackPerformed: false,
         backupPath
-      },
+      }
     } catch (error) {
       // Don't rollback here - let the calling method handle it
       throw error
@@ -590,7 +590,7 @@ export class SafeTypeReplacer {
     try {
       // Read backup content
       if (!fs.existsSync(backupPath)) {
-        return { success: false, error: 'Backup file does not exist' },
+        return { success: false, error: 'Backup file does not exist' }
       }
 
       const backupContent = fs.readFileSync(backupPath, 'utf8')
@@ -598,15 +598,15 @@ export class SafeTypeReplacer {
       // For testing purposes, we'll just verify the backup exists and is readable
       // In a real scenario, we might do a more comprehensive test
       if (backupContent.length === 0) {,
-        return { success: false, error: 'Backup file is empty' },
+        return { success: false, error: 'Backup file is empty' }
       }
 
-      return { success: true },
+      return { success: true }
     } catch (error) {
       return {
         success: false,
         error: error instanceof Error ? error.message : String(error)
-      },
+      }
     }
   }
 

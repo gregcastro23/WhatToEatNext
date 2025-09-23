@@ -4,7 +4,7 @@ export const _mockLogger = {
   _error: jest.fn(),
   _warn: jest.fn(),
   _debug: jest.fn()
-},
+}
 
 export const _mockElementalCalculator = {
   _getCurrentElementalState: jest.fn(() => ({
@@ -35,4 +35,4 @@ export const _mockElementalCalculator = {
       Air: 0.25
     }
   })
-},
+}

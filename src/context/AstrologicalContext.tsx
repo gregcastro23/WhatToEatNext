@@ -71,7 +71,7 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
         Water: zodiac === 'cancer' || zodiac === 'scorpio' || zodiac === 'pisces' ? 0.7 : 0.2,
         Earth: zodiac === 'taurus' || zodiac === 'virgo' || zodiac === 'capricorn' ? 0.7 : 0.2,
         Air: zodiac === 'gemini' || zodiac === 'libra' || zodiac === 'aquarius' ? 0.7 : 0.2,
-      },
+      }
 
       // Calculate basic alchemical values from elemental properties
       const alchemicalValues = {
@@ -79,7 +79,7 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
         Essence: (elementalProperties.Water + elementalProperties.Fire) * 0.5,
         Matter: (elementalProperties.Earth + elementalProperties.Water) * 0.5,
         Substance: (elementalProperties.Earth + elementalProperties.Air) * 0.5
-      },
+      }
 
       // Get current planetary hour (simple mock based on time)
       const currentHour = new Date().getHours()
@@ -100,9 +100,9 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
         moonSign: zodiac as unknown, // Add moonSign property,
         planetaryHour: planetaryHour, // Add planetary hour
         planetaryPositions: {
-          sun: { sign: zodiac, degree: 15 },
+          sun: { sign: zodiac, degree: 15 }
           moon: { sign: zodiac, degree: 20 }
-        },
+        }
         lunarPhase: 'full moon' as const,
         currentSeason: 'spring',
         elements: elementalProperties,
@@ -146,7 +146,7 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
     loading,
     error,
     updateZodiac
-  },
+  }
 
   return <AstrologicalContext.Provider value={value}>{children}</AstrologicalContext.Provider>
 }

@@ -69,15 +69,15 @@ export function generateCuisineRecommendation(
 
 export function getCuisineElementalProfile(_cuisine: string): ElementalProperties {
   const profiles: Record<string, ElementalProperties> = {
-    Mexican: { Fire: 0.8, Water: 0.3, Earth: 0.5, Air: 0.4 },
-    Italian: { Fire: 0.4, Water: 0.4, Earth: 0.8, Air: 0.4 },
-    Mediterranean: { Fire: 0.3, Water: 0.8, Earth: 0.5, Air: 0.6 },
-    Asian: { Fire: 0.5, Water: 0.6, Earth: 0.4, Air: 0.8 },
-    _Indian: { Fire: 0.9, Water: 0.3, Earth: 0.6, Air: 0.5 },
+    Mexican: { Fire: 0.8, Water: 0.3, Earth: 0.5, Air: 0.4 }
+    Italian: { Fire: 0.4, Water: 0.4, Earth: 0.8, Air: 0.4 }
+    Mediterranean: { Fire: 0.3, Water: 0.8, Earth: 0.5, Air: 0.6 }
+    Asian: { Fire: 0.5, Water: 0.6, Earth: 0.4, Air: 0.8 }
+    _Indian: { Fire: 0.9, Water: 0.3, Earth: 0.6, Air: 0.5 }
     _Thai: { Fire: 0.7, Water: 0.7, Earth: 0.4, Air: 0.6 }
-  },
+  }
 
-  return profiles[cuisine] || { Fire: 0.5, Water: 0.5, Earth: 0.5, Air: 0.5 },
+  return profiles[cuisine] || { Fire: 0.5, Water: 0.5, Earth: 0.5, Air: 0.5 }
 }
 
 export function getMatchScoreClass(score: number): string {
@@ -98,25 +98,25 @@ export function renderScoreBadge(score: number): string {
 export function calculateElementalProfileFromZodiac(_zodiacSign: string): ElementalProperties {
   const zodiacProfiles: Record<string, ElementalProperties> = {
     // Fire signs
-    _aries: { Fire: 0.8, Water: 0.2, Earth: 0.3, Air: 0.4 },
-    _leo: { Fire: 0.9, Water: 0.3, Earth: 0.2, Air: 0.5 },
-    _sagittarius: { Fire: 0.7, Water: 0.4, Earth: 0.3, Air: 0.6 },
+    _aries: { Fire: 0.8, Water: 0.2, Earth: 0.3, Air: 0.4 }
+    _leo: { Fire: 0.9, Water: 0.3, Earth: 0.2, Air: 0.5 }
+    _sagittarius: { Fire: 0.7, Water: 0.4, Earth: 0.3, Air: 0.6 }
 
     // Earth signs
-    _taurus: { Fire: 0.3, Water: 0.4, Earth: 0.8, Air: 0.2 },
-    _virgo: { Fire: 0.2, Water: 0.5, Earth: 0.9, Air: 0.3 },
-    _capricorn: { Fire: 0.4, Water: 0.3, Earth: 0.8, Air: 0.2 },
+    _taurus: { Fire: 0.3, Water: 0.4, Earth: 0.8, Air: 0.2 }
+    _virgo: { Fire: 0.2, Water: 0.5, Earth: 0.9, Air: 0.3 }
+    _capricorn: { Fire: 0.4, Water: 0.3, Earth: 0.8, Air: 0.2 }
 
     // Air signs
-    _gemini: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.8 },
-    _libra: { Fire: 0.3, Water: 0.5, Earth: 0.3, Air: 0.7 },
-    _aquarius: { Fire: 0.5, Water: 0.2, Earth: 0.3, Air: 0.9 },
+    _gemini: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.8 }
+    _libra: { Fire: 0.3, Water: 0.5, Earth: 0.3, Air: 0.7 }
+    _aquarius: { Fire: 0.5, Water: 0.2, Earth: 0.3, Air: 0.9 }
 
     // Water signs
-    _cancer: { Fire: 0.2, Water: 0.8, Earth: 0.4, Air: 0.3 },
-    _scorpio: { Fire: 0.6, Water: 0.9, Earth: 0.3, Air: 0.2 },
+    _cancer: { Fire: 0.2, Water: 0.8, Earth: 0.4, Air: 0.3 }
+    _scorpio: { Fire: 0.6, Water: 0.9, Earth: 0.3, Air: 0.2 }
     _pisces: { Fire: 0.3, Water: 0.8, Earth: 0.2, Air: 0.4 }
-  },
+  }
 
   return (
     zodiacProfiles[zodiacSign.toLowerCase()] || { Fire: 0.5, Water: 0.5, Earth: 0.5, Air: 0.5 }
@@ -126,18 +126,18 @@ export function calculateElementalProfileFromZodiac(_zodiacSign: string): Elemen
 export function calculateElementalContributionsFromPlanets(
   planetaryPositions: Record<string, unknown>,
 ): ElementalProperties {
-  const contributions: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+  const contributions: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
 
   // Basic planetary element contributions
   const planetaryElements: Record<string, ElementalProperties> = {
-    _sun: { Fire: 1.0, Water: 0, Earth: 0, Air: 0 },
-    _moon: { Fire: 0, Water: 1.0, Earth: 0, Air: 0 },
-    _mercury: { Fire: 0, Water: 0, Earth: 0, Air: 1.0 },
-    _venus: { Fire: 0, Water: 0.7, Earth: 0.3, Air: 0 },
-    _mars: { Fire: 1.0, Water: 0, Earth: 0, Air: 0 },
-    _jupiter: { Fire: 0.5, Water: 0, Earth: 0, Air: 0.5 },
+    _sun: { Fire: 1.0, Water: 0, Earth: 0, Air: 0 }
+    _moon: { Fire: 0, Water: 1.0, Earth: 0, Air: 0 }
+    _mercury: { Fire: 0, Water: 0, Earth: 0, Air: 1.0 }
+    _venus: { Fire: 0, Water: 0.7, Earth: 0.3, Air: 0 }
+    _mars: { Fire: 1.0, Water: 0, Earth: 0, Air: 0 }
+    _jupiter: { Fire: 0.5, Water: 0, Earth: 0, Air: 0.5 }
     _saturn: { Fire: 0, Water: 0, Earth: 1.0, Air: 0 }
-  },
+  }
 
   Object.entries(planetaryPositions).forEach(([planet, position]) => {
     const planetElements = planetaryElements[planet.toLowerCase()];

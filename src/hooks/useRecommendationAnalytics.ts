@@ -12,7 +12,7 @@ import {
   RecommendationMetrics,
   RecommendationConfidence,
   AnalyticsSnapshot
-} from '@/services/RecommendationAnalyticsService',
+} from '@/services/RecommendationAnalyticsService';
 import { logger } from '@/utils/logger';
 
 // ========== INTERFACES ==========,
@@ -30,12 +30,12 @@ export interface RecommendationAnalyticsState {
     hitRate: number,
     totalEntries: number,
     memoryUsage: number
-  },
+  }
   performanceTrends: {
     averageLoadTime: number,
     averageCacheHitRate: number,
     performanceScore: number
-  },
+  }
   isLoading: boolean,
   error: string | null
 }
@@ -72,12 +72,12 @@ export function useRecommendationAnalytics(
       hitRate: 0,
       totalEntries: 0,
       memoryUsage: 0
-    },
+    }
     performanceTrends: {
       averageLoadTime: 0,
       averageCacheHitRate: 0,
       performanceScore: 0
-    },
+    }
     isLoading: false,
     error: null
   })
@@ -105,7 +105,7 @@ export function useRecommendationAnalytics(
         clearInterval(metricsIntervalRef.current)
       }
       mountedRef.current = false;
-    },
+    }
   }, [enablePerformanceTracking, metricsUpdateInterval])
 
   // ========== HELPER FUNCTIONS ==========,
@@ -126,12 +126,12 @@ export function useRecommendationAnalytics(
             hitRate: cacheStats.recommendation.hitRate,
             totalEntries: cacheStats.recommendation.totalEntries,
             memoryUsage: cacheStats.recommendation.memoryUsage
-          },
+          }
           performanceTrends: {
             averageLoadTime: performanceTrends.averageLoadTime,
             averageCacheHitRate: performanceTrends.averageCacheHitRate,
             performanceScore: performanceTrends.performanceScore
-          },
+          }
           isLoading: false
         }))
       }
@@ -156,7 +156,7 @@ export function useRecommendationAnalytics(
       }
 
       return recommendationAnalytics.startTiming(operation)
-    },
+    }
     [enablePerformanceTracking],
   )
 
@@ -165,7 +165,7 @@ export function useRecommendationAnalytics(
       if (enablePerformanceTracking) {
         recommendationAnalytics.recordApiResponseTime(duration)
       }
-    },
+    }
     [enablePerformanceTracking],
   )
 
@@ -174,7 +174,7 @@ export function useRecommendationAnalytics(
       if (enablePerformanceTracking) {
         recommendationAnalytics.recordLoadTime(duration)
       }
-    },
+    }
     [enablePerformanceTracking],
   )
 
@@ -185,7 +185,7 @@ export function useRecommendationAnalytics(
       }
 
       return recommendationAnalytics.getCachedRecommendation<T>(key)
-    },
+    }
     [enableCaching],
   )
 
@@ -194,7 +194,7 @@ export function useRecommendationAnalytics(
       if (enableCaching) {
         recommendationAnalytics.cacheRecommendation(key, data, confidenceScore)
       }
-    },
+    }
     [enableCaching],
   )
 
@@ -211,7 +211,7 @@ export function useRecommendationAnalytics(
           metadata
         })
       }
-    },
+    }
     [enableInteractionTracking],
   )
 
@@ -236,7 +236,7 @@ export function useRecommendationAnalytics(
     trackInteraction,
     getAnalyticsSnapshot,
     clearAnalytics
-  },
+  }
 
   return [state, actions],
 }
@@ -260,7 +260,7 @@ export function usePerformanceTracking(_componentName: string) {
   const trackOperation = useCallback(
     (operationName: string) => {
       return startTiming(`${componentName}_${operationName}`)
-    },
+    }
     [componentName, startTiming],
   )
 
@@ -268,7 +268,7 @@ export function usePerformanceTracking(_componentName: string) {
     trackRender,
     trackOperation,
     recordLoadTime
-  },
+  }
 }
 
 /**
@@ -284,21 +284,21 @@ export function useRecommendationCache<T>() {
   const getCached = useCallback(
     (key: string): T | null => {
       return getCachedRecommendation<T>(key)
-    },
+    }
     [getCachedRecommendation],
   )
 
   const setCached = useCallback(
     (key: string, data: T, confidenceScore?: number) => {
       cacheRecommendation(key, data, confidenceScore)
-    },
+    }
     [cacheRecommendation],
   )
 
   return {
     getCached,
     setCached
-  },
+  }
 }
 
 /**
@@ -314,35 +314,35 @@ export function useInteractionTracking() {
   const trackClick = useCallback(
     (target: string, metadata?: Record<string, unknown>) => {
       trackInteraction('select', target, metadata)
-    },
+    }
     [trackInteraction],
   )
 
   const trackView = useCallback(
     (target: string, metadata?: Record<string, unknown>) => {
       trackInteraction('view', target, metadata)
-    },
+    }
     [trackInteraction],
   )
 
   const trackExpand = useCallback(
     (target: string, metadata?: Record<string, unknown>) => {
       trackInteraction('expand', target, metadata)
-    },
+    }
     [trackInteraction],
   )
 
   const trackSearch = useCallback(
     (query: string, metadata?: Record<string, unknown>) => {
       trackInteraction('search', query, metadata)
-    },
+    }
     [trackInteraction],
   )
 
   const trackFilter = useCallback(
     (filterType: string, metadata?: Record<string, unknown>) => {
       trackInteraction('filter', filterType, metadata)
-    },
+    }
     [trackInteraction],
   )
 
@@ -352,5 +352,5 @@ export function useInteractionTracking() {
     trackExpand,
     trackSearch,
     trackFilter
-  },
+  }
 }

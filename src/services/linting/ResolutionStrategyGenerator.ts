@@ -143,14 +143,14 @@ export class ResolutionStrategyGenerator {
     const strategies = contexts.map(context => this.generateStrategy(context))
     const optimizedPlan = this.optimizeResolutionPlan(strategies)
 
-    return { strategies, optimizedPlan },
+    return { strategies, optimizedPlan }
   }
 
   /**
    * Get base strategy template for a rule
    */
   private getBaseStrategy(ruleId: string): Partial<ResolutionStrategy> {
-    return this.strategyTemplates.get(ruleId) || this.strategyTemplates.get('default') || {},
+    return this.strategyTemplates.get(ruleId) || this.strategyTemplates.get('default') || {}
   }
 
   /**
@@ -161,7 +161,7 @@ export class ResolutionStrategyGenerator {
     domainContext: DomainContext,
     fileAnalysis: FileAnalysis,
   ): Partial<ResolutionStrategy> {
-    const enhanced = { ...baseStrategy },
+    const enhanced = { ...baseStrategy }
 
     // Get domain-specific enhancements
     const domainStrategy = this.domainSpecificStrategies.get(domainContext.type)
@@ -209,7 +209,7 @@ export class ResolutionStrategyGenerator {
     strategy: Partial<ResolutionStrategy>,
     projectContext: ProjectContext,
   ): Partial<ResolutionStrategy> {
-    const adjusted = { ...strategy },
+    const adjusted = { ...strategy }
 
     // Adjust based on risk tolerance
     if (projectContext.riskTolerance === 'conservative') {
@@ -282,7 +282,7 @@ export class ResolutionStrategyGenerator {
       riskAssessment:
         strategy.riskAssessment || this.assessStrategyRisk(errorClassification, domainContext),
       alternatives: strategy.alternatives || this.generateAlternatives(errorClassification)
-    },
+    }
   }
 
   /**
@@ -380,7 +380,7 @@ export class ResolutionStrategyGenerator {
         action: 'execute-command',
         details: {
           command: `npx eslint --fix --rule ${errorClassification.ruleId}`
-        },
+        }
         automatable: true,
         estimatedTime: 1,
         dependencies: []
@@ -396,7 +396,7 @@ export class ResolutionStrategyGenerator {
             'Implement appropriate fix',
             'Ensure fix aligns with project standards'
           ]
-        },
+        }
         automatable: false,
         estimatedTime: 10,
         dependencies: []
@@ -410,7 +410,7 @@ export class ResolutionStrategyGenerator {
       action: 'validate-build',
       details: {
         validationChecks: ['Build passes', 'Tests pass', 'Linting passes']
-      },
+      }
       automatable: true,
       estimatedTime: 2,
       dependencies: [steps[0].id]
@@ -506,7 +506,7 @@ export class ResolutionStrategyGenerator {
       performanceImpactProbability,
       mitigationStrategies,
       rollbackPlan: 'Git revert to previous commit if issues detected'
-    },
+    }
   }
 
   /**
@@ -577,7 +577,7 @@ export class ResolutionStrategyGenerator {
       parallelizableWork: parallelizable.length,
       riskDistribution: this.calculateRiskDistribution(strategies),
       recommendations: this.generatePlanRecommendations(strategies, grouped)
-    },
+    }
   }
 
   /**
@@ -590,7 +590,7 @@ export class ResolutionStrategyGenerator {
       critical: [],
       lowRisk: [],
       domainSpecific: []
-    },
+    }
 
     for (const strategy of strategies) {
       if (strategy.type === 'automated') grouped.automated.push(strategy)
@@ -609,8 +609,8 @@ export class ResolutionStrategyGenerator {
   private determineExecutionOrder(strategies: ResolutionStrategy[]): string[] {
     // Sort by priority first, then by risk level, then by estimated time
     const sorted = [...strategies].sort((ab) => {
-      const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 },
-      const riskOrder = { low: 0, medium: 1, high: 2, critical: 3 },
+      const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 }
+      const riskOrder = { low: 0, medium: 1, high: 2, critical: 3 }
 
       if (a.priority !== b.priority) {
         return priorityOrder[a.priority] - priorityOrder[b.priority]
@@ -630,7 +630,7 @@ export class ResolutionStrategyGenerator {
    * Calculate risk distribution
    */
   private calculateRiskDistribution(strategies: ResolutionStrategy[]): Record<string, number> {
-    const distribution = { low: 0, medium: 0, high: 0, critical: 0 },
+    const distribution = { low: 0, medium: 0, high: 0, critical: 0 }
 
     for (const strategy of strategies) {
       distribution[strategy.riskAssessment.overall]++
@@ -687,7 +687,7 @@ export class ResolutionStrategyGenerator {
           id: 'auto-fix-imports';
           description: 'Automatically reorder imports';
           action: 'execute-command',
-          details: { command: 'npx eslint --fix --rule import/order' },
+          details: { command: 'npx eslint --fix --rule import/order' }
           automatable: true,
           estimatedTime: 1,
           dependencies: []
@@ -713,16 +713,16 @@ export class ResolutionStrategyGenerator {
               'Identify proper type definition',
               'Consider union types or generics'
             ]
-          },
+          }
           automatable: false,
           estimatedTime: 10,
           dependencies: []
-        },
+        }
         {
           id: 'implement-proper-typing',
           description: 'Replace any with proper types',
           action: 'modify-file',
-          details: { changes: 'Replace any with specific type definitions' },
+          details: { changes: 'Replace any with specific type definitions' }
           automatable: false,
           estimatedTime: 5,
           dependencies: ['analyze-any-usage']
@@ -751,7 +751,7 @@ export class ResolutionStrategyGenerator {
           type: 'knowledge',
           description: 'Understanding of astronomical calculations',
           required: true
-        },
+        }
         {
           type: 'access',
           description: 'Access to astronomical validation data',
@@ -764,7 +764,7 @@ export class ResolutionStrategyGenerator {
           description: 'Astrological domain expert review',
           automated: false,
           criticalPath: true
-        },
+        }
         {
           type: 'manual-review',
           description: 'Validate against known astronomical data',

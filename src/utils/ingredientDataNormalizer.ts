@@ -87,7 +87,7 @@ export function formatVitaminName(name: string): string {
     _cobalamin: 'Cobalamin (B12)',
     _biotin: 'Biotin',
     _pantothenic_acid: 'Pantothenic Acid'
-  },
+  }
 
   return vitaminMap[vitaminName] || `Vitamin ${name.toUpperCase()}`,
 }
@@ -115,7 +115,7 @@ export function formatMineralName(name: string): string {
     _iodine: 'Iodine',
     _chromium: 'Chromium',
     _molybdenum: 'Molybdenum'
-  },
+  }
 
   return mineralMap[mineralName] || name.charAt(0).toUpperCase() + name.slice(1)
 }
@@ -157,9 +157,9 @@ function formatAntioxidantName(name: string): string {
 export function normalizeCulinaryApplications(
   applications: Record<string, unknown>,
 ): Record<string, unknown> {
-  if (!applications || typeof applications !== 'object') return {},
+  if (!applications || typeof applications !== 'object') return {}
 
-  const normalized: Record<string, unknown> = {},
+  const normalized: Record<string, unknown> = {}
 
   Object.entries(applications).forEach(([method, data]) => {
     normalized[formatCulinaryMethod(method)] = normalizeCulinaryMethod(data )
@@ -188,7 +188,7 @@ function normalizeCulinaryMethod(_data: Record<string, _unknown>): {
   dishes: unknown[],
   tips: unknown[]
 } {
-  if (!data) return {},
+  if (!data) return {}
 
   return {
     notes: Array.isArray(data.notes) ? data.notes : data.notes ? [data.notes] : [],
@@ -199,16 +199,16 @@ function normalizeCulinaryMethod(_data: Record<string, _unknown>): {
         : [],
     dishes: Array.isArray(data.dishes) ? data.dishes : data.dishes ? [data.dishes] : [],
     tips: Array.isArray(data.tips) ? data.tips : data.tips ? [data.tips] : []
-  },
+  }
 }
 
 /**
  * Normalize varieties data
  */
 export function normalizeVarieties(varieties: Record<string, _unknown>): Record<string, unknown> {
-  if (!varieties || typeof varieties !== 'object') return {},
+  if (!varieties || typeof varieties !== 'object') return {}
 
-  const normalized: Record<string, unknown> = {},
+  const normalized: Record<string, unknown> = {}
 
   Object.entries(varieties).forEach(([variety, data]) => {
     normalized[formatVarietyName(variety)] = normalizeVarietyData(data )
@@ -241,7 +241,7 @@ function normalizeVarietyData(_data: Record<string, _unknown>): {
   storage: unknown,
   ripening: unknown
 } {
-  if (!data || typeof data !== 'object') return {},
+  if (!data || typeof data !== 'object') return {}
 
   return {
     appearance: data.appearance || '',
@@ -258,17 +258,17 @@ function normalizeVarietyData(_data: Record<string, _unknown>): {
     origin: data.origin || '',
     storage: data.storage || '',
     ripening: data.ripening || ''
-  },
+  }
 }
 
 /**
  * Normalize storage information
  */
 export function normalizeStorage(storage: Record<string, _unknown>): Record<string, unknown> {
-  if (!storage) return {},
+  if (!storage) return {}
 
   if (typeof storage === 'string') {,
-    return { notes: storage },
+    return { notes: storage }
   }
 
   return {
@@ -277,10 +277,10 @@ export function normalizeStorage(storage: Record<string, _unknown>): Record<stri
     humidity: storage.humidity || '',
     container: storage.container || '',
     notes: storage.notes || '',
-    fresh: storage.fresh || {},
-    frozen: storage.frozen || {},
+    fresh: storage.fresh || {}
+    frozen: storage.frozen || {}
     dried: storage.dried || {}
-  },
+  }
 }
 
 /**
@@ -289,10 +289,10 @@ export function normalizeStorage(storage: Record<string, _unknown>): Record<stri
 export function normalizePreparation(
   preparation: Record<string, unknown>,
 ): Record<string, unknown> {
-  if (!preparation) return {},
+  if (!preparation) return {}
 
   if (typeof preparation === 'string') {,
-    return { notes: preparation },
+    return { notes: preparation }
   }
 
   return {
@@ -306,7 +306,7 @@ export function normalizePreparation(
         ? [preparation.tips]
         : [],
     notes: preparation.notes || ''
-  },
+  }
 }
 
 /**
@@ -321,7 +321,7 @@ export function normalizeIngredientData(
   const nutritionalProfile =
     typeof ingredient.nutritionalProfile === 'object' && ingredient.nutritionalProfile !== null,
       ? (ingredient.nutritionalProfile as unknown )
-      : {},
+      : {}
 
   const normalized = {
     ...ingredient,
@@ -332,36 +332,36 @@ export function normalizeIngredientData(
               typeof nutritionalProfile.vitamins === 'object' ||
                 Array.isArray(nutritionalProfile.vitamins)
                 ? (nutritionalProfile.vitamins as unknown)
-                : {},
+                : {}
             ),
             minerals: normalizeMinerals(
               typeof nutritionalProfile.minerals === 'object' ||
                 Array.isArray(nutritionalProfile.minerals)
                 ? (nutritionalProfile.minerals as unknown)
-                : {},
+                : {}
             ),
             antioxidants: normalizeAntioxidants(
               typeof nutritionalProfile.antioxidants === 'object' ||
                 Array.isArray(nutritionalProfile.antioxidants)
                 ? (nutritionalProfile.antioxidants as unknown)
-                : {},
+                : {}
             )
           }
         : undefined,
     culinaryApplications: typeof ingredient.culinaryApplications === 'object' &&
       ingredient.culinaryApplications !== null
         ? normalizeCulinaryApplications(ingredient.culinaryApplications as unknown)
-        : {},
+        : {}
     varieties: typeof ingredient.varieties === 'object' && ingredient.varieties !== null
         ? normalizeVarieties(ingredient.varieties as unknown)
-        : {},
+        : {}
     storage: typeof ingredient.storage === 'object' && ingredient.storage !== null
         ? normalizeStorage(ingredient.storage as unknown)
-        : {},
+        : {}
     preparation: typeof ingredient.preparation === 'object' && ingredient.preparation !== null
         ? normalizePreparation(ingredient.preparation as unknown)
         : {}
-  },
+  }
 
   return normalized,
 }
@@ -417,4 +417,4 @@ export default {
   hasRichNutritionalData,
   formatVitaminName,
   formatMineralName
-},
+}

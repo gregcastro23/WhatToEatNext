@@ -65,18 +65,18 @@ export interface QualityReport {
     improvement: number,
     keyAchievements: string[],
     majorIssues: string[]
-  },
+  }
   metrics: {
     codeQuality: number,
     performance: number,
     maintainability: number,
     technicalDebt: number
-  },
+  }
   trends: {
     errorReduction: number,
     performanceImprovement: number,
     debtReduction: number
-  },
+  }
   insights: QualityInsight[],
   predictions: QualityPrediction[],
   recommendations: string[]
@@ -127,7 +127,7 @@ class QualityMetricsService {
         predictions: this.predictions.slice(-20),
         goals: this.goals,
         reports: this.reports.slice(-12), // Keep last 12 reports
-      },
+      }
 
       fs.writeFileSync(dataPath, JSON.stringify(data, null, 2))
     } catch (error) {
@@ -145,7 +145,7 @@ class QualityMetricsService {
         this.updateGoalProgress()
         this.saveHistoricalData()
         this.notifySubscribers()
-      },
+      }
       15 * 60 * 1000,
     )
 
@@ -153,7 +153,7 @@ class QualityMetricsService {
     setInterval(
       () => {
         this.generateWeeklyReport()
-      },
+      }
       7 * 24 * 60 * 60 * 1000,
     )
   }
@@ -177,7 +177,7 @@ class QualityMetricsService {
               targetValue: 500,
               targetDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
               completed: false
-            },
+            }
             {
               id: 'ts-milestone-2',
               name: 'Reduce to under 100 errors',
@@ -186,7 +186,7 @@ class QualityMetricsService {
               completed: false
             }
           ]
-        },
+        }
         {
           id: 'code-quality-score',
           name: 'Achieve 90% Code Quality Score',
@@ -203,7 +203,7 @@ class QualityMetricsService {
               targetValue: 70,
               targetDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
               completed: false
-            },
+            }
             {
               id: 'quality-milestone-2',
               name: 'Achieve 80% quality score',
@@ -212,7 +212,7 @@ class QualityMetricsService {
               completed: false
             }
           ]
-        },
+        }
         {
           id: 'build-performance',
           name: 'Sub-30s Build Times',
@@ -665,22 +665,22 @@ class QualityMetricsService {
         improvement: this.calculateWeeklyImprovement(),
         keyAchievements: this.getKeyAchievements(),
         majorIssues: this.getMajorIssues()
-      },
+      }
       metrics: {
         codeQuality: qualityMetrics?.codeQualityScore || 0,
         performance: buildSummary.performanceScore,
         maintainability: qualityMetrics?.maintainabilityIndex || 0,
         technicalDebt: qualityMetrics?.technicalDebtScore || 0
-      },
+      }
       trends: {
         errorReduction: this.calculateErrorReductionTrend(),
         performanceImprovement: this.calculatePerformanceImprovementTrend(),
         debtReduction: this.calculateDebtReductionTrend()
-      },
+      }
       insights: this.insights.slice(-10),
       predictions: this.predictions,
       recommendations: this.generateWeeklyRecommendations()
-    },
+    }
 
     this.reports.push(report)
   }
@@ -695,7 +695,7 @@ class QualityMetricsService {
       performance: 0.25,
       maintainability: 0.25,
       technicalDebt: 0.2
-    },
+    }
 
     const scores: {
       codeQuality: number,
@@ -710,13 +710,13 @@ class QualityMetricsService {
         0,
         100 - ((qualityMetrics as Record<string, number>)?.technicalDebtScore || 0),
       )
-    },
+    }
 
     return (Object.entries(weights) as Array<[keyof typeof weights, number]>).reduce(
       (total, [key, weight]) => {
         const value = (scores as Record<string, number>)[key ] || 0,
         return total + value * weight
-      },
+      }
       0,
     )
   }
@@ -858,7 +858,7 @@ class QualityMetricsService {
         goalsOnTrack: this.goals.filter(g => g.onTrack).length,,
         totalGoals: this.goals.length
       }
-    },
+    }
 
     this.subscribers.forEach(callback => {
       try {
@@ -912,7 +912,7 @@ class QualityMetricsService {
       id,
       progress: 0,
       onTrack: true
-    },
+    }
 
     this.goals.push(newGoal)
     this.saveHistoricalData()
@@ -924,7 +924,7 @@ class QualityMetricsService {
     const goalIndex = this.goals.findIndex(g => g.id === id)
     if (goalIndex === -1) return false
 
-    this.goals[goalIndex] = { ...this.goals[goalIndex], ...updates },
+    this.goals[goalIndex] = { ...this.goals[goalIndex], ...updates }
     this.saveHistoricalData()
 
     return true,
@@ -946,9 +946,9 @@ class QualityMetricsService {
     return (
       this.reports.slice(-1)[0] || {
         period: `${startDate.toISOString().split('T')[0]} to ${endDate.toISOString().split('T')[0]}`,
-        summary: { overallScore: 0, improvement: 0, keyAchievements: [], majorIssues: [] },
-        metrics: { codeQuality: 0, performance: 0, maintainability: 0, technicalDebt: 0 },
-        trends: { errorReduction: 0, performanceImprovement: 0, debtReduction: 0 },
+        summary: { overallScore: 0, improvement: 0, keyAchievements: [], majorIssues: [] }
+        metrics: { codeQuality: 0, performance: 0, maintainability: 0, technicalDebt: 0 }
+        trends: { errorReduction: 0, performanceImprovement: 0, debtReduction: 0 }
         insights: [],
         predictions: [],
         recommendations: []

@@ -5,7 +5,7 @@ import type { ElementalProperties } from '@/types/celestial';
 
 export interface RuneAgentInput {
   datetime?: Date,
-  location?: { latitude: number, longitude: number },
+  location?: { latitude: number, longitude: number }
   context?: 'cuisine' | 'recipe' | 'ingredient' | 'cooking_method',
   preferences?: {
     dietaryRestrictions?: string[],
@@ -20,9 +20,9 @@ export interface RuneResult {
   meaning: string,
   influence: {
     elemental: ElementalProperties,
-    energy: { Spirit: number, Essence: number, Matter: number, Substance: number },
+    energy: { Spirit: number, Essence: number, Matter: number, Substance: number }
     guidance: string
-  },
+  }
   imageUrl?: string
 }
 
@@ -47,7 +47,7 @@ export interface RuneAgentResult {
   rune: RuneResult,
   agent: AgentRecommendation,
   consciousness: {
-    mcValues: { [key: string]: number },
+    mcValues: { [key: string]: number }
     transitEffects: string[],
     momentumIndicators: {
       creativity: number,
@@ -61,10 +61,10 @@ export interface RuneAgentResult {
 function generateLocalRune(): RuneResult {
   // Simplified local fallback - would use more sophisticated logic
   const runes = [
-    { symbol: '᚛', name: 'Fehu', meaning: 'Wealth, abundance, nourishment' },
-    { symbol: '᚜', name: 'Uruz', meaning: 'Strength, vitality, primal energy' },
-    { symbol: '᚝', name: 'Thurisaz', meaning: 'Transformation, protection, power' },
-    { symbol: '᚞', name: 'Ansuz', meaning: 'Communication, wisdom, divine breath' },
+    { symbol: '᚛', name: 'Fehu', meaning: 'Wealth, abundance, nourishment' }
+    { symbol: '᚜', name: 'Uruz', meaning: 'Strength, vitality, primal energy' }
+    { symbol: '᚝', name: 'Thurisaz', meaning: 'Transformation, protection, power' }
+    { symbol: '᚞', name: 'Ansuz', meaning: 'Communication, wisdom, divine breath' }
     { symbol: '᚟', name: 'Raidho', meaning: 'Journey, movement, rhythm' }
   ],
 
@@ -75,11 +75,11 @@ function generateLocalRune(): RuneResult {
     name: selected.name,
     meaning: selected.meaning,
     influence: {
-      elemental: { Fire: 0.3, Water: 0.2, Earth: 0.25, Air: 0.25 },
-      energy: { Spirit: 0.5, Essence: 0.4, Matter: 0.3, Substance: 0.6 },
+      elemental: { Fire: 0.3, Water: 0.2, Earth: 0.25, Air: 0.25 }
+      energy: { Spirit: 0.5, Essence: 0.4, Matter: 0.3, Substance: 0.6 }
       guidance: `The ${selected.name} rune suggests focusing on ${selected.meaning.toLowerCase()}`
     }
-  },
+  }
 }
 
 function generateLocalAgent(context: string = 'cuisine'): AgentRecommendation {
@@ -89,26 +89,26 @@ function generateLocalAgent(context: string = 'cuisine'): AgentRecommendation {
       archetype: 'Wise Cook',
       guidance: 'Balance flavors with elemental harmony',
       specialties: ['fusion', 'seasonal cooking', 'elemental balance']
-    },
+    }
     recipe: {
       name: 'Recipe Alchemist',
       archetype: 'Transformative Chef',
       guidance: 'Transform simple ingredients into magical dishes',
       specialties: ['ingredient transformation', 'flavor alchemy', 'nutritional optimization']
-    },
+    }
     ingredient: {
       name: 'Ingredient Oracle',
       archetype: 'Nature\'s Voice',
       guidance: 'Choose ingredients that resonate with your current energy',
       specialties: ['seasonal selection', 'energetic properties', 'healing foods']
-    },
+    }
     cooking_method: {
       name: 'Method Master',
       archetype: 'Technique Guardian',
       guidance: 'The right technique unlocks hidden potential',
       specialties: ['thermal dynamics', 'texture mastery', 'timing precision']
     }
-  },
+  }
 
   const agent = agents[context as keyof typeof agents] || agents.cuisine;
 
@@ -118,7 +118,7 @@ function generateLocalAgent(context: string = 'cuisine'): AgentRecommendation {
       { name: 'Sample Recommendation', score: 0.8, reasoning: 'Aligned with current energies', elementalAlignment: 0.75, runeResonance: 0.7 }
     ],
     agentPersonality: agent
-  },
+  }
 }
 
 /**
@@ -144,7 +144,7 @@ export class RuneAgentClient {
           location: input.location,
           context: input.context,
           preferences: input.preferences
-        },
+        }
 
         const result = await alchmAPI.getRuneGuidance(request)
         logger.debug('RuneAgentClient', 'Backend rune generation successful', result)
@@ -169,11 +169,11 @@ export class RuneAgentClient {
           location: input.location,
           context: input.context || 'cuisine',
           preferences: input.preferences
-        },
+        }
 
         const res = await fetch(url.toString(), {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json' }
           body: JSON.stringify(payload)
         })
         if (!res.ok) throw new Error(`Backend error ${res.status}`)
@@ -205,7 +205,7 @@ export class RuneAgentClient {
         stability: 1 - alchemicalState.thermodynamicProperties.reactivity,
         transformation: alchemicalState.thermodynamicProperties.heat,
         harmony: alchemicalState.score
-      },
+      }
       transitEffects: ['Current planetary alignment supports culinary exploration'],
       momentumIndicators: {
         creativity: alchemicalState.thermodynamicProperties.entropy,
@@ -213,9 +213,9 @@ export class RuneAgentClient {
         transformation: alchemicalState.thermodynamicProperties.heat,
         harmony: alchemicalState.score
       }
-    },
+    }
 
-    return { rune, agent, consciousness },
+    return { rune, agent, consciousness }
   }
 }
 

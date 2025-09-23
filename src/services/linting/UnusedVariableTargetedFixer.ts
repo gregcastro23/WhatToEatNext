@@ -50,7 +50,7 @@ export class UnusedVariableTargetedFixer {
       variablesFixed: 0,
       errors: [],
       warnings: []
-    },
+    }
 
     try {
       // Get files with unused function parameters
@@ -97,7 +97,7 @@ export class UnusedVariableTargetedFixer {
       variablesFixed: 0,
       errors: [],
       warnings: []
-    },
+    }
 
     try {
       const lintOutput = execSync('yarn lint --format=compact 2>&1', {
@@ -143,7 +143,7 @@ export class UnusedVariableTargetedFixer {
       variablesFixed: 0,
       errors: [],
       warnings: []
-    },
+    }
 
     try {
       // Use ESLint's auto-fix for unused imports
@@ -256,7 +256,7 @@ export class UnusedVariableTargetedFixer {
         if (!acc[item.file]) acc[item.file] = [],
         acc[item.file].push(item),
         return acc
-      },
+      }
       {} as Record<stringT[]>,
     )
   }

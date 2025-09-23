@@ -16,7 +16,7 @@ import type {
   Season,
   LunarPhase,
   AlchemicalResult
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 import type { CookingMethod } from '@/types/cooking';
 
 // Re-export for convenience
@@ -31,7 +31,7 @@ export type {
   LunarPhase,
   AlchemicalResult,
   CookingMethod
-},
+}
 
 // Ingredient types - Unified interface consolidating all ingredient definitions
 export interface Ingredient {
@@ -57,7 +57,7 @@ export interface Ingredient {
         temperature?: string,
         humidity?: string,
         light?: string
-      },
+      }
 
   // Preparation and usage
   preparationMethods?: string[],
@@ -77,7 +77,7 @@ export interface Ingredient {
     bitter?: number,
     salty?: number
     umami?: number
-  },
+  }
 
   // Astrological properties
   zodiacInfluences?: any[],
@@ -164,7 +164,7 @@ export interface SearchFilters {
   _cookingTime: {
     min: number,
     max: number
-  },
+  }
   cuisineTypes: string[],
   _mealTypes: string[],
   _spiciness: string[],
@@ -391,10 +391,10 @@ export interface SearchCriteria {
 // SearchFilters interface moved above - keeping unified structure
 
 export interface NutritionalRange {
-  calories?: { min?: number max?: number },
-  protein?: { min?: number max?: number },
-  carbs?: { min?: number max?: number },
-  fat?: { min?: number max?: number },
+  calories?: { min?: number max?: number }
+  protein?: { min?: number max?: number }
+  carbs?: { min?: number max?: number }
+  fat?: { min?: number max?: number }
 }
 
 export interface SortingOptions {
@@ -403,7 +403,7 @@ export interface SortingOptions {
   secondary?: {
     field: string,
     direction: 'asc' | 'desc'
-  },
+  }
 }
 
 export interface PaginationOptions {
@@ -437,7 +437,7 @@ export interface FacetCount {
 // Utility types
 export type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P]
-},
+}
 
 export type RequiredFields<TK extends keyof T> = T & Required<Pick<TK>>,
 
@@ -461,7 +461,7 @@ export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties  = {
   _Water: 0.25,
   _Earth: 0.25,
   _Air: 0.25
-},
+}
 
 export const DEFAULT_NUTRITIONAL_DATA: NutritionalData  = {
   calories: 0,
@@ -469,23 +469,23 @@ export const DEFAULT_NUTRITIONAL_DATA: NutritionalData  = {
   carbohydrates: 0,
   fat: 0,
   fiber: 0,
-  vitamins: {},
-  minerals: {},
+  vitamins: {}
+  minerals: {}
   servingSize: '1',
   servingUnit: 'serving'
-},
+}
 
 export const DEFAULT_TIME_RANGE: TimeRange  = {
   min: 0,
   max: 60,
   unit: 'minutes'
-},
+}
 
 export const DEFAULT_TEMPERATURE_RANGE: TemperatureRange  = {
   min: 20,
   max: 200,
   unit: 'celsius'
-},
+}
 
 // Type guards
 export const isIngredient = (value: unknown): value is Ingredient => {;
@@ -496,7 +496,7 @@ export const isIngredient = (value: unknown): value is Ingredient => {;
     'name' in value &&
     'elementalProperties' in value
   )
-},
+}
 
 export const isRecipe = (value: unknown): value is Recipe => {;
   return (
@@ -507,7 +507,7 @@ export const isRecipe = (value: unknown): value is Recipe => {;
     'ingredients' in value &&
     'instructions' in value
   )
-},
+}
 
 export const isCookingMethodExtended = (value: unknown): value is CookingMethodExtended => {;
   return (
@@ -517,7 +517,7 @@ export const isCookingMethodExtended = (value: unknown): value is CookingMethodE
     'name' in value &&
     'elementalEffect' in value
   )
-},
+}
 
 export default {
   DEFAULT_ELEMENTAL_PROPERTIES,
@@ -527,4 +527,4 @@ export default {
   isIngredient,
   isRecipe,
   isCookingMethodExtended
-},
+}

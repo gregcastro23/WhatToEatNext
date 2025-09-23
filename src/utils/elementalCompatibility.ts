@@ -9,7 +9,7 @@ export interface ElementalCompatibility {
   dominantPair: {
     recipe: keyof ElementalProperties,
     user: keyof ElementalProperties
-  },
+  }
   complementaryScore: number; // 0-1 score for how well elements complement each other,
   balanceScore: number; // 0-1 score for overall balance,
   recommendation: string // Text recommendation
@@ -20,7 +20,7 @@ export interface ElementalCompatibility {
  */
 export async function calculateElementalCompatibility(
   recipeElemental: ElementalProperties,
-  userElemental: ElementalProperties = { Fire: 0.25, _Water: 0.25, _Earth: 0.25, _Air: 0.25 },
+  userElemental: ElementalProperties = { Fire: 0.25, _Water: 0.25, _Earth: 0.25, _Air: 0.25 }
 ): Promise<ElementalCompatibility> {
   // Ensure properties are standardized
   const recipe = recipeElementalService.standardizeRecipe({ elementalProperties: recipeElemental })
@@ -50,11 +50,11 @@ export async function calculateElementalCompatibility(
     dominantPair: {
       recipe: recipeDominant,
       user: userDominant
-    },
+    }
     complementaryScore,
     balanceScore,
     recommendation: generateRecommendation(compatibility, recipeDominant, userDominant)
-  },
+  }
 }
 
 /**

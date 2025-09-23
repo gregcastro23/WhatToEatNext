@@ -4,7 +4,7 @@ import {
   StandardizedAlchemicalResult,
   PlanetaryPosition,
   ElementalProperties
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 
 import { getPlanetaryElement } from '../constants/planetaryElements';
 import { RulingPlanet } from '../constants/planets';
@@ -15,7 +15,7 @@ import {
   calculateEntropy,
   calculateReactivity,
   calculateGregsEnergy
-} from './gregsEnergy',
+} from './gregsEnergy';
 
 /**
  * Calculate elemental balance based on properties
@@ -33,7 +33,7 @@ export const _calculateBalance = (properties: Record<string, number>): number =>
     }, 0) / total,
 
   return score; // Ensure this returns a value < 0.5 for balanced properties
-},
+}
 
 /**
  * Get recommended adjustments to balance elemental properties
@@ -52,7 +52,7 @@ export const _getRecommendedAdjustments = (properties: Record<string, number>): 
   }
 
   return adjustments,
-},
+}
 
 /**
  * Represents planetary dignity types
@@ -88,7 +88,7 @@ export const dignityStrengthModifiers: Record<DignityType, number> = {
   neutral: 1.0, // no modification,
   detriment: 0.7, // -30% strength,
   fall: 0.5, // -50% strength
-},
+}
 
 /**
  * Interface representing the results of alchemical calculations
@@ -106,7 +106,7 @@ export interface AlchemicalResults {
     Cardinal: number,
     Fixed: number,
     Mutable: number
-  },
+  }
   dominantModality?: string
 }
 
@@ -162,13 +162,13 @@ const elementToAlchemicalProperty = (element: ElementalCharacter): keyof Alchemi
     default:
       return 'Spirit' // Fallback
   }
-},
+}
 
 // Replace _logger.info with commented code for production
 const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out _logger.info to avoid linting warnings
   // log.info(message, ...args)
-},
+}
 
 /**
  * Calculate all alchemical properties based on planetary positions and day/night status
@@ -195,14 +195,14 @@ export const _calculateAlchemicalProperties = (
     Water: 0,
     Earth: 0,
     Air: 0
-  },
+  }
 
   const alchemicalCounts: Record<keyof AlchemicalProperties, number> = {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
     Substance: 0
-  },
+  }
 
   // Make sure we have a valid planets object
   if (
@@ -218,23 +218,23 @@ export const _calculateAlchemicalProperties = (
       entropy: 0.5,
       reactivity: 0.5,
       gregsEnergy: 0.5,
-      planetaryDignities: {},
+      planetaryDignities: {}
       aspectEffects: {}
-    },
+    }
   }
 
   // Track planetary dignities
-  const planetaryDignities: Record<string, PlanetaryDignity> = {},
+  const planetaryDignities: Record<string, PlanetaryDignity> = {}
 
   // Track aspect effects
-  const aspectEffects: Record<string, number> = {},
+  const aspectEffects: Record<string, number> = {}
 
   // Create the element and property maps with day/night effects
   const elementMap = planetElementMap(isDaytime)
   const propertyMap = planetPropertyMap(isDaytime)
 
   // Track planets by sign for stellium detection
-  const planetsBySign: Record<string, string[]> = {},
+  const planetsBySign: Record<string, string[]> = {}
 
   // Process each planet
   Object.entries(planetPositions).forEach(([planet, position]) => {
@@ -494,22 +494,22 @@ export const _calculateAlchemicalProperties = (
     gregsEnergy,
     planetaryDignities,
     aspectEffects
-  },
-},
+  }
+}
 
 // Define decan ranges
 const getDecan = (degree: number): number => {
   if (degree < 10) return 1,
   if (degree < 20) return 2,
   return 3
-},
+}
 
 // Get decan name for display and calculation
 const getDecanString = (decan: number): string => {
   if (decan === 1) return '1st Decan',
   if (decan === 2) return '2nd Decan'
   return '3rd Decan'
-},
+}
 
 // Complete decan rulers for all signs based on your original engine
 const decanRulers: Record<string, Record<string, string[]>> = {
@@ -517,63 +517,63 @@ const decanRulers: Record<string, Record<string, string[]>> = {
     '1st Decan': ['Mars'],
     '2nd Decan': ['Sun'],
     '3rd Decan': ['Venus']
-  },
+  }
   taurus: {
     '1st Decan': ['Mercury'],
     '2nd Decan': ['Moon'],
     '3rd Decan': ['Saturn']
-  },
+  }
   gemini: {
     '1st Decan': ['Jupiter'],
     '2nd Decan': ['Mars'],
     '3rd Decan': ['Uranus', 'Sun']
-  },
+  }
   cancer: {
     '1st Decan': ['Venus'],
     '2nd Decan': ['Mercury', 'Pluto'],
     '3rd Decan': ['Neptune', 'Moon']
-  },
+  }
   leo: {
     '1st Decan': ['Saturn'],
     '2nd Decan': ['Jupiter'],
     '3rd Decan': ['Mars']
-  },
+  }
   virgo: {
     '1st Decan': ['Mars', 'Sun'],
     '2nd Decan': ['Venus'],
     '3rd Decan': ['Mercury']
-  },
+  }
   libra: {
     '1st Decan': ['Moon'],
     '2nd Decan': ['Saturn', 'Uranus'],
     '3rd Decan': ['Jupiter']
-  },
+  }
   scorpio: {
     '1st Decan': ['Pluto'],
     '2nd Decan': ['Neptune', 'Sun'],
     '3rd Decan': ['Venus']
-  },
+  }
   sagittarius: {
     '1st Decan': ['Mercury'],
     '2nd Decan': ['Moon'],
     '3rd Decan': ['Saturn']
-  },
+  }
   capricorn: {
     '1st Decan': ['Jupiter'],
     '2nd Decan': [],
     '3rd Decan': ['Sun']
-  },
+  }
   aquarius: {
     '1st Decan': ['Uranus'],
     '2nd Decan': ['Mercury'],
     '3rd Decan': ['Moon']
-  },
+  }
   pisces: {
     '1st Decan': ['Saturn', 'Neptune', 'Venus'],
     '2nd Decan': ['Jupiter'],
     '3rd Decan': ['pisces', 'Mars']
   }
-},
+}
 
 // Complete degree effects for all signs
 const degreeEffects: Record<string, Record<string, number[]>> = {
@@ -583,77 +583,77 @@ const degreeEffects: Record<string, Record<string, number[]>> = {
     mars: [2226],
     jupiter: [16],
     saturn: [2730]
-  },
+  }
   taurus: {
     mercury: [915],
     venus: [18],
     mars: [2730],
     jupiter: [1622],
     saturn: [2326]
-  },
+  }
   gemini: {
     mercury: [17],
     venus: [1520],
     mars: [2630],
     jupiter: [814],
     saturn: [2225]
-  },
+  }
   cancer: {
     mercury: [1420],
     venus: [2127],
     mars: [16],
     jupiter: [713],
     saturn: [2830]
-  },
+  }
   leo: {
     mercury: [713],
     venus: [1419],
     mars: [2630],
     jupiter: [2025],
     saturn: [16]
-  },
+  }
   virgo: {
     mercury: [17],
     venus: [813],
     mars: [2530],
     jupiter: [1418],
     saturn: [1924]
-  },
+  }
   libra: {
     mercury: [2024],
     venus: [711],
     mars: [], // Empty array indicates no special degrees
     jupiter: [1219],
     saturn: [16]
-  },
+  }
   scorpio: {
     mercury: [2227],
     venus: [1521],
     mars: [16],
     jupiter: [714],
     saturn: [2830]
-  },
+  }
   sagittarius: {
     mercury: [1520],
     venus: [914],
     mars: [], // Empty array indicates no special degrees
     jupiter: [18],
     saturn: [2125]
-  },
+  }
   capricorn: {
     mercury: [712],
     venus: [16],
     mars: [], // Empty array indicates no special degrees
     jupiter: [1319],
     saturn: [2630]
-  },
+  }
   aquarius: {
     mercury: [], // Empty array indicates no special degrees
     venus: [1320],
     mars: [2630],
     jupiter: [2125],
     saturn: [16]
-  },
+  }
   pisces: {
     mercury: [1520],
     venus: [18],
@@ -661,7 +661,7 @@ const degreeEffects: Record<string, Record<string, number[]>> = {
     jupiter: [914],
     saturn: [2730]
   }
-},
+}
 
 // Helper function to get sign element safely typed
 const getElementFromSign = (sign: string): ElementalCharacter => {
@@ -679,7 +679,7 @@ const getElementFromSign = (sign: string): ElementalCharacter => {
 
   // Default fallback
   return 'Fire'
-},
+}
 
 // Calculate decan effects based on planet and decan
 const calculateDecanEffects = (
@@ -704,7 +704,7 @@ const calculateDecanEffects = (
     elementalCounts[signElement] += 0.5
     debugLog(`${planet} rules the ${decanString} of ${sign} - adding bonus to ${signElement}`)
   }
-},
+}
 
 // Calculate degree-specific effects
 const calculateDegreeEffects = (
@@ -760,7 +760,7 @@ const calculateDegreeEffects = (
     // If planet doesn't match RulingPlanet type, ignore this part
     debugLog(`Could not get planetary element for ${planet} using getPlanetaryElement`)
   }
-},
+}
 
 // Calculate all aspect effects
 const calculateAspectEffects = (
@@ -835,7 +835,7 @@ const calculateAspectEffects = (
       }
     }
   }
-},
+}
 
 // Helper function to get sign index (0-11)
 const getSignIndex = (sign: string): number => {
@@ -854,7 +854,7 @@ const getSignIndex = (sign: string): number => {
     'pisces'
   ],
   return signs.indexOf(sign.toLowerCase())
-},
+}
 
 // Helper function to determine aspect type
 const getAspectType = (angle: number): string | null => {
@@ -872,7 +872,7 @@ const getAspectType = (angle: number): string | null => {
 
   // No recognized aspect
   return null
-},
+}
 
 // Alchemical Calculations Module
 
@@ -897,7 +897,7 @@ export function alchemize(
     earth: 0,
     air: 0,
     water: 0
-  },
+  }
 
   // Process each planet's contribution
   for (const [planet, position] of Object.entries(planetaryPositions)) {
@@ -924,7 +924,7 @@ export function alchemize(
         Essence: alchemyProps.Essence + (planetData.RetrogradeEffect.Essence || 0),
         Matter: alchemyProps.Matter + (planetData.RetrogradeEffect.Matter || 0),
         Substance: alchemyProps.Substance + (planetData.RetrogradeEffect.Substance || 0)
-      },
+      }
     }
 
     // Add the planet's alchemical properties
@@ -1059,7 +1059,7 @@ export function alchemize(
     Earth: _elementalBalance.earth,
     Air: _elementalBalance.air,
     Water: _elementalBalance.water
-  },
+  }
 
   return {
     elementalProperties: totalEffectValue,
@@ -1068,7 +1068,7 @@ export function alchemize(
       entropy: essence / (spirit + essence + matter + substance) || 0.25,
       reactivity: matter / (spirit + essence + matter + substance) || 0.25,
       gregsEnergy: substance / (spirit + essence + matter + substance) || 0.25
-    },
+    }
     kalchm: (spirit + essence) / (matter + substance) || 1.0,
     monica: Math.sqrt(spirit * essence * matter * substance) || 0.5,
     score: (spirit + essence + matter + substance) / 4 || 0.5,
@@ -1083,7 +1083,7 @@ export function alchemize(
       dominantElement,
       recommendation
     }
-  },
+  }
 }
 
 /**
@@ -1144,7 +1144,7 @@ function calculatePlanetaryDignity(planet: string, sign: string): PlanetaryDigni
     capricorn: ['saturn'],
     aquarius: ['saturn', 'uranus'],
     pisces: ['jupiter', 'neptune']
-  },
+  }
 
   // Define exaltation relationships
   const exaltations: Record<string, string> = {
@@ -1156,7 +1156,7 @@ function calculatePlanetaryDignity(planet: string, sign: string): PlanetaryDigni
     scorpio: 'uranus',
     capricorn: 'mars',
     pisces: 'venus'
-  },
+  }
 
   // Define detriments (opposite of rulership)
   const detriments: Record<string, string[]> = {
@@ -1172,7 +1172,7 @@ function calculatePlanetaryDignity(planet: string, sign: string): PlanetaryDigni
     capricorn: ['moon'],
     aquarius: ['sun'],
     pisces: ['mercury']
-  },
+  }
 
   // Define falls (opposite of exaltation)
   const falls: Record<string, string> = {
@@ -1184,7 +1184,7 @@ function calculatePlanetaryDignity(planet: string, sign: string): PlanetaryDigni
     scorpio: 'moon',
     capricorn: 'jupiter',
     pisces: 'mercury'
-  },
+  }
 
   // Check rulership (strongest dignity)
   if (rulerships[signLower].includes(planetLower)) {
@@ -1192,7 +1192,7 @@ function calculatePlanetaryDignity(planet: string, sign: string): PlanetaryDigni
       type: 'rulership',
       value: dignityStrengthModifiers.rulership,
       description: `${planet} rules ${sign}`
-    },
+    }
   }
 
   // Check exaltation (second strongest dignity)
@@ -1201,7 +1201,7 @@ function calculatePlanetaryDignity(planet: string, sign: string): PlanetaryDigni
       type: 'exaltation',
       value: dignityStrengthModifiers.exaltation,
       description: `${planet} is exalted in ${sign}`
-    },
+    }
   }
 
   // Check detriment (weakness)
@@ -1210,7 +1210,7 @@ function calculatePlanetaryDignity(planet: string, sign: string): PlanetaryDigni
       type: 'detriment',
       value: dignityStrengthModifiers.detriment,
       description: `${planet} is in detriment in ${sign}`
-    },
+    }
   }
 
   // Check fall (severe weakness)
@@ -1219,7 +1219,7 @@ function calculatePlanetaryDignity(planet: string, sign: string): PlanetaryDigni
       type: 'fall',
       value: dignityStrengthModifiers.fall,
       description: `${planet} is in fall in ${sign}`
-    },
+    }
   }
 
   // No specific dignity
@@ -1227,7 +1227,7 @@ function calculatePlanetaryDignity(planet: string, sign: string): PlanetaryDigni
     type: 'neutral',
     value: dignityStrengthModifiers.neutral,
     description: `${planet} has neutral dignity in ${sign}`
-  },
+  }
 }
 
-export default { alchemize },
+export default { alchemize }

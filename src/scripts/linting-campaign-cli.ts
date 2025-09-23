@@ -23,7 +23,7 @@ const commands = {
   'monitor-trends': monitorTrends,
   'create-cicd-report': createCICDReport,
   help: showHelp
-},
+}
 
 /**
  * Main CLI entry point
@@ -430,4 +430,4 @@ if (require.main === module) {,
   })
 }
 
-export { commands, main },
+export { commands, main };

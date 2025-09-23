@@ -14,14 +14,14 @@ export interface PlanetaryPositions {
     degree: number,
     exactLongitude?: number
     isRetrograde: boolean
-  },
+  }
 
   southNode?: {
     sign: string,
     degree: number,
     exactLongitude?: number
     isRetrograde: boolean
-  },
+  }
 }
 
 import { ElementalCharacter } from '../constants/planetaryElements';
@@ -32,7 +32,7 @@ import {
   LunarPhaseType,
   ElementalPropertiesType,
   AstrologicalStateType
-} from './alchemy',
+} from './alchemy';
 
 // ========== PHASE 1: ASTROLOGICAL TYPE ALIASES ==========,
 
@@ -72,7 +72,7 @@ export type PlanetaryPositionDetails = {
   isRetrograde?: boolean,
   element?: string,
   dignity?: string
-},
+}
 
 /**
  * Astrological Aspect Types
@@ -98,7 +98,7 @@ export type PlanetaryAspectDetails = {
   orb: number,
   influence: 'harmonious' | 'challenging' | 'neutral',
   strength: number
-},
+}
 
 /**
  * Birth Chart Data
@@ -110,7 +110,7 @@ export type BirthChartData = {
   ascendant: string,
   lunarPhase: string,
   aspects: PlanetaryAspectDetails[]
-},
+}
 
 /**
  * Astrological Profile Type
@@ -122,7 +122,7 @@ export type AstrologicalProfileType = {
   planetary?: PlanetaryPositionDetails[],
   aspects?: PlanetaryAspectDetails[],
   elementalInfluence?: ElementalPropertiesType
-},
+}
 
 // ========== EXISTING TYPES (Updated to use new aliases) ==========
 
@@ -202,4 +202,4 @@ export type AstrologyLunarPhase =
   | 'waning_crescent',
 
 // Re-export types for convenience
-export type { ZodiacSign, LunarPhase, Planet, PlanetName } from '@/types/alchemy',
+export type { ZodiacSign, LunarPhase, Planet, PlanetName } from '@/types/alchemy';

@@ -6,7 +6,7 @@ import type {
   ZodiacSign,
   Recipe,
   BasicThermodynamicProperties
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 import type { Planet } from '@/types/celestial';
 import type { UnifiedIngredient } from '@/types/ingredient';
 import { getCurrentSeason } from '@/types/seasons';
@@ -55,7 +55,7 @@ export class AlchemicalRecommendationService {
   ): Promise<AlchemicalRecommendation> {
     // Calculate thermodynamic properties using the engine
     const _thermodynamics = this.engine.alchemize(
-      planetaryPositions as { [planet: string]: string },
+      planetaryPositions as { [planet: string]: string }
     )
 
     // Convert thermodynamic properties to elemental properties
@@ -95,7 +95,7 @@ export class AlchemicalRecommendationService {
       recommendedCookingMethods: compatibleMethods || [],
       recommendations,
       warnings
-    },
+    }
   }
 
   /**
@@ -111,7 +111,7 @@ export class AlchemicalRecommendationService {
     const { _scoreRecommendation} = await import('./UnifiedScoringService')
 
     const scoredIngredients = await Promise.all(;
-      ingredients.map(async ingredient => {,
+      ingredients.map(async ingredient => {
         try {
           const context = {
             dateTime: new Date(),
@@ -121,10 +121,10 @@ export class AlchemicalRecommendationService {
   elementalProperties: ingredient.elementalProperties,
   seasonality: ingredient.season || [],
   planetaryRulers: (ingredient.astrologicalProfile?.rulingPlanets || []) as Planet[],
-  flavorProfile: ingredient.culinaryProfile?.flavorProfile || {},
+  flavorProfile: ingredient.culinaryProfile?.flavorProfile || {}
               culturalOrigins: ingredient.origin || []
             }
-          },
+          }
 
           const result = await scoreRecommendation(context)
           return {
@@ -132,7 +132,7 @@ export class AlchemicalRecommendationService {
             score: result.score,
   confidence: result.confidence,
             dominantEffects: result.metadata.dominantEffects
-          },
+          }
         } catch (error) {
           // Fallback to basic elemental compatibility
           return {
@@ -143,7 +143,7 @@ export class AlchemicalRecommendationService {
             ),
             confidence: 0.5,
   dominantEffects: ['fallback']
-          },
+          }
         }
       }),
     )
@@ -173,7 +173,7 @@ export class AlchemicalRecommendationService {
   Water: 0.25,
             Earth: 0.25,
   Air: 0.25
-          },
+          }
         )
       }))
       .filter(({ score }) => score > 0.7)
@@ -255,7 +255,7 @@ export class AlchemicalRecommendationService {
       )
     }
     // Use a type with optional kalchm property
-    type WithKalchm = ThermodynamicProperties & { kalchm?: number },
+    type WithKalchm = ThermodynamicProperties & { kalchm?: number }
     const t = thermodynamics as WithKalchm;
     if (typeof t.kalchm === 'number' && t.kalchm < 0.5) {,
       warnings.push(
@@ -322,7 +322,7 @@ export class AlchemicalRecommendationService {
    * Derive elemental properties from thermodynamic properties
    */
   private deriveElementalProperties(thermodynamics: ThermodynamicProperties): ElementalProperties {
-    type WithMonicaKalchm = ThermodynamicProperties & { monica?: number, kalchm?: number },
+    type WithMonicaKalchm = ThermodynamicProperties & { monica?: number, kalchm?: number }
     const t = thermodynamics as WithMonicaKalchm;
     // Simplified mapping from thermodynamics to elemental properties
     const Fire =
@@ -334,7 +334,7 @@ export class AlchemicalRecommendationService {
       ((thermodynamics as any)?.reactivity || 0) * 0.2,
     // Normalize to ensure values sum to 1
     const total = Fire + Water + Earth + Air;
-    return { Fire: Fire / total, Water: Water / total, Earth: Earth / total, Air: Air / total },
+    return { Fire: Fire / total, Water: Water / total, Earth: Earth / total, Air: Air / total }
   }
 
   /**
@@ -350,7 +350,7 @@ export class AlchemicalRecommendationService {
   } {
     // Calculate thermodynamic properties using the engine
     const _thermodynamics = this.engine.alchemize(
-      planetaryPositions as { [planet: string]: string },
+      planetaryPositions as { [planet: string]: string }
     )
 
     // Convert thermodynamic properties to elemental properties
@@ -362,7 +362,7 @@ export class AlchemicalRecommendationService {
   Water: 0.25,
       Earth: 0.25,
   Air: 0.25
-    },
+    }
 
     // Calculate compatibility
     const compatibility = this.engine.calculateElementalCompatibility(
@@ -430,7 +430,7 @@ export class AlchemicalRecommendationService {
       compatibility,
       suggestions,
       adjustments
-    },
+    }
   }
 }
 

@@ -22,6 +22,6 @@ export const _PLANETARY_MODIFIERS: Record<RulingPlanet, number> = {
   Neptune: 0.25,
   Pluto: 0.2,
   Moon: 0.35
-},
+}
 
 export type RulingPlanet = (typeof RULING_PLANETS)[number],

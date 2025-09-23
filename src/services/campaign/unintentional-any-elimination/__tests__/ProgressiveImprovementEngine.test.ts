@@ -29,7 +29,7 @@ describe('ProgressiveImprovementEngine', () => {
       enableDocumentation: true,
       safetyLevel: 'MODERATE',
       validationFrequency: 5
-    },
+    }
 
     // Reset mocks
     jest.clearAllMocks()
@@ -154,7 +154,7 @@ describe('ProgressiveImprovementEngine', () => {
         rollbacksPerformed: 0,
         executionTime: 1000,
         safetyScore: 06 // Low safety score,
-      },
+      }
 
       // Add multiple low-success batches to history
       for (let i: any = 0i < 5i++) {
@@ -184,7 +184,7 @@ describe('ProgressiveImprovementEngine', () => {
         rollbacksPerformed: 0,
         executionTime: 2000,
         safetyScore: 0.95,
-      },
+      }
 
       (engine as any)?.(batchHistory as any).push(successfulBatch)
 
@@ -216,7 +216,7 @@ describe('ProgressiveImprovementEngine', () => {
         rollbacksPerformed: 1,
         executionTime: 1500,
         safetyScore: 0.5 // Low safety score,
-      },
+      }
 
       for (let i: any = 0i < 3i++) {
         (engine as any)?.(batchHistory as any).push({ ...lowSafetyBatch, batchNumber: i + 1 })
@@ -245,7 +245,7 @@ describe('ProgressiveImprovementEngine', () => {
         rollbacksPerformed: 0,
         executionTime: 1000,
         safetyScore: 0.95,
-      },
+      }
 
       for (let i: any = 0i < 3i++) {
         (engine as any)?.(batchHistory as any).push({ ...highPerformanceBatch, batchNumber: i + 1 })
@@ -481,7 +481,7 @@ describe('ProgressiveImprovementEngine', () => {
         rollbacksPerformed: 0,
         executionTime: 1000,
         safetyScore: 08,
-      },
+      }
 
       for (let i: any = 0i < 5i++) {
         (engine as any)?.(batchHistory as any).push({ ...stagnantBatch, batchNumber: i + 1 })
@@ -519,7 +519,7 @@ describe('ProgressiveImprovementEngine', () => {
         rollbacksPerformed: 0,
         executionTime: 2000,
         safetyScore: 0.9,
-      },
+      }
 
       (engine as any)?.(batchHistory as any).push(progressBatch)
 

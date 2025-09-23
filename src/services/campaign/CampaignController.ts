@@ -16,7 +16,7 @@ import {
   SafetyEventType,
   SafetyEventSeverity,
   MetricsImprovement
-} from '../../types/campaign',
+} from '../../types/campaign';
 
 export class CampaignController {
   private config: CampaignConfig,
@@ -82,7 +82,7 @@ export class CampaignController {
         warningsFixed,
         executionTime,
         safetyEvents: [...this.safetyEvents]
-      },
+      }
 
       this.addSafetyEvent({
         type: SafetyEventType.CHECKPOINT_CREATED,
@@ -112,13 +112,13 @@ export class CampaignController {
           lintingWarningsReduced: 0,
           buildTimeImproved: 0,
           enterpriseSystemsAdded: 0
-        },
+        }
         filesProcessed: 0,
         errorsFixed: 0,
         warningsFixed: 0,
         executionTime,
         safetyEvents: [...this.safetyEvents]
-      },
+      }
     }
   }
 
@@ -180,13 +180,13 @@ export class CampaignController {
         errors,
         warnings,
         metrics: currentMetrics
-      },
+      }
     } catch (error) {
       return {
         success: false,
         errors: [`Validation error: ${(error as Error).message}`],
         warnings: []
-      },
+      }
     }
   }
 
@@ -249,7 +249,7 @@ export class CampaignController {
       achievements: this.generateAchievements(phase, currentMetrics),
       issues: validation.errors,
       recommendations: this.generateRecommendations(phase, validation)
-    },
+    }
   }
 
   /**
@@ -266,16 +266,16 @@ export class CampaignController {
           tools: [
             {
               scriptPath: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
-              parameters: { maxFiles: 15, autoFix: true, validateSafety: true },
+              parameters: { maxFiles: 15, autoFix: true, validateSafety: true }
               batchSize: 15,
               safetyLevel: 'MAXIMUM' as unknown
             }
           ],
           successCriteria: {
             typeScriptErrors: 0
-          },
+          }
           safetyCheckpoints: []
-        },
+        }
         {
           id: 'phase2',
           name: 'Linting Excellence Achievement',
@@ -283,14 +283,14 @@ export class CampaignController {
           tools: [
             {
               scriptPath: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
-              parameters: { maxFiles: 25, autoFix: true },
+              parameters: { maxFiles: 25, autoFix: true }
               batchSize: 25,
               safetyLevel: 'HIGH' as unknown
             }
           ],
           successCriteria: {
             lintingWarnings: 0
-          },
+          }
           safetyCheckpoints: []
         }
       ],
@@ -301,20 +301,20 @@ export class CampaignController {
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
         stashRetentionDays: 7
-      },
+      }
       progressTargets: {
         typeScriptErrors: 0,
         lintingWarnings: 0,
         buildTime: 10,
         enterpriseSystems: 200
-      },
+      }
       toolConfiguration: {
         enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
-    },
+    }
 
     // If configPath is provided, load from file
     // For now, return default configuration
@@ -330,7 +330,7 @@ export class CampaignController {
       filesProcessed: [],
       changesApplied: 0,
       success: true
-    },
+    }
   }
 
   private async validatePhaseProgress(phase: CampaignPhase): Promise<ValidationResult> {
@@ -339,7 +339,7 @@ export class CampaignController {
       success: true,
       errors: [],
       warnings: []
-    },
+    }
   }
 
   private async getCurrentMetrics(): Promise<ProgressMetrics> {
@@ -351,25 +351,25 @@ export class CampaignController {
         target: 0,
         reduction: 0,
         percentage: 0
-      },
+      }
       lintingWarnings: {
         current: 4506,
         target: 0,
         reduction: 0,
         percentage: 0
-      },
+      }
       buildPerformance: {
         currentTime: 8.5,
         targetTime: 10,
         cacheHitRate: 0.8,
         memoryUsage: 45
-      },
+      }
       enterpriseSystems: {
         current: 0,
         target: 200,
         transformedExports: 0
       }
-    },
+    }
   }
 
   private calculateMetricsImprovement(
@@ -381,7 +381,7 @@ export class CampaignController {
       lintingWarningsReduced: initial.lintingWarnings.current - final.lintingWarnings.current,
       buildTimeImproved: initial.buildPerformance.currentTime - final.buildPerformance.currentTime,
       enterpriseSystemsAdded: final.enterpriseSystems.current - initial.enterpriseSystems.current
-    },
+    }
   }
 
   private generateAchievements(phase: CampaignPhase, metrics: ProgressMetrics): string[] {

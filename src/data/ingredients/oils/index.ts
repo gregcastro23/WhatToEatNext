@@ -3,7 +3,7 @@ import { _, fixIngredientMappings } from '@/utils/elementalUtils';
 
 import { oils } from './oils';
 
-export { oils },
+export { oils };
 
 // Process oils to add enhanced properties
 export const processedOils: Record<string, IngredientMapping> = fixIngredientMappings(oils)

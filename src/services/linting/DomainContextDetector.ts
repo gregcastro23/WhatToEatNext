@@ -108,7 +108,7 @@ export class DomainContextDetector {
       domainContext,
       riskFactors,
       preservationRequirements
-    },
+    }
   }
 
   /**
@@ -161,7 +161,7 @@ export class DomainContextDetector {
       }
     }
 
-    return { rulesToDisable, rulesToModify, additionalValidation },
+    return { rulesToDisable, rulesToModify, additionalValidation }
   }
 
   /**
@@ -228,7 +228,7 @@ export class DomainContextDetector {
       indicators,
       specialRules,
       handlingRecommendations
-    },
+    }
   }
 
   /**
@@ -254,16 +254,16 @@ export class DomainContextDetector {
 
     // Astrological content patterns
     const astrologicalPatterns = [
-      { pattern: /planetary|planet|astro|zodiac|sign|degree|longitude/i, weight: 0.3 },
-      { pattern: /mercury|venus|mars|jupiter|saturn|uranus|neptune|pluto/i, weight: 0.4 },
+      { pattern: /planetary|planet|astro|zodiac|sign|degree|longitude/i, weight: 0.3 }
+      { pattern: /mercury|venus|mars|jupiter|saturn|uranus|neptune|pluto/i, weight: 0.4 }
       {
         pattern:
           /aries|taurus|gemini|cancer|leo|virgo|libra|scorpio|sagittarius|capricorn|aquarius|pisces/i,
         weight: 0.4
-      },
-      { pattern: /elemental|fire|water|earth|air|element/i, weight: 0.3 },
-      { pattern: /transit|retrograde|conjunction|opposition|trine|square/i, weight: 0.5 },
-      { pattern: /alchemical|alchemy|transformation|pillar/i, weight: 0.4 },
+      }
+      { pattern: /elemental|fire|water|earth|air|element/i, weight: 0.3 }
+      { pattern: /transit|retrograde|conjunction|opposition|trine|square/i, weight: 0.5 }
+      { pattern: /alchemical|alchemy|transformation|pillar/i, weight: 0.4 }
       { pattern: /culinary.*astrology|astrological.*cooking/i, weight: 0.6 }
     ],
 
@@ -282,11 +282,11 @@ export class DomainContextDetector {
 
     // Campaign system patterns
     const campaignPatterns = [
-      { pattern: /campaign|Campaign/g, weight: 0.4 },
-      { pattern: /progress.*track|track.*progress/i, weight: 0.3 },
-      { pattern: /safety.*protocol|protocol.*safety/i, weight: 0.4 },
-      { pattern: /typescript.*error|error.*typescript/i, weight: 0.3 },
-      { pattern: /metrics|intelligence|enterprise/i, weight: 0.2 },
+      { pattern: /campaign|Campaign/g, weight: 0.4 }
+      { pattern: /progress.*track|track.*progress/i, weight: 0.3 }
+      { pattern: /safety.*protocol|protocol.*safety/i, weight: 0.4 }
+      { pattern: /typescript.*error|error.*typescript/i, weight: 0.3 }
+      { pattern: /metrics|intelligence|enterprise/i, weight: 0.2 }
       { pattern: /rollback|stash|validation/i, weight: 0.3 }
     ],
 
@@ -364,7 +364,7 @@ export class DomainContextDetector {
       }
     }
 
-    const result = { indicators, confidenceBoost, detectedType, subtype },
+    const result = { indicators, confidenceBoost, detectedType, subtype }
     this.contentAnalysisCache.set(cacheKey, result)
 
     return result,
@@ -387,25 +387,25 @@ export class DomainContextDetector {
             rule: '@typescript-eslint/no-explicit-any',
             action: 'disable',
             reason: 'Astrological calculations may require flexible typing for astronomical data'
-          },
+          }
           {
             rule: 'no-magic-numbers',
             action: 'disable',
             reason: 'Astronomical constants and degrees are meaningful magic numbers'
-          },
+          }
           {
             rule: '@typescript-eslint/no-unused-vars',
             action: 'modify',
             reason:
               'Preserve variables with astronomical significance (planet, position, degree, sign)',
             conditions: ['varsIgnorePattern: '^(_|planet|position|degree|sign|FALLBACK|RELIABLE)'']
-          },
+          }
           {
             rule: 'no-console',
             action: 'modify',
             reason: 'Allow _logger.info for astronomical debugging',
             conditions: ['allow: ['warn', 'error', 'info']']
-          },
+          }
         )
 
         if (subtype === 'calculation') {
@@ -414,12 +414,12 @@ export class DomainContextDetector {
               rule: 'complexity',
               action: 'disable',
               reason: 'Astronomical calculations can be inherently complex'
-            },
+            }
             {
               rule: 'max-lines-per-function',
               action: 'disable',
               reason: 'Complex astronomical algorithms may require longer functions'
-            },
+            }
           )
         }
         break,
@@ -430,25 +430,25 @@ export class DomainContextDetector {
             rule: 'no-console',
             action: 'disable',
             reason: 'Campaign systems require extensive logging for monitoring'
-          },
+          }
           {
             rule: 'complexity',
             action: 'modify',
             reason: 'Allow higher complexity for campaign orchestration',
             conditions: ['max: 15']
-          },
+          }
           {
             rule: 'max-lines-per-function',
             action: 'modify',
             reason: 'Campaign functions may be longer due to safety protocols',
             conditions: ['max: 100']
-          },
+          }
           {
             rule: '@typescript-eslint/no-unused-vars',
             action: 'modify',
             reason: 'Preserve campaign system variables',
             conditions: ['varsIgnorePattern: '^(_|campaign|progress|metrics|safety|CAMPAIGN)'']
-          },
+          }
         )
 
         if (subtype === 'safety') {
@@ -466,23 +466,23 @@ export class DomainContextDetector {
             rule: '@typescript-eslint/no-explicit-any',
             action: 'disable',
             reason: 'Test files often need flexible typing for mocks and stubs'
-          },
+          }
           {
             rule: 'no-console',
             action: 'disable',
             reason: 'Console output is acceptable in test files'
-          },
+          }
           {
             rule: 'max-lines',
             action: 'disable',
             reason: 'Test files can be long due to comprehensive test cases'
-          },
+          }
           {
             rule: '@typescript-eslint/no-unused-vars',
             action: 'modify',
             reason: 'Allow unused variables in test setup',
             conditions: ['varsIgnorePattern: '^(_|mock|stub|test)'']
-          },
+          }
         )
         break,
 
@@ -492,17 +492,17 @@ export class DomainContextDetector {
             rule: 'no-console',
             action: 'disable',
             reason: 'Scripts typically need console output'
-          },
+          }
           {
             rule: '@typescript-eslint/no-explicit-any',
             action: 'disable',
             reason: 'Scripts may need flexible typing'
-          },
+          }
           {
             rule: 'no-process-exit',
             action: 'disable',
             reason: 'Scripts may need to exit with specific codes'
-          },
+          }
         )
         break,
     }
@@ -543,13 +543,13 @@ export class DomainContextDetector {
             recommendation: 'Require astrological domain expert review for any changes',
             priority: 'high',
             rationale: 'Astrological calculations require specialized knowledge'
-          },
+          }
           {
             category: 'testing',
             recommendation: 'Validate astronomical accuracy after any modifications',
             priority: 'high',
             rationale: 'Changes could affect calculation precision'
-          },
+          }
         )
         break,
 
@@ -560,13 +560,13 @@ export class DomainContextDetector {
             recommendation: 'Test campaign system integration after changes',
             priority: 'high',
             rationale: 'Campaign system changes can affect automation workflows'
-          },
+          }
           {
             category: 'deployment',
             recommendation: 'Deploy campaign changes with rollback capability',
             priority: 'medium',
             rationale: 'Campaign system is critical for code quality automation'
-          },
+          }
         )
         break,
 
@@ -597,13 +597,13 @@ export class DomainContextDetector {
             description: 'Changes may affect astronomical calculation precision',
             severity: 'critical',
             mitigation: 'Validate against known astronomical data and transit dates'
-          },
+          }
           {
             type: 'data-integrity',
             description: 'Planetary position data must remain accurate',
             severity: 'high',
             mitigation: 'Cross-reference with multiple astronomical sources'
-          },
+          }
         )
 
         if (filePath.includes('fallback') || filePath.includes('reliable')) {
@@ -655,19 +655,19 @@ export class DomainContextDetector {
             pattern: /RELIABLE_POSITIONS|FALLBACK|TRANSIT_DATES|PLANETARY_/,
             reason: 'Astronomical constants must be preserved for calculation accuracy',
             strictness: 'absolute'
-          },
+          }
           {
             element: 'variables',
             pattern: /planet|position|degree|longitude|sign|retrograde/i,
             reason: 'Astronomical variables are critical for calculations',
             strictness: 'high'
-          },
+          }
           {
             element: 'functions',
             pattern: /calculate|validate|getReliable|fallback/i,
             reason: 'Core astronomical functions must be preserved',
             strictness: 'high'
-          },
+          }
         )
         break,
 
@@ -678,13 +678,13 @@ export class DomainContextDetector {
             pattern: /CAMPAIGN|PROGRESS|METRICS|SAFETY|ERROR_THRESHOLD/,
             reason: 'Campaign system constants control automation behavior',
             strictness: 'high'
-          },
+          }
           {
             element: 'functions',
             pattern: /safety|rollback|validate|track/i,
             reason: 'Safety and tracking functions are critical',
             strictness: 'high'
-          },
+          }
         )
         break,
     }
@@ -704,19 +704,19 @@ export class DomainContextDetector {
         pattern: '/calculations/',
         weight: 0.8,
         description: 'Astrological calculations directory'
-      },
+      }
       {
         type: 'path',
         pattern: '/data/planets/',
         weight: 0.9,
         description: 'Planetary data directory'
-      },
+      }
       {
         type: 'filename',
         pattern: 'reliableAstronomy|planetaryConsistencyCheck|Astrological|Alchemical',
         weight: 0.9,
         description: 'Astrological utility files'
-      },
+      }
       {
         type: 'path',
         pattern: '/services/.*Astrological|/services/.*Alchemical',
@@ -732,13 +732,13 @@ export class DomainContextDetector {
         pattern: '/services/campaign/',
         weight: 0.9,
         description: 'Campaign system directory'
-      },
+      }
       {
         type: 'filename',
         pattern: 'Campaign|Progress|Safety|Intelligence',
         weight: 0.8,
         description: 'Campaign system files'
-      },
+      }
       {
         type: 'path',
         pattern: '/types/campaign',
@@ -754,7 +754,7 @@ export class DomainContextDetector {
         pattern: '\\.test\\.|\\.spec\\.',
         weight: 0.9,
         description: 'Test files'
-      },
+      }
       {
         type: 'path',
         pattern: '/__tests__/',
@@ -770,7 +770,7 @@ export class DomainContextDetector {
         pattern: '/scripts/',
         weight: 0.9,
         description: 'Scripts directory'
-      },
+      }
       {
         type: 'filename',
         pattern: '\\.config\\.|setup\\.|install\\.',

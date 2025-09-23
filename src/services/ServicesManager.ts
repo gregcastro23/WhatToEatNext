@@ -145,7 +145,7 @@ export class ServicesManager {
         Neptune: 'sagittarius',
         Pluto: 'capricorn',
         Ascendant: 'aquarius'
-      },
+      }
 
       const result = alchemicalEngine.alchemize(dummyPositions)
       logger.info('AlchemicalEngine test calculation completed')
@@ -292,7 +292,7 @@ export class ServicesManager {
       logger.info('Initializing RecommendationService...')
       // The unifiedRecommendationService is already initialized through its singleton instance
       // Just verify that it's ready by performing a simple operation
-      const elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      const elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
 
       // Just calculate compatibility as a simple test
       const compatibility = unifiedRecommendationService.calculateElementalCompatibility(
@@ -355,7 +355,7 @@ export class ServicesManager {
         name: 'Test Recipe',
         ingredients: [],
         instructions: [],
-        elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+        elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       } as any,
       const _recipeRecommendations = alchemicalRecommendationService.getRecipeRecommendations(
@@ -404,7 +404,7 @@ export class ServicesManager {
       recipeService: unifiedRecipeService,
       recommendationService: unifiedRecommendationService,
       alchemicalRecommendationService
-    },
+    }
   }
 
   /**

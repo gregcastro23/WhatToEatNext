@@ -2,25 +2,25 @@ export type PlanetaryHourUpdate = {
   planet: 'Sun' | 'Moon' | 'Mercury' | 'Venus' | 'Mars' | 'Jupiter' | 'Saturn',
   start: string,
   end: string,
-},
+}
 
 export type EnergyUpdate = {
   Fire: number,
   Water: number,
   Air: number,
   Earth: number,
-},
+}
 
 export type CelestialEvent = {
   type: string,
   timestamp: string,
   detail?: string,
-},
+}
 
 export type WSMessage =
   | { channel: 'planetary_hours'; data: PlanetaryHourUpdate }
   | { channel: 'energy_updates'; data: EnergyUpdate }
-  | { channel: 'celestial_events'; data: CelestialEvent },
+  | { channel: 'celestial_events'; data: CelestialEvent }
 
 export class AlchmWebSocket {
   private ws: WebSocket | null = null,
@@ -36,7 +36,7 @@ export class AlchmWebSocket {
       } catch {
         // ignore malformed messages
       }
-    },
+    }
   }
 
   private handleMessage(message: WSMessage): void {

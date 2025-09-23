@@ -26,7 +26,7 @@ export const lazyCalculations = {
 
   // Complex recommendation algorithms - loaded on demand
   recommendations: () => import('@/calculations/recommendations');
-},
+}
 
 /**
  * Lazy load unified data modules with optimized loading
@@ -46,7 +46,7 @@ export const lazyUnifiedData = {
 
   // Alchemical calculations data - loaded on demand
   alchemicalCalculations: () => import('@/data/unified/alchemicalCalculations');
-},
+}
 
 /**
  * Create a lazy-loaded component with loading fallback
@@ -74,20 +74,20 @@ export const preloadCalculations = {
   onCalculationHover: () => {
     lazyCalculations.alchemical()
     lazyCalculations.elemental()
-  },
+  }
 
   // Preload when user hovers over recipe recommendation UI
   onRecommendationHover: () => {
     lazyCalculations.recommendations()
     lazyUnifiedData.enhancedIngredients()
-  },
+  }
 
   // Preload when user hovers over astrological features
   onAstrologicalHover: () => {
     lazyCalculations.astrological()
     lazyCalculations.thermodynamics()
-  },
-},
+  }
+}
 
 /**
  * Bundle size optimization utilities
@@ -99,10 +99,10 @@ export const bundleOptimization = {
       high: 50000,    // 50KB - load immediately for high priority
       medium: 20000,  // 20KB - load immediately for medium priority
       low: 10000,     // 10KB - load immediately for low priority
-    },
+    }
 
     return moduleSize > thresholds[priority],
-  },
+  }
 
   // Get estimated module size (mock implementation - in production use webpack-bundle-analyzer)
   getModuleSize: (modulePath: string): number => {
@@ -111,12 +111,12 @@ export const bundleOptimization = {
       '/calculations/': 150000, // 150KB average for calculation modules
       '/data/unified/': 100000,  // 100KB average for unified data modules
       '/components/': 30000,     // 30KB average for components
-    },
+    }
 
     const category = Object.keys(sizeEstimates).find(key => modulePath.includes(key))
     return category ? sizeEstimates[category] : 50000; // Default 50KB
-  },
-},
+  }
+}
 
 /**
  * Performance monitoring for lazy loaded modules
@@ -135,10 +135,10 @@ export const performanceMonitoring = {
       perfData[moduleName] = {
         loadTime,
         timestamp: Date.now(),
-      },
+      }
       localStorage.setItem('modulePerformance', JSON.stringify(perfData))
     }
-  },
+  }
 
   // Get performance recommendations
   getPerformanceRecommendations: () => {
@@ -154,5 +154,5 @@ export const performanceMonitoring = {
     })
 
     return recommendations,
-  },
-},
+  }
+}

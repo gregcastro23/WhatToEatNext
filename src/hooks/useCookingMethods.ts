@@ -17,11 +17,11 @@ interface CookingMethod {
     Water: number,
     Earth: number,
     Air: number
-  },
+  }
   duration?: {
     min: number,
     max: number
-  },
+  }
   suitable_for?: string[],
   benefits?: string[]
   alchemicalProperties?: {
@@ -29,7 +29,7 @@ interface CookingMethod {
     Essence: number,
     Matter: number,
     Substance: number
-  },
+  }
 }
 
 export function useCookingMethods() {
@@ -54,11 +54,11 @@ export function useCookingMethods() {
               Water: 0.25,
               Earth: 0.25,
               Air: 0.25
-            },
+            }
             duration: (data as any).duration || {
               min: 10,
               max: 60
-            },
+            }
             suitable_for: (data as any).suitable_for || ['various ingredients'],
             benefits: (data as any).benefits || ['cooking'],
             alchemicalProperties: (data as any).alchemicalProperties || {
@@ -67,8 +67,8 @@ export function useCookingMethods() {
               Matter: 0.5,
               Substance: 0.5
             }
-          },
-        },
+          }
+        }
       )
 
       // Also add methods from the cookingMethods object
@@ -86,11 +86,11 @@ export function useCookingMethods() {
               Water: 0.25,
               Earth: 0.25,
               Air: 0.25
-            },
+            }
             duration: (data as any).duration || {
               min: 10,
               max: 60
-            },
+            }
             suitable_for: (data as any).suitable_for || ['various ingredients'],
             benefits: (data as any).benefits || ['cooking'],
             alchemicalProperties: (data as any).alchemicalProperties || {
@@ -99,8 +99,8 @@ export function useCookingMethods() {
               Matter: 0.5,
               Substance: 0.5
             }
-          },
-        },
+          }
+        }
       )
 
       // Combine and deduplicate methods
@@ -120,12 +120,12 @@ export function useCookingMethods() {
   const selectMethod = (methodId: string) => {
     // This could be used to track selected methods or trigger other actions
     log.info('Selected cooking method:', { methodId })
-  },
+  }
 
   return {
     methods,
     isLoading,
     error,
     selectMethod
-  },
+  }
 }

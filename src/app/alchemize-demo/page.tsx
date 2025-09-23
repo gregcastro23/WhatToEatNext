@@ -25,7 +25,7 @@ export default function AlchemizeDemoPage() {
       } finally {
         setLoading(false)
       }
-    },
+    }
 
     void loadAlchemicalData()
   }, [])

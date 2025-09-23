@@ -11,7 +11,7 @@ export interface RecipeDataEnhanced {
     planetaryInfluences?: Record<string, number>
     elementalProperties?: Record<string, number>,
     seasonalAlignment?: number
-  },
+  }
   season?: string | string[],
   mealType?: string | string[]
 }
@@ -85,7 +85,7 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
     numberOfServings: validateServings(recipe.numberOfServings) || 2,
     // Use the new recipe elemental service to ensure proper elemental properties,
     elementalProperties: recipeElementalService.standardizeRecipe(recipe).elementalProperties
-  },
+  }
 
   // Optional properties with validation
   if ((recipe as any).mealType) {
@@ -266,10 +266,10 @@ function validateAstrologicalInfluences(influences: string | string[] | unknown)
 
 function validateAndNormalizeNutrition(nutrition: NutritionData): NutritionData {
   if (!nutrition || typeof nutrition !== 'object') {
-    return {},
+    return {}
   }
 
-  const safeNutrition: NutritionData = {},
+  const safeNutrition: NutritionData = {}
 
   // Validate numeric fields
   ['calories', 'protein', 'carbs', 'fat'].forEach(field => {
@@ -361,12 +361,12 @@ class RecipeData {
                   amount: typeof ingData.amount === 'number' ? ingData.amount : 1,,
                   unit: String(ingData.unit || 'piece'),
                   category: String(ingData.category || 'other')
-                },
+                }
               })
             : [],
           instructions: Array.isArray(mappingData.instructions) ? mappingData.instructions : [],
           timeToMake: String(mappingData.timeToMake) || '30 minutes',
-          energyProfile: mappingData.energyProfile || {},
+          energyProfile: mappingData.energyProfile || {}
           // Critical, field: always ensure astrologicalInfluences is set,
           astrologicalInfluences: mappingData.astrologicalInfluences
             ? Array.isArray(mappingData.astrologicalInfluences)
@@ -388,7 +388,7 @@ class RecipeData {
           numberOfServings: typeof mappingData.servings === 'number' ? mappingData.servings : 2,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString()
-        },
+        }
 
         // Ensure all properties are properly set with defaults as needed
         return ensureRecipeProperties(partialRecipe)
@@ -476,8 +476,8 @@ class RecipeData {
       name: 'Universal Balance Bowl',
       description: 'A harmonious blend for any occasion',
       ingredients: [
-        { name: 'Mixed Greens', amount: 2, unit: 'cups', category: 'vegetables' },
-        { name: 'Quinoa', amount: 1, unit: 'cup', category: 'grains' },
+        { name: 'Mixed Greens', amount: 2, unit: 'cups', category: 'vegetables' }
+        { name: 'Quinoa', amount: 1, unit: 'cup', category: 'grains' }
         { name: 'Mixed Seeds', amount: 0.25, unit: 'cup', category: 'garnish' }
       ],
       instructions: ['Combine all ingredients in a bowl', 'Season to taste', 'Enjoy mindfully'],
@@ -488,7 +488,7 @@ class RecipeData {
         Earth: 0.25,
         Air: 0.25,
         Water: 0.25
-      },
+      }
       season: ['all'],
       mealType: ['lunch', 'dinner'],
       cuisine: 'international',

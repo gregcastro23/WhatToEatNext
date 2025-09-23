@@ -23,7 +23,7 @@ export interface CulturalCookingMethod {
     _Water: number,
     _Earth: number,
     _Air: number
-  },
+  }
   culturalOrigin: string,
   toolsRequired?: string[],
   bestFor?: string[]
@@ -31,7 +31,7 @@ export interface CulturalCookingMethod {
     favorableZodiac?: string[],
     unfavorableZodiac?: string[],
     dominantPlanets?: string[]
-  },
+  }
   relatedToMainMethod?: string; // Add a property to link to the main cooking method
   variationName?: string // Optional name of the variation
 }
@@ -135,7 +135,7 @@ const TECHNIQUE_MAPPING: Record<string, string> = {
   'hand pounding': 'grinding',
   'mortar and pestle': 'grinding',
   'stone grinding': 'grinding'
-},
+}
 
 /**
  * Extracts cooking techniques from all cuisine files and formats them
@@ -143,18 +143,18 @@ const TECHNIQUE_MAPPING: Record<string, string> = {
  */
 export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
   const cuisines = [
-    { data: thai, name: 'Thai' },
-    { data: vietnamese, name: 'Vietnamese' },
-    { data: italian, name: 'Italian' },
-    { data: chinese, name: 'Chinese' },
-    { data: indian, name: 'Indian' },
-    { data: japanese, name: 'Japanese' },
-    { data: korean, name: 'Korean' },
-    { data: mexican, name: 'Mexican' },
-    { data: middleEastern, name: 'Middle Eastern' },
-    { data: russian, name: 'Russian' },
-    { data: greek, name: 'Greek' },
-    { data: french, name: 'French' },
+    { data: thai, name: 'Thai' }
+    { data: vietnamese, name: 'Vietnamese' }
+    { data: italian, name: 'Italian' }
+    { data: chinese, name: 'Chinese' }
+    { data: indian, name: 'Indian' }
+    { data: japanese, name: 'Japanese' }
+    { data: korean, name: 'Korean' }
+    { data: mexican, name: 'Mexican' }
+    { data: middleEastern, name: 'Middle Eastern' }
+    { data: russian, name: 'Russian' }
+    { data: greek, name: 'Greek' }
+    { data: french, name: 'French' }
     { data: african, name: 'African' }
   ],
 
@@ -162,10 +162,10 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
   // Use a Set to track method names already added (case insensitive)
   const addedMethods = new Set<string>()
   // Keep track of method variations already mapped to main methods
-  const methodVariationsMap: Record<string, Set<string>> = {},
+  const methodVariationsMap: Record<string, Set<string>> = {}
 
   // Group methods by main category for hierarchical organization
-  const methodsByMainCategory: Record<string, CulturalCookingMethod[]> = {},
+  const methodsByMainCategory: Record<string, CulturalCookingMethod[]> = {}
 
   // Extract cooking techniques from each cuisine
   cuisines.forEach(cuisine => {
@@ -218,7 +218,7 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
         astrologicalInfluences: {
           dominantPlanets: []
         }
-      },
+      }
 
       methods.push(culturalMethod)
 
@@ -243,7 +243,7 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
           favorableZodiac: mainMethod.astrologicalInfluences.favorableZodiac,
           unfavorableZodiac: mainMethod.astrologicalInfluences.unfavorableZodiac,
           dominantPlanets: mainMethod.astrologicalInfluences.dominantPlanets || []
-        },
+        }
       }
     }
   })

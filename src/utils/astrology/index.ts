@@ -15,9 +15,9 @@ export {
   getCurrentAstrologicalState,
   calculateElementalProfile,
   calculateAspects
-} from './core',
+} from './core';
 
 export * from './positions',
 
 // Re-export validation functions
-export { validatePlanetaryPositions } from './validation',
+export { validatePlanetaryPositions } from './validation';

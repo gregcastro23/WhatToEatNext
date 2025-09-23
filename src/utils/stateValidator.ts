@@ -74,7 +74,7 @@ class StateValidator {
       }
 
       // Only log details if the properties exist
-      const logInfo: Record<string, number> = {},
+      const logInfo: Record<string, number> = {}
       if (state.recipes) logInfo.recipesCount = state.recipes.length,
       if (state.filteredRecipes) logInfo.filteredCount = state.filteredRecipes.length,
       if (state.favorites) logInfo.favoritesCount = state.favorites.length,

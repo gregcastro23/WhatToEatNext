@@ -54,7 +54,7 @@ function computeFromElemental(elemental: ElementalProperties, esms: ESMSProperti
 
   const gregsEnergy = heat - entropy * reactivity;
 
-  return { heat, entropy, reactivity, gregsEnergy },
+  return { heat, entropy, reactivity, gregsEnergy }
 }
 
 /**
@@ -93,7 +93,7 @@ export class ThermodynamicsClient {
     if (input.planetaryPositions && Object.keys(input.planetaryPositions).length > 0) {
       const result = calculateAlchemicalProperties(input.planetaryPositions as any)
       const t = result.thermodynamicProperties;
-      return { heat: t.heat, entropy: t.entropy, reactivity: t.reactivity, gregsEnergy: t.gregsEnergy },
+      return { heat: t.heat, entropy: t.entropy, reactivity: t.reactivity, gregsEnergy: t.gregsEnergy }
     }
 
     // 2b) If both elemental and ESMS provided, use exact formulas
@@ -108,13 +108,13 @@ export class ThermodynamicsClient {
       const entropy = calc.calculateEntropyValue(input.ingredients)
       const reactivity = calc.calculateReactivityValue(input.ingredients)
       const gregsEnergy = heat - entropy * reactivity;
-      return { heat, entropy, reactivity, gregsEnergy },
+      return { heat, entropy, reactivity, gregsEnergy }
     }
 
     // 2d) As a final real fallback, use current alchemical state (no placeholders)
     const current = getCurrentAlchemicalState()
     const t = current.thermodynamicProperties;
-    return { heat: t.heat, entropy: t.entropy, reactivity: t.reactivity, gregsEnergy: t.gregsEnergy },
+    return { heat: t.heat, entropy: t.entropy, reactivity: t.reactivity, gregsEnergy: t.gregsEnergy }
   }
 }
 

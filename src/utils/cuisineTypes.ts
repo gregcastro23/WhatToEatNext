@@ -8,7 +8,7 @@ import type {
   HistoricalCuisineType,
   RegionalCuisineType,
   StreetFoodCuisineType
-} from '@/types/culinary',
+} from '@/types/culinary';
 import { CUISINE_CATEGORY_MAP } from '@/types/culinary';
 
 /**
@@ -417,7 +417,7 @@ export function getPrimaryCuisineFromRegional(_regional: RegionalCuisineType): P
     Siberian: 'Russian',
     Caucasian: 'Russian',
     CentralAsian: 'Russian'
-  },
+  }
 
   return (
     ((regionalToPrimary as Record<string, string>)[regional] as PrimaryCuisineType) ||
@@ -494,7 +494,7 @@ export function getRegionalCuisinesForPrimary(_primary: PrimaryCuisineType): Reg
     Mediterranean: ['Greek' as RegionalCuisineType, 'Cypriot', 'Maltese'],
     Russian: ['Moscow', 'StPetersburg', 'Siberian', 'Caucasian', 'CentralAsian'],
     Fusion: []
-  },
+  }
 
   return primaryToRegional[primary] || [],
 }
@@ -573,7 +573,7 @@ export function getCommonIngredients(
     'French-Italian': ['olive oil', 'garlic', 'herbs', 'wine'],
     'Mexican-American': ['corn', 'beans', 'tomatoes', 'chili'],
     'Indian-Thai': ['coconut', 'curry', 'rice', 'spices']
-  },
+  }
 
   const key = `${cuisine1}-${cuisine2}`;
   const reverseKey = `${cuisine2}-${cuisine1}`;
@@ -639,7 +639,7 @@ export function getCuisineDisplayName(cuisine: CompleteCuisineType): string {
 export function groupCuisinesByCategory(
   cuisines: CompleteCuisineType[],
 ): Record<string, CompleteCuisineType[]> {
-  const groups: Record<string, CompleteCuisineType[]> = {},
+  const groups: Record<string, CompleteCuisineType[]> = {}
 
   cuisines.forEach(cuisine => {
     const category = getCuisineContinent(cuisine)
@@ -663,4 +663,4 @@ export function getCuisinesInCategory(category: string): CompleteCuisineType[] {
 
 // ========== EXPORT ALL UTILITIES ==========,
 
-export { CUISINE_CATEGORY_MAP },
+export { CUISINE_CATEGORY_MAP };

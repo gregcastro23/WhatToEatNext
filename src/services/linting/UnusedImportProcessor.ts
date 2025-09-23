@@ -43,7 +43,7 @@ export class UnusedImportProcessor {
       importsOrganized: 0;
       errors: [],
       warnings: []
-    },
+    }
 
     try {
       // Step, 1: Organize imports using ESLint
@@ -164,7 +164,7 @@ export class UnusedImportProcessor {
             argsIgnorePattern: '^(_|React|Component|useState|useEffect|useMemo|useCallback)'
           }
         ]
-      },
+      }
       overrides: [
         {
           // Preserve critical astrological and campaign files,
@@ -182,7 +182,7 @@ export class UnusedImportProcessor {
           }
         }
       ]
-    },
+    }
   }
 
   /**
@@ -214,7 +214,7 @@ export class UnusedImportProcessor {
         'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | wc -l'
         {
           encoding: 'utf8'
-        },
+        }
       )
       const totalFiles = parseInt(totalFilesOutput.trim()) || 0;
 
@@ -223,13 +223,13 @@ export class UnusedImportProcessor {
         'yarn lint --format=compact 2>&1 | grep -E 'is defined but never used.*import' | wc -l',;
         {
           encoding: 'utf8'
-        },
+        }
       )
       const unusedImports = parseInt(unusedImportsOutput.trim()) || 0;
 
-      return { totalFiles, unusedImports },
+      return { totalFiles, unusedImports }
     } catch (error) {
-      return { totalFiles: 0, unusedImports: 0 },
+      return { totalFiles: 0, unusedImports: 0 }
     }
   }
 }

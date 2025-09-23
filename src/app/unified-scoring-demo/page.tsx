@@ -10,4 +10,4 @@ export const _metadata = {
   title: 'Unified Scoring System Demo',
   description:
     'Experience the comprehensive astrological-alchemical scoring system for culinary recommendations'
-},
+}

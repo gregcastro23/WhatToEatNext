@@ -24,7 +24,7 @@ export const _clientOnly = (callback: () => void) => {
   if (isClient) {
     callback()
   }
-},
+}
 
 /**
  * Safe server-only execution wrapper
@@ -34,4 +34,4 @@ export const _serverOnly = (callback: () => void) => {
   if (isServer) {
     callback()
   }
-},
+}

@@ -52,7 +52,7 @@ export default function App({ Component, pageProps }: AppProps) {
         }
       }
       return false,
-    },
+    }
 
     // Function to ensure error handling scripts are loaded
     function loadErrorHandlingScripts() {
@@ -110,7 +110,7 @@ export default function App({ Component, pageProps }: AppProps) {
     return () => {
       log.info('[App] Removing Chrome API error handler')
       window.removeEventListener('error', errorHandler, true)
-    },
+    }
   }, [])
 
   return (

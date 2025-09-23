@@ -27,17 +27,17 @@ export function useAlchmWebSocket(): WebSocketState {
     alchmWs['updatePlanetaryHour'] = (data: PlanetaryHourUpdate) => {
       setState(prev => ({ ...prev, lastPlanetaryHour: data }))
       logger.debug('WebSocket planetary hour update', data)
-    },
+    }
 
     alchmWs['updateEnergy'] = (data: EnergyUpdate) => {
       setState(prev => ({ ...prev, lastEnergyUpdate: data }))
       logger.debug('WebSocket energy update', data)
-    },
+    }
 
     alchmWs['updateCelestial'] = (data: CelestialEvent) => {
       setState(prev => ({ ...prev, lastCelestialEvent: data }))
       logger.debug('WebSocket celestial event', data)
-    },
+    }
 
     // Connect to WebSocket
     try {
@@ -54,7 +54,7 @@ export function useAlchmWebSocket(): WebSocketState {
       alchmWs['updateEnergy'] = originalUpdateEnergy,
       alchmWs['updateCelestial'] = originalUpdateCelestial,
       setState(prev => ({ ...prev, isConnected: false }))
-    },
+    }
   }, [])
 
   return state,

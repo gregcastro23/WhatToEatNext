@@ -30,7 +30,7 @@ export function createBaselineReport(
     batchesCompleted: 0,
     batchesTotal: 0,
     lastUpdated: new Date().toISOString()
-  },
+  }
   fs.writeFileSync(targetFile, JSON.stringify(initial, null, 2))
 }
 
@@ -52,7 +52,7 @@ export function updateProgress(
       batchesCompleted: 0,
       batchesTotal: 0,
       lastUpdated: new Date().toISOString()
-    },
+    }
   }
   const updated = {
     ...current,

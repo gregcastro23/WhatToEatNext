@@ -45,7 +45,7 @@ export function adaptLunarPhase(
     'Waning Gibbous': 'waning gibbous',
     'Last Quarter': 'last quarter',
     'Waning Crescent': 'waning crescent'
-  },
+  }
 
   return phaseMap[phase] || null,
 }
@@ -76,7 +76,7 @@ export interface TarotAstrologyData {
     Essence: number,
     Matter: number,
     Substance: number
-  },
+  }
 
   // Derived data,
   tarotElementBoosts: Record<ElementalCharacter, number>,
@@ -153,7 +153,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
 
   // Move the function declaration before any usage
   const calculatePlanetaryEnergy = useCallback(
-    (planet: string): number => {,
+    (planet: string): number => {
       try {
         if (currentPlanetaryAlignment[planet.toLowerCase()]) {
           const position = currentPlanetaryAlignment[planet.toLowerCase()]
@@ -182,7 +182,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
         logger.error(`Error calculating planetary energy for ${planet}`, error)
         return 0.5; // Default on error
       }
-    },
+    }
     [currentPlanetaryAlignment, signEnergyStates],
   )
 
@@ -227,7 +227,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
 
   // Calculate planetaryCards - mapping of planets to their tarot cards
   const planetaryCards = useMemo(() => {;
-    const cardMap: Record<string, TarotCard> = {},
+    const cardMap: Record<string, TarotCard> = {}
 
     try {
       if (activePlanets.length) {
@@ -248,7 +248,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
       return cardMap,
     } catch (error) {
       logger.error('Error calculating planetary cards', error),
-      return {},
+      return {}
     }
   }, [activePlanets, currentPlanetaryAlignment, signEnergyStates, calculatePlanetaryEnergy])
 
@@ -261,7 +261,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
           Water: 0,
           Earth: 0,
           Air: 0
-        },
+        }
 
         // Map suits to elements
         const suitMap: Record<string, ElementalCharacter> = {
@@ -269,7 +269,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
           Cups: 'Water',
           Pentacles: 'Earth',
           Swords: 'Air'
-        },
+        }
 
         // Calculate based on minor card
         if (tarotCards.minorCard?.suit) {
@@ -292,7 +292,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
 
         // Calculate planetary boosts
         if (tarotCards.majorCard?.planet) {
-          const planetaryBoost: Record<string, number> = {},
+          const planetaryBoost: Record<string, number> = {}
           planetaryBoost[tarotCards.majorCard.planet] = 0.2,
           setTarotPlanetaryBoosts(planetaryBoost)
         }
@@ -351,10 +351,10 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
       Justice: 'Air',
       'The Hanged Man': 'Water',
       'Wheel of Fortune': 'Fire'
-    },
+    }
 
     return elementMap[cardName] || null,
-  },
+  }
 
   // This function will calculate alchemical values from tarot cards
   const calculateTarotEnergyBoosts = useCallback(
@@ -372,7 +372,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
           Essence: 0,
           Matter: 0,
           Substance: 0
-        },
+        }
 
         // Map elements to alchemical properties
         const alchemicalMap: Record<ElementalCharacter, keyof typeof result> = {
@@ -380,9 +380,9 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
           Water: 'Essence',
           Earth: 'Matter',
           Air: 'Substance'
-        },
+        }
 
-        cards.forEach(card => {,
+        cards.forEach(card => {
           // Get card element
           let element: ElementalCharacter | string | null = null
 
@@ -393,7 +393,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
               Cups: 'Water',
               Pentacles: 'Earth',
               Swords: 'Air'
-            },
+            }
             element = suitMap[card.suit] || null,
           } else if (card.name) {
             // Major arcana
@@ -413,7 +413,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
         // Normalize values to be between 0 and 1
         const total = Object.values(result).reduce((sum, val) => sum + val0)
         if (total > 0) {
-          Object.keys(result).forEach(key => {,
+          Object.keys(result).forEach(key => {
             result[key as keyof typeof result] /= total
           })
         }
@@ -426,9 +426,9 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
           Essence: 0.25,
           Matter: 0.25,
           Substance: 0.25
-        },
+        }
       }
-    },
+    }
     [],
   )
 
@@ -456,5 +456,5 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
     currentLunarPhase,
     isLoading: loading,
     error: tarotError
-  },
-},
+  }
+}

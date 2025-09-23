@@ -51,28 +51,28 @@ class FullCampaignExecutor {
         targetFiles: 30,
         expectedReduction: 80,
         safetyLevel: 'maximum'
-      },
+      }
       {
         phase: 'Phase, 2: Record Types',
         description: 'Replace Record<string, any> with Record<string, unknown>',
         targetFiles: 25,
         expectedReduction: 60,
         safetyLevel: 'high'
-      },
+      }
       {
         phase: 'Phase, 3: Variable Declarations',
         description: 'Replace simple variable any types with unknown',
         targetFiles: 20,
         expectedReduction: 50,
         safetyLevel: 'high'
-      },
+      }
       {
         phase: 'Phase, 4: Documentation Pass',
         description: 'Document remaining intentional any types',
         targetFiles: 40,
         expectedReduction: 0,
         safetyLevel: 'maximum'
-      },
+      }
       {
         phase: 'Phase, 5: Medium-Risk Categories',
         description: 'Process remaining medium-risk categories with enhanced safety',
@@ -101,7 +101,7 @@ class FullCampaignExecutor {
         'yarn lint 2>&1 | grep -c '@typescript-eslint/no-explicit-any' || echo '0'',
         {
           encoding: 'utf8'
-        },
+        }
       )
       return parseInt(lintOutput.trim()) || 0,
     } catch (error) {
@@ -168,7 +168,7 @@ class FullCampaignExecutor {
         estimatedUnintentional,
         targetReduction,
         confidenceScore: 0.85
-      },
+      }
     } catch (error) {
       this.log(`Error analyzing codebase: ${error}`, 'error')
       return {
@@ -178,7 +178,7 @@ class FullCampaignExecutor {
         estimatedUnintentional: Math.floor(totalExplicitAny * 0.5),
         targetReduction: Math.floor(totalExplicitAny * 0.1),
         confidenceScore: 0.5
-      },
+      }
     }
   }
 
@@ -191,31 +191,31 @@ class FullCampaignExecutor {
         patterns: ['astro', 'planetary', 'celestial', 'lunar'],
         riskLevel: 'high' as const,
         recommendedStrategy: 'Conservative - preserve flexibility for astronomical data'
-      },
+      }
       {
         domain: 'Recipe & Ingredient System',
         patterns: ['recipe', 'ingredient', 'food', 'culinary'],
         riskLevel: 'medium' as const,
         recommendedStrategy: 'Moderate - replace simple types, preserve complex structures'
-      },
+      }
       {
         domain: 'Campaign System',
         patterns: ['campaign', 'intelligence', 'batch'],
         riskLevel: 'high' as const,
         recommendedStrategy: 'Conservative - preserve dynamic configuration capabilities'
-      },
+      }
       {
         domain: 'Service Layer',
         patterns: ['service', 'api', 'client'],
         riskLevel: 'medium' as const,
         recommendedStrategy: 'Moderate - focus on interface improvements'
-      },
+      }
       {
         domain: 'React Components',
         patterns: ['component', 'jsx', 'tsx'],
         riskLevel: 'low' as const,
         recommendedStrategy: 'Aggressive - improve prop type safety'
-      },
+      }
       {
         domain: 'Utility Functions',
         patterns: ['util', 'helper', 'common'],
@@ -398,7 +398,7 @@ function documentIntentionalAny() {
     }
 
     // Group by file
-    const fileGroups = {},
+    const fileGroups = {}
     anyLocations.forEach(loc => {
       if (!fileGroups[loc.file]) fileGroups[loc.file] = [],
       fileGroups[loc.file].push(loc)
@@ -491,7 +491,7 @@ function documentIntentionalAny() {
     this.initialMetrics = {
       initialCount: analysis.totalExplicitAny,
       targetReduction: analysis.targetReduction
-    },
+    }
 
     this.log(`📊 Pre-Campaign Analysis:`, 'info')
     this.log(`   Total explicit-any warnings: ${analysis.totalExplicitAny}`, 'info')
@@ -749,4 +749,4 @@ if (require.main === module) {
     })
 }
 
-export { FullCampaignExecutor },
+export { FullCampaignExecutor };

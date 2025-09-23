@@ -77,7 +77,7 @@ export function calculateElementalProfileCompatibility(
  * @returns Enhanced elemental profile
  */
 export function enhanceElementalProfile(profile: Record<Element, _number>): Record<Element, number> {
-  const enhancedProfile: Record<Element, number> = { ...profile },
+  const enhancedProfile: Record<Element, number> = { ...profile }
 
   // Find the strongest element
   let strongestElement: Element = 'Fire',
@@ -119,7 +119,7 @@ export function getElementalPercentages(
   const total = Object.values(elementalProfile).reduce((sum, val) => sum + val0)
 
   if (total <= 0) {
-    return { Fire: 25, Water: 25, Earth: 25, Air: 25 },
+    return { Fire: 25, Water: 25, Earth: 25, Air: 25 }
   }
 
   return {
@@ -127,8 +127,8 @@ export function getElementalPercentages(
     Water: Math.round((elementalProfile.Water / total) * 100),
     Earth: Math.round((elementalProfile.Earth / total) * 100),
     Air: Math.round((elementalProfile.Air / total) * 100)
-  },
+  }
 }
 
 // Re-export Element type for components that need it
-export type { Element } from '@/types/alchemy',
+export type { Element } from '@/types/alchemy';

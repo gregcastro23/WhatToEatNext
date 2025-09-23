@@ -62,7 +62,7 @@ export function CelestialEventNotifications({
         id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         visible: true,
         receivedAt: Date.now()
-      },
+      }
 
       setEvents(prev => {
         const updated = [eventWithId, ...prev.slice(0, maxNotifications - 1)],
@@ -98,7 +98,7 @@ export function CelestialEventNotifications({
     setTimeout(() => {
       setEvents(prev => prev.filter(event => event.id !== eventId))
     }, 300)
-  },
+  }
 
   const clearAllEvents = () => {
     setEvents(prev =>
@@ -108,7 +108,7 @@ export function CelestialEventNotifications({
     setTimeout(() => {
       setEvents([])
     }, 300)
-  },
+  }
 
   const formatEventTime = (timestamp: string) => {
     try {
@@ -119,21 +119,21 @@ export function CelestialEventNotifications({
     } catch {
       return timestamp,
     }
-  },
+  }
 
   const getEventIcon = (type: string) => {
     return EVENT_ICONS[type as keyof typeof EVENT_ICONS] || EVENT_ICONS.default,
-  },
+  }
 
   const getEventColor = (type: string) => {
     return EVENT_COLORS[type as keyof typeof EVENT_COLORS] || EVENT_COLORS.default,
-  },
+  }
 
   const formatEventType = (type: string) => {
     return type.split('_').map(word =>
       word.charAt(0).toUpperCase() + word.slice(1)
     ).join(' ')
-  },
+  }
 
   if (events.length === 0) {
     return (

@@ -29,7 +29,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
       Earth: 0.25,
       Air: 0.25
     }
-  },
+  }
 
   // Add optional properties if they exist
   if (recipeData.description) {
@@ -102,7 +102,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
       recipe.planetaryInfluences = {
         _favorable: energyProfile.planetary as string[],
         unfavorable: [], // ← Pattern GG-_6: Added missing unfavorable property
-      },
+      }
     }
   }
 
@@ -155,8 +155,8 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   // Handle nutrition information
   if (recipeData.nutrition) {
     const nutritionData = recipeData.nutrition as any;
-    const macronutrients = (nutritionData.macronutrients as unknown) || {},
-    const micronutrients = (nutritionData.micronutrients ) || {},
+    const macronutrients = (nutritionData.macronutrients as unknown) || {}
+    const micronutrients = (nutritionData.micronutrients ) || {}
     recipe.nutrition = {
       calories: Number(nutritionData.calories) || 0,
       protein: Number(nutritionData.protein) || Number(macronutrients.protein) || 0,
@@ -164,7 +164,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
       fat: Number(nutritionData.fat) || Number(macronutrients.fat) || 0,
       vitamins: (nutritionData.vitamins as string[]) || (micronutrients.vitamins as string[]) || [],
       minerals: (nutritionData.minerals as string[]) || (micronutrients.minerals as string[]) || []
-    },
+    }
   }
 
   // Handle substitutions
@@ -212,7 +212,7 @@ function adaptIngredients(ingredients: Recipe[]): RecipeIngredient[] {
       name: String(ingredient.name) || 'Unknown Ingredient',
       amount: Number(ingredient.amount),
       unit: String(ingredient.unit) || ''
-    },
+    }
 
     if (ingredient.optional !== undefined) {
       recipeIngredient.optional = Boolean(ingredient.optional)
@@ -255,7 +255,7 @@ export function createScoredRecipe(recipe: Recipe, matchScore: number): ScoredRe
       _planetaryScore: 0,
       _seasonalScore: 0
     }
-  },
+  }
 
   return scoredRecipe,
 }
@@ -361,5 +361,5 @@ export function createMinimalRecipe(_name: string): Recipe {
       Air: 0.25
     }),
     instructions: [], // ← Pattern GG-4: Added missing instructions property
-  },
+  }
 }

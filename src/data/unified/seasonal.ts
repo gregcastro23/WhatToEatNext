@@ -12,14 +12,14 @@ import type {
   PlanetName,
   LunarPhase,
   CookingMethod
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 import { _ } from '@/types/bridges/astrologicalBridge';
 
 import {
   getAllEnhancedCookingMethods,
   getMonicaCompatibleCookingMethods,
   type EnhancedCookingMethod
-} from '../../constants/alchemicalPillars',
+} from '../../constants/alchemicalPillars';
 
 import { unifiedIngredients } from './ingredients';
 
@@ -74,7 +74,7 @@ export interface SeasonalIngredientProfile {
 export interface SeasonalProfile {
   // Core Seasonal Data,
   elementalDominance: ElementalProperties,
-  kalchmRange: { min: number, max: number },
+  kalchmRange: { min: number, max: number }
   monicaModifiers: SeasonalMonicaModifiers
 
   // Ingredient Data (consolidated from seasonalPatterns.ts)
@@ -100,7 +100,7 @@ export interface SeasonalTransitionProfile {
   toSeason: Season,
   transitionProgress: number, // 0-1,
   blendedElementalProfile: ElementalProperties,
-  blendedKalchmRange: { min: number, max: number },
+  blendedKalchmRange: { min: number, max: number }
   blendedMonicaModifiers: SeasonalMonicaModifiers,
   recommendedIngredients: UnifiedIngredient[],
   recommendedCookingMethods: EnhancedCookingMethod[]
@@ -118,15 +118,15 @@ export interface SeasonalRecommendations {
 
 export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
   spring: {
-    elementalDominance: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
-    kalchmRange: { min: 0.8, max: 1.2 },
+    elementalDominance: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 }
+    kalchmRange: { min: 0.8, max: 1.2 }
     monicaModifiers: {
       temperatureAdjustment: 10,
       timingAdjustment: -5,
       intensityModifier: 'increase',
       planetaryAlignment: 0.8,
       lunarPhaseBonus: 0.7
-    },
+    }
 
     // Ingredient availability (from seasonalPatterns.ts)
     ingredients: {
@@ -140,7 +140,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       morels: 0.87,
       strawberries: 0.7,
       new_potatoes: 0.76
-    },
+    }
 
     // Traditional usage (from seasonalUsage.ts)
     growing: ['basil', 'oregano', 'thyme'],
@@ -150,12 +150,12 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       greek: {
         combinations: ['mint + parsley', 'dill + garlic'],
         dishes: ['spring lamb', 'fresh salads']
-      },
+      }
       italian: {
         combinations: ['basil + tomato', 'pea + mint'],
         dishes: ['primavera pasta', 'spring risotto']
       }
-    },
+    }
 
     // Astrological profile (from seasonalUsage.ts)
     tarotProfile: {
@@ -185,47 +185,47 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
           effect: 0.85,
           ingredients: ['radishes', 'spring_greens'],
           cookingMethod: 'grilling' as unknown as CookingMethod
-        },
+        }
         '3_of_wands': {
           element: 'Fire',
           effect: 0.8,
           ingredients: ['asparagus', 'morels'],
           cookingMethod: 'roasting' as unknown as CookingMethod
-        },
+        }
         '4_of_wands': {
           element: 'Fire',
           effect: 0.75,
           ingredients: ['strawberries', 'new_potatoes'],
           cookingMethod: 'baking' as unknown as CookingMethod
-        },
+        }
         '5_of_pentacles': {
           element: 'Earth',
           effect: 0.7,
           ingredients: ['rhubarb', 'fava_beans'],
           cookingMethod: 'simmering' as unknown as CookingMethod
-        },
+        }
         dominant_element: 'Fire',
         secondary_element: 'Air'
-      },
+      }
       dominant_element: 'Fire',
       secondary_element: 'Air'
-    },
+    }
 
     optimalIngredients: ['asparagus', 'spring_greens', 'morels', 'peas', 'artichokes'],
     optimalCookingMethods: ['grilling', 'roasting', 'sauteing', 'steaming'],
     elementalInfluence: 0.8
-  },
+  }
 
   summer: {
-    elementalDominance: { Fire: 0.5, Water: 0.3, Earth: 0.1, Air: 0.1 },
-    kalchmRange: { min: 0.8, max: 1.2 },
+    elementalDominance: { Fire: 0.5, Water: 0.3, Earth: 0.1, Air: 0.1 }
+    kalchmRange: { min: 0.8, max: 1.2 }
     monicaModifiers: {
       temperatureAdjustment: -15,
       timingAdjustment: -10,
       intensityModifier: 'decrease',
       planetaryAlignment: 0.9,
       lunarPhaseBonus: 0.8
-    },
+    }
 
     ingredients: {
       tomatoes: 0.9,
@@ -238,7 +238,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       bell_peppers: 0.84,
       cucumbers: 0.86,
       cherries: 0.88
-    },
+    }
 
     growing: ['basil', 'rosemary', 'cilantro'],
     herbs: ['basil', 'oregano', 'tarragon', 'cilantro'],
@@ -247,12 +247,12 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       greek: {
         combinations: ['cucumber + mint', 'tomato + feta'],
         dishes: ['tzatziki', 'greek salad', 'souvlaki']
-      },
+      }
       italian: {
         combinations: ['tomato + basil', 'zucchini + mint'],
         dishes: ['caprese salad', 'summer pasta', 'grilled vegetables']
       }
-    },
+    }
 
     tarotProfile: {
       minorArcana: [
@@ -282,47 +282,47 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
           effect: 0.85,
           ingredients: ['watermelon', 'cucumbers'],
           cookingMethod: 'raw' as unknown as CookingMethod
-        },
+        }
         '3_of_cups': {
           element: 'Water',
           effect: 0.9,
           ingredients: ['berries', 'peaches'],
           cookingMethod: 'fermenting' as unknown as CookingMethod
-        },
+        }
         '5_of_wands': {
           element: 'Fire',
           effect: 0.85,
           ingredients: ['tomatoes', 'bell_peppers'],
           cookingMethod: 'grilling' as unknown as CookingMethod
-        },
+        }
         '6_of_wands': {
           element: 'Fire',
           effect: 0.8,
           ingredients: ['corn', 'summer_squash'],
           cookingMethod: 'roasting' as unknown as CookingMethod
-        },
+        }
         dominant_element: 'Fire',
         secondary_element: 'Water'
-      },
+      }
       dominant_element: 'Fire',
       secondary_element: 'Water'
-    },
+    }
 
     optimalIngredients: ['tomatoes', 'watermelon', 'berries', 'peaches', 'cucumbers'],
     optimalCookingMethods: ['grilling', 'raw', 'fermenting', 'steaming'],
     elementalInfluence: 0.9
-  },
+  }
 
   autumn: {
-    elementalDominance: { Fire: 0.1, Water: 0.3, Earth: 0.4, Air: 0.2 },
-    kalchmRange: { min: 0.8, max: 1.2 },
+    elementalDominance: { Fire: 0.1, Water: 0.3, Earth: 0.4, Air: 0.2 }
+    kalchmRange: { min: 0.8, max: 1.2 }
     monicaModifiers: {
       temperatureAdjustment: 5,
       timingAdjustment: 10,
       intensityModifier: 'maintain',
       planetaryAlignment: 0.7,
       lunarPhaseBonus: 0.6
-    },
+    }
 
     ingredients: {
       apples: 0.9,
@@ -335,7 +335,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       grapes: 0.83,
       mushrooms: 0.79,
       pears: 0.88
-    },
+    }
 
     growing: ['sage', 'rosemary', 'thyme'],
     herbs: ['sage', 'rosemary', 'thyme', 'bay leaf'],
@@ -344,12 +344,12 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       greek: {
         combinations: ['spinach + feta', 'lamb + herbs'],
         dishes: ['moussaka', 'stuffed peppers', 'roasted lamb']
-      },
+      }
       french: {
         combinations: ['mushroom + thyme', 'apple + cinnamon'],
         dishes: ['ratatouille', 'mushroom soup', 'apple tart']
       }
-    },
+    }
 
     tarotProfile: {
       minorArcana: [
@@ -379,47 +379,47 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
           effect: 0.7,
           ingredients: ['apples', 'pears'],
           cookingMethod: 'baking' as unknown as CookingMethod
-        },
+        }
         '5_of_cups': {
           element: 'Water',
           effect: 0.75,
           ingredients: ['cranberries', 'figs'],
           cookingMethod: 'poaching' as unknown as CookingMethod
-        },
+        }
         '6_of_cups': {
           element: 'Water',
           effect: 0.8,
           ingredients: ['pumpkin', 'sweet_potatoes'],
           cookingMethod: 'roasting' as unknown as CookingMethod
-        },
+        }
         '8_of_wands': {
           element: 'Fire',
           effect: 0.65,
           ingredients: ['grapes', 'mushrooms'],
           cookingMethod: 'sauteing' as unknown as CookingMethod
-        },
+        }
         dominant_element: 'Earth',
         secondary_element: 'Water'
-      },
+      }
       dominant_element: 'Earth',
       secondary_element: 'Water'
-    },
+    }
 
     optimalIngredients: ['pumpkin', 'butternut_squash', 'apples', 'sweet_potatoes', 'pears'],
     optimalCookingMethods: ['roasting', 'baking', 'braising', 'poaching'],
     elementalInfluence: 0.7
-  },
+  }
 
   fall: {
-    elementalDominance: { Fire: 0.1, Water: 0.3, Earth: 0.4, Air: 0.2 },
-    kalchmRange: { min: 0.8, max: 1.2 },
+    elementalDominance: { Fire: 0.1, Water: 0.3, Earth: 0.4, Air: 0.2 }
+    kalchmRange: { min: 0.8, max: 1.2 }
     monicaModifiers: {
       temperatureAdjustment: 5,
       timingAdjustment: 10,
       intensityModifier: 'maintain',
       planetaryAlignment: 0.7,
       lunarPhaseBonus: 0.6
-    },
+    }
 
     // Same as autumn (supporting both terms)
     ingredients: {
@@ -433,7 +433,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       grapes: 0.83,
       mushrooms: 0.79,
       pears: 0.88
-    },
+    }
 
     growing: ['sage', 'rosemary', 'thyme'],
     herbs: ['sage', 'rosemary', 'thyme', 'bay leaf'],
@@ -442,12 +442,12 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       greek: {
         combinations: ['spinach + feta', 'lamb + herbs'],
         dishes: ['moussaka', 'stuffed peppers', 'roasted lamb']
-      },
+      }
       french: {
         combinations: ['mushroom + thyme', 'apple + cinnamon'],
         dishes: ['ratatouille', 'mushroom soup', 'apple tart']
       }
-    },
+    }
 
     tarotProfile: {
       minorArcana: [
@@ -477,47 +477,47 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
           effect: 0.7,
           ingredients: ['apples', 'pears'],
           cookingMethod: 'baking' as unknown as CookingMethod
-        },
+        }
         '5_of_cups': {
           element: 'Water',
           effect: 0.75,
           ingredients: ['cranberries', 'figs'],
           cookingMethod: 'poaching' as unknown as CookingMethod
-        },
+        }
         '6_of_cups': {
           element: 'Water',
           effect: 0.8,
           ingredients: ['pumpkin', 'sweet_potatoes'],
           cookingMethod: 'roasting' as unknown as CookingMethod
-        },
+        }
         '8_of_wands': {
           element: 'Fire',
           effect: 0.65,
           ingredients: ['grapes', 'mushrooms'],
           cookingMethod: 'sauteing' as unknown as CookingMethod
-        },
+        }
         dominant_element: 'Earth',
         secondary_element: 'Water'
-      },
+      }
       dominant_element: 'Earth',
       secondary_element: 'Water'
-    },
+    }
 
     optimalIngredients: ['pumpkin', 'butternut_squash', 'apples', 'sweet_potatoes', 'pears'],
     optimalCookingMethods: ['roasting', 'baking', 'braising', 'poaching'],
     elementalInfluence: 0.7
-  },
+  }
 
   winter: {
-    elementalDominance: { Fire: 0.2, Water: 0.4, Earth: 0.3, Air: 0.1 },
-    kalchmRange: { min: 0.8, max: 1.2 },
+    elementalDominance: { Fire: 0.2, Water: 0.4, Earth: 0.3, Air: 0.1 }
+    kalchmRange: { min: 0.8, max: 1.2 }
     monicaModifiers: {
       temperatureAdjustment: 20,
       timingAdjustment: 15,
       intensityModifier: 'increase',
       planetaryAlignment: 0.6,
       lunarPhaseBonus: 0.5
-    },
+    }
 
     ingredients: {
       citrus: 0.85,
@@ -530,7 +530,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       brussels_sprouts: 0.75,
       turnips: 0.77,
       cranberries: 0.72
-    },
+    }
 
     growing: ['rosemary', 'thyme', 'sage'],
     herbs: ['rosemary', 'thyme', 'sage', 'bay leaf'],
@@ -539,12 +539,12 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       greek: {
         combinations: ['lemon + oregano', 'olive + herb'],
         dishes: ['avgolemono soup', 'winter stews', 'baked fish']
-      },
+      }
       french: {
         combinations: ['thyme + red wine', 'rosemary + garlic'],
         dishes: ['beef bourguignon', 'cassoulet', 'onion soup']
       }
-    },
+    }
 
     tarotProfile: {
       minorArcana: [
@@ -574,47 +574,47 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
           effect: 0.75,
           ingredients: ['root_vegetables', 'winter_squash'],
           cookingMethod: 'braising' as unknown as CookingMethod
-        },
+        }
         '3_of_pentacles': {
           element: 'Earth',
           effect: 0.8,
           ingredients: ['kale', 'leeks'],
           cookingMethod: 'stewing' as unknown as CookingMethod
-        },
+        }
         '8_of_cups': {
           element: 'Water',
           effect: 0.7,
           ingredients: ['citrus', 'pomegranates'],
           cookingMethod: 'poaching' as unknown as CookingMethod
-        },
+        }
         '9_of_cups': {
           element: 'Water',
           effect: 0.85,
           ingredients: ['persimmons', 'cranberries'],
           cookingMethod: 'simmering' as unknown as CookingMethod
-        },
+        }
         dominant_element: 'Earth',
         secondary_element: 'Water'
-      },
+      }
       dominant_element: 'Earth',
       secondary_element: 'Water'
-    },
+    }
 
     optimalIngredients: ['root_vegetables', 'winter_squash', 'kale', 'citrus', 'pomegranates'],
     optimalCookingMethods: ['braising', 'stewing', 'roasting', 'simmering'],
     elementalInfluence: 0.6
-  },
+  }
 
   all: {
-    elementalDominance: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-    kalchmRange: { min: 0.8, max: 1.2 },
+    elementalDominance: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+    kalchmRange: { min: 0.8, max: 1.2 }
     monicaModifiers: {
       temperatureAdjustment: 0,
       timingAdjustment: 0,
       intensityModifier: 'maintain',
       planetaryAlignment: 0.75,
       lunarPhaseBonus: 0.65
-    },
+    }
 
     ingredients: {
       onions: 0.9,
@@ -622,7 +622,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       carrots: 0.85,
       potatoes: 0.88,
       herbs: 0.8
-    },
+    }
 
     growing: ['basil', 'rosemary', 'thyme', 'sage', 'oregano'],
     herbs: ['parsley', 'thyme', 'rosemary', 'bay leaf', 'oregano'],
@@ -632,7 +632,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
         combinations: ['garlic + herbs', 'lemon + herbs'],
         dishes: ['roasted meats', 'soups', 'stews']
       }
-    },
+    }
 
     tarotProfile: {
       minorArcana: [
@@ -678,47 +678,47 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
           effect: 0.8,
           ingredients: ['garlic', 'herbs'],
           cookingMethod: 'sauteing' as unknown as CookingMethod
-        },
+        }
         ace_of_cups: {
           element: 'Water',
           effect: 0.8,
           ingredients: ['onions', 'carrots'],
           cookingMethod: 'simmering' as unknown as CookingMethod
-        },
+        }
         ace_of_swords: {
           element: 'Air',
           effect: 0.8,
           ingredients: ['herbs', 'potatoes'],
           cookingMethod: 'roasting' as unknown as CookingMethod
-        },
+        }
         ace_of_pentacles: {
           element: 'Earth',
           effect: 0.8,
           ingredients: ['root_vegetables', 'grains'],
           cookingMethod: 'baking' as unknown as CookingMethod
-        },
+        }
         dominant_element: 'Earth',
         secondary_element: 'Fire'
-      },
+      }
       dominant_element: 'Earth',
       secondary_element: 'Fire'
-    },
+    }
 
     optimalIngredients: ['garlic', 'onions', 'herbs', 'potatoes', 'carrots'],
     optimalCookingMethods: ['sauteing', 'roasting', 'simmering', 'baking'],
     elementalInfluence: 0.75
   }
-},
+}
 
 // ===== UNIFIED SEASONAL SYSTEM CLASS =====,
 
 export class UnifiedSeasonalSystem {
-  private enhancedCookingMethods: { [key: string]: EnhancedCookingMethod },
+  private enhancedCookingMethods: { [key: string]: EnhancedCookingMethod }
 
   constructor() {
     this.enhancedCookingMethods = getAllEnhancedCookingMethods() as unknown as {,
       [key: string]: EnhancedCookingMethod
-    },
+    }
   }
 
   // ===== CORE SEASONAL FUNCTIONS =====,
@@ -796,7 +796,7 @@ export class UnifiedSeasonalSystem {
       complementaryFlavors,
       kalchmCompatibility,
       monicaResonance
-    },
+    }
   }
 
   /**
@@ -849,7 +849,7 @@ export class UnifiedSeasonalSystem {
       lunarPhase?: LunarPhase,
       planetaryHour?: PlanetName,
       temperature?: number
-    },
+    }
   ): number {
     const seasonProfile = unifiedSeasonalProfiles[season]
 
@@ -919,7 +919,7 @@ export class UnifiedSeasonalSystem {
       lunarPhase?: LunarPhase,
       planetaryHour?: PlanetName,
       temperature?: number
-    },
+    }
     seasonProfile: SeasonalProfile,
   ): number {
     let modifier = 1.0,
@@ -953,7 +953,7 @@ export class UnifiedSeasonalSystem {
   getSeasonalRecommendations(
     season: Season,
     targetMonica?: number,
-    kalchmRange?: { min: number, max: number },
+    kalchmRange?: { min: number, max: number }
   ): SeasonalRecommendations {
     const seasonProfile = unifiedSeasonalProfiles[season];
 
@@ -987,7 +987,7 @@ export class UnifiedSeasonalSystem {
       recipes: [], // Will be populated when recipe system is unified
       monicaOptimization,
       kalchmHarmony
-    },
+    }
   }
 
   /**
@@ -995,7 +995,7 @@ export class UnifiedSeasonalSystem {
    */
   private getSeasonalCompatibleIngredients(
     season: Season,
-    kalchmRange: { min: number, max: number },
+    kalchmRange: { min: number, max: number }
   ): UnifiedIngredient[] {
     const seasonProfile = unifiedSeasonalProfiles[season];
     const compatibleIngredients: UnifiedIngredient[] = [];
@@ -1140,7 +1140,7 @@ export class UnifiedSeasonalSystem {
    */
   private calculateSeasonalKalchmHarmony(
     ingredients: UnifiedIngredient[],
-    kalchmRange: { min: number, max: number },
+    kalchmRange: { min: number, max: number }
   ): number {
     if ((ingredients || []).length === 0) return 0.5,
 
@@ -1193,7 +1193,7 @@ export class UnifiedSeasonalSystem {
       max:
         fromProfile.kalchmRange.max +
         (toProfile.kalchmRange.max - fromProfile.kalchmRange.max) * transitionProgress
-    },
+    }
 
     // Blend Monica modifiers
     const blendedMonicaModifiers = this.blendMonicaModifiers(;
@@ -1224,7 +1224,7 @@ export class UnifiedSeasonalSystem {
       blendedMonicaModifiers,
       recommendedIngredients,
       recommendedCookingMethods
-    },
+    }
   }
 
   /**
@@ -1240,7 +1240,7 @@ export class UnifiedSeasonalSystem {
       Water: from.Water + (to.Water - from.Water) * progress,
       Earth: from.Earth + (to.Earth - from.Earth) * progress,
       Air: from.Air + (to.Air - from.Air) * progress
-    },
+    }
   }
 
   /**
@@ -1260,7 +1260,7 @@ export class UnifiedSeasonalSystem {
       planetaryAlignment: from.planetaryAlignment + (to.planetaryAlignment - from.planetaryAlignment) * progress,
       lunarPhaseBonus:
         from.lunarPhaseBonus + (to.lunarPhaseBonus - from.lunarPhaseBonus) * progress
-    },
+    }
   }
 
   /**
@@ -1351,7 +1351,7 @@ export const isInSeason = (ingredientName: string, threshold?: number) =>
 export const getSeasonalRecommendations = (
   season: Season,
   targetMonica?: number,
-  kalchmRange?: { min: number, max: number },
+  kalchmRange?: { min: number, max: number }
 ) => unifiedSeasonalSystem.getSeasonalRecommendations(season, targetMonica, kalchmRange)
 
 // Export consolidated data for backward compatibility
@@ -1386,7 +1386,7 @@ export const seasonalUsage = Object.fromEntries(
 
 // Export helper functions from original seasonalPatterns.ts
 export function getTarotInfluenceForSeason(season: Season) {
-  return unifiedSeasonalProfiles[season].tarotProfile.tarotInfluences || {},
+  return unifiedSeasonalProfiles[season].tarotProfile.tarotInfluences || {}
 }
 
 export function getSeasonalIngredientsByTarotCard(season: Season, cardKey: string): string[] {
@@ -1408,13 +1408,13 @@ export function getRecommendedCookingMethodByTarotCard(season: Season, cardKey: 
 // Export helper functions from original seasonalUsage.ts
 export function getSeasonalUsageData(_ingredient: string, season: Season) {
   const seasonProfile = unifiedSeasonalProfiles[season]
-  if (!seasonProfile) return { inGrowing: false, inHerbs: false, inVegetables: false },
+  if (!seasonProfile) return { inGrowing: false, inHerbs: false, inVegetables: false }
 
   return {
     inGrowing: seasonProfile.growing && seasonProfile.growing.includes(ingredient),
     inHerbs: seasonProfile.herbs && seasonProfile.herbs.includes(ingredient),
     inVegetables: seasonProfile.vegetables && seasonProfile.vegetables.includes(ingredient)
-  },
+  }
 }
 
 export function getTarotRecommendationsForSeason(season: Season) {

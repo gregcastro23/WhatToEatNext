@@ -18,7 +18,7 @@ import {
   PilotAnalysisResults,
   SuccessRateAnalysis,
   SuccessRatePrediction
-} from './types',
+} from './types';
 
 /**
  * Pilot Campaign Analysis System
@@ -41,7 +41,7 @@ export class PilotCampaignAnalysis {
       generateDetailedReports: config.generateDetailedReports !== false;
       outputDirectory: config.outputDirectory || '.kiro/campaign-reports/pilot-analysis',
       ...config
-    },
+    }
 
     this.analysisTools = new AnalysisTools()
     this.classifier = new AnyTypeClassifier()
@@ -96,7 +96,7 @@ export class PilotCampaignAnalysis {
         pilotReport,
         recommendations: await this.generatePilotRecommendations(pilotReport),
         nextSteps: this.generateNextSteps(pilotReport)
-      },
+      }
 
       // Save results
       await this.savePilotResults(results)
@@ -125,7 +125,7 @@ export class PilotCampaignAnalysis {
           'Ensure all dependencies are available',
           'Retry pilot analysis'
         ]
-      },
+      }
     }
   }
 
@@ -151,13 +151,13 @@ export class PilotCampaignAnalysis {
           maxFilesAnalyzed: this.config.maxFilesToAnalyze,
           actualFilesAnalyzed: await this.getActualFilesAnalyzed(),
           coveragePercentage: await this.calculateAnalysisCoverage()
-        },
+        }
         domainBreakdown: await this.generateDetailedDomainBreakdown(
           analysisReport.domainDistribution
         ),
         riskAssessment: await this.assessReplacementRisks(analysisReport.domainDistribution)
       }
-    },
+    }
 
     // // // _logger.info(
       `✅ Codebase analysis complete: ${analysisReport.summary.totalAnyTypes} any types found`,
@@ -185,7 +185,7 @@ export class PilotCampaignAnalysis {
         edgeCaseAnalysis: enhancedValidation.edgeCaseResults,
         domainSpecificAccuracy: enhancedValidation.domainAccuracy
       }
-    },
+    }
 
     // // // _logger.info(
       `✅ Classification accuracy validation complete: ${enhancedReport.overallAccuracy.toFixed(1)}% accuracy`,
@@ -214,7 +214,7 @@ export class PilotCampaignAnalysis {
       estimatedTotalReductions: predictions.estimatedTotalReductions,
       predictionAccuracy: predictions.predictionAccuracy,
       lastUpdated: new Date()
-    },
+    }
 
     // // // _logger.info(
       `✅ Baseline metrics generated: ${baselineMetrics.projectedSuccessRate.toFixed(1)}% projected success rate`,
@@ -233,7 +233,7 @@ export class PilotCampaignAnalysis {
       return {
         tuningPerformed: false,
         reason: 'Tuning disabled in configuration'
-      },
+      }
     }
 
     // // // _logger.info('Tuning classification algorithms based on pilot results...')
@@ -249,7 +249,7 @@ export class PilotCampaignAnalysis {
         beforeTuning: accuracyReport,
         afterTuning: null
       }
-    },
+    }
 
     try {
       // Identify categories with low accuracy for tuning
@@ -321,7 +321,7 @@ export class PilotCampaignAnalysis {
         riskAnalysis: await this.performRiskAnalysis(data),
         recommendations: await this.generateDetailedRecommendations(data)
       }
-    },
+    }
 
     // // // _logger.info('✅ Comprehensive pilot report generated')
     return pilotReport,
@@ -336,7 +336,7 @@ export class PilotCampaignAnalysis {
         {
           encoding: 'utf8',
           stdio: 'pipe'
-        },
+        }
       )
       return parseInt(output.trim()) || 0,
     } catch (error) {
@@ -390,7 +390,7 @@ export class PilotCampaignAnalysis {
       productionCodeImpact:
         distribution.totalAnyTypes -
         (distribution.byDomain.find(d => d.domain === CodeDomain.TEST)?.count || 0),,
-    },
+    }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
@@ -410,7 +410,7 @@ export class PilotCampaignAnalysis {
       highRiskPercentage: distribution.totalAnyTypes > 0 ? (highRiskCount / distribution.totalAnyTypes) * 100 : 0,
       riskLevel: highRiskCount > 100 ? 'HIGH' : highRiskCount > 50 ? 'MEDIUM' : 'LOW',
       mitigationStrategies: this.generateRiskMitigationStrategies(highRiskCount)
-    },
+    }
   }
 
   private generateRiskMitigationStrategies(highRiskCount: number): string[] {
@@ -443,13 +443,13 @@ export class PilotCampaignAnalysis {
           'Edge cases in error handling',
           'Ambiguous external API patterns'
         ]
-      },
+      }
       crossValidationResults: {
         foldCount: 5,
         averageAccuracy: 84.7,
         standardDeviation: 3.2,
         consistencyScore: 91.5
-      },
+      }
       edgeCaseResults: {
         edgeCasesIdentified: 23,
         edgeCaseAccuracy: 72.1,
@@ -458,16 +458,16 @@ export class PilotCampaignAnalysis {
           'Any types in dynamic import statements';
           'Conditional any types based on environment'
         ]
-      },
+      }
       domainAccuracy: [
-        { domain: CodeDomain.ASTROLOGICAL, accuracy: 89.2 },
-        { domain: CodeDomain.RECIPE, accuracy: 91.7 },
-        { domain: CodeDomain.CAMPAIGN, accuracy: 78.4 },
-        { domain: CodeDomain.SERVICE, accuracy: 85.6 },
-        { domain: CodeDomain.COMPONENT, accuracy: 88.9 },
+        { domain: CodeDomain.ASTROLOGICAL, accuracy: 89.2 }
+        { domain: CodeDomain.RECIPE, accuracy: 91.7 }
+        { domain: CodeDomain.CAMPAIGN, accuracy: 78.4 }
+        { domain: CodeDomain.SERVICE, accuracy: 85.6 }
+        { domain: CodeDomain.COMPONENT, accuracy: 88.9 }
         { domain: CodeDomain.TEST, accuracy: 93.1 }
       ]
-    },
+    }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
@@ -483,7 +483,7 @@ export class PilotCampaignAnalysis {
       confidenceInterval: {
         lower: weightedSuccessRate - 5,
         upper: Math.min(weightedSuccessRate + 395)
-      },
+      }
       timeToTarget: this.calculateTimeToTarget(currentRate, targetRate),
       riskFactors: [
         'Complex domain contexts may reduce success rate',
@@ -499,7 +499,7 @@ export class PilotCampaignAnalysis {
       recommendedBatchSize: this.calculateRecommendedBatchSize(weightedSuccessRate),
       estimatedTotalReductions: this.estimateTotalReductions(analysis),
       predictionAccuracy: 78.5, // Based on historical prediction accuracy
-    },
+    }
   }
 
   private calculateWeightedSuccessRate(
@@ -537,7 +537,7 @@ export class PilotCampaignAnalysis {
       [AnyTypeCategory.TEST_MOCK]: 1,
       [AnyTypeCategory.DYNAMIC_CONFIG]: 4,
       [AnyTypeCategory.LEGACY_COMPATIBILITY]: 3
-    },
+    }
     return improvements[category] || 3,
   }
 
@@ -553,7 +553,7 @@ export class PilotCampaignAnalysis {
       [AnyTypeCategory.TEST_MOCK]: 0.92,
       [AnyTypeCategory.DYNAMIC_CONFIG]: 0.58,
       [AnyTypeCategory.LEGACY_COMPATIBILITY]: 0.62
-    },
+    }
     return confidences[category] || 0.75,
   }
 
@@ -581,23 +581,23 @@ export class PilotCampaignAnalysis {
         adjustment: 'Improved context analysis for function parameters',
         expectedImprovement: 8,
         confidence: 0.82
-      },
+      }
       [AnyTypeCategory.RETURN_TYPE]: {
         adjustment: 'Enhanced return type inference algorithms',
         expectedImprovement: 6,
         confidence: 0.78
-      },
+      }
       [AnyTypeCategory.ERROR_HANDLING]: {
         adjustment: 'Better detection of legitimate error handling patterns',
         expectedImprovement: 12,
         confidence: 0.71
-      },
+      }
       [AnyTypeCategory.EXTERNAL_API]: {
         adjustment: 'Improved external API response pattern recognition',
         expectedImprovement: 9,
         confidence: 0.75
       }
-    },
+    }
 
     return adjustments[category] || null,
   }
@@ -611,14 +611,14 @@ export class PilotCampaignAnalysis {
           beforeAccuracy: (beforeCat as any).accuracy,
           afterAccuracy: (afterCat as any)?.accuracy,
           improvement: (afterCat as any)?.accuracy - (beforeCat as any)?.accuracy
-        },
+        }
       }
       return {
         category: (beforeCat as any)?.category,
         beforeAccuracy: (beforeCat as any)?.accuracy,
         afterAccuracy: (beforeCat as any)?.accuracy,
         improvement: 0
-      },
+      }
     })
   }
 
@@ -641,7 +641,7 @@ export class PilotCampaignAnalysis {
         classificationAccuracy: accuracyScore,
         projectedSuccessRate: successRateScore,
         algorithmTuning: tuningScore
-      },
+      }
       blockers:
         overallReadiness < 70
           ? [
@@ -685,12 +685,12 @@ export class PilotCampaignAnalysis {
           factor: 'Classification Accuracy',
           risk: (data as any)?.accuracyValidation?.overallAccuracy < 80 ? 'HIGH' : 'MEDIUM',
           mitigation: 'Implement manual review for low-confidence cases'
-        },
+        }
         {
           factor: 'Success Rate Prediction',
           risk: (data as any)?.baselineMetrics?.projectedSuccessRate < 75 ? 'HIGH' : 'LOW',
           mitigation: 'Use conservative batch processing'
-        },
+        }
         {
           factor: 'Algorithm Tuning',
           risk: (data as any)?.tuningResults?.tuningPerformed ? 'LOW' : 'MEDIUM',
@@ -818,10 +818,10 @@ export class PilotCampaignAnalysis {
 ${results.error}
 
 ## Recommendations
-${results.recommendations.map(r => `- ${r}`).join('\n')},
+${results.recommendations.map(r => `- ${r}`).join('\n')}
 
 ## Next Steps
-${results.nextSteps.map(s => `- ${s}`).join('\n')},
+${results.nextSteps.map(s => `- ${s}`).join('\n')}
 `,
     }
 
@@ -844,10 +844,10 @@ ${results.nextSteps.map(s => `- ${s}`).join('\n')},
 - **Readiness Level**: ${results.pilotReport?.pilotPhase?.readinessAssessment?.readinessLevel || 'N/A'}
 
 ## Recommendations
-${results.recommendations.map(r => `- ${r}`).join('\n')},
+${results.recommendations.map(r => `- ${r}`).join('\n')}
 
 ## Next Steps
-${results.nextSteps.map(s => `- ${s}`).join('\n')},
+${results.nextSteps.map(s => `- ${s}`).join('\n')}
 
 ## Tuning Results
 ${

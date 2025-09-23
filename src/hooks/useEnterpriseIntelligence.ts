@@ -11,18 +11,18 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   EnterpriseIntelligenceIntegration,
   enterpriseIntelligenceIntegration
-} from '@/services/EnterpriseIntelligenceIntegration',
+} from '@/services/EnterpriseIntelligenceIntegration';
 import type { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
 import type {
   EnterpriseRecipeData,
   EnterpriseIngredientData,
   EnterpriseAstrologicalContext,
   EnterpriseIntelligenceAnalysisState
-} from '@/types/enterpriseHooks',
+} from '@/types/enterpriseHooks';
 import type {
   EnterpriseIntelligenceConfig,
   EnterpriseIntelligenceResult
-} from '@/types/enterpriseIntelligence',
+} from '@/types/enterpriseIntelligence';
 import { logger } from '@/utils/logger';
 
 // ========== INTERFACES ==========
@@ -43,7 +43,7 @@ export interface EnterpriseIntelligenceState {
     averageExecutionTime: number,
     cacheHitRate: number,
     errorRate: number
-  },
+  }
 }
 
 export interface EnterpriseIntelligenceActions {
@@ -55,7 +55,7 @@ export interface EnterpriseIntelligenceActions {
       lunarPhase: LunarPhase,
       elementalProperties: ElementalProperties,
       planetaryPositions?: EnterpriseAstrologicalContext['planetaryPositions']
-    },
+    }
   ) => Promise<EnterpriseIntelligenceResult | null>,
   clearAnalysis: () => void,
   updateConfig: (config: Partial<EnterpriseIntelligenceConfig>) => void,
@@ -73,13 +73,13 @@ export interface UseEnterpriseIntelligenceReturn {
     validation: string[],
     safety: string[],
     optimization: string[]
-  },
+  }
   systemHealth: {
     overall: 'excellent' | 'good' | 'fair' | 'poor',
     score: number,
     issues: string[],
     warnings: string[]
-  },
+  }
   isHealthy: boolean,
   needsAttention: boolean
 }
@@ -127,7 +127,7 @@ export function useEnterpriseIntelligence(
         validation: [],
         safety: [],
         optimization: []
-      },
+      }
     }
 
     return {
@@ -163,8 +163,8 @@ export function useEnterpriseIntelligence(
         ...((
           state.analysis as unknown as {
             optimizationRecommendations?: {
-              performance?: { recommendations?: string[] },
-              accuracy?: { recommendations?: string[] },
+              performance?: { recommendations?: string[] }
+              accuracy?: { recommendations?: string[] }
               userExperience?: { recommendations?: string[] }
               systemIntegration?: { recommendations?: string[] }
             }
@@ -186,7 +186,7 @@ export function useEnterpriseIntelligence(
           }
         ).optimizationRecommendations?.systemIntegration?.recommendations || [])
       ]
-    },
+    }
   }, [state.analysis])
 
   const systemHealth = useMemo(() => {
@@ -196,7 +196,7 @@ export function useEnterpriseIntelligence(
         score: 0.7,
         issues: ['No analysis available'],
         warnings: []
-      },
+      }
     }
 
     const analysis = state.analysis;
@@ -218,7 +218,7 @@ export function useEnterpriseIntelligence(
       ...((
         analysis.validationIntelligence as unknown as {
           dataIntegrity?: { warnings?: string[] }
-          astrologicalConsistency?: { warnings?: string[] },
+          astrologicalConsistency?: { warnings?: string[] }
           elementalHarmony?: { warnings?: string[] }
         }
       )?.dataIntegrity?.warnings || []),
@@ -240,7 +240,7 @@ export function useEnterpriseIntelligence(
         0.7,
       issues,
       warnings
-    },
+    }
   }, [state.analysis])
 
   const isHealthy = useMemo(() => {
@@ -269,7 +269,7 @@ export function useEnterpriseIntelligence(
         lunarPhase: LunarPhase,
         elementalProperties: ElementalProperties,
         planetaryPositions?: Record<string, unknown>
-      },
+      }
     ): Promise<EnterpriseIntelligenceResult | null> => {
       setState(prev => ({
         ...prev,
@@ -328,7 +328,7 @@ export function useEnterpriseIntelligence(
         logger.error('[useEnterpriseIntelligence] Enterprise intelligence analysis failed', error)
         return null;
       }
-    },
+    }
     [intelligenceService],
   )
 
@@ -347,7 +347,7 @@ export function useEnterpriseIntelligence(
     (newConfig: Partial<EnterpriseIntelligenceConfig>) => {
       intelligenceService.updateConfig(newConfig)
       logger.info('[useEnterpriseIntelligence] Configuration updated')
-    },
+    }
     [intelligenceService],
   )
 
@@ -418,7 +418,7 @@ export function useEnterpriseIntelligence(
         ...prev,
         performanceMetrics: metrics
       }))
-    },
+    }
 
     // Update metrics every 10 seconds
     const metricsTimer = setInterval(() => void updateMetrics(), 10000)
@@ -437,12 +437,12 @@ export function useEnterpriseIntelligence(
       clearCache,
       resetMetrics,
       retryAnalysis
-    },
+    }
     recommendations,
     systemHealth,
     isHealthy,
     needsAttention
-  },
+  }
 }
 
 // ========== UTILITY HOOKS ==========
@@ -501,7 +501,7 @@ export function useEnterpriseIntelligenceRecommendations() {
     ],
 
     // Sort by priority
-    const priorityOrder = { high: 3, medium: 2, low: 1 },
+    const priorityOrder = { high: 3, medium: 2, low: 1 }
     return allRecommendations.sort(
       (ab) =>
         priorityOrder[b.priority as keyof typeof priorityOrder] -
@@ -514,7 +514,7 @@ export function useEnterpriseIntelligenceRecommendations() {
     hasRecommendations: prioritizedRecommendations.length > 0,
     highPriorityCount: prioritizedRecommendations.filter(r => r.priority === 'high').length,,
     lastUpdated: state.lastAnalyzed
-  },
+  }
 }
 
 /**

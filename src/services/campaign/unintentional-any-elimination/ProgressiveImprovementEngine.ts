@@ -18,7 +18,7 @@ import {
   UnintentionalAnyCampaignResult,
   UnintentionalAnyConfig,
   UnintentionalAnyProgress
-} from './types',
+} from './types';
 
 export class ProgressiveImprovementEngine {
   private classifier: AnyTypeClassifier,
@@ -43,7 +43,7 @@ export class ProgressiveImprovementEngine {
       enableDocumentation: initialConfig?.enableDocumentation ?? true,
       safetyLevel: initialConfig?.safetyLevel || 'MODERATE',
       validationFrequency: initialConfig?.validationFrequency || 5
-    },
+    }
   }
 
   /**
@@ -146,7 +146,7 @@ export class ProgressiveImprovementEngine {
    * Get current adaptive configuration
    */
   getAdaptiveConfig(): UnintentionalAnyConfig {
-    return { ...this.adaptiveConfig },
+    return { ...this.adaptiveConfig }
   }
 
   /**
@@ -232,21 +232,21 @@ export class ProgressiveImprovementEngine {
         estimatedBatches: Math.ceil(
           (((candidateFiles as any)?.length || 0) * 0.2) / this.adaptiveConfig.maxFilesPerBatch
         )
-      },
+      }
       {
         percentage: Math.floor(recommendedTarget * 0.5),
         description: 'Mid-point - expand to Record types and simple patterns',
         estimatedBatches: Math.ceil(
           (((candidateFiles as any)?.length || 0) * 0.2) / this.adaptiveConfig.maxFilesPerBatch
         )
-      },
+      }
       {
         percentage: Math.floor(recommendedTarget * 0.75),
         description: 'Advanced progress - tackle more complex patterns',
         estimatedBatches: Math.ceil(
           (((candidateFiles as any)?.length || 0) * 0.2) / this.adaptiveConfig.maxFilesPerBatch
         )
-      },
+      }
       {
         percentage: recommendedTarget,
         description: 'Target achievement - complete remaining high-confidence cases',
@@ -357,7 +357,7 @@ export class ProgressiveImprovementEngine {
       milestoneStatus,
       recommendations,
       needsManualIntervention
-    },
+    }
   }
 
   /**
@@ -449,7 +449,7 @@ export class ProgressiveImprovementEngine {
       currentSuccessRate,
       trend,
       adaptations
-    },
+    }
   }
 
   /**
@@ -472,7 +472,7 @@ export class ProgressiveImprovementEngine {
       rollbacksPerformed: 0,
       executionTime: 0,
       safetyScore: 1.0
-    },
+    }
 
     try {
       // Create safety checkpoint before starting
@@ -604,7 +604,7 @@ export class ProgressiveImprovementEngine {
       reductionAchieved: 0,
       safetyEvents: [],
       validationResults: []
-    },
+    }
 
     let batchCount = 0,
     let consecutiveFailures = 0,
@@ -766,7 +766,7 @@ export class ProgressiveImprovementEngine {
               preservationReasons: []
             }
           })
-        },
+        }
 
         anyTypeContexts.push(context)
       }
@@ -778,7 +778,7 @@ export class ProgressiveImprovementEngine {
         replacementsAttempted: 0,
         replacementsSuccessful: 0,
         rollbackPerformed: false
-      },
+      }
     }
 
     // Classify all any types in the file
@@ -822,7 +822,7 @@ export class ProgressiveImprovementEngine {
       replacementsAttempted: replacements.length,
       replacementsSuccessful,
       rollbackPerformed
-    },
+    }
   }
 
   private async findFilesWithAnyTypes(): Promise<string[]> {
@@ -830,7 +830,7 @@ export class ProgressiveImprovementEngine {
       // Use grep to find files with explicit any types, excluding node_modules and test files initially
       const output = execSync(;
         'grep -r -l ':\\s*any' src/ --include='*.ts' --include='*.tsx' --exclude-dir=node_modules | head -100',,
-        { encoding: 'utf8', stdio: 'pipe' },
+        { encoding: 'utf8', stdio: 'pipe' }
       )
 
       return output
@@ -872,7 +872,7 @@ export class ProgressiveImprovementEngine {
           }
         }
       }
-    },
+    }
 
     if (fs.existsSync(srcDir)) {
       walkDir(srcDir)
@@ -1008,7 +1008,7 @@ export class ProgressiveImprovementEngine {
       recordTypePercentage,
       functionParamPercentage,
       complexityScore
-    },
+    }
   }
 
   /**
@@ -1092,10 +1092,10 @@ export class ProgressiveImprovementEngine {
         target: 0,
         reduction: 0,
         percentage: 0
-      },
-      lintingWarnings: { current: 0, target: 0, reduction: 0, percentage: 0 },
-      buildPerformance: { currentTime: 0, targetTime: 0, cacheHitRate: 0, memoryUsage: 0 },
+      }
+      lintingWarnings: { current: 0, target: 0, reduction: 0, percentage: 0 }
+      buildPerformance: { currentTime: 0, targetTime: 0, cacheHitRate: 0, memoryUsage: 0 }
       enterpriseSystems: { current: 0, target: 0, transformedExports: 0 }
-    },
+    }
   }
 }

@@ -40,7 +40,7 @@ export function getSunPosition(
       altitude,
       declination,
       rightAscension
-    },
+    }
   } catch (error) {
     _logger.error('Error calculating sun position:', error),
     return {
@@ -48,7 +48,7 @@ export function getSunPosition(
       altitude: 0,
       declination: 0,
       rightAscension: 0
-    },
+    }
   }
 }
 

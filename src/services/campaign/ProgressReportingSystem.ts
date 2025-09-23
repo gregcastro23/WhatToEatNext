@@ -13,7 +13,7 @@ import {
   MetricsCollectionSystem,
   DetailedMetrics,
   MetricsSnapshot
-} from './MetricsCollectionSystem',
+} from './MetricsCollectionSystem';
 import {MilestoneValidationSystem, PhaseValidationResult} from './MilestoneValidationSystem';
 
 export interface CampaignSummaryReport {
@@ -75,25 +75,25 @@ export interface PerformanceSnapshot {
     current: number,
     reduction: number,
     reductionRate: number, // per hour
-  },
+  }
   lintingWarnings: {
     initial: number,
     current: number,
     reduction: number,
     reductionRate: number, // per hour
-  },
+  }
   buildPerformance: {
     currentTime: number,
     targetTime: number,
     improvement: number,
     cacheEfficiency: number
-  },
+  }
   enterpriseSystems: {
     initial: number,
     current: number,
     target: number,
     growthRate: number, // per hour
-  },
+  }
 }
 
 export interface Recommendation {
@@ -218,7 +218,7 @@ export class ProgressReportingSystem {
       recommendations,
       estimatedCompletion,
       executiveSummary
-    },
+    }
 
     this.reportHistory.push(report)
     // // // _logger.info(`✅ Campaign summary report generated: ${overallProgress}% complete`)
@@ -265,7 +265,7 @@ export class ProgressReportingSystem {
       achievements,
       issues,
       recommendations
-    },
+    }
 
     // // // _logger.info(
       `✅ Phase ${phaseId} report generated: ${phaseValidation.overallSuccess ? 'COMPLETED' : 'IN PROGRESS'}`,
@@ -292,7 +292,7 @@ export class ProgressReportingSystem {
       phaseProgressChart,
       errorDistributionChart,
       performanceTrendChart
-    },
+    }
   }
 
   /**
@@ -362,7 +362,7 @@ export class ProgressReportingSystem {
       summary,
       visualization,
       recentActivity
-    },
+    }
   }
 
   /**
@@ -509,26 +509,26 @@ export class ProgressReportingSystem {
         current: metrics.typeScriptErrors.current,
         reduction: metrics.typeScriptErrors.reduction,
         reductionRate: metrics.trendData.errorReductionRate
-      },
+      }
       lintingWarnings: {
         initial: 4506,
         current: metrics.lintingWarnings.current,
         reduction: metrics.lintingWarnings.reduction,
         reductionRate: metrics.trendData.warningReductionRate
-      },
+      }
       buildPerformance: {
         currentTime: metrics.buildPerformance.currentTime,
         targetTime: 10,
         improvement: metrics.trendData.buildTimeImprovement,
         cacheEfficiency: metrics.buildPerformance.cacheHitRate
-      },
+      }
       enterpriseSystems: {
         initial: 0,
         current: metrics.enterpriseSystems.current,
         target: 200,
         growthRate: metrics.trendData.systemGrowthRate
       }
-    },
+    }
   }
 
   private generateRecommendations(
@@ -625,7 +625,7 @@ export class ProgressReportingSystem {
   }
 
   private generateErrorDistributionChart(metrics: DetailedMetrics): ErrorDistributionPoint[] {
-    const errorBreakdown = metrics.errorBreakdown || {},
+    const errorBreakdown = metrics.errorBreakdown || {}
     const totalErrors = Object.values(errorBreakdown).reduce((sum, count) => sum + count0)
 
     return Object.entries(errorBreakdown).map(([errorType, count]) => ({
@@ -808,7 +808,7 @@ ${issue.description}
       milestonesCompleted: validation.milestones.filter(m => m.success).length,,
       totalMilestones: validation.milestones.length,
       criticalFailures: validation.criticalFailures.length
-    },
+    }
   }
 
   private generatePhaseAchievements(

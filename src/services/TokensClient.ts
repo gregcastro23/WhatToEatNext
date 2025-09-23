@@ -4,10 +4,10 @@ import type { ElementalProperties } from '@/types/celestial';
 export interface TokenRatesInput {
   // Option 1: Provide current moment data
   datetime?: Date,
-  location?: { latitude: number, longitude: number },
+  location?: { latitude: number, longitude: number }
   // Option 2: Provide elemental/ESMS directly
   elemental?: ElementalProperties,
-  esms?: { Spirit: number, Essence: number, Matter: number, Substance: number },
+  esms?: { Spirit: number, Essence: number, Matter: number, Substance: number }
   // Option 3: Provide planetary positions
   planetaryPositions?: Record<string, { sign: string, degree: number, minute?: number, isRetrograde?: boolean }>
 }
@@ -21,14 +21,14 @@ export interface TokenRatesResult {
   monica: number,
   // Additional backend metrics
   projections?: {
-    nextHour: { Spirit: number, Essence: number, Matter: number, Substance: number },
+    nextHour: { Spirit: number, Essence: number, Matter: number, Substance: number }
     nextDay: { Spirit: number, Essence: number, Matter: number, Substance: number }
-  },
+  }
   harmonicAnalysis?: {
     dominantFrequency: number,
     resonanceStrength: number,
     stabilityIndex: number
-  },
+  }
   marketPhase?: 'accumulation' | 'distribution' | 'trending' | 'consolidation',
   volatilityIndex?: number,
   upcomingEvents?: Array<{
@@ -56,7 +56,7 @@ function computeTokensFromAlchemical(alchemicalResult: any): TokenRatesResult {
     Substance,
     kalchm: typeof alchemicalResult?.kalchm === 'number' ? alchemicalResult.kalchm : 1.0,
     monica: typeof alchemicalResult?.monica === 'number' ? alchemicalResult.monica : 1.0
-  },
+  }
 }
 
 /**
@@ -82,7 +82,7 @@ export class TokensClient {
           location: input.location,
           elemental: input.elemental,
           esms: input.esms
-        },
+        }
 
         const result = await alchmAPI.calculateTokenRates(request)
         logger.debug('TokensClient', 'Backend calculation successful', result)

@@ -8,7 +8,7 @@ export type ElementalProperties = {
   Water: number,
   Air: number,
   Earth: number,
-},
+}
 
 export interface ThermodynamicsResult {
   heat: number,
@@ -33,9 +33,9 @@ export interface Recipe {
 
 export interface TokenRatesRequest {
   datetime?: string,
-  location?: { latitude: number; longitude: number },
+  location?: { latitude: number; longitude: number }
   elemental?: ElementalProperties,
-  esms?: { Spirit: number; Essence: number; Matter: number; Substance: number },
+  esms?: { Spirit: number; Essence: number; Matter: number; Substance: number }
 }
 
 export interface TokenRatesResult {
@@ -49,13 +49,13 @@ export interface TokenRatesResult {
 
 export interface RuneAgentRequest {
   datetime?: string,
-  location?: { latitude: number; longitude: number },
+  location?: { latitude: number; longitude: number }
   context?: 'cuisine' | 'recipe' | 'ingredient' | 'cooking_method',
   preferences?: {
     dietaryRestrictions?: string[],
     cuisineTypes?: string[],
     intensity?: 'mild' | 'moderate' | 'intense',
-  },
+  }
 }
 
 export interface RuneResult {
@@ -64,14 +64,14 @@ export interface RuneResult {
   meaning: string,
   influence: {
     elemental: ElementalProperties,
-    energy: { Spirit: number; Essence: number; Matter: number; Substance: number },
+    energy: { Spirit: number; Essence: number; Matter: number; Substance: number }
     guidance: string,
-  },
+  }
 }
 
 export interface PlanetaryHourRequest {
   datetime?: string,
-  location?: { latitude: number; longitude: number },
+  location?: { latitude: number; longitude: number }
 }
 
 export interface PlanetaryHourResult {
@@ -101,7 +101,7 @@ export class AlchmAPIClient {
     const url = `${this.endpoints.alchemical}/calculate/elemental`;
     return this.request<ElementalProperties>(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' }
       body: JSON.stringify({ ingredients }),
     })
   }
@@ -110,7 +110,7 @@ export class AlchmAPIClient {
     const url = `${this.endpoints.alchemical}/calculate/thermodynamics`;
     return this.request<ThermodynamicsResult>(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' }
       body: JSON.stringify({ ingredients }),
     })
   }
@@ -119,7 +119,7 @@ export class AlchmAPIClient {
     const url = `${this.endpoints.kitchen}/recommend/recipes`;
     return this.request<Recipe[]>(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' }
       body: JSON.stringify(request),
     })
   }
@@ -128,7 +128,7 @@ export class AlchmAPIClient {
     const url = `${this.endpoints.alchemical}/api/tokens/calculate`;
     return this.request<TokenRatesResult>(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' }
       body: JSON.stringify(request),
     })
   }
@@ -137,7 +137,7 @@ export class AlchmAPIClient {
     const url = `${this.endpoints.alchemical}/api/runes/guidance`;
     return this.request<RuneResult>(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' }
       body: JSON.stringify(request),
     })
   }
@@ -153,7 +153,7 @@ export class AlchmAPIClient {
 
     return this.request<PlanetaryHourResult>(`${url}?${params.toString()}`, {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' }
     })
   }
 }

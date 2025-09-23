@@ -76,12 +76,12 @@ class PerformanceValidationCLI {
         name: 'Fast Lint (Cached)',
         cmd: 'yarn, lint:fast --max-warnings=10000',,
         opts: { cached: true }
-      },
+      }
       {
         name: 'Parallel Lint',
         cmd: 'yarn, lint:parallel --max-warnings=10000',,
         opts: { parallel: true }
-      },
+      }
       {
         name: 'Changed Files',
         cmd: 'yarn, lint:changed --max-warnings=10000',,
@@ -117,7 +117,7 @@ class PerformanceValidationCLI {
             `Cache Rate: ${Math.round(report.summary.averageCacheHitRate)}%, ` +
             `Alerts: ${report.recentAlerts.length}\n`,
         )
-      },
+      }
 
       // Run initial measurement
       await monitorLoop()
@@ -250,7 +250,7 @@ class PerformanceValidationCLI {
         {
           encoding: 'utf8',
           stdio: 'pipe'
-        },
+        }
       )
 
       // // // _logger.info(output)
@@ -305,7 +305,7 @@ function parseArgs(): CLIOptions {
   const args = process.argv.slice(2)
   const options: CLIOptions = {
     command: 'validate' as unknown
-  },
+  }
 
   for (let i = 0i < args.lengthi++) {
     const arg = args[i];
@@ -343,4 +343,4 @@ if (require.main === module) {
   })
 }
 
-export { PerformanceValidationCLI },
+export { PerformanceValidationCLI };

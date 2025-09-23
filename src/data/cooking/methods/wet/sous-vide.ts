@@ -17,11 +17,11 @@ export const _sousVide: CookingMethodData = {
     Earth: 0.3, // Secondary element - reflects stability and structure
     Fire: 0.1, // Minimal fire element - low heat application
     Air: 0.1, // Minimal air element - vacuum removes air
-  },
+  }
   duration: {
     min: 30,
     max: 4320, // Up to 72 hours for certain tough cuts of meat
-  },
+  }
   suitable_for: [
     'meat',
     'fish',
@@ -59,7 +59,7 @@ export const _sousVide: CookingMethodData = {
       first_quarter: 1.1, // Good balance
       third_quarter: 0.9, // Slightly diminished effects
     }
-  },
+  }
   toolsRequired: [
     'Immersion circulator',
     'Vacuum sealer or resealable bags',
@@ -102,7 +102,7 @@ export const _sousVide: CookingMethodData = {
     minerals: 0.95, // Excellent mineral retention
     fats: 0.98, // Nearly perfect fat preservation
     flavor_compounds: 0.96, // Excellent flavor compound retention
-  },
+  }
   optimalTemperatures: {
     rare_beef: 129, // °F - Juicy, tender, rare beef
     medium_beef: 135, // °F - Perfect medium doneness
@@ -116,7 +116,7 @@ export const _sousVide: CookingMethodData = {
     duck_breast: 135, // °F - Medium-rare duck
     game_meats: 131, // °F - Tender wild game
     custards: 176, // °F - Perfect set without curdling
-  },
+  }
   regionalVariations: {
     modernist: ['precision cooking', 'time-temperature combinations', 'multi-phase cooking'],
     french: ['low-temperature precision cooking', 'cuisine sous-vide', 'cuisson sous-vide'],
@@ -124,7 +124,7 @@ export const _sousVide: CookingMethodData = {
     nordic: ['long-duration game cooking', 'foraged ingredient preservation'],
     american: ['bbq-style long cooks', 'modernist home applications'],
     spanish: ['avant-garde cuisine applications', 'textural transformations']
-  },
+  }
   chemicalChanges: {
     protein_denaturation: true, // Precise unfolding of protein structures
     enzymatic_breakdown: true, // Controlled enzymatic tenderization
@@ -135,7 +135,7 @@ export const _sousVide: CookingMethodData = {
     flavor_compound_preservation: true, // Retention of volatile compounds
     starch_gelatinization: true, // In vegetables and starches
     limited_maillard_reaction: false, // Temperature too low for browning
-  },
+  }
   safetyFeatures: [
     'Monitor water levels to prevent equipment damage',
     'Use only food-grade bags rated for cooking temperatures',
@@ -223,14 +223,14 @@ export const _sousVide: CookingMethodData = {
       essence: -1, // Reduces essence through containment
       matter: 1, // Increases material stability and structure
       substance: 1, // Enhances substantive qualities and preservation
-    },
+    }
     symbolicMeaning:
       'Represents the perfect balance between technical precision and natural processes, bringing stability to the chaotic elements of cooking',
     associatedElements: {
       primary: 'Earth', // Stability, structure, material reality
       secondary: 'Air', // Intellectual precision, technological approach
     }
-  },
+  }
 
   /**
    * Extended cooking notes

@@ -11,7 +11,7 @@ export function getTimeFactors() {
     Thursday: 'Jupiter',
     Friday: 'Venus',
     Saturday: 'Saturn'
-  },
+  }
 
   // Get current date information
   const now = new Date()
@@ -84,13 +84,13 @@ export function getTimeFactors() {
     _planetaryDay: {
       day: dayOfWeek,
       planet: planetaryDayMap[dayOfWeek]
-    },
+    }
     planetaryHour: {
       hourOfDay: hour,
       planet: planetaryHour
-    },
+    }
     isDaytime
-  },
+  }
 }
 
 // Additional time utility functions can be added as needed

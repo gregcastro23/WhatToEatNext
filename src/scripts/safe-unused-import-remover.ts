@@ -81,7 +81,7 @@ class SafeUnusedImportRemover {
       safeToRemove: [],
       requiresManualReview: [],
       preserved: []
-    },
+    }
 
     // Categorize each unused import
     for (const unusedImport of unusedImports) {
@@ -290,7 +290,7 @@ class SafeUnusedImportRemover {
         if (!acc[imp.file]) acc[imp.file] = [],
         acc[imp.file].push(imp),
         return acc
-      },
+      }
       {} as Record<string, UnusedImport[]>,
     )
 
@@ -313,7 +313,7 @@ class SafeUnusedImportRemover {
         if (!acc[imp.file]) acc[imp.file] = [],
         acc[imp.file].push(imp),
         return acc
-      },
+      }
       {} as Record<string, UnusedImport[]>,
     )
 

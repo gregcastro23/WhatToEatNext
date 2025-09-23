@@ -111,7 +111,7 @@ export class BundleSizeOptimizer {
         assets,
         dependencies,
         recommendations
-      },
+      }
 
       // Store in history
       this.analysisHistory.push(analysis)
@@ -137,7 +137,7 @@ export class BundleSizeOptimizer {
         assets: [],
         dependencies: [],
         recommendations: ['Bundle analysis failed - check build configuration']
-      },
+      }
     }
   }
 
@@ -187,7 +187,7 @@ export class BundleSizeOptimizer {
             // Parse analyzer output (simplified)
             const sizeMatch = output.match(/Total bundle size: (\d+(?:\.\d+)?)\s*kB/)
             if (sizeMatch) {
-              return { totalSize: parseFloat(sizeMatch[1]) },
+              return { totalSize: parseFloat(sizeMatch[1]) }
             }
           }
         }
@@ -200,7 +200,7 @@ export class BundleSizeOptimizer {
       })
 
       const sizeKB = parseInt(output.trim()) || 0;
-      return { totalSize: sizeKB },
+      return { totalSize: sizeKB }
     } catch (error) {
       throw new Error(
         `Failed to get Next.js bundle info: ${(error as any).message || 'Unknown error'}`,
@@ -219,7 +219,7 @@ export class BundleSizeOptimizer {
       })
 
       const sizeKB = parseInt(output.trim()) || 0;
-      return { totalSize: sizeKB },
+      return { totalSize: sizeKB }
     } catch (error) {
       throw new Error(
         `Failed to get bundle info from ${buildDir}: ${(error as any).message || 'Unknown error'}`,
@@ -238,14 +238,14 @@ export class BundleSizeOptimizer {
         {
           encoding: 'utf8',
           stdio: 'pipe'
-        },
+        }
       )
 
       const sourceBytes = parseInt(output.trim()) || 0;
       const estimatedKB = Math.round((sourceBytes / 1024) * 1.5); // Rough estimate with bundling overhead
 
       // // // _logger.info(`📦 Estimated bundle size from source: ${estimatedKB}kB`)
-      return { totalSize: estimatedKB },
+      return { totalSize: estimatedKB }
     } catch (error) {
       _logger.warn(
         `⚠️  Bundle size estimation failed: ${(error as any).message || 'Unknown error'}`,
@@ -343,7 +343,7 @@ export class BundleSizeOptimizer {
       }
 
       const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'))
-      const deps = { ...packageJson.dependencies, ...packageJson.devDependencies },
+      const deps = { ...packageJson.dependencies, ...packageJson.devDependencies }
 
       // Analyze major dependencies that impact bundle size
       const heavyDependencies = [
@@ -405,7 +405,7 @@ export class BundleSizeOptimizer {
         potentialLazyComponents,
         dataFetchingOptimizations,
         score
-      },
+      }
     } catch (error) {
       _logger.warn(
         `⚠️  Lazy loading validation failed: ${(error as any).message || 'Unknown error'}`,
@@ -417,7 +417,7 @@ export class BundleSizeOptimizer {
         potentialLazyComponents: [],
         dataFetchingOptimizations: [],
         score: 0
-      },
+      }
     }
   }
 
@@ -522,7 +522,7 @@ export class BundleSizeOptimizer {
       overallScore,
       targetCompliance,
       recommendations
-    },
+    }
   }
 
   // Helper methods
@@ -582,7 +582,7 @@ export class BundleSizeOptimizer {
       axios: 15,
       three: 600,
       'chart.js': 80
-    },
+    }
 
     return knownSizes[name] || 20; // Default estimate
   }
@@ -603,7 +603,7 @@ export class BundleSizeOptimizer {
       moment: ['date-fns (smaller)', 'dayjs (2kB)'],
       axios: ['fetch API (native)', 'ky (smaller)'],
       'chart.js': ['recharts (React-specific)', 'victory (modular)']
-    },
+    }
 
     return alternatives[name] || [],
   }
@@ -628,7 +628,7 @@ export class BundleSizeOptimizer {
         {
           encoding: 'utf8',
           stdio: 'pipe'
-        },
+        }
       )
 
       return parseInt(output.trim()) || 0,
@@ -645,7 +645,7 @@ export class BundleSizeOptimizer {
         {
           encoding: 'utf8',
           stdio: 'pipe'
-        },
+        }
       )
 
       return output
@@ -667,7 +667,7 @@ export class BundleSizeOptimizer {
         {
           encoding: 'utf8',
           stdio: 'pipe'
-        },
+        }
       )
 
       const hasUseSWR = execSync(;
@@ -675,7 +675,7 @@ export class BundleSizeOptimizer {
         {
           encoding: 'utf8',
           stdio: 'pipe'
-        },
+        }
       )
 
       const effectCount = parseInt(hasUseEffect.trim()) || 0;
@@ -773,7 +773,7 @@ export class BundleSizeOptimizer {
         report,
         history: this.analysisHistory,
         alerts: this.alerts
-      },
+      }
 
       fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2))
       // // // _logger.info(`📦 Bundle analysis data exported to: ${filePath}`)

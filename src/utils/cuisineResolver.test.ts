@@ -14,7 +14,7 @@ import {
   groupCuisinesByType,
   isSupportedCuisine,
   standardizeCuisine
-} from './cuisineResolver',
+} from './cuisineResolver';
 
 describe('Cuisine Resolver', () => {
   describe('standardizeCuisine', () => {

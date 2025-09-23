@@ -14,7 +14,7 @@ export const _cuisines = {
               Water: 0.25,
               Earth: 0.25,
               Air: 0.25
-            },
+            }
             ingredients: [
               {
                 name: 'Rice',
@@ -33,8 +33,8 @@ export const _cuisines = {
       }
     }
   }
-},
+}
 
 export const _cuisinesMap = {
   japanese: { name: 'Japanese' }
-},
+}

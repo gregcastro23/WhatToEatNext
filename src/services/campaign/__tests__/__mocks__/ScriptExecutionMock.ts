@@ -10,7 +10,7 @@ import {
   BuildValidation,
   TestValidation,
   ScriptParameters
-} from '../../../../types/campaign',
+} from '../../../../types/campaign';
 
 export interface MockScriptResult {
   success: boolean,
@@ -53,7 +53,7 @@ export class ScriptExecutionMock {
       errors: [],
       warnings: [],
       executionTime: 1000
-    },
+    }
 
     return Promise.resolve({
       success: mockResult.success,
@@ -80,7 +80,7 @@ export class ScriptExecutionMock {
       errors: [],
       warnings: [],
       executionTime: 500
-    },
+    }
 
     return Promise.resolve({
       wouldProcess: mockResult.filesProcessed,
@@ -106,7 +106,7 @@ export class ScriptExecutionMock {
       errors: [],
       warnings: [],
       executionTime: 2000
-    },
+    }
 
     return Promise.resolve({
       batchId: `batch_${Date.now()}`,

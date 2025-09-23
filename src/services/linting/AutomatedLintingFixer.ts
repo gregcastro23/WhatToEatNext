@@ -110,7 +110,7 @@ export class AutomatedLintingFixer {
 
   constructor(
     workspaceRoot: string = process.cwd(),,
-    safetyProtocols: Partial<SafetyProtocols> = {},
+    safetyProtocols: Partial<SafetyProtocols> = {}
   ) {
     this.workspaceRoot = workspaceRoot,
     this.eslintConfigPath = path.join(workspaceRoot, 'eslint.config.cjs'),
@@ -129,7 +129,7 @@ export class AutomatedLintingFixer {
         '**/*campaign*'
       ],
       ...safetyProtocols
-    },
+    }
   }
 
   /**
@@ -149,7 +149,7 @@ export class AutomatedLintingFixer {
       createBackups: true,
       dryRun: false,
       ...options
-    },
+    }
 
     const result: AutomatedFixResult = {
       success: false,
@@ -169,7 +169,7 @@ export class AutomatedLintingFixer {
         validationTime: 0,
         rollbacksPerformed: 0
       }
-    },
+    }
 
     try {
       // Step, 1: Pre-fix validation
@@ -313,7 +313,7 @@ export class AutomatedLintingFixer {
       skipTestFiles: false,
       skipDomainFiles: true,
       ...options
-    },
+    }
 
     const unusedVarIssues = issues.filter(
       issue => issue.rule.includes('no-unused-vars') || issue.rule.includes('unused-vars'),
@@ -337,7 +337,7 @@ export class AutomatedLintingFixer {
         validationTime: 0,
         rollbacksPerformed: 0
       }
-    },
+    }
 
     for (const issue of unusedVarIssues) {
       try {
@@ -409,7 +409,7 @@ export class AutomatedLintingFixer {
       preserveComments: true,
       sortImports: true,
       ...options
-    },
+    }
 
     const importIssues = issues.filter(
       issue => issue.category.primary === 'import' || issue.rule.startsWith('import/');
@@ -433,7 +433,7 @@ export class AutomatedLintingFixer {
         validationTime: 0,
         rollbacksPerformed: 0
       }
-    },
+    }
 
     // Group issues by file for batch processing
     const issuesByFile = new Map<string, LintingIssue[]>()
@@ -499,7 +499,7 @@ export class AutomatedLintingFixer {
       preserveExplicitAny: ['**/calculations/**', '**/data/planets/**'],
       maxComplexity: 'simple',
       ...options
-    },
+    }
 
     const typeIssues = issues.filter(
       issue =>
@@ -526,7 +526,7 @@ export class AutomatedLintingFixer {
         validationTime: 0,
         rollbacksPerformed: 0
       }
-    },
+    }
 
     for (const issue of typeIssues) {
       try {
@@ -633,7 +633,7 @@ export class AutomatedLintingFixer {
         timestamp,
         affectedFiles: [],
         rollbackCommand: `git stash pop ${stashId}`
-      },
+      }
     } catch (error) {
       throw new Error(`Failed to create backup: ${error}`)
     }
@@ -795,7 +795,7 @@ export class AutomatedLintingFixer {
         validationTime: 0,
         rollbacksPerformed: 0
       }
-    },
+    }
 
     // Group issues by file for efficient processing
     const issuesByFile = new Map<string, LintingIssue[]>()

@@ -112,7 +112,7 @@ export class UnusedExportAnalyzer {
         '**/providers/**'
       ],
       [FilePriority.LOW]: ['**/types/**', '**/constants/**', '**/config/**', '**/lib/**']
-    },
+    }
   }
 
   /**
@@ -179,7 +179,7 @@ export class UnusedExportAnalyzer {
       safetyScore,
       transformationCandidates,
       category
-    },
+    }
   }
 
   /**
@@ -441,7 +441,7 @@ export class UnusedExportAnalyzer {
         transformationComplexity,
         safetyScore,
         estimatedBenefit
-      },
+      }
     })
   }
 
@@ -532,7 +532,7 @@ export class UnusedExportAnalyzer {
         averageSafetyScore,
         estimatedIntelligenceSystems: totalTransformationCandidates
       }
-    },
+    }
   }
 
   /**

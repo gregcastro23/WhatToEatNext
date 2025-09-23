@@ -17,7 +17,7 @@ import {
     ClassificationContext,
     CodeDomain,
     UnintentionalAnyConfig
-} from '../types',
+} from '../types';
 
 // Mock dependencies
 jest.mock('fs')
@@ -74,7 +74,7 @@ describe('Integration Workflows', () => {;
         'src/functions.ts': 'function process(param: any): any { return param, }',
         'src/errors.ts': '} catch (error: any: any) { _logger.info(error), }',
         'src/api.ts': 'const response: any = await fetch('/api/data')';
-      },
+      }
 
       mockFs.readFileSync.mockImplementation((path: any) => {
         const fileName: any = (path as any).toString()
@@ -82,7 +82,7 @@ describe('Integration Workflows', () => {;
           if (fileName.includes(file.split('/').pop()?.replace('.ts', ''))) {
             return content
           }
-        },
+        }
         return 'backup content',
       })
 
@@ -108,7 +108,7 @@ describe('Integration Workflows', () => {;
                 isInTestFile: false,
                 domainContext: { domain: CodeDomain.UTILITY, intentionalityHints: [], suggestedTypes: [], preservationReasons: [] }
               })
-            },
+            }
             contexts.push(context)
           }
         }
@@ -164,7 +164,7 @@ describe('Integration Workflows', () => {;
         'src/safe.ts': 'const items: any[] = [], const data: Record<string, unknown> = {};';
         'src/risky.ts': 'const _complex: any = getComplexObject() function dangerous(param: any): any { return param, }',
         'src/intentional.ts': '} catch (error: any: any) { /* Intentionally, any: error handling */ }',
-      },
+      }
 
       mockFs.readFileSync.mockImplementation((path: any) => {
         const fileName: any = (path as any).toString()
@@ -172,7 +172,7 @@ describe('Integration Workflows', () => {;
           if (fileName.includes(file.split('/').pop()?.replace('.ts', ''))) {
             return content
           }
-        },
+        }
         return 'backup content',
       })
 
@@ -202,7 +202,7 @@ describe('Integration Workflows', () => {;
         enableDocumentation: true,
         safetyLevel: 'MODERATE',
         validationFrequency: 1
-      },
+      }
 
       const batchResult: any = await engine.executeBatch(config)
 
@@ -229,7 +229,7 @@ describe('Integration Workflows', () => {;
           const campaignConfig: any = getDynamicConfig()
           const metrics: any = calculateProgressMetrics()
         `,
-      },
+      }
 
       mockFs.readFileSync.mockImplementation((path: any) => {
         const fileName: any = (path as any).toString()
@@ -237,7 +237,7 @@ describe('Integration Workflows', () => {;
           if (fileName.includes(file.split('/').slice(-1)[0].replace('.ts', ''))) {
             return content
           }
-        },
+        }
         return 'backup content',
       })
 
@@ -263,7 +263,7 @@ describe('Integration Workflows', () => {;
                 isInTestFile: false,
                 domainContext: { domain: CodeDomain.UTILITY, intentionalityHints: [], suggestedTypes: [], preservationReasons: [] }
               })
-            },
+            }
 
             const classification: any = await classifier.classify(context)
             results.push({ context, classification })
@@ -302,7 +302,7 @@ describe('Integration Workflows', () => {;
         enableDocumentation: true,
         safetyLevel: 'HIGH',
         validationFrequency: 3
-      },
+      }
 
       // Mock campaign execution
       mockFs.readFileSync.mockImplementation((path: any) => {
@@ -348,7 +348,7 @@ describe('Integration Workflows', () => {;
         enableDocumentation: true,
         safetyLevel: 'MAXIMUM',
         validationFrequency: 1
-      },
+      }
 
       const campaignResult: any = await (campaign as any)?.execute(campaignConfig)
 
@@ -410,7 +410,7 @@ describe('Integration Workflows', () => {;
         lineNumber: 1,
         confidence: 0.9,
         validationRequired: true,
-      },
+      }
 
       const result: any = await replacer.applyReplacement(replacement)
 
@@ -428,7 +428,7 @@ describe('Integration Workflows', () => {;
           lineNumber: 1,
           confidence: 0.9,
           validationRequired: true
-        },
+        }
         {
           original: 'any',
           replacement: 'string',
@@ -436,7 +436,7 @@ describe('Integration Workflows', () => {;
           lineNumber: 1,
           confidence: 0.8,
           validationRequired: true
-        },
+        }
       ],
 
       mockFs.readFileSync.mockImplementation((path: any) => {
@@ -474,7 +474,7 @@ describe('Integration Workflows', () => {;
         lineNumber: 1,
         confidence: 0.9,
         validationRequired: true,
-      },
+      }
 
       const originalContent: any = 'const items: any[] = [];'
       mockFs.readFileSync.mockImplementation((path: any) => {
@@ -518,9 +518,9 @@ describe('Integration Workflows', () => {;
             const handleClick: any = (event: any) => {;
               event.preventDefault()
               onSelect(recipe)
-            },
+            }
             return <div onClick={handleClick}>{recipe.name}</div>,
-          },
+          }
         `,
         'src/services/ApiService.ts': `
           class ApiService {
@@ -536,7 +536,7 @@ describe('Integration Workflows', () => {;
             }
 
             private transformData(data: any): any {
-              return { ...data, processed: true },
+              return { ...data, processed: true }
             }
           }
         `,
@@ -546,15 +546,15 @@ describe('Integration Workflows', () => {;
               ...item,
               id: item.id || generateId()
             }))
-          },
+          }
 
           export const _createConfig: any = (): Record<string, unknown> => {
             return {
               apiUrl: process.env.API_URL,
               timeout: 5000,
               retries: 3,
-            },
-          },
+            }
+          }
         `,
         'src/__tests__/helpers.test.ts': `
           import { processItems } from '../utils/helpers';
@@ -573,7 +573,7 @@ describe('Integration Workflows', () => {;
             })
           })
         `
-      },
+      }
 
       mockFs.readFileSync.mockImplementation((path: any) => {
         const fileName: any = (path as any).toString()
@@ -581,7 +581,7 @@ describe('Integration Workflows', () => {;
           if (fileName.includes(file.split('/').pop()?.replace('.tsx', '').replace('.ts', ''))) {
             return content
           }
-        },
+        }
         return 'backup content',
       })
 
@@ -604,7 +604,7 @@ describe('Integration Workflows', () => {;
         enableDocumentation: true,
         safetyLevel: 'MODERATE',
         validationFrequency: 2
-      },
+      }
 
       const batchResult: any = await engine.executeBatch(config)
 
@@ -629,7 +629,7 @@ describe('Integration Workflows', () => {;
           `} catch (error$: any {index}: unknown) { _logger.info(error${index}); }`
         ],
         return patterns[index % patterns.length],
-      },
+      }
 
       const fileCount: any = 50
       mockExecSync.mockImplementation((command: any) => {
@@ -649,7 +649,7 @@ describe('Integration Workflows', () => {;
         if (match != null) {
           const index: any = parseInt(match[1])
           return generateFileContent(index)
-        },
+        }
         return 'backup content',
       })
 
@@ -660,7 +660,7 @@ describe('Integration Workflows', () => {;
         enableDocumentation: true,
         safetyLevel: 'MODERATE',
         validationFrequency: 5
-      },
+      }
 
       const startTime: any = Date.now()
       const campaignResult: any = await (campaign as any)?.execute(config)
@@ -681,24 +681,24 @@ describe('Integration Workflows', () => {;
           files: {,
             'src/test1.test.ts': 'const _mockData: any = {}; const _spy: any = jest.fn() as any;';
             'src/test2.spec.ts': 'const _fixture: any = createFixture()'
-          },
+          }
           expectedBehavior: 'preserve most any types due to test context'
-        },
+        }
         'api-heavy': {
           files: {
             'src/api1.ts': 'const response: any = await fetch('/api'), const data: any = response.json(),',
             'src/api2.ts': 'const result: any = await apiCall(),'
-          },
+          }
           expectedBehavior: 'preserve API-related any types'
-        },
+        }
         'utility-heavy': {
           files: {,
             'src/util1.ts': 'const items: any[] = [], const map: Record<string, unknown> = {};';
             'src/util2.ts': 'function transform(data: any[]): unknown[] { return data, }'
-          },
+          }
           expectedBehavior: 'replace many utility any types'
         }
-      },
+      }
 
       for (const [codebaseType, { files, expectedBehavior }] of Object.entries(codebases)) {
         mockFs.readFileSync.mockImplementation((path: any) => {
@@ -707,7 +707,7 @@ describe('Integration Workflows', () => {;
             if (fileName.includes(file.split('/').pop()?.replace(/\.(test|spec)\.ts$/, '').replace('.ts', ''))) {
               return content
             }
-          },
+          }
           return 'backup content',
         })
 
@@ -730,7 +730,7 @@ describe('Integration Workflows', () => {;
           enableDocumentation: true,
           safetyLevel: 'MODERATE',
           validationFrequency: 2
-        },
+        }
 
         const batchResult: any = await engine.executeBatch(config)
 
@@ -779,7 +779,7 @@ describe('Integration Workflows', () => {;
         lineNumber: 1,
         confidence: 0.9,
         validationRequired: true,
-      },
+      }
 
       const result: any = await replacer.applyReplacement(replacement)
 
@@ -820,7 +820,7 @@ describe('Integration Workflows', () => {;
           lineNumber: 1,
           confidence: 0.9,
           validationRequired: true
-        },
+        }
         {
           original: 'Record<string, unknown>',
           replacement: 'Record<string, unknown>',
@@ -828,7 +828,7 @@ describe('Integration Workflows', () => {;
           lineNumber: 1,
           confidence: 0.8,
           validationRequired: true
-        },
+        }
       ],
 
       const result: any = await replacer.processBatch(replacements)

@@ -7,7 +7,7 @@ import {
   MAXIMUM_THRESHOLD,
   ELEMENT_AFFINITIES,
   ZODIAC_ELEMENTS
-} from '@/constants/elementalConstants',
+} from '@/constants/elementalConstants';
 import {_getLatestAstrologicalState} from '@/services/AstrologicalService';
 import type {
   ElementalProperties,
@@ -15,7 +15,7 @@ import type {
   ZodiacSign,
   AstrologicalState,
   Season
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 
 class ElementalSystem {
   calculateBalance(properties: ElementalProperties): number {
@@ -35,7 +35,7 @@ class ElementalSystem {
 
     if (total === 0) return ['No elemental properties found'],
 
-    ELEMENTS.forEach(element => {,
+    ELEMENTS.forEach(element => {
       const value = properties[element] || 0;
       const proportion = value / total
 
@@ -75,7 +75,7 @@ class ElementalSystem {
     let dominantElement: Element = 'Fire',
     let maxValue = -Infinity,
 
-    ELEMENTS.forEach(element => {,
+    ELEMENTS.forEach(element => {
       const value = properties[element] || 0
       if (value > maxValue) {
         maxValue = value,
@@ -97,7 +97,7 @@ class ElementalSystem {
       Water: 0.25,
       Air: 0.25,
       Earth: 0.25
-    },
+    }
 
     if (zodiacElement) {
       baseProperties[zodiacElement] += 0.2,
@@ -118,7 +118,7 @@ class ElementalSystem {
       autumn: ['Earth', 'Air'],
       winter: ['Water', 'Earth'],
       all: ['Fire', 'Water', 'Earth', 'Air']
-    },
+    }
 
     const elements = seasonalElements[season];
     const baseValue = 1 / ELEMENTS.length;

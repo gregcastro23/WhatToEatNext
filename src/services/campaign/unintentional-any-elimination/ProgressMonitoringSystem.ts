@@ -29,7 +29,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       safetyEventThreshold: 5,
       progressStallThreshold: 24, // hours
       ...alertThresholds
-    },
+    }
 
     this.loadAlertHistory()
     this.loadBuildStabilityHistory()
@@ -67,7 +67,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
             data: { error: error.message }
           })
         }
-      },
+      }
       intervalMinutes * 60 * 1000,
     )
 
@@ -135,7 +135,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         filesProcessed: 0,
         buildStable: buildStability.isStable,
         lastUpdate: new Date()
-      },
+      }
 
       return progress,
     } catch (error) {
@@ -158,7 +158,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         filesProcessed: 0,
         buildStable: buildStability.isStable,
         lastUpdate: new Date()
-      },
+      }
     }
   }
 
@@ -339,7 +339,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
    * Update alert thresholds
    */
   updateAlertThresholds(newThresholds: Partial<AlertThresholds>): void {
-    this.alertThresholds = { ...this.alertThresholds, ...newThresholds },
+    this.alertThresholds = { ...this.alertThresholds, ...newThresholds }
     this.emit('alert_thresholds_updated', this.alertThresholds)
   }
 
@@ -347,7 +347,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
    * Get current alert thresholds
    */
   getAlertThresholds(): AlertThresholds {
-    return { ...this.alertThresholds },
+    return { ...this.alertThresholds }
   }
 
   // Private methods
@@ -374,10 +374,10 @@ export class ProgressMonitoringSystem extends EventEmitter {
           mediumAlerts: this.alertHistory.filter(a => a.severity === 'medium').length,,
           lowAlerts: this.alertHistory.filter(a => a.severity === 'low').length,,
           recentAlerts: this.getRecentAlerts(24), // Last 24 hours
-        },
+        }
         trendingData: this.calculateTrendingData(),
         systemHealth: this.calculateSystemHealth()
-      },
+      }
 
       this.emit('dashboard_updated', this.dashboardData)
     } catch (error) {
@@ -403,7 +403,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         buildTime,
         errorCount: 0,
         errorMessage: null
-      },
+      }
     } catch (error) {
       const buildTime = Date.now() - startTime;
       const errorOutput = error.stdout?.toString() || error.stderr?.toString() || error.message;
@@ -415,7 +415,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         buildTime,
         errorCount,
         errorMessage: errorOutput.substring(0, 500), // Limit error message length
-      },
+      }
     }
   }
 
@@ -530,7 +530,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       issues: recentAlerts
         .filter(a => a.severity === 'critical' || a.severity === 'high')
         .map(a => a.message),,
-    },
+    }
   }
 
   private loadAlertHistory(): void {

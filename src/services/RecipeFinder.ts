@@ -31,7 +31,7 @@ import type {
   GetRecipesForFlavorProfileParams,
   GetRecipesForPlanetaryAlignmentParams,
   SearchRecipesParams
-} from './interfaces/RecipeApiInterfaces',
+} from './interfaces/RecipeApiInterfaces';
 import type { RecipeServiceInterface } from './interfaces/RecipeServiceInterface';
 
 // Missing service imports
@@ -75,7 +75,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           version: '1.0.0',
           count: recipes.length
         }
-      },
+      }
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: { service: 'RecipeFinder', action: 'getAllRecipes', data: {} }
@@ -87,7 +87,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           message: 'Failed to retrieve recipes',
           details: error instanceof Error ? error.message : 'Unknown error'
         }
-      },
+      }
     }
   }
 
@@ -105,7 +105,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           version: '1.0.0',
           count: recipes.length
         }
-      },
+      }
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: { service: 'RecipeFinder', action: 'searchRecipes', data: params.criteria }
@@ -117,7 +117,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           message: 'Failed to search recipes',
           details: error instanceof Error ? error.message : 'Unknown error'
         }
-      },
+      }
     }
   }
 
@@ -135,7 +135,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           version: '1.0.0',
           count: recipes.length
         }
-      },
+      }
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: { service: 'RecipeFinder', action: 'getRecipesByCuisine', data: params.cuisine }
@@ -147,7 +147,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           message: 'Failed to retrieve cuisine recipes',
           details: error instanceof Error ? error.message : 'Unknown error'
         }
-      },
+      }
     }
   }
 
@@ -165,7 +165,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           version: '1.0.0',
           count: recipes.length
         }
-      },
+      }
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: {
@@ -181,7 +181,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           message: 'Failed to retrieve zodiac recipes',
           details: error instanceof Error ? error.message : 'Unknown error'
         }
-      },
+      }
     }
   }
 
@@ -199,7 +199,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           version: '1.0.0',
           count: recipes.length
         }
-      },
+      }
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: { service: 'RecipeFinder', action: 'getRecipesBySeason', data: params.season }
@@ -211,7 +211,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           message: 'Failed to retrieve seasonal recipes',
           details: error instanceof Error ? error.message : 'Unknown error'
         }
-      },
+      }
     }
   }
 
@@ -231,7 +231,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           version: '1.0.0',
           count: recipes.length
         }
-      },
+      }
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: {
@@ -247,7 +247,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           message: 'Failed to retrieve lunar phase recipes',
           details: error instanceof Error ? error.message : 'Unknown error'
         }
-      },
+      }
     }
   }
 
@@ -265,7 +265,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           version: '1.0.0',
           count: recipes.length
         }
-      },
+      }
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: { service: 'RecipeFinder', action: 'getRecipesByMealType', data: params.mealType }
@@ -277,7 +277,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           message: 'Failed to retrieve meal type recipes',
           details: error instanceof Error ? error.message : 'Unknown error'
         }
-      },
+      }
     }
   }
 
@@ -300,7 +300,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           version: '1.0.0',
           count: recipes.length
         }
-      },
+      }
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: {
@@ -319,7 +319,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           message: 'Failed to retrieve planetary alignment recipes',
           details: error instanceof Error ? error.message : 'Unknown error'
         }
-      },
+      }
     }
   }
 
@@ -342,7 +342,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           version: '1.0.0',
           count: recipes.length
         }
-      },
+      }
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: {
@@ -358,7 +358,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           message: 'Failed to retrieve flavor profile recipes',
           details: error instanceof Error ? error.message : 'Unknown error'
         }
-      },
+      }
     }
   }
 
@@ -384,7 +384,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           version: '1.0.0',
           count: scoredRecipes.length
         }
-      },
+      }
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: {
@@ -400,7 +400,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           message: 'Failed to get best recipe matches',
           details: error instanceof Error ? error.message : 'Unknown error'
         }
-      },
+      }
     }
   }
 
@@ -421,7 +421,7 @@ export class RecipeFinder implements RecipeServiceInterface {
             message: `Recipe with ID ${params.id} not found`,
             details: 'The requested recipe does not exist in the database'
           }
-        },
+        }
       }
 
       return {
@@ -431,7 +431,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           timestamp: Date.now(),
           version: '1.0.0'
         }
-      },
+      }
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: { service: 'RecipeFinder', action: 'getRecipeById', data: { id: params.id } }
@@ -443,7 +443,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           message: 'Failed to retrieve recipe',
           details: error instanceof Error ? error.message : 'Unknown error'
         }
-      },
+      }
     }
   }
 
@@ -460,7 +460,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           timestamp: Date.now(),
           version: '1.0.0'
         }
-      },
+      }
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: { service: 'RecipeFinder', action: 'generateRecipe', data: params.criteria }
@@ -474,13 +474,13 @@ export class RecipeFinder implements RecipeServiceInterface {
           instructions: [],
           cuisine: 'Unknown',
           elementalProperties: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
-        },
+        }
         error: {
           code: 'PROCESSING_ERROR',
           message: 'Failed to generate recipe',
           details: error instanceof Error ? error.message : 'Unknown error'
         }
-      },
+      }
     }
   }
 
@@ -500,7 +500,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           timestamp: Date.now(),
           version: '1.0.0'
         }
-      },
+      }
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: {
@@ -518,13 +518,13 @@ export class RecipeFinder implements RecipeServiceInterface {
           instructions: [],
           cuisine: params.cuisines.join('-'),
           elementalProperties: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
-        },
+        }
         error: {
           code: 'PROCESSING_ERROR',
           message: 'Failed to generate fusion recipe',
           details: error instanceof Error ? error.message : 'Unknown error'
         }
-      },
+      }
     }
   }
 
@@ -544,7 +544,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           timestamp: Date.now(),
           version: '1.0.0'
         }
-      },
+      }
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: {
@@ -560,7 +560,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           message: 'Failed to adapt recipe',
           details: error instanceof Error ? error.message : 'Unknown error'
         }
-      },
+      }
     }
   }
 
@@ -579,7 +579,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         }
       })
       // Return balanced elemental properties on error
-      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     }
   }
 
@@ -598,7 +598,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         }
       })
       // Return a default element on error
-      return { element: 'Fire', value: 0 },
+      return { element: 'Fire', value: 0 }
     }
   }
 
@@ -639,4 +639,4 @@ export class RecipeFinder implements RecipeServiceInterface {
 export const getAllRecipes = async (): Promise<Recipe[]> => {;
   const response = await RecipeFinder.getInstance().getAllRecipes()
   return response.success ? response.data || [] : []
-},
+}

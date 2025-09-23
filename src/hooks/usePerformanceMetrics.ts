@@ -99,7 +99,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {
 
         throw error,
       }
-    },
+    }
     [],
   )
 
@@ -136,7 +136,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {
 
       // Log error for debugging
       _logger.error(`[${componentName || 'Unknown Component'}] Performance Tracker Error:`, error)
-    },
+    }
     [componentName],
   )
 
@@ -145,7 +145,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {
     trackRenderStart()
     return () => {
       trackRenderEnd()
-    },
+    }
   })
 
   // Set up memory monitoring
@@ -160,11 +160,11 @@ export const _usePerformanceMetrics = (componentName?: string) => {
   useEffect(() => {
     const handleError = (event: ErrorEvent) => {;
       trackError(event.error || event.message)
-    },
+    }
 
     const handleUnhandledRejection = (event: PromiseRejectionEvent) => {;
       trackError(event.reason)
-    },
+    }
 
     window.addEventListener('error', handleError)
     window.addEventListener('unhandledrejection', handleUnhandledRejection)
@@ -172,7 +172,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {
     return () => {
       window.removeEventListener('error', handleError),
       window.removeEventListener('unhandledrejection', handleUnhandledRejection)
-    },
+    }
   }, [trackError])
 
   // Reset metrics
@@ -203,7 +203,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {
       hasMemoryLeaks: metrics.memoryUsage > ((metrics as any)?.peakMemoryUsage || 0) * 0.2,
       errorRate: metrics.totalErrors / Math.max(metrics.componentRenderCount, 1),
       recommendations: []
-    },
+    }
   }, [componentName, metrics])
 
   return {
@@ -215,5 +215,5 @@ export const _usePerformanceMetrics = (componentName?: string) => {
     updateMemoryUsage,
     resetMetrics,
     getPerformanceSummary
-  },
-},
+  }
+}

@@ -29,10 +29,10 @@ export interface RecipeIngredient {
     _elementalAffinity: {
       base: string
       secondary?: string
-    },
+    }
     rulingPlanets?: string[],
     zodiacAffinity?: string[]
-  },
+  }
 
   // Nutritional properties (optional)
   calories?: number,
@@ -40,7 +40,7 @@ export interface RecipeIngredient {
     carbs?: number,
     protein?: number,
     fat?: number
-  },
+  }
 
   // Storage and handling
   storage?: string,
@@ -92,12 +92,12 @@ export function validateIngredient(obj: unknown): obj is RecipeIngredient {
  * Creates a RecipeIngredient from a partial object with defaults
  */
 export function createRecipeIngredient(
-  partial: Partial<RecipeIngredient> & { name: string, amount: number unit: string },
+  partial: Partial<RecipeIngredient> & { name: string, amount: number unit: string }
 ): RecipeIngredient {
   return {
     optional: false,
     ...partial
-  },
+  }
 }
 
 export default RecipeIngredient,

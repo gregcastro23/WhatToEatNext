@@ -7,7 +7,7 @@ interface BaseIngredient {
   astrologicalProfile?: {
     rulingPlanets?: string[],
     signAffinities?: string[]
-  },
+  }
   [key: string]: unknown // For dynamic properties
 }
 
@@ -75,7 +75,7 @@ import {
   Season,
   ZodiacSign,
   LunarPhase
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import { ElementalState } from '@/types/elemental';
 
@@ -100,7 +100,7 @@ interface EnhancedIngredient {
   astrologicalProfile?: {
     rulingPlanets?: string[],
     signAffinities?: string[]
-  },
+  }
   // Add commonly missing properties
   flavorProfile?: Record<string, number>,
   cuisine?: string,
@@ -151,7 +151,7 @@ export interface IngredientRecommendation {
   astrologicalProfile?: {
     rulingPlanets?: string[],
     signAffinities?: string[]
-  },
+  }
   astrologicalInfluences?: AstrologicalInfluences,
   season?: Season,
   mealType?: string,
@@ -162,7 +162,7 @@ export interface IngredientRecommendation {
     _taste: Record<string, number>
     aroma: Record<string, number>,
     texture: Record<string, number>
-  },
+  }
   recommendedCookingMethods?: Array<{
     name: string,
     description: string,
@@ -170,13 +170,13 @@ export interface IngredientRecommendation {
       min: number,
       max: number,
       _unit: string
-    },
+    }
     _elementalEffect: Record<string, number>,
   }>,
   pairingRecommendations?: {
     _complementary: string[],
     contrasting: string[]
-  },
+  }
 }
 
 export interface GroupedIngredientRecommendations {
@@ -203,7 +203,7 @@ export interface RecommendationOptions {
 // Enhanced calculation helper functions using imported utilities
 function calculateEnhancedPlanetaryInfluence(
   planetaryDay: string,
-  planetaryData: { jupiterData: unknown, saturnData: unknown },
+  planetaryData: { jupiterData: unknown, saturnData: unknown }
 ): number {
   // Use Jupiter and Saturn data to enhance planetary calculations
   const { jupiterData: jupiter, saturnData: saturn } = planetaryData;
@@ -218,13 +218,13 @@ function calculateEnhancedPlanetaryInfluence(
 
 function calculateLunarPhaseModifier(lunarPhaseData: unknown): number {
   // Use lunar phase data to calculate modifiers
-  const phaseData = lunarPhaseData as { modifier?: number },
+  const phaseData = lunarPhaseData as { modifier?: number }
   return phaseData.modifier || 1.0,
 }
 
 function calculateAstrologicalBridgeModifier(astrologicalBridge: unknown): number {
   // Use astrological bridge for enhanced compatibility scoring
-  const bridge = astrologicalBridge as { compatibility?: number },
+  const bridge = astrologicalBridge as { compatibility?: number }
   return bridge.compatibility || 1.0,
 }
 
@@ -302,7 +302,7 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Enhanc
       return baseIngredient.astrologicalProfile?.rulingPlanets?.some(planet =>
         planetsToUse.includes(planet)
       )
-    },
+    }
   )
 
   // If no matching ingredients, return a sample of all ingredients
@@ -415,7 +415,7 @@ export async function getIngredientRecommendations(
     activePlanets: string[],
     lunarPhase: string,
     aspects: Array<{ aspectType: string, planet1: string, planet2: string }>
-  },
+  }
   options: RecommendationOptions,
 ): Promise<GroupedIngredientRecommendations> {
   // Enterprise Intelligence Integration - Phase 27 Ingredient Intelligence Systems
@@ -444,13 +444,13 @@ export async function getIngredientRecommendations(
     capricorn: 'Saturn',
     aquarius: 'Saturn', // Traditional ruler
     pisces: 'Jupiter', // Traditional ruler
-  },
+  }
 
   const rulingPlanet = signRulers[sunSign] || 'Sun';
 
   // Get decan information for each planet position
   const planetDecans: Record<string, { decanNum: number, decanRuler: string, tarotCard: string }> =
-    {},
+    {}
 
   Object.entries(elementalProps.planetaryAlignment || {}).forEach(([planet, position]) => {
     if (!position || !position.sign) return,
@@ -465,39 +465,39 @@ export async function getIngredientRecommendations(
 
     // Reference data for decan rulers and tarot cards based on sign and decan
     const decanRulerMap: Record<string, Record<number, string>> = {
-      aries: { 1: 'Mars', 2: 'Sun', 3: 'Venus' },
-      taurus: { 1: 'Mercury', 2: 'Moon', 3: 'Saturn' },
-      gemini: { 1: 'Jupiter', 2: 'Mars', 3: 'Sun' },
-      cancer: { 1: 'Venus', 2: 'Mercury', 3: 'Moon' },
-      leo: { 1: 'Saturn', 2: 'Jupiter', 3: 'Mars' },
-      virgo: { 1: 'Sun', 2: 'Venus', 3: 'Mercury' },
-      libra: { 1: 'Moon', 2: 'Saturn', 3: 'Jupiter' },
-      scorpio: { 1: 'Mars', 2: 'Sun', 3: 'Venus' },
-      sagittarius: { 1: 'Mercury', 2: 'Moon', 3: 'Saturn' },
-      capricorn: { 1: 'Jupiter', 2: 'Mars', 3: 'Sun' },
-      aquarius: { 1: 'Venus', 2: 'Mercury', 3: 'Moon' },
+      aries: { 1: 'Mars', 2: 'Sun', 3: 'Venus' }
+      taurus: { 1: 'Mercury', 2: 'Moon', 3: 'Saturn' }
+      gemini: { 1: 'Jupiter', 2: 'Mars', 3: 'Sun' }
+      cancer: { 1: 'Venus', 2: 'Mercury', 3: 'Moon' }
+      leo: { 1: 'Saturn', 2: 'Jupiter', 3: 'Mars' }
+      virgo: { 1: 'Sun', 2: 'Venus', 3: 'Mercury' }
+      libra: { 1: 'Moon', 2: 'Saturn', 3: 'Jupiter' }
+      scorpio: { 1: 'Mars', 2: 'Sun', 3: 'Venus' }
+      sagittarius: { 1: 'Mercury', 2: 'Moon', 3: 'Saturn' }
+      capricorn: { 1: 'Jupiter', 2: 'Mars', 3: 'Sun' }
+      aquarius: { 1: 'Venus', 2: 'Mercury', 3: 'Moon' }
       pisces: { 1: 'Saturn', 2: 'Jupiter', 3: 'Mars' }
-    },
+    }
 
     const tarotCardMap: Record<string, Record<number, string>> = {
-      aries: { 1: '2 of Wands', 2: '3 of Wands', 3: '4 of Wands' },
-      taurus: { 1: '5 of Pentacles', 2: '6 of Pentacles', 3: '7 of Pentacles' },
-      gemini: { 1: '8 of Swords', 2: '9 of Swords', 3: '10 of Swords' },
-      cancer: { 1: '2 of Cups', 2: '3 of Cups', 3: '4 of Cups' },
-      leo: { 1: '5 of Wands', 2: '6 of Wands', 3: '7 of Wands' },
-      virgo: { 1: '8 of Pentacles', 2: '9 of Pentacles', 3: '10 of Pentacles' },
-      libra: { 1: '2 of Swords', 2: '3 of Swords', 3: '4 of Swords' },
-      scorpio: { 1: '5 of Cups', 2: '6 of Cups', 3: '7 of Cups' },
-      sagittarius: { 1: '8 of Wands', 2: '9 of Wands', 3: '10 of Wands' },
-      capricorn: { 1: '2 of Pentacles', 2: '3 of Pentacles', 3: '4 of Pentacles' },
-      aquarius: { 1: '5 of Swords', 2: '6 of Swords', 3: '7 of Swords' },
+      aries: { 1: '2 of Wands', 2: '3 of Wands', 3: '4 of Wands' }
+      taurus: { 1: '5 of Pentacles', 2: '6 of Pentacles', 3: '7 of Pentacles' }
+      gemini: { 1: '8 of Swords', 2: '9 of Swords', 3: '10 of Swords' }
+      cancer: { 1: '2 of Cups', 2: '3 of Cups', 3: '4 of Cups' }
+      leo: { 1: '5 of Wands', 2: '6 of Wands', 3: '7 of Wands' }
+      virgo: { 1: '8 of Pentacles', 2: '9 of Pentacles', 3: '10 of Pentacles' }
+      libra: { 1: '2 of Swords', 2: '3 of Swords', 3: '4 of Swords' }
+      scorpio: { 1: '5 of Cups', 2: '6 of Cups', 3: '7 of Cups' }
+      sagittarius: { 1: '8 of Wands', 2: '9 of Wands', 3: '10 of Wands' }
+      capricorn: { 1: '2 of Pentacles', 2: '3 of Pentacles', 3: '4 of Pentacles' }
+      aquarius: { 1: '5 of Swords', 2: '6 of Swords', 3: '7 of Swords' }
       pisces: { 1: '8 of Cups', 2: '9 of Cups', 3: '10 of Cups' }
-    },
+    }
 
     const decanRuler = decanRulerMap[sign][decanNum] || '';
     const tarotCard = tarotCardMap[sign][decanNum] || '';
 
-    planetDecans[planet] = { decanNum, decanRuler, tarotCard },
+    planetDecans[planet] = { decanNum, decanRuler, tarotCard }
   })
 
   // Filter and score ingredients
@@ -575,7 +575,7 @@ export async function getIngredientRecommendations(
         seasonalScore,
         planetaryScore,
         modality
-      },
+      }
     })
     .sort((ab) => b.score - a.score)
 
@@ -589,11 +589,11 @@ export async function getIngredientRecommendations(
       elementalProperties: elementalProps,
       planetaryPositions: elementalProps.planetaryAlignment
     }
-  },
+  }
 
   // Perform enterprise intelligence analysis
   const astroContext =
-    (ingredientData as { astrologicalContext?: Record<string, unknown> }).astrologicalContext || {},
+    (ingredientData as { astrologicalContext?: Record<string, unknown> }).astrologicalContext || {}
   const safeAstroContext = {
     zodiacSign: astroContext.zodiacSign ?? 'aries',
     lunarPhase: typeof astroContext.lunarPhase === 'string' ? astroContext.lunarPhase : 'new',
@@ -605,7 +605,7 @@ export async function getIngredientRecommendations(
             _culturalPreferences: string[]
           })
         : undefined
-  },
+  }
 
   const enterpriseAnalysis = await enterpriseIntelligence.performEnterpriseAnalysis(
     undefined, // No recipe data for ingredient-only analysis
@@ -615,11 +615,11 @@ export async function getIngredientRecommendations(
   )
 
   // Group ingredients by category
-  const groupedRecommendations: GroupedIngredientRecommendations = {},
+  const groupedRecommendations: GroupedIngredientRecommendations = {}
 
   // Apply limit per category before grouping to ensure diversity
   const limit = options.limit || 24;
-  const categoryCounts: Record<string, number> = {},
+  const categoryCounts: Record<string, number> = {}
   const categoryMaxItems = Math.ceil(limit / 8); // Max items per category
 
   scoredIngredients.forEach(ingredient => {
@@ -674,7 +674,7 @@ export async function getIngredientRecommendations(
           const profile = analysis?.flavorProfile;
           return profile && typeof profile === 'object' && profile !== null,
             ? (profile as Record<string, number>)
-            : {},
+            : {}
         })(),
         cuisine:
           (ingredientIntelligence?.categorizationAnalysis as { cuisine?: string })?.cuisine ||
@@ -701,7 +701,7 @@ export async function getIngredientRecommendations(
         duration:
           (ingredientIntelligence?.seasonalAnalysis as { preparationTime?: string })
             ?.preparationTime || 'standard'
-      },
+      }
       groupedRecommendations[category]?.push(ingredientRecommendation)
       categoryCounts[category]++,
     }
@@ -725,7 +725,7 @@ function calculateModalityScore(qualities: string[], preferredModality?: Modalit
     Cardinal: ['Mutable'],
     Fixed: ['Mutable'],
     Mutable: ['Cardinal', 'Fixed']
-  },
+  }
 
   if (compatibleModalities[preferredModality].includes(ingredientModality)) {
     return 0.7,
@@ -896,7 +896,7 @@ export function calculateElementalInfluences(
     capricorn: 'Earth',
     aquarius: 'Air',
     pisces: 'Water'
-  },
+  }
 
   // Define planet weights
   const planetWeights: Record<string, number> = {
@@ -910,7 +910,7 @@ export function calculateElementalInfluences(
     _uranus: 1,
     _neptune: 1,
     _pluto: 1
-  },
+  }
 
   // Initialize elemental influences
   const elementalInfluences: ElementalProperties = {
@@ -918,7 +918,7 @@ export function calculateElementalInfluences(
     Earth: 0,
     Air: 0,
     Water: 0
-  },
+  }
 
   // Process each planetary position
   Object.entries(planetaryAlignment).forEach(([planet, position]) => {
@@ -962,7 +962,7 @@ export function getChakraBasedRecommendations(
   const significantChakras = sortedChakras.filter(([, energy]) => energy > 0),
 
   // Prepare the result object
-  const result: GroupedIngredientRecommendations = {},
+  const result: GroupedIngredientRecommendations = {}
 
   // For each significant chakra, add corresponding recommended ingredients
   significantChakras.forEach(([chakra, energy]) => {
@@ -1025,7 +1025,7 @@ export function getChakraBasedRecommendations(
         astrologicalScore: 0,
         seasonalScore: 0,
         dietary: []
-      },
+      }
 
       // Only add if not already present
       if (!result[recommendationKey]?.some(rec => rec.name === ingredientName)) {
@@ -1943,7 +1943,7 @@ function enhanceMarsIngredientScoring(
 
       // Add a flag or data point to indicate Mars influence was applied
       if (!ingredientData.influences) {
-        ingredientData.influences = {},
+        ingredientData.influences = {}
       }
       (ingredientData.influences ).mars = marsInfluence,
     }
@@ -2219,7 +2219,7 @@ function calculateMercuryInfluence(
       versatile: 1.4,
       detailed: 1.2,
       _precise: 1.2
-    },
+    }
 
     for (const quality of ingredient.qualities) {
       const lowerQuality = quality.toLowerCase()
@@ -2273,11 +2273,11 @@ function enhanceMercuryIngredientScoring(
     // If the ingredient has a detailed score breakdown, add Mercury score
     if ('scoreDetails' in ingredient) {
       const ingredientData = ingredient as unknown as any;
-      const existingDetails = (ingredientData.scoreDetails ) || {},
+      const existingDetails = (ingredientData.scoreDetails ) || {}
       ingredientData.scoreDetails = {
         ...existingDetails,
         mercuryAffinity: mercuryScore
-      },
+      }
     }
   })
 }
@@ -2418,53 +2418,53 @@ const planetaryElements: Record<
     diurnal: 'Fire',
     nocturnal: 'Fire',
     dignityEffect: { leo: 1, aries: 2, aquarius: -1, libra: -2 }
-  },
+  }
   Moon: {
     diurnal: 'Water',
     nocturnal: 'Water',
     dignityEffect: { cancer: 1, taurus: 2, capricorn: -1, scorpio: -2 }
-  },
+  }
   Mercury: {
     diurnal: 'Air',
     nocturnal: 'Earth',
     dignityEffect: { gemini: 1, virgo: 3, sagittarius: 1, pisces: -3 }
-  },
+  }
   Venus: {
     diurnal: 'Water',
     nocturnal: 'Earth',
     dignityEffect: { libra: 1, taurus: 1, pisces: 2, aries: -1, scorpio: -1, virgo: -2 }
-  },
+  }
   Mars: {
     diurnal: 'Fire',
     nocturnal: 'Water',
     dignityEffect: { aries: 1, scorpio: 1, capricorn: 2, taurus: -1, libra: -1, cancer: -2 }
-  },
+  }
   Jupiter: {
     diurnal: 'Air',
     nocturnal: 'Fire',
     dignityEffect: { pisces: 1, sagittarius: 1, cancer: 2, gemini: -1, virgo: -1, capricorn: -2 }
-  },
+  }
   Saturn: {
     diurnal: 'Air',
     nocturnal: 'Earth',
     dignityEffect: { aquarius: 1, capricorn: 1, libra: 2, cancer: -1, leo: -1, aries: -2 }
-  },
+  }
   Uranus: {
     diurnal: 'Water',
     nocturnal: 'Air',
     dignityEffect: { aquarius: 1, scorpio: 2, taurus: -3 }
-  },
+  }
   Neptune: {
     diurnal: 'Water',
     nocturnal: 'Water',
     dignityEffect: { pisces: 1, cancer: 2, virgo: -1, capricorn: -2 }
-  },
+  }
   Pluto: {
     diurnal: 'Earth',
     nocturnal: 'Water',
     dignityEffect: { scorpio: 1, leo: 2, taurus: -1, aquarius: -2 }
   }
-},
+}
 
 // Define sign info with decan effects and degree effects
 const signInfo: Record<
@@ -2477,7 +2477,7 @@ const signInfo: Record<
 > = {
   aries: {
     element: 'Fire',
-    decanEffects: { '1st Decan': ['Mars'], '2nd Decan': ['Sun'], '3rd Decan': ['Venus'] },
+    decanEffects: { '1st Decan': ['Mars'], '2nd Decan': ['Sun'], '3rd Decan': ['Venus'] }
     degreeEffects: {
       Mercury: [1521],
       Venus: [714],
@@ -2485,10 +2485,10 @@ const signInfo: Record<
       Jupiter: [16],
       Saturn: [2730]
     }
-  },
+  }
   taurus: {
     element: 'Earth',
-    decanEffects: { '1st Decan': ['Mercury'], '2nd Decan': ['Moon'], '3rd Decan': ['Saturn'] },
+    decanEffects: { '1st Decan': ['Mercury'], '2nd Decan': ['Moon'], '3rd Decan': ['Saturn'] }
     degreeEffects: {
       Mercury: [915],
       Venus: [18],
@@ -2496,14 +2496,14 @@ const signInfo: Record<
       Jupiter: [1622],
       Saturn: [2326]
     }
-  },
+  }
   gemini: {
     element: 'Air',
     decanEffects: {
       '1st Decan': ['Jupiter'],
       '2nd Decan': ['Mars'],
       '3rd Decan': ['Uranus', 'Sun']
-    },
+    }
     degreeEffects: {
       Mercury: [17],
       Venus: [1520],
@@ -2511,14 +2511,14 @@ const signInfo: Record<
       Jupiter: [814],
       Saturn: [2225]
     }
-  },
+  }
   cancer: {
     element: 'Water',
     decanEffects: {
       '1st Decan': ['Venus'],
       '2nd Decan': ['Mercury', 'Pluto'],
       '3rd Decan': ['Neptune', 'Moon']
-    },
+    }
     degreeEffects: {
       Mercury: [1420],
       Venus: [2127],
@@ -2526,10 +2526,10 @@ const signInfo: Record<
       Jupiter: [713],
       Saturn: [2830]
     }
-  },
+  }
   leo: {
     element: 'Fire',
-    decanEffects: { '1st Decan': ['Saturn'], '2nd Decan': ['Jupiter'], '3rd Decan': ['Mars'] },
+    decanEffects: { '1st Decan': ['Saturn'], '2nd Decan': ['Jupiter'], '3rd Decan': ['Mars'] }
     degreeEffects: {
       Mercury: [713],
       Venus: [1419],
@@ -2537,14 +2537,14 @@ const signInfo: Record<
       Jupiter: [2025],
       Saturn: [16]
     }
-  },
+  }
   virgo: {
     element: 'Earth',
     decanEffects: {
       '1st Decan': ['Mars', 'Sun'],
       '2nd Decan': ['Venus'],
       '3rd Decan': ['Mercury']
-    },
+    }
     degreeEffects: {
       Mercury: [17],
       Venus: [813],
@@ -2552,14 +2552,14 @@ const signInfo: Record<
       Jupiter: [1418],
       Saturn: [1924]
     }
-  },
+  }
   libra: {
     element: 'Air',
     decanEffects: {
       '1st Decan': ['Moon'],
       '2nd Decan': ['Saturn', 'Uranus'],
       '3rd Decan': ['Jupiter']
-    },
+    }
     degreeEffects: {
       Mercury: [2024],
       Venus: [711],
@@ -2567,14 +2567,14 @@ const signInfo: Record<
       Jupiter: [1219],
       Saturn: [16]
     }
-  },
+  }
   scorpio: {
     element: 'Water',
     decanEffects: {
       '1st Decan': ['Pluto'],
       '2nd Decan': ['Neptune', 'Sun'],
       '3rd Decan': ['Venus']
-    },
+    }
     degreeEffects: {
       Mercury: [2227],
       Venus: [1521],
@@ -2582,10 +2582,10 @@ const signInfo: Record<
       Jupiter: [714],
       Saturn: [2830]
     }
-  },
+  }
   sagittarius: {
     element: 'Fire',
-    decanEffects: { '1st Decan': ['Mercury'], '2nd Decan': ['Moon'], '3rd Decan': ['Saturn'] },
+    decanEffects: { '1st Decan': ['Mercury'], '2nd Decan': ['Moon'], '3rd Decan': ['Saturn'] }
     degreeEffects: {
       Mercury: [1520],
       Venus: [914],
@@ -2593,10 +2593,10 @@ const signInfo: Record<
       Jupiter: [18],
       Saturn: [2125]
     }
-  },
+  }
   capricorn: {
     element: 'Earth',
-    decanEffects: { '1st Decan': ['Jupiter'], '2nd Decan': [], '3rd Decan': ['Sun'] },
+    decanEffects: { '1st Decan': ['Jupiter'], '2nd Decan': [], '3rd Decan': ['Sun'] }
     degreeEffects: {
       Mercury: [712],
       Venus: [16],
@@ -2604,10 +2604,10 @@ const signInfo: Record<
       Jupiter: [1319],
       Saturn: [2630]
     }
-  },
+  }
   aquarius: {
     element: 'Air',
-    decanEffects: { '1st Decan': ['Uranus'], '2nd Decan': ['Mercury'], '3rd Decan': ['Moon'] },
+    decanEffects: { '1st Decan': ['Uranus'], '2nd Decan': ['Mercury'], '3rd Decan': ['Moon'] }
     degreeEffects: {
       Mercury: [],
       Venus: [1320],
@@ -2615,14 +2615,14 @@ const signInfo: Record<
       Jupiter: [2125],
       Saturn: [16]
     }
-  },
+  }
   pisces: {
     element: 'Water',
     decanEffects: {
       '1st Decan': ['Saturn', 'Neptune', 'Venus'],
       '2nd Decan': ['Jupiter'],
       '3rd Decan': ['Pisces', 'Mars']
-    },
+    }
     degreeEffects: {
       Mercury: [1520],
       Venus: [18],
@@ -2631,7 +2631,7 @@ const signInfo: Record<
       Saturn: [2730]
     }
   }
-},
+}
 
 /**
  * Calculate the planetary day influence on food ingredients
@@ -2641,7 +2641,7 @@ function calculatePlanetaryDayInfluence(
   ingredient: Ingredient,
   planetaryDay: string,
   planetaryPositions?: Record<string, { sign: string, degree: number }>,
-  planetaryData?: { jupiterData: unknown, saturnData: unknown },
+  planetaryData?: { jupiterData: unknown, saturnData: unknown }
 ): number {
   // Enhanced calculation using Jupiter and Saturn data for dignity effects
   const _enhancedPlanetaryInfluence = planetaryData
@@ -2735,7 +2735,7 @@ function calculatePlanetaryHourInfluence(
   isDaytime: boolean,
   planetaryPositions?: Record<string, { sign: string, degree: number }>,
   aspects?: Array<{ aspectType: string, planet1: string, planet2: string }>,
-  enhancedData?: { lunarPhaseData: unknown, astrologicalBridge: unknown },
+  enhancedData?: { lunarPhaseData: unknown, astrologicalBridge: unknown }
 ): number {
   // Enhanced calculation using lunar phase and astrological bridge data
   const _lunarModifier = enhancedData?.lunarPhaseData;
@@ -2886,7 +2886,7 @@ export async function recommendIngredients(
   const Earth = Number(astroStateData.Earth) || 0.5;
   const _zodiacSign = String(astroStateData.zodiacSign || '')
   const planetaryAlignment =
-    (astroStateData.planetaryAlignment as Record<string, { sign: string, degree: number }>) || {},
+    (astroStateData.planetaryAlignment as Record<string, { sign: string, degree: number }>) || {}
   const aspects =
     (astroStateData.aspects as Array<{ aspectType: string, planet1: string, planet2: string }>) ||
     [],
@@ -2914,7 +2914,7 @@ export async function recommendIngredients(
     calculatePlanetaryDay: (date: Date) => {
       const days = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'],
       return days[date.getDay()]
-    },
+    }
     calculatePlanetaryHour: (date: Date) => {
       // This is a simplified calculation
       const hours = [
@@ -2945,16 +2945,16 @@ export async function recommendIngredients(
         'Moon'
       ],
       return hours[date.getHours()]
-    },
+    }
     isDaytime: isDaytime
-  },
+  }
 
   const planetaryDay = planetaryCalculator.calculatePlanetaryDay(date)
   const planetaryHour = planetaryCalculator.calculatePlanetaryHour(date)
   const isDaytimeNow = planetaryCalculator.isDaytime(date)
 
   // Create elemental properties object for the current system state
-  const systemElementalProps: ElementalProperties = { Fire, Water, Air, Earth },
+  const systemElementalProps: ElementalProperties = { Fire, Water, Air, Earth }
 
   const recommendations: IngredientRecommendation[] = [];
 
@@ -3056,7 +3056,7 @@ export async function recommendIngredients(
       astrologicalScore: planetaryDayScore * 0.35 + planetaryHourScore * 0.2,
       seasonalScore: recommendationData.seasonalScore,
       dietary: recommendationData.dietary as string[]
-    },
+    }
 
     recommendations.push(ingredientRecommendation)
   }
@@ -3202,7 +3202,7 @@ function generateRecommendationsForIngredient(
 // ... existing code ...
 
 // At the top of the file, add the re-export
-export type { EnhancedIngredientRecommendation } from './recommendation/ingredientRecommendation',
+export type { EnhancedIngredientRecommendation } from './recommendation/ingredientRecommendation';
 
 // ... existing code ...
 

@@ -66,7 +66,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
           // Use default location (coordinates will be provided by the API)
           setLocation(null)
         }
-      },
+      }
 
       getLocation()
     } else if (!useCurrentLocation) {
@@ -122,7 +122,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
         method,
         headers: {
           'Content-Type': 'application/json'
-        },
+        }
         body
       })
 
@@ -141,7 +141,7 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
     } finally {
       setLoading(false)
     }
-  },
+  }
 
   // Fetch data when dependencies change
   useEffect(() => {
@@ -156,5 +156,5 @@ export function useAstrologize(_options: AstrologizeOptions = {}): AstrologizeRe
     error,
     data,
     refetch: fetchData
-  },
+  }
 }

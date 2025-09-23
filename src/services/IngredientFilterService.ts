@@ -10,7 +10,7 @@ import { ElementalFilter } from '../types/elemental';
 import { NutritionalFilter, NutritionData } from '../types/nutrition';
 
 // Re-export types for external use
-export type { NutritionalFilter } from '../types/nutrition',
+export type { NutritionalFilter } from '../types/nutrition';
 // Spoonacular types removed with cleanup
 
 // Interface to provide special dietary filtering
@@ -48,7 +48,7 @@ export interface RecipeRecommendation {
       amount: number,
       unit: string
     }>,
-  },
+  }
   usedIngredients: string[]
 }
 
@@ -61,7 +61,7 @@ export const INGREDIENT_GROUPS = {
   SPICES: 'Spices',
   GRAINS: 'Grains',
   OILS: 'Oils & Fats'
-},
+}
 
 // Helper class to provide ingredient filtering services
 export class IngredientFilterService {
@@ -79,7 +79,7 @@ export class IngredientFilterService {
       [INGREDIENT_GROUPS.SPICES]: spices,
       [INGREDIENT_GROUPS.GRAINS]: grains as Record<string, IngredientMapping>,
       [INGREDIENT_GROUPS.OILS]: oils as Record<string, IngredientMapping>
-    },
+    }
   }
 
   // Singleton instance getter
@@ -93,7 +93,7 @@ export class IngredientFilterService {
   // Main filtering method that combines all filter types
   public filterIngredients(filter: IngredientFilter = {}): Record<string, IngredientMapping[]> {,
     // Start with all ingredients, grouped by category
-    const filteredResults: Record<string, IngredientMapping[]> = {},
+    const filteredResults: Record<string, IngredientMapping[]> = {}
 
     // Determine which categories to include
     const categoriesToInclude =
@@ -457,14 +457,14 @@ export class IngredientFilterService {
   ): Record<string, IngredientMapping[]> {
     // Apply basic filtering first
     const filteredByCategory = this.filterIngredients(filter)
-    const result: Record<string, IngredientMapping[]> = {},
+    const result: Record<string, IngredientMapping[]> = {}
 
     // For each category, select a limited number of most nutritionally balanced items
     Object.entries(filteredByCategory).forEach(([category, ingredients]) => {
       // Sort ingredients by nutritional completeness (if data available)
       const sorted = [...ingredients].sort((ab) => {;
-        const aNutrition = a.nutritionalProfile || {},
-        const bNutrition = b.nutritionalProfile || {},
+        const aNutrition = a.nutritionalProfile || {}
+        const bNutrition = b.nutritionalProfile || {}
 
         // Create a simple score based on available nutritional data
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
@@ -553,7 +553,7 @@ export class IngredientFilterService {
           name: ingredientName,
           nutrition: ingredient.nutritionalProfile,
           source: 'local'
-        },
+        }
       }
 
       return null;
@@ -585,13 +585,13 @@ export class IngredientFilterService {
           healthScore: 70 + i * 5,
           nutrition: {
             nutrients: [
-              { name: 'Calories', amount: 250 + i * 50, unit: 'kcal' },
-              { name: 'Protein', amount: 15 + i * 5, unit: 'g' },
+              { name: 'Calories', amount: 250 + i * 50, unit: 'kcal' }
+              { name: 'Protein', amount: 15 + i * 5, unit: 'g' }
               { name: 'Carbs', amount: 30 + i * 10, unit: 'g' }
             ]
-          },
+          }
           usedIngredients: [mainIngredient, ...otherIngredients]
-        },
+        }
 
         // Apply dietary filters
         if (dietaryFilter) {

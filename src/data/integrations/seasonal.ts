@@ -53,7 +53,7 @@ export function getSeasonalData(
 
   // Get complementary flavors for the season
   // Add type assertion to handle the unknown type
-  const seasonalData = seasonalPatterns[season] || {},
+  const seasonalData = seasonalPatterns[season] || {}
   const complementaryFlavors = Object.entries(seasonalData)
     .filter(([_key, value]) => {
       // Only include ingredient entries (skip metadata like elementalInfluence)
@@ -66,7 +66,7 @@ export function getSeasonalData(
     availability,
     traditionalUse,
     complementaryFlavors
-  },
+  }
 }
 
 /**
@@ -93,7 +93,7 @@ export const _unifiedSeasonalSystem = {
 
   // Utility functions
   getSeasonalIngredients: (season: Season = getCurrentSeason(), minScore = 0.6) => {;
-    const seasonData = seasonalPatterns[season] || {},
+    const seasonData = seasonalPatterns[season] || {}
     return Object.entries(seasonData)
       .filter(
         ([_key, value]) =>
@@ -101,13 +101,13 @@ export const _unifiedSeasonalSystem = {
       )
       .map(([name, score]) => ({ name, score: score as number }))
       .sort((ab) => b.score - a.score)
-  },
+  }
 
   getAllSeasons: () => ['spring', 'summer', 'fall', 'winter', 'all'] as Season[],
 
   getSeasonalRecommendations: (season: Season = getCurrentSeason()) => {
-    const ingredients = seasonalPatterns[season] || {},
-    const usage = seasonalUsage[season] || {},
+    const ingredients = seasonalPatterns[season] || {}
+    const usage = seasonalUsage[season] || {}
 
     return {
       topIngredients: Object.entries(ingredients)
@@ -117,6 +117,6 @@ export const _unifiedSeasonalSystem = {
         .map(([name, score]) => ({ name, score: score as number })),
       traditionalUses: Object.keys(usage),
       seasonalTips: `Best practices for ${season} cooking and ingredient selection.`
-    },
+    }
   }
-},
+}

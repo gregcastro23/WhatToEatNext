@@ -74,7 +74,7 @@ export class DevelopmentExperienceOptimizer {
     intelliSense: IntelliSenseConfig,
     importOrganization: ImportOrganizationConfig;
     performanceMonitoring: PerformanceMonitoringConfig
-  },
+  }
 
   private constructor() {
     this.metrics = this.initializeMetrics()
@@ -127,7 +127,7 @@ export class DevelopmentExperienceOptimizer {
           '@calculations/*': ['./src/calculations/*'],
           '@hooks/*': ['./src/hooks/*'],
           '@contexts/*': ['./src/contexts/*']
-        },
+        }
 
         // Enhanced type definitions
         _lib: ['dom', 'dom.iterable', 'es6', 'es2018', 'es2020'],
@@ -139,7 +139,7 @@ export class DevelopmentExperienceOptimizer {
         _jsx: 'preserve',
         _noEmit: true,
         _resolveJsonModule: true
-      },
+      }
 
       // Include patterns for faster compilation
       _include: ['next-env.d.ts', '**/*.ts', '**/*.tsx', '.next/types/**/*.ts'],
@@ -159,7 +159,7 @@ export class DevelopmentExperienceOptimizer {
 
       // TypeScript project references for faster builds
       references: config.enableProjectReferences ? [{ path: './tsconfig.paths.json' }] : undefined
-    },
+    }
   }
 
   /**
@@ -218,7 +218,7 @@ declare global {
         bestHours: string[],
         _lunarPhase: string,
         _planetaryHour: string
-      },
+      }
     }
 
     // Type guards for runtime validation
@@ -238,7 +238,7 @@ declare global {
       _cookingMethods: string[],
       _seasonality: string[],
       _pairings: string[]
-    },
+    }
     nutritionalData?: {
       calories: number,
       _protein: number,
@@ -246,7 +246,7 @@ declare global {
       _fat: number,
       _vitamins: string[],
       _minerals: string[]
-    },
+    }
   }
 
   // Enhanced recipe type definitions
@@ -262,7 +262,7 @@ declare global {
       _cookTime: number,
       _totalTime: number,
       optimalStartTime?: string
-    },
+    }
   }
 }
 
@@ -273,7 +273,7 @@ export type {
   Astrology.CulinaryAstrologyData as CulinaryAstrologyData,
   EnhancedIngredient,
   EnhancedRecipe
-},
+}
 `,
   }
 
@@ -340,17 +340,17 @@ export type {
         pattern: /React\.FC<([^>]+)>/g,
         replacement: 'React.FC<1>',
         description: 'Fixed React.FC type annotation'
-      },
+      }
       {
         pattern: /useEffect\(\(\) => \{([^}]+)\}, \[\]\)/g,
         replacement: 'useEffect(() => {1}, [])',
         description: 'Fixed useEffect dependency array'
-      },
+      }
       {
         pattern: /const \[([^,]+), set([^\]]+)\] = useState\(\)/g;
         replacement: 'const [1, set2] = useState<any>()';
         description: 'Added type annotation to useState'
-      },
+      }
       {
         pattern: /interface ([A-Z][a-zA-Z]*) \{/g,
         replacement: 'interface 1 {',
@@ -379,14 +379,14 @@ export type {
       }
     })
 
-    return { fixedCode, fixes, remainingErrors },
+    return { fixedCode, fixes, remainingErrors }
   }
 
   /**
    * Monitor performance metrics in real-time
    */
   public updatePerformanceMetrics(newMetrics: Partial<DevelopmentMetrics>): void {
-    this.metrics = { ...this.metrics, ...newMetrics, lastOptimization: Date.now() },
+    this.metrics = { ...this.metrics, ...newMetrics, lastOptimization: Date.now() }
 
     if (this.optimizationConfig.performanceMonitoring.enableRealTimeErrorDetection) {
       this.checkPerformanceThresholds()
@@ -397,7 +397,7 @@ export type {
    * Get current development metrics
    */
   public getDevelopmentMetrics(): DevelopmentMetrics {
-    return { ...this.metrics },
+    return { ...this.metrics }
   }
 
   /**
@@ -414,7 +414,7 @@ export type {
       bundling: [] as string[],
       runtime: [] as string[],
       development: [] as string[]
-    },
+    }
 
     // TypeScript recommendations
     if (this.metrics.compilationTime > 30000) {
@@ -485,7 +485,7 @@ export type {
       logger.error('Error applying automatic optimizations:', error)
     }
 
-    return { applied, skipped, errors },
+    return { applied, skipped, errors }
   }
 
   // Private helper methods
@@ -499,7 +499,7 @@ export type {
       warningCount: 0,
       hotReloadTime: 0,
       lastOptimization: Date.now()
-    },
+    }
   }
 
   private getDefaultOptimizationConfig() {
@@ -516,14 +516,14 @@ export type {
         target: 'es2018' as const,
         module: 'esnext' as const,
         moduleResolution: 'bundler' as const
-      },
+      }
       intelliSense: {
         enableAstrologicalTypeDefinitions: true,
         enableElementalPropertyIntelliSense: true,
         enablePlanetaryPositionAutoComplete: true,
         enableCulinaryAstrologySnippets: true,
         enableCustomTypeGuards: true
-      },
+      }
       importOrganization: {
         enableAutoImportOrganization: true,
         enableUnusedImportRemoval: true,
@@ -531,7 +531,7 @@ export type {
         enablePathMapping: true,
         groupExternalImports: true,
         groupInternalImports: true
-      },
+      }
       performanceMonitoring: {
         enableRealTimeErrorDetection: true,
         enableCompilationTimeTracking: true,
@@ -539,7 +539,7 @@ export type {
         enableBundleSizeTracking: true,
         enableHotReloadOptimization: true
       }
-    },
+    }
   }
 
   private startPerformanceMonitoring(): void {
@@ -547,7 +547,7 @@ export type {
 
     // Monitor memory usage
     setInterval(() => {
-      const perfWithMemory = performance as { memory?: { usedJSHeapSize: number } },
+      const perfWithMemory = performance as { memory?: { usedJSHeapSize: number } }
       if (perfWithMemory.memory) {
         const memoryUsage = perfWithMemory.memory.usedJSHeapSize / 1024 / 1024;
         this.updatePerformanceMetrics({ memoryUsage })
@@ -561,7 +561,7 @@ export type {
       memoryUsage: 100, // 100MB
       bundleSize: 500 * 1024, // 500KB
       errorCount: 10
-    },
+    }
 
     Object.entries(thresholds).forEach(([metric, threshold]) => {
       const currentValue = this.metrics[metric as keyof DevelopmentMetrics];
@@ -646,5 +646,5 @@ export function useDevelopmentExperienceOptimizations() {
     getPerformanceOptimizationRecommendations: () =>
       optimizer.getPerformanceOptimizationRecommendations(),
     applyAutomaticOptimizations: () => optimizer.applyAutomaticOptimizations()
-  },
+  }
 }

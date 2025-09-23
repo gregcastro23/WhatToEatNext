@@ -115,7 +115,7 @@ The system has successfully achieved a **36.78% reduction** in explicit-any warn
 - **Safety Protocols**: Backup, validation, and rollback mechanisms
 - **Quality Gates**: Continuous monitoring and prevention systems
           `
-        },
+        }
         {
           type: 'code',
           title: 'Classification Examples',
@@ -128,7 +128,7 @@ const _apiResponse: any = await fetch('/api/data'),`,
               after: `// This should be preserved - it's properly documented`,
               explanation:
                 'External API responses often require any types due to unknown structure'
-            },
+            }
             {
               title: 'Unintentional Any Type (Array)',
               before: `const items: any[] = [],`,
@@ -150,7 +150,7 @@ const _apiResponse: any = await fetch('/api/data'),`,
             correctAnswer: 1,
             explanation:
               'The system achieved a 36.78% reduction (160 out of 435 warnings eliminated)'
-          },
+          }
           {
             id: 'q2',
             question: 'Which any type should be preserved?',
@@ -197,7 +197,7 @@ const _apiResponse: any = await fetch('/api/data'),`,
 4. **Function Parameters** - (param: any) → (param: unknown)
 5. **Return Types** - (): any → (): unknown
           `
-        },
+        }
         {
           type: 'interactive',
           title: 'Classification Practice',
@@ -234,7 +234,7 @@ const _apiResponse: any = await fetch('/api/data'),`,
               'There are 5 main intentional, categories: External API, Legacy, Dynamic Content, Test Utilities, Configuration'
           }
         ]
-      },
+      }
     })
 
     // Module, 3: Replacement Patterns
@@ -280,7 +280,7 @@ const _apiResponse: any = await fetch('/api/data'),`,
 - **Success Rate**: 80%
 - **Risk Level**: Medium
           `
-        },
+        }
         {
           type: 'code',
           title: 'Replacement Examples',
@@ -293,7 +293,7 @@ items.forEach(item => // // // _logger.info(item)),`,
               after: `const items: unknown[] = getData()
 items.forEach(item => // // // _logger.info(item)),`,
               explanation: 'unknown[] maintains type safety while allowing array operations'
-            },
+            }
             {
               title: 'Record Type Replacement',
               before: `const config: Record<string, any> = loadConfig()
@@ -317,7 +317,7 @@ const value = config.someProperty,`,
             explanation: 'Array type replacements (any[] → unknown[]) have a 100% success rate'
           }
         ]
-      },
+      }
     })
 
     // Module, 4: Safety Protocols
@@ -350,7 +350,7 @@ const value = config.someProperty,`,
 2. **Manual Rollback** - Emergency recovery procedures
 3. **Selective Rollback** - File-by-file restoration
           `
-        },
+        }
         {
           type: 'interactive',
           title: 'Emergency Procedures',
@@ -845,7 +845,7 @@ This certificate is issued by the Unintentional Any Elimination System and certi
       this.userProgress.set(userId, {
         userId,
         completedModules: [],
-        scores: {},
+        scores: {}
         certifications: [],
         lastActivity: new Date()
       })
@@ -971,4 +971,4 @@ if (require.main === module) {,
   })
 }
 
-export { KnowledgeTransferSystem, TrainingModule, UserProgress },
+export { KnowledgeTransferSystem, TrainingModule, UserProgress };

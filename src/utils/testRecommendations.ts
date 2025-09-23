@@ -21,19 +21,19 @@ export async function testCookingMethodRecommendations() {
       Water: 0.7,
       Earth: 0.4,
       Air: 0.2
-    },
+    }
     _alchemicalProperties: {
       Spirit: 0.4,
       _Essence: 0.3,
       _Matter: 0.6,
       Substance: 0.7
-    },
+    }
     _transformedElementalProperties: {
       Fire: 0.3,
       Water: 0.7,
       Earth: 0.4,
       Air: 0.2
-    },
+    }
     _heat: 0.3,
     _entropy: 0.4,
     _reactivity: 0.3,
@@ -43,19 +43,19 @@ export async function testCookingMethodRecommendations() {
     _planetaryBoost: 1.0,
     _dominantPlanets: ['Venus'],
     _planetaryDignities: {}
-  },
+  }
 
   // Create mock cooking methods
   const mockCookingMethods = [
-    { name: 'baking', element: 'Fire' },
-    { name: 'boiling', element: 'Water' },
-    { name: 'grilling', element: 'Fire' },
-    { name: 'steaming', element: 'Water' },
-    { name: 'sauteing', element: 'Air' },
-    { name: 'roasting', element: 'Fire' },
-    { name: 'braising', element: 'Water' },
-    { name: 'poaching', element: 'Water' },
-    { name: 'frying', element: 'Fire' },
+    { name: 'baking', element: 'Fire' }
+    { name: 'boiling', element: 'Water' }
+    { name: 'grilling', element: 'Fire' }
+    { name: 'steaming', element: 'Water' }
+    { name: 'sauteing', element: 'Air' }
+    { name: 'roasting', element: 'Fire' }
+    { name: 'braising', element: 'Water' }
+    { name: 'poaching', element: 'Water' }
+    { name: 'frying', element: 'Fire' }
     { name: 'fermenting', element: 'Earth' }
   ],
 
@@ -126,5 +126,5 @@ export async function testCookingMethodRecommendations() {
     ingredient: mockIngredient,
     _holisticRecommendations: holisticRecs,
     standardRecommendations: standardRecs
-  },
+  }
 }

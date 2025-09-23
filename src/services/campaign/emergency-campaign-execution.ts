@@ -223,16 +223,16 @@ export class EmergencyTypeScriptCampaign {
             maxFiles: 10,
             autoFix: true,
             validateSafety: true
-          },
+          }
           batchSize: 10,
           safetyLevel: SafetyLevel.MAXIMUM
         }
       ],
       successCriteria: {
         typeScriptErrors: 100, // Target: under 100 errors
-      },
+      }
       safetyCheckpoints: []
-    },
+    }
 
     return {
       phases: [emergencyPhase],
@@ -243,13 +243,13 @@ export class EmergencyTypeScriptCampaign {
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
         stashRetentionDays: 7
-      },
+      }
       progressTargets: {
         typeScriptErrors: 100,
         lintingWarnings: 4506, // Keep current,
         buildTime: 10,
         enterpriseSystems: 0
-      },
+      }
       toolConfiguration: {
         enhancedErrorFixer: 'src/services/campaign/EnhancedErrorFixerIntegration.ts',
         explicitAnyFixer: '',

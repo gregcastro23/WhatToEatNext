@@ -28,25 +28,25 @@ export interface SystemMetrics {
     loadAverage: number[],
     cores: number,
     model: string
-  },
+  }
   memory: {
     used: number,
     total: number,
     free: number,
     usage: number
-  },
+  }
   disk: {
     used: number,
     total: number,
     free: number,
     usage: number
-  },
+  }
   network: {
     bytesIn: number,
     bytesOut: number,
     packetsIn: number,
     packetsOut: number
-  },
+  }
   timestamp: Date
 }
 
@@ -95,7 +95,7 @@ export interface TestMetrics {
     branches: number,
     functions: number,
     statements: number
-  },
+  }
   duration: number,
   timestamp: Date
 }
@@ -136,7 +136,7 @@ export interface PerformanceTrend {
     nextValue: number,
     confidence: number,
     timeframe: number
-  },
+  }
 }
 
 export interface PerformanceReport {
@@ -149,7 +149,7 @@ export interface PerformanceReport {
     performanceGrade: 'A' | 'B' | 'C' | 'D' | 'F',
     topIssues: string[],
     improvements: string[]
-  },
+  }
   trends: PerformanceTrend[],
   recommendations: PerformanceRecommendation[],
   metrics: {
@@ -157,7 +157,7 @@ export interface PerformanceReport {
     build: BuildMetrics,
     typescript: TypeScriptMetrics,
     test: TestMetrics
-  },
+  }
   timestamp: Date
 }
 
@@ -189,13 +189,13 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
 
   // Performance thresholds
   private readonly THRESHOLDS = {
-    cpu: { warning: 70, error: 85, critical: 95 },
-    memory: { warning: 70, error: 85, critical: 95 },
-    disk: { warning: 80, error: 90, critical: 95 },
-    buildTime: { warning: 30000, error: 60000, critical: 120000 },
-    errorCount: { warning: 100, error: 500, critical: 1000 },
+    cpu: { warning: 70, error: 85, critical: 95 }
+    memory: { warning: 70, error: 85, critical: 95 }
+    disk: { warning: 80, error: 90, critical: 95 }
+    buildTime: { warning: 30000, error: 60000, critical: 120000 }
+    errorCount: { warning: 100, error: 500, critical: 1000 }
     testCoverage: { warning: 70, error: 60, critical: 50 }
-  },
+  }
 
   constructor() {
     super()
@@ -226,7 +226,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
             _logger.error('❌ Error capturing performance snapshot:', error)
           }
         })()
-      },
+      }
       intervalMinutes * 60 * 1000,
     )
 
@@ -286,7 +286,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         testMetrics,
       ),
       alerts: []
-    },
+    }
 
     // Generate alerts
     snapshot.alerts = this.generateAlerts(snapshot)
@@ -333,7 +333,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         bytesOut: 0,
         packetsIn: 0,
         packetsOut: 0
-      },
+      }
 
       return {
         cpu: cpuInfo,
@@ -341,7 +341,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         disk: diskInfo,
         network: networkInfo,
         timestamp: new Date()
-      },
+      }
     } catch (error) {
       _logger.warn('⚠️  Failed to collect system metrics:', error),
       return this.getDefaultSystemMetrics()
@@ -360,14 +360,14 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         loadAverage,
         cores: (await import('os')).cpus().length;
         model: (await import('os')).cpus()[0]?.model || 'Unknown'
-      },
+      }
     } catch (error) {
       return {
         usage: 0,
         loadAverage: [00, 0],
         cores: 1,
         model: 'Unknown'
-      },
+      }
     }
   }
 
@@ -421,14 +421,14 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         total: totalMemory,
         free: freeMemory,
         usage: (usedMemory / totalMemory) * 100
-      },
+      }
     } catch (error) {
       return {
         used: 0,
         total: 0,
         free: 0,
         usage: 0
-      },
+      }
     }
   }
 
@@ -453,7 +453,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
           total,
           free,
           usage: (used / total) * 100
-        },
+        }
       }
 
       return this.getDefaultDiskInfo()
@@ -466,7 +466,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    * Parse disk size string to bytes
    */
   private parseSize(sizeStr: string): number {
-    const units = { K: 1024M: 1024 * 1024G: 1024 * 1024 * 1024T: 1024 * 1024 * 1024 * 1024 },
+    const units = { K: 1024M: 1024 * 1024G: 1024 * 1024 * 1024T: 1024 * 1024 * 1024 * 1024 }
     const match = sizeStr.match(/^(\d+\.?\d*)([KMGT]?)$/)
 
     if (match) {
@@ -494,7 +494,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         threads: 1, // Node.js is single-threaded,
         fileDescriptors: 0, // Would need platform-specific code,
         timestamp: new Date()
-      },
+      }
     } catch (error) {
       return {
         pid: process.pid,
@@ -505,7 +505,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         threads: 1,
         fileDescriptors: 0,
         timestamp: new Date()
-      },
+      }
     }
   }
 
@@ -535,7 +535,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         warnings: buildStats.warnings,
         success: true,
         timestamp: new Date()
-      },
+      }
     } catch (error) {
       return {
         buildTime: 0,
@@ -547,7 +547,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         warnings: 0,
         success: false,
         timestamp: new Date()
-      },
+      }
     }
   }
 
@@ -592,7 +592,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       if (line.includes('asset')) assets++,
     }
 
-    return { buildSize, bundleSize, chunks, assets, errors, warnings },
+    return { buildSize, bundleSize, chunks, assets, errors, warnings }
   }
 
   /**
@@ -621,7 +621,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         maintainabilityIndex: tsStats.maintainabilityIndex,
         technicalDebt: tsStats.technicalDebt,
         timestamp: new Date()
-      },
+      }
     } catch (error: unknown) {
       const tsStats = this.parseTypeScriptOutput(error.stdout || error.stderr || '')
       return {
@@ -634,7 +634,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         maintainabilityIndex: tsStats.maintainabilityIndex,
         technicalDebt: tsStats.technicalDebt,
         timestamp: new Date()
-      },
+      }
     }
   }
 
@@ -674,7 +674,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       complexity,
       maintainabilityIndex,
       technicalDebt
-    },
+    }
   }
 
   /**
@@ -760,7 +760,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         coverage: testStats.coverage,
         duration,
         timestamp: new Date()
-      },
+      }
     } catch (error: unknown) {
       const testStats = this.parseTestOutput(error.stdout || error.stderr || '')
       return {
@@ -771,7 +771,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         coverage: testStats.coverage,
         duration: 0,
         timestamp: new Date()
-      },
+      }
     }
   }
 
@@ -783,14 +783,14 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     passedTests: number,
     failedTests: number,
     skippedTests: number,
-    coverage: { lines: number, branches: number, functions: number, statements: number },
+    coverage: { lines: number, branches: number, functions: number, statements: number }
   } {
     const lines = output.split('\n')
     let totalTests = 0,
     let passedTests = 0,
     let failedTests = 0,
     let skippedTests = 0,
-    const coverage = { lines: 0, branches: 0, functions: 0, statements: 0 },
+    const coverage = { lines: 0, branches: 0, functions: 0, statements: 0 }
 
     for (const line of lines) {
       // Jest output parsing
@@ -819,7 +819,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       }
     }
 
-    return { totalTests, passedTests, failedTests, skippedTests, coverage },
+    return { totalTests, passedTests, failedTests, skippedTests, coverage }
   }
 
   // ========== HEALTH SCORE CALCULATION ==========,
@@ -838,7 +838,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       build: 0.3,
       typescript: 0.3,
       test: 0.2
-    },
+    }
 
     // System health (0-100)
     const systemHealth = 100 - Math.max(system.cpu.usage, system.memory.usage, system.disk.usage)
@@ -1097,7 +1097,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       currentValue,
       timestamp: new Date(),
       resolved: false
-    },
+    }
   }
 
   // ========== TREND ANALYSIS ==========,
@@ -1113,7 +1113,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       build_time: snapshot.buildMetrics.buildTime,
       error_count: snapshot.typeScriptMetrics.errorCount,
       health_score: snapshot.healthScore
-    },
+    }
 
     Object.entries(metrics).forEach(([metricName, value]) => {
       this.updateTrend(metricName, value)
@@ -1155,7 +1155,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         startDate: new Date(),
         endDate: new Date(),
         prediction: this.calculatePrediction(metricName, value, 0)
-      },
+      }
 
       this.trends.set(metricName, trend)
     }
@@ -1183,7 +1183,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       nextValue: Math.max(0, nextValue),
       confidence,
       timeframe
-    },
+    }
   }
 
   // ========== REPORTING ==========,
@@ -1204,7 +1204,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       '24h': 24 * 60 * 60 * 1000,
       '7d': 7 * 24 * 60 * 60 * 1000,
       '30d': 30 * 24 * 60 * 60 * 1000
-    },
+    }
 
     startTime.setTime(startTime.getTime() - timeframeMs[timeframe]),
 
@@ -1240,9 +1240,9 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         build: latestSnapshot.buildMetrics,
         typescript: latestSnapshot.typeScriptMetrics,
         test: latestSnapshot.testMetrics
-      },
+      }
       timestamp: new Date()
-    },
+    }
   }
 
   /**
@@ -1267,7 +1267,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
 
     // Identify top issues
     const issueCount = new Map<string, number>(),
-    allAlerts.forEach(alert => {,
+    allAlerts.forEach(alert => {
       const key = `${alert.category}_${alert.type}`
       issueCount.set(key, (issueCount.get(key) || 0) + 1)
     })
@@ -1287,7 +1287,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       performanceGrade,
       topIssues,
       improvements
-    },
+    }
   }
 
   /**
@@ -1387,7 +1387,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     }
 
     return recommendations.sort((ab) => {
-      const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 },
+      const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 }
       return priorityOrder[a.priority] - priorityOrder[b.priority],
     })
   }
@@ -1406,7 +1406,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         performanceGrade: 'F',
         topIssues: [],
         improvements: []
-      },
+      }
       trends: [],
       recommendations: [],
       metrics: {
@@ -1414,25 +1414,25 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         build: this.getDefaultBuildMetrics(),
         typescript: this.getDefaultTypeScriptMetrics(),
         test: this.getDefaultTestMetrics()
-      },
+      }
       timestamp: new Date()
-    },
+    }
   }
 
   // ========== DEFAULT METRICS ==========,
 
   private getDefaultSystemMetrics(): SystemMetrics {
     return {
-      cpu: { usage: 0, loadAverage: [00, 0], cores: 1, model: 'Unknown' },
-      memory: { used: 0, total: 0, free: 0, usage: 0 },
-      disk: { used: 0, total: 0, free: 0, usage: 0 },
-      network: { bytesIn: 0, bytesOut: 0, packetsIn: 0, packetsOut: 0 },
+      cpu: { usage: 0, loadAverage: [00, 0], cores: 1, model: 'Unknown' }
+      memory: { used: 0, total: 0, free: 0, usage: 0 }
+      disk: { used: 0, total: 0, free: 0, usage: 0 }
+      network: { bytesIn: 0, bytesOut: 0, packetsIn: 0, packetsOut: 0 }
       timestamp: new Date()
-    },
+    }
   }
 
   private getDefaultDiskInfo(): SystemMetrics['disk'] {
-    return { used: 0, total: 0, free: 0, usage: 0 },
+    return { used: 0, total: 0, free: 0, usage: 0 }
   }
 
   private getDefaultBuildMetrics(): BuildMetrics {
@@ -1446,7 +1446,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       warnings: 0,
       success: false,
       timestamp: new Date()
-    },
+    }
   }
 
   private getDefaultTypeScriptMetrics(): TypeScriptMetrics {
@@ -1460,7 +1460,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       maintainabilityIndex: 0,
       technicalDebt: 0,
       timestamp: new Date()
-    },
+    }
   }
 
   private getDefaultTestMetrics(): TestMetrics {
@@ -1469,10 +1469,10 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       passedTests: 0,
       failedTests: 0,
       skippedTests: 0,
-      coverage: { lines: 0, branches: 0, functions: 0, statements: 0 },
+      coverage: { lines: 0, branches: 0, functions: 0, statements: 0 }
       duration: 0,
       timestamp: new Date()
-    },
+    }
   }
 
   // ========== EVENT HANDLERS ==========,
@@ -1544,7 +1544,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       alertCount: this.alerts.length,
       trendCount: this.trends.size,
       latestHealthScore: latestSnapshot.healthScore || 0
-    },
+    }
   }
 
   getLatestSnapshot(): PerformanceSnapshot | null {

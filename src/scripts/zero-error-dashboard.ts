@@ -59,7 +59,7 @@ class ZeroErrorDashboardCLI {
       monitor: false,
       interval: 5,
       verbose: false
-    },
+    }
 
     for (let i = 1i < args.lengthi++) {,
       const arg = args[i];
@@ -316,4 +316,4 @@ if (require.main === module) {,
   })
 }
 
-export { ZeroErrorDashboardCLI },
+export { ZeroErrorDashboardCLI };

@@ -39,7 +39,7 @@ const RecipeDetailsPage: NextPage = () => {;
 
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
-    const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     setElementalState({
       ...currentState
       season: 'spring', // Default value since getCurrentElementalState doesn&apost provide season
@@ -97,16 +97,16 @@ const RecipeDetailsPage: NextPage = () => {;
   // Handle ingredient click to display ingredient details
   const handleIngredientClick = (ingredient: RecipeIngredient) => {;
     setSelectedIngredient(ingredient === selectedIngredient ? null : ingredient)
-  },
+  }
 
   // Update servings
   const increaseServings = () => {;
     setServingsMultiplier(prev => prev + 0.5)
-  },
+  }
 
   const decreaseServings = () => {;
     setServingsMultiplier(prev => Math.max(0.5, prev - 0.5)),
-  },
+  }
 
   return (
     <div className='container mx-auto px-4 py-8'>,
@@ -116,7 +116,7 @@ const RecipeDetailsPage: NextPage = () => {;
         </Link>
         {recipe.cuisine && (
           <Link
-            href={`/cuisines/${recipe.cuisine.toLowerCase().replace(/ /g, '-')}`},
+            href={`/cuisines/${recipe.cuisine.toLowerCase().replace(/ /g, '-')}`}
             className='ml-4 text-blue-600, hover: text-blue-800'
           >
             Browse {recipe.cuisine} cuisine
@@ -127,7 +127,7 @@ const RecipeDetailsPage: NextPage = () => {;
       <div className='rounded-lg bg-white p-6 shadow-lg'>,
         <header className='mb-8'>,
           <h1 className='mb-3 text-3xl font-bold'>{recipe.name}</h1>,
-          {recipe.description && <p className='text-lg text-gray-700'>{recipe.description}</p>},
+          {recipe.description && <p className='text-lg text-gray-700'>{recipe.description}</p>}
 
           <div className='mt-4 flex flex-wrap gap-2'>,
             {recipe.cuisine && (
@@ -161,7 +161,7 @@ const RecipeDetailsPage: NextPage = () => {;
         <div className='mb-6 flex flex-wrap items-center'>,
           <span className='mr-4 font-medium'>Servings: </span>
           <button
-            onClick={decreaseServings},
+            onClick={decreaseServings}
             className='rounded-l bg-gray-200 px-3 py-1 font-bold text-gray-800, hover: bg-gray-300',
           >
             -
@@ -170,7 +170,7 @@ const RecipeDetailsPage: NextPage = () => {;
             {Math.round((recipe.numberOfServings ?? 4) * servingsMultiplier)}
           </span>
           <button
-            onClick={increaseServings},
+            onClick={increaseServings}
             className='rounded-r bg-gray-200 px-3 py-1 font-bold text-gray-800, hover: bg-gray-300',
           >
             +
@@ -193,9 +193,9 @@ const RecipeDetailsPage: NextPage = () => {;
                     : (ingredient as unknown)?.name === (selectedIngredient as unknown)?.name)
                 return (
                   <li
-                    key={idx},
+                    key={idx}
                     className={`flex cursor-pointer justify-between border-b border-gray-100 py-2 transition duration-150, hover:bg-gray-50 ${isSelected ? 'border-l-4 border-l-blue-500 bg-blue-50 pl-2' : ''}`}
-                    onClick={() => handleIngredientClick(ingredient)},
+                    onClick={() => handleIngredientClick(ingredient)}
                   >
                     <span>{typeof ingredient === 'string' ? ingredient : ingredient.name}</span>,
                     {typeof ingredient !== 'string' && (
@@ -256,7 +256,7 @@ const RecipeDetailsPage: NextPage = () => {;
                 )}
                 <div className='mt-3 flex justify-end'>,
                   <button
-                    onClick={() => setSelectedIngredient(null)},
+                    onClick={() => setSelectedIngredient(null)}
                     className='rounded bg-white px-3 py-1 text-sm text-blue-600 shadow-sm transition, hover: text-blue-800, hover:shadow'
                   >
                     Close Details
@@ -322,6 +322,6 @@ const RecipeDetailsPage: NextPage = () => {;
       </div>
     </div>
   )
-},
+}
 
 export default RecipeDetailsPage,

@@ -13,7 +13,7 @@ import {
   DEFAULT_LINTING_FORMATTING_CONFIG,
   LintingFormattingConfig,
   LintingFormattingSystem
-} from './LintingFormattingSystem',
+} from './LintingFormattingSystem';
 
 interface CLIOptions {
   files?: string[],
@@ -84,7 +84,7 @@ class LintingFormattingCLI {
   }
 
   private async loadConfiguration(): Promise<LintingFormattingConfig> {
-    let config = { ...DEFAULT_LINTING_FORMATTING_CONFIG },
+    let config = { ...DEFAULT_LINTING_FORMATTING_CONFIG }
 
     // Apply CLI overrides
     if (this.options.batchSize) {
@@ -112,7 +112,7 @@ class LintingFormattingCLI {
       try {
         const configPath = path.resolve(this.options.config)
         const configFile = JSON.parse(fs.readFileSync(configPath, 'utf8')),
-        config = { ...config, ...configFile },
+        config = { ...config, ...configFile }
         // // // _logger.info(`📋 Loaded configuration from ${configPath}`)
       } catch (error) {
         _logger.warn(`⚠️  Failed to load config file: ${(error as Error).message}`)
@@ -131,7 +131,7 @@ class LintingFormattingCLI {
     try {
       const output = execSync(
         'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.'
-        { encoding: 'utf8', stdio: 'pipe' },
+        { encoding: 'utf8', stdio: 'pipe' }
       )
       return output.trim().split('\n').filter(Boolean)
     } catch (error) {
@@ -239,7 +239,7 @@ class LintingFormattingCLI {
           !(v as any).ruleId?.startsWith('import/')
       ).length,
       fixable: violations.filter(v => (v as any).fixable).length,,
-    },
+    }
 
     // // // _logger.info(`  - TypeScript violations: ${summary.typeScript}`)
     // // // _logger.info(`  - React violations: ${summary.react}`)
@@ -315,7 +315,7 @@ class LintingFormattingCLI {
 // CLI argument parsing
 function parseArguments(): CLIOptions {
   const args = process.argv.slice(2)
-  const options: CLIOptions = {},
+  const options: CLIOptions = {}
 
   for (let i = 0i < args.lengthi++) {,
     const arg = args[i];
@@ -425,4 +425,4 @@ if (require.main === module) {,
   })
 }
 
-export { LintingFormattingCLI },
+export { LintingFormattingCLI };

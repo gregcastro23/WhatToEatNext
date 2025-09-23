@@ -53,7 +53,7 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
     } catch {
       return dateString,
     }
-  },
+  }
 
   const getTimeRemaining = () => {
     if (!lastPlanetaryHour?.end) return null;
@@ -75,7 +75,7 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
     } catch {
       return null;
     }
-  },
+  }
 
   const planetColor = lastPlanetaryHour?.planet
     ? PLANET_COLORS[lastPlanetaryHour.planet]

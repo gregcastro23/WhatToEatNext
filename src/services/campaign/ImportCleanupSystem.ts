@@ -72,7 +72,7 @@ export class ImportCleanupSystem {
         buildValidationPassed: true,
         errors: [],
         warnings: []
-      },
+      }
 
       // Process files in batches
       for (let i = 0i < batchedFiles.lengthi++) {
@@ -209,7 +209,7 @@ export class ImportCleanupSystem {
       buildValidationPassed: true,
       errors: [],
       warnings: []
-    },
+    }
 
     // Step, 1: Remove unused imports
     try {
@@ -478,7 +478,7 @@ export class ImportCleanupSystem {
         return imports.sort((ab) => a.line.localeCompare(b.line))
       }
       return imports;
-    },
+    }
 
     // Separate type imports if configured
     if (organizationRules.separateTypeImports) {
@@ -587,7 +587,7 @@ export class ImportCleanupSystem {
     try {
       const output = execSync(
         'find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.'
-        { encoding: 'utf8', stdio: 'pipe' },
+        { encoding: 'utf8', stdio: 'pipe' }
       )
       return output.trim().split('\n').filter(Boolean)
     } catch (error) {
@@ -630,7 +630,7 @@ export class ImportCleanupSystem {
       buildValidationPassed: total.buildValidationPassed && batch.buildValidationPassed,
       errors: [...total.errors, ...batch.errors],
       warnings: [...total.warnings, ...batch.warnings]
-    },
+    }
   }
 }
 
@@ -650,4 +650,4 @@ export const _DEFAULT_IMPORT_CLEANUP_CONFIG: ImportCleanupConfig = {
     enforceTrailingCommas: true,
     maxLineLength: 100
   }
-},
+}

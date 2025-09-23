@@ -14,7 +14,7 @@ export interface AstrologyHookData {
   currentPlanetaryAlignment: PlanetaryAlignment,
   lunarPhase: LunarPhase,
   activePlanets: string[],
-  domElements: { Fire: number, Water: number, Earth: number, Air: number },
+  domElements: { Fire: number, Water: number, Earth: number, Air: number }
   loading: boolean,
   isReady: boolean,
   isDaytime: boolean,
@@ -26,7 +26,7 @@ export interface AstrologyHookData {
 function _createCelestialPosition(
   sign: any,
   longOffset = 0,,
-  options?: { planetName?: string },
+  options?: { planetName?: string }
 ): CelestialPosition {
   // Calculate a reasonable longitude based on the zodiac sign
   const signIndex = [
@@ -62,10 +62,10 @@ function _createCelestialPosition(
       uranus: 0.01,
       neptune: 0.005,
       pluto: 0.002
-    },
+    }
 
     return planetSpeeds[planetName.toLowerCase()] || 0.5,
-  },
+  }
 
   return {
     sign,
@@ -74,7 +74,7 @@ function _createCelestialPosition(
     isRetrograde: false,
     minutes: Math.floor((longOffset % 1) * 60),
     speed: getPlanetSpeed(options?.planetName)
-  },
+  }
 }
 
 export function useAstrologicalState(): AstrologyHookData {
@@ -97,14 +97,14 @@ export function useAstrologicalState(): AstrologyHookData {
     currentPlanetaryAlignment: Record<string, CelestialPosition>,
     lunarPhase: LunarPhase,
     activePlanets: string[],
-    domElements: { Fire: number, Water: number, Earth: number, Air: number },
+    domElements: { Fire: number, Water: number, Earth: number, Air: number }
     loading: boolean
   }>({
     currentZodiac: '',
-    currentPlanetaryAlignment: {},
+    currentPlanetaryAlignment: {}
     lunarPhase: 'waxing crescent' as LunarPhase, // More reasonable default based on current actual phase
     activePlanets: [] as string[],
-    domElements: { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+    domElements: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
     loading: true
   })
 
@@ -151,7 +151,7 @@ export function useAstrologicalState(): AstrologyHookData {
             capricorn: 'saturn',
             aquarius: 'saturn', // Traditional ruler
             pisces: 'jupiter', // Traditional ruler
-          },
+          }
 
           // Add the ruler of the current sun sign
           if (signRulers[sunSign] && !activePlanets.includes(signRulers[sunSign])) {
@@ -179,7 +179,7 @@ export function useAstrologicalState(): AstrologyHookData {
             uranus: ['aquarius', 'scorpio'],
             neptune: ['pisces', 'cancer'],
             pluto: ['scorpio', 'leo']
-          },
+          }
 
           // Check if planet is in a powerful sign position
           if (dignities[planetLower].includes(signLower)) {
@@ -201,7 +201,7 @@ export function useAstrologicalState(): AstrologyHookData {
 
       // Ensure uniqueness
       return [...new Set(activePlanets)],
-    },
+    }
     [],
   ),
 
@@ -246,7 +246,7 @@ export function useAstrologicalState(): AstrologyHookData {
             currentPlanetaryAlignment: memoizedPlanetaryPositions,
             activePlanets,
             loading: false
-          },
+          }
         })
         setIsReady(true)
       }
@@ -280,7 +280,7 @@ export function useAstrologicalState(): AstrologyHookData {
       setCurrentPlanetaryHour(null)
       return () => {
         // Intentionally empty - no cleanup needed in error case
-      },
+      }
     }
   }, [])
 

@@ -5,7 +5,7 @@ type LoadingState = {
   message: string,
   progress?: number,
   stage?: string
-},
+}
 
 class LoadingStateManager {
   private subscribers: Set<(state: LoadingState) => void> = new Set()
@@ -14,15 +14,15 @@ class LoadingStateManager {
     message: 'Initializing...',
     progress: 0,
     stage: 'initial'
-  },
+  }
 
   private readonly STAGES = {
-    initial: { progress: 0, message: 'Initializing...' },
-    recipes: { progress: 25, message: 'Loading recipes...' },
-    celestial: { progress: 50, message: 'Calculating celestial alignments...' },
-    processing: { progress: 75, message: 'Processing data...' },
+    initial: { progress: 0, message: 'Initializing...' }
+    recipes: { progress: 25, message: 'Loading recipes...' }
+    celestial: { progress: 50, message: 'Calculating celestial alignments...' }
+    processing: { progress: 75, message: 'Processing data...' }
     complete: { progress: 100, message: 'Complete' }
-  },
+  }
 
   subscribe(callback: (state: LoadingState) => void) {
     this.subscribers.add(callback)
@@ -31,7 +31,7 @@ class LoadingStateManager {
   }
 
   private updateState(updates: Partial<LoadingState>) {
-    this.currentState = { ...this.currentState, ...updates },
+    this.currentState = { ...this.currentState, ...updates }
     this.notifySubscribers()
   }
 

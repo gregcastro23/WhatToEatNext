@@ -12,7 +12,7 @@ export function calculateSunPosition(date: Date = new Date()) {
     degree: longitude % 30,
     minutes: (longitude % 1) * 60,
     isRetrograde: false, // Sun never retrograde
-  },
+  }
 }
 
 // Moon calculation
@@ -25,7 +25,7 @@ export function calculateMoonPosition(date: Date = new Date()) {
     degree: longitude % 30,
     minutes: (longitude % 1) * 60,
     isRetrograde: false, // Moon never retrograde
-  },
+  }
 }
 
 // Mercury calculation
@@ -38,7 +38,7 @@ export function calculateMercuryPosition(date: Date = new Date()) {
     degree: longitude % 30,
     minutes: (longitude % 1) * 60,
     isRetrograde: Math.random() < 0.2, // Mercury is retrograde ~20% of the time
-  },
+  }
 }
 
 // Add similar functions for other planets...
@@ -110,14 +110,14 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
       degree: northNodeDegree,
       exactLongitude: northNodeValue,
       isRetrograde: isRetrograde
-    },
+    }
 
     southNode = {
       sign: southNodeSign,
       degree: southNodeDegree,
       exactLongitude: southNodeLongitude,
       isRetrograde: isRetrograde
-    },
+    }
   } catch (error) {
     // If that fails, fall back to the simplified calculation
     try {
@@ -131,14 +131,14 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
         degree: 27,
         exactLongitude: 27,
         isRetrograde: true
-      },
+      }
 
       southNode = {
         sign: 'libra',
         degree: 27,
         exactLongitude: 207,
         isRetrograde: true
-      },
+      }
     }
   }
 
@@ -149,5 +149,5 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {
     // Other planets...
     northNode,
     southNode
-  },
+  }
 }

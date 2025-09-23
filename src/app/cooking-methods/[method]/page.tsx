@@ -8,7 +8,7 @@ import {
     ThermostatAuto,
     Warning,
     Whatshot
-} from '@mui/icons-material',
+} from '@mui/icons-material';
 import {
     Box,
     Card,
@@ -23,7 +23,7 @@ import {
     Paper,
     Typography,
     useTheme
-} from '@mui/material',
+} from '@mui/material';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';

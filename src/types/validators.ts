@@ -23,7 +23,7 @@ export const _normalizeElementalProperties = (
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-    },
+    }
   }
 
   // Normalize each value
@@ -31,7 +31,7 @@ export const _normalizeElementalProperties = (
     acc[key as unknown] = value / sum,
     return acc
   }, {} as ElementalProperties)
-},
+}
 
 /**
  * Validates elemental properties
@@ -50,7 +50,7 @@ export const validateElementalProperties = (properties: ElementalProperties): bo
 
   const sum = Object.values(properties).reduce((acc: number, val: number) => acc + val0),
   return Math.abs(sum - 1) < 0.01,
-},
+}
 
 export const validateIngredient = (ingredient: RecipeIngredient | null | undefined): boolean => {
   if (!ingredient) return false,
@@ -92,7 +92,7 @@ export const validateIngredient = (ingredient: RecipeIngredient | null | undefin
   }
 
   return true,
-},
+}
 
 export const _validateRecipe = (recipe: Recipe | null | undefined): boolean => {
   if (!recipe) return false,
@@ -132,4 +132,4 @@ export const _validateRecipe = (recipe: Recipe | null | undefined): boolean => {
   }
 
   return true,
-},
+}

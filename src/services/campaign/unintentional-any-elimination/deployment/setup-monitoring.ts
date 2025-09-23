@@ -20,23 +20,23 @@ interface MonitoringConfig {
       errorIncrease: number,
       successRateDecrease: number,
       buildFailureRate: number
-    },
-  },
+    }
+  }
   alerts: {
     enabled: boolean,
     channels: AlertChannel[],
     conditions: AlertCondition[]
-  },
+  }
   logging: {
     level: 'debug' | 'info' | 'warn' | 'error',
     retention: number, // days,
     maxFileSize: string
-  },
+  }
   healthChecks: {
     enabled: boolean,
     interval: number, // minutes,
     endpoints: HealthCheckEndpoint[]
-  },
+  }
 }
 
 interface AlertChannel {
@@ -78,7 +78,7 @@ function createMonitoringConfig(): MonitoringConfig {
         successRateDecrease: 1 - campaignConfig.targets.minSuccessRate,
         buildFailureRate: 0.1
       }
-    },
+    }
     alerts: {
       enabled: true,
       channels: [
@@ -88,9 +88,9 @@ function createMonitoringConfig(): MonitoringConfig {
           config: {
             colors: true,
             timestamps: true
-          },
+          }
           enabled: true
-        },
+        }
         {
           type: 'file',
           name: 'file-alerts',
@@ -98,7 +98,7 @@ function createMonitoringConfig(): MonitoringConfig {
             path: '.kiro/logs/unintentional-any-alerts.log',
             maxSize: '10MB',
             rotate: true
-          },
+          }
           enabled: true
         }
       ],
@@ -109,28 +109,28 @@ function createMonitoringConfig(): MonitoringConfig {
           condition: 'typescript_errors > baseline + threshold',
           severity: 'error',
           enabled: true
-        },
+        }
         {
           name: 'Low Success Rate',
           description: 'Campaign success rate below minimum threshold',
           condition: 'success_rate < min_success_rate',
           severity: 'warning',
           enabled: true
-        },
+        }
         {
           name: 'Build Failure',
           description: 'Build process failed during campaign execution',
           condition: 'build_status == 'failed'',,
           severity: 'critical',
           enabled: true
-        },
+        }
         {
           name: 'Configuration Invalid',
           description: 'Campaign configuration validation failed',
           condition: 'config_valid == false',,
           severity: 'error',
           enabled: true
-        },
+        }
         {
           name: 'Rollback Triggered',
           description: 'Safety protocol triggered rollback',
@@ -139,12 +139,12 @@ function createMonitoringConfig(): MonitoringConfig {
           enabled: true
         }
       ]
-    },
+    }
     logging: {
       level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',,
       retention: 14,
       maxFileSize: '50MB'
-    },
+    }
     healthChecks: {
       enabled: true,
       interval: 15,
@@ -156,7 +156,7 @@ function createMonitoringConfig(): MonitoringConfig {
           args: ['run', 'build'],
           timeout: 180000,
           expectedExitCode: 0
-        },
+        }
         {
           name: 'Configuration Health',
           type: 'config',
@@ -168,7 +168,7 @@ function createMonitoringConfig(): MonitoringConfig {
           ],
           timeout: 30000,
           expectedExitCode: 0
-        },
+        }
         {
           name: 'Integration Health',
           type: 'integration',
@@ -182,7 +182,7 @@ function createMonitoringConfig(): MonitoringConfig {
         }
       ]
     }
-  },
+  }
 }
 
 /**
@@ -225,9 +225,9 @@ export interface MetricsData {
 }
 
 export class UnintentionalAnyMonitoringService extends EventEmitter {
-  private config = ${JSON.stringify(config, null, 2)},
+  private config = ${JSON.stringify(config, null, 2)}
   private metricsHistory: MetricsData[] = []
-  private alertsEnabled = ${config.alerts.enabled},
+  private alertsEnabled = ${config.alerts.enabled}
   private healthCheckInterval?: NodeJS.Timeout,
 
   constructor() {
@@ -248,7 +248,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
       configValid: await this.getConfigValidation(),
       rollbackTriggered: false, // Will be set by campaign system,
       campaignActive: await this.getCampaignStatus()
-    },
+    }
 
     this.metricsHistory.push(metrics)
     this.emit('metrics', metrics)
@@ -342,7 +342,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
           break,
 
         case 'Low Success Rate':
-          shouldAlert = metrics.successRate < ${config.metrics.thresholds.successRateDecrease},
+          shouldAlert = metrics.successRate < ${config.metrics.thresholds.successRateDecrease}
           break,
 
         case 'Build Failure': shouldAlert = metrics.buildStatus === 'failed',
@@ -373,7 +373,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
       severity: condition.severity,
       description: condition.description,
       metrics
-    },
+    }
 
     this.emit('alert', alert)
 
@@ -415,7 +415,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
     const metricsData = {
       timestamp: metrics.timestamp.toISOString(),
       data: metrics
-    },
+    }
 
     try {
       appendFileSync(metricsPath, JSON.stringify(metricsData) + '\\n')
@@ -507,7 +507,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
       healthy: metrics.buildStatus === 'success' && metrics.configValid,,
       metrics,
       alerts: 0 // Would track active alerts
-    },
+    }
   }
 }
 
@@ -647,4 +647,4 @@ if (require.main === module) {,
   setupMonitoring()
 }
 
-export { setupMonitoring },
+export { setupMonitoring };

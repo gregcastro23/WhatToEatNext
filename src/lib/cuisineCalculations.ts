@@ -25,12 +25,12 @@ export async function getCuisineRecommendations(): Promise<CuisineRecommendation
       ([id, tradition]) => {
         const traditionData = tradition as unknown as {;
           description?: string,
-          elementalAlignment?: { Fire: number; Water: number, Earth: number Air: number },
+          elementalAlignment?: { Fire: number; Water: number, Earth: number Air: number }
           authenticity?: number,
           regions?: unknown[],
           seasonality?: unknown
           [key: string]: unknown
-        },
+        }
 
         return {
           id,
@@ -41,13 +41,13 @@ export async function getCuisineRecommendations(): Promise<CuisineRecommendation
             Water: 0.25,
             Earth: 0.25,
             Air: 0.25
-          },
+          }
           elementalProperties: traditionData?.elementalAlignment || {
             Fire: 0.25,
             Water: 0.25,
             Earth: 0.25,
             Air: 0.25
-          },
+          }
           astrologicalInfluences: deriveAstrologicalInfluences(tradition),
           compatibilityScore: 0.8, // Default compatibility score,
           elementalAlignment: traditionData?.elementalAlignment || {
@@ -56,8 +56,8 @@ export async function getCuisineRecommendations(): Promise<CuisineRecommendation
             Earth: 0.25,
             Air: 0.25
           }
-        },
-      },
+        }
+      }
     )
 
     return recommendations,
@@ -71,10 +71,10 @@ export async function getCuisineRecommendations(): Promise<CuisineRecommendation
 function deriveAstrologicalInfluences(tradition: unknown): string[] {
   const traditionData = tradition as {;
     description?: string,
-    elementalAlignment?: { Fire: number; Water: number; Earth: number, Air: number },
+    elementalAlignment?: { Fire: number; Water: number; Earth: number, Air: number }
     regions?: unknown[]
     [key: string]: unknown
-  },
+  }
 
   // If the tradition explicitly has astrological influences, use those
   const astroProfile = traditionData?.astrologicalProfile;
@@ -102,7 +102,7 @@ function deriveAstrologicalInfluences(tradition: unknown): string[] {
         characteristics?: string[],
         seasonality?: unknown
         [key: string]: unknown
-      },
+      }
       const regionInfluences = regionData?.astrologicalInfluences;
 
       if (regionInfluences && Array.isArray(regionInfluences)) {

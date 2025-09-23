@@ -1,7 +1,7 @@
 import type { ElementalProperties, ZodiacSign } from '@/types/alchemy';
 
 // Re-export ElementalProperties to fix TS2459 errors
-export type { ElementalProperties },
+export type { ElementalProperties }
 
 export type IngredientCategory =
   | 'culinary_herb'
@@ -57,12 +57,12 @@ export interface CookingMethod {
     min: number,
     max: number,
     unit: 'seconds' | 'minutes' | 'hours' | string
-  },
+  }
   temperatures?: {
     min: number,
     max: number,
     unit: 'celsius' | 'fahrenheit'
-  },
+  }
   description: string
 }
 
@@ -104,7 +104,7 @@ export interface Ingredient extends BaseIngredient {
   smokePoint?: {
     celsius: number,
     fahrenheit: number
-  },
+  }
   potency?: number,
   heatLevel?: number
   preparation?: {
@@ -112,14 +112,14 @@ export interface Ingredient extends BaseIngredient {
       duration: string,
       storage: string,
       tips: string[]
-    },
+    }
     dried?: {
       duration: string,
       storage: string,
       tips: string[]
-    },
+    }
     methods?: string[]
-  },
+  }
   storage: {
     container?: string,
     duration: string
@@ -128,26 +128,26 @@ export interface Ingredient extends BaseIngredient {
       | {
           fahrenheit: number,
           celsius: number
-        },
+        }
     notes?: string
-  },
+  }
   safetyThresholds?: {
-    minimum?: { fahrenheit: number, celsius: number },
-    maximum?: { fahrenheit: number, celsius: number },
+    minimum?: { fahrenheit: number, celsius: number }
+    maximum?: { fahrenheit: number, celsius: number }
     notes?: string
-  },
+  }
   // New property for ingredient pairing recommendations
   pairingRecommendations?: {
     complementary: string[],
     contrasting: string[],
     toAvoid?: string[]
-  },
+  }
   // New property for elemental transformation
   elementalTransformation?: {
     whenCooked: Partial<ElementalProperties>,
     whenFermented?: Partial<ElementalProperties>,
     whenDried?: Partial<ElementalProperties>
-  },
+  }
 }
 
 export const _VALID_CATEGORIES: IngredientCategory[] = [
@@ -222,14 +222,14 @@ export interface IngredientMapping {
           base: string,
           secondary?: string,
           decanModifiers?: {
-            first?: { element: string; planet: string influence?: number },
-            second?: { element: string; planet: string influence?: number },
-            third?: { element: string; planet: string influence?: number },
-          },
-        },
+            first?: { element: string; planet: string influence?: number }
+            second?: { element: string; planet: string influence?: number }
+            third?: { element: string; planet: string influence?: number }
+          }
+        }
     lunarPhaseModifiers?: Record<string, unknown>,
     aspectEnhancers?: string[]
-  },
+  }
   qualities?: string[],
   origin?: string[],
   category?: string,

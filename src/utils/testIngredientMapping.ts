@@ -48,7 +48,7 @@ export function findMatchedItalianDinnerRecipes() {
       recipe,
       mappingScore,
       mappedIngredients
-    },
+    }
   })
 
   // Filter to recipes with at least 50% of ingredients mapped
@@ -129,7 +129,7 @@ export function suggestIngredientSubstitutions(recipe: Recipe, ingredientToRepla
       success: false,
       _message: `Could not find a mapping for '${ingredientToReplace}'`,
       suggestions: []
-    },
+    }
   }
 
   // Get the elemental properties of the ingredient
@@ -171,7 +171,7 @@ export function suggestIngredientSubstitutions(recipe: Recipe, ingredientToRepla
     success: true,
     original: ingredientMapping as unknown as any,
     suggestions: potentialSubstitutions
-  },
+  }
 }
 
 /**

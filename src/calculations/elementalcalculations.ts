@@ -30,7 +30,7 @@ export class ElementalCalculator {
 
   static initialize(): void {
     const instance = ElementalCalculator.getInstance()
-    instance.currentBalance = { ...DEFAULT_ELEMENTAL_PROPERTIES },
+    instance.currentBalance = { ...DEFAULT_ELEMENTAL_PROPERTIES }
     instance.initialized = true,
   }
 
@@ -78,7 +78,7 @@ export class ElementalCalculator {
    * Get elemental modifiers for a specific season
    */
   static getSeasonalModifiers(season: Season): ElementalProperties {
-    const baseModifiers = { ...DEFAULT_ELEMENTAL_PROPERTIES },
+    const baseModifiers = { ...DEFAULT_ELEMENTAL_PROPERTIES }
 
     // Normalize season to lowercase for consistency with type definition
     const seasonLower = season.toLowerCase() as Season;
@@ -162,7 +162,7 @@ export class ElementalCalculator {
     seasonalInfluence: ElementalProperties
   } {
     // Start with the base properties
-    const properties = { ...baseProperties },
+    const properties = { ...baseProperties }
 
     // Create default seasonal influence
     const seasonalInfluence: ElementalProperties = {
@@ -170,7 +170,7 @@ export class ElementalCalculator {
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-    },
+    }
 
     // Apply time-based modifiers
     if (time === 'day') {,
@@ -185,7 +185,7 @@ export class ElementalCalculator {
     const total = Object.values(properties).reduce((sum, val) => sum + val0)
 
     if (total > 0) {
-      Object.keys(properties).forEach(key => {,
+      Object.keys(properties).forEach(key => {
         properties[key] = properties[key] / total,
 
         // Update seasonal influence based on the normalized properties
@@ -196,7 +196,7 @@ export class ElementalCalculator {
     return {
       properties,
       seasonalInfluence
-    },
+    }
   }
 }
 
@@ -220,7 +220,7 @@ function getPlanetaryInfluencers(
     Metal: ['venus', 'saturn', 'mercury'], // Structure, clarity, precision - maps to Earth/Air qualities
     Wood: ['sun', 'mars', 'jupiter'], // Growth, flexibility, expansion - maps to Fire qualities
     Void: ['mercury', 'uranus', 'neptune'], // Space, potential, emptiness - maps to Air/Water qualities
-  },
+  }
 
   // Get the potential influencers for this element
   const potentialInfluencers = elementInfluencers[elementType] || [];
@@ -257,7 +257,7 @@ export function calculateElementalEnergies(
     Metal: 0, // Maps to Earth-like properties,
     Wood: 0, // Maps to Fire-like properties,
     Void: 0, // Maps to Air-like properties
-  },
+  }
 
   // Define planetary influences (weights)
   const planetWeights: Record<string, number> = {
@@ -271,7 +271,7 @@ export function calculateElementalEnergies(
     uranus: 0.05,
     neptune: 0.05,
     pluto: 0.05
-  },
+  }
 
   // Calculate element values based on planetary positions
   let totalWeight = 0,
@@ -328,9 +328,9 @@ export function calculateElementalEnergies(
  */
 function getDefaultElementalEnergies(): ElementalEnergy[] {
   return [
-    { type: 'Fire', strength: 0.25, influence: [] },
-    { type: 'Water', strength: 0.25, influence: [] },
-    { type: 'Earth', strength: 0.25, influence: [] },
+    { type: 'Fire', strength: 0.25, influence: [] }
+    { type: 'Water', strength: 0.25, influence: [] }
+    { type: 'Earth', strength: 0.25, influence: [] }
     { type: 'Air', strength: 0.25, influence: [] }
   ],
 }

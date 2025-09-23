@@ -42,7 +42,7 @@ interface RawDish {
     fat?: number,
     vitamins?: string[],
     minerals?: string[]
-  },
+  }
   servingSize?: number | string,
   servings?: number | string,
   numberOfServings?: number | string,
@@ -52,7 +52,7 @@ interface RawDish {
   planetaryInfluences?: {
     favorable?: string[],
     unfavorable?: string[]
-  },
+  }
   cookingMethods?: string[]
   substitutions?: Record<string, string[] | string>,
   tools?: string[],
@@ -89,7 +89,7 @@ interface ExtendedCuisine extends Omit<Cuisine, 'dishes'> {
     | MealCollection
     | {
         dishes?: MealCollection
-      },
+      }
 }
 
 /**
@@ -462,7 +462,7 @@ export class LocalRecipeService {
                 allIsArray: !!(value?.all && Array.isArray(value.all)),
                 allLength: value?.all && Array.isArray(value.all) ? value?.all?.length : 0
               }))
-            },
+            }
             null2,
           ),
         )
@@ -515,7 +515,7 @@ export class LocalRecipeService {
             name: 'unknown ingredient',
             amount: 1,
             unit: 'unit'
-          },
+          }
 
         return {
           name: ing.name || '',
@@ -538,7 +538,7 @@ export class LocalRecipeService {
                 : typeof ing.substitutes === 'string'
                   ? [ing.substitutes]
                   : []
-        },
+        }
       })
 
       // Ensure elementalProperties exist - checking all possible property names
@@ -553,14 +553,14 @@ export class LocalRecipeService {
           Water: state.Water || state.water || 0.25,
           Earth: state.Earth || state.earth || 0.25,
           Air: state.Air || state.air || 0.25
-        },
+        }
       } else {
         elementalProperties = {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
           Air: 0.25
-        },
+        }
       }
 
       // Make sure all elemental properties are numbers
@@ -569,7 +569,7 @@ export class LocalRecipeService {
         Water: typeof elementalProperties.Water === 'number' ? elementalProperties.Water : 0.25,
         Earth: typeof elementalProperties.Earth === 'number' ? elementalProperties.Earth : 0.25,,
         Air: typeof elementalProperties.Air === 'number' ? elementalProperties.Air : 0.25,,
-      },
+      }
 
       // Standardize timing information
       const prepTime = dish.prepTime || '';
@@ -656,7 +656,7 @@ export class LocalRecipeService {
         planetaryInfluences: {
           favorable: dish.planetaryInfluences?.favorable || [],
           unfavorable: dish.planetaryInfluences?.unfavorable || []
-        },
+        }
         cookingMethods: Array.isArray(dish.cookingMethods) ? dish.cookingMethods : [],
         // New fields,
         substitutions: substitutions,
@@ -670,7 +670,7 @@ export class LocalRecipeService {
             : 'mild',
         preparationNotes: dish.preparationNotes || dish.culturalNotes || '',
         technicalTips: Array.isArray(dish.technicalTips) ? dish.technicalTips : []
-      },
+      }
     } catch (error) {
       logger.error('Error standardizing recipe:', error),
       return {
@@ -688,7 +688,7 @@ export class LocalRecipeService {
           Earth: 0.25,
           Air: 0.25
         }
-      },
+      }
     }
   }
 

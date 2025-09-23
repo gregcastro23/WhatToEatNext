@@ -39,7 +39,7 @@ describe('Corruption Detection System - Task 6.2', () => {
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
       stashRetentionDays: 7
-    },
+    }
 
     // Mock git repository existence
     mockFs.existsSync.mockImplementation((path: string) => {
@@ -91,7 +91,7 @@ import React, * as React, { useEffect, useState } from 'react';
       const corruptedContent: any = `
         function testFunction(posit: anyi: anyo: anyn: anys: string) : any {
           return posit
-        },
+        }
       `,
 
       mockFs.readFileSync.mockReturnValue(corruptedContent)
@@ -419,7 +419,7 @@ import React, { Component } from 'undefined';
 
     test('should recommend retry for medium severity corruption', async () => {
       const mediumSeverityContent: any = `;
-        export { },
+        export { }
       `,
 
       mockFs.readFileSync.mockReturnValue(mediumSeverityContent)
@@ -433,7 +433,7 @@ import React, { Component } from 'undefined';
       const cleanContent: any = `
         export default function Component() : any {
           return React.createElement('div', null, 'Hello World')
-        },
+        }
       `,
 
       mockFs.readFileSync.mockReturnValue(cleanContent)

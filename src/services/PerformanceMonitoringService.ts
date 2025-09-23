@@ -52,7 +52,7 @@ class PerformanceMonitoringService {
       activeComponents: 0,
       systemUptime: 0,
       lastUpdated: new Date()
-    },
+    }
 
     this.startMonitoring()
   }
@@ -84,7 +84,7 @@ class PerformanceMonitoringService {
       activeComponents: this.componentMetrics.size,
       systemUptime: now - this.startTime,
       lastUpdated: new Date()
-    },
+    }
   }
 
   private checkThresholds() {
@@ -172,7 +172,7 @@ class PerformanceMonitoringService {
       systemMetrics: this.systemMetrics,
       alerts: this.alerts.slice(-10), // Last 10 alerts,
       summary: this.getPerformanceSummary()
-    },
+    }
 
     this.subscribers.forEach(callback => {
       try {
@@ -243,7 +243,7 @@ class PerformanceMonitoringService {
     // Return unsubscribe function
     return () => {
       this.subscribers.delete(callback)
-    },
+    }
   }
 
   public getComponentMetrics(componentName?: string) {
@@ -286,7 +286,7 @@ class PerformanceMonitoringService {
       memoryUsage: this.systemMetrics.totalMemoryUsage,
       uptime: this.systemMetrics.systemUptime,
       healthScore: this.calculateHealthScore()
-    },
+    }
   }
 
   private calculateHealthScore(): number {
@@ -320,7 +320,7 @@ class PerformanceMonitoringService {
       activeComponents: 0,
       systemUptime: 0,
       lastUpdated: new Date()
-    },
+    }
     this.startTime = Date.now()
   }
 }

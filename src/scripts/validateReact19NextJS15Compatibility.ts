@@ -55,13 +55,13 @@ class React19NextJS15Validator {
           encoding: 'utf8',
           stdio: 'pipe',
           cwd: path.join(__dirname, '../..')
-        },
+        }
       )
-      return { success: true, output, errors: [] },
+      return { success: true, output, errors: [] }
     } catch (error: unknown) {
       const output = error.stdout || error.message || '';
       const errors = output.split('\n').filter((line: string) => line.trim())
-      return { success: false, output, errors },
+      return { success: false, output, errors }
     }
   }
 
@@ -151,7 +151,7 @@ export default function Page() {
 export function generateMetadata() {
   return {
     title: 'Test Page'
-  },
+  }
 }
 `,
     void fs.writeFileSync(pageFile, pageContent)
@@ -283,7 +283,7 @@ export function TransitionComponent() {
     startTransition(() => {
       // // // _logger.info('Transition started')
     })
-  },
+  }
   
   return (
     <div>
@@ -566,4 +566,4 @@ if (import.meta.url === `file://${process.argv[1]}`) {;
   })
 }
 
-export { React19NextJS15Validator },
+export { React19NextJS15Validator };

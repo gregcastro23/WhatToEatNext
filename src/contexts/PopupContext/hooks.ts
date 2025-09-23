@@ -18,4 +18,4 @@ export const usePopup = (): PopupContextType => {
   }
 
   return context,
-},
+}

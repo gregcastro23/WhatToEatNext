@@ -47,11 +47,11 @@ describe('Linting Campaign System Integration', () => {
         {
           filePath: '/test/file1.ts',
           messages: [
-            { ruleId: 'no-unused-vars', severity: 2, fix: null },
-            { ruleId: 'no-console', severity: 2, fix: { range: [010], text: '' } },
+            { ruleId: 'no-unused-vars', severity: 2, fix: null }
+            { ruleId: 'no-console', severity: 2, fix: { range: [010], text: '' } }
             { ruleId: 'prefer-const', severity: 1, fix: { range: [05], text: 'const' } }
           ]
-        },
+        }
       ])
 
       // Mock improved state after campaign
@@ -59,7 +59,7 @@ describe('Linting Campaign System Integration', () => {
         {
           filePath: '/test/file1.ts',
           messages: [{ ruleId: 'no-unused-vars', severity: 1, fix: null }]
-        },
+        }
       ])
 
       // Setup mock sequence
@@ -100,7 +100,7 @@ describe('Linting Campaign System Integration', () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('lint:fix')) {
           throw mockError
-        },
+        }
         return JSON.stringify([])
       })
 
@@ -125,7 +125,7 @@ describe('Linting Campaign System Integration', () => {
         {
           filePath: '/test/file.ts',
           messages: [{ ruleId: 'no-unused-vars', severity: 1, fix: null }]
-        },
+        }
       ])
 
       mockExecSync.mockReturnValue(mockLintOutput)
@@ -153,7 +153,7 @@ describe('Linting Campaign System Integration', () => {
             severity: 2,
             fix: null
           }))
-        },
+        }
       ])
 
       mockExecSync.mockReturnValue(mockLintOutput)
@@ -191,21 +191,21 @@ describe('Linting Campaign System Integration', () => {
         {
           filePath: '/test/file.ts',
           messages: Array.from({ length: 10 }, () => ({ ruleId: 'error', severity: 2, fix: null }))
-        },
+        }
       ])
 
       const phase2Output: any = JSON.stringify([
         {
           filePath: '/test/file.ts',
           messages: Array.from({ length: 5 }, () => ({ ruleId: 'error', severity: 2, fix: null }))
-        },
+        }
       ])
 
       const phase3Output: any = JSON.stringify([
         {
           filePath: '/test/file.ts',
           messages: Array.from({ length: 2 }, () => ({ ruleId: 'warning', severity: 1, fix: null }))
-        },
+        }
       ])
 
       mockExecSync
@@ -230,7 +230,7 @@ describe('Linting Campaign System Integration', () => {
 
     test('should generate comprehensive progress reports', async () => {
       const currentOutput: any = JSONstringify([
-        { filePath: '/test/file.ts', messages: [{ ruleId: 'warning', severity: 1, fix: null }] },
+        { filePath: '/test/file.ts', messages: [{ ruleId: 'warning', severity: 1, fix: null }] }
       ])
 
       const previousMetrics: any = {
@@ -238,12 +238,12 @@ describe('Linting Campaign System Integration', () => {
         totalIssues: 10,
         errors: 5,
         warnings: 5,
-        errorsByCategory: { 'no-unused-vars': 5 },
-        warningsByCategory: { 'prefer-const': 5 },
+        errorsByCategory: { 'no-unused-vars': 5 }
+        warningsByCategory: { 'prefer-const': 5 }
         filesCovered: 10,
         fixableIssues: 8,
-        performanceMetrics: { executionTim, e: 5000, memoryUsage: 256, cacheHitRate: 0.8 },
-      },
+        performanceMetrics: { executionTim, e: 5000, memoryUsage: 256, cacheHitRate: 0.8 }
+      }
 
       mockExecSync.mockReturnValue(currentOutput)
       mockExistsSync.mockReturnValue(true)
@@ -347,16 +347,16 @@ describe('Linting Campaign System Integration', () => {
           maxExecutionTime: 30000,
           minCacheHitRate: 80,
           maxMemoryUsage: 256
-        },
+        }
         blockers: { parserErrors: true,
           typeScriptErrors: true,
           importErrors: false;
           securityIssues: true
-        },
+        }
         exemptions: { files: ['test/**/*.ts'],
           rules: ['no-console']
         }
-      },
+      }
 
       const result: any = await qualityGates.evaluateQualityGates(customConfig)
 

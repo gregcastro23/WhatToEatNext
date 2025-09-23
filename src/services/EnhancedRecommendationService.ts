@@ -7,12 +7,12 @@ import type { Recipe } from '@/types/recipe';
 
 export interface EnhancedRecommendationContext {
   datetime?: Date,
-  location?: { latitude: number, longitude: number },
+  location?: { latitude: number, longitude: number }
   preferences?: {
     dietaryRestrictions?: DietaryRestriction[],
     cuisineTypes?: CuisineType[],
     intensity?: 'mild' | 'moderate' | 'intense'
-  },
+  }
   useBackendInfluence?: boolean
 }
 
@@ -26,7 +26,7 @@ export interface EnhancedRecommendationResult<T> {
       agentResonance: number,
       tokenAlignment: number,
       thermodynamicHarmony: number
-    },
+    }
     reasoning: string
   }>,
   context: {
@@ -34,12 +34,12 @@ export interface EnhancedRecommendationResult<T> {
       symbol: string,
       name: string,
       guidance: string
-    },
+    }
     agent?: {
       name: string,
       archetype: string,
       guidance: string
-    },
+    }
     tokens?: {
       Spirit: number,
       Essence: number,
@@ -92,10 +92,10 @@ export class EnhancedRecommendationService {
 
     // Sample cuisines (in real implementation, would come from data service)
     const cuisines = [
-      { name: 'Italian', type: 'Italian' as CuisineType },
-      { name: 'Japanese', type: 'Japanese' as CuisineType },
-      { name: 'Mexican', type: 'Mexican' as CuisineType },
-      { name: 'Indian', type: 'Indian' as CuisineType },
+      { name: 'Italian', type: 'Italian' as CuisineType }
+      { name: 'Japanese', type: 'Japanese' as CuisineType }
+      { name: 'Mexican', type: 'Mexican' as CuisineType }
+      { name: 'Indian', type: 'Indian' as CuisineType }
       { name: 'French', type: 'French' as CuisineType }
     ],
 
@@ -146,9 +146,9 @@ export class EnhancedRecommendationService {
           agentResonance,
           tokenAlignment,
           thermodynamicHarmony
-        },
+        }
         reasoning
-      },
+      }
     })
 
     // Sort by score
@@ -176,7 +176,7 @@ export class EnhancedRecommendationService {
           monica: tokens.monica
         } : undefined
       }
-    },
+    }
   }
 
   async getEnhancedIngredientRecommendations(
@@ -207,10 +207,10 @@ export class EnhancedRecommendationService {
 
     // Sample ingredients (would come from real service)
     const ingredients: Ingredient[] = [
-      { id: '1', name: 'Tomato', category: 'Vegetable' },
-      { id: '2', name: 'Basil', category: 'Herb' },
-      { id: '3', name: 'Garlic', category: 'Vegetable' },
-      { id: '4', name: 'Olive Oil', category: 'Oil' },
+      { id: '1', name: 'Tomato', category: 'Vegetable' }
+      { id: '2', name: 'Basil', category: 'Herb' }
+      { id: '3', name: 'Garlic', category: 'Vegetable' }
+      { id: '4', name: 'Olive Oil', category: 'Oil' }
       { id: '5', name: 'Mushroom', category: 'Vegetable' }
     ],
 
@@ -232,9 +232,9 @@ export class EnhancedRecommendationService {
           agentResonance,
           tokenAlignment,
           thermodynamicHarmony
-        },
+        }
         reasoning: `Energetically aligned ingredient with ${(finalScore * 100).toFixed(0)}% compatibility`
-      },
+      }
     })
 
     scoredIngredients.sort((a, b) => b.score - a.score)
@@ -261,7 +261,7 @@ export class EnhancedRecommendationService {
           monica: tokens.monica
         } : undefined
       }
-    },
+    }
   }
 
   async getEnhancedRecipeRecommendations(
@@ -292,8 +292,8 @@ export class EnhancedRecommendationService {
 
     // Sample recipes (would come from real service)
     const recipes: Recipe[] = [
-      { id: '1', name: 'Margherita Pizza', cuisine: 'Italian', ingredients: [] },
-      { id: '2', name: 'Chicken Teriyaki', cuisine: 'Japanese', ingredients: [] },
+      { id: '1', name: 'Margherita Pizza', cuisine: 'Italian', ingredients: [] }
+      { id: '2', name: 'Chicken Teriyaki', cuisine: 'Japanese', ingredients: [] }
       { id: '3', name: 'Beef Tacos', cuisine: 'Mexican', ingredients: [] }
     ],
 
@@ -315,9 +315,9 @@ export class EnhancedRecommendationService {
           agentResonance,
           tokenAlignment,
           thermodynamicHarmony
-        },
+        }
         reasoning: `Recipe resonates with current energetic state at ${(finalScore * 100).toFixed(0)}%`
-      },
+      }
     })
 
     scoredRecipes.sort((a, b) => b.score - a.score)
@@ -344,7 +344,7 @@ export class EnhancedRecommendationService {
           monica: tokens.monica
         } : undefined
       }
-    },
+    }
   }
 }
 

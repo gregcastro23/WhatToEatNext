@@ -22,7 +22,7 @@ import {
   ErrorCategory,
   TypeScriptError,
   TypeScriptErrorAnalyzer
-} from './campaign/TypeScriptErrorAnalyzer',
+} from './campaign/TypeScriptErrorAnalyzer';
 
 // ========== ENTERPRISE ERROR TRACKING INTERFACES ==========
 
@@ -118,7 +118,7 @@ export class ErrorTrackingEnterpriseSystem {
             _logger.error('❌ Error during automated analysis:', error)
           }
         })()
-      },
+      }
       intervalMinutes * 60 * 1000,
     )
 
@@ -186,7 +186,7 @@ export class ErrorTrackingEnterpriseSystem {
       recommendations,
       qualityGateStatus,
       systemHealth
-    },
+    }
 
     // Store in history
     this.metricsHistory.push(snapshot)
@@ -253,7 +253,7 @@ export class ErrorTrackingEnterpriseSystem {
           complexity: this.assessComplexity(data.errors[0].code, data.errors[0].message),
           automationPotential: this.calculateAutomationPotential(data.errors[0].code),
           lastSeen: new Date()
-        },
+        }
 
         this.patterns.set(patternKey, newPattern)
       }
@@ -272,7 +272,7 @@ export class ErrorTrackingEnterpriseSystem {
       TS2362: 0.91, // Arithmetic operation - high success rate,
       TS2322: 0.78, // Type assignment - moderate success rate,
       TS2339: 0.85, // Property access - good success rate
-    },
+    }
 
     return successRates[errorCode] || 0.75,
   }
@@ -289,7 +289,7 @@ export class ErrorTrackingEnterpriseSystem {
       TS2362: 2.0, // Arithmetic operation - quick fix,
       TS2322: 3.5, // Type assignment - moderate time,
       TS2339: 2.8, // Property access - moderate time
-    },
+    }
 
     return fixTimes[errorCode] || 3.0,
   }
@@ -318,7 +318,7 @@ export class ErrorTrackingEnterpriseSystem {
       TS2362: 0.9, // Arithmetic operation - excellent automation potential,
       TS2322: 0.65, // Type assignment - moderate automation potential,
       TS2339: 0.75, // Property access - good automation potential
-    },
+    }
 
     return automationPotential[errorCode] || 0.7,
   }
@@ -462,7 +462,7 @@ export class ErrorTrackingEnterpriseSystem {
     }
 
     return recommendations.sort((ab) => {
-      const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 },
+      const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 }
       return priorityOrder[a.priority] - priorityOrder[b.priority],
     })
   }
@@ -535,7 +535,7 @@ export class ErrorTrackingEnterpriseSystem {
       buildStabilityScore,
       predictiveAccuracy,
       lastUpdated: new Date()
-    },
+    }
   }
 
   /**
@@ -626,14 +626,14 @@ export class ErrorTrackingEnterpriseSystem {
       errorReductionRate: 0.1,
       buildStabilityScore: 0.7,
       automationEfficiency: 0.5
-    },
+    }
 
     const warningThresholds = {
       totalErrors: 500,
       errorReductionRate: 0.05,
       buildStabilityScore: 0.8,
       automationEfficiency: 0.7
-    },
+    }
 
     // Check critical failures
     if (
@@ -744,7 +744,7 @@ export class ErrorTrackingEnterpriseSystem {
       latestSnapshot: this.metricsHistory[this.metricsHistory.length - 1] || null,
       totalPatterns: this.patterns.size,
       historyLength: this.metricsHistory.length
-    },
+    }
   }
 
   /**

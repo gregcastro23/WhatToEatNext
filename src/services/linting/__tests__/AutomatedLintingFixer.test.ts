@@ -12,7 +12,7 @@ import {
   AutomatedFixResult,
   BatchProcessingOptions,
   SafetyProtocols
-} from '../AutomatedLintingFixer',
+} from '../AutomatedLintingFixer';
 import { LintingIssue, CategorizedErrors } from '../LintingErrorAnalyzer';
 
 // Mock external dependencies
@@ -54,7 +54,7 @@ describe('AutomatedLintingFixer', () => {
         rule: '@typescript-eslint/no-unused-vars',
         message: ''unusedVar' is defined but never used',
         severity: 'warning',
-        category: { primary: 'typescript', secondary: 'no-unused-vars', priority: 2 },
+        category: { primary: 'typescript', secondary: 'no-unused-vars', priority: 2 }
         autoFixable: true,
         resolutionStrategy: { type: 'auto-fix',
           confidence: 0.8,
@@ -63,7 +63,7 @@ describe('AutomatedLintingFixer', () => {
           estimatedEffort: 1,
           dependencies: []
         }
-      },
+      }
       {
         id: 'test-2',
         file: 'src/imports.ts';
@@ -72,7 +72,7 @@ describe('AutomatedLintingFixer', () => {
         rule: 'import/order';
         message: 'Import order is incorrect',
         severity: 'warning',
-        category: { primary: 'import', secondary: 'order', priority: 3 },
+        category: { primary: 'import', secondary: 'order', priority: 3 }
         autoFixable: true,
         resolutionStrategy: { type: 'auto-fix',
           confidence: 0.9,
@@ -90,17 +90,17 @@ describe('AutomatedLintingFixer', () => {
       warnings: mockLintingIssues.length,
       byCategory: { typescript: [mockLintingIssues.[0]],
         import: [mockLintingIssues.[1]]
-      },
+      }
       byPriority: { 2: [mockLintingIssues.[0]],
         3: [mockLintingIssues.[1]]
-      },
+      }
       byFile: {
         'src/test.ts': [mockLintingIssues.[0]],
         'src/imports.ts': [mockLintingIssues.[1]]
-      },
+      }
       autoFixable: mockLintingIssues,
       requiresManualReview: []
-    },
+    }
   })
 
   describe('applyAutomatedFixes', () => {
@@ -129,7 +129,7 @@ describe('AutomatedLintingFixer', () => {
     it('should handle batch processing with custom batch size', async () => {
       const batchOptions: Partial<BatchProcessingOptions> = { batchSize: 1;
         validateAfterEachBatch: true
-      },
+      }
 
       // Mock successful operations
       mockExecSyncmockReturnValue('')
@@ -167,12 +167,12 @@ describe('AutomatedLintingFixer', () => {
       const preservedIssue: LintingIssue = {
         ...mockLintingIssues.[0],
         file: 'src/calculations/astrological.ts'
-      },
+      }
 
       const categorizedWithPreserved: CategorizedErrors = {
         ...mockCategorizedErrors
         autoFixable: [preservedIssue]
-      },
+      }
 
       mockExecSync.mockReturnValue('')
 
@@ -257,7 +257,7 @@ describe('AutomatedLintingFixer', () => {
           isScriptFile: false,
           requiresSpecialHandling: true
         }
-      },
+      }
 
       const result: any = await fixer.handleUnusedVariables([domainIssue], {
         skipDomainFiles: true,
@@ -277,7 +277,7 @@ describe('AutomatedLintingFixer', () => {
           isScriptFile: false,
           requiresSpecialHandling: true
         }
-      },
+      }
 
       const result: any = await fixer.handleUnusedVariables([testIssue], {
         skipTestFiles: true,
@@ -323,7 +323,7 @@ describe('AutomatedLintingFixer', () => {
           ...mockLintingIssues.[1],
           id: 'test-3',
           rule: 'import/newline-after-import'
-        },
+        }
       ],
 
       mockExecSync.mockReturnValue('')
@@ -355,7 +355,7 @@ describe('AutomatedLintingFixer', () => {
         rule: '@typescript-eslint/no-explicit-any',
         message: ''any' type should be replaced with specific type in parameter',
         autoFixable: true
-      },
+      }
 
       mockExecSync.mockReturnValue('')
 
@@ -374,7 +374,7 @@ describe('AutomatedLintingFixer', () => {
         rule: '@typescript-eslint/no-explicit-any',
         message: ''any' type in complex generic constraint',
         autoFixable: false
-      },
+      }
 
       const result: any = await fixer.improveTypeAnnotations([complexTypeIssue], {
         maxComplexity: 'simple',
@@ -388,7 +388,7 @@ describe('AutomatedLintingFixer', () => {
         ..mockLintingIssues.[0],
         file: 'src/calculations/planetary.ts',
         rule: '@typescript-eslint/no-explicit-any'
-      },
+      }
 
       const result: any = await fixer.improveTypeAnnotations([astroTypeIssue], {
         preserveExplicitAny: ['**/calculations/**'],
@@ -488,7 +488,7 @@ describe('AutomatedLintingFixer', () => {
         maxFailuresBeforeStop: 1,
         requireManualApproval: true,
         preservePatterns: ['**/critical/**']
-      },
+      }
 
       const strictFixer: any = new AutomatedLintingFixer('/test', strictSafetyProtocols)
       expect(strictFixer).toBeDefined()
@@ -498,7 +498,7 @@ describe('AutomatedLintingFixer', () => {
       const criticalIssue: LintingIssue = {
         ...mockLintingIssues.[0],
         file: 'src/calculations/critical-astro.ts'
-      },
+      }
 
       const result: any = await fixer.applyAutomatedFixes({
         ...mockCategorizedErrors
@@ -515,7 +515,7 @@ describe('AutomatedLintingFixer', () => {
           ...mockLintingIssues.[0].resolutionStrategy,
           riskLevel: 'high'
         }
-      },
+      }
 
       const result: any = await fixer.applyAutomatedFixes({
         ...mockCategorizedErrors
@@ -532,7 +532,7 @@ describe('AutomatedLintingFixer', () => {
           ...mockLintingIssues.[0].resolutionStrategy,
           confidence: 0.3
         }
-      },
+      }
 
       const result: any = await fixer.applyAutomatedFixes({
         ...mockCategorizedErrors

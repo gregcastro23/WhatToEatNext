@@ -64,11 +64,11 @@ class IngredientMappingService {
         : ['spring', 'summer', 'autumn', 'winter'],
 
       // Collect recipes matching criteria
-      mealTypes.forEach(mealType => {,
+      mealTypes.forEach(mealType => {
         const mealDishes = cuisine.dishes[mealType as keyof typeof cuisine.dishes]
         if (!mealDishes) return,
 
-        seasons.forEach(season => {,
+        seasons.forEach(season => {
           const seasonalDishes = mealDishes[season as keyof typeof mealDishes]
           if (Array.isArray(seasonalDishes)) {
             allRecipes.push(...(seasonalDishes as unknown as Recipe[]))
@@ -86,7 +86,7 @@ class IngredientMappingService {
         excluded: options.excludedIngredients || [],
         dietaryRestrictions: options.dietaryRestrictions || [],
         emphasized: options.emphasizedIngredients || []
-      },
+      }
     )
   }
 
@@ -108,7 +108,7 @@ class IngredientMappingService {
         success: false,
         message: `Ingredient '${ingredientName}' not found in database`,
         suggestions: []
-      },
+      }
     }
 
     const { _similarityThreshold = 0.7, _maxResults = 5, category} = options,
@@ -148,7 +148,7 @@ class IngredientMappingService {
       success: true,
       original: originalIngredient,
       suggestions: potentialAlternatives
-    },
+    }
   }
 
   /**
@@ -172,7 +172,7 @@ class IngredientMappingService {
           ? `Ingredient '${ingredient1}' not found`
           : `Ingredient '${ingredient2}' not found`,
         compatibility: 0
-      },
+      }
     }
 
     // Calculate base elemental similarity
@@ -199,7 +199,7 @@ class IngredientMappingService {
       fruit: ['spice', 'sweetener'],
       dairy: ['fruit', 'sweetener'],
       spice: ['protein', 'vegetable', 'fruit']
-    },
+    }
 
     const category1 = mapping1.category as string;
     const category2 = mapping2.category as string;
@@ -231,7 +231,7 @@ class IngredientMappingService {
         first: mapping1,
         second: mapping2
       }
-    },
+    }
   }
 
   /**
@@ -246,7 +246,7 @@ class IngredientMappingService {
         success: false,
         message: 'Not enough mapped ingredients to analyze combinations',
         mappingQuality: validMappings.length / Math.max(1, recipe.ingredients.length)
-      },
+      }
     }
 
     // Analyze all ingredient pairs
@@ -293,7 +293,7 @@ class IngredientMappingService {
       weakestCombinations: sortedCombinations.slice(-3).reverse(),
       allCombinations: combinations,
       mappingQuality: validMappings.length / Math.max(1, recipe.ingredients.length)
-    },
+    }
   }
 
   /**

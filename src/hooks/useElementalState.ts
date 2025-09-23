@@ -26,7 +26,7 @@ export function useElementalState() {
     }
 
     // Calculate elemental distribution from planetary positions
-    const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+    const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
     const elementMap = {
       aries: 'Fire',
       leo: 'Fire',
@@ -40,7 +40,7 @@ export function useElementalState() {
       cancer: 'Water',
       scorpio: 'Water',
       pisces: 'Water'
-    },
+    }
 
     Object.values(planetaryPositions || {}).forEach(position => {
       const element = elementMap[(position as unknown)?.sign as keyof typeof elementMap];
@@ -57,7 +57,7 @@ export function useElementalState() {
       Water: total > 0 ? elementCounts.Water / total : 0.25,
       Earth: total > 0 ? elementCounts.Earth / total : 0.25,
       Air: total > 0 ? elementCounts.Air / total : 0.25
-    },
+    }
 
     // Find dominant element
     const dominant = Object.entries(normalized).reduce((ab) =>
@@ -81,5 +81,5 @@ export function useElementalState() {
   return {
     ...elementalState,
     isLoading
-  },
+  }
 }

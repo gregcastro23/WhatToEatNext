@@ -9,7 +9,7 @@ import {
     analyzeTypeScriptErrors,
     checkCampaignTriggerConditions,
     getCurrentTypeScriptErrorCount
-} from '../typescriptCampaignTrigger',
+} from '../typescriptCampaignTrigger';
 
 // Mock child_process
 jest.mock('child_process', () => ({
@@ -38,7 +38,7 @@ describe('TypeScript Campaign Trigger', () => {
     it('should analyze errors and recommend standard campaign for medium error count', async () => {
       // Mock TypeScript output with 150 errors (above medium threshold)
       const mockTscOutput: any = Array.from(
-        { length: 150 },
+        { length: 150 }
         (_i) => `src/test${i}.ts(105): error, TS2304: Cannot find name 'test${i}'.`,,
       ).join('\n')
 
@@ -56,7 +56,7 @@ describe('TypeScript Campaign Trigger', () => {
     it('should recommend aggressive campaign for high error count', async () => {
       // Mock TypeScript output with 250 errors (above high threshold)
       const mockTscOutput: any = Array.from(
-        { length: 250 },
+        { length: 250 }
         (_i) => `src/test${i}.ts(105): error, TS2352: Conversion of type 'string' to type 'number'.`,,
       ).join('\n')
 
@@ -73,7 +73,7 @@ describe('TypeScript Campaign Trigger', () => {
     it('should recommend emergency campaign for critical error count', async () => {
       // Mock TypeScript output with 600 errors (above critical threshold)
       const mockTscOutput: any = Array.from(
-        { length: 600 },
+        { length: 600 }
         (_i) =>
           `src/test${i}.ts(105): error, TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.`,,
       ).join('\n')
@@ -91,7 +91,7 @@ describe('TypeScript Campaign Trigger', () => {
     it('should not trigger campaign for low error count', async () => {
       // Mock TypeScript output with 50 errors (below medium threshold)
       const mockTscOutput: any = Array.from(
-        { length: 50 },
+        { length: 50 }
         (_i) => `src/test${i}.ts(105): error, TS2304: Cannot find name 'test${i}'.`,,
       ).join('\n')
 
@@ -142,7 +142,7 @@ describe('TypeScript Campaign Trigger', () => {
     it('should identify high-impact files', async () => {
       // Mock errors with multiple errors in same file
       const mockTscOutput: any = Array.from(
-        { length: 10 },
+        { length: 10 }
         (_i) => `src/high-impact-file.ts(${10 + i},5): error, TS2304: Cannot find name 'test${i}'.`,,
       ).join('\n')
 
@@ -190,7 +190,7 @@ describe('TypeScript Campaign Trigger', () => {
   describe('getCurrentTypeScriptErrorCount', () => {
     it('should return correct error count', async () => {
       const mockTscOutput: any = Array.from(
-        { length: 25 },
+        { length: 25 }
         (_i) => `src/test${i}.ts(105): error, TS2304: Cannot find name 'test${i}'.`,,
       ).join('\n')
 
@@ -220,7 +220,7 @@ describe('TypeScript Campaign Trigger', () => {
   describe('checkCampaignTriggerConditions', () => {
     it('should return true when error count exceeds threshold', async () => {
       const mockTscOutput: any = Arrayfrom(
-        { length: 150 },
+        { length: 150 }
         (_i) => `src/test${i}.ts(105): error, TS2304: Cannot find name 'test${i}'.`,,
       ).join('\n')
 
@@ -232,7 +232,7 @@ describe('TypeScript Campaign Trigger', () => {
 
     it('should return false when error count is below threshold', async () => {
       const mockTscOutput: any = Arrayfrom(
-        { length: 50 },
+        { length: 50 }
         (_i) => `src/test${i}.ts(105): error, TS2304: Cannot find name 'test${i}'.`,,
       ).join('\n')
 
@@ -309,7 +309,7 @@ describe('TypeScript Campaign Trigger', () => {
 
     it('should include safety protocols based on campaign mode', async () => {
       const mockTscOutput: any = Array.from(
-        { length: 600 },
+        { length: 600 }
         (_i) => `src/test${i}.ts(105): error, TS2304: Cannot find name 'test${i}'.`,,
       ).join('\n')
 
@@ -326,7 +326,7 @@ describe('TypeScript Campaign Trigger', () => {
   describe('Performance', () => {
     it('should complete analysis within reasonable time', async () => {
       const mockTscOutput: any = Array.from(
-        { length: 100 },
+        { length: 100 }
         (_i) => `src/test${i}.ts(105): error, TS2304: Cannot find name 'test${i}'.`,,
       ).join('\n')
 

@@ -81,7 +81,7 @@ export class TypeScriptErrorAnalyzer {
       distribution,
       recommendations,
       timestamp: new Date().toISOString()
-    },
+    }
   }
 
   /**
@@ -129,7 +129,7 @@ export class TypeScriptErrorAnalyzer {
           category: this.categorizeError(code),
           priority: this.calculateErrorPriority(code, cleanFilePath, message),
           severity: this.determineSeverity(code, message)
-        },
+        }
 
         errors.push(error)
       }
@@ -221,9 +221,9 @@ export class TypeScriptErrorAnalyzer {
       [ErrorCategory.TS2304_CANNOT_FIND_NAME]: [],
       [ErrorCategory.TS2362_ARITHMETIC_OPERATION]: [],
       [ErrorCategory.OTHER]: []
-    },
+    }
 
-    const errorsByFile: Record<string, TypeScriptError[]> = {},
+    const errorsByFile: Record<string, TypeScriptError[]> = {}
 
     // Categorize errors
     for (const error of errors) {
@@ -255,7 +255,7 @@ export class TypeScriptErrorAnalyzer {
       errorsByFile,
       priorityRanking,
       highImpactFiles
-    },
+    }
   }
 
   /**

@@ -8,7 +8,7 @@ import React, {
   ReactNode,
   useMemo,
   useRef
-} from 'react',
+} from 'react';
 
 import { unifiedFlavorEngine, UnifiedFlavorProfile } from '../data/unified/unifiedFlavorEngine';
 import { _logger } from '@/lib/logger';
@@ -19,7 +19,7 @@ interface FlavorEngineContextType {
   isLoading: boolean,
   error: Error | null,
   profileCount: number,
-  categories: { [key: string]: number },
+  categories: { [key: string]: number }
   getProfile: (id: string) => UnifiedFlavorProfile | undefined,
   searchProfiles: (criteria: {}) => UnifiedFlavorProfile[],
   calculateCompatibility: (profile1: UnifiedFlavorProfile, profile2: UnifiedFlavorProfile) => any
@@ -31,7 +31,7 @@ const FlavorEngineContext = createContext<FlavorEngineContextType>({
   isLoading: true,
   error: null,
   profileCount: 0,
-  categories: {},
+  categories: {}
   getProfile: () => undefined,
   searchProfiles: () => [],
   calculateCompatibility: () => ({})
@@ -52,7 +52,7 @@ const globalInitState = {
   categories: {} as Record<string, number>,
   initAttempted: false,
   initTimer: null as NodeJS.Timeout | null
-},
+}
 
 // The provider component
 export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
@@ -98,7 +98,7 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
 
           if ((profiles || []).length > 0) {
             // Calculate categories
-            const categoryMap: { [key: string]: number } = {},
+            const categoryMap: { [key: string]: number } = {}
             (profiles || []).forEach(profile => {
               categoryMap[profile.category] = (categoryMap[profile.category] || 0) + 1,
             })
@@ -143,7 +143,7 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
             })
           }
         }
-      },
+      }
 
       // Start the check process
       checkEngineInit()
@@ -158,7 +158,7 @@ export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
         clearTimeout(globalInitState.initTimer)
         globalInitState.initTimer = null,
       }
-    },
+    }
   }, []); // Empty dependency array - only run once on mount
 
   // Memoize wrapper functions to prevent unnecessary re-renders

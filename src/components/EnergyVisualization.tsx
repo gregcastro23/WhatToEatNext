@@ -46,7 +46,7 @@ export function EnergyVisualization({
       const newReading: EnergyReading = {
         timestamp: Date.now(),
         ...lastEnergyUpdate
-      },
+      }
 
       setEnergyHistory(prev => {
         const updated = [...prev, newReading],
@@ -57,7 +57,7 @@ export function EnergyVisualization({
     }
   }, [lastEnergyUpdate, maxHistoryLength])
 
-  const currentEnergy = lastEnergyUpdate || { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 },
+  const currentEnergy = lastEnergyUpdate || { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 }
   const totalEnergy = Object.values(currentEnergy).reduce((sum, val) => sum + val, 0)
 
   const renderEnergyBar = (element: keyof typeof ELEMENT_COLORS, value: number) => {
@@ -107,7 +107,7 @@ export function EnergyVisualization({
         </div>
       </div>
     )
-  },
+  }
 
   const renderCircularVisualization = () => {
     const radius = 60;
@@ -172,7 +172,7 @@ export function EnergyVisualization({
         />
       </svg>
     )
-  },
+  }
 
   const renderMiniChart = () => {
     if (energyHistory.length < 2) return null;
@@ -218,7 +218,7 @@ export function EnergyVisualization({
         </svg>
       </div>
     )
-  },
+  }
 
   return (
     <div className={`energy-visualization ${className}`}

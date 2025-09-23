@@ -12,12 +12,12 @@ export interface CompatibilityAnalysisResult {
     kalchmAlignment: number,
     planetaryAlignment: number,
     overallCompatibility: number
-  },
+  }
   detailMetrics?: {
     seasonalFit: number,
     astrologicalResonance: number,
     nutritionalHarmony: number
-  },
+  }
 }
 
 // Analysis result interfaces for ingredient analysis
@@ -28,7 +28,7 @@ export interface IngredientCategorizationAnalysis {
   properties: {
     nutritional: Record<string, number>,
     elemental: Record<string, number>
-  },
+  }
 }
 
 export interface IngredientSeasonalityAnalysis {
@@ -37,7 +37,7 @@ export interface IngredientSeasonalityAnalysis {
   astrologicalAlignment: {
     planetaryInfluence: Record<string, number>,
     elementalResonance: Record<string, number>,
-  },
+  }
 }
 
 // Analysis result interfaces for chakra symbols analysis
@@ -45,18 +45,18 @@ export interface ChakraAnalysisResult {
   effectiveness?: {
     pronunciationAccuracy: number,
     vibrationalResonance: number
-  },
+  }
   advancedVibrations?: {
     harmonicResonance?: {
       fundamental: number
-    },
-  },
+    }
+  }
   symbolicEffectiveness?: {
     visualClarity: number
-  },
+  }
   colorAnalysis?: {
     colorHarmony: number
-  },
+  }
   advancedVisual?: Record<string, unknown>,
   nutritionalEffectiveness?: Record<string, unknown>,
   dietaryAnalysis?: Record<string, unknown>,
@@ -85,7 +85,7 @@ export interface AnalysisResultWrapper<T = unknown> {,
     timestamp: Date,
     version: string,
     source: string
-  },
+  }
   errors?: string[]
 }
 
@@ -104,7 +104,7 @@ export interface RecipeAnalysisData {
     Water: number,
     Earth: number,
     Air: number
-  },
+  }
   [key: string]: unknown
 }
 
@@ -115,7 +115,7 @@ export interface AstrologicalAnalysisContext {
     Water: number,
     Earth: number,
     Air: number
-  },
+  }
   planetaryInfluences?: Record<string, number>,
   zodiacAlignment?: string
   [key: string]: unknown

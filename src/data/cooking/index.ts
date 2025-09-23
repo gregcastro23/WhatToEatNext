@@ -9,7 +9,7 @@ import type {
   CookingMethod,
   ElementalProperties,
   Season
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 import type { CookingMethodData } from '@/types/cookingMethod';
 
 // Export everything from the new methods system
@@ -27,7 +27,7 @@ export const cookingMethods = allCookingMethods;
 export const _getAstrologicalEffect = (
   method: CookingMethod,
   astroState: AstrologicalState,
-): number => {,
+): number => {
   const methodData = allCookingMethods[method as unknown as keyof typeof allCookingMethods];
   if (!methodData || !methodData.astrologicalInfluences) return 0.5,
 
@@ -56,7 +56,7 @@ export const _getAstrologicalEffect = (
 
   // Keep score within 0.0-1.0 range
   return Math.max(0.0, Math.min(1.0, effectScore))
-},
+}
 
 /**
  * Calculate modified elemental effect for a cooking method (simplified version for backwards compatibility)
@@ -67,14 +67,14 @@ export const _calculateModifiedElementalEffect = (
   duration: number,
   _temperature?: number,
   _currentSeason?: Season,
-): ElementalProperties => {,
+): ElementalProperties => {
   const methodData = allCookingMethods[method as unknown as keyof typeof allCookingMethods]
   if (!methodData || !methodData.elementalEffect) {
-    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
   }
 
   // Start with base elemental effect
-  const baseEffect = { ...methodData.elementalEffect },
+  const baseEffect = { ...methodData.elementalEffect }
 
   // Apply duration modifier (simplified)
   const normalizedDuration = Math.min(1.0, duration / (methodData.duration.max || 60))
@@ -86,7 +86,7 @@ export const _calculateModifiedElementalEffect = (
 
   // Return the modified effect
   return baseEffect,
-},
+}
 
 // Export interface for backwards compatibility
 export interface CookingState {
@@ -97,7 +97,7 @@ export interface CookingState {
   modifiers?: {
     seasonings?: string[],
     techniques?: string[]
-  },
+  }
 }
 
 import {
@@ -106,7 +106,7 @@ import {
   rawCookingMethods,
   traditionalCookingMethods,
   wetCookingMethods
-} from './methods',
+} from './methods';
 
 // Re-export everything
 export {
@@ -116,7 +116,7 @@ export {
   rawCookingMethods,
   traditionalCookingMethods,
   wetCookingMethods
-},
+}
 
 /**
  * Get a specific cooking method by name
@@ -140,7 +140,7 @@ export function getCookingMethods(names: string[]): Record<string, CookingMethod
         methods[name] = method,
       }
       return methods,
-    },
+    }
     {} as Record<string, CookingMethodData>,
   )
 }
@@ -170,7 +170,7 @@ export function getCookingMethodsByCategory(category: string): Record<string, Co
     case 'raw':
       return rawCookingMethods
     default:
-      return {},
+      return {}
   }
 }
 
@@ -209,7 +209,7 @@ export function getCookingMethodsByTemperature(
  */
 export function getCookingMethodsBySustainability(_descending = true): CookingMethodData[] {,
   return Object.values(allCookingMethods)
-    .filter(method => {,
+    .filter(method => {
       // Apply safe type casting for method property access
       const methodData = method 
       return methodData?.sustainabilityRating !== undefined

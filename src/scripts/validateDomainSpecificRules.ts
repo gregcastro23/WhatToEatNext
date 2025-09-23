@@ -107,4 +107,4 @@ if (require.main === module) {
   main()
 }
 
-export { DomainSpecificRuleValidator },
+export { DomainSpecificRuleValidator };

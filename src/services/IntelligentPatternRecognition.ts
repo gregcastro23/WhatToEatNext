@@ -94,7 +94,7 @@ export class IntelligentPatternRecognition {
     semantic: 0.35,
     structural: 0.25,
     contextual: 0.15
-  },
+  }
 
   // ========== PATTERN FEATURE EXTRACTION ==========,
 
@@ -330,7 +330,7 @@ export class IntelligentPatternRecognition {
       vue: 0.5,
       svelte: 0.4,
       json: 0.3md: 0.1
-    },
+    }
 
     return scores[extension] || 0.2,
   }
@@ -370,7 +370,7 @@ export class IntelligentPatternRecognition {
       occurrences: 1,
       lastSeen: new Date(),
       evolutionScore: 0
-    },
+    }
 
     return signature,
   }
@@ -468,7 +468,7 @@ export class IntelligentPatternRecognition {
       predictiveValue,
       fixStrategy,
       automationReadiness
-    },
+    }
   }
 
   /**
@@ -556,7 +556,7 @@ export class IntelligentPatternRecognition {
       TS2362: 'Numeric type enforcement',
       TS2322: 'Type compatibility resolution',
       TS2339: 'Property access validation'
-    },
+    }
 
     const baseStrategy = strategies[errorCode] || 'General type safety improvement';
 
@@ -586,7 +586,7 @@ export class IntelligentPatternRecognition {
       TS2362: 0.9,
       TS2322: 0.65,
       TS2339: 0.75
-    },
+    }
 
     const base = baseAutomation[errorCode] || 0.7;
     return Math.min(0.98, base * avgConfidence)
@@ -646,7 +646,7 @@ export class IntelligentPatternRecognition {
       triggerConditions: this.identifyTriggerConditions(cluster),
       recommendedActions: this.generateRecommendedActions(cluster),
       riskLevel: this.assessPredictionRisk(probability, confidence)
-    },
+    }
   }
 
   /**
@@ -828,7 +828,7 @@ export class IntelligentPatternRecognition {
       adaptationScore,
       stabilityTrend,
       lastEvolution: new Date()
-    },
+    }
   }
 
   /**
@@ -1018,7 +1018,7 @@ export class IntelligentPatternRecognition {
       topPatterns: signatures.sort((ab) => b.occurrences - a.occurrences).slice(05),
       topClusters: this.clusters.sort((ab) => b.predictiveValue - a.predictiveValue).slice(03),
       recentInsights: this.generatePatternInsights().slice(05)
-    },
+    }
   }
 
   /**
@@ -1035,7 +1035,7 @@ export class IntelligentPatternRecognition {
       clusteringThreshold: this.clusteringThreshold,
       predictionHorizon: this.predictionHorizon,
       featureWeights: this.FEATURE_WEIGHTS
-    },
+    }
   }
 
   /**

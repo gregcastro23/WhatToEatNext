@@ -24,7 +24,7 @@ export interface ScoringAdapterOptions {
     longitude: number,
     timezone: string,
     name: string
-  },
+  }
 }
 
 export interface ScoredItem<T> {
@@ -65,21 +65,21 @@ export class UnifiedScoringAdapter {
         longitude: -74.006,
         timezone: 'America/New_York',
         name: 'New York City'
-      },
+      }
       item: {
         name: ingredient.name,
         type: 'ingredient',
         elementalProperties: ingredient.elementalProperties || ingredient.elementalPropertiesState,
         seasonality: ingredient.seasonality || [],
         planetaryRulers: (ingredient.astrologicalProfile?.rulingPlanets || []) as Planet[],
-        flavorProfile: (ingredient.flavorProfile as Record<string, number>) || {},
+        flavorProfile: (ingredient.flavorProfile as Record<string, number>) || {}
         culturalOrigins: (ingredient.culturalOrigins as string[]) || []
-      },
+      }
       options: {
         debugMode: options.debugMode,
         weights: options.weights
       }
-    },
+    }
 
     const result = await scoreRecommendation(context)
 
@@ -91,7 +91,7 @@ export class UnifiedScoringAdapter {
       dominantEffects: result.metadata.dominantEffects,
       notes: result.notes,
       warnings: result.metadata.warnings
-    },
+    }
   }
 
   /**
@@ -123,7 +123,7 @@ export class UnifiedScoringAdapter {
         longitude: -74.006,
         timezone: 'America/New_York',
         name: 'New York City'
-      },
+      }
       item: {
         name: recipe.name,
         type: 'recipe',
@@ -133,19 +133,19 @@ export class UnifiedScoringAdapter {
             Water: 0.25,
             Earth: 0.25,
             Air: 0.25
-          },
+          }
         seasonality: (recipe.seasonality as Season[]) || [],
         planetaryRulers: ((recipe as any).planetaryRulers as Planet[]) || [],
-        flavorProfile: ((recipe as any).flavorProfile as Record<string, number>) || {},
+        flavorProfile: ((recipe as any).flavorProfile as Record<string, number>) || {}
         culturalOrigins:
           ((recipe as unknown as any).culturalOrigins as string[]) ||
           [String((recipe as unknown as any).cuisine || '')].filter(Boolean)
-      },
+      }
       options: {
         debugMode: options.debugMode,
         weights: options.weights
       }
-    },
+    }
 
     const result = await scoreRecommendation(context)
 
@@ -157,7 +157,7 @@ export class UnifiedScoringAdapter {
       dominantEffects: result.metadata.dominantEffects,
       notes: result.notes,
       warnings: result.metadata.warnings
-    },
+    }
   }
 
   /**
@@ -174,7 +174,7 @@ export class UnifiedScoringAdapter {
         longitude: -74.006,
         timezone: 'America/New_York',
         name: 'New York City'
-      },
+      }
       item: {
         name: method.name,
         type: 'cooking_method',
@@ -184,17 +184,17 @@ export class UnifiedScoringAdapter {
           Water: 0.25,
           Earth: 0.25,
           Air: 0.25
-        },
+        }
         seasonality: ((method as unknown as any).seasonality as Season[]) || [],
         planetaryRulers: ((method as unknown as any).planetaryRulers as Planet[]) || [],
-        flavorProfile: ((method as unknown as any).flavorProfile as Record<string, number>) || {},
+        flavorProfile: ((method as unknown as any).flavorProfile as Record<string, number>) || {}
         culturalOrigins: ((method as unknown as any).culturalOrigins as string[]) || []
-      },
+      }
       options: {
         debugMode: options.debugMode,
         weights: options.weights
       }
-    },
+    }
 
     const result = await scoreRecommendation(context)
 
@@ -206,7 +206,7 @@ export class UnifiedScoringAdapter {
       dominantEffects: result.metadata.dominantEffects,
       notes: result.notes,
       warnings: result.metadata.warnings
-    },
+    }
   }
 
   /**
@@ -224,7 +224,7 @@ export class UnifiedScoringAdapter {
         longitude: -74.006,
         timezone: 'America/New_York',
         name: 'New York City'
-      },
+      }
       item: {
         name: cuisineName,
         type: 'cuisine',
@@ -233,12 +233,12 @@ export class UnifiedScoringAdapter {
         planetaryRulers: [] as Planet[],
         flavorProfile: {} as Record<string, number>,
         culturalOrigins: [cuisineName]
-      },
+      }
       options: {
         debugMode: options.debugMode,
         weights: options.weights
       }
-    },
+    }
 
     const result = await scoreRecommendation(context)
 
@@ -250,7 +250,7 @@ export class UnifiedScoringAdapter {
       dominantEffects: result.metadata.dominantEffects,
       notes: result.notes,
       warnings: result.metadata.warnings
-    },
+    }
   }
 
   /**

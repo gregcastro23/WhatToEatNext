@@ -42,29 +42,29 @@ const BASE_SIGN_ENERGIES: Record<ZodiacSign, number> = {
   capricorn: 0.7,
   aquarius: 0.6,
   pisces: 0.8
-},
+}
 
 // Define initial energy states for all zodiac signs
 export const ENERGY_STATES: Record<ZodiacSign, { baseEnergy: number, currentEnergy: number }> = {
-  aries: { baseEnergy: BASE_SIGN_ENERGIES.aries, currentEnergy: BASE_SIGN_ENERGIES.aries },
-  taurus: { baseEnergy: BASE_SIGN_ENERGIES.taurus, currentEnergy: BASE_SIGN_ENERGIES.taurus },
-  gemini: { baseEnergy: BASE_SIGN_ENERGIES.gemini, currentEnergy: BASE_SIGN_ENERGIES.gemini },
-  cancer: { baseEnergy: BASE_SIGN_ENERGIES.cancer, currentEnergy: BASE_SIGN_ENERGIES.cancer },
-  leo: { baseEnergy: BASE_SIGN_ENERGIES.leo, currentEnergy: BASE_SIGN_ENERGIES.leo },
-  virgo: { baseEnergy: BASE_SIGN_ENERGIES.virgo, currentEnergy: BASE_SIGN_ENERGIES.virgo },
-  libra: { baseEnergy: BASE_SIGN_ENERGIES.libra, currentEnergy: BASE_SIGN_ENERGIES.libra },
-  scorpio: { baseEnergy: BASE_SIGN_ENERGIES.scorpio, currentEnergy: BASE_SIGN_ENERGIES.scorpio },
+  aries: { baseEnergy: BASE_SIGN_ENERGIES.aries, currentEnergy: BASE_SIGN_ENERGIES.aries }
+  taurus: { baseEnergy: BASE_SIGN_ENERGIES.taurus, currentEnergy: BASE_SIGN_ENERGIES.taurus }
+  gemini: { baseEnergy: BASE_SIGN_ENERGIES.gemini, currentEnergy: BASE_SIGN_ENERGIES.gemini }
+  cancer: { baseEnergy: BASE_SIGN_ENERGIES.cancer, currentEnergy: BASE_SIGN_ENERGIES.cancer }
+  leo: { baseEnergy: BASE_SIGN_ENERGIES.leo, currentEnergy: BASE_SIGN_ENERGIES.leo }
+  virgo: { baseEnergy: BASE_SIGN_ENERGIES.virgo, currentEnergy: BASE_SIGN_ENERGIES.virgo }
+  libra: { baseEnergy: BASE_SIGN_ENERGIES.libra, currentEnergy: BASE_SIGN_ENERGIES.libra }
+  scorpio: { baseEnergy: BASE_SIGN_ENERGIES.scorpio, currentEnergy: BASE_SIGN_ENERGIES.scorpio }
   sagittarius: {
     baseEnergy: BASE_SIGN_ENERGIES.sagittarius,
     currentEnergy: BASE_SIGN_ENERGIES.sagittarius
-  },
+  }
   capricorn: {
     baseEnergy: BASE_SIGN_ENERGIES.capricorn,
     currentEnergy: BASE_SIGN_ENERGIES.capricorn
-  },
-  aquarius: { baseEnergy: BASE_SIGN_ENERGIES.aquarius, currentEnergy: BASE_SIGN_ENERGIES.aquarius },
+  }
+  aquarius: { baseEnergy: BASE_SIGN_ENERGIES.aquarius, currentEnergy: BASE_SIGN_ENERGIES.aquarius }
   pisces: { baseEnergy: BASE_SIGN_ENERGIES.pisces, currentEnergy: BASE_SIGN_ENERGIES.pisces }
-},
+}
 
 // Planetary rulerships and their energy multipliers
 const PLANETARY_RULERSHIPS: Record<ZodiacSign, string[]> = {
@@ -80,7 +80,7 @@ const PLANETARY_RULERSHIPS: Record<ZodiacSign, string[]> = {
   capricorn: ['Saturn'],
   aquarius: ['Uranus', 'Saturn'],
   pisces: ['Neptune', 'Jupiter']
-},
+}
 
 // Planetary energy multipliers
 const PLANETARY_ENERGY_MULTIPLIERS: Record<string, number> = {
@@ -94,7 +94,7 @@ const PLANETARY_ENERGY_MULTIPLIERS: Record<string, number> = {
   Uranus: 0.9,
   Neptune: 1.0,
   Pluto: 1.2
-},
+}
 
 // Aspect strength multipliers
 const ASPECT_STRENGTHS: Record<string, number> = {
@@ -103,7 +103,7 @@ const ASPECT_STRENGTHS: Record<string, number> = {
   square: 0.9,
   trine: 1.1,
   opposition: 0.8
-},
+}
 
 /**
  * Interface for planetary position data
@@ -126,7 +126,7 @@ export function calculateSignEnergyStates(
 ): SignEnergyState[] {
   return ZODIAC_SIGNS.map(sign => {
     const baseEnergy = BASE_SIGN_ENERGIES[sign]
-    const planetaryModifiers: Record<string, number> = {},
+    const planetaryModifiers: Record<string, number> = {}
 
     // Apply planetary rulers' influences
     PLANETARY_RULERSHIPS[sign].forEach(planet => {
@@ -162,7 +162,7 @@ export function calculateSignEnergyStates(
       baseEnergy,
       planetaryModifiers,
       currentEnergy: Math.min(1.0, Math.max(0.1, currentEnergy))
-    },
+    }
   })
 }
 

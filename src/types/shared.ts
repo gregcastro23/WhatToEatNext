@@ -11,7 +11,7 @@ import {
   ElementalProperties,
   isElementalProperties,
   DEFAULT_ELEMENTAL_PROPERTIES
-} from './elemental',
+} from './elemental';
 
 // ========== ELEMENTAL TYPES ==========,
 
@@ -21,12 +21,12 @@ import {
 // Element type imported from @/types/celestial
 
 // Re-export the elemental properties types
-export type { ElementalProperties },
+export type { ElementalProperties }
 // Re-export utility functions and constants
-export { isElementalProperties, DEFAULT_ELEMENTAL_PROPERTIES },
+export { isElementalProperties, DEFAULT_ELEMENTAL_PROPERTIES };
 
 // Re-export celestial types that are commonly needed
-export type { Element, ZodiacSign, Planet },
+export type { Element, ZodiacSign, Planet }
 
 // ========== CELESTIAL TYPES ==========,
 
@@ -144,7 +144,7 @@ export const _MOON_PHASE_MAP: Record<MoonPhaseWithUnderscores, MoonPhase> = {
   waning_gibbous: 'WANING_GIBBOUS',
   last_quarter: 'LAST_QUARTER',
   waning_crescent: 'WANING_CRESCENT'
-},
+}
 
 /**
  * Mapping from MoonPhase to MoonPhaseWithSpaces for display
@@ -158,7 +158,7 @@ export const _MOON_PHASE_TO_DISPLAY: Record<MoonPhase, MoonPhaseWithSpaces> = {
   WANING_GIBBOUS: 'Waning Gibbous',
   LAST_QUARTER: 'Last Quarter',
   WANING_CRESCENT: 'Waning Crescent'
-},
+}
 
 /**
  * Mapping from MoonPhase to lowercase moon phases with spaces
@@ -172,7 +172,7 @@ export const _MOON_PHASE_TO_LOWERCASE: Record<MoonPhase, LowercaseMoonPhaseWithS
   WANING_GIBBOUS: 'waning gibbous',
   LAST_QUARTER: 'last quarter',
   WANING_CRESCENT: 'waning crescent'
-},
+}
 
 /**
  * Mapping from lowercase moon phases with spaces to MoonPhase
@@ -186,7 +186,7 @@ export const _LOWERCASE_TO_MOON_PHASE: Record<LowercaseMoonPhaseWithSpaces, Moon
   'waning gibbous': 'WANING_GIBBOUS',
   'last quarter': 'LAST_QUARTER',
   'waning crescent': 'WANING_CRESCENT'
-},
+}
 
 /**
  * Convenience type for elemental scoring

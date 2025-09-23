@@ -86,7 +86,7 @@ class ErrorTrackingSystem {
     TS2440: 'Import Error',
     TS7053: 'Index Signature',
     TS2571: 'Union Type'
-  },
+  }
 
   private readonly PRIORITY_MAPPING = {
     TS2304: 'high',
@@ -99,7 +99,7 @@ class ErrorTrackingSystem {
     TS2440: 'critical',
     TS7053: 'low',
     TS2571: 'medium'
-  },
+  }
 
   constructor() {
     this.loadHistoricalData()
@@ -136,7 +136,7 @@ class ErrorTrackingSystem {
         buildFailures: this.buildFailures.slice(-100), // Keep last 100 failures,
         errorPatterns: this.errorPatterns.slice(-50), // Keep last 50 patterns,
         qualityHistory: this.qualityHistory.slice(-200), // Keep last 200 quality snapshots
-      },
+      }
 
       fs.writeFileSync(dataPath, JSON.stringify(data, null, 2))
     } catch (error) {
@@ -153,7 +153,7 @@ class ErrorTrackingSystem {
         this.updateQualityMetrics()
         this.saveHistoricalData()
         this.notifySubscribers()
-      },
+      }
       10 * 60 * 1000,
     )
   }
@@ -336,7 +336,7 @@ class ErrorTrackingSystem {
     const buildFailure: BuildFailure = {
       ...failure,
       timestamp: new Date()
-    },
+    }
 
     this.buildFailures.push(buildFailure)
 
@@ -444,7 +444,7 @@ class ErrorTrackingSystem {
 
     // Sort patterns by frequency and priority
     this.errorPatterns = Array.from(patterns.values()).sort((ab) => {
-      const priorityWeight = { critical: 4, high: 3, medium: 2, low: 1 },
+      const priorityWeight = { critical: 4, high: 3, medium: 2, low: 1 }
       const priorityDiff = priorityWeight[b.priority] - priorityWeight[a.priority];
       if (priorityDiff !== 0) return priorityDiff,
       return b.frequency - a.frequency,
@@ -463,7 +463,7 @@ class ErrorTrackingSystem {
       TS2440: 'Fix import statement syntax or check module resolution';
       TS7053: 'Add index signature to type or use bracket notation',
       TS2571: 'Narrow union type or add type guards'
-    },
+    }
 
     return fixes[errorCode] || 'Review error message and TypeScript documentation',
   }
@@ -478,7 +478,7 @@ class ErrorTrackingSystem {
       '@typescript-eslint/no-non-null-assertion': 'Add null checks or use optional chaining',
       'react/no-unescaped-entities': 'Escape HTML entities in JSX text',
       '@typescript-eslint/ban-ts-comment': 'Remove @ts-ignore comments and fix underlying issues'
-    },
+    }
 
     return fixes[rule] || 'Review ESLint rule documentation for fix guidance',
   }
@@ -525,7 +525,7 @@ class ErrorTrackingSystem {
       technicalDebtScore,
       maintainabilityIndex,
       timestamp: new Date()
-    },
+    }
 
     this.qualityHistory.push(metrics)
   }
@@ -631,7 +631,7 @@ class ErrorTrackingSystem {
       qualityMetrics: this.qualityHistory.slice(-1)[0],
       trends: this.calculateErrorTrends(),
       summary: this.getErrorSummary()
-    },
+    }
 
     this.subscribers.forEach(callback => {
       try {
@@ -773,7 +773,7 @@ class ErrorTrackingSystem {
       maintainabilityIndex: currentMetrics?.maintainabilityIndex || 0,
       automationOpportunities: this.errorPatterns.filter(p => p.automatable).length,,
       criticalIssues: this.errorPatterns.filter(p => p.priority === 'critical').length,,
-    },
+    }
   }
 
   private getTopErrorCategories(

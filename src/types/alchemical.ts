@@ -35,7 +35,7 @@ export type AlchemicalAction =
   | { type: AlchemicalDispatchType.SET_SEASONAL_STATE payload: { season: string } }
   | {
       type: AlchemicalDispatchType.SET_ELEMENTAL_PREFERENCE,
-      payload: { element: string, value: number },
+      payload: { element: string, value: number }
     }
   | { type: AlchemicalDispatchType.SET_ELEMENTAL_STATE, payload: Record<string, number> }
   | { type: AlchemicalDispatchType.SET_ZODIAC_ENERGY, payload: string }
@@ -46,7 +46,7 @@ export type AlchemicalAction =
   | { type: AlchemicalDispatchType.CLEAR_ERROR }
   | { type: AlchemicalDispatchType.ADD_ERROR, payload: string }
   | { type: AlchemicalDispatchType.SET_ALCHEMICAL_VALUES, payload: Record<string, number> }
-  | { type: AlchemicalDispatchType.SET_LUNAR_PHASE, payload: string },
+  | { type: AlchemicalDispatchType.SET_LUNAR_PHASE, payload: string }
 
 export interface AlchemicalState {
   planetaryPositions: Record<string, unknown>,
@@ -56,7 +56,7 @@ export interface AlchemicalState {
     Water: number,
     Earth: number,
     Air: number
-  },
+  }
   lunarPhase: string,
   dominantElement: string,
   planetaryHour: string,
@@ -66,7 +66,7 @@ export interface AlchemicalState {
     Essence: number,
     Matter: number,
     Substance: number
-  },
+  }
   // Error handling properties
   error?: boolean,
   errorMessage?: string,
@@ -79,25 +79,25 @@ export interface AlchemicalState {
     zodiacEnergy: string,
     lunarEnergy: string,
     planetaryEnergy: string | string[]
-  },
+  }
   elementalPreference?: {
     Fire: number,
     Water: number,
     Earth: number,
     Air: number
-  },
+  }
   celestialPositions?: {
     sun?: {
       sign: string,
       degree?: number,
       exactLongitude?: number
-    },
+    }
     moon?: {
       sign: string,
       degree?: number,
       exactLongitude?: number
-    },
-  },
+    }
+  }
   zodiacEnergy?: string,
   lunarEnergy?: string,
   planetaryEnergy?: string[]

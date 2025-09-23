@@ -22,7 +22,7 @@ export const _dryCookingMethods = {
   broiling,
   // Add other cooking methods as they are implemented
   // broiling
-},
+}
 
 // Export individual methods
 export {
@@ -33,4 +33,4 @@ export {
   grilling,
   broiling,
   // broiling
-},
+}

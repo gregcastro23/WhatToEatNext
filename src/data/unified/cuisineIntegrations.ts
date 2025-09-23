@@ -10,7 +10,7 @@ import type {
   ElementalProperties,
   LunarPhase,
   PlanetName
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import type { EnhancedCookingMethod } from '@/types/cooking';
 import { FlavorProfileType } from '@/types/flavor';
@@ -25,7 +25,7 @@ import {
   getCuisinePAirings,
   getIngredientsForCuisine,
   getSharedIngredients
-} from '../../utils/cuisine/cuisineUtils',
+} from '../../utils/cuisine/cuisineUtils';
 import { createElementalProperties } from '../../utils/elemental/elementalUtils';
 // Cache import removed - not available
 // import { cache } from '../utils/cache';
@@ -34,25 +34,25 @@ import { createElementalProperties } from '../../utils/elemental/elementalUtils'
 
 // Missing unified seasonal system variables
 const unifiedSeasonalSystem = {
-  spring: { dominantElement: 'Air', supportingElements: ['Water'] },
-  summer: { dominantElement: 'Fire', supportingElements: ['Air'] },
-  autumn: { dominantElement: 'Earth', supportingElements: ['Fire'] },
+  spring: { dominantElement: 'Air', supportingElements: ['Water'] }
+  summer: { dominantElement: 'Fire', supportingElements: ['Air'] }
+  autumn: { dominantElement: 'Earth', supportingElements: ['Fire'] }
   winter: { dominantElement: 'Water', supportingElements: ['Earth'] }
-},
+}
 
 const unifiedSeasonalProfiles = {
-  spring: { ingredients: [], flavors: [], techniques: [] },
-  summer: { ingredients: [], flavors: [], techniques: [] },
-  autumn: { ingredients: [], flavors: [], techniques: [] },
+  spring: { ingredients: [], flavors: [], techniques: [] }
+  summer: { ingredients: [], flavors: [], techniques: [] }
+  autumn: { ingredients: [], flavors: [], techniques: [] }
   winter: { ingredients: [], flavors: [], techniques: [] }
-},
+}
 
 const unifiedIngredients = {
   // Placeholder for unified ingredient system
   getAllIngredients: () => [],
   getIngredientsByCategory: (_category: string) => [],
   getIngredientProperties: (_ingredient: string) => ({})
-},
+}
 
 // Import existing cuisine data
 import { grainCuisineMatrix } from '../integrations/grainCuisineMatrix';
@@ -67,14 +67,14 @@ export interface CuisineMonicaProfile {
   temperaturePreferences: {
     // Temperature preferences for Monica optimization,
     optimal: number,
-    range: { min: number, max: number },
-  },
+    range: { min: number, max: number }
+  }
   timingAdjustments: {
     // Timing adjustments for Monica optimization,
     preparationTime: number, // Preparation time modifier,
     cookingTime: number, // Cooking time modifier,
     restingTime: number, // Resting time modifier
-  },
+  }
 }
 
 export interface CuisineCompatibilityProfile {
@@ -98,7 +98,7 @@ export interface CuisineSeasonalAdaptation {
     timingAdjustment: number,
     intensityModifier: string,
     zodiacAlignment?: any, // Astrological alignment for season
-  },
+  }
   traditionalSeasonalDishes: string[],
   monicaOptimization: number,
   kalchmHarmony: number
@@ -107,7 +107,7 @@ export interface CuisineSeasonalAdaptation {
 export interface FusionCuisineProfile {
   name: string,
   parentCuisines: string[],
-  blendRatio: { [key: string]: number },
+  blendRatio: { [key: string]: number }
   fusionIngredients: UnifiedIngredient[],
   fusionCookingMethods: EnhancedCookingMethod[],
   fusionElementalProfile: ElementalProperties,
@@ -132,7 +132,7 @@ export interface MonicaBlendProfile {
     timing: string,
     planetaryHour?: PlanetName,
     lunarPhase?: LunarPhase
-  },
+  }
 }
 
 export interface SeasonalFusionProfile {
@@ -149,7 +149,7 @@ export interface CookingMethodCulturalData {
   traditionalUse: string[],
   modernAdaptations: string[],
   culturalSignificance: string,
-  regionalVariations: { [key: string]: string },
+  regionalVariations: { [key: string]: string }
 }
 
 export interface CuisineIngredientAnalysis {
@@ -157,9 +157,9 @@ export interface CuisineIngredientAnalysis {
   categorizedIngredients: Record<string, UnifiedIngredient[]>,
   kalchmProfile: {
     averageKalchm: number,
-    kalchmRange: { min: number, max: number },
+    kalchmRange: { min: number, max: number }
     kalchmDistribution: { [key: string]: number }; // Kalchm ranges and their frequencies
-  },
+  }
   elementalProfile: ElementalProperties,
   seasonalAvailability: Record<Season, number>,
   commonIngredients: UnifiedIngredient[],
@@ -190,21 +190,21 @@ export interface UnifiedCuisineIntegration {
     optimizeMonicaBlend: (cuisines: string[]) => MonicaBlendProfile,
     calculateKalchmHarmony: (cuisines: string[]) => number,
     getSeasonalFusionRecommendations: (cuisines: string[], season: Season) => SeasonalFusionProfile
-  },
+  }
 
   // Seasonal Cuisine Integration
   seasonalCuisineIntegration: {
     getCuisineSeasonalCompatibility: (cuisine: string, season: Season) => number,
     getSeasonalCuisineRecommendations: (season: Season) => string[],
     adaptCuisineForSeason: (cuisine: string, season: Season) => CuisineSeasonalAdaptation
-  },
+  }
 
   // Cuisine Ingredient Analysis
   cuisineIngredientAnalysis: {
     analyzeCuisineIngredients: (cuisine: string) => CuisineIngredientAnalysis,
     findCuisinesByIngredient: (ingredient: string) => string[],
     getCuisineIngredientRecommendations: (cuisine: string, season?: Season) => UnifiedIngredient[]
-  },
+  }
 }
 
 // ===== CONSOLIDATED CUISINE DATA =====,
@@ -216,26 +216,26 @@ export const enhancedCuisineMatrix = {
     white_rice: {
       cuisines: ['japanese', 'chinese', 'korean', 'indian', 'thai'],
       flavorProfileType: FlavorProfileType.SAVORY
-    },
+    }
     brown_rice: {
       cuisines: ['american', 'macrobiotic', 'health_focused'],
       flavorProfileType: FlavorProfileType.NEUTRAL
-    },
+    }
     quinoa: {
       cuisines: ['peruvian', 'bolivian', 'health_focused'],
       flavorProfileType: FlavorProfileType.HERBAL
-    },
+    }
     semolina: {
       cuisines: ['italian', 'north_african', 'indian'],
       flavorProfileType: FlavorProfileType.WARM
     }
-  },
+  }
   herb: herbCuisineMatrix || {
     basil: ['italian', 'thai', 'mediterranean'],
     cilantro: ['mexican', 'indian', 'thai', 'vietnamese'],
     parsley: ['middle-eastern', 'european', 'american'],
     oregano: ['italian', 'greek', 'mexican']
-  },
+  }
 
   // Extended matrices for comprehensive coverage
   spice: {
@@ -249,7 +249,7 @@ export const enhancedCuisineMatrix = {
     berbere: ['african', 'ethiopian'],
     chili_powder: ['mexican', 'american', 'indian'],
     saffron: ['spanish', 'indian', 'middle-eastern', 'french']
-  },
+  }
 
   protein: {
     beef: ['american', 'french', 'italian', 'mexican', 'korean'],
@@ -260,7 +260,7 @@ export const enhancedCuisineMatrix = {
     tofu: ['chinese', 'japanese', 'korean', 'vietnamese', 'thai'],
     paneer: ['indian'],
     seafood: ['japanese', 'italian', 'spanish', 'thai', 'chinese']
-  },
+  }
 
   vegetable: {
     tomato: ['italian', 'mexican', 'american', 'spanish', 'greek'],
@@ -274,7 +274,7 @@ export const enhancedCuisineMatrix = {
     spinach: ['indian', 'greek', 'italian', 'middle-eastern'],
     carrot: ['french', 'american', 'chinese', 'indian']
   }
-},
+}
 
 // Cuisine Monica constants (estimated based on cooking methods and complexity)
 export const cuisineMonicaConstants: { [key: string]: CuisineMonicaProfile } = {
@@ -287,24 +287,24 @@ export const cuisineMonicaConstants: { [key: string]: CuisineMonicaProfile } = {
       fall: 1.15,
       winter: 1.05,
       all: 1.15
-    },
+    }
     cookingMethodOptimization: {
       pasta_making: 1.25,
       risotto: 1.2,
       grilling: 1.15,
       braising: 1.1,
       roasting: 1.18
-    },
+    }
     temperaturePreferences: {
       optimal: 375,
       range: { min: 325, max: 425 }
-    },
+    }
     timingAdjustments: {
       preparationTime: 1.1,
       cookingTime: 1.0,
       restingTime: 1.2
     }
-  },
+  }
 
   chinese: {
     baseMonicaConstant: 1.25,
@@ -315,24 +315,24 @@ export const cuisineMonicaConstants: { [key: string]: CuisineMonicaProfile } = {
       fall: 1.25,
       winter: 1.3,
       all: 1.25
-    },
+    }
     cookingMethodOptimization: {
       stir_frying: 1.35,
       steaming: 1.15,
       braising: 1.2,
       deep_frying: 1.3,
       smoking: 1.1
-    },
+    }
     temperaturePreferences: {
       optimal: 400,
       range: { min: 350, max: 500 }
-    },
+    }
     timingAdjustments: {
       preparationTime: 1.3,
       cookingTime: 0.8,
       restingTime: 0.9
     }
-  },
+  }
 
   indian: {
     baseMonicaConstant: 1.35,
@@ -343,24 +343,24 @@ export const cuisineMonicaConstants: { [key: string]: CuisineMonicaProfile } = {
       fall: 1.35,
       winter: 1.4,
       all: 1.35
-    },
+    }
     cookingMethodOptimization: {
       tempering: 1.45,
       slow_cooking: 1.25,
       tandoor: 1.4,
       curry_making: 1.35,
       pressure_cooking: 1.2
-    },
+    }
     temperaturePreferences: {
       optimal: 350,
       range: { min: 300, max: 450 }
-    },
+    }
     timingAdjustments: {
       preparationTime: 1.4,
       cookingTime: 1.2,
       restingTime: 1.1
     }
-  },
+  }
 
   french: {
     baseMonicaConstant: 1.2,
@@ -371,24 +371,24 @@ export const cuisineMonicaConstants: { [key: string]: CuisineMonicaProfile } = {
       fall: 1.2,
       winter: 1.25,
       all: 1.2
-    },
+    }
     cookingMethodOptimization: {
       sauteing: 1.25,
       braising: 1.3,
       roasting: 1.2,
       poaching: 1.15,
       confit: 1.35
-    },
+    }
     temperaturePreferences: {
       optimal: 350,
       range: { min: 300, max: 400 }
-    },
+    }
     timingAdjustments: {
       preparationTime: 1.3,
       cookingTime: 1.1,
       restingTime: 1.3
     }
-  },
+  }
 
   japanese: {
     baseMonicaConstant: 1.1,
@@ -399,24 +399,24 @@ export const cuisineMonicaConstants: { [key: string]: CuisineMonicaProfile } = {
       fall: 1.1,
       winter: 1.15,
       all: 1.1
-    },
+    }
     cookingMethodOptimization: {
       steaming: 1.2,
       grilling: 1.15,
       simmering: 1.1,
       raw: 1.25,
       tempura: 1.3
-    },
+    }
     temperaturePreferences: {
       optimal: 325,
       range: { min: 275, max: 375 }
-    },
+    }
     timingAdjustments: {
       preparationTime: 1.2,
       cookingTime: 0.9,
       restingTime: 1.4
     }
-  },
+  }
 
   mexican: {
     baseMonicaConstant: 1.3,
@@ -427,24 +427,24 @@ export const cuisineMonicaConstants: { [key: string]: CuisineMonicaProfile } = {
       fall: 1.3,
       winter: 1.25,
       all: 1.3
-    },
+    }
     cookingMethodOptimization: {
       grilling: 1.35,
       roasting: 1.3,
       braising: 1.25,
       frying: 1.32,
       smoking: 1.2
-    },
+    }
     temperaturePreferences: {
       optimal: 400,
       range: { min: 350, max: 450 }
-    },
+    }
     timingAdjustments: {
       preparationTime: 1.1,
       cookingTime: 1.0,
       restingTime: 1.0
     }
-  },
+  }
 
   thai: {
     baseMonicaConstant: 1.28,
@@ -455,24 +455,24 @@ export const cuisineMonicaConstants: { [key: string]: CuisineMonicaProfile } = {
       fall: 1.25,
       winter: 1.2,
       all: 1.28
-    },
+    }
     cookingMethodOptimization: {
       stir_frying: 1.35,
       steaming: 1.2,
       grilling: 1.3,
       curry_making: 1.32,
       raw: 1.25
-    },
+    }
     temperaturePreferences: {
       optimal: 375,
       range: { min: 325, max: 425 }
-    },
+    }
     timingAdjustments: {
       preparationTime: 1.2,
       cookingTime: 0.9,
       restingTime: 1.0
     }
-  },
+  }
 
   'middle-eastern': {
     baseMonicaConstant: 1.22,
@@ -483,24 +483,24 @@ export const cuisineMonicaConstants: { [key: string]: CuisineMonicaProfile } = {
       fall: 1.22,
       winter: 1.2,
       all: 1.22
-    },
+    }
     cookingMethodOptimization: {
       grilling: 1.28,
       roasting: 1.25,
       braising: 1.2,
       baking: 1.15,
       smoking: 1.18
-    },
+    }
     temperaturePreferences: {
       optimal: 375,
       range: { min: 325, max: 425 }
-    },
+    }
     timingAdjustments: {
       preparationTime: 1.2,
       cookingTime: 1.1,
       restingTime: 1.2
     }
-  },
+  }
 
   mediterranean: {
     baseMonicaConstant: 1.18,
@@ -511,24 +511,24 @@ export const cuisineMonicaConstants: { [key: string]: CuisineMonicaProfile } = {
       fall: 1.15,
       winter: 1.1,
       all: 1.18
-    },
+    }
     cookingMethodOptimization: {
       grilling: 1.25,
       roasting: 1.2,
       braising: 1.15,
       sauteing: 1.22,
       baking: 1.18
-    },
+    }
     temperaturePreferences: {
       optimal: 375,
       range: { min: 325, max: 425 }
-    },
+    }
     timingAdjustments: {
       preparationTime: 1.1,
       cookingTime: 1.0,
       restingTime: 1.2
     }
-  },
+  }
 
   asian: {
     baseMonicaConstant: 1.2,
@@ -539,30 +539,30 @@ export const cuisineMonicaConstants: { [key: string]: CuisineMonicaProfile } = {
       fall: 1.2,
       winter: 1.25,
       all: 1.2
-    },
+    }
     cookingMethodOptimization: {
       stir_frying: 1.3,
       steaming: 1.2,
       braising: 1.18,
       grilling: 1.15,
       deep_frying: 1.25
-    },
+    }
     temperaturePreferences: {
       optimal: 375,
       range: { min: 325, max: 450 }
-    },
+    }
     timingAdjustments: {
       preparationTime: 1.2,
       cookingTime: 0.9,
       restingTime: 1.0
     }
   }
-},
+}
 
 // ===== UNIFIED CUISINE INTEGRATION SYSTEM CLASS =====,
 
 export class UnifiedCuisineIntegrationSystem {
-  private enhancedCookingMethods: { [key: string]: EnhancedCookingMethod },
+  private enhancedCookingMethods: { [key: string]: EnhancedCookingMethod }
   private cuisineCompatibilityCache: Map<string, Record<string, CuisineCompatibilityProfile>>,
 
   constructor() {
@@ -595,7 +595,7 @@ export class UnifiedCuisineIntegrationSystem {
     _options?: {
       includeSeasonalAnalysis?: boolean,
       season?: Season
-    },
+    }
   ): CuisineCompatibilityProfile | null {
     // Validate input cuisines - only reject obviously invalid input
     if (
@@ -678,7 +678,7 @@ export class UnifiedCuisineIntegrationSystem {
       sharedIngredients,
       sharedCookingMethods: sharedCookingMethods as unknown as CookingMethod[],
       elementalAlignment: finalElementalAlignment
-    },
+    }
 
     // Cache the result
     if (!this.cuisineCompatibilityCache.has(cacheKey)) {
@@ -736,7 +736,7 @@ export class UnifiedCuisineIntegrationSystem {
       greek: 1.12,
       spanish: 1.17,
       african: 1.08
-    },
+    }
 
     const kalchm1 = kalchmEstimates[cuisine1] || 1.0;
     const kalchm2 = kalchmEstimates[cuisine2] || 1.0;
@@ -759,7 +759,7 @@ export class UnifiedCuisineIntegrationSystem {
       latin_american: ['mexican'],
       north_american: ['american'],
       african: ['african']
-    },
+    }
 
     // Find groups for each cuisine
     const groups1 = Object.entries(culturalGroups)
@@ -879,7 +879,7 @@ export class UnifiedCuisineIntegrationSystem {
         Earth: 0.25,
         Air: 0.25
       })
-    },
+    }
 
     // Get cuisine profiles with fallback to default
     const defaultElemental = createElementalProperties({
@@ -934,7 +934,7 @@ export class UnifiedCuisineIntegrationSystem {
       winter: 0.7,
       all: 0.7,
       fall: 0.7, // Include both fall and autumn for backward compatibility
-    },
+    }
 
     if (!monica1 || !monica2) return seasonalCompatibility,
 
@@ -965,8 +965,8 @@ export class UnifiedCuisineIntegrationSystem {
    * Calculate cooking method compatibility
    */
   private calculateCookingMethodCompatibility(
-    methods1: { [key: string]: number },
-    methods2: { [key: string]: number },
+    methods1: { [key: string]: number }
+    methods2: { [key: string]: number }
   ): number {
     const sharedMethods = Object.keys(methods1 || {}).filter(method =>
       Object.keys(methods2 || {}).includes(method),
@@ -1028,7 +1028,7 @@ export class UnifiedCuisineIntegrationSystem {
     return {
       name,
       parentCuisines: [cuisine1, cuisine2],
-      blendRatio: { [cuisine1]: blendRatio, [cuisine2]: 1 - blendRatio },
+      blendRatio: { [cuisine1]: blendRatio, [cuisine2]: 1 - blendRatio }
       fusionIngredients,
       fusionCookingMethods,
       fusionElementalProfile,
@@ -1037,7 +1037,7 @@ export class UnifiedCuisineIntegrationSystem {
       culturalNotes,
       recommendedDishes,
       seasonalAdaptations
-    },
+    }
   }
 
   /**
@@ -1059,7 +1059,7 @@ export class UnifiedCuisineIntegrationSystem {
       greek: 'Greco',
       spanish: 'Hispano',
       african: 'Afro'
-    },
+    }
 
     const prefix1 = nameMap[cuisine1] || cuisine1.charAt(0).toUpperCase() + cuisine1.slice(1)
     const prefix2 = nameMap[cuisine2] || cuisine2.charAt(0).toUpperCase() + cuisine2.slice(1)
@@ -1190,18 +1190,18 @@ export class UnifiedCuisineIntegrationSystem {
   ): ElementalProperties {
     // Get elemental profiles (using estimated profiles for now)
     const elementalProfiles: { [key: string]: ElementalProperties } = {
-      italian: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 },
-      chinese: { Fire: 0.25, Water: 0.3, Earth: 0.25, Air: 0.2 },
-      indian: { Fire: 0.4, Water: 0.2, Earth: 0.3, Air: 0.1 },
-      french: { Fire: 0.2, Water: 0.3, Earth: 0.3, Air: 0.2 },
-      japanese: { Fire: 0.1, Water: 0.4, Earth: 0.3, Air: 0.2 },
-      mexican: { Fire: 0.5, Water: 0.2, Earth: 0.2, Air: 0.1 },
-      thai: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 },
+      italian: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 }
+      chinese: { Fire: 0.25, Water: 0.3, Earth: 0.25, Air: 0.2 }
+      indian: { Fire: 0.4, Water: 0.2, Earth: 0.3, Air: 0.1 }
+      french: { Fire: 0.2, Water: 0.3, Earth: 0.3, Air: 0.2 }
+      japanese: { Fire: 0.1, Water: 0.4, Earth: 0.3, Air: 0.2 }
+      mexican: { Fire: 0.5, Water: 0.2, Earth: 0.2, Air: 0.1 }
+      thai: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 }
       'middle-eastern': { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 }
-    },
+    }
 
     // Default elemental profile if cuisine not found
-    const defaultProfile: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    const defaultProfile: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
 
     const profile1 = elementalProfiles[cuisine1] || defaultProfile;
     const profile2 = elementalProfiles[cuisine2] || defaultProfile;
@@ -1212,7 +1212,7 @@ export class UnifiedCuisineIntegrationSystem {
       Water: profile1.Water * blendRatio + profile2.Water * (1 - blendRatio),
       Earth: profile1.Earth * blendRatio + profile2.Earth * (1 - blendRatio),
       Air: profile1.Air * blendRatio + profile2.Air * (1 - blendRatio)
-    },
+    }
   }
 
   /**
@@ -1234,7 +1234,7 @@ export class UnifiedCuisineIntegrationSystem {
       greek: 1.12,
       spanish: 1.17,
       african: 1.08
-    },
+    }
 
     const kalchm1 = kalchmEstimates[cuisine1] || 1.0;
     const kalchm2 = kalchmEstimates[cuisine2] || 1.0;
@@ -1276,13 +1276,13 @@ export class UnifiedCuisineIntegrationSystem {
         indian: ['Curry Risotto', 'Tandoori Pizza', 'Masala Pasta'],
         japanese: ['Sushi Pizza', 'Miso Carbonara', 'Tempura Arancini'],
         mexican: ['Taco Pasta', 'Salsa Verde Risotto', 'Enchilada Lasagna']
-      },
+      }
       chinese: {
         indian: ['Curry Fried Rice', 'Tandoori Dumplings', 'Masala Noodles'],
         mexican: ['Kung Pao Tacos', 'Sweet and Sour Enchiladas', 'General Tso Burritos'],
         japanese: ['Ramen Sushi', 'Teriyaki Dumplings', 'Miso Fried Rice']
       }
-    },
+    }
 
     return (
       dishCombinations[cuisine1][cuisine2] ||
@@ -1319,11 +1319,11 @@ export class UnifiedCuisineIntegrationSystem {
             temperatureAdjustment: 0,
             timingAdjustment: 0,
             intensityModifier: 'normal'
-          },
+          }
           traditionalSeasonalDishes: this.getTraditionalSeasonalDishes(cuisine1, cuisine2, season),
           monicaOptimization: 0.5,
           kalchmHarmony: this.calculateKalchmHarmonyBetweenCuisines(cuisine1, cuisine2)
-        },
+        }
       }
       return adaptations,
     }
@@ -1377,11 +1377,11 @@ export class UnifiedCuisineIntegrationSystem {
             const monicaModifiers = profileData.monicaModifiers as any;
             return String(monicaModifiers.intensityModifier || 'normal')
           })()
-        },
+        }
         traditionalSeasonalDishes: this.getTraditionalSeasonalDishes(cuisine1, cuisine2, season),
         monicaOptimization: seasonalOptimization,
         kalchmHarmony: this.calculateKalchmHarmonyBetweenCuisines(cuisine1, cuisine2)
-      },
+      }
     }
 
     return adaptations,
@@ -1498,7 +1498,7 @@ export class UnifiedCuisineIntegrationSystem {
         Earth: 0.25,
         Air: 0.25
       })
-    },
+    }
 
     return (
       elementalProfiles[cuisine] ||
@@ -1569,7 +1569,7 @@ export class UnifiedCuisineIntegrationSystem {
       temperatureAdjustment: Number((monicaModifiers as any).temperatureAdjustment || 0),
       timingAdjustment: Number((monicaModifiers as any).timingAdjustment || 0),
       intensityModifier: String((monicaModifiers as any).intensityModifier || 'normal')
-    },
+    }
 
     // Get traditional seasonal dishes
     const traditionalSeasonalDishes = this.getTraditionalSeasonalDishes(cuisine, cuisine, season)
@@ -1586,7 +1586,7 @@ export class UnifiedCuisineIntegrationSystem {
       traditionalSeasonalDishes,
       monicaOptimization,
       kalchmHarmony
-    },
+    }
   }
 
   /**
@@ -1690,7 +1690,7 @@ export class UnifiedCuisineIntegrationSystem {
       contributingCuisines,
       optimizationScore,
       recommendedConditions
-    },
+    }
   }
 
   /**
@@ -1751,7 +1751,7 @@ export class UnifiedCuisineIntegrationSystem {
       timing,
       planetaryHour,
       lunarPhase
-    },
+    }
   }
 
   /**
@@ -1775,7 +1775,7 @@ export class UnifiedCuisineIntegrationSystem {
       greek: 1.12,
       spanish: 1.17,
       african: 1.08
-    },
+    }
 
     const kalchmValues = (cuisines || []).map(cuisine => kalchmEstimates[cuisine] || 1.0)
 
@@ -1845,12 +1845,12 @@ export class UnifiedCuisineIntegrationSystem {
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-    },
+    }
 
     const seasonalElementalBalance = this.blendElementalProfiles(
       [fusionProfile.fusionElementalProfile, elementalDominance as ElementalProperties],
       [0.70.3],
-    ) || { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+    ) || { Fire: 0, Water: 0, Earth: 0, Air: 0 }
 
     return {
       season,
@@ -1859,7 +1859,7 @@ export class UnifiedCuisineIntegrationSystem {
       seasonalIngredients,
       seasonalCookingMethods,
       seasonalElementalBalance
-    },
+    }
   }
 
   /**
@@ -1869,7 +1869,7 @@ export class UnifiedCuisineIntegrationSystem {
     profiles: ElementalProperties[],
     weights: number[],
   ): ElementalProperties {
-    const result: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+    const result: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
 
     for (let i = 0i < (profiles || []).length; i++) {
       const profile = profiles[i];
@@ -1901,7 +1901,7 @@ export class UnifiedCuisineIntegrationSystem {
       fruits: [],
       dAiry: [],
       other: []
-    },
+    }
 
     for (const ingredient of ingredients) {
       const category = ingredient.category || 'other';
@@ -1922,9 +1922,9 @@ export class UnifiedCuisineIntegrationSystem {
       kalchmRange: {
         min: kalchmValues.length > 0 ? Math.min(...kalchmValues) : 0,
         max: kalchmValues.length > 0 ? Math.max(...kalchmValues) : 0
-      },
+      }
       kalchmDistribution: this.calculateKalchmDistribution(kalchmValues)
-    },
+    }
 
     // Calculate elemental profile
     const elementalProfile = this.calculateAggregateElementalProfile(ingredients)
@@ -1958,7 +1958,7 @@ export class UnifiedCuisineIntegrationSystem {
       seasonalAvailability,
       commonIngredients,
       uniqueIngredients
-    },
+    }
   }
 
   /**
@@ -1971,7 +1971,7 @@ export class UnifiedCuisineIntegrationSystem {
       'medium (1.0-1.2)': 0,
       'medium-high (1.2-1.5)': 0
       'high (1.5+)': 0
-    },
+    }
 
     for (const kalchm of kalchmValues) {
       if (kalchm < 0.8) distribution['low (0.5-0.8)']++,
@@ -1996,7 +1996,7 @@ export class UnifiedCuisineIntegrationSystem {
   private calculateAggregateElementalProfile(
     ingredients: UnifiedIngredient[],
   ): ElementalProperties {
-    const aggregate: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+    const aggregate: ElementalProperties = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
 
     for (const ingredient of ingredients) {
       aggregate.Fire += ingredient.elementalProperties.Fire,
@@ -2026,7 +2026,7 @@ export class UnifiedCuisineIntegrationSystem {
       fall: 0,
       winter: 0,
       all: 0
-    },
+    }
 
     for (const season of ['spring', 'summer', 'autumn', 'fall', 'winter', 'all'] as Season[]) {
       let totalScore = 0,
@@ -2103,7 +2103,7 @@ export const unifiedCuisineIntegrationSystem = new UnifiedCuisineIntegrationSyst
 // ===== BACKWARD COMPATIBILITY EXPORTS =====,
 
 // Export functions that match the original cuisineMatrix.ts interface
-export { getCuisinePAirings, getIngredientsForCuisine },
+export { getCuisinePAirings, getIngredientsForCuisine };
 
 // Export helper functions
 export function getCuisineCompatibility(

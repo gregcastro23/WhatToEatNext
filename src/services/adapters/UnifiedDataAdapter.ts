@@ -12,7 +12,7 @@ import {
   IngredientSearchCriteria,
   PlanetName,
   Season
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 
 import {
   EnhancedIngredient,
@@ -20,16 +20,16 @@ import {
   searchIngredients,
   getIngredientsByCategory,
   generateIngredientRecommendations
-} from '../../data/unified/enhancedIngredients',
+} from '../../data/unified/enhancedIngredients';
 import {
   UnifiedFlavorProfile,
   unifiedFlavorProfileSystem,
   getFlavorProfile
-} from '../../data/unified/flavorProfiles',
+} from '../../data/unified/flavorProfiles';
 import {
   createElementalProperties,
   calculateElementalCompatibility
-} from '../../utils/elemental/elementalUtils',
+} from '../../utils/elemental/elementalUtils';
 
 /**
  * Interface for the UnifiedDataAdapter

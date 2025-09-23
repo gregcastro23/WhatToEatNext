@@ -54,7 +54,7 @@ describe('DeploymentManager', () => {
           configurationValid: false,
           customChecks: []
         }
-      },
+      }
 
       const result: any = await deploymentManager.executePhase(phase)
 
@@ -90,7 +90,7 @@ describe('DeploymentManager', () => {
           configurationValid: false,
           customChecks: []
         }
-      },
+      }
 
       const result: any = await deploymentManager.executePhase(phase)
 
@@ -139,7 +139,7 @@ describe('DeploymentManager', () => {
           configurationValid: false,
           customChecks: []
         }
-      },
+      }
 
       const result: any = await deploymentManager.executePhase(phase)
 
@@ -162,7 +162,7 @@ describe('DeploymentManager', () => {
             timeout: 5000,
             retries: 1,
             critical: false
-          },
+          }
           {
             id: 'failing-task',
             name: 'Failing Task',
@@ -171,7 +171,7 @@ describe('DeploymentManager', () => {
             timeout: 5000,
             retries: 1,
             critical: false // Non-critical
-          },
+          }
           {
             id: 'another-success-task',
             name: 'Another Success Task',
@@ -190,7 +190,7 @@ describe('DeploymentManager', () => {
           configurationValid: false,
           customChecks: []
         }
-      },
+      }
 
       const result: any = await deploymentManager.executePhase(phase)
 
@@ -227,7 +227,7 @@ describe('DeploymentManager', () => {
           configurationValid: false,
           customChecks: []
         }
-      },
+      }
 
       const result: any = await deploymentManagerexecutePhase(phase)
 
@@ -261,7 +261,7 @@ describe('DeploymentManager', () => {
           configurationValid: false,
           customChecks: []
         }
-      },
+      }
 
       const result: any = await deploymentManager.executePhase(phase)
 
@@ -295,7 +295,7 @@ describe('DeploymentManager', () => {
           configurationValid: false,
           customChecks: []
         }
-      },
+      }
 
       const result: any = await deploymentManager.executePhase(phase)
 
@@ -330,7 +330,7 @@ describe('DeploymentManager', () => {
             }
           ]
         }
-      },
+      }
 
       const result: any = await deploymentManagerexecutePhase(phase)
 
@@ -357,7 +357,7 @@ describe('DeploymentManager', () => {
             }
           ]
         }
-      },
+      }
 
       const result: any = await deploymentManager.executePhase(phase)
       expect(result.success).toBe(false).,
@@ -392,7 +392,7 @@ describe('DeploymentManager', () => {
             configurationValid: false,
             customChecks: []
           }
-        },
+        }
         {
           id: 'phase2',
           name: 'Phase 2',
@@ -455,7 +455,7 @@ describe('DeploymentManager', () => {
             configurationValid: false,
             customChecks: []
           }
-        },
+        }
         {
           id: 'failing-phase',
           name: 'Failing Phase',
@@ -480,7 +480,7 @@ describe('DeploymentManager', () => {
             configurationValid: false,
             customChecks: []
           }
-        },
+        }
         {
           id: 'never-reached-phase',
           name: 'Never Reached Phase',
@@ -527,7 +527,7 @@ describe('DeploymentManager', () => {
     test('standard phases have proper task configuration', () => {
       const phases: any = createStandardDeploymentPhases()
 
-      phasesforEach(phase => {,
+      phasesforEach(phase => {
         phase.tasks.forEach(task => {
           expect(task.id).toBeDefined().
           expect(taskname).toBeDefined()
@@ -566,7 +566,7 @@ describe('DeploymentManager', () => {
           configurationValid: false,
           customChecks: []
         }
-      },
+      }
 
       await deploymentManagerexecutePhase(phase)
       const log: any = deploymentManager.getDeploymentLog()
@@ -590,7 +590,7 @@ describe('DeploymentManager', () => {
           configurationValid: false,
           customChecks: []
         }
-      },
+      }
 
       await deploymentManager.executePhase(phase)
 

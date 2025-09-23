@@ -28,7 +28,7 @@ export const rateLimitTiers: Record<string, RateLimitTier> = {
     message: 'Rate limit exceeded for anonymous users. Please authenticate for higher limits.',
     standardHeaders: true,
     legacyHeaders: false
-  },
+  }
 
   // Authenticated users - moderate limits
   authenticated: {
@@ -37,7 +37,7 @@ export const rateLimitTiers: Record<string, RateLimitTier> = {
     message: 'Rate limit exceeded for authenticated users.',
     standardHeaders: true,
     legacyHeaders: false
-  },
+  }
 
   // Premium/paying users - higher limits
   premium: {
@@ -46,7 +46,7 @@ export const rateLimitTiers: Record<string, RateLimitTier> = {
     message: 'Rate limit exceeded for premium users.',
     standardHeaders: true,
     legacyHeaders: false
-  },
+  }
 
   // Admin users - very high limits
   admin: {
@@ -55,7 +55,7 @@ export const rateLimitTiers: Record<string, RateLimitTier> = {
     message: 'Rate limit exceeded for admin users.',
     standardHeaders: true,
     legacyHeaders: false
-  },
+  }
 
   // Service-to-service communication - highest limits
   service: {
@@ -64,7 +64,7 @@ export const rateLimitTiers: Record<string, RateLimitTier> = {
     message: 'Rate limit exceeded for service communication.',
     standardHeaders: true,
     legacyHeaders: false
-  },
+  }
 
   // Strict limits for sensitive operations
   strict: {
@@ -74,7 +74,7 @@ export const rateLimitTiers: Record<string, RateLimitTier> = {
     standardHeaders: true,
     legacyHeaders: false
   }
-},
+}
 
 /**
  * Endpoint-specific rate limits
@@ -85,27 +85,27 @@ export const endpointLimits: Record<string, Partial<RateLimitTier>> = {
     windowMs: 15 * 60 * 1000,
     max: 5, // 5 login attempts per 15 minutes
     message: 'Too many login attempts. Please try again later.'
-  },
+  }
 
   '/auth/register': {
     windowMs: 60 * 60 * 1000,
     max: 3, // 3 registration attempts per hour
     message: 'Too many registration attempts. Please try again later.'
-  },
+  }
 
   // Password reset - prevent abuse
   '/auth/reset-password': {
     windowMs: 60 * 60 * 1000,
     max: 3, // 3 password reset attempts per hour
     message: 'Too many password reset attempts. Please try again later.'
-  },
+  }
 
   // Heavy computation endpoints
   '/calculate/complex': {
     windowMs: 60 * 1000,
     max: 10, // 10 complex calculations per minute
     message: 'Too many complex calculations. Please wait before trying again.'
-  },
+  }
 
   // Recipe recommendations - moderate limits
   '/recommend/recipes': {
@@ -113,7 +113,7 @@ export const endpointLimits: Record<string, Partial<RateLimitTier>> = {
     max: 30, // 30 recommendations per minute
     message: 'Too many recommendation requests. Please wait before trying again.'
   }
-},
+}
 
 /**
  * Create a key generator that considers authentication status
@@ -128,7 +128,7 @@ function createKeyGenerator() {
     }
 
     return `anon:${ip}`,
-  },
+  }
 }
 
 /**
@@ -169,7 +169,7 @@ export function createAdaptiveRateLimit(baseTier?: string): RateLimitRequestHand
     max: (req: Request) => {
       const tier = baseTier ? rateLimitTiers[baseTier] : determineRateLimitTier(req)
       return tier.max,
-    },
+    }
     message: (req: Request) => {
       const tier = baseTier ? rateLimitTiers[baseTier] : determineRateLimitTier(req)
       return {
@@ -178,8 +178,8 @@ export function createAdaptiveRateLimit(baseTier?: string): RateLimitRequestHand
         retryAfter: Math.ceil(tier.windowMs / 1000),
         limit: tier.max,
         userTier: req.user ? 'authenticated' : 'anonymous'
-      },
-    },
+      }
+    }
     keyGenerator: createKeyGenerator(),
     standardHeaders: true,
     legacyHeaders: false,
@@ -226,7 +226,7 @@ export function createEndpointRateLimit(endpoint: string): RateLimitRequestHandl
       error: 'Rate limit exceeded',
       message: endpointConfig.message || 'Too many requests for this endpoint',
       endpoint
-    },
+    }
     keyGenerator: createKeyGenerator(),
     standardHeaders: true,
     legacyHeaders: false,
@@ -272,11 +272,11 @@ export const rateLimiters = {
       if (isAdmin(req)) return 100,
       if (getAuthenticatedUserId(req)) return 20,
       return 5,
-    },
+    }
     message: {
       error: 'Computation rate limit exceeded',
       message: 'Too many computation requests. Please wait before trying again.'
-    },
+    }
     keyGenerator: createKeyGenerator(),
     standardHeaders: true,
     legacyHeaders: false
@@ -289,16 +289,16 @@ export const rateLimiters = {
       if (isAdmin(req)) return 50,
       if (getAuthenticatedUserId(req)) return 10,
       return 3,
-    },
+    }
     message: {
       error: 'WebSocket connection rate limit exceeded',
       message: 'Too many WebSocket connection attempts.'
-    },
+    }
     keyGenerator: createKeyGenerator(),
     standardHeaders: true,
     legacyHeaders: false
   })
-},
+}
 
 /**
  * Global rate limiting configuration
@@ -319,7 +319,7 @@ export function rateLimitStatus(req: Request, res: Response): void {
       windowMs: tier.windowMs,
       maxRequests: tier.max,
       message: tier.message
-    },
+    }
     recommendations: {
       authenticate: !userId ? 'Authenticate for higher rate limits' : null,
       upgrade: userId && !isAdmin(req) ? 'Upgrade to premium for higher limits' : null
@@ -335,4 +335,4 @@ export default {
   rateLimitStatus,
   rateLimitTiers,
   endpointLimits
-},
+}

@@ -108,7 +108,7 @@ describe('SafeTypeReplacer', () => {
         lineNumber: 1,
         confidence: 0.9,
         validationRequired: true
-      },
+      }
 
       mockFs.readFileSync.mockReturnValue('const items: any[] = [],')
 
@@ -127,7 +127,7 @@ describe('SafeTypeReplacer', () => {
         lineNumber: 1,
         confidence: 0.3, // Low confidence,
         validationRequired: true
-      },
+      }
 
       const result: any = await replacer.applyReplacement(replacement)
 
@@ -143,7 +143,7 @@ describe('SafeTypeReplacer', () => {
         lineNumber: 1,
         confidence: 0.9,
         validationRequired: true
-      },
+      }
 
       // Mock compilation failure
       mockExecSync.mockImplementation(() => {
@@ -166,7 +166,7 @@ describe('SafeTypeReplacer', () => {
         lineNumber: 999, // Invalid line number,
         confidence: 0.9,
         validationRequired: true
-      },
+      }
 
       mockFs.readFileSync.mockReturnValue('const items: any[] = [],'); // Only 1 line
 
@@ -183,7 +183,7 @@ describe('SafeTypeReplacer', () => {
         lineNumber: 1,
         confidence: 0.9,
         validationRequired: true
-      },
+      }
 
       mockFs.readFileSync.mockReturnValue('const items: any[] = [],'); // Pattern doesn't match
 
@@ -204,7 +204,7 @@ describe('SafeTypeReplacer', () => {
           lineNumber: 1,
           confidence: 0.9,
           validationRequired: true
-        },
+        }
         {
           original: 'Record<string, unknown>',
           replacement: 'Record<string, unknown>',
@@ -264,7 +264,7 @@ describe('SafeTypeReplacer', () => {
           lineNumber: 2,
           confidence: 0.9,
           validationRequired: true
-        },
+        }
         {
           original: 'any',
           replacement: 'unknown',
@@ -292,7 +292,7 @@ describe('SafeTypeReplacer', () => {
         lineNumber: 1,
         confidence: 0.7,
         validationRequired: true
-      },
+      }
 
       // Access private method through any cast for testing
       const score: any = (replacer as any).calculateSafetyScore(replacement)
@@ -306,7 +306,7 @@ describe('SafeTypeReplacer', () => {
         lineNumber: 1,
         confidence: 0.8,
         validationRequired: true
-      },
+      }
 
       const score: any = (replacer as any).calculateSafetyScore(replacement)
       expect(score).toBeLessThan(0.8) // Should be reduced for error context
@@ -319,7 +319,7 @@ describe('SafeTypeReplacer', () => {
         lineNumber: 1,
         confidence: 0.7,
         validationRequired: true
-      },
+      }
 
       const score: any = (replacer as any).calculateSafetyScore(replacement)
       expect(score).toBeGreaterThan(0.7) // Should be boosted for test files
@@ -363,7 +363,7 @@ describe('SafeTypeReplacer', () => {
         replacement: () => 'custom_replacement',
         validator: () => true,
         priority: 0,
-      },
+      }
 
       replacer.addStrategy(customStrategy)
       const strategies: any = replacer.getStrategies()
@@ -428,7 +428,7 @@ describe('SafeTypeReplacer', () => {
         lineNumber: 1,
         confidence: 0.9,
         validationRequired: true
-      },
+      }
 
       // Mock backup creation to fail
       mockFs.writeFileSync.mockImplementation((filePath: any) => {
@@ -448,7 +448,7 @@ describe('SafeTypeReplacer', () => {
         lineNumber: 1,
         confidence: 0.9,
         validationRequired: true
-      },
+      }
 
       // Mock compilation to fail
       mockExecSync.mockImplementation(() => {
@@ -524,7 +524,7 @@ describe('SafeTypeReplacer', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      },
+      }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       const inferredType: any = (replacer as any).inferArrayElementType(context)
@@ -543,7 +543,7 @@ describe('SafeTypeReplacer', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      },
+      }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       const arrayType: any = (replacer as any).inferArrayElementType(complexContext)
@@ -569,7 +569,7 @@ describe('SafeTypeReplacer', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      },
+      }
 
       const inferredType: any = (replacer as any).inferVariableType(usageContext)
       expect(inferredType).toBe('string').,
@@ -587,7 +587,7 @@ describe('SafeTypeReplacer', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      },
+      }
 
       const inferredType: any = (replacer as any).inferRecordValueType(context)
       expect(['string', 'number', 'unknown']).toContain(inferredType).,
@@ -605,7 +605,7 @@ describe('SafeTypeReplacer', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      },
+      }
 
       const inferredType: any = (replacer as any).inferFunctionParameterType(context, 'event')
       expect(inferredType).toBe('Event').
@@ -623,7 +623,7 @@ describe('SafeTypeReplacer', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      },
+      }
 
       const inferredType: any = (replacer as any).inferReturnType(context)
       expect(inferredType).toBe('boolean').,
@@ -641,7 +641,7 @@ describe('SafeTypeReplacer', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      },
+      }
 
       const isErrorContext: any = (replacer as any).isInErrorHandlingContext(errorContext)
       expect(isErrorContext).toBe(true).,
@@ -659,7 +659,7 @@ describe('SafeTypeReplacer', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      },
+      }
 
       const isApiContext: any = (replacer as any).isExternalApiContext(apiContext)
       expect(isApiContext).toBe(true).,
@@ -677,7 +677,7 @@ describe('SafeTypeReplacer', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      },
+      }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       const inferredType: any = (replacer as any).inferArrayElementType(astroContext)
@@ -696,7 +696,7 @@ describe('SafeTypeReplacer', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      },
+      }
 
       const inferredType: any = (replacer as any).inferFunctionParameterType(recipeContext, 'ingredient')
       expect(inferredType).toBe('Ingredient').
@@ -714,7 +714,7 @@ describe('SafeTypeReplacer', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      },
+      }
 
       const strategies: any = replacer.getStrategies()
 
@@ -740,7 +740,7 @@ describe('SafeTypeReplacer', () => {
           lineNumber: 1,
           confidence: 0.9,
           validationRequired: true
-        },
+        }
         {
           original: 'any',
           replacement: 'InvalidType', // This should cause compilation error
@@ -783,7 +783,7 @@ describe('SafeTypeReplacer', () => {
         lineNumber: 1,
         confidence: 0.9,
         validationRequired: true
-      },
+      }
 
       mockFs.readFileSync.mockReturnValue('const items: any[] = [],')
       mockFs.writeFileSync.mockImplementation(() => {
@@ -800,7 +800,7 @@ describe('SafeTypeReplacer', () => {
         lineNumber: 1,
         confidence: 0.9,
         validationRequired: true
-      },
+      }
 
       mockFs.readFileSync.mockImplementation((path: any) => {
         if (String(path).includes('.backup')) {
@@ -820,7 +820,7 @@ describe('SafeTypeReplacer', () => {
         lineNumber: 1,
         confidence: 0.9,
         validationRequired: true
-      },
+      }
 
       mockFs.readFileSync.mockReturnValue('const items: any[] = [],')
 
@@ -846,7 +846,7 @@ describe('SafeTypeReplacer', () => {
         lineNumber: 5000,
         confidence: 0.9,
         validationRequired: true,
-      },
+      }
 
       mockFs.readFileSync.mockReturnValue(largeContent)
 
@@ -886,7 +886,7 @@ describe('SafeTypeReplacer', () => {
         lineNumber: 1,
         confidence: 0.9,
         validationRequired: true
-      },
+      }
 
       mockFs.readFileSync.mockReturnValue('const items: any[] = [],')
 
@@ -909,7 +909,7 @@ describe('SafeTypeReplacer', () => {
         lineNumber: 1,
         confidence: 0.9,
         validationRequired: true
-      },
+      }
 
       const context: ClassificationContext = { filePath: 'test.ts',,
         lineNumber: 1,
@@ -922,7 +922,7 @@ describe('SafeTypeReplacer', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      },
+      }
 
       mockFs.readFileSync.mockReturnValue('const items: any[] = [],')
 
@@ -937,7 +937,7 @@ describe('SafeTypeReplacer', () => {
         lineNumber: 1,
         confidence: 0.3, // Very low confidence,
         validationRequired: true
-      },
+      }
 
       const result: any = await replacer.applyReplacement(lowConfidenceReplacement)
       expect(result.success).toBe(false).

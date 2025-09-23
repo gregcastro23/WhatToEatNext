@@ -11,7 +11,7 @@ const globalInitState = {
   attempted: false,
   checkCount: 0,
   lastCheckTime: Date.now()
-},
+}
 
 /**
  * A safer hook for accessing the flavor engine with error handling
@@ -45,7 +45,7 @@ export function useSafeFlavorEngine() {
         calculateCompatibility: () => null,
         profileCount: 0,
         categories: {}
-      },
+      }
     }
   }
 
@@ -99,12 +99,12 @@ export function useSafeFlavorEngine() {
 
     return () => {
       isMountedRef.current = false;
-    },
+    }
   }, [flavorEngine])
 
   // Create safe, memoized versions of the engine methods to prevent re-renders
   const getProfile = useCallback(
-    (id: string): UnifiedFlavorProfile | undefined => {,
+    (id: string): UnifiedFlavorProfile | undefined => {
       if (!isReady) return undefined,
 
       try {
@@ -113,7 +113,7 @@ export function useSafeFlavorEngine() {
         // logger.error('Error getting flavor profile:', err)
         return undefined
       }
-    },
+    }
     [isReady, flavorEngine],
   )
 
@@ -128,7 +128,7 @@ export function useSafeFlavorEngine() {
         // logger.error('Error searching flavor profiles:', err)
         return []
       }
-    },
+    }
     [isReady, flavorEngine],
   )
 
@@ -143,7 +143,7 @@ export function useSafeFlavorEngine() {
         // logger.error('Error calculating compatibility:', err)
         return null
       }
-    },
+    }
     [isReady, flavorEngine],
   )
 

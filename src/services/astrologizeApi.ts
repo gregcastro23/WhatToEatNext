@@ -27,7 +27,7 @@ interface AstrologizePlanetData {
     key: string,
     zodiac: string,
     label: string
-  },
+  }
   ChartPosition: {
     Ecliptic: {
       DecimalDegrees: number,
@@ -35,9 +35,9 @@ interface AstrologizePlanetData {
         degrees: number,
         minutes: number,
         seconds: number
-      },
-    },
-  },
+      }
+    }
+  }
   isRetrograde: boolean
 }
 
@@ -55,7 +55,7 @@ interface AstrologizeResponse {
     uranus: AstrologizePlanetData,
     neptune: AstrologizePlanetData,
     pluto: AstrologizePlanetData
-  },
+  }
   birth_info: {
     year: number,
     month: number,
@@ -65,14 +65,14 @@ interface AstrologizeResponse {
     latitude: number,
     longitude: number,
     ayanamsa: string
-  },
+  }
 }
 
 // Default location (New York City)
 const DEFAULT_LOCATION = {
   latitude: 40.7498,
   longitude: -73.7976
-},
+}
 
 /**
  * Get current date/time/location for astrology API
@@ -88,7 +88,7 @@ function getCurrentDateTimeLocation(_customLocation?: { latitude: number, longit
     latitude: customLocation?.latitude ?? DEFAULT_LOCATION.latitude,
     longitude: customLocation?.longitude ?? DEFAULT_LOCATION.longitude,
     zodiacSystem: 'tropical' as const // Default to tropical zodiac
-  },
+  }
 }
 
 /**
@@ -108,7 +108,7 @@ function normalizeSignName(_signName: string): any {
     capricorn: 'capricorn',
     aquarius: 'aquarius',
     pisces: 'pisces'
-  },
+  }
 
   const normalized = signName.toLowerCase() as any;
   return signMap[normalized] || 'aries',
@@ -128,37 +128,37 @@ function calculateExactLongitude(decimalDegrees: number): number {
 export async function fetchPlanetaryPositions(
   customDateTime?: Partial<LocalAstrologizeRequest>,
 ): Promise<Record<string, PlanetPosition>> {
-  const fallbackPositions = (): Record<string, PlanetPosition> => {,
+  const fallbackPositions = (): Record<string, PlanetPosition> => {
     log.info('Using fallback planetary positions due to API failure')
     return {
-      Sun: { sign: 'gemini', degree: 13, minute: 54, exactLongitude: 73.9, isRetrograde: false },
-      moon: { sign: 'virgo', degree: 26, minute: 31, exactLongitude: 176.52, isRetrograde: false },
+      Sun: { sign: 'gemini', degree: 13, minute: 54, exactLongitude: 73.9, isRetrograde: false }
+      moon: { sign: 'virgo', degree: 26, minute: 31, exactLongitude: 176.52, isRetrograde: false }
       Mercury: {
         sign: 'gemini',
         degree: 20,
         minute: 11,
         exactLongitude: 80.18,
         isRetrograde: false
-      },
-      Venus: { sign: 'aries', degree: 28, minute: 6, exactLongitude: 28.1, isRetrograde: false },
-      Mars: { sign: 'leo', degree: 22, minute: 48, exactLongitude: 142.8, isRetrograde: false },
+      }
+      Venus: { sign: 'aries', degree: 28, minute: 6, exactLongitude: 28.1, isRetrograde: false }
+      Mars: { sign: 'leo', degree: 22, minute: 48, exactLongitude: 142.8, isRetrograde: false }
       Jupiter: {
         sign: 'gemini',
         degree: 28,
         minute: 44,
         exactLongitude: 88.73,
         isRetrograde: false
-      },
-      Saturn: { sign: 'aries', degree: 0, minute: 41, exactLongitude: 0.68, isRetrograde: false },
+      }
+      Saturn: { sign: 'aries', degree: 0, minute: 41, exactLongitude: 0.68, isRetrograde: false }
       Uranus: {
         sign: 'taurus',
         degree: 28,
         minute: 17,
         exactLongitude: 58.28,
         isRetrograde: false
-      },
-      Neptune: { sign: 'aries', degree: 1, minute: 55, exactLongitude: 1.92, isRetrograde: false },
-      Pluto: { sign: 'aquarius', degree: 3, minute: 36, exactLongitude: 303.6, isRetrograde: true },
+      }
+      Neptune: { sign: 'aries', degree: 1, minute: 55, exactLongitude: 1.92, isRetrograde: false }
+      Pluto: { sign: 'aquarius', degree: 3, minute: 36, exactLongitude: 303.6, isRetrograde: true }
       Ascendant: {
         sign: 'aries',
         degree: 16,
@@ -166,8 +166,8 @@ export async function fetchPlanetaryPositions(
         exactLongitude: 16.27,
         isRetrograde: false
       }
-    },
-  },
+    }
+  }
 
   return astrologizeApiCircuitBreaker.call(async () => {
     // Get current date/time or use provided values
@@ -175,7 +175,7 @@ export async function fetchPlanetaryPositions(
     const requestData: LocalAstrologizeRequest = {
       ...defaultDateTime,
       ...customDateTime
-    },
+    }
 
     log.info('Calling local astrologize API with:', requestData)
 
@@ -196,7 +196,7 @@ export async function fetchPlanetaryPositions(
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
-        },
+        }
         signal: AbortSignal.timeout(5000), // 5 second timeout for faster fallback
       })
     } else {
@@ -205,7 +205,7 @@ export async function fetchPlanetaryPositions(
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
-        },
+        }
         body: JSON.stringify(requestData),
         signal: AbortSignal.timeout(5000), // 5 second timeout for faster fallback
       })
@@ -224,7 +224,7 @@ export async function fetchPlanetaryPositions(
       throw new Error('Invalid API response structure')
     }
 
-    const positions: { [key: string]: PlanetPosition } = {},
+    const positions: { [key: string]: PlanetPosition } = {}
 
     // Process each planet from the celestial bodies
     const planetMap = {
@@ -238,7 +238,7 @@ export async function fetchPlanetaryPositions(
       uranus: 'Uranus',
       neptune: 'Neptune',
       pluto: 'Pluto'
-    },
+    }
 
     Object.entries(planetMap).forEach(([apiKey, planetName]) => {
       const planetData = celestialBodies[apiKey as keyof typeof planetMap];
@@ -253,7 +253,7 @@ export async function fetchPlanetaryPositions(
           minute: arcDegrees.minutes,
           exactLongitude: calculateExactLongitude(decimalDegrees),
           isRetrograde: planetData.isRetrograde || false
-        },
+        }
       }
     })
 
@@ -265,7 +265,7 @@ export async function fetchPlanetaryPositions(
       minute: 16,
       exactLongitude: 16.27,
       isRetrograde: false
-    },
+    }
 
     log.info('Successfully fetched planetary positions from local API:', Object.keys(positions))
     log.info('🌟 Using zodiac system:', { system: data.birth_info.ayanamsa || 'TROPICAL' })
@@ -277,7 +277,7 @@ export async function fetchPlanetaryPositions(
  * Get planetary positions for the current moment
  */
 export async function getCurrentPlanetaryPositions(
-  location?: { latitude: number, longitude: number },
+  location?: { latitude: number, longitude: number }
   zodiacSystem: 'tropical' | 'sidereal' = 'tropical',
 ): Promise<Record<string, PlanetPosition>> {
   return await fetchPlanetaryPositions({
@@ -291,7 +291,7 @@ export async function getCurrentPlanetaryPositions(
  */
 export async function getPlanetaryPositionsForDateTime(
   date: Date,
-  location?: { latitude: number, longitude: number },
+  location?: { latitude: number, longitude: number }
   zodiacSystem: 'tropical' | 'sidereal' = 'tropical',
 ): Promise<Record<string, PlanetPosition>> {
   return await fetchPlanetaryPositions({
@@ -322,7 +322,7 @@ export async function testAstrologizeApi(): Promise<boolean> {
  * Get current chart data (alias for getCurrentPlanetaryPositions)
  */
 export async function getCurrentChart(
-  location?: { latitude: number, longitude: number },
+  location?: { latitude: number, longitude: number }
   zodiacSystem: 'tropical' | 'sidereal' = 'tropical',
 ): Promise<Record<string, PlanetPosition>> {
   return await getCurrentPlanetaryPositions(location, zodiacSystem)

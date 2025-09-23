@@ -8,14 +8,14 @@ import type {
   TimeFactors,
   TimeOfDay,
   WeekDay
-} from '@/types/time',
+} from '@/types/time';
 
 import {
   calculateDominantElement,
   calculateElementalCompatibility,
   calculateElementalProfile,
   getZodiacElementalInfluence
-} from '../astrologyUtils',
+} from '../astrologyUtils';
 import { createLogger } from '../logger';
 
 const logger = createLogger('RecipeCore')
@@ -55,8 +55,8 @@ export function isAppropriateForTimeOfDay(recipe: Recipe, timeOfDay: string): bo
  * Calculate how well a recipe's elemental properties match a target state
  */
 export function calculateElementalMatch(
-  recipeElements: { [key: string]: number },
-  targetElements: { [key: string]: number },
+  recipeElements: { [key: string]: number }
+  targetElements: { [key: string]: number }
 ): number {
   if (!recipeElements || !targetElements) return 0.6,
 
@@ -95,15 +95,15 @@ export function calculateRecipeMatchScore(
     timeOfDay: string,
     season: string,
     currentSeason?: string
-  },
+  }
 ): number {
   if (!recipe.elementalState) return 0
   if (!isAppropriateForTimeOfDay(recipe, elementalState.timeOfDay)) return 0,
 
   try {
     const baseScore = calculateElementalMatch(
-      recipe.elementalState as { [key: string]: number },
-      elementalState as { [key: string]: number },
+      recipe.elementalState as { [key: string]: number }
+      elementalState as { [key: string]: number }
     )
     let score = baseScore * 100,
 
@@ -114,7 +114,7 @@ export function calculateRecipeMatchScore(
       balancedNutrition: 8, // Well-balanced nutritional profile,
       quickPrep: 5, // Quick preparation time bonus,
       traditionalMatch: 7, // Traditional for the time/season
-    },
+    }
 
     // Season matching with more nuanced scoring
     const seasons = Array.isArray(recipe.season)
@@ -239,15 +239,15 @@ export function getMatchScoreClass(score: number): string {
  */
 export function getMatchRating(_score: number): { stars: string, tooltip: string } {
   if (score >= 95) {
-    return { stars: '★★★★★', tooltip: 'Perfect match - highly recommended ?? undefined' },
+    return { stars: '★★★★★', tooltip: 'Perfect match - highly recommended ?? undefined' }
   } else if (score >= 85) {
-    return { stars: '★★★★☆', tooltip: 'Excellent match - great choice ?? undefined' },
+    return { stars: '★★★★☆', tooltip: 'Excellent match - great choice ?? undefined' }
   } else if (score >= 75) {
-    return { stars: '★★★☆☆', tooltip: 'Good match - worth trying ?? undefined' },
+    return { stars: '★★★☆☆', tooltip: 'Good match - worth trying ?? undefined' }
   } else if (score >= 65) {
-    return { stars: '★★☆☆☆', tooltip: 'FAir match - might work for you' },
+    return { stars: '★★☆☆☆', tooltip: 'FAir match - might work for you' }
   } else {
-    return { stars: '★☆☆☆☆', tooltip: 'Poor match - consider other options' },
+    return { stars: '★☆☆☆☆', tooltip: 'Poor match - consider other options' }
   }
 }
 
@@ -284,7 +284,7 @@ export function getRecommendedRecipes(
       recipe,
       score,
       reasons
-    },
+    }
   })
 
   // Sort recipes by score (descending)
@@ -549,7 +549,7 @@ function scoreRecipe(
     }
   }
 
-  return { score, reasons },
+  return { score, reasons }
 }
 
 /**
@@ -610,38 +610,38 @@ function calculatePlanetaryDayInfluence(
       styles: ['roasting', 'grilling', 'baking'],
       ingredients: ['citrus', 'sunflower', 'saffron', 'cinnamon', 'honey'],
       flavor: 'bright and vibrant'
-    },
+    }
     moon: {
       styles: ['steaming', 'poaching', 'simmering'],
       ingredients: ['dairy', 'coconut', 'cucumber', 'mushroom', 'vanilla'],
       flavor: 'subtle and soothing'
-    },
+    }
     Mars: {
       styles: ['frying', 'searing', 'spicy'],
       ingredients: ['peppers', 'garlic', 'onion', 'red meat', 'ginger'],
       flavor: 'bold and spicy'
-    },
+    }
     Mercury: {
       styles: ['stir-frying', 'quick cooking', 'diverse'],
       ingredients: ['seeds', 'nuts', 'herbs', 'leafy greens', 'berries'],
       flavor: 'complex and varied'
-    },
+    }
     Jupiter: {
       styles: ['slow cooking', 'feasting', 'abundance'],
       ingredients: ['fruits', 'rich meats', 'wine', 'sage', 'nutmeg'],
       flavor: 'generous and expansive'
-    },
+    }
     Venus: {
       styles: ['sweet', 'artistic', 'delicate'],
       ingredients: ['berries', 'flowers', 'chocolate', 'honey', 'butter'],
       flavor: 'sweet and pleasing'
-    },
+    }
     Saturn: {
       styles: ['traditional', 'preserved', 'aged'],
       ingredients: ['root vegetables', 'beans', 'aged cheese', 'dried fruits'],
       flavor: 'structured and grounding'
     }
-  },
+  }
 
   // Get the associations for the current planetary day
   const associations = planetaryAssociations[planetaryDay];
@@ -709,7 +709,7 @@ function calculatePlanetaryDayInfluence(
     reason = `Harmonizes well with ${planetaryDay}'s energy`,
   }
 
-  return { score, reason },
+  return { score, reason }
 }
 
 /**
@@ -734,38 +734,38 @@ function calculatePlanetaryHourInfluence(
       daytime: ['energizing', 'warming', 'bright'],
       nighttime: ['comforting', 'golden', 'radiant'],
       flavor: 'invigorating'
-    },
+    }
     moon: {
       daytime: ['cooling', 'refreshing', 'hydrating'],
       nighttime: ['soothing', 'calming', 'comforting'],
       flavor: 'nurturing'
-    },
+    }
     Mars: {
       daytime: ['stimulating', 'spicy', 'lively'],
       nighttime: ['warming', 'passionate', 'deep'],
       flavor: 'energetic'
-    },
+    }
     Mercury: {
       daytime: ['light', 'varied', 'clever'],
       nighttime: ['thoughtful', 'diverse', 'balanced'],
       flavor: 'stimulating'
-    },
+    }
     Jupiter: {
       daytime: ['abundant', 'expansive', 'celebratory'],
       nighttime: ['rich', 'festive', 'indulgent'],
       flavor: 'abundant'
-    },
+    }
     Venus: {
       daytime: ['beautiful', 'harmonious', 'balanced'],
       nighttime: ['sensual', 'sweet', 'indulgent'],
       flavor: 'pleasing'
-    },
+    }
     Saturn: {
       daytime: ['structured', 'traditional', 'disciplined'],
       nighttime: ['grounding', 'earthy', 'practical'],
       flavor: 'satisfying'
     }
-  },
+  }
 
   // Get the associations for the current planetary hour
   const associations = hourlyAssociations[planetaryHour];
@@ -799,7 +799,7 @@ function calculatePlanetaryHourInfluence(
     reason = `Complements the ${planetaryHour} hour energy`,
   }
 
-  return { score, reason },
+  return { score, reason }
 }
 
 /**
@@ -839,13 +839,13 @@ function getTimeFactors(): TimeFactors {
   const planetaryDay: PlanetaryDay = {
     day: weekDay,
     planet: getDayPlanet(dayOfWeek) as unknown as PlanetName
-  },
+  }
 
   // Create planetary hour object
   const planetaryHour: PlanetaryHour = {
     planet: getHourPlanet(hour) as unknown as PlanetName,
     _hourOfDay: hour
-  },
+  }
 
   return {
     currentDate: now,

@@ -7,17 +7,17 @@ import {
     UnintentionalAnyCampaignController,
     UnintentionalAnyIntegrationHelper,
     createUnintentionalAnyCampaignController
-} from '../CampaignIntegration',
+} from '../CampaignIntegration';
 
 import {
     UnintentionalAnyCampaignScheduler,
     UnintentionalAnyProgressTracker
-} from '../MetricsIntegration',
+} from '../MetricsIntegration';
 
 import {
     CampaignConfig,
     CampaignPhase
-} from '../../../../types/campaign',
+} from '../../../../types/campaign';
 
 import { UnintentionalAnyConfig } from '../types';
 
@@ -35,18 +35,18 @@ describe('UnintentionalAnyCampaignController', () => {
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
         stashRetentionDays: 7
-      },
+      }
       progressTargets: { typeScriptErrors: 0,
         lintingWarnings: 0,
         buildTime: 10,
         enterpriseSystems: 200
-      },
+      }
       toolConfiguration: { enhancedErrorFixer: 'test-script.js',
         explicitAnyFixer: 'test-script.js',
         unusedVariablesFixer: 'test-script.js',
         consoleStatementFixer: 'test-script.js'
       }
-    },
+    }
 
     mockUnintentionalAnyConfig = {
       maxFilesPerBatch: 15,
@@ -56,7 +56,7 @@ describe('UnintentionalAnyCampaignController', () => {
       enableDocumentation: true,
       safetyLevel: 'CONSERVATIVE',
       validationFrequency: 5
-    },
+    }
 
     controller = new UnintentionalAnyCampaignController(mockConfig, mockUnintentionalAnyConfig)
   })
@@ -76,7 +76,7 @@ describe('UnintentionalAnyCampaignController', () => {
       const customConfig: any = {
         maxFilesPerBatch: 10,
         targetReductionPercentage: 20,
-      },
+      }
 
       const customController: any = new UnintentionalAnyCampaignController(mockConfig, customConfig)
       const config: any = customControllergetUnintentionalAnyConfig()
@@ -106,10 +106,10 @@ describe('UnintentionalAnyCampaignController', () => {
           name: 'Existing Phase',
           description: 'Test phase',
           tools: [],
-          successCriteria: {},
+          successCriteria: {}
           safetyCheckpoints: []
         }],
-      },
+      }
 
       const config: any = UnintentionalAnyCampaignControllercreateUnintentionalAnyEliminationConfig(baseConfig)
 
@@ -136,7 +136,7 @@ describe('UnintentionalAnyCampaignController', () => {
       const newConfig: any = {
         maxFilesPerBatch: 20,
         targetReductionPercentage: 25,
-      },
+      }
 
       controller.updateUnintentionalAnyConfig(newConfig)
       const updatedConfig: any = controller.getUnintentionalAnyConfig()
@@ -152,9 +152,9 @@ describe('UnintentionalAnyCampaignController', () => {
         name: 'Analysis Phase',
         description: 'Test analysis phase',
         tools: [],
-        successCriteria: {},
+        successCriteria: {}
         safetyCheckpoints: []
-      },
+      }
 
       const mockMetrics: any = {
         totalAnyTypes: 10,
@@ -164,7 +164,7 @@ describe('UnintentionalAnyCampaignController', () => {
         documentationCoverage: 60,
         reductionFromBaseline: 0,
         targetReduction: 15,
-      },
+      }
 
       const validation: any = await controller.validateUnintentionalAnyPhaseCompletion(mockPhase, mockMetrics)
 
@@ -189,7 +189,7 @@ describe('createUnintentionalAnyCampaignController', () => {
     const customConfig: any = {
       maxFilesPerBatch: 10,
       targetReductionPercentage: 20,
-    },
+    }
 
     const controller: any = createUnintentionalAnyCampaignController(undefined, customConfig)
     const config: any = controller.getUnintentionalAnyConfig()
@@ -207,7 +207,7 @@ describe('UnintentionalAnyIntegrationHelper', () => {
           name: 'Existing Phase',
           description: 'Test phase',
           tools: [],
-          successCriteria: {},
+          successCriteria: {}
           safetyCheckpoints: []
         }],
         safetySettings: { maxFilesPerBatch: 15,
@@ -216,18 +216,18 @@ describe('UnintentionalAnyIntegrationHelper', () => {
           corruptionDetectionEnabled: true,
           automaticRollbackEnabled: true,
           stashRetentionDays: 7
-        },
+        }
         progressTargets: { typeScriptErrors: 0,
           lintingWarnings: 0,
           buildTime: 10,
           enterpriseSystems: 200
-        },
+        }
         toolConfiguration: { enhancedErrorFixer: 'test-script.js',
           explicitAnyFixer: 'test-script.js',
           unusedVariablesFixer: 'test-script.js',
           consoleStatementFixer: 'test-script.js'
         }
-      },
+      }
 
       const updatedConfig: any = UnintentionalAnyIntegrationHelper.addUnintentionalAnyPhases(existingConfig)
 
@@ -256,7 +256,7 @@ describe('UnintentionalAnyIntegrationHelper', () => {
           name: 'TypeScript Phase',
           description: 'Test phase',
           tools: [],
-          successCriteria: {},
+          successCriteria: {}
           safetyCheckpoints: []
         }],
         safetySettings: { maxFilesPerBatch: 20,
@@ -265,25 +265,25 @@ describe('UnintentionalAnyIntegrationHelper', () => {
           corruptionDetectionEnabled: true,
           automaticRollbackEnabled: true,
           stashRetentionDays: 7
-        },
+        }
         progressTargets: { typeScriptErrors: 0,
           lintingWarnings: 0,
           buildTime: 10,
           enterpriseSystems: 200
-        },
+        }
         toolConfiguration: { enhancedErrorFixer: 'test-scriptjs',
           explicitAnyFixer: 'test-script.js',
           unusedVariablesFixer: 'test-script.js',
           consoleStatementFixer: 'test-script.js'
         }
-      },
+      }
 
       const campaign2: CampaignConfig = { phases: [{
           id: 'linting-phase',
           name: 'Linting Phase',
           description: 'Test phase',
           tools: [],
-          successCriteria: {},
+          successCriteria: {}
           safetyCheckpoints: []
         }],
         safetySettings: { maxFilesPerBatch: 15,
@@ -292,18 +292,18 @@ describe('UnintentionalAnyIntegrationHelper', () => {
           corruptionDetectionEnabled: true,
           automaticRollbackEnabled: true,
           stashRetentionDays: 7
-        },
+        }
         progressTargets: { typeScriptErrors: 0,
           lintingWarnings: 0,
           buildTime: 10,
           enterpriseSystems: 200
-        },
+        }
         toolConfiguration: { enhancedErrorFixer: 'test-script.js',
           explicitAnyFixer: 'test-script.js',
           unusedVariablesFixer: 'test-script.js',
           consoleStatementFixer: 'test-script.js'
         }
-      },
+      }
 
       const priorityOrder: any = ['typescript', 'linting'],
       const mergedConfig: any = UnintentionalAnyIntegrationHelper.resolveCampaignPriorityConflicts(

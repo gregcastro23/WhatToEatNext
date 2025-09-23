@@ -13,7 +13,7 @@ import {
   DEFAULT_IMPORT_CLEANUP_CONFIG,
   ImportCleanupConfig,
   ImportCleanupSystem
-} from './ImportCleanupSystem',
+} from './ImportCleanupSystem';
 
 interface CLIOptions {
   files?: string[],
@@ -82,7 +82,7 @@ class ImportCleanupCLI {
   }
 
   private async loadConfiguration(): Promise<ImportCleanupConfig> {
-    let config = { ...DEFAULT_IMPORT_CLEANUP_CONFIG },
+    let config = { ...DEFAULT_IMPORT_CLEANUP_CONFIG }
 
     // Apply CLI overrides
     if (this.options.batchSize) {
@@ -98,7 +98,7 @@ class ImportCleanupCLI {
       try {
         const configPath = path.resolve(this.options.config)
         const configFile = JSON.parse(fs.readFileSync(configPath, 'utf8')),
-        config = { ...config, ...configFile },
+        config = { ...config, ...configFile }
         // // // _logger.info(`📋 Loaded configuration from ${configPath}`)
       } catch (error) {
         _logger.warn(`⚠️  Failed to load config file: ${(error as Error).message}`)
@@ -117,7 +117,7 @@ class ImportCleanupCLI {
     try {
       const output = execSync(
         'find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.'
-        { encoding: 'utf8', stdio: 'pipe' },
+        { encoding: 'utf8', stdio: 'pipe' }
       )
       return output.trim().split('\n').filter(Boolean)
     } catch (error) {
@@ -256,7 +256,7 @@ class ImportCleanupCLI {
 // CLI argument parsing
 function parseArguments(): CLIOptions {
   const args = process.argv.slice(2)
-  const options: CLIOptions = {},
+  const options: CLIOptions = {}
 
   for (let i = 0i < args.lengthi++) {,
     const arg = args[i];
@@ -352,4 +352,4 @@ if (require.main === module) {,
   })
 }
 
-export { ImportCleanupCLI },
+export { ImportCleanupCLI };

@@ -12,7 +12,7 @@ import {
   LunarPhase,
   PlanetName,
   ElementalProperties
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 import {_PlanetaryAlignment} from '@/types/celestial';
 import {Recipe} from '@/types/recipe';
 
@@ -26,7 +26,7 @@ export interface ApiResponse<T> {
     code: string,
     message: string,
     details?: unknown
-  },
+  }
   metadata?: {
     timestamp: number,
     version: string,
@@ -37,8 +37,8 @@ export interface ApiResponse<T> {
     cache?: {
       hit: boolean,
       age?: number
-    },
-  },
+    }
+  }
 }
 
 /**
@@ -107,7 +107,7 @@ export interface GetRecipesByMealTypeParams {
  * GetRecipesForPlanetaryAlignment parameters
  */
 export interface GetRecipesForPlanetaryAlignmentParams {
-  planetaryInfluences: { [key: string]: number },
+  planetaryInfluences: { [key: string]: number }
   minMatchScore?: number
 }
 
@@ -115,7 +115,7 @@ export interface GetRecipesForPlanetaryAlignmentParams {
  * GetRecipesForFlavorProfile parameters
  */
 export interface GetRecipesForFlavorProfileParams {
-  flavorProfile: { [key: string]: number },
+  flavorProfile: { [key: string]: number }
   minMatchScore?: number
 }
 
@@ -125,12 +125,12 @@ export interface GetRecipesForFlavorProfileParams {
 export interface GetBestRecipeMatchesParams {
   criteria: {
     cuisine?: string
-    flavorProfile?: { [key: string]: number },
+    flavorProfile?: { [key: string]: number }
     season?: Season,
     mealType?: string | string[],
     ingredients?: string[],
     dietaryPreferences?: string[]
-  },
+  }
 }
 
 /**
@@ -155,13 +155,13 @@ export interface SearchRecipesParams {
     maxCookTime?: number,
     servings?: number,
     ingredients?: string[]
-  },
+  }
   options?: {
     includeAlternatives?: boolean,
     optimizeForSeason?: boolean,
     maxResults?: number,
     includeFusionSuggestions?: boolean
-  },
+  }
 }
 
 /**
@@ -179,14 +179,14 @@ export interface GenerateRecipeParams {
       isGlutenFree?: boolean,
       isDAiryFree?: boolean,
       allergens?: string[]
-    },
+    }
     elementalPreference?: Partial<ElementalProperties>,
     astrological?: {
       planetaryHour?: PlanetName,
       lunarPhase?: LunarPhase,
       currentZodiacSign?: any
-    },
-  },
+    }
+  }
 }
 
 /**

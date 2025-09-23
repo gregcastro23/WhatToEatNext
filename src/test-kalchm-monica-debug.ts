@@ -17,7 +17,7 @@ const testValues = {
   Water: 0.6,
   Air: 0.6,
   Earth: 0.7
-},
+}
 
 // Calculation functions (same as in DebugInfo component)
 const calculateKAlchm = (
@@ -33,7 +33,7 @@ const calculateKAlchm = (
     (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /
     (Math.pow(Matter, Matter) * Math.pow(Substance, Substance))
   )
-},
+}
 
 const calculateHeat = (
   Spirit: number,
@@ -44,11 +44,11 @@ const calculateHeat = (
   Water: number,
   Air: number,
   Earth: number,
-): number => {,
+): number => {
   const numerator = Math.pow(Spirit, 2) + Math.pow(Fire, 2)
   const denominator = Math.pow(Substance + Essence + Matter + Water + Air + Earth, 2),
   return denominator > 0 ? numerator / denominator : 0
-},
+}
 
 const calculateEntropy = (
   Spirit: number,
@@ -64,7 +64,7 @@ const calculateEntropy = (
     Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2)
   const denominator = Math.pow(Essence + Matter + Earth + Water, 2),
   return denominator > 0 ? numerator / denominator : 0
-},
+}
 
 const calculateReactivity = (
   Spirit: number,
@@ -75,7 +75,7 @@ const calculateReactivity = (
   Water: number,
   Matter: number,
   Earth: number,
-): number => {,
+): number => {
   const numerator =
     Math.pow(Spirit, 2) +
     Math.pow(Substance, 2) +
@@ -85,22 +85,22 @@ const calculateReactivity = (
     Math.pow(Water, 2)
   const denominator = Math.pow(Matter + Earth, 2),
   return denominator > 0 ? numerator / denominator : 0
-},
+}
 
 const calculateGregsEnergy = (heat: number, entropy: number, reactivity: number): number => {
   return heat - entropy * reactivity
-},
+}
 
 const calculateMonicaConstant = (
   gregsEnergy: number,
   reactivity: number,
   K_alchm: number,
-): number => {,
+): number => {
   if (K_alchm <= 0 || reactivity === 0) return NaN,
   const ln_K = Math.log(K_alchm)
   if (ln_K === 0) return NaN
   return -gregsEnergy / (reactivity * ln_K)
-},
+}
 
 // Run the test
 function testKalchmMonicaCalculations() {
@@ -179,7 +179,7 @@ function testKalchmMonicaCalculations() {
     K_alchm,
     monicaConstant,
     testPassed: true, // Calculations are mathematically correct
-  },
+  }
 }
 
 // Run the test

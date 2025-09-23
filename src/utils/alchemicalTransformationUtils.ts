@@ -6,7 +6,7 @@ import {
   transformItemsWithPlanetaryPositions,
   ElementalItem,
   AlchemicalItem
-} from '../calculations/alchemicalTransformation',
+} from '../calculations/alchemicalTransformation';
 import {LunarPhaseWithSpaces} from '../types/alchemy';
 
 import {
@@ -14,7 +14,7 @@ import {
   applyPillarTransformation,
   calculateCookingMethodCompatibility,
   getHolisticCookingRecommendations
-} from './alchemicalPillarUtils',
+} from './alchemicalPillarUtils';
 
 /**
  * Transforms a set of ingredients based on current planetary positions
@@ -40,7 +40,7 @@ export const _transformIngredients = (
     currentZodiac,
     lunarPhase,
   )
-},
+}
 
 /**
  * Transforms a set of cooking methods based on current planetary positions
@@ -75,7 +75,7 @@ export const _transformCookingMethods = (
     // Apply pillar-based transformations to the method
     return applyPillarTransformation(method, methodName)
   })
-},
+}
 
 /**
  * Transforms a set of cuisines based on current planetary positions
@@ -101,7 +101,7 @@ export const _transformCuisines = (
     currentZodiac,
     lunarPhase,
   )
-},
+}
 
 /**
  * Sort items by their alchemical compatibility with target elemental properties
@@ -158,12 +158,12 @@ export const _sortByAlchemicalCompatibility = (
     return {
       ...item,
       compatibilityScore
-    },
+    }
   })
 
   // Sort by compatibility score (highest first)
   return itemsWithScores.sort((ab) => (b.compatibilityScore || 0) - (a.compatibilityScore || 0))
-},
+}
 
 /**
  * Filter a list of items by alchemical compatibility with a target element and property
@@ -183,14 +183,14 @@ export const _filterByAlchemicalCompatibility = (
     return items
   }
 
-  return items.filter(item => {,
+  return items.filter(item => {
     // Keep items that match either target element or property
     const elementMatch = !targetElement || item.dominantElement === targetElement;
     const propertyMatch = !targetProperty || item.dominantAlchemicalProperty === targetProperty
 
     return elementMatch || propertyMatch
   })
-},
+}
 
 /**
  * Get the top compatible items from a list, sorted by compatibility
@@ -202,7 +202,7 @@ export const _filterByAlchemicalCompatibility = (
 export const _getTopCompatibleItems = (items: AlchemicalItem[], count = 5): AlchemicalItem[] => {
   // Sort by gregsEnergy for basic compatibility
   return [...items].sort((ab) => (b.gregsEnergy || 0) - (a.gregsEnergy || 0)).slice(0, count)
-},
+}
 
 /**
  * Get recommended cooking methods for an ingredient
@@ -265,7 +265,7 @@ export const _getRecommendedCookingMethodsForIngredient = async (
   log.info('===========================================\n')
 
   return results,
-},
+}
 
 /**
  * Calculate a single score representing the overall alchemical quality of an item

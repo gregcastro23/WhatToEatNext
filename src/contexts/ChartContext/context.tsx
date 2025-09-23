@@ -6,13 +6,13 @@ import { ChartContextType, CurrentChart } from './types';
 
 // Create default chart
 const _: CurrentChart = {
-  planetaryPositions: {},
+  planetaryPositions: {}
   aspects: [],
   currentSeason: '',
   lastUpdated: new Date(),
-  stelliums: {},
+  stelliums: {}
   houseEffects: {}
-},
+}
 
 // Create the context with default values
 export const _ChartContext = createContext<ChartContextType | null>(null)

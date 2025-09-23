@@ -32,10 +32,10 @@ export interface Ingredient {
     elementalAffinity: {
       base: string
       secondary?: string
-    },
+    }
     rulingPlanets: string[],
     zodiacAffinity?: string[]
-  },
+  }
   flavorProfile?: {
     spicy: number,
     sweet: number,
@@ -43,7 +43,7 @@ export interface Ingredient {
     bitter: number,
     salty: number,
     umami: number
-  },
+  }
 }
 
 export interface Nutrition {
@@ -66,21 +66,21 @@ export interface FilterOptions {
     vegan: boolean,
     glutenFree: boolean,
     dairyFree: boolean
-  },
+  }
   time: {
     quick: boolean,
     medium: boolean,
     long: boolean
-  },
+  }
   spice: {
     mild: boolean,
     medium: boolean,
     spicy: boolean
-  },
+  }
   temperature: {
     hot: boolean,
     cold: boolean
-  },
+  }
 }
 
 export interface NutritionPreferences {
@@ -91,7 +91,7 @@ export interface NutritionPreferences {
 
 export type TimeData = {
   [season in Season]?: Dish[]
-},
+}
 
 export type CuisineData = {
   name: string,
@@ -106,7 +106,7 @@ export type CuisineData = {
   elementalProperties?: ElementalProperties,
   dishes?: {
     [mealTime in MealTime]?: TimeData
-  },
+  }
 
   // Additional properties for enhanced compatibility
   region?: string,
@@ -115,11 +115,11 @@ export type CuisineData = {
   traditionalTechniques?: string[],
   seasonalFocus?: Season[],
   astrologicalAffinities?: string[]
-},
+}
 
 export type Cuisines = {
   [id: string]: CuisineData
-},
+}
 
 // Helper type for time-based context
 export type TimeOfDay = {
@@ -127,7 +127,7 @@ export type TimeOfDay = {
   minute: number,
   period: MealTime,
   season: Season
-},
+}
 
 // Use as type instead of enum to avoid merging issues
 export type CuisineTypeEnum = 'ITALIAN' | 'FRENCH' | 'CHINESE' | 'INDIAN' | 'MEXICAN',
@@ -177,7 +177,7 @@ export interface AppState {
     theme: 'light' | 'dark',
     dietaryRestrictions: string[],
     favoriteIngredients: string[]
-  },
+  }
 }
 
 // Instead, import and export only from './alchemy' for these types:
@@ -192,16 +192,16 @@ export type {
   LunarPhase,
   PlanetaryAlignment,
   ElementalProperties
-} from './alchemy',
+} from './alchemy';
 
 // Add missing exports for frequently used types
-export type { AstrologicalState } from './celestial',
-export type { RecipeIngredient } from './recipeIngredient',
-export type { UnifiedIngredient } from '../data/unified/unifiedTypes',
+export type { AstrologicalState } from './celestial';
+export type { RecipeIngredient } from './recipeIngredient';
+export type { UnifiedIngredient } from '../data/unified/unifiedTypes';
 
 // Export unified types that are missing
-export type { Recipe as UnifiedRecipe } from './unified',
-export type { UnifiedFlavorProfile, BaseFlavorNotes } from '../data/unified/flavorProfiles',
+export type { Recipe as UnifiedRecipe } from './unified';
+export type { UnifiedFlavorProfile, BaseFlavorNotes } from '../data/unified/flavorProfiles';
 
 // Export recommendation types
-export type { IngredientRecommendation } from './ingredients',
+export type { IngredientRecommendation } from './ingredients';

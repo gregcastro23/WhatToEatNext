@@ -14,11 +14,11 @@ import { logger } from '@/lib/logger';
 interface PerformanceMetrics {
   // Cache performance
   cacheStats: {
-    elemental: { hits: number; misses: number; hitRate: number; size: number },
-    planetary: { hits: number; misses: number; hitRate: number; size: number },
-    recipe: { hits: number; misses: number; hitRate: number; size: number },
-    user: { hits: number; misses: number; hitRate: number; size: number },
-  },
+    elemental: { hits: number; misses: number; hitRate: number; size: number }
+    planetary: { hits: number; misses: number; hitRate: number; size: number }
+    recipe: { hits: number; misses: number; hitRate: number; size: number }
+    user: { hits: number; misses: number; hitRate: number; size: number }
+  }
 
   // Runtime performance
   renderTime: number,
@@ -50,13 +50,13 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
 }) {
   const [metrics, setMetrics] = useState<PerformanceMetrics>({
     cacheStats: {
-      elemental: { hits: 0, misses: 0, hitRate: 0, size: 0 },
-      planetary: { hits: 0, misses: 0, hitRate: 0, size: 0 },
-      recipe: { hits: 0, misses: 0, hitRate: 0, size: 0 },
+      elemental: { hits: 0, misses: 0, hitRate: 0, size: 0 }
+      planetary: { hits: 0, misses: 0, hitRate: 0, size: 0 }
+      recipe: { hits: 0, misses: 0, hitRate: 0, size: 0 }
       user: { hits: 0, misses: 0, hitRate: 0, size: 0 }
-    },
+    }
     renderTime: 0,
-    apiResponseTimes: {},
+    apiResponseTimes: {}
     timeToInteractive: 0,
     largestContentfulPaint: 0,
     firstInputDelay: 0,
@@ -76,7 +76,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
       const renderTime = endTime - startTime;
       setMetrics(prev => ({ ...prev, renderTime }))
       return renderTime,
-    },
+    }
   }, [])
 
   // Track API response times
@@ -204,7 +204,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
           ...prev,
           cacheStats,
           lastUpdated: now
-        },
+        }
 
         const recommendations = generateRecommendations(updated)
         const isOptimal = recommendations.length === 0;
@@ -213,7 +213,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
           ...updated,
           recommendations,
           isOptimal
-        },
+        }
       })
 
       getMemoryUsage()
@@ -257,7 +257,7 @@ export function usePerformanceMonitoring(config: PerformanceConfig = {
     measureRenderTime,
     trackApiCall,
     updateMetrics
-  },
+  }
 }
 
 export default usePerformanceMonitoring,

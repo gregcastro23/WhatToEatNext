@@ -35,7 +35,7 @@ describe('ComprehensiveValidationFramework', () => {
       compilationTimeout: 45000,
       maxRetries: 2,
       logLevel: 'info'
-    },
+    }
 
     framework = new ComprehensiveValidationFramework(config)
 
@@ -252,7 +252,7 @@ describe('ComprehensiveValidationFramework', () => {
             export const TestComponent: React.FC<TestComponentProps> = ({ title }: any) => {
               const [count, setCount] = useState(0)
               return <div>{title}</div>,
-            },
+            }
 
             export default TestComponent,
           `,
@@ -414,7 +414,7 @@ describe('ComprehensiveValidationFramework', () => {
         enableComponentValidation: false,
         enableServiceValidation: false,
         enableBuildValidation: false
-      },
+      }
 
       const frameworkWithDisabledValidations: any = new ComprehensiveValidationFramework(configWithDisabledValidations)
       const result: any = await frameworkWithDisabledValidations.performComprehensiveValidation(
@@ -428,7 +428,7 @@ describe('ComprehensiveValidationFramework', () => {
     })
 
     test('should respect timeout configurations', async () => {
-      const configWithShortTimeouts: Partial<ValidationConfig> = { testTimeout: 1000, compilationTimeout: 1000 },
+      const configWithShortTimeouts: Partial<ValidationConfig> = { testTimeout: 1000, compilationTimeout: 1000 }
 
       const frameworkWithShortTimeouts: any = new ComprehensiveValidationFramework(configWithShortTimeouts)
 

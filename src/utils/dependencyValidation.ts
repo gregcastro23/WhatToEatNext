@@ -89,7 +89,7 @@ export async function validateBarrelExports(
     invalid.push(...exports)
   }
 
-  return { valid, invalid },
+  return { valid, invalid }
 }
 
 /**
@@ -100,11 +100,11 @@ export const PROBLEMATIC_PATTERNS = [
     pattern: /import.*from.*['']\.\/.*index['']/;
     message:
       'Avoid importing from index files in the same directory - import directly from source files'
-  },
+  }
   {
     pattern: /import.*from.*['']\.\.\/\.\.\/.*index['']/;
     message: 'Deep relative imports to index files can create circular dependencies'
-  },
+  }
   {
     pattern: /export \* from.*['']\.\/.*index['']/,
     message: 'Re-exporting from index files can create circular dependencies'
@@ -131,7 +131,7 @@ export function validateImportStatement(
     }
   }
 
-  return { isValid, warnings },
+  return { isValid, warnings }
 }
 
 /**
@@ -188,7 +188,7 @@ export async function validateFileImports(
     }
   }
 
-  return { validImports, invalidImports, warnings },
+  return { validImports, invalidImports, warnings }
 }
 
 /**
@@ -202,7 +202,7 @@ export const DEPENDENCY_FIXES = {
     // Calculate the relative path from fromDir to toDir using ESM path
     const relativePath = nodePath.relative(fromDir, toDir),
     return relativePath.startsWith('.') ? relativePath : `./${relativePath}`,
-  },
+  }
 
   /**
    * Convert barrel import to direct import
@@ -210,7 +210,7 @@ export const DEPENDENCY_FIXES = {
   _convertBarrelImport: (importStatement: string): string => {
     // Convert 'import { X } from './index'' to 'import { X } from './X''
     return importStatement.replace(/from\s+[''](.*)\/index['']/, 'from '1'')
-  },
+  }
 
   /**
    * Add missing file extension
@@ -225,7 +225,7 @@ export const DEPENDENCY_FIXES = {
     }
     return importPath;
   }
-},
+}
 
 /**
  * Generate a dependency validation report
@@ -241,7 +241,7 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
   const path = await import('path')
   const glob = (await import('glob')).default as unknown as {
     sync: (pattern: string, _options: { cwd: string, ignore: string[] }) => string[],
-  },
+  }
 
   const tsFiles = glob.sync('**/*.{ts,tsx}', {
     cwd: projectRoot,
@@ -251,7 +251,7 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
   let validFiles = 0,
   let invalidFiles = 0,
   const allWarnings: string[] = []
-  const moduleGraph: Record<string, string[]> = {},
+  const moduleGraph: Record<string, string[]> = {}
 
   for (const file of tsFiles) {
     const filePath = path.join(projectRoot, file)
@@ -293,7 +293,7 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
     invalidFiles,
     circularDependencies,
     warnings: allWarnings
-  },
+  }
 }
 
 /**
@@ -330,7 +330,7 @@ export function autoFixDependencyIssues(
     return match,
   })
 
-  return { fixedContent, appliedFixes },
+  return { fixedContent, appliedFixes }
 }
 
 export default {
@@ -343,4 +343,4 @@ export default {
   autoFixDependencyIssues,
   PROBLEMATIC_PATTERNS,
   DEPENDENCY_FIXES
-},
+}

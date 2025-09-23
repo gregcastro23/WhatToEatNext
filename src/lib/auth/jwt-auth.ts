@@ -81,7 +81,7 @@ export const ROLE_PERMISSIONS: RolePermissions = {
     'kitchen:recommend',
     'analytics:write'
   ]
-},
+}
 
 export class JWTAuthService {
   private config: AuthConfig,
@@ -103,14 +103,14 @@ export class JWTAuthService {
         roles: [UserRole.ADMIN],
         isActive: true,
         createdAt: new Date()
-      },
+      }
       {
         email: 'user@alchm.kitchen',
         passwordHash: bcrypt.hashSync('user123', 10),
         roles: [UserRole.USER],
         isActive: true,
         createdAt: new Date()
-      },
+      }
       {
         email: 'service@alchm.kitchen',
         passwordHash: bcrypt.hashSync('service123', 10),
@@ -124,7 +124,7 @@ export class JWTAuthService {
       const user: User = {
         ...userData,
         id: `user_${index + 1}`
-      },
+      }
       this.users.set(user.email, user)
     })
 
@@ -179,7 +179,7 @@ export class JWTAuthService {
       email: user.email,
       roles: user.roles,
       scopes
-    },
+    }
 
     const accessToken = jwt.sign(payload, this.config.jwtSecret, {
       expiresIn: this.config.tokenExpiry,
@@ -188,7 +188,7 @@ export class JWTAuthService {
     })
 
     const refreshToken = jwt.sign(
-      { userId: user.id, type: 'refresh' },
+      { userId: user.id, type: 'refresh' }
       this.config.jwtSecret,
       {
         expiresIn: this.config.refreshTokenExpiry,
@@ -201,7 +201,7 @@ export class JWTAuthService {
       accessToken,
       refreshToken,
       expiresIn: this.parseExpiry(this.config.tokenExpiry)
-    },
+    }
   }
 
   /**
@@ -328,7 +328,7 @@ export class JWTAuthService {
         roles,
         isActive: true,
         createdAt: new Date()
-      },
+      }
 
       this.users.set(email, user)
 

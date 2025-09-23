@@ -9,7 +9,7 @@ import { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryEl
 const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out _logger.info to avoid linting warnings
   // log.info(message, ...args)
-},
+}
 
 /**
  * Interface representing the count of each elemental and alchemical property
@@ -63,7 +63,7 @@ const _planetaryHours: Record<string, string[]> = {
   Thursday: ['Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon', 'Saturn'],
   Friday: ['Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars', 'Sun'],
   Saturday: ['Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon']
-},
+}
 
 /**
  * Modifiers applied to elemental and alchemical properties based on planetary influence
@@ -78,7 +78,7 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Essence: 0,
     Matter: -0.1,
     Substance: 0
-  },
+  }
   Moon: {
     Fire: -0.1,
     Water: 0.3,
@@ -88,7 +88,7 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Essence: 0.2,
     Matter: 0.1,
     Substance: 0
-  },
+  }
   Mars: {
     Fire: 0.4,
     Water: -0.2,
@@ -98,7 +98,7 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Essence: -0.1,
     Matter: 0.2,
     Substance: -0.1
-  },
+  }
   Mercury: {
     Fire: 0.1,
     Water: 0.1,
@@ -108,7 +108,7 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Essence: 0.2,
     Matter: 0,
     Substance: 0.1
-  },
+  }
   Jupiter: {
     Fire: 0.2,
     Water: 0.2,
@@ -118,7 +118,7 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Essence: 0.1,
     Matter: 0.1,
     Substance: 0.2
-  },
+  }
   Venus: {
     Fire: -0.1,
     Water: 0.2,
@@ -128,7 +128,7 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Essence: 0.3,
     Matter: -0.1,
     Substance: 0.1
-  },
+  }
   Saturn: {
     Fire: -0.2,
     Water: -0.1,
@@ -139,7 +139,7 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Matter: 0.3,
     Substance: 0.2
   }
-},
+}
 
 /**
  * Calculator class that processes elemental states to produce thermodynamic metrics
@@ -175,7 +175,7 @@ class ThermodynamicCalculator {
       essence: state.essence * (1 + (modifiers.Essence || 0)),
       matter: state.matter * (1 + (modifiers.Matter || 0)),
       substance: state.substance * (1 + (modifiers.Substance || 0))
-    },
+    }
 
     debugLog(`Applied ${this.currentPlanetaryInfluence} modifiers to state`)
     return result,
@@ -326,7 +326,7 @@ class ThermodynamicCalculator {
       water: Math.max(state.water, this.MINIMUM_VALUE),
       air: Math.max(state.air, this.MINIMUM_VALUE),
       earth: Math.max(state.earth, this.MINIMUM_VALUE)
-    },
+    }
 
     debugLog('Safe state after minimum values:', safeState)
 
@@ -351,7 +351,7 @@ class ThermodynamicCalculator {
       entropy,
       reactivity,
       gregsEnergy
-    },
+    }
 
     // Ensure no NaN values in final output
     for (const key in metrics) {
@@ -394,7 +394,7 @@ export function convertToElementalState(counts: ElementalAlchemicalCounts): Elem
     water: counts.Water,
     air: counts.Air,
     earth: counts.Earth
-  },
+  }
 }
 
 // Export a singleton instance of the calculator
@@ -482,14 +482,14 @@ export const countElementalAlchemicalProperties = (
     Water: 0,
     Earth: 0,
     Air: 0
-  },
+  }
 
   const alchemicalCounts: Record<AlchemicalProperty, number> = {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
     Substance: 0
-  },
+  }
 
   items.forEach(item => {
     if (item.elementalProperties) {
@@ -508,8 +508,8 @@ export const countElementalAlchemicalProperties = (
   return {
     ...elementalCounts,
     ...alchemicalCounts
-  },
-},
+  }
+}
 
 // Add utility functions
 /**
@@ -551,4 +551,4 @@ export default {
   countElementalAlchemicalProperties,
   ensureMinimumValues,
   clampValue
-},
+}

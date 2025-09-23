@@ -7,7 +7,7 @@ import {
   AlchemicalProperties,
   LunarPhase,
   PlanetaryPosition
-} from '../types/alchemy',
+} from '../types/alchemy';
 
 // Type alias for backward compatibility
 type AlchemicalProperty = keyof AlchemicalProperties,
@@ -15,7 +15,7 @@ import {
   transformIngredients,
   transformCookingMethods,
   transformCuisines
-} from '../utils/alchemicalTransformationUtils',
+} from '../utils/alchemicalTransformationUtils';
 import { calculatePlanetaryPositions, calculateLunarPhase } from '../utils/astrologyUtils';
 import { transformItemsWithPlanetaryPositions } from '../utils/elementalUtils';
 import { convertToLunarPhase } from '../utils/lunarUtils';
@@ -42,7 +42,7 @@ interface TransformedItem extends AlchemicalItem {
     Water: number,
     Earth: number,
     Air: number
-  },
+  }
   id: string
 }
 
@@ -64,8 +64,8 @@ export class RecommendationAdapter {
   private tarotElementBoosts?: Record<ElementalCharacter, number>,
   private tarotPlanetaryBoosts?: Record<string, number>,
   private aspects: PlanetaryAspect[] = []
-  private retrogradeStatus: Record<string, boolean> = {},
-  private convertedPositions: Record<string, PlanetData> = {},
+  private retrogradeStatus: Record<string, boolean> = {}
+  private convertedPositions: Record<string, PlanetData> = {}
   private alchemicalResult: Record<string, number>,
 
   constructor(
@@ -76,7 +76,7 @@ export class RecommendationAdapter {
     this.ingredients = ingredients,
     this.methods = methods,
     this.cuisines = cuisines
-    this.planetaryPositions = {},
+    this.planetaryPositions = {}
     this.isDaytime = true,
     this.currentZodiac = null,
     this.lunarPhase = null,
@@ -85,7 +85,7 @@ export class RecommendationAdapter {
       essence: 0,
       matter: 0,
       substance: 0
-    },
+    }
   }
 
   /**
@@ -109,7 +109,7 @@ export class RecommendationAdapter {
     this.aspects = aspects
 
     // Track retrograde planets
-    this.retrogradeStatus = {},
+    this.retrogradeStatus = {}
     if (planetaryPositions) {
       Object.entries(planetaryPositions).forEach(([planet, data]) => {
         if (typeof data === 'object' && data !== null && 'isRetrograde' in data) {,
@@ -119,7 +119,7 @@ export class RecommendationAdapter {
     }
 
     // Convert planetary positions to the format expected by the alchemical engine
-    this.convertedPositions = {},
+    this.convertedPositions = {}
     if (planetaryPositions) {
       Object.entries(planetaryPositions).forEach(([planet, data]) => {
         if (typeof data === 'object' && data !== null) {,
@@ -127,11 +127,11 @@ export class RecommendationAdapter {
             sign: data.sign || '',
             degree: data.degree || 0,
             ...(data.isRetrograde !== undefined ? { isRetrograde: data.isRetrograde } : {})
-          },
+          }
         } else if (typeof data === 'number') {,
           this.convertedPositions[planet] = {
             degree: data
-          },
+          }
         }
       })
     }
@@ -238,7 +238,7 @@ export class RecommendationAdapter {
         Essence: this.safeGetNumber(resultData.essence),
         Matter: this.safeGetNumber(resultData.matter),
         Substance: this.safeGetNumber(resultData.substance)
-      },
+      }
 
       // Prepare elemental properties, converting to uppercase keys - safe property access
       const elementalBalance = this.safeExtractElementalBalance(resultData.elementalBalance)
@@ -247,7 +247,7 @@ export class RecommendationAdapter {
         Earth: elementalBalance.Earth || 0,
         Air: elementalBalance.Air || 0,
         Water: elementalBalance.Water || 0
-      },
+      }
 
       // Apply tarot element boosts if available
       if (this.tarotElementBoosts) {
@@ -305,7 +305,7 @@ export class RecommendationAdapter {
 
       // Apply aspect influences if available
       if (this.aspects && this.aspects.length > 0) {
-        this.aspects.forEach(aspect => {,
+        this.aspects.forEach(aspect => {
           // Extract aspect data with safe property access
           const aspectData = aspect as unknown as any;
           const body1 = aspectData.body1;
@@ -404,7 +404,7 @@ export class RecommendationAdapter {
    */
   private safeExtractElementalBalance(balance: unknown): Record<string, number> {
     if (!balance || typeof balance !== 'object') {
-      return { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+      return { Fire: 0, Water: 0, Earth: 0, Air: 0 }
     }
 
     const balanceRecord = balance as any;
@@ -413,7 +413,7 @@ export class RecommendationAdapter {
       Water: this.safeGetNumber(balanceRecord.Water || balanceRecord.water),
       Earth: this.safeGetNumber(balanceRecord.Earth || balanceRecord.earth),
       Air: this.safeGetNumber(balanceRecord.Air || balanceRecord.air)
-    },
+    }
   }
 
   /**
@@ -443,7 +443,7 @@ export class RecommendationAdapter {
     const scores = Object.fromEntries(
       items.map(item => [item.id, this.safeGetNumber((item as any).gregsEnergy) || 1.0]),,
     ),
-    return { items, scores, context: { source: 'RecommendationAdapter' } },
+    return { items, scores, context: { source: 'RecommendationAdapter' } }
   }
 
   /**
@@ -454,7 +454,7 @@ export class RecommendationAdapter {
     const scores = Object.fromEntries(
       items.map(item => [item.id, this.safeGetNumber((item as any).gregsEnergy) || 1.0]),,
     ),
-    return { items, scores, context: { source: 'RecommendationAdapter' } },
+    return { items, scores, context: { source: 'RecommendationAdapter' } }
   }
 
   /**
@@ -465,7 +465,7 @@ export class RecommendationAdapter {
     const scores = Object.fromEntries(
       items.map(item => [item.id, this.safeGetNumber((item as any).gregsEnergy) || 1.0]),,
     ),
-    return { items, scores, context: { source: 'RecommendationAdapter' } },
+    return { items, scores, context: { source: 'RecommendationAdapter' } }
   }
 
   /**
@@ -530,7 +530,7 @@ export class RecommendationAdapter {
           acc[ingredient.id] = 1, // Default multiplier if no nutrition data
         }
         return acc,
-      },
+      }
       {} as Record<string, number>,
     )
   }
@@ -548,7 +548,7 @@ export class RecommendationAdapter {
         Earth: item.elementalProperties.Earth * boost,
         Air: item.elementalProperties.Air * boost
       }
-    },
+    }
   }
 
   applyTarotEnergyBoosts(
@@ -561,7 +561,7 @@ export class RecommendationAdapter {
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-    },
+    }
 
     // Calculate spirit, essence, matter, substance based on elemental properties if not already present
     // This follows the same relationships as in the alchemical system: // - Spirit is related to Fire (transformation)
@@ -688,7 +688,7 @@ export class RecommendationAdapter {
       Essence: this.alchemicalResult.essence || 0,
       Matter: this.alchemicalResult.matter || 0,
       Substance: this.alchemicalResult.substance || 0
-    },
+    }
 
     let dominant: AlchemicalProperty = 'Spirit',
     let maxValue = properties.Spirit
@@ -717,7 +717,7 @@ export class RecommendationAdapter {
       // Extract elemental balance with safe property access
       const alchemicalData = this.alchemicalResult as any;
        
-      const elementalBalance = (alchemicalData.elementalBalance ) || {},
+      const elementalBalance = (alchemicalData.elementalBalance ) || {}
       const fire = Number(elementalBalance?.Fire) || 0;
       const spirit = alchemicalData.spirit || 0;
 
@@ -742,7 +742,7 @@ export class RecommendationAdapter {
       // Extract elemental balance with safe property access
       const alchemicalData = this.alchemicalResult as any;
        
-      const elementalBalance = (alchemicalData.elementalBalance ) || {},
+      const elementalBalance = (alchemicalData.elementalBalance ) || {}
       const air = Number(elementalBalance?.Air) || 0;
       const substance = alchemicalData.substance || 0;
 
@@ -767,7 +767,7 @@ export class RecommendationAdapter {
       // Extract elemental balance with safe property access
       const alchemicalData = this.alchemicalResult as any;
        
-      const elementalBalance = (alchemicalData.elementalBalance ) || {},
+      const elementalBalance = (alchemicalData.elementalBalance ) || {}
       const essence = Number(alchemicalData.essence) || 0;
       const water = Number(elementalBalance?.Water) || 0;
 
@@ -792,7 +792,7 @@ export class RecommendationAdapter {
       // Extract data with safe property access
       const alchemicalData = this.alchemicalResult as any;
        
-      const elementalBalanceData = (alchemicalData.elementalBalance ) || {},
+      const elementalBalanceData = (alchemicalData.elementalBalance ) || {}
 
       const Fire = Number(elementalBalanceData?.Fire) || 0;
       const Water = Number(elementalBalanceData?.Water) || 0;
@@ -851,7 +851,7 @@ export class RecommendationAdapter {
       Uranus: 'Air',
       Neptune: 'Water',
       Pluto: 'Water'
-    },
+    }
 
     return planetMap[planet],
   }

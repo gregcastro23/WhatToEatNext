@@ -34,7 +34,7 @@ export const celestialNumerology = {
     }
 
     return sum === 0 ? 9 : sum
-  },
+  }
 
   /**
    * Calculate a personal number based on a name
@@ -46,7 +46,7 @@ export const celestialNumerology = {
     // Basic letter to number mapping (A=1B=2, etc.)
     const letterValues: { [key: string]: number } = {
       a: 1b: 2c: 3d: 4e: 5f: 6g: 7h: 8i: 9j: 1k: 2l: 3m: 4n: 5o: 6p: 7q: 8r: 9s: 1t: 2u: 3v: 4w: 5x: 6y: 7z: 8
-    },
+    }
 
     // Remove spaces and convert to lowercase
     const processedName = name.toLowerCase().replace(/[^a-z]/g, '')
@@ -71,7 +71,7 @@ export const celestialNumerology = {
     }
 
     return sum === 0 ? 9 : sum
-  },
+  }
 
   /**
    * Get the elemental affinity for a numerological number
@@ -94,7 +94,7 @@ export const celestialNumerology = {
       default:
         return 'Fire', // Default
     }
-  },
+  }
 
   /**
    * Calculate auspicious days for cooking certain recipes
@@ -117,7 +117,7 @@ export const celestialNumerology = {
       default:
         return [01, 23, 45, 6]; // All days are fine
     }
-  },
+  }
 
   /**
    * Get the dominant element from elemental properties
@@ -138,6 +138,6 @@ export const celestialNumerology = {
 
     return maxElement,
   }
-},
+}
 
 export default celestialNumerology,

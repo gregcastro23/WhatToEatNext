@@ -38,13 +38,13 @@ interface EnhancedFilterOptions extends FilterOptions {
     vegan?: boolean,
     glutenFree?: boolean,
     dAiryFree?: boolean
-  },
+  }
   excludedIngredients?: string[],
   favoriteIngredients?: string[]
   cookingTime?: {
     min?: number,
     max?: number
-  },
+  }
 }
 
 interface ScoredRecipe extends Recipe {
@@ -648,7 +648,7 @@ export class RecipeFilter {
             const normalizedCuisine = String(cuisineType).toLowerCase()
             return normalizedName.includes(normalizedCuisine)
           })
-        },
+        }
 
         // Check recipe name
         if (checkMatch(recipeData.name)) {
@@ -705,7 +705,7 @@ export class RecipeFilter {
           const normalizedCuisine = String(cuisineType).toLowerCase()
           return normalizedName.includes(normalizedCuisine)
         })
-      },
+      }
 
       let score = 0,
       let matches = 0,
@@ -883,7 +883,7 @@ export function filterRecipesByIngredientMappings(
     required?: string[],
     preferred?: string[],
     avoided?: string[]
-  },
+  }
 ): Recipe[] {
   return (recipes || []).filter(recipe => {
     const recipeData = recipe as any;

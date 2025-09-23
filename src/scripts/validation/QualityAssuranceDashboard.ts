@@ -43,7 +43,7 @@ export interface QualityMetrics {
     stabilityTargetMet: boolean,
     qualityThresholdMet: boolean,
     productionReady: boolean
-  },
+  }
 }
 
 export interface QualityTrend {
@@ -64,7 +64,7 @@ export interface ProductionReadinessAssessment {
     critical: string[],
     important: string[];
     optional: string[]
-  },
+  }
 }
 
 export interface ComprehensiveDashboardReport {
@@ -75,7 +75,7 @@ export interface ComprehensiveDashboardReport {
     keyAchievements: string[],
     criticalIssues: string[],
     nextSteps: string[]
-  },
+  }
   qualityMetrics: QualityMetrics,
   qualityTrends: QualityTrend[],
   productionReadiness: ProductionReadinessAssessment,
@@ -85,12 +85,12 @@ export interface ComprehensiveDashboardReport {
     averageQualityScore: number,
     totalFilesProcessed: number,
     totalVariablesEliminated: number
-  },
+  }
   recommendations: {
     immediate: string[],
     shortTerm: string[],
     longTerm: string[]
-  },
+  }
 }
 
 export class QualityAssuranceDashboard {
@@ -112,7 +112,7 @@ export class QualityAssuranceDashboard {
       enableAutomaticReporting: true,
       logLevel: 'info',
       ...config
-    },
+    }
 
     this.validationFramework = new ComprehensiveValidationFramework()
     this.serviceValidator = new ServiceIntegrationValidator()
@@ -140,7 +140,7 @@ export class QualityAssuranceDashboard {
         } catch (error) {
           this.log('error', `❌ Quality monitoring error: ${error}`)
         }
-      },
+      }
       this.config.monitoringInterval * 60 * 1000,
     )
 
@@ -202,7 +202,7 @@ export class QualityAssuranceDashboard {
           unusedVariableReduction >= this.config.reductionTarget &&
           buildStabilityScore >= this.config.stabilityTarget &&
           overallQualityScore >= this.config.qualityThreshold
-      },
+      }
 
       const metrics: QualityMetrics = {
         timestamp: new Date(),
@@ -214,7 +214,7 @@ export class QualityAssuranceDashboard {
         serviceIntegrityScore,
         testCoverageScore,
         targetAchievement
-      },
+      }
 
       // Store metrics in history
       this.qualityHistory.push(metrics)
@@ -245,7 +245,7 @@ export class QualityAssuranceDashboard {
           qualityThresholdMet: false,
           productionReady: false
         }
-      },
+      }
     }
   }
 
@@ -281,7 +281,7 @@ export class QualityAssuranceDashboard {
       productionReadiness,
       batchSummary,
       recommendations
-    },
+    }
 
     // Export report if automatic reporting is enabled
     if (this.config.enableAutomaticReporting) {
@@ -379,7 +379,7 @@ export class QualityAssuranceDashboard {
         important: importantActions;
         optional: optionalActions
       }
-    },
+    }
   }
 
   /**
@@ -424,7 +424,7 @@ export class QualityAssuranceDashboard {
     changeRate: number
   } {
     if (values.length < 2) {
-      return { direction: 'stable', changeRate: 0 },
+      return { direction: 'stable', changeRate: 0 }
     }
 
     const recent = values.slice(-5); // Last 5 data points
@@ -442,7 +442,7 @@ export class QualityAssuranceDashboard {
       direction = 'declining',
     }
 
-    return { direction, changeRate },
+    return { direction, changeRate }
   }
 
   /**
@@ -465,7 +465,7 @@ export class QualityAssuranceDashboard {
       averageQualityScore: validationStats.averageQualityScore,
       totalFilesProcessed,
       totalVariablesEliminated
-    },
+    }
   }
 
   /**
@@ -519,7 +519,7 @@ export class QualityAssuranceDashboard {
       keyAchievements,
       criticalIssues,
       nextSteps
-    },
+    }
   }
 
   /**
@@ -558,7 +558,7 @@ export class QualityAssuranceDashboard {
       immediate: [...new Set(immediate)],
       shortTerm: [...new Set(shortTerm)],
       longTerm: [...new Set(longTerm)]
-    },
+    }
   }
 
   /**
@@ -741,7 +741,7 @@ export class QualityAssuranceDashboard {
   }
 
   private log(level: 'debug' | 'info' | 'warn' | 'error', message: string): void {
-    const levels = { debug: 0, info: 1, warn: 2, error: 3 },
+    const levels = { debug: 0, info: 1, warn: 2, error: 3 }
     const configLevel = levels[this.config.logLevel];
     const messageLevel = levels[level];
 

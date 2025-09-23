@@ -18,4 +18,4 @@ export const useChart = (): ChartContextType => {
   }
 
   return context,
-},
+}

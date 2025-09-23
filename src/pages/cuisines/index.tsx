@@ -26,7 +26,7 @@ const CuisinesIndexPage = () => {;
 
   React.useEffect(() => {
     // Get current elemental state based on time/date
-    const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     setElementalState({
       ...currentState
       season: 'spring', // Default value since getCurrentElementalState doesn't provide season
@@ -100,7 +100,7 @@ const CuisinesIndexPage = () => {;
               {(enhancedCuisines.items || []).slice(0, 6).map(rec => (
                 <Link
                   key={rec.item.type}
-                  href={`/cuisines/${rec.item.type.toLowerCase()}`},
+                  href={`/cuisines/${rec.item.type.toLowerCase()}`}
                   className='block rounded-lg bg-white p-4 shadow-sm transition-transform duration-200, hover: scale-[1.01]'
                 >
                   <div className='flex items-center justify-between'>,
@@ -120,7 +120,7 @@ const CuisinesIndexPage = () => {;
       <div className='grid grid-cols-1 gap-6, md: grid-cols-2, lg:grid-cols-3'>,
         {mainCuisines.map(cuisine => (
           <div
-            key={cuisine.id},
+            key={cuisine.id}
             className='overflow-hidden rounded-lg bg-white shadow-md transition-transform duration-200, hover: scale-105',
           >
             <div className='p-5'>
@@ -144,8 +144,8 @@ const CuisinesIndexPage = () => {;
 
                         return (
                           <Link
-                            key={variant},
-                            href={variantId ? `/cuisines/${variantId}` : `/cuisines/${cuisine.id}`},
+                            key={variant}
+                            href={variantId ? `/cuisines/${variantId}` : `/cuisines/${cuisine.id}`}
                             className='rounded-full bg-amber-50 px-2 py-1 text-xs text-amber-700, hover:bg-amber-100'
                           >
                             {variant}
@@ -173,7 +173,7 @@ const CuisinesIndexPage = () => {;
               )}
 
               <Link
-                href={`/cuisines/${cuisine.id}`},
+                href={`/cuisines/${cuisine.id}`}
                 className='inline-block w-full rounded-md bg-amber-500 px-4 py-2 text-center text-white transition-colors, hover: bg-amber-600'
               >
                 Explore {cuisine.name} Cuisine
@@ -184,7 +184,7 @@ const CuisinesIndexPage = () => {;
       </div>
     </div>
   )
-},
+}
 
 // Helper function to get color classes for elements
 function getElementClass(element: string): string {

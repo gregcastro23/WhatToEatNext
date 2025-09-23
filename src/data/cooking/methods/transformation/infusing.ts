@@ -14,11 +14,11 @@ export const infusing: CookingMethodData = {
     Water: 0.7,
     Earth: 0.1,
     Air: 0.5
-  },
+  }
   duration: {
     min: 15, // 15 minutes
     max: 10080, // 7 days
-  },
+  }
   suitable_for: ['Oils', 'Alcohols', 'Water', 'Vinegars', 'Honey', 'Milk', 'Cream'],
   benefits: [
     'Extracts beneficial compounds from herbs and spices',
@@ -38,7 +38,7 @@ export const infusing: CookingMethodData = {
   optimalTemperatures: {
     cold: 2, // °C
     hot: 80, // °C
-  },
+  }
   toolsRequired: [
     'Jars or containers',
     'Strainers or filters',
@@ -54,4 +54,4 @@ export const infusing: CookingMethodData = {
     'Some infused products need refrigeration',
     'Some herbs and plants are toxic and should not be used for infusions'
   ]
-},
+}

@@ -100,7 +100,7 @@ function deriveAstrologicalInfluencesFromIngredients(_recipe: Recipe): string[] 
     _sage: ['Jupiter', 'Air'],
     _mint: ['Mercury', 'Air'],
     _parsley: ['Mercury', 'Air']
-  },
+  }
 
   // Extract ingredient names from recipe
   if (recipe.ingredients) {
@@ -123,7 +123,7 @@ function deriveAstrologicalInfluencesFromIngredients(_recipe: Recipe): string[] 
  * Derive elemental properties from recipe characteristics
  */
 function deriveElementalProperties(_recipe: Recipe): ElementalProperties {
-  const elementalProps = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+  const elementalProps = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
 
   // Cooking method influences
   if (recipe.cookingMethods) {
@@ -227,7 +227,7 @@ function deriveCelestialTiming(_recipe: Recipe): {
     optimalMoonPhase?: string,
     optimalPlanetaryHour?: string,
     bestZodiacSeason?: string
-  } = {},
+  } = {}
 
   // Determine optimal Moon phase based on recipe characteristics
   if (recipe.cookingMethods) {
@@ -317,7 +317,7 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
     fat: 0,
     fiber: 0,
     _sugar: 0
-  },
+  }
 
   // Basic calorie estimation based on ingredients
   if (recipe.ingredients) {
@@ -351,5 +351,5 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
     })
   }
 
-  return { ...recipe, nutrition: estimatedNutrition },
+  return { ...recipe, nutrition: estimatedNutrition }
 }

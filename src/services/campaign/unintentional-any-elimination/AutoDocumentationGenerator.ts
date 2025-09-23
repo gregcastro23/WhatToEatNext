@@ -17,7 +17,7 @@ import {
   DocumentationResult,
   DocumentationTemplate,
   DocumentationValidation
-} from './types',
+} from './types';
 
 export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerator {
   private templates: Map<string, DocumentationTemplate> = new Map(),
@@ -40,14 +40,14 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
           '// Intentionally, any: Error handling requires flexible typing for unknown error structures',
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
         explanation: 'Error objects can have unpredictable structures from various sources'
-      },
+      }
       {
         category: AnyTypeCategory.ERROR_HANDLING,
         domain: CodeDomain.SERVICE,
         template: '// Intentionally, any: Service error handling for external API failures',
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
         explanation: 'External services may return varied error formats'
-      },
+      }
 
       // External API Templates
       {
@@ -56,21 +56,21 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
         template: '// Intentionally, any: External astrological API response with dynamic structure',
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
         explanation: 'Astrological APIs may return varied planetary position formats'
-      },
+      }
       {
         category: AnyTypeCategory.EXTERNAL_API,
         domain: CodeDomain.RECIPE,
         template: '// Intentionally, any: External recipe API with flexible ingredient data',
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
         explanation: 'Recipe APIs have diverse ingredient and nutritional data structures'
-      },
+      }
       {
         category: AnyTypeCategory.EXTERNAL_API,
         domain: CodeDomain.SERVICE,
         template: '// Intentionally, any: External API response with unknown structure',
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
         explanation: 'Third-party APIs may change response formats without notice'
-      },
+      }
 
       // Test Mock Templates
       {
@@ -80,7 +80,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
           '// Intentionally, any: Test mock requires flexible typing for comprehensive testing',
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
         explanation: 'Test mocks need to simulate various data structures and edge cases'
-      },
+      }
 
       // Dynamic Configuration Templates
       {
@@ -90,7 +90,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
           '// Intentionally, any: Campaign system requires flexible configuration for dynamic behavior',
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
         explanation: 'Campaign configurations adapt to various automation scenarios'
-      },
+      }
       {
         category: AnyTypeCategory.DYNAMIC_CONFIG,
         domain: CodeDomain.INTELLIGENCE,
@@ -98,7 +98,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
           '// Intentionally, any: Intelligence system configuration with adaptive parameters',
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
         explanation: 'Intelligence systems require flexible configuration for learning algorithms'
-      },
+      }
 
       // Legacy Compatibility Templates
       {
@@ -107,7 +107,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
         template: '// Intentionally, any: Legacy compatibility layer for gradual migration',
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
         explanation: 'Maintains compatibility with existing untyped code during migration'
-      },
+      }
 
       // Component Templates
       {
@@ -116,7 +116,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
         template: '// Intentionally, any: React component props with dynamic external data',
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
         explanation: 'Component receives data from external sources with varying structures'
-      },
+      }
 
       // Default fallback template
       {
@@ -128,7 +128,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       }
     ],
 
-    templates.forEach(template => {,
+    templates.forEach(template => {
       const key = `${template.category}_${template.domain}`
       this.templates.set(key, template)
     })
@@ -151,7 +151,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
           commentAdded: '',
           success: false,
           error: 'Type is not intentional or does not require documentation'
-        },
+        }
       }
 
       // Skip if already has adequate documentation
@@ -163,7 +163,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
           documentedCode: context.codeSnippet,
           commentAdded: context.existingComment || '',
           success: true
-        },
+        }
       }
 
       const template = this.getTemplate(classification.category, context.domainContext.domain)
@@ -196,7 +196,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
         commentAdded: insertedComment,
         eslintDisableAdded: eslintDisableComment,
         success: true
-      },
+      }
     } catch (error) {
       return {
         filePath: context.filePath,
@@ -206,7 +206,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
         commentAdded: '',
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error'
-      },
+      }
     }
   }
 
@@ -248,7 +248,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       eslintDisableHasExplanation,
       isComplete,
       suggestions
-    },
+    }
   }
 
   /**
@@ -267,7 +267,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
         fair: 0,
         good: 0,
         excellent: 0
-      },
+      }
       undocumentedFiles: [],
       recommendations: [
         'Add explanatory comments for all intentional any types',
@@ -275,7 +275,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
         'Use domain-specific documentation templates',
         'Regularly validate documentation completeness'
       ]
-    },
+    }
 
     return report,
   }
@@ -306,7 +306,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       template: '// Intentionally, any: Requires flexible typing for specific use case',
       eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
       explanation: 'Type flexibility needed for this specific implementation'
-    },
+    }
   }
 
   /**
@@ -367,7 +367,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       insertedComment += `\n${indentation}${eslintDisable}`,
     }
 
-    return { updatedLines, insertedComment },
+    return { updatedLines, insertedComment }
   }
 
   /**

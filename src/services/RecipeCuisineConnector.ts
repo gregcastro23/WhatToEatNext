@@ -32,7 +32,7 @@ export interface CuisineRecipe {
     fat: number,
     vitamins?: string[],
     minerals?: string[]
-  },
+  }
   servingSize?: number,
   prepTime?: string,
   cookTime?: string,
@@ -48,7 +48,7 @@ export interface CuisineRecipe {
     planets?: string[],
     signs?: string[],
     lunarPhases?: string[]
-  },
+  }
   elementalProperties?: ElementalProperties
 }
 
@@ -149,13 +149,13 @@ export class RecipeCuisineConnector {
               dietaryInfo: (dish as any)?.dietaryInfo || [],
               season: (dish as any)?.season || [season],
               mealType: (dish as any)?.mealType || [mealType],
-              substitutions: (dish as any)?.substitutions || {},
+              substitutions: (dish as any)?.substitutions || {}
               culturalNotes: (dish as any)?.culturalNotes,
               pairingSuggestions: (dish as any)?.pairingSuggestions || [],
               spiceLevel: (dish as any)?.spiceLevel,
               astrologicalAffinities: (dish as any)?.astrologicalAffinities,
               elementalProperties: (dish as any)?.elementalProperties
-            },
+            }
             recipes.push(recipe)
           }
         })
@@ -203,7 +203,7 @@ export class RecipeCuisineConnector {
    * Get recipe count by cuisine
    */
   getRecipeCountByCuisine(): Record<string, number> {
-    const counts: Record<string, number> = {},
+    const counts: Record<string, number> = {}
     this.recipeCache.forEach(recipe => {
       counts[recipe.cuisine] = (counts[recipe.cuisine] || 0) + 1,
     })
@@ -330,7 +330,7 @@ export class RecipeCuisineConnector {
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
-      },
+      }
       ingredients: cuisineRecipe.ingredients.map(ingredient => ({
         name: ingredient.name,
         amount: Number(ingredient.amount) || 1,
@@ -345,7 +345,7 @@ export class RecipeCuisineConnector {
         fat: 0,
         vitamins: [],
         minerals: []
-      },
+      }
       timeToMake: this.formatTimeToMake(cuisineRecipe.prepTime, cuisineRecipe.cookTime),
       season: cuisineRecipe.season || ['all'],
       mealType: cuisineRecipe.mealType || ['lunch'],
@@ -355,7 +355,7 @@ export class RecipeCuisineConnector {
         Earth: 0.25,
         Air: 0.25
       }
-    },
+    }
   }
 
   /**
@@ -367,7 +367,7 @@ export class RecipeCuisineConnector {
       return {
         success: false,
         errors: [`Recipe with ID ${recipeId} not found`]
-      },
+      }
     }
 
     try {
@@ -399,14 +399,14 @@ export class RecipeCuisineConnector {
         recipe: builderRecipe,
         warnings: warnings.length > 0 ? warnings : undefined,
         suggestions: suggestions.length > 0 ? suggestions : undefined
-      },
+      }
     } catch (error) {
       return {
         success: false,
         errors: [
           `Failed to convert recipe: ${error instanceof Error ? error.message : 'Unknown error'}`
         ]
-      },
+      }
     }
   }
 
@@ -458,24 +458,24 @@ export class RecipeCuisineConnector {
       byMealType: {} as Record<string, number>,
       bySeason: {} as Record<string, number>,
       byDietaryInfo: {} as Record<string, number>
-    },
+    }
 
     // Calculate meal type distribution
-    this.recipeCache.forEach(recipe => {,
+    this.recipeCache.forEach(recipe => {
       recipe.mealType?.forEach(type => {
         stats.byMealType[type] = (stats.byMealType[type] || 0) + 1,
       })
     })
 
     // Calculate seasonal distribution
-    this.recipeCache.forEach(recipe => {,
+    this.recipeCache.forEach(recipe => {
       recipe.season?.forEach(season => {
         stats.bySeason[season] = (stats.bySeason[season] || 0) + 1,
       })
     })
 
     // Calculate dietary info distribution
-    this.recipeCache.forEach(recipe => {,
+    this.recipeCache.forEach(recipe => {
       recipe.dietaryInfo?.forEach(info => {
         stats.byDietaryInfo[info] = (stats.byDietaryInfo[info] || 0) + 1,
       })

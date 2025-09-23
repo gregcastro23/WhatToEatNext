@@ -149,7 +149,7 @@ export class EnterpriseIntelligenceGenerator {
       integrationPoints,
       estimatedValue,
       complexity
-    },
+    }
   }
 
   /**
@@ -253,7 +253,7 @@ export class EnterpriseIntelligenceGenerator {
     integrationPoints.push({
       target: 'src/app/intelligence/index.ts',
       method: IntegrationMethod.DIRECT_IMPORT,
-      code: `import { ${systemName} } from '../intelligence/${systemName}',`;
+      code: `import { ${systemName} } from '../intelligence/${systemName}';`;
       priority: IntegrationPriority.HIGH
     })
 
@@ -367,7 +367,7 @@ export class ${systemName} {
       cacheResults: true,
       logLevel: 'info',
       ...config
-    },
+    }
 
     this.analytics = {
       usageCount: 0,
@@ -376,15 +376,15 @@ export class ${systemName} {
         memoryUsage: 0,
         cacheHitRate: 0,
         errorRate: 0
-      },
+      }
       patternAnalysis: {
         commonPatterns: [],
         anomalies: [],
         trends: [],
         insights: []
-      },
+      }
       recommendations: []
-    },
+    }
 
     this.cache = new Map()
   }
@@ -403,7 +403,7 @@ export class ${systemName} {
         anomalies: this.detectAnomalies(data),
         trends: this.analyzeTrends(data),
         insights: this.generateInsights(data)
-      },
+      }
 
       if (this.config.cacheResults) {
         this.cache.set('lastAnalysis', analysis)
@@ -436,7 +436,7 @@ export class ${systemName} {
           description: \`Optimize \${originalName} usage patterns\`,
           implementation: 'Consider implementing caching or memoization',
           estimatedImpact: 75
-        },
+        }
         {
           id: \`rec-\${Date.now()}-2\`,
           type: 'integration',
@@ -444,7 +444,7 @@ export class ${systemName} {
           description: \`Integrate \${originalName} with monitoring systems\`,
           implementation: 'Add performance tracking and alerting',
           estimatedImpact: 85
-        },
+        }
         {
           id: \`rec-\${Date.now()}-3\`,
           type: 'enhancement',
@@ -470,7 +470,7 @@ export class ${systemName} {
    */
   async demonstrateCapabilities(): Promise<Record<string, unknown>> {
     if (!this.config.enableDemonstrations) {
-      return {},
+      return {}
     }
 
     const startTime = performance.now()
@@ -480,19 +480,19 @@ export class ${systemName} {
         systemName: '${systemName}',
         originalExport: '${originalName}',
         capabilities: [
-${capabilities.map(cap => `          '${cap.name}': '${cap.description}'`).join(',\n')},
+${capabilities.map(cap => `          '${cap.name}': '${cap.description}'`).join(',\n')}
         ],
         sampleAnalysis: await this.analyzePatterns({ sample: true }),
         sampleRecommendations: await this.generateRecommendations({ sample: true }),
         performanceMetrics: this.analytics.performanceMetrics,
         configuration: this.config
-      },
+      }
 
       this.updatePerformanceMetrics(startTime)
       return demonstration,
     } catch (error) {
       this.handleError('demonstrateCapabilities', error),
-      return {},
+      return {}
     }
   }
 
@@ -511,14 +511,14 @@ ${capabilities
    * Get current analytics
    */
   getAnalytics(): ${systemName}Analytics {
-    return { ...this.analytics },
+    return { ...this.analytics }
   }
 
   /**
    * Update configuration
    */
   updateConfig(newConfig: Partial<${systemName}Config>): void {
-    this.config = { ...this.config, ...newConfig },
+    this.config = { ...this.config, ...newConfig }
   }
 
   /**
@@ -539,15 +539,15 @@ ${capabilities
         memoryUsage: 0,
         cacheHitRate: 0,
         errorRate: 0
-      },
+      }
       patternAnalysis: {
         commonPatterns: [],
         anomalies: [],
         trends: [],
         insights: []
-      },
+      }
       recommendations: []
-    },
+    }
   }
 
   private identifyCommonPatterns(data?: unknown): string[] {
@@ -634,7 +634,7 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
           description: 'Collect and analyze usage metrics',
           implementation: 'return { timestamp: new Date(), metrics: {} },',
           complexity: CapabilityComplexity.BASIC
-        },
+        }
         {
           name: 'generateBasicInsights',
           description: 'Generate basic insights from collected data',
@@ -656,7 +656,7 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
           description: 'Analyze function call patterns and performance',
           implementation: 'return { callCount: 0, averageTime: 0, parameters: [] },',
           complexity: CapabilityComplexity.INTERMEDIATE
-        },
+        }
         {
           name: 'optimizeFunctionUsage',
           description: 'Suggest optimizations for function usage',
@@ -678,7 +678,7 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
           description: 'Analyze class instantiation and method usage patterns',
           implementation: 'return { instances: 0, methodCalls: {}, inheritance: [] },',
           complexity: CapabilityComplexity.ADVANCED
-        },
+        }
         {
           name: 'suggestClassImprovements',
           description: 'Suggest improvements to class design',
@@ -701,7 +701,7 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
           description: 'Analyze type usage patterns and relationships',
           implementation: 'return { usageCount: 0, relationships: [], violations: [] },',
           complexity: CapabilityComplexity.BASIC
-        },
+        }
         {
           name: 'validateTypeConsistency',
           description: 'Validate type consistency across the codebase',
@@ -723,7 +723,7 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
           description: 'Analyze data structure and usage patterns',
           implementation: 'return { structure: {}, patterns: [], anomalies: [] },',
           complexity: CapabilityComplexity.INTERMEDIATE
-        },
+        }
         {
           name: 'validateDataIntegrity',
           description: 'Validate data integrity and consistency',
@@ -743,11 +743,11 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
     // Analyze function behavior and patterns
     const analysis = {
       functionName: '${candidate.export.exportName}',
-      complexity: ${candidate.export.complexity},
+      complexity: ${candidate.export.complexity}
       callPatterns: this.trackCallPatterns(data),
       performance: this.measurePerformance(data),
       recommendations: this.generateFunctionRecommendations(data)
-    },
+    }
     return analysis,
     `,
   }
@@ -764,7 +764,7 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
       properties: this.analyzeClassProperties(data),
       inheritance: this.analyzeInheritance(data),
       instantiation: this.trackInstantiation(data)
-    },
+    }
     return analysis,
     `,
   }
@@ -781,7 +781,7 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
       relationships: this.findTypeRelationships(data),
       usage: this.trackTypeUsage(data),
       compatibility: this.checkTypeCompatibility(data)
-    },
+    }
     return analysis,
     `,
   }
@@ -798,7 +798,7 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
       usage: this.trackDataUsage(data),
       validation: this.validateDataStructure(data),
       optimization: this.suggestDataOptimizations(data)
-    },
+    }
     return analysis,
     `,
   }
@@ -814,7 +814,7 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
       optimizationOpportunities: this.identifyOptimizations(data),
       riskAssessment: this.assessRisks(data),
       strategicRecommendations: this.generateStrategicRecommendations(data)
-    },
+    }
     return insights,
     `,
   }
@@ -830,7 +830,7 @@ const ${systemName.toLowerCase()}Widget = {
   component: () => <IntelligenceWidget system={${systemName.toLowerCase()}} />,
   priority: 'medium',
   refreshInterval: 30000
-},
+}
 `,
   }
 
@@ -943,7 +943,7 @@ app.get('/api/intelligence/${systemName.toLowerCase()}', async (req, res) => {
       }, 0) / results.length,
     const estimatedTotalValue = results.reduce((sumr) => sum + r.estimatedValue, 0)
 
-    const generationsByCategory: Record<string, number> = {},
+    const generationsByCategory: Record<string, number> = {}
     results.forEach(r => {
       const category = r.originalExport.exportType
       generationsByCategory[category] = (generationsByCategory[category] || 0) + 1,
@@ -956,7 +956,7 @@ app.get('/api/intelligence/${systemName.toLowerCase()}', async (req, res) => {
       averageComplexity,
       estimatedTotalValue,
       generationsByCategory
-    },
+    }
   }
 
   /**

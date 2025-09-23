@@ -11,7 +11,7 @@ import {
     traditionalCookingMethods,
     transformationMethods,
     wetCookingMethods
-} from '@/data/cooking/methods',
+} from '@/data/cooking/methods';
 import type { CookingMethodData } from '@/types/cookingMethod';
 import { capitalizeFirstLetter } from '@/utils/stringUtils';
 
@@ -34,7 +34,7 @@ type MethodCategory = {
   description: string,
   methods: Record<string, unknown>,
   icon?: string
-},
+}
 
 const methodCategories: MethodCategory[] = [
   {
@@ -42,31 +42,31 @@ const methodCategories: MethodCategory[] = [
     description: 'Cooking with hot air, radiation, or hot fat',
     methods: dryCookingMethods,
     icon: '🔥'
-  },
+  }
   {
     name: 'Wet',
     description: 'Cooking with water or steam',
     methods: wetCookingMethods,
     icon: '💧'
-  },
+  }
   {
     name: 'Molecular',
     description: 'Scientific techniques that transform ingredients',
     methods: molecularCookingMethods,
     icon: '🧪'
-  },
+  }
   {
     name: 'Traditional',
     description: 'Historical preservation and flavor development methods',
     methods: traditionalCookingMethods,
     icon: '🏺'
-  },
+  }
   {
     name: 'Raw',
     description: 'Preparation without applying heat',
     methods: rawCookingMethods,
     icon: '🥬'
-  },
+  }
   {
     name: 'Transformation',
     description: 'Methods that significantly alter food structure or preservation',
@@ -96,9 +96,9 @@ export default function CookingMethodsPage() {
               Water: 0.5,
               Earth: 0.5,
               Air: 0.5
-            },
+            }
           score: Math.random() * 0.5 + 0.5, // Mock score between 0.5-1.0
-          duration: (method as any).time_range || (method as any).duration || { min: 10, max: 30 },
+          duration: (method as any).time_range || (method as any).duration || { min: 10, max: 30 }
           suitable_for: (method as any).suitable_for || [],
           benefits: (method as any).benefits || [],
           // Create variations if they exist
@@ -113,7 +113,7 @@ export default function CookingMethodsPage() {
                 }))
               : []
             : []
-        },
+        }
       })
 
       setFormattedMethods(transformed)
@@ -122,7 +122,7 @@ export default function CookingMethodsPage() {
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {;
     setTabValue(newValue)
-  },
+  }
 
   const handleSelectMethod = (method: unknown) => {;
     const methodObj = method as any;
@@ -132,7 +132,7 @@ export default function CookingMethodsPage() {
     if (!methodId.includes('_var_')) {
       router.push(`/cooking-methods/${methodId}`)
     }
-  },
+  }
 
   return (
     <Container maxWidth='lg' sx={{ py: 6 }}>

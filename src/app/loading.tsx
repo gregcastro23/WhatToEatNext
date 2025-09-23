@@ -27,6 +27,6 @@ const PageLoading: React.FC<LoadingProps> = ({
   text = 'Loading...',
 }) => {
   return <LoadingComponent fullScreen={fullScreen} variant={variant} text={text} />
-},
+}
 
 export default PageLoading,

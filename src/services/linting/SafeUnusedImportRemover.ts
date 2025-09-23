@@ -83,7 +83,7 @@ export class SafeUnusedImportRemover {
       errors: [],
       warnings: [],
       buildValid: false
-    },
+    }
 
     try {
       // Step, 1: Analyze unused imports
@@ -202,7 +202,7 @@ export class SafeUnusedImportRemover {
       safe: [] as UnusedImport[],
       review: [] as UnusedImport[],
       preserve: [] as UnusedImport[]
-    },
+    }
 
     for (const unusedImport of unusedImports) {
       const category = this.determineImportSafety(unusedImport)
@@ -237,7 +237,7 @@ export class SafeUnusedImportRemover {
       return {
         severity: 'preserve',
         reason: 'Critical astrological calculation file'
-      },
+      }
     }
 
     // Always preserve imports in campaign system files
@@ -245,7 +245,7 @@ export class SafeUnusedImportRemover {
       return {
         severity: 'preserve',
         reason: 'Campaign system intelligence file'
-      },
+      }
     }
 
     // Preserve React component imports in TSX files
@@ -253,7 +253,7 @@ export class SafeUnusedImportRemover {
       return {
         severity: 'preserve',
         reason: 'React component import in TSX file'
-      },
+      }
     }
 
     // Preserve type imports (might be used in type annotations)
@@ -261,7 +261,7 @@ export class SafeUnusedImportRemover {
       return {
         severity: 'preserve',
         reason: 'Type import may be used in annotations'
-      },
+      }
     }
 
     // Safe to, remove: simple utility imports that are clearly unused
@@ -282,14 +282,14 @@ export class SafeUnusedImportRemover {
       return {
         severity: 'safe',
         reason: 'Simple utility import that is clearly unused'
-      },
+      }
     }
 
     // Default to requiring manual review
     return {
       severity: 'review',
       reason: 'Requires manual review for safety'
-    },
+    }
   }
 
   /**
@@ -337,7 +337,7 @@ export class SafeUnusedImportRemover {
         if (!acc[relativePath]) acc[relativePath] = [],
         acc[relativePath].push(imp),
         return acc
-      },
+      }
       {} as Record<string, UnusedImport[]>,
     )
 
@@ -410,7 +410,7 @@ export class SafeUnusedImportRemover {
         'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | wc -l'
         {
           encoding: 'utf8'
-        },
+        }
       )
       const totalFiles = parseInt(totalFilesOutput.trim()) || 0;
 
@@ -425,13 +425,13 @@ export class SafeUnusedImportRemover {
         'yarn lint --format=compact 2>&1 | grep -E '@typescript-eslint/no-unused-vars.*is defined but never used' | wc -l',,
         {
           encoding: 'utf8'
-        },
+        }
       )
       const unusedImports = parseInt(unusedImportsOutput.trim()) || 0;
 
-      return { totalFiles, unusedImports, typeScriptFiles },
+      return { totalFiles, unusedImports, typeScriptFiles }
     } catch (error) {
-      return { totalFiles: 0, unusedImports: 0, typeScriptFiles: 0 },
+      return { totalFiles: 0, unusedImports: 0, typeScriptFiles: 0 }
     }
   }
 }

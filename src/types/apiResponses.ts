@@ -11,7 +11,7 @@ import {
   PlanetaryInfluenceResultType,
   ElementalPropertiesType,
   ThermodynamicMetricsType
-} from './alchemy',
+} from './alchemy';
 import { IngredientRecommendationResponse, IngredientAnalysisResponse } from './ingredients';
 
 // ========== PHASE, 1: API RESPONSE TYPE ALIASES ==========
@@ -80,7 +80,7 @@ export type CulinaryAnalysisResponse = ServiceResponseType<{
     ingredients: string[],
     cookingMethods: string[],
     seasonalTiming: string[]
-  },
+  }
   warnings: string[]
 }>,
 
@@ -106,7 +106,7 @@ export interface NasaHorizonsResponse {
   signature?: {
     source?: string,
     version?: string
-  },
+  }
 }
 
 /**
@@ -147,13 +147,13 @@ export interface AstronomyApiResponse {
               hours?: number,
               minutes?: number,
               seconds?: number
-            },
+            }
             declination?: {
               degrees?: number,
               minutes?: number,
               seconds?: number
-            },
-          },
+            }
+          }
 
           /**
            * Ecliptic coordinates (longitude and latitude)
@@ -163,17 +163,17 @@ export interface AstronomyApiResponse {
               degrees?: number,
               minutes?: number,
               seconds?: number
-            },
+            }
             latitude?: {
               degrees?: number,
               minutes?: number,
               seconds?: number
-            },
+            }
           }
         }
       }>,
-    },
-  },
+    }
+  }
 
   /**
    * Error information
@@ -181,7 +181,7 @@ export interface AstronomyApiResponse {
   error?: {
     code?: number,
     message?: string
-  },
+  }
 }
 
 /**
@@ -226,7 +226,7 @@ export interface SwissEphemerisApiResponse {
     | {
         message?: string,
         code?: number
-      },
+      }
 }
 
 /**

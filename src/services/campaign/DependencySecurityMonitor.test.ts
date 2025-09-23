@@ -10,7 +10,7 @@ import {
     DEFAULT_DEPENDENCY_SECURITY_CONFIG,
     DependencySecurityConfig,
     DependencySecurityMonitor
-} from './DependencySecurityMonitor',
+} from './DependencySecurityMonitor';
 
 // Mock dependencies
 jest.mock('fs')
@@ -29,7 +29,7 @@ describe('DependencySecurityMonitor', () => {
       ...DEFAULT_DEPENDENCY_SECURITY_CONFIG,
       maxDependenciesPerBatch: 5,
       safetyValidationEnabled: true
-    },
+    }
     dependencyMonitor = new DependencySecurityMonitor(testConfig)
 
     // Reset mocks
@@ -51,7 +51,7 @@ describe('DependencySecurityMonitor', () => {
             range: '>=1.0.0 <4.17.21',
             fixAvailable: { version: '4.17.21'
             }
-          },
+          }
           axios: { severity: 'critical',
             via: [
               {
@@ -64,7 +64,7 @@ describe('DependencySecurityMonitor', () => {
             fixAvailable: { version: '0.21.2'
             }
           }
-        },
+        }
       })
 
       mockExecSync.mockReturnValue(auditOutput)
@@ -105,7 +105,7 @@ describe('DependencySecurityMonitor', () => {
             via: [{ source: 'CVE-2021-0001', title: 'Test vulnerability' }],
             fixAvailable: { version: '2.0.0' }
           }
-        },
+        }
       })
 
       mockExecSync.mockReturnValue(auditOutput)
@@ -128,12 +128,12 @@ describe('DependencySecurityMonitor', () => {
           wanted: '4.17.21',
           latest: '4.17.21',
           location: 'node_modules/lodash'
-        },
+        }
         react: { current: '17.0.0',
           wanted: '17.0.2',
           latest: '18.0.0',
           location: 'node_modules/react'
-        },
+        }
       })
 
       const error: any = new Error('npm outdated found updates') as unknown;
@@ -176,8 +176,8 @@ describe('DependencySecurityMonitor', () => {
         securityThresholds: {
           ...testConfig.securityThresholds,
           autoFixCritical: true
-        },
-      },
+        }
+      }
       const monitor: any = new DependencySecurityMonitor(config)
       const vulnerabilities: any = [
         {
@@ -189,7 +189,7 @@ describe('DependencySecurityMonitor', () => {
           description: 'Command Injection',
           fixedVersion: '4.17.21',
           patchAvailable: true
-        },
+        }
       ],
 
       mockExecSync.mockReturnValue('')
@@ -210,8 +210,8 @@ describe('DependencySecurityMonitor', () => {
         securityThresholds: {
           ...testConfig.securityThresholds,
           autoFixCritical: true
-        },
-      },
+        }
+      }
       const monitor: any = new DependencySecurityMonitor(config)
       const vulnerabilities: any = [
         {
@@ -223,7 +223,7 @@ describe('DependencySecurityMonitor', () => {
           description: 'Command Injection',
           fixedVersion: '4.17.21',
           patchAvailable: true
-        },
+        }
       ],
 
       const appliedUpdates: any = await monitor.applySecurityPatches(vulnerabilities)
@@ -240,8 +240,8 @@ describe('DependencySecurityMonitor', () => {
           ...testConfig.securityThresholds,
           autoFixCritical: false,
           autoFixHigh: false
-        },
-      },
+        }
+      }
       const monitor: any = new DependencySecurityMonitor(config)
       const vulnerabilities: any = [
         {
@@ -253,7 +253,7 @@ describe('DependencySecurityMonitor', () => {
           description: 'Command Injection',
           fixedVersion: '4.17.21',
           patchAvailable: true
-        },
+        }
       ],
 
       const appliedUpdates: any = await monitor.applySecurityPatches(vulnerabilities)
@@ -266,7 +266,7 @@ describe('DependencySecurityMonitor', () => {
       const config: any = {
         ..testConfig,
         autoUpdateEnabled: true,
-      },
+      }
       const monitor: any = new DependencySecurityMonitor(config)
       const availableUpdates: any = [
         {
@@ -277,7 +277,7 @@ describe('DependencySecurityMonitor', () => {
           breakingChanges: false,
           securityFix: false,
           testingRequired: false
-        },
+        }
       ],
 
       mockExecSync.mockReturnValue('')
@@ -301,7 +301,7 @@ describe('DependencySecurityMonitor', () => {
             testingRequired: false
           }
         ]
-      },
+      }
       const monitor: any = new DependencySecurityMonitor(config)
       const availableUpdates: any = [
         {
@@ -312,7 +312,7 @@ describe('DependencySecurityMonitor', () => {
           breakingChanges: true,
           securityFix: false,
           testingRequired: true
-        },
+        }
       ],
 
       const appliedUpdates: any = await monitor.applySafeUpdates(availableUpdates)
@@ -360,9 +360,9 @@ describe('DependencySecurityMonitor', () => {
   describe('executeDependencySecurityMonitoring', () => {
     test('executes complete monitoring workflow', async () => {
       const packageJson: any = {
-        dependencies: { lodash: '417.20' },
-        devDependencies: { jest: '29.0.0' },
-      },
+        dependencies: { lodash: '417.20' }
+        devDependencies: { jest: '29.0.0' }
+      }
 
       mockFs.readFileSync.mockReturnValue(JSON.stringify(packageJson))
 
@@ -387,12 +387,12 @@ describe('DependencySecurityMonitor', () => {
         securityThresholds: {
           ...testConfig.securityThresholds,
           autoFixCritical: true
-        },
-      },
+        }
+      }
       const monitor: any = new DependencySecurityMonitor(config)
       const packageJson: any = {
-        dependencies: { lodash: '4.17.20' },
-      },
+        dependencies: { lodash: '4.17.20' }
+      }
 
       mockFs.readFileSync.mockReturnValue(JSON.stringify(packageJson))
 
@@ -403,7 +403,7 @@ describe('DependencySecurityMonitor', () => {
             via: [{ source: 'CVE-2021-23337', title: 'Test vuln' }],
             fixAvailable: { version: '4.17.21' }
           }
-        },
+        }
       })
       mockExecSync.mockReturnValueOnce(auditOutput)
 
@@ -412,7 +412,7 @@ describe('DependencySecurityMonitor', () => {
       outdatedError.stdout = JSON.stringify({
         lodash: { current: '4.17.20',
           latest: '4.17.21'
-        },
+        }
       })
       mockExecSync.mockImplementationOnce(() => {
         throw outdatedError
@@ -492,9 +492,9 @@ describe('DependencySecurityMonitor', () => {
           low: 0,
           autoFixCritical: false,
           autoFixHigh: false
-        },
+        }
         excludedPackages: ['react', 'next']
-      },
+      }
 
       const monitor: any = new DependencySecurityMonitor(customConfig)
       expect(monitor).toBeDefined()

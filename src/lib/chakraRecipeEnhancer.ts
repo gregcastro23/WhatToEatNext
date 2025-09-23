@@ -36,7 +36,7 @@ function getElementalChakraMap(): Record<keyof ElementalProperties, Array<keyof 
     Water: ['sacral', 'heart'] as Array<keyof ChakraEnergies>,
     Earth: ['root'] as Array<keyof ChakraEnergies>,
     Air: ['throat', 'heart', 'crown'] as Array<keyof ChakraEnergies>
-  },
+  }
 }
 
 /**
@@ -127,7 +127,7 @@ export class ChakraRecipeEnhancer {
             'Saturn'
           ],
           return validPlanets.includes(name) ? (name as unknown as Planet) : null
-        },
+        }
 
         const validatedPlanet = planetValidator(capitalizedName)
         if (validatedPlanet) {
@@ -150,7 +150,7 @@ export class ChakraRecipeEnhancer {
     return recipes
       .map(recipe => {
         if (!recipe.elementalProperties) {
-          recipe.elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+          recipe.elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
         }
 
         const dominantChakra = this.getDominantChakra(recipe.elementalProperties)
@@ -206,7 +206,7 @@ export class ChakraRecipeEnhancer {
           totalScore,
           dominantChakra,
           recommendations
-        },
+        }
       })
       .sort((ab) => b.totalScore - a.totalScore)
   }

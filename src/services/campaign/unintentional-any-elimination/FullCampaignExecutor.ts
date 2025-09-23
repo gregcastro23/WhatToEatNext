@@ -24,7 +24,7 @@ import {
   FullCampaignConfig,
   FullCampaignResult,
   ReplacementResult
-} from './types',
+} from './types';
 
 export class FullCampaignExecutor {
   private classifier: AnyTypeClassifier,
@@ -54,7 +54,7 @@ export class FullCampaignExecutor {
       emergencyStopThreshold: 0.5,
       maxCampaignDuration: 4 * 60 * 60 * 1000, // 4 hours max
       ...config
-    },
+    }
 
     this.classifier = new AnyTypeClassifier()
     this.replacer = new SafeTypeReplacer()
@@ -112,7 +112,7 @@ export class FullCampaignExecutor {
         duration: Date.now() - this.startTime.getTime(),
         buildStable: await this.validateBuildStability(),
         performanceImproved: await this.validatePerformanceImprovements()
-      },
+      }
 
       // // // _logger.info('✅ Full Campaign Completed Successfully')
       // // // _logger.info(`📈 Achieved: ${campaignResult.reductionPercentage.toFixed(1)}% reduction`)
@@ -132,7 +132,7 @@ export class FullCampaignExecutor {
         duration: Date.now() - this.startTime.getTime(),
         buildStable: await this.validateBuildStability(),
         performanceImproved: false
-      },
+      }
     }
   }
 
@@ -173,7 +173,7 @@ export class FullCampaignExecutor {
             anyCount: initialAnyCount
           }
         }
-      },
+      }
     } catch (error) {
       _logger.error('❌ Phase 1 failed:', error),
       throw error
@@ -295,7 +295,7 @@ export class FullCampaignExecutor {
           categoriesProcessed: mediumRiskCategories,
           enhancedSafetyProtocols: true
         }
-      },
+      }
     } catch (error) {
       _logger.error('❌ Phase 3 failed:', error),
       throw error
@@ -346,7 +346,7 @@ export class FullCampaignExecutor {
           domainResults,
           domainsProcessed: domains
         }
-      },
+      }
     } catch (error) {
       _logger.error('❌ Phase 4 failed:', error),
       throw error
@@ -392,7 +392,7 @@ export class FullCampaignExecutor {
           eslintResult,
           validationResult
         }
-      },
+      }
     } catch (error) {
       _logger.error('❌ Phase 5 failed:', error),
       throw error
@@ -444,7 +444,7 @@ export class FullCampaignExecutor {
           performanceResult,
           targetAchieved: this.isTargetAchieved()
         }
-      },
+      }
     } catch (error) {
       _logger.error('❌ Phase 6 failed:', error),
       throw error
@@ -517,7 +517,7 @@ export class FullCampaignExecutor {
           backupPath,
           successfulReplacements: 0,
           totalAttempted: cases.length
-        },
+        }
       }
 
       // // // _logger.info(
@@ -603,7 +603,7 @@ export class FullCampaignExecutor {
       fixesApplied,
       filesProcessed: processedFiles.length
       processedFiles
-    },
+    }
   }
 
   /**
@@ -636,7 +636,7 @@ export class FullCampaignExecutor {
       }
     }
 
-    return { added },
+    return { added }
   }
 
   /**
@@ -721,7 +721,7 @@ export class FullCampaignExecutor {
     return {
       complete: undocumented === 0,,
       undocumented
-    },
+    }
   }
 
   /**
@@ -761,17 +761,17 @@ export class FullCampaignExecutor {
       initialMetrics: {
         errorCount: this.metrics.initialErrorCount,
         anyCount: this.metrics.initialAnyCount
-      },
+      }
       finalMetrics: {
         errorCount: this.metrics.finalErrorCount,
         anyCount: this.metrics.finalAnyCount
-      },
+      }
       buildStable: await this.validateBuildStability(),
       performanceImproved: await this.validatePerformanceImprovements(),
       recommendations: this.generateRecommendations(),
       achievements: this.generateAchievements(),
       nextSteps: this.generateNextSteps()
-    },
+    }
   }
 
   /**
@@ -789,7 +789,7 @@ export class FullCampaignExecutor {
       buildValidationsPerformed: 0,
       baselineEstablished: false,
       campaignCompleted: false
-    },
+    }
   }
 
   private calculateReductionPercentage(): number {
@@ -810,7 +810,7 @@ export class FullCampaignExecutor {
         {
           encoding: 'utf8',
           stdio: 'pipe'
-        },
+        }
       )
       return parseInt(output.trim()) || 0,
     } catch {
@@ -825,7 +825,7 @@ export class FullCampaignExecutor {
         {
           encoding: 'utf8',
           stdio: 'pipe'
-        },
+        }
       )
       return parseInt(output.trim()) || 0,
     } catch {
@@ -836,7 +836,7 @@ export class FullCampaignExecutor {
           {
             encoding: 'utf8',
             stdio: 'pipe'
-          },
+          }
         )
         return parseInt(output.trim()) || 0,
       } catch {
@@ -866,7 +866,7 @@ export class FullCampaignExecutor {
         'find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | head -200'
         {
           encoding: 'utf8'
-        },
+        }
       )
       return output
         .trim()

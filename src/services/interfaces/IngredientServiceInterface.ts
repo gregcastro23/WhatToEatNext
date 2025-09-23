@@ -6,7 +6,7 @@ import type {
   Season,
   PlanetName,
   ZodiacSign
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 import {Recipe, _RecipeIngredient} from '@/types/unified';
 
 /**
@@ -170,7 +170,7 @@ export interface IngredientServiceInterface {
    * @returns An array of ingredients matching the flavor profile
    */
   getIngredientsByFlavor(
-    flavorProfile: { [key: string]: number },
+    flavorProfile: { [key: string]: number }
     minMatchScore?: number,
   ): UnifiedIngredient[],
 
@@ -221,7 +221,7 @@ export interface IngredientServiceInterface {
     flavorCompatibility: number,
     seasonalCompatibility: number,
     energeticCompatibility: number
-  },
+  }
 
   /**
    * Get alternative ingredients that can substitute for a given ingredient
@@ -235,7 +235,7 @@ export interface IngredientServiceInterface {
       category?: string
       similarityThreshold?: number
       maxResults?: number
-    },
+    }
   ): Array<{ ingredient: UnifiedIngredient, similarityScore: number }>,
 
   /**
@@ -245,10 +245,10 @@ export interface IngredientServiceInterface {
    */
   analyzeRecipeIngredients(recipe: Recipe): {
     overallHarmony: number,
-    flavorProfile: { [key: string]: number },
+    flavorProfile: { [key: string]: number }
     strongPairings: Array<{ ingredients: string[] score: number }>,
     weakPairings: Array<{ ingredients: string[] score: number }>,
-  },
+  }
 
   /**
    * Enhance an ingredient with elemental properties

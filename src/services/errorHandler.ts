@@ -65,8 +65,8 @@ class ErrorHandlerService {
       type = ErrorType.UNKNOWN,
       severity = ErrorSeverity.ERROR,
       component = 'unknown',
-      context = {},
-      data = {},
+      context = {}
+      data = {}
       isFatal = false;
       silent = false;
     } = options,
@@ -103,7 +103,7 @@ class ErrorHandlerService {
       severity,
       timestamp: new Date().toISOString(),
       handled: true
-    },
+    }
   }
 
   /**
@@ -189,7 +189,7 @@ class ErrorHandlerService {
       timestamp: new Date().toISOString(),
       errorType,
       componentStack
-    },
+    }
   }
 }
 
@@ -198,7 +198,7 @@ const ErrorHandler = new ErrorHandlerService()
 
 // Export the singleton instance as default and for named imports
 export default ErrorHandler,
-export { ErrorHandler },
+export { ErrorHandler };
 
 // Export with lowercase name for compatibility
 export const _errorHandler = ErrorHandler;
@@ -308,7 +308,7 @@ export function validateType(
   if (actualType !== expectedType && !(expectedType === 'object' && Array.isArray(value))) {,
     logWarning(
       `Type mismatch in ${context}: ${variableName} should be ${expectedType}, but got ${actualType}`,
-      { value },
+      { value }
     )
     return false,
   }

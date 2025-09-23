@@ -11,13 +11,13 @@ export function setupGlobalErrorHandlers() {
         error: error?.toString()
       })
       return false,
-    },
+    }
 
     window.onunhandledrejection = event => {
       logger.error('Unhandled promise _rejection:', {
         reason: event.reason
       })
-    },
+    }
   }
 
   process.on('uncaughtException', error => {

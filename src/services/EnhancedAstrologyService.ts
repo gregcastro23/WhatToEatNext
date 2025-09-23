@@ -12,7 +12,7 @@ import {
     getAvailableYears,
     getSeasonalAnalysis,
     getTransitForDate
-} from '@/data/transits/comprehensiveTransitDatabase',
+} from '@/data/transits/comprehensiveTransitDatabase';
 import { CelestialPosition, Planet, ZodiacSign } from '@/types/celestial';
 import { getFallbackPlanetaryPositions } from '@/utils/accurateAstronomy';
 import { createLogger } from '@/utils/logger';
@@ -106,12 +106,12 @@ export class EnhancedAstrologyService {
     return {
       currentSeason: currentSeason as unknown as Season,
       upcomingTransits: (upcomingAnalysis?.seasons as unknown as Element[]) || [],
-      dominantElements: seasonalAnalysis?.dominantElements || {},
+      dominantElements: seasonalAnalysis?.dominantElements || {}
       keyAspects: (seasonalAnalysis?.keyAspects as unknown as Planet[]) || [],
       retrogradePlanets: seasonalAnalysis?.retrogradePlanets || [],
       eclipseSeasons: [], // TODO: Implement eclipse season calculation
       majorTransits: [], // TODO: Implement major transit calculation
-    },
+    }
   }
 
   /**
@@ -139,23 +139,23 @@ export class EnhancedAstrologyService {
         recommendedCuisines: basicSeasonalData.recommendedCuisines,
         recommendedCookingMethods: basicSeasonalData.cookingMethods,
         alchemicalProperties: basicSeasonalData.alchemicalProperties
-      },
+      }
     }
 
     return {
       seasonalThemes: ((currentSeason as unknown as any).seasonalThemes as string[]) || [],
       culinaryInfluences: ((currentSeason as unknown as any).culinaryInfluences as string[]) || [],
       dominantElements:
-        ((currentSeason as unknown as any).dominantElements as Record<string, number>) || {},
+        ((currentSeason as unknown as any).dominantElements as Record<string, number>) || {}
       recommendedCuisines: this.getRecommendedCuisines(
-        ((currentSeason as unknown as any).dominantElements as Record<string, number>) || {},
+        ((currentSeason as unknown as any).dominantElements as Record<string, number>) || {}
       ),
       recommendedCookingMethods: this.getRecommendedCookingMethods(
-        ((currentSeason as unknown as any).dominantElements as Record<string, number>) || {},
+        ((currentSeason as unknown as any).dominantElements as Record<string, number>) || {}
       ),
       alchemicalProperties:
         ((currentSeason as unknown as any).alchemicalProperties as Record<string, number>) || {}
-    },
+    }
   }
 
   /**
@@ -218,7 +218,7 @@ export class EnhancedAstrologyService {
       retrogradePlanets,
       specialEvents,
       lastUpdated: new Date()
-    },
+    }
   }
 
   /**
@@ -229,7 +229,7 @@ export class EnhancedAstrologyService {
       const astrologizePositions = await getCurrentPlanetaryPositions()
 
       // Convert to CelestialPosition format
-      const celestialPositions: Record<string, CelestialPosition> = {},
+      const celestialPositions: Record<string, CelestialPosition> = {}
 
       Object.entries(astrologizePositions).forEach(([planet, position]) => {
         celestialPositions[planet] = {
@@ -238,7 +238,7 @@ export class EnhancedAstrologyService {
           exactLongitude: position.exactLongitude,
           isRetrograde: position.isRetrograde,
           minutes: position.minute
-        },
+        }
       })
 
       return celestialPositions,
@@ -254,7 +254,7 @@ export class EnhancedAstrologyService {
   private (() => ({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }))(
     positions: Record<string, CelestialPosition>,
   ): Record<string, number> {
-    const elementCounts: Record<string, number> = { Fire: 0, Earth: 0, Air: 0, Water: 0 },
+    const elementCounts: Record<string, number> = { Fire: 0, Earth: 0, Air: 0, Water: 0 }
 
     const signElements: Record<ZodiacSign, string> = {
       aries: 'Fire',
@@ -269,9 +269,9 @@ export class EnhancedAstrologyService {
       cancer: 'Water',
       scorpio: 'Water',
       pisces: 'Water'
-    },
+    }
 
-    Object.values(positions).forEach(position => {,
+    Object.values(positions).forEach(position => {
       const element = signElements[position.sign || 'aries']
       if (element) {
         elementCounts[element]++,
@@ -281,7 +281,7 @@ export class EnhancedAstrologyService {
     // Normalize to percentages
     const total = Object.values(elementCounts).reduce((sum, count) => sum + count0)
     if (total > 0) {
-      Object.keys(elementCounts).forEach(element => {,
+      Object.keys(elementCounts).forEach(element => {
         elementCounts[element] /= total
       })
     }
@@ -351,31 +351,31 @@ export class EnhancedAstrologyService {
         // January
         themes: ['New beginnings', 'Comfort', 'Warmth'],
         culinaryInfluences: ['Hearty dishes', 'Slow cooking', 'Warm spices'],
-        dominantElements: { Fire: 0.3, Earth: 0.4, Air: 0.2, Water: 0.1 },
+        dominantElements: { Fire: 0.3, Earth: 0.4, Air: 0.2, Water: 0.1 }
         recommendedCuisines: ['Italian', 'French', 'Comfort food'],
         cookingMethods: ['Slow cooking', 'Braising', 'Baking'],
         alchemicalProperties: { Spirit: 0.2, Essence: 0.3, Matter: 0.4, Substance: 0.1 }
-      },
+      }
       1: {
         // February
         themes: ['Romance', 'Indulgence', 'Rich flavors'],
         culinaryInfluences: ['Rich sauces', 'Chocolate', 'Comfort foods'],
-        dominantElements: { Fire: 0.2, Earth: 0.5, Air: 0.2, Water: 0.1 },
+        dominantElements: { Fire: 0.2, Earth: 0.5, Air: 0.2, Water: 0.1 }
         recommendedCuisines: ['French', 'Italian', 'Comfort food'],
         cookingMethods: ['Slow cooking', 'Baking', 'Rich sauces'],
         alchemicalProperties: { Spirit: 0.1, Essence: 0.4, Matter: 0.4, Substance: 0.1 }
-      },
+      }
       2: {
         // March
         themes: ['Spring awakening', 'Fresh ingredients', 'Light dishes'],
         culinaryInfluences: ['Fresh herbs', 'Light sauces', 'Spring vegetables'],
-        dominantElements: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
+        dominantElements: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 }
         recommendedCuisines: ['Mediterranean', 'Asian', 'Fresh cuisine'],
         cookingMethods: ['Quick cooking', 'Fresh preparation', 'Light cooking'],
         alchemicalProperties: { Spirit: 0.4, Essence: 0.2, Matter: 0.2, Substance: 0.2 }
-      },
+      }
       // Add more months as needed...
-    },
+    }
 
     return seasonalData[month as keyof typeof seasonalData] || seasonalData[0],
   }
@@ -410,7 +410,7 @@ export class EnhancedAstrologyService {
       swissEphemerisAvailable: true, // Always available as it's local data,
       transitDatabaseAvailable: true, // Always available as it's local data,
       lastAstrologizeCheck: new Date(this.lastAstrologizeCheck)
-    },
+    }
   }
 
   /**

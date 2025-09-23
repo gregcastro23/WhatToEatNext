@@ -8,7 +8,7 @@ export interface CookingMethod {
   duration?: {
     min: number,
     max: number
-  },
+  }
   suitable_for?: string[],
   benefits?: string[],
   variations?: string[],
@@ -30,14 +30,14 @@ export interface CookingMethod {
     | {
         min: number,
         max: number
-      },
+      }
   temperature_range?:
     | string
     | {
         min: number,
         max: number,
         unit?: string
-      },
+      }
   alchemical_properties?: Record<string, unknown>,
   tools?: string[] | string,
   famous_dishes?: string[] | string,
@@ -53,7 +53,7 @@ export interface CookingMethodData extends CookingMethod {
     favorableZodiac?: any[],
     unfavorableZodiac?: any[]
     dominantPlanets?: string[]
-  },
+  }
 }
 
 // Enhanced cooking method with additional alchemical properties
@@ -64,7 +64,7 @@ export interface EnhancedCookingMethod extends CookingMethod {
     elementalAmplification: ElementalProperties,
     energeticSignature: string,
     harmonyFactor: number
-  },
+  }
 
   // Monica-compatible enhancements
   thermodynamicEfficiency?: number,
@@ -89,7 +89,7 @@ export interface EnhancedCookingMethod extends CookingMethod {
   zodiacCompatibility?: Record<string, number>,
 }
 
-export type { ElementalProperties, ZodiacSign } from './alchemy',
+export type { ElementalProperties, ZodiacSign } from './alchemy';
 
 // Add CookingMethodInfo alias for compatibility
 export type CookingMethodInfo = CookingMethod,

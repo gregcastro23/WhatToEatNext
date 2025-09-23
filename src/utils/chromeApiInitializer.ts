@@ -27,13 +27,13 @@ export function initializeChromeApis(): void {
           return true; // Prevent default error handling
         }
         return false; // Let other errors propagate normally
-      },
+      }
       true,
     )
 
     // Initialize chrome object if it doesn't exist
     if (!window.chrome) {
-      (window as any).chrome = {},
+      (window as any).chrome = {}
     }
 
     // Initialize tabs API with safe methods
@@ -60,14 +60,14 @@ export function initializeChromeApis(): void {
           }
 
           return Promise.resolve({ id: 999, url: options.url || 'about:blank' })
-        },
+        }
         _query: function () {
           return Promise.resolve([{ id: 1, _active: true, _windowId: 1 }])
-        },
+        }
         _update: function () {
           return Promise.resolve({})
         }
-      },
+      }
     }
 
     // Initialize runtime API
@@ -77,16 +77,16 @@ export function initializeChromeApis(): void {
         _lastError: null,
         getURL: function (path: string) {
           return window.location.origin + '/' + path
-        },
+        }
         sendMessage: function (message: unknown) {
           log.info('[ChromeAPI] Mocked chrome.runtime.sendMessage called:', message)
           return Promise.resolve({ _success: true })
-        },
+        }
         _onMessage: {
-          addListener: function () {},
+          addListener: function () {}
           _removeListener: function () {}
         }
-      },
+      }
     }
 
     // Initialize extension API
@@ -95,17 +95,17 @@ export function initializeChromeApis(): void {
       chromeObj.extension = {
         getURL: function (path: string) {
           return window.location.origin + '/' + path
-        },
+        }
         _getBackgroundPage: function () {
           return window
         }
-      },
+      }
     }
 
     // Initialize storage API
     // Apply Pattern GG-6: Enhanced property access with type guards
     if (!chromeObj.storage) {
-      const mockStorage: Record<string, Record<string, string>> = {},
+      const mockStorage: Record<string, Record<string, string>> = {}
 
       chromeObj.storage = {
         _local: {
@@ -113,10 +113,10 @@ export function initializeChromeApis(): void {
             keys: string | string[] | null,
             callback?: (items: Record<string, string[]>) => void,
           ) {
-            let result: Record<string, Record<string, string>> = {},
+            let result: Record<string, Record<string, string>> = {}
 
             if (!keys) {
-              result = { ...mockStorage },
+              result = { ...mockStorage }
             } else if (Array.isArray(keys)) {
               keys.forEach(key => {
                 if (mockStorage[key] !== undefined) {
@@ -133,14 +133,14 @@ export function initializeChromeApis(): void {
               setTimeout(() => callback(result as unknown as Record<string, string[]>), 0)
             }
             return Promise.resolve(result)
-          },
+          }
           set: function (items: Record<string, Record<string, string>>, callback?: () => void) {
             Object.assign(mockStorage, items)
             if (callback) {
               setTimeout(callback, 0)
             }
             return Promise.resolve()
-          },
+          }
           _remove: function (keys: string | string[], callback?: () => void) {
             if (Array.isArray(keys)) {
               keys.forEach(key => delete mockStorage[key])
@@ -152,18 +152,18 @@ export function initializeChromeApis(): void {
             }
             return Promise.resolve()
           }
-        },
+        }
         _sync: {
           get: function (keys: unknown, callback?: Function) {
             if (callback) setTimeout(() => callback({}), 0)
             return Promise.resolve({})
-          },
+          }
           set: function (items: unknown, callback?: Function) {
             if (callback) setTimeout(callback, 0)
             return Promise.resolve()
           }
         }
-      },
+      }
     }
 
     log.info('[ChromeAPI] Successfully initialized Chrome extension API mocks')
@@ -173,4 +173,4 @@ export function initializeChromeApis(): void {
 }
 
 // Export default for easy importing
-export default { initializeChromeApis },
+export default { initializeChromeApis }

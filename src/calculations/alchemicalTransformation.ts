@@ -5,7 +5,7 @@ import { createLogger } from '@/utils/logger';
 import {
   calculatePlanetaryBoost,
   PlanetaryDignityDetails
-} from '../constants/planetaryFoodAssociations',
+} from '../constants/planetaryFoodAssociations';
 
 import { AlchemicalResults, calculateAlchemicalProperties } from './alchemicalCalculations';
 
@@ -56,7 +56,7 @@ export const transformItemWithPlanetaryPositions = (
   isDaytime: boolean,
   currentZodiac?: string | null,
   lunarPhase?: LunarPhaseWithSpaces | null,
-): AlchemicalItem => {,
+): AlchemicalItem => {
   try {
     // Validate and sanitize input values
     const sanitizedItem = {
@@ -67,7 +67,7 @@ export const transformItemWithPlanetaryPositions = (
           Number.isFinite(value) ? value : 0.1
         ]),
       ) as Record<ElementalCharacter, number>
-    },
+    }
 
     // Calculate alchemical properties based on planetary positions
     const alchemicalResults = calculateAlchemicalProperties(planetPositions as unknown, isDaytime)
@@ -159,7 +159,7 @@ export const transformItemWithPlanetaryPositions = (
   cancer: 'Water',
       scorpio: 'Water',
   pisces: 'Water'
-    },
+    }
 
     const zodiacElement = zodiacElementMap[zodiacSign];
     if (zodiacElement && zodiacElement === dominantElement) {
@@ -227,7 +227,7 @@ export const transformItemWithPlanetaryPositions = (
       planetaryBoost,
       dominantPlanets,
       planetaryDignities
-    },
+    }
   } catch (error) {
     logger.error(`Error transforming item ${item.name}:`, error)
     // Return a safe fallback with original values preserved
@@ -238,8 +238,8 @@ export const transformItemWithPlanetaryPositions = (
   Essence: 0.25,
         Matter: 0.25,
   Substance: 0.25
-      },
-      transformedElementalProperties: { ...item.elementalProperties },
+      }
+      transformedElementalProperties: { ...item.elementalProperties }
       heat: 0.5,
   entropy: 0.5,
       reactivity: 0.5,
@@ -249,9 +249,9 @@ export const transformItemWithPlanetaryPositions = (
   planetaryBoost: 1.0,
   dominantPlanets: [],
   planetaryDignities: {}
-    },
+    }
   }
-},
+}
 
 /**
  * Transform a collection of items using current planetary positions
@@ -283,8 +283,8 @@ export const _transformItemsWithPlanetaryPositions = (
   Essence: 0.25,
         Matter: 0.25,
   Substance: 0.25
-      },
-      transformedElementalProperties: { ...item.elementalProperties },
+      }
+      transformedElementalProperties: { ...item.elementalProperties }
       heat: 0.5,
   entropy: 0.5,
       reactivity: 0.5,
@@ -296,7 +296,7 @@ export const _transformItemsWithPlanetaryPositions = (
   planetaryDignities: {}
     }))
   }
-},
+}
 
 /**
  * Transform elemental properties using alchemical results and planetary boost
@@ -310,7 +310,7 @@ const transformElementalProperties = (
 ): Record<ElementalCharacter, number> => {
   try {
     // Create a copy of the original properties
-    const transformedProperties: Record<ElementalCharacter, number> = { ...originalProperties },
+    const transformedProperties: Record<ElementalCharacter, number> = { ...originalProperties }
 
     // Calculate base enhancement factor - stronger effect on dominant elements
     // Enhanced by planetary boost, but cap the enhancement factor to prevent excessive values
@@ -371,9 +371,9 @@ const transformElementalProperties = (
   } catch (error) {
     logger.error('Error transforming elemental properties:', error)
     // Return the original properties if there's an error
-    return { ...originalProperties },
+    return { ...originalProperties }
   }
-},
+}
 
 /**
  * Apply zodiac-specific boosts to elemental properties
@@ -396,7 +396,7 @@ const applyZodiacBoost = (
   capricorn: 'Earth',
       aquarius: 'Air',
   pisces: 'Water'
-    },
+    }
 
     const zodiacElement = zodiacElementMap[zodiacSign];
     if (zodiacElement) {
@@ -407,7 +407,7 @@ const applyZodiacBoost = (
     logger.error(`Error applying zodiac boost for ${zodiacSign}:`, error)
     // No modifications to transformedProperties needed in case of error
   }
-},
+}
 
 /**
  * Apply cross-element influences based on elemental counts and boost
@@ -417,7 +417,7 @@ const applyElementalInfluences = (
   elementalCounts: Record<ElementalCharacter, number>,
   originalProperties: Record<ElementalCharacter, number>,
   planetaryBoost: number = 1.0
-): void => {,
+): void => {
   try {
     // Calculate influence factors based on elemental counts
     const fireInfluence = ((elementalCounts as any)?.Fire || 0) * 0.2 * planetaryBoost;
@@ -455,14 +455,14 @@ const applyElementalInfluences = (
     logger.error('Error applying elemental influences:', error)
     // Leave transformedProperties unchanged in case of error
   }
-},
+}
 
 /**
  * Calculate the dominant element from a set of elemental properties
  */
 const getDominantElement = (
   transformedProperties: Record<ElementalCharacter, number>,
-): ElementalCharacter => {,
+): ElementalCharacter => {
   try {
     let maxValue = -Infinity,
     let dominantElement: ElementalCharacter = 'Fire' // Default
@@ -476,7 +476,7 @@ const getDominantElement = (
           maxValue = numericValue,
           dominantElement = element
         }
-      },
+      }
     )
 
     return dominantElement,
@@ -484,14 +484,14 @@ const getDominantElement = (
     logger.error('Error determining dominant element:', error)
     return 'Fire'; // Default fallback
   }
-},
+}
 
 /**
  * Calculate the dominant alchemical property from alchemical counts
  */
 const getDominantAlchemicalProperty = (
   alchemicalCounts: Record<AlchemicalProperty, number>,
-): AlchemicalProperty => {,
+): AlchemicalProperty => {
   try {
     let maxValue = -Infinity,
     let dominantProperty: AlchemicalProperty = 'Spirit' // Default
@@ -505,7 +505,7 @@ const getDominantAlchemicalProperty = (
           maxValue = numericValue,
           dominantProperty = property
         }
-      },
+      }
     )
 
     return dominantProperty,
@@ -513,7 +513,7 @@ const getDominantAlchemicalProperty = (
     logger.error('Error determining dominant alchemical property:', error)
     return 'Spirit'; // Default fallback
   }
-},
+}
 
 /**
  * Normalize values in a record to sum to 1.0

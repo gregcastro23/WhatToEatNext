@@ -30,7 +30,7 @@ describe('Build Performance Tests', () => {
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
       stashRetentionDays: 7,
-    },
+    }
 
     mockConfig = {
       phases: [
@@ -41,23 +41,23 @@ describe('Build Performance Tests', () => {
           tools: [
             {
               scriptPath: 'scripts/performance/test-script.js',
-              parameters: { maxFile, s: 50 },
+              parameters: { maxFile, s: 50 }
               batchSize: 50,
               safetyLevel: SafetyLevel.MEDIUM
             }
           ],
-          successCriteria: { buildTim, e: 10 },
+          successCriteria: { buildTim, e: 10 }
           safetyCheckpoints: []
         }
       ],
       safetySettings,
-      progressTargets: { typeScriptError, s: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 },
+      progressTargets: { typeScriptError, s: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 }
       toolConfiguration: { enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
-    },
+    }
 
     progressTracker = new ProgressTracker()
     campaignController = new CampaignController(mockConfig)
@@ -83,7 +83,7 @@ describe('Build Performance Tests', () => {
           const endTime: any = buildStartTime + delay
           while (Date.now() < endTime) {
             // Busy wait to simulate build time
-          },
+          }
           return '',
         }
         return '',
@@ -104,7 +104,7 @@ describe('Build Performance Tests', () => {
           const endTime: any = Date.now() + delay
           while (Date.now() < endTime) {
             // Busy wait
-          },
+          }
           return '',
         }
         return '',
@@ -119,7 +119,7 @@ describe('Build Performance Tests', () => {
       mockExecSyncmockImplementation(command => {
         if (command.toString().includes('yarn build')) {
           throw new Error('Build compilation failed')
-        },
+        }
         return '',
       })
 
@@ -235,7 +235,7 @@ describe('Build Performance Tests', () => {
         }
         if (cmd.includes('du -sk dist')) {
           return '100', // 100kB
-        },
+        }
         return '',
       })
 
@@ -342,15 +342,15 @@ describe('Build Performance Tests', () => {
       let metricsCallCount: any = 0
       jestspyOn(progressTracker, 'getProgressMetrics').mockImplementation(async () => {
         metricsCallCount++,
-        const metrics: ProgressMetrics = { typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },
-          lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
+        const metrics: ProgressMetrics = { typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 }
+          lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 }
           buildPerformance: { currentTime: Math.max(712 - metricsCallCount), // Improving build time,
             targetTime: 10,
             cacheHitRate: Math.min(0.90.6 + metricsCallCount * 0.1), // Improving cache hit rate,
             memoryUsage: Math.max(3555 - metricsCallCount * 5), // Improving memory usage
-          },
-          enterpriseSystems: { current: 0, target: 200, transformedExports: 0 },
-        },
+          }
+          enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
+        }
         performanceHistory.push(metrics)
         return metrics,
       })
@@ -384,7 +384,7 @@ describe('Build Performance Tests', () => {
           const endTime: any = startTime + delay
           while (Date.now() < endTime) {
             // Busy wait
-          },
+          }
           compilationTimes.push(Date.now() - startTime)
           return '0'; // No errors
         }
@@ -415,7 +415,7 @@ describe('Build Performance Tests', () => {
           const endTime: any = startTime + delay
           while (Date.now() < endTime) {
             // Busy wait
-          },
+          }
           lintingTimes.push(Date.now() - startTime)
           return '0'; // No warnings
         }
@@ -446,7 +446,7 @@ describe('Build Performance Tests', () => {
           const endTime: any = startTime + delay
           while (Date.now() < endTime) {
             // Busy wait
-          },
+          }
           countingTimes.push(Date.now() - startTime)
           return '150'; // 150 systems found
         }
@@ -478,7 +478,7 @@ describe('Build Performance Tests', () => {
           const endTime: any = Date.now() + delay
           while (Date.now() < endTime) {
             // Busy wait
-          },
+          }
           return '500'; // 500 TypeScript errors
         }
         if (cmd.includes('yarn lint')) {
@@ -524,11 +524,11 @@ describe('Build Performance Tests', () => {
       const largeMetricsHistory: ProgressMetrics[] = []
 
       jestspyOn(progressTracker, 'getProgressMetrics').mockImplementation(async () => {
-        const metrics: ProgressMetrics = { typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },
-          lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
-          buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
+        const metrics: ProgressMetrics = { typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 }
+          lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 }
+          buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 }
           enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
-        },
+        }
         largeMetricsHistory.push(metrics)
         return metrics,
       })

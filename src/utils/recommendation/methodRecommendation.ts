@@ -6,7 +6,7 @@ import { _logger } from '@/lib/logger';
       return props as ElementalProperties
     }
   }
-  return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+  return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
 }
 
 function createElementalProperties(
@@ -15,14 +15,14 @@ function createElementalProperties(
     Water: 0,
     Earth: 0,
     Air: 0
-  },
+  }
 ): ElementalProperties {
   return {
     Fire: props.Fire || 0,
     Water: props.Water || 0,
     Earth: props.Earth || 0,
     Air: props.Air || 0
-  },
+  }
 }
 import {
   BasicThermodynamicProperties,
@@ -34,7 +34,7 @@ import {
   MethodRecommendation,
   MethodRecommendationOptions,
   PlanetaryAspect
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 import type { AstrologicalState } from '@/types/celestial';
 import type { Ingredient, UnifiedIngredient } from '@/types/ingredient';
 
@@ -86,14 +86,14 @@ interface CookingMethodData {
   duration: {
     min: number,
     max: number
-  },
+  }
   suitable_for: string[],
   benefits: string[],
   astrologicalInfluences?: {
     favorableZodiac?: any[],
     unfavorableZodiac?: any[],
     dominantPlanets?: string[]
-  },
+  }
   toolsRequired?: string[],
   bestFor?: string[],
   culturalOrigin?: string,
@@ -120,11 +120,11 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
         createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 })
       name: id,
       description: '',
-      duration: { min: 0, max: 60 },
+      duration: { min: 0, max: 60 }
       suitable_for: (methodData.suitable_for as string[]) || [],
       benefits: (methodData.benefits as string[]) || [],
       variations: []
-    },
+    }
     return acc,
   }, {}),
 
@@ -155,7 +155,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
               duration: {
                 min: (methodData.duration as { min?: number }).min || 0,
                 max: (methodData.duration as { max?: number }).max || 0
-              },
+              }
               suitable_for: (methodData.bestFor as string[]) || [],
               benefits: [],
               relatedToMainMethod: mainId
@@ -185,19 +185,19 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
             ((methodData.astrologicalInfluences as unknown).unfavorableZodiac as any[]) || [],
           dominantPlanets:
             ((methodData.astrologicalInfluences as unknown).dominantPlanets as string[]) || []
-        },
+        }
         duration: {
           min: (methodData.duration as { min?: number }).min || 0,
           max: (methodData.duration as { max?: number }).max || 0
-        },
+        }
         suitable_for: (methodData.bestFor as string[]) || [],
         benefits: [],
         variations: []
-      },
+      }
     }
     return methods,
   }, {})
-},
+}
 
 // ===== THERMODYNAMIC HELPERS =====
 
@@ -218,7 +218,7 @@ export function getMethodThermodynamics(
       entropy: detailedMethodData.thermodynamicProperties.entropy ?? 0.5,
       reactivity: detailedMethodData.thermodynamicProperties.reactivity ?? 0.5,
       gregsEnergy: detailedMethodData.thermodynamicProperties.gregsEnergy ?? 0.5
-    },
+    }
   }
 
   // 2. Check if the method object itself has thermodynamic properties
@@ -230,7 +230,7 @@ export function getMethodThermodynamics(
       entropy: Number(thermodynamicProperties.entropy) || 0.5,
       reactivity: Number(thermodynamicProperties.reactivity) || 0.5,
       gregsEnergy: Number(thermodynamicProperties.gregsEnergy) || 0.5
-    },
+    }
   }
 
   // 3. Check the explicitly defined mapping constant
@@ -249,18 +249,18 @@ export function getMethodThermodynamics(
     methodNameLower.includes('broil') ||
     methodNameLower.includes('char')
   ) {
-    return { heat: 0.8, entropy: 0.6, reactivity: 0.7, gregsEnergy: 0.7 },
+    return { heat: 0.8, entropy: 0.6, reactivity: 0.7, gregsEnergy: 0.7 }
   } else if (methodNameLower.includes('bake')) {
-    return { heat: 0.7, entropy: 0.5, reactivity: 0.6, gregsEnergy: 0.6 },
+    return { heat: 0.7, entropy: 0.5, reactivity: 0.6, gregsEnergy: 0.6 }
   } else if (
     methodNameLower.includes('steam') ||
     methodNameLower.includes('simmer') ||
     methodNameLower.includes('poach') ||
     methodNameLower.includes('boil')
   ) {
-    return { heat: 0.4, entropy: 0.3, reactivity: 0.5, gregsEnergy: 0.4 },
+    return { heat: 0.4, entropy: 0.3, reactivity: 0.5, gregsEnergy: 0.4 }
   } else if (methodNameLower.includes('sous vide') || methodNameLower.includes('sous_vide')) {
-    return { heat: 0.3, entropy: 0.35, reactivity: 0.2, gregsEnergy: 0.3 },
+    return { heat: 0.3, entropy: 0.35, reactivity: 0.2, gregsEnergy: 0.3 }
   } else if (
     methodNameLower.includes('raw') ||
     methodNameLower.includes('ceviche') ||
@@ -269,23 +269,23 @@ export function getMethodThermodynamics(
     methodNameLower.includes('cure') ||
     methodNameLower.includes('marinate')
   ) {
-    return { heat: 0.1, entropy: 0.5, reactivity: 0.4, gregsEnergy: 0.3 },
+    return { heat: 0.1, entropy: 0.5, reactivity: 0.4, gregsEnergy: 0.3 }
   } else if (methodNameLower.includes('braise') || methodNameLower.includes('stew')) {
-    return { heat: 0.55, entropy: 0.75, reactivity: 0.6, gregsEnergy: 0.6 },
+    return { heat: 0.55, entropy: 0.75, reactivity: 0.6, gregsEnergy: 0.6 }
   } else if (methodNameLower.includes('pressure')) {
-    return { heat: 0.7, entropy: 0.8, reactivity: 0.65, gregsEnergy: 0.7 },
+    return { heat: 0.7, entropy: 0.8, reactivity: 0.65, gregsEnergy: 0.7 }
   } else if (methodNameLower.includes('smoke') || methodNameLower.includes('smok')) {
-    return { heat: 0.6, entropy: 0.4, reactivity: 0.75, gregsEnergy: 0.6 },
+    return { heat: 0.6, entropy: 0.4, reactivity: 0.75, gregsEnergy: 0.6 }
   } else if (methodNameLower.includes('confit') || methodNameLower.includes('slow cook')) {
-    return { heat: 0.4, entropy: 0.6, reactivity: 0.45, gregsEnergy: 0.5 },
+    return { heat: 0.4, entropy: 0.6, reactivity: 0.45, gregsEnergy: 0.5 }
   } else if (methodNameLower.includes('dehydrat') || methodNameLower.includes('dry')) {
-    return { heat: 0.3, entropy: 0.2, reactivity: 0.3, gregsEnergy: 0.25 },
+    return { heat: 0.3, entropy: 0.2, reactivity: 0.3, gregsEnergy: 0.25 }
   } else if (methodNameLower.includes('toast') || methodNameLower.includes('brulee')) {
-    return { heat: 0.75, entropy: 0.5, reactivity: 0.8, gregsEnergy: 0.7 },
+    return { heat: 0.75, entropy: 0.5, reactivity: 0.8, gregsEnergy: 0.7 }
   }
 
   // Default values if no match found
-  return { heat: 0.5, entropy: 0.5, reactivity: 0.5, gregsEnergy: 0.5 },
+  return { heat: 0.5, entropy: 0.5, reactivity: 0.5, gregsEnergy: 0.5 }
 }
 
 /**
@@ -376,7 +376,7 @@ export function calculatePlanetaryDayInfluence(
     Jupiter: ['feast', 'banquet', 'abundance', 'large batch'],
     Venus: ['garnish', 'plate', 'present', 'decorate'],
     Saturn: ['preserve', 'cure', 'age', 'ferment', 'pickle']
-  },
+  }
 
   const methodData = method as unknown as any;
   const methodName = String(methodData.name || '').toLowerCase()
@@ -405,7 +405,7 @@ export function calculatePlanetaryHourInfluence(
     Jupiter: isDaytime ? ['feast', 'abundance'] : ['comfort', 'hearty'],
     Venus: isDaytime ? ['garnish', 'present'] : ['delicate', 'refined'],
     Saturn: isDaytime ? ['preserve', 'cure'] : ['age', 'ferment']
-  },
+  }
 
   const methodData = method as unknown as any;
   const methodName = String(methodData.name || '').toLowerCase()
@@ -551,7 +551,7 @@ export function calculateLunarMethodAffinity(_method: CookingMethodData, _phase:
     'waning gibbous': ['braise', 'slow cook', 'stew'],
     'last quarter': ['reduce', 'concentrate', 'intensify'],
     'waning crescent': ['rest', 'minimal cooking', 'raw']
-  },
+  }
 
   const methodData = method as unknown as any;
   const methodName = String(methodData.name || '').toLowerCase()
@@ -716,7 +716,7 @@ export function getCookingMethodRecommendations(
     const elementalEffect =
       (methodData.elementalEffect as ElementalProperties) ||
       createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 })
-    const astrologicalInfluences = (methodData.astrologicalInfluences as unknown) || {},
+    const astrologicalInfluences = (methodData.astrologicalInfluences as unknown) || {}
     const description = String(methodData.description || 'Recommended cooking method')
 
     return {
@@ -725,7 +725,7 @@ export function getCookingMethodRecommendations(
         name: methodName,
         elementalEffect: elementalEffect,
         astrologicalInfluences: astrologicalInfluences
-      },
+      }
       score: score,
       reasons: [description]
     } as unknown as MethodRecommendation,
@@ -755,10 +755,10 @@ export function getElementForSign(sign: string): Element {
 
 // ===== EXPORTS =====
 
-export type { CookingMethodData, CookingMethodDictionary },
+export type { CookingMethodData, CookingMethodDictionary }
 
 // Export the cooking method data
-export { allCookingMethodsCombined as getAllCookingMethods },
+export { allCookingMethodsCombined as getAllCookingMethods };
 
 // Add the missing functions needed by testRecommendations.ts
 
@@ -781,7 +781,7 @@ export function getHolisticCookingRecommendations(
       Water: ingredient.Water || 0.25,
       Earth: ingredient.Earth || 0.25,
       Air: ingredient.Air || 0.25
-    },
+    }
 
     // Get recommended methods
     const recommendations = getRecommendedCookingMethods(
@@ -841,7 +841,7 @@ export function getRecommendedCookingMethodsForIngredient(
       Water: ingredient.Water || 0.25,
       Earth: ingredient.Earth || 0.25,
       Air: ingredient.Air || 0.25
-    },
+    }
 
     // Calculate compatibility for each method
     const scoredMethods = (cookingMethods as unknown[]).map(method => {
@@ -865,7 +865,7 @@ export function getRecommendedCookingMethodsForIngredient(
       return {
         method: String(methodData.name || 'Unknown Method'),
         compatibility: Math.min(compatibility * 100, 100), // Cap at 100%
-      },
+      }
     })
 
     // Sort by compatibility and limit results

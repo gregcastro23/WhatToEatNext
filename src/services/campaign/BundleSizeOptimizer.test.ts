@@ -239,7 +239,7 @@ describe('BundleSizeOptimizer', () => {
           'public/style.css': 20 * 1024, // 20kB
           'public/script.js': 50 * 1024, // 50kB
           'public/font.woff2': 30 * 1024, // 30kB
-        },
+        }
         return { size: sizes[path] || 1024 } as any.Stats,
       })
 

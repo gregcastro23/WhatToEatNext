@@ -9,14 +9,14 @@
 import {
   AdvancedIntelligenceConfig,
   AdvancedIntelligenceMetrics
-} from '@/types/advancedIntelligence',
+} from '@/types/advancedIntelligence';
 import {
   MLContext,
   MLIntelligenceResult,
   MLLearningData,
   MLMetrics,
   IngredientCompatibilityResult
-} from '@/types/mlIntelligence',
+} from '@/types/mlIntelligence';
 import { getCurrentSeason } from '@/types/seasons';
 import {Recipe, Ingredient, _ZodiacSign} from '@/types/unified';
 import {calculateElementalCompatibility} from '@/utils/elemental/elementalUtils';
@@ -28,7 +28,7 @@ const calculateSeasonalOptimization = (seasonality: string, currentSeason: strin
   if (seasonality === 'all' || seasonality === currentSeason) return 0.9,
   if (seasonality.includes(currentSeason)) return 0.8,
   return 0.6
-},
+}
 
 const calculateAstrologicalAlignment = (
   recipe: Recipe,
@@ -65,7 +65,7 @@ const calculateAstrologicalAlignment = (
 
   // Ensure alignment stays within reasonable bounds
   return Math.max(0.2, Math.min(0.95, alignment))
-},
+}
 
 // ========== MACHINE LEARNING INTELLIGENCE SERVICE ==========
 
@@ -86,9 +86,9 @@ export class MLIntelligenceService {
         maxExecutionTime: 8000,
         minConfidenceScore: 0.75,
         maxMemoryUsage: 150 * 1024 * 1024, // 150MB
-      },
+      }
       ...config
-    },
+    }
 
     this.cache = new Map()
     this.metrics = {
@@ -98,13 +98,13 @@ export class MLIntelligenceService {
       errorRate: 0,
       executionTimes: [],
       learningProgress: 0
-    },
+    }
     this.learningData = {
       recipeOptimizations: new Map(),
       ingredientCompatibility: new Map(),
       cuisineFusions: new Map(),
       astrologicalPredictions: new Map()
-    },
+    }
 
     this.log('info', 'ML Intelligence Service initialized')
   }
@@ -154,7 +154,7 @@ export class MLIntelligenceService {
         }),
         confidence: 0, // Will be calculated,
         timestamp: new Date().toISOString()
-      },
+      }
 
       // Calculate overall confidence
       result.confidence = this.calculateOverallConfidence(result)
@@ -221,7 +221,7 @@ export class MLIntelligenceService {
         cookingMethodOptimization,
         flavorEnhancementSuggestions,
         nutritionalOptimization
-      },
+      }
     } catch (error) {
       this.handleError('generateRecipeOptimization', error),
       return this.getDefaultRecipeOptimization()
@@ -265,7 +265,7 @@ export class MLIntelligenceService {
         pairwiseCompatibilityMatrix,
         substitutionRecommendations,
         flavorSynergyPredictions
-      },
+      }
     } catch (error) {
       this.handleError('generateIngredientPairing', error),
       return this.getDefaultIngredientPairing()
@@ -313,7 +313,7 @@ export class MLIntelligenceService {
         culturalHarmonyPrediction,
         innovationPotential,
         recommendedFusionTechniques
-      },
+      }
     } catch (error) {
       this.handleError('generateCuisineFusion', error),
       return this.getDefaultCuisineFusion()
@@ -329,7 +329,7 @@ export class MLIntelligenceService {
       recipe?: Recipe,
       ingredients?: Ingredient[],
       cuisine?: Record<string, unknown>
-    },
+    }
   ): Promise<MLIntelligenceResult['astrologicalPrediction']> {
     try {
       // Calculate ML alignment score
@@ -361,7 +361,7 @@ export class MLIntelligenceService {
         optimalTimingPrediction,
         planetaryInfluenceOptimization,
         cosmicHarmonyEnhancement
-      },
+      }
     } catch (error) {
       this.handleError('generateAstrologicalPrediction', error),
       return this.getDefaultAstrologicalPrediction()
@@ -373,9 +373,9 @@ export class MLIntelligenceService {
   private calculateMLOptimizedScore(recipe: Recipe, _astrologicalContext: MLContext): number {
     // Calculate base optimization score
     const elementalAlignment = calculateElementalCompatibility(
-      (recipe as { elementalProperties?: ElementalProperties })?.elementalProperties ?? {},
+      (recipe as { elementalProperties?: ElementalProperties })?.elementalProperties ?? {}
       (_astrologicalContext as { elementalProperties?: ElementalProperties })
-        ?.elementalProperties ?? {},
+        ?.elementalProperties ?? {}
     )
 
     const recipeData = recipe as unknown ;
@@ -575,7 +575,7 @@ export class MLIntelligenceService {
     ingredients: Ingredient[],
     __astrologicalContext: MLContext,
   ): Record<string, Record<string, number>> {
-    const matrix: Record<string, Record<string, number>> = {},
+    const matrix: Record<string, Record<string, number>> = {}
 
     ingredients.forEach(ing1 => {
       matrix[ing1.name] = {}
@@ -607,7 +607,7 @@ export class MLIntelligenceService {
     ingredients: Ingredient[],
     __astrologicalContext: MLContext,
   ): Record<string, string[]> {
-    const recommendations: Record<string, string[]> = {},
+    const recommendations: Record<string, string[]> = {}
 
     ingredients.forEach(ingredient => {
       const substitutions = this.findSubstitutions(ingredient, __astrologicalContext),
@@ -804,7 +804,7 @@ export class MLIntelligenceService {
     __astrologicalContext: MLContext,
     _culinaryContext: Record<string, unknown>,
   ): number {
-    const planetaryPositions = __astrologicalContext?.planetaryPositions || {},
+    const planetaryPositions = __astrologicalContext?.planetaryPositions || {}
     const planetaryInfluences = Object.values(planetaryPositions).map(
       (position: Record<string, unknown>) =>
         this.calculatePlanetaryInfluence(position, _culinaryContext),
@@ -857,7 +857,7 @@ export class MLIntelligenceService {
   }
 
   private calculateComplexityFactor(recipe: Recipe): number {
-    const complexityFactors = { easy: 0.9, medium: 0.7, hard: 0.5 },
+    const complexityFactors = { easy: 0.9, medium: 0.7, hard: 0.5 }
     return complexityFactors[recipe.difficulty as keyof typeof complexityFactors] || 0.7,
   }
 
@@ -876,7 +876,7 @@ export class MLIntelligenceService {
       tomato: ['bell pepper', 'paprika'],
       onion: ['shallot', 'leek'],
       garlic: ['garlic powder', 'shallot']
-    },
+    }
     const key = String(ingredient.name || '').toLowerCase()
     if (key in basicSubstitutions) {
       return basicSubstitutions[key][0]
@@ -904,29 +904,29 @@ export class MLIntelligenceService {
         default: 'Consider longer marination for enhanced flavor',
         fire: 'High heat grilling aligns with current Fire energy',
         water: 'Use marinades with citrus for Water element balance'
-      },
+      }
       baking: {
         default: 'Adjust temperature for optimal texture',
         earth: 'Lower temperature (325°F) for Earth element grounding',
         air: 'Higher temperature (400°F) for Air element lightness'
-      },
+      }
       frying: {
         default: 'Use high smoke point oils for better results',
         fire: 'Quick high-heat frying maximizes Fire element',
         water: 'Consider steam-frying with liquid for balance'
-      },
+      }
       roasting: {
         default: 'Rotate halfway through for even cooking',
         fire: 'High heat (425°F) caramelization',
         earth: 'Slow roast (325°F) for depth'
       }
-    },
+    }
 
     const key = _method.toLowerCase()
     const optimizations =
       key in methodOptimizations,
         ? methodOptimizations[key]
-        : { default: `Optimize ${_method} based on ingredient properties` },
+        : { default: `Optimize ${_method} based on ingredient properties` }
 
     if (__astrologicalContext) {
       const planetaryElement =
@@ -970,7 +970,7 @@ export class MLIntelligenceService {
         jupiter: 'Jupiter hour amplifies abundance - perfect for feasts',
         venus: 'Venus hour enhances pleasure - ideal for desserts and romantic meals',
         saturn: 'Saturn hour promotes structure - good for traditional recipes'
-      },
+      }
       const recommendation = hourInfluences[__astrologicalContext.planetaryHour.toLowerCase()];
       if (recommendation) {
         timingRecommendations.push(recommendation)
@@ -1018,7 +1018,7 @@ export class MLIntelligenceService {
       cancer: 'Water',
       scorpio: 'Water',
       pisces: 'Water'
-    },
+    }
 
     return elementMap[__astrologicalContext.sunSign?.toLowerCase() || ''] || 'Earth',
   }
@@ -1030,7 +1030,7 @@ export class MLIntelligenceService {
       water: ['cucumber', 'melon', 'lettuce', 'milk', 'coconut milk'],
       earth: ['potato', 'carrot', 'beet', 'grain', 'nut', 'bean'],
       air: ['herb', 'spice', 'citrus', 'vinegar', 'wine']
-    },
+    }
 
     const ingredientLower = ingredient.toLowerCase()
     const elementKey = element.toLowerCase()
@@ -1118,7 +1118,7 @@ export class MLIntelligenceService {
       tomato: ['bell pepper', 'paprika'],
       onion: ['shallot', 'leek'],
       garlic: ['garlic powder', 'shallot']
-    },
+    }
     const key = String(ingredient.name || '').toLowerCase()
     return key in basicSubstitutions ? basicSubstitutions[key] : []
   }
@@ -1351,7 +1351,7 @@ export class MLIntelligenceService {
   }
 
   private shouldLog(level: string): boolean {
-    const levels = { debug: 0, info: 1, warn: 2, error: 3 },
+    const levels = { debug: 0, info: 1, warn: 2, error: 3 }
     const configLevel = levels[this.config.logLevel] || 1;
     const messageLevel = levels[level as keyof typeof levels] || 1;
     return messageLevel >= configLevel,
@@ -1368,16 +1368,16 @@ export class MLIntelligenceService {
       cookingMethodOptimization: ['Optimize cooking timing for astrological alignment'],
       flavorEnhancementSuggestions: ['Enhance with complementary flavors'],
       nutritionalOptimization: ['Balance nutritional profile for optimal health']
-    },
+    }
   }
 
   private getDefaultIngredientPairing(): IngredientCompatibilityResult {
     return {
       mlCompatibilityScore: 0.75,
-      pairwiseCompatibilityMatrix: {},
-      substitutionRecommendations: {},
+      pairwiseCompatibilityMatrix: {}
+      substitutionRecommendations: {}
       flavorSynergyPredictions: ['Good flavor synergy detected']
-    },
+    }
   }
 
   private getDefaultCuisineFusion(): MLIntelligenceResult['cuisineFusion'] {
@@ -1387,7 +1387,7 @@ export class MLIntelligenceService {
       culturalHarmonyPrediction: 0.75,
       innovationPotential: 0.7,
       recommendedFusionTechniques: ['Blend complementary cooking methods']
-    },
+    }
   }
 
   private getDefaultAstrologicalPrediction(): MLIntelligenceResult['astrologicalPrediction'] {
@@ -1396,7 +1396,7 @@ export class MLIntelligenceService {
       optimalTimingPrediction: 'Good timing - ML-optimized astrological conditions',
       planetaryInfluenceOptimization: 0.75,
       cosmicHarmonyEnhancement: ['Enhance with cosmic alignment techniques']
-    },
+    }
   }
 
   // ========== PUBLIC METHODS ==========
@@ -1416,7 +1416,7 @@ export class MLIntelligenceService {
       cacheHitRate: this.metrics.cacheHitRate,
       errorRate: this.metrics.errorRate,
       timestamp: new Date().toISOString()
-    },
+    }
   }
 
   getLearningProgress(): number {
@@ -1424,7 +1424,7 @@ export class MLIntelligenceService {
   }
 
   updateConfig(newConfig: Partial<AdvancedIntelligenceConfig>): void {
-    this.config = { ...this.config, ...newConfig },
+    this.config = { ...this.config, ...newConfig }
     this.log('info', 'ML Intelligence Service configuration updated')
   }
 
@@ -1441,7 +1441,7 @@ export class MLIntelligenceService {
       errorRate: 0,
       executionTimes: [],
       learningProgress: 0
-    },
+    }
     this.log('info', 'ML Intelligence Service metrics reset')
   }
 
@@ -1451,7 +1451,7 @@ export class MLIntelligenceService {
       ingredientCompatibility: new Map(),
       cuisineFusions: new Map(),
       astrologicalPredictions: new Map()
-    },
+    }
     this.log('info', 'ML Intelligence Service learning data reset')
   }
 }
@@ -1465,7 +1465,7 @@ export const _MLRecipeOptimizationIntelligence = {
     const result = await service.generateMLIntelligence(recipe, [], {}, context)
     return result.recipeOptimization,
   }
-},
+}
 
 export const _MLIngredientCompatibilityIntelligence = {
   predictIngredientCompatibility: async (ingredients: Ingredient[], context: MLContext) => {
@@ -1473,7 +1473,7 @@ export const _MLIngredientCompatibilityIntelligence = {
     const result = await service.generateMLIntelligence({} as Recipe, ingredients, {}, context)
     return result.ingredientPairing,
   }
-},
+}
 
 export const _MLCuisineFusionIntelligence = {
   predictFusionSuccess: async (cuisine: Record<string, unknown>, context: MLContext) => {
@@ -1481,7 +1481,7 @@ export const _MLCuisineFusionIntelligence = {
     const result = await service.generateMLIntelligence({} as Recipe, [], cuisine, context)
     return result.cuisineFusion,
   }
-},
+}
 
 export const _MLAstrologicalPredictionIntelligence = {
   predictAstrologicalAlignment: async (
@@ -1492,7 +1492,7 @@ export const _MLAstrologicalPredictionIntelligence = {
     const result = await service.generateMLIntelligence({} as Recipe, [], {}, astrologicalState)
     return result.astrologicalPrediction,
   }
-},
+}
 
 export const _createMLIntelligenceService = (config?: Partial<AdvancedIntelligenceConfig>) =>
   new MLIntelligenceService(config)

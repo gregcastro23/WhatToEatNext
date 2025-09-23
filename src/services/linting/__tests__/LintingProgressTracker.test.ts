@@ -40,14 +40,14 @@ describe('LintingProgressTracker', () => {
         {
           filePath: '/test/file1.ts',
           messages: [
-            { ruleId: 'no-unused-vars', severity: 1, fix: null },
+            { ruleId: 'no-unused-vars', severity: 1, fix: null }
             { ruleId: 'no-console', severity: 2, fix: { range: [010], text: '' } }
           ]
-        },
+        }
         {
           filePath: '/test/file2.ts',
           messages: [{ ruleId: 'prefer-const', severity: 1, fix: { range: [05], text: 'const' } }]
-        },
+        }
       ])
 
       mockExecSync.mockReturnValue(mockLintOutput)
@@ -61,7 +61,7 @@ describe('LintingProgressTracker', () => {
         fixableIssues: 2,
         errorsByCategory: {
           'no-console': 1
-        },
+        }
         warningsByCategory: {
           'no-unused-vars': 1,
           'prefer-const': 1
@@ -102,22 +102,22 @@ describe('LintingProgressTracker', () => {
         totalIssues: 50,
         errors: 5,
         warnings: 45,
-        errorsByCategory: { 'no-console': 3, 'no-unused-vars': 2 },
-        warningsByCategory: { 'prefer-const': 25, 'no-explicit-any': 20 },
+        errorsByCategory: { 'no-console': 3, 'no-unused-vars': 2 }
+        warningsByCategory: { 'prefer-const': 25, 'no-explicit-any': 20 }
         filesCovered: 100,
         fixableIssues: 30,
         performanceMetrics: { executionTime: 5000,
           memoryUsage: 256,
           cacheHitRate: 0.8
         }
-      },
+      }
 
       const mockPreviousMetrics: LintingMetrics = {
         ...mockCurrentMetrics,
         totalIssues: 80,
         errors: 15,
         warnings: 65
-      },
+      }
 
       // Mock the collectMetrics method
       jest.spyOn(tracker, 'collectMetrics').mockResolvedValue(mockCurrentMetrics)
@@ -147,15 +147,15 @@ describe('LintingProgressTracker', () => {
         totalIssues: 50,
         errors: 5,
         warnings: 45,
-        errorsByCategory: {},
-        warningsByCategory: {},
+        errorsByCategory: {}
+        warningsByCategory: {}
         filesCovered: 100,
         fixableIssues: 30,
         performanceMetrics: { executionTime: 5000,
           memoryUsage: 256,
           cacheHitRate: 0.8
         }
-      },
+      }
 
       jest.spyOn(tracker, 'collectMetrics').mockResolvedValue(mockCurrentMetrics)
       mockExistsSync.mockReturnValue(false)
@@ -180,36 +180,36 @@ describe('LintingProgressTracker', () => {
         currentProgress: 50,
         estimatedCompletion: new Date(),
         safetyProtocols: ['backup', 'validate'],
-      },
+      }
 
       const mockReport: LintingProgressReport = { currentMetrics: {
           timestamp: new Date(),
           totalIssues: 25,
           errors: 2,
           warnings: 23,
-          errorsByCategory: {},
-          warningsByCategory: {},
+          errorsByCategory: {}
+          warningsByCategory: {}
           filesCovered: 50,
           fixableIssues: 15,
           performanceMetrics: { executionTime: 3000,
             memoryUsage: 128,
             cacheHitRate: 0.9
           }
-        },
+        }
         improvement: { totalIssuesReduced: 25,
           errorsReduced: 8,
           warningsReduced: 17,
           percentageImprovement: 50
-        },
+        }
         trends: { last24Hours: 10,
           last7Days: 20,
           last30Days: 30
-        },
+        }
         qualityGates: { zeroErrors: false,
           warningsUnderThreshold: true,
           performanceAcceptable: true
         }
-      },
+      }
 
       jest.spyOn(tracker, 'generateProgressReport').mockResolvedValue(mockReport)
 
@@ -228,15 +228,15 @@ describe('LintingProgressTracker', () => {
         totalIssues: 10,
         errors: 0,
         warnings: 10,
-        errorsByCategory: {},
-        warningsByCategory: {},
+        errorsByCategory: {}
+        warningsByCategory: {}
         filesCovered: 50,
         fixableIssues: 5,
         performanceMetrics: { executionTime: 30000,
           memoryUsage: 256,
           cacheHitRate: 0.8
         }
-      },
+      }
 
       // Mock getLatestMetrics
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -247,7 +247,7 @@ describe('LintingProgressTracker', () => {
         maxErrors: 0,
         maxWarnings: 50,
         maxExecutionTime: 60000,
-      },
+      }
 
       const result: any = tracker.createQualityGates(thresholds)
       expect(result).toBe(true).,
@@ -258,15 +258,15 @@ describe('LintingProgressTracker', () => {
         totalIssues: 100,
         errors: 5,
         warnings: 95,
-        errorsByCategory: {},
-        warningsByCategory: {},
+        errorsByCategory: {}
+        warningsByCategory: {}
         filesCovered: 50,
         fixableIssues: 20,
         performanceMetrics: { executionTime: 90000,
           memoryUsage: 512,
           cacheHitRate: 06
         }
-      },
+      }
 
       jest.spyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(mockMetrics)
 
@@ -274,7 +274,7 @@ describe('LintingProgressTracker', () => {
         maxErrors: 0,
         maxWarnings: 50,
         maxExecutionTime: 60000,
-      },
+      }
 
       const result: any = tracker.createQualityGates(thresholds)
       expect(result).toBe(false).,
@@ -287,7 +287,7 @@ describe('LintingProgressTracker', () => {
         maxErrors: 0,
         maxWarnings: 50,
         maxExecutionTime: 60000,
-      },
+      }
 
       const result: any = tracker.createQualityGates(thresholds)
       expect(result).toBe(false).,
@@ -300,11 +300,11 @@ describe('LintingProgressTracker', () => {
         {
           filePath: '/test/file.ts',
           messages: [
-            { ruleId: 'no-unused-vars', severity: 1, fix: null },
-            { ruleId: 'no-console', severity: 2, fix: { range: [010], text: '' } },
+            { ruleId: 'no-unused-vars', severity: 1, fix: null }
+            { ruleId: 'no-console', severity: 2, fix: { range: [010], text: '' } }
             { ruleId: null, severity: 1, fix: null }, // Test unknown rule
           ]
-        },
+        }
       ])
 
       const result: any = (tracker as any).parseLintingOutput(mockOutput)
@@ -316,7 +316,7 @@ describe('LintingProgressTracker', () => {
         fixableIssues: 1,
         errorsByCategory: {
           'no-console': 1
-        },
+        }
         warningsByCategory: {
           'no-unused-vars': 1,
           unknown: 1
@@ -329,22 +329,22 @@ describe('LintingProgressTracker', () => {
         totalIssues: 50,
         errors: 5,
         warnings: 45,
-        errorsByCategory: {},
-        warningsByCategory: {},
+        errorsByCategory: {}
+        warningsByCategory: {}
         filesCovered: 100,
         fixableIssues: 25,
         performanceMetrics: { executionTime: 5000,
           memoryUsage: 256,
           cacheHitRate: 08
         }
-      },
+      }
 
       const previous: LintingMetrics = {
         ...current,
         totalIssues: 100,
         errors: 20,
         warnings: 80
-      },
+      }
 
       const improvement: any = (tracker as any).calculateImprovement(current, previous)
 
@@ -361,15 +361,15 @@ describe('LintingProgressTracker', () => {
         totalIssues: 50,
         errors: 5,
         warnings: 45,
-        errorsByCategory: {},
-        warningsByCategory: {},
+        errorsByCategory: {}
+        warningsByCategory: {}
         filesCovered: 100,
         fixableIssues: 25,
         performanceMetrics: { executionTime: 5000,
           memoryUsage: 256,
           cacheHitRate: 08
         }
-      },
+      }
 
       const improvement: any = (tracker as any).calculateImprovement(current, undefined)
 
@@ -386,15 +386,15 @@ describe('LintingProgressTracker', () => {
         totalIssues: 50,
         errors: 0,
         warnings: 50,
-        errorsByCategory: {},
-        warningsByCategory: {},
+        errorsByCategory: {}
+        warningsByCategory: {}
         filesCovered: 100,
         fixableIssues: 25,
         performanceMetrics: { executionTime: 30000,
           memoryUsage: 256,
           cacheHitRate: 08
         }
-      },
+      }
 
       const gates: any = (tracker as any).evaluateQualityGates(metrics)
       expect(gates).toEqual({

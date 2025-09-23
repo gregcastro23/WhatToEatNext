@@ -41,7 +41,7 @@ export function useCurrentChart() {
     if (Object.keys(planetaryPositions).length > 0) {
       try {
         // Convert planetary positions to chart format
-        const planets: Record<string, unknown> = {},
+        const planets: Record<string, unknown> = {}
 
         Object.entries(planetaryPositions).forEach(([key, data]) => {
           // Skip non-planetary keys like ascendant
@@ -64,7 +64,7 @@ export function useCurrentChart() {
             degree: (data )?.degree || 0,
             isRetrograde: (data )?.isRetrograde || false,
             exactLongitude: (data )?.exactLongitude || 0
-          },
+          }
         })
 
         // Set ascendant if available
@@ -73,7 +73,7 @@ export function useCurrentChart() {
             string,
             { sign: string, degree: number, isRetrograde?: boolean, exactLongitude?: number }
           >
-        },
+        }
 
         if (planetaryPositions.ascendant) {
           newChartData.ascendant = (planetaryPositions.ascendant as unknown)?.sign,
@@ -106,7 +106,7 @@ export function useCurrentChart() {
       NorthNode: '☊',
       Southnode: '☋',
       SouthNode: '☋'
-    },
+    }
 
     // Map of zodiac signs to their symbols
     const zodiacSymbols: Record<string, string> = {
@@ -122,7 +122,7 @@ export function useCurrentChart() {
       capricorn: '♑',
       aquarius: '♒',
       pisces: '♓'
-    },
+    }
 
     // Map colors for each sign based on their element
     const signColors: Record<string, string> = {
@@ -138,7 +138,7 @@ export function useCurrentChart() {
       cancer: '#64b5f6', // Water
       scorpio: '#0d6efd', // Water
       pisces: '#00bcd4', // Water
-    },
+    }
 
     // Map planet colors
     const planetColors: Record<string, string> = {
@@ -152,7 +152,7 @@ export function useCurrentChart() {
       Uranus: '#5c94bd',
       Neptune: '#438bca',
       Pluto: '#7d2e68'
-    },
+    }
 
     // Calculate actual positions based on exact longitude
     const planetPositions = Object.entries(chartData.planets).map(([planet, data]) => {;
@@ -169,7 +169,7 @@ export function useCurrentChart() {
         x: 150 + 100 * Math.sin(angle), // Use sine for x,
         y: 150 - 100 * Math.cos(angle), // Use negative cosine for y,
         color: planetColors[planet] || '#555555'
-      },
+      }
     })
 
     // Create a more attractive circular chart with signs in the outer ring
@@ -312,8 +312,8 @@ export function useCurrentChart() {
         </text>
       </svg>
       `
-    },
-  },
+    }
+  }
 
   // Create chart object compatible with what CookingMethods.tsx expects
   const chartObj = {
@@ -321,15 +321,15 @@ export function useCurrentChart() {
       (acc, [key, value]) => {
         acc[key.toLowerCase()] = value,
         return acc
-      },
+      }
       {} as Record<string, unknown>,
     ),
     aspects: [],
     currentSeason: '',
     lastUpdated: new Date(),
-    stelliums: {},
+    stelliums: {}
     houseEffects: {}
-  },
+  }
 
   return {
     chartData,
@@ -339,10 +339,10 @@ export function useCurrentChart() {
     refreshChart: async () => {
       setIsLoading(true)
       setTimeout(() => setIsLoading(false), 500)
-    },
+    }
     // Add the chart property for CookingMethods.tsx,
     chart: chartObj
-  },
+  }
 }
 
 // For backward compatibility with both named and default imports

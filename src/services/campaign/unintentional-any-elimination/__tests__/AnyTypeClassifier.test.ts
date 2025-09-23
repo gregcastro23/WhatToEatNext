@@ -25,7 +25,7 @@ describe('AnyTypeClassifier', () => {
       intentionalityHints: [],
       suggestedTypes: [],
       preservationReasons: []
-    },
+    }
     ...options,
   })
 
@@ -94,7 +94,7 @@ describe('AnyTypeClassifier', () => {
         {
           hasExistingComment: true,
           existingComment: '// Intentionally, any: External API response'
-        },
+        }
       )
 
       const result: any = await classifier.classify(context)
@@ -130,7 +130,7 @@ describe('AnyTypeClassifier', () => {
             suggestedTypes: [],
             preservationReasons: []
           }
-        },
+        }
       )
 
       const result: any = await classifier.classify(context)
@@ -150,7 +150,7 @@ describe('AnyTypeClassifier', () => {
             suggestedTypes: [],
             preservationReasons: []
           }
-        },
+        }
       )
 
       const result: any = await classifier.classify(context)
@@ -203,7 +203,7 @@ describe('AnyTypeClassifier', () => {
             '  performOperation(),',
             '} catch (e: any) {'
           ]
-        },
+        }
       )
 
       const result: any = await classifier.classify(context)
@@ -219,7 +219,7 @@ describe('AnyTypeClassifier', () => {
         {
           filePath: 'src/components/__tests__/Componenttest.tsx',
           isInTestFile: true
-        },
+        }
       )
 
       const result: any = await classifier.classify(context)
@@ -255,7 +255,7 @@ describe('AnyTypeClassifier', () => {
             intentionalityHints: [],
             suggestedTypes: [],
             preservationReasons: []
-          },
+          }
           surroundingLines: [
             'const planetaryData: any = await getReliablePlanetaryPositions(),',,
             'const _transitDates: any = validateTransitDate(planet, date, sign),',
@@ -279,7 +279,7 @@ describe('AnyTypeClassifier', () => {
             intentionalityHints: [],
             suggestedTypes: [],
             preservationReasons: []
-          },
+          }
           surroundingLines: [
             'const _ingredientData: any = await fetchIngredientInfo(),',,
             'const _elementalProperties: any = calculateElementalBalance(),',
@@ -303,7 +303,7 @@ describe('AnyTypeClassifier', () => {
             intentionalityHints: [],
             suggestedTypes: [],
             preservationReasons: []
-          },
+          }
           surroundingLines: [
             'const campaignSettings: any = loadDynamicConfig(),',,
             'const _adaptiveStrategy: any = adjustCampaignBehavior(),',
@@ -327,7 +327,7 @@ describe('AnyTypeClassifier', () => {
             intentionalityHints: [],
             suggestedTypes: [],
             preservationReasons: []
-          },
+          }
           surroundingLines: [
             'const response: any = await externalService.call(),',,
             'const _mappedData: any = transformServiceResponse(response),',
@@ -350,7 +350,7 @@ describe('AnyTypeClassifier', () => {
         {
           hasExistingComment: true,
           existingComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API response structure unknown'
-        },
+        }
       )
 
       const result: any = await classifierclassify(context)
@@ -365,7 +365,7 @@ describe('AnyTypeClassifier', () => {
         {
           hasExistingComment: true,
           existingComment: '// Flexible typing needed for dynamic configuration'
-        },
+        }
       )
 
       const result: any = await classifier.classify(context)
@@ -378,7 +378,7 @@ describe('AnyTypeClassifier', () => {
         {
           hasExistingComment: true,
           existingComment: '// TODO: Fix this any type when API schema is available'
-        },
+        }
       )
 
       const result: any = await classifierclassify(context)
@@ -396,7 +396,7 @@ describe('AnyTypeClassifier', () => {
             '  return datatoString(),',
             '}'
           ]
-        },
+        }
       )
 
       const result: any = await classifier.classify(context)
@@ -415,7 +415,7 @@ describe('AnyTypeClassifier', () => {
             '  return { id: 1, name: 'test' },',
             '}'
           ]
-        },
+        }
       )
 
       const result: any = await classifierclassify(context)
@@ -530,7 +530,7 @@ describe('AnyTypeClassifier', () => {
         'const data: any = response,',
         {
           surroundingLines: Array(50).fill('  // nested comment line')
-        },
+        }
       )
 
       const result: any = await classifier.classify(context)
@@ -614,7 +614,7 @@ describe('AnyTypeClassifier', () => {
             suggestedTypes: ['PlanetaryPosition'],
             preservationReasons: ['External API compatibility']
           }
-        },
+        }
       )
 
       const result: any = await classifier.classify(astroContext)
@@ -632,7 +632,7 @@ describe('AnyTypeClassifier', () => {
             suggestedTypes: [],
             preservationReasons: []
           }
-        },
+        }
       )
 
       const result: any = await classifier.classify(conflictContext)

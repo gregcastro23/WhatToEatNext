@@ -17,7 +17,7 @@ import {
   ComprehensiveValidationFramework,
   ComprehensiveValidationResult,
   ValidationConfig
-} from './ComprehensiveValidationFramework',
+} from './ComprehensiveValidationFramework';
 
 export interface ValidationIntegrationConfig {
   validationConfig: Partial<ValidationConfig>,
@@ -55,7 +55,7 @@ export class ValidationIntegration {
 
   constructor(config: Partial<ValidationIntegrationConfig> = {}) {
     this.config = {
-      validationConfig: {},
+      validationConfig: {}
       enableAutomaticValidation: true,
       enableAutomaticRollback: true,
       qualityThreshold: 80,
@@ -63,7 +63,7 @@ export class ValidationIntegration {
       reportingEnabled: true,
       reportingPath: './validation-reports',
       ...config
-    },
+    }
 
     this.validationFramework = new ComprehensiveValidationFramework(this.config.validationConfig)
   }
@@ -75,7 +75,7 @@ export class ValidationIntegration {
     batchResult: BatchResult,
     processedFiles: string[],
   ): Promise<IntegratedBatchResult> {
-    const integratedResult: IntegratedBatchResult = { ...batchResult },
+    const integratedResult: IntegratedBatchResult = { ...batchResult }
 
     if (!this.config.enableAutomaticValidation) {
       // // // _logger.info('🔍 Automatic validation disabled, skipping validation'),
@@ -234,7 +234,7 @@ export class ValidationIntegration {
       recommendations: [...new Set(recommendations)],
       actionRequired,
       rollbackRecommended
-    },
+    }
   }
 
   /**
@@ -347,7 +347,7 @@ export class ValidationIntegration {
       acceptable: 0,
       poor: 0,
       critical: 0
-    },
+    }
 
     for (const report of reports) {
       distribution[report.overallQuality]++
@@ -405,7 +405,7 @@ export class ValidationIntegration {
    * Update configuration
    */
   updateConfig(newConfig: Partial<ValidationIntegrationConfig>): void {
-    this.config = { ...this.config, ...newConfig },
+    this.config = { ...this.config, ...newConfig }
 
     // Update validation framework config if provided
     if (newConfig.validationConfig) {
@@ -453,6 +453,6 @@ export class ValidationIntegration {
       averageQualityScore,
       criticalFailures,
       rollbacksRecommended
-    },
+    }
   }
 }

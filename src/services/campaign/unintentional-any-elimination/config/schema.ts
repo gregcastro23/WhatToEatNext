@@ -101,9 +101,9 @@ export function validateClassificationConfig(_config: unknown): {
 } {
   try {
     const data = ClassificationConfigSchema.parse(config)
-    return { isValid: true, data },
+    return { isValid: true, data }
   } catch (error) {
-    return { isValid: false, errors: error as z.ZodError },
+    return { isValid: false, errors: error as z.ZodError }
   }
 }
 
@@ -114,9 +114,9 @@ export function validateDomainConfig(_config: unknown): {
 } {
   try {
     const data = DomainConfigSchema.parse(config)
-    return { isValid: true, data },
+    return { isValid: true, data }
   } catch (error) {
-    return { isValid: false, errors: error as z.ZodError },
+    return { isValid: false, errors: error as z.ZodError }
   }
 }
 
@@ -127,9 +127,9 @@ export function validateSafetyConfig(_config: unknown): {
 } {
   try {
     const data = SafetyConfigSchema.parse(config)
-    return { isValid: true, data },
+    return { isValid: true, data }
   } catch (error) {
-    return { isValid: false, errors: error as z.ZodError },
+    return { isValid: false, errors: error as z.ZodError }
   }
 }
 
@@ -140,9 +140,9 @@ export function validateTargetConfig(_config: unknown): {
 } {
   try {
     const data = TargetConfigSchema.parse(config)
-    return { isValid: true, data },
+    return { isValid: true, data }
   } catch (error) {
-    return { isValid: false, errors: error as z.ZodError },
+    return { isValid: false, errors: error as z.ZodError }
   }
 }
 
@@ -153,9 +153,9 @@ export function validateUnintentionalAnyConfig(_config: unknown): {
 } {
   try {
     const data = UnintentionalAnyConfigSchema.parse(config)
-    return { isValid: true, data },
+    return { isValid: true, data }
   } catch (error) {
-    return { isValid: false, errors: error as z.ZodError },
+    return { isValid: false, errors: error as z.ZodError }
   }
 }
 
@@ -227,7 +227,7 @@ export function validateBusinessRules(_config: z.infer<typeof UnintentionalAnyCo
     isValid: errors.length === 0,
     errors,
     warnings
-  },
+  }
 }
 
 /**
@@ -246,7 +246,7 @@ export function validateCompleteConfig(_config: unknown): {
     return {
       isValid: false,
       schemaErrors: schemaValidation.errors
-    },
+    }
   }
 
   // Then validate business rules
@@ -257,7 +257,7 @@ export function validateCompleteConfig(_config: unknown): {
     data: schemaValidation.data,
     businessErrors: businessValidation.errors,
     warnings: businessValidation.warnings
-  },
+  }
 }
 
 /**

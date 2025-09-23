@@ -94,7 +94,7 @@ export class PerformanceCache<T> {
       ttl,
       accessCount: 1,
       lastAccessed: now
-    },
+    }
 
     this.cache.set(key, entry)
   }
@@ -161,7 +161,7 @@ export class PerformanceCache<T> {
       memoryUsage,
       oldestEntry: oldestEntry === now ? 0 : oldestEntry,,
       newestEntry
-    },
+    }
   }
 
   /**
@@ -241,7 +241,7 @@ export class PerformanceCache<T> {
  */
 export class PerformanceMonitor {
   private metrics: PerformanceMetrics[] = []
-  private currentMetrics: Partial<PerformanceMetrics> = {},
+  private currentMetrics: Partial<PerformanceMetrics> = {}
   private maxHistorySize: number = 100,
 
   /**
@@ -257,7 +257,7 @@ export class PerformanceMonitor {
       this.recordMetric('calculationTime', duration),
 
       return duration
-    },
+    }
   }
 
   /**
@@ -280,7 +280,7 @@ export class PerformanceMonitor {
       recommendationCount: this.currentMetrics.recommendationCount || 0,
       averageResponseTime: this.currentMetrics.averageResponseTime || 0,
       peakMemoryUsage: this.currentMetrics.peakMemoryUsage || 0
-    },
+    }
 
     this.metrics.push(snapshot)
 
@@ -309,8 +309,8 @@ export class PerformanceMonitor {
         recommendationCount: 0,
         averageResponseTime: 0,
         peakMemoryUsage: 0
-      },
-      return { current: empty, average: empty, peak: empty, history: [] },
+      }
+      return { current: empty, average: empty, peak: empty, history: [] }
     }
 
     const current = this.metrics[(this.metrics || []).length - 1];
@@ -352,7 +352,7 @@ export class PerformanceMonitor {
           const numericValue = typeof m.peakMemoryUsage === 'number' ? m.peakMemoryUsage : 0
           return numericSum + numericValue
         }, 0) || 0) / metricsLength
-    },
+    }
 
     // Calculate peaks
     const metricsArray = this.metrics.length > 0 ? this.metrics : [];
@@ -368,9 +368,9 @@ export class PerformanceMonitor {
         metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.averageResponseTime)) : 0,,
       peakMemoryUsage:
         metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.peakMemoryUsage)) : 0,,
-    },
+    }
 
-    return { current, average, peak, history: [...this.metrics] },
+    return { current, average, peak, history: [...this.metrics] }
   }
 
   /**
@@ -378,7 +378,7 @@ export class PerformanceMonitor {
    */
   clear(): void {
     this.metrics = []
-    this.currentMetrics = {},
+    this.currentMetrics = {}
   }
 }
 
@@ -416,7 +416,7 @@ export function getAllCacheStats(): {
     astrologicalProfile: astrologicalProfileCache.getStats(),
     ingredientProfile: ingredientProfileCache.getStats(),
     performance: performanceMonitor.getStats()
-  },
+  }
 }
 
 /**

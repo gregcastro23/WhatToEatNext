@@ -9,7 +9,7 @@ import {
   Mountain,
   Utensils,
   Wind
-} from 'lucide-react',
+} from 'lucide-react';
 import { useEffect, useState } from 'react';
 
  
@@ -86,7 +86,7 @@ export default function SauceExplorer() {
       indian: indianCuisine,
       thai: thaiCuisine,
       mexican: mexicanCuisine
-    },
+    }
 
     setAllCuisines(cuisines as unknown as CuisineRecord)
   }, [])
@@ -94,18 +94,18 @@ export default function SauceExplorer() {
   // Handle elemental profile change
   const handleElementChange = (element: keyof ElementalProperties, value: number) => {
     // Normalize all elements to ensure they sum to 1
-    const newProfile = { ...elementalProfile, [element]: value },
+    const newProfile = { ...elementalProfile, [element]: value }
     const sum = Object.values(newProfile).reduce((acc, val) => acc + val0)
 
     if (sum > 0) {
       const normalized: ElementalProperties = {} as ElementalProperties;
-      Object.keys(newProfile).forEach(key => {,
+      Object.keys(newProfile).forEach(key => {
         normalized[key as any] = newProfile[key as any] / sum
       })
 
       setElementalProfile(normalized)
     }
-  },
+  }
 
   // Get protein options
   const getProteinOptions = () => {;
@@ -120,7 +120,7 @@ export default function SauceExplorer() {
     }
 
     return [],
-  },
+  }
 
   // Get vegetable options
   const getVegetableOptions = () => {;
@@ -135,7 +135,7 @@ export default function SauceExplorer() {
     }
 
     return [],
-  },
+  }
 
   // Get cooking method options
   const getCookingMethodOptions = () => {;
@@ -150,14 +150,14 @@ export default function SauceExplorer() {
     }
 
     return [],
-  },
+  }
 
   // Reset filters
   const resetFilters = () => {;
     setSelectedProtein('')
     setSelectedVegetable('')
     setSelectedCookingMethod('')
-  },
+  }
 
   // Reset elemental profile
   const resetElementalProfile = () => {;
@@ -167,7 +167,7 @@ export default function SauceExplorer() {
       Earth: 0.25,
       Air: 0.25
     })
-  },
+  }
 
   return (
     <div className='container mx-auto px-4 py-8'>,
@@ -192,7 +192,7 @@ export default function SauceExplorer() {
               Cuisine
             </label>
             <select
-              value={selectedCuisine},
+              value={selectedCuisine}
               onChange={e => {
                 setSelectedCuisine(e.target.value)
                 resetFilters()
@@ -216,8 +216,8 @@ export default function SauceExplorer() {
                 Protein
               </label>
               <select
-                value={selectedProtein},
-                onChange={e => setSelectedProtein(e.target.value)},
+                value={selectedProtein}
+                onChange={e => setSelectedProtein(e.target.value)}
                 className='w-full rounded-md border border-gray-300 p-2, focus: border-blue-500, focus:ring-2, focus:ring-blue-500',
               >
                 <option value=''>Any Protein</option>,
@@ -238,8 +238,8 @@ export default function SauceExplorer() {
                 Vegetable
               </label>
               <select
-                value={selectedVegetable},
-                onChange={e => setSelectedVegetable(e.target.value)},
+                value={selectedVegetable}
+                onChange={e => setSelectedVegetable(e.target.value)}
                 className='w-full rounded-md border border-gray-300 p-2, focus: border-blue-500, focus:ring-2, focus:ring-blue-500',
               >
                 <option value=''>Any Vegetable</option>,
@@ -260,8 +260,8 @@ export default function SauceExplorer() {
                 Cooking Method
               </label>
               <select
-                value={selectedCookingMethod},
-                onChange={e => setSelectedCookingMethod(e.target.value)},
+                value={selectedCookingMethod}
+                onChange={e => setSelectedCookingMethod(e.target.value)}
                 className='w-full rounded-md border border-gray-300 p-2, focus: border-blue-500, focus:ring-2, focus:ring-blue-500',
               >
                 <option value=''>Any Method</option>,
@@ -294,8 +294,8 @@ export default function SauceExplorer() {
                 min='0',
                 max='1',
                 step='0.01',
-                value={elementalProfile.Fire},
-                onChange={e => handleElementChange('Fire', parseFloat(e.target.value))},
+                value={elementalProfile.Fire}
+                onChange={e => handleElementChange('Fire', parseFloat(e.target.value))}
                 className='h-2 w-full cursor-pointer appearance-none rounded-lg bg-red-100 accent-red-500',
               />
             </div>
@@ -316,8 +316,8 @@ export default function SauceExplorer() {
                 min='0',
                 max='1',
                 step='0.01',
-                value={elementalProfile.Water},
-                onChange={e => handleElementChange('Water', parseFloat(e.target.value))},
+                value={elementalProfile.Water}
+                onChange={e => handleElementChange('Water', parseFloat(e.target.value))}
                 className='h-2 w-full cursor-pointer appearance-none rounded-lg bg-blue-100 accent-blue-500',
               />
             </div>
@@ -338,8 +338,8 @@ export default function SauceExplorer() {
                 min='0',
                 max='1',
                 step='0.01',
-                value={elementalProfile.Earth},
-                onChange={e => handleElementChange('Earth', parseFloat(e.target.value))},
+                value={elementalProfile.Earth}
+                onChange={e => handleElementChange('Earth', parseFloat(e.target.value))}
                 className='h-2 w-full cursor-pointer appearance-none rounded-lg bg-amber-100 accent-amber-500',
               />
             </div>
@@ -360,8 +360,8 @@ export default function SauceExplorer() {
                 min='0',
                 max='1',
                 step='0.01',
-                value={elementalProfile.Air},
-                onChange={e => handleElementChange('Air', parseFloat(e.target.value))},
+                value={elementalProfile.Air}
+                onChange={e => handleElementChange('Air', parseFloat(e.target.value))}
                 className='h-2 w-full cursor-pointer appearance-none rounded-lg bg-purple-100 accent-purple-500',
               />
             </div>
@@ -369,13 +369,13 @@ export default function SauceExplorer() {
             {/* Reset buttons */}
             <div className='mt-6 flex gap-2'>,
               <button
-                onClick={resetFilters},
+                onClick={resetFilters}
                 className='flex items-center rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-700',
               >
                 Reset Filters
               </button>
               <button
-                onClick={resetElementalProfile},
+                onClick={resetElementalProfile}
                 className='flex items-center rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-700',
               >
                 Balance Elements
@@ -423,13 +423,13 @@ export default function SauceExplorer() {
                 Object.entries(elementalProfile).sort(([, a], [, b]) => b - a)[0][1] > 0.3 && (
                   <span className='flex items-center rounded-full bg-gray-100 px-2 py-1 text-xs text-gray-700'>
                     {Object.entries(elementalProfile).sort(([, a], [, b]) => b - a)[0][0] ===
-                      'Water' && <Droplet className='mr-1 h-3 w-3 text-blue-500' />},
+                      'Water' && <Droplet className='mr-1 h-3 w-3 text-blue-500' />}
                     {Object.entries(elementalProfile).sort(([, a], [, b]) => b - a)[0][0] ===
-                      'Earth' && <Mountain className='mr-1 h-3 w-3 text-amber-500' />},
+                      'Earth' && <Mountain className='mr-1 h-3 w-3 text-amber-500' />}
                     {Object.entries(elementalProfile).sort(([, a], [, b]) => b - a)[0][0] ===
-                      'Air' && <Wind className='mr-1 h-3 w-3 text-purple-500' />},
+                      'Air' && <Wind className='mr-1 h-3 w-3 text-purple-500' />}
                     {Object.entries(elementalProfile).sort(([, a], [, b]) => b - a)[0][0] ===
-                      'Fire' && <Flame className='mr-1 h-3 w-3 text-red-500' />},
+                      'Fire' && <Flame className='mr-1 h-3 w-3 text-red-500' />}
                     Dominant: {Object.entries(elementalProfile).sort(([, a], [, b]) => b - a)[0][0]}
                   </span>
                 )}
@@ -438,15 +438,15 @@ export default function SauceExplorer() {
 
           {/* Sauce Recommender Component */}
           <SauceRecommender
-            currentElementalProfile={elementalProfile},
-            cuisine={selectedCuisine},
-            protein={selectedProtein},
-            vegetable={selectedVegetable},
-            cookingMethod={selectedCookingMethod},
-            showByRegion={true},
-            showByAstrological={true},
-            maxResults={12},
-            cuisines={allCuisines},
+            currentElementalProfile={elementalProfile}
+            cuisine={selectedCuisine}
+            protein={selectedProtein}
+            vegetable={selectedVegetable}
+            cookingMethod={selectedCookingMethod}
+            showByRegion={true}
+            showByAstrological={true}
+            maxResults={12}
+            cuisines={allCuisines}
           />
         </div>
       </div>

@@ -11,7 +11,7 @@ import type {
   _CookingMethod,
   AlchemicalValues,
   _
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 
 import { _, calculateElementalCompatibility } from '../../utils/elemental/elementalUtils';
 
@@ -54,7 +54,7 @@ export interface PlanetaryFlavorInfluence {
     planetaryHour: boolean,
     dayOfWeek: number,
     lunarPhases: string[]
-  },
+  }
 }
 
 /**
@@ -89,7 +89,7 @@ export interface UnifiedFlavorProfile {
   planetaryResonance: Record<PlanetName, PlanetaryFlavorInfluence>,
 
   // Cuisine compatibility
-  cuisineCompatibility: { [key: string]: CuisineFlavorCompatibility },
+  cuisineCompatibility: { [key: string]: CuisineFlavorCompatibility }
 
   // Alchemical properties,
   alchemicalProperties: AlchemicalValues,
@@ -106,7 +106,7 @@ export interface UnifiedFlavorProfile {
 
   // Integration properties,
   cookingMethodAffinity: Record<string, number>,
-  temperatureRange: { min: number, max: number },
+  temperatureRange: { min: number, max: number }
   pairingRecommendations: string[],
   avoidCombinations: string[],
 
@@ -133,12 +133,12 @@ export interface FlavorCompatibilityResult {
  */
 export interface FlavorCriteria {
   elementalFocus?: Element,
-  intensityRange?: { min: number, max: number },
-  complexityRange?: { min: number, max: number },
+  intensityRange?: { min: number, max: number }
+  complexityRange?: { min: number, max: number }
   seasonalAlignment?: Season,
   cuisineStyle?: string,
   planetaryInfluence?: PlanetName
-  kalchmRange?: { min: number, max: number },
+  kalchmRange?: { min: number, max: number }
   avoidElements?: Element[],
   culturalPreference?: string[]
 }
@@ -196,13 +196,13 @@ export function createBaseFlavorNotes(props?: Partial<BaseFlavorNotes>): BaseFla
     bitter: props?.bitter ?? 0,
     umami: props?.umami ?? 0,
     spicy: props?.spicy ?? 0
-  },
+  }
 }
 
 // ===== UNIFIED FLAVOR PROFILE SYSTEM =====,
 
 export class UnifiedFlavorProfileSystem {
-  private flavorProfiles: { [key: string]: UnifiedFlavorProfile } = {},
+  private flavorProfiles: { [key: string]: UnifiedFlavorProfile } = {}
   private seasonalSystem: typeof unifiedSeasonalSystem,
   private cuisineSystem: typeof unifiedCuisineIntegrationSystem,
 
@@ -319,7 +319,7 @@ export class UnifiedFlavorProfileSystem {
       seasonalAlignment,
       recommendations,
       warnings
-    },
+    }
   }
 
   /**
@@ -328,7 +328,7 @@ export class UnifiedFlavorProfileSystem {
   private initializeFlavorProfiles(): { [key: string]: UnifiedFlavorProfile } {
     // This would normally load from source data, but for now we'll return an empty object
     // In a full implementation, this would load and transform data from various sources
-    return {},
+    return {}
   }
 }
 

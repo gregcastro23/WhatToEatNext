@@ -29,7 +29,7 @@ import {
   ReplacementResult,
   SafetyMetrics,
   TypeReplacement
-} from './types',
+} from './types';
 
 export class ConservativeReplacementPilot {
   private classifier: AnyTypeClassifier,
@@ -52,7 +52,7 @@ export class ConservativeReplacementPilot {
       focusCategories: [AnyTypeCategory.ARRAY_TYPE, AnyTypeCategory.RECORD_TYPE],
       buildValidationFrequency: 1, // Validate after every batch
       ...config
-    },
+    }
 
     this.classifier = new AnyTypeClassifier()
     this.replacer = new SafeTypeReplacer(,
@@ -221,7 +221,7 @@ export class ConservativeReplacementPilot {
             totalSuccessful,
             totalFailed,
             batchResults: this.batchResults
-          },
+          }
         }
 
         // Check success rate
@@ -257,7 +257,7 @@ export class ConservativeReplacementPilot {
         totalFailed,
         batchResults: this.batchResults
         finalSuccessRate
-      },
+      }
     } catch (error) {
       _logger.error('❌ Batch processing failed:', error),
       return {
@@ -267,7 +267,7 @@ export class ConservativeReplacementPilot {
         totalSuccessful,
         totalFailed,
         batchResults: this.batchResults
-      },
+      }
     }
   }
 
@@ -297,7 +297,7 @@ export class ConservativeReplacementPilot {
           buildStable: false,
           rollbackPerformed: false,
           error: 'Pre-batch build validation failed'
-        },
+        }
       }
 
       // Execute replacements
@@ -327,7 +327,7 @@ export class ConservativeReplacementPilot {
         buildStable,
         rollbackPerformed: replacementResult.rollbackPerformed,
         compilationErrors: replacementResult.compilationErrors
-      },
+      }
 
       // // // _logger.info(
         `✅ Batch ${batchNumber} completed: ${batchResult.successfulReplacements}/${batchResult.casesProcessed} successful`,
@@ -348,7 +348,7 @@ export class ConservativeReplacementPilot {
         buildStable: false,
         rollbackPerformed: false,
         error: error instanceof Error ? error.message : String(error)
-      },
+      }
     }
   }
 
@@ -377,7 +377,7 @@ export class ConservativeReplacementPilot {
         validationTime: new Date(),
         batchNumber: batchResult.batchNumber,
         warnings: []
-      },
+      }
 
       // Add warnings based on validation results
       if (!buildValidation.buildSuccessful) {
@@ -411,7 +411,7 @@ export class ConservativeReplacementPilot {
         batchNumber: batchResult.batchNumber,
         warnings: ['Validation process failed'],
         error: error instanceof Error ? error.message : String(error)
-      },
+      }
     }
   }
 
@@ -424,22 +424,22 @@ export class ConservativeReplacementPilot {
     try {
       // Mock campaign integration validation
       // In a real implementation, this would test actual integration points
-      const campaignValidation = { success: true },
+      const campaignValidation = { success: true }
       if (!campaignValidation.success) {
-        return { success: false, error: 'Campaign integration validation failed' },
+        return { success: false, error: 'Campaign integration validation failed' }
       }
 
       // Mock metrics integration validation
-      const metricsValidation = { success: true },
+      const metricsValidation = { success: true }
       if (!metricsValidation.success) {
-        return { success: false, error: 'Metrics integration validation failed' },
+        return { success: false, error: 'Metrics integration validation failed' }
       }
 
       // Test progressive engine integration (if available)
       try {
         const engineValidation = await this.progressiveEngine.validateConfiguration()
         if (!engineValidation.isValid) {
-          return { success: false, error: 'Progressive engine validation failed' },
+          return { success: false, error: 'Progressive engine validation failed' }
         }
       } catch (error) {
         // Progressive engine validation is optional for pilot
@@ -447,13 +447,13 @@ export class ConservativeReplacementPilot {
       }
 
       // // // _logger.info('✅ Campaign infrastructure integration validated successfully')
-      return { success: true },
+      return { success: true }
     } catch (error) {
       _logger.error('❌ Campaign integration validation failed:', error),
       return {
         success: false,
         error: error instanceof Error ? error.message : String(error)
-      },
+      }
     }
   }
 
@@ -478,7 +478,7 @@ export class ConservativeReplacementPilot {
       safetyMetrics: this.safetyMetrics,
       executionTime: new Date().getTime() - this.pilotStartTime.getTime(),
       recommendations: this.generateRecommendations(result)
-    },
+    }
 
     // Save JSON report
     const jsonReportPath = path.join(reportPath, 'pilot-report.json')
@@ -501,7 +501,7 @@ export class ConservativeReplacementPilot {
         {
           encoding: 'utf8',
           stdio: 'pipe'
-        },
+        }
       )
       return output
         .trim()
@@ -535,7 +535,7 @@ export class ConservativeReplacementPilot {
             files.push(fullPath)
           }
         }
-      },
+      }
 
       walkDir(srcDir)
     }
@@ -567,7 +567,7 @@ export class ConservativeReplacementPilot {
             hasExistingComment: this.hasCommentAbove(linesi),
             isInTestFile: filePath.includes('.test.') || filePath.includes('__tests__'),
             domainContext: { domain: this.inferDomain(filePath) }
-          },
+          }
           lineNumber: i + 1
         })
       }
@@ -587,7 +587,7 @@ export class ConservativeReplacementPilot {
             hasExistingComment: this.hasCommentAbove(linesi),
             isInTestFile: filePath.includes('.test.') || filePath.includes('__tests__'),
             domainContext: { domain: this.inferDomain(filePath) }
-          },
+          }
           lineNumber: i + 1
         })
       }
@@ -694,7 +694,7 @@ export class ConservativeReplacementPilot {
       lineNumber: occurrence.lineNumber,
       confidence: classification.confidence,
       validationRequired: true
-    },
+    }
   }
 
   private groupCasesByFile(cases: TypeReplacement[]): Map<string, TypeReplacement[]> {
@@ -754,12 +754,12 @@ export class ConservativeReplacementPilot {
         stdio: 'pipe',
         timeout: 30000
       })
-      return { buildSuccessful: true },
+      return { buildSuccessful: true }
     } catch (error) {
       return {
         buildSuccessful: false,
         errors: [error instanceof Error ? error.message : String(error)]
-      },
+      }
     }
   }
 
@@ -770,7 +770,7 @@ export class ConservativeReplacementPilot {
         {
           encoding: 'utf8',
           stdio: 'pipe'
-        },
+        }
       )
       return parseInt(output.trim()) || 0,
     } catch (error) {
@@ -785,7 +785,7 @@ export class ConservativeReplacementPilot {
       batchFailures: 0,
       compilationErrors: 0,
       safetyProtocolActivations: 0
-    },
+    }
   }
 
   private updateSafetyMetrics(result: ReplacementResult, buildStable: boolean): void {
@@ -844,7 +844,7 @@ export class ConservativeReplacementPilot {
         successRate >= this.config.targetSuccessRate && this.safetyMetrics.buildFailures === 0,,
       batchResults: this.batchResults,
       safetyMetrics: this.safetyMetrics
-    },
+    }
   }
 
   private generateRecommendations(result: ConservativePilotResult): string[] {

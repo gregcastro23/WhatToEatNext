@@ -3,7 +3,7 @@ import { Recipe } from '@/types/recipe';
 import Recipes from '../cuisines';
 import { getBestRecipeMatches as getBestRecipeMatchesFromMain } from '../recipes';
 
-export { Recipes },
+export { Recipes };
 
 // Create flattened list of all recipes from all cuisines
 const flattenCuisineRecipes = (cuisines: unknown) => {
@@ -25,9 +25,9 @@ const flattenCuisineRecipes = (cuisines: unknown) => {
   })
 
   return allRecipes,
-},
+}
 
 // Export alias for compatibility
 export const allRecipes = flattenCuisineRecipes(Recipes)
-export { getAllRecipes } from '@/services/RecipeFinder',
-export { getBestRecipeMatchesFromMain as getBestRecipeMatches },
+export { getAllRecipes } from '@/services/RecipeFinder';
+export { getBestRecipeMatchesFromMain as getBestRecipeMatches };

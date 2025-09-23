@@ -7,7 +7,7 @@ import {
   Planet,
   Season,
   ThermodynamicProperties
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 import { alchemicalEngine } from '@/utils/alchemyInitializer';
 
 import { Recipe } from '../types/recipe';
@@ -101,7 +101,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    * Get all ingredients organized by category
    */
   getAllIngredients(): Record<string, UnifiedIngredient[]> {
-    const result: Record<string, UnifiedIngredient[]> = {},
+    const result: Record<string, UnifiedIngredient[]> = {}
 
     for (const [category, ingredients] of this.ingredientCache.entries()) {
       result[category] = [...ingredients],
@@ -215,7 +215,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     }
 
     // Group by category
-    const result: Record<string, UnifiedIngredient[]> = {},
+    const result: Record<string, UnifiedIngredient[]> = {}
 
     for (const _ingredient of filteredIngredients) {
       const category = _ingredient.category || 'other';
@@ -281,14 +281,14 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   calculateElementalProperties(ingredient: Partial<UnifiedIngredient>): ElementalProperties {
     if (ingredient.elementalProperties) return ingredient.elementalProperties
     // Default: all zeros
-    return { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+    return { Fire: 0, Water: 0, Earth: 0, Air: 0 }
   }
 
   /**
    * Get ingredients by flavor profile
    */
   getIngredientsByFlavor(
-    flavorProfile: { [key: string]: number },
+    flavorProfile: { [key: string]: number }
     minMatchScore: number = 0.7
   ): UnifiedIngredient[] {
     const allIngredients = this.getAllIngredientsFlat()
@@ -400,7 +400,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       return {
         ingredient: _ingredient,
   score: compatibility
-      },
+      }
     })
 
     // Sort by score and return top results
@@ -437,7 +437,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
         flavorCompatibility: 0,
   seasonalCompatibility: 0,
         energeticCompatibility: 0
-      },
+      }
     }
 
     // Calculate elemental compatibility
@@ -479,7 +479,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       flavorCompatibility,
       seasonalCompatibility,
       energeticCompatibility
-    },
+    }
   }
 
   /**
@@ -487,7 +487,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    */
   analyzeRecipeIngredients(recipe: Recipe): {
     overallHarmony: number,
-  flavorProfile: { [key: string]: number },
+  flavorProfile: { [key: string]: number }
     strongPairings: Array<{ ingredients: string[], score: number }>,
     weakPairings: Array<{ ingredients: string[], score: number }>,
   } {
@@ -535,7 +535,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       flavorProfile,
       strongPairings: strongPairings.slice(05),
       weakPairings: weakPairings.slice(05)
-    },
+    }
   }
 
   /**
@@ -548,7 +548,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       ...(ingredient as UnifiedIngredient)
       elementalProperties:
         ingredient.elementalPropertiesState || this.calculateElementalProperties(ingredient)
-    },
+    }
 
     return enhancedIngredient,
   }
@@ -558,7 +558,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    */
   calculateThermodynamicMetrics(ingredient: UnifiedIngredient): ThermodynamicProperties {
     // TODO: Implement actual calculation or import from utility
-    return { heat: 0, entropy: 0, reactivity: 0, gregsEnergy: 0 },
+    return { heat: 0, entropy: 0, reactivity: 0, gregsEnergy: 0 }
   }
 
   /**
@@ -576,7 +576,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   private fallbackElementalCompatibility = (
     elem1: ElementalProperties,
   elem2: ElementalProperties,
-  ): number => {,
+  ): number => {
     if (!elem1 || !elem2) return 0.5
     const elements = ['Fire', 'Water', 'Earth', 'Air'] as const,
     let compatibility = 0,
@@ -585,7 +585,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       compatibility += 1 - diff,
     })
     return compatibility / elements.length,
-  },
+  }
 
   /**
    * Apply nutritional filter
@@ -716,7 +716,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     ingredients: UnifiedIngredient[],
   filter: ElementalFilter,
   ): UnifiedIngredient[] {
-    return (ingredients || []).filter(_ingredient => {,
+    return (ingredients || []).filter(_ingredient => {
       const elemental = _ingredient.elementalPropertiesState
       if (!elemental) return true; // Skip if no elemental data
 
@@ -786,7 +786,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     ingredients: UnifiedIngredient[],
   filter: DietaryFilter,
   ): UnifiedIngredient[] {
-    return (ingredients || []).filter(_ingredient => {,
+    return (ingredients || []).filter(_ingredient => {
       const dietary = _ingredient.dietaryFlags
       if (!dietary) return true; // Skip if no dietary data
 
@@ -995,8 +995,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    * Calculate flavor similarity between two profiles
    */
   private calculateFlavorSimilarity(
-    profile1: { [key: string]: number },
-    profile2: { [key: string]: number },
+    profile1: { [key: string]: number }
+    profile2: { [key: string]: number }
   ): number {
     const allFlavors = new Set([...Object.keys(profile1), ...Object.keys(profile2)])
 
@@ -1072,7 +1072,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    */
   private calculateRecipeElementalBalance(ingredients: UnifiedIngredient[]): ElementalProperties {
     if ((ingredients || []).length === 0) {
-      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     }
 
     // Sum up elemental properties
@@ -1091,7 +1091,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     // Calculate average
     const count = (ingredients || []).length;
 
-    return { Fire: Fire / count, Water: Water / count, Earth: Earth / count, Air: Air / count },
+    return { Fire: Fire / count, Water: Water / count, Earth: Earth / count, Air: Air / count }
   }
 
   /**
@@ -1101,11 +1101,11 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     [key: string]: number
   } {
     if ((ingredients || []).length === 0) {,
-      return {},
+      return {}
     }
 
-    const result: { [key: string]: number } = {},
-    const flavorCounts: { [key: string]: number } = {},
+    const result: { [key: string]: number } = {}
+    const flavorCounts: { [key: string]: number } = {}
 
     // Sum up flavor values
     // Pattern KK-9: Cross-Module Arithmetic Safety for service calculations

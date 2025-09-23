@@ -9,9 +9,9 @@ export const _cookingMethodModifiers: CookingMethodModifier[] = [
     duration: {
       min: 5,
       max: 30
-    },
+    }
     notes: 'Boiling increases water element, good for softening foods'
-  },
+  }
   {
     element: 'Fire',
     intensity: 0.8,
@@ -20,8 +20,8 @@ export const _cookingMethodModifiers: CookingMethodModifier[] = [
     duration: {
       min: 3,
       max: 15
-    },
+    }
     notes: 'Grilling adds fire element, creating char and smoke flavors'
-  },
+  }
   // Add other cooking methods as needed
 ],

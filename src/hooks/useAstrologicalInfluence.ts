@@ -41,11 +41,11 @@ export function useAstrologicalInfluence() {
         dominantElement: 'Fire',
         aspectStrength: 0.5,
         overallInfluence: 0.5
-      },
+      }
     }
 
     // Calculate dominant element from planetary positions
-    const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+    const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
     const elementMap = {
       aries: 'Fire',
       leo: 'Fire',
@@ -59,7 +59,7 @@ export function useAstrologicalInfluence() {
       cancer: 'Water',
       scorpio: 'Water',
       pisces: 'Water'
-    },
+    }
 
     Object.values(planetaryPositions || {}).forEach(position => {
       const element = elementMap[(position as unknown)?.sign as keyof typeof elementMap];
@@ -97,12 +97,12 @@ export function useAstrologicalInfluence() {
       dominantElement,
       aspectStrength,
       overallInfluence
-    },
+    }
   }, [astrologicalState, planetaryPositions])
 
   return {
     ...influence,
     isLoading: isLoading || !astrologicalState,
     astrologicalState
-  },
+  }
 }

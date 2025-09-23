@@ -22,7 +22,7 @@ const defaultContextValue: ChartContextType = {
   isLoading: false,
   error: null,
   updateChart: () => {}
-},
+}
 
 const ChartContext = createContext<ChartContextType>(defaultContextValue)
 
@@ -37,7 +37,7 @@ export function ChartProvider(_{ children }: { children: ReactNode }) {
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error updating chart')
     }
-  },
+  }
 
   // Load initial chart data
   useEffect(() => {
@@ -50,8 +50,8 @@ export function ChartProvider(_{ children }: { children: ReactNode }) {
         // For now, setting a placeholder empty chart
         setCurrentChart({
           // Placeholder chart data
-          planets: {},
-          houses: {},
+          planets: {}
+          houses: {}
           aspects: [],
           timestamp: new Date()
         })
@@ -60,7 +60,7 @@ export function ChartProvider(_{ children }: { children: ReactNode }) {
       } finally {
         setIsLoading(false)
       }
-    },
+    }
 
     void loadInitialChart()
   }, [])

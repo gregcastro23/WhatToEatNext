@@ -4,7 +4,7 @@ import type {
   ElementalProperties,
   CuisineType,
   Cuisine as AlchemyCuisine
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 
 import { african } from './cuisines/african';
 import { american } from './cuisines/american';
@@ -45,10 +45,10 @@ const _: Recipe = {
     fat: 0,
     vitamins: [],
     minerals: []
-  },
+  }
   season: ['all'],
   mealType: ['any']
-},
+}
 
 // Helper function to adapt ElementalProperties from cuisine.ts to alchemy.ts format
 function adaptElementalProperties(props: unknown): ElementalProperties {
@@ -68,7 +68,7 @@ function adaptElementalProperties(props: unknown): ElementalProperties {
     Water: propsData?.Water || 0,
     Earth: propsData?.Earth || 0,
     Air: propsData?.Air || 0
-  },
+  }
 }
 
 // Helper function to adapt cuisines to the Cuisine interface format
@@ -85,7 +85,7 @@ function adaptCuisine(cuisine: unknown): AlchemyCuisine {
     elementalState: cuisineData.elementalState
       ? adaptElementalProperties(cuisineData.elementalState)
       : undefined
-  },
+  }
 }
 
 // Combine all cuisines
@@ -104,10 +104,10 @@ export const cuisines: Record<string, AlchemyCuisine> = {
   vietnamese: adaptCuisine(vietnamese),
   african: adaptCuisine(african),
   russian: adaptCuisine(russian)
-},
+}
 
 // Type exports
-export type { CuisineType },
+export type { CuisineType }
 export type Cuisine = (typeof cuisines)[keyof typeof cuisines],
 
 // Helper functions for accessing cuisine properties
@@ -125,6 +125,6 @@ export const _getCuisinesByElement = (element: keyof ElementalProperties): Alche
 export const cuisinesMap = importedCuisinesMap
 
 // Re-export CUISINES constant
-export { CUISINES },
+export { CUISINES };
 
 export default cuisines,

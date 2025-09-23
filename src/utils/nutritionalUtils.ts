@@ -47,7 +47,7 @@ export async function getNutritionalData(
       !Array.isArray(profile.phytonutrients)
         ? Object.keys(profile.phytonutrients)
         : profile.phytonutrients
-  },
+  }
 
   return alchemyProfile,
 }
@@ -85,14 +85,14 @@ export async function compareNutritionalValues(
       ingredient1: profile1,
       ingredient2: profile2,
       differences: {}
-    },
+    }
   }
 
   // Calculate differences in key metrics (percentage difference) - safe property access
-  const profile1Data = profile1 as { macros?: Record<string, number> },
-  const profile2Data = profile2 as { macros?: Record<string, number> },
-  const profile1Macros = profile1Data?.macros || {},
-  const profile2Macros = profile2Data?.macros || {},
+  const profile1Data = profile1 as { macros?: Record<string, number> }
+  const profile2Data = profile2 as { macros?: Record<string, number> }
+  const profile1Macros = profile1Data?.macros || {}
+  const profile2Macros = profile2Data?.macros || {}
 
   const differences: Record<string, number> = {
     calories: (((profile2.calories || 0) - (profile1.calories || 0)) / (profile1.calories || 1)) * 100,
@@ -108,11 +108,11 @@ export async function compareNutritionalValues(
     fiber: profile1Macros.fiber
       ? ((profile2Macros.fiber - profile1Macros.fiber) / profile1Macros.fiber) * 100
       : 0
-  },
+  }
 
   return {
     ingredient1: profile1,
     ingredient2: profile2,
     differences
-  },
+  }
 }

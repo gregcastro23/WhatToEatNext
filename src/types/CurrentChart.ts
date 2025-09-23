@@ -9,7 +9,7 @@ export interface CurrentChart {
   moonPhase?: {
     phase: string,
     illumination: number
-  },
+  }
   dominantPlanet?: string,
   dominantElement?: string,
   dominantModality?: string

@@ -16,7 +16,7 @@ import {
   getCurrentEnvironment,
   getEnvironmentConfig,
   validateEnvironmentConfig
-} from './loader',
+} from './loader';
 
 import { ConfigurationManager, DEFAULT_CONFIG } from './index';
 

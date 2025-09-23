@@ -7,7 +7,7 @@ import {
   // ZodiacSign, // unused - removed for performance
   // ThermodynamicProperties, // unused - removed for performance
   ThermodynamicMetrics
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 // Removed unused, import: PlanetaryAlignment
 
 import { CookingMethod } from '../types/cooking';
@@ -22,7 +22,7 @@ import {
   RecipeRecommendationCriteria,
   RecommendationResult,
   RecommendationServiceInterface
-} from './interfaces/RecommendationServiceInterface',
+} from './interfaces/RecommendationServiceInterface';
 import { unifiedIngredientService } from './UnifiedIngredientService';
 /**
  * UnifiedRecommendationService
@@ -129,7 +129,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       return {
         recipe,
         score
-      },
+      }
     })
 
     // Filter by minimum compatibility score
@@ -144,7 +144,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     const limitedRecipes = filteredRecipes.slice(0, limit)
 
     // Build scores record
-    const scores: { [key: string]: number } = {},
+    const scores: { [key: string]: number } = {}
     (limitedRecipes || []).forEach(item => {
       scores[item.recipe.id] = item.score
     })
@@ -157,7 +157,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         totalCandidates: (allRecipes || []).length,
         matchingCandidates: (filteredRecipes || []).length
       }
-    },
+    }
   }
 
   /**
@@ -231,7 +231,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       return {
         ingredient,
         score
-      },
+      }
     })
 
     // Filter by minimum compatibility score
@@ -246,7 +246,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     const limitedIngredients = filteredIngredients.slice(0, limit)
 
     // Build scores record
-    const scores: { [key: string]: number } = {},
+    const scores: { [key: string]: number } = {}
     (limitedIngredients || []).forEach(item => {
       scores[item.ingredient.name] = item.score
     })
@@ -259,7 +259,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         totalCandidates: (allIngredients || []).length,
         matchingCandidates: (filteredIngredients || []).length
       }
-    },
+    }
   }
 
   /**
@@ -290,22 +290,22 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
     // Map cuisines to elemental properties (simplified)
     const cuisineElements: { [key: string]: ElementalProperties } = {
-      Italian: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 },
-      Chinese: { Fire: 0.4, Water: 0.2, Earth: 0.1, Air: 0.3 },
-      Mexican: { Fire: 0.5, Water: 0.1, Earth: 0.3, Air: 0.1 },
-      Japanese: { Fire: 0.1, Water: 0.5, Earth: 0.2, Air: 0.2 },
-      Indian: { Fire: 0.5, Water: 0.1, Earth: 0.2, Air: 0.2 },
-      French: { Fire: 0.2, Water: 0.3, Earth: 0.3, Air: 0.2 },
-      Thai: { Fire: 0.4, Water: 0.3, Earth: 0.1, Air: 0.2 },
-      Spanish: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 },
-      Greek: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 },
-      Lebanese: { Fire: 0.2, Water: 0.2, Earth: 0.3, Air: 0.3 },
-      American: { Fire: 0.3, Water: 0.1, Earth: 0.4, Air: 0.2 },
-      Brazilian: { Fire: 0.4, Water: 0.2, Earth: 0.3, Air: 0.1 },
-      Korean: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 },
-      Vietnamese: { Fire: 0.2, Water: 0.4, Earth: 0.2, Air: 0.2 },
+      Italian: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 }
+      Chinese: { Fire: 0.4, Water: 0.2, Earth: 0.1, Air: 0.3 }
+      Mexican: { Fire: 0.5, Water: 0.1, Earth: 0.3, Air: 0.1 }
+      Japanese: { Fire: 0.1, Water: 0.5, Earth: 0.2, Air: 0.2 }
+      Indian: { Fire: 0.5, Water: 0.1, Earth: 0.2, Air: 0.2 }
+      French: { Fire: 0.2, Water: 0.3, Earth: 0.3, Air: 0.2 }
+      Thai: { Fire: 0.4, Water: 0.3, Earth: 0.1, Air: 0.2 }
+      Spanish: { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 }
+      Greek: { Fire: 0.2, Water: 0.2, Earth: 0.4, Air: 0.2 }
+      Lebanese: { Fire: 0.2, Water: 0.2, Earth: 0.3, Air: 0.3 }
+      American: { Fire: 0.3, Water: 0.1, Earth: 0.4, Air: 0.2 }
+      Brazilian: { Fire: 0.4, Water: 0.2, Earth: 0.3, Air: 0.1 }
+      Korean: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 }
+      Vietnamese: { Fire: 0.2, Water: 0.4, Earth: 0.2, Air: 0.2 }
       Mediterranean: { Fire: 0.2, Water: 0.3, Earth: 0.3, Air: 0.2 }
-    },
+    }
 
     // Filter out excluded cuisines
     let availableCuisines = cuisines,
@@ -337,7 +337,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       return {
         cuisine,
         score
-      },
+      }
     })
 
     // Filter by minimum compatibility score
@@ -352,7 +352,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     const limitedCuisines = filteredCuisines.slice(0, limit)
 
     // Build scores record
-    const scores: { [key: string]: number } = {},
+    const scores: { [key: string]: number } = {}
     (limitedCuisines || []).forEach(item => {
       scores[item.cuisine] = item.score
     })
@@ -365,7 +365,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         totalCandidates: (availableCuisines || []).length,
         matchingCandidates: (filteredCuisines || []).length
       }
-    },
+    }
   }
 
   /**
@@ -381,44 +381,44 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         id: 'roasting',
         name: 'roasting',
         description: 'Cooking with dry heat in an oven',
-        elementalEffect: { Fire: 0.6, Water: 0.0, Earth: 0.3, Air: 0.1 },
-        duration: { min: 30, max: 180 },
+        elementalEffect: { Fire: 0.6, Water: 0.0, Earth: 0.3, Air: 0.1 }
+        duration: { min: 30, max: 180 }
         suitable_for: ['meat', 'vegetables', 'poultry'],
         benefits: ['even cooking', 'browning', 'flavor development']
-      },
+      }
       {
         id: 'boiling',
         name: 'boiling',
         description: 'Cooking in bubbling liquid',
-        elementalEffect: { Fire: 0.3, Water: 0.7, Earth: 0.0, Air: 0.0 },
-        duration: { min: 5, max: 60 },
+        elementalEffect: { Fire: 0.3, Water: 0.7, Earth: 0.0, Air: 0.0 }
+        duration: { min: 5, max: 60 }
         suitable_for: ['pasta', 'vegetables', 'eggs'],
         benefits: ['quick cooking', 'nutrient retention', 'simplicity']
-      },
+      }
       {
         id: 'steaming',
         name: 'steaming',
         description: 'Cooking with hot steam',
-        elementalEffect: { Fire: 0.2, Water: 0.5, Earth: 0.0, Air: 0.3 },
-        duration: { min: 10, max: 45 },
+        elementalEffect: { Fire: 0.2, Water: 0.5, Earth: 0.0, Air: 0.3 }
+        duration: { min: 10, max: 45 }
         suitable_for: ['vegetables', 'fish', 'dumplings'],
         benefits: ['nutrient preservation', 'gentle cooking', 'no added fats']
-      },
+      }
       {
         id: 'frying',
         name: 'frying',
         description: 'Cooking in hot oil',
-        elementalEffect: { Fire: 0.7, Water: 0.0, Earth: 0.2, Air: 0.1 },
-        duration: { min: 2, max: 15 },
+        elementalEffect: { Fire: 0.7, Water: 0.0, Earth: 0.2, Air: 0.1 }
+        duration: { min: 2, max: 15 }
         suitable_for: ['meat', 'vegetables', 'batter foods'],
         benefits: ['crispy texture', 'quick cooking', 'flavor enhancement']
-      },
+      }
       {
         id: 'baking',
         name: 'baking',
         description: 'Cooking in an enclosed space with dry heat',
-        elementalEffect: { Fire: 0.4, Water: 0.0, Earth: 0.4, Air: 0.2 },
-        duration: { min: 15, max: 240 },
+        elementalEffect: { Fire: 0.4, Water: 0.0, Earth: 0.4, Air: 0.2 }
+        duration: { min: 15, max: 240 }
         suitable_for: ['bread', 'cakes', 'casseroles'],
         benefits: ['even heating', 'controlled environment', 'browning']
       }
@@ -456,7 +456,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       return {
         method,
         score
-      },
+      }
     })
 
     // Filter by minimum compatibility score
@@ -471,7 +471,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     const limitedMethods = filteredMethods.slice(0, limit)
 
     // Build scores record
-    const scores: { [key: string]: number } = {},
+    const scores: { [key: string]: number } = {}
     (limitedMethods || []).forEach(item => {
       const methodData = item.method as unknown as any
       const methodId = String(methodData.name || 'unknown')
@@ -486,7 +486,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         totalCandidates: (availableMethods || []).length,
         matchingCandidates: (filteredMethods || []).length
       }
-    },
+    }
   }
 
   /**
@@ -570,7 +570,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-    },
+    }
 
     // In a real implementation, we would use the AlchemicalEngine to calculate
     // elemental properties based on planetary positions
@@ -591,7 +591,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       gregsEnergy: 0.5,
       kalchm: 1.0,
       monica: 1.0
-    },
+    }
   }
 }
 

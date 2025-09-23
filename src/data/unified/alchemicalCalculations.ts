@@ -32,8 +32,8 @@ export interface AlchemicalIngredient {
   kalchm: number
 
   // Additional properties
-  flavorProfile?: { [key: string]: number },
-  nutritionalData?: { [key: string]: number },
+  flavorProfile?: { [key: string]: number }
+  nutritionalData?: { [key: string]: number }
   seasonalAvailability?: string[],
   cookingMethods?: string[]
 }
@@ -94,7 +94,7 @@ export function calculateThermodynamics(
   // Greg's Energy
   const gregsEnergy = heat - entropy * reactivity;
 
-  return { heat, entropy, reactivity, gregsEnergy },
+  return { heat, entropy, reactivity, gregsEnergy }
 }
 
 /**
@@ -129,7 +129,7 @@ export function performAlchemicalAnalysis(
     ...thermodynamics,
     kalchm,
     monica
-  },
+  }
 }
 
 // ===== INGREDIENT ENHANCEMENT FUNCTIONS =====,
@@ -153,7 +153,7 @@ export function deriveAlchemicalFromElemental(
     Essence: Water * 0.5 + Fire * 0.3 + Air * 0.2,
     Matter: Earth * 0.7 + Water * 0.3,
     Substance: Earth * 0.5 + Water * 0.4 + Fire * 0.1
-  },
+  }
 }
 
 /**
@@ -175,7 +175,7 @@ export function enhanceIngredientWithAlchemy(ingredient: {
     ...ingredient,
     alchemicalProperties,
     kalchm
-  },
+  }
 }
 
 /**
@@ -259,7 +259,7 @@ export function normalizeAlchemicalProperties(props: AlchemicalProperties): Alch
 
   if (sum === 0) {
     // Return balanced default if sum is 0
-    return { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 },
+    return { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 }
   }
 
   return {
@@ -267,7 +267,7 @@ export function normalizeAlchemicalProperties(props: AlchemicalProperties): Alch
     Essence: Essence / sum,
     Matter: Matter / sum,
     Substance: Substance / sum
-  },
+  }
 }
 
 /**
@@ -279,23 +279,23 @@ export function getDefaultAlchemicalProperties(): AlchemicalProperties {
     Essence: 0.25,
     Matter: 0.25,
     Substance: 0.25
-  },
+  }
 }
 
 // ===== EXPORT TYPES AND CONSTANTS =====,
 
-export type { AlchemicalProperties },
+export type { AlchemicalProperties }
 
 // Default Kalchm value for unknown ingredients
 export const DEFAULT_KALCHM = 1.0;
 
 // Kalchm ranges for different ingredient categories
 export const KALCHM_RANGES = {
-  spices: { min: 0.5, max: 2.5 },
-  herbs: { min: 0.7, max: 1.8 },
-  vegetables: { min: 0.6, max: 1.4 },
-  fruits: { min: 0.8, max: 1.6 },
-  grains: { min: 0.9, max: 1.3 },
-  proteins: { min: 1.0, max: 1.8 },
+  spices: { min: 0.5, max: 2.5 }
+  herbs: { min: 0.7, max: 1.8 }
+  vegetables: { min: 0.6, max: 1.4 }
+  fruits: { min: 0.8, max: 1.6 }
+  grains: { min: 0.9, max: 1.3 }
+  proteins: { min: 1.0, max: 1.8 }
   dairy: { min: 0.8, max: 1.6 }
-},
+}

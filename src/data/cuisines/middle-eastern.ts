@@ -24,13 +24,13 @@ export const middleEastern: Cuisine = {
             'Garnish with herbs'
           ],
           ingredients: [
-            { name: 'eggs', amount: '4', unit: 'large', category: 'protein', swaps: ['soft tofu'] },
-            { name: 'tomatoes', amount: '400', unit: 'g', category: 'vegetable' },
-            { name: 'bell peppers', amount: '2', unit: 'medium', category: 'vegetable' },
-            { name: 'onion', amount: '1', unit: 'large', category: 'vegetable' },
-            { name: 'garlic', amount: '3', unit: 'cloves', category: 'vegetable' },
-            { name: 'cumin', amount: '1', unit: 'tsp', category: 'spice' },
-            { name: 'paprika', amount: '1', unit: 'tsp', category: 'spice' },
+            { name: 'eggs', amount: '4', unit: 'large', category: 'protein', swaps: ['soft tofu'] }
+            { name: 'tomatoes', amount: '400', unit: 'g', category: 'vegetable' }
+            { name: 'bell peppers', amount: '2', unit: 'medium', category: 'vegetable' }
+            { name: 'onion', amount: '1', unit: 'large', category: 'vegetable' }
+            { name: 'garlic', amount: '3', unit: 'cloves', category: 'vegetable' }
+            { name: 'cumin', amount: '1', unit: 'tsp', category: 'spice' }
+            { name: 'paprika', amount: '1', unit: 'tsp', category: 'spice' }
             {
               name: 'pita bread',
               amount: '2',
@@ -43,7 +43,7 @@ export const middleEastern: Cuisine = {
             eggs: ['soft tofu', 'chickpea flour mixture'],
             'pita bread': ['gluten-free pita', 'crusty bread'],
             'bell peppers': ['roasted red peppers', 'zucchini']
-          },
+          }
           servingSize: 2,
           allergens: ['eggs'],
           prepTime: '10 minutes',
@@ -60,7 +60,7 @@ export const middleEastern: Cuisine = {
             fat: 22,
             vitamins: ['A', 'C', 'D'],
             minerals: ['Iron', 'Calcium']
-          },
+          }
           timeToMake: '25 minutes',
           season: ['all'],
           mealType: ['breakfast', 'brunch'],
@@ -70,7 +70,7 @@ export const middleEastern: Cuisine = {
             Water: 0.2,
             Air: 0.1
           }
-        },
+        }
         {
           name: 'Ful Medames',
           description: 'Traditional fava bean breakfast with olive oil, lemon, and herbs',
@@ -86,19 +86,19 @@ export const middleEastern: Cuisine = {
             'Drizzle with additional oil'
           ],
           ingredients: [
-            { name: 'fava beans', amount: '400', unit: 'g', category: 'legume' },
-            { name: 'olive oil', amount: '3', unit: 'tbsp', category: 'oil' },
-            { name: 'lemon juice', amount: '2', unit: 'tbsp', category: 'acid' },
-            { name: 'garlic', amount: '2', unit: 'cloves', category: 'vegetable' },
-            { name: 'cumin', amount: '1', unit: 'tsp', category: 'spice' },
-            { name: 'parsley', amount: '1/4', unit: 'cup', category: 'herb' },
+            { name: 'fava beans', amount: '400', unit: 'g', category: 'legume' }
+            { name: 'olive oil', amount: '3', unit: 'tbsp', category: 'oil' }
+            { name: 'lemon juice', amount: '2', unit: 'tbsp', category: 'acid' }
+            { name: 'garlic', amount: '2', unit: 'cloves', category: 'vegetable' }
+            { name: 'cumin', amount: '1', unit: 'tsp', category: 'spice' }
+            { name: 'parsley', amount: '1/4', unit: 'cup', category: 'herb' }
             { name: 'tomatoes', amount: '2', unit: 'medium', category: 'vegetable' }
           ],
           substitutions: {
             'fava beans': ['lima beans', 'chickpeas'],
             parsley: ['cilantro', 'mint'],
             tomatoes: ['cucumber', 'radishes']
-          },
+          }
           servingSize: 4,
           allergens: ['none'],
           prepTime: '10 minutes',
@@ -115,7 +115,7 @@ export const middleEastern: Cuisine = {
             fat: 16,
             vitamins: ['C', 'K', 'B6'],
             minerals: ['Iron', 'Folate']
-          },
+          }
           timeToMake: '20 minutes',
           season: ['all'],
           mealType: ['breakfast'],
@@ -125,7 +125,7 @@ export const middleEastern: Cuisine = {
             Fire: 0.2,
             Air: 0.1
           }
-        },
+        }
         {
           name: 'Manakish Za'atar',
           description: 'Flatbread topped with za'atar herb blend and olive oil',
@@ -147,18 +147,18 @@ export const middleEastern: Cuisine = {
               unit: 'g',
               category: 'grain',
               swaps: ['whole wheat flour']
-            },
-            { name: 'za'atar', amount: '1/2', unit: 'cup', category: 'spice blend' },
-            { name: 'olive oil', amount: '1/2', unit: 'cup', category: 'oil' },
-            { name: 'yeast', amount: '2', unit: 'tsp', category: 'leavening' },
-            { name: 'sugar', amount: '1', unit: 'tsp', category: 'sweetener' },
+            }
+            { name: 'za'atar', amount: '1/2', unit: 'cup', category: 'spice blend' }
+            { name: 'olive oil', amount: '1/2', unit: 'cup', category: 'oil' }
+            { name: 'yeast', amount: '2', unit: 'tsp', category: 'leavening' }
+            { name: 'sugar', amount: '1', unit: 'tsp', category: 'sweetener' }
             { name: 'salt', amount: '2', unit: 'tsp', category: 'seasoning' }
           ],
           substitutions: {
             'bread flour': ['all-purpose flour', 'gluten-free flour blend'],
             'za'atar': ['dried oregano + sesame seeds + sumac'],
             'olive oil': ['grapeseed oil', 'avocado oil']
-          },
+          }
           servingSize: 6,
           allergens: ['gluten'],
           prepTime: '20 minutes',
@@ -175,7 +175,7 @@ export const middleEastern: Cuisine = {
             fat: 12,
             vitamins: ['E', 'K'],
             minerals: ['Iron', 'Calcium']
-          },
+          }
           season: ['all'],
           mealType: ['breakfast'],
           elementalProperties: {
@@ -184,7 +184,7 @@ export const middleEastern: Cuisine = {
             Fire: 0.2,
             Water: 0.1
           }
-        },
+        }
         {
           name: 'Labneh with Za'atar',
           description: 'Strained yogurt cheese with olive oil and za'atar spice blend',
@@ -205,10 +205,10 @@ export const middleEastern: Cuisine = {
               unit: 'kg',
               category: 'dairy',
               swaps: ['coconut yogurt']
-            },
-            { name: 'za'atar', amount: '3', unit: 'tbsp', category: 'spice blend' },
-            { name: 'olive oil', amount: '1/4', unit: 'cup', category: 'oil' },
-            { name: 'mint leaves', amount: '1', unit: 'handful', category: 'herb' },
+            }
+            { name: 'za'atar', amount: '3', unit: 'tbsp', category: 'spice blend' }
+            { name: 'olive oil', amount: '1/4', unit: 'cup', category: 'oil' }
+            { name: 'mint leaves', amount: '1', unit: 'handful', category: 'herb' }
             {
               name: 'pita bread',
               amount: '4',
@@ -221,7 +221,7 @@ export const middleEastern: Cuisine = {
             yogurt: ['Greek yogurt', 'coconut yogurt'],
             'za'atar': ['dried thyme + sesame seeds'],
             'pita bread': ['gluten-free bread', 'vegetables']
-          },
+          }
           servingSize: 6,
           allergens: ['dairy'],
           prepTime: '10 minutes',
@@ -238,7 +238,7 @@ export const middleEastern: Cuisine = {
             fat: 14,
             vitamins: ['B12', 'D'],
             minerals: ['Calcium', 'Probiotics']
-          },
+          }
           season: ['all'],
           mealType: ['breakfast'],
           elementalProperties: {
@@ -249,7 +249,7 @@ export const middleEastern: Cuisine = {
           }
         }
       ]
-    },
+    }
     lunch: {
       all: [
         {
@@ -268,18 +268,18 @@ export const middleEastern: Cuisine = {
             'Garnish with nuts and parsley'
           ],
           ingredients: [
-            { name: 'lamb shoulder', amount: '1.5', unit: 'kg', category: 'protein' },
-            { name: 'jameed', amount: '500', unit: 'g', category: 'dairy' },
-            { name: 'rice', amount: '1', unit: 'kg', category: 'grain' },
-            { name: 'pine nuts', amount: '100', unit: 'g', category: 'nut' },
-            { name: 'flatbread', amount: '4', unit: 'pieces', category: 'grain' },
+            { name: 'lamb shoulder', amount: '1.5', unit: 'kg', category: 'protein' }
+            { name: 'jameed', amount: '500', unit: 'g', category: 'dairy' }
+            { name: 'rice', amount: '1', unit: 'kg', category: 'grain' }
+            { name: 'pine nuts', amount: '100', unit: 'g', category: 'nut' }
+            { name: 'flatbread', amount: '4', unit: 'pieces', category: 'grain' }
             { name: 'parsley', amount: '1', unit: 'bunch', category: 'herb' }
           ],
           substitutions: {
             jameed: ['yogurt + salt', 'buttermilk'],
             lamb: ['beef', 'chicken'],
             'pine nuts': ['walnuts', 'almonds']
-          },
+          }
           servingSize: 6,
           allergens: ['dairy', 'nuts'],
           prepTime: '30 minutes',
@@ -296,7 +296,7 @@ export const middleEastern: Cuisine = {
             fat: 38,
             vitamins: ['B12', 'D'],
             minerals: ['Iron', 'Zinc']
-          },
+          }
           season: ['all'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
@@ -305,7 +305,7 @@ export const middleEastern: Cuisine = {
             Fire: 0.2,
             Air: 0.1
           }
-        },
+        }
         {
           name: 'Fattoush',
           description: 'Levantine bread salad with sumac and mixed vegetables',
@@ -327,19 +327,19 @@ export const middleEastern: Cuisine = {
               unit: 'pieces',
               category: 'grain',
               swaps: ['gluten-free pita']
-            },
-            { name: 'romaine lettuce', amount: '1', unit: 'head', category: 'vegetable' },
-            { name: 'cucumber', amount: '2', unit: 'medium', category: 'vegetable' },
-            { name: 'tomatoes', amount: '3', unit: 'medium', category: 'vegetable' },
-            { name: 'radishes', amount: '6', unit: 'medium', category: 'vegetable' },
-            { name: 'sumac', amount: '2', unit: 'tbsp', category: 'spice' },
+            }
+            { name: 'romaine lettuce', amount: '1', unit: 'head', category: 'vegetable' }
+            { name: 'cucumber', amount: '2', unit: 'medium', category: 'vegetable' }
+            { name: 'tomatoes', amount: '3', unit: 'medium', category: 'vegetable' }
+            { name: 'radishes', amount: '6', unit: 'medium', category: 'vegetable' }
+            { name: 'sumac', amount: '2', unit: 'tbsp', category: 'spice' }
             { name: 'pomegranate molasses', amount: '2', unit: 'tbsp', category: 'condiment' }
           ],
           substitutions: {
             'pita bread': ['gluten-free bread', 'crackers'],
             sumac: ['lemon zest + salt'],
             'pomegranate molasses': ['balsamic reduction']
-          },
+          }
           servingSize: 4,
           allergens: ['gluten'],
           prepTime: '20 minutes',
@@ -356,7 +356,7 @@ export const middleEastern: Cuisine = {
             fat: 4,
             vitamins: ['C', 'A', 'K'],
             minerals: ['Iron', 'Potassium']
-          },
+          }
           season: ['summer'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
@@ -367,7 +367,7 @@ export const middleEastern: Cuisine = {
           }
         }
       ]
-    },
+    }
     dinner: {
       winter: [
         {
@@ -391,26 +391,26 @@ export const middleEastern: Cuisine = {
               unit: 'g',
               category: 'protein',
               swaps: ['plant-based ground']
-            },
-            { name: 'eggplant', amount: '3', unit: 'large', category: 'vegetable' },
-            { name: 'potatoes', amount: '2', unit: 'medium', category: 'vegetable' },
-            { name: 'onion', amount: '1', unit: 'large', category: 'vegetable' },
-            { name: 'tomato sauce', amount: '400', unit: 'ml', category: 'sauce' },
+            }
+            { name: 'eggplant', amount: '3', unit: 'large', category: 'vegetable' }
+            { name: 'potatoes', amount: '2', unit: 'medium', category: 'vegetable' }
+            { name: 'onion', amount: '1', unit: 'large', category: 'vegetable' }
+            { name: 'tomato sauce', amount: '400', unit: 'ml', category: 'sauce' }
             {
               name: 'béchamel sauce',
               amount: '500',
               unit: 'ml',
               category: 'sauce',
               swaps: ['cashew sauce']
-            },
-            { name: 'cinnamon', amount: '1', unit: 'tsp', category: 'spice' },
+            }
+            { name: 'cinnamon', amount: '1', unit: 'tsp', category: 'spice' }
             { name: 'nutmeg', amount: '1/4', unit: 'tsp', category: 'spice' }
           ],
           substitutions: {
             'ground lamb': ['ground beef', 'plant-based ground'],
             béchamel: ['cashew cream sauce', 'almond milk sauce'],
             eggplant: ['zucchini', 'mushrooms']
-          },
+          }
           servingSize: 8,
           allergens: ['dairy', 'gluten'],
           prepTime: '45 minutes',
@@ -427,7 +427,7 @@ export const middleEastern: Cuisine = {
             fat: 34,
             vitamins: ['B12', 'A', 'C'],
             minerals: ['Iron', 'Calcium']
-          },
+          }
           season: ['winter'],
           mealType: ['dinner'],
           elementalProperties: {
@@ -436,7 +436,7 @@ export const middleEastern: Cuisine = {
             Water: 0.2,
             Air: 0.1
           }
-        },
+        }
         {
           name: 'Kuzi',
           description: 'Whole roasted lamb with spiced rice and nuts',
@@ -464,18 +464,18 @@ export const middleEastern: Cuisine = {
               unit: 'kg',
               category: 'protein',
               swaps: ['jackfruit', 'mushrooms']
-            },
-            { name: 'aromatic rice', amount: '500', unit: 'g', category: 'grain' },
-            { name: 'almonds', amount: '100', unit: 'g', category: 'nuts' },
-            { name: 'pine nuts', amount: '50', unit: 'g', category: 'nuts' },
-            { name: 'raisins', amount: '100', unit: 'g', category: 'fruit' },
+            }
+            { name: 'aromatic rice', amount: '500', unit: 'g', category: 'grain' }
+            { name: 'almonds', amount: '100', unit: 'g', category: 'nuts' }
+            { name: 'pine nuts', amount: '50', unit: 'g', category: 'nuts' }
+            { name: 'raisins', amount: '100', unit: 'g', category: 'fruit' }
             { name: 'mixed spices', amount: '3', unit: 'tbsp', category: 'spice' }
           ],
           substitutions: {
             'lamb shoulder': ['beef shoulder', 'jackfruit'],
             'pine nuts': ['cashews', 'almonds'],
             'mixed spices': ['baharat', 'ras el hanout']
-          },
+          }
           servingSize: 8,
           allergens: ['nuts'],
           prepTime: '60 minutes',
@@ -492,7 +492,7 @@ export const middleEastern: Cuisine = {
             fat: 48,
             vitamins: ['B12', 'B6', 'E'],
             minerals: ['Iron', 'Zinc']
-          },
+          }
           season: ['winter'],
           mealType: ['dinner'],
           elementalProperties: {
@@ -525,17 +525,17 @@ export const middleEastern: Cuisine = {
               unit: 'g',
               category: 'protein',
               swaps: ['mushroom kofta']
-            },
+            }
             {
               name: 'chicken shish',
               amount: '400',
               unit: 'g',
               category: 'protein',
               swaps: ['seitan skewers']
-            },
-            { name: 'mixed vegetables', amount: '500', unit: 'g', category: 'vegetable' },
-            { name: 'hummus', amount: '200', unit: 'g', category: 'dip' },
-            { name: 'baba ganoush', amount: '200', unit: 'g', category: 'dip' },
+            }
+            { name: 'mixed vegetables', amount: '500', unit: 'g', category: 'vegetable' }
+            { name: 'hummus', amount: '200', unit: 'g', category: 'dip' }
+            { name: 'baba ganoush', amount: '200', unit: 'g', category: 'dip' }
             {
               name: 'flatbread',
               amount: '4',
@@ -548,7 +548,7 @@ export const middleEastern: Cuisine = {
             'lamb kofta': ['beef kofta', 'plant-based kofta'],
             'chicken shish': ['tofu shish', 'seitan'],
             flatbread: ['gluten-free pita', 'lettuce wraps']
-          },
+          }
           servingSize: 4,
           allergens: ['gluten'],
           prepTime: '30 minutes',
@@ -565,7 +565,7 @@ export const middleEastern: Cuisine = {
             fat: 32,
             vitamins: ['B12', 'C', 'A'],
             minerals: ['Iron', 'Zinc']
-          },
+          }
           season: ['summer'],
           mealType: ['dinner'],
           elementalProperties: {
@@ -574,7 +574,7 @@ export const middleEastern: Cuisine = {
             Earth: 0.2,
             Water: 0.1
           }
-        },
+        }
         {
           name: 'Mujaddara',
           description: 'Lentils and rice with caramelized onions',
@@ -590,17 +590,17 @@ export const middleEastern: Cuisine = {
             'Garnish with crispy onions'
           ],
           ingredients: [
-            { name: 'brown lentils', amount: '250', unit: 'g', category: 'legume' },
-            { name: 'rice', amount: '250', unit: 'g', category: 'grain' },
-            { name: 'onions', amount: '3', unit: 'large', category: 'vegetable' },
-            { name: 'olive oil', amount: '1/2', unit: 'cup', category: 'oil' },
+            { name: 'brown lentils', amount: '250', unit: 'g', category: 'legume' }
+            { name: 'rice', amount: '250', unit: 'g', category: 'grain' }
+            { name: 'onions', amount: '3', unit: 'large', category: 'vegetable' }
+            { name: 'olive oil', amount: '1/2', unit: 'cup', category: 'oil' }
             { name: 'cumin', amount: '2', unit: 'tsp', category: 'spice' }
           ],
           substitutions: {
             'brown lentils': ['green lentils', 'black lentils'],
             rice: ['bulgur', 'quinoa'],
             'olive oil': ['vegetable oil', 'ghee']
-          },
+          }
           servingSize: 6,
           allergens: ['none'],
           prepTime: '15 minutes',
@@ -617,7 +617,7 @@ export const middleEastern: Cuisine = {
             fat: 14,
             vitamins: ['B1', 'B6'],
             minerals: ['Iron', 'Folate']
-          },
+          }
           season: ['all'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
@@ -657,11 +657,11 @@ export const middleEastern: Cuisine = {
               unit: 'kg',
               category: 'protein',
               swaps: ['seitan']
-            },
-            { name: 'shawarma spice mix', amount: '4', unit: 'tbsp', category: 'spice blend' },
-            { name: 'garlic', amount: '8', unit: 'cloves', category: 'aromatic' },
-            { name: 'lemon juice', amount: '1/2', unit: 'cup', category: 'acid' },
-            { name: 'olive oil', amount: '1/2', unit: 'cup', category: 'oil' },
+            }
+            { name: 'shawarma spice mix', amount: '4', unit: 'tbsp', category: 'spice blend' }
+            { name: 'garlic', amount: '8', unit: 'cloves', category: 'aromatic' }
+            { name: 'lemon juice', amount: '1/2', unit: 'cup', category: 'acid' }
+            { name: 'olive oil', amount: '1/2', unit: 'cup', category: 'oil' }
             {
               name: 'pita bread',
               amount: '8',
@@ -674,7 +674,7 @@ export const middleEastern: Cuisine = {
             'chicken thighs': ['lamb', 'seitan', 'jackfruit'],
             'pita bread': ['flatbread', 'gluten-free wrap'],
             'shawarma spice mix': ['curry powder + cumin + paprika']
-          },
+          }
           servingSize: 8,
           allergens: ['gluten'],
           prepTime: '30 minutes',
@@ -691,10 +691,10 @@ export const middleEastern: Cuisine = {
             fat: 22,
             vitamins: ['B12', 'B6'],
             minerals: ['Iron', 'Zinc']
-          },
+          }
           season: ['all'],
           mealType: ['dinner']
-        },
+        }
 
         {
           name: 'Baklava',
@@ -712,17 +712,17 @@ export const middleEastern: Cuisine = {
             'Pour hot syrup over'
           ],
           ingredients: [
-            { name: 'phyllo dough', amount: '1', unit: 'package', category: 'pastry' },
-            { name: 'walnuts', amount: '500', unit: 'g', category: 'nut' },
-            { name: 'butter', amount: '400', unit: 'g', category: 'fat' },
-            { name: 'honey', amount: '250', unit: 'ml', category: 'sweetener' },
+            { name: 'phyllo dough', amount: '1', unit: 'package', category: 'pastry' }
+            { name: 'walnuts', amount: '500', unit: 'g', category: 'nut' }
+            { name: 'butter', amount: '400', unit: 'g', category: 'fat' }
+            { name: 'honey', amount: '250', unit: 'ml', category: 'sweetener' }
             { name: 'cinnamon', amount: '2', unit: 'tsp', category: 'spice' }
           ],
           substitutions: {
             walnuts: ['pistachios', 'almonds'],
             butter: ['ghee', 'clarified butter'],
             honey: ['sugar syrup', 'agave']
-          },
+          }
           servingSize: 24,
           allergens: ['nuts', 'gluten'],
           prepTime: '45 minutes',
@@ -739,7 +739,7 @@ export const middleEastern: Cuisine = {
             fat: 22,
             vitamins: ['E'],
             minerals: ['Magnesium']
-          },
+          }
           season: ['all'],
           mealType: ['dessert'],
           elementalProperties: {
@@ -748,7 +748,7 @@ export const middleEastern: Cuisine = {
             Fire: 0.2,
             Water: 0.1
           }
-        },
+        }
 
         {
           name: 'Falafel',
@@ -766,19 +766,19 @@ export const middleEastern: Cuisine = {
             'Serve with tahini sauce'
           ],
           ingredients: [
-            { name: 'dried chickpeas', amount: '500', unit: 'g', category: 'legume' },
-            { name: 'parsley', amount: '2', unit: 'bunches', category: 'herb' },
-            { name: 'cilantro', amount: '1', unit: 'bunch', category: 'herb' },
-            { name: 'onion', amount: '1', unit: 'large', category: 'vegetable' },
-            { name: 'garlic', amount: '6', unit: 'cloves', category: 'aromatic' },
-            { name: 'cumin', amount: '2', unit: 'tbsp', category: 'spice' },
+            { name: 'dried chickpeas', amount: '500', unit: 'g', category: 'legume' }
+            { name: 'parsley', amount: '2', unit: 'bunches', category: 'herb' }
+            { name: 'cilantro', amount: '1', unit: 'bunch', category: 'herb' }
+            { name: 'onion', amount: '1', unit: 'large', category: 'vegetable' }
+            { name: 'garlic', amount: '6', unit: 'cloves', category: 'aromatic' }
+            { name: 'cumin', amount: '2', unit: 'tbsp', category: 'spice' }
             { name: 'coriander', amount: '2', unit: 'tbsp', category: 'spice' }
           ],
           substitutions: {
             chickpeas: ['fava beans', 'split peas'],
             parsley: ['more cilantro', 'mint'],
             'vegetable oil': ['grapeseed oil', 'sunflower oil']
-          },
+          }
           servingSize: 6,
           allergens: ['none'],
           prepTime: '12 hours soaking',
@@ -795,7 +795,7 @@ export const middleEastern: Cuisine = {
             fat: 12,
             vitamins: ['C', 'K', 'B6'],
             minerals: ['Iron', 'Folate']
-          },
+          }
           season: ['all'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
@@ -804,7 +804,7 @@ export const middleEastern: Cuisine = {
             Air: 0.2,
             Water: 0.1
           }
-        },
+        }
 
         {
           name: 'Umm Ali',
@@ -827,18 +827,18 @@ export const middleEastern: Cuisine = {
               unit: 'g',
               category: 'pastry',
               swaps: ['croissants']
-            },
-            { name: 'whole milk', amount: '1', unit: 'liter', category: 'dairy' },
-            { name: 'heavy cream', amount: '500', unit: 'ml', category: 'dairy' },
-            { name: 'mixed nuts', amount: '200', unit: 'g', category: 'nuts' },
-            { name: 'sugar', amount: '200', unit: 'g', category: 'sweetener' },
+            }
+            { name: 'whole milk', amount: '1', unit: 'liter', category: 'dairy' }
+            { name: 'heavy cream', amount: '500', unit: 'ml', category: 'dairy' }
+            { name: 'mixed nuts', amount: '200', unit: 'g', category: 'nuts' }
+            { name: 'sugar', amount: '200', unit: 'g', category: 'sweetener' }
             { name: 'vanilla', amount: '2', unit: 'tsp', category: 'flavoring' }
           ],
           substitutions: {
             'puff pastry': ['croissants', 'bread'],
             'whole milk': ['almond milk', 'oat milk'],
             'heavy cream': ['coconut cream', 'cashew cream']
-          },
+          }
           servingSize: 8,
           allergens: ['dairy', 'nuts', 'gluten'],
           prepTime: '20 minutes',
@@ -855,7 +855,7 @@ export const middleEastern: Cuisine = {
             fat: 32,
             vitamins: ['A', 'D'],
             minerals: ['Calcium']
-          },
+          }
           season: ['winter'],
           mealType: ['dessert'],
           elementalProperties: {
@@ -864,7 +864,7 @@ export const middleEastern: Cuisine = {
             Air: 0.2,
             Fire: 0.1
           }
-        },
+        }
 
         {
           name: 'Knafeh',
@@ -882,24 +882,24 @@ export const middleEastern: Cuisine = {
             'Garnish with pistachios'
           ],
           ingredients: [
-            { name: 'kataifi dough', amount: '500', unit: 'g', category: 'pastry' },
+            { name: 'kataifi dough', amount: '500', unit: 'g', category: 'pastry' }
             {
               name: 'akkawi cheese',
               amount: '500',
               unit: 'g',
               category: 'dairy',
               swaps: ['mozzarella']
-            },
-            { name: 'ghee', amount: '300', unit: 'g', category: 'fat' },
-            { name: 'sugar syrup', amount: '500', unit: 'ml', category: 'syrup' },
-            { name: 'orange blossom water', amount: '2', unit: 'tbsp', category: 'flavoring' },
+            }
+            { name: 'ghee', amount: '300', unit: 'g', category: 'fat' }
+            { name: 'sugar syrup', amount: '500', unit: 'ml', category: 'syrup' }
+            { name: 'orange blossom water', amount: '2', unit: 'tbsp', category: 'flavoring' }
             { name: 'pistachios', amount: '100', unit: 'g', category: 'nut' }
           ],
           substitutions: {
             'akkawi cheese': ['mozzarella', 'fresh cheese'],
             ghee: ['clarified butter', 'butter'],
             'orange blossom water': ['rose water', 'vanilla']
-          },
+          }
           servingSize: 12,
           allergens: ['dairy', 'nuts', 'gluten'],
           prepTime: '40 minutes',
@@ -916,7 +916,7 @@ export const middleEastern: Cuisine = {
             fat: 24,
             vitamins: ['A', 'E'],
             minerals: ['Calcium']
-          },
+          }
           season: ['all'],
           mealType: ['dessert', 'breakfast'],
           elementalProperties: {
@@ -925,7 +925,7 @@ export const middleEastern: Cuisine = {
             Water: 0.2,
             Air: 0.2
           }
-        },
+        }
 
         {
           name: 'Kofta Kebab',
@@ -948,17 +948,17 @@ export const middleEastern: Cuisine = {
               unit: 'kg',
               category: 'protein',
               swaps: ['ground beef']
-            },
-            { name: 'onion', amount: '2', unit: 'large', category: 'vegetable' },
-            { name: 'parsley', amount: '1', unit: 'bunch', category: 'herb' },
-            { name: 'seven spices', amount: '2', unit: 'tbsp', category: 'spice blend' },
+            }
+            { name: 'onion', amount: '2', unit: 'large', category: 'vegetable' }
+            { name: 'parsley', amount: '1', unit: 'bunch', category: 'herb' }
+            { name: 'seven spices', amount: '2', unit: 'tbsp', category: 'spice blend' }
             { name: 'sumac', amount: '1', unit: 'tbsp', category: 'spice' }
           ],
           substitutions: {
             'ground lamb': ['ground beef', 'ground chicken'],
             'seven spices': ['baharat', 'kebab spice mix'],
             sumac: ['lemon zest']
-          },
+          }
           servingSize: 6,
           allergens: ['none'],
           prepTime: '30 minutes',
@@ -975,7 +975,7 @@ export const middleEastern: Cuisine = {
             fat: 26,
             vitamins: ['B12', 'B6'],
             minerals: ['Iron', 'Zinc']
-          },
+          }
           season: ['all'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
@@ -984,7 +984,7 @@ export const middleEastern: Cuisine = {
             Air: 0.1,
             Water: 0.1
           }
-        },
+        }
 
         {
           name: 'Chicken Makloubeh',
@@ -1001,17 +1001,17 @@ export const middleEastern: Cuisine = {
             'Flip onto serving plate'
           ],
           ingredients: [
-            { name: 'chicken pieces', amount: '1.5', unit: 'kg', category: 'protein' },
-            { name: 'rice', amount: '750', unit: 'g', category: 'grain' },
-            { name: 'eggplant', amount: '2', unit: 'large', category: 'vegetable' },
-            { name: 'cauliflower', amount: '1', unit: 'head', category: 'vegetable' },
+            { name: 'chicken pieces', amount: '1.5', unit: 'kg', category: 'protein' }
+            { name: 'rice', amount: '750', unit: 'g', category: 'grain' }
+            { name: 'eggplant', amount: '2', unit: 'large', category: 'vegetable' }
+            { name: 'cauliflower', amount: '1', unit: 'head', category: 'vegetable' }
             { name: 'pine nuts', amount: '100', unit: 'g', category: 'nut', swaps: ['almonds'] }
           ],
           substitutions: {
             'chicken pieces': ['lamb', 'beef'],
             'pine nuts': ['almonds', 'cashews'],
             'white rice': ['brown rice', 'freekeh']
-          },
+          }
           servingSize: 8,
           allergens: ['nuts'],
           prepTime: '45 minutes',
@@ -1028,7 +1028,7 @@ export const middleEastern: Cuisine = {
             fat: 24,
             vitamins: ['A', 'C', 'B12'],
             minerals: ['Iron', 'Potassium']
-          },
+          }
           season: ['all'],
           mealType: ['dinner'],
           elementalProperties: {
@@ -1040,7 +1040,7 @@ export const middleEastern: Cuisine = {
         }
       ]
     }
-  },
+  }
   traditionalSauces: {
     tahini: {
       name: 'Tahini',
@@ -1060,13 +1060,13 @@ export const middleEastern: Cuisine = {
         Water: 0.2,
         Air: 0.2,
         Fire: 0.1
-      },
+      }
       astrologicalInfluences: ['Venus', 'Moon', 'taurus'],
       seasonality: 'all',
       preparationNotes: 'Traditionally ground with stone mills to preserve flavor and nutrients',
       technicalTips:
         'Stir well before using as natural separation occurs. Add water slowly when thinning'
-    },
+    }
     hummus: {
       name: 'Hummus',
       description: 'Creamy chickpea dip with tahini, garlic, and lemon',
@@ -1085,14 +1085,14 @@ export const middleEastern: Cuisine = {
         Water: 0.3,
         Air: 0.2,
         Fire: 0.1
-      },
+      }
       astrologicalInfluences: ['Jupiter', 'Mercury', 'virgo'],
       seasonality: 'all',
       preparationNotes:
         'Each region claims to make the most authentic version. Texture can range from rustic to silky smooth',
       technicalTips:
         'Cook chickpeas with baking soda to help break down skins for smoother texture'
-    },
+    }
     zaatar: {
       name: 'Za'atar Oil',
       description: 'Herb and sesame blend mixed with olive oil for dipping and spreading',
@@ -1113,13 +1113,13 @@ export const middleEastern: Cuisine = {
         Earth: 0.3,
         Fire: 0.2,
         Water: 0.1
-      },
+      }
       astrologicalInfluences: ['Mercury', 'Venus', 'gemini'],
       seasonality: 'all, with fresh variations in spring',
       preparationNotes:
         'Family recipes are closely guarded secrets, with regional variations in proportions',
       technicalTips: 'Mix with high-quality olive oil just before serving to preserve aromatics'
-    },
+    }
     harissa: {
       name: 'Harissa',
       description: 'Hot chile paste with garlic, spices, and olive oil',
@@ -1132,13 +1132,13 @@ export const middleEastern: Cuisine = {
         Earth: 0.2,
         Air: 0.1,
         Water: 0.1
-      },
+      }
       astrologicalInfluences: ['Mars', 'Sun', 'aries'],
       seasonality: 'all',
       preparationNotes: 'Traditional preservation technique for chiles in North African cuisine',
       technicalTips:
         'A little goes a long way. Store with a layer of olive oil on top to preserve freshness'
-    },
+    }
     toum: {
       name: 'Toum',
       description: 'Intense garlic sauce with an airy, creamy texture',
@@ -1157,7 +1157,7 @@ export const middleEastern: Cuisine = {
         Fire: 0.3,
         Water: 0.2,
         Earth: 0.1
-      },
+      }
       astrologicalInfluences: ['Mercury', 'Mars', 'gemini'],
       seasonality: 'all',
       preparationNotes:
@@ -1165,7 +1165,7 @@ export const middleEastern: Cuisine = {
       technicalTips:
         'Slow oil incorporation is essential for proper emulsification and fluffy texture'
     }
-  },
+  }
   sauceRecommender: {
     forProtein: {
       lamb: [
@@ -1185,7 +1185,7 @@ export const middleEastern: Cuisine = {
         'zhug',
         'spiced tomato'
       ]
-    },
+    }
     forVegetable: {
       root: [
         'tahini sauce',
@@ -1222,7 +1222,7 @@ export const middleEastern: Cuisine = {
         'tahini',
         'preserved lemon'
       ]
-    },
+    }
     forCookingMethod: {
       grilling: ['toum', 'harissa', 'chermoula', 'sumac-onion', 'zhug'],
       baking: [
@@ -1241,13 +1241,13 @@ export const middleEastern: Cuisine = {
         'pomegranate vinaigrette',
         'tahini-citrus'
       ]
-    },
+    }
     byAstrological: {
       fire: ['harissa', 'zhug', 'chermoula', 'hot pepper paste', 'garlic-chili oil'],
       earth: ['tahini', 'hummus', 'baba ganoush', 'walnut-pomegranate', 'chickpea-olive'],
       water: ['yogurt sauces', 'tarator', 'cucumber-mint', 'lemon-herb', 'rosewater-honey'],
       air: ['za'atar oil', 'herb-infused oils', 'citrus dressings', 'sumac-onion', 'mint-lemon']
-    },
+    }
     byRegion: {
       levant: ['tahini sauce', 'toum', 'za'atar oil', 'yogurt-cucumber', 'pomegranate molasses'],
       northAfrica: [
@@ -1272,7 +1272,7 @@ export const middleEastern: Cuisine = {
         'saffron-honey'
       ],
       turkish: ['red pepper paste', 'yogurt-garlic', 'isot butter', 'pomegranate', 'sumac-onion']
-    },
+    }
     byDietary: {
       vegetarian: [
         'tahini sauce',
@@ -1285,22 +1285,22 @@ export const middleEastern: Cuisine = {
       glutenFree: ['tahini sauce', 'harissa', 'chermoula', 'yogurt-based sauces', 'herb oils'],
       dairyFree: ['tahini sauce', 'pomegranate molasses', 'herb oils', 'chermoula', 'zhug']
     }
-  },
+  }
   cookingTechniques: [
     {
       name: 'Mezze Preparation',
       description:
         'Art of creating balanced small dishes that complement each other in flavor, texture, and temperature',
-      elementalProperties: { Earth: 0.3, Water: 0.3, Fire: 0.2, Air: 0.2 },
+      elementalProperties: { Earth: 0.3, Water: 0.3, Fire: 0.2, Air: 0.2 }
       toolsRequired: ['various serving dishes', 'mortar and pestle', 'fine grater', 'sharp knife'],
       bestFor: ['entertaining', 'appetizers', 'communal dining', 'showcasing seasonal produce'],
       difficulty: 'medium'
-    },
+    }
     {
       name: 'Tagine Cooking',
       description:
         'Slow cooking in a conical earthenware pot that traps steam to create tender, aromatic dishes',
-      elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
+      elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 }
       toolsRequired: ['tagine pot', 'diffuser', 'long wooden spoon', 'steady heat source'],
       bestFor: [
         'tough cuts of meat',
@@ -1309,11 +1309,11 @@ export const middleEastern: Cuisine = {
         'aromatic dishes'
       ],
       difficulty: 'medium'
-    },
+    }
     {
       name: 'Bread Baking',
       description: 'Traditional flatbread preparation using high heat and minimal leavening',
-      elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
+      elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 }
       toolsRequired: [
         'tanoor/taboon oven',
         'baking stone',
@@ -1322,21 +1322,21 @@ export const middleEastern: Cuisine = {
       ],
       bestFor: ['pita', 'lavash', 'taboon bread', 'saj bread', 'communion bread'],
       difficulty: 'hard'
-    },
+    }
     {
       name: 'Charcoal Grilling',
       description:
         'Open-fire cooking over aromatic woods to impart smoky flavor to proteins and vegetables',
-      elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
+      elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 }
       toolsRequired: ['mangal grill', 'metal skewers', 'long tongs', 'brushes for basting'],
       bestFor: ['kebabs', 'kofta', 'whole fish', 'vegetables', 'bread'],
       difficulty: 'medium'
-    },
+    }
     {
       name: 'Preserving',
       description:
         'Ancient techniques for extending shelf life through fermentation, pickling, and drying',
-      elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
+      elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 }
       toolsRequired: ['clay pots', 'glass jars', 'cheesecloth', 'sun-drying racks', 'weights'],
       bestFor: ['vegetables', 'fruits', 'herbs', 'dairy products', 'fish'],
       difficulty: 'hard'
@@ -1348,52 +1348,52 @@ export const middleEastern: Cuisine = {
       description:
         'Cuisine of the Eastern Mediterranean coast, featuring olive oil, herbs, and za'atar',
       signature: ['mezze', 'kibbeh', 'tabbouleh', 'manakish', 'knafeh'],
-      elementalProperties: { Earth: 0.4, Water: 0.2, Air: 0.2, Fire: 0.2 },
+      elementalProperties: { Earth: 0.4, Water: 0.2, Air: 0.2, Fire: 0.2 }
       astrologicalInfluences: ['Venus', 'Mercury', 'gemini'],
       seasonality: 'heavily influenced by seasonal produce'
-    },
+    }
     persian: {
       name: 'Persian Cuisine',
       description:
         'Ancient Iranian culinary tradition with complex rice dishes and delicate use of herbs and fruits',
       signature: ['tahdig', 'fesenjan', 'jeweled rice', 'koresh', 'barbari bread'],
-      elementalProperties: { Earth: 0.3, Air: 0.3, Fire: 0.2, Water: 0.2 },
+      elementalProperties: { Earth: 0.3, Air: 0.3, Fire: 0.2, Water: 0.2 }
       astrologicalInfluences: ['Venus', 'Sun', 'Libra'],
       seasonality: 'aligned with ancient festivals and seasonal transitions'
-    },
+    }
     northAfrican: {
       name: 'North African Cuisine',
       description:
         'Bold, spicy flavors with influences from Berber, Arab, Mediterranean, and Sub-Saharan traditions',
       signature: ['couscous', 'tagine', 'harissa', 'merguez', 'pastilla'],
-      elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
+      elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 }
       astrologicalInfluences: ['Mars', 'Sun', 'aries'],
       seasonality: 'desert-influenced seasonal patterns'
-    },
+    }
     arabian: {
       name: 'Arabian Peninsula Cuisine',
       description:
         'Desert-adapted cuisine with dates, rice, camel products, and distinctive spice blends',
       signature: ['kabsa', 'harees', 'mandi', 'margoog', 'dates with camel milk'],
-      elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
+      elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 }
       astrologicalInfluences: ['Saturn', 'Moon', 'capricorn'],
       seasonality: 'oasis agriculture with date harvest emphasis'
-    },
+    }
     turkish: {
       name: 'Turkish-Influenced Cuisine',
       description: 'Ottoman culinary legacy with layered flavors, yogurt, and regional variations',
       signature: ['lahmacun', 'pide', 'gözleme', 'imam bayildi', 'künefe'],
-      elementalProperties: { Water: 0.3, Earth: 0.3, Fire: 0.2, Air: 0.2 },
+      elementalProperties: { Water: 0.3, Earth: 0.3, Fire: 0.2, Air: 0.2 }
       astrologicalInfluences: ['Jupiter', 'Venus', 'taurus'],
       seasonality: 'four distinct seasons with special holiday dishes'
     }
-  },
+  }
   elementalProperties: {
     Fire: 0.2,
     Water: 0.3,
     Earth: 0.3,
     Air: 0.2
   }
-},
+}
 
 export default middleEastern,

@@ -157,7 +157,7 @@ export class DeploymentManager {
       errors: [],
       warnings: [],
       rollbackPerformed: false
-    },
+    }
 
     this.log(`Executing phase: ${phase.name}`)
 
@@ -229,7 +229,7 @@ export class DeploymentManager {
   private async executeTask(task: DeploymentTask): Promise<void> {
     return new Promise((resolve, reject) => {
       const process = spawn(task.command, task.args, {
-        env: { ...process.env, ...task.environment },
+        env: { ...process.env, ...task.environment }
         stdio: 'pipe'
       })
 
@@ -280,7 +280,7 @@ export class DeploymentManager {
         success: false,
         output: '',
         duration: 0
-      },
+      }
 
       try {
         const output = await this.executeValidationCheck(check)
@@ -399,7 +399,7 @@ export class DeploymentManager {
     return {
       success: errors.length === 0,,
       errors
-    },
+    }
   }
 
   /**
@@ -467,7 +467,7 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           timeout: 300000,
           retries: 2,
           critical: true
-        },
+        }
         {
           id: 'build-project',
           name: 'Build Project',
@@ -488,7 +488,7 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           args: ['run', 'build'],
           timeout: 180000,
           expectedExitCode: 0
-        },
+        }
         {
           id: 'typescript-validation',
           name: 'TypeScript Validation',
@@ -506,7 +506,7 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
         configurationValid: true,
         customChecks: []
       }
-    },
+    }
     {
       id: 'configuration-deployment',
       name: 'Configuration Deployment',
@@ -525,7 +525,7 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           timeout: 30000,
           retries: 1,
           critical: true
-        },
+        }
         {
           id: 'setup-config-directories',
           name: 'Setup Configuration Directories',
@@ -580,7 +580,7 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           }
         ]
       }
-    },
+    }
     {
       id: 'system-integration',
       name: 'System Integration',
@@ -595,7 +595,7 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           timeout: 300000,
           retries: 1,
           critical: true
-        },
+        }
         {
           id: 'verify-campaign-integration',
           name: 'Verify Campaign Integration',
@@ -628,7 +628,7 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
         configurationValid: true,
         customChecks: []
       }
-    },
+    }
     {
       id: 'monitoring-setup',
       name: 'Monitoring and Alerting Setup',
@@ -670,7 +670,7 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
         configurationValid: true,
         customChecks: []
       }
-    },
+    }
     {
       id: 'final-validation',
       name: 'Final Validation',
@@ -685,7 +685,7 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           timeout: 600000,
           retries: 1,
           critical: true
-        },
+        }
         {
           id: 'run-linting',
           name: 'Run Linting',
@@ -706,7 +706,7 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           args: ['run', 'build'],
           timeout: 180000,
           expectedExitCode: 0
-        },
+        }
         {
           id: 'final-test-validation',
           name: 'Final Test Validation',

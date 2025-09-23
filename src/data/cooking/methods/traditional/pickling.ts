@@ -15,11 +15,11 @@ export const pickling: CookingMethodData = {
     Earth: 0.2,
     Air: 0.2,
     Fire: 0.1
-  },
+  }
   duration: {
     min: 60, // 1 hour for quick pickles
     max: 4320, // 3 days for some fermented pickles
-  },
+  }
   suitable_for: [
     'vegetables',
     'fruits',
@@ -70,7 +70,7 @@ export const pickling: CookingMethodData = {
       waxing_crescent: 1.1, // Good phase to begin pickling
       waning_gibbous: 1.0, // Neutral effect
     }
-  },
+  }
   toolsRequired: [
     'Glass jars with lids',
     'Non-reactive pot (for vinegar)',
@@ -140,7 +140,7 @@ export const pickling: CookingMethodData = {
     carotenoids: 0.7, // Moderate retention
     flavonoids: 0.75, // Moderate retention
     organic_acids: 1.2, // Increased through pickling process
-  },
+  }
   optimalTemperatures: {
     quick_pickle_brine: 190, // Near boiling for vinegar brine (°F)
     fermented_pickle_storage: 68, // Room temperature for fermentation (°F)
@@ -153,7 +153,7 @@ export const pickling: CookingMethodData = {
     salt_brine: 70, // Room temperature for salt brine (°F)
     vegetable_blanching: 190, // For certain pickles that require pre-cooking (°F)
     consumption: 45, // Chilled for serving (°F)
-  },
+  }
   regionalVariations: {
     eastern_european: ['sauerkraut', 'pickled beets', 'dill pickles'],
     asian: ['kimchi', 'tsukemono', 'achar', 'do chua'],
@@ -166,7 +166,7 @@ export const pickling: CookingMethodData = {
     mediterranean: ['giardiniera', 'pickled capers', 'olives'],
     african: ['pickled chilies', 'achaar', 'moroccan preserved lemons'],
     caribbean: ['pickled pineapple', 'escovitch', 'pickled scotch bonnet peppers']
-  },
+  }
   chemicalChanges: {
     acid_penetration: true,
     cell_wall_breakdown: true,
@@ -184,7 +184,7 @@ export const pickling: CookingMethodData = {
     vegetable_dehydration: true,
     protein_denaturation: true, // In pickled proteins
     pH_reduction: true
-  },
+  }
   safetyFeatures: [
     'Pathogen inhibition through acidity',
     'Long-term preservation without refrigeration',
@@ -273,4 +273,4 @@ export const pickling: CookingMethodData = {
   sustainabilityRating: 0.9, // Very high - preserves seasonal abundance, low energy use
 
   equipmentComplexity: 0.35, // Low-moderate - basic equipment with some specialized items
-},
+}

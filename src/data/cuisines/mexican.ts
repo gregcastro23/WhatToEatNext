@@ -27,17 +27,17 @@ export const mexican = {
               unit: 'large',
               category: 'protein',
               swaps: ['tofu scramble']
-            },
+            }
             {
               name: 'corn tortillas',
               amount: '2',
               unit: 'pieces',
               category: 'grain',
               swaps: ['gluten-free tortillas']
-            },
-            { name: 'ranchero sauce', amount: '200', unit: 'ml', category: 'sauce' },
-            { name: 'black beans', amount: '1', unit: 'cup', category: 'protein' },
-            { name: 'avocado', amount: '1/2', unit: 'whole', category: 'fruit' },
+            }
+            { name: 'ranchero sauce', amount: '200', unit: 'ml', category: 'sauce' }
+            { name: 'black beans', amount: '1', unit: 'cup', category: 'protein' }
+            { name: 'avocado', amount: '1/2', unit: 'whole', category: 'fruit' }
             {
               name: 'queso fresco',
               amount: '1/4',
@@ -50,7 +50,7 @@ export const mexican = {
             eggs: ['tofu scramble', 'chickpea scramble'],
             'queso fresco': ['vegan cheese', 'avocado'],
             'corn tortillas': ['flour tortillas', 'gluten-free tortillas']
-          },
+          }
           servingSize: 1,
           allergens: ['egg', 'dairy'],
           prepTime: '10 minutes',
@@ -67,10 +67,10 @@ export const mexican = {
             fat: 28,
             vitamins: ['A', 'C', 'D'],
             minerals: ['Iron', 'Potassium']
-          },
+          }
           season: ['all'],
           mealType: ['breakfast', 'brunch']
-        },
+        }
         {
           name: 'Chilaquiles Verdes',
           description: 'Tortilla chips in salsa verde with eggs and cream',
@@ -92,31 +92,31 @@ export const mexican = {
               unit: 'pieces',
               category: 'grain',
               swaps: ['gluten-free tortillas']
-            },
-            { name: 'salsa verde', amount: '2', unit: 'cups', category: 'sauce' },
-            { name: 'eggs', amount: '2', unit: 'large', category: 'protein', swaps: ['tofu'] },
+            }
+            { name: 'salsa verde', amount: '2', unit: 'cups', category: 'sauce' }
+            { name: 'eggs', amount: '2', unit: 'large', category: 'protein', swaps: ['tofu'] }
             {
               name: 'crema',
               amount: '1/4',
               unit: 'cup',
               category: 'dairy',
               swaps: ['cashew cream']
-            },
+            }
             {
               name: 'queso fresco',
               amount: '1/2',
               unit: 'cup',
               category: 'dairy',
               swaps: ['vegan cheese']
-            },
-            { name: 'onion', amount: '1/2', unit: 'medium', category: 'vegetable' },
+            }
+            { name: 'onion', amount: '1/2', unit: 'medium', category: 'vegetable' }
             { name: 'epazote', amount: '2', unit: 'sprigs', category: 'herb' }
           ],
           substitutions: {
             eggs: ['tofu scramble', 'chickpea scramble'],
             crema: ['cashew cream', 'coconut cream'],
             'queso fresco': ['vegan cheese', 'nutritional yeast']
-          },
+          }
           servingSize: 2,
           allergens: ['dairy', 'egg'],
           prepTime: '15 minutes',
@@ -133,10 +133,10 @@ export const mexican = {
             fat: 24,
             vitamins: ['A', 'C', 'K'],
             minerals: ['Calcium', 'Iron']
-          },
+          }
           season: ['all'],
           mealType: ['breakfast', 'brunch']
-        },
+        }
         {
           name: 'Molletes',
           description: 'Open-faced refried bean and cheese sandwiches',
@@ -158,22 +158,22 @@ export const mexican = {
               unit: 'pieces',
               category: 'grain',
               swaps: ['gluten-free bread']
-            },
-            { name: 'refried beans', amount: '1', unit: 'cup', category: 'legume' },
+            }
+            { name: 'refried beans', amount: '1', unit: 'cup', category: 'legume' }
             {
               name: 'cheese',
               amount: '1',
               unit: 'cup',
               category: 'dairy',
               swaps: ['vegan cheese']
-            },
+            }
             { name: 'pico de gallo', amount: '1', unit: 'cup', category: 'salsa' }
           ],
           substitutions: {
             'bolillo rolls': ['sourdough', 'gluten-free bread'],
             cheese: ['vegan cheese', 'cashew cheese'],
             'refried beans': ['black bean spread', 'pinto bean spread']
-          },
+          }
           servingSize: 2,
           allergens: ['dairy', 'wheat'],
           prepTime: '10 minutes',
@@ -190,10 +190,10 @@ export const mexican = {
             fat: 16,
             vitamins: ['C', 'B12'],
             minerals: ['Iron', 'Calcium']
-          },
+          }
           season: ['all'],
           mealType: ['breakfast', 'snack']
-        },
+        }
         {
           name: 'Enfrijoladas',
           description: 'Tortillas dipped in black bean sauce and filled with cheese',
@@ -215,30 +215,30 @@ export const mexican = {
               unit: 'pieces',
               category: 'grain',
               swaps: ['gluten-free tortillas']
-            },
-            { name: 'black beans', amount: '2', unit: 'cups', category: 'legume' },
+            }
+            { name: 'black beans', amount: '2', unit: 'cups', category: 'legume' }
             {
               name: 'queso fresco',
               amount: '1',
               unit: 'cup',
               category: 'dairy',
               swaps: ['vegan cheese']
-            },
+            }
             {
               name: 'crema',
               amount: '1/2',
               unit: 'cup',
               category: 'dairy',
               swaps: ['cashew cream']
-            },
-            { name: 'onion', amount: '1', unit: 'medium', category: 'vegetable' },
+            }
+            { name: 'onion', amount: '1', unit: 'medium', category: 'vegetable' }
             { name: 'chipotle peppers', amount: '2', unit: 'pieces', category: 'spice' }
           ],
           substitutions: {
             'queso fresco': ['vegan cheese', 'tofu feta'],
             crema: ['cashew cream', 'vegan sour cream'],
             'chipotle peppers': ['smoked paprika', 'ancho chile']
-          },
+          }
           servingSize: 4,
           allergens: ['dairy'],
           prepTime: '20 minutes',
@@ -255,10 +255,10 @@ export const mexican = {
             fat: 18,
             vitamins: ['B12', 'C'],
             minerals: ['Iron', 'Calcium']
-          },
+          }
           season: ['all'],
           mealType: ['breakfast', 'dinner']
-        },
+        }
         {
           name: 'Huevos Motuleños',
           description: 'Eggs on tortillas with black beans, plantains, and salsa',
@@ -281,25 +281,25 @@ export const mexican = {
               unit: 'large',
               category: 'protein',
               swaps: ['tofu scramble']
-            },
+            }
             {
               name: 'corn tortillas',
               amount: '4',
               unit: 'pieces',
               category: 'grain',
               swaps: ['gluten-free tortillas']
-            },
-            { name: 'black beans', amount: '1', unit: 'cup', category: 'legume' },
-            { name: 'plantains', amount: '2', unit: 'medium', category: 'fruit' },
-            { name: 'tomato sauce', amount: '1', unit: 'cup', category: 'sauce' },
-            { name: 'peas', amount: '1/2', unit: 'cup', category: 'vegetable' },
+            }
+            { name: 'black beans', amount: '1', unit: 'cup', category: 'legume' }
+            { name: 'plantains', amount: '2', unit: 'medium', category: 'fruit' }
+            { name: 'tomato sauce', amount: '1', unit: 'cup', category: 'sauce' }
+            { name: 'peas', amount: '1/2', unit: 'cup', category: 'vegetable' }
             { name: 'ham', amount: '100', unit: 'g', category: 'protein', swaps: ['tempeh'] }
           ],
           substitutions: {
             eggs: ['tofu scramble', 'chickpea scramble'],
             ham: ['tempeh', 'seitan', 'mushrooms'],
             plantains: ['sweet bananas', 'sweet potatoes']
-          },
+          }
           servingSize: 4,
           allergens: ['egg'],
           prepTime: '15 minutes',
@@ -316,7 +316,7 @@ export const mexican = {
             fat: 24,
             vitamins: ['A', 'C', 'B12'],
             minerals: ['Iron', 'Potassium']
-          },
+          }
           season: ['all'],
           mealType: ['breakfast', 'brunch']
         }
@@ -336,22 +336,22 @@ export const mexican = {
             'Serve immediately'
           ],
           ingredients: [
-            { name: 'mixed fruits', amount: '2', unit: 'cups', category: 'fruit' },
+            { name: 'mixed fruits', amount: '2', unit: 'cups', category: 'fruit' }
             {
               name: 'milk',
               amount: '1',
               unit: 'cup',
               category: 'dairy',
               swaps: ['almond milk', 'oat milk']
-            },
-            { name: 'honey', amount: '2', unit: 'tbsp', category: 'sweetener', swaps: ['agave'] },
+            }
+            { name: 'honey', amount: '2', unit: 'tbsp', category: 'sweetener', swaps: ['agave'] }
             { name: 'vanilla', amount: '1', unit: 'tsp', category: 'flavoring' }
           ],
           substitutions: {
             milk: ['almond milk', 'oat milk', 'coconut milk'],
             honey: ['agave nectar', 'maple syrup'],
             'mixed fruits': ['any seasonal fruits']
-          },
+          }
           servingSize: 2,
           allergens: ['dairy'],
           prepTime: '5 minutes',
@@ -368,12 +368,12 @@ export const mexican = {
             fat: 6,
             vitamins: ['C', 'D'],
             minerals: ['Calcium', 'Potassium']
-          },
+          }
           season: ['summer'],
           mealType: ['breakfast', 'snack']
         }
       ]
-    },
+    }
     lunch: {
       all: [
         {
@@ -397,18 +397,18 @@ export const mexican = {
               unit: 'large',
               category: 'protein',
               swaps: ['chickpeas']
-            },
-            { name: 'carrots', amount: '4', unit: 'large', category: 'vegetable' },
-            { name: 'potatoes', amount: '4', unit: 'medium', category: 'vegetable' },
-            { name: 'chayote', amount: '2', unit: 'whole', category: 'vegetable' },
-            { name: 'Mexican rice', amount: '1', unit: 'cup', category: 'grain' },
+            }
+            { name: 'carrots', amount: '4', unit: 'large', category: 'vegetable' }
+            { name: 'potatoes', amount: '4', unit: 'medium', category: 'vegetable' }
+            { name: 'chayote', amount: '2', unit: 'whole', category: 'vegetable' }
+            { name: 'Mexican rice', amount: '1', unit: 'cup', category: 'grain' }
             { name: 'cilantro', amount: '1', unit: 'bunch', category: 'herb' }
           ],
           substitutions: {
             chicken: ['chickpeas', 'mushrooms', 'jackfruit'],
             chayote: ['zucchini', 'summer squash'],
             'Mexican rice': ['white rice', 'quinoa']
-          },
+          }
           servingSize: 6,
           allergens: ['none'],
           prepTime: '30 minutes',
@@ -425,7 +425,7 @@ export const mexican = {
             fat: 12,
             vitamins: ['A', 'C', 'B6'],
             minerals: ['Iron', 'Potassium']
-          },
+          }
           season: ['all', 'winter'],
           mealType: ['lunch', 'dinner', 'healing']
         }
@@ -442,10 +442,10 @@ export const mexican = {
               unit: 'g',
               category: 'seafood',
               swaps: ['hearts of palm']
-            },
-            { name: 'lime juice', amount: '1', unit: 'cup', category: 'citrus' },
-            { name: 'cucumber', amount: '2', unit: 'medium', category: 'vegetable' },
-            { name: 'serrano peppers', amount: '4', unit: 'pieces', category: 'spice' },
+            }
+            { name: 'lime juice', amount: '1', unit: 'cup', category: 'citrus' }
+            { name: 'cucumber', amount: '2', unit: 'medium', category: 'vegetable' }
+            { name: 'serrano peppers', amount: '4', unit: 'pieces', category: 'spice' }
             { name: 'red onion', amount: '1', unit: 'medium', category: 'vegetable' }
           ],
           nutrition: {
@@ -455,7 +455,7 @@ export const mexican = {
             fat: 8,
             vitamins: ['C', 'B12'],
             minerals: ['Iron', 'Zinc']
-          },
+          }
           timeToMake: '20 minutes',
           season: ['summer'],
           mealType: ['lunch']
@@ -478,24 +478,24 @@ export const mexican = {
             'Serve with condiments'
           ],
           ingredients: [
-            { name: 'dried hominy', amount: '500', unit: 'g', category: 'grain' },
+            { name: 'dried hominy', amount: '500', unit: 'g', category: 'grain' }
             {
               name: 'pork shoulder',
               amount: '1',
               unit: 'kg',
               category: 'protein',
               swaps: ['mushrooms']
-            },
-            { name: 'guajillo chiles', amount: '6', unit: 'pieces', category: 'chile' },
-            { name: 'ancho chiles', amount: '3', unit: 'pieces', category: 'chile' },
-            { name: 'garlic', amount: '6', unit: 'cloves', category: 'aromatic' },
+            }
+            { name: 'guajillo chiles', amount: '6', unit: 'pieces', category: 'chile' }
+            { name: 'ancho chiles', amount: '3', unit: 'pieces', category: 'chile' }
+            { name: 'garlic', amount: '6', unit: 'cloves', category: 'aromatic' }
             { name: 'oregano', amount: '2', unit: 'tbsp', category: 'herb' }
           ],
           substitutions: {
             'pork shoulder': ['jackfruit', 'mushrooms', 'seitan'],
             'dried hominy': ['canned hominy'],
             'guajillo chiles': ['New Mexico chiles', 'California chiles']
-          },
+          }
           servingSize: 8,
           allergens: ['none'],
           prepTime: '30 minutes',
@@ -512,12 +512,12 @@ export const mexican = {
             fat: 22,
             vitamins: ['A', 'C', 'B12'],
             minerals: ['Iron', 'Zinc']
-          },
+          }
           season: ['autumn', 'winter'],
           mealType: ['lunch', 'dinner', 'celebration']
         }
       ]
-    },
+    }
     dinner: {
       all: [
         {
@@ -536,24 +536,24 @@ export const mexican = {
             'Garnish with sesame seeds'
           ],
           ingredients: [
-            { name: 'mixed dried chiles', amount: '500', unit: 'g', category: 'chile' },
-            { name: 'chocolate', amount: '100', unit: 'g', category: 'chocolate' },
+            { name: 'mixed dried chiles', amount: '500', unit: 'g', category: 'chile' }
+            { name: 'chocolate', amount: '100', unit: 'g', category: 'chocolate' }
             {
               name: 'turkey',
               amount: '2',
               unit: 'kg',
               category: 'protein',
               swaps: ['chicken', 'mushrooms']
-            },
-            { name: 'sesame seeds', amount: '100', unit: 'g', category: 'seeds' },
-            { name: 'almonds', amount: '100', unit: 'g', category: 'nuts' },
+            }
+            { name: 'sesame seeds', amount: '100', unit: 'g', category: 'seeds' }
+            { name: 'almonds', amount: '100', unit: 'g', category: 'nuts' }
             { name: 'raisins', amount: '100', unit: 'g', category: 'fruit' }
           ],
           substitutions: {
             turkey: ['chicken', 'mushrooms', 'seitan'],
             almonds: ['pumpkin seeds'],
             chocolate: ['dairy-free chocolate']
-          },
+          }
           servingSize: 10,
           allergens: ['nuts'],
           prepTime: '2 hours',
@@ -570,10 +570,10 @@ export const mexican = {
             fat: 32,
             vitamins: ['A', 'B6', 'E'],
             minerals: ['Iron', 'Magnesium']
-          },
+          }
           season: ['all'],
           mealType: ['dinner', 'celebration', 'special occasion']
-        },
+        }
         {
           name: 'Chiles en Nogada',
           description: 'Stuffed poblano chiles in walnut sauce',
@@ -590,30 +590,30 @@ export const mexican = {
             'Garnish with pomegranate'
           ],
           ingredients: [
-            { name: 'poblano chiles', amount: '6', unit: 'large', category: 'chile' },
+            { name: 'poblano chiles', amount: '6', unit: 'large', category: 'chile' }
             {
               name: 'ground pork',
               amount: '500',
               unit: 'g',
               category: 'protein',
               swaps: ['plant-based meat']
-            },
-            { name: 'walnuts', amount: '250', unit: 'g', category: 'nut' },
-            { name: 'pomegranate seeds', amount: '1', unit: 'cup', category: 'fruit' },
+            }
+            { name: 'walnuts', amount: '250', unit: 'g', category: 'nut' }
+            { name: 'pomegranate seeds', amount: '1', unit: 'cup', category: 'fruit' }
             {
               name: 'Mexican cream',
               amount: '1',
               unit: 'cup',
               category: 'dairy',
               swaps: ['cashew cream']
-            },
+            }
             { name: 'seasonal fruits', amount: '2', unit: 'cups', category: 'fruit' }
           ],
           substitutions: {
             'ground pork': ['mushroom mixture', 'plant-based meat'],
             'Mexican cream': ['cashew cream', 'almond cream'],
             walnuts: ['pecans', 'almonds']
-          },
+          }
           servingSize: 6,
           allergens: ['nuts', 'dairy'],
           prepTime: '45 minutes',
@@ -630,10 +630,10 @@ export const mexican = {
             fat: 48,
             vitamins: ['A', 'C', 'E'],
             minerals: ['Iron', 'Calcium']
-          },
+          }
           season: ['late summer', 'early fall'],
           mealType: ['dinner', 'celebration']
-        },
+        }
         {
           name: 'Cochinita Pibil',
           description: 'Yucatan-style marinated pork wrapped in banana leaves',
@@ -656,30 +656,30 @@ export const mexican = {
               unit: 'kg',
               category: 'protein',
               swaps: ['jackfruit']
-            },
-            { name: 'achiote paste', amount: '100', unit: 'g', category: 'seasoning' },
+            }
+            { name: 'achiote paste', amount: '100', unit: 'g', category: 'seasoning' }
             {
               name: 'sour orange juice',
               amount: '2',
               unit: 'cups',
               category: 'citrus',
               swaps: ['lime + orange juice']
-            },
+            }
             {
               name: 'banana leaves',
               amount: '4',
               unit: 'large',
               category: 'wrapper',
               swaps: ['parchment paper']
-            },
-            { name: 'garlic', amount: '8', unit: 'cloves', category: 'aromatic' },
+            }
+            { name: 'garlic', amount: '8', unit: 'cloves', category: 'aromatic' }
             { name: 'oregano', amount: '2', unit: 'tbsp', category: 'herb' }
           ],
           substitutions: {
             'pork shoulder': ['jackfruit', 'seitan', 'mushrooms'],
             'sour orange': ['lime juice + orange juice'],
             'banana leaves': ['parchment paper', 'foil']
-          },
+          }
           servingSize: 8,
           allergens: ['none'],
           prepTime: '1 hour plus marinating',
@@ -696,10 +696,10 @@ export const mexican = {
             fat: 28,
             vitamins: ['B12', 'C'],
             minerals: ['Iron', 'Zinc']
-          },
+          }
           season: ['all'],
           mealType: ['lunch', 'dinner', 'celebration']
-        },
+        }
         {
           name: 'Birria',
           description: 'Spicy braised meat stew traditionally made with goat or beef',
@@ -722,18 +722,18 @@ export const mexican = {
               unit: 'kg',
               category: 'protein',
               swaps: ['jackfruit']
-            },
-            { name: 'dried chiles', amount: '6', unit: 'mixed', category: 'chile' },
-            { name: 'garlic', amount: '8', unit: 'cloves', category: 'aromatic' },
-            { name: 'vinegar', amount: '1/2', unit: 'cup', category: 'acid' },
-            { name: 'Mexican oregano', amount: '2', unit: 'tbsp', category: 'herb' },
+            }
+            { name: 'dried chiles', amount: '6', unit: 'mixed', category: 'chile' }
+            { name: 'garlic', amount: '8', unit: 'cloves', category: 'aromatic' }
+            { name: 'vinegar', amount: '1/2', unit: 'cup', category: 'acid' }
+            { name: 'Mexican oregano', amount: '2', unit: 'tbsp', category: 'herb' }
             { name: 'corn tortillas', amount: '24', unit: 'pieces', category: 'grain' }
           ],
           substitutions: {
             'goat/beef': ['jackfruit', 'mushrooms', 'seitan'],
             'dried chiles': ['chile powder blend'],
             vinegar: ['apple cider vinegar', 'lime juice']
-          },
+          }
           servingSize: 8,
           allergens: ['none'],
           prepTime: '1 hour plus marinating',
@@ -750,10 +750,10 @@ export const mexican = {
             fat: 24,
             vitamins: ['B12', 'A'],
             minerals: ['Iron', 'Zinc']
-          },
+          }
           season: ['all'],
           mealType: ['lunch', 'dinner', 'celebration']
-        },
+        }
         {
           name: 'Tamales Verdes',
           description: 'Corn dough stuffed with pork in green sauce, steamed in corn husks',
@@ -776,24 +776,24 @@ export const mexican = {
             'Steam tamales'
           ],
           ingredients: [
-            { name: 'masa harina', amount: '2', unit: 'kg', category: 'grain' },
+            { name: 'masa harina', amount: '2', unit: 'kg', category: 'grain' }
             {
               name: 'lard',
               amount: '500',
               unit: 'g',
               category: 'fat',
               swaps: ['vegetable shortening']
-            },
-            { name: 'pork', amount: '1', unit: 'kg', category: 'protein', swaps: ['jackfruit'] },
-            { name: 'tomatillos', amount: '1', unit: 'kg', category: 'vegetable' },
-            { name: 'corn husks', amount: '40', unit: 'pieces', category: 'wrapper' },
+            }
+            { name: 'pork', amount: '1', unit: 'kg', category: 'protein', swaps: ['jackfruit'] }
+            { name: 'tomatillos', amount: '1', unit: 'kg', category: 'vegetable' }
+            { name: 'corn husks', amount: '40', unit: 'pieces', category: 'wrapper' }
             { name: 'serrano chiles', amount: '4', unit: 'pieces', category: 'chile' }
           ],
           substitutions: {
             lard: ['vegetable shortening', 'coconut oil'],
             pork: ['jackfruit', 'mushrooms', 'beans'],
             'corn husks': ['banana leaves']
-          },
+          }
           servingSize: 20,
           allergens: ['none'],
           prepTime: '2 hours',
@@ -810,7 +810,7 @@ export const mexican = {
             fat: 14,
             vitamins: ['A', 'C'],
             minerals: ['Iron', 'Potassium']
-          },
+          }
           season: ['all', 'christmas'],
           mealType: ['breakfast', 'dinner', 'celebration']
         }
@@ -827,10 +827,10 @@ export const mexican = {
               unit: 'kg',
               category: 'protein',
               swaps: ['jackfruit']
-            },
-            { name: 'achiote paste', amount: '200', unit: 'g', category: 'seasoning' },
-            { name: 'sour orange juice', amount: '2', unit: 'cups', category: 'citrus' },
-            { name: 'banana leaves', amount: '4', unit: 'large', category: 'wrapper' },
+            }
+            { name: 'achiote paste', amount: '200', unit: 'g', category: 'seasoning' }
+            { name: 'sour orange juice', amount: '2', unit: 'cups', category: 'citrus' }
+            { name: 'banana leaves', amount: '4', unit: 'large', category: 'wrapper' }
             { name: 'pickled red onions', amount: '2', unit: 'cups', category: 'condiment' }
           ],
           nutrition: {
@@ -840,13 +840,13 @@ export const mexican = {
             fat: 28,
             vitamins: ['B12', 'C'],
             minerals: ['Iron', 'Zinc']
-          },
+          }
           timeToMake: '12 hours',
           season: ['winter'],
           mealType: ['dinner']
         }
       ]
-    },
+    }
     dessert: {
       all: [
         {
@@ -854,9 +854,9 @@ export const mexican = {
           description: 'Classic Mexican caramel custard',
           cuisine: 'Mexican',
           ingredients: [
-            { name: 'eggs', amount: '6', unit: 'large', category: 'protein' },
-            { name: 'milk', amount: '2', unit: 'cups', category: 'dairy', swaps: ['coconut milk'] },
-            { name: 'sugar', amount: '1', unit: 'cup', category: 'sweetener' },
+            { name: 'eggs', amount: '6', unit: 'large', category: 'protein' }
+            { name: 'milk', amount: '2', unit: 'cups', category: 'dairy', swaps: ['coconut milk'] }
+            { name: 'sugar', amount: '1', unit: 'cup', category: 'sweetener' }
             { name: 'vanilla', amount: '1', unit: 'tbsp', category: 'flavoring' }
           ],
           nutrition: {
@@ -866,7 +866,7 @@ export const mexican = {
             fat: 10,
             vitamins: ['A', 'D'],
             minerals: ['Calcium']
-          },
+          }
           timeToMake: '60 minutes',
           season: ['all'],
           mealType: ['dessert'],
@@ -875,7 +875,7 @@ export const mexican = {
             rulingPlanets: ['sun', 'jupiter'],
             elementalAffinity: 'Fire'
           }
-        },
+        }
         {
           name: 'Churros',
           description: 'Fried dough pastry with cinnamon sugar',
@@ -887,9 +887,9 @@ export const mexican = {
               unit: 'cups',
               category: 'grain',
               swaps: ['gluten-free flour blend']
-            },
-            { name: 'Water', amount: '2', unit: 'cups', category: 'liquid' },
-            { name: 'cinnamon sugar', amount: '1', unit: 'cup', category: 'sweetener' },
+            }
+            { name: 'Water', amount: '2', unit: 'cups', category: 'liquid' }
+            { name: 'cinnamon sugar', amount: '1', unit: 'cup', category: 'sweetener' }
             { name: 'chocolate sauce', amount: '1', unit: 'cup', category: 'sauce' }
           ],
           nutrition: {
@@ -899,7 +899,7 @@ export const mexican = {
             fat: 12,
             vitamins: ['B1', 'B2'],
             minerals: ['Iron']
-          },
+          }
           timeToMake: '45 minutes',
           season: ['all'],
           mealType: ['dessert']
@@ -911,9 +911,9 @@ export const mexican = {
           description: 'Mexican ice pops with fresh fruit',
           cuisine: 'Mexican',
           ingredients: [
-            { name: 'fresh fruit', amount: '4', unit: 'cups', category: 'fruit' },
-            { name: 'sugar', amount: '1/2', unit: 'cup', category: 'sweetener' },
-            { name: 'lime juice', amount: '2', unit: 'tbsp', category: 'citrus' },
+            { name: 'fresh fruit', amount: '4', unit: 'cups', category: 'fruit' }
+            { name: 'sugar', amount: '1/2', unit: 'cup', category: 'sweetener' }
+            { name: 'lime juice', amount: '2', unit: 'tbsp', category: 'citrus' }
             { name: 'chili powder', amount: '1', unit: 'tsp', category: 'spice' }
           ],
           nutrition: {
@@ -923,14 +923,14 @@ export const mexican = {
             fat: 0,
             vitamins: ['C', 'A'],
             minerals: ['Potassium']
-          },
+          }
           timeToMake: '240 minutes',
           season: ['summer'],
           mealType: ['dessert']
         }
       ]
     }
-  },
+  }
   soups: {
     all: [
       {
@@ -954,18 +954,18 @@ export const mexican = {
             unit: 'large',
             category: 'protein',
             swaps: ['chickpeas']
-          },
-          { name: 'carrots', amount: '4', unit: 'large', category: 'vegetable' },
-          { name: 'potatoes', amount: '4', unit: 'medium', category: 'vegetable' },
-          { name: 'chayote', amount: '2', unit: 'whole', category: 'vegetable' },
-          { name: 'Mexican rice', amount: '1', unit: 'cup', category: 'grain' },
+          }
+          { name: 'carrots', amount: '4', unit: 'large', category: 'vegetable' }
+          { name: 'potatoes', amount: '4', unit: 'medium', category: 'vegetable' }
+          { name: 'chayote', amount: '2', unit: 'whole', category: 'vegetable' }
+          { name: 'Mexican rice', amount: '1', unit: 'cup', category: 'grain' }
           { name: 'cilantro', amount: '1', unit: 'bunch', category: 'herb' }
         ],
         substitutions: {
           chicken: ['chickpeas', 'mushrooms', 'jackfruit'],
           chayote: ['zucchini', 'summer squash'],
           'Mexican rice': ['white rice', 'quinoa']
-        },
+        }
         servingSize: 6,
         allergens: ['none'],
         prepTime: '30 minutes',
@@ -982,12 +982,12 @@ export const mexican = {
           fat: 12,
           vitamins: ['A', 'C', 'B6'],
           minerals: ['Iron', 'Potassium']
-        },
+        }
         season: ['all', 'winter'],
         mealType: ['lunch', 'dinner', 'healing']
       }
     ]
-  },
+  }
   traditionalSauces: {
     mole: {
       name: 'Mole',
@@ -1006,13 +1006,13 @@ export const mexican = {
         fire: 0.3,
         water: 0.2,
         air: 0.1
-      },
+      }
       astrologicalInfluences: ['pluto', 'mars', 'scorpio'],
       seasonality: 'all',
       preparationNotes:
         'Traditionally prepared over multiple days for celebrations and special occasions',
       technicalTips: 'Toast ingredients separately to develop maximum flavor complexity'
-    },
+    }
     salsaVerde: {
       name: 'Salsa Verde',
       description: 'Tangy green sauce made from tomatillos, chiles, and herbs',
@@ -1030,12 +1030,12 @@ export const mexican = {
         fire: 0.3,
         air: 0.2,
         earth: 0.1
-      },
+      }
       astrologicalInfluences: ['venus', 'mercury', 'gemini'],
       seasonality: 'spring, summer',
       preparationNotes: 'Can be served raw or cooked depending on desired flavor profile',
       technicalTips: 'Roasting ingredients before blending adds smoky depth'
-    },
+    }
     salsaRoja: {
       name: 'Salsa Roja',
       description: 'Rich red sauce made from tomatoes and dried chiles',
@@ -1048,13 +1048,13 @@ export const mexican = {
         earth: 0.3,
         water: 0.1,
         air: 0.1
-      },
+      }
       astrologicalInfluences: ['mars', 'sun', 'aries'],
       seasonality: 'summer, autumn',
       preparationNotes:
         'Most traditional version uses dried chiles rehydrated and blended with tomatoes',
       technicalTips: 'Straining after blending creates a smoother texture'
-    },
+    }
     adobo: {
       name: 'Adobo',
       description: 'Chile-based marinade with vinegar and spices',
@@ -1067,13 +1067,13 @@ export const mexican = {
         air: 0.3,
         earth: 0.2,
         water: 0.1
-      },
+      }
       astrologicalInfluences: ['mars', 'mercury', 'sagittarius'],
       seasonality: 'all',
       preparationNotes: 'Originally used as a preservation technique, now primarily for flavor',
       technicalTips:
         'Longer marinating creates deeper flavor, but can break down delicate proteins'
-    },
+    }
     pipian: {
       name: 'Pipián',
       description: 'Pre-Hispanic sauce based on ground pumpkin seeds',
@@ -1086,13 +1086,13 @@ export const mexican = {
         water: 0.2,
         air: 0.2,
         fire: 0.1
-      },
+      }
       astrologicalInfluences: ['saturn', 'moon', 'capricorn'],
       seasonality: 'autumn, winter',
       preparationNotes: 'Pre-Hispanic sauce that predates European influence in Mexican cuisine',
       technicalTips: 'Toast seeds until fragrant but not burnt for optimal flavor'
     }
-  },
+  }
   sauceRecommender: {
     forProtein: {
       chicken: ['mole poblano', 'pipián verde', 'salsa verde', 'adobo', 'tinga sauce'],
@@ -1106,7 +1106,7 @@ export const mexican = {
         'aguachile dressing'
       ],
       vegetables: ['pipián', 'salsa ranchera', 'mole verde', 'chipotle cream', 'salsa de semillas']
-    },
+    }
     forVegetable: {
       root: ['mole colorado', 'pipián', 'chile colorado', 'adobo', 'salsa macha'],
       leafy: ['salsa verde', 'pepita dressing', 'avocado crema', 'lime dressing', 'cilantro sauce'],
@@ -1125,7 +1125,7 @@ export const mexican = {
         'salsa macha',
         'epazote butter'
       ]
-    },
+    }
     forCookingMethod: {
       grilling: [
         'salsa roja asada',
@@ -1156,7 +1156,7 @@ export const mexican = {
         'pico de gallo',
         'salsa cruda'
       ]
-    },
+    }
     byAstrological: {
       fire: [
         'salsa macha',
@@ -1174,7 +1174,7 @@ export const mexican = {
         'chimichurri mexicano',
         'citrus salsas'
       ]
-    },
+    }
     byRegion: {
       oaxaca: [
         'mole negro',
@@ -1199,20 +1199,20 @@ export const mexican = {
         'salsa ranchera'
       ],
       pacific: ['salsa huichol', 'chamoy', 'salsa negra', 'salsa de mariscos', 'aguachile']
-    },
+    }
     byDietary: {
       vegetarian: ['salsa verde', 'guacamole', 'pico de gallo', 'pipián verde', 'mole verde'],
       vegan: ['salsa roja', 'salsa cruda', 'salsa macha', 'chimichurri mexicano', 'salsa bandera'],
       glutenFree: ['all traditional salsas', 'mojo de ajo', 'salsa macha', 'adobo', 'aguachile'],
       dairyFree: ['salsa verde', 'salsa roja', 'pico de gallo', 'salsa macha', 'mole negro']
     }
-  },
+  }
   cookingTechniques: [
     {
       name: 'Nixtamalización',
       description:
         'Ancient process of treating corn with calcium hydroxide to enhance nutritional value and flavor',
-      elementalProperties: { earth: 0.5, water: 0.3, fire: 0.1, air: 0.1 },
+      elementalProperties: { earth: 0.5, water: 0.3, fire: 0.1, air: 0.1 }
       toolsRequired: [
         'large pot',
         'calcium hydroxide (cal)',
@@ -1220,32 +1220,32 @@ export const mexican = {
         'grinding stone or mill'
       ],
       bestFor: ['corn masa preparation', 'tortillas', 'tamales', 'atole', 'pozole']
-    },
+    }
     {
       name: 'Asado',
       description: 'Open-fire grilling technique creating distinctive smoky flavors',
-      elementalProperties: { fire: 0.7, air: 0.2, earth: 0.1, water: 0.0 },
+      elementalProperties: { fire: 0.7, air: 0.2, earth: 0.1, water: 0.0 }
       toolsRequired: ['grill', 'mesquite wood', 'tongs', 'comal'],
       bestFor: ['meats', 'nopal cactus', 'vegetables', 'salsas', 'chiles']
-    },
+    }
     {
       name: 'Guisado',
       description: 'Slow-simmered stew technique for developing deep flavors',
-      elementalProperties: { water: 0.4, earth: 0.3, fire: 0.2, air: 0.1 },
+      elementalProperties: { water: 0.4, earth: 0.3, fire: 0.2, air: 0.1 }
       toolsRequired: ['clay pot', 'cazuela', 'wooden spoon', 'steady heat source'],
       bestFor: ['meat stews', 'vegetable medleys', 'taco fillings', 'breakfast dishes']
-    },
+    }
     {
       name: 'Tatemado',
       description: 'Charring technique for vegetables and chiles to develop smoky depth',
-      elementalProperties: { fire: 0.6, earth: 0.2, air: 0.1, water: 0.1 },
+      elementalProperties: { fire: 0.6, earth: 0.2, air: 0.1, water: 0.1 }
       toolsRequired: ['comal', 'direct flame', 'tongs', 'roasting basket'],
       bestFor: ['chiles', 'tomatoes', 'tomatillos', 'onions', 'salsas']
-    },
+    }
     {
       name: 'Ahumado',
       description: 'Smoking technique using various woods for distinct flavors',
-      elementalProperties: { air: 0.4, fire: 0.3, earth: 0.2, water: 0.1 },
+      elementalProperties: { air: 0.4, fire: 0.3, earth: 0.2, water: 0.1 }
       toolsRequired: ['smoking chamber', 'various woods', 'temperature control', 'hooks or racks'],
       bestFor: ['meats', 'chiles', 'salt', 'cheese', 'seafood']
     }
@@ -1255,49 +1255,49 @@ export const mexican = {
       name: 'Oaxacan Cuisine',
       description: 'Known as the 'land of seven moles' with rich indigenous culinary traditions',
       signature: ['mole negro', 'tlayudas', 'chapulines', 'quesillo', 'tamales oaxaqueños'],
-      elementalProperties: { earth: 0.5, fire: 0.2, water: 0.2, air: 0.1 },
+      elementalProperties: { earth: 0.5, fire: 0.2, water: 0.2, air: 0.1 }
       astrologicalInfluences: ['moon', 'saturn', 'taurus'],
       seasonality: 'highly seasonal with ceremonial dishes'
-    },
+    }
     yucatan: {
       name: 'Yucatecan Cuisine',
       description: 'Maya-influenced cuisine with distinctive achiote and citrus flavors',
       signature: ['cochinita pibil', 'papadzules', 'sopa de lima', 'poc chuc', 'panuchos'],
-      elementalProperties: { water: 0.4, earth: 0.3, fire: 0.2, air: 0.1 },
+      elementalProperties: { water: 0.4, earth: 0.3, fire: 0.2, air: 0.1 }
       astrologicalInfluences: ['venus', 'mercury', 'gemini'],
       seasonality: 'tropical seasonal patterns'
-    },
+    }
     northern: {
       name: 'Northern Cuisine',
       description: 'Meat-focused cuisine with flour tortillas and grilled specialties',
       signature: ['carne asada', 'machaca', 'flour tortillas', 'chihuahua cheese', 'burritos'],
-      elementalProperties: { fire: 0.5, earth: 0.3, air: 0.1, water: 0.1 },
+      elementalProperties: { fire: 0.5, earth: 0.3, air: 0.1, water: 0.1 }
       astrologicalInfluences: ['mars', 'sun', 'aries'],
       seasonality: 'desert and ranching seasonal patterns'
-    },
+    }
     centralMexico: {
       name: 'Central Mexican Cuisine',
       description: 'Home to Mexico City with ancient Aztec influences and modern street food',
       signature: ['tacos al pastor', 'pozole', 'chiles en nogada', 'mole poblano', 'street corn'],
-      elementalProperties: { earth: 0.4, fire: 0.3, water: 0.2, air: 0.1 },
+      elementalProperties: { earth: 0.4, fire: 0.3, water: 0.2, air: 0.1 }
       astrologicalInfluences: ['jupiter', 'mercury', 'virgo'],
       seasonality: 'highland seasonal patterns with ceremonial dishes'
-    },
+    }
     pacific: {
       name: 'Pacific Coast Cuisine',
       description: 'Seafood-forward cuisine with tropical fruits and fresh preparations',
       signature: ['pescado a la talla', 'aguachile', 'ceviche', 'zarandeado', 'camarones'],
-      elementalProperties: { water: 0.5, air: 0.2, fire: 0.2, earth: 0.1 },
+      elementalProperties: { water: 0.5, air: 0.2, fire: 0.2, earth: 0.1 }
       astrologicalInfluences: ['neptune', 'venus', 'pisces'],
       seasonality: 'coastal seasonal patterns with monsoon influence'
     }
-  },
+  }
   elementalProperties: {
     fire: 0.3, // Represents chiles and grilling,
     earth: 0.3, // Represents corn and beans,
     water: 0.2, // Represents sauces and stews,
     air: 0.2, // Represents herbs and light dishes
   }
-},
+}
 
 export default mexican,

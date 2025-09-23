@@ -13,12 +13,12 @@ export interface AstrologicalTestData {
     Water: number,
     Earth: number,
     Air: number
-  },
+  }
   testDate?: Date,
   mockCoordinates?: {
     latitude: number,
     longitude: number
-  },
+  }
   testScenario?: string,
   expectedResults?: Record<string, unknown>,
 }

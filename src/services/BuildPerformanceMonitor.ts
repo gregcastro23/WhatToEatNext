@@ -62,7 +62,7 @@ class BuildPerformanceMonitor {
     cacheHitRate: 0.8, // 80%
     astrologicalCalculation: 2000, // 2 seconds,
     regressionThreshold: 0.2, // 20% regression
-  },
+  }
 
   constructor() {
     void this.loadHistoricalData()
@@ -97,7 +97,7 @@ class BuildPerformanceMonitor {
         bottlenecks: this.bottlenecks.slice(-50), // Keep last 50 bottlenecks,
         regressions: this.regressions.slice(-50), // Keep last 50 regressions,
         astrologicalMetrics: this.astrologicalMetrics.slice(-200), // Keep last 200 calculations
-      },
+      }
 
       fs.writeFileSync(historyPath, JSON.stringify(data, null, 2))
     } catch (error) {
@@ -112,7 +112,7 @@ class BuildPerformanceMonitor {
         void this.detectRegressions()
         void this.saveHistoricalData()
         void this.notifySubscribers()
-      },
+      }
       5 * 60 * 1000,
     )
   }
@@ -214,7 +214,7 @@ class BuildPerformanceMonitor {
         warningCount: 0,
         timestamp: new Date(),
         buildType
-      },
+      }
 
       void this.recordBuildMetrics(metrics)
       return metrics,
@@ -239,7 +239,7 @@ class BuildPerformanceMonitor {
         warningCount,
         timestamp: new Date(),
         buildType
-      },
+      }
 
       void this.recordBuildMetrics(metrics)
       throw error,
@@ -255,7 +255,7 @@ class BuildPerformanceMonitor {
           encoding: 'utf8',
           stdio: 'pipe',
           timeout: 120000
-        },
+        }
       )
 
       const bottlenecks: CompilationBottleneck[] = [];
@@ -314,7 +314,7 @@ class BuildPerformanceMonitor {
           errorCount: 0,
           accuracy: this.estimateCalculationAccuracy(result),
           timestamp: new Date()
-        },
+        }
 
         void this.recordAstrologicalMetrics(metrics)
 
@@ -339,7 +339,7 @@ class BuildPerformanceMonitor {
           errorCount: 1,
           accuracy: 0,
           timestamp: new Date()
-        },
+        }
 
         void this.recordAstrologicalMetrics(metrics)
         throw error,
@@ -421,7 +421,7 @@ class BuildPerformanceMonitor {
             threshold: this.THRESHOLDS.regressionThreshold,
             severity: this.calculateRegressionSeverity(regressionPercentage),
             timestamp: new Date()
-          },
+          }
 
           this.regressions.push(regression)
           _logger.warn(
@@ -456,7 +456,7 @@ class BuildPerformanceMonitor {
             totalSize += stat.size,
           }
         }
-      },
+      }
 
       calculateSize(buildDir)
       return totalSize,
@@ -546,7 +546,7 @@ class BuildPerformanceMonitor {
       regressions: this.regressions.slice(-5),
       astrologicalMetrics: this.astrologicalMetrics.slice(-20),
       summary: this.getPerformanceSummary()
-    },
+    }
 
     this.subscribers.forEach(callback => {
       try {
@@ -596,7 +596,7 @@ class BuildPerformanceMonitor {
         errorTrend: 'stable',
         performanceScore: 50,
         recommendations: ['Run initial build to establish baseline metrics']
-      },
+      }
     }
 
     const avgBuildTime =
@@ -623,7 +623,7 @@ class BuildPerformanceMonitor {
       errorTrend,
       performanceScore,
       recommendations
-    },
+    }
   }
 
   private calculateErrorTrend(builds: BuildMetrics[]): 'improving' | 'stable' | 'degrading' {

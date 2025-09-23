@@ -94,7 +94,7 @@ export default function SignVectorPanel({
         Essence: Number((blended.Essence - base.Essence).toFixed(4)),
         Matter: Number((blended.Matter - base.Matter).toFixed(4)),
         Substance: Number((blended.Substance - base.Substance).toFixed(4))
-      },
+      }
       TelemetryDev.recordVectorBlend(
         res.selected.sign,
         alpha,

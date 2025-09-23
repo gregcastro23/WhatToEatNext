@@ -20,25 +20,25 @@ export interface PerformanceMetrics {
     target: number,
     average: number,
     trend: 'improving' | 'stable' | 'degrading'
-  },
+  }
   cacheHitRate: {
     current: number,
     target: number,
     average: number,
     trend: 'improving' | 'stable' | 'degrading'
-  },
+  }
   memoryUsage: {
     current: number,
     target: number,
     peak: number,
     average: number
-  },
+  }
   bundleSize: {
     current: number,
     target: number,
     compressed: number,
     trend: 'improving' | 'stable' | 'degrading'
-  },
+  }
 }
 
 export interface PerformanceAlert {
@@ -69,7 +69,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
     cacheHitRate: 0.8, // 80%
     memoryUsage: 50, // MB,
     bundleSize: 420, // kB
-  },
+  }
 
   constructor() {
     super()
@@ -196,17 +196,17 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
         if (memMatch) {
           const systemCurrentMB = Math.round(parseInt(memMatch[3]) / 1024), // RSS in MB,
           // // // _logger.info(`💾 Memory usage: ${currentMB}MB (heap), ${systemCurrentMB}MB (system)`)
-          return { current: Math.max(currentMB, systemCurrentMB), peak: peakMB },
+          return { current: Math.max(currentMB, systemCurrentMB), peak: peakMB }
         }
       } catch (systemError) {
         // Fallback to Node.js memory only
       }
 
       // // // _logger.info(`💾 Memory usage: ${currentMB}MB (current), ${peakMB}MB (peak)`)
-      return { current: currentMB, peak: peakMB },
+      return { current: currentMB, peak: peakMB }
     } catch (error) {
       _logger.warn(`⚠️  Memory usage tracking failed: ${(error as Error).message}`)
-      return { current: 0, peak: 0 },
+      return { current: 0, peak: 0 }
     }
   }
 
@@ -362,26 +362,26 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
         target: this.PERFORMANCE_TARGETS.buildTime,
         average: buildTimeAvg,
         trend: buildTimeTrend
-      },
+      }
       cacheHitRate: {
         current: cacheHitRate,
         target: this.PERFORMANCE_TARGETS.cacheHitRate,
         average: cacheHitRateAvg,
         trend: cacheHitRateTrend
-      },
+      }
       memoryUsage: {
         current: memoryUsage.current,
         target: this.PERFORMANCE_TARGETS.memoryUsage,
         peak: memoryUsage.peak,
         average: memoryUsageAvg
-      },
+      }
       bundleSize: {
         current: bundleSize,
         target: this.PERFORMANCE_TARGETS.bundleSize,
         compressed: Math.round(bundleSize * 0.7), // Estimate compressed size,
         trend: bundleSizeTrend
       }
-    },
+    }
 
     // Store in history
     this.performanceHistory.push(metrics)
@@ -477,7 +477,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       regressionDetected,
       overallScore,
       recommendations
-    },
+    }
   }
 
   /**
@@ -500,7 +500,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
             _logger.warn(`⚠️  Performance monitoring error: ${(error as Error).message}`)
           }
         })()
-      },
+      }
       intervalMinutes * 60 * 1000,
     )
   }
@@ -528,7 +528,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
         history: this.performanceHistory,
         alerts: this.alerts,
         targets: this.PERFORMANCE_TARGETS
-      },
+      }
 
       fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2))
       // // // _logger.info(`📊 Performance data exported to: ${filePath}`)

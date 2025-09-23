@@ -36,13 +36,13 @@ export interface ResourceMetrics {
     free: number,
     used: number,
     percentage: number
-  },
+  }
   diskSpace: {
     total: number,
     free: number,
     used: number,
     percentage: number
-  },
+  }
 }
 
 export interface TrendData {
@@ -129,7 +129,7 @@ export class MetricsCollectionSystem {
       phase: phase || 'unknown',
       milestone,
       notes
-    },
+    }
 
     this.snapshots.push(snapshot)
 
@@ -172,31 +172,31 @@ export class MetricsCollectionSystem {
           typeScriptMetrics.count >= 0
             ? Math.round(((86 - typeScriptMetrics.count) / 86) * 100)
             : 0
-      },
+      }
       lintingWarnings: {
         current: lintingMetrics.count,
         target: 0,
         reduction: Math.max(0, 4506 - lintingMetrics.count),
         percentage:
           lintingMetrics.count >= 0 ? Math.round(((4506 - lintingMetrics.count) / 4506) * 100) : 0
-      },
+      }
       buildPerformance: {
         currentTime: buildMetrics.buildTime,
         targetTime: 10,
         cacheHitRate: buildMetrics.cacheHitRate,
         memoryUsage: buildMetrics.memoryUsage
-      },
+      }
       enterpriseSystems: {
         current: enterpriseSystemCount,
         target: 200,
         transformedExports: Math.max(0, enterpriseSystemCount - 0)
-      },
+      }
       errorBreakdown: typeScriptMetrics.breakdown,
       warningBreakdown: lintingMetrics.breakdown,
       buildMetrics,
       resourceMetrics,
       trendData
-    },
+    }
 
     return detailedMetrics,
   }
@@ -215,13 +215,13 @@ export class MetricsCollectionSystem {
         {
           encoding: 'utf8',
           stdio: 'pipe'
-        },
+        }
       )
 
       const count = parseInt(countOutput.trim()) || 0;
 
       // Get detailed breakdown by error type
-      const breakdown: Record<string, number> = {},
+      const breakdown: Record<string, number> = {}
 
       if (count > 0) {
         try {
@@ -230,7 +230,7 @@ export class MetricsCollectionSystem {
             {
               encoding: 'utf8',
               stdio: 'pipe'
-            },
+            }
           )
 
           const lines = breakdownOutput;
@@ -253,13 +253,13 @@ export class MetricsCollectionSystem {
         }
       }
 
-      return { count, breakdown },
+      return { count, breakdown }
     } catch (error) {
       _logger.warn(
         'Could not collect TypeScript metrics:',
         (error as any).message || 'Unknown error',
       ),
-      return { count: -1, breakdown: {} },
+      return { count: -1, breakdown: {} }
     }
   }
 
@@ -280,7 +280,7 @@ export class MetricsCollectionSystem {
       const count = parseInt(countOutput.trim()) || 0;
 
       // Get detailed breakdown by warning type
-      const breakdown: Record<string, number> = {},
+      const breakdown: Record<string, number> = {}
 
       if (count > 0) {
         try {
@@ -308,10 +308,10 @@ export class MetricsCollectionSystem {
         }
       }
 
-      return { count, breakdown },
+      return { count, breakdown }
     } catch (error) {
       _logger.warn('Could not collect linting metrics:', (error as any).message || 'Unknown error'),
-      return { count: -1, breakdown: {} },
+      return { count: -1, breakdown: {} }
     }
   }
 
@@ -358,7 +358,7 @@ export class MetricsCollectionSystem {
       cpuUsage: await this.getCpuUsage(),
       diskUsage: await this.getDiskUsage(),
       compilationSpeed
-    },
+    }
   }
 
   /**
@@ -370,7 +370,7 @@ export class MetricsCollectionSystem {
       nodeMemoryUsage,
       systemMemory: await this.getSystemMemory(),
       diskSpace: await this.getDiskSpace()
-    },
+    }
   }
 
   /**
@@ -383,7 +383,7 @@ export class MetricsCollectionSystem {
         warningReductionRate: 0,
         buildTimeImprovement: 0,
         systemGrowthRate: 0
-      },
+      }
     }
 
     const recent = this.snapshots.slice(-10); // Last 10 snapshots
@@ -397,7 +397,7 @@ export class MetricsCollectionSystem {
         warningReductionRate: 0,
         buildTimeImprovement: 0,
         systemGrowthRate: 0
-      },
+      }
     }
 
     const errorReduction =
@@ -528,7 +528,7 @@ export class MetricsCollectionSystem {
           used,
           free,
           percentage: Math.round((used / total) * 100)
-        },
+        }
       }
     } catch (error) {
       // Fallback for non-Linux systems
@@ -539,7 +539,7 @@ export class MetricsCollectionSystem {
       used: 0,
       free: 0,
       percentage: 0
-    },
+    }
   }
 
   private async getDiskSpace(): Promise<ResourceMetrics['diskSpace']> {
@@ -560,7 +560,7 @@ export class MetricsCollectionSystem {
           used,
           free,
           percentage: Math.round((used / total) * 100)
-        },
+        }
       }
     } catch (error) {
       // Handle error
@@ -571,7 +571,7 @@ export class MetricsCollectionSystem {
       used: 0,
       free: 0,
       percentage: 0
-    },
+    }
   }
 
   private parseSize(sizeStr: string): number {
@@ -608,7 +608,7 @@ export class MetricsCollectionSystem {
             : null,
         trends: this.calculateTrendData()
       }
-    },
+    }
 
     fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2))
     // // // _logger.info(`📊 Metrics snapshots exported to: ${filePath}`)

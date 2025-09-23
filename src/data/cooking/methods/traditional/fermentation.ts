@@ -15,11 +15,11 @@ export const fermentation: CookingMethodData = {
     Earth: 0.3,
     Air: 0.3,
     Fire: 0.1
-  },
+  }
   duration: {
     min: 1440, // 24 hours
     max: 10080, // 7 days (or more for some ferments)
-  },
+  }
   suitable_for: [
     'vegetables',
     'dairy',
@@ -70,7 +70,7 @@ export const fermentation: CookingMethodData = {
       waxing_crescent: 1.1, // Good phase to begin fermentation
       waning_gibbous: 0.9, // Slowed activity
     }
-  },
+  }
   toolsRequired: [
     'Fermentation vessels (glass/ceramic)',
     'Airlocks or weights',
@@ -146,7 +146,7 @@ export const fermentation: CookingMethodData = {
     bioavailable_iron: 1.2, // Enhanced absorption
     zinc: 1.1, // More bioavailable
     phenolic_compounds: 1.15, // Often increased
-  },
+  }
   optimalTemperatures: {
     lacto_fermentation: 68, // In Fahrenheit
     yogurt: 110,
@@ -168,7 +168,7 @@ export const fermentation: CookingMethodData = {
     traditional_pickles: 68,
     cheese: 55,
     salami: 58
-  },
+  }
   regionalVariations: {
     korean: ['kimchi', 'gochujang', 'doenjang'],
     european: ['sauerkraut', 'kefir', 'cheese'],
@@ -183,7 +183,7 @@ export const fermentation: CookingMethodData = {
     eastern_european: ['kvass', 'beet kvass', 'kiseli kupus'],
     caucasian: ['matsoni', 'tarhana', 'boza'],
     south_american: ['chicha', 'kefir de agua', 'manioc beer']
-  },
+  }
   chemicalChanges: {
     lactic_acid_production: true,
     alcohol_production: true,
@@ -200,7 +200,7 @@ export const fermentation: CookingMethodData = {
     'anti-nutrient_reduction': true,
     bacteriocin_production: true,
     melanoidin_formation: true
-  },
+  }
   safetyFeatures: [
     'pH monitoring',
     'Proper salt concentration',
@@ -330,7 +330,7 @@ export const fermentation: CookingMethodData = {
       'For tempeh, boil beans, cool, add vinegar to acidify, inoculate with Rhizopus cultures. For miso, cook beans until soft, combine with koji and salt (5-12% depending on intended aging time). For doenjang, form blocks first, allow to grow mold, then soak in brine.',
     sourdough:
       'Maintain starter at peak activity (doubled in size, domed top). Use 20% starter in dough for balanced flavor. Autolyse flour and water before adding starter and salt. Cold fermentation (38-42°F/3-6°C) for 12-24 hours develops flavor complexity without excessive acidity.'
-  },
+  }
 
   timingConsiderations: {
     vegetable_ferments:
@@ -343,7 +343,7 @@ export const fermentation: CookingMethodData = {
       'Miso: 3 months to 3+ years, soy sauce: 6 months to 3+ years, vinegar: 2-6 months, aged salami: 1-6 months. Long maturation at cool temperatures develops deeper, more complex flavors through slow enzymatic activity. Accelerated high-temperature fermentation often results in simpler flavor profiles.',
     seasonal_considerations:
       'Spring and fall offer moderate temperatures ideal for many fermentations. Summer requires more cooling control, winter may require warming. Humidity impacts evaporation rate and mold development, particularly for surface-ripened ferments. Traditional timing often aligned with harvest seasons for optimal ingredient quality.'
-  },
+  }
 
   doneness_indicators: {
     taste_profile:
@@ -359,7 +359,7 @@ export const fermentation: CookingMethodData = {
       'Lactic acid provides roundness and depth, acetic acid provides sharpness and higher notes, butyric acid (when appropriate) provides richness. Balance depends on ferment type and regional preferences.',
     microbial_succession:
       'Progression through expected phases of fermentation: initial rapid growth phase, followed by slowing activity, and finally maturation phase with minimal visible activity but continued enzymatic processes.'
-  },
+  }
 
   ingredientInteractions: {
     salt_effects:
@@ -382,7 +382,7 @@ export const fermentation: CookingMethodData = {
       'Determines whether aerobic or anaerobic processes dominate. Surface yeasts and molds require oxygen, lactic acid bacteria are facultative anaerobes, acetobacter requires oxygen for converting alcohol to acetic acid.',
     phenolic_compounds:
       'Present in many plant materials, can be transformed during fermentation into more bioavailable forms with enhanced health benefits. Some inhibit certain microbes while encouraging others, acting as natural selectors.'
-  },
+  }
 
   technicalNotes: {
     microbial_communities: {
@@ -396,7 +396,7 @@ export const fermentation: CookingMethodData = {
         'Aspergillus, Penicillium, Rhizopus, and others grow on surfaces providing enzymatic activity. Critical for koji, cheese (blue, Camembert), tempeh, traditional meat curing. Some produce mycotoxins, so specific food-safe strains are essential.',
       bacillus:
         'Alkaline-tolerant bacteria important in foods like natto, traditional fish ferments, and some African alkaline grain ferments. Produce sticky biofilms and distinctive strong flavors.'
-    },
+    }
     equipment_considerations: {
       vessel_materials:
         'Glass and food-grade ceramics are non-reactive and preferred for most ferments. Wood adds microbial complexity through porous surface harboring cultures. Avoid reactive metals (aluminum, copper) which can be corroded by acids and affect flavor.',
@@ -408,7 +408,7 @@ export const fermentation: CookingMethodData = {
         'Critical for surface-ripened cheeses, mold-based ferments, and dry-cured meats. Traditional solutions include limestone caves, modern approaches use humidity-controlled chambers.',
       measuring_tools:
         'pH meters, acid titration kits, hydrometers for sugar/alcohol content, thermometers, salinity refractometers. Improve consistency and safety across batches.'
-    },
+    }
     fermentation_phases: {
       initiation:
         'First 24-72 hours when preferred microbes establish dominance. Often characterized by pH shift, carbon dioxide production, and visible activity. Critical period for success or failure of the ferment.',
@@ -418,7 +418,7 @@ export const fermentation: CookingMethodData = {
         'Slower phase after initial nutrient sources depleted. More subtle flavor development through enzymatic activity and microbial byproduct reactions. Can last weeks to months.',
       maturation:
         'Final phase with minimal active fermentation but continued enzymatic activity and flavor compound development. Critical for complexity in aged products. Months to years depending on product.'
-    },
+    }
     safety_parameters: {
       acidity_control:
         'pH below 4.6 inhibits Clostridium botulinum and most pathogens. Most successful ferments achieve pH 3.5-4.2. Regular monitoring especially important in early stages.';
@@ -430,7 +430,7 @@ export const fermentation: CookingMethodData = {
         'Minimum inhibitory levels: 2% for most vegetables, 3.5% for most protein-rich substrates. Traditional ranges established empirically over centuries for each food type.',
       cross_contamination:
         'Physical separation of raw ingredients from active ferments. Dedicated utensils and equipment. Proper cleaning protocols between batches.'
-    },
+    }
     preserving_cultures: {
       mother_cultures:
         'Maintaining continuous living cultures (sourdough starter, kombucha SCOBY, kefir grains) through regular feeding/transfer. Traditional approach passed through generations.',
@@ -444,4 +444,4 @@ export const fermentation: CookingMethodData = {
         'Freeze-dried or frozen pure or mixed cultures with defined properties. Ensure viability by checking production date and proper storage.'
     }
   }
-},
+}

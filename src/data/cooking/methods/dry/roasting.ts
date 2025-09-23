@@ -15,11 +15,11 @@ export const roasting: CookingMethodData = {
     Air: 0.2,
     Earth: 0.2,
     Water: 0.0
-  },
+  }
   duration: {
     min: 15,
     max: 240
-  },
+  }
   suitable_for: [
     'meat',
     'poultry',
@@ -47,9 +47,9 @@ export const roasting: CookingMethodData = {
       new_moon: 0.9, // Slight reduction
       waning_gibbous: 1.2, // Enhanced browning
       waxing_crescent: 0.8, // Reduced flavor development
-    },
+    }
     rulingPlanets: ['Mars', 'Sun']
-  },
+  }
   toolsRequired: [
     'Oven or fire source',
     'Roasting pan/sheet with rack',
@@ -114,7 +114,7 @@ export const roasting: CookingMethodData = {
     folate: 0.55, // Heat-sensitive B vitamin
     vitamin_c: 0.5, // Heat and oxidation sensitive
     iron: 0.95, // Highly stable mineral
-  },
+  }
   optimalTemperatures: {
     whole_chicken: 375, // °F, cook to internal temp of 165°F
     turkey: 325, // °F, cook to internal temp of 165°F
@@ -138,7 +138,7 @@ export const roasting: CookingMethodData = {
     bison: 250, // °F, extremely lean, requiring lower temp than beef
     quail: 450, // °F, small birds need high heat for short duration
     pheasant: 375, // °F, game bird with moderate fat requiring medium-high heat
-  },
+  }
   regionalVariations: {
     mediterranean: [
       'herb-infused olive oil roasting',
@@ -200,7 +200,7 @@ export const roasting: CookingMethodData = {
       'rum-soaked fruit roasting',
       'citrus-marinated pit roasting'
     ]
-  },
+  }
   chemicalChanges: {
     maillard_reaction: true, // Non-enzymatic browning between amino acids and reducing sugars
     caramelization: true, // Direct heating of sugars creating complex flavor compounds
@@ -215,7 +215,7 @@ export const roasting: CookingMethodData = {
     mineral_concentration: true, // Concentration of minerals as moisture is lost
     enzyme_inactivation: true, // Heat deactivation of enzymes that cause deterioration
     vitamin_degradation: true, // Reduction of heat-sensitive vitamins
-  },
+  }
   safetyFeatures: [
     'Use internal temperature monitoring for proper doneness (poultry 165°F, ground meat 160°F, whole cuts to desired doneness)',
     'Proper ventilation for smoke and fat vapors',
@@ -331,7 +331,7 @@ export const roasting: CookingMethodData = {
     fish: 'Score skin to prevent curling, stuff cavity with aromatics brush with oil, use parchment or foil sling for easy removal. For whole fish, ensure scales and gills are removed. For fillets, place skin-side down on preheated pan. For delicate white fish, create herb crust for protection. For oily fish, reduce oven temperature by at least 25°F.',
     fruits:
       'Remove pits or cores, cut into uniform pieces, toss with small amount of sugar and spices to enhance caramelization. For apples and pears, treat with lemon water to prevent browning. For stone fruits, roast cut-side up initially, then flip for final caramelization. For citrus, leave peel on for aromatic oils. For bananas, leave in peel and slit one side.'
-  },
+  }
 
   timingConsiderations: {
     rest_before:
@@ -346,7 +346,7 @@ export const roasting: CookingMethodData = {
       'Calculate roasting time by weight: beef (rare) 15 min/lb, poultry 20 min/lb, pork 20 min/lb at standard temperatures. Precise timing varies by thickness rather than weight: 2-inch thick cuts require different timing than thin, flat cuts of same weight.',
     seasonal_adjustment:
       'Reduce cooking time for summer vegetables by 15%, increase for winter vegetables by 10%. Adjust for humidity: drier environments may require lower temperatures or shorter times. Higher ambient humidity may require extended cooking times.'
-  },
+  }
 
   doneness_indicators: {
     beef_rare:
@@ -367,7 +367,7 @@ export const roasting: CookingMethodData = {
       'Internal temperature 140-145°F, center slightly pink, firm but not rigid texture. Overcooked liver becomes grainy and bitter.',
     duck_breast:
       'Internal temperature 135°F, rendered fat on skin side, crisp skin with cross-hatch scoring. Should have visible rendering of subcutaneous fat layer and minimal resistance when sliced.'
-  },
+  }
 
   ingredientInteractions: {
     fats_and_aromatics:
@@ -390,7 +390,7 @@ export const roasting: CookingMethodData = {
       'Place fat cap up for self-basting effect on lean cuts, place cap down on fatty cuts to render into pan for later use. Shield lean areas with bacon or fatback to prevent drying during extended roasting.',
     aromatic_intensity:
       'Dried herbs should be applied before cooking, fresh herbs partition into early additions (woody types) and finishing herbs (tender varieties). Garlic bitter compounds develop after prolonged high-heat exposure, add halfway through for optimal flavor.'
-  },
+  }
 
   technicalNotes: {
     surface_preparation: {
@@ -403,7 +403,7 @@ export const roasting: CookingMethodData = {
         'Oil provides better heat transfer than dry surface, helps seasonings adhere, creates vapor barrier that retains moisture.',
       torch_finishing:
         'Provides intense surface heat without additional cooking, targets under-developed areas, uses fat as fuel for flavor.'
-    },
+    }
     meat_science: {
       collagen_conversion:
         'Tough collagen begins breaking down into gelatin at 160°F, requires extended time at this temperature or higher.',
@@ -417,7 +417,7 @@ export const roasting: CookingMethodData = {
         'Deoxymyoglobin (purple-red, raw), oxymyoglobin (bright red, minimal cooking), metmyoglobin (brown, well done).',
       water_binding:
         'Proteins hold water until heated to specific temperatures, after which they contract and release moisture.'
-    },
+    }
     oven_dynamics: {
       conventional:
         'Heat rises, creating temperature gradient with hottest area near top, requires rotation for even cooking.',
@@ -431,7 +431,7 @@ export const roasting: CookingMethodData = {
         'Heavy pans moderate temperature fluctuations, creating more stable cooking environment.',
       hood_ventilation:
         'Proper ventilation removes smoke and steam, improving ambient cooking conditions and preventing off-flavors.'
-    },
+    }
     flavor_development: {
       maillard_byproducts:
         'Over 1,000 compounds created through Maillard reactions, including pyrazines, furans, and thiazoles.',
@@ -445,7 +445,7 @@ export const roasting: CookingMethodData = {
         'Glutamates concentrate through moisture loss, enhancing savory perception.',
       flavor_precursors:
         'Certain molecules require heat transformation to become perceivable flavors, inosinate in meat converts to recognizable \'meaty\' flavors.'
-    },
+    }
     equipment_selection: {
       roasting_pans:
         'Heavy gauge3-inch sides ideal; too deep restricts air circulation too shallow loses juices.',
@@ -460,4 +460,4 @@ export const roasting: CookingMethodData = {
         'Continuous rotation creates self-basting effect, proximity to heat source creates unique flavor development.'
     }
   }
-},
+}

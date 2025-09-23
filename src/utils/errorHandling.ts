@@ -58,7 +58,7 @@ const USER_FRIENDLY_MESSAGES: Record<ErrorType, string> = {
   [ErrorType.DATA_PROCESSING]: 'Error processing data. Please try again.',
   [ErrorType.COMPONENT_ERROR]: 'A component failed to load. Please refresh the page.',
   [ErrorType.UNKNOWN]: 'An unexpected error occurred. Please try again.'
-},
+}
 
 // Create enhanced error
 export function createEnhancedError(
@@ -212,7 +212,7 @@ export class ErrorHandler {
       if (strategy.canRecover(error)) {
         try {
           const result = await strategy.recover(error)
-          return { success: true, data: result },
+          return { success: true, data: result }
         } catch (recoveryError) {
           logger.warn(`Recovery strategy failed for error ${error.errorId}:`, recoveryError)
 
@@ -220,7 +220,7 @@ export class ErrorHandler {
           if (strategy.fallback) {
             try {
               const fallbackResult = strategy.fallback()
-              return { success: true, data: fallbackResult },
+              return { success: true, data: fallbackResult }
             } catch (fallbackError) {
               logger.warn(`Fallback strategy failed for error ${error.errorId}:`, fallbackError)
             }
@@ -229,7 +229,7 @@ export class ErrorHandler {
       }
     }
 
-    return { success: false },
+    return { success: false }
   }
 
   // Determine error severity
@@ -266,7 +266,7 @@ export class ErrorHandler {
       context: error.context,
       timestamp: error.timestamp,
       stack: error.stack
-    },
+    }
 
     switch (error.severity) {
       case ErrorSeverity.CRITICAL:
@@ -314,7 +314,7 @@ export class ErrorHandler {
       byType,
       bySeverity,
       recent: this.errorQueue.slice(-10), // Last 10 errors
-    },
+    }
   }
 
   // Clear error queue
@@ -337,14 +337,14 @@ globalErrorHandler.addRecoveryStrategy({
       return JSON.parse(cachedData)
     }
     throw new Error('No cached astrological data available')
-  },
+  }
   fallback: () => {
     // Return default astrological state
     return {
       _zodiacSign: 'aries',
       _lunarPhase: 'new moon',
       _elementalState: { Fire: 0.25, _Water: 0.25, _Earth: 0.25, _Air: 0.25 }
-    },
+    }
   }
 })
 
@@ -397,7 +397,7 @@ export function useErrorHandler() {
     return globalErrorHandler.getErrorStats()
   }, [])
 
-  return { handleError, getErrorStats },
+  return { handleError, getErrorStats }
 }
 
 // Error boundary helper for specific error types
@@ -411,21 +411,21 @@ export function createErrorBoundaryForType(_errorType: ErrorType) {
             error.message
             errorType,
             ErrorSeverity.MEDIUM
-            { componentStack: errorInfo.componentStack },
+            { componentStack: errorInfo.componentStack }
           )
 
           return React.createElement(
             'div',
             {
               className: 'bg-yellow-50 border border-yellow-200 rounded-lg p-4 m-2'
-            },
+            }
             [
               React.createElement(
                 'h4',
                 {
                   key: 'title',
                   className: 'text-yellow-800 font-medium mb-2'
-                },
+                }
                 `${errorType} Error`,
               ),
               React.createElement(
@@ -433,7 +433,7 @@ export function createErrorBoundaryForType(_errorType: ErrorType) {
                 {
                   key: 'message',
                   className: 'text-yellow-700 text-sm mb-3'
-                },
+                }
                 enhancedError.userMessage
               ),
               React.createElement(
@@ -443,16 +443,16 @@ export function createErrorBoundaryForType(_errorType: ErrorType) {
                   _onClick: () => window.location.reload(),
                   className:
                     'bg-yellow-600 text-white px-3 py-1 rounded text-sm, hover:bg-yellow-700 transition-colors'
-                },
+                }
                 'Reload Page',
               )
             ],
           )
         }
-      },
+      }
       children,
     )
-  },
+  }
 }
 
 export default ErrorHandler,

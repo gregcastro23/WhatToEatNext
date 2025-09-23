@@ -13,7 +13,7 @@ import type {
   CampaignPhase,
   SafetyEvent,
   ProgressMetrics
-} from '../types/campaign',
+} from '../types/campaign';
 
 import { CampaignController } from './campaign/CampaignController';
 import { ProgressTracker } from './campaign/ProgressTracker';
@@ -116,7 +116,7 @@ export interface SchedulingConstraint {
   timeWindow?: {
     start: Date,
     end: Date
-  },
+  }
   resourceLimits?: Record<string, number>,
 }
 
@@ -474,7 +474,7 @@ export class CampaignConflictResolver {
         executionTime,
         affectedCampaigns: [...new Set(affectedCampaigns)],
         sideEffects
-      },
+      }
 
       // Create rollback plan if needed
       if (strategy.steps.some(s => s.rollbackable)) {,
@@ -492,7 +492,7 @@ export class CampaignConflictResolver {
         executionTime: 0,
         affectedCampaigns: [],
         sideEffects: [`Resolution failed: ${(error as Error).message}`]
-      },
+      }
     }
   }
 
@@ -541,7 +541,7 @@ export class CampaignConflictResolver {
       reason,
       setBy,
       setAt: new Date()
-    },
+    }
 
     this.priorities.set(campaignId, campaignPriority)
   }
@@ -585,7 +585,7 @@ export class CampaignConflictResolver {
       description,
       status: DependencyStatus.ACTIVE,
       createdAt: new Date()
-    },
+    }
 
     this.dependencies.set(dependencyId, dependency)
     return dependencyId,
@@ -642,7 +642,7 @@ export class CampaignConflictResolver {
       }
     }
 
-    return { scheduled, conflicts, deferred },
+    return { scheduled, conflicts, deferred }
   }
 
   /**
@@ -662,10 +662,10 @@ export class CampaignConflictResolver {
       id: `manual_override_${Date.now()}`,
       description: `Manual override: ${overrideReason}`,
       action: resolutionAction,
-      parameters: { ...parameters, overrideBy, overrideReason },
+      parameters: { ...parameters, overrideBy, overrideReason }
       estimatedDuration: 0,
       rollbackable: true
-    },
+    }
 
     try {
       await this.executeResolutionStep(overrideStep, conflict)
@@ -807,7 +807,7 @@ export class CampaignConflictResolver {
       steps: rollbackSteps,
       estimatedDuration: rollbackSteps.reduce((sum, step) => sum + step.estimatedDuration, 0),
       riskAssessment: 'Low risk - reverting conflict resolution changes'
-    },
+    }
   }
 
   private getRollbackAction(action: ResolutionAction): string {
@@ -897,15 +897,15 @@ export class CampaignConflictResolver {
             id: 'pause_lower_priority',
             description: 'Pause lower priority campaigns',
             action: ResolutionAction.PAUSE_CAMPAIGN,
-            parameters: {},
+            parameters: {}
             estimatedDuration: 1,
             rollbackable: true
-          },
+          }
           {
             id: 'schedule_sequential',
             description: 'Schedule campaigns to run sequentially',
             action: ResolutionAction.RESCHEDULE_CAMPAIGN,
-            parameters: {},
+            parameters: {}
             estimatedDuration: 2,
             rollbackable: true
           }
@@ -929,15 +929,15 @@ export class CampaignConflictResolver {
             id: 'pause_low_priority',
             description: 'Pause low priority campaigns',
             action: ResolutionAction.PAUSE_CAMPAIGN,
-            parameters: {},
+            parameters: {}
             estimatedDuration: 1,
             rollbackable: true
-          },
+          }
           {
             id: 'notify_users',
             description: 'Notify users of priority override',
             action: ResolutionAction.NOTIFY_USER,
-            parameters: { message: 'Campaign paused due to higher priority campaign' },
+            parameters: { message: 'Campaign paused due to higher priority campaign' }
             estimatedDuration: 0,
             rollbackable: false
           }
@@ -961,7 +961,7 @@ export class CampaignConflictResolver {
             id: 'pause_excess_campaigns',
             description: 'Pause excess high-risk campaigns',
             action: ResolutionAction.PAUSE_CAMPAIGN,
-            parameters: {},
+            parameters: {}
             estimatedDuration: 1,
             rollbackable: true
           }

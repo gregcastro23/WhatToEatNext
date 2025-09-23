@@ -16,11 +16,11 @@ export const simmering: CookingMethodData = {
     Fire: 0.1,
     Air: 0.05,
     Earth: 0.05
-  },
+  }
   duration: {
     min: 15,
     max: 240
-  },
+  }
   suitable_for: [
     'stocks',
     'soups',
@@ -69,7 +69,7 @@ export const simmering: CookingMethodData = {
       waxing_crescent: 1.05, // Slight enhancement
       waning_gibbous: 0.95, // Slight reduction
     }
-  },
+  }
   toolsRequired: [
     'Heavy-bottomed pot or Dutch oven',
     'Heat source with good control',
@@ -117,7 +117,7 @@ export const simmering: CookingMethodData = {
     antioxidants: 0.6,
     phytonutrients: 0.55,
     fiber: 0.9
-  },
+  }
   optimalTemperatures: {
     general_simmer: 185, // 185°F/85°C - gentle simmer
     poaching_simmer: 160, // 160-180°F/71-82°C for delicate proteins
@@ -129,7 +129,7 @@ export const simmering: CookingMethodData = {
     fish_simmer: 165, // 165°F/74°C for fish
     beans_simmer: 195, // 195°F/90°C for dried beans
     meat_simmer: 190, // 190°F/88°C for tough cuts
-  },
+  }
   regionalVariations: {
     french: [
       'mirepoix base for stocks',
@@ -169,7 +169,7 @@ export const simmering: CookingMethodData = {
       'palm oil infusions',
       'fish stew techniques'
     ]
-  },
+  }
   chemicalChanges: {
     collagen_conversion: true, // Collagen to gelatin conversion
     protein_denaturation: true, // Slower, more controlled than boiling
@@ -184,7 +184,7 @@ export const simmering: CookingMethodData = {
     vitamin_degradation: true, // Less than boiling but still occurs
     flavor_concentration: true, // Through gentle reduction
     cell_wall_breakdown: true, // Complete breakdown for vegetables
-  },
+  }
   safetyFeatures: [
     'Lower temperature reduces risk of burns compared to boiling',
     'Less splashing than rapid boiling',
@@ -264,4 +264,4 @@ export const simmering: CookingMethodData = {
   sustainabilityRating: 0.85, // High - energy efficient over time with minimal waste
 
   equipmentComplexity: 0.3, // Low - requires basic equipment available worldwide
-},
+}

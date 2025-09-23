@@ -14,7 +14,7 @@ import {
   PhaseStatus,
   CorruptionSeverity,
   RecoveryAction
-} from '../../../../types/campaign',
+} from '../../../../types/campaign';
 import { CampaignController } from '../../CampaignController';
 import { ProgressTracker } from '../../ProgressTracker';
 import { SafetyProtocol } from '../../SafetyProtocol';
@@ -42,7 +42,7 @@ describe('Phase Execution Integration Tests', () => {
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
       stashRetentionDays: 7
-    },
+    }
 
     // Setup mock campaign configuration
     mockConfig = {
@@ -54,15 +54,15 @@ describe('Phase Execution Integration Tests', () => {
           tools: [
             {
               scriptPath: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
-              parameters: { maxFile, s: 15, autoFix: true, validateSafety: true },
+              parameters: { maxFile, s: 15, autoFix: true, validateSafety: true }
               batchSize: 15,
               safetyLevel: SafetyLevel.MAXIMUM
             }
           ],
           successCriteria: { typeScriptErrors: 0
-          },
+          }
           safetyCheckpoints: []
-        },
+        }
         {
           id: 'phase2',
           name: 'Linting Excellence Achievement',
@@ -70,13 +70,13 @@ describe('Phase Execution Integration Tests', () => {
           tools: [
             {
               scriptPath: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
-              parameters: { maxFile, s: 25, autoFix: true },
+              parameters: { maxFile, s: 25, autoFix: true }
               batchSize: 25,
               safetyLevel: SafetyLevel.HIGH
             }
           ],
           successCriteria: { lintingWarnings: 0
-          },
+          }
           safetyCheckpoints: []
         }
       ],
@@ -85,13 +85,13 @@ describe('Phase Execution Integration Tests', () => {
         lintingWarnings: 0,
         buildTime: 10,
         enterpriseSystems: 200
-      },
+      }
       toolConfiguration: { enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
-    },
+    }
 
     // Initialize components
     campaignController = new CampaignController(mockConfig)
@@ -167,10 +167,10 @@ describe('Phase Execution Integration Tests', () => {
 
       // Mock zero TypeScript errors
       jest.spyOn(progressTracker, 'getProgressMetrics').mockResolvedValue({
-        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
-        lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
-        buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 },
+        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 }
+        lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 }
+        buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 }
+        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
       })
 
       const validation: any = await campaignController.validatePhaseCompletion(phase1)
@@ -184,10 +184,10 @@ describe('Phase Execution Integration Tests', () => {
 
       // Mock successful completion metrics
       jest.spyOn(progressTracker, 'getProgressMetrics').mockResolvedValue({
-        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
-        lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
-        buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 },
+        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 }
+        lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 }
+        buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 }
+        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
       })
 
       const report: any = await campaignController.generatePhaseReport(phase1)
@@ -249,10 +249,10 @@ describe('Phase Execution Integration Tests', () => {
 
       // Mock zero linting warnings
       jest.spyOn(progressTracker, 'getProgressMetrics').mockResolvedValue({
-        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
-        lintingWarnings: { current: 0, target: 0, reduction: 4506, percentage: 100 },
-        buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 },
+        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 }
+        lintingWarnings: { current: 0, target: 0, reduction: 4506, percentage: 100 }
+        buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 }
+        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
       })
 
       const validation: any = await campaignController.validatePhaseCompletion(phase2)
@@ -354,7 +354,7 @@ describe('Phase Execution Integration Tests', () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn build')) {
           throw new Error('Build failed')
-        },
+        }
         return '',
       })
 
@@ -401,10 +401,10 @@ describe('Phase Execution Integration Tests', () => {
 
       // Mock successful phase completion
       jest.spyOn(progressTracker, 'getProgressMetrics').mockResolvedValue({
-        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
-        lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
-        buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 },
+        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 }
+        lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 }
+        buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 }
+        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
       })
 
       await campaignController.executePhase(phase1)

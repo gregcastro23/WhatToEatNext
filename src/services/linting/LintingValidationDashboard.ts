@@ -24,13 +24,13 @@ export interface LintingMetrics {
     astrologicalCalculations: number,
     campaignSystem: number,
     testFiles: number
-  },
+  }
   performanceMetrics: {
     lintingDuration: number,
     cacheHitRate: number,
     memoryUsage: number,
     filesProcessed: number
-  },
+  }
   qualityScore: number // 0-100,
   regressionDetected: boolean
 }
@@ -71,7 +71,7 @@ export interface RegressionAnalysis {
     previous: number,
     change: number,
     changePercentage: number
-  },
+  }
 }
 
 export class LintingValidationDashboard {
@@ -85,25 +85,25 @@ export class LintingValidationDashboard {
       threshold: 0,
       severity: 'critical',
       message: 'Parser errors detected - blocking accurate linting analysis'
-    },
+    }
     {
       metric: 'explicitAnyErrors',
       threshold: 100,
       severity: 'error',
       message: 'Explicit any errors exceed acceptable threshold'
-    },
+    }
     {
       metric: 'totalIssues',
       threshold: 2000,
       severity: 'warning',
       message: 'Total linting issues exceed warning threshold'
-    },
+    }
     {
       metric: 'qualityScore',
       threshold: 80,
       severity: 'warning',
       message: 'Code quality score below target'
-    },
+    }
     {
       metric: 'performanceMetrics.lintingDuration',
       threshold: 30000,
@@ -135,7 +135,7 @@ export class LintingValidationDashboard {
       alerts,
       recommendations,
       regressionAnalysis
-    },
+    }
 
     // Store metrics and alerts
     await this.storeMetrics(metrics)
@@ -170,7 +170,7 @@ export class LintingValidationDashboard {
         cacheHitRate: await this.calculateCacheHitRate(),
         memoryUsage: process.memoryUsage().heapUsed / 1024 / 1024, // MB,
         filesProcessed: lintResults.length
-      },
+      }
 
       // Calculate quality score
       metrics.qualityScore = this.calculateQualityScore(metrics)
@@ -195,16 +195,16 @@ export class LintingValidationDashboard {
           astrologicalCalculations: -1,
           campaignSystem: -1,
           testFiles: -1
-        },
+        }
         performanceMetrics: {
           lintingDuration: Date.now() - startTime,
           cacheHitRate: 0,
           memoryUsage: process.memoryUsage().heapUsed / 1024 / 1024,
           filesProcessed: 0
-        },
+        }
         qualityScore: 0,
         regressionDetected: false
-      },
+      }
     }
   }
 
@@ -226,7 +226,7 @@ export class LintingValidationDashboard {
       astrologicalCalculations: 0,
       campaignSystem: 0,
       testFiles: 0
-    },
+    }
 
     for (const result of lintResults) {
       const filePath = result.filePath;
@@ -285,10 +285,10 @@ export class LintingValidationDashboard {
         cacheHitRate: 0,
         memoryUsage: 0,
         filesProcessed: lintResults.length
-      },
+      }
       qualityScore: 0, // Will be calculated,
       regressionDetected: false
-    },
+    }
   }
 
   /**
@@ -361,7 +361,7 @@ export class LintingValidationDashboard {
           change: 0,
           changePercentage: 0
         }
-      },
+      }
     }
 
     const previousMetrics = history[history.length - 2];
@@ -413,7 +413,7 @@ export class LintingValidationDashboard {
               100
             : 0
       }
-    },
+    }
   }
 
   /**
@@ -499,7 +499,7 @@ Generated: ${new Date().toISOString()}
 ## 🔍 Detailed Metrics
 
 ### Error Breakdown
-- **Parser Errors**: ${result.metrics.parserErrors} ${result.metrics.parserErrors === 0 ? '✅' : '🚨'},
+- **Parser Errors**: ${result.metrics.parserErrors} ${result.metrics.parserErrors === 0 ? '✅' : '🚨'}
 - **TypeScript Errors**: ${result.metrics.errors}
 - **Explicit Any Errors**: ${result.metrics.explicitAnyErrors} ${result.metrics.explicitAnyErrors < 100 ? '✅' : '⚡'}
 - **Warnings**: ${result.metrics.warnings}
@@ -548,7 +548,7 @@ ${
 
 ## 💡 Recommendations
 
-${result.recommendations.map(rec => `- ${rec}`).join('\n')},
+${result.recommendations.map(rec => `- ${rec}`).join('\n')}
 
 ## 🎯 Next Actions
 
@@ -596,7 +596,7 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')},
         regressionDetectionEnabled: true,
         performanceMonitoringEnabled: true,
         domainSpecificTrackingEnabled: true
-      },
+      }
       writeFileSync(this.configFile, JSON.stringify(config, null, 2))
     }
   }

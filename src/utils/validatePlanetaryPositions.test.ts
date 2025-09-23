@@ -5,14 +5,14 @@ import {
   getCurrentTransitSign,
   validatePlanetaryPositions,
   getCurrentTransitPositions
-} from './validatePlanetaryPositions',
+} from './validatePlanetaryPositions';
 
 // Mock the planet data files
 jest.mock('@/data/planets/mars', () => ({
   PlanetSpecific: { TransitDates: {
       leo: { Start: '2024-05-01',
         End: '2024-06-30'
-      },
+      }
       virgo: { Start: '2024-07-01',
         End: '2024-08-31'
       }
@@ -24,7 +24,7 @@ jest.mock('@/data/planets/venus', () => ({
   PlanetSpecific: { TransitDates: {
       aries: { Start: '2024-05-01',
         End: '2024-06-30'
-      },
+      }
       taurus: { Start: '2024-07-01',
         End: '2024-08-31'
       }
@@ -64,7 +64,7 @@ describe('Planetary Position Validation', () => {
         minute: 30,
         exactLongitude: 105.5
       }
-    },
+    }
 
     const validated: any = validatePlanetaryPositions(positions, testDate)
 
@@ -86,7 +86,7 @@ describe('Planetary Position Validation', () => {
         minute: 30,
         exactLongitude: 1355
       }
-    },
+    }
 
     const validated: any = validatePlanetaryPositions(positions, testDate)
 

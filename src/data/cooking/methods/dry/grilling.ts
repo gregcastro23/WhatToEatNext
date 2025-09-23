@@ -15,11 +15,11 @@ export const grilling: CookingMethodData = {
     Air: 0.2,
     Earth: 0.1,
     Water: 0.0
-  },
+  }
   duration: {
     min: 2,
     max: 30
-  },
+  }
   suitable_for: ['meats', 'poultry', 'seafood', 'vegetables', 'fruit', 'bread', 'pizza', 'kebabs'],
   benefits: [
     'imparts smoky flavor',
@@ -39,7 +39,7 @@ export const grilling: CookingMethodData = {
       waxing_gibbous: 1.1, // Good balance
       waning_crescent: 0.9, // Slightly reduced effect
     }
-  },
+  }
   toolsRequired: [
     'Grill (gas, charcoal, or wood-fired)',
     'Long-handled tongs or spatula',
@@ -67,28 +67,28 @@ export const grilling: CookingMethodData = {
     vitamins: 0.7,
     minerals: 0.9,
     fats: 0.6, // Some lost through dripping
-  },
+  }
   optimalTemperatures: {
     steak: 450,
     chicken: 375,
     fish: 400,
     vegetables: 425,
     fruit: 350
-  },
+  }
   regionalVariations: {
     argentine: ['asado', 'parrilla technique'],
     korean: ['bulgogi', 'galbi'],
     american: ['barbecue', 'Santa Maria-style'],
     japanese: ['yakitori', 'robatayaki'],
     middle_eastern: ['kebab', 'meshwi']
-  },
+  }
   chemicalChanges: {
     maillard_reaction: true,
     caramelization: true,
     fat_rendering: true,
     smoke_particle_adhesion: true,
     protein_denaturation: true
-  },
+  }
   safetyFeatures: [
     'Proper fire management',
     'Food temperature monitoring',
@@ -135,4 +135,4 @@ export const grilling: CookingMethodData = {
     'Smoke compounds may have both positive and negative health effects',
     'Char can be minimized through proper technique'
   ]
-},
+}

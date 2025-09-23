@@ -68,7 +68,7 @@ export class UnusedVariablesCleanupSystem {
       buildValidation: true,
       batchSize: 15,
       ...config
-    },
+    }
   }
 
   /**
@@ -129,7 +129,7 @@ export class UnusedVariablesCleanupSystem {
       averageBuildTime: 0,
       overallSafetyScore: 0,
       errors: []
-    },
+    }
 
     try {
       // Determine number of batches
@@ -152,7 +152,7 @@ export class UnusedVariablesCleanupSystem {
           const batchConfig = {
             ...this.config,
             maxFiles: this.config.batchSize
-          },
+          }
 
           const batchSystem = new UnusedVariablesCleanupSystem(batchConfig)
           const result = await batchSystem.executeCleanup()
@@ -264,7 +264,7 @@ export class UnusedVariablesCleanupSystem {
       errors: [],
       warnings: [],
       safetyScore: 0
-    },
+    }
 
     try {
       // Build command arguments
@@ -410,7 +410,7 @@ export class UnusedVariablesCleanupSystem {
           buildTime: result.buildTime,
           safetyScore: result.safetyScore
         }
-      },
+      }
 
       fs.writeFileSync(this.metricsFile, JSON.stringify(metrics, null, 2))
       // // // _logger.info(`📊 Metrics saved to ${this.metricsFile}`)
@@ -456,8 +456,8 @@ Generated: ${new Date().toISOString()}
 - **Git Stash**: ${this.config.enableGitStash}
 
 ## Issues
-${result.errors.length > 0 ? '### Errors\n' + result.errors.map(e => `- ${e}`).join('\n') : 'No errors'},
-${result.warnings.length > 0 ? '### Warnings\n' + result.warnings.map(w => `- ${w}`).join('\n') : 'No warnings'},
+${result.errors.length > 0 ? '### Errors\n' + result.errors.map(e => `- ${e}`).join('\n') : 'No errors'}
+${result.warnings.length > 0 ? '### Warnings\n' + result.warnings.map(w => `- ${w}`).join('\n') : 'No warnings'}
 
 ## Next Steps
 ${
@@ -495,7 +495,7 @@ Generated: ${new Date().toISOString()}
 - **Safety Protocols**: ${this.config.validateSafety}
 
 ## Issues
-${result.errors.length > 0 ? '### Batch Errors\n' + result.errors.map(e => `- ${e}`).join('\n') : 'No batch errors'},
+${result.errors.length > 0 ? '### Batch Errors\n' + result.errors.map(e => `- ${e}`).join('\n') : 'No batch errors'}
 
 ## Recommendations
 ${

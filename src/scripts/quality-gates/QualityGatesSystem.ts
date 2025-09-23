@@ -21,23 +21,23 @@ interface QualityGateConfig {
     warningThreshold: number,
     criticalThreshold: number,
     baselineCount: number
-  },
+  }
   typescript: {
     maxErrors: number,
     criticalErrorTypes: string[]
-  },
+  }
   linting: {
     maxWarnings: number,
     criticalRules: string[]
-  },
+  }
   performance: {
     maxBuildTime: number, // seconds,
     maxBundleSize: number, // MB
-  },
+  }
   documentation: {
     requireDocumentedAnyTypes: boolean,
     minCoveragePercent: number
-  },
+  }
 }
 
 interface QualityMetrics {
@@ -70,11 +70,11 @@ class QualityGatesSystem {
         warningThreshold: 280,
         criticalThreshold: 300,
         baselineCount: 275, // Current, achievement: 36.78% reduction
-      },
+      }
       typescript: {
         maxErrors: 0,
         criticalErrorTypes: ['TS2304', 'TS2339', 'TS2345', 'TS2322']
-      },
+      }
       linting: {
         maxWarnings: 4500, // Current baseline
         criticalRules: [
@@ -82,16 +82,16 @@ class QualityGatesSystem {
           '@typescript-eslint/no-unused-vars',
           'react-hooks/exhaustive-deps'
         ]
-      },
+      }
       performance: {
         maxBuildTime: 30,
         maxBundleSize: 10
-      },
+      }
       documentation: {
         requireDocumentedAnyTypes: true,
         minCoveragePercent: 80
       }
-    },
+    }
 
     this.metricsFile = '.kiro/specs/unintentional-any-elimination/quality-metrics.json',
   }
@@ -119,7 +119,7 @@ class QualityGatesSystem {
       bundleSize: await this.getBundleSize(),
       documentationCoverage: await this.getDocumentationCoverage(),
       lastAuditDate: new Date()
-    },
+    }
 
     // Save metrics for historical tracking
     await this.saveMetrics(metrics)
@@ -134,7 +134,7 @@ class QualityGatesSystem {
         {
           encoding: 'utf8',
           stdio: 'pipe'
-        },
+        }
       )
       return parseInt(output.trim()) || 0,
     } catch (error) {
@@ -150,7 +150,7 @@ class QualityGatesSystem {
         {
           encoding: 'utf8',
           stdio: 'pipe'
-        },
+        }
       )
       return parseInt(output.trim()) || 0,
     } catch (error) {
@@ -166,7 +166,7 @@ class QualityGatesSystem {
         {
           encoding: 'utf8',
           stdio: 'pipe'
-        },
+        }
       )
       return parseInt(output.trim()) || 0,
     } catch (error) {
@@ -225,7 +225,7 @@ class QualityGatesSystem {
         {
           encoding: 'utf8',
           stdio: 'pipe'
-        },
+        }
       )
       return parseInt(output.trim()) || 0,
     } catch (error) {
@@ -266,7 +266,7 @@ class QualityGatesSystem {
     )
 
     this.log('\n📋 Quality Gates Summary:', 'info')
-    results.forEach(result => {,
+    results.forEach(result => {
       const status = result.passed ? '✅ PASS' : '❌ FAIL'
       this.log(
         `   ${result.gate}: ${status} - ${result.message}`,
@@ -301,13 +301,13 @@ class QualityGatesSystem {
         gate: 'Explicit Any Prevention',
         message: `Critical: ${explicitAnyCount} any types exceed critical threshold (${criticalThreshold})`,
         severity: 'critical',
-        metrics: { explicitAnyCount },
+        metrics: { explicitAnyCount }
         recommendations: [
           'Run the unintentional any elimination campaign immediately',
           'Block all commits until count is reduced',
           'Review recent changes for any type introductions'
         ]
-      },
+      }
     }
 
     if (explicitAnyCount > warningThreshold) {
@@ -316,13 +316,13 @@ class QualityGatesSystem {
         gate: 'Explicit Any Prevention',
         message: `Warning: ${explicitAnyCount} any types exceed warning threshold (${warningThreshold})`,
         severity: 'warning',
-        metrics: { explicitAnyCount },
+        metrics: { explicitAnyCount }
         recommendations: [
           'Consider running the any elimination campaign',
           'Monitor for further increases',
           'Review documentation for new any types'
         ]
-      },
+      }
     }
 
     const improvement = baselineCount - explicitAnyCount;
@@ -334,7 +334,7 @@ class QualityGatesSystem {
       message: `Good: ${explicitAnyCount} any types (${improvementPercent}% improvement maintained)`,
       severity: 'info',
       metrics: { explicitAnyCount }
-    },
+    }
   }
 
   private async checkTypeScriptErrorGate(
@@ -350,13 +350,13 @@ class QualityGatesSystem {
         gate: 'TypeScript Error Prevention',
         message: `${typescriptErrors} TypeScript errors detected (max: ${maxErrors})`,
         severity: 'critical',
-        metrics: { typescriptErrors },
+        metrics: { typescriptErrors }
         recommendations: [
           'Fix all TypeScript compilation errors before proceeding',
           'Run TypeScript error elimination campaign',
           'Check for recent breaking changes'
         ]
-      },
+      }
     }
 
     return {
@@ -365,7 +365,7 @@ class QualityGatesSystem {
       message: `No TypeScript errors detected`,
       severity: 'info',
       metrics: { typescriptErrors }
-    },
+    }
   }
 
   private async checkLintingQualityGate(
@@ -382,13 +382,13 @@ class QualityGatesSystem {
         gate: 'Linting Quality',
         message: `${lintingWarnings} linting warnings exceed threshold (${maxWarnings})`,
         severity: 'warning',
-        metrics: { lintingWarnings },
+        metrics: { lintingWarnings }
         recommendations: [
           'Run linting cleanup campaign',
           'Review and fix critical linting rules',
           'Consider updating linting configuration'
         ]
-      },
+      }
     }
 
     return {
@@ -397,7 +397,7 @@ class QualityGatesSystem {
       message: `${lintingWarnings} linting warnings within acceptable range`,
       severity: 'info',
       metrics: { lintingWarnings }
-    },
+    }
   }
 
   private async checkPerformanceGate(
@@ -421,13 +421,13 @@ class QualityGatesSystem {
         gate: 'Performance',
         message: issues.join(', '),
         severity: 'warning',
-        metrics: { buildTime, bundleSize },
+        metrics: { buildTime, bundleSize }
         recommendations: [
           'Optimize build configuration',
           'Review bundle analysis for large dependencies',
           'Consider code splitting strategies'
         ]
-      },
+      }
     }
 
     return {
@@ -436,7 +436,7 @@ class QualityGatesSystem {
       message: `Build time ${buildTime}s and bundle size ${bundleSize.toFixed(2)}MB within limits`,
       severity: 'info',
       metrics: { buildTime, bundleSize }
-    },
+    }
   }
 
   private async checkDocumentationGate(
@@ -452,7 +452,7 @@ class QualityGatesSystem {
         gate: 'Documentation Coverage',
         message: `${documentationCoverage.toFixed(1)}% documentation coverage below ${minCoveragePercent}%`,
         severity: 'warning',
-        metrics: { documentationCoverage },
+        metrics: { documentationCoverage }
         recommendations: [
           'Add documentation for undocumented any types',
           'Run automated documentation generation',
@@ -676,7 +676,7 @@ jobs:
         'quality:gates:audit': 'node src/scripts/quality-gates/QualityGatesSystem.ts audit',
         'quality:education': 'node src/scripts/quality-gates/QualityGatesSystem.ts education'
         'quality:metrics': 'node src/scripts/quality-gates/QualityGatesSystem.ts metrics'
-      },
+      }
 
       fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2))
       this.log('📦 Package.json scripts updated for quality gates', 'success')
@@ -730,19 +730,19 @@ echo '📊 Audit completed at $(date)'
         daily: '0 9 * * *', // 9 AM daily
         weekly: '0 9 * * 1', // 9 AM Monday
         monthly: '0 9 1 * *', // 9 AM 1st of month
-      },
+      }
       notifications: {
         email: process.env.AUDIT_EMAIL || 'dev-team@example.com',
         slack: process.env.AUDIT_SLACK_WEBHOOK || '',
         teams: process.env.AUDIT_TEAMS_WEBHOOK || ''
-      },
+      }
       thresholds: this.config,
       actions: {
         onCritical: 'trigger-emergency-campaign',
         onWarning: 'send-notification',
         onGood: 'log-success'
       }
-    },
+    }
 
     const auditConfigPath = '.kiro/specs/unintentional-any-elimination/audit-config.json';
     fs.writeFileSync(auditConfigPath, JSON.stringify(auditConfig, null, 2))
@@ -877,4 +877,4 @@ Examples:
   }
 }
 
-export { QualityGateConfig, QualityGateResult, QualityGatesSystem, QualityMetrics },
+export { QualityGateConfig, QualityGateResult, QualityGatesSystem, QualityMetrics };

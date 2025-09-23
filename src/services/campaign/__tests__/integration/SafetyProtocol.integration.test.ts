@@ -14,7 +14,7 @@ import {
   SafetyEventSeverity,
   CampaignConfig,
   SafetyLevel
-} from '../../../../types/campaign',
+} from '../../../../types/campaign';
 import { CampaignController } from '../../CampaignController';
 import { ProgressTracker } from '../../ProgressTracker';
 import { SafetyProtocol } from '../../SafetyProtocol';
@@ -41,7 +41,7 @@ describe('Safety Protocol Integration Tests', () => {;
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
       stashRetentionDays: 7
-    },
+    }
 
     mockConfig = {
       phases: [
@@ -52,24 +52,24 @@ describe('Safety Protocol Integration Tests', () => {;
           tools: [
             {
               scriptPath: 'scripts/test-script.js',
-              parameters: { maxFile, s: 10, autoFix: true },
+              parameters: { maxFile, s: 10, autoFix: true }
               batchSize: 10,
               safetyLevel: SafetyLevel.HIGH
             }
           ],
-          successCriteria: { typeScriptError, s: 0 },
+          successCriteria: { typeScriptError, s: 0 }
           safetyCheckpoints: []
         }
       ],
       safetySettings: mockSafetySettings,
-      progressTargets: { typeScriptError, s: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 },
+      progressTargets: { typeScriptError, s: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 }
       toolConfiguration: {
         enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
-    },
+    }
 
     safetyProtocol = new SafetyProtocol(mockSafetySettings)
     campaignController = new CampaignController(mockConfig)
@@ -156,7 +156,7 @@ describe('Safety Protocol Integration Tests', () => {;
       it('should detect double commas in destructuring', async () => {
         const corruptedContent: any = `;
 import type type Something, { ab } from '/module';
-          export { x,, y },
+          export { x,, y };
         `,
 
         mockFs.readFileSync.mockReturnValue(corruptedContent)
@@ -424,7 +424,7 @@ import type type Something, { ab } from '/module';
         timestamp: oldDate,
         branch: 'main',
         ref: 'stash@{1}',
-      },
+      }
 
       const recentStash: any = {
         id: 'recent-stash',
@@ -432,7 +432,7 @@ import type type Something, { ab } from '/module';
         timestamp: recentDate,
         branch: 'main',
         ref: 'stash@{0}',
-      },
+      }
 
       (safetyProtocol as any).stashes.set('old-stash', oldStash)
       (safetyProtocol as any).stashes.set('recent-stash', recentStash)
@@ -467,9 +467,9 @@ import type type Something, { ab } from '/module';
       // Mock successful execution with safety protocols,
       jest.spyOn(campaignController as unknown, 'createSafetyCheckpoint').mockResolvedValue('checkpoint-1')
       jest.spyOn(campaignController as unknown, 'getCurrentMetrics').mockResolvedValue({
-        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
-        lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
-        buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
+        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 }
+        lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 }
+        buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 }
         enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
       })
 

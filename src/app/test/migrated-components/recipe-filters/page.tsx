@@ -6,7 +6,7 @@ import { logger } from '@/utils/logger';
 
 // Minimal local fallback for RecipeFilters
 type FilterState = Record<string, unknown>
-const initialFilters: FilterState = {},
+const initialFilters: FilterState = {}
 
 const RecipeFiltersMigrated = ({
   filters,
@@ -42,27 +42,27 @@ export default function RecipeFiltersTestPage() {
   const _updateOriginalFilters = (updates: Partial<FilterState>) => {
     setOriginalFilters(prev => ({ ...prev, ...updates }))
     logger.info('Original filters updated:', updates)
-  },
+  }
 
   // Reset filters for original implementation
   const _resetOriginalFilters = () => {;
     setOriginalFilters(initialFilters)
     setShowOriginalFilters(false)
     logger.info('Original filters reset')
-  },
+  }
 
   // Update filters for migrated implementation
   const updateMigratedFilters = (updates: Partial<FilterState>) => {
     setMigratedFilters(prev => ({ ...prev, ...updates }))
     logger.info('Migrated filters updated:', updates)
-  },
+  }
 
   // Reset filters for migrated implementation
   const resetMigratedFilters = () => {;
     setMigratedFilters(initialFilters)
     setShowMigratedFilters(false)
     logger.info('Migrated filters reset')
-  },
+  }
 
   // For monitoring filter changes
   const renderFilterState = (filters: FilterState) => {;
@@ -72,7 +72,7 @@ export default function RecipeFiltersTestPage() {
         <pre className='whitespace-pre-wrap'>{JSON.stringify(filters, null, 2)}</pre>
       </div>
     )
-  },
+  }
 
   return (
     <div className='mx-auto max-w-6xl px-4 py-8'>
@@ -100,11 +100,11 @@ export default function RecipeFiltersTestPage() {
 
           {/* Migrated RecipeFilters component */}
           <RecipeFiltersMigrated
-            filters={migratedFilters},
-            updateFilters={updateMigratedFilters},
-            resetFilters={resetMigratedFilters},
-            showFilters={showMigratedFilters},
-            setShowFilters={setShowMigratedFilters},
+            filters={migratedFilters}
+            updateFilters={updateMigratedFilters}
+            resetFilters={resetMigratedFilters}
+            showFilters={showMigratedFilters}
+            setShowFilters={setShowMigratedFilters}
           />
 
           {renderFilterState(migratedFilters)}

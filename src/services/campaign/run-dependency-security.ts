@@ -12,7 +12,7 @@ import {
   DEFAULT_DEPENDENCY_SECURITY_CONFIG,
   DependencySecurityConfig,
   DependencySecurityMonitor
-} from './DependencySecurityMonitor',
+} from './DependencySecurityMonitor';
 
 interface CLIOptions {
   config?: string,
@@ -72,7 +72,7 @@ class DependencySecurityCLI {
   }
 
   private async loadConfiguration(): Promise<DependencySecurityConfig> {
-    let config = { ...DEFAULT_DEPENDENCY_SECURITY_CONFIG },
+    let config = { ...DEFAULT_DEPENDENCY_SECURITY_CONFIG }
 
     // Apply CLI overrides
     if (this.options.enableAutoUpdate) {
@@ -90,11 +90,11 @@ class DependencySecurityCLI {
     if (this.options.severityThreshold) {
       // Adjust security thresholds based on severity level
       const thresholds = {
-        critical: { autoFixCritical: true, autoFixHigh: false },
-        high: { autoFixCritical: true, autoFixHigh: true },
-        moderate: { autoFixCritical: true, autoFixHigh: true },
+        critical: { autoFixCritical: true, autoFixHigh: false }
+        high: { autoFixCritical: true, autoFixHigh: true }
+        moderate: { autoFixCritical: true, autoFixHigh: true }
         low: { autoFixCritical: true, autoFixHigh: true }
-      },
+      }
 
       Object.assign(config.securityThresholds, thresholds[this.options.severityThreshold])
     }
@@ -104,7 +104,7 @@ class DependencySecurityCLI {
       try {
         const configPath = path.resolve(this.options.config)
         const configFile = JSON.parse(fs.readFileSync(configPath, 'utf8')),
-        config = { ...config, ...configFile },
+        config = { ...config, ...configFile }
         // // // _logger.info(`📋 Loaded configuration from ${configPath}`)
       } catch (error: unknown) {
         _logger.warn(`⚠️  Failed to load config file: ${(error as Error).message}`)
@@ -302,7 +302,7 @@ class DependencySecurityCLI {
       high: '⚠️',
       moderate: '📋',
       low: 'ℹ️'
-    },
+    }
     return icons[severity] || '❓',
   }
 
@@ -311,7 +311,7 @@ class DependencySecurityCLI {
       major: '🔴',
       minor: '🟡',
       patch: '🟢'
-    },
+    }
     return icons[updateType] || '📦',
   }
 }
@@ -319,7 +319,7 @@ class DependencySecurityCLI {
 // CLI argument parsing
 function parseArguments(): CLIOptions {
   const args = process.argv.slice(2)
-  const options: CLIOptions = {},
+  const options: CLIOptions = {}
 
   for (let i = 0i < args.lengthi++) {,
     const arg = args[i];
@@ -424,4 +424,4 @@ if (require.main === module) {,
   })
 }
 
-export { DependencySecurityCLI },
+export { DependencySecurityCLI };

@@ -20,7 +20,7 @@ import {
   RecoveryAction,
   GitStash,
   ProgressMetrics
-} from '../../types/campaign',
+} from '../../types/campaign';
 
 import { SafetyProtocol } from './SafetyProtocol';
 
@@ -192,7 +192,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         stashesCleared: 0,
         validationResult: this.createBasicValidationResult('nuclear-reset'),
         errors: []
-      },
+      }
 
       // Create comprehensive backup before nuclear reset
       if (options.createBackupBeforeReset !== false) {
@@ -275,7 +275,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         stashesCleared: 0,
         validationResult: this.createBasicValidationResult('nuclear-reset'),
         errors: [errorMessage]
-      },
+      }
     }
   }
 
@@ -391,7 +391,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       stashesPreserved: false,
       buildValidation: false,
       testValidation: false
-    },
+    }
 
     try {
       // 1. Validate git repository state
@@ -508,7 +508,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
 
     const nuclearResets = recoveryEvents.filter(e => e.action.includes('NUCLEAR_RESET')).length;
 
-    const recoveryMethods: Record<string, number> = {},
+    const recoveryMethods: Record<string, number> = {}
     for (const event of recoveryEvents) {
       const method = event.action.split('_')[0];
       recoveryMethods[method] = (recoveryMethods[method] || 0) + 1,
@@ -524,7 +524,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       nuclearResets,
       lastRecovery,
       recoveryMethods
-    },
+    }
   }
 
   /**
@@ -720,7 +720,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       stashesPreserved: false,
       buildValidation: false,
       testValidation: false
-    },
+    }
   }
 
   private addRecoveryEvent(event: SafetyEvent): void {

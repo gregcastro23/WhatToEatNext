@@ -56,7 +56,7 @@ export class PerformanceMonitoringService {
       maxIncrementalTime: 10000, // 10 seconds,
       minPerformanceImprovement: 60, // 60%
       ...thresholds
-    },
+    }
 
     this.loadExistingMetrics()
     this.loadExistingAlerts()
@@ -122,7 +122,7 @@ export class PerformanceMonitoringService {
       incrementalTime: options.incremental ? executionTime : undefined,
       errorCount,
       warningCount
-    },
+    }
 
     // Record metrics
     this.recordMetrics(metrics)
@@ -167,7 +167,7 @@ export class PerformanceMonitoringService {
       passed,
       baseline,
       current
-    },
+    }
   }
 
   /**
@@ -194,7 +194,7 @@ export class PerformanceMonitoringService {
       filesPerProcess,
       optimalDistribution,
       processCount: latestMetrics.parallelProcesses
-    },
+    }
   }
 
   /**
@@ -211,7 +211,7 @@ export class PerformanceMonitoringService {
         peakMemoryMB: 0,
         withinLimit: false,
         memoryEfficient: false
-      },
+      }
     }
 
     const peakMemoryMB = latestMetrics.memoryUsage / 1024 / 1024;
@@ -240,7 +240,7 @@ export class PerformanceMonitoringService {
         averageIncrementalTime: 0,
         subTenSecond: false,
         consistentPerformance: false
-      },
+      }
     }
 
     const averageIncrementalTime =
@@ -257,7 +257,7 @@ export class PerformanceMonitoringService {
       averageIncrementalTime,
       subTenSecond,
       consistentPerformance
-    },
+    }
   }
 
   /**
@@ -270,7 +270,7 @@ export class PerformanceMonitoringService {
       averageMemoryUsage: number,
       averageCacheHitRate: number,
       totalAlerts: number
-    },
+    }
     performanceImprovement: ReturnType<typeof this.validatePerformanceImprovement>,
     parallelProcessing: ReturnType<typeof this.validateParallelProcessing>,
     memoryOptimization: ReturnType<typeof this.validateMemoryOptimization>,
@@ -287,7 +287,7 @@ export class PerformanceMonitoringService {
       averageCacheHitRate:
         this.metrics.reduce((summ) => sum + m.cacheHitRate, 0) / this.metrics.length || 0,
       totalAlerts: this.alerts.length
-    },
+    }
 
     const performanceImprovement = this.validatePerformanceImprovement()
     const parallelProcessing = this.validateParallelProcessing()
@@ -311,7 +311,7 @@ export class PerformanceMonitoringService {
       incrementalPerformance,
       recentAlerts,
       recommendations
-    },
+    }
   }
 
   /**
@@ -337,7 +337,7 @@ export class PerformanceMonitoringService {
         executionTimeTrend: 'stable',
         memoryUsageTrend: 'stable',
         cacheHitRateTrend: 'stable'
-      },
+      }
     }
 
     const firstHalf = recentMetrics.slice(0, Math.floor(recentMetrics.length / 2)),
@@ -362,7 +362,7 @@ export class PerformanceMonitoringService {
       executionTimeTrend: this.getTrend(avgExecutionTimeFirst, avgExecutionTimeSecond, true), // Lower is better,
       memoryUsageTrend: this.getTrend(avgMemoryUsageFirst, avgMemoryUsageSecond, true), // Lower is better,
       cacheHitRateTrend: this.getTrend(avgCacheHitRateFirst, avgCacheHitRateSecond, false), // Higher is better
-    },
+    }
   }
 
   private getTrend(

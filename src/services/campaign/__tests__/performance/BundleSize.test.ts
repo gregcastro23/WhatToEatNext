@@ -29,7 +29,7 @@ describe('Bundle Size Performance Tests', () => {
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
       stashRetentionDays: 7,
-    },
+    }
 
     mockConfig = {
       phases: [
@@ -40,23 +40,23 @@ describe('Bundle Size Performance Tests', () => {
           tools: [
             {
               scriptPath: 'scripts/bundle/optimize-script.js',
-              parameters: { optimizeBundl, e: true },
+              parameters: { optimizeBundl, e: true }
               batchSize: 50,
               safetyLevel: SafetyLevel.MEDIUM
             }
           ],
-          successCriteria: { buildTim, e: 10 },
+          successCriteria: { buildTim, e: 10 }
           safetyCheckpoints: []
         }
       ],
       safetySettings,
-      progressTargets: { typeScriptError, s: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 },
+      progressTargets: { typeScriptError, s: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 }
       toolConfiguration: { enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
-    },
+    }
 
     progressTracker = new ProgressTracker()
     campaignController = new CampaignController(mockConfig)
@@ -83,7 +83,7 @@ describe('Bundle Size Performance Tests', () => {
         }
         if (cmd.includes('du -sk dist')) {
           return '100', // 100kB
-        },
+        }
         return '',
       })
 
@@ -151,9 +151,9 @@ describe('Bundle Size Performance Tests', () => {
   describe('Bundle Composition Analysis', () => {
     it('should analyze bundle composition across different build outputs', async () => {
       const buildOutputs: any = [
-        { dir: '.next', expectedSize: 250 },
-        { dir: 'dist', expectedSize: 120 },
-        { dir: 'build', expectedSize: 50 },
+        { dir: '.next', expectedSize: 250 }
+        { dir: 'dist', expectedSize: 120 }
+        { dir: 'build', expectedSize: 50 }
       ],
 
       mockFs.existsSync.mockImplementation(path => {
@@ -201,7 +201,7 @@ describe('Bundle Size Performance Tests', () => {
         '.next': 350, // Normal size,
         dist: 200, // Bloated - should be ~120kB,
         build: 50, // Normal size,
-      },
+      }
 
       mockFs.existsSync.mockImplementation(path => {
         return Object.keys(bloatedBuild).includes(path as string)
@@ -399,11 +399,11 @@ describe('Bundle Size Performance Tests', () => {
 
     it('should track bundle size across different optimization strategies', async () => {
       const optimizationStrategies: any = [
-        { name: 'baseline', expectedSize: 480 },
-        { name: 'minification', expectedSize: 420 },
-        { name: 'tree-shaking', expectedSize: 380 },
-        { name: 'code-splitting', expectedSize: 340 },
-        { name: 'compression', expectedSize: 300 },
+        { name: 'baseline', expectedSize: 480 }
+        { name: 'minification', expectedSize: 420 }
+        { name: 'tree-shaking', expectedSize: 380 }
+        { name: 'code-splitting', expectedSize: 340 }
+        { name: 'compression', expectedSize: 300 }
       ],
 
       const results: Array<{ strategy: string, size: number, underTarge, t: boolean }> = [];
@@ -455,7 +455,7 @@ describe('Bundle Size Performance Tests', () => {
           const endTime: any = startTime + delay
           while (Date.now() < endTime) {
             // Busy wait
-          },
+          }
           analysisTimes.push(Date.now() - startTime)
           return '400',
         }
@@ -485,7 +485,7 @@ describe('Bundle Size Performance Tests', () => {
           const endTime: any = Date.now() + delay
           while (Date.now() < endTime) {
             // Busy wait
-          },
+          }
           return '2000'; // 2MB bundle - very large
         }
         return '',
@@ -509,7 +509,7 @@ describe('Bundle Size Performance Tests', () => {
           const endTime: any = Date.now() + delay
           while (Date.now() < endTime) {
             // Busy wait
-          },
+          }
           return '400',
         }
         return ''
@@ -544,12 +544,12 @@ describe('Bundle Size Performance Tests', () => {
       jest.spyOn(campaignController as unknown, 'getCurrentMetrics').mockImplementation(async () => {
         const bundleSize: any = await progressTracker.getBundleSize()
         return {
-          typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },
-          lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
-          buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-          enterpriseSystems: { current: 0, target: 200, transformedExports: 0 },
+          typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 }
+          lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 }
+          buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 }
+          enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
           bundleSize: bundleSize, // Additional bundle size tracking,
-        },
+        }
       })
 
       const result: any = await campaignController.executePhase(phase)
@@ -566,7 +566,7 @@ describe('Bundle Size Performance Tests', () => {
       const thresholds: any = {
         warning: 400, // 400kB warning threshold,
         critical: 420, // 420kB critical threshold,
-      },
+      }
 
       const testSizes: any = [350, 410, 450]; // Under warning, over warning, over critical
       const alerts: Array<{ size: number, leve, l: string }> = [];

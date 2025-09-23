@@ -6,7 +6,7 @@ import {
   ChakraPosition,
   ChakraEnergies,
   EnergyStateProperties
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 import {
   CHAKRAS,
   MAJOR_ARCANA_CHAKRAS,
@@ -17,7 +17,7 @@ import {
   MajorArcanaChakra,
   SuitChakraMapping,
   KeyCardChakraMapping
-} from '@/types/chakra',
+} from '@/types/chakra';
 
 /**
  * ChakraAlchemyService provides utilities for working with chakra-tarot associations
@@ -39,38 +39,38 @@ export class ChakraAlchemyService {
       energyState: 'Matter',
       elements: ['Water', 'Earth'],
       properties: { heat: '-', entropy: '-', reactivity: '-' }
-    },
+    }
     sacral: {
       energyState: 'Essence',
       elements: ['Water', 'Fire'],
       properties: { heat: '-', entropy: '-', reactivity: '+' }
-    },
+    }
     solarPlexus: {
       energyState: 'Essence',
       elements: ['Fire', 'Water'],
       properties: { heat: '-', entropy: '-', reactivity: '+' }
-    },
+    }
     heart: {
       energyState: 'Essence/Spirit',
       elements: ['Air', 'Fire'],
       properties: { heat: '±', entropy: '±', reactivity: '+' }
-    },
+    }
     throat: {
       energyState: 'Substance',
       elements: ['Air', 'Earth'],
       properties: { heat: '-', entropy: '+', reactivity: '+' }
-    },
+    }
     thirdEye: {
       energyState: 'Essence',
       elements: ['Water', 'Air', 'Fire'],
       properties: { heat: '-', entropy: '-', reactivity: '+' }
-    },
+    }
     crown: {
       energyState: 'Spirit',
       elements: ['Fire', 'Air'],
       properties: { heat: '+', entropy: '+', reactivity: '+' }
     }
-  },
+  }
 
   /**
    * Get chakra associated with a specific major arcana card
@@ -127,7 +127,7 @@ export class ChakraAlchemyService {
       uranus: ['Matter'],
       neptune: ['Essence', 'Substance'],
       pluto: ['Matter']
-    },
+    }
 
     // Get the energy states for this planet
     const energyStates =
@@ -167,7 +167,7 @@ export class ChakraAlchemyService {
       throat: 0.2,
       thirdEye: 0.2,
       crown: 0.2
-    },
+    }
 
     // Calculate base values using the sun and moon signs
     this.addZodiacInfluence(energies, sunSign, 1.5); // Sun has stronger influence
@@ -205,7 +205,7 @@ export class ChakraAlchemyService {
       throat: 0,
       thirdEye: 0,
       crown: 0
-    },
+    }
 
     // Map energy states to chakras based on the primary energy state of each chakra
     Object.entries(CHAKRAS).forEach(([position, chakra]) => {
@@ -253,9 +253,9 @@ export class ChakraAlchemyService {
 
     if (max === 0) return energies, // Avoid division by zero,
 
-    const normalized: ChakraEnergies = { ...energies },
+    const normalized: ChakraEnergies = { ...energies }
 
-    Object.keys(energies).forEach(key => {,
+    Object.keys(energies).forEach(key => {
       const chakraKey = key as keyof ChakraEnergies
       normalized[chakraKey] = (energies[chakraKey] / max) * 10,
     })
@@ -281,7 +281,7 @@ export class ChakraAlchemyService {
       capricorn: ['Earth'],
       aquarius: ['Air'],
       pisces: ['Water']
-    },
+    }
 
     // Get elements for this sign
     const elements = zodiacElements[sign] || [];
@@ -344,7 +344,7 @@ export class ChakraAlchemyService {
       throat: 'throat',
       thirdEye: 'thirdEye',
       crown: 'crown'
-    },
+    }
 
     return mapping[position] || null,
   }

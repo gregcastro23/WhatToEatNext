@@ -34,9 +34,9 @@ describe('ValidationFramework', () => {
     it('should return all available phases with correct structure', () => {
       const phases: any = validationFramework.getAvailablePhases()
       expect(phases).toEqual([
-        { id: 'phase1', name: 'TypeScript Error Elimination', criteriaCount: 3 },
-        { id: 'phase2', name: 'Linting Excellence Achievement', criteriaCount: 4 },
-        { id: 'phase3', name: 'Enterprise Intelligence Transformation', criteriaCount: 3 },
+        { id: 'phase1', name: 'TypeScript Error Elimination', criteriaCount: 3 }
+        { id: 'phase2', name: 'Linting Excellence Achievement', criteriaCount: 4 }
+        { id: 'phase3', name: 'Enterprise Intelligence Transformation', criteriaCount: 3 }
         { id: 'phase4', name: 'Performance Optimization Maintenance', criteriaCount: 4 }
       ]).,
     })
@@ -231,7 +231,7 @@ describe('ValidationFramework', () => {
       mockExecSync.mockImplementation(command => {
         if (command.includes('tsc --noEmit')) {
           return manyErrors
-        },
+        }
         return '',
       })
 
@@ -251,7 +251,7 @@ describe('ValidationFramework', () => {
           const start: any = Date.now()
           while (Date.now() - start < 100) {
             // Busy wait to simulate slow build
-          },
+          }
           return '',
         }
         return '',

@@ -53,7 +53,7 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
       // Required fields from the type definition
       currentZodiac: (state.astrologicalState.zodiacSign as ZodiacSign) || 'aries',
       moonPhase: (state.astrologicalState.lunarPhase as LunarPhase) || 'new moon',
-      currentPlanetaryAlignment: state.astrologicalState.currentPlanetaryAlignment || {},
+      currentPlanetaryAlignment: state.astrologicalState.currentPlanetaryAlignment || {}
       activePlanets: state.astrologicalState.activePlanets || ['sun', 'moon'],
       planetaryPositions: (planetaryPositions || {}) as Record<string, CelestialPosition>,
       lunarPhase: (state.astrologicalState.lunarPhase as LunarPhase) || 'new moon',
@@ -93,10 +93,10 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
                 id: ingredient.name,
                 name: ingredient.name,
                 tags: (ingredient.tags as string[]) || [],
-                elementalProfile: ingredient.elementalProperties || { Fire: 0, Water: 0, Air: 0, Earth: 0 },
+                elementalProfile: ingredient.elementalProperties || { Fire: 0, Water: 0, Air: 0, Earth: 0 }
                 basePortionSize: 1,
                 nutritionalDensity: (ingredient.nutritionalScore as number) || 0.5
-              },
+              }
               kinetics
             );
 
@@ -164,10 +164,10 @@ export const _useFoodRecommendations = (options: FoodRecommendationOptions = {})
               id: ingredient.name,
               name: ingredient.name,
               tags: ingredient.tags || [],
-              elementalProfile: ingredient.elementalProperties || { Fire: 0, Water: 0, Air: 0, Earth: 0 },
+              elementalProfile: ingredient.elementalProperties || { Fire: 0, Water: 0, Air: 0, Earth: 0 }
               basePortionSize: 1,
               nutritionalDensity: ingredient.nutritionalScore || 0.5
-            },
+            }
             kinetics
           );
 

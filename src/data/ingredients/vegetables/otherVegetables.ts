@@ -10,7 +10,7 @@ const rawOtherVegetables = {
       Water: 0.20342270505373083,
       Earth: 0.025567430424262617,
       Air: 0.006592674588325188
-    },
+    }
 
     category: 'vegetable',
     subCategory: 'other',
@@ -22,7 +22,7 @@ const rawOtherVegetables = {
       protein_g: 2.2,
       vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
       minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
-    },
+    }
 
     season: ['spring', 'summer', 'fall', 'winter'],
 
@@ -35,16 +35,16 @@ const rawOtherVegetables = {
       aroma: ['Fresh'],
       texture: ['Standard'],
       notes: 'Characteristic asparagus profile'
-    },
+    }
 
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      },
+      }
 
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    },
+    }
 
     origin: ['Unknown'],
 
@@ -52,21 +52,21 @@ const rawOtherVegetables = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for asparagus'
-    },
+    }
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+    }
 
-    varieties: {},
+    varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  },
+  }
   artichoke: {
     name: 'artichoke',
 
@@ -75,7 +75,7 @@ const rawOtherVegetables = {
       Water: 0.7539592539005983,
       Earth: 0.09658624330348414,
       Air: 0.023247174754624015
-    },
+    }
 
     category: 'vegetable',
     subCategory: 'other',
@@ -87,7 +87,7 @@ const rawOtherVegetables = {
       protein_g: 3.27,
       vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
       minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
-    },
+    }
 
     season: ['spring', 'summer', 'fall', 'winter'],
 
@@ -100,16 +100,16 @@ const rawOtherVegetables = {
       aroma: ['Fresh'],
       texture: ['Standard'],
       notes: 'Characteristic artichoke profile'
-    },
+    }
 
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      },
+      }
 
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    },
+    }
 
     origin: ['Unknown'],
 
@@ -117,21 +117,21 @@ const rawOtherVegetables = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for artichoke'
-    },
+    }
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+    }
 
-    varieties: {},
+    varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  },
+  }
   cucumber: {
     name: 'cucumber',
 
@@ -140,7 +140,7 @@ const rawOtherVegetables = {
       Water: 0.5760851625680805,
       Earth: 0.060653573196897174,
       Air: 0.013327281729658358
-    },
+    }
 
     category: 'vegetable',
     subCategory: 'other',
@@ -152,7 +152,7 @@ const rawOtherVegetables = {
       protein_g: 0.59,
       vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
       minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
-    },
+    }
 
     season: ['spring', 'summer', 'fall', 'winter'],
 
@@ -165,16 +165,16 @@ const rawOtherVegetables = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    },
+    }
 
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      },
+      }
 
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    },
+    }
 
     origin: ['Unknown'],
 
@@ -182,21 +182,21 @@ const rawOtherVegetables = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for cucumber'
-    },
+    }
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+    }
 
-    varieties: {},
+    varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  },
+  }
   okra: {
     name: 'okra',
 
@@ -205,7 +205,7 @@ const rawOtherVegetables = {
       Water: 0.2653922372557059,
       Earth: 0.07277572775727757,
       Air: 0.019876657099904334
-    },
+    }
 
     category: 'vegetable',
     subCategory: 'other',
@@ -217,7 +217,7 @@ const rawOtherVegetables = {
       protein_g: 1.93,
       vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
       minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
-    },
+    }
 
     season: ['spring', 'summer', 'fall', 'winter'],
 
@@ -230,16 +230,16 @@ const rawOtherVegetables = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    },
+    }
 
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      },
+      }
 
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    },
+    }
 
     origin: ['Unknown'],
 
@@ -247,21 +247,21 @@ const rawOtherVegetables = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for okra'
-    },
+    }
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+    }
 
-    varieties: {},
+    varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  },
+  }
   zucchini: {
     name: 'zucchini',
 
@@ -270,7 +270,7 @@ const rawOtherVegetables = {
       Water: 0.5121388172829056,
       Earth: 0.032703628178985034,
       Air: 0.034665845869724134
-    },
+    }
 
     category: 'vegetable',
     subCategory: 'other',
@@ -286,7 +286,7 @@ const rawOtherVegetables = {
       sugar_g: 2.5,
       glycemic_index: 15,
       notes: 'Low calorie and nutrient-dense'
-    },
+    }
 
     season: ['spring', 'summer', 'fall', 'winter'],
 
@@ -299,16 +299,16 @@ const rawOtherVegetables = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    },
+    }
 
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      },
+      }
 
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    },
+    }
 
     origin: ['Unknown'],
 
@@ -316,21 +316,21 @@ const rawOtherVegetables = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for zucchini'
-    },
+    }
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+    }
 
-    varieties: {},
+    varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  },
+  }
   peas: {
     name: 'petite peas',
 
@@ -339,7 +339,7 @@ const rawOtherVegetables = {
       Water: 0.2242992223845753,
       Earth: 0.025780554575838496,
       Air: 0.03369946759375892
-    },
+    }
 
     category: 'vegetable',
     subCategory: 'other',
@@ -351,7 +351,7 @@ const rawOtherVegetables = {
       protein_g: 5.42,
       vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
       minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
-    },
+    }
 
     season: ['spring', 'summer', 'fall', 'winter'],
 
@@ -364,16 +364,16 @@ const rawOtherVegetables = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    },
+    }
 
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      },
+      }
 
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    },
+    }
 
     origin: ['Unknown'],
 
@@ -381,21 +381,21 @@ const rawOtherVegetables = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for peas'
-    },
+    }
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+    }
 
-    varieties: {},
+    varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  },
+  }
   green_beans: {
     name: 'green beans',
 
@@ -404,7 +404,7 @@ const rawOtherVegetables = {
       Water: 0.22259392433970013,
       Earth: 0.0397632235254054,
       Air: 0.012630081830109875
-    },
+    }
 
     category: 'vegetable',
     subCategory: 'other',
@@ -416,7 +416,7 @@ const rawOtherVegetables = {
       protein_g: 1.83,
       vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
       minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
-    },
+    }
 
     season: ['spring', 'summer', 'fall', 'winter'],
 
@@ -429,16 +429,16 @@ const rawOtherVegetables = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    },
+    }
 
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      },
+      }
 
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    },
+    }
 
     origin: ['Unknown'],
 
@@ -446,21 +446,21 @@ const rawOtherVegetables = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for green_beans'
-    },
+    }
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+    }
 
-    varieties: {},
+    varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  },
+  }
   celery: {
     name: 'celery',
 
@@ -469,7 +469,7 @@ const rawOtherVegetables = {
       Water: 0.34187790998448014,
       Earth: 0.0538023797206415,
       Air: 0.004358510087946198
-    },
+    }
 
     category: 'vegetable',
     subCategory: 'other',
@@ -481,7 +481,7 @@ const rawOtherVegetables = {
       protein_g: 0.69,
       vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
       minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
-    },
+    }
 
     season: ['spring', 'summer', 'fall', 'winter'],
 
@@ -494,16 +494,16 @@ const rawOtherVegetables = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    },
+    }
 
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      },
+      }
 
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    },
+    }
 
     origin: ['Unknown'],
 
@@ -511,21 +511,21 @@ const rawOtherVegetables = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for celery'
-    },
+    }
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+    }
 
-    varieties: {},
+    varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  },
+  }
   fennel: {
     name: 'fennel',
 
@@ -534,7 +534,7 @@ const rawOtherVegetables = {
       Water: 0.6474929620330214,
       Earth: 0.0792817469375333,
       Air: 0.01914327018184585
-    },
+    }
 
     category: 'vegetable',
     subCategory: 'other',
@@ -546,7 +546,7 @@ const rawOtherVegetables = {
       protein_g: 1.24,
       vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
       minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
-    },
+    }
 
     season: ['spring', 'summer', 'fall', 'winter'],
 
@@ -559,16 +559,16 @@ const rawOtherVegetables = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    },
+    }
 
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      },
+      }
 
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    },
+    }
 
     origin: ['Unknown'],
 
@@ -576,21 +576,21 @@ const rawOtherVegetables = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for fennel'
-    },
+    }
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+    }
 
-    varieties: {},
+    varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  },
+  }
   kohlrabi: {
     name: 'kohlrabi',
 
@@ -599,7 +599,7 @@ const rawOtherVegetables = {
       Water: 0.6980816374177985,
       Earth: 0.05369858749367681,
       Air: 0.12156115023930894
-    },
+    }
 
     category: 'vegetable',
     subCategory: 'other',
@@ -611,7 +611,7 @@ const rawOtherVegetables = {
       protein_g: 1.7,
       vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
       minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
-    },
+    }
 
     season: ['spring', 'summer', 'fall', 'winter'],
 
@@ -624,16 +624,16 @@ const rawOtherVegetables = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    },
+    }
 
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      },
+      }
 
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    },
+    }
 
     origin: ['Unknown'],
 
@@ -641,21 +641,21 @@ const rawOtherVegetables = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for kohlrabi'
-    },
+    }
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+    }
 
-    varieties: {},
+    varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  },
+  }
   bok_choy: {
     name: 'bok choy',
 
@@ -664,7 +664,7 @@ const rawOtherVegetables = {
       Water: 0.05222352881026636,
       Earth: 0.02167799989774528,
       Air: 0.009221330333861648
-    },
+    }
 
     category: 'vegetable',
     subCategory: 'other',
@@ -676,7 +676,7 @@ const rawOtherVegetables = {
       protein_g: 1.5,
       vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
       minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
-    },
+    }
 
     season: ['spring', 'summer', 'fall', 'winter'],
 
@@ -689,16 +689,16 @@ const rawOtherVegetables = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    },
+    }
 
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      },
+      }
 
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    },
+    }
 
     origin: ['Unknown'],
 
@@ -706,21 +706,21 @@ const rawOtherVegetables = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for bok_choy'
-    },
+    }
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+    }
 
-    varieties: {},
+    varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
     }
-  },
+  }
   endive: {
     name: 'escarole',
 
@@ -729,7 +729,7 @@ const rawOtherVegetables = {
       Water: 0.12378591584428543,
       Earth: 0.021475453284068413,
       Air: 0.002704893753020595
-    },
+    }
 
     category: 'vegetable',
     subCategory: 'other',
@@ -741,7 +741,7 @@ const rawOtherVegetables = {
       protein_g: 1.25,
       vitamins: ['k', 'd', 'c', 'e', 'a', 'b3', 'b6', 'b12', 'b2', 'b5', 'b1'],
       minerals: ['zinc', 'magnesium', 'iron', 'potassium', 'calcium']
-    },
+    }
 
     season: ['spring', 'summer', 'fall', 'winter'],
 
@@ -754,16 +754,16 @@ const rawOtherVegetables = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    },
+    }
 
     culinaryProfile: {
       flavorProfile: {
         primary: ['balanced']
-      },
+      }
 
       cookingMethods: ['versatile'],
       cuisineAffinity: ['Global']
-    },
+    }
 
     origin: ['Unknown'],
 
@@ -771,22 +771,22 @@ const rawOtherVegetables = {
       methods: ['Standard'],
       timing: 'As needed',
       notes: 'Standard prep for endive'
-    },
+    }
 
     storage: {
       temperature: 'Cool, dry place',
       duration: '6-12 months',
       container: 'Airtight'
-    },
+    }
 
-    varieties: {},
+    varieties: {}
 
     astrologicalProfile: {
       rulingPlanets: [],
       favorableZodiac: []
     }
   }
-},
+}
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const _otherVegetables: Record<string, IngredientMapping> =

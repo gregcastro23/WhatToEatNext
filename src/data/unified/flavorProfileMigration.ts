@@ -9,7 +9,7 @@ import {
   ElementalProperties,
   PlanetName,
   Season
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 import type { CookingMethod } from '@/types/constants';
 import {_getCurrentElementalState} from '@/utils/elementalUtils';
 
@@ -40,7 +40,7 @@ import {_processAstrologicalData as processData} from '@/services/AstrologicalSe
 
 interface MigrationStats {
   totalProfiles: number,
-  byCategory: { [key: string]: number },
+  byCategory: { [key: string]: number }
   migrationTime: number,
   errors: string[],
   warnings: string[]
@@ -87,7 +87,7 @@ export class FlavorProfileMigration {
   public async migrateAllSystems(): Promise<MigrationStats> {
     // If migration already completed, return cached stats
     if (_isMigrationCompleted && _cachedMigrationStats) {
-      return { ..._cachedMigrationStats },
+      return { ..._cachedMigrationStats }
     }
 
     // If migration is currently running, wait for it to complete
@@ -136,7 +136,7 @@ export class FlavorProfileMigration {
         migrationTime,
         errors: [...this.migrationErrors],
         warnings: [...this.migrationWarnings]
-      },
+      }
 
       // Cache the profiles for future use
       _cachedProfiles = new Map(this.migratedProfiles)
@@ -148,7 +148,7 @@ export class FlavorProfileMigration {
       // Reset migration flag
       _isMigrationRunning = false;
 
-      return { ..._cachedMigrationStats },
+      return { ..._cachedMigrationStats }
     } catch (error) {
       this.migrationErrors.push(`Migration failed: ${error}`)
       _isMigrationRunning = false;
@@ -202,9 +202,9 @@ export class FlavorProfileMigration {
       planetaryResonance: this.getDefaultPlanetaryResonance(),
       cuisineCompatibility: this.getDefaultCuisineCompatibility(),
       cookingMethodAffinity: this.getDefaultCookingMethodAffinity(),
-      temperatureRange: { min: 10, max: 30 },
+      temperatureRange: { min: 10, max: 30 }
       avoidCombinations: []
-    },
+    }
   }
 
   // ===== CUISINE FLAVOR PROFILES MIGRATION =====
@@ -256,7 +256,7 @@ export class FlavorProfileMigration {
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
-      },
+      }
       intensity: this.calculateCuisineIntensity(cuisineData),
       complexity: this.calculateCuisineComplexity(cuisineData),
 
@@ -277,9 +277,9 @@ export class FlavorProfileMigration {
       planetaryResonance: this.getDefaultPlanetaryResonance(),
       cuisineCompatibility: this.getDefaultCuisineCompatibility(),
       cookingMethodAffinity: this.getDefaultCookingMethodAffinity(),
-      temperatureRange: { min: 10, max: 30 },
+      temperatureRange: { min: 10, max: 30 }
       avoidCombinations: []
-    },
+    }
   }
 
   // ===== PLANETARY FLAVOR PROFILES MIGRATION =====
@@ -327,7 +327,7 @@ export class FlavorProfileMigration {
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
-      },
+      }
       intensity: (planetData.intensity) || 0.5,
       complexity: (planetData.complexity) || 0.5,
 
@@ -348,9 +348,9 @@ export class FlavorProfileMigration {
       planetaryResonance: this.getDefaultPlanetaryResonance(),
       cuisineCompatibility: this.getDefaultCuisineCompatibility(),
       cookingMethodAffinity: this.getDefaultCookingMethodAffinity(),
-      temperatureRange: { min: 10, max: 30 },
+      temperatureRange: { min: 10, max: 30 }
       avoidCombinations: []
-    },
+    }
   }
 
   // ===== INTEGRATION FLAVOR PROFILES MIGRATION =====
@@ -400,7 +400,7 @@ export class FlavorProfileMigration {
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
-      },
+      }
       intensity: Number(flavorData.intensity) || 0.5,
       complexity: 0.5,
 
@@ -426,9 +426,9 @@ export class FlavorProfileMigration {
       planetaryResonance: this.getDefaultPlanetaryResonance(),
       cuisineCompatibility: this.getDefaultCuisineCompatibility(),
       cookingMethodAffinity: this.getDefaultCookingMethodAffinity(),
-      temperatureRange: { min: 10, max: 30 },
+      temperatureRange: { min: 10, max: 30 }
       avoidCombinations: []
-    },
+    }
   }
 
   // ===== INGREDIENT FLAVOR PROFILES MIGRATION =====
@@ -472,7 +472,7 @@ export class FlavorProfileMigration {
       category: 'ingredient',
 
       baseNotes: this.extractIngredientBaseNotes(flavorData),
-      elementalFlavors: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      elementalFlavors: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
       intensity: this.calculateIngredientIntensity(flavorData),
       complexity: this.calculateIngredientComplexity(flavorData),
 
@@ -493,9 +493,9 @@ export class FlavorProfileMigration {
       planetaryResonance: this.getDefaultPlanetaryResonance(),
       cuisineCompatibility: this.getDefaultCuisineCompatibility(),
       cookingMethodAffinity: this.getDefaultCookingMethodAffinity(),
-      temperatureRange: { min: 10, max: 30 },
+      temperatureRange: { min: 10, max: 30 }
       avoidCombinations: []
-    },
+    }
   }
 
   // ===== DATA EXTRACTION HELPERS =====
@@ -513,7 +513,7 @@ export class FlavorProfileMigration {
       bitter: Number(profileData.bitter) || Number(flavorProfiles.bitter) || 0,
       umami: Number(profileData.umami) || Number(flavorProfiles.umami) || 0,
       spicy: Number(profileData.spicy) || Number(flavorProfiles.spicy) || 0
-    },
+    }
 
     return baseNotes,
   }
@@ -523,7 +523,7 @@ export class FlavorProfileMigration {
     if (profileData.elementalFlavors) return profileData.elementalFlavors as ElementalProperties,
     if (profileData.elementalState) return profileData.elementalState as ElementalProperties
 
-    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
   }
 
   private extractAlchemicalProperties(profile: unknown): AlchemicalProperties {
@@ -576,7 +576,7 @@ export class FlavorProfileMigration {
         bitter: cuisineData.flavorProfiles.bitter || 0,
         umami: cuisineData.flavorProfiles.umami || 0,
         spicy: cuisineData.flavorProfiles.spicy || 0
-      },
+      }
     }
 
     if (cuisineData.flavorIntensities) {
@@ -587,7 +587,7 @@ export class FlavorProfileMigration {
         bitter: cuisineData.flavorIntensities.bitter || 0,
         umami: cuisineData.flavorIntensities.umami || 0,
         spicy: cuisineData.flavorIntensities.spicy || 0
-      },
+      }
     }
 
     return this.getDefaultBaseNotes()
@@ -641,7 +641,7 @@ export class FlavorProfileMigration {
         bitter: Number(flavorProfiles.bitter) || 0,
         umami: Number(flavorProfiles.umami) || 0,
         spicy: Number(flavorProfiles.spicy) || 0
-      },
+      }
     }
 
     return this.getDefaultBaseNotes()
@@ -670,7 +670,7 @@ export class FlavorProfileMigration {
       bitter: 'bitter',
       umami: 'umami',
       spicy: 'spicy'
-    },
+    }
 
     const mappedFlavor = flavorMap[flavorName.toLowerCase()];
     if (mappedFlavor) {
@@ -690,7 +690,7 @@ export class FlavorProfileMigration {
       bitter: Number(flavorData.bitter) || 0,
       umami: Number(flavorData.umami) || 0,
       spicy: Number(flavorData.spicy) || 0
-    },
+    }
   }
 
   private calculateIngredientIntensity(flavorData: Record<string, unknown>): number {
@@ -712,7 +712,7 @@ export class FlavorProfileMigration {
   // ===== DEFAULT VALUES =====
 
   private getDefaultAlchemicalProperties(): AlchemicalValues {
-    return { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 },
+    return { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 }
   }
 
   private getDefaultPlanetaryResonance(): Record<PlanetName, PlanetaryFlavorInfluence> {
@@ -730,7 +730,7 @@ export class FlavorProfileMigration {
           complexityBonus: 0.0,
           harmonicResonance: 0.5,
           temperatureOptimal: 20
-        },
+        }
         seasonalVariation: {
           spring: 1.0,
           summer: 1.0,
@@ -738,7 +738,7 @@ export class FlavorProfileMigration {
           fall: 1.0,
           winter: 1.0,
           all: 1.0
-        },
+        }
         monicaOptimization: 1.0,
         optimalTiming: {
           planetaryHour: false,
@@ -761,7 +761,7 @@ export class FlavorProfileMigration {
         culturalSignificance: 'Universal appeal',
         preparationMethods: []
       }
-    },
+    }
   }
 
   private getDefaultCookingMethodAffinity(): Record<CookingMethod, number> {
@@ -787,7 +787,7 @@ export class FlavorProfileMigration {
   }
 
   private getDefaultBaseNotes(): BaseFlavorNotes {
-    return { sweet: 0, sour: 0, salty: 0, bitter: 0, umami: 0, spicy: 0 },
+    return { sweet: 0, sour: 0, salty: 0, bitter: 0, umami: 0, spicy: 0 }
   }
 
   private getDefaultSeasonalModifiers(): Record<Season, number> {
@@ -808,7 +808,7 @@ export class FlavorProfileMigration {
       elemental: 'elemental',
       ingredient: 'ingredient',
       'cooking-method': 'fusion'
-    },
+    }
 
     return categoryMap[category] || 'elemental',
   }
@@ -873,7 +873,7 @@ export class FlavorProfileMigration {
   }
 
   private getCategoryStats(): { [key: string]: number } {
-    const stats: { [key: string]: number } = {},
+    const stats: { [key: string]: number } = {}
 
     for (const profile of this.migratedProfiles.values()) {
       stats[profile.category] = (stats[profile.category] || 0) + 1,
@@ -913,7 +913,7 @@ export async function runFlavorProfileMigration(): Promise<MigrationStats> {
 
   // Return cached results if available
   if (_cachedMigrationStats && !_isMigrationRunning) {
-    return { ..._cachedMigrationStats },
+    return { ..._cachedMigrationStats }
   }
 
   return await _migrationInstance.migrateAllSystems()
@@ -945,4 +945,4 @@ export default {
   runFlavorProfileMigration,
   getMigratedFlavorProfiles,
   getMigratedProfilesByCategory
-},
+}

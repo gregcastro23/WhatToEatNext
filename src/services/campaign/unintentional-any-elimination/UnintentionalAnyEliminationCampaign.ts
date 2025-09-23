@@ -9,7 +9,7 @@ import {
   ProgressMetrics,
   SafetyEventSeverity,
   SafetyEventType
-} from '../../../types/campaign',
+} from '../../../types/campaign';
 import { ProgressTracker } from '../ProgressTracker';
 import { SafetyProtocol } from '../SafetyProtocol';
 
@@ -37,7 +37,7 @@ export class UnintentionalAnyEliminationCampaign {
       safetyLevel: 'CONSERVATIVE',
       validationFrequency: 5,
       ...config
-    },
+    }
 
     this.engine = new ProgressiveImprovementEngine()
     this.progressTracker = new ProgressTracker()
@@ -80,7 +80,7 @@ export class UnintentionalAnyEliminationCampaign {
               maxFiles: this.config.maxFilesPerBatch,
               analysisOnly: true,
               confidenceThreshold: this.config.confidenceThreshold
-            },
+            }
             batchSize: this.config.maxFilesPerBatch
             // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
             safetyLevel: 'MAXIMUM' as any
@@ -91,7 +91,7 @@ export class UnintentionalAnyEliminationCampaign {
             // Validate that analysis completed without errors
             return true
           }
-        },
+        }
         safetyCheckpoints: [
           {
             id: 'pre-analysis',
@@ -101,7 +101,7 @@ export class UnintentionalAnyEliminationCampaign {
             description: 'Pre-analysis checkpoint'
           }
         ]
-      },
+      }
       {
         id: 'unintentional-any-replacement',
         name: 'Unintentional Any Type Replacement',
@@ -114,7 +114,7 @@ export class UnintentionalAnyEliminationCampaign {
               enableReplacement: true,
               confidenceThreshold: this.config.confidenceThreshold,
               targetReduction: this.config.targetReductionPercentage
-            },
+            }
             batchSize: this.config.maxFilesPerBatch
             // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
             safetyLevel: 'MAXIMUM' as any
@@ -126,7 +126,7 @@ export class UnintentionalAnyEliminationCampaign {
             const currentCount = await this.progressTracker.getTypeScriptErrorCount()
             return currentCount >= 0, // Basic validation that build still works
           }
-        },
+        }
         safetyCheckpoints: [
           {
             id: 'pre-replacement',
@@ -134,7 +134,7 @@ export class UnintentionalAnyEliminationCampaign {
             stashId: '',
             metrics: {} as ProgressMetrics,
             description: 'Pre-replacement checkpoint'
-          },
+          }
           {
             id: 'mid-replacement',
             timestamp: new Date(),
@@ -143,7 +143,7 @@ export class UnintentionalAnyEliminationCampaign {
             description: 'Mid-replacement checkpoint'
           }
         ]
-      },
+      }
       {
         id: 'intentional-any-documentation',
         name: 'Intentional Any Type Documentation',
@@ -155,7 +155,7 @@ export class UnintentionalAnyEliminationCampaign {
               enableDocumentation: this.config.enableDocumentation,
               documentationStyle: 'comprehensive',
               qualityAssurance: true
-            },
+            }
             batchSize: this.config.maxFilesPerBatch
             // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
             safetyLevel: 'HIGH' as any
@@ -166,7 +166,7 @@ export class UnintentionalAnyEliminationCampaign {
             // Validate that documentation was added
             return true
           }
-        },
+        }
         safetyCheckpoints: [
           {
             id: 'pre-documentation',
@@ -240,7 +240,7 @@ export class UnintentionalAnyEliminationCampaign {
             warnings: []
           }
         ]
-      },
+      }
     }
   }
 
@@ -277,13 +277,13 @@ export class UnintentionalAnyEliminationCampaign {
           lintingWarningsReduced: result.unintentionalTypesReplaced,
           buildTimeImproved: 0,
           enterpriseSystemsAdded: 0
-        },
+        }
         filesProcessed: result.totalAnyTypesAnalyzed,
         errorsFixed: result.unintentionalTypesReplaced,
         warningsFixed: result.unintentionalTypesReplaced,
         executionTime,
         safetyEvents: result.safetyEvents
-      },
+      }
     } catch (error) {
       const executionTime = Date.now() - startTime;
 
@@ -295,7 +295,7 @@ export class UnintentionalAnyEliminationCampaign {
           lintingWarningsReduced: 0,
           buildTimeImproved: 0,
           enterpriseSystemsAdded: 0
-        },
+        }
         filesProcessed: 0,
         errorsFixed: 0,
         warningsFixed: 0,
@@ -309,7 +309,7 @@ export class UnintentionalAnyEliminationCampaign {
             action: 'PHASE_FAILURE'
           }
         ]
-      },
+      }
     }
   }
 
@@ -321,7 +321,7 @@ export class UnintentionalAnyEliminationCampaign {
       ...this.config,
       maxFilesPerBatch: Math.min(this.config.maxFilesPerBatch, 10), // More conservative for analysis,
       confidenceThreshold: 0.9, // Higher threshold for analysis phase
-    },
+    }
 
     // Execute a single batch for analysis
     const batchMetrics = await this.engine.executeBatch(analysisConfig)
@@ -343,7 +343,7 @@ export class UnintentionalAnyEliminationCampaign {
           warnings: []
         }
       ]
-    },
+    }
   }
 
   private async executeReplacementPhase(): Promise<UnintentionalAnyCampaignResult> {
@@ -395,7 +395,7 @@ export class UnintentionalAnyEliminationCampaign {
                 : []
           }
         ]
-      },
+      }
     } catch (error) {
       _logger.error('Documentation phase failed:', error),
 
@@ -436,7 +436,7 @@ export class UnintentionalAnyEliminationCampaign {
    * Update configuration
    */
   updateConfig(newConfig: Partial<UnintentionalAnyConfig>): void {
-    this.config = { ...this.config, ...newConfig },
+    this.config = { ...this.config, ...newConfig }
   }
 
   /**

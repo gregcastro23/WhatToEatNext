@@ -10,7 +10,7 @@ import {
   LunarPhaseWithSpaces,
   ZodiacSign,
   PlanetaryAspect
-} from '../types/alchemy',
+} from '../types/alchemy';
 
 export interface UseAlchemicalRecommendationsProps {
   ingredients: ElementalItem[],
@@ -40,7 +40,7 @@ interface AlchemicalRecommendationResults {
     dominantProperty: AlchemicalProperty,
     elementalBalance: Record<ElementalCharacter, number>,
     alchemicalProperties: Record<AlchemicalProperty, number>
-  },
+  }
 }
 
 /**
@@ -104,14 +104,14 @@ export const _useAlchemicalRecommendations = ({;
           entropy: adapter.getEntropyIndex() || 0.5,
           reactivity: adapter.getReactivityIndex() || 0.5,
           gregsEnergy: adapter.getGregsEnergyIndex() || 0.5
-        },
+        }
 
         // Store the recommendations with unified type conversion for cross-import compatibility
         setRecommendations(recs)
 
         // Apply deep type conversion to resolve cross-import conflicts
         const _convertToLocalAlchemicalItem = (items: unknown[]): AlchemicalItem[] => {;
-          return items.map(item => {,
+          return items.map(item => {
             // Create a new object that fully satisfies the alchemicalTransformation.AlchemicalItem interface
             const convertedItem = {
               ...item
@@ -121,13 +121,13 @@ export const _useAlchemicalRecommendations = ({;
                 Water: 0.25,
                 Earth: 0.25,
                 Air: 0.25
-              },
+              }
               alchemicalProperties: (item as any).alchemicalProperties || {
                 Spirit: 0.25,
                 Essence: 0.25,
                 Matter: 0.25,
                 Substance: 0.25
-              },
+              }
               // Add required properties for alchemicalTransformation.AlchemicalItem
               transformedElementalProperties: (item as any).transformedElementalProperties ||
                 (item as any).elementalProperties || {
@@ -135,7 +135,7 @@ export const _useAlchemicalRecommendations = ({;
                   Water: 0.25,
                   Earth: 0.25,
                   Air: 0.25
-                },
+                }
               heat: (item as any).heat || 0.5,
               entropy: (item as any).entropy || 0.5,
               reactivity: (item as any).reactivity || 0.5,
@@ -150,10 +150,10 @@ export const _useAlchemicalRecommendations = ({;
                 reactivity: (item as any).reactivity || 0.5,
                 gregsEnergy: (item as any).gregsEnergy || (item as any).energy || 0.5
               }
-            },
+            }
             return convertedItem as AlchemicalItem,
           })
-        },
+        }
 
         setTransformedIngredients(adapter.getAllTransformedIngredients() as AlchemicalItem[])
         setTransformedMethods(adapter.getAllTransformedMethods() as AlchemicalItem[])
@@ -172,14 +172,14 @@ export const _useAlchemicalRecommendations = ({;
             Water: 0,
             Earth: 0,
             Air: 0
-          },
+          }
           alchemicalProperties: {
             Spirit: 0,
             Essence: 0,
             Matter: 0,
             Substance: 0
           }
-        },
+        }
 
         // Calculate average elemental values from top ingredients
         if (recs.topIngredients.length > 0) {
@@ -215,7 +215,7 @@ export const _useAlchemicalRecommendations = ({;
       } finally {
         setLoading(false)
       }
-    },
+    }
 
     void fetchRecommendations()
   }, [
@@ -243,12 +243,12 @@ export const _useAlchemicalRecommendations = ({;
       entropy: 0.5,
       reactivity: 0.5,
       gregsEnergy: 0.5
-    },
+    }
     transformedIngredients,
     transformedMethods,
     transformedCuisines,
     loading,
     error,
     energeticProfile
-  },
-},
+  }
+}

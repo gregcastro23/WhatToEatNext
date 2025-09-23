@@ -47,7 +47,7 @@ export const italianSauces: Record<string, Sauce> = {
       Earth: 0.3,
       Water: 0.2,
       Air: 0.1
-    },
+    }
     astrologicalInfluences: ['Mars', 'Sun', 'leo'],
     seasonality: 'all',
     preparationNotes: 'Best when made with San Marzano tomatoes for authentic flavor',
@@ -80,7 +80,7 @@ export const italianSauces: Record<string, Sauce> = {
     cookTime: '30 minutes',
     difficulty: 'Easy',
     yield: 'Makes about 3 cups'
-  },
+  }
   pesto: {
     name: 'Pesto alla Genovese',
     description:
@@ -101,7 +101,7 @@ export const italianSauces: Record<string, Sauce> = {
       Earth: 0.3,
       Fire: 0.2,
       Water: 0.1
-    },
+    }
     astrologicalInfluences: ['Mercury', 'Venus', 'gemini'],
     seasonality: 'summer',
     preparationNotes: 'Traditionally made in a marble mortar with wooden pestle',
@@ -128,7 +128,7 @@ export const italianSauces: Record<string, Sauce> = {
     cookTime: '0 minutes',
     difficulty: 'Easy',
     yield: 'Makes about 1 cup'
-  },
+  }
   carbonara: {
     name: 'Carbonara',
     description:
@@ -146,7 +146,7 @@ export const italianSauces: Record<string, Sauce> = {
       Air: 0.3,
       Fire: 0.2,
       Water: 0.1
-    },
+    }
     astrologicalInfluences: ['Jupiter', 'Mars', 'aries'],
     seasonality: 'all',
     preparationNotes: 'Never add cream - authentic carbonara is creamy from eggs alone',
@@ -179,7 +179,7 @@ export const italianSauces: Record<string, Sauce> = {
     cookTime: '15 minutes',
     difficulty: 'Medium',
     yield: 'Serves 4'
-  },
+  }
   ragu: {
     name: 'Ragù alla Bolognese',
     description:
@@ -193,7 +193,7 @@ export const italianSauces: Record<string, Sauce> = {
       Fire: 0.3,
       Water: 0.1,
       Air: 0.1
-    },
+    }
     astrologicalInfluences: ['Saturn', 'Mars', 'taurus'],
     seasonality: 'autumn, winter',
     preparationNotes: 'True Bolognese takes hours of gentle simmering for depth of flavor',
@@ -235,7 +235,7 @@ export const italianSauces: Record<string, Sauce> = {
     cookTime: '3-4 hours',
     difficulty: 'Medium',
     yield: 'Makes about 6 cups (enough for 8-10 servings)'
-  },
+  }
   bechamel: {
     name: 'Besciamella',
     description:
@@ -254,7 +254,7 @@ export const italianSauces: Record<string, Sauce> = {
       Earth: 0.4,
       Air: 0.1,
       Fire: 0.1
-    },
+    }
     astrologicalInfluences: ['Moon', 'Venus', 'cancer'],
     seasonality: 'all',
     preparationNotes: 'For silky texture, add hot milk to roux gradually while whisking constantly',
@@ -288,7 +288,7 @@ export const italianSauces: Record<string, Sauce> = {
     cookTime: '25 minutes',
     difficulty: 'Medium',
     yield: 'Makes about 4 cups'
-  },
+  }
   arrabbiata: {
     name: 'Arrabbiata',
     description:
@@ -301,7 +301,7 @@ export const italianSauces: Record<string, Sauce> = {
       Earth: 0.2,
       Water: 0.1,
       Air: 0.0
-    },
+    }
     astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
     seasonality: 'all',
     preparationNotes: 'The name means 'angry' in Italian, referring to the spiciness',
@@ -334,7 +334,7 @@ export const italianSauces: Record<string, Sauce> = {
     difficulty: 'Easy',
     yield: 'Makes about 3 cups'
   }
-},
+}
 
 // Mexican sauces
 export const mexicanSauces: Record<string, Sauce> = {
@@ -351,7 +351,7 @@ export const mexicanSauces: Record<string, Sauce> = {
       Fire: 0.4,
       Water: 0.1,
       Air: 0.1
-    },
+    }
     astrologicalInfluences: ['Mars', 'Pluto', 'Scorpio'],
     seasonality: 'all',
     cuisine: 'Mexican',
@@ -395,7 +395,7 @@ export const mexicanSauces: Record<string, Sauce> = {
     cookTime: '1 hour',
     difficulty: 'Complex',
     yield: 'Makes about 4 cups'
-  },
+  }
   salsa: {
     name: 'Salsa Roja',
     description:
@@ -409,7 +409,7 @@ export const mexicanSauces: Record<string, Sauce> = {
       Water: 0.3,
       Earth: 0.1,
       Air: 0.1
-    },
+    }
     astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
     seasonality: 'all',
     cuisine: 'Mexican',
@@ -448,7 +448,7 @@ export const mexicanSauces: Record<string, Sauce> = {
     difficulty: 'Easy',
     yield: 'Makes about 3 cups'
   }
-},
+}
 
 // Asian sauces
 export const asianSauces: Record<string, Sauce> = {
@@ -465,7 +465,7 @@ export const asianSauces: Record<string, Sauce> = {
       Water: 0.2,
       Air: 0.2,
       Earth: 0.1
-    },
+    }
     astrologicalInfluences: ['Mars', 'Mercury', 'Leo'],
     seasonality: 'all',
     cuisine: 'Thai',
@@ -497,7 +497,7 @@ export const asianSauces: Record<string, Sauce> = {
     difficulty: 'Medium',
     yield: 'Makes about 1 cup of curry paste (enough for 3-4 curries)'
   }
-},
+}
 
 // Consolidate all sauces
 export const allSauces: Record<string, Sauce> = {
@@ -505,7 +505,7 @@ export const allSauces: Record<string, Sauce> = {
   ...mexicanSauces,
   ...asianSauces,
   // Add other cuisine sauces as they become available
-},
+}
 
 // Sauce recommendations
 export const sauceRecommendations: SauceRecommendation = {
@@ -521,21 +521,21 @@ export const sauceRecommendations: SauceRecommendation = {
     chicken: ['cacciatore', 'piccata', 'marsala', 'salt-crusted herbs', 'mole'],
     fish: ['acqua pazza', 'salmoriglio', 'livornese', 'al limone'],
     vegetarian: ['pesto', 'pomodoro', 'aglio e olio', 'burro e salvia']
-  },
+  }
   forVegetable: {
     leafy: ['aglio e olio', 'parmigiano', 'lemon butter', 'anchovy'],
     root: ['besciamella', 'gremolata', 'herbed butter', 'balsamic glaze'],
     nightshades: ['marinara', 'alla Norma', 'sugo di pomodoro', 'caponata'],
     squash: ['brown butter sage', 'gorgonzola cream', 'agrodolce', 'walnut pesto'],
     mushroom: ['porcini sauce', 'marsala', 'truffle oil', 'white wine garlic']
-  },
+  }
   forCookingMethod: {
     grilling: ['salmoriglio', 'rosemary oil', 'balsamic glaze', 'salsa verde'],
     baking: ['marinara', 'besciamella', 'pesto', 'ragù'],
     frying: ['aioli', 'lemon dip', 'arrabiata', 'garlic-herb dip'],
     braising: ['osso buco sauce', 'wine reduction', 'pomodoro', 'cacciatora'],
     raw: ['pinzimonio', 'olio nuovo', 'citronette', 'bagna cauda']
-  },
+  }
   byAstrological: {
     fire: [
       'arrabiata',
@@ -547,20 +547,20 @@ export const sauceRecommendations: SauceRecommendation = {
     earth: ['mushroom ragu', 'tartufo', 'carbonara', 'ragù alla Bolognese', 'mole'],
     air: ['lemon sauces', 'herb oils', 'white wine sauce', 'pesto'],
     water: ['seafood sauces', 'acqua pazza', 'clam sauce', 'besciamella']
-  },
+  }
   byRegion: {
     northern: ['pesto alla Genovese', 'bagna cauda', 'fonduta', 'ragù alla Bolognese'],
     central: ['carbonara', 'cacio e pepe', 'amatriciana', 'sugo finto'],
     southern: ['marinara', 'puttanesca', 'aglio e olio', 'alla Norma'],
     insular: ['sarde a beccafico', 'nero di seppia', 'bottarga', 'caponata']
-  },
+  }
   byDietary: {
     vegetarian: ['pomodoro', 'pesto', 'aglio e olio', 'burro e salvia'],
     vegan: ['marinara', 'pomodoro', 'aglio e olio', 'salsa verde'],
     glutenFree: ['salsa verde', 'salmoriglio', 'sugo di pomodoro', 'lemon sauce'],
     dairyFree: ['marinara', 'aglio e olio', 'puttanesca', 'arrabbiata']
   }
-},
+}
 
 // Helper functions
 export function getSaucesByAstrologicalInfluence(influence: string): Sauce[] {
@@ -592,6 +592,6 @@ const saucesExport = {
   getSaucesByAstrologicalInfluence,
   getSaucesByElement,
   getMarsInfluencedSauces
-},
+}
 
 export default saucesExport,

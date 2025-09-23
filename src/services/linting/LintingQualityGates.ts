@@ -24,18 +24,18 @@ export interface QualityGateConfig {
     maxExecutionTime: number, // milliseconds,
     minCacheHitRate: number, // percentage,
     maxMemoryUsage: number, // MB
-  },
+  }
   blockers: {
     parserErrors: boolean,
     typeScriptErrors: boolean,
     importErrors: boolean;
     securityIssues: boolean
-  },
+  }
   exemptions: {
     files: string[],
     rules: string[],
     temporaryUntil?: Date
-  },
+  }
 }
 
 /**
@@ -78,7 +78,7 @@ export interface DeploymentReadiness {
     level: 'low' | 'medium' | 'high' | 'critical',
     factors: string[],
     mitigations: string[]
-  },
+  }
 }
 
 /**
@@ -130,7 +130,7 @@ export class LintingQualityGates {
         recommendations,
         deploymentApproved,
         riskLevel
-      },
+      }
 
       // Save results
       this.saveQualityGateResult(result)
@@ -176,7 +176,7 @@ export class LintingQualityGates {
         warnings,
         qualityScore,
         riskAssessment
-      },
+      }
 
       logger.info('Deployment readiness assessment:', {
         ready: readiness.ready,
@@ -197,18 +197,18 @@ export class LintingQualityGates {
    */
   async createCICDReport(): Promise<{
     timestamp: string,
-    deployment: { approved: boolean, confidence: number, qualityScore: number },
+    deployment: { approved: boolean, confidence: number, qualityScore: number }
     metrics: {
       totalIssues: number,
       errors: number,
       warnings: number,
       fixableIssues: number
-    },
+    }
     qualityGates: {
       passed: boolean,
       riskLevel: 'low' | 'medium' | 'high' | 'critical',
       violationCount: number
-    },
+    }
     blockers: string[]
     recommendations?: string[],
     performance: { executionTime: number, memoryUsage: number, cacheHitRate: number }
@@ -223,18 +223,18 @@ export class LintingQualityGates {
           approved: readiness.ready,
           confidence: readiness.confidence,
           qualityScore: readiness.qualityScore
-        },
+        }
         metrics: {
           totalIssues: gateResult.metrics.totalIssues,
           errors: gateResult.metrics.errors,
           warnings: gateResult.metrics.warnings,
           fixableIssues: gateResult.metrics.fixableIssues
-        },
+        }
         qualityGates: {
           passed: gateResult.passed,
           riskLevel: gateResult.riskLevel,
           violationCount: gateResult.violations.length
-        },
+        }
         blockers: readiness.blockers,
         recommendations: gateResult.recommendations,
         performance: {
@@ -242,7 +242,7 @@ export class LintingQualityGates {
           memoryUsage: gateResult.metrics.performanceMetrics.memoryUsage,
           cacheHitRate: gateResult.metrics.performanceMetrics.cacheHitRate
         }
-      },
+      }
 
       // Save CI/CD report
       this.saveCICDReport(report)
@@ -267,7 +267,7 @@ export class LintingQualityGates {
       const history = this.getQualityGateHistory()
       if (history.length < 2) {
         return {
-          trends: {},
+          trends: {}
           overallTrend: 'stable',
           recommendations: ['Need more historical data'],
           alertLevel: 'none'
@@ -282,7 +282,7 @@ export class LintingQualityGates {
           recent.map(r => r.metrics.performanceMetrics.executionTime),,
         ),
         qualityTrend: this.calculateTrend(recent.map(r => this.calculateQualityScore(r.metrics))),,
-      },
+      }
 
       const overallTrend = this.determineOverallTrend(trends)
 
@@ -291,7 +291,7 @@ export class LintingQualityGates {
         overallTrend,
         recommendations: this.generateTrendRecommendations(trends),
         alertLevel: this.calculateAlertLevel(trends)
-      },
+      }
     } catch (error) {
       logger.error('Error monitoring quality trends:', error),
       throw error
@@ -478,7 +478,7 @@ export class LintingQualityGates {
       level: gateResult.riskLevel
       factors,
       mitigations
-    },
+    }
   }
 
   private async checkForParserErrors(): Promise<
@@ -587,18 +587,18 @@ export class LintingQualityGates {
         maxExecutionTime: 60000,
         minCacheHitRate: 70,
         maxMemoryUsage: 512
-      },
+      }
       blockers: {
         parserErrors: true,
         typeScriptErrors: true,
         importErrors: true;
         securityIssues: true
-      },
+      }
       exemptions: {
         files: [],
         rules: []
       }
-    },
+    }
   }
 
   /**

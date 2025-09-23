@@ -164,7 +164,7 @@ export const CUISINE_ALIASES: Record<string, PrimaryCuisineType> = {
   siberian: 'Russian',
   caucasian: 'Russian',
   centralasian: 'Russian'
-},
+}
 
 // ========== ALIAS RESOLUTION FUNCTIONS ==========,
 

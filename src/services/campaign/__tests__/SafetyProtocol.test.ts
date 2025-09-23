@@ -13,7 +13,7 @@ import {
     SafetyEventSeverity,
     SafetyEventType,
     SafetySettings
-} from '../../../types/campaign',
+} from '../../../types/campaign';
 import { SafetyProtocol } from '../SafetyProtocol';
 
 // Mock dependencies
@@ -35,7 +35,7 @@ describe('SafetyProtocol', () => {
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
       stashRetentionDays: 7
-    },
+    }
 
     safetyProtocol = new SafetyProtocol(mockSettings)
 
@@ -105,7 +105,7 @@ describe('SafetyProtocol', () => {
       // Mock git validation failure
       jest
         spyOn(
-          safetyProtocol as unknown as { validateGitState: () => Promise<{ success: boolean }> },
+          safetyProtocol as unknown as { validateGitState: () => Promise<{ success: boolean }> }
           'validateGitState',
         )
         .mockResolvedValue({
@@ -143,7 +143,7 @@ describe('SafetyProtocol', () => {
         timestamp: new Date(),
         branch: 'main',
         ref: 'stash@{0}'
-      },
+      }
 
       // Add stash to internal map
       (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes.set('test-stash-1', mockStash)
@@ -151,7 +151,7 @@ describe('SafetyProtocol', () => {
       // Mock git validation
       jest
         .spyOn(
-          safetyProtocol as unknown as { validateGitState: () => Promise<{ success: boolean }> },
+          safetyProtocol as unknown as { validateGitState: () => Promise<{ success: boolean }> }
           'validateGitState',
         )
         .mockResolvedValue({
@@ -209,14 +209,14 @@ describe('SafetyProtocol', () => {
         timestamp: new Date('2023-01-01'),
         branch: 'main',
         ref: 'stash@{1}',
-      },
+      }
       const stash2: any = {
         id: 'stash-2',
         description: 'Latest stash',
         timestamp: new Date('2023-01-02'),
         branch: 'main',
         ref: 'stash@{0}',
-      },
+      }
 
       const stashMap: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes,
       stashMap.set('stash-1', stash1)
@@ -341,7 +341,7 @@ describe('SafetyProtocol', () => {
     it('should detect empty import statements', async () => {
       mockFs.readFileSync.mockReturnValue(`
 import something, { ab } from './module';
-        export { },
+        export { }
       `)
 
       const report: any = await safetyProtocol.detectImportExportCorruption(['file1.ts'])
@@ -375,7 +375,7 @@ import something, { ab } from './module';
 
     it('should detect double commas in destructuring', async () => {
       mockFs.readFileSync.mockReturnValue(`
-        export { x,, y },
+        export { x,, y };
       `)
 
       const report: any = await safetyProtocol.detectImportExportCorruption(['file1.ts'])
@@ -418,7 +418,7 @@ import something, { ab } from './module';
 
     it('should handle TypeScript compilation errors', async () => {
       mockExecSync.mockImplementation(() => {
-        const error: any = new Error('TypeScript compilation failed') as Error & { stdout?: string },
+        const error: any = new Error('TypeScript compilation failed') as Error & { stdout?: string }
         (error as any).stdout = 'Unexpected token at line 5',
         throw error,
       })
@@ -445,7 +445,7 @@ import something, { ab } from './module';
         timestamp: new Date(),
         branch: 'main',
         ref: 'stash@{0}',
-      },
+      }
 
       (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes.set('emergency-stash', stash)
       jest.spyOn(safetyProtocol, 'applyStash').mockResolvedValue()
@@ -507,7 +507,7 @@ import something, { ab } from './module';
       mockFs.existsSync.mockReturnValue(true)
       mockExecSync.mockReturnValue('M file1.ts\nA file2.ts'), // Uncommitted changes
 
-      const settingsWithoutAutoRollback: any = { ...mockSettings, automaticRollbackEnabled: false },
+      const settingsWithoutAutoRollback: any = { ...mockSettings, automaticRollbackEnabled: false }
       const protocol: any = new SafetyProtocol(settingsWithoutAutoRollback)
 
       const result: any = await protocol.validateGitState()
@@ -542,7 +542,7 @@ import something, { ab } from './module';
         timestamp: oldDate,
         branch: 'main',
         ref: 'stash@{1}',
-      },
+      }
 
       const recentStash: any = {
         id: 'recent-stash',
@@ -550,7 +550,7 @@ import something, { ab } from './module';
         timestamp: recentDate,
         branch: 'main',
         ref: 'stash@{0}',
-      },
+      }
 
       const stashMap: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes,
       stashMap.set('old-stash', oldStash)
@@ -602,21 +602,21 @@ import something, { ab } from './module';
         description: 'Phase 1 stash',
         timestamp: new Date('2023-01-01'),
         branch: 'main',
-      },
+      }
 
       const stash2: any = {
         id: 'campaign-phase2-2-timestamp',
         description: 'Phase 2 stash',
         timestamp: new Date('2023-01-02'),
         branch: 'main',
-      },
+      }
 
       const stash3: any = {
         id: 'campaign-phase1-3-timestamp',
         description: 'Another Phase 1 stash',
         timestamp: new Date('2023-01-03'),
         branch: 'main',
-      },
+      }
 
       const stashMap: any = (safetyProtocol as unknown as { stashes: Map<string, GitStash> }).stashes,
       stashMap.set('stash1', stash1)

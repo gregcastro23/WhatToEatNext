@@ -14,7 +14,7 @@ import {
   CUISINE_ALIASES,
   type PrimaryCuisineType,
   type AllCuisineTypes
-} from '@/types/cuisineAliases',
+} from '@/types/cuisineAliases';
 
 /**
  * Resolves a cuisine name to its standardized primary cuisine type
@@ -181,4 +181,4 @@ export function getCuisineSuggestions(partialName: string): string[] {
 }
 
 // Re-export types for convenience
-export type { PrimaryCuisineType, AllCuisineTypes },
+export type { PrimaryCuisineType, AllCuisineTypes }

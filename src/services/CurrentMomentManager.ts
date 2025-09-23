@@ -11,7 +11,7 @@ import path from 'path';
 import {
   getCurrentPlanetaryPositions,
   getPlanetaryPositionsForDateTime
-} from '@/services/astrologizeApi',
+} from '@/services/astrologizeApi';
 import { ZodiacSign } from '@/types/alchemy';
 import {_PlanetaryPosition, CelestialPosition} from '@/types/celestial';
 import {PlanetPosition} from '@/utils/astrologyUtils';
@@ -27,13 +27,13 @@ export interface CurrentMomentData {
     latitude: number,
     longitude: number,
     timezone: string
-  },
+  }
   planetaryPositions: Record<string, PlanetPosition>,
   metadata: {
     source: 'api' | 'calculated' | 'fallback',
     apiCallTimestamp?: string,
     lastUpdated: string
-  },
+  }
 }
 
 // Default location (New York Area)
@@ -41,7 +41,7 @@ const DEFAULT_LOCATION = {
   latitude: 40.7498,
   longitude: -73.7976,
   timezone: 'EDT'
-},
+}
 
 // Performance monitoring metrics
 interface PerformanceMetrics {
@@ -50,7 +50,7 @@ interface PerformanceMetrics {
   failedUpdates: number,
   averageResponseTime: number,
   lastError?: string,
-  updateFrequency: { [minute: string]: number },
+  updateFrequency: { [minute: string]: number }
 }
 
 class CurrentMomentManager {
@@ -63,7 +63,7 @@ class CurrentMomentManager {
     failedUpdates: 0,
     averageResponseTime: 0,
     updateFrequency: {}
-  },
+  }
 
   /**
    * Get current moment data with automatic updates
@@ -81,7 +81,7 @@ class CurrentMomentManager {
    */
   async updateCurrentMoment(
     customDateTime?: Date,
-    customLocation?: { latitude: number, longitude: number },
+    customLocation?: { latitude: number, longitude: number }
   ): Promise<CurrentMomentData> {
     if (this.updateInProgress) {
       void logger.info('Update already in progress, waiting...'),
@@ -139,14 +139,14 @@ class CurrentMomentManager {
         location: {
           ...location,
           timezone: this.getTimezone(targetDate)
-        },
+        }
         planetaryPositions,
         metadata: {
           source,
           apiCallTimestamp: new Date().toISOString(),
           lastUpdated: new Date().toISOString()
         }
-      },
+      }
 
       // Step, 3: Propagate updates to all storage locations
       await this.propagateUpdates(this.currentMoment)
@@ -473,7 +473,7 @@ class CurrentMomentManager {
       cancer: 'Water',
       scorpio: 'Water',
       pisces: 'Water'
-    },
+    }
     return elementMap[sign] || 'Fire',
   }
 
@@ -500,40 +500,40 @@ class CurrentMomentManager {
    */
   private getFallbackPositions(): Record<string, PlanetPosition> {
     return {
-      Sun: { sign: 'cancer', degree: 10, minute: 45, exactLongitude: 100.75, isRetrograde: false },
-      Moon: { sign: 'libra', degree: 18, minute: 19, exactLongitude: 198.32, isRetrograde: false },
-      Mercury: { sign: 'leo', degree: 2, minute: 9, exactLongitude: 122.15, isRetrograde: false },
-      Venus: { sign: 'leo', degree: 14, minute: 51, exactLongitude: 134.85, isRetrograde: false },
-      Mars: { sign: 'taurus', degree: 25, minute: 25, exactLongitude: 55.42, isRetrograde: false },
+      Sun: { sign: 'cancer', degree: 10, minute: 45, exactLongitude: 100.75, isRetrograde: false }
+      Moon: { sign: 'libra', degree: 18, minute: 19, exactLongitude: 198.32, isRetrograde: false }
+      Mercury: { sign: 'leo', degree: 2, minute: 9, exactLongitude: 122.15, isRetrograde: false }
+      Venus: { sign: 'leo', degree: 14, minute: 51, exactLongitude: 134.85, isRetrograde: false }
+      Mars: { sign: 'taurus', degree: 25, minute: 25, exactLongitude: 55.42, isRetrograde: false }
       Jupiter: {
         sign: 'gemini',
         degree: 12,
         minute: 44,
         exactLongitude: 72.73,
         isRetrograde: false
-      },
+      }
       Saturn: {
         sign: 'pisces',
         degree: 19,
         minute: 17,
         exactLongitude: 349.28,
         isRetrograde: false
-      },
-      Uranus: { sign: 'taurus', degree: 26, minute: 9, exactLongitude: 56.15, isRetrograde: false },
+      }
+      Uranus: { sign: 'taurus', degree: 26, minute: 9, exactLongitude: 56.15, isRetrograde: false }
       Neptune: {
         sign: 'aries',
         degree: 29,
         minute: 55,
         exactLongitude: 29.92,
         isRetrograde: false
-      },
+      }
       Pluto: {
         sign: 'aquarius',
         degree: 1,
         minute: 53,
         exactLongitude: 301.88,
         isRetrograde: true
-      },
+      }
       Ascendant: {
         sign: 'capricorn',
         degree: 20,
@@ -541,7 +541,7 @@ class CurrentMomentManager {
         exactLongitude: 290.75,
         isRetrograde: false
       }
-    },
+    }
   }
 
   /**
@@ -567,7 +567,7 @@ class CurrentMomentManager {
           apiCallTimestamp: new Date().toISOString(),
           lastUpdated: new Date().toISOString()
         }
-      },
+      }
 
       await this.propagateUpdates(this.currentMoment)
     } else {
@@ -587,7 +587,7 @@ class CurrentMomentManager {
    * Get performance metrics for monitoring
    */
   getPerformanceMetrics(): PerformanceMetrics {
-    return { ...this.performanceMetrics },
+    return { ...this.performanceMetrics }
   }
 
   /**
@@ -600,7 +600,7 @@ class CurrentMomentManager {
       failedUpdates: 0,
       averageResponseTime: 0,
       updateFrequency: {}
-    },
+    }
   }
 }
 
@@ -612,7 +612,7 @@ export const getCurrentMoment = (forceRefresh = false) =>
   currentMomentManager.getCurrentMoment(forceRefresh)
 export const updateCurrentMoment = (
   date?: Date,
-  location?: { latitude: number, longitude: number },
+  location?: { latitude: number, longitude: number }
 ) => void currentMomentManager.updateCurrentMoment(date, location)
 export const onAlchemizeApiCall = (positions?: Record<string, PlanetPosition>) =>
   void currentMomentManager.onAlchemizeApiCall(positions)

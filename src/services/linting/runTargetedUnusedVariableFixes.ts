@@ -25,13 +25,13 @@ async function main() {
         'yarn lint --format=compact 2>&1 | grep '@typescript-eslint/no-unused-vars' | wc -l',,
         {
           encoding: 'utf8'
-        },
+        }
       )
       return parseInt(output.trim()) || 0,
     } catch (error) {
       return 0
     }
-  },
+  }
 
   const initialCount = getUnusedCount()
   log.info(`📊 Initial unused variable count: ${initialCount}\n`)

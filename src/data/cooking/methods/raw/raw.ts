@@ -15,11 +15,11 @@ export const raw: CookingMethodData = {
     Air: 0.5,
     Earth: 0.2,
     Fire: 0.0
-  },
+  }
   duration: {
     min: 1, // 1 minute for simple preparation,
     max: 1440, // 24 hours for dehydration or marination
-  },
+  }
   suitable_for: [
     'vegetables',
     'fruits',
@@ -69,7 +69,7 @@ export const raw: CookingMethodData = {
       waxing_crescent: 1.2, // Good phase for starting raw preparations,
       waning_gibbous: 1.0, // Neutral effect
     }
-  },
+  }
   toolsRequired: [
     'Sharp knives',
     'Food processor',
@@ -137,7 +137,7 @@ export const raw: CookingMethodData = {
     carotenoids: 0.98, // Excellent carotenoid retention,
     probiotics: 1.0, // Complete probiotic preservation,
     omega_3_fatty_acids: 0.98, // Excellent fatty acid preservation
-  },
+  }
   optimalTemperatures: {
     general_storage: 40, // Refrigeration temperature (°F)
     serving_temperature: 45, // Ideal serving temperature (°F)
@@ -150,7 +150,7 @@ export const raw: CookingMethodData = {
     fruit_ripening: 65, // Fruit ripening temperature (°F)
     vegetable_crisping: 34, // Pre-service crisping temperature (°F)
     avocado_ripening: 68, // Avocado ripening temperature (°F)
-  },
+  }
   regionalVariations: {
     japanese: ['sashimi', 'namasu', 'tataki'],
     peruvian: ['ceviche', 'tiradito', 'causa'],
@@ -158,7 +158,7 @@ export const raw: CookingMethodData = {
     pacific: ['poisson cru', 'oka i'a', 'kokoda'],
     indian: ['kachumber', 'mooli salads', 'sprouted legume preparations'],
     caribbean: ['pepper sauces', 'chow', 'green banana salads']
-  },
+  }
   chemicalChanges: {
     enzyme_activity: true,
     oxidation: true,
@@ -175,7 +175,7 @@ export const raw: CookingMethodData = {
     chlorophyll_preservation: true,
     volatile_compound_retention: true,
     phytochemical_preservation: true
-  },
+  }
   safetyFeatures: [
     'Proper sourcing from reliable suppliers',
     'Thorough washing of all produce',
@@ -264,4 +264,4 @@ export const raw: CookingMethodData = {
   sustainabilityRating: 0.95, // Extremely high - minimal energy use, maximum food integrity,
 
   equipmentComplexity: 0.4, // Moderate - from simple to specialized equipment
-},
+}

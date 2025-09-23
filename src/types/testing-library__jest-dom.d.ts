@@ -5,7 +5,7 @@
  */
 
 // This trick makes TypeScript treat this as a module rather than a script
-export {},
+export {}
 
 declare global {
   namespace jest {

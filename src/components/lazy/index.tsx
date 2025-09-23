@@ -56,16 +56,16 @@ export const ComponentLoader: React.FC<{ message?: string }> = ({ message = 'Loa
 
 // Error boundary for lazy components
 export class LazyComponentErrorBoundary extends React.Component<
-  { children: React.ReactNode; fallback?: React.ReactNode },
+  { children: React.ReactNode; fallback?: React.ReactNode }
   { hasError: boolean; error?: Error }
 > {
   constructor(props: { children: React.ReactNode; fallback?: React.ReactNode }) {
     super(props)
-    this.state = { hasError: false },
+    this.state = { hasError: false }
   }
 
   static getDerivedStateFromError(error: Error) {
-    return { hasError: true, error },
+    return { hasError: true, error }
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {

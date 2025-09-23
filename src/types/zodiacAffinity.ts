@@ -27,7 +27,7 @@ export const ZODIAC_MODALITIES: Record<ZodiacSign, Modality> = {
   virgo: 'mutable',
   sagittarius: 'mutable',
   pisces: 'mutable'
-},
+}
 
 /**
  * Default neutral affinity values for all zodiac signs
@@ -45,7 +45,7 @@ export const DEFAULT_ZODIAC_AFFINITY: ZodiacAffinity = {
   capricorn: 0,
   aquarius: 0,
   pisces: 0
-},
+}
 
 /**
  * Helper function to create zodiac affinity with default values
@@ -55,7 +55,7 @@ export function createZodiacAffinity(affinities: Partial<ZodiacAffinity>): Zodia
   return {
     ...DEFAULT_ZODIAC_AFFINITY,
     ...affinities
-  },
+  }
 }
 
 /**
@@ -72,8 +72,8 @@ export function getModalityCompatibility(sign1: any, sign2: any): number {
 
   // Different modalities have lower compatibility
   const modalityCompatibilityChart: Record<Modality, Record<Modality, number>> = {
-    cardinal: { cardinal: 0.8, fixed: 0.4, mutable: 0.5 },
-    fixed: { cardinal: 0.4, fixed: 0.8, mutable: 0.3 },
+    cardinal: { cardinal: 0.8, fixed: 0.4, mutable: 0.5 }
+    fixed: { cardinal: 0.4, fixed: 0.8, mutable: 0.3 }
     mutable: { cardinal: 0.5, fixed: 0.3, mutable: 0.8 }
   }
 
@@ -97,14 +97,14 @@ export function getZodiacCompatibility(_sign1: any, _sign2: any): number {
     cancer: 'water',
     scorpio: 'water',
     pisces: 'water'
-  },
+  }
 
   const elementCompatibilityChart: Record<string, Record<string, number>> = {
-    fire: { fire: 0.8, earth: 0.4, air: 0.9, water: 0.3 },
-    earth: { fire: 0.4, earth: 0.8, air: 0.3, water: 0.9 },
-    air: { fire: 0.9, earth: 0.3, air: 0.8, water: 0.4 },
+    fire: { fire: 0.8, earth: 0.4, air: 0.9, water: 0.3 }
+    earth: { fire: 0.4, earth: 0.8, air: 0.3, water: 0.9 }
+    air: { fire: 0.9, earth: 0.3, air: 0.8, water: 0.4 }
     water: { fire: 0.3, earth: 0.9, air: 0.4, water: 0.8 }
-  },
+  }
 
   const element1 = elementMap[sign1];
   const element2 = elementMap[sign2];

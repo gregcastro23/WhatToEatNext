@@ -18,4 +18,4 @@ export const useTarotContext = (): TarotContextType => {
   }
 
   return context,
-},
+}

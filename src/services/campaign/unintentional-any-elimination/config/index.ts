@@ -66,7 +66,7 @@ export interface TargetConfig {
     metrics: number; // minutes,
     reports: number // hours,
     checkpoints: number // files processed
-  },
+  }
   /** Realistic milestone targets */
   milestones: Array<{
     name: string,
@@ -126,7 +126,7 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       [AnyTypeCategory.RETURN_TYPE]: 0.4,
       [AnyTypeCategory.TYPE_ASSERTION]: 0.6
     }
-  },
+  }
   domain: {
     typeSuggestions: {
       astrological: ['PlanetaryPosition', 'ElementalProperties', 'AstrologicalData'],
@@ -135,7 +135,7 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       service: ['ApiResponse', 'ServiceConfig', 'ErrorResponse'],
       component: ['ComponentProps', 'ComponentState', 'EventHandler'],
       utility: ['UtilityFunction', 'HelperType', 'GenericType']
-    },
+    }
     pathPatterns: {
       astrological: ['**/calculations/**', '**/astrology/**', '**/planetary/**'],
       recipe: ['**/recipe/**', '**/ingredient/**', '**/cooking/**'],
@@ -143,7 +143,7 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       service: ['**/services/**', '**/api/**', '**/client/**'],
       component: ['**/components/**', '**/ui/**', '**/pages/**'],
       utility: ['**/utils/**', '**/helpers/**', '**/lib/**']
-    },
+    }
     contentPatterns: {
       astrological: ['planetary', 'elemental', 'zodiac', 'transit', 'retrograde'],
       recipe: ['ingredient', 'recipe', 'cooking', 'nutrition', 'flavor'],
@@ -151,7 +151,7 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       service: ['service', 'api', 'client', 'request', 'response'],
       component: ['component', 'props', 'state', 'render', 'jsx'],
       utility: ['util', 'helper', 'function', 'type', 'generic']
-    },
+    }
     elementalAssociations: {
       astrological: ['Fire', 'Water', 'Earth', 'Air'],
       recipe: ['Fire', 'Water', 'Earth', 'Air'],
@@ -160,7 +160,7 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       component: ['Air', 'Fire'],
       utility: ['Air', 'Earth']
     }
-  },
+  }
   safety: {
     maxBatchSize: 25,
     validationFrequency: 5,
@@ -171,9 +171,9 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       replacement: 'MAXIMUM',
       documentation: 'MEDIUM',
       batch_processing: 'MAXIMUM'
-    },
+    }
     backupRetentionDays: 7
-  },
+  }
   targets: {
     targetReductionPercentage: 18,
     minSuccessRate: 0.8,
@@ -182,17 +182,17 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
       metrics: 5,
       reports: 1,
       checkpoints: 10
-    },
+    }
     milestones: [
-      { name: 'Initial Analysis', targetReduction: 0, timeframe: '1 day' },
-      { name: 'Conservative Phase', targetReduction: 5, timeframe: '3 days' },
-      { name: 'Progressive Phase', targetReduction: 12, timeframe: '1 week' },
+      { name: 'Initial Analysis', targetReduction: 0, timeframe: '1 day' }
+      { name: 'Conservative Phase', targetReduction: 5, timeframe: '3 days' }
+      { name: 'Progressive Phase', targetReduction: 12, timeframe: '1 week' }
       { name: 'Target Achievement', targetReduction: 18, timeframe: '2 weeks' }
     ]
-  },
+  }
   version: '1.0.0',
   lastUpdated: new Date().toISOString()
-},
+}
 
 /**
  * Configuration Manager class
@@ -233,13 +233,13 @@ export class ConfigurationManager {
    */
   private mergeWithDefaults(loadedConfig: Partial<UnintentionalAnyConfig>): UnintentionalAnyConfig {
     return {
-      classification: { ...DEFAULT_CONFIG.classification, ...loadedConfig.classification },
-      domain: { ...DEFAULT_CONFIG.domain, ...loadedConfig.domain },
-      safety: { ...DEFAULT_CONFIG.safety, ...loadedConfig.safety },
-      targets: { ...DEFAULT_CONFIG.targets, ...loadedConfig.targets },
+      classification: { ...DEFAULT_CONFIG.classification, ...loadedConfig.classification }
+      domain: { ...DEFAULT_CONFIG.domain, ...loadedConfig.domain }
+      safety: { ...DEFAULT_CONFIG.safety, ...loadedConfig.safety }
+      targets: { ...DEFAULT_CONFIG.targets, ...loadedConfig.targets }
       version: loadedConfig.version || DEFAULT_CONFIG.version,
       lastUpdated: loadedConfig.lastUpdated || DEFAULT_CONFIG.lastUpdated
-    },
+    }
   }
 
   /**
@@ -263,7 +263,7 @@ export class ConfigurationManager {
    * Get current configuration
    */
   getConfig(): UnintentionalAnyConfig {
-    return { ...this.config },
+    return { ...this.config }
   }
 
   /**
@@ -278,14 +278,14 @@ export class ConfigurationManager {
    * Get classification configuration
    */
   getClassificationConfig(): ClassificationConfig {
-    return { ...this.config.classification },
+    return { ...this.config.classification }
   }
 
   /**
    * Update classification configuration
    */
   updateClassificationConfig(updates: Partial<ClassificationConfig>): void {
-    this.config.classification = { ...this.config.classification, ...updates },
+    this.config.classification = { ...this.config.classification, ...updates }
     this.saveConfig()
   }
 
@@ -293,14 +293,14 @@ export class ConfigurationManager {
    * Get domain configuration
    */
   getDomainConfig(): DomainConfig {
-    return { ...this.config.domain },
+    return { ...this.config.domain }
   }
 
   /**
    * Update domain configuration
    */
   updateDomainConfig(updates: Partial<DomainConfig>): void {
-    this.config.domain = { ...this.config.domain, ...updates },
+    this.config.domain = { ...this.config.domain, ...updates }
     this.saveConfig()
   }
 
@@ -308,14 +308,14 @@ export class ConfigurationManager {
    * Get safety configuration
    */
   getSafetyConfig(): SafetyConfig {
-    return { ...this.config.safety },
+    return { ...this.config.safety }
   }
 
   /**
    * Update safety configuration
    */
   updateSafetyConfig(updates: Partial<SafetyConfig>): void {
-    this.config.safety = { ...this.config.safety, ...updates },
+    this.config.safety = { ...this.config.safety, ...updates }
     this.saveConfig()
   }
 
@@ -323,14 +323,14 @@ export class ConfigurationManager {
    * Get target configuration
    */
   getTargetConfig(): TargetConfig {
-    return { ...this.config.targets },
+    return { ...this.config.targets }
   }
 
   /**
    * Update target configuration
    */
   updateTargetConfig(updates: Partial<TargetConfig>): void {
-    this.config.targets = { ...this.config.targets, ...updates },
+    this.config.targets = { ...this.config.targets, ...updates }
     this.saveConfig()
   }
 
@@ -338,7 +338,7 @@ export class ConfigurationManager {
    * Reset configuration to defaults
    */
   resetToDefaults(): void {
-    this.config = { ...DEFAULT_CONFIG },
+    this.config = { ...DEFAULT_CONFIG }
     this.saveConfig()
   }
 
@@ -384,7 +384,7 @@ export class ConfigurationManager {
     return {
       isValid: errors.length === 0,
       errors
-    },
+    }
   }
 }
 

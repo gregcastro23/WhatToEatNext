@@ -86,7 +86,7 @@ class UnintentionalAnyCampaignController {
       enableDocumentation: true,
       enableProgressiveImprovement: true,
       ...config
-    },
+    }
 
     this.metrics = {
       totalAnyTypes: 0,
@@ -99,7 +99,7 @@ class UnintentionalAnyCampaignController {
       batchesCompleted: 0,
       reductionPercentage: 0,
       buildStabilityScore: 100
-    },
+    }
 
     this.startTime = new Date()
     this.backupDirectory = `backups/unintentional-any-${Date.now()}`,
@@ -139,7 +139,7 @@ class UnintentionalAnyCampaignController {
         'yarn lint 2>&1 | grep -c '@typescript-eslint/no-explicit-any' || echo '0'',
         {
           encoding: 'utf8'
-        },
+        }
       )
       return parseInt(lintOutput.trim()) || 0,
     } catch (error) {
@@ -204,7 +204,7 @@ class UnintentionalAnyCampaignController {
         category: AnyTypeCategory.DYNAMIC_CONFIG,
         requiresDocumentation: false,
         reasoning: 'Explicitly marked as intentional with comment'
-      },
+      }
     }
 
     // Error handling contexts
@@ -218,7 +218,7 @@ class UnintentionalAnyCampaignController {
         category: AnyTypeCategory.ERROR_HANDLING,
         requiresDocumentation: true,
         reasoning: 'Error handling context - typically intentional'
-      },
+      }
     }
 
     // Campaign system files
@@ -232,7 +232,7 @@ class UnintentionalAnyCampaignController {
         category: AnyTypeCategory.CAMPAIGN_SYSTEM,
         requiresDocumentation: true,
         reasoning: 'Campaign system requires flexible typing for dynamic behavior'
-      },
+      }
     }
 
     // Astrological data contexts
@@ -252,7 +252,7 @@ class UnintentionalAnyCampaignController {
           requiresDocumentation: true,
           reasoning:
             'Astrological calculations may require flexible typing for external library compatibility'
-        },
+        }
       }
     }
 
@@ -268,7 +268,7 @@ class UnintentionalAnyCampaignController {
         suggestedReplacement: codeSnippet.replace(/\bany\[\]/g, 'unknown[]'),
         requiresDocumentation: false,
         reasoning: 'Array type can be safely replaced with unknown[]'
-      },
+      }
     }
 
     // Record types - medium confidence
@@ -283,7 +283,7 @@ class UnintentionalAnyCampaignController {
         suggestedReplacement: codeSnippet.replace(/Record<([^,]+),\s*any>/g, 'Record<1, unknown>'),
         requiresDocumentation: false,
         reasoning: 'Record type can likely be replaced with unknown'
-      },
+      }
     }
 
     // Simple variable declarations
@@ -301,7 +301,7 @@ class UnintentionalAnyCampaignController {
         ),
         requiresDocumentation: false,
         reasoning: 'Variable declaration can likely use unknown instead of any'
-      },
+      }
     }
 
     // Function parameters - lower confidence, more risky
@@ -319,7 +319,7 @@ class UnintentionalAnyCampaignController {
         requiresDocumentation: true,
         reasoning:
           'Function parameter any types require careful analysis - marked as intentional for safety'
-      },
+      }
     }
 
     // Default to intentional for safety
@@ -332,7 +332,7 @@ class UnintentionalAnyCampaignController {
       category: AnyTypeCategory.DYNAMIC_CONFIG,
       requiresDocumentation: true,
       reasoning: 'Uncertain classification - marked as intentional for safety'
-    },
+    }
   }
 
   private analyzeFile(filePath: string): AnyTypeClassification[] {
@@ -563,7 +563,7 @@ class UnintentionalAnyCampaignController {
       rollbacksPerformed: this.metrics.rollbacksPerformed
       executionTime,
       safetyScore
-    },
+    }
   }
 
   public async executeFullCampaign(): Promise<CampaignMetrics> {
@@ -753,4 +753,4 @@ export {
   UnintentionalAnyCampaignController,
   type CampaignConfig,
   type CampaignMetrics
-},
+}

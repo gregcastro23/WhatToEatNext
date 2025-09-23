@@ -140,16 +140,16 @@ export class DependencySecurityMonitor {
         warnings: [],
         securityReport: {
           vulnerabilities: [],
-          summary: { critical: 0, high: 0, moderate: 0, low: 0, total: 0 },
+          summary: { critical: 0, high: 0, moderate: 0, low: 0, total: 0 }
           recommendations: []
-        },
+        }
         updateReport: {
           availableUpdates: [],
           appliedUpdates: [],
           failedUpdates: [],
           summary: { major: 0, minor: 0, patch: 0, security: 0, total: 0 }
         }
-      },
+      }
 
       // Step, 1: Scan for security vulnerabilities
       if (this.config.securityScanEnabled) {
@@ -233,16 +233,16 @@ export class DependencySecurityMonitor {
         warnings: [],
         securityReport: {
           vulnerabilities: [],
-          summary: { critical: 0, high: 0, moderate: 0, low: 0, total: 0 },
+          summary: { critical: 0, high: 0, moderate: 0, low: 0, total: 0 }
           recommendations: []
-        },
+        }
         updateReport: {
           availableUpdates: [],
           appliedUpdates: [],
           failedUpdates: [],
           summary: { major: 0, minor: 0, patch: 0, security: 0, total: 0 }
         }
-      },
+      }
     }
   }
 
@@ -259,7 +259,7 @@ export class DependencySecurityMonitor {
 
       const auditData = JSON.parse(auditOutput)
       const vulnerabilities: SecurityVulnerability[] = []
-      const summary: SecuritySummary = { critical: 0, high: 0, moderate: 0, low: 0, total: 0 },
+      const summary: SecuritySummary = { critical: 0, high: 0, moderate: 0, low: 0, total: 0 }
 
       // Parse npm audit output
       if (auditData.vulnerabilities) {
@@ -270,7 +270,7 @@ export class DependencySecurityMonitor {
             severity?: string,
             name?: string
             [key: string]: unknown
-          },
+          }
 
           const vulnerability: SecurityVulnerability = {
             packageName,
@@ -281,7 +281,7 @@ export class DependencySecurityMonitor {
             description: vuln.via?.[0]?.title || 'No description available',
             fixedVersion: vuln.fixAvailable?.version,
             patchAvailable: !!vuln.fixAvailable
-          },
+          }
 
           vulnerabilities.push(vulnerability)
           summary[vuln.severity]++,
@@ -295,14 +295,14 @@ export class DependencySecurityMonitor {
         vulnerabilities,
         summary,
         recommendations
-      },
+      }
     } catch (error) {
       logger.error('Security vulnerability scan failed', error),
       return {
         vulnerabilities: [],
-        summary: { critical: 0, high: 0, moderate: 0, low: 0, total: 0 },
+        summary: { critical: 0, high: 0, moderate: 0, low: 0, total: 0 }
         recommendations: ['Failed to scan for vulnerabilities. Please run yarn audit manually.']
-      },
+      }
     }
   }
 
@@ -319,7 +319,7 @@ export class DependencySecurityMonitor {
 
       const outdatedData = JSON.parse(outdatedOutput || '{}')
       const availableUpdates: DependencyUpdate[] = []
-      const summary: UpdateSummary = { major: 0, minor: 0, patch: 0, security: 0, total: 0 },
+      const summary: UpdateSummary = { major: 0, minor: 0, patch: 0, security: 0, total: 0 }
 
       for (const [packageName, updateInfo] of Object.entries(outdatedData)) {
         const info = updateInfo  as {
@@ -329,7 +329,7 @@ export class DependencySecurityMonitor {
           dependent?: string,
           location?: string,
           [key: string]: unknown
-        },
+        }
 
         const updateType = this.determineUpdateType(info.current, info.latest)
         const breakingChanges = updateType === 'major';
@@ -343,7 +343,7 @@ export class DependencySecurityMonitor {
           breakingChanges,
           securityFix: false, // Will be determined by cross-referencing with security scan,
           testingRequired: breakingChanges || this.requiresTesting(packageName)
-        },
+        }
 
         availableUpdates.push(update)
         summary[updateType]++,
@@ -355,7 +355,7 @@ export class DependencySecurityMonitor {
         appliedUpdates: [],
         failedUpdates: [],
         summary
-      },
+      }
     } catch (error) {
       // yarn outdated returns non-zero exit code when updates are available
       if ((error as { stdout?: string }).stdout) {
@@ -373,7 +373,7 @@ export class DependencySecurityMonitor {
         appliedUpdates: [],
         failedUpdates: [],
         summary: { major: 0, minor: 0, patch: 0, security: 0, total: 0 }
-      },
+      }
     }
   }
 
@@ -416,7 +416,7 @@ export class DependencySecurityMonitor {
           breakingChanges: false,
           securityFix: true,
           testingRequired: false
-        },
+        }
 
         appliedUpdates.push(update)
         logger.info(`Applied security patch for ${vuln.packageName}`)
@@ -508,7 +508,7 @@ export class DependencySecurityMonitor {
 
   private processOutdatedData(outdatedData: Record<string, unknown>): UpdateReport {
     const availableUpdates: DependencyUpdate[] = []
-    const summary: UpdateSummary = { major: 0, minor: 0, patch: 0, security: 0, total: 0 },
+    const summary: UpdateSummary = { major: 0, minor: 0, patch: 0, security: 0, total: 0 }
 
     for (const [packageName, updateInfo] of Object.entries(outdatedData)) {
       const info = updateInfo ;
@@ -523,7 +523,7 @@ export class DependencySecurityMonitor {
         breakingChanges: updateType === 'major',,
         securityFix: false,
         testingRequired: updateType === 'major' || this.requiresTesting(packageName),,
-      },
+      }
 
       availableUpdates.push(update)
       summary[updateType]++,
@@ -535,7 +535,7 @@ export class DependencySecurityMonitor {
       appliedUpdates: [],
       failedUpdates: [],
       summary
-    },
+    }
   }
 
   private determineUpdateType(current: string, latest: string): 'major' | 'minor' | 'patch' {
@@ -681,7 +681,7 @@ export const _DEFAULT_DEPENDENCY_SECURITY_CONFIG: DependencySecurityConfig = {
       updateType: 'patch',
       requiresManualApproval: false,
       testingRequired: false
-    },
+    }
     {
       name: 'TypeScript ecosystem',
       description: 'Careful updates for TypeScript-related packages',
@@ -689,7 +689,7 @@ export const _DEFAULT_DEPENDENCY_SECURITY_CONFIG: DependencySecurityConfig = {
       updateType: 'minor',
       requiresManualApproval: true,
       testingRequired: true
-    },
+    }
     {
       name: 'React ecosystem',
       description: 'Careful updates for React-related packages',
@@ -697,7 +697,7 @@ export const _DEFAULT_DEPENDENCY_SECURITY_CONFIG: DependencySecurityConfig = {
       updateType: 'minor',
       requiresManualApproval: true,
       testingRequired: true
-    },
+    }
     {
       name: 'Development tools',
       description: 'Safe updates for development tools',
@@ -714,7 +714,7 @@ export const _DEFAULT_DEPENDENCY_SECURITY_CONFIG: DependencySecurityConfig = {
     low: 20,
     autoFixCritical: true,
     autoFixHigh: false
-  },
+  }
   excludedPackages: [
     // Packages to never auto-update
     'react',
@@ -722,4 +722,4 @@ export const _DEFAULT_DEPENDENCY_SECURITY_CONFIG: DependencySecurityConfig = {
     'next',
     'typescript'
   ]
-},
+}

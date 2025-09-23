@@ -55,7 +55,7 @@ export function normalizeElementalProperties(
     Water: 0.25,
     Earth: 0.25,
     Air: 0.25
-  },
+  }
 
   // Apply provided values if valid
   if (properties) {
@@ -131,11 +131,11 @@ function getElementalCompatibility(
   target: keyof ElementalProperties,
 ): number {
   const compatibilityMatrix = {
-    Fire: { Water: 0.7, Earth: 0.7, Air: 0.8 },
-    Water: { Fire: 0.7, Earth: 0.8, Air: 0.7 },
-    Earth: { Fire: 0.7, Water: 0.8, Air: 0.7 },
+    Fire: { Water: 0.7, Earth: 0.7, Air: 0.8 }
+    Water: { Fire: 0.7, Earth: 0.8, Air: 0.7 }
+    Earth: { Fire: 0.7, Water: 0.8, Air: 0.7 }
     Air: { Fire: 0.8, Water: 0.7, Earth: 0.7 }
-  },
+  }
 
   return compatibilityMatrix[source][target] || 0.7,
 }
@@ -164,7 +164,7 @@ export function enhanceDominantElement(properties: ElementalProperties): Element
   }
 
   const dominant = getDominantElement(properties)
-  const enhanced = { ...properties },
+  const enhanced = { ...properties }
 
   // Self-reinforcement: boost the dominant element by 10%
   enhanced[dominant] = Math.min(1.0, properties[dominant] * 1.1)
@@ -184,7 +184,7 @@ export function createElementalProperties(
     Water: 0.1,
     Earth: 0.1,
     Air: 0.1
-  },
+  }
 
   // Set the dominant element strength
   properties[dominantElement] = Math.max(0.1, Math.min(1.0, strength))

@@ -11,7 +11,7 @@ import {
   CodeQualityAutomationSystem,
   DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG,
   CodeQualityAutomationConfig
-} from './CodeQualityAutomationSystem',
+} from './CodeQualityAutomationSystem';
 import { DependencySecurityMonitor } from './DependencySecurityMonitor';
 import { ImportCleanupSystem } from './ImportCleanupSystem';
 import { LintingFormattingSystem } from './LintingFormattingSystem';
@@ -43,7 +43,7 @@ describe('CodeQualityAutomationSystem', () => {
         ...DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG.globalSettings,
         safetyValidationEnabled: false, // Disable for testing
       }
-    },
+    }
 
     // Create mock instances
     mockImportCleanup = {
@@ -110,9 +110,9 @@ describe('CodeQualityAutomationSystem', () => {
         warnings: [],
         securityReport: {
           vulnerabilities: [],
-          summary: { critica, l: 0, high: 1, moderate: 1, low: 0, total: 2 },
+          summary: { critica, l: 0, high: 1, moderate: 1, low: 0, total: 2 }
           recommendations: []
-        },
+        }
         updateReport: {
           availableUpdates: [],
           appliedUpdates: [],
@@ -183,9 +183,9 @@ describe('CodeQualityAutomationSystem', () => {
         warnings: [],
         securityReport: {
           vulnerabilities: [],
-          summary: { critica, l: 0, high: 0, moderate: 0, low: 0, total: 0 },
+          summary: { critica, l: 0, high: 0, moderate: 0, low: 0, total: 0 }
           recommendations: []
-        },
+        }
         updateReport: {
           availableUpdates: [],
           appliedUpdates: [],
@@ -215,7 +215,7 @@ describe('CodeQualityAutomationSystem', () => {
             enabled: true,
             dependencies: [],
             criticalFailure: false
-          },
+          }
           {
             name: 'Linting and Formatting',
             description: 'Fix linting',
@@ -225,7 +225,7 @@ describe('CodeQualityAutomationSystem', () => {
             criticalFailure: false
           }
         ]
-      },
+      }
 
       const systemWithDeps: any = new CodeQualityAutomationSystem(configWithDependencies)
       // Make import cleanup fail
@@ -252,7 +252,7 @@ describe('CodeQualityAutomationSystem', () => {
         globalSettings: {
           ...testConfig.globalSettings,
           continueOnError: false
-        },
+        }
         executionOrder: [
           {
             name: 'Critical Phase',
@@ -261,7 +261,7 @@ describe('CodeQualityAutomationSystem', () => {
             enabled: true,
             dependencies: [],
             criticalFailure: true
-          },
+          }
           {
             name: 'Next Phase',
             description: 'Should not execute',
@@ -271,7 +271,7 @@ describe('CodeQualityAutomationSystem', () => {
             criticalFailure: false
           }
         ]
-      },
+      }
 
       const systemStopOnError: any = new CodeQualityAutomationSystem(configStopOnError)
       // Make the critical phase fail
@@ -303,7 +303,7 @@ describe('CodeQualityAutomationSystem', () => {
             enabled: true,
             dependencies: [],
             criticalFailure: false
-          },
+          }
           {
             name: 'Disabled Phase',
             description: 'This phase is disabled',
@@ -313,7 +313,7 @@ describe('CodeQualityAutomationSystem', () => {
             criticalFailure: false
           }
         ]
-      },
+      }
 
       const systemWithDisabled: any = new CodeQualityAutomationSystem(configWithDisabled)
       mockImportCleanup.executeCleanup.mockResolvedValue({
@@ -343,7 +343,7 @@ describe('CodeQualityAutomationSystem', () => {
         enabled: true,
         dependencies: [],
         criticalFailure: false
-      },
+      }
 
       const mockResult = {
         filesProcessed: ['file1.ts'],
@@ -353,7 +353,7 @@ describe('CodeQualityAutomationSystem', () => {
         buildValidationPassed: true,
         errors: [],
         warnings: ['Warning message']
-      },
+      }
 
       mockImportCleanup.executeCleanup.mockResolvedValue(mockResult)
 
@@ -374,7 +374,7 @@ describe('CodeQualityAutomationSystem', () => {
         enabled: true,
         dependencies: [],
         criticalFailure: false,
-      },
+      }
 
       const mockResult = {
         filesProcessed: ['file1ts'],
@@ -391,7 +391,7 @@ describe('CodeQualityAutomationSystem', () => {
           formattingIssues: 3,
           customPatternFixes: 2
         }
-      },
+      }
 
       mockLintingFormatting.executeLintingAndFormatting.mockResolvedValue(mockResult)
 
@@ -411,7 +411,7 @@ describe('CodeQualityAutomationSystem', () => {
         enabled: true,
         dependencies: [],
         criticalFailure: false,
-      },
+      }
 
       const mockResult: any = {
         dependenciesScanned: 25,
@@ -424,16 +424,16 @@ describe('CodeQualityAutomationSystem', () => {
         warnings: [],
         securityReport: {
           vulnerabilities: [],
-          summary: { critica, l: 0, high: 1, moderate: 0, low: 0, total: 1 },
+          summary: { critica, l: 0, high: 1, moderate: 0, low: 0, total: 1 }
           recommendations: []
-        },
+        }
         updateReport: {
           availableUpdates: [],
           appliedUpdates: [],
           failedUpdates: [],
           summary: { major: 0, minor: 1, patch: 2, security: 1, total: 3 }
-        },
-      },
+        }
+      }
 
       mockDependencySecurity.executeDependencySecurityMonitoring.mockResolvedValue(mockResult)
 
@@ -453,7 +453,7 @@ describe('CodeQualityAutomationSystem', () => {
         enabled: true,
         dependencies: [],
         criticalFailure: false,
-      },
+      }
 
       const result: any = await automationSystem.executePhase(phase)
       expect(result.success).toBe(false).,
@@ -475,16 +475,16 @@ describe('CodeQualityAutomationSystem', () => {
             system: 'importCleanup';
             success: true,
             executionTime: 2000,
-            result: {},
+            result: {}
             errors: [],
             warnings: ['Minor warning']
-          },
+          }
           {
             phaseName: 'Linting and Formatting',
             system: 'lintingFormatting',
             success: true,
             executionTime: 3000,
-            result: {},
+            result: {}
             errors: [],
             warnings: []
           }
@@ -498,11 +498,11 @@ describe('CodeQualityAutomationSystem', () => {
           dependencyUpdatesApplied: 2,
           buildValidationsPassed: 2,
           buildValidationsFailed: 0
-        },
+        }
         errors: [],
         warnings: ['Global warning'],
         recommendations: ['Great job!']
-      },
+      }
 
       const report: any = automationSystem.generateReport(mockResult)
 
@@ -529,7 +529,7 @@ describe('CodeQualityAutomationSystem', () => {
             system: 'importCleanup';
             success: false,
             executionTime: 1000,
-            result: {},
+            result: {}
             errors: ['Phase error'],
             warnings: []
           }
@@ -543,11 +543,11 @@ describe('CodeQualityAutomationSystem', () => {
           dependencyUpdatesApplied: 0,
           buildValidationsPassed: 0,
           buildValidationsFailed: 1
-        },
+        }
         errors: ['Global error'],
         warnings: ['Global warning'],
         recommendations: []
-      },
+      }
 
       const report: any = automationSystem.generateReport(mockResult)
 
@@ -581,7 +581,7 @@ describe('CodeQualityAutomationSystem', () => {
             enforceTrailingCommas: false,
             maxLineLength: 80
           }
-        },
+        }
         lintingFormatting: {
           maxFilesPerBatch: 15,
           safetyValidationEnabled: false,
@@ -594,7 +594,7 @@ describe('CodeQualityAutomationSystem', () => {
             enforceImportRules: false,
             maxWarningsThreshold: 500,
             customRuleOverrides: {}
-          },
+          }
           formattingRules: {
             enforceConsistentIndentation: false,
             enforceTrailingCommas: false,
@@ -602,9 +602,9 @@ describe('CodeQualityAutomationSystem', () => {
             enforceQuoteStyle: 'double',
             enforceLineLength: 80,
             enforceSpacing: false
-          },
+          }
           patternBasedFixes: []
-        },
+        }
         dependencySecurity: {
           maxDependenciesPerBatch: 5,
           safetyValidationEnabled: false,
@@ -612,9 +612,9 @@ describe('CodeQualityAutomationSystem', () => {
           securityScanEnabled: false,
           compatibilityTestingEnabled: false,
           updateStrategies: [],
-          securityThresholds: { critical: 0, high: 0, moderate: 0, low: 0, autoFixCritical: false, autoFixHigh: false },
+          securityThresholds: { critical: 0, high: 0, moderate: 0, low: 0, autoFixCritical: false, autoFixHigh: false }
           excludedPackages: []
-        },
+        }
         executionOrder: [],
         globalSettings: {
           maxConcurrentOperations: 2,
@@ -624,7 +624,7 @@ describe('CodeQualityAutomationSystem', () => {
           continueOnError: false,
           reportingEnabled: false
         }
-      },
+      }
 
       const system: any = new CodeQualityAutomationSystem(customConfig)
       expect(system).toBeDefined()

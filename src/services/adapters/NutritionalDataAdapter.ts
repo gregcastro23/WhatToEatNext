@@ -12,7 +12,7 @@ import type {
   ZodiacSign,
   PlanetName,
   Season
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 
 import {
   fetchNutritionalData,
@@ -23,7 +23,7 @@ import {
   getSeasonalNutritionalRecommendations,
   evaluateNutritionalElementalBalance,
   getEnhancedPlanetaryNutritionalRecommendations
-} from '../../data/nutritional',
+} from '../../data/nutritional';
 import { createElementalProperties } from '../../utils/elemental/elementalUtils';
 import { errorHandler } from '../errorHandler';
 
@@ -41,13 +41,13 @@ export interface NutritionalDataAdapterInterface {
     focusNutrients: string[],
     recommendedFoods: string[],
     avoidFoods: string[]
-  },
+  }
 
   getPlanetaryNutritionalRecommendations(planets: PlanetName[] | string[]): {
     focusNutrients: string[],
     healthAreas: string[],
     recommendedFoods: string[]
-  },
+  }
 
   getEnhancedPlanetaryNutritionalRecommendations(
     planetaryDay: PlanetName | string,
@@ -58,14 +58,14 @@ export interface NutritionalDataAdapterInterface {
     focusNutrients: string[],
     healthAreas: string[],
     recommendedFoods: string[]
-  },
+  }
 
   // Seasonal nutrition recommendations
   getSeasonalNutritionalRecommendations(season: Season | string): {
     element: Element,
     focusNutrients: string[],
     seasonalFoods: string[]
-  },
+  }
 
   // Evaluation
   evaluateNutritionalElementalBalance(
@@ -75,7 +75,7 @@ export interface NutritionalDataAdapterInterface {
     score: number,
     imbalances: string[],
     recommendations: string[]
-  },
+  }
 }
 
 /**
@@ -184,7 +184,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         focusNutrients: result.focusNutrients,
         recommendedFoods: result.recommendedFoods,
         avoidFoods: result.avoidFoods
-      },
+      }
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as unknown as any;
@@ -200,7 +200,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         focusNutrients: [],
         recommendedFoods: [],
         avoidFoods: []
-      },
+      }
     }
   }
 
@@ -231,7 +231,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         focusNutrients: [],
         healthAreas: [],
         recommendedFoods: []
-      },
+      }
     }
   }
 
@@ -269,7 +269,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         focusNutrients: result.focusNutrients,
         healthAreas: result.healthAreas,
         recommendedFoods: result.recommendedFoods
-      },
+      }
     } catch (error) {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as unknown as any;
@@ -287,7 +287,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         focusNutrients: [],
         healthAreas: [],
         recommendedFoods: []
-      },
+      }
     }
   }
 
@@ -307,12 +307,12 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       return {
         ...result,
         element: result.element as Element
-      },
+      }
     } catch (error) {
       // Use safe type casting for errorHandler service access
       type ErrorHandlerWithLogError = typeof errorHandler & {,
         logError?: (error: unknown, context: unknown) => void
-      },
+      }
       const errorHandlerService = errorHandler as ErrorHandlerWithLogError;
       errorHandlerService.logError?.(error, {
         context: 'NutritionalDataAdapter',
@@ -323,7 +323,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         element: 'Fire' as Element,
         focusNutrients: [],
         seasonalFoods: []
-      },
+      }
     }
   }
 
@@ -345,7 +345,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         Water: targetElements.Water,
         Earth: targetElements.Earth, // Convert to legacy capitalization,
         Air: targetElements.Air
-      },
+      }
 
       return evaluateNutritionalElementalBalance(profile as unknown, legacyTargetElements)
     } catch (error) {
@@ -362,7 +362,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         score: 0.5, // Default moderate score
         imbalances: [],
         recommendations: []
-      },
+      }
     }
   }
 }

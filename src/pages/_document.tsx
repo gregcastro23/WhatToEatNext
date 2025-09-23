@@ -23,26 +23,26 @@ class MyDocument extends Document {
                           log.info('[CriticalInit] Intercepting chrome.tabs.create early')
                           return Promise.resolve({id: 999, url: options?.url || 'about:blank'})
                         }
-                      },
+                      }
                       runtime: {
                         lastError: null,
-                        sendMessage: function() { return true, },
+                        sendMessage: function() { return true, }
                         onMessage: { addListener: function() {}, removeListener: function() {} }
                       }
-                    },
+                    }
                   }
                   
                   // Create minimal popup object to handle early access
                   window.popup = {
                     create: function() {
                       return {
-                        show: function() { return this },
-                        hide: function() { return this },
-                        update: function() { return this },
+                        show: function() { return this }
+                        hide: function() { return this }
+                        update: function() { return this }
                         on: function() { return { off: function() {} }; }
-                      },
+                      }
                     }
-                  },
+                  }
                   
                   // Also protect window.open
                   const originalWindowOpen = window.open;
@@ -58,7 +58,7 @@ class MyDocument extends Document {
                       return null;
                     }
                     return originalWindowOpen.apply(window, arguments)
-                  },
+                  }
                   
                   log.info('[CriticalInit] Chrome API protection initialized')
                 } catch (e) {

@@ -7,7 +7,7 @@ import {
   Planet,
   PlanetaryAlignment,
   ZodiacSign
-} from '@/types/celestial',
+} from '@/types/celestial';
 import { normalizePlanetaryPositions } from '@/utils/astrology/core';
 
 /**
@@ -23,10 +23,10 @@ export class AstrologyService {
   private currentState: AstrologicalState = {
     currentZodiac: 'aries',
     moonPhase: 'new moon',
-    currentPlanetaryAlignment: {},
+    currentPlanetaryAlignment: {}
     loading: false,
     isReady: false
-  },
+  }
 
   private constructor() {}
 
@@ -59,7 +59,7 @@ export class AstrologyService {
         celestialPositions[planet as Planet] = {
           sign: position.sign,
           degree: position.degree
-        },
+        }
       })
 
       // Update cached state
@@ -83,7 +83,7 @@ export class AstrologyService {
     if (forceRefresh || !this.currentState.isReady) {
       await this.refreshAstrologicalState()
     }
-    return { ...this.currentState },
+    return { ...this.currentState }
   }
 
   /**
@@ -192,12 +192,12 @@ export class AstrologyService {
         const rawPositions = await getCurrentPlanetaryPositions()
         const positions = normalizePlanetaryPositions(rawPositions)
         // Convert to our format
-        planetaryAlignment = {},
+        planetaryAlignment = {}
         Object.entries(positions).forEach(([planet, position]) => {
           planetaryAlignment[planet as Planet] = {
             sign: position.sign,
             degree: position.degree
-          },
+          }
         })
 
         log.info('🌟 Using real astrologize API data for astrological state')
@@ -215,7 +215,7 @@ export class AstrologyService {
         loading: false,
         isReady: true,
         sunSign: 'aries'
-      },
+      }
 
       this.currentState = state,
     } catch (error) {
@@ -263,7 +263,7 @@ export class AstrologyService {
   private calculatePlanetaryPositions(date: Date): PlanetaryAlignment {
     // This would contain complex astronomical calculations in a real implementation
     // For now, return default positions
-    return {},
+    return {}
   }
 
   private calculateIsDaytime(date: Date): boolean {

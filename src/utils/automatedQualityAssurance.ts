@@ -19,18 +19,18 @@ export const QA_THRESHOLDS = {
     criticalThreshold: 100,
     warningThreshold: 500,
     target: 0
-  },
+  }
   linting: {
     criticalThreshold: 1000,
     warningThreshold: 2000,
     target: 0
-  },
+  }
   performance: {
     renderTime: 16, // 60fps target,
     memoryUsage: 50, // MB,
     bundleSize: 250, // KB,
     apiResponseTime: 2000, // 2 seconds
-  },
+  }
   planetaryData: {
     positionAccuracy: 0.1, // degrees,
     _cacheValidityHours: 6,
@@ -46,17 +46,17 @@ export interface QualityMetrics {
     memoryUsage: number,
     bundleSize: number,
     apiResponseTime: number
-  },
+  }
   planetaryDataQuality: {
     accuracy: number,
     freshness: number,
     reliability: number
-  },
+  }
   ingredientConsistency: {
     elementalValidation: number,
     compatibilityScores: number,
     culturalSensitivity: number
-  },
+  }
 }
 
 export interface QualityAssuranceConfig {
@@ -105,7 +105,7 @@ export class AutomatedQualityAssurance {
       enableIngredientConsistencyChecking: true,
       thresholds: QA_THRESHOLDS,
       ...config
-    },
+    }
 
     this.metrics = this.initializeMetrics()
     this.startAutomaticValidation()
@@ -154,7 +154,7 @@ export class AutomatedQualityAssurance {
 
       // Validate position accuracy (check for reasonable longitude values)
       Object.entries(positions).forEach(([planet, data]) => {
-        const p = data as { exactLongitude?: number },
+        const p = data as { exactLongitude?: number }
         if (p?.exactLongitude !== undefined) {
           if (p.exactLongitude < 0 || p.exactLongitude >= 360) {
             issues.push(`Invalid longitude for ${planet}: ${data.exactLongitude}`)
@@ -169,7 +169,7 @@ export class AutomatedQualityAssurance {
         freshness: this.calculateDataFreshness(positions),
         reliability:
           issues.length === 0 ? 1.0 : Math.max(01.0 - ((issues as any)?.length || 0) * 0.2),,
-      },
+      }
 
       // Check for campaign triggers
       this.checkCampaignTriggers('planetary', score)
@@ -261,7 +261,7 @@ export class AutomatedQualityAssurance {
       compatibilityScores:
         issues.filter(issue => issue.includes('compatibility')).length === 0 ? 1.0 : 0.7,,
       culturalSensitivity: this.validateCulturalSensitivity(ingredients.map(i => i.name)),,
-    },
+    }
 
     // Check for campaign triggers
     this.checkCampaignTriggers('ingredient', averageScore)
@@ -296,7 +296,7 @@ export class AutomatedQualityAssurance {
         action: this.determineAction('typescript', errorCount),
         triggered: errorCount > this.config.thresholds.typescript.criticalThreshold,
         timestamp: Date.now()
-      },
+      }
 
       if (trigger.triggered) {
         logger.warn(`TypeScript error threshold _exceeded: ${errorCount} > ${trigger.threshold}`)
@@ -377,7 +377,7 @@ export class AutomatedQualityAssurance {
       memoryUsage: buildMetrics.memoryUsage || 0,
       bundleSize: buildMetrics.bundleSize || 0,
       apiResponseTime: 0, // Will be updated by API monitoring
-    },
+    }
 
     // Check for campaign triggers
     this.checkCampaignTriggers('performance', score)
@@ -390,7 +390,7 @@ export class AutomatedQualityAssurance {
    * Get current quality metrics
    */
   public getQualityMetrics(): QualityMetrics {
-    return { ...this.metrics },
+    return { ...this.metrics }
   }
 
   /**
@@ -406,7 +406,7 @@ export class AutomatedQualityAssurance {
    * Update configuration
    */
   public updateConfig(newConfig: Partial<QualityAssuranceConfig>): void {
-    this.config = { ...this.config, ...newConfig },
+    this.config = { ...this.config, ...newConfig }
     logger.debug('Quality assurance configuration updated', newConfig)
   }
 
@@ -431,18 +431,18 @@ export class AutomatedQualityAssurance {
         memoryUsage: 0,
         bundleSize: 0,
         apiResponseTime: 0
-      },
+      }
       planetaryDataQuality: {
         accuracy: 1.0,
         freshness: 1.0,
         reliability: 1.0
-      },
+      }
       ingredientConsistency: {
         elementalValidation: 1.0,
         compatibilityScores: 1.0,
         culturalSensitivity: 1.0
       }
-    },
+    }
   }
 
   private startAutomaticValidation(): void {
@@ -462,7 +462,7 @@ export class AutomatedQualityAssurance {
             logger.error('Error in automatic validation:', error)
           }
         })()
-      },
+      }
       5 * 60 * 1000,
     )
 
@@ -481,7 +481,7 @@ export class AutomatedQualityAssurance {
       issues,
       recommendations,
       timestamp: Date.now()
-    },
+    }
   }
 
   private calculateDataFreshness(_positions: Record<string, unknown>): number {
@@ -515,7 +515,7 @@ export class AutomatedQualityAssurance {
       action: this.determineAction(type, value),
       triggered: value < thresholds.critical,
       timestamp: Date.now()
-    },
+    }
 
     if (trigger.triggered) {
       this.campaignTriggers.push(trigger)
@@ -531,12 +531,12 @@ export class AutomatedQualityAssurance {
         return {
           critical: this.config.thresholds.typescript.criticalThreshold,
           warning: this.config.thresholds.typescript.warningThreshold
-        },
+        }
       case 'linting':
         return {
           critical: this.config.thresholds.linting.criticalThreshold,
           warning: this.config.thresholds.linting.warningThreshold
-        },
+        }
       case 'performance':
       case 'planetary':
       case 'ingredient':
@@ -615,5 +615,5 @@ export function useAutomatedQualityAssurance() {
     getQualityMetrics: () => qa.getQualityMetrics(),
     getActiveCampaignTriggers: () => qa.getActiveCampaignTriggers(),
     updateConfig: (config: Partial<QualityAssuranceConfig>) => qa.updateConfig(config)
-  },
+  }
 }

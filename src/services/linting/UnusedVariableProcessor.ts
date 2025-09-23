@@ -70,7 +70,7 @@ export class UnusedVariableProcessor {
       skipped: 0,
       errors: [],
       preservedCritical: []
-    },
+    }
 
     log.info(`Found ${issues.length} unused variable issues`)
 
@@ -167,7 +167,7 @@ export class UnusedVariableProcessor {
       context: message.message,
       isCritical,
       canAutoFix: !isCritical && (isTest || this.canSafelyPrefix(variableName))
-    },
+    }
   }
 
   private parseUnusedVariableLine(line: string): UnusedVariableIssue | null {
@@ -188,7 +188,7 @@ export class UnusedVariableProcessor {
       context,
       isCritical,
       canAutoFix: !isCritical && (isTest || this.canSafelyPrefix(variableName))
-    },
+    }
   }
 
   private isCriticalVariable(variableName: string, filePath: string): boolean {
@@ -235,7 +235,7 @@ export class UnusedVariableProcessor {
   }
 
   private groupIssuesByFile(issues: UnusedVariableIssue[]): Record<string, UnusedVariableIssue[]> {
-    const grouped: Record<string, UnusedVariableIssue[]> = {},
+    const grouped: Record<string, UnusedVariableIssue[]> = {}
 
     for (const issue of issues) {
       if (!grouped[issue.file]) {
@@ -256,7 +256,7 @@ export class UnusedVariableProcessor {
     preserved: string[]
   }> {
     if (!fs.existsSync(filePath)) {
-      return { fixed: 0, skipped: issues.length, preserved: [] },
+      return { fixed: 0, skipped: issues.length, preserved: [] }
     }
 
     const content = fs.readFileSync(filePath, 'utf8')
@@ -303,7 +303,7 @@ export class UnusedVariableProcessor {
       fs.writeFileSync(filePath, lines.join('\n'))
     }
 
-    return { fixed, skipped, preserved },
+    return { fixed, skipped, preserved }
   }
 
   private prefixUnusedVariable(line: string, issue: UnusedVariableIssue): string {

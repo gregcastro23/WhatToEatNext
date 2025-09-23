@@ -6,7 +6,7 @@ import {
     dryCookingMethods,
     molecularCookingMethods,
     wetCookingMethods
-} from '@/data/cooking/methods',
+} from '@/data/cooking/methods';
 import type { CookingMethodData } from '@/types/cookingMethod';
 
 // Inline temporary CookingMethodsSection to avoid test component dependencies
@@ -78,9 +78,9 @@ export default function CookingMethodsDemoPage() {
             Water: Math.random(),
             Earth: Math.random(),
             Air: Math.random()
-          },
+          }
         score,
-        duration: (method as any).time_range || (method as any).duration || { min: 10, max: 30 },
+        duration: (method as any).time_range || (method as any).duration || { min: 10, max: 30 }
         suitable_for: (method as any).suitable_for || [],
         benefits: (method as any).benefits || [],
         // Create variations if they exist
@@ -95,18 +95,18 @@ export default function CookingMethodsDemoPage() {
                   Water: Math.random(),
                   Earth: Math.random(),
                   Air: Math.random()
-                },
+                }
                 score: score - 0.1 + Math.random() * 0.2, // Slightly vary from parent score
               }))
             : []
           : []
-      },
+      }
     })
-  },
+  }
 
   const handleSelectMethod = (method: unknown) => {
     setSelectedMethod(method as CookingMethodData)
-  },
+  }
 
   return (
     <Container maxWidth='lg' sx={{ py: 6 }}>

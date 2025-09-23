@@ -47,13 +47,13 @@ export interface UnusedVariable {
     called: boolean,
     exported: boolean,
     imported: boolean
-  },
+  }
   context: {
     nearbyCode: string,
     containingFunction?: string,
     containingClass?: string,
     containingModule: string
-  },
+  }
   riskLevel: 'low' | 'medium' | 'high',
   confidence: number,
   estimatedImpact: 'none' | 'low' | 'medium' | 'high',
@@ -75,7 +75,7 @@ export interface UnusedImport {
     bundleSize: number,
     loadTime: number,
     memoryUsage: number
-  },
+  }
 }
 
 export interface UnusedExport {
@@ -116,7 +116,7 @@ export interface CleanupRecommendation {
     bundleSize: number,
     performance: number,
     maintainability: number
-  },
+  }
   risks: string[],
   automationPossible: boolean,
   dependencies: string[],
@@ -136,7 +136,7 @@ export interface DetectionResult {
     totalSavings: number,
     riskLevel: 'low' | 'medium' | 'high',
     automationPotential: number
-  },
+  }
   timestamp: Date
 }
 
@@ -188,7 +188,7 @@ export class UnusedVariableDetector extends EventEmitter {
     confidenceThreshold: 0.7,
     enableAutomation: false,
     safetyChecks: true
-  },
+  }
 
   constructor() {
     super()
@@ -204,7 +204,7 @@ export class UnusedVariableDetector extends EventEmitter {
     targetPath: string = '.',,
     options: Partial<DetectionOptions> = {}
   ): Promise<DetectionResult[]> {
-    const mergedOptions = { ...this.DEFAULT_OPTIONS, ...options },
+    const mergedOptions = { ...this.DEFAULT_OPTIONS, ...options }
 
     if (this.isAnalyzing) {
       throw new Error('Detection already in progress')
@@ -429,9 +429,9 @@ export class UnusedVariableDetector extends EventEmitter {
           ),
           riskLevel: this.calculateRiskLevel(filteredVariables, unusedImports, unusedExports),
           automationPotential: this.calculateAutomationPotential(recommendations)
-        },
+        }
         timestamp: new Date()
-      },
+      }
 
       return result,
     } catch (error) {
@@ -468,12 +468,12 @@ export class UnusedVariableDetector extends EventEmitter {
             containingFunction: this.getContainingFunction(declaration, content),
             containingClass: this.getContainingClass(declaration, content),
             containingModule: path.basename(filePath)
-          },
+          }
           riskLevel: this.calculateVariableRisk(declaration, usage),
           confidence: this.calculateVariableConfidence(declaration, usage, content),
           estimatedImpact: this.calculateVariableImpact(declaration, usage),
           lastModified: new Date()
-        },
+        }
 
         unusedVariables.push(unusedVar)
       }
@@ -564,7 +564,7 @@ export class UnusedVariableDetector extends EventEmitter {
    * Analyze variable usage
    */
   private analyzeVariableUsage(
-    declaration: { name: string, line: number, [key: string]: unknown },
+    declaration: { name: string, line: number, [key: string]: unknown }
     content: string,
   ): UnusedVariable['usage'] {
     const name = declaration.name;
@@ -589,7 +589,7 @@ export class UnusedVariableDetector extends EventEmitter {
       called,
       exported,
       imported
-    },
+    }
   }
 
   /**
@@ -782,7 +782,7 @@ export class UnusedVariableDetector extends EventEmitter {
       isDevelopmentOnly: this.isDevelopmentOnlyImport(importPath);
       relatedExports: [],
       estimatedSavings: this.calculateImportSavings(importPath)
-    },
+    }
   }
 
   /**
@@ -949,7 +949,7 @@ export class UnusedVariableDetector extends EventEmitter {
   // ========== HELPER METHODS ==========
 
   private determineScope(
-    declaration: { line: number, [key: string]: unknown },
+    declaration: { line: number, [key: string]: unknown }
     _content: string,
   ): UnusedVariable['scope'] {
     if (declaration.type === 'import' || declaration.type === 'export') {
@@ -975,7 +975,7 @@ export class UnusedVariableDetector extends EventEmitter {
   }
 
   private getContainingFunction(
-    declaration: { line: number, [key: string]: unknown },
+    declaration: { line: number, [key: string]: unknown }
     content: string,
   ): string | undefined {
     const lines = content.split('\n')
@@ -994,7 +994,7 @@ export class UnusedVariableDetector extends EventEmitter {
   }
 
   private getContainingClass(
-    declaration: { line: number, [key: string]: unknown },
+    declaration: { line: number, [key: string]: unknown }
     content: string,
   ): string | undefined {
     const lines = content.split('\n')
@@ -1013,7 +1013,7 @@ export class UnusedVariableDetector extends EventEmitter {
   }
 
   private calculateVariableRisk(
-    declaration: { name: string, [key: string]: unknown },
+    declaration: { name: string, [key: string]: unknown }
     usage: UnusedVariable['usage'],
   ): UnusedVariable['riskLevel'] {
     if (declaration.type === 'interface' || declaration.type === 'type') {
@@ -1032,7 +1032,7 @@ export class UnusedVariableDetector extends EventEmitter {
   }
 
   private calculateVariableConfidence(
-    declaration: { name: string, [key: string]: unknown },
+    declaration: { name: string, [key: string]: unknown }
     usage: UnusedVariable['usage'],
     content: string,
   ): number {
@@ -1057,7 +1057,7 @@ export class UnusedVariableDetector extends EventEmitter {
   }
 
   private calculateVariableImpact(
-    declaration: { [key: string]: unknown },
+    declaration: { [key: string]: unknown }
     usage: UnusedVariable['usage'],
   ): UnusedVariable['estimatedImpact'] {
     if (declaration.type === 'interface' || declaration.type === 'type') {
@@ -1098,7 +1098,7 @@ export class UnusedVariableDetector extends EventEmitter {
       bundleSize: isLargeLibrary ? 1000 : 100, // bytes,
       loadTime: isLargeLibrary ? 50 : 10, // milliseconds,
       memoryUsage: isLargeLibrary ? 500 : 50, // bytes
-    },
+    }
   }
 
   private isPublicAPI(exportName: string, filePath: string): boolean {
@@ -1185,7 +1185,7 @@ export class UnusedVariableDetector extends EventEmitter {
             bundleSize: 50,
             performance: 0.1,
             maintainability: 0.3
-          },
+          }
           risks: (variable.riskLevel as string) === 'high' ? ['May break external dependencies'] : [],
           automationPossible: variable.riskLevel === 'low' && variable.confidence > 0.9,
           dependencies: [],
@@ -1208,7 +1208,7 @@ export class UnusedVariableDetector extends EventEmitter {
           bundleSize: importItem.estimatedSavings.bundleSize;
           performance: importItem.estimatedSavings.loadTime / 1000;
           maintainability: 0.2
-        },
+        }
         risks: importItem.isDevelopmentOnly ? [] : ['May be used for side effects'];
         automationPossible: true,
         dependencies: [],
@@ -1231,7 +1231,7 @@ export class UnusedVariableDetector extends EventEmitter {
             bundleSize: 30,
             performance: 0.05,
             maintainability: 0.2
-          },
+          }
           risks:
             exportItem.removalSafety === 'warning' ? ['May be used by external consumers'] : [],,
           automationPossible: exportItem.removalSafety === 'safe',,
@@ -1255,7 +1255,7 @@ export class UnusedVariableDetector extends EventEmitter {
           bundleSize: (block.endLine - block.startLine) * 20,
           performance: block.estimatedRemovalBenefit,
           maintainability: 0.5
-        },
+        }
         risks: block.isReachable ? ['Code might be reachable in some scenarios'] : [],
         automationPossible: !block.isReachable,
         dependencies: block.dependencies,
@@ -1265,7 +1265,7 @@ export class UnusedVariableDetector extends EventEmitter {
 
     // Sort by priority and estimated benefit
     return recommendations.sort((ab) => {
-      const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 },
+      const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 }
       const priorityDiff = priorityOrder[a.priority] - priorityOrder[b.priority];
 
       if (priorityDiff !== 0) return priorityDiff,
@@ -1322,7 +1322,7 @@ export class UnusedVariableDetector extends EventEmitter {
    */
   async performAutomatedCleanup(
     filePath: string,
-    options: { safeOnly: boolean, dryRun: boolean } = { safeOnly: true, dryRun: true },
+    options: { safeOnly: boolean, dryRun: boolean } = { safeOnly: true, dryRun: true }
   ): Promise<{ success: boolean, changes: string[], warnings: string[] }> {
     const result = this.detectionResults.get(filePath)
     if (!result) {
@@ -1370,7 +1370,7 @@ export class UnusedVariableDetector extends EventEmitter {
         fs.writeFileSync(filePath, cleanedContent)
       }
 
-      return { success: true, changes, warnings },
+      return { success: true, changes, warnings }
     } catch (error) {
       return {
         success: false,
@@ -1396,7 +1396,7 @@ export class UnusedVariableDetector extends EventEmitter {
         globalSymbolTable: Array.from(this.globalSymbolTable.entries()),
         crossFileReferences: Array.from(this.crossFileReferences.entries()),
         timestamp: new Date().toISOString()
-      },
+      }
 
       await fs.promises.writeFile(this.RESULTS_FILE, JSON.stringify(data, null, 2))
     } catch (error) {
@@ -1448,7 +1448,7 @@ export class UnusedVariableDetector extends EventEmitter {
       estimatedSavings: results.reduce((sumr) => sum + r.summary.totalSavings, 0),
       automationPotential:
         results.reduce((sumr) => sum + r.summary.automationPotential, 0) / results.length
-    },
+    }
   }
 
   clearResults(): void {
@@ -1476,7 +1476,7 @@ export class UnusedVariableDetector extends EventEmitter {
       isAnalyzing: this.isAnalyzing,
       resultsCount: results.length,
       lastAnalysis
-    },
+    }
   }
 }
 

@@ -68,7 +68,7 @@ export default function CuisineSectionTestPage() {
       } finally {
         setIsLoading(false)
       }
-    },
+    }
 
     void loadRecipes()
   }, [selectedCuisine, recipeService])
@@ -79,7 +79,7 @@ export default function CuisineSectionTestPage() {
     Water: 'bg-blue-500',
     Earth: 'bg-amber-700',
     Air: 'bg-sky-300'
-  },
+  }
 
   // Render elemental state visualization
   const renderElementalState = (elementalState: { [key: string]: number }) => {
@@ -89,16 +89,16 @@ export default function CuisineSectionTestPage() {
           ([element, value]) =>
             element in elementColorClasses && (
               <div
-                key={element},
-                className={`${elementColorClasses[element as keyof typeof elementColorClasses]}`},
+                key={element}
+                className={`${elementColorClasses[element as keyof typeof elementColorClasses]}`}
                 style={{ width: `${value * 100}%` }}
-                title={`${element}: ${Math.round(value * 100)}%`},
+                title={`${element}: ${Math.round(value * 100)}%`}
               />
             )
         )}
       </div>
     )
-  },
+  }
 
   return (
     <div className='mx-auto max-w-6xl px-4 py-8'>
@@ -110,8 +110,8 @@ export default function CuisineSectionTestPage() {
         <div className='flex flex-wrap gap-2'>
           {(availableCuisines || []).map(cuisine => (,
             <button
-              key={cuisine},
-              onClick={() => setSelectedCuisine(cuisine)},
+              key={cuisine}
+              onClick={() => setSelectedCuisine(cuisine)}
               className={`rounded-full px-4 py-2 ${
                 selectedCuisine === cuisine,
                   ? 'bg-blue-600 text-white'
@@ -145,8 +145,8 @@ export default function CuisineSectionTestPage() {
           <h2 className='mb-4 text-xl font-semibold'>🔄 Original Implementation</h2>
           <div className='rounded-lg bg-white'>
             <CuisineSection
-              cuisine={selectedCuisine},
-              recipes={recipes},
+              cuisine={selectedCuisine}
+              recipes={recipes}
               elementalState={{
                 Fire: state.elementalState.Fire ?? 0.25,
                 Water: state.elementalState.Water ?? 0.25,
@@ -164,8 +164,8 @@ export default function CuisineSectionTestPage() {
           <h2 className='mb-4 text-xl font-semibold'>✨ Migrated Implementation</h2>
           <div className='rounded-lg bg-white'>
             <CuisineSectionMigrated
-              cuisine={selectedCuisine},
-              recipes={recipes},
+              cuisine={selectedCuisine}
+              recipes={recipes}
               elementalState={{
                 Fire: state.elementalState.Fire ?? 0.25,
                 Water: state.elementalState.Water ?? 0.25,

@@ -18,7 +18,7 @@ interface ZodiacSeasonData {
     foodGroups: string[],
     herbs: string[],
     spices: string[]
-  },
+  }
 }
 
 // Define the zodiac seasons with their properties
@@ -40,7 +40,7 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
       herbs: ['cayenne', 'chili', 'pepper'],
       spices: ['paprika', 'hot pepper', 'cumin']
     }
-  },
+  }
   taurus: {
     name: 'taurus',
     element: 'Earth',
@@ -58,7 +58,7 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
       herbs: ['thyme', 'rosemary', 'sage'],
       spices: ['nutmeg', 'cinnamon', 'vanilla']
     }
-  },
+  }
   gemini: {
     name: 'gemini',
     element: 'Air',
@@ -76,7 +76,7 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
       herbs: ['mint', 'dill', 'parsley'],
       spices: ['ginger', 'lemongrass', 'cardamom']
     }
-  },
+  }
   cancer: {
     name: 'cancer',
     element: 'Water',
@@ -94,7 +94,7 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
       herbs: ['basil', 'tarragon', 'dill'],
       spices: ['saffron', 'turmeric', 'clove']
     }
-  },
+  }
   leo: {
     name: 'leo',
     element: 'Fire',
@@ -112,7 +112,7 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
       herbs: ['bay leaf', 'oregano', 'saffron'],
       spices: ['turmeric', 'curry', 'cinnamon']
     }
-  },
+  }
   virgo: {
     name: 'virgo',
     element: 'Earth',
@@ -130,7 +130,7 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
       herbs: ['cilantro', 'fennel', 'marjoram'],
       spices: ['cumin', 'coriander', 'caraway']
     }
-  },
+  }
   libra: {
     name: 'libra',
     element: 'Air',
@@ -148,7 +148,7 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
       herbs: ['lavender', 'lemon balm', 'mint'],
       spices: ['rose', 'star anise', 'allspice']
     }
-  },
+  }
   scorpio: {
     name: 'scorpio',
     element: 'Water',
@@ -166,7 +166,7 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
       herbs: ['nettle', 'basil', 'black cumin'],
       spices: ['black pepper', 'fenugreek', 'star anise']
     }
-  },
+  }
   sagittarius: {
     name: 'sagittarius',
     element: 'Fire',
@@ -184,7 +184,7 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
       herbs: ['sage', 'lemongrass', 'cilantro'],
       spices: ['saffron', 'cardamom', 'exotic blends']
     }
-  },
+  }
   capricorn: {
     name: 'capricorn',
     element: 'Earth',
@@ -202,7 +202,7 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
       herbs: ['rosemary', 'thyme', 'winter herbs'],
       spices: ['allspice', 'cloves', 'black pepper']
     }
-  },
+  }
   aquarius: {
     name: 'aquarius',
     element: 'Air',
@@ -220,7 +220,7 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
       herbs: ['lemon verbena', 'sorrel', 'uncommon herbs'],
       spices: ['szechuan pepper', 'sumac', 'unusual spice blends']
     }
-  },
+  }
   pisces: {
     name: 'pisces',
     element: 'Water',
@@ -239,7 +239,7 @@ export const zodiacSeasons: Record<ZodiacSign, ZodiacSeasonData> = {
       spices: ['white pepper', 'anise', 'saffron']
     }
   }
-},
+}
 
 /**
  * Get the zodiac sign for a given date

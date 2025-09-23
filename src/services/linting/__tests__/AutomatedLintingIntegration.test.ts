@@ -57,7 +57,7 @@ describe('AutomatedLintingIntegration', () => {
           criticalIssuesCount: 0,
           estimatedResolutionTime: 30,
           overallRiskLevel: 'medium' as const
-        },
+        }
         categorizedErrors: { total: 10,
           errors: 2,
           warnings: 8,
@@ -66,15 +66,15 @@ describe('AutomatedLintingIntegration', () => {
             // Intentionally, any: Test mock rule structures need flexible typing, typescript: [{ rule: '@typescript-eslint/no-unused-vars' } as any<Record<string, unknown>>],
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             // Intentionally, any: Test mock rule structures need flexible typing, import: [{ rule: 'import/order' } as any<Record<string, unknown>>]
-          },
-          byPriority: {  1: [], 2: [], 3: [], 4: [] },
-          byFile: {},
+          }
+          byPriority: {  1: [], 2: [], 3: [], 4: [] }
+          byFile: {}
           autoFixable: [
-            { rule: '@typescript-eslint/no-unused-vars', autoFixable: true },
+            { rule: '@typescript-eslint/no-unused-vars', autoFixable: true }
             { rule: 'import/order', autoFixable: true }
           ],
           requiresManualReview: []
-        },
+        }
         fileAnalyses: [],
         resolutionStrategies: [],
         optimizedPlan: { totalStrategies: 0,
@@ -82,19 +82,19 @@ describe('AutomatedLintingIntegration', () => {
           totalSteps: 0,
           executionOrder: [],
           parallelizableWork: 0,
-          riskDistribution: {},
+          riskDistribution: {}
           recommendations: []
-        },
+        }
         recommendations: [],
         metrics: { analysisTime: 1000,
           filesAnalyzed: 5,
           rulesTriggered: ['@typescript-eslint/no-unused-vars', 'import/order'];
-          domainDistribution: {},
-          severityDistribution: {},
-          complexityDistribution: {},
+          domainDistribution: {}
+          severityDistribution: {}
+          complexityDistribution: {}
           confidenceScores: { average: 0.8, median: 0.8, distribution: {} }
         }
-      },
+      }
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
@@ -117,8 +117,8 @@ describe('AutomatedLintingIntegration', () => {
           issuesFailed: 0,
           validationTime: 1000,
           rollbacksPerformed: 0
-        },
-      },
+        }
+      }
 
       mockFixer.applyAutomatedFixes.mockResolvedValue(mockFixResult)
       mockFixer.handleUnusedVariables.mockResolvedValue({
@@ -132,7 +132,7 @@ describe('AutomatedLintingIntegration', () => {
 
       const options: AutomatedLintingWorkflowOptions = { automationLevel: 'moderate',,
         dryRun: false
-      },
+      }
 
       const result: any = await integration.executeAutomatedWorkflow(options)
 
@@ -155,16 +155,16 @@ describe('AutomatedLintingIntegration', () => {
           criticalIssuesCount: 2, // High critical count,
           estimatedResolutionTime: 15,
           overallRiskLevel: 'high' as const
-        },
+        }
         categorizedErrors: { total: 5,
           errors: 1,
           warnings: 4,
-          byCategory: { typescrip, t: [] as unknown[], import: [] as unknown[] },
-          byPriority: {  1: [], 2: [], 3: [], 4: [] },
-          byFile: {},
+          byCategory: { typescrip, t: [] as unknown[], import: [] as unknown[] }
+          byPriority: {  1: [], 2: [], 3: [], 4: [] }
+          byFile: {}
           autoFixable: [],
           requiresManualReview: []
-        },
+        }
         fileAnalyses: [],
         resolutionStrategies: [],
         optimizedPlan: { totalStrategies: 0,
@@ -172,19 +172,19 @@ describe('AutomatedLintingIntegration', () => {
           totalSteps: 0,
           executionOrder: [],
           parallelizableWork: 0,
-          riskDistribution: {},
+          riskDistribution: {}
           recommendations: []
-        },
+        }
         recommendations: [],
         metrics: { analysisTime: 500,
           filesAnalyzed: 2,
           rulesTriggered: [],
-          domainDistribution: {},
-          severityDistribution: {},
-          complexityDistribution: {},
+          domainDistribution: {}
+          severityDistribution: {}
+          complexityDistribution: {}
           confidenceScores: { average: 05, median: 0.5, distribution: {} }
         }
-      },
+      }
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
@@ -232,16 +232,16 @@ describe('AutomatedLintingIntegration', () => {
           criticalIssuesCount: 0,
           estimatedResolutionTime: 10,
           overallRiskLevel: 'low' as const
-        },
+        }
         categorizedErrors: { total: 20,
           errors: 0,
           warnings: 20,
-          byCategory: { typescrip, t: [] as unknown[], import: [] as unknown[] },
-          byPriority: {  1: [], 2: [], 3: [], 4: [] },
-          byFile: {},
+          byCategory: { typescrip, t: [] as unknown[], import: [] as unknown[] }
+          byPriority: {  1: [], 2: [], 3: [], 4: [] }
+          byFile: {}
           autoFixable: [],
           requiresManualReview: []
-        },
+        }
         fileAnalyses: [],
         resolutionStrategies: [],
         optimizedPlan: { totalStrategies: 0,
@@ -249,19 +249,19 @@ describe('AutomatedLintingIntegration', () => {
           totalSteps: 0,
           executionOrder: [],
           parallelizableWork: 0,
-          riskDistribution: {},
+          riskDistribution: {}
           recommendations: []
-        },
+        }
         recommendations: [],
         metrics: { analysisTime: 800,
           filesAnalyzed: 10,
           rulesTriggered: [],
-          domainDistribution: {},
-          severityDistribution: {},
-          complexityDistribution: {},
+          domainDistribution: {}
+          severityDistribution: {}
+          complexityDistribution: {}
           confidenceScores: { average: 0.9, median: 0.9, distribution: {} }
         }
-      },
+      }
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
@@ -309,16 +309,16 @@ describe('AutomatedLintingIntegration', () => {
           criticalIssuesCount: 0,
           estimatedResolutionTime: 60,
           overallRiskLevel: 'medium' as const
-        },
+        }
         categorizedErrors: { total: 150,
           errors: 10,
           warnings: 140,
-          byCategory: { typescrip, t: [], import: [] },
-          byPriority: {  1: [], 2: [], 3: [], 4: [] },
-          byFile: {},
+          byCategory: { typescrip, t: [], import: [] }
+          byPriority: {  1: [], 2: [], 3: [], 4: [] }
+          byFile: {}
           autoFixable: [],
           requiresManualReview: []
-        },
+        }
         fileAnalyses: [],
         resolutionStrategies: [],
         optimizedPlan: { totalStrategies: 0,
@@ -326,19 +326,19 @@ describe('AutomatedLintingIntegration', () => {
           totalSteps: 0,
           executionOrder: [],
           parallelizableWork: 0,
-          riskDistribution: {},
+          riskDistribution: {}
           recommendations: []
-        },
+        }
         recommendations: [],
         metrics: { analysisTime: 2000,
           filesAnalyzed: 50,
           rulesTriggered: [],
-          domainDistribution: {},
-          severityDistribution: {},
-          complexityDistribution: {},
+          domainDistribution: {}
+          severityDistribution: {}
+          complexityDistribution: {}
           confidenceScores: { average: 0.7, median: 0.7, distribution: {} }
         }
-      },
+      }
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
@@ -390,14 +390,14 @@ describe('AutomatedLintingIntegration', () => {
           criticalIssuesCount: 0,
           estimatedResolutionTime: 5,
           overallRiskLevel: 'low' as const
-        },
+        }
         topIssues: [],
         quickWins: [
-          { rule: 'import/order', autoFixable: true, severity: 'warning' as const },
+          { rule: 'import/order', autoFixable: true, severity: 'warning' as const }
           { rule: 'semi', autoFixable: true, severity: 'warning' as const }
         ],
         criticalIssues: []
-      },
+      }
 
       mockAnalysisService.performQuickAnalysis.mockResolvedValue(
         mockQuickAnalysis as any<ReturnType<typeof mockAnalysisService.performQuickAnalysis>>
@@ -446,11 +446,11 @@ describe('AutomatedLintingIntegration', () => {
           criticalIssuesCount: 0,
           estimatedResolutionTime: 3,
           overallRiskLevel: 'low' as const
-        },
+        }
         topIssues: [],
         quickWins: [{ rule: 'quotes', autoFixable: true, severity: 'warning' as const }],
         criticalIssues: [],
-      },
+      }
 
       mockAnalysisService.performQuickAnalysis.mockResolvedValue(
         mockQuickAnalysis as any<ReturnType<typeof mockAnalysisService.performQuickAnalysis>>
@@ -495,20 +495,20 @@ describe('AutomatedLintingIntegration', () => {
           criticalIssuesCount: 0,
           estimatedResolutionTime: 10,
           overallRiskLevel: 'low' as const
-        },
+        }
         categorizedErrors: { total: 5,
           errors: 0,
           warnings: 5,
           byCategory: { typescript: [
-              { rule: '@typescript-eslint/no-unused-vars', message: ''unusedVar' is defined but never used' },
+              { rule: '@typescript-eslint/no-unused-vars', message: ''unusedVar' is defined but never used' }
               { rule: '@typescript-eslint/no-unused-vars', message: ''anotherVar' is defined but never used' }
             ]
-          },
-          byPriority: {  1: [], 2: [], 3: [], 4: [] },
-          byFile: {},
+          }
+          byPriority: {  1: [], 2: [], 3: [], 4: [] }
+          byFile: {}
           autoFixable: [],
           requiresManualReview: []
-        },
+        }
         fileAnalyses: [],
         resolutionStrategies: [],
         optimizedPlan: { totalStrategies: 0,
@@ -516,19 +516,19 @@ describe('AutomatedLintingIntegration', () => {
           totalSteps: 0,
           executionOrder: [],
           parallelizableWork: 0,
-          riskDistribution: {},
+          riskDistribution: {}
           recommendations: []
-        },
+        }
         recommendations: [],
         metrics: { analysisTime: 500,
           filesAnalyzed: 2,
           rulesTriggered: [],
-          domainDistribution: {},
-          severityDistribution: {},
-          complexityDistribution: {},
+          domainDistribution: {}
+          severityDistribution: {}
+          complexityDistribution: {}
           confidenceScores: { average: 0.8, median: 0.8, distribution: {} }
         }
-      },
+      }
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
@@ -578,16 +578,16 @@ describe('AutomatedLintingIntegration', () => {
           criticalIssuesCount: 0,
           estimatedResolutionTime: 0,
           overallRiskLevel: 'low' as const
-        },
+        }
         categorizedErrors: { total: 0,
           errors: 0,
           warnings: 0,
-          byCategory: { typescrip, t: [] },
-          byPriority: {  1: [], 2: [], 3: [], 4: [] },
-          byFile: {},
+          byCategory: { typescrip, t: [] }
+          byPriority: {  1: [], 2: [], 3: [], 4: [] }
+          byFile: {}
           autoFixable: [],
           requiresManualReview: []
-        },
+        }
         fileAnalyses: [],
         resolutionStrategies: [],
         optimizedPlan: { totalStrategies: 0,
@@ -595,19 +595,19 @@ describe('AutomatedLintingIntegration', () => {
           totalSteps: 0,
           executionOrder: [],
           parallelizableWork: 0,
-          riskDistribution: {},
+          riskDistribution: {}
           recommendations: []
-        },
+        }
         recommendations: [],
         metrics: { analysisTime: 100,
           filesAnalyzed: 0,
           rulesTriggered: [],
-          domainDistribution: {},
-          severityDistribution: {},
-          complexityDistribution: {},
+          domainDistribution: {}
+          severityDistribution: {}
+          complexityDistribution: {}
           confidenceScores: { average: 0, median: 0, distribution: {} }
         }
-      },
+      }
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
@@ -632,20 +632,20 @@ describe('AutomatedLintingIntegration', () => {
           criticalIssuesCount: 0,
           estimatedResolutionTime: 5,
           overallRiskLevel: 'low' as const
-        },
+        }
         categorizedErrors: { total: 3,
           errors: 0,
           warnings: 3,
           byCategory: { import: [
-              { rule: 'import/order', message: 'Import order is incorrect' },
+              { rule: 'import/order', message: 'Import order is incorrect' }
               { rule: 'import/newline-after-import', message: 'Missing newline after import' }
             ]
-          },
-          byPriority: {  1: [], 2: [], 3: [], 4: [] },
-          byFile: {},
+          }
+          byPriority: {  1: [], 2: [], 3: [], 4: [] }
+          byFile: {}
           autoFixable: [],
           requiresManualReview: []
-        },
+        }
         fileAnalyses: [],
         resolutionStrategies: [],
         optimizedPlan: { totalStrategies: 0,
@@ -653,19 +653,19 @@ describe('AutomatedLintingIntegration', () => {
           totalSteps: 0,
           executionOrder: [],
           parallelizableWork: 0,
-          riskDistribution: {},
+          riskDistribution: {}
           recommendations: []
-        },
+        }
         recommendations: [],
         metrics: { analysisTime: 300,
           filesAnalyzed: 1,
           rulesTriggered: [],
-          domainDistribution: {},
-          severityDistribution: {},
-          complexityDistribution: {},
+          domainDistribution: {}
+          severityDistribution: {}
+          complexityDistribution: {}
           confidenceScores: { average: 0.9, median: 0.9, distribution: {} }
         }
-      },
+      }
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
@@ -715,16 +715,16 @@ describe('AutomatedLintingIntegration', () => {
           criticalIssuesCount: 0,
           estimatedResolutionTime: 0,
           overallRiskLevel: 'low' as const
-        },
+        }
         categorizedErrors: { total: 0,
           errors: 0,
           warnings: 0,
-          byCategory: { import: [] },
-          byPriority: {  1: [], 2: [], 3: [], 4: [] },
-          byFile: {},
+          byCategory: { import: [] }
+          byPriority: {  1: [], 2: [], 3: [], 4: [] }
+          byFile: {}
           autoFixable: [],
           requiresManualReview: []
-        },
+        }
         fileAnalyses: [],
         resolutionStrategies: [],
         optimizedPlan: { totalStrategies: 0,
@@ -732,19 +732,19 @@ describe('AutomatedLintingIntegration', () => {
           totalSteps: 0,
           executionOrder: [],
           parallelizableWork: 0,
-          riskDistribution: {},
+          riskDistribution: {}
           recommendations: []
-        },
+        }
         recommendations: [],
         metrics: { analysisTime: 100,
           filesAnalyzed: 0,
           rulesTriggered: [],
-          domainDistribution: {},
-          severityDistribution: {},
-          complexityDistribution: {},
+          domainDistribution: {}
+          severityDistribution: {}
+          complexityDistribution: {}
           confidenceScores: { average: 0, median: 0, distribution: {} }
         }
-      },
+      }
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
@@ -775,16 +775,16 @@ describe('AutomatedLintingIntegration', () => {
           criticalIssuesCount: 0,
           estimatedResolutionTime: 10,
           overallRiskLevel: 'low' as const
-        },
+        }
         categorizedErrors: { total: 5,
           errors: 0,
           warnings: 5,
-          byCategory: { typescrip, t: [], import: [] },
-          byPriority: {  1: [], 2: [], 3: [], 4: [] },
-          byFile: {},
+          byCategory: { typescrip, t: [], import: [] }
+          byPriority: {  1: [], 2: [], 3: [], 4: [] }
+          byFile: {}
           autoFixable: [],
           requiresManualReview: []
-        },
+        }
         fileAnalyses: [],
         resolutionStrategies: [],
         optimizedPlan: { totalStrategies: 0,
@@ -792,19 +792,19 @@ describe('AutomatedLintingIntegration', () => {
           totalSteps: 0,
           executionOrder: [],
           parallelizableWork: 0,
-          riskDistribution: {},
+          riskDistribution: {}
           recommendations: []
-        },
+        }
         recommendations: [],
         metrics: { analysisTime: 500,
           filesAnalyzed: 2,
           rulesTriggered: [],
-          domainDistribution: {},
-          severityDistribution: {},
-          complexityDistribution: {},
+          domainDistribution: {}
+          severityDistribution: {}
+          complexityDistribution: {}
           confidenceScores: { average: 0.7, median: 0.7, distribution: {} }
         }
-      },
+      }
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
@@ -855,16 +855,16 @@ describe('AutomatedLintingIntegration', () => {
           criticalIssuesCount: 0,
           estimatedResolutionTime: 20,
           overallRiskLevel: 'low' as const
-        },
+        }
         categorizedErrors: { total: 10,
           errors: 2,
           warnings: 8,
-          byCategory: { typescrip, t: [], import: [] },
-          byPriority: {  1: [], 2: [], 3: [], 4: [] },
-          byFile: {},
+          byCategory: { typescrip, t: [], import: [] }
+          byPriority: {  1: [], 2: [], 3: [], 4: [] }
+          byFile: {}
           autoFixable: [],
           requiresManualReview: []
-        },
+        }
         fileAnalyses: [],
         resolutionStrategies: [],
         optimizedPlan: { totalStrategies: 0,
@@ -872,19 +872,19 @@ describe('AutomatedLintingIntegration', () => {
           totalSteps: 0,
           executionOrder: [],
           parallelizableWork: 0,
-          riskDistribution: {},
+          riskDistribution: {}
           recommendations: []
-        },
+        }
         recommendations: [],
         metrics: { analysisTime: 1000,
           filesAnalyzed: 5,
           rulesTriggered: [],
-          domainDistribution: {},
-          severityDistribution: {},
-          complexityDistribution: {},
+          domainDistribution: {}
+          severityDistribution: {}
+          complexityDistribution: {}
           confidenceScores: { average: 08, median: 0.8, distribution: {} }
         }
-      },
+      }
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
         mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>

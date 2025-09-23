@@ -24,14 +24,14 @@ const _mockESLintOutput = [
         line: 1,
         column: 1,
         fix: { range: [5151], text: '\n' }
-      },
+      }
       {
         ruleId: '@typescript-eslint/no-explicit-any',
         severity: 1,
         message: 'Unexpected any. Specify a different type.',
         line: 15,
         column: 10
-      },
+      }
       {
         ruleId: 'react-hooks/exhaustive-deps',
         severity: 1,
@@ -40,7 +40,7 @@ const _mockESLintOutput = [
         column: 5
       }
     ]
-  },
+  }
   {
     filePath: '/project/src/calculations/astrology.ts',
     messages: [
@@ -50,7 +50,7 @@ const _mockESLintOutput = [
         message: ''planetPosition' is defined but never used',
         line: 10,
         column: 7
-      },
+      }
       {
         ruleId: 'no-console',
         severity: 1,
@@ -59,7 +59,7 @@ const _mockESLintOutput = [
         column: 5
       }
     ]
-  },
+  }
   {
     filePath: '/project/src/services/campaign/CampaignController.ts',
     messages: [
@@ -69,7 +69,7 @@ const _mockESLintOutput = [
         message: 'Function has a complexity of 12. Maximum allowed is 10.',
         line: 50,
         column: 1
-      },
+      }
       {
         ruleId: 'no-console',
         severity: 1,
@@ -97,19 +97,19 @@ function demonstrateErrorClassification() {
       message: 'Import order incorrect',
       file: 'src/App.tsx',
       hasAutoFix: true
-    },
+    }
     {
       rule: '@typescript-eslint/no-explicit-any',
       message: 'Unexpected any',
       file: 'src/utils.ts',
       hasAutoFix: false
-    },
+    }
     {
       rule: 'react-hooks/exhaustive-deps',
       message: 'Missing dependency',
       file: 'src/components/Component.tsx',
       hasAutoFix: true
-    },
+    }
     {
       rule: 'no-console',
       message: 'Console statement',
@@ -181,10 +181,10 @@ async function demonstrateDomainContextDetection() {
           indicators: [],
           specialRules: [],
           handlingRecommendations: []
-        },
+        }
         riskFactors: [],
         preservationRequirements: []
-      },
+      }
 
       log.info(`\n📁 File: ${file}`)
       log.info(`   Domain: ${mockAnalysis.domainContext.type}`)
@@ -198,7 +198,7 @@ async function demonstrateDomainContextDetection() {
           indicators: unknown[],
           specialRules: unknown[],
           handlingRecommendations: unknown[]
-        },
+        }
       )
       if (recommendations.rulesToDisable.length > 0) {
         log.info(`   Rules to disable: ${recommendations.rulesToDisable.join(', ')}`)
@@ -225,9 +225,9 @@ function demonstrateResolutionStrategies() {
   // Create mock contexts for strategy generation
   const testContexts: Array<{
     errorClassification: ReturnType<ErrorClassificationSystem['classifyError']>,
-    domainContext: { type: string, confidence: number },
-    fileAnalysis: { filePath: string, riskFactors: unknown[], preservationRequirements: unknown[] },
-    projectContext: { hasTests: boolean, teamSize: string, riskTolerance: string },
+    domainContext: { type: string, confidence: number }
+    fileAnalysis: { filePath: string, riskFactors: unknown[], preservationRequirements: unknown[] }
+    projectContext: { hasTests: boolean, teamSize: string, riskTolerance: string }
   }> = [
     {
       errorClassification: classifier.classifyError(
@@ -236,10 +236,10 @@ function demonstrateResolutionStrategies() {
         'src/App.tsx'
         true,
       ),
-      domainContext: { type: 'component', confidence: 0.9 },
-      fileAnalysis: { filePath: 'src/App.tsx', riskFactors: [], preservationRequirements: [] },
+      domainContext: { type: 'component', confidence: 0.9 }
+      fileAnalysis: { filePath: 'src/App.tsx', riskFactors: [], preservationRequirements: [] }
       projectContext: { hasTests: true, teamSize: 'small', riskTolerance: 'moderate' }
-    },
+    }
     {
       errorClassification: classifier.classifyError(
         '@typescript-eslint/no-explicit-any',
@@ -247,12 +247,12 @@ function demonstrateResolutionStrategies() {
         'src/calculations/astrology.ts'
         false,
       ),
-      domainContext: { type: 'astrological', confidence: 0.95 },
+      domainContext: { type: 'astrological', confidence: 0.95 }
       fileAnalysis: {
         filePath: 'src/calculations/astrology.ts',
         riskFactors: [],
         preservationRequirements: []
-      },
+      }
       projectContext: { hasTests: true, teamSize: 'small', riskTolerance: 'conservative' }
     }
   ],
@@ -298,7 +298,7 @@ function demonstrateCompleteWorkflow() {
           rule: 'import/order';
           message: 'Import order incorrect',
           severity: 'error',
-          category: { primary: 'import', secondary: 'order', priority: 2 },
+          category: { primary: 'import', secondary: 'order', priority: 2 }
           autoFixable: true,
           resolutionStrategy: {
             type: 'auto-fix',
@@ -319,7 +319,7 @@ function demonstrateCompleteWorkflow() {
           rule: '@typescript-eslint/no-explicit-any',
           message: 'Unexpected any',
           severity: 'warning',
-          category: { primary: 'typescript', secondary: 'no-explicit-any', priority: 3 },
+          category: { primary: 'typescript', secondary: 'no-explicit-any', priority: 3 }
           autoFixable: false,
           resolutionStrategy: {
             type: 'manual-review',
@@ -340,7 +340,7 @@ function demonstrateCompleteWorkflow() {
           rule: 'react-hooks/exhaustive-deps',
           message: 'Missing dependency',
           severity: 'warning',
-          category: { primary: 'react', secondary: 'exhaustive-deps', priority: 2 },
+          category: { primary: 'react', secondary: 'exhaustive-deps', priority: 2 }
           autoFixable: true,
           resolutionStrategy: {
             type: 'manual-review',
@@ -352,12 +352,12 @@ function demonstrateCompleteWorkflow() {
           }
         } as LintingIssue
       ]
-    },
-    byPriority: {},
-    byFile: {},
+    }
+    byPriority: {}
+    byFile: {}
     autoFixable: [],
     requiresManualReview: []
-  },
+  }
 
   // Populate derived fields
   const allIssues = Object.values(mockCategorizedErrors.byCategory).flat()
@@ -451,4 +451,4 @@ if (require.main === module) {
   void runDemonstration()
 }
 
-export { runDemonstration },
+export { runDemonstration };

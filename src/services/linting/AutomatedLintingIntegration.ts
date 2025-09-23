@@ -13,7 +13,7 @@ import {
   AutomatedFixResult,
   BatchProcessingOptions,
   SafetyProtocols
-} from './AutomatedLintingFixer',
+} from './AutomatedLintingFixer';
 import { LintingAnalysisService, ComprehensiveAnalysisResult } from './LintingAnalysisService';
 import { LintingIssue, CategorizedErrors } from './LintingErrorAnalyzer';
 
@@ -23,7 +23,7 @@ export interface AutomatedLintingWorkflowOptions {
     generateStrategies?: boolean,
     focusAreas?: ('import' | 'typescript' | 'react' | 'style' | 'domain')[];
     riskTolerance?: 'conservative' | 'moderate' | 'aggressive'
-  },
+  }
   batchProcessingOptions?: Partial<BatchProcessingOptions>,
   safetyProtocols?: Partial<SafetyProtocols>,
   automationLevel?: 'conservative' | 'moderate' | 'aggressive',
@@ -37,7 +37,7 @@ export interface AutomatedLintingWorkflowResult {
     unusedVariables?: AutomatedFixResult,
     imports?: AutomatedFixResult;
     typeAnnotations?: AutomatedFixResult
-  },
+  }
   summary: WorkflowSummary,
   recommendations: WorkflowRecommendation[],
   metrics: WorkflowMetrics
@@ -146,7 +146,7 @@ export class AutomatedLintingIntegration {
         summary,
         recommendations,
         metrics
-      },
+      }
 
       log.info('🎉 Automated linting workflow complete!')
       this.logWorkflowResults(result)
@@ -183,7 +183,7 @@ export class AutomatedLintingIntegration {
           '**/*astrological*',
           '**/*campaign*'
         ]
-      },
+      }
 
       const quickFixer = new AutomatedLintingFixer(this.workspaceRoot, safetyProtocols)
 
@@ -198,7 +198,7 @@ export class AutomatedLintingIntegration {
         byFile: this.groupIssuesByFile(quickWinIssues),
         autoFixable: quickWinIssues,
         requiresManualReview: []
-      },
+      }
 
       const batchOptions: BatchProcessingOptions = {
         batchSize: 5,
@@ -207,7 +207,7 @@ export class AutomatedLintingIntegration {
         continueOnError: false,
         createBackups: true,
         dryRun: options.dryRun || false
-      },
+      }
 
       const result = await quickFixer.applyAutomatedFixes(categorizedQuickWins, batchOptions)
 
@@ -265,7 +265,7 @@ export class AutomatedLintingIntegration {
             validationTime: 0,
             rollbacksPerformed: 0
           }
-        },
+        }
       }
 
       const safetyProtocols: SafetyProtocols = {
@@ -275,7 +275,7 @@ export class AutomatedLintingIntegration {
         maxFailuresBeforeStop: 5,
         requireManualApproval: false,
         preservePatterns: ['**/calculations/**', '**/data/planets/**', '**/*astrological*']
-      },
+      }
 
       const fixer = new AutomatedLintingFixer(this.workspaceRoot, safetyProtocols)
 
@@ -329,7 +329,7 @@ export class AutomatedLintingIntegration {
         maxFailuresBeforeStop: 5,
         requireManualApproval: false,
         preservePatterns: ['**/calculations/**', '**/data/planets/**']
-      },
+      }
 
       const fixer = new AutomatedLintingFixer(this.workspaceRoot, safetyProtocols)
 
@@ -398,7 +398,7 @@ export class AutomatedLintingIntegration {
         '**/test*/**'
       ],
       ...options.safetyProtocols
-    },
+    }
   }
 
   private async executeAutomatedFixes(
@@ -413,7 +413,7 @@ export class AutomatedLintingIntegration {
       createBackups: true,
       dryRun: options.dryRun || false,
       ...options.batchProcessingOptions
-    },
+    }
 
     // Main automated fixes
     const automated = await this.automatedFixer.applyAutomatedFixes(;
@@ -423,7 +423,7 @@ export class AutomatedLintingIntegration {
 
     const fixResults: AutomatedLintingWorkflowResult['fixResults'] = {
       automated
-    },
+    }
 
     // Specialized fixes if main automation was successful
     if (automated.success && !options.dryRun) {
@@ -440,7 +440,7 @@ export class AutomatedLintingIntegration {
             prefixWithUnderscore: true,
             skipDomainFiles: true,
             skipTestFiles: false
-          },
+          }
         )
       }
 
@@ -512,7 +512,7 @@ export class AutomatedLintingIntegration {
       safetyEventsTriggered,
       rollbacksPerformed,
       overallSuccess: fixResults.automated.success && automationSuccessRate > 0.7
-    },
+    }
   }
 
   private generateWorkflowRecommendations(
@@ -645,7 +645,7 @@ export class AutomatedLintingIntegration {
       automationEfficiency,
       safetyProtocolEffectiveness,
       qualityImprovement
-    },
+    }
   }
 
   private logWorkflowResults(result: AutomatedLintingWorkflowResult): void {
@@ -680,7 +680,7 @@ export class AutomatedLintingIntegration {
   }
 
   private groupIssuesByCategory(issues: LintingIssue[]): Record<string, LintingIssue[]> {
-    const grouped: Record<string, LintingIssue[]> = {},
+    const grouped: Record<string, LintingIssue[]> = {}
     for (const issue of issues) {
       const category = issue.category.primary;
       if (!grouped[category]) grouped[category] = [],
@@ -690,7 +690,7 @@ export class AutomatedLintingIntegration {
   }
 
   private groupIssuesByPriority(issues: LintingIssue[]): Record<number, LintingIssue[]> {
-    const grouped: Record<number, LintingIssue[]> = {},
+    const grouped: Record<number, LintingIssue[]> = {}
     for (const issue of issues) {
       const priority = issue.category.priority;
       if (!grouped[priority]) grouped[priority] = [],
@@ -700,7 +700,7 @@ export class AutomatedLintingIntegration {
   }
 
   private groupIssuesByFile(issues: LintingIssue[]): Record<string, LintingIssue[]> {
-    const grouped: Record<string, LintingIssue[]> = {},
+    const grouped: Record<string, LintingIssue[]> = {}
     for (const issue of issues) {
       if (!grouped[issue.file]) grouped[issue.file] = [],
       grouped[issue.file].push(issue)
@@ -727,6 +727,6 @@ export class AutomatedLintingIntegration {
         validationTime: 0,
         rollbacksPerformed: 0
       }
-    },
+    }
   }
 }

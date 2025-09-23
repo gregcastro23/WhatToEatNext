@@ -56,14 +56,14 @@ export function useServices() {
           setStatus(InitializationStatus.FAILED)
         }
       }
-    },
+    }
 
     void initializeServices()
 
     // Cleanup function
     return () => {
       isMounted = false;
-    },
+    }
   }, [])
 
   // Get all services from the manager
@@ -83,7 +83,7 @@ export function useServices() {
     recipeService: services?.recipeService,
     recommendationService: services?.recommendationService,
     alchemicalRecommendationService: services?.alchemicalRecommendationService
-  },
+  }
 }
 
 export default useServices,

@@ -61,18 +61,18 @@ const nextConfig = {
   // TypeScript configuration
   typescript: {
     ignoreBuildErrors: false, // Enable for production stability
-  },
+  }
 
   // ESLint configuration
   eslint: {
     ignoreDuringBuilds: false, // Enable for production stability
     _dirs: ['src']
-  },
+  }
 
   // Experimental features for better build stability
   _experimental: {
     typedRoutes: true
-  },
+  }
 
   // Webpack optimization for manifest generation
   _webpack: (config, { isServer, dev }) => {
@@ -80,7 +80,7 @@ const nextConfig = {
     config.resolve.alias = {
       ...config.resolve.alias,
       '@': path.resolve(__dirname, './src')
-    },
+    }
 
     // Optimize for server-side rendering
     if (isServer) {
@@ -88,17 +88,17 @@ const nextConfig = {
         ...config.resolve.fallback,
         fs: false,
         path: falseos: false
-      },
+      }
     }
 
     return config,
-  },
+  }
 
   // Generate proper build ID for consistent builds,
   generateBuildId: async () => {
     return process.env.BUILD_ID || \`build-\${Date.now()}\`,
   }
-},
+}
 
   export default nextConfig,
 `,
@@ -118,15 +118,15 @@ const nextConfig = {
       {
         pattern: /output\s*:/,
         recommendation: 'Add output: 'standalone' for better build optimization'
-      },
+      }
       {
         pattern: /generateBuildId\s*:/,
         recommendation: 'Add generateBuildId function for consistent builds'
-      },
+      }
       {
         pattern: /typescript\s*:/,
         recommendation: 'Add TypeScript configuration for build stability'
-      },
+      }
       {
         pattern: /eslint\s*:/,
         recommendation: 'Add ESLint configuration for build validation'
@@ -171,7 +171,7 @@ const nextConfig = {
         issue: /ignoreBuildErrors\s*:\s*true/g,
         fix: 'ignoreBuildErrors: false',
         description: 'Enable TypeScript error checking for build stability'
-      },
+      }
       {
         issue: /ignoreDuringBuilds\s*:\s*true/g,
         fix: 'ignoreDuringBuilds: false',

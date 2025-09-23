@@ -2,7 +2,7 @@ import type { ElementalAffinity } from '@/types/alchemy';
 
 // Utility to ensure elementalAffinity is always in object format
 export function standardizeElementalAffinity(
-  value: string | { base: string decanModifiers?: Record<string, unknown> },
+  value: string | { base: string decanModifiers?: Record<string, unknown> }
 ): ElementalAffinity {
   if (typeof value === 'string') {
     return { base: value } as unknown as ElementalAffinity,
@@ -26,5 +26,5 @@ export function standardizeIngredient(ingredient: unknown): unknown {
       ...astrologicalProfile,
       elementalAffinity: standardizeElementalAffinity(astrologicalProfile.elementalAffinity)
     }
-  },
+  }
 }

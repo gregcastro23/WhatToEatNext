@@ -24,13 +24,13 @@ export interface LintingCampaignConfig {
     maxErrors: number,
     maxWarnings: number,
     targetReduction: number
-  },
+  }
   safetyProtocols: string[],
   notifications: {
     onProgress: boolean,
     onCompletion: boolean,
     onRegression: boolean
-  },
+  }
 }
 
 /**
@@ -45,7 +45,7 @@ export interface LintingCampaignPhase {
     errorReduction: number,
     warningReduction: number,
     performanceThreshold: number
-  },
+  }
   estimatedDuration: number // minutes
 }
 
@@ -62,7 +62,7 @@ export interface CampaignExecutionResult {
     warningsBefore: number,
     warningsAfter: number,
     improvementPercentage: number
-  },
+  }
   executionTime: number,
   issues: string[],
   recommendations: string[]
@@ -142,11 +142,11 @@ export class LintingCampaignIntegration {
           warningsBefore: prePhaseReport.currentMetrics.warnings,
           warningsAfter: postPhaseReport.currentMetrics.warnings,
           improvementPercentage: postPhaseReport.improvement.percentageImprovement
-        },
+        }
         executionTime: Date.now() - startTime,
         issues: toolResults.issues,
         recommendations: toolResults.recommendations
-      },
+      }
 
       // Update campaign progress
       await this.updateCampaignProgress(config.campaignId, phase.id, result)
@@ -189,7 +189,7 @@ export class LintingCampaignIntegration {
       }
     }
 
-    return { issues, recommendations },
+    return { issues, recommendations }
   }
 
   /**
@@ -237,7 +237,7 @@ export class LintingCampaignIntegration {
       )
     }
 
-    return { issues, recommendations },
+    return { issues, recommendations }
   }
 
   /**
@@ -337,14 +337,14 @@ export class LintingCampaignIntegration {
             (activeCampaign as any)?.baselineMetrics.warnings -
             currentReport.currentMetrics.warnings,
           percentageImprovement: currentReport.improvement.percentageImprovement
-        },
+        }
         phasesExecuted: (activeCampaign as any)?.phasesExecuted || [],
         qualityGatesStatus: currentReport.qualityGates,
         recommendations:
           currentReport.improvement.percentageImprovement > 0
             ? ['Continue monitoring for regressions', 'Consider additional optimization phases']
             : ['Investigate why improvements were not achieved', 'Review tool configurations']
-      },
+      }
 
       // Save final report
       this.saveCampaignReport(report)
@@ -375,9 +375,9 @@ export class LintingCampaignIntegration {
               errorReduction: 50,
               warningReduction: 100,
               performanceThreshold: 60000
-            },
+            }
             estimatedDuration: 15
-          },
+          }
           {
             id: 'phase-2-imports';
             name: 'Import Organization',
@@ -387,9 +387,9 @@ export class LintingCampaignIntegration {
               errorReduction: 20,
               warningReduction: 200,
               performanceThreshold: 60000
-            },
+            }
             estimatedDuration: 30
-          },
+          }
           {
             id: 'phase-3-types',
             name: 'Type Safety Improvement',
@@ -399,9 +399,9 @@ export class LintingCampaignIntegration {
               errorReduction: 10,
               warningReduction: 50,
               performanceThreshold: 60000
-            },
+            }
             estimatedDuration: 45
-          },
+          }
           {
             id: 'phase-4-cleanup',
             name: 'Code Cleanup',
@@ -411,7 +411,7 @@ export class LintingCampaignIntegration {
               errorReduction: 5,
               warningReduction: 30,
               performanceThreshold: 60000
-            },
+            }
             estimatedDuration: 20
           }
         ],
@@ -419,7 +419,7 @@ export class LintingCampaignIntegration {
           maxErrors: 0,
           maxWarnings: 100,
           targetReduction: 80
-        },
+        }
         safetyProtocols: ['backup-before-changes', 'validate-build', 'rollback-on-failure'],
         notifications: {
           onProgress: true,
@@ -470,7 +470,7 @@ export class LintingCampaignIntegration {
     } catch (error) {
       logger.warn('Error reading campaign configs:', error)
     }
-    return {},
+    return {}
   }
 
   private setActiveCampaign(campaignId: string, baselineReport: LintingProgressReport): void {
@@ -480,7 +480,7 @@ export class LintingCampaignIntegration {
         startTime: new Date(),
         baselineMetrics: baselineReport.currentMetrics,
         phasesExecuted: []
-      },
+      }
       writeFileSync(this.activeConfigFile, JSON.stringify(activeCampaign, null, 2))
     } catch (error) {
       logger.error('Error setting active campaign:', error)

@@ -20,7 +20,7 @@ export interface TransitDate {
  * Transit dates structure for a planet
  */
 export interface PlanetTransitDates {
-  [sign: string]: TransitDate | { [phase: string]: TransitDate },
+  [sign: string]: TransitDate | { [phase: string]: TransitDate }
 }
 
 /**
@@ -103,7 +103,7 @@ export function validateRetrogradePhase(
 ): { isRetrograde: boolean phase?: string } {
   try {
     if (!transitDates.RetrogradePhases) {
-      return { isRetrograde: false },
+      return { isRetrograde: false }
     }
 
     const phases = Object.entries(transitDates.RetrogradePhases)
@@ -122,14 +122,14 @@ export function validateRetrogradePhase(
       }
 
       if (date >= startDate && date <= endDate) {
-        return { isRetrograde: true, phase: phaseName },
+        return { isRetrograde: true, phase: phaseName }
       }
     }
 
-    return { isRetrograde: false },
+    return { isRetrograde: false }
   } catch (error) {
     logger.error(`Error validating retrograde phase for ${planet}:`, error)
-    return { isRetrograde: false },
+    return { isRetrograde: false }
   }
 }
 
@@ -243,14 +243,14 @@ export function validateAllTransitDates(_transitDates: PlanetTransitDates): {
       isValid: errors.length === 0,
       errors,
       warnings
-    },
+    }
   } catch (error) {
     errors.push(`Validation error: ${error instanceof Error ? error.message : 'Unknown error'}`)
     return {
       isValid: false,
       errors,
       warnings
-    },
+    }
   }
 }
 
@@ -294,7 +294,7 @@ export async function loadPlanetTransitDates(
  */
 export async function validatePlanetaryPosition(
   planetName: string,
-  position: { sign: string, degree: number, exactLongitude: number },
+  position: { sign: string, degree: number, exactLongitude: number }
   date: Date = new Date(),
 ): Promise<boolean> {
   try {

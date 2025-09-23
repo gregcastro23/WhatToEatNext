@@ -31,7 +31,7 @@ const PLANETARY_CUISINES = {
   Uranus: ['Fusion', 'Molecular', 'Experimental', 'Modern'],
   Neptune: ['Seafood', 'Coastal', 'Island', 'Aquatic'],
   Pluto: ['Underground', 'Fermented', 'Aged', 'Transformed']
-},
+}
 
 /**
  * Elemental cuisine characteristics
@@ -41,23 +41,23 @@ const ELEMENTAL_CUISINES = {
     cuisines: ['Mexican', 'Indian', 'Thai', 'Cajun', 'Ethiopian'],
     characteristics: ['Spicy', 'Grilled', 'Roasted', 'High heat cooking'],
     ingredients: ['Chili peppers', 'Ginger', 'Garlic', 'Spices']
-  },
+  }
   Water: {
     cuisines: ['Japanese', 'Scandinavian', 'Coastal', 'Seafood'],
     characteristics: ['Steamed', 'Boiled', 'Raw', 'Liquid-based'],
     ingredients: ['Fish', 'Seaweed', 'Rice', 'Broths']
-  },
+  }
   Air: {
     cuisines: ['Mediterranean', 'Lebanese', 'Greek', 'Light'],
     characteristics: ['Light', 'Airy', 'Whipped', 'Fermented'],
     ingredients: ['Herbs', 'Citrus', 'Olive oil', 'Fresh vegetables']
-  },
+  }
   Earth: {
     cuisines: ['German', 'Russian', 'British', 'Comfort food'],
     characteristics: ['Hearty', 'Roasted', 'Baked', 'Grounding'],
     ingredients: ['Root vegetables', 'Grains', 'Meat', 'Dairy']
   }
-},
+}
 
 /**
  * Generate cuisine recommendations based on dominant planets
@@ -152,21 +152,21 @@ function calculateCuisineCompatibility(
  */
 function calculateCuisineElementalAlignment(_cuisine: string): ElementalProperties {
   // Default balanced alignment
-  let alignment: ElementalProperties = { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 },
+  let alignment: ElementalProperties = { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 }
 
   // Adjust based on cuisine characteristics
   const lowerCuisine = cuisine.toLowerCase()
 
   if (['mexican', 'indian', 'thai', 'cajun', 'ethiopian', 'szechuan'].includes(lowerCuisine)) {
-    alignment = { Fire: 0.4, Water: 0.2, Air: 0.2, Earth: 0.2 },
+    alignment = { Fire: 0.4, Water: 0.2, Air: 0.2, Earth: 0.2 }
   } else if (['japanese', 'scandinavian', 'seafood', 'coastal'].includes(lowerCuisine)) {
-    alignment = { Fire: 0.15, Water: 0.45, Air: 0.2, Earth: 0.2 },
+    alignment = { Fire: 0.15, Water: 0.45, Air: 0.2, Earth: 0.2 }
   } else if (['mediterranean', 'lebanese', 'greek', 'moroccan'].includes(lowerCuisine)) {
-    alignment = { Fire: 0.2, Water: 0.2, Air: 0.4, Earth: 0.2 },
+    alignment = { Fire: 0.2, Water: 0.2, Air: 0.4, Earth: 0.2 }
   } else if (['german', 'russian', 'british', 'hungarian'].includes(lowerCuisine)) {
-    alignment = { Fire: 0.2, Water: 0.2, Air: 0.15, Earth: 0.45 },
+    alignment = { Fire: 0.2, Water: 0.2, Air: 0.15, Earth: 0.45 }
   } else if (['french', 'italian', 'spanish'].includes(lowerCuisine)) {
-    alignment = { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 },
+    alignment = { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 }
   }
 
   return alignment,
@@ -212,7 +212,7 @@ function getSuggestedDishes(_cuisine: string, _elementals: ElementalProperties):
     Chinese: ['Stir-fry', 'Dim sum', 'Hot pot', 'Peking duck'],
     German: ['Sauerbraten', 'Schnitzel', 'Sauerkraut', 'Bratwurst'],
     Cajun: ['Gumbo', 'Jambalaya', 'Crawfish étouffee', 'Beignets']
-  },
+  }
 
   const cuisineDishes = dishes[cuisine] || ['Traditional dishes', 'Regional specialties'],
 
@@ -231,4 +231,4 @@ export default {
   generateCuisineRecommendations,
   calculateCuisineCompatibility,
   calculateCuisineElementalAlignment
-},
+}

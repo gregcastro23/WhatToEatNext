@@ -10,7 +10,7 @@ import type {
   Planet,
   BasicThermodynamicProperties,
   ZodiacSign
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 import { getRecommendedIngredients, EnhancedIngredient } from '@/utils/foodRecommender';
 
 /**
@@ -105,14 +105,14 @@ export const useChakraInfluencedFood = (options?: {
     return {
       currentZodiac: currentZodiac || 'aries',
       moonPhase: lunarPhase || 'NEW_MOON',
-      currentPlanetaryAlignment: currentPlanetaryAlignment || {},
+      currentPlanetaryAlignment: currentPlanetaryAlignment || {}
       activePlanets: activePlanets || ['sun', 'moon'],
-      planetaryPositions: planetaryPositions || {},
+      planetaryPositions: planetaryPositions || {}
       lunarPhase: lunarPhase || 'NEW_MOON',
       zodiacSign: currentZodiac || 'aries',
       planetaryHour: planetaryHour as unknown as Planet,
       aspects: state.astrologicalState.aspects || [],
-      tarotElementBoosts: state.astrologicalState.tarotElementBoosts || {},
+      tarotElementBoosts: state.astrologicalState.tarotElementBoosts || {}
       tarotPlanetaryBoosts: state.astrologicalState.tarotPlanetaryBoosts || {}
     } as unknown as AstrologicalState,
   }, [
@@ -159,7 +159,7 @@ export const useChakraInfluencedFood = (options?: {
         const results = getRecommendedIngredients(astroState)
 
         // Create chakra-filtered recommendations
-        const chakraFiltered: Record<string, EnhancedIngredient[]> = {},
+        const chakraFiltered: Record<string, EnhancedIngredient[]> = {}
 
         // Group ingredients by which chakra they support the most
         Object.keys(chakraEnergies).forEach(chakraKey => {
@@ -286,7 +286,7 @@ export const useChakraInfluencedFood = (options?: {
             if (ingredient.thermodynamicProperties) {
               // Use safe type casting for thermodynamic properties
               const thermoData = ingredient.thermodynamicProperties as BasicThermodynamicProperties;
-              const { _heat = 0.5, _entropy = 0.5, _reactivity = 0.5} = thermoData || {},
+              const { _heat = 0.5, _entropy = 0.5, _reactivity = 0.5} = thermoData || {}
 
               // Crown (Spirit): (+) Heat, (+) Entropy, (+) Reactivity
               if (heat > 0.6 && entropy > 0.6 && reactivity > 0.6) {
@@ -323,7 +323,7 @@ export const useChakraInfluencedFood = (options?: {
               scoreDetails: {
                 ...(ingredient.scoreDetails || {}),
                 chakraScore: chakraScore
-              },
+              }
               // Adjust the overall score to incorporate chakra influence (30% influence)
               score: (ingredient.score || 0) * 0.7 + chakraScore * 0.3
             }
@@ -338,7 +338,7 @@ export const useChakraInfluencedFood = (options?: {
       } finally {
         setLoading(false)
       }
-    },
+    }
 
     void fetchRecommendations()
   }, [astroState, chakraEnergies, options?.filter, options?.limit])
@@ -365,7 +365,7 @@ export const useChakraInfluencedFood = (options?: {
       const results = getRecommendedIngredients(astroState)
 
       // Create chakra-filtered recommendations - simplified for refresh function
-      const chakraFiltered: Record<string, EnhancedIngredient[]> = {},
+      const chakraFiltered: Record<string, EnhancedIngredient[]> = {}
 
       // Apply filters and limits
       const filteredResults = options?.filter ? results.filter(options.filter) : results;
@@ -416,7 +416,7 @@ export const useChakraInfluencedFood = (options?: {
           if (ingredient.thermodynamicProperties) {
             // Use safe type casting for thermodynamic properties
             const thermoData = ingredient.thermodynamicProperties as BasicThermodynamicProperties;
-            const { _heat = 0.5, _entropy = 0.5, _reactivity = 0.5} = thermoData || {},
+            const { _heat = 0.5, _entropy = 0.5, _reactivity = 0.5} = thermoData || {}
 
             // Apply alchemical energy state rules
             // Crown (Spirit): (+) Heat, (+) Entropy, (+) Reactivity
@@ -452,7 +452,7 @@ export const useChakraInfluencedFood = (options?: {
             scoreDetails: {
               ...(ingredient.scoreDetails || {}),
               chakraScore: chakraScore
-            },
+            }
             score: (ingredient.score || 0) * 0.7 + chakraScore * 0.3
           }
         })
@@ -466,7 +466,7 @@ export const useChakraInfluencedFood = (options?: {
     } finally {
       setLoading(false)
     }
-  },
+  }
 
   return {
     recommendations,
@@ -475,7 +475,7 @@ export const useChakraInfluencedFood = (options?: {
     error,
     refreshRecommendations,
     chakraRecommendations
-  },
-},
+  }
+}
 
 export default useChakraInfluencedFood,

@@ -324,7 +324,7 @@ program
         version: '1.0.0',
         timestamp: new Date().toISOString(),
         phases: phases
-      },
+      }
 
       writeFileSync(file, JSON.stringify(config, null, 2))
       // // // _logger.info(`✅ Deployment configuration exported to ${file}`)

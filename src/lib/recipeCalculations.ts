@@ -50,14 +50,14 @@ export async function getRecipesForTarotCard(cards: TarotCardResult): Promise<Re
       ingredients: ['Water', 'Fire herbs', 'Earth vegetables', 'Air-infused oils'],
       preparation: 'Combine all elements with intention and simmer under the moon's glow.',
       astrologicalInfluences: ['Moon', 'Venus', 'Jupiter']
-    },
+    }
     {
       id: 'recipe-2',
       name: 'Tarot-Inspired Salad',
       ingredients: ['Fresh greens', 'Root vegetables', 'Citrus dressing', 'Edible flowers'],
       preparation: 'Arrange in the pattern of the card's symbolism.',
       astrologicalInfluences: ['Sun', 'Mercury']
-    },
+    }
     {
       id: 'recipe-3',
       name: 'Mystical Elixir',

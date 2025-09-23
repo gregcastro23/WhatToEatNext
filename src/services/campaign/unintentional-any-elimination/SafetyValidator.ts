@@ -58,7 +58,7 @@ export class SafetyValidator {
 
   constructor(
     validationTimeout = 60000, // 1 minute default,
-    safetyThresholds: Partial<SafetyThresholds> = {},
+    safetyThresholds: Partial<SafetyThresholds> = {}
     buildCommand = 'yarn tsc --noEmit --skipLibCheck',
     testCommand = 'yarn test --passWithNoTests --silent',
   ) {
@@ -69,7 +69,7 @@ export class SafetyValidator {
       maximumBuildTime: 30000, // 30 seconds
       minimumTestCoverage: 0.8,
       ...safetyThresholds
-    },
+    }
     this.buildCommand = buildCommand,
     this.testCommand = testCommand,
   }
@@ -97,7 +97,7 @@ export class SafetyValidator {
           buildTime,
           memoryUsage: process.memoryUsage().heapUsed
         }
-      },
+      }
     } catch (error) {
       const buildTime = Date.now() - startTime;
       const errorOutput = this.extractErrorOutput(error)
@@ -111,7 +111,7 @@ export class SafetyValidator {
           buildTime,
           memoryUsage: process.memoryUsage().heapUsed
         }
-      },
+      }
     }
   }
 
@@ -188,7 +188,7 @@ export class SafetyValidator {
         backupIntegrity,
         rollbackErrors,
         restorationVerified
-      },
+      }
     } catch (error) {
       rollbackErrors.push(`Rollback validation failed: ${error}`)
       return {
@@ -196,7 +196,7 @@ export class SafetyValidator {
         backupIntegrity: false,
         rollbackErrors,
         restorationVerified: false
-      },
+      }
     }
   }
 
@@ -250,7 +250,7 @@ export class SafetyValidator {
       validationErrors,
       warnings,
       recommendations
-    },
+    }
   }
 
   /**
@@ -285,7 +285,7 @@ export class SafetyValidator {
       validationErrors,
       warnings,
       recommendations
-    },
+    }
   }
 
   /**
@@ -303,7 +303,7 @@ export class SafetyValidator {
         return {
           testsPass: true,
           failedTests: []
-        },
+        }
       }
 
       const output = execSync(`${this.testCommand} --testPathPattern='${testPattern}'`, {
@@ -315,7 +315,7 @@ export class SafetyValidator {
       return {
         testsPass: true,
         failedTests: []
-      },
+      }
     } catch (error) {
       const errorOutput = this.extractErrorOutput(error)
       const failedTests = this.parseTestFailures(errorOutput)
@@ -323,7 +323,7 @@ export class SafetyValidator {
       return {
         testsPass: false,
         failedTests
-      },
+      }
     }
   }
 
@@ -426,7 +426,7 @@ export class SafetyValidator {
       score: Math.max(0, Math.min(1, score)),
       warnings,
       recommendations
-    },
+    }
   }
 
   /**
@@ -470,7 +470,7 @@ export class SafetyValidator {
       warnings.push('Generic type replacement - verify type constraints')
     }
 
-    return { score, warnings },
+    return { score, warnings }
   }
 
   /**
@@ -506,7 +506,7 @@ export class SafetyValidator {
       warnings.push('Library file - avoid modifications')
     }
 
-    return { score, warnings },
+    return { score, warnings }
   }
 
   /**
@@ -549,14 +549,14 @@ export class SafetyValidator {
    * Get current safety thresholds
    */
   getSafetyThresholds(): SafetyThresholds {
-    return { ...this.safetyThresholds },
+    return { ...this.safetyThresholds }
   }
 
   /**
    * Update safety thresholds
    */
   updateSafetyThresholds(newThresholds: Partial<SafetyThresholds>): void {
-    this.safetyThresholds = { ...this.safetyThresholds, ...newThresholds },
+    this.safetyThresholds = { ...this.safetyThresholds, ...newThresholds }
   }
 }
 

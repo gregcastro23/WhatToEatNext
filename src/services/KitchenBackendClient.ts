@@ -7,7 +7,7 @@ import type { Recipe } from '@/types/recipe';
 
 export interface KitchenBackendContext {
   datetime?: Date,
-  location?: { latitude: number, longitude: number },
+  location?: { latitude: number, longitude: number }
   preferences?: {
     dietaryRestrictions?: string[],
     cuisineTypes?: string[],
@@ -34,7 +34,7 @@ export class KitchenBackendClient {
     const url = new URL(path, this.backendUrl)
     const res = await fetch(url.toString(), {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' }
       body: JSON.stringify(body)
     })
     if (!res.ok) throw new Error(`Kitchen backend error ${res.status}`)
@@ -79,7 +79,7 @@ export class KitchenBackendClient {
           ingredients: [], // Could be populated from context
           dietaryRestrictions: ctx.preferences.dietaryRestrictions,
           cuisinePreferences: ctx.preferences.cuisineTypes
-        },
+        }
 
         const apiRecipes = await alchmAPI.getRecommendations(request)
         logger.debug('KitchenBackendClient', 'Got recipes from API', { count: apiRecipes.length })
@@ -98,7 +98,7 @@ export class KitchenBackendClient {
           context: {
             datetime: ctx.datetime || new Date(),
             location: ctx.location
-          },
+          }
           score: 1.0
         } as EnhancedRecommendationResult<Recipe>,
       }

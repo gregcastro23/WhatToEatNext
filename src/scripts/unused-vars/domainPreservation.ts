@@ -72,35 +72,35 @@ export function classifyFileKind(
 export function decidePreservation(variableName: string, _filePath: string): PreservationDecision {
   // Elemental properties must always be preserved per workspace rules
   if (ELEMENT_NAMES.has(variableName)) {
-    return { preserve: true, reason: 'elemental-property', confidence: 0.95 },
+    return { preserve: true, reason: 'elemental-property', confidence: 0.95 }
   }
 
   // Astrological variables used across calculations and services
   if (ASTRO_VARIABLE_NAME_REGEX.test(variableName)) {
-    return { preserve: true, reason: 'astrological-variable', confidence: 0.85 },
+    return { preserve: true, reason: 'astrological-variable', confidence: 0.85 }
   }
 
   // Campaign/metrics/monitoring system variables
   if (CAMPAIGN_VARIABLE_NAME_REGEX.test(variableName)) {
-    return { preserve: true, reason: 'campaign-system', confidence: 0.8 },
+    return { preserve: true, reason: 'campaign-system', confidence: 0.8 }
   }
 
   // Culinary/recipe domain variables in tests and components
   if (CULINARY_VARIABLE_NAME_REGEX.test(variableName)) {
-    return { preserve: true, reason: 'culinary-domain', confidence: 0.75 },
+    return { preserve: true, reason: 'culinary-domain', confidence: 0.75 }
   }
 
   if (isTestFile(filePath)) {
-    return { preserve: true, reason: 'test-context', confidence: 0.9 },
+    return { preserve: true, reason: 'test-context', confidence: 0.9 }
   }
 
   // Elevate caution for high-impact files
   if (isCoreCalculationFile(filePath)) {
-    return { preserve: true, reason: 'core-calculation', confidence: 0.7 },
+    return { preserve: true, reason: 'core-calculation', confidence: 0.7 }
   }
   if (isServiceLayerFile(filePath)) {
-    return { preserve: true, reason: 'service-layer', confidence: 0.65 },
+    return { preserve: true, reason: 'service-layer', confidence: 0.65 }
   }
 
-  return { preserve: false, reason: 'none', confidence: 0.5 },
+  return { preserve: false, reason: 'none', confidence: 0.5 }
 }

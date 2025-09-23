@@ -18,17 +18,17 @@ export default function PlanetTestLayout({ children }: { children: React.ReactNo
     _logger.error = (...args) => {
       setErrors(prev => [...prev, args.join(' ')])
       originalError(...args)
-    },
+    }
 
     _logger.info = (...args) => {
       setLogs(prev => [...prev, args.join(' ')])
       originalLog(...args)
-    },
+    }
 
     return () => {
       _logger.error = originalError,
       _logger.info = originalLog,
-    },
+    }
   }, [])
 
   return (

@@ -17,7 +17,7 @@ export function useTokens(initial?: TokenRatesInput) {
         elemental: input?.elemental ?? initial?.elemental,
         esms: input?.esms ?? initial?.esms,
         planetaryPositions: input?.planetaryPositions ?? initial?.planetaryPositions,
-      },
+      }
       const data = await tokensClient.calculateRates(payload)
       setResult(data)
       setLoading(false)

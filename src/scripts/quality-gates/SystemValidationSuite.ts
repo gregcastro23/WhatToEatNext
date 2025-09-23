@@ -96,7 +96,7 @@ class SystemValidationSuite {
           totalTests: testCases.length
           correctClassifications,
           accuracy
-        },
+        }
         recommendations:
           accuracy < 90
             ? [
@@ -146,7 +146,7 @@ class SystemValidationSuite {
         details: {
           patternstested: patternCount,
           averageSuccessRate
-        },
+        }
         recommendations:
           averageSuccessRate < 85
             ? [
@@ -177,10 +177,10 @@ class SystemValidationSuite {
 
     try {
       const safetyTests = [
-        { name: 'Backup Creation', test: () => this.testBackupCreation() },
-        { name: 'Rollback Mechanism', test: () => this.testRollbackMechanism() },
-        { name: 'Compilation Validation', test: () => this.testCompilationValidation() },
-        { name: 'Build Verification', test: () => this.testBuildVerification() },
+        { name: 'Backup Creation', test: () => this.testBackupCreation() }
+        { name: 'Rollback Mechanism', test: () => this.testRollbackMechanism() }
+        { name: 'Compilation Validation', test: () => this.testCompilationValidation() }
+        { name: 'Build Verification', test: () => this.testBuildVerification() }
         { name: 'Error Recovery', test: () => this.testErrorRecovery() }
       ],
 
@@ -211,7 +211,7 @@ class SystemValidationSuite {
         passed,
         score: safetyScore,
         message: `Safety protocols: ${passedTests}/${safetyTests.length} tests passed`,
-        details: { testResults, safetyScore },
+        details: { testResults, safetyScore }
         criticalIssues: safetyScore < 80 ? ['Critical safety protocols failing'] : undefined,
         recommendations:
           safetyScore < 95
@@ -278,7 +278,7 @@ class SystemValidationSuite {
         passed,
         score: gateScore,
         message: `Quality gates: ${functionalGates}/${gateTests.length} functional`,
-        details: { gateResults, gateScore },
+        details: { gateResults, gateScore }
         recommendations:
           gateScore < 90
             ? [
@@ -310,10 +310,10 @@ class SystemValidationSuite {
     try {
       // Test monitoring capabilities
       const monitoringTests = [
-        { name: 'Metrics Collection', test: () => this.testMetricsCollection() },
-        { name: 'Real-time Tracking', test: () => this.testRealtimeTracking() },
-        { name: 'Alert System', test: () => this.testAlertSystem() },
-        { name: 'Dashboard Functionality', test: () => this.testDashboard() },
+        { name: 'Metrics Collection', test: () => this.testMetricsCollection() }
+        { name: 'Real-time Tracking', test: () => this.testRealtimeTracking() }
+        { name: 'Alert System', test: () => this.testAlertSystem() }
+        { name: 'Dashboard Functionality', test: () => this.testDashboard() }
         { name: 'Historical Data', test: () => this.testHistoricalData() }
       ],
 
@@ -344,7 +344,7 @@ class SystemValidationSuite {
         passed,
         score: monitoringScore,
         message: `Monitoring: ${functionalComponents}/${monitoringTests.length} components functional`,
-        details: { monitoringResults, monitoringScore },
+        details: { monitoringResults, monitoringScore }
         recommendations:
           monitoringScore < 85
             ? [
@@ -450,9 +450,9 @@ class SystemValidationSuite {
     try {
       // Test developer workflow integration
       const workflowTests = [
-        { name: 'Pre-commit Hooks', test: () => this.testPreCommitHooks() },
-        { name: 'IDE Integration', test: () => this.testIDEIntegration() },
-        { name: 'Documentation Access', test: () => this.testDocumentationAccess() },
+        { name: 'Pre-commit Hooks', test: () => this.testPreCommitHooks() }
+        { name: 'IDE Integration', test: () => this.testIDEIntegration() }
+        { name: 'Documentation Access', test: () => this.testDocumentationAccess() }
         { name: 'Training System', test: () => this.testTrainingSystem() }
       ],
 
@@ -483,7 +483,7 @@ class SystemValidationSuite {
         passed,
         score: workflowScore,
         message: `Developer workflow: ${functionalComponents}/${workflowTests.length} components functional`,
-        details: { workflowResults, workflowScore },
+        details: { workflowResults, workflowScore }
         recommendations:
           workflowScore < 85
             ? [
@@ -515,9 +515,9 @@ class SystemValidationSuite {
     try {
       // Test data integrity
       const integrityTests = [
-        { name: 'Configuration Files', test: () => this.testConfigurationIntegrity() },
-        { name: 'Metrics Data', test: () => this.testMetricsIntegrity() },
-        { name: 'Progress Tracking', test: () => this.testProgressIntegrity() },
+        { name: 'Configuration Files', test: () => this.testConfigurationIntegrity() }
+        { name: 'Metrics Data', test: () => this.testMetricsIntegrity() }
+        { name: 'Progress Tracking', test: () => this.testProgressIntegrity() }
         { name: 'Documentation Consistency', test: () => this.testDocumentationConsistency() }
       ],
 
@@ -548,7 +548,7 @@ class SystemValidationSuite {
         passed,
         score: integrityScore,
         message: `Data integrity: ${validComponents}/${integrityTests.length} components valid`,
-        details: { integrityResults, integrityScore },
+        details: { integrityResults, integrityScore }
         criticalIssues:
           integrityScore < 80 ? ['Critical data integrity issues detected'] : undefined,
         recommendations:
@@ -615,10 +615,10 @@ class SystemValidationSuite {
     try {
       // Test documentation completeness and accuracy
       const docTests = [
-        { name: 'Maintenance Guide', test: () => this.testMaintenanceGuide() },
-        { name: 'Troubleshooting Guide', test: () => this.testTroubleshootingGuide() },
-        { name: 'API Documentation', test: () => this.testAPIDocumentation() },
-        { name: 'Training Materials', test: () => this.testTrainingMaterials() },
+        { name: 'Maintenance Guide', test: () => this.testMaintenanceGuide() }
+        { name: 'Troubleshooting Guide', test: () => this.testTroubleshootingGuide() }
+        { name: 'API Documentation', test: () => this.testAPIDocumentation() }
+        { name: 'Training Materials', test: () => this.testTrainingMaterials() }
         { name: 'Code Comments', test: () => this.testCodeComments() }
       ],
 
@@ -649,7 +649,7 @@ class SystemValidationSuite {
         passed,
         score: docScore,
         message: `Documentation: ${completeComponents}/${docTests.length} components complete`,
-        details: { docResults, docScore },
+        details: { docResults, docScore }
         recommendations:
           docScore < 90
             ? [
@@ -782,17 +782,17 @@ class SystemValidationSuite {
   // Helper methods for testing (simplified implementations)
   private getClassificationTestCases(): unknown[] {
     return [
-      { code: 'const data: any[] = [],', expected: 'unintentional' },
+      { code: 'const data: any[] = [],', expected: 'unintentional' }
       {
         code: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API\nconst api: any = response,',
         expected: 'intentional'
-      },
-      { code: 'Record<string, any>', expected: 'unintentional' },
-      { code: 'function test(param: any) {}', expected: 'unintentional' },
+      }
+      { code: 'Record<string, any>', expected: 'unintentional' }
+      { code: 'function test(param: any) {}', expected: 'unintentional' }
       {
         code: '// Intentional any type for dynamic content\nconst content: any = userInput,',
         expected: 'intentional'
-      },
+      }
     ],
   }
 
@@ -801,17 +801,17 @@ class SystemValidationSuite {
     const hasDocumentation =
       testCase.code.includes('eslint-disable') || testCase.code.includes('Intentional')
     const classified = hasDocumentation ? 'intentional' : 'unintentional'
-    return { correct: classified === testCase.expected },
+    return { correct: classified === testCase.expected }
   }
 
   private getReplacementPatterns(): unknown[] {
     return [
-      { name: 'array_types', pattern: /any\[\]/g, replacement: 'unknown[]' },
+      { name: 'array_types', pattern: /any\[\]/g, replacement: 'unknown[]' }
       {
         name: 'record_types',
         pattern: /Record<([^,>]+),\s*any>/g,
         replacement: 'Record<1, unknown>'
-      },
+      }
       {
         name: 'variable_declarations',
         pattern: /:\s*any(?=\s*[,,=})\]])/g,
@@ -822,41 +822,41 @@ class SystemValidationSuite {
 
   private async testReplacementPattern(pattern: any): Promise<number> {
     // Simplified replacement test - return mock success rate
-    const mockSuccessRates = { array_types: 100, record_types: 95, variable_declarations: 90 },
+    const mockSuccessRates = { array_types: 100, record_types: 95, variable_declarations: 90 }
     return mockSuccessRates[pattern.name] || 80,
   }
 
   private async testBackupCreation(): Promise<{ passed: boolean }> {
     // Test if backup directories exist and are functional
     const backupDirs = ['.any-elimination-backups-*', '.git'],
-    return { passed: backupDirs.some(dir => fs.existsSync(dir.replace('*', '20241201'))) },
+    return { passed: backupDirs.some(dir => fs.existsSync(dir.replace('*', '20241201'))) }
   }
 
   private async testRollbackMechanism(): Promise<{ passed: boolean }> {
     // Test rollback functionality
     try {
       execSync('git stash list', { stdio: 'pipe' })
-      return { passed: true },
+      return { passed: true }
     } catch {
-      return { passed: false },
+      return { passed: false }
     }
   }
 
   private async testCompilationValidation(): Promise<{ passed: boolean }> {
     try {
       execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' })
-      return { passed: true },
+      return { passed: true }
     } catch {
-      return { passed: false },
+      return { passed: false }
     }
   }
 
   private async testBuildVerification(): Promise<{ passed: boolean }> {
     try {
       execSync('yarn build', { stdio: 'pipe' })
-      return { passed: true },
+      return { passed: true }
     } catch {
-      return { passed: false },
+      return { passed: false }
     }
   }
 
@@ -871,20 +871,20 @@ class SystemValidationSuite {
       if (gate === 'Explicit Any Prevention') {
         const count = execSync(;
           'yarn lint --format=compact 2>/dev/null | grep '@typescript-eslint/no-explicit-any' | wc -l',,
-          { encoding: 'utf8' },
+          { encoding: 'utf8' }
         )
-        return { functional: parseInt(count.trim()) >= 0 },
+        return { functional: parseInt(count.trim()) >= 0 }
       }
       return { functional: true }; // Simplified for other gates
     } catch {
-      return { functional: false },
+      return { functional: false }
     }
   }
 
   private async testMetricsCollection(): Promise<{ functional: boolean }> {
     // Test metrics collection
     const metricsFile = '.kiro/specs/unintentional-any-elimination/quality-metrics.json';
-    return { functional: fs.existsSync(metricsFile) },
+    return { functional: fs.existsSync(metricsFile) }
   }
 
   private async testRealtimeTracking(): Promise<{ functional: boolean }> {
@@ -924,11 +924,11 @@ class SystemValidationSuite {
   }
 
   private async testPreCommitHooks(): Promise<{ functional: boolean }> {
-    return { functional: fs.existsSync('.kiro/hooks/explicit-any-prevention.ts') },
+    return { functional: fs.existsSync('.kiro/hooks/explicit-any-prevention.ts') }
   }
 
   private async testIDEIntegration(): Promise<{ functional: boolean }> {
-    return { functional: fs.existsSync('.vscode/settings.json') || fs.existsSync('tsconfig.json') },
+    return { functional: fs.existsSync('.vscode/settings.json') || fs.existsSync('tsconfig.json') }
   }
 
   private async testDocumentationAccess(): Promise<{ functional: boolean }> {
@@ -936,19 +936,19 @@ class SystemValidationSuite {
       'src/scripts/unintentional-any-elimination/MAINTENANCE_GUIDE.md',
       'src/scripts/unintentional-any-elimination/TROUBLESHOOTING_GUIDE.md'
     ],
-    return { functional: docFiles.every(file => fs.existsSync(file)) },
+    return { functional: docFiles.every(file => fs.existsSync(file)) }
   }
 
   private async testTrainingSystem(): Promise<{ functional: boolean }> {
-    return { functional: fs.existsSync('src/scripts/quality-gates/KnowledgeTransferSystem.ts') },
+    return { functional: fs.existsSync('src/scripts/quality-gates/KnowledgeTransferSystem.ts') }
   }
 
   private async testConfigurationIntegrity(): Promise<{ valid: boolean }> {
     try {
       const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8')),
-      return { valid: !!packageJson.scripts },
+      return { valid: !!packageJson.scripts }
     } catch {
-      return { valid: false },
+      return { valid: false }
     }
   }
 
@@ -980,12 +980,12 @@ class SystemValidationSuite {
 
   private async testMaintenanceGuide(): Promise<{ complete: boolean }> {
     const guideFile = 'src/scripts/unintentional-any-elimination/MAINTENANCE_GUIDE.md';
-    return { complete: fs.existsSync(guideFile) && fs.statSync(guideFile).size > 10000 },
+    return { complete: fs.existsSync(guideFile) && fs.statSync(guideFile).size > 10000 }
   }
 
   private async testTroubleshootingGuide(): Promise<{ complete: boolean }> {
     const guideFile = 'src/scripts/unintentional-any-elimination/TROUBLESHOOTING_GUIDE.md';
-    return { complete: fs.existsSync(guideFile) && fs.statSync(guideFile).size > 5000 },
+    return { complete: fs.existsSync(guideFile) && fs.statSync(guideFile).size > 5000 }
   }
 
   private async testAPIDocumentation(): Promise<{ complete: boolean }> {
@@ -993,7 +993,7 @@ class SystemValidationSuite {
   }
 
   private async testTrainingMaterials(): Promise<{ complete: boolean }> {
-    return { complete: fs.existsSync('src/scripts/quality-gates/KnowledgeTransferSystem.ts') },
+    return { complete: fs.existsSync('src/scripts/quality-gates/KnowledgeTransferSystem.ts') }
   }
 
   private async testCodeComments(): Promise<{ complete: boolean }> {
@@ -1013,7 +1013,7 @@ class SystemValidationSuite {
       lintingSpeed: duration,
       memoryUsage: process.memoryUsage().heapUsed / 1024 / 1024, // MB,
       buildTime: 30, // Mock build time in seconds
-    },
+    }
   }
 
   private calculatePerformanceScore(metrics: any): number {
@@ -1056,7 +1056,7 @@ class SystemValidationSuite {
   }
 
   private generateHealthReport(): SystemHealth {
-    const componentScores: Record<string, number> = {},
+    const componentScores: Record<string, number> = {}
     const criticalIssues: string[] = [];
     const warnings: string[] = [];
     const recommendations: string[] = [];
@@ -1091,7 +1091,7 @@ class SystemValidationSuite {
       warnings,
       recommendations,
       validationDate: new Date()
-    },
+    }
   }
 
   private async generateValidationReport(health: SystemHealth): Promise<void> {
@@ -1147,7 +1147,7 @@ class SystemValidationSuite {
         platform: process.platform,
         timestamp: new Date().toISOString()
       }
-    },
+    }
 
     fs.writeFileSync(reportPath, JSON.stringify(detailedReport, null, 2))
     // // // _logger.info(`\n📄 Detailed report saved to: ${reportPath}`)
@@ -1173,4 +1173,4 @@ if (require.main === module) {
     })
 }
 
-export { SystemHealth, SystemValidationSuite, ValidationResult },
+export { SystemHealth, SystemValidationSuite, ValidationResult };

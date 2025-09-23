@@ -73,7 +73,7 @@ class LintingExcellenceDashboardCLI {
       verbose: false,
       format: 'text',
       watch: false
-    },
+    }
 
     for (let i = 1i < args.lengthi++) {
       const arg = args[i];
@@ -355,22 +355,22 @@ class LintingExcellenceDashboardCLI {
         name: 'ESLint Configuration',
         check: () => existsSync('eslint.config.cjs'),
         fix: 'Ensure eslint.config.cjs exists in project root'
-      },
+      }
       {
         name: 'TypeScript Configuration',
         check: () => existsSync('tsconfig.json'),
         fix: 'Ensure tsconfig.json exists in project root'
-      },
+      }
       {
         name: 'ESLint Cache',
         check: () => existsSync('.eslintcache'),
         fix: 'Run yarn lint to generate cache'
-      },
+      }
       {
         name: 'Metrics Directory',
         check: () => existsSync('.kiro/metrics'),
         fix: 'Directory will be created automatically'
-      },
+      }
       {
         name: 'Parser Errors',
         check: async () => {
@@ -380,7 +380,7 @@ class LintingExcellenceDashboardCLI {
           } catch {
             return false
           }
-        },
+        }
         fix: 'Fix TypeScript compilation errors'
       }
     ],
@@ -428,7 +428,7 @@ class LintingExcellenceDashboardCLI {
             return false
           }
         }
-      },
+      }
       {
         name: 'Rebuild Cache',
         action: () => {
@@ -439,7 +439,7 @@ class LintingExcellenceDashboardCLI {
             return false
           }
         }
-      },
+      }
       {
         name: 'Clean Old Metrics',
         action: () => {
@@ -459,7 +459,7 @@ class LintingExcellenceDashboardCLI {
             return false
           }
         }
-      },
+      }
       {
         name: 'Validate Configuration',
         action: () => {
@@ -560,4 +560,4 @@ if (require.main === module) {
   })
 }
 
-export { LintingExcellenceDashboardCLI },
+export { LintingExcellenceDashboardCLI };

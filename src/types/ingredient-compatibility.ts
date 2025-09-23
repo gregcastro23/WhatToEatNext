@@ -11,7 +11,7 @@ import type {
   AlchemicalProperties,
   ThermodynamicProperties,
   Modality
-} from './alchemy',
+} from './alchemy';
 
 // Re-export types
 export type {
@@ -24,4 +24,4 @@ export type {
   AlchemicalProperties,
   ThermodynamicProperties,
   Modality
-},
+}

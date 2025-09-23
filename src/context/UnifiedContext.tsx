@@ -8,7 +8,7 @@ import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import {
   AlchemicalRecommendationService,
   AlchemicalRecommendation
-} from '@/services/AlchemicalRecommendationService',
+} from '@/services/AlchemicalRecommendationService';
 import { fetchPlanetaryPositions } from '@/services/astrologizeApi';
 import { alchemize, StandardizedAlchemicalResult } from '@/services/RealAlchemizeService';
 import { CookingMethod } from '@/types/alchemy';
@@ -55,7 +55,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
       logger.info('UnifiedContext: Fetched astrological data.', astroData),
 
       // 2. Perform Alchemical Calculation
-      const planetaryPositions = {},
+      const planetaryPositions = {}
 
       // Handle the actual astrologicalData structure from debug output
       // The data structure shows planets as direct, keys: Sun, moon, Mercury, etc.
@@ -71,7 +71,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
         Neptune: 'Neptune',
         Pluto: 'Pluto',
         Ascendant: 'Ascendant'
-      },
+      }
 
       Object.entries(planetMap).forEach(([dataKey, planetName]) => {
         const planetData = astroData[dataKey];
@@ -81,7 +81,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
             degree: planetData.degree,
             minute: planetData.minute,
             isRetrograde: planetData.isRetrograde || false
-          },
+          }
         }
       })
 
@@ -95,7 +95,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
       const ingredientsArray = Object.values(ingredients)
       const cookingMethodsArray = Object.values(cookingMethods)
 
-      const positionsForRecs = {},
+      const positionsForRecs = {}
 
       // Handle the actual astrologicalData structure for recommendations
       Object.entries(planetMap).forEach(([dataKey, planetName]) => {
@@ -134,10 +134,10 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
     recommendationData,
     lastUpdated,
     refreshData
-  },
+  }
 
   return <UnifiedContext.Provider value={value}>{children}</UnifiedContext.Provider>,
-},
+}
 
 // Create a custom hook for easy consumption
 export const useUnifiedState = () => {;
@@ -146,4 +146,4 @@ export const useUnifiedState = () => {;
     throw new Error('useUnifiedState must be used within a UnifiedStateProvider')
   }
   return context,
-},
+}

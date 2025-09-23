@@ -17,11 +17,11 @@ export const poaching: CookingMethodData = {
     Air: 0.1, // Minor element - subtle convection currents
     Fire: 0.1, // Minor element - very gentle heat application
     Earth: 0.0, // Minimal earth element
-  },
+  }
   duration: {
     min: 3,
     max: 45
-  },
+  }
   suitable_for: [
     'fish fillets',
     'shellfish',
@@ -76,7 +76,7 @@ export const poaching: CookingMethodData = {
       waxing_crescent: 1.0, // Neutral
       waning_gibbous: 1.05, // Moderate enhancement
     }
-  },
+  }
   toolsRequired: [
     'Wide, shallow pan with lid',
     'Slotted spoon or spider',
@@ -135,7 +135,7 @@ export const poaching: CookingMethodData = {
     fat_soluble_vitamins: 0.9, // Excellent AD, EK retention
     phytonutrients: 0.85, // Good preservation of beneficial plant compounds
     flavor_compounds: 0.75, // Some transfer to poaching liquid
-  },
+  }
   optimalTemperatures: {
     delicate_fish: 170, // °F - Perfect for sole, flounder, snapper
     fatty_fish: 175, // °F - Salmon, trout
@@ -152,7 +152,7 @@ export const poaching: CookingMethodData = {
     milk_poaching: 165, // °F - For milk-based poaching (fish, chicken)
     wine_poaching: 175, // °F - Wine-based poaching liquids
     court_bouillon: 175, // °F - Classic aromatic poaching liquid
-  },
+  }
   regionalVariations: {
     french: [
       'poached eggs with meurette sauce (Burgundy)',
@@ -206,7 +206,7 @@ export const poaching: CookingMethodData = {
       'yogurt-poached fish (Bengali tradition)',
       'fragrant poaching with whole spices'
     ]
-  },
+  }
   chemicalChanges: {
     gentle_protein_denaturation: true, // Proteins unfold without toughening
     collagen_hydration: true, // Collagen absorbs water and softens
@@ -222,7 +222,7 @@ export const poaching: CookingMethodData = {
     aromatic_compound_extraction: true, // Flavors extracted from herbs and spices
     mineral_transfer: true, // Bidirectional movement of minerals
     anthocyanin_preservation: true, // Color compounds in fruits maintained
-  },
+  }
   safetyFeatures: [
     'Temperature control crucial (use thermometer)',
     'Maintain 160°F minimum for food safety (killing pathogens)',
@@ -329,14 +329,14 @@ export const poaching: CookingMethodData = {
       essence: 1, // Enhances essential qualities
       matter: 0, // Neutral effect on material properties
       substance: 0, // Neutral effect on substantive qualities
-    },
+    }
     symbolicMeaning:
       'Represents the nurturing transformation of ingredients through gentle care and patience, preserving their essential nature while refining their form',
     associatedElements: {
       primary: 'Water', // Fluidity, emotion, nourishment
       secondary: 'Air', // Subtlety, refinement, delicacy
     }
-  },
+  }
 
   /**
    * Extended cooking notes
@@ -370,7 +370,7 @@ export const poaching: CookingMethodData = {
     rest_period: 'Fish: 2-3 minutes in liquid, Chicken: 5-10 minutes in liquid',
     custards: '25-35 minutes at 170°F (verify with jiggle test or thermometer)',
     vegetables: 'Asparagus: 3-5 minutes, Artichokes: 20-30 minutes, test with knife'
-  },
+  }
 
   doneness_indicators: {
     fish: 'Turns from translucent to opaque flesh flakes easily with fork but remains moist',
@@ -382,7 +382,7 @@ export const poaching: CookingMethodData = {
     delicate_vegetables: 'Bright color, tender-crisp texture, slight resistance when bitten',
     custards: 'Set around edges but slight jiggle in center, knife inserted comes out clean',
     meat: 'Reaches target internal temperature but remains juicy and tender'
-  },
+  }
 
   poaching_liquids: {
     court_bouillon: 'Classic aromatic liquid with wine/vinegar, mirepoix, herbs, and spices',
@@ -395,7 +395,7 @@ export const poaching: CookingMethodData = {
     infused_water: 'Simple water base enhanced with aromatics (herbs, citrus, spices)',
     coconut_milk: 'Rich tropical medium for seafood and fruit',
     oil: 'Low-temperature poaching in oil (confit method) for rich results'
-  },
+  }
 
   presentation_techniques: {
     chilled_presentation:

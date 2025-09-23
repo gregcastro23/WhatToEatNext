@@ -14,11 +14,11 @@ export const _marinating: CookingMethodData = {
     Water: 0.7,
     Earth: 0.3,
     Air: 0.1
-  },
+  }
   duration: {
     min: 15, // 15 minutes
     max: 1440, // 24 hours
-  },
+  }
   suitable_for: ['Meats', 'Poultry', 'Fish', 'Seafood', 'Vegetables', 'Tofu', 'Fruits'],
   benefits: [
     'Can infuse foods with antioxidants from herbs and spices',
@@ -39,7 +39,7 @@ export const _marinating: CookingMethodData = {
   optimalTemperatures: {
     refrigeration: 1, // °C (refrigeration temperature)
     storage: 4, // °C (safe refrigeration)
-  },
+  }
   toolsRequired: [
     'Non-reactive containers (glass, ceramic, plastic)',
     'Resealable bags',
@@ -55,4 +55,4 @@ export const _marinating: CookingMethodData = {
     'Some marinades contain high amounts of sodium, sugar, or fat',
     'Proper refrigeration is essential for food safety'
   ]
-},
+}

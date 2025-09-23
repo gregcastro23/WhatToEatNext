@@ -116,7 +116,7 @@ class AlertingSystem {
         escalationRules: this.escalationRules,
         alerts: this.alerts.slice(-500), // Keep last 500 alerts,
         alertResponses: this.alertResponses.slice(-200), // Keep last 200 responses
-      },
+      }
 
       fs.writeFileSync(configPath, JSON.stringify(config, null, 2))
     } catch (error) {
@@ -145,23 +145,23 @@ class AlertingSystem {
               id: 'analyze-build-bottlenecks',
               name: 'Analyze Build Bottlenecks',
               type: 'script',
-              config: { script: 'analyze-build-performance.js' },
+              config: { script: 'analyze-build-performance.js' }
               conditions: [],
               retryCount: 2,
               timeoutSeconds: 300
-            },
+            }
             {
               id: 'clear-build-cache',
               name: 'Clear Build Cache',
               type: 'command',
-              config: { command: 'yarn cache clean' },
+              config: { command: 'yarn cache clean' }
               conditions: [],
               retryCount: 1,
               timeoutSeconds: 60
             }
           ],
           notificationChannels: ['console', 'file']
-        },
+        }
         {
           id: 'typescript-errors-high',
           name: 'High TypeScript Error Count',
@@ -184,14 +184,14 @@ class AlertingSystem {
                 campaignType: 'typescript-error-reduction',
                 maxFiles: 20,
                 safetyLevel: 'HIGH'
-              },
+              }
               conditions: ['error_count > 500'],
               retryCount: 1,
               timeoutSeconds: 1800
             }
           ],
           notificationChannels: ['console', 'file']
-        },
+        }
         {
           id: 'code-quality-low',
           name: 'Low Code Quality Score',
@@ -210,14 +210,14 @@ class AlertingSystem {
               id: 'generate-quality-report',
               name: 'Generate Quality Report',
               type: 'script',
-              config: { script: 'generate-quality-report.js' },
+              config: { script: 'generate-quality-report.js' }
               conditions: [],
               retryCount: 1,
               timeoutSeconds: 120
             }
           ],
           notificationChannels: ['console', 'file']
-        },
+        }
         {
           id: 'memory-usage-high',
           name: 'High Memory Usage',
@@ -236,14 +236,14 @@ class AlertingSystem {
               id: 'garbage-collect',
               name: 'Force Garbage Collection',
               type: 'script',
-              config: { script: 'force-gc.js' },
+              config: { script: 'force-gc.js' }
               conditions: [],
               retryCount: 1,
               timeoutSeconds: 30
             }
           ],
           notificationChannels: ['console']
-        },
+        }
         {
           id: 'technical-debt-critical',
           name: 'Critical Technical Debt',
@@ -265,7 +265,7 @@ class AlertingSystem {
               config: {
                 campaignType: 'technical-debt-reduction',
                 priority: 'high'
-              },
+              }
               conditions: [],
               retryCount: 1,
               timeoutSeconds: 300
@@ -294,14 +294,14 @@ class AlertingSystem {
               config: {
                 message: 'Critical alert requires immediate attention',
                 channels: ['console', 'file']
-              },
+              }
               conditions: [],
               retryCount: 1,
               timeoutSeconds: 30
             }
           ],
           maxEscalations: 3
-        },
+        }
         {
           id: 'error-escalation',
           name: 'Error Alert Escalation',
@@ -316,7 +316,7 @@ class AlertingSystem {
               config: {
                 campaignType: 'automated-error-fix',
                 conservative: true
-              },
+              }
               conditions: ['automation_opportunities > 5'],
               retryCount: 1,
               timeoutSeconds: 600
@@ -338,7 +338,7 @@ class AlertingSystem {
         this.processEscalations()
         this.cleanupOldAlerts()
         this.saveConfiguration()
-      },
+      }
       2 * 60 * 1000,
     )
 
@@ -511,7 +511,7 @@ class AlertingSystem {
         metric: rule.metric,
         condition: rule.condition
       }
-    },
+    }
 
     this.alerts.push(alert)
     this.lastAlertTimes.set(rule.id, new Date())
@@ -544,7 +544,7 @@ class AlertingSystem {
         status: 'pending',
         startTime: new Date(),
         retryCount: 0
-      },
+      }
 
       this.alertResponses.push(response)
 
@@ -648,7 +648,7 @@ class AlertingSystem {
     // This would execute a script file
     // For now, return a placeholder
     log.info(`[Alert Action] Executing script: ${scriptName}`)
-    return { success: true, message: `Script ${scriptName} executed` },
+    return { success: true, message: `Script ${scriptName} executed` }
   }
 
    
@@ -659,7 +659,7 @@ class AlertingSystem {
     // This would execute a shell command
     // For now, return a placeholder
     log.info(`[Alert Action] Executing command: ${command}`)
-    return { success: true, message: `Command ${command} executed` },
+    return { success: true, message: `Command ${command} executed` }
   }
 
    
@@ -670,7 +670,7 @@ class AlertingSystem {
     // This would integrate with the campaign system
     // For now, return a placeholder
     log.info(`[Alert Action] Triggering campaign: ${config.campaignType}`)
-    return { success: true, message: `Campaign ${config.campaignType} triggered` },
+    return { success: true, message: `Campaign ${config.campaignType} triggered` }
   }
 
    
@@ -681,7 +681,7 @@ class AlertingSystem {
     // This would make an HTTP API call
     // For now, return a placeholder
     log.info(`[Alert Action] Making API call to: ${config.url}`)
-    return { success: true, message: `API call to ${config.url} completed` },
+    return { success: true, message: `API call to ${config.url} completed` }
   }
 
    
@@ -690,7 +690,7 @@ class AlertingSystem {
     config: Record<string, unknown>,
   ): Promise<{ success: boolean, messageId?: string, error?: string }> {
     log.info(`[Alert Notification] ${config.message}`)
-    return { success: true, message: 'Notification sent' },
+    return { success: true, message: 'Notification sent' }
   }
 
   private sendNotifications(alert: Alert, channels: string[]) {
@@ -846,7 +846,7 @@ class AlertingSystem {
 
   public addAlertRule(rule: Omit<AlertRule, 'id'>): string {
     const id = `rule-${Date.now()}`;
-    const newRule: AlertRule = { ...ruleid },
+    const newRule: AlertRule = { ...ruleid }
 
     this.alertRules.push(newRule)
     this.saveConfiguration()
@@ -858,7 +858,7 @@ class AlertingSystem {
     const ruleIndex = this.alertRules.findIndex(r => r.id === id)
     if (ruleIndex === -1) return false
 
-    this.alertRules[ruleIndex] = { ...this.alertRules[ruleIndex], ...updates },
+    this.alertRules[ruleIndex] = { ...this.alertRules[ruleIndex], ...updates }
     this.saveConfiguration()
 
     return true,
@@ -916,11 +916,11 @@ class AlertingSystem {
       alertsBySeverity: this.getAlertCountsBySeverity(),
       responseSuccessRate: this.calculateResponseSuccessRate(),
       averageResolutionTime: this.calculateAverageResolutionTime()
-    },
+    }
   }
 
   private getAlertCountsByType(): Record<string, number> {
-    const counts: Record<string, number> = {},
+    const counts: Record<string, number> = {}
 
     for (const alert of this.alerts.filter(a => !a.resolved)) {,
       counts[alert.type] = (counts[alert.type] || 0) + 1,
@@ -930,7 +930,7 @@ class AlertingSystem {
   }
 
   private getAlertCountsBySeverity(): Record<string, number> {
-    const counts: Record<string, number> = {},
+    const counts: Record<string, number> = {}
 
     for (const alert of this.alerts.filter(a => !a.resolved)) {,
       counts[alert.severity] = (counts[alert.severity] || 0) + 1,

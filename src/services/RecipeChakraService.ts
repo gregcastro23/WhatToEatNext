@@ -30,14 +30,14 @@ export class RecipeChakraService {
     const recommendations = getFoodRecommendationsFromChakras(chakraEnergyStates)
 
     // Create a copy of the recipe to modify
-    const enhancedRecipe = { ...recipe },
+    const enhancedRecipe = { ...recipe }
 
     // Add chakra-balancing ingredient suggestions
     enhancedRecipe.chakraBalance = {
       underactiveChakras,
       suggestedAdditions: recommendations.primaryFoods.slice(03),
       suggestedMeals: recommendations.balancingMeals
-    },
+    }
 
     return enhancedRecipe,
   }
@@ -69,7 +69,7 @@ export class RecipeChakraService {
       Throat: 0,
       'Third Eye': 0,
       Crown: 0
-    },
+    }
 
     // Analyze ingredient colors and map to chakra influences
     ingredientColors.forEach(color => {
@@ -122,7 +122,7 @@ export class RecipeChakraService {
       balancedChakras,
       imbalancedChakras,
       suggestions
-    },
+    }
   }
 
   /**
@@ -138,7 +138,7 @@ export class RecipeChakraService {
       blue: ['blueberry', 'blue cheese'],
       purple: ['eggplant', 'grape', 'plum', 'blackberry'],
       white: ['cauliflower', 'garlic', 'onion', 'potato', 'rice']
-    },
+    }
 
     // Try to match ingredient to a color
     for (const [color, foods] of Object.entries(colorMap)) {

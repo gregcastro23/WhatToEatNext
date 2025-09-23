@@ -36,7 +36,7 @@ export function usePlanetaryHour(): PlanetaryHourData {
     planetaryHourChakras,
     isLoading: loading,
     error: error || null
-  },
+  }
 }
 
 export default usePlanetaryHour,

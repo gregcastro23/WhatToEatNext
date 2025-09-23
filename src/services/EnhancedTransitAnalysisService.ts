@@ -9,19 +9,19 @@ import {
   PLANETARY_DIGNITIES,
   calculatePlanetaryDignity,
   calculatePlanetaryStrength
-} from '@/calculations/core/planetaryInfluences',
+} from '@/calculations/core/planetaryInfluences';
 import planetInfo from '@/data/planets';
 import {
   PlanetaryLocationService,
   AstronomicalCalculations,
   type GeographicCoordinates,
   type LocationPlanetaryInfluence
-} from '@/data/planets/locationService',
+} from '@/data/planets/locationService';
 import {
   COMPREHENSIVE_TRANSIT_DATABASE,
   TransitAnalysisService,
   type TransitSeason
-} from '@/data/transits/comprehensiveTransitDatabase',
+} from '@/data/transits/comprehensiveTransitDatabase';
 import type { PlanetaryAspect } from '@/types/celestial';
 
 /**
@@ -36,7 +36,7 @@ export interface EnhancedPlanetaryPosition {
   dignity: {
     type: 'rulership' | 'exaltation' | 'detriment' | 'fall' | 'neutral',
     modifier: number
-  },
+  }
   strength: number,
   locationInfluence: number,
   culinaryRecommendations: string[]
@@ -59,13 +59,13 @@ export interface EnhancedTransitInfluence {
     cookingMethods: string[],
     flavorProfiles: string[],
     timing: string[]
-  },
+  }
   dominantInfluences: {
     strongestPlanet: EnhancedPlanetaryPosition,
     dominantElement: string,
     seasonalTheme: string,
     optimalCookingTimes: string[]
-  },
+  }
 }
 
 /**
@@ -136,7 +136,7 @@ export class EnhancedTransitAnalysisService {
       aspectInfluences,
       locationSpecificRecommendations: locationRecommendations,
       dominantInfluences
-    },
+    }
   }
 
   /**
@@ -230,7 +230,7 @@ export class EnhancedTransitAnalysisService {
         aspect,
         dignityModifiedInfluence: dignityModifiedInfluence ?? aspect.influence
         culinaryEffects
-      },
+      }
     })
   }
 
@@ -239,7 +239,7 @@ export class EnhancedTransitAnalysisService {
    */
   private static generatePlanetaryCulinaryRecommendations(
     planet: string,
-    dignity: { type: string, modifier: number },
+    dignity: { type: string, modifier: number }
     strength: number,
     locationInfluence: LocationPlanetaryInfluence | undefined,
     planetData: Planet,
@@ -394,7 +394,7 @@ export class EnhancedTransitAnalysisService {
       cookingMethods: [...new Set(cookingMethods)].slice(06),
       flavorProfiles: [...new Set(flavorProfiles)].slice(04),
       timing: [...new Set(timing)].slice(06)
-    },
+    }
   }
 
   /**
@@ -440,7 +440,7 @@ export class EnhancedTransitAnalysisService {
       dominantElement,
       seasonalTheme,
       optimalCookingTimes
-    },
+    }
   }
 
   /**
@@ -481,6 +481,6 @@ export class EnhancedTransitAnalysisService {
         cookingGuidance,
         timingAdvice
       }
-    },
+    }
   }
 }

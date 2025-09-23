@@ -19,7 +19,7 @@ export {
   standardizeRecipe,
   validateIngredient,
   validateRecipe
-} from './processing',
+} from './processing';
 
 // Type exports
-export type { DataCleanupResult, StandardizationOptions, ValidationResult } from './processing',
+export type { DataCleanupResult, StandardizationOptions, ValidationResult } from './processing';

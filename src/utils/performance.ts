@@ -15,7 +15,7 @@ export interface PerformanceMetrics {
     jsHeapSizeLimit?: number,
     totalJSHeapSize?: number
     usedJSHeapSize?: number
-  },
+  }
   networkLatency?: number
 }
 
@@ -36,7 +36,7 @@ export function optimizePerformance(): { success: boolean, optimizations: string
           img.setAttribute('loading', 'lazy')
         })
         appliedOptimizations.push('image-lazy-loading')
-      },
+      }
 
       // Debounce expensive event handlers
       const setupDebounce = () => {;
@@ -46,11 +46,11 @@ export function optimizePerformance(): { success: boolean, optimizations: string
             const later = () => {;
               clearTimeout(timeout)
               func(...args)
-            },
+            }
             clearTimeout(timeout)
             timeout = setTimeout(later, wait)
-          },
-        },
+          }
+        }
 
         // Apply debounce to scroll and resize events
         if (typeof window.onscroll === 'function') {,
@@ -64,7 +64,7 @@ export function optimizePerformance(): { success: boolean, optimizations: string
         }
 
         appliedOptimizations.push('event-debouncing')
-      },
+      }
 
       // Run optimizations
       if (document.readyState === 'loading') {,
@@ -84,13 +84,13 @@ export function optimizePerformance(): { success: boolean, optimizations: string
     return {
       success: true,
       optimizations: appliedOptimizations
-    },
+    }
   } catch (error) {
     logger.error('Failed to apply performance optimizations', error)
     return {
       success: false,
       optimizations: appliedOptimizations
-    },
+    }
   }
 }
 
@@ -99,7 +99,7 @@ export function optimizePerformance(): { success: boolean, optimizations: string
  * @returns Performance metrics object
  */
 export function collectPerformanceMetrics(): PerformanceMetrics {
-  const metrics: PerformanceMetrics = {},
+  const metrics: PerformanceMetrics = {}
 
   try {
     if (typeof window !== 'undefined' && window.performance) {
@@ -121,7 +121,7 @@ export function collectPerformanceMetrics(): PerformanceMetrics {
           jsHeapSizeLimit: Number(memory.jsHeapSizeLimit) || undefined,
           totalJSHeapSize: Number(memory.totalJSHeapSize) || undefined,
           usedJSHeapSize: Number(memory.usedJSHeapSize) || undefined
-        },
+        }
       }
 
       // Paint metrics

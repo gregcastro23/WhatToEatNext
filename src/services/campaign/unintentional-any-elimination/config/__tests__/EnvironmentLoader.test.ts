@@ -9,7 +9,7 @@ import {
     getEnvironmentConfig,
     loadEnvironmentConfig,
     validateEnvironmentConfig
-} from '../loader',
+} from '../loader';
 
 describe('Environment Configuration Loader', () => {
   const originalNodeEnv: any = (process.env as any).NODE_ENV;

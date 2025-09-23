@@ -18,7 +18,7 @@ export function useRuneAgent(initial?: RuneAgentInput) {
         location: input?.location ?? initial?.location,
         context: input?.context ?? initial?.context,
         preferences: input?.preferences ?? initial?.preferences,
-      },
+      }
       const data = await runeAgentClient.generateComplete(payload)
       setResult(data)
       setRune(data.rune)
@@ -41,7 +41,7 @@ export function useRuneAgent(initial?: RuneAgentInput) {
         location: input?.location ?? initial?.location,
         context: input?.context ?? initial?.context,
         preferences: input?.preferences ?? initial?.preferences,
-      },
+      }
       const data = await runeAgentClient.generateRuneOfMoment(payload)
       setRune(data)
       setLoading(false)
@@ -62,7 +62,7 @@ export function useRuneAgent(initial?: RuneAgentInput) {
         location: input?.location ?? initial?.location,
         context: input?.context ?? initial?.context,
         preferences: input?.preferences ?? initial?.preferences,
-      },
+      }
       const data = await runeAgentClient.generateAgentRecommendations(payload)
       setAgent(data)
       setLoading(false)

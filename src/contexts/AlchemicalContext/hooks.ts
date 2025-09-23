@@ -18,4 +18,4 @@ export const useAlchemical = (): AlchemicalContextType => {
   }
 
   return context,
-},
+}

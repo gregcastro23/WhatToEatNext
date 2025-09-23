@@ -7,7 +7,7 @@ import { RecipeElementalMapping } from '@/types/recipes';
 const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out _logger.info to avoid linting warnings
   // log.info(message, ...args)
-},
+}
 
 /**
  * Utility functions for recipe calculations and alignments
@@ -23,7 +23,7 @@ export const _recipeCalculations = {
     const alignmentScore = Object.entries(recipe.elementalProperties).reduce(
       (sum, [element, value]) => {
         return sum + value * cuisineElements[element as unknown]
-      },
+      }
       0
     )
 
@@ -32,7 +32,7 @@ export const _recipeCalculations = {
       `Cuisine alignment score for ${recipeData?.name || 'Unknown Recipe'}: ${alignmentScore.toFixed(2)}`,
     )
     return alignmentScore,
-  },
+  }
 
   /**
    * Get the optimal astrological windows for cooking a particular recipe
@@ -51,7 +51,7 @@ export const _recipeCalculations = {
       optimalTimes,
     )
     return optimalTimes,
-  },
+  }
 
   /**
    * Determine how much an elemental boost a user would get from a recipe
@@ -78,4 +78,4 @@ export const _recipeCalculations = {
     )
     return boost,
   }
-},
+}

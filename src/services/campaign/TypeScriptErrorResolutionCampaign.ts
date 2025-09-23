@@ -8,7 +8,7 @@
 import { CampaignController } from './CampaignController';
 import CampaignIntelligenceSystem, {
   CAMPAIGN_INTELLIGENCE_DEMO
-} from './CampaignIntelligenceSystem',
+} from './CampaignIntelligenceSystem';
 import { ProgressTracker } from './ProgressTracker';
 import { SafetyProtocol } from './SafetyProtocol';
 
@@ -27,7 +27,7 @@ export interface ErrorResolutionPhase {
   id: string,
   name: string,
   priority: 'critical' | 'high' | 'medium' | 'low',
-  estimatedImpact: { min: number, max: number },
+  estimatedImpact: { min: number, max: number }
   dependencies: string[],
   status: 'not_started' | 'in_progress' | 'completed' | 'failed',
   startTime?: Date,
@@ -52,7 +52,7 @@ export interface UnusedVariableIntelligence {
     crossModuleDependencies: string[],
     testCoverage: number,
     documentationReferences: string[]
-  },
+  }
 }
 
 export class TypeScriptErrorResolutionCampaign {
@@ -224,7 +224,7 @@ export class TypeScriptErrorResolutionCampaign {
     // // // _logger.info('🧹 Starting enterprise-intelligent unused variable cleanup...')
 
     const unusedVariables = await this.analyzeUnusedVariables()
-    const results = { removed: 0, kept: 0, investigated: 0, errors: [] },
+    const results = { removed: 0, kept: 0, investigated: 0, errors: [] }
 
     for (const variable of unusedVariables) {
       try {
@@ -277,13 +277,13 @@ export class TypeScriptErrorResolutionCampaign {
       fixSuccessRate: number,
       estimatedCompletion: Date,
       recommendations: string[]
-    },
+    }
     unusedVariables: {
       total: number,
       safeToRemove: number,
       requiresInvestigation: number,
       businessCritical: number
-    },
+    }
   }> {
     await this.updateErrorMetrics()
 
@@ -303,7 +303,7 @@ export class TypeScriptErrorResolutionCampaign {
           v.enterpriseContext?.businessLogicRelevance &&
           v.enterpriseContext.businessLogicRelevance > 0.7
       ).length
-    },
+    }
 
     return {
       overall: overallProgress,
@@ -314,23 +314,23 @@ export class TypeScriptErrorResolutionCampaign {
         fixSuccessRate: this.metrics.fixSuccessRate,
         estimatedCompletion: this.calculateEstimatedCompletion(),
         recommendations: await this.generateIntelligentRecommendations()
-      },
+      }
       unusedVariables: unusedVariableStats
-    },
+    }
   }
 
   // Private helper methods
   private initializeMetrics(): TypeScriptErrorMetrics {
     return {
       totalErrors: 2676, // Current count from previous session
-      errorsByType: {},
-      errorsByFile: {},
-      errorsByCategory: {},
+      errorsByType: {}
+      errorsByFile: {}
+      errorsByCategory: {}
       fixSuccessRate: 0.97, // 97% success rate from foundation phase,
       averageFixTime: 45, // seconds per fix,
       regressionCount: 0,
       lastUpdated: new Date()
-    },
+    }
   }
 
   private async executeTSCheck(): Promise<string> {
@@ -357,7 +357,7 @@ export class TypeScriptErrorResolutionCampaign {
         testCoverage: 0.8,
         documentationReferences: []
       }
-    },
+    }
   }
 
   private async removeUnusedVariable(variable: UnusedVariableIntelligence): Promise<void> {
@@ -369,7 +369,7 @@ export class TypeScriptErrorResolutionCampaign {
     filePath: string,
   ): Promise<{ success: boolean, error?: string }> {
     // Validate that file still compiles after changes
-    return { success: true },
+    return { success: true }
   }
 
   private async rollbackVariableChange(variable: UnusedVariableIntelligence): Promise<void> {
@@ -401,7 +401,7 @@ export class TypeScriptErrorResolutionCampaign {
     phase: ErrorResolutionPhase,
   ): Promise<{ success: boolean, errors: string[] }> {
     // Validate that phase completed successfully
-    return { success: true, errors: [] },
+    return { success: true, errors: [] }
   }
 
   private async updateErrorMetrics(): Promise<void> {
@@ -411,7 +411,7 @@ export class TypeScriptErrorResolutionCampaign {
 
   private async analyzeErrorPatterns(): Promise<Record<string, number>> {
     // Analyze patterns in TypeScript errors
-    return {},
+    return {}
   }
 
    
@@ -419,7 +419,7 @@ export class TypeScriptErrorResolutionCampaign {
    
   private async loadHistoricalData(): Promise<unknown> {
     // Load historical campaign data
-    return {},
+    return {}
   }
 
    
@@ -427,7 +427,7 @@ export class TypeScriptErrorResolutionCampaign {
    
   private async buildEnterpriseContext(): Promise<unknown> {
     // Build enterprise context for intelligent decision making
-    return {},
+    return {}
   }
 
   private calculateEstimatedCompletion(): Date {

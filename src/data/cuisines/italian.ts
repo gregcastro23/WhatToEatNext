@@ -38,8 +38,8 @@ export const italian: Cuisine = {
               unit: 'piece',
               category: 'pastry',
               swaps: ['whole grain cornetto']
-            },
-            { name: 'coffee beans', amount: '18', unit: 'g', category: 'beverage' },
+            }
+            { name: 'coffee beans', amount: '18', unit: 'g', category: 'beverage' }
             {
               name: 'milk',
               amount: '120',
@@ -51,7 +51,7 @@ export const italian: Cuisine = {
           substitutions: {
             milk: ['oat milk', 'almond milk', 'soy milk'],
             cornetto: ['whole grain cornetto', 'gluten-free pastry']
-          },
+          }
           servingSize: 1,
           allergens: ['gluten', 'dairy', 'eggs'],
           prepTime: '5 minutes',
@@ -68,17 +68,17 @@ export const italian: Cuisine = {
             fat: 12,
             vitamins: ['B12', 'D'],
             minerals: ['Calcium']
-          },
+          }
           season: ['all'],
           mealType: ['breakfast'],
           astrologicalAffinities: {
             planets: ['Venus', 'Mercury'],
             signs: ['Taurus', 'Libra'],
             lunarPhases: ['New Moon', 'First Quarter']
-          },
+          }
           lunarPhaseInfluences: ['New Moon', 'First Quarter'],
           zodiacInfluences: ['Taurus', 'Libra']
-        },
+        }
         {
           name: 'Maritozzo con Panna',
           description: 'Roman sweet bun filled with whipped cream',
@@ -99,22 +99,22 @@ export const italian: Cuisine = {
               unit: 'piece',
               category: 'pastry',
               swaps: ['gluten-free bun']
-            },
+            }
             {
               name: 'whipped cream',
               amount: '100',
               unit: 'g',
               category: 'dairy',
               swaps: ['coconut whipped cream']
-            },
-            { name: 'powdered sugar', amount: '1', unit: 'tsp', category: 'sweetener' },
+            }
+            { name: 'powdered sugar', amount: '1', unit: 'tsp', category: 'sweetener' }
             { name: 'espresso', amount: '30', unit: 'ml', category: 'beverage' }
           ],
           substitutions: {
             maritozzo: ['gluten-free bun', 'brioche bun'],
             'whipped cream': ['coconut whipped cream', 'cashew cream'],
             'powdered sugar': ['monk fruit sweetener', 'stevia']
-          },
+          }
           servingSize: 1,
           allergens: ['gluten', 'dairy'],
           prepTime: '10 minutes',
@@ -131,10 +131,10 @@ export const italian: Cuisine = {
             fat: 18,
             vitamins: ['A', 'D'],
             minerals: ['Calcium']
-          },
+          }
           season: ['all'],
           mealType: ['breakfast', 'dessert']
-        },
+        }
         {
           name: 'Fette Biscottate con Marmellata',
           description: 'Crisp toast with jam and coffee',
@@ -154,15 +154,15 @@ export const italian: Cuisine = {
               unit: 'pieces',
               category: 'bread',
               swaps: ['gluten-free toast']
-            },
-            { name: 'jam', amount: '30', unit: 'g', category: 'spread' },
-            { name: 'butter', amount: '15', unit: 'g', category: 'dairy', swaps: ['plant butter'] },
+            }
+            { name: 'jam', amount: '30', unit: 'g', category: 'spread' }
+            { name: 'butter', amount: '15', unit: 'g', category: 'dairy', swaps: ['plant butter'] }
             { name: 'espresso', amount: '30', unit: 'ml', category: 'beverage' }
           ],
           substitutions: {
             butter: ['plant butter', 'olive oil'],
             'fette biscottate': ['gluten-free toast', 'regular toast']
-          },
+          }
           servingSize: 1,
           allergens: ['gluten', 'dairy'],
           prepTime: '5 minutes',
@@ -178,7 +178,7 @@ export const italian: Cuisine = {
             fat: 10,
             vitamins: ['A', 'D'],
             minerals: ['Iron']
-          },
+          }
           season: ['all'],
           mealType: ['breakfast']
         }
@@ -199,14 +199,14 @@ export const italian: Cuisine = {
             'Serve with brioche on side'
           ],
           ingredients: [
-            { name: 'almond granita', amount: '200', unit: 'ml', category: 'ice' },
+            { name: 'almond granita', amount: '200', unit: 'ml', category: 'ice' }
             {
               name: 'brioche',
               amount: '1',
               unit: 'piece',
               category: 'pastry',
               swaps: ['gluten-free brioche']
-            },
+            }
             {
               name: 'whipped cream',
               amount: '30',
@@ -218,7 +218,7 @@ export const italian: Cuisine = {
           substitutions: {
             brioche: ['gluten-free brioche', 'croissant'],
             'whipped cream': ['coconut whipped cream', 'almond cream']
-          },
+          }
           servingSize: 1,
           allergens: ['dairy', 'gluten', 'nuts'],
           prepTime: '5 minutes',
@@ -235,10 +235,10 @@ export const italian: Cuisine = {
             fat: 16,
             vitamins: ['A', 'D', 'E'],
             minerals: ['Calcium']
-          },
+          }
           season: ['summer'],
           mealType: ['breakfast']
-        },
+        }
         {
           name: 'Ricotta e Fichi',
           description: 'Fresh ricotta with figs and honey',
@@ -259,15 +259,15 @@ export const italian: Cuisine = {
               unit: 'g',
               category: 'dairy',
               swaps: ['almond ricotta']
-            },
-            { name: 'fresh figs', amount: '4', unit: 'whole', category: 'fruit' },
-            { name: 'honey', amount: '2', unit: 'tbsp', category: 'sweetener' },
+            }
+            { name: 'fresh figs', amount: '4', unit: 'whole', category: 'fruit' }
+            { name: 'honey', amount: '2', unit: 'tbsp', category: 'sweetener' }
             { name: 'pistachios', amount: '30', unit: 'g', category: 'nuts' }
           ],
           substitutions: {
             ricotta: ['almond ricotta', 'cashew ricotta'],
             honey: ['agave nectar', 'maple syrup']
-          },
+          }
           servingSize: 2,
           allergens: ['dairy', 'nuts'],
           prepTime: '5 minutes',
@@ -284,7 +284,7 @@ export const italian: Cuisine = {
             fat: 18,
             vitamins: ['A', 'B12', 'K'],
             minerals: ['Calcium', 'Magnesium']
-          },
+          }
           season: ['summer'],
           mealType: ['breakfast']
         }
@@ -304,15 +304,15 @@ export const italian: Cuisine = {
             'Serve with biscotti'
           ],
           ingredients: [
-            { name: 'dark chocolate', amount: '100', unit: 'g', category: 'chocolate' },
+            { name: 'dark chocolate', amount: '100', unit: 'g', category: 'chocolate' }
             {
               name: 'whole milk',
               amount: '250',
               unit: 'ml',
               category: 'dairy',
               swaps: ['oat milk']
-            },
-            { name: 'cornstarch', amount: '10', unit: 'g', category: 'thickener' },
+            }
+            { name: 'cornstarch', amount: '10', unit: 'g', category: 'thickener' }
             {
               name: 'biscotti',
               amount: '2',
@@ -324,7 +324,7 @@ export const italian: Cuisine = {
           substitutions: {
             'whole milk': ['oat milk', 'almond milk', 'soy milk'],
             biscotti: ['gluten-free biscotti', 'amaretti']
-          },
+          }
           servingSize: 1,
           allergens: ['dairy', 'gluten'],
           prepTime: '5 minutes',
@@ -341,12 +341,12 @@ export const italian: Cuisine = {
             fat: 24,
             vitamins: ['D', 'E'],
             minerals: ['Iron', 'Calcium']
-          },
+          }
           season: ['winter'],
           mealType: ['breakfast']
         }
       ]
-    },
+    }
     lunch: {
       all: [
         {
@@ -368,16 +368,16 @@ export const italian: Cuisine = {
               unit: 'g',
               category: 'pasta',
               swaps: ['gluten-free pasta']
-            },
-            { name: 'tomatoes', amount: '500', unit: 'g', category: 'vegetable' },
-            { name: 'basil', amount: '1', unit: 'bunch', category: 'herb' },
-            { name: 'olive oil', amount: '60', unit: 'ml', category: 'oil' },
+            }
+            { name: 'tomatoes', amount: '500', unit: 'g', category: 'vegetable' }
+            { name: 'basil', amount: '1', unit: 'bunch', category: 'herb' }
+            { name: 'olive oil', amount: '60', unit: 'ml', category: 'oil' }
             { name: 'garlic', amount: '3', unit: 'cloves', category: 'vegetable' }
           ],
           substitutions: {
             spaghetti: ['gluten-free pasta', 'zucchini noodles'],
             garlic: ['garlic powder', 'shallots']
-          },
+          }
           servingSize: 4,
           allergens: ['gluten'],
           prepTime: '10 minutes',
@@ -394,10 +394,10 @@ export const italian: Cuisine = {
             fat: 10,
             vitamins: ['A', 'C'],
             minerals: ['Iron']
-          },
+          }
           season: ['all'],
           mealType: ['lunch']
-        },
+        }
         {
           name: 'Insalata Caprese',
           description: 'Classic Capri salad with mozzarella and tomatoes',
@@ -419,16 +419,16 @@ export const italian: Cuisine = {
               unit: 'g',
               category: 'dairy',
               swaps: ['plant-based mozzarella']
-            },
-            { name: 'tomatoes', amount: '300', unit: 'g', category: 'vegetable' },
-            { name: 'fresh basil', amount: '1', unit: 'bunch', category: 'herb' },
-            { name: 'olive oil', amount: '3', unit: 'tbsp', category: 'oil' },
+            }
+            { name: 'tomatoes', amount: '300', unit: 'g', category: 'vegetable' }
+            { name: 'fresh basil', amount: '1', unit: 'bunch', category: 'herb' }
+            { name: 'olive oil', amount: '3', unit: 'tbsp', category: 'oil' }
             { name: 'balsamic vinegar', amount: '1', unit: 'tbsp', category: 'vinegar' }
           ],
           substitutions: {
             'buffalo mozzarella': ['vegan mozzarella', 'burrata'],
             'balsamic vinegar': ['balsamic glaze', 'aged balsamic']
-          },
+          }
           servingSize: 2,
           allergens: ['dairy'],
           prepTime: '10 minutes',
@@ -445,10 +445,10 @@ export const italian: Cuisine = {
             fat: 24,
             vitamins: ['A', 'C', 'K'],
             minerals: ['Calcium', 'Potassium']
-          },
+          }
           season: ['summer'],
           mealType: ['lunch', 'appetizer']
-        },
+        }
         {
           name: 'Panzanella',
           description: 'Tuscan bread and tomato salad',
@@ -472,10 +472,10 @@ export const italian: Cuisine = {
               unit: 'g',
               category: 'grain',
               swaps: ['gluten-free bread']
-            },
-            { name: 'tomatoes', amount: '400', unit: 'g', category: 'vegetable' },
-            { name: 'cucumber', amount: '1', unit: 'medium', category: 'vegetable' },
-            { name: 'red onion', amount: '1', unit: 'medium', category: 'vegetable' },
+            }
+            { name: 'tomatoes', amount: '400', unit: 'g', category: 'vegetable' }
+            { name: 'cucumber', amount: '1', unit: 'medium', category: 'vegetable' }
+            { name: 'red onion', amount: '1', unit: 'medium', category: 'vegetable' }
             { name: 'olive oil', amount: '60', unit: 'ml', category: 'oil' }
           ],
           substitutions: {
@@ -483,7 +483,7 @@ export const italian: Cuisine = {
             tomatoes: ['cherry tomatoes', 'grape tomatoes'],
             cucumber: ['english cucumber', 'persian cucumber'],
             'red onion': ['yellow onion', 'shallot']
-          },
+          }
           servingSize: 4,
           allergens: ['gluten'],
           prepTime: '15 minutes',
@@ -500,7 +500,7 @@ export const italian: Cuisine = {
             fat: 16,
             vitamins: ['C', 'A', 'K'],
             minerals: ['Potassium', 'Iron']
-          },
+          }
           season: ['summer'],
           mealType: ['lunch']
         }
@@ -527,23 +527,23 @@ export const italian: Cuisine = {
               unit: 'g',
               category: 'bread',
               swaps: ['gluten-free bread']
-            },
-            { name: 'cannellini beans', amount: '400', unit: 'g', category: 'legume' },
+            }
+            { name: 'cannellini beans', amount: '400', unit: 'g', category: 'legume' }
             {
               name: 'cavolo nero',
               amount: '200',
               unit: 'g',
               category: 'vegetable',
               swaps: ['kale']
-            },
-            { name: 'vegetables', amount: '500', unit: 'g', category: 'vegetable' },
+            }
+            { name: 'vegetables', amount: '500', unit: 'g', category: 'vegetable' }
             { name: 'olive oil', amount: '60', unit: 'ml', category: 'oil' }
           ],
           substitutions: {
             'cavolo nero': ['kale', 'Swiss chard'],
             'stale bread': ['gluten-free bread', 'crusty bread'],
             'cannellini beans': ['navy beans', 'great northern beans']
-          },
+          }
           servingSize: 6,
           allergens: ['gluten'],
           prepTime: '30 minutes',
@@ -560,10 +560,10 @@ export const italian: Cuisine = {
             fat: 12,
             vitamins: ['A', 'C', 'K'],
             minerals: ['Iron', 'Fiber']
-          },
+          }
           season: ['winter', 'autumn'],
           mealType: ['lunch', 'dinner']
-        },
+        }
         {
           name: 'Pasta e Fagioli',
           description: 'Classic pasta and bean soup',
@@ -584,10 +584,10 @@ export const italian: Cuisine = {
               unit: 'g',
               category: 'grain',
               swaps: ['gluten-free pasta']
-            },
-            { name: 'borlotti beans', amount: '400', unit: 'g', category: 'legume' },
-            { name: 'tomato passata', amount: '200', unit: 'ml', category: 'sauce' },
-            { name: 'rosemary', amount: '2', unit: 'sprigs', category: 'herb' },
+            }
+            { name: 'borlotti beans', amount: '400', unit: 'g', category: 'legume' }
+            { name: 'tomato passata', amount: '200', unit: 'ml', category: 'sauce' }
+            { name: 'rosemary', amount: '2', unit: 'sprigs', category: 'herb' }
             {
               name: 'pancetta',
               amount: '50',
@@ -602,7 +602,7 @@ export const italian: Cuisine = {
             'tomato passata': ['tomato sauce', 'diced tomatoes'],
             rosemary: ['thyme', 'oregano'],
             pancetta: ['bacon', 'smoked tofu']
-          },
+          }
           servingSize: 4,
           allergens: ['gluten'],
           prepTime: '20 minutes',
@@ -618,12 +618,12 @@ export const italian: Cuisine = {
             fat: 12,
             vitamins: ['B1', 'B12', 'C'],
             minerals: ['Iron', 'Potassium']
-          },
+          }
           season: ['winter'],
           mealType: ['lunch']
         }
       ]
-    },
+    }
     dinner: {
       all: [
         {
@@ -647,16 +647,16 @@ export const italian: Cuisine = {
               unit: 'pieces',
               category: 'protein',
               swaps: ['beef shanks']
-            },
-            { name: 'white wine', amount: '250', unit: 'ml', category: 'wine' },
-            { name: 'broth', amount: '500', unit: 'ml', category: 'liquid' },
-            { name: 'vegetables', amount: '300', unit: 'g', category: 'vegetable' },
+            }
+            { name: 'white wine', amount: '250', unit: 'ml', category: 'wine' }
+            { name: 'broth', amount: '500', unit: 'ml', category: 'liquid' }
+            { name: 'vegetables', amount: '300', unit: 'g', category: 'vegetable' }
             { name: 'gremolata', amount: '1', unit: 'portion', category: 'garnish' }
           ],
           substitutions: {
             veal: ['beef shanks', 'mushroom shanks'],
             'white wine': ['vegetable stock', 'non-alcoholic wine']
-          },
+          }
           servingSize: 4,
           allergens: ['celery'],
           prepTime: '30 minutes',
@@ -673,10 +673,10 @@ export const italian: Cuisine = {
             fat: 28,
             vitamins: ['B12', 'A'],
             minerals: ['Iron', 'Zinc']
-          },
+          }
           season: ['winter'],
           mealType: ['dinner']
-        },
+        }
         {
           name: 'Risotto ai Funghi',
           description: 'Creamy mushroom risotto',
@@ -692,15 +692,15 @@ export const italian: Cuisine = {
             'Rest before serving'
           ],
           ingredients: [
-            { name: 'arborio rice', amount: '320', unit: 'g', category: 'grain' },
+            { name: 'arborio rice', amount: '320', unit: 'g', category: 'grain' }
             {
               name: 'porcini mushrooms',
               amount: '30',
               unit: 'g',
               category: 'fungi',
               swaps: ['other mushrooms']
-            },
-            { name: 'white wine', amount: '120', unit: 'ml', category: 'wine' },
+            }
+            { name: 'white wine', amount: '120', unit: 'ml', category: 'wine' }
             {
               name: 'parmigiano',
               amount: '80',
@@ -713,7 +713,7 @@ export const italian: Cuisine = {
             parmigiano: ['nutritional yeast', 'vegan parmesan'],
             'white wine': ['vegetable stock', 'mushroom stock'],
             butter: ['olive oil', 'vegan butter']
-          },
+          }
           servingSize: 4,
           allergens: ['dairy'],
           prepTime: '15 minutes',
@@ -730,10 +730,10 @@ export const italian: Cuisine = {
             fat: 18,
             vitamins: ['D', 'B12'],
             minerals: ['Iron', 'Calcium']
-          },
+          }
           season: ['autumn'],
           mealType: ['dinner']
-        },
+        }
         {
           name: 'Gnocchi alla Sorrentina',
           description: 'Potato gnocchi baked with tomato sauce, mozzarella, and basil',
@@ -749,20 +749,20 @@ export const italian: Cuisine = {
             'Garnish with basil'
           ],
           ingredients: [
-            { name: 'potatoes', amount: '1', unit: 'kg', category: 'vegetable' },
-            { name: 'flour', amount: '300', unit: 'g', category: 'grain' },
-            { name: 'egg', amount: '1', unit: 'large', category: 'protein' },
-            { name: 'tomato sauce', amount: '500', unit: 'ml', category: 'sauce' },
-            { name: 'mozzarella', amount: '250', unit: 'g', category: 'dairy' },
-            { name: 'Parmigiano-Reggiano', amount: '100', unit: 'g', category: 'dairy' },
-            { name: 'fresh basil', amount: '1', unit: 'bunch', category: 'herb' },
+            { name: 'potatoes', amount: '1', unit: 'kg', category: 'vegetable' }
+            { name: 'flour', amount: '300', unit: 'g', category: 'grain' }
+            { name: 'egg', amount: '1', unit: 'large', category: 'protein' }
+            { name: 'tomato sauce', amount: '500', unit: 'ml', category: 'sauce' }
+            { name: 'mozzarella', amount: '250', unit: 'g', category: 'dairy' }
+            { name: 'Parmigiano-Reggiano', amount: '100', unit: 'g', category: 'dairy' }
+            { name: 'fresh basil', amount: '1', unit: 'bunch', category: 'herb' }
             { name: 'olive oil', amount: '3', unit: 'tbsp', category: 'oil' }
           ],
           substitutions: {
             mozzarella: ['plant-based mozzarella'],
             'Parmigiano-Reggiano': ['pecorino', 'nutritional yeast'],
             egg: ['olive oil']
-          },
+          }
           servingSize: 6,
           allergens: ['wheat', 'dairy', 'egg'],
           prepTime: '45 minutes',
@@ -779,7 +779,7 @@ export const italian: Cuisine = {
             fat: 15,
             vitamins: ['C', 'A'],
             minerals: ['Potassium', 'Calcium']
-          },
+          }
           season: ['all'],
           mealType: ['dinner'],
           elementalProperties: {
@@ -811,23 +811,23 @@ export const italian: Cuisine = {
               unit: 'g',
               category: 'protein',
               swaps: ['sea bass', 'cod']
-            },
-            { name: 'cherry tomatoes', amount: '300', unit: 'g', category: 'vegetable' },
+            }
+            { name: 'cherry tomatoes', amount: '300', unit: 'g', category: 'vegetable' }
             {
               name: 'white wine',
               amount: '150',
               unit: 'ml',
               category: 'wine',
               swaps: ['fish stock']
-            },
-            { name: 'garlic', amount: '4', unit: 'cloves', category: 'vegetable' },
+            }
+            { name: 'garlic', amount: '4', unit: 'cloves', category: 'vegetable' }
             { name: 'parsley', amount: '1', unit: 'bunch', category: 'herb' }
           ],
           substitutions: {
             'fresh fish': ['sea bass', 'cod', 'halibut'],
             'white wine': ['fish stock', 'vegetable stock'],
             'cherry tomatoes': ['diced tomatoes', 'grape tomatoes']
-          },
+          }
           servingSize: 4,
           allergens: ['fish', 'sulfites'],
           prepTime: '15 minutes',
@@ -844,10 +844,10 @@ export const italian: Cuisine = {
             fat: 14,
             vitamins: ['D', 'B12', 'C'],
             minerals: ['Selenium', 'Iodine', 'Potassium']
-          },
+          }
           season: ['summer', 'spring'],
           mealType: ['lunch', 'dinner']
-        },
+        }
         {
           name: 'Melanzane alla Parmigiana',
           description: 'Eggplant Parmesan with tomato sauce',
@@ -864,29 +864,29 @@ export const italian: Cuisine = {
             'Serve with fresh basil'
           ],
           ingredients: [
-            { name: 'eggplant', amount: '800', unit: 'g', category: 'vegetable' },
-            { name: 'tomato sauce', amount: '500', unit: 'ml', category: 'sauce' },
+            { name: 'eggplant', amount: '800', unit: 'g', category: 'vegetable' }
+            { name: 'tomato sauce', amount: '500', unit: 'ml', category: 'sauce' }
             {
               name: 'mozzarella',
               amount: '300',
               unit: 'g',
               category: 'dairy',
               swaps: ['vegan mozzarella']
-            },
+            }
             {
               name: 'parmigiano',
               amount: '100',
               unit: 'g',
               category: 'dairy',
               swaps: ['nutritional yeast']
-            },
+            }
             { name: 'basil', amount: '1', unit: 'bunch', category: 'herb' }
           ],
           substitutions: {
             mozzarella: ['vegan mozzarella', 'cashew cheese'],
             parmigiano: ['nutritional yeast', 'vegan parmesan'],
             'tomato sauce': ['marinara sauce', 'canned tomatoes']
-          },
+          }
           servingSize: 4,
           allergens: ['dairy'],
           prepTime: '30 minutes',
@@ -903,12 +903,12 @@ export const italian: Cuisine = {
             fat: 26,
             vitamins: ['A', 'C', 'K'],
             minerals: ['Calcium', 'Iron']
-          },
+          }
           season: ['summer'],
           mealType: ['dinner']
         }
       ]
-    },
+    }
     dessert: {
       all: [
         {
@@ -926,23 +926,23 @@ export const italian: Cuisine = {
             'Dust with cocoa'
           ],
           ingredients: [
-            { name: 'mascarpone', amount: '500', unit: 'g', category: 'dairy' },
+            { name: 'mascarpone', amount: '500', unit: 'g', category: 'dairy' }
             {
               name: 'ladyfingers',
               amount: '200',
               unit: 'g',
               category: 'pastry',
               swaps: ['gluten-free ladyfingers']
-            },
-            { name: 'espresso', amount: '300', unit: 'ml', category: 'coffee' },
-            { name: 'eggs', amount: '4', unit: 'large', category: 'protein' },
+            }
+            { name: 'espresso', amount: '300', unit: 'ml', category: 'coffee' }
+            { name: 'eggs', amount: '4', unit: 'large', category: 'protein' }
             { name: 'cocoa powder', amount: '30', unit: 'g', category: 'powder' }
           ],
           substitutions: {
             mascarpone: ['dairy-free mascarpone', 'cashew cream'],
             ladyfingers: ['gluten-free ladyfingers', 'sponge cake'],
             eggs: ['aquafaba']
-          },
+          }
           servingSize: 8,
           allergens: ['dairy', 'eggs', 'gluten'],
           prepTime: '30 minutes',
@@ -958,7 +958,7 @@ export const italian: Cuisine = {
             fat: 22,
             vitamins: ['A', 'D'],
             minerals: ['Calcium']
-          },
+          }
           season: ['all'],
           mealType: ['dessert']
         }
@@ -978,15 +978,15 @@ export const italian: Cuisine = {
             'Freeze until firm'
           ],
           ingredients: [
-            { name: 'milk', amount: '500', unit: 'ml', category: 'dairy', swaps: ['almond milk'] },
+            { name: 'milk', amount: '500', unit: 'ml', category: 'dairy', swaps: ['almond milk'] }
             {
               name: 'cream',
               amount: '250',
               unit: 'ml',
               category: 'dairy',
               swaps: ['coconut cream']
-            },
-            { name: 'sugar', amount: '150', unit: 'g', category: 'sweetener' },
+            }
+            { name: 'sugar', amount: '150', unit: 'g', category: 'sweetener' }
             { name: 'egg yolks', amount: '4', unit: 'large', category: 'protein' }
           ],
           substitutions: {
@@ -994,7 +994,7 @@ export const italian: Cuisine = {
             cream: ['coconut cream', 'heavy cream'],
             sugar: ['stevia', 'erythritol'],
             'egg yolks': ['aquafaba']
-          },
+          }
           servingSize: 4,
           allergens: ['dairy', 'eggs'],
           prepTime: '30 minutes',
@@ -1011,7 +1011,7 @@ export const italian: Cuisine = {
             fat: 12,
             vitamins: ['A', 'D'],
             minerals: ['Calcium']
-          },
+          }
           season: ['summer'],
           mealType: ['dessert']
         }
@@ -1038,16 +1038,16 @@ export const italian: Cuisine = {
               unit: 'g',
               category: 'grain',
               swaps: ['gluten-free flour blend']
-            },
-            { name: 'dried fruit', amount: '200', unit: 'g', category: 'fruit' },
+            }
+            { name: 'dried fruit', amount: '200', unit: 'g', category: 'fruit' }
             {
               name: 'butter',
               amount: '200',
               unit: 'g',
               category: 'dairy',
               swaps: ['plant butter']
-            },
-            { name: 'eggs', amount: '5', unit: 'large', category: 'protein' },
+            }
+            { name: 'eggs', amount: '5', unit: 'large', category: 'protein' }
             { name: 'sugar', amount: '150', unit: 'g', category: 'sweetener' }
           ],
           substitutions: {
@@ -1056,7 +1056,7 @@ export const italian: Cuisine = {
             butter: ['plant butter', 'coconut oil'],
             eggs: ['flax eggs', 'chia eggs'],
             sugar: ['stevia', 'erythritol']
-          },
+          }
           servingSize: 12,
           allergens: ['gluten', 'dairy', 'eggs'],
           prepTime: '3 hours',
@@ -1073,13 +1073,13 @@ export const italian: Cuisine = {
             fat: 16,
             vitamins: ['A', 'D', 'E'],
             minerals: ['Iron', 'Calcium']
-          },
+          }
           season: ['winter'],
           mealType: ['dessert']
         }
       ]
     }
-  },
+  }
   motherSauces: {
     marinaraBase: {
       name: 'Marinara Base',
@@ -1094,7 +1094,7 @@ export const italian: Cuisine = {
         Earth: 0.3,
         Water: 0.2,
         Air: 0.1
-      },
+      }
       astrologicalInfluences: ['Mars', 'Sun', 'Leo'],
       seasonality: 'all',
       preparationNotes: 'Best when made with San Marzano tomatoes for authentic flavor',
@@ -1102,7 +1102,7 @@ export const italian: Cuisine = {
       difficulty: 'easy',
       storageInstructions: 'Store in airtight container for up to 5 days in refrigerator',
       yield: '2 cups'
-    },
+    }
     besciamella: {
       name: 'Besciamella',
       description: 'Italian white sauce made from roux and milk',
@@ -1121,7 +1121,7 @@ export const italian: Cuisine = {
         Earth: 0.4,
         Air: 0.1,
         Fire: 0.1
-      },
+      }
       astrologicalInfluences: ['Moon', 'Venus', 'Cancer'],
       seasonality: 'all',
       preparationNotes:
@@ -1132,7 +1132,7 @@ export const italian: Cuisine = {
       storageInstructions: 'Store refrigerated in airtight container for up to 3 days',
       yield: '2 cups'
     }
-  },
+  }
   traditionalSauces: {
     marinara: {
       name: 'Marinara',
@@ -1146,12 +1146,12 @@ export const italian: Cuisine = {
         Earth: 0.3,
         Water: 0.2,
         Air: 0.1
-      },
+      }
       astrologicalInfluences: ['Mars', 'Sun', 'leo'],
       seasonality: 'all',
       preparationNotes: 'Best when made with San Marzano tomatoes for authentic flavor',
       technicalTips: 'Simmer gently to maintain brightness of flavor'
-    },
+    }
     pesto: {
       name: 'Pesto alla Genovese',
       description: 'Fresh basil sauce with pine nuts, garlic, Parmesan and olive oil',
@@ -1171,12 +1171,12 @@ export const italian: Cuisine = {
         Earth: 0.3,
         Fire: 0.2,
         Water: 0.1
-      },
+      }
       astrologicalInfluences: ['Mercury', 'Venus', 'gemini'],
       seasonality: 'summer',
       preparationNotes: 'Traditionally made in a marble mortar with wooden pestle',
       technicalTips: 'Blanch basil briefly to preserve color if making ahead'
-    },
+    }
     carbonara: {
       name: 'Carbonara',
       description: 'Silky sauce of eggs, hard cheese, cured pork and black pepper',
@@ -1193,13 +1193,13 @@ export const italian: Cuisine = {
         Air: 0.3,
         Fire: 0.2,
         Water: 0.1
-      },
+      }
       astrologicalInfluences: ['Jupiter', 'Mars', 'aries'],
       seasonality: 'all',
       preparationNotes: 'Never add cream - authentic carbonara is creamy from eggs alone',
       technicalTips:
         'Temper eggs carefully to prevent scrambling, use pasta water to adjust consistency'
-    },
+    }
     ragu: {
       name: 'Ragù alla Bolognese',
       description: 'Rich, slow-cooked meat sauce from Bologna',
@@ -1212,12 +1212,12 @@ export const italian: Cuisine = {
         Fire: 0.3,
         Water: 0.1,
         Air: 0.1
-      },
+      }
       astrologicalInfluences: ['Saturn', 'Mars', 'taurus'],
       seasonality: 'autumn, winter',
       preparationNotes: 'True Bolognese takes hours of gentle simmering for depth of flavor',
       technicalTips: 'Add milk toward the end of cooking for authentic richness and tenderness'
-    },
+    }
     bechamel: {
       name: 'Besciamella',
       description: 'Classic white sauce made from roux and milk',
@@ -1235,7 +1235,7 @@ export const italian: Cuisine = {
         Earth: 0.4,
         Air: 0.1,
         Fire: 0.1
-      },
+      }
       astrologicalInfluences: ['Moon', 'Venus', 'cancer'],
       seasonality: 'all',
       preparationNotes:
@@ -1243,7 +1243,7 @@ export const italian: Cuisine = {
       technicalTips:
         'Infuse milk with bay leaf, onion, and clove before making sauce for depth of flavor'
     }
-  },
+  }
   sauceRecommender: {
     forProtein: {
       beef: ['ragù alla Bolognese', 'sugo di carne', 'salsa alla pizzaiola', 'Barolo wine sauce'],
@@ -1251,78 +1251,78 @@ export const italian: Cuisine = {
       chicken: ['cacciatore', 'piccata', 'marsala', 'salt-crusted herbs'],
       fish: ['acqua pazza', 'salmoriglio', 'livornese', 'al limone'],
       vegetarian: ['pesto', 'pomodoro', 'aglio e olio', 'burro e salvia']
-    },
+    }
     forVegetable: {
       leafy: ['aglio e olio', 'parmigiano', 'lemon butter', 'anchovy'],
       root: ['besciamella', 'gremolata', 'herbed butter', 'balsamic glaze'],
       nightshades: ['marinara', 'alla Norma', 'sugo di pomodoro', 'caponata'],
       squash: ['brown butter sage', 'gorgonzola cream', 'agrodolce', 'walnut pesto'],
       mushroom: ['porcini sauce', 'marsala', 'truffle oil', 'white wine garlic']
-    },
+    }
     forCookingMethod: {
       grilling: ['salmoriglio', 'rosemary oil', 'balsamic glaze', 'salsa verde'],
       baking: ['marinara', 'besciamella', 'pesto', 'ragù'],
       frying: ['aioli', 'lemon dip', 'arrabiata', 'garlic-herb dip'],
       braising: ['osso buco sauce', 'wine reduction', 'pomodoro', 'cacciatora'],
       raw: ['pinzimonio', 'olio nuovo', 'citronette', 'bagna cauda']
-    },
+    }
     byAstrological: {
       fire: ['arrabiata', 'puttanesca', 'aglio e olio with peperoncino', 'spicy pomodoro'],
       earth: ['mushroom ragu', 'tartufo', 'carbonara', 'ragù alla Bolognese'],
       air: ['lemon sauces', 'herb oils', 'white wine sauce', 'pesto'],
       water: ['seafood sauces', 'acqua pazza', 'clam sauce', 'besciamella']
-    },
+    }
     byRegion: {
       northern: ['pesto alla Genovese', 'bagna cauda', 'fonduta', 'ragù alla Bolognese'],
       central: ['carbonara', 'cacio e pepe', 'amatriciana', 'sugo finto'],
       southern: ['marinara', 'puttanesca', 'aglio e olio', 'alla Norma'],
       insular: ['sarde a beccafico', 'nero di seppia', 'bottarga', 'caponata']
-    },
+    }
     byDietary: {
       vegetarian: ['pomodoro', 'pesto', 'aglio e olio', 'burro e salvia'],
       vegan: ['marinara', 'pomodoro', 'aglio e olio', 'salsa verde'],
       glutenFree: ['salsa verde', 'salmoriglio', 'sugo di pomodoro', 'lemon sauce'],
       dairyFree: ['marinara', 'aglio e olio', 'puttanesca', 'arrabbiata']
     }
-  },
+  }
   cookingTechniques: [
     {
       name: 'Al Dente',
       description: 'Cooking pasta until firm to the bite, not soft',
-      elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 },
+      elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 }
       toolsRequired: ['large pot', 'timer', 'colander'],
       bestFor: ['pasta', 'risotto rice', 'vegetables'],
       difficulty: 'easy'
-    },
+    }
     {
       name: 'Soffritto',
       description: 'Slow-cooking aromatic base of finely chopped vegetables in fat',
-      elementalProperties: { Fire: 0.4, Earth: 0.4, Air: 0.1, Water: 0.1 },
+      elementalProperties: { Fire: 0.4, Earth: 0.4, Air: 0.1, Water: 0.1 }
       toolsRequired: ['heavy-bottomed pan', 'wooden spoon', 'sharp knife'],
       bestFor: ['sauce base', 'soup base', 'risotto', 'stews'],
       difficulty: 'medium'
-    },
+    }
     {
       name: 'Mantecatura',
       description:
         'Final whisking of cold butter or cheese into hot dishes to create a creamy emulsion',
-      elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
+      elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 }
       toolsRequired: ['wooden spoon', 'grater', 'ladle'],
       bestFor: ['risotto', 'pasta sauces', 'polenta', 'gnocchi'],
       difficulty: 'hard'
-    },
+    }
     {
       name: 'Sfumato',
       description: 'Deglazing with wine to lift flavor compounds and create depth',
-      elementalProperties: { Air: 0.4, Fire: 0.3, Water: 0.2, Earth: 0.1 },
+      elementalProperties: { Air: 0.4, Fire: 0.3, Water: 0.2, Earth: 0.1 }
       toolsRequired: ['heavy pan', 'wooden spoon'],
       bestFor: ['risotto', 'sauces', 'braises', 'stews'],
       difficulty: 'medium'
-    },
+    }
     {
       name: 'Battuto',
       description: 'Finely chopped raw aromatic ingredients that form the base of many dishes',
-      elementalProperties: { Earth: 0.5, Air: 0.3, Water: 0.1, Fire: 0.1 },
+      elementalProperties: { Earth: 0.5, Air: 0.3, Water: 0.1, Fire: 0.1 }
       toolsRequired: ['chef's knife', 'cutting board', 'mezzaluna'],
       bestFor: ['sauce preparation', 'flavor base', 'soup starters', 'stuffings'],
       difficulty: 'easy'
@@ -1334,19 +1334,19 @@ export const italian: Cuisine = {
       description:
         'Bold flavors reflecting diverse cultural influences with emphasis on seafood, citrus, and Arab-influenced sweets',
       signature: ['pasta alla Norma', 'arancini', 'cannoli', 'caponata'],
-      elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 },
+      elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 }
       astrologicalInfluences: ['Mars', 'Sun', 'leo'],
       seasonality: 'all'
-    },
+    }
     tuscan: {
       name: 'Tuscan Cuisine',
       description:
         'Rustic simplicity focusing on high-quality ingredients with an emphasis on beans, bread, and olive oil',
       signature: ['ribollita', 'panzanella', 'bistecca alla fiorentina', 'pappa al pomodoro'],
-      elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
+      elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 }
       astrologicalInfluences: ['Saturn', 'Jupiter', 'capricorn'],
       seasonality: 'all'
-    },
+    }
     emilian: {
       name: 'Emilian Cuisine',
       description:
@@ -1357,10 +1357,10 @@ export const italian: Cuisine = {
         'lasagne alla bolognese',
         'prosciutto di Parma'
       ],
-      elementalProperties: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 },
+      elementalProperties: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 }
       astrologicalInfluences: ['Jupiter', 'Venus', 'taurus'],
       seasonality: 'all'
-    },
+    }
     neapolitan: {
       name: 'Neapolitan Cuisine',
       description:
@@ -1371,22 +1371,22 @@ export const italian: Cuisine = {
         'pastiera napoletana',
         'ragù napoletano'
       ],
-      elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 },
+      elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 }
       astrologicalInfluences: ['Mars', 'Neptune', 'aries'],
       seasonality: 'all'
     }
-  },
+  }
   elementalProperties: {
     Earth: 0.3, // Represents hearty ingredients and grounding dishes,
     Water: 0.3, // Represents sauces and moisture,
     Fire: 0.2, // Represents cooking techniques,
     Air: 0.2, // Represents herbs and lightness
-  },
+  }
   astrologicalInfluences: [
     'Venus - Roman goddess of love and beauty influences the sensory pleasures of Italian cuisine',
     'Jupiter - Brings abundance and generosity to communal Italian dining traditions',
     'Mercury - Governs the communication and conviviality central to Italian food culture'
   ]
-},
+}
 
 export default italian,

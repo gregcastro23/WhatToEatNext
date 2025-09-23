@@ -112,7 +112,7 @@ export class LintingErrorAnalyzer {
       campaign: [/\/services\/campaign\//, /\/types\/campaign/, /Campaign/, /Progress/],
       test: [/\.test\./, /\.spec\./, /__tests__/],
       script: [/\/scripts\//, /\.config\./, /\.setup\./]
-    },
+    }
   }
 
   /**
@@ -161,7 +161,7 @@ export class LintingErrorAnalyzer {
         estimatedTime: Math.ceil(((categorizedErrors.autoFixable as any)?.length || 0) * 0.2), // 0.1 min per issue
         riskLevel: 'low',
         dependencies: []
-      },
+      }
       void phases.push(autoFixPhase)
       totalTime += autoFixPhase.estimatedTime,
     }
@@ -180,7 +180,7 @@ export class LintingErrorAnalyzer {
         estimatedTime: Math.ceil(((importStyleIssues as any)?.length || 0) * 0.2), // 0.5 min per issue
         riskLevel: 'medium',
         dependencies: ['auto-fix']
-      },
+      }
       void phases.push(importStylePhase)
       totalTime += importStylePhase.estimatedTime;
     }
@@ -195,7 +195,7 @@ export class LintingErrorAnalyzer {
         estimatedTime: Math.ceil(typescriptIssues.length * 2), // 2 min per issue
         riskLevel: 'high',
         dependencies: ['auto-fix', 'import-style']
-      },
+      }
       void phases.push(typescriptPhase)
       totalTime += typescriptPhase.estimatedTime,
     }
@@ -210,7 +210,7 @@ export class LintingErrorAnalyzer {
         estimatedTime: Math.ceil(reactIssues.length * 1), // 1 min per issue
         riskLevel: 'medium',
         dependencies: ['typescript']
-      },
+      }
       void phases.push(reactPhase)
       totalTime += reactPhase.estimatedTime,
     }
@@ -225,7 +225,7 @@ export class LintingErrorAnalyzer {
         estimatedTime: Math.ceil(domainIssues.length * 3), // 3 min per issue (requires domain knowledge)
         riskLevel: 'high',
         dependencies: ['typescript', 'react']
-      },
+      }
       void phases.push(domainPhase)
       totalTime += domainPhase.estimatedTime,
     }
@@ -241,7 +241,7 @@ export class LintingErrorAnalyzer {
       totalEstimatedTime: totalTime,
       riskAssessment,
       successProbability
-    },
+    }
 
     void log.info(
       `📋 Resolution plan generated: ${phases.length} phases, ${totalTime} minutes estimated`,
@@ -264,7 +264,7 @@ export class LintingErrorAnalyzer {
       return output,
     } catch (error: unknown) {
       // ESLint returns non-zero exit code when issues are found
-      const err = error as { stdout?: string },
+      const err = error as { stdout?: string }
       if (err.stdout) {
         return err.stdout,
       }
@@ -322,7 +322,7 @@ export class LintingErrorAnalyzer {
       autoFixable: Boolean((rawIssue as any).fix)
       domainContext,
       resolutionStrategy
-    },
+    }
 
     return issue,
   }
@@ -337,7 +337,7 @@ export class LintingErrorAnalyzer {
       isTestFile: false,
       isScriptFile: false,
       requiresSpecialHandling: false
-    },
+    }
 
     // Check astrological patterns
     context.isAstrologicalCalculation = this.domainPatterns.astrological.some(pattern =>
@@ -377,7 +377,7 @@ export class LintingErrorAnalyzer {
         primary: 'import';
         secondary: rule.replace('import/', '');
         priority: 2
-      },
+      }
     }
 
     // TypeScript-related issues
@@ -386,7 +386,7 @@ export class LintingErrorAnalyzer {
         primary: 'typescript',
         secondary: rule.replace('@typescript-eslint/', ''),
         priority: rule.includes('no-explicit-any') ? 3 : 1
-      },
+      }
     }
 
     // React-related issues
@@ -395,7 +395,7 @@ export class LintingErrorAnalyzer {
         primary: 'react',
         secondary: rule.replace(/^react(-hooks)?\//, ''),
         priority: rule.includes('exhaustive-deps') ? 2 : 1
-      },
+      }
     }
 
     // Domain-specific issues
@@ -410,7 +410,7 @@ export class LintingErrorAnalyzer {
               ? 'test'
               : 'script',
         priority: 4
-      },
+      }
     }
 
     // Style and formatting issues
@@ -418,7 +418,7 @@ export class LintingErrorAnalyzer {
       primary: 'style',
       secondary: rule,
       priority: 4
-    },
+    }
   }
 
   /**
@@ -442,7 +442,7 @@ export class LintingErrorAnalyzer {
         ],
         estimatedEffort: 0.1,
         dependencies: []
-      },
+      }
     }
 
     // Import issues - usually safe to auto-fix
@@ -452,12 +452,12 @@ export class LintingErrorAnalyzer {
         confidence: hasAutoFix ? 0.8 : 0.6,
         riskLevel: 'medium',
         requiredValidation: [
-          { type: 'build', description: 'Verify imports resolve correctly', automated: true },
+          { type: 'build', description: 'Verify imports resolve correctly', automated: true }
           { type: 'type-check', description: 'Verify TypeScript compilation', automated: true }
         ],
         estimatedEffort: hasAutoFix ? 0.2 : 1.0,
         dependencies: []
-      },
+      }
     }
 
     // TypeScript issues - require careful handling
@@ -468,12 +468,12 @@ export class LintingErrorAnalyzer {
         confidence: isExplicitAny ? 0.4 : 0.7,
         riskLevel: isExplicitAny ? 'high' : 'medium',
         requiredValidation: [
-          { type: 'type-check', description: 'Verify TypeScript compilation', automated: true },
+          { type: 'type-check', description: 'Verify TypeScript compilation', automated: true }
           { type: 'test', description: 'Run relevant tests', automated: true }
         ],
         estimatedEffort: isExplicitAny ? 5.0 : 1.0,
         dependencies: []
-      },
+      }
     }
 
     // React issues - moderate risk
@@ -484,12 +484,12 @@ export class LintingErrorAnalyzer {
         confidence: isExhaustiveDeps ? 0.5 : 0.8,
         riskLevel: isExhaustiveDeps ? 'high' : 'medium',
         requiredValidation: [
-          { type: 'build', description: 'Verify React components render', automated: true },
+          { type: 'build', description: 'Verify React components render', automated: true }
           { type: 'test', description: 'Run component tests', automated: true }
         ],
         estimatedEffort: isExhaustiveDeps ? 3.0 : 0.5,
         dependencies: []
-      },
+      }
     }
 
     // Domain-specific issues - require special handling
@@ -499,12 +499,12 @@ export class LintingErrorAnalyzer {
         confidence: 0.3,
         riskLevel: 'high',
         requiredValidation: [
-          { type: 'manual-review', description: 'Domain expert review required', automated: false },
+          { type: 'manual-review', description: 'Domain expert review required', automated: false }
           { type: 'test', description: 'Run domain-specific tests', automated: true }
         ],
         estimatedEffort: 10.0,
         dependencies: []
-      },
+      }
     }
 
     // Default strategy for other issues
@@ -515,7 +515,7 @@ export class LintingErrorAnalyzer {
       requiredValidation: [{ type: 'build', description: 'Verify build passes', automated: true }],
       estimatedEffort: hasAutoFix ? 0.5 : 2.0,
       dependencies: []
-    },
+    }
   }
 
   /**
@@ -545,12 +545,12 @@ export class LintingErrorAnalyzer {
       total: issues.length,
       errors: issues.filter(i => i.severity === 'error').length,,
       warnings: issues.filter(i => i.severity === 'warning').length,,
-      byCategory: {},
-      byPriority: {},
-      byFile: {},
+      byCategory: {}
+      byPriority: {}
+      byFile: {}
       autoFixable: issues.filter(i => i.autoFixable),
       requiresManualReview: issues.filter(i => i.resolutionStrategy.type === 'manual-review'),
-    },
+    }
 
     // Group by category
     for (const issue of issues) {
@@ -611,7 +611,7 @@ export class LintingErrorAnalyzer {
     const highRiskPhases = phases.filter(p => p.riskLevel === 'high').length;
     const overall = highRiskPhases > 2 ? 'high' : highRiskPhases > 0 ? 'medium' : 'low'
 
-    return { overall, factors, mitigations },
+    return { overall, factors, mitigations }
   }
 
   /**

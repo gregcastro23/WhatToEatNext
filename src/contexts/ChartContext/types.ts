@@ -49,5 +49,5 @@ export interface ChartContextType {
     planetPositions: Record<string, unknown>,
     ascendantSign: string,
     svgContent: string
-  },
+  }
 }

@@ -70,7 +70,7 @@ class ImportOrganizationFixer {
           encoding: 'utf8',
           stdio: 'pipe',
           maxBuffer: 10 * 1024 * 1024, // 10MB buffer
-        },
+        }
       )
 
       const results = JSON.parse(eslintOutput)
@@ -80,7 +80,7 @@ class ImportOrganizationFixer {
         circularDependencies: [],
         namedImportIssues: [],
         totalIssues: 0
-      },
+      }
 
       for (const result of results) {
         for (const message of result.messages) {
@@ -91,7 +91,7 @@ class ImportOrganizationFixer {
             rule: message.ruleId,
             message: message.message,
             severity: message.severity === 2 ? 'error' : 'warning',,
-          },
+          }
 
           // Categorize import issues
           if (message.ruleId === 'import/no-duplicates') {
@@ -133,7 +133,7 @@ class ImportOrganizationFixer {
       circularDependencies: [],
       namedImportIssues: [],
       totalIssues: 0
-    },
+    }
 
     const files = this.getAllTypeScriptFiles()
 
@@ -197,7 +197,7 @@ class ImportOrganizationFixer {
           files.push(fullPath)
         }
       }
-    },
+    }
 
     scanDirectory(this.srcDir)
     return files,
@@ -331,7 +331,7 @@ class ImportOrganizationFixer {
         {
           stdio: 'pipe',
           maxBuffer: 10 * 1024 * 1024
-        },
+        }
       )
 
       // // // _logger.info('✅ Import order fixed using ESLint --fix')
@@ -376,7 +376,7 @@ class ImportOrganizationFixer {
           external: [] as string[],
           internal: [] as string[],
           relative: [] as string[]
-        },
+        }
 
         for (const importLine of imports) {
           const match = importLine.match(/from\s+[''`]([^''`]+)[''`]/)
@@ -507,7 +507,7 @@ class ImportOrganizationFixer {
 
       recursionStack.delete(node)
       return false,
-    },
+    }
 
     for (const file of files) {
       if (!visited.has(file)) {

@@ -37,13 +37,13 @@ interface EnhancedFilterOptions extends FilterOptions {
     vegan?: boolean,
     glutenFree?: boolean,
     dairyFree?: boolean
-  },
+  }
   excludedIngredients?: string[],
   favoriteIngredients?: string[]
   cookingTime?: {
     min?: number,
     max?: number
-  },
+  }
 }
 
 export class RecipeFilter {
@@ -174,10 +174,10 @@ export class RecipeFilter {
         return {
           ...recipe,
           score
-        },
+        }
       } catch (error) {
         logger.error('Error scoring recipe:', { recipe, error })
-        return { ...recipe, score: 0 },
+        return { ...recipe, score: 0 }
       }
     })
   }
@@ -388,7 +388,7 @@ export class RecipeFilter {
               return dishName.name === recipe.name
             }
             return false,
-          },
+          }
 
           // Handle different structures of cuisine.dishes
           if (Array.isArray(cuisine.dishes)) {
@@ -516,7 +516,7 @@ export class RecipeFilter {
             return dishName.name === recipe.name
           }
           return false,
-        },
+        }
 
         // Handle different structures of cuisine.dishes
         if (Array.isArray(cuisine.dishes)) {
@@ -577,7 +577,7 @@ export function filterRecipesByIngredientMappings(
     excluded?: string[], // Ingredients that must not be in the recipe
     emphasized?: string[], // Ingredients that should be emphasized (boost score)
     dietaryRestrictions?: string[], // Dietary restrictions to respect
-  },
+  }
 ): {
   recipe: Recipe,
   score: number,
@@ -594,7 +594,7 @@ export function filterRecipesByIngredientMappings(
     Water: 0.25,
     Earth: 0.25,
     Air: 0.25
-  },
+  }
 
   // Process each recipe
   const results = recipes.map(recipe => {
@@ -672,7 +672,7 @@ export function filterRecipesByIngredientMappings(
             matchedTo?: IngredientMapping,
             confidence: number
           }[],
-        },
+        }
       }
     }
 
@@ -700,7 +700,7 @@ export function filterRecipesByIngredientMappings(
             matchedTo?: IngredientMapping,
             confidence: number
           }[],
-        },
+        }
       }
 
       // Boost score for meeting dietary requirements
@@ -771,7 +771,7 @@ export function filterRecipesByIngredientMappings(
         matchedTo?: IngredientMapping,
         confidence: number
       }[],
-    },
+    }
   })
 
   // Filter out non-matches and sort by score

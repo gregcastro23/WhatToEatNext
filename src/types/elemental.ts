@@ -6,7 +6,7 @@
 import { Element } from '@/types/celestial';
 
 // Re-export Element for convenience
-export type { Element },
+export type { Element }
 
 // The four basic elements
 export type LowercaseElement = 'fire' | 'water' | 'air' | 'earth',
@@ -82,7 +82,7 @@ export const _DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
   Water: 0.25,
   Earth: 0.25,
   Air: 0.25
-},
+}
 
 // Type guard function for ElementalProperties
 export function isElementalProperties(obj: unknown): obj is ElementalProperties {

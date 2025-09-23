@@ -24,7 +24,7 @@ export const planetaryElementMap: Record<RulingPlanet, ElementalCharacter> = {
   Neptune: 'Water',
   Uranus: 'Air',
   Pluto: 'Earth'
-},
+}
 
 /**
  * Maps tarot suits to their elemental character
@@ -34,7 +34,7 @@ export const tarotSuitElementMap: Record<string, ElementalCharacter> = {
   Cups: 'Water',
   Pentacles: 'Earth',
   Swords: 'Air'
-},
+}
 
 /**
  * Maps tarot cards to their quantum values
@@ -105,7 +105,7 @@ export const tarotCardQuantumValues: Record<string, number> = {
   'Knight of Swords': 2,
   'Queen of Swords': 3,
   'King of Swords': 4
-},
+}
 
 /**
  * Maps major arcana cards to their ruling planets
@@ -132,7 +132,7 @@ export const majorArcanaPlanetMap: Record<string, RulingPlanet> = {
   'The Sun': 'Sun',
   Judgement: 'Pluto',
   'The World': 'Saturn'
-},
+}
 
 /**
  * Maps each planet to a corresponding alchemical property
@@ -148,7 +148,7 @@ export const planetaryAlchemicalMap: Record<RulingPlanet, AlchemicalProperty> = 
   Neptune: 'Essence',
   Uranus: 'Substance',
   Pluto: 'Matter'
-},
+}
 
 /**
  * Gets the elemental character associated with a planet
@@ -157,7 +157,7 @@ export const planetaryAlchemicalMap: Record<RulingPlanet, AlchemicalProperty> = 
  */
 export const _getPlanetaryElement = (planet: RulingPlanet): ElementalCharacter => {
   return planetaryElementMap[planet]
-},
+}
 
 /**
  * Gets the alchemical property associated with a planet
@@ -166,7 +166,7 @@ export const _getPlanetaryElement = (planet: RulingPlanet): ElementalCharacter =
  */
 export const _getPlanetaryAlchemicalProperty = (planet: RulingPlanet): AlchemicalProperty => {
   return planetaryAlchemicalMap[planet]
-},
+}
 
 /**
  * Gets the elemental character from a tarot card name
@@ -188,7 +188,7 @@ export const _getTarotCardElement = (cardName: string): ElementalCharacter | nul
   }
 
   return null;
-},
+}
 
 /**
  * Gets the quantum value for a tarot card (minor arcana only)
@@ -197,7 +197,7 @@ export const _getTarotCardElement = (cardName: string): ElementalCharacter | nul
  */
 export const _getTarotCardQuantum = (cardName: string): number => {
   return tarotCardQuantumValues[cardName] || 0
-},
+}
 
 /**
  * Gets the ruling planet for a major arcana card
@@ -206,4 +206,4 @@ export const _getTarotCardQuantum = (cardName: string): number => {
  */
 export const _getTarotCardPlanet = (cardName: string): RulingPlanet | null => {
   return majorArcanaPlanetMap[cardName] || null
-},
+}

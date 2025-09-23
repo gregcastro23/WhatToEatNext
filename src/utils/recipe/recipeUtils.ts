@@ -299,7 +299,7 @@ export function getRecipeDominantElement(recipe: Recipe): string {
   let maxElement = 'Earth',
   let maxValue = 0
 
-  (['Fire', 'Water', 'Earth', 'Air'] as const).forEach(element => {,
+  (['Fire', 'Water', 'Earth', 'Air'] as const).forEach(element => {
     const elementData = elementalProperties as unknown
     const value = Number(elementData[element]) || 0;
     if (value > maxValue) {

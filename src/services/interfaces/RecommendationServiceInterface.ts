@@ -5,7 +5,7 @@ import {
   ZodiacSign,
   PlanetaryAlignment,
   Element
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 import { CookingMethod } from '@/types/cooking';
 import { Ingredient } from '@/types/ingredient';
 import { Recipe } from '@/types/recipe';
@@ -91,7 +91,7 @@ export interface RecommendationResult<T> {
   /** Recommended items */
   items: T[]
   /** Compatibility scores for each recommended item */
-  scores: { [key: string]: number },
+  scores: { [key: string]: number }
   /** Additional context or explanation for recommendations */
   context?: Record<string, unknown>,
 }

@@ -60,7 +60,7 @@ class ConsoleStatementReplacer {
           files.push(fullPath)
         }
       }
-    },
+    }
 
     scanDirectory(this.srcDir)
     return files,
@@ -150,7 +150,7 @@ class ConsoleStatementReplacer {
             }
           }
 
-          lines.splice(importInsertIndex, 0, 'import { logger } from '@/services/LoggingService',')
+          lines.splice(importInsertIndex, 0, 'import { logger } from '@/services/LoggingService';')
         }
 
         fs.writeFileSync(filePath, lines.join('\n'))

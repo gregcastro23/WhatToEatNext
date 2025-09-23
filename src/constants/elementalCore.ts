@@ -20,7 +20,7 @@ export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
   Water: 0.25,
   Earth: 0.25,
   Air: 0.25
-},
+}
 
 // ===== ELEMENTAL RELATIONSHIPS =====,
 
@@ -33,7 +33,7 @@ export const ELEMENT_AFFINITIES = {
   Water: ['Water', 'Earth'],
   Air: ['Air', 'Fire'],
   Earth: ['Earth', 'Water']
-},
+}
 
 /**
  * Element combinations for compatibility calculations
@@ -51,7 +51,7 @@ export const ELEMENT_COMBINATIONS = {
     ['Fire', 'Earth'], // Different elements with good compatibility
     ['Air', 'Water']
   ]
-},
+}
 
 // ===== ZODIAC CORRESPONDENCES =====,
 
@@ -78,66 +78,66 @@ export const ZODIAC_ELEMENTS = {
  */
 export const DECANS = {
   aries: [
-    { ruler: 'Mars', element: 'Fire', degree: 0 },
-    { ruler: 'Sun', element: 'Fire', degree: 10 },
+    { ruler: 'Mars', element: 'Fire', degree: 0 }
+    { ruler: 'Sun', element: 'Fire', degree: 10 }
     { ruler: 'Jupiter', element: 'Fire', degree: 20 }
   ],
   taurus: [
-    { ruler: 'Venus', element: 'Earth', degree: 0 },
-    { ruler: 'Mercury', element: 'Earth', degree: 10 },
+    { ruler: 'Venus', element: 'Earth', degree: 0 }
+    { ruler: 'Mercury', element: 'Earth', degree: 10 }
     { ruler: 'Saturn', element: 'Earth', degree: 20 }
   ],
   gemini: [
-    { ruler: 'Mercury', element: 'Air', degree: 0 },
-    { ruler: 'Venus', element: 'Air', degree: 10 },
+    { ruler: 'Mercury', element: 'Air', degree: 0 }
+    { ruler: 'Venus', element: 'Air', degree: 10 }
     { ruler: 'Uranus', element: 'Air', degree: 20 }
   ],
   cancer: [
-    { ruler: 'Moon', element: 'Water', degree: 0 },
-    { ruler: 'Pluto', element: 'Water', degree: 10 },
+    { ruler: 'Moon', element: 'Water', degree: 0 }
+    { ruler: 'Pluto', element: 'Water', degree: 10 }
     { ruler: 'Neptune', element: 'Water', degree: 20 }
   ],
   leo: [
-    { ruler: 'Sun', element: 'Fire', degree: 0 },
-    { ruler: 'Jupiter', element: 'Fire', degree: 10 },
+    { ruler: 'Sun', element: 'Fire', degree: 0 }
+    { ruler: 'Jupiter', element: 'Fire', degree: 10 }
     { ruler: 'Mars', element: 'Fire', degree: 20 }
   ],
   virgo: [
-    { ruler: 'Mercury', element: 'Earth', degree: 0 },
-    { ruler: 'Saturn', element: 'Earth', degree: 10 },
+    { ruler: 'Mercury', element: 'Earth', degree: 0 }
+    { ruler: 'Saturn', element: 'Earth', degree: 10 }
     { ruler: 'Venus', element: 'Earth', degree: 20 }
   ],
   libra: [
-    { ruler: 'Venus', element: 'Air', degree: 0 },
-    { ruler: 'Uranus', element: 'Air', degree: 10 },
+    { ruler: 'Venus', element: 'Air', degree: 0 }
+    { ruler: 'Uranus', element: 'Air', degree: 10 }
     { ruler: 'Mercury', element: 'Air', degree: 20 }
   ],
   scorpio: [
-    { ruler: 'Pluto', element: 'Water', degree: 0 },
-    { ruler: 'Neptune', element: 'Water', degree: 10 },
+    { ruler: 'Pluto', element: 'Water', degree: 0 }
+    { ruler: 'Neptune', element: 'Water', degree: 10 }
     { ruler: 'Moon', element: 'Water', degree: 20 }
   ],
   sagittarius: [
-    { ruler: 'Jupiter', element: 'Fire', degree: 0 },
-    { ruler: 'Mars', element: 'Fire', degree: 10 },
+    { ruler: 'Jupiter', element: 'Fire', degree: 0 }
+    { ruler: 'Mars', element: 'Fire', degree: 10 }
     { ruler: 'Sun', element: 'Fire', degree: 20 }
   ],
   capricorn: [
-    { ruler: 'Saturn', element: 'Earth', degree: 0 },
-    { ruler: 'Venus', element: 'Earth', degree: 10 },
+    { ruler: 'Saturn', element: 'Earth', degree: 0 }
+    { ruler: 'Venus', element: 'Earth', degree: 10 }
     { ruler: 'Mercury', element: 'Earth', degree: 20 }
   ],
   aquarius: [
-    { ruler: 'Uranus', element: 'Air', degree: 0 },
-    { ruler: 'Mercury', element: 'Air', degree: 10 },
+    { ruler: 'Uranus', element: 'Air', degree: 0 }
+    { ruler: 'Mercury', element: 'Air', degree: 10 }
     { ruler: 'Venus', element: 'Air', degree: 20 }
   ],
   pisces: [
-    { ruler: 'Neptune', element: 'Water', degree: 0 },
-    { ruler: 'Moon', element: 'Water', degree: 10 },
+    { ruler: 'Neptune', element: 'Water', degree: 0 }
+    { ruler: 'Moon', element: 'Water', degree: 10 }
     { ruler: 'Pluto', element: 'Water', degree: 20 }
   ]
-},
+}
 
 // ===== VALIDATION AND THRESHOLDS =====,
 
@@ -148,7 +148,7 @@ export const VALIDATION_THRESHOLDS = {
   MINIMUM_ELEMENT: 0,
   MAXIMUM_ELEMENT: 1,
   BALANCE_PRECISION: 0.01
-},
+}
 
 /**
  * Elemental significance thresholds
@@ -158,12 +158,12 @@ export const ELEMENTAL_THRESHOLDS = {
   significant: 0.25,
   present: 0.1,
   trace: 0.05
-},
+}
 
 /**
  * Elemental weights for calculations
  */
-export const ELEMENTAL_WEIGHTS = { Fire: 1, Water: 1, Earth: 1, Air: 1 },
+export const ELEMENTAL_WEIGHTS = { Fire: 1, Water: 1, Earth: 1, Air: 1 }
 
 // ===== COMPREHENSIVE ELEMENTAL CHARACTERISTICS =====,
 
@@ -197,7 +197,7 @@ export const ELEMENTAL_CHARACTERISTICS = {
     healthBenefits: ['metabolism boost', 'circulation improvement', 'immune strengthening'],
     moodEffects: ['energizing', 'stimulating', 'uplifting', 'motivating', 'passionate'],
     effects: ['stimulating', 'energizing', 'warming']
-  },
+  }
   Water: {
     // Basic properties
     qualities: ['cold', 'wet', 'flowing', 'adaptable', 'receptive'],
@@ -224,7 +224,7 @@ export const ELEMENTAL_CHARACTERISTICS = {
     healthBenefits: ['hydration', 'emotional balance', 'detoxification', 'cooling'],
     moodEffects: ['calming', 'soothing', 'introspective', 'healing', 'nurturing'],
     effects: ['cooling', 'calming', 'hydrating']
-  },
+  }
   Earth: {
     // Basic properties
     qualities: ['cold', 'dry', 'stable', 'solid', 'grounding'],
@@ -251,7 +251,7 @@ export const ELEMENTAL_CHARACTERISTICS = {
     healthBenefits: ['digestive support', 'nutritional density', 'sustained energy'],
     moodEffects: ['stabilizing', 'grounding', 'comforting', 'satisfying', 'nourishing'],
     effects: ['grounding', 'stabilizing', 'nourishing']
-  },
+  }
   Air: {
     // Basic properties
     qualities: ['hot', 'wet', 'mobile', 'light', 'communicative'],
@@ -285,7 +285,7 @@ export const ELEMENTAL_CHARACTERISTICS = {
     moodEffects: ['uplifting', 'clarifying', 'refreshing', 'invigorating', 'inspiring'],
     effects: ['lightening', 'clarifying', 'refreshing']
   }
-},
+}
 
 // ===== UTILITY FUNCTIONS =====,
 
@@ -295,7 +295,7 @@ export const ELEMENTAL_CHARACTERISTICS = {
 export function getDominantElement(properties: ElementalProperties): Element {
   return Object.entries(properties).reduce(
     (max, [element, value]) => (value > max.value ? { element: element as Element, value } : max),
-    { element: 'Fire' as Element, value: 0 },
+    { element: 'Fire' as Element, value: 0 }
   ).element,
 }
 
@@ -306,7 +306,7 @@ export function normalizeElementalProperties(properties: ElementalProperties): E
   const total = Object.values(properties).reduce((sum, val) => sum + (val || 0), 0),
 
   if (total === 0) {,
-    return { ...DEFAULT_ELEMENTAL_PROPERTIES },
+    return { ...DEFAULT_ELEMENTAL_PROPERTIES }
   }
 
   return {
@@ -314,7 +314,7 @@ export function normalizeElementalProperties(properties: ElementalProperties): E
     Water: (properties.Water || 0) / total,
     Earth: (properties.Earth || 0) / total,
     Air: (properties.Air || 0) / total
-  },
+  }
 }
 
 /**
@@ -375,4 +375,4 @@ export default {
   normalizeElementalProperties,
   calculateElementalCompatibility,
   validateElementalProperties
-},
+}

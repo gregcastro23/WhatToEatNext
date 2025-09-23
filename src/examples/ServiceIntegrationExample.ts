@@ -100,13 +100,13 @@ export async function runServiceIntegrationExample() {
       Water: 0.1,
       Earth: 0.1,
       Air: 0.1
-    },
+    }
     const recipe2ElementalProps: ElementalProperties = {
       Fire: 0.1,
       Water: 0.1,
       Earth: 0.7,
       Air: 0.1
-    },
+    }
 
     // Apply surgical type casting with variable extraction
     const alchemicalEngineCompatibility = alchemicalEngine as unknown;

@@ -27,8 +27,8 @@ describe('DocumentationQualityAssurance', () => {
       qualityThresholds: { excellent: 90,
         good: 70,
         fair: 50
-      },
-    },
+      }
+    }
 
     qas = new DocumentationQualityAssurance(mockConfig)
 
@@ -128,7 +128,7 @@ describe('DocumentationQualityAssurance', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      },
+      }
 
       const validation: any = await qas.validateDocumentationQuality(context)
 
@@ -164,7 +164,7 @@ describe('DocumentationQualityAssurance', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      },
+      }
 
       const validation: any = await qas.validateDocumentationQuality(context)
 
@@ -197,7 +197,7 @@ describe('DocumentationQualityAssurance', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      },
+      }
 
       const validation: any = await qas.validateDocumentationQuality(context)
 
@@ -223,7 +223,7 @@ describe('DocumentationQualityAssurance', () => {
           suggestedTypes: [],
           preservationReasons: []
         }
-      },
+      }
 
       // First call
       await qas.validateDocumentationQuality(context)
@@ -295,10 +295,10 @@ describe('DocumentationQualityAssurance', () => {
 
     it('should categorize any types correctly', async () => {
       const testCases: any = [
-        { code: 'catch (error: any: any) {', expectedCategory: AnyTypeCategory.ERROR_HANDLING },
-        { code: 'const respons, e: any = await api.fetch(),', expectedCategory: AnyTypeCategory.EXTERNAL_API },
-        { code: 'const mockDat, a: any = jest.fn() as any,', expectedCategory: AnyTypeCategory.TEST_MOCK },
-        { code: 'const config: any = options,', expectedCategory: AnyTypeCategory.DYNAMIC_CONFIG },
+        { code: 'catch (error: any: any) {', expectedCategory: AnyTypeCategory.ERROR_HANDLING }
+        { code: 'const respons, e: any = await api.fetch(),', expectedCategory: AnyTypeCategory.EXTERNAL_API }
+        { code: 'const mockDat, a: any = jest.fn() as any,', expectedCategory: AnyTypeCategory.TEST_MOCK }
+        { code: 'const config: any = options,', expectedCategory: AnyTypeCategory.DYNAMIC_CONFIG }
         { code: 'const _items: any[] = [],', expectedCategory: AnyTypeCategory.ARRAY_TYPE },,
         { code: 'const data: Record<string, unknown> = {};', expectedCategory: AnyTypeCategory.RECORD_TYPE }
       ],
@@ -311,14 +311,14 @@ describe('DocumentationQualityAssurance', () => {
 
     it('should determine domain correctly', async () => {
       const testCases: any = [
-        { path: 'src/services/astrology/planetary.ts', expectedDomain: CodeDomain.ASTROLOGICAL },
-        { path: 'src/components/recipe/RecipeCard.tsx', expectedDomain: CodeDomain.RECIPE },
-        { path: 'src/services/campaign/CampaignController.ts', expectedDomain: CodeDomain.CAMPAIGN },
-        { path: 'src/services/intelligence/AIService.ts', expectedDomain: CodeDomain.INTELLIGENCE },
-        { path: 'src/services/api/ApiService.ts', expectedDomain: CodeDomain.SERVICE },
-        { path: 'src/components/ui/Button.tsx', expectedDomain: CodeDomain.COMPONENT },
-        { path: 'src/utils/helpers.ts', expectedDomain: CodeDomain.UTILITY },
-        { path: 'src/__tests__/service.test.ts', expectedDomain: CodeDomain.TEST },
+        { path: 'src/services/astrology/planetary.ts', expectedDomain: CodeDomain.ASTROLOGICAL }
+        { path: 'src/components/recipe/RecipeCard.tsx', expectedDomain: CodeDomain.RECIPE }
+        { path: 'src/services/campaign/CampaignController.ts', expectedDomain: CodeDomain.CAMPAIGN }
+        { path: 'src/services/intelligence/AIService.ts', expectedDomain: CodeDomain.INTELLIGENCE }
+        { path: 'src/services/api/ApiService.ts', expectedDomain: CodeDomain.SERVICE }
+        { path: 'src/components/ui/Button.tsx', expectedDomain: CodeDomain.COMPONENT }
+        { path: 'src/utils/helpers.ts', expectedDomain: CodeDomain.UTILITY }
+        { path: 'src/__tests__/service.test.ts', expectedDomain: CodeDomain.TEST }
       ],
 
       for (const testCase of testCases) {
@@ -335,22 +335,22 @@ describe('DocumentationQualityAssurance', () => {
         comment: '',
         expectedQuality: 'poor',
         description: 'empty comment'
-      },
+      }
       {
         comment: 'any',
         expectedQuality: 'poor',
         description: 'minimal comment'
-      },
+      }
       {
         comment: 'Intentionally any for API',
         expectedQuality: 'good',
         description: 'basic intentional comment'
-      },
+      }
       {
         comment: 'Intentionally, any: External API response requires flexible typing',
         expectedQuality: 'excellent',
         description: 'good quality comment with explanation'
-      },
+      }
       {
         comment: 'Intentionally, any: External API response requires flexible typing because the structure varies between different endpoints and versions, and we need to maintain compatibility with legacy systems',
         expectedQuality: 'excellent',
@@ -411,30 +411,30 @@ describe('DocumentationQualityAssurance', () => {
           context: { filePath: 'src/servicets',
             codeSnippet: 'processData(data: any): void',
             isInTestFile: false
-          },
+          }
           expectedSeverity: 'high'
-        },
+        }
         {
           context: { filePath: 'src/component.tsx',
             codeSnippet: 'const _props: any = {}',,
             isInTestFile: false
-          },
+          }
           expectedSeverity: 'low'
-        },
+        }
         {
           context: { filePath: 'src/test.test.ts',
             codeSnippet: 'const mock: any = {}',,
             isInTestFile: true
-          },
+          }
           expectedSeverity: 'low'
-        },
+        }
         {
           context: { filePath: 'src/utils.ts',
             codeSnippet: 'function process(data: any[]): any',
             isInTestFile: false
-          },
+          }
           expectedSeverity: 'medium'
-        },
+        }
       ],
 
       testCases.forEach(({ context: any, expectedSeverity }: any) => {
@@ -448,7 +448,7 @@ describe('DocumentationQualityAssurance', () => {
     it('should generate appropriate recommendations for low coverage', () => {
       const recommendations: any = (qas as any)generateRecommendations(
         30, // 30% coverage
-        { poor: 5, fair: 2, good: 1, excellent: 0 },
+        { poor: 5, fair: 2, good: 1, excellent: 0 }
         [],
       )
 
@@ -459,7 +459,7 @@ describe('DocumentationQualityAssurance', () => {
     it('should generate appropriate recommendations for good coverage', () => {
       const recommendations: any = (qas as any).generateRecommendations(
         85, // 85% coverage
-        { poor: 1, fair: 2, good: 5, excellent: 3 },
+        { poor: 1, fair: 2, good: 5, excellent: 3 }
         [],
       )
 
@@ -470,7 +470,7 @@ describe('DocumentationQualityAssurance', () => {
     it('should generate appropriate recommendations for excellent coverage', () => {
       const recommendations: any = (qas as any).generateRecommendations(
         98, // 98% coverage
-        { poor: 0, fair: 1, good: 3, excellent: 8 },
+        { poor: 0, fair: 1, good: 3, excellent: 8 }
         [],
       )
 

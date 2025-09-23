@@ -13,7 +13,7 @@ import {
   type UnifiedFlavorProfile,
   type UnifiedFlavorCompatibility,
   type BaseFlavorNotes
-} from './unifiedFlavorEngine',
+} from './unifiedFlavorEngine';
 
 // ===== LEGACY INTERFACES (for backward compatibility) =====
 
@@ -37,7 +37,7 @@ export interface LegacyFlavorCompatibilityResult {
 }
 
 export interface LegacyCuisineProfile {
-  flavorProfiles: { [key: string]: number },
+  flavorProfiles: { [key: string]: number }
   elementalProperties?: ElementalProperties,
   signatureIngredients?: string[],
   signatureTechniques?: string[],
@@ -52,7 +52,7 @@ export interface LegacyCuisineProfile {
  */
 export function calculateFlavorCompatibility(
   profile1,
-  profile2: {},
+  profile2: {}
 ): LegacyFlavorCompatibilityResult {
   try {
     // Convert legacy profiles to unified format
@@ -75,7 +75,7 @@ export function calculateFlavorCompatibility(
       seasonalAlignment: 0.7,
       recommendations: ['Using fallback compatibility calculation'],
       warnings: ['Could not use advanced compatibility engine']
-    },
+    }
   }
 }
 
@@ -93,7 +93,7 @@ export function calculateFlavorMatch(_profile1, _profile2: {}): number {
  * @deprecated Use unified engine with cuisine profiles instead
  */
 export function calculateCuisineFlavorMatch(
-  recipeFlavorProfile: { [key: string]: number },
+  recipeFlavorProfile: { [key: string]: number }
   cuisineName: string,
 ): number {
   try {
@@ -125,8 +125,8 @@ export function calculateCuisineFlavorMatch(
  * @deprecated Use unified engine with planetary profiles instead
  */
 export function calculatePlanetaryFlavorMatch(
-  recipeFlavors: { [key: string]: number },
-  planetaryInfluences: { [key: string]: number },
+  recipeFlavors: { [key: string]: number }
+  planetaryInfluences: { [key: string]: number }
 ): number {
   try {
     // Convert recipe to unified format
@@ -171,10 +171,10 @@ export function getFlavorProfileForIngredient(ingredientName: string): LegacyFla
     }
 
     // Fallback to default profile
-    return { spicy: 0.0, sweet: 0.2, sour: 0.0, bitter: 0.0, salty: 0.1, umami: 0.1 },
+    return { spicy: 0.0, sweet: 0.2, sour: 0.0, bitter: 0.0, salty: 0.1, umami: 0.1 }
   } catch (error) {
     _logger.warn('Legacy ingredient profile error:', error),
-    return { spicy: 0.0, sweet: 0.2, sour: 0.0, bitter: 0.0, salty: 0.1, umami: 0.1 },
+    return { spicy: 0.0, sweet: 0.2, sour: 0.0, bitter: 0.0, salty: 0.1, umami: 0.1 }
   }
 }
 
@@ -220,12 +220,12 @@ export function getCuisineProfile(cuisineName: string): LegacyCuisineProfile | n
         bitter: cuisineProfile.baseNotes.bitter,
         umami: cuisineProfile.baseNotes.umami,
         spicy: cuisineProfile.baseNotes.spicy
-      },
+      }
       elementalProperties: cuisineProfile.elementalFlavors,
       signatureIngredients: cuisineProfile.pairingRecommendations,
       signatureTechniques: cuisineProfile.preparationMethods,
       description: cuisineProfile.description
-    },
+    }
   } catch (error) {
     _logger.warn('Legacy cuisine profile error:', error)
     return null
@@ -265,7 +265,7 @@ function convertLegacyToUnified(legacyProfile, _id: string): UnifiedFlavorProfil
     bitter: legacyProfile.bitter || legacyProfile.flavorProfiles?.bitter || 0,
     umami: legacyProfile.umami || legacyProfile.flavorProfiles?.umami || 0,
     spicy: legacyProfile.spicy || legacyProfile.flavorProfiles?.spicy || 0
-  },
+  }
 
   // Extract or estimate elemental properties
   const elementalFlavors: ElementalProperties =
@@ -290,7 +290,7 @@ function convertLegacyToUnified(legacyProfile, _id: string): UnifiedFlavorProfil
       Essence: 0.25,
       Matter: 0.25,
       Substance: 0.25
-    },
+    }
 
     seasonalPeak: legacyProfile.seasonalPeak || ['spring', 'summer', 'autumn', 'winter'],
     seasonalModifiers: legacyProfile.seasonalModifiers || {
@@ -298,7 +298,7 @@ function convertLegacyToUnified(legacyProfile, _id: string): UnifiedFlavorProfil
       summer: 0.5,
       autumn: 0.5,
       winter: 0.5
-    },
+    }
     culturalOrigins: legacyProfile.culturalOrigins || ['Universal'],
     pairingRecommendations: legacyProfile.pairingRecommendations || [],
 
@@ -323,7 +323,7 @@ function convertUnifiedToLegacy(
     seasonalAlignment: unifiedResult.seasonal,
     recommendations: unifiedResult.recommendations,
     warnings: unifiedResult.warnings
-  },
+  }
 }
 
 function convertUnifiedToLegacyProfile(unifiedProfile: UnifiedFlavorProfile): LegacyFlavorProfile {
@@ -334,7 +334,7 @@ function convertUnifiedToLegacyProfile(unifiedProfile: UnifiedFlavorProfile): Le
     bitter: unifiedProfile.baseNotes.bitter,
     salty: unifiedProfile.baseNotes.salty,
     umami: unifiedProfile.baseNotes.umami
-  },
+  }
 }
 
 function createMinimalProfile(
@@ -353,14 +353,14 @@ function createMinimalProfile(
       bitter: 0.25,
       umami: 0.25,
       spicy: 0.25
-    },
+    }
     elementalFlavors: elementalProperties,
     intensity: 0.5,
     complexity: 0.5,
 
     kalchm: 1.0,
     monicaOptimization: 1.0,
-    alchemicalProperties: { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 },
+    alchemicalProperties: { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 }
     seasonalPeak: ['spring', 'summer', 'autumn', 'winter'],
     seasonalModifiers: {
       spring: 0.5,
@@ -369,7 +369,7 @@ function createMinimalProfile(
       fall: 0.5,
       winter: 0.5,
       all: 0.5
-    },
+    }
     culturalOrigins: ['Universal'],
     pairingRecommendations: [],
 
@@ -380,7 +380,7 @@ function createMinimalProfile(
     description: 'Minimal profile for compatibility',
     tags: ['minimal'],
     lastUpdated: new Date()
-  },
+  }
 }
 
 function estimateElementalFromFlavors(baseNotes: BaseFlavorNotes): ElementalProperties {
@@ -389,7 +389,7 @@ function estimateElementalFromFlavors(baseNotes: BaseFlavorNotes): ElementalProp
     Water: (baseNotes.sour + baseNotes.umami) / 2,
     Earth: (baseNotes.sweet + baseNotes.umami) / 2,
     Air: (baseNotes.bitter + baseNotes.sour) / 2
-  },
+  }
 }
 
 function calculateIntensity(baseNotes: BaseFlavorNotes): number {
@@ -410,7 +410,7 @@ export {
   newFindCompatibleProfiles as unifiedFindCompatibleProfiles,
   searchFlavorProfiles as unifiedSearchFlavorProfiles,
   newGetFlavorProfile as unifiedGetFlavorProfile
-},
+}
 
 export default {
   // Legacy API
@@ -431,4 +431,4 @@ export default {
 
   // Engine access
   engine: unifiedFlavorEngine
-},
+}

@@ -17,7 +17,7 @@ interface PropInfo {
 function getPropInfo(key: string, value: unknown): PropInfo {
   const type = Array.isArray(value) ? 'array' : typeof value
 
-  const info: PropInfo = { key, type },
+  const info: PropInfo = { key, type }
 
   if (value === null) {,
     info.type = 'null',
@@ -67,7 +67,7 @@ export function withRenderTracking<P extends object>(
     useEffect(() => {
       const startTime = performance.now()
 
-      setRenderCount(prev => {,
+      setRenderCount(prev => {
         const newCount = prev + 1
 
         // Log more details on first render or every 5 renders
@@ -93,7 +93,7 @@ export function withRenderTracking<P extends object>(
       return () => {
         const endTime = performance.now()
         setRenderTime(endTime - startTime)
-      },
+      }
     }, [firstRender, props])
 
     return (
@@ -122,7 +122,7 @@ export function withRenderTracking<P extends object>(
         <Component {...props} />
       </div>
     )
-  },
+  }
 
   // Set display name for better debugging
   TrackedComponent.displayName = displayName,
@@ -148,7 +148,7 @@ export function trackRenders(nameOrComponent: string | ComponentType<any>, _name
   if (typeof nameOrComponent === 'string') {
     return function <P extends object>(Component: ComponentType<P>) {
       return withRenderTracking(Component, nameOrComponent)
-    },
+    }
   }
 
   // Called as trackRenders(Component, 'Name')

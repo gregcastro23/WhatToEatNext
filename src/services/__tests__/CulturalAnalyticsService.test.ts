@@ -5,12 +5,12 @@ import { ElementalProperties } from '@/types/alchemy';
 import { CulturalAnalyticsService } from '../CulturalAnalyticsService';
 
 describe('CulturalAnalyticsService', () => {
-  const mockElementalProfile: ElementalProperties = { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 },
+  const mockElementalProfile: ElementalProperties = { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 }
 
   const mockAstrologicalState: any = {
     zodiacSign: 'aries' as const,
     lunarPhase: 'new moon' as const,
-  },
+  }
 
   describe('calculateCulturalSynergy', () => {
     it('should calculate cultural synergy for a single cuisine', () => {

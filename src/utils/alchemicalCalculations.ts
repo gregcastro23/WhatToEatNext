@@ -5,7 +5,7 @@ export interface PlanetaryPositionsType {
     degree?: number,
     isRetrograde?: boolean,
     [key: string]: unknown
-  },
+  }
 }
 
 // Map elements to zodiac signs
@@ -22,21 +22,21 @@ const signElements: Record<string, string> = {
   cancer: 'Water',
   scorpio: 'Water',
   pisces: 'Water'
-},
+}
 
 // Map planets to their alchemical properties
 const planetAlchemicalProperties: Record<string, Record<string, number>> = {
-  sun: { Spirit: 1.0, Essence: 0.3, Matter: 0.1, Substance: 0.2 },
-  moon: { Spirit: 0.2, Essence: 0.8, Matter: 0.7, Substance: 0.3 },
-  mercury: { Spirit: 0.7, Essence: 0.4, Matter: 0.2, Substance: 0.8 },
-  venus: { Spirit: 0.3, Essence: 0.9, Matter: 0.6, Substance: 0.2 },
-  mars: { Spirit: 0.4, Essence: 0.7, Matter: 0.8, Substance: 0.3 },
-  jupiter: { Spirit: 0.8, Essence: 0.6, Matter: 0.3, Substance: 0.4 },
-  saturn: { Spirit: 0.6, Essence: 0.2, Matter: 0.9, Substance: 0.5 },
-  uranus: { Spirit: 0.9, Essence: 0.5, Matter: 0.2, Substance: 0.7 },
-  neptune: { Spirit: 0.7, Essence: 0.8, Matter: 0.1, Substance: 0.9 },
+  sun: { Spirit: 1.0, Essence: 0.3, Matter: 0.1, Substance: 0.2 }
+  moon: { Spirit: 0.2, Essence: 0.8, Matter: 0.7, Substance: 0.3 }
+  mercury: { Spirit: 0.7, Essence: 0.4, Matter: 0.2, Substance: 0.8 }
+  venus: { Spirit: 0.3, Essence: 0.9, Matter: 0.6, Substance: 0.2 }
+  mars: { Spirit: 0.4, Essence: 0.7, Matter: 0.8, Substance: 0.3 }
+  jupiter: { Spirit: 0.8, Essence: 0.6, Matter: 0.3, Substance: 0.4 }
+  saturn: { Spirit: 0.6, Essence: 0.2, Matter: 0.9, Substance: 0.5 }
+  uranus: { Spirit: 0.9, Essence: 0.5, Matter: 0.2, Substance: 0.7 }
+  neptune: { Spirit: 0.7, Essence: 0.8, Matter: 0.1, Substance: 0.9 }
   pluto: { Spirit: 0.5, Essence: 0.7, Matter: 0.9, Substance: 0.4 }
-},
+}
 
 // Calculate elemental values based on planetary positions
 export function calculateElementalValues(_positions: PlanetaryPositionsType) {
@@ -45,7 +45,7 @@ export function calculateElementalValues(_positions: PlanetaryPositionsType) {
     Earth: 0,
     Air: 0,
     Water: 0
-  },
+  }
 
   // Count planets by element
   Object.entries(positions).forEach(([planet, data]) => {
@@ -75,7 +75,7 @@ export function calculateElementalValues(_positions: PlanetaryPositionsType) {
     Essence: (elements.Fire + elements.Water) / (total * 2) + 0.1,
     Matter: (elements.Earth + elements.Water) / (total * 2) + 0.1,
     Substance: (elements.Earth + elements.Air) / (total * 2) + 0.1
-  },
+  }
 }
 
 // Calculate planetary contributions to alchemical values
@@ -85,7 +85,7 @@ export function calculatePlanetaryAlchemicalValues(_positions: PlanetaryPosition
     Essence: 0.25,
     Matter: 0.25,
     Substance: 0.25
-  },
+  }
 
   let totalWeight = 0,
 
@@ -150,7 +150,7 @@ export function calculatePlanetaryAlchemicalValues(_positions: PlanetaryPosition
       Essence: alchemicalValues.Essence / normalizer,
       Matter: alchemicalValues.Matter / normalizer,
       Substance: alchemicalValues.Substance / normalizer
-    },
+    }
   }
 
   return alchemicalValues,
@@ -164,7 +164,7 @@ export function calculateElementalBalance(_positions: PlanetaryPositionsType) {
     Earth: 0.25,
     Air: 0.25,
     Water: 0.25
-  },
+  }
 
   if (!positions || Object.keys(positions).length === 0) {,
     return elements
@@ -212,7 +212,7 @@ export function calculateElementalBalance(_positions: PlanetaryPositionsType) {
       Earth: elements.Earth / total,
       Air: elements.Air / total,
       Water: elements.Water / total
-    },
+    }
   }
 
   return elements,
@@ -229,7 +229,7 @@ export interface AlchemicalResult {
     earth: number,
     air: number,
     water: number
-  },
+  }
   dominantElement: string,
   recommendation: string,
   'Total Effect Value': {
@@ -237,7 +237,7 @@ export interface AlchemicalResult {
     Earth: number,
     Air: number,
     Water: number
-  },
+  }
 }
 
 // Interface for planetary position
@@ -268,7 +268,7 @@ export function alchemize(
     earth: 0,
     air: 0,
     water: 0
-  },
+  }
 
   let spirit = 0,
   let essence = 0,
@@ -438,7 +438,7 @@ export function alchemize(
     Earth: elementalBalance.earth,
     Air: elementalBalance.air,
     Water: elementalBalance.water
-  },
+  }
 
   return {
     spirit,
@@ -449,7 +449,7 @@ export function alchemize(
     dominantElement,
     recommendation,
     'Total Effect Value': totalEffectValue
-  },
+  }
 }
 
 /**

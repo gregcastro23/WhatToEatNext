@@ -13,20 +13,20 @@ jest.mock('../../data/ingredients', () => ({
         Water: 0.1,
         Earth: 0.1,
         Air: 0.6
-      },
+      }
       qualities: ['aromatic', 'warming'],
       storage: { duratio, n: '1 week' }
-    },
+    }
     tomato: { name: 'Tomato',
       category: 'vegetable',
       elementalProperties: { Fire: 0.4,
         Water: 0.4,
         Earth: 0.1,
         Air: 0.1
-      },
+      }
       qualities: ['juicy', 'acidic'],
       storage: { duratio, n: '1 week' }
-    },
+    }
     invalidIngredient: { name: 'Invalid',
       category: 'invalid_category',
       elementalProperties: { Fire: 0.5,
@@ -146,7 +146,7 @@ describe('Ingredient Data Validation', () => {
         warnings: [],
         summary: 'Critical failure',
         timestamp: new Date()
-      },
+      }
 
       expect(shouldRollbackIngredients(validationResult))toBe(true)
     })
@@ -159,19 +159,19 @@ describe('Ingredient Data Validation', () => {
             severity: 'HIGH',
             message: 'Elemental error 1',
             timestamp: new Date()
-          },
+          }
           {
             type: 'COMPATIBILITY_VIOLATION',
             severity: 'HIGH',
             message: 'Compatibility error 2',
             timestamp: new Date()
-          },
+          }
           {
             type: 'DATA_INCOMPLETE',
             severity: 'HIGH',
             message: 'Data error 3',
             timestamp: new Date()
-          },
+          }
           {
             type: 'CATEGORY_MISMATCH',
             severity: 'HIGH',
@@ -182,7 +182,7 @@ describe('Ingredient Data Validation', () => {
         warnings: [],
         summary: 'Multiple high-severity errors',
         timestamp: new Date()
-      },
+      }
 
       expect(shouldRollbackIngredients(validationResult)).toBe(true)
     })
@@ -206,7 +206,7 @@ describe('Ingredient Data Validation', () => {
         ],
         summary: 'Minor issues only',
         timestamp: new Date()
-      },
+      }
 
       expect(shouldRollbackIngredients(validationResult)).toBe(false)
     })
@@ -219,7 +219,7 @@ describe('Ingredient Data Validation', () => {
             severity: 'HIGH',
             message: 'Single high-severity error',
             timestamp: new Date()
-          },
+          }
           {
             type: 'COMPATIBILITY_VIOLATION',
             severity: 'MEDIUM',
@@ -230,7 +230,7 @@ describe('Ingredient Data Validation', () => {
         warnings: [],
         summary: 'Few high errors',
         timestamp: new Date()
-      },
+      }
 
       expect(shouldRollbackIngredients(validationResult)).toBe(false)
     })

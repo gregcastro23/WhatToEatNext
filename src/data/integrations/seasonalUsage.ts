@@ -10,7 +10,7 @@ const _CuisineType = {
   JAPANESE: 'japanese',
   THAI: 'thai',
   MEXICAN: 'mexican'
-},
+}
 
 export const seasonalUsage = {
   spring: {
@@ -20,12 +20,12 @@ export const seasonalUsage = {
       greek: {
         combinations: ['mint + parsley', 'dill + garlic'],
         dishes: ['spring lamb', 'fresh salads']
-      },
+      }
       italian: {
         combinations: ['basil + tomato', 'pea + mint'],
         dishes: ['primavera pasta', 'spring risotto']
       }
-    },
+    }
     herbs: ['mint', 'chives', 'parsley', 'dill'],
     vegetables: ['asparagus', 'peas', 'artichokes', 'spring onions'],
     tarotAssociations: {
@@ -50,7 +50,7 @@ export const seasonalUsage = {
         'Consider fermentation and pickling for slower transformations (7 of Pentacles)'
       ]
     }
-  },
+  }
 
   summer: {
     growing: ['basil', 'rosemary', 'cilantro'],
@@ -58,12 +58,12 @@ export const seasonalUsage = {
       greek: {
         combinations: ['cucumber + mint', 'tomato + feta'],
         dishes: ['tzatziki', 'greek salad', 'souvlaki']
-      },
+      }
       italian: {
         combinations: ['tomato + basil', 'zucchini + mint'],
         dishes: ['caprese salad', 'summer pasta', 'grilled vegetables']
       }
-    },
+    }
     herbs: ['basil', 'oregano', 'tarragon', 'cilantro'],
     vegetables: ['tomatoes', 'zucchini', 'eggplant', 'peppers'],
     tarotAssociations: {
@@ -89,7 +89,7 @@ export const seasonalUsage = {
         'Perfect cooking techniques with attention to detail (8 of Pentacles)'
       ]
     }
-  },
+  }
 
   autumn: {
     growing: ['sage', 'rosemary', 'thyme'],
@@ -97,12 +97,12 @@ export const seasonalUsage = {
       greek: {
         combinations: ['spinach + feta', 'lamb + herbs'],
         dishes: ['moussaka', 'stuffed peppers', 'roasted lamb']
-      },
+      }
       french: {
         combinations: ['mushroom + thyme', 'apple + cinnamon'],
         dishes: ['ratatouille', 'mushroom soup', 'apple tart']
       }
-    },
+    }
     herbs: ['sage', 'rosemary', 'thyme', 'bay leaf'],
     vegetables: ['pumpkin', 'squash', 'mushrooms', 'cauliflower'],
     tarotAssociations: {
@@ -128,7 +128,7 @@ export const seasonalUsage = {
         'Balance workload with efficient meal preparation (10 of Wands)'
       ]
     }
-  },
+  }
 
   winter: {
     growing: ['rosemary', 'thyme', 'sage'],
@@ -136,12 +136,12 @@ export const seasonalUsage = {
       greek: {
         combinations: ['lemon + oregano', 'olive + herb'],
         dishes: ['avgolemono soup', 'winter stews', 'baked fish']
-      },
+      }
       french: {
         combinations: ['thyme + red wine', 'rosemary + garlic'],
         dishes: ['beef bourguignon', 'cassoulet', 'onion soup']
       }
-    },
+    }
     herbs: ['rosemary', 'thyme', 'sage', 'bay leaf'],
     vegetables: ['kale', 'brussels sprouts', 'root vegetables', 'cabbage'],
     tarotAssociations: {
@@ -167,7 +167,7 @@ export const seasonalUsage = {
         'Create dishes that bring joy and fulfillment (9 of Cups10 of Cups)'
       ]
     }
-  },
+  }
 
   all: {
     growing: ['basil', 'rosemary', 'thyme', 'sage', 'oregano'],
@@ -176,7 +176,7 @@ export const seasonalUsage = {
         combinations: ['garlic + herbs', 'lemon + herbs'],
         dishes: ['roasted meats', 'soups', 'stews']
       }
-    },
+    }
     herbs: ['parsley', 'thyme', 'rosemary', 'bay leaf', 'oregano'],
     vegetables: ['onions', 'garlic', 'carrots', 'potatoes'],
     tarotAssociations: {
@@ -214,7 +214,7 @@ export function getSeasonalUsageData(ingredient: string, season: Season) {
     inGrowing: seasonData.growing.includes(ingredient),
     inHerbs: seasonData.herbs.includes(ingredient),
     inVegetables: seasonData.vegetables.includes(ingredient)
-  },
+  }
 }
 
 export function getTarotRecommendationsForSeason(season: Season) {

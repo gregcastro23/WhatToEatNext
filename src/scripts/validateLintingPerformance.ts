@@ -87,7 +87,7 @@ class LintingPerformanceValidator {
         cacheHitRate: 0, // No cache for baseline,
         filesProcessed: this.extractFilesProcessed(output),
         parallelProcesses: 1, // Single process for baseline
-      },
+      }
 
       // // // _logger.info(
         `✅ Baseline established: ${this.baselineMetrics.executionTime}ms, ${Math.round(this.baselineMetrics.memoryUsage / 1024 / 1024)}MB`,
@@ -100,7 +100,7 @@ class LintingPerformanceValidator {
         cacheHitRate: 0,
         filesProcessed: 1000, // Estimated,
         parallelProcesses: 1
-      },
+      }
     }
   }
 
@@ -139,7 +139,7 @@ class LintingPerformanceValidator {
         cacheHitRate: this.calculateCacheHitRate(),
         filesProcessed: this.extractFilesProcessed(output),
         parallelProcesses: this.extractParallelProcesses(output)
-      },
+      }
 
       const improvement = this.baselineMetrics;
         ? ((this.baselineMetrics.executionTime - metrics.executionTime) /
@@ -171,7 +171,7 @@ class LintingPerformanceValidator {
           cacheHitRate: 0,
           filesProcessed: 0,
           parallelProcesses: 0
-        },
+        }
         expectedImprovement: 70,
         actualImprovement: 0,
         details: `Error: ${error}`
@@ -200,7 +200,7 @@ class LintingPerformanceValidator {
         cacheHitRate: this.calculateCacheHitRate(),
         filesProcessed: this.extractFilesProcessed(output),
         parallelProcesses: this.extractParallelProcesses(output)
-      },
+      }
 
       // Validate 30 files per process optimization
       const expectedParallelProcesses = Math.ceil(metrics.filesProcessed / 30)
@@ -236,7 +236,7 @@ class LintingPerformanceValidator {
           cacheHitRate: 0,
           filesProcessed: 0,
           parallelProcesses: 0
-        },
+        }
         expectedImprovement: 40,
         actualImprovement: 0,
         details: `Error: ${error}`
@@ -273,7 +273,7 @@ class LintingPerformanceValidator {
         cacheHitRate: this.calculateCacheHitRate(),
         filesProcessed: this.extractFilesProcessed(output),
         parallelProcesses: this.extractParallelProcesses(output)
-      },
+      }
 
       // Validate memory stays under 4096MB limit
       const memoryLimitMB = 4096;
@@ -310,7 +310,7 @@ class LintingPerformanceValidator {
           cacheHitRate: 0,
           filesProcessed: 0,
           parallelProcesses: 0
-        },
+        }
         expectedImprovement: 20,
         actualImprovement: 0,
         details: `Error: ${error}`
@@ -349,7 +349,7 @@ export const _testVariable = 'test';
           filesProcessed: this.extractFilesProcessed(output),
           parallelProcesses: 1,
           incrementalTime
-        },
+        }
 
         // Validate sub-10 second feedback
         const passed = incrementalTime < 10000; // 10 seconds
@@ -387,7 +387,7 @@ export const _testVariable = 'test';
           cacheHitRate: 0,
           filesProcessed: 0,
           parallelProcesses: 0
-        },
+        }
         expectedImprovement: 90,
         actualImprovement: 0,
         details: `Error: ${error}`
@@ -503,7 +503,7 @@ export const _testVariable = 'test';
       totalTests,
       baselineMetrics: this.baselineMetrics,
       results: this.results
-    },
+    }
 
     writeFileSync(
       'linting-performance-validation-report.json'
@@ -529,4 +529,4 @@ if (require.main === module) {
   })
 }
 
-export { LintingPerformanceValidator },
+export { LintingPerformanceValidator };

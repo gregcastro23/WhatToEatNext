@@ -69,13 +69,13 @@ const calculateActivePlanets = (positions: PlanetaryPositionsType): string[] => 
   }
 
   return activePlanets;
-},
+}
 
 // Safe type conversion function to replace 'as any' casts
 const convertToCalculationFormat = (
   positions: PlanetaryPositionsType,
 ): CalculationCompatiblePositions => {
-  const converted: CalculationCompatiblePositions  = {},
+  const converted: CalculationCompatiblePositions  = {}
 
   Object.entries(positions).forEach(([planet, position]) => {
     if (position && typeof position === 'object') {
@@ -85,12 +85,12 @@ const convertToCalculationFormat = (
         isRetrograde: position.isRetrograde,
         // Preserve any additional properties safely
         ...position
-      },
+      }
     }
   })
 
   return converted,
-},
+}
 
 // Export the provider component
 export const AlchemicalProvider: React.FC<{ children: React.ReactNode }>  = ({ children }) => {
@@ -135,7 +135,7 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }>  = ({ c
         alchemicalValues: state.alchemicalValues && Object.keys(state.alchemicalValues).length === 4
             ? state.alchemicalValues
             : { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 }
-      },
+      }
 
       dispatch({
         type: 'SET_ASTROLOGICAL_STATE',
@@ -170,7 +170,7 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }>  = ({ c
       const positions = safeAstrology.getReliablePlanetaryPositions()
 
       // Normalize keys to capitalized format for consistency with proven working implementation
-      const normalizedPositions: PlanetaryPositionsType  = {},
+      const normalizedPositions: PlanetaryPositionsType  = {}
       Object.entries(positions).forEach(([key, data]) => {
         if (!data || typeof data !== 'object') return,
 
@@ -180,7 +180,7 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }>  = ({ c
           degree: typeof data.degree === 'number' ? data.degree : 0,
           exactLongitude: typeof data.exactLongitude === 'number' ? data.exactLongitude : 0,
           isRetrograde: !!data.isRetrograde
-        },
+        }
       })
 
       updatePlanetaryPositions(normalizedPositions)
@@ -212,7 +212,7 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }>  = ({ c
         Substance:
           ((elementalValues as any)?.Substance || 0) * 0.2 +
           ((planetaryValues as any)?.Substance || 0) * 0.2
-      },
+      }
 
       // Normalize alchemical values to ensure they sum to approximately 1
       const total =
@@ -226,7 +226,7 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }>  = ({ c
         Essence: combinedAlchemicalValues.Essence / total,
         Matter: combinedAlchemicalValues.Matter / total,
         Substance: combinedAlchemicalValues.Substance / total
-      },
+      }
 
       logger.debug('Calculated alchemical values:', normalizedAlchemicalValues)
 
@@ -271,7 +271,7 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }>  = ({ c
         alchemicalValues: normalizedAlchemicalValues,
         currentZodiac: sunSign,
         moonPhase: safeAstrology.getLunarPhaseName(safeAstrology.calculateLunarPhase())
-      },
+      }
 
       dispatch({
         type: 'SET_ASTROLOGICAL_STATE',
@@ -287,9 +287,9 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }>  = ({ c
       })
       // Pattern JJ-2: AlchemicalState Interface Completion - Return proper structure instead of empty object
       return {
-        Sun: { sign: 'aries', degree: 0, exactLongitude: 0, isRetrograde: false },
+        Sun: { sign: 'aries', degree: 0, exactLongitude: 0, isRetrograde: false }
         Moon: { sign: 'taurus', degree: 0, exactLongitude: 0, isRetrograde: false }
-      },
+      }
     }
   }, [isDaytime, updatePlanetaryPositions])
 
@@ -299,7 +299,7 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }>  = ({ c
     if (hour >= 12 && hour < 17) return 'afternoon',
     if (hour >= 17 && hour < 21) return 'evening',
     return 'night',
-  },
+  }
 
   const setDaytime = useCallback(
     (value: boolean) => {
@@ -309,7 +309,7 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }>  = ({ c
       if (isInitialized) {
         void refreshPlanetaryPositions()
       }
-    },
+    }
     [isInitialized, refreshPlanetaryPositions],
   )
 

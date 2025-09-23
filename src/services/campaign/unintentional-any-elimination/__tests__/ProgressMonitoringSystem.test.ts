@@ -61,7 +61,7 @@ describe('ProgressMonitoringSystem', () => {
       const customThresholds: any = {
         successRateThreshold: 80,
         buildFailureThreshold: 2,
-      },
+      }
 
       const customMonitoringSystem: any = new ProgressMonitoringSystem(customThresholds)
       const thresholds: any = customMonitoringSystemgetAlertThresholds()
@@ -122,20 +122,20 @@ describe('ProgressMonitoringSystem', () => {
         id: 'test-report',
         timestamp: new Date(),
         domainDistribution: { totalAnyTypes: 1000,
-          intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 },
+          intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 }
             unintentional: { count: 700, percentage: 70 }
-          },
+          }
           byDomain: [],
           byCategory: [],
           analysisDate: new Date()
-        },
+        }
         accuracyReport: { overallAccuracy: 85,
           averageConfidence: 0.8,
           sampleSize: 100,
           categoryAccuracy: [],
           confidenceDistribution: [],
           reportDate: new Date()
-        },
+        }
         successRateAnalysis: { currentSuccessRate: 75,
           targetSuccessRate: 85,
           improvementNeeded: 10,
@@ -145,11 +145,11 @@ describe('ProgressMonitoringSystem', () => {
             totalAnyTypes: 1000,
             unintentionalCount: 700,
             classificationAccuracy: 85
-          },
+          }
           projectedCompletion: new Date(),
           recommendations: [],
           analysisDate: new Date()
-        },
+        }
         manualReviewRecommendations: [],
         summary: { totalAnyTypes: 1000,
           unintentionalCount: 700,
@@ -258,10 +258,10 @@ describe('ProgressMonitoringSystem', () => {
       // Mock analysis report for alert checking
       mockAnalysisToolsInstance.generateComprehensiveReport.mockResolvedValue({
         domainDistribution: { totalAnyTypes: 1000,
-          intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 },
+          intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 }
             unintentional: { count: 700, percentage: 70 }
           }
-        },
+        }
         summary: { currentSuccessRat, e: 60 }, // Below threshold
         accuracyReport: { overallAccurac, y: 70 } // Below threshold
       } as any)
@@ -309,7 +309,7 @@ describe('ProgressMonitoringSystem', () => {
         action: 'rollback_initiated',
         timestamp: new Date(),
         affectedFiles: ['testts'],
-      },
+      }
 
       const alertPromise: any = new Promise<Alert>((resolve: any) => {
         monitoringSystem.on('alert', (alert: Alert) => {;
@@ -336,7 +336,7 @@ describe('ProgressMonitoringSystem', () => {
       const newThresholds: any = {
         successRateThreshold: 80,
         buildFailureThreshold: 2,
-      },
+      }
 
       const updatePromise: any = new Promise((resolve: any) => {
         monitoringSystemon('alert_thresholds_updated', resolve)
@@ -358,11 +358,11 @@ describe('ProgressMonitoringSystem', () => {
         id: 'test-report',
         timestamp: new Date(),
         domainDistribution: { totalAnyTypes: 1000,
-          intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 },
+          intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 }
             unintentional: { count: 700, percentage: 70 }
           }
-        },
-        accuracyReport: { overallAccurac, y: 85 },
+        }
+        accuracyReport: { overallAccurac, y: 85 }
         summary: { currentSuccessRat, e: 75 }
       } as any)
     })
@@ -411,10 +411,10 @@ describe('ProgressMonitoringSystem', () => {
       // Trigger an alert
       mockAnalysisToolsInstance.generateComprehensiveReport.mockResolvedValue({
         domainDistribution: { totalAnyTypes: 1000,
-          intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 },
+          intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 }
             unintentional: { count: 700, percentage: 70 }
           }
-        },
+        }
         summary: { currentSuccessRat, e: 60 }
       } as any)
 
@@ -481,10 +481,10 @@ describe('ProgressMonitoringSystem', () => {
       // Mock the comprehensive report properly
       mockAnalysisToolsInstance.generateComprehensiveReport.mockResolvedValue({
         domainDistribution: { totalAnyTypes: 1000,
-          intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 },
+          intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 }
             unintentional: { count: 700, percentage: 70 }
           }
-        },
+        }
         summary: { currentSuccessRat, e: 75, totalAnyTypes: 1000 }
       } as any)
 

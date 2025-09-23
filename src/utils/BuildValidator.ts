@@ -36,7 +36,7 @@ export class BuildValidator {
       missingFiles: [],
       corruptedFiles: [],
       repairActions: []
-    },
+    }
 
     try {
       // Check if build directory exists
@@ -240,34 +240,34 @@ export class BuildValidator {
    */
   private getManifestDefaults(): Record<string, unknown> {
     return {
-      'pages-manifest.json': {},
-      'app-paths-manifest.json': {},
+      'pages-manifest.json': {}
+      'app-paths-manifest.json': {}
       'next-font-manifest.json': {
-        pages: {},
-        app: {},
+        pages: {}
+        app: {}
         _appUsingSizeAdjust: false,
         _pagesUsingSizeAdjust: false
-      },
+      }
       'middleware-manifest.json': {
         _sortedMiddleware: [],
-        middleware: {},
-        _functions: {},
+        middleware: {}
+        _functions: {}
         _version: 2
-      },
+      }
       'build-manifest.json': {
         _devFiles: [],
         _ampDevFiles: [],
         _polyfillFiles: [],
         _lowPriorityFiles: [],
         _rootMainFiles: [],
-        pages: {},
+        pages: {}
         _ampFirstPages: []
-      },
+      }
       'app-build-manifest.json': {
         pages: {}
-      },
+      }
       'react-loadable-manifest.json': {}
-    },
+    }
   }
 
   /**
@@ -279,7 +279,7 @@ export class BuildValidator {
       isValid: true,
       issues: [],
       recommendations: []
-    },
+    }
 
     try {
       // Check if next.config.js exists
@@ -335,7 +335,7 @@ export class BuildValidator {
       buildSize: 0,
       lastBuildTime: null,
       issues: []
-    },
+    }
 
     try {
       if (report.buildExists) {

@@ -23,9 +23,9 @@ const CookingMethodsSection = ({
       const method = m as any
       return (
         <button
-          key={String(method.id)},
-          onClick={() => onSelectMethod(m)},
-          className={`w-full rounded border p-3 text-left ${selectedMethodId === method.id ? 'bg-blue-50' : 'bg-white'}`},
+          key={String(method.id)}
+          onClick={() => onSelectMethod(m)}
+          className={`w-full rounded border p-3 text-left ${selectedMethodId === method.id ? 'bg-blue-50' : 'bg-white'}`}
         >
           <div className='font-semibold'>{String(method.name)}</div>
           <div className='text-sm text-gray-600'>{String(method.description)}</div>
@@ -38,7 +38,7 @@ const CookingMethodsSection = ({
 const CookingMethodsSectionMigrated = CookingMethodsSection;
 
 // Export the component for use in other pages
-export { CookingMethodsSection },
+export { CookingMethodsSection };
 
 // Sample cooking methods for testing
 const sampleMethods = [
@@ -48,25 +48,25 @@ const sampleMethods = [
     description: 'Cooking food over direct heat, usually on a grill with Fire or charcoal beneath.',
     score: 0.85,
     culturalOrigin: 'Global',
-    elementalEffect: { Fire: 0.85, Water: 0.15, Earth: 0.4, Air: 0.6 },
+    elementalEffect: { Fire: 0.85, Water: 0.15, Earth: 0.4, Air: 0.6 }
     duration: {
       min: 10,
       max: 30
-    },
+    }
     suitable_for: ['Meats', 'Vegetables', 'Seafood'],
     alchemicalProperties: {
       Spirit: 0.7,
       Essence: 0.3,
       Matter: 0.2,
       Substance: 0.5
-    },
+    }
     variations: [
       {
         id: 'charcoal-grilling',
         name: 'Charcoal Grilling',
         description: 'Grilling with charcoal for a smoky flavor.',
         elementalEffect: { Fire: 0.9, Water: 0.1, Earth: 0.5, Air: 0.5 }
-      },
+      }
       {
         id: 'gas-grilling',
         name: 'Gas Grilling',
@@ -74,18 +74,18 @@ const sampleMethods = [
         elementalEffect: { Fire: 0.75, Water: 0.15, Earth: 0.3, Air: 0.7 }
       }
     ]
-  },
+  }
   {
     id: 'boiling',
     name: 'Boiling',
     description: 'Cooking food in Water heated to its boiling point.',
     score: 0.7,
     culturalOrigin: 'Global',
-    elementalEffect: { Fire: 0.4, Water: 0.9, Earth: 0.2, Air: 0.3 },
+    elementalEffect: { Fire: 0.4, Water: 0.9, Earth: 0.2, Air: 0.3 }
     duration: {
       min: 5,
       max: 45
-    },
+    }
     suitable_for: ['Pasta', 'Vegetables', 'Eggs'],
     alchemicalProperties: {
       Spirit: 0.2,
@@ -93,25 +93,25 @@ const sampleMethods = [
       Matter: 0.5,
       Substance: 0.2
     }
-  },
+  }
   {
     id: 'baking',
     name: 'Baking',
     description: 'Cooking food using dry heat in an oven.',
     score: 0.75,
     culturalOrigin: 'Global',
-    elementalEffect: { Fire: 0.7, Water: 0.3, Earth: 0.7, Air: 0.6 },
+    elementalEffect: { Fire: 0.7, Water: 0.3, Earth: 0.7, Air: 0.6 }
     duration: {
       min: 20,
       max: 120
-    },
+    }
     suitable_for: ['Breads', 'Pastries', 'Casseroles'],
     alchemicalProperties: {
       Spirit: 0.4,
       Essence: 0.3,
       Matter: 0.6,
       Substance: 0.7
-    },
+    }
     variations: [
       {
         id: 'roasting',
@@ -120,18 +120,18 @@ const sampleMethods = [
         elementalEffect: { Fire: 0.8, Water: 0.2, Earth: 0.6, Air: 0.6 }
       }
     ]
-  },
+  }
   {
     id: 'steaming',
     name: 'Steaming',
     description: 'Cooking food with steam from boiling Water.',
     score: 0.65,
     culturalOrigin: 'Asian',
-    elementalEffect: { Fire: 0.3, Water: 0.8, Earth: 0.2, Air: 0.7 },
+    elementalEffect: { Fire: 0.3, Water: 0.8, Earth: 0.2, Air: 0.7 }
     duration: {
       min: 5,
       max: 30
-    },
+    }
     suitable_for: ['Vegetables', 'Fish', 'Dumplings'],
     alchemicalProperties: {
       Spirit: 0.3,
@@ -155,7 +155,7 @@ export default function CookingMethodsSectionTestPage() {
   const handleSelectMethod = (method: unknown) => {
     const methodObj = method as any;
     setSelectedMethodId(String(methodObj.id))
-  },
+  }
 
   return (
     <div className='mx-auto max-w-6xl px-4 py-8'>
@@ -170,7 +170,7 @@ export default function CookingMethodsSectionTestPage() {
               <input
                 type='checkbox',
                 checked={showToggle}
-                onChange={e => setShowToggle(e.target.checked)},
+                onChange={e => setShowToggle(e.target.checked)}
                 className='rounded',
               />
               <span>Show Toggle</span>
@@ -180,8 +180,8 @@ export default function CookingMethodsSectionTestPage() {
             <label className='flex items-center gap-2'>
               <input
                 type='checkbox',
-                checked={initiallyExpanded},
-                onChange={e => setInitiallyExpanded(e.target.checked)},
+                checked={initiallyExpanded}
+                onChange={e => setInitiallyExpanded(e.target.checked)}
                 className='rounded',
               />
               <span>Initially Expanded</span>
@@ -189,7 +189,7 @@ export default function CookingMethodsSectionTestPage() {
           </div>
           <div>
             <button
-              onClick={() => setSelectedMethodId(null)},
+              onClick={() => setSelectedMethodId(null)}
               className='rounded bg-blue-50 px-3 py-1 text-blue-700, hover: bg-blue-100',
             >
               Clear Selection
@@ -202,7 +202,7 @@ export default function CookingMethodsSectionTestPage() {
             <p className='text-sm text-blue-800'>
               Selected Method:{' '}
               <strong>
-                {methods.find(m => m.id === selectedMethodId)?.name || selectedMethodId},
+                {methods.find(m => m.id === selectedMethodId)?.name || selectedMethodId}
               </strong>
             </p>
           </div>
@@ -216,11 +216,11 @@ export default function CookingMethodsSectionTestPage() {
           <h2 className='mb-4 text-xl font-semibold'>🔄 Original Implementation</h2>
           <div className='rounded-lg bg-white'>
             <CookingMethodsSection
-              methods={methods},
-              onSelectMethod={handleSelectMethod},
-              selectedMethodId={selectedMethodId},
-              showToggle={showToggle},
-              initiallyExpanded={initiallyExpanded},
+              methods={methods}
+              onSelectMethod={handleSelectMethod}
+              selectedMethodId={selectedMethodId}
+              showToggle={showToggle}
+              initiallyExpanded={initiallyExpanded}
             />
           </div>
         </div>
@@ -230,11 +230,11 @@ export default function CookingMethodsSectionTestPage() {
           <h2 className='mb-4 text-xl font-semibold'>✨ Migrated Implementation</h2>
           <div className='rounded-lg bg-white'>
             <CookingMethodsSectionMigrated
-              methods={methods},
-              onSelectMethod={handleSelectMethod},
-              selectedMethodId={selectedMethodId},
-              showToggle={showToggle},
-              initiallyExpanded={initiallyExpanded},
+              methods={methods}
+              onSelectMethod={handleSelectMethod}
+              selectedMethodId={selectedMethodId}
+              showToggle={showToggle}
+              initiallyExpanded={initiallyExpanded}
             />
           </div>
         </div>

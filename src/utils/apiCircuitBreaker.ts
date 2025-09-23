@@ -27,7 +27,7 @@ export class CircuitBreaker {
       resetTimeout: 60000, // 1 minute
       monitoringWindow: 300000, // 5 minutes
       ...options
-    },
+    }
   }
 
   async call<T>(fn: () => Promise<T>, fallback?: () => T): Promise<T> {

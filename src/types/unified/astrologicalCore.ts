@@ -9,9 +9,9 @@ export type {
   LunarPhase,
   Recipe,
   Ingredient
-} from '../alchemy',
+} from '../alchemy';
 
-export type { Recipe as UnifiedRecipe } from '../recipe',
+export type { Recipe as UnifiedRecipe } from '../recipe';
 
 // Bridge types for compatibility
 export interface FlexibleAstrologicalData {
@@ -31,4 +31,4 @@ export interface SafeAstrologicalAccess {
 // Utility type for gradual migration
 export type PartiallyTyped<T> = {
   [K in keyof T]?: T[K] | unknown
-},
+}

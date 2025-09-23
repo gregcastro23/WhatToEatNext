@@ -15,14 +15,14 @@ export type ElementalColor = {
   secondary: string,
   text: string,
   border: stringbg: string
-},
+}
 
 export interface ElementalCompatibility {
   compatibility: number, // 0-1 score,
   dominantPAir: {
     recipe: keyof ElementalProperties,
     user: keyof ElementalProperties
-  },
+  }
   complementaryScore: number // 0-1 score for how well elements complement each other,
   balanceScore: number // 0-1 score for overall balance,
   recommendation: string // Text recommendation
@@ -48,7 +48,7 @@ export interface ElementalProfile {
     ingredients: string[],
     cookingMethods: string[],
     timeOfDay: string[]
-  },
+  }
 }
 
 // --- Constants ---
@@ -60,21 +60,21 @@ export const ELEMENTAL_COLORS: Record<keyof ElementalProperties, ElementalColor>
     text: '#D63031',
     border: '#FF7675',
     bg: '#FFF5F5'
-  },
+  }
   Water: {
     primary: '#0984E3',
     secondary: '#74B9FF',
     text: '#2D3436',
     border: '#81ECEC',
     bg: '#F0F8FF'
-  },
+  }
   Earth: {
     primary: '#6C5CE7',
     secondary: '#A29BFE',
     text: '#2D3436',
     border: '#FDCB6E',
     bg: '#FFFBF0'
-  },
+  }
   Air: {
     primary: '#00B894',
     secondary: '#55EFC4',
@@ -82,21 +82,21 @@ export const ELEMENTAL_COLORS: Record<keyof ElementalProperties, ElementalColor>
     border: '#00CEC9',
     bg: '#F0FFF4'
   }
-},
+}
 
 export const ELEMENTAL_SYMBOLS: Record<keyof ElementalProperties, string> = {
   Fire: '🔥',
   Water: '💧',
   Earth: '🌍',
   Air: '💨'
-},
+}
 
 export const ELEMENTAL_DESCRIPTIONS: Record<keyof ElementalProperties, string> = {
   Fire: 'Energizing, warming, transformative',
   Water: 'Cooling, flowing, adaptive',
   Earth: 'Grounding, nourishing, stable',
   Air: 'Light, fresh, inspiring'
-},
+}
 
 // --- Core Functions ---
 
@@ -136,7 +136,7 @@ export function normalizeProperties(properties: Partial<ElementalProperties>): E
     Water: properties.Water || 0,
     Earth: properties.Earth || 0,
     Air: properties.Air || 0
-  },
+  }
 
   const total = normalized.Fire + normalized.Water + normalized.Earth + normalized.Air;
 
@@ -149,7 +149,7 @@ export function normalizeProperties(properties: Partial<ElementalProperties>): E
     Water: normalized.Water / total,
     Earth: normalized.Earth / total,
     Air: normalized.Air / total
-  },
+  }
 }
 
 /**
@@ -252,7 +252,7 @@ export async function calculateDetailedElementalCompatibility(
   recipeElemental: ElementalProperties,
   userElemental?: ElementalProperties,
 ): Promise<ElementalCompatibility> {
-  const userProps = userElemental || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+  const userProps = userElemental || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
   const recipeDominant = calculateDominantElement(recipeElemental)
   const userDominant = calculateDominantElement(userProps)
 
@@ -276,7 +276,7 @@ export async function calculateDetailedElementalCompatibility(
     dominantPAir: {
       recipe: recipeDominant,
       user: userDominant
-    },
+    }
     complementaryScore,
     balanceScore,
     recommendation: generateCompatibilityRecommendation(
@@ -284,7 +284,7 @@ export async function calculateDetailedElementalCompatibility(
       recipeDominant,
       userDominant,
     )
-  },
+  }
 }
 
 /**
@@ -338,7 +338,7 @@ export function combineElementalProperties(
  */
 export function calculateElementalState(recipe: Recipe | null | undefined): ElementalProperties {
   if (!recipe) {
-    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
   }
 
   // Use existing elemental properties if available
@@ -352,7 +352,7 @@ export function calculateElementalState(recipe: Recipe | null | undefined): Elem
   }
 
   // Default fallback
-  return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+  return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
 }
 
 /**
@@ -363,7 +363,7 @@ export function calculateElementalState(recipe: Recipe | null | undefined): Elem
 function calculateElementalStateFromIngredients(
   ingredients: Array<{ category?: string, amount?: number }>,
 ): ElementalProperties {
-  const elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+  const elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
   let totalWeight = 0,
 
   (ingredients || []).forEach(ingredient => {
@@ -371,7 +371,7 @@ function calculateElementalStateFromIngredients(
     const amount = ingredient.amount || 1;
 
     // Map categories to elements
-    let elementContribution = { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+    let elementContribution = { Fire: 0, Water: 0, Earth: 0, Air: 0 }
 
     if (category.includes('spice') || category.includes('pepper')) {
       elementContribution.Fire = 0.7,
@@ -387,11 +387,11 @@ function calculateElementalStateFromIngredients(
       elementContribution.Earth = 0.4,
     } else {
       // Default balanced contribution
-      elementContribution = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      elementContribution = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     }
 
     // Add weighted contribution
-    Object.keys(elementContribution || {}).forEach(element => {,
+    Object.keys(elementContribution || {}).forEach(element => {
       elementalState[element as 'Fire' | 'Water' | 'Earth' | 'Air'] +=
         elementContribution[element as 'Fire' | 'Water' | 'Earth' | 'Air'] * amount
     })
@@ -401,7 +401,7 @@ function calculateElementalStateFromIngredients(
 
   // Normalize
   if (totalWeight > 0) {
-    Object.keys(elementalState || {}).forEach(element => {,
+    Object.keys(elementalState || {}).forEach(element => {
       elementalState[element as 'Fire' | 'Water' | 'Earth' | 'Air'] /= totalWeight
     })
   }
@@ -425,7 +425,7 @@ export function getElementalCharacteristics(_element: Element): ElementalCharact
       cookingMethods: ['Grilling', 'Roasting', 'Searing', 'Flambéing'],
       flavors: ['Spicy', 'Pungent', 'Warming'],
       colors: ['Red', 'Orange', 'Yellow']
-    },
+    }
     Water: {
       name: 'Water',
       description: 'Cooling, flowing, adaptive energy that brings calm and flexibility',
@@ -435,7 +435,7 @@ export function getElementalCharacteristics(_element: Element): ElementalCharact
       cookingMethods: ['Steaming', 'Boiling', 'Poaching', 'Braising'],
       flavors: ['Sweet', 'Salty', 'Cooling'],
       colors: ['Blue', 'Indigo', 'Deep Purple']
-    },
+    }
     Earth: {
       name: 'Earth',
       description: 'Grounding, nourishing, stable energy that brings strength and endurance',
@@ -445,7 +445,7 @@ export function getElementalCharacteristics(_element: Element): ElementalCharact
       cookingMethods: ['Baking', 'Slow Cooking', 'Stewing', 'Fermenting'],
       flavors: ['Sweet', 'earthy', 'Rich'],
       colors: ['Brown', 'Green', 'Yellow']
-    },
+    }
     Air: {
       name: 'Air',
       description: 'Light, fresh, inspiring energy that brings clarity and movement',
@@ -456,7 +456,7 @@ export function getElementalCharacteristics(_element: Element): ElementalCharact
       flavors: ['Bitter', 'Sour', 'Fresh'],
       colors: ['Light Blue', 'White', 'Light Green']
     }
-  },
+  }
 
   return characteristics[element],
 }
@@ -518,7 +518,7 @@ function generateCompatibilityRecommendation(
  * @returns Default balanced elemental properties
  */
 export async function getDefaultElementalProperties(): Promise<ElementalProperties> {
-  return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+  return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
 }
 
 /**
@@ -532,19 +532,19 @@ export async function standardizeRecipeElements<T>(
   if (!recipe) {
     return {
       elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
-    } as T & { elementalProperties: ElementalProperties },
+    } as T & { elementalProperties: ElementalProperties }
   }
 
   // Use safe type casting for property access
   const recipeData = recipe as any;
   const elementalProperties = recipeData.elementalState;
     ? normalizeProperties(recipeData.elementalState)
-    : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
 
   return {
     ...recipe,
     elementalProperties
-  },
+  }
 }
 
 export default {
@@ -567,4 +567,4 @@ export default {
   ELEMENTAL_COLORS,
   ELEMENTAL_SYMBOLS,
   ELEMENTAL_DESCRIPTIONS
-},
+}

@@ -8,13 +8,13 @@ import type {
   LunarPhase,
   PlanetName,
   ZodiacSign
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 import type {
   AstrologicalState,
   CelestialPosition,
   Element,
   PlanetaryPosition
-} from '@/types/celestial',
+} from '@/types/celestial';
 import type { Season, TimeFactors, TimeOfDay } from '@/types/time';
 
 // Add missing imports for TS2304 fixes
@@ -29,12 +29,12 @@ import { getCurrentSeason, getTimeOfDay } from '../dateUtils';
 // Robust debug, logger: logs in development, silent in production
 const debugLog = (_message: string, ..._args: unknown[]): void => {
   // No-op for production
-},
+}
 
 // Robust error, logger: logs in development, silent in production
 const errorLog = (_message: string, ..._args: unknown[]): void => {
   // No-op for production
-},
+}
 
 // Type guard for PlanetaryPosition
 export function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition {
@@ -52,7 +52,7 @@ export function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition {
 export function normalizePlanetaryPositions(
   positions: Record<string, unknown>,
 ): Record<string, PlanetaryPosition> {
-  const normalized: Record<string, PlanetaryPosition> = {},
+  const normalized: Record<string, PlanetaryPosition> = {}
   if (!positions || typeof positions !== 'object') return normalized,
   for (const key of Object.keys(positions)) {
     let planet = key,
@@ -89,7 +89,7 @@ export type PlanetPositionData = {
   degree: number,
   minute?: number,
   exactLongitude?: number
-},
+}
 
 export interface PlanetaryDignity {
   type: DignityType,
@@ -161,7 +161,7 @@ export async function calculateActivePlanets(
         capricorn: 'saturn',
         aquarius: 'saturn', // Traditional ruler
         pisces: 'jupiter', // Traditional ruler
-      },
+      }
 
       // Add the ruler of the current sun sign
       if (signRulers[sunSign] && !activePlanets.includes(signRulers[sunSign])) {
@@ -189,7 +189,7 @@ export async function calculateActivePlanets(
         uranus: ['aquarius', 'scorpio'],
         neptune: ['pisces', 'cancer'],
         pluto: ['scorpio', 'leo']
-      },
+      }
 
       // Check if planet is in a powerful sign position
       if (dignities[planetLower].includes(signLower)) {
@@ -228,7 +228,7 @@ export function getLunarPhaseModifier(_phase: LunarPhase): number {
     'waning gibbous': 0.8,
     'last quarter': 0.6
     'waning crescent': 0.3
-  },
+  }
 
   return modifiers[phase] || 0.5; // default to 0.5 if phase is not recognized
 }
@@ -252,7 +252,7 @@ export function getZodiacElement(_sign: any): ElementalCharacter {
     cancer: 'Water',
     scorpio: 'Water',
     pisces: 'Water'
-  },
+  }
 
   return elements[sign] || 'Fire',
 }
@@ -406,7 +406,7 @@ export async function calculatePlanetaryPositions(
       error instanceof Error ? error.message : String(error)
     ),
     const response = await getLatestAstrologicalState()
-    const fallbackPositions = response.data?.planetaryPositions || {},
+    const fallbackPositions = response.data?.planetaryPositions || {}
     return normalizePlanetaryPositions(fallbackPositions)
   }
 }
@@ -462,8 +462,8 @@ export async function getCurrentAstrologicalState(
       currentDate: now,
       _season: (getCurrentSeason().charAt(0).toUpperCase() + getCurrentSeason().slice(1)) as Season,
       _timeOfDay: (getTimeOfDay().charAt(0).toUpperCase() + getTimeOfDay().slice(1)) as TimeOfDay,
-      _planetaryDay: { day: weekDay, planet: planetaryHour },
-      planetaryHour: { planet: planetaryHour, _hourOfDay: now.getHours() },
+      _planetaryDay: { day: weekDay, planet: planetaryHour }
+      planetaryHour: { planet: planetaryHour, _hourOfDay: now.getHours() }
       weekDay,
       lunarPhase
     } as TimeFactors,
@@ -492,7 +492,7 @@ export async function getCurrentAstrologicalState(
       dominantElement,
       _dominantPlanets: activePlanets,
       planetaryPositions: positions as unknown
-    },
+    }
 
     return astrologicalState,
   } catch (error) {
@@ -521,7 +521,7 @@ export function getPlanetaryElementalInfluence(_planet: PlanetName): Element {
     _Uranus: 'Air',
     _Neptune: 'Water',
     _Pluto: 'Water'
-  },
+  }
 
   return planetElements[planet.toLowerCase()] || 'Fire',
 }
@@ -568,7 +568,7 @@ export async function calculateDominantElement(
     Earth: 0,
     Air: 0,
     Water: 0
-  },
+  }
 
   // Count elements from planetary positions
   if (astroState.planetaryPositions) {
@@ -613,7 +613,7 @@ export async function calculateElementalProfile(
     Earth: 0,
     Air: 0,
     Water: 0
-  },
+  }
 
   // Count elements from planetary positions
   if (astroState.planetaryPositions) {
@@ -634,7 +634,7 @@ export async function calculateElementalProfile(
 
   if (total === 0) {
     // Return balanced profile if no data
-    return { Fire: 0.25, Earth: 0.25, Air: 0.25, Water: 0.25 },
+    return { Fire: 0.25, Earth: 0.25, Air: 0.25, Water: 0.25 }
   }
 
   const profile: Record<Element, number> = {} as Record<Element, number>,
@@ -656,7 +656,7 @@ export async function calculateAspects(
   _risingDegree?: number,
 ): Promise<{ aspects: PlanetaryAspect[], elementalEffects: ElementalProperties }> {
   const aspects: PlanetaryAspect[] = []
-  const elementalEffects: ElementalProperties = { Fire: 0, Earth: 0, Air: 0, Water: 0 },
+  const elementalEffects: ElementalProperties = { Fire: 0, Earth: 0, Air: 0, Water: 0 }
 
   // Define interface for aspect data
   interface AspectData {
@@ -669,17 +669,17 @@ export async function calculateAspects(
 
   // Using Record instead of any for aspect types
   const aspectTypes: { [key: string]: AspectData } = {
-    conjunction: { angle: 0, orb: 8, significance: 1.0, harmonic: 1 },
-    _opposition: { angle: 180, orb: 8, significance: 0.9, harmonic: 2 },
-    _trine: { angle: 120, orb: 6, significance: 0.8, harmonic: 3 },
-    square: { angle: 90, orb: 6, significance: 0.8, harmonic: 4 },
-    _sextile: { angle: 60, orb: 4, significance: 0.6, harmonic: 6 },
-    _quincunx: { angle: 150, orb: 3, significance: 0.5, harmonic: 12 },
-    _semisextile: { angle: 30, orb: 2, significance: 0.4, harmonic: 12 },
-    _semisquare: { angle: 45, orb: 2, significance: 0.4, harmonic: 8 },
-    _sesquisquare: { angle: 135, orb: 2, significance: 0.4, harmonic: 8 },
+    conjunction: { angle: 0, orb: 8, significance: 1.0, harmonic: 1 }
+    _opposition: { angle: 180, orb: 8, significance: 0.9, harmonic: 2 }
+    _trine: { angle: 120, orb: 6, significance: 0.8, harmonic: 3 }
+    square: { angle: 90, orb: 6, significance: 0.8, harmonic: 4 }
+    _sextile: { angle: 60, orb: 4, significance: 0.6, harmonic: 6 }
+    _quincunx: { angle: 150, orb: 3, significance: 0.5, harmonic: 12 }
+    _semisextile: { angle: 30, orb: 2, significance: 0.4, harmonic: 12 }
+    _semisquare: { angle: 45, orb: 2, significance: 0.4, harmonic: 8 }
+    _sesquisquare: { angle: 135, orb: 2, significance: 0.4, harmonic: 8 }
     _quintile: { angle: 72, orb: 1.5, significance: 0.3, harmonic: 5 }
-  },
+  }
 
   // Helper function to get longitude from sign and degree
   const getLongitude = (position: { sign: string, degree: number }): number => {
@@ -704,7 +704,7 @@ export async function calculateAspects(
     ],
     const signIndex = signs.findIndex(s => s.toLowerCase() === position.sign.toLowerCase())
     return signIndex * 30 + position.degree,
-  },
+  }
 
   // Calculate aspects between each planet pAir
   const planets = Object.keys(positions)
@@ -779,5 +779,5 @@ export async function calculateAspects(
     }
   }
 
-  return { aspects, elementalEffects },
+  return { aspects, elementalEffects }
 }

@@ -20,7 +20,7 @@ const RecipesPage: NextPage = () => {
 
   React.useEffect(() => {
     // Get current elemental state based on time, date, etc.
-    const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+    const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     setElementalState({
       ...currentState
       season: 'spring', // Default value since getCurrentElementalState doesn't provide season
@@ -104,8 +104,8 @@ const RecipesPage: NextPage = () => {
               id='search',
               className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm, focus:border-blue-500, focus:outline-none, focus:ring-blue-500',
               placeholder='Search by name...'
-              value={searchTerm},
-              onChange={e => setSearchTerm(e.target.value)},
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
             />
           </div>
 
@@ -116,8 +116,8 @@ const RecipesPage: NextPage = () => {
             <select
               id='cuisine',
               className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm, focus:border-blue-500, focus:outline-none, focus:ring-blue-500'
-              value={selectedCuisine},
-              onChange={e => setSelectedCuisine(e.target.value)},
+              value={selectedCuisine}
+              onChange={e => setSelectedCuisine(e.target.value)}
             >
               <option value=''>All Cuisines</option>,
               {availableCuisines.map(cuisine => (,
@@ -135,8 +135,8 @@ const RecipesPage: NextPage = () => {
             <select
               id='diet',
               className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm, focus:border-blue-500, focus:outline-none, focus:ring-blue-500'
-              value={selectedDiet},
-              onChange={e => setSelectedDiet(e.target.value)},
+              value={selectedDiet}
+              onChange={e => setSelectedDiet(e.target.value)}
             >
               <option value=''>Any Diet</option>,
               <option value='vegetarian'>Vegetarian</option>,
@@ -175,8 +175,8 @@ const RecipesPage: NextPage = () => {
 
               return (
                 <Link
-                  href={`/recipes/${recipeId}`},
-                  key={recipeId},
+                  href={`/recipes/${recipeId}`}
+                  key={recipeId}
                   className='block overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow, hover: shadow-md',
                 >
                   <div className='p-5'>
@@ -197,6 +197,6 @@ const RecipesPage: NextPage = () => {
       </div>
     </div>
   )
-},
+}
 
 export default RecipesPage,

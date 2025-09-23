@@ -8,11 +8,11 @@ export interface CookingMethodInfo {
     Water: number,
     Earth: number,
     Air: number
-  },
+  }
   duration?: {
     min: number,
     max: number
-  },
+  }
   suitable_for?: string[],
   benefits?: string[],
   variations?: string[],
@@ -34,14 +34,14 @@ export interface CookingMethodInfo {
     | {
         min: number,
         max: number
-      },
+      }
   temperature_range?:
     | string
     | {
         min: number,
         max: number,
         unit?: string
-      },
+      }
   alchemical_properties?: Record<string, unknown>,
   tools?: string[] | string,
   famous_dishes?: string[] | string,
@@ -53,6 +53,6 @@ export interface CookingMethodInfo {
 }
 
 // Export a default empty object for now
-export const cookingMethods: Record<string, CookingMethodInfo> = {},
+export const cookingMethods: Record<string, CookingMethodInfo> = {}
 
 export default cookingMethods,

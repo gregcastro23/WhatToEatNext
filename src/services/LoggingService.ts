@@ -109,7 +109,7 @@ class LoggingService {
       context,
       error,
       data
-    },
+    }
 
     // Add to buffer
     this.addToBuffer(logEntry)
@@ -214,8 +214,8 @@ export const log = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: (message: string, context?: LogContext, error?: Error, data?: any) =>
     logger.error(message, context, error, data)
-},
+}
 
 // Export service for advanced usage
-export { LoggingService },
+export { LoggingService };
 export default logger,

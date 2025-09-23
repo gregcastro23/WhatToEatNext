@@ -45,20 +45,20 @@ const CACHE_DURATION = 15 * 60 * 1000 // 15 minutes
  */
 export function getReliablePlanetaryPositions(): Record<string, CelestialPosition> {
   const positions: Record<string, CelestialPosition> = {
-    Sun: { sign: 'aries', degree: 8.63, exactLongitude: 8.63, isRetrograde: false },
-    Moon: { sign: 'aries', degree: 3.48, exactLongitude: 3.48, isRetrograde: false },
-    _Mercury: { sign: 'aries', degree: 0.75, exactLongitude: 0.75, isRetrograde: true },
-    _Venus: { sign: 'pisces', degree: 29.0, exactLongitude: 359.0, isRetrograde: true },
-    _Mars: { sign: 'cancer', degree: 22.67, exactLongitude: 112.67, isRetrograde: false },
-    _Jupiter: { sign: 'gemini', degree: 15.53, exactLongitude: 75.53, isRetrograde: false },
-    _Saturn: { sign: 'pisces', degree: 24.13, exactLongitude: 354.13, isRetrograde: false },
-    _Uranus: { sign: 'taurus', degree: 24.62, exactLongitude: 54.62, isRetrograde: false },
-    _Neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false },
-    _Pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false },
-    northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true },
-    southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true },
+    Sun: { sign: 'aries', degree: 8.63, exactLongitude: 8.63, isRetrograde: false }
+    Moon: { sign: 'aries', degree: 3.48, exactLongitude: 3.48, isRetrograde: false }
+    _Mercury: { sign: 'aries', degree: 0.75, exactLongitude: 0.75, isRetrograde: true }
+    _Venus: { sign: 'pisces', degree: 29.0, exactLongitude: 359.0, isRetrograde: true }
+    _Mars: { sign: 'cancer', degree: 22.67, exactLongitude: 112.67, isRetrograde: false }
+    _Jupiter: { sign: 'gemini', degree: 15.53, exactLongitude: 75.53, isRetrograde: false }
+    _Saturn: { sign: 'pisces', degree: 24.13, exactLongitude: 354.13, isRetrograde: false }
+    _Uranus: { sign: 'taurus', degree: 24.62, exactLongitude: 54.62, isRetrograde: false }
+    _Neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false }
+    _Pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false }
+    northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true }
+    southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true }
     _Ascendant: { sign: 'scorpio', degree: 13.88, exactLongitude: 223.88, isRetrograde: false }
-  },
+  }
 
   return positions,
 }
@@ -205,14 +205,14 @@ export function calculatePlanetaryAspects(
  */
 export function identifyAspect(_angleDiff: number): { type: AspectType, orb: number } | null {
   const aspects = [
-    { type: 'conjunction' as AspectType, angle: 0, maxOrb: 10 },
-    { type: 'opposition' as AspectType, angle: 180, maxOrb: 10 },
-    { type: 'trine' as AspectType, angle: 120, maxOrb: 8 },
-    { type: 'square' as AspectType, angle: 90, maxOrb: 8 },
-    { type: 'sextile' as AspectType, angle: 60, maxOrb: 6 },
-    { type: 'quincunx' as AspectType, angle: 150, maxOrb: 5 },
-    { type: 'semisextile' as AspectType, angle: 30, maxOrb: 3 },
-    { type: 'semisquare' as AspectType, angle: 45, maxOrb: 3 },
+    { type: 'conjunction' as AspectType, angle: 0, maxOrb: 10 }
+    { type: 'opposition' as AspectType, angle: 180, maxOrb: 10 }
+    { type: 'trine' as AspectType, angle: 120, maxOrb: 8 }
+    { type: 'square' as AspectType, angle: 90, maxOrb: 8 }
+    { type: 'sextile' as AspectType, angle: 60, maxOrb: 6 }
+    { type: 'quincunx' as AspectType, angle: 150, maxOrb: 5 }
+    { type: 'semisextile' as AspectType, angle: 30, maxOrb: 3 }
+    { type: 'semisquare' as AspectType, angle: 45, maxOrb: 3 }
     { type: 'sesquisquare' as AspectType, angle: 135, maxOrb: 3 }
   ],
 
@@ -314,13 +314,13 @@ export function getCurrentAstrologicalState(): AstrologicalState {
     activePlanets,
     dominantElement: dominantElementCapitalized,
     _dominantPlanets: activePlanets
-  },
+  }
 
   // Update cache
   astrologyCache = {
     data: state,
     timestamp: Date.now()
-  },
+  }
 
   return state,
 }
@@ -336,7 +336,7 @@ function countElements(_positions: Record<string, _CelestialPosition>): Record<s
     _earth: 0,
     _air: 0,
     _water: 0
-  },
+  }
 
   // Element mapping for signs
   const signElements: Record<ZodiacSign, keyof typeof elements> = {
@@ -352,7 +352,7 @@ function countElements(_positions: Record<string, _CelestialPosition>): Record<s
     cancer: 'Water',
     scorpio: 'Water',
     pisces: 'Water'
-  },
+  }
 
   // Extra weight for certain planets
   const planetWeight: Record<string, number> = {
@@ -369,7 +369,7 @@ function countElements(_positions: Record<string, _CelestialPosition>): Record<s
     _pluto: 1,
     northNode: 0.5,
     southNode: 0.5
-  },
+  }
 
   // Count elements
   Object.entries(positions).forEach(([planet, position]) => {

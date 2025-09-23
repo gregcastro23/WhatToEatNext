@@ -12,7 +12,7 @@ const rawVinegars = {
       Air: 0.3,
       Earth: 0.2,
       Fire: 0.1
-    },
+    }
     qualities: ['mild', 'sweet', 'clean', 'delicate', 'balanced'],
     origin: ['China', 'Japan', 'Korea'],
     nutritionalProfile: {
@@ -22,7 +22,7 @@ const rawVinegars = {
       acidity: '4-5%',
       notes: 'Milder and less acidic than other vinegars'
     }
-  },
+  }
   balsamic_vinegar: {
     name: 'Balsamic Vinegar',
     category: 'vinegar',
@@ -32,7 +32,7 @@ const rawVinegars = {
       Earth: 0.4,
       Fire: 0.2,
       Air: 0.1
-    },
+    }
     qualities: ['sweet', 'complex', 'syrupy', 'rich'],
     origin: ['Italy'],
     nutritionalProfile: {
@@ -44,7 +44,7 @@ const rawVinegars = {
       minerals: ['calcium', 'iron', 'magnesium', 'phosphorus', 'potassium'],
       notes: 'Aged in wooden barrels, rich in antioxidants'
     }
-  },
+  }
   apple_cider_vinegar: {
     name: 'Apple Cider Vinegar',
     category: 'vinegar',
@@ -54,7 +54,7 @@ const rawVinegars = {
       Earth: 0.25,
       Air: 0.25,
       Fire: 0.15
-    },
+    }
     qualities: ['tart', 'fruity', 'subtly sweet', 'robust'],
     origin: ['Ancient Rome', 'Colonial America'],
     nutritionalProfile: {
@@ -66,7 +66,7 @@ const rawVinegars = {
       minerals: ['potassium', 'calcium', 'magnesium'],
       notes: 'Contains beneficial enzymes and trace minerals'
     }
-  },
+  }
   red_wine_vinegar: {
     name: 'Red Wine Vinegar',
     category: 'vinegar',
@@ -76,7 +76,7 @@ const rawVinegars = {
       Fire: 0.3,
       Earth: 0.2,
       Air: 0.1
-    },
+    }
     qualities: ['robust', 'tangy', 'fruity', 'complex'],
     origin: ['Mediterranean', 'European'],
     nutritionalProfile: {
@@ -88,7 +88,7 @@ const rawVinegars = {
       minerals: ['iron', 'potassium', 'magnesium'],
       notes: 'Contains antioxidants from red wine'
     }
-  },
+  }
   sherry_vinegar: {
     name: 'Sherry Vinegar',
     category: 'vinegar',
@@ -98,7 +98,7 @@ const rawVinegars = {
       Earth: 0.3,
       Fire: 0.1,
       Air: 0.1
-    },
+    }
     qualities: ['nutty', 'complex', 'sharp'],
     origin: ['Spain'],
     nutritionalProfile: {
@@ -108,7 +108,7 @@ const rawVinegars = {
       acidity: '7-8%',
       notes: 'Aged in oak barrels, rich flavor'
     }
-  },
+  }
   white_wine_vinegar: {
     name: 'White Wine Vinegar',
     category: 'vinegar',
@@ -118,7 +118,7 @@ const rawVinegars = {
       Air: 0.3,
       Earth: 0.15,
       Fire: 0.1
-    },
+    }
     qualities: ['bright', 'crisp', 'tangy', 'light'],
     origin: ['France', 'Italy', 'Spain'],
     nutritionalProfile: {
@@ -130,7 +130,7 @@ const rawVinegars = {
       minerals: ['calcium', 'potassium'],
       notes: 'Light and versatile for dressings'
     }
-  },
+  }
   champagne_vinegar: {
     name: 'Champagne Vinegar',
     category: 'vinegar',
@@ -140,7 +140,7 @@ const rawVinegars = {
       Air: 0.35,
       Earth: 0.15,
       Fire: 0.1
-    },
+    }
     qualities: ['delicate', 'light', 'subtle', 'refined'],
     origin: ['France'],
     nutritionalProfile: {
@@ -150,7 +150,7 @@ const rawVinegars = {
       acidity: '5-6%',
       notes: 'Made from champagne, delicate flavor'
     }
-  },
+  }
   malt_vinegar: {
     name: 'Malt Vinegar',
     category: 'vinegar',
@@ -160,7 +160,7 @@ const rawVinegars = {
       Water: 0.3,
       Fire: 0.2,
       Air: 0.1
-    },
+    }
     qualities: ['toasty', 'robust', 'yeasty', 'strong'],
     origin: ['United Kingdom'],
     nutritionalProfile: {
@@ -170,7 +170,7 @@ const rawVinegars = {
       acidity: '5-6%',
       notes: 'Made from malted barley, popular for fish and chips'
     }
-  },
+  }
   coconut_vinegar: {
     name: 'Coconut Vinegar',
     category: 'vinegar',
@@ -180,7 +180,7 @@ const rawVinegars = {
       Earth: 0.3,
       Air: 0.1,
       Fire: 0.1
-    },
+    }
     qualities: ['cloudy', 'mildly sweet', 'tropical', 'tart'],
     origin: ['Southeast Asia', 'India'],
     nutritionalProfile: {
@@ -191,7 +191,7 @@ const rawVinegars = {
       minerals: ['potassium', 'phosphorus'],
       notes: 'Rich in probiotics and enzymes'
     }
-  },
+  }
   black_vinegar: {
     name: 'Black Vinegar',
     category: 'vinegar',
@@ -201,7 +201,7 @@ const rawVinegars = {
       Water: 0.3,
       Fire: 0.1,
       Air: 0.1
-    },
+    }
     qualities: ['smoky', 'complex', 'umami', 'aged'],
     origin: ['China'],
     nutritionalProfile: {
@@ -211,7 +211,7 @@ const rawVinegars = {
       acidity: '4-5%',
       notes: 'Aged Chinese vinegar made from rice and other grains'
     }
-  },
+  }
   date_vinegar: {
     name: 'Date Vinegar',
     category: 'vinegar',
@@ -221,7 +221,7 @@ const rawVinegars = {
       Water: 0.3,
       Fire: 0.2,
       Air: 0.1
-    },
+    }
     qualities: ['sweet', 'caramel-like', 'robust', 'fruity'],
     origin: ['Middle East'],
     nutritionalProfile: {
@@ -233,7 +233,7 @@ const rawVinegars = {
       notes: 'Rich in antioxidants and minerals'
     }
   }
-},
+}
 
 // Export fixed vinegars
 export const vinegars = fixIngredientMappings(rawVinegars)
@@ -249,7 +249,7 @@ const rawArtisanalVinegars = {
       Water: 0.3,
       Fire: 0.1,
       Air: 0.1
-    },
+    }
     qualities: ['complex', 'syrupy', 'rich', 'sweet', 'premium'],
     origin: ['Modena, Italy', 'Reggio Emilia, Italy'],
     nutritionalProfile: {
@@ -259,7 +259,7 @@ const rawArtisanalVinegars = {
       acidity: '4-6%',
       notes: 'Aged for 12+ years in wooden barrels'
     }
-  },
+  }
   fig_vinegar: {
     name: 'Fig Vinegar',
     category: 'vinegar',
@@ -269,7 +269,7 @@ const rawArtisanalVinegars = {
       Water: 0.3,
       Fire: 0.2,
       Air: 0.1
-    },
+    }
     qualities: ['fruity', 'sweet', 'tangy', 'aromatic'],
     origin: ['Mediterranean'],
     nutritionalProfile: {
@@ -279,7 +279,7 @@ const rawArtisanalVinegars = {
       acidity: '5-6%',
       notes: 'Made from fermented figs, rich and complex'
     }
-  },
+  }
   champagne_rose_vinegar: {
     name: 'Champagne Rose Vinegar',
     category: 'vinegar',
@@ -289,7 +289,7 @@ const rawArtisanalVinegars = {
       Water: 0.3,
       Earth: 0.2,
       Fire: 0.1
-    },
+    }
     qualities: ['floral', 'delicate', 'crisp', 'aromatic'],
     origin: ['France'],
     nutritionalProfile: {
@@ -300,7 +300,7 @@ const rawArtisanalVinegars = {
       notes: 'Infused with rose petals, elegant flavor profile'
     }
   }
-},
+}
 
 // Export artisanal vinegars
 export const _artisanalVinegars = fixIngredientMappings(rawArtisanalVinegars)
@@ -308,7 +308,7 @@ export const _artisanalVinegars = fixIngredientMappings(rawArtisanalVinegars)
 // Add any additional vinegars specific to this directory
 const additionalVinegars = {
   // Additional vinegars can be added here
-},
+}
 
 // Merge with any additional vinegars and artisanal vinegars
 export const _allVinegars = fixIngredientMappings({

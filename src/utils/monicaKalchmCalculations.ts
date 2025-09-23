@@ -160,7 +160,7 @@ export function elementalToAlchemical(elemental: ElementalProperties): Alchemica
     Essence: elemental.Water + ((elemental as any)?.Air || 0) * 0.2, // Core nature, flowing,
     Matter: elemental.Earth + ((elemental as any)?.Water || 0) * 0.2, // Physical, stable,
     Substance: elemental.Earth + ((elemental as any)?.Fire || 0) * 0.2, // Foundation, structure
-  },
+  }
 }
 
 /**
@@ -196,15 +196,15 @@ export function calculateThermodynamicMetrics(
     gregsEnergy,
     kalchm,
     monica
-  },
+  }
 }
 
 /**
  * Calculate compatibility between two sets of properties using Monica/Kalchm metrics
  */
 export function calculateMonicaKalchmCompatibility(
-  properties1: { alchemical?: AlchemicalProperties, elemental: ElementalProperties },
-  properties2: { alchemical?: AlchemicalProperties, elemental: ElementalProperties },
+  properties1: { alchemical?: AlchemicalProperties, elemental: ElementalProperties }
+  properties2: { alchemical?: AlchemicalProperties, elemental: ElementalProperties }
 ): number {
   // Convert elemental to alchemical if needed
   const alchemical1 = properties1.alchemical || elementalToAlchemical(properties1.elemental)
@@ -265,15 +265,15 @@ export function calculateKalchmHarmony(
  * Enhanced analysis with confidence scoring
  */
 export function performEnhancedAnalysis(
-  item: { elemental: ElementalProperties, alchemical?: AlchemicalProperties },
+  item: { elemental: ElementalProperties, alchemical?: AlchemicalProperties }
   referenceProfile: ElementalProperties,
 ): EnhancedAlchemicalResult {
   const alchemical = item.alchemical || elementalToAlchemical(item.elemental)
   const thermodynamicMetrics = calculateThermodynamicMetrics(alchemical, item.elemental),
 
   const compatibilityScore = calculateMonicaKalchmCompatibility(
-    { alchemical, elemental: item.elemental },
-    { elemental: referenceProfile },
+    { alchemical, elemental: item.elemental }
+    { elemental: referenceProfile }
   )
 
   // Calculate confidence based on metric stability
@@ -291,7 +291,7 @@ export function performEnhancedAnalysis(
     thermodynamicMetrics,
     compatibilityScore,
     confidence
-  },
+  }
 }
 
 // ========== EXPORT DEFAULT CALCULATION SUITE ==========,
@@ -309,6 +309,6 @@ export const MonicaKalchmCalculations = {
   calculateKalchmHarmony,
   performEnhancedAnalysis,
   elementalToAlchemical
-},
+}
 
 export default MonicaKalchmCalculations,

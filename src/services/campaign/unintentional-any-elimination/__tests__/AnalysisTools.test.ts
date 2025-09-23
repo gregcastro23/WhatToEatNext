@@ -176,7 +176,7 @@ src/test.ts:3:Record<string, unknown>
       const lowSuccessCategories: any = analysis.categorySuccessRates.filter(cat => cat.successRate < 70)
       if (lowSuccessCategories.length > 0) {
         expect(analysis.recommendations.length).toBeGreaterThan(0).
-      },
+      }
     })
 
     it('should calculate projected completion date', async () => {
@@ -205,7 +205,7 @@ src/legacy.ts: 3:oldData: any
         }
         if (filePath.includes('legacy.ts')) {
           return 'const _oldData: any = legacySystem.getData(),',
-        },
+        }
         return '',
       })
 
@@ -213,7 +213,7 @@ src/legacy.ts: 3:oldData: any
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('grep -n')) {
           return '1: const config: any = getConfig(),\n5:other: any = value,',
-        },
+        }
         return '',
       })
 
@@ -246,7 +246,7 @@ src/legacy.ts: 3:oldData: any
         const currentPriority: any = recommendations[i].priority;
         const nextPriority: any = recommendations[i + 1].priority
 ,
-        const priorityOrder: any = { high: 3, medium: 2, low: 1 },
+        const priorityOrder: any = { high: 3, medium: 2, low: 1 }
         expect(priorityOrder[currentPriority]).toBeGreaterThanOrEqual(priorityOrder[nextPriority]).
       }
     }),
@@ -259,7 +259,7 @@ src/legacy.ts: 3:oldData: any
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('grep -n')) {
           return '1: const data: any = value,\n3:other: any = something,\n7:more: any[],',
-        },
+        }
         return '',
       })
 
@@ -269,7 +269,7 @@ src/legacy.ts: 3:oldData: any
         const firstRecommendation: any = recommendations[0]
         expect(firstRecommendation.relatedOccurrences.length).toBeGreaterThan(0).
         expect(firstRecommendationrelatedOccurrences.length).toBeLessThanOrEqual(5), // Limited to 5
-      },
+      }
     })
   })
 

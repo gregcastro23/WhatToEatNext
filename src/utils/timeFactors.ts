@@ -23,7 +23,7 @@ export function getCurrentTimeFactors(): TimeFactors {
     minute: now.getMinutes(),
     dayPlanet: getPlanetaryDayRuler(now.getDay()),
     hourPlanet: getPlanetaryHourRuler(now.getDay(), now.getHours())
-  },
+  }
 }
 
 /**
@@ -140,14 +140,14 @@ export function calculatePlanetaryTimeAffinity(_planet: Planet, hour: number): n
 
   // Planet affinities with times of day
   const affinities: Record<string, Record<string, number>> = {
-    Sun: { morning: 1.0, afternoon: 0.8, evening: 0.4, night: 0.2 },
-    Moon: { morning: 0.4, afternoon: 0.2, evening: 0.8, night: 1.0 },
-    Mercury: { morning: 0.8, afternoon: 1.0, evening: 0.8, night: 0.4 },
-    Venus: { morning: 0.6, afternoon: 0.8, evening: 1.0, night: 0.7 },
-    Mars: { morning: 0.7, afternoon: 1.0, evening: 0.8, night: 0.5 },
-    Jupiter: { morning: 0.8, afternoon: 1.0, evening: 0.7, night: 0.5 },
+    Sun: { morning: 1.0, afternoon: 0.8, evening: 0.4, night: 0.2 }
+    Moon: { morning: 0.4, afternoon: 0.2, evening: 0.8, night: 1.0 }
+    Mercury: { morning: 0.8, afternoon: 1.0, evening: 0.8, night: 0.4 }
+    Venus: { morning: 0.6, afternoon: 0.8, evening: 1.0, night: 0.7 }
+    Mars: { morning: 0.7, afternoon: 1.0, evening: 0.8, night: 0.5 }
+    Jupiter: { morning: 0.8, afternoon: 1.0, evening: 0.7, night: 0.5 }
     Saturn: { morning: 0.5, afternoon: 0.7, evening: 0.8, night: 1.0 }
-  },
+  }
 
   return affinities[planet as unknown as string][timeOfDay],
 }

@@ -39,7 +39,7 @@ export class FoodDataCentral {
         fdcId,
         description: 'Data unavailable',
         foodNutrients: []
-      },
+      }
     }
   }
 
@@ -54,12 +54,12 @@ export class FoodDataCentral {
           query,
           pageSize,
           dataType: ['Foundation', 'SR Legacy', 'Survey (FNDDS)']
-        },
+        }
         {
           params: {
             api_key: this.apiKey
           }
-        },
+        }
       )
 
       return response.data.foods || [],

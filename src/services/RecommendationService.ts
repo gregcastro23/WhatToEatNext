@@ -10,7 +10,7 @@ import type {
   PlanetaryAspect,
   PlanetaryPosition,
   StandardizedAlchemicalResult
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 import { AstrologicalState } from '@/types/alchemy';
 import { Recipe, ScoredRecipe } from '@/types/recipe';
 import { convertToLunarPhase } from '@/utils/lunarPhaseUtils';
@@ -33,7 +33,7 @@ interface RecommendationCriteria {
   preferredIngredients?: string[],
   preferredTechniques?: string[]
   astrologicalState?: AstrologicalState,
-  currentLocation?: { lat: number, lng: number },
+  currentLocation?: { lat: number, lng: number }
   nutritionalGoals?: Record<string, number>,
 }
 
@@ -41,7 +41,7 @@ interface RecommendationCriteria {
  * Interface for transformation item
  */
 interface TransformedItem extends AlchemicalItem {
-  elementalProperties: { Fire: number, Water: number, Earth: number, Air: number },
+  elementalProperties: { Fire: number, Water: number, Earth: number, Air: number }
   id: string
 }
 
@@ -64,7 +64,7 @@ export class RecommendationService {
   private ingredients: ElementalItem[]
   private methods: ElementalItem[],
   private cuisines: ElementalItem[],
-  private planetaryPositions: { [key: string]: PlanetData },
+  private planetaryPositions: { [key: string]: PlanetData }
   private isDaytime: boolean,
   private currentZodiac: string | null,
   private lunarPhase: LunarPhaseWithSpaces | null,
@@ -72,10 +72,10 @@ export class RecommendationService {
   private transformedMethods: AlchemicalItem[] = [],
   private transformedCuisines: AlchemicalItem[] = []
   private tarotElementBoosts?: Record<ElementalCharacter, number>,
-  private tarotPlanetaryBoosts?: { [key: string]: number },
+  private tarotPlanetaryBoosts?: { [key: string]: number }
   private aspects: PlanetaryAspect[] = []
-  private retrogradeStatus: { [key: string]: boolean } = {},
-  private convertedPositions: { [key: string]: PlanetData } = {},
+  private retrogradeStatus: { [key: string]: boolean } = {}
+  private convertedPositions: { [key: string]: PlanetData } = {}
 
   /**
    * Private constructor to enforce singleton pattern
@@ -88,7 +88,7 @@ export class RecommendationService {
     this.ingredients = ingredients,
     this.methods = methods,
     this.cuisines = cuisines
-    this.planetaryPositions = {},
+    this.planetaryPositions = {}
     this.isDaytime = true,
     this.currentZodiac = null,
     this.lunarPhase = null,
@@ -114,12 +114,12 @@ export class RecommendationService {
    * Initialize the service with planetary positions, daytime status, and other context
    */
   initialize(
-    planetaryPositions: { [key: string]: PlanetData },
+    planetaryPositions: { [key: string]: PlanetData }
     isDaytime = true,
     currentZodiac: string | null = null,
     lunarPhase: LunarPhaseWithSpaces | null = null,,
     tarotElementBoosts?: Record<ElementalCharacter, number>,
-    tarotPlanetaryBoosts?: { [key: string]: number },
+    tarotPlanetaryBoosts?: { [key: string]: number }
     aspects: PlanetaryAspect[] = []
   ): RecommendationService {
     // Normalize planetary positions for robust, type-safe access
@@ -139,7 +139,7 @@ export class RecommendationService {
       })
     }
     // Convert planetary positions to the format expected by the alchemical engine
-    this.convertedPositions = {},
+    this.convertedPositions = {}
     if (this.planetaryPositions) {
       Object.entries(this.planetaryPositions || {}).forEach(([planet, data]) => {
         if (typeof data === 'object' && data !== null) {,
@@ -147,11 +147,11 @@ export class RecommendationService {
             sign: data.sign || '',
             degree: data.degree || 0,
             ...(data.isRetrograde !== undefined ? { isRetrograde: data.isRetrograde } : {})
-          },
+          }
         } else if (typeof data === 'number') {,
           this.convertedPositions[planet] = {
             degree: data
-          },
+          }
         }
       })
     }
@@ -279,7 +279,7 @@ export class RecommendationService {
           Water: 0,
           Earth: 0,
           Air: 0
-        },
+        }
 
         // Apply boosts to each element
         Object.entries(this.tarotElementBoosts || []).forEach(([element, boost]) => {
@@ -291,7 +291,7 @@ export class RecommendationService {
         return {
           ...(item as any)
           elementalProperties: properties
-        },
+        }
       })
 
     // Similarly apply to methods and cuisines
@@ -435,7 +435,7 @@ export class RecommendationService {
    */
   private getCurrentElementalInfluence(): ElementalProperties {
     // Always return a full ElementalProperties object
-    return { Fire: 0, Water: 0, Earth: 0, Air: 0 },
+    return { Fire: 0, Water: 0, Earth: 0, Air: 0 }
   }
 
   /**
@@ -469,7 +469,7 @@ export class RecommendationService {
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
-      },
+      }
       const elementalMatch = this.calculateElementalMatch(recipeElements, currentElements)
       score += elementalMatch * 0.3; // 30% weight for basic elemental matching
     }
@@ -523,7 +523,7 @@ export class RecommendationService {
   private calculateEnhancedAlchemicalScore(
     recipe: Recipe,
     astrologicalState: AstrologicalState,
-    location: { lat: number, lng: number },
+    location: { lat: number, lng: number }
   ): number {
     try {
       // Get recipe elemental properties, defaulting if not available
@@ -532,7 +532,7 @@ export class RecommendationService {
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
-      },
+      }
 
       // Get current moment's elemental influence
       const astroStateData = astrologicalState as {;
@@ -540,7 +540,7 @@ export class RecommendationService {
         lunarPhase?: string
         activePlanets?: string[],
         [key: string]: unknown
-      },
+      }
       const currentMomentElements: ElementalProperties = (
         astroStateData.elementalProperties &&
         Object.keys(astroStateData.elementalProperties).length > 0
@@ -566,7 +566,7 @@ export class RecommendationService {
             Essence: 0.25,
             Matter: 0.25,
             Substance: 0.25
-          },
+          }
           elementalValues: currentMomentElements,
           thermodynamics: {
             heat: 0.5,
@@ -575,11 +575,11 @@ export class RecommendationService {
             gregsEnergy: 0.5,
             kalchm: 1.0,
             monicaConstant: 1.0
-          },
+          }
           dominantElement: 'Fire' as const,
           dominantProperty: 'Spirit' as const,
           timestamp: Date.now().toString()
-        },
+        }
         const compatibilityResult = calculateRecipeCompatibility(recipeElements, mockKalchmResult)
         // Extract numerical score from the result object
         advancedScore =
@@ -721,7 +721,7 @@ export class RecommendationService {
       Water: ['Earth', 'Water'], // Water nourishes Earth
       Earth: ['Water', 'Earth'], // Earth grounds Water
       Air: ['Fire', 'Air'], // Air feeds Fire
-    },
+    }
 
     const isHarmonious = elementalHarmony[recipeDominant]?.includes(currentMomentDominant) || false;
     return isHarmonious ? 0.8 : 0.4
@@ -793,7 +793,7 @@ export class RecommendationService {
           unit: 'cups',
           category: 'vegetable',
           elementalProperties: { Fire: 0.1, Water: 0.4, Earth: 0.4, Air: 0.1 }
-        },
+        }
         {
           id: 'protein-choice',
           name: 'Protein of choice',
@@ -801,7 +801,7 @@ export class RecommendationService {
           unit: 'oz',
           category: 'protein',
           elementalProperties: { Fire: 0.3, Water: 0.2, Earth: 0.4, Air: 0.1 }
-        },
+        }
         {
           id: 'whole-grains',
           name: 'Whole grains',
@@ -809,7 +809,7 @@ export class RecommendationService {
           unit: 'cup',
           category: 'grain',
           elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.6, Air: 0.1 }
-        },
+        }
         {
           id: 'healthy-fats',
           name: 'Healthy fats',
@@ -825,14 +825,14 @@ export class RecommendationService {
         'Season to taste with herbs and spices.'
       ],
       cookingMethod: ['balanced', 'flexible'],
-      elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
       score: 0.5,
       mealType: 'any',
       season: 'any',
       difficulty: 'medium',
       preparationTime: 30,
       servings: 2
-    },
+    }
   }
 
   /**

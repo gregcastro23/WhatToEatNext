@@ -15,11 +15,11 @@ export const stewing: CookingMethodData = {
     Fire: 0.2,
     Earth: 0.2,
     Air: 0.0
-  },
+  }
   duration: {
     min: 45, // 45 minutes,
     max: 480, // 8 hours
-  },
+  }
   suitable_for: [
     'tough meat cuts',
     'root vegetables',
@@ -55,7 +55,7 @@ export const stewing: CookingMethodData = {
       waxing_crescent: 1.05, // Good for initiating stews,
       waning_gibbous: 0.95, // Less optimal
     }
-  },
+  }
 
   toolsRequired: [
     'Heavy-bottomed pot with lid',
@@ -108,7 +108,7 @@ export const stewing: CookingMethodData = {
     fiber: 0.9, // Very good,
     phytonutrients: 0.85, // Good,
     antioxidants: 0.85, // Good - many remain in cooking liquid
-  },
+  }
 
   optimalTemperatures: {
     meat_stews: 180, // Low simmer,
@@ -119,7 +119,7 @@ export const stewing: CookingMethodData = {
     poultry_stews: 185, // Medium temperature,
     browning_stage: 350, // Initial browning temperature,
     reduction_phase: 200, // For reducing and concentrating
-  },
+  }
 
   regionalVariations: {
     mediterranean: ['ratatouille', 'cioppino', 'bouillabaisse'],
@@ -131,7 +131,7 @@ export const stewing: CookingMethodData = {
     caribbean: ['callaloo', 'pepper pot', 'sancocho'],
     eastern_european: ['goulash', 'bigos', 'cholent'],
     north_american: ['brunswick stew', 'burgoo', 'chili']
-  },
+  }
 
   chemicalChanges: {
     protein_denaturation: true,
@@ -146,7 +146,7 @@ export const stewing: CookingMethodData = {
     starch_gelatinization: true,
     acid_hydrolysis: true,
     pectin_breakdown: true
-  },
+  }
 
   safetyFeatures: [
     'consistent heat distribution',
@@ -251,7 +251,7 @@ export const stewing: CookingMethodData = {
       'Most dried legumes should be soaked 8-12 hours before stewing. Discard soaking water to reduce indigestible compounds. Add salt only after legumes have softened. Avoid acidic ingredients until legumes are partially softened as acid toughens skins and extends cooking time. Cook times vary, significantly: lentils (25-45 minutes), beans (1-3 hours), chickpeas (2-4 hours). For mixed bean stews, either cook varieties separately before combining or select varieties with similar cooking times. Consider adding 1/4 teaspoon baking soda to soaking water to soften very hard water.',
     thickening_agents:
       'For flour thickening, either dredge meat before browning or make beurre manié (equal parts butter and flour kneaded together) added 30 minutes before completion. For cornstarch, create slurry with cold water and add during final 10 minutes, then maintain gentle simmer. For reduction thickening, remove lid during final 30-45 minutes. For vegetable thickening, purée a portion of the cooked vegetables and return to pot. For traditional thickening, use bread crumbs, crushed crackers, or grated potato. For gluten-free options, consider arrowroot (add at end) or reduction methods.'
-  },
+  }
 
   timingConsiderations: {
     meat_cooking:
@@ -266,7 +266,7 @@ export const stewing: CookingMethodData = {
       'Summer stews require less cooking time due to younger, fresher ingredients. Winter stews benefit from longer cooking and higher aromatic content. Humidity affects evaporation rate—in dry environments, check liquid levels more frequently. Altitude affects cooking times and temperatures—above 3,000 feet, increase cooking time by approximately 10% per 1,000 feet and maintain slightly higher temperature to compensate for lower boiling point. Seasonal ingredients dramatically affect stew, character: spring (young vegetables, lighter profiles), summer (abundant herbs), autumn (mushrooms, root vegetables), winter (preserved ingredients, deeper flavors).',
     equipment_factors:
       'Dutch ovens retain heat excellently with minimal temperature fluctuation. Stainless steel pots may require more frequent monitoring for consistent temperature. Slow cookers typically operate between 170-280°F depending on setting, high setting approximates simmering. Electric pressure cookers reduce cooking time by 60-70% while maintaining tenderization properties. Clay pot cooking creates more gradual temperature changes beneficial for delicate stews. Induction cooking provides most precise temperature control for stewing. Flat, wide pots increase evaporation and concentration, tall, narrow pots minimize evaporation for more liquid stews.'
-  },
+  }
 
   doneness_indicators: {
     protein_texture:
@@ -281,7 +281,7 @@ export const stewing: CookingMethodData = {
       'Complex layering of aromas replaces singular ingredient notes. Sharp alcoholic scent from wine or spirits completely dissipates. Harmonious integration of aromatics without individual domination. Developed stews exhibit savory roundness rather than raw ingredient character. Gentle steam carries full aromatic bouquet. Well-developed stews show distinct volatile compound release when lid is removed after resting period. Aromatic herbs added late maintain distinctive high notes above bass notes of long-cooked ingredients.',
     vegetable_integrity:
       'Properly stewed vegetables maintain structural identity while fully tender. Root vegetables should offer slight resistance to utensil but yield easily. Cell structure remains intact but fully tenderized. Legumes fully hydrated with creamy interior while maintaining skin integrity. Some vegetable integration into liquid body enhances thickness and flavor. Strategic addition timing creates intentional texture gradient from fully integrated to distinct pieces. Fibrous vegetables (celery, leeks) should retain no stringiness.'
-  },
+  }
 
   ingredientInteractions: {
     protein_liquid_exchange:
@@ -298,7 +298,7 @@ export const stewing: CookingMethodData = {
       'Fat-soluble aromatic compounds require sufficient fat for full extraction and expression. Water-soluble compounds extract more readily in aqueous phase. Extended cooking allows for full diffusion of flavor compounds between ingredients. Herbs with volatile oils (basil, cilantro) lose character in long cooking and should be added later. Whole spices require extended simmering for full extraction. Ground spices release flavor more quickly but can become bitter with extended cooking. Aromatic roots (ginger, galangal) release flavor gradually and maintain presence throughout cooking.',
     umami_development:
       'Glutamates and inosinates develop and concentrate through extended cooking, creating depth. Combining multiple umami sources (meat, mushrooms, tomatoes, aged cheese) creates synergistic flavor enhancement greater than individual ingredients. Browning reactions create significant umami compounds. Natural MSG development occurs in long-cooked protein-based stews. Fermented ingredients (fish sauce, miso, soy sauce) provide immediate umami foundation that integrates during cooking. Proper salt levels essential for maximum umami perception.'
-  },
+  }
 
   technicalNotes: {
     heat_management: {
@@ -310,7 +310,7 @@ export const stewing: CookingMethodData = {
         'Adding room temperature ingredients causes temporary temperature drop—stagger additions to maintain stability. Minimize lid removal to reduce heat loss (each removal extends cooking time by approximately 5 minutes). Larger volumes recover more slowly but maintain better stability. Preheating additions (liquids, vegetables) maintains better temperature curve. Recovery rate directly impacts protein texture—rapid temperature changes can cause toughening. Proper temperature recovery critical after stirring or ingredient addition.',
       gradient_formation:
         'Natural temperature gradients form in stewing vessels—slightly higher at bottom, cooler at top. Strategic ingredient placement can leverage gradient for texture control. Surface exposure creates concentration through evaporation at liquid-air interface. Convection currents distribute heat but not uniformly through dense ingredients. Slow rotation of ingredients during cooking ensures even exposure to temperature zones. Extended cooking gradually minimizes gradient effects as flavors and temperatures equilibrate.'
-    },
+    }
     fluid_dynamics: {
       convection_currents:
         'Natural convection distributes heat and flavor compounds through stewing liquid. Gentle bubbling creates controlled circulation without excessive agitation. Viscosity increases gradually, slowing convection but improving flavor cohesion. Vessel shape affects current formation—wider vessels create more surface evaporation, taller vessels create stronger vertical currents. Excessive stirring disrupts protein structure in tender ingredients, rely on natural convection when possible. Ingredients blocking liquid movement create uneven cooking zones.',
@@ -320,7 +320,7 @@ export const stewing: CookingMethodData = {
         'Salt creates osmotic pressure gradient, drawing moisture from ingredients while allowing flavor compounds to penetrate. Cellular membranes become increasingly permeable during extended cooking. Equilibration occurs gradually between ingredients and surrounding liquid. Seasoning throughout cooking maintains optimal osmotic gradient for flavor exchange. Osmotic pressure affects perceived texture of ingredients—too much salt early can draw excessive moisture from proteins.',
       emulsion_stability:
         'Gelatin provides natural emulsification of rendered fats into cooking liquid. Gentle agitation through convection currents creates and maintains emulsion without breaking protein structures. Stable emulsions form gradually over extended cooking periods. Temperature drops can destabilize emulsions, causing fat separation. Acidic components help maintain emulsion stability. Reheating previously cooled stews requires gentle temperature increase to re-emulsify fats.'
-    },
+    }
     collagen_dynamics: {
       conversion_kinetics:
         'Collagen triple helix begins unwinding around 140°F (60°C). Conversion to gelatin accelerates between 160-180°F (71-82°C). Rate follows logarithmic curve—initial conversion rapid, then slowing as available collagen decreases. Different animal tissues contain varying collagen types with different conversion rates. Age of animal significantly impacts collagen density and conversion timeline. Conversion requires both sufficient temperature and time—neither can be sacrificed without affecting result.',
@@ -330,7 +330,7 @@ export const stewing: CookingMethodData = {
         'Optimal tenderness achieved when sufficient collagen converts while maintaining muscle fiber integrity. Overcooked collagen can dissolve structure completely, creating mushy texture. Collagen-rich cuts (shoulder, shank, oxtail) develop superior texture compared to lean cuts. Temperature control critical—excessive heat toughens proteins before collagen can convert. Different tissues within same cut convert at different rates, creating texture gradient. Connective tissue membranes soften but may remain identifiable in properly stewed meats.',
       visual_indicators:
         'Successful collagen conversion creates distinctive glossy sheen in liquid. Meat fibers separate easily but maintain structural identity. Connective tissue transforms from white/silvery to translucent. Bubbling behavior changes as gelatin concentration increases—bubbles become smaller and more persistent. Liquid developing body that coats spoon indicates proper gelatin development. Color deepens as conversion progresses.'
-    },
+    }
     flavor_chemistry: {
       compound_creation:
         'Maillard reactions during initial browning create hundreds of new flavor compounds not present in raw ingredients. Slow hydrolysis of proteins creates free amino acids that enhance flavor complexity and umami. Caramelization of sugars produces furans, maltols, and other compounds contributing depth. Lipid oxidation creates desirable flavor compounds in controlled amounts. Extended cooking allows enzymatic activity to create flavor precursors before heat deactivation. Reactions continue throughout cooking as new compounds form and interact.',
@@ -340,7 +340,7 @@ export const stewing: CookingMethodData = {
         'Properly developed stews stimulate all five basic tastes plus umami. Metallic, astringent notes should diminish through extended cooking. Flavor compounds bind to proteins and fats, creating lingering mouthfeel and perception. Temperature affects taste perception significantly—same stew tastes different at various serving temperatures. Cooled and reheated stews present more integrated flavor profile due to continued passive compound interaction during resting period. Salt perception changes throughout cooking as it integrates into cellular structures.',
       aromatic_evolution:
         'Volatile compounds continue transforming throughout cooking process. Primary aromas from raw ingredients yield to secondary and tertiary notes. Sulfur compounds from alliums transform from sharp to sweet notes. Terpenoids from herbs partially volatilize while integrating into fat phase. Aromatic alcohols convert to esters during extended cooking, creating fruity undertones. Phenolic compounds from browned meat create foundational aromatic base. Complex spice blends develop orchestrated aromatic profile as cooking progresses.'
-    },
+    }
     vegetable_transformations: {
       cell_wall_dynamics:
         'Pectin between plant cells begins solubilizing around 183°F (84°C), creating tender texture while maintaining structure. Hemicellulose breaks down more readily than cellulose, explaining why some vegetables soften more uniformly than others. Cellular turgor pressure decreases through extended cooking. Acid slows pectin breakdown—acidic environments maintain firmer vegetable texture. Calcium helps maintain cell wall integrity even during extended cooking. Cell membranes become increasingly permeable, allowing flavor exchange while maintaining structure.',

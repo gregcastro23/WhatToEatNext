@@ -41,7 +41,7 @@ export function useAlchemicalBridge() {
         } catch (err) {
           _logger.error('Error in useAlchemicalBridge:', err)
         }
-      },
+      }
 
       void fetchData()
     }
@@ -51,7 +51,7 @@ export function useAlchemicalBridge() {
   const mergedPositions = {
     ...contextPositions,
     ...servicePositions
-  },
+  }
 
   return {
     // Basic status flags from services
@@ -74,7 +74,7 @@ export function useAlchemicalBridge() {
 
     // Flag indicating if services are ready to use
     servicesReady: !isLoading && !error && !!astrologyService
-  },
+  }
 }
 
 /**
@@ -107,7 +107,7 @@ export function useChakraBridge() {
         } catch (err) {
           _logger.error('Error in useChakraBridge:', err)
         }
-      },
+      }
 
       void fetchChakraData()
     }
@@ -120,7 +120,7 @@ export function useChakraBridge() {
     activeChakra,
     chakraService,
     servicesReady: !isLoading && !error && !!chakraService
-  },
+  }
 }
 
 /**
@@ -142,7 +142,7 @@ export function usePlanetaryHoursBridge() {
           const hourInfo = await astrologyService.getCurrentPlanetaryHour()
           // ✅ Pattern MM-1: Ensure object type for setCurrentHour state setter
           setCurrentHour(
-            typeof hourInfo === 'object' && hourInfo !== null ? hourInfo : { value: hourInfo },
+            typeof hourInfo === 'object' && hourInfo !== null ? hourInfo : { value: hourInfo }
           )
 
           const dayPlanet = await astrologyService.getCurrentPlanetaryDay()
@@ -165,7 +165,7 @@ export function usePlanetaryHoursBridge() {
         } catch (err) {
           _logger.error('Error in usePlanetaryHoursBridge:', err)
         }
-      },
+      }
 
       void fetchPlanetaryHoursData()
 
@@ -183,7 +183,7 @@ export function usePlanetaryHoursBridge() {
     dailyHours,
     astrologyService,
     servicesReady: !isLoading && !error && !!astrologyService
-  },
+  }
 }
 
 /**
@@ -214,7 +214,7 @@ export function createServiceBridge<TS>(
             _logger.error(`Error in custom bridge for ${serviceName}:`, err)
             setFetchError(err instanceof Error ? err : new Error(String(err)))
           }
-        },
+        }
 
         void fetchData()
       }
@@ -226,8 +226,8 @@ export function createServiceBridge<TS>(
       data,
       service,
       servicesReady: !isLoading && !error && !!service
-    },
-  },
+    }
+  }
 }
 
 export default {
@@ -235,4 +235,4 @@ export default {
   useChakraBridge,
   usePlanetaryHoursBridge,
   createServiceBridge
-},
+}

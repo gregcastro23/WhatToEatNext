@@ -7,7 +7,7 @@ import {
   LunarPhase,
   LunarPhaseWithSpaces,
   LunarPhaseWithUnderscores
-} from '../types/alchemy',
+} from '../types/alchemy';
 import type { LunarPhaseModifier } from '../types/lunar';
 
 // Define missing types
@@ -35,13 +35,13 @@ const lunarInfluences: Record<
   LunarPhaseWithUnderscores,
   { strength: number, elements: Record<string, number> }
 > = {
-  _NEW_MOON: { strength: 0.3, elements: { Fire: 0.1, Water: 0.1, Air: 0.1, Earth: 0.1 } },
-  _WAXING_CRESCENT: { strength: 0.2, elements: { Fire: 0.2, Air: 0.1, Water: 0.0, Earth: 0.0 } },
-  _FIRST_QUARTER: { strength: 0.3, elements: { Fire: 0.3, Air: 0.2, Water: 0.0, Earth: 0.0 } },
-  _WAXING_GIBBOUS: { strength: 0.4, elements: { Fire: 0.4, Air: 0.3, Water: 0.0, Earth: 0.0 } },
-  _FULL_MOON: { strength: 0.5, elements: { Water: 0.4, Earth: 0.3, Fire: 0.0, Air: 0.0 } },
-  _WANING_GIBBOUS: { strength: 0.4, elements: { Water: 0.3, Earth: 0.2, Fire: 0.0, Air: 0.0 } },
-  _LAST_QUARTER: { strength: 0.3, elements: { Water: 0.2, Earth: 0.1, Fire: 0.0, Air: 0.0 } },
+  _NEW_MOON: { strength: 0.3, elements: { Fire: 0.1, Water: 0.1, Air: 0.1, Earth: 0.1 } }
+  _WAXING_CRESCENT: { strength: 0.2, elements: { Fire: 0.2, Air: 0.1, Water: 0.0, Earth: 0.0 } }
+  _FIRST_QUARTER: { strength: 0.3, elements: { Fire: 0.3, Air: 0.2, Water: 0.0, Earth: 0.0 } }
+  _WAXING_GIBBOUS: { strength: 0.4, elements: { Fire: 0.4, Air: 0.3, Water: 0.0, Earth: 0.0 } }
+  _FULL_MOON: { strength: 0.5, elements: { Water: 0.4, Earth: 0.3, Fire: 0.0, Air: 0.0 } }
+  _WANING_GIBBOUS: { strength: 0.4, elements: { Water: 0.3, Earth: 0.2, Fire: 0.0, Air: 0.0 } }
+  _LAST_QUARTER: { strength: 0.3, elements: { Water: 0.2, Earth: 0.1, Fire: 0.0, Air: 0.0 } }
   _WANING_CRESCENT: { strength: 0.2, elements: { Water: 0.1, Earth: 0.1, Fire: 0.0, Air: 0.0 } }
 } as unknown as Record<
   LunarPhaseWithUnderscores,
@@ -54,7 +54,7 @@ const elementalModifiers = {
   Water: 0.3,
   Earth: 0.15,
   Air: 0.25
-},
+}
 
 /**
  * Apply lunar influence to elemental balance
@@ -76,7 +76,7 @@ export function applyLunarInfluence(baseBalance: ElementalState, date: Date): El
     Water: baseBalance.Water * (1 + influence.strength * elementalModifiers.Water),
     Air: baseBalance.Air * (1 + influence.strength * elementalModifiers.Air),
     Earth: baseBalance.Earth * (1 + influence.strength * elementalModifiers.Earth)
-  },
+  }
 }
 
 /**
@@ -131,15 +131,15 @@ export function generateDefaultLunarPhaseModifiers(
   // Base modifiers on dominant element
   const lunarModifiers: Record<string, LunarPhaseModifier> = {
     _newMoon: {
-      elementalModifiers: { Fire: 0.1, Water: 0.4, Earth: 0.2, Air: 0.3 },
-      elementalBoost: { [dominantElement]: 0.1, [secondaryElement]: 0.05 },
+      elementalModifiers: { Fire: 0.1, Water: 0.4, Earth: 0.2, Air: 0.3 }
+      elementalBoost: { [dominantElement]: 0.1, [secondaryElement]: 0.05 }
       description: `New Moon effects on ${ingredientName}`,
       keywords: ['subtle', 'preparation', 'beginnings'],
       preparationTips: [`Good for subtle ${category} preparations`]
-    },
+    }
     _fullMoon: {
-      elementalModifiers: { Fire: 0.4, Water: 0.1, Earth: 0.1, Air: 0.4 },
-      elementalBoost: { [dominantElement]: 0.2 },
+      elementalModifiers: { Fire: 0.4, Water: 0.1, Earth: 0.1, Air: 0.4 }
+      elementalBoost: { [dominantElement]: 0.2 }
       description: `Full Moon enhances ${ingredientName} properties`,
       keywords: ['potent', 'powerful', 'culmination'],
       preparationTips: [
@@ -147,41 +147,41 @@ export function generateDefaultLunarPhaseModifiers(
         `Best time for ${category} highlights`
       ]
     }
-  },
+  }
 
   // Add additional phases based on dominant element
   if (dominantElement === 'Fire') {,
     lunarModifiers.waxingGibbous = {
-      elementalModifiers: { Fire: 0.4, Water: 0.2, Earth: 0.1, Air: 0.3 },
-      elementalBoost: { Fire: 0.15, Air: 0.05 },
+      elementalModifiers: { Fire: 0.4, Water: 0.2, Earth: 0.1, Air: 0.3 }
+      elementalBoost: { Fire: 0.15, Air: 0.05 }
       description: `Waxing Gibbous amplifies ${ingredientName} fire properties`,
       keywords: ['heat', 'intensity', 'growing'],
       preparationTips: ['Excellent for cooking with heat', 'Good for spicy preparations']
-    },
+    }
   } else if (dominantElement === 'Water') {,
     lunarModifiers.waningGibbous = {
-      elementalModifiers: { Fire: 0.2, Water: 0.4, Earth: 0.3, Air: 0.1 },
-      elementalBoost: { Water: 0.15, Earth: 0.05 },
+      elementalModifiers: { Fire: 0.2, Water: 0.4, Earth: 0.3, Air: 0.1 }
+      elementalBoost: { Water: 0.15, Earth: 0.05 }
       description: `Waning Gibbous enhances ${ingredientName} fluid properties`,
       keywords: ['flow', 'moisture', 'releasing'],
       preparationTips: ['Good for preserves and sauces', 'Liquid preparations enhanced']
-    },
+    }
   } else if (dominantElement === 'Earth') {,
     lunarModifiers.lastQuarter = {
-      elementalModifiers: { Fire: 0.1, Water: 0.3, Earth: 0.5, Air: 0.1 },
-      elementalBoost: { Earth: 0.15, Water: 0.05 },
+      elementalModifiers: { Fire: 0.1, Water: 0.3, Earth: 0.5, Air: 0.1 }
+      elementalBoost: { Earth: 0.15, Water: 0.05 }
       description: `Last Quarter grounds ${ingredientName}`,
       keywords: ['stable', 'grounding', 'solid'],
       preparationTips: ['Best for grounding dishes', 'Good for preservation']
-    },
+    }
   } else if (dominantElement === 'Air') {,
     lunarModifiers.firstQuarter = {
-      elementalModifiers: { Fire: 0.3, Water: 0.1, Earth: 0.1, Air: 0.5 },
-      elementalBoost: { Air: 0.15, Fire: 0.05 },
+      elementalModifiers: { Fire: 0.3, Water: 0.1, Earth: 0.1, Air: 0.5 }
+      elementalBoost: { Air: 0.15, Fire: 0.05 }
       description: `First Quarter enhances ${ingredientName} aromatic qualities`,
       keywords: ['light', 'airy', 'expansion'],
       preparationTips: ['Perfect for aromatic preparations', 'Enhances subtle flavors']
-    },
+    }
   }
 
   return lunarModifiers,
@@ -208,7 +208,7 @@ export const LUNAR_PHASES = {
   'waning gibbous': 'Waning Gibbous',
   'last quarter': 'Last Quarter',
   'waning crescent': 'Waning Crescent'
-},
+}
 
 // Mapping from space format to underscore format
 export const LUNAR_PHASE_MAP: Record<LunarPhase, LunarPhaseKey> = {
@@ -220,7 +220,7 @@ export const LUNAR_PHASE_MAP: Record<LunarPhase, LunarPhaseKey> = {
   'waning crescent': 'waning_crescent',
   'waxing gibbous': 'waxing_gibbous',
   'waning gibbous': 'waning_gibbous'
-},
+}
 
 // Keep the first declaration as is
 export const REVERSE_LUNAR_PHASE_MAP: Record<LunarPhaseKey, LunarPhase> = {
@@ -232,7 +232,7 @@ export const REVERSE_LUNAR_PHASE_MAP: Record<LunarPhaseKey, LunarPhase> = {
   waning_crescent: 'waning crescent',
   waxing_gibbous: 'waxing gibbous',
   waning_gibbous: 'waning gibbous'
-},
+}
 
 // Rename the second declaration
 export const _FOOD_TO_ALCHEMY_LUNAR_PHASE_MAP: Record<
@@ -247,7 +247,7 @@ export const _FOOD_TO_ALCHEMY_LUNAR_PHASE_MAP: Record<
   'Waning Gibbous': 'waning gibbous',
   'Last Quarter': 'last quarter',
   'Waning Crescent': 'waning crescent'
-},
+}
 
 /**
  * Normalizes a lunar phase to the underscore format for use in object lookups
@@ -265,7 +265,7 @@ export const getLunarPhaseKey = (phase: string): LunarPhaseKey => {
 
   // Look up the underscore version or fall back to a manual conversion
   return LUNAR_PHASE_MAP[phase as LunarPhase] || (phase.replace(/\s+/g, '_') as LunarPhaseKey)
-},
+}
 
 /**
  * Converts a lunar phase to the space format for display
@@ -285,16 +285,16 @@ export const formatLunarPhase = (phase: string): LunarPhase => {
   return (
     REVERSE_LUNAR_PHASE_MAP[phase as LunarPhaseKey] || (phase.replace(/_/g, ' ') as LunarPhase)
   )
-},
+}
 
 // Helper functions for validation
 const _isValidUnderscorePhase = (phase: string): boolean => {;
   return Object.keys(REVERSE_LUNAR_PHASE_MAP).includes(phase)
-},
+}
 
 const isValidSpacePhase = (phase: string): boolean => {;
   return Object.keys(LUNAR_PHASE_MAP).includes(phase)
-},
+}
 
 /**
  * Format lunar phase for display (same as formatLunarPhase but with a more descriptive name)
@@ -338,50 +338,50 @@ export const LUNAR_PHASE_ELEMENTS: Record<LunarPhaseWithUnderscores, ElementalPr
     Water: 0.4,
     Earth: 0.2,
     Air: 0.3
-  },
+  }
   waxing_crescent: {
     Fire: 0.2,
     Water: 0.3,
     Earth: 0.2,
     Air: 0.3
-  },
+  }
   first_quarter: {
     Fire: 0.3,
     Water: 0.2,
     Earth: 0.2,
     Air: 0.3
-  },
+  }
   waxing_gibbous: {
     Fire: 0.4,
     Water: 0.2,
     Earth: 0.1,
     Air: 0.3
-  },
+  }
   full_moon: {
     Fire: 0.4,
     Water: 0.1,
     Earth: 0.1,
     Air: 0.4
-  },
+  }
   waning_gibbous: {
     Fire: 0.3,
     Water: 0.2,
     Earth: 0.2,
     Air: 0.3
-  },
+  }
   last_quarter: {
     Fire: 0.2,
     Water: 0.3,
     Earth: 0.3,
     Air: 0.2
-  },
+  }
   waning_crescent: {
     Fire: 0.1,
     Water: 0.4,
     Earth: 0.3,
     Air: 0.2
   }
-},
+}
 
 /**
  * Converts a lunar phase with spaces to one with underscores

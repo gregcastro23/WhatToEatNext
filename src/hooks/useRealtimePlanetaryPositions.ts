@@ -16,7 +16,7 @@ interface UseRealtimePlanetaryPositionsOptions {
   /** Auto-refresh interval in milliseconds (default: 5 minutes) */
   refreshInterval?: number
   /** Custom location for calculations */
-  location?: { latitude: number, longitude: number },
+  location?: { latitude: number, longitude: number }
   /** Whether to start fetching immediately */
   autoStart?: boolean,
   /** Zodiac system to use (tropical or sidereal) */
@@ -50,7 +50,7 @@ export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPosi
       const positions: { [key: string]: PlanetPosition } = (await planetaryPositionsService.getCurrent(
         location,
         zodiacSystem,
-      )) as unknown as { [key: string]: PlanetPosition },
+      )) as unknown as { [key: string]: PlanetPosition }
       const source = 'positions-service';
 
       setState({
@@ -96,13 +96,13 @@ export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPosi
     refresh: forceRefresh,
     isRealtime: state.source === 'astrologize-api-realtime',
     isConnected: state.source?.includes('astrologize-api') ?? false
-  },
+  }
 }
 
 // Hook for fetching positions for a specific date/time
 export function usePlanetaryPositionsForDate(
   date: Date,
-  location?: { latitude: number, longitude: number },
+  location?: { latitude: number, longitude: number }
   zodiacSystem: 'tropical' | 'sidereal' = 'tropical'
 ) {
   const [state, setState] = useState<PlanetaryPositionsState>({
@@ -122,7 +122,7 @@ export function usePlanetaryPositionsForDate(
         date,
         location,
         zodiacSystem,
-      )) as unknown as { [key: string]: PlanetPosition },
+      )) as unknown as { [key: string]: PlanetPosition }
       const source = 'positions-service-custom';
 
       setState({
@@ -150,5 +150,5 @@ export function usePlanetaryPositionsForDate(
     refresh: fetchPositions,
     isRealtime: false,
     isConnected: state.source?.includes('astrologize-api') ?? false
-  },
+  }
 }

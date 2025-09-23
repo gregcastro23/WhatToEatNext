@@ -88,7 +88,7 @@ export function measureExecutionTime<T>(
 
   return Promise.resolve(fn()).then(result => {
     const executionTime = performance.now() - startTime;
-    return { result, executionTime },
+    return { result, executionTime }
   })
 }
 
@@ -174,5 +174,5 @@ export function getTimeBasedContext(): {
     isOptimalTime,
     timeConfidence,
     recommendation
-  },
+  }
 }

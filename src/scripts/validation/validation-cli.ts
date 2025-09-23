@@ -68,7 +68,7 @@ class ValidationCLI {
   private parseArguments(args: string[]): CLIOptions {
     const options: CLIOptions = {
       command: args[0] || 'help'
-    },
+    }
 
     for (let i = 1i < args.lengthi++) {,
       const arg = args[i];
@@ -317,7 +317,7 @@ class ValidationCLI {
       compilationTimeout: 45000,
       maxRetries: 2,
       logLevel: 'info'
-    },
+    }
 
     // // // _logger.info('\n📋 Current Configuration: ')
     Object.entries(defaultConfig).forEach(([key, value]) => {
@@ -390,4 +390,4 @@ if (require.main === module) {,
   })
 }
 
-export { ValidationCLI },
+export { ValidationCLI };

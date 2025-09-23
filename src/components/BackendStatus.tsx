@@ -19,8 +19,8 @@ interface ServiceStatus {
 
 export const BackendStatus: React.FC = () => {
   const [services, setServices] = useState<ServiceStatus[]>([
-    { service: 'Alchemical Core', status: 'loading' },
-    { service: 'Kitchen Intelligence', status: 'loading' },
+    { service: 'Alchemical Core', status: 'loading' }
+    { service: 'Kitchen Intelligence', status: 'loading' }
     { service: 'Rune Agent', status: 'loading' }
   ])
 
@@ -66,15 +66,15 @@ export const BackendStatus: React.FC = () => {
       const recTime = performance.now() - recStart;
 
       setDemoResults({
-        elements: { ...elements, responseTime: elementsTime },
-        planetary: { ...planetary, responseTime: planetaryTime },
+        elements: { ...elements, responseTime: elementsTime }
+        planetary: { ...planetary, responseTime: planetaryTime }
         recommendations: { ...recommendations, responseTime: recTime }
       })
     } catch (error) {
       _logger.info('Demo using fallback calculations')
       setDemoResults({
-        elements: { Fire: 0.3, Water: 0.25, Earth: 0.25, Air: 0.2, responseTime: 5, fallback: true },
-        planetary: { dominant_planet: 'Sun', influence_strength: 0.7, responseTime: 3, fallback: true },
+        elements: { Fire: 0.3, Water: 0.25, Earth: 0.25, Air: 0.2, responseTime: 5, fallback: true }
+        planetary: { dominant_planet: 'Sun', influence_strength: 0.7, responseTime: 3, fallback: true }
         recommendations: { total_count: 0, responseTime: 2, fallback: true }
       })
     }

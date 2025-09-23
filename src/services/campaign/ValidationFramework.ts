@@ -114,12 +114,12 @@ export class ValidationFramework {
                 details: errorCount > 0 ? output.split('\n').slice(-10).join('\n') : undefined,
                 timestamp: new Date(),
                 executionTime
-              },
+              }
                
               // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
               const executionTime = Date.now() - startTime
-              const err = error as { stdout?: string, stderr?: string, message: string },
+              const err = error as { stdout?: string, stderr?: string, message: string }
               const errorOutput = err.stdout || err.stderr || err.message;
               const errorCount = (errorOutput.match(/error TS\d+/g) || []).length;
 
@@ -131,10 +131,10 @@ export class ValidationFramework {
                 details: errorOutput,
                 timestamp: new Date(),
                 executionTime
-              },
+              }
             }
           }
-        },
+        }
         {
           id: 'build-stability',
           name: 'Build Stability',
@@ -157,12 +157,12 @@ export class ValidationFramework {
                 message: 'Build completed successfully',
                 timestamp: new Date(),
                 executionTime
-              },
+              }
                
               // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
               const executionTime = Date.now() - startTime
-              const err = error as { stdout?: string, stderr?: string, message: string },
+              const err = error as { stdout?: string, stderr?: string, message: string }
               return {
                 success: false,
                 value: false,
@@ -171,10 +171,10 @@ export class ValidationFramework {
                 details: err.stdout || err.stderr || err.message,
                 timestamp: new Date(),
                 executionTime
-              },
+              }
             }
           }
-        },
+        }
         {
           id: 'critical-error-types',
           name: 'Critical Error Types Eliminated',
@@ -205,7 +205,7 @@ export class ValidationFramework {
                     : `${criticalErrors} critical errors remaining`,
                 timestamp: new Date(),
                 executionTime
-              },
+              }
                
               // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
@@ -218,7 +218,7 @@ export class ValidationFramework {
                 details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime
-              },
+              }
             }
           }
         }
@@ -259,12 +259,12 @@ export class ValidationFramework {
                 details: warningCount > 0 ? output.split('\n').slice(-15).join('\n') : undefined,
                 timestamp: new Date(),
                 executionTime
-              },
+              }
                
               // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
               const executionTime = Date.now() - startTime
-              const err = error as { stdout?: string, stderr?: string, message: string },
+              const err = error as { stdout?: string, stderr?: string, message: string }
               const errorOutput = err.stdout || err.stderr || err.message;
               const warningCount = (errorOutput.match(/warning/g) || []).length;
 
@@ -276,10 +276,10 @@ export class ValidationFramework {
                 details: errorOutput,
                 timestamp: new Date(),
                 executionTime
-              },
+              }
             }
           }
-        },
+        }
         {
           id: 'explicit-any-warnings',
           name: 'Explicit-Any Warnings Eliminated',
@@ -308,7 +308,7 @@ export class ValidationFramework {
                     : `${explicitAnyCount} explicit-any warnings remaining`,
                 timestamp: new Date(),
                 executionTime
-              },
+              }
                
               // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
@@ -321,10 +321,10 @@ export class ValidationFramework {
                 details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime
-              },
+              }
             }
           }
-        },
+        }
         {
           id: 'unused-variables-warnings',
           name: 'Unused Variables Warnings Eliminated',
@@ -352,7 +352,7 @@ export class ValidationFramework {
                     : `${unusedVarsCount} unused variables warnings remaining`,
                 timestamp: new Date(),
                 executionTime
-              },
+              }
                
               // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
@@ -365,10 +365,10 @@ export class ValidationFramework {
                 details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime
-              },
+              }
             }
           }
-        },
+        }
         {
           id: 'console-warnings',
           name: 'Console Statement Warnings Eliminated',
@@ -396,7 +396,7 @@ export class ValidationFramework {
                     : `${consoleCount} console warnings remaining`,
                 timestamp: new Date(),
                 executionTime
-              },
+              }
                
               // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
@@ -409,7 +409,7 @@ export class ValidationFramework {
                 details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime
-              },
+              }
             }
           }
         }
@@ -449,7 +449,7 @@ export class ValidationFramework {
                     : `Only ${systemCount} intelligence systems (target: 200+)`,
                 timestamp: new Date(),
                 executionTime
-              },
+              }
                
               // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
@@ -462,10 +462,10 @@ export class ValidationFramework {
                 details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime
-              },
+              }
             }
           }
-        },
+        }
         {
           id: 'unused-exports-eliminated',
           name: 'Unused Exports Eliminated',
@@ -481,7 +481,7 @@ export class ValidationFramework {
                 {
                   encoding: 'utf8',
                   timeout: 30000
-                },
+                }
               )
 
               const unusedExports = parseInt(output.trim()) || 0;
@@ -497,7 +497,7 @@ export class ValidationFramework {
                     : `${unusedExports} unused exports remaining`,
                 timestamp: new Date(),
                 executionTime
-              },
+              }
                
               // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
@@ -510,10 +510,10 @@ export class ValidationFramework {
                 details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime
-              },
+              }
             }
           }
-        },
+        }
         {
           id: 'build-stability-phase3',
           name: 'Build Stability After Transformation',
@@ -536,7 +536,7 @@ export class ValidationFramework {
                 message: 'Build stability maintained after transformation',
                 timestamp: new Date(),
                 executionTime
-              },
+              }
                
               // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
@@ -590,7 +590,7 @@ export class ValidationFramework {
                     : `Build took ${buildTime.toFixed(1)}s (exceeds 10s target)`,
                 timestamp: new Date(),
                 executionTime: Date.now() - startTime
-              },
+              }
                
               // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
@@ -609,7 +609,7 @@ export class ValidationFramework {
               }
             }
           }
-        },
+        }
         {
           id: 'test-suite-performance',
           name: 'Test Suite Performance',
@@ -632,7 +632,7 @@ export class ValidationFramework {
                 message: `Test suite completed in ${testTime.toFixed(1)}s`,
                 timestamp: new Date(),
                 executionTime: Date.now() - startTime
-              },
+              }
                
               // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
@@ -648,10 +648,10 @@ export class ValidationFramework {
                   (error as Error).message,
                 timestamp: new Date(),
                 executionTime: Date.now() - startTime
-              },
+              }
             }
           }
-        },
+        }
         {
           id: 'bundle-size-check',
           name: 'Bundle Size Optimization',
@@ -678,7 +678,7 @@ export class ValidationFramework {
                       : `Bundle size ${sizeKB.toFixed(1)}KB exceeds target`,
                   timestamp: new Date(),
                   executionTime
-                },
+                }
               } else {
                 return {
                   success: true,
@@ -703,7 +703,7 @@ export class ValidationFramework {
               }
             }
           }
-        },
+        }
         {
           id: 'memory-usage-check',
           name: 'Memory Usage Optimization',
@@ -727,7 +727,7 @@ export class ValidationFramework {
                     : `Memory usage ${heapUsedMB.toFixed(1)}MB exceeds target`,
                 timestamp: new Date(),
                 executionTime
-              },
+              }
                
               // Intentionally, any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
@@ -787,7 +787,7 @@ export class ValidationFramework {
           message: `Validation failed: ${error}`,
           timestamp: new Date(),
           executionTime: 0
-        },
+        }
         results.push({ criteriaId: criteria.id, result: failedResult })
         // // // _logger.info(`  ❌ ${criteria.name}: Validation error - ${error}`)
       }
@@ -811,7 +811,7 @@ export class ValidationFramework {
       executionTime,
       timestamp: new Date(),
       recommendations
-    },
+    }
 
     // Store in history
     this.validationHistory.push(validationResult)
@@ -843,7 +843,7 @@ export class ValidationFramework {
     try {
       execSync('yarn build', { stdio: 'pipe', timeout: 60000 })
     } catch (error: unknown) {
-      const err = error as { stdout?: string, stderr?: string, message: string },
+      const err = error as { stdout?: string, stderr?: string, message: string }
       failures.push({
         detected: true,
         severity: 'critical',
@@ -862,7 +862,7 @@ export class ValidationFramework {
     try {
       execSync('yarn test --run', { stdio: 'pipe', timeout: 60000 })
     } catch (error: unknown) {
-      const err = error as { stdout?: string, stderr?: string, message: string },
+      const err = error as { stdout?: string, stderr?: string, message: string }
       failures.push({
         detected: true,
         severity: 'high',

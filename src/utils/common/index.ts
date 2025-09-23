@@ -34,10 +34,10 @@ export class ThemeManager {
       return {
         mode: savedTheme as 'light' | 'dark' | 'system',
         accent: savedAccent
-      },
+      }
     } catch (error) {
       logger.error('Error getting theme:', error)
-      return { mode: 'light', accent: 'blue' },
+      return { mode: 'light', accent: 'blue' }
     }
   }
 }
@@ -80,7 +80,7 @@ export interface FeedbackData {
   description: string,
   userEmail?: string,
   priority?: 'low' | 'medium' | 'high'
-  metadata?: { [key: string]: unknown },
+  metadata?: { [key: string]: unknown }
 }
 
 /**
@@ -97,7 +97,7 @@ export async function collectFeedback(
       return {
         success: false,
         message: 'Missing required feedback, fields: title, description, and type are required'
-      },
+      }
     }
 
     // Log feedback for development purposes
@@ -114,13 +114,13 @@ export async function collectFeedback(
     return {
       success: true,
       message: 'Thank you for your feedback! We will review it shortly.'
-    },
+    }
   } catch (error) {
     logger.error('Error processing feedback', error)
     return {
       success: false,
       message: 'Failed to process feedback. Please try again later.'
-    },
+    }
   }
 }
 
@@ -130,12 +130,12 @@ export async function collectFeedback(
  */
 export function getFeedbackCategories(): { id: string, label: string }[] {
   return [
-    { id: 'bug', label: 'Report a Bug' },
-    { id: 'feature', label: 'Request a Feature' },
-    { id: 'improvement', label: 'Suggest Improvement' },
+    { id: 'bug', label: 'Report a Bug' }
+    { id: 'feature', label: 'Request a Feature' }
+    { id: 'improvement', label: 'Suggest Improvement' }
     { id: 'other', label: 'Other Feedback' }
   ],
 }
 
 // ===== EXPORTS =====,
-export { themeManager as default },
+export { themeManager as default };

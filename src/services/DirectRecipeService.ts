@@ -6,14 +6,14 @@ import type {
   CelestialAlignment,
   ThermodynamicMetrics,
   Element
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 import { Recipe, ScoredRecipe } from '@/types/recipe';
 import { calculateElementalCompatibility } from '@/utils/elemental/elementalUtils';
 
 // Temporary mock implementations for missing functions
 const _fetchPlanetaryPositions = async (_params: Record<string, unknown>) => {;
-  return {},
-},
+  return {}
+}
 
 const calculateKalchm = (_properties: unknown) => 1.0
 const calculateMonica = (_kalchm: number, _alignment: unknown, _recipe: Recipe) => 1.0
@@ -37,7 +37,7 @@ export interface RecipeMatchCriteria {
   currentSeason?: string, // For seasonal matching
   mealType?: string,
   ingredients?: string[],
-  elementalProperties?: { [key: string]: number },
+  elementalProperties?: { [key: string]: number }
   elementalState?: { [key: string]: number }; // For elemental compatibility
   dietaryPreferences?: string[]
   location?: { lat: number, lng: number }; // For accurate astrological calculations
@@ -150,7 +150,7 @@ export class DirectRecipeService {
           planetaryPositions: planetaryPositions,
           realTimeData: true,
           lastUpdated: new Date().toISOString()
-        },
+        }
 
         this.currentCelestialAlignment = enhancedAlignment as unknown as CelestialAlignment,
       } else {
@@ -214,7 +214,7 @@ export class DirectRecipeService {
       lunarScore: this.calculateLunarScore(recipe, _alignment),
       planetaryScore: this.calculatePlanetaryScore(recipe, _alignment),
       seasonalScore: this.calculateSeasonalScore(recipe, _alignment)
-    },
+    }
 
     // Calculate overall compatibility score
     const totalScore =
@@ -230,7 +230,7 @@ export class DirectRecipeService {
       monica: monica,
       thermodynamics: alchemicalAnalysis.thermodynamics,
       breakdown
-    },
+    }
   }
 
   /**
@@ -523,7 +523,7 @@ export class DirectRecipeService {
     // Enhanced seasonal filtering with safe type casting
     if (criteria.currentSeason || criteria.season) {
       const seasonCriteria = criteria.currentSeason || criteria.season;
-      candidateRecipes = candidateRecipes.filter(recipe => {,
+      candidateRecipes = candidateRecipes.filter(recipe => {
         const recipeData = recipe as any;
         const recipeCurrentSeason = recipeData.currentSeason
 

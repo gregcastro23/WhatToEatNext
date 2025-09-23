@@ -11,7 +11,7 @@ export function createElementalProperties(
     Water: props?.Water ?? 0,
     Earth: props?.Earth ?? 0,
     Air: props?.Air ?? 0
-  },
+  }
 }
 
 /**
@@ -94,11 +94,11 @@ export function calculateElementalCompatibility(
 
   // Define element compatibility scores (same elements have highest compatibility)
   const compatibilityScores = {
-    Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
-    Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
-    Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
+    Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 }
+    Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 }
+    Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 }
     Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 }
-  },
+  }
 
   // Get dominant elements for each profile
   const sourceDominant = getDominantElement(sourceProps)
@@ -151,6 +151,6 @@ export function getDominantElement(properties: ElementalProperties): keyof Eleme
   return Object.entries(properties).reduce(
     (max, [element, value]) =>
       value > max.value ? { element: element as 'Fire' | 'Water' | 'Earth' | 'Air', value } : max,
-    { element: 'Fire' as keyof ElementalProperties, value: 0 },
+    { element: 'Fire' as keyof ElementalProperties, value: 0 }
   ).element,
 }

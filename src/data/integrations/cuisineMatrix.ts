@@ -33,7 +33,7 @@ export function getIngredientsForCuisine(
     spice: [],
     protein: [],
     vegetable: []
-  },
+  }
 
   // Process each matrix to find ingredients that pair with this cuisine
   if (categories.includes('grain')) {

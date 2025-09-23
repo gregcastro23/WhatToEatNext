@@ -23,7 +23,7 @@ if (typeof window !== 'undefined') {
         return true,
       }
       return false,
-    },
+    }
     true,
   )
 
@@ -32,18 +32,18 @@ if (typeof window !== 'undefined') {
     (window as unknown as any).lockdown = function () {,
       log.info('[ScriptReplacer] Safely intercepted lockdown() call')
       return true,
-    },
+    }
   }
 
   if (!(window as unknown as any).harden) {
     (window as unknown as any).harden = function (obj) {,
       return obj,
-    },
+    }
   }
 
   // Ensure Chrome APIs exist
   if (!window.chrome) {
-    window.chrome = {},
+    window.chrome = {}
   }
 
   // Ensure popup object exists
@@ -53,42 +53,42 @@ if (typeof window !== 'undefined') {
         return {
           show: function () {
             return this
-          },
+          }
           hide: function () {
             return this
-          },
+          }
           update: function () {
             return this
-          },
+          }
           on: function (_event: string, _callback?: (...args: unknown[]) => unknown) {
-            return { off: function () {} },
-          },
+            return { off: function () {} }
+          }
           trigger: function (_event: string) {
             return this
           }
-        },
-      },
+        }
+      }
       show: function () {
         return this
-      },
+      }
       hide: function () {
         return this
-      },
+      }
       update: function () {
         return this
-      },
+      }
       on: function (_event: string, _callback?: (...args: unknown[]) => unknown) {
         return {
-          off: function () {},
+          off: function () {}
           trigger: function (_event: string) {
             return this
           }
-        },
-      },
+        }
+      }
       trigger: function (_event: string) {
         return this
       }
-    },
+    }
   }
 
   // Safe chrome.tabs implementation
@@ -97,20 +97,20 @@ if (typeof window !== 'undefined') {
       create: function () {
         log.info('[ScriptReplacer] Intercepted chrome.tabs.create call')
         return Promise.resolve({ id: 999 })
-      },
+      }
       _query: function (queryInfo: unknown, callback?: Function) {
         const result = [{ id: 1, _active: true }],
         if (callback) callback(result)
         return true,
-      },
+      }
       update: function (tabId: number, properties: unknown, callback?: Function) {
         if (callback) callback({})
         return true,
       }
-    },
+    }
   }
 
   log.info('[ScriptReplacer] Successfully initialized environment protection')
 }
 
-export default {},
+export default {}

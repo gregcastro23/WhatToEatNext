@@ -11,7 +11,7 @@ import { _logger } from '@/lib/logger';
 const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out _logger.info to avoid linting warnings
   // log.info(message, ...args)
-},
+}
 
 /**
  * A utility function for logging errors
@@ -20,7 +20,7 @@ const debugLog = (_message: string, ..._args: unknown[]): void => {
 const errorLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out _logger.error to avoid linting warnings
   // _logger.error(message, ...args)
-},
+}
 
 // Define interfaces for known modules
 interface AstrologyUtilsModule {
@@ -28,13 +28,13 @@ interface AstrologyUtilsModule {
   getLunarPhaseName: (phase: number) => string,
   getMoonIllumination: (date?: Date) => Promise<number>,
   calculateSunSign: (date?: Date) => string,
-  _calculateLunarNodes: (date?: Date) => { _northNode: number, isRetrograde: boolean },
-  getNodeInfo: (nodeLongitude: number) => { _sign: string; degree: number, isRetrograde: boolean },
+  _calculateLunarNodes: (date?: Date) => { _northNode: number, isRetrograde: boolean }
+  getNodeInfo: (nodeLongitude: number) => { _sign: string; degree: number, isRetrograde: boolean }
   getCurrentAstrologicalState: (date?: Date) => {
     zodiacSign: string,
     lunarPhase: string,
     planetaryPositions: Record<string, unknown>,
-  },
+  }
 }
 
 interface AccurateAstronomyModule {
@@ -51,7 +51,7 @@ interface SafeAstrologyModule {
     zodiacSign: string,
     lunarPhase: string,
     planetaryPositions: Record<string, unknown>,
-  },
+  }
 }
 
 interface MoonTimesModule {
@@ -59,7 +59,7 @@ interface MoonTimesModule {
     date: Date,
     latitude: number,
     longitude: number,
-  ) => { rise?: Date set?: Date },
+  ) => { rise?: Date set?: Date }
 }
 
 interface CuisineCalculationsModule {
@@ -80,7 +80,7 @@ interface SunTimesModule {
     _sunset: Date,
     _solarNoon: Date,
     _goldenHour: Date
-  },
+  }
 }
 
 interface SolarPositionsModule {
@@ -91,7 +91,7 @@ interface SolarPositionsModule {
   ) => {
     _azimuth: number,
     _altitude: number
-  },
+  }
 }
 
 // Module map for type-safe imports
@@ -111,7 +111,7 @@ const MODULE_MAP = {
   '@/calculations/alchemicalCalculations': () => import('@/calculations/alchemicalCalculations')
   '@/calculations/gregsEnergy': () => import('@/calculations/gregsEnergy')
   // astronomia removed from dependencies
-},
+}
 
 // Type for known module paths
 type KnownModulePath = keyof typeof MODULE_MAP,
@@ -253,7 +253,7 @@ export async function safeImportAndExecute<RA extends unknown[] = unknown[]>(
           _Water: 0.28,
           _Earth: 0.18,
           _Air: 0.22
-        },
+        }
       }
 
       if (!resultData.alchemicalCounts) {
@@ -262,7 +262,7 @@ export async function safeImportAndExecute<RA extends unknown[] = unknown[]>(
           _Essence: 0.28,
           _Matter: 0.21,
           _Substance: 0.22
-        },
+        }
       }
 
       return calculatedResults,

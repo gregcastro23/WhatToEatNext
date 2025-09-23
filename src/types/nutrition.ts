@@ -18,7 +18,7 @@ export interface NutritionalProfile {
     fiber?: number
     sugar?: number
     [key: string]: number | undefined
-  },
+  }
   protein?: number,
   carbs?: number,
   fat?: number,

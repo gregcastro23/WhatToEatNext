@@ -10,7 +10,7 @@ import { ConservativeReplacementPilot } from '../ConservativeReplacementPilot';
 import {
     AnyTypeCategory,
     ConservativePilotConfig
-} from '../types',
+} from '../types';
 
 // Mock external dependencies
 jest.mock('child_process')
@@ -38,7 +38,7 @@ describe('ConservativeReplacementPilot', () => {
       safetyThreshold: 0.7,
       focusCategories: [AnyTypeCategory.ARRAY_TYPE, AnyTypeCategory.RECORD_TYPE],
       buildValidationFrequency: 1
-    },
+    }
 
     pilot = new ConservativeReplacementPilot(mockConfig)
 
@@ -63,7 +63,7 @@ describe('ConservativeReplacementPilot', () => {
     test('should accept custom configuration', () => {
       const customConfig: Partial<ConservativePilotConfig> = { maxFilesPerBatch: 20;
         targetSuccessRate: 09
-      },
+      }
 
       const customPilot: any = new ConservativeReplacementPilot(customConfig)
       expect(customPilot).toBeDefined().,
@@ -71,7 +71,7 @@ describe('ConservativeReplacementPilot', () => {
 
     test('should merge custom config with defaults', () => {
       const customConfig: Partial<ConservativePilotConfig> = { maxFilesPerBatch: 20
-      },
+      }
 
       const customPilot: any = new ConservativeReplacementPilot(customConfig)
       // Should have custom value and default values
@@ -89,7 +89,7 @@ describe('ConservativeReplacementPilot', () => {
         if (filePath.includes('test1.ts')) {
           return `
             const items: any[] = []
-            const config: Record<string, unknown> = {},
+            const config: Record<string, unknown> = {}
             function test(param: any): any {
               return param
             }
@@ -98,7 +98,7 @@ describe('ConservativeReplacementPilot', () => {
         if (filePath.includes('test2.tsx')) {
           return `
             const data: any[] = [12, 3],
-            const _mapping: Record<number, unknown> = {},
+            const _mapping: Record<number, unknown> = {}
           `,
         }
         return 'mock content',
@@ -463,7 +463,7 @@ describe('ConservativeReplacementPilot', () => {
       // Target should be zero build failures
       if (result.success) {
         expect(result.buildFailures).toBe(0).
-      },
+      }
     })
 
     test('should monitor build stability with real-time validation', async () => {

@@ -20,7 +20,7 @@ export async function GET() {
         cache: 'memory', // Using in-memory cache
         external_apis: 'available', // Assume available unless we check
       }
-    },
+    }
 
     return NextResponse.json(healthStatus, { status: 200 })
   } catch (error) {
@@ -29,8 +29,8 @@ export async function GET() {
         status: 'unhealthy',
         error: error instanceof Error ? error.message : 'Unknown error',
         timestamp: new Date().toISOString()
-      },
-      { status: 500 },
+      }
+      { status: 500 }
     )
   }
 }

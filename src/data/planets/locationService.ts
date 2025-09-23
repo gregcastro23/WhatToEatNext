@@ -50,7 +50,7 @@ export interface RegionalCulinaryProfile {
     temperature: 'tropical' | 'temperate' | 'cold' | 'arctic',
     humidity: 'arid' | 'moderate' | 'humid',
     seasonality: 'none' | 'mild' | 'moderate' | 'extreme'
-  },
+  }
 }
 
 /**
@@ -65,18 +65,18 @@ export interface LocationCulinaryRecommendation {
     cookingMethods: string[],
     flavorProfiles: string[],
     nutritionalFocus: string[]
-  },
+  }
   localOptimalTiming: {
     solarCooking: string[],
     moonPhases: Record<string, string[]>,
     planetaryHours: Record<string, string[]>
-  },
+  }
   weatherConsiderations: {
     hotWeather: string[],
     coldWeather: string[],
     humidity: string[],
     pressure: string[]
-  },
+  }
 }
 
 /**
@@ -172,7 +172,7 @@ export class AstronomicalCalculations {
     const hourLength = dayLength / 12;
 
     const planets = ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'],
-    const planetaryHours: Record<string, { start: Date, end: Date, influence: string }> = {},
+    const planetaryHours: Record<string, { start: Date, end: Date, influence: string }> = {}
 
     // Start with day of week offset
     const dayOfWeek = date.getDay(); // 0 = Sunday;
@@ -204,7 +204,7 @@ export class AstronomicalCalculations {
       Mars: 'Spicy foods, meat preparation, aggressive cooking techniques',
       Jupiter: 'Abundant meals, expansion of recipes, foreign cuisines',
       Saturn: 'Traditional methods, slow cooking, structured meal planning'
-    },
+    }
 
     return influences[planet] || 'Balanced cooking approach',
   }
@@ -216,7 +216,7 @@ export class AstronomicalCalculations {
 export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile> = {
   Mediterranean: {
     region: 'Mediterranean Basin',
-    dominantElements: { Fire: 0.3, Earth: 0.4, Air: 0.2, Water: 0.1 },
+    dominantElements: { Fire: 0.3, Earth: 0.4, Air: 0.2, Water: 0.1 }
     traditionalCookingMethods: [
       'Grilling',
       'Roasting',
@@ -229,19 +229,19 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
       summer: ['Tomatoes', 'Eggplant', 'Zucchini', 'Fresh fish', 'Melons'],
       autumn: ['Grapes', 'Olives', 'Nuts', 'Mushrooms', 'Root vegetables'],
       winter: ['Citrus', 'Preserved foods', 'Legumes', 'Cabbage', 'Cured meats']
-    },
+    }
     culturalInfluences: ['Greek', 'Italian', 'Spanish', 'Turkish', 'Moroccan'],
-    planetaryAffinities: { Sun: 0.8, Venus: 0.7, Jupiter: 0.6, Mars: 0.5 },
+    planetaryAffinities: { Sun: 0.8, Venus: 0.7, Jupiter: 0.6, Mars: 0.5 }
     climateConsiderations: {
       temperature: 'temperate',
       humidity: 'moderate',
       seasonality: 'moderate'
     }
-  },
+  }
 
   Nordic: {
     region: 'Northern Europe',
-    dominantElements: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
+    dominantElements: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
     traditionalCookingMethods: [
       'Smoking',
       'Curing',
@@ -260,19 +260,19 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
         'Hearty grains',
         'Stored roots'
       ]
-    },
+    }
     culturalInfluences: ['Danish', 'Swedish', 'Norwegian', 'Finnish', 'Icelandic'],
-    planetaryAffinities: { Moon: 0.8, Saturn: 0.7, Neptune: 0.6, Mercury: 0.5 },
+    planetaryAffinities: { Moon: 0.8, Saturn: 0.7, Neptune: 0.6, Mercury: 0.5 }
     climateConsiderations: {
       temperature: 'cold',
       humidity: 'moderate',
       seasonality: 'extreme'
     }
-  },
+  }
 
   Tropical: {
     region: 'Tropical Regions',
-    dominantElements: { Fire: 0.3, Water: 0.3, Air: 0.3, Earth: 0.1 },
+    dominantElements: { Fire: 0.3, Water: 0.3, Air: 0.3, Earth: 0.1 }
     traditionalCookingMethods: [
       'Steaming',
       'Grilling over wood',
@@ -291,19 +291,19 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
       summer: ['Mangoes', 'Chilies', 'Lemongrass', 'Lime', 'Cooling herbs'],
       autumn: ['Rice harvest', 'Nuts', 'Dried spices', 'Preserved fish', 'Root vegetables'],
       winter: ['Citrus', 'Dried fruits', 'Fermented items', 'Preserved vegetables', 'Aged spices']
-    },
+    }
     culturalInfluences: ['Thai', 'Vietnamese', 'Indian', 'Caribbean', 'Pacific Islander'],
-    planetaryAffinities: { Sun: 0.9, Mars: 0.7, Venus: 0.6, Mercury: 0.8 },
+    planetaryAffinities: { Sun: 0.9, Mars: 0.7, Venus: 0.6, Mercury: 0.8 }
     climateConsiderations: {
       temperature: 'tropical',
       humidity: 'humid',
       seasonality: 'mild'
     }
-  },
+  }
 
   Continental: {
     region: 'Continental Interior',
-    dominantElements: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
+    dominantElements: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 }
     traditionalCookingMethods: [
       'Roasting',
       'Stewing',
@@ -322,19 +322,19 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
         'Dairy products',
         'Hearty stews'
       ]
-    },
+    }
     culturalInfluences: ['German', 'Polish', 'Russian', 'Hungarian', 'Czech'],
-    planetaryAffinities: { Saturn: 0.8, Jupiter: 0.7, Earth: 0.6, Mars: 0.5 },
+    planetaryAffinities: { Saturn: 0.8, Jupiter: 0.7, Earth: 0.6, Mars: 0.5 }
     climateConsiderations: {
       temperature: 'temperate',
       humidity: 'moderate',
       seasonality: 'extreme'
     }
-  },
+  }
 
   Desert: {
     region: 'Arid and Semi-Arid',
-    dominantElements: { Fire: 0.4, Earth: 0.3, Air: 0.3, Water: 0.0 },
+    dominantElements: { Fire: 0.4, Earth: 0.3, Air: 0.3, Water: 0.0 }
     traditionalCookingMethods: [
       'Clay pot cooking',
       'Solar cooking',
@@ -365,7 +365,7 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
         'Spice blends',
         'Warming foods'
       ]
-    },
+    }
     culturalInfluences: [
       'Middle Eastern',
       'North African',
@@ -373,14 +373,14 @@ export const REGIONAL_CULINARY_PROFILES: Record<string, RegionalCulinaryProfile>
       'Australian Aboriginal',
       'Bedouin'
     ],
-    planetaryAffinities: { Sun: 0.9, Mars: 0.8, Saturn: 0.6, Mercury: 0.5 },
+    planetaryAffinities: { Sun: 0.9, Mars: 0.8, Saturn: 0.6, Mercury: 0.5 }
     climateConsiderations: {
       temperature: 'tropical',
       humidity: 'arid',
       seasonality: 'mild'
     }
   }
-},
+}
 
 /**
  * Enhanced Location Service Class
@@ -409,11 +409,11 @@ export class PlanetaryLocationService {
     // Calculate optimal timing for different cooking activities
     const localOptimalTiming = {
       solarCooking: this.getSolarCookingTimes(coordinates, date),
-      moonPhases: { [lunarPhase.phase]: [lunarPhase.culinaryEffect] },
+      moonPhases: { [lunarPhase.phase]: [lunarPhase.culinaryEffect] }
       planetaryHours: Object.fromEntries(
         Object.entries(planetaryHours).map(([key, value]) => [key, [value.influence]]),
       )
-    },
+    }
 
     // Weather-based considerations
     const weatherConsiderations = this.getWeatherConsiderations(regionalProfile)
@@ -425,7 +425,7 @@ export class PlanetaryLocationService {
       seasonalRecommendations,
       localOptimalTiming,
       weatherConsiderations
-    },
+    }
   }
 
   /**
@@ -651,7 +651,7 @@ export class PlanetaryLocationService {
         season,
         regionalProfile.climateConsiderations
       )
-    },
+    }
   }
 
   private static getSolarCookingTimes(coordinates: GeographicCoordinates, date: Date): string[] {
@@ -693,7 +693,7 @@ export class PlanetaryLocationService {
         'Adjust rising times',
         'Consider altitude cooking modifications'
       ]
-    },
+    }
   }
 
   private static getMethodsForClimate(
@@ -743,7 +743,7 @@ export class PlanetaryLocationService {
       summer: ['Hydration', 'Cooling foods', 'Fresh minerals'],
       autumn: ['Building reserves', 'Immune support', 'Grounding foods'],
       winter: ['Warming foods', 'Dense nutrition', 'Stored energy']
-    },
+    }
 
     const climateModifications =
       climate.temperature === 'tropical',

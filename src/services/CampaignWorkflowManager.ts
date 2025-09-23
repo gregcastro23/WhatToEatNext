@@ -16,14 +16,14 @@ import {
   DryRunResult,
   SafetySettings,
   ToolConfiguration
-} from '../types/campaign',
+} from '../types/campaign';
 
 import { CampaignController } from './campaign/CampaignController';
 import { ProgressTracker } from './campaign/ProgressTracker';
 import { TypeScriptErrorAnalyzer } from './campaign/TypeScriptErrorAnalyzer';
 
 // Re-export required types for external components
-export type { ValidationResult, DryRunResult } from '../types/campaign',
+export type { ValidationResult, DryRunResult } from '../types/campaign';
 
 // ========== WORKFLOW TYPES ==========,
 
@@ -50,7 +50,7 @@ export interface CampaignPhaseTemplate {
     lintingWarnings?: number,
     buildTime?: number
     customValidation?: string // Function name or description
-  },
+  }
   estimatedDuration: number // minutes
   riskLevel: 'low' | 'medium' | 'high'
 }
@@ -178,7 +178,7 @@ export class CampaignWorkflowManager {
       dryRunResults: [],
       createdAt: new Date(),
       updatedAt: new Date()
-    },
+    }
 
     this.workflows.set(workflowId, workflow)
     return workflowId,
@@ -196,12 +196,12 @@ export class CampaignWorkflowManager {
       steps: this.createDefaultWorkflowSteps(),
       currentStep: 0,
       status: 'draft',
-      config: {},
+      config: {}
       validationResults: [],
       dryRunResults: [],
       createdAt: new Date(),
       updatedAt: new Date()
-    },
+    }
 
     this.workflows.set(workflowId, workflow)
     return workflowId,
@@ -233,7 +233,7 @@ export class CampaignWorkflowManager {
     const workflow = this.workflows.get(workflowId)
     if (!workflow) return false
 
-    workflow.config = { ...workflow.config, ...configUpdates },
+    workflow.config = { ...workflow.config, ...configUpdates }
     workflow.updatedAt = new Date()
 
     // Validate the updated configuration
@@ -308,7 +308,7 @@ export class CampaignWorkflowManager {
         success: false,
         errors: ['Workflow not found'],
         warnings: []
-      },
+      }
     }
 
     const errors: string[] = [];
@@ -347,7 +347,7 @@ export class CampaignWorkflowManager {
       success: errors.length === 0,
       errors,
       warnings
-    },
+    }
   }
 
   /**
@@ -361,7 +361,7 @@ export class CampaignWorkflowManager {
         estimatedChanges: 0,
         potentialIssues: ['Invalid workflow configuration'],
         safetyScore: 0
-      },
+      }
     }
 
     const wouldProcess: string[] = [];
@@ -386,7 +386,7 @@ export class CampaignWorkflowManager {
       estimatedChanges,
       potentialIssues,
       safetyScore
-    },
+    }
 
     // Store dry run results
     workflow.dryRunResults.push(dryRunResult)
@@ -419,7 +419,7 @@ export class CampaignWorkflowManager {
       description,
       status: 'draft',
       parentVersion: versions.length > 0 ? versions[versions.length - 1].version : undefined
-    },
+    }
 
     versions.push(version)
     this.versions.set(campaignId, versions)
@@ -450,28 +450,28 @@ export class CampaignWorkflowManager {
         id: 'backup_current',
         description: 'Create backup of current state',
         action: 'restore_files',
-        parameters: { createBackup: true },
+        parameters: { createBackup: true }
         estimatedDuration: 2
-      },
+      }
       {
         id: 'revert_config',
         description: `Revert configuration to ${targetVersion}`,
         action: 'revert_config',
-        parameters: { targetVersion },
+        parameters: { targetVersion }
         estimatedDuration: 1
-      },
+      }
       {
         id: 'rebuild_project',
         description: 'Rebuild project with reverted configuration',
         action: 'rebuild',
-        parameters: {},
+        parameters: {}
         estimatedDuration: 5
-      },
+      }
       {
         id: 'validate_rollback',
         description: 'Validate rollback success',
         action: 'validate',
-        parameters: { runTests: true },
+        parameters: { runTests: true }
         estimatedDuration: 3
       }
     ],
@@ -485,7 +485,7 @@ export class CampaignWorkflowManager {
       estimatedDuration: totalDuration,
       riskAssessment: 'Low risk - configuration rollback with validation',
       approvalRequired: true
-    },
+    }
   }
 
   /**
@@ -567,27 +567,27 @@ export class CampaignWorkflowManager {
                   description: 'Maximum files to process',
                   defaultValue: 15,
                   required: true
-                },
+                }
                 autoFix: {
                   type: 'boolean',
                   description: 'Enable automatic fixes',
                   defaultValue: true,
                   required: false
-                },
+                }
                 validateSafety: {
                   type: 'boolean',
                   description: 'Enable safety validation',
                   defaultValue: true,
                   required: false
                 }
-              },
+              }
               batchSize: 15,
               safetyLevel: 'MAXIMUM'
             }
           ],
           successCriteria: {
             typeScriptErrors: 0
-          },
+          }
           estimatedDuration: 30,
           riskLevel: 'medium'
         }
@@ -599,7 +599,7 @@ export class CampaignWorkflowManager {
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
         stashRetentionDays: 7
-      },
+      }
       prerequisites: ['TypeScript project', 'Git repository'],
       expectedOutcomes: [
         'Zero TypeScript compilation errors',
@@ -632,21 +632,21 @@ export class CampaignWorkflowManager {
                   description: 'Maximum files to process',
                   defaultValue: 25,
                   required: true
-                },
+                }
                 continueFrom: {
                   type: 'string',
                   description: 'Continue from percentage',
                   defaultValue: '0%',
                   required: false
                 }
-              },
+              }
               batchSize: 25,
               safetyLevel: 'HIGH'
             }
           ],
           successCriteria: {
             lintingWarnings: 0
-          },
+          }
           estimatedDuration: 20,
           riskLevel: 'low'
         }
@@ -658,7 +658,7 @@ export class CampaignWorkflowManager {
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
         stashRetentionDays: 7
-      },
+      }
       prerequisites: ['ESLint configuration', 'TypeScript project'],
       expectedOutcomes: [
         'Zero linting warnings',
@@ -692,15 +692,15 @@ export class CampaignWorkflowManager {
                   defaultValue: 15,
                   required: true
                 }
-              },
+              }
               batchSize: 15,
               safetyLevel: 'MAXIMUM'
             }
           ],
-          successCriteria: { typeScriptErrors: 0 },
+          successCriteria: { typeScriptErrors: 0 }
           estimatedDuration: 30,
           riskLevel: 'medium'
-        },
+        }
         {
           id: 'linting-cleanup',
           name: 'Linting Excellence',
@@ -717,15 +717,15 @@ export class CampaignWorkflowManager {
                   defaultValue: 25,
                   required: true
                 }
-              },
+              }
               batchSize: 25,
               safetyLevel: 'HIGH'
             }
           ],
-          successCriteria: { lintingWarnings: 0 },
+          successCriteria: { lintingWarnings: 0 }
           estimatedDuration: 20,
           riskLevel: 'low'
-        },
+        }
         {
           id: 'performance-optimization',
           name: 'Performance Optimization',
@@ -742,12 +742,12 @@ export class CampaignWorkflowManager {
                   defaultValue: true,
                   required: false
                 }
-              },
+              }
               batchSize: 10,
               safetyLevel: 'MEDIUM'
             }
           ],
-          successCriteria: { buildTime: 10 },
+          successCriteria: { buildTime: 10 }
           estimatedDuration: 40,
           riskLevel: 'medium'
         }
@@ -759,7 +759,7 @@ export class CampaignWorkflowManager {
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
         stashRetentionDays: 14
-      },
+      }
       prerequisites: ['TypeScript project', 'ESLint configuration', 'Build system'],
       expectedOutcomes: [
         'Zero TypeScript errors',
@@ -779,7 +779,7 @@ export class CampaignWorkflowManager {
         type: 'template_selection',
         status: 'completed',
         data: { templateId: template.id }
-      },
+      }
       {
         id: 'configuration',
         name: 'Configuration',
@@ -794,28 +794,28 @@ export class CampaignWorkflowManager {
             severity: 'error'
           }
         ]
-      },
+      }
       {
         id: 'validation',
         name: 'Validation',
         description: 'Validate campaign configuration',
         type: 'validation',
         status: 'pending'
-      },
+      }
       {
         id: 'dry_run',
         name: 'Dry Run',
         description: 'Test campaign execution without making changes',
         type: 'dry_run',
         status: 'pending'
-      },
+      }
       {
         id: 'approval',
         name: 'Approval',
         description: 'Review and approve campaign for execution',
         type: 'approval',
         status: 'pending'
-      },
+      }
       {
         id: 'execution',
         name: 'Execution',
@@ -834,28 +834,28 @@ export class CampaignWorkflowManager {
         description: 'Configure campaign from scratch',
         type: 'configuration',
         status: 'in_progress'
-      },
+      }
       {
         id: 'validation',
         name: 'Validation',
         description: 'Validate campaign configuration',
         type: 'validation',
         status: 'pending'
-      },
+      }
       {
         id: 'dry_run',
         name: 'Dry Run',
         description: 'Test campaign execution',
         type: 'dry_run',
         status: 'pending'
-      },
+      }
       {
         id: 'approval',
         name: 'Approval',
         description: 'Review and approve campaign',
         type: 'approval',
         status: 'pending'
-      },
+      }
       {
         id: 'execution',
         name: 'Execution',
@@ -897,14 +897,14 @@ export class CampaignWorkflowManager {
         lintingWarnings: 0,
         buildTime: 10,
         enterpriseSystems: 200
-      },
+      }
       toolConfiguration: {
         enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
-    },
+    }
   }
 
   private async analyzeToolImpact(tool: Record<string, unknown>): Promise<{
@@ -919,7 +919,7 @@ export class CampaignWorkflowManager {
       changes: 10,
       issues: [],
       safetyScore: 0.9
-    },
+    }
   }
 
   private async restoreFiles(parameters: Record<string, unknown>): Promise<void> {
@@ -952,20 +952,20 @@ export class CampaignWorkflowManager {
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
         stashRetentionDays: 7
-      },
+      }
       progressTargets: {
         typeScriptErrors: 0,
         lintingWarnings: 0,
         buildTime: 10,
         enterpriseSystems: 200
-      },
+      }
       toolConfiguration: {
         enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
-    },
+    }
   }
 }
 

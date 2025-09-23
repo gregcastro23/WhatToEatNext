@@ -31,7 +31,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
       Water: 0.2,
       Earth: 0.3,
       Air: 0.2
-    },
+    }
     // Enhanced Recipe interface compatibility
     ingredients: [],
     instructions: [],
@@ -46,7 +46,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
     type: 'fusion',
     region: 'global',
     characteristics: ['spicy', 'aromatic'],
-  },
+  }
 
   beforeEach(() => {
     service = new EnterpriseIntelligenceIntegration({
@@ -74,7 +74,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
           }
         }
       ],
-    },
+    }
 
     const mockAstrologicalContext: any = {
       zodiacSign: 'aries' as any,
@@ -85,12 +85,12 @@ describe('EnterpriseIntelligenceIntegration', () => {
         Earth: 0.2,
         Air: 0.2
       } as ElementalProperties,
-      planetaryPositions: {},
+      planetaryPositions: {}
       userPreferences: { dietaryRestrictions: [],
         flavorPreferences: [],
         culturalPreferences: []
-      },
-    },
+      }
+    }
 
     it('should perform comprehensive enterprise analysis', async () => {
       const result: any = await service.performEnterpriseAnalysis(
@@ -237,7 +237,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
           zodiacSign: 'aries' as any,
           lunarPhase: 'new moon',
           season: 'all',
-          elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+          elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
           userPreferences: { dietaryRestrictions: [],
             flavorPreferences: [],
             culturalPreferences: []
@@ -287,7 +287,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
           zodiacSign: 'aries' as any,
           lunarPhase: 'new moon',
           season: 'all',
-          elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+          elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
           userPreferences: { dietaryRestrictions: [],
             flavorPreferences: [],
             culturalPreferences: []

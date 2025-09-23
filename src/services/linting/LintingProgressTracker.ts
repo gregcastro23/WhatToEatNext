@@ -26,7 +26,7 @@ export interface LintingMetrics {
     executionTime: number,
     memoryUsage: number,
     cacheHitRate: number
-  },
+  }
 }
 
 /**
@@ -40,17 +40,17 @@ export interface LintingProgressReport {
     errorsReduced: number,
     warningsReduced: number,
     percentageImprovement: number
-  },
+  }
   trends: {
     last24Hours: number,
     last7Days: number,
     last30Days: number
-  },
+  }
   qualityGates: {
     zeroErrors: boolean,
     warningsUnderThreshold: boolean,
     performanceAcceptable: boolean
-  },
+  }
 }
 
 /**
@@ -100,7 +100,7 @@ export class LintingProgressTracker {
           memoryUsage: this.getMemoryUsage(),
           cacheHitRate: this.calculateCacheHitRate()
         }
-      },
+      }
 
       // Save metrics
       this.saveMetrics(fullMetrics)
@@ -131,7 +131,7 @@ export class LintingProgressTracker {
         improvement,
         trends,
         qualityGates
-      },
+      }
 
       logger.info('Linting progress report generated')
       return report,
@@ -156,7 +156,7 @@ export class LintingProgressTracker {
         qualityScore: this.calculateQualityScore(report.currentMetrics),
         riskAssessment: this.assessRisk(report),
         recommendations: this.generateRecommendations(report)
-      },
+      }
 
       // Save campaign integration data
       this.saveCampaignIntegration(campaignProgress)
@@ -192,7 +192,7 @@ export class LintingProgressTracker {
         errorGate: metrics.errors <= thresholds.maxErrors,
         warningGate: metrics.warnings <= thresholds.maxWarnings,
         performanceGate: metrics.performanceMetrics.executionTime <= thresholds.maxExecutionTime
-      },
+      }
 
       const allGatesPassed = Object.values(gates).every(gate => gate)
 
@@ -250,8 +250,8 @@ export class LintingProgressTracker {
       let errors = 0,
       let warnings = 0,
       let fixableIssues = 0,
-      const errorsByCategory: Record<string, number> = {},
-      const warningsByCategory: Record<string, number> = {},
+      const errorsByCategory: Record<string, number> = {}
+      const warningsByCategory: Record<string, number> = {}
       const filesCovered = results.length;
 
       results.forEach(
@@ -280,7 +280,7 @@ export class LintingProgressTracker {
               fixableIssues++
             }
           })
-        },
+        }
       )
 
       return {
@@ -291,7 +291,7 @@ export class LintingProgressTracker {
         warningsByCategory,
         filesCovered,
         fixableIssues
-      },
+      }
     } catch (error) {
       logger.error('Error parsing linting output:', error)
       throw error
@@ -308,7 +308,7 @@ export class LintingProgressTracker {
         errorsReduced: 0,
         warningsReduced: 0,
         percentageImprovement: 0
-      },
+      }
     }
 
     const totalIssuesReduced = previous.totalIssues - current.totalIssues;
@@ -322,7 +322,7 @@ export class LintingProgressTracker {
       errorsReduced,
       warningsReduced,
       percentageImprovement
-    },
+    }
   }
 
   /**
@@ -337,7 +337,7 @@ export class LintingProgressTracker {
     const last7Days = this.calculateTrendForPeriod(history, sevenDaysAgo)
     const last30Days = this.calculateTrendForPeriod(history, thirtyDaysAgo),
 
-    return { last24Hours, last7Days, last30Days },
+    return { last24Hours, last7Days, last30Days }
   }
 
   /**
@@ -361,7 +361,7 @@ export class LintingProgressTracker {
       zeroErrors: metrics.errors === 0,,
       warningsUnderThreshold: metrics.warnings < 1000, // Configurable threshold,
       performanceAcceptable: metrics.performanceMetrics.executionTime < 60000, // 1 minute
-    },
+    }
   }
 
   /**

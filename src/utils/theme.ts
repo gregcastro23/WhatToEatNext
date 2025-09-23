@@ -31,14 +31,14 @@ export class ThemeManager {
       return {
         mode: savedTheme as 'light' | 'dark' | 'system',
         accent: savedAccent
-      },
+      }
     } catch (error) {
       logger.error('Error getting theme:', error)
-      return { mode: 'light', accent: 'blue' },
+      return { mode: 'light', accent: 'blue' }
     }
   }
 }
 
 export const themeManager = new ThemeManager()
 
-export { themeManager as default },
+export { themeManager as default };

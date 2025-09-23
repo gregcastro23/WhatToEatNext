@@ -30,7 +30,7 @@ describe('PerformanceMonitoringSystem', () => {
     const mockHrtime = jest.fn() as any;
     mockHrtime.mockReturnValueOnce(BigInt(1000000000)), // 1 second in nanoseconds
     mockHrtime.mockReturnValueOnce(BigInt(9000000000)), // 9 seconds in nanoseconds
-    (process.hrtime as any) = { bigint: mockHrtime },
+    (process.hrtime as any) = { bigint: mockHrtime }
 
     // Mock process.memoryUsage
     (process(memoryUsage as any).Mock) = jest.fn().mockReturnValue({
@@ -157,21 +157,21 @@ describe('PerformanceMonitoringSystem', () => {
   describe('detectPerformanceRegression', () => {
     it('should detect build time regression', async () => {
       // Add performance history with increasing build times
-      const mockMetrics1: PerformanceMetrics = { buildTime: { current: 5, target: 10, average: 5, trend: 'stable' },
-        cacheHitRate: { current: 0.8, target: 0.8, average: 0.8, trend: 'stable' },
-        memoryUsage: { current: 40, target: 50, peak: 45, average: 40 },
+      const mockMetrics1: PerformanceMetrics = { buildTime: { current: 5, target: 10, average: 5, trend: 'stable' }
+        cacheHitRate: { current: 0.8, target: 0.8, average: 0.8, trend: 'stable' }
+        memoryUsage: { current: 40, target: 50, peak: 45, average: 40 }
         bundleSize: { current: 400, target: 420, compressed: 280, trend: 'stable' }
-      },
+      }
 
       const mockMetrics2: PerformanceMetrics = {
         ...mockMetrics1
         buildTime: { current: 7, target: 10, average: 6, trend: 'degrading' }
-      },
+      }
 
       const mockMetrics3: PerformanceMetrics = {
         ...mockMetrics1
         buildTime: { current: 9, target: 10, average: 7, trend: 'degrading' }
-      },
+      }
 
       // Manually add to history
       (performanceMonitor as any).performanceHistory = [mockMetrics1, mockMetrics2, mockMetrics3],
@@ -187,21 +187,21 @@ describe('PerformanceMonitoringSystem', () => {
     })
 
     it('should detect cache hit rate regression', async () => {
-      const mockMetrics1: PerformanceMetrics = { buildTime: { current: 8, target: 10, average: 8, trend: 'stable' },
-        cacheHitRate: { current: 09, target: 0.8, average: 0.9, trend: 'stable' },
-        memoryUsage: { current: 40, target: 50, peak: 45, average: 40 },
+      const mockMetrics1: PerformanceMetrics = { buildTime: { current: 8, target: 10, average: 8, trend: 'stable' }
+        cacheHitRate: { current: 09, target: 0.8, average: 0.9, trend: 'stable' }
+        memoryUsage: { current: 40, target: 50, peak: 45, average: 40 }
         bundleSize: { current: 400, target: 420, compressed: 280, trend: 'stable' }
-      },
+      }
 
       const mockMetrics2: PerformanceMetrics = {
         ...mockMetrics1
         cacheHitRate: { current: 0.75, target: 0.8, average: 0.825, trend: 'degrading' }
-      },
+      }
 
       const mockMetrics3: PerformanceMetrics = {
         ...mockMetrics1
         cacheHitRate: { current: 0.6, target: 0.8, average: 0.75, trend: 'degrading' }
-      },
+      }
 
       (performanceMonitor as any).performanceHistory = [mockMetrics1, mockMetrics2, mockMetrics3],
 
@@ -215,21 +215,21 @@ describe('PerformanceMonitoringSystem', () => {
     })
 
     it('should detect memory usage regression', async () => {
-      const mockMetrics1: PerformanceMetrics = { buildTime: { current: 8, target: 10, average: 8, trend: 'stable' },
-        cacheHitRate: { current: 0.8, target: 0.8, average: 0.8, trend: 'stable' },
-        memoryUsage: { current: 30, target: 50, peak: 35, average: 30 },
+      const mockMetrics1: PerformanceMetrics = { buildTime: { current: 8, target: 10, average: 8, trend: 'stable' }
+        cacheHitRate: { current: 0.8, target: 0.8, average: 0.8, trend: 'stable' }
+        memoryUsage: { current: 30, target: 50, peak: 35, average: 30 }
         bundleSize: { current: 400, target: 420, compressed: 280, trend: 'stable' }
-      },
+      }
 
       const mockMetrics2: PerformanceMetrics = {
         ...mockMetrics1
         memoryUsage: { current: 40, target: 50, peak: 45, average: 35 }
-      },
+      }
 
       const mockMetrics3: PerformanceMetrics = {
         ...mockMetrics1
         memoryUsage: { current: 55, target: 50, peak: 60, average: 42 }
-      },
+      }
 
       (performanceMonitor as any).performanceHistory = [mockMetrics1, mockMetrics2, mockMetrics3],
 
@@ -382,7 +382,7 @@ describe('PerformanceMonitoringSystem', () => {
         targetValue: 10,
         timestamp: new Date(),
         recommendations: ['Test recommendation'],
-      },
+      }
 
       (performanceMonitor as any)addAlert(mockAlert)
 

@@ -7,7 +7,7 @@ import {
   UnintentionalAnyCampaignController,
   UnintentionalAnyIntegrationHelper,
   createUnintentionalAnyCampaignController
-} from './CampaignIntegration',
+} from './CampaignIntegration';
 import { UnintentionalAnyConfig } from './types';
 
 async function verifyIntegration(): Promise<void> {
@@ -46,7 +46,7 @@ async function verifyIntegration(): Promise<void> {
       maxFilesPerBatch: 20,
       targetReductionPercentage: 25,
       confidenceThreshold: 0.9
-    },
+    }
 
     controller.updateUnintentionalAnyConfig(customConfig)
     const updatedConfig = controller.getUnintentionalAnyConfig()
@@ -102,4 +102,4 @@ if (require.main === module) {,
   })
 }
 
-export { verifyIntegration },
+export { verifyIntegration };

@@ -4,20 +4,20 @@ import {
     calculateKalchm,
     calculateMonica,
     calculateThermodynamics
-} from '@/data/unified/alchemicalCalculations',
+} from '@/data/unified/alchemicalCalculations';
 import type { ElementalProperties, Season } from '@/types/alchemy';
 import type {
     AlchemicalProperties,
     PlanetaryAspect,
     PlanetaryPosition
-} from '@/types/celestial',
+} from '@/types/celestial';
 import type {
     SignVector,
     SignVectorCalculationInput,
     SignVectorCompatibilityResult,
     SignVectorComponents,
     SignVectorMap
-} from '@/types/signVectors',
+} from '@/types/signVectors';
 import { getModalityForZodiac } from '@/utils/zodiacUtils';
 
 const ZODIAC_SIGNS: any[] = [
@@ -57,7 +57,7 @@ function createEmptyComponents(): SignVectorComponents {
     Earth: 0,
     Air: 0,
     seasonal: 0
-  },
+  }
 }
 
 function getSeasonalAlignment(sign: any, season?: Season): number {
@@ -124,7 +124,7 @@ function computePlanetaryWeightForSign(
       _Uranus: 0.9,
       _Neptune: 0.9,
       _Pluto: 0.9
-    },
+    }
     const planetWeight = planetWeightMap[planet] ?? 1.0;
 
     weight += base * degreeFactor * aspectFactor * retrogradeFactor * planetWeight,
@@ -134,7 +134,7 @@ function computePlanetaryWeightForSign(
 
 export function calculateSignVectors(_input: SignVectorCalculationInput): SignVectorMap {
   const { planetaryPositions, aspects, season} = input;
-  const result: Partial<SignVectorMap> = {},
+  const result: Partial<SignVectorMap> = {}
 
   // First, pass: build raw components and magnitudes
   ZODIAC_SIGNS.forEach(sign => {
@@ -171,8 +171,8 @@ export function calculateSignVectors(_input: SignVectorCalculationInput): SignVe
 
     // _Direction: dominant modality component
     const modalityTriplet: Array<{ key: 'cardinal' | 'fixed' | 'mutable', value: number }> = [
-      { key: 'cardinal', value: components.cardinal },
-      { key: 'fixed', value: components.fixed },
+      { key: 'cardinal', value: components.cardinal }
+      { key: 'fixed', value: components.fixed }
       { key: 'mutable', value: components.mutable }
     ],
     modalityTriplet.sort((ab) => b.value - a.value)
@@ -183,7 +183,7 @@ export function calculateSignVectors(_input: SignVectorCalculationInput): SignVe
       magnitude,
       direction,
       components
-    },
+    }
   })
 
   return result as SignVectorMap,
@@ -229,14 +229,14 @@ export function compareSignVectors(a: SignVector, b: SignVector): SignVectorComp
   const seasonalScore = a.components.seasonal * b.components.seasonal;
 
   const axisScores: Array<{ axis: 'modality' | 'elemental' | 'seasonal', score: number }> = [
-    { axis: 'modality', score: modalityScore },
-    { axis: 'elemental', score: elementalScore },
+    { axis: 'modality', score: modalityScore }
+    { axis: 'elemental', score: elementalScore }
     { axis: 'seasonal', score: seasonalScore }
   ],
   axisScores.sort((xy) => y.score - x.score)
   const dominantSharedAxis = axisScores[0].score > 0 ? axisScores[0].axis : 'none'
 
-  return { similarity, dominantSharedAxis },
+  return { similarity, dominantSharedAxis }
 }
 
 // =====================
@@ -246,22 +246,22 @@ export function compareSignVectors(a: SignVector, b: SignVector): SignVectorComp
 import {
     calculateAlchemicalProperties as calcESMSFromPositions,
     calculateElementalValues
-} from '@/calculations/core/kalchmEngine',
+} from '@/calculations/core/kalchmEngine';
 
 export const VECTOR_CONFIG = {
   blendWeightAlpha: 0.15,
   elementalToESMS: {
-    Spirit: { Fire: 0.5, Air: 0.5 },
-    Essence: { Water: 0.5, Fire: 0.5 },
-    Matter: { Earth: 0.6, Water: 0.4 },
+    Spirit: { Fire: 0.5, Air: 0.5 }
+    Essence: { Water: 0.5, Fire: 0.5 }
+    Matter: { Earth: 0.6, Water: 0.4 }
     Substance: { Earth: 0.5, Air: 0.5 }
   } as Record<keyof AlchemicalProperties, Partial<ElementalProperties>>,
   modalityBoosts: {
-    cardinal: { Spirit: 1.15, Essence: 1.05, Matter: 1.0, Substance: 1.0 },
-    fixed: { Spirit: 1.0, Essence: 1.0, Matter: 1.05, Substance: 1.15 },
+    cardinal: { Spirit: 1.15, Essence: 1.05, Matter: 1.0, Substance: 1.0 }
+    fixed: { Spirit: 1.0, Essence: 1.0, Matter: 1.05, Substance: 1.15 }
     mutable: { Spirit: 1.08, Essence: 1.12, Matter: 1.0, Substance: 1.0 }
   } as Record<'cardinal' | 'fixed' | 'mutable', Record<keyof AlchemicalProperties, number>>
-},
+}
 
 export function signVectorToESMS(_v: SignVector): AlchemicalProperties {
   const { components, magnitude, direction} = v;
@@ -271,7 +271,7 @@ export function signVectorToESMS(_v: SignVector): AlchemicalProperties {
     Water: components.Water,
     Earth: components.Earth,
     Air: components.Air
-  },
+  }
 
   const e2 = VECTOR_CONFIG.elementalToESMS;
   const modality = VECTOR_CONFIG.modalityBoosts[direction];
@@ -293,14 +293,14 @@ export function signVectorToESMS(_v: SignVector): AlchemicalProperties {
     modality.Substance *
     magnitude,
 
-  const raw: AlchemicalProperties = { Spirit, Essence, Matter, Substance },
+  const raw: AlchemicalProperties = { Spirit, Essence, Matter, Substance }
   const sum = Spirit + Essence + Matter + Substance || 1;
   return {
     Spirit: Spirit / sum,
     Essence: Essence / sum,
     Matter: Matter / sum,
     Substance: Substance / sum
-  },
+  }
 }
 
 export function blendESMS(
@@ -318,7 +318,7 @@ export function blendESMS(
     Essence: Essence / sum,
     Matter: Matter / sum,
     Substance: Substance / sum
-  },
+  }
 }
 
 export function getAlchemicalStateWithVectors(input: {
@@ -329,7 +329,7 @@ export function getAlchemicalStateWithVectors(input: {
 }): {
   signVectors: SignVectorMap,
   selected: SignVector,
-  base: { alchemical: AlchemicalProperties, elemental: ElementalProperties },
+  base: { alchemical: AlchemicalProperties, elemental: ElementalProperties }
   blendedAlchemical: AlchemicalProperties,
   thermodynamics: {
     heat: number,
@@ -338,7 +338,7 @@ export function getAlchemicalStateWithVectors(input: {
     gregsEnergy: number,
     kalchm: number,
     monica: number
-  },
+  }
   config: typeof VECTOR_CONFIG
 } {
   const { planetaryPositions, aspects, season, _governing = 'dominant'} = input;
@@ -381,7 +381,7 @@ export function getAlchemicalStateWithVectors(input: {
           acc.components.seasonal += v.components.seasonal * w,
           acc.magnitude += v.magnitude * w,
           return acc,
-        },
+        }
         {
           components: {
             cardinal: 0,
@@ -392,7 +392,7 @@ export function getAlchemicalStateWithVectors(input: {
             Earth: 0,
             Air: 0,
             seasonal: 0
-          },
+          }
           magnitude: 0
         } as unknown as SignVector,
       )
@@ -422,9 +422,9 @@ export function getAlchemicalStateWithVectors(input: {
   return {
     signVectors,
     selected,
-    base: { alchemical: baseAlchemical, elemental: baseElemental },
+    base: { alchemical: baseAlchemical, elemental: baseElemental }
     blendedAlchemical,
-    thermodynamics: { heat, entropy, reactivity, gregsEnergy, kalchm, monica },
+    thermodynamics: { heat, entropy, reactivity, gregsEnergy, kalchm, monica }
     config: VECTOR_CONFIG
-  },
+  }
 }

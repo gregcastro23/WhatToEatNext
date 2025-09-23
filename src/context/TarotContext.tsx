@@ -31,10 +31,10 @@ const defaultContext: TarotContextType = {
     Water: 0,
     Earth: 0,
     Air: 0
-  },
-  setTarotCard: () => {},
+  }
+  setTarotCard: () => {}
   setTarotElementalInfluences: () => {}
-},
+}
 
 const TarotContext = createContext<TarotContextType>(defaultContext)
 
@@ -60,6 +60,6 @@ export const _TarotProvider = ({ children }: { children: ReactNode }) => {;
       {children}
     </TarotContext.Provider>
   )
-},
+}
 
 export const _useTarotContext = () => useContext(TarotContext)

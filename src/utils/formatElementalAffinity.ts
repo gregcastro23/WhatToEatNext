@@ -16,7 +16,7 @@ export function formatElementalAffinity(input: unknown): ElementalAffinity {
       primary: input as unknown,
       strength: 0.5,
       compatibility: { Fire: 1, Water: 0.3, Earth: 0.7, Air: 0.6 }
-    },
+    }
   }
 
   // Apply safe type casting for property access
@@ -34,7 +34,7 @@ export function formatElementalAffinity(input: unknown): ElementalAffinity {
         Earth: 0.7,
         Air: 0.6
       }
-    },
+    }
   }
 
   // If neither primary nor element exists, provide a default
@@ -44,7 +44,7 @@ export function formatElementalAffinity(input: unknown): ElementalAffinity {
       secondary: inputData.secondary,
       strength: inputData.strength || 0.5,
       compatibility: inputData.compatibility || { Fire: 1, Water: 0.3, Earth: 0.7, Air: 0.6 }
-    },
+    }
   }
 
   // Ensure all required properties exist

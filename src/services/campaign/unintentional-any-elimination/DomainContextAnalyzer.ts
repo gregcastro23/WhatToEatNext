@@ -42,7 +42,7 @@ export class DomainContextAnalyzer {
       intentionalityHints,
       suggestedTypes,
       preservationReasons
-    },
+    }
   }
 
   /**

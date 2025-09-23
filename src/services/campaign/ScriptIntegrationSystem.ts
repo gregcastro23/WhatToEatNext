@@ -90,7 +90,7 @@ export class ScriptIntegrationSystem {
         validateSafety: true,
         dryRun: false,
         interactive: true
-      },
+      }
       safetyLevel: 'maximum',
       maxBatchSize: 25,
       requiresGitClean: true,
@@ -106,7 +106,7 @@ export class ScriptIntegrationSystem {
         validateSafety: true,
         dryRun: false,
         interactive: true
-      },
+      }
       safetyLevel: 'high',
       maxBatchSize: 50,
       requiresGitClean: true,
@@ -122,7 +122,7 @@ export class ScriptIntegrationSystem {
         validateSafety: true,
         dryRun: false,
         interactive: true
-      },
+      }
       safetyLevel: 'high',
       maxBatchSize: 100,
       requiresGitClean: true,
@@ -135,7 +135,7 @@ export class ScriptIntegrationSystem {
       defaultOptions: {
         dryRun: true,
         validateSafety: true
-      },
+      }
       safetyLevel: 'medium',
       maxBatchSize: 50,
       requiresGitClean: false,
@@ -148,7 +148,7 @@ export class ScriptIntegrationSystem {
    */
   async executeScript(
     scriptId: string,
-    options: ScriptExecutionOptions = {},
+    options: ScriptExecutionOptions = {}
   ): Promise<ScriptExecutionResult> {
     const config = this.scriptConfigs.get(scriptId)
     if (!config) {
@@ -162,7 +162,7 @@ export class ScriptIntegrationSystem {
     }
 
     // Merge options with defaults
-    const mergedOptions = { ...config.defaultOptions, ...options },
+    const mergedOptions = { ...config.defaultOptions, ...options }
 
     // Validate safety requirements
     if (config.requiresGitClean && !options.dryRun) {
@@ -234,7 +234,7 @@ export class ScriptIntegrationSystem {
           safetyScore: metricsData.safetyScore || 0,
           recommendedBatchSize: metricsData.recommendedBatchSize || 5,
           lastRunTime: metricsData.lastRunTime || ''
-        },
+        }
       }
 
       return null;
@@ -254,7 +254,7 @@ export class ScriptIntegrationSystem {
   }> {
     const config = this.scriptConfigs.get(scriptId)
     if (!config) {
-      return { safe: false, issues: ['Unknown script'], recommendedBatchSize: 1 },
+      return { safe: false, issues: ['Unknown script'], recommendedBatchSize: 1 }
     }
 
     try {
@@ -271,7 +271,7 @@ export class ScriptIntegrationSystem {
           safe: safetyData.safe || false,
           issues: safetyData.issues || [],
           recommendedBatchSize: safetyData.recommendedBatchSize || 5
-        },
+        }
       }
 
       // Fallback: basic safety check
@@ -289,16 +289,16 @@ export class ScriptIntegrationSystem {
           safe: issues.length === 0,
           issues,
           recommendedBatchSize: metrics.recommendedBatchSize
-        },
+        }
       }
 
-      return { safe: true, issues: [], recommendedBatchSize: 5 },
+      return { safe: true, issues: [], recommendedBatchSize: 5 }
     } catch (error) {
       return {
         safe: false,
         issues: [`Safety validation failed: ${error}`],
         recommendedBatchSize: 1
-      },
+      }
     }
   }
 
@@ -387,7 +387,7 @@ export class ScriptIntegrationSystem {
       warningsFixed: 0,
       executionTime,
       safetyEvents: []
-    },
+    }
 
     // Try to parse JSON output first
     try {
@@ -402,7 +402,7 @@ export class ScriptIntegrationSystem {
             safetyScore: jsonData.safetyMetrics.safetyScore || 0,
             recommendedBatchSize: jsonData.safetyMetrics.recommendedBatchSize || 5,
             lastRunTime: jsonData.safetyMetrics.lastRunTime || ''
-          },
+          }
         }
         return result,
       }
@@ -492,7 +492,7 @@ export class ScriptIntegrationSystem {
       'typescript-enhanced-v3': '.typescript-errors-metrics.json',
       'explicit-any-systematic': '.explicit-any-metrics.json',
       'unused-variables-enhanced': '.unused-variables-metrics.json'
-    },
+    }
 
     return path.resolve(metricsFiles[scriptId] || `.${scriptId}-metrics.json`)
   }

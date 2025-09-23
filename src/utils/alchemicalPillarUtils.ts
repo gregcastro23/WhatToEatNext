@@ -9,7 +9,7 @@ import {
   getCookingMethodThermodynamics,
   getPlanetaryAlchemicalEffect,
   getTarotCardAlchemicalEffect
-} from '../constants/alchemicalPillars',
+} from '../constants/alchemicalPillars';
 import { AlchemicalProperty } from '../types/celestial';
 
 // Enhanced interfaces for Phase 11 - Alchemical Pillar utilities
@@ -21,13 +21,13 @@ interface AlchemicalPillarData {
     planetaryInfluences?: Record<string, number>,
     zodiacAffinities?: string[],
     seasonalAlignment?: string
-  },
+  }
   elementalProperties?: {
     Fire?: number,
     Water?: number,
     Earth?: number,
     Air?: number
-  },
+  }
   pillarType?: string,
   season?: string | string[]
 }
@@ -123,7 +123,7 @@ export function applyPillarTransformation(
   cookingMethod: string,
 ): AlchemicalItem {
   // Clone the item to avoid modifying the original
-  const transformedItem = { ...item },
+  const transformedItem = { ...item }
 
   // Get the alchemical effects of the cooking method
   const alchemicalEffects = getCookingMethodAlchemicalEffect(cookingMethod)
@@ -296,7 +296,7 @@ export function applyPlanetaryInfluence(
   isDaytime = true
 ): AlchemicalItem {
   // Clone the item to avoid modifying the original
-  const transformedItem = { ...item },
+  const transformedItem = { ...item }
 
   // Get the alchemical effects of the planet
   const planetaryEffects = getPlanetaryAlchemicalEffect(planet, isDaytime)
@@ -366,7 +366,7 @@ export function applyPlanetaryInfluence(
  */
 export function applyTarotInfluence(item: AlchemicalItem, _cardName: string): AlchemicalItem {
   // Clone the item to avoid modifying the original
-  const transformedItem = { ...item },
+  const transformedItem = { ...item }
 
   // Get the alchemical effects of the tarot card
   const tarotEffects = getTarotCardAlchemicalEffect(cardName)
@@ -431,7 +431,7 @@ export function transformIngredient(
   isDaytime = true
 ): AlchemicalItem {
   // Clone the item to avoid modifying the original
-  let transformedItem = { ...item },
+  let transformedItem = { ...item }
   const influences: string[] = []
 
   // Apply planetary influences if provided
@@ -551,7 +551,7 @@ const getMethodCompatibility = (
     water: ['earth'],
     air: ['fire'],
     earth: ['water']
-  },
+  }
 
   if ((transformedItem as any).element && (pillar as unknown as any).elementalAssociations) {
     const elementalAssociations = (pillar as unknown as any).elementalAssociations as unknown;
@@ -579,7 +579,7 @@ const getMethodCompatibility = (
     Essence: transformedItem.essence || 0,
     Matter: transformedItem.matter || 0,
     Substance: transformedItem.substance || 0
-  },
+  }
 
   // Find the strongest property in the ingredient
   // Pattern KK-1: Safe comparison with type validation
@@ -588,8 +588,8 @@ const getMethodCompatibility = (
       const numericValue = typeof value === 'number' ? value : 0;
       const numericMaxValue = typeof max.value === 'number' ? max.value : 0
       return numericValue > numericMaxValue ? { prop, value: numericValue } : max
-    },
-    { prop: '', value: 0 },
+    }
+    { prop: '', value: 0 }
   )
 
   // Check if method enhances the strongest property
@@ -611,7 +611,7 @@ const getMethodCompatibility = (
 
   logger.debug(`\nFinal compatibility score: ${compatibility}%`)
   return compatibility,
-},
+}
 
 /**
  * Find the most compatible cooking method for an item based on planetary and tarot influences
@@ -743,7 +743,7 @@ export const _getHolisticCookingRecommendations = async (
 
   // Return top count results
   return sortedResults.slice(0, count)
-},
+}
 
 /**
  * Get the mapping of cooking methods to pillar IDs
@@ -877,7 +877,7 @@ export function getEnhancedCookingRecommendations(
   method: string,
   compatibility: number,
   reason: string,
-  cookingTime: { min: number, max: number },
+  cookingTime: { min: number, max: number }
   sustainabilityRating: number,
   equipmentComplexity: number,
   healthBenefits: string[]
@@ -908,8 +908,8 @@ export function getEnhancedCookingRecommendations(
       // Apply safe type conversion for property access
       const sustainabilityRating = Number(methodData.sustainabilityRating || 0.5)
       const equipmentComplexity = Number(methodData.equipmentComplexity || 0.5)
-      const astrologicalInfluences = (methodData.astrologicalInfluences ) || {},
-      const duration = (methodData.duration ) || {},
+      const astrologicalInfluences = (methodData.astrologicalInfluences ) || {}
+      const duration = (methodData.duration ) || {}
       const _toolsRequired = (methodData.toolsRequired as string[]) || [];
 
       // Calculate base compatibility
@@ -940,7 +940,7 @@ export function getEnhancedCookingRecommendations(
       const cookingTime = {
         min: Number(duration.min || 10),
         max: Number(duration.max || 60)
-      },
+      }
 
       // Generate health benefits
       const healthBenefits = generateHealthBenefits(methodName, item)
@@ -956,7 +956,7 @@ export function getEnhancedCookingRecommendations(
         sustainabilityRating,
         equipmentComplexity,
         healthBenefits
-      },
+      }
     })
 
     // Sort by compatibility and return top results
@@ -1069,7 +1069,7 @@ function getAllCookingMethodData(): Record<string, unknown> {
   // This is a placeholder - in a real implementation, this would
   // dynamically load all cooking method data from the files
   try {
-    const methods = {},
+    const methods = {}
 
     // Import methods from each category
     // Using dynamic imports instead of require statements
@@ -1092,10 +1092,10 @@ function getAllCookingMethodData(): Record<string, unknown> {
       }))
       .catch(error => {
         logger.error('Error loading cooking method data:', error)
-        return {},
+        return {}
       }) as unknown as any,
   } catch (error) {
     logger.error('Error loading cooking method data:', error)
-    return {},
+    return {}
   }
 }

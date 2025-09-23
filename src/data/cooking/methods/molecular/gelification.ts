@@ -15,11 +15,11 @@ export const gelification: CookingMethodData = {
     Water: 0.4,
     Air: 0.05,
     Fire: 0.05
-  },
+  }
   duration: {
     min: 10,
     max: 60
-  },
+  }
   suitable_for: [
     'fruit purees',
     'stock reductions',
@@ -69,7 +69,7 @@ export const gelification: CookingMethodData = {
       waning_crescent: 0.8, // Difficult gel formation
       waxing_gibbous: 1.1, // Good balance of elasticity
     }
-  },
+  }
   toolsRequired: [
     'Precision scale (0.1g accuracy)',
     'Immersion blender',
@@ -135,7 +135,7 @@ export const gelification: CookingMethodData = {
     carotenoids: 0.8, // Some degradation during processing
     volatile_aromas: 0.75, // Some loss during heating phase
     protein_integrity: 0.92, // Generally well preserved
-  },
+  }
   optimalTemperatures: {
     agar_dissolution: 185, // In Fahrenheit
     gellan_gum_dissolution: 195,
@@ -152,7 +152,7 @@ export const gelification: CookingMethodData = {
     low_acyl_gellan_dissolution: 185,
     high_acyl_gellan_dissolution: 195,
     lambda_carrageenan_hydration: 140
-  },
+  }
   regionalVariations: {
     french: ['consommé gels', 'foie gras terrines', 'modern patisserie'],
     spanish: ['el bulli-inspired spherifications', 'textural landscapes'],
@@ -163,7 +163,7 @@ export const gelification: CookingMethodData = {
     mexican: ['mole gels', 'agave syrup textures', 'chili oil suspensions'],
     chinese: ['tea-infused textures', 'five-spice layered gels', 'dim sum reimagined'],
     indian: ['curry essence gels', 'lassi spheres', 'spice-infused structures']
-  },
+  }
   chemicalChanges: {
     polymer_chain_formation: true,
     hydrogen_bonding: true,
@@ -179,7 +179,7 @@ export const gelification: CookingMethodData = {
     retrogradation: true, // Especially in starch-based systems
     moisture_migration: true, // Movement of water within gel structure
     conformational_transitions: true, // Temperature-dependent structural changes
-  },
+  }
   safetyFeatures: [
     'Use food-grade hydrocolloids only',
     'Proper measurement of additives',
@@ -311,7 +311,7 @@ export const gelification: CookingMethodData = {
       'For milk-based gels, pre-treat with 0.2% sodium citrate to bind calcium and prevent interference with gelling agents. Heat treat to 165°F (74°C) to denature whey proteins for improved texture. For yogurt gels, strain to remove excess whey before incorporating gelifiers.',
     alcohol_preparations:
       'For wine or spirit gels, reduce alcohol content to below 20% through reduction or dilution. Increase hydrocolloid concentration to compensate for alcohol\'s effect on hydrogen bonding. Add hydrocolloid after alcohol to prevent precipitation. Use gellan gum or agar rather than gelatin for higher alcohol content applications.'
-  },
+  }
 
   timingConsiderations: {
     hydration_period:
@@ -324,7 +324,7 @@ export const gelification: CookingMethodData = {
       'Gelatin gels have limited service time at room temperature (20-30 minutes), agar and gellan gum can remain stable for hours. Consider environmental temperature when planning service. Pre-chill plates for extended presentation time of heat-sensitive gels.',
     reheating_limitations:
       'Thermoreversible gels (gelatin) cannot be reheated, thermoirreversible gels (agar, gellan) maintain structure when warmed but may experience syneresis. Test temperature stability for specific applications before service. For hot applications, use combinations that maintain structure at serving temperature.'
-  },
+  }
 
   doneness_indicators: {
     proper_hydration:
@@ -337,7 +337,7 @@ export const gelification: CookingMethodData = {
       'When sliced, surface should be smooth and hold shape without flowing. Proper gel consistency springs back partially when gently pressed. Mouthfeel transitions appropriately from solid to liquid state based on design intention.',
     syneresis_evaluation:
       'Minimal water release after sitting indicates proper formulation. Excessive liquid separation suggests imbalanced ingredient ratios or incomplete setting. Different hydrocolloids exhibit varying degrees of acceptable water release.'
-  },
+  }
 
   ingredientInteractions: {
     acidity_effects:
@@ -358,7 +358,7 @@ export const gelification: CookingMethodData = {
       'Combinations often create superior textures than single hydrocolloids: locust bean gum with kappa-carrageenan produces elastic, cohesive gels, gelatin with agar creates gels with controlled melting properties. Start with 70:30 ratio when experimenting with combinations.',
     color_compound_interactions:
       'Anthocyanins and other color compounds may shift hue in different pH environments. Acidic conditions enhance red tones, alkaline conditions enhance blue-purple tones. Some hydrocolloids naturally add slight opacity that affects visual perception of color intensity.'
-  },
+  }
 
   technicalNotes: {
     hydrocolloid_properties: {
@@ -375,7 +375,7 @@ export const gelification: CookingMethodData = {
         'Creates soft, elastic gels with calcium ions. Minimal syneresis and excellent freeze-thaw stability. Produces translucent rather than transparent gels. Good for dairy applications due to protein compatibility.',
       pectin:
         'Fruit-derived, high-methoxyl requires sugar and acid, low-methoxyl requires calcium. Amidated forms offer improved stability in varying conditions. Creates gels with clean fruit flavor release and smooth texture.'
-    },
+    }
     physical_properties: {
       gel_strength:
         'Measured in grams (bloom strength for gelatin) or compression force. Affected by concentration, temperature history, and ion availability. Can be measured precisely with texture analyzer or estimated with penetrometer.',
@@ -389,7 +389,7 @@ export const gelification: CookingMethodData = {
         'Light transmission through gel, affected by hydrocolloid type, concentration, and setting conditions. Measured in percentage light transmission - higher quality gels exceed 85% clarity.',
       mouthfeel:
         'Sensory perception including firmness, brittleness, creaminess, and melting properties. Different hydrocolloids create distinctive release patterns during consumption.'
-    },
+    }
     advanced_techniques: {
       fluid_gels:
         'Created by shearing gel during setting phase, producing partially connected polymer network with controlled flow properties. Used for sauce-like applications with suspended particles. Typically utilize agar or gellan gum at 0.3-0.8%.',
@@ -401,7 +401,7 @@ export const gelification: CookingMethodData = {
         'Applying physical pressure during gel setting to create anisotropic structures with directional properties. Results in gels with different mechanical behavior depending on direction of force application.',
       micro_gelification:
         'Creating microscopic gel particles through controlled shearing or precise droplet formation. Used for \'caviar\' effects or controlled mouthfeel modification in liquid systems.'
-    },
+    }
     equipment_specifications: {
       temperature_control:
         'Precise control within ±1°F (0.5°C) essential for reproducible results. Water baths and precision immersion circulators preferred over direct heat application.',
@@ -415,4 +415,4 @@ export const gelification: CookingMethodData = {
         'Silicone provides ideal release properties, stainless steel creates high-gloss surfaces, acetate sheets create clear edges. Mold temperature affects setting speed and surface characteristics.'
     }
   }
-},
+}

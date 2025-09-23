@@ -13,5 +13,5 @@ declare module 'swisseph' {
     _longitude: number,
     _latitude: number,
     distance: number
-  },
+  }
 }

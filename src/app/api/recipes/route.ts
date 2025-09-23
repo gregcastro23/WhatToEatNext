@@ -9,8 +9,8 @@ const fallbackRecipe: Recipe = {
   name: 'Universal Balance Bowl',
   description: 'A harmonious blend for any occasion',
   ingredients: [
-    { name: 'Mixed Greens', amount: 2, unit: 'cups', category: 'vegetables' },
-    { name: 'Mixed Seeds', amount: 0.25, unit: 'cup', category: 'garnish' },
+    { name: 'Mixed Greens', amount: 2, unit: 'cups', category: 'vegetables' }
+    { name: 'Mixed Seeds', amount: 0.25, unit: 'cup', category: 'garnish' }
     { name: 'Quinoa', amount: 1, unit: 'cup', category: 'grains' }
   ],
   instructions: ['Combine all ingredients in a bowl', 'Season to taste', 'Enjoy mindfully'],
@@ -21,7 +21,7 @@ const fallbackRecipe: Recipe = {
     Earth: 0.25,
     Air: 0.25,
     Water: 0.25
-  },
+  }
   season: ['all'],
   mealType: ['lunch', 'dinner'],
   cuisine: 'international',
@@ -30,21 +30,21 @@ const fallbackRecipe: Recipe = {
   isGlutenFree: true,
   isDairyFree: true,
   astrologicalInfluences: ['all']
-},
+}
 
 // Basic celestial influence data
 const basicCelestialInfluence = {
   date: new Date().toISOString(),
   zodiacSign: 'libra',
   dominantPlanets: [
-    { name: 'Sun', influence: 0.5 },
+    { name: 'Sun', influence: 0.5 }
     { name: 'Moon', influence: 0.5 }
   ],
   lunarPhase: 'full',
-  elementalBalance: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+  elementalBalance: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
   aspectInfluences: [],
   astrologicalInfluences: ['Sun', 'Moon', 'libra', 'all']
-},
+}
 
 // Simplified GET endpoint that returns basic recipe data
 export async function GET() {
@@ -89,11 +89,11 @@ export async function POST(request: Request) {
         Water: 0.25,
         Earth: 0.25,
         Air: 0.25
-      },
+      }
       cuisine: body.cuisine || 'international',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
-    },
+    }
 
     return NextResponse.json({
       recipe: newRecipe,

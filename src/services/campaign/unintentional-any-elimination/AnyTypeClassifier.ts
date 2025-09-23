@@ -10,7 +10,7 @@ import {
   ClassificationError,
   ClassificationRules,
   CodeDomain
-} from './types',
+} from './types';
 
 export class AnyTypeClassifier {
   private rules: ClassificationRules,
@@ -63,7 +63,7 @@ export class AnyTypeClassifier {
         /compat\w*\s*:\s*any/
       ],
       ...rules
-    },
+    }
 
     // Initialize confidence weights for different categories
     this.confidenceWeights = new Map([
@@ -110,7 +110,7 @@ export class AnyTypeClassifier {
           reasoning: `Explicitly documented as intentional${surroundingContext.contextualClues.length > 0 ? ` (${surroundingContext.contextualClues.join(', ')})` : ''}`,
           requiresDocumentation: false,
           category: this.categorizeFromComment(context.existingComment)
-        },
+        }
       }
 
       // Run pattern recognition algorithms for all categories
@@ -157,7 +157,7 @@ export class AnyTypeClassifier {
             : this.getSuggestedReplacement(bestCategory, context),
           requiresDocumentation: isIntentional,
           category: bestCategory
-        },
+        }
       }
 
       // Domain-specific analysis for moderate confidence cases
@@ -200,7 +200,7 @@ export class AnyTypeClassifier {
         suggestedReplacement: defaultConfidence <= 0.6 ? this.getDefaultSuggestedReplacement(context) : undefined,
         requiresDocumentation: defaultConfidence > 0.6,
         category: AnyTypeCategory.TYPE_ASSERTION
-      },
+      }
     } catch (error) {
       throw new ClassificationError(
         `Failed to classify any type at ${context.filePath}:${context.lineNumber}`,
@@ -341,7 +341,7 @@ export class AnyTypeClassifier {
       hasTypeAssertions,
       hasComplexLogic,
       contextualClues
-    },
+    }
   }
 
   /**
@@ -419,7 +419,7 @@ export class AnyTypeClassifier {
       isComponentFile,
       isUtilityFile,
       fileCategory
-    },
+    }
   }
 
   private categorizeFromComment(comment?: string): AnyTypeCategory {
@@ -617,7 +617,7 @@ export class AnyTypeClassifier {
         suggestedReplacement: isIntentional ? undefined : suggestedReplacement,
         requiresDocumentation: isIntentional,
         category
-      },
+      }
     }
 
     return null;
@@ -679,7 +679,7 @@ export class AnyTypeClassifier {
         reasoning,
         requiresDocumentation: true,
         category
-      },
+      }
     }
 
     return null;
@@ -769,7 +769,7 @@ export class AnyTypeClassifier {
         reasoning,
         requiresDocumentation: true,
         category
-      },
+      }
     }
 
     return null;
@@ -890,7 +890,7 @@ export class AnyTypeClassifier {
         suggestedReplacement: isIntentional ? undefined : suggestedReplacement,
         requiresDocumentation: isIntentional,
         category
-      },
+      }
     }
 
     return null;
@@ -992,7 +992,7 @@ export class AnyTypeClassifier {
         reasoning,
         requiresDocumentation: true,
         category
-      },
+      }
     }
 
     return null;
@@ -1180,7 +1180,7 @@ export class AnyTypeClassifier {
       [AnyTypeCategory.RETURN_TYPE]: 'Function return type - may be replaceable with inferred type',
       [AnyTypeCategory.TYPE_ASSERTION]:
         'Type assertion - may be replaceable with more specific type'
-    },
+    }
 
     return reasoningMap[category] || 'Pattern-based classification',
   }
@@ -1217,7 +1217,7 @@ export class AnyTypeClassifier {
         suggestedReplacement: this.suggestFunctionParamReplacement(context),
         requiresDocumentation: false,
         category: AnyTypeCategory.FUNCTION_PARAM
-      },
+      }
     }
 
     // Return type analysis
@@ -1229,7 +1229,7 @@ export class AnyTypeClassifier {
         suggestedReplacement: this.suggestReturnTypeReplacement(context),
         requiresDocumentation: false,
         category: AnyTypeCategory.RETURN_TYPE
-      },
+      }
     }
 
     return null;

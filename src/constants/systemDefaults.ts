@@ -6,13 +6,13 @@ import {
   LunarPhase,
   _,
   _
-} from '@/types/alchemy',
+} from '@/types/alchemy';
 import {
   PlanetaryAlignment,
   AstrologicalState,
   CelestialPosition,
   AlchemicalProperties
-} from '@/types/celestial',
+} from '@/types/celestial';
 
 /**
  * System defaults - consolidated from multiple files
@@ -29,7 +29,7 @@ export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
   Water: 0.25,
   Earth: 0.25,
   Air: 0.25
-},
+}
 
 /**
  * Default alchemical values with standard distribution
@@ -39,7 +39,7 @@ export const DEFAULT_ALCHEMICAL_VALUES: AlchemicalValues = {
   Essence: 0.28,
   Matter: 0.21,
   Substance: 0.22
-},
+}
 
 // ===== ASTROLOGICAL DEFAULTS =====,
 
@@ -60,17 +60,17 @@ export const DEFAULT_RISING_SIGN: any = 'leo';
  * NOTE: For type safety only. Do NOT use for live calculations or UI. Always use real planetary positions.
  */
 export const DEFAULT_PLANETARY_ALIGNMENT: PlanetaryAlignment = {
-  Sun: { sign: 'aries', degree: 0 },
-  Moon: { sign: 'taurus', degree: 0 },
-  Mercury: { sign: 'gemini', degree: 0 },
-  Venus: { sign: 'libra', degree: 0 },
-  Mars: { sign: 'aries', degree: 0 },
-  Jupiter: { sign: 'sagittarius', degree: 0 },
-  Saturn: { sign: 'capricorn', degree: 0 },
-  Uranus: { sign: 'aquarius', degree: 0 },
-  Neptune: { sign: 'pisces', degree: 0 },
+  Sun: { sign: 'aries', degree: 0 }
+  Moon: { sign: 'taurus', degree: 0 }
+  Mercury: { sign: 'gemini', degree: 0 }
+  Venus: { sign: 'libra', degree: 0 }
+  Mars: { sign: 'aries', degree: 0 }
+  Jupiter: { sign: 'sagittarius', degree: 0 }
+  Saturn: { sign: 'capricorn', degree: 0 }
+  Uranus: { sign: 'aquarius', degree: 0 }
+  Neptune: { sign: 'pisces', degree: 0 }
   Pluto: { sign: 'scorpio', degree: 0 }
-},
+}
 
 /**
  * Default planetary positions for July 2, 2025 at, 10:45 PM EDT
@@ -453,74 +453,74 @@ export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = {
     degree: 101.48333333333333,
     exactLongitude: 101.4844,
     isRetrograde: false
-  },
+  }
   Moon: {
     sign: 'libra' as any,
     degree: 195.16666666666666,
     exactLongitude: 195.18319999999994,
     isRetrograde: false
-  },
+  }
   Mercury: {
     sign: 'leo' as any,
     degree: 127.38333333333334,
     exactLongitude: 127.38920000000002,
     isRetrograde: false
-  },
+  }
   Venus: {
     sign: 'taurus' as any,
     degree: 58.35,
     exactLongitude: 58.35340000000002,
     isRetrograde: false
-  },
+  }
   Mars: {
     sign: 'virgo' as any,
     degree: 159,
     exactLongitude: 159.0158,
     isRetrograde: false
-  },
+  }
   Jupiter: {
     sign: 'cancer' as any,
     degree: 95.3,
     exactLongitude: 95.30540000000002,
     isRetrograde: false
-  },
+  }
   Saturn: {
     sign: 'aries' as any,
     degree: 1.85,
     exactLongitude: 1.8501999999999725,
     isRetrograde: false
-  },
+  }
   Uranus: {
     sign: 'taurus' as any,
     degree: 59.8,
     exactLongitude: 59.8091,
     isRetrograde: false
-  },
+  }
   Neptune: {
     sign: 'aries' as any,
     degree: 2.1666666666666665,
     exactLongitude: 2.174699999999973,
     isRetrograde: false
-  },
+  }
   Pluto: {
     sign: 'aquarius' as any,
     degree: 303.0833333333333,
     exactLongitude: 303.09529999999995,
     isRetrograde: false
-  },
+  }
   Chiron: {
     sign: 'aries' as any,
     degree: 26.933333333333334,
     exactLongitude: 26.939399999999978,
     isRetrograde: false
-  },
+  }
   Sirius: {
     sign: 'aries' as any,
     degree: 1.7666666666666666,
     exactLongitude: 1.7726000000000113,
     isRetrograde: false
   }
-},
+}
 
 // ===== CHAKRA DEFAULTS =====,
 
@@ -535,7 +535,7 @@ export const DEFAULT_CHAKRA_ENERGIES: ChakraEnergies = {
   throat: 0.5,
   thirdEye: 0.5,
   crown: 0.5
-},
+}
 
 // ===== COMPREHENSIVE ASTROLOGICAL STATE =====,
 
@@ -555,22 +555,22 @@ export const DEFAULT_ASTROLOGICAL_STATE = {
     sunDecan: 1,
     moonDecan: 1,
     risingDecan: 1
-  },
+  }
   aspects: [],
   dominantElement: 'Fire',
   elementalProfile: DEFAULT_ELEMENTAL_PROPERTIES,
   planetaryPositions: {
-    Sun: { sign: 'aries' as any, degree: 15 },
-    Moon: { sign: 'taurus' as any, degree: 8 },
-    Mercury: { sign: 'gemini' as any, degree: 10 },
-    Venus: { sign: 'libra' as any, degree: 12 },
-    Mars: { sign: 'aries' as any, degree: 20 },
-    Jupiter: { sign: 'sagittarius' as any, degree: 5 },
-    Saturn: { sign: 'capricorn' as any, degree: 18 },
-    Uranus: { sign: 'aquarius' as any, degree: 25 },
-    Neptune: { sign: 'pisces' as any, degree: 14 },
+    Sun: { sign: 'aries' as any, degree: 15 }
+    Moon: { sign: 'taurus' as any, degree: 8 }
+    Mercury: { sign: 'gemini' as any, degree: 10 }
+    Venus: { sign: 'libra' as any, degree: 12 }
+    Mars: { sign: 'aries' as any, degree: 20 }
+    Jupiter: { sign: 'sagittarius' as any, degree: 5 }
+    Saturn: { sign: 'capricorn' as any, degree: 18 }
+    Uranus: { sign: 'aquarius' as any, degree: 25 }
+    Neptune: { sign: 'pisces' as any, degree: 14 }
     Pluto: { sign: 'scorpio' as any, degree: 22 }
-  },
+  }
   isDaytime: true,
   activePlanets: ['Sun', 'Moon'],
   activeAspects: [],
@@ -598,7 +598,7 @@ export const DEFAULT_ZODIAC_ENERGIES: { [key: string]: number } = {
   capricorn: 0,
   aquarius: 0,
   pisces: 0
-},
+}
 
 /**
  * Default thermodynamic properties
@@ -611,7 +611,7 @@ export const DEFAULT_THERMODYNAMIC_PROPERTIES = {
   gregsEnergy: 0,
   kalchm: 1.0,
   monica: 0
-},
+}
 
 /**
  * Default modality distribution
@@ -620,7 +620,7 @@ export const DEFAULT_MODALITY_DISTRIBUTION = {
   cardinal: 0.33,
   fixed: 0.33,
   mutable: 0.34
-},
+}
 
 // ===== RECIPE AND FOOD DEFAULTS =====,
 
@@ -632,7 +632,7 @@ export const DEFAULT_RECIPE_ELEMENTAL_VALUES = {
   Water: 0.25,
   Earth: 0.25,
   Air: 0.25
-},
+}
 
 /**
  * Default food recommendation
@@ -643,7 +643,7 @@ export const DEFAULT_FOOD_RECOMMENDATION = {
   recommendation: 'A balanced meal with a variety of fresh ingredients',
   score: 0.5,
   confidence: 0.7
-},
+}
 
 /**
  * Default nutritional profile
@@ -657,7 +657,7 @@ export const DEFAULT_NUTRITIONAL_PROFILE = {
   vitamins: [],
   minerals: [],
   score: 0.5
-},
+}
 
 // ===== CALCULATION PARAMETERS =====,
 
@@ -673,7 +673,7 @@ export const DEFAULT_CALCULATION_PARAMS = {
   precision: 0.01,
   maxIterations: 100,
   convergenceThreshold: 0.001
-},
+}
 
 /**
  * Default compatibility thresholds
@@ -684,7 +684,7 @@ export const DEFAULT_COMPATIBILITY_THRESHOLDS = {
   fAir: 0.4,
   poor: 0.2,
   minimum: 0.1
-},
+}
 
 // ===== ERROR HANDLING DEFAULTS =====,
 
@@ -701,7 +701,7 @@ export const DEFAULT_ERROR_MESSAGES = {
   validation: 'Data validation failed',
   transformation: 'Error in alchemical transformation',
   recommendation: 'Error generating recommendations'
-},
+}
 
 /**
  * Default retry configuration
@@ -711,7 +711,7 @@ export const DEFAULT_RETRY_CONFIG = {
   retryDelay: 1000,
   backoffMultiplier: 2,
   maxDelay: 10000
-},
+}
 
 // ===== SYSTEM CONFIGURATION DEFAULTS =====,
 
@@ -726,7 +726,7 @@ export const DEFAULT_SYSTEM_CONFIG = {
   enableValidation: true,
   strictMode: false,
   debugMode: false
-},
+}
 
 /**
  * Default API configuration
@@ -736,7 +736,7 @@ export const DEFAULT_API_CONFIG = {
   retries: 3,
   rateLimit: 100,
   cacheDuration: 300000
-},
+}
 
 // ===== UTILITY FUNCTIONS =====,
 
@@ -839,7 +839,7 @@ export function validateAgainstDefaults<T extends object>(
   return {
     isValid: (errors || []).length === 0,,
     errors
-  },
+  }
 }
 
 /**
@@ -893,4 +893,4 @@ export default {
   mergeWithDefaults,
   validateAgainstDefaults,
   getLatestAstrologicalState
-},
+}

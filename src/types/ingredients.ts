@@ -55,7 +55,7 @@ export interface IngredientRecommendation {
     category: string,
     elementalProperties: ElementalProperties,
     nutritionalContent?: NutritionalContent,
-  },
+  }
   matchScore: number,
   elementalCompatibility: number,
   nutritionalScore: number,
@@ -78,11 +78,11 @@ export type IngredientSearchCriteria = {
     maxCalories?: number,
     minFiber?: number,
     allergens?: string[],
-  },
+  }
   cookingMethods?: string[],
   sustainabilityThreshold?: number,
   regionalOrigins?: string[],
-},
+}
 
 /**
  * Ingredient Compatibility Result
@@ -95,7 +95,7 @@ export type IngredientCompatibilityResult = {
   neutralIngredients: string[],
   compatibilityScores: Record<string, number>,
   reasoning: Record<string, string>,
-},
+}
 
 /**
  * Ingredient Substitution Recommendation
@@ -109,7 +109,7 @@ export type IngredientSubstitution = {
   nutritionalDifference: Partial<NutritionalContent>,
   flavorNotes: string[],
   cookingAdjustments?: string[]
-},
+}
 
 /**
  * Ingredient Recommendation Response

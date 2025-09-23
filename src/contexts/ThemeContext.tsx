@@ -14,7 +14,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
   const toggleTheme = () => {
     setTheme(prev => (prev === 'light' ? 'dark' : 'light'))
-  },
+  }
 
   useEffect(() => {
     // Apply theme to document
@@ -22,7 +22,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   }, [theme])
 
   return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>,
-},
+}
 
 export const useTheme = () => {
   const context = useContext(ThemeContext)
@@ -30,4 +30,4 @@ export const useTheme = () => {
     throw new Error('useTheme must be used within a ThemeProvider')
   }
   return context,
-},
+}

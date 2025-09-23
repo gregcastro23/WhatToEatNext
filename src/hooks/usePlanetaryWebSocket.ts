@@ -32,9 +32,9 @@ export function usePlanetaryWebSocket(location?: { latitude: number, longitude: 
         type: 'subscribe',
         channel: 'planetary-hours',
         data: location ? { location } : {}
-      },
+      }
       ws.send(JSON.stringify(payload))
-    },
+    }
 
     ws.onmessage = (event) => {
       try {
@@ -53,19 +53,19 @@ export function usePlanetaryWebSocket(location?: { latitude: number, longitude: 
       } catch (_err) {
         // ignore parse errors
       }
-    },
+    }
 
     ws.onclose = () => {
       setConnected(false)
-    },
+    }
 
     return () => {
       ws.close()
       wsRef.current = null,
-    },
+    }
   }, [location?.latitude, location?.longitude])
 
-  return { connected, planetaryHour },
+  return { connected, planetaryHour }
 }
 
 export default usePlanetaryWebSocket,

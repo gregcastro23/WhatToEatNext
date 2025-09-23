@@ -37,10 +37,10 @@ export class TerminalFreezePreventionSystem {
     maxMemoryUsage: 500, // 500MB,
     heartbeatInterval: 5000, // 5 seconds,
     killOnTimeout: true
-  },
+  }
 
   constructor(private config: ProcessMonitorConfig = {} as ProcessMonitorConfig) {,
-    this.config = { ...this.DEFAULT_CONFIG, ...config },
+    this.config = { ...this.DEFAULT_CONFIG, ...config }
     this.startMonitoring()
   }
 
@@ -53,7 +53,7 @@ export class TerminalFreezePreventionSystem {
       timeout: options.timeout || this.config.maxExecutionTime,
       encoding: 'utf8' as const,
       stdio: 'pipe' as const
-    },
+    }
 
     try {
       // // // _logger.info(`🔧 Executing with timeout (${safeOptions.timeout}ms): ${command}`)
@@ -94,7 +94,7 @@ export class TerminalFreezePreventionSystem {
         memoryUsage: 0,
         cpuUsage: 0,
         hasTimedOut: false
-      },
+      }
 
       this.runningProcesses.set(child.pid ?? 0, processStatus)
 
@@ -308,7 +308,7 @@ export class TerminalFreezePreventionSystem {
       detected: suspiciousProcesses.length > 0
       suspiciousProcesses,
       recommendations
-    },
+    }
   }
 
   /**

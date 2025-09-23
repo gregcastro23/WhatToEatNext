@@ -7,7 +7,7 @@ import {
   PlanetaryAspect,
   LunarPhaseWithSpaces,
   CookingMethod
-} from '../types/alchemy',
+} from '../types/alchemy';
 import type { Recipe } from '../types/recipe';
 import {
   transformIngredients,
@@ -16,7 +16,7 @@ import {
   sortByAlchemicalCompatibility,
   filterByAlchemicalCompatibility,
   getTopCompatibleItems
-} from '../utils/alchemicalTransformationUtils',
+} from '../utils/alchemicalTransformationUtils';
 
 /**
  * Interface for alchemical recommendations
@@ -67,7 +67,7 @@ export class AlchemicalTransformationService {
     Uranus: 0,
     Neptune: 0,
     Pluto: 0
-  },
+  }
   private isDaytime = true,
   private currentZodiac: any | null = null,
   private lunarPhase: LunarPhase | null = null
@@ -216,11 +216,11 @@ export class AlchemicalTransformationService {
       topIngredients.length > 0 ? topIngredients[0].dominantAlchemicalProperty : 'Spirit'
 
     // Calculate average energy values across top ingredients
-    const calculateAverage = (items: AlchemicalItem[], property: keyof AlchemicalItem): number => {,
+    const calculateAverage = (items: AlchemicalItem[], property: keyof AlchemicalItem): number => {
       if (items.length === 0) return 0
       const sum = items.reduce((acc, item) => acc + (item[property] as number), 0),
       return parseFloat((sum / items.length).toFixed(2))
-    },
+    }
 
     return {
       topIngredients,
@@ -232,7 +232,7 @@ export class AlchemicalTransformationService {
       entropy: calculateAverage(topIngredients, 'entropy'),
       reactivity: calculateAverage(topIngredients, 'reactivity'),
       gregsEnergy: calculateAverage(topIngredients, 'gregsEnergy')
-    },
+    }
   }
 
   /**
@@ -345,7 +345,7 @@ export class AlchemicalTransformationService {
         cookingMethodScore: parseFloat(cookingMethodScore.toFixed(2)),
         lunarPhaseScore: parseFloat(lunarPhaseScore.toFixed(2)),
         zodiacScore: parseFloat(zodiacScore.toFixed(2))
-      },
+      }
     })
 
     // Sort by compatibility score
@@ -399,11 +399,11 @@ export class AlchemicalTransformationService {
       (topIngredients.length > 0 ? topIngredients[0].dominantAlchemicalProperty : 'Spirit'),
 
     // Calculate average energy values
-    const calculateAverage = (items: AlchemicalItem[], property: keyof AlchemicalItem): number => {,
+    const calculateAverage = (items: AlchemicalItem[], property: keyof AlchemicalItem): number => {
       if (items.length === 0) return 0
       const sum = items.reduce((acc, item) => acc + (item[property] as number), 0),
       return parseFloat((sum / items.length).toFixed(2))
-    },
+    }
 
     return {
       topIngredients,
@@ -415,7 +415,7 @@ export class AlchemicalTransformationService {
       entropy: calculateAverage(topIngredients, 'entropy'),
       reactivity: calculateAverage(topIngredients, 'reactivity'),
       gregsEnergy: calculateAverage(topIngredients, 'gregsEnergy')
-    },
+    }
   }
 
   // Helper method to calculate seasonal score for a recipe
@@ -439,7 +439,7 @@ export class AlchemicalTransformationService {
       9: 'fall',
       10: 'fall', // Sep, Oct, Nov
       11: 'winter', // Dec
-    },
+    }
 
     const currentSeason = monthToSeason[currentMonth];
     if (seasons.includes(currentSeason) || seasons.includes('all')) {
