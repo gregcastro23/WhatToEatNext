@@ -1,10 +1,18 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const, rawCitrus: Record<string, Partial<IngredientMapping>> = {
+const rawCitrus: Record<string, Partial<IngredientMapping>> = {
   lemon: {
     name: 'Lemon',
+
+    // Base elemental properties (unscaled)
     elementalProperties: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
+
+    // Phase 2: Quantity scaling metadata
+    quantityBase: { amount: 60, unit: 'g' }, // Standard serving: 1 medium lemon
+    scaledElemental: { Water: 0.39, Air: 0.31, Fire: 0.20, Earth: 0.10 }, // Scaled for harmony
+    alchemicalProperties: { Spirit: 0.250, Essence: 0.345, Matter: 0.100, Substance: 0.205 }, // Derived from scaled elemental
+    kineticsImpact: { thermalDirection: -0.08, forceMagnitude: 0.88 }, // Cooling effect, gentle force
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Moon'],
       favorableZodiac: ['gemini', 'cancer'],
@@ -47,7 +55,15 @@ const, rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
   orange: {
     name: 'Orange',
+
+    // Base elemental properties (unscaled)
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
+
+    // Phase 2: Quantity scaling metadata
+    quantityBase: { amount: 130, unit: 'g' }, // Standard serving: 1 medium orange
+    scaledElemental: { Water: 0.39, Fire: 0.31, Air: 0.20, Earth: 0.10 }, // Scaled for harmony
+    alchemicalProperties: { Spirit: 0.25, Essence: 0.345, Matter: 0.155, Substance: 0.1 }, // Derived from scaled elemental
+    kineticsImpact: { thermalDirection: 0.12, forceMagnitude: 1.02 }, // Warming effect, moderate force
     astrologicalProfile: {
       rulingPlanets: ['Sun', 'Venus'],
       favorableZodiac: ['leo', 'taurus'],
@@ -90,7 +106,16 @@ const, rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
   lime: {
     name: 'Lime',
+
+    // Base elemental properties (unscaled)
     elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 },
+
+    // Phase 2: Quantity scaling metadata
+    quantityBase: { amount: 67, unit: 'g' }, // Standard serving: 1 medium lime
+    scaledElemental: { Water: 0.49, Air: 0.21, Fire: 0.20, Earth: 0.10 }, // Scaled for harmony
+    alchemicalProperties: { Spirit: 0.205, Essence: 0.395, Matter: 0.100, Substance: 0.200 }, // Derived from scaled elemental
+    kineticsImpact: { thermalDirection: -0.12, forceMagnitude: 0.85 }, // Cooling effect, gentle force
+
     qualities: ['sour', 'cooling', 'refreshing'],
     season: ['year-round'],
     category: 'fruit',
@@ -131,7 +156,16 @@ const, rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
   grapefruit: {
     name: 'Grapefruit',
-    elementalProperties: { Water: 0.5, Fire: 0.2, Air: 0.2, Earth: 0.1 },
+
+    // Base elemental properties (unscaled)
+    elementalProperties: { Water: 0.4, Air: 0.3, Fire: 0.2, Earth: 0.1 },
+
+    // Phase 2: Quantity scaling metadata
+    quantityBase: { amount: 230, unit: 'g' }, // Standard serving: 1 medium grapefruit
+    scaledElemental: { Water: 0.39, Air: 0.31, Fire: 0.20, Earth: 0.10 }, // Scaled for harmony
+    alchemicalProperties: { Spirit: 0.250, Essence: 0.345, Matter: 0.155, Substance: 0.100 }, // Derived from scaled elemental
+    kineticsImpact: { thermalDirection: 0.08, forceMagnitude: 0.95 }, // Mild warming, balanced force
+
     qualities: ['bitter-sweet', 'tart', 'refreshing'],
     season: ['winter', 'spring'],
     category: 'fruit',
@@ -175,33 +209,40 @@ const, rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
   mandarin: {
     name: 'Mandarin',
+
+    // Base elemental properties (unscaled)
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
+
+    // Phase 2: Quantity scaling metadata
+    quantityBase: { amount: 88, unit: 'g' }, // Standard serving: 1 medium mandarin
+    scaledElemental: { Water: 0.39, Fire: 0.31, Air: 0.20, Earth: 0.10 }, // Scaled for harmony
+    alchemicalProperties: { Spirit: 0.250, Essence: 0.345, Matter: 0.155, Substance: 0.100 }, // Derived from scaled elemental
+    kineticsImpact: { thermalDirection: 0.10, forceMagnitude: 0.90 }, // Mild warming, gentle force
+
     qualities: ['sweet', 'delicate', 'aromatic'],
     season: ['winter'],
     category: 'fruit',
     subCategory: 'citrus',
     affinities: ['chocolate', 'vanilla', 'ginger', 'cinnamon', 'almond'],
     cookingMethods: ['raw', 'juiced', 'preserved', 'candied'],
-    nutritionalProfile: {
       fiber: 'moderate',
-      vitamins: ['c', 'a', 'b6'],
-      minerals: ['potassium', 'calcium'],
-      calories: 47,
-      carbs_g: 12,
+      vitamins: ['c', 'a'],
+      minerals: ['potassium'],
+      calories: 53,
+      carbs_g: 13,
       fiber_g: 1.8,
-      antioxidants: ['beta-cryptoxanthin', 'lutein']
+      antioxidants: ['beta-carotene', 'flavonoids']
     },
     preparation: {
       washing: true,
-      peeling: 'easy to peel by hand',
-      segmenting: 'naturally separates',
-      notes: 'Remove any seeds before eating'
+      peeling: 'easy to peel',
+      sectioning: 'natural segments',
+      notes: 'Very easy to eat out of hand'
     },
     storage: {
-      temperature: 'cool room temp or refrigerated',
+      temperature: 'room temp or refrigerated',
       duration: '1-2 weeks',
-      humidity: 'moderate',
-      notes: 'Best eaten within a week'
+      notes: 'Keep in cool, dry place'
     },
     astrologicalProfile: {
       rulingPlanets: ['Sun', 'Venus'],
@@ -210,313 +251,8 @@ const, rawCitrus: Record<string, Partial<IngredientMapping>> = {
         base: 'Fire',
         decanModifiers: {
           first: { element: 'Fire', planet: 'Sun', influence: 0.7 },
-          second: { element: 'Earth', planet: 'Venus', influence: 0.6 },
-          third: { element: 'Fire', planet: 'Sun', influence: 0.5 }
-        }
-      }
-    }
-  },
-
-  kumquat: {
-    name: 'Kumquat',
-    elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 },
-    qualities: ['sweet-tart', 'intense', 'unique'],
-    season: ['winter', 'early spring'],
-    category: 'fruit',
-    subCategory: 'citrus',
-    affinities: ['honey', 'ginger', 'star anise', 'cinnamon', 'mint'],
-    cookingMethods: ['raw', 'preserved', 'candied', 'marmalade'],
-    nutritionalProfile: {
-      fiber: 'high',
-      vitamins: ['c', 'a', 'e'],
-      minerals: ['calcium', 'copper'],
-      calories: 71,
-      carbs_g: 15.9,
-      fiber_g: 6.5,
-      antioxidants: ['flavonoids', 'pectin']
-    },
-    preparation: {
-      washing: true,
-      eating: 'whole with skin',
-      notes: 'Skin is sweet, flesh is tart'
-    },
-    storage: {
-      temperature: 'refrigerated',
-      duration: '1-2 weeks',
-      humidity: 'high',
-      notes: 'Store in sealed container'
-    },
-    astrologicalProfile: {
-      rulingPlanets: ['Jupiter', 'Mercury'],
-      favorableZodiac: ['sagittarius', 'gemini', 'virgo'],
-      elementalAffinity: {
-        base: 'Fire',
-        decanModifiers: {
-          first: { element: 'Fire', planet: 'Jupiter', influence: 0.8 },
-          second: { element: 'Air', planet: 'Mercury', influence: 0.6 },
-          third: { element: 'Earth', planet: 'Mercury', influence: 0.5 }
-        }
-      }
-    }
-  },
-
-  yuzu: {
-    name: 'Yuzu',
-    elementalProperties: { Water: 0.3, Air: 0.3, Fire: 0.3, Earth: 0.1 },
-    qualities: ['aromatic', 'complex', 'floral'],
-    season: ['winter'],
-    category: 'fruit',
-    subCategory: 'citrus',
-    affinities: ['soy', 'honey', 'chili', 'ginger', 'sesame'],
-    cookingMethods: ['zested', 'juiced', 'preserved', 'seasoning'],
-    nutritionalProfile: {
-      fiber: 'moderate',
-      vitamins: ['c', 'a'],
-      minerals: ['calcium', 'potassium'],
-      calories: 53,
-      carbs_g: 13.3,
-      fiber_g: 2,
-      antioxidants: ['limonoids', 'hesperidin']
-    },
-    preparation: {
-      washing: true,
-      zesting: 'highly aromatic',
-      juicing: 'use sparingly',
-      notes: 'Primarily used for zest and juice'
-    },
-    storage: {
-      temperature: 'refrigerated',
-      duration: '1-2 weeks',
-      humidity: 'moderate',
-      notes: 'Freeze zest for longer storage'
-    },
-    astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Venus'],
-      favorableZodiac: ['gemini', 'libra', 'aquarius'],
-      elementalAffinity: {
-        base: 'Air',
-        decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury', influence: 0.8 },
-          second: { element: 'Water', planet: 'Venus', influence: 0.7 },
-          third: { element: 'Fire', planet: 'Mercury', influence: 0.6 }
-        }
-      }
-    }
-  },
-
-  bergamot: {
-    name: 'Bergamot',
-    elementalProperties: { Water: 0.3, Air: 0.4, Fire: 0.2, Earth: 0.1 },
-    qualities: ['fragrant', 'bitter', 'floral'],
-    season: ['winter'],
-    category: 'fruit',
-    subCategory: 'citrus',
-    affinities: ['tea', 'lavender', 'vanilla', 'honey', 'chocolate'],
-    cookingMethods: ['zested', 'preserved', 'flavoring', 'marmalade'],
-    nutritionalProfile: {
-      fiber: 'moderate',
-      vitamins: ['c', 'a'],
-      minerals: ['potassium', 'calcium'],
-      calories: 37,
-      carbs_g: 9.3,
-      fiber_g: 1.8,
-      antioxidants: ['bergapten', 'bergamottin']
-    },
-    preparation: {
-      washing: true,
-      zesting: 'prized for aromatic oils',
-      notes: 'Primarily used for oil and flavoring'
-    },
-    storage: {
-      temperature: 'refrigerated',
-      duration: '1-2 weeks',
-      humidity: 'moderate',
-      notes: 'Preserve zest in sugar or dry'
-    },
-    astrologicalProfile: {
-      rulingPlanets: ['Mercury', 'Moon'],
-      favorableZodiac: ['gemini', 'cancer', 'virgo'],
-      elementalAffinity: {
-        base: 'Air',
-        decanModifiers: {
-          first: { element: 'Air', planet: 'Mercury', influence: 0.8 },
-          second: { element: 'Water', planet: 'Moon', influence: 0.7 },
-          third: { element: 'Air', planet: 'Mercury', influence: 0.6 }
-        }
-      }
-    }
-  },
-
-  calamansi: {
-    name: 'Calamansi',
-    elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
-    qualities: ['sour', 'bright', 'complex'],
-    season: ['year-round'],
-    category: 'fruit',
-    subCategory: 'citrus',
-    affinities: ['chili', 'garlic', 'ginger', 'soy sauce', 'coconut'],
-    cookingMethods: ['juiced', 'seasoning', 'preserved', 'garnish'],
-    nutritionalProfile: {
-      fiber: 'low',
-      vitamins: ['c', 'a'],
-      minerals: ['calcium', 'iron'],
-      calories: 21,
-      carbs_g: 5.3,
-      fiber_g: 0.9,
-      antioxidants: ['limonoids', 'flavonoids']
-    },
-    preparation: {
-      washing: true,
-      juicing: 'use whole or halved',
-      notes: 'Can be used whole in drinks'
-    },
-    storage: {
-      temperature: 'refrigerated',
-      duration: '1-2 weeks',
-      humidity: 'moderate',
-      notes: 'Juice can be frozen in ice cube trays'
-    },
-    astrologicalProfile: {
-      rulingPlanets: ['Mars', 'Sun'],
-      favorableZodiac: ['aries', 'leo', 'scorpio'],
-      elementalAffinity: {
-        base: 'Fire',
-        decanModifiers: {
-          first: { element: 'Fire', planet: 'Mars', influence: 0.8 },
-          second: { element: 'Water', planet: 'Mars', influence: 0.7 },
-          third: { element: 'Fire', planet: 'Sun', influence: 0.6 }
-        }
-      }
-    }
-  },
-
-  'buddha's hand': {
-    name: 'S hand',
-    elementalProperties: { Water: 0.3, Air: 0.4, Fire: 0.2, Earth: 0.1 },
-    qualities: ['fragrant', 'sweet', 'exotic'],
-    season: ['winter', 'early spring'],
-    category: 'fruit',
-    subCategory: 'citrus',
-    affinities: ['honey', 'vanilla', 'ginger', 'vodka', 'sugar'],
-    cookingMethods: ['zested', 'candied', 'infused', 'preserved'],
-    nutritionalProfile: {
-      fiber: 'moderate',
-      vitamins: ['c'],
-      minerals: ['potassium'],
-      calories: 24,
-      carbs_g: 6.1,
-      fiber_g: 1.5,
-      antioxidants: ['limonene', 'flavonoids']
-    },
-    preparation: {
-      washing: true,
-      zesting: 'entire fruit is zestable',
-      cutting: 'separate fingers as needed',
-      notes: 'No juice or pulp, used for zest'
-    },
-    storage: {
-      temperature: 'refrigerated',
-      duration: '2-3 weeks',
-      humidity: 'moderate',
-      notes: 'Wrap loosely in plastic'
-    },
-    astrologicalProfile: {
-      rulingPlanets: ['Jupiter', 'Venus'],
-      favorableZodiac: ['sagittarius', 'pisces', 'libra'],
-      elementalAffinity: {
-        base: 'Air',
-        decanModifiers: {
-          first: { element: 'Air', planet: 'Jupiter', influence: 0.8 },
-          second: { element: 'Water', planet: 'Venus', influence: 0.7 },
-          third: { element: 'Air', planet: 'Jupiter', influence: 0.6 }
-        }
-      }
-    }
-  },
-
-  tangelo: {
-    name: 'Tangelo',
-    elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
-    qualities: ['sweet-tart', 'juicy', 'vibrant'],
-    season: ['winter'],
-    category: 'fruit',
-    subCategory: 'citrus',
-    affinities: ['honey', 'vanilla', 'cinnamon', 'mint', 'ginger'],
-    cookingMethods: ['raw', 'juiced', 'segments', 'preserved'],
-    nutritionalProfile: {
-      fiber: 'moderate',
-      vitamins: ['c', 'a', 'folate'],
-      minerals: ['potassium', 'calcium'],
-      calories: 47,
-      carbs_g: 12,
-      fiber_g: 2.0,
-      antioxidants: ['beta-carotene', 'cryptoxanthin']
-    },
-    preparation: {
-      washing: true,
-      peeling: 'easy to peel',
-      segmenting: 'naturally separates',
-      notes: 'Juicier than regular oranges'
-    },
-    storage: {
-      temperature: 'refrigerated',
-      duration: '1-2 weeks',
-      humidity: 'moderate',
-      notes: 'Best eaten fresh'
-    },
-    astrologicalProfile: {
-      rulingPlanets: ['Sun', 'Jupiter'],
-      favorableZodiac: ['leo', 'sagittarius', 'aries'],
-      elementalAffinity: {
-        base: 'Fire',
-        decanModifiers: {
-          first: { element: 'Fire', planet: 'Sun', influence: 0.8 },
-          second: { element: 'Water', planet: 'Jupiter', influence: 0.7 },
-          third: { element: 'Fire', planet: 'Sun', influence: 0.6 }
-        }
-      }
-    }
-  },
-
-  'key lime': {
-    name: 'Key lime',
-    elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
-    qualities: ['tart', 'aromatic', 'intense'],
-    season: ['summer', 'fall'],
-    category: 'fruit',
-    subCategory: 'citrus',
-    affinities: ['coconut', 'graham', 'vanilla', 'cream', 'mint'],
-    cookingMethods: ['juiced', 'zested', 'baked', 'preserved'],
-    nutritionalProfile: {
-      fiber: 'low',
-      vitamins: ['c', 'a'],
-      minerals: ['calcium', 'potassium'],
-      calories: 25,
-      carbs_g: 8.5,
-      fiber_g: 1.3,
-      antioxidants: ['flavonoids', 'limonoids']
-    },
-    preparation: {
-      washing: true,
-      juicing: 'requires many fruits',
-      zesting: 'before juicing',
-      notes: 'More aromatic than Persian limes'
-    },
-    storage: {
-      temperature: 'refrigerated',
-      duration: '1-2 weeks',
-      humidity: 'moderate',
-      notes: 'Use quickly once ripe'
-    },
-    astrologicalProfile: {
-      rulingPlanets: ['Moon', 'Mercury'],
-      favorableZodiac: ['cancer', 'gemini', 'pisces'],
-      elementalAffinity: {
-        base: 'Water',
-        decanModifiers: {
-          first: { element: 'Water', planet: 'Moon', influence: 0.8 },
-          second: { element: 'Air', planet: 'Mercury', influence: 0.7 },
-          third: { element: 'Water', planet: 'Moon', influence: 0.6 }
+          second: { element: 'Water', planet: 'Venus', influence: 0.6 },
+          third: { element: 'Air', planet: 'Mercury', influence: 0.5 }
         }
       }
     }
@@ -524,48 +260,106 @@ const, rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
   clementine: {
     name: 'Clementine',
+
+    // Base elemental properties (unscaled)
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
-    qualities: ['sweet', 'delicate', 'refreshing'],
+
+    // Phase 2: Quantity scaling metadata
+    quantityBase: { amount: 74, unit: 'g' }, // Standard serving: 1 medium clementine
+    scaledElemental: { Water: 0.39, Fire: 0.31, Air: 0.20, Earth: 0.10 }, // Scaled for harmony
+    alchemicalProperties: { Spirit: 0.250, Essence: 0.345, Matter: 0.155, Substance: 0.100 }, // Derived from scaled elemental
+    kineticsImpact: { thermalDirection: 0.08, forceMagnitude: 0.88 }, // Mild warming, gentle force
+
+    qualities: ['sweet', 'juicy', 'easy-to-peel', 'seedless'],
     season: ['winter'],
     category: 'fruit',
     subCategory: 'citrus',
-    affinities: ['chocolate', 'vanilla', 'caramel', 'nuts', 'spices'],
-    cookingMethods: ['raw', 'segments', 'juiced', 'desserts'],
+    affinities: ['honey', 'vanilla', 'mint', 'cinnamon'],
+    cookingMethods: ['raw', 'juiced', 'preserved'],
     nutritionalProfile: {
       fiber: 'moderate',
-      vitamins: ['c', 'folate', 'b1'],
+      vitamins: ['c', 'a', 'b1'],
       minerals: ['potassium', 'calcium'],
-      calories: 35,
-      carbs_g: 9,
-      fiber_g: 1.3,
-      antioxidants: ['hesperidin', 'beta-cryptoxanthin']
+      calories: 47,
+      carbs_g: 12,
+      fiber_g: 1.7,
+      antioxidants: ['beta-carotene', 'flavonoids']
     },
     preparation: {
       washing: true,
       peeling: 'very easy to peel',
-      segmenting: 'naturally separates',
-      notes: 'Usually seedless'
+      notes: 'Perfect for snacking'
     },
     storage: {
-      temperature: 'cool room temp or refrigerated',
+      temperature: 'room temp or refrigerated',
       duration: '1-2 weeks',
-      humidity: 'moderate',
-      notes: 'Store in mesh bag for airflow'
+      notes: 'Store loose in fruit bowl'
     },
     astrologicalProfile: {
-      rulingPlanets: ['Venus', 'Moon'],
-      favorableZodiac: ['libra', 'cancer', 'taurus'],
+      rulingPlanets: ['Sun', 'Venus'],
+      favorableZodiac: ['leo', 'libra', 'taurus'],
+      elementalAffinity: {
+        base: 'Fire',
+        decanModifiers: {
+          first: { element: 'Fire', planet: 'Sun', influence: 0.8 },
+          second: { element: 'Water', planet: 'Venus', influence: 0.6 },
+          third: { element: 'Air', planet: 'Mercury', influence: 0.7 }
+        }
+      }
+    }
+  },
+
+  pomelo: {
+    name: 'Pomelo',
+
+    // Base elemental properties (unscaled)
+    elementalProperties: { Water: 0.5, Air: 0.2, Fire: 0.2, Earth: 0.1 },
+
+    // Phase 2: Quantity scaling metadata
+    quantityBase: { amount: 609, unit: 'g' }, // Standard serving: 1/4 large pomelo
+    scaledElemental: { Water: 0.49, Air: 0.21, Fire: 0.20, Earth: 0.10 }, // Scaled for harmony
+    alchemicalProperties: { Spirit: 0.205, Essence: 0.395, Matter: 0.100, Substance: 0.200 }, // Derived from scaled elemental
+    kineticsImpact: { thermalDirection: -0.05, forceMagnitude: 1.05 }, // Cooling effect, moderate force
+
+    qualities: ['mild', 'sweet', 'aromatic', 'large', 'juicy'],
+    season: ['winter'],
+    category: 'fruit',
+    subCategory: 'citrus',
+    affinities: ['mint', 'honey', 'ginger', 'cinnamon'],
+    cookingMethods: ['raw', 'juiced', 'salads'],
+    nutritionalProfile: {
+      fiber: 'high',
+      vitamins: ['c', 'a', 'b1'],
+      minerals: ['potassium', 'calcium'],
+      calories: 72,
+      carbs_g: 18,
+      fiber_g: 2.6,
+      antioxidants: ['lycopene', 'beta-carotene']
+    },
+    preparation: {
+      washing: true,
+      peeling: 'thick rind, easy to peel when scored',
+      sectioning: 'large segments, easy to separate',
+      notes: 'Remove bitter membrane from segments'
+    },
+    storage: {
+      temperature: 'room temp or refrigerated',
+      duration: '2-3 weeks',
+      notes: 'Very large fruit, may need refrigeration'
+    },
+    astrologicalProfile: {
+      rulingPlanets: ['Moon', 'Jupiter'],
+      favorableZodiac: ['cancer', 'pisces', 'sagittarius'],
       elementalAffinity: {
         base: 'Water',
         decanModifiers: {
-          first: { element: 'Water', planet: 'Venus', influence: 0.8 },
-          second: { element: 'Earth', planet: 'Moon', influence: 0.7 },
-          third: { element: 'Water', planet: 'Venus', influence: 0.6 }
+          first: { element: 'Water', planet: 'Moon', influence: 0.8 },
+          second: { element: 'Air', planet: 'Jupiter', influence: 0.6 },
+          third: { element: 'Earth', planet: 'Saturn', influence: 0.7 }
         }
       }
     }
   }
-};
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const, citrus: Record<string, IngredientMapping> = fixIngredientMappings(rawCitrus);
+export const citrus: Record<string, IngredientMapping> = fixIngredientMappings(rawCitrus);

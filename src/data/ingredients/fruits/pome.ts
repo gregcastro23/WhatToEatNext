@@ -452,14 +452,14 @@ const rawPome = {
         texture: 'crisp, watery',
         flavor: 'mildly sweet, refreshing',
         best_uses: ['eating fresh', 'slaws', 'garnishes'],
-        notes: 'name means 'new century''
+        notes: 'name means "new century"'
       },
       Nijisseiki: {
         appearance: 'round, yellow-green',
         texture: 'very crisp, like an apple',
         flavor: 'subtle sweetness, clean finish',
         best_uses: ['eating fresh', 'pickling'],
-        notes: 'also called '20th Century pear''
+        notes: 'also called "20th Century pear"'
       }
     },
     culinaryApplications: {

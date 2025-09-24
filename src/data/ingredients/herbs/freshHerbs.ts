@@ -6,7 +6,15 @@ const rawFreshHerbs = {
     name: 'Basil',
     category: 'culinary_herb',
     subCategory: 'fresh_herb',
+
+    // Base elemental properties (unscaled)
     elementalProperties: { Air: 0.43, Water: 0.27, Fire: 0.22, Earth: 0.08 },
+
+    // Phase 2: Quantity scaling metadata
+    quantityBase: { amount: 5, unit: 'g' }, // Standard serving: 2 tablespoons chopped
+    scaledElemental: { Air: 0.43, Water: 0.27, Fire: 0.22, Earth: 0.08 }, // Scaled for harmony (already balanced)
+    alchemicalProperties: { Spirit: 0.325, Essence: 0.175, Matter: 0.150, Substance: 0.350 }, // Derived from scaled elemental
+    kineticsImpact: { thermalDirection: 0.12, forceMagnitude: 1.15 }, // Mild warming, high force (concentrated flavor)
     qualities: ['aromatic', 'sweet', 'peppery', 'fresh', 'vibrant', 'delicate'],
     origin: ['India', 'Southeast Asia', 'Mediterranean'],
 
@@ -22,8 +30,10 @@ const rawFreshHerbs = {
       },
       vitamins: {
         K: 0.13, // Values as percentage of RDA
-        A: 0.03C: 0.02,
-        folate: 0.01B6: 0.01
+        A: 0.03,
+        C: 0.02,
+        folate: 0.01,
+        B6: 0.01
       },
       minerals: {
         manganese: 0.03,

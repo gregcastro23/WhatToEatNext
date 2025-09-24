@@ -1,15 +1,22 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
-import type { _ } from '@/types/seasons';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Pattern, AA: Ingredient Interface Restructuring
 // Proper type annotation for raw ingredients to ensure IngredientMapping compatibility
-const, rawOils: Record<string, Partial<IngredientMapping>> = {
+const rawOils: Record<string, Partial<IngredientMapping>> = {
   olive_oil: {
     name: 'Olive Oil',
     category: 'oil',
     subCategory: 'cooking',
+
+    // Base elemental properties (unscaled)
     elementalProperties: { Fire: 0.3, Earth: 0.3, Air: 0.2, Water: 0.2 },
+
+    // Phase 2: Quantity scaling metadata
+    quantityBase: { amount: 15, unit: 'ml' }, // Standard serving: 1 tablespoon
+    scaledElemental: { Fire: 0.30, Earth: 0.30, Air: 0.20, Water: 0.20 }, // Scaled for harmony (already balanced)
+    alchemicalProperties: { Spirit: 0.250, Essence: 0.200, Matter: 0.250, Substance: 0.300 }, // Derived from scaled elemental
+    kineticsImpact: { thermalDirection: 0.08, forceMagnitude: 0.95 }, // Mild warming, gentle force
     seasonality: ['spring', 'summer', 'fall', 'winter'],
     smokePoint: { celsius: 207, fahrenheit: 405 },
     qualities: ['healthy', 'versatile', 'rich'],

@@ -4,7 +4,15 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawRootVegetables = {
   'sweet potato': {
     name: 'Sweet potato',
+
+    // Base elemental properties (unscaled)
     elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.1, Air: 0.1 },
+
+    // Phase 2: Quantity scaling metadata
+    quantityBase: { amount: 114, unit: 'g' }, // Standard serving: 1 medium sweet potato
+    scaledElemental: { Earth: 0.50, Fire: 0.30, Water: 0.10, Air: 0.10 }, // Scaled for harmony (already balanced)
+    alchemicalProperties: { Spirit: 0.200, Essence: 0.100, Matter: 0.300, Substance: 0.400 }, // Derived from scaled elemental
+    kineticsImpact: { thermalDirection: 0.15, forceMagnitude: 1.08 }, // Warming effect, moderate force
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Moon'],
       favorableZodiac: ['taurus', 'cancer', 'virgo'],

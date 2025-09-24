@@ -1,10 +1,8 @@
 import { TarotCard } from '@/contexts/TarotContext/types';
 import {
-  ZodiacSign,
-  LunarPhase,
-  Modality,
-  AlchemicalProperties,
-  PlanetName
+    LunarPhase,
+    Modality,
+    PlanetName
 } from '@/types/celestial';
 
 // src/types/alchemy.ts
@@ -542,7 +540,7 @@ export interface CelestialPosition {
 export type { AstrologicalState } from '@/types/celestial';
 
 // Re-export standard types from celestial
-export type { PlanetName, ZodiacSign, LunarPhase } from '@/types/celestial';
+export type { LunarPhase, PlanetName, ZodiacSign } from '@/types/celestial';
 
 export const _COOKING_METHOD_THERMODYNAMICS = {}
 
@@ -890,6 +888,30 @@ export interface EnergyStateProperties {
   Essence: number,
   Matter: number,
   Substance: number
+}
+
+/**
+ * Quantity Scaled Properties interface for ingredient-to-quantity mapping
+ * Represents elemental and alchemical properties scaled by quantity amounts
+ */
+export interface QuantityScaledProperties {
+  /** Base elemental properties before scaling */
+  base: ElementalProperties,
+  /** Scaled elemental properties after quantity adjustment */
+  scaled: ElementalProperties,
+  /** Quantity amount used for scaling */
+  quantity: number,
+  /** Unit of measurement (e.g., 'g', 'ml', 'tsp', 'cup') */
+  unit: string,
+  /** Scaling factor applied (normalized logarithmic factor) */
+  factor: number,
+  /** Optional kinetics impact from quantity scaling */
+  kineticsImpact?: {
+    /** Force adjustment due to quantity changes */
+    forceAdjustment: number,
+    /** Thermal shift due to quantity changes */
+    thermalShift: number
+  }
 }
 
 export type ChakraPosition =

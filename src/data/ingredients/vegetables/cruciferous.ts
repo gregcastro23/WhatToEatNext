@@ -4,7 +4,15 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawCruciferous: Record<string, Partial<IngredientMapping>> = {
   cauliflower: {
     name: 'Cauliflower',
+
+    // Base elemental properties (unscaled)
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
+
+    // Phase 2: Quantity scaling metadata
+    quantityBase: { amount: 100, unit: 'g' }, // Standard serving: 1 cup chopped
+    scaledElemental: { Air: 0.40, Earth: 0.30, Water: 0.20, Fire: 0.10 }, // Scaled for harmony (already balanced)
+    alchemicalProperties: { Spirit: 0.350, Essence: 0.150, Matter: 0.250, Substance: 0.250 }, // Derived from scaled elemental
+    kineticsImpact: { thermalDirection: -0.05, forceMagnitude: 0.95 }, // Cooling effect, gentle force
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Saturn'],
       favorableZodiac: ['virgo', 'capricorn'],

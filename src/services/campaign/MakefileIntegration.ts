@@ -56,15 +56,15 @@ export class MakefileIntegration {
     // Campaign Phase Execution Targets
     this.campaignTargets.set('campaign-phase1', {
       name: 'campaign-phase1',
-      description: 'Execute Phase, 1: TypeScript Error Elimination',
+      description: 'Execute Phase 1: TypeScript Error Elimination',
       commands: [
-        '@echo '🎯 Starting Phase, 1: TypeScript Error Elimination'',
-        '@echo 'Target: Zero TypeScript compilation errors'',
-        'node src/services/campaign/CampaignController.js --phase=1 --execute',,
+        '@echo "🎯 Starting Phase 1: TypeScript Error Elimination"',
+        '@echo "Target: Zero TypeScript compilation errors"',
+        'node src/services/campaign/CampaignController.js --phase=1 --execute',
         '@make campaign-validate-phase1'
       ],
       phony: true
-})
+    });
 
     this.campaignTargets.set('campaign-phase2', {
       name: 'campaign-phase2',

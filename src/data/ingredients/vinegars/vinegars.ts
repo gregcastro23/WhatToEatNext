@@ -1,4 +1,3 @@
-import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Define vinegars directly in this file rather than importing from seasonings
@@ -7,12 +6,20 @@ const rawVinegars = {
     name: 'Rice Vinegar',
     category: 'vinegar',
     subCategory: 'grain',
+
+    // Base elemental properties (unscaled)
     elementalProperties: {
       Water: 0.4,
       Air: 0.3,
       Earth: 0.2,
       Fire: 0.1
     },
+
+    // Phase 2: Quantity scaling metadata
+    quantityBase: { amount: 15, unit: 'ml' }, // Standard serving: 1 tablespoon
+    scaledElemental: { Water: 0.40, Air: 0.30, Earth: 0.20, Fire: 0.10 }, // Scaled for harmony (already balanced)
+    alchemicalProperties: { Spirit: 0.200, Essence: 0.300, Matter: 0.150, Substance: 0.350 }, // Derived from scaled elemental
+    kineticsImpact: { thermalDirection: -0.10, forceMagnitude: 0.90 }, // Cooling effect, gentle force
     qualities: ['mild', 'sweet', 'clean', 'delicate', 'balanced'],
     origin: ['China', 'Japan', 'Korea'],
     nutritionalProfile: {

@@ -1,5 +1,6 @@
 import type { ElementalProperties, IngredientMapping } from '@/types/alchemy';
 import type { Recipe, ZodiacSign } from '@/types/unified';
+import { calculateKinetics } from '@/utils/kinetics';
 
 import { fruits } from '../data/ingredients/fruits';
 import { grains } from '../data/ingredients/grains';
@@ -145,10 +146,10 @@ export const INGREDIENT_GROUPS = {
  * Consolidated service for ingredient filtering, mapping, and compatibility operations
  */
 export class IngredientService implements IngredientServiceInterface {
-  private static instance: IngredientService,
-  private allIngredients: Record<string, Record<string, IngredientMapping>>,
-  private unifiedIngredients: Record<string, UnifiedIngredient[]>,
-  private unifiedIngredientsFlat: UnifiedIngredient[],
+  private static instance: IngredientService;
+  private allIngredients: Record<string, Record<string, IngredientMapping>>;
+  private unifiedIngredients: Record<string, UnifiedIngredient[]>;
+  private unifiedIngredientsFlat: UnifiedIngredient[];
   // spoonacularCache removed with cleanup
 
   /**
@@ -1196,7 +1197,8 @@ export class IngredientService implements IngredientServiceInterface {
     elementalCompatibility: number,
     flavorCompatibility: number,
     seasonalCompatibility: number,
-    energeticCompatibility: number
+    energeticCompatibility: number,
+    kineticsCompatibility: number
   } {
     try {
       // Get actual ingredient objects
@@ -1207,13 +1209,14 @@ export class IngredientService implements IngredientServiceInterface {
 
       // Handle case where ingredients are not found
       if (!ing1 || !ing2) {
-        return {;
+        return {
           score: 0,
           elementalCompatibility: 0,
           flavorCompatibility: 0,
           seasonalCompatibility: 0,
-          energeticCompatibility: 0
-}
+          energeticCompatibility: 0,
+          kineticsCompatibility: 0
+        };
       }
 
       // Calculate elemental compatibility
@@ -1287,30 +1290,222 @@ export class IngredientService implements IngredientServiceInterface {
           (Math.max(0, heatScore) + Math.max(0, entropyScore) + Math.max(0, reactivityScore)) / 3,
       }
 
+      // Calculate kinetics-based compatibility
+      const kineticsCompatibility = this.calculateKineticsCompatibility(ing1, ing2);
+
       // Calculate overall score with weighted components
       const score =
-        elementalCompatibility * 0.4 +
-        flavorCompatibility * 0.3 +
-        seasonalCompatibility * 0.1 +;
-        energeticCompatibility * 0.2,
+        elementalCompatibility * 0.35 +
+        flavorCompatibility * 0.25 +
+        seasonalCompatibility * 0.1 +
+        energeticCompatibility * 0.15 +
+        kineticsCompatibility * 0.15;
 
       return {
         score,
         elementalCompatibility,
         flavorCompatibility,
         seasonalCompatibility,
-        energeticCompatibility
-      }
+        energeticCompatibility,
+        kineticsCompatibility
+      };
     } catch (error) {
-      logger.error('Error calculating ingredient compatibility: ', error),
+      logger.error('Error calculating ingredient compatibility: ', error);
       return {
         score: 0,
         elementalCompatibility: 0,
         flavorCompatibility: 0,
         seasonalCompatibility: 0,
-        energeticCompatibility: 0
-}
+        energeticCompatibility: 0,
+        kineticsCompatibility: 0
+      };
     }
+  }
+
+  /**
+   * Calculate kinetics-based compatibility between two ingredients
+   * @param ing1 First ingredient
+   * @param ing2 Second ingredient
+   * @returns Kinetics compatibility score (0-1)
+   */
+  private calculateKineticsCompatibility(
+    ing1: UnifiedIngredient,
+    ing2: UnifiedIngredient
+  ): number {
+    try {
+      // Get elemental properties for kinetics calculation
+      const elemental1 = ing1.elementalState ||
+        createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
+      const elemental2 = ing2.elementalState ||
+        createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
+
+      // Create planetary positions for kinetics calculation
+      // Use astrological properties if available, otherwise default
+      const planetaryPositions1 = this.extractPlanetaryPositions(ing1);
+      const planetaryPositions2 = this.extractPlanetaryPositions(ing2);
+
+      // Calculate kinetics for both ingredients
+      const kinetics1 = calculateKinetics(planetaryPositions1);
+      const kinetics2 = calculateKinetics(planetaryPositions2);
+
+      // Calculate power conservation compatibility
+      const powerCompatibility = this.calculatePowerConservationCompatibility(
+        kinetics1.power || 50,
+        kinetics2.power || 50,
+        elemental1,
+        elemental2
+      );
+
+      // Calculate force classification compatibility
+      const forceCompatibility = this.calculateForceClassificationCompatibility(
+        kinetics1.forceClassification,
+        kinetics2.forceClassification
+      );
+
+      // Calculate thermal alignment compatibility
+      const thermalCompatibility = this.calculateThermalAlignmentCompatibility(
+        kinetics1.thermalDirection,
+        kinetics2.thermalDirection,
+        elemental1,
+        elemental2
+      );
+
+      // Calculate aspect phase compatibility
+      const aspectCompatibility = this.calculateAspectPhaseCompatibility(
+        kinetics1.aspectPhase || 'neutral',
+        kinetics2.aspectPhase || 'neutral'
+      );
+
+      // Weighted combination of kinetics factors
+      const kineticsScore =
+        powerCompatibility * 0.3 +
+        forceCompatibility * 0.25 +
+        thermalCompatibility * 0.25 +
+        aspectCompatibility * 0.2;
+
+      return Math.max(0, Math.min(1, kineticsScore));
+    } catch (error) {
+      logger.warn('Error calculating kinetics compatibility, using default:', error);
+      return 0.5; // Neutral compatibility on error
+    }
+  }
+
+  /**
+   * Extract planetary positions from ingredient astrological properties
+   */
+  private extractPlanetaryPositions(ingredient: UnifiedIngredient): { [planet: string]: string } {
+    const positions: { [planet: string]: string } = {};
+
+    if (ingredient.astrologicalPropertiesProfile?.rulingPlanets) {
+      // Map ruling planets to signs based on available data
+      ingredient.astrologicalPropertiesProfile.rulingPlanets.forEach((planet, index) => {
+        // Use favorable zodiac signs if available, otherwise default to Aries
+        const zodiacSigns = ingredient.astrologicalPropertiesProfile?.favorableZodiac || ['aries'];
+        positions[planet] = zodiacSigns[index % zodiacSigns.length] || 'aries';
+      });
+    }
+
+    // Ensure we have at least some planetary positions
+    if (Object.keys(positions).length === 0) {
+      positions['Sun'] = 'aries';
+      positions['Moon'] = 'cancer';
+      positions['Mars'] = 'aries';
+    }
+
+    return positions;
+  }
+
+  /**
+   * Calculate power conservation compatibility
+   */
+  private calculatePowerConservationCompatibility(
+    power1: number,
+    power2: number,
+    elemental1: ElementalProperties,
+    elemental2: ElementalProperties
+  ): number {
+    // Power conservation favors complementary charge/potential relationships
+    const charge1 = (elemental1.Earth + elemental1.Water) / 2; // Matter + Substance
+    const potential1 = (elemental1.Fire + elemental1.Air) / 2; // Spirit + Essence
+    const charge2 = (elemental2.Earth + elemental2.Water) / 2;
+    const potential2 = (elemental2.Fire + elemental2.Air) / 2;
+
+    // Ideal: One has high charge, other has high potential (like battery + load)
+    const chargePotentialBalance = Math.min(
+      charge1 * potential2 + charge2 * potential1,
+      1.0
+    );
+
+    // Power level compatibility (similar power levels work better together)
+    const powerDifference = Math.abs(power1 - power2) / 100;
+    const powerSimilarity = 1 - powerDifference;
+
+    return (chargePotentialBalance * 0.6 + powerSimilarity * 0.4);
+  }
+
+  /**
+   * Calculate force classification compatibility
+   */
+  private calculateForceClassificationCompatibility(
+    force1: string,
+    force2: string
+  ): number {
+    // Compatible force combinations
+    const compatibilityMatrix: { [key: string]: { [key: string]: number } } = {
+      'stable': { 'stable': 0.9, 'accelerating': 0.7, 'decelerating': 0.6 },
+      'accelerating': { 'stable': 0.7, 'accelerating': 0.8, 'decelerating': 0.5 },
+      'decelerating': { 'stable': 0.6, 'accelerating': 0.5, 'decelerating': 0.8 }
+    };
+
+    return compatibilityMatrix[force1]?.[force2] || 0.5;
+  }
+
+  /**
+   * Calculate thermal alignment compatibility
+   */
+  private calculateThermalAlignmentCompatibility(
+    thermal1: string,
+    thermal2: string,
+    elemental1: ElementalProperties,
+    elemental2: ElementalProperties
+  ): number {
+    // Direct thermal compatibility
+    if (thermal1 === thermal2) {
+      return thermal1 === 'neutral' ? 0.7 : 0.9; // Neutral is more flexible
+    }
+
+    // Check elemental thermal indicators
+    const fire1 = elemental1.Fire;
+    const water1 = elemental1.Water;
+    const fire2 = elemental2.Fire;
+    const water2 = elemental2.Water;
+
+    // Heating ingredients work well together, cooling ingredients work well together
+    const heatingAlignment = Math.min(fire1 + fire2, 1.0);
+    const coolingAlignment = Math.min(water1 + water2, 1.0);
+
+    // Opposite thermal directions can create balance
+    if ((thermal1 === 'heating' && thermal2 === 'cooling') ||
+        (thermal1 === 'cooling' && thermal2 === 'heating')) {
+      return Math.max(heatingAlignment, coolingAlignment) * 0.8;
+    }
+
+    return 0.5; // Default moderate compatibility
+  }
+
+  /**
+   * Calculate aspect phase compatibility
+   */
+  private calculateAspectPhaseCompatibility(phase1: string, phase2: string): number {
+    const aspectCompatibility: { [key: string]: { [key: string]: number } } = {
+      'conjunction': { 'conjunction': 0.9, 'opposition': 0.6, 'trine': 0.7, 'square': 0.4, 'neutral': 0.5 },
+      'opposition': { 'conjunction': 0.6, 'opposition': 0.8, 'trine': 0.5, 'square': 0.7, 'neutral': 0.5 },
+      'trine': { 'conjunction': 0.7, 'opposition': 0.5, 'trine': 0.9, 'square': 0.5, 'neutral': 0.6 },
+      'square': { 'conjunction': 0.4, 'opposition': 0.7, 'trine': 0.5, 'square': 0.8, 'neutral': 0.5 },
+      'neutral': { 'conjunction': 0.5, 'opposition': 0.5, 'trine': 0.6, 'square': 0.5, 'neutral': 0.7 }
+    };
+
+    return aspectCompatibility[phase1]?.[phase2] || 0.5;
   }
 
   /**

@@ -2,20 +2,20 @@ import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Helper function for generating consistent numeric values
-const generateVegetableAttributes = (vegData: {;
-  water: number // water content percentage (0-100);
-  fiber: number; // fiber content (0-10 scale);
-  bitterness: number // bitterness level (0-10 scale);
-  cooking_time: number // typical cooking time in minutes
+const generateVegetableAttributes = (vegData: {
+  water: number; // water content percentage (0-100)
+  fiber: number; // fiber content (0-10 scale)
+  bitterness: number; // bitterness level (0-10 scale)
+  cooking_time: number; // typical cooking time in minutes
 }) => {
   return {
     water_content: vegData.water,
     fiber_density: vegData.fiber,
     bitterness: vegData.bitterness,
     cooking_time_minutes: vegData.cooking_time,
-    volume_reduction: Math.round(((vegData as any)?.water || 0) * 0.2) / 10, // How much it shrinks when cooked (1-10 scale);
-    seasonal_peak_months: [], // Will be set individually,
-    cell_wall_strength: Math.round(10 - vegData.water / (10 || 1) + vegData.fiber / (2 || 1)), // Structural integrity when cooked,
+    volume_reduction: Math.round(((vegData as any)?.water || 0) * 0.2) / 10, // How much it shrinks when cooked (1-10 scale)
+    seasonal_peak_months: [], // Will be set individually
+    cell_wall_strength: Math.round(10 - vegData.water / (10 || 1) + vegData.fiber / (2 || 1)), // Structural integrity when cooked
     nutrient_density: Math.round(
       ((vegData as any)?.fiber || 0) * 0.2 +
         (100 - vegData.water) * 0.05 +
@@ -29,7 +29,15 @@ const rawLeafyGreens = {
     name: 'Kale',
     category: 'vegetable',
     subCategory: 'leafy_green',
+
+    // Base elemental properties (unscaled)
     elementalProperties: { Air: 0.38, Earth: 0.34, Water: 0.22, Fire: 0.06 },
+
+    // Phase 2: Quantity scaling metadata
+    quantityBase: { amount: 67, unit: 'g' }, // Standard serving: 1 cup chopped
+    scaledElemental: { Air: 0.38, Earth: 0.34, Water: 0.22, Fire: 0.06 }, // Scaled for harmony (already balanced)
+    alchemicalProperties: { Spirit: 0.320, Essence: 0.190, Matter: 0.200, Substance: 0.290 }, // Derived from scaled elemental
+    kineticsImpact: { thermalDirection: 0.10, forceMagnitude: 0.95 }, // Mild warming, gentle force
     qualities: [
       'cleansing',
       'strengthening',
@@ -312,7 +320,15 @@ const rawLeafyGreens = {
   },
   spinach: {
     name: 'Spinach',
+
+    // Base elemental properties (unscaled)
     elementalProperties: { Water: 0.42, Air: 0.31, Earth: 0.22, Fire: 0.05 },
+
+    // Phase 2: Quantity scaling metadata
+    quantityBase: { amount: 30, unit: 'g' }, // Standard serving: 1 cup fresh
+    scaledElemental: { Water: 0.42, Air: 0.31, Earth: 0.22, Fire: 0.05 }, // Scaled for harmony (already balanced)
+    alchemicalProperties: { Spirit: 0.265, Essence: 0.320, Matter: 0.135, Substance: 0.280 }, // Derived from scaled elemental
+    kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.90 }, // Mild warming, very gentle force
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Mercury'],
       favorableZodiac: ['cancer', 'gemini', 'virgo'],

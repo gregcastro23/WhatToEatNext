@@ -4,7 +4,15 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawAlliums: Record<string, Partial<IngredientMapping>> = {
   garlic: {
     name: 'Garlic',
+
+    // Base elemental properties (unscaled)
     elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
+
+    // Phase 2: Quantity scaling metadata
+    quantityBase: { amount: 3, unit: 'g' }, // Standard serving: 1 clove (3g)
+    scaledElemental: { Fire: 0.58, Air: 0.21, Earth: 0.11, Water: 0.10 }, // Scaled for harmony
+    alchemicalProperties: { Spirit: 0.395, Essence: 0.100, Matter: 0.105, Substance: 0.400 }, // Derived from scaled elemental
+    kineticsImpact: { thermalDirection: 0.30, forceMagnitude: 1.25 }, // Strong warming, high force
     astrologicalProfile: {
       rulingPlanets: ['Mars', 'Pluto'],
       favorableZodiac: ['aries', 'scorpio'],

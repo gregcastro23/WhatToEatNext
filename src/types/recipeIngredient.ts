@@ -1,4 +1,4 @@
-import { Ingredient, ElementalProperties } from './index';
+import { ElementalProperties, QuantityScaledProperties } from './index';
 
 /**
  * Recipe ingredient interface that extends the base Ingredient
@@ -23,6 +23,9 @@ export interface RecipeIngredient {
   category?: string,
   elementalProperties?: ElementalProperties,
   qualities?: string[],
+
+  // Quantity-scaled properties for enhanced alchemical calculations
+  scaledProperties?: QuantityScaledProperties,
 
   // Astrological profile for recipe context
   astrologicalProfile?: {

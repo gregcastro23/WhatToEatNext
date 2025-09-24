@@ -4,7 +4,15 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawBerries: Record<string, Partial<IngredientMapping>> = {
   blueberry: {
     name: 'Blueberry',
+
+    // Base elemental properties (unscaled)
     elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
+
+    // Phase 2: Quantity scaling metadata
+    quantityBase: { amount: 100, unit: 'g' }, // Standard serving: 1 cup (100g)
+    scaledElemental: { Water: 0.39, Air: 0.31, Earth: 0.20, Fire: 0.10 }, // Scaled for harmony
+    alchemicalProperties: { Spirit: 0.250, Essence: 0.345, Matter: 0.100, Substance: 0.205 }, // Derived from scaled elemental
+    kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.95 }, // Mild cooling, gentle force
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
       favorableZodiac: ['cancer', 'taurus'],

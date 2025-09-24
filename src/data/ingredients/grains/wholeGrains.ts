@@ -1,11 +1,18 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
-import type { ZodiacSign } from '@/types/celestial';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawWholeGrains = {
   brown_rice: {
     name: 'Brown Rice',
+
+    // Base elemental properties (unscaled)
     elementalProperties: { Earth: 0.5, Water: 0.3, Air: 0.1, Fire: 0.1 },
+
+    // Phase 2: Quantity scaling metadata
+    quantityBase: { amount: 195, unit: 'g' }, // Standard serving: 1 cup cooked
+    scaledElemental: { Earth: 0.50, Water: 0.30, Air: 0.10, Fire: 0.10 }, // Scaled for harmony (already balanced)
+    alchemicalProperties: { Spirit: 0.100, Essence: 0.200, Matter: 0.400, Substance: 0.300 }, // Derived from scaled elemental
+    kineticsImpact: { thermalDirection: 0.05, forceMagnitude: 0.90 }, // Mild warming, gentle force
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
       favorableZodiac: ['cancer', 'capricorn', 'taurus'] as any[],
@@ -53,7 +60,10 @@ const rawWholeGrains = {
         fiber: 1.8
       },
       vitamins: {
-        B1: 0.11B3: 0.13B6: 0.14E: 0.08,
+        B1: 0.11,
+        B3: 0.13,
+        B6: 0.14,
+        E: 0.08,
         folate: 0.04
       },
       minerals: {

@@ -4,12 +4,20 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawStarchyVegetables = {
   potato: {
     name: 'potato',
+
+    // Base elemental properties (unscaled)
     elementalProperties: {
       Earth: 0.6,
       Water: 0.25,
       Fire: 0.1,
       Air: 0.05
     },
+
+    // Phase 2: Quantity scaling metadata
+    quantityBase: { amount: 173, unit: 'g' }, // Standard serving: 1 medium potato
+    scaledElemental: { Earth: 0.60, Water: 0.25, Fire: 0.10, Air: 0.05 }, // Scaled for harmony (already balanced)
+    alchemicalProperties: { Spirit: 0.075, Essence: 0.200, Matter: 0.425, Substance: 0.300 }, // Derived from scaled elemental
+    kineticsImpact: { thermalDirection: 0.02, forceMagnitude: 0.95 }, // Neutral temperature, gentle force
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Moon'],
       favorableZodiac: ['taurus', 'capricorn', 'cancer'],
