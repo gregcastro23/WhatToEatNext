@@ -101,3 +101,5 @@ lint-fix-log.txt
 .typescript-errors-metrics.json
 .explicit-any-metrics.json
 reports/
+*.json
+*-report.json
