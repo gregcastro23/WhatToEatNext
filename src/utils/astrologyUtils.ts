@@ -1,5 +1,5 @@
-import SunCalc from 'suncalc';
 import { _logger } from '@/lib/logger';
+import SunCalc from 'suncalc';
 
 // Removed unused, import: AlchemicalDignityType
 import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryElements';
@@ -41,18 +41,18 @@ import { calculateAllHouseEffects } from './houseEffects';
  * This is a safe replacement for _logger.info that can be disabled in production
  */
 const debugLog = (message: string, ..._args: unknown[]): void => {
-  // Use the log service for debugging with enterprise intelligence integration;
-  log.info(`[AstrologyUtils Debug] ${message}`)
-}
+  // Use the log service for debugging with enterprise intelligence integration
+  log.info(`[AstrologyUtils Debug] ${message}`);
+};
 
 /**
  * A utility function for logging errors
  * This is a safe replacement for _logger.error that can be disabled in production
  */
 const errorLog = (message: string, ..._args: unknown[]): void => {
-  // Use the log service for errors with enterprise intelligence integration;
-  log.error(`[AstrologyUtils Error] ${message}`)
-}
+  // Use the log service for errors with enterprise intelligence integration
+  log.error(`[AstrologyUtils Error] ${message}`);
+};
 
 /**
  * Get the modifier value for a specific lunar phase
@@ -69,9 +69,9 @@ export function getLunarPhaseModifier(_phase: LunarPhase): number {
     'waning gibbous': 0.8,
     'last quarter': 0.6,
     'waning crescent': 0.3,
-  }
+  };
 
-  return modifiers[phase] || 0.5; // default to 0.5 if phase is not recognized
+  return modifiers[_phase] || 0.5; // default to 0.5 if phase is not recognized
 }
 
 // Export calculatePlanetaryAspects from safeAstrology
@@ -95,51 +95,52 @@ export function getZodiacElement(_sign: any): ElementalCharacter {
     aquarius: 'Air',
     cancer: 'Water',
     scorpio: 'Water',
-    pisces: 'Water' },
-        return elements[sign]; // All signs are guaranteed to have elements
+    pisces: 'Water',
+  };
+  return elements[_sign]; // All signs are guaranteed to have elements
 }
 
 // Define a replacement getPlanetaryDignity function
 export function getPlanetaryDignity(
   planet: string,
   sign: any | undefined,
-): { type: DignityType, strength: number } {
-  return getPlanetaryDignityInfo(planet, sign)
+): { type: DignityType; strength: number } {
+  return getPlanetaryDignityInfo(planet, sign);
 }
 
 // Add type definition for PlanetPosition
 export interface PlanetPosition {
-  sign: any,
-  degree: number,
-  minute: number,
-  exactLongitude: number,
-  isRetrograde?: boolean,
-  error?: boolean
+  sign: any;
+  degree: number;
+  minute: number;
+  exactLongitude: number;
+  isRetrograde?: boolean;
+  error?: boolean;
 }
 
 // Use the imported ElementalProperties (uppercase Fire, Water, Earth, Air)
-export type ElementalProperties = ImportedElementalProperties,
+export type ElementalProperties = ImportedElementalProperties;
 
 // Use the imported AspectType but keep local for backwards compatibility
-export type AspectType = ImportedAspectType,
+export type AspectType = ImportedAspectType;
 
 // Use the imported PlanetaryAspect but keep local for backwards compatibility
 export interface PlanetaryAspect extends ImportedPlanetaryAspect {
   // Adding additional properties needed for the astrologyUtils implementation
-  exactAngle?: number // The exact angle in degrees between the two planets
-  applyingSeparating?: 'applying' | 'separating', // Whether the aspect is applying or separating
-  significance?: number, // A calculated significance score for this aspect (0-1)
-  description?: string, // Human-readable description of the aspect
-  elementalInfluence?: LowercaseElementalProperties, // How this aspect affects elemental properties
+  exactAngle?: number; // The exact angle in degrees between the two planets
+  applyingSeparating?: 'applying' | 'separating'; // Whether the aspect is applying or separating
+  significance?: number; // A calculated significance score for this aspect (0-1)
+  description?: string; // Human-readable description of the aspect
+  elementalInfluence?: LowercaseElementalProperties; // How this aspect affects elemental properties
 }
 
 // Define AstrologicalEffects interface locally
 export interface AstrologicalEffects {
-  dignity: LowercaseElementalProperties,
-  aspect: LowercaseElementalProperties,
-  stellium: LowercaseElementalProperties,
-  house: Record<ElementalCharacter, number>,
-  joy: LowercaseElementalProperties
+  dignity: LowercaseElementalProperties;
+  aspect: LowercaseElementalProperties;
+  stellium: LowercaseElementalProperties;
+  house: Record<ElementalCharacter, number>;
+  joy: LowercaseElementalProperties;
 }
 
 // Export zodiac signs array for use by other modules (enterprise intelligence pattern)
@@ -288,8 +289,9 @@ export async function getMoonIllumination(date: Date = new Date()): Promise<numb
       const phaseName = getLunarPhaseName(phase)
 
       // Approximate illumination based on phase name
-      switch (phaseName) {;
-        case 'new moon': return 0,
+      switch (phaseName) {
+        case 'new moon':
+          return 0;
         case 'waxing crescent':
           return 25;
         case 'first quarter':
@@ -304,10 +306,11 @@ export async function getMoonIllumination(date: Date = new Date()): Promise<numb
           return 50;
         case 'waning crescent':
           return 25;
-        default: return 50
+        default:
+          return 50;
       }
     } catch (_fallbackError) {
-      errorLog('Fallback moon illumination calculation failed')
+      errorLog('Fallback moon illumination calculation failed');
       return 50; // Default to half-illuminated
     }
   }

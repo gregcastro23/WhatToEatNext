@@ -1,0 +1,116 @@
+{
+  "timestamp": "2025-08-11T20:59:10.651Z",
+  "type": "ultimate-cleanup-executor",
+  "perfectSuccess": true,
+  "results": {
+    "totalFound": 31,
+    "totalFixed": 31,
+    "totalFailed": 0,
+    "filesProcessed": 25,
+    "fixDetails": [
+      {
+        "file": "src/hooks/useRealtimePlanetaryPositions.ts",
+        "pattern": "Body variable",
+        "count": 1
+      },
+      {
+        "file": "src/hooks/useStatePreservation.ts",
+        "pattern": "Selected items array",
+        "count": 1
+      },
+      {
+        "file": "src/hooks/useAlchemicalRecommendations.ts",
+        "pattern": "Conversion function parameter",
+        "count": 1
+      },
+      {
+        "file": "src/hooks/useTarotAstrologyData.ts",
+        "pattern": "Cards array",
+        "count": 1
+      },
+      {
+        "file": "src/hooks/useErrorHandler.ts",
+        "pattern": "Food recommendations array",
+        "count": 1
+      },
+      {
+        "file": "src/scripts/replaceConsoleStatements.ts",
+        "pattern": "Array type",
+        "count": 8
+      },
+      {
+        "file": "src/services/campaign/unintentional-any-elimination/ProgressiveImprovementEngine.ts",
+        "pattern": "Array type",
+        "count": 1
+      },
+      {
+        "file": "src/calculations/enhancedCuisineRecommender.ts",
+        "pattern": "Array type",
+        "count": 1
+      },
+      {
+        "file": "src/data/unified/recipes.ts",
+        "pattern": "Array type",
+        "count": 3
+      },
+      {
+        "file": "src/services/linting/LintingValidationDashboard.ts",
+        "pattern": "Array type",
+        "count": 1
+      },
+      {
+        "file": "src/services/RecipeCuisineConnector.ts",
+        "pattern": "Array type",
+        "count": 1
+      },
+      {
+        "file": "src/services/campaign/TerminalFreezePreventionSystem.ts",
+        "pattern": "Options parameter",
+        "count": 2
+      },
+      {
+        "file": "src/services/campaign/run-linting-formatting.ts",
+        "pattern": "Array type",
+        "count": 2
+      },
+      {
+        "file": "src/services/campaign/run-import-cleanup.ts",
+        "pattern": "Array type",
+        "count": 1
+      },
+      {
+        "file": "src/services/campaign/unintentional-any-elimination/AnyTypeClassifier.ts",
+        "pattern": "Array type",
+        "count": 1
+      },
+      {
+        "file": "src/services/campaign/unintentional-any-elimination/config/cli.ts",
+        "pattern": "Config parameter",
+        "count": 1
+      },
+      {
+        "file": "src/services/campaign/unintentional-any-elimination/DocumentationQualityAssurance.ts",
+        "pattern": "Array type",
+        "count": 1
+      },
+      {
+        "file": "src/services/campaign/unintentional-any-elimination/deployment/cli.ts",
+        "pattern": "Array type",
+        "count": 1
+      },
+      {
+        "file": "src/services/campaign/unintentional-any-elimination/PilotCampaignAnalysis.ts",
+        "pattern": "Array type",
+        "count": 2
+      }
+    ]
+  },
+  "metrics": {
+    "initialAnyCount": 417,
+    "finalAnyCount": 387,
+    "ultimateReduction": 30,
+    "grandTotalReduction": 434,
+    "remainingUnintentional": 0,
+    "intentionalPercentage": "100.0%"
+  }
+}

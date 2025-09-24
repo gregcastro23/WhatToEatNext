@@ -1,0 +1,58 @@
+{
+  "maxDependenciesPerBatch": 10,
+  "safetyValidationEnabled": true,
+  "autoUpdateEnabled": false,
+  "securityScanEnabled": true,
+  "compatibilityTestingEnabled": true,
+  "updateStrategies": [
+    {
+      "name": "Security patches",
+      "description": "Automatically apply security patches",
+      "pattern": ".*",
+      "updateType": "patch",
+      "requiresManualApproval": false,
+      "testingRequired": false
+    },
+    {
+      "name": "TypeScript ecosystem",
+      "description": "Careful updates for TypeScript-related packages",
+      "pattern": "^(@types/|typescript|ts-)",
+      "updateType": "minor",
+      "requiresManualApproval": true,
+      "testingRequired": true
+    },
+    {
+      "name": "React ecosystem",
+      "description": "Careful updates for React-related packages",
+      "pattern": "^(react|@react|next)",
+      "updateType": "minor",
+      "requiresManualApproval": true,
+      "testingRequired": true
+    },
+    {
+      "name": "Development tools",
+      "description": "Safe updates for development tools",
+      "pattern": "^(eslint|prettier|jest|babel)",
+      "updateType": "minor",
+      "requiresManualApproval": false,
+      "testingRequired": true
+    },
+    {
+      "name": "Utility libraries",
+      "description": "Generally safe utility library updates",
+      "pattern": "^(lodash|axios|date-fns|clsx)",
+      "updateType": "minor",
+      "requiresManualApproval": false,
+      "testingRequired": false
+    }
+  ],
+  "securityThresholds": {
+    "critical": 0,
+    "high": 5,
+    "moderate": 10,
+    "low": 20,
+    "autoFixCritical": true,
+    "autoFixHigh": false
+  },
+  "excludedPackages": ["react", "react-dom", "next", "typescript"]
+}

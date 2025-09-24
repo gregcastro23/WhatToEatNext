@@ -1,0 +1,66 @@
+[2025-09-07T06:14:22.683Z] ESLint Simple Auto-Fix Started
+[2025-09-07T06:14:22.957Z] Getting initial linting statistics...
+[2025-09-07T06:15:23.019Z] Error getting initial stats: spawnSync /bin/sh ETIMEDOUT
+[2025-09-07T06:15:23.021Z] Applying ESLint auto-fixes...
+[2025-09-07T06:19:58.320Z] ESLint completed with remaining issues (expected): Command failed: yarn lint --fix
+
+Error while parsing /Users/GregCastro/Desktop/WhatToEatNext/src/services/PredictiveIntelligenceService.ts
+Line 1202, column 6: ',' expected.
+`parseForESLint` from parser `@typescript-eslint/parser` is invalid and will just be ignored
+
+Error while parsing /Users/GregCastro/Desktop/WhatToEatNext/src/services/PredictiveIntelligenceService.ts
+Line 1202, column 6: ',' expected.
+`parseForESLint` from parser `@typescript-eslint/parser` is invalid and will just be ignored
+
+Error while parsing /Users/GregCastro/Desktop/WhatToEatNext/src/services/PredictiveIntelligenceService.ts
+Line 1202, column 6: ',' expected.
+`parseForESLint` from parser `@typescript-eslint/parser` is invalid and will just be ignored
+
+Error while parsing /Users/GregCastro/Desktop/WhatToEatNext/src/services/PredictiveIntelligenceService.ts
+Line 1202, column 6: ',' expected.
+`parseForESLint` from parser `@typescript-eslint/parser` is invalid and will just be ignored
+
+Error while parsing /Users/GregCastro/Desktop/WhatToEatNext/src/services/PredictiveIntelligenceService.ts
+Line 1202, column 6: ',' expected.
+`parseForESLint` from parser `@typescript-eslint/parser` is invalid and will just be ignored
+
+Error while parsing /Users/GregCastro/Desktop/WhatToEatNext/src/services/PredictiveIntelligenceService.ts
+Line 1202, column 6: ',' expected.
+`parseForESLint` from parser `@typescript-eslint/parser` is invalid and will just be ignored
+
+Error while parsing /Users/GregCastro/Desktop/WhatToEatNext/src/services/PredictiveIntelligenceService.ts
+Line 1202, column 6: ',' expected.
+`parseForESLint` from parser `@typescript-eslint/parser` is invalid and will just be ignored
+
+Error while parsing /Users/GregCastro/Desktop/WhatToEatNext/src/services/PredictiveIntelligenceService.ts
+Line 1202, column 6: ',' expected.
+`parseForESLint` from parser `@typescript-eslint/parser` is invalid and will just be ignored
+
+Error while parsing /Users/GregCastro/Desktop/WhatToEatNext/src/services/UnusedVariableDetector.ts
+Line 266, column 32: ',' expected.
+`parseForESLint` from parser `@typescript-eslint/parser` is invalid and will just be ignored
+
+Error while parsing /Users/GregCastro/Desktop/WhatToEatNext/src/services/UnusedVariableDetector.ts
+Line 266, column 32: ',' expected.
+`parseForESLint` from parser `@typescript-eslint/parser` is invalid and will just be ignored
+
+Error while parsing /Users/GregCastro/Desktop/WhatToEatNext/src/services/UnusedVariableDetector.ts
+Line 266, column 32: ',' expected.
+`parseForESLint` from parser `@typescript-eslint/parser` is invalid and will just be ignored
+
+Error while parsing /Users/GregCastro/Desktop/WhatToEatNext/src/services/UnusedVariableDetector.ts
+Line 266, column 32: ',' expected.
+`parseForESLint` from parser `@typescript-eslint/parser` is invalid and will just be ignored
+
+Error while parsing /Users/GregCastro/Desktop/WhatToEatNext/src/services/PredictiveIntelligenceService.ts
+Line 1202, column 6: ',' expected.
+`parseForESLint` from parser `@typescript-eslint/parser` is invalid and will just be ignored
+
+[2025-09-07T06:19:58.321Z] Validating TypeScript compilation...
+[2025-09-07T06:20:08.931Z] ❌ TypeScript compilation failed: Command failed: yarn tsc --noEmit --skipLibCheck
+[2025-09-07T06:20:08.932Z] Getting final linting statistics...
+[2025-09-07T06:21:08.935Z] Error getting final stats: spawnSync /bin/sh ETIMEDOUT
+[2025-09-07T06:21:08.936Z] ⚠️  Build validation failed - manual review may be needed
+[2025-09-07T06:21:08.937Z] ============================================================
+[2025-09-07T06:21:08.937Z] ESLint Simple Auto-Fix Completed
+[2025-09-07T06:21:08.937Z] ============================================================

@@ -1,19 +1,19 @@
-import { z } from 'zod';
 import { _logger } from '@/lib/logger';
+import { z } from 'zod';
 
 import type { Recipe } from '@/types/recipe';
 
-export const recipeSchema = z.object({,
+export const recipeSchema = z.object({
   name: z.string().min(1),
   _description: z.string().optional(),
   _cuisine: z.string().optional(),
   _regionalCuisine: z.string().optional(),
-  _ingredients: z.array(,
+  _ingredients: z.array(
     z.object({
       name: z.string(),
       _amount: z.string(),
       _unit: z.string(),
-      _category: z.string()
+      _category: z.string(),
     }),
   ),
   _mealType: z.array(z.string()),
@@ -49,7 +49,7 @@ export const recipeSchema = z.object({,
 })
 
 export function validateRecipe(recipe: Recipe) {
-  return recipeSchema.safeParse(recipe)
+  return recipeSchema.safeParse(recipe);
 }
 
 // Re-export validation functions from elemental utilities
@@ -59,12 +59,12 @@ export { isElementalProperties } from './elemental/elementalUtils';
 export function isElementalPropertyKey(
   key: unknown,
 ): key is keyof import('@/types/alchemy').ElementalProperties {
-  return typeof key === 'string' && ['Fire', 'Water', 'Earth', 'Air'].includes(key)
+  return typeof key === 'string' && ['Fire', 'Water', 'Earth', 'Air'].includes(key);
 }
 
 // Logs unexpected values for debugging purposes
 export function logUnexpectedValue(context: string, _details: unknown): void {
-  _logger.warn(`Unexpected value in ${context}:`, details)
+  _logger.warn(`Unexpected value in ${context}:`, _details);
 }
 
 /**
@@ -82,13 +82,13 @@ export function validateOrDefault<T>(
   try {
     // If no validator provided, just check if value is not null/undefined
     if (!validator) {
-      return value !== null && value !== undefined ? (value as T) : defaultValue
+      return value !== null && value !== undefined ? (value as T) : defaultValue;
     }
 
     // Use the provided validator
-    return validator(value) ? value : defaultValue
+    return validator(value) ? value : defaultValue;
   } catch (error) {
-    logUnexpectedValue('validateOrDefault', { value, error })
+    logUnexpectedValue('validateOrDefault', { value, error });
     return defaultValue;
   }
 }

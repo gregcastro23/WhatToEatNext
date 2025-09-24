@@ -1,0 +1,135 @@
+{
+  "timestamp": "2025-08-25T20:14:52.249Z",
+  "totalErrors": 1810,
+  "syntaxErrors": 0,
+  "categories": {
+    "TS1005": {
+      "name": "Expected token",
+      "count": 0,
+      "examples": []
+    },
+    "TS1109": {
+      "name": "Expression expected",
+      "count": 0,
+      "examples": []
+    },
+    "TS1128": {
+      "name": "Declaration or statement expected",
+      "count": 0,
+      "examples": []
+    },
+    "TS1161": {
+      "name": "Unterminated regular expression",
+      "count": 0,
+      "examples": []
+    },
+    "TS1434": {
+      "name": "Unexpected keyword or identifier",
+      "count": 0,
+      "examples": []
+    },
+    "TS2304": {
+      "name": "Cannot find name",
+      "count": 44,
+      "examples": [
+        "src/data/unified/cuisineIntegrations.ts(1474,9): error TS2304: Cannot find name '_'.",
+        "src/services/BuildPerformanceMonitor.ts(52,50): error TS2304: Cannot find name 'PerformanceReport'.",
+        "src/services/BuildPerformanceMonitor.ts(562,52): error TS2304: Cannot find name 'PerformanceReport'."
+      ]
+    },
+    "TS2339": {
+      "name": "Property does not exist",
+      "count": 478,
+      "examples": [
+        "src/app/test/migrated-components/page.tsx(14,17): error TS2339: Property 'children' does not exist on type 'unknown'.",
+        "src/app/test/migrated-components/page.tsx(14,27): error TS2339: Property 'defaultValue' does not exist on type 'unknown'.",
+        "src/app/test/migrated-components/page.tsx(14,41): error TS2339: Property 'className' does not exist on type 'unknown'."
+      ]
+    },
+    "TS2345": {
+      "name": "Argument type mismatch",
+      "count": 179,
+      "examples": [
+        "src/__tests__/linting/DomainSpecificRuleBehavior.test.ts(499,53): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'Record<string, unknown>'.",
+        "src/__tests__/utils/BuildValidator.test.ts(151,39): error TS2345: Argument of type 'unknown' is not assignable to parameter of type 'Stats | BigIntStats | undefined'.",
+        "src/__tests__/validation/MainPageValidation.test.tsx(45,17): error TS2345: Argument of type 'unknown' is not assignable to parameter of type '{}'."
+      ]
+    },
+    "TS2571": {
+      "name": "Object is of type unknown",
+      "count": 204,
+      "examples": [
+        "src/__tests__/utils/MemoryOptimizationScript.ts(189,42): error TS2571: Object is of type 'unknown'.",
+        "src/__tests__/utils/MemoryOptimizationScript.ts(190,7): error TS2571: Object is of type 'unknown'.",
+        "src/__tests__/utils/TestMemoryMonitor.test.ts(255,9): error TS2571: Object is of type 'unknown'."
+      ]
+    },
+    "TS2322": {
+      "name": "Type assignment error",
+      "count": 147,
+      "examples": [
+        "src/__tests__/e2e/MainPageWorkflows.test.tsx(697,30): error TS2322: Type '{ onSectionNavigate: Mock<any, any, any>; }' is not assignable to type 'IntrinsicAttributes'.",
+        "src/__tests__/integration/MainPageIntegration.test.tsx(297,30): error TS2322: Type '{ onSectionNavigate: Mock<any, any, any>; }' is not assignable to type 'IntrinsicAttributes'.",
+        "src/__tests__/integration/MainPageIntegration.test.tsx(403,30): error TS2322: Type '{ debugMode: boolean; }' is not assignable to type 'IntrinsicAttributes'."
+      ]
+    },
+    "TS18046": {
+      "name": "Variable is of type unknown",
+      "count": 303,
+      "examples": [
+        "src/__tests__/linting/React19NextJS15CompatibilityValidation.test.ts(478,68): error TS18046: 'config' is of type 'unknown'.",
+        "src/__tests__/linting/React19NextJS15CompatibilityValidation.test.ts(488,65): error TS18046: 'config' is of type 'unknown'.",
+        "src/__tests__/linting/React19NextJS15CompatibilityValidation.test.ts(488,81): error TS18046: 'config' is of type 'unknown'."
+      ]
+    },
+    "Other": {
+      "name": "Other errors",
+      "count": 455,
+      "examples": [
+        ".next/types/app/test/migrated-components/cooking-methods-section/page.ts(12,13): error TS2344: Type 'OmitWithTag<typeof import(\"/Users/GregCastro/Desktop/WhatToEatNext/src/app/test/migrated-components/cooking-methods-section/page\"), \"metadata\" | \"default\" | \"config\" | \"generateStaticParams\" | ... 10 more ... | \"experimental_ppr\", \"\">' does not satisfy the constraint '{ [x: string]: never; }'.",
+        "src/__tests__/integration/MainPageIntegration.test.tsx(389,10): error TS2559: Type '{ children: Element; }' has no properties in common with type 'IntrinsicAttributes'.",
+        "src/__tests__/validation/MainPageValidation.test.tsx(133,44): error TS2769: No overload matches this call."
+      ]
+    }
+  },
+  "analysis": {
+    "hasSyntaxErrors": false,
+    "majorIssues": [
+      {
+        "code": "TS2339",
+        "count": 478,
+        "name": "Property does not exist"
+      },
+      {
+        "code": "TS2345",
+        "count": 179,
+        "name": "Argument type mismatch"
+      },
+      {
+        "code": "TS2571",
+        "count": 204,
+        "name": "Object is of type unknown"
+      },
+      {
+        "code": "TS2322",
+        "count": 147,
+        "name": "Type assignment error"
+      },
+      {
+        "code": "TS18046",
+        "count": 303,
+        "name": "Variable is of type unknown"
+      },
+      {
+        "code": "Other",
+        "count": 455,
+        "name": "Other errors"
+      }
+    ],
+    "recommendations": [
+      "✅ All syntax errors resolved - focus on type errors",
+      "🔧 High number of \"unknown\" type errors - consider type assertion fixes",
+      "🔧 High number of property access errors - check interface definitions"
+    ]
+  }
+}

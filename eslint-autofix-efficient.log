@@ -1,0 +1,25 @@
+[2025-09-05T19:55:36.958Z] ESLint Efficient Auto-Fix Started
+[2025-09-05T19:59:28.525Z] Initial linting status: 3402 TypeScript errors, 5465 ESLint warnings
+[2025-09-05T19:59:28.547Z] Found 100 source files to process
+[2025-09-05T19:59:28.547Z] Processing 100 files for auto-fixes...
+[2025-09-05T19:59:28.547Z] Progress: 0.0% (0/100 files checked)
+[2025-09-05T20:01:08.636Z] Progress: 10.0% (10/100 files checked)
+[2025-09-05T20:02:48.920Z] Progress: 20.0% (20/100 files checked)
+[2025-09-05T20:04:29.206Z] Progress: 30.0% (30/100 files checked)
+[2025-09-05T20:06:09.408Z] Progress: 40.0% (40/100 files checked)
+[2025-09-05T20:07:50.210Z] Progress: 50.0% (50/100 files checked)
+[2025-09-05T20:09:30.276Z] Progress: 60.0% (60/100 files checked)
+[2025-09-05T20:11:10.314Z] Progress: 70.0% (70/100 files checked)
+[2025-09-05T20:12:50.356Z] Progress: 80.0% (80/100 files checked)
+[2025-09-05T20:14:30.427Z] Progress: 90.0% (90/100 files checked)
+[2025-09-05T20:16:10.466Z] Found 0 files with fixable issues
+[2025-09-05T20:16:10.468Z] Performing final build validation...
+[2025-09-05T20:17:10.510Z] ❌ Final build validation failed: spawnSync /bin/sh ETIMEDOUT
+[2025-09-06T17:00:51.524Z] Final linting status: 3402 TypeScript errors, 5465 ESLint warnings
+[2025-09-06T17:00:51.526Z] ESLint warnings reduced by: 0
+[2025-09-06T17:00:51.527Z] ============================================================
+[2025-09-06T17:00:51.527Z] ESLint Efficient Auto-Fix Completed
+[2025-09-06T17:00:51.527Z] Files processed: 100
+[2025-09-06T17:00:51.527Z] Files fixed: 0
+[2025-09-06T17:00:51.527Z] Errors encountered: 0
+[2025-09-06T17:00:51.527Z] ============================================================

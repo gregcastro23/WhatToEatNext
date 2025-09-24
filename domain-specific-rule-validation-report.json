@@ -1,0 +1,55 @@
+{
+  "astrologicalFiles": {
+    "category": "Astrological Calculation Files",
+    "passed": true,
+    "details": [
+      "Mathematical constants preservation: ✅",
+      "Planetary variable patterns: ✅",
+      "Console debugging allowance: ✅"
+    ],
+    "errors": [],
+    "warnings": [],
+    "recommendations": []
+  },
+  "campaignSystemFiles": {
+    "category": "Campaign System Files",
+    "passed": true,
+    "details": [
+      "Enterprise patterns: ✅",
+      "Extensive logging: ✅",
+      "Campaign variable patterns: ✅"
+    ],
+    "errors": [],
+    "warnings": [],
+    "recommendations": []
+  },
+  "testFiles": {
+    "category": "Test Files",
+    "passed": true,
+    "details": [
+      "Mock variable relaxations: ✅",
+      "Test-specific relaxations: ✅",
+      "Jest globals availability: ✅"
+    ],
+    "errors": [],
+    "warnings": [],
+    "recommendations": []
+  },
+  "configurationFiles": {
+    "category": "Configuration Files",
+    "passed": true,
+    "details": [
+      "Dynamic require allowances: ✅",
+      "Build tool patterns: ✅",
+      "Configuration relaxations: ✅"
+    ],
+    "errors": [],
+    "warnings": [],
+    "recommendations": []
+  },
+  "overall": {
+    "passed": true,
+    "score": 100,
+    "summary": "✅ All domain-specific rules are properly configured and validated"
+  }
+}

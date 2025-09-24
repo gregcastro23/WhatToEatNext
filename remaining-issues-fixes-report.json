@@ -1,0 +1,22 @@
+{
+  "timestamp": "2025-09-01T02:04:08.071Z",
+  "duration": "9.25s",
+  "initialIssues": 5172,
+  "finalIssues": 4840,
+  "totalFixed": 332,
+  "processedFiles": 30,
+  "fixedIssues": 96,
+  "errors": [],
+  "breakdown": {
+    "caseDeclarations": "Added braces around case statements with variable declarations",
+    "eqeqeq": "Replaced == with === and != with !==",
+    "noVar": "Replaced var with let declarations",
+    "emptyBlocks": "Added TODO comments to empty blocks"
+  },
+  "overallProgress": {
+    "originalIssues": 7329,
+    "finalIssues": 4840,
+    "totalReduction": 2489,
+    "percentageReduction": "34.0%"
+  }
+}

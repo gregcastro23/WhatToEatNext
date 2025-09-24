@@ -1,0 +1,433 @@
+{
+  "timestamp": "2025-08-11T20:56:17.316Z",
+  "summary": {
+    "totalAnyTypes": 437,
+    "intentionalAny": 390,
+    "unintentionalAny": 47,
+    "intentionalPercentage": "89.2%",
+    "unintentionalPercentage": "10.8%"
+  },
+  "categories": {
+    "documented": 0,
+    "eslintDisabled": 27,
+    "commentedIntentional": 11,
+    "externalLibrary": 4,
+    "testMocks": 343,
+    "errorHandling": 3,
+    "dynamicConfig": 2,
+    "unintentional": 47
+  },
+  "fileBreakdown": {
+    "src/utils/__tests__/buildQualityMonitor.test.ts": {
+      "total": 2,
+      "intentional": 2,
+      "unintentional": 0
+    },
+    "src/utils/__tests__/errorHandling.test.ts": {
+      "total": 3,
+      "intentional": 3,
+      "unintentional": 0
+    },
+    "src/utils/astrology/astrologicalRules.test.ts": {
+      "total": 1,
+      "intentional": 1,
+      "unintentional": 0
+    },
+    "src/__tests__/linting/CampaignSystemRuleValidation.test.ts": {
+      "total": 2,
+      "intentional": 2,
+      "unintentional": 0
+    },
+    "src/__tests__/linting/DomainSpecificRuleValidation.test.ts": {
+      "total": 2,
+      "intentional": 2,
+      "unintentional": 0
+    },
+    "src/__tests__/linting/TestFileRuleValidation.test.ts": {
+      "total": 6,
+      "intentional": 6,
+      "unintentional": 0
+    },
+    "src/__tests__/linting/ConfigurationFileRuleValidation.test.ts": {
+      "total": 3,
+      "intentional": 3,
+      "unintentional": 0
+    },
+    "src/__tests__/types/testUtils.d.ts": {
+      "total": 1,
+      "intentional": 1,
+      "unintentional": 0
+    },
+    "src/__tests__/setupMemoryManagement.ts": {
+      "total": 1,
+      "intentional": 1,
+      "unintentional": 0
+    },
+    "src/__tests__/integration/memoryManagementIntegration.test.ts": {
+      "total": 1,
+      "intentional": 1,
+      "unintentional": 0
+    },
+    "src/__tests__/setupTests.tsx": {
+      "total": 5,
+      "intentional": 5,
+      "unintentional": 0
+    },
+    "src/__tests__/utils/CampaignTestController.ts": {
+      "total": 1,
+      "intentional": 1,
+      "unintentional": 0
+    },
+    "src/__tests__/utils/RealTimeTestRunner.ts": {
+      "total": 1,
+      "intentional": 1,
+      "unintentional": 0
+    },
+    "src/__tests__/utils/TestUtils.ts": {
+      "total": 3,
+      "intentional": 3,
+      "unintentional": 0
+    },
+    "src/hooks/useRealtimePlanetaryPositions.ts": {
+      "total": 1,
+      "intentional": 0,
+      "unintentional": 1
+    },
+    "src/hooks/useStatePreservation.ts": {
+      "total": 1,
+      "intentional": 0,
+      "unintentional": 1
+    },
+    "src/hooks/useAlchemicalRecommendations.ts": {
+      "total": 1,
+      "intentional": 0,
+      "unintentional": 1
+    },
+    "src/hooks/useTarotAstrologyData.ts": {
+      "total": 1,
+      "intentional": 0,
+      "unintentional": 1
+    },
+    "src/hooks/useErrorHandler.ts": {
+      "total": 2,
+      "intentional": 1,
+      "unintentional": 1
+    },
+    "src/scripts/replaceConsoleStatements.ts": {
+      "total": 8,
+      "intentional": 2,
+      "unintentional": 6
+    },
+    "src/calculations/enhancedCuisineRecommender.ts": {
+      "total": 1,
+      "intentional": 0,
+      "unintentional": 1
+    },
+    "src/data/unified/recipes.ts": {
+      "total": 3,
+      "intentional": 0,
+      "unintentional": 3
+    },
+    "src/services/linting/LintingValidationDashboard.ts": {
+      "total": 1,
+      "intentional": 0,
+      "unintentional": 1
+    },
+    "src/services/linting/__tests__/LintingAnalysisService.test.ts": {
+      "total": 1,
+      "intentional": 1,
+      "unintentional": 0
+    },
+    "src/services/LoggingService.ts": {
+      "total": 10,
+      "intentional": 10,
+      "unintentional": 0
+    },
+    "src/services/ConfigurationService.ts": {
+      "total": 2,
+      "intentional": 2,
+      "unintentional": 0
+    },
+    "src/services/UnifiedScoringService.ts": {
+      "total": 3,
+      "intentional": 3,
+      "unintentional": 0
+    },
+    "src/services/RecipeCuisineConnector.ts": {
+      "total": 1,
+      "intentional": 0,
+      "unintentional": 1
+    },
+    "src/services/campaign/TerminalFreezePreventionSystem.ts": {
+      "total": 2,
+      "intentional": 1,
+      "unintentional": 1
+    },
+    "src/services/campaign/run-linting-formatting.ts": {
+      "total": 2,
+      "intentional": 0,
+      "unintentional": 2
+    },
+    "src/services/campaign/run-import-cleanup.ts": {
+      "total": 1,
+      "intentional": 0,
+      "unintentional": 1
+    },
+    "src/services/campaign/CorruptionDetectionSystem.test.ts": {
+      "total": 4,
+      "intentional": 4,
+      "unintentional": 0
+    },
+    "src/services/campaign/__tests__/integration/PhaseExecution.integration.test.ts": {
+      "total": 1,
+      "intentional": 1,
+      "unintentional": 0
+    },
+    "src/services/campaign/unintentional-any-elimination/DomainContextAnalyzer.ts": {
+      "total": 1,
+      "intentional": 0,
+      "unintentional": 1
+    },
+    "src/services/campaign/unintentional-any-elimination/AnyTypeClassifier.ts": {
+      "total": 2,
+      "intentional": 0,
+      "unintentional": 2
+    },
+    "src/services/campaign/unintentional-any-elimination/ProgressiveImprovementEngine.ts": {
+      "total": 6,
+      "intentional": 1,
+      "unintentional": 5
+    },
+    "src/services/campaign/unintentional-any-elimination/config/cli.ts": {
+      "total": 1,
+      "intentional": 1,
+      "unintentional": 0
+    },
+    "src/services/campaign/unintentional-any-elimination/MetricsIntegration.ts": {
+      "total": 2,
+      "intentional": 0,
+      "unintentional": 2
+    },
+    "src/services/campaign/unintentional-any-elimination/SafeTypeReplacer.ts": {
+      "total": 2,
+      "intentional": 0,
+      "unintentional": 2
+    },
+    "src/services/campaign/unintentional-any-elimination/DocumentationQualityAssurance.ts": {
+      "total": 5,
+      "intentional": 0,
+      "unintentional": 5
+    },
+    "src/services/campaign/unintentional-any-elimination/__tests__/ProgressiveImprovementEngine.test.ts": {
+      "total": 18,
+      "intentional": 18,
+      "unintentional": 0
+    },
+    "src/services/campaign/unintentional-any-elimination/__tests__/SafeTypeReplacer.test.ts": {
+      "total": 23,
+      "intentional": 23,
+      "unintentional": 0
+    },
+    "src/services/campaign/unintentional-any-elimination/__tests__/IntegrationWorkflows.test.ts": {
+      "total": 65,
+      "intentional": 65,
+      "unintentional": 0
+    },
+    "src/services/campaign/unintentional-any-elimination/__tests__/AnalysisTools.test.ts": {
+      "total": 26,
+      "intentional": 26,
+      "unintentional": 0
+    },
+    "src/services/campaign/unintentional-any-elimination/__tests__/DocumentationQualityAssurance.test.ts": {
+      "total": 35,
+      "intentional": 35,
+      "unintentional": 0
+    },
+    "src/services/campaign/unintentional-any-elimination/__tests__/AutoDocumentationGenerator.test.ts": {
+      "total": 12,
+      "intentional": 12,
+      "unintentional": 0
+    },
+    "src/services/campaign/unintentional-any-elimination/__tests__/ConservativeReplacementPilot.test.ts": {
+      "total": 12,
+      "intentional": 12,
+      "unintentional": 0
+    },
+    "src/services/campaign/unintentional-any-elimination/__tests__/AnyTypeClassifier.test.ts": {
+      "total": 34,
+      "intentional": 34,
+      "unintentional": 0
+    },
+    "src/services/campaign/unintentional-any-elimination/__tests__/DomainSpecificTesting.test.ts": {
+      "total": 67,
+      "intentional": 67,
+      "unintentional": 0
+    },
+    "src/services/campaign/unintentional-any-elimination/__tests__/SafetyValidator.test.ts": {
+      "total": 4,
+      "intentional": 4,
+      "unintentional": 0
+    },
+    "src/services/campaign/unintentional-any-elimination/__tests__/FullCampaignExecutor.test.ts": {
+      "total": 1,
+      "intentional": 1,
+      "unintentional": 0
+    },
+    "src/services/campaign/unintentional-any-elimination/__tests__/DomainContextAnalyzer.test.ts": {
+      "total": 34,
+      "intentional": 34,
+      "unintentional": 0
+    },
+    "src/services/campaign/unintentional-any-elimination/FullCampaignExecutor.ts": {
+      "total": 1,
+      "intentional": 0,
+      "unintentional": 1
+    },
+    "src/services/campaign/unintentional-any-elimination/deployment/cli.ts": {
+      "total": 1,
+      "intentional": 0,
+      "unintentional": 1
+    },
+    "src/services/campaign/unintentional-any-elimination/ConservativeReplacementPilot.ts": {
+      "total": 3,
+      "intentional": 0,
+      "unintentional": 3
+    },
+    "src/services/campaign/unintentional-any-elimination/SafetyValidator.ts": {
+      "total": 2,
+      "intentional": 0,
+      "unintentional": 2
+    },
+    "src/services/campaign/unintentional-any-elimination/PilotCampaignAnalysis.ts": {
+      "total": 2,
+      "intentional": 0,
+      "unintentional": 2
+    }
+  },
+  "examples": {
+    "intentional": [
+      {
+        "file": "src/utils/__tests__/buildQualityMonitor.test.ts",
+        "line": 118,
+        "code": "mockExistsSync.mockImplementation((path: any) => {",
+        "reason": "ESLint disabled with comment"
+      },
+      {
+        "file": "src/utils/__tests__/buildQualityMonitor.test.ts",
+        "line": 142,
+        "code": "mockExistsSync.mockImplementation((path: any) => {",
+        "reason": "ESLint disabled with comment"
+      },
+      {
+        "file": "src/utils/__tests__/errorHandling.test.ts",
+        "line": 138,
+        "code": "} catch (enhancedError: any) {",
+        "reason": "ESLint disabled with comment"
+      },
+      {
+        "file": "src/utils/__tests__/errorHandling.test.ts",
+        "line": 309,
+        "code": "} catch (error: any) {",
+        "reason": "ESLint disabled with comment"
+      },
+      {
+        "file": "src/utils/__tests__/errorHandling.test.ts",
+        "line": 324,
+        "code": "} catch (error: any) {",
+        "reason": "ESLint disabled with comment"
+      },
+      {
+        "file": "src/utils/astrology/astrologicalRules.test.ts",
+        "line": 404,
+        "code": "const circular: any = { Fire: 0.5 };",
+        "reason": "ESLint disabled with comment"
+      },
+      {
+        "file": "src/__tests__/linting/CampaignSystemRuleValidation.test.ts",
+        "line": 733,
+        "code": "public loadSynchronousTool(toolName: string): any {",
+        "reason": "Test file or mock usage"
+      },
+      {
+        "file": "src/__tests__/linting/CampaignSystemRuleValidation.test.ts",
+        "line": 739,
+        "code": "public loadEnvironmentTool(): any {",
+        "reason": "Test file or mock usage"
+      },
+      {
+        "file": "src/__tests__/linting/DomainSpecificRuleValidation.test.ts",
+        "line": 491,
+        "code": "const anyValue: any = 'test-any';",
+        "reason": "Test file or mock usage"
+      },
+      {
+        "file": "src/__tests__/linting/DomainSpecificRuleValidation.test.ts",
+        "line": 650,
+        "code": "const anyConfig: any = process.env.CONFIG;",
+        "reason": "Test file or mock usage"
+      }
+    ],
+    "unintentional": [
+      {
+        "file": "src/hooks/useRealtimePlanetaryPositions.ts",
+        "line": 164,
+        "code": "const body: any = { date: date.toISOString() };",
+        "reason": "No intentional markers found"
+      },
+      {
+        "file": "src/hooks/useStatePreservation.ts",
+        "line": 218,
+        "code": "selectedItems?: any[];",
+        "reason": "No intentional markers found"
+      },
+      {
+        "file": "src/hooks/useAlchemicalRecommendations.ts",
+        "line": 112,
+        "code": "const convertToLocalAlchemicalItem = (items: any[]): AlchemicalItem[] => {",
+        "reason": "No intentional markers found"
+      },
+      {
+        "file": "src/hooks/useTarotAstrologyData.ts",
+        "line": 307,
+        "code": "const cards: any[] = [];",
+        "reason": "No intentional markers found"
+      },
+      {
+        "file": "src/hooks/useErrorHandler.ts",
+        "line": 19,
+        "code": "foodRecommendations: any[] | null;",
+        "reason": "No intentional markers found"
+      },
+      {
+        "file": "src/scripts/replaceConsoleStatements.ts",
+        "line": 182,
+        "code": "info(message: string, ...args: any[]): void;",
+        "reason": "No intentional markers found"
+      },
+      {
+        "file": "src/scripts/replaceConsoleStatements.ts",
+        "line": 183,
+        "code": "warn(message: string, ...args: any[]): void;",
+        "reason": "No intentional markers found"
+      },
+      {
+        "file": "src/scripts/replaceConsoleStatements.ts",
+        "line": 185,
+        "code": "debug(message: string, ...args: any[]): void;",
+        "reason": "No intentional markers found"
+      },
+      {
+        "file": "src/scripts/replaceConsoleStatements.ts",
+        "line": 191,
+        "code": "info(message: string, ...args: any[]): void {",
+        "reason": "No intentional markers found"
+      },
+      {
+        "file": "src/scripts/replaceConsoleStatements.ts",
+        "line": 197,
+        "code": "warn(message: string, ...args: any[]): void {",
+        "reason": "No intentional markers found"
+      }
+    ]
+  }
+}

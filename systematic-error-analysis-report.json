@@ -1,0 +1,42 @@
+{
+  "timestamp": "2025-08-24T06:13:17.991Z",
+  "totalErrors": 2348,
+  "errorBreakdown": {
+    "other": 97,
+    "TS2322_type_assignment": 131,
+    "test_file_errors": 77,
+    "TS18046_unknown_type": 851,
+    "TS2345_argument_type": 171,
+    "TS2571_object_is_unknown": 216,
+    "TS2339_missing_property": 564,
+    "app_directory_errors": 15,
+    "elemental_errors": 19,
+    "data_layer_errors": 92,
+    "ingredient_errors": 1,
+    "campaign_system_errors": 5,
+    "service_layer_errors": 87,
+    "utils_errors": 22
+  },
+  "fixabilityAnalysis": {
+    "highConfidenceFixes": 1067,
+    "mediumConfidenceFixes": 641,
+    "lowConfidenceFixes": 0,
+    "totalFixable": 1708
+  },
+  "recommendations": [
+    {
+      "priority": "HIGH",
+      "action": "Execute systematic fixes for TS18046 and TS2571 errors",
+      "impact": "1067 errors",
+      "effort": "LOW",
+      "description": "These errors have well-defined patterns and can be fixed systematically"
+    },
+    {
+      "priority": "MEDIUM",
+      "action": "Selective git restore for corrupted files",
+      "impact": "Potentially 3 file groups",
+      "effort": "MEDIUM",
+      "description": "Some files may have been corrupted during previous campaigns"
+    }
+  ]
+}

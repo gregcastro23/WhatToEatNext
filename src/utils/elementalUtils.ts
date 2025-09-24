@@ -4,8 +4,8 @@ import { AlchemicalItem } from '@/calculations/alchemicalTransformation';
 import { DEFAULT_ELEMENTAL_PROPERTIES } from '@/constants/elementalConstants';
 import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryElements';
 import { LunarPhase, calculatePlanetaryBoost } from '@/constants/planetaryFoodAssociations';
-import { logger } from '@/lib/logger';
 import type { IngredientMapping } from '@/data/ingredients/types';
+import { logger } from '@/lib/logger';
 import type {
     Element,
     ElementalAffinity,
@@ -28,24 +28,27 @@ const ELEMENTAL_CHARACTERISTICS = {
     cookingTechniques: ['grilling', 'roasting', 'searing', 'flambéing'],
     timeOfDay: ['morning', 'noon'],
     qualities: ['energetic', 'transformative', 'intense'],
-    temperature: 'hot' },
-        Water: {
+    temperature: 'hot',
+  },
+  Water: {
     cookingTechniques: ['boiling', 'steaming', 'poaching', 'braising'],
     timeOfDay: ['evening', 'night'],
     qualities: ['flowing', 'cooling', 'nurturing'],
-    temperature: 'cool' },
-        Earth: {
+    temperature: 'cool',
+  },
+  Earth: {
     cookingTechniques: ['baking', 'slow-cooking', 'roasting', 'smoking'],
     timeOfDay: ['afternoon', 'evening'],
     qualities: ['grounding', 'stable', 'nourishing'],
-    temperature: 'moderate' },
-        Air: {
+    temperature: 'moderate',
+  },
+  Air: {
     cookingTechniques: ['whipping', 'frying', 'sautéing', 'dehydrating'],
     timeOfDay: ['morning', 'midday'],
     qualities: ['light', 'airy', 'quick'],
-    temperature: 'variable'
-}
-}
+    temperature: 'variable',
+  },
+};
 
 // AlchemicalProperty type imported from @/constants/planetaryElements
 
@@ -117,27 +120,27 @@ export const normalizeProperties = (
     Air: properties.Air ?? DEFAULT_ELEMENTAL_PROPERTIES.Air
   }
 
-  const sum = Object.values(completeProperties).reduce((acc, val) => acc + val, 0)
+  const sum = Object.values(completeProperties).reduce((acc, val) => acc + val, 0);
 
-  if (sum === 0) {,
+  if (sum === 0) {
     // If sum is 0, return balanced default
-    logger.warn('Properties sum is 0 in normalizeProperties')
-    return { ...DEFAULT_ELEMENTAL_PROPERTIES }
+    logger.warn('Properties sum is 0 in normalizeProperties');
+    return { ...DEFAULT_ELEMENTAL_PROPERTIES };
   }
 
   // Normalize each value
   return Object.entries(completeProperties).reduce(
     (acc, [key, value]) => {
       if (isElementalPropertyKey(key)) {
-        acc[key] = value / sum,
+        acc[key] = value / sum;
       } else {
         // This shouldn't happen with the type-safety above, but just in case
-        logger.warn(`Invalid key ${key} in normalizeProperties`)
+        logger.warn(`Invalid key ${key} in normalizeProperties`);
       }
       return acc;
-    }
+    },
     { ...DEFAULT_ELEMENTAL_PROPERTIES }
-  )
+  );
 }
 
 /**
@@ -220,80 +223,81 @@ export const elementalUtils = {
     const balance: ElementalProperties = { ...DEFAULT_ELEMENTAL_PROPERTIES }
 
     // Get total amount for percentage calculations
-    const totalAmount = recipe.ingredients.reduce((sum, ing) => {;
+    const totalAmount = recipe.ingredients.reduce((sum, ing) => {
       const amount = ing.amount ?? 1; // Default to 1 if amount is missing
       return sum + amount;
-    }, 0)
+    }, 0);
 
     // Handle the special case where there are no ingredients with amount
-    if (totalAmount === 0) {,
-      return balance
+    if (totalAmount === 0) {
+      return balance;
     }
 
     // Initialize balance with 0 values
     Object.keys(balance).forEach(el => {
-      if (isElementalPropertyKey(el)) {;
-        balance[el] = 0,
+      if (isElementalPropertyKey(el)) {
+        balance[el] = 0;
       }
-    })
+    });
 
     // Process each ingredient
     recipe.ingredients.forEach(ing => {
-      const amount = ing.amount ?? 1 // Default to 1 if amount is missing
+      const amount = ing.amount ?? 1; // Default to 1 if amount is missing
 
       if (ing.elementalProperties) {
-        // For each element in the ingredient;
+        // For each element in the ingredient
         Object.entries(ing.elementalProperties).forEach(([element, value]) => {
           if (isElementalPropertyKey(element)) {
-            balance[element] += (value * amount) / totalAmount,
+            balance[element] += (value * amount) / totalAmount;
           }
-        })
+        });
       }
-    })
+    });
 
     // Normalize to ensure they sum to 1
-    return normalizeProperties(balance)
+    return normalizeProperties(balance);
   }
 
   combineProperties(
     a: ElementalProperties,
     b: ElementalProperties,
     bWeight = 0.5
-  ): ElementalProperties {,
+  ): ElementalProperties {
     const combinedProps = {} as ElementalProperties;
     const aWeight = 1 - bWeight;
 
     Object.keys(a).forEach(key => {
-      const element = key as any,
-      combinedProps[element] = a[element] * aWeight + (b[element] || 0) * bWeight,
-    })
+      const element = key as any;
+      combinedProps[element] = a[element] * aWeight + (b[element] || 0) * bWeight;
+    });
 
     return combinedProps;
   }
 
-  getelementalState(recipe: Recipe): ElementalProperties {
+  getElementalState(recipe: Recipe): ElementalProperties {
     if (!recipe.ingredients.length) {
-      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
 
     const combinedProperties = recipe.ingredients.reduce(
       (acc, ingredient) => {
-        const props = ingredient.elementalProperties || {;
+        const props = ingredient.elementalProperties || {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25
-}
+          Air: 0.25,
+        };
         return {
           Fire: acc.Fire + props.Fire,
           Water: acc.Water + props.Water,
           Earth: acc.Earth + props.Earth,
-          Air: acc.Air + props.Air
-        }
-      }
-      { Fire: 0, Water: 0, Earth: 0, Air: 0 })
+          Air: acc.Air + props.Air,
+        };
+      },
+      { Fire: 0, Water: 0, Earth: 0, Air: 0 }
+    );
 
-    return normalizeProperties(combinedProperties)
+    return normalizeProperties(combinedProperties);
   }
 
   /**
@@ -454,7 +458,7 @@ export const elementalUtils = {
 
 export default elementalUtils,
 
-export { elementalFunctions, elementalInteractions, elements }
+export { elementalFunctions, elementalInteractions, elements };
 
 /**
  * Transform a list of elemental items based on planetary positions

@@ -1,0 +1,61 @@
+{
+  "maxFilesPerBatch": 25,
+  "safetyValidationEnabled": true,
+  "buildValidationFrequency": 5,
+  "autoFixEnabled": true,
+  "formattingEnabled": true,
+  "lintingRules": {
+    "enforceTypeScriptRules": true,
+    "enforceReactRules": true,
+    "enforceImportRules": true,
+    "maxWarningsThreshold": 1000,
+    "customRuleOverrides": {
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-unused-vars": "warn",
+      "react-hooks/exhaustive-deps": "warn",
+      "no-console": "warn"
+    }
+  },
+  "formattingRules": {
+    "enforceConsistentIndentation": true,
+    "enforceTrailingCommas": true,
+    "enforceSemicolons": true,
+    "enforceQuoteStyle": "single",
+    "enforceLineLength": 100,
+    "enforceSpacing": true
+  },
+  "patternBasedFixes": [
+    {
+      "name": "Remove console.log statements",
+      "description": "Remove console.log statements from production code",
+      "pattern": "console\\.log\\([^)]*\\);?\\s*\\n?",
+      "replacement": "",
+      "fileExtensions": [".ts", ".tsx", ".js", ".jsx"],
+      "enabled": false
+    },
+    {
+      "name": "Fix double semicolons",
+      "description": "Replace double semicolons with single semicolons",
+      "pattern": ";;",
+      "replacement": ";",
+      "fileExtensions": [".ts", ".tsx", ".js", ".jsx"],
+      "enabled": true
+    },
+    {
+      "name": "Remove trailing whitespace",
+      "description": "Remove trailing whitespace from lines",
+      "pattern": "[ \\t]+$",
+      "replacement": "",
+      "fileExtensions": [".ts", ".tsx", ".js", ".jsx"],
+      "enabled": true
+    },
+    {
+      "name": "Fix multiple empty lines",
+      "description": "Replace multiple consecutive empty lines with single empty line",
+      "pattern": "\\n\\s*\\n\\s*\\n",
+      "replacement": "\\n\\n",
+      "fileExtensions": [".ts", ".tsx", ".js", ".jsx"],
+      "enabled": true
+    }
+  ]
+}

@@ -5,14 +5,13 @@
  * and integration with our real-time WebSocket infrastructure.
  */
 
-import React from 'react';
-import Link from 'next/link';
 import { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'alchm.kitchen | Alchemical Culinary Intelligence',
-  description: 'Discover the perfect meal through ancient alchemical wisdom and modern AI. Real-time planetary influences guide your culinary journey.'
-}
+  description: 'Discover the perfect meal through ancient alchemical wisdom and modern AI. Real-time planetary influences guide your culinary journey.',
+};
 
 const FeatureCard = ({
   icon,
@@ -51,7 +50,8 @@ const StatusIndicator = ({ label, status }: { label: string, status: 'active' | 
   const colors = {
     active: 'bg-green-100 text-green-800',
     ready: 'bg-blue-100 text-blue-800',
-    demo: 'bg-purple-100 text-purple-800' },
+    demo: 'bg-purple-100 text-purple-800',
+  };
         return (
     <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${colors[status]}`}>
       <div className={`w-2 h-2 rounded-full mr-2 ${

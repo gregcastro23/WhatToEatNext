@@ -1,0 +1,1662 @@
+[2025-09-07T06:06:46.414Z] ESLint Targeted Auto-Fix Started
+[2025-09-07T06:06:46.428Z] Targeting rules: @typescript-eslint/no-unnecessary-type-assertion, import/order, import/no-duplicates
+[2025-09-07T06:07:16.434Z] Error getting issue stats: spawnSync /bin/sh ETIMEDOUT
+[2025-09-07T06:07:16.435Z] Initial targeted issues: -1
+[2025-09-07T06:07:16.435Z] Finding files with targeted auto-fixable issues...
+[2025-09-07T06:11:26.145Z] Found 86 files with targeted issues
+[2025-09-07T06:11:26.146Z] Processing 86 files...
+[2025-09-07T06:11:26.147Z] Processing: src/__tests__/utils/TestUtils.ts
+[2025-09-07T06:11:27.717Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/__tests__/utils/TestUtils.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/__tests__/utils/TestUtils.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:27.718Z] Progress: 1.2% (1/86 files)
+[2025-09-07T06:11:27.718Z] Processing: src/app/api/astrologize/route.ts
+[2025-09-07T06:11:28.833Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/app/api/astrologize/route.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/app/api/astrologize/route.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:28.834Z] Processing: src/calculations/alchemicalEngine.ts
+[2025-09-07T06:11:29.958Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/calculations/alchemicalEngine.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/calculations/alchemicalEngine.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:29.960Z] Processing: src/calculations/core/elementalCalculations.ts
+[2025-09-07T06:11:31.128Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/calculations/core/elementalCalculations.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/calculations/core/elementalCalculations.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:31.129Z] Processing: src/calculations/elementalcalculations.ts
+[2025-09-07T06:11:32.308Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/calculations/elementalcalculations.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/calculations/elementalcalculations.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:32.309Z] Processing: src/constants/chakraSymbols.ts
+[2025-09-07T06:11:33.541Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/constants/chakraSymbols.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/constants/chakraSymbols.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:33.549Z] Processing: src/constants/planetaryFoodAssociations.ts
+[2025-09-07T06:11:34.788Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/constants/planetaryFoodAssociations.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/constants/planetaryFoodAssociations.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:34.789Z] Processing: src/context/CurrentChartContext.tsx
+[2025-09-07T06:11:35.898Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/context/CurrentChartContext.tsx: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/context/CurrentChartContext.tsx"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:35.899Z] Processing: src/data/cooking/methods/index.ts
+[2025-09-07T06:11:37.069Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/data/cooking/methods/index.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/data/cooking/methods/index.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:37.070Z] Processing: src/data/cuisineFlavorProfiles.ts
+[2025-09-07T06:11:38.198Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/data/cuisineFlavorProfiles.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/data/cuisineFlavorProfiles.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:38.200Z] Processing: src/data/cuisines.ts
+[2025-09-07T06:11:39.308Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/data/cuisines.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/data/cuisines.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:39.309Z] Progress: 12.8% (11/86 files)
+[2025-09-07T06:11:39.309Z] Processing: src/data/enhancedDishes.ts
+[2025-09-07T06:11:40.437Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/data/enhancedDishes.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/data/enhancedDishes.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:40.439Z] Processing: src/data/ingredients/fruits/index.ts
+[2025-09-07T06:11:41.545Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/data/ingredients/fruits/index.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/data/ingredients/fruits/index.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:41.546Z] Processing: src/data/ingredients/index.ts
+[2025-09-07T06:11:42.859Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/data/ingredients/index.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/data/ingredients/index.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:42.860Z] Processing: src/data/ingredients/proteins/index.ts
+[2025-09-07T06:11:44.034Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/data/ingredients/proteins/index.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/data/ingredients/proteins/index.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:44.035Z] Processing: src/data/ingredients/seasonings/index.ts
+[2025-09-07T06:11:45.162Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/data/ingredients/seasonings/index.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/data/ingredients/seasonings/index.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:45.163Z] Processing: src/data/ingredients/spices/index.ts
+[2025-09-07T06:11:46.296Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/data/ingredients/spices/index.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/data/ingredients/spices/index.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:46.297Z] Processing: src/data/recipes.ts
+[2025-09-07T06:11:47.496Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/data/recipes.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/data/recipes.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:47.497Z] Processing: src/data/unified/cuisineIntegrations.ts
+[2025-09-07T06:11:48.688Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/data/unified/cuisineIntegrations.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/data/unified/cuisineIntegrations.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:48.689Z] Processing: src/data/unified/cuisines.ts
+[2025-09-07T06:11:49.911Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/data/unified/cuisines.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/data/unified/cuisines.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:49.912Z] Processing: src/data/unified/enhancedIngredients.ts
+[2025-09-07T06:11:51.023Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/data/unified/enhancedIngredients.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/data/unified/enhancedIngredients.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:51.024Z] Progress: 24.4% (21/86 files)
+[2025-09-07T06:11:51.024Z] Processing: src/data/unified/flavorProfileMigration.ts
+[2025-09-07T06:11:52.115Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/data/unified/flavorProfileMigration.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/data/unified/flavorProfileMigration.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:52.116Z] Processing: src/data/unified/nutritional.ts
+[2025-09-07T06:11:53.242Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/data/unified/nutritional.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/data/unified/nutritional.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:53.242Z] Processing: src/data/unified/recipeBuilding.ts
+[2025-09-07T06:11:54.408Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/data/unified/recipeBuilding.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/data/unified/recipeBuilding.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:54.410Z] Processing: src/hooks/useAstrologicalState.ts
+[2025-09-07T06:11:55.817Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useAstrologicalState.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useAstrologicalState.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:55.818Z] Processing: src/hooks/useChakraInfluencedFood.ts
+[2025-09-07T06:11:56.973Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useChakraInfluencedFood.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useChakraInfluencedFood.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:56.974Z] Processing: src/hooks/useCurrentChart.ts
+[2025-09-07T06:11:58.122Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useCurrentChart.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useCurrentChart.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:58.123Z] Processing: src/hooks/useRecipeRecommendations.ts
+[2025-09-07T06:11:59.231Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useRecipeRecommendations.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/hooks/useRecipeRecommendations.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:11:59.234Z] Processing: src/lib/ThermodynamicCalculator.ts
+[2025-09-07T06:12:00.459Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/lib/ThermodynamicCalculator.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/lib/ThermodynamicCalculator.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:00.460Z] Processing: src/lib/alchemicalEngine.ts
+[2025-09-07T06:12:01.613Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/lib/alchemicalEngine.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/lib/alchemicalEngine.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:01.614Z] Processing: src/lib/chakraRecipeEnhancer.ts
+[2025-09-07T06:12:02.770Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/lib/chakraRecipeEnhancer.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/lib/chakraRecipeEnhancer.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:02.771Z] Progress: 36.0% (31/86 files)
+[2025-09-07T06:12:02.771Z] Processing: src/lib/cuisineCalculations.ts
+[2025-09-07T06:12:03.888Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/lib/cuisineCalculations.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/lib/cuisineCalculations.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:03.889Z] Processing: src/lib/tarotCalculations.ts
+[2025-09-07T06:12:04.986Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/lib/tarotCalculations.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/lib/tarotCalculations.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:04.987Z] Processing: src/pages/cuisines/[id].tsx
+[2025-09-07T06:12:06.168Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/pages/cuisines/[id].tsx: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/pages/cuisines/[id].tsx"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:06.169Z] Processing: src/services/AlchemicalService.ts
+[2025-09-07T06:12:07.272Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/services/AlchemicalService.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/services/AlchemicalService.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:07.273Z] Processing: src/services/AlchemicalTransformationService.ts
+[2025-09-07T06:12:08.371Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/services/AlchemicalTransformationService.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/services/AlchemicalTransformationService.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:08.372Z] Processing: src/services/AstrologizeApiCache.ts
+[2025-09-07T06:12:09.471Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/services/AstrologizeApiCache.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/services/AstrologizeApiCache.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:09.472Z] Processing: src/services/ConfigurationService.ts
+[2025-09-07T06:12:10.595Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/services/ConfigurationService.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/services/ConfigurationService.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:10.596Z] Processing: src/services/ElementalCalculator.ts
+[2025-09-07T06:12:11.746Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/services/ElementalCalculator.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/services/ElementalCalculator.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:11.747Z] Processing: src/services/EnhancedRecommendationService.ts
+[2025-09-07T06:12:12.862Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/services/EnhancedRecommendationService.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/services/EnhancedRecommendationService.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:12.863Z] Processing: src/services/EnterpriseIntelligenceIntegration.ts
+[2025-09-07T06:12:13.968Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/services/EnterpriseIntelligenceIntegration.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/services/EnterpriseIntelligenceIntegration.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:13.969Z] Progress: 47.7% (41/86 files)
+[2025-09-07T06:12:13.969Z] Processing: src/services/IngredientService.ts
+[2025-09-07T06:12:15.155Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/services/IngredientService.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/services/IngredientService.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:15.156Z] Processing: src/services/LocalRecipeService.ts
+[2025-09-07T06:12:16.289Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/services/LocalRecipeService.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/services/LocalRecipeService.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:16.289Z] Processing: src/services/MLIntelligenceService.ts
+[2025-09-07T06:12:17.397Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/services/MLIntelligenceService.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/services/MLIntelligenceService.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:17.398Z] Processing: src/services/QualityGatesValidation.ts
+[2025-09-07T06:12:18.578Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/services/QualityGatesValidation.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/services/QualityGatesValidation.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:18.579Z] Processing: src/services/QualityMetricsService.ts
+[2025-09-07T06:12:19.667Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/services/QualityMetricsService.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/services/QualityMetricsService.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:19.668Z] Processing: src/services/RecommendationAdapter.ts
+[2025-09-07T06:12:20.760Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/services/RecommendationAdapter.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/services/RecommendationAdapter.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:20.762Z] Processing: src/services/adapters/IngredientServiceAdapter.ts
+[2025-09-07T06:12:21.891Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/services/adapters/IngredientServiceAdapter.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/services/adapters/IngredientServiceAdapter.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:21.892Z] Processing: src/services/adapters/LegacyIngredientAdapter.ts
+[2025-09-07T06:12:23.006Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/services/adapters/LegacyIngredientAdapter.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/services/adapters/LegacyIngredientAdapter.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:23.007Z] Processing: src/services/astrologyApi.ts
+[2025-09-07T06:12:24.179Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/services/astrologyApi.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/services/astrologyApi.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:24.180Z] Processing: src/services/campaign/DependencySecurityMonitor.ts
+[2025-09-07T06:12:25.306Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/services/campaign/DependencySecurityMonitor.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/services/campaign/DependencySecurityMonitor.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:25.307Z] Progress: 59.3% (51/86 files)
+[2025-09-07T06:12:25.307Z] Processing: src/services/campaign/MilestoneValidationSystem.ts
+[2025-09-07T06:12:26.439Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/services/campaign/MilestoneValidationSystem.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/services/campaign/MilestoneValidationSystem.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:26.440Z] Processing: src/services/campaign/SafetyProtocol.ts
+[2025-09-07T06:12:27.545Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/services/campaign/SafetyProtocol.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/services/campaign/SafetyProtocol.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:27.546Z] Processing: src/services/campaign/run-dependency-security.ts
+[2025-09-07T06:12:28.758Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/services/campaign/run-dependency-security.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/services/campaign/run-dependency-security.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:28.759Z] Processing: src/services/linting/LintingCampaignIntegration.ts
+[2025-09-07T06:12:29.870Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/services/linting/LintingCampaignIntegration.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/services/linting/LintingCampaignIntegration.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:29.871Z] Processing: src/services/recipeData.ts
+[2025-09-07T06:12:30.992Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/services/recipeData.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/services/recipeData.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:30.993Z] Processing: src/services/unifiedNutritionalService.ts
+[2025-09-07T06:12:32.171Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/services/unifiedNutritionalService.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/services/unifiedNutritionalService.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:32.172Z] Processing: src/test-expanded-alchemical-engine.ts
+[2025-09-07T06:12:33.270Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/test-expanded-alchemical-engine.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/test-expanded-alchemical-engine.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:33.271Z] Processing: src/utils/alchemicalPillarUtils.ts
+[2025-09-07T06:12:34.504Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/alchemicalPillarUtils.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/alchemicalPillarUtils.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:34.506Z] Processing: src/utils/alchemyInitializer.ts
+[2025-09-07T06:12:35.813Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/alchemyInitializer.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/alchemyInitializer.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:35.813Z] Processing: src/utils/astrology/astrologicalValidation.ts
+[2025-09-07T06:12:37.047Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrology/astrologicalValidation.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrology/astrologicalValidation.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:37.048Z] Progress: 70.9% (61/86 files)
+[2025-09-07T06:12:37.048Z] Processing: src/utils/astrology/positions.ts
+[2025-09-07T06:12:38.264Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrology/positions.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrology/positions.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:38.265Z] Processing: src/utils/astrologyUtils.ts
+[2025-09-07T06:12:39.415Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrologyUtils.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrologyUtils.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:39.416Z] Processing: src/utils/astrologyValidation.ts
+[2025-09-07T06:12:40.535Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrologyValidation.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/astrologyValidation.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:40.536Z] Processing: src/utils/chromeApiInitializer.ts
+[2025-09-07T06:12:41.629Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/chromeApiInitializer.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/chromeApiInitializer.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:41.630Z] Processing: src/utils/cookingMethodRecommender.ts
+[2025-09-07T06:12:42.919Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/cookingMethodRecommender.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/cookingMethodRecommender.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:42.920Z] Processing: src/utils/data/processing.ts
+[2025-09-07T06:12:44.026Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/data/processing.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/data/processing.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:44.026Z] Processing: src/utils/dataStandardization.ts
+[2025-09-07T06:12:45.130Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/dataStandardization.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/dataStandardization.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:45.131Z] Processing: src/utils/elemental/transformations.ts
+[2025-09-07T06:12:46.245Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/elemental/transformations.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/elemental/transformations.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:46.246Z] Processing: src/utils/elementalUtils.ts
+[2025-09-07T06:12:47.378Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/elementalUtils.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/elementalUtils.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:47.379Z] Processing: src/utils/foodRecommender.ts
+[2025-09-07T06:12:48.518Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/foodRecommender.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/foodRecommender.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:48.519Z] Progress: 82.6% (71/86 files)
+[2025-09-07T06:12:48.519Z] Processing: src/utils/ingredientDataNormalizer.ts
+[2025-09-07T06:12:49.615Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/ingredientDataNormalizer.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/ingredientDataNormalizer.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:49.615Z] Processing: src/utils/ingredientRecommender.ts
+[2025-09-07T06:12:50.889Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/ingredientRecommender.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/ingredientRecommender.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:50.890Z] Processing: src/utils/ingredientValidation.ts
+[2025-09-07T06:12:52.088Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/ingredientValidation.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/ingredientValidation.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:52.089Z] Processing: src/utils/naturalLanguageProcessor.ts
+[2025-09-07T06:12:53.233Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/naturalLanguageProcessor.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/naturalLanguageProcessor.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:53.234Z] Processing: src/utils/planetCalculations.ts
+[2025-09-07T06:12:54.349Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/planetCalculations.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/planetCalculations.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:54.350Z] Processing: src/utils/planetInfoUtils.ts
+[2025-09-07T06:12:55.443Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/planetInfoUtils.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/planetInfoUtils.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:55.444Z] Processing: src/utils/planetaryValidation.ts
+[2025-09-07T06:12:56.725Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/planetaryValidation.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/planetaryValidation.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:56.726Z] Processing: src/utils/recipe/recipeAdapter.ts
+[2025-09-07T06:12:57.857Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipe/recipeAdapter.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipe/recipeAdapter.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:57.858Z] Processing: src/utils/recipe/recipeCore.ts
+[2025-09-07T06:12:59.002Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipe/recipeCore.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipe/recipeCore.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:12:59.003Z] Processing: src/utils/recipe/recipeFiltering.ts
+[2025-09-07T06:13:00.104Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipe/recipeFiltering.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipe/recipeFiltering.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:13:00.106Z] Progress: 94.2% (81/86 files)
+[2025-09-07T06:13:00.106Z] Processing: src/utils/recipe/recipeUtils.ts
+[2025-09-07T06:13:01.190Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipe/recipeUtils.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipe/recipeUtils.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:13:01.191Z] Processing: src/utils/recipeFilters.ts
+[2025-09-07T06:13:02.362Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipeFilters.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipeFilters.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:13:02.363Z] Processing: src/utils/recipeMatching.ts
+[2025-09-07T06:13:03.481Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipeMatching.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/recipeMatching.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:13:03.482Z] Processing: src/utils/recommendation/ingredientRecommendation.ts
+[2025-09-07T06:13:04.619Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recommendation/ingredientRecommendation.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/recommendation/ingredientRecommendation.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:13:04.620Z] Processing: src/utils/recommendation/methodRecommendation.ts
+[2025-09-07T06:13:05.743Z] Error processing /Users/GregCastro/Desktop/WhatToEatNext/src/utils/recommendation/methodRecommendation.ts: Command failed: yarn lint --fix --rule "@typescript-eslint/no-unnecessary-type-assertion: error" --rule "import/order: error" --rule "import/no-duplicates: error" "/Users/GregCastro/Desktop/WhatToEatNext/src/utils/recommendation/methodRecommendation.ts"
+
+Oops! Something went wrong! :(
+
+ESLint: 8.57.1
+
+TypeError: Key "rules": Key "@typescript-eslint/no-unnecessary-type-assertion": Could not find plugin "@typescript-eslint".
+    at throwRuleNotFoundError (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:66:11)
+    at RuleValidator.validate (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/rule-validator.js:128:17)
+    at [finalizeConfig] (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/config/flat-config-array.js:337:23)
+    at FlatConfigArray.getConfig (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1036:55)
+    at FlatConfigArray.isFileIgnored (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@humanwhocodes/config-array/api.js:1060:15)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:344:55
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/eslint/lib/eslint/eslint-helpers.js:286:32
+    at Object.isAppliedFilter (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/common.js:12:31)
+    at AsyncReader._handleEntry (/Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:86:20)
+    at /Users/GregCastro/Desktop/WhatToEatNext/node_modules/@nodelib/fs.walk/out/readers/async.js:65:22
+
+[2025-09-07T06:13:05.744Z] Progress: 100.0% (86/86 files)
+[2025-09-07T06:13:05.744Z] Validating TypeScript compilation...
+[2025-09-07T06:13:17.536Z] ❌ TypeScript compilation failed: Command failed: yarn tsc --noEmit --skipLibCheck
+[2025-09-07T06:13:47.605Z] Error getting issue stats: spawnSync /bin/sh ETIMEDOUT
+[2025-09-07T06:13:47.607Z] Final targeted issues: -1
+[2025-09-07T06:13:47.607Z] ⚠️  Build validation failed - some fixes may need manual review
+[2025-09-07T06:13:47.609Z] ============================================================
+[2025-09-07T06:13:47.609Z] ESLint Targeted Auto-Fix Completed
+[2025-09-07T06:13:47.609Z] Target rules: @typescript-eslint/no-unnecessary-type-assertion, import/order, import/no-duplicates
+[2025-09-07T06:13:47.609Z] Files processed: 86
+[2025-09-07T06:13:47.609Z] Files fixed: 0
+[2025-09-07T06:13:47.609Z] ============================================================
