@@ -1,11 +1,10 @@
 // src/data/cuisines/middle-eastern.ts
 import { Cuisine } from '@/types/cuisine';
 
-export const, middleEastern: Cuisine = {
+export const middleEastern: Cuisine = {
   id: 'middle-eastern',
   name: 'Middle Eastern',
-  description:
-    'Traditional Middle Eastern cuisine featuring aromatic spices, fresh herbs, and ancient cooking techniques',
+  description: 'Traditional Middle Eastern cuisine featuring aromatic spices, fresh herbs, and ancient cooking techniques',
   dishes: {
     breakfast: {
       all: [
@@ -48,8 +47,7 @@ export const, middleEastern: Cuisine = {
           allergens: ['eggs'],
           prepTime: '10 minutes',
           cookTime: '15 minutes',
-          culturalNotes:
-            'A beloved breakfast dish throughout the Middle East and North Africa, particularly popular in Israel and Palestine. The name means 'mixture' in Arabic dialects',
+          culturalNotes: 'A beloved breakfast dish throughout the Middle East and North Africa, particularly popular in Israel and Palestine. The name means \'mixture\' in Arabic dialects',
           pairingSuggestions: ['pita bread', 'hummus', 'Israeli salad', 'olives'],
           dietaryInfo: ['vegetarian', 'adaptable to vegan', 'gluten-free option'],
           spiceLevel: 'mild to medium',
@@ -103,8 +101,7 @@ export const, middleEastern: Cuisine = {
           allergens: ['none'],
           prepTime: '10 minutes',
           cookTime: '10 minutes',
-          culturalNotes:
-            'Egypt's national dish, dating back to ancient times. Traditionally served for breakfast but enjoyed throughout the day',
+          culturalNotes: 'Egypt\'s national dish, dating back to ancient times. Traditionally served for breakfast but enjoyed throughout the day',
           pairingSuggestions: ['pita bread', 'sliced eggs', 'olive oil', 'tahini sauce'],
           dietaryInfo: ['vegan', 'gluten-free'],
           spiceLevel: 'mild',
@@ -127,8 +124,8 @@ export const, middleEastern: Cuisine = {
           }
         },
         {
-          name: 'Manakish Za'atar',
-          description: 'Flatbread topped with za'atar herb blend and olive oil',
+          name: 'Manakish Za\'atar',
+          description: 'Flatbread topped with za\'atar herb blend and olive oil',
           cuisine: 'Middle Eastern (Levant)',
           cookingMethods: ['baking', 'kneading', 'topping'],
           tools: ['mixing bowl', 'baking sheet', 'rolling pin', 'pastry brush', 'oven'],
@@ -164,7 +161,7 @@ export const, middleEastern: Cuisine = {
           prepTime: '20 minutes',
           cookTime: '15 minutes',
           culturalNotes:
-            'A beloved street food throughout the Levant, traditionally enjoyed for breakfast. The za'atar blend varies by region and family recipe',
+            'A beloved street food throughout the Levant, traditionally enjoyed for breakfast. The za\'atar blend varies by region and family recipe',
           pairingSuggestions: ['labneh', 'olives', 'fresh vegetables', 'mint tea'],
           dietaryInfo: ['vegan', 'adaptable to gluten-free'],
           spiceLevel: 'mild',
@@ -226,8 +223,7 @@ export const, middleEastern: Cuisine = {
           allergens: ['dairy'],
           prepTime: '10 minutes',
           cookTime: '12 hours straining',
-          culturalNotes:
-            'A staple breakfast food throughout the Levant, often served with olive oil and fresh herbs',
+          culturalNotes: 'A staple breakfast food throughout the Levant, often served with olive oil and fresh herbs',
           pairingSuggestions: ['cucumber', 'tomatoes', 'olives', 'fresh mint tea'],
           dietaryInfo: ['vegetarian', 'adaptable to vegan'],
           spiceLevel: 'mild',
@@ -344,8 +340,7 @@ export const, middleEastern: Cuisine = {
           allergens: ['gluten'],
           prepTime: '20 minutes',
           cookTime: '5 minutes',
-          culturalNotes:
-            'A refreshing salad that originated as a way to use stale bread. The sumac provides a distinctive tangy flavor essential to Levantine cuisine',
+          culturalNotes: 'A refreshing salad that originated as a way to use stale bread. The sumac provides a distinctive tangy flavor essential to Levantine cuisine',
           pairingSuggestions: ['grilled meats', 'hummus', 'falafel'],
           dietaryInfo: ['vegan', 'adaptable to gluten-free'],
           spiceLevel: 'mild',
@@ -480,8 +475,7 @@ export const, middleEastern: Cuisine = {
           allergens: ['nuts'],
           prepTime: '60 minutes',
           cookTime: '180 minutes',
-          culturalNotes:
-            'A celebratory dish often served at important gatherings and festivals. The combination of meat, rice, and nuts represents abundance and hospitality',
+          culturalNotes: 'A celebratory dish often served at important gatherings and festivals. The combination of meat, rice, and nuts represents abundance and hospitality',
           pairingSuggestions: ['tabbouleh', 'yogurt sauce', 'flatbread'],
           dietaryInfo: ['halal'],
           spiceLevel: 'medium',
@@ -553,8 +547,7 @@ export const, middleEastern: Cuisine = {
           allergens: ['gluten'],
           prepTime: '30 minutes',
           cookTime: '25 minutes',
-          culturalNotes:
-            'Grilled meats are central to Middle Eastern cuisine, often served at gatherings and celebrations. Each region has its own special marinades and spice blends',
+          culturalNotes: 'Grilled meats are central to Middle Eastern cuisine, often served at gatherings and celebrations. Each region has its own special marinades and spice blends',
           pairingSuggestions: ['fattoush salad', 'pickled vegetables', 'garlic sauce'],
           dietaryInfo: ['halal', 'adaptable to vegetarian/vegan'],
           spiceLevel: 'medium',
@@ -605,8 +598,7 @@ export const, middleEastern: Cuisine = {
           allergens: ['none'],
           prepTime: '15 minutes',
           cookTime: '45 minutes',
-          culturalNotes:
-            'A humble yet beloved dish throughout the Middle East, traditionally eaten during Lent. The contrast of textures between the soft lentils and crispy onions is essential',
+          culturalNotes: 'A humble yet beloved dish throughout the Middle East, traditionally eaten during Lent. The contrast of textures between the soft lentils and crispy onions is essential',
           pairingSuggestions: ['yogurt', 'Arabic salad', 'pickled vegetables'],
           dietaryInfo: ['vegan', 'gluten-free'],
           spiceLevel: 'mild',
@@ -679,8 +671,7 @@ export const, middleEastern: Cuisine = {
           allergens: ['gluten'],
           prepTime: '30 minutes',
           cookTime: '240 minutes',
-          culturalNotes:
-            'A street food staple throughout the Middle East, each region has its own spice blend and serving style',
+          culturalNotes: 'A street food staple throughout the Middle East, each region has its own spice blend and serving style',
           pairingSuggestions: ['hummus', 'tabbouleh', 'pickled vegetables', 'garlic sauce'],
           dietaryInfo: ['halal', 'adaptable to vegan'],
           spiceLevel: 'medium',
@@ -727,8 +718,7 @@ export const, middleEastern: Cuisine = {
           allergens: ['nuts', 'gluten'],
           prepTime: '45 minutes',
           cookTime: '45 minutes',
-          culturalNotes:
-            'A dessert with ancient origins, found throughout the former Ottoman Empire. Each region claims its own style and nut preference',
+          culturalNotes: 'A dessert with ancient origins, found throughout the former Ottoman Empire. Each region claims its own style and nut preference',
           pairingSuggestions: ['Turkish coffee', 'mint tea'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -783,8 +773,7 @@ export const, middleEastern: Cuisine = {
           allergens: ['none'],
           prepTime: '12 hours soaking',
           cookTime: '30 minutes',
-          culturalNotes:
-            'A staple street food throughout the Middle East, with origins in Egypt. Each region claims to make the best version',
+          culturalNotes: 'A staple street food throughout the Middle East, with origins in Egypt. Each region claims to make the best version',
           pairingSuggestions: ['pita bread', 'tahini sauce', 'pickled vegetables', 'hummus'],
           dietaryInfo: ['vegan', 'gluten-free'],
           spiceLevel: 'mild',
@@ -904,8 +893,7 @@ export const, middleEastern: Cuisine = {
           allergens: ['dairy', 'nuts', 'gluten'],
           prepTime: '40 minutes',
           cookTime: '35 minutes',
-          culturalNotes:
-            'A beloved dessert throughout the Levant, particularly famous in Nablus, Palestine. Often eaten for breakfast',
+          culturalNotes: 'A beloved dessert throughout the Levant, particularly famous in Nablus, Palestine. Often eaten for breakfast',
           pairingSuggestions: ['Arabic coffee', 'black tea'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -963,8 +951,7 @@ export const, middleEastern: Cuisine = {
           allergens: ['none'],
           prepTime: '30 minutes',
           cookTime: '15 minutes',
-          culturalNotes:
-            'A classic street food and home-cooked dish throughout the Middle East. The art of kofta-making is passed down through generations',
+          culturalNotes: 'A classic street food and home-cooked dish throughout the Middle East. The art of kofta-making is passed down through generations',
           pairingSuggestions: ['flatbread', 'hummus', 'grilled vegetables', 'rice'],
           dietaryInfo: ['halal'],
           spiceLevel: 'medium',

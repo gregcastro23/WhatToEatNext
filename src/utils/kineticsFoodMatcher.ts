@@ -9,29 +9,30 @@
  * - Seasonal menu optimization
  */
 
-import type {
-  KineticsResponse,
-  KineticsElementalTotals,
-  TemporalFoodRecommendation,
-  KineticsEnhancedRecommendation,
-  FoodEnergyCategory
-} from '@/types/kinetics';
 import type { ElementalProperties } from '@/types/alchemy';
+import type {
+    FoodEnergyCategory,
+    KineticMetrics,
+    KineticsElementalTotals,
+    KineticsEnhancedRecommendation,
+    KineticsResponse,
+    TemporalFoodRecommendation
+} from '@/types/kinetics';
 
 export interface FoodItem {
-  id: string;,
-  name: string;,
-  tags: string[];,
-  elementalProfile: ElementalProperties;,
-  basePortionSize: number;,
+  id: string;
+  name: string;
+  tags: string[];
+  elementalProfile: ElementalProperties;
+  basePortionSize: number;
   nutritionalDensity: number;
 }
 
 export interface UserPreferences {
-  cuisineTypes: string[];,
-  dietaryRestrictions: string[];,
-  allergies: string[];,
-  energyPreference?: 'high' | 'moderate' | 'low'
+  cuisineTypes: string[];
+  dietaryRestrictions: string[];
+  allergies: string[];
+  energyPreference?: 'high' | 'moderate' | 'low';
 }
 
 /**
@@ -91,7 +92,7 @@ export function calculateOptimalPortions<T extends { amount: number }>(
   // Lower power = smaller portions for easier digestion;
   const portionModifier = (powerLevel * powerMultiplier - 0.5) * 0.3 + 1.0;
 
-  return basePortions.map(portion => ({;
+  return basePortions.map(portion => ({
     ...portion,
     amount: Math.round(portion.amount * portionModifier * 100) / 100
   }))
@@ -313,4 +314,130 @@ function calculateSeasonalAlignment(foodTags: string[], seasonalInfluence: strin
   const matchingTags = foodTags.filter(tag => seasonalTags.includes(tag))
 
   return seasonalTags.length > 0 ? matchingTags.length / seasonalTags.length : 0.5;
+}
+
+/**
+ * Get kinetics-enhanced food recommendations using full kinetics metrics
+ */
+export function getKineticsEnhancedRecommendations(
+  kineticsResponse: KineticsResponse,
+  kineticsMetrics: KineticMetrics,
+  userPreferences: UserPreferences
+): KineticsEnhancedRecommendation {
+  const baseRecommendation = getTemporalFoodRecommendations(kineticsResponse, userPreferences)
+
+  // Enhance with kinetics metrics
+  const kineticsEnhancements = calculateKineticsEnhancements(kineticsMetrics)
+
+  return {
+    ...baseRecommendation,
+    aspectPhase: kineticsMetrics.aspectPhase,
+    portionModifier: calculateKineticsPortionModifier(kineticsMetrics),
+    seasonalTags: getSeasonalTags(kineticsResponse.data.base.timing.seasonalInfluence),
+    ...kineticsEnhancements
+  }
+}
+
+/**
+ * Calculate kinetics-specific enhancements
+ */
+function calculateKineticsEnhancements(kinetics: KineticMetrics) {
+  const { forceClassification, thermalDirection, power, charge, potentialDifference } = kinetics
+
+  const enhancements = {
+    forceDrivenCooking: forceClassification === 'accelerating' ? 'forceful' : 'gentle',
+    thermalMethod: thermalDirection === 'heating' ? 'hot' : thermalDirection === 'cooling' ? 'cold' : 'balanced',
+    powerLevel: power > 1.5 ? 'high' : power < 0.5 ? 'low' : 'moderate',
+    chargeDensity: charge > 2.0 ? 'dense' : charge < 1.0 ? 'light' : 'moderate',
+    potentialStyle: potentialDifference > 1.0 ? 'transformative' : 'conservative'
+  }
+
+  return enhancements
+}
+
+/**
+ * Calculate portion modifier based on kinetics
+ */
+function calculateKineticsPortionModifier(kinetics: KineticMetrics): number {
+  const { power, forceMagnitude, charge } = kinetics
+
+  // Power affects base portions
+  let modifier = (power - 1.0) * 0.1 + 1.0
+
+  // Force magnitude adjusts for intensity
+  modifier *= (forceMagnitude / 2 + 0.5)
+
+  // Charge density affects substance amount
+  modifier *= (charge / 2 + 0.5)
+
+  return Math.max(0.5, Math.min(2.0, modifier))
+}
+
+/**
+ * Get force-driven cooking method recommendations
+ */
+export function getForceDrivenCookingMethods(
+  kinetics: KineticMetrics,
+  availableMethods: string[]
+): string[] {
+  const { forceClassification, forceMagnitude, thermalDirection } = kinetics
+
+  const recommendations: string[] = []
+
+  if (forceClassification === 'accelerating' || forceMagnitude > 3) {
+    recommendations.push('grilling', 'sautéing', 'stir-frying')
+  } else if (forceClassification === 'decelerating') {
+    recommendations.push('slow-cooking', 'braising', 'steaming')
+  } else {
+    recommendations.push('baking', 'roasting', 'poaching')
+  }
+
+  if (thermalDirection === 'heating') {
+    recommendations.unshift('frying', 'broiling')
+  } else if (thermalDirection === 'cooling') {
+    recommendations.push('chilling', 'freezing')
+  }
+
+  // Filter by available methods
+  return recommendations.filter(method => availableMethods.includes(method))
+}
+
+/**
+ * Score food items based on kinetics alignment
+ */
+export function calculateKineticsFoodAlignment(
+  foodItem: FoodItem,
+  kinetics: KineticMetrics
+): number {
+  const { forceClassification, thermalDirection, power, charge } = kinetics
+
+  let alignment = 0
+
+  // Force classification alignment
+  if (forceClassification === 'accelerating' && foodItem.tags.includes('quick')) {
+    alignment += 0.3
+  } else if (forceClassification === 'decelerating' && foodItem.tags.includes('slow-cooked')) {
+    alignment += 0.3
+  }
+
+  // Thermal direction alignment
+  if (thermalDirection === 'heating' && foodItem.tags.includes('warming')) {
+    alignment += 0.2
+  } else if (thermalDirection === 'cooling' && foodItem.tags.includes('cooling')) {
+    alignment += 0.2
+  }
+
+  // Power level alignment
+  const powerTags = power > 1.5 ? ['energizing'] : power < 0.5 ? ['calming'] : ['balanced']
+  if (foodItem.tags.some(tag => powerTags.includes(tag))) {
+    alignment += 0.2
+  }
+
+  // Charge density alignment
+  const chargeTags = charge > 2.0 ? ['substantial', 'protein-rich'] : ['light', 'fresh']
+  if (foodItem.tags.some(tag => chargeTags.includes(tag))) {
+    alignment += 0.3
+  }
+
+  return Math.min(1.0, alignment)
 }

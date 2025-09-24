@@ -1,11 +1,10 @@
 // src/data/cuisines/thai.ts
 import type { Cuisine } from '@/types/cuisine';
 
-export const, thai: Cuisine = {
+export const thai: Cuisine = {
   id: 'thai',
   name: 'Thai',
-  description:
-    'Traditional Thai cuisine featuring complex harmony of flavors including spicy, sweet, sour and salty elements',
+  description: 'Traditional Thai cuisine featuring complex harmony of flavors including spicy, sweet, sour and salty elements',
   dishes: {
     breakfast: {
       all: [
@@ -120,8 +119,7 @@ export const, thai: Cuisine = {
           allergens: ['shellfish', 'fish', 'soy'],
           prepTime: '15 minutes',
           cookTime: '25 minutes',
-          culturalNotes:
-            'A gentle morning dish that exemplifies the Thai principle of 'khao tom' (boiled rice), often served to those feeling under the weather',
+          culturalNotes: 'A gentle morning dish that exemplifies the Thai principle of \'khao tom\' (boiled rice), often served to those feeling under the weather',
           pairingSuggestions: ['pickled chilies', 'fried garlic', 'fresh lime', 'prik nam pla'],
           dietaryInfo: ['adaptable to vegetarian/vegan', 'gluten-free'],
           spiceLevel: 'mild',
@@ -180,8 +178,7 @@ export const, thai: Cuisine = {
           prepTime: '20 minutes',
           restTime: '60 minutes',
           cookTime: '20 minutes',
-          culturalNotes:
-            'A Thai adaptation of Chinese youtiao, often enjoyed for breakfast with coffee or tea. The pandan custard adds a distinctly Southeast Asian twist',
+          culturalNotes: 'A Thai adaptation of Chinese youtiao, often enjoyed for breakfast with coffee or tea. The pandan custard adds a distinctly Southeast Asian twist',
           pairingSuggestions: ['Thai coffee', 'hot soy milk', 'condensed milk'],
           dietaryInfo: ['vegetarian', 'adaptable to vegan'],
           spiceLevel: 'none',
@@ -239,8 +236,7 @@ export const, thai: Cuisine = {
           allergens: ['eggs', 'fish'],
           prepTime: '5 minutes',
           cookTime: '10 minutes',
-          culturalNotes:
-            'A quick, satisfying breakfast that showcases the Thai preference for rice-based meals at any time of day. The fluffy yet crispy texture is achieved through high heat and proper wok technique',
+          culturalNotes: 'A quick, satisfying breakfast that showcases the Thai preference for rice-based meals at any time of day. The fluffy yet crispy texture is achieved through high heat and proper wok technique',
           pairingSuggestions: ['nam prik pao', 'cucumber slices', 'Thai chili sauce'],
           dietaryInfo: ['gluten-free', 'adaptable to vegan'],
           spiceLevel: 'adjustable',
@@ -306,7 +302,7 @@ export const, thai: Cuisine = {
           allergens: ['fish', 'soy'],
           prepTime: '15 minutes',
           cookTime: '30 minutes',
-          culturalNotes: 'A comforting breakfast dish that's often served to those feeling under the weather. The ginger and pepper make it especially warming',
+          culturalNotes: 'A comforting breakfast dish that\'s often served to those feeling under the weather. The ginger and pepper make it especially warming',
           pairingSuggestions: [
             'fried garlic',
             'chili vinegar',
@@ -386,8 +382,7 @@ export const, thai: Cuisine = {
           allergens: ['fish', 'shellfish', 'soy'],
           prepTime: '15 minutes',
           cookTime: '10 minutes',
-          culturalNotes:
-            'One of Thailand's most beloved street foods, this dish is known for its intense heat and aromatic holy basil. The name 'kra pao' refers to the holy basil that gives the dish its distinctive flavor',
+          culturalNotes: 'One of Thailand\'s most beloved street foods, this dish is known for its intense heat and aromatic holy basil. The name \'kra pao\' refers to the holy basil that gives the dish its distinctive flavor',
           pairingSuggestions: ['jasmine rice', 'fried egg', 'cucumber slices', 'prik nam pla'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'hot',
@@ -505,8 +500,7 @@ export const, thai: Cuisine = {
           allergens: ['fish', 'shellfish', 'peanuts'],
           prepTime: '20 minutes',
           cookTime: '0 minutes',
-          culturalNotes:
-            'Originally from Isaan (northeastern Thailand), this dish perfectly balances the four main Thai, tastes: sour, spicy, salty, and sweet. It's now popular throughout Thailand and internationally',
+          culturalNotes: 'Originally from Isaan (northeastern Thailand), this dish perfectly balances the four main Thai tastes: sour, spicy, salty, and sweet. It\'s now popular throughout Thailand and internationally',
           pairingSuggestions: ['sticky rice', 'grilled chicken', 'cold beer'],
           dietaryInfo: ['raw', 'adaptable to vegan', 'gluten-free'],
           spiceLevel: 'very hot',
@@ -561,7 +555,7 @@ export const, thai: Cuisine = {
           prepTime: '15 minutes',
           cookTime: '25 minutes',
           culturalNotes:
-            'Thailand's most famous soup, known worldwide for its complex blend of hot, sour, and aromatic flavors. The name 'tom yum' refers to the boiling process and sour taste',
+            'Thailand\'s most famous soup, known worldwide for its complex blend of hot, sour, and aromatic flavors. The name \'tom yum\' refers to the boiling process and sour taste',
           pairingSuggestions: ['jasmine rice', 'stir-fried vegetables', 'coconut water'],
           dietaryInfo: ['gluten-free', 'adaptable to vegan'],
           spiceLevel: 'hot',
@@ -623,8 +617,7 @@ export const, thai: Cuisine = {
           allergens: ['shellfish', 'fish', 'peanuts'],
           prepTime: '20 minutes',
           cookTime: '15 minutes',
-          culturalNotes:
-            'A popular Thai salad that showcases the balance of spicy, sour, and savory flavors. Glass noodles are used to absorb the flavorful dressing',
+          culturalNotes: 'A popular Thai salad that showcases the balance of spicy, sour, and savory flavors. Glass noodles are used to absorb the flavorful dressing',
           pairingSuggestions: ['sticky rice', 'grilled chicken', 'fresh vegetables'],
           dietaryInfo: ['adaptable to vegan', 'gluten-free'],
           spiceLevel: 'hot',
@@ -880,7 +873,7 @@ export const, thai: Cuisine = {
           prepTime: '30 minutes',
           cookTime: '15 minutes',
           culturalNotes:
-            'Created in the 1930s as part of Thailand's nation-building efforts, Pad Thai has become the country's national dish and a global ambassador of Thai cuisine',
+            'Created in the 1930s as part of Thailand\'s nation-building efforts, Pad Thai has become the country\'s national dish and a global ambassador of Thai cuisine',
           pairingSuggestions: ['lime wedges', 'chili flakes', 'extra peanuts', 'bean sprouts'],
           dietaryInfo: ['adaptable to vegan', 'gluten-free'],
           spiceLevel: 'mild to adjustable',
@@ -996,8 +989,7 @@ export const, thai: Cuisine = {
           allergens: ['fish'],
           prepTime: '20 minutes',
           cookTime: '15 minutes',
-          culturalNotes:
-            'A classic Thai seafood dish that exemplifies the use of fresh ingredients and the balance of spicy, sour, and savory flavors',
+          culturalNotes: 'A classic Thai seafood dish that exemplifies the use of fresh ingredients and the balance of spicy, sour, and savory flavors',
           pairingSuggestions: ['steamed rice', 'som tam', 'tom yum soup'],
           dietaryInfo: ['gluten-free', 'low-carb'],
           spiceLevel: 'medium to hot',
@@ -1054,7 +1046,7 @@ export const, thai: Cuisine = {
           prepTime: '30 minutes',
           cookTime: '20 minutes',
           chillTime: '60 minutes',
-          culturalNotes: 'A popular street dessert during Thailand's hot season. The variety of colors and textures makes it both visually appealing and refreshing',
+          culturalNotes: 'A popular street dessert during Thailand\'s hot season. The variety of colors and textures makes it both visually appealing and refreshing',
           pairingSuggestions: ['Thai iced tea', 'additional coconut milk'],
           dietaryInfo: ['vegetarian', 'vegan', 'gluten-free'],
           spiceLevel: 'none',
@@ -1164,8 +1156,7 @@ export const, thai: Cuisine = {
           allergens: ['peanuts', 'tree nuts (coconut)'],
           prepTime: '30 minutes',
           cookTime: '120 minutes',
-          culturalNotes:
-            'A Thai adaptation of Persian cuisine, influenced by Muslim traders. The word 'massaman' is believed to refer to the Muslims who brought this style of curry to Thailand',
+          culturalNotes: 'A Thai adaptation of Persian cuisine, influenced by Muslim traders. The word \'massaman\' is believed to refer to the Muslims who brought this style of curry to Thailand',
           pairingSuggestions: ['jasmine rice', 'roti', 'cucumber relish'],
           dietaryInfo: ['adaptable to vegan'],
           spiceLevel: 'mild',
@@ -1233,8 +1224,7 @@ export const, thai: Cuisine = {
           allergens: ['shellfish', 'dairy'],
           prepTime: '20 minutes',
           cookTime: '45 minutes',
-          culturalNotes:
-            'A richer variation of the classic Tom Yum soup, made creamy with the addition of evaporated milk. Popular in central Thailand',
+          culturalNotes: 'A richer variation of the classic Tom Yum soup, made creamy with the addition of evaporated milk. Popular in central Thailand',
           pairingSuggestions: ['jasmine rice', 'seafood dipping sauce', 'fresh lime'],
           dietaryInfo: ['gluten-free', 'adaptable to vegan'],
           spiceLevel: 'hot',
@@ -1302,8 +1292,7 @@ export const, thai: Cuisine = {
           allergens: ['peanuts', 'tree nuts (coconut)', 'fish'],
           prepTime: '20 minutes',
           cookTime: '40 minutes',
-          culturalNotes:
-            'Panang curry is known for its rich, thick consistency and slightly sweeter taste compared to other Thai curries. The name is believed to derive from Penang, Malaysia',
+          culturalNotes: 'Panang curry is known for its rich, thick consistency and slightly sweeter taste compared to other Thai curries. The name is believed to derive from Penang, Malaysia',
           pairingSuggestions: ['jasmine rice', 'roti', 'cucumber salad'],
           dietaryInfo: ['adaptable to vegan', 'gluten-free'],
           spiceLevel: 'medium',
@@ -1372,8 +1361,7 @@ export const, thai: Cuisine = {
           allergens: ['eggs', 'wheat', 'tree nuts (coconut)'],
           prepTime: '30 minutes',
           cookTime: '45 minutes',
-          culturalNotes:
-            'A specialty of Northern Thailand, particularly Chiang Mai. The dish shows Burmese influence and was historically popular along trade routes',
+          culturalNotes: 'A specialty of Northern Thailand, particularly Chiang Mai. The dish shows Burmese influence and was historically popular along trade routes',
           pairingSuggestions: ['pickled vegetables', 'chili paste', 'fried shallots'],
           dietaryInfo: ['adaptable to vegan'],
           spiceLevel: 'medium to hot',
@@ -1448,7 +1436,7 @@ export const, thai: Cuisine = {
           cookTime: '30 minutes',
           soakTime: '4 hours',
           culturalNotes:
-            'Thailand's most famous dessert, traditionally eaten during mango season. The combination of sweet sticky rice and ripe mango represents the perfect harmony of flavors and textures',
+            'Thailand\'s most famous dessert, traditionally eaten during mango season. The combination of sweet sticky rice and ripe mango represents the perfect harmony of flavors and textures',
           pairingSuggestions: ['Thai iced tea', 'fresh coconut water'],
           dietaryInfo: ['vegetarian', 'vegan', 'gluten-free'],
           spiceLevel: 'none',
@@ -1508,8 +1496,7 @@ export const, thai: Cuisine = {
           prepTime: '30 minutes',
           cookTime: '10 minutes',
           chillTime: '60 minutes',
-          culturalNotes:
-            'A refreshing dessert popular during hot season. The name 'tub tim' means ruby, referring to the red coloring of the water chestnuts',
+          culturalNotes: 'A refreshing dessert popular during hot season. The name \'tub tim\' means ruby, referring to the red coloring of the water chestnuts',
           pairingSuggestions: ['Thai iced tea', 'fresh young coconut'],
           dietaryInfo: ['vegetarian', 'vegan', 'gluten-free'],
           spiceLevel: 'none',
@@ -1567,8 +1554,7 @@ export const, thai: Cuisine = {
           allergens: ['tree nuts (coconut)'],
           prepTime: '25 minutes',
           cookTime: '15 minutes',
-          culturalNotes:
-            'A comforting dessert often served during festivals and special occasions. The name means 'floating lotus' in Thai, referring to the dumpling's shape',
+          culturalNotes: 'A comforting dessert often served during festivals and special occasions. The name means \'floating lotus\' in Thai, referring to the dumpling\'s shape',
           pairingSuggestions: ['ginger tea', 'Chinese donuts'],
           dietaryInfo: ['vegetarian', 'vegan', 'gluten-free'],
           spiceLevel: 'none',
@@ -1683,7 +1669,7 @@ export const, thai: Cuisine = {
           prepTime: '30 minutes',
           cookTime: '20 minutes',
           chillTime: '60 minutes',
-          culturalNotes: 'A popular street dessert during Thailand's hot season. The variety of colors and textures makes it both visually appealing and refreshing',
+          culturalNotes: 'A popular street dessert during Thailand\'s hot season. The variety of colors and textures makes it both visually appealing and refreshing',
           pairingSuggestions: ['Thai iced tea', 'additional coconut milk'],
           dietaryInfo: ['vegetarian', 'vegan', 'gluten-free'],
           spiceLevel: 'none',
@@ -1739,8 +1725,7 @@ export const, thai: Cuisine = {
           allergens: ['tree nuts (coconut)', 'sesame'],
           prepTime: '15 minutes',
           cookTime: '20 minutes',
-          culturalNotes:
-            'A popular street food snack, often sold by vendors in the afternoon. The crispy exterior and soft, sweet interior make it a beloved treat',
+          culturalNotes: 'A popular street food snack, often sold by vendors in the afternoon. The crispy exterior and soft, sweet interior make it a beloved treat',
           pairingSuggestions: ['Thai iced tea', 'honey dip', 'vanilla ice cream'],
           dietaryInfo: ['vegetarian', 'vegan'],
           spiceLevel: 'none',
@@ -1819,7 +1804,7 @@ export const, thai: Cuisine = {
     },
     padThaiSauce: {
       name: 'Pad Thai Sauce',
-      description: 'Sweet-sour-salty sauce that defines Thailand's most famous noodle dish',
+      description: 'Sweet-sour-salty sauce that defines Thailand\'s most famous noodle dish',
       base: 'tamarind paste',
       keyIngredients: [
         'tamarind paste',
@@ -2062,8 +2047,7 @@ export const, thai: Cuisine = {
   cookingTechniques: [
     {
       name: 'Wok Cooking (Pad)',
-      description:
-        'Fast high-heat stir-frying that preserves texture and creates 'wok hei' or breath of the wok',
+      description: 'Fast high-heat stir-frying that preserves texture and creates \'wok hei\' or breath of the wok',
       elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
       toolsRequired: ['wok', 'wok spatula', 'high BTU burner', 'spider strainer', 'cleaver'],
       bestFor: ['stir-fries', 'noodle dishes', 'quick curries', 'fried rice', 'sautéed vegetables'],
@@ -2175,7 +2159,7 @@ export const, thai: Cuisine = {
       keyIngredients: [
         'seafood',
         'turmeric',
-        'southern bird's eye chilies',
+        'southern bird\'s eye chilies',
         'sator beans',
         'coconut'
       ],

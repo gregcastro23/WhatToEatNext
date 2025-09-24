@@ -315,7 +315,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         vitamin_B12: 1.3
       },
       healthBenefits: ['high protein', 'low fat', 'selenium source', 'heart healthy'],
-      caloriesPerServing: 84
+      caloriesPerServing: 84,
     },
     storage: {
       temperature: 'below 40°F (4°C)',
@@ -597,7 +597,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       },
 
       healthBenefits: ['nutritious', 'natural goodness'],
-      caloriesPerServing: 80
+      caloriesPerServing: 80,
     },
 
     storage: {
@@ -617,7 +617,6 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    },
     season: ['fall', 'winter', 'spring'],
     preparation: {
       methods: ['scrub', 'debeard', 'purge', 'discard-opened'],
@@ -638,7 +637,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         phosphorus: 285
       },
       healthBenefits: ['high protein', 'vitamin B12 source', 'selenium rich', 'heart healthy'],
-      caloriesPerServing: 146
+      caloriesPerServing: 146,
     },
     storage: {
       temperature: 'below 40°F (4°C)',
@@ -846,16 +845,14 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         'March',
         'April'
       ],
-      notes:
-        'Traditional 'R month' rule (months containing the letter R) indicates when wild oysters are at their best, though farmed oysters are available year-round'
+      notes: 'Traditional \'R month\' rule (months containing the letter R) indicates when wild oysters are at their best, though farmed oysters are available year-round'
     },
     safetyNotes: {
       handling: 'Keep refrigerated at 32-35°F (0-2°C)',
-      consumption:
-        'Raw consumption carries risk of Vibrio bacteria - immunocompromised individuals should avoid raw oysters',
+      consumption: 'Raw consumption carries risk of Vibrio bacteria - immunocompromised individuals should avoid raw oysters',
       storage: 'Live oysters should be consumed within 7 days of harvest',
-      quality: 'Discard any oysters with open shells that don't close when tapped'
-    }
+      quality: 'Discard any oysters with open shells that don\'t close when tapped'
+    },
   },
   halibut_pacific: {
     name: 'Halibut Pacific',
@@ -1352,12 +1349,12 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       flavorProfile: {
         primary: ['balanced'],
         secondary: ['versatile'],
-        notes: 'Versatile cod atlantic for various uses'
+        notes: 'Versatile cod atlantic for various uses',
       },
 
       cookingMethods: ['sautéing', 'steaming', 'roasting'],
       cuisineAffinity: ['Global', 'International'],
-      preparationTips: ['Use as needed', 'Season to taste']
+      preparationTips: ['Use as needed', 'Season to taste'],
     },
 
     season: ['year-round'],
@@ -1365,7 +1362,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       methods: ['standard preparation'],
       timing: 'as needed',
-      notes: 'Standard preparation for cod atlantic'
+      notes: 'Standard preparation for cod atlantic',
     },
 
     nutritionalProfile: {
@@ -1383,7 +1380,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       },
 
       healthBenefits: ['nutritious', 'natural goodness'],
-      caloriesPerServing: 80
+      caloriesPerServing: 80,
     },
 
     storage: {

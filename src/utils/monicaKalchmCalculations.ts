@@ -8,37 +8,39 @@
  */
 
 import { ElementalProperties } from '@/types/alchemy';
+import type { KineticMetrics } from '@/types/kinetics';
+import { calculateKinetics } from './kinetics';
 
-// ========== INTERFACES ==========,
+// ========== INTERFACES ==========
 
 export interface AlchemicalProperties {
-  Spirit: number,
-  Essence: number,
-  Matter: number,
-  Substance: number
+  Spirit: number;
+  Essence: number;
+  Matter: number;
+  Substance: number;
 }
 
 export interface ThermodynamicMetrics {
-  heat: number,
-  entropy: number,
-  reactivity: number,
-  gregsEnergy: number,
-  kalchm: number,
-  monica: number
+  heat: number;
+  entropy: number;
+  reactivity: number;
+  gregsEnergy: number;
+  kalchm: number;
+  monica: number;
 }
 
 export interface EnhancedAlchemicalResult {
-  alchemicalProperties: AlchemicalProperties,
-  elementalProperties: ElementalProperties,
-  thermodynamicMetrics: ThermodynamicMetrics,
-  compatibilityScore: number,
-  confidence: number
+  alchemicalProperties: AlchemicalProperties;
+  elementalProperties: ElementalProperties;
+  thermodynamicMetrics: ThermodynamicMetrics;
+  compatibilityScore: number;
+  confidence: number;
 }
 
-// ========== CORE CALCULATION FUNCTIONS ==========,
+// ========== CORE CALCULATION FUNCTIONS ==========
 
 /**
- * Calculate, Heat: Measures active energy (Spirit & Fire vs all other properties)
+ * Calculate Heat: Measures active energy (Spirit & Fire vs all other properties)
  * Formula: Heat = (Spirit² + Fire²) / (Substance + Essence + Matter + Water + Air + Earth)²
  */
 export function calculateHeat(
@@ -140,15 +142,15 @@ export function calculateMonicaConstant(
   reactivity: number,
   K_alchm: number,
 ): number {
-  const ln_K = Math.log(K_alchm)
+  const ln_K = Math.log(K_alchm);
   if (K_alchm > 0 && ln_K !== 0 && reactivity !== 0) {
-    return -gregsEnergy / (reactivity * ln_K)
+    return -gregsEnergy / (reactivity * ln_K);
   } else {
-    return 1.0, // Default neutral value
+    return 1.0; // Default neutral value
   }
 }
 
-// ========== HELPER FUNCTIONS ==========,
+// ========== HELPER FUNCTIONS ==========
 
 /**
  * Convert elemental properties to default alchemical properties
@@ -206,16 +208,16 @@ export function calculateMonicaKalchmCompatibility(
   properties1: { alchemical?: AlchemicalProperties, elemental: ElementalProperties },
   properties2: { alchemical?: AlchemicalProperties, elemental: ElementalProperties }): number {
   // Convert elemental to alchemical if needed
-  const alchemical1 = properties1.alchemical || elementalToAlchemical(properties1.elemental)
-  const alchemical2 = properties2.alchemical || elementalToAlchemical(properties2.elemental)
-  // Calculate thermodynamic metrics for both;
-  const metrics1 = calculateThermodynamicMetrics(alchemical1, properties1.elemental)
-  const metrics2 = calculateThermodynamicMetrics(alchemical2, properties2.elemental)
+  const alchemical1 = properties1.alchemical || elementalToAlchemical(properties1.elemental);
+  const alchemical2 = properties2.alchemical || elementalToAlchemical(properties2.elemental);
+  // Calculate thermodynamic metrics for both
+  const metrics1 = calculateThermodynamicMetrics(alchemical1, properties1.elemental);
+  const metrics2 = calculateThermodynamicMetrics(alchemical2, properties2.elemental);
 
   // Calculate compatibility based on Monica constant similarity
-  const monicaDiff = Math.abs(metrics1.monica - metrics2.monica)
-  const kalchmRatio =;
-    Math.min(metrics1.kalchm, metrics2.kalchm) / Math.max(metrics1.kalchm, metrics2.kalchm)
+  const monicaDiff = Math.abs(metrics1.monica - metrics2.monica);
+  const kalchmRatio =
+    Math.min(metrics1.kalchm, metrics2.kalchm) / Math.max(metrics1.kalchm, metrics2.kalchm);
   const energyHarmony = 1 - Math.abs(metrics1.gregsEnergy - metrics2.gregsEnergy) / 10; // Normalize to 0-1
 
   // Weighted compatibility score
@@ -248,15 +250,15 @@ export function calculateKalchmHarmony(
   const comparisons = 0;
 
   // Compare each item with every other item
-  for (const i = 0i < items.lengthi++) {;
-    for (const j = i + 1j < items.lengthj++) {;
-      const compatibility = calculateMonicaKalchmCompatibility(items[i], items[j]),
-      totalHarmony += compatibility,
-      comparisons++
+  for (let i = 0; i < items.length; i++) {
+    for (let j = i + 1; j < items.length; j++) {
+      const compatibility = calculateMonicaKalchmCompatibility(items[i], items[j]);
+      totalHarmony += compatibility;
+      comparisons++;
     }
   }
 
-  return comparisons > 0 ? totalHarmony / comparisons : 0.5
+  return comparisons > 0 ? totalHarmony / comparisons : 0.5;
 }
 
 /**
@@ -266,21 +268,22 @@ export function performEnhancedAnalysis(
   item: { elemental: ElementalProperties, alchemical?: AlchemicalProperties },
   referenceProfile: ElementalProperties,
 ): EnhancedAlchemicalResult {
-  const alchemical = item.alchemical || elementalToAlchemical(item.elemental)
-  const thermodynamicMetrics = calculateThermodynamicMetrics(alchemical, item.elemental),
+  const alchemical = item.alchemical || elementalToAlchemical(item.elemental);
+  const thermodynamicMetrics = calculateThermodynamicMetrics(alchemical, item.elemental);
 
   const compatibilityScore = calculateMonicaKalchmCompatibility(
     { alchemical, elemental: item.elemental },
-    { elemental: referenceProfile })
+    { elemental: referenceProfile }
+  );
 
   // Calculate confidence based on metric stability
   const confidence = Math.min(
     1,
     Math.max(
-      0.3
+      0.3,
       1 - Math.abs(thermodynamicMetrics.monica - 1) / 5, // Higher confidence when Monica is closer to 1
-    ),
-  )
+    )
+  );
 
   return {
     alchemicalProperties: alchemical,
@@ -306,6 +309,176 @@ export const MonicaKalchmCalculations = {
   calculateKalchmHarmony,
   performEnhancedAnalysis,
   elementalToAlchemical
+};
+
+// ========== KINETICS-ENHANCED FUNCTIONS ==========
+
+/**
+ * Calculate Monica constant with B-field influence (electromagnetic kinetics)
+ */
+export function calculateMonicaWithBField(
+  gregsEnergy: number,
+  reactivity: number,
+  K_alchm: number,
+  kinetics: KineticMetrics
+): number {
+  const baseMonica = calculateMonicaConstant(gregsEnergy, reactivity, K_alchm);
+
+  // Apply B-field (Monica field) modulation
+  const monicaField = kinetics.monica || 1.0;
+  const fieldInfluence = Math.pow(monicaField, 0.3); // Cube root for subtle influence
+
+  // Modulate based on force classification
+  let forceMultiplier = 1.0;
+  if (kinetics.forceClassification === 'accelerating') {
+    forceMultiplier = 1.2; // Enhance accelerating systems
+  } else if (kinetics.forceClassification === 'decelerating') {
+    forceMultiplier = 0.8; // Dampen decelerating systems
+  }
+
+  return baseMonica * fieldInfluence * forceMultiplier;
 }
 
-export default MonicaKalchmCalculations,
+/**
+ * Calculate Kalchm with kinetics enhancement
+ */
+export function calculateKalchmWithKinetics(
+  alchemical: AlchemicalProperties,
+  kinetics: KineticMetrics
+): number {
+  const baseKalchm = calculateKAlchm(alchemical);
+
+  // Apply momentum boost to Kalchm calculation
+  const momentumFactor = 1 + (kinetics.momentum || 0) * 0.1;
+
+  // Apply aspect phase influence
+  let aspectMultiplier = 1.0;
+  switch (kinetics.aspectPhase) {
+    case 'conjunction':
+      aspectMultiplier = 1.3; // Maximum enhancement
+      break;
+    case 'opposition':
+      aspectMultiplier = 1.1; // Moderate enhancement
+      break;
+    case 'trine':
+      aspectMultiplier = 1.15; // Harmonic enhancement
+      break;
+    case 'square':
+      aspectMultiplier = 0.9; // Mild reduction
+      break;
+  }
+
+  return baseKalchm * momentumFactor * aspectMultiplier;
+}
+
+/**
+ * Enhanced thermodynamic metrics with kinetics
+ */
+export function calculateThermodynamicMetricsWithKinetics(
+  alchemical: AlchemicalProperties,
+  elemental: ElementalProperties,
+  planetaryPositions: { [planet: string]: string }
+): ThermodynamicMetrics {
+  const baseMetrics = calculateThermodynamicMetrics(alchemical, elemental);
+
+  try {
+    const kinetics = calculateKinetics(planetaryPositions);
+
+    // Enhance metrics with kinetics
+    const enhancedMetrics: ThermodynamicMetrics = {
+      heat: baseMetrics.heat * (1 + kinetics.velocityBoost * 0.1),
+      entropy: baseMetrics.entropy * (kinetics.aspectPhase === 'square' ? 1.2 : 0.9),
+      reactivity: baseMetrics.reactivity * (kinetics.forceMagnitude / 5 + 0.8),
+      gregsEnergy: baseMetrics.gregsEnergy,
+      kalchm: calculateKalchmWithKinetics(alchemical, kinetics),
+      monica: calculateMonicaWithBField(baseMetrics.gregsEnergy, baseMetrics.reactivity, baseMetrics.kalchm, kinetics)
+    };
+
+    return enhancedMetrics;
+  } catch (error) {
+    // Return base metrics if kinetics calculation fails
+    return baseMetrics;
+  }
+}
+
+/**
+ * Calculate kinetics-influenced compatibility
+ */
+export function calculateKineticsCompatibility(
+  properties1: { alchemical?: AlchemicalProperties, elemental: ElementalProperties },
+  properties2: { alchemical?: AlchemicalProperties, elemental: ElementalProperties },
+  planetaryPositions: { [planet: string]: string }
+): number {
+  const baseCompatibility = calculateMonicaKalchmCompatibility(properties1, properties2);
+
+  try {
+    const kinetics = calculateKinetics(planetaryPositions);
+
+    // Apply power conservation factor
+    const powerFactor = Math.min(kinetics.power || 50, 100) / 100; // Normalize to 0-1
+
+    // Apply thermal alignment bonus
+    let thermalBonus = 0;
+    if (kinetics.thermalDirection === 'heating') {
+      // Check if either has high fire content
+      const fire1 = properties1.elemental.Fire || 0;
+      const fire2 = properties2.elemental.Fire || 0;
+      thermalBonus = Math.max(fire1, fire2) * 0.1;
+    } else if (kinetics.thermalDirection === 'cooling') {
+      // Check if either has high water content
+      const water1 = properties1.elemental.Water || 0;
+      const water2 = properties2.elemental.Water || 0;
+      thermalBonus = Math.max(water1, water2) * 0.1;
+    }
+
+    return Math.min(1.0, baseCompatibility + powerFactor * 0.2 + thermalBonus);
+  } catch (error) {
+    // Return base compatibility if kinetics fails
+    return baseCompatibility;
+  }
+}
+
+/**
+ * Enhanced analysis with kinetics integration
+ */
+export function performEnhancedAnalysisWithKinetics(
+  item: { elemental: ElementalProperties, alchemical?: AlchemicalProperties },
+  referenceProfile: ElementalProperties,
+  planetaryPositions: { [planet: string]: string }
+): EnhancedAlchemicalResult {
+  const baseResult = performEnhancedAnalysis(item, referenceProfile);
+
+  try {
+    const kinetics = calculateKinetics(planetaryPositions);
+
+    // Enhance thermodynamic metrics with kinetics
+    const enhancedMetrics = calculateThermodynamicMetricsWithKinetics(
+      baseResult.alchemicalProperties,
+      baseResult.elementalProperties,
+      planetaryPositions
+    );
+
+    // Enhance compatibility with kinetics
+    const enhancedCompatibility = calculateKineticsCompatibility(
+      { alchemical: baseResult.alchemicalProperties, elemental: baseResult.elementalProperties },
+      { elemental: referenceProfile },
+      planetaryPositions
+    );
+
+    // Increase confidence based on kinetics stability
+    const kineticsConfidence = kinetics.forceClassification === 'stable' ? 0.1 : 0;
+    const enhancedConfidence = Math.min(1.0, baseResult.confidence + kineticsConfidence);
+
+    return {
+      ...baseResult,
+      thermodynamicMetrics: enhancedMetrics,
+      compatibilityScore: enhancedCompatibility,
+      confidence: enhancedConfidence
+    };
+  } catch (error) {
+    // Return base result if kinetics enhancement fails
+    return baseResult;
+  }
+}
+
+export default MonicaKalchmCalculations;

@@ -1,12 +1,10 @@
 // src/data/cuisines/italian.ts
-import type { _, _ZodiacSign } from '@/types/alchemy';
 import type { Cuisine } from '@/types/cuisine';
 
-export const, italian: Cuisine = {
+export const italian: Cuisine = {
   id: 'italian',
   name: 'Italian',
-  description:
-    'Traditional Italian cuisine emphasizing fresh ingredients, regional specialties, and time-honored techniques',
+  description: 'Traditional Italian cuisine emphasizing fresh ingredients, regional specialties, and time-honored techniques',
   dishes: {
     breakfast: {
       all: [
@@ -56,8 +54,7 @@ export const, italian: Cuisine = {
           allergens: ['gluten', 'dairy', 'eggs'],
           prepTime: '5 minutes',
           cookTime: '3 minutes',
-          culturalNotes:
-            'The traditional Italian breakfast, enjoyed standing at cafe counters across Italy',
+          culturalNotes: 'The traditional Italian breakfast, enjoyed standing at cafe counters across Italy',
           pairingSuggestions: ['fresh orange juice', 'fruit preserves'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -119,8 +116,7 @@ export const, italian: Cuisine = {
           allergens: ['gluten', 'dairy'],
           prepTime: '10 minutes',
           cookTime: '0 minutes',
-          culturalNotes:
-            'A beloved Roman breakfast pastry, traditionally enjoyed in the morning with coffee',
+          culturalNotes: 'A beloved Roman breakfast pastry, traditionally enjoyed in the morning with coffee',
           pairingSuggestions: ['espresso', 'cappuccino', 'fresh berries'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -167,7 +163,7 @@ export const, italian: Cuisine = {
           allergens: ['gluten', 'dairy'],
           prepTime: '5 minutes',
           cookTime: '0 minutes',
-          culturalNotes: 'A simple, traditional Italian breakfast that's light and quick',
+          culturalNotes: 'A simple, traditional Italian breakfast that\'s light and quick',
           pairingSuggestions: ['espresso', 'fresh fruit'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -223,8 +219,7 @@ export const, italian: Cuisine = {
           allergens: ['dairy', 'gluten', 'nuts'],
           prepTime: '5 minutes',
           cookTime: '0 minutes',
-          culturalNotes:
-            'Traditional Sicilian summer breakfast, especially popular in Catania and Messina',
+          culturalNotes: 'Traditional Sicilian summer breakfast, especially popular in Catania and Messina',
           pairingSuggestions: ['espresso', 'fresh fruit'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -273,7 +268,7 @@ export const, italian: Cuisine = {
           prepTime: '5 minutes',
           cookTime: '0 minutes',
           culturalNotes:
-            'A simple summer breakfast that showcases Italy's love for fresh, seasonal ingredients',
+            'A simple summer breakfast that showcases Italy\'s love for fresh, seasonal ingredients',
           pairingSuggestions: ['fresh mint tea', 'crusty bread'],
           dietaryInfo: ['vegetarian', 'gluten-free'],
           spiceLevel: 'none',
@@ -329,8 +324,7 @@ export const, italian: Cuisine = {
           allergens: ['dairy', 'gluten'],
           prepTime: '5 minutes',
           cookTime: '10 minutes',
-          culturalNotes:
-            'Italian hot chocolate is famously thick and rich, perfect for winter mornings',
+          culturalNotes: 'Italian hot chocolate is famously thick and rich, perfect for winter mornings',
           pairingSuggestions: ['biscotti', 'whipped cream'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -382,8 +376,7 @@ export const, italian: Cuisine = {
           allergens: ['gluten'],
           prepTime: '10 minutes',
           cookTime: '20 minutes',
-          culturalNotes:
-            'A cornerstone of Italian cuisine, showcasing the importance of simplicity and quality ingredients',
+          culturalNotes: 'A cornerstone of Italian cuisine, showcasing the importance of simplicity and quality ingredients',
           pairingSuggestions: ['Chianti', 'green salad', 'crusty bread'],
           dietaryInfo: ['vegetarian', 'vegan'],
           spiceLevel: 'mild',
@@ -433,8 +426,7 @@ export const, italian: Cuisine = {
           allergens: ['dairy'],
           prepTime: '10 minutes',
           cookTime: '0 minutes',
-          culturalNotes:
-            'Originated on the island of Capri, representing the colors of the Italian flag',
+          culturalNotes: 'Originated on the island of Capri, representing the colors of the Italian flag',
           pairingSuggestions: ['crusty bread', 'Verdicchio wine'],
           dietaryInfo: ['vegetarian', 'gluten-free'],
           spiceLevel: 'none',
@@ -548,8 +540,7 @@ export const, italian: Cuisine = {
           allergens: ['gluten'],
           prepTime: '30 minutes',
           cookTime: '1 hour',
-          culturalNotes:
-            'A peasant dish from Tuscany that exemplifies the Italian tradition of not wasting food',
+          culturalNotes: 'A peasant dish from Tuscany that exemplifies the Italian tradition of not wasting food',
           pairingSuggestions: ['Chianti wine', 'extra virgin olive oil drizzle'],
           dietaryInfo: ['vegetarian', 'vegan'],
           spiceLevel: 'mild',
@@ -661,8 +652,7 @@ export const, italian: Cuisine = {
           allergens: ['celery'],
           prepTime: '30 minutes',
           cookTime: '2 hours',
-          culturalNotes:
-            'A signature dish from Milan, traditionally served with risotto alla Milanese',
+          culturalNotes: 'A signature dish from Milan, traditionally served with risotto alla Milanese',
           pairingSuggestions: ['risotto alla Milanese', 'Barbaresco', 'crusty bread'],
           dietaryInfo: ['contains meat', 'contains alcohol'],
           spiceLevel: 'mild',
@@ -767,8 +757,7 @@ export const, italian: Cuisine = {
           allergens: ['wheat', 'dairy', 'egg'],
           prepTime: '45 minutes',
           cookTime: '30 minutes',
-          culturalNotes:
-            'A classic dish from Sorrento, combining the comfort of potato gnocchi with the flavors of Campania',
+          culturalNotes: 'A classic dish from Sorrento, combining the comfort of potato gnocchi with the flavors of Campania',
           pairingSuggestions: ['Italian red wine', 'green salad', 'crusty bread'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'mild',
@@ -891,8 +880,7 @@ export const, italian: Cuisine = {
           allergens: ['dairy'],
           prepTime: '30 minutes',
           cookTime: '45 minutes',
-          culturalNotes:
-            'A popular Italian-American dish that showcases the versatility of eggplant',
+          culturalNotes: 'A popular Italian-American dish that showcases the versatility of eggplant',
           pairingSuggestions: ['red wine', 'garlic bread'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'mild',
@@ -947,7 +935,7 @@ export const, italian: Cuisine = {
           allergens: ['dairy', 'eggs', 'gluten'],
           prepTime: '30 minutes',
           cookTime: '0 minutes',
-          culturalNotes: 'Originated in Veneto, now one of Italy's most famous desserts worldwide',
+          culturalNotes: 'Originated in Veneto, now one of Italy\'s most famous desserts worldwide',
           pairingSuggestions: ['espresso', 'Vin Santo'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -1350,7 +1338,7 @@ export const, italian: Cuisine = {
     emilian: {
       name: 'Emilian Cuisine',
       description:
-        'Rich, indulgent cuisine from Italy's food valley, known for pasta, cured meats, and aged cheeses',
+        'Rich, indulgent cuisine from Italy\'s food valley, known for pasta, cured meats, and aged cheeses',
       signature: [
         'tagliatelle al ragù',
         'tortellini in brodo',

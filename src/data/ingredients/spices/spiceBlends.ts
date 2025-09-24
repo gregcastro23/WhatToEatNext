@@ -3,7 +3,7 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Pattern, AA: Ingredient Interface Restructuring
 // Proper type annotation for raw ingredients to ensure IngredientMapping compatibility
-const, rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
+const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
   garam_masala: {
     name: 'Garam Masala',
     elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },
@@ -98,7 +98,7 @@ const, rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       macronutrients: {},
       micronutrients: {},
-      healthBenefits: ['Nutritious']
+      healthBenefits: ['Nutritious'],
     },
 
     storage: {
@@ -107,7 +107,7 @@ const, rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       container: 'Airtight'
     },
 
-    varieties: {}
+    varieties: {},
   },
 
   ras_el_hanout: {
@@ -199,7 +199,7 @@ const, rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       macronutrients: {},
       micronutrients: {},
-      healthBenefits: ['Nutritious']
+      healthBenefits: ['Nutritious'],
     },
 
     storage: {
@@ -208,7 +208,7 @@ const, rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       container: 'Airtight'
     },
 
-    varieties: {}
+    varieties: {},
   },
 
   herbes_de_provence: {
@@ -284,7 +284,7 @@ const, rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       macronutrients: {},
       micronutrients: {},
-      healthBenefits: ['Nutritious']
+      healthBenefits: ['Nutritious'],
     },
 
     storage: {
@@ -293,11 +293,11 @@ const, rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       container: 'Airtight'
     },
 
-    varieties: {},
+    varieties: {},,
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
+      favorableZodiac: [],
     }
   },
 
@@ -368,7 +368,7 @@ const, rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       macronutrients: {},
       micronutrients: {},
-      healthBenefits: ['Nutritious']
+      healthBenefits: ['Nutritious'],
     },
 
     storage: {
@@ -377,11 +377,11 @@ const, rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       container: 'Airtight'
     },
 
-    varieties: {},
+    varieties: {},,
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
+      favorableZodiac: [],
     }
   },
 
@@ -452,7 +452,7 @@ const, rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       macronutrients: {},
       micronutrients: {},
-      healthBenefits: ['Nutritious']
+      healthBenefits: ['Nutritious'],
     },
 
     storage: {
@@ -461,11 +461,11 @@ const, rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       container: 'Airtight'
     },
 
-    varieties: {},
+    varieties: {},,
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
+      favorableZodiac: [],
     }
   },
 
@@ -533,7 +533,7 @@ const, rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       macronutrients: {},
       micronutrients: {},
-      healthBenefits: ['Nutritious']
+      healthBenefits: ['Nutritious'],
     },
 
     storage: {
@@ -542,11 +542,11 @@ const, rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       container: 'Airtight'
     },
 
-    varieties: {},
+    varieties: {},,
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
+      favorableZodiac: [],
     }
   },
 
@@ -609,7 +609,7 @@ const, rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       macronutrients: {},
       micronutrients: {},
-      healthBenefits: ['Nutritious']
+      healthBenefits: ['Nutritious'],
     },
 
     storage: {
@@ -618,11 +618,11 @@ const, rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       container: 'Airtight'
     },
 
-    varieties: {},
+    varieties: {},,
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
+      favorableZodiac: [],
     }
   },
 
@@ -685,7 +685,7 @@ const, rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       macronutrients: {},
       micronutrients: {},
-      healthBenefits: ['Nutritious']
+      healthBenefits: ['Nutritious'],
     },
 
     storage: {
@@ -694,11 +694,11 @@ const, rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       container: 'Airtight'
     },
 
-    varieties: {},
+    varieties: {},,
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
+      favorableZodiac: [],
     }
   },
 
@@ -762,7 +762,7 @@ const, rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       macronutrients: {},
       micronutrients: {},
-      healthBenefits: ['Nutritious']
+      healthBenefits: ['Nutritious'],
     },
 
     storage: {
@@ -771,11 +771,11 @@ const, rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       container: 'Airtight'
     },
 
-    varieties: {},
+    varieties: {},,
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
+      favorableZodiac: [],
     }
   },
 
@@ -838,7 +838,7 @@ const, rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       macronutrients: {},
       micronutrients: {},
-      healthBenefits: ['Nutritious']
+      healthBenefits: ['Nutritious'],
     },
 
     storage: {
@@ -847,11 +847,11 @@ const, rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       container: 'Airtight'
     },
 
-    varieties: {},
+    varieties: {},,
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
+      favorableZodiac: [],
     }
   },
 
@@ -917,7 +917,7 @@ const, rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     nutritionalProfile: {
       macronutrients: {},
       micronutrients: {},
-      healthBenefits: ['Nutritious']
+      healthBenefits: ['Nutritious'],
     },
 
     storage: {
@@ -926,15 +926,15 @@ const, rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
       container: 'Airtight'
     },
 
-    varieties: {},
+    varieties: {},,
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
+      favorableZodiac: [],
     }
   }
 };
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const, _spiceBlends: Record<string, IngredientMapping> =
+export const _spiceBlends: Record<string, IngredientMapping> =
   fixIngredientMappings(rawSpiceBlends);

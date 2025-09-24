@@ -3,13 +3,15 @@
  * Processes user queries and extracts search intent and filters
  */
 
+import type { KineticMetrics } from '@/types/kinetics';
 import { SearchFilters } from '@/types/unified';
+import { calculateKinetics } from './kinetics';
 
 // ========== TYPE GUARDS ==========
 
 /**
  * Type guard to check if value is a valid object
- */;
+ */
 function isValidObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
@@ -35,77 +37,77 @@ function isSearchableItem(value: unknown): value is SearchableItem {
 
 // ========== INTERFACES ==========
 
-export interface SearchIntent {;
-  query: string,
-  extractedFilters: Partial<SearchFilters>,
-  confidence: number,
-  suggestions: string[]
+export interface SearchIntent {
+  query: string;
+  extractedFilters: Partial<SearchFilters>;
+  confidence: number;
+  suggestions: string[];
 }
 
 export interface KeywordPattern {
-  keywords: string[],
-  category: keyof SearchFilters,
-  values: string[],
-  weight: number
+  keywords: string[];
+  category: keyof SearchFilters;
+  values: string[];
+  weight: number;
 }
 
 // ========== CONSTANTS ==========
 
 const DIETARY_KEYWORDS: KeywordPattern[] = [
-  {;
+  {
     keywords: ['vegetarian', 'veggie', 'no meat'],
     category: 'dietaryRestrictions',
     values: ['vegetarian'],
     weight: 0.9
-}
+  },
   {
     keywords: ['vegan', 'plant based', 'no dairy', 'no animal products'],
     category: 'dietaryRestrictions',
     values: ['vegan'],
     weight: 0.9
-}
+  },
   {
     keywords: ['gluten free', 'no gluten', 'celiac'],
     category: 'dietaryRestrictions',
     values: ['gluten-free'],
     weight: 0.9
-}
+  },
   {
     keywords: ['dairy free', 'lactose free', 'no dairy'],
     category: 'dietaryRestrictions',
     values: ['dairy-free'],
     weight: 0.9
-}
+  },
   {
     keywords: ['nut free', 'no nuts', 'allergy'],
     category: 'dietaryRestrictions',
     values: ['nut-free'],
     weight: 0.8
-}
+  },
   {
     keywords: ['low carb', 'keto', 'ketogenic'],
     category: 'dietaryRestrictions',
     values: ['low-carb', 'keto'],
     weight: 0.8
-}
+  },
   {
     keywords: ['paleo', 'paleolithic'],
     category: 'dietaryRestrictions',
     values: ['paleo'],
     weight: 0.8
-}
+  },
   {
     keywords: ['halal'],
     category: 'dietaryRestrictions',
     values: ['halal'],
     weight: 0.9
-}
+  }
   {
     keywords: ['kosher'],
     category: 'dietaryRestrictions',
     values: ['kosher'],
     weight: 0.9
-}
+  }
 ],
 
 const DIFFICULTY_KEYWORDS: KeywordPattern[] = [
@@ -114,19 +116,19 @@ const DIFFICULTY_KEYWORDS: KeywordPattern[] = [
     category: 'difficultyLevel',
     values: ['easy', 'beginner'],
     weight: 0.8
-}
+  },
   {
     keywords: ['hard', 'difficult', 'complex', 'advanced', 'expert'],
     category: 'difficultyLevel',
     values: ['hard', 'expert'],
     weight: 0.8
-}
+  },
   {
     keywords: ['medium', 'intermediate', 'moderate'],
     category: 'difficultyLevel',
     values: ['medium'],
     weight: 0.7
-}
+  }
 ],
 
 const TIME_KEYWORDS: KeywordPattern[] = [
@@ -135,19 +137,19 @@ const TIME_KEYWORDS: KeywordPattern[] = [
     category: 'cookingTime',
     values: ['0-30'],
     weight: 0.8
-}
+  },
   {
     keywords: ['1 hour', 'one hour', '60 minutes'],
     category: 'cookingTime',
     values: ['30-60'],
     weight: 0.8
-}
+  },
   {
     keywords: ['long', 'slow', '2 hours', 'extended'],
     category: 'cookingTime',
     values: ['60-120'],
     weight: 0.7
-}
+  }
 ],
 
 const CUISINE_KEYWORDS: KeywordPattern[] = [
@@ -610,4 +612,280 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
 
     return true;
   })
+}
+
+// ========== KINETICS-AWARE NLP FUNCTIONS ==========
+
+/**
+ * Enhanced search intent with kinetics awareness
+ */
+export interface KineticsAwareSearchIntent extends SearchIntent {
+  kineticsContext?: {
+    forceClassification: 'stable' | 'accelerating' | 'decelerating';
+    thermalDirection: 'heating' | 'cooling' | 'neutral';
+    aspectPhase: string;
+    powerLevel: number;
+    momentumFactor: number;
+  };
+  kineticsFilters?: {
+    preferredForceType?: 'stable' | 'accelerating' | 'decelerating';
+    thermalAlignment?: 'heating' | 'cooling' | 'neutral';
+    powerRange?: [number, number];
+    momentumPreference?: 'high' | 'medium' | 'low';
+  };
+}
+
+/**
+ * Process query with kinetics awareness
+ */
+export function processQueryWithKinetics(
+  query: string,
+  planetaryPositions: { [planet: string]: string }
+): KineticsAwareSearchIntent {
+  try {
+    const baseIntent = processNaturalLanguageQuery(query);
+    const kinetics = calculateKinetics(planetaryPositions);
+
+    // Extract kinetics-related keywords from query
+    const kineticsKeywords = extractKineticsKeywords(query);
+
+    // Determine kinetics context from planetary positions
+    const kineticsContext = {
+      forceClassification: kinetics.forceClassification,
+      thermalDirection: kinetics.thermalDirection,
+      aspectPhase: kinetics.aspectPhase || 'neutral',
+      powerLevel: kinetics.power || 50,
+      momentumFactor: kinetics.momentum || 0
+    };
+
+    // Generate kinetics-aware filters
+    const kineticsFilters = generateKineticsFilters(kineticsKeywords, kinetics);
+
+    return {
+      ...baseIntent,
+      kineticsContext,
+      kineticsFilters
+    };
+  } catch (error) {
+    // Return base intent if kinetics processing fails
+    return processNaturalLanguageQuery(query);
+  }
+}
+
+/**
+ * Extract kinetics-related keywords from query
+ */
+function extractKineticsKeywords(query: string): string[] {
+  const kineticsTerms = [
+    'quick', 'fast', 'slow', 'intense', 'gentle', 'powerful',
+    'hot', 'cold', 'warm', 'cool', 'spicy', 'mild',
+    'energetic', 'calm', 'rushing', 'steady', 'dynamic', 'stable'
+  ];
+
+  const lowerQuery = query.toLowerCase();
+  return kineticsTerms.filter(term => lowerQuery.includes(term));
+}
+
+/**
+ * Generate kinetics filters based on keywords and planetary kinetics
+ */
+function generateKineticsFilters(
+  keywords: string[],
+  kinetics: KineticMetrics
+): KineticsAwareSearchIntent['kineticsFilters'] {
+  const filters: KineticsAwareSearchIntent['kineticsFilters'] = {};
+
+  // Determine preferred force type from keywords and kinetics
+  if (keywords.includes('quick') || keywords.includes('fast') || keywords.includes('energetic')) {
+    filters.preferredForceType = 'accelerating';
+  } else if (keywords.includes('slow') || keywords.includes('gentle') || keywords.includes('calm')) {
+    filters.preferredForceType = 'stable';
+  } else {
+    filters.preferredForceType = kinetics.forceClassification;
+  }
+
+  // Determine thermal alignment
+  if (keywords.includes('hot') || keywords.includes('spicy') || keywords.includes('warm')) {
+    filters.thermalAlignment = 'heating';
+  } else if (keywords.includes('cold') || keywords.includes('cool') || keywords.includes('mild')) {
+    filters.thermalAlignment = 'cooling';
+  } else {
+    filters.thermalAlignment = kinetics.thermalDirection;
+  }
+
+  // Set power range based on intensity keywords
+  if (keywords.includes('intense') || keywords.includes('powerful')) {
+    filters.powerRange = [70, 100];
+  } else if (keywords.includes('gentle') || keywords.includes('mild')) {
+    filters.powerRange = [20, 50];
+  } else {
+    filters.powerRange = [30, 80]; // Default range
+  }
+
+  // Set momentum preference
+  if (keywords.includes('rushing') || keywords.includes('dynamic')) {
+    filters.momentumPreference = 'high';
+  } else if (keywords.includes('steady') || keywords.includes('stable')) {
+    filters.momentumPreference = 'low';
+  } else {
+    filters.momentumPreference = 'medium';
+  }
+
+  return filters;
+}
+
+/**
+ * Filter items with kinetics awareness
+ */
+export function filterItemsWithKinetics(
+  items: SearchableItem[],
+  filters: SearchFilters & { kineticsFilters?: KineticsAwareSearchIntent['kineticsFilters'] }
+): SearchableItem[] {
+  if (!filters.kineticsFilters) {
+    return filterItems(items, filters);
+  }
+
+  return items.filter(item => {
+    // Apply base filters first
+    if (!matchesFilters(item, filters)) {
+      return false;
+    }
+
+    // Apply kinetics-aware filtering
+    const kineticsFilters = filters.kineticsFilters;
+
+    // Check force type compatibility
+    if (kineticsFilters.preferredForceType) {
+      const itemForceType = determineItemForceType(item);
+      if (itemForceType !== kineticsFilters.preferredForceType) {
+        // Allow some flexibility for medium preference
+        if (kineticsFilters.preferredForceType !== 'stable' ||
+            (itemForceType === 'accelerating' && Math.random() > 0.7)) {
+          return false;
+        }
+      }
+    }
+
+    // Check thermal alignment
+    if (kineticsFilters.thermalAlignment) {
+      const itemThermalType = determineItemThermalType(item);
+      if (itemThermalType !== kineticsFilters.thermalAlignment) {
+        return false;
+      }
+    }
+
+    // Check power range
+    if (kineticsFilters.powerRange) {
+      const itemPower = estimateItemPower(item);
+      if (itemPower < kineticsFilters.powerRange[0] || itemPower > kineticsFilters.powerRange[1]) {
+        return false;
+      }
+    }
+
+    return true;
+  });
+}
+
+/**
+ * Determine force type of an item based on its properties
+ */
+function determineItemForceType(item: SearchableItem): 'stable' | 'accelerating' | 'decelerating' {
+  // This is a simplified determination - in practice, this would analyze
+  // cooking methods, ingredient properties, and other factors
+
+  if (hasProperty(item, 'cookingMethod')) {
+    const method = (item as any).cookingMethod;
+    if (['grill', 'fry', 'sauté'].includes(method)) {
+      return 'accelerating'; // Quick, high-heat methods
+    } else if (['slow cook', 'braise', 'poach'].includes(method)) {
+      return 'decelerating'; // Slow, gentle methods
+    }
+  }
+
+  return 'stable'; // Default to stable
+}
+
+/**
+ * Determine thermal type of an item
+ */
+function determineItemThermalType(item: SearchableItem): 'heating' | 'cooling' | 'neutral' {
+  // Analyze ingredients and cooking methods for thermal characteristics
+
+  if (hasProperty(item, 'spiciness') || hasProperty(item, 'spiceLevel')) {
+    return 'heating'; // Spicy foods are heating
+  }
+
+  if (hasProperty(item, 'cookingMethod')) {
+    const method = (item as any).cookingMethod;
+    if (['bake', 'roast', 'grill'].includes(method)) {
+      return 'heating';
+    } else if (['raw', 'cold', 'poach'].includes(method)) {
+      return 'cooling';
+    }
+  }
+
+  return 'neutral';
+}
+
+/**
+ * Estimate power level of an item
+ */
+function estimateItemPower(item: SearchableItem): number {
+  // Estimate power based on various factors
+  let power = 50; // Base power
+
+  // Adjust based on cooking method
+  if (hasProperty(item, 'cookingMethod')) {
+    const method = (item as any).cookingMethod;
+    if (['grill', 'deep fry'].includes(method)) {
+      power += 25;
+    } else if (['steam', 'poach'].includes(method)) {
+      power -= 15;
+    }
+  }
+
+  // Adjust based on spiciness
+  if (hasProperty(item, 'spiciness')) {
+    const spice = (item as any).spiciness;
+    if (spice === 'hot' || spice === 'very hot') {
+      power += 20;
+    }
+  }
+
+  return Math.max(0, Math.min(100, power));
+}
+
+/**
+ * Enhanced scoring with kinetics factors
+ */
+export function scoreItemWithKinetics(
+  item: SearchableItem,
+  query: string,
+  kinetics: KineticMetrics
+): number {
+  const baseScore = scoreItem(item, query);
+
+  // Apply kinetics modifiers
+  let kineticsModifier = 1.0;
+
+  // Boost score based on force classification alignment
+  const itemForceType = determineItemForceType(item);
+  if (kinetics.forceClassification === itemForceType) {
+    kineticsModifier *= 1.2;
+  }
+
+  // Boost score based on thermal alignment
+  const itemThermalType = determineItemThermalType(item);
+  if (kinetics.thermalDirection === itemThermalType ||
+      (kinetics.thermalDirection === 'neutral' && itemThermalType === 'neutral')) {
+    kineticsModifier *= 1.15;
+  }
+
+  // Apply power level influence
+  const itemPower = estimateItemPower(item);
+  const kineticsPower = kinetics.power || 50;
+  const powerAlignment = 1 - Math.abs(itemPower - kineticsPower) / 100;
+  kineticsModifier *= (0.8 + powerAlignment * 0.4); // 0.8 to 1.2 multiplier
+
+  return baseScore * kineticsModifier;
 }

@@ -184,10 +184,10 @@ export class EnterpriseIntelligenceIntegration {
     cacheHitRate: number;
     errorRate: number;
   };
-  // Phase, 2D: Advanced Intelligence Systems Integration
-  private predictiveIntelligenceService: PredictiveIntelligenceService,
-  private mlIntelligenceService: MLIntelligenceService,
-  private advancedAnalyticsIntelligenceService: AdvancedAnalyticsIntelligenceService
+  // Phase 2D: Advanced Intelligence Systems Integration
+  private predictiveIntelligenceService!: PredictiveIntelligenceService;
+  private mlIntelligenceService!: MLIntelligenceService;
+  private advancedAnalyticsIntelligenceService!: AdvancedAnalyticsIntelligenceService;
 
   constructor(config: Partial<EnterpriseIntelligenceConfig> = {}) {
     this.config = {
@@ -265,35 +265,35 @@ export class EnterpriseIntelligenceIntegration {
       )
       if (this.config.cacheResults && this.cache.has(cacheKey)) {
         this.performanceMetrics.cacheHitRate =
-          (this.performanceMetrics.cacheHitRate * (this.performanceMetrics.analysisCount - 1) + 1) /,
-          this.performanceMetrics.analysisCount,
+          (this.performanceMetrics.cacheHitRate * (this.performanceMetrics.analysisCount - 1) + 1) /
+          this.performanceMetrics.analysisCount;
 
-        this.log('debug', 'Using cached enterprise intelligence analysis'),
+        this.log('debug', 'Using cached enterprise intelligence analysis');
         return this.cache.get(cacheKey) as EnterpriseIntelligenceResult;
       }
 
       // Perform comprehensive analysis
       const analysis: EnterpriseIntelligenceResult = {
         recipeIntelligence: await this.analyzeRecipeIntelligence(recipeData, astrologicalContext),
-        ingredientIntelligence: await this.analyzeIngredientIntelligence(,
+        ingredientIntelligence: await this.analyzeIngredientIntelligence(
           ingredientData,
-          astrologicalContext,
+          astrologicalContext
         ),
-        cuisineIntelligence: await this.analyzeCuisineIntelligence(,
+        cuisineIntelligence: await this.analyzeCuisineIntelligence(
           cuisineData,
           astrologicalContext,
         ),
-        validationIntelligence: await this.performValidationIntelligence(,
+        validationIntelligence: await this.performValidationIntelligence(
+          recipeData,
+          ingredientData,
+          astrologicalContext
+        ),
+        safetyIntelligence: await this.performSafetyIntelligence(
           recipeData,
           ingredientData,
           astrologicalContext,
         ),
-        safetyIntelligence: await this.performSafetyIntelligence(,
-          recipeData,
-          ingredientData,
-          astrologicalContext,
-        ),
-        optimizationIntelligence: await this.generateOptimizationRecommendations(,
+        optimizationIntelligence: await this.generateOptimizationRecommendations(
           recipeData,
           ingredientData,
           astrologicalContext,

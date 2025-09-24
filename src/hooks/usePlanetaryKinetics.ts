@@ -9,23 +9,25 @@
  * - Error handling and fallback states
  */
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
-import { planetaryKineticsClient } from '@/services/PlanetaryKineticsClient';
+import { calculateKinetics, type KineticsCalculationInput } from '@/calculations/kinetics';
 import { _logger } from '@/lib/logger';
+import { planetaryKineticsClient } from '@/services/PlanetaryKineticsClient';
 import type {
-  KineticsResponse,
-  GroupDynamicsResponse,
-  KineticsLocation,
-  KineticsOptions,
-  TemporalFoodRecommendation,
-  KineticsEnhancedRecommendation
+    GroupDynamicsResponse,
+    KineticMetrics,
+    KineticsEnhancedRecommendation,
+    KineticsLocation,
+    KineticsOptions,
+    KineticsResponse,
+    TemporalFoodRecommendation
 } from '@/types/kinetics';
 import {
-  getTemporalFoodRecommendations,
-  getElementalFoodRecommendations,
-  getAspectEnhancedRecommendations,
-  calculateOptimalPortions
+    calculateOptimalPortions,
+    getAspectEnhancedRecommendations,
+    getElementalFoodRecommendations,
+    getTemporalFoodRecommendations
 } from '@/utils/kineticsFoodMatcher';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 export interface UsePlanetaryKineticsOptions {
   location?: KineticsLocation,
@@ -36,31 +38,32 @@ export interface UsePlanetaryKineticsOptions {
 
 export interface UsePlanetaryKineticsReturn {
   // Core kinetics data
-  kinetics: KineticsResponse | null;,
-  groupDynamics: GroupDynamicsResponse | null;,
+  kinetics: KineticsResponse | null;
+  groupDynamics: GroupDynamicsResponse | null;
+  kineticsMetrics: KineticMetrics | null;
 
   // Loading and error states
-  isLoading: boolean;,
-  error: string | null;,
-  isOnline: boolean;,
-  lastUpdate: Date | null;,
+  isLoading: boolean;
+  error: string | null;
+  isOnline: boolean;
+  lastUpdate: Date | null;
 
   // Enhanced food recommendations
-  temporalRecommendations: TemporalFoodRecommendation | null;,
-  elementalRecommendations: string[];,
-  aspectEnhancedRecommendations: KineticsEnhancedRecommendation | null;,
+  temporalRecommendations: TemporalFoodRecommendation | null;
+  elementalRecommendations: string[];
+  aspectEnhancedRecommendations: KineticsEnhancedRecommendation | null;
 
   // Current state analysis
-  currentPowerLevel: number;,
-  dominantElement: string;,
-  aspectPhase: 'applying' | 'exact' | 'separating' | null;,
-  seasonalInfluence: string;,
+  currentPowerLevel: number;
+  dominantElement: string;
+  aspectPhase: 'applying' | 'exact' | 'separating' | null;
+  seasonalInfluence: string;
 
   // Actions
-  refreshKinetics: () => Promise<void>;,
-  fetchGroupDynamics: (userIds: string[]) => Promise<void>;,
-  calculatePortions: <T extends { amount: number }>(portions: T[]) => T[];,
-  clearCache: () => void;,
+  refreshKinetics: () => Promise<void>;
+  fetchGroupDynamics: (userIds: string[]) => Promise<void>;
+  calculatePortions: <T extends { amount: number }>(portions: T[]) => T[];
+  clearCache: () => void;
 
   // Health monitoring
   checkHealth: () => Promise<{ status: string; latency: number }>;
@@ -78,30 +81,54 @@ export function usePlanetaryKinetics(
   // State
   const [kinetics, setKinetics] = useState<KineticsResponse | null>(null);
   const [groupDynamics, setGroupDynamics] = useState<GroupDynamicsResponse | null>(null);
+  const [kineticsMetrics, setKineticsMetrics] = useState<KineticMetrics | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isOnline, setIsOnline] = useState(true);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
+  const [previousPlanetaryPositions, setPreviousPlanetaryPositions] = useState<Record<string, string> | null>(null);
+  const [lastKineticsTime, setLastKineticsTime] = useState<number>(Date.now());
 
   // Fetch kinetics data
   const refreshKinetics = useCallback(async () => {
-    try {;
+    try {
       setIsLoading(true);
       setError(null);
 
       const data = await planetaryKineticsClient.getEnhancedKinetics(location, kineticsOptions);
 
+      // Get current planetary positions (for now using default, can be enhanced later)
+      const currentPlanetaryPositions = getDefaultPlanetaryPositions();
+
+      // Calculate kinetics metrics
+      const currentTime = Date.now();
+      const timeInterval = previousPlanetaryPositions ? (currentTime - lastKineticsTime) / 1000 : 1; // seconds
+
+      const kineticsInput: KineticsCalculationInput = {
+        currentPlanetaryPositions,
+        previousPlanetaryPositions: previousPlanetaryPositions || undefined,
+        timeInterval,
+        currentPlanet: 'Sun', // Default to Sun, can be enhanced
+        previousMetrics: kineticsMetrics || undefined
+      };
+
+      const metrics = calculateKinetics(kineticsInput);
+
       setKinetics(data);
+      setKineticsMetrics(metrics);
+      setPreviousPlanetaryPositions(currentPlanetaryPositions);
+      setLastKineticsTime(currentTime);
       setIsOnline(true);
       setLastUpdate(new Date());
 
       _logger.debug('usePlanetaryKinetics: Kinetics data updated', {
         powerLevel: data.data.base.power[0]?.power,
+        forceMagnitude: metrics.forceMagnitude,
         cacheHit: data.cacheHit
       });
 
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch kinetics data',
+      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch kinetics data';
       setError(errorMessage);
       setIsOnline(false);
 
@@ -109,11 +136,11 @@ export function usePlanetaryKinetics(
     } finally {
       setIsLoading(false);
     }
-  }, [location, kineticsOptions]);
+  }, [location, kineticsOptions, previousPlanetaryPositions, lastKineticsTime, kineticsMetrics]);
 
   // Fetch group dynamics
   const fetchGroupDynamics = useCallback(async (userIds: string[]) => {
-    try {;
+    try {
       const data = await planetaryKineticsClient.getGroupDynamics(userIds, location);
       setGroupDynamics(data);
 
@@ -128,7 +155,7 @@ export function usePlanetaryKinetics(
 
   // Check API health
   const checkHealth = useCallback(async () => {
-    try {;
+    try {
       return await planetaryKineticsClient.checkHealth();
     } catch (err) {
       _logger.warn('usePlanetaryKinetics: Health check failed', err);
@@ -137,7 +164,7 @@ export function usePlanetaryKinetics(
   }, []);
 
   // Clear cache
-  const clearCache = useCallback(() => {;
+  const clearCache = useCallback(() => {
     planetaryKineticsClient.clearCache();
     _logger.debug('usePlanetaryKinetics: Cache cleared');
   }, []);
@@ -160,7 +187,7 @@ export function usePlanetaryKinetics(
   }, [refreshKinetics, updateInterval, enableAutoUpdate]);
 
   // Computed values
-  const currentPowerLevel = useMemo(() => {;
+  const currentPowerLevel = useMemo(() => {
     if (!kinetics) return 0.5;
 
     const currentHour = new Date().getHours();
@@ -168,7 +195,7 @@ export function usePlanetaryKinetics(
     return powerData?.power || 0.5;
   }, [kinetics]);
 
-  const dominantElement = useMemo(() => {;
+  const dominantElement = useMemo(() => {
     if (!kinetics) return 'Earth';
 
     const totals = kinetics.data.base.elemental.totals;
@@ -176,26 +203,26 @@ export function usePlanetaryKinetics(
       .sort(([,a], [,b]) => b - a)[0][0];
   }, [kinetics]);
 
-  const aspectPhase = useMemo((): 'applying' | 'exact' | 'separating' | null => {,
+  const aspectPhase = useMemo((): 'applying' | 'exact' | 'separating' | null => {
     if (!kinetics?.data.powerPrediction) return null;
 
     const { trend } = kinetics.data.powerPrediction;
 
-    if (trend === 'ascending' && currentPowerLevel > 0.8) {;
+    if (trend === 'ascending' && currentPowerLevel > 0.8) {
       return 'applying';
-    } else if (trend === 'stable' && currentPowerLevel > 0.6) {;
+    } else if (trend === 'stable' && currentPowerLevel > 0.6) {
       return 'exact';
     } else {
       return 'separating';
     }
   }, [kinetics, currentPowerLevel]);
 
-  const seasonalInfluence = useMemo(() => {;
-    return kinetics?.data.base.timing.seasonalInfluence || 'Spring'
+  const seasonalInfluence = useMemo(() => {
+    return kinetics?.data.base.timing.seasonalInfluence || 'Spring';
   }, [kinetics]);
 
   // Enhanced food recommendations
-  const temporalRecommendations = useMemo((): TemporalFoodRecommendation | null => {,
+  const temporalRecommendations = useMemo((): TemporalFoodRecommendation | null => {
     if (!kinetics) return null;
 
     try {
@@ -210,7 +237,7 @@ export function usePlanetaryKinetics(
     }
   }, [kinetics]);
 
-  const elementalRecommendations = useMemo((): string[] => {,
+  const elementalRecommendations = useMemo((): string[] => {
     if (!kinetics) return [];
 
     try {
@@ -221,7 +248,7 @@ export function usePlanetaryKinetics(
     }
   }, [kinetics]);
 
-  const aspectEnhancedRecommendations = useMemo((): KineticsEnhancedRecommendation | null => {,
+  const aspectEnhancedRecommendations = useMemo((): KineticsEnhancedRecommendation | null => {
     if (!kinetics) return null;
 
     try {
@@ -240,6 +267,7 @@ export function usePlanetaryKinetics(
     // Core data
     kinetics,
     groupDynamics,
+    kineticsMetrics,
 
     // States
     isLoading,
@@ -264,5 +292,25 @@ export function usePlanetaryKinetics(
     calculatePortions,
     clearCache,
     checkHealth
+  };
+}
+
+/**
+ * Get default planetary positions for kinetics calculation
+ * TODO: Replace with actual planetary position service
+ */
+function getDefaultPlanetaryPositions(): Record<string, string> {
+  return {
+    Sun: 'leo',
+    Moon: 'cancer',
+    Mercury: 'gemini',
+    Venus: 'libra',
+    Mars: 'aries',
+    Jupiter: 'pisces',
+    Saturn: 'aquarius',
+    Uranus: 'taurus',
+    Neptune: 'pisces',
+    Pluto: 'scorpio',
+    Ascendant: 'aries'
   };
 }

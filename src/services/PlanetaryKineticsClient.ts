@@ -9,6 +9,7 @@
  */
 
 import { _logger } from '@/lib/logger';
+import { planetaryAgentsAdapter } from './PlanetaryAgentsAdapter';
 import type {
   KineticsRequest,
   KineticsResponse,
@@ -88,18 +89,16 @@ class PlanetaryKineticsClient {
     location: KineticsLocation,
     options: KineticsOptions,
     cacheKey: string): Promise<KineticsResponse> {
-    const request: KineticsRequest = {
-      location,
-      options: {
-        includeAgentOptimization: true,
-        includePowerPrediction: true,
-        includeResonanceMap: false,
-        ...options
-      }
+    const mergedOptions = {
+      includeAgentOptimization: true,
+      includePowerPrediction: true,
+      includeResonanceMap: false,
+      ...options
     };
 
     try {
-      const response = await this.makeRequest('/api/kinetics/enhanced', request);
+      // Use the adapter to get data from planetary agents backend
+      const response = await planetaryAgentsAdapter.getEnhancedKinetics(location, mergedOptions);
       this.setCache(cacheKey, response);
       return response;
     } catch (error) {
@@ -122,13 +121,9 @@ class PlanetaryKineticsClient {
       return cached as GroupDynamicsResponse;
     }
 
-    const request: GroupDynamicsRequest = {
-      agentIds: userIds,
-      location
-    };
-
     try {
-      const response = await this.makeRequest('/api/kinetics/group', request);
+      // Use the adapter for group dynamics
+      const response = await planetaryAgentsAdapter.getGroupDynamics(userIds, location);
       this.setCache(cacheKey, response);
       return response;
     } catch (error) {

@@ -460,7 +460,7 @@ export const indian: Cuisine = {
           allergens: ['dairy'],
           prepTime: 'overnight + 30 minutes',
           cookTime: '45 minutes',
-          culturalNotes: 'Created in Delhi's Moti Mahal restaurant, this dish represents the evolution of Indian cuisine in the post-independence era',
+          culturalNotes: 'Created in Delhi\'s Moti Mahal restaurant, this dish represents the evolution of Indian cuisine in the post-independence era',
           pairingSuggestions: ['naan', 'jeera rice', 'dal makhani', 'onion salad'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'mild to medium',

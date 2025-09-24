@@ -1,8 +1,7 @@
 // src/data/cuisines/japanese.ts
-import type { _, _ZodiacSign } from '@/types/alchemy';
 import type { Cuisine } from '@/types/cuisine';
 
-export const, japanese: Cuisine = {
+export const japanese: Cuisine = {
   id: 'japanese',
   name: 'Japanese',
   description:
@@ -181,7 +180,7 @@ export const, japanese: Cuisine = {
           allergens: ['egg', 'soy'],
           prepTime: '5 minutes',
           cookTime: '10 minutes',
-          culturalNotes: 'A staple in bento boxes and breakfast. The technique of rolling the omelette requires practice and is considered a test of a chef's skill',
+          culturalNotes: 'A staple in bento boxes and breakfast. The technique of rolling the omelette requires practice and is considered a test of a chef\'s skill',
           pairingSuggestions: ['steamed rice', 'miso soup', 'pickled vegetables'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -704,8 +703,7 @@ export const, japanese: Cuisine = {
           allergens: ['egg', 'soy'],
           prepTime: '15 minutes',
           cookTime: '20 minutes',
-          culturalNotes:
-            'Oyakodon means 'parent-and-child bowl', referring to the chicken and egg combination. A beloved comfort food in Japan',
+          culturalNotes: 'Oyakodon means \'parent-and-child bowl\', referring to the chicken and egg combination. A beloved comfort food in Japan',
           pairingSuggestions: ['miso soup', 'pickled vegetables', 'green tea'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'none',

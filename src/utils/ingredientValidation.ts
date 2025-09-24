@@ -19,7 +19,13 @@ export interface IngredientValidationResult {
   errors: IngredientValidationError[],
   warnings: IngredientValidationWarning[],
   summary: string,
-  timestamp: Date
+  timestamp: Date,
+  kineticsValidation?: {
+    powerConservationEfficiency: number,
+    circuitStability: number,
+    forceMagnitude: number,
+    thermalDirection: 'heating' | 'cooling' | 'neutral'
+  }
 }
 
 export interface IngredientValidationError {
@@ -97,23 +103,32 @@ export async function validateIngredientData(): Promise<IngredientValidationResu
     const completenessValidation = await validateDataCompleteness()
     errors.push(...completenessValidation.errors)
     warnings.push(...completenessValidation.warnings)
-;
+
+    // 6. Validate kinetics integration
+    const kineticsValidation = await validateKineticsIntegration()
+    errors.push(...kineticsValidation.errors)
+    warnings.push(...kineticsValidation.warnings)
+
     const duration = Date.now() - startTime;
     const isValid =
       errors.filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH').length === 0
 ;
-    const summary = generateIngredientValidationSummary(isValid, errors, warnings, duration),
+    const summary = generateIngredientValidationSummary(isValid, errors, warnings, duration);
 
     logger.info(
-      `Ingredient validation completed in ${duration}ms: ${isValid ? 'PASSED' : 'FAILED'}`,
-    )
+      `Ingredient validation completed in ${duration}ms: ${isValid ? 'PASSED' : 'FAILED'}`
+    );
+
+    // Calculate kinetics validation metrics
+    const kineticsMetrics = await calculateKineticsValidationMetrics();
 
     return {
       isValid,
       errors,
       warnings,
       summary,
-      timestamp: new Date()
+      timestamp: new Date(),
+      kineticsValidation: kineticsMetrics
     }
   } catch (error) {
     const criticalError: IngredientValidationError = {
@@ -245,10 +260,10 @@ function validateIngredientElementalProperties(
     }
 
     // Check for elemental dominance (at least one element should be > 0.3)
-    const maxElement = Math.max(...elements.map(el => {;
+    const maxElement = Math.max(...elements.map(el => {
         const value = props[el as unknown];
         return typeof value === 'number' ? value : 0;
-      }),
+      })
     )
 
     if (maxElement < 0.3) {
@@ -285,10 +300,10 @@ function calculateElementalPropertiesCompatibility(
   const totalWeight = 0;
 
   for (const element of elements) {
-    const affinity = calculateElementalAffinity(element, element)
-    const weight = (props1[element] || 0) * (props2[element] || 0)
-    totalCompatibility += affinity * weight,
-    totalWeight += weight,
+    const affinity = calculateElementalAffinity(element, element);
+    const weight = (props1[element] || 0) * (props2[element] || 0);
+    totalCompatibility += affinity * weight;
+    totalWeight += weight;
   }
 
   return totalWeight > 0 ? totalCompatibility / totalWeight : 0.5
@@ -310,12 +325,12 @@ async function validateCompatibilityScores(): Promise<{
 
     // Test self-compatibility for each ingredient
     for (const ingredient of ingredientList) {
-      try {;
-        if (!ingredient.elementalProperties) continue,
+      try {
+        if (!ingredient.elementalProperties) continue;
 
-        const selfCompatibility = calculateElementalPropertiesCompatibility(ingredient.elementalProperties
-          ingredient.elementalProperties,
-        ),
+        const selfCompatibility = calculateElementalPropertiesCompatibility(ingredient.elementalProperties,
+          ingredient.elementalProperties
+        );
 
         // Self-reinforcement: same ingredient should have high compatibility (≥0.9)
         if (selfCompatibility < VALIDATION_TOLERANCES.SELF_COMPATIBILITY_THRESHOLD) {
@@ -344,18 +359,18 @@ async function validateCompatibilityScores(): Promise<{
     const sampleSize = Math.min(50, ingredientList.length); // Limit to avoid performance issues
     const sampleIngredients = ingredientList.slice(0, sampleSize)
 
-    for (const i = 0i < sampleIngredients.lengthi++) {;
-      for (const j = i + 1j < Math.min(i + 5, sampleIngredients.length); j++) {
+    for (let i = 0; i < sampleIngredients.length; i++) {
+      for (let j = i + 1; j < Math.min(i + 5, sampleIngredients.length); j++) {
         const ingredient1 = sampleIngredients[i];
         const ingredient2 = sampleIngredients[j];
 
-        if (!ingredient1.elementalProperties || !ingredient2.elementalProperties) continue,
+        if (!ingredient1.elementalProperties || !ingredient2.elementalProperties) continue;
 
         try {
           const crossCompatibility = calculateElementalPropertiesCompatibility(
-            ingredient1.elementalProperties
+            ingredient1.elementalProperties,
             ingredient2.elementalProperties
-          ),
+          );
 
           // Cross-compatibility should be at least 0.7 (no opposing elements)
           if (crossCompatibility < VALIDATION_TOLERANCES.CROSS_COMPATIBILITY_THRESHOLD) {
@@ -452,9 +467,9 @@ function validateAlchemicalConsistency(
   const warnings: IngredientValidationWarning[] = [],
 
   try {
-    const ingredientData = ingredient as unknown as any
-    if (!ingredientData.alchemicalProperties || !ingredient.elementalProperties) {;
-      return { errors, warnings }
+    const ingredientData = ingredient as unknown as any;
+    if (!ingredientData.alchemicalProperties || !ingredient.elementalProperties) {
+      return { errors, warnings };
     }
 
     const alchemical = ingredientData.alchemicalProperties ;
@@ -635,7 +650,7 @@ async function runIngredientTests(): Promise<IngredientTestResult[]> {
 async function testIngredientDataLoading(): Promise<IngredientTestResult> {
   const startTime = Date.now()
 
-  try {;
+  try {
     const ingredients = allIngredients;
     const ingredientCount = Object.keys(ingredients).length;
 
@@ -667,7 +682,7 @@ async function testIngredientDataLoading(): Promise<IngredientTestResult> {
 async function testElementalPropertiesValidation(): Promise<IngredientTestResult> {
   const startTime = Date.now()
 
-  try {;
+  try {
     const ingredients = allIngredients;
     let validCount = 0,
     const totalCount = 0;
@@ -716,19 +731,19 @@ async function testElementalPropertiesValidation(): Promise<IngredientTestResult
 async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
   const startTime = Date.now()
 
-  try {;
-    const ingredients = Object.values(allIngredients).slice(010); // Test with first 10 ingredients
+  try {
+    const ingredients = Object.values(allIngredients).slice(0, 10); // Test with first 10 ingredients
     let validCalculations = 0,
     const totalCalculations = 0;
 
     for (const ingredient of ingredients) {
-      if (!ingredient.elementalProperties) continue,
+      if (!ingredient.elementalProperties) continue;
 
       try {
-        totalCalculations++,
-        const selfCompatibility = calculateElementalPropertiesCompatibility(ingredient.elementalProperties
-          ingredient.elementalProperties,
-        ),
+        totalCalculations++;
+        const selfCompatibility = calculateElementalPropertiesCompatibility(ingredient.elementalProperties,
+          ingredient.elementalProperties
+        );
 
         // Self-compatibility should be high (≥0.9)
         if (selfCompatibility >= 0.9) {
@@ -768,7 +783,7 @@ async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
 async function testAlchemicalMappings(): Promise<IngredientTestResult> {
   const startTime = Date.now()
 
-  try {;
+  try {
     const ingredients = allIngredients;
     let validMappings = 0;
     let totalMappings = 0,
@@ -776,13 +791,13 @@ async function testAlchemicalMappings(): Promise<IngredientTestResult> {
     for (const ingredient of Object.values(ingredients)) {
       const ingredientData = ingredient as unknown as any;
       if (ingredientData.alchemicalProperties) {
-        totalMappings++,
+        totalMappings++;
 
-        const alchemical = ingredientData.alchemicalProperties ;
+        const alchemical = ingredientData.alchemicalProperties;
         const hasValidProps = ['spirit', 'essence', 'matter', 'substance'].every(prop => {
-          const value = alchemical[prop] as number
-          return typeof value === 'number' && !isNaN(value)
-        })
+          const value = alchemical[prop] as number;
+          return typeof value === 'number' && !isNaN(value);
+        });
 
         if (hasValidProps) {
           validMappings++
@@ -832,15 +847,15 @@ async function testCategoryConsistency(): Promise<IngredientTestResult> {
       'oil',
       'vinegar',
       'seasoning'
-    ],
+    ];
 
-    let validCategories_count = 0,
+    let validCategories_count = 0;
     const totalIngredients = 0;
 
     for (const ingredient of Object.values(ingredients)) {
-      totalIngredients++,
+      totalIngredients++;
       if (ingredient.category && validCategories.includes(ingredient.category)) {
-        validCategories_count++
+        validCategories_count++;
       }
     }
 
@@ -883,12 +898,12 @@ function analyzeIngredientTestResults(_testResults: IngredientTestResult[]): {
 
   if (passRate < 80) {
     // 80% pass rate threshold
-    errors.push({,
+    errors.push({
       type: 'DATA_INCOMPLETE',
       severity: 'HIGH',
       message: `Test pass rate ${passRate.toFixed(1)}% below 80% threshold`,
       timestamp: new Date()
-    })
+    });
   }
 
   // Check individual test failures
@@ -896,8 +911,8 @@ function analyzeIngredientTestResults(_testResults: IngredientTestResult[]): {
     if (!test.passed) {
       const severity =
         test.testName.includes('Loading') || test.testName.includes('Properties')
-          ? 'HIGH';
-          : 'MEDIUM',
+          ? 'HIGH'
+          : 'MEDIUM';
 
       errors.push({
         type: 'DATA_INCOMPLETE',
@@ -933,29 +948,28 @@ function generateIngredientValidationSummary(
   const criticalErrors = errors.filter(e => e.severity === 'CRITICAL').length;
   const highErrors = errors.filter(e => e.severity === 'HIGH').length;
   const mediumErrors = errors.filter(e => e.severity === 'MEDIUM').length;
-  const lowErrors = errors.filter(e => e.severity === 'LOW').length
-;
-  let summary = `Ingredient Data Validation ${isValid ? 'PASSED' : 'FAILED'} (${duration}ms)\n`,
-  summary += `_Errors: ${errors.length} (Critical: ${criticalErrors}, _High: ${highErrors}, _Medium: ${mediumErrors}, _Low: ${lowErrors})\n`,
-  summary += `_Warnings: ${warnings.length}\n`,
+  const lowErrors = errors.filter(e => e.severity === 'LOW').length;
+  let summary = `Ingredient Data Validation ${isValid ? 'PASSED' : 'FAILED'} (${duration}ms)\n`;
+  summary += `Errors: ${errors.length} (Critical: ${criticalErrors}, High: ${highErrors}, Medium: ${mediumErrors}, Low: ${lowErrors})\n`;
+  summary += `Warnings: ${warnings.length}\n`;
 
   if (!isValid) {
-    summary += '\nCritical _Issues: \n',
+    summary += '\nCritical Issues: \n';
     errors
       .filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH')
-      .forEach(error => {,
-        summary += `- ${error.message}\n`
-      })
+      .forEach(error => {
+        summary += `- ${error.message}\n`;
+      });
   }
 
   if (warnings.length > 0) {
-    summary += '\_nWarnings: \n'
-    warnings.slice(05).forEach(warning => {,
-      summary += `- ${warning.message}\n`
-    })
+    summary += '\nWarnings: \n';
+    warnings.slice(0, 5).forEach(warning => {
+      summary += `- ${warning.message}\n`;
+    });
 
     if (warnings.length > 5) {
-      summary += `... and ${warnings.length - 5} more warnings\n`,
+      summary += `... and ${warnings.length - 5} more warnings\n`;
     }
   }
 
@@ -967,19 +981,201 @@ function generateIngredientValidationSummary(
  */
 export function shouldRollbackIngredients(validationResult: IngredientValidationResult): boolean {
   const criticalErrors = validationResult.errors.filter(e => e.severity === 'CRITICAL').length;
-  const highErrors = validationResult.errors.filter(e => e.severity === 'HIGH').length
+  const highErrors = validationResult.errors.filter(e => e.severity === 'HIGH').length;
 
   // Rollback if there are any critical errors or more than 3 high-severity errors
   return criticalErrors > 0 || highErrors > 3;
 }
 
 /**
+ * Validate kinetics integration and power conservation
+ */
+async function validateKineticsIntegration(): Promise<{
+  errors: IngredientValidationError[],
+  warnings: IngredientValidationWarning[]
+}> {
+  const errors: IngredientValidationError[] = [],
+  const warnings: IngredientValidationWarning[] = [];
+
+  try {
+    const ingredients = allIngredients;
+
+    for (const [name, ingredient] of Object.entries(ingredients)) {
+      try {
+        if (!ingredient.elementalProperties) continue;
+
+        // Validate force magnitude based on element dominance
+        const forceMagnitude = calculateForceMagnitude(ingredient.elementalProperties);
+        if (forceMagnitude > 5.0) {
+          errors.push({
+            type: 'COMPATIBILITY_VIOLATION',
+            severity: 'MEDIUM',
+            ingredient: name,
+            property: 'kinetics-force-magnitude',
+            actualValue: forceMagnitude,
+            message: `Force magnitude ${forceMagnitude.toFixed(3)} exceeds safe threshold (5.0) for ${name}`,
+            timestamp: new Date()
+          });
+        } else if (forceMagnitude < 0.1) {
+          warnings.push({
+            type: 'MINOR_INCONSISTENCY',
+            ingredient: name,
+            property: 'kinetics-force-magnitude',
+            message: `Very low force magnitude ${forceMagnitude.toFixed(3)} may indicate weak kinetics for ${name}`,
+            timestamp: new Date()
+          });
+        }
+
+        // Validate thermal direction consistency
+        const thermalDirection = determineThermalDirection(ingredient.elementalProperties);
+        if (thermalDirection === 'heating' && ingredient.elementalProperties.Water > 0.6) {
+          warnings.push({
+            type: 'MINOR_INCONSISTENCY',
+            ingredient: name,
+            property: 'kinetics-thermal-direction',
+            message: `Heating direction conflicts with high water content (${(ingredient.elementalProperties.Water * 100).toFixed(1)}%) for ${name}`,
+            timestamp: new Date()
+          });
+        }
+
+      } catch (error) {
+        warnings.push({
+          type: 'PERFORMANCE_SLOW',
+          ingredient: name,
+          message: `Could not validate kinetics for ${name}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+          timestamp: new Date()
+        });
+      }
+    }
+  } catch (error) {
+    errors.push({
+      type: 'DATA_INCOMPLETE',
+      severity: 'MEDIUM',
+      message: `Kinetics integration validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      timestamp: new Date()
+    });
+  }
+
+  return { errors, warnings };
+}
+
+/**
+ * Calculate force magnitude from elemental properties
+ */
+function calculateForceMagnitude(elementalProperties: ElementalProperties): number {
+  // Force magnitude based on elemental intensity and opposition
+  const fireWater = elementalProperties.Fire * elementalProperties.Water;
+  const earthAir = elementalProperties.Earth * elementalProperties.Air;
+
+  // High opposing elements create greater force
+  const opposingForce = Math.sqrt(fireWater + earthAir) * 2;
+
+  // Element dominance adds to force
+  const maxElement = Math.max(
+    elementalProperties.Fire,
+    elementalProperties.Water,
+    elementalProperties.Earth,
+    elementalProperties.Air
+  );
+
+  return opposingForce + maxElement;
+}
+
+/**
+ * Determine thermal direction from elemental properties
+ */
+function determineThermalDirection(elementalProperties: ElementalProperties): 'heating' | 'cooling' | 'neutral' {
+  const fireIntensity = elementalProperties.Fire;
+  const waterIntensity = elementalProperties.Water;
+
+  if (fireIntensity > waterIntensity + 0.3) {
+    return 'heating';
+  } else if (waterIntensity > fireIntensity + 0.3) {
+    return 'cooling';
+  } else {
+    return 'neutral';
+  }
+}
+
+/**
+ * Calculate overall kinetics validation metrics
+ */
+async function calculateKineticsValidationMetrics(): Promise<{
+  powerConservationEfficiency: number,
+  circuitStability: number,
+  forceMagnitude: number,
+  thermalDirection: 'heating' | 'cooling' | 'neutral'
+}> {
+  try {
+    const ingredients = Object.values(allIngredients);
+    let totalPowerEfficiency = 0;
+    let totalStability = 0;
+    let totalForceMagnitude = 0;
+    let heatingCount = 0;
+    let coolingCount = 0;
+    let neutralCount = 0;
+
+    for (const ingredient of ingredients) {
+      if (!ingredient.elementalProperties) continue;
+
+      // Calculate power conservation (simulate P=IV)
+      const charge = (ingredient.elementalProperties.Earth + ingredient.elementalProperties.Water) / 2; // Matter + Substance
+      const potential = (ingredient.elementalProperties.Fire + ingredient.elementalProperties.Air) / 2; // Spirit + Essence via elements
+      const powerEfficiency = charge > 0 ? Math.min(potential / charge, 1.0) : 0.5;
+
+      // Calculate stability (entropy resistance)
+      const stability = 1 - Math.abs(ingredient.elementalProperties.Fire - ingredient.elementalProperties.Water);
+
+      // Calculate force magnitude
+      const forceMag = calculateForceMagnitude(ingredient.elementalProperties);
+
+      // Track thermal direction
+      const thermalDir = determineThermalDirection(ingredient.elementalProperties);
+      if (thermalDir === 'heating') heatingCount++;
+      else if (thermalDir === 'cooling') coolingCount++;
+      else neutralCount++;
+
+      totalPowerEfficiency += powerEfficiency;
+      totalStability += stability;
+      totalForceMagnitude += forceMag;
+    }
+
+    const count = ingredients.length;
+    const avgPowerEfficiency = count > 0 ? totalPowerEfficiency / count : 0.5;
+    const avgStability = count > 0 ? totalStability / count : 0.5;
+    const avgForceMagnitude = count > 0 ? totalForceMagnitude / count : 0;
+
+    // Determine dominant thermal direction
+    let dominantThermal: 'heating' | 'cooling' | 'neutral';
+    if (heatingCount > coolingCount && heatingCount > neutralCount) {
+      dominantThermal = 'heating';
+    } else if (coolingCount > heatingCount && coolingCount > neutralCount) {
+      dominantThermal = 'cooling';
+    } else {
+      dominantThermal = 'neutral';
+    }
+
+    return {
+      powerConservationEfficiency: avgPowerEfficiency,
+      circuitStability: avgStability,
+      forceMagnitude: avgForceMagnitude,
+      thermalDirection: dominantThermal
+    };
+
+  } catch (error) {
+    // Return default values on error
+    return {
+      powerConservationEfficiency: 0.5,
+      circuitStability: 0.5,
+      forceMagnitude: 0,
+      thermalDirection: 'neutral'
+    };
+  }
+}
+
+/**
  * Export validation functions for testing
  */
 export {
-  validateElementalProperties,
-  validateCompatibilityScores,
-  validateAlchemicalMappings,
-  validateDataCompleteness,
-  runIngredientTests
-}
+    calculateKineticsValidationMetrics, runIngredientTests, validateAlchemicalMappings, validateCompatibilityScores, validateDataCompleteness, validateElementalProperties, validateKineticsIntegration
+};

@@ -1,14 +1,16 @@
 import type { ElementalState } from '@/types/elemental';
 
 import {
-  ElementalProperties,
-  LUNAR_PHASE_MAPPING,
-  LUNAR_PHASE_REVERSE_MAPPING,
-  LunarPhase,
-  LunarPhaseWithSpaces,
-  LunarPhaseWithUnderscores
+    ElementalProperties,
+    LUNAR_PHASE_MAPPING,
+    LUNAR_PHASE_REVERSE_MAPPING,
+    LunarPhase,
+    LunarPhaseWithSpaces,
+    LunarPhaseWithUnderscores
 } from '../types/alchemy';
+import type { KineticMetrics } from '../types/kinetics';
 import type { LunarPhaseModifier } from '../types/lunar';
+import { calculateKinetics } from './kinetics';
 
 // Define missing types
 export type FoodAssociationsLunarPhase =
@@ -34,18 +36,15 @@ const lunarInfluences: Record<
   LunarPhaseWithUnderscores,
   { strength: number, elements: Record<string, number> }
 > = {
-  _NEW_MOON: { strength: 0.3, elements: { Fire: 0.1, Water: 0.1, Air: 0.1, Earth: 0.1 } }
-  _WAXING_CRESCENT: { strength: 0.2, elements: { Fire: 0.2, Air: 0.1, Water: 0.0, Earth: 0.0 } }
-  _FIRST_QUARTER: { strength: 0.3, elements: { Fire: 0.3, Air: 0.2, Water: 0.0, Earth: 0.0 } }
-  _WAXING_GIBBOUS: { strength: 0.4, elements: { Fire: 0.4, Air: 0.3, Water: 0.0, Earth: 0.0 } }
-  _FULL_MOON: { strength: 0.5, elements: { Water: 0.4, Earth: 0.3, Fire: 0.0, Air: 0.0 } }
-  _WANING_GIBBOUS: { strength: 0.4, elements: { Water: 0.3, Earth: 0.2, Fire: 0.0, Air: 0.0 } }
-  _LAST_QUARTER: { strength: 0.3, elements: { Water: 0.2, Earth: 0.1, Fire: 0.0, Air: 0.0 } }
+  _NEW_MOON: { strength: 0.3, elements: { Fire: 0.1, Water: 0.1, Air: 0.1, Earth: 0.1 } },
+  _WAXING_CRESCENT: { strength: 0.2, elements: { Fire: 0.2, Air: 0.1, Water: 0.0, Earth: 0.0 } },
+  _FIRST_QUARTER: { strength: 0.3, elements: { Fire: 0.3, Air: 0.2, Water: 0.0, Earth: 0.0 } },
+  _WAXING_GIBBOUS: { strength: 0.4, elements: { Fire: 0.4, Air: 0.3, Water: 0.0, Earth: 0.0 } },
+  _FULL_MOON: { strength: 0.5, elements: { Water: 0.4, Earth: 0.3, Fire: 0.0, Air: 0.0 } },
+  _WANING_GIBBOUS: { strength: 0.4, elements: { Water: 0.3, Earth: 0.2, Fire: 0.0, Air: 0.0 } },
+  _LAST_QUARTER: { strength: 0.3, elements: { Water: 0.2, Earth: 0.1, Fire: 0.0, Air: 0.0 } },
   _WANING_CRESCENT: { strength: 0.2, elements: { Water: 0.1, Earth: 0.1, Fire: 0.0, Air: 0.0 } }
-} as unknown as Record<
-  LunarPhaseWithUnderscores,
-  { strength: number, elements: Record<string, number> }
->,
+};
 
 // Element modifiers for each lunar phase
 const elementalModifiers = {
@@ -86,13 +85,13 @@ export function applyLunarInfluence(baseBalance: ElementalState, date: Date): El
 export function getLunarElementalModifiers(phase: LunarPhase): Record<string, number> {
   const phaseKey = getLunarPhaseKey(phase)
   return (
-    lunarInfluences[phaseKey.toUpperCase() as LunarPhaseWithUnderscores].elements || {;
+    lunarInfluences[phaseKey.toUpperCase() as LunarPhaseWithUnderscores].elements || {
       Fire: 0,
       Water: 0,
       Air: 0,
       Earth: 0
-})
-}
+    }
+  );
 
 /**
  * Get lunar phase from a date
@@ -130,14 +129,14 @@ export function generateDefaultLunarPhaseModifiers(
   const lunarModifiers: Record<string, LunarPhaseModifier> = {
     _newMoon: {
       elementalModifiers: { Fire: 0.1, Water: 0.4, Earth: 0.2, Air: 0.3 },
-      elementalBoost: { [dominantElement]: 0.1, [secondaryElement]: 0.05 }
+      elementalBoost: { [dominantElement]: 0.1, [secondaryElement]: 0.05 },
       description: `New Moon effects on ${ingredientName}`,
       keywords: ['subtle', 'preparation', 'beginnings'],
       preparationTips: [`Good for subtle ${category} preparations`]
     },
     _fullMoon: {
       elementalModifiers: { Fire: 0.4, Water: 0.1, Earth: 0.1, Air: 0.4 },
-      elementalBoost: { [dominantElement]: 0.2 }
+      elementalBoost: { [dominantElement]: 0.2 },
       description: `Full Moon enhances ${ingredientName} properties`,
       keywords: ['potent', 'powerful', 'culmination'],
       preparationTips: [
@@ -148,38 +147,38 @@ export function generateDefaultLunarPhaseModifiers(
   }
 
   // Add additional phases based on dominant element
-  if (dominantElement === 'Fire') {,
+  if (dominantElement === 'Fire') {
     lunarModifiers.waxingGibbous = {
       elementalModifiers: { Fire: 0.4, Water: 0.2, Earth: 0.1, Air: 0.3 },
-      elementalBoost: { Fire: 0.15, Air: 0.05 }
+      elementalBoost: { Fire: 0.15, Air: 0.05 },
       description: `Waxing Gibbous amplifies ${ingredientName} fire properties`,
       keywords: ['heat', 'intensity', 'growing'],
       preparationTips: ['Excellent for cooking with heat', 'Good for spicy preparations']
-    }
-  } else if (dominantElement === 'Water') {,
+    };
+  } else if (dominantElement === 'Water') {
     lunarModifiers.waningGibbous = {
       elementalModifiers: { Fire: 0.2, Water: 0.4, Earth: 0.3, Air: 0.1 },
-      elementalBoost: { Water: 0.15, Earth: 0.05 }
+      elementalBoost: { Water: 0.15, Earth: 0.05 },
       description: `Waning Gibbous enhances ${ingredientName} fluid properties`,
       keywords: ['flow', 'moisture', 'releasing'],
       preparationTips: ['Good for preserves and sauces', 'Liquid preparations enhanced']
-    }
-  } else if (dominantElement === 'Earth') {,
+    };
+  } else if (dominantElement === 'Earth') {
     lunarModifiers.lastQuarter = {
       elementalModifiers: { Fire: 0.1, Water: 0.3, Earth: 0.5, Air: 0.1 },
-      elementalBoost: { Earth: 0.15, Water: 0.05 }
+      elementalBoost: { Earth: 0.15, Water: 0.05 },
       description: `Last Quarter grounds ${ingredientName}`,
       keywords: ['stable', 'grounding', 'solid'],
       preparationTips: ['Best for grounding dishes', 'Good for preservation']
-    }
-  } else if (dominantElement === 'Air') {,
+    };
+  } else if (dominantElement === 'Air') {
     lunarModifiers.firstQuarter = {
       elementalModifiers: { Fire: 0.3, Water: 0.1, Earth: 0.1, Air: 0.5 },
-      elementalBoost: { Air: 0.15, Fire: 0.05 }
+      elementalBoost: { Air: 0.15, Fire: 0.05 },
       description: `First Quarter enhances ${ingredientName} aromatic qualities`,
       keywords: ['light', 'airy', 'expansion'],
       preparationTips: ['Perfect for aromatic preparations', 'Enhances subtle flavors']
-    }
+    };
   }
 
   return lunarModifiers;
@@ -283,13 +282,13 @@ export const formatLunarPhase = (phase: string): LunarPhase => {
 }
 
 // Helper functions for validation
-const _isValidUnderscorePhase = (phase: string): boolean => {,
-  return Object.keys(REVERSE_LUNAR_PHASE_MAP).includes(phase)
-}
+const _isValidUnderscorePhase = (phase: string): boolean => {
+  return Object.keys(REVERSE_LUNAR_PHASE_MAP).includes(phase);
+};
 
-const isValidSpacePhase = (phase: string): boolean => {,
-  return Object.keys(LUNAR_PHASE_MAP).includes(phase)
-}
+const isValidSpacePhase = (phase: string): boolean => {
+  return Object.keys(LUNAR_PHASE_MAP).includes(phase);
+};
 
 /**
  * Format lunar phase for display (same as formatLunarPhase but with a more descriptive name)
@@ -396,10 +395,10 @@ export function convertToSpacesFormat(phase: LunarPhaseWithUnderscores): LunarPh
 export function getLunarPhaseElements(phase: LunarPhase): ElementalProperties {
   // Convert to underscore format if needed
   const phaseKey = phase.includes(' ')
-    ? LUNAR_PHASE_MAPPING[phase as LunarPhaseWithSpaces];
-    : (phase as unknown as LunarPhaseWithUnderscores),
+    ? LUNAR_PHASE_MAPPING[phase as LunarPhaseWithSpaces]
+    : (phase as unknown as LunarPhaseWithUnderscores);
 
-  return LUNAR_PHASE_ELEMENTS[phaseKey]
+  return LUNAR_PHASE_ELEMENTS[phaseKey];
 }
 
 /**
@@ -423,33 +422,33 @@ export function normalizeLunarPhase(phase: string | null | undefined): LunarPhas
   const phases = Object.keys(LUNAR_PHASE_MAP) as LunarPhase[];
   const match = phases.find(
     p =>
-      p.includes(cleanPhase) ||;
+      p.includes(cleanPhase) ||
       cleanPhase.includes(p.replace(' ', '')) ||
-      cleanPhase.includes(p.replace(' ', '_')),
-  )
+      cleanPhase.includes(p.replace(' ', '_'))
+  );
 
   return match;
 }
 
-// ========== MISSING FUNCTION FOR TS2305 FIXES ==========,
+// ========== MISSING FUNCTION FOR TS2305 FIXES ==========
 
 // convertToLunarPhase function (causing errors in AlchemicalService.ts and RecommendationService.ts)
 export function convertToLunarPhase(input: string | Date | number): LunarPhase {
   // If it's already a string, try to normalize it
-  if (typeof input === 'string') {,
-    const normalized = normalizeLunarPhase(input)
+  if (typeof input === 'string') {
+    const normalized = normalizeLunarPhase(input);
     if (normalized) return normalized;
     // If normalization failed, default to new moon
-    return 'new moon'
+    return 'new moon';
   }
 
   // If it's a Date, calculate the lunar phase
   if (input instanceof Date) {
-    return getLunarPhaseFromDate(input)
+    return getLunarPhaseFromDate(input);
   }
 
   // If it's a number (assume it's a day of month or lunar cycle position)
-  if (typeof input === 'number') {,
+  if (typeof input === 'number') {
     // Treat as day of month (0-29 for lunar cycle)
     const normalizedDay = input % 29.5; // Approximate lunar cycle
 
@@ -461,9 +460,196 @@ export function convertToLunarPhase(input: string | Date | number): LunarPhase {
     if (normalizedDay < 21) return 'waning gibbous';
     if (normalizedDay < 23) return 'last quarter';
     if (normalizedDay < 28) return 'waning crescent';
-    return 'new moon', // Default for edge cases
+    return 'new moon'; // Default for edge cases
   }
 
   // Default fallback
   return 'new moon';
+}
+
+// ========== KINETICS-ENHANCED LUNAR PHASE FUNCTIONS ==========
+
+/**
+ * Get lunar phase with kinetics enhancement (aspect phase boosts)
+ */
+export function getLunarPhaseWithKinetics(
+  phase: LunarPhase,
+  planetaryPositions: { [planet: string]: string }
+): LunarPhase {
+  try {
+    const kinetics = calculateKinetics(planetaryPositions);
+
+    // Apply aspect phase boosts based on force classification
+    if (kinetics.forceClassification === 'accelerating' && phase.includes('waxing')) {
+      // Accelerating forces enhance waxing phases
+      return applyVelocityBoost(phase, kinetics.velocityBoost);
+    } else if (kinetics.forceClassification === 'decelerating' && phase.includes('waning')) {
+      // Decelerating forces enhance waning phases
+      return applyVelocityBoost(phase, kinetics.velocityBoost);
+    }
+
+    return phase;
+  } catch (error) {
+    // Return original phase if kinetics calculation fails
+    return phase;
+  }
+}
+
+/**
+ * Apply velocity boost to lunar phase intensity
+ */
+function applyVelocityBoost(phase: LunarPhase, velocityBoost: number): LunarPhase {
+  // Velocity boost can intensify certain phases
+  if (velocityBoost > 1.5) {
+    // High velocity enhances transformative phases
+    if (phase === 'first quarter' || phase === 'last quarter') {
+      return phase; // Already intense phases
+    }
+    // Could return more intense adjacent phases, but for now keep same
+  }
+  return phase;
+}
+
+/**
+ * Get kinetics-enhanced elemental modifiers for lunar phases
+ */
+export function getKineticsEnhancedLunarModifiers(
+  phase: LunarPhase,
+  planetaryPositions: { [planet: string]: string }
+): Record<string, number> {
+  try {
+    const baseModifiers = getLunarElementalModifiers(phase);
+    const kinetics = calculateKinetics(planetaryPositions);
+
+    // Apply Monica field (B) influence to elemental balance
+    const monicaInfluence = kinetics.monica || 0;
+
+    // Apply power boost to elements based on thermal direction
+    const enhancedModifiers: Record<string, number> = { ...baseModifiers };
+
+    if (kinetics.thermalDirection === 'heating') {
+      enhancedModifiers.Fire = (enhancedModifiers.Fire || 0) + 0.1;
+      enhancedModifiers.Air = (enhancedModifiers.Air || 0) + 0.05;
+    } else if (kinetics.thermalDirection === 'cooling') {
+      enhancedModifiers.Water = (enhancedModifiers.Water || 0) + 0.1;
+      enhancedModifiers.Earth = (enhancedModifiers.Earth || 0) + 0.05;
+    }
+
+    // Apply aspect phase boost
+    const aspectBoost = kinetics.aspectPhase === 'conjunction' ? 0.15 :
+                        kinetics.aspectPhase === 'opposition' ? 0.1 : 0.05;
+
+    // Boost dominant element based on force magnitude
+    const dominantElement = getDominantElementFromModifiers(enhancedModifiers);
+    if (dominantElement) {
+      enhancedModifiers[dominantElement] += aspectBoost * (kinetics.forceMagnitude / 5);
+    }
+
+    return enhancedModifiers;
+  } catch (error) {
+    // Return base modifiers if enhancement fails
+    return getLunarElementalModifiers(phase);
+  }
+}
+
+/**
+ * Get dominant element from modifiers
+ */
+function getDominantElementFromModifiers(modifiers: Record<string, number>): string | null {
+  let maxValue = 0;
+  let dominantElement: string | null = null;
+
+  for (const [element, value] of Object.entries(modifiers)) {
+    if (value > maxValue) {
+      maxValue = value;
+      dominantElement = element;
+    }
+  }
+
+  return dominantElement;
+}
+
+/**
+ * Calculate lunar phase kinetics metrics
+ */
+export function calculateLunarKineticsMetrics(
+  phase: LunarPhase,
+  planetaryPositions: { [planet: string]: string }
+): {
+  phaseVelocity: number,
+  aspectInfluence: number,
+  powerEfficiency: number,
+  thermalAlignment: number
+} {
+  try {
+    const kinetics = calculateKinetics(planetaryPositions);
+
+    // Calculate phase velocity based on lunar cycle position
+    const phaseVelocity = calculatePhaseVelocity(phase, kinetics);
+
+    // Calculate aspect influence on lunar phase
+    const aspectInfluence = kinetics.aspectPhase === 'conjunction' ? 1.0 :
+                           kinetics.aspectPhase === 'opposition' ? 0.8 :
+                           kinetics.aspectPhase === 'trine' ? 0.6 :
+                           kinetics.aspectPhase === 'square' ? 0.4 : 0.2;
+
+    // Calculate power efficiency for lunar phase
+    const powerEfficiency = (kinetics.power || 0) / 100; // Normalize power
+
+    // Calculate thermal alignment with lunar phase
+    const thermalAlignment = calculateThermalAlignment(phase, kinetics.thermalDirection);
+
+    return {
+      phaseVelocity,
+      aspectInfluence,
+      powerEfficiency,
+      thermalAlignment
+    };
+  } catch (error) {
+    return {
+      phaseVelocity: 0.5,
+      aspectInfluence: 0.5,
+      powerEfficiency: 0.5,
+      thermalAlignment: 0.5
+    };
+  }
+}
+
+/**
+ * Calculate phase velocity for lunar phase
+ */
+function calculatePhaseVelocity(phase: LunarPhase, kinetics: KineticMetrics): number {
+  // Base velocity by phase (waxing = increasing, waning = decreasing)
+  let baseVelocity = 0.5;
+
+  if (phase.includes('waxing')) {
+    baseVelocity = 0.7 + (kinetics.velocityBoost || 0) * 0.3;
+  } else if (phase.includes('waning')) {
+    baseVelocity = 0.3 - (kinetics.velocityBoost || 0) * 0.2;
+  } else if (phase === 'full moon') {
+    baseVelocity = 1.0; // Peak velocity
+  } else if (phase === 'new moon') {
+    baseVelocity = 0.1; // Minimum velocity
+  }
+
+  return Math.max(0, Math.min(1, baseVelocity));
+}
+
+/**
+ * Calculate thermal alignment between lunar phase and kinetics
+ */
+function calculateThermalAlignment(phase: LunarPhase, thermalDirection: string): number {
+  // Fire-dominant phases align with heating
+  const firePhases = ['waxing crescent', 'first quarter', 'waxing gibbous'];
+  const waterPhases = ['waning gibbous', 'last quarter', 'waning crescent'];
+
+  if (thermalDirection === 'heating' && firePhases.includes(phase)) {
+    return 0.9;
+  } else if (thermalDirection === 'cooling' && waterPhases.includes(phase)) {
+    return 0.9;
+  } else if (thermalDirection === 'neutral') {
+    return 0.7; // Neutral aligns with most phases
+  }
+
+  return 0.5; // Default alignment
 }
