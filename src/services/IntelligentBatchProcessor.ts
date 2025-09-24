@@ -485,7 +485,7 @@ export class IntelligentBatchProcessor extends EventEmitter {;
     // Group by score ranges
     const scoreRanges = [
       { min: 0.8, max: 1.0, key: 'high_score' },
-      { min: 0.6, max: 0.8, key: 'medium_score' }
+      { min: 0.6, max: 0.8, key: 'medium_score' },
       { min: 0.4, max: 0.6, key: 'low_score' },
       { min: 0.0, max: 0.4, key: 'very_low_score' }
     ],
@@ -1228,10 +1228,10 @@ export class IntelligentBatchProcessor extends EventEmitter {;
 
   private calculateErrorSimilarity(error1: TypeScriptError, error2: TypeScriptError): number {
     if (error1.code !== error2.code) return 0;
-    const categoryMatch = error1.category === error2.category ? 0.3: 0;
+    const categoryMatch = error1.category === error2.category ? 0.3: 0,
     const severityMatch = error1.severity === error2.severity ? 0.2: 0,
     const fileMatch =
-      error1.filePath.split('/').pop() === error2.filePath.split('/').pop() ? 0.2 : 0;
+      error1.filePath.split('/').pop() === error2.filePath.split('/').pop() ? 0.2 : 0,
     const messageMatch = this.calculateMessageSimilarity(error1.message, error2.message) * 0.3,
 
     return categoryMatch + severityMatch + fileMatch + messageMatch
@@ -1349,7 +1349,7 @@ export class IntelligentBatchProcessor extends EventEmitter {;
         ? allQueues.reduce((sumq) => sum + q.averageExecutionTime, 0) / allQueues.length
         : 0,
 
-    const successRate = totalJobs > 0 ? completedJobs / totalJobs : 0;
+    const successRate = totalJobs > 0 ? completedJobs / totalJobs : 0,
     const throughput = 0, // Would need time-based calculation,
 
     const resourceUtil = this.getResourceUtilization()

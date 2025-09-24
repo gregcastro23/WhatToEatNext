@@ -942,7 +942,7 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
 
     const metricsToCheck = [
       { key: 'totalIssues', name: 'Total Issues' },
-      { key: 'parserErrors', name: 'Parser Errors' }
+      { key: 'parserErrors', name: 'Parser Errors' },
       { key: 'explicitAnyErrors', name: 'Explicit Any Errors' },
       { key: 'qualityScore', name: 'Quality Score' }
     ],
@@ -1046,36 +1046,27 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
     switch (priority) {
       case 'critical':
         return '🚨'
-      case 'high':
-        return '⚡';
-      case 'medium':
-        return '📋';
-      case 'low':
-        return '📝';
+      case 'high': return '⚡',
+      case 'medium': return '📋',
+      case 'low': return '📝',
       default: return '📋'
     }
   }
 
   private getTrendIcon(trend: string): string {
     switch (trend) {
-      case 'improving':
-        return '📈';
-      case 'stable':
-        return '➡️';
-      case 'degrading':
-        return '📉';
+      case 'improving': return '📈',
+      case 'stable': return '➡️',
+      case 'degrading': return '📉',
       default: return '➡️'
     }
   }
 
   private getGateStatusIcon(status: string): string {
     switch (status) {
-      case 'passing':
-        return '✅';
-      case 'warning':
-        return '⚠️';
-      case 'failing':
-        return '❌';
+      case 'passing': return '✅',
+      case 'warning': return '⚠️',
+      case 'failing': return '❌',
       default: return '❓'
     }
   }

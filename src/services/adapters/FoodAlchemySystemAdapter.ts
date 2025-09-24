@@ -122,7 +122,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
 
         // Add dignity effects if applicable - safe string handling
         const planetKey =
-          typeof planet === 'string' ? planet.charAt(0).toUpperCase() + planet.slice(1) : planet;
+          typeof planet === 'string' ? planet.charAt(0).toUpperCase() + planet.slice(1) : planet,
         const _signFormatted =
           typeof sign === 'string' ? sign.charAt(0).toUpperCase() + sign.slice(1) : sign,
 
@@ -255,7 +255,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
     // (the element that's furthest from 0.25, the ideal balance)
     const elements = [
       { name: 'Fire', value: Fire, diff: Math.abs(Fire - 0.25) },
-      { name: 'Water', value: Water, diff: Math.abs(Water - 0.25) }
+      { name: 'Water', value: Water, diff: Math.abs(Water - 0.25) },
       { name: 'Earth', value: Earth, diff: Math.abs(Earth - 0.25) },
       { name: 'Air', value: Air, diff: Math.abs(Air - 0.25) }
     ],

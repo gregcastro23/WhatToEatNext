@@ -30,7 +30,7 @@ export const thai: Cuisine = {
           ],
           ingredients: [
             { name: 'jasmine rice', amount: '1', unit: 'cup', category: 'grain' },
-            { name: 'ginger', amount: '2', unit: 'tbsp', category: 'spice' }
+            { name: 'ginger', amount: '2', unit: 'tbsp', category: 'spice' },
             {
               name: 'ground pork',
               amount: '200',
@@ -46,7 +46,7 @@ export const thai: Cuisine = {
               swaps: ['silken tofu']
             }
             { name: 'green onions', amount: '4', unit: 'stalks', category: 'vegetable' },
-            { name: 'fried garlic', amount: '2', unit: 'tbsp', category: 'garnish' }
+            { name: 'fried garlic', amount: '2', unit: 'tbsp', category: 'garnish' },
             { name: 'white pepper', amount: '1', unit: 'tsp', category: 'spice' },
             { name: 'soy sauce', amount: '2', unit: 'tbsp', category: 'seasoning' }
           ],
@@ -96,11 +96,11 @@ export const thai: Cuisine = {
           ],
           ingredients: [
             { name: 'jasmine rice', amount: '1', unit: 'cup', category: 'grain' },
-            { name: 'shrimp', amount: '200', unit: 'g', category: 'protein', swaps: ['tofu'] }
+            { name: 'shrimp', amount: '200', unit: 'g', category: 'protein', swaps: ['tofu'] },
             { name: 'ginger', amount: '2', unit: 'inches', category: 'spice' },
-            { name: 'garlic', amount: '4', unit: 'cloves', category: 'vegetable' }
+            { name: 'garlic', amount: '4', unit: 'cloves', category: 'vegetable' },
             { name: 'cilantro', amount: '1/2', unit: 'cup', category: 'herb' },
-            { name: 'green onions', amount: '4', unit: 'stalks', category: 'vegetable' }
+            { name: 'green onions', amount: '4', unit: 'stalks', category: 'vegetable' },
             {
               name: 'fish sauce',
               amount: '2',
@@ -163,9 +163,9 @@ export const thai: Cuisine = {
               swaps: ['gluten-free flour blend']
             }
             { name: 'coconut milk', amount: '200', unit: 'ml', category: 'liquid' },
-            { name: 'pandan leaves', amount: '4', unit: 'pieces', category: 'herb' }
+            { name: 'pandan leaves', amount: '4', unit: 'pieces', category: 'herb' },
             { name: 'eggs', amount: '3', unit: 'large', category: 'protein' },
-            { name: 'palm sugar', amount: '100', unit: 'g', category: 'sweetener' }
+            { name: 'palm sugar', amount: '100', unit: 'g', category: 'sweetener' },
             { name: 'yeast', amount: '1', unit: 'tsp', category: 'leavening' }
           ],
           substitutions: {
@@ -215,7 +215,7 @@ export const thai: Cuisine = {
           ],
           ingredients: [
             { name: 'eggs', amount: '3', unit: 'large', category: 'protein', swaps: ['JUST Egg'] },
-            { name: 'jasmine rice', amount: '1', unit: 'cup', category: 'grain' }
+            { name: 'jasmine rice', amount: '1', unit: 'cup', category: 'grain' },
             {
               name: 'fish sauce',
               amount: '1',
@@ -224,7 +224,7 @@ export const thai: Cuisine = {
               swaps: ['soy sauce']
             }
             { name: 'green onions', amount: '2', unit: 'stalks', category: 'vegetable' },
-            { name: 'white pepper', amount: '1/2', unit: 'tsp', category: 'spice' }
+            { name: 'white pepper', amount: '1/2', unit: 'tsp', category: 'spice' },
             { name: 'sriracha sauce', amount: '2', unit: 'tbsp', category: 'sauce' }
           ],
           substitutions: {
@@ -281,9 +281,9 @@ export const thai: Cuisine = {
               swaps: ['chicken', 'tofu']
             }
             { name: 'ginger', amount: '30', unit: 'g', category: 'spice' },
-            { name: 'garlic', amount: '4', unit: 'cloves', category: 'vegetable' }
+            { name: 'garlic', amount: '4', unit: 'cloves', category: 'vegetable' },
             { name: 'green onions', amount: '4', unit: 'stalks', category: 'vegetable' },
-            { name: 'cilantro', amount: '1/2', unit: 'cup', category: 'herb' }
+            { name: 'cilantro', amount: '1/2', unit: 'cup', category: 'herb' },
             { name: 'white pepper', amount: '1', unit: 'tsp', category: 'spice' },
             {
               name: 'fish sauce',
@@ -355,7 +355,7 @@ export const thai: Cuisine = {
               swaps: ['tofu', 'mushrooms']
             }
             { name: 'holy basil', amount: '2', unit: 'cups', category: 'herb' },
-            { name: 'Thai chilies', amount: '5', unit: 'pieces', category: 'spice' }
+            { name: 'Thai chilies', amount: '5', unit: 'pieces', category: 'spice' },
             { name: 'garlic', amount: '6', unit: 'cloves', category: 'vegetable' },
             {
               name: 'oyster sauce',
@@ -423,11 +423,11 @@ export const thai: Cuisine = {
               swaps: ['tofu']
             }
             { name: 'coconut milk', amount: '800', unit: 'ml', category: 'liquid' },
-            { name: 'khao soi curry paste', amount: '4', unit: 'tbsp', category: 'seasoning' }
+            { name: 'khao soi curry paste', amount: '4', unit: 'tbsp', category: 'seasoning' },
             { name: 'shallots', amount: '4', unit: 'medium', category: 'vegetable' },
-            { name: 'pickled mustard greens', amount: '100', unit: 'g', category: 'vegetable' }
+            { name: 'pickled mustard greens', amount: '100', unit: 'g', category: 'vegetable' },
             { name: 'lime', amount: '2', unit: 'whole', category: 'fruit' },
-            { name: 'crispy noodles', amount: '100', unit: 'g', category: 'garnish' }
+            { name: 'crispy noodles', amount: '100', unit: 'g', category: 'garnish' },
             {
               name: 'fish sauce',
               amount: '3',
@@ -470,7 +470,7 @@ export const thai: Cuisine = {
           ],
           ingredients: [
             { name: 'green papaya', amount: '300', unit: 'g', category: 'vegetable' },
-            { name: 'Thai chilies', amount: '2', unit: 'pieces', category: 'spice' }
+            { name: 'Thai chilies', amount: '2', unit: 'pieces', category: 'spice' },
             { name: 'garlic', amount: '3', unit: 'cloves', category: 'vegetable' },
             {
               name: 'dried shrimp',
@@ -480,7 +480,7 @@ export const thai: Cuisine = {
               swaps: ['toasted peanuts']
             }
             { name: 'long beans', amount: '100', unit: 'g', category: 'vegetable' },
-            { name: 'cherry tomatoes', amount: '100', unit: 'g', category: 'vegetable' }
+            { name: 'cherry tomatoes', amount: '100', unit: 'g', category: 'vegetable' },
             { name: 'lime juice', amount: '3', unit: 'tbsp', category: 'acid' },
             {
               name: 'fish sauce',
@@ -537,11 +537,11 @@ export const thai: Cuisine = {
           ],
           ingredients: [
             { name: 'shrimp', amount: '400', unit: 'g', category: 'protein', swaps: ['mushrooms'] },
-            { name: 'lemongrass', amount: '3', unit: 'stalks', category: 'herb' }
+            { name: 'lemongrass', amount: '3', unit: 'stalks', category: 'herb' },
             { name: 'kaffir lime leaves', amount: '4', unit: 'pieces', category: 'herb' },
-            { name: 'galangal', amount: '50', unit: 'g', category: 'spice' }
+            { name: 'galangal', amount: '50', unit: 'g', category: 'spice' },
             { name: 'mushrooms', amount: '200', unit: 'g', category: 'vegetable' },
-            { name: 'Thai chilies', amount: '4', unit: 'pieces', category: 'spice' }
+            { name: 'Thai chilies', amount: '4', unit: 'pieces', category: 'spice' },
             { name: 'lime juice', amount: '4', unit: 'tbsp', category: 'acid' },
             { name: 'nam prik pao', amount: '2', unit: 'tbsp', category: 'paste' }
           ],
@@ -591,9 +591,9 @@ export const thai: Cuisine = {
           ],
           ingredients: [
             { name: 'glass noodles', amount: '200', unit: 'g', category: 'noodles' },
-            { name: 'shrimp', amount: '200', unit: 'g', category: 'protein', swaps: ['tofu'] }
+            { name: 'shrimp', amount: '200', unit: 'g', category: 'protein', swaps: ['tofu'] },
             { name: 'ground pork', amount: '100', unit: 'g', category: 'protein', optional: true },
-            { name: 'lime juice', amount: '4', unit: 'tbsp', category: 'acid' }
+            { name: 'lime juice', amount: '4', unit: 'tbsp', category: 'acid' },
             {
               name: 'fish sauce',
               amount: '3',
@@ -602,9 +602,9 @@ export const thai: Cuisine = {
               swaps: ['soy sauce']
             }
             { name: 'Thai chilies', amount: '4', unit: 'pieces', category: 'spice' },
-            { name: 'shallots', amount: '4', unit: 'whole', category: 'vegetable' }
+            { name: 'shallots', amount: '4', unit: 'whole', category: 'vegetable' },
             { name: 'mint leaves', amount: '1', unit: 'cup', category: 'herb' },
-            { name: 'cilantro', amount: '1/2', unit: 'cup', category: 'herb' }
+            { name: 'cilantro', amount: '1/2', unit: 'cup', category: 'herb' },
             { name: 'roasted peanuts', amount: '1/2', unit: 'cup', category: 'nuts' }
           ],
           substitutions: {
@@ -645,7 +645,7 @@ export const thai: Cuisine = {
           cuisine: 'Thai',
           ingredients: [
             { name: 'green papaya', amount: '300', unit: 'g', category: 'vegetable' },
-            { name: 'long beans', amount: '100', unit: 'g', category: 'vegetable' }
+            { name: 'long beans', amount: '100', unit: 'g', category: 'vegetable' },
             { name: 'cherry tomatoes', amount: '100', unit: 'g', category: 'vegetable' },
             {
               name: 'dried shrimp',
@@ -655,7 +655,7 @@ export const thai: Cuisine = {
               swaps: ['crushed toasted peanuts']
             }
             { name: 'lime', amount: '2', unit: 'whole', category: 'fruit' },
-            { name: 'palm sugar', amount: '2', unit: 'tbsp', category: 'sweetener' }
+            { name: 'palm sugar', amount: '2', unit: 'tbsp', category: 'sweetener' },
             {
               name: 'fish sauce',
               amount: '2',
@@ -664,7 +664,7 @@ export const thai: Cuisine = {
               swaps: ['soy sauce']
             }
             { name: 'Thai chilies', amount: '2', unit: 'pieces', category: 'spice' },
-            { name: 'garlic', amount: '3', unit: 'cloves', category: 'vegetable' }
+            { name: 'garlic', amount: '3', unit: 'cloves', category: 'vegetable' },
             { name: 'peanuts', amount: '1/4', unit: 'cup', category: 'nuts' }
           ],
           nutrition: {
@@ -700,11 +700,11 @@ export const thai: Cuisine = {
               swaps: ['braised mushrooms']
             }
             { name: 'jasmine rice', amount: '400', unit: 'g', category: 'grain' },
-            { name: 'star anise', amount: '3', unit: 'whole', category: 'spice' }
+            { name: 'star anise', amount: '3', unit: 'whole', category: 'spice' },
             { name: 'cinnamon', amount: '1', unit: 'stick', category: 'spice' },
-            { name: 'soy sauce', amount: '4', unit: 'tbsp', category: 'seasoning' }
+            { name: 'soy sauce', amount: '4', unit: 'tbsp', category: 'seasoning' },
             { name: 'pickled mustard greens', amount: '200', unit: 'g', category: 'vegetable' },
-            { name: 'garlic', amount: '8', unit: 'cloves', category: 'vegetable' }
+            { name: 'garlic', amount: '8', unit: 'cloves', category: 'vegetable' },
             { name: 'boiled eggs', amount: '4', unit: 'large', category: 'protein' }
           ],
           nutrition: {
@@ -738,11 +738,11 @@ export const thai: Cuisine = {
               swaps: ['tofu']
             }
             { name: 'coconut milk', amount: '800', unit: 'ml', category: 'liquid' },
-            { name: 'mushrooms', amount: '200', unit: 'g', category: 'vegetable' }
+            { name: 'mushrooms', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'galangal', amount: '4', unit: 'slices', category: 'spice' },
-            { name: 'lemongrass', amount: '2', unit: 'stalks', category: 'herb' }
+            { name: 'lemongrass', amount: '2', unit: 'stalks', category: 'herb' },
             { name: 'kaffir lime leaves', amount: '4', unit: 'pieces', category: 'herb' },
-            { name: 'Thai chilies', amount: '3', unit: 'pieces', category: 'spice' }
+            { name: 'Thai chilies', amount: '3', unit: 'pieces', category: 'spice' },
             { name: 'lime juice', amount: '3', unit: 'tbsp', category: 'acid' },
             {
               name: 'fish sauce',
@@ -781,7 +781,7 @@ export const thai: Cuisine = {
           cuisine: 'Thai',
           ingredients: [
             { name: 'rice noodles', amount: '200', unit: 'g', category: 'grain' },
-            { name: 'beef', amount: '200', unit: 'g', category: 'protein', swaps: ['mushrooms'] }
+            { name: 'beef', amount: '200', unit: 'g', category: 'protein', swaps: ['mushrooms'] },
             {
               name: 'pork blood',
               amount: '100',
@@ -790,9 +790,9 @@ export const thai: Cuisine = {
               swaps: ['dark soy sauce']
             }
             { name: 'morning glory', amount: '100', unit: 'g', category: 'vegetable' },
-            { name: 'bean sprouts', amount: '100', unit: 'g', category: 'vegetable' }
+            { name: 'bean sprouts', amount: '100', unit: 'g', category: 'vegetable' },
             { name: 'five spice powder', amount: '1', unit: 'tbsp', category: 'spice' },
-            { name: 'dark soy sauce', amount: '2', unit: 'tbsp', category: 'seasoning' }
+            { name: 'dark soy sauce', amount: '2', unit: 'tbsp', category: 'seasoning' },
             {
               name: 'crispy pork rinds',
               amount: '50',
@@ -840,9 +840,9 @@ export const thai: Cuisine = {
           ],
           ingredients: [
             { name: 'rice noodles', amount: '400', unit: 'g', category: 'grain' },
-            { name: 'tofu', amount: '200', unit: 'g', category: 'protein', swaps: ['shrimp'] }
+            { name: 'tofu', amount: '200', unit: 'g', category: 'protein', swaps: ['shrimp'] },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein' },
-            { name: 'tamarind paste', amount: '3', unit: 'tbsp', category: 'sauce' }
+            { name: 'tamarind paste', amount: '3', unit: 'tbsp', category: 'sauce' },
             { name: 'palm sugar', amount: '3', unit: 'tbsp', category: 'sweetener' },
             {
               name: 'fish sauce',
@@ -852,7 +852,7 @@ export const thai: Cuisine = {
               swaps: ['soy sauce']
             }
             { name: 'bean sprouts', amount: '200', unit: 'g', category: 'vegetable' },
-            { name: 'garlic chives', amount: '100', unit: 'g', category: 'vegetable' }
+            { name: 'garlic chives', amount: '100', unit: 'g', category: 'vegetable' },
             {
               name: 'crushed peanuts',
               amount: '1/2',
@@ -904,7 +904,7 @@ export const thai: Cuisine = {
               swaps: ['plant-based ground']
             }
             { name: 'holy basil', amount: '2', unit: 'cups', category: 'herb' },
-            { name: 'garlic', amount: '6', unit: 'cloves', category: 'vegetable' }
+            { name: 'garlic', amount: '6', unit: 'cloves', category: 'vegetable' },
             { name: 'Thai chilies', amount: '6', unit: 'pieces', category: 'spice' },
             {
               name: 'oyster sauce',
@@ -964,11 +964,11 @@ export const thai: Cuisine = {
               swaps: ['snapper', 'tilapia']
             }
             { name: 'lime juice', amount: '6', unit: 'tbsp', category: 'acid' },
-            { name: 'Thai chilies', amount: '6', unit: 'pieces', category: 'spice' }
+            { name: 'Thai chilies', amount: '6', unit: 'pieces', category: 'spice' },
             { name: 'garlic', amount: '6', unit: 'cloves', category: 'vegetable' },
-            { name: 'fish sauce', amount: '4', unit: 'tbsp', category: 'seasoning' }
+            { name: 'fish sauce', amount: '4', unit: 'tbsp', category: 'seasoning' },
             { name: 'cilantro', amount: '1', unit: 'cup', category: 'herb' },
-            { name: 'lemongrass', amount: '2', unit: 'stalks', category: 'herb' }
+            { name: 'lemongrass', amount: '2', unit: 'stalks', category: 'herb' },
             {
               name: 'chicken stock',
               amount: '2',
@@ -1025,11 +1025,11 @@ export const thai: Cuisine = {
           ],
           ingredients: [
             { name: 'shaved ice', amount: '4', unit: 'cups', category: 'ice' },
-            { name: 'red syrup', amount: '60', unit: 'ml', category: 'syrup' }
+            { name: 'red syrup', amount: '60', unit: 'ml', category: 'syrup' },
             { name: 'green syrup', amount: '60', unit: 'ml', category: 'syrup' },
-            { name: 'palm seeds', amount: '100', unit: 'g', category: 'fruit' }
+            { name: 'palm seeds', amount: '100', unit: 'g', category: 'fruit' },
             { name: 'red beans', amount: '100', unit: 'g', category: 'legume' },
-            { name: 'grass jelly', amount: '100', unit: 'g', category: 'jelly' }
+            { name: 'grass jelly', amount: '100', unit: 'g', category: 'jelly' },
             { name: 'sweet corn', amount: '100', unit: 'g', category: 'vegetable' },
             { name: 'coconut milk', amount: '200', unit: 'ml', category: 'liquid' }
           ],
@@ -1070,7 +1070,7 @@ export const thai: Cuisine = {
           cuisine: 'Thai',
           ingredients: [
             { name: 'glass noodles', amount: '200', unit: 'g', category: 'grain' },
-            { name: 'shrimp', amount: '200', unit: 'g', category: 'protein', swaps: ['tofu'] }
+            { name: 'shrimp', amount: '200', unit: 'g', category: 'protein', swaps: ['tofu'] },
             { name: 'squid', amount: '200', unit: 'g', category: 'protein', swaps: ['mushrooms'] },
             {
               name: 'ground pork',
@@ -1080,9 +1080,9 @@ export const thai: Cuisine = {
               swaps: ['crumbled tempeh']
             }
             { name: 'tomatoes', amount: '2', unit: 'medium', category: 'vegetable' },
-            { name: 'onion', amount: '1', unit: 'medium', category: 'vegetable' }
+            { name: 'onion', amount: '1', unit: 'medium', category: 'vegetable' },
             { name: 'celery', amount: '2', unit: 'stalks', category: 'vegetable' },
-            { name: 'lime juice', amount: '4', unit: 'tbsp', category: 'acid' }
+            { name: 'lime juice', amount: '4', unit: 'tbsp', category: 'acid' },
             {
               name: 'fish sauce',
               amount: '3',
@@ -1135,13 +1135,13 @@ export const thai: Cuisine = {
               swaps: ['jackfruit', 'seitan']
             }
             { name: 'massaman curry paste', amount: '4', unit: 'tbsp', category: 'seasoning' },
-            { name: 'coconut milk', amount: '800', unit: 'ml', category: 'liquid' }
+            { name: 'coconut milk', amount: '800', unit: 'ml', category: 'liquid' },
             { name: 'potatoes', amount: '400', unit: 'g', category: 'vegetable' },
-            { name: 'onions', amount: '2', unit: 'medium', category: 'vegetable' }
+            { name: 'onions', amount: '2', unit: 'medium', category: 'vegetable' },
             { name: 'peanuts', amount: '100', unit: 'g', category: 'nuts' },
-            { name: 'tamarind paste', amount: '2', unit: 'tbsp', category: 'seasoning' }
+            { name: 'tamarind paste', amount: '2', unit: 'tbsp', category: 'seasoning' },
             { name: 'palm sugar', amount: '3', unit: 'tbsp', category: 'sweetener' },
-            { name: 'cardamom pods', amount: '4', unit: 'pieces', category: 'spice' }
+            { name: 'cardamom pods', amount: '4', unit: 'pieces', category: 'spice' },
             { name: 'cinnamon stick', amount: '1', unit: 'piece', category: 'spice' }
           ],
           substitutions: {
@@ -1197,9 +1197,9 @@ export const thai: Cuisine = {
               swaps: ['king oyster mushrooms']
             }
             { name: 'straw mushrooms', amount: '200', unit: 'g', category: 'vegetable' },
-            { name: 'lemongrass', amount: '3', unit: 'stalks', category: 'herb' }
+            { name: 'lemongrass', amount: '3', unit: 'stalks', category: 'herb' },
             { name: 'galangal', amount: '6', unit: 'slices', category: 'spice' },
-            { name: 'kaffir lime leaves', amount: '6', unit: 'pieces', category: 'herb' }
+            { name: 'kaffir lime leaves', amount: '6', unit: 'pieces', category: 'herb' },
             { name: 'Thai chilies', amount: '8', unit: 'pieces', category: 'spice' },
             {
               name: 'evaporated milk',
@@ -1209,7 +1209,7 @@ export const thai: Cuisine = {
               swaps: ['coconut milk']
             }
             { name: 'lime juice', amount: '4', unit: 'tbsp', category: 'acid' },
-            { name: 'nam prik pao', amount: '3', unit: 'tbsp', category: 'seasoning' }
+            { name: 'nam prik pao', amount: '3', unit: 'tbsp', category: 'seasoning' },
             { name: 'cilantro', amount: '1/2', unit: 'cup', category: 'herb' }
           ],
           substitutions: {
@@ -1266,11 +1266,11 @@ export const thai: Cuisine = {
               swaps: ['seitan']
             }
             { name: 'panang curry paste', amount: '4', unit: 'tbsp', category: 'seasoning' },
-            { name: 'coconut cream', amount: '400', unit: 'ml', category: 'liquid' }
+            { name: 'coconut cream', amount: '400', unit: 'ml', category: 'liquid' },
             { name: 'coconut milk', amount: '200', unit: 'ml', category: 'liquid' },
-            { name: 'kaffir lime leaves', amount: '6', unit: 'pieces', category: 'herb' }
+            { name: 'kaffir lime leaves', amount: '6', unit: 'pieces', category: 'herb' },
             { name: 'Thai basil', amount: '1', unit: 'cup', category: 'herb' },
-            { name: 'palm sugar', amount: '2', unit: 'tbsp', category: 'sweetener' }
+            { name: 'palm sugar', amount: '2', unit: 'tbsp', category: 'sweetener' },
             {
               name: 'fish sauce',
               amount: '3',
@@ -1340,11 +1340,11 @@ export const thai: Cuisine = {
               swaps: ['tofu']
             }
             { name: 'coconut milk', amount: '800', unit: 'ml', category: 'liquid' },
-            { name: 'khao soi curry paste', amount: '5', unit: 'tbsp', category: 'seasoning' }
+            { name: 'khao soi curry paste', amount: '5', unit: 'tbsp', category: 'seasoning' },
             { name: 'crispy noodles', amount: '100', unit: 'g', category: 'garnish' },
-            { name: 'shallots', amount: '4', unit: 'whole', category: 'vegetable' }
+            { name: 'shallots', amount: '4', unit: 'whole', category: 'vegetable' },
             { name: 'pickled mustard greens', amount: '100', unit: 'g', category: 'vegetable' },
-            { name: 'lime', amount: '2', unit: 'whole', category: 'fruit' }
+            { name: 'lime', amount: '2', unit: 'whole', category: 'fruit' },
             { name: 'chili oil', amount: '4', unit: 'tbsp', category: 'oil' }
           ],
           substitutions: {
@@ -1404,7 +1404,7 @@ export const thai: Cuisine = {
           ],
           ingredients: [
             { name: 'sticky rice', amount: '2', unit: 'cups', category: 'grain' },
-            { name: 'ripe mangoes', amount: '2', unit: 'whole', category: 'fruit' }
+            { name: 'ripe mangoes', amount: '2', unit: 'whole', category: 'fruit' },
             { name: 'coconut milk', amount: '400', unit: 'ml', category: 'liquid' },
             {
               name: 'palm sugar',
@@ -1469,7 +1469,7 @@ export const thai: Cuisine = {
           ],
           ingredients: [
             { name: 'water chestnuts', amount: '200', unit: 'g', category: 'vegetable' },
-            { name: 'tapioca flour', amount: '100', unit: 'g', category: 'starch' }
+            { name: 'tapioca flour', amount: '100', unit: 'g', category: 'starch' },
             {
               name: 'red food coloring',
               amount: '1',
@@ -1478,7 +1478,7 @@ export const thai: Cuisine = {
               optional: true
 }
             { name: 'coconut milk', amount: '400', unit: 'ml', category: 'liquid' },
-            { name: 'palm sugar', amount: '100', unit: 'g', category: 'sweetener' }
+            { name: 'palm sugar', amount: '100', unit: 'g', category: 'sweetener' },
             { name: 'jackfruit', amount: '100', unit: 'g', category: 'fruit', optional: true },
             { name: 'crushed ice', amount: '2', unit: 'cups', category: 'ice' }
           ],
@@ -1537,7 +1537,7 @@ export const thai: Cuisine = {
               optional: true
 }
             { name: 'coconut milk', amount: '400', unit: 'ml', category: 'liquid' },
-            { name: 'palm sugar', amount: '100', unit: 'g', category: 'sweetener' }
+            { name: 'palm sugar', amount: '100', unit: 'g', category: 'sweetener' },
             { name: 'salt', amount: '1/4', unit: 'tsp', category: 'seasoning' },
             { name: 'ginger', amount: '2', unit: 'slices', category: 'spice', optional: true }
           ],
@@ -1587,9 +1587,9 @@ export const thai: Cuisine = {
           ],
           ingredients: [
             { name: 'kabocha pumpkin', amount: '1', unit: 'medium', category: 'vegetable' },
-            { name: 'eggs', amount: '4', unit: 'large', category: 'protein' }
+            { name: 'eggs', amount: '4', unit: 'large', category: 'protein' },
             { name: 'coconut milk', amount: '400', unit: 'ml', category: 'liquid' },
-            { name: 'palm sugar', amount: '100', unit: 'g', category: 'sweetener' }
+            { name: 'palm sugar', amount: '100', unit: 'g', category: 'sweetener' },
             {
               name: 'pandan leaves',
               amount: '2',
@@ -1647,11 +1647,11 @@ export const thai: Cuisine = {
           ],
           ingredients: [
             { name: 'shaved ice', amount: '4', unit: 'cups', category: 'ice' },
-            { name: 'red syrup', amount: '60', unit: 'ml', category: 'syrup' }
+            { name: 'red syrup', amount: '60', unit: 'ml', category: 'syrup' },
             { name: 'green syrup', amount: '60', unit: 'ml', category: 'syrup' },
-            { name: 'palm seeds', amount: '100', unit: 'g', category: 'fruit' }
+            { name: 'palm seeds', amount: '100', unit: 'g', category: 'fruit' },
             { name: 'red beans', amount: '100', unit: 'g', category: 'legume' },
-            { name: 'grass jelly', amount: '100', unit: 'g', category: 'jelly' }
+            { name: 'grass jelly', amount: '100', unit: 'g', category: 'jelly' },
             { name: 'sweet corn', amount: '100', unit: 'g', category: 'vegetable' },
             { name: 'coconut milk', amount: '200', unit: 'ml', category: 'liquid' }
           ],
@@ -1706,9 +1706,9 @@ export const thai: Cuisine = {
           ],
           ingredients: [
             { name: 'ripe bananas', amount: '8', unit: 'medium', category: 'fruit' },
-            { name: 'rice flour', amount: '200', unit: 'g', category: 'flour' }
+            { name: 'rice flour', amount: '200', unit: 'g', category: 'flour' },
             { name: 'coconut milk', amount: '200', unit: 'ml', category: 'liquid' },
-            { name: 'sesame seeds', amount: '2', unit: 'tbsp', category: 'seed' }
+            { name: 'sesame seeds', amount: '2', unit: 'tbsp', category: 'seed' },
             { name: 'sugar', amount: '2', unit: 'tbsp', category: 'sweetener' },
             { name: 'salt', amount: '1/4', unit: 'tsp', category: 'seasoning' }
           ],

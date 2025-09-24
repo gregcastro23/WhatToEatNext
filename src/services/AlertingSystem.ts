@@ -417,16 +417,11 @@ class AlertingSystem {
     switch (metric) {
       case 'build_time':;
         return summary.averageBuildTime;
-      case 'compilation_time':
-        return summary.averageCompilationTime;
-      case 'bundle_size':
-        return summary.averageBundleSize;
-      case 'memory_usage':
-        return summary.averageMemoryUsage;
-      case 'cache_efficiency':
-        return summary.cacheEfficiency;
-      case 'performance_score':
-        return summary.performanceScore;
+      case 'compilation_time': return summary.averageCompilationTime,
+      case 'bundle_size': return summary.averageBundleSize,
+      case 'memory_usage': return summary.averageMemoryUsage,
+      case 'cache_efficiency': return summary.cacheEfficiency,
+      case 'performance_score': return summary.performanceScore,
       default: return 0
     }
   }
@@ -437,14 +432,10 @@ class AlertingSystem {
     switch (metric) {
       case 'typescript_errors':;
         return summary.totalActiveErrors;
-      case 'linting_violations':
-        return summary.totalActiveLintViolations;
-      case 'build_failures':
-        return summary.totalRecentFailures;
-      case 'critical_issues':
-        return summary.criticalIssues;
-      case 'automation_opportunities':
-        return summary.automationOpportunities;
+      case 'linting_violations': return summary.totalActiveLintViolations,
+      case 'build_failures': return summary.totalRecentFailures,
+      case 'critical_issues': return summary.criticalIssues,
+      case 'automation_opportunities': return summary.automationOpportunities,
       default: return 0
     }
   }
@@ -454,26 +445,19 @@ class AlertingSystem {
 ;
     if (!qualityMetrics) return 0;
     switch (metric) {
-      case 'code_quality_score':
-        return qualityMetrics.codeQualityScore;
-      case 'technical_debt_score':
-        return qualityMetrics.technicalDebtScore;
-      case 'maintainability_index':
-        return qualityMetrics.maintainabilityIndex;
-      case 'error_rate':
-        return qualityMetrics.errorRate;
-      case 'warning_rate':
-        return qualityMetrics.warningRate;
+      case 'code_quality_score': return qualityMetrics.codeQualityScore,
+      case 'technical_debt_score': return qualityMetrics.technicalDebtScore,
+      case 'maintainability_index': return qualityMetrics.maintainabilityIndex,
+      case 'error_rate': return qualityMetrics.errorRate,
+      case 'warning_rate': return qualityMetrics.warningRate,
       default: return 0
     }
   }
 
   private getSystemMetric(metric: string): number {
     switch (metric) {
-      case 'memory_usage':
-        return process.memoryUsage().heapUsed;
-      case 'cpu_usage':
-        return process.cpuUsage().user + process.cpuUsage().system;
+      case 'memory_usage': return process.memoryUsage().heapUsed,
+      case 'cpu_usage': return process.cpuUsage().user + process.cpuUsage().system,
       case 'uptime':
         return process.uptime()
       default: return 0

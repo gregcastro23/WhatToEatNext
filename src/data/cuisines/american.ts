@@ -32,7 +32,7 @@ export const american: Cuisine = {
               element: 'Earth'
 }
             { name: 'buttermilk', amount: '2', unit: 'cups', category: 'dairy', element: 'Water' },
-            { name: 'eggs', amount: '2', unit: 'large', category: 'protein', element: 'Water' }
+            { name: 'eggs', amount: '2', unit: 'large', category: 'protein', element: 'Water' },
             { name: 'butter', amount: '4', unit: 'tbsp', category: 'fat', element: 'Earth' },
             {
               name: 'maple syrup',
@@ -110,7 +110,7 @@ export const american: Cuisine = {
               element: 'Earth'
 }
             { name: 'avocado', amount: '1', unit: 'medium', category: 'fruit', element: 'Earth' },
-            { name: 'eggs', amount: '2', unit: 'large', category: 'protein', element: 'Water' }
+            { name: 'eggs', amount: '2', unit: 'large', category: 'protein', element: 'Water' },
             { name: 'lemon juice', amount: '1', unit: 'tsp', category: 'acid', element: 'Water' },
             {
               name: 'red pepper flakes',
@@ -189,7 +189,7 @@ export const american: Cuisine = {
               element: 'Earth'
 }
             { name: 'buttermilk', amount: '1', unit: 'cup', category: 'dairy', element: 'Water' },
-            { name: 'butter', amount: '1/2', unit: 'cup', category: 'fat', element: 'Earth' }
+            { name: 'butter', amount: '1/2', unit: 'cup', category: 'fat', element: 'Earth' },
             {
               name: 'pork sausage',
               amount: '1',
@@ -312,9 +312,9 @@ export const american: Cuisine = {
               element: 'Water'
 }
             { name: 'banana', amount: '1', unit: 'medium', category: 'fruit', element: 'Earth' },
-            { name: 'greek yogurt', amount: '1', unit: 'cup', category: 'dairy', element: 'Water' }
+            { name: 'greek yogurt', amount: '1', unit: 'cup', category: 'dairy', element: 'Water' },
             { name: 'honey', amount: '1', unit: 'tbsp', category: 'sweetener', element: 'Water' },
-            { name: 'granola', amount: '1/4', unit: 'cup', category: 'grain', element: 'Earth' }
+            { name: 'granola', amount: '1/4', unit: 'cup', category: 'grain', element: 'Earth' },
             { name: 'chia seeds', amount: '1', unit: 'tbsp', category: 'seed', element: 'Earth' }
           ],
           nutrition: {
@@ -365,7 +365,7 @@ export const american: Cuisine = {
               element: 'Earth'
 }
             { name: 'cinnamon', amount: '1', unit: 'tsp', category: 'spice', element: 'Fire' },
-            { name: 'nutmeg', amount: '1/4', unit: 'tsp', category: 'spice', element: 'Fire' }
+            { name: 'nutmeg', amount: '1/4', unit: 'tsp', category: 'spice', element: 'Fire' },
             {
               name: 'maple syrup',
               amount: '2',
@@ -416,9 +416,9 @@ export const american: Cuisine = {
               element: 'Earth'
 }
             { name: 'cranberries', amount: '1', unit: 'cup', category: 'fruit', element: 'Water' },
-            { name: 'orange zest', amount: '2', unit: 'tbsp', category: 'fruit', element: 'Fire' }
+            { name: 'orange zest', amount: '2', unit: 'tbsp', category: 'fruit', element: 'Fire' },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein', element: 'Water' },
-            { name: 'butter', amount: '1/2', unit: 'cup', category: 'fat', element: 'Earth' }
+            { name: 'butter', amount: '1/2', unit: 'cup', category: 'fat', element: 'Earth' },
             { name: 'walnuts', amount: '1/2', unit: 'cup', category: 'nut', element: 'Earth' }
           ],
           nutrition: {
@@ -663,7 +663,7 @@ export const american: Cuisine = {
           ],
           ingredients: [
             { name: 'clams', amount: '2', unit: 'pounds', category: 'seafood', element: 'Water' },
-            { name: 'bacon', amount: '4', unit: 'slices', category: 'protein', element: 'Fire' }
+            { name: 'bacon', amount: '4', unit: 'slices', category: 'protein', element: 'Fire' },
             {
               name: 'potatoes',
               amount: '2',
@@ -680,7 +680,7 @@ export const american: Cuisine = {
               element: 'Water'
 }
             { name: 'heavy cream', amount: '1', unit: 'cup', category: 'dairy', element: 'Water' },
-            { name: 'clam juice', amount: '2', unit: 'cups', category: 'broth', element: 'Water' }
+            { name: 'clam juice', amount: '2', unit: 'cups', category: 'broth', element: 'Water' },
             { name: 'thyme', amount: '1', unit: 'tsp', category: 'herb', element: 'Air' }
           ],
           substitutions: {
@@ -737,7 +737,7 @@ export const american: Cuisine = {
               element: 'Air'
 }
             { name: 'goat cheese', amount: '4', unit: 'oz', category: 'dairy', element: 'Earth' },
-            { name: 'eggs', amount: '2', unit: 'large', category: 'protein', element: 'Water' }
+            { name: 'eggs', amount: '2', unit: 'large', category: 'protein', element: 'Water' },
             { name: 'lemon zest', amount: '1', unit: 'tsp', category: 'citrus', element: 'Fire' },
             { name: 'fresh thyme', amount: '1', unit: 'tbsp', category: 'herb', element: 'Air' }
           ],
@@ -898,7 +898,7 @@ export const american: Cuisine = {
               element: 'Earth'
 }
             { name: 'bacon', amount: '6', unit: 'slices', category: 'protein', element: 'Fire' },
-            { name: 'milk', amount: '2', unit: 'cups', category: 'dairy', element: 'Water' }
+            { name: 'milk', amount: '2', unit: 'cups', category: 'dairy', element: 'Water' },
             {
               name: 'cheddar cheese',
               amount: '1',
@@ -961,7 +961,7 @@ export const american: Cuisine = {
           ],
           ingredients: [
             { name: 'pork ribs', amount: '2', unit: 'racks', category: 'protein', element: 'Fire' },
-            { name: 'BBQ sauce', amount: '2', unit: 'cups', category: 'sauce', element: 'Fire' }
+            { name: 'BBQ sauce', amount: '2', unit: 'cups', category: 'sauce', element: 'Fire' },
             {
               name: 'brown sugar',
               amount: '1/4',
@@ -1040,9 +1040,9 @@ export const american: Cuisine = {
               element: 'Fire'
 }
             { name: 'breadcrumbs', amount: '1', unit: 'cup', category: 'grain', element: 'Earth' },
-            { name: 'eggs', amount: '2', unit: 'large', category: 'protein', element: 'Water' }
+            { name: 'eggs', amount: '2', unit: 'large', category: 'protein', element: 'Water' },
             { name: 'onion', amount: '1', unit: 'medium', category: 'vegetable', element: 'Fire' },
-            { name: 'ketchup', amount: '1/2', unit: 'cup', category: 'sauce', element: 'Fire' }
+            { name: 'ketchup', amount: '1/2', unit: 'cup', category: 'sauce', element: 'Fire' },
             {
               name: 'russet potatoes',
               amount: '3',
@@ -1137,7 +1137,7 @@ export const american: Cuisine = {
               element: 'Fire'
 }
             { name: 'vegetable oil', amount: '6', unit: 'cups', category: 'oil', element: 'Fire' },
-            { name: 'cold butter', amount: '8', unit: 'tbsp', category: 'fat', element: 'Earth' }
+            { name: 'cold butter', amount: '8', unit: 'tbsp', category: 'fat', element: 'Earth' },
             { name: 'honey', amount: '1/4', unit: 'cup', category: 'sweetener', element: 'Water' }
           ],
           substitutions: {
@@ -1341,7 +1341,7 @@ export const american: Cuisine = {
               element: 'Earth'
 }
             { name: 'onions', amount: '2', unit: 'medium', category: 'vegetable', element: 'Fire' },
-            { name: 'red wine', amount: '1', unit: 'cup', category: 'alcohol', element: 'Water' }
+            { name: 'red wine', amount: '1', unit: 'cup', category: 'alcohol', element: 'Water' },
             { name: 'fresh thyme', amount: '1', unit: 'bunch', category: 'herb', element: 'Air' }
           ],
           nutrition: {
@@ -1393,7 +1393,7 @@ export const american: Cuisine = {
               element: 'Earth'
 }
             { name: 'butter', amount: '1/2', unit: 'pound', category: 'fat', element: 'Earth' },
-            { name: 'fresh sage', amount: '2', unit: 'tbsp', category: 'herb', element: 'Air' }
+            { name: 'fresh sage', amount: '2', unit: 'tbsp', category: 'herb', element: 'Air' },
             {
               name: 'turkey stock',
               amount: '4',
@@ -1455,9 +1455,9 @@ export const american: Cuisine = {
               element: 'Earth'
 }
             { name: 'butter', amount: '1', unit: 'cup', category: 'fat', element: 'Earth' },
-            { name: 'apples', amount: '6', unit: 'large', category: 'fruit', element: 'Water' }
+            { name: 'apples', amount: '6', unit: 'large', category: 'fruit', element: 'Water' },
             { name: 'cinnamon', amount: '1', unit: 'tbsp', category: 'spice', element: 'Fire' },
-            { name: 'sugar', amount: '3/4', unit: 'cup', category: 'sweetener', element: 'Earth' }
+            { name: 'sugar', amount: '3/4', unit: 'cup', category: 'sweetener', element: 'Earth' },
             { name: 'lemon juice', amount: '1', unit: 'tbsp', category: 'acid', element: 'Water' }
           ],
           substitutions: {
@@ -1610,7 +1610,7 @@ export const american: Cuisine = {
           ],
           ingredients: [
             { name: 'cream cheese', amount: '32', unit: 'oz', category: 'dairy', element: 'Earth' },
-            { name: 'sugar', amount: '1.5', unit: 'cups', category: 'sweetener', element: 'Earth' }
+            { name: 'sugar', amount: '1.5', unit: 'cups', category: 'sweetener', element: 'Earth' },
             { name: 'eggs', amount: '4', unit: 'large', category: 'protein', element: 'Water' },
             {
               name: 'graham crackers',
@@ -1688,7 +1688,7 @@ export const american: Cuisine = {
               element: 'Water'
 }
             { name: 'heavy cream', amount: '2', unit: 'cups', category: 'dairy', element: 'Water' },
-            { name: 'sugar', amount: '1/2', unit: 'cup', category: 'sweetener', element: 'Earth' }
+            { name: 'sugar', amount: '1/2', unit: 'cup', category: 'sweetener', element: 'Earth' },
             { name: 'butter', amount: '1/2', unit: 'cup', category: 'fat', element: 'Earth' },
             { name: 'lemon zest', amount: '1', unit: 'tsp', category: 'citrus', element: 'Fire' }
           ],
@@ -1740,7 +1740,7 @@ export const american: Cuisine = {
               element: 'Water'
 }
             { name: 'marshmallows', amount: '3', unit: 'cups', category: 'candy', element: 'Air' },
-            { name: 'butter', amount: '6', unit: 'tbsp', category: 'fat', element: 'Earth' }
+            { name: 'butter', amount: '6', unit: 'tbsp', category: 'fat', element: 'Earth' },
             {
               name: 'chocolate sauce',
               amount: '1/4',
@@ -1805,7 +1805,7 @@ export const american: Cuisine = {
               element: 'Water'
 }
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein', element: 'Water' },
-            { name: 'cinnamon', amount: '2', unit: 'tsp', category: 'spice', element: 'Fire' }
+            { name: 'cinnamon', amount: '2', unit: 'tsp', category: 'spice', element: 'Fire' },
             { name: 'nutmeg', amount: '1/2', unit: 'tsp', category: 'spice', element: 'Fire' }
           ],
           nutrition: {
@@ -1856,7 +1856,7 @@ export const american: Cuisine = {
               element: 'Earth'
 }
             { name: 'ginger', amount: '1', unit: 'tbsp', category: 'spice', element: 'Fire' },
-            { name: 'cinnamon', amount: '1', unit: 'tbsp', category: 'spice', element: 'Fire' }
+            { name: 'cinnamon', amount: '1', unit: 'tbsp', category: 'spice', element: 'Fire' },
             { name: 'butter', amount: '3/4', unit: 'cup', category: 'fat', element: 'Earth' },
             {
               name: 'brown sugar',

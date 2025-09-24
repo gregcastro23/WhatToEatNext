@@ -149,7 +149,7 @@ export const chinese = {
           cookingMethods: ['simmering', 'slow-cooking'],
           ingredients: [
             { name: 'rice', amount: '1', unit: 'cup', category: 'grain' },
-            { name: 'Water', amount: '10', unit: 'cups', category: 'liquid' }
+            { name: 'Water', amount: '10', unit: 'cups', category: 'liquid' },
             { name: 'ginger', amount: '3', unit: 'slices', category: 'aromatic' },
             {
               name: 'scallions',
@@ -202,9 +202,9 @@ export const chinese = {
           cookingMethods: ['deep-frying', 'dough preparation'],
           ingredients: [
             { name: 'all-purpose flour', amount: '2', unit: 'cups', category: 'grain' },
-            { name: 'baking powder', amount: '1', unit: 'tsp', category: 'leavening' }
+            { name: 'baking powder', amount: '1', unit: 'tsp', category: 'leavening' },
             { name: 'baking soda', amount: '1/2', unit: 'tsp', category: 'leavening' },
-            { name: 'salt', amount: '1/2', unit: 'tsp', category: 'seasoning' }
+            { name: 'salt', amount: '1/2', unit: 'tsp', category: 'seasoning' },
             {
               name: 'vegetable oil',
               amount: '3',
@@ -248,9 +248,9 @@ export const chinese = {
           cookingMethods: ['blending', 'straining', 'simmering'],
           ingredients: [
             { name: 'soybeans', amount: '1', unit: 'cup', category: 'legume' },
-            { name: 'Water', amount: '8', unit: 'cups', category: 'liquid' }
+            { name: 'Water', amount: '8', unit: 'cups', category: 'liquid' },
             { name: 'sugar', amount: '2', unit: 'tbsp', category: 'sweetener', optional: true },
-            { name: 'salt', amount: '1/2', unit: 'tsp', category: 'seasoning', optional: true }
+            { name: 'salt', amount: '1/2', unit: 'tsp', category: 'seasoning', optional: true },
             {
               name: 'youtiao',
               amount: '2',
@@ -316,7 +316,7 @@ export const chinese = {
               swaps: ['ground chicken', 'firm tofu']
             }
             { name: 'Sichuan peppercorns', amount: '2', unit: 'tsp', category: 'spice' },
-            { name: 'chili oil', amount: '3', unit: 'tbsp', category: 'oil' }
+            { name: 'chili oil', amount: '3', unit: 'tbsp', category: 'oil' },
             {
               name: 'sui mi ya cai',
               amount: '2',
@@ -376,7 +376,7 @@ export const chinese = {
               swaps: ['beef', 'mushrooms']
             }
             { name: 'doubanjiang', amount: '2', unit: 'tbsp', category: 'sauce' },
-            { name: 'Sichuan peppercorns', amount: '1', unit: 'tbsp', category: 'spice' }
+            { name: 'Sichuan peppercorns', amount: '1', unit: 'tbsp', category: 'spice' },
             { name: 'chili oil', amount: '2', unit: 'tbsp', category: 'oil' },
             {
               name: 'fermented black beans',
@@ -428,7 +428,7 @@ export const chinese = {
               category: 'dumpling'
 }
             { name: 'siu mai (pork dumplings)', amount: '4', unit: 'pieces', category: 'dumpling' },
-            { name: 'char siu bao', amount: '2', unit: 'pieces', category: 'bun' }
+            { name: 'char siu bao', amount: '2', unit: 'pieces', category: 'bun' },
             {
               name: 'cheong fun (rice noodle rolls)',
               amount: '1',
@@ -481,11 +481,11 @@ export const chinese = {
           cookingMethods: ['air-drying', 'roasting', 'glazing'],
           ingredients: [
             { name: 'whole duck', amount: '1', unit: '3-4 pound duck', category: 'protein' },
-            { name: 'maltose', amount: '2', unit: 'tbsp', category: 'sweetener', swaps: ['honey'] }
+            { name: 'maltose', amount: '2', unit: 'tbsp', category: 'sweetener', swaps: ['honey'] },
             { name: 'five-spice powder', amount: '2', unit: 'tsp', category: 'spice' },
-            { name: 'thin pancakes', amount: '20', unit: 'pieces', category: 'bread' }
+            { name: 'thin pancakes', amount: '20', unit: 'pieces', category: 'bread' },
             { name: 'hoisin sauce', amount: '1/4', unit: 'cup', category: 'sauce' },
-            { name: 'scallions', amount: '6', unit: 'stalks', category: 'vegetable' }
+            { name: 'scallions', amount: '6', unit: 'stalks', category: 'vegetable' },
             { name: 'cucumber', amount: '1', unit: 'medium', category: 'vegetable' }
           ],
           substitutions: {
@@ -531,11 +531,11 @@ export const chinese = {
               swaps: ['tofu', 'tempeh']
             }
             { name: 'dried red chilies', amount: '10', unit: 'pieces', category: 'spice' },
-            { name: 'Sichuan peppercorns', amount: '1', unit: 'tsp', category: 'spice' }
+            { name: 'Sichuan peppercorns', amount: '1', unit: 'tsp', category: 'spice' },
             { name: 'peanuts', amount: '1/2', unit: 'cup', category: 'nut', swaps: ['cashews'] },
-            { name: 'soy sauce', amount: '2', unit: 'tbsp', category: 'sauce' }
+            { name: 'soy sauce', amount: '2', unit: 'tbsp', category: 'sauce' },
             { name: 'rice vinegar', amount: '1', unit: 'tbsp', category: 'acid' },
-            { name: 'bell peppers', amount: '1', unit: 'large', category: 'vegetable' }
+            { name: 'bell peppers', amount: '1', unit: 'large', category: 'vegetable' },
             { name: 'scallions', amount: '4', unit: 'stalks', category: 'vegetable' }
           ],
           substitutions: {
@@ -581,9 +581,9 @@ export const chinese = {
               swaps: ['ground chicken']
             }
             { name: 'pork skin gelatin', amount: '200', unit: 'g', category: 'protein' },
-            { name: 'dumpling wrappers', amount: '24', unit: 'pieces', category: 'dough' }
+            { name: 'dumpling wrappers', amount: '24', unit: 'pieces', category: 'dough' },
             { name: 'ginger', amount: '2', unit: 'tbsp', category: 'aromatic' },
-            { name: 'scallions', amount: '3', unit: 'stalks', category: 'vegetable' }
+            { name: 'scallions', amount: '3', unit: 'stalks', category: 'vegetable' },
             {
               name: 'Shaoxing wine',
               amount: '1',
@@ -637,9 +637,9 @@ export const chinese = {
           cookingMethods: ['baking', 'pastry-making'],
           ingredients: [
             { name: 'pastry dough', amount: '1', unit: 'recipe', category: 'dough' },
-            { name: 'eggs', amount: '4', unit: 'large', category: 'protein' }
+            { name: 'eggs', amount: '4', unit: 'large', category: 'protein' },
             { name: 'evaporated milk', amount: '1', unit: 'cup', category: 'dairy' },
-            { name: 'sugar', amount: '100', unit: 'g', category: 'sweetener' }
+            { name: 'sugar', amount: '100', unit: 'g', category: 'sweetener' },
             { name: 'vanilla extract', amount: '1', unit: 'tsp', category: 'flavoring' }
           ],
           substitutions: {
@@ -677,7 +677,7 @@ export const chinese = {
           cookingMethods: ['steaming', 'layering'],
           ingredients: [
             { name: 'glutinous rice', amount: '2', unit: 'cups', category: 'grain' },
-            { name: 'red bean paste', amount: '1', unit: 'cup', category: 'filling' }
+            { name: 'red bean paste', amount: '1', unit: 'cup', category: 'filling' },
             {
               name: 'dried fruits',
               amount: '1',
@@ -686,7 +686,7 @@ export const chinese = {
               notes: 'various types'
 }
             { name: 'nuts', amount: '1/2', unit: 'cup', category: 'nut', notes: 'various types' },
-            { name: 'sugar', amount: '1/4', unit: 'cup', category: 'sweetener' }
+            { name: 'sugar', amount: '1/4', unit: 'cup', category: 'sweetener' },
             {
               name: 'lard',
               amount: '2',
@@ -746,7 +746,7 @@ export const chinese = {
               swaps: ['tapioca pearls']
             }
             { name: 'coconut milk', amount: '1', unit: 'cup', category: 'liquid' },
-            { name: 'sugar', amount: '3', unit: 'tbsp', category: 'sweetener' }
+            { name: 'sugar', amount: '3', unit: 'tbsp', category: 'sweetener' },
             {
               name: 'condensed milk',
               amount: '2',

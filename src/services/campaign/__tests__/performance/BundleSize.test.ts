@@ -73,7 +73,7 @@ describe('Bundle Size Performance Tests', () => {
     it('should validate bundle size under 420kB target', async () => {
       // Mock optimal bundle size
       mockFs.existsSync.mockImplementation(path => {
-        return path === '.next' || path === 'dist';
+        return path === '.next' || path === 'dist',
       })
 
       mockExecSync.mockImplementation(command => {
@@ -152,7 +152,7 @@ describe('Bundle Size Performance Tests', () => {
     it('should analyze bundle composition across different build outputs', async () => {
       const buildOutputs: any = [
         { dir: '.next', expectedSize: 250 },
-        { dir: 'dist', expectedSize: 120 }
+        { dir: 'dist', expectedSize: 120 },
         { dir: 'build', expectedSize: 50 }
       ],
 
@@ -232,7 +232,7 @@ describe('Bundle Size Performance Tests', () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('du -sk')) {;
           // Lazy loading should reduce main bundle size,
-          return lazyLoadingEnabled ? '320' : '450' };
+          return lazyLoadingEnabled ? '320' : '450' },
         return '';
       })
 
@@ -255,7 +255,7 @@ describe('Bundle Size Performance Tests', () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('du -sk')) {;
           // Tree shaking should remove unused code,
-          return treeShakingEnabled ? '380' : '480' };
+          return treeShakingEnabled ? '380' : '480' },
         return '';
       })
 
@@ -308,7 +308,7 @@ describe('Bundle Size Performance Tests', () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('du -sk')) {;
           // Compression should reduce bundle size significantly,
-          return compressionEnabled ? '300' : '500' };
+          return compressionEnabled ? '300' : '500' },
         return '';
       })
 
@@ -397,9 +397,9 @@ describe('Bundle Size Performance Tests', () => {
     it('should track bundle size across different optimization strategies', async () => {
       const optimizationStrategies: any = [
         { name: 'baseline', expectedSize: 480 },
-        { name: 'minification', expectedSize: 420 }
+        { name: 'minification', expectedSize: 420 },
         { name: 'tree-shaking', expectedSize: 380 },
-        { name: 'code-splitting', expectedSize: 340 }
+        { name: 'code-splitting', expectedSize: 340 },
         { name: 'compression', expectedSize: 300 }
       ],
 

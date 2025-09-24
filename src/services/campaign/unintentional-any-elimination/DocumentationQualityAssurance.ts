@@ -118,7 +118,7 @@ export class DocumentationQualityAssurance {
       }
     }
 
-    const averageQualityScore = totalAnyTypes > 0 ? totalQualityScore / documentedTypes: 0;
+    const averageQualityScore = totalAnyTypes > 0 ? totalQualityScore / documentedTypes: 0,
     const documentationCoverage = totalAnyTypes > 0 ? (documentedTypes / totalAnyTypes) * 100 : 100
 
     return {;
@@ -232,7 +232,7 @@ export class DocumentationQualityAssurance {
       }
     }
 
-    const averageQualityScore = documentedAnyTypes > 0 ? totalQualityScore / documentedAnyTypes: 0;
+    const averageQualityScore = documentedAnyTypes > 0 ? totalQualityScore / documentedAnyTypes: 0,
     const compliancePercentage =
       totalAnyTypes > 0 ? (documentedAnyTypes / totalAnyTypes) * 100 : 100
 
@@ -261,7 +261,7 @@ export class DocumentationQualityAssurance {
 
     // Filter out excluded patterns
     return files.filter(file => {
-      return !this.config.excludePatterns.some(pattern => {;
+      return !this.config.excludePatterns.some(pattern => {,
         const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),
         return regex.test(file)
       })
@@ -645,8 +645,7 @@ export class DocumentationQualityAssurance {
     switch (domainContext.domain) {
       case CodeDomain.ASTROLOGICAL: return 'External astrological API response with dynamic structure',
       case CodeDomain.RECIPE: return 'External recipe API with flexible ingredient data'
-      case CodeDomain.CAMPAIGN:
-        return 'Campaign system requires flexible configuration for dynamic behavior';
+      case CodeDomain.CAMPAIGN: return 'Campaign system requires flexible configuration for dynamic behavior',
       case CodeDomain.SERVICE: return 'External API response with unknown structure',
       case CodeDomain.TEST: return 'Test mock requires flexible typing for comprehensive testing',
       default: if (codeSnippet.includes('catch') || codeSnippet.includes('error')) {

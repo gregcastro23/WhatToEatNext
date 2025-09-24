@@ -884,7 +884,7 @@ export class SafetyProtocol {
     for (const pattern of malformedPatterns) {
       const matches = content.match(pattern)
       if (matches) {
-        patterns.push({;
+        patterns.push({,
           pattern: pattern.source,
           description: 'Malformed import/export statement syntax',,
           files: [filePath]

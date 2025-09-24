@@ -132,7 +132,7 @@ function validateAndNormalizeIngredients(
     throw new Error('Recipe must have at least one ingredient');
   }
 
-  return ingredients.map(ing => ({;
+  return ingredients.map(ing => ({,
     name: safeGetString((ing as any).name) || 'Unknown Ingredient'
     amount: typeof ing.amount === 'number' ? ing.amount : 1,,
     unit: ing.unit || 'piece'
@@ -474,7 +474,7 @@ class RecipeData {
       description: 'A harmonious blend for any occasion',
       ingredients: [
         { name: 'Mixed Greens', amount: 2, unit: 'cups', category: 'vegetables' },
-        { name: 'Quinoa', amount: 1, unit: 'cup', category: 'grains' }
+        { name: 'Quinoa', amount: 1, unit: 'cup', category: 'grains' },
         { name: 'Mixed Seeds', amount: 0.25, unit: 'cup', category: 'garnish' }
       ],
       instructions: ['Combine all ingredients in a bowl', 'Season to taste', 'Enjoy mindfully'],

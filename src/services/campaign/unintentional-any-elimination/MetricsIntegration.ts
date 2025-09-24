@@ -334,10 +334,8 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
 
       case 'target-reduction-achieved': return metrics.reductionFromBaseline >= metrics.targetReduction,
 
-      case 'documentation-complete':
-        return metrics.documentationCoverage >= 80;
-      case 'zero-unintentional-any':
-        return metrics.unintentionalAnyTypes === 0;
+      case 'documentation-complete': return metrics.documentationCoverage >= 80,
+      case 'zero-unintentional-any': return metrics.unintentionalAnyTypes === 0,
       default: _logger.warn(`Unknown unintentional any milestone: ${milestone}`)
         return false;
     }

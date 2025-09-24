@@ -198,7 +198,7 @@ describe('FullCampaignExecutor', () => {
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('grep -c 'error TS'')) {
           // Simulate error reduction
-          return Math.random() > 0.5 ? '100' : '80' };
+          return Math.random() > 0.5 ? '100' : '80' },
         if (command.includes('find src')) return 'src/test1.ts\nsrc/test2.ts',
         return '';
       })

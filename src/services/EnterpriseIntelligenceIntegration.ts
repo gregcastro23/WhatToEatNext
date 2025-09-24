@@ -1015,14 +1015,10 @@ export class EnterpriseIntelligenceIntegration {
 
   private riskLevelToScore(level: string): number {
     switch (level) {
-      case 'low':
-        return 0.1;
-      case 'medium':
-        return 0.3;
-      case 'high':
-        return 0.6;
-      case 'critical':
-        return 0.9;
+      case 'low': return 0.1,
+      case 'medium': return 0.3,
+      case 'high': return 0.6,
+      case 'critical': return 0.9,
       default: return 0.5
     }
   }
@@ -1468,7 +1464,7 @@ export class EnterpriseIntelligenceIntegration {
     recommendations: string[],
     estimatedImpact: number
   } {
-    const score = this.performanceMetrics.averageExecutionTime < 2000 ? 0.9 : 0.6;
+    const score = this.performanceMetrics.averageExecutionTime < 2000 ? 0.9 : 0.6,
     const recommendations: string[] = [],
 
     if (this.performanceMetrics.averageExecutionTime > 2000) {
@@ -1620,7 +1616,7 @@ export class EnterpriseIntelligenceIntegration {
    */
   private validateIngredientData(ingredientData: unknown): unknown {
     const ingredients = (ingredientData as any)?.ingredients || [];
-    const validIngredients = (ingredients as unknown[]).filter((ing: unknown) => {;
+    const validIngredients = (ingredients as unknown[]).filter((ing: unknown) => {,
       const ingredient = ing as any;
       return ingredient.name && ingredient.elementalProperties
     })
@@ -1852,7 +1848,7 @@ export class EnterpriseIntelligenceIntegration {
       const cuisineSeasons = (cuisineData as any)?.seasonality || [];
 
       const seasonalOptimization =
-        Array.isArray(cuisineSeasons) && cuisineSeasons.includes(currentSeason) ? 0.9 : 0.6;
+        Array.isArray(cuisineSeasons) && cuisineSeasons.includes(currentSeason) ? 0.9 : 0.6,
       const seasonalAlignment =
         Array.isArray(cuisineSeasons) && cuisineSeasons.includes(currentSeason)
           ? 'optimal';

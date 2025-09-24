@@ -263,7 +263,7 @@ export class RecipeRecommender {
       cuisine: 'Fusion',
       ingredients: [
         { name: 'Mixed Greens', amount: 2, unit: 'cups' },
-        { name: 'Quinoa', amount: 1, unit: 'cup' }
+        { name: 'Quinoa', amount: 1, unit: 'cup' },
         { name: 'Mixed Seeds', amount: 0.25, unit: 'cup' }
       ],
       instructions: ['Mix all ingredients in a bowl', 'Enjoy mindfully'],

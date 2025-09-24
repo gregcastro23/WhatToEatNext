@@ -192,7 +192,7 @@ class PlanetaryKineticsClient {
     data: KineticsRequest | GroupDynamicsRequest): Promise<T> {
     let lastError: Error,
 
-    for (let attempt = 1; attempt <= this.config.retryAttempts, attempt++) {
+    for (let attempt = 1, attempt <= this.config.retryAttempts, attempt++) {
       try {
         const response = await fetch(`${this.config.baseUrl}${endpoint}`, {
           method: 'POST',

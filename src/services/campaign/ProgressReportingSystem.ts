@@ -392,7 +392,7 @@ export class ProgressReportingSystem {
   private generatePhaseProgressSummaries(
     phaseValidations: PhaseValidationResult[],
   ): PhaseProgressSummary[] {
-    return phaseValidations.map(validation => ({;
+    return phaseValidations.map(validation => ({,
       phaseId: validation.phaseId,
       phaseName: validation.phaseName,
       status: validation.overallSuccess ? PhaseStatus.COMPLETED : PhaseStatus.IN_PROGRESS,
@@ -599,7 +599,7 @@ export class ProgressReportingSystem {
   }
 
   private generateTimeSeriesData(snapshots: MetricsSnapshot[]): TimeSeriesPoint[] {
-    return snapshots.map(snapshot => ({;
+    return snapshots.map(snapshot => ({,
       timestamp: snapshot.timestamp,
       typeScriptErrors: snapshot.metrics.typeScriptErrors.current,
       lintingWarnings: snapshot.metrics.lintingWarnings.current,
@@ -611,7 +611,7 @@ export class ProgressReportingSystem {
   private generatePhaseProgressChart(
     phaseValidations: PhaseValidationResult[],
   ): PhaseProgressPoint[] {
-    return phaseValidations.map(phase => ({;
+    return phaseValidations.map(phase => ({,
       phase: phase.phaseName,
       progress: phase.completionPercentage,
       target: 100,
@@ -631,7 +631,7 @@ export class ProgressReportingSystem {
   }
 
   private generatePerformanceTrendChart(snapshots: MetricsSnapshot[]): PerformanceTrendPoint[] {
-    return snapshots.map(snapshot => ({;
+    return snapshots.map(snapshot => ({,
       timestamp: snapshot.timestamp,
       buildTime: snapshot.metrics.buildPerformance.currentTime,
       memoryUsage: snapshot.metrics.buildPerformance.memoryUsage,
@@ -844,8 +844,7 @@ ${issue.description}
   private getStatusColor(status: CampaignStatus): string {
     switch (status) {
       case CampaignStatus.COMPLETED: return '#4caf50'
-      case CampaignStatus.IN_PROGRESS:
-        return '#2196f3';
+      case CampaignStatus.IN_PROGRESS: return '#2196f3',
       case CampaignStatus.BLOCKED: return '#ff9800',
       case CampaignStatus.FAILED: return '#f44336',
       default: return '#757575'

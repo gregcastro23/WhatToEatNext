@@ -214,7 +214,7 @@ export class ErrorClassificationSystem {
   private initializeRuleClassifications(): void {
     // Import/Export Rules
     this.addRuleClassification('import/order', {
-      ruleId: 'import/order';,
+      ruleId: 'import/order',,
       category: {
         primary: 'style',
         secondary: 'import-organization',,

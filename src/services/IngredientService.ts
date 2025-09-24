@@ -887,7 +887,7 @@ export class IngredientService implements IngredientServiceInterface {
     flavorProfile: { [key: string]: number }
     minMatchScore = 0.7): UnifiedIngredient[] {
     try {
-      return (this.unifiedIngredientsFlat || []).filter(ingredient => {;
+      return (this.unifiedIngredientsFlat || []).filter(ingredient => {,
         if (!ingredient.flavorProfile) return false;
         let matchScore = 0;
         let totalScores = 0
@@ -1160,7 +1160,7 @@ export class IngredientService implements IngredientServiceInterface {
       )
 
       // Calculate similarity scores
-      const alternatives = (potentialAlternatives || []).map(alternative => {;
+      const alternatives = (potentialAlternatives || []).map(alternative => {,
         const { score} = this.calculateIngredientCompatibility(originalIngredient, alternative)
 
         return {
@@ -1204,7 +1204,7 @@ export class IngredientService implements IngredientServiceInterface {
     try {
       // Get actual ingredient objects
       const ing1 =
-        typeof ingredient1 === 'string' ? this.getIngredientByName(ingredient1) : ingredient1;
+        typeof ingredient1 === 'string' ? this.getIngredientByName(ingredient1) : ingredient1,
       const ing2 =
         typeof ingredient2 === 'string' ? this.getIngredientByName(ingredient2) : ingredient2
 
@@ -1236,7 +1236,7 @@ export class IngredientService implements IngredientServiceInterface {
         let matchingScore = 0,
 
         (flavors || []).forEach(flavor => {;
-          const flavor1 = ing1.flavorProfile?.[flavor];
+          const flavor1 = ing1.flavorProfile?.[flavor],
           const flavor2 = ing2.flavorProfile?.[flavor]
 
           if (flavor1 !== undefined && flavor2 !== undefined) {
@@ -1876,7 +1876,7 @@ export class IngredientService implements IngredientServiceInterface {
     try {
       const elements = [
         { name: 'Fire', value: properties.Fire },
-        { name: 'Water', value: properties.Water }
+        { name: 'Water', value: properties.Water },
         { name: 'Earth', value: properties.Earth },
         { name: 'Air', value: properties.Air }
       ],

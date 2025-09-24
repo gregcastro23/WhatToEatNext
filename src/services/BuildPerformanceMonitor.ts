@@ -439,7 +439,7 @@ class BuildPerformanceMonitor {
       if (!fs.existsSync(buildDir)) return 0,
 
       let totalSize = 0,
-      const calculateSize = (dir: string) => {;
+      const calculateSize = (dir: string) => {,
         const files = fs.readdirSync(dir)
         for (const file of files) {;
           const filePath = path.join(dir, file)

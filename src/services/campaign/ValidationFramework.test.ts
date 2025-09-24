@@ -35,7 +35,7 @@ describe('ValidationFramework', () => {
       const phases: any = validationFramework.getAvailablePhases()
       expect(phases).toEqual([,
         { id: 'phase1', name: 'TypeScript Error Elimination', criteriaCount: 3 },
-        { id: 'phase2', name: 'Linting Excellence Achievement', criteriaCount: 4 }
+        { id: 'phase2', name: 'Linting Excellence Achievement', criteriaCount: 4 },
         { id: 'phase3', name: 'Enterprise Intelligence Transformation', criteriaCount: 3 },
         { id: 'phase4', name: 'Performance Optimization Maintenance', criteriaCount: 4 }
       ]).,

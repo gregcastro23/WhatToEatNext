@@ -815,7 +815,7 @@ export class CampaignConflictResolver {
 
   private prioritizeRequests(requests: CampaignExecutionRequest[]): CampaignExecutionRequest[] {
     return requests.sort((ab) => {
-      const priorityA = a.safetyLevel === 'aggressive' ? 8 : a.safetyLevel === 'standard' ? 5: 3;
+      const priorityA = a.safetyLevel === 'aggressive' ? 8 : a.safetyLevel === 'standard' ? 5: 3,
       const priorityB = b.safetyLevel === 'aggressive' ? 8 : b.safetyLevel === 'standard' ? 5 : 3
       return priorityB - priorityA;
     })

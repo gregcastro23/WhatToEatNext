@@ -515,7 +515,7 @@ export class ConservativeReplacementPilot {
     const srcDir = 'src';
 
     if (fs.existsSync(srcDir)) {
-      const walkDir = (dir: string) => {;
+      const walkDir = (dir: string) => {,
         const items = fs.readdirSync(dir)
         for (const item of items) {;
           const fullPath = path.join(dir, item)

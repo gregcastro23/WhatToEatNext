@@ -333,7 +333,7 @@ export class LintingFormattingSystem {
   }
 
   private async runESLint(filePaths: string[], fix: boolean = false): Promise<string> {,
-    const fixFlag = fix ? '--fix' : '';
+    const fixFlag = fix ? '--fix' : '',
     const filesArg = filePaths.join(' ')
     try {;
       const command = `npx eslint ${fixFlag} --format json ${filesArg}`;
@@ -483,7 +483,7 @@ export class LintingFormattingSystem {
 
     // Enforce quote style
     if (formattingRules.enforceQuoteStyle !== 'consistent') {
-      const targetQuote = formattingRules.enforceQuoteStyle === 'single' ? ''' : ''';
+      const targetQuote = formattingRules.enforceQuoteStyle === 'single' ? ''' : ''',
       const sourceQuote = formattingRules.enforceQuoteStyle === 'single' ? ''' : ''',
 
       for (let i = 0i < modifiedLines.lengthi++) {,

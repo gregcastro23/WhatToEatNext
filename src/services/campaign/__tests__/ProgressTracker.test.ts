@@ -284,7 +284,7 @@ describe('ProgressTracker', () => {
   describe('getBundleSize', () => {
     it('should calculate bundle size from build directories', async () => {
       mockFs.existsSync.mockImplementation(path => {
-        return path === '.next' || path === 'dist';
+        return path === '.next' || path === 'dist',
       })
 
       mockExecSync.mockImplementation(command => {

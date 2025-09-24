@@ -160,7 +160,7 @@ export class AnalysisTools {
     }
 
     const overallAccuracy =
-      totalClassifications > 0 ? (correctClassifications / totalClassifications) * 100 : 0;
+      totalClassifications > 0 ? (correctClassifications / totalClassifications) * 100 : 0,
     const averageConfidence =
       confidenceScores.length > 0;
         ? confidenceScores.reduce((sum, score) => sum + score0) / confidenceScores.length
@@ -431,13 +431,13 @@ export class AnalysisTools {
   ): { range: string, count: number, percentage: number }[] {
     const ranges = [
       { min: 0.9, max: 1.0, label: '90-100%' },
-      { min: 0.8, max: 0.9, label: '80-90%' }
+      { min: 0.8, max: 0.9, label: '80-90%' },
       { min: 0.7, max: 0.8, label: '70-80%' },
-      { min: 0.6, max: 0.7, label: '60-70%' }
+      { min: 0.6, max: 0.7, label: '60-70%' },
       { min: 0.0, max: 0.6, label: '0-60%' }
     ],
 
-    return ranges.map(range => {;
+    return ranges.map(range => {,
       const count = scores.filter(score => score >= range.min && score < range.max).length;
       return {
         range: range.label,
@@ -480,13 +480,13 @@ export class AnalysisTools {
     // Simulate category success rates - in real implementation, this would calculate from actual data
     return [
       { category: AnyTypeCategory.ARRAY_TYPE, successRate: 95.2, sampleSize: 156 },
-      { category: AnyTypeCategory.RECORD_TYPE, successRate: 87.3, sampleSize: 203 }
+      { category: AnyTypeCategory.RECORD_TYPE, successRate: 87.3, sampleSize: 203 },
       { category: AnyTypeCategory.FUNCTION_PARAM, successRate: 65.8, sampleSize: 342 },
-      { category: AnyTypeCategory.RETURN_TYPE, successRate: 72.1, sampleSize: 189 }
+      { category: AnyTypeCategory.RETURN_TYPE, successRate: 72.1, sampleSize: 189 },
       { category: AnyTypeCategory.TYPE_ASSERTION, successRate: 81.4, sampleSize: 127 },
-      { category: AnyTypeCategory.ERROR_HANDLING, successRate: 45.6, sampleSize: 98 }
+      { category: AnyTypeCategory.ERROR_HANDLING, successRate: 45.6, sampleSize: 98 },
       { category: AnyTypeCategory.EXTERNAL_API, successRate: 52.3, sampleSize: 76 },
-      { category: AnyTypeCategory.TEST_MOCK, successRate: 89.7, sampleSize: 134 }
+      { category: AnyTypeCategory.TEST_MOCK, successRate: 89.7, sampleSize: 134 },
       { category: AnyTypeCategory.DYNAMIC_CONFIG, successRate: 38.9, sampleSize: 67 },
       { category: AnyTypeCategory.LEGACY_COMPATIBILITY, successRate: 41.2, sampleSize: 45 }
     ],

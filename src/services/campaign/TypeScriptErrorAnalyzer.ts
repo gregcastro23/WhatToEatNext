@@ -144,16 +144,11 @@ export class TypeScriptErrorAnalyzer {
    */
   private categorizeError(code: string): ErrorCategory {
     switch (code) {
-      case 'TS2352':
-        return ErrorCategory.TS2352_TYPE_CONVERSION;
-      case 'TS2345':
-        return ErrorCategory.TS2345_ARGUMENT_MISMATCH;
-      case 'TS2698':
-        return ErrorCategory.TS2698_SPREAD_TYPE;
-      case 'TS2304':
-        return ErrorCategory.TS2304_CANNOT_FIND_NAME;
-      case 'TS2362':
-        return ErrorCategory.TS2362_ARITHMETIC_OPERATION;
+      case 'TS2352': return ErrorCategory.TS2352_TYPE_CONVERSION,
+      case 'TS2345': return ErrorCategory.TS2345_ARGUMENT_MISMATCH,
+      case 'TS2698': return ErrorCategory.TS2698_SPREAD_TYPE,
+      case 'TS2304': return ErrorCategory.TS2304_CANNOT_FIND_NAME,
+      case 'TS2362': return ErrorCategory.TS2362_ARITHMETIC_OPERATION,
       default: return ErrorCategory.OTHER
     }
   }

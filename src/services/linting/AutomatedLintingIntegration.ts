@@ -307,7 +307,7 @@ export class AutomatedLintingIntegration {
     log.info('📦 Executing import optimization...')
     try {
       // Analyze for import-related issues
-      const analysis = await this.analysisService.performComprehensiveAnalysis({;
+      const analysis = await this.analysisService.performComprehensiveAnalysis({,
         focusAreas: ['import'],,
         generateStrategies: false
 })
@@ -485,7 +485,7 @@ export class AutomatedLintingIntegration {
       (fixResults.typeAnnotations?.failedIssues || 0)
 ;
     const totalAttempted = totalFixed + totalFailed;
-    const automationSuccessRate = totalAttempted > 0 ? totalFixed / totalAttempted: 0;
+    const automationSuccessRate = totalAttempted > 0 ? totalFixed / totalAttempted: 0,
     const safetyEventsTriggered =
       fixResults.automated.errors.length +
       (fixResults.unusedVariables?.errors.length || 0) +
@@ -626,7 +626,7 @@ export class AutomatedLintingIntegration {
 
     const safetyEvents = fixResults.automated.errors.length;
     const safetyProtocolEffectiveness =
-      safetyEvents > 0 ? fixResults.automated.metrics.rollbacksPerformed / safetyEvents : 1;
+      safetyEvents > 0 ? fixResults.automated.metrics.rollbacksPerformed / safetyEvents : 1,
     const qualityImprovement = (totalFixed / analysis.summary.totalIssues) * 100
 
     return {;

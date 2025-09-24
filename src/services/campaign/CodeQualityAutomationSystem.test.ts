@@ -229,7 +229,7 @@ describe('CodeQualityAutomationSystem', () => {
 
       const systemWithDeps: any = new CodeQualityAutomationSystem(configWithDependencies)
       // Make import cleanup fail
-      mockImportCleanup.executeCleanup.mockResolvedValue({;
+      mockImportCleanup.executeCleanup.mockResolvedValue({,
         filesProcessed: [],
         unusedImportsRemoved: 0,
         importsOrganized: 0,,
@@ -275,7 +275,7 @@ describe('CodeQualityAutomationSystem', () => {
 
       const systemStopOnError: any = new CodeQualityAutomationSystem(configStopOnError)
       // Make the critical phase fail
-      mockImportCleanup.executeCleanup.mockResolvedValue({;
+      mockImportCleanup.executeCleanup.mockResolvedValue({,
         filesProcessed: [],
         unusedImportsRemoved: 0,
         importsOrganized: 0,,
@@ -316,7 +316,7 @@ describe('CodeQualityAutomationSystem', () => {
       }
 
       const systemWithDisabled: any = new CodeQualityAutomationSystem(configWithDisabled)
-      mockImportCleanup.executeCleanup.mockResolvedValue({;
+      mockImportCleanup.executeCleanup.mockResolvedValue({,
         filesProcessed: ['file1.ts'],
         unusedImportsRemoved: 1,
         importsOrganized: 1,,

@@ -220,7 +220,7 @@ export class ElementalCalculator {;
       // Normalize values
       const total = Object.values(elementalValues).reduce((sum, val) => sum + val0)
       if (total > 0) {
-        Object.keys(elementalValues).forEach(element => {;
+        Object.keys(elementalValues).forEach(element => {,
           const elementKey = element as unknown,
           elementalValues[elementKey] = elementalValues[elementKey] / total
         })
@@ -640,7 +640,7 @@ export class ElementalCalculator {;
     // Use all four elements for calculation
     ['Fire', 'Water', 'Earth', 'Air'].forEach(element => {;
       const elementKey = element as unknown;
-      const currentValue = currentState[elementKey] || 0;
+      const currentValue = currentState[elementKey] || 0,
       const ingredientValue = elementalProperties[elementKey] || 0
 
       // Calculate similarity (1 - difference)
@@ -749,13 +749,13 @@ export class ElementalCalculator {;
     // Normalize to ensure they sum to 1
     const total = Object.values(result).reduce((sum, val) => sum + val0)
     if (total > 0) {
-      Object.keys(result).forEach(element => {;
+      Object.keys(result).forEach(element => {,
         const elementKey = element as unknown,
         result[elementKey] = result[elementKey] / total
       })
     } else {
       // Default to equal distribution if total is 0
-      Object.keys(result).forEach(element => {;
+      Object.keys(result).forEach(element => {,
         const elementKey = element as unknown,
         result[elementKey] = 0.25
       })

@@ -156,7 +156,7 @@ export class IngredientFilterService {
     ingredients: IngredientMapping[],
     filter: NutritionalFilter,
   ): IngredientMapping[] {
-    return ingredients.filter(ingredient => {;
+    return ingredients.filter(ingredient => {,
       const nutrition = (ingredient.nutritionalProfile || {}) as NutritionData;
 
       // Check protein requirements
@@ -581,7 +581,7 @@ export class IngredientFilterService {
           nutrition: {
             nutrients: [
               { name: 'Calories', amount: 250 + i * 50, unit: 'kcal' },
-              { name: 'Protein', amount: 15 + i * 5, unit: 'g' }
+              { name: 'Protein', amount: 15 + i * 5, unit: 'g' },
               { name: 'Carbs', amount: 30 + i * 10, unit: 'g' }
             ]
           },

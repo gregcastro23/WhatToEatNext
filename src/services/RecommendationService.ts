@@ -676,7 +676,7 @@ export class RecommendationService {
       )
 
       const recipeRelative =
-        recipeOthersSum > 0 ? (recipeElements[element] || 0) / recipeOthersSum : 0;
+        recipeOthersSum > 0 ? (recipeElements[element] || 0) / recipeOthersSum : 0,
       const currentMomentRelative =
         currentMomentOthersSum > 0
           ? (currentMomentElements[element] || 0) / currentMomentOthersSum;

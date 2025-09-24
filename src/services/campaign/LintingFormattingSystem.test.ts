@@ -442,7 +442,7 @@ const _greeting: any = 'Hi there';
           filePath: '/test/file.ts',
           messages: [
             { line: 1, column: 10, ruleId: '@typescript-eslint/no-unused-vars', severity: 1 },
-            { line: 2, column: 5, ruleId: 'react-hooks/exhaustive-deps', severity: 1 }
+            { line: 2, column: 5, ruleId: 'react-hooks/exhaustive-deps', severity: 1 },
             { line: 3, column: 15, ruleId: 'import/no-unresolved', severity: 1 },
             { line: 4, column: 20, ruleId: 'no-console', severity: 1 }
           ]

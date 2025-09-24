@@ -22,7 +22,7 @@ describe('Campaign Intelligence System', () => {
     it('should analyze error patterns correctly', () => {
       const sampleErrors: any = [
         { code: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 20 },
-        { code: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 18 }
+        { code: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 18 },
         { code: 'TS2345', category: ErrorCategory.TS2345_ARGUMENT_MISMATCH, priority: 15 },
         { code: 'TS2304', category: ErrorCategory.TS2304_CANNOT_FIND_NAME, priority: 22 }
       ],

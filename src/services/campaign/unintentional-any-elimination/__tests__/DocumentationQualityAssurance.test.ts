@@ -296,9 +296,9 @@ describe('DocumentationQualityAssurance', () => {
     it('should categorize any types correctly', async () => {
       const testCases: any = [
         { code: 'catch (error: any: any) {', expectedCategory: AnyTypeCategory.ERROR_HANDLING },
-        { code: 'const respons, e: any = await api.fetch(),', expectedCategory: AnyTypeCategory.EXTERNAL_API }
+        { code: 'const respons, e: any = await api.fetch(),', expectedCategory: AnyTypeCategory.EXTERNAL_API },
         { code: 'const mockDat, a: any = jest.fn() as any,', expectedCategory: AnyTypeCategory.TEST_MOCK },
-        { code: 'const config: any = options,', expectedCategory: AnyTypeCategory.DYNAMIC_CONFIG }
+        { code: 'const config: any = options,', expectedCategory: AnyTypeCategory.DYNAMIC_CONFIG },
         { code: 'const _items: any[] = [],', expectedCategory: AnyTypeCategory.ARRAY_TYPE },
         { code: 'const data: Record<string, unknown> = {};', expectedCategory: AnyTypeCategory.RECORD_TYPE }
       ],
@@ -312,11 +312,11 @@ describe('DocumentationQualityAssurance', () => {
     it('should determine domain correctly', async () => {
       const testCases: any = [
         { path: 'src/services/astrology/planetary.ts', expectedDomain: CodeDomain.ASTROLOGICAL },
-        { path: 'src/components/recipe/RecipeCard.tsx', expectedDomain: CodeDomain.RECIPE }
+        { path: 'src/components/recipe/RecipeCard.tsx', expectedDomain: CodeDomain.RECIPE },
         { path: 'src/services/campaign/CampaignController.ts', expectedDomain: CodeDomain.CAMPAIGN },
-        { path: 'src/services/intelligence/AIService.ts', expectedDomain: CodeDomain.INTELLIGENCE }
+        { path: 'src/services/intelligence/AIService.ts', expectedDomain: CodeDomain.INTELLIGENCE },
         { path: 'src/services/api/ApiService.ts', expectedDomain: CodeDomain.SERVICE },
-        { path: 'src/components/ui/Button.tsx', expectedDomain: CodeDomain.COMPONENT }
+        { path: 'src/components/ui/Button.tsx', expectedDomain: CodeDomain.COMPONENT },
         { path: 'src/utils/helpers.ts', expectedDomain: CodeDomain.UTILITY },
         { path: 'src/__tests__/service.test.ts', expectedDomain: CodeDomain.TEST }
       ],

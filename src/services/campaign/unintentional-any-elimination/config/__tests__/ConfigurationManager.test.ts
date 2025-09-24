@@ -238,7 +238,7 @@ describe('ConfigurationManager', () => {
     test('manages milestone configuration', () => {
       const milestones: any = [
         { name: 'Phase 1', targetReduction: 5, timeframe: '1 week' },
-        { name: 'Phase 2', targetReduction: 15, timeframe: '2 weeks' }
+        { name: 'Phase 2', targetReduction: 15, timeframe: '2 weeks' },
         { name: 'Final', targetReduction: 25, timeframe: '3 weeks' }
       ],
 

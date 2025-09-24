@@ -556,8 +556,7 @@ export class DependencySecurityMonitor {
 
     switch (severity) {
       case 'critical': return securityThresholds.autoFixCritical,
-      case 'high':
-        return securityThresholds.autoFixHigh;
+      case 'high': return securityThresholds.autoFixHigh,
       default: return false
     }
   }

@@ -319,7 +319,7 @@ export class UnifiedNutritionalService {
     }
   ): NutritionalRecommendations {
     const currentSeason = season || unifiedSeasonalSystem.getCurrentSeason()
-    return this.getNutritionalRecommendations({;
+    return this.getNutritionalRecommendations({,
       season: currentSeason,
       ...additionalCriteria
     })

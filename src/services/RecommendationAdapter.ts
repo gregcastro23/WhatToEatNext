@@ -307,11 +307,11 @@ export class RecommendationAdapter {
           // Extract aspect data with safe property access;
           const aspectData = aspect as unknown as any;
           const body1 = aspectData.body1;
-          const body2 = aspectData.body2;
+          const body2 = aspectData.body2,
           const aspectType = aspectData.aspectType
 
           // Lookup planet data for both bodies with safe string conversion,
-          const planet1 = typeof body1 === 'string' ? body1.toLowerCase() : undefined;
+          const planet1 = typeof body1 === 'string' ? body1.toLowerCase() : undefined,
           const planet2 = typeof body2 === 'string' ? body2.toLowerCase() : undefined,
 
           if (!planet1 || !planet2 || !aspectType) return,

@@ -31,9 +31,9 @@ export const greek: Cuisine = {
               swaps: ['gluten-free phyllo']
             }
             { name: 'semolina', amount: '200', unit: 'g', category: 'grain' },
-            { name: 'milk', amount: '750', unit: 'ml', category: 'dairy', swaps: ['almond milk'] }
+            { name: 'milk', amount: '750', unit: 'ml', category: 'dairy', swaps: ['almond milk'] },
             { name: 'eggs', amount: '3', unit: 'large', category: 'protein' },
-            { name: 'butter', amount: '100', unit: 'g', category: 'fat', swaps: ['olive oil'] }
+            { name: 'butter', amount: '100', unit: 'g', category: 'fat', swaps: ['olive oil'] },
             { name: 'cinnamon', amount: '2', unit: 'tsp', category: 'spice' }
           ],
           substitutions: {
@@ -88,7 +88,7 @@ export const greek: Cuisine = {
               swaps: ['coconut yogurt']
             }
             { name: 'honey', amount: '2', unit: 'tbsp', category: 'sweetener' },
-            { name: 'walnuts', amount: '30', unit: 'g', category: 'nuts' }
+            { name: 'walnuts', amount: '30', unit: 'g', category: 'nuts' },
             {
               name: 'fresh figs',
               amount: '2',
@@ -160,7 +160,7 @@ export const greek: Cuisine = {
               swaps: ['vegan feta']
             }
             { name: 'olive oil', amount: '3', unit: 'tbsp', category: 'oil' },
-            { name: 'dried oregano', amount: '1', unit: 'tsp', category: 'herb' }
+            { name: 'dried oregano', amount: '1', unit: 'tsp', category: 'herb' },
             { name: 'black pepper', amount: '1/4', unit: 'tsp', category: 'seasoning' }
           ],
           substitutions: {
@@ -208,7 +208,7 @@ export const greek: Cuisine = {
               swaps: ['gluten-free rusks']
             }
             { name: 'tomatoes', amount: '2', unit: 'medium', category: 'vegetable' },
-            { name: 'olive oil', amount: '4', unit: 'tbsp', category: 'oil' }
+            { name: 'olive oil', amount: '4', unit: 'tbsp', category: 'oil' },
             { name: 'oregano', amount: '2', unit: 'tsp', category: 'herb' }
           ],
           nutrition: {
@@ -269,11 +269,11 @@ export const greek: Cuisine = {
           ],
           ingredients: [
             { name: 'pork', amount: '1', unit: 'kg', category: 'protein' },
-            { name: 'olive oil', amount: '1/2', unit: 'cup', category: 'oil' }
+            { name: 'olive oil', amount: '1/2', unit: 'cup', category: 'oil' },
             { name: 'lemon', amount: '2', unit: 'whole', category: 'fruit' },
-            { name: 'garlic', amount: '6', unit: 'cloves', category: 'vegetable' }
+            { name: 'garlic', amount: '6', unit: 'cloves', category: 'vegetable' },
             { name: 'oregano', amount: '2', unit: 'tbsp', category: 'herb' },
-            { name: 'salt', amount: '1', unit: 'tbsp', category: 'seasoning' }
+            { name: 'salt', amount: '1', unit: 'tbsp', category: 'seasoning' },
             { name: 'black pepper', amount: '1', unit: 'tsp', category: 'spice' }
           ],
           substitutions: {
@@ -322,9 +322,9 @@ export const greek: Cuisine = {
           ],
           ingredients: [
             { name: 'tomatoes', amount: '4', unit: 'large', category: 'vegetable' },
-            { name: 'cucumber', amount: '1', unit: 'large', category: 'vegetable' }
+            { name: 'cucumber', amount: '1', unit: 'large', category: 'vegetable' },
             { name: 'red onion', amount: '1', unit: 'medium', category: 'vegetable' },
-            { name: 'green peppers', amount: '1', unit: 'large', category: 'vegetable' }
+            { name: 'green peppers', amount: '1', unit: 'large', category: 'vegetable' },
             {
               name: 'feta cheese',
               amount: '200',
@@ -333,7 +333,7 @@ export const greek: Cuisine = {
               swaps: ['vegan feta']
             }
             { name: 'Kalamata olives', amount: '100', unit: 'g', category: 'vegetable' },
-            { name: 'olive oil', amount: '60', unit: 'ml', category: 'oil' }
+            { name: 'olive oil', amount: '60', unit: 'ml', category: 'oil' },
             { name: 'dried oregano', amount: '1', unit: 'tbsp', category: 'herb' }
           ],
           substitutions: {
@@ -384,11 +384,11 @@ export const greek: Cuisine = {
           ],
           ingredients: [
             { name: 'tomatoes', amount: '6', unit: 'large', category: 'vegetable' },
-            { name: 'bell peppers', amount: '6', unit: 'medium', category: 'vegetable' }
+            { name: 'bell peppers', amount: '6', unit: 'medium', category: 'vegetable' },
             { name: 'rice', amount: '300', unit: 'g', category: 'grain' },
-            { name: 'onions', amount: '2', unit: 'large', category: 'vegetable' }
+            { name: 'onions', amount: '2', unit: 'large', category: 'vegetable' },
             { name: 'parsley', amount: '1', unit: 'bunch', category: 'herb' },
-            { name: 'mint', amount: '1/2', unit: 'bunch', category: 'herb' }
+            { name: 'mint', amount: '1/2', unit: 'bunch', category: 'herb' },
             { name: 'olive oil', amount: '150', unit: 'ml', category: 'oil' },
             { name: 'potatoes', amount: '4', unit: 'medium', category: 'vegetable' }
           ],
@@ -445,11 +445,11 @@ export const greek: Cuisine = {
               swaps: ['beef', 'plant-based meat']
             }
             { name: 'tomatoes', amount: '400', unit: 'g', category: 'vegetable' },
-            { name: 'onions', amount: '2', unit: 'large', category: 'vegetable' }
+            { name: 'onions', amount: '2', unit: 'large', category: 'vegetable' },
             { name: 'butter', amount: '100', unit: 'g', category: 'dairy' },
-            { name: 'flour', amount: '100', unit: 'g', category: 'dry' }
+            { name: 'flour', amount: '100', unit: 'g', category: 'dry' },
             { name: 'milk', amount: '1', unit: 'L', category: 'dairy' },
-            { name: 'eggs', amount: '2', unit: 'large', category: 'protein' }
+            { name: 'eggs', amount: '2', unit: 'large', category: 'protein' },
             { name: 'nutmeg', amount: '1/4', unit: 'tsp', category: 'spice' },
             { name: 'cinnamon', amount: '1', unit: 'tsp', category: 'spice' }
           ],
@@ -510,7 +510,7 @@ export const greek: Cuisine = {
               swaps: ['tofu feta']
             }
             { name: 'dill', amount: '1', unit: 'bunch', category: 'herb' },
-            { name: 'green onions', amount: '6', unit: 'whole', category: 'vegetable' }
+            { name: 'green onions', amount: '6', unit: 'whole', category: 'vegetable' },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein', swaps: ['flax eggs'] },
             { name: 'olive oil', amount: '200', unit: 'ml', category: 'oil' }
           ],
@@ -568,11 +568,11 @@ export const greek: Cuisine = {
               swaps: ['lamb', 'plant-based meat']
             }
             { name: 'onions', amount: '2', unit: 'medium', category: 'vegetable' },
-            { name: 'tomato paste', amount: '70', unit: 'g', category: 'vegetable' }
+            { name: 'tomato paste', amount: '70', unit: 'g', category: 'vegetable' },
             { name: 'butter', amount: '100', unit: 'g', category: 'dairy' },
-            { name: 'flour', amount: '100', unit: 'g', category: 'dry' }
+            { name: 'flour', amount: '100', unit: 'g', category: 'dry' },
             { name: 'milk', amount: '1', unit: 'L', category: 'dairy' },
-            { name: 'eggs', amount: '3', unit: 'large', category: 'protein' }
+            { name: 'eggs', amount: '3', unit: 'large', category: 'protein' },
             { name: 'nutmeg', amount: '1/2', unit: 'tsp', category: 'spice' },
             { name: 'cinnamon', amount: '1', unit: 'tsp', category: 'spice' }
           ],
@@ -616,11 +616,11 @@ export const greek: Cuisine = {
           ],
           ingredients: [
             { name: 'grape leaves', amount: '60', unit: 'pieces', category: 'vegetable' },
-            { name: 'rice', amount: '300', unit: 'g', category: 'grain' }
+            { name: 'rice', amount: '300', unit: 'g', category: 'grain' },
             { name: 'onions', amount: '2', unit: 'medium', category: 'vegetable' },
-            { name: 'dill', amount: '1', unit: 'bunch', category: 'herb' }
+            { name: 'dill', amount: '1', unit: 'bunch', category: 'herb' },
             { name: 'mint', amount: '1/2', unit: 'bunch', category: 'herb' },
-            { name: 'lemon juice', amount: '60', unit: 'ml', category: 'acid' }
+            { name: 'lemon juice', amount: '60', unit: 'ml', category: 'acid' },
             { name: 'olive oil', amount: '120', unit: 'ml', category: 'oil' }
           ],
           substitutions: {
@@ -664,11 +664,11 @@ export const greek: Cuisine = {
           ],
           ingredients: [
             { name: 'phyllo dough', amount: '1', unit: 'package', category: 'pastry' },
-            { name: 'milk', amount: '1', unit: 'L', category: 'dairy' }
+            { name: 'milk', amount: '1', unit: 'L', category: 'dairy' },
             { name: 'semolina', amount: '150', unit: 'g', category: 'grain' },
-            { name: 'eggs', amount: '4', unit: 'large', category: 'protein' }
+            { name: 'eggs', amount: '4', unit: 'large', category: 'protein' },
             { name: 'butter', amount: '200', unit: 'g', category: 'dairy' },
-            { name: 'sugar', amount: '400', unit: 'g', category: 'sweetener' }
+            { name: 'sugar', amount: '400', unit: 'g', category: 'sweetener' },
             { name: 'orange zest', amount: '1', unit: 'orange', category: 'citrus' },
             { name: 'vanilla extract', amount: '2', unit: 'tsp', category: 'flavoring' }
           ],
@@ -712,11 +712,11 @@ export const greek: Cuisine = {
           ],
           ingredients: [
             { name: 'white beans', amount: '500', unit: 'g', category: 'legume' },
-            { name: 'carrots', amount: '3', unit: 'large', category: 'vegetable' }
+            { name: 'carrots', amount: '3', unit: 'large', category: 'vegetable' },
             { name: 'celery', amount: '3', unit: 'stalks', category: 'vegetable' },
-            { name: 'onions', amount: '2', unit: 'medium', category: 'vegetable' }
+            { name: 'onions', amount: '2', unit: 'medium', category: 'vegetable' },
             { name: 'garlic', amount: '4', unit: 'cloves', category: 'vegetable' },
-            { name: 'olive oil', amount: '120', unit: 'ml', category: 'oil' }
+            { name: 'olive oil', amount: '120', unit: 'ml', category: 'oil' },
             { name: 'tomato paste', amount: '70', unit: 'g', category: 'vegetable' }
           ],
           substitutions: {
@@ -766,9 +766,9 @@ export const greek: Cuisine = {
               swaps: ['beef']
             }
             { name: 'orzo pasta', amount: '500', unit: 'g', category: 'pasta' },
-            { name: 'onions', amount: '2', unit: 'medium', category: 'vegetable' }
+            { name: 'onions', amount: '2', unit: 'medium', category: 'vegetable' },
             { name: 'garlic', amount: '4', unit: 'cloves', category: 'vegetable' },
-            { name: 'tomatoes', amount: '800', unit: 'g', category: 'vegetable' }
+            { name: 'tomatoes', amount: '800', unit: 'g', category: 'vegetable' },
             { name: 'cinnamon', amount: '1', unit: 'stick', category: 'spice' },
             { name: 'olive oil', amount: '80', unit: 'ml', category: 'oil' }
           ],
@@ -812,11 +812,11 @@ export const greek: Cuisine = {
           ],
           ingredients: [
             { name: 'chickpeas', amount: '500', unit: 'g', category: 'legume' },
-            { name: 'onions', amount: '2', unit: 'medium', category: 'vegetable' }
+            { name: 'onions', amount: '2', unit: 'medium', category: 'vegetable' },
             { name: 'garlic', amount: '4', unit: 'cloves', category: 'vegetable' },
-            { name: 'olive oil', amount: '80', unit: 'ml', category: 'oil' }
+            { name: 'olive oil', amount: '80', unit: 'ml', category: 'oil' },
             { name: 'bay leaves', amount: '2', unit: 'whole', category: 'herb' },
-            { name: 'lemons', amount: '2', unit: 'whole', category: 'citrus' }
+            { name: 'lemons', amount: '2', unit: 'whole', category: 'citrus' },
             { name: 'rosemary', amount: '2', unit: 'sprigs', category: 'herb' }
           ],
           substitutions: {
@@ -866,9 +866,9 @@ export const greek: Cuisine = {
               swaps: ['lima beans']
             }
             { name: 'tomatoes', amount: '800', unit: 'g', category: 'vegetable' },
-            { name: 'carrots', amount: '2', unit: 'medium', category: 'vegetable' }
+            { name: 'carrots', amount: '2', unit: 'medium', category: 'vegetable' },
             { name: 'celery', amount: '2', unit: 'stalks', category: 'vegetable' },
-            { name: 'parsley', amount: '1', unit: 'bunch', category: 'herb' }
+            { name: 'parsley', amount: '1', unit: 'bunch', category: 'herb' },
             { name: 'olive oil', amount: '120', unit: 'ml', category: 'oil' },
             { name: 'honey', amount: '1', unit: 'tbsp', category: 'sweetener', optional: true }
           ],
@@ -912,11 +912,11 @@ export const greek: Cuisine = {
           ],
           ingredients: [
             { name: 'ground beef', amount: '500', unit: 'g', category: 'protein', swaps: ['lamb'] },
-            { name: 'ground pork', amount: '250', unit: 'g', category: 'protein' }
+            { name: 'ground pork', amount: '250', unit: 'g', category: 'protein' },
             { name: 'onion', amount: '1', unit: 'large', category: 'vegetable' },
-            { name: 'garlic', amount: '3', unit: 'cloves', category: 'vegetable' }
+            { name: 'garlic', amount: '3', unit: 'cloves', category: 'vegetable' },
             { name: 'mint', amount: '1/4', unit: 'cup', category: 'herb' },
-            { name: 'bread', amount: '2', unit: 'slices', category: 'grain' }
+            { name: 'bread', amount: '2', unit: 'slices', category: 'grain' },
             { name: 'milk', amount: '60', unit: 'ml', category: 'dairy' },
             { name: 'olive oil', amount: '120', unit: 'ml', category: 'oil' }
           ],
@@ -960,11 +960,11 @@ export const greek: Cuisine = {
           ],
           ingredients: [
             { name: 'milk', amount: '1', unit: 'L', category: 'dairy' },
-            { name: 'eggs', amount: '4', unit: 'large', category: 'protein' }
+            { name: 'eggs', amount: '4', unit: 'large', category: 'protein' },
             { name: 'semolina', amount: '100', unit: 'g', category: 'grain' },
-            { name: 'sugar', amount: '200', unit: 'g', category: 'sweetener' }
+            { name: 'sugar', amount: '200', unit: 'g', category: 'sweetener' },
             { name: 'vanilla extract', amount: '2', unit: 'tsp', category: 'flavoring' },
-            { name: 'phyllo dough', amount: '8', unit: 'sheets', category: 'pastry' }
+            { name: 'phyllo dough', amount: '8', unit: 'sheets', category: 'pastry' },
             { name: 'butter', amount: '100', unit: 'g', category: 'dairy' }
           ],
           substitutions: {
@@ -1007,9 +1007,9 @@ export const greek: Cuisine = {
           ],
           ingredients: [
             { name: 'potatoes', amount: '500', unit: 'g', category: 'vegetable' },
-            { name: 'garlic', amount: '8', unit: 'cloves', category: 'vegetable' }
+            { name: 'garlic', amount: '8', unit: 'cloves', category: 'vegetable' },
             { name: 'olive oil', amount: '200', unit: 'ml', category: 'oil' },
-            { name: 'lemon juice', amount: '2', unit: 'tbsp', category: 'acid' }
+            { name: 'lemon juice', amount: '2', unit: 'tbsp', category: 'acid' },
             { name: 'white wine vinegar', amount: '1', unit: 'tbsp', category: 'acid' },
             { name: 'almonds', amount: '50', unit: 'g', category: 'nuts', optional: true }
           ],
@@ -1053,9 +1053,9 @@ export const greek: Cuisine = {
           ],
           ingredients: [
             { name: 'eggplants', amount: '2', unit: 'large', category: 'vegetable' },
-            { name: 'garlic', amount: '3', unit: 'cloves', category: 'vegetable' }
+            { name: 'garlic', amount: '3', unit: 'cloves', category: 'vegetable' },
             { name: 'olive oil', amount: '80', unit: 'ml', category: 'oil' },
-            { name: 'lemon juice', amount: '2', unit: 'tbsp', category: 'acid' }
+            { name: 'lemon juice', amount: '2', unit: 'tbsp', category: 'acid' },
             { name: 'parsley', amount: '1/4', unit: 'cup', category: 'herb' },
             {
               name: 'red onion',

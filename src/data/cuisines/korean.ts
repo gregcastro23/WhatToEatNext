@@ -32,7 +32,7 @@ export const korean: Cuisine = {
               swaps: ['tofu scramble']
             }
             { name: 'sesame oil', amount: '1', unit: 'tsp', category: 'oil' },
-            { name: 'soy sauce', amount: '1', unit: 'tsp', category: 'seasoning' }
+            { name: 'soy sauce', amount: '1', unit: 'tsp', category: 'seasoning' },
             { name: 'seaweed', amount: '1', unit: 'sheet', category: 'garnish' },
             { name: 'green onion', amount: '1', unit: 'stalk', category: 'vegetable' }
           ],
@@ -91,7 +91,7 @@ export const korean: Cuisine = {
               swaps: ['other vegetables']
             }
             { name: 'carrots', amount: '1', unit: 'medium', category: 'vegetable' },
-            { name: 'ginger', amount: '1', unit: 'tbsp', category: 'spice' }
+            { name: 'ginger', amount: '1', unit: 'tbsp', category: 'spice' },
             { name: 'kimchi', amount: '100', unit: 'g', category: 'fermented', optional: true }
           ],
           substitutions: {
@@ -144,7 +144,7 @@ export const korean: Cuisine = {
               swaps: ['rice noodles']
             }
             { name: 'cucumber', amount: '1', unit: 'medium', category: 'vegetable' },
-            { name: 'tomato', amount: '1', unit: 'medium', category: 'vegetable' }
+            { name: 'tomato', amount: '1', unit: 'medium', category: 'vegetable' },
             { name: 'sesame seeds', amount: '1', unit: 'tbsp', category: 'garnish' }
           ],
           substitutions: {
@@ -206,9 +206,9 @@ export const korean: Cuisine = {
               swaps: ['mushrooms', 'tofu']
             }
             { name: 'spinach', amount: '100', unit: 'g', category: 'vegetable' },
-            { name: 'carrots', amount: '100', unit: 'g', category: 'vegetable' }
+            { name: 'carrots', amount: '100', unit: 'g', category: 'vegetable' },
             { name: 'bean sprouts', amount: '100', unit: 'g', category: 'vegetable' },
-            { name: 'egg', amount: '1', unit: 'large', category: 'protein', swaps: ['tofu'] }
+            { name: 'egg', amount: '1', unit: 'large', category: 'protein', swaps: ['tofu'] },
             { name: 'gochujang', amount: '2', unit: 'tbsp', category: 'sauce' },
             { name: 'sesame oil', amount: '1', unit: 'tbsp', category: 'oil' }
           ],
@@ -260,7 +260,7 @@ export const korean: Cuisine = {
               swaps: ['mushrooms']
             }
             { name: 'tofu', amount: '200', unit: 'g', category: 'protein' },
-            { name: 'gochugaru', amount: '1', unit: 'tbsp', category: 'spice' }
+            { name: 'gochugaru', amount: '1', unit: 'tbsp', category: 'spice' },
             { name: 'green onions', amount: '2', unit: 'stalks', category: 'vegetable' }
           ],
           substitutions: {
@@ -320,7 +320,7 @@ export const korean: Cuisine = {
               swaps: ['vegetable broth']
             }
             { name: 'cucumber', amount: '1', unit: 'medium', category: 'vegetable' },
-            { name: 'pear', amount: '1/2', unit: 'medium', category: 'fruit' }
+            { name: 'pear', amount: '1/2', unit: 'medium', category: 'fruit' },
             { name: 'egg', amount: '1', unit: 'large', category: 'protein' },
             { name: 'mustard sauce', amount: '2', unit: 'tbsp', category: 'sauce' }
           ],
@@ -374,7 +374,7 @@ export const korean: Cuisine = {
               swaps: ['mushrooms']
             }
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein' },
-            { name: 'green onions', amount: '2', unit: 'stalks', category: 'vegetable' }
+            { name: 'green onions', amount: '2', unit: 'stalks', category: 'vegetable' },
             { name: 'seaweed', amount: '2', unit: 'sheets', category: 'garnish' }
           ],
           substitutions: {
@@ -421,9 +421,9 @@ export const korean: Cuisine = {
           ],
           ingredients: [
             { name: 'pork belly', amount: '600', unit: 'g', category: 'protein' },
-            { name: 'lettuce leaves', amount: '1', unit: 'head', category: 'vegetable' }
+            { name: 'lettuce leaves', amount: '1', unit: 'head', category: 'vegetable' },
             { name: 'perilla leaves', amount: '20', unit: 'leaves', category: 'herb' },
-            { name: 'garlic', amount: '1', unit: 'head', category: 'vegetable' }
+            { name: 'garlic', amount: '1', unit: 'head', category: 'vegetable' },
             { name: 'ssamjang', amount: '4', unit: 'tbsp', category: 'sauce' },
             { name: 'kimchi', amount: '200', unit: 'g', category: 'side dish' }
           ],
@@ -467,9 +467,9 @@ export const korean: Cuisine = {
           ],
           ingredients: [
             { name: 'soft tofu', amount: '400', unit: 'g', category: 'protein' },
-            { name: 'clams', amount: '200', unit: 'g', category: 'seafood', optional: true }
+            { name: 'clams', amount: '200', unit: 'g', category: 'seafood', optional: true },
             { name: 'gochugaru', amount: '2', unit: 'tbsp', category: 'seasoning' },
-            { name: 'garlic', amount: '4', unit: 'cloves', category: 'aromatic' }
+            { name: 'garlic', amount: '4', unit: 'cloves', category: 'aromatic' },
             { name: 'egg', amount: '1', unit: 'large', category: 'protein' },
             { name: 'mushrooms', amount: '100', unit: 'g', category: 'vegetable' }
           ],
@@ -513,9 +513,9 @@ export const korean: Cuisine = {
           ],
           ingredients: [
             { name: 'beef sirloin', amount: '500', unit: 'g', category: 'protein' },
-            { name: 'asian pear', amount: '1', unit: 'medium', category: 'fruit' }
+            { name: 'asian pear', amount: '1', unit: 'medium', category: 'fruit' },
             { name: 'soy sauce', amount: '4', unit: 'tbsp', category: 'seasoning' },
-            { name: 'sesame oil', amount: '2', unit: 'tbsp', category: 'oil' }
+            { name: 'sesame oil', amount: '2', unit: 'tbsp', category: 'oil' },
             { name: 'garlic', amount: '4', unit: 'cloves', category: 'aromatic' },
             { name: 'green onions', amount: '2', unit: 'stalks', category: 'vegetable' }
           ],
@@ -566,9 +566,9 @@ export const korean: Cuisine = {
           ],
           ingredients: [
             { name: 'chicken thigh', amount: '600', unit: 'g', category: 'protein' },
-            { name: 'rice cakes', amount: '200', unit: 'g', category: 'grain' }
+            { name: 'rice cakes', amount: '200', unit: 'g', category: 'grain' },
             { name: 'cabbage', amount: '300', unit: 'g', category: 'vegetable' },
-            { name: 'sweet potato', amount: '1', unit: 'medium', category: 'vegetable' }
+            { name: 'sweet potato', amount: '1', unit: 'medium', category: 'vegetable' },
             { name: 'gochugaru', amount: '3', unit: 'tbsp', category: 'seasoning' },
             { name: 'gochujang', amount: '3', unit: 'tbsp', category: 'sauce' }
           ],
@@ -613,7 +613,7 @@ export const korean: Cuisine = {
           ],
           ingredients: [
             { name: 'flour', amount: '2', unit: 'cups', category: 'grain' },
-            { name: 'green onions', amount: '10', unit: 'stalks', category: 'vegetable' }
+            { name: 'green onions', amount: '10', unit: 'stalks', category: 'vegetable' },
             { name: 'squid', amount: '150', unit: 'g', category: 'seafood', swaps: ['mushrooms'] },
             {
               name: 'shrimp',
@@ -665,9 +665,9 @@ export const korean: Cuisine = {
           ],
           ingredients: [
             { name: 'pork spine', amount: '1', unit: 'kg', category: 'protein' },
-            { name: 'potatoes', amount: '4', unit: 'medium', category: 'vegetable' }
+            { name: 'potatoes', amount: '4', unit: 'medium', category: 'vegetable' },
             { name: 'perilla leaves', amount: '10', unit: 'leaves', category: 'herb' },
-            { name: 'gochugaru', amount: '3', unit: 'tbsp', category: 'seasoning' }
+            { name: 'gochugaru', amount: '3', unit: 'tbsp', category: 'seasoning' },
             { name: 'garlic', amount: '8', unit: 'cloves', category: 'aromatic' },
             { name: 'bean sprouts', amount: '200', unit: 'g', category: 'vegetable' }
           ],
@@ -711,9 +711,9 @@ export const korean: Cuisine = {
           ],
           ingredients: [
             { name: 'pork belly', amount: '1', unit: 'kg', category: 'protein' },
-            { name: 'napa cabbage', amount: '1', unit: 'head', category: 'vegetable' }
+            { name: 'napa cabbage', amount: '1', unit: 'head', category: 'vegetable' },
             { name: 'garlic', amount: '10', unit: 'cloves', category: 'aromatic' },
-            { name: 'ginger', amount: '50', unit: 'g', category: 'aromatic' }
+            { name: 'ginger', amount: '50', unit: 'g', category: 'aromatic' },
             { name: 'saeujeot', amount: '100', unit: 'g', category: 'sauce', optional: true },
             { name: 'radish kimchi', amount: '200', unit: 'g', category: 'side dish' }
           ],
@@ -757,7 +757,7 @@ export const korean: Cuisine = {
               swaps: ['vegetarian sausage']
             }
             { name: 'kimchi', amount: '200', unit: 'g', category: 'fermented' },
-            { name: 'ramen noodles', amount: '2', unit: 'packs', category: 'grain' }
+            { name: 'ramen noodles', amount: '2', unit: 'packs', category: 'grain' },
             { name: 'rice cakes', amount: '200', unit: 'g', category: 'grain' },
             { name: 'gochugaru', amount: '2', unit: 'tbsp', category: 'spice' }
           ],
@@ -788,7 +788,7 @@ export const korean: Cuisine = {
               swaps: ['seitan chicken']
             }
             { name: 'ginseng', amount: '1', unit: 'root', category: 'herb' },
-            { name: 'glutinous rice', amount: '100', unit: 'g', category: 'grain' }
+            { name: 'glutinous rice', amount: '100', unit: 'g', category: 'grain' },
             { name: 'garlic', amount: '8', unit: 'cloves', category: 'vegetable' },
             { name: 'jujubes', amount: '4', unit: 'pieces', category: 'fruit' }
           ],
@@ -814,7 +814,7 @@ export const korean: Cuisine = {
           cuisine: 'Korean',
           ingredients: [
             { name: 'shaved ice', amount: '4', unit: 'cups', category: 'ice' },
-            { name: 'red bean paste', amount: '200', unit: 'g', category: 'bean' }
+            { name: 'red bean paste', amount: '200', unit: 'g', category: 'bean' },
             {
               name: 'condensed milk',
               amount: '60',
@@ -852,7 +852,7 @@ export const korean: Cuisine = {
               swaps: ['gluten-free flour blend']
             }
             { name: 'brown sugar', amount: '100', unit: 'g', category: 'sweetener' },
-            { name: 'nuts', amount: '50', unit: 'g', category: 'nuts' }
+            { name: 'nuts', amount: '50', unit: 'g', category: 'nuts' },
             { name: 'cinnamon', amount: '1', unit: 'tbsp', category: 'spice' }
           ],
           nutrition: {
@@ -875,7 +875,7 @@ export const korean: Cuisine = {
           cuisine: 'Korean',
           ingredients: [
             { name: 'rice flour', amount: '400', unit: 'g', category: 'grain' },
-            { name: 'sesame seeds', amount: '100', unit: 'g', category: 'seeds' }
+            { name: 'sesame seeds', amount: '100', unit: 'g', category: 'seeds' },
             { name: 'honey', amount: '60', unit: 'ml', category: 'sweetener' },
             { name: 'pine needles', amount: '2', unit: 'cups', category: 'herb' }
           ],
@@ -908,11 +908,11 @@ export const korean: Cuisine = {
           ],
           ingredients: [
             { name: 'sweet potato noodles', amount: '250', unit: 'g', category: 'grain' },
-            { name: 'beef', amount: '150', unit: 'g', category: 'protein', swaps: ['mushrooms'] }
+            { name: 'beef', amount: '150', unit: 'g', category: 'protein', swaps: ['mushrooms'] },
             { name: 'spinach', amount: '200', unit: 'g', category: 'vegetable' },
-            { name: 'carrots', amount: '1', unit: 'medium', category: 'vegetable' }
+            { name: 'carrots', amount: '1', unit: 'medium', category: 'vegetable' },
             { name: 'mushrooms', amount: '150', unit: 'g', category: 'vegetable' },
-            { name: 'eggs', amount: '2', unit: 'large', category: 'protein' }
+            { name: 'eggs', amount: '2', unit: 'large', category: 'protein' },
             { name: 'soy sauce', amount: '4', unit: 'tbsp', category: 'seasoning' },
             { name: 'sesame oil', amount: '2', unit: 'tbsp', category: 'oil' }
           ],

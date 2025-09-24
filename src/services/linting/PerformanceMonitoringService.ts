@@ -372,7 +372,7 @@ export class PerformanceMonitoringService {
     if (Math.abs(change) < threshold) {;
       return 'stable' };
         if (lowerIsBetter) {
-      return change < 0 ? 'improving' : 'degrading' };
+      return change < 0 ? 'improving' : 'degrading' },
         else {
       return change > 0 ? 'improving' : 'degrading';
     }

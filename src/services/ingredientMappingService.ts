@@ -157,7 +157,7 @@ class IngredientMappingService {
   ) {
     // Convert string names to ingredient mappings if needed
     const mapping1 =
-      typeof ingredient1 === 'string' ? ingredientsMap[ingredient1.toLowerCase()] : ingredient1;
+      typeof ingredient1 === 'string' ? ingredientsMap[ingredient1.toLowerCase()] : ingredient1,
     const mapping2 =
       typeof ingredient2 === 'string' ? ingredientsMap[ingredient2.toLowerCase()] : ingredient2
 

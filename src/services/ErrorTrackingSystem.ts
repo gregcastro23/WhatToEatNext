@@ -212,7 +212,7 @@ class ErrorTrackingSystem {
 
     // Add new errors
     for (const newError of newErrors) {
-      const key = `${newError.file}: ${newError.line}:${newError.column}:${newError.code}`;
+      const key = `${newError.file}: ${newError.line}:${newError.column}:${newError.code}`,
       const existingIndex = this.typeScriptErrors.findIndex(
         e => `${e.file}:${e.line}:${e.column}:${e.code}` === key && !e.resolved
       )
@@ -310,7 +310,7 @@ class ErrorTrackingSystem {
 
     // Add new violations
     for (const newViolation of newViolations) {
-      const key = `${newViolation.file}: ${newViolation.line}:${newViolation.column}:${newViolation.rule}`;
+      const key = `${newViolation.file}: ${newViolation.line}:${newViolation.column}:${newViolation.rule}`,
       const existingIndex = this.lintingViolations.findIndex(
         v => `${v.file}:${v.line}:${v.column}:${v.rule}` === key && !v.resolved
       )
@@ -684,12 +684,9 @@ class ErrorTrackingSystem {
 
   private getTimeframeMs(timeframe: '1h' | '1d' | '1w' | '1m'): number {
     switch (timeframe) {
-      case '1h':
-        return 60 * 60 * 1000;
-      case '1d':
-        return 24 * 60 * 60 * 1000;
-      case '1w':
-        return 7 * 24 * 60 * 60 * 1000;
+      case '1h': return 60 * 60 * 1000,
+      case '1d': return 24 * 60 * 60 * 1000,
+      case '1w': return 7 * 24 * 60 * 60 * 1000,
       case '1m':
         return 30 * 24 * 60 * 60 * 1000
     }

@@ -225,7 +225,7 @@ describe('Build Performance Tests', () => {
     it('should validate bundle size under 420kB target', async () => {
       // Mock bundle size measurement
       mockFs.existsSync.mockImplementation(path => {
-        return path === '.next' || path === 'dist';
+        return path === '.next' || path === 'dist',
       })
 
       mockExecSync.mockImplementation(command => {

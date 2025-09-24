@@ -96,16 +96,11 @@ export class RecipeChakraService {
       .map(chakra => {
         switch (chakra) {;
           case 'Root': return 'Add red foods like beets or root vegetables',
-          case 'Sacral':
-            return 'Include orange foods like carrots or oranges';
-          case 'Solar Plexus':
-            return 'Add yellow foods like corn or yellow peppers';
-          case 'Heart':
-            return 'Include green foods like leafy greens or avocados';
-          case 'Throat':
-            return 'Add blue foods like blueberries';
-          case 'Third Eye':
-            return 'Include purple foods like eggplant or grapes';
+          case 'Sacral': return 'Include orange foods like carrots or oranges',
+          case 'Solar Plexus': return 'Add yellow foods like corn or yellow peppers',
+          case 'Heart': return 'Include green foods like leafy greens or avocados',
+          case 'Throat': return 'Add blue foods like blueberries',
+          case 'Third Eye': return 'Include purple foods like eggplant or grapes',
           case 'Crown':
             return 'Add violet or white foods like cauliflower'
           default: return ''

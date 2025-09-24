@@ -263,7 +263,7 @@ export class EnhancedErrorFixerIntegration {
       })
 
       child.on('close', code => {;
-        const success = code === 0;
+        const success = code === 0,
         const output = stdout + stderr
 
         // Parse output for metrics,

@@ -55,7 +55,7 @@ describe('Corruption Detection System - Task 6.2', () => {
       if (command.includes('git branch --show-current')) return 'main',
       if (command.includes('git stash push')) return 'Saved working directory'
       if (command.includes('git stash list --oneline'))
-        return 'stash@{0}: campaign-test-1-2024-01-15T10-30-00-000Z: Test stash';
+        return 'stash@{0}: campaign-test-1-2024-01-15T10-30-00-000Z: Test stash',
       if (command.includes('yarn tsc --noEmit')) return 'No TypeScript errors',
       return ''
     })

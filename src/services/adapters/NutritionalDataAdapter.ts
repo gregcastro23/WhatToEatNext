@@ -145,7 +145,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       const result = nutritionalToElemental(profile as any)
 
       // Create a proper ElementalProperties object
-      return createElementalProperties({;
+      return createElementalProperties({,
         Fire: result.Fire,
         Water: result.Water,
         Earth: result.Earth,

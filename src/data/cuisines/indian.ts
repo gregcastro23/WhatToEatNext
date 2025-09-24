@@ -30,7 +30,7 @@ export const indian: Cuisine = {
               swaps: ['quinoa dosa batter']
             }
             { name: 'potato masala', amount: '200', unit: 'g', category: 'vegetable' },
-            { name: 'sambar', amount: '200', unit: 'ml', category: 'soup' }
+            { name: 'sambar', amount: '200', unit: 'ml', category: 'soup' },
             { name: 'coconut chutney', amount: '50', unit: 'g', category: 'condiment' },
             { name: 'ghee', amount: '1', unit: 'tbsp', category: 'fat', swaps: ['oil'] }
           ],
@@ -86,7 +86,7 @@ export const indian: Cuisine = {
               swaps: ['gluten-free flour blend']
             }
             { name: 'potatoes', amount: '300', unit: 'g', category: 'vegetable' },
-            { name: 'spices', amount: '2', unit: 'tbsp', category: 'spice' }
+            { name: 'spices', amount: '2', unit: 'tbsp', category: 'spice' },
             {
               name: 'yogurt',
               amount: '100',
@@ -141,9 +141,9 @@ export const indian: Cuisine = {
           ],
           ingredients: [
             { name: 'idli rice', amount: '300', unit: 'g', category: 'grain' },
-            { name: 'urad dal', amount: '100', unit: 'g', category: 'legume' }
+            { name: 'urad dal', amount: '100', unit: 'g', category: 'legume' },
             { name: 'toor dal', amount: '200', unit: 'g', category: 'legume' },
-            { name: 'sambar powder', amount: '2', unit: 'tbsp', category: 'spice' }
+            { name: 'sambar powder', amount: '2', unit: 'tbsp', category: 'spice' },
             { name: 'vegetables', amount: '300', unit: 'g', category: 'vegetable' },
             { name: 'coconut chutney', amount: '100', unit: 'g', category: 'condiment' }
           ],
@@ -196,11 +196,11 @@ export const indian: Cuisine = {
           ],
           ingredients: [
             { name: 'flattened rice', amount: '200', unit: 'g', category: 'grain' },
-            { name: 'peanuts', amount: '50', unit: 'g', category: 'nuts' }
+            { name: 'peanuts', amount: '50', unit: 'g', category: 'nuts' },
             { name: 'onions', amount: '100', unit: 'g', category: 'vegetable' },
-            { name: 'curry leaves', amount: '10', unit: 'pieces', category: 'herb' }
+            { name: 'curry leaves', amount: '10', unit: 'pieces', category: 'herb' },
             { name: 'mustard seeds', amount: '1', unit: 'tsp', category: 'spice' },
-            { name: 'turmeric', amount: '1/2', unit: 'tsp', category: 'spice' }
+            { name: 'turmeric', amount: '1/2', unit: 'tsp', category: 'spice' },
             {
               name: 'green chilies',
               amount: '2',
@@ -259,11 +259,11 @@ export const indian: Cuisine = {
           ],
           ingredients: [
             { name: 'yellow lentils', amount: '200', unit: 'g', category: 'legume' },
-            { name: 'ghee', amount: '2', unit: 'tbsp', category: 'fat', swaps: ['oil'] }
+            { name: 'ghee', amount: '2', unit: 'tbsp', category: 'fat', swaps: ['oil'] },
             { name: 'cumin seeds', amount: '1', unit: 'tsp', category: 'spice' },
-            { name: 'garlic', amount: '6', unit: 'cloves', category: 'vegetable' }
+            { name: 'garlic', amount: '6', unit: 'cloves', category: 'vegetable' },
             { name: 'tomatoes', amount: '2', unit: 'medium', category: 'vegetable' },
-            { name: 'turmeric', amount: '1/2', unit: 'tsp', category: 'spice' }
+            { name: 'turmeric', amount: '1/2', unit: 'tsp', category: 'spice' },
             { name: 'asafoetida', amount: '1/4', unit: 'tsp', category: 'spice', optional: true }
           ],
           substitutions: {
@@ -313,9 +313,9 @@ export const indian: Cuisine = {
               swaps: ['coconut yogurt']
             }
             { name: 'gram flour', amount: '3', unit: 'tbsp', category: 'flour' },
-            { name: 'curry leaves', amount: '10', unit: 'leaves', category: 'herb' }
+            { name: 'curry leaves', amount: '10', unit: 'leaves', category: 'herb' },
             { name: 'mustard seeds', amount: '1', unit: 'tsp', category: 'spice' },
-            { name: 'ginger', amount: '1', unit: 'inch', category: 'spice' }
+            { name: 'ginger', amount: '1', unit: 'inch', category: 'spice' },
             {
               name: 'green chilies',
               amount: '2',
@@ -367,7 +367,7 @@ export const indian: Cuisine = {
           ],
           ingredients: [
             { name: 'black lentils', amount: '300', unit: 'g', category: 'legume' },
-            { name: 'kidney beans', amount: '100', unit: 'g', category: 'legume' }
+            { name: 'kidney beans', amount: '100', unit: 'g', category: 'legume' },
             {
               name: 'cream',
               amount: '200',
@@ -376,7 +376,7 @@ export const indian: Cuisine = {
               swaps: ['cashew cream']
             }
             { name: 'butter', amount: '100', unit: 'g', category: 'fat', swaps: ['plant butter'] },
-            { name: 'garam masala', amount: '2', unit: 'tbsp', category: 'spice' }
+            { name: 'garam masala', amount: '2', unit: 'tbsp', category: 'spice' },
             { name: 'tomatoes', amount: '400', unit: 'g', category: 'vegetable' },
             { name: 'ginger-garlic paste', amount: '2', unit: 'tbsp', category: 'paste' }
           ],
@@ -439,7 +439,7 @@ export const indian: Cuisine = {
               swaps: ['cashew cream']
             }
             { name: 'butter', amount: '100', unit: 'g', category: 'fat', swaps: ['ghee'] },
-            { name: 'garam masala', amount: '2', unit: 'tbsp', category: 'spice' }
+            { name: 'garam masala', amount: '2', unit: 'tbsp', category: 'spice' },
             { name: 'kasuri methi', amount: '1', unit: 'tbsp', category: 'herb' },
             { name: 'honey', amount: '1', unit: 'tbsp', category: 'sweetener', optional: true }
           ],
@@ -498,9 +498,9 @@ export const indian: Cuisine = {
               swaps: ['chicken', 'jackfruit']
             }
             { name: 'yogurt', amount: '200', unit: 'ml', category: 'dairy' },
-            { name: 'onions', amount: '300', unit: 'g', category: 'vegetable' }
+            { name: 'onions', amount: '300', unit: 'g', category: 'vegetable' },
             { name: 'saffron', amount: '1', unit: 'pinch', category: 'spice' },
-            { name: 'ghee', amount: '100', unit: 'ml', category: 'fat' }
+            { name: 'ghee', amount: '100', unit: 'ml', category: 'fat' },
             { name: 'whole spices', amount: '30', unit: 'g', category: 'spice' }
           ],
           substitutions: {
@@ -543,11 +543,11 @@ export const indian: Cuisine = {
           ],
           ingredients: [
             { name: 'spinach', amount: '500', unit: 'g', category: 'vegetable' },
-            { name: 'paneer', amount: '250', unit: 'g', category: 'dairy', swaps: ['tofu'] }
+            { name: 'paneer', amount: '250', unit: 'g', category: 'dairy', swaps: ['tofu'] },
             { name: 'onions', amount: '2', unit: 'medium', category: 'vegetable' },
-            { name: 'tomatoes', amount: '2', unit: 'medium', category: 'vegetable' }
+            { name: 'tomatoes', amount: '2', unit: 'medium', category: 'vegetable' },
             { name: 'ginger-garlic paste', amount: '2', unit: 'tbsp', category: 'paste' },
-            { name: 'garam masala', amount: '1', unit: 'tsp', category: 'spice' }
+            { name: 'garam masala', amount: '1', unit: 'tsp', category: 'spice' },
             { name: 'cream', amount: '50', unit: 'ml', category: 'dairy', optional: true }
           ],
           substitutions: {
@@ -590,11 +590,11 @@ export const indian: Cuisine = {
           ],
           ingredients: [
             { name: 'chickpeas', amount: '500', unit: 'g', category: 'legume' },
-            { name: 'all-purpose flour', amount: '300', unit: 'g', category: 'flour' }
+            { name: 'all-purpose flour', amount: '300', unit: 'g', category: 'flour' },
             { name: 'yogurt', amount: '100', unit: 'ml', category: 'dairy' },
-            { name: 'tea bags', amount: '2', unit: 'pieces', category: 'other' }
+            { name: 'tea bags', amount: '2', unit: 'pieces', category: 'other' },
             { name: 'onions', amount: '3', unit: 'large', category: 'vegetable' },
-            { name: 'tomatoes', amount: '4', unit: 'medium', category: 'vegetable' }
+            { name: 'tomatoes', amount: '4', unit: 'medium', category: 'vegetable' },
             { name: 'chole masala', amount: '3', unit: 'tbsp', category: 'spice' }
           ],
           substitutions: {
@@ -637,11 +637,11 @@ export const indian: Cuisine = {
           ],
           ingredients: [
             { name: 'paneer', amount: '250', unit: 'g', category: 'dairy', swaps: ['tofu'] },
-            { name: 'potatoes', amount: '200', unit: 'g', category: 'vegetable' }
+            { name: 'potatoes', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'cashews', amount: '100', unit: 'g', category: 'nuts' },
-            { name: 'cream', amount: '200', unit: 'ml', category: 'dairy' }
+            { name: 'cream', amount: '200', unit: 'ml', category: 'dairy' },
             { name: 'tomatoes', amount: '400', unit: 'g', category: 'vegetable' },
-            { name: 'garam masala', amount: '2', unit: 'tsp', category: 'spice' }
+            { name: 'garam masala', amount: '2', unit: 'tsp', category: 'spice' },
             { name: 'saffron', amount: '1', unit: 'pinch', category: 'spice', optional: true }
           ],
           substitutions: {
@@ -684,11 +684,11 @@ export const indian: Cuisine = {
           ],
           ingredients: [
             { name: 'puri shells', amount: '24', unit: 'pieces', category: 'bread' },
-            { name: 'mint leaves', amount: '100', unit: 'g', category: 'herb' }
+            { name: 'mint leaves', amount: '100', unit: 'g', category: 'herb' },
             { name: 'potatoes', amount: '200', unit: 'g', category: 'vegetable' },
-            { name: 'tamarind', amount: '30', unit: 'g', category: 'fruit' }
+            { name: 'tamarind', amount: '30', unit: 'g', category: 'fruit' },
             { name: 'black salt', amount: '1', unit: 'tsp', category: 'spice' },
-            { name: 'chaat masala', amount: '2', unit: 'tsp', category: 'spice' }
+            { name: 'chaat masala', amount: '2', unit: 'tsp', category: 'spice' },
             {
               name: 'sprouted moong',
               amount: '100',
@@ -737,13 +737,13 @@ export const indian: Cuisine = {
           ],
           ingredients: [
             { name: 'large eggplant', amount: '2', unit: 'whole', category: 'vegetable' },
-            { name: 'onion', amount: '2', unit: 'medium', category: 'vegetable' }
+            { name: 'onion', amount: '2', unit: 'medium', category: 'vegetable' },
             { name: 'tomatoes', amount: '3', unit: 'medium', category: 'vegetable' },
-            { name: 'garlic', amount: '6', unit: 'cloves', category: 'vegetable' }
+            { name: 'garlic', amount: '6', unit: 'cloves', category: 'vegetable' },
             { name: 'ginger', amount: '2', unit: 'inches', category: 'spice' },
-            { name: 'cumin seeds', amount: '1', unit: 'tsp', category: 'spice' }
+            { name: 'cumin seeds', amount: '1', unit: 'tsp', category: 'spice' },
             { name: 'garam masala', amount: '1', unit: 'tsp', category: 'spice' },
-            { name: 'turmeric', amount: '1/2', unit: 'tsp', category: 'spice' }
+            { name: 'turmeric', amount: '1/2', unit: 'tsp', category: 'spice' },
             {
               name: 'green chilies',
               amount: '2',
@@ -820,9 +820,9 @@ export const indian: Cuisine = {
               swaps: ['coconut yogurt']
             }
             { name: 'kashmiri chilies', amount: '4', unit: 'whole', category: 'spice' },
-            { name: 'whole spices', amount: '2', unit: 'tbsp', category: 'spice' }
+            { name: 'whole spices', amount: '2', unit: 'tbsp', category: 'spice' },
             { name: 'ginger', amount: '2', unit: 'tbsp', category: 'spice' },
-            { name: 'garlic', amount: '6', unit: 'cloves', category: 'vegetable' }
+            { name: 'garlic', amount: '6', unit: 'cloves', category: 'vegetable' },
             { name: 'onions', amount: '2', unit: 'large', category: 'vegetable' }
           ],
           substitutions: {
@@ -876,9 +876,9 @@ export const indian: Cuisine = {
               swaps: ['almond flour blend']
             }
             { name: 'all-purpose flour', amount: '50', unit: 'g', category: 'flour' },
-            { name: 'sugar', amount: '300', unit: 'g', category: 'sweetener' }
+            { name: 'sugar', amount: '300', unit: 'g', category: 'sweetener' },
             { name: 'cardamom', amount: '4', unit: 'pods', category: 'spice' },
-            { name: 'saffron', amount: '1', unit: 'pinch', category: 'spice' }
+            { name: 'saffron', amount: '1', unit: 'pinch', category: 'spice' },
             { name: 'ghee', amount: '30', unit: 'ml', category: 'fat' },
             { name: 'milk', amount: '60', unit: 'ml', category: 'dairy' }
           ],
@@ -928,9 +928,9 @@ export const indian: Cuisine = {
           ],
           ingredients: [
             { name: 'milk', amount: '2', unit: 'L', category: 'dairy' },
-            { name: 'sugar', amount: '200', unit: 'g', category: 'sweetener' }
+            { name: 'sugar', amount: '200', unit: 'g', category: 'sweetener' },
             { name: 'cardamom', amount: '6', unit: 'pods', category: 'spice' },
-            { name: 'pistachios', amount: '50', unit: 'g', category: 'nuts' }
+            { name: 'pistachios', amount: '50', unit: 'g', category: 'nuts' },
             { name: 'saffron', amount: '1', unit: 'pinch', category: 'spice' },
             { name: 'rose water', amount: '1', unit: 'tsp', category: 'flavoring', optional: true }
           ],
@@ -974,9 +974,9 @@ export const indian: Cuisine = {
           ],
           ingredients: [
             { name: 'milk', amount: '1', unit: 'L', category: 'dairy', swaps: ['coconut milk'] },
-            { name: 'pistachios', amount: '100', unit: 'g', category: 'nuts' }
+            { name: 'pistachios', amount: '100', unit: 'g', category: 'nuts' },
             { name: 'cardamom', amount: '5', unit: 'pods', category: 'spice' },
-            { name: 'saffron', amount: '1', unit: 'pinch', category: 'spice' }
+            { name: 'saffron', amount: '1', unit: 'pinch', category: 'spice' },
             { name: 'sugar', amount: '150', unit: 'g', category: 'sweetener' },
             { name: 'almonds', amount: '50', unit: 'g', category: 'nuts' }
           ],
@@ -1013,7 +1013,7 @@ export const indian: Cuisine = {
           cuisine: 'Indian',
           ingredients: [
             { name: 'milk', amount: '1', unit: 'L', category: 'dairy', swaps: ['coconut milk'] },
-            { name: 'pistachios', amount: '100', unit: 'g', category: 'nuts' }
+            { name: 'pistachios', amount: '100', unit: 'g', category: 'nuts' },
             { name: 'cardamom', amount: '5', unit: 'pods', category: 'spice' },
             { name: 'saffron', amount: '1', unit: 'pinch', category: 'spice' }
           ],

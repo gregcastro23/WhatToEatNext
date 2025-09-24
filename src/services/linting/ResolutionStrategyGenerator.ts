@@ -287,12 +287,9 @@ export class ResolutionStrategyGenerator {
     errorClassification: ErrorClassification,
   ): ResolutionStrategy['priority'] {
     switch (errorClassification.severity.level) {
-      case 'critical':
-        return 'critical';
-      case 'high':
-        return 'high';
-      case 'medium':
-        return 'medium';
+      case 'critical': return 'critical',
+      case 'high': return 'high',
+      case 'medium': return 'medium',
       default: return 'low'
     }
   }
@@ -674,7 +671,7 @@ export class ResolutionStrategyGenerator {
       estimatedTime: 1,
       steps: [
         {
-          id: 'auto-fix-imports';,
+          id: 'auto-fix-imports',,
           description: 'Automatically reorder imports',,
           action: 'execute-command',
           details: { command: 'npx eslint --fix --rule import/order' },

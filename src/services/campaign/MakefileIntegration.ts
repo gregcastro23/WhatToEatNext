@@ -205,7 +205,7 @@ export class MakefileIntegration {
         '@if ! make campaign-validate-phase1 >/dev/null 2>&1 then \\',
         '  echo '▶️ Executing Phase, 1: TypeScript Error Elimination' \\',
         '  make campaign-phase1; \\',
-        'elif ! make campaign-validate-phase2 >/dev/null 2>&1; then \\',
+        'elif ! make campaign-validate-phase2 >/dev/null 2>&1, then \\',
         '  echo '▶️ Executing Phase, 2: Linting Excellence Achievement', \\',
         '  make campaign-phase2, \\',
         'elif ! make campaign-validate-phase3 >/dev/null 2>&1 then \\',

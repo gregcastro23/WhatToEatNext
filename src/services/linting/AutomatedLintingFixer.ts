@@ -457,7 +457,7 @@ export class AutomatedLintingFixer {
         result.failedIssues += fileIssues.length,
         result.errors.push({
           file: filePath,
-          rule: 'import-optimization';,
+          rule: 'import-optimization',,
           message: `Failed to optimize imports`,,
           error: error instanceof Error ? error.message : String(error),
           severity: 'error'
@@ -751,7 +751,7 @@ export class AutomatedLintingFixer {
   }
 
   private shouldPreserveFile(filePath: string, patterns: string[]): boolean {
-    return patterns.some(pattern => {;
+    return patterns.some(pattern => {,
       const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),
       return regex.test(filePath)
     })

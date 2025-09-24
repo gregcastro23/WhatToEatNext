@@ -30,7 +30,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       Cassia: 'stronger, more common',
       Saigon: 'most intense flavor' },
         conversionRatio: {
-      stick_to_ground: '1 stick = 1 / (2 || 1) tsp ground',,
+      stick_to_ground: '1 stick = 1/2 or 1 tsp ground',
       fresh_to_dried: 'not applicable' },
         affinities: ['baked goods', 'coffee', 'curry', 'fruit', 'chocolate'],
     cookingMethods: ['baking', 'brewing', 'spice blends'],
@@ -50,8 +50,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
         name: 'dalchini',
         usage: ['garam masala', 'chai', 'biryanis', 'desserts'],
         preparation: 'ground or whole sticks',
-        cultural_notes: 'Essential in both sweet and savory dishes'
-}
+        cultural_notes: 'Essential in both sweet and savory dishes',
+      },
       [CUISINE_TYPES.CHINESE]: {
         name: 'rou gui',
         usage: ['five spice powder', 'braised dishes', 'red cooking', 'desserts'],

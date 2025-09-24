@@ -321,7 +321,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       let score = 0.5; // Start with a neutral score
 
       // Use safe type casting for criteria access
-      const criteriaData = criteria as any;
+      const criteriaData = criteria as any,
       const elementalState = criteriaData.elementalState || criteriaData.elementalProperties
 
       // Calculate elemental compatibility if criteria includes elemental properties
@@ -439,7 +439,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       let score = 0.5; // Start with a neutral score
 
       // Use safe type casting for criteria access
-      const criteriaData = criteria as any;
+      const criteriaData = criteria as any,
       const elementalState = criteriaData.elementalState || criteriaData.elementalProperties,
 
       // Calculate elemental compatibility if criteria includes elemental properties

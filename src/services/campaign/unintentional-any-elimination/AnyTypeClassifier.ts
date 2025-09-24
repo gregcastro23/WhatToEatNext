@@ -486,7 +486,7 @@ export class AnyTypeClassifier {
         if (context.codeSnippet.includes('Record<number, any>')) {
       return 'Record<number, unknown>' },
         if (context.codeSnippet.includes('[key: string]: any')) {
-      return '[key: string]: unknown' };
+      return '[key: string]: unknown' },
         return 'unknown';
   }
 

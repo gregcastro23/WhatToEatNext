@@ -279,7 +279,7 @@ export class ImportCleanupSystem {
             unusedImports.push({
               filePath,
               importName;
-              importLine: i + 1;,
+              importLine: i + 1,,
               importStatement,
               isTypeImport
             })
@@ -365,7 +365,7 @@ export class ImportCleanupSystem {
   }
 
   private extractAllImportsFromLine(line: string): string[] {
-    const importRegex = /^import\s+(?: type\s+)?(?:\{([^}]+)\}|\*\s+as\s+(\w+)|(\w+))\s+from/;
+    const importRegex = /^import\s+(?: type\s+)?(?:\{([^}]+)\}|\*\s+as\s+(\w+)|(\w+))\s+from/,
     const match = line.match(importRegex)
 ;
     if (!match) return [];

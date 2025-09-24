@@ -153,7 +153,7 @@ export const italian: Cuisine = {
               swaps: ['gluten-free toast']
             }
             { name: 'jam', amount: '30', unit: 'g', category: 'spread' },
-            { name: 'butter', amount: '15', unit: 'g', category: 'dairy', swaps: ['plant butter'] }
+            { name: 'butter', amount: '15', unit: 'g', category: 'dairy', swaps: ['plant butter'] },
             { name: 'espresso', amount: '30', unit: 'ml', category: 'beverage' }
           ],
           substitutions: {
@@ -257,7 +257,7 @@ export const italian: Cuisine = {
               swaps: ['almond ricotta']
             }
             { name: 'fresh figs', amount: '4', unit: 'whole', category: 'fruit' },
-            { name: 'honey', amount: '2', unit: 'tbsp', category: 'sweetener' }
+            { name: 'honey', amount: '2', unit: 'tbsp', category: 'sweetener' },
             { name: 'pistachios', amount: '30', unit: 'g', category: 'nuts' }
           ],
           substitutions: {
@@ -364,7 +364,7 @@ export const italian: Cuisine = {
               swaps: ['gluten-free pasta']
             }
             { name: 'tomatoes', amount: '500', unit: 'g', category: 'vegetable' },
-            { name: 'basil', amount: '1', unit: 'bunch', category: 'herb' }
+            { name: 'basil', amount: '1', unit: 'bunch', category: 'herb' },
             { name: 'olive oil', amount: '60', unit: 'ml', category: 'oil' },
             { name: 'garlic', amount: '3', unit: 'cloves', category: 'vegetable' }
           ],
@@ -414,7 +414,7 @@ export const italian: Cuisine = {
               swaps: ['plant-based mozzarella']
             }
             { name: 'tomatoes', amount: '300', unit: 'g', category: 'vegetable' },
-            { name: 'fresh basil', amount: '1', unit: 'bunch', category: 'herb' }
+            { name: 'fresh basil', amount: '1', unit: 'bunch', category: 'herb' },
             { name: 'olive oil', amount: '3', unit: 'tbsp', category: 'oil' },
             { name: 'balsamic vinegar', amount: '1', unit: 'tbsp', category: 'vinegar' }
           ],
@@ -466,7 +466,7 @@ export const italian: Cuisine = {
               swaps: ['gluten-free bread']
             }
             { name: 'tomatoes', amount: '400', unit: 'g', category: 'vegetable' },
-            { name: 'cucumber', amount: '1', unit: 'medium', category: 'vegetable' }
+            { name: 'cucumber', amount: '1', unit: 'medium', category: 'vegetable' },
             { name: 'red onion', amount: '1', unit: 'medium', category: 'vegetable' },
             { name: 'olive oil', amount: '60', unit: 'ml', category: 'oil' }
           ],
@@ -576,7 +576,7 @@ export const italian: Cuisine = {
               swaps: ['gluten-free pasta']
             }
             { name: 'borlotti beans', amount: '400', unit: 'g', category: 'legume' },
-            { name: 'tomato passata', amount: '200', unit: 'ml', category: 'sauce' }
+            { name: 'tomato passata', amount: '200', unit: 'ml', category: 'sauce' },
             { name: 'rosemary', amount: '2', unit: 'sprigs', category: 'herb' },
             {
               name: 'pancetta',
@@ -639,7 +639,7 @@ export const italian: Cuisine = {
               swaps: ['beef shanks']
             }
             { name: 'white wine', amount: '250', unit: 'ml', category: 'wine' },
-            { name: 'broth', amount: '500', unit: 'ml', category: 'liquid' }
+            { name: 'broth', amount: '500', unit: 'ml', category: 'liquid' },
             { name: 'vegetables', amount: '300', unit: 'g', category: 'vegetable' },
             { name: 'gremolata', amount: '1', unit: 'portion', category: 'garnish' }
           ],
@@ -738,11 +738,11 @@ export const italian: Cuisine = {
           ],
           ingredients: [
             { name: 'potatoes', amount: '1', unit: 'kg', category: 'vegetable' },
-            { name: 'flour', amount: '300', unit: 'g', category: 'grain' }
+            { name: 'flour', amount: '300', unit: 'g', category: 'grain' },
             { name: 'egg', amount: '1', unit: 'large', category: 'protein' },
-            { name: 'tomato sauce', amount: '500', unit: 'ml', category: 'sauce' }
+            { name: 'tomato sauce', amount: '500', unit: 'ml', category: 'sauce' },
             { name: 'mozzarella', amount: '250', unit: 'g', category: 'dairy' },
-            { name: 'Parmigiano-Reggiano', amount: '100', unit: 'g', category: 'dairy' }
+            { name: 'Parmigiano-Reggiano', amount: '100', unit: 'g', category: 'dairy' },
             { name: 'fresh basil', amount: '1', unit: 'bunch', category: 'herb' },
             { name: 'olive oil', amount: '3', unit: 'tbsp', category: 'oil' }
           ],
@@ -851,7 +851,7 @@ export const italian: Cuisine = {
           ],
           ingredients: [
             { name: 'eggplant', amount: '800', unit: 'g', category: 'vegetable' },
-            { name: 'tomato sauce', amount: '500', unit: 'ml', category: 'sauce' }
+            { name: 'tomato sauce', amount: '500', unit: 'ml', category: 'sauce' },
             {
               name: 'mozzarella',
               amount: '300',
@@ -920,7 +920,7 @@ export const italian: Cuisine = {
               swaps: ['gluten-free ladyfingers']
             }
             { name: 'espresso', amount: '300', unit: 'ml', category: 'coffee' },
-            { name: 'eggs', amount: '4', unit: 'large', category: 'protein' }
+            { name: 'eggs', amount: '4', unit: 'large', category: 'protein' },
             { name: 'cocoa powder', amount: '30', unit: 'g', category: 'powder' }
           ],
           substitutions: {

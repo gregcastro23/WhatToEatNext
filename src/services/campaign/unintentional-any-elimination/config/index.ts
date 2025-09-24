@@ -183,7 +183,7 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
 },
     milestones: [
       { name: 'Initial Analysis', targetReduction: 0, timeframe: '1 day' },
-      { name: 'Conservative Phase', targetReduction: 5, timeframe: '3 days' }
+      { name: 'Conservative Phase', targetReduction: 5, timeframe: '3 days' },
       { name: 'Progressive Phase', targetReduction: 12, timeframe: '1 week' },
       { name: 'Target Achievement', targetReduction: 18, timeframe: '2 weeks' }
     ]

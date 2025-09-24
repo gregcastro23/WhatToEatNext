@@ -24,7 +24,7 @@ export const russian: Cuisine = {
           ],
           ingredients: [
             { name: 'tvorog', amount: '500', unit: 'g', category: 'dairy', swaps: ['firm tofu'] },
-            { name: 'eggs', amount: '2', unit: 'large', category: 'protein' }
+            { name: 'eggs', amount: '2', unit: 'large', category: 'protein' },
             {
               name: 'flour',
               amount: '100',
@@ -33,7 +33,7 @@ export const russian: Cuisine = {
               swaps: ['gluten-free flour']
             }
             { name: 'sugar', amount: '2', unit: 'tbsp', category: 'sweetener' },
-            { name: 'vanilla extract', amount: '1', unit: 'tsp', category: 'flavoring' }
+            { name: 'vanilla extract', amount: '1', unit: 'tsp', category: 'flavoring' },
             {
               name: 'sour cream',
               amount: '100',
@@ -88,7 +88,7 @@ export const russian: Cuisine = {
           ],
           ingredients: [
             { name: 'buckwheat groats', amount: '200', unit: 'g', category: 'grain' },
-            { name: 'milk', amount: '500', unit: 'ml', category: 'dairy', swaps: ['oat milk'] }
+            { name: 'milk', amount: '500', unit: 'ml', category: 'dairy', swaps: ['oat milk'] },
             { name: 'butter', amount: '30', unit: 'g', category: 'fat', swaps: ['plant butter'] },
             { name: 'salt', amount: '1', unit: 'tsp', category: 'seasoning' }
           ],
@@ -158,9 +158,9 @@ export const russian: Cuisine = {
               swaps: ['gluten-free flour']
             }
             { name: 'milk', amount: '600', unit: 'ml', category: 'dairy', swaps: ['almond milk'] },
-            { name: 'eggs', amount: '3', unit: 'large', category: 'protein' }
+            { name: 'eggs', amount: '3', unit: 'large', category: 'protein' },
             { name: 'yeast', amount: '7', unit: 'g', category: 'leavening' },
-            { name: 'sugar', amount: '1', unit: 'tbsp', category: 'sweetener' }
+            { name: 'sugar', amount: '1', unit: 'tbsp', category: 'sweetener' },
             {
               name: 'sour cream',
               amount: '100',
@@ -235,7 +235,7 @@ export const russian: Cuisine = {
               swaps: ['gluten-free flour']
             }
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein' },
-            { name: 'sugar', amount: '2', unit: 'tbsp', category: 'sweetener' }
+            { name: 'sugar', amount: '2', unit: 'tbsp', category: 'sweetener' },
             { name: 'baking soda', amount: '1', unit: 'tsp', category: 'leavening' }
           ],
           substitutions: {
@@ -290,11 +290,11 @@ export const russian: Cuisine = {
           ],
           ingredients: [
             { name: 'beef', amount: '500', unit: 'g', category: 'protein', swaps: ['mushrooms'] },
-            { name: 'beets', amount: '500', unit: 'g', category: 'vegetable' }
+            { name: 'beets', amount: '500', unit: 'g', category: 'vegetable' },
             { name: 'cabbage', amount: '300', unit: 'g', category: 'vegetable' },
-            { name: 'potatoes', amount: '300', unit: 'g', category: 'vegetable' }
+            { name: 'potatoes', amount: '300', unit: 'g', category: 'vegetable' },
             { name: 'carrots', amount: '200', unit: 'g', category: 'vegetable' },
-            { name: 'onion', amount: '200', unit: 'g', category: 'vegetable' }
+            { name: 'onion', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'tomato paste', amount: '2', unit: 'tbsp', category: 'condiment' },
             {
               name: 'sour cream',
@@ -365,7 +365,7 @@ export const russian: Cuisine = {
               swaps: ['mushroom mix']
             }
             { name: 'onions', amount: '200', unit: 'g', category: 'vegetable' },
-            { name: 'eggs', amount: '2', unit: 'large', category: 'protein' }
+            { name: 'eggs', amount: '2', unit: 'large', category: 'protein' },
             { name: 'butter', amount: '100', unit: 'g', category: 'dairy', swaps: ['olive oil'] },
             {
               name: 'sour cream',
@@ -429,9 +429,9 @@ export const russian: Cuisine = {
               swaps: ['mushrooms']
             }
             { name: 'cabbage', amount: '600', unit: 'g', category: 'vegetable' },
-            { name: 'potatoes', amount: '300', unit: 'g', category: 'vegetable' }
+            { name: 'potatoes', amount: '300', unit: 'g', category: 'vegetable' },
             { name: 'carrots', amount: '150', unit: 'g', category: 'vegetable' },
-            { name: 'onions', amount: '150', unit: 'g', category: 'vegetable' }
+            { name: 'onions', amount: '150', unit: 'g', category: 'vegetable' },
             { name: 'bay leaves', amount: '2', unit: 'pieces', category: 'herb' },
             {
               name: 'sour cream',
@@ -487,9 +487,9 @@ export const russian: Cuisine = {
           ],
           ingredients: [
             { name: 'white fish', amount: '800', unit: 'g', category: 'protein' },
-            { name: 'onions', amount: '200', unit: 'g', category: 'vegetable' }
+            { name: 'onions', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'carrots', amount: '200', unit: 'g', category: 'vegetable' },
-            { name: 'potatoes', amount: '300', unit: 'g', category: 'vegetable' }
+            { name: 'potatoes', amount: '300', unit: 'g', category: 'vegetable' },
             { name: 'bay leaves', amount: '2', unit: 'pieces', category: 'herb' },
             { name: 'black peppercorns', amount: '6', unit: 'pieces', category: 'spice' }
           ],
@@ -538,9 +538,9 @@ export const russian: Cuisine = {
               swaps: ['seitan mix']
             }
             { name: 'pickles', amount: '200', unit: 'g', category: 'vegetable' },
-            { name: 'onions', amount: '200', unit: 'g', category: 'vegetable' }
+            { name: 'onions', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'olives', amount: '100', unit: 'g', category: 'vegetable' },
-            { name: 'lemon', amount: '1', unit: 'whole', category: 'citrus' }
+            { name: 'lemon', amount: '1', unit: 'whole', category: 'citrus' },
             {
               name: 'sour cream',
               amount: '100',
@@ -594,7 +594,7 @@ export const russian: Cuisine = {
               swaps: ['mushrooms']
             }
             { name: 'mushrooms', amount: '400', unit: 'g', category: 'vegetable' },
-            { name: 'onions', amount: '200', unit: 'g', category: 'vegetable' }
+            { name: 'onions', amount: '200', unit: 'g', category: 'vegetable' },
             {
               name: 'sour cream',
               amount: '300',
@@ -670,7 +670,7 @@ export const russian: Cuisine = {
               swaps: ['lentils']
             }
             { name: 'rice', amount: '200', unit: 'g', category: 'grain' },
-            { name: 'tomato sauce', amount: '500', unit: 'ml', category: 'sauce' }
+            { name: 'tomato sauce', amount: '500', unit: 'ml', category: 'sauce' },
             { name: 'onions', amount: '200', unit: 'g', category: 'vegetable' },
             {
               name: 'sour cream',
@@ -751,7 +751,7 @@ export const russian: Cuisine = {
               swaps: ['gluten-free bread']
             }
             { name: 'milk', amount: '100', unit: 'ml', category: 'dairy', swaps: ['oat milk'] },
-            { name: 'onion', amount: '1', unit: 'large', category: 'vegetable' }
+            { name: 'onion', amount: '1', unit: 'large', category: 'vegetable' },
             { name: 'butter', amount: '50', unit: 'g', category: 'fat', swaps: ['oil'] }
           ],
           substitutions: {
@@ -805,11 +805,11 @@ export const russian: Cuisine = {
           ],
           ingredients: [
             { name: 'potatoes', amount: '500', unit: 'g', category: 'vegetable' },
-            { name: 'carrots', amount: '200', unit: 'g', category: 'vegetable' }
+            { name: 'carrots', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'peas', amount: '200', unit: 'g', category: 'vegetable' },
-            { name: 'eggs', amount: '4', unit: 'large', category: 'protein' }
+            { name: 'eggs', amount: '4', unit: 'large', category: 'protein' },
             { name: 'pickles', amount: '200', unit: 'g', category: 'vegetable' },
-            { name: 'bologna', amount: '200', unit: 'g', category: 'protein', swaps: ['tofu'] }
+            { name: 'bologna', amount: '200', unit: 'g', category: 'protein', swaps: ['tofu'] },
             {
               name: 'mayonnaise',
               amount: '300',
@@ -867,9 +867,9 @@ export const russian: Cuisine = {
           ],
           ingredients: [
             { name: 'beef', amount: '800', unit: 'g', category: 'protein', swaps: ['mushrooms'] },
-            { name: 'potatoes', amount: '800', unit: 'g', category: 'vegetable' }
+            { name: 'potatoes', amount: '800', unit: 'g', category: 'vegetable' },
             { name: 'carrots', amount: '200', unit: 'g', category: 'vegetable' },
-            { name: 'onions', amount: '200', unit: 'g', category: 'vegetable' }
+            { name: 'onions', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'garlic', amount: '4', unit: 'cloves', category: 'vegetable' },
             { name: 'bay leaves', amount: '2', unit: 'pieces', category: 'herb' }
           ],
@@ -936,7 +936,7 @@ export const russian: Cuisine = {
               swaps: ['cashew cheese']
             }
             { name: 'butter', amount: '200', unit: 'g', category: 'dairy', swaps: ['coconut oil'] },
-            { name: 'dried fruit', amount: '200', unit: 'g', category: 'fruit' }
+            { name: 'dried fruit', amount: '200', unit: 'g', category: 'fruit' },
             { name: 'nuts', amount: '100', unit: 'g', category: 'nuts' },
             { name: 'vanilla', amount: '1', unit: 'pod', category: 'spice' }
           ],
@@ -1070,7 +1070,7 @@ export const russian: Cuisine = {
               swaps: ['gluten-free flour']
             }
             { name: 'cherries', amount: '500', unit: 'g', category: 'fruit' },
-            { name: 'sugar', amount: '100', unit: 'g', category: 'sweetener' }
+            { name: 'sugar', amount: '100', unit: 'g', category: 'sweetener' },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein' },
             {
               name: 'sour cream',
@@ -1196,7 +1196,7 @@ export const russian: Cuisine = {
               swaps: ['gluten-free flour']
             }
             { name: 'honey', amount: '200', unit: 'g', category: 'sweetener' },
-            { name: 'spice mix', amount: '2', unit: 'tbsp', category: 'spice' }
+            { name: 'spice mix', amount: '2', unit: 'tbsp', category: 'spice' },
             {
               name: 'butter',
               amount: '100',

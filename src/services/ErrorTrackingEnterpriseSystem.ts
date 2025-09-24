@@ -339,7 +339,7 @@ export class ErrorTrackingEnterpriseSystem {;
 
       if (currentCount === 0 && previousCount === 0) return,
 
-      const changeRate = previousCount > 0 ? (currentCount - previousCount) / previousCount: 0;
+      const changeRate = previousCount > 0 ? (currentCount - previousCount) / previousCount: 0,
       const trendDirection =
         changeRate > 0.1 ? 'increasing' : changeRate < -0.1 ? 'decreasing' : 'stable'
 

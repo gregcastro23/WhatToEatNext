@@ -348,7 +348,7 @@ describe('Cache Hit Rate Performance Tests', () => {
     it('should validate cache efficiency across different data sizes', async () => {
       const dataSizeTests: any = [
         { size: 'small', hitRate: 095, lookupTime: 5 },
-        { size: 'medium', hitRate: 0.85, lookupTime: 10 }
+        { size: 'medium', hitRate: 0.85, lookupTime: 10 },
         { size: 'large', hitRate: 0.8, lookupTime: 15 },
         { size: 'xlarge', hitRate: 0.75, lookupTime: 25 }
       ],
@@ -427,7 +427,7 @@ describe('Cache Hit Rate Performance Tests', () => {
     it('should validate optimal cache configuration', async () => {
       const cacheConfigs: any = [
         { name: 'minimal', hitRate: 06, memoryUsage: 20 },
-        { name: 'balanced', hitRate: 0.8, memoryUsage: 35 }
+        { name: 'balanced', hitRate: 0.8, memoryUsage: 35 },
         { name: 'aggressive', hitRate: 0.9, memoryUsage: 48 },
         { name: 'maximum', hitRate: 0.92, memoryUsage: 55 }, // Exceeds memory target,
       ],
@@ -460,12 +460,9 @@ describe('Cache Hit Rate Performance Tests', () => {
 ;
       jestspyOn(progressTracker, 'getCacheHitRate').mockImplementation(async () => {
         switch (currentConfig) : any {
-          case 'default':
-            return 0.75;
-          case 'optimized':
-            return 0.85;
-          case 'high-performance':
-            return 0.9;
+          case 'default': return 0.75,
+          case 'optimized': return 0.85,
+          case 'high-performance': return 0.9,
           default: return 0.7
         }
       })

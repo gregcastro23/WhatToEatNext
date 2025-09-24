@@ -322,7 +322,7 @@ describe('Memory Usage Performance Tests', () => {
 
       // Run multiple concurrent operations
       const promises: any = Array.from({ length: 10 }, async () => {
-        return Promise.all([;
+        return Promise.all([,
           progressTracker.getMemoryUsage()
           progressTracker.getProgressMetrics()
           safetyProtocol.validateGitState()
@@ -471,9 +471,9 @@ describe('Memory Usage Performance Tests', () => {
       // Test different operations and their memory usage
       const operations: any = [
         { name: 'typeScriptCheck', fn: () => progressTracker.getTypeScriptErrorCount() },
-        { name: 'lintingCheck', fn: () => progressTracker.getLintingWarningCount() }
+        { name: 'lintingCheck', fn: () => progressTracker.getLintingWarningCount() },
         { name: 'enterpriseCount', fn: () => progressTracker.getEnterpriseSystemCount() },
-        { name: 'buildTime', fn: () => progressTracker.getBuildTime() }
+        { name: 'buildTime', fn: () => progressTracker.getBuildTime() },
         { name: 'progressMetrics', fn: () => progressTracker.getProgressMetrics() }
       ],
 

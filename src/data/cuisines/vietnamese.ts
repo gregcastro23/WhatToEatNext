@@ -40,13 +40,13 @@ export const vietnamese: Cuisine = {
               swaps: ['tofu', 'mushrooms']
             }
             { name: 'onion', amount: '2', unit: 'large', category: 'vegetable' },
-            { name: 'ginger', amount: '100', unit: 'g', category: 'spice' }
+            { name: 'ginger', amount: '100', unit: 'g', category: 'spice' },
             { name: 'star anise', amount: '4', unit: 'pieces', category: 'spice' },
-            { name: 'cinnamon stick', amount: '2', unit: 'pieces', category: 'spice' }
+            { name: 'cinnamon stick', amount: '2', unit: 'pieces', category: 'spice' },
             { name: 'bean sprouts', amount: '200', unit: 'g', category: 'vegetable' },
-            { name: 'Thai basil', amount: '1', unit: 'bunch', category: 'herb' }
+            { name: 'Thai basil', amount: '1', unit: 'bunch', category: 'herb' },
             { name: 'cilantro', amount: '1', unit: 'bunch', category: 'herb' },
-            { name: 'lime', amount: '2', unit: 'whole', category: 'fruit' }
+            { name: 'lime', amount: '2', unit: 'whole', category: 'fruit' },
             { name: 'hoisin sauce', amount: '4', unit: 'tbsp', category: 'condiment' },
             { name: 'sriracha', amount: '4', unit: 'tbsp', category: 'condiment' }
           ],
@@ -96,9 +96,9 @@ export const vietnamese: Cuisine = {
           ],
           ingredients: [
             { name: 'jasmine rice', amount: '1', unit: 'cup', category: 'grain' },
-            { name: 'chicken', amount: '500', unit: 'g', category: 'protein', swaps: ['tofu'] }
+            { name: 'chicken', amount: '500', unit: 'g', category: 'protein', swaps: ['tofu'] },
             { name: 'ginger', amount: '50', unit: 'g', category: 'spice' },
-            { name: 'green onions', amount: '4', unit: 'stalks', category: 'vegetable' }
+            { name: 'green onions', amount: '4', unit: 'stalks', category: 'vegetable' },
             {
               name: 'fish sauce',
               amount: '2',
@@ -107,7 +107,7 @@ export const vietnamese: Cuisine = {
               swaps: ['soy sauce']
             }
             { name: 'black pepper', amount: '1', unit: 'tsp', category: 'spice' },
-            { name: 'fried shallots', amount: '4', unit: 'tbsp', category: 'garnish' }
+            { name: 'fried shallots', amount: '4', unit: 'tbsp', category: 'garnish' },
             { name: 'cilantro', amount: '1/2', unit: 'cup', category: 'herb' }
           ],
           substitutions: {
@@ -156,7 +156,7 @@ export const vietnamese: Cuisine = {
           ],
           ingredients: [
             { name: 'rice flour', amount: '300', unit: 'g', category: 'flour' },
-            { name: 'tapioca starch', amount: '50', unit: 'g', category: 'starch' }
+            { name: 'tapioca starch', amount: '50', unit: 'g', category: 'starch' },
             {
               name: 'ground pork',
               amount: '200',
@@ -165,9 +165,9 @@ export const vietnamese: Cuisine = {
               swaps: ['mushrooms']
             }
             { name: 'wood ear mushrooms', amount: '50', unit: 'g', category: 'vegetable' },
-            { name: 'shallots', amount: '4', unit: 'whole', category: 'vegetable' }
+            { name: 'shallots', amount: '4', unit: 'whole', category: 'vegetable' },
             { name: 'fish sauce', amount: '3', unit: 'tbsp', category: 'seasoning' },
-            { name: 'fried shallots', amount: '4', unit: 'tbsp', category: 'garnish' }
+            { name: 'fried shallots', amount: '4', unit: 'tbsp', category: 'garnish' },
             { name: 'Vietnamese herbs', amount: '1', unit: 'bunch', category: 'herb' }
           ],
           substitutions: {
@@ -208,7 +208,7 @@ export const vietnamese: Cuisine = {
           cuisine: 'Vietnamese',
           ingredients: [
             { name: 'rice', amount: '1', unit: 'cup', category: 'grain' },
-            { name: 'chicken', amount: '200', unit: 'g', category: 'protein', swaps: ['tofu'] }
+            { name: 'chicken', amount: '200', unit: 'g', category: 'protein', swaps: ['tofu'] },
             { name: 'ginger', amount: '30', unit: 'g', category: 'spice' },
             { name: 'green onions', amount: '2', unit: 'stalks', category: 'vegetable' }
           ],
@@ -258,9 +258,9 @@ export const vietnamese: Cuisine = {
               swaps: ['tofu', 'seitan']
             }
             { name: 'daikon', amount: '200', unit: 'g', category: 'vegetable' },
-            { name: 'carrots', amount: '200', unit: 'g', category: 'vegetable' }
+            { name: 'carrots', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'cucumber', amount: '1', unit: 'large', category: 'vegetable' },
-            { name: 'cilantro', amount: '1', unit: 'bunch', category: 'herb' }
+            { name: 'cilantro', amount: '1', unit: 'bunch', category: 'herb' },
             {
               name: 'pate',
               amount: '100',
@@ -317,13 +317,13 @@ export const vietnamese: Cuisine = {
           ],
           ingredients: [
             { name: 'ground pork', amount: '500', unit: 'g', category: 'protein' },
-            { name: 'rice noodles', amount: '400', unit: 'g', category: 'grain' }
+            { name: 'rice noodles', amount: '400', unit: 'g', category: 'grain' },
             { name: 'fish sauce', amount: '4', unit: 'tbsp', category: 'seasoning' },
-            { name: 'garlic', amount: '6', unit: 'cloves', category: 'vegetable' }
+            { name: 'garlic', amount: '6', unit: 'cloves', category: 'vegetable' },
             { name: 'shallots', amount: '4', unit: 'pieces', category: 'vegetable' },
-            { name: 'lettuce', amount: '1', unit: 'head', category: 'vegetable' }
+            { name: 'lettuce', amount: '1', unit: 'head', category: 'vegetable' },
             { name: 'herbs mix', amount: '2', unit: 'cups', category: 'herb' },
-            { name: 'green papaya', amount: '200', unit: 'g', category: 'vegetable' }
+            { name: 'green papaya', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'lime', amount: '2', unit: 'pieces', category: 'fruit' }
           ],
           substitutions: {
@@ -372,11 +372,11 @@ export const vietnamese: Cuisine = {
           ],
           ingredients: [
             { name: 'beef shank', amount: '500', unit: 'g', category: 'protein' },
-            { name: 'pork knuckles', amount: '300', unit: 'g', category: 'protein' }
+            { name: 'pork knuckles', amount: '300', unit: 'g', category: 'protein' },
             { name: 'thick rice noodles', amount: '500', unit: 'g', category: 'grain' },
-            { name: 'lemongrass', amount: '4', unit: 'stalks', category: 'herb' }
+            { name: 'lemongrass', amount: '4', unit: 'stalks', category: 'herb' },
             { name: 'shrimp paste', amount: '2', unit: 'tbsp', category: 'seasoning' },
-            { name: 'annatto seeds', amount: '2', unit: 'tbsp', category: 'spice' }
+            { name: 'annatto seeds', amount: '2', unit: 'tbsp', category: 'spice' },
             { name: 'Vietnamese herbs', amount: '2', unit: 'cups', category: 'herb' },
             {
               name: 'banana flower',
@@ -449,13 +449,13 @@ export const vietnamese: Cuisine = {
               swaps: ['salmon', 'mackerel']
             }
             { name: 'sugar', amount: '3', unit: 'tbsp', category: 'sweetener' },
-            { name: 'fish sauce', amount: '4', unit: 'tbsp', category: 'seasoning' }
+            { name: 'fish sauce', amount: '4', unit: 'tbsp', category: 'seasoning' },
             { name: 'coconut water', amount: '1', unit: 'cup', category: 'liquid' },
-            { name: 'shallots', amount: '4', unit: 'whole', category: 'vegetable' }
+            { name: 'shallots', amount: '4', unit: 'whole', category: 'vegetable' },
             { name: 'garlic', amount: '4', unit: 'cloves', category: 'vegetable' },
-            { name: 'ginger', amount: '2', unit: 'inches', category: 'spice' }
+            { name: 'ginger', amount: '2', unit: 'inches', category: 'spice' },
             { name: 'green onions', amount: '4', unit: 'stalks', category: 'vegetable' },
-            { name: 'black pepper', amount: '1', unit: 'tsp', category: 'spice' }
+            { name: 'black pepper', amount: '1', unit: 'tsp', category: 'spice' },
             { name: 'chili', amount: '2', unit: 'pieces', category: 'spice', optional: true }
           ],
           substitutions: {
@@ -504,11 +504,11 @@ export const vietnamese: Cuisine = {
           ],
           ingredients: [
             { name: 'broken rice', amount: '2', unit: 'cups', category: 'grain' },
-            { name: 'pork chops', amount: '4', unit: 'pieces', category: 'protein' }
+            { name: 'pork chops', amount: '4', unit: 'pieces', category: 'protein' },
             { name: 'eggs', amount: '4', unit: 'large', category: 'protein' },
-            { name: 'green onions', amount: '4', unit: 'stalks', category: 'vegetable' }
+            { name: 'green onions', amount: '4', unit: 'stalks', category: 'vegetable' },
             { name: 'pickled vegetables', amount: '200', unit: 'g', category: 'vegetable' },
-            { name: 'fish sauce', amount: '4', unit: 'tbsp', category: 'seasoning' }
+            { name: 'fish sauce', amount: '4', unit: 'tbsp', category: 'seasoning' },
             { name: 'lemongrass', amount: '2', unit: 'stalks', category: 'herb' },
             { name: 'garlic', amount: '6', unit: 'cloves', category: 'vegetable' }
           ],
@@ -562,9 +562,9 @@ export const vietnamese: Cuisine = {
           ],
           ingredients: [
             { name: 'red beans', amount: '200', unit: 'g', category: 'legume' },
-            { name: 'mung beans', amount: '200', unit: 'g', category: 'legume' }
+            { name: 'mung beans', amount: '200', unit: 'g', category: 'legume' },
             { name: 'pandan jelly', amount: '200', unit: 'g', category: 'jelly' },
-            { name: 'coconut milk', amount: '400', unit: 'ml', category: 'liquid' }
+            { name: 'coconut milk', amount: '400', unit: 'ml', category: 'liquid' },
             { name: 'palm sugar', amount: '100', unit: 'g', category: 'sweetener' },
             {
               name: 'pandan leaves',
@@ -622,9 +622,9 @@ export const vietnamese: Cuisine = {
           ],
           ingredients: [
             { name: 'ripe bananas', amount: '6', unit: 'medium', category: 'fruit' },
-            { name: 'coconut milk', amount: '400', unit: 'ml', category: 'liquid' }
+            { name: 'coconut milk', amount: '400', unit: 'ml', category: 'liquid' },
             { name: 'tapioca pearls', amount: '100', unit: 'g', category: 'starch' },
-            { name: 'palm sugar', amount: '80', unit: 'g', category: 'sweetener' }
+            { name: 'palm sugar', amount: '80', unit: 'g', category: 'sweetener' },
             {
               name: 'pandan leaves',
               amount: '2',

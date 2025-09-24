@@ -323,7 +323,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   getIngredientsByPlanet(planet: Planet): UnifiedIngredient[] {
     const allIngredients = this.getAllIngredientsFlat()
 
-    return (allIngredients || []).filter(_ingredient => {;
+    return (allIngredients || []).filter(_ingredient => {,
       if (!(_ingredient as any)?.astrologicalProperties?.planets) return false,
 
       const planets = (_ingredient as any)?.astrologicalProperties?.planets
@@ -339,7 +339,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   getIngredientsByZodiacSign(sign: any): UnifiedIngredient[] {
     const allIngredients = this.getAllIngredientsFlat()
 
-    return (allIngredients || []).filter(_ingredient => {;
+    return (allIngredients || []).filter(_ingredient => {,
       if (!(_ingredient as any)?.astrologicalProperties?.signs) return false,
 
       const signs = (_ingredient as any)?.astrologicalProperties?.signs
@@ -380,7 +380,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     // Score ingredients based on elemental compatibility
     const scoredIngredients = (candidates || []).map(_ingredient => {;
       // Apply Pattern PP-1: Safe service method access
-      const alchemicalEngineData = alchemicalEngine as unknown;
+      const alchemicalEngineData = alchemicalEngine as unknown,
       const compatibilityMethod =
         alchemicalEngineData.calculateElementalCompatibility || this.fallbackElementalCompatibility
       const compatibility =
@@ -421,7 +421,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   } {
     // Resolve ingredients if strings provided
     const ing1 =
-      typeof ingredient1 === 'string' ? this.getIngredientByName(ingredient1) : ingredient1;
+      typeof ingredient1 === 'string' ? this.getIngredientByName(ingredient1) : ingredient1,
     const ing2 =
       typeof ingredient2 === 'string' ? this.getIngredientByName(ingredient2) : ingredient2
 
@@ -903,7 +903,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
       name.toLowerCase().trim()
     )
 
-    return (ingredients || []).filter(ingredient => {;
+    return (ingredients || []).filter(ingredient => {,
       const ingredientName = ingredient.name.toLowerCase() || '';
       return !normalizedExclusions.includes(ingredientName)
     })

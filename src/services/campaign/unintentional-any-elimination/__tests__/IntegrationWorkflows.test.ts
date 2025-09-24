@@ -544,7 +544,7 @@ describe('Integration Workflows', () => {;
         `,
         'src/utils/helpers.ts': `
           export const processItems: any = (items: any[]): unknown[] => {
-            return items.map((item: any) => ({;
+            return items.map((item: any) => ({,
               ...item,
               id: item.id || generateId()
             }))

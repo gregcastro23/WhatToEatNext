@@ -326,16 +326,11 @@ export class ProgressTracker {
     switch (milestone) {
       case 'zero-typescript-errors':;
         return metrics.typeScriptErrors.current === 0;
-      case 'zero-linting-warnings':
-        return metrics.lintingWarnings.current === 0;
-      case 'build-time-under-10s':
-        return metrics.buildPerformance.currentTime <= 10;
-      case 'enterprise-systems-200':
-        return metrics.enterpriseSystems.current >= 200;
-      case 'phase-1-complete':
-        return metrics.typeScriptErrors.current === 0;
-      case 'phase-2-complete':
-        return metrics.lintingWarnings.current === 0;
+      case 'zero-linting-warnings': return metrics.lintingWarnings.current === 0,
+      case 'build-time-under-10s': return metrics.buildPerformance.currentTime <= 10,
+      case 'enterprise-systems-200': return metrics.enterpriseSystems.current >= 200,
+      case 'phase-1-complete': return metrics.typeScriptErrors.current === 0,
+      case 'phase-2-complete': return metrics.lintingWarnings.current === 0,
       case 'phase-3-complete':
         return metrics.enterpriseSystems.current >= 200
 
@@ -385,7 +380,7 @@ export class ProgressTracker {
     // Calculate overall progress
     const typeScriptProgress = currentMetrics.typeScriptErrors.percentage;
     const lintingProgress = currentMetrics.lintingWarnings.percentage;
-    const buildProgress = currentMetrics.buildPerformance.currentTime <= 10 ? 100: 0;
+    const buildProgress = currentMetrics.buildPerformance.currentTime <= 10 ? 100: 0,
     const enterpriseProgress = (currentMetrics.enterpriseSystems.current / 200) * 100
 
     const overallProgress = Math.round(

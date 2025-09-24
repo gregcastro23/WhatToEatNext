@@ -255,14 +255,14 @@ export class DomainContextDetector {
     // Astrological content patterns
     const astrologicalPatterns = [
       { pattern: /planetary|planet|astro|zodiac|sign|degree|longitude/i, weight: 0.3 },
-      { pattern: /mercury|venus|mars|jupiter|saturn|uranus|neptune|pluto/i, weight: 0.4 }
+      { pattern: /mercury|venus|mars|jupiter|saturn|uranus|neptune|pluto/i, weight: 0.4 },
       {
         pattern:
           /aries|taurus|gemini|cancer|leo|virgo|libra|scorpio|sagittarius|capricorn|aquarius|pisces/i,
         weight: 0.4
 }
       { pattern: /elemental|fire|water|earth|air|element/i, weight: 0.3 },
-      { pattern: /transit|retrograde|conjunction|opposition|trine|square/i, weight: 0.5 }
+      { pattern: /transit|retrograde|conjunction|opposition|trine|square/i, weight: 0.5 },
       { pattern: /alchemical|alchemy|transformation|pillar/i, weight: 0.4 },
       { pattern: /culinary.*astrology|astrological.*cooking/i, weight: 0.6 }
     ],
@@ -283,9 +283,9 @@ export class DomainContextDetector {
     // Campaign system patterns
     const campaignPatterns = [
       { pattern: /campaign|Campaign/g, weight: 0.4 },
-      { pattern: /progress.*track|track.*progress/i, weight: 0.3 }
+      { pattern: /progress.*track|track.*progress/i, weight: 0.3 },
       { pattern: /safety.*protocol|protocol.*safety/i, weight: 0.4 },
-      { pattern: /typescript.*error|error.*typescript/i, weight: 0.3 }
+      { pattern: /typescript.*error|error.*typescript/i, weight: 0.3 },
       { pattern: /metrics|intelligence|enterprise/i, weight: 0.2 },
       { pattern: /rollback|stash|validation/i, weight: 0.3 }
     ],

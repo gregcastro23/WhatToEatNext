@@ -459,9 +459,9 @@ export class PilotCampaignAnalysis {
       },
       domainAccuracy: [
         { domain: CodeDomain.ASTROLOGICAL, accuracy: 89.2 },
-        { domain: CodeDomain.RECIPE, accuracy: 91.7 }
+        { domain: CodeDomain.RECIPE, accuracy: 91.7 },
         { domain: CodeDomain.CAMPAIGN, accuracy: 78.4 },
-        { domain: CodeDomain.SERVICE, accuracy: 85.6 }
+        { domain: CodeDomain.SERVICE, accuracy: 85.6 },
         { domain: CodeDomain.COMPONENT, accuracy: 88.9 },
         { domain: CodeDomain.TEST, accuracy: 93.1 }
       ]

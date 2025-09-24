@@ -73,7 +73,7 @@ export class DomainContextAnalyzer {
     const suggestions: string[] = [];
 
     // Extract variable name from code snippet
-    const variableMatch = context.codeSnippet.match(/(?: const|let|var)\s+(\w+)\s*:/);
+    const variableMatch = context.codeSnippet.match(/(?: const|let|var)\s+(\w+)\s*:/),
     const variableName = variableMatch ? variableMatch[1].toLowerCase() : '',
 
     if (!variableName) return suggestions

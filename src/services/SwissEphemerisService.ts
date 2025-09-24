@@ -656,7 +656,7 @@ export class SwissEphemerisService {
     }
 
     Object.keys(dailyMotion).forEach(planetCode => {;
-      const currentLongitude = baseEntry[planetCode as keyof SwissEphemerisData] as number;
+      const currentLongitude = baseEntry[planetCode as keyof SwissEphemerisData] as number,
       const motion = dailyMotion[planetCode as keyof typeof dailyMotion],
       if (typeof currentLongitude === 'number') {,
         let newLongitude = currentLongitude + motion * daysDiff,

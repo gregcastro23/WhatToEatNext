@@ -61,9 +61,9 @@ export const cuisine: Cuisine = {
           ],
           ingredients: [
             { name: 'ingredient1', amount: '2', unit: 'cups', category: 'grain', element: 'Earth' },
-            { name: 'ingredient2', amount: '1', unit: 'cup', category: 'dairy', element: 'Water' }
+            { name: 'ingredient2', amount: '1', unit: 'cup', category: 'dairy', element: 'Water' },
             { name: 'ingredient3', amount: '3', unit: 'tbsp', category: 'fat', element: 'Earth' },
-            { name: 'ingredient4', amount: '2', unit: 'tsp', category: 'spice', element: 'Fire' }
+            { name: 'ingredient4', amount: '2', unit: 'tsp', category: 'spice', element: 'Fire' },
             {
               name: 'ingredient5',
               amount: '1/4',

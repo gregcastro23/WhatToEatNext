@@ -159,13 +159,10 @@ export class EnterpriseIntelligenceGenerator {
     const exportType = candidate.export.exportType;
 
     switch (exportType) {
-      case 'function':
-        return (this.templates.get('FUNCTION_INTELLIGENCE') || this.templates.get('DEFAULT'))!;
-      case 'class':
-        return (this.templates.get('CLASS_INTELLIGENCE') || this.templates.get('DEFAULT'))!;
+      case 'function': return (this.templates.get('FUNCTION_INTELLIGENCE') || this.templates.get('DEFAULT'))!,
+      case 'class': return (this.templates.get('CLASS_INTELLIGENCE') || this.templates.get('DEFAULT'))!,
       case 'interface':
-      case 'type':
-        return (this.templates.get('TYPE_INTELLIGENCE') || this.templates.get('DEFAULT'))!;
+      case 'type': return (this.templates.get('TYPE_INTELLIGENCE') || this.templates.get('DEFAULT'))!,
       case 'const':
       case 'variable':
         return (this.templates.get('DATA_INTELLIGENCE') || this.templates.get('DEFAULT'))!
@@ -251,7 +248,7 @@ export class EnterpriseIntelligenceGenerator {
     integrationPoints.push({;
       target: 'src/app/intelligence/index.ts',
       method: IntegrationMethod.DIRECT_IMPORT,
-      code: `import { ${systemName} } from '../intelligence/${systemName}';`,,
+      code: `import { ${systemName} } from '../intelligence/${systemName}',`,,
       priority: IntegrationPriority.HIGH
     })
 

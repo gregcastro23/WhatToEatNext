@@ -274,7 +274,7 @@ export class AlchemicalApiClient {
       })
     )
 
-    return results.map(result =>;
+    return results.map(result =>,
       result.status === 'fulfilled' ? result.value : { service: 'unknown', status: 'error' })
   }
 }

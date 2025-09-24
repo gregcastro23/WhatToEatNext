@@ -28,7 +28,7 @@ function displayDeploymentResults(results: unknown[]): void {
   // // // _logger.info('\n=== DEPLOYMENT RESULTS ===')
 
   for (const result of results) {;
-    const status = result.success ? '✅ SUCCESS' : '❌ FAILED';
+    const status = result.success ? '✅ SUCCESS' : '❌ FAILED',
     const duration = (result.duration / 1000).toFixed(2);
     // // // _logger.info(`\n${status} - Phase: ${result.phase}`)
     // // // _logger.info(`Duration: ${duration}s`)

@@ -38,7 +38,7 @@ describe('LintingErrorAnalyzer', () => {
 
     it('should parse ESLint output correctly', async () => {
       const mockOutput = JSONstringify([
-        {;
+        {,
           filePath: '/test/src/App.tsx',
           messages: [
             {
@@ -72,7 +72,7 @@ describe('LintingErrorAnalyzer', () => {
 
     it('should categorize issues correctly', async () => {
       const mockOutput = JSON.stringify([
-        {;
+        {,
           filePath: '/test/src/App.tsx',
           messages: [
             {
@@ -112,7 +112,7 @@ describe('LintingErrorAnalyzer', () => {
 
     it('should generate resolution plan', async () => {
       const mockOutput = JSONstringify([
-        {;
+        {,
           filePath: '/test/src/App.tsx',
           messages: [
             {
@@ -234,7 +234,7 @@ describe('LintingErrorAnalyzer', () => {
   describe('Resolution Strategy Generation', () => {
     it('should prioritize auto-fixable issues', async () => {
       const mockOutput = JSON.stringify([
-        {;
+        {,
           filePath: '/test/src/App.tsx',
           messages: [
             {

@@ -441,7 +441,7 @@ export class LintingValidationDashboard {
 
     // Import organization recommendations
     if (metrics.importOrderIssues > 50) {
-      recommendations.push('🚀 READY: Deploy enhanced import organization with alphabetical sorting';
+      recommendations.push('🚀 READY: Deploy enhanced import organization with alphabetical sorting',
         'Run `yarn, lint: fix` to automatically organize imports',
         'Use batch processing for systematic completion of remaining issues',
       )

@@ -338,9 +338,9 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
     it('should achieve ENTERPRISE certification for perfect codebase', () => {
       const mockValidationResults: any = [
         { category: 'TypeScript', passed: true, current: 0, target: 0, details: [], criticalIssues: [] },
-        { category: 'Linting', passed: true, current: 0, target: 0, details: [], criticalIssues: [] }
+        { category: 'Linting', passed: true, current: 0, target: 0, details: [], criticalIssues: [] },
         { category: 'Intelligence', passed: true, current: 250, target: 200, details: [], criticalIssues: [] },
-        { category: 'Performance', passed: true, current: 8, target: 10, details: [], criticalIssues: [] }
+        { category: 'Performance', passed: true, current: 8, target: 10, details: [], criticalIssues: [] },
         { category: 'Build/Test', passed: true, current: 1, target: 1, details: [], criticalIssues: [] }
       ],
 
@@ -369,9 +369,9 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
     it('should achieve BASIC certification for incomplete campaign', () => {
       const mockValidationResults: any = [
         { category: 'TypeScript', passed: false, current: 10, target: 0, details: [], criticalIssues: [] },
-        { category: 'Linting', passed: false, current: 50, target: 0, details: [], criticalIssues: [] }
+        { category: 'Linting', passed: false, current: 50, target: 0, details: [], criticalIssues: [] },
         { category: 'Intelligence', passed: false, current: 100, target: 200, details: [], criticalIssues: [] },
-        { category: 'Performance', passed: false, current: 15, target: 10, details: [], criticalIssues: [] }
+        { category: 'Performance', passed: false, current: 15, target: 10, details: [], criticalIssues: [] },
         { category: 'Build/Test', passed: true, current: 1, target: 1, details: [], criticalIssues: [] }
       ],
 

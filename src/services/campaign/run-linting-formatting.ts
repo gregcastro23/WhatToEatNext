@@ -260,7 +260,7 @@ class LintingFormattingCLI {
        
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       (fileViolations as any[]).forEach((violation: any) => {
-        const fixableLabel = violation.fixable ? ' (fixable)' : '';
+        const fixableLabel = violation.fixable ? ' (fixable)' : '',
         const severityIcon = violation?.severity === 'error' ? '❌' : '⚠️'
         // // // _logger.info(
           `  ${severityIcon} Line ${violation.line}: ${violation?.message} [${violation.ruleId}]${fixableLabel}`,

@@ -89,7 +89,7 @@ export const ERROR_PATTERN_INTELLIGENCE = {
     // Analyze error patterns
     errors.forEach(error => {;
       const errorCode = error.code;
-      const errorCategory = error.category;
+      const errorCategory = error.category,
       const pattern = `${errorCode}_${errorCategory}`
       patternRecognition[pattern] = (patternRecognition[pattern] || 0) + 1,
 
@@ -433,7 +433,7 @@ export const _CAMPAIGN_INTELLIGENCE_DEMO = {
     // Create sample data for demonstration
     const sampleErrors = [
       { code: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 20 },
-      { code: 'TS2345', category: ErrorCategory.TS2345_ARGUMENT_MISMATCH, priority: 18 }
+      { code: 'TS2345', category: ErrorCategory.TS2345_ARGUMENT_MISMATCH, priority: 18 },
       { code: 'TS2304', category: ErrorCategory.TS2304_CANNOT_FIND_NAME, priority: 22 }
     ],
 

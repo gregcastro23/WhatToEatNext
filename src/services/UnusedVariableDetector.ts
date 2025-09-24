@@ -715,11 +715,11 @@ export class UnusedVariableDetector extends EventEmitter {;
           // Named imports
           const imports = namedImports.split(',').map(imp => imp.trim())
           for (const imp of imports) {
-            const importName = imp.includes(' as ') ? imp.split(' as ')[1].trim() : imp;
+            const importName = imp.includes(' as ') ? imp.split(' as ')[1].trim() : imp,
             const usageCount = this.countUsage(importName, content, lineNumber);
             if (usageCount === 0) {
               unusedImports.push(this.createUnusedImport(
-                  importName;
+                  importName,
                   importPath,
                   'named',
                   filePath,
@@ -756,7 +756,7 @@ export class UnusedVariableDetector extends EventEmitter {;
    * Create unused import object
    */
   private createUnusedImport(importName: string;,
-    importPath: string;,
+    importPath: string,,
     importType: UnusedImport['importType'],,
     filePath: string,
     line: number,
@@ -1179,7 +1179,7 @@ export class UnusedVariableDetector extends EventEmitter {;
         description: `Remove unused import '${importItem.importName}' from '${importItem.importPath}'`;,
         estimatedBenefit: {
           bundleSize: importItem.estimatedSavings.bundleSize;,
-          performance: importItem.estimatedSavings.loadTime / 1000;,
+          performance: importItem.estimatedSavings.loadTime / 1000,,
           maintainability: 0.2
 },
         risks: importItem.isDevelopmentOnly ? [] : ['May be used for side effects'],,

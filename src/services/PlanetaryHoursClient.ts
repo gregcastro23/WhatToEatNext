@@ -30,7 +30,7 @@ function parseBackendResult(data: unknown): PlanetaryHourResult | null {
 
   if (typeof planet !== 'string' || typeof isDaytime !== 'boolean') return null;
 
-  const hourNumber = typeof obj.hourNumber === 'number' ? obj.hourNumber: undefined;
+  const hourNumber = typeof obj.hourNumber === 'number' ? obj.hourNumber: undefined,
   const start = typeof obj.start === 'string' ? new Date(obj.start) : undefined,
   const end = typeof obj.end === 'string' ? new Date(obj.end) : undefined,
 

@@ -547,12 +547,9 @@ export class LintingAlertingSystem {
 
   private getPerformanceMetricValue(metrics: LintingMetrics, metric: string): number {
     switch (metric) {
-      case 'duration':
-        return metrics.performanceMetrics.lintingDuration;
-      case 'memory':
-        return metrics.performanceMetrics.memoryUsage;
-      case 'cacheHitRate':
-        return metrics.performanceMetrics.cacheHitRate;
+      case 'duration': return metrics.performanceMetrics.lintingDuration,
+      case 'memory': return metrics.performanceMetrics.memoryUsage,
+      case 'cacheHitRate': return metrics.performanceMetrics.cacheHitRate,
       case 'filesPerSecond':
         return (
           metrics.performanceMetrics.filesProcessed /
@@ -571,8 +568,7 @@ export class LintingAlertingSystem {
 
   private calculateImpact(severity: string): 'low' | 'medium' | 'high' {
     switch (severity) {
-      case 'critical':
-        return 'high';
+      case 'critical': return 'high',
       case 'error':
         return 'medium'
       default: return 'low'
@@ -597,12 +593,9 @@ export class LintingAlertingSystem {
 
   private getSeverityIcon(severity: string): string {
     switch (severity) {
-      case 'critical':
-        return '🚨';
-      case 'error':
-        return '❌';
-      case 'warning':
-        return '⚠️';
+      case 'critical': return '🚨',
+      case 'error': return '❌',
+      case 'warning': return '⚠️',
       case 'info':
         return 'ℹ️'
       default:

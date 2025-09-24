@@ -376,7 +376,7 @@ export class AlchemicalService {
 
     // Determine overall dominant element and alchemical property
     const dominantElement =
-      (topIngredients || []).length > 0 ? topIngredients[0].dominantElement : 'Fire';
+      (topIngredients || []).length > 0 ? topIngredients[0].dominantElement : 'Fire',
     const dominantAlchemicalProperty =
       (topIngredients || []).length > 0 ? topIngredients[0].dominantAlchemicalProperty : 'Spirit'
 

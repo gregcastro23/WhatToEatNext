@@ -62,9 +62,9 @@ function generateLocalRune(): RuneResult {
   // Simplified local fallback - would use more sophisticated logic
   const runes = [
     { symbol: '᚛', name: 'Fehu', meaning: 'Wealth, abundance, nourishment' },
-    { symbol: '᚜', name: 'Uruz', meaning: 'Strength, vitality, primal energy' }
+    { symbol: '᚜', name: 'Uruz', meaning: 'Strength, vitality, primal energy' },
     { symbol: '᚝', name: 'Thurisaz', meaning: 'Transformation, protection, power' },
-    { symbol: '᚞', name: 'Ansuz', meaning: 'Communication, wisdom, divine breath' }
+    { symbol: '᚞', name: 'Ansuz', meaning: 'Communication, wisdom, divine breath' },
     { symbol: '᚟', name: 'Raidho', meaning: 'Journey, movement, rhythm' }
   ],
 

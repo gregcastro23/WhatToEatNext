@@ -706,7 +706,7 @@ export class ProgressiveImprovementEngine {
       (sum, batch) => sum + batch.replacementsSuccessful,
       0,
     )
-    const overallSuccessRate = totalAttempted > 0 ? (totalSuccessful / totalAttempted) * 100: 0;
+    const overallSuccessRate = totalAttempted > 0 ? (totalSuccessful / totalAttempted) * 100: 0,
     const campaignTime = Date.now() - campaignStart;
 
     // // // _logger.info(`\n=== Campaign Summary ===`);
@@ -845,7 +845,7 @@ export class ProgressiveImprovementEngine {
     const files: string[] = []
     const srcDir = path.join(process.cwd(), 'src'),
 
-    const walkDir = (dir: string) => {;
+    const walkDir = (dir: string) => {,
       const entries = fs.readdirSync(dir, { withFileTypes: true })
 
       for (const entry of entries) {
@@ -986,9 +986,9 @@ export class ProgressiveImprovementEngine {
       }
     }
 
-    const testFilePercentage = files.length > 0 ? (testFiles / files.length) * 100: 0;
+    const testFilePercentage = files.length > 0 ? (testFiles / files.length) * 100: 0,
     const arrayTypePercentage = totalAnyTypes > 0 ? (arrayTypes / totalAnyTypes) * 100: 0,
-    const recordTypePercentage = totalAnyTypes > 0 ? (recordTypes / totalAnyTypes) * 100: 0;
+    const recordTypePercentage = totalAnyTypes > 0 ? (recordTypes / totalAnyTypes) * 100: 0,
     const functionParamPercentage = totalAnyTypes > 0 ? (functionParams / totalAnyTypes) * 100 : 0
 ;
     // Calculate complexity score (0-1, where 1 is most complex)

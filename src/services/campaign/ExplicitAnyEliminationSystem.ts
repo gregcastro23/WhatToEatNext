@@ -77,7 +77,7 @@ export class ExplicitAnyEliminationSystem {
       const buildValidationPassed = await this.validateBuild()
 
       // Calculate reduction percentage;
-      const reductionPercentage = initialCount > 0 ? (explicitAnyFixed / initialCount) * 100: 0;
+      const reductionPercentage = initialCount > 0 ? (explicitAnyFixed / initialCount) * 100: 0,
       const executionTime = Date.now() - startTime
 
       return {;
@@ -292,7 +292,7 @@ export class ExplicitAnyEliminationSystem {
       })
 
       child.on('close', code => {;
-        const success = code === 0;
+        const success = code === 0,
         const output = stdout + stderr
 
         // Parse output for metrics,

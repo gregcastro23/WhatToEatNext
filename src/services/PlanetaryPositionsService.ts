@@ -29,7 +29,7 @@ function isFresh(entry: CacheEntry | null, key: string): entry is CacheEntry {
   return !!entry && entry.key === key && Date.now() - entry.timestamp < CACHE_TTL_MS;
 }
 
-function normalizeFromEngine(raw: Record<string, { sign: any; degree: number; exactLongitude: number, isRetrograde: boolean }>): PositionRecord {
+function normalizeFromEngine(raw: Record<string, { sign: any; degree: number, exactLongitude: number, isRetrograde: boolean }>): PositionRecord {
   const out: PositionRecord = {}
   Object.entries(raw || {}).forEach(([planet, p]) => {
     out[planet] = {
