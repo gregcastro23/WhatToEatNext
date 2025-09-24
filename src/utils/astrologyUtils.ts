@@ -321,23 +321,23 @@ export async function getMoonIllumination(date: Date = new Date()): Promise<numb
  * @param date Date to calculate sun sign for
  * @returns The zodiac sign the sun is in
  */
-export function calculateSunSign(date: Date = new Date()): any {,
-  const month = date.getMonth() + 1 // Jan is 1, Feb is 2, etc.
-  const day = date.getDate()
+export function calculateSunSign(date: Date = new Date()): any {
+  const month = date.getMonth() + 1; // Jan is 1, Feb is 2, etc.
+  const day = date.getDate();
 
-  // Rough approximation of sun sign dates;
-  if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) return 'aries',
-  if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) return 'taurus',
-  if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) return 'gemini',
-  if ((month === 6 && day >= 21) || (month === 7 && day <= 22)) return 'cancer',
-  if ((month === 7 && day >= 23) || (month === 8 && day <= 22)) return 'leo',
-  if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) return 'virgo',
-  if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) return 'libra',
-  if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) return 'scorpio',
-  if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) return 'sagittarius',
-  if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) return 'capricorn',
-  if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) return 'aquarius',
-  return 'pisces'
+  // Rough approximation of sun sign dates
+  if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) return 'aries';
+  if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) return 'taurus';
+  if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) return 'gemini';
+  if ((month === 6 && day >= 21) || (month === 7 && day <= 22)) return 'cancer';
+  if ((month === 7 && day >= 23) || (month === 8 && day <= 22)) return 'leo';
+  if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) return 'virgo';
+  if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) return 'libra';
+  if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) return 'scorpio';
+  if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) return 'sagittarius';
+  if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) return 'capricorn';
+  if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) return 'aquarius';
+  return 'pisces';
 }
 
 /**
@@ -393,11 +393,11 @@ export async function calculatePlanetaryPositions(
   } catch (error) {
     errorLog('Error in calculatePlanetaryPositions: ', error)
     // Fallback to default positions with error flag
-    const defaults = getDefaultPlanetaryPositions()
+    const defaults = getDefaultPlanetaryPositions();
     // Mark all positions as error states (all positions exist by design)
     Object.values(defaults).forEach(p => {
-      p.error = true,
-    })
+      p.error = true;
+    });
     return defaults;
   }
 }
@@ -525,15 +525,15 @@ function calculatePlanetLongitude(jd: number, planet: string): number {
  */
 function calculateJulianDate(date: Date): number {
   // Direct calculation (astronomia dependency removed)
-  const year = date.getUTCFullYear()
+  const year = date.getUTCFullYear();
   const month = date.getUTCMonth() + 1; // JavaScript months are 0-based
-  const day = date.getUTCDate()
-  const hour = date.getUTCHours()
-  const minute = date.getUTCMinutes()
-  const second = date.getUTCSeconds()
+  const day = date.getUTCDate();
+  const hour = date.getUTCHours();
+  const minute = date.getUTCMinutes();
+  const second = date.getUTCSeconds();
 
   // Use direct calculation to get Julian date
-  const a = Math.floor((14 - month) / 12)
+  const a = Math.floor((14 - month) / 12);
   const y = year + 4800 - a;
   const m = month + 12 * a - 3;
 
@@ -543,13 +543,13 @@ function calculateJulianDate(date: Date): number {
     365 * y +
     Math.floor(y / 4) -
     Math.floor(y / 100) +
-    Math.floor(y / 400) -;
-    32045,
+    Math.floor(y / 400) -
+    32045;
 
   // Add time of day
-  jd += (hour - 12) / 24 + minute / 1440 + second / 86400
+  jd += (hour - 12) / 24 + minute / 1440 + second / 86400;
 
-  return jd
+  return jd;
 }
 
 /**
@@ -573,10 +573,10 @@ function calculateSunLongitude(jd: number): number {
 function calculateMoonLongitude(jd: number): number {
   // Using Brown's Lunar Theory with more terms
   const T = (jd - 2451545.0) / 36525;
-  let L = 218.3164477 + 481267.88123421 * T,
-  L += 6.2886 * Math.sin(((134.9633964 + 477198.8675055 * T) * Math.PI) / 180)
-  L += 1.274 * Math.sin(((235.7 + 483202.0175233 * T) * Math.PI) / 180)
-  return (L + 360) % 360
+  let L = 218.3164477 + 481267.88123421 * T;
+  L += 6.2886 * Math.sin(((134.9633964 + 477198.8675055 * T) * Math.PI) / 180);
+  L += 1.274 * Math.sin(((235.7 + 483202.0175233 * T) * Math.PI) / 180);
+  return (L + 360) % 360;
 }
 
 /**
@@ -729,20 +729,20 @@ function _calculateFallbackPositions(_date: Date): Record<string, number> {
   // Planetary periods and offsets for simple approximation
   const planetaryData = {
     Sun: { period: 1, offset: 280 },
-    Moon: { period: 0.0748, offset: 100 }
+    Moon: { period: 0.0748, offset: 100 },
     Mercury: { period: 0.241, offset: 50 },
-    Venus: { period: 0.615, offset: 140 }
+    Venus: { period: 0.615, offset: 140 },
     Mars: { period: 1.881, offset: 220 },
-    Jupiter: { period: 11.86, offset: 30 }
+    Jupiter: { period: 11.86, offset: 30 },
     Saturn: { period: 29.46, offset: 90 },
-    Uranus: { period: 84.01, offset: 170 }
+    Uranus: { period: 84.01, offset: 170 },
     Neptune: { period: 164.8, offset: 270 },
     Pluto: { period: 248.1, offset: 320 }
-  }
+  };
 
   // Calculate all planet positions
   for (const [planet, data] of Object.entries(planetaryData)) {
-    positions[planet] = ((yearFraction * 360) / data.period + data.offset) % 360,
+    positions[planet] = ((yearFraction * 360) / data.period + data.offset) % 360;
   }
 
   return positions;

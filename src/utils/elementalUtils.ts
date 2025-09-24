@@ -214,9 +214,9 @@ export const elementalUtils = {
   standardizeRecipeElements: standardizeRecipeElements,
   getMissingElements,
 
-  calculateelementalState(recipe: Recipe | null | undefined): ElementalProperties {
+  calculateElementalState: function(recipe: Recipe | null | undefined): ElementalProperties {
     if (!recipe?.ingredients.length) {
-      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
 
     // Create a safe default balance to start
@@ -256,12 +256,12 @@ export const elementalUtils = {
 
     // Normalize to ensure they sum to 1
     return normalizeProperties(balance);
-  }
+  },
 
-  combineProperties(
+  combineProperties: function(
     a: ElementalProperties,
     b: ElementalProperties,
-    bWeight = 0.5
+    bWeight = 0.5,
   ): ElementalProperties {
     const combinedProps = {} as ElementalProperties;
     const aWeight = 1 - bWeight;
@@ -272,9 +272,9 @@ export const elementalUtils = {
     });
 
     return combinedProps;
-  }
+  },
 
-  getElementalState(recipe: Recipe): ElementalProperties {
+  getElementalState: function(recipe: Recipe): ElementalProperties {
     if (!recipe.ingredients.length) {
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
@@ -298,7 +298,7 @@ export const elementalUtils = {
     );
 
     return normalizeProperties(combinedProperties);
-  }
+  },
 
   /**
    * Gets a complementary element that works well with the given element
@@ -306,124 +306,124 @@ export const elementalUtils = {
    * @param element The element to find a complement for
    * @returns The complementary element
    */
-  getComplementaryElement(element: keyof ElementalProperties): keyof ElementalProperties {
+  getComplementaryElement: function(element: keyof ElementalProperties): keyof ElementalProperties {
     // Each element complements all others, but we return one suggestion
     // based on traditional culinary pairings
     const complementary: Record<keyof ElementalProperties, keyof ElementalProperties> = {
-      Fire: 'Fire', // Fire reinforces itself,
-      Water: 'Water', // Water reinforces itself,
-      Earth: 'Earth', // Earth reinforces itself,
+      Fire: 'Fire', // Fire reinforces itself
+      Water: 'Water', // Water reinforces itself
+      Earth: 'Earth', // Earth reinforces itself
       Air: 'Air', // Air reinforces itself
-    }
+    };
     return complementary[element];
-  }
+  },
 
   /**
    * Gets the elemental characteristics for a specific element
    * @param element The element to get characteristics for
    * @returns The elemental characteristics
    */
-  getElementalCharacteristics(element: Element): ElementalCharacteristics {
-    return ELEMENTAL_CHARACTERISTICS[element] as unknown as ElementalCharacteristics
-  }
+  getElementalCharacteristics: function(element: Element): ElementalCharacteristics {
+    return ELEMENTAL_CHARACTERISTICS[element] as unknown as ElementalCharacteristics;
+  },
 
   /**
    * Gets a complete elemental profile that includes properties and characteristics
    * @param properties The elemental properties
    * @returns A complete elemental profile
    */
-  getElementalProfile(properties: ElementalProperties): Partial<ElementalProfile> {
+  getElementalProfile: function(properties: ElementalProperties): Partial<ElementalProfile> {
     // Find the dominant element
-    const entries = Object.entries(properties) as [Element, number][],
-    let dominantElement: Element = 'Fire',
-    let maxValue = 0
-;
+    const entries = Object.entries(properties) as [Element, number][];
+    let dominantElement: Element = 'Fire';
+    let maxValue = 0;
+
     for (const [element, value] of entries) {
       if (value > maxValue) {
-        dominantElement = element,
-        maxValue = value,
+        dominantElement = element;
+        maxValue = value;
       }
     }
 
     return {
-      dominant: dominantElement as 'Fire' | 'Water' | 'Earth' | 'Air'
+      dominant: dominantElement as 'Fire' | 'Water' | 'Earth' | 'Air',
       balance: properties,
       characteristics: [this.getElementalCharacteristics(dominantElement)]
-    }
-  }
+    };
+  },
 
   /**
    * Gets the suggested cooking techniques based on elemental properties
    * @param properties The elemental properties
    * @returns Array of recommended cooking techniques
    */
-  getSuggestedCookingTechniques(properties: ElementalProperties): string[] {
-    const techniques: string[] = [],
-    const threshold = 0.3 // Only consider elements above this threshold for recommendations
+  getSuggestedCookingTechniques: function(properties: ElementalProperties): string[] {
+    const techniques: string[] = [];
+    const threshold = 0.3; // Only consider elements above this threshold for recommendations
 
-    if (properties.Fire > threshold) {;
-      techniques.push(...ELEMENTAL_CHARACTERISTICS.Fire.cookingTechniques.slice(0, 2))
+    if (properties.Fire > threshold) {
+      techniques.push(...ELEMENTAL_CHARACTERISTICS.Fire.cookingTechniques.slice(0, 2));
     }
 
     if (properties.Water > threshold) {
-      techniques.push(...ELEMENTAL_CHARACTERISTICS.Water.cookingTechniques.slice(0, 2))
+      techniques.push(...ELEMENTAL_CHARACTERISTICS.Water.cookingTechniques.slice(0, 2));
     }
 
     if (properties.Earth > threshold) {
-      techniques.push(...ELEMENTAL_CHARACTERISTICS.Earth.cookingTechniques.slice(0, 2))
+      techniques.push(...ELEMENTAL_CHARACTERISTICS.Earth.cookingTechniques.slice(0, 2));
     }
 
     if (properties.Air > threshold) {
-      techniques.push(...ELEMENTAL_CHARACTERISTICS.Air.cookingTechniques.slice(0, 2))
+      techniques.push(...ELEMENTAL_CHARACTERISTICS.Air.cookingTechniques.slice(0, 2));
     }
 
     // Return unique techniques or a default if none meet the threshold
-    return techniques.length > 0 ? Array.from(new Set(techniques)) : ['Balanced cooking']
-  }
+    return techniques.length > 0 ? Array.from(new Set(techniques)) : ['Balanced cooking'];
+  },
 
   /**
    * Gets the complementary ingredients based on elemental properties
    * @param properties The elemental properties
    * @returns Array of recommended complementary ingredients
    */
-  getRecommendedTimeOfDay(properties: ElementalProperties): string[] {
-    const _times: string[] = [],
+  getRecommendedTimeOfDay: function(properties: ElementalProperties): string[] {
+    const _times: string[] = [];
     const threshold = 0.3; // Only consider elements above this threshold for recommendations
-    const weightedTimes: string[] = []
+    const weightedTimes: string[] = [];
 
     // Add times based on the elemental balance, weighted by their values
     if (properties.Fire > threshold) {
-      for (let i = 0, i < Math.ceil(properties.Fire * 10); i++) {
-        weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Fire.timeOfDay)
+      for (let i = 0; i < Math.ceil(properties.Fire * 10); i++) {
+        weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Fire.timeOfDay);
       }
     }
 
     if (properties.Water > threshold) {
-      for (let i = 0, i < Math.ceil(properties.Water * 10); i++) {
-        weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Water.timeOfDay)
+      for (let i = 0; i < Math.ceil(properties.Water * 10); i++) {
+        weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Water.timeOfDay);
       }
     }
 
     if (properties.Earth > threshold) {
-      for (let i = 0, i < Math.ceil(properties.Earth * 10); i++) {
-        weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Earth.timeOfDay)
+      for (let i = 0; i < Math.ceil(properties.Earth * 10); i++) {
+        weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Earth.timeOfDay);
       }
     }
 
     if (properties.Air > threshold) {
-      for (let i = 0, i < Math.ceil(properties.Air * 10); i++) {
-        weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Air.timeOfDay)
+      for (let i = 0; i < Math.ceil(properties.Air * 10); i++) {
+        weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Air.timeOfDay);
       }
     }
 
     // Return unique times or a default if none meet the threshold
-    return weightedTimes.length > 0 ? Array.from(new Set(weightedTimes)) : ['Any time']
-  }
+    return weightedTimes.length > 0 ? Array.from(new Set(weightedTimes)) : ['Any time'];
+  },
 
   // Get the default elemental properties
-  getDefaultElementalProperties(): ElementalProperties {
-    return DEFAULT_ELEMENTAL_PROPERTIES
-  }
+  getDefaultElementalProperties: function(): ElementalProperties {
+    return DEFAULT_ELEMENTAL_PROPERTIES;
+  },
 
   // Export the default elemental properties constant for direct access
   DEFAULT_ELEMENTAL_PROPERTIES,
@@ -432,31 +432,31 @@ export const elementalUtils = {
    * Gets the current elemental state from the ElementalCalculator service
    * Pattern OO-3: Utility Import Alignment - Standalone export for TS2614 compatibility
    */
-  getCurrentElementalState(): ElementalProperties {
-    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
-  }
+  getCurrentElementalState: function(): ElementalProperties {
+    return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
+  },
 
   /**
    * Pattern OO-3: Utility Import Alignment - Format consistency helper
    * Ensures elemental property keys are in lowercase format
    */
-  ensureLowercaseFormat(properties: unknown): unknown {
+  ensureLowercaseFormat: function(properties: unknown): unknown {
     if (!properties || typeof properties !== 'object') {
-      return properties
+      return properties;
     }
 
-    const lowercaseProps: Record<string, unknown> = {}
+    const lowercaseProps: Record<string, unknown> = {};
     for (const [key, value] of Object.entries(properties)) {
       // Convert capitalized element names to lowercase
-      const lowerKey = key.toLowerCase()
-      lowercaseProps[lowerKey] = value,
+      const lowerKey = key.toLowerCase();
+      lowercaseProps[lowerKey] = value;
     }
 
     return lowercaseProps;
-  }
+  },
 }
 
-export default elementalUtils,
+export default elementalUtils;
 
 export { elementalFunctions, elementalInteractions, elements };
 
@@ -503,7 +503,7 @@ export function transformItemsWithPlanetaryPositions(
   tarotElementBoosts?: Record<ElementalCharacter, number>,
   tarotPlanetaryBoosts?: Record<string, number>,
 ): AlchemicalItem[] {
-  return items.map(item => {;
+  return items.map(item => {
     const { _boost: planetaryInfluence} = calculatePlanetaryBoost(
       item,
       planetaryPositions,
@@ -598,49 +598,49 @@ export function transformItemsWithPlanetaryPositions(
     }
     const dominantAlchemicalProperty = Object.entries(alchemicalProperties).sort(
       ([_keyA, valueA], [_keyB, valueB]) => valueB - valueA
-    )[0][0] as AlchemicalProperty,
+    )[0][0] as AlchemicalProperty;
 
     // Extract dominant planets based on planetary positions if available
-    let dominantPlanets: string[] = []
+    let dominantPlanets: string[] = [];
     if (planetaryPositions) {
       // Get top 3 planets with highest values or dignity
       const planetEntries = Object.entries(planetaryPositions).filter(
         ([planet_]) => planet_ !== 'isDaytime' && planet_ !== 'currentZodiac',
-      )
+      );
 
       // Handle different position data formats
-      dominantPlanets = planetEntries;
+      dominantPlanets = planetEntries
         .sort(([_, valA], [__, valB]) => {
           // Sort by strength /dignity if available
-          if (typeof valA === 'object' && typeof valB === 'object') {;
+          if (typeof valA === 'object' && typeof valB === 'object') {
             const dataA = valA as unknown;
             const dataB = valB as any;
             const strengthA = Number(dataA.strength) || 0;
             const strengthB = Number(dataB.strength) || 0;
-            return strengthB - strengthA
+            return strengthB - strengthA;
           }
           // Default sort for simple numeric values
-          return Number(valB) - Number(valA)
+          return Number(valB) - Number(valA);
         })
         .slice(0, 3)
-        .map(([planet_]) => planet_)
+        .map(([planet_]) => planet_);
     }
 
     // Ensure we have planetary dignities data
-    const planetaryDignities = {}
+    const planetaryDignities = {};
 
     // Handle NaN values or infinity for all properties
-    const _ensureSafeNumber = (val: number): number => {,
-      if (isNaN(val) || !isFinite(val)) return 0.2
-      return val
-    }
+    const _ensureSafeNumber = (val: number): number => {
+      if (isNaN(val) || !isFinite(val)) return 0.2;
+      return val;
+    };
 
     // Apply safe arithmetic operations with proper type checking
-    const safeValueForArithmetic = (val: number) => Math.max(val, 0.01)
+    const safeValueForArithmetic = (val: number) => Math.max(val, 0.01);
     const _safeAdd = (a: number, b: number) =>
-      safeValueForArithmetic(a) + safeValueForArithmetic(b)
+      safeValueForArithmetic(a) + safeValueForArithmetic(b);
     const _safeMultiply = (a: number, b: number) =>
-      safeValueForArithmetic(a) * safeValueForArithmetic(b)
+      safeValueForArithmetic(a) * safeValueForArithmetic(b);
     return {
       id: item.id,
       name: item.name,
@@ -661,25 +661,24 @@ export function transformItemsWithPlanetaryPositions(
       _planetaryBoost: planetaryInfluence,
       dominantPlanets,
       planetaryDignities
-    } as unknown as AlchemicalItem,
-  })
+    } as unknown as AlchemicalItem;
+  });
 }
 
 // New differentiation functions
-const _applyNonLinearScaling = (props: ElementalProperties): ElementalProperties => ({,
+const _applyNonLinearScaling = (props: ElementalProperties): ElementalProperties => ({
   Fire: Math.tanh(props.Fire * 2),
   Water: 1 - Math.exp(-props.Water * 3),
   Earth: props.Earth ** 1.5,
   Air: Math.sin((props.Air * Math.PI) / 2)
-})
+});
 
 const _calculateUniquenessScore = (item: ElementalItem): number => {
   const variance = Object.values(item.elementalProperties).reduce(
     (acc: number, val: number) => acc + Math.abs(val - 0.5),
-    0
-  )
-  return Math.min(1, variance * 2)
-}
+    0);
+  return Math.min(1, variance * 2);
+};
 
 // Add or update the normalizeElementalValues function
 export function normalizeElementalValues(
@@ -807,36 +806,36 @@ export function enhanceVegetableTransformations(
 ): Record<string, Record<string, unknown>> {
   return Object.entries(vegetables).reduce((acc, [key, vegetable]) => {
     // Skip if not an object
-    if (typeof vegetable !== 'object' || vegetable === null) {,
-      acc[key] = vegetable,
-      return acc
+    if (typeof vegetable !== 'object' || vegetable === null) {
+      acc[key] = vegetable;
+      return acc;
     }
 
-    const enhanced = { ...vegetable }
+    const enhanced = { ...vegetable };
 
     // Create transformation if it doesn't exist
     if (!enhanced.elementalTransformation) {
       // Get the dominant element
-      const elementalProps = enhanced.elementalProperties || {;
+      const elementalProps = enhanced.elementalProperties || {
         Earth: 0.3,
         Water: 0.3,
         Air: 0.2,
         Fire: 0.2
-}
+      };
       let dominantElement = 'Earth';
-      let highestValue = 0,
+      let highestValue = 0;
 
       for (const [element, value] of Object.entries(elementalProps)) {
-        if (typeof value === 'number' && value > highestValue) {,
-          dominantElement = element,
-          highestValue = value,
+        if (typeof value === 'number' && value > highestValue) {
+          dominantElement = element;
+          highestValue = value;
         }
       }
 
       // Set default transformations based on dominant element
       enhanced.elementalTransformation = {
         _whenCooked: { [dominantElement]: 0.1, Fire: 0.05 },
-        _whenDried: { Earth: 0.1, Air: 0.05 }
+        _whenDried: { Earth: 0.1, Air: 0.05 },
         _whenFermented: { Water: 0.1, Air: 0.05 }
       }
     }

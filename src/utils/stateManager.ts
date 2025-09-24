@@ -267,11 +267,11 @@ class StateManager {
 
       this.setState({
         celestial: {
-          ...this.state.celestial
+          ...this.state.celestial,
           elementalState,
           lastUpdated: Date.now()
         }
-      })
+      });
     } catch (error) {
       logger.error('Error updating celestial data: ', error)
     }
@@ -282,11 +282,11 @@ class StateManager {
       const serializable = {
         ...this.state,
         ui: {
-          ...this.state.ui
-          // Convert Set to array for serialization,
+          ...this.state.ui,
+          // Convert Set to array for serialization
           activeFilters: Array.from(this.state.ui.activeFilters)
         }
-      }
+      };
 
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(serializable))
       cache.set(this.STORAGE_KEY, this.state)
@@ -308,51 +308,51 @@ class StateManager {
 
   subscribe(key: string, listener: (state: AppState) => void): () => void {
     if (!this.listeners.has(key)) {
-      this.listeners.set(key, new Set())
+      this.listeners.set(key, new Set());
     }
 
-    const listenerSet = this.listeners.get(key)
+    const listenerSet = this.listeners.get(key);
     if (listenerSet) {
-      listenerSet.add(listener)
+      listenerSet.add(listener);
     }
 
     return () => {
-      const listeners = this.listeners.get(key)
+      const listeners = this.listeners.get(key);
       if (listeners) {
-        listeners.delete(listener)
-        if (listeners.size === 0) {,
-          this.listeners.delete(key)
+        listeners.delete(listener);
+        if (listeners.size === 0) {
+          this.listeners.delete(key);
         }
       }
-    }
+    };
   }
 
   private notifyListeners(): void {
     this.listeners.forEach(listeners => {
-      listeners.forEach(listener => listener(this.state))
-    })
+      listeners.forEach(listener => listener(this.state));
+    });
   }
 
   // Enhanced functionality
   addToHistory(type: 'viewed' | 'cooked', recipeId: string): void {
     const history = [...this.state.user.history[type]];
-    const index = history.indexOf(recipeId)
+    const index = history.indexOf(recipeId);
     if (index > -1) {
-      history.splice(index1)
+      history.splice(index, 1);
     }
-    history.unshift(recipeId)
+    history.unshift(recipeId);
 
-    if (history.length > 50) history.pop()
+    if (history.length > 50) history.pop();
 
     this.setState({
       user: {
-        ...this.state.user
+        ...this.state.user,
         history: {
-          ...this.state.user.history
+          ...this.state.user.history,
           [type]: history
         }
       }
-    })
+    });
   }
 
   rateRecipe(recipeId: string, rating: number): void {
@@ -360,31 +360,31 @@ class StateManager {
       user: {
         ...this.state.user,
         history: {
-          ...this.state.user.history
+          ...this.state.user.history,
           rated: {
-            ...this.state.user.history.rated
+            ...this.state.user.history.rated,
             [recipeId]: rating
           }
         }
       }
-    })
+    });
   }
 
   toggleFavorite(recipeId: string): void {
     const favorites = [...this.state.recipes.favorites];
-    const index = favorites.indexOf(recipeId)
+    const index = favorites.indexOf(recipeId);
     if (index > -1) {
-      favorites.splice(index1)
+      favorites.splice(index, 1);
     } else {
-      favorites.push(recipeId)
+      favorites.push(recipeId);
     }
 
     this.setState({
       recipes: {
-        ...this.state.recipes
+        ...this.state.recipes,
         favorites
       }
-    })
+    });
   }
 
   addNotification(type: 'success' | 'error' | 'info', message: string): void {
@@ -393,29 +393,28 @@ class StateManager {
       type,
       message,
       timestamp: Date.now()
-    }
+    };
 
-    const notifications = [notification, ...this.state.ui.notifications].slice(05)
+    const notifications = [notification, ...this.state.ui.notifications].slice(0, 5);
 
     this.setState({
       ui: {
-        ...this.state.ui
+        ...this.state.ui,
         notifications
       }
-    })
+    });
 
     // Auto-remove after 5 seconds
     setTimeout(() => {
       this.setState({
         ui: {
           ...this.state.ui,
-          notifications: this.state.ui.notifications.filter(n => n.id !== notification.id),,
+          notifications: this.state.ui.notifications.filter(n => n.id !== notification.id)
         }
-      })
-    }, 5000)
+      });
+    }, 5000);
   }
 }
 
 /** @see StateManager for usage */
-export const stateManager = StateManager.getInstance()
-;
+export const stateManager = StateManager.getInstance();
