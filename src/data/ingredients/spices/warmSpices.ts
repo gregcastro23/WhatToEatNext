@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawWarmSpices: Record<string, Partial<IngredientMapping>> = {
+const, rawWarmSpices: Record<string, Partial<IngredientMapping>> = {
   cinnamon: {
     name: 'Cinnamon',
     elementalProperties: { Fire: 0.7, Water: 0.0, Earth: 0.2, Air: 0.1 }, // ← Pattern GG-5: Added missing Water property
@@ -39,36 +39,35 @@ const rawWarmSpices: Record<string, Partial<IngredientMapping>> = {
         carbs: 2.1,
         fat: 0.1,
         fiber: 1.4
-},
+      },
       vitamins: {
-        K: 0.01,
-    B6: 0.01E: 0.01
-},
+        K: 0.01B6: 0.01E: 0.01
+      },
       minerals: {
         calcium: 0.26,
         manganese: 0.22,
         iron: 0.08,
         potassium: 0.01,
         magnesium: 0.02
-},
+      },
       antioxidants: {
         cinnamaldehyde: 0.65,
         eugenol: 0.42,
         cinnamyl_acetate: 0.38,
         coumarin: 0.15
-},
+      },
       benefits: ['blood sugar regulation', 'anti-inflammatory', 'antimicrobial'],
       source: 'USDA FoodData Central'
-}
+    },
     // ... rest of cinnamon properties
-  }
+  },
   // ... other warm spices
-}
+};
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const warmSpices: Record<string, IngredientMapping> = fixIngredientMappings(rawWarmSpices)
+export const, warmSpices: Record<string, IngredientMapping> = fixIngredientMappings(rawWarmSpices);
 
 // Create a collection of all warm spices
-export const _allWarmSpices = Object.values(warmSpices)
-;
-export default warmSpices,
+export const _allWarmSpices = Object.values(warmSpices);
+
+export default warmSpices;

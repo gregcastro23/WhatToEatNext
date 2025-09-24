@@ -146,10 +146,8 @@ const _: Record<string, string> = {
 /**
  * Calculate the distribution of alchemical properties based on planetary positions
  */
-export function calculateAlchemicalDistribution(
-  planetaryPositions: Record<string, CelestialPosition>,
-  isDaytime: boolean,
-): AlchemicalProperties {
+export function calculateAlchemicalDistribution(planetaryPositions: Record<string, CelestialPosition>,
+  isDaytime: boolean): AlchemicalProperties {
   try {
     // Initialize with balanced values
     const distribution: AlchemicalProperties = {
@@ -233,9 +231,7 @@ export function calculateAlchemicalDistribution(
 /**
  * Convert alchemical properties to elemental properties
  */
-export function convertToElementalProperties(
-  alchemicalProps: AlchemicalProperties,
-): ElementalProperties {
+export function convertToElementalProperties(alchemicalProps: AlchemicalProperties): ElementalProperties {
   try {
     const elementalProps: ElementalProperties = {
       Fire: 0.25,
@@ -265,9 +261,7 @@ export function convertToElementalProperties(
 /**
  * Calculate thermodynamic properties based on alchemical distribution
  */
-export function calculateThermodynamicProperties(
-  alchemicalProps: AlchemicalProperties,
-): ThermodynamicProperties {
+export function calculateThermodynamicProperties(alchemicalProps: AlchemicalProperties): ThermodynamicProperties {
   try {
     // Heat is related to Fire/Spirit and Air/Substance
     // High Spirit and Substance values increase heat

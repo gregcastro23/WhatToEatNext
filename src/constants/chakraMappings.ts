@@ -118,9 +118,7 @@ export const _ZODIAC_CHAKRA_MAPPINGS: Record<ZodiacSign, Chakra[]> = ZODIAC_SIGN
 )
 
 // Chakra energy calculation based on sign energy states
-export function calculateChakraEnergies(
-  signEnergyStates: Record<ZodiacSign, number>,
-): Record<Chakra, number> {
+export function calculateChakraEnergies(signEnergyStates: Record<ZodiacSign, number>): Record<Chakra, number> {
   const chakraEnergies: Record<Chakra, number> = {} as Record<Chakra, number>,
 
   CHAKRAS.forEach(chakra => {
@@ -188,9 +186,7 @@ export const CHAKRA_BALANCING_FOODS: Record<Chakra, string[]> = {
 }
 
 // Recommend foods based on chakra energy levels
-export function recommendFoodsForChakraBalance(
-  chakraEnergies: Record<Chakra, number>,
-): Record<Chakra, string[]> {
+export function recommendFoodsForChakraBalance(chakraEnergies: Record<Chakra, number>): Record<Chakra, string[]> {
   const recommendations: Record<Chakra, string[]> = {} as Record<Chakra, string[]>,
 
   Object.entries(chakraEnergies).forEach(([chakra, energy]) => {

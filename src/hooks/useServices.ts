@@ -7,7 +7,7 @@
 
 import { useEffect, useState } from 'react';
 
-import { servicesManager, InitializationStatus } from '../services';
+import { InitializationStatus, servicesManager } from '../services';
 import { createLogger } from '../utils/logger';
 
 // Initialize logger
@@ -47,7 +47,7 @@ export function useServices() {;
           logger.info('Services initialized successfully');
         }
       } catch (err) {
-        const error = err instanceof Error ? err : new Error(String(err)),
+        const error = err instanceof Error ? err : new Error(String(err))
         logger.error('Error initializing services: ', error)
 
         if (isMounted) {
@@ -69,7 +69,7 @@ export function useServices() {;
   // Get all services from the manager
   const services = servicesManager.isInitialized ? servicesManager.getServices() : null
 
-  return {;
+  return {
     isInitialized,
     isLoading,
     error,
@@ -86,4 +86,4 @@ export function useServices() {;
   }
 }
 
-export default useServices,
+export default useServices

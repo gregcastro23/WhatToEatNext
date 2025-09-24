@@ -8,10 +8,8 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 
-export const metadata: Metadata = {
-  title: 'alchm.kitchen | Alchemical Culinary Intelligence',
-  description: 'Discover the perfect meal through ancient alchemical wisdom and modern AI. Real-time planetary influences guide your culinary journey.',
-};
+export const metadata: Metadata = {title: 'alchm.kitchen | Alchemical Culinary Intelligence',
+  description: 'Discover the perfect meal through ancient alchemical wisdom and modern AI. Real-time planetary influences guide your culinary journey.'};
 
 const FeatureCard = ({
   icon,
@@ -19,13 +17,11 @@ const FeatureCard = ({
   description,
   href,
   status
-}: {
-  icon: string,
+}: {icon: string,
   title: string,
   description: string,
   href: string,
-  status?: string,
-}) => (
+  status?: string}) => (
   <Link href={href} className="group">
     <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 h-full border border-gray-100 hover:border-purple-200">
       <div className="flex items-center mb-4">
@@ -56,7 +52,7 @@ const StatusIndicator = ({ label, status }: { label: string, status: 'active' | 
     <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${colors[status]}`}>
       <div className={`w-2 h-2 rounded-full mr-2 ${
         status === 'active' ? 'bg-green-500' :
-        status === 'ready' ? 'bg-blue-500' : 'bg-purple-500',
+        status === 'ready' ? 'bg-blue-500' : 'bg-purple-500'
       }`}></div>
       {label}
     </div>

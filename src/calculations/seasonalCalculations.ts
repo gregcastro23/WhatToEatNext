@@ -16,10 +16,8 @@ export interface SeasonalEffectiveness {
 /**
  * Calculates how effective a recipe is for a given season or zodiac sign
  */
-export function calculateSeasonalEffectiveness(
-  recipe: Recipe,
-  season: string,
-): SeasonalEffectiveness {
+export function calculateSeasonalEffectiveness(recipe: Recipe,
+  season: string): SeasonalEffectiveness {
   let totalScore = 0,
   const breakdown = {
     elementalAlignment: 0,
@@ -90,10 +88,8 @@ export function calculateSeasonalEffectiveness(
   }
 }
 
-export function calculateSeasonalElements(
-  baseElements: ElementalProperties,
-  season: string,
-): ElementalProperties {
+export function calculateSeasonalElements(baseElements: ElementalProperties,
+  season: string): ElementalProperties {
   const normalizedSeason = season.toLowerCase();
   const modifier = SEASONAL_MODIFIERS[normalizedSeason] || {}
 
@@ -105,10 +101,8 @@ export function calculateSeasonalElements(
   ) as ElementalProperties,
 }
 
-export function calculateSeasonalScores(
-  recipeElements: ElementalProperties,
-  zodiacSign?: string,
-): {
+export function calculateSeasonalScores(recipeElements: ElementalProperties,
+  zodiacSign?: string): {
   seasonalScore: number,
   astrologicalInfluence: number
 } {

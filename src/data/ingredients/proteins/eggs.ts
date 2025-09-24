@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawEggs = {
-  chicken_egg: {,
+  chicken_egg: {
     name: 'Chicken Egg',
     description: 'A common protein source from chickens, versatile in cooking applications.',
     category: 'egg',
@@ -15,7 +15,7 @@ const rawEggs = {
       Water: 0.5,
       Earth: 0.2,
       Air: 0.1
-},
+    },
     nutritionalProfile: {
       calories: 78,
       protein_g: 6.3,
@@ -27,7 +27,7 @@ const rawEggs = {
     },
     culinaryApplications: {
       poach: { notes: ['Perfect for eggs benedict', 'Great in ramen or brothy dishes'] },
-      fry: { notes: ['Classic sunny-side up, over-easyor over-hard preparations'] }
+      fry: { notes: ['Classic sunny-side up, over-easyor over-hard preparations'] },
       boil: { notes: ['Hard-boiled for salads', 'Soft-boiled for ramen toppings'] },
       bake: { notes: ['Used in baking as binding agent', 'Can be baked in dishes like shakshuka'] }
     },
@@ -48,7 +48,7 @@ const rawEggs = {
       Water: 0.6,
       Earth: 0.1,
       Air: 0.1
-},
+    },
     nutritionalProfile: {
       calories: 130,
       protein_g: 9.0,
@@ -60,7 +60,7 @@ const rawEggs = {
     },
     culinaryApplications: {
       poach: { notes: ['Creates a luxurious poached egg experience'] },
-      fry: { notes: ['Produces a larger, richer fried egg'] }
+      fry: { notes: ['Produces a larger, richer fried egg'] },
       bake: {
         notes: ['Excellent for enriching baked goods', 'Creates fluffier cakes and pastries']
       }
@@ -82,7 +82,7 @@ const rawEggs = {
       Water: 0.5,
       Earth: 0.3,
       Air: 0.1
-},
+    },
     nutritionalProfile: {
       calories: 14,
       protein_g: 1.2,
@@ -94,15 +94,15 @@ const rawEggs = {
     },
     culinaryApplications: {
       poach: { notes: ['Tiny perfect bites for canapés'] },
-      fry: { notes: ['Great garnish for upscale dishes'] }
+      fry: { notes: ['Great garnish for upscale dishes'] },
       boil: { notes: ['Popular in ramen', 'Used in salads for visual appeal'] }
     },
     pairings: ['caviar', 'fine herbs', 'microgreens', 'small toast points'],
     substitutions: ['small_chicken_egg'],
     affinities: ['gourmet_presentations', 'appetizers']
   }
-}
+};
 
-export const eggs = fixIngredientMappings(rawEggs) as Record<string, IngredientMapping>,
+export const eggs = fixIngredientMappings(rawEggs) as Record<string, IngredientMapping>;
 
-export default eggs,
+export default eggs;

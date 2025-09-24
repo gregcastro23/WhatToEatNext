@@ -1,4 +1,4 @@
-import type { ElementalProperties, IngredientMapping, ThermodynamicMetrics } from '@/types/alchemy';
+import type { ElementalProperties, IngredientMapping } from '@/types/alchemy';
 import type { Recipe, ZodiacSign } from '@/types/unified';
 
 import { fruits } from '../data/ingredients/fruits';
@@ -28,24 +28,21 @@ interface ElementalData {
   [key: string]: unknown
 }
 
-import type { ElementalFilter } from '../types/elemental';
 import type { NutritionData, NutritionalFilter } from '../types/nutrition';
 // SpoonacularNutritionData import removed with cleanup
 
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 
 import {
-  DietaryFilter,
-  IngredientFilter,
-  IngredientRecommendationOptions,
-  IngredientServiceInterface
+    IngredientFilter,
+    IngredientServiceInterface
 } from './interfaces/IngredientServiceInterface';
 
 import { isNonEmptyArray, safeMap, safeSome, toArray } from '../utils/common/arrayUtils';
 import {
-  createElementalProperties,
-  isElementalProperties,
-  mergeElementalProperties
+    createElementalProperties,
+    isElementalProperties,
+    mergeElementalProperties
 } from '../utils/elemental/elementalUtils';
 
 // Structure for recipe recommendations
@@ -94,7 +91,7 @@ function isNumber(value: unknown): value is number {
 }
 
 function isMacroProfile(value: unknown): value is MacroProfile {
-  if (!isObjectLike(value)) return false,
+  if (!isObjectLike(value)) return false;
   const v = value as any;
   return (
     (v.protein === undefined || isNumber(v.protein)) &&
@@ -105,12 +102,12 @@ function isMacroProfile(value: unknown): value is MacroProfile {
 }
 
 function isNutritionProfile(value: unknown): value is NutritionProfile {
-  if (!isObjectLike(value)) return false,
+  if (!isObjectLike(value)) return false;
   const v = value as any;
-  const macrosOk = v.macros === undefined || isMacroProfile(v.macros)
-  const caloriesOk = v.calories === undefined || isNumber(v.calories)
-  const sodiumOk = v.sodium_mg === undefined || isNumber(v.sodium_mg)
-  const sugarOk = v.sugar_g === undefined || isNumber(v.sugar_g)
+  const macrosOk = v.macros === undefined || isMacroProfile(v.macros);
+  const caloriesOk = v.calories === undefined || isNumber(v.calories);
+  const sodiumOk = v.sodium_mg === undefined || isNumber(v.sodium_mg);
+  const sugarOk = v.sugar_g === undefined || isNumber(v.sugar_g);
   return macrosOk && caloriesOk && sodiumOk && sugarOk;
 }
 
@@ -123,8 +120,8 @@ type AstroProfile = {
 type CulinaryProperties = { modality?: string }
 
 function isAstroProfile(value: unknown): value is AstroProfile {
-  if (!isObjectLike(value)) return false,
-  return true
+  if (!isObjectLike(value)) return false;
+  return true;
 }
 
 function hasCulinaryProperties(
@@ -413,7 +410,7 @@ export class IngredientService implements IngredientServiceInterface {
   ): UnifiedIngredient[] {
     try {
       return (ingredients || []).filter(ingredient => {
-        const rawProfile = ingredient.nutritionalPropertiesProfile 
+        const rawProfile = ingredient.nutritionalPropertiesProfile
         const profile = isNutritionProfile(rawProfile) ? rawProfile : undefined
 
         // Skip if no nutritional profile available;

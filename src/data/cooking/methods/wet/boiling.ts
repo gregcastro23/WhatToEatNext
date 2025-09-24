@@ -286,4 +286,4 @@ export const boiling: CookingMethodData = {
     'Can reduce pesticide residues on produce surface',
     'Blanching helps preserve nutrient content for freezing'
   ]
-} as CookingMethodData,
+} as CookingMethodData

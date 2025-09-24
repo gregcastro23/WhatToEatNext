@@ -333,7 +333,7 @@ export const poaching: CookingMethodData = {
       primary: 'Water', // Fluidity, emotion, nourishment,
       secondary: 'Air', // Subtlety, refinement, delicacy
     }
-  }
+  },
 
   /**
    * Extended cooking notes
@@ -400,4 +400,4 @@ export const poaching: CookingMethodData = {
     negative_space: 'Contemporary plating with poached item as focal point',
     herb_garnish: 'Fresh herbs that echo poaching aromatics for visual and flavor connection'
 }
-} as unknown as CookingMethodData,
+} as unknown as CookingMethodData

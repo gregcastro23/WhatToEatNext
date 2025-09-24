@@ -4,7 +4,8 @@ import type { Cuisine } from '@/types/cuisine';
 export const indian: Cuisine = {
   id: 'indian',
   name: 'Indian',
-  description: 'Traditional Indian cuisine spanning diverse regional specialties, spice blends, and cooking techniques',
+  description:
+    'Traditional Indian cuisine spanning diverse regional specialties, spice blends, and cooking techniques',
   dishes: {
     breakfast: {
       all: [
@@ -28,7 +29,7 @@ export const indian: Cuisine = {
               unit: 'ml',
               category: 'grain',
               swaps: ['quinoa dosa batter']
-            }
+            },
             { name: 'potato masala', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'sambar', amount: '200', unit: 'ml', category: 'soup' },
             { name: 'coconut chutney', amount: '50', unit: 'g', category: 'condiment' },
@@ -43,7 +44,8 @@ export const indian: Cuisine = {
           allergens: ['none'],
           prepTime: '15 minutes',
           cookTime: '15 minutes',
-          culturalNotes: 'A South Indian breakfast staple, traditionally served with filter coffee. The art of dosa-making is passed down through generations',
+          culturalNotes:
+            'A South Indian breakfast staple, traditionally served with filter coffee. The art of dosa-making is passed down through generations',
           pairingSuggestions: ['filter coffee', 'coconut chutney', 'sambar', 'mint chutney'],
           dietaryInfo: ['vegetarian', 'gluten-free'],
           spiceLevel: 'medium',
@@ -62,8 +64,8 @@ export const indian: Cuisine = {
             Fire: 0.4,
             Air: 0.2,
             Water: 0.1
-}
-        }
+          }
+        },
         {
           name: 'Aloo Paratha',
           description: 'Whole wheat flatbread stuffed with spiced potatoes',
@@ -84,7 +86,7 @@ export const indian: Cuisine = {
               unit: 'g',
               category: 'grain',
               swaps: ['gluten-free flour blend']
-            }
+            },
             { name: 'potatoes', amount: '300', unit: 'g', category: 'vegetable' },
             { name: 'spices', amount: '2', unit: 'tbsp', category: 'spice' },
             {
@@ -93,7 +95,7 @@ export const indian: Cuisine = {
               unit: 'g',
               category: 'dairy',
               swaps: ['plant-based yogurt']
-            }
+            },
             { name: 'butter', amount: '30', unit: 'g', category: 'fat', swaps: ['oil'] }
           ],
           substitutions: {
@@ -105,7 +107,8 @@ export const indian: Cuisine = {
           allergens: ['gluten', 'dairy'],
           prepTime: '30 minutes',
           cookTime: '15 minutes',
-          culturalNotes: 'A hearty North Indian breakfast, popular among farmers and laborers. Each region has its own variation of stuffed parathas',
+          culturalNotes:
+            'A hearty North Indian breakfast, popular among farmers and laborers. Each region has its own variation of stuffed parathas',
           pairingSuggestions: ['butter', 'pickle', 'yogurt', 'mint chutney'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'medium',
@@ -124,8 +127,8 @@ export const indian: Cuisine = {
             Fire: 0.3,
             Water: 0.1,
             Air: 0.1
-}
-        }
+          }
+        },
         {
           name: 'Idli Sambar',
           description: 'Steamed rice cakes with lentil soup',
@@ -157,7 +160,8 @@ export const indian: Cuisine = {
           prepTime: '8 hours',
           cookTime: '30 minutes',
           fermentTime: '8-12 hours',
-          culturalNotes: 'A quintessential South Indian breakfast that perfectly balances protein and carbohydrates. The fermentation process is crucial for the soft, fluffy texture',
+          culturalNotes:
+            'A quintessential South Indian breakfast that perfectly balances protein and carbohydrates. The fermentation process is crucial for the soft, fluffy texture',
           pairingSuggestions: ['coconut chutney', 'sambar', 'filter coffee', 'podi'],
           dietaryInfo: ['vegetarian', 'vegan', 'gluten-free'],
           spiceLevel: 'medium',
@@ -176,7 +180,7 @@ export const indian: Cuisine = {
             Earth: 0.3,
             Fire: 0.2,
             Air: 0.1
-}
+          }
         }
       ],
       summer: [
@@ -207,7 +211,7 @@ export const indian: Cuisine = {
               unit: 'pieces',
               category: 'spice',
               optional: true
-}
+            }
           ],
           substitutions: {
             peanuts: ['cashews', 'roasted chana'],
@@ -218,7 +222,8 @@ export const indian: Cuisine = {
           allergens: ['peanuts'],
           prepTime: '10 minutes',
           cookTime: '15 minutes',
-          culturalNotes: 'A popular breakfast in Maharashtra and Madhya Pradesh, poha is valued for its quick preparation and light yet satisfying nature',
+          culturalNotes:
+            'A popular breakfast in Maharashtra and Madhya Pradesh, poha is valued for its quick preparation and light yet satisfying nature',
           pairingSuggestions: ['chai', 'jalebi', 'sev', 'lemon wedges'],
           dietaryInfo: ['vegetarian', 'gluten-free'],
           spiceLevel: 'mild to medium',
@@ -237,7 +242,7 @@ export const indian: Cuisine = {
             Fire: 0.3,
             Air: 0.2,
             Water: 0.1
-}
+          }
         }
       ]
     },
@@ -275,7 +280,8 @@ export const indian: Cuisine = {
           allergens: ['none'],
           prepTime: '10 minutes',
           cookTime: '30 minutes',
-          culturalNotes: 'A daily staple in North Indian homes, dal tadka represents the art of tempering in Indian cuisine. The sound of tadka being added to dal is a familiar comfort in Indian kitchens',
+          culturalNotes:
+            'A daily staple in North Indian homes, dal tadka represents the art of tempering in Indian cuisine. The sound of tadka being added to dal is a familiar comfort in Indian kitchens',
           pairingSuggestions: ['steamed rice', 'roti', 'pickles', 'papad'],
           dietaryInfo: ['vegetarian', 'gluten-free'],
           spiceLevel: 'mild to medium',
@@ -289,7 +295,7 @@ export const indian: Cuisine = {
           },
           season: ['all'],
           mealType: ['lunch', 'dinner']
-        }
+        },
         {
           name: 'Gujarati Kadhi',
           description: 'Yogurt-based curry with gram flour',
@@ -311,7 +317,7 @@ export const indian: Cuisine = {
               unit: 'ml',
               category: 'dairy',
               swaps: ['coconut yogurt']
-            }
+            },
             { name: 'gram flour', amount: '3', unit: 'tbsp', category: 'flour' },
             { name: 'curry leaves', amount: '10', unit: 'leaves', category: 'herb' },
             { name: 'mustard seeds', amount: '1', unit: 'tsp', category: 'spice' },
@@ -322,7 +328,7 @@ export const indian: Cuisine = {
               unit: 'pieces',
               category: 'spice',
               optional: true
-}
+            },
             { name: 'turmeric', amount: '1/2', unit: 'tsp', category: 'spice' }
           ],
           substitutions: {
@@ -334,7 +340,8 @@ export const indian: Cuisine = {
           allergens: ['dairy'],
           prepTime: '15 minutes',
           cookTime: '30 minutes',
-          culturalNotes: 'A cooling dish popular in Gujarati thalis, this kadhi is sweeter and milder than other regional versions. Often served during summer months',
+          culturalNotes:
+            'A cooling dish popular in Gujarati thalis, this kadhi is sweeter and milder than other regional versions. Often served during summer months',
           pairingSuggestions: ['steamed rice', 'khichdi', 'papad', 'thepla'],
           dietaryInfo: ['vegetarian', 'gluten-free'],
           spiceLevel: 'mild',
@@ -374,7 +381,7 @@ export const indian: Cuisine = {
               unit: 'ml',
               category: 'dairy',
               swaps: ['cashew cream']
-            }
+            },
             { name: 'butter', amount: '100', unit: 'g', category: 'fat', swaps: ['plant butter'] },
             { name: 'garam masala', amount: '2', unit: 'tbsp', category: 'spice' },
             { name: 'tomatoes', amount: '400', unit: 'g', category: 'vegetable' },
@@ -389,7 +396,8 @@ export const indian: Cuisine = {
           allergens: ['dairy'],
           prepTime: 'overnight + 30 minutes',
           cookTime: '8 hours',
-          culturalNotes: 'Originally from the kitchens of Punjab, this dish gained popularity post-partition. The long, slow cooking process is essential for its signature creamy texture',
+          culturalNotes:
+            'Originally from the kitchens of Punjab, this dish gained popularity post-partition. The long, slow cooking process is essential for its signature creamy texture',
           pairingSuggestions: ['naan', 'rice', 'onion rings', 'butter chicken'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'mild to medium',
@@ -429,7 +437,7 @@ export const indian: Cuisine = {
               unit: 'g',
               category: 'protein',
               swaps: ['cauliflower', 'seitan']
-            }
+            },
             { name: 'tomatoes', amount: '500', unit: 'g', category: 'vegetable' },
             {
               name: 'cream',
@@ -437,7 +445,7 @@ export const indian: Cuisine = {
               unit: 'ml',
               category: 'dairy',
               swaps: ['cashew cream']
-            }
+            },
             { name: 'butter', amount: '100', unit: 'g', category: 'fat', swaps: ['ghee'] },
             { name: 'garam masala', amount: '2', unit: 'tbsp', category: 'spice' },
             { name: 'kasuri methi', amount: '1', unit: 'tbsp', category: 'herb' },
@@ -466,7 +474,7 @@ export const indian: Cuisine = {
           },
           season: ['all'],
           mealType: ['dinner']
-        }
+        },
         {
           name: 'Hyderabadi Biryani',
           description: 'Layered rice with spiced meat and aromatics',
@@ -496,7 +504,7 @@ export const indian: Cuisine = {
               unit: 'g',
               category: 'protein',
               swaps: ['chicken', 'jackfruit']
-            }
+            },
             { name: 'yogurt', amount: '200', unit: 'ml', category: 'dairy' },
             { name: 'onions', amount: '300', unit: 'g', category: 'vegetable' },
             { name: 'saffron', amount: '1', unit: 'pinch', category: 'spice' },
@@ -512,7 +520,8 @@ export const indian: Cuisine = {
           allergens: ['dairy'],
           prepTime: '2 hours',
           cookTime: '1 hour',
-          culturalNotes: 'A royal dish from the Nizam's kitchen, Hyderabadi biryani is distinguished by its layering technique and use of saffron',
+          culturalNotes:
+            'A royal dish from the Nizam's kitchen, Hyderabadi biryani is distinguished by its layering technique and use of saffron',
           pairingSuggestions: ['mirchi ka salan', 'raita', 'boiled eggs', 'onion salad'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'medium to hot',
@@ -526,7 +535,7 @@ export const indian: Cuisine = {
           },
           season: ['all'],
           mealType: ['dinner', 'special occasion']
-        }
+        },
         {
           name: 'Palak Paneer',
           description: 'Fresh spinach curry with cottage cheese',
@@ -559,7 +568,8 @@ export const indian: Cuisine = {
           allergens: ['dairy'],
           prepTime: '20 minutes',
           cookTime: '30 minutes',
-          culturalNotes: 'A nutritious dish that makes eating greens delicious. Popular among vegetarians and non-vegetarians alike',
+          culturalNotes:
+            'A nutritious dish that makes eating greens delicious. Popular among vegetarians and non-vegetarians alike',
           pairingSuggestions: ['naan', 'roti', 'jeera rice', 'dal'],
           dietaryInfo: ['vegetarian', 'gluten-free'],
           spiceLevel: 'mild',
@@ -573,7 +583,7 @@ export const indian: Cuisine = {
           },
           season: ['winter'],
           mealType: ['lunch', 'dinner']
-        }
+        },
         {
           name: 'Chole Bhature',
           description: 'Spiced chickpeas with deep-fried bread',
@@ -606,7 +616,8 @@ export const indian: Cuisine = {
           allergens: ['gluten', 'dairy'],
           prepTime: 'overnight + 30 minutes',
           cookTime: '1 hour',
-          culturalNotes: 'A beloved street food from Punjab, now popular across India. The tea bag adds color and depth to the chickpeas',
+          culturalNotes:
+            'A beloved street food from Punjab, now popular across India. The tea bag adds color and depth to the chickpeas',
           pairingSuggestions: ['onion rings', 'pickle', 'green chutney'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'medium to hot',
@@ -620,7 +631,7 @@ export const indian: Cuisine = {
           },
           season: ['winter'],
           mealType: ['breakfast', 'lunch']
-        }
+        },
         {
           name: 'Malai Kofta',
           description: 'Paneer and potato dumplings in rich cream sauce',
@@ -653,7 +664,8 @@ export const indian: Cuisine = {
           allergens: ['dairy', 'nuts'],
           prepTime: '45 minutes',
           cookTime: '30 minutes',
-          culturalNotes: 'A royal Mughlai dish that showcases the rich, creamy gravies of North Indian cuisine. Often served at special occasions',
+          culturalNotes:
+            'A royal Mughlai dish that showcases the rich, creamy gravies of North Indian cuisine. Often served at special occasions',
           pairingSuggestions: ['naan', 'pulao', 'raita', 'mint chutney'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'mild',
@@ -667,7 +679,7 @@ export const indian: Cuisine = {
           },
           season: ['winter'],
           mealType: ['dinner', 'special occasion']
-        }
+        },
         {
           name: 'Pani Puri',
           description: 'Crispy hollow spheres with spiced water and fillings',
@@ -695,7 +707,7 @@ export const indian: Cuisine = {
               unit: 'g',
               category: 'legume',
               optional: true
-}
+            }
           ],
           substitutions: {
             'black salt': ['regular salt'],
@@ -706,7 +718,8 @@ export const indian: Cuisine = {
           allergens: ['gluten'],
           prepTime: '30 minutes',
           cookTime: '15 minutes',
-          culturalNotes: 'A beloved street food that originated in North India but has unique regional variations across the country',
+          culturalNotes:
+            'A beloved street food that originated in North India but has unique regional variations across the country',
           pairingSuggestions: ['masala chai', 'lassi'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'medium to hot',
@@ -720,7 +733,7 @@ export const indian: Cuisine = {
           },
           season: ['summer'],
           mealType: ['snack', 'appetizer']
-        }
+        },
         {
           name: 'Baingan Bharta',
           description: 'Smoky roasted eggplant mash with spices',
@@ -750,7 +763,7 @@ export const indian: Cuisine = {
               unit: 'whole',
               category: 'spice',
               optional: true
-}
+            }
           ],
           substitutions: {
             eggplant: ['zucchini', 'mushrooms'],
@@ -761,7 +774,8 @@ export const indian: Cuisine = {
           allergens: [],
           prepTime: '20 minutes',
           cookTime: '45 minutes',
-          culturalNotes: 'A popular North Indian dish that showcases the smoky flavor of fire-roasted eggplant. Often served with fresh rotis or naan',
+          culturalNotes:
+            'A popular North Indian dish that showcases the smoky flavor of fire-roasted eggplant. Often served with fresh rotis or naan',
           pairingSuggestions: ['roti', 'naan', 'rice', 'dal'],
           dietaryInfo: ['vegan', 'gluten-free'],
           spiceLevel: 'medium',
@@ -780,7 +794,7 @@ export const indian: Cuisine = {
             Fire: 0.4,
             Air: 0.2,
             Water: 0.1
-}
+          }
         }
       ],
       winter: [
@@ -811,14 +825,14 @@ export const indian: Cuisine = {
               unit: 'g',
               category: 'protein',
               swaps: ['mushrooms', 'seitan']
-            }
+            },
             {
               name: 'yogurt',
               amount: '300',
               unit: 'ml',
               category: 'dairy',
               swaps: ['coconut yogurt']
-            }
+            },
             { name: 'kashmiri chilies', amount: '4', unit: 'whole', category: 'spice' },
             { name: 'whole spices', amount: '2', unit: 'tbsp', category: 'spice' },
             { name: 'ginger', amount: '2', unit: 'tbsp', category: 'spice' },
@@ -834,7 +848,8 @@ export const indian: Cuisine = {
           allergens: ['dairy'],
           prepTime: '30 minutes',
           cookTime: '2 hours',
-          culturalNotes: 'A signature Kashmiri dish known for its vibrant red color from mild Kashmiri chilies. Originally brought to Kashmir by the Mughals',
+          culturalNotes:
+            'A signature Kashmiri dish known for its vibrant red color from mild Kashmiri chilies. Originally brought to Kashmir by the Mughals',
           pairingSuggestions: ['steamed rice', 'naan', 'onion salad', 'raita'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'medium',
@@ -874,7 +889,7 @@ export const indian: Cuisine = {
               unit: 'g',
               category: 'dairy',
               swaps: ['almond flour blend']
-            }
+            },
             { name: 'all-purpose flour', amount: '50', unit: 'g', category: 'flour' },
             { name: 'sugar', amount: '300', unit: 'g', category: 'sweetener' },
             { name: 'cardamom', amount: '4', unit: 'pods', category: 'spice' },
@@ -891,7 +906,8 @@ export const indian: Cuisine = {
           allergens: ['dairy', 'gluten'],
           prepTime: '30 minutes',
           cookTime: '30 minutes',
-          culturalNotes: 'A beloved dessert served at festivals and celebrations. The name means 'rose berry' due to the rose-scented syrup traditionally used',
+          culturalNotes:
+            'A beloved dessert served at festivals and celebrations. The name means 'rose berry' due to the rose-scented syrup traditionally used',
           pairingSuggestions: ['masala chai', 'ice cream', 'rabri'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -905,7 +921,7 @@ export const indian: Cuisine = {
           },
           season: ['all'],
           mealType: ['dessert']
-        }
+        },
         {
           name: 'Rasmalai',
           description: 'Cheese dumplings in saffron milk',
@@ -943,7 +959,8 @@ export const indian: Cuisine = {
           allergens: ['dairy', 'nuts'],
           prepTime: '45 minutes',
           cookTime: '1 hour',
-          culturalNotes: 'A refined Bengali dessert that showcases the region's expertise in milk-based sweets. Often served at weddings and special occasions',
+          culturalNotes:
+            'A refined Bengali dessert that showcases the region's expertise in milk-based sweets. Often served at weddings and special occasions',
           pairingSuggestions: ['masala chai', 'paan'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -957,7 +974,7 @@ export const indian: Cuisine = {
           },
           season: ['all'],
           mealType: ['dessert']
-        }
+        },
         {
           name: 'Kulfi',
           description: 'Dense Indian ice cream',
@@ -990,7 +1007,8 @@ export const indian: Cuisine = {
           prepTime: '30 minutes',
           cookTime: '1 hour',
           freezeTime: '6 hours',
-          culturalNotes: 'A traditional frozen dessert predating ice cream in India. The slow reduction of milk creates its signature dense, creamy texture',
+          culturalNotes:
+            'A traditional frozen dessert predating ice cream in India. The slow reduction of milk creates its signature dense, creamy texture',
           pairingSuggestions: ['falooda', 'rose syrup', 'fresh fruit'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -1051,12 +1069,15 @@ export const indian: Cuisine = {
         Earth: 0.2,
         Water: 0.2,
         Air: 0.1
-},
+      },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'all',
-      preparationNotes: 'Allow marination for at least 4 hours, preferably overnight for best flavor',
-      technicalTips: 'For authentic color, use Kashmiri chili powder which adds color without excess heat' },
-        tikka_masala: {
+      preparationNotes:
+        'Allow marination for at least 4 hours, preferably overnight for best flavor',
+      technicalTips:
+        'For authentic color, use Kashmiri chili powder which adds color without excess heat'
+    },
+    tikka_masala: {
       name: 'Tikka Masala',
       description: 'Rich tomato-based curry sauce with cream and aromatic spices',
       base: 'tomato and cream',
@@ -1073,12 +1094,13 @@ export const indian: Cuisine = {
         Water: 0.3,
         Earth: 0.3,
         Air: 0.1
-},
+      },
       astrologicalInfluences: ['Venus', 'Moon', 'Taurus'],
       seasonality: 'all',
       preparationNotes: 'Allow the sauce to simmer gently to develop complex flavors',
-      technicalTips: 'Add kasuri methi (dried fenugreek leaves) at the end for authentic aroma' },
-        raita: {
+      technicalTips: 'Add kasuri methi (dried fenugreek leaves) at the end for authentic aroma'
+    },
+    raita: {
       name: 'Raita',
       description: 'Cooling yogurt condiment with vegetables and spices',
       base: 'yogurt',
@@ -1090,12 +1112,13 @@ export const indian: Cuisine = {
         Earth: 0.2,
         Air: 0.2,
         Fire: 0.0
-},
+      },
       astrologicalInfluences: ['Moon', 'Venus', 'Cancer'],
       seasonality: 'all',
       preparationNotes: 'Use thick, strained yogurt for best texture',
-      technicalTips: 'Salt and drain cucumber to prevent watery raita' },
-        tamarind_chutney: {
+      technicalTips: 'Salt and drain cucumber to prevent watery raita'
+    },
+    tamarind_chutney: {
       name: 'Tamarind Chutney',
       description: 'Sweet and sour condiment made from tamarind pulp, jaggery and spices',
       base: 'tamarind',
@@ -1107,12 +1130,13 @@ export const indian: Cuisine = {
         Fire: 0.3,
         Earth: 0.2,
         Air: 0.1
-},
+      },
       astrologicalInfluences: ['Mercury', 'Saturn', 'Gemini'],
       seasonality: 'all',
       preparationNotes: 'Balance sweet, sour, and spicy elements carefully',
-      technicalTips: 'Strain thoroughly for smooth consistency' },
-        coriander_mint_chutney: {
+      technicalTips: 'Strain thoroughly for smooth consistency'
+    },
+    coriander_mint_chutney: {
       name: 'Coriander-Mint Chutney',
       description: 'Fresh, vibrant green chutney with herbs and green chilies',
       base: 'herbs',
@@ -1124,12 +1148,13 @@ export const indian: Cuisine = {
         Water: 0.3,
         Fire: 0.2,
         Earth: 0.0
-},
+      },
       astrologicalInfluences: ['Mercury', 'Moon', 'Virgo'],
       seasonality: 'all',
       preparationNotes: 'Use ice water when blending to maintain bright green color',
-      technicalTips: 'Add a small amount of yogurt for creamier texture and longer shelf life' },
-        coconut_curry: {
+      technicalTips: 'Add a small amount of yogurt for creamier texture and longer shelf life'
+    },
+    coconut_curry: {
       name: 'Coconut Curry Sauce',
       description: 'Creamy, aromatic sauce with coconut milk and south Indian spices',
       base: 'coconut milk',
@@ -1152,12 +1177,13 @@ export const indian: Cuisine = {
         Earth: 0.2,
         Fire: 0.2,
         Air: 0.1
-},
+      },
       astrologicalInfluences: ['Moon', 'Neptune', 'Pisces'],
       seasonality: 'all',
       preparationNotes: 'Temper spices properly to release their flavors into the coconut milk',
-      technicalTips: 'Use full-fat coconut milk for richness, light coconut milk may separate' },
-        onion_tomato_masala: {
+      technicalTips: 'Use full-fat coconut milk for richness, light coconut milk may separate'
+    },
+    onion_tomato_masala: {
       name: 'Onion-Tomato Masala',
       description: 'Foundational sauce of caramelized onions and tomatoes for North Indian curries',
       base: 'onion and tomato',
@@ -1169,12 +1195,12 @@ export const indian: Cuisine = {
         Earth: 0.3,
         Water: 0.2,
         Air: 0.1
-},
+      },
       astrologicalInfluences: ['Mars', 'Sun', 'Leo'],
       seasonality: 'all',
       preparationNotes: 'Properly caramelizing onions (bhunao) is the key to depth of flavor',
       technicalTips: 'Prepare in large batches and freeze in portions for quick weeknight cooking'
-}
+    }
   },
   sauceRecommender: {
     forProtein: {
@@ -1372,7 +1398,7 @@ export const indian: Cuisine = {
       toolsRequired: ['small tadka pan', 'spoon', 'lid', 'ladle'],
       bestFor: ['dal preparations', 'curries', 'rice dishes', 'yogurt preparations'],
       difficulty: 'medium'
-}
+    },
     {
       name: 'Dum',
       description: 'Slow cooking in a sealed vessel to contain flavors and moisture',
@@ -1380,7 +1406,7 @@ export const indian: Cuisine = {
       toolsRequired: ['heavy-bottomed pot', 'dough for sealing', 'tongs', 'weight'],
       bestFor: ['biryani', 'meat curries', 'rich vegetable dishes', 'kebabs'],
       difficulty: 'hard'
-}
+    },
     {
       name: 'Bhunao',
       description: 'Slow sautéing to caramelize and intensify flavors',
@@ -1388,7 +1414,7 @@ export const indian: Cuisine = {
       toolsRequired: ['heavy kadhai', 'wooden spoon', 'tongs', 'timer'],
       bestFor: ['onion-tomato masala', 'meat preparations', 'mixed vegetables', 'keema'],
       difficulty: 'medium'
-}
+    },
     {
       name: 'Tandoor',
       description: 'High-heat clay oven cooking for char and smoky flavor',
@@ -1396,7 +1422,7 @@ export const indian: Cuisine = {
       toolsRequired: ['tandoor', 'skewers', 'brush', 'tongs'],
       bestFor: ['breads', 'marinated meats', 'kebabs', 'vegetables'],
       difficulty: 'hard'
-}
+    },
     {
       name: 'Baghar',
       description: 'Pouring hot spice-infused oil over finished dishes',
@@ -1404,45 +1430,51 @@ export const indian: Cuisine = {
       toolsRequired: ['small pan', 'spoon', 'heat-proof container', 'strainer'],
       bestFor: ['dals', 'rice dishes', 'raita', 'curries'],
       difficulty: 'easy'
-}
+    }
   ],
   regionalCuisines: {
     punjabi: {
       name: 'Punjabi Cuisine',
-      description: 'Hearty, rich cuisine with generous use of dairy, robust spices, and tandoor cooking',
+      description:
+        'Hearty, rich cuisine with generous use of dairy, robust spices, and tandoor cooking',
       signature: ['butter chicken', 'dal makhani', 'amritsari kulcha', 'sarson da saag'],
       elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Mars', 'Jupiter', 'taurus'],
-      seasonality: 'all' },
-        bengali: {
+      seasonality: 'all'
+    },
+    bengali: {
       name: 'Bengali Cuisine',
-      description: 'Delicate flavors with emphasis on fish, mustard, panch phoron spice blend and sweets',
+      description:
+        'Delicate flavors with emphasis on fish, mustard, panch phoron spice blend and sweets',
       signature: ['maacher jhol', 'shorshe ilish', 'mishti doi', 'rasgulla'],
       elementalProperties: { Water: 0.5, Earth: 0.2, Air: 0.2, Fire: 0.1 },
       astrologicalInfluences: ['Venus', 'Moon', 'cancer'],
-      seasonality: 'all' },
-        south_indian: {
+      seasonality: 'all'
+    },
+    south_indian: {
       name: 'South Indian Cuisine',
-      description: 'Predominantly rice-based with coconut, curry leaves, tamarind and complex spice blends',
+      description:
+        'Predominantly rice-based with coconut, curry leaves, tamarind and complex spice blends',
       signature: ['dosa', 'idli', 'sambar', 'rasam'],
       elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Mercury', 'Sun', 'virgo'],
-      seasonality: 'all' },
-        gujarati: {
+      seasonality: 'all'
+    },
+    gujarati: {
       name: 'Gujarati Cuisine',
       description: 'Vegetarian cuisine with balance of sweet, salty and spicy flavors',
       signature: ['dhokla', 'thepla', 'undhiyu', 'fafda-jalebi'],
       elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
       astrologicalInfluences: ['Jupiter', 'Mercury', 'gemini'],
       seasonality: 'all'
-}
+    }
   },
   elementalProperties: {
     Fire: 0.5,
     Earth: 0.2,
     Water: 0.2,
     Air: 0.1
-}
-}
+  }
+};
 
-export default indian,
+export default indian;

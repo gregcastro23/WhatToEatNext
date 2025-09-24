@@ -303,7 +303,7 @@ export const fermentation: CookingMethodData = {
     'Weigh ferments down below brine level to maintain anaerobic conditions',
     'Ferment chili peppers with 3-5% salt to develop complex hot sauce flavors',
     'For kefir, optimum culturing occurs at 68-74°F (20-23°C) for 24 hours',
-    'In cheese making, maintaining specific humidity levels is as important as temperature';
+    'In cheese making, maintaining specific humidity levels is as important as temperature',
     'For tempeh, maintain 85-88°F (29-31°C) with adequate ventilation for proper mycelium growth',
     'Use wooden rather than plastic tools for sourdough to nurture beneficial microbial environment',
     'For yogurt, pre-heat milk to 180°F (82°C) before cooling to incubation temperature to denature proteins',
@@ -337,54 +337,54 @@ export const fermentation: CookingMethodData = {
     pH_levels: 'Vegetable ferments: below 4.0 for safety, typically 3.4-3.8 for flavor balance; dairy ferments: yogurt 4.0-4.5, cheese varies by type, sourdough: 3.8-4.5, kombucha: 2.5-3.5.',
     aroma_development: 'Complex, often fruity, dairy, floral or umami notes replacing raw material smells, absence of putrid, overly alcoholic, or cleaning chemical smells. Specific desirable aromatic compounds for each ferment.',
     acidity_balance: 'Lactic acid provides roundness and depth, acetic acid provides sharpness and higher notes, butyric acid (when appropriate) provides richness. Balance depends on ferment type and regional preferences.',
-    microbial_succession: 'Progression through expected phases of fermentation: initial rapid growth phase, followed by slowing activity, and finally maturation phase with minimal visible activity but continued enzymatic processes.' },
-        ingredientInteractions: {
-    salt_effects:
-      'Creates selective pressure favoring salt-tolerant microbes like Lactobacillus while inhibiting pathogens. Above 10% primarily favors yeast activity. Traditional ranges: vegetables (1.5-3%), cheese (1-5%), bread (1.8-2.2% of flour weight), meat ferments (2.5-3.5%).',
+    microbial_succession: 'Progression through expected phases of fermentation: initial rapid growth phase, followed by slowing activity, and finally maturation phase with minimal visible activity but continued enzymatic processes.'
+  },
+  ingredientInteractions: {
+    salt_effects: 'Creates selective pressure favoring salt-tolerant microbes like Lactobacillus while inhibiting pathogens. Above 10% primarily favors yeast activity. Traditional ranges: vegetables (1.5-3%), cheese (1-5%), bread (1.8-2.2% of flour weight), meat ferments (2.5-3.5%).',
     sugar_concentration: 'Provides food for microbes, influencing rate of fermentation and final product. Higher concentrations (above 55%) become preservative, inhibiting most microbial activity. In vegetable ferments, natural sugars are converted to acidsin beverages, determines potential alcohol content.',
-    protein_breakdown: 'Proteolysis during fermentation breaks proteins into peptides and amino acids, enhancing digestibility and flavor (especially umami). Particularly important in soy, dairy, and meat ferments. Different microbial strains produce distinct proteolytic enzyme profiles.';
+     protein_breakdown: 'Proteolysis during fermentation breaks proteins into peptides and amino acids, enhancing digestibility and flavor (especially umami). Particularly important in soy, dairy, and meat ferments. Different microbial strains produce distinct proteolytic enzyme profiles.',
     tannin_impact: 'Tannins from tea, grape skins, etc. can inhibit certain microbes while encouraging others. Provide structure in fermented beverages. Can bind to proteins, affecting texture development in both positive and negative ways depending on concentration.',
     spice_influence: 'Many spices have antimicrobial properties that selectively inhibit certain organisms. Examples: garlic inhibits some yeasts, cloves affect gram-negative bacteria, cinnamon has broad antimicrobial effects. Can significantly alter microbial succession patterns.',
     acidity_development: 'Progressive acid development inhibits less acid-tolerant organisms, creating succession of microbial communities. Initial pH of substrate influences which organisms dominate first. Buffering capacity of ingredients affects rate of perceived acidity change.',
     vegetable_enzyme_activity: 'Natural plant enzymes remain active in early fermentation, contributing to texture and flavor before microbial activity dominates. Some vegetables (cabbage, garlic) contain more naturally beneficial compounds for fermentation.',
     mineral_availability: 'Minerals act as cofactors for microbial enzymes. Calcium strengthens cell walls in vegetable ferments maintaining crispness. Traditional use of mineral-rich water sources (spring water) can affect fermentation outcomes.',
     oxygen_exposure: 'Determines whether aerobic or anaerobic processes dominate. Surface yeasts and molds require oxygen, lactic acid bacteria are facultative anaerobes, acetobacter requires oxygen for converting alcohol to acetic acid.',
-    phenolic_compounds: 'Present in many plant materials, can be transformed during fermentation into more bioavailable forms with enhanced health benefits. Some inhibit certain microbes while encouraging others, acting as natural selectors.' },
-        technicalNotes: {
+    phenolic_compounds: 'Present in many plant materials, can be transformed during fermentation into more bioavailable forms with enhanced health benefits. Some inhibit certain microbes while encouraging others, acting as natural selectors.'
+  },
+  technicalNotes: {
     microbial_communities: {
-      lactic_acid_bacteria:
-        'Lactobacillus, Leuconostoc, Pediococcus, and others convert sugars primarily to lactic acid. Key in vegetable ferments, dairy, sourdough, and many traditional fermentations. Homofermentative species produce primarily lactic acid, heterofermentative produce lactic acid plus carbon dioxide and acetic acid/ethanol.',
+      lactic_acid_bacteria: 'Lactobacillus, Leuconostoc, Pediococcus, and others convert sugars primarily to lactic acid. Key in vegetable ferments, dairy, sourdough, and many traditional fermentations. Homofermentative species produce primarily lactic acid, heterofermentative produce lactic acid plus carbon dioxide and acetic acid/ethanol.',
       yeasts: 'Saccharomyces, Brettanomyces, Candida, and others convert sugars to alcohol and carbon dioxide. Important in bread, beer, wine, kefir, kombucha. Different strains contribute distinct flavor profiles and alcohol tolerance levels.',
       acetic_acid_bacteria: 'Acetobacter and Gluconobacter convert alcohol to acetic acid. Essential for vinegar production, contribute to kombucha, natural wine complexity, and some traditional foods. Require oxygen for metabolism.',
       molds: 'Aspergillus, Penicillium, Rhizopus, and others grow on surfaces providing enzymatic activity. Critical for koji, cheese (blue, Camembert), tempeh, traditional meat curing. Some produce mycotoxins, so specific food-safe strains are essential.',
-      bacillus: 'Alkaline-tolerant bacteria important in foods like natto, traditional fish ferments, and some African alkaline grain ferments. Produce sticky biofilms and distinctive strong flavors.' },
-        equipment_considerations: {
-      vessel_materials:
-        'Glass and food-grade ceramics are non-reactive and preferred for most ferments. Wood adds microbial complexity through porous surface harboring cultures. Avoid reactive metals (aluminum, copper) which can be corroded by acids and affect flavor.',
+      bacillus: 'Alkaline-tolerant bacteria important in foods like natto, traditional fish ferments, and some African alkaline grain ferments. Produce sticky biofilms and distinctive strong flavors.'
+    },
+    equipment_considerations: {
+      vessel_materials: 'Glass and food-grade ceramics are non-reactive and preferred for most ferments. Wood adds microbial complexity through porous surface harboring cultures. Avoid reactive metals (aluminum, copper) which can be corroded by acids and affect flavor.',
       airlock_systems: 'Water-sealed crocks, one-way valve systems, or simple weighted lids maintain anaerobic environment while allowing gas escape. Critical for vegetable fermentation and some alcoholic ferments.',
-      temperature_control: 'Dedicated fermentation chambers with heating/cooling capability, water bath systems; insulated containers, traditional root cellars or spring houses. Temperature stability often more important than exact value.';
+      temperature_control: 'Dedicated fermentation chambers with heating/cooling capability, water bath systems; insulated containers, traditional root cellars or spring houses. Temperature stability often more important than exact value.',
       humidity_regulation: 'Critical for surface-ripened cheeses, mold-based ferments, and dry-cured meats. Traditional solutions include limestone caves, modern approaches use humidity-controlled chambers.',
-      measuring_tools: 'pH meters, acid titration kits, hydrometers for sugar/alcohol content, thermometers, salinity refractometers. Improve consistency and safety across batches.' },
-        fermentation_phases: {
-      initiation:
-        'First 24-72 hours when preferred microbes establish dominance. Often characterized by pH shift, carbon dioxide production, and visible activity. Critical period for success or failure of the ferment.',
+      measuring_tools: 'pH meters, acid titration kits, hydrometers for sugar/alcohol content, thermometers, salinity refractometers. Improve consistency and safety across batches.'
+    },
+    fermentation_phases: {
+      initiation: 'First 24-72 hours when preferred microbes establish dominance. Often characterized by pH shift, carbon dioxide production, and visible activity. Critical period for success or failure of the ferment.',
       primary_fermentation: 'Main active phase when bulk of sugar-to-acid or sugar-to-alcohol conversion occurs. Typically 3-14 days for many ferments. Most dramatic flavor and texture changes occur here.',
       secondary_fermentation: 'Slower phase after initial nutrient sources depleted. More subtle flavor development through enzymatic activity and microbial byproduct reactions. Can last weeks to months.',
-      maturation: 'Final phase with minimal active fermentation but continued enzymatic activity and flavor compound development. Critical for complexity in aged products. Months to years depending on product.' },
-        safety_parameters: {
+      maturation: 'Final phase with minimal active fermentation but continued enzymatic activity and flavor compound development. Critical for complexity in aged products. Months to years depending on product.'
+    },
+    safety_parameters: {
       acidity_control: 'pH below 4.6 inhibits Clostridium botulinum and most pathogens. Most successful ferments achieve pH 3.5-4.2. Regular monitoring especially important in early stages.',
-      competitive_exclusion:
-        'Establishing desired microbes quickly creates environment inhibiting pathogens through competition for resources, production of antimicrobial compounds, and rapid pH change.',
+      competitive_exclusion: 'Establishing desired microbes quickly creates environment inhibiting pathogens through competition for resources, production of antimicrobial compounds, and rapid pH change.',
       moisture_regulation: 'Water activity (aw) below 0.85 inhibits most pathogenic bacteria. Critical parameter in dry-cured products. Salt concentration affects available water.',
       salt_concentration: 'Minimum inhibitory levels: 2% for most vegetables, 3.5% for most protein-rich substrates. Traditional ranges established empirically over centuries for each food type.',
-      cross_contamination: 'Physical separation of raw ingredients from active ferments. Dedicated utensils and equipment. Proper cleaning protocols between batches.' },
-        preserving_cultures: {
-      mother_cultures:
-        'Maintaining continuous living cultures (sourdough starter, kombucha SCOBY, kefir grains) through regular feeding/transfer. Traditional approach passed through generations.',
+      cross_contamination: 'Physical separation of raw ingredients from active ferments. Dedicated utensils and equipment. Proper cleaning protocols between batches.'
+    },
+    preserving_cultures: {
+      mother_cultures: 'Maintaining continuous living cultures (sourdough starter, kombucha SCOBY, kefir grains) through regular feeding/transfer. Traditional approach passed through generations.',
       freezing: 'Effective for many bacterial cultures and yeasts. Mix with glycerol for best viability. Quick freezing at -20°C or lower preferred.',
       drying: 'Traditional technique for sourdough starters, yogurt cultures. Spread thin layer on parchment and dry at low temperature, then store in airtight container.',
-      rotation_system: 'Maintaining multiple backups of important cultures, regularly refreshing each. Common in professional and traditional settings.';
+      rotation_system: 'Maintaining multiple backups of important cultures, regularly refreshing each. Common in professional and traditional settings.',
       commercial_starters: 'Freeze-dried or frozen pure or mixed cultures with defined properties. Ensure viability by checking production date and proper storage.'
-}
+    }
   }
 }

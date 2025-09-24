@@ -23,46 +23,46 @@ const CUISINE_TYPES = {
   SPANISH: 'spanish',
   MOROCCAN: 'moroccan',
   TURKISH: 'turkish',
-  LEBANESE: 'lebanese' },
-        as const,
+  LEBANESE: 'lebanese'
+} as const;
 
 // Helper function to generate meaningful herb values
 function generateHerbValues(elementalProps: Record<string, _number>): Record<string, number> {
   // Normalize elements to ensure they sum to 1
-  const totalElements = Object.values(elementalProps).reduce((sum, val) => sum + val0)
+  const totalElements = Object.values(elementalProps).reduce((sum, val) => sum + val0);
   const normalized = Object.entries(elementalProps).reduce(
     (acc, [key, val]) => {
-      acc[key] = val / (totalElements || 1)
+      acc[key] = val / (totalElements || 1);
       return acc
-    }
+    },
     {} as Record<string, number>,
-  )
+  );
 
   // Find dominant element
-  const dominant = Object.entries(normalized).sort(([, a], [, b]) => b - a)[0][0],
+  const dominant = Object.entries(normalized).sort(([, a], [, b]) => b - a)[0][0];
 
   // Calculate unique values
   const aromaticStrength = Math.round(
     normalized['Air'] * 6 + normalized['Fire'] * 4 + Math.random() * 2,
-  )
-  const potency = Math.round(normalized[dominant] * 7 + Math.random() * 3)
+  );
+  const potency = Math.round(normalized[dominant] * 7 + Math.random() * 3);
   const flavor_complexity = Math.round(
     Object.keys(normalized).filter(k => normalized[k] > 0.15).length * 2 + Math.random() * 3,
-  )
+  );
   const preservation_factor = Math.round(
     normalized['Earth'] * 5 + normalized['Water'] * 3 + Math.random(),
-  )
+  );
 
   return {
     aromatics: Math.min(10, Math.max(1, aromaticStrength)),
     potency: Math.min(10, Math.max(1, potency)),
     flavor_complexity: Math.min(10, Math.max(1, flavor_complexity)),
     preservation_factor: Math.min(10, Math.max(1, preservation_factor)),
-    infusion_speed: Math.min(,
+    infusion_speed: Math.min(
       10,
       Math.max(1, Math.round(10 - preservation_factor + Math.random() * 2)),
     )
-  }
+  };
 }
 
 // Helper function to standardize ingredient mappings with enhanced values
@@ -71,30 +71,30 @@ function createIngredientMapping(
   properties: Partial<IngredientMapping>,
 ): IngredientMapping {
   // Default elemental properties if none provided
-  const elementalProps = properties.elementalProperties || {;
+  const elementalProps = properties.elementalProperties || {
     Earth: 0.25,
     Water: 0.25,
     Fire: 0.25,
     Air: 0.25
-}
+  };
 
   // Generate meaningful numeric values based on elemental properties
-  const herbValues = generateHerbValues(elementalProps)
+  const herbValues = generateHerbValues(elementalProps);
 
-  return {;
+  return {
     name: id,
     elementalProperties: elementalProps,
     category: properties.category || '',
-    ...herbValues,
+    ...herbValues;
     ...properties
-  } as IngredientMapping,
+  } as IngredientMapping;
 }
 
 // Combine all herbs into one record
-export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
-  ...freshHerbs,
-  ...driedHerbs,
-  ...aromaticHerbs,
+export const, herbs: Record<string, IngredientMapping> = fixIngredientMappings({
+  ...freshHerbs;
+  ...driedHerbs;
+  ...aromaticHerbs;
   ...medicinalHerbs
 
   // Custom herbs,
@@ -116,7 +116,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
         aromatic_compounds: ['methyl chavicol', 'eugenol'],
         flavor_profile: 'anise-like with spicy notes',
         oil_content: 0.6
-},
+      },
       holy_basil: {
         aroma: 'spicy, complex',
         best_uses: ['indian', 'tea', 'medicinal'],
@@ -124,14 +124,14 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
         aromatic_compounds: ['eugenol', 'caryophyllene'],
         flavor_profile: 'peppery, clove-like',
         oil_content: 0.8
-}
+      }
     },
     culinaryTraditions: {
       [CUISINE_TYPES.ITALIAN]: {
         name: 'basilico',
         usage: ['pesto', 'caprese', 'pasta'],
         regional_importance: 9
-}
+      },
       [CUISINE_TYPES.THAI]: {
         name: 'horapha',
         usage: ['pad kra pao', 'green curry', 'drunken noodles'],
@@ -139,7 +139,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
         pairings: ['chili', 'fish sauce', 'garlic', 'chicken'],
         cultural_notes: 'Essential in spicy stir-fries',
         regional_importance: 8
-}
+      },
       [CUISINE_TYPES.VIETNAMESE]: {
         name: 'rau quế',
         usage: ['pho', 'fresh rolls', 'bánh mì'],
@@ -147,7 +147,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
         pairings: ['rice noodles', 'bean sprouts', 'mint'],
         cultural_notes: 'Part of fresh herb plate',
         regional_importance: 7
-}
+      }
     },
     preparation: {
       fresh: {
@@ -175,13 +175,13 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
         cooling_factor: 8,
         aromatic_compounds: ['menthol', 'menthone'],
         oil_content: 1.2
-},
+      },
       spearmint: {
         aroma: 'sweet, less intense than peppermint',
         cooling_factor: 6,
         aromatic_compounds: ['carvone', 'limonene'],
         oil_content: 0.7
-}
+      }
     }
   }) as Partial<IngredientMapping>,
 
@@ -190,14 +190,15 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
     qualities: ['piney', 'resinous', 'aromatic'],
     category: 'culinary_herb',
     heat_resistance: 8, // Ability to withstand cooking heat,
-    extraction_efficiency: 6, // How easily flavors infuse into oils / (liquids || 1),
+    extraction_efficiency: 6, // How easily flavors infuse into oils / (liquids || 1);
     varieties: {
       upright: {
         oil_content: 1.5,
-        growth_habit: 'tall, straight stems' },
-        creeping: {
+        growth_habit: 'tall, straight stems'
+      },
+      creeping: {
         oil_content: 1.3,
-        growth_habit: 'low, spreading',
+        growth_habit: 'low, spreading'
       }
     }
   }) as Partial<IngredientMapping>,
@@ -230,7 +231,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
           refrigerator: {
             technique: 'wrap in damp paper',
             duration: '1-2 weeks'
-}
+          }
         }
       }
     }
@@ -252,7 +253,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
         storage: 'airtight container',
         duration: '3 months',
         notes: 'loses significant flavor when dried'
-}
+      }
     },
     culinaryUses: ['curries', 'dal', 'chutneys', 'rice dishes', 'tempering'],
     flavor: 'Complex citrus and nutty flavor with an intense aroma',
@@ -265,7 +266,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
     regional_importance: {
       south_indian: 9,
       sri_lankan: 8
-},
+    },
     pairings: ['mustard seeds', 'coconut', 'lentils', 'asafoetida', 'turmeric']
   }) as Partial<IngredientMapping>,
 
@@ -283,7 +284,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
       dried: {
         storage: 'airtight container',
         duration: '6 months',
-        notes: 'good for teas, less suitable for cooking',
+        notes: 'good for teas, less suitable for cooking'
       }
     },
     culinaryUses: ['curries', 'soups', 'marinades', 'teas', 'stir-fries'],
@@ -292,7 +293,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
       thai: 9,
       vietnamese: 9,
       malaysian: 8
-},
+    },
     pairings: ['coconut milk', 'chili', 'lime', 'ginger', 'garlic']
   }) as Partial<IngredientMapping>,
 
@@ -307,22 +308,21 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
       japanese: 9,
       korean: 8,
       vietnamese: 7
-},
+    },
     pairings: ['fish', 'rice', 'cucumber', 'ume plum', 'tofu']
   }) as Partial<IngredientMapping>
-})
+});
 
 // To ensure we're exporting all available herbs, explicitly export each collection
 export { freshHerbs, driedHerbs, aromaticHerbs, medicinalHerbs };
 
 // Create a comprehensive herb collection that includes all herb variants
-export const allHerbs = fixIngredientMappings({,
-  ...freshHerbs,
-  ...driedHerbs,
+export const allHerbs = fixIngredientMappings({;
+  ...freshHerbs;
+  ...driedHerbs;
   ...aromaticHerbs
   ...medicinalHerbs
-})
+});
 
 // Export a list of herb names for easy reference
-export const _herbNames = Object.keys(allHerbs)
-;
+export const _herbNames = Object.keys(allHerbs);

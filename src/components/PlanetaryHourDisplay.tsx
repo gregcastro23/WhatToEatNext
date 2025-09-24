@@ -330,8 +330,7 @@ export function PlanetaryHourDisplay({ showDetails = true, className = '' }: Pla
 }}>
         {isConnected
           ? 'Real-time planetary calculations active'
-          : 'Using cached planetary data - reconnecting...',
-        }
+          : 'Using cached planetary data - reconnecting...'}
       </div>
     </div>
   );

@@ -77,7 +77,7 @@ export function EnergyVisualization({
       };
 
       setEnergyHistory(prev => {
-        const updated = [...prev, newReading],
+        const updated = [...prev, newReading]
         return updated.slice(-maxHistoryLength);
       });
 

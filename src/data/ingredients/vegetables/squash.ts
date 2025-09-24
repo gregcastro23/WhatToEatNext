@@ -2,14 +2,14 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawSquash = {
-  'butternut squash': {,
+  'butternut squash': {
     name: 'Butternut squash',
     elementalProperties: {
       Earth: 0.4,
       Water: 0.3,
       Fire: 0.2,
       Air: 0.1
-},
+    },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Saturn'],
       favorableZodiac: ['taurus', 'capricorn'],
@@ -18,14 +18,16 @@ const rawSquash = {
         decanModifiers: {
           first: {
             element: 'Earth',
-            planet: 'Venus' },
-        second: {
+            planet: 'Venus'
+          },
+          second: {
             element: 'Water',
-            planet: 'Saturn' },
-        third: {
+            planet: 'Saturn'
+          },
+          third: {
             element: 'Fire',
             planet: 'Sun'
-}
+          }
         }
       }
     },
@@ -46,15 +48,17 @@ const rawSquash = {
       minerals: ['magnesium', 'potassium', 'manganese'],
       antioxidants: ['beta-carotene'],
       glycemic_index: 51,
-      notes: 'High in beta-carotene and vitamin A' },
-        preparation: {
+      notes: 'High in beta-carotene and vitamin A'
+    },
+    preparation: {
       peeling: 'required',
       cutting: 'halve, remove seeds',
-      notes: 'Can be pre-cut and roasted' },
-        storage: {
+      notes: 'Can be pre-cut and roasted'
+    },
+    storage: {
       temperature: 'cool, dry place',
       duration: '2-3 months',
-      notes: 'Once cut, refrigerate',
+      notes: 'Once cut, refrigerate'
     }
   },
   zucchini: {
@@ -64,8 +68,8 @@ const rawSquash = {
       Water: 0.5121388172829056,
       Earth: 0.032703628178985034,
       Air: 0.034665845869724134
-},
-    astrologicalProfile: {}
+    },
+    astrologicalProfile: {},
     category: 'vegetable',
     subCategory: 'squash',
     nutritionalProfile: {
@@ -109,7 +113,7 @@ const rawSquash = {
       Water: 0.2,
       Fire: 0.2,
       Air: 0.1
-},
+    },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Moon'],
       favorableZodiac: ['taurus', 'cancer'],
@@ -118,14 +122,16 @@ const rawSquash = {
         decanModifiers: {
           first: {
             element: 'Earth',
-            planet: 'Venus' },
-        second: {
+            planet: 'Venus'
+          },
+          second: {
             element: 'Water',
-            planet: 'Moon' },
-        third: {
+            planet: 'Moon'
+          },
+          third: {
             element: 'Fire',
             planet: 'Sun'
-}
+          }
         }
       }
     },
@@ -146,16 +152,18 @@ const rawSquash = {
       fat_g: 0.1,
       antioxidants: ['beta-carotene', 'lutein', 'zeaxanthin'],
       glycemic_index: 75,
-      notes: 'Excellent source of vitamin A and beta-carotene' },
-        preparation: {
+      notes: 'Excellent source of vitamin A and beta-carotene'
+    },
+    preparation: {
       cutting: 'quarter, remove seeds',
       peeling: 'after cooking easier',
-      notes: 'Save seeds for roasting' },
-        storage: {
+      notes: 'Save seeds for roasting'
+    },
+    storage: {
       temperature: 'cool, dry place',
       duration: '2-3 months whole',
       notes: 'Cooked purée freezes well'
-}
+    }
   },
   'acorn squash': {
     name: 'Acorn squash',
@@ -164,7 +172,7 @@ const rawSquash = {
       Water: 0.3,
       Fire: 0.2,
       Air: 0.1
-},
+    },
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Venus'],
       favorableZodiac: ['capricorn', 'taurus'],
@@ -173,14 +181,16 @@ const rawSquash = {
         decanModifiers: {
           first: {
             element: 'Earth',
-            planet: 'Saturn' },
-        second: {
+            planet: 'Saturn'
+          },
+          second: {
             element: 'Water',
-            planet: 'Venus' },
-        third: {
+            planet: 'Venus'
+          },
+          third: {
             element: 'Fire',
             planet: 'Mars'
-}
+          }
         }
       }
     },
@@ -201,21 +211,23 @@ const rawSquash = {
       fat_g: 0.1,
       sugar_g: 0,
       glycemic_index: 40,
-      notes: 'Good source of vitamin C and potassium' },
-        preparation: {
+      notes: 'Good source of vitamin C and potassium'
+    },
+    preparation: {
       washing: true,
       cutting: 'halve, remove seeds',
-      notes: 'No need to peel' },
-        storage: {
+      notes: 'No need to peel'
+    },
+    storage: {
       temperature: 'cool, dry place',
       duration: '1-2 months',
       notes: 'Store away from apples / (pears || 1)'
-}
+    }
   }
-}
+};
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
 export const squash: Record<string, IngredientMapping> = fixIngredientMappings(
   rawSquash as Record<string, Partial<IngredientMapping>>,
-)
+);

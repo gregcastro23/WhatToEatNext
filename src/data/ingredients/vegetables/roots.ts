@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawRootVegetables = {
-  heirloom_carrot: {,
+  heirloom_carrot: {
     name: 'Heirloom Carrot',
     elementalProperties: { Earth: 0.5, Fire: 0.3, Water: 0.1, Air: 0.1 },
     astrologicalProfile: {
@@ -12,8 +12,8 @@ const rawRootVegetables = {
         base: 'Earth',
         decanModifiers: {
           first: { element: 'Earth', planet: 'Venus' },
-        second: { element: 'Fire', planet: 'Sun' },
-        third: { element: 'Air', planet: 'Mercury' }
+          second: { element: 'Fire', planet: 'Sun' },
+          third: { element: 'Air', planet: 'Mercury' }
         }
       }
     },
@@ -31,16 +31,17 @@ const rawRootVegetables = {
       calories: 41,
       carbs_g: 9.6,
       fiber_g: 2.8
-},
+    },
     preparation: {
       washing: true,
       peeling: 'optional',
-      notes: 'Can be used whole for presentation' },
-        storage: {
+      notes: 'Can be used whole for presentation'
+    },
+    storage: {
       temperature: 'refrigerated',
       duration: '2-3 weeks',
       notes: 'Remove greens before storing'
-}
+    }
   },
   black_radish: {
     name: 'Black Radish',
@@ -52,8 +53,8 @@ const rawRootVegetables = {
         base: 'Earth',
         decanModifiers: {
           first: { element: 'Fire', planet: 'Mars' },
-        second: { element: 'Earth', planet: 'Saturn' },
-        third: { element: 'Air', planet: 'Uranus' }
+          second: { element: 'Earth', planet: 'Saturn' },
+          third: { element: 'Air', planet: 'Uranus' }
         }
       }
     },
@@ -70,16 +71,17 @@ const rawRootVegetables = {
       calories: 20,
       carbs_g: 4.2,
       fiber_g: 1.6
-},
+    },
     preparation: {
       washing: true,
       peeling: 'recommended for older radishes',
-      notes: 'Soak in cold water to reduce pungency' },
-        storage: {
+      notes: 'Soak in cold water to reduce pungency'
+    },
+    storage: {
       temperature: 'refrigerated',
       duration: '2-3 weeks',
       notes: 'Store in plastic bag with moisture'
-}
+    }
   },
   carrot: {
     name: 'Carrot',
@@ -91,8 +93,8 @@ const rawRootVegetables = {
         base: 'Earth',
         decanModifiers: {
           first: { element: 'Earth', planet: 'Venus' },
-        second: { element: 'Water', planet: 'Moon' },
-        third: { element: 'Air', planet: 'Mercury' }
+          second: { element: 'Water', planet: 'Moon' },
+          third: { element: 'Air', planet: 'Mercury' }
         }
       },
       lunarPhaseModifiers: {
@@ -119,16 +121,17 @@ const rawRootVegetables = {
       calories: 41,
       carbs_g: 9.6,
       fiber_g: 2.8
-},
+    },
     preparation: {
       washing: true,
       peeling: 'optional',
-      notes: 'Remove greens before storing' },
-        storage: {
+      notes: 'Remove greens before storing'
+    },
+    storage: {
       temperature: 'refrigerated',
       duration: '2-3 weeks',
       notes: 'Store in crisper drawer'
-}
+    }
   },
   ginger: {
     name: 'Ginger',
@@ -140,8 +143,8 @@ const rawRootVegetables = {
         base: 'Fire',
         decanModifiers: {
           first: { element: 'Fire', planet: 'Mars' },
-        second: { element: 'Fire', planet: 'Sun' },
-        third: { element: 'Earth', planet: 'Venus' }
+          second: { element: 'Fire', planet: 'Sun' },
+          third: { element: 'Earth', planet: 'Venus' }
         }
       }
     },
@@ -158,16 +161,17 @@ const rawRootVegetables = {
       calories: 80,
       carbs_g: 17.8,
       fiber_g: 2
-},
+    },
     preparation: {
       peeling: 'recommended',
       grating: 'for intense flavor',
-      notes: 'Can be frozen for longer storage' },
-        storage: {
+      notes: 'Can be frozen for longer storage'
+    },
+    storage: {
       temperature: 'room temperature or refrigerated',
       duration: '3-4 weeks',
       notes: 'Store in dry place or refrigerate in paper bag'
-}
+    }
   },
   jerusalem_artichoke: {
     name: 'Jerusalem Artichoke',
@@ -179,8 +183,8 @@ const rawRootVegetables = {
         base: 'Earth',
         decanModifiers: {
           first: { element: 'Earth', planet: 'Venus' },
-        second: { element: 'Water', planet: 'Moon' },
-        third: { element: 'Air', planet: 'Saturn' }
+          second: { element: 'Water', planet: 'Moon' },
+          third: { element: 'Air', planet: 'Saturn' }
         }
       }
     },
@@ -197,23 +201,24 @@ const rawRootVegetables = {
       calories: 73,
       carbs_g: 17,
       fiber_g: 1.6
-},
+    },
     preparation: {
       washing: true,
       peeling: 'optional',
-      notes: 'Soak in water with lemon juice to prevent browning' },
-        storage: {
+      notes: 'Soak in water with lemon juice to prevent browning'
+    },
+    storage: {
       temperature: 'refrigerated',
       duration: '1-2 weeks',
       notes: 'Store in paper bag in crisper drawer'
-}
+    }
   }
-}
+};
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
 export const roots: Record<string, IngredientMapping> = fixIngredientMappings(
   rawRootVegetables as Record<string, Partial<IngredientMapping>>,
-)
+);
 // For backwards compatibility
 export const _rootVegetables = roots;

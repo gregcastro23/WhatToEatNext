@@ -22,8 +22,8 @@ import { log } from '@/services/LoggingService';
 
 // ========== UNUSED VARIABLE INTERFACES ==========
 
-export interface UnusedVariable {;
-  variableId: string,
+export interface UnusedVariable {
+  variableId: string;
   name: string,
   type: 'variable' | 'function' | 'class' | 'interface' | 'import' | 'export'
   filePath: string,
@@ -60,13 +60,13 @@ export interface UnusedVariable {;
 }
 
 export interface UnusedImport {
-  importId: string;,
-  importName: string;,
-  importPath: string;,
-  importType: 'default' | 'named' | 'namespace' | 'side-effect'
-  filePath: string,
-  line: number,
-  usageCount: number,
+  importId: string;
+  importName: string;
+  importPath: string;
+  importType: 'default' | 'named' | 'namespace' | 'side-effect';
+  filePath: string;
+  line: number;
+  usageCount: number;
   isTypeOnly: boolean,
   isDevelopmentOnly: boolean,
   relatedExports: string[],

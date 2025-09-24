@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawAromaticHerbs = {
-  thyme: {,
+  thyme: {
     name: 'Thyme',
     category: 'herb',
     subCategory: 'aromatic',
@@ -23,8 +23,8 @@ const rawAromaticHerbs = {
         base: 'Air',
         decanModifiers: {
           first: { element: 'Air', planet: 'Mercury' },
-        second: { element: 'Fire', planet: 'Sun' },
-        third: { element: 'Earth', planet: 'Saturn' }
+          second: { element: 'Fire', planet: 'Sun' },
+          third: { element: 'Earth', planet: 'Saturn' }
         }
       }
     },
@@ -68,8 +68,8 @@ const rawAromaticHerbs = {
         base: 'Fire',
         decanModifiers: {
           first: { element: 'Fire', planet: 'Sun' },
-        second: { element: 'Air', planet: 'Jupiter' },
-        third: { element: 'Earth', planet: 'Pluto' }
+          second: { element: 'Air', planet: 'Jupiter' },
+          third: { element: 'Earth', planet: 'Pluto' }
         }
       }
     },
@@ -129,8 +129,8 @@ const rawAromaticHerbs = {
         base: 'Air',
         decanModifiers: {
           first: { element: 'Air', planet: 'Mercury' },
-        second: { element: 'Fire', planet: 'Moon' },
-        third: { element: 'Earth', planet: 'Venus' }
+          second: { element: 'Fire', planet: 'Moon' },
+          third: { element: 'Earth', planet: 'Venus' }
         }
       },
       lunarPhaseModifiers: {
@@ -145,6 +145,7 @@ const rawAromaticHerbs = {
       }
     }
   },
+
   // Added herbs with culinary properties
   lovage: {
     name: 'Lovage',
@@ -157,8 +158,8 @@ const rawAromaticHerbs = {
         base: 'Earth',
         decanModifiers: {
           first: { element: 'Earth', planet: 'Mercury' },
-        second: { element: 'Fire', planet: 'Jupiter' },
-        third: { element: 'Air', planet: 'Saturn' }
+          second: { element: 'Fire', planet: 'Jupiter' },
+          third: { element: 'Air', planet: 'Saturn' }
         }
       }
     },
@@ -171,7 +172,7 @@ const rawAromaticHerbs = {
     cookingMethods: ['fresh', 'dried', 'infused'],
     sensoryProfile: {
       taste: { savory: 0.8, bitter: 0.3, sweet: 0.1 },
-      aroma: { herbaceous: 0.7, celery: 0.9, citrus: 0.2 }
+      aroma: { herbaceous: 0.7, celery: 0.9, citrus: 0.2 },
       texture: { leafy: 0.8 }
     },
     culinaryUses: ['soups', 'stews', 'broths', 'pickling', 'salad dressings'],
@@ -189,7 +190,8 @@ const rawAromaticHerbs = {
       }
     },
     modality: 'Cardinal'
-},
+  },
+
   'lemon verbena': {
     name: 'Lemon Verbena',
     elementalProperties: { Air: 0.5, Fire: 0.3, Water: 0.1, Earth: 0.1 },
@@ -210,8 +212,8 @@ const rawAromaticHerbs = {
         base: 'Air',
         decanModifiers: {
           first: { element: 'Air', planet: 'Mercury' },
-        second: { element: 'Venus', planet: 'Venus' },
-        third: { element: 'Air', planet: 'Uranus' }
+          second: { element: 'Venus', planet: 'Venus' },
+          third: { element: 'Air', planet: 'Uranus' }
         }
       }
     },
@@ -224,7 +226,7 @@ const rawAromaticHerbs = {
     cookingMethods: ['infused', 'dried', 'fresh'],
     sensoryProfile: {
       taste: { citrus: 0.9, sweet: 0.2, bitter: 0.1 },
-      aroma: { lemon: 0.9, floral: 0.5, green: 0.3 }
+      aroma: { lemon: 0.9, floral: 0.5, green: 0.3 },
       texture: { leafy: 0.7 }
     },
     culinaryUses: ['herbal teas', 'desserts', 'syrups', 'cocktails', 'marinades'],
@@ -244,8 +246,10 @@ const rawAromaticHerbs = {
         techniques: ['steep in hot water', 'infuse in cream or sugar']
       }
     },
-    modality: 'Mutable' },
-        savory: {
+    modality: 'Mutable'
+  },
+
+  savory: {
     name: 'Savory',
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
     nutritionalProfile: {
@@ -265,8 +269,8 @@ const rawAromaticHerbs = {
         base: 'Fire',
         decanModifiers: {
           first: { element: 'Fire', planet: 'Mars' },
-        second: { element: 'Earth', planet: 'Saturn' },
-        third: { element: 'Water', planet: 'Pluto' }
+          second: { element: 'Earth', planet: 'Saturn' },
+          third: { element: 'Water', planet: 'Pluto' }
         }
       }
     },
@@ -307,7 +311,8 @@ const rawAromaticHerbs = {
       }
     },
     modality: 'Fixed'
-},
+  },
+
   'curry leaf': {
     name: 'Curry Leaf',
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
@@ -328,8 +333,8 @@ const rawAromaticHerbs = {
         base: 'Fire',
         decanModifiers: {
           first: { element: 'Fire', planet: 'Mars' },
-        second: { element: 'Earth', planet: 'Jupiter' },
-        third: { element: 'Water', planet: 'Pluto' }
+          second: { element: 'Earth', planet: 'Jupiter' },
+          third: { element: 'Water', planet: 'Pluto' }
         }
       }
     },
@@ -364,8 +369,10 @@ const rawAromaticHerbs = {
         techniques: ['tempered in hot ghee or oil']
       }
     },
-    modality: 'Cardinal' },
-        chervil: {
+    modality: 'Cardinal'
+  },
+
+  chervil: {
     name: 'Chervil',
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
     nutritionalProfile: {
@@ -385,8 +392,8 @@ const rawAromaticHerbs = {
         base: 'Air',
         decanModifiers: {
           first: { element: 'Air', planet: 'Mercury' },
-        second: { element: 'Water', planet: 'Moon' },
-        third: { element: 'Earth', planet: 'Venus' }
+          second: { element: 'Water', planet: 'Moon' },
+          third: { element: 'Earth', planet: 'Venus' }
         }
       }
     },
@@ -415,16 +422,18 @@ const rawAromaticHerbs = {
         tips: ['heat destroys flavor quickly']
       }
     },
-    traditionalUses: {}
-    modality: 'Mutable' },
-        dill: {
+    traditionalUses: {},
+    modality: 'Mutable'
+  },
+
+  dill: {
     name: 'Dill',
     elementalProperties: {
       Air: 0.4,
       Fire: 0.3,
       Earth: 0.2,
       Water: 0.1
-},
+    },
     category: 'culinary_herb',
     qualities: ['nourishing'],
     nutritionalProfile: {
@@ -437,6 +446,7 @@ const rawAromaticHerbs = {
       minerals: []
     }
   },
+
   bay_leaf: {
     name: 'Bay Leaf',
     elementalProperties: {
@@ -444,7 +454,7 @@ const rawAromaticHerbs = {
       Fire: 0.3,
       Earth: 0.2,
       Water: 0.1
-},
+    },
     category: 'culinary_herb',
     qualities: ['nourishing'],
     nutritionalProfile: {
@@ -464,7 +474,7 @@ const rawAromaticHerbs = {
       Fire: 0.3,
       Earth: 0.2,
       Water: 0.1
-},
+    },
     category: 'culinary_herb',
     qualities: ['nourishing'],
     nutritionalProfile: {
@@ -477,10 +487,10 @@ const rawAromaticHerbs = {
       minerals: []
     }
   }
-}
+};
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
-export const _aromaticHerbs: Record<string, IngredientMapping> = fixIngredientMappings(
+export const, _aromaticHerbs: Record<string, IngredientMapping> = fixIngredientMappings(
   rawAromaticHerbs as Record<string, Partial<IngredientMapping>>,
-)
+);

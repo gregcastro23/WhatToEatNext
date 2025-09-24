@@ -9,7 +9,6 @@
 
 import { execSync } from 'child_process';
 import fs from 'fs';
-import path from 'path';
 
 export interface MakeTarget {
   name: string,
@@ -41,12 +40,12 @@ export interface CampaignProgress {
  * Makefile Integration for Campaign Execution Framework
  */
 export class MakefileIntegration {
-  private readonly, makefilePath: string,
-  private readonly, campaignTargets: Map<string, MakeTarget>,
+  private readonly makefilePath: string;
+  private readonly campaignTargets: Map<string, MakeTarget>;
 
-  constructor(makefilePath: string = 'Makefile') {,
-    this.makefilePath = makefilePath,
-    this.campaignTargets = new Map()
+  constructor(makefilePath: string = 'Makefile') {
+    this.makefilePath = makefilePath;
+    this.campaignTargets = new Map();
     this.initializeCampaignTargets();
   }
 

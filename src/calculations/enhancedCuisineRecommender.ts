@@ -96,13 +96,11 @@ export class EnhancedCuisineRecommender {
    * @param dietaryRestrictions Optional dietary restrictions
    * @returns Array of recipe matches with detailed match scores
    */
-  public getRecommendationsForCuisine(
-    cuisineName: string,
+  public getRecommendationsForCuisine(cuisineName: string,
     astroState: AstrologicalState,
     count = 5,
     mealType?: string,
-    dietaryRestrictions?: string[],
-  ): EnhancedRecipeMatch[] {
+    dietaryRestrictions?: string[]): EnhancedRecipeMatch[] {
     try {
       // Get recipes for the specified cuisine
       const recipes = this.getRecipesForCuisine(cuisineName);
@@ -147,13 +145,11 @@ export class EnhancedCuisineRecommender {
   /**
    * Calculate match score for a recipe
    */
-  private calculateRecipeMatch(
-    recipe: RecipeData,
+  private calculateRecipeMatch(recipe: RecipeData,
     cuisineName: string,
     astroState: AstrologicalState,
     mealType?: string,
-    dietaryRestrictions?: string[],
-  ): EnhancedRecipeMatch {
+    dietaryRestrictions?: string[]): EnhancedRecipeMatch {
     try {
       // Calculate individual scores
       const seasonalScore = this.calculateSeasonalScore(recipe);

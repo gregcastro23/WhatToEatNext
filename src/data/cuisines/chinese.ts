@@ -1,7 +1,8 @@
 // src/data/cuisines/chinese.ts
 export const chinese = {
   name: 'Chinese',
-  description: 'Traditional Chinese cuisine with balanced flavors, varied techniques, and regional specialties. Known for harmony in taste, color, and nutrition.',
+  description:
+    'Traditional Chinese cuisine with balanced flavors, varied techniques, and regional specialties. Known for harmony in taste, color, and nutrition.',
   traditionalSauces: {
     soy: {
       name: 'Soy Sauce',
@@ -15,12 +16,13 @@ export const chinese = {
         Water: 0.3,
         Fire: 0.1,
         Air: 0.1
-},
+      },
       astrologicalInfluences: ['Saturn', 'Neptune', 'capricorn'],
       seasonality: 'all',
       preparationNotes: 'Traditionally fermented for months or years to develop complexity',
-      technicalTips: 'Use light soy for flavor, dark soy for color and deeper notes' },
-        hoisin: {
+      technicalTips: 'Use light soy for flavor, dark soy for color and deeper notes'
+    },
+    hoisin: {
       name: 'Hoisin Sauce',
       description: 'Sweet and savory sauce with a thick consistency',
       base: 'fermented soybeans',
@@ -32,12 +34,13 @@ export const chinese = {
         Fire: 0.3,
         Water: 0.2,
         Air: 0.1
-},
+      },
       astrologicalInfluences: ['Venus', 'Jupiter', 'taurus'],
       seasonality: 'all',
       preparationNotes: 'Balance of sweet and savory can vary by region and brand',
-      technicalTips: 'Thin with water or rice wine for a lighter glaze' },
-        xo: {
+      technicalTips: 'Thin with water or rice wine for a lighter glaze'
+    },
+    xo: {
       name: 'XO Sauce',
       description: 'Luxury seafood sauce with deep umami flavors',
       base: 'dried seafood',
@@ -56,12 +59,14 @@ export const chinese = {
         Fire: 0.3,
         Earth: 0.2,
         Air: 0.1
-},
+      },
       astrologicalInfluences: ['Neptune', 'Mars', 'scorpio'],
       seasonality: 'all',
-      preparationNotes: 'Traditionally requires expensive ingredients and significant preparation time',
-      technicalTips: 'A little goes a long way - use sparingly to add depth' },
-        black_bean: {
+      preparationNotes:
+        'Traditionally requires expensive ingredients and significant preparation time',
+      technicalTips: 'A little goes a long way - use sparingly to add depth'
+    },
+    black_bean: {
       name: 'Black Bean Sauce',
       description: 'Savory sauce made from fermented black soybeans',
       base: 'fermented black soybeans',
@@ -73,12 +78,13 @@ export const chinese = {
         Water: 0.2,
         Fire: 0.2,
         Air: 0.1
-},
+      },
       astrologicalInfluences: ['Pluto', 'Saturn', 'capricorn'],
       seasonality: 'all',
       preparationNotes: 'Beans are typically rinsed before use to moderate saltiness',
-      technicalTips: 'Mash beans slightly to release more flavor when cooking' },
-        oyster: {
+      technicalTips: 'Mash beans slightly to release more flavor when cooking'
+    },
+    oyster: {
       name: 'Oyster Sauce',
       description: 'Rich, savory sauce with sweet undertones made from oyster extracts',
       base: 'oyster extract',
@@ -90,12 +96,12 @@ export const chinese = {
         Earth: 0.2,
         Fire: 0.1,
         Air: 0.1
-},
+      },
       astrologicalInfluences: ['Neptune', 'Moon', 'pisces'],
       seasonality: 'all',
       preparationNotes: 'Modern versions are thickened with cornstarch',
       technicalTips: 'Add at the end of cooking to preserve flavor complexity'
-}
+    }
   },
   sauceRecommender: {
     forProtein: {
@@ -144,7 +150,8 @@ export const chinese = {
       all: [
         {
           name: 'Congee (Rice Porridge)',
-          description: 'Comforting rice porridge, slow-cooked to a silky consistency and served with various toppings',
+          description:
+            'Comforting rice porridge, slow-cooked to a silky consistency and served with various toppings',
           cuisine: 'chinese',
           cookingMethods: ['simmering', 'slow-cooking'],
           ingredients: [
@@ -157,7 +164,7 @@ export const chinese = {
               unit: 'stalks',
               category: 'vegetable',
               swaps: ['chives']
-            }
+            },
             {
               name: 'century egg',
               amount: '1',
@@ -180,7 +187,7 @@ export const chinese = {
             protein: 6,
             carbs: 45,
             fat: 2
-},
+          },
           timeToMake: '95 minutes',
           season: ['all'],
           mealType: ['breakfast'],
@@ -189,15 +196,16 @@ export const chinese = {
             Earth: 0.2,
             Air: 0.1,
             Fire: 0.1
-},
+          },
           astrologicalInfluences: [
             'Moon - The nurturing, comforting quality',
             'cancer - The connection to home and tradition'
           ]
-        }
+        },
         {
           name: 'Youtiao (Chinese Fried Dough)',
-          description: 'Light and crispy deep-fried dough strips, perfect for dipping in congee or soy milk',
+          description:
+            'Light and crispy deep-fried dough strips, perfect for dipping in congee or soy milk',
           cuisine: 'chinese',
           cookingMethods: ['deep-frying', 'dough preparation'],
           ingredients: [
@@ -226,7 +234,7 @@ export const chinese = {
             protein: 7,
             carbs: 42,
             fat: 14
-},
+          },
           timeToMake: '30 minutes plus resting',
           season: ['all'],
           mealType: ['breakfast'],
@@ -235,15 +243,16 @@ export const chinese = {
             Air: 0.3,
             Earth: 0.1,
             Water: 0.1
-},
+          },
           astrologicalInfluences: [
             'Jupiter - The expansive, rising quality',
             'leo - The golden, crisp exterior'
           ]
-        }
+        },
         {
           name: 'Soy Milk Soup with Fried Dough',
-          description: 'Fresh, warm soy milk served with crispy fried dough and optional sweet or savory toppings',
+          description:
+            'Fresh, warm soy milk served with crispy fried dough and optional sweet or savory toppings',
           cuisine: 'chinese',
           cookingMethods: ['blending', 'straining', 'simmering'],
           ingredients: [
@@ -272,7 +281,7 @@ export const chinese = {
             protein: 14,
             carbs: 32,
             fat: 8
-},
+          },
           timeToMake: '45 minutes plus soaking',
           season: ['all'],
           mealType: ['breakfast'],
@@ -281,7 +290,7 @@ export const chinese = {
             Earth: 0.3,
             Air: 0.1,
             Fire: 0.1
-},
+          },
           astrologicalInfluences: [
             'Moon - The nurturing, comforting quality',
             'taurus - The satisfying, grounding nature'
@@ -297,7 +306,8 @@ export const chinese = {
       all: [
         {
           name: 'Dan Dan Noodles',
-          description: 'Spicy Sichuan noodles with ground pork, preserved vegetables, and numbing chili oil',
+          description:
+            'Spicy Sichuan noodles with ground pork, preserved vegetables, and numbing chili oil',
           cuisine: 'chinese',
           cookingMethods: ['stir-frying', 'boiling', 'sauce-mixing'],
           ingredients: [
@@ -307,14 +317,14 @@ export const chinese = {
               unit: 'g',
               category: 'noodle',
               swaps: ['rice noodles']
-            }
+            },
             {
               name: 'ground pork',
               amount: '250',
               unit: 'g',
               category: 'protein',
               swaps: ['ground chicken', 'firm tofu']
-            }
+            },
             { name: 'Sichuan peppercorns', amount: '2', unit: 'tsp', category: 'spice' },
             { name: 'chili oil', amount: '3', unit: 'tbsp', category: 'oil' },
             {
@@ -323,7 +333,7 @@ export const chinese = {
               unit: 'tbsp',
               category: 'vegetable',
               swaps: ['preserved mustard greens']
-            }
+            },
             {
               name: 'sesame paste',
               amount: '2',
@@ -346,7 +356,7 @@ export const chinese = {
             protein: 28,
             carbs: 65,
             fat: 18
-},
+          },
           timeToMake: '35 minutes',
           season: ['all'],
           mealType: ['lunch', 'dinner'],
@@ -355,15 +365,16 @@ export const chinese = {
             Earth: 0.2,
             Water: 0.1,
             Air: 0.1
-},
+          },
           astrologicalInfluences: [
             'Mars - The intense heat and spice',
             'Scorpio - The complex, transformative flavors'
           ]
-        }
+        },
         {
           name: 'Mapo Tofu',
-          description: 'Spicy Sichuan dish of soft tofu in a fiery sauce with minced meat and Sichuan pepper',
+          description:
+            'Spicy Sichuan dish of soft tofu in a fiery sauce with minced meat and Sichuan pepper',
           cuisine: 'chinese',
           cookingMethods: ['stir-frying', 'simmering'],
           ingredients: [
@@ -374,7 +385,7 @@ export const chinese = {
               unit: 'g',
               category: 'protein',
               swaps: ['beef', 'mushrooms']
-            }
+            },
             { name: 'doubanjiang', amount: '2', unit: 'tbsp', category: 'sauce' },
             { name: 'Sichuan peppercorns', amount: '1', unit: 'tbsp', category: 'spice' },
             { name: 'chili oil', amount: '2', unit: 'tbsp', category: 'oil' },
@@ -384,7 +395,7 @@ export const chinese = {
               unit: 'tbsp',
               category: 'sauce',
               optional: true
-}
+            }
           ],
           substitutions: {
             doubanjiang: ['Korean gochujang', 'miso paste with chili'],
@@ -400,7 +411,7 @@ export const chinese = {
             protein: 22,
             carbs: 8,
             fat: 20
-},
+          },
           timeToMake: '35 minutes',
           season: ['all'],
           mealType: ['lunch', 'dinner'],
@@ -409,15 +420,16 @@ export const chinese = {
             Water: 0.2,
             Earth: 0.1,
             Air: 0.1
-},
+          },
           astrologicalInfluences: [
             'Mars - The fiery, aggressive flavor profile',
             'Pluto - The transformative, intense experience'
           ]
-        }
+        },
         {
           name: 'Dim Sum Platter',
-          description: 'Assortment of bite-sized portions of steamed and fried Cantonese delicacies',
+          description:
+            'Assortment of bite-sized portions of steamed and fried Cantonese delicacies',
           cuisine: 'chinese',
           cookingMethods: ['steaming', 'frying', 'wrapping'],
           ingredients: [
@@ -426,7 +438,7 @@ export const chinese = {
               amount: '4',
               unit: 'pieces',
               category: 'dumpling'
-}
+            },
             { name: 'siu mai (pork dumplings)', amount: '4', unit: 'pieces', category: 'dumpling' },
             { name: 'char siu bao', amount: '2', unit: 'pieces', category: 'bun' },
             {
@@ -434,7 +446,7 @@ export const chinese = {
               amount: '1',
               unit: 'plate',
               category: 'noodle'
-}
+            },
             { name: 'spring rolls', amount: '2', unit: 'pieces', category: 'appetizer' }
           ],
           substitutions: {
@@ -451,7 +463,7 @@ export const chinese = {
             protein: 32,
             carbs: 85,
             fat: 22
-},
+          },
           timeToMake: 'varies (typically purchased)',
           season: ['all'],
           mealType: ['lunch'],
@@ -460,7 +472,7 @@ export const chinese = {
             Earth: 0.3,
             Fire: 0.2,
             Air: 0.2
-},
+          },
           astrologicalInfluences: [
             'Venus - The delicate, artful presentation',
             'Mercury - The variety and choice within one meal'
@@ -476,7 +488,8 @@ export const chinese = {
       all: [
         {
           name: 'Peking Duck',
-          description: 'Famous Beijing dish of roasted duck known for its thin, crispy skin, served with pancakes and condiments',
+          description:
+            'Famous Beijing dish of roasted duck known for its thin, crispy skin, served with pancakes and condiments',
           cuisine: 'chinese',
           cookingMethods: ['air-drying', 'roasting', 'glazing'],
           ingredients: [
@@ -502,7 +515,7 @@ export const chinese = {
             protein: 45,
             carbs: 42,
             fat: 35
-},
+          },
           timeToMake: '26 hours',
           season: ['all'],
           mealType: ['dinner'],
@@ -511,15 +524,16 @@ export const chinese = {
             Air: 0.3,
             Earth: 0.2,
             Water: 0.1
-},
+          },
           astrologicalInfluences: [
             'Sun - The golden, glistening skin',
             'Jupiter - The ceremonial, celebratory nature'
           ]
-        }
+        },
         {
           name: 'Kung Pao Chicken',
-          description: 'Spicy stir-fried dish from Sichuan featuring chicken, peanuts, vegetables, and chilis',
+          description:
+            'Spicy stir-fried dish from Sichuan featuring chicken, peanuts, vegetables, and chilis',
           cuisine: 'chinese',
           cookingMethods: ['stir-frying', 'velveting'],
           ingredients: [
@@ -529,7 +543,7 @@ export const chinese = {
               unit: 'g',
               category: 'protein',
               swaps: ['tofu', 'tempeh']
-            }
+            },
             { name: 'dried red chilies', amount: '10', unit: 'pieces', category: 'spice' },
             { name: 'Sichuan peppercorns', amount: '1', unit: 'tsp', category: 'spice' },
             { name: 'peanuts', amount: '1/2', unit: 'cup', category: 'nut', swaps: ['cashews'] },
@@ -552,7 +566,7 @@ export const chinese = {
             protein: 35,
             carbs: 18,
             fat: 28
-},
+          },
           timeToMake: '35 minutes',
           season: ['all'],
           mealType: ['dinner'],
@@ -561,12 +575,12 @@ export const chinese = {
             Earth: 0.2,
             Air: 0.2,
             Water: 0.1
-},
+          },
           astrologicalInfluences: [
             'Mars - The fiery, aggressive spice',
             'aries - The bold, direct flavors'
           ]
-        }
+        },
         {
           name: 'Xiaolongbao (Soup Dumplings)',
           description: 'Steamed dumplings filled with meat and flavorful soup, from Shanghai',
@@ -579,7 +593,7 @@ export const chinese = {
               unit: 'g',
               category: 'protein',
               swaps: ['ground chicken']
-            }
+            },
             { name: 'pork skin gelatin', amount: '200', unit: 'g', category: 'protein' },
             { name: 'dumpling wrappers', amount: '24', unit: 'pieces', category: 'dough' },
             { name: 'ginger', amount: '2', unit: 'tbsp', category: 'aromatic' },
@@ -590,7 +604,7 @@ export const chinese = {
               unit: 'tbsp',
               category: 'wine',
               swaps: ['dry sherry']
-            }
+            },
             { name: 'soy sauce', amount: '2', unit: 'tsp', category: 'sauce' }
           ],
           substitutions: {
@@ -607,7 +621,7 @@ export const chinese = {
             protein: 22,
             carbs: 40,
             fat: 14
-},
+          },
           timeToMake: '3 hours 15 minutes',
           season: ['all'],
           mealType: ['dinner'],
@@ -616,7 +630,7 @@ export const chinese = {
             Earth: 0.3,
             Air: 0.2,
             Fire: 0.1
-},
+          },
           astrologicalInfluences: [
             'Neptune - The mysterious, hidden soup within',
             'cancer - The nurturing, comforting quality'
@@ -632,7 +646,8 @@ export const chinese = {
       all: [
         {
           name: 'Egg Custard Tarts',
-          description: 'Flaky pastry shells filled with silky smooth egg custard, popular in Canton and Hong Kong',
+          description:
+            'Flaky pastry shells filled with silky smooth egg custard, popular in Canton and Hong Kong',
           cuisine: 'chinese',
           cookingMethods: ['baking', 'pastry-making'],
           ingredients: [
@@ -655,7 +670,7 @@ export const chinese = {
             protein: 5,
             carbs: 28,
             fat: 10
-},
+          },
           timeToMake: '65 minutes',
           season: ['all'],
           mealType: ['dessert'],
@@ -664,15 +679,16 @@ export const chinese = {
             Fire: 0.3,
             Water: 0.2,
             Air: 0.1
-},
+          },
           astrologicalInfluences: [
             'Venus - The rich, indulgent quality',
             'taurus - The sensual, grounded experience'
           ]
-        }
+        },
         {
           name: 'Eight Treasure Rice Pudding',
-          description: 'Glutinous rice dessert filled with sweet red bean paste and topped with dried fruits and nuts',
+          description:
+            'Glutinous rice dessert filled with sweet red bean paste and topped with dried fruits and nuts',
           cuisine: 'chinese',
           cookingMethods: ['steaming', 'layering'],
           ingredients: [
@@ -684,7 +700,7 @@ export const chinese = {
               unit: 'cup',
               category: 'fruit',
               notes: 'various types'
-}
+            },
             { name: 'nuts', amount: '1/2', unit: 'cup', category: 'nut', notes: 'various types' },
             { name: 'sugar', amount: '1/4', unit: 'cup', category: 'sweetener' },
             {
@@ -709,7 +725,7 @@ export const chinese = {
             protein: 6,
             carbs: 75,
             fat: 8
-},
+          },
           timeToMake: '1 hour 30 minutes',
           season: ['winter', 'lunar new year'],
           mealType: ['dessert'],
@@ -718,15 +734,16 @@ export const chinese = {
             Water: 0.3,
             Fire: 0.1,
             Air: 0.1
-},
+          },
           astrologicalInfluences: [
             'Jupiter - The abundance and prosperity symbolism',
             'Venus - The sweet, luxurious nature'
           ]
-        }
+        },
         {
           name: 'Mango Pomelo Sago',
-          description: 'Refreshing Hong Kong dessert with fresh mangoes, pomelo segments, and tapioca pearls in sweetened coconut milk',
+          description:
+            'Refreshing Hong Kong dessert with fresh mangoes, pomelo segments, and tapioca pearls in sweetened coconut milk',
           cuisine: 'chinese',
           cookingMethods: ['chilling', 'boiling'],
           ingredients: [
@@ -737,14 +754,14 @@ export const chinese = {
               unit: 'medium',
               category: 'fruit',
               swaps: ['grapefruit']
-            }
+            },
             {
               name: 'sago pearls',
               amount: '1/4',
               unit: 'cup',
               category: 'grain',
               swaps: ['tapioca pearls']
-            }
+            },
             { name: 'coconut milk', amount: '1', unit: 'cup', category: 'liquid' },
             { name: 'sugar', amount: '3', unit: 'tbsp', category: 'sweetener' },
             {
@@ -753,7 +770,7 @@ export const chinese = {
               unit: 'tbsp',
               category: 'dairy',
               optional: true
-}
+            }
           ],
           substitutions: {
             pomelo: ['grapefruit', 'orange'],
@@ -769,7 +786,7 @@ export const chinese = {
             protein: 3,
             carbs: 45,
             fat: 12
-},
+          },
           timeToMake: '40 minutes plus chilling',
           season: ['summer'],
           mealType: ['dessert'],
@@ -778,7 +795,7 @@ export const chinese = {
             Air: 0.2,
             Earth: 0.1,
             Fire: 0.1
-},
+          },
           astrologicalInfluences: [
             'Moon - The cooling, refreshing quality',
             'Venus - The sweet, tropical indulgence'
@@ -798,28 +815,28 @@ export const chinese = {
       elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
       toolsRequired: ['wok', 'wok spatula', 'high BTU burner'],
       bestFor: ['vegetables', 'thinly sliced meats', 'noodles', 'rice']
-    }
+    },
     {
       name: 'Steaming',
       description: 'Gentle cooking with steam that preserves nutrients and delicate flavors',
       elementalProperties: { Water: 0.7, Air: 0.2, Earth: 0.1, Fire: 0.0 },
       toolsRequired: ['bamboo steamer', 'wok or pot', 'parchment paper'],
       bestFor: ['seafood', 'vegetables', 'dumplings', 'delicate proteins']
-    }
+    },
     {
       name: 'Red Cooking',
       description: 'Slow braising in a soy sauce-based liquid with spices and aromatics',
       elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
       toolsRequired: ['clay pot', 'heavy-bottomed pot', 'ladle'],
       bestFor: ['tough cuts of meat', 'tofu', 'eggs', 'vegetables']
-    }
+    },
     {
       name: 'Dry-Frying',
       description: 'Frying without batter in minimal oil until ingredients become dry and crispy',
       elementalProperties: { Fire: 0.7, Earth: 0.2, Air: 0.1, Water: 0.0 },
       toolsRequired: ['wok', 'fine mesh strainer', 'slotted spoon'],
       bestFor: ['green beans', 'beef', 'tofu', 'mushrooms']
-    }
+    },
     {
       name: 'Velveting',
       description: 'Marinating protein in egg white and cornstarch, then blanching before cooking',
@@ -831,40 +848,47 @@ export const chinese = {
   regionalCuisines: {
     cantonese: {
       name: 'Cantonese Cuisine',
-      description: 'Light, fresh flavors that highlight natural tastes of ingredients, with an emphasis on steaming and stir-frying',
+      description:
+        'Light, fresh flavors that highlight natural tastes of ingredients, with an emphasis on steaming and stir-frying',
       signature: ['dim sum', 'steamed fish', 'char siu', 'wonton noodles'],
       elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
       astrologicalInfluences: ['Venus', 'Moon', 'Libra'],
-      seasonality: 'all' },
-        sichuan: {
+      seasonality: 'all'
+    },
+    sichuan: {
       name: 'Sichuan Cuisine',
-      description: 'Bold, spicy flavors featuring Sichuan peppercorns' numbing sensation (málà) and complex layering of flavors',
+      description:
+        'Bold, spicy flavors featuring Sichuan peppercorns' numbing sensation (málà) and complex layering of flavors',
       signature: ['mapo tofu', 'kung pao chicken', 'dan dan noodles', 'hot pot'],
       elementalProperties: { Fire: 0.7, Earth: 0.2, Water: 0.1, Air: 0.0 },
       astrologicalInfluences: ['Mars', 'Pluto', 'Scorpio'],
-      seasonality: 'all' },
-        shandong: {
+      seasonality: 'all'
+    },
+    shandong: {
       name: 'Shandong Cuisine',
-      description: 'One of China's oldest cuisines, featuring fresh seafood, quick frying, and clear soups',
+      description:
+        'One of China's oldest cuisines, featuring fresh seafood, quick frying, and clear soups',
       signature: ['braised sea cucumber', 'sweet and sour carp', 'Dezhou chicken'],
       elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Jupiter', 'Saturn', 'Capricorn'],
-      seasonality: 'all' },
-        jiangsu: {
+      seasonality: 'all'
+    },
+    jiangsu: {
       name: 'Jiangsu Cuisine',
-      description: 'Refined, artistically presented cuisine emphasizing seasonal ingredients and precise cutting techniques',
+      description:
+        'Refined, artistically presented cuisine emphasizing seasonal ingredients and precise cutting techniques',
       signature: ['Nanjing salted duck', 'sweet and sour mandarin fish', 'beggar's chicken'],
       elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
       astrologicalInfluences: ['Mercury', 'Venus', 'Gemini'],
       seasonality: 'all'
-}
+    }
   },
   elementalProperties: {
     Earth: 0.3,
     Fire: 0.3,
     Water: 0.3,
     Air: 0.1
-}
-}
+  }
+};
 
-export default chinese,
+export default chinese;

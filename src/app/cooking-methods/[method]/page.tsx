@@ -46,10 +46,8 @@ const MethodImage = ({ method }: { method: string }) => (
     <span style={{ color: '#999' }}>Image for {method}</span>
   </div>)
 
-const ZodiacSign = ({
-  sign,
-  size = 'medium',
-}: {
+const ZodiacSign = ({sign,
+  size = 'medium'}: {
   sign: string,
   size?: 'small' | 'medium' | 'large'
 }) => <span>{sign}</span>

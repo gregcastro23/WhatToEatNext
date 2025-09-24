@@ -62,74 +62,60 @@ const planetaryModifiers: Record<string, Record<string, number>> = {
     Matter: -0.1,
     Substance: 0,
   },
-  Moon: {
-    Fire: -0.1,
+  Moon: {Fire: -0.1,
     Water: 0.3,
     Air: 0,
     Earth: 0.1,
     Spirit: 0,
     Essence: 0.2,
     Matter: 0.1,
-    Substance: 0,
-  },
-  Mars: {
-    Fire: 0.4,
+    Substance: 0},
+  Mars: {Fire: 0.4,
     Water: -0.2,
     Air: -0.1,
     Earth: 0,
     Spirit: 0.3,
     Essence: -0.1,
     Matter: 0.2,
-    Substance: -0.1,
-  },
-  Mercury: {
-    Air: 0.3,
+    Substance: -0.1},
+  Mercury: {Air: 0.3,
     Earth: 0.1,
     Fire: 0,
     Water: -0.1,
     Spirit: 0.1,
     Essence: 0,
     Matter: 0.1,
-    Substance: 0.2,
-  },
-  Jupiter: {
-    Air: 0.2,
+    Substance: 0.2},
+  Jupiter: {Air: 0.2,
     Fire: 0.1,
     Water: 0.1,
     Earth: -0.1,
     Spirit: 0.2,
     Essence: 0.1,
     Matter: 0,
-    Substance: 0,
-  },
-  Venus: {
-    Water: 0.3,
+    Substance: 0},
+  Venus: {Water: 0.3,
     Earth: 0.2,
     Air: -0.1,
     Fire: -0.2,
     Essence: 0.2,
     Matter: 0.1,
     Spirit: 0,
-    Substance: 0,
-  },
-  Saturn: {
-    Earth: 0.4,
+    Substance: 0},
+  Saturn: {Earth: 0.4,
     Air: -0.1,
     Water: -0.1,
     Fire: -0.2,
     Matter: 0.2,
     Substance: 0.1,
     Spirit: -0.1,
-    Essence: 0,
-  },
+    Essence: 0},
 };
 
 /**
  * Calculate Greg's Energy thermodynamic metrics
  */
-export function calculateGregsEnergy(
-  elementalCounts: ElementalAlchemicalCounts,
-): ThermodynamicMetrics {
+export function calculateGregsEnergy(elementalCounts: ElementalAlchemicalCounts): ThermodynamicMetrics {
   try {
     const { Spirit, Essence, Matter, Substance, Fire, Water, Air, Earth } = elementalCounts;
 
@@ -161,22 +147,18 @@ export function calculateGregsEnergy(
     logger.error('Error calculating Gregs energy:', {
       error: error instanceof Error ? error.message : String(error),
     });
-    return {
-      heat: 0,
+    return {heat: 0,
       entropy: 0,
       reactivity: 0,
-      gregsEnergy: 0,
-    };
+      gregsEnergy: 0};
   }
 }
 
 /**
  * Apply planetary modifiers to elemental counts
  */
-export function applyPlanetaryModifiers(
-  baseCounts: ElementalAlchemicalCounts,
-  planets: string[],
-): ElementalAlchemicalCounts {
+export function applyPlanetaryModifiers(baseCounts: ElementalAlchemicalCounts,
+  planets: string[]): ElementalAlchemicalCounts {
   try {
     const result = { ...baseCounts };
 
@@ -212,6 +194,5 @@ export function createDefaultElementalAlchemicalCounts(): ElementalAlchemicalCou
     Fire: 0,
     Water: 0,
     Air: 0,
-    Earth: 0,
-  };
+    Earth: 0};
 }

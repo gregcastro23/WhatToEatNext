@@ -62,10 +62,8 @@ const ELEMENTAL_CUISINES = {
 /**
  * Generate cuisine recommendations based on dominant planets
  */
-export function generateCuisineRecommendations(
-  dominantPlanets: Array<{ planet: string, strength: number, element: Element }>,
-  elementalProperties: ElementalProperties,
-): CuisineRecommendation[] {
+export function generateCuisineRecommendations(dominantPlanets: Array<{ planet: string, strength: number, element: Element }>,
+  elementalProperties: ElementalProperties): CuisineRecommendation[] {
   const recommendations: CuisineRecommendation[] = [],
   const processedCuisines = new Set<string>()
   // Get recommendations from dominant planets;
@@ -174,12 +172,10 @@ function calculateCuisineElementalAlignment(_cuisine: string): ElementalProperti
 /**
  * Generate reasons for cuisine recommendation
  */
-function generateCuisineReasons(
-  cuisine: string,
+function generateCuisineReasons(cuisine: string,
   planet: string,
   element: Element,
-  strength: number,
-): string[] {
+  strength: number): string[] {
   const reasons: string[] = []
 
   reasons.push(

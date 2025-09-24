@@ -117,10 +117,8 @@ export function getRecommendedAdjustments(properties: Record<string, number>): s
 /**
  * Calculate planetary dignity for a given planet and sign
  */
-export function calculatePlanetaryDignity(
-  planet: string,
-  sign: string,
-): PlanetaryDignity {
+export function calculatePlanetaryDignity(planet: string,
+  sign: string): PlanetaryDignity {
   try {
     // This is a simplified implementation
     // In a full implementation, this would check traditional astrological dignities
@@ -137,20 +135,16 @@ export function calculatePlanetaryDignity(
       sign,
       error: error instanceof Error ? error.message : String(error),
     });
-    return {
-      type: 'neutral',
+    return {type: 'neutral',
       value: 1.0,
-      description: 'Error calculating dignity',
-    };
+      description: 'Error calculating dignity'};
   }
 }
 
 /**
  * Calculate alchemical transformation based on elemental properties
  */
-export function calculateAlchemicalTransformation(
-  elementalProperties: ElementalProperties,
-): AlchemicalResults {
+export function calculateAlchemicalTransformation(elementalProperties: ElementalProperties): AlchemicalResults {
   try {
     // Convert elemental properties to counts
     const elementalCounts: Record<string, number> = {
@@ -236,12 +230,10 @@ export function calculateAlchemicalTransformation(
 /**
  * Calculate the Kalchm constant for alchemical equilibrium
  */
-export function calculateKalchm(
-  spirit: number,
+export function calculateKalchm(spirit: number,
   essence: number,
   matter: number,
-  substance: number,
-): number {
+  substance: number): number {
   try {
     // Kalchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
     if (matter === 0 || substance === 0) return 0;
@@ -261,11 +253,9 @@ export function calculateKalchm(
 /**
  * Calculate the Monica constant for alchemical transformation potential
  */
-export function calculateMonica(
-  gregsEnergy: number,
+export function calculateMonica(gregsEnergy: number,
   reactivity: number,
-  kalchm: number,
-): number {
+  kalchm: number): number {
   try {
     // Monica = -GregsEnergy / (Reactivity * ln(Kalchm))
     if (reactivity === 0 || kalchm <= 0) return 0;

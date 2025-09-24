@@ -14,7 +14,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     potency: 8,
     affinities: ['tomato', 'garlic', 'olive oil', 'mediterranean herbs'],
     cookingMethods: ['infused', 'cooked'],
-    conversionRatio: '1:3', // 1 part dried = 3 parts fresh,
+    conversionRatio: '1:3', // 1 part dried = 3 parts fresh;
     nutritionalProfile: {
       vitamins: ['k', 'a'],
       minerals: ['calcium', 'iron'],
@@ -25,14 +25,16 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       crushing: 'just before use',
       blooming: 'in oil or hot liquid',
       timing: 'add early in cooking',
-      notes: 'More concentrated than fresh' },
-        storage: {
+      notes: 'More concentrated than fresh'
+    },
+    storage: {
       temperature: 'cool, dark place',
       duration: '1-3 years',
       container: 'airtight, dark',
       notes: 'Crush to test freshness - should be aromatic'
-}
+    }
   },
+
   dried_oregano: {
     name: 'Dried Oregano',
     elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },
@@ -53,14 +55,16 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       crushing: 'release oils before use',
       blooming: 'in oil or hot liquid',
       timing: 'add early in cooking',
-      notes: 'Often preferred dried over fresh' },
-        storage: {
+      notes: 'Often preferred dried over fresh'
+    },
+    storage: {
       temperature: 'cool, dark place',
       duration: '2-3 years',
       container: 'airtight, dark',
       notes: 'Maintains flavor well when dried'
-}
+    }
   },
+
   dried_thyme: {
     name: 'Dried Thyme',
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
@@ -81,14 +85,16 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       removing: 'from stems if whole',
       crushing: 'lightly before use',
       timing: 'add early in cooking',
-      notes: 'Retains flavor well when dried' },
-        storage: {
+      notes: 'Retains flavor well when dried'
+    },
+    storage: {
       temperature: 'cool, dark place',
       duration: '2-4 years',
       container: 'airtight, dark',
       notes: 'Whole leaves last longer than ground'
-}
+    }
   },
+
   dried_rosemary: {
     name: 'Dried Rosemary',
     elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },
@@ -109,14 +115,16 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       grinding: 'recommended - leaves are tough',
       infusing: 'in oil or liquid',
       timing: 'add early in cooking',
-      notes: 'Use sparingly - very potent' },
-        storage: {
+      notes: 'Use sparingly - very potent'
+    },
+    storage: {
       temperature: 'cool, dark place',
       duration: '1-3 years',
       container: 'airtight, dark',
       notes: 'Whole needles last longer than ground'
-}
+    }
   },
+
   dried_sage: {
     name: 'Dried Sage',
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
@@ -136,18 +144,21 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       rubbing: 'crumble between fingers',
       timing: 'add early in cooking',
-      notes: 'Strong flavor - use sparingly' },
-        storage: {
+      notes: 'Strong flavor - use sparingly'
+    },
+    storage: {
       temperature: 'cool, dark place',
       duration: '1-3 years',
       container: 'airtight, dark',
-      notes: 'Rubbed sage is more potent than whole dried leaves' },
-        medicinalProperties: {
+      notes: 'Rubbed sage is more potent than whole dried leaves'
+    },
+    medicinalProperties: {
       actions: ['antimicrobial', 'digestive aid'],
       preparations: ['tea', 'infusion'],
       cautions: ['avoid therapeutic doses during pregnancy']
     }
   },
+
   dried_bay_leaves: {
     name: 'Dried Bay Leaves',
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
@@ -168,14 +179,16 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       whole: 'use whole and remove before serving',
       crushing: 'slightly to release oils',
       timing: 'add at beginning of cooking',
-      notes: 'Remove before serving' },
-        storage: {
+      notes: 'Remove before serving'
+    },
+    storage: {
       temperature: 'cool, dark place',
       duration: '1-3 years',
       container: 'airtight, dark',
       notes: 'Whole leaves maintain flavor longer'
-}
+    }
   },
+
   dried_marjoram: {
     name: 'Dried Marjoram',
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
@@ -195,14 +208,16 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       crushing: 'gently before use',
       timing: 'add early in cooking',
-      notes: 'More delicate than oregano' },
-        storage: {
+      notes: 'More delicate than oregano'
+    },
+    storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
       notes: 'Replace when aroma fades'
-}
+    }
   },
+
   dried_savory: {
     name: 'Dried Savory',
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
@@ -222,14 +237,16 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       crushing: 'before use',
       timing: 'add during cooking',
-      notes: 'Strong flavor - use sparingly' },
-        storage: {
+      notes: 'Strong flavor - use sparingly'
+    },
+    storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
       notes: 'Maintains strength well when dried'
-}
+    }
   },
+
   dried_chervil: {
     name: 'Dried Chervil',
     elementalProperties: { Air: 0.5, Earth: 0.2, Water: 0.2, Fire: 0.1 },
@@ -249,14 +266,16 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       crushing: 'very gently',
       timing: 'add at end of cooking',
-      notes: 'Very delicate flavor' },
-        storage: {
+      notes: 'Very delicate flavor'
+    },
+    storage: {
       temperature: 'cool, dark place',
       duration: '6-12 months',
       container: 'airtight, dark',
       notes: 'Loses flavor quickly when dried'
-}
+    }
   },
+
   dried_tarragon: {
     name: 'Dried Tarragon',
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
@@ -276,14 +295,16 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       crushing: 'gently to release oils',
       timing: 'add during cooking',
-      notes: 'Strong flavor - use sparingly' },
-        storage: {
+      notes: 'Strong flavor - use sparingly'
+    },
+    storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
       notes: 'Replace when aroma weakens'
-}
+    }
   },
+
   dried_dill: {
     name: 'Dried Dill',
     elementalProperties: { Air: 0.5, Water: 0.2, Earth: 0.2, Fire: 0.1 },
@@ -303,14 +324,16 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       crushing: 'before use',
       timing: 'add late in cooking',
-      notes: 'More concentrated than fresh' },
-        storage: {
+      notes: 'More concentrated than fresh'
+    },
+    storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
       notes: 'Protect from light to maintain color'
-}
+    }
   },
+
   dried_mint: {
     name: 'Dried Mint',
     elementalProperties: { Air: 0.5, Water: 0.2, Fire: 0.2, Earth: 0.1 },
@@ -330,18 +353,21 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       crushing: 'to release oils',
       timing: 'add during or after cooking',
-      notes: 'Good for both sweet and savory' },
-        storage: {
+      notes: 'Good for both sweet and savory'
+    },
+    storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
-      notes: 'Maintains menthol well when dried' },
-        medicinalProperties: {
+      notes: 'Maintains menthol well when dried'
+    },
+    medicinalProperties: {
       actions: ['digestive aid', 'decongestant'],
       preparations: ['tea', 'infusion'],
       cautions: ['may affect iron absorption']
     }
   },
+
   dried_fennel: {
     name: 'Dried Fennel',
     elementalProperties: { Fire: 0.3, Air: 0.3, Earth: 0.2, Water: 0.2 },
@@ -361,18 +387,21 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       grinding: 'just before use if whole',
       timing: 'add early in cooking',
-      notes: 'Licorice-like flavor' },
-        storage: {
+      notes: 'Licorice-like flavor'
+    },
+    storage: {
       temperature: 'cool, dark place',
       duration: '1-3 years',
       container: 'airtight, dark',
-      notes: 'Whole seeds last longer than ground' },
-        medicinalProperties: {
+      notes: 'Whole seeds last longer than ground'
+    },
+    medicinalProperties: {
       actions: ['digestive aid', 'anti-inflammatory'],
       preparations: ['tea', 'powder'],
       cautions: ['may interact with estrogen']
     }
   },
+
   dried_parsley: {
     name: 'Dried Parsley',
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
@@ -392,14 +421,16 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       crushing: 'gently before use',
       timing: 'add during or end of cooking',
-      notes: 'Milder than fresh parsley' },
-        storage: {
+      notes: 'Milder than fresh parsley'
+    },
+    storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
       notes: 'Color may fade but flavor remains'
-}
+    }
   },
+
   dried_cilantro: {
     name: 'Dried Cilantro',
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
@@ -419,14 +450,16 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       crushing: 'before use',
       timing: 'add early in cooking',
-      notes: 'Different flavor profile than fresh' },
-        storage: {
+      notes: 'Different flavor profile than fresh'
+    },
+    storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
       notes: 'Best in cooked dishes'
-}
+    }
   },
+
   dried_chives: {
     name: 'Dried Chives',
     elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
@@ -446,14 +479,16 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       rehydrating: 'soak in warm water briefly',
       timing: 'add near end of cooking',
-      notes: 'Can be rehydrated for better texture' },
-        storage: {
+      notes: 'Can be rehydrated for better texture'
+    },
+    storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
       notes: 'Protect from moisture'
-}
+    }
   },
+
   dried_lemon_balm: {
     name: 'Dried Lemon Balm',
     elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
@@ -473,18 +508,21 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       crushing: 'lightly before use',
       timing: 'add near end of cooking',
-      notes: 'Delicate lemon flavor' },
-        storage: {
+      notes: 'Delicate lemon flavor'
+    },
+    storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
-      notes: 'Maintains aroma well when dried' },
-        medicinalProperties: {
+      notes: 'Maintains aroma well when dried'
+    },
+    medicinalProperties: {
       actions: ['calming', 'digestive aid'],
       preparations: ['tea', 'tincture'],
       cautions: ['may cause drowsiness']
     }
   },
+
   dried_lavender: {
     name: 'Dried Lavender',
     elementalProperties: { Air: 0.5, Fire: 0.2, Earth: 0.2, Water: 0.1 },
@@ -504,18 +542,21 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       crushing: 'gently before use',
       timing: 'add early for cooking, late for tea',
-      notes: 'Use sparingly - can become soapy' },
-        storage: {
+      notes: 'Use sparingly - can become soapy'
+    },
+    storage: {
       temperature: 'cool, dark place',
       duration: '1-3 years',
       container: 'airtight, dark',
-      notes: 'Buds store better than flowers' },
-        medicinalProperties: {
+      notes: 'Buds store better than flowers'
+    },
+    medicinalProperties: {
       actions: ['calming', 'sleep aid'],
       preparations: ['tea', 'sachet'],
       cautions: ['may cause drowsiness']
     }
   },
+
   dried_summer_savory: {
     name: 'Dried Summer Savory',
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
@@ -535,14 +576,16 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       crushing: 'before use',
       timing: 'add early in cooking',
-      notes: 'Traditional bean herb' },
-        storage: {
+      notes: 'Traditional bean herb'
+    },
+    storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
       notes: 'Replace when aroma fades'
-}
+    }
   },
+
   dried_lovage: {
     name: 'Dried Lovage',
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
@@ -562,14 +605,16 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
     preparation: {
       crushing: 'before use',
       timing: 'add early in cooking',
-      notes: 'Strong celery-like flavor' },
-        storage: {
+      notes: 'Strong celery-like flavor'
+    },
+    storage: {
       temperature: 'cool, dark place',
       duration: '1-2 years',
       container: 'airtight, dark',
       notes: 'Replace when aroma weakens'
-}
+    }
   },
+
   chervil: {
     name: 'Chervil',
     elementalProperties: {
@@ -577,7 +622,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.3,
       Earth: 0.2,
       Water: 0.1
-},
+    },
     category: 'culinary_herb',
     qualities: ['nourishing'],
     nutritionalProfile: {
@@ -597,7 +642,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.3,
       Earth: 0.2,
       Water: 0.1
-},
+    },
     category: 'culinary_herb',
     qualities: ['nourishing'],
     nutritionalProfile: {
@@ -610,6 +655,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: []
     }
   },
+
   anise: {
     name: 'Anise',
     elementalProperties: {
@@ -617,7 +663,7 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.3,
       Earth: 0.2,
       Water: 0.1
-},
+    },
     category: 'culinary_herb',
     qualities: ['nourishing'],
     nutritionalProfile: {
@@ -630,9 +676,9 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       minerals: []
     }
   }
-}
+};
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const driedHerbs: Record<string, IngredientMapping> = fixIngredientMappings(rawDriedHerbs)
+export const driedHerbs: Record<string, IngredientMapping> = fixIngredientMappings(rawDriedHerbs);
 
-export default driedHerbs,
+export default driedHerbs;

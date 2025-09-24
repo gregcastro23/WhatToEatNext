@@ -2,14 +2,13 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import { logger } from '@/utils/logger';
 import {
-  NavigationState,
-  getComponentState,
-  getNavigationState,
-  getScrollPosition,
-  saveComponentState,
-  saveNavigationState,
-  saveScrollPosition,
-  useStateCleanup
+    NavigationState,
+    getComponentState,
+    getNavigationState,
+    getScrollPosition,
+    saveComponentState,
+    saveNavigationState,
+    useStateCleanup
 } from '@/utils/statePreservation';
 import { ElementalProperties, useSteeringFileIntelligence } from '@/utils/steeringFileIntelligence';
 
@@ -59,11 +58,12 @@ export function useComponentState<T = unknown>(componentId: string, initialState
         clearTimeout(saveTimeoutRef.current);
       }
 
-      saveTimeoutRef.current = setTimeout(() => {;
+      saveTimeoutRef.current = setTimeout(() => {
         saveComponentState(componentId, state)
       }, 100); // 100ms debounce for component state
-    }
-    [componentId],
+    },
+    [componentId]
+  )
   )
 
   const getState = useCallback((): T | null => {

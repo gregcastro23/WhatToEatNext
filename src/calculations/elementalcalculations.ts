@@ -158,11 +158,9 @@ export class ElementalCalculator {
    * @param time Optional time factor
    * @returns Enhanced elemental properties with additional information
    */
-  calculateElementalState(
-    baseProperties: ElementalProperties,
+  calculateElementalState(baseProperties: ElementalProperties,
     phase = 'default',
-    time = 'neutral',
-  ): {
+    time = 'neutral'): {
     properties: ElementalProperties,
     seasonalInfluence: ElementalProperties;
   } {
@@ -171,12 +169,10 @@ export class ElementalCalculator {
       const properties = { ...baseProperties };
 
       // Create default seasonal influence
-      const seasonalInfluence: ElementalProperties = {
-        Fire: 0.25,
+      const seasonalInfluence: ElementalProperties = {Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25,
-      };
+        Air: 0.25};
 
       // Apply time-based modifiers
       if (time === 'day') {
@@ -191,18 +187,14 @@ export class ElementalCalculator {
         properties.Air = Math.max(0, properties.Air * 0.95);
       }
 
-      return {
-        properties,
-        seasonalInfluence,
-      };
+      return {properties,
+        seasonalInfluence};
     } catch (error) {
       logger.error('Error calculating elemental state:', {
         error: error instanceof Error ? error.message : String(error),
       });
-      return {
-        properties: DEFAULT_ELEMENTAL_PROPERTIES,
-        seasonalInfluence: DEFAULT_ELEMENTAL_PROPERTIES,
-      };
+      return {properties: DEFAULT_ELEMENTAL_PROPERTIES,
+        seasonalInfluence: DEFAULT_ELEMENTAL_PROPERTIES};
     }
   }
 
@@ -229,11 +221,9 @@ export class ElementalCalculator {
 /**
  * Combine two elemental property sets
  */
-export function combineElementalProperties(
-  primary: ElementalProperties,
+export function combineElementalProperties(primary: ElementalProperties,
   secondary: ElementalProperties,
-  weight = 0.5,
-): ElementalProperties {
+  weight = 0.5): ElementalProperties {
   return {
     Fire: primary.Fire * weight + secondary.Fire * (1 - weight),
     Water: primary.Water * weight + secondary.Water * (1 - weight),

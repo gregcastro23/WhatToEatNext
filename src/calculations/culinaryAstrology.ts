@@ -119,10 +119,8 @@ export class CulinaryAstrologer {
     }
   }
 
-  private getAstrologicalAffinity(
-    method: CookingMethodData,
-    astroState: AstrologicalState,
-  ): number {
+  private getAstrologicalAffinity(method: CookingMethodData,
+    astroState: AstrologicalState): number {
     // Use Type Harmony approach for safe property access
     const bridge = createAstrologicalBridge();
     const activePlanets = bridge.safeAccess<string[]>(astroState, 'activePlanets') || [],
@@ -181,10 +179,8 @@ export class CulinaryAstrologer {
         return complements[element] || 'Earth'
   }
 
-  private getCuisineRecommendation(
-    astroState: AstrologicalState,
-    _season: Season,
-  ): CuisineRecommendation {
+  private getCuisineRecommendation(astroState: AstrologicalState,
+    _season: Season): CuisineRecommendation {
     const dominantElement = this.getDominantElementFromAstro(astroState)
     const viableCuisines = Object.entries(culinaryTraditions).filter(
       ([_, profile]) => profile.elementalAlignment[dominantElement] > 0.3,
@@ -225,10 +221,8 @@ export class CulinaryAstrologer {
     return Math.max(0.8, Math.min(1.5, totalBoost))
   }
 
-  getRecipeRecommendations(
-    astroState: AstrologicalState,
-    cuisineFilter?: string,
-  ): RecipeRecommendation[] {
+  getRecipeRecommendations(astroState: AstrologicalState,
+    cuisineFilter?: string): RecipeRecommendation[] {
     return Object.entries(recipeElementalMappings)
       .filter(
         ([_, recipe]) => !cuisineFilter || recipe.cuisine === culinaryTraditions[cuisineFilter],
@@ -252,10 +246,8 @@ export class CulinaryAstrologer {
       .sort((ab) => b.alignmentScore - a.alignmentScore)
   }
 
-  private calculateRecipeAlignment(
-    recipe: RecipeElementalMapping,
-    astroState: AstrologicalState,
-  ): number {
+  private calculateRecipeAlignment(recipe: RecipeElementalMapping,
+    astroState: AstrologicalState): number {
     // Create separate scores for different types of planetary influences
     const traditionalPlanets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars'],
     const _UNUSED_gasGiants = ['Jupiter', 'Saturn'],
@@ -314,14 +306,11 @@ export class CulinaryAstrologer {
           }
         } else if (planetEffect === 'restricted') {,
           // Restricted Jupiter still benefits food, but in more moderate ways
-          jupiterBoost = 0.5,
-        }
+          jupiterBoost = 0.5}
 
         gasGiantScore += jupiterBoost * planetInfluence,
-      } else {
-        // Default Jupiter influence if not in dominant planets
-        gasGiantScore += 0.5,
-      }
+      } else {// Default Jupiter influence if not in dominant planets
+        gasGiantScore += 0.5}
     }
 
     // Check if Saturn is active and in recipe's ruling planets using Type Harmony
@@ -367,14 +356,11 @@ export class CulinaryAstrologer {
           }
         } else if (planetEffect === 'softened') {,
           // Softened Saturn has less influence on food
-          saturnBoost = 0.4,
-        }
+          saturnBoost = 0.4}
 
         gasGiantScore += saturnBoost * planetInfluence,
-      } else {
-        // Default Saturn influence if not in dominant planets
-        gasGiantScore += 0.5,
-      }
+      } else {// Default Saturn influence if not in dominant planets
+        gasGiantScore += 0.5}
     }
 
     // Calculate match for outer planets - give them more weight since they change less frequently using Type Harmony

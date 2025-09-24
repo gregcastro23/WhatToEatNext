@@ -22,11 +22,9 @@ const logger = createLogger('EnhancedAlchemicalMatching');
  * @param planets Optional planetary positions for more accurate calculations
  * @returns Numeric score between 0-1 representing astrological affinity
  */
-export function calculateAstrologicalAffinity(
-  signA: ZodiacSign,
+export function calculateAstrologicalAffinity(signA: ZodiacSign,
   signB: ZodiacSign,
-  _planets?: Record<string, PlanetaryPosition>,
-): number {
+  _planets?: Record<string, PlanetaryPosition>): number {
   try {
     // Base elemental compatibility
     const elementA = signs[signA]?.Element;
@@ -58,22 +56,16 @@ export function calculateAstrologicalAffinity(
     }
 
     // Calculate decanic compatibility
-    const decanCompat = compareDecanRulers(
-      signs[signA]?.['Decan Effects'] || {},
-      signs[signB]?.['Decan Effects'] || {},
-    );
+    const decanCompat = compareDecanRulers(signs[signA]?.['Decan Effects'] || {},
+      signs[signB]?.['Decan Effects'] || {});
 
     // Calculate degree-specific influences
-    const degreeCompat = calculateDegreeOverlap(
-      signs[signA]?.['Degree Effects'] || {},
-      signs[signB]?.['Degree Effects'] || {},
-    );
+    const degreeCompat = calculateDegreeOverlap(signs[signA]?.['Degree Effects'] || {},
+      signs[signB]?.['Degree Effects'] || {});
 
     // Calculate tarot correspondences influence
-    const tarotCompat = compareTarotArcana(
-      signs[signA]?.['Major Tarot Card'] || '',
-      signs[signB]?.['Major Tarot Card'] || '',
-    );
+    const tarotCompat = compareTarotArcana(signs[signA]?.['Major Tarot Card'] || '',
+      signs[signB]?.['Major Tarot Card'] || '');
 
     // Calculate modality compatibility with elements
     const modalityCompat =
@@ -104,10 +96,8 @@ export function calculateAstrologicalAffinity(
 /**
  * Compare decanic rulers between two signs for compatibility
  */
-function compareDecanRulers(
-  decanA: Record<string, unknown>,
-  decanB: Record<string, unknown>,
-): number {
+function compareDecanRulers(decanA: Record<string, unknown>,
+  decanB: Record<string, unknown>): number {
   try {
     // Simple implementation - can be expanded
     return 0.5; // Neutral compatibility
@@ -122,10 +112,8 @@ function compareDecanRulers(
 /**
  * Calculate degree overlap between two signs
  */
-function calculateDegreeOverlap(
-  degreeA: Record<string, unknown>,
-  degreeB: Record<string, unknown>,
-): number {
+function calculateDegreeOverlap(degreeA: Record<string, unknown>,
+  degreeB: Record<string, unknown>): number {
   try {
     // Simple implementation - can be expanded
     return 0.5; // Neutral compatibility
@@ -158,12 +146,10 @@ function compareTarotArcana(cardA: string, cardB: string): number {
 /**
  * Compare modalities with element context
  */
-function compareModalities(
-  modalityA: string,
+function compareModalities(modalityA: string,
   modalityB: string,
   elementA: string,
-  elementB: string,
-): number {
+  elementB: string): number {
   try {
     // Same modality = higher compatibility
     if (modalityA === modalityB) {
@@ -203,10 +189,8 @@ function compareRulers(rulerA: string, rulerB: string): number {
 /**
  * Calculate enhanced elemental matching between recipe and current state
  */
-export function calculateEnhancedElementalMatch(
-  recipeElements: ElementalProperties,
-  currentElements: ElementalProperties,
-): number {
+export function calculateEnhancedElementalMatch(recipeElements: ElementalProperties,
+  currentElements: ElementalProperties): number {
   try {
     let totalScore = 0;
     let elementCount = 0;
@@ -236,11 +220,9 @@ export function calculateEnhancedElementalMatch(
 /**
  * Calculate overall alchemical compatibility score
  */
-export function calculateAlchemicalCompatibility(
-  recipeElements: ElementalProperties,
+export function calculateAlchemicalCompatibility(recipeElements: ElementalProperties,
   astrologicalSign: ZodiacSign,
-  currentElements: ElementalProperties,
-): number {
+  currentElements: ElementalProperties): number {
   try {
     // Elemental matching (40% weight)
     const elementalScore = calculateEnhancedElementalMatch(recipeElements, currentElements);

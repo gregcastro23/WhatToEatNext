@@ -14,13 +14,15 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       taste: ['Mild', 'Balanced', 'Natural'],
       aroma: ['Fresh', 'Clean', 'Subtle'],
       texture: ['Pleasant', 'Smooth', 'Appealing'],
-      notes: 'Characteristic beef profile' },
-        culinaryProfile: {
+      notes: 'Characteristic beef profile'
+    },
+    culinaryProfile: {
       flavorProfile: {
         primary: ['balanced'],
         secondary: ['versatile'],
-        notes: 'Versatile beef for various uses' },
-        cookingMethods: ['grilling', 'roasting', 'braising'],
+        notes: 'Versatile beef for various uses'
+      },
+      cookingMethods: ['grilling', 'roasting', 'braising'],
       cuisineAffinity: ['american', 'european'],
       preparationTips: ['allow to reach room temperature before cooking', 'season generously']
     }
@@ -37,12 +39,14 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       taste: ['Mild', 'Balanced', 'Natural'],
       aroma: ['Fresh', 'Clean', 'Subtle'],
       texture: ['Pleasant', 'Smooth', 'Appealing'],
-      notes: 'Characteristic chicken profile' },
-        culinaryProfile: {
+      notes: 'Characteristic chicken profile'
+    },
+    culinaryProfile: {
       flavorProfile: {
         primary: ['mild', 'savory'],
-        notes: 'Versatile for many cuisines.' },
-        cookingMethods: ['roasting', 'grilling', 'frying', 'poaching'],
+        notes: 'Versatile for many cuisines.'
+      },
+      cookingMethods: ['roasting', 'grilling', 'frying', 'poaching'],
       cuisineAffinity: ['global'],
       preparationTips: ['Cook to internal temperature of 165°F.', 'Brining enhances moisture.']
     }
@@ -54,7 +58,7 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
     qualities: ['rich', 'savory', 'versatile'],
     sustainabilityScore: 3,
     season: ['all'],
-    elementalProperties: { Fire: 0.4, Water: 0.4, Earth: 0.2, Air: 0.0 }
+    elementalProperties: { Fire: 0.4, Water: 0.4, Earth: 0.2, Air: 0.0 },
     // Removed excessive sensoryProfile nesting
 // Removed nested content
 // Removed nested content
@@ -65,8 +69,9 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       flavorProfile: {
         primary: ['savory', 'umami'],
         secondary: ['sweet'],
-        notes: 'Excellent with fruits like apple and cherry.' },
-        cookingMethods: ['roasting', 'braising', 'grilling', 'smoking'],
+        notes: 'Excellent with fruits like apple and cherry.'
+      },
+      cookingMethods: ['roasting', 'braising', 'grilling', 'smoking'],
       cuisineAffinity: ['asian', 'american', 'german'],
       preparationTips: ['Do not overcook.', 'Works well with rubs and marinades.']
     }
@@ -78,7 +83,7 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
     qualities: ['tender', 'gamy', 'distinctive'],
     sustainabilityScore: 4,
     season: ['spring'],
-    elementalProperties: { Fire: 0.6, Earth: 0.3, Air: 0.1, Water: 0.0 }
+    elementalProperties: { Fire: 0.6, Earth: 0.3, Air: 0.1, Water: 0.0 },
     // Removed excessive sensoryProfile nesting
 // Removed nested content
 // Removed nested content
@@ -89,14 +94,14 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
       flavorProfile: {
         primary: ['gamy', 'earthy'],
         secondary: ['herbaceous'],
-        notes: 'Complemented by herbs like rosemary and mint.' },
-        cookingMethods: ['roasting', 'grilling', 'braising'],
+        notes: 'Complemented by herbs like rosemary and mint.'
+      },
+      cookingMethods: ['roasting', 'grilling', 'braising'],
       cuisineAffinity: ['mediterranean', 'middle_eastern'],
       preparationTips: ['Best served medium-rare.', 'Fat carries a lot of the flavor.']
     }
   }
-}
+};
 
-export const _meats: Record<string, IngredientMapping> = fixIngredientMappings(rawMeats)
-export const _meatNames = Object.keys(rawMeats)
-;
+export const _meats: Record<string, IngredientMapping> = fixIngredientMappings(rawMeats);
+export const _meatNames = Object.keys(rawMeats);

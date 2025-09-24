@@ -23,12 +23,10 @@ type Props = {
   governing?: 'sun' | 'moon' | 'dominant' | 'ensemble'
 }
 
-export default function SignVectorPanel({
-  planetaryPositions: propPositions,
+export default function SignVectorPanel({planetaryPositions: propPositions,
   aspects,
   season,
-  governing = 'dominant',
-}: Props) {
+  governing = 'dominant'}: Props) {
   const [positions, setPositions] = React.useState<Record<string, PlanetaryPosition> | null>(
     propPositions || null,
   );
@@ -68,7 +66,7 @@ export default function SignVectorPanel({
             k,
             { sign: (v as any).sign, degree: (v as any).degree }
           ]),
-        ) as Record<string, { sign: string, degree: number }>,
+        ) as Record<string, { sign: string, degree: number }>
         const { aspects: computed } = calculateAspects(minimal),
         realAspects = computed as any;
       }
@@ -95,12 +93,10 @@ export default function SignVectorPanel({
         Matter: Number((blended.Matter - base.Matter).toFixed(4)),
         Substance: Number((blended.Substance - base.Substance).toFixed(4))
       };
-      TelemetryDev.recordVectorBlend(
-        res.selected.sign,
+      TelemetryDev.recordVectorBlend(res.selected.sign,
         alpha,
         deltas as any,
-        res.thermodynamics as any,
-      );
+        res.thermodynamics as any);
     }
     return res;
   }, [positions, aspects, season, mode, alpha, logger]);

@@ -2,14 +2,14 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawStarchyVegetables = {
-  potato: {,
+  potato: {
     name: 'potato',
     elementalProperties: {
       Earth: 0.6,
       Water: 0.25,
       Fire: 0.1,
       Air: 0.05
-},
+    },
     astrologicalProfile: {
       rulingPlanets: ['Saturn', 'Moon'],
       favorableZodiac: ['taurus', 'capricorn', 'cancer'],
@@ -20,17 +20,17 @@ const rawStarchyVegetables = {
             element: 'Earth',
             planet: 'Saturn',
             influence: 0.7
-},
+          },
           second: {
             element: 'Water',
             planet: 'Moon',
             influence: 0.5
-},
+          },
           third: {
             element: 'Earth',
             planet: 'Saturn',
             influence: 0.6
-}
+          }
         }
       }
     },
@@ -72,7 +72,7 @@ const rawStarchyVegetables = {
       Fire: 0.3,
       Water: 0.15,
       Air: 0.05
-},
+    },
     astrologicalProfile: {
       rulingPlanets: ['Jupiter', 'Sun'],
       favorableZodiac: ['sagittarius', 'leo', 'taurus'],
@@ -83,17 +83,17 @@ const rawStarchyVegetables = {
             element: 'Fire',
             planet: 'Sun',
             influence: 0.6
-},
+          },
           second: {
             element: 'Earth',
             planet: 'Jupiter',
             influence: 0.7
-},
+          },
           third: {
             element: 'Fire',
             planet: 'Sun',
             influence: 0.5
-}
+          }
         }
       }
     },
@@ -135,7 +135,7 @@ const rawStarchyVegetables = {
       Water: 0.2242992223845753,
       Earth: 0.025780554575838496,
       Air: 0.03369946759375892
-},
+    },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Mercury'],
       favorableZodiac: ['gemini', 'libra', 'taurus'],
@@ -146,17 +146,17 @@ const rawStarchyVegetables = {
             element: 'Fire',
             planet: 'Venus',
             influence: 0.7
-},
+          },
           second: {
             element: 'Air',
             planet: 'Mercury',
             influence: 0.6
-},
+          },
           third: {
             element: 'Fire',
             planet: 'Venus',
             influence: 0.6
-}
+          }
         }
       }
     },
@@ -191,9 +191,9 @@ const rawStarchyVegetables = {
       }
     }
   }
-}
+};
 
 // Fix the ingredient mappings to ensure they have all required properties
 export const _starchyVegetables: Record<string, IngredientMapping> = fixIngredientMappings(
   rawStarchyVegetables as unknown as Record<string, Partial<IngredientMapping>>,
-)
+);

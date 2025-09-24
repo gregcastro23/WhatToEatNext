@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawDairy = {
-  greek_yogurt: {,
+  greek_yogurt: {
     name: 'Greek Yogurt',
     description: 'Strained yogurt with higher protein content and thick texture.',
     category: 'dairy',
@@ -15,7 +15,7 @@ const rawDairy = {
       Water: 0.6,
       Earth: 0.2,
       Air: 0.1
-},
+    },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
       zodiacInfluence: ['Cancer', 'Taurus'],
@@ -23,7 +23,7 @@ const rawDairy = {
         moonPhase: {
           waxing: 'creamier texture, milder flavor',
           full: 'peak tanginess and thickness',
-          waning: 'more digestible, gentler on system',
+          waning: 'more digestible, gentler on system'
         }
       }
     },
@@ -32,13 +32,13 @@ const rawDairy = {
         elementalBoost: {
           Water: 0.1,
           Earth: 0.1
-},
+        },
         preparationTips: ['Best for starting new fermentation batches', 'Ideal for milder yogurt']
       },
       'Full Moon': {
         elementalBoost: {
           Water: 0.2
-},
+        },
         preparationTips: ['Maximum tangy flavor development', 'Best probiotic activity']
       }
     },
@@ -56,35 +56,37 @@ const rawDairy = {
       'protein source': 'High-quality complete protein for muscle maintenance',
       'bone strength': 'Rich calcium content supports skeletal structure',
       satiety: 'High protein content increases feeling of fullness',
-      'blood sugar': 'Lower glycemic impact than regular yogurt' },
-        varieties: {
+      'blood sugar': 'Lower glycemic impact than regular yogurt'
+    },
+    varieties: {
       'non-fat': {
         texture: 'Less creamy, slightly more tangy',
         moisture: 'Lower',
         protein: 'Highest',
         uses: 'Weight management, higher protein needs',
         notes: 'Can be slightly grainy in texture'
-},
+      },
       '2% fat': {
         texture: 'Balanced creaminess and tang',
         moisture: 'Medium',
         protein: 'High',
         uses: 'All-purpose, good balance of flavor and nutrition',
         notes: 'Most versatile variety'
-},
+      },
       'full-fat': {
         texture: 'Creamiest, smoothest',
         moisture: 'Medium-high',
         protein: 'Moderate',
         uses: 'Rich applications, cooking stability',
-        notes: 'Best for cooking as less likely to separate' },
-        strained: {
+        notes: 'Best for cooking as less likely to separate'
+      },
+      strained: {
         texture: 'Extra thick, almost cheese-like',
         moisture: 'Low',
         protein: 'Very high',
         uses: 'Labneh-style spreads, ultra-rich applications',
         notes: 'Can be hung in cheesecloth for even thicker result'
-}
+      }
     },
     culinaryApplications: {
       raw: {
@@ -126,7 +128,7 @@ const rawDairy = {
       storebought: {
         selection: 'Choose without added thickeners for purest flavor',
         preparation: 'Stir before using if separation has occurred'
-}
+      }
     },
     storage: {
       container: 'Glass or original container',
@@ -134,17 +136,18 @@ const rawDairy = {
       temperature: {
         fahrenheit: 38,
         celsius: 3.3
-},
-      notes: 'May continue to increase in tanginess over time' },
-        culturalSignificance: {
+      },
+      notes: 'May continue to increase in tanginess over time'
+    },
+    culturalSignificance: {
       middle_eastern: {
         role: 'Traditional breakfast component and sauce base',
         pairings: 'Olive oilza'atar, honey, nuts',
-        dishes: 'Labneh, breakfast spreads',
+        dishes: 'Labneh, breakfast spreads'
       },
       'modern health': {
         role: 'Protein-rich alternative to higher-fat dairy',
-        adaptations: 'Protein bowls, smoothies, healthier baking',
+        adaptations: 'Protein bowls, smoothies, healthier baking'
       }
     },
     affinities: {
@@ -171,7 +174,7 @@ const rawDairy = {
       Water: 0.5,
       Earth: 0.3,
       Air: 0.1
-},
+    },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
       zodiacInfluence: ['Taurus', 'Cancer'],
@@ -179,7 +182,7 @@ const rawDairy = {
         moonPhase: {
           waxing: 'enhanced moisture and softness',
           full: 'optimal curd formation and flavor',
-          waning: 'drier texture, easier digestion',
+          waning: 'drier texture, easier digestion'
         }
       }
     },
@@ -188,14 +191,14 @@ const rawDairy = {
         elementalBoost: {
           Water: 0.15,
           Earth: 0.05
-},
+        },
         preparationTips: ['Best for starting fresh batches', 'More delicate curds form']
       },
       'Full Moon': {
         elementalBoost: {
           Water: 0.1,
           Earth: 0.1
-},
+        },
         preparationTips: ['Optimal curd formation', 'Best flavor development']
       }
     },
@@ -213,15 +216,16 @@ const rawDairy = {
       'bone health': 'Excellent calcium source for skeletal maintenance',
       satiety: 'High protein and moderate fat content increases fullness',
       metabolism: 'Contains conjugated linoleic acid (CLA) in full-fat versions',
-      recovery: 'Popular among athletes for post-workout recovery' },
-        varieties: {
+      recovery: 'Popular among athletes for post-workout recovery'
+    },
+    varieties: {
       'small curd': {
         texture: 'Smaller, more uniform pieces',
         moisture: 'Medium',
         protein: 'Standard',
         uses: 'Baking, dips, smoother applications',
         notes: 'More versatile for recipes requiring uniform texture'
-},
+      },
       'large curd': {
         texture: 'Larger, more defined pieces',
         moisture: 'Medium',
@@ -234,14 +238,15 @@ const rawDairy = {
         moisture: 'Low',
         protein: 'High',
         uses: 'Baking, lactose-sensitive diets',
-        notes: 'Lowest lactose content, least smooth' },
-        whipped: {
+        notes: 'Lowest lactose content, least smooth'
+      },
+      whipped: {
         texture: 'Smoother, more blended consistency',
         moisture: 'Medium-high',
         protein: 'Standard',
         uses: 'Spreads, dips, smoother applications',
         notes: 'Easier to incorporate into recipes'
-}
+      }
     },
     culinaryApplications: {
       raw: {
@@ -284,7 +289,7 @@ const rawDairy = {
       storebought: {
         selection: 'Check date codes, avoid excessive liquid',
         preparation: 'Drain excess liquid if desired'
-}
+      }
     },
     storage: {
       container: 'Original container or airtight glass',
@@ -292,21 +297,23 @@ const rawDairy = {
       temperature: {
         fahrenheit: 38,
         celsius: 3.3
-},
-      notes: 'Texture and flavor best when fresh, tends to sour rather than spoil' },
-        culturalSignificance: {
+      },
+      notes: 'Texture and flavor best when fresh, tends to sour rather than spoil'
+    },
+    culturalSignificance: {
       european: {
         role: 'Traditional fresh cheese in many cuisines',
         pairings: 'Fresh herbs, black pepper, fruit preserves',
-        dishes: 'Blintzes, pierogi filling, breakfast dishes' },
-        american: {
+        dishes: 'Blintzes, pierogi filling, breakfast dishes'
+      },
+      american: {
         role: 'Diet food popularized in mid-20th century',
         pairings: 'Canned fruit, gelatin salads, crackers',
         dishes: '1950s 'diet plates', retro salads'
       },
       'modern health': {
         role: 'Rediscovered as high-protein, whole food',
-        adaptations: 'Protein bowls, savory applications, healthy baking ingredient',
+        adaptations: 'Protein bowls, savory applications, healthy baking ingredient'
       }
     },
     affinities: {
@@ -322,7 +329,8 @@ const rawDairy = {
   },
   ricotta: {
     name: 'Ricotta',
-    description: 'Soft, mild Italian whey cheese with small, fluffy curds and versatile applications.',
+    description:
+      'Soft, mild Italian whey cheese with small, fluffy curds and versatile applications.',
     category: 'dairy',
     qualities: ['mild', 'creamy', 'sweet', 'delicate', 'versatile'],
     sustainabilityScore: 6,
@@ -333,7 +341,7 @@ const rawDairy = {
       Water: 0.5,
       Earth: 0.3,
       Air: 0.1
-},
+    },
     astrologicalProfile: {
       rulingPlanets: ['Moon', 'Venus'],
       zodiacInfluence: ['Cancer', 'Taurus'],
@@ -341,7 +349,7 @@ const rawDairy = {
         moonPhase: {
           waxing: 'increased moisture and softness',
           full: 'optimal texture and sweetness',
-          waning: 'slightly drier, more complex flavor',
+          waning: 'slightly drier, more complex flavor'
         }
       }
     },
@@ -349,14 +357,14 @@ const rawDairy = {
       'New Moon': {
         elementalBoost: {
           Water: 0.2
-},
+        },
         preparationTips: ['Best for beginning cheese making', 'Creates most delicate texture']
       },
       'Full Moon': {
         elementalBoost: {
           Water: 0.1,
           Earth: 0.1
-},
+        },
         preparationTips: ['Best flavor development', 'Optimal milk protein composition']
       }
     },
@@ -374,35 +382,36 @@ const rawDairy = {
       'bone health': 'High calcium content supports skeletal strength',
       digestibility: 'Easier to digest than aged cheeses',
       'muscle recovery': 'Provides branched-chain amino acids',
-      satiety: 'Balance of protein and fat increases fullness' },
-        varieties: {
+      satiety: 'Balance of protein and fat increases fullness'
+    },
+    varieties: {
       'whole milk': {
         texture: 'Richest, creamiest',
         moisture: 'High',
         fat: 'High',
         uses: 'Desserts, traditional dishes, eating plain',
         notes: 'Traditional and most flavorful variety'
-},
+      },
       'part-skim': {
         texture: 'Slightly less creamy, more distinct curds',
         moisture: 'Medium-high',
         fat: 'Medium',
         uses: 'All-purpose, balanced nutrition and flavor',
         notes: 'Most commonly available commercial variety'
-},
+      },
       'sheep milk': {
         texture: 'Rich, distinctive',
         moisture: 'Medium',
         fat: 'High',
         uses: 'Specialty applications, authentic Italian dishes',
         notes: 'Traditional ricotta type with more complex flavor'
-},
+      },
       'buffalo milk': {
         texture: 'Very rich, creamy',
         moisture: 'High',
         fat: 'Very high',
         uses: 'Premium applications, special dishes',
-        notes: 'Luxury variant, most often in southern Italy',
+        notes: 'Luxury variant, most often in southern Italy'
       }
     },
     culinaryApplications: {
@@ -443,7 +452,7 @@ const rawDairy = {
       storebought: {
         selection: 'Choose from refrigerated section, avoid shelf-stable varieties for best flavor',
         preparation: 'Drain excess liquid before using in recipes requiring firmer texture'
-}
+      }
     },
     storage: {
       container: 'Original container or airtight glass',
@@ -451,16 +460,18 @@ const rawDairy = {
       temperature: {
         fahrenheit: 38,
         celsius: 3.3
-},
-      notes: 'Best used fresh, texture deteriorates over time' },
-        culturalSignificance: {
+      },
+      notes: 'Best used fresh, texture deteriorates over time'
+    },
+    culturalSignificance: {
       sicilian: {
         role: 'Key ingredient in traditional desserts',
         pairings: 'Chocolate, pistachios, candied fruit, cinnamon',
-        dishes: 'Cassata, cannoli, Sicilian cheesecake' },
-        modern: {
+        dishes: 'Cassata, cannoli, Sicilian cheesecake'
+      },
+      modern: {
         role: 'Versatile low-sodium cheese in contemporary cooking',
-        adaptations: 'Protein-rich breakfast component, sandwich spread, dip base',
+        adaptations: 'Protein-rich breakfast component, sandwich spread, dip base'
       }
     },
     affinities: {
@@ -487,7 +498,7 @@ const rawDairy = {
       Water: 0.4,
       Earth: 0.4,
       Air: 0.1
-},
+    },
     astrologicalProfile: {
       rulingPlanets: ['Venus', 'Moon'],
       zodiacInfluence: ['Taurus', 'Cancer', 'Libra'],
@@ -496,7 +507,7 @@ const rawDairy = {
           waxing: 'creamier texture, milder flavor',
           full: 'perfect balance of richness and tang',
           waning: 'more pronounced tanginess'
-}
+        }
       }
     },
     lunarPhaseModifiers: {
@@ -504,13 +515,13 @@ const rawDairy = {
         elementalBoost: {
           Water: 0.1,
           Earth: 0.1
-},
+        },
         preparationTips: ['Best for starting fresh batches', 'Creates milder flavor profile']
       },
       'Full Moon': {
         elementalBoost: {
           Earth: 0.2
-},
+        },
         preparationTips: ['Optimal richness and texture', 'Best structure for baking']
       }
     },
@@ -527,34 +538,37 @@ const rawDairy = {
       'energy dense': 'Provides concentrated calories from fat',
       'fat-soluble vitamins': 'Contains vitamins A and D',
       'calcium source': 'Contributes to daily calcium needs',
-      satiety: 'High fat content increases feeling of fullness' },
-        varieties: {
+      satiety: 'High fat content increases feeling of fullness'
+    },
+    varieties: {
       'full-fat': {
         texture: 'Richest, creamiest',
         moisture: 'Medium-high',
         fat: 'High (33%+)',
         uses: 'Cheesecake, frostings, traditional applications',
         notes: 'Best flavor and baking performance'
-},
+      },
       'reduced-fat': {
         texture: 'Slightly less creamy, softer',
         moisture: 'High',
         fat: 'Medium',
         uses: 'Everyday spreading, lighter applications',
-        notes: 'Common supermarket variety' },
-        whipped: {
+        notes: 'Common supermarket variety'
+      },
+      whipped: {
         texture: 'Lighter, fluffier',
         moisture: 'Medium',
         fat: 'Medium-high',
         uses: 'Spreading, dipping, when lighter texture desired',
-        notes: 'Incorporates air, easier to spread cold' },
-        cultured: {
+        notes: 'Incorporates air, easier to spread cold'
+      },
+      cultured: {
         texture: 'Traditional, more complex',
         moisture: 'Medium',
         fat: 'High',
         uses: 'Gourmet applications, artisanal preparations',
         notes: 'More traditional method with complex flavor'
-}
+      }
     },
     culinaryApplications: {
       spread: {
@@ -590,7 +604,7 @@ const rawDairy = {
       storebought: {
         selection: 'Choose block style for baking, whipped for spreading',
         preparation: 'Bring to room temperature before using in recipes'
-}
+      }
     },
     storage: {
       container: 'Original foil wrapper or airtight container',
@@ -598,20 +612,23 @@ const rawDairy = {
       temperature: {
         fahrenheit: 38,
         celsius: 3.3
-},
-      notes: 'Can be frozen for up to 2 months but texture may change' },
-        culturalSignificance: {
+      },
+      notes: 'Can be frozen for up to 2 months but texture may change'
+    },
+    culturalSignificance: {
       american: {
         role: 'Iconic breakfast spread popularized in New York',
         pairings: 'Bagels, lox, capers, red onion, tomato',
-        dishes: 'Cheesecake, cream cheese frosting, dips' },
-        european: {
+        dishes: 'Cheesecake, cream cheese frosting, dips'
+      },
+      european: {
         role: 'Traditional fresh cheese in many regional varieties',
         pairings: 'Herbs, fruits, honey, nuts',
-        dishes: 'Pastries, tarts, savory spreads' },
-        modern: {
+        dishes: 'Pastries, tarts, savory spreads'
+      },
+      modern: {
         role: 'Versatile ingredient in contemporary cooking and baking',
-        adaptations: 'Vegan alternatives, flavored varieties, as cooking ingredient',
+        adaptations: 'Vegan alternatives, flavored varieties, as cooking ingredient'
       }
     },
     affinities: {
@@ -625,7 +642,7 @@ const rawDairy = {
       savory: ['chives', 'dill', 'garlic powder', 'everything bagel seasoning', 'black pepper']
     }
   }
-}
+};
 
 // Fix the ingredient mappings to ensure they have all required properties
-export const dairy: Record<string, IngredientMapping> = fixIngredientMappings(rawDairy)
+export const, dairy: Record<string, IngredientMapping> = fixIngredientMappings(rawDairy);

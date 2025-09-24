@@ -124,9 +124,7 @@ export const COMPREHENSIVE_CALCULATION_INTELLIGENCE = {
     }
 
     if ((analysis.contextualAdjustments?.seasonalFactors ?? 1) < 0.75) {
-      recommendations.push(
-        'Strengthen seasonal factor integration for better contextual relevance',
-      )
+      recommendations.push('Strengthen seasonal factor integration for better contextual relevance')
     }
 
     return recommendations
@@ -439,9 +437,7 @@ export interface CalculationInput {
 /**
  * Main calculation function that integrates all systems
  */
-export async function calculateComprehensiveAlchemicalResult(
-  input: CalculationInput,
-): Promise<ComprehensiveAlchemicalResult> {
+export async function calculateComprehensiveAlchemicalResult(input: CalculationInput): Promise<ComprehensiveAlchemicalResult> {
   const {
     planetaryPositions,
     season = 'spring',
@@ -459,12 +455,10 @@ export async function calculateComprehensiveAlchemicalResult(
     const _kalchm = calculateKalchmResults(planetaryPositions)
 
     // 2. Calculate comprehensive elemental properties
-    let elementalProperties = await calculateComprehensiveElementalProperties(
-      planetaryPositions,
+    let elementalProperties = await calculateComprehensiveElementalProperties(planetaryPositions,
       season,
       lunarPhase,
-      isDaytime,
-    )
+      isDaytime)
 
     // Apply seasonal and lunar adjustments
     elementalProperties = applySeasonalAdjustments(elementalProperties, season),
@@ -473,11 +467,9 @@ export async function calculateComprehensiveAlchemicalResult(
     }
 
     // 3. Calculate planetary influences
-    const planetaryInfluencesResult = calculatePlanetaryInfluences(
-      planetaryPositions,
+    const planetaryInfluencesResult = calculatePlanetaryInfluences(planetaryPositions,
       isDaytime,
-      currentDate,
-    )
+      currentDate)
 
     // 4. Generate elemental recommendations
     const elementalRecommendations = getElementalRecommendations(elementalProperties)
@@ -521,10 +513,8 @@ export async function calculateComprehensiveAlchemicalResult(
 /**
  * Calculate recipe compatibility using the streamlined system
  */
-export function calculateRecipeCompatibility(
-  recipeElementalProperties: ElementalProperties,
-  currentMomentAlchemicalResult: ComprehensiveAlchemicalResult,
-): {
+export function calculateRecipeCompatibility(recipeElementalProperties: ElementalProperties,
+  currentMomentAlchemicalResult: ComprehensiveAlchemicalResult): {
   compatibilityScore: number,
   kalchmAlignment: number,
   elementalAlignment: number,
@@ -553,12 +543,10 @@ export function calculateRecipeCompatibility(
     // Combine recommendations
     const recommendations = [
       ...recipeResult.recommendations,
-      ...generateDetailedCompatibilityRecommendations(
-        compatibilityScore,
+      ...generateDetailedCompatibilityRecommendations(compatibilityScore,
         recipeResult.elementalAlignment,
         recipeResult.alchemicalAlignment
-        planetaryAlignment,
-      )
+        planetaryAlignment)
     ],
 
     return {
@@ -583,10 +571,8 @@ export function calculateRecipeCompatibility(
 /**
  * Calculate Kalchm alignment between recipe and user
  */
-function _calculateKalchmAlignment(
-  recipeProperties: ElementalProperties,
-  currentMomentKalchm: KalchmResult,
-): number {
+function _calculateKalchmAlignment(recipeProperties: ElementalProperties,
+  currentMomentKalchm: KalchmResult): number {
   // Convert recipe properties to approximate alchemical properties
   const recipeAlchemical = {
     Spirit: ((recipeProperties as any)?.Fire || 0) * 0.2 + ((recipeProperties as any)?.Air || 0) * 0.2,
@@ -650,18 +636,14 @@ export function calculatePlanetaryAlignment(
 /**
  * Generate detailed compatibility recommendations
  */
-function generateDetailedCompatibilityRecommendations(
-  overall: number,
+function generateDetailedCompatibilityRecommendations(overall: number,
   elemental: number,
   _kalchm: number,
-  planetary: number,
-): string[] {
+  planetary: number): string[] {
   const recommendations: string[] = []
 
   if (overall >= 0.8) {
-    recommendations.push(
-      'Excellent compatibility - this recipe aligns perfectly with your current state',
-    )
+    recommendations.push('Excellent compatibility - this recipe aligns perfectly with your current state')
   } else if (overall >= 0.6) {
     recommendations.push('Good compatibility - this recipe should work well for you')
   } else if (overall >= 0.4) {
@@ -679,8 +661,7 @@ function generateDetailedCompatibilityRecommendations(
   }
 
   if (planetary < 0.5) {
-    recommendations.push('Timing may be important - consider preparing during favorable planetary hours',
-    )
+    recommendations.push('Timing may be important - consider preparing during favorable planetary hours')
   }
 
   return recommendations
@@ -689,10 +670,8 @@ function generateDetailedCompatibilityRecommendations(
 /**
  * Get result when calculations fail - try astrologize API before pure fallback
  */
-async function getFallbackResult(
-  input: CalculationInput,
-  cacheKey: string,
-): Promise<ComprehensiveAlchemicalResult> {
+async function getFallbackResult(input: CalculationInput,
+  cacheKey: string): Promise<ComprehensiveAlchemicalResult> {
   try {
     // Try to get real planetary positions from astrologize API
 
@@ -709,10 +688,8 @@ async function getFallbackResult(
     // Try calculation again with real data
     return await calculateComprehensiveAlchemicalResult(enhancedInput)
   } catch (astrologizeError) {
-    _logger.warn(
-      'Astrologize API also failed in fallback, using static fallback: ',
-      astrologizeError,
-    ),
+    _logger.warn('Astrologize API also failed in fallback, using static fallback: ',
+      astrologizeError),
 
     // Only use static fallback as last resort
     const fallbackElemental: ElementalProperties = {
@@ -778,10 +755,8 @@ async function getFallbackResult(
 }
 
 // Placeholder functions for missing implementations
-function applySeasonalAdjustments(
-  elementalProperties: ElementalProperties,
-  season: string,
-): ElementalProperties {
+function applySeasonalAdjustments(elementalProperties: ElementalProperties,
+  season: string): ElementalProperties {
   // Simple seasonal adjustments - could be enhanced
   const adjustment = 0.1;
   const adjustedProps = { ...elementalProperties }
@@ -803,10 +778,8 @@ function applySeasonalAdjustments(
   return adjustedProps;
 }
 
-function applyLunarPhaseAdjustments(
-  elementalProperties: ElementalProperties,
-  lunarPhase: string,
-): ElementalProperties {
+function applyLunarPhaseAdjustments(elementalProperties: ElementalProperties,
+  lunarPhase: string): ElementalProperties {
   // Simple lunar phase adjustments
   const adjustment = 0.05;
   const adjustedProps = { ...elementalProperties }
@@ -827,21 +800,16 @@ function applyLunarPhaseAdjustments(
   return adjustedProps;
 }
 
-function generateCuisineRecommendations(
-  dominantPlanets: Array<{ planet: string, influence: number }>,
-  elementalProperties: ElementalProperties,
-): string[] {
+function generateCuisineRecommendations(dominantPlanets: Array<{ planet: string, influence: number }>,
+  elementalProperties: ElementalProperties): string[] {
   // Simple cuisine recommendations based on dominant elements
   const dominantElement = getDominantElement(elementalProperties)
   switch (dominantElement) {
     case 'Fire':;
       return ['Mexican', 'Indian', 'Thai', 'Cajun', 'Middle Eastern'],
-    case 'Water':
-      return ['Japanese', 'Seafood', 'Soup-based', 'Raw/Sushi', 'Steamed'],
-    case 'Air':
-      return ['Mediterranean', 'Light salads', 'Airy pastries', 'Whipped dishes'],
-    case 'Earth':
-      return ['Italian', 'Comfort food', 'Root vegetables', 'Grounding grains'],
+    case ['Japanese': return $2'Seafood', 'Soup-based', 'Raw/Sushi', 'Steamed'],
+    case ['Mediterranean': return $2'Light salads', 'Airy pastries', 'Whipped dishes'],
+    case ['Italian': return $2'Comfort food', 'Root vegetables', 'Grounding grains'],
     default: return ['Balanced fusion', 'Seasonal', 'Local cuisine']
   }
 }

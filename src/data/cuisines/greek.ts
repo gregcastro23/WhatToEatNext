@@ -1,10 +1,11 @@
 // src/data/cuisines/greek.ts
 import type { Cuisine } from '@/types/cuisine';
 
-export const greek: Cuisine = {
+export const, greek: Cuisine = {
   id: 'greek',
   name: 'Greek',
-  description: 'Traditional Greek cuisine emphasizing fresh ingredients, olive oil, herbs, and regional specialties from mainland to islands',
+  description:
+    'Traditional Greek cuisine emphasizing fresh ingredients, olive oil, herbs, and regional specialties from mainland to islands',
   dishes: {
     breakfast: {
       all: [
@@ -29,7 +30,7 @@ export const greek: Cuisine = {
               unit: 'sheets',
               category: 'pastry',
               swaps: ['gluten-free phyllo']
-            }
+            },
             { name: 'semolina', amount: '200', unit: 'g', category: 'grain' },
             { name: 'milk', amount: '750', unit: 'ml', category: 'dairy', swaps: ['almond milk'] },
             { name: 'eggs', amount: '3', unit: 'large', category: 'protein' },
@@ -45,7 +46,8 @@ export const greek: Cuisine = {
           allergens: ['gluten', 'dairy', 'eggs'],
           prepTime: '25 minutes',
           cookTime: '20 minutes',
-          culturalNotes: 'A beloved Greek breakfast pastry with origins in Byzantine cuisine, particularly associated with Thessaloniki',
+          culturalNotes:
+            'A beloved Greek breakfast pastry with origins in Byzantine cuisine, particularly associated with Thessaloniki',
           pairingSuggestions: ['Greek coffee', 'fresh orange juice', 'honey'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -64,8 +66,8 @@ export const greek: Cuisine = {
             Water: 0.2,
             Air: 0.2,
             Fire: 0.1
-}
-        }
+          }
+        },
         {
           name: 'Greek Yogurt with Honey',
           description: 'Thick strained yogurt with honey, walnuts and seasonal fruit',
@@ -86,7 +88,7 @@ export const greek: Cuisine = {
               unit: 'g',
               category: 'dairy',
               swaps: ['coconut yogurt']
-            }
+            },
             { name: 'honey', amount: '2', unit: 'tbsp', category: 'sweetener' },
             { name: 'walnuts', amount: '30', unit: 'g', category: 'nuts' },
             {
@@ -95,7 +97,7 @@ export const greek: Cuisine = {
               unit: 'whole',
               category: 'fruit',
               swaps: ['any seasonal fruit']
-            }
+            },
             { name: 'cinnamon', amount: '1/4', unit: 'tsp', category: 'spice', optional: true }
           ],
           substitutions: {
@@ -107,7 +109,8 @@ export const greek: Cuisine = {
           allergens: ['dairy', 'tree nuts'],
           prepTime: '5 minutes',
           cookTime: '0 minutes',
-          culturalNotes: 'A traditional Greek breakfast that showcases the country's famous thick strained yogurt and local honey. Often served as a healthy dessert option as well',
+          culturalNotes:
+            'A traditional Greek breakfast that showcases the country's famous thick strained yogurt and local honey. Often served as a healthy dessert option as well',
           pairingSuggestions: ['Greek coffee', 'fresh fruit', 'rusks'],
           dietaryInfo: ['vegetarian', 'gluten-free', 'probiotic'],
           spiceLevel: 'none',
@@ -126,8 +129,8 @@ export const greek: Cuisine = {
             Earth: 0.3,
             Air: 0.2,
             Fire: 0.1
-}
-        }
+          }
+        },
         {
           name: 'Strapatsada',
           description: 'Traditional scrambled eggs with tomatoes, feta, and olive oil',
@@ -150,7 +153,7 @@ export const greek: Cuisine = {
               unit: 'large',
               category: 'protein',
               swaps: ['tofu scramble']
-            }
+            },
             { name: 'ripe tomatoes', amount: '3', unit: 'medium', category: 'vegetable' },
             {
               name: 'feta cheese',
@@ -158,7 +161,7 @@ export const greek: Cuisine = {
               unit: 'g',
               category: 'dairy',
               swaps: ['vegan feta']
-            }
+            },
             { name: 'olive oil', amount: '3', unit: 'tbsp', category: 'oil' },
             { name: 'dried oregano', amount: '1', unit: 'tsp', category: 'herb' },
             { name: 'black pepper', amount: '1/4', unit: 'tsp', category: 'seasoning' }
@@ -172,7 +175,8 @@ export const greek: Cuisine = {
           allergens: ['eggs', 'dairy'],
           prepTime: '10 minutes',
           cookTime: '15 minutes',
-          culturalNotes: 'A rustic breakfast dish that makes use of Greece's abundant tomatoes and olive oil. Popular throughout the Peloponnese region',
+          culturalNotes:
+            'A rustic breakfast dish that makes use of Greece's abundant tomatoes and olive oil. Popular throughout the Peloponnese region',
           pairingSuggestions: ['crusty bread', 'olives', 'Greek coffee'],
           dietaryInfo: ['vegetarian', 'gluten-free'],
           spiceLevel: 'mild',
@@ -191,7 +195,7 @@ export const greek: Cuisine = {
             Earth: 0.3,
             Air: 0.2,
             Water: 0.2
-}
+          }
         }
       ],
       summer: [
@@ -206,7 +210,7 @@ export const greek: Cuisine = {
               unit: 'pieces',
               category: 'bread',
               swaps: ['gluten-free rusks']
-            }
+            },
             { name: 'tomatoes', amount: '2', unit: 'medium', category: 'vegetable' },
             { name: 'olive oil', amount: '4', unit: 'tbsp', category: 'oil' },
             { name: 'oregano', amount: '2', unit: 'tsp', category: 'herb' }
@@ -247,7 +251,7 @@ export const greek: Cuisine = {
             Fire: 0.3,
             Air: 0.2,
             Water: 0.1
-}
+          }
         }
       ]
     },
@@ -285,7 +289,8 @@ export const greek: Cuisine = {
           allergens: [],
           prepTime: '20 minutes',
           cookTime: '2 hours',
-          culturalNotes: 'A traditional Greek dish often served at celebrations and family gatherings',
+          culturalNotes:
+            'A traditional Greek dish often served at celebrations and family gatherings',
           pairingSuggestions: ['Greek salad', 'tzatziki', 'pita bread'],
           dietaryInfo: ['dairy-free'],
           spiceLevel: 'mild',
@@ -304,8 +309,8 @@ export const greek: Cuisine = {
             Earth: 0.3,
             Air: 0.2,
             Water: 0.2
-}
-        }
+          }
+        },
         {
           name: 'Horiatiki',
           description: 'Traditional Greek village salad with tomatoes, cucumbers, and feta',
@@ -331,7 +336,7 @@ export const greek: Cuisine = {
               unit: 'g',
               category: 'dairy',
               swaps: ['vegan feta']
-            }
+            },
             { name: 'Kalamata olives', amount: '100', unit: 'g', category: 'vegetable' },
             { name: 'olive oil', amount: '60', unit: 'ml', category: 'oil' },
             { name: 'dried oregano', amount: '1', unit: 'tbsp', category: 'herb' }
@@ -345,7 +350,8 @@ export const greek: Cuisine = {
           allergens: ['dairy'],
           prepTime: '15 minutes',
           cookTime: '0 minutes',
-          culturalNotes: 'The authentic Greek salad never includes lettuce. It's a summer dish that celebrates the ripeness of Mediterranean vegetables',
+          culturalNotes:
+            'The authentic Greek salad never includes lettuce. It's a summer dish that celebrates the ripeness of Mediterranean vegetables',
           pairingSuggestions: ['crusty bread', 'grilled meat', 'white wine'],
           dietaryInfo: ['vegetarian', 'gluten-free', 'low-carb'],
           spiceLevel: 'none',
@@ -401,7 +407,8 @@ export const greek: Cuisine = {
           allergens: ['none'],
           prepTime: '45 minutes',
           cookTime: '90 minutes',
-          culturalNotes: 'A summer favorite that makes use of garden vegetables. Each Greek household has its own version of the filling',
+          culturalNotes:
+            'A summer favorite that makes use of garden vegetables. Each Greek household has its own version of the filling',
           pairingSuggestions: ['feta cheese', 'crusty bread', 'Greek yogurt'],
           dietaryInfo: ['vegan', 'gluten-free'],
           spiceLevel: 'none',
@@ -443,7 +450,7 @@ export const greek: Cuisine = {
               unit: 'g',
               category: 'protein',
               swaps: ['beef', 'plant-based meat']
-            }
+            },
             { name: 'tomatoes', amount: '400', unit: 'g', category: 'vegetable' },
             { name: 'onions', amount: '2', unit: 'large', category: 'vegetable' },
             { name: 'butter', amount: '100', unit: 'g', category: 'dairy' },
@@ -462,7 +469,8 @@ export const greek: Cuisine = {
           allergens: ['dairy', 'eggs', 'gluten'],
           prepTime: '60 minutes',
           cookTime: '45 minutes',
-          culturalNotes: 'A refined dish popularized in its current form by chef Nikolaos Tselementes in the 1920s, combining Greek and French culinary traditions',
+          culturalNotes:
+            'A refined dish popularized in its current form by chef Nikolaos Tselementes in the 1920s, combining Greek and French culinary traditions',
           pairingSuggestions: ['Greek red wine', 'village salad', 'crusty bread'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'mild',
@@ -476,7 +484,7 @@ export const greek: Cuisine = {
           },
           season: ['all'],
           mealType: ['dinner']
-        }
+        },
         {
           name: 'Spanakopita',
           description: 'Flaky phyllo pastry filled with spinach, herbs, and feta cheese',
@@ -500,7 +508,7 @@ export const greek: Cuisine = {
               unit: 'package',
               category: 'pastry',
               swaps: ['gluten-free phyllo']
-            }
+            },
             { name: 'spinach', amount: '1', unit: 'kg', category: 'vegetable' },
             {
               name: 'feta cheese',
@@ -508,7 +516,7 @@ export const greek: Cuisine = {
               unit: 'g',
               category: 'dairy',
               swaps: ['tofu feta']
-            }
+            },
             { name: 'dill', amount: '1', unit: 'bunch', category: 'herb' },
             { name: 'green onions', amount: '6', unit: 'whole', category: 'vegetable' },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein', swaps: ['flax eggs'] },
@@ -523,7 +531,8 @@ export const greek: Cuisine = {
           allergens: ['dairy', 'gluten', 'eggs'],
           prepTime: '45 minutes',
           cookTime: '45 minutes',
-          culturalNotes: 'A traditional pie that showcases Greece's love for wild greens and feta. Often made by village women using foraged greens',
+          culturalNotes:
+            'A traditional pie that showcases Greece's love for wild greens and feta. Often made by village women using foraged greens',
           pairingSuggestions: ['Greek white wine', 'tzatziki', 'village salad'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -537,7 +546,7 @@ export const greek: Cuisine = {
           },
           season: ['winter', 'spring'],
           mealType: ['lunch', 'dinner', 'appetizer']
-        }
+        },
         {
           name: 'Pastitsio',
           description: 'Baked pasta casserole with spiced meat sauce and béchamel',
@@ -559,14 +568,14 @@ export const greek: Cuisine = {
               unit: 'g',
               category: 'pasta',
               swaps: ['penne', 'ziti']
-            }
+            },
             {
               name: 'ground beef',
               amount: '750',
               unit: 'g',
               category: 'protein',
               swaps: ['lamb', 'plant-based meat']
-            }
+            },
             { name: 'onions', amount: '2', unit: 'medium', category: 'vegetable' },
             { name: 'tomato paste', amount: '70', unit: 'g', category: 'vegetable' },
             { name: 'butter', amount: '100', unit: 'g', category: 'dairy' },
@@ -585,7 +594,8 @@ export const greek: Cuisine = {
           allergens: ['dairy', 'eggs', 'gluten'],
           prepTime: '45 minutes',
           cookTime: '45 minutes',
-          culturalNotes: 'A Greek interpretation of Italian baked pasta, enriched with spices that reflect the country's position between East and West',
+          culturalNotes:
+            'A Greek interpretation of Italian baked pasta, enriched with spices that reflect the country's position between East and West',
           pairingSuggestions: ['Greek red wine', 'simple green salad', 'crusty bread'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'mild',
@@ -599,7 +609,7 @@ export const greek: Cuisine = {
           },
           season: ['all'],
           mealType: ['dinner']
-        }
+        },
         {
           name: 'Dolmades',
           description: 'Grape leaves stuffed with rice, herbs, and optional meat',
@@ -632,7 +642,8 @@ export const greek: Cuisine = {
           allergens: ['none'],
           prepTime: '60 minutes',
           cookTime: '45 minutes',
-          culturalNotes: 'A dish with ancient origins, dolmades are found throughout the Mediterranean and Middle East, each region having its own variation',
+          culturalNotes:
+            'A dish with ancient origins, dolmades are found throughout the Mediterranean and Middle East, each region having its own variation',
           pairingSuggestions: ['tzatziki', 'lemon wedges', 'Greek white wine'],
           dietaryInfo: ['vegan', 'gluten-free'],
           spiceLevel: 'none',
@@ -646,7 +657,7 @@ export const greek: Cuisine = {
           },
           season: ['spring', 'summer'],
           mealType: ['appetizer', 'side']
-        }
+        },
         {
           name: 'Galaktoboureko',
           description: 'Custard-filled phyllo pastry soaked in citrus syrup',
@@ -681,7 +692,8 @@ export const greek: Cuisine = {
           allergens: ['dairy', 'eggs', 'gluten'],
           prepTime: '45 minutes',
           cookTime: '45 minutes',
-          culturalNotes: 'A beloved dessert that showcases the Greek mastery of phyllo pastry and custard-making. The name literally means 'milk bourek'',
+          culturalNotes:
+            'A beloved dessert that showcases the Greek mastery of phyllo pastry and custard-making. The name literally means 'milk bourek'',
           pairingSuggestions: ['Greek coffee', 'tea'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -695,7 +707,7 @@ export const greek: Cuisine = {
           },
           season: ['all'],
           mealType: ['dessert']
-        }
+        },
         {
           name: 'Fasolada',
           description: 'Traditional Greek white bean soup with vegetables',
@@ -728,7 +740,8 @@ export const greek: Cuisine = {
           allergens: ['none'],
           prepTime: 'overnight + 20 minutes',
           cookTime: '90 minutes',
-          culturalNotes: 'Often called Greece's national dish, this hearty soup has sustained generations through both prosperity and hardship',
+          culturalNotes:
+            'Often called Greece's national dish, this hearty soup has sustained generations through both prosperity and hardship',
           pairingSuggestions: ['crusty bread', 'olives', 'feta cheese', 'red wine'],
           dietaryInfo: ['vegan', 'gluten-free'],
           spiceLevel: 'none',
@@ -742,7 +755,7 @@ export const greek: Cuisine = {
           },
           season: ['autumn', 'winter'],
           mealType: ['lunch', 'dinner']
-        }
+        },
         {
           name: 'Youvetsi',
           description: 'Baked orzo pasta with lamb in tomato sauce',
@@ -764,7 +777,7 @@ export const greek: Cuisine = {
               unit: 'kg',
               category: 'protein',
               swaps: ['beef']
-            }
+            },
             { name: 'orzo pasta', amount: '500', unit: 'g', category: 'pasta' },
             { name: 'onions', amount: '2', unit: 'medium', category: 'vegetable' },
             { name: 'garlic', amount: '4', unit: 'cloves', category: 'vegetable' },
@@ -781,7 +794,8 @@ export const greek: Cuisine = {
           allergens: ['gluten'],
           prepTime: '30 minutes',
           cookTime: '2 hours',
-          culturalNotes: 'A hearty one-pot meal that showcases the Greek love of pasta dishes and slow-cooked meats',
+          culturalNotes:
+            'A hearty one-pot meal that showcases the Greek love of pasta dishes and slow-cooked meats',
           pairingSuggestions: ['grated kefalotyri cheese', 'Greek red wine', 'simple salad'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'mild',
@@ -795,7 +809,7 @@ export const greek: Cuisine = {
           },
           season: ['autumn', 'winter'],
           mealType: ['dinner']
-        }
+        },
         {
           name: 'Revithia',
           description: 'Traditional Greek chickpea soup with lemon and herbs',
@@ -828,7 +842,8 @@ export const greek: Cuisine = {
           allergens: ['none'],
           prepTime: 'overnight + 15 minutes',
           cookTime: '90 minutes',
-          culturalNotes: 'A staple of Greek fasting periods, this hearty soup demonstrates the simplicity and nutrition of Mediterranean cooking',
+          culturalNotes:
+            'A staple of Greek fasting periods, this hearty soup demonstrates the simplicity and nutrition of Mediterranean cooking',
           pairingSuggestions: ['crusty bread', 'olives', 'raw onion', 'olive oil'],
           dietaryInfo: ['vegan', 'gluten-free'],
           spiceLevel: 'none',
@@ -842,7 +857,7 @@ export const greek: Cuisine = {
           },
           season: ['autumn', 'winter'],
           mealType: ['lunch', 'dinner']
-        }
+        },
         {
           name: 'Gigantes Plaki',
           description: 'Baked giant beans in tomato sauce with herbs',
@@ -864,7 +879,7 @@ export const greek: Cuisine = {
               unit: 'g',
               category: 'legume',
               swaps: ['lima beans']
-            }
+            },
             { name: 'tomatoes', amount: '800', unit: 'g', category: 'vegetable' },
             { name: 'carrots', amount: '2', unit: 'medium', category: 'vegetable' },
             { name: 'celery', amount: '2', unit: 'stalks', category: 'vegetable' },
@@ -881,7 +896,8 @@ export const greek: Cuisine = {
           allergens: ['none'],
           prepTime: 'overnight + 20 minutes',
           cookTime: '2 hours',
-          culturalNotes: 'A classic dish from Macedonia and northern Greece, showcasing the region's famous giant beans',
+          culturalNotes:
+            'A classic dish from Macedonia and northern Greece, showcasing the region's famous giant beans',
           pairingSuggestions: ['feta cheese', 'crusty bread', 'Greek wine'],
           dietaryInfo: ['vegan', 'gluten-free'],
           spiceLevel: 'none',
@@ -895,7 +911,7 @@ export const greek: Cuisine = {
           },
           season: ['all'],
           mealType: ['main', 'meze']
-        }
+        },
         {
           name: 'Keftedes',
           description: 'Greek meatballs with herbs and spices',
@@ -929,7 +945,8 @@ export const greek: Cuisine = {
           allergens: ['gluten', 'dairy'],
           prepTime: '45 minutes',
           cookTime: '20 minutes',
-          culturalNotes: 'A popular meze that appears at most Greek celebrations. The mint and dried oregano give them their distinctive flavor',
+          culturalNotes:
+            'A popular meze that appears at most Greek celebrations. The mint and dried oregano give them their distinctive flavor',
           pairingSuggestions: ['tzatziki', 'lemon wedges', 'pita bread'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'mild',
@@ -943,7 +960,7 @@ export const greek: Cuisine = {
           },
           season: ['all'],
           mealType: ['appetizer', 'main']
-        }
+        },
         {
           name: 'Galatopita',
           description: 'Traditional milk pie with phyllo and vanilla custard',
@@ -976,7 +993,8 @@ export const greek: Cuisine = {
           allergens: ['dairy', 'eggs', 'gluten'],
           prepTime: '30 minutes',
           cookTime: '45 minutes',
-          culturalNotes: 'A comforting dessert that combines the Greek love of custard with phyllo pastry. Often served room temperature',
+          culturalNotes:
+            'A comforting dessert that combines the Greek love of custard with phyllo pastry. Often served room temperature',
           pairingSuggestions: ['Greek coffee', 'cinnamon', 'powdered sugar'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -990,7 +1008,7 @@ export const greek: Cuisine = {
           },
           season: ['all'],
           mealType: ['dessert']
-        }
+        },
         {
           name: 'Skordalia',
           description: 'Garlic and potato dip with olive oil',
@@ -1022,7 +1040,8 @@ export const greek: Cuisine = {
           allergens: ['nuts (if using)'],
           prepTime: '20 minutes',
           cookTime: '20 minutes',
-          culturalNotes: 'A powerful garlic dip traditionally served with fried fish or vegetables. Regional variations use bread or nuts instead of potatoes',
+          culturalNotes:
+            'A powerful garlic dip traditionally served with fried fish or vegetables. Regional variations use bread or nuts instead of potatoes',
           pairingSuggestions: ['fried cod', 'beetroot', 'bread', 'raw vegetables'],
           dietaryInfo: ['vegan', 'gluten-free'],
           spiceLevel: 'medium',
@@ -1036,7 +1055,7 @@ export const greek: Cuisine = {
           },
           season: ['all'],
           mealType: ['appetizer', 'sauce']
-        }
+        },
         {
           name: 'Melitzanosalata',
           description: 'Smoky eggplant dip with garlic and olive oil',
@@ -1063,7 +1082,7 @@ export const greek: Cuisine = {
               unit: 'small',
               category: 'vegetable',
               optional: true
-}
+            }
           ],
           substitutions: {
             eggplants: ['roasted red peppers'],
@@ -1074,7 +1093,8 @@ export const greek: Cuisine = {
           allergens: ['none'],
           prepTime: '15 minutes',
           cookTime: '30 minutes',
-          culturalNotes: 'A smoky dip that showcases the Greek mastery of eggplant preparation. The charring process is crucial for authentic flavor',
+          culturalNotes:
+            'A smoky dip that showcases the Greek mastery of eggplant preparation. The charring process is crucial for authentic flavor',
           pairingSuggestions: ['pita bread', 'crudités', 'grilled meat'],
           dietaryInfo: ['vegan', 'gluten-free'],
           spiceLevel: 'mild',
@@ -1110,12 +1130,13 @@ export const greek: Cuisine = {
         Earth: 0.2,
         Air: 0.2,
         Fire: 0.0
-},
+      },
       astrologicalInfluences: ['Moon', 'Venus', 'Cancer'],
       seasonality: 'all',
       preparationNotes: 'Properly draining the cucumber is key to a thick consistency',
-      technicalTips: 'Salt and drain cucumbers for at least 30 minutes before mixing' },
-        avgolemono: {
+      technicalTips: 'Salt and drain cucumbers for at least 30 minutes before mixing'
+    },
+    avgolemono: {
       name: 'Avgolemono',
       description: 'Silky egg and lemon sauce that thickens soups and stews',
       base: 'eggs and lemon',
@@ -1127,12 +1148,13 @@ export const greek: Cuisine = {
         Air: 0.3,
         Fire: 0.2,
         Earth: 0.1
-},
+      },
       astrologicalInfluences: ['Mercury', 'Moon', 'Gemini'],
       seasonality: 'winter, spring',
       preparationNotes: 'The key is to temper the eggs properly to avoid curdling',
-      technicalTips: 'Add hot broth to eggs very slowly while whisking constantly' },
-        ladolemono: {
+      technicalTips: 'Add hot broth to eggs very slowly while whisking constantly'
+    },
+    ladolemono: {
       name: 'Ladolemono',
       description: 'Simple but powerful emulsion of olive oil and lemon juice',
       base: 'olive oil and lemon',
@@ -1149,12 +1171,13 @@ export const greek: Cuisine = {
         Fire: 0.2,
         Earth: 0.2,
         Water: 0.1
-},
+      },
       astrologicalInfluences: ['Sun', 'Mercury', 'Leo'],
       seasonality: 'all',
       preparationNotes: 'The ratio is typically 3 parts oil to 1 part lemon juice',
-      technicalTips: 'Whisk vigorously or blend for proper emulsification' },
-        skordalia: {
+      technicalTips: 'Whisk vigorously or blend for proper emulsification'
+    },
+    skordalia: {
       name: 'Skordalia',
       description: 'Pungent garlic sauce made with potato, bread, or nuts',
       base: 'garlic and starch',
@@ -1166,12 +1189,13 @@ export const greek: Cuisine = {
         Fire: 0.3,
         Air: 0.2,
         Water: 0.1
-},
+      },
       astrologicalInfluences: ['Mars', 'Saturn', 'Aries'],
       seasonality: 'all',
       preparationNotes: 'Achieving the right balance of garlic is crucial - adjust to taste',
-      technicalTips: 'Slowly incorporate oil while blending for proper emulsification' },
-        htipiti: {
+      technicalTips: 'Slowly incorporate oil while blending for proper emulsification'
+    },
+    htipiti: {
       name: 'Htipiti',
       description: 'Spicy roasted red pepper and feta dip',
       base: 'roasted peppers and cheese',
@@ -1183,12 +1207,12 @@ export const greek: Cuisine = {
         Earth: 0.3,
         Water: 0.1,
         Air: 0.1
-},
+      },
       astrologicalInfluences: ['Mars', 'Sun', 'Leo'],
       seasonality: 'summer, autumn',
       preparationNotes: 'The smokiness of the peppers is essential for authentic flavor',
       technicalTips: 'Roast peppers directly over flame for best smoky taste'
-}
+    }
   },
   sauceRecommender: {
     forProtein: {
@@ -1251,7 +1275,7 @@ export const greek: Cuisine = {
       toolsRequired: ['charcoal grill', 'skewers', 'brush for oil', 'tongs'],
       bestFor: ['lamb', 'pork', 'chicken', 'seafood', 'vegetables'],
       difficulty: 'easy'
-}
+    },
     {
       name: 'Stifado',
       description: 'Slow-cooked stew with pearl onions, wine, and tomatoes',
@@ -1259,7 +1283,7 @@ export const greek: Cuisine = {
       toolsRequired: ['heavy pot', 'wooden spoon', 'sharp knife', 'measuring cups'],
       bestFor: ['beef', 'rabbit', 'game meat', 'octopus'],
       difficulty: 'medium'
-}
+    },
     {
       name: 'Sotirito',
       description: 'Shallow frying, often used for vegetables and fritters',
@@ -1267,7 +1291,7 @@ export const greek: Cuisine = {
       toolsRequired: ['heavy-bottomed pan', 'slotted spoon', 'paper towels', 'thermometer'],
       bestFor: ['zucchini fritters', 'eggplant', 'fish', 'meatballs'],
       difficulty: 'medium'
-}
+    },
     {
       name: 'Yiachni',
       description: 'Braising in tomato sauce with herbs and spices',
@@ -1275,7 +1299,7 @@ export const greek: Cuisine = {
       toolsRequired: ['Dutch oven', 'wooden spoon', 'sharp knife', 'measuring spoons'],
       bestFor: ['green beans', 'okra', 'rabbit', 'beef'],
       difficulty: 'easy'
-}
+    },
     {
       name: 'Plasto',
       description: 'Traditional pie-making technique with layered phyllo or other dough',
@@ -1283,45 +1307,49 @@ export const greek: Cuisine = {
       toolsRequired: ['baking pan', 'pastry brush', 'rolling pin', 'sharp knife'],
       bestFor: ['spinach pie', 'cheese pie', 'meat pie', 'vegetable pie'],
       difficulty: 'hard'
-}
+    }
   ],
   regionalCuisines: {
     crete: {
       name: 'Cretan Cuisine',
-      description: 'Focused on local ingredients, wild greens, olive oil, and rustic preparation methods',
+      description:
+        'Focused on local ingredients, wild greens, olive oil, and rustic preparation methods',
       signature: ['dakos', 'gamopilafo', 'staka', 'sfakian pie'],
       elementalProperties: { Earth: 0.5, Air: 0.2, Fire: 0.2, Water: 0.1 },
       astrologicalInfluences: ['Saturn', 'Jupiter', 'Taurus'],
-      seasonality: 'all' },
-        macedonia: {
+      seasonality: 'all'
+    },
+    macedonia: {
       name: 'Macedonian Cuisine',
       description: 'Northern Greek cuisine with strong Balkan influences and hearty dishes',
       signature: ['bougatsa', 'pastitsada', 'gigantes plaki', 'trahana soup'],
       elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Saturn', 'Mars', 'Capricorn'],
-      seasonality: 'all' },
-        cyclades: {
+      seasonality: 'all'
+    },
+    cyclades: {
       name: 'Cycladic Cuisine',
       description: 'Island cuisine featuring seafood, local cheeses, and sun-dried ingredients',
       signature: ['fava dip', 'kakavia fish soup', 'matsata pasta', 'louza cured pork'],
       elementalProperties: { Water: 0.5, Air: 0.3, Earth: 0.1, Fire: 0.1 },
       astrologicalInfluences: ['Neptune', 'Moon', 'Pisces'],
-      seasonality: 'all' },
-        peloponnese: {
+      seasonality: 'all'
+    },
+    peloponnese: {
       name: 'Peloponnesian Cuisine',
       description: 'Rich in olive oil, citrus, and slow-cooked meat and bean dishes',
       signature: ['rooster kokkinisto', 'diples', 'kagianas', 'lagoto rabbit stew'],
       elementalProperties: { Earth: 0.4, Fire: 0.3, Water: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Mars', 'Venus', 'Aries'],
       seasonality: 'all'
-}
+    }
   },
   elementalProperties: {
     Earth: 0.4,
     Water: 0.3,
     Fire: 0.2,
     Air: 0.1
-}
-}
+  }
+};
 
-export default greek,
+export default greek;

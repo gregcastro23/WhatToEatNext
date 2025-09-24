@@ -2,10 +2,11 @@
 import type { _, _ZodiacSign } from '@/types/alchemy';
 import type { Cuisine } from '@/types/cuisine';
 
-export const japanese: Cuisine = {
+export const, japanese: Cuisine = {
   id: 'japanese',
   name: 'Japanese',
-  description: 'Traditional Japanese cuisine emphasizing seasonal ingredients, harmony of flavors, and meticulous preparation techniques',
+  description:
+    'Traditional Japanese cuisine emphasizing seasonal ingredients, harmony of flavors, and meticulous preparation techniques',
   motherSauces: {
     dashi: {
       name: 'Dashi',
@@ -20,15 +21,16 @@ export const japanese: Cuisine = {
         Earth: 0.2,
         Air: 0.1,
         Fire: 0.1
-},
+      },
       astrologicalInfluences: ['Neptune', 'Moon', 'Pisces'],
       seasonality: 'all',
       preparationNotes: 'Never boil kombu, gently heat to extract umami without bitterness',
       technicalTips: 'Remove kombu before water boils, then add katsuobushi off heat',
       difficulty: 'easy',
       storageInstructions: 'Store refrigerated up to 3 days or freeze up to 1 month',
-      yield: '1 liter' },
-        tare: {
+      yield: '1 liter'
+    },
+    tare: {
       name: 'Tare',
       description: 'Concentrated seasoning sauce used as a flavoring base for many Japanese dishes',
       base: 'soy sauce',
@@ -41,7 +43,7 @@ export const japanese: Cuisine = {
         Water: 0.3,
         Fire: 0.2,
         Air: 0.1
-},
+      },
       astrologicalInfluences: ['Saturn', 'Mercury', 'Taurus'],
       seasonality: 'all',
       preparationNotes: 'Often simmered with aromatics like ginger, garlic, and scallions',
@@ -49,7 +51,7 @@ export const japanese: Cuisine = {
       difficulty: 'medium',
       storageInstructions: 'Store refrigerated up to 1 month',
       yield: '500 ml'
-}
+    }
   },
   dishes: {
     breakfast: {
@@ -76,14 +78,14 @@ export const japanese: Cuisine = {
               unit: 'g',
               category: 'grain',
               swaps: ['quinoa']
-            }
+            },
             {
               name: 'grilled mackerel',
               amount: '100',
               unit: 'g',
               category: 'protein',
               swaps: ['tofu', 'tempeh']
-            }
+            },
             { name: 'miso paste', amount: '1', unit: 'tbsp', category: 'seasoning' },
             { name: 'nori', amount: '1', unit: 'sheet', category: 'seaweed' },
             { name: 'pickled vegetables', amount: '30', unit: 'g', category: 'vegetable' },
@@ -104,7 +106,8 @@ export const japanese: Cuisine = {
           allergens: ['fish', 'egg', 'soy'],
           prepTime: '10 minutes',
           cookTime: '15 minutes',
-          culturalNotes: 'The traditional Japanese breakfast emphasizes balance and variety, with each component serving a specific nutritional and cultural purpose',
+          culturalNotes:
+            'The traditional Japanese breakfast emphasizes balance and variety, with each component serving a specific nutritional and cultural purpose',
           pairingSuggestions: ['green tea', 'miso soup', 'umeboshi'],
           dietaryInfo: ['pescatarian'],
           spiceLevel: 'mild',
@@ -124,7 +127,7 @@ export const japanese: Cuisine = {
             Earth: 0.3,
             Fire: 0.2,
             Air: 0.1
-},
+          },
           instructions: [
             'Cook rice in rice cooker',
             'Grill fish until skin is crispy and flesh is cooked through',
@@ -140,7 +143,7 @@ export const japanese: Cuisine = {
           },
           lunarPhaseInfluences: ['Full Moon', 'Third Quarter'],
           zodiacInfluences: ['Cancer', 'Pisces']
-        }
+        },
         {
           name: 'Tamagoyaki',
           description: 'Sweet-savory rolled Japanese omelette',
@@ -164,7 +167,7 @@ export const japanese: Cuisine = {
               unit: 'tbsp',
               category: 'broth',
               swaps: ['vegetable stock']
-            }
+            },
             { name: 'mirin', amount: '1', unit: 'tbsp', category: 'seasoning' },
             { name: 'soy sauce', amount: '1', unit: 'tsp', category: 'seasoning' },
             { name: 'sugar', amount: '1', unit: 'tsp', category: 'seasoning' }
@@ -198,8 +201,8 @@ export const japanese: Cuisine = {
             Air: 0.3,
             Earth: 0.2,
             Water: 0.1
-}
-        }
+          }
+        },
         {
           name: 'Natto Gohan',
           description: 'Fermented soybeans over rice with condiments',
@@ -223,7 +226,7 @@ export const japanese: Cuisine = {
               unit: 'large',
               category: 'protein',
               swaps: ['soft tofu']
-            }
+            },
             { name: 'green onion', amount: '1', unit: 'stalk', category: 'vegetable' },
             { name: 'soy sauce', amount: '1', unit: 'tsp', category: 'seasoning' },
             { name: 'karashi mustard', amount: '1/4', unit: 'tsp', category: 'condiment' }
@@ -257,7 +260,7 @@ export const japanese: Cuisine = {
             Water: 0.3,
             Fire: 0.2,
             Air: 0.1
-}
+          }
         }
       ]
     },
@@ -293,14 +296,14 @@ export const japanese: Cuisine = {
               unit: 'g',
               category: 'protein',
               swaps: ['tempeh']
-            }
+            },
             {
               name: 'tuna mayo',
               amount: '100',
               unit: 'g',
               category: 'protein',
               swaps: ['mashed chickpea']
-            }
+            },
             { name: 'nori', amount: '2', unit: 'sheets', category: 'seaweed' }
           ],
           substitutions: {
@@ -332,7 +335,7 @@ export const japanese: Cuisine = {
             Water: 0.2,
             Fire: 0.2,
             Air: 0.1
-}
+          }
         }
       ],
       summer: [
@@ -357,7 +360,7 @@ export const japanese: Cuisine = {
               unit: 'g',
               category: 'grain',
               swaps: ['rice noodles']
-            }
+            },
             { name: 'ham', amount: '50', unit: 'g', category: 'protein', swaps: ['tofu'] },
             { name: 'cucumber', amount: '1', unit: 'medium', category: 'vegetable' },
             { name: 'egg', amount: '1', unit: 'large', category: 'protein' },
@@ -372,7 +375,7 @@ export const japanese: Cuisine = {
           allergens: ['egg', 'wheat', 'soy', 'sesame'],
           prepTime: '15 minutes',
           cookTime: '10 minutes',
-          culturalNotes: 'A refreshing summer dish that became popular in the post-war period. The colorful presentation is as important as the taste';,
+          culturalNotes: 'A refreshing summer dish that became popular in the post-war period. The colorful presentation is as important as the taste',
           pairingSuggestions: ['cold barley tea', 'gyoza', 'pickled ginger'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'mild',
@@ -392,8 +395,8 @@ export const japanese: Cuisine = {
             Air: 0.3,
             Earth: 0.2,
             Fire: 0.2
-}
-        }
+          }
+        },
         {
           name: 'Soba Salad',
           description: 'Chilled buckwheat noodles with seasonal vegetables',
@@ -415,7 +418,7 @@ export const japanese: Cuisine = {
               unit: 'g',
               category: 'grain',
               swaps: ['gluten-free soba']
-            }
+            },
             { name: 'mixed vegetables', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'sesame dressing', amount: '60', unit: 'ml', category: 'sauce' },
             { name: 'nori strips', amount: '2', unit: 'sheets', category: 'seaweed' },
@@ -430,7 +433,8 @@ export const japanese: Cuisine = {
           allergens: ['wheat', 'soy', 'sesame'],
           prepTime: '10 minutes',
           cookTime: '10 minutes',
-          culturalNotes: 'A modern take on traditional soba, popular in summer. The nutty flavor of buckwheat pairs well with fresh vegetables',
+          culturalNotes:
+            'A modern take on traditional soba, popular in summer. The nutty flavor of buckwheat pairs well with fresh vegetables',
           pairingSuggestions: ['cold tea', 'edamame', 'pickled vegetables'],
           dietaryInfo: ['vegetarian', 'vegan'],
           spiceLevel: 'none',
@@ -450,7 +454,7 @@ export const japanese: Cuisine = {
             Water: 0.3,
             Earth: 0.2,
             Fire: 0.1
-}
+          }
         }
       ],
       winter: [
@@ -488,7 +492,7 @@ export const japanese: Cuisine = {
             Fire: 0.3,
             Water: 0.2,
             Air: 0.1
-}
+          }
         }
       ]
     },
@@ -506,7 +510,7 @@ export const japanese: Cuisine = {
               unit: 'g',
               category: 'protein',
               swaps: ['marinated vegetables']
-            }
+            },
             { name: 'nori', amount: '4', unit: 'sheets', category: 'seaweed' },
             { name: 'wasabi', amount: '15', unit: 'g', category: 'condiment' },
             { name: 'pickled ginger', amount: '30', unit: 'g', category: 'pickle' }
@@ -527,7 +531,7 @@ export const japanese: Cuisine = {
             Earth: 0.3,
             Air: 0.2,
             Fire: 0.1
-}
+          }
         }
       ],
       winter: [
@@ -542,7 +546,7 @@ export const japanese: Cuisine = {
               unit: 'g',
               category: 'protein',
               swaps: ['mushrooms', 'tofu']
-            }
+            },
             { name: 'napa cabbage', amount: '300', unit: 'g', category: 'vegetable' },
             { name: 'shirataki noodles', amount: '200', unit: 'g', category: 'noodles' },
             { name: 'tofu', amount: '200', unit: 'g', category: 'protein' },
@@ -570,8 +574,8 @@ export const japanese: Cuisine = {
             Water: 0.3,
             Earth: 0.2,
             Air: 0.1
-}
-        }
+          }
+        },
         {
           name: 'Ramen',
           description: 'Rich miso ramen with chashu pork and vegetables',
@@ -583,14 +587,14 @@ export const japanese: Cuisine = {
               unit: 'g',
               category: 'grain',
               swaps: ['rice noodles']
-            }
+            },
             {
               name: 'chashu pork',
               amount: '100',
               unit: 'g',
               category: 'protein',
               swaps: ['marinated mushrooms']
-            }
+            },
             { name: 'miso broth', amount: '500', unit: 'ml', category: 'soup' },
             { name: 'corn', amount: '50', unit: 'g', category: 'vegetable' },
             { name: 'bamboo shoots', amount: '30', unit: 'g', category: 'vegetable' },
@@ -618,7 +622,7 @@ export const japanese: Cuisine = {
             Fire: 0.3,
             Earth: 0.2,
             Air: 0.1
-}
+          }
         }
       ],
       summer: [
@@ -633,7 +637,7 @@ export const japanese: Cuisine = {
               unit: 'g',
               category: 'protein',
               swaps: ['mushrooms', 'tofu']
-            }
+            },
             { name: 'green onion', amount: '4', unit: 'stalks', category: 'vegetable' },
             { name: 'tare sauce', amount: '100', unit: 'ml', category: 'sauce' },
             { name: 'shichimi togarashi', amount: '1', unit: 'tbsp', category: 'seasoning' }
@@ -654,8 +658,8 @@ export const japanese: Cuisine = {
             Air: 0.2,
             Earth: 0.2,
             Water: 0.1
-}
-        }
+          }
+        },
         {
           name: 'Oyakodon',
           description: 'Chicken and egg rice bowl with onions in dashi sauce',
@@ -684,7 +688,7 @@ export const japanese: Cuisine = {
               unit: 'g',
               category: 'protein',
               swaps: ['tofu']
-            }
+            },
             { name: 'eggs', amount: '4', unit: 'large', category: 'protein' },
             { name: 'onion', amount: '1', unit: 'large', category: 'vegetable' },
             { name: 'dashi', amount: '200', unit: 'ml', category: 'broth' },
@@ -700,7 +704,8 @@ export const japanese: Cuisine = {
           allergens: ['egg', 'soy'],
           prepTime: '15 minutes',
           cookTime: '20 minutes',
-          culturalNotes: 'Oyakodon means 'parent-and-child bowl', referring to the chicken and egg combination. A beloved comfort food in Japan',
+          culturalNotes:
+            'Oyakodon means 'parent-and-child bowl', referring to the chicken and egg combination. A beloved comfort food in Japan',
           pairingSuggestions: ['miso soup', 'pickled vegetables', 'green tea'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'none',
@@ -714,7 +719,7 @@ export const japanese: Cuisine = {
           },
           season: ['all'],
           mealType: ['lunch', 'dinner']
-        }
+        },
         {
           name: 'Okonomiyaki',
           description: 'Savory cabbage pancake with various toppings',
@@ -737,7 +742,7 @@ export const japanese: Cuisine = {
               unit: 'g',
               category: 'grain',
               swaps: ['all-purpose flour + dashi powder']
-            }
+            },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein' },
             {
               name: 'pork belly',
@@ -745,7 +750,7 @@ export const japanese: Cuisine = {
               unit: 'g',
               category: 'protein',
               swaps: ['mushrooms']
-            }
+            },
             { name: 'okonomiyaki sauce', amount: '4', unit: 'tbsp', category: 'sauce' },
             { name: 'mayonnaise', amount: '2', unit: 'tbsp', category: 'sauce' },
             { name: 'bonito flakes', amount: '10', unit: 'g', category: 'garnish', optional: true }
@@ -759,7 +764,8 @@ export const japanese: Cuisine = {
           allergens: ['wheat', 'egg', 'fish', 'soy'],
           prepTime: '20 minutes',
           cookTime: '15 minutes',
-          culturalNotes: 'A popular street food from Osaka. The name means 'grilled as you like it', reflecting its customizable nature',
+          culturalNotes:
+            'A popular street food from Osaka. The name means 'grilled as you like it', reflecting its customizable nature',
           pairingSuggestions: ['beer', 'sake', 'green tea'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'mild',
@@ -773,7 +779,7 @@ export const japanese: Cuisine = {
           },
           season: ['all'],
           mealType: ['lunch', 'dinner', 'street food']
-        }
+        },
         {
           name: 'Tempura',
           description: 'Light and crispy battered seafood and vegetables',
@@ -802,7 +808,7 @@ export const japanese: Cuisine = {
               unit: 'pieces',
               category: 'seafood',
               swaps: ['vegetables']
-            }
+            },
             { name: 'assorted vegetables', amount: '400', unit: 'g', category: 'vegetable' },
             {
               name: 'tempura flour',
@@ -810,7 +816,7 @@ export const japanese: Cuisine = {
               unit: 'g',
               category: 'grain',
               swaps: ['rice flour mix']
-            }
+            },
             { name: 'ice water', amount: '200', unit: 'ml', category: 'liquid' },
             { name: 'dashi', amount: '200', unit: 'ml', category: 'broth' },
             { name: 'mirin', amount: '2', unit: 'tbsp', category: 'seasoning' }
@@ -824,7 +830,8 @@ export const japanese: Cuisine = {
           allergens: ['wheat', 'shellfish'],
           prepTime: '20 minutes',
           cookTime: '30 minutes',
-          culturalNotes: 'Originally introduced by Portuguese missionaries, tempura has become a refined Japanese art form emphasizing lightness and crispiness',
+          culturalNotes:
+            'Originally introduced by Portuguese missionaries, tempura has become a refined Japanese art form emphasizing lightness and crispiness',
           pairingSuggestions: ['tentsuyu sauce', 'green tea', 'rice'],
           dietaryInfo: ['pescatarian'],
           spiceLevel: 'none',
@@ -838,7 +845,7 @@ export const japanese: Cuisine = {
           },
           season: ['all'],
           mealType: ['lunch', 'dinner']
-        }
+        },
         {
           name: 'Udon Noodle Soup',
           description: 'Thick wheat noodles in hot dashi broth',
@@ -860,7 +867,7 @@ export const japanese: Cuisine = {
               unit: 'g',
               category: 'grain',
               swaps: ['rice noodles']
-            }
+            },
             { name: 'dashi stock', amount: '1', unit: 'L', category: 'broth' },
             { name: 'green onions', amount: '2', unit: 'stalks', category: 'vegetable' },
             { name: 'kamaboko', amount: '100', unit: 'g', category: 'seafood', optional: true },
@@ -890,7 +897,7 @@ export const japanese: Cuisine = {
           },
           season: ['winter', 'all'],
           mealType: ['lunch', 'dinner']
-        }
+        },
         {
           name: 'Tonkatsu',
           description: 'Breaded and deep-fried pork cutlet',
@@ -913,7 +920,7 @@ export const japanese: Cuisine = {
               unit: 'g',
               category: 'protein',
               swaps: ['chicken', 'tofu']
-            }
+            },
             { name: 'panko breadcrumbs', amount: '200', unit: 'g', category: 'coating' },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein' },
             { name: 'flour', amount: '100', unit: 'g', category: 'grain' },
@@ -943,7 +950,7 @@ export const japanese: Cuisine = {
           },
           season: ['all'],
           mealType: ['lunch', 'dinner']
-        }
+        },
         {
           name: 'Chawanmushi',
           description: 'Savory steamed egg custard with various ingredients',
@@ -989,7 +996,7 @@ export const japanese: Cuisine = {
           },
           season: ['all'],
           mealType: ['appetizer', 'side dish']
-        }
+        },
         {
           name: 'Yakitori',
           description: 'Grilled chicken skewers with various seasonings',
@@ -1018,7 +1025,7 @@ export const japanese: Cuisine = {
               unit: 'g',
               category: 'protein',
               swaps: ['mushrooms', 'tofu']
-            }
+            },
             { name: 'green onion', amount: '4', unit: 'stalks', category: 'vegetable' },
             { name: 'sake', amount: '60', unit: 'ml', category: 'seasoning' },
             { name: 'mirin', amount: '60', unit: 'ml', category: 'seasoning' },
@@ -1034,7 +1041,8 @@ export const japanese: Cuisine = {
           allergens: ['soy'],
           prepTime: '30 minutes',
           cookTime: '20 minutes',
-          culturalNotes: 'A popular izakaya dish, yakitori represents the Japanese art of grilling. Each part of the chicken is traditionally used',
+          culturalNotes:
+            'A popular izakaya dish, yakitori represents the Japanese art of grilling. Each part of the chicken is traditionally used',
           pairingSuggestions: ['beer', 'sake', 'shishito peppers', 'rice'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'mild',
@@ -1048,7 +1056,7 @@ export const japanese: Cuisine = {
           },
           season: ['all'],
           mealType: ['dinner', 'appetizer']
-        }
+        },
         {
           name: 'Miso Ramen',
           description: 'Hearty noodle soup with miso-based broth',
@@ -1070,7 +1078,7 @@ export const japanese: Cuisine = {
               unit: 'g',
               category: 'grain',
               swaps: ['rice noodles']
-            }
+            },
             { name: 'miso paste', amount: '4', unit: 'tbsp', category: 'seasoning' },
             {
               name: 'pork broth',
@@ -1078,7 +1086,7 @@ export const japanese: Cuisine = {
               unit: 'L',
               category: 'broth',
               swaps: ['vegetable broth']
-            }
+            },
             { name: 'chashu pork', amount: '200', unit: 'g', category: 'protein', swaps: ['tofu'] },
             { name: 'corn', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'bean sprouts', amount: '200', unit: 'g', category: 'vegetable' },
@@ -1093,7 +1101,8 @@ export const japanese: Cuisine = {
           allergens: ['wheat', 'soy', 'dairy'],
           prepTime: '20 minutes',
           cookTime: '30 minutes',
-          culturalNotes: 'Miso ramen originated in Hokkaido, where the hearty, warming soup helped people endure cold winters',
+          culturalNotes:
+            'Miso ramen originated in Hokkaido, where the hearty, warming soup helped people endure cold winters',
           pairingSuggestions: ['gyoza', 'edamame', 'beer'],
           dietaryInfo: ['contains meat', 'contains dairy'],
           spiceLevel: 'mild to medium',
@@ -1107,7 +1116,7 @@ export const japanese: Cuisine = {
           },
           season: ['winter', 'all'],
           mealType: ['lunch', 'dinner']
-        }
+        },
         {
           name: 'Katsudon',
           description: 'Breaded pork cutlet with egg over rice',
@@ -1117,7 +1126,7 @@ export const japanese: Cuisine = {
             'deep pot',
             'donburi pan',
             'rice cooker',
-            { name: 'wire rack', category: 'coating' }
+            { name: 'wire rack', category: 'coating' },
             'sharp knife'
           ],
           preparationSteps: [
@@ -1136,7 +1145,7 @@ export const japanese: Cuisine = {
               unit: 'g',
               category: 'protein',
               swaps: ['chicken', 'tofu']
-            }
+            },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein' },
             { name: 'onion', amount: '1', unit: 'medium', category: 'vegetable' },
             { name: 'steamed rice', amount: '400', unit: 'g', category: 'grain' },
@@ -1152,7 +1161,7 @@ export const japanese: Cuisine = {
           allergens: ['wheat', 'egg', 'soy'],
           prepTime: '20 minutes',
           cookTime: '25 minutes',
-          culturalNotes: 'A popular comfort food that combines tonkatsu with the donburi style. Often eaten before important exams as 'katsu' sounds like 'win' in Japanese';,
+          culturalNotes: 'A popular comfort food that combines tonkatsu with the donburi style. Often eaten before important exams as 'katsu' sounds like 'win' in Japanese',
           pairingSuggestions: ['miso soup', 'pickled vegetables', 'green tea'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'none',
@@ -1166,7 +1175,7 @@ export const japanese: Cuisine = {
           },
           season: ['all'],
           mealType: ['lunch', 'dinner']
-        }
+        },
         {
           name: 'Gyoza',
           description: 'Pan-fried dumplings with meat and vegetable filling',
@@ -1196,7 +1205,7 @@ export const japanese: Cuisine = {
               unit: 'g',
               category: 'protein',
               swaps: ['mushrooms']
-            }
+            },
             { name: 'cabbage', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'chives', amount: '50', unit: 'g', category: 'vegetable' },
             { name: 'ginger', amount: '1', unit: 'tbsp', category: 'seasoning' },
@@ -1211,7 +1220,8 @@ export const japanese: Cuisine = {
           allergens: ['wheat', 'soy'],
           prepTime: '45 minutes',
           cookTime: '15 minutes',
-          culturalNotes: 'Adapted from Chinese jiaozi, gyoza became a Japanese favorite after WWII. The crispy bottom is a distinctive Japanese touch',
+          culturalNotes:
+            'Adapted from Chinese jiaozi, gyoza became a Japanese favorite after WWII. The crispy bottom is a distinctive Japanese touch',
           pairingSuggestions: ['ramen', 'rice', 'beer', 'green tea'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'mild',
@@ -1225,7 +1235,7 @@ export const japanese: Cuisine = {
           },
           season: ['all'],
           mealType: ['appetizer', 'side dish']
-        }
+        },
         {
           name: 'Karaage',
           description: 'Japanese-style fried chicken',
@@ -1257,7 +1267,8 @@ export const japanese: Cuisine = {
           allergens: ['soy'],
           prepTime: '30 minutes',
           cookTime: '20 minutes',
-          culturalNotes: 'A popular izakaya dish that showcases the Japanese approach to fried foods - light, crispy, and well-seasoned',
+          culturalNotes:
+            'A popular izakaya dish that showcases the Japanese approach to fried foods - light, crispy, and well-seasoned',
           pairingSuggestions: ['beer', 'rice', 'shredded cabbage', 'lemon wedges'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'mild',
@@ -1288,12 +1299,14 @@ export const japanese: Cuisine = {
         Earth: 0.3,
         Fire: 0.2,
         Air: 0.1
-},
+      },
       astrologicalInfluences: ['Saturn', 'Pluto', 'Scorpio'],
       seasonality: 'all',
       preparationNotes: 'Traditional brewing takes months of fermentation',
-      technicalTips: 'Different shoyu types are suited for different applications, usukuchi is lighter and saltier' },
-        miso: {
+      technicalTips:
+        'Different shoyu types are suited for different applications, usukuchi is lighter and saltier'
+    },
+    miso: {
       name: 'Miso',
       description: 'Fermented soybean paste with complex umami flavor',
       base: 'soybean',
@@ -1305,12 +1318,13 @@ export const japanese: Cuisine = {
         Water: 0.2,
         Fire: 0.2,
         Air: 0.1
-},
+      },
       astrologicalInfluences: ['Jupiter', 'Moon', 'Taurus'],
       seasonality: 'all',
       preparationNotes: 'Fermentation period determines color and flavor intensity',
-      technicalTips: 'Never boil miso to preserve live cultures and flavor complexity' },
-        ponzu: {
+      technicalTips: 'Never boil miso to preserve live cultures and flavor complexity'
+    },
+    ponzu: {
       name: 'Ponzu',
       description: 'Tangy citrus-based sauce with soy and dashi',
       base: 'citrus juice',
@@ -1320,8 +1334,9 @@ export const japanese: Cuisine = {
       elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
       seasonality: 'all',
       preparationNotes: 'Best when aged for several days to develop flavor',
-      yield: '500ml' },
-        mentsuyu: {
+      yield: '500ml'
+    },
+    mentsuyu: {
       name: 'Mentsuyu',
       description: 'Multipurpose noodle soup base and seasoning sauce',
       base: 'soy sauce and dashi',
@@ -1331,8 +1346,9 @@ export const japanese: Cuisine = {
       elementalProperties: { Water: 0.4, Earth: 0.3, Fire: 0.2, Air: 0.1 },
       seasonality: 'all',
       preparationNotes: 'Can be prepared concentrated and diluted as needed',
-      yield: '750ml' },
-        teriyaki: {
+      yield: '750ml'
+    },
+    teriyaki: {
       name: 'Teriyaki',
       description: 'Sweet-savory glaze with soy sauce, mirin, and sugar',
       base: 'soy sauce',
@@ -1343,7 +1359,7 @@ export const japanese: Cuisine = {
       seasonality: 'all',
       preparationNotes: 'Traditionally applied in layers while grilling',
       yield: '500ml'
-}
+    }
   },
   sauceRecommender: {
     forProtein: {
@@ -1392,7 +1408,7 @@ export const japanese: Cuisine = {
       toolsRequired: ['heavy-bottomed pot', 'otoshibuta (drop lid)', 'cooking chopsticks'],
       bestFor: ['root vegetables', 'fish', 'tofu', 'meat'],
       difficulty: 'medium'
-}
+    },
     {
       name: 'Tempura',
       description: 'Light batter frying technique that creates crisp, delicate coating',
@@ -1400,7 +1416,7 @@ export const japanese: Cuisine = {
       toolsRequired: ['deep pot', 'chopsticks', 'wire skimmer', 'thermometer'],
       bestFor: ['seafood', 'vegetables', 'mushrooms', 'herbs'],
       difficulty: 'hard'
-}
+    },
     {
       name: 'Yakimono',
       description: 'Grilling technique emphasizing simplicity and natural flavors',
@@ -1408,12 +1424,13 @@ export const japanese: Cuisine = {
       toolsRequired: ['konro grill', 'binchotan charcoal', 'metal skewers', 'tongs'],
       bestFor: ['fish', 'chicken', 'beef', 'vegetables'],
       difficulty: 'medium'
-}
+    }
   ],
   regionalCuisines: {
     kansai: {
       name: 'Kansai/Kyoto Cuisine',
-      description: 'Refined, delicate flavors emphasizing natural taste of ingredients with minimal seasoning',
+      description:
+        'Refined, delicate flavors emphasizing natural taste of ingredients with minimal seasoning',
       signature: ['kaiseki ryori', 'yudofu', 'obanzai', 'kyogashi'],
       elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
       astrologicalInfluences: ['Moon', 'Venus', 'Cancer'],
@@ -1455,6 +1472,6 @@ export const japanese: Cuisine = {
     'Mercury - Influences the precision and attention to detail',
     'Moon - Shapes the cyclical nature of seasonal cuisine'
   ]
-}
+};
 
-export default japanese,
+export default japanese;

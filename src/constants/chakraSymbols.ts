@@ -173,9 +173,7 @@ export const CHAKRA_MANTRA_INTELLIGENCE = {
     const recommendations: string[] = []
 
     if ((analysis as unknown as any)?.effectiveness?.pronunciationAccuracy < 0.85) {
-      recommendations.push(
-        'Enhance mantra pronunciation training for improved vibrational accuracy',
-      )
+      recommendations.push('Enhance mantra pronunciation training for improved vibrational accuracy')
     }
 
     const effectiveness = (analysis as { effectiveness?: { vibrationalResonance?: number } })
@@ -199,9 +197,7 @@ export const CHAKRA_MANTRA_INTELLIGENCE = {
         }
       )?.advancedVibrations?.harmonicResonance?.fundamental as number) < 0.85
     ) {
-      recommendations.push(
-        'Strengthen fundamental frequency alignment for better harmonic resonance',
-      )
+      recommendations.push('Strengthen fundamental frequency alignment for better harmonic resonance')
     }
 
     return recommendations;
@@ -646,9 +642,7 @@ function generateMantraRecommendations(analysis: {
     analysis.advancedVibrations?.harmonicResonance?.fundamental &&
     analysis.advancedVibrations.harmonicResonance.fundamental < 0.85
   ) {
-    recommendations.push(
-      'Strengthen fundamental frequency alignment for better harmonic resonance',
-    )
+    recommendations.push('Strengthen fundamental frequency alignment for better harmonic resonance')
   }
 
   return recommendations;

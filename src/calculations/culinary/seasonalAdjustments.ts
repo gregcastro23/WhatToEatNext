@@ -34,10 +34,8 @@ const LUNAR_PHASE_MODIFIERS: { [key: string]: ElementalProperties } = {
 /**
  * Apply seasonal adjustments to elemental properties
  */
-export function applySeasonalAdjustments(
-  baseProperties: ElementalProperties,
-  season: string = 'spring',
-): ElementalProperties {
+export function applySeasonalAdjustments(baseProperties: ElementalProperties,
+  season: string = 'spring'): ElementalProperties {
   const seasonKey = season.toLowerCase()
   const modifier = SEASONAL_MODIFIERS[seasonKey] || SEASONAL_MODIFIERS.spring
 
@@ -52,10 +50,8 @@ export function applySeasonalAdjustments(
 /**
  * Apply lunar phase adjustments to elemental properties
  */
-export function applyLunarPhaseAdjustments(
-  baseProperties: ElementalProperties,
-  lunarPhase: string = 'full moon',
-): ElementalProperties {
+export function applyLunarPhaseAdjustments(baseProperties: ElementalProperties,
+  lunarPhase: string = 'full moon'): ElementalProperties {
   const phaseKey = lunarPhase.toLowerCase()
   const modifier = LUNAR_PHASE_MODIFIERS[phaseKey] || LUNAR_PHASE_MODIFIERS['full moon']
 
@@ -70,10 +66,8 @@ export function applyLunarPhaseAdjustments(
 /**
  * Calculate time-of-day adjustments
  */
-export function applyTimeOfDayAdjustments(
-  baseProperties: ElementalProperties,
-  isDaytime: boolean = true,
-): ElementalProperties {
+export function applyTimeOfDayAdjustments(baseProperties: ElementalProperties,
+  isDaytime: boolean = true): ElementalProperties {
   if (isDaytime) {
     return {
       Fire: baseProperties.Fire * 1.2,
@@ -135,11 +129,9 @@ export function getSeasonalCookingRecommendations(_season: string): {
 /**
  * Calculate seasonal effectiveness score for a recipe
  */
-export function calculateSeasonalEffectiveness(
-  recipeElements: ElementalProperties,
+export function calculateSeasonalEffectiveness(recipeElements: ElementalProperties,
   season: string,
-  lunarPhase?: string,
-): {
+  lunarPhase?: string): {
   score: number,
   breakdown: {
     seasonalAlignment: number,
@@ -185,10 +177,8 @@ export function calculateSeasonalEffectiveness(
 /**
  * Calculate alignment between two elemental property sets
  */
-function calculateElementalAlignment(
-  properties1: ElementalProperties,
-  properties2: ElementalProperties,
-): number {
+function calculateElementalAlignment(properties1: ElementalProperties,
+  properties2: ElementalProperties): number {
   const differences = [
     Math.abs(properties1.Fire - properties2.Fire),
     Math.abs(properties1.Water - properties2.Water),
@@ -215,11 +205,9 @@ function calculateElementalHarmony(properties: ElementalProperties): number {
 /**
  * Generate seasonal recommendations based on scores
  */
-function generateSeasonalRecommendations(
-  overallScore: number,
+function generateSeasonalRecommendations(overallScore: number,
   seasonalAlignment: number,
-  lunarAlignment: number,
-): string[] {
+  lunarAlignment: number): string[] {
   const recommendations: string[] = [],
 
   if (overallScore >= 0.8) {

@@ -319,10 +319,8 @@ export function normalizeElementalProperties(properties: ElementalProperties): E
 /**
  * Calculate elemental compatibility between two sets of properties
  */
-export function calculateElementalCompatibility(
-  properties1: ElementalProperties,
-  properties2: ElementalProperties,
-): number {
+export function calculateElementalCompatibility(properties1: ElementalProperties,
+  properties2: ElementalProperties): number {
   // Each element reinforces itself most strongly
   let compatibility = 0;
   let totalWeight = 0,

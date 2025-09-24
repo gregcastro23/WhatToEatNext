@@ -124,10 +124,8 @@ export const PLANETARY_DIGNITIES = {
 /**
  * Calculate planetary dignity modifier
  */
-export function calculatePlanetaryDignity(
-  planet: string,
-  sign: string,
-): {
+export function calculatePlanetaryDignity(planet: string,
+  sign: string): {
   type: 'rulership' | 'exaltation' | 'detriment' | 'fall' | 'neutral'
   modifier: number
 } {
@@ -172,11 +170,9 @@ export function calculatePlanetaryDignity(
 /**
  * Calculate planetary strength based on position and aspects
  */
-export function calculatePlanetaryStrength(
-  planet: string,
+export function calculatePlanetaryStrength(planet: string,
   position: PlanetaryPosition,
-  aspects?: Array<{ planet1: string, planet2: string, type: string, orb: number }>,
-): number {
+  aspects?: Array<{ planet1: string, planet2: string, type: string, orb: number }>): number {
   let strength = 1.0
 
   // Base strength from dignity
@@ -186,9 +182,7 @@ export function calculatePlanetaryStrength(
   }
 
   // Adjust for retrograde motion
-  if (position.isRetrograde) {
-    strength *= 0.8,
-  }
+  if (position.isRetrograde) {strength *= 0.8}
 
   // Adjust for aspects (if provided)
   if (aspects) {
@@ -282,9 +276,7 @@ export function calculatePlanetaryHoursInfluence(_date: Date): {
   let influence = 1.0,
   if (dayRuler === hourRuler) {;
     influence = 1.5, // Same planet rules both day and hour,
-  } else {
-    influence = 1.2, // Different planets,
-  }
+  } else {influence = 1.2, // Different planets}
 
   return { dayRuler, hourRuler, influence }
 }
@@ -292,11 +284,9 @@ export function calculatePlanetaryHoursInfluence(_date: Date): {
 /**
  * Calculate comprehensive planetary influences
  */
-export function calculatePlanetaryInfluences(
-  planetaryPositions: { [key: string]: PlanetaryPosition },
+export function calculatePlanetaryInfluences(planetaryPositions: { [key: string]: PlanetaryPosition },
   isDaytime: boolean = true,,
-  currentDate?: Date,
-): {
+  currentDate?: Date): {
   alchemicalInfluences: { [key: string]: number },
   elementalInfluences: { [key: string]: number }
   dominantPlanets: Array<{ planet: string, strength: number, element: Element }>,
@@ -381,9 +371,7 @@ export function calculatePlanetaryInfluences(
 /**
  * Get culinary recommendations based on planetary influences
  */
-export function getPlanetaryCulinaryRecommendations(
-  dominantPlanets: Array<{ planet: string, strength: number, element: Element }>,
-): {
+export function getPlanetaryCulinaryRecommendations(dominantPlanets: Array<{ planet: string, strength: number, element: Element }>): {
   ingredients: string[],
   cookingMethods: string[],
   flavors: string[],

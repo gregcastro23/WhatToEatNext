@@ -11,46 +11,39 @@ import type { ComprehensiveAlchemicalResult } from '@/calculations/index';
 import { RECIPE_COMPATIBILITY_INTELLIGENCE } from '@/calculations/index';
 import { CulturalAnalyticsService } from '@/services/CulturalAnalyticsService';
 import type {
-  AdvancedAnalyticsIntelligenceResult,
-  AdvancedIntelligenceConfig,
-  IntegratedAdvancedIntelligenceResult,
-  MLIntelligenceResult
+    AdvancedIntelligenceConfig,
+    IntegratedAdvancedIntelligenceResult,
+    MLIntelligenceResult
 } from '@/types/advancedIntelligence';
 import type { ElementalProperties, ZodiacSign } from '@/types/alchemy';
 import type {
-  AstrologicalAnalysisContext,
-  CompatibilityAnalysisResult,
-  RecipeAnalysisData
+    AstrologicalAnalysisContext,
+    CompatibilityAnalysisResult,
+    RecipeAnalysisData
 } from '@/types/analysisResults';
 import type {
-  CuisineIntelligenceResult,
-  EnterpriseIntelligenceConfig,
-  EnterpriseIntelligenceInput,
-  EnterpriseIntelligenceResult,
-  IngredientIntelligenceResult,
-  OptimizationIntelligenceResult,
-  RecipeIntelligenceResult,
-  SafetyIntelligenceResult,
-  ValidationIntelligenceResult
+    EnterpriseIntelligenceConfig,
+    EnterpriseIntelligenceInput,
+    EnterpriseIntelligenceResult
 } from '@/types/enterpriseIntelligence';
 import type { PredictiveIntelligenceResult } from '@/types/predictiveIntelligence';
 import { logger } from '@/utils/logger';
 
 import {
-  AdvancedAnalyticsIntelligenceService,
-  createAdvancedAnalyticsIntelligenceService
+    AdvancedAnalyticsIntelligenceService,
+    createAdvancedAnalyticsIntelligenceService
 } from './AdvancedAnalyticsIntelligenceService';
 import { MLIntelligenceService, createMLIntelligenceService } from './MLIntelligenceService';
 import {
-  PredictiveIntelligenceService,
-  createPredictiveIntelligenceService
+    PredictiveIntelligenceService,
+    createPredictiveIntelligenceService
 } from './PredictiveIntelligenceService';
 
 // ========== LOCAL TYPE DEFINITIONS ==========
 
-interface RecipeDataWithElementalProperties {;
-  elementalProperties?: ElementalProperties,
-  [key: string]: unknown
+interface RecipeDataWithElementalProperties {
+  elementalProperties?: ElementalProperties;
+  [key: string]: unknown;
 }
 
 interface AstrologicalContextWithElementalProperties {
@@ -74,8 +67,8 @@ interface CacheKeyData {
 
 // ========== ENHANCED ANALYSIS INTERFACES FOR SERVICE LAYER CONSISTENCY ==========
 
-interface AnalysisHarmony {;
-  overallHarmony?: number,
+interface AnalysisHarmony {
+  overallHarmony?: number;
   categoryHarmony?: {
     overallHarmony?: number
   }
@@ -183,14 +176,14 @@ interface _IngredientAnalyses {
 // ========== ENTERPRISE INTELLIGENCE SERVICE ==========
 
 export class EnterpriseIntelligenceIntegration {
-  private config: EnterpriseIntelligenceConfig,
-  private cache: Map<string, EnterpriseIntelligenceResult>,
+  private config: EnterpriseIntelligenceConfig;
+  private cache: Map<string, EnterpriseIntelligenceResult>;
   private performanceMetrics: {
-    analysisCount: number,
-    averageExecutionTime: number,
-    cacheHitRate: number,
-    errorRate: number
-  }
+    analysisCount: number;
+    averageExecutionTime: number;
+    cacheHitRate: number;
+    errorRate: number;
+  };
   // Phase, 2D: Advanced Intelligence Systems Integration
   private predictiveIntelligenceService: PredictiveIntelligenceService,
   private mlIntelligenceService: MLIntelligenceService,
@@ -204,22 +197,22 @@ export class EnterpriseIntelligenceIntegration {
       enableValidationIntelligence: true,
       enableSafetyIntelligence: true,
       enableOptimizationRecommendations: true,
-      // Phase, 2D: Advanced Intelligence Systems Integration,
+      // Phase 2D: Advanced Intelligence Systems Integration
       enablePredictiveIntelligence: true,
       enableMLIntelligence: true,
       enableAdvancedAnalyticsIntelligence: true,
       cacheResults: true,
       logLevel: 'info',
       ...config
-    }
+    };
 
-    this.cache = new Map()
+    this.cache = new Map();
     this.performanceMetrics = {
       analysisCount: 0,
       averageExecutionTime: 0,
       cacheHitRate: 0,
       errorRate: 0
-}
+    };
 
     // Phase, 2D: Initialize Advanced Intelligence Services
     const predictiveConfig: Partial<AdvancedIntelligenceConfig> = {

@@ -100,12 +100,10 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
       const elemPropsB: any = { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2 }
 
       // With harmonious signs
-      const compatWithSigns: any = calculateAlchemicalCompatibility(
-        elemPropsA,
+      const compatWithSigns: any = calculateAlchemicalCompatibility(elemPropsA,
         elemPropsB,
         'aries' as any,
-        'leo' as any,,
-      )
+        'leo' as any,)
 
       // Without signs
       const compatWithoutSigns: any = calculateAlchemicalCompatibility(elemPropsA, elemPropsB)

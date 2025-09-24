@@ -7,7 +7,7 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Simple logger fallback
 const _logger = {
@@ -56,17 +56,17 @@ export const BackendStatus: React.FC = () => {
     try {
       // Demo elemental calculation with backend
       const elementsStart = performance.now();
-      const elements = { Fire: 0.3, Water: 0.25, Earth: 0.25, Air: 0.2 },
+      const elements = { Fire: 0.3, Water: 0.25, Earth: 0.25, Air: 0.2 }
       const elementsTime = performance.now() - elementsStart;
 
       // Demo planetary data
       const planetaryStart = performance.now();
-      const planetary = { dominant_planet: 'Sun', influence_strength: 0.7 },
+      const planetary = { dominant_planet: 'Sun', influence_strength: 0.7 }
       const planetaryTime = performance.now() - planetaryStart;
 
       // Demo recipe recommendations
       const recStart = performance.now();
-      const recommendations = { total_count: 3, recommendations: [] },
+      const recommendations = { total_count: 3, recommendations: [] }
       const recTime = performance.now() - recStart;
 
       setDemoResults({
@@ -95,10 +95,10 @@ export const BackendStatus: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'healthy': return 'text-green-600 bg-green-50',
-      case 'unhealthy': return 'text-yellow-600 bg-yellow-50',
-      case 'offline': return 'text-red-600 bg-red-50',
-      default: return 'text-gray-600 bg-gray-50';
+      case 'healthy': return 'text-green-600 bg-green-50'
+      case 'unhealthy': return 'text-yellow-600 bg-yellow-50'
+      case 'offline': return 'text-red-600 bg-red-50'
+      default: return 'text-gray-600 bg-gray-50'
     }
   };
 

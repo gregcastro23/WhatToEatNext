@@ -21,7 +21,7 @@ const baseCuisine: Cuisine = {
   id: 'base',
   name: '',
   description: '',
-  motherSauces: {}
+  motherSauces: {},
   dishes: {
     breakfast: {
       spring: [],
@@ -48,33 +48,33 @@ const baseCuisine: Cuisine = {
       winter: []
     }
   },
-  traditionalSauces: {}
+  traditionalSauces: {},
   sauceRecommender: {
     forProtein: {},
-    forVegetable: {}
-    forCookingMethod: {}
-    byAstrological: {}
-    byRegion: {}
+    forVegetable: {},
+    forCookingMethod: {},
+    byAstrological: {},
+    byRegion: {},
     byDietary: {}
   },
   cookingTechniques: [],
-  regionalCuisines: {}
+  regionalCuisines: {},
   elementalProperties: {
     Fire: 0,
     Water: 0.75,
     Earth: 0.65,
     Air: 0
-},
+  },
   astrologicalInfluences: []
-}
+};
 
 // Process the recipes to combine seasonal and 'all' categories
-const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {,
-  if (!cuisine) return { ...baseCuisine }
+const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
+  if (!cuisine) return { ...baseCuisine };
 
   // Helper to combine 'all' recipes with seasonal ones
-  const combineRecipes = (mealType: unknown) => {,
-    if (!mealType) return { spring: [], summer: [], autumn: [], winter: [] }
+  const combineRecipes = (mealType: unknown) => {
+    if (!mealType) return { spring: [], summer: [], autumn: [], winter: [] };
 
     // Use safe type casting for mealType property access
     const mealData = mealType as any;
@@ -83,48 +83,48 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {,
     // Make sure 'all' is an array even if it's not defined
     const allRecipes = Array.isArray(mealData.all) ? mealData.all : []
 
-    return {;
+    return {
       spring: [...(Array.isArray(mealData.spring) ? mealData.spring : []), ...allRecipes],
       summer: [...(Array.isArray(mealData.summer) ? mealData.summer : []), ...allRecipes],
       autumn: [...(Array.isArray(mealData.autumn) ? mealData.autumn : []), ...allRecipes],
       winter: [...(Array.isArray(mealData.winter) ? mealData.winter : []), ...allRecipes]
-    }
-  }
+    };
+  };
 
   // Ensure the cuisine has at least a valid ID and name
   const name = cuisine.name || '';
-  const id = cuisine.id || 'cuisine-' + name.toLowerCase().replace(/\s+/g, '-')
+  const id = cuisine.id || 'cuisine-' + name.toLowerCase().replace(/\s+/g, '-');
 
   return {
     id,
     name,
     description: cuisine.description || '',
-    motherSauces: cuisine.motherSauces || {}
+    motherSauces: cuisine.motherSauces || {},
     dishes: {
       breakfast: combineRecipes(cuisine.dishes?.breakfast),
       lunch: combineRecipes(cuisine.dishes?.lunch),
       dinner: combineRecipes(cuisine.dishes?.dinner),
       dessert: combineRecipes(cuisine.dishes?.dessert)
     },
-    traditionalSauces: cuisine.traditionalSauces || {}
+    traditionalSauces: cuisine.traditionalSauces || {},
     sauceRecommender: {
       forProtein: cuisine.sauceRecommender?.forProtein || {},
-      forVegetable: cuisine.sauceRecommender?.forVegetable || {}
-      forCookingMethod: cuisine.sauceRecommender?.forCookingMethod || {}
-      byAstrological: cuisine.sauceRecommender?.byAstrological || {}
-      byRegion: cuisine.sauceRecommender?.byRegion || {}
+      forVegetable: cuisine.sauceRecommender?.forVegetable || {},
+      forCookingMethod: cuisine.sauceRecommender?.forCookingMethod || {},
+      byAstrological: cuisine.sauceRecommender?.byAstrological || {},
+      byRegion: cuisine.sauceRecommender?.byRegion || {},
       byDietary: cuisine.sauceRecommender?.byDietary || {}
     },
     cookingTechniques: Array.isArray(cuisine.cookingTechniques) ? cuisine.cookingTechniques : [],
-    regionalCuisines: cuisine.regionalCuisines || {}
-    elementalProperties: cuisine.elementalProperties ||,
+    regionalCuisines: cuisine.regionalCuisines || {},
+    elementalProperties: cuisine.elementalProperties ||
       (cuisine as any).elementalState || { ...baseCuisine.elementalProperties }, // For backward compatibility
     regionalVarieties: cuisine.regionalCuisines ? Object.keys(cuisine.regionalCuisines).length : 0,
-    astrologicalInfluences: Array.isArray(cuisine.astrologicalInfluences),
+    astrologicalInfluences: Array.isArray(cuisine.astrologicalInfluences)
       ? cuisine.astrologicalInfluences
       : []
   } as Cuisine; // Use type assertion to ensure the return type is Cuisine
-}
+};
 
 // Create and export the cuisines map with validated structures
 export const cuisinesMap = {
@@ -145,21 +145,21 @@ export const cuisinesMap = {
   // Add lowercase variants for problematic cuisines
   african: processCuisineRecipes(african as Partial<Cuisine>),
   american: processCuisineRecipes(american as Partial<Cuisine>)
-} as const,
+} as const;
 
-export type CuisineName = keyof typeof cuisinesMap,
-export default cuisinesMap,
+export type CuisineName = keyof typeof cuisinesMap;
+export default cuisinesMap;
 
 // Element properties for the refined culinary search
 export const CUISINES = {
-  american: {,
+  american: {
     name: 'American',
     elementalProperties: {
       Fire: 0.3,
       Water: 0.2,
       Earth: 0.3,
       Air: 0.2
-}
+    }
   },
   chinese: {
     name: 'Chinese',
@@ -168,7 +168,7 @@ export const CUISINES = {
       Water: 0.3,
       Earth: 0.3,
       Air: 0.1
-}
+    }
   },
   japanese: {
     name: 'Japanese',
@@ -177,7 +177,7 @@ export const CUISINES = {
       Water: 0.4,
       Earth: 0.2,
       Air: 0.2
-}
+    }
   },
   indian: {
     name: 'Indian',
@@ -186,7 +186,7 @@ export const CUISINES = {
       Water: 0.2,
       Earth: 0.2,
       Air: 0.2
-}
+    }
   },
   french: {
     name: 'French',
@@ -195,7 +195,7 @@ export const CUISINES = {
       Water: 0.3,
       Earth: 0.3,
       Air: 0.2
-}
+    }
   },
   italian: {
     name: 'Italian',
@@ -204,7 +204,7 @@ export const CUISINES = {
       Earth: 0.4,
       Water: 0.2,
       Air: 0.1
-}
+    }
   },
   african: {
     name: 'African',
@@ -213,7 +213,7 @@ export const CUISINES = {
       Earth: 0.4,
       Water: 0.2,
       Air: 0.1
-}
+    }
   },
   middleEastern: {
     name: 'Middle Eastern',
@@ -222,7 +222,7 @@ export const CUISINES = {
       Earth: 0.3,
       Water: 0.2,
       Air: 0.2
-}
+    }
   },
   greek: {
     name: 'Greek',
@@ -231,7 +231,7 @@ export const CUISINES = {
       Earth: 0.3,
       Water: 0.3,
       Air: 0.2
-}
+    }
   },
   mexican: {
     name: 'Mexican',
@@ -240,7 +240,7 @@ export const CUISINES = {
       Earth: 0.3,
       Water: 0.1,
       Air: 0.1
-}
+    }
   },
   thai: {
     name: 'Thai',
@@ -249,7 +249,7 @@ export const CUISINES = {
       Water: 0.3,
       Earth: 0.2,
       Air: 0.1
-}
+    }
   },
   vietnamese: {
     name: 'Vietnamese',
@@ -258,7 +258,7 @@ export const CUISINES = {
       Fire: 0.2,
       Earth: 0.2,
       Air: 0.2
-}
+    }
   },
   korean: {
     name: 'Korean',
@@ -267,7 +267,7 @@ export const CUISINES = {
       Earth: 0.3,
       Water: 0.2,
       Air: 0.2
-}
+    }
   },
   russian: {
     name: 'Russian',
@@ -276,9 +276,9 @@ export const CUISINES = {
       Water: 0.2,
       Fire: 0.2,
       Air: 0.1
-}
+    }
   }
-} as const,
+} as const;
 
 // Type for cuisine data
 export type CuisineData = {
@@ -288,8 +288,8 @@ export type CuisineData = {
     Water: number,
     Earth: number,
     Air: number
-  }
-}
+  };
+};
 
 // Ensure type safety
-export type Cuisines = typeof CUISINES,
+export type Cuisines = typeof CUISINES;

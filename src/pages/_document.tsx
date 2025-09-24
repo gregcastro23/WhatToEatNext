@@ -1,21 +1,20 @@
-import Document, { Html, Head, Main, NextScript } from 'next/document';
+import Document, { Head, Html, Main, NextScript } from 'next/document';
 
-import { log } from '@/services/LoggingService';
 
 class MyDocument extends Document {
   render() {
     return (
-      <Html lang='en'>,
+      <Html lang='en'>
         <Head>
           {/* Targeted critical initialization focused on Chrome Extension API issues */}
           <script
-            id='critical-init',
+            id='critical-init'
             dangerouslySetInnerHTML={{
               __html: `
               // Critical initialization to prevent Chrome Extension API errors
               (function() {
                 try {
-                  // Create the minimal chrome API structure to prevent errors before the full mock loads;
+                  // Create the minimal chrome API structure to prevent errors before the full mock loads
                   if (typeof window.chrome === 'undefined') {,
                     window.chrome = {
                       tabs: {
@@ -31,7 +30,7 @@ class MyDocument extends Document {
                       }
                     }
                   }
-                  
+
                   // Create minimal popup object to handle early access
                   window.popup = {
                     create: function() {
@@ -43,14 +42,14 @@ class MyDocument extends Document {
                       }
                     }
                   }
-                  
+
                   // Also protect window.open
                   const originalWindowOpen = window.open;
                   window.open = function(url, target, features) {,
                     log.info('[CriticalInit] Window.open intercepted: ', url)
                     // For known extension URLs, don't actually open them
                     if (url && (
-                      url.startsWith('chrome-extension: ') || 
+                      url.startsWith('chrome-extension: ') ||
                       url.includes('popup') ||
                       url.includes('chrome')
                     )) {
@@ -59,7 +58,7 @@ class MyDocument extends Document {
                     }
                     return originalWindowOpen.apply(window, arguments)
                   }
-                  
+
                   log.info('[CriticalInit] Chrome API protection initialized')
                 } catch (e) {
                   _logger.error('[CriticalInit] Error during initialization: ', e)
@@ -78,4 +77,4 @@ class MyDocument extends Document {
   }
 }
 
-export default MyDocument,
+export default MyDocument

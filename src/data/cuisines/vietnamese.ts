@@ -1,10 +1,11 @@
 // src/data/vietnamese.ts
 import type { Cuisine } from '@/types/cuisine';
 
-export const vietnamese: Cuisine = {
+export const, vietnamese: Cuisine = {
   id: 'vietnamese',
   name: 'Vietnamese',
-  description: 'Traditional Vietnamese cuisine emphasizing fresh ingredients, herbs, and balanced flavors',
+  description:
+    'Traditional Vietnamese cuisine emphasizing fresh ingredients, herbs, and balanced flavors',
   dishes: {
     breakfast: {
       all: [
@@ -31,14 +32,14 @@ export const vietnamese: Cuisine = {
               unit: 'g',
               category: 'grain',
               swaps: ['shirataki noodles']
-            }
+            },
             {
               name: 'beef slices',
               amount: '400',
               unit: 'g',
               category: 'protein',
               swaps: ['tofu', 'mushrooms']
-            }
+            },
             { name: 'onion', amount: '2', unit: 'large', category: 'vegetable' },
             { name: 'ginger', amount: '100', unit: 'g', category: 'spice' },
             { name: 'star anise', amount: '4', unit: 'pieces', category: 'spice' },
@@ -59,7 +60,8 @@ export const vietnamese: Cuisine = {
           allergens: ['soy'],
           prepTime: '30 minutes',
           cookTime: '6 hours',
-          culturalNotes: 'Phở originated in the early 20th century in northern Vietnam and is considered the national dish. The clear broth is a result of careful simmering and skimming',
+          culturalNotes:
+            'Phở originated in the early 20th century in northern Vietnam and is considered the national dish. The clear broth is a result of careful simmering and skimming',
           pairingSuggestions: ['Vietnamese coffee', 'fresh chili peppers', 'pickled garlic'],
           dietaryInfo: ['adaptable to gluten-free', 'adaptable to vegan'],
           spiceLevel: 'customizable',
@@ -78,8 +80,8 @@ export const vietnamese: Cuisine = {
             Fire: 0.2,
             Earth: 0.2,
             Air: 0.2
-}
-        }
+          }
+        },
         {
           name: 'Cháo Gà',
           description: 'Vietnamese chicken rice porridge',
@@ -105,7 +107,7 @@ export const vietnamese: Cuisine = {
               unit: 'tbsp',
               category: 'seasoning',
               swaps: ['soy sauce']
-            }
+            },
             { name: 'black pepper', amount: '1', unit: 'tsp', category: 'spice' },
             { name: 'fried shallots', amount: '4', unit: 'tbsp', category: 'garnish' },
             { name: 'cilantro', amount: '1/2', unit: 'cup', category: 'herb' }
@@ -119,7 +121,8 @@ export const vietnamese: Cuisine = {
           allergens: ['fish'],
           prepTime: '15 minutes',
           cookTime: '45 minutes',
-          culturalNotes: 'Cháo is a comforting breakfast dish often served when someone is feeling unwell. Each region has its own variation',
+          culturalNotes:
+            'Cháo is a comforting breakfast dish often served when someone is feeling unwell. Each region has its own variation',
           pairingSuggestions: ['youtiao (fried dough)', 'pickled vegetables', 'century eggs'],
           dietaryInfo: ['dairy-free', 'adaptable to gluten-free'],
           spiceLevel: 'mild',
@@ -138,8 +141,8 @@ export const vietnamese: Cuisine = {
             Earth: 0.3,
             Air: 0.2,
             Fire: 0.1
-}
-        }
+          }
+        },
         {
           name: 'Bánh Cuốn',
           description: 'Steamed rice rolls filled with ground pork and mushrooms',
@@ -163,7 +166,7 @@ export const vietnamese: Cuisine = {
               unit: 'g',
               category: 'protein',
               swaps: ['mushrooms']
-            }
+            },
             { name: 'wood ear mushrooms', amount: '50', unit: 'g', category: 'vegetable' },
             { name: 'shallots', amount: '4', unit: 'whole', category: 'vegetable' },
             { name: 'fish sauce', amount: '3', unit: 'tbsp', category: 'seasoning' },
@@ -179,7 +182,8 @@ export const vietnamese: Cuisine = {
           allergens: ['fish'],
           prepTime: '30 minutes',
           cookTime: '45 minutes',
-          culturalNotes: 'A beloved breakfast dish from Northern Vietnam, often served with nước chấm dipping sauce and chả lụa (Vietnamese pork sausage)',
+          culturalNotes:
+            'A beloved breakfast dish from Northern Vietnam, often served with nước chấm dipping sauce and chả lụa (Vietnamese pork sausage)',
           pairingSuggestions: ['Vietnamese coffee', 'fresh herbs', 'chili sauce'],
           dietaryInfo: ['dairy-free', 'adaptable to vegan'],
           spiceLevel: 'mild',
@@ -198,7 +202,7 @@ export const vietnamese: Cuisine = {
             Earth: 0.3,
             Air: 0.3,
             Fire: 0.1
-}
+          }
         }
       ],
       winter: [
@@ -249,14 +253,14 @@ export const vietnamese: Cuisine = {
               unit: 'pieces',
               category: 'grain',
               swaps: ['gluten-free baguette']
-            }
+            },
             {
               name: 'pork belly',
               amount: '400',
               unit: 'g',
               category: 'protein',
               swaps: ['tofu', 'seitan']
-            }
+            },
             { name: 'daikon', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'carrots', amount: '200', unit: 'g', category: 'vegetable' },
             { name: 'cucumber', amount: '1', unit: 'large', category: 'vegetable' },
@@ -267,7 +271,7 @@ export const vietnamese: Cuisine = {
               unit: 'g',
               category: 'spread',
               swaps: ['mushroom pate']
-            }
+            },
             { name: 'mayonnaise', amount: '4', unit: 'tbsp', category: 'condiment' },
             { name: 'sriracha', amount: '2', unit: 'tbsp', category: 'condiment' }
           ],
@@ -280,7 +284,8 @@ export const vietnamese: Cuisine = {
           allergens: ['wheat', 'eggs'],
           prepTime: '30 minutes',
           cookTime: '20 minutes',
-          culturalNotes: 'Bánh mì represents the French colonial influence on Vietnamese cuisine, combining French baguettes with Vietnamese flavors',
+          culturalNotes:
+            'Bánh mì represents the French colonial influence on Vietnamese cuisine, combining French baguettes with Vietnamese flavors',
           pairingSuggestions: ['Vietnamese iced coffee', 'pickled vegetables', 'chili sauce'],
           dietaryInfo: ['adaptable to vegan'],
           spiceLevel: 'mild to medium',
@@ -299,8 +304,8 @@ export const vietnamese: Cuisine = {
             Air: 0.3,
             Fire: 0.2,
             Water: 0.2
-}
-        }
+          }
+        },
         {
           name: 'Bún Chả',
           description: 'Grilled pork meatballs with rice noodles and herbs',
@@ -335,7 +340,8 @@ export const vietnamese: Cuisine = {
           allergens: ['fish'],
           prepTime: '45 minutes',
           cookTime: '20 minutes',
-          culturalNotes: 'A Hanoi specialty that gained international recognition when Anthony Bourdain and Barack Obama enjoyed it together',
+          culturalNotes:
+            'A Hanoi specialty that gained international recognition when Anthony Bourdain and Barack Obama enjoyed it together',
           pairingSuggestions: ['Vietnamese beer', 'pickled garlic', 'chili'],
           dietaryInfo: ['dairy-free', 'adaptable to gluten-free'],
           spiceLevel: 'mild',
@@ -354,8 +360,8 @@ export const vietnamese: Cuisine = {
             Earth: 0.3,
             Air: 0.2,
             Water: 0.2
-}
-        }
+          }
+        },
         {
           name: 'Bún Bò Huế',
           description: 'Spicy beef noodle soup from Hue',
@@ -384,7 +390,7 @@ export const vietnamese: Cuisine = {
               unit: 'whole',
               category: 'vegetable',
               optional: true
-}
+            }
           ],
           substitutions: {
             'beef shank': ['brisket', 'tofu'],
@@ -395,7 +401,8 @@ export const vietnamese: Cuisine = {
           allergens: ['shellfish'],
           prepTime: '40 minutes',
           cookTime: '3 hours',
-          culturalNotes: 'A regional specialty from the imperial city of Hue, known for its spicy broth and complex flavors',
+          culturalNotes:
+            'A regional specialty from the imperial city of Hue, known for its spicy broth and complex flavors',
           pairingSuggestions: ['lime wedges', 'chili sauce', 'fresh herbs'],
           dietaryInfo: ['dairy-free'],
           spiceLevel: 'hot',
@@ -414,7 +421,7 @@ export const vietnamese: Cuisine = {
             Water: 0.3,
             Earth: 0.2,
             Air: 0.1
-}
+          }
         }
       ]
     },
@@ -447,7 +454,7 @@ export const vietnamese: Cuisine = {
               unit: 'g',
               category: 'protein',
               swaps: ['salmon', 'mackerel']
-            }
+            },
             { name: 'sugar', amount: '3', unit: 'tbsp', category: 'sweetener' },
             { name: 'fish sauce', amount: '4', unit: 'tbsp', category: 'seasoning' },
             { name: 'coconut water', amount: '1', unit: 'cup', category: 'liquid' },
@@ -467,7 +474,8 @@ export const vietnamese: Cuisine = {
           allergens: ['fish'],
           prepTime: '20 minutes',
           cookTime: '40 minutes',
-          culturalNotes: 'A homestyle dish that exemplifies the Vietnamese caramelization technique. The clay pot helps develop deep flavors and keeps the fish moist',
+          culturalNotes:
+            'A homestyle dish that exemplifies the Vietnamese caramelization technique. The clay pot helps develop deep flavors and keeps the fish moist',
           pairingSuggestions: ['steamed rice', 'water spinach', 'soup'],
           dietaryInfo: ['dairy-free', 'gluten-free'],
           spiceLevel: 'mild to medium',
@@ -486,8 +494,8 @@ export const vietnamese: Cuisine = {
             Fire: 0.3,
             Earth: 0.3,
             Air: 0.1
-}
-        }
+          }
+        },
         {
           name: 'Cơm Tấm',
           description: 'Broken rice with grilled pork chop and egg',
@@ -521,7 +529,8 @@ export const vietnamese: Cuisine = {
           allergens: ['fish', 'eggs'],
           prepTime: '30 minutes',
           cookTime: '45 minutes',
-          culturalNotes: 'A Saigon specialty that originated from using broken rice grains that couldn't be sold at full price. Now it's a beloved dish throughout Vietnam',
+          culturalNotes:
+            'A Saigon specialty that originated from using broken rice grains that couldn't be sold at full price. Now it's a beloved dish throughout Vietnam',
           pairingSuggestions: ['scallion oil', 'chili sauce', 'soup broth'],
           dietaryInfo: ['dairy-free'],
           spiceLevel: 'mild',
@@ -540,7 +549,7 @@ export const vietnamese: Cuisine = {
             Fire: 0.3,
             Air: 0.2,
             Water: 0.1
-}
+          }
         }
       ]
     },
@@ -572,7 +581,7 @@ export const vietnamese: Cuisine = {
               unit: 'pieces',
               category: 'herb',
               optional: true
-}
+            },
             { name: 'crushed ice', amount: '2', unit: 'cups', category: 'ice' }
           ],
           substitutions: {
@@ -585,7 +594,8 @@ export const vietnamese: Cuisine = {
           prepTime: '30 minutes',
           cookTime: '1 hour',
           chillTime: '2 hours',
-          culturalNotes: 'A beloved Vietnamese dessert where the three colors represent different textures and flavors. Often enjoyed during hot summer days',
+          culturalNotes:
+            'A beloved Vietnamese dessert where the three colors represent different textures and flavors. Often enjoyed during hot summer days',
           pairingSuggestions: ['Vietnamese coffee', 'additional coconut milk'],
           dietaryInfo: ['vegan', 'gluten-free'],
           spiceLevel: 'none',
@@ -604,8 +614,8 @@ export const vietnamese: Cuisine = {
             Earth: 0.3,
             Air: 0.2,
             Fire: 0.1
-}
-        }
+          }
+        },
         {
           name: 'Chè Chuối',
           description: 'Sweet banana in coconut milk soup',
@@ -631,7 +641,7 @@ export const vietnamese: Cuisine = {
               unit: 'pieces',
               category: 'herb',
               optional: true
-}
+            },
             { name: 'sesame seeds', amount: '2', unit: 'tbsp', category: 'garnish' },
             {
               name: 'crushed peanuts',
@@ -639,7 +649,7 @@ export const vietnamese: Cuisine = {
               unit: 'cup',
               category: 'garnish',
               optional: true
-}
+            }
           ],
           substitutions: {
             'palm sugar': ['brown sugar', 'coconut sugar'],
@@ -650,7 +660,8 @@ export const vietnamese: Cuisine = {
           allergens: ['tree nuts (coconut)', 'peanuts'],
           prepTime: '15 minutes',
           cookTime: '25 minutes',
-          culturalNotes: 'A comforting dessert soup that's often served both hot and cold. The combination of bananas and coconut milk is a classic Vietnamese pairing',
+          culturalNotes:
+            'A comforting dessert soup that's often served both hot and cold. The combination of bananas and coconut milk is a classic Vietnamese pairing',
           pairingSuggestions: ['Vietnamese coffee', 'sesame crackers'],
           dietaryInfo: ['vegan', 'gluten-free'],
           spiceLevel: 'none',
@@ -669,7 +680,7 @@ export const vietnamese: Cuisine = {
             Earth: 0.3,
             Air: 0.2,
             Fire: 0.1
-}
+          }
         }
       ]
     }
@@ -677,7 +688,8 @@ export const vietnamese: Cuisine = {
   traditionalSauces: {
     nuocCham: {
       name: 'Nước Chấm',
-      description: 'Quintessential Vietnamese dipping sauce combining fish sauce, lime, sugar, and chili',
+      description:
+        'Quintessential Vietnamese dipping sauce combining fish sauce, lime, sugar, and chili',
       base: 'fish sauce',
       keyIngredients: ['fish sauce', 'lime juice', 'sugar', 'garlic', 'chili', 'water'],
       culinaryUses: ['dipping sauce', 'dressing', 'marinade', 'noodle sauce', 'flavor enhancer'],
@@ -693,12 +705,14 @@ export const vietnamese: Cuisine = {
         Fire: 0.3,
         Earth: 0.2,
         Air: 0.1
-},
+      },
       astrologicalInfluences: ['Neptune', 'Mars', 'Pisces'],
       seasonality: 'all',
-      preparationNotes: 'Balance is critical - should harmonize sweet, sour, salty, and spicy flavors in perfect proportion',
-      technicalTips: 'Let sit for at least 15 minutes before serving to allow flavors to meld' },
-        nuocMam: {
+      preparationNotes:
+        'Balance is critical - should harmonize sweet, sour, salty, and spicy flavors in perfect proportion',
+      technicalTips: 'Let sit for at least 15 minutes before serving to allow flavors to meld'
+    },
+    nuocMam: {
       name: 'Nước Mắm (Fish Sauce)',
       description: 'Fermented anchovy sauce that forms the foundation of Vietnamese cuisine',
       base: 'fermented anchovies',
@@ -722,12 +736,15 @@ export const vietnamese: Cuisine = {
         Earth: 0.3,
         Fire: 0.1,
         Air: 0.1
-},
+      },
       astrologicalInfluences: ['Neptune', 'Moon', 'Scorpio'],
       seasonality: 'all',
-      preparationNotes: 'Traditional production takes at least 12 months of fermentation in wooden barrels',
-      technicalTips: 'High-quality fish sauce should have a deep amber color and complex aroma beyond just fishiness' },
-        tuongOt: {
+      preparationNotes:
+        'Traditional production takes at least 12 months of fermentation in wooden barrels',
+      technicalTips:
+        'High-quality fish sauce should have a deep amber color and complex aroma beyond just fishiness'
+    },
+    tuongOt: {
       name: 'Tương Ớt (Chili Sauce)',
       description: 'Vietnamese-style fermented chili sauce with garlic and vinegar',
       base: 'chili peppers',
@@ -751,12 +768,13 @@ export const vietnamese: Cuisine = {
         Earth: 0.2,
         Water: 0.2,
         Air: 0.1
-},
+      },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'all',
       preparationNotes: 'Traditional recipes often include fermentation to develop deeper flavor',
-      technicalTips: 'Roasting or charring chilies first adds complexity and tempers raw heat' },
-        tuongDen: {
+      technicalTips: 'Roasting or charring chilies first adds complexity and tempers raw heat'
+    },
+    tuongDen: {
       name: 'Tương Đen (Black Bean Sauce)',
       description: 'Fermented soybean sauce used in Vietnamese-Chinese fusion dishes',
       base: 'fermented soybeans',
@@ -780,12 +798,14 @@ export const vietnamese: Cuisine = {
         Water: 0.3,
         Fire: 0.2,
         Air: 0.1
-},
+      },
       astrologicalInfluences: ['Saturn', 'Jupiter', 'Capricorn'],
       seasonality: 'all',
-      preparationNotes: 'Often used in dishes showing Chinese culinary influence in Vietnamese cuisine',
-      technicalTips: 'Toast in oil before using to release aromatics and reduce raw bean flavor' },
-        saTe: {
+      preparationNotes:
+        'Often used in dishes showing Chinese culinary influence in Vietnamese cuisine',
+      technicalTips: 'Toast in oil before using to release aromatics and reduce raw bean flavor'
+    },
+    saTe: {
       name: 'Sa Tế (Vietnamese Sateay Sauce)',
       description: 'Aromatic lemongrass and chili paste used in soups and stir-fries',
       base: 'lemongrass and chilies',
@@ -809,11 +829,13 @@ export const vietnamese: Cuisine = {
         Air: 0.3,
         Earth: 0.2,
         Water: 0.1
-},
+      },
       astrologicalInfluences: ['Mars', 'Mercury', 'Leo'],
       seasonality: 'all',
-      preparationNotes: 'Most authentic when chilies and aromatics are pounded by hand in a mortar and pestle',
-      technicalTips: 'The oil should separate when fried properly, creating a vibrant red layer on top',
+      preparationNotes:
+        'Most authentic when chilies and aromatics are pounded by hand in a mortar and pestle',
+      technicalTips:
+        'The oil should separate when fried properly, creating a vibrant red layer on top'
     }
   },
   sauceRecommender: {
@@ -979,7 +1001,7 @@ export const vietnamese: Cuisine = {
       toolsRequired: ['clay pot', 'wooden spoon', 'caramel sauce', 'long cooking time'],
       bestFor: ['fish', 'pork', 'chicken', 'tofu', 'eggs'],
       difficulty: 'medium'
-}
+    },
     {
       name: 'Nướng (Grilling)',
       description: 'Aromatic grilling over charcoal, often with lemongrass marinades',
@@ -987,7 +1009,7 @@ export const vietnamese: Cuisine = {
       toolsRequired: ['charcoal grill', 'bamboo skewers', 'banana leaf wrapping', 'marinade brush'],
       bestFor: ['pork', 'beef', 'seafood', 'chicken', 'meatballs'],
       difficulty: 'medium'
-}
+    },
     {
       name: 'Xào (Stir-frying)',
       description: 'Quick high-heat cooking that preserves fresh flavors and textures',
@@ -995,7 +1017,7 @@ export const vietnamese: Cuisine = {
       toolsRequired: ['wok', 'high heat source', 'spatula', 'prep bowls'],
       bestFor: ['vegetables', 'rice noodles', 'quick meat dishes', 'tofu', 'morning glory'],
       difficulty: 'medium'
-}
+    },
     {
       name: 'Hấp (Steaming)',
       description: 'Gentle cooking that preserves natural flavors and nutritional content',
@@ -1003,10 +1025,11 @@ export const vietnamese: Cuisine = {
       toolsRequired: ['steamer basket', 'banana leaves', 'parchment paper', 'pot'],
       bestFor: ['fish', 'rice cakes', 'dumplings', 'custards', 'fresh vegetables'],
       difficulty: 'easy'
-}
+    },
     {
       name: 'Cuốn (Rolling/Wrapping)',
-      description: 'Creating fresh rolls with rice paper or lettuce, emphasizing contrast and freshness',
+      description:
+        'Creating fresh rolls with rice paper or lettuce, emphasizing contrast and freshness',
       elementalProperties: { Water: 0.3, Earth: 0.3, Air: 0.3, Fire: 0.1 },
       toolsRequired: ['rice paper', 'bowl of warm water', 'clean work surface', 'sharp knife'],
       bestFor: [
@@ -1017,12 +1040,13 @@ export const vietnamese: Cuisine = {
         'rice noodle rolls'
       ],
       difficulty: 'easy'
-}
+    }
   ],
   regionalCuisines: [
     {
       name: 'Northern Vietnamese',
-      description: 'More subtle and delicate flavors with Chinese influence and less spice and sugar',
+      description:
+        'More subtle and delicate flavors with Chinese influence and less spice and sugar',
       signatureDishes: ['Phở Hà Nội', 'Bún Chả', 'Chả Cá Lã Vọng', 'Bánh Cuốn', 'Xôi'],
       keyIngredients: [
         'fresh herbs',
@@ -1034,8 +1058,9 @@ export const vietnamese: Cuisine = {
       cookingTechniques: ['stir-frying', 'grilling', 'steaming', 'slow simmering'],
       elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
       culturalInfluences: ['Chinese', 'French colonial', 'indigenous Vietnamese'],
-      philosophicalFoundations: 'Balance and subtlety, with respect for traditional methods and pure flavors',
-    }
+      philosophicalFoundations:
+        'Balance and subtlety, with respect for traditional methods and pure flavors'
+    },
     {
       name: 'Central Vietnamese',
       description: 'Bold, spicy flavors influenced by royal cuisine with elaborate presentation',
@@ -1051,8 +1076,9 @@ export const vietnamese: Cuisine = {
       cookingTechniques: ['slow cooking', 'fermentation', 'intricate cutting', 'spice preparation'],
       elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 },
       culturalInfluences: ['Royal Vietnamese court', 'Thai', 'Cham'],
-      philosophicalFoundations: 'Complex and sophisticated flavors that honor the royal culinary traditions'
-}
+      philosophicalFoundations:
+        'Complex and sophisticated flavors that honor the royal culinary traditions'
+    },
     {
       name: 'Southern Vietnamese',
       description: 'Sweet, vibrant flavors with abundant fresh herbs and tropical ingredients',
@@ -1068,8 +1094,9 @@ export const vietnamese: Cuisine = {
       cookingTechniques: ['simmering', 'caramelizing', 'quick stir-frying', 'fresh preparations'],
       elementalProperties: { Water: 0.3, Earth: 0.3, Air: 0.2, Fire: 0.2 },
       culturalInfluences: ['Khmer', 'Chinese', 'Thai', 'French colonial'],
-      philosophicalFoundations: 'Embraces abundance and fusion while maintaining the essential Vietnamese balance'
-}
+      philosophicalFoundations:
+        'Embraces abundance and fusion while maintaining the essential Vietnamese balance'
+    },
     {
       name: 'Mekong Delta',
       description: 'Emphasizes freshwater fish, tropical fruits, and rice with Khmer influences',
@@ -1091,11 +1118,13 @@ export const vietnamese: Cuisine = {
       cookingTechniques: ['clay pot cooking', 'fermentation', 'caramelization', 'stewing'],
       elementalProperties: { Water: 0.5, Earth: 0.3, Fire: 0.1, Air: 0.1 },
       culturalInfluences: ['Khmer', 'indigenous Vietnamese', 'Chinese'],
-      philosophicalFoundations: 'Connection to river life and the bounty of the delta, with emphasis on preservation techniques',
-    }
+      philosophicalFoundations:
+        'Connection to river life and the bounty of the delta, with emphasis on preservation techniques'
+    },
     {
       name: 'Highland Vietnamese',
-      description: 'Rustic, earthy cuisine utilizing mountain ingredients and ethnic minority traditions',
+      description:
+        'Rustic, earthy cuisine utilizing mountain ingredients and ethnic minority traditions',
       signatureDishes: [
         'Thịt Nướng Cây Rừng',
         'Cơm Lam',
@@ -1113,15 +1142,16 @@ export const vietnamese: Cuisine = {
       cookingTechniques: ['smoking', 'open fire cooking', 'bamboo tube cooking', 'preserving'],
       elementalProperties: { Earth: 0.5, Fire: 0.3, Air: 0.1, Water: 0.1 },
       culturalInfluences: ['Ethnic minorities (Ê Đê, H'MôngThái)', 'Indigenous practices'],
-      philosophicalFoundations: 'Deep connection to mountain landscapes and ethnic culinary heritage'
-}
+      philosophicalFoundations:
+        'Deep connection to mountain landscapes and ethnic culinary heritage'
+    }
   ],
   elementalProperties: {
-    Water: 0.3, // Represents soups and broths
+    Water: 0.3, // Represents soups and broths,
     Earth: 0.3, // Represents rice and proteins,
-    Fire: 0.2, // Represents spicy elements and grilling
+    Fire: 0.2, // Represents spicy elements and grilling,
     Air: 0.2, // Represents herbs and aromatics
   }
-}
+};
 
-export default vietnamese,
+export default vietnamese;

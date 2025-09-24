@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 const rawWholeSpices = {
-  star_anise: {,
+  star_anise: {
     name: 'Star Anise',
     elementalProperties: { Fire: 0.4, Air: 0.2, Water: 0.1, Earth: 0.1 },
     qualities: ['sweet', 'licorice-like', 'warming'],
@@ -258,8 +258,9 @@ const rawWholeSpices = {
                 flavorProfile: {
                   primary: ['balanced'],
                   secondary: ['versatile'],
-                  notes: 'Versatile flavorProfile for various uses' },
-        cookingMethods: ['sautéing', 'steaming', 'roasting'],
+                  notes: 'Versatile flavorProfile for various uses'
+                },
+                cookingMethods: ['sautéing', 'steaming', 'roasting'],
                 cuisineAffinity: ['Global', 'International'],
                 preparationTips: ['Use as needed', 'Season to taste']
               },
@@ -269,8 +270,9 @@ const rawWholeSpices = {
               flavorProfile: {
                 primary: ['balanced'],
                 secondary: ['versatile'],
-                notes: 'Versatile flavorProfile for various uses' },
-        cookingMethods: ['sautéing', 'steaming', 'roasting'],
+                notes: 'Versatile flavorProfile for various uses'
+              },
+              cookingMethods: ['sautéing', 'steaming', 'roasting'],
               cuisineAffinity: ['Global', 'International'],
               preparationTips: ['Use as needed', 'Season to taste']
             },
@@ -285,13 +287,14 @@ const rawWholeSpices = {
           methods: ['standard preparation'],
           timing: 'as needed',
           notes: 'Standard preparation for star anise'
-}
+        }
       },
       culinaryProfile: {
         flavorProfile: {
           primary: ['balanced'],
           secondary: ['versatile'],
-          notes: 'Versatile star anise for various uses' },
+          notes: 'Versatile star anise for various uses'
+        },
         cookingMethods: ['sautéing', 'steaming', 'roasting'],
         cuisineAffinity: ['Global', 'International'],
         preparationTips: ['Use as needed', 'Season to taste']
@@ -302,13 +305,14 @@ const rawWholeSpices = {
       toasting: {
         method: 'dry toast until fragrant',
         duration: '2-3 minutes',
-        notes: 'Watch carefully to prevent burning' },
-        grinding: 'grind as needed',
+        notes: 'Watch carefully to prevent burning'
+      },
+      grinding: 'grind as needed',
       infusing: {
         method: 'add whole to liquids',
         duration: '10-20 minutes',
         removal: 'required before serving'
-}
+      }
     },
     culinaryApplications: {
       broths: {
@@ -355,13 +359,15 @@ const rawWholeSpices = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile broths for various uses' },
-        cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile broths for various uses'
+          },
+          cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
         season: ['year-round']
       },
+
       tea_blends: {
         name: 'Tea Blends',
         method: 'combine with other spices',
@@ -410,8 +416,9 @@ const rawWholeSpices = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile tea blends for various uses' },
-        cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile tea blends for various uses'
+          },
+          cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -423,8 +430,9 @@ const rawWholeSpices = {
       duration: '2 years',
       container: 'airtight',
       notes: 'Maintains potency well when whole'
-}
+    }
   },
+
   cardamom_pods: {
     name: 'Cardamom Pods',
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
@@ -435,8 +443,8 @@ const rawWholeSpices = {
         base: 'Air',
         decanModifiers: {
           first: { element: 'Air', planet: 'Mercury' },
-        second: { element: 'Fire', planet: 'Venus' },
-        third: { element: 'Earth', planet: 'Saturn' }
+          second: { element: 'Fire', planet: 'Venus' },
+          third: { element: 'Earth', planet: 'Saturn' }
         }
       }
     },
@@ -444,19 +452,21 @@ const rawWholeSpices = {
     origin: ['India', 'Guatemala', 'Sri Lanka'],
     category: 'spice',
     subCategory: 'whole',
-    varieties: {}
+    varieties: {},
     preparation: {
       toasting: {
         method: 'light dry toast',
         duration: '1-2 minutes',
-        notes: 'Just until fragrant' },
-        grinding: {
+        notes: 'Just until fragrant'
+      },
+      grinding: {
         method: 'remove seeds from pods',
-        notes: 'Discard pods or use for infusing' },
-        crushing: {
+        notes: 'Discard pods or use for infusing'
+      },
+      crushing: {
         method: 'lightly crush to release oils',
         notes: 'For infusing liquids'
-}
+      }
     },
     culinaryApplications: {
       rice_dishes: {
@@ -491,8 +501,9 @@ const rawWholeSpices = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile rice dishes for various uses' },
-        cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile rice dishes for various uses'
+          },
+          cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -514,8 +525,9 @@ const rawWholeSpices = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile curries for various uses' },
-        cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile curries for various uses'
+          },
+          cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -526,15 +538,16 @@ const rawWholeSpices = {
         method: 'combine with other spices',
         pairings: ['black tea', 'cinnamon', 'orange'],
         ratios: '1 pod per 2 cups water'
-}
+      }
     },
     storage: {
       temperature: 'cool, dark place',
       duration: '2 years',
       container: 'airtight',
       notes: 'Maintains potency well when whole'
-}
+    }
   },
+
   mustard_seeds: {
     name: 'Mustard Seeds',
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
@@ -575,8 +588,9 @@ const rawWholeSpices = {
           flavorProfile: {
             primary: ['balanced'],
             secondary: ['versatile'],
-            notes: 'Versatile mustard seeds for various uses' },
-        cookingMethods: ['sautéing', 'steaming', 'roasting'],
+            notes: 'Versatile mustard seeds for various uses'
+          },
+          cookingMethods: ['sautéing', 'steaming', 'roasting'],
           cuisineAffinity: ['Global', 'International'],
           preparationTips: ['Use as needed', 'Season to taste']
         },
@@ -604,14 +618,16 @@ const rawWholeSpices = {
             flavorProfile: {
               primary: ['balanced'],
               secondary: ['versatile'],
-              notes: 'Versatile tempering for various uses' },
-        cookingMethods: ['sautéing', 'steaming', 'roasting'],
+              notes: 'Versatile tempering for various uses'
+            },
+            cookingMethods: ['sautéing', 'steaming', 'roasting'],
             cuisineAffinity: ['Global', 'International'],
             preparationTips: ['Use as needed', 'Season to taste']
           },
           season: ['year-round']
         }
       },
+
       marinades: {
         name: 'Marinades',
         method: 'crush or grind',
@@ -622,7 +638,7 @@ const rawWholeSpices = {
           paste: 'grind with liquids',
           rustic: 'roughly crush',
           infusion: 'heat in oil first'
-}
+        }
       },
       sauces: {
         name: 'Sauces',
@@ -633,7 +649,7 @@ const rawWholeSpices = {
           cream_sauce: 'infuse in warm cream',
           vinaigrette: 'crush and mix',
           grainy_mustard: 'soak in vinegar'
-}
+        }
       }
     },
     storage: {
@@ -641,8 +657,9 @@ const rawWholeSpices = {
       duration: 'whole: 1 year',
       container: 'airtight',
       notes: 'Seeds can be sprouted if fresh'
-}
+    }
   },
+
   fennel_seeds: {
     name: 'Fennel Seeds',
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
@@ -655,12 +672,13 @@ const rawWholeSpices = {
         name: 'Indian',
         appearance: 'greener, thinner',
         flavor: 'more aromatic',
-        uses: 'curries, digestive' },
-        Mediterranean: {
+        uses: 'curries, digestive'
+      },
+      Mediterranean: {
         name: 'Mediterranean',
         appearance: 'plumper, pale green',
         flavor: 'sweeter',
-        uses: 'sausages, bread',
+        uses: 'sausages, bread'
       }
     },
     culinaryApplications: {
@@ -674,7 +692,7 @@ const rawWholeSpices = {
           topping: 'sprinkle on crust',
           incorporated: 'mix into dough',
           flavored_oil: 'infuse in oil first'
-}
+        }
       },
       seafood_seasoning: {
         name: 'Seafood Seasoning',
@@ -686,7 +704,7 @@ const rawWholeSpices = {
           crust: 'grind with salt',
           court_bouillon: 'add to poaching liquid',
           steam_aromatic: 'add to steaming water'
-}
+        }
       },
       sausage_making: {
         name: 'Sausage Making',
@@ -697,10 +715,11 @@ const rawWholeSpices = {
           italian_style: 'whole seeds',
           chinese_style: 'ground with star anise',
           merguez: 'combined with cumin'
-}
+        }
       }
     }
   },
+
   coriander_seeds: {
     name: 'Coriander Seeds',
     elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },
@@ -713,12 +732,13 @@ const rawWholeSpices = {
         name: 'Indian',
         appearance: 'larger, more round',
         flavor: 'more aromatic',
-        uses: 'curries, spice blends' },
-        Mediterranean: {
+        uses: 'curries, spice blends'
+      },
+      Mediterranean: {
         name: 'Mediterranean',
         appearance: 'smaller, more oval',
         flavor: 'more citrusy',
-        uses: 'marinades, pickling',
+        uses: 'marinades, pickling'
       }
     },
     culinaryApplications: {
@@ -732,7 +752,7 @@ const rawWholeSpices = {
           dry_toasting: 'until fragrant and color changes',
           wet_grinding: 'with aromatics for paste',
           whole_tempering: 'crack and bloom in oil'
-}
+        }
       },
       pickling_spice: {
         name: 'Pickling Spice',
@@ -744,10 +764,11 @@ const rawWholeSpices = {
           hot_brine: 'add to heating liquid',
           fermentation: 'add at start',
           quick_pickle: 'lightly crush first'
-}
+        }
       }
     }
   },
+
   cumin_seeds: {
     name: 'Cumin Seeds',
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
@@ -758,8 +779,8 @@ const rawWholeSpices = {
         base: 'Earth',
         decanModifiers: {
           first: { element: 'Earth', planet: 'Mercury' },
-        second: { element: 'Fire', planet: 'Saturn' },
-        third: { element: 'Air', planet: 'Uranus' }
+          second: { element: 'Fire', planet: 'Saturn' },
+          third: { element: 'Air', planet: 'Uranus' }
         }
       }
     },
@@ -772,12 +793,13 @@ const rawWholeSpices = {
         name: 'Indian',
         appearance: 'small, dark',
         flavor: 'intense, earthy',
-        uses: 'curries, tempering' },
-        Iranian: {
+        uses: 'curries, tempering'
+      },
+      Iranian: {
         name: 'Iranian',
         appearance: 'longer seeds',
         flavor: 'more delicate',
-        uses: 'rice dishes, kebabs',
+        uses: 'rice dishes, kebabs'
       }
     },
     culinaryApplications: {
@@ -791,7 +813,7 @@ const rawWholeSpices = {
           tadka: 'bloom and pour over',
           pilaf_base: 'start rice dishes',
           oil_infusion: 'longer steep for oil'
-}
+        }
       },
       meat_rubs: {
         name: 'Meat Rubs',
@@ -803,10 +825,11 @@ const rawWholeSpices = {
           dry_rub: 'grind with other spices',
           paste: 'grind with wet ingredients',
           marinade_base: 'infuse in oil first'
-}
+        }
       }
     }
   },
+
   caraway_seeds: {
     name: 'Caraway Seeds',
     elementalProperties: { Air: 0.4, Earth: 0.3, Fire: 0.2, Water: 0.1 },
@@ -819,12 +842,13 @@ const rawWholeSpices = {
         name: 'Dutch',
         appearance: 'curved, dark',
         flavor: 'traditional strength',
-        uses: 'bread, cheese' },
-        Finnish: {
+        uses: 'bread, cheese'
+      },
+      Finnish: {
         name: 'Finnish',
         appearance: 'slightly larger',
         flavor: 'more intense',
-        uses: 'rye bread, aquavit',
+        uses: 'rye bread, aquavit'
       }
     },
     culinaryApplications: {
@@ -838,7 +862,7 @@ const rawWholeSpices = {
           traditional_rye: 'heavy seeding',
           light_rye: 'sparse seeding',
           crust_topping: 'press into top'
-}
+        }
       },
       sauerkraut: {
         name: 'Sauerkraut',
@@ -850,14 +874,14 @@ const rawWholeSpices = {
           traditional: 'whole seeds throughout',
           spice_packet: 'contained in muslin',
           layered: 'between cabbage layers'
-}
+        }
       }
     }
   }
-}
+};
 
 // Fix the ingredient mappings to ensure they have all required properties
 // ✅ Pattern MM-1: Type assertion for ZodiacSign[] compatibility
-export const _wholeSpices: Record<string, IngredientMapping> = fixIngredientMappings(
+export const, _wholeSpices: Record<string, IngredientMapping> = fixIngredientMappings(
   rawWholeSpices as Record<string, Partial<IngredientMapping>>,
-)
+);

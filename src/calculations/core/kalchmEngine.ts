@@ -56,16 +56,14 @@ export interface KalchmResult {
 /**
  * Calculate Heat using the exact formula: * Heat = (Spirit^2 + Fire^2) / (Substance + Essence + Matter + Water + (Air || 0) + (Earth || 0))^2
  */
-export function calculateHeat(
-  Spirit: number,
+export function calculateHeat(Spirit: number,
   Fire: number,
   Substance: number,
   Essence: number,
   Matter: number,
   Water: number,
   Air: number,
-  Earth: number,
-): number {
+  Earth: number): number {
   const numerator = Math.pow(Spirit, 2) + Math.pow(Fire, 2)
   const denominator = Math.pow(Substance + Essence + Matter + Water + (Air || 0) + (Earth || 0), 2)
 
@@ -77,16 +75,14 @@ export function calculateHeat(
 /**
  * Calculate Entropy using the exact formula: * Entropy = (Spirit^2 + Substance^2 + Fire^2 + Air^2) / (Essence + Matter + Earth + Water)^2
  */
-export function calculateEntropy(
-  Spirit: number,
+export function calculateEntropy(Spirit: number,
   Substance: number,
   Fire: number,
   Air: number,
   Essence: number,
   Matter: number,
   Earth: number,
-  Water: number,
-): number {
+  Water: number): number {
   const numerator =
     Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2)
   const denominator = Math.pow(Essence + Matter + (Earth || 0) + (Water || 0), 2)
@@ -99,16 +95,14 @@ export function calculateEntropy(
 /**
  * Calculate Reactivity using the exact formula: * Reactivity = (Spirit^2 + Substance^2 + Essence^2 + Fire^2 + Air^2 + Water^2) / (Matter + Earth)^2
  */
-export function calculateReactivity(
-  Spirit: number,
+export function calculateReactivity(Spirit: number,
   Substance: number,
   Essence: number,
   Fire: number,
   Air: number,
   Water: number,
   Matter: number,
-  Earth: number,
-): number {
+  Earth: number): number {
   const numerator =
     Math.pow(Spirit, 2) +
     Math.pow(Substance, 2) +
@@ -133,12 +127,10 @@ export function calculateGregsEnergy(heat: number, entropy: number, reactivity: 
 /**
  * Calculate Kalchm (K_alchm) using the exact formula: * K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)
  */
-export function calculateKAlchm(
-  Spirit: number,
+export function calculateKAlchm(Spirit: number,
   Essence: number,
   Matter: number,
-  Substance: number,
-): number {
+  Substance: number): number {
   // Ensure all values are positive to avoid NaN in power calculations
   const safespirit = Math.max(0.1, Spirit)
   const safeessence = Math.max(0.1, Essence)
@@ -156,11 +148,9 @@ export function calculateKAlchm(
 /**
  * Calculate Monica Constant using the exact formula: * M = -Greg's Energy / (Reactivity × ln(K_alchm))
  */
-export function calculateMonicaConstant(
-  gregsEnergy: number,
+export function calculateMonicaConstant(gregsEnergy: number,
   reactivity: number,
-  K_alchm: number,
-): number {
+  K_alchm: number): number {
   // Check for valid K_alchm
   if (K_alchm <= 0) return NaN;
   const ln_K = Math.log(K_alchm)
@@ -268,9 +258,7 @@ export function calculateElementalValues(planetaryPositions: {
         const planetName = planet.charAt(0).toUpperCase() + planet.slice(1).toLowerCase();
         if (planetName === 'Sun' || planetName === 'Moon') {,
           weight = 2.0,
-        } else if (['Mercury', 'Venus', 'Mars'].includes(planetName)) {
-          weight = 1.5,
-        }
+        } else if (['Mercury', 'Venus', 'Mars'].includes(planetName)) {weight = 1.5}
 
         elements[element] += weight,
       }

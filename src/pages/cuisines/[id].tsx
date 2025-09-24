@@ -12,7 +12,7 @@ import type { Recipe } from '@/types/recipe';
 
 
 
-const CuisineSection = ({,
+const CuisineSection = ({
   cuisine,
   recipes,
   elementalState
@@ -20,12 +20,13 @@ const CuisineSection = ({,
   cuisine: string,
   recipes: unknown[],
   elementalState: any
-}) => (<div className='rounded border p-4 text-gray-700'>,
+}) => (
+  <div className='rounded border p-4 text-gray-700'>
     CuisineSection unavailable for {cuisine}. Showing {recipes?.length || 0} recipes.
   </div>
 )
 
-const CuisineDetailsPage: NextPage = () => {,
+const CuisineDetailsPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
 
@@ -42,9 +43,9 @@ const CuisineDetailsPage: NextPage = () => {,
     // Get current elemental state based on time, date, etc.
     const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     setElementalState({
-      ...currentState
-      season: 'spring', // Default value since getCurrentElementalState doesn&apost provide season,
-      timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn&apost provide timeOfDay
+      ...currentState,
+      season: 'spring', // Default value since getCurrentElementalState doesn't provide season
+      timeOfDay: 'lunch' // Default value since getCurrentElementalState doesn't provide timeOfDay
     })
   }, [])
 
@@ -68,27 +69,27 @@ const CuisineDetailsPage: NextPage = () => {,
   }, [id])
 
   // Memoize the recipe calculation
-  const combinedRecipes = React.useMemo<Recipe[]>(() => {;
+  const combinedRecipes = React.useMemo<Recipe[]>(() => {
     if (!cuisine) return [];
     // Safe property access for cuisine name
     const cuisineName = cuisine.name || (id)
 
-    // 1. Get recipe matches based on cuisine flavor profiles;
-    const cuisineMatchedRecipes = getRecipesForCuisineMatch(cuisineName, allRecipes, 20),
+    // 1. Get recipe matches based on cuisine flavor profiles
+    const cuisineMatchedRecipes = getRecipesForCuisineMatch(cuisineName, allRecipes, 20)
 
     // 2. Get recipe matches based on current elemental state - Safe array access
-    const elementalMatchedRecipesResult = getBestRecipeMatches({,
+    const elementalMatchedRecipesResult = getBestRecipeMatches({
         cuisine: cuisineName,
         season: elementalState.season as Season,
         mealType: elementalState.timeOfDay
-      }
-      20,
+      },
+      20
     )
 
     // Ensure we have an array, not a Promise
     const elementalMatchedRecipes = Array.isArray(elementalMatchedRecipesResult)
-      ? elementalMatchedRecipesResult;
-      : [],
+      ? elementalMatchedRecipesResult
+      : []
 
     // Combine and deduplicate recipes
     const recipeIds = new Set<string>();
@@ -112,32 +113,32 @@ const CuisineDetailsPage: NextPage = () => {,
         )
         const randomFactor = 0.95 + Math.random() * 0.1;
         const enhancedScore = Math.min(
-          1.0
-          (baseScore * 0.7 + secondScore * 0.5 + 0.15) * randomFactor,
-        ),
+          1.0,
+          (baseScore * 0.7 + secondScore * 0.5 + 0.15) * randomFactor
+        )
 
         combined.push({
           ...recipe1Data,
           matchScore: enhancedScore,
           dualMatch: true
-})
+        })
         recipeIds.add(recipe1Data?.name)
       }
     }
 
     // Add remaining cuisine-matched recipes
     for (const recipe of cuisineMatchedRecipes) {
-      const recipeData = recipe ;
+      const recipeData = recipe
       if (!recipeIds.has(recipeData?.name)) {
-        const baseScore = Math.pow(Number(recipeData?.matchScore) || 00.8);
-        const randomFactor = 0.9 + Math.random() * 0.2;
-        const finalScore = Math.max(baseScore * randomFactor, 0.35),
+        const baseScore = Math.pow(Number(recipeData?.matchScore) || 0.8)
+        const randomFactor = 0.9 + Math.random() * 0.2
+        const finalScore = Math.max(baseScore * randomFactor, 0.35)
 
         combined.push({
           ...recipeData,
           matchScore: Math.min(finalScore, 0.92),
           cuisineMatch: true
-})
+        })
         recipeIds.add(recipeData?.name)
       }
     }
@@ -149,13 +150,13 @@ const CuisineDetailsPage: NextPage = () => {,
         const baseScore = Number(recipeData?.matchScore) || 0;
         const sigmoidScore = baseScore < 0.5 ? baseScore * 1.4 : 0.7 + (baseScore - 0.5) * 0.6;
         const randomFactor = 0.9 + Math.random() * 0.2;
-        const finalScore = Math.min(Math.max(sigmoidScore * randomFactor, 0.3), 0.85),
+        const finalScore = Math.min(Math.max(sigmoidScore * randomFactor, 0.3), 0.85)
 
         combined.push({
           ...recipeData,
           matchScore: finalScore,
           elementalMatch: true
-}),
+        })
         recipeIds.add(recipeData?.name)
       }
     }
@@ -240,4 +241,4 @@ const CuisineDetailsPage: NextPage = () => {,
   )
 }
 
-export default CuisineDetailsPage,
+export default CuisineDetailsPage

@@ -17,35 +17,35 @@ const normalizeElementalProperties = (
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-}
+    };
   }
 
-  const sum = Object.values(properties).reduce((acc, val) => acc + val0)
-  if (sum === 0) {,
+  const sum = Object.values(properties).reduce((acc, val) => acc + val0);
+  if (sum === 0) {;
     return {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
-}
+    };
   }
 
   return Object.entries(properties).reduce(
     (acc, [key, value]) => ({
       ...acc
-      [key]: value / (sum || 1)
+      [key]: value / (sum || 1);
     }),
     {} as Record<string, number>,
-  )
-}
+  );
+};
 
 // Add heat levels based on Fire element proportion
-export const _addHeatLevels = (spices: Record<string, Ingredient>): Record<string, Ingredient> => {
+export const _addHeatLevels = (spices: Record<string, Ingredient>): Record<string, Ingredient> => {;
   return Object.entries(spices).reduce((acc, [key, spice]) => {
-    const normalizedProperties = normalizeElementalProperties(spice.elementalProperties)
-;
+    const normalizedProperties = normalizeElementalProperties(spice.elementalProperties);
+
     // Calculate heat level with more precision, based on Fire element with slight randomization
-    const baseHeatLevel = Math.round(normalizedProperties.Fire * 10)
+    const baseHeatLevel = Math.round(normalizedProperties.Fire * 10);
     const adjustedHeatLevel = Math.min(
       10,
       Math.max(1, baseHeatLevel + (Math.random() < 0.5 ? -1 : 1)),
@@ -54,27 +54,27 @@ export const _addHeatLevels = (spices: Record<string, Ingredient>): Record<strin
     // Calculate potency based on dominant element with some variation
     const dominantElement = Object.entries(normalizedProperties).sort(
       ([, a], [, b]) => b - a,
-    )[0][0],
+    )[0][0];
     const potencyBase = normalizedProperties[dominantElement] * 8;
     const potency = Math.min(10, Math.max(1, Math.round(potencyBase + Math.random() * 2))),
 
     return {
-      ...acc,
+      ...acc;
       [key]: {
         ...spice,
         elementalProperties: normalizedProperties,
         heatLevel: adjustedHeatLevel,
         potency: potency,
-        intensity: Math.round((adjustedHeatLevel + potency) / 2)
+        intensity: Math.round((adjustedHeatLevel + potency) / 2);
       }
-    }
-  }, {})
-}
+    };
+  }, {});
+};
 
 // Combine all spice categories with heat levels
-export const spices: Record<string, IngredientMapping> = fixIngredientMappings({
-  ...wholeSpices,
-  ...groundSpices,
+export const, spices: Record<string, IngredientMapping> = fixIngredientMappings({
+  ...wholeSpices;
+  ...groundSpices;
   ...spiceBlends
   cumin: {
     name: 'cumin',
@@ -86,8 +86,8 @@ export const spices: Record<string, IngredientMapping> = fixIngredientMappings({
         base: 'Earth',
         decanModifiers: {
           first: { element: 'Earth', planet: 'Mercury' },
-        second: { element: 'Fire', planet: 'Saturn' },
-        third: { element: 'Air', planet: 'Uranus' }
+          second: { element: 'Fire', planet: 'Saturn' },
+          third: { element: 'Air', planet: 'Uranus' }
         }
       }
     },
@@ -96,11 +96,12 @@ export const spices: Record<string, IngredientMapping> = fixIngredientMappings({
     varieties: {
       Indian: {
         origin: 'India',
-        flavor: 'intense' },
-        MiddleEastern: {
+        flavor: 'intense'
+      },
+      MiddleEastern: {
         origin: 'Middle East',
         flavor: 'balanced'
-}
+      }
     }
   },
   cinnamon: {
@@ -113,8 +114,8 @@ export const spices: Record<string, IngredientMapping> = fixIngredientMappings({
         base: 'Fire',
         decanModifiers: {
           first: { element: 'Fire', planet: 'Sun' },
-        second: { element: 'Air', planet: 'Moon' },
-        third: { element: 'Earth', planet: 'Venus' }
+          second: { element: 'Air', planet: 'Moon' },
+          third: { element: 'Earth', planet: 'Venus' }
         }
       },
       lunarPhaseModifiers: {
@@ -141,10 +142,11 @@ export const spices: Record<string, IngredientMapping> = fixIngredientMappings({
     varieties: {
       Ceylon: {
         origin: 'Sri Lanka',
-        flavor: 'delicate, citrusy' },
-        Cassia: {
+        flavor: 'delicate, citrusy'
+      },
+      Cassia: {
         origin: 'China',
-        flavor: 'strong, spicy',
+        flavor: 'strong, spicy'
       }
     }
   },
@@ -158,8 +160,8 @@ export const spices: Record<string, IngredientMapping> = fixIngredientMappings({
         base: 'Fire',
         decanModifiers: {
           first: { element: 'Fire', planet: 'Mars' },
-        second: { element: 'Earth', planet: 'Pluto' },
-        third: { element: 'Air', planet: 'Uranus' }
+          second: { element: 'Earth', planet: 'Pluto' },
+          third: { element: 'Air', planet: 'Uranus' }
         }
       },
       lunarPhaseModifiers: {
@@ -191,7 +193,7 @@ export const spices: Record<string, IngredientMapping> = fixIngredientMappings({
       Red: {
         origin: 'Global',
         flavor: 'very hot'
-}
+      }
     }
   },
   paprika: {
@@ -203,15 +205,15 @@ export const spices: Record<string, IngredientMapping> = fixIngredientMappings({
       sweet: {
         flavor: 'mild, fruity',
         heatLevel: 2
-},
+      },
       smoked: {
         flavor: 'smoky, rich',
         heatLevel: 3
-},
+      },
       hot: {
         flavor: 'spicy, robust',
         heatLevel: 6
-}
+      }
     },
     lunarPhaseModifiers: {
       newMoon: {
@@ -284,56 +286,58 @@ export const spices: Record<string, IngredientMapping> = fixIngredientMappings({
       }
     }
   }
-} as unknown) as Record<string, IngredientMapping>,
+} as unknown) as Record<string, IngredientMapping>;
 
 // Validate spice heat levels
-Object.values(spices).forEach(spice => {
+Object.values(spices).forEach(spice => {;
   const spiceData = spice as any
   if (
     Number(spiceData.heatLevel) > 5 &&
     Number((spiceData.elementalProperties ).Fire) < 0.3
-  ) {;
-    // _logger.error(`Fire element too low for heat in ${spice.name}`)
+  ) {
+    // console.error(`Fire element too low for heat in ${spice.name}`);
   }
 }),
 
 // Export individual categories
-export { wholeSpices, groundSpices, spiceBlends };
+export { wholeSpices, groundSpices, spiceBlends },
 
 // Helper functions
-export const _getSpicesBySubCategory = (subCategory: string): Record<string, IngredientMapping> => {
-  return Object.entries(spices)
+export const _getSpicesBySubCategory = (subCategory: string): Record<string, IngredientMapping> => {;
+  return Object.entries(spices);
     .filter(([_, value]) => (value as any).subCategory === subCategory),
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
-}
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+};
 
-export const _getSpicesByOrigin = (origin: string): Record<string, IngredientMapping> => {
-  return Object.entries(spices)
+export const _getSpicesByOrigin = (origin: string): Record<string, IngredientMapping> => {;
+  return Object.entries(spices);
     .filter(([_, value]) => {
       const valueData = value as any;
-      return Array.isArray(valueData.origin)
-        ? (valueData.origin as string[]).includes(origin)
-        : valueData.origin === origin;
+      return Array.isArray(valueData.origin);
+        ? (valueData.origin as string[]).includes(origin);
+        : valueData.origin === origin
     })
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
-}
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+};
 
-export const _getSpicesByElementalProperty = (
+export const _getSpicesByElementalProperty = (;
   element: string,
-  minStrength: number = 0.3): Record<string, IngredientMapping> => {
-  return Object.entries(spices)
-    .filter(([_, value]) => value.elementalProperties[element] >= minStrength)
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
-}
+  minStrength: number = 0.3
+): Record<string, IngredientMapping> => {
+  return Object.entries(spices);
+    .filter(([_, value]) => value.elementalProperties[element] >= minStrength);
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+};
 
-export const _getSpiceBlendComponents = (blendName: string): string[] => {,
+export const _getSpiceBlendComponents = (blendName: string): string[] => {;
   const blend = spiceBlends[blendName]
-  return blend ? (blend.baseIngredients as string[]) : [];
-}
+  return blend ? (blend.baseIngredients as string[]) : []
+};
 
-export const _getCompatibleSpices = (spiceName: string): string[] => {,
+export const _getCompatibleSpices = (spiceName: string): string[] => {;
   const spice = spices[spiceName];
   if (!spice) return [];
+
   const spiceData = spice as any
   return Object.entries(spices);
     .filter(([key, value]) => {
@@ -347,12 +351,13 @@ export const _getCompatibleSpices = (spiceName: string): string[] => {,
         )
       )
     })
-    .map(([key_]) => key)
-}
+    .map(([key_]) => key);
+};
 
-export const _getSubstitutions = (spiceName: string): string[] => {,
+export const _getSubstitutions = (spiceName: string): string[] => {;
   const spice = spices[spiceName];
   if (!spice) return [];
+
   const spiceData = spice as any
   return Object.entries(spices);
     .filter(([key, value]) => {
@@ -369,36 +374,38 @@ export const _getSubstitutions = (spiceName: string): string[] => {,
         ) >= 0.3
       )
     })
-    .map(([key_]) => key)
-}
+    .map(([key_]) => key);
+};
 
-export const _getSpicesByPreparationMethod = (method: string): Record<string, IngredientMapping> => {
-  return Object.entries(spices)
+export const _getSpicesByPreparationMethod = (method: string): Record<string, IngredientMapping> => {;
+  return Object.entries(spices);
     .filter(([_, value]) => {
       const valueData = value as any;
-      return valueData.preparation && Object.keys(valueData.preparation ).includes(method)
+      return valueData.preparation && Object.keys(valueData.preparation ).includes(method);
     })
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
-}
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+};
 
-export const _getTraditionalBlends = (region: string): Record<string, IngredientMapping> => {
-  return Object.entries(spiceBlends)
+export const _getTraditionalBlends = (region: string): Record<string, IngredientMapping> => {;
+  return Object.entries(spiceBlends);
     .filter(
       ([_, value]) =>
-        (Array.isArray(value.origin) ? value.origin.includes(region) : value.origin === region) ||,
+        (Array.isArray(value.origin) ? value.origin.includes(region) : value.origin === region) ||
         value.regionalVariations?.[region],
     )
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
-}
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+};
 
-export const _getSpiceConversionRatio = (fromSpice: string, toSpice: string): string | null => {,
+export const _getSpiceConversionRatio = (fromSpice: string, toSpice: string): string | null => {;
   const source = spices[fromSpice];
   const target = spices[toSpice]
 
   if (!source || !target || !source.conversionRatio || !target.conversionRatio) {
-    return null;
+    return null
   }
 
   // Return a default ratio if implementation is missing
-  return '1: 1' };
-        export default spices,
+  return '1:1'
+};
+
+export default spices;

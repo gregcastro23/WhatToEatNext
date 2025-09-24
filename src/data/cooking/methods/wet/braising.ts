@@ -287,10 +287,10 @@ export const braising: CookingMethodData = {
     },
     symbolicMeaning: 'Represents the alchemical principle of solving et coagula (dissolve and recombine) where elements must be broken down before being reconstructed in more harmonious forms. In braising, tough ingredients are slowly dissolved and transformed into tender, flavorful substances with new properties.',
     associatedElements: {
-      primary: 'Water', // Dissolving and transformative,
-      secondary: 'Fire', // Catalyst for change and transformation
+      primary: 'Water', // Dissolving and transformative
+      secondary: 'Fire' // Catalyst for change and transformation
     }
-  }
+  },
 
   /**
    * Extended cooking notes
@@ -343,4 +343,4 @@ export const braising: CookingMethodData = {
       'Acid balance: Add acid elements later in cooking process to preserve brightness'
     ]
   }
-} as unknown as CookingMethodData,
+} as unknown as CookingMethodData

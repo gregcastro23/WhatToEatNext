@@ -139,7 +139,7 @@ export const useEnhancedRecommendations = () => {
       setRecommendations(result);
       return result;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch recommendations',
+      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch recommendations'
       setError(errorMessage);
 
       // Return fallback response

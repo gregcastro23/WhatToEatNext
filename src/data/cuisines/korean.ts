@@ -1,10 +1,11 @@
 // src/data/cuisines/korean.ts
 import type { Cuisine } from '@/types/cuisine';
 
-export const korean: Cuisine = {
+export const, korean: Cuisine = {
   id: 'korean',
   name: 'Korean',
-  description: 'Traditional Korean cuisine emphasizing fermented foods, communal dining, and balanced flavors with rice, banchan, and grilled meats',
+  description:
+    'Traditional Korean cuisine emphasizing fermented foods, communal dining, and balanced flavors with rice, banchan, and grilled meats',
   dishes: {
     breakfast: {
       all: [
@@ -30,7 +31,7 @@ export const korean: Cuisine = {
               unit: 'large',
               category: 'protein',
               swaps: ['tofu scramble']
-            }
+            },
             { name: 'sesame oil', amount: '1', unit: 'tsp', category: 'oil' },
             { name: 'soy sauce', amount: '1', unit: 'tsp', category: 'seasoning' },
             { name: 'seaweed', amount: '1', unit: 'sheet', category: 'garnish' },
@@ -45,7 +46,8 @@ export const korean: Cuisine = {
           allergens: ['egg', 'soy'],
           prepTime: '5 minutes',
           cookTime: '10 minutes',
-          culturalNotes: 'A popular comfort food in Korean households, especially for breakfast or quick meals. The dish showcases the Korean love for eggs and rice combinations',
+          culturalNotes:
+            'A popular comfort food in Korean households, especially for breakfast or quick meals. The dish showcases the Korean love for eggs and rice combinations',
           pairingSuggestions: ['kimchi', 'doenjang soup', 'pickled radish'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -65,8 +67,8 @@ export const korean: Cuisine = {
             Water: 0.3,
             Earth: 0.3,
             Air: 0.2
-}
-        }
+          }
+        },
         {
           name: 'Juk',
           description: 'Korean rice porridge with various toppings',
@@ -89,7 +91,7 @@ export const korean: Cuisine = {
               unit: 'g',
               category: 'vegetable',
               swaps: ['other vegetables']
-            }
+            },
             { name: 'carrots', amount: '1', unit: 'medium', category: 'vegetable' },
             { name: 'ginger', amount: '1', unit: 'tbsp', category: 'spice' },
             { name: 'kimchi', amount: '100', unit: 'g', category: 'fermented', optional: true }
@@ -103,7 +105,8 @@ export const korean: Cuisine = {
           allergens: ['none'],
           prepTime: '10 minutes',
           cookTime: '30 minutes',
-          culturalNotes: 'A traditional Korean comfort food often served to the sick or elderly. Different versions exist for various occasions and seasons',
+          culturalNotes:
+            'A traditional Korean comfort food often served to the sick or elderly. Different versions exist for various occasions and seasons',
           pairingSuggestions: ['kimchi', 'pickled vegetables', 'side dishes'],
           dietaryInfo: ['vegetarian', 'vegan'],
           spiceLevel: 'none',
@@ -142,7 +145,7 @@ export const korean: Cuisine = {
               unit: 'g',
               category: 'grain',
               swaps: ['rice noodles']
-            }
+            },
             { name: 'cucumber', amount: '1', unit: 'medium', category: 'vegetable' },
             { name: 'tomato', amount: '1', unit: 'medium', category: 'vegetable' },
             { name: 'sesame seeds', amount: '1', unit: 'tbsp', category: 'garnish' }
@@ -156,7 +159,8 @@ export const korean: Cuisine = {
           allergens: ['soy', 'wheat'],
           prepTime: 'overnight soaking + 15 minutes',
           cookTime: '30 minutes',
-          culturalNotes: 'A refreshing summer dish that showcases the versatility of soybeans in Korean cuisine. Popular during hot summer months',
+          culturalNotes:
+            'A refreshing summer dish that showcases the versatility of soybeans in Korean cuisine. Popular during hot summer months',
           pairingSuggestions: ['kimchi', 'pickled radish', 'side dishes'],
           dietaryInfo: ['vegetarian', 'vegan'],
           spiceLevel: 'none',
@@ -204,7 +208,7 @@ export const korean: Cuisine = {
               unit: 'g',
               category: 'protein',
               swaps: ['mushrooms', 'tofu']
-            }
+            },
             { name: 'spinach', amount: '100', unit: 'g', category: 'vegetable' },
             { name: 'carrots', amount: '100', unit: 'g', category: 'vegetable' },
             { name: 'bean sprouts', amount: '100', unit: 'g', category: 'vegetable' },
@@ -221,7 +225,8 @@ export const korean: Cuisine = {
           allergens: ['egg', 'soy'],
           prepTime: '30 minutes',
           cookTime: '20 minutes',
-          culturalNotes: 'Originally served to royalty, bibimbap represents the Korean principle of balanced eating with its colorful array of vegetables. The dish name means 'mixed rice'',
+          culturalNotes:
+            'Originally served to royalty, bibimbap represents the Korean principle of balanced eating with its colorful array of vegetables. The dish name means 'mixed rice'',
           pairingSuggestions: ['kimchi', 'doenjang soup', 'korean tea'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'adjustable',
@@ -235,7 +240,7 @@ export const korean: Cuisine = {
           },
           season: ['all'],
           mealType: ['lunch', 'dinner']
-        }
+        },
         {
           name: 'Kimchi Jjigae',
           description: 'Spicy kimchi stew with pork and tofu',
@@ -258,7 +263,7 @@ export const korean: Cuisine = {
               unit: 'g',
               category: 'protein',
               swaps: ['mushrooms']
-            }
+            },
             { name: 'tofu', amount: '200', unit: 'g', category: 'protein' },
             { name: 'gochugaru', amount: '1', unit: 'tbsp', category: 'spice' },
             { name: 'green onions', amount: '2', unit: 'stalks', category: 'vegetable' }
@@ -272,7 +277,8 @@ export const korean: Cuisine = {
           allergens: ['soy'],
           prepTime: '15 minutes',
           cookTime: '30 minutes',
-          culturalNotes: 'A quintessential Korean comfort food that makes use of aged kimchi. The dish exemplifies the Korean philosophy of not wasting food',
+          culturalNotes:
+            'A quintessential Korean comfort food that makes use of aged kimchi. The dish exemplifies the Korean philosophy of not wasting food',
           pairingSuggestions: ['steamed rice', 'fried egg', 'side dishes'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'medium to hot',
@@ -311,14 +317,14 @@ export const korean: Cuisine = {
               unit: 'g',
               category: 'grain',
               swaps: ['sweet potato noodles']
-            }
+            },
             {
               name: 'beef broth',
               amount: '500',
               unit: 'ml',
               category: 'broth',
               swaps: ['vegetable broth']
-            }
+            },
             { name: 'cucumber', amount: '1', unit: 'medium', category: 'vegetable' },
             { name: 'pear', amount: '1/2', unit: 'medium', category: 'fruit' },
             { name: 'egg', amount: '1', unit: 'large', category: 'protein' },
@@ -333,7 +339,8 @@ export const korean: Cuisine = {
           allergens: ['wheat', 'egg'],
           prepTime: '20 minutes',
           cookTime: '15 minutes plus chilling time',
-          culturalNotes: 'A refreshing summer dish that originated in North Korea. The cold temperature and chewy noodles are essential characteristics',
+          culturalNotes:
+            'A refreshing summer dish that originated in North Korea. The cold temperature and chewy noodles are essential characteristics',
           pairingSuggestions: ['kimchi', 'dongchimi', 'soju'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'mild',
@@ -372,7 +379,7 @@ export const korean: Cuisine = {
               unit: 'g',
               category: 'protein',
               swaps: ['mushrooms']
-            }
+            },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein' },
             { name: 'green onions', amount: '2', unit: 'stalks', category: 'vegetable' },
             { name: 'seaweed', amount: '2', unit: 'sheets', category: 'garnish' }
@@ -386,7 +393,8 @@ export const korean: Cuisine = {
           allergens: ['egg'],
           prepTime: '20 minutes',
           cookTime: '40 minutes',
-          culturalNotes: 'Eating tteokguk on New Year's Day is said to add a year to one's age. The white rice cakes symbolize purity and a fresh start',
+          culturalNotes:
+            'Eating tteokguk on New Year's Day is said to add a year to one's age. The white rice cakes symbolize purity and a fresh start',
           pairingSuggestions: ['kimchi', 'japchae', 'Korean tea'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'none',
@@ -436,7 +444,8 @@ export const korean: Cuisine = {
           allergens: ['soy'],
           prepTime: '15 minutes',
           cookTime: '30 minutes',
-          culturalNotes: 'A popular Korean BBQ dish that emphasizes communal dining. The ritual of grilling and wrapping meat is an essential part of Korean food culture',
+          culturalNotes:
+            'A popular Korean BBQ dish that emphasizes communal dining. The ritual of grilling and wrapping meat is an essential part of Korean food culture',
           pairingSuggestions: ['soju', 'beer', 'steamed rice', 'doenjang soup'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'adjustable',
@@ -450,7 +459,7 @@ export const korean: Cuisine = {
           },
           season: ['all'],
           mealType: ['dinner', 'social dining']
-        }
+        },
         {
           name: 'Sundubu Jjigae',
           description: 'Spicy soft tofu stew',
@@ -482,7 +491,8 @@ export const korean: Cuisine = {
           allergens: ['shellfish', 'soy', 'egg'],
           prepTime: '15 minutes',
           cookTime: '20 minutes',
-          culturalNotes: 'A comforting stew that showcases the silky texture of fresh soft tofu. Popular in both restaurants and homes',
+          culturalNotes:
+            'A comforting stew that showcases the silky texture of fresh soft tofu. Popular in both restaurants and homes',
           pairingSuggestions: ['rice', 'kimchi', 'side dishes'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'adjustable',
@@ -496,7 +506,7 @@ export const korean: Cuisine = {
           },
           season: ['all'],
           mealType: ['lunch', 'dinner']
-        }
+        },
         {
           name: 'Bulgogi',
           description: 'Marinated and grilled beef',
@@ -528,7 +538,8 @@ export const korean: Cuisine = {
           allergens: ['soy'],
           prepTime: '1 hour',
           cookTime: '15 minutes',
-          culturalNotes: 'A beloved Korean dish that exemplifies the balance of sweet and savory flavors. The fruit in the marinade helps tenderize the meat',
+          culturalNotes:
+            'A beloved Korean dish that exemplifies the balance of sweet and savory flavors. The fruit in the marinade helps tenderize the meat',
           pairingSuggestions: ['lettuce leaves', 'rice', 'ssamjang', 'kimchi'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'none',
@@ -542,7 +553,7 @@ export const korean: Cuisine = {
           },
           season: ['all'],
           mealType: ['lunch', 'dinner']
-        }
+        },
         {
           name: 'Dakgalbi',
           description: 'Spicy stir-fried chicken with rice cakes and vegetables',
@@ -581,7 +592,8 @@ export const korean: Cuisine = {
           allergens: ['soy', 'wheat'],
           prepTime: '25 minutes',
           cookTime: '30 minutes',
-          culturalNotes: 'Originally from Chuncheon city, this communal dish is popular among young people and is often eaten while sharing soju',
+          culturalNotes:
+            'Originally from Chuncheon city, this communal dish is popular among young people and is often eaten while sharing soju',
           pairingSuggestions: ['soju', 'beer', 'corn cheese', 'steamed rice'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'medium to hot',
@@ -595,7 +607,7 @@ export const korean: Cuisine = {
           },
           season: ['all'],
           mealType: ['dinner', 'social dining']
-        }
+        },
         {
           name: 'Haemul Pajeon',
           description: 'Seafood and green onion pancake',
@@ -621,7 +633,7 @@ export const korean: Cuisine = {
               unit: 'g',
               category: 'seafood',
               swaps: ['vegetables']
-            }
+            },
             { name: 'eggs', amount: '1', unit: 'large', category: 'protein' },
             { name: 'kimchi', amount: '100', unit: 'g', category: 'vegetable', optional: true }
           ],
@@ -634,7 +646,8 @@ export const korean: Cuisine = {
           allergens: ['wheat', 'shellfish', 'egg'],
           prepTime: '20 minutes',
           cookTime: '15 minutes',
-          culturalNotes: 'A popular rainy day food in Korea, often enjoyed with makgeolli (rice wine). The sound of sizzling pajeon matches the sound of rain',
+          culturalNotes:
+            'A popular rainy day food in Korea, often enjoyed with makgeolli (rice wine). The sound of sizzling pajeon matches the sound of rain',
           pairingSuggestions: ['makgeolli', 'soju', 'dipping sauce'],
           dietaryInfo: ['contains seafood'],
           spiceLevel: 'mild',
@@ -648,7 +661,7 @@ export const korean: Cuisine = {
           },
           season: ['all', 'rainy days'],
           mealType: ['snack', 'dinner']
-        }
+        },
         {
           name: 'Gamjatang',
           description: 'Spicy pork spine soup with potatoes',
@@ -680,7 +693,8 @@ export const korean: Cuisine = {
           allergens: ['none'],
           prepTime: '30 minutes',
           cookTime: '2 hours',
-          culturalNotes: 'A hearty soup that became popular during the Korean War as a way to use affordable cuts of meat. Now it's a beloved hangover cure',
+          culturalNotes:
+            'A hearty soup that became popular during the Korean War as a way to use affordable cuts of meat. Now it's a beloved hangover cure',
           pairingSuggestions: ['rice', 'kimchi', 'soju'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'medium to hot',
@@ -694,7 +708,7 @@ export const korean: Cuisine = {
           },
           season: ['autumn', 'winter'],
           mealType: ['lunch', 'dinner']
-        }
+        },
         {
           name: 'Bossam',
           description: 'Boiled pork belly wrapped in cabbage leaves',
@@ -726,7 +740,8 @@ export const korean: Cuisine = {
           allergens: ['fish', 'shellfish'],
           prepTime: '20 minutes',
           cookTime: '1.5 hours',
-          culturalNotes: 'Originally a winter dish when kimchi was made. The boiled pork complemented fresh kimchi perfectly',
+          culturalNotes:
+            'Originally a winter dish when kimchi was made. The boiled pork complemented fresh kimchi perfectly',
           pairingSuggestions: ['soju', 'beer', 'rice', 'kimchi'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'adjustable',
@@ -755,7 +770,7 @@ export const korean: Cuisine = {
               unit: 'g',
               category: 'protein',
               swaps: ['vegetarian sausage']
-            }
+            },
             { name: 'kimchi', amount: '200', unit: 'g', category: 'fermented' },
             { name: 'ramen noodles', amount: '2', unit: 'packs', category: 'grain' },
             { name: 'rice cakes', amount: '200', unit: 'g', category: 'grain' },
@@ -786,7 +801,7 @@ export const korean: Cuisine = {
               unit: 'small',
               category: 'protein',
               swaps: ['seitan chicken']
-            }
+            },
             { name: 'ginseng', amount: '1', unit: 'root', category: 'herb' },
             { name: 'glutinous rice', amount: '100', unit: 'g', category: 'grain' },
             { name: 'garlic', amount: '8', unit: 'cloves', category: 'vegetable' },
@@ -821,7 +836,7 @@ export const korean: Cuisine = {
               unit: 'ml',
               category: 'dairy',
               swaps: ['coconut condensed milk']
-            }
+            },
             { name: 'rice cakes', amount: '100', unit: 'g', category: 'grain' },
             { name: 'fruit', amount: '200', unit: 'g', category: 'fruit' }
           ],
@@ -850,7 +865,7 @@ export const korean: Cuisine = {
               unit: 'g',
               category: 'grain',
               swaps: ['gluten-free flour blend']
-            }
+            },
             { name: 'brown sugar', amount: '100', unit: 'g', category: 'sweetener' },
             { name: 'nuts', amount: '50', unit: 'g', category: 'nuts' },
             { name: 'cinnamon', amount: '1', unit: 'tbsp', category: 'spice' }
@@ -890,7 +905,7 @@ export const korean: Cuisine = {
           timeToMake: '60 minutes',
           season: ['all'],
           mealType: ['dessert']
-        }
+        },
         {
           name: 'Japchae',
           description: 'Sweet potato noodles stir-fried with vegetables and meat',
@@ -925,7 +940,8 @@ export const korean: Cuisine = {
           allergens: ['soy', 'egg'],
           prepTime: '30 minutes',
           cookTime: '25 minutes',
-          culturalNotes: 'Originally a royal dish, japchae is now a popular celebration food served at holidays and special occasions',
+          culturalNotes:
+            'Originally a royal dish, japchae is now a popular celebration food served at holidays and special occasions',
           pairingSuggestions: ['rice', 'kimchi', 'Korean tea'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'none',
@@ -956,12 +972,13 @@ export const korean: Cuisine = {
         Earth: 0.3,
         Water: 0.1,
         Air: 0.0
-},
+      },
       astrologicalInfluences: ['Mars', 'Aries', 'Leo'],
       seasonality: 'all',
       preparationNotes: 'Traditionally fermented for months in earthenware pots called onggi',
-      technicalTips: 'Balance with sweeteners like honey or sugar to mellow its intensity' },
-        doenjang: {
+      technicalTips: 'Balance with sweeteners like honey or sugar to mellow its intensity'
+    },
+    doenjang: {
       name: 'Doenjang',
       description: 'Fermented soybean paste with rich umami flavor and earthy notes',
       base: 'fermented soybean',
@@ -978,12 +995,13 @@ export const korean: Cuisine = {
         Water: 0.2,
         Fire: 0.1,
         Air: 0.0
-},
+      },
       astrologicalInfluences: ['Saturn', 'Taurus', 'Capricorn'],
       seasonality: 'all',
       preparationNotes: 'Traditionally separated from soy sauce during fermentation of meju',
-      technicalTips: 'Add at the beginning of cooking to develop depth of flavor' },
-        ssamjang: {
+      technicalTips: 'Add at the beginning of cooking to develop depth of flavor'
+    },
+    ssamjang: {
       name: 'Ssamjang',
       description: 'Thick, spicy dipping sauce for wrapped meat and vegetables',
       base: 'doenjang and gochujang',
@@ -995,14 +1013,16 @@ export const korean: Cuisine = {
         Fire: 0.4,
         Water: 0.1,
         Air: 0.1
-},
+      },
       astrologicalInfluences: ['Mars', 'Saturn', 'Scorpio'],
       seasonality: 'all',
       preparationNotes: 'Mix ingredients fresh before serving for best flavor',
-      technicalTips: 'Balance sweet, savory, and spicy elements to complement the main dish' },
-        ganjang: {
+      technicalTips: 'Balance sweet, savory, and spicy elements to complement the main dish'
+    },
+    ganjang: {
       name: 'Ganjang (Korean Soy Sauce)',
-      description: 'Traditional Korean soy sauce, often more complex than Chinese or Japanese varieties',
+      description:
+        'Traditional Korean soy sauce, often more complex than Chinese or Japanese varieties',
       base: 'fermented soybean',
       keyIngredients: ['fermented soybeans', 'salt', 'water'],
       culinaryUses: ['seasoning', 'dipping sauce', 'marinade base', 'soup flavoring'],
@@ -1012,12 +1032,13 @@ export const korean: Cuisine = {
         Earth: 0.4,
         Air: 0.1,
         Fire: 0.1
-},
+      },
       astrologicalInfluences: ['Neptune', 'Pisces', 'Cancer'],
       seasonality: 'all',
       preparationNotes: 'Traditionally separated from doenjang during fermentation',
-      technicalTips: 'Use premium varieties for dipping sauces and everyday ones for cooking' },
-        chogochujang: {
+      technicalTips: 'Use premium varieties for dipping sauces and everyday ones for cooking'
+    },
+    chogochujang: {
       name: 'Chogochujang',
       description: 'Sweet and sour chili sauce with vinegar',
       base: 'gochujang and vinegar',
@@ -1034,12 +1055,13 @@ export const korean: Cuisine = {
         Air: 0.3,
         Water: 0.2,
         Earth: 0.1
-},
+      },
       astrologicalInfluences: ['Mercury', 'Gemini', 'Sagittarius'],
       seasonality: 'summer',
       preparationNotes: 'Best made fresh rather than stored long-term',
-      technicalTips: 'Adjust vinegar and sugar ratio to complement the dish being served' },
-        yangnyeom: {
+      technicalTips: 'Adjust vinegar and sugar ratio to complement the dish being served'
+    },
+    yangnyeom: {
       name: 'Yangnyeom Sauce',
       description: 'Sweet and spicy sauce used for Korean fried chicken and other dishes',
       base: 'gochujang and corn syrup',
@@ -1051,12 +1073,13 @@ export const korean: Cuisine = {
         Earth: 0.2,
         Water: 0.2,
         Air: 0.1
-},
+      },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
       seasonality: 'all',
       preparationNotes: 'Mix thoroughly and cook briefly to develop flavors',
-      technicalTips: 'The sauce should coat the back of a spoon but still be pourable' },
-        bulgogi: {
+      technicalTips: 'The sauce should coat the back of a spoon but still be pourable'
+    },
+    bulgogi: {
       name: 'Bulgogi Marinade',
       description: 'Sweet and savory marinade for grilled beef and other meats',
       base: 'soy sauce and fruit',
@@ -1068,12 +1091,14 @@ export const korean: Cuisine = {
         Earth: 0.3,
         Fire: 0.2,
         Air: 0.2
-},
+      },
       astrologicalInfluences: ['Venus', 'Taurus', 'Libra'],
       seasonality: 'all',
       preparationNotes: 'Asian pear helps tenderize meat while adding subtle sweetness',
-      technicalTips: 'Marinate beef for at least 2 hours, preferably overnight for best flavor penetration' },
-        sesameOil: {
+      technicalTips:
+        'Marinate beef for at least 2 hours, preferably overnight for best flavor penetration'
+    },
+    sesameOil: {
       name: 'Chamgireum (Sesame Oil Dressing)',
       description: 'Aromatic oil-based dressing used for many Korean dishes',
       base: 'toasted sesame oil',
@@ -1090,12 +1115,12 @@ export const korean: Cuisine = {
         Earth: 0.4,
         Fire: 0.1,
         Water: 0.1
-},
+      },
       astrologicalInfluences: ['Mercury', 'Gemini', 'Virgo'],
       seasonality: 'all',
       preparationNotes: 'Use high-quality freshly toasted sesame oil for best flavor',
       technicalTips: 'Add at the end of cooking to preserve volatile aromatics'
-}
+    }
   },
   sauceRecommender: {
     forProtein: {
@@ -1219,7 +1244,7 @@ export const korean: Cuisine = {
       toolsRequired: ['stone pot', 'steamer', 'heavy pot with lid'],
       bestFor: ['meats', 'whole fish', 'root vegetables', 'egg dishes'],
       difficulty: 'medium'
-}
+    },
     {
       name: 'Gui (구이)',
       description: 'Grilling methods, especially for meats like samgyeopsal and bulgogi',
@@ -1227,7 +1252,7 @@ export const korean: Cuisine = {
       toolsRequired: ['tabletop grill', 'charcoal', 'tongs', 'scissors'],
       bestFor: ['marinated meats', 'fresh pork belly', 'vegetables', 'mushrooms'],
       difficulty: 'easy'
-}
+    },
     {
       name: 'Jjigae (찌개)',
       description: 'Stew-making technique with rich, spicy broths',
@@ -1235,7 +1260,7 @@ export const korean: Cuisine = {
       toolsRequired: ['earthenware pot', 'ladle', 'heavy-bottomed pot'],
       bestFor: ['kimchi stews', 'tofu dishes', 'seafood', 'vegetable medleys'],
       difficulty: 'easy'
-}
+    },
     {
       name: 'Namul (나물)',
       description: 'Technique for seasoning and preparing vegetables to preserve nutrients',
@@ -1243,7 +1268,7 @@ export const korean: Cuisine = {
       toolsRequired: ['blanching pot', 'mixing bowls', 'dipping basket'],
       bestFor: ['wild greens', 'sprouts', 'seaweed', 'root vegetables'],
       difficulty: 'easy'
-}
+    },
     {
       name: 'Jeongol (전골)',
       description: 'Hot pot technique featuring communal cooking at the table',
@@ -1251,7 +1276,7 @@ export const korean: Cuisine = {
       toolsRequired: ['jeongol pot', 'portable burner', 'ladle', 'chopsticks'],
       bestFor: ['thinly sliced meats', 'seafood', 'tofu', 'vegetables'],
       difficulty: 'medium'
-}
+    }
   ],
   regionalCuisines: {
     seoul: {
@@ -1260,36 +1285,40 @@ export const korean: Cuisine = {
       signature: ['royal court dishes', 'japchae', 'bulgogi', 'refined banchan'],
       elementalProperties: { Earth: 0.4, Water: 0.3, Fire: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Jupiter', 'Mercury', 'Libra'],
-      seasonality: 'moderately seasonal' },
-        jeonju: {
+      seasonality: 'moderately seasonal'
+    },
+    jeonju: {
       name: 'Jeonju (Southwest) Cuisine',
-      description: 'Known as Korea's food capital, with emphasis on quality ingredients and tradition',
+      description:
+        'Known as Korea's food capital, with emphasis on quality ingredients and tradition',
       signature: ['bibimbap', 'kongnamul gukbap', 'makgeolli', 'traditional banchan'],
       elementalProperties: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Moon', 'Venus', 'Taurus'],
-      seasonality: 'highly seasonal' },
-        gyeongsang: {
+      seasonality: 'highly seasonal'
+    },
+    gyeongsang: {
       name: 'Gyeongsang (Southeast) Cuisine',
       description: 'Bold, spicy flavors with substantial seafood influence',
       signature: ['dwaeji gukbap', 'milmyeon', 'agujjim', 'spicy seafood soups'],
       elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Mars', 'Pluto', 'Scorpio'],
-      seasonality: 'coastal seasonal' },
-        jeju: {
+      seasonality: 'coastal seasonal'
+    },
+    jeju: {
       name: 'Jeju Island Cuisine',
       description: 'Unique island cuisine with distinctive ingredients like black pork and abalone',
       signature: ['black pork', 'haemul dishes', 'abalone porridge', 'hallabong citrus'],
       elementalProperties: { Water: 0.5, Earth: 0.2, Air: 0.2, Fire: 0.1 },
       astrologicalInfluences: ['Neptune', 'Jupiter', 'Pisces'],
       seasonality: 'island seasonal cycle'
-}
+    }
   },
   elementalProperties: {
-    Fire: 0.3, // Represents spicy elements and grilling
+    Fire: 0.3, // Represents spicy elements and grilling,
     Earth: 0.3, // Represents fermented foods and root vegetables,
-    Water: 0.2, // Represents soups and stews
+    Water: 0.2, // Represents soups and stews,
     Air: 0.2, // Represents light broths and garnishes
   }
-}
+};
 
-export default korean,
+export default korean;

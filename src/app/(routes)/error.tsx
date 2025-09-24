@@ -4,10 +4,8 @@ import { useEffect } from 'react';
 
 import { logger } from '@/utils/logger';
 
-export default function RouteError({
-  error,
-  reset,
-}: {
+export default function RouteError({error,
+  reset}: {
   error: Error & { digest?: string },
   reset: () => void;
 }) {

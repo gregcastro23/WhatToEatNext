@@ -1,7 +1,8 @@
 // src/data/cuisines/mexican.ts
 export const mexican = {
   name: 'Mexican',
-  description: 'Traditional Mexican cuisine featuring regional specialties, corn-based dishes, and diverse moles and salsas',
+  description:
+    'Traditional Mexican cuisine featuring regional specialties, corn-based dishes, and diverse moles and salsas',
   dishes: {
     breakfast: {
       all: [
@@ -26,14 +27,14 @@ export const mexican = {
               unit: 'large',
               category: 'protein',
               swaps: ['tofu scramble']
-            }
+            },
             {
               name: 'corn tortillas',
               amount: '2',
               unit: 'pieces',
               category: 'grain',
               swaps: ['gluten-free tortillas']
-            }
+            },
             { name: 'ranchero sauce', amount: '200', unit: 'ml', category: 'sauce' },
             { name: 'black beans', amount: '1', unit: 'cup', category: 'protein' },
             { name: 'avocado', amount: '1/2', unit: 'whole', category: 'fruit' },
@@ -54,7 +55,8 @@ export const mexican = {
           allergens: ['egg', 'dairy'],
           prepTime: '10 minutes',
           cookTime: '10 minutes',
-          culturalNotes: 'A classic Mexican breakfast dish that originated on rural farms. The hearty combination provided energy for a full day of work',
+          culturalNotes:
+            'A classic Mexican breakfast dish that originated on rural farms. The hearty combination provided energy for a full day of work',
           pairingSuggestions: ['Mexican rice', 'refried beans', 'coffee'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'medium',
@@ -68,7 +70,7 @@ export const mexican = {
           },
           season: ['all'],
           mealType: ['breakfast', 'brunch']
-        }
+        },
         {
           name: 'Chilaquiles Verdes',
           description: 'Tortilla chips in salsa verde with eggs and cream',
@@ -90,7 +92,7 @@ export const mexican = {
               unit: 'pieces',
               category: 'grain',
               swaps: ['gluten-free tortillas']
-            }
+            },
             { name: 'salsa verde', amount: '2', unit: 'cups', category: 'sauce' },
             { name: 'eggs', amount: '2', unit: 'large', category: 'protein', swaps: ['tofu'] },
             {
@@ -99,14 +101,14 @@ export const mexican = {
               unit: 'cup',
               category: 'dairy',
               swaps: ['cashew cream']
-            }
+            },
             {
               name: 'queso fresco',
               amount: '1/2',
               unit: 'cup',
               category: 'dairy',
               swaps: ['vegan cheese']
-            }
+            },
             { name: 'onion', amount: '1/2', unit: 'medium', category: 'vegetable' },
             { name: 'epazote', amount: '2', unit: 'sprigs', category: 'herb' }
           ],
@@ -119,7 +121,8 @@ export const mexican = {
           allergens: ['dairy', 'egg'],
           prepTime: '15 minutes',
           cookTime: '20 minutes',
-          culturalNotes: 'A beloved breakfast dish that transforms leftover tortillas into a satisfying meal. The color of the sauce often indicates regional preferences',
+          culturalNotes:
+            'A beloved breakfast dish that transforms leftover tortillas into a satisfying meal. The color of the sauce often indicates regional preferences',
           pairingSuggestions: ['refried beans', 'Mexican coffee', 'fresh fruit'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'medium',
@@ -133,7 +136,7 @@ export const mexican = {
           },
           season: ['all'],
           mealType: ['breakfast', 'brunch']
-        }
+        },
         {
           name: 'Molletes',
           description: 'Open-faced refried bean and cheese sandwiches',
@@ -155,7 +158,7 @@ export const mexican = {
               unit: 'pieces',
               category: 'grain',
               swaps: ['gluten-free bread']
-            }
+            },
             { name: 'refried beans', amount: '1', unit: 'cup', category: 'legume' },
             {
               name: 'cheese',
@@ -163,7 +166,7 @@ export const mexican = {
               unit: 'cup',
               category: 'dairy',
               swaps: ['vegan cheese']
-            }
+            },
             { name: 'pico de gallo', amount: '1', unit: 'cup', category: 'salsa' }
           ],
           substitutions: {
@@ -175,7 +178,8 @@ export const mexican = {
           allergens: ['dairy', 'wheat'],
           prepTime: '10 minutes',
           cookTime: '5 minutes',
-          culturalNotes: 'A popular student breakfast that combines European bread with Mexican ingredients. The name comes from 'molletes', meaning 'cheeks' in Spanish',
+          culturalNotes:
+            'A popular student breakfast that combines European bread with Mexican ingredients. The name comes from 'molletes', meaning 'cheeks' in Spanish',
           pairingSuggestions: ['Mexican hot chocolate', 'fresh fruit', 'café con leche'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'mild',
@@ -189,7 +193,7 @@ export const mexican = {
           },
           season: ['all'],
           mealType: ['breakfast', 'snack']
-        }
+        },
         {
           name: 'Enfrijoladas',
           description: 'Tortillas dipped in black bean sauce and filled with cheese',
@@ -211,7 +215,7 @@ export const mexican = {
               unit: 'pieces',
               category: 'grain',
               swaps: ['gluten-free tortillas']
-            }
+            },
             { name: 'black beans', amount: '2', unit: 'cups', category: 'legume' },
             {
               name: 'queso fresco',
@@ -219,14 +223,14 @@ export const mexican = {
               unit: 'cup',
               category: 'dairy',
               swaps: ['vegan cheese']
-            }
+            },
             {
               name: 'crema',
               amount: '1/2',
               unit: 'cup',
               category: 'dairy',
               swaps: ['cashew cream']
-            }
+            },
             { name: 'onion', amount: '1', unit: 'medium', category: 'vegetable' },
             { name: 'chipotle peppers', amount: '2', unit: 'pieces', category: 'spice' }
           ],
@@ -239,7 +243,8 @@ export const mexican = {
           allergens: ['dairy'],
           prepTime: '20 minutes',
           cookTime: '10 minutes',
-          culturalNotes: 'A comforting dish that showcases Mexico's mastery of bean preparations. Often served for breakfast or as a light dinner',
+          culturalNotes:
+            'A comforting dish that showcases Mexico's mastery of bean preparations. Often served for breakfast or as a light dinner',
           pairingSuggestions: ['Mexican rice', 'pickled jalapeños', 'café de olla'],
           dietaryInfo: ['vegetarian', 'adaptable to vegan'],
           spiceLevel: 'medium',
@@ -253,7 +258,7 @@ export const mexican = {
           },
           season: ['all'],
           mealType: ['breakfast', 'dinner']
-        }
+        },
         {
           name: 'Huevos Motuleños',
           description: 'Eggs on tortillas with black beans, plantains, and salsa',
@@ -276,14 +281,14 @@ export const mexican = {
               unit: 'large',
               category: 'protein',
               swaps: ['tofu scramble']
-            }
+            },
             {
               name: 'corn tortillas',
               amount: '4',
               unit: 'pieces',
               category: 'grain',
               swaps: ['gluten-free tortillas']
-            }
+            },
             { name: 'black beans', amount: '1', unit: 'cup', category: 'legume' },
             { name: 'plantains', amount: '2', unit: 'medium', category: 'fruit' },
             { name: 'tomato sauce', amount: '1', unit: 'cup', category: 'sauce' },
@@ -299,7 +304,8 @@ export const mexican = {
           allergens: ['egg'],
           prepTime: '15 minutes',
           cookTime: '20 minutes',
-          culturalNotes: 'A specialty from the Yucatan city of Motul, this dish combines Maya and Spanish influences with tropical ingredients',
+          culturalNotes:
+            'A specialty from the Yucatan city of Motul, this dish combines Maya and Spanish influences with tropical ingredients',
           pairingSuggestions: ['habanero sauce', 'Mexican coffee', 'fresh orange juice'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'mild to medium',
@@ -337,7 +343,7 @@ export const mexican = {
               unit: 'cup',
               category: 'dairy',
               swaps: ['almond milk', 'oat milk']
-            }
+            },
             { name: 'honey', amount: '2', unit: 'tbsp', category: 'sweetener', swaps: ['agave'] },
             { name: 'vanilla', amount: '1', unit: 'tsp', category: 'flavoring' }
           ],
@@ -350,7 +356,8 @@ export const mexican = {
           allergens: ['dairy'],
           prepTime: '5 minutes',
           cookTime: '5 minutes',
-          culturalNotes: 'A popular breakfast drink and afternoon refreshment. Each region has its preferred fruit combinations based on local availability',
+          culturalNotes:
+            'A popular breakfast drink and afternoon refreshment. Each region has its preferred fruit combinations based on local availability',
           pairingSuggestions: ['pan dulce', 'breakfast tacos', 'fresh fruit'],
           dietaryInfo: ['adaptable to vegan'],
           spiceLevel: 'none',
@@ -390,7 +397,7 @@ export const mexican = {
               unit: 'large',
               category: 'protein',
               swaps: ['chickpeas']
-            }
+            },
             { name: 'carrots', amount: '4', unit: 'large', category: 'vegetable' },
             { name: 'potatoes', amount: '4', unit: 'medium', category: 'vegetable' },
             { name: 'chayote', amount: '2', unit: 'whole', category: 'vegetable' },
@@ -406,7 +413,8 @@ export const mexican = {
           allergens: ['none'],
           prepTime: '30 minutes',
           cookTime: '1.5 hours',
-          culturalNotes: 'A healing soup often served to those feeling under the weather. Each family has their own variation passed down through generations',
+          culturalNotes:
+            'A healing soup often served to those feeling under the weather. Each family has their own variation passed down through generations',
           pairingSuggestions: ['lime wedges', 'chile piquin', 'tortillas', 'avocado'],
           dietaryInfo: ['adaptable to vegan'],
           spiceLevel: 'mild',
@@ -434,7 +442,7 @@ export const mexican = {
               unit: 'g',
               category: 'seafood',
               swaps: ['hearts of palm']
-            }
+            },
             { name: 'lime juice', amount: '1', unit: 'cup', category: 'citrus' },
             { name: 'cucumber', amount: '2', unit: 'medium', category: 'vegetable' },
             { name: 'serrano peppers', amount: '4', unit: 'pieces', category: 'spice' },
@@ -477,7 +485,7 @@ export const mexican = {
               unit: 'kg',
               category: 'protein',
               swaps: ['mushrooms']
-            }
+            },
             { name: 'guajillo chiles', amount: '6', unit: 'pieces', category: 'chile' },
             { name: 'ancho chiles', amount: '3', unit: 'pieces', category: 'chile' },
             { name: 'garlic', amount: '6', unit: 'cloves', category: 'aromatic' },
@@ -492,7 +500,8 @@ export const mexican = {
           allergens: ['none'],
           prepTime: '30 minutes',
           cookTime: '3 hours',
-          culturalNotes: 'A pre-Hispanic dish that remains central to celebrations and holidays. Each region has its variation, with red being most common in central Mexico',
+          culturalNotes:
+            'A pre-Hispanic dish that remains central to celebrations and holidays. Each region has its variation, with red being most common in central Mexico',
           pairingSuggestions: ['tostadas', 'lime', 'radishes', 'lettuce', 'oregano'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'medium',
@@ -535,7 +544,7 @@ export const mexican = {
               unit: 'kg',
               category: 'protein',
               swaps: ['chicken', 'mushrooms']
-            }
+            },
             { name: 'sesame seeds', amount: '100', unit: 'g', category: 'seeds' },
             { name: 'almonds', amount: '100', unit: 'g', category: 'nuts' },
             { name: 'raisins', amount: '100', unit: 'g', category: 'fruit' }
@@ -549,7 +558,8 @@ export const mexican = {
           allergens: ['nuts'],
           prepTime: '2 hours',
           cookTime: '3 hours',
-          culturalNotes: 'A symbol of Mexican gastronomy, mole combines indigenous and European ingredients. Legend says it was created by nuns in colonial Puebla',
+          culturalNotes:
+            'A symbol of Mexican gastronomy, mole combines indigenous and European ingredients. Legend says it was created by nuns in colonial Puebla',
           pairingSuggestions: ['rice', 'tortillas', 'Mexican wine'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'medium',
@@ -563,7 +573,7 @@ export const mexican = {
           },
           season: ['all'],
           mealType: ['dinner', 'celebration', 'special occasion']
-        }
+        },
         {
           name: 'Chiles en Nogada',
           description: 'Stuffed poblano chiles in walnut sauce',
@@ -587,7 +597,7 @@ export const mexican = {
               unit: 'g',
               category: 'protein',
               swaps: ['plant-based meat']
-            }
+            },
             { name: 'walnuts', amount: '250', unit: 'g', category: 'nut' },
             { name: 'pomegranate seeds', amount: '1', unit: 'cup', category: 'fruit' },
             {
@@ -596,7 +606,7 @@ export const mexican = {
               unit: 'cup',
               category: 'dairy',
               swaps: ['cashew cream']
-            }
+            },
             { name: 'seasonal fruits', amount: '2', unit: 'cups', category: 'fruit' }
           ],
           substitutions: {
@@ -608,7 +618,8 @@ export const mexican = {
           allergens: ['nuts', 'dairy'],
           prepTime: '45 minutes',
           cookTime: '1 hour',
-          culturalNotes: 'Created by nuns in Puebla to celebrate Mexican independence, the colors represent the Mexican flag. Traditionally served in August-September',
+          culturalNotes:
+            'Created by nuns in Puebla to celebrate Mexican independence, the colors represent the Mexican flag. Traditionally served in August-September',
           pairingSuggestions: ['white wine', 'rice', 'fresh bread'],
           dietaryInfo: ['adaptable to vegetarian/vegan'],
           spiceLevel: 'mild',
@@ -622,7 +633,7 @@ export const mexican = {
           },
           season: ['late summer', 'early fall'],
           mealType: ['dinner', 'celebration']
-        }
+        },
         {
           name: 'Cochinita Pibil',
           description: 'Yucatan-style marinated pork wrapped in banana leaves',
@@ -645,7 +656,7 @@ export const mexican = {
               unit: 'kg',
               category: 'protein',
               swaps: ['jackfruit']
-            }
+            },
             { name: 'achiote paste', amount: '100', unit: 'g', category: 'seasoning' },
             {
               name: 'sour orange juice',
@@ -653,14 +664,14 @@ export const mexican = {
               unit: 'cups',
               category: 'citrus',
               swaps: ['lime + orange juice']
-            }
+            },
             {
               name: 'banana leaves',
               amount: '4',
               unit: 'large',
               category: 'wrapper',
               swaps: ['parchment paper']
-            }
+            },
             { name: 'garlic', amount: '8', unit: 'cloves', category: 'aromatic' },
             { name: 'oregano', amount: '2', unit: 'tbsp', category: 'herb' }
           ],
@@ -673,7 +684,8 @@ export const mexican = {
           allergens: ['none'],
           prepTime: '1 hour plus marinating',
           cookTime: '4 hours',
-          culturalNotes: 'A pre-Hispanic Mayan dish that uses traditional cooking methods and achiote, a signature ingredient of Yucatecan cuisine',
+          culturalNotes:
+            'A pre-Hispanic Mayan dish that uses traditional cooking methods and achiote, a signature ingredient of Yucatecan cuisine',
           pairingSuggestions: ['pickled onions', 'habanero salsa', 'corn tortillas'],
           dietaryInfo: ['adaptable to vegan'],
           spiceLevel: 'medium',
@@ -687,7 +699,7 @@ export const mexican = {
           },
           season: ['all'],
           mealType: ['lunch', 'dinner', 'celebration']
-        }
+        },
         {
           name: 'Birria',
           description: 'Spicy braised meat stew traditionally made with goat or beef',
@@ -710,7 +722,7 @@ export const mexican = {
               unit: 'kg',
               category: 'protein',
               swaps: ['jackfruit']
-            }
+            },
             { name: 'dried chiles', amount: '6', unit: 'mixed', category: 'chile' },
             { name: 'garlic', amount: '8', unit: 'cloves', category: 'aromatic' },
             { name: 'vinegar', amount: '1/2', unit: 'cup', category: 'acid' },
@@ -726,7 +738,8 @@ export const mexican = {
           allergens: ['none'],
           prepTime: '1 hour plus marinating',
           cookTime: '4 hours',
-          culturalNotes: 'Originally from Jalisco, birria has become a national favorite. The consomé is as prized as the meat itself',
+          culturalNotes:
+            'Originally from Jalisco, birria has become a national favorite. The consomé is as prized as the meat itself',
           pairingSuggestions: ['lime', 'onions', 'cilantro', 'salsa roja'],
           dietaryInfo: ['adaptable to vegan'],
           spiceLevel: 'medium to hot',
@@ -740,7 +753,7 @@ export const mexican = {
           },
           season: ['all'],
           mealType: ['lunch', 'dinner', 'celebration']
-        }
+        },
         {
           name: 'Tamales Verdes',
           description: 'Corn dough stuffed with pork in green sauce, steamed in corn husks',
@@ -770,7 +783,7 @@ export const mexican = {
               unit: 'g',
               category: 'fat',
               swaps: ['vegetable shortening']
-            }
+            },
             { name: 'pork', amount: '1', unit: 'kg', category: 'protein', swaps: ['jackfruit'] },
             { name: 'tomatillos', amount: '1', unit: 'kg', category: 'vegetable' },
             { name: 'corn husks', amount: '40', unit: 'pieces', category: 'wrapper' },
@@ -785,7 +798,8 @@ export const mexican = {
           allergens: ['none'],
           prepTime: '2 hours',
           cookTime: '1.5 hours',
-          culturalNotes: 'A pre-Hispanic dish that remains central to Mexican celebrations. Each region has its own variations',
+          culturalNotes:
+            'A pre-Hispanic dish that remains central to Mexican celebrations. Each region has its own variations',
           pairingSuggestions: ['atole', 'champurrado', 'café de olla'],
           dietaryInfo: ['adaptable to vegan'],
           spiceLevel: 'medium',
@@ -813,7 +827,7 @@ export const mexican = {
               unit: 'kg',
               category: 'protein',
               swaps: ['jackfruit']
-            }
+            },
             { name: 'achiote paste', amount: '200', unit: 'g', category: 'seasoning' },
             { name: 'sour orange juice', amount: '2', unit: 'cups', category: 'citrus' },
             { name: 'banana leaves', amount: '4', unit: 'large', category: 'wrapper' },
@@ -860,8 +874,8 @@ export const mexican = {
             favorableZodiac: ['leo', 'sagittarius'],
             rulingPlanets: ['sun', 'jupiter'],
             elementalAffinity: 'Fire'
-}
-        }
+          }
+        },
         {
           name: 'Churros',
           description: 'Fried dough pastry with cinnamon sugar',
@@ -873,7 +887,7 @@ export const mexican = {
               unit: 'cups',
               category: 'grain',
               swaps: ['gluten-free flour blend']
-            }
+            },
             { name: 'Water', amount: '2', unit: 'cups', category: 'liquid' },
             { name: 'cinnamon sugar', amount: '1', unit: 'cup', category: 'sweetener' },
             { name: 'chocolate sauce', amount: '1', unit: 'cup', category: 'sauce' }
@@ -940,7 +954,7 @@ export const mexican = {
             unit: 'large',
             category: 'protein',
             swaps: ['chickpeas']
-          }
+          },
           { name: 'carrots', amount: '4', unit: 'large', category: 'vegetable' },
           { name: 'potatoes', amount: '4', unit: 'medium', category: 'vegetable' },
           { name: 'chayote', amount: '2', unit: 'whole', category: 'vegetable' },
@@ -956,7 +970,8 @@ export const mexican = {
         allergens: ['none'],
         prepTime: '30 minutes',
         cookTime: '1.5 hours',
-        culturalNotes: 'A healing soup often served to those feeling under the weather. Each family has their own variation passed down through generations',
+        culturalNotes:
+          'A healing soup often served to those feeling under the weather. Each family has their own variation passed down through generations',
         pairingSuggestions: ['lime wedges', 'chile piquin', 'tortillas', 'avocado'],
         dietaryInfo: ['adaptable to vegan'],
         spiceLevel: 'mild',
@@ -991,12 +1006,14 @@ export const mexican = {
         fire: 0.3,
         water: 0.2,
         air: 0.1
-},
+      },
       astrologicalInfluences: ['pluto', 'mars', 'scorpio'],
       seasonality: 'all',
-      preparationNotes: 'Traditionally prepared over multiple days for celebrations and special occasions',
-      technicalTips: 'Toast ingredients separately to develop maximum flavor complexity' },
-        salsaVerde: {
+      preparationNotes:
+        'Traditionally prepared over multiple days for celebrations and special occasions',
+      technicalTips: 'Toast ingredients separately to develop maximum flavor complexity'
+    },
+    salsaVerde: {
       name: 'Salsa Verde',
       description: 'Tangy green sauce made from tomatillos, chiles, and herbs',
       base: 'tomatillo',
@@ -1013,12 +1030,13 @@ export const mexican = {
         fire: 0.3,
         air: 0.2,
         earth: 0.1
-},
+      },
       astrologicalInfluences: ['venus', 'mercury', 'gemini'],
       seasonality: 'spring, summer',
       preparationNotes: 'Can be served raw or cooked depending on desired flavor profile',
-      technicalTips: 'Roasting ingredients before blending adds smoky depth' },
-        salsaRoja: {
+      technicalTips: 'Roasting ingredients before blending adds smoky depth'
+    },
+    salsaRoja: {
       name: 'Salsa Roja',
       description: 'Rich red sauce made from tomatoes and dried chiles',
       base: 'tomato and dried chiles',
@@ -1030,12 +1048,14 @@ export const mexican = {
         earth: 0.3,
         water: 0.1,
         air: 0.1
-},
+      },
       astrologicalInfluences: ['mars', 'sun', 'aries'],
       seasonality: 'summer, autumn',
-      preparationNotes: 'Most traditional version uses dried chiles rehydrated and blended with tomatoes',
-      technicalTips: 'Straining after blending creates a smoother texture' },
-        adobo: {
+      preparationNotes:
+        'Most traditional version uses dried chiles rehydrated and blended with tomatoes',
+      technicalTips: 'Straining after blending creates a smoother texture'
+    },
+    adobo: {
       name: 'Adobo',
       description: 'Chile-based marinade with vinegar and spices',
       base: 'dried chiles and vinegar',
@@ -1047,12 +1067,14 @@ export const mexican = {
         air: 0.3,
         earth: 0.2,
         water: 0.1
-},
+      },
       astrologicalInfluences: ['mars', 'mercury', 'sagittarius'],
       seasonality: 'all',
       preparationNotes: 'Originally used as a preservation technique, now primarily for flavor',
-      technicalTips: 'Longer marinating creates deeper flavor, but can break down delicate proteins' },
-        pipian: {
+      technicalTips:
+        'Longer marinating creates deeper flavor, but can break down delicate proteins'
+    },
+    pipian: {
       name: 'Pipián',
       description: 'Pre-Hispanic sauce based on ground pumpkin seeds',
       base: 'pumpkin seeds',
@@ -1064,12 +1086,12 @@ export const mexican = {
         water: 0.2,
         air: 0.2,
         fire: 0.1
-},
+      },
       astrologicalInfluences: ['saturn', 'moon', 'capricorn'],
       seasonality: 'autumn, winter',
       preparationNotes: 'Pre-Hispanic sauce that predates European influence in Mexican cuisine',
       technicalTips: 'Toast seeds until fragrant but not burnt for optimal flavor'
-}
+    }
   },
   sauceRecommender: {
     forProtein: {
@@ -1188,7 +1210,8 @@ export const mexican = {
   cookingTechniques: [
     {
       name: 'Nixtamalización',
-      description: 'Ancient process of treating corn with calcium hydroxide to enhance nutritional value and flavor',
+      description:
+        'Ancient process of treating corn with calcium hydroxide to enhance nutritional value and flavor',
       elementalProperties: { earth: 0.5, water: 0.3, fire: 0.1, air: 0.1 },
       toolsRequired: [
         'large pot',
@@ -1197,28 +1220,28 @@ export const mexican = {
         'grinding stone or mill'
       ],
       bestFor: ['corn masa preparation', 'tortillas', 'tamales', 'atole', 'pozole']
-    }
+    },
     {
       name: 'Asado',
       description: 'Open-fire grilling technique creating distinctive smoky flavors',
       elementalProperties: { fire: 0.7, air: 0.2, earth: 0.1, water: 0.0 },
       toolsRequired: ['grill', 'mesquite wood', 'tongs', 'comal'],
       bestFor: ['meats', 'nopal cactus', 'vegetables', 'salsas', 'chiles']
-    }
+    },
     {
       name: 'Guisado',
       description: 'Slow-simmered stew technique for developing deep flavors',
       elementalProperties: { water: 0.4, earth: 0.3, fire: 0.2, air: 0.1 },
       toolsRequired: ['clay pot', 'cazuela', 'wooden spoon', 'steady heat source'],
       bestFor: ['meat stews', 'vegetable medleys', 'taco fillings', 'breakfast dishes']
-    }
+    },
     {
       name: 'Tatemado',
       description: 'Charring technique for vegetables and chiles to develop smoky depth',
       elementalProperties: { fire: 0.6, earth: 0.2, air: 0.1, water: 0.1 },
       toolsRequired: ['comal', 'direct flame', 'tongs', 'roasting basket'],
       bestFor: ['chiles', 'tomatoes', 'tomatillos', 'onions', 'salsas']
-    }
+    },
     {
       name: 'Ahumado',
       description: 'Smoking technique using various woods for distinct flavors',
@@ -1234,36 +1257,40 @@ export const mexican = {
       signature: ['mole negro', 'tlayudas', 'chapulines', 'quesillo', 'tamales oaxaqueños'],
       elementalProperties: { earth: 0.5, fire: 0.2, water: 0.2, air: 0.1 },
       astrologicalInfluences: ['moon', 'saturn', 'taurus'],
-      seasonality: 'highly seasonal with ceremonial dishes' },
-        yucatan: {
+      seasonality: 'highly seasonal with ceremonial dishes'
+    },
+    yucatan: {
       name: 'Yucatecan Cuisine',
       description: 'Maya-influenced cuisine with distinctive achiote and citrus flavors',
       signature: ['cochinita pibil', 'papadzules', 'sopa de lima', 'poc chuc', 'panuchos'],
       elementalProperties: { water: 0.4, earth: 0.3, fire: 0.2, air: 0.1 },
       astrologicalInfluences: ['venus', 'mercury', 'gemini'],
-      seasonality: 'tropical seasonal patterns' },
-        northern: {
+      seasonality: 'tropical seasonal patterns'
+    },
+    northern: {
       name: 'Northern Cuisine',
       description: 'Meat-focused cuisine with flour tortillas and grilled specialties',
       signature: ['carne asada', 'machaca', 'flour tortillas', 'chihuahua cheese', 'burritos'],
       elementalProperties: { fire: 0.5, earth: 0.3, air: 0.1, water: 0.1 },
       astrologicalInfluences: ['mars', 'sun', 'aries'],
-      seasonality: 'desert and ranching seasonal patterns' },
-        centralMexico: {
+      seasonality: 'desert and ranching seasonal patterns'
+    },
+    centralMexico: {
       name: 'Central Mexican Cuisine',
       description: 'Home to Mexico City with ancient Aztec influences and modern street food',
       signature: ['tacos al pastor', 'pozole', 'chiles en nogada', 'mole poblano', 'street corn'],
       elementalProperties: { earth: 0.4, fire: 0.3, water: 0.2, air: 0.1 },
       astrologicalInfluences: ['jupiter', 'mercury', 'virgo'],
-      seasonality: 'highland seasonal patterns with ceremonial dishes' },
-        pacific: {
+      seasonality: 'highland seasonal patterns with ceremonial dishes'
+    },
+    pacific: {
       name: 'Pacific Coast Cuisine',
       description: 'Seafood-forward cuisine with tropical fruits and fresh preparations',
       signature: ['pescado a la talla', 'aguachile', 'ceviche', 'zarandeado', 'camarones'],
       elementalProperties: { water: 0.5, air: 0.2, fire: 0.2, earth: 0.1 },
       astrologicalInfluences: ['neptune', 'venus', 'pisces'],
       seasonality: 'coastal seasonal patterns with monsoon influence'
-}
+    }
   },
   elementalProperties: {
     fire: 0.3, // Represents chiles and grilling,
@@ -1271,6 +1298,6 @@ export const mexican = {
     water: 0.2, // Represents sauces and stews,
     air: 0.2, // Represents herbs and light dishes
   }
-}
+};
 
-export default mexican,
+export default mexican;

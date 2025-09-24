@@ -417,9 +417,7 @@ export function getCookingMethodPillar(cookingMethod: string): AlchemicalPillar 
  * @param cookingMethod The cooking method
  * @returns The effect on alchemical properties or null if method not recognized
  */
-export function getCookingMethodAlchemicalEffect(
-  cookingMethod: string,
-): Record<AlchemicalProperty, number> | null {
+export function getCookingMethodAlchemicalEffect(cookingMethod: string): Record<AlchemicalProperty, number> | null {
   const pillar = getCookingMethodPillar(cookingMethod);
   if (!pillar) return null;
 
@@ -476,9 +474,7 @@ export function getPlanetaryAlchemicalEffect(
  * @param cardName The full name of the tarot card (e.g., '10 of Cups')
  * @returns The alchemical effect of the tarot card or null if not recognized
  */
-export function getTarotCardAlchemicalEffect(
-  cardName: string,
-): Record<AlchemicalProperty, number> | null {
+export function getTarotCardAlchemicalEffect(cardName: string): Record<AlchemicalProperty, number> | null {
   // Find the pillar with the tarot association
   const pillar = ALCHEMICAL_PILLARS.find(p =>
     p.tarotAssociations?.some(
@@ -1222,11 +1218,9 @@ export function calculatePillarKalchm(effects: Record<AlchemicalProperty, _numbe
  * @param reactivity - The reactivity value
  * @returns The calculated Greg's Energy
  */
-export function calculatePillarGregsEnergy(
-  heat: number,
+export function calculatePillarGregsEnergy(heat: number,
   entropy: number,
-  reactivity: number,
-): number {
+  reactivity: number): number {
   return heat - entropy * reactivity
 }
 
@@ -1238,11 +1232,9 @@ export function calculatePillarGregsEnergy(
  * @param kalchm - The Kalchm value
  * @returns The calculated Monica constant
  */
-export function calculatePillarMonica(
-  gregsEnergy: number,
+export function calculatePillarMonica(gregsEnergy: number,
   reactivity: number,
-  kalchm: number,
-): number {
+  kalchm: number): number {
   if (kalchm <= 0 || reactivity === 0) {
     return NaN;
   }
@@ -1323,11 +1315,7 @@ export function calculateOptimalCookingConditions(
   if (!isNaN(monica)) {
     if (monica > 0.5 && thermodynamics.entropy < 0.4) {
       timing = 'quick' },
-        else if (monica < -0.5 && thermodynamics.entropy > 0.6) {
-      timing = 'slow',
-    } else if (Math.abs(monica) < 0.2) {
-      timing = 'steady',
-    }
+        else if (monica < -0.5 && thermodynamics.entropy > 0.6) {timing = 'slow'} else if (Math.abs(monica) < 0.2) {timing = 'steady'}
   }
 
   // Planetary hours based on thermodynamic dominance
@@ -1479,9 +1467,7 @@ export function enhanceAlchemicalPillar(_pillar: AlchemicalPillar): AlchemicalPi
  * @param cookingMethodName - The name of the cooking method
  * @returns Enhanced cooking method with Monica properties or null if not found
  */
-export function createEnhancedCookingMethod(
-  cookingMethodName: string,
-): EnhancedCookingMethod | null {
+export function createEnhancedCookingMethod(cookingMethodName: string): EnhancedCookingMethod | null {
   // Get the alchemical pillar for this cooking method
   const pillar = getCookingMethodPillar(cookingMethodName)
   if (!pillar) {

@@ -227,7 +227,7 @@ export const _sousVide: CookingMethodData = {
       primary: 'Earth', // Stability, structure, material reality,
       secondary: 'Air', // Intellectual precision, technological approach
     }
-  }
+  },
 
   /**
    * Extended cooking notes
@@ -257,4 +257,4 @@ export const _sousVide: CookingMethodData = {
       'Water displacement method as alternative to vacuum sealing'
     ]
   }
-} as unknown as CookingMethodData,
+} as unknown as CookingMethodData

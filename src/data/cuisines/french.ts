@@ -2,10 +2,11 @@
 import type { _, _ZodiacSign } from '@/types/alchemy';
 import type { Cuisine } from '@/types/cuisine';
 
-export const french: Cuisine = {
+export const, french: Cuisine = {
   id: 'french',
   name: 'French',
-  description: 'Classical French cuisine emphasizing technique, tradition, and refined flavors. From rustic provincial dishes to haute cuisine, French cooking is the foundation of culinary arts.',
+  description:
+    'Classical French cuisine emphasizing technique, tradition, and refined flavors. From rustic provincial dishes to haute cuisine, French cooking is the foundation of culinary arts.',
   motherSauces: {
     bechamel: {
       name: 'Béchamel',
@@ -20,15 +21,18 @@ export const french: Cuisine = {
         Earth: 0.3,
         Air: 0.1,
         Fire: 0.1
-},
+      },
       astrologicalInfluences: ['Moon', 'Cancer', 'Venus'],
       seasonality: 'all',
-      preparationNotes: 'Heat should be gentle to prevent scorching. Whisk constantly when adding milk to prevent lumps.',
+      preparationNotes:
+        'Heat should be gentle to prevent scorching. Whisk constantly when adding milk to prevent lumps.',
       technicalTips: 'For a smoother sauce, heat the milk before adding it to the roux.',
       difficulty: 'medium',
-      storageInstructions: 'Refrigerate up to 3 days, cover surface with plastic wrap to prevent skin formation',
-      yield: '2 cups' },
-        veloute: {
+      storageInstructions:
+        'Refrigerate up to 3 days, cover surface with plastic wrap to prevent skin formation',
+      yield: '2 cups'
+    },
+    veloute: {
       name: 'Velouté',
       description: 'A light stock-based sauce thickened with a blonde roux',
       base: 'light stock (chicken, fish, or veal)',
@@ -41,15 +45,16 @@ export const french: Cuisine = {
         Earth: 0.3,
         Air: 0.2,
         Fire: 0.1
-},
+      },
       astrologicalInfluences: ['Jupiter', 'Mercury', 'Pisces'],
       seasonality: 'all',
       preparationNotes: 'The stock must be relatively clear and the roux cooked to a blonde stage.',
       technicalTips: 'Choose the stock type based on the protein it will accompany.',
       difficulty: 'medium',
       storageInstructions: 'Refrigerate up to 2 days, reheat gently while whisking',
-      yield: '2 cups' },
-        espagnole: {
+      yield: '2 cups'
+    },
+    espagnole: {
       name: 'Espagnole (Brown Sauce)',
       description: 'A brown stock-based sauce thickened with a brown roux',
       base: 'brown stock (traditionally veal)',
@@ -62,15 +67,16 @@ export const french: Cuisine = {
         Fire: 0.3,
         Water: 0.2,
         Air: 0.1
-},
+      },
       astrologicalInfluences: ['Mars', 'Saturn', 'Scorpio'],
       seasonality: 'autumn, winter',
       preparationNotes: 'The roux must be browned correctly to develop the deep color and flavor.',
       technicalTips: 'Skim regularly during simmering to achieve clarity.',
       difficulty: 'hard',
       storageInstructions: 'Refrigerate up to 4 days, freeze up to 3 months',
-      yield: '3 cups' },
-        hollandaise: {
+      yield: '3 cups'
+    },
+    hollandaise: {
       name: 'Hollandaise',
       description: 'An emulsion of butter and lemon juice using egg yolks as the emulsifier',
       base: 'clarified butter',
@@ -83,15 +89,16 @@ export const french: Cuisine = {
         Fire: 0.4,
         Air: 0.3,
         Earth: 0.1
-},
+      },
       astrologicalInfluences: ['Sun', 'Mercury', 'Leo'],
       seasonality: 'spring, summer',
       preparationNotes: 'Temperature control is critical to prevent curdling or breaking.',
       technicalTips: 'Use a double boiler or bain-marie and add butter gradually.',
       difficulty: 'hard',
       storageInstructions: 'Best served immediately, can hold warm for up to 1 hour in bain-marie',
-      yield: '1 cup' },
-        tomato: {
+      yield: '1 cup'
+    },
+    tomato: {
       name: 'Tomato Sauce',
       description: 'A sauce based on tomatoes, with aromatic vegetables and stock',
       base: 'tomatoes',
@@ -104,7 +111,7 @@ export const french: Cuisine = {
         Earth: 0.3,
         Water: 0.1,
         Air: 0.1
-},
+      },
       astrologicalInfluences: ['Mars', 'Leo', 'Aries'],
       seasonality: 'summer, autumn',
       preparationNotes: 'Can be smooth or chunky depending on the preparation method.',
@@ -112,7 +119,7 @@ export const french: Cuisine = {
       difficulty: 'easy',
       storageInstructions: 'Refrigerate up to 5 days, freeze up to 6 months',
       yield: '2.5 cups'
-}
+    }
   },
   sauceRecommender: {
     forProtein: {
@@ -160,7 +167,8 @@ export const french: Cuisine = {
         {
           id: 'parisian-breakfast',
           name: 'Parisian Breakfast',
-          description: 'Traditional Parisian breakfast with croissant, café au lait, and strawberry preserves',
+          description:
+            'Traditional Parisian breakfast with croissant, café au lait, and strawberry preserves',
           cuisine: 'french',
           cookingMethods: ['warming', 'brewing'],
           tools: ['coffee maker', 'milk frother', 'small plates', 'butter knife', 'serving tray'],
@@ -189,7 +197,8 @@ export const french: Cuisine = {
           allergens: ['dairy', 'gluten'],
           prepTime: '5 minutes',
           cookTime: '10 minutes',
-          culturalNotes: 'The quintessential Parisian breakfast, traditionally enjoyed at a café or home',
+          culturalNotes:
+            'The quintessential Parisian breakfast, traditionally enjoyed at a café or home',
           pairingSuggestions: ['fresh orange juice', 'fresh fruit', 'yogurt'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -216,7 +225,7 @@ export const french: Cuisine = {
             Water: 0.3,
             Fire: 0.2,
             Air: 0.1
-},
+          },
           astrologicalInfluences: [
             'Venus - The buttery richness of the croissant',
             'Mercury - The stimulating effects of coffee'
@@ -229,11 +238,12 @@ export const french: Cuisine = {
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Taurus', 'Cancer'],
           numberOfServings: 1
-}
+        },
         {
           id: 'eggs-en-cocotte',
           name: 'Eggs en Cocotte with Cream and Herbs',
-          description: 'Baked eggs in ramekins with cream and fine herbs - a refined French breakfast',
+          description:
+            'Baked eggs in ramekins with cream and fine herbs - a refined French breakfast',
           cuisine: 'french',
           cookingMethods: ['baking', 'water bath'],
           tools: ['ramekins', 'baking dish', 'kettle', 'measuring spoons', 'serving plates'],
@@ -295,7 +305,7 @@ export const french: Cuisine = {
             Earth: 0.3,
             Fire: 0.1,
             Air: 0.1
-},
+          },
           astrologicalInfluences: [
             'Moon - The nurturing quality of eggs and cream',
             'Neptune - The dreamy texture of baked eggs'
@@ -308,7 +318,7 @@ export const french: Cuisine = {
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Cancer', 'Pisces'],
           numberOfServings: 2
-}
+        },
         {
           id: 'classic-french-toast',
           name: 'Classic French Toast',
@@ -343,7 +353,8 @@ export const french: Cuisine = {
           allergens: ['eggs', 'dairy', 'gluten'],
           prepTime: '10 minutes',
           cookTime: '15 minutes',
-          culturalNotes: 'While called 'French toast' in English, in France it's known as 'pain perdu' (lost bread), as it was originally a way to use stale bread',
+          culturalNotes:
+            'While called 'French toast' in English, in France it's known as 'pain perdu' (lost bread), as it was originally a way to use stale bread',
           pairingSuggestions: ['fresh berries', 'crème fraîche', 'maple syrup'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -372,7 +383,7 @@ export const french: Cuisine = {
             Earth: 0.3,
             Water: 0.3,
             Air: 0.1
-},
+          },
           astrologicalInfluences: [
             'Venus - The sweet, indulgent nature',
             'Jupiter - The expansive, celebratory quality'
@@ -385,7 +396,7 @@ export const french: Cuisine = {
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Taurus', 'Leo'],
           numberOfServings: 3
-}
+        }
       ]
     },
     lunch: {
@@ -393,7 +404,8 @@ export const french: Cuisine = {
         {
           id: 'croque-monsieur',
           name: 'Classic Croque Monsieur',
-          description: 'The quintessential French grilled ham and cheese sandwich, elevated with creamy béchamel sauce',
+          description:
+            'The quintessential French grilled ham and cheese sandwich, elevated with creamy béchamel sauce',
           cuisine: 'french',
           cookingMethods: ['sautéing', 'broiling', 'sauce-making'],
           tools: ['saucepan', 'whisk', 'baking sheet', 'grater', 'pastry brush'],
@@ -424,7 +436,8 @@ export const french: Cuisine = {
           allergens: ['dairy', 'gluten', 'eggs'],
           prepTime: '15 minutes',
           cookTime: '10 minutes',
-          culturalNotes: 'A café classic that emerged in Paris in the early 1900s. Add a fried egg on top and it becomes a 'Croque Madame'',
+          culturalNotes:
+            'A café classic that emerged in Paris in the early 1900s. Add a fried egg on top and it becomes a 'Croque Madame'',
           pairingSuggestions: ['green salad', 'cornichons', 'Dijon mustard'],
           dietaryInfo: ['contains pork'],
           spiceLevel: 'none',
@@ -452,7 +465,7 @@ export const french: Cuisine = {
             Earth: 0.4,
             Water: 0.2,
             Air: 0.1
-},
+          },
           astrologicalInfluences: [
             'Taurus - The sensuous, indulgent nature',
             'Venus - The harmonious balance of flavors'
@@ -465,7 +478,7 @@ export const french: Cuisine = {
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Taurus', 'Virgo'],
           numberOfServings: 2
-}
+        },
         {
           id: 'nicoise-salad',
           name: 'Niçoise Salad',
@@ -500,7 +513,8 @@ export const french: Cuisine = {
           allergens: ['eggs', 'fish'],
           prepTime: '20 minutes',
           cookTime: '15 minutes',
-          culturalNotes: 'Originally from Nice, this salad represents the essence of Provençal cuisine',
+          culturalNotes:
+            'Originally from Nice, this salad represents the essence of Provençal cuisine',
           pairingSuggestions: ['crusty baguette', 'rosé wine', 'aioli'],
           dietaryInfo: ['gluten-free'],
           spiceLevel: 'none',
@@ -529,7 +543,7 @@ export const french: Cuisine = {
             Earth: 0.3,
             Air: 0.2,
             Fire: 0.2
-},
+          },
           astrologicalInfluences: [
             'Mercury - The light, fresh quality',
             'Neptune - The Mediterranean sea influence'
@@ -542,7 +556,7 @@ export const french: Cuisine = {
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Gemini', 'Pisces'],
           numberOfServings: 4
-}
+        },
         {
           id: 'french-onion-soup',
           name: 'French Onion Soup',
@@ -579,7 +593,8 @@ export const french: Cuisine = {
           allergens: ['dairy', 'gluten'],
           prepTime: '20 minutes',
           cookTime: '70 minutes',
-          culturalNotes: 'Originally a peasant dish, this soup became a French classic. Traditional Parisian versions use beef stock and lots of sweet onions',
+          culturalNotes:
+            'Originally a peasant dish, this soup became a French classic. Traditional Parisian versions use beef stock and lots of sweet onions',
           pairingSuggestions: ['red wine', 'crusty bread', 'green salad'],
           dietaryInfo: ['vegetarian option'],
           spiceLevel: 'none',
@@ -610,7 +625,7 @@ export const french: Cuisine = {
             Earth: 0.3,
             Water: 0.2,
             Air: 0.1
-},
+          },
           astrologicalInfluences: [
             'Saturn - The slow transformation of ingredients',
             'Moon - The comforting, nurturing quality'
@@ -623,7 +638,7 @@ export const french: Cuisine = {
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Capricorn', 'Cancer'],
           numberOfServings: 6
-}
+        }
       ]
     },
     dinner: {
@@ -666,7 +681,8 @@ export const french: Cuisine = {
           allergens: ['alcohol'],
           prepTime: '30 minutes',
           cookTime: '90 minutes',
-          culturalNotes: 'A rustic dish from Burgundy that has been elevated to haute cuisine. Julia Child helped popularize it in America',
+          culturalNotes:
+            'A rustic dish from Burgundy that has been elevated to haute cuisine. Julia Child helped popularize it in America',
           pairingSuggestions: ['Burgundy wine', 'crusty bread', 'mashed potatoes'],
           dietaryInfo: ['contains alcohol', 'contains pork'],
           spiceLevel: 'none',
@@ -696,7 +712,7 @@ export const french: Cuisine = {
             Fire: 0.3,
             Water: 0.15,
             Air: 0.05
-},
+          },
           astrologicalInfluences: [
             'Saturn - The slow transformation through long cooking',
             'Pluto - The deep flavors revealed through reduction'
@@ -709,7 +725,7 @@ export const french: Cuisine = {
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Capricorn', 'Scorpio'],
           numberOfServings: 6
-}
+        },
         {
           id: 'sole-meuniere',
           name: 'Sole Meunière',
@@ -750,7 +766,8 @@ export const french: Cuisine = {
           allergens: ['fish', 'dairy', 'gluten'],
           prepTime: '10 minutes',
           cookTime: '15 minutes',
-          culturalNotes: 'This dish famously converted Julia Child to French cuisine when she first tasted it in Rouen',
+          culturalNotes:
+            'This dish famously converted Julia Child to French cuisine when she first tasted it in Rouen',
           pairingSuggestions: ['white Burgundy wine', 'steamed vegetables', 'boiled potatoes'],
           dietaryInfo: ['contains fish'],
           spiceLevel: 'none',
@@ -779,7 +796,7 @@ export const french: Cuisine = {
             Fire: 0.3,
             Air: 0.2,
             Earth: 0.1
-},
+          },
           astrologicalInfluences: [
             'Jupiter - The elegance and richness',
             'Mercury - The bright, quick quality'
@@ -792,11 +809,12 @@ export const french: Cuisine = {
           lunarPhaseInfluences: ['First Quarter', 'Full Moon'],
           zodiacInfluences: ['Leo', 'Gemini'],
           numberOfServings: 4
-}
+        },
         {
           id: 'beef-bourguignon',
           name: 'Beef Bourguignon',
-          description: 'Classic Burgundian beef stew braised in red wine with pearl onions and mushrooms',
+          description:
+            'Classic Burgundian beef stew braised in red wine with pearl onions and mushrooms',
           cuisine: 'french',
           cookingMethods: ['braising', 'sautéing', 'reducing'],
           tools: ['Dutch oven', 'strainer', 'kitchen twine', 'cheesecloth', 'wooden spoon'],
@@ -846,7 +864,8 @@ export const french: Cuisine = {
           allergens: ['alcohol'],
           prepTime: '45 minutes',
           cookTime: '3 hours',
-          culturalNotes: 'The epitome of French country cooking, this dish represents the marriage of wine and food culture in Burgundy',
+          culturalNotes:
+            'The epitome of French country cooking, this dish represents the marriage of wine and food culture in Burgundy',
           pairingSuggestions: ['Burgundy red wine', 'crusty bread', 'mashed potatoes'],
           dietaryInfo: ['contains alcohol', 'contains pork'],
           spiceLevel: 'none',
@@ -866,7 +885,7 @@ export const french: Cuisine = {
             Fire: 0.2,
             Water: 0.1,
             Air: 0.1
-},
+          },
           astrologicalInfluences: [
             'Saturn - The slow cooking process and aged flavors',
             'Pluto - The transformative quality and depth'
@@ -911,7 +930,8 @@ export const french: Cuisine = {
           allergens: ['dairy', 'eggs'],
           prepTime: '20 minutes',
           cookTime: '35 minutes',
-          culturalNotes: 'A classic French dessert dating back to the 17th century, the name means 'burnt cream'',
+          culturalNotes:
+            'A classic French dessert dating back to the 17th century, the name means 'burnt cream'',
           pairingSuggestions: ['fresh berries', 'dessert wine', 'coffee'],
           dietaryInfo: ['vegetarian', 'gluten-free'],
           spiceLevel: 'none',
@@ -938,7 +958,7 @@ export const french: Cuisine = {
             Water: 0.3,
             Earth: 0.3,
             Air: 0.1
-},
+          },
           astrologicalInfluences: [
             'Venus - The sensual, creamy nature',
             'Sun - The fire element in caramelization'
@@ -962,7 +982,7 @@ export const french: Cuisine = {
             'Caramelize with torch or under broiler',
             'Let caramel harden before serving'
           ]
-        }
+        },
         {
           id: 'tarte-tatin',
           name: 'Tarte Tatin',
@@ -1001,7 +1021,8 @@ export const french: Cuisine = {
           allergens: ['dairy', 'gluten'],
           prepTime: '45 minutes',
           cookTime: '45 minutes',
-          culturalNotes: 'Created accidentally at Hotel Tatin in Lamotte-Beuvron when Stéphanie Tatin tried to rescue an overcooked apple pie by putting the pastry on top',
+          culturalNotes:
+            'Created accidentally at Hotel Tatin in Lamotte-Beuvron when Stéphanie Tatin tried to rescue an overcooked apple pie by putting the pastry on top',
           pairingSuggestions: ['crème fraîche', 'vanilla ice cream', 'Sauternes wine', 'Calvados'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -1020,7 +1041,7 @@ export const french: Cuisine = {
             Fire: 0.3,
             Water: 0.2,
             Air: 0.1
-},
+          },
           astrologicalInfluences: [
             'Venus - The sweet, indulgent nature',
             'Jupiter - The transformative quality'
@@ -1043,11 +1064,12 @@ export const french: Cuisine = {
             'Cool slightly and invert onto plate'
           ],
           timeToMake: '90 minutes'
-}
+        },
         {
           id: 'chocolate-profiteroles',
           name: 'Chocolate Profiteroles',
-          description: 'Choux pastry puffs filled with vanilla ice cream and topped with warm chocolate sauce',
+          description:
+            'Choux pastry puffs filled with vanilla ice cream and topped with warm chocolate sauce',
           cuisine: 'french',
           cookingMethods: ['baking', 'piping', 'sauce-making'],
           tools: ['saucepan', 'piping bags', 'baking sheets', 'whisk', 'double boiler'],
@@ -1069,7 +1091,8 @@ export const french: Cuisine = {
           allergens: ['dairy', 'eggs', 'gluten'],
           prepTime: '45 minutes',
           cookTime: '30 minutes',
-          culturalNotes: 'A classic French dessert that showcases three distinct pastry, techniques: choux, ice cream making, and sauce preparation',
+          culturalNotes:
+            'A classic French dessert that showcases three distinct pastry, techniques: choux, ice cream making, and sauce preparation',
           pairingSuggestions: ['espresso', 'vanilla ice cream', 'fresh berries'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -1096,7 +1119,7 @@ export const french: Cuisine = {
             Water: 0.3,
             Fire: 0.3,
             Air: 0.1
-},
+          },
           astrologicalInfluences: [
             'Venus - The indulgent, sweet quality',
             'Jupiter - The expansive, celebratory nature'
@@ -1118,7 +1141,7 @@ export const french: Cuisine = {
             'Serve with warm chocolate sauce'
           ],
           numberOfServings: 6
-}
+        }
       ]
     }
   },
@@ -1130,7 +1153,7 @@ export const french: Cuisine = {
       toolsRequired: ['sauté pan', 'wooden spoon', 'tongs'],
       bestFor: ['vegetables', 'tender cuts of meat', 'fish fillets'],
       difficulty: 'easy'
-}
+    },
     {
       name: 'Braise',
       description: 'Slow cooking in liquid after browning, usually covered',
@@ -1138,7 +1161,7 @@ export const french: Cuisine = {
       toolsRequired: ['Dutch oven', 'tongs', 'wooden spoon'],
       bestFor: ['tough cuts of meat', 'root vegetables', 'legumes'],
       difficulty: 'medium'
-}
+    },
     {
       name: 'Flambé',
       description: 'Igniting food with alcohol for flavor and visual effect',
@@ -1146,7 +1169,7 @@ export const french: Cuisine = {
       toolsRequired: ['skillet', 'long match or lighter', 'long-handled utensils'],
       bestFor: ['desserts', 'proteins', 'sauces'],
       difficulty: 'hard'
-}
+    },
     {
       name: 'En Papillote',
       description: 'Cooking in a sealed parchment paper packet',
@@ -1154,7 +1177,7 @@ export const french: Cuisine = {
       toolsRequired: ['parchment paper', 'baking sheet', 'scissors'],
       bestFor: ['fish', 'vegetables', 'delicate proteins'],
       difficulty: 'medium'
-}
+    },
     {
       name: 'Sous Vide',
       description: 'Cooking vacuum-sealed food in a temperature-controlled water bath',
@@ -1162,37 +1185,42 @@ export const french: Cuisine = {
       toolsRequired: ['sous vide immersion circulator', 'vacuum sealer', 'container'],
       bestFor: ['proteins', 'eggs', 'vegetables'],
       difficulty: 'hard'
-}
+    }
   ],
   regionalCuisines: {
     provence: {
       name: 'Provençal Cuisine',
-      description: 'Mediterranean-influenced cuisine from Southern France, featuring olive oil, herbs, tomatoes, and seafood',
+      description:
+        'Mediterranean-influenced cuisine from Southern France, featuring olive oil, herbs, tomatoes, and seafood',
       signature: ['bouillabaisse', 'ratatouille', 'tapenade', 'aioli'],
       elementalProperties: { Fire: 0.3, Earth: 0.3, Water: 0.3, Air: 0.1 },
       astrologicalInfluences: ['Sun', 'Mercury', 'Venus'],
-      seasonality: 'summer' },
-        normandy: {
+      seasonality: 'summer'
+    },
+    normandy: {
       name: 'Norman Cuisine',
-      description: 'Butter and cream-based cuisine from Northern France, featuring apples, dairy, and seafood',
+      description:
+        'Butter and cream-based cuisine from Northern France, featuring apples, dairy, and seafood',
       signature: ['calvados', 'camembert', 'tarte aux pommes', 'tripes à la mode de Caen'],
       elementalProperties: { Water: 0.4, Earth: 0.4, Fire: 0.1, Air: 0.1 },
       astrologicalInfluences: ['Moon', 'Venus', 'Neptune'],
-      seasonality: 'autumn' },
-        burgundy: {
+      seasonality: 'autumn'
+    },
+    burgundy: {
       name: 'Burgundian Cuisine',
       description: 'Wine-centric cuisine known for slow-cooked dishes, mustard, and escargot',
       signature: ['beef bourguignon', 'coq au vin', 'escargots de Bourgogne', 'jambon persillé'],
       elementalProperties: { Earth: 0.5, Fire: 0.2, Water: 0.2, Air: 0.1 },
       astrologicalInfluences: ['Saturn', 'Mars', 'Pluto'],
-      seasonality: 'winter' },
-        alsace: {
+      seasonality: 'winter'
+    },
+    alsace: {
       name: 'Alsatian Cuisine',
       description: 'German-influenced cuisine featuring charcuterie, sauerkraut, and white wines',
       signature: ['choucroute garnie', 'tarte flambée', 'baeckeoffe', 'kugelhopf'],
       elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
       astrologicalInfluences: ['Jupiter', 'Saturn', 'Uranus'],
-      seasonality: 'autumn, winter',
+      seasonality: 'autumn, winter'
     }
   },
   elementalProperties: {
@@ -1200,12 +1228,12 @@ export const french: Cuisine = {
     Water: 0.3,
     Fire: 0.2,
     Air: 0.2
-},
+  },
   astrologicalInfluences: [
     'Venus - Governs the sensual, pleasure-seeking aspects of French cuisine',
     'Jupiter - Influences the celebratory and abundant nature of French dining',
     'Mercury - Shapes the precise techniques and articulate presentation'
   ]
-}
+};
 
-export default french,
+export default french;
