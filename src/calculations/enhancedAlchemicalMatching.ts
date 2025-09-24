@@ -214,7 +214,7 @@ export function calculateEnhancedElementalMatch(
     // Compare each element
     (['Fire', 'Water', 'Earth', 'Air'] as const).forEach(element => {
       const recipeValue = recipeElements[element] || 0;
-      const currentValue = currentElements[element] || 0;
+      const currentValue = currentElements[element] || 0,
 
       // Calculate similarity (inverse of difference)
       const difference = Math.abs(recipeValue - currentValue);

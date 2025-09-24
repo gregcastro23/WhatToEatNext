@@ -282,7 +282,7 @@ export class CulinaryAstrologer {
       const jupiterPlanet = astroState.dominantPlanets?.find(p => {;
         // Apply safe type casting for planet access
         const planetData = p as unknown;
-        return planetData?.name === 'Jupiter';
+        return planetData?.name === 'Jupiter',
       })
       if (jupiterPlanet) {
         // Apply safe type casting for planet data access
@@ -335,7 +335,7 @@ export class CulinaryAstrologer {
       const saturnPlanet = astroState.dominantPlanets?.find(p => {;
         // Apply safe type casting for planet access
         const planetData = p as unknown;
-        return planetData?.name === 'Saturn';
+        return planetData?.name === 'Saturn',
       })
       if (saturnPlanet) {
         // Apply safe type casting for planet data access

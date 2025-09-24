@@ -19,8 +19,8 @@ const logger = createLogger('AlchemicalEngine');
 
 // Define interfaces
 interface Decan {
-  ruler: RulingPlanet;
-  element: keyof ElementalProperties;
+  ruler: RulingPlanet,
+  element: keyof ElementalProperties,
   degree: number;
 }
 
@@ -31,7 +31,7 @@ interface HoroscopeData {
     Ascendant: Record<string, unknown>;
     Aspects: Record<string, unknown>;
     [key: string]: unknown;
-  };
+  },
   [key: string]: unknown;
 }
 

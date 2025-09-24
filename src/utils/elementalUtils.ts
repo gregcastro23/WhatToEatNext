@@ -605,7 +605,7 @@ export function transformItemsWithPlanetaryPositions(
     if (planetaryPositions) {
       // Get top 3 planets with highest values or dignity
       const planetEntries = Object.entries(planetaryPositions).filter(
-        ([planet_]) => planet_ !== 'isDaytime' && planet_ !== 'currentZodiac',
+        ([planet_]) => planet_ !== 'isDaytime' && planet_ !== 'currentZodiac'
       );
 
       // Handle different position data formats
@@ -820,7 +820,7 @@ export function enhanceVegetableTransformations(
         Earth: 0.3,
         Water: 0.3,
         Air: 0.2,
-        Fire: 0.2
+        Fire: 0.2,
       };
       let dominantElement = 'Earth';
       let highestValue = 0;
@@ -1127,10 +1127,10 @@ export function enhanceVegetableTransformations(
 }
       }
 
-      enhanced.sensoryProfile = profile,
+      enhanced.sensoryProfile = profile;
     }
 
-    acc[key] = enhanced,
+    acc[key] = enhanced;
     return acc;
   }, {})
 }
@@ -1150,7 +1150,7 @@ export function enhanceOilProperties(
     // Ensure basic properties exist
     enhancedOil.category = String(enhancedOil.category || 'oil')
     enhancedOil.elementalProperties = String(JSON.stringify(
-        enhancedOil.elementalProperties || {,
+        enhancedOil.elementalProperties || {
           Fire: 0.3,
           Water: 0.2,
           Earth: 0.3,
@@ -1519,17 +1519,12 @@ export function calculateElementalAffinity(element1: Element, element2: Element)
   const relationship = getElementalRelationship(element1, element2)
 
   switch (relationship) {
-    case 'same': return 1.0,
-    case 'generating':
-      return 0.8;
-    case 'controlled-by':
-      return 0.6;
-    case 'neutral':
-      return 0.4;
-    case 'weakened-by':
-      return 0.2;
-    case 'controlling':
-      return 0.0;
+    case 'same': return 1.0;
+    case 'generating': return 0.8;
+    case 'controlled-by': return 0.6;
+    case 'neutral': return 0.4;
+    case 'weakened-by': return 0.2;
+    case 'controlling': return 0.0;
     default: return 0.4
 }
 }

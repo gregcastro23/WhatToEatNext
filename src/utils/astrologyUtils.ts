@@ -110,11 +110,11 @@ export function getPlanetaryDignity(
 
 // Add type definition for PlanetPosition
 export interface PlanetPosition {
-  sign: any;
-  degree: number;
-  minute: number;
-  exactLongitude: number;
-  isRetrograde?: boolean;
+  sign: any,
+  degree: number,
+  minute: number,
+  exactLongitude: number,
+  isRetrograde?: boolean,
   error?: boolean;
 }
 
@@ -136,9 +136,9 @@ export interface PlanetaryAspect extends ImportedPlanetaryAspect {
 
 // Define AstrologicalEffects interface locally
 export interface AstrologicalEffects {
-  dignity: LowercaseElementalProperties;
-  aspect: LowercaseElementalProperties;
-  stellium: LowercaseElementalProperties;
+  dignity: LowercaseElementalProperties,
+  aspect: LowercaseElementalProperties,
+  stellium: LowercaseElementalProperties,
   house: Record<ElementalCharacter, number>;
   joy: LowercaseElementalProperties;
 }
@@ -290,22 +290,14 @@ export async function getMoonIllumination(date: Date = new Date()): Promise<numb
 
       // Approximate illumination based on phase name
       switch (phaseName) {
-        case 'new moon':
-          return 0;
-        case 'waxing crescent':
-          return 25;
-        case 'first quarter':
-          return 50;
-        case 'waxing gibbous':
-          return 75;
-        case 'full moon':
-          return 100;
-        case 'waning gibbous':
-          return 75;
-        case 'last quarter':
-          return 50;
-        case 'waning crescent':
-          return 25;
+        case 'new moon': return 0,
+        case 'waxing crescent': return 25,
+        case 'first quarter': return 50,
+        case 'waxing gibbous': return 75,
+        case 'full moon': return 100,
+        case 'waning gibbous': return 75,
+        case 'last quarter': return 50,
+        case 'waning crescent': return 25,
         default:
           return 50;
       }
@@ -761,17 +753,17 @@ const PLANETARY_JOYS: Record<string, number> = {
 
 // Add missing HOUSE_AFFINITIES constant
 const HOUSE_AFFINITIES: Record<number, { element: string, planet: string }> = {
-  1: { element: 'Fire', planet: 'Mars' }
-  2: { element: 'Earth', planet: 'Venus' }
-  3: { element: 'Air', planet: 'Mercury' }
-  4: { element: 'Water', planet: 'Moon' }
-  5: { element: 'Fire', planet: 'Sun' }
-  6: { element: 'Earth', planet: 'Mercury' }
-  7: { element: 'Air', planet: 'Venus' }
-  8: { element: 'Water', planet: 'Pluto' }
-  9: { element: 'Fire', planet: 'Jupiter' }
-  10: { element: 'Earth', planet: 'Saturn' }
-  11: { element: 'Air', planet: 'Uranus' }
+  1: { element: 'Fire', planet: 'Mars' },
+  2: { element: 'Earth', planet: 'Venus' },
+  3: { element: 'Air', planet: 'Mercury' },
+  4: { element: 'Water', planet: 'Moon' },
+  5: { element: 'Fire', planet: 'Sun' },
+  6: { element: 'Earth', planet: 'Mercury' },
+  7: { element: 'Air', planet: 'Venus' },
+  8: { element: 'Water', planet: 'Pluto' },
+  9: { element: 'Fire', planet: 'Jupiter' },
+  10: { element: 'Earth', planet: 'Saturn' },
+  11: { element: 'Air', planet: 'Uranus' },
   12: { element: 'Water', planet: 'Neptune' }
 }
 
@@ -857,8 +849,8 @@ export function calculateEnhancedStelliumEffects(
   Object.entries(planetPositions).forEach(([planet, position]) => {
     if (position?.sign) {
       const sign = position.sign.toLowerCase()
-      if (!planetsBySign[sign]) {;
-        planetsBySign[sign] = [],
+      if (!planetsBySign[sign]) {
+        planetsBySign[sign] = [];
       }
       planetsBySign[sign].push(planet)
     }
@@ -868,14 +860,14 @@ export function calculateEnhancedStelliumEffects(
   Object.entries(planetsBySign).forEach(([sign, planets]) => {
     if (planets.length >= 3) {
       // Get the element of the sign
-      const element = getZodiacElement(sign as unknown,
-      ).toLowerCase() as keyof LowercaseElementalProperties,
+      const element = getZodiacElement(sign as unknown
+      ).toLowerCase() as keyof LowercaseElementalProperties;
 
       // 1. Add bonus of +n of the sign element (n = number of planets)
-      result[element] += planets.length,
+      result[element] += planets.length;
 
       // Count planets whose element matches the sign element
-      let matchingElementCount = 0,
+      let matchingElementCount = 0;
 
       // Count planets by type for weighted stellium effects
       const elementsByPlanet: Record<string, string> = {}
@@ -885,9 +877,9 @@ export function calculateEnhancedStelliumEffects(
         let planetElement = ''
 
         // Handle both traditional and modern planets
-        switch (planet.toLowerCase()) {;
+        switch (planet.toLowerCase()) {
           case 'sun': planetElement = 'fire',
-            break,
+            break;
           case 'moon':
             planetElement = 'water',
             break,
@@ -1303,7 +1295,7 @@ export function getPlanetaryDignityInfo(
 }
 
   // Calculate detriment (opposite of rulership)
-  const getDetriments = (planet: string): string[] => {;
+  const getDetriments = (planet: string): string[] => {,
     const oppositeSignIndexes: Record<string, number> = {
       aries: 6,
       taurus: 7,
@@ -1413,8 +1405,8 @@ export function calculateAspects(
   // Calculate aspects between each planet pair
   const planets = Object.keys(positions)
 ;
-  for (let i = 0; i < planets.length, i++) {
-    for (let j = i + 1; j < planets.length, j++) {
+  for (let i = 0, i < planets.length, i++) {
+    for (let j = i + 1, j < planets.length, j++) {
       const planet1 = planets[i];
       const planet2 = planets[j];
 

@@ -12,15 +12,15 @@ const logger = createLogger('GregsEnergy');
  */
 export interface ElementalAlchemicalCounts {
   // Alchemical properties
-  Spirit: number;
-  Essence: number;
-  Matter: number;
+  Spirit: number,
+  Essence: number,
+  Matter: number,
   Substance: number;
 
   // Elemental characters
-  Fire: number;
-  Water: number;
-  Air: number;
+  Fire: number,
+  Water: number,
+  Air: number,
   Earth: number;
 }
 
@@ -181,7 +181,7 @@ export function applyPlanetaryModifiers(
     const result = { ...baseCounts };
 
     planets.forEach(planet => {
-      const modifiers = planetaryModifiers[planet];
+      const modifiers = planetaryModifiers[planet],
       if (modifiers) {
         Object.entries(modifiers).forEach(([property, modifier]) => {
           if (result[property as keyof ElementalAlchemicalCounts] !== undefined) {

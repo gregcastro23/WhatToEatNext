@@ -16,8 +16,8 @@ const logger = createLogger('AlchemicalTransformation');
  * Interface for items with elemental data (ingredients, methods, cuisines)
  */
 export interface ElementalItem {
-  id: string;
-  name: string;
+  id: string,
+  name: string,
   elementalProperties: Record<ElementalCharacter, number>;
   [key: string]: unknown; // Allow other properties
 }
@@ -28,15 +28,15 @@ export interface ElementalItem {
 export interface AlchemicalItem extends ElementalItem {
   alchemicalProperties: Record<AlchemicalProperty, number>;
   transformedElementalProperties: Record<ElementalCharacter, number>;
-  heat: number;
-  entropy: number;
-  reactivity: number;
-  gregsEnergy: number;
-  dominantElement: ElementalCharacter;
+  heat: number,
+  entropy: number,
+  reactivity: number,
+  gregsEnergy: number,
+  dominantElement: ElementalCharacter,
   dominantAlchemicalProperty: AlchemicalProperty;
   // New planetary influence properties
-  planetaryBoost: number;
-  dominantPlanets: string[];
+  planetaryBoost: number,
+  dominantPlanets: string[],
   planetaryDignities: Record<string, PlanetaryDignityDetails>;
 }
 
@@ -102,11 +102,11 @@ export const transformItemWithPlanetaryPositions = (
     // Apply safety checks for energy metrics
     const safeHeat = Number.isFinite(alchemicalResults.heat)
       ? Math.max(0.1, Math.min(1.0, alchemicalResults.heat * planetaryBoost * 2.5))
-      : 0.5;
+      : 0.5,
 
     const safeEntropy = Number.isFinite(alchemicalResults.entropy)
       ? Math.max(0.1, Math.min(1.0, alchemicalResults.entropy * 1.5))
-      : 0.5;
+      : 0.5,
 
     const safeReactivity = Number.isFinite(alchemicalResults.reactivity)
       ? Math.max(0.1, Math.min(1.0, alchemicalResults.reactivity * 1.5))
@@ -159,7 +159,7 @@ export const transformItemWithPlanetaryPositions = (
       aquarius: 'Air',
       cancer: 'Water',
       scorpio: 'Water',
-      pisces: 'Water'
+      pisces: 'Water',
     };
     const zodiacElement = zodiacElementMap[zodiacSign];
     if (zodiacElement && zodiacElement === dominantElement) {
@@ -237,7 +237,7 @@ export const transformItemWithPlanetaryPositions = (
         Spirit: 0.25,
         Essence: 0.25,
         Matter: 0.25,
-        Substance: 0.25
+        Substance: 0.25,
       },
       transformedElementalProperties: { ...item.elementalProperties },
       heat: 0.5,
@@ -282,7 +282,7 @@ export const _transformItemsWithPlanetaryPositions = (
         Spirit: 0.25,
         Essence: 0.25,
         Matter: 0.25,
-        Substance: 0.25
+        Substance: 0.25,
       },
       transformedElementalProperties: { ...item.elementalProperties },
       heat: 0.5,
@@ -395,7 +395,7 @@ const applyZodiacBoost = (
       sagittarius: 'Fire',
       capricorn: 'Earth',
       aquarius: 'Air',
-      pisces: 'Water'
+      pisces: 'Water',
     };
     const zodiacElement = zodiacElementMap[zodiacSign];
     if (zodiacElement) {

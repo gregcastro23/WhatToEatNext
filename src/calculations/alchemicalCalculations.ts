@@ -24,8 +24,8 @@ export type DignityType =
  * Represents a planetary dignity
  */
 export interface PlanetaryDignity {
-  type: DignityType;
-  value: number;
+  type: DignityType,
+  value: number,
   description: string;
 }
 
@@ -49,13 +49,13 @@ export const dignityStrengthModifiers: Record<DignityType, number> = {
 export interface AlchemicalResults {
   elementalCounts: Record<string, number>;
   alchemicalCounts: Record<string, number>;
-  heat: number;
-  entropy: number;
-  reactivity: number;
-  gregsEnergy: number;
-  dominantElement: string;
-  dominantAlchemicalProperty: string;
-  planetaryDignities: PlanetaryDignity[];
+  heat: number,
+  entropy: number,
+  reactivity: number,
+  gregsEnergy: number,
+  dominantElement: string,
+  dominantAlchemicalProperty: string,
+  planetaryDignities: PlanetaryDignity[],
   recommendations: string[];
 }
 
@@ -171,15 +171,15 @@ export function calculateAlchemicalTransformation(
     // Calculate thermodynamic properties
     const heat = Math.pow(alchemicalCounts.Spirit, 2) + Math.pow(elementalCounts.Fire, 2);
     const total = Object.values(elementalCounts).reduce((sum, val) => sum + val, 0) + Object.values(alchemicalCounts).reduce((sum, val) => sum + val, 0);
-    const normalizedHeat = total > 0 ? Math.min(1, heat / Math.pow(total, 2)) : 0;
+    const normalizedHeat = total > 0 ? Math.min(1, heat / Math.pow(total, 2)) : 0,
 
     const entropy = Math.pow(alchemicalCounts.Spirit, 2) + Math.pow(alchemicalCounts.Substance, 2);
     const entropyDen = alchemicalCounts.Essence + alchemicalCounts.Matter + elementalCounts.Earth + elementalCounts.Water;
-    const normalizedEntropy = entropyDen > 0 ? Math.min(1, entropy / Math.pow(entropyDen, 2)) : 0;
+    const normalizedEntropy = entropyDen > 0 ? Math.min(1, entropy / Math.pow(entropyDen, 2)) : 0,
 
     const reactivity = alchemicalCounts.Spirit + alchemicalCounts.Substance + alchemicalCounts.Essence;
     const reactivityDen = alchemicalCounts.Matter + elementalCounts.Earth;
-    const normalizedReactivity = reactivityDen > 0 ? Math.min(1, reactivity / Math.pow(reactivityDen, 2)) : 0;
+    const normalizedReactivity = reactivityDen > 0 ? Math.min(1, reactivity / Math.pow(reactivityDen, 2)) : 0,
 
     const gregsEnergy = normalizedHeat - (normalizedEntropy * normalizedReactivity);
 

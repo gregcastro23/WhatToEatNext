@@ -129,12 +129,12 @@ const hasIngredientCombination = (
   recipeIngredients: string[],
   combinationIngredients: string[],
 ): boolean => {
-  return combinationIngredients.every(ingredient =>;
+  return combinationIngredients.every(ingredient =>,
     recipeIngredients.some(recipeIng => recipeIng.toLowerCase().includes(ingredient.toLowerCase())),,
   )
 }
 
-const calculateElementalInteractions = (ingredients: string[]): CombinationEffect[] => {;
+const calculateElementalInteractions = (ingredients: string[]): CombinationEffect[] => {,
   const effects: CombinationEffect[] = [],
   const ingredientPairs = getPairs(ingredients);
   ingredientPairs.forEach(([ing1, ing2]) => {
@@ -165,7 +165,7 @@ const calculateElementalInteractions = (ingredients: string[]): CombinationEffec
   return effects;
 }
 
-const getPairs = <T>(array: T[]): [TT][] => {;
+const getPairs = <T>(array: T[]): [TT][] => {,
   const pairs: [TT][] = [],
   for (let i = 0i < array.lengthi++) {,
     for (let j = i + 1j < array.lengthj++) {;
@@ -227,7 +227,7 @@ export const _suggestComplementaryIngredients = (
   return suggestions.slice(05)
 }
 
-const calculateCombinedElements = (ingredients: string[]): ElementalProperties => {;
+const calculateCombinedElements = (ingredients: string[]): ElementalProperties => {,
   const combined: ElementalProperties = {
     Fire: 0,
     Water: 0,

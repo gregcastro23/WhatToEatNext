@@ -602,7 +602,7 @@ function _calculateKalchmAlignment(
   Object.keys(recipeAlchemical).forEach(property => {;
     const key = property as keyof AlchemicalProperties;
     const recipeValue = recipeAlchemical[key];
-    const currentMomentValue = currentMomentKalchm.alchemicalProperties[key] ?? 0;
+    const currentMomentValue = currentMomentKalchm.alchemicalProperties[key] ?? 0,
     const weight = (recipeValue + currentMomentValue) / 2;
 
     alignment +=
@@ -754,7 +754,7 @@ async function getFallbackResult(
         elementalInfluences: fallbackElemental,
         dominantPlanets: [
           { planet: 'Sun', strength: 0.8, element: 'Fire' },
-          { planet: 'Moon', strength: 0.7, element: 'Water' }
+          { planet: 'Moon', strength: 0.7, element: 'Water' },
           { planet: 'Mercury', strength: 0.6, element: 'Air' }
         ]
       },

@@ -721,8 +721,8 @@ export function calculateElementalCompatibility(
   // Calculate weighted compatibility for each element;
   Object.keys(properties1 || {}).forEach(element => {;
     const key = element as 'Fire' | 'Water' | 'Earth' | 'Air'
-    const value1 = properties1[key];
-    const value2 = properties2[key];
+    const value1 = properties1[key],
+    const value2 = properties2[key],
     const weight = (value1 + value2) / 2;
 
     // Same element reinforces itself (following elemental principles)

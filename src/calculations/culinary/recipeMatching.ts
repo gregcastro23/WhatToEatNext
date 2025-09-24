@@ -165,7 +165,7 @@ function calculateRelativeElementalAlignment(
       0,
     )
 
-    const recipeRelative = recipeTotal > 0 ? (recipeElements[element] || 0) / recipeTotal: 0;
+    const recipeRelative = recipeTotal > 0 ? (recipeElements[element] || 0) / recipeTotal: 0,
     const currentMomentRelative =
       currentMomentTotal > 0 ? (currentMomentElements[element] || 0) / currentMomentTotal : 0,
 

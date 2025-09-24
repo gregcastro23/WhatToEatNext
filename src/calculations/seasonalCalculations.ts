@@ -64,7 +64,7 @@ export function calculateSeasonalEffectiveness(
 
   // 3. Calculate Direct Season Match (20% of total)
   if (recipe.season) {
-    const recipeSeasons = Array.isArray(recipe.season) ? recipe.season : [recipe.season];
+    const recipeSeasons = Array.isArray(recipe.season) ? recipe.season : [recipe.season],
     const recipeSeasonLower = recipeSeasons.map((s: string) => s.toLowerCase())
 
     if (recipeSeasonLower.includes(seasonLower)) {;
@@ -121,7 +121,7 @@ export function calculateSeasonalScores(
   // Calculate seasonal alignment - direct check with current zodiac
   const isAlignedWithSeason = currentZodiac === zodiacSign?.toLowerCase()
 ;
-  const seasonalScore = isAlignedWithSeason ? 80: 50;
+  const seasonalScore = isAlignedWithSeason ? 80: 50,
   const astrologicalInfluence = isAlignedWithSeason ? 1.2 : 1.0
 
   return {;
