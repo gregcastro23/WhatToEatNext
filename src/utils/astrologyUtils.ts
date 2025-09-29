@@ -31,7 +31,7 @@ import { calculatePlanetaryAspects as safeCalculatePlanetaryAspects } from '@/ut
 
 // Removed unused, imports: solar, moon
 
-import { getAccuratePlanetaryPositions } from './accurateAstronomy';
+import { getAccuratePlanetaryPositions, getEnhancedPlanetaryPositions } from './accurateAstronomy';
 import { calculateAllHouseEffects } from './houseEffects';
 
 // Import calculatePlanetaryAspects from safeAstrology
@@ -357,39 +357,93 @@ export async function calculatePlanetaryPositions(
   date: Date = new Date()
 ): Promise<Record<string, PlanetPosition>> {
   try {
-    // Try to use the accurate astronomy calculations first
+    // 🎯 HIGH-PRECISION VSOP87 ENHANCED CALCULATIONS
+    // Use the new VSOP87-enhanced planetary positions for revolutionary accuracy
+
     try {
-      const positions = await getAccuratePlanetaryPositions(date)
+      // Get enhanced positions with VSOP87 Sun accuracy (±0.01°)
+      const positions = await getEnhancedPlanetaryPositions(date);
 
-      // Process the positions data to the correct format;
-      const formattedPositions: Record<string, PlanetPosition> = {}
+      // Process the positions data to the correct format
+      const formattedPositions: Record<string, PlanetPosition> = {};
 
-      // Format each planet's position
+      // Format each planet's position with enhanced accuracy
       Object.entries(positions).forEach(([planet, data]) => {
-        const { sign, degree} = getSignFromLongitude(data.exactLongitude)
+        const { sign, degree } = getSignFromLongitude(data.exactLongitude);
 
         formattedPositions[planet] = {
-          sign: sign as unknown, // Cast string to ZodiacSign,
-          degree: parseFloat(degree.toFixed(3)),
-          minute: Math.round((degree % 1) * 60), // Add minute calculation,
+          sign: sign as unknown, // Cast string to ZodiacSign
+          degree: parseFloat(degree.toFixed(4)), // Increased precision to 4 decimal places
+          minute: Math.round((degree % 1) * 60), // Minute calculation
           exactLongitude: data.exactLongitude,
-          isRetrograde: data.isRetrograde
-        }
-      })
+          isRetrograde: data.isRetrograde,
+          // Add VSOP87 accuracy metadata
+          accuracy: planet === 'Sun' ? 'VSOP87 ±0.01°' : 'Astronomy Engine',
+          calculation_method: planet === 'Sun' ? 'VSOP87 with aberration correction' : 'Standard astronomical'
+        };
+      });
 
+      debugLog(`✅ Enhanced planetary positions calculated with VSOP87 precision for ${date.toISOString().split('T')[0]}`);
       return formattedPositions;
-    } catch (error) {
-      errorLog('Error in getAccuratePlanetaryPositions: ', error)
-      throw error; // Rethrow to fallback
+
+    } catch (vsop87Error) {
+      errorLog('VSOP87 enhanced calculations failed, falling back to standard method: ', vsop87Error);
+
+      // Fallback to standard astronomy-engine calculations
+      try {
+        const positions = await getAccuratePlanetaryPositions(date);
+
+        // Process the positions data to the correct format
+        const formattedPositions: Record<string, PlanetPosition> = {};
+
+        // Format each planet's position
+        Object.entries(positions).forEach(([planet, data]) => {
+          const { sign, degree } = getSignFromLongitude(data.exactLongitude);
+
+          formattedPositions[planet] = {
+            sign: sign as unknown, // Cast string to ZodiacSign
+            degree: parseFloat(degree.toFixed(3)),
+            minute: Math.round((degree % 1) * 60), // Add minute calculation
+            exactLongitude: data.exactLongitude,
+            isRetrograde: data.isRetrograde,
+            accuracy: 'Astronomy Engine fallback',
+            calculation_method: 'Standard astronomical calculation'
+          };
+        });
+
+        debugLog('⚠️ Using astronomy-engine fallback calculations');
+        return formattedPositions;
+
+      } catch (standardError) {
+        errorLog('Standard astronomical calculations also failed: ', standardError);
+      }
     }
-  } catch (error) {
-    errorLog('Error in calculatePlanetaryPositions: ', error)
-    // Fallback to default positions with error flag
+
+    errorLog('All astronomical calculation methods failed, using default positions');
+
+    // Final fallback to default positions with error flag
     const defaults = getDefaultPlanetaryPositions();
     // Mark all positions as error states (all positions exist by design)
     Object.values(defaults).forEach(p => {
       p.error = true;
+      // Add accuracy metadata even for fallbacks
+      p.accuracy = 'Default fallback positions';
+      p.calculation_method = 'Static default values';
     });
+
+    return defaults;
+
+  } catch (error) {
+    errorLog('Critical error in calculatePlanetaryPositions: ', error);
+
+    // Emergency fallback
+    const defaults = getDefaultPlanetaryPositions();
+    Object.values(defaults).forEach(p => {
+      p.error = true;
+      p.accuracy = 'Emergency fallback';
+      p.calculation_method = 'Critical failure recovery';
+    });
+
     return defaults;
   }
 }

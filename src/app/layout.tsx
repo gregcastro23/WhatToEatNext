@@ -1,4 +1,5 @@
 // app/layout.tsx
+import { ChakraProvider } from '@chakra-ui/react';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
@@ -7,21 +8,23 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'What to Eat Next',
-  description: 'Personalized food recommendations based on your chakra energies'
+  description: 'Personalized food recommendations based on your chakra energies and astrological harmony'
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (<html lang='en' suppressHydrationWarning>
+  return (
+    <html lang='en' suppressHydrationWarning>
       <body className={inter.className}>
-        <header className='bg-gray-50 py-6'>
-          <div className='mx-auto max-w-7xl px-4'>
-            <div className='flex flex-row items-center justify-between'>
-              <div>
-                <h1 className='text-3xl font-bold text-gray-900'>Alchm Kitchen</h1>
-                <p className='mt-2 text-gray-600'>
-                  The Menu of the Moment in the Stars and Elements
-                </p>
-              </div>,
+        <ChakraProvider>
+          <header className='bg-gray-50 py-6'>
+            <div className='mx-auto max-w-7xl px-4'>
+              <div className='flex flex-row items-center justify-between'>
+                <div>
+                  <h1 className='text-3xl font-bold text-gray-900'>Alchm Kitchen</h1>
+                  <p className='mt-2 text-gray-600'>
+                    The Menu of the Moment in the Stars and Elements
+                  </p>
+                </div>
               {/* PayPal Button */}
               <div>
                 <form
@@ -54,6 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
         </header>
         <main>{children}</main>
+        </ChakraProvider>
       </body>
-    </html>)
+    </html>
 }

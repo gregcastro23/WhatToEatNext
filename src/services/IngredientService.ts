@@ -1,14 +1,15 @@
-import type { ElementalProperties, IngredientMapping } from '@/types/alchemy';
+import type { ElementalProperties } from '@/types/alchemy';
 import type { Recipe, ZodiacSign } from '@/types/unified';
 import { calculateKinetics } from '@/utils/kinetics';
+import {
+    calculateQuantityFactor,
+    createQuantityScaledProperties,
+    scaleElementalProperties,
+    validateScalingIntegrity
+} from '@/utils/quantityScaling';
 
-import { fruits } from '../data/ingredients/fruits';
-import { grains } from '../data/ingredients/grains';
-import { herbs } from '../data/ingredients/herbs';
-import { oils } from '../data/ingredients/oils';
-import { proteins } from '../data/ingredients/proteins';
-import { spices } from '../data/ingredients/spices';
-import { vegetables } from '../data/ingredients/vegetables';
+// Database integration - Phase 3
+import { IngredientService as DatabaseIngredientService } from '@/lib/database';
 import type { Season } from '../types/constants';
 import type { Recipe as _Recipe } from '../types/recipe';
 import { logger } from '../utils/logger';
@@ -147,29 +148,30 @@ export const INGREDIENT_GROUPS = {
  */
 export class IngredientService implements IngredientServiceInterface {
   private static instance: IngredientService;
-  private allIngredients: Record<string, Record<string, IngredientMapping>>;
   private unifiedIngredients: Record<string, UnifiedIngredient[]>;
   private unifiedIngredientsFlat: UnifiedIngredient[];
-  // spoonacularCache removed with cleanup
+  private ingredientsCache: Map<string, any>;
+  private cacheExpiry: Map<string, number>;
+  private readonly CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
   /**
    * Private constructor to enforce singleton pattern
    */
   private constructor() {
-    // Initialize with all available ingredient data
-    this.allIngredients = {
-      [INGREDIENT_GROUPS.PROTEINS]: proteins,
-      [INGREDIENT_GROUPS.VEGETABLES]: vegetables,
-      [INGREDIENT_GROUPS.FRUITS]: fruits,
-      [INGREDIENT_GROUPS.HERBS]: herbs,
-      [INGREDIENT_GROUPS.SPICES]: spices,
-      [INGREDIENT_GROUPS.GRAINS]: grains,
-      [INGREDIENT_GROUPS.OILS]: oils
-    } as Record<string, Record<string, IngredientMapping>>,
+    this.unifiedIngredients = {};
+    this.unifiedIngredientsFlat = [];
+    this.ingredientsCache = new Map();
+    this.cacheExpiry = new Map();
 
-    // Initialize unified ingredients
-    this.unifiedIngredients = this.convertToUnifiedIngredients()
-    this.unifiedIngredientsFlat = this.flattenUnifiedIngredients();
+    // Initialize cache (async)
+    this.initializeAsync();
+  }
+
+  /**
+   * Async initialization for database loading
+   */
+  private async initializeAsync(): Promise<void> {
+    await this.loadIngredientsFromDatabase();
   }
 
   /**
@@ -180,6 +182,76 @@ export class IngredientService implements IngredientServiceInterface {
       IngredientService.instance = new IngredientService();
     }
     return IngredientService.instance;
+  }
+
+  /**
+   * Load ingredients from database and cache them
+   */
+  private async loadIngredientsFromDatabase(): Promise<void> {
+    try {
+      logger.info('Loading ingredients from database...');
+
+      // Load ingredients by category
+      const categories = ['vegetables', 'fruits', 'proteins', 'herbs', 'spices', 'grains', 'oils'];
+
+      for (const category of categories) {
+        try {
+          const ingredients = await DatabaseIngredientService.getByCategory(category);
+          const unifiedIngredients = ingredients.data.map(dbIngredient => this.convertDatabaseIngredientToUnified(dbIngredient, category));
+
+          this.unifiedIngredients[category] = unifiedIngredients;
+        } catch (error) {
+          logger.warn(`Failed to load ${category} from database:`, error);
+          this.unifiedIngredients[category] = [];
+        }
+      }
+
+      // Flatten all ingredients
+      this.unifiedIngredientsFlat = Object.values(this.unifiedIngredients).flat();
+
+      logger.info(`Loaded ${this.unifiedIngredientsFlat.length} ingredients from database`);
+
+    } catch (error) {
+      logger.error('Failed to load ingredients from database:', error);
+      // Fallback to empty data
+      this.unifiedIngredients = {};
+      this.unifiedIngredientsFlat = [];
+    }
+  }
+
+  /**
+   * Convert database ingredient to unified format
+   */
+  private convertDatabaseIngredientToUnified(dbIngredient: any, category: string): UnifiedIngredient {
+    return {
+      name: dbIngredient.name,
+      category,
+      subcategory: dbIngredient.subcategory,
+      elementalProperties: {
+        Fire: dbIngredient.fire || 0.25,
+        Water: dbIngredient.water || 0.25,
+        Earth: dbIngredient.earth || 0.25,
+        Air: dbIngredient.air || 0.25
+      },
+      alchemicalProperties: {
+        Spirit: 0.25,
+        Essence: 0.25,
+        Matter: 0.25,
+        Substance: 0.25
+      },
+      confidenceScore: dbIngredient.confidence_score || 0.8,
+      description: dbIngredient.description,
+      nutritionalProfile: {
+        calories: dbIngredient.calories,
+        protein: dbIngredient.protein,
+        carbohydrates: dbIngredient.carbohydrates,
+        fat: dbIngredient.fat,
+        fiber: dbIngredient.fiber,
+        sugar: dbIngredient.sugar
+      },
+      flavorProfile: dbIngredient.flavor_profile || {},
+      preparationMethods: dbIngredient.preparation_methods || []
+    };
   }
 
   /**
@@ -673,19 +745,19 @@ export class IngredientService implements IngredientServiceInterface {
         }
 
         // Normalize seasons to lowercase for case-insensitive comparison
-        const normalizedSeasons = safeMap(seasons, s =>,
-          typeof s === 'string' ? s.toLowerCase() : s,
-        )
+        const normalizedSeasons = safeMap(seasons, s =>
+          typeof s === 'string' ? s.toLowerCase() : s
+        );
 
         // Check if any of the ingredient's seasons match any of the filter seasons
         const ingredientSeasons = ingredient.seasonality || ingredient.currentSeason || [];
-        return safeSome(ingredientSeasons, season =>,
-          safeSome(normalizedSeasons, s =>,
+        return safeSome(ingredientSeasons, season =>
+          safeSome(normalizedSeasons, s =>
             typeof season === 'string' && typeof s === 'string'
-              ? season.toLowerCase() === s.toLowerCase();
-              : season === s,
-          ),
-        )
+              ? season.toLowerCase() === s.toLowerCase()
+              : season === s
+          )
+        );
       } catch (error) {
         logger.error(`Error applying seasonal filter to ${ingredient.name}:`, error)
         return false;
@@ -723,22 +795,22 @@ export class IngredientService implements IngredientServiceInterface {
         if (ingredient.healthBenefits &&
           safeSome(
             ingredient.healthBenefits,
-            benefit =>,
-              typeof benefit === 'string' && benefit.toLowerCase().includes(normalizedQuery),
+            benefit =>
+              typeof benefit === 'string' && benefit.toLowerCase().includes(normalizedQuery)
           )
         ) {
-          return true
+          return true;
         }
 
         // Check preparation methods
         if (
           ingredient.preparationMethods &&
           safeSome(
-            ingredient.preparationMethods
-            method => typeof method === 'string' && method.toLowerCase().includes(normalizedQuery),
+            ingredient.preparationMethods,
+            method => typeof method === 'string' && method.toLowerCase().includes(normalizedQuery)
           )
         ) {
-          return true
+          return true;
         }
 
         // Check description
@@ -746,7 +818,7 @@ export class IngredientService implements IngredientServiceInterface {
           ingredient.description &&
           ingredient.description.toLowerCase().includes(normalizedQuery)
         ) {
-          return true
+          return true;
         }
 
         return false;
@@ -764,17 +836,17 @@ export class IngredientService implements IngredientServiceInterface {
     ingredients: UnifiedIngredient[],
     excludedIngredients: string[],
   ): UnifiedIngredient[] {
-    if (!isNonEmptyArray(excludedIngredients)) return ingredients
+    if (!isNonEmptyArray(excludedIngredients)) return ingredients;
 
     try {
-      const normalizedExclusions = safeMap(excludedIngredients, name => name.toLowerCase().trim())
+      const normalizedExclusions = safeMap(excludedIngredients, name => name.toLowerCase().trim());
 
       return (ingredients || []).filter(
-        ingredient => !normalizedExclusions.includes(ingredient.name.toLowerCase().trim()),,
-      )
+        ingredient => !normalizedExclusions.includes(ingredient.name.toLowerCase().trim())
+      );
     } catch (error) {
-      logger.error('Error applying exclusion filter: ', error),
-      return []
+      logger.error('Error applying exclusion filter: ', error);
+      return [];
     }
   }
 
@@ -787,39 +859,39 @@ export class IngredientService implements IngredientServiceInterface {
   ): UnifiedIngredient[] {
     try {
       return (ingredients || []).filter(ingredient => {
-        const astro = ingredient.astrologicalPropertiesProfile as,
+        const astro = ingredient.astrologicalPropertiesProfile as
           | Record<string, unknown>
-          | undefined,
+          | undefined;
 
         // zodiacAffinity as array
         const zodiacAffinity = Array.isArray(astro?.['zodiacAffinity'])
-          ? (astro?.['zodiacAffinity'] as Array<string | ZodiacSign>);
-          : undefined,
+          ? (astro?.['zodiacAffinity'] as Array<string | ZodiacSign>)
+          : undefined;
         if (zodiacAffinity && zodiacAffinity.length > 0) {
-          const ok = safeSome(zodiacAffinity, sign =>,
+          const ok = safeSome(zodiacAffinity, sign =>
             typeof sign === 'string'
-              ? sign.toLowerCase() === currentZodiacSign.toLowerCase();
-              : sign === currentZodiacSign,
-          ),
-          if (ok) return true
+              ? sign.toLowerCase() === currentZodiacSign.toLowerCase()
+              : sign === currentZodiacSign
+          );
+          if (ok) return true;
         }
 
         // favorableZodiac as array
         const favorableZodiac = Array.isArray(astro?.['favorableZodiac'])
           ? (astro?.['favorableZodiac'] as Array<string | ZodiacSign>)
-          : undefined
-        if (favorableZodiac && favorableZodiac.length > 0) {;
-          return safeSome(favorableZodiac, sign =>,
+          : undefined;
+        if (favorableZodiac && favorableZodiac.length > 0) {
+          return safeSome(favorableZodiac, sign =>
             typeof sign === 'string'
-              ? sign.toLowerCase() === currentZodiacSign.toLowerCase();
-              : sign === currentZodiacSign,,
-          )
+              ? sign.toLowerCase() === currentZodiacSign.toLowerCase()
+              : sign === currentZodiacSign
+          );
         }
 
         return false;
-      })
+      });
     } catch (error) {
-      logger.error(`Error applying zodiac filter for sign ${currentZodiacSign}:`, error)
+      logger.error(`Error applying zodiac filter for sign ${currentZodiacSign}:`, error);
       return [];
     }
   }
@@ -834,29 +906,29 @@ export class IngredientService implements IngredientServiceInterface {
     try {
       return (ingredients || []).filter(ingredient => {
         // Check ingredient's planetary ruler
-        if (ingredient.planetaryRuler) {;
-          return typeof ingredient.planetaryRuler === 'string';
+        if (ingredient.planetaryRuler) {
+          return typeof ingredient.planetaryRuler === 'string'
             ? ingredient.planetaryRuler.toLowerCase() === planet.toLowerCase()
             : ingredient.planetaryRuler === planet;
         }
 
         // Check ingredient's ruling planets (profile may be loosely typed)
-        const astro = ingredient.astrologicalPropertiesProfile as;
+        const astro = ingredient.astrologicalPropertiesProfile as
           | Record<string, unknown>
-          | undefined,
+          | undefined;
         const rulingPlanets = Array.isArray(astro?.['rulingPlanets'])
           ? (astro?.['rulingPlanets'] as Array<string | typeof planet>)
-          : undefined
-        if (rulingPlanets && rulingPlanets.length > 0) {;
-          return safeSome(rulingPlanets, p =>,
-            typeof p === 'string' ? p.toLowerCase() === planet.toLowerCase() : p === planet,,
-          )
+          : undefined;
+        if (rulingPlanets && rulingPlanets.length > 0) {
+          return safeSome(rulingPlanets, p =>
+            typeof p === 'string' ? p.toLowerCase() === planet.toLowerCase() : p === planet
+          );
         }
 
         return false;
-      })
+      });
     } catch (error) {
-      logger.error(`Error applying planetary filter for planet ${planet}:`, error)
+      logger.error(`Error applying planetary filter for planet ${planet}:`, error);
       return [];
     }
   }
@@ -2093,6 +2165,167 @@ export class IngredientService implements IngredientServiceInterface {
       logger.info('Ingredient service cache cleared successfully')
     } catch (error) {
       logger.error('Error clearing ingredient service cache: ', error)
+    }
+  }
+
+  /**
+   * ===== QUANTITY-AWARE METHODS =====
+   */
+
+  /**
+   * Get scaled ingredient properties based on quantity and unit
+   * @param ingredientId - The ingredient ID or name
+   * @param quantity - The quantity amount
+   * @param unit - The unit of measurement (g, oz, cup, etc.)
+   * @returns QuantityScaledProperties object with base, scaled, and kinetics data
+   */
+  public getScaledIngredientProperties(
+    ingredientId: string,
+    quantity: number,
+    unit: string
+  ): QuantityScaledProperties | null {
+    try {
+      // Find the ingredient
+      const ingredient = this.getIngredientByName(ingredientId);
+      if (!ingredient || !ingredient.elementalProperties) {
+        logger.warn(`Ingredient ${ingredientId} not found or missing elemental properties`);
+        return null;
+      }
+
+      // Calculate thermodynamics for kinetics impact
+      const thermodynamics = ingredient.energyProfile || this.calculateThermodynamicMetrics(ingredient);
+
+      // Create scaled properties
+      const scaledProperties = createQuantityScaledProperties(
+        ingredient.elementalProperties,
+        quantity,
+        unit,
+        thermodynamics
+      );
+
+      // Validate the scaling
+      const validation = validateScalingIntegrity(scaledProperties);
+      if (!validation.isValid) {
+        logger.warn(`Scaling validation failed for ${ingredientId}: ${validation.issues.join(', ')}`);
+      }
+
+      return scaledProperties;
+    } catch (error) {
+      logger.error(`Error getting scaled properties for ${ingredientId}:`, error);
+      return null;
+    }
+  }
+
+  /**
+   * Calculate quantity impact on elemental properties
+   * @param ingredient - Ingredient mapping or UnifiedIngredient
+   * @param quantity - The quantity amount
+   * @param unit - The unit of measurement
+   * @returns Modified ElementalProperties reflecting quantity impact
+   */
+  public calculateQuantityImpact(
+    ingredient: IngredientMapping | UnifiedIngredient,
+    quantity: number,
+    unit: string
+  ): ElementalProperties | null {
+    try {
+      // Extract elemental properties
+      let elementalProps: ElementalProperties | undefined;
+
+      if ('elementalProperties' in ingredient) {
+        elementalProps = ingredient.elementalProperties;
+      } else if ('elementalState' in ingredient) {
+        elementalProps = ingredient.elementalState;
+      }
+
+      if (!elementalProps) {
+        logger.warn('Ingredient missing elemental properties');
+        return null;
+      }
+
+      // Calculate scaling factor
+      const factor = calculateQuantityFactor(quantity, unit);
+
+      // Scale the properties
+      const scaled = scaleElementalProperties(elementalProps, factor);
+
+      return scaled;
+    } catch (error) {
+      logger.error('Error calculating quantity impact:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Batch scale multiple ingredients with their quantities
+   * @param ingredientQuantities - Array of ingredient-quantity pairs
+   * @returns Array of QuantityScaledProperties objects
+   */
+  public batchScaleIngredients(
+    ingredientQuantities: Array<{
+      ingredientId: string;
+      quantity: number;
+      unit: string;
+    }>
+  ): Array<QuantityScaledProperties | null> {
+    try {
+      return ingredientQuantities.map(({ ingredientId, quantity, unit }) =>
+        this.getScaledIngredientProperties(ingredientId, quantity, unit)
+      );
+    } catch (error) {
+      logger.error('Error batch scaling ingredients:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Get ingredient compatibility considering quantity scaling
+   * @param ingredient1 - First ingredient
+   * @param quantity1 - Quantity of first ingredient
+   * @param unit1 - Unit of first ingredient
+   * @param ingredient2 - Second ingredient
+   * @param quantity2 - Quantity of second ingredient
+   * @param unit2 - Unit of second ingredient
+   * @returns Compatibility score considering scaled properties
+   */
+  public calculateQuantityAwareCompatibility(
+    ingredient1: string | UnifiedIngredient,
+    quantity1: number,
+    unit1: string,
+    ingredient2: string | UnifiedIngredient,
+    quantity2: number,
+    unit2: string
+  ): number {
+    try {
+      // Get scaled properties for both ingredients
+      const scaled1 = typeof ingredient1 === 'string'
+        ? this.getScaledIngredientProperties(ingredient1, quantity1, unit1)
+        : this.calculateQuantityImpact(ingredient1, quantity1, unit1);
+
+      const scaled2 = typeof ingredient2 === 'string'
+        ? this.getScaledIngredientProperties(ingredient2, quantity2, unit2)
+        : this.calculateQuantityImpact(ingredient2, quantity2, unit2);
+
+      if (!scaled1 || !scaled2) {
+        return 0.5; // Default neutral compatibility
+      }
+
+      // Use existing compatibility calculation with scaled properties
+      const ing1 = typeof ingredient1 === 'string' ? this.getIngredientByName(ingredient1) : ingredient1;
+      const ing2 = typeof ingredient2 === 'string' ? this.getIngredientByName(ingredient2) : ingredient2;
+
+      if (!ing1 || !ing2) {
+        return 0.5;
+      }
+
+      // Create temporary ingredients with scaled properties for compatibility calculation
+      const tempIng1 = { ...ing1, elementalProperties: scaled1 };
+      const tempIng2 = { ...ing2, elementalProperties: scaled2 };
+
+      return this.calculateIngredientCompatibility(tempIng1, tempIng2).score;
+    } catch (error) {
+      logger.error('Error calculating quantity-aware compatibility:', error);
+      return 0.5;
     }
   }
 

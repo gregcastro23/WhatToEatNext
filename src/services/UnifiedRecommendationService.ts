@@ -6,7 +6,8 @@ import {
   // Planet, // unused - removed for performance
   // ZodiacSign, // unused - removed for performance
   // ThermodynamicProperties, // unused - removed for performance
-  ThermodynamicMetrics
+  ThermodynamicMetrics,
+  QuantityScaledProperties
 } from '@/types/alchemy';
 // Removed unused, import: PlanetaryAlignment
 
@@ -14,6 +15,7 @@ import { CookingMethod } from '../types/cooking';
 import { Ingredient } from '../types/ingredient';
 // Removed unused, import: UnifiedIngredient
 import { Recipe } from '../types/recipe';
+import { IngredientService } from './IngredientService';
 
 import {
   CookingMethodRecommendationCriteria,
@@ -24,6 +26,24 @@ import {
   RecommendationServiceInterface
 } from './interfaces/RecommendationServiceInterface';
 import { unifiedIngredientService } from './UnifiedIngredientService';
+
+/**
+ * Quantity-aware recommendation criteria interfaces
+ */
+interface QuantityAwareRecipeCriteria extends RecipeRecommendationCriteria {
+  ingredientQuantities?: Array<{
+    ingredient: string;
+    quantity: number;
+    unit: string;
+  }>;
+  useQuantityScaling?: boolean;
+}
+
+interface QuantityAwareIngredientCriteria extends IngredientRecommendationCriteria {
+  targetQuantity?: number;
+  targetUnit?: string;
+  useQuantityScaling?: boolean;
+}
 /**
  * UnifiedRecommendationService
  *
@@ -590,7 +610,365 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       gregsEnergy: 0.5,
       kalchm: 1.0,
       monica: 1.0
-}
+    }
+  }
+
+  /**
+   * ===== QUANTITY-AWARE RECOMMENDATION METHODS =====
+   */
+
+  /**
+   * Get quantity-aware recipe recommendations
+   * Considers ingredient quantities when calculating elemental compatibility
+   */
+  async getQuantityAwareRecipeRecommendations(
+    criteria: QuantityAwareRecipeCriteria,
+  ): Promise<RecommendationResult<Recipe>> {
+    const ingredientService = IngredientService.getInstance();
+    const allRecipesResult = recipeDataService.getAllRecipes();
+    const allRecipes = Array.isArray(allRecipesResult)
+      ? allRecipesResult
+      : await Promise.resolve(allRecipesResult);
+
+    // Score recipes based on criteria with quantity scaling
+    const scoredRecipes = (allRecipes || []).map(recipe => {
+      let score = 0;
+
+      // Use safe type casting for criteria access
+      const criteriaData = criteria as any;
+      const elementalState = criteriaData.elementalState || criteriaData.elementalProperties;
+
+      // Calculate quantity-aware elemental compatibility if quantities provided
+      if (elementalState && criteria.useQuantityScaling && criteria.ingredientQuantities) {
+        const quantityAwareScore = this.calculateQuantityAwareRecipeScore(
+          recipe,
+          elementalState as ElementalProperties,
+          criteria.ingredientQuantities
+        );
+        score += quantityAwareScore * 0.7;
+      } else if (elementalState && recipe.elementalState) {
+        // Fall back to standard elemental compatibility
+        const elementalScore = this.calculateElementalCompatibility(
+          elementalState as ElementalProperties,
+          recipe.elementalState
+        );
+        score += elementalScore * 0.7;
+      }
+
+      // Check for cooking method match (enhanced with kinetics)
+      if (criteria.cookingMethod && recipe.cookingMethods) {
+        const methods = Array.isArray(recipe.cookingMethods)
+          ? recipe.cookingMethods
+          : [recipe.cookingMethods];
+
+        const methodMatch = (methods || []).some(
+          method => method?.toLowerCase() === criteria.cookingMethod?.toLowerCase(),
+        );
+
+        // Apply kinetics bonus for cooking method compatibility
+        let kineticsBonus = 0;
+        if (criteria.ingredientQuantities && methodMatch) {
+          kineticsBonus = this.calculateKineticsCookingBonus(
+            criteria.ingredientQuantities,
+            criteria.cookingMethod
+          );
+        }
+
+        score += (methodMatch ? 0.15 : 0) + kineticsBonus * 0.1;
+      }
+
+      // Check for cuisine match
+      if (criteria.cuisine && recipe.cuisine) {
+        const cuisineMatch = recipe.cuisine?.toLowerCase() === criteria.cuisine.toLowerCase();
+        score += cuisineMatch ? 0.15 : 0;
+      }
+
+      // Check for ingredient inclusion with quantity awareness
+      if (criteria.includeIngredients && criteria.includeIngredients.length > 0) {
+        const recipeIngredients = (recipe.ingredients || ([] as Ingredient[])).map(ing =>
+          ing.name?.toLowerCase()
+        );
+
+        const includedCount = criteria.includeIngredients.filter(ing =>
+          Array.isArray(recipeIngredients)
+            ? recipeIngredients.includes(ing.toLowerCase() || '')
+            : recipeIngredients === (ing.toLowerCase() || ''),
+        ).length;
+
+        const inclusionRatio = includedCount / criteria.includeIngredients.length;
+
+        // Boost score for recipes that include preferred ingredients in appropriate quantities
+        let quantityBonus = 0;
+        if (criteria.ingredientQuantities) {
+          quantityBonus = this.calculateQuantityBonus(
+            criteria.includeIngredients,
+            criteria.ingredientQuantities,
+            recipe
+          );
+        }
+
+        score += (inclusionRatio * 0.1) + (quantityBonus * 0.05);
+      }
+
+      return {
+        recipe,
+        score
+      };
+    });
+
+    // Filter by minimum compatibility score
+    const minScore = criteria.minCompatibility || 0.5;
+    const filteredRecipes = (scoredRecipes || []).filter(item => item.score >= minScore);
+
+    // Sort by score
+    filteredRecipes.sort((a, b) => b.score - a.score);
+
+    // Limit results
+    const limit = criteria.limit || 10;
+    const limitedRecipes = filteredRecipes.slice(0, limit);
+
+    // Build scores record
+    const scores: { [key: string]: number } = {};
+    (limitedRecipes || []).forEach(item => {
+      scores[item.recipe.id] = item.score;
+    });
+
+    return {
+      items: (limitedRecipes || []).map(item => item.recipe),
+      scores,
+      context: {
+        criteriaUsed: Object.keys(criteria || {}).filter(key => criteria[key] !== undefined),
+        totalCandidates: (allRecipes || []).length,
+        matchingCandidates: (filteredRecipes || []).length,
+        quantityAware: criteria.useQuantityScaling || false
+      }
+    };
+  }
+
+  /**
+   * Get quantity-aware ingredient recommendations
+   */
+  async getQuantityAwareIngredientRecommendations(
+    criteria: QuantityAwareIngredientCriteria,
+  ): Promise<RecommendationResult<Ingredient>> {
+    const ingredientService = IngredientService.getInstance();
+    const allIngredients = unifiedIngredientService.getAllIngredientsFlat();
+
+    // Score ingredients based on criteria with quantity scaling
+    const scoredIngredients = (allIngredients || []).map(ingredient => {
+      let score = 0;
+
+      // Use safe type casting for criteria access
+      const criteriaData = criteria as any;
+      const elementalState = criteriaData.elementalState || criteriaData.elementalProperties;
+
+      // Calculate quantity-aware elemental compatibility
+      if (elementalState && criteria.useQuantityScaling && criteria.targetQuantity && criteria.targetUnit) {
+        const scaledProperties = ingredientService.getScaledIngredientProperties(
+          ingredient.name,
+          criteria.targetQuantity,
+          criteria.targetUnit
+        );
+
+        if (scaledProperties) {
+          const elementalScore = this.calculateElementalCompatibility(
+            elementalState as ElementalProperties,
+            scaledProperties.scaled
+          );
+          score += elementalScore * 0.7;
+        } else {
+          // Fall back to standard compatibility
+          const elementalScore = this.calculateElementalCompatibility(
+            elementalState as ElementalProperties,
+            ingredient.elementalProperties || { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+          );
+          score += elementalScore * 0.7;
+        }
+      } else if (elementalState && ingredient.elementalProperties) {
+        // Standard elemental compatibility
+        const elementalScore = this.calculateElementalCompatibility(
+          elementalState as ElementalProperties,
+          ingredient.elementalProperties
+        );
+        score += elementalScore * 0.7;
+      }
+
+      // Check for category match
+      if (criteria.categories && (criteria.categories || []).length > 0) {
+        const categoryMatch = (criteria.categories || []).some(
+          category => ingredient.category.toLowerCase() === category.toLowerCase(),
+        );
+        score += categoryMatch ? 0.2 : 0;
+      }
+
+      return {
+        ingredient,
+        score
+      };
+    });
+
+    // Filter by minimum compatibility score
+    const minScore = criteria.minCompatibility || 0.5;
+    const filteredIngredients = (scoredIngredients || []).filter(item => item.score >= minScore);
+
+    // Sort by score
+    filteredIngredients.sort((a, b) => b.score - a.score);
+
+    // Limit results
+    const limit = criteria.limit || 10;
+    const limitedIngredients = filteredIngredients.slice(0, limit);
+
+    // Build scores record
+    const scores: { [key: string]: number } = {};
+    (limitedIngredients || []).forEach(item => {
+      scores[item.ingredient.name] = item.score;
+    });
+
+    return {
+      items: (limitedIngredients || []).map(item => item.ingredient),
+      scores,
+      context: {
+        criteriaUsed: Object.keys(criteria || {}).filter(key => criteria[key] !== undefined),
+        totalCandidates: (allIngredients || []).length,
+        matchingCandidates: (filteredIngredients || []).length,
+        quantityAware: criteria.useQuantityScaling || false
+      }
+    };
+  }
+
+  /**
+   * Calculate quantity-aware recipe score
+   */
+  private calculateQuantityAwareRecipeScore(
+    recipe: Recipe,
+    targetElemental: ElementalProperties,
+    ingredientQuantities: Array<{ ingredient: string; quantity: number; unit: string }>
+  ): number {
+    const ingredientService = IngredientService.getInstance();
+
+    // Calculate scaled elemental properties for recipe ingredients
+    const scaledElementals: ElementalProperties[] = [];
+    let totalWeight = 0;
+
+    // Process each recipe ingredient that has quantity information
+    (recipe.ingredients || []).forEach(recipeIngredient => {
+      const ingredientName = recipeIngredient.name?.toLowerCase();
+      if (!ingredientName) return;
+
+      // Find matching quantity information
+      const quantityInfo = ingredientQuantities.find(q =>
+        q.ingredient.toLowerCase() === ingredientName
+      );
+
+      if (quantityInfo) {
+        const scaledProps = ingredientService.getScaledIngredientProperties(
+          ingredientName,
+          quantityInfo.quantity,
+          quantityInfo.unit
+        );
+
+        if (scaledProps) {
+          scaledElementals.push(scaledProps.scaled);
+          // Use quantity as weight (could be enhanced with more sophisticated weighting)
+          totalWeight += quantityInfo.quantity;
+        }
+      }
+    });
+
+    if (scaledElementals.length === 0 || totalWeight === 0) {
+      // Fall back to recipe's static elemental properties
+      return recipe.elementalState
+        ? this.calculateElementalCompatibility(targetElemental, recipe.elementalState)
+        : 0.5;
+    }
+
+    // Calculate weighted average of scaled elemental properties
+    const weightedElemental: ElementalProperties = {
+      Fire: 0,
+      Water: 0,
+      Earth: 0,
+      Air: 0
+    };
+
+    scaledElementals.forEach((elemental, index) => {
+      const weight = ingredientQuantities[index]?.quantity || 1;
+      const normalizedWeight = weight / totalWeight;
+
+      weightedElemental.Fire += elemental.Fire * normalizedWeight;
+      weightedElemental.Water += elemental.Water * normalizedWeight;
+      weightedElemental.Earth += elemental.Earth * normalizedWeight;
+      weightedElemental.Air += elemental.Air * normalizedWeight;
+    });
+
+    return this.calculateElementalCompatibility(targetElemental, weightedElemental);
+  }
+
+  /**
+   * Calculate kinetics bonus for cooking method compatibility
+   */
+  private calculateKineticsCookingBonus(
+    ingredientQuantities: Array<{ ingredient: string; quantity: number; unit: string }>,
+    cookingMethod: string
+  ): number {
+    const ingredientService = IngredientService.getInstance();
+    let totalBonus = 0;
+    let ingredientCount = 0;
+
+    ingredientQuantities.forEach(({ ingredient, quantity, unit }) => {
+      const scaledProps = ingredientService.getScaledIngredientProperties(ingredient, quantity, unit);
+      if (scaledProps?.kineticsImpact) {
+        const { forceAdjustment, thermalShift } = scaledProps.kineticsImpact;
+
+        // Apply cooking method specific kinetics logic
+        const method = cookingMethod.toLowerCase();
+        if (method.includes('bake') || method.includes('roast')) {
+          // Baking benefits from thermal stability
+          totalBonus += Math.max(0, thermalShift * 0.1);
+        } else if (method.includes('fry') || method.includes('sauté')) {
+          // Frying benefits from force/energy
+          totalBonus += Math.max(0, forceAdjustment * 0.1);
+        } else if (method.includes('slow') || method.includes('braise')) {
+          // Slow cooking benefits from controlled thermal changes
+          totalBonus += Math.max(0, Math.abs(thermalShift) * -0.05); // Penalty for extreme shifts
+        }
+
+        ingredientCount++;
+      }
+    });
+
+    return ingredientCount > 0 ? totalBonus / ingredientCount : 0;
+  }
+
+  /**
+   * Calculate quantity bonus for ingredient inclusion
+   */
+  private calculateQuantityBonus(
+    includedIngredients: string[],
+    ingredientQuantities: Array<{ ingredient: string; quantity: number; unit: string }>,
+    recipe: Recipe
+  ): number {
+    let bonus = 0;
+
+    includedIngredients.forEach(ingredientName => {
+      const quantityInfo = ingredientQuantities.find(q =>
+        q.ingredient.toLowerCase() === ingredientName.toLowerCase()
+      );
+
+      if (quantityInfo) {
+        // Check if recipe ingredient quantity matches preferred quantity (simplified)
+        const recipeIngredient = (recipe.ingredients || []).find(ing =>
+          ing.name?.toLowerCase() === ingredientName.toLowerCase()
+        );
+
+        if (recipeIngredient && recipeIngredient.amount) {
+          // Simple quantity matching bonus (could be enhanced)
+          const quantityMatch = Math.abs(recipeIngredient.amount - quantityInfo.quantity) < 50 ? 0.1 : 0;
+          bonus += quantityMatch;
+        }
+      }
+    });
+
+    return bonus;
   }
 }
 

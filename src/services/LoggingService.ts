@@ -11,7 +11,7 @@ export enum LogLevel {
   INFO = 1,
   WARN = 2,
   ERROR = 3,
-  SILENT = 4;
+  SILENT = 4
 }
 
 export interface LogContext {
@@ -33,29 +33,29 @@ export interface LogEntry {
   message: string,
   context?: LogContext,
   error?: Error,
-   
+
   // Intentionally, any: Log data can be of any type for debugging purposes
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   data?: any
 }
 
 class LoggingService {
-  private static instance: LoggingService,
-  private logLevel: LogLevel = LogLevel.INFO,
-  private isDevelopment: boolean,
-  private logBuffer: LogEntry[] = [],
-  private maxBufferSize = 1000,
+  private static instance: LoggingService;
+  private logLevel: LogLevel = LogLevel.INFO;
+  private isDevelopment: boolean;
+  private logBuffer: LogEntry[] = [];
+  private maxBufferSize = 1000;
 
   private constructor() {
-    this.isDevelopment = process.env.NODE_ENV === 'development',
+    this.isDevelopment = process.env.NODE_ENV === 'development';
 
     // Set log level based on environment
     if (this.isDevelopment) {
       this.logLevel = LogLevel.DEBUG;
-    } else if (process.env.NODE_ENV === 'test') {,
-      this.logLevel = LogLevel.WARN,
+    } else if (process.env.NODE_ENV === 'test') {
+      this.logLevel = LogLevel.WARN;
     } else {
-      this.logLevel = LogLevel.INFO,
+      this.logLevel = LogLevel.INFO;
     }
   }
 
@@ -90,7 +90,7 @@ class LoggingService {
     this.log(LogLevel.ERROR, message, context, error, data)
   }
 
-   
+
   private log(
     level: LogLevel,
     message: string,
@@ -162,15 +162,17 @@ class LoggingService {
     if (context.requestId) parts.push(`request=${context.requestId}`)
 
     // Add other context properties
-    Object.keys(context).forEach(key => {,
+    Object.keys(context).forEach(key => {
       if (!['component', 'service', 'function', 'userId', 'sessionId', 'requestId'].includes(key)) {
         parts.push(`${key}=${context[key]}`)
       }
     })
 
-    return parts.length > 0 ? ` [${parts.join(', ')}]` : '' },
-        public getLogBuffer(): LogEntry[] {
-    return [...this.logBuffer]
+    return parts.length > 0 ? ` [${parts.join(', ')}]` : '';
+  }
+
+  public getLogBuffer(): LogEntry[] {
+    return [...this.logBuffer];
   }
 
   public clearLogBuffer(): void {
@@ -196,7 +198,7 @@ class LoggingService {
 const logger = LoggingService.getInstance()
 
 // Export convenience functions
- 
+
 export const log = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any;
   debug: (message: string, context?: LogContext, data?: any) =>,

@@ -78,7 +78,8 @@ export default function Home() {
           <div className="flex flex-wrap justify-center gap-3 mb-8">
             <StatusIndicator label="Production Ready" status="active" />
             <StatusIndicator label="Real-Time Features" status="active" />
-            <StatusIndicator label="Phase 26 Complete" status="ready" />
+            <StatusIndicator label="Phase 6 Complete" status="ready" />
+            <StatusIndicator label="Current Moment Integration" status="active" />
           </div>
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -101,15 +102,31 @@ export default function Home() {
       <section className="container mx-auto px-4 py-12">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            🚀 Phase 26: Advanced Features
+            🚀 Phase 6: Complete Current Moment Integration
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Experience enterprise-grade culinary intelligence with real-time planetary guidance,
-            advanced performance optimizations, and mobile-first design.
+            Experience the fully realized alchemical kitchen with live astrological cuisine recommendations,
+            nested recipe integration, sauce pairings, and real-time current moment calculations.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <FeatureCard
+            icon="🍽️"
+            title="Current Moment Cuisines"
+            description="Complete cuisine recommendations based on your live astrological moment. Get nested recipes, sauce pairings, and elemental insights aligned with current zodiac and seasonal energies."
+            href="/cuisines"
+            status="Phase 6 New"
+          />
+
+          <FeatureCard
+            icon="🌟"
+            title="Astrological Cooking Guide"
+            description="Personalized recipe recommendations based on your zodiac sign and seasonal harmony. Discover meals aligned with planetary energies."
+            href="/astrological"
+            status="Phase 5 New"
+          />
+
           <FeatureCard
             icon="🌙"
             title="Live Planetary Tracking"

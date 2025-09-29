@@ -42,7 +42,7 @@ const COMBINATION_RULES: CombinationRule[] = [
     modifier: 1.3,
     elements: { Fire: 0.2 },
     notes: 'Classic warming combination'
-}
+  },
   {
     ingredients: ['cinnamon', 'cardamom', 'clove'],
     effect: 'amplify' as EffectType,

@@ -1,0 +1,28 @@
+/**
+ * Database Module Index - Phase 1 Infrastructure Migration
+ * Created: September 26, 2025
+ *
+ * Central export point for all database functionality
+ * in the alchm.kitchen application
+ */
+
+// Connection and low-level utilities
+export {
+    checkDatabaseHealth, closeDatabase, executeQuery,
+    executeQueryWithRetry, getDatabasePool, initializeDatabase, withTransaction
+} from './connection';
+
+// Type definitions
+export type {
+    ActiveUser, ApiKey, CalculationCache, CuisineType, DatabaseTable, DietaryRestriction, ElementalProperties, Ingredient, IngredientCompatibility, IngredientCuisine, Insertable, LunarPhase, PaginationResult, PlanetType, PlanetaryInfluence, QueryOptions, Recipe, RecipeContext, RecipeIngredient, RecipeSearch, Recommendation, Season, SeasonalAssociation, SystemMetric, Updatable, User, UserCalculation, UserRole, ZodiacAffinity, ZodiacSign
+} from './types';
+
+// High-level service classes
+export {
+    CacheService,
+    DatabaseHealthService, ElementalService, IngredientService,
+    RecipeService, initializeDatabaseData
+} from './client';
+
+// Re-export health check for convenience
+export { checkDatabaseHealth } from './connection';

@@ -1,8 +1,6 @@
 import { log } from '@/services/LoggingService';
-import type { ZodiacSign } from '@/types/alchemy';
-import {_PlanetaryPosition} from '@/types/celestial';
-import {astrologizeApiCircuitBreaker} from '@/utils/apiCircuitBreaker';
-import {PlanetPosition} from '@/utils/astrologyUtils';
+import { astrologizeApiCircuitBreaker } from '@/utils/apiCircuitBreaker';
+import { PlanetPosition } from '@/utils/astrologyUtils';
 
 // Use local API endpoint instead of external
 const LOCAL_ASTROLOGIZE_API_URL = '/api/astrologize';
@@ -77,11 +75,11 @@ const DEFAULT_LOCATION = {
 /**
  * Get current date/time/location for astrology API
  */
-function getCurrentDateTimeLocation(_customLocation?: { latitude: number, longitude: number }) {
+function getCurrentDateTimeLocation(customLocation?: { latitude: number, longitude: number }) {
   const now = new Date()
-  return {;
+  return {
     year: now.getFullYear(),
-    month: now.getMonth() + 1, // Convert to 1-indexed for local API,
+    month: now.getMonth() + 1, // Convert to 1-indexed for local API
     date: now.getDate(),
     hour: now.getHours(),
     minute: now.getMinutes(),
@@ -130,7 +128,7 @@ export async function fetchPlanetaryPositions(
     log.info('Using fallback planetary positions due to API failure')
     return {
       Sun: { sign: 'gemini', degree: 13, minute: 54, exactLongitude: 73.9, isRetrograde: false },
-      moon: { sign: 'virgo', degree: 26, minute: 31, exactLongitude: 176.52, isRetrograde: false }
+      moon: { sign: 'virgo', degree: 26, minute: 31, exactLongitude: 176.52, isRetrograde: false },
       Mercury: {
         sign: 'gemini',
         degree: 20,
@@ -139,7 +137,7 @@ export async function fetchPlanetaryPositions(
         isRetrograde: false
 },
       Venus: { sign: 'aries', degree: 28, minute: 6, exactLongitude: 28.1, isRetrograde: false },
-      Mars: { sign: 'leo', degree: 22, minute: 48, exactLongitude: 142.8, isRetrograde: false }
+      Mars: { sign: 'leo', degree: 22, minute: 48, exactLongitude: 142.8, isRetrograde: false },
       Jupiter: {
         sign: 'gemini',
         degree: 28,
@@ -156,7 +154,7 @@ export async function fetchPlanetaryPositions(
         isRetrograde: false
 },
       Neptune: { sign: 'aries', degree: 1, minute: 55, exactLongitude: 1.92, isRetrograde: false },
-      Pluto: { sign: 'aquarius', degree: 3, minute: 36, exactLongitude: 303.6, isRetrograde: true }
+      Pluto: { sign: 'aquarius', degree: 3, minute: 36, exactLongitude: 303.6, isRetrograde: true },
       Ascendant: {
         sign: 'aries',
         degree: 16,
@@ -233,8 +231,10 @@ export async function fetchPlanetaryPositions(
       saturn: 'Saturn',
       uranus: 'Uranus',
       neptune: 'Neptune',
-      pluto: 'Pluto' },
-        Object.entries(planetMap).forEach(([apiKey, planetName]) => {
+      pluto: 'Pluto'
+    };
+
+    Object.entries(planetMap).forEach(([apiKey, planetName]) => {
       const planetData = celestialBodies[apiKey as keyof typeof planetMap];
       if (planetData) {
         const sign = normalizeSignName(planetData.Sign.key);
