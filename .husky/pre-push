@@ -14,5 +14,4 @@ required_version=$(cat .nvmrc)
 echo "Using Node.js $node_version (required: $required_version)"
 
 # Run build check with proper Node.js version
-# Temporarily disabled due to Next.js version compatibility issue
-# which yarn && yarn build
+which yarn && yarn build
