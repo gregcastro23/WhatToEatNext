@@ -10,15 +10,39 @@
 
 import { ElementalProperties } from '@/types/alchemy';
 
-// Backend service configuration
+// Unified alchm.kitchen backend configuration
 const API_CONFIG = {
-  alchemical: process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'
-  kitchen: process.env.NEXT_PUBLIC_KITCHEN_BACKEND_URL || 'http://localhost:8100'
-  websocket: process.env.NEXT_PUBLIC_WEBSOCKET_URL || 'ws://localhost:8001'
-  runes: process.env.NEXT_PUBLIC_RUNE_AGENT_URL || 'http://localhost:8002'
+  base: process.env.NEXT_PUBLIC_ALCHM_KITCHEN_URL || 'http://localhost:8000',
+  alchemize: process.env.NEXT_PUBLIC_ALCHEMIZE_API_URL || 'https://alchmize.onrender.com/api/alchemize',
+  websocket: process.env.NEXT_PUBLIC_WEBSOCKET_URL || 'ws://localhost:8001',
+  planetary_agents: process.env.NEXT_PUBLIC_PLANETARY_AGENTS_URL || 'http://localhost:8000'
 }
 
 // Request/Response interfaces matching backend models
+export interface AlchemizeRequest {
+  year?: number,
+  month?: number, // 1-indexed (January = 1, February = 2, etc.)
+  date?: number,
+  hour?: number,
+  minute?: number,
+  latitude?: number,
+  longitude?: number,
+  zodiacSystem?: 'tropical' | 'sidereal',
+  planetaryPositions?: Record<string, any>,
+}
+
+export interface StandardizedAlchemicalResult {
+  elementalProperties: ElementalProperties,
+  thermodynamicProperties: ThermodynamicProperties,
+  esms: { Spirit: number, Essence: number, Matter: number, Substance: number },
+  kalchm: number,
+  monica: number,
+  score: number,
+  normalized: boolean,
+  confidence: number,
+  metadata: Record<string, any>,
+}
+
 export interface RecommendationRequest {
   current_time: string,
   location?: { latitude: number; longitude: number }
@@ -46,7 +70,48 @@ export interface PlanetaryInfluenceResponse {
 }
 
 export class AlchemicalApiClient {
-  private baseUrls = API_CONFIG,
+  private baseUrl = API_CONFIG.base,
+
+  /**
+   * Get current alchemical state via unified backend
+   * This calls the Render alchemize API through our unified backend
+   */
+  async getCurrentAlchemicalState(request?: AlchemizeRequest): Promise<StandardizedAlchemicalResult> {
+    try {
+      const response = await fetch(`${this.baseUrl}/alchemize`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(request || {})
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+      }
+
+      return await response.json()
+    } catch (error) {
+      console.error('Alchemical state calculation failed:', error)
+      throw error
+    }
+  }
+
+  /**
+   * Get current planetary positions via unified backend
+   */
+  async getCurrentPlanetaryPositions(): Promise<any> {
+    try {
+      const response = await fetch(`${this.baseUrl}/planetary/current`)
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+      }
+
+      return await response.json()
+    } catch (error) {
+      console.error('Planetary positions request failed:', error)
+      throw error
+    }
+  }
 
   /**
    * Calculate elemental balance using backend service
@@ -54,7 +119,7 @@ export class AlchemicalApiClient {
    */
   async calculateElementalBalance(ingredients: string[], weights?: number[]): Promise<ElementalProperties> {
     try {
-      const response = await fetch(`${this.baseUrls.alchemical}/calculate/elemental`, {
+      const response = await fetch(`${this.baseUrl}/calculate/elemental`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ingredients, weights })
@@ -78,7 +143,7 @@ export class AlchemicalApiClient {
    */
   async calculateThermodynamics(elements: ElementalProperties): Promise<ThermodynamicsResult> {
     try {
-      const response = await fetch(`${this.baseUrls.alchemical}/calculate/thermodynamics`, {
+      const response = await fetch(`${this.baseUrl}/calculate/thermodynamics`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(elements)
@@ -108,7 +173,7 @@ export class AlchemicalApiClient {
    */
   async getCurrentPlanetaryHour(): Promise<PlanetaryInfluenceResponse> {
     try {
-      const response = await fetch(`${this.baseUrls.alchemical}/planetary/current-hour`)
+      const response = await fetch(`${this.baseUrl}/planetary/current-hour`)
 
       if (!response.ok) {
         throw new Error(`Planetary data fetch failed: ${response.statusText}`)
@@ -141,7 +206,7 @@ export class AlchemicalApiClient {
    */
   async getRecipeRecommendations(request: RecommendationRequest): Promise<any> {
     try {
-      const response = await fetch(`${this.baseUrls.kitchen}/recommend/recipes`, {
+      const response = await fetch(`${this.baseUrl}/recommend/recipes`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(request)
@@ -172,7 +237,7 @@ export class AlchemicalApiClient {
    */
   async calculateESMS(spirit: number, essence: number, matter: number, substance: number): Promise<any> {
     try {
-      const response = await fetch(`${this.baseUrls.alchemical}/calculate/esms`, {
+      const response = await fetch(`${this.baseUrl}/calculate/esms`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ spirit, essence, matter, substance })
@@ -196,7 +261,7 @@ export class AlchemicalApiClient {
    */
   async optimizeElementalBalance(currentElements: ElementalProperties, targetElements?: ElementalProperties): Promise<any> {
     try {
-      const response = await fetch(`${this.baseUrls.alchemical}/balance/optimize`, {
+      const response = await fetch(`${this.baseUrl}/balance/optimize`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ current: currentElements, target: targetElements })
@@ -215,7 +280,7 @@ export class AlchemicalApiClient {
    */
   createRealtimeConnection(onPlanetaryUpdate?: (data: any) => void): WebSocket | null {
     try {
-      const ws = new WebSocket(this.baseUrls.websocket)
+      const ws = new WebSocket(API_CONFIG.websocket)
 
       ws.onopen = () => {
         _logger.info('🔮 Connected to alchm.kitchen real-time service')
@@ -249,10 +314,10 @@ export class AlchemicalApiClient {
    */
   async checkHealth(): Promise<{ service: string; status: string; }[]> {
     const services = [
-      { name: 'Alchemical Core', url: `${this.baseUrls.alchemical}/health` }
-      { name: 'Kitchen Intelligence', url: `${this.baseUrls.kitchen}/health` }
-      { name: 'Rune Agent', url: `${this.baseUrls.runes}/health` }
-    ],
+      { name: 'alchm.kitchen Unified Backend', url: `${this.baseUrl}/health` },
+      { name: 'Alchemize API (Render)', url: 'https://alchmize.onrender.com/health' },
+      { name: 'Planetary Agents', url: `${API_CONFIG.planetary_agents}/health` }
+    ]
 
     const results = await Promise.allSettled(
       services.map(async (service) => {

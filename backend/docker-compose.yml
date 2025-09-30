@@ -12,14 +12,16 @@ services:
       - postgres
       - redis
 
-  kitchen-intelligence:
+  alchm-kitchen:
     build:
-      context: ./kitchen_service
+      context: ./alchm_kitchen
     ports:
-      - "8100:8100"
+      - "8000:8000"
     environment:
       - DATABASE_URL=postgresql://user:pass@postgres:5432/alchm_kitchen
       - REDIS_URL=redis://redis:6379
+      - ALCHEMIZE_API_URL=https://alchmize.onrender.com/api/alchemize
+      - PLANETARY_AGENTS_URL=http://localhost:8000
     depends_on:
       - postgres
       - redis
