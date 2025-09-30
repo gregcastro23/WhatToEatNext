@@ -44,21 +44,21 @@ interface ScoringWeights {
 /**
  * Breakdown of all scoring factors
  */
-export interface ScoringBreakdown {;
-  base: number,
-  transitEffect: number,
-  dignityEffect: number,
-  tarotEffect: number,
-  seasonalEffect: number,
-  locationEffect: number,
-  lunarPhaseEffect: number,
-  aspectEffect: number,
-  elementalCompatibility: number,
-  thermalDynamicEffect: number,
-  kalchmResonance: number,
-  monicaOptimization: number,
-  retrogradeEffect: number,
-  [key: string]: number
+export interface ScoringBreakdown {
+  base: number;
+  transitEffect: number;
+  dignityEffect: number;
+  tarotEffect: number;
+  seasonalEffect: number;
+  locationEffect: number;
+  lunarPhaseEffect: number;
+  aspectEffect: number;
+  elementalCompatibility: number;
+  thermalDynamicEffect: number;
+  kalchmResonance: number;
+  monicaOptimization: number;
+  retrogradeEffect: number;
+  [key: string]: number;
 }
 
 /**
@@ -169,7 +169,7 @@ export function calculateTransitEffect(
   astroData: AstrologicalData,
   _context: ScoringContext,
 ): number {
-  let score = 0,
+  let score = 0;
   const transits = astroData.transits.active;
 
   // Check if item has planetary rulers that are being transited
@@ -177,13 +177,13 @@ export function calculateTransitEffect(
 
   for (const transit of transits) {
     if (itemRulers.includes(transit.natalPlanet)) {
-      // Positive transits boost score;
+      // Positive transits boost score
       if (['trine', 'sextile', 'conjunction'].includes(transit.aspect)) {
-        score += ((transit as any)?.strength || 0) * 0.2,
+        score += ((transit as any)?.strength || 0) * 0.2;
       }
       // Challenging transits reduce score
       else if (['square', 'opposition'].includes(transit.aspect)) {
-        score -= ((transit as any)?.strength || 0) * 0.2,
+        score -= ((transit as any)?.strength || 0) * 0.2;
       }
     }
   }
@@ -198,13 +198,13 @@ export function calculateDignityEffect(
   astroData: AstrologicalData,
   _context: ScoringContext,
 ): number {
-  let score = 0,
+  let score = 0;
   const itemRulers = _context.item.planetaryRulers || [];
 
   for (const planet of itemRulers) {
     const dignity = astroData.dignity[planet] || 0;
     // Strong dignity boosts score, weak dignity reduces it
-    score += dignity * 0.1,
+    score += dignity * 0.1;
   }
 
   return Math.max(-0.3, Math.min(0.3, score)); // Clamp between -0.3 and 0.3
@@ -253,14 +253,14 @@ export function calculateSeasonalEffect(
     'autumn',
     'autumn',
     'winter'
-  ][month],
+  ][month];
 
   const itemSeasonality = context.item.seasonality || [];
 
   if (itemSeasonality.includes(season as Season)) {
-    return 0.2, // Boost for seasonal items
+    return 0.2; // Boost for seasonal items
   } else if (itemSeasonality.length > 0) {
-    return -0.1, // Slight penalty for out-of-season items
+    return -0.1; // Slight penalty for out-of-season items
   }
 
   return 0; // Neutral for non-seasonal items

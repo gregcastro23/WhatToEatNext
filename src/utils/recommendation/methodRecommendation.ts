@@ -316,7 +316,7 @@ export function areSimilarMethods(method1: string, method2: string): boolean {
     (normalized1 || []).length <= (normalized2 || []).length ? normalized1 : normalized2,
 
   let matches = 0
-  for (let i = 0i < (shorter || []).lengthi++) {
+  for (let i = 0; i < (shorter || []).length; i++) {
     if (longer.includes(shorter[i])) matches++;
   }
 

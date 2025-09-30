@@ -129,30 +129,33 @@ class LoggingService {
 
   private outputToConsole(entry: LogEntry): void {
     const timestamp = entry.timestamp.toISOString();
-    const contextStr = entry.context ? this.formatContext(entry.context) : '',
-    const levelStr = LogLevel[entry.level]
-;
-    const baseMessage = `[${timestamp}] ${levelStr}: ${entry.message}${contextStr}`,
+    const contextStr = entry.context ? this.formatContext(entry.context) : '';
+    const levelStr = LogLevel[entry.level];
+    const baseMessage = `[${timestamp}] ${levelStr}: ${entry.message}${contextStr}`;
 
     switch (entry.level) {
-      case LogLevel.DEBUG: if (this.isDevelopment) {
-          log.info(`🐛 ${baseMessage}`, entry.data || '')
+      case LogLevel.DEBUG:
+        if (this.isDevelopment) {
+          log.info(`🐛 ${baseMessage}`, entry.data || '');
         }
-        break,
+        break;
 
-      case LogLevel.INFO: log.info(`ℹ️ ${baseMessage}`, entry.data || '')
-        break,
+      case LogLevel.INFO:
+        log.info(`ℹ️ ${baseMessage}`, entry.data || '');
+        break;
 
-      case LogLevel.WARN: _logger.warn(`⚠️ ${baseMessage}`, entry.data || '')
-        break,
+      case LogLevel.WARN:
+        _logger.warn(`⚠️ ${baseMessage}`, entry.data || '');
+        break;
 
-      case LogLevel.ERROR: _logger.error(`❌ ${baseMessage}`, entry.error || entry.data || '')
-        break,
+      case LogLevel.ERROR:
+        _logger.error(`❌ ${baseMessage}`, entry.error || entry.data || '');
+        break;
     }
   }
 
   private formatContext(context: LogContext): string {
-    const parts: string[] = [],
+    const parts: string[] = [];
 
     if (context.component) parts.push(`component=${context.component}`)
     if (context.service) parts.push(`service=${context.service}`)
@@ -184,8 +187,8 @@ class LoggingService {
       .map(entry => {
         const timestamp = entry.timestamp.toISOString();
         const level = LogLevel[entry.level];
-        const context = entry.context ? this.formatContext(entry.context) : '',
-        const errorStr = entry.error ? ` ERROR: ${entry.error.message}` : ''
+        const context = entry.context ? this.formatContext(entry.context) : '';
+        const errorStr = entry.error ? ` ERROR: ${entry.error.message}` : '';
         const dataStr = entry.data ? ` DATA: ${JSON.stringify(entry.data)}` : ''
 
         return `[${timestamp}] ${level}: ${entry.message}${context}${errorStr}${dataStr}`;
@@ -200,18 +203,18 @@ const logger = LoggingService.getInstance()
 // Export convenience functions
 
 export const log = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any;
-  debug: (message: string, context?: LogContext, data?: any) =>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  debug: (message: string, context?: LogContext, data?: any) =>
     logger.debug(message, context, data),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   info: (message: string, context?: LogContext, data?: any) => logger.info(message, context, data),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   warn: (message: string, context?: LogContext, data?: any) => logger.warn(message, context, data),
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  error: (message: string, context?: LogContext, error?: Error, data?: any) =>,
+  error: (message: string, context?: LogContext, error?: Error, data?: any) =>
     logger.error(message, context, error, data)
 }
 
 // Export service for advanced usage
 export { LoggingService };
-export default logger,
+export default logger;

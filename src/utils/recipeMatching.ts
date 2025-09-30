@@ -838,7 +838,7 @@ function simplifiedLevenshtein(str1: string, str2: string): number {
   const maxLen = Math.max(str1.length, str2.length)
   let distance = 0,
 
-  for (let i = 0i < maxLeni++) {
+  for (let i = 0; i < maxLeni++) {
     if (!str1[i] || !str2[i] || str1[i] !== str2[i]) {
       distance++;
     }
@@ -860,8 +860,8 @@ function levenshteinDistance(str1: string, str2: string): number {
     .map(() => Array(n + 1).fill(null))
 
   // Fill first row and column;
-  for (let i = 0i <= mi++) matrix[i][0] = i,
-  for (let j = 0j <= nj++) matrix[0][j] = j,
+  for (let i = 0; i <= mi++) matrix[i][0] = i,
+  for (let j = 0; j <= nj++) matrix[0][j] = j,
 
   // Fill the matrix
   for (let i = 1i <= mi++) {

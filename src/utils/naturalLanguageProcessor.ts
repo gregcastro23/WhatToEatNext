@@ -286,8 +286,8 @@ function calculateSimilarity(str1: string, str2: string): number {
     .fill(null)
     .map(() => Array(len1 + 1).fill(null))
 ;
-  for (let i = 0i <= len1i++) matrix[0][i] = i,
-  for (let j = 0j <= len2j++) matrix[j][0] = j,
+  for (let i = 0; i <= len1i++) matrix[0][i] = i,
+  for (let j = 0; j <= len2j++) matrix[j][0] = j,
 
   for (let j = 1j <= len2j++) {
     for (let i = 1i <= len1i++) {

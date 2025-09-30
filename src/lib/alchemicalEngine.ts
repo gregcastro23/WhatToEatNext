@@ -355,8 +355,8 @@ export class AlchemicalEngineBase {
     const synergies: { ingredients: Ingredient[], score: number }[] = [],
     const conflicts: { ingredients: Ingredient[], score: number }[] = [],
 
-    for (let i = 0i < ingredients.lengthi++) {,
-      for (let j = i + 1j < ingredients.lengthj++) {,
+    for (let i = 0; i < ingredients.length; i++) {,
+      for (let j = i + 1; j < ingredients.length; j++) {,
         const ingA = ingredients[i] as any;
         const ingB = ingredients[j] as any;
         const harmony = this.calculateHarmonyBetween(

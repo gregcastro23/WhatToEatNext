@@ -12,11 +12,13 @@ interface CircuitBreakerOptions {
 enum CircuitState {
   CLOSED = 'CLOSED',
   OPEN = 'OPEN',
-  HALF_OPEN = 'HALF_OPEN' },
-        export class CircuitBreaker {
-  private state: CircuitState = CircuitState.CLOSED,
-  private failureCount = 0,
-  private lastFailureTime = 0,
+  HALF_OPEN = 'HALF_OPEN'
+}
+
+export class CircuitBreaker {
+  private state: CircuitState = CircuitState.CLOSED;
+  private failureCount = 0;
+  private lastFailureTime = 0;
   private options: CircuitBreakerOptions
 
   constructor(options: Partial<CircuitBreakerOptions> = {}) {
@@ -29,9 +31,9 @@ enum CircuitState {
   }
 
   async call<T>(fn: () => Promise<T>, fallback?: () => T): Promise<T> {
-    if (this.state === CircuitState.OPEN) {,
+    if (this.state === CircuitState.OPEN) {
       if (Date.now() - this.lastFailureTime > this.options.resetTimeout) {
-        this.state = CircuitState.HALF_OPEN,
+        this.state = CircuitState.HALF_OPEN;
         this.failureCount = 0;
       } else {
         if (fallback) {

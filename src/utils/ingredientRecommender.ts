@@ -1907,7 +1907,7 @@ function enhanceMarsIngredientScoring(
   const zodiacSign = astroState.zodiacSign;
 
   // Compute Mars influence for each ingredient
-  for (let i = 0i < ingredients.lengthi++) {;
+  for (let i = 0; i < ingredients.length; i++) {;
     const ingredient = ingredients[i];
 
     // Only process if it has necessary data

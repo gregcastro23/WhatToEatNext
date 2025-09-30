@@ -12,11 +12,11 @@ import { createLogger } from '../utils/logger';
 const logger = createLogger('ServicesManager')
 
 // Define initialization states
-export enum InitializationStatus {;
+export enum InitializationStatus {
   NOT_STARTED = 'not_started',
   IN_PROGRESS = 'in_progress',
-  COMPLETED = 'completed',,
-  FAILED = 'failed',,
+  COMPLETED = 'completed',
+  FAILED = 'failed'
 }
 
 // Define service initialization result
@@ -36,11 +36,11 @@ export interface ServiceInitializationResult {
  * are properly initialized before use.
  */
 export class ServicesManager {
-  private static instance: ServicesManager,
-  private _isInitialized: boolean = false,
-  private _initializationError: Error | null = null,
-  private _initializationStatus: InitializationStatus = InitializationStatus.NOT_STARTED,
-  private _serviceResults: ServiceInitializationResult[] = []
+  private static instance: ServicesManager;
+  private _isInitialized: boolean = false;
+  private _initializationError: Error | null = null;
+  private _initializationStatus: InitializationStatus = InitializationStatus.NOT_STARTED;
+  private _serviceResults: ServiceInitializationResult[] = [];
 
   private constructor() {}
 
@@ -91,7 +91,7 @@ export class ServicesManager {
       return
     }
 
-    if (this._initializationStatus === InitializationStatus.IN_PROGRESS) {,
+    if (this._initializationStatus === InitializationStatus.IN_PROGRESS) {
       logger.warn('Services initialization already in progress')
       return
     }
@@ -119,8 +119,8 @@ export class ServicesManager {
     } catch (error) {
       this._initializationError = error instanceof Error ? error : new Error(String(error))
       this._initializationStatus = InitializationStatus.FAILED;
-      logger.error('Error initializing services: ', this._initializationError),
-      throw this._initializationError,
+      logger.error('Error initializing services: ', this._initializationError);
+      throw this._initializationError;
     }
   }
 
@@ -144,11 +144,12 @@ export class ServicesManager {
         Uranus: 'scorpio',
         Neptune: 'sagittarius',
         Pluto: 'capricorn',
-        Ascendant: 'aquarius' },
-        const result = alchemicalEngine.alchemize(dummyPositions)
-      logger.info('AlchemicalEngine test calculation completed')
+        Ascendant: 'aquarius'
+      };
+      const result = alchemicalEngine.alchemize(dummyPositions);
+      logger.info('AlchemicalEngine test calculation completed');
 
-      this._serviceResults.push({,
+      this._serviceResults.push({
         success: true,
         serviceName: 'AlchemicalEngine',
         message: 'Engine initialized successfully',
@@ -157,8 +158,8 @@ export class ServicesManager {
 
       logger.info('AlchemicalEngine initialized successfully')
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error),
-      logger.error('Error initializing AlchemicalEngine: ', errorMessage),
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      logger.error('Error initializing AlchemicalEngine: ', errorMessage);
 
       this._serviceResults.push({
         success: false,
@@ -168,7 +169,7 @@ export class ServicesManager {
         timestamp: Date.now()
       })
 
-      throw error,
+      throw error;
     }
   }
 
@@ -195,8 +196,8 @@ export class ServicesManager {
 
       logger.info('AstrologyService initialized successfully')
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error),
-      logger.error('Error initializing AstrologyService: ', errorMessage),
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      logger.error('Error initializing AstrologyService: ', errorMessage);
 
       this._serviceResults.push({
         success: false,
@@ -206,7 +207,7 @@ export class ServicesManager {
         timestamp: Date.now()
       })
 
-      throw error,
+      throw error;
     }
   }
 
@@ -231,8 +232,8 @@ export class ServicesManager {
 
       logger.info('IngredientService initialized successfully')
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error),
-      logger.error('Error initializing IngredientService: ', errorMessage),
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      logger.error('Error initializing IngredientService: ', errorMessage);
 
       this._serviceResults.push({
         success: false,
@@ -242,7 +243,7 @@ export class ServicesManager {
         timestamp: Date.now()
       })
 
-      throw error,
+      throw error;
     }
   }
 
@@ -267,8 +268,8 @@ export class ServicesManager {
 
       logger.info('RecipeService initialized successfully')
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error),
-      logger.error('Error initializing RecipeService: ', errorMessage),
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      logger.error('Error initializing RecipeService: ', errorMessage);
 
       this._serviceResults.push({
         success: false,
@@ -278,7 +279,7 @@ export class ServicesManager {
         timestamp: Date.now()
       })
 
-      throw error,
+      throw error;
     }
   }
 
@@ -309,8 +310,8 @@ export class ServicesManager {
 
       logger.info('RecommendationService initialized successfully')
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error),
-      logger.error('Error initializing RecommendationService: ', errorMessage),
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      logger.error('Error initializing RecommendationService: ', errorMessage);
 
       this._serviceResults.push({
         success: false,
@@ -320,7 +321,7 @@ export class ServicesManager {
         timestamp: Date.now()
       })
 
-      throw error,
+      throw error;
     }
   }
 
@@ -345,7 +346,7 @@ export class ServicesManager {
         Pluto: 'capricorn',
         Ascendant: 'aquarius',
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-      } as any,
+      } as any;
 
       // ✅ Pattern MM-1: Provide complete Recipe object with type assertion
       const testRecipe = {
@@ -353,9 +354,9 @@ export class ServicesManager {
         name: 'Test Recipe',
         ingredients: [],
         instructions: [],
-        elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+        elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-      } as any,
+      } as any;
       const _recipeRecommendations = alchemicalRecommendationService.getRecipeRecommendations(
         testRecipe,
         dummyPositions,
@@ -372,8 +373,8 @@ export class ServicesManager {
 
       logger.info('AlchemicalRecommendationService initialized successfully')
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error),
-      logger.error('Error initializing AlchemicalRecommendationService: ', errorMessage),
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      logger.error('Error initializing AlchemicalRecommendationService: ', errorMessage);
 
       this._serviceResults.push({
         success: false,
@@ -383,7 +384,7 @@ export class ServicesManager {
         timestamp: Date.now()
       })
 
-      throw error,
+      throw error;
     }
   }
 
@@ -421,4 +422,4 @@ export class ServicesManager {
 export const servicesManager = ServicesManager.getInstance()
 
 // Export default for compatibility with existing code;
-export default servicesManager,
+export default servicesManager;

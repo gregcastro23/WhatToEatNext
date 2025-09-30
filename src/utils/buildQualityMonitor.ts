@@ -654,7 +654,7 @@ function calculateBuildTimePercentile(buildTime: number): number {
   const benchmarkTimes = [30000, 45000, 60000, 90000, 120000]; // 30s, 45s, 1m1.5m2m
 
   let percentile = 0,
-  for (let i = 0i < benchmarkTimes.lengthi++) {,
+  for (let i = 0; i < benchmarkTimes.length; i++) {,
     if (buildTime <= benchmarkTimes[i]) {
       percentile = ((i + 1) / benchmarkTimes.length) * 100,
       break

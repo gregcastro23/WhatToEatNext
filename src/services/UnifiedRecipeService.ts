@@ -4,14 +4,13 @@
  */
 
 import { errorHandler } from '@/services/errorHandler';
-import type { RecipeSearchCriteria } from '@/services/interfaces/RecipeServiceInterface';
 import type { Recipe } from '@/types/alchemy';
 // Add missing imports for TS2304 fixes
 import type { ExtendedRecipe } from '@/types/ExtendedRecipe';
 // Using local error handler implementation
 
 export class UnifiedRecipeService {
-  private static instance: UnifiedRecipeService,
+  private static instance: UnifiedRecipeService;
 
   private constructor() {}
 
@@ -66,18 +65,18 @@ export class UnifiedRecipeService {
   async getRecipesForCuisine(cuisine: string): Promise<ExtendedRecipe[]> {
     try {
       const allRecipes = await this.getAllRecipes();
-      const filtered = (allRecipes || []).filter(recipe => {,
+      const filtered = (allRecipes || []).filter(recipe => {
         const recipeCuisine =
           recipe.cuisine && typeof recipe.cuisine === 'string'
-            ? recipe.cuisine.toLowerCase();
-            : recipe.cuisine,
+            ? recipe.cuisine.toLowerCase()
+            : recipe.cuisine;
         const targetCuisine =
-          cuisine && typeof cuisine === 'string' ? cuisine.toLowerCase() : cuisine,
+          cuisine && typeof cuisine === 'string' ? cuisine.toLowerCase() : cuisine;
         return recipeCuisine === targetCuisine;
       })
       return filtered as unknown as ExtendedRecipe[];
     } catch (error) {
-      _logger.error('Error getting recipes for cuisine: ', error),
+      _logger.error('Error getting recipes for cuisine: ', error);
       return []
     }
   }
@@ -96,10 +95,10 @@ export class UnifiedRecipeService {
     try {
       const allRecipes = await this.getAllRecipes()
       // Simple implementation for now;
-      const matches = allRecipes.slice(010);
+      const matches = allRecipes.slice(0, 10);
       return matches as unknown as ExtendedRecipe[]
     } catch (error) {
-      _logger.error('Error getting best recipe matches: ', error),
+      _logger.error('Error getting best recipe matches: ', error);
       return []
     }
   }
@@ -109,4 +108,4 @@ export class UnifiedRecipeService {
 export const unifiedRecipeService = UnifiedRecipeService.getInstance()
 
 // Export default;
-export default unifiedRecipeService,
+export default unifiedRecipeService;

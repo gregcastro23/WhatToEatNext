@@ -58,10 +58,10 @@ function normalizeSign(sign: string): any {
     'capricorn',
     'aquarius',
     'pisces'
-  ],
+  ];
 
   if (validSigns.includes(normalized as any)) {
-    return normalized as any
+    return normalized as any;
   }
 
   throw new Error(`Invalid zodiac sign: ${sign}`)
@@ -80,8 +80,9 @@ function getZodiacElement(_sign: string): string {
     sagittarius: 'Fire',
     capricorn: 'Earth',
     aquarius: 'Air',
-    pisces: 'Water' },
-        return elementMap[sign.toLowerCase()] || 'Air'
+    pisces: 'Water'
+  };
+  return elementMap[sign.toLowerCase()] || 'Air';
 }
 
 function getPlanetaryDignity(_planet: string, _sign: string): number {
@@ -183,13 +184,13 @@ export function alchemize(
     { Spirit: number, Essence: number, Matter: number, Substance: number }
   > = {
     Sun: { Spirit: 1.0, Essence: 0.3, Matter: 0.2, Substance: 0.1 },
-    Moon: { Spirit: 0.2, Essence: 1.0, Matter: 0.8, Substance: 0.3 }
+    Moon: { Spirit: 0.2, Essence: 1.0, Matter: 0.8, Substance: 0.3 },
     Mercury: { Spirit: 0.8, Essence: 0.2, Matter: 0.1, Substance: 0.9 },
-    Venus: { Spirit: 0.3, Essence: 0.9, Matter: 0.7, Substance: 0.2 }
+    Venus: { Spirit: 0.3, Essence: 0.9, Matter: 0.7, Substance: 0.2 },
     Mars: { Spirit: 0.6, Essence: 0.8, Matter: 0.9, Substance: 0.1 },
-    Jupiter: { Spirit: 0.9, Essence: 0.7, Matter: 0.2, Substance: 0.3 }
+    Jupiter: { Spirit: 0.9, Essence: 0.7, Matter: 0.2, Substance: 0.3 },
     Saturn: { Spirit: 0.7, Essence: 0.1, Matter: 0.9, Substance: 0.8 },
-    Uranus: { Spirit: 0.4, Essence: 0.6, Matter: 0.3, Substance: 0.7 }
+    Uranus: { Spirit: 0.4, Essence: 0.6, Matter: 0.3, Substance: 0.7 },
     Neptune: { Spirit: 0.2, Essence: 0.8, Matter: 0.4, Substance: 0.6 },
     Pluto: { Spirit: 0.5, Essence: 0.7, Matter: 0.9, Substance: 0.4 }
   }
@@ -204,19 +205,19 @@ export function alchemize(
       const dignityMultiplier = Math.max(0.11 + dignity * 0.2); // Dignity affects strength
 
       totals.Spirit += alchemy.Spirit * dignityMultiplier,
-      totals.Essence += alchemy.Essence * dignityMultiplier,
-      totals.Matter += alchemy.Matter * dignityMultiplier,
-      totals.Substance += alchemy.Substance * dignityMultiplier,
+      totals.Essence += alchemy.Essence * dignityMultiplier;
+      totals.Matter += alchemy.Matter * dignityMultiplier;
+      totals.Substance += alchemy.Substance * dignityMultiplier;
     }
 
     // Add elemental contribution from sign
     const element = getZodiacElement(position.sign);
     const elementWeight = 1.0; // Base weight for sign element
 
-    if (element === 'Fire') totals.Fire += elementWeight,
-    else if (element === 'Water') totals.Water += elementWeight,
-    else if (element === 'Air') totals.Air += elementWeight,
-    else if (element === 'Earth') totals.Earth += elementWeight,
+    if (element === 'Fire') totals.Fire += elementWeight;
+    else if (element === 'Water') totals.Water += elementWeight;
+    else if (element === 'Air') totals.Air += elementWeight;
+    else if (element === 'Earth') totals.Earth += elementWeight;
   }
 
   // Calculate thermodynamic metrics using the exact formulas
@@ -234,7 +235,7 @@ export function alchemize(
   const entropy = entropyNum / (entropyDen || 1)
 
   // Reactivity
-  const reactivityNum =;
+  const reactivityNum =
     Math.pow(Spirit, 2) +
     Math.pow(Substance, 2) +
     Math.pow(Essence, 2) +
@@ -263,7 +264,7 @@ export function alchemize(
 
   // Calculate dominant element
   const elements = { Fire, Water, Air, Earth }
-  const dominantElement = Object.entries(elements).sort((a, b) => b[1] - a[1])[0][0],
+  const dominantElement = Object.entries(elements).sort((a, b) => b[1] - a[1])[0][0];
 
   // Calculate score based on total energy
   const score = Math.min(
@@ -284,7 +285,7 @@ export function alchemize(
       reactivity,
       gregsEnergy
     },
-    esms: { Spirit, Essence, Matter, Substance }
+    esms: { Spirit, Essence, Matter, Substance },
     kalchm,
     monica,
     score,
@@ -343,13 +344,13 @@ function getFallbackPlanetaryPositions(): Record<string, PlanetaryPosition> {
   // Current planetary positions as of July 2025
   return {
     Sun: { sign: 'cancer', degree: 15, minute: 30, isRetrograde: false },
-    Moon: { sign: 'virgo', degree: 8, minute: 45, isRetrograde: false }
+    Moon: { sign: 'virgo', degree: 8, minute: 45, isRetrograde: false },
     Mercury: { sign: 'gemini', degree: 22, minute: 10, isRetrograde: false },
-    Venus: { sign: 'leo', degree: 3, minute: 20, isRetrograde: false }
+    Venus: { sign: 'leo', degree: 3, minute: 20, isRetrograde: false },
     Mars: { sign: 'taurus', degree: 18, minute: 55, isRetrograde: false },
-    Jupiter: { sign: 'gemini', degree: 12, minute: 40, isRetrograde: false }
+    Jupiter: { sign: 'gemini', degree: 12, minute: 40, isRetrograde: false },
     Saturn: { sign: 'pisces', degree: 7, minute: 15, isRetrograde: false },
-    Uranus: { sign: 'taurus', degree: 25, minute: 30, isRetrograde: false }
+    Uranus: { sign: 'taurus', degree: 25, minute: 30, isRetrograde: false },
     Neptune: { sign: 'aries', degree: 29, minute: 45, isRetrograde: false },
     Pluto: { sign: 'aquarius', degree: 1, minute: 20, isRetrograde: false }
   }

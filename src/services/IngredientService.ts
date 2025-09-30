@@ -1656,8 +1656,8 @@ export class IngredientService implements IngredientServiceInterface {
       }> = [],
 
       // Generate all possible pAirs
-      for (let i = 0i < (ingredients || []).length; i++) {
-        for (let j = i + 1j < (ingredients || []).length; j++) {
+      for (let i = 0; i < (ingredients || []).length; i++) {
+        for (let j = i + 1; j < (ingredients || []).length; j++) {
           const ing1 = ingredients[i];
           const ing2 = ingredients[j];
 

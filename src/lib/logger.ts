@@ -1,6 +1,6 @@
 export type LogLevel = 'info' | 'warn' | 'error'
 export class Logger {
-  private readonly analyticsEndpoint: string | undefined = process.env.NEXT_PUBLIC_ANALYTICS_URL,
+  private readonly analyticsEndpoint: string | undefined = process.env.NEXT_PUBLIC_ANALYTICS_URL
 
   async log(level: LogLevel, message: string, data?: unknown): Promise<void> {
     if (process.env.NODE_ENV === 'development') {
@@ -23,8 +23,7 @@ export class Logger {
 }
 
 export const logger = new Logger()
-;
-import { log } from '@/services/LoggingService';
+import { log } from '@/services/LoggingService'
 export const _logger = {
   info: (message: string, data?: unknown) => {
     if (process.env.NODE_ENV !== 'production') {
@@ -49,7 +48,7 @@ export const _logger = {
 export function logError(error: Error, context?: Record<string, unknown>) {
   const errorMessage = error.message || 'Unknown error'
   const errorStack = error.stack || '';
-  const contextString = context ? JSON.stringify(context, null, 2) : '',
+  const contextString = context ? JSON.stringify(context, null, 2) : ''
 
   console.error(`[ERROR] ${errorMessage}`)
 

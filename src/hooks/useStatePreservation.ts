@@ -64,7 +64,6 @@ export function useComponentState<T = unknown>(componentId: string, initialState
     },
     [componentId]
   )
-  )
 
   const getState = useCallback((): T | null => {
     const stored = getComponentState(componentId)
@@ -98,10 +97,10 @@ export function useScrollPreservation(sectionId: string) {
 
   const saveScrollPositionInternal = useCallback(
     (position?: number) => {
-      const pos = position !== undefined ? position : window.scrollY,
-      saveScrollPosition(sectionId, pos)
-    }
-    [sectionId],
+      const pos = position !== undefined ? position : window.scrollY;
+      saveScrollPosition(sectionId, pos);
+    },
+    [sectionId]
   )
 
   const restoreScrollPosition = useCallback(() => {
@@ -130,7 +129,7 @@ export function useScrollPreservation(sectionId: string) {
     window.addEventListener('scroll', handleScroll, { passive: true })
 
     return () => {
-      window.removeEventListener('scroll', handleScroll),
+      window.removeEventListener('scroll', handleScroll);
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current)
       }
@@ -162,10 +161,10 @@ export function useFormStatePreservation<T extends Record<string, unknown>>(
   const saveFormState = useCallback(
     (values: Partial<T>) => {
       const currentState = getState() || initialValues;
-      const updatedState = { ...currentState, ...values }
-      saveState(updatedState)
-    }
-    [saveState, getState, initialValues],
+      const updatedState = { ...currentState, ...values };
+      saveState(updatedState);
+    },
+    [saveState, getState, initialValues]
   )
 
   const restoreFormState = useCallback((): T => {
@@ -189,8 +188,8 @@ export function useSelectionState<T = unknown>(selectionId: string, initialSelec
   const saveSelection = useCallback(
     (selection: T) => {
       saveState(selection);
-    }
-    [saveState],
+    },
+    [saveState]
   )
 
   const restoreSelection = useCallback((): T | null => {
@@ -213,24 +212,24 @@ export function useNavigationContext() {
   const { saveState, getState } = useNavigationState()
 
   const preserveContext = useCallback(
-    (context: {,
+    (context: {
       fromPage?: string,
       selectedItems?: unknown[],
       activeSection?: string,
       scrollPosition?: number,
       timestamp?: number
     }) => {
-      const currentState = getState()
-      saveState({,
+      const currentState = getState();
+      saveState({
         ...currentState,
         ...context,
         navigationHistory: [
           ...(currentState.navigationHistory || []),
           context.fromPage || 'unknown'
         ].slice(-10)
-      })
-    }
-    [saveState, getState],
+      });
+    },
+    [saveState, getState]
   )
 
   const restoreContext = useCallback(() => {
@@ -253,7 +252,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
   const { saveState, getState} = useComponentState(componentId)
 
   const saveAstrologicalState = useCallback(
-    async (state: {,
+    async (state: {
       elementalProperties?: ElementalProperties,
       selectedIngredients?: string[],
       astrologicalContext?: unknown
@@ -271,10 +270,10 @@ export function useAstrologicalStatePreservation(_componentId: string) {
       } catch (error) {
         logger.error(`Error saving astrological state for ${componentId}:`, error)
         // Fallback to basic state saving
-        saveState(state)
+        saveState(state);
       }
-    }
-    [componentId, saveState],
+    },
+    [componentId, saveState]
   )
 
   const restoreAstrologicalState = useCallback(() => {
@@ -296,12 +295,12 @@ export function useAstrologicalStatePreservation(_componentId: string) {
         meetsMinimumThreshold: compatibility >= 0.7,
         isSelfReinforcing: compatibility >= 0.9
       }
-    }
-    [],
+    },
+    []
   )
 
   const getArchitecturalGuidance = useCallback(() => {
-    return {;
+    return {
       patterns: ['component-isolation', 'error-boundaries', 'performance-optimization'],
       recommendations: [
         'Use React.memo for expensive components',
@@ -311,7 +310,7 @@ export function useAstrologicalStatePreservation(_componentId: string) {
   }, [])
 
   const getTechnologyStackGuidance = useCallback(() => {
-    return {;
+    return {
       react: { version: '19.1.0', features: ['concurrent', 'suspense'] },
       typescript: { version: '5.1.6', strictMode: true }
     }
@@ -333,7 +332,7 @@ export function useCulturalSensitivityGuidance() {
   const intelligence = useSteeringFileIntelligence()
 
   const validateCulturalContent = useCallback(
-    (content: {,
+    (content: {
       ingredientNames?: string[],
       cuisineDescriptions?: string[],
       culturalReferences?: string[]
@@ -346,7 +345,7 @@ export function useCulturalSensitivityGuidance() {
         accessibilityCompliant: true
 }
 
-      const issues: string[] = [],
+      const issues: string[] = [];
       const recommendations: string[] = []
 
       // Check ingredient names for cultural sensitivity
@@ -374,16 +373,16 @@ export function useCulturalSensitivityGuidance() {
         guidance,
         issues,
         recommendations,
-        isCompliant: issues.length === 0,,
+        isCompliant: issues.length === 0
       }
-    }
-    [intelligence],
+    },
+    [intelligence]
   )
 
   const getInclusiveLanguageGuidelines = useCallback(() => {
     return {
-      ingredientNaming: [;
-        'Use specific cultural origins (e.g., 'Mediterranean herbs' instead of 'exotic herbs')',
+      ingredientNaming: [
+        "Use specific cultural origins (e.g., 'Mediterranean herbs' instead of 'exotic herbs')",
         'Respect traditional names while providing context',
         'Avoid appropriative or dismissive language',
         'Include pronunciation guides when helpful'
@@ -433,23 +432,23 @@ export function usePerformanceOptimizationGuidance() {
             'Implement result caching with 6-hour TTL',
             'Debounce user inputs to prevent excessive calculations',
             'Use React.memo for expensive astrological components'
-          ],
-          break,
+          ];
+          break;
         case 'ingredient-recommender':
           recommendations.specific = [
             'Implement virtual scrolling for large ingredient lists',
             'Use lazy loading for ingredient images',
             'Cache elemental compatibility calculations',
             'Optimize search with debounced input'
-          ],
-          break,
+          ];
+          break;
         case 'recipe-builder': recommendations.specific = [
-            'Use React.useMemo for recipe calculations';
+            'Use React.useMemo for recipe calculations',
             'Implement auto-save with debounced state updates',
             'Lazy load recipe templates and suggestions',
             'Optimize drag-and-drop with requestAnimationFrame'
-          ],
-          break,
+          ];
+          break;
         default: recommendations.specific = [
             'Apply general React performance best practices',
             'Use appropriate memoization strategies',
@@ -459,12 +458,12 @@ export function usePerformanceOptimizationGuidance() {
       }
 
       return recommendations;
-    }
-    [intelligence],
+    },
+    [intelligence]
   )
 
   const validatePerformanceMetrics = useCallback(
-    (metrics: {,
+    (metrics: {
       renderTime?: number,
       memoryUsage?: number,
       bundleSize?: number,
@@ -477,7 +476,7 @@ export function usePerformanceOptimizationGuidance() {
         apiResponseTime: 2000, // 2 seconds
       }
 
-      const issues: string[] = [],
+      const issues: string[] = [];
       const recommendations: string[] = []
 
       Object.entries(metrics).forEach(([metric, value]) => {
@@ -488,13 +487,14 @@ export function usePerformanceOptimizationGuidance() {
 
             switch (metric) {
               case 'renderTime':
-                recommendations.push('Consider using React.memo, useMemo, or useCallback')
-                break,
-              case 'memoryUsage': recommendations.push('Check for memory leaks and optimize data structures')
-                break,
+                recommendations.push('Consider using React.memo, useMemo, or useCallback');
+                break;
+              case 'memoryUsage':
+                recommendations.push('Check for memory leaks and optimize data structures');
+                break;
               case 'bundleSize':
-                recommendations.push('Implement code splitting and tree shaking')
-                break,
+                recommendations.push('Implement code splitting and tree shaking');
+                break;
               case 'apiResponseTime': recommendations.push('Implement caching and consider API optimization')
                 break
             }
@@ -505,11 +505,11 @@ export function usePerformanceOptimizationGuidance() {
       return {
         issues,
         recommendations,
-        isOptimal: issues.length === 0,,
+        isOptimal: issues.length === 0,
         thresholds
       }
-    }
-    [],
+    },
+    []
   )
 
   return {

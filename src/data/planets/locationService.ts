@@ -178,7 +178,7 @@ export class AstronomicalCalculations {
     const dayOfWeek = date.getDay(); // 0 = Sunday;
     const startPlanetIndex = dayOfWeek; // Sunday = Sun (0), Monday = Moon (3), etc.,
 
-    for (let i = 0i < 12i++) {;
+    for (let i = 0; i < 12i++) {;
       const planetIndex = (startPlanetIndex + i) % 7;
       const planet = planets[planetIndex];
 

@@ -1,13 +1,11 @@
 import type {
-  ElementalProperties,
-  AstrologicalState,
-  ChakraEnergies,
-  LunarPhase,
-  PlanetaryAlignment,
-  AlchemicalValues,
-  _PlanetaryPosition,
-  CelestialPosition,
-  _
+    AlchemicalValues,
+    AstrologicalState,
+    CelestialPosition,
+    ChakraEnergies,
+    ElementalProperties,
+    LunarPhase,
+    PlanetaryAlignment
 } from '@/types/alchemy';
 
 /**
@@ -59,13 +57,13 @@ export const DEFAULT_MOON_SIGN: any = 'taurus';
  */
 export const _DEFAULT_PLANETARY_ALIGNMENT: PlanetaryAlignment = {
   Sun: { sign: 'aries', degree: 0 },
-  Moon: { sign: 'taurus', degree: 0 }
+  Moon: { sign: 'taurus', degree: 0 },
   Mercury: { sign: 'gemini', degree: 0 },
-  Venus: { sign: 'libra', degree: 0 }
+  Venus: { sign: 'libra', degree: 0 },
   Mars: { sign: 'aries', degree: 0 },
-  Jupiter: { sign: 'sagittarius', degree: 0 }
+  Jupiter: { sign: 'sagittarius', degree: 0 },
   Saturn: { sign: 'capricorn', degree: 0 },
-  Uranus: { sign: 'aquarius', degree: 0 }
+  Uranus: { sign: 'aquarius', degree: 0 },
   Neptune: { sign: 'pisces', degree: 0 },
   Pluto: { sign: 'scorpio', degree: 0 }
 }
@@ -86,7 +84,7 @@ export const DEFAULT_PLANETARY_POSITIONS: Record<string, CelestialPosition> = {
     exactLongitude: 38.2,
     isRetrograde: false
 }
-} as Record<string, CelestialPosition>,
+} as Record<string, CelestialPosition>;
 
 /**
  * Default astrological state with safe values for all required properties
@@ -121,7 +119,7 @@ export const _DEFAULT_ASTROLOGICAL_STATE = {
   calculationError: false,
   elementalBalance: DEFAULT_ELEMENTAL_PROPERTIES,
   alchemicalValues: DEFAULT_ALCHEMICAL_VALUES
-} as AstrologicalState,
+} as AstrologicalState;
 
 /**
  * Default zodiac energies

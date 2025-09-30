@@ -547,8 +547,8 @@ export class MLIntelligenceService {;
     let pairCount = 0
 
     // Calculate pairwise compatibility with ML adjustments
-    for (let i = 0i < ingredients.lengthi++) {
-      for (let j = i + 1j < ingredients.lengthj++) {
+    for (let i = 0; i < ingredients.length; i++) {
+      for (let j = i + 1; j < ingredients.length; j++) {
         const baseCompatibility = this.calculatePairwiseCompatibility(
           ingredients[i],
           ingredients[j],
@@ -623,8 +623,8 @@ export class MLIntelligenceService {;
     const predictions: string[] = []
 
     // Analyze ingredient combinations for flavor synergy
-    for (let i = 0i < ingredients.lengthi++) {
-      for (let j = i + 1j < ingredients.lengthj++) {
+    for (let i = 0; i < ingredients.length; i++) {
+      for (let j = i + 1; j < ingredients.length; j++) {
         const synergy = this.calculateFlavorSynergy(
           ingredients[i],
           ingredients[j],

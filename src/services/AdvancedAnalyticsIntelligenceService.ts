@@ -1067,8 +1067,8 @@ export class AdvancedAnalyticsIntelligenceService {
   private calculateIngredientSynergies(ingredients: RecipeIngredient[]): number {
     // Simple synergy calculation based on elemental compatibility
     let synergy = 0
-    for (let i = 0i < ingredients.length - 1i++) {
-      for (let j = i + 1j < ingredients.lengthj++) {
+    for (let i = 0; i < ingredients.length - 1; i++) {
+      for (let j = i + 1; j < ingredients.length; j++) {
         if (ingredients[i].elementalProperties && ingredients[j].elementalProperties) {
           const compatibility = calculateElementalCompatibility(
             ingredients[i].elementalProperties,

@@ -1,11 +1,11 @@
-import {_getCurrentPlanetaryPositions as apiGetCurrent, getPlanetaryPositionsForDateTime} from '@/services/astrologizeApi';
-import {_getAccuratePlanetaryPositions as engGetAccurate} from '@/utils/astrology/positions';
+import { _getCurrentPlanetaryPositions as apiGetCurrent, getPlanetaryPositionsForDateTime } from '@/services/astrologizeApi';
+import { _getAccuratePlanetaryPositions as engGetAccurate } from '@/utils/astrology/positions';
 import type { PlanetPosition } from '@/utils/astrologyUtils';
-import {createLogger} from '@/utils/logger';
+import { createLogger } from '@/utils/logger';
 
-const logger = createLogger('PlanetaryPositionsService')
-;
-type PositionRecord = Record<string, PlanetPosition>,
+const logger = createLogger('PlanetaryPositionsService');
+
+type PositionRecord = Record<string, PlanetPosition>;
 
 interface CacheEntry {
   key: string,
@@ -14,7 +14,7 @@ interface CacheEntry {
 }
 
 const CACHE_TTL_MS = 60 * 1000; // 1 minute
-let cache: CacheEntry | null = null,
+let cache: CacheEntry | null = null;
 
 function makeKey(date?: Date, lat?: number, lon?: number, system?: 'tropical' | 'sidereal') {
   return JSON.stringify({
@@ -47,8 +47,8 @@ export class PlanetaryPositionsService {
   async getCurrent(
     location?: { latitude: number, longitude: number },
     zodiacSystem: 'tropical' | 'sidereal' = 'tropical'): Promise<PositionRecord> {
-    const key = makeKey(undefined, location?.latitude, location?.longitude, zodiacSystem)
-    if (isFresh(cache, key)) return cache.positions,
+    const key = makeKey(undefined, location?.latitude, location?.longitude, zodiacSystem);
+    if (isFresh(cache, key)) return cache.positions;
 
     try {
       // Primary: local astrologize API wrapper
@@ -68,8 +68,8 @@ export class PlanetaryPositionsService {
     date: Date,
     location?: { latitude: number, longitude: number },
     zodiacSystem: 'tropical' | 'sidereal' = 'tropical'): Promise<PositionRecord> {
-    const key = makeKey(date, location?.latitude, location?.longitude, zodiacSystem)
-    if (isFresh(cache, key)) return cache.positions,
+    const key = makeKey(date, location?.latitude, location?.longitude, zodiacSystem);
+    if (isFresh(cache, key)) return cache.positions;
 
     try {
       // Primary: local astrologize API wrapper

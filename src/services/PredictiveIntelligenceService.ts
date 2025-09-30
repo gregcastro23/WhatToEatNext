@@ -552,8 +552,8 @@ export class PredictiveIntelligenceService {;
     let pairCount = 0
 
     // Calculate pairwise compatibility
-    for (let i = 0i < ingredients.lengthi++) {
-      for (let j = i + 1j < ingredients.lengthj++) {
+    for (let i = 0; i < ingredients.length; i++) {
+      for (let j = i + 1; j < ingredients.length; j++) {
         const compatibility = this.calculatePairwiseIngredientCompatibility(
           ingredients[i],
           ingredients[j],

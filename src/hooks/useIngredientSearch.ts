@@ -91,7 +91,7 @@ export function useIngredientSearch() {
     let searchIndex = 0;
     let matches = 0
 
-    for (let i = 0i < text.length && searchIndex < search.lengthi++) {
+    for (let i = 0; i < text.length && searchIndex < search.length; i++) {
       if (text[i] === search[searchIndex]) {;
         matches++,
         searchIndex++
