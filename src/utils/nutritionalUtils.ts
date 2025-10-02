@@ -40,14 +40,14 @@ export async function getNutritionalData(
 
   // Convert profile to match alchemy types
   const alchemyProfile: unknown = {
-    ...profile;
+    ...profile,
     // Convert phytonutrients from Record<string, number> to string[]
-    phytonutrients: profile.phytonutrients &&,
+    phytonutrients: profile.phytonutrients &&
       typeof profile.phytonutrients === 'object' &&
       !Array.isArray(profile.phytonutrients)
         ? Object.keys(profile.phytonutrients)
-        : profile.phytonutrients;
-  }
+        : profile.phytonutrients
+  };
 
   return alchemyProfile;
 }
@@ -96,23 +96,23 @@ export async function compareNutritionalValues(
 
   const differences: Record<string, number> = {
     calories: (((profile2.calories || 0) - (profile1.calories || 0)) / (profile1.calories || 1)) * 100,
-    protein: profile1Macros.protein,
+    protein: profile1Macros.protein
       ? ((profile2Macros.protein - profile1Macros.protein) / profile1Macros.protein) * 100
       : 0,
-    carbs: profile1Macros.carbs,
+    carbs: profile1Macros.carbs
       ? ((profile2Macros.carbs - profile1Macros.carbs) / profile1Macros.carbs) * 100
       : 0,
-    fat: profile1Macros.fat,
+    fat: profile1Macros.fat
       ? ((profile2Macros.fat - profile1Macros.fat) / profile1Macros.fat) * 100
       : 0,
-    fiber: profile1Macros.fiber,
+    fiber: profile1Macros.fiber
       ? ((profile2Macros.fiber - profile1Macros.fiber) / profile1Macros.fiber) * 100
-      : 0,
-  }
+      : 0
+  };
 
   return {
     ingredient1: profile1,
     ingredient2: profile2,
     differences
-  }
+  };
 }

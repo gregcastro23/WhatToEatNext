@@ -10,6 +10,7 @@
 import { ElementalProperties } from '@/types/alchemy';
 import type { KineticMetrics } from '@/types/kinetics';
 import { calculateKinetics } from './kinetics';
+import { calculateAlchemicalFromPlanets } from './planetaryAlchemyMapping';
 
 // ========== INTERFACES ==========
 
@@ -153,16 +154,41 @@ export function calculateMonicaConstant(
 // ========== HELPER FUNCTIONS ==========
 
 /**
- * Convert elemental properties to default alchemical properties
- * This provides a reasonable mapping when alchemical properties aren't available
+ * Convert elemental properties to approximated alchemical properties
+ *
+ * ⚠️ WARNING: This is an APPROXIMATION and NOT the correct method!
+ *
+ * The ONLY correct way to calculate ESMS (Spirit, Essence, Matter, Substance)
+ * is through planetary positions using calculateAlchemicalFromPlanets().
+ *
+ * This function should ONLY be used as a fallback when planetary data is
+ * completely unavailable. It provides a rough approximation based on elemental
+ * correlations, but lacks the precision and accuracy of the true alchemical method.
+ *
+ * @deprecated Prefer calculateAlchemicalFromPlanets() whenever possible
+ * @param elemental - Elemental properties (Fire, Water, Earth, Air)
+ * @returns Approximated alchemical properties (NOT accurate)
+ */
+export function elementalToAlchemicalApproximation(
+  elemental: ElementalProperties
+): AlchemicalProperties {
+  return {
+    Spirit: elemental.Fire + ((elemental as any)?.Air || 0) * 0.2, // Rough approximation
+    Essence: elemental.Water + ((elemental as any)?.Air || 0) * 0.2, // Rough approximation
+    Matter: elemental.Earth + ((elemental as any)?.Water || 0) * 0.2, // Rough approximation
+    Substance: elemental.Earth + ((elemental as any)?.Fire || 0) * 0.2 // Rough approximation
+  };
+}
+
+/**
+ * Legacy alias for backward compatibility
+ * @deprecated Use elementalToAlchemicalApproximation() or better yet, calculateAlchemicalFromPlanets()
  */
 export function elementalToAlchemical(elemental: ElementalProperties): AlchemicalProperties {
-  return {
-    Spirit: elemental.Fire + ((elemental as any)?.Air || 0) * 0.2, // Active, transformative,
-    Essence: elemental.Water + ((elemental as any)?.Air || 0) * 0.2, // Core nature, flowing,
-    Matter: elemental.Earth + ((elemental as any)?.Water || 0) * 0.2, // Physical, stable,
-    Substance: elemental.Earth + ((elemental as any)?.Fire || 0) * 0.2, // Foundation, structure
-  }
+  console.warn(
+    'elementalToAlchemical() is deprecated. Use calculateAlchemicalFromPlanets() for accurate ESMS values.'
+  );
+  return elementalToAlchemicalApproximation(elemental);
 }
 
 /**
@@ -203,13 +229,17 @@ export function calculateThermodynamicMetrics(
 
 /**
  * Calculate compatibility between two sets of properties using Monica/Kalchm metrics
+ *
+ * ⚠️ WARNING: If alchemical properties are not provided, this function will use
+ * an approximation. For accurate results, provide alchemical properties calculated
+ * from planetary positions using calculateAlchemicalFromPlanets().
  */
 export function calculateMonicaKalchmCompatibility(
   properties1: { alchemical?: AlchemicalProperties, elemental: ElementalProperties },
   properties2: { alchemical?: AlchemicalProperties, elemental: ElementalProperties }): number {
-  // Convert elemental to alchemical if needed
-  const alchemical1 = properties1.alchemical || elementalToAlchemical(properties1.elemental);
-  const alchemical2 = properties2.alchemical || elementalToAlchemical(properties2.elemental);
+  // Convert elemental to alchemical if needed (using approximation as fallback)
+  const alchemical1 = properties1.alchemical || elementalToAlchemicalApproximation(properties1.elemental);
+  const alchemical2 = properties2.alchemical || elementalToAlchemicalApproximation(properties2.elemental);
   // Calculate thermodynamic metrics for both
   const metrics1 = calculateThermodynamicMetrics(alchemical1, properties1.elemental);
   const metrics2 = calculateThermodynamicMetrics(alchemical2, properties2.elemental);
@@ -231,10 +261,15 @@ export function calculateMonicaKalchmCompatibility(
 /**
  * Calculate moment Monica constant from current elemental state
  * Used for real-time compatibility calculations
+ *
+ * ⚠️ WARNING: This function uses an approximation to derive ESMS from elementals.
+ * For accurate Monica constants, use planetary positions via calculateAlchemicalFromPlanets().
+ *
+ * @deprecated Prefer calculating Monica from planetary positions when available
  */
 export function calculateMomentMonicaConstant(elementalProfile: ElementalProperties): number {
-  const alchemical = elementalToAlchemical(elementalProfile)
-  const metrics = calculateThermodynamicMetrics(alchemical, elementalProfile),
+  const alchemical = elementalToAlchemicalApproximation(elementalProfile);
+  const metrics = calculateThermodynamicMetrics(alchemical, elementalProfile);
   return metrics.monica;
 }
 

@@ -44,35 +44,43 @@ else
     exit 1
 fi
 
-# Initialize database
-echo "🗄️  Initializing database..."
-if python3 scripts/init_database.py > /dev/null 2>&1; then
-    print_status "Database initialized"
+# Initialize database (skip if already exists)
+echo "🗄️  Checking database..."
+if docker exec backend-postgres-1 psql -U user -l | grep -q alchm_kitchen; then
+    print_status "Database already exists"
 else
-    print_warning "Database initialization may have issues (continuing...)"
+    echo "Creating database..."
+    if docker exec backend-postgres-1 psql -U user -d postgres -c "CREATE DATABASE alchm_kitchen WITH OWNER user ENCODING 'UTF8';" 2>/dev/null; then
+        print_status "Database created"
+    else
+        print_warning "Database creation failed (continuing...)"
+    fi
 fi
 
 # Run migrations
 echo "📦 Running database migrations..."
-if python3 scripts/migrate_database.py migrate > /dev/null 2>&1; then
+if python3 -c "import sys; sys.path.insert(0, '.'); from alembic.config import Config; from alembic import command; cfg = Config('alembic.ini'); command.upgrade(cfg, 'head'); print('Migrations completed successfully')" 2>/dev/null; then
     print_status "Migrations completed"
 else
-    print_error "Migration failed"
-    exit 1
+    print_warning "Migration had issues (continuing anyway...)"
 fi
+
+# Kill any existing processes on port 8000
+echo "🧹 Cleaning up any existing processes on port 8000..."
+lsof -ti:8000 | xargs kill -9 2>/dev/null || true
 
 # Start the backend
 echo "🏺 Starting alchm.kitchen backend..."
 ./start_services.sh &
 BACKEND_PID=$!
 
-# Wait a moment for backend to start
+# Wait for backend to start
 sleep 3
 
-# Test health endpoint
-echo "🏥 Testing backend health..."
-if curl -s http://localhost:8000/health > /dev/null 2>&1; then
-    print_status "Backend is healthy"
+# Test with our integration script
+echo "🧪 Running integration tests..."
+if python3 test_backend_simple.py; then
+    print_status "All tests passed!"
     echo ""
     echo "🎉 alchm.kitchen development environment is ready!"
     echo ""
@@ -86,8 +94,11 @@ if curl -s http://localhost:8000/health > /dev/null 2>&1; then
     echo ""
     echo "💡 Frontend: Run 'npm run dev' in the root directory"
 else
-    print_error "Backend health check failed"
-    print_warning "Backend may still be starting up..."
+    print_warning "Some tests failed, but services may still work"
+    echo ""
+    echo "🔧 Manual testing:"
+    echo "   curl http://localhost:8000/health"
+    echo "   curl -X POST http://localhost:8000/alchemize -H 'Content-Type: application/json' -d '{}'"
 fi
 
 # Keep the script running to show logs

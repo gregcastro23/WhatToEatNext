@@ -5,7 +5,7 @@
  * Includes comprehensive transit information for multiple years with detailed seasonal mappings
  */
 
-import { CelestialPosition, PlanetaryPosition, ZodiacSign } from '@/types/celestial';
+import { CelestialPosition, ZodiacSign } from '@/types/celestial';
 import { createLogger } from '@/utils/logger';
 
 const logger = createLogger('SwissEphemerisService')
@@ -13,46 +13,46 @@ const logger = createLogger('SwissEphemerisService')
 /**
  * Swiss Ephemeris raw data structure
  */
-export interface SwissEphemerisData {;
-  day: number,
-  date: Date,
-  sidereal_time: string,
-  // Planet, codes: A=SunB=MoonC=Mercury, D=VenusE=MarsF=Jupiter, G=SaturnO=UranusI=Neptune, J=Pluto,
-  A: number; // Sun,
-  B: number; // Moon,
-  C: number; // Mercury,
-  D: number; // Venus,
-  E: number; // Mars,
-  F: number; // Jupiter,
-  G: number; // Saturn,
-  O: number; // Uranus,
-  I: number; // Neptune,
-  J: number; // Pluto,
-  L: number; // North Node,
-  K: number; // South Node,
+export interface SwissEphemerisData {
+  day: number;
+  date: Date;
+  sidereal_time: string;
+  // Planet codes: A=Sun, B=Moon, C=Mercury, D=Venus, E=Mars, F=Jupiter, G=Saturn, O=Uranus, I=Neptune, J=Pluto
+  A: number; // Sun
+  B: number; // Moon
+  C: number; // Mercury
+  D: number; // Venus
+  E: number; // Mars
+  F: number; // Jupiter
+  G: number; // Saturn
+  O: number; // Uranus
+  I: number; // Neptune
+  J: number; // Pluto
+  L: number; // North Node
+  K: number; // South Node
   M?: number; // Chiron (optional)
   N?: number; // Lilith (optional)
   // Sign information
-  A_sign?: string,
-  B_sign?: string,
-  C_sign?: string,
-  D_sign?: string,
-  E_sign?: string,
-  F_sign?: string,
-  G_sign?: string,
-  O_sign?: string,
-  I_sign?: string,
-  J_sign?: string,
+  A_sign?: string;
+  B_sign?: string;
+  C_sign?: string;
+  D_sign?: string;
+  E_sign?: string;
+  F_sign?: string;
+  G_sign?: string;
+  O_sign?: string;
+  I_sign?: string;
+  J_sign?: string;
   // Retrograde status
-  A_retrograde?: boolean,
-  B_retrograde?: boolean,
-  C_retrograde?: boolean,
-  D_retrograde?: boolean,
-  E_retrograde?: boolean,
+  A_retrograde?: boolean;
+  B_retrograde?: boolean;
+  C_retrograde?: boolean;
+  D_retrograde?: boolean;
+  E_retrograde?: boolean;
   F_retrograde?: boolean
-  G_retrograde?: boolean,
-  O_retrograde?: boolean,
-  I_retrograde?: boolean,
+  G_retrograde?: boolean;
+  O_retrograde?: boolean;
+  I_retrograde?: boolean;
   J_retrograde?: boolean
 }
 
@@ -100,8 +100,8 @@ const PLANET_MAPPING = {
   L: 'NorthNode',
   K: 'SouthNode',
   M: 'Chiron',
-  N: 'Lilith' },
-        as const,
+  N: 'Lilith'
+} as const;
 
 /**
  * Zodiac signs in order (0-11)
@@ -150,7 +150,18 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       day: 1,
       date: new Date('2024-01-01'),
       sidereal_time: '06:42:15',
-      A: 280.45B: 145.23C: 275.67D: 268.34E: 125.89F: 5.67G: 330.12O: 38.45I: 359.78J: 299.34L: 15.67K: 195.67,
+      A: 280.45,
+      B: 145.23,
+      C: 275.67,
+      D: 268.34,
+      E: 125.89,
+      F: 5.67,
+      G: 330.12,
+      O: 38.45,
+      I: 359.78,
+      J: 299.34,
+      L: 15.67,
+      K: 195.67,
       A_sign: 'capricorn',
       B_sign: 'leo',
       C_sign: 'capricorn',
@@ -170,7 +181,18 @@ const COMPREHENSIVE_EPHEMERIS_DATA: Record<string, SwissEphemerisData[]> = {
       day: 1,
       date: new Date('2025-06-01'),
       sidereal_time: '16:38:56',
-      A: 70.77B: 342.93C: 135.5D: 135.03E: 144.93F: 148.05G: 358.48O: 58.65I: 29.38J: 333.5L: 353.5K: 173.5,
+      A: 70.77,
+      B: 342.93,
+      C: 135.5,
+      D: 135.03,
+      E: 144.93,
+      F: 148.05,
+      G: 358.48,
+      O: 58.65,
+      I: 29.38,
+      J: 333.5,
+      L: 353.5,
+      K: 173.5,
       A_sign: 'gemini',
       B_sign: 'pisces',
       C_sign: 'leo',

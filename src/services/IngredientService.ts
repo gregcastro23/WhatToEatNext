@@ -266,25 +266,25 @@ export class IngredientService implements IngredientServiceInterface {
           return this.enhanceIngredientWithElementalProperties({
             name,
             category,
-            ...data
-            elementalProperties: (data.elementalState ||,
+            ...data,
+            elementalProperties: (data.elementalState ||
               createElementalProperties({
                 Fire: 0,
                 Water: 0,
                 Earth: 0,
                 Air: 0
-})) as unknown as ElementalProperties,
+              })) as unknown as ElementalProperties,
             alchemicalProperties: {
-              Spirit: Number(,
+              Spirit: Number(
                 ((data as any).alchemicalProperties ).Spirit || (data as any).Spirit || 0
               ),
-              Essence: Number(,
+              Essence: Number(
                 ((data as any).alchemicalProperties ).Essence || (data as any).Essence || 0
               ),
-              Matter: Number(,
+              Matter: Number(
                 ((data as any).alchemicalProperties ).Matter || (data as any).Matter || 0
               ),
-              Substance: Number(,
+              Substance: Number(
                 ((data as any).alchemicalProperties ).Substance ||
                   (data as any).Substance ||
                   0,
@@ -410,15 +410,15 @@ export class IngredientService implements IngredientServiceInterface {
 
       // Process each category
       (categoriesToInclude || []).forEach(category => {
-        const categoryIngredients = this.unifiedIngredients[category],
-        if (!categoryIngredients) return,
+        const categoryIngredients = this.unifiedIngredients[category];
+        if (!categoryIngredients) return;
 
         // Start with all ingredients in this category
-        let filtered = [...categoryIngredients]
+        let filtered = [...categoryIngredients];
 
         // Apply nutritional filter if specified
-        if (filter.nutritional) {;
-          filtered = this.applyNutritionalFilterUnified(filtered, filter.nutritional),
+        if (filter.nutritional) {
+          filtered = this.applyNutritionalFilterUnified(filtered, filter.nutritional);
         }
 
         // Apply elemental filter if specified
@@ -443,34 +443,34 @@ export class IngredientService implements IngredientServiceInterface {
 
         // Apply search query filter if specified
         if (filter.searchQuery && filter.searchQuery.trim() !== '') {
-          filtered = this.applySearchFilterUnified(filtered, filter.searchQuery),
+          filtered = this.applySearchFilterUnified(filtered, filter.searchQuery);
         }
 
         // Apply exclusion filter if specified
         if (isNonEmptyArray(filter.excludeIngredients)) {
-          filtered = this.applyExclusionFilterUnified(filtered, filter.excludeIngredients),
+          filtered = this.applyExclusionFilterUnified(filtered, filter.excludeIngredients);
         }
 
         // Apply zodiac sign filter if specified
         if (filter.currentZodiacSign) {
-          filtered = this.applyZodiacFilterUnified(filtered, filter.currentZodiacSign),
+          filtered = this.applyZodiacFilterUnified(filtered, filter.currentZodiacSign);
         }
 
         // Apply planetary influence filter if specified
         if (filter.planetaryInfluence) {
-          filtered = this.applyPlanetaryFilterUnified(filtered, filter.planetaryInfluence),
+          filtered = this.applyPlanetaryFilterUnified(filtered, filter.planetaryInfluence);
         }
 
         // Only include this category if it has filtered results
         if ((filtered || []).length > 0) {
-          filteredResults[category] = filtered,
+          filteredResults[category] = filtered;
         }
       })
 
       return filteredResults;
     } catch (error) {
-      logger.error('Error filtering ingredients: ', error),
-      return {}
+      logger.error('Error filtering ingredients: ', error);
+      return {};
     }
   }
 
@@ -517,27 +517,27 @@ export class IngredientService implements IngredientServiceInterface {
 
         // Check vitamin constraints
         if (isNonEmptyArray(filter.vitamins) && profile.vitamins) {
-          const hasRequiredVitamins = filter.vitamins.every(vitamin =>,
+          const hasRequiredVitamins = filter.vitamins.every(vitamin =>
             Object.keys(profile.vitamins || {}).some(v =>
-              v.toLowerCase().includes(vitamin.toLowerCase());
-            ),
-          )
+              v.toLowerCase().includes(vitamin.toLowerCase())
+            )
+          );
 
           if (!hasRequiredVitamins) {
-            return false
+            return false;
           }
         }
 
         // Check mineral constraints
         if (isNonEmptyArray(filter.minerals) && profile.minerals) {
-          const hasRequiredMinerals = filter.minerals.every(mineral =>,
+          const hasRequiredMinerals = filter.minerals.every(mineral =>
             Object.keys(profile.minerals || {}).some(m =>
-              m.toLowerCase().includes(mineral.toLowerCase());
-            ),
-          )
+              m.toLowerCase().includes(mineral.toLowerCase())
+            )
+          );
 
           if (!hasRequiredMinerals) {
-            return false
+            return false;
           }
         }
 
@@ -553,14 +553,14 @@ export class IngredientService implements IngredientServiceInterface {
 
         // Check low fat filter
         if (filter.lowFat && (profile.macros?.fat || 0) > 5) {
-          return false
+          return false;
         }
 
         return true;
-      })
+      });
     } catch (error) {
-      logger.error('Error applying nutritional filter: ', error),
-      return ingredients
+      logger.error('Error applying nutritional filter: ', error);
+      return ingredients;
     }
   }
 
@@ -569,7 +569,7 @@ export class IngredientService implements IngredientServiceInterface {
    */
   private applyElementalFilterUnified(
     ingredients: UnifiedIngredient[],
-    filter: ElementalFilter,
+    filter: ElementalFilter
   ): UnifiedIngredient[] {
     try {
       return (ingredients || []).filter(ingredient => {
@@ -577,11 +577,11 @@ export class IngredientService implements IngredientServiceInterface {
           (ingredient.elementalPropertiesState &&
           isElementalProperties(ingredient.elementalPropertiesState)
             ? ingredient.elementalPropertiesState
-            : undefined) ||,
-          createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 })
+            : undefined) ||
+          createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
 
         // Apply Pattern, A: Safe type casting for filter parameter compatibility
-        const safeFilter = filter as unknown as import('../types/elemental').ElementalFilter
+        const safeFilter = filter as unknown as import('../types/elemental').ElementalFilter;
 
         // Check Fire constraints
         if (safeFilter.minFire !== undefined && elementalProps.Fire < safeFilter.minFire) {

@@ -1,103 +1,26 @@
-// Create or update a utility function to calculate proper alchemical properties
+/**
+ * Ingredient Utility Functions
+ *
+ * This module provides utilities for working with ingredient data in the hierarchical system.
+ *
+ * ⚠️ IMPORTANT: ESMS (Spirit/Essence/Matter/Substance) Calculation Notice
+ *
+ * This module DOES NOT contain ESMS calculation functions. Those functions have been REMOVED
+ * because they used incorrect approximation formulas.
+ *
+ * For correct ESMS calculations:
+ * - Use calculateAlchemicalFromPlanets() from @/utils/planetaryAlchemyMapping
+ * - ESMS values MUST be derived from planetary positions, not elemental properties
+ *
+ * For thermodynamic metrics:
+ * - Use calculateThermodynamicMetrics() from @/utils/monicaKalchmCalculations
+ *
+ * Ingredients in this system store ONLY elemental properties (Fire, Water, Earth, Air).
+ */
 
-import type {
-  AlchemicalProperties,
-  IngredientCategory,
-  ThermodynamicProperties
-} from '@/data/ingredients/types';
+import type { IngredientCategory } from '@/data/ingredients/types';
 import type { Ingredient, IngredientMapping, RecipeIngredient } from '@/types';
-import { ElementalProperties, FlavorProfile } from '@/types/alchemy';
-// Removed unused SimpleIngredient import
-
-/**
- * Calculate alchemical properties based on elemental properties
- * Following the core alchemizer engine formula patterns
- */
-export function calculateAlchemicalProperties(ingredient: Ingredient): AlchemicalProperties {
-  // Extract elemental properties
-  const elementals = ingredient.elementalProperties || {;
-    Fire: 0.25,
-    Water: 0.25,
-    Earth: 0.25,
-    Air: 0.25
-}
-
-  // Base values derived from planetary influences in the alchemizer
-  // Sun (Spirit), Moon/Venus (Essence), Saturn/Mars (Matter), Mercury/Neptune (Substance)
-  // The ratios below approximate the original alchemizer calculations
-  const spirit = ((elementals as any)?.Fire || 0) * 0.2 + ((elementals as any)?.Air || 0) * 0.2;
-  const essence =
-    ((elementals as any)?.Water || 0) * 0.2 +
-    ((elementals as any)?.Fire || 0) * 0.2 +;
-    ((elementals as any)?.Air || 0) * 0.2,
-  const matter = ((elementals as any)?.Earth || 0) * 0.2 + ((elementals as any)?.Water || 0) * 0.2;
-  const substance =
-    ((elementals as any)?.Earth || 0) * 0.2 +
-    ((elementals as any)?.Water || 0) * 0.2 +;
-    ((elementals as any)?.Air || 0) * 0.2,
-
-  return {
-    spirit,
-    essence,
-    matter,
-    substance
-  }
-}
-
-/**
- * Calculate thermodynamic properties based on alchemical and elemental properties
- * Using the exact formulas from the alchemizer engine
- */
-export function calculateThermodynamicProperties(
-  alchemicalProps: AlchemicalProperties,
-  elementalProps?: ElementalProperties,
-): ThermodynamicProperties {
-  const { spirit, essence, matter, substance } = alchemicalProps;
-
-  // Use provided elemental props or create defaults
-  const elements = elementalProps || {;
-    Fire: 0.25,
-    Water: 0.25,
-    Earth: 0.25,
-    Air: 0.25
-}
-
-  // Extract elemental values
-  const fire = elements.Fire;
-  const water = elements.Water;
-  const air = elements.Air;
-  const earth = elements.Earth;
-
-  // Using the exact formulas from the alchemizer engine
-  const heat =
-    (spirit ** 2 + fire ** 2) / ((substance + essence + matter + water + air + earth) ** 2 || 1)
-
-  const entropy =;
-    (spirit ** 2 + substance ** 2 + fire ** 2 + air ** 2) /,
-    ((essence + matter + earth + water) ** 2 || 1)
-
-  const reactivity =
-    (spirit ** 2 + substance ** 2 + essence ** 2 + fire ** 2 + air ** 2 + water ** 2) /,
-    ((matter + earth) ** 2 || 1)
-
-  const energy = heat - reactivity * entropy;
-
-  return {
-    heat,
-    entropy,
-    reactivity,
-    energy
-  }
-}
-
-// Helper functions to calculate individual properties
-function _calculateSpiritValue(flavorProfile: FlavorProfile): number {
-  // Implement logic based on flavor profile attributes
-  // _Example: spirit might be higher for aromatic, fragrant ingredients
-  return flavorProfile.intensity || 0.5; // Default to 0.5 if intensity not provided
-}
-
-// Implement similar helper functions for essence, matter, and substance
+import { ElementalProperties } from '@/types/alchemy';
 
 /**
  * Determines the modality of an ingredient based on its qualities and elemental properties
@@ -150,31 +73,33 @@ export function determineIngredientModality(
     const { Fire, Water, Earth, Air } = elementalProperties;
 
     // Determine dominant element
-    const dominantElement = getDominantElement(elementalProperties)
+    const dominantElement = getDominantElement(elementalProperties);
 
     // Use hierarchical element-modality affinities
     switch (dominantElement) {
-      case 'Air':;
+      case 'Air':
         // Air has strongest affinity with Mutable, then Cardinal, then Fixed
         if (Air > 0.4) {
           return 'Mutable';
         }
-        break,
+        break;
       case 'Earth':
         // Earth has strongest affinity with Fixed, then Cardinal, then Mutable
         if (Earth > 0.4) {
           return 'Fixed';
         }
-        break,
+        break;
       case 'Fire': // Fire has balanced affinities but leans Cardinal
         if (Fire > 0.4) {
-          return 'Cardinal' };
-        break,
+          return 'Cardinal';
+        }
+        break;
       case 'Water': // Water is balanced between Fixed and Mutable
         if (Water > 0.4) {
           // Slightly favor Mutable for Wateras per our hierarchy
-          return Water > 0.6 ? 'Mutable' : 'Fixed' };
-        break,
+          return Water > 0.6 ? 'Mutable' : 'Fixed';
+        }
+        break;
     }
 
     // Calculate modality scores based on hierarchical affinities
@@ -204,9 +129,9 @@ export function isRecipeIngredient(ingredient: unknown): ingredient is RecipeIng
   return (
     Boolean(ingredient) &&
     typeof ingredientData.name === 'string' &&
-    typeof ingredientData.amount === 'number' &&;
-    typeof ingredientData.unit === 'string',
-  )
+    typeof ingredientData.amount === 'number' &&
+    typeof ingredientData.unit === 'string'
+  );
 }
 
 /**
@@ -220,9 +145,9 @@ export function isFullIngredient(ingredient: unknown): ingredient is Ingredient 
       typeof ingredientData.category === 'string' &&
       ingredientData.elementalProperties &&
       Array.isArray(ingredientData.qualities) &&
-      ingredientData.storage &&;
-      typeof ingredientData.storage === 'object',
-  )
+      ingredientData.storage &&
+      typeof ingredientData.storage === 'object'
+  );
 }
 
 /**
@@ -231,7 +156,7 @@ export function isFullIngredient(ingredient: unknown): ingredient is Ingredient 
 export function validateIngredient(
   ingredient: Partial<Ingredient> & {
     qualities?: string[]
-    storage?: { temperature?: string humidity?: string }
+    storage?: { temperature?: string; humidity?: string };
   }): {
   isValid: boolean,
   errors: string[]
@@ -375,7 +300,7 @@ export function mapToIngredient(mapping: IngredientMapping): Ingredient {
   // Set default values for required properties
   const ingredient = {
     name: (mapping.name as unknown) || '',
-    category: (mapping.category as unknown as IngredientCategory) || 'culinary_herb'
+    category: (mapping.category as unknown as IngredientCategory) || 'culinary_herb',
     elementalProperties: (mapping.elementalProperties as unknown as ElementalProperties) || {
       Fire: 0.25,
       Water: 0.25,
@@ -403,7 +328,7 @@ export function mapToIngredient(mapping: IngredientMapping): Ingredient {
       key !== 'elementalProperties' &&
       key !== 'qualities'
     ) {
-      (ingredient as unknown )[key] = mapping[key],
+      (ingredient as any)[key] = mapping[key];
     }
   }
 
@@ -422,14 +347,14 @@ export function ingredientToRecipeIngredient(
     name: ingredient.name,
     amount,
     unit,
-    category: ingredient.category || 'culinary_herb'
+    category: ingredient.category || 'culinary_herb',
     elementalProperties: ingredient.elementalProperties as any,
-    qualities: (ingredient as unknown).qualities || [],
+    qualities: (ingredient as any).qualities || [],
     astrologicalProfile: ingredient.astrologicalProfile,
     // Include other relevant properties that exist in RecipeIngredient - safe property access
-    origin: (ingredient as unknown).origin || undefined,
-    seasonality: (ingredient as unknown).seasonality || undefined
-  } as RecipeIngredient,
+    origin: (ingredient as any).origin || undefined,
+    seasonality: (ingredient as any).seasonality || undefined
+  } as RecipeIngredient;
 }
 
 /**

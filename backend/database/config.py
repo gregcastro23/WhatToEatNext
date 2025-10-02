@@ -38,7 +38,8 @@ class DatabaseConfig(BaseSettings):
     auto_create_tables: bool = True
 
     class Config:
-        env_file = ".env"
+        # Don't load from .env in backend - use explicit config for Docker setup
+        # env_file = ".env"
         case_sensitive = False
         extra = "ignore"  # Allow extra fields from .env
 

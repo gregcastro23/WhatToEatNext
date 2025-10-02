@@ -42,16 +42,10 @@ def create_database():
         parsed = urlparse(config.database_url)
         db_name = parsed.path.lstrip('/')
     else:
-        db_name = config.database
+        db_name = config.db_name
 
-    # Create connection string without database name
-    if config.database_url:
-        admin_url = config.database_url.replace(f"/{db_name}", "/postgres")
-    else:
-        admin_url = f"postgresql://{config.db_user}:{config.db_password}@{config.db_host}:{config.db_port}/postgres"
-
-    # Create database if it doesn't exist
-    create_cmd = f'psql "{admin_url}" -c "CREATE DATABASE {db_name} WITH OWNER {config.db_user} ENCODING \'UTF8\';"'
+    # For Docker setup, use docker exec to run psql
+    create_cmd = f'docker exec backend-postgres-1 psql -U {config.db_user} -d postgres -c "CREATE DATABASE {db_name} WITH OWNER {config.db_user} ENCODING \'UTF8\';"'
     return run_command(create_cmd, f"Creating database '{db_name}'")
 
 def run_migrations():
@@ -69,8 +63,11 @@ def seed_database():
     print("🌱 Seeding database with initial data...")
 
     try:
-        from database.connection import get_db_session
+        from database.connection import get_db_session, get_db_engine
         from database.models import Ingredient, Recipe
+
+        # Ensure engine is created before using session
+        get_db_engine()
 
         with get_db_session() as session:
             # Check if we already have data

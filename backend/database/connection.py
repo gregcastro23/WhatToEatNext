@@ -55,8 +55,15 @@ def get_db_engine() -> Engine:
 
     return _engine
 
-# Session factory
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=get_db_engine())
+# Session factory - created lazily
+_SessionLocal = None
+
+def get_session_factory():
+    """Get or create the session factory."""
+    global _SessionLocal
+    if _SessionLocal is None:
+        _SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=get_db_engine())
+    return _SessionLocal
 
 @contextmanager
 def get_db_session() -> Generator[Session, None, None]:
@@ -67,6 +74,7 @@ def get_db_session() -> Generator[Session, None, None]:
         with get_db_session() as session:
             result = session.query(Model).all()
     """
+    SessionLocal = get_session_factory()
     session = SessionLocal()
     try:
         yield session
@@ -109,6 +117,7 @@ def get_db() -> Session:
     FastAPI dependency for database sessions.
     Provides a database session that gets automatically cleaned up.
     """
+    SessionLocal = get_session_factory()
     session = SessionLocal()
     try:
         yield session

@@ -19,12 +19,15 @@ import asyncio
 from sqlalchemy.orm import Session
 from sqlalchemy import text
 
+# Add parent directory to path for database imports
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
 # Database imports
 from database import get_db, Recipe, Ingredient, Recommendation, SystemMetric, ElementalProperties, ZodiacAffinity, SeasonalAssociation
 
 # External data imports for cuisine and sauce recommendations
-import sys
-import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src', 'data'))
 
 # Import cuisine data (we'll need to handle this carefully)
@@ -44,6 +47,8 @@ except ImportError:
 
 # Configuration for external APIs
 ALCHEMIZE_API_URL = os.getenv("ALCHEMIZE_API_URL", "https://alchmize.onrender.com/api/alchemize")
+# Fallback URL if the above doesn't work
+ALCHEMIZE_API_URL_FALLBACK = os.getenv("ALCHEMIZE_API_URL", "https://alchmize.onrender.com")
 PLANETARY_AGENTS_URL = os.getenv("PLANETARY_AGENTS_URL", "http://localhost:8000")
 
 # Helper function for logging system metrics
@@ -105,20 +110,26 @@ class AlchemizeResponse(BaseModel):
 async def call_render_alchemize_api(request_data: Dict[str, Any]) -> Dict[str, Any]:
     """Call the Render alchemize API for planetary calculations."""
     async with httpx.AsyncClient(timeout=30.0) as client:
-        try:
-            response = await client.post(ALCHEMIZE_API_URL, json=request_data)
-            response.raise_for_status()
-            return response.json()
-        except httpx.RequestError as e:
-            raise HTTPException(status_code=503, detail=f"Failed to call alchemize API: {str(e)}")
-        except httpx.HTTPStatusError as e:
-            raise HTTPException(status_code=e.response.status_code, detail=f"Alchemize API error: {e.response.text}")
+        # Try primary URL first
+        urls_to_try = [ALCHEMIZE_API_URL, ALCHEMIZE_API_URL_FALLBACK]
+
+        for url in urls_to_try:
+            try:
+                response = await client.post(url, json=request_data)
+                response.raise_for_status()
+                return response.json()
+            except (httpx.RequestError, httpx.HTTPStatusError) as e:
+                print(f"Failed to call {url}: {e}")
+                continue
+
+        # If both URLs fail, raise an error
+        raise HTTPException(status_code=503, detail=f"Failed to call alchemize API after trying {len(urls_to_try)} URLs")
 
 @app.post("/alchemize", response_model=AlchemizeResponse)
 async def alchemize_current_moment(request: AlchemizeRequest):
     """Get current alchemical state from Render API."""
     try:
-        request_data = request.dict(exclude_unset=True)
+        request_data = request.model_dump(exclude_unset=True)
         result = await call_render_alchemize_api(request_data)
 
         # Transform response to match our interface
