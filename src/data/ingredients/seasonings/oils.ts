@@ -2,9 +2,9 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import type { _ } from '@/types/seasons';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-// Pattern, AA: Ingredient Interface Restructuring
+// Pattern AA: Ingredient Interface Restructuring
 // Proper type annotation for raw ingredients to ensure IngredientMapping compatibility
-const, rawOils: Record<string, Partial<IngredientMapping>> = {
+const rawOils: Record<string, Partial<IngredientMapping>> = {
   olive_oil: {
     name: 'Olive Oil',
     category: 'oil',
@@ -166,6 +166,11 @@ const, rawOils: Record<string, Partial<IngredientMapping>> = {
     category: 'oil',
     subCategory: 'cooking',
     elementalProperties: { Fire: 0.45, Water: 0.15, Earth: 0.25, Air: 0.15 },
+    astrologicalProfile: {
+      rulingPlanets: ['Venus', 'Sun'],
+      favorableZodiac: ['Taurus', 'Libra', 'Leo'],
+      seasonalAffinity: ['all']
+    },
     seasonality: ['spring', 'summer', 'fall', 'winter'],
     smokePoint: { celsius: 250, fahrenheit: 482 },
     qualities: ['rich', 'nutty', 'clarified'],
@@ -200,6 +205,11 @@ const, rawOils: Record<string, Partial<IngredientMapping>> = {
     category: 'oil',
     subCategory: 'cooking',
     elementalProperties: { Fire: 0.3, Water: 0.3, Earth: 0.2, Air: 0.2 },
+    astrologicalProfile: {
+      rulingPlanets: ['Venus', 'Sun'],
+      favorableZodiac: ['Taurus', 'Libra', 'Leo'],
+      seasonalAffinity: ['all']
+    },
     seasonality: ['spring', 'summer', 'fall', 'winter'],
     smokePoint: { celsius: 271, fahrenheit: 520 },
     qualities: ['buttery', 'neutral', 'high-heat'],

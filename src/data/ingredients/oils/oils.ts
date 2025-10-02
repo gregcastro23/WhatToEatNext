@@ -240,6 +240,11 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     category: 'oil',
     subCategory: 'cooking',
     elementalProperties: { Fire: 0.2, Water: 0.3, Earth: 0.4, Air: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Venus', 'Sun'],
+      favorableZodiac: ['Taurus', 'Libra', 'Leo'],
+      seasonalAffinity: ['all']
+    },
     seasonality: ['all'],
     smokePoint: { celsius: 235, fahrenheit: 455 },
     qualities: ['versatile', 'stable', 'semi-solid', 'balanced', 'nourishing'],
@@ -588,6 +593,11 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
     category: 'oil',
     subCategory: 'specialty',
     elementalProperties: { Fire: 0.1, Water: 0.3, Earth: 0.4, Air: 0.2 },
+    astrologicalProfile: {
+      rulingPlanets: ['Venus', 'Sun'],
+      favorableZodiac: ['Taurus', 'Libra', 'Leo'],
+      seasonalAffinity: ['all']
+    },
     seasonality: ['spring', 'summer', 'fall', 'winter'],
     smokePoint: { celsius: 216, fahrenheit: 420 },
     qualities: ['subtle', 'delicate', 'sweet', 'mild', 'versatile'],

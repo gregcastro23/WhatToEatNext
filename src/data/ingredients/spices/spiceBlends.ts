@@ -268,7 +268,6 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 // Removed nested content
 // Removed nested content
 // Removed nested content
-    },
 
     culinaryProfile: {
       flavorProfile: {
@@ -296,14 +295,20 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
     varieties: {},,
 
     astrologicalProfile: {
-      rulingPlanets: [],
-      favorableZodiac: [],
+      rulingPlanets: ['Mercury', 'Jupiter'],
+      favorableZodiac: ['Gemini', 'Sagittarius', 'Virgo'],
+      seasonalAffinity: ['all']
     }
   },
 
   chinese_five_spice: {
     name: 'Chinese Five Spice',
     elementalProperties: { Fire: 0.58, Water: 0.14, Earth: 0.14, Air: 0.14 },
+    astrologicalProfile: {
+      rulingPlanets: ['Jupiter', 'Mars'],
+      favorableZodiac: ['Sagittarius', 'Aries', 'Leo'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['warming', 'balanced', 'complex'],
     origin: ['China'],
     category: 'spice',

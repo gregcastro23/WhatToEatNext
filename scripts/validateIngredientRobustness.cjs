@@ -282,7 +282,8 @@ function processFile(filePath, relativePath) {
     const content = fs.readFileSync(filePath, 'utf-8');
 
     // Check if file has ingredient data (look for raw* variables)
-    const rawVarMatch = content.match(/const\s+(raw\w+)\s*=\s*{/);
+    // Updated regex to handle type annotations: const rawName: Type = {
+    const rawVarMatch = content.match(/const\s+(raw\w+)(?::\s*[^=]+)?\s*=\s*{/);
     if (!rawVarMatch) {
       // Skip files without raw ingredient objects
       return;

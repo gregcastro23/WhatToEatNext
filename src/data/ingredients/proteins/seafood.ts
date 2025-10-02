@@ -11,6 +11,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 
     // Base elemental properties (unscaled)
     elementalProperties: { Water: 0.6, Earth: 0.2, Fire: 0.1, Air: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Moon', 'Neptune'],
+      favorableZodiac: ['Cancer', 'Pisces', 'Scorpio'],
+      seasonalAffinity: ['all']
+    },
 
     // Phase 2: Quantity scaling metadata
     quantityBase: { amount: 170, unit: 'g' }, // Standard serving: 6oz fillet
@@ -218,6 +223,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 
     // Base elemental properties (unscaled)
     elementalProperties: { Fire: 0.3, Water: 0.4, Air: 0.2, Earth: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Moon', 'Neptune'],
+      favorableZodiac: ['Cancer', 'Pisces', 'Scorpio'],
+      seasonalAffinity: ['all']
+    },
 
     // Phase 2: Quantity scaling metadata
     quantityBase: { amount: 150, unit: 'g' }, // Standard serving: 5oz steak
@@ -258,6 +268,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 
     // Base elemental properties (unscaled)
     elementalProperties: { Water: 0.5, Air: 0.3, Fire: 0.1, Earth: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Moon', 'Neptune'],
+      favorableZodiac: ['Cancer', 'Pisces', 'Scorpio'],
+      seasonalAffinity: ['all']
+    },
 
     // Phase 2: Quantity scaling metadata
     quantityBase: { amount: 100, unit: 'g' }, // Standard serving: 3.5oz
@@ -298,6 +313,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 
     // Base elemental properties (unscaled)
     elementalProperties: { Water: 0.6, Air: 0.2, Earth: 0.1, Fire: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Moon', 'Neptune'],
+      favorableZodiac: ['Cancer', 'Pisces', 'Scorpio'],
+      seasonalAffinity: ['all']
+    },
 
     // Phase 2: Quantity scaling metadata
     quantityBase: { amount: 140, unit: 'g' }, // Standard serving: 5oz fillet
@@ -338,6 +358,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 
     // Base elemental properties (unscaled)
     elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Moon', 'Neptune'],
+      favorableZodiac: ['Cancer', 'Pisces', 'Scorpio'],
+      seasonalAffinity: ['all']
+    },
 
     // Phase 2: Quantity scaling metadata
     quantityBase: { amount: 160, unit: 'g' }, // Standard serving: 6oz fillet
@@ -378,6 +403,11 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
 
     // Base elemental properties (unscaled)
     elementalProperties: { Water: 0.5, Air: 0.3, Fire: 0.1, Earth: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Moon', 'Neptune'],
+      favorableZodiac: ['Cancer', 'Pisces', 'Scorpio'],
+      seasonalAffinity: ['all']
+    },
 
     // Phase 2: Quantity scaling metadata
     quantityBase: { amount: 80, unit: 'g' }, // Standard serving: 4 large scallops

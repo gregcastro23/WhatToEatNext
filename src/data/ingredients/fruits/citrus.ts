@@ -212,6 +212,11 @@ const rawCitrus: Record<string, Partial<IngredientMapping>> = {
 
     // Base elemental properties (unscaled)
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Sun', 'Mercury'],
+      favorableZodiac: ['Leo', 'Gemini', 'Sagittarius'],
+      seasonalAffinity: ['winter', 'spring']
+    },
 
     // Phase 2: Quantity scaling metadata
     quantityBase: { amount: 88, unit: 'g' }, // Standard serving: 1 medium mandarin

@@ -12,6 +12,11 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
 
     // Base elemental properties (unscaled)
     elementalProperties: { Fire: 0.7, Water: 0.1, Earth: 0.2, Air: 0.0 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mars', 'Saturn'],
+      favorableZodiac: ['Aries', 'Taurus', 'Capricorn'],
+      seasonalAffinity: ['all']
+    },
 
     // Phase 2: Quantity scaling metadata
     quantityBase: { amount: 200, unit: 'g' }, // Standard serving: 7oz steak
@@ -45,6 +50,11 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
 
     // Base elemental properties (unscaled)
     elementalProperties: { Fire: 0.3, Water: 0.5, Earth: 0.2, Air: 0.0 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Mars'],
+      favorableZodiac: ['Gemini', 'Aries', 'Virgo'],
+      seasonalAffinity: ['all']
+    },
 
     // Phase 2: Quantity scaling metadata
     quantityBase: { amount: 150, unit: 'g' }, // Standard serving: 5oz breast
@@ -77,6 +87,11 @@ const rawMeats: Record<string, Partial<IngredientMapping>> = {
 
     // Base elemental properties (unscaled)
     elementalProperties: { Fire: 0.4, Water: 0.4, Earth: 0.2, Air: 0.0 },
+    astrologicalProfile: {
+      rulingPlanets: ['Venus', 'Jupiter'],
+      favorableZodiac: ['Taurus', 'Sagittarius', 'Libra'],
+      seasonalAffinity: ['all']
+    },
 
     // Phase 2: Quantity scaling metadata
     quantityBase: { amount: 180, unit: 'g' }, // Standard serving: 6oz chop

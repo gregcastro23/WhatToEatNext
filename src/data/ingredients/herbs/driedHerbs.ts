@@ -7,6 +7,11 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
   dried_basil: {
     name: 'Dried Basil',
     elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['warming', 'pungent', 'aromatic'],
     season: ['all'],
     category: 'herb',
@@ -38,6 +43,11 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
   dried_oregano: {
     name: 'Dried Oregano',
     elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['warming', 'pungent', 'drying'],
     season: ['all'],
     category: 'herb',
@@ -68,6 +78,11 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
   dried_thyme: {
     name: 'Dried Thyme',
     elementalProperties: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['warming', 'drying', 'pungent'],
     season: ['all'],
     category: 'herb',
@@ -98,6 +113,11 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
   dried_rosemary: {
     name: 'Dried Rosemary',
     elementalProperties: { Fire: 0.5, Air: 0.2, Earth: 0.2, Water: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['warming', 'pungent', 'drying'],
     season: ['all'],
     category: 'herb',
@@ -128,6 +148,11 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
   dried_sage: {
     name: 'Dried Sage',
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['warming', 'drying', 'astringent'],
     season: ['all'],
     category: 'herb',
@@ -162,6 +187,11 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
   dried_bay_leaves: {
     name: 'Dried Bay Leaves',
     elementalProperties: { Earth: 0.4, Fire: 0.3, Air: 0.2, Water: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['warming', 'bitter', 'aromatic'],
     season: ['all'],
     category: 'herb',
@@ -192,6 +222,11 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
   dried_marjoram: {
     name: 'Dried Marjoram',
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['sweet', 'delicate', 'warming'],
     season: ['all'],
     category: 'herb',
@@ -221,6 +256,11 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
   dried_savory: {
     name: 'Dried Savory',
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['peppery', 'robust', 'aromatic'],
     season: ['all'],
     category: 'herb',
@@ -250,6 +290,11 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
   dried_chervil: {
     name: 'Dried Chervil',
     elementalProperties: { Air: 0.5, Earth: 0.2, Water: 0.2, Fire: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['delicate', 'subtle', 'anise-like'],
     season: ['all'],
     category: 'herb',
@@ -279,6 +324,11 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
   dried_tarragon: {
     name: 'Dried Tarragon',
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['anise-like', 'sweet', 'aromatic'],
     season: ['all'],
     category: 'herb',
@@ -308,6 +358,11 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
   dried_dill: {
     name: 'Dried Dill',
     elementalProperties: { Air: 0.5, Water: 0.2, Earth: 0.2, Fire: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['fresh', 'tangy', 'herbaceous'],
     season: ['all'],
     category: 'herb',
@@ -337,6 +392,11 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
   dried_mint: {
     name: 'Dried Mint',
     elementalProperties: { Air: 0.5, Water: 0.2, Fire: 0.2, Earth: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['cooling', 'refreshing', 'pungent'],
     season: ['all'],
     category: 'herb',
@@ -371,6 +431,11 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
   dried_fennel: {
     name: 'Dried Fennel',
     elementalProperties: { Fire: 0.3, Air: 0.3, Earth: 0.2, Water: 0.2 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['warming', 'sweet', 'aromatic'],
     season: ['all'],
     category: 'herb',
@@ -405,6 +470,11 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
   dried_parsley: {
     name: 'Dried Parsley',
     elementalProperties: { Air: 0.4, Earth: 0.3, Water: 0.2, Fire: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['herbaceous', 'mild', 'fresh'],
     season: ['all'],
     category: 'herb',
@@ -434,6 +504,11 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
   dried_cilantro: {
     name: 'Dried Cilantro',
     elementalProperties: { Air: 0.4, Fire: 0.3, Earth: 0.2, Water: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['citrusy', 'warm', 'distinctive'],
     season: ['all'],
     category: 'herb',
@@ -463,6 +538,11 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
   dried_chives: {
     name: 'Dried Chives',
     elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['oniony', 'mild', 'delicate'],
     season: ['all'],
     category: 'herb',
@@ -492,6 +572,11 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
   dried_lemon_balm: {
     name: 'Dried Lemon Balm',
     elementalProperties: { Air: 0.4, Water: 0.3, Fire: 0.2, Earth: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['lemony', 'mild', 'soothing'],
     season: ['all'],
     category: 'herb',
@@ -526,6 +611,11 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
   dried_lavender: {
     name: 'Dried Lavender',
     elementalProperties: { Air: 0.5, Fire: 0.2, Earth: 0.2, Water: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['floral', 'sweet', 'aromatic'],
     season: ['all'],
     category: 'herb',
@@ -560,6 +650,11 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
   dried_summer_savory: {
     name: 'Dried Summer Savory',
     elementalProperties: { Fire: 0.4, Earth: 0.3, Air: 0.2, Water: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['peppery', 'robust', 'warming'],
     season: ['all'],
     category: 'herb',
@@ -589,6 +684,11 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
   dried_lovage: {
     name: 'Dried Lovage',
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['celery-like', 'robust', 'savory'],
     season: ['all'],
     category: 'herb',
@@ -623,6 +723,11 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       Earth: 0.2,
       Water: 0.1
     },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
+      seasonalAffinity: ['all']
+    },
     category: 'culinary_herb',
     qualities: ['nourishing'],
     nutritionalProfile: {
@@ -642,6 +747,11 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.3,
       Earth: 0.2,
       Water: 0.1
+    },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
+      seasonalAffinity: ['all']
     },
     category: 'culinary_herb',
     qualities: ['nourishing'],
@@ -663,6 +773,11 @@ const rawDriedHerbs: Record<string, Partial<IngredientMapping>> = {
       Fire: 0.3,
       Earth: 0.2,
       Water: 0.1
+    },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
+      seasonalAffinity: ['all']
     },
     category: 'culinary_herb',
     qualities: ['nourishing'],
