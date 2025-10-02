@@ -13,13 +13,16 @@
   },
   "campaignSystemFiles": {
     "category": "Campaign System Files",
-    "passed": true,
+    "passed": false,
     "details": [
       "Enterprise patterns: ✅",
-      "Extensive logging: ✅",
-      "Campaign variable patterns: ✅"
+      "Extensive logging: ❌",
+      "Campaign variable patterns: ❌"
     ],
-    "errors": [],
+    "errors": [
+      "Error testing extensive logging: ENOENT: no such file or directory, open '/Users/GregCastro/Desktop/WhatToEatNext/src/services/campaign/temp-logging-test.ts'",
+      "Error testing campaign variable patterns: ENOENT: no such file or directory, open '/Users/GregCastro/Desktop/WhatToEatNext/src/services/campaign/temp-variable-test.ts'"
+    ],
     "warnings": [],
     "recommendations": []
   },
@@ -48,8 +51,8 @@
     "recommendations": []
   },
   "overall": {
-    "passed": true,
-    "score": 100,
-    "summary": "✅ All domain-specific rules are properly configured and validated"
+    "passed": false,
+    "score": 75,
+    "summary": "❌ Failed categories: Campaign System Files"
   }
 }
