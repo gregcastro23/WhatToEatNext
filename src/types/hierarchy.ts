@@ -13,14 +13,14 @@
  */
 
 import type {
-  ElementalProperties,
-  AlchemicalProperties,
-  ThermodynamicProperties,
-  Season,
-  LunarPhase,
-  CookingMethod,
-  Recipe,
-  RecipeIngredient
+    AlchemicalProperties,
+    CookingMethod,
+    ElementalProperties,
+    LunarPhase,
+    Recipe,
+    RecipeIngredient,
+    Season,
+    ThermodynamicProperties
 } from '@/types/alchemy';
 
 // ========== TIER 1: INGREDIENT LEVEL ==========
@@ -70,13 +70,19 @@ export interface RecipeComputedProperties {
   /** Thermodynamic metrics calculated from ESMS + elementals */
   thermodynamicProperties: ThermodynamicProperties;
 
+  /** Kinetic properties using P=IV circuit model */
+  kineticProperties: KineticMetrics;
+
   /** Dominant properties for quick reference */
   dominantElement: keyof ElementalProperties;
   dominantAlchemicalProperty: keyof AlchemicalProperties;
 
   /** Computation metadata */
-  computedAt: Date;
-  planetaryPositionsUsed: { [planet: string]: string };
+  computationMetadata: {
+    planetaryPositionsUsed: { [planet: string]: string };
+    cookingMethodsApplied: CookingMethod[];
+    computationTimestamp: Date;
+  };
 }
 
 /**
@@ -394,13 +400,8 @@ export interface ComputationResult<T> {
 // ========== EXPORTS ==========
 
 export type {
-  // Re-export imported types for convenience
-  ElementalProperties,
-  AlchemicalProperties,
-  ThermodynamicProperties,
-  Season,
-  LunarPhase,
-  CookingMethod,
-  Recipe,
-  RecipeIngredient
+    AlchemicalProperties, CookingMethod,
+    // Re-export imported types for convenience
+    ElementalProperties, LunarPhase, Recipe,
+    RecipeIngredient, Season, ThermodynamicProperties
 };

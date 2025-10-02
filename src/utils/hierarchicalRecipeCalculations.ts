@@ -12,26 +12,25 @@
  */
 
 import type {
-  ElementalProperties,
-  RecipeIngredient,
-  CookingMethod
+    CookingMethod,
+    ElementalProperties,
+    RecipeIngredient
 } from '@/types/alchemy';
 import type {
-  RecipeComputedProperties,
-  RecipeComputationOptions,
-  QuantityScaledProperties
+    QuantityScaledProperties,
+    RecipeComputationOptions,
+    RecipeComputedProperties
 } from '@/types/hierarchy';
-import {
-  calculateAlchemicalFromPlanets,
-  aggregateZodiacElementals,
-  getDominantElement,
-  getDominantAlchemicalProperty
-} from './planetaryAlchemyMapping';
-import {
-  calculateThermodynamicMetrics,
-  type AlchemicalProperties
-} from './monicaKalchmCalculations';
 import { normalizeElementalProperties } from './ingredientUtils';
+import {
+    calculateThermodynamicMetrics
+} from './monicaKalchmCalculations';
+import {
+    aggregateZodiacElementals,
+    calculateAlchemicalFromPlanets,
+    getDominantAlchemicalProperty,
+    getDominantElement
+} from './planetaryAlchemyMapping';
 
 // ========== COOKING METHOD TRANSFORMATIONS ==========
 
@@ -304,20 +303,158 @@ export function computeRecipeProperties(
     finalElementals
   );
 
-  // Step 7: Identify dominant properties
+  // Step 7: Calculate kinetic properties using P=IV circuit model
+  const kineticProperties = calculateRecipeKinetics(
+    alchemicalProperties,
+    thermodynamicMetrics,
+    planetaryPositions
+  );
+
+  // Step 8: Identify dominant properties
   const dominantElement = getDominantElement(finalElementals);
   const dominantAlchemicalProperty = getDominantAlchemicalProperty(alchemicalProperties);
+
+  // Step 9: Extract cooking method names for metadata
+  const cookingMethodNames = cookingMethods.map(method =>
+    typeof method === 'string' ? method : method.name || method.id
+  );
 
   // Return complete computed properties
   return {
     alchemicalProperties,
     elementalProperties: finalElementals,
-    thermodynamicMetrics,
+    thermodynamicProperties: thermodynamicMetrics,
+    kineticProperties,
     dominantElement,
     dominantAlchemicalProperty,
-    computedAt: new Date(),
-    planetaryPositionsUsed: planetaryPositions
+    computationMetadata: {
+      planetaryPositionsUsed: planetaryPositions,
+      cookingMethodsApplied: cookingMethodNames,
+      computationTimestamp: new Date()
+    }
   };
+}
+
+// ========== KINETIC PROPERTIES CALCULATION ==========
+
+/**
+ * Calculate kinetic properties for a recipe using P=IV circuit model
+ *
+ * The recipe acts as a circuit where:
+ * - Charge (Q) = Matter + Substance (recipe density)
+ * - Potential (V) = Greg's Energy / Q (energetic potential)
+ * - Current (I) = Reactivity × velocity (transformation flow)
+ * - Power (P) = I × V (transformation rate)
+ *
+ * @param alchemicalProperties - ESMS properties from planetary positions
+ * @param thermodynamicMetrics - Heat, entropy, reactivity, etc.
+ * @param planetaryPositions - Current planetary positions
+ * @returns Kinetic metrics for the recipe circuit
+ */
+export function calculateRecipeKinetics(
+  alchemicalProperties: AlchemicalProperties,
+  thermodynamicMetrics: any,
+  planetaryPositions: { [planet: string]: string }
+): KineticMetrics {
+  const { Spirit, Essence, Matter, Substance } = alchemicalProperties;
+  const { heat, entropy, reactivity, gregsEnergy, kalchm, monica } = thermodynamicMetrics;
+
+  // Recipe circuit parameters (30-minute standard time interval)
+  const timeInterval = 1800; // 30 minutes in seconds
+  const dominantPlanet = getDominantPlanet(planetaryPositions);
+
+  // Prepare kinetics calculation input
+  const kineticsInput: KineticsCalculationInput = {
+    currentPlanetaryPositions: planetaryPositions,
+    timeInterval,
+    currentPlanet: dominantPlanet
+  };
+
+  // Calculate base kinetics from planetary positions
+  const baseKinetics = calculateKinetics(kineticsInput);
+
+  // Recipe-specific adjustments (recipe acts as a circuit component)
+
+  // 1. Recipe charge (Q) = Matter + Substance (recipe mass/density)
+  const recipeCharge = Matter + Substance;
+
+  // 2. Recipe potential difference (V) = Greg's Energy / Q
+  const recipePotential = recipeCharge > 0 ? gregsEnergy / recipeCharge : 0;
+
+  // 3. Recipe current flow (I) = Reactivity × heat rate
+  // Heat acts as velocity proxy in recipe context
+  const recipeCurrent = reactivity * (heat / 100); // Normalized heat contribution
+
+  // 4. Recipe power (P) = I × V (transformation power)
+  const recipePower = recipeCurrent * recipePotential;
+
+  // 5. Recipe force (F) = Power × Inertia (cooking resistance)
+  const recipeInertia = 1 + (Matter + Substance) * 0.1;
+  const recipeForce = recipePower * recipeInertia;
+
+  // 6. Recipe acceleration = Force / Inertia
+  const recipeAcceleration = recipeInertia > 0 ? recipeForce / recipeInertia : 0;
+
+  // 7. Thermal direction based on heat vs entropy balance
+  let thermalDirection: 'heating' | 'cooling' | 'stable';
+  if (heat > entropy * reactivity) {
+    thermalDirection = 'heating';
+  } else if (entropy > heat) {
+    thermalDirection = 'cooling';
+  } else {
+    thermalDirection = 'stable';
+  }
+
+  // 8. Force classification based on power level
+  let forceClassification: 'accelerating' | 'decelerating' | 'balanced';
+  if (recipePower > 2.0) {
+    forceClassification = 'accelerating';
+  } else if (recipePower < 0.5) {
+    forceClassification = 'decelerating';
+  } else {
+    forceClassification = 'balanced';
+  }
+
+  // Return enhanced kinetics with recipe-specific properties
+  return {
+    ...baseKinetics,
+    charge: recipeCharge,
+    potentialDifference: recipePotential,
+    currentFlow: recipeCurrent,
+    power: recipePower,
+    force: {
+      Fire: recipeForce * (Spirit / (Spirit + Essence + Matter + Substance)),
+      Water: recipeForce * (Essence / (Spirit + Essence + Matter + Substance)),
+      Earth: recipeForce * (Matter / (Spirit + Essence + Matter + Substance)),
+      Air: recipeForce * (Substance / (Spirit + Essence + Matter + Substance))
+    },
+    forceMagnitude: Math.abs(recipeForce),
+    forceClassification,
+    thermalDirection,
+    // Additional recipe-specific kinetics
+    velocity: {
+      Fire: recipeAcceleration * 0.4,
+      Water: recipeAcceleration * 0.3,
+      Earth: recipeAcceleration * 0.2,
+      Air: recipeAcceleration * 0.1
+    },
+    momentum: {
+      Fire: recipeInertia * recipeAcceleration * 0.4,
+      Water: recipeInertia * recipeAcceleration * 0.3,
+      Earth: recipeInertia * recipeAcceleration * 0.2,
+      Air: recipeInertia * recipeAcceleration * 0.1
+    },
+    inertia: recipeInertia
+  };
+}
+
+/**
+ * Get the dominant planet from planetary positions
+ * Used for kinetics calculation weighting
+ */
+function getDominantPlanet(planetaryPositions: { [planet: string]: string }): string {
+  // Default to Sun if no clear dominant planet
+  return 'Sun';
 }
 
 /**
