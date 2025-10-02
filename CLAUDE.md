@@ -1,6 +1,6 @@
 # WhatToEatNext - Claude AI Assistant Guide
 
-*Last Updated: September 23, 2025*
+*Last Updated: October 2, 2025*
 
 ## Project Overview
 
@@ -39,6 +39,35 @@ WhatToEatNext is a sophisticated culinary recommendation system that combines al
 
 ## Core Architecture
 
+### **⚡ NEW: Hierarchical Culinary Data System (October 2025)**
+
+**Three-Tier Architecture:**
+
+1. **Tier 1 - Ingredients** (Simple - Elemental Only)
+   - Store ONLY elemental properties: Fire, Water, Earth, Air (normalized to sum = 1.0)
+   - NO alchemical properties (Spirit/Essence/Matter/Substance)
+   - Rationale: Ingredients lack astrological context required for ESMS calculation
+
+2. **Tier 2 - Recipes** (Computed - Full Alchemical)
+   - Alchemical properties from planetary positions via `calculateAlchemicalFromPlanets()`
+   - Elemental properties from ingredients + zodiac signs (70/30 weight)
+   - Thermodynamic metrics from ESMS + elementals
+   - Kinetic properties (P=IV circuit model)
+   - Cooking method transformations applied sequentially
+
+3. **Tier 3 - Cuisines** (Aggregated - Statistical Signatures)
+   - Weighted average properties across recipes
+   - Cultural signatures (z-score > 1.5σ outliers)
+   - Statistical variance and diversity metrics
+   - Common planetary patterns
+   - Elemental/alchemical ranges
+
+**Key Modules:**
+- `src/utils/planetaryAlchemyMapping.ts` - Authoritative ESMS calculation
+- `src/utils/hierarchicalRecipeCalculations.ts` - Recipe computation pipeline
+- `src/utils/cuisineAggregations.ts` - Statistical signature identification
+- `src/types/hierarchy.ts` - Three-tier type definitions
+
 ### **Primary APIs**
 - **astrologize API**: Astrological calculations and planetary positions
 - **alchemize API**: Alchemical transformations and elemental harmony
@@ -46,6 +75,7 @@ WhatToEatNext is a sophisticated culinary recommendation system that combines al
 ### **Key Components**
 - **Elemental System**: Fire, Water, Earth, Air (individually valuable, no opposing forces)
 - **Alchemical Properties**: Spirit, Essence, Matter, Substance (ESMS system)
+  - ⚠️ **CRITICAL**: ESMS can ONLY be calculated from planetary positions, NOT from elemental approximations
 - **14 Alchemical Pillars**: Traditional cooking method transformations
 - **Planetary Position System**: Real-time astronomical calculations with fallbacks
 
@@ -137,6 +167,50 @@ type CuisineType = 'Italian' | 'Mexican' | 'Middle-Eastern';
 
 // Lunar Phases - Lowercase with spaces
 type LunarPhase = 'new moon' | 'full moon' | 'waxing crescent';
+```
+
+### **⚡ NEW: Alchemical Calculation Rules (October 2025)**
+
+**CRITICAL: The ONLY Correct Way to Calculate ESMS**
+
+```typescript
+// ❌ WRONG - Elemental Approximation (DELETED)
+const spirit = Fire × 0.2 + Air × 0.2;  // INCORRECT!
+
+// ✅ CORRECT - Planetary Alchemy Mapping
+import { calculateAlchemicalFromPlanets } from '@/utils/planetaryAlchemyMapping';
+
+const alchemical = calculateAlchemicalFromPlanets({
+  Sun: 'Gemini',      // Spirit: 1
+  Moon: 'Leo',        // Essence: 1, Matter: 1
+  Mercury: 'Taurus',  // Spirit: 1, Substance: 1
+  // ... other planets
+});
+// Result: { Spirit: 4, Essence: 7, Matter: 6, Substance: 2 }
+```
+
+**Planetary Alchemy Values (from alchemizer engine):**
+```typescript
+Sun:     { Spirit: 1, Essence: 0, Matter: 0, Substance: 0 }
+Moon:    { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
+Mercury: { Spirit: 1, Essence: 0, Matter: 0, Substance: 1 }
+Venus:   { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
+Mars:    { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
+Jupiter: { Spirit: 1, Essence: 1, Matter: 0, Substance: 0 }
+Saturn:  { Spirit: 1, Essence: 0, Matter: 1, Substance: 0 }
+Uranus:  { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
+Neptune: { Spirit: 0, Essence: 1, Matter: 0, Substance: 1 }
+Pluto:   { Spirit: 0, Essence: 1, Matter: 1, Substance: 0 }
+```
+
+**Thermodynamic Formulas (Exact from Alchemizer):**
+```typescript
+Heat = (Spirit² + Fire²) / (Substance + Essence + Matter + Water + Air + Earth)²
+Entropy = (Spirit² + Substance² + Fire² + Air²) / (Essence + Matter + Earth + Water)²
+Reactivity = (Spirit² + Substance² + Essence² + Fire² + Air² + Water²) / (Matter + Earth)²
+GregsEnergy = Heat - (Entropy × Reactivity)
+Kalchm = (Spirit^Spirit × Essence^Essence) / (Matter^Matter × Substance^Substance)
+Monica = -GregsEnergy / (Reactivity × ln(Kalchm)) if Kalchm > 0, else 1.0
 ```
 
 ### **Elemental Logic Principles**
