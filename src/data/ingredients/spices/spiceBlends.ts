@@ -303,7 +303,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 
   chinese_five_spice: {
     name: 'Chinese Five Spice',
-    elementalProperties: { Fire: 0.4, Water: 0.1, Earth: 0.1, Air: 0.1 },
+    elementalProperties: { Fire: 0.58, Water: 0.14, Earth: 0.14, Air: 0.14 },
     qualities: ['warming', 'balanced', 'complex'],
     origin: ['China'],
     category: 'spice',
@@ -704,7 +704,7 @@ const rawSpiceBlends: Record<string, Partial<IngredientMapping>> = {
 
   shichimi_togarashi: {
     name: 'Shichimi Togarashi',
-    elementalProperties: { Fire: 0.5, Water: 0.1, Air: 0.1, Earth: 0.1 },
+    elementalProperties: { Fire: 0.61, Water: 0.13, Earth: 0.13, Air: 0.13 },
     qualities: ['spicy', 'citrusy', 'nutty'],
     origin: ['Japan'],
     category: 'spice',

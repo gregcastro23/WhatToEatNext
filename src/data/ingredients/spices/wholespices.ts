@@ -4,7 +4,7 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
 const rawWholeSpices = {
   star_anise: {
     name: 'Star Anise',
-    elementalProperties: { Fire: 0.4, Air: 0.2, Water: 0.1, Earth: 0.1 },
+    elementalProperties: { Fire: 0.49, Water: 0.13, Earth: 0.13, Air: 0.25 },
     qualities: ['sweet', 'licorice-like', 'warming'],
     origin: ['China', 'Vietnam'],
     category: 'spice',

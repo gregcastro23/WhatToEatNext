@@ -283,7 +283,7 @@ const rawMedicinalHerbs = {
 
   elderberry: {
     name: 'Elderberry',
-    elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.3, Fire: 0.1 },
+    elementalProperties: { Fire: 0.09, Water: 0.37, Earth: 0.27, Air: 0.27 },
     qualities: ['antiviral', 'immune-supporting', 'cooling'],
     category: 'medicinal_herb',
     parts_used: ['berries', 'flowers'],
@@ -309,7 +309,7 @@ const rawMedicinalHerbs = {
 
   chamomile: {
     name: 'Chamomile',
-    elementalProperties: { Air: 0.4, Water: 0.4, Earth: 0.2, Fire: 0.1 },
+    elementalProperties: { Fire: 0.09, Water: 0.37, Earth: 0.18, Air: 0.36 },
     qualities: ['calming', 'soothing', 'cooling'],
     category: 'medicinal_herb',
     parts_used: ['flowers'],

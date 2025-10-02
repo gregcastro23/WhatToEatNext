@@ -75,7 +75,7 @@ const rawRefinedGrains = {
 
   semolina: {
     name: 'Semolina',
-    elementalProperties: { Earth: 0.4, Air: 0.4, Fire: 0.2, Water: 0.1 },
+    elementalProperties: { Fire: 0.18, Water: 0.09, Earth: 0.37, Air: 0.36 },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Saturn'],
       favorableZodiac: ['virgo', 'capricorn'] as any[],

@@ -212,7 +212,7 @@ const rawPeppers = {
 
   szechuan_peppercorn: {
     name: 'Szechuan Peppercorn',
-    elementalProperties: { Fire: 0.5, Air: 0.3, Wood: 0.2, Water: 0, Earth: 0.1 },
+    elementalProperties: { Fire: 0.56, Water: 0, Earth: 0.11, Air: 0.33 },
     astrologicalProfile: {
       rulingPlanets: ['Mercury', 'Uranus'],
       favorableZodiac: ['gemini', 'aquarius'],
