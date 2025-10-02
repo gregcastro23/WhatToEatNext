@@ -14,6 +14,11 @@ const rawVinegars = {
       Earth: 0.2,
       Fire: 0.1
     },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Virgo', 'Gemini', 'Cancer'],
+      seasonalAffinity: ['all']
+    },
 
     // Phase 2: Quantity scaling metadata
     quantityBase: { amount: 15, unit: 'ml' }, // Standard serving: 1 tablespoon
@@ -40,6 +45,11 @@ const rawVinegars = {
       Fire: 0.2,
       Air: 0.1
     },
+    astrologicalProfile: {
+      rulingPlanets: ['Saturn', 'Venus'],
+      favorableZodiac: ['Capricorn', 'Libra', 'Taurus'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['sweet', 'complex', 'syrupy', 'rich'],
     origin: ['Italy'],
     nutritionalProfile: {
@@ -61,6 +71,11 @@ const rawVinegars = {
       Earth: 0.25,
       Air: 0.25,
       Fire: 0.15
+    },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Virgo', 'Gemini', 'Cancer'],
+      seasonalAffinity: ['all']
     },
     qualities: ['tart', 'fruity', 'subtly sweet', 'robust'],
     origin: ['Ancient Rome', 'Colonial America'],
@@ -84,6 +99,11 @@ const rawVinegars = {
       Earth: 0.2,
       Air: 0.1
     },
+    astrologicalProfile: {
+      rulingPlanets: ['Mars', 'Saturn'],
+      favorableZodiac: ['Aries', 'Scorpio', 'Capricorn'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['robust', 'tangy', 'fruity', 'complex'],
     origin: ['Mediterranean', 'European'],
     nutritionalProfile: {
@@ -106,6 +126,11 @@ const rawVinegars = {
       Fire: 0.1,
       Air: 0.1
     },
+    astrologicalProfile: {
+      rulingPlanets: ['Saturn', 'Jupiter'],
+      favorableZodiac: ['Capricorn', 'Sagittarius'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['nutty', 'complex', 'sharp'],
     origin: ['Spain'],
     nutritionalProfile: {
@@ -125,6 +150,11 @@ const rawVinegars = {
       Air: 0.3,
       Earth: 0.15,
       Fire: 0.1
+    },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Saturn'],
+      favorableZodiac: ['Gemini', 'Virgo', 'Capricorn'],
+      seasonalAffinity: ['all']
     },
     qualities: ['bright', 'crisp', 'tangy', 'light'],
     origin: ['France', 'Italy', 'Spain'],
@@ -148,6 +178,11 @@ const rawVinegars = {
       Earth: 0.15,
       Fire: 0.1
     },
+    astrologicalProfile: {
+      rulingPlanets: ['Venus', 'Mercury'],
+      favorableZodiac: ['Libra', 'Gemini', 'Aquarius'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['delicate', 'light', 'subtle', 'refined'],
     origin: ['France'],
     nutritionalProfile: {
@@ -168,6 +203,11 @@ const rawVinegars = {
       Fire: 0.2,
       Air: 0.1
     },
+    astrologicalProfile: {
+      rulingPlanets: ['Saturn', 'Mars'],
+      favorableZodiac: ['Capricorn', 'Aries'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['toasty', 'robust', 'yeasty', 'strong'],
     origin: ['United Kingdom'],
     nutritionalProfile: {
@@ -187,6 +227,11 @@ const rawVinegars = {
       Earth: 0.3,
       Air: 0.1,
       Fire: 0.1
+    },
+    astrologicalProfile: {
+      rulingPlanets: ['Moon', 'Jupiter'],
+      favorableZodiac: ['Cancer', 'Sagittarius'],
+      seasonalAffinity: ['all']
     },
     qualities: ['cloudy', 'mildly sweet', 'tropical', 'tart'],
     origin: ['Southeast Asia', 'India'],
@@ -209,6 +254,11 @@ const rawVinegars = {
       Fire: 0.1,
       Air: 0.1
     },
+    astrologicalProfile: {
+      rulingPlanets: ['Saturn', 'Pluto'],
+      favorableZodiac: ['Capricorn', 'Scorpio'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['smoky', 'complex', 'umami', 'aged'],
     origin: ['China'],
     nutritionalProfile: {
@@ -228,6 +278,11 @@ const rawVinegars = {
       Water: 0.3,
       Fire: 0.2,
       Air: 0.1
+    },
+    astrologicalProfile: {
+      rulingPlanets: ['Sun', 'Jupiter'],
+      favorableZodiac: ['Leo', 'Sagittarius'],
+      seasonalAffinity: ['all']
     },
     qualities: ['sweet', 'caramel-like', 'robust', 'fruity'],
     origin: ['Middle East'],

@@ -91,6 +91,11 @@ const rawStoneFruit = {
   apricot: {
     name: 'Apricot',
     elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 },
+    astrologicalProfile: {
+      rulingPlanets: ['Venus', 'Sun'],
+      favorableZodiac: ['Taurus', 'Leo', 'Libra', 'Aries'],
+      seasonalAffinity: ['summer']
+    },
     qualities: ['sweet-tart', 'delicate', 'aromatic'],
     season: ['late spring', 'early summer'],
     category: 'fruit',
@@ -122,6 +127,11 @@ const rawStoneFruit = {
   cherry: {
     name: 'Cherry',
     elementalProperties: { Water: 0.3, Fire: 0.3, Air: 0.2, Earth: 0.2 },
+    astrologicalProfile: {
+      rulingPlanets: ['Venus', 'Sun'],
+      favorableZodiac: ['Taurus', 'Leo', 'Libra'],
+      seasonalAffinity: ['summer']
+    },
     qualities: ['sweet-tart', 'juicy', 'bright'],
     season: ['late spring', 'early summer'],
     category: 'fruit',
@@ -153,6 +163,11 @@ const rawStoneFruit = {
   nectarine: {
     name: 'Nectarine',
     elementalProperties: { Water: 0.4, Fire: 0.2, Air: 0.2, Earth: 0.2 },
+    astrologicalProfile: {
+      rulingPlanets: ['Venus', 'Sun'],
+      favorableZodiac: ['Taurus', 'Leo', 'Libra'],
+      seasonalAffinity: ['summer']
+    },
     qualities: ['sweet', 'aromatic', 'smooth'],
     season: ['summer'],
     category: 'fruit',
@@ -184,6 +199,11 @@ const rawStoneFruit = {
   greengage: {
     name: 'Greengage',
     elementalProperties: { Water: 0.4, Fire: 0.1, Air: 0.2, Earth: 0.3 },
+    astrologicalProfile: {
+      rulingPlanets: ['Venus', 'Sun'],
+      favorableZodiac: ['Taurus', 'Leo', 'Libra'],
+      seasonalAffinity: ['summer']
+    },
     qualities: ['sweet', 'honey-like', 'delicate'],
     season: ['late summer'],
     category: 'fruit',
@@ -215,6 +235,11 @@ const rawStoneFruit = {
   damson: {
     name: 'Damson',
     elementalProperties: { Water: 0.3, Fire: 0.2, Air: 0.2, Earth: 0.3 },
+    astrologicalProfile: {
+      rulingPlanets: ['Venus', 'Sun'],
+      favorableZodiac: ['Taurus', 'Leo', 'Libra'],
+      seasonalAffinity: ['summer']
+    },
     qualities: ['tart', 'astringent', 'complex'],
     season: ['late summer', 'early autumn'],
     category: 'fruit',

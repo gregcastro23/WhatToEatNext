@@ -7,6 +7,7 @@ const rawAromaticHerbs = {
     category: 'herb',
     subCategory: 'aromatic',
     elementalProperties: { Air: 0.5, Fire: 0.3, Earth: 0.1, Water: 0.1 },
+    qualities: ['aromatic', 'fresh', 'culinary'],
     nutritionalProfile: {
       calories: 0,
       protein_g: 0,
@@ -52,6 +53,7 @@ const rawAromaticHerbs = {
     category: 'herb',
     subCategory: 'aromatic',
     elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
+    qualities: ['aromatic', 'fresh', 'culinary'],
     nutritionalProfile: {
       calories: 0,
       protein_g: 0,
@@ -113,6 +115,7 @@ const rawAromaticHerbs = {
     category: 'herb',
     subCategory: 'aromatic',
     elementalProperties: { Air: 0.5, Fire: 0.3, Earth: 0.2, Water: 0 },
+    qualities: ['aromatic', 'fresh', 'culinary'],
     nutritionalProfile: {
       calories: 0,
       protein_g: 0,

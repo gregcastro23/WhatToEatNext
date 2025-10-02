@@ -351,6 +351,11 @@ const rawWholeGrains = {
   kamut: {
     name: 'Kamut',
     elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Saturn', 'Earth'],
+      favorableZodiac: ['Virgo', 'Taurus', 'Capricorn'],
+      seasonalAffinity: ['autumn']
+    },
     qualities: ['buttery', 'rich', 'chewy'],
     category: 'whole_grain',
     culinaryApplications: {
@@ -390,6 +395,11 @@ const rawWholeGrains = {
   spelt_berries: {
     name: 'Spelt Berries',
     elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Saturn', 'Earth'],
+      favorableZodiac: ['Virgo', 'Taurus', 'Capricorn'],
+      seasonalAffinity: ['autumn']
+    },
     qualities: ['nutty', 'complex', 'hearty'],
     category: 'whole_grain',
     culinaryApplications: {
@@ -429,6 +439,11 @@ const rawWholeGrains = {
   einkorn: {
     name: 'Einkorn',
     elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Saturn', 'Venus'],
+      favorableZodiac: ['Virgo', 'Taurus', 'Capricorn'],
+      seasonalAffinity: ['autumn']
+    },
     qualities: ['nutty', 'ancient', 'nutritious'],
     category: 'whole_grain',
     culinaryApplications: {
@@ -468,6 +483,11 @@ const rawWholeGrains = {
   rye_berries: {
     name: 'Rye Berries',
     elementalProperties: { Earth: 0.5, Water: 0.2, Air: 0.1, Fire: 0.2 },
+    astrologicalProfile: {
+      rulingPlanets: ['Saturn', 'Venus'],
+      favorableZodiac: ['Virgo', 'Taurus', 'Capricorn'],
+      seasonalAffinity: ['autumn']
+    },
     qualities: ['earthy', 'robust', 'hearty'],
     category: 'whole_grain',
     culinaryApplications: {
@@ -507,6 +527,11 @@ const rawWholeGrains = {
   wild_rice: {
     name: 'Wild Rice',
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Saturn', 'Venus'],
+      favorableZodiac: ['Virgo', 'Taurus', 'Capricorn'],
+      seasonalAffinity: ['autumn']
+    },
     qualities: ['nutty', 'complex', 'aromatic'],
     category: 'whole_grain',
     culinaryApplications: {
@@ -540,6 +565,11 @@ const rawWholeGrains = {
   triticale: {
     name: 'Triticale',
     elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Saturn', 'Venus'],
+      favorableZodiac: ['Virgo', 'Taurus', 'Capricorn'],
+      seasonalAffinity: ['autumn']
+    },
     qualities: ['nutty', 'hybrid vigor', 'nutritious'],
     category: 'whole_grain',
     culinaryApplications: {

@@ -284,6 +284,11 @@ const rawMedicinalHerbs = {
   elderberry: {
     name: 'Elderberry',
     elementalProperties: { Fire: 0.09, Water: 0.37, Earth: 0.27, Air: 0.27 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Gemini', 'Virgo', 'Cancer'],
+      seasonalAffinity: ['spring', 'summer']
+    },
     qualities: ['antiviral', 'immune-supporting', 'cooling'],
     category: 'medicinal_herb',
     parts_used: ['berries', 'flowers'],
@@ -310,6 +315,11 @@ const rawMedicinalHerbs = {
   chamomile: {
     name: 'Chamomile',
     elementalProperties: { Fire: 0.09, Water: 0.37, Earth: 0.18, Air: 0.36 },
+    astrologicalProfile: {
+      rulingPlanets: ['Moon', 'Venus'],
+      favorableZodiac: ['Cancer', 'Taurus', 'Pisces'],
+      seasonalAffinity: ['summer']
+    },
     qualities: ['calming', 'soothing', 'cooling'],
     category: 'medicinal_herb',
     parts_used: ['flowers'],

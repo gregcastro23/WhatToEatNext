@@ -55,6 +55,11 @@ const rawRootVegetables = {
   parsnip: {
     name: 'Parsnip',
     elementalProperties: { Earth: 0.5, Air: 0.2, Fire: 0.2, Water: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Saturn'],
+      favorableZodiac: ['Virgo', 'Gemini', 'Taurus'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['grounding', 'warming', 'nourishing'],
     season: ['fall', 'winter'],
     category: 'vegetable',
@@ -86,6 +91,11 @@ const rawRootVegetables = {
   beet: {
     name: 'Beet',
     elementalProperties: { Earth: 0.6, Fire: 0.2, Water: 0.1, Air: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Saturn', 'Mars'],
+      favorableZodiac: ['Capricorn', 'Aries', 'Scorpio'],
+      seasonalAffinity: ['autumn', 'winter']
+    },
     qualities: ['grounding', 'building', 'cleansing'],
     season: ['fall', 'winter'],
     category: 'vegetable',
@@ -118,6 +128,11 @@ const rawRootVegetables = {
   turnip: {
     name: 'Turnip',
     elementalProperties: { Earth: 0.4, Water: 0.3, Air: 0.2, Fire: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Saturn', 'Moon'],
+      favorableZodiac: ['Capricorn', 'Cancer', 'Taurus'],
+      seasonalAffinity: ['autumn', 'winter']
+    },
     qualities: ['cooling', 'cleansing'],
     season: ['fall', 'winter', 'spring'],
     category: 'vegetable',

@@ -5,6 +5,11 @@ const rawSalts = {
   fleur_de_sel: {
     name: 'Fleur De Sel',
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Virgo', 'Gemini', 'Cancer'],
+      seasonalAffinity: ['all']
+    },
     qualities: ['delicate', 'moist', 'mineral'],
     origin: ['France', 'Portugal'],
     category: 'seasoning',

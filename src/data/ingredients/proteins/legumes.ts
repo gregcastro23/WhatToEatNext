@@ -17,6 +17,11 @@ const rawLegumes = {
       Earth: 0.5,
       Air: 0.1
     },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Saturn'],
+      favorableZodiac: ['Virgo', 'Gemini', 'Taurus'],
+      seasonalAffinity: ['all']
+    },
     nutritionalProfile: {
       serving_size_oz: 3,
       calories: 341,
@@ -47,6 +52,11 @@ const rawLegumes = {
       Water: 0.2,
       Earth: 0.5,
       Air: 0.1
+    },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Saturn'],
+      favorableZodiac: ['Virgo', 'Gemini', 'Taurus'],
+      seasonalAffinity: ['all']
     },
     nutritionalProfile: {
       serving_size_oz: 3,
@@ -303,6 +313,11 @@ const rawLegumes = {
       Water: 0.2,
       Earth: 0.4,
       Air: 0.2
+    },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Saturn'],
+      favorableZodiac: ['Virgo', 'Gemini', 'Taurus'],
+      seasonalAffinity: ['all']
     },
     nutritionalProfile: {
       serving_size_oz: 3,

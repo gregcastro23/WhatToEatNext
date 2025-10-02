@@ -141,6 +141,11 @@ const rawOtherVegetables = {
       Earth: 0.060653573196897174,
       Air: 0.013327281729658358
     },
+    astrologicalProfile: {
+      rulingPlanets: ['Mercury', 'Moon'],
+      favorableZodiac: ['Virgo', 'Gemini', 'Cancer'],
+      seasonalAffinity: ['all']
+    },
 
     category: 'vegetable',
     subCategory: 'other',

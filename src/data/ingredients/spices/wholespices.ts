@@ -5,6 +5,11 @@ const rawWholeSpices = {
   star_anise: {
     name: 'Star Anise',
     elementalProperties: { Fire: 0.49, Water: 0.13, Earth: 0.13, Air: 0.25 },
+    astrologicalProfile: {
+      rulingPlanets: ['Saturn', 'Earth', 'Mars'],
+      favorableZodiac: ['Virgo', 'Taurus', 'Capricorn', 'Aries'],
+      seasonalAffinity: ['autumn']
+    },
     qualities: ['sweet', 'licorice-like', 'warming'],
     origin: ['China', 'Vietnam'],
     category: 'spice',
