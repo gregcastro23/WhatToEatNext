@@ -2,10 +2,15 @@ import type { Ingredient } from '@/types';
 import { UnifiedIngredient } from '@/types/unified';
 import { standardizeIngredient } from '@/utils/dataStandardization';
 import {
-  calculateAlchemicalProperties,
-  calculateThermodynamicProperties,
   determineIngredientModality
 } from '@/utils/ingredientUtils';
+
+// NOTE: calculateAlchemicalProperties and calculateThermodynamicProperties have been removed
+// from ingredientUtils.ts because ingredients should NOT have ESMS properties.
+// ESMS (Spirit/Essence/Matter/Substance) can only be calculated from planetary positions.
+// For correct calculations, use:
+// - calculateAlchemicalFromPlanets() from @/utils/planetaryAlchemyMapping
+// - calculateThermodynamicMetrics() from @/utils/monicaKalchmCalculations
 
 import { fruits } from './fruits';
 import { allGrains } from './grains';
@@ -207,18 +212,9 @@ const processIngredientCollection = (
       try {
         const processedIngredient = processIngredient(value as any, key)
 
-        // Add alchemical and thermodynamic properties
-        const alchemicalProps = calculateAlchemicalProperties(
-          processedIngredient as unknown as Ingredient,
-        ),
-        const thermodynamicProps = calculateThermodynamicProperties(
-          alchemicalProps,
-          ((processedIngredient as unknown as any).elementalProperties as ElementalProperties) || {
-            Fire: 0.25,
-            Water: 0.25,
-            Earth: 0.25,
-            Air: 0.25
-})
+        // NOTE: Alchemical and thermodynamic properties are NOT calculated here.
+        // Ingredients store ONLY elemental properties.
+        // ESMS and thermodynamics are computed at the recipe/cuisine level with planetary context.
 
         // Determine modality
         const modality = determineIngredientModality(
@@ -248,8 +244,7 @@ const processIngredientCollection = (
 
         acc[key] = {
           ...processedIngredient,
-          alchemicalProperties: alchemicalProps,
-          thermodynamicProperties: thermodynamicProps,
+          // Alchemical and thermodynamic properties removed - computed at recipe/cuisine level
           modality,
           elementalSignature: elementalSignature.length > 0 ? elementalSignature : undefined,
           // Process other enhanced properties if they exist
