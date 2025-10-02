@@ -2,7 +2,7 @@
  * Type definitions for Predictive Intelligence Service
  */
 
-import {Recipe, Ingredient, ElementalProperties} from './unified';
+import { ElementalProperties, Ingredient, Recipe } from './unified';
 
 export interface PredictiveContext {
   _zodiacSign: any,
@@ -27,17 +27,20 @@ export interface UserPreferences {
   _preferredCuisines: string[],
   _dietaryRestrictions: string[],
   _spicePreference: 'mild' | 'medium' | 'hot'
-  _cookingSkillLevel: 'beginner' | 'intermediate' | 'advanced' },
-        export interface PredictionResult {
-  prediction: unknown,
-  confidence: number,
-  factors: string[],
-  _timeframe: 'immediate' | 'short-term' | 'medium-term' | 'long-term' },
-        export interface RecipePredictions {
-  successProbability: PredictionResult,
-  _popularityForecast: PredictionResult,
-  _seasonalTrends: PredictionResult,
-  _userSatisfactionPrediction: PredictionResult
+  _cookingSkillLevel: 'beginner' | 'intermediate' | 'advanced';
+}
+
+export interface PredictionResult {
+  prediction: unknown;
+  confidence: number;
+  factors: string[];
+  _timeframe: 'immediate' | 'short-term' | 'medium-term' | 'long-term';
+}
+export interface RecipePredictions {
+  successProbability: PredictionResult;
+  _popularityForecast: PredictionResult;
+  _seasonalTrends: PredictionResult;
+  _userSatisfactionPrediction: PredictionResult;
 }
 
 export interface IngredientPredictions {

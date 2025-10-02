@@ -16,10 +16,10 @@ enum CircuitState {
 }
 
 export class CircuitBreaker {
-  private state: CircuitState = CircuitState.CLOSED,
+  private state: CircuitState = CircuitState.CLOSED;
   private failureCount = 0;
   private lastFailureTime = 0;
-  private options: CircuitBreakerOptions
+  private options: CircuitBreakerOptions;
 
   constructor(options: Partial<CircuitBreakerOptions> = {}) {
     this.options = {

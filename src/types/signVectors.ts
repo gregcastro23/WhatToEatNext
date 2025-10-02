@@ -23,12 +23,12 @@ export interface SignVectorComponents {
   seasonal: number
 }
 
-export type SignDirection = 'cardinal' | 'fixed' | 'mutable'
+export type SignDirection = 'cardinal' | 'fixed' | 'mutable';
 export interface SignVector {
-  sign: any,
-  _magnitude: number, // 0-1: intensity of sign expression at the moment
+  sign: any;
+  _magnitude: number; // 0-1: intensity of sign expression at the moment
   direction: SignDirection; // dominant modality expression
-  components: SignVectorComponents // multi-dimensional breakdown
+  components: SignVectorComponents; // multi-dimensional breakdown
 }
 
 export interface SignVectorCalculationInput {

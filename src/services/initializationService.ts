@@ -1,4 +1,3 @@
-import { ElementalProperties } from '@/types/alchemy';
 
 import type { Recipe, ScoredRecipe } from '../types/recipe';
 import { logger } from '../utils/logger';
@@ -41,7 +40,7 @@ interface InitializationResult {
 
 class InitializationService {
   private isInitializing = false;
-  private initPromise: Promise<InitializationResult> | null = null,
+  private initPromise: Promise<InitializationResult> | null = null;
   private retryCount = 0,
   private readonly MAX_RETRIES = 3,
   private readonly RETRY_DELAY = 1000,

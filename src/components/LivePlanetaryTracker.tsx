@@ -156,13 +156,12 @@ export const LivePlanetaryTracker: React.FC = () => {,
                 <p className="text-white/90">{planetaryData.planet}</p>
               </div>
             </div>
-            <div className="text-right">;
+            <div className="text-right">,
               <div className="text-3xl font-mono font-bold">{planetaryData.timeRemaining}</div>
               <div className="text-white/90 text-sm">remaining</div>
             </div>
           </div>
-        </div>
-;
+        </div>,
         {/* Planetary Details */}
         <div className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">,

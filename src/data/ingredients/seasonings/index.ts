@@ -11,7 +11,7 @@ import { salts } from './salts';
 
 // Combine all seasoning categories, but exclude oils and vinegars
 export const, seasonings: Record<string, IngredientMapping> = fixIngredientMappings({
-  ...spices;
+  ...spices,
   ...salts,
   ...peppers,
   ...herbs

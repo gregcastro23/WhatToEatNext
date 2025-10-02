@@ -4,7 +4,6 @@
  * Utility functions for creating standardized API responses
  */
 
-import { Recipe } from '@/types/recipe';
 
 import { logger } from '../../utils/logger';
 import { ApiResponse, RecipeErrorCode } from '../interfaces/RecipeApiInterfaces';
@@ -46,12 +45,12 @@ export function createSuccessResponse<T>(
 export function createCollectionResponse<T>(
   data: T[],
   total: number,
-  params: { limit?: number, offset?: number page?: number } = {}
+  params: { limit?: number, offset?: number, page?: number } = {}
 ): ApiResponse<T[]> {
-  const { _limit = 20, _offset = 0, _page = Math.floor(offset / limit) + 1} = params,
-  const totalPages = Math.ceil(total / limit)
+  const { limit: _limit = 20, offset: _offset = 0, page: _page } = params;
+  const totalPages = Math.ceil(total / _limit);
 
-  return {;
+  return {
     success: true,
     data,
     metadata: {

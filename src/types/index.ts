@@ -1,9 +1,9 @@
 // Time-related types
-export const MEAL_TIMES = ['breakfast', 'lunch', 'snack', 'dinner'] as const,
-export type MealTime = (typeof MEAL_TIMES)[number],
+export const MEAL_TIMES = ['breakfast', 'lunch', 'snack', 'dinner'] as const;
+export type MealTime = (typeof MEAL_TIMES)[number];
 
 // Import fundamental types
-import { ZodiacSign, Season, ElementalProperties } from './alchemy';
+import { ElementalProperties, Season } from './alchemy';
 import { Recipe } from './unified';
 
 // Define zodiac signs as seasons
@@ -132,8 +132,10 @@ export type TimeOfDay = {
 // Use as type instead of enum to avoid merging issues
 export type CuisineTypeEnum = 'ITALIAN' | 'FRENCH' | 'CHINESE' | 'INDIAN' | 'MEXICAN'
 // Export essential utils
-export * from './utils',
-export * from './cuisine',
+export * from './cuisine';
+export * from './utils';
+,
+,
 
 // Add CuisineType for compatibility
 export type CuisineType = string,
@@ -155,17 +157,22 @@ export type DietaryRestriction =
 
 // Re-export all relevant types from their modules
 // Remove duplicate exports to avoid conflicts
-export * from './nutrition',
+export * from './nutrition';
+,
 // spoonacular types removed with cleanup
 // Note: Removing './recipe', './time', './lunar', './cookingMethod', './validation' to avoid conflicts
 // Note: Removing './seasons' and './zodiacAffinity' to avoid conflicts
-export * from './seasonal',
-export * from './cuisine',
-export * from './chakra',
-export * from './astrology'
+export * from './astrology';
+export * from './chakra';
+export * from './cuisine';
+export * from './seasonal';
+,
+,
+,
 // PlanetaryPositions now consolidated in astrology.ts
-export * from './ingredient-compatibility',
-export * from './utils'
+export * from './ingredient-compatibility';
+export * from './utils';
+,
 
 // Define core app state types
 export interface AppState {
@@ -191,13 +198,13 @@ export interface AppState {
 } from './alchemy';
 
 // Add missing exports for frequently used types
+export type { UnifiedIngredient } from '../data/unified/unifiedTypes';
 export type { AstrologicalState } from './celestial';
 export type { RecipeIngredient } from './recipeIngredient';
-export type { UnifiedIngredient } from '../data/unified/unifiedTypes';
 
 // Export unified types that are missing
+export type { BaseFlavorNotes, UnifiedFlavorProfile } from '../data/unified/flavorProfiles';
 export type { Recipe as UnifiedRecipe } from './unified';
-export type { UnifiedFlavorProfile, BaseFlavorNotes } from '../data/unified/flavorProfiles';
 
 // Export recommendation types
 export type { IngredientRecommendation } from './ingredients';

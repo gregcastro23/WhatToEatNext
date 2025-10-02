@@ -280,6 +280,6 @@ export enum ErrorCategory {
   TEST_FAILURE = 'test-fail',
 }
 
-export type CheckpointId = string,
-export type StashId = string,
-export type Milestone = string,
+export type CheckpointId = string;
+export type StashId = string;
+export type Milestone = string;

@@ -523,4 +523,4 @@ declare global {
   }
 }
 
-export {};
+export { };

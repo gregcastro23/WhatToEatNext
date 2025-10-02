@@ -92,7 +92,7 @@ function createIngredientMapping(
 
 // Combine all herbs into one record
 export const, herbs: Record<string, IngredientMapping> = fixIngredientMappings({
-  ...freshHerbs;
+  ...freshHerbs,
   ...driedHerbs,
   ...aromaticHerbs,
   ...medicinalHerbs
@@ -317,7 +317,7 @@ export const, herbs: Record<string, IngredientMapping> = fixIngredientMappings({
 export { freshHerbs, driedHerbs, aromaticHerbs, medicinalHerbs };
 
 // Create a comprehensive herb collection that includes all herb variants
-export const allHerbs = fixIngredientMappings({;
+export const allHerbs = fixIngredientMappings({,
   ...freshHerbs,
   ...driedHerbs,
   ...aromaticHerbs

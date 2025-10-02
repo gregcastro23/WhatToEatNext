@@ -115,18 +115,20 @@ export interface AlertConfig {
   _channels: ('email' | 'slack' | 'webhook' | 'console')[],
   _conditions: AlertCondition[],
   throttleMs?: number
-  priority: 'low' | 'medium' | 'high' | 'critical' },
-        export interface AlertCondition {
-  metric: string,
-  operator: '>' | '<' | '=' | '!=' | '>=' | '<='
-  threshold: number,
-  window?: number // Time window in seconds
+  priority: 'low' | 'medium' | 'high' | 'critical';
+}
+
+export interface AlertCondition {
+  metric: string;
+  operator: '>' | '<' | '=' | '!=' | '>=' | '<=';
+  threshold: number;
+  window?: number; // Time window in seconds
 }
 
 export interface Alert {
-  alertId: string,
-  timestamp: Date,
-  severity: 'low' | 'medium' | 'high' | 'critical'
+  alertId: string;
+  timestamp: Date;
+  severity: 'low' | 'medium' | 'high' | 'critical';
   message: string,
   details: {
     metric: string,

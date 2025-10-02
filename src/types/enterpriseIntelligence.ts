@@ -2,7 +2,7 @@
  * Type definitions for Enterprise Intelligence Integration Service
  */
 
-import { Recipe, Ingredient, ZodiacSign, ElementalProperties } from './unified';
+import { ElementalProperties, Ingredient, Recipe, ZodiacSign } from './unified';
 
 export interface EnterpriseIntelligenceConfig {
   enableRecipeIntelligence: boolean,
@@ -124,141 +124,143 @@ export interface ValidationResults {
 
 export interface ValidationIntelligenceResult {
   dataIntegrity: {
-    score: number,
-    issues: string[],
-    warnings: string[]
-  },
+    score: number;
+    issues: string[];
+    warnings: string[];
+  };
   astrologicalConsistency: {
-    score: number,
-    issues: string[],
-    warnings: string[]
-  },
+    score: number;
+    issues: string[];
+    warnings: string[];
+  };
   elementalHarmony: {
-    score: number,
-    issues: string[],
-    warnings: string[]
-  },
+    score: number;
+    issues: string[];
+    warnings: string[];
+  };
   overallValidation: {
-    score: number,
-    status: 'excellent' | 'good' | 'fair' | 'poor'
-    criticalIssues: string[]
-  },
-  confidence: number,
-  timestamp: string
+    score: number;
+    status: 'excellent' | 'good' | 'fair' | 'poor';
+    criticalIssues: string[];
+  };
+  confidence: number;
+  timestamp: string;
 }
 
 export interface SafetyIntelligenceResult {
   riskAssessment: {
-    level: 'low' | 'medium' | 'high' | 'critical'
-    score: number,
-    factors: string[]
-  },
-  fallbackStrategies: string[],
+    level: 'low' | 'medium' | 'high' | 'critical';
+    score: number;
+    factors: string[];
+  };
+  fallbackStrategies: string[];
   errorRecovery: {
-    enabled: boolean,
-    strategies: string[]
-  },
-  monitoringAlerts: string[],
-  confidence: number,
-  timestamp: string
+    enabled: boolean;
+    strategies: string[];
+  };
+  monitoringAlerts: string[];
+  confidence: number;
+  timestamp: string;
 }
 
 export interface OptimizationRecommendation {
-  category: 'nutritional' | 'flavor' | 'seasonal' | 'astrological' | 'cultural'
-  priority: 'low' | 'medium' | 'high'
-  description: string,
-  expectedImprovement: number,
-  implementationComplexity: 'easy' | 'moderate' | 'complex' },
-        export interface OptimizationRecommendations {
+  category: 'nutritional' | 'flavor' | 'seasonal' | 'astrological' | 'cultural';
+  priority: 'low' | 'medium' | 'high';
+  description: string;
+  expectedImprovement: number;
+  implementationComplexity: 'easy' | 'moderate' | 'complex';
+}
+
+export interface OptimizationRecommendations {
   performance: {
-    score: number,
-    recommendations: string[],
-    estimatedImpact: number
-  },
+    score: number;
+    recommendations: string[];
+    estimatedImpact: number;
+  };
   accuracy: {
-    score: number,
-    recommendations: string[],
-    estimatedImpact: number
-  },
+    score: number;
+    recommendations: string[];
+    estimatedImpact: number;
+  };
   userExperience: {
-    score: number,
-    recommendations: string[],
-    estimatedImpact: number
-  },
+    score: number;
+    recommendations: string[];
+    estimatedImpact: number;
+  };
   systemIntegration: {
-    score: number,
-    recommendations: string[],
-    estimatedImpact: number
-  },
+    score: number;
+    recommendations: string[];
+    estimatedImpact: number;
+  };
   overallOptimization: {
-    score: number,
-    priority: 'low' | 'medium' | 'high' | 'critical'
-    estimatedValue: number
-  }
+    score: number;
+    priority: 'low' | 'medium' | 'high' | 'critical';
+    estimatedValue: number;
+  };
 }
 
 export interface OptimizationIntelligenceResult {
-  nutritionalOptimizations: OptimizationRecommendation[],
-  flavorOptimizations: OptimizationRecommendation[],
-  seasonalOptimizations: OptimizationRecommendation[],
-  astrologicalOptimizations: OptimizationRecommendation[],
-  culturalOptimizations: OptimizationRecommendation[],
-  overallOptimizationScore: number,
-  prioritizedRecommendations: OptimizationRecommendation[],
-  confidence: number,
-  timestamp: string
+  nutritionalOptimizations: OptimizationRecommendation[];
+  flavorOptimizations: OptimizationRecommendation[];
+  seasonalOptimizations: OptimizationRecommendation[];
+  astrologicalOptimizations: OptimizationRecommendation[];
+  culturalOptimizations: OptimizationRecommendation[];
+  overallOptimizationScore: number;
+  prioritizedRecommendations: OptimizationRecommendation[];
+  confidence: number;
+  timestamp: string;
 }
 
 export interface EnterpriseIntelligenceResult {
-  recipeIntelligence?: RecipeIntelligenceResult,
-  ingredientIntelligence?: IngredientIntelligenceResult,
-  cuisineIntelligence?: CuisineIntelligenceResult,
-  validationIntelligence?: ValidationIntelligenceResult,
-  safetyIntelligence?: SafetyIntelligenceResult,
-  optimizationIntelligence?: OptimizationIntelligenceResult,
+  recipeIntelligence?: RecipeIntelligenceResult;
+  ingredientIntelligence?: IngredientIntelligenceResult;
+  cuisineIntelligence?: CuisineIntelligenceResult;
+  validationIntelligence?: ValidationIntelligenceResult;
+  safetyIntelligence?: SafetyIntelligenceResult;
+  optimizationIntelligence?: OptimizationIntelligenceResult;
   predictiveIntelligence?: unknown; // Will use existing type
   mlIntelligence?: unknown; // Will use existing type
-  advancedAnalyticsIntelligence?: unknown // Will use existing type
-  overallIntelligenceScore: number,
-  executionTime: number,
-  confidence: number,
-  timestamp: string
+  advancedAnalyticsIntelligence?: unknown; // Will use existing type
+  overallIntelligenceScore: number;
+  executionTime: number;
+  confidence: number;
+  timestamp: string;
 }
 
 export interface EnterpriseIntelligenceMetrics {
-  totalAnalyses: number,
-  averageExecutionTime: number,
-  averageConfidence: number,
-  cacheHitRate: number,
-  errorRate: number,
-  successRate: number,
+  totalAnalyses: number;
+  averageExecutionTime: number;
+  averageConfidence: number;
+  cacheHitRate: number;
+  errorRate: number;
+  successRate: number;
   intelligenceBreakdown: {
-    recipeIntelligence: number,
-    ingredientIntelligence: number,
-    cuisineIntelligence: number,
-    validationIntelligence: number,
-    safetyIntelligence: number,
-    optimizationIntelligence: number
-  }
+    recipeIntelligence: number;
+    ingredientIntelligence: number;
+    cuisineIntelligence: number;
+    validationIntelligence: number;
+    safetyIntelligence: number;
+    optimizationIntelligence: number;
+  };
 }
 
 export interface EnterpriseIntelligenceInput {
-  recipe?: Recipe,
-  ingredients?: Ingredient[],
+  recipe?: Recipe;
+  ingredients?: Ingredient[];
   cuisine?: {
-    name: string,
-    type: string,
-    region: string,
-    characteristics: string[]
-  },
+    name: string;
+    type: string;
+    region: string;
+    characteristics: string[];
+  };
   context: {
-    zodiacSign: any,
-    lunarPhase: string,
-    season: string,
+    zodiacSign: any;
+    lunarPhase: string;
+    season: string;
     userPreferences?: {
-      dietaryRestrictions: string[],
-      flavorPreferences: string[],
-      culturalPreferences: string[]
-    }
-  }
+      dietaryRestrictions: string[];
+      flavorPreferences: string[];
+      culturalPreferences: string[];
+    };
+  };
 }

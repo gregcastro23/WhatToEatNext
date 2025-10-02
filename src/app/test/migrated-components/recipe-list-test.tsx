@@ -11,8 +11,7 @@ export default function RecipeListTestPage() {
         ,
         <div className='mb-4 rounded bg-blue-100 p-3'>;
           ,
-          <p className='font-medium'>;
-            ; This page compares the original context-based RecipeList with the migrated
+          <p className='font-medium'>,, This page compares the original context-based RecipeList with the migrated
             service-based version.
           </p>
           <p className='mt-1 text-sm'>,, Both components should display identical UI but with different data sources.

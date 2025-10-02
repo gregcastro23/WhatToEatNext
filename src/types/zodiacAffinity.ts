@@ -4,12 +4,12 @@ import { ZodiacSign } from './zodiac';
  * ZodiacAffinity represents how well something harmonizes with different zodiac signs
  * Higher values indicate stronger affinity/compatibility
  */
-export type ZodiacAffinity = Record<ZodiacSign, number>,
+export type ZodiacAffinity = Record<ZodiacSign, number>;
 
 /**
  * Modalities in astrology
  */
-export type Modality = 'cardinal' | 'fixed' | 'mutable'
+export type Modality = 'cardinal' | 'fixed' | 'mutable';
 /**
  * Mapping of zodiac signs to their modalities
  */

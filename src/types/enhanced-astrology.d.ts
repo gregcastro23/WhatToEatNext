@@ -336,30 +336,30 @@ export interface EnhancedCuisineProfile {
 }
 
 // Export commonly used types for easy importing
-export type ZodiacSign = Astrology.ZodiacSign,
-export type Planet = Astrology.Planet,
-export type Element = Astrology.Element,
-export type PlanetaryPosition = Astrology.PlanetaryPosition,
-export type ElementalProperties = Astrology.ElementalProperties,
-export type AstrologicalState = Astrology.AstrologicalState,
-export type CulinaryAstrologyData = Astrology.CulinaryAstrologyData,
+export type ZodiacSign = Astrology.ZodiacSign;
+export type Planet = Astrology.Planet;
+export type Element = Astrology.Element;
+export type PlanetaryPosition = Astrology.PlanetaryPosition;
+export type ElementalProperties = Astrology.ElementalProperties;
+export type AstrologicalState = Astrology.AstrologicalState;
+export type CulinaryAstrologyData = Astrology.CulinaryAstrologyData;
 
-export type { EnhancedCookingMethod, EnhancedCuisineProfile, EnhancedIngredient, EnhancedRecipe }
+export type { EnhancedCookingMethod, EnhancedCuisineProfile, EnhancedIngredient, EnhancedRecipe };
 
 // Utility type for component props that use astrological data
-export type WithAstrologicalData<T = {}> = T & {,
-  astrologicalState?: Astrology.AstrologicalState,
-  elementalProperties?: Astrology.ElementalProperties
-  onAstrologicalUpdate?: (state: Astrology.AstrologicalState) => void
+export type WithAstrologicalData<T = {}> = T & {
+  astrologicalState?: Astrology.AstrologicalState;
+  elementalProperties?: Astrology.ElementalProperties;
+  onAstrologicalUpdate?: (state: Astrology.AstrologicalState) => void;
 }
 
 // Utility type for components that can be culturally sensitive
-export type WithCulturalSensitivity<T = {}> = T & {,
+export type WithCulturalSensitivity<T = {}> = T & {
   culturalContext?: {
-    respectTraditionalUses: boolean,
-    acknowledgeOrigins: boolean,
-    useInclusiveLanguage: boolean
-  }
+    respectTraditionalUses: boolean;
+    acknowledgeOrigins: boolean;
+    useInclusiveLanguage: boolean;
+  };
 }
 
 // Utility type for performance-optimized components

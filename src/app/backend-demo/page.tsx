@@ -56,8 +56,8 @@ export default function BackendDemoPage() {
               <div className="text-3xl font-bold text-purple-600 mb-2">5</div>
               <div className="text-gray-600">Microservices Deployed</div>
             </div>
-            <div className="text-center">;
-              <div className="text-3xl font-bold text-orange-600 mb-2">&lt;100ms</div>
+            <div className="text-center">,
+              <div className="text-3xl font-bold text-orange-600 mb-2">&lt,100ms</div>
               <div className="text-gray-600">Average API Response</div>
             </div>
           </div>,

@@ -10,8 +10,8 @@ import { tropical } from './tropical';
 
 // Combine all fruit categories
 export const, fruits: Record<string, IngredientMapping> = fixIngredientMappings({
-  ...citrus;
-  ...berries;
+  ...citrus,
+  ...berries,
   ...tropical,
   ...stoneFruit,
   ...pome
@@ -1157,8 +1157,8 @@ export const FRUIT_VALIDATION_INTELLIGENCE = {
       structuralIntegrity: 0, // placeholder, will be set after validationMetrics is defined
     };
     validationStructure.validationBalance = Math.min(...[
-        validationStructure.corePropertyCoverage;
-        validationStructure.categoricalCoverage;
+        validationStructure.corePropertyCoverage,
+        validationStructure.categoricalCoverage,
         validationStructure.nutritionalCoverage,
         validationStructure.seasonalCoverage,
         validationStructure.culinaryCoverage

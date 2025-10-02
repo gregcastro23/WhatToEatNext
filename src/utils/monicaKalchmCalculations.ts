@@ -10,7 +10,6 @@
 import { ElementalProperties } from '@/types/alchemy';
 import type { KineticMetrics } from '@/types/kinetics';
 import { calculateKinetics } from './kinetics';
-import { calculateAlchemicalFromPlanets } from './planetaryAlchemyMapping';
 
 // ========== INTERFACES ==========
 
@@ -107,7 +106,7 @@ export function calculateReactivity(
 /**
  * Calculate Greg's, Energy: Overall energy balance
  * Formula: Greg's Energy = Heat - (Entropy × Reactivity)
- */;
+ */
 export function calculateGregsEnergy(heat: number, entropy: number, reactivity: number): number {
   return heat - entropy * reactivity
 }
@@ -281,8 +280,8 @@ export function calculateKalchmHarmony(
 ): number {
   if (items.length === 0) return 0.5;
   if (items.length === 1) return 0.8;
-  const totalHarmony = 0;
-  const comparisons = 0;
+  let totalHarmony = 0;
+  let comparisons = 0;
 
   // Compare each item with every other item
   for (let i = 0; i < items.length; i++) {

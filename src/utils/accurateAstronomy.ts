@@ -712,7 +712,7 @@ export async function getEnhancedPlanetaryPositions(
     const { sign, degree } = getLongitudeToZodiacPosition(sunLongitude);
 
     positions.Sun = {
-      sign: sign as unknown,
+      sign,
       degree,
       exactLongitude: sunLongitude,
       isRetrograde: false, // Sun is never retrograde

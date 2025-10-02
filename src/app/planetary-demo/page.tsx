@@ -122,7 +122,7 @@ export default function PlanetaryDemoPage() {
             <div>
               <h3 className="font-semibold mb-3">Component Usage</h3>
               <pre className="bg-gray-100 p-4 rounded text-sm overflow-x-auto">
-{`import PlanetaryPowerWidget from '@/components/PlanetaryPowerWidget';
+{`import PlanetaryPowerWidget from '@/components/PlanetaryPowerWidget',
 import PlanetaryFoodRecommendations from '@/components/PlanetaryFoodRecommendations',
 
 // Basic usage

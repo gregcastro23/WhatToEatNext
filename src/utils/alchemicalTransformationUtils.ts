@@ -2,18 +2,15 @@ import { log } from '@/services/LoggingService';
 import type { CelestialPosition } from '@/types/celestial';
 
 import {
-  transformItemWithPlanetaryPositions,
-  transformItemsWithPlanetaryPositions,
-  ElementalItem,
-  AlchemicalItem
+    AlchemicalItem,
+    ElementalItem,
+    transformItemsWithPlanetaryPositions
 } from '../calculations/alchemicalTransformation';
-import {LunarPhaseWithSpaces} from '../types/alchemy';
+import { LunarPhaseWithSpaces } from '../types/alchemy';
 
 import {
-  getCookingMethodPillar,
-  applyPillarTransformation,
-  calculateCookingMethodCompatibility,
-  getHolisticCookingRecommendations
+    applyPillarTransformation,
+    getHolisticCookingRecommendations
 } from './alchemicalPillarUtils';
 
 /**
@@ -116,17 +113,17 @@ export const _sortByAlchemicalCompatibility = (
 ): AlchemicalItem[] => {
   // If no target properties, sort by gregsEnergy
   if (!targetElementalProperties) {
-    return [...items].sort((ab) => (b.gregsEnergy || 0) - (a.gregsEnergy || 0))
+    return [...items].sort((a, b) => (b.gregsEnergy || 0) - (a.gregsEnergy || 0));
   }
 
   // Calculate compatibility scores for each item based on elemental properties
-  const itemsWithScores = items.map(item => {;
+  const itemsWithScores = items.map(item => {
     // Calculate cosine similarity between item's elements and target elements
     let dotProduct = 0;
-    let itemNorm = 0,
-    let targetNorm = 0,
+    let itemNorm = 0;
+    let targetNorm = 0;
     // Get the element names (Fire, Water, Earth, Air)
-    const elements = ['Fire', 'Water', 'Earth', 'Air']
+    const elements = ['Fire', 'Water', 'Earth', 'Air'];
 
     for (const element of elements) {
       const itemValue = item.elementalProperties[element] || 0;

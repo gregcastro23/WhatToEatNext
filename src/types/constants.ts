@@ -1,9 +1,9 @@
 // Type constants for the application
-export const ELEMENT_TYPES = ['Fire', 'Water', 'Earth', 'Air'] as const,
-export type ElementType = (typeof ELEMENT_TYPES)[number],
+export const ELEMENT_TYPES = ['Fire', 'Water', 'Earth', 'Air'] as const;
+export type ElementType = (typeof ELEMENT_TYPES)[number];
 
-export const ALCHEMICAL_PROPERTIES = ['Spirit', 'Essence', 'Matter', 'Substance'] as const,
-export type AlchemicalProperty = (typeof ALCHEMICAL_PROPERTIES)[number],
+export const ALCHEMICAL_PROPERTIES = ['Spirit', 'Essence', 'Matter', 'Substance'] as const;
+export type AlchemicalProperty = (typeof ALCHEMICAL_PROPERTIES)[number];
 
 export const ZODIAC_SIGNS = [
   'aries',
@@ -19,7 +19,7 @@ export const ZODIAC_SIGNS = [
   'aquarius',
   'pisces'
 ] as const,
-export type ZodiacSign = (typeof ZODIAC_SIGNS)[number],
+export type ZodiacSign = (typeof ZODIAC_SIGNS)[number];
 
 export const PLANETS = [
   'Sun',
@@ -33,7 +33,7 @@ export const PLANETS = [
   'Neptune',
   'Pluto'
 ] as const,
-export type Planet = (typeof PLANETS)[number],
+export type Planet = (typeof PLANETS)[number];
 
 export const COOKING_METHODS = [
   'baking',

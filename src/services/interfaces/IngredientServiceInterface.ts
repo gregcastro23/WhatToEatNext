@@ -1,13 +1,10 @@
 import type {
-  ElementalProperties,
-  IngredientMapping,
-  NutritionalProfile,
-  ThermodynamicMetrics,
-  Season,
-  PlanetName,
-  ZodiacSign
+    ElementalProperties,
+    PlanetName,
+    Season,
+    ThermodynamicMetrics
 } from '@/types/alchemy';
-import {Recipe, _RecipeIngredient} from '@/types/unified';
+import { Recipe } from '@/types/unified';
 
 /**
  * IngredientServiceInterface.ts
@@ -169,7 +166,7 @@ export interface IngredientServiceInterface {
    * @returns An array of ingredients matching the flavor profile
    */
   getIngredientsByFlavor(
-    flavorProfile: { [key: string]: number }
+    flavorProfile: { [key: string]: number },
     minMatchScore?: number,
   ): UnifiedIngredient[],
 

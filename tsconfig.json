@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "es2022",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "downlevelIteration": true,
     "allowJs": true,
     "skipLibCheck": true,
@@ -28,21 +32,51 @@
     "incremental": true,
     "baseUrl": ".",
     "maxNodeModuleJsDepth": 0,
-    "types": ["node", "jest", "@testing-library/jest-dom"],
+    "types": [
+      "node",
+      "jest",
+      "@testing-library/jest-dom"
+    ],
     "paths": {
-      "@/*": ["./src/*"],
-      "@components/*": ["./src/components/*"],
-      "@styles/*": ["./src/styles/*"],
-      "@utils/*": ["./src/utils/*"],
-      "@types/*": ["./src/types/*"],
-      "@providers/*": ["./src/providers/*"],
-      "@services/*": ["./src/services/*"],
-      "@data/*": ["./src/data/*"],
-      "@constants/*": ["./src/constants/*"],
-      "@contexts/*": ["./src/contexts/*"],
-      "@hooks/*": ["./src/hooks/*"],
-      "@lib/*": ["./src/lib/*"],
-      "@calculations/*": ["./src/calculations/*"]
+      "@/*": [
+        "./src/*"
+      ],
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "@styles/*": [
+        "./src/styles/*"
+      ],
+      "@utils/*": [
+        "./src/utils/*"
+      ],
+      "@types/*": [
+        "./src/types/*"
+      ],
+      "@providers/*": [
+        "./src/providers/*"
+      ],
+      "@services/*": [
+        "./src/services/*"
+      ],
+      "@data/*": [
+        "./src/data/*"
+      ],
+      "@constants/*": [
+        "./src/constants/*"
+      ],
+      "@contexts/*": [
+        "./src/contexts/*"
+      ],
+      "@hooks/*": [
+        "./src/hooks/*"
+      ],
+      "@lib/*": [
+        "./src/lib/*"
+      ],
+      "@calculations/*": [
+        "./src/calculations/*"
+      ]
     },
     "plugins": [
       {

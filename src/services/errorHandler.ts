@@ -149,10 +149,10 @@ class ErrorHandlerService {
   handleError(error: unknown, context?: unknown): void {
     // Delegate to the main log method with proper options
     this.log(error, {
-      context: (context) || 'unknown'
+      context: (context) || 'unknown',
       type: ErrorType.UNKNOWN,
       severity: ErrorSeverity.ERROR
-    })
+    });
   }
 
   /**
@@ -160,9 +160,9 @@ class ErrorHandlerService {
    */
   private prepareErrorDetails(error: unknown, options: ErrorOptions): ErrorDetails {
     let message = 'Unknown error';
-    let stack: string | undefined,
+    let stack: string | undefined;
     let errorType = 'unknown';
-    let componentStack: string | undefined,
+    let componentStack: string | undefined;
 
     if (error instanceof Error) {
       message = error.message;

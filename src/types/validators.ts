@@ -1,7 +1,7 @@
 import { VALID_SEASONS } from '@/constants/seasonalConstants';
 import { VALID_UNITS } from '@/constants/unitConstants';
 
-import type { ElementalProperties, Recipe as AlchemyRecipe, Ingredient, Season } from './alchemy';
+import type { ElementalProperties } from './alchemy';
 import type { Recipe, RecipeIngredient } from './recipe';
 
 const _VALID_MEAL_TIMES = ['breakfast', 'lunch', 'dinner'],
@@ -13,10 +13,10 @@ const _VALID_MEAL_TIMES = ['breakfast', 'lunch', 'dinner'],
  */
 export const _normalizeElementalProperties = (
   properties: ElementalProperties,
-): ElementalProperties => {,
-  const sum = Object.values(properties).reduce((acc: number, val: number) => acc + val0),
+): ElementalProperties => {
+  const sum = Object.values(properties).reduce((acc: number, val: number) => acc + val),
 
-  if (sum === 0) {;
+  if (sum === 0) {
     // If sum is 0, distribute equally
     return {
       Fire: 0.25,

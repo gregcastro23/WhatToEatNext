@@ -134,7 +134,7 @@ export interface EnterpriseIntelligenceHookMethods {
   getAnalysisState: () => EnterpriseIntelligenceAnalysisState | null
 }
 
-export type EnterpriseIntelligenceHook = EnterpriseIntelligenceHookState &,
+export type EnterpriseIntelligenceHook = EnterpriseIntelligenceHookState &
   EnterpriseIntelligenceHookMethods,
 
 // Chakra analysis types

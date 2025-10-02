@@ -21,8 +21,7 @@ export default function AlchemicalRecommendationsTestPage() {
           <Typography variant='h6' className='mb-2'>;
             ; Migration Notes
           </Typography>
-          <Typography variant='body2' className='mb-3'>;
-            ; This page demonstrates the migration of the AlchemicalRecommendations component from
+          <Typography variant='body2' className='mb-3'>,, This page demonstrates the migration of the AlchemicalRecommendations component from
             using context-based data access to the new service-based architecture.
           </Typography>
           <Typography variant='body2'>,,<strong>Key Changes: </strong>

@@ -1,4 +1,4 @@
-import type { Element, ElementalProperties, ZodiacSign, Season, LunarPhase } from './alchemy';
+import type { Element, ElementalProperties, LunarPhase, Season } from './alchemy';
 
 // ========== STANDARDIZED INGREDIENT SYSTEM ==========,
 
@@ -8,8 +8,8 @@ import type { Element, ElementalProperties, ZodiacSign, Season, LunarPhase } fro
  */
 
 // Flexible vitamin/mineral types that can handle both array and object formats
-export type VitaminData = string[] | Record<string, number>,
-export type MineralData = string[] | Record<string, number>,
+export type VitaminData = string[] | Record<string, number>;
+export type MineralData = string[] | Record<string, number>;
 
 // Standardized nutritional profile that handles all formats
 export interface StandardizedNutritionalProfile {

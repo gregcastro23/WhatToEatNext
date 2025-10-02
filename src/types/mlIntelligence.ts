@@ -2,25 +2,25 @@
  * Type definitions for Machine Learning Intelligence Service
  */
 
-import {Recipe, Ingredient, _ZodiacSign, ElementalProperties} from './unified';
+import { ElementalProperties, Ingredient, Recipe } from './unified';
 
 export interface MLContext {
-  zodiacSign?: any,
-  lunarPhase?: string,
-  elementalProperties?: ElementalProperties,
-  season?: string,
-  mealType?: string,
-  planetaryPositions?: Record<string, unknown>,
-  astrologicalInsights?: Record<string, unknown>,
-  lunarInfluence?: Record<string, unknown>,
-  planetaryHarmonics?: Record<string, unknown>,
-  planetaryHour?: string,
-  moonPhase?: string,
-  sunSign?: string,
-  moonSign?: string,
-  marsAspects?: Array<Record<string, unknown>>,
-  userPreferences?: UserPreferences,
-  historicalData?: HistoricalData,
+  zodiacSign?: any;
+  lunarPhase?: string;
+  elementalProperties?: ElementalProperties;
+  season?: string;
+  mealType?: string;
+  planetaryPositions?: Record<string, unknown>;
+  astrologicalInsights?: Record<string, unknown>;
+  lunarInfluence?: Record<string, unknown>;
+  planetaryHarmonics?: Record<string, unknown>;
+  planetaryHour?: string;
+  moonPhase?: string;
+  sunSign?: string;
+  moonSign?: string;
+  marsAspects?: Array<Record<string, unknown>>;
+  userPreferences?: UserPreferences;
+  historicalData?: HistoricalData;
 }
 
 export interface UserPreferences {
@@ -70,7 +70,7 @@ export interface CuisiveFusionResult {
 }
 
 export interface AstrologicalPrediction {
-  zodiacSign: any,
+  zodiacSign: any;
   lunarPhase: string,
   predictions: {
     optimalCookingTimes: string[],

@@ -3,7 +3,7 @@
  */
 
 // Import standardized types from alchemy
-import { ZodiacSign, LunarPhase, Planet, PlanetName } from '@/types/alchemy';
+import { LunarPhase } from '@/types/alchemy';
 
 // Enhanced PlanetaryPositions interface with nodes
 export interface PlanetaryPositions {
@@ -27,11 +27,11 @@ export interface PlanetaryPositions {
 import { ElementalCharacter } from '../constants/planetaryElements';
 
 import {
-  PlanetaryPositionsType,
-  ZodiacSignType,
-  LunarPhaseType,
-  ElementalPropertiesType,
-  AstrologicalStateType
+    AstrologicalStateType,
+    ElementalPropertiesType,
+    LunarPhaseType,
+    PlanetaryPositionsType,
+    ZodiacSignType
 } from './alchemy';
 
 // ========== PHASE 1: ASTROLOGICAL TYPE ALIASES ==========,
@@ -40,7 +40,7 @@ import {
  * Planetary Positions Type
  * Standardized type for planetary position data across the system
  */
-export type PlanetaryPositions = PlanetaryPositionsType,
+export type PlanetaryPositions = PlanetaryPositionsType;
 
 /**
  * Standardized Zodiac Sign Type
@@ -200,4 +200,4 @@ export type AstrologyLunarPhase =
   | 'last_quarter'
   | 'waning_crescent'
 // Re-export types for convenience
-export type { ZodiacSign, LunarPhase, Planet, PlanetName } from '@/types/alchemy';
+export type { LunarPhase, Planet, PlanetName, ZodiacSign } from '@/types/alchemy';

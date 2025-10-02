@@ -1,5 +1,5 @@
 // Item types for the application
-import { AlchemicalProperties, ElementalProperties } from './alchemy'
+import { AlchemicalProperties, ElementalProperties } from './alchemy';
 
 export interface BaseItem {
   id: string,
@@ -36,14 +36,18 @@ export interface FoodItem extends BaseItem {
   tags?: string[],
 }
 
-export type Item = IngredientItem | RecipeItem | FoodItem,
+export type Item = IngredientItem | RecipeItem | FoodItem;
 
 // Type guards
 export function isIngredientItem(item: Item): item is IngredientItem {
-  return item.type === 'ingredient' };
-        export function isRecipeItem(item: Item): item is RecipeItem {
-  return item.type === 'recipe' };
-        export function isFoodItem(item: Item): item is FoodItem {
+  return item.type === 'ingredient';
+}
+
+export function isRecipeItem(item: Item): item is RecipeItem {
+  return item.type === 'recipe';
+}
+
+export function isFoodItem(item: Item): item is FoodItem {
   return item.type === 'food';
 }
 

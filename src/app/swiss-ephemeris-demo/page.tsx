@@ -106,7 +106,7 @@ export default function SwissEphemerisDemoPage() {
                   </p>
                 </div>
                 <div>
-                  <span className='font-medium text-green-600'>Water Seasons: </span>;
+                  <span className='font-medium text-green-600'>Water Seasons: </span>,
                   <p className='text-gray-600'>Emotional energy, nurturing foods, family recipes</p>
                 </div>
               </div>
@@ -116,7 +116,7 @@ export default function SwissEphemerisDemoPage() {
               <h3 className='mb-4 text-xl font-semibold'>Culinary Recommendations</h3>
               <div className='space-y-3 text-sm'>
                 <div>
-                  <span className='font-medium'>Element-Based Cuisines: </span>;
+                  <span className='font-medium'>Element-Based Cuisines: </span>,
                   <p className='text-gray-600'>Mexican, Thai, Italian, Japanese, and more</p>
                 </div>
                 <div>

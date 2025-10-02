@@ -179,7 +179,7 @@ export async function fetchPlanetaryPositions(
     // Determine if we should use GET or POST
     const isCurrentTime = !customDateTime || Object.keys(customDateTime).length === 0;
 
-    let response: Response,
+    let response: Response;
 
     if (isCurrentTime) {
       // Use GET for current time with query parameters

@@ -103,9 +103,9 @@ export interface EnhancedRectificationResult {
  * Enhanced Planetary Position Rectification Service with Planetary Agents Integration
  */
 export class EnhancedPlanetaryPositionRectificationService {
-  private readonly planetaryAgentsBaseUrl: string,
-  private readonly apiKey: string,
-  private readonly cache = new Map<string, { data: EnhancedRectificationResult; timestamp: number }>(),
+  private readonly planetaryAgentsBaseUrl: string
+  private readonly apiKey: string
+  private readonly cache = new Map<string, { data: EnhancedRectificationResult; timestamp: number }>();
   private readonly CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
   constructor() {

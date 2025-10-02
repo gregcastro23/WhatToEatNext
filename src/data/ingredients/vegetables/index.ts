@@ -14,8 +14,8 @@ import { starchyVegetables } from './starchy';
 export const, vegetables: Record<string, IngredientMapping> = fixIngredientMappings({
   ...leafyGreens;
   ...roots;
-  ...cruciferous;
-  ...nightshades;
+  ...cruciferous,
+  ...nightshades,
   ...alliums,
   ...squash,
   ...starchyVegetables

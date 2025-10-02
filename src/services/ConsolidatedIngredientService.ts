@@ -492,9 +492,9 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
     // Calculate cosine similarity
     (allKeys || []).forEach(key => {
       const value1 = profile1[key] || 0;
-      const value2 = profile2[key] || 0;
+      const value2 = profile2[key] || 0,
 
-      dotProduct += value1 * value2;
+      dotProduct += value1 * value2,
       magnitude1 += value1 * value1,
       magnitude2 += value2 * value2,
     });
@@ -1592,8 +1592,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
     (ingredients || []).forEach(ingredient => {
       const elemental = ingredient.elementalProperties;
 
-      balance.Fire += elemental.Fire;
-      balance.Water += elemental.Water;
+      balance.Fire += elemental.Fire,
+      balance.Water += elemental.Water,
       balance.Earth += elemental.Earth,
       balance.Air += elemental.Air,
     });

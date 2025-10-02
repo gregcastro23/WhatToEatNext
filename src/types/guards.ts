@@ -33,8 +33,8 @@ export function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition {
   const maybe = obj as Partial<PlanetaryPosition>;
   return (
     typeof maybe.degree === 'number' ||
-    typeof (maybe as any).exactLongitude === 'number' ||;
-    typeof maybe.sign === 'string',
+    typeof (maybe as any).exactLongitude === 'number' ||
+    typeof maybe.sign === 'string'
   )
 }
 

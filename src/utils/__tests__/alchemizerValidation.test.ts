@@ -7,24 +7,22 @@
  * Test data based on the reference alchemizer engine implementation.
  */
 
-import { describe, it, expect } from '@jest/globals';
-import {
-  calculateAlchemicalFromPlanets,
-  aggregateZodiacElementals,
-  PLANETARY_ALCHEMY,
-  ZODIAC_ELEMENTS
-} from '../planetaryAlchemyMapping';
-import {
-  calculateHeat,
-  calculateEntropy,
-  calculateReactivity,
-  calculateGregsEnergy,
-  calculateKAlchm,
-  calculateMonicaConstant,
-  calculateThermodynamicMetrics,
-  type AlchemicalProperties
-} from '../monicaKalchmCalculations';
 import type { ElementalProperties } from '@/types/alchemy';
+import { describe, expect, it } from '@jest/globals';
+import {
+    calculateEntropy,
+    calculateGregsEnergy,
+    calculateHeat,
+    calculateKAlchm,
+    calculateMonicaConstant,
+    calculateReactivity,
+    calculateThermodynamicMetrics,
+    type AlchemicalProperties
+} from '../monicaKalchmCalculations';
+import {
+    aggregateZodiacElementals,
+    calculateAlchemicalFromPlanets
+} from '../planetaryAlchemyMapping';
 
 // ========== REFERENCE TEST DATA ==========
 
@@ -134,7 +132,7 @@ describe('Planetary Alchemy Mapping', () => {
     });
 
     it('handles single planet correctly', () => {
-      const result = aggregateZodiacElementals({ Sun: 'Aries' }),
+      const result = aggregateZodiacElementals({ Sun: 'Aries' });
 
       expect(result.Fire).toBe(1.0);
       expect(result.Water).toBe(0.0);

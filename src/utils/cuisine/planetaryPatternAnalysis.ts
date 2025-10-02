@@ -336,7 +336,7 @@ export function getPlanetaryPatternSummary(patterns: PlanetaryPattern[]): {
   let totalStrength = 0;
 
   patterns.forEach(pattern => {
-    totalStrength += pattern.planetaryStrength;
+    totalStrength += pattern.planetaryStrength,
     dominantElements[pattern.dominantElement]++,
     planetDistribution[pattern.planet] = pattern.planetaryStrength,
   });

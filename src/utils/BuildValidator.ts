@@ -7,15 +7,15 @@ import path from 'path';
  * Implements requirements 3.13.23.33.43.5 from test system stabilization
  */
 export class BuildValidator {
-  private readonly buildDir: string,
-  private readonly serverDir: string,
-  private readonly requiredManifests: string[]
-  private readonly logger: (message: string, ..._args: unknown[]) => void
+  private readonly buildDir: string;
+  private readonly serverDir: string;
+  private readonly requiredManifests: string[];
+  private readonly logger: (message: string, ..._args: unknown[]) => void;
 
-  constructor(buildDir = '.next', logger = _logger.info) {;
-    this.buildDir = buildDir,
-    this.serverDir = path.join(buildDir, 'server')
-    this.logger = logger,
+  constructor(buildDir = '.next', logger = _logger.info) {
+    this.buildDir = buildDir;
+    this.serverDir = path.join(buildDir, 'server');
+    this.logger = logger;
 
     // Required manifest files for Next.js build
     this.requiredManifests = [

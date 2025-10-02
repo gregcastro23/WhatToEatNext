@@ -5,35 +5,35 @@
 // pollute runtime—they are erased during compilation.
 
 import type {
-  ElementalProperties as _ElementalProperties,
-  Planet as _Planet,
-  CelestialPosition as _CelestialPosition,
-  ChakraEnergies as _ChakraEnergies,
-  ThermodynamicMetrics as _ThermodynamicMetrics,
-  Season as _Season,
-  LunarPhase as _LunarPhase,
-  AlchemicalProperties as _AlchemicalProperties
-} from '@/types/alchemy'
+    AlchemicalProperties as _AlchemicalProperties,
+    CelestialPosition as _CelestialPosition,
+    ChakraEnergies as _ChakraEnergies,
+    ElementalProperties as _ElementalProperties,
+    LunarPhase as _LunarPhase,
+    Planet as _Planet,
+    Season as _Season,
+    ThermodynamicMetrics as _ThermodynamicMetrics
+} from '@/types/alchemy';
 import type { PlanetName as _PlanetName } from '@/types/celestial';
 import type { createElementalProperties as _createElementalProperties } from '@/utils/elemental/elementalUtils';
 
 declare global {
   // Allow un-prefixed usage across components/services
   type ElementalProperties = _ElementalProperties;
-  type Planet = _Planet,
-  type CelestialPosition = _CelestialPosition,
-  type ChakraEnergies = _ChakraEnergies,
-  type ThermodynamicMetrics = _ThermodynamicMetrics,
-  type Season = _Season,
-  type LunarPhase = _LunarPhase,
-  const createElementalProperties: typeof _createElementalProperties,
-  const _isElementalProperties: typeof import('@/utils/elemental/elementalUtils')._isElementalProperties,
-  const elementalUtils: typeof import('@/utils/elementalUtils').elementalUtils,
-  const validatePlanetaryPositions: typeof import('@/utils/validatePlanetaryPositions').validatePlanetaryPositions,
-  type AlchemicalProperties  = _AlchemicalProperties,
+  type Planet = _Planet;
+  type CelestialPosition = _CelestialPosition;
+  type ChakraEnergies = _ChakraEnergies;
+  type ThermodynamicMetrics = _ThermodynamicMetrics;
+  type Season = _Season;
+  type LunarPhase = _LunarPhase;
+  const createElementalProperties: typeof _createElementalProperties;
+  const _isElementalProperties: typeof import('@/utils/elemental/elementalUtils')._isElementalProperties;
+  const elementalUtils: typeof import('@/utils/elementalUtils').elementalUtils;
+  const validatePlanetaryPositions: typeof import('@/utils/validatePlanetaryPositions').validatePlanetaryPositions;
+  type AlchemicalProperties = _AlchemicalProperties;
   // Provide shorthand alias if referenced without import
   type alchemicalProperties = _AlchemicalProperties; // lowercase variant sometimes appears
   type PlanetName = _PlanetName;
 }
 
-export {}; // ensure this file is treated as a module
+export { }; // ensure this file is treated as a module

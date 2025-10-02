@@ -134,9 +134,9 @@ export default function PlanetaryFoodRecommendations({
 
   const getAspectRecommendation = (): string => {
     switch (aspectPhase) {
-      case 'applying': return 'Building flavors - add complexity',
-      case 'exact': return 'Peak harmony - balance is key',
-      case 'separating': return 'Simplifying - focus on essentials',
+      case 'applying': return 'Building flavors - add complexity';
+      case 'exact': return 'Peak harmony - balance is key';
+      case 'separating': return 'Simplifying - focus on essentials';
       default:
         return 'Follow your intuition';
     }

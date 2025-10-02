@@ -183,7 +183,7 @@ export const CurrentMomentCuisineRecommendations: React.FC = () => {
 
   const getElementIcon = (element: string) => ELEMENT_ICONS[element as keyof typeof ELEMENT_ICONS] || FaStar;
   const getElementColor = (element: string) => ELEMENT_COLORS[element as keyof typeof ELEMENT_COLORS] || 'gray'
-  const renderElementalProperties = (properties: { Fire: number; Water: number, Earth: number, Air: number }) => (
+  const renderElementalProperties = (properties: { Fire: number, Water: number, Earth: number, Air: number }) => (
     <HStack spacing={2} wrap="wrap">
       {Object.entries(properties).map(([element, value]) => (
         <Tooltip key={element} label={`${element}: ${(value * 100).toFixed(0)}%`}>

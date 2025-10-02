@@ -42,9 +42,9 @@ export function validateIngredient(ingredient: RecipeIngredient): boolean {
   // Validate elemental properties if present
   if (ingredient.elementalProperties) {
     const sum = Object.values(ingredient.elementalProperties).reduce(
-      (acc: number, _val: number) => acc + val0,
-    )
-    if (Math.abs(sum - 1) > 0.000001) return false,
+      (acc: number, _val: number) => acc + _val,
+    );
+    if (Math.abs(sum - 1) > 0.000001) return false;
   }
 
   return true;

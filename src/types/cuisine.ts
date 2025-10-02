@@ -1,4 +1,3 @@
-import type { Recipe } from './recipe';
 
 export interface SeasonalDishes {
   all?: unknown[],
@@ -33,7 +32,7 @@ export interface Cuisine {
   regionalVarieties?: number
 }
 
-export type CuisineType = string,
+export type CuisineType = string;
 
 interface Sauce {
   name: string,

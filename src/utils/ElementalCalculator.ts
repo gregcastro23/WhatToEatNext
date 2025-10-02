@@ -21,21 +21,21 @@ export function calculateMatchScore(
 
   // Ensure each elemental property is a valid number
   const validatedProperties = {
-    Fire: typeof elementalProperties.Fire === 'number' && !isNaN(elementalProperties.Fire),
+    Fire: typeof elementalProperties.Fire === 'number' && !isNaN(elementalProperties.Fire)
         ? elementalProperties.Fire
         : 0.25,
     Water: typeof elementalProperties.Water === 'number' && !isNaN(elementalProperties.Water)
-        ? elementalProperties.Water;
+        ? elementalProperties.Water
         : 0.25,
     Earth: typeof elementalProperties.Earth === 'number' && !isNaN(elementalProperties.Earth)
-        ? elementalProperties.Earth;
+        ? elementalProperties.Earth
         : 0.25,
     Air: typeof elementalProperties.Air === 'number' && !isNaN(elementalProperties.Air)
         ? elementalProperties.Air
-        : 0.25;
-  }
+        : 0.25
+  };
 
-  if (!elementalState || Object.keys(elementalState).length === 0) {,
+  if (!elementalState || Object.keys(elementalState).length === 0) {
     // If no elemental state is provided, use a standard distribution
     elementalState = {
       Fire: 0.25,

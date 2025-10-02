@@ -15,19 +15,14 @@ export interface RecipeDataEnhanced {
   season?: string | string[],
   mealType?: string | string[]
 }
-import { fruits } from '../data/ingredients/fruits';
-import { herbs } from '../data/ingredients/herbs';
-import { seasonings } from '../data/ingredients/seasonings';
-import { spices } from '../data/ingredients/spices';
-import { vegetables } from '../data/ingredients/vegetables';
-import { recipeElementalMappings } from '../data/recipes/elementalMappings';
-import {Recipe, _validateElementalProperties} from '../types/recipe';
-import {RecipeIngredient} from '../types/recipeIngredient';
-import {cache} from '../utils/cache';
-import {logger} from '../utils/logger';
+import { recipeElementalMappings } from '../data/recipes/elementalMappings'
+import { Recipe } from '../types/recipe'
+import { RecipeIngredient } from '../types/recipeIngredient'
+import { cache } from '../utils/cache'
+import { logger } from '../utils/logger'
 
-import {errorHandler} from './errorHandler';
-import {recipeElementalService} from './RecipeElementalService';
+import { recipeElementalService } from './RecipeElementalService'
+import { errorHandler } from './errorHandler'
 
 // Define interface for nutrition data
 export interface NutritionData {
@@ -74,11 +69,11 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
   // Core required properties with enhanced validation
   const safeRecipe: Recipe = {
     id: safeGetString((recipe as any).id) || `recipe-${Date.now()}`,
-    name: safeGetString((recipe as any).name) || 'Unnamed Recipe'
+    name: safeGetString((recipe as any).name) || 'Unnamed Recipe',
     description: safeGetString((recipe as any).description) || '',
     cuisine: safeGetString((recipe as any).cuisine) || '',
-    ingredients: validateAndNormalizeIngredients(,
-      Array.isArray(recipe.ingredients) ? (recipe.ingredients as Partial<RecipeIngredient>[]) : [],
+    ingredients: validateAndNormalizeIngredients(
+      Array.isArray(recipe.ingredients) ? (recipe.ingredients as Partial<RecipeIngredient>[]) : []
     ),
     instructions: validateAndNormalizeInstructions(recipe.instructions || []),
     timeToMake: validateAndNormalizeTime(recipe.timeToMake) || '30 minutes'
@@ -506,7 +501,7 @@ class RecipeData {
 
       const allRecipes = await this.getAllRecipes()
       return allRecipes.filter(recipe => {
-        const recipeData = recipe as unknown 
+        const recipeData = recipe as unknown
         const recipeCuisine = String(recipeData.cuisine || '').toLowerCase()
         const targetCuisine = String(cuisine || '').toLowerCase();
         return recipeCuisine === targetCuisine;
@@ -529,7 +524,7 @@ class RecipeData {
       const lowercaseQuery = query.toLowerCase()
       const recipes = await this.getAllRecipes()
       return recipes.filter(recipe => {
-        const recipeData = recipe as unknown 
+        const recipeData = recipe as unknown
         const recipeName = String(recipeData.name || '').toLowerCase()
         const recipeCuisine = String(recipeData.cuisine || '').toLowerCase()
         return recipeName.includes(lowercaseQuery) || recipeCuisine.includes(lowercaseQuery);

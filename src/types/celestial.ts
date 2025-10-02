@@ -33,7 +33,7 @@ export type ExtendedPlanet = Planet | 'Rahu' | 'Ketu' | 'Chiron' | 'northNode' |
 /**
  * Planet Name alias for backward compatibility
  */
-export type PlanetName = Planet,
+export type PlanetName = Planet;
 
 // Zodiac sign types
 /**

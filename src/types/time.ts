@@ -1,4 +1,4 @@
-import {PlanetName} from './alchemy';
+import { PlanetName } from './alchemy';
 
 export type WeekDay =
   | 'Sunday'
@@ -58,16 +58,16 @@ export function getTimeFactors(): TimeFactors {
   const hour = now.getHours()
   const dayOfWeek = now.getDay()
 
-  // Determine season (Northern Hemisphere);
-  let season: Season,
+  // Determine season (Northern Hemisphere)
+  let season: Season;
   if (month >= 2 && month <= 4) {
-    season = 'Spring' },
-        else if (month >= 5 && month <= 7) {
-    season = 'Summer',
+    season = 'Spring';
+  } else if (month >= 5 && month <= 7) {
+    season = 'Summer';
   } else if (month >= 8 && month <= 10) {
-    season = 'Fall',
+    season = 'Fall';
   } else {
-    season = 'Winter',
+    season = 'Winter';
   }
 
   // Determine time of day

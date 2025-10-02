@@ -414,15 +414,20 @@ export function calculateAspectEffect(
       const aspectStrength = aspect.strength ?? 1.0;
 
       switch (aspect.type) {
-        case 'conjunction': score += aspectStrength * 0.2,
+        case 'conjunction':
+          score += aspectStrength * 0.2;
           break;
-        case 'trine': score += aspectStrength * 0.15,
+        case 'trine':
+          score += aspectStrength * 0.15;
           break;
-        case 'sextile': score += aspectStrength * 0.1,
+        case 'sextile':
+          score += aspectStrength * 0.1;
           break;
-        case 'square': score -= aspectStrength * 0.1,
+        case 'square':
+          score -= aspectStrength * 0.1;
           break;
-        case 'opposition': score -= aspectStrength * 0.15,
+        case 'opposition':
+          score -= aspectStrength * 0.15;
           break;
       }
     }
@@ -564,8 +569,8 @@ export function calculateRetrogradeEffect(
 
 // ==================== MAIN SCORING SERVICE ====================
 
-export class UnifiedScoringService {;
-  private static instance: UnifiedScoringService,
+export class UnifiedScoringService {
+  private static instance: UnifiedScoringService
 
   private constructor() {}
 
@@ -644,7 +649,7 @@ export class UnifiedScoringService {;
 
       return result;
     } catch (error) {
-      _logger.error('Error in scoring calculation: ', error),
+      log.error('Error in scoring calculation: ', error),
 
       // Return fallback result
       return {
@@ -671,25 +676,25 @@ export class UnifiedScoringService {;
       const astrologizeData = await this.getAstrologizeData(context)
       if (astrologizeData) {
         return {
-          ...astrologizeData;
+          ...astrologizeData,
           source: 'astrologize' as const,
           confidence: 0.95
-} as AstrologicalData,
+        } as AstrologicalData,
       }
     } catch (error) {
-      _logger.warn('Astrologize API unavailable, falling back to Swiss Ephemeris')
+      log.warn('Astrologize API unavailable, falling back to Swiss Ephemeris')
     }
 
     try {
       // Fallback to Swiss Ephemeris or local calculations
       const fallbackData = await this.getFallbackAstrologicalData(context)
-      return {;
+      return {
         ...fallbackData,
         source: 'swiss_ephemeris' as const,
         confidence: 0.7
-} as AstrologicalData,
+      } as AstrologicalData,
     } catch (error) {
-      _logger.warn('Swiss Ephemeris unavailable, using minimal fallback data'),
+      log.warn('Swiss Ephemeris unavailable, using minimal fallback data')
 
       // Last, resort: basic fallback data
       return this.getMinimalFallbackData(context)
@@ -724,7 +729,7 @@ export class UnifiedScoringService {;
       // Transform API response to our format
       return this.transformAstrologizeResponse(data);
     } catch (error) {
-      _logger.error('Error fetching Astrologize data: ', error),
+      log.error('Error fetching Astrologize data: ', error)
       return null
     }
   }
@@ -737,13 +742,13 @@ export class UnifiedScoringService {;
   ): Promise<Partial<AstrologicalData>> {
     return {
       planetaryPositions: context.planetaryPositions || ({} as Record<Planet, PlanetaryPosition>),
-      aspects: (context.aspects || []).map(aspect => ({,
+      aspects: (context.aspects || []).map(aspect => ({
         ...aspect,
         strength: 0.5, // Default strength for fallback data
       })),
-      transits: { active: [], seasonal: {} }
+      transits: { active: [], seasonal: {} },
       lunarPhase: { name: 'new moon' as LunarPhase, illumination: 0.5, effect: 'Neutral' },
-        dignity: {} as Record<Planet, number>
+      dignity: {} as Record<Planet, number>
     }
   }
 
@@ -754,12 +759,12 @@ export class UnifiedScoringService {;
     return {
       planetaryPositions: {} as Record<Planet, PlanetaryPosition>,
       aspects: [],
-      transits: { active: [], seasonal: {} }
+      transits: { active: [], seasonal: {} },
       lunarPhase: { name: 'new moon' as LunarPhase, illumination: 0.5, effect: 'Neutral' },
-        dignity: {} as Record<Planet, number>,
+      dignity: {} as Record<Planet, number>,
       source: 'fallback' as const,
       confidence: 0.1
-}
+    }
   }
 
   /**
@@ -860,10 +865,10 @@ export class UnifiedScoringService {;
    */
   private identifyDominantEffects(breakdown: ScoringBreakdown): string[] {
     const effects = Object.entries(breakdown)
-      .filter(([key]) => key !== 'base');
+      .filter(([key]) => key !== 'base')
       .map(([key, value]) => ({ key, value: Math.abs(value) }))
-      .sort((ab) => b.value - a.value)
-      .slice(03)
+      .sort((a, b) => b.value - a.value)
+      .slice(0, 3)
       .map(({ key }) => key)
 
     return effects;

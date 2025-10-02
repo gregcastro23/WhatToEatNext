@@ -122,20 +122,20 @@ export function combineThermodynamicProperties(
     reactivity: 0
 }
 
-  let totalWeight = 0,
+  let totalWeight = 0;
 
-  for (let i = 0, i < propsArray.length i++) {
+  for (let i = 0; i < propsArray.length; i++) {
     const weight = effectiveWeights[i];
-    totalWeight += weight,
+    totalWeight += weight;
 
-    result.heat += propsArray[i].heat * weight,
-    result.entropy += propsArray[i].entropy * weight,
-    result.reactivity += propsArray[i].reactivity * weight,
+    result.heat += propsArray[i].heat * weight;
+    result.entropy += propsArray[i].entropy * weight;
+    result.reactivity += propsArray[i].reactivity * weight;
   }
 
   // Normalize by total weight
   if (totalWeight > 0) {
-    result.heat /= totalWeight,
+    result.heat /= totalWeight;
     result.entropy /= totalWeight,
     result.reactivity /= totalWeight,
   }

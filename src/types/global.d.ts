@@ -69,15 +69,17 @@ declare global {
     // Popup.js mock replacement
     popup?: {
       create: (options?: Record<string, unknown>) => {
-        show: () => void,
-        hide: () => void,
-        update: () => voidon: (event: string, callback: (...args: unknown[]) => void) => { off: () => void },
-        trigger: (event: string) => void
+        show: () => void;
+        hide: () => void;
+        update: () => void;
+        on: (event: string, callback: (...args: unknown[]) => void) => { off: () => void };
+        trigger: (event: string) => void;
       },
-      show: () => void,
-      hide: () => void,
-      update: () => voidon: (event: string, callback: (...args: unknown[]) => void) => { off: () => void }
-      trigger: (event: string) => void
+      show: () => void;
+      hide: () => void;
+      update: () => void;
+      on: (event: string, callback: (...args: unknown[]) => void) => { off: () => void };
+      trigger: (event: string) => void;
     }
 
     // Tracking flags for our script replacer
@@ -122,4 +124,4 @@ declare global {
   }
 }
 
-export {}
+export { }

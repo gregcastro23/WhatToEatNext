@@ -5,14 +5,13 @@
  */
 
 import {
-  ZodiacSignType,
-  ServiceResponseType,
-  AlchemicalTransformationResultType,
-  PlanetaryInfluenceResultType,
-  ElementalPropertiesType,
-  ThermodynamicMetricsType
+    AlchemicalTransformationResultType,
+    ElementalPropertiesType,
+    PlanetaryInfluenceResultType,
+    ServiceResponseType,
+    ThermodynamicMetricsType
 } from './alchemy';
-import { IngredientRecommendationResponse, IngredientAnalysisResponse } from './ingredients';
+import { IngredientAnalysisResponse, IngredientRecommendationResponse } from './ingredients';
 
 // ========== PHASE, 1: API RESPONSE TYPE ALIASES ==========
 
@@ -26,30 +25,30 @@ export type ServiceResponse<T> = ServiceResponseType<T>
  * Alchemical Recommendation Response
  * Standardized response for alchemical recommendation services
  */
-export type AlchemicalRecommendationResponse = ServiceResponseType<{;
+export type AlchemicalRecommendationResponse = ServiceResponseType<{
   recommendations: AlchemicalTransformationResultType[],
   compatibility: number,
   reasoning: string[],
   elementalBalance: ElementalPropertiesType,
-  thermodynamicMetrics: ThermodynamicMetricsType
-}>,
+  thermodynamicMetrics: ThermodynamicMetricsType;
+}>;
 
 /**
  * Planetary Influence Response
  * Standardized response for planetary influence calculations
  */
-export type PlanetaryInfluenceResponse = ServiceResponseType<PlanetaryInfluenceResultType>,
+export type PlanetaryInfluenceResponse = ServiceResponseType<PlanetaryInfluenceResultType>;
 
 /**
  * Standardized Planetary Position Response
  * Common structure for planetary position data from any API
  */
-export type StandardizedPlanetaryResponse = ServiceResponseType<{;
-  positions: Record<string, StandardizedPlanetaryPosition>,
-  timestamp: string,
-  source: string,
-  accuracy: number
-}>,
+export type StandardizedPlanetaryResponse = ServiceResponseType<{
+  positions: Record<string, StandardizedPlanetaryPosition>;
+  timestamp: string;
+  source: string;
+  accuracy: number;
+}>;
 
 /**
  * Recipe Recommendation Response
@@ -291,4 +290,4 @@ export function isValidSwissEphemerisApiResponse(data: unknown): data is SwissEp
 }
 
 // Re-export ingredient response types for convenience
-export type { IngredientRecommendationResponse, IngredientAnalysisResponse }
+export type { IngredientAnalysisResponse, IngredientRecommendationResponse };

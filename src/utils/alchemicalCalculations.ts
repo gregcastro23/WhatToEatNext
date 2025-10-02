@@ -49,22 +49,22 @@ export function calculateElementalValues(_positions: PlanetaryPositionsType) {
 
   // Count planets by element
   Object.entries(positions).forEach(([planet, data]) => {
-    if (!data.sign || planet === 'ascendant' || planet === 'northnode' || planet === 'southnode') {,
-      return
+    if (!data.sign || planet === 'ascendant' || planet === 'northnode' || planet === 'southnode') {
+      return;
     }
 
-    const signKey = data.sign.toLowerCase()
-    const element = signElements[signKey] || 'balanced'
+    const signKey = data.sign.toLowerCase();
+    const element = signElements[signKey] || 'balanced';
     // Only add to elements if it's a valid element key
-    if (element === 'Fire' || element === 'Water' || element === 'Earth' || element === 'Air') {,
+    if (element === 'Fire' || element === 'Water' || element === 'Earth' || element === 'Air') {
       // Weight by planet importance
-      let weight = 1.0,
-      if (planet === 'sun' || planet === 'moon') weight = 3.0,
-      if (planet === 'mercury' || planet === 'venus' || planet === 'mars') weight = 1.5,
+      let weight = 1.0;
+      if (planet === 'sun' || planet === 'moon') weight = 3.0;
+      if (planet === 'mercury' || planet === 'venus' || planet === 'mars') weight = 1.5;
 
-      elements[element] += weight,
+      elements[element] += weight;
     }
-  })
+  });
 
   // Calculate alchemical values from elements
   const total = elements.Fire + elements.Earth + elements.Air + elements.Water;
@@ -86,18 +86,18 @@ export function calculatePlanetaryAlchemicalValues(_positions: PlanetaryPosition
     Substance: 0.25
 }
 
-  let totalWeight = 0,
+  let totalWeight = 0;
 
   Object.entries(positions).forEach(([planet, data]) => {
-    if (!data || planet === 'ascendant' || planet === 'northnode' || planet === 'southnode') {,
-      return
+    if (!data || planet === 'ascendant' || planet === 'northnode' || planet === 'southnode') {
+      return;
     }
 
     const properties = planetAlchemicalProperties[planet];
-    if (!properties) return,
+    if (!properties) return;
 
     // Weight by planetary dignity
-    let dignityMultiplier = 1.0,
+    let dignityMultiplier = 1.0;
     if (data.sign) {
       // Simple dignity check
       if (
@@ -132,17 +132,17 @@ export function calculatePlanetaryAlchemicalValues(_positions: PlanetaryPosition
 
     // Add weighted contribution
     const weight = dignityMultiplier;
-    totalWeight += weight,
+    totalWeight += weight;
 
-    alchemicalValues.Spirit += properties.Spirit * weight,
-    alchemicalValues.Essence += properties.Essence * weight,
-    alchemicalValues.Matter += properties.Matter * weight,
-    alchemicalValues.Substance += properties.Substance * weight,
-  })
+    alchemicalValues.Spirit += properties.Spirit * weight;
+    alchemicalValues.Essence += properties.Essence * weight;
+    alchemicalValues.Matter += properties.Matter * weight;
+    alchemicalValues.Substance += properties.Substance * weight;
+  });
 
   // Normalize values
   if (totalWeight > 0) {
-    const normalizer = (positions ? Object.keys(positions).length : 10) / 10
+    const normalizer = (positions ? Object.keys(positions).length : 10) / 10;
 
     return {
       Spirit: alchemicalValues.Spirit / normalizer,
@@ -165,8 +165,8 @@ export function calculateElementalBalance(_positions: PlanetaryPositionsType) {
     Water: 0.25
 }
 
-  if (!positions || Object.keys(positions).length === 0) {,
-    return elements
+  if (!positions || Object.keys(positions).length === 0) {
+    return elements;
   }
 
   let totalWeight = 0;
@@ -191,16 +191,16 @@ export function calculateElementalBalance(_positions: PlanetaryPositionsType) {
       element &&
       (element === 'Fire' || element === 'Water' || element === 'Earth' || element === 'Air')
     ) {
-      // Weight by planet importance;
-      let weight = 1.0,
-      if (planet === 'sun' || planet === 'moon') weight = 2.5,
-      if (planet === 'mercury' || planet === 'venus' || planet === 'mars') weight = 1.5,
+      // Weight by planet importance
+      let weight = 1.0;
+      if (planet === 'sun' || planet === 'moon') weight = 2.5;
+      if (planet === 'mercury' || planet === 'venus' || planet === 'mars') weight = 1.5;
 
-      elements[element] += weight,
-      totalWeight += weight,
-      elementsFound = true,
+      elements[element] += weight;
+      totalWeight += weight;
+      elementsFound = true;
     }
-  })
+  });
 
   // Normalize to ensure sum equals 1.0
   if (totalWeight > 0 && elementsFound) {
@@ -272,35 +272,35 @@ export function alchemize(
   let spirit = 0;
   let essence = 0;
   let matter = 0;
-  let substance = 0,
+  let substance = 0;
 
   // Calculate elemental contributions from each planet
   Object.entries(planetaryPositions).forEach(([planetName, planetData]) => {
-    if (!planetData.sign) return,
+    if (!planetData.sign) return;
 
-    const sign = planetData.sign.toLowerCase()
-    let planetElement: string | null = null,
+    const sign = planetData.sign.toLowerCase();
+    let planetElement: string | null = null;
 
     // Get the element from the sign
     if (['aries', 'leo', 'sagittarius'].includes(sign)) {
-      planetElement = 'fire',
+      planetElement = 'fire';
     } else if (['taurus', 'virgo', 'capricorn'].includes(sign)) {
-      planetElement = 'earth',
+      planetElement = 'earth';
     } else if (['gemini', 'libra', 'aquarius'].includes(sign)) {
-      planetElement = 'air',
+      planetElement = 'air';
     } else if (['cancer', 'scorpio', 'pisces'].includes(sign)) {
-      planetElement = 'water',
+      planetElement = 'water';
     }
 
     // Skip if no valid element
-    if (!planetElement) return,
+    if (!planetElement) return;
 
     // Calculate planet weight based on importance
-    let planetWeight = 1.0,
-    if (planetName === 'sun' || planetName === 'moon') {,
-      planetWeight = 3.0,
+    let planetWeight = 1.0;
+    if (planetName === 'sun' || planetName === 'moon') {
+      planetWeight = 3.0;
     } else if (['mercury', 'venus', 'mars'].includes(planetName)) {
-      planetWeight = 1.5,
+      planetWeight = 1.5;
     }
 
     // Adjust for retrograde

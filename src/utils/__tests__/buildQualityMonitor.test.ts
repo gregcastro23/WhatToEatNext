@@ -56,15 +56,15 @@ describe('Build Quality Monitor', () => {
 
       const report: any = monitorBuildQuality()
 
-      expect(report).toBeDefined().
-      expect((report)?buildMetrics).toBeDefined()
-      expect((report)?.performanceAnalysis).toBeDefined()
-      expect((report)?.memoryAnalysis).toBeDefined()
-      expect((report)?.qualityMetrics).toBeDefined()
-      expect((report)?.alerts).toBeDefined()
-      expect((report)?.recommendations).toBeDefined()
-      expect((report)?.timestamp).toBeInstanceOf(Date)
-    })
+      expect(report).toBeDefined();
+      expect((report)?.buildMetrics).toBeDefined();
+      expect((report)?.performanceAnalysis).toBeDefined();
+      expect((report)?.memoryAnalysis).toBeDefined();
+      expect((report)?.qualityMetrics).toBeDefined();
+      expect((report)?.alerts).toBeDefined();
+      expect((report)?.recommendations).toBeDefined();
+      expect((report)?.timestamp).toBeInstanceOf(Date);
+    });
 
     it('should detect build performance issues', async () => {
       // Mock TypeScript compilation

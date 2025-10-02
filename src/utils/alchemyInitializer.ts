@@ -10,20 +10,20 @@ import { log } from '@/services/LoggingService';
 import { StandardizedAlchemicalResult } from '@/types/alchemy';
 
 // Use the standardized interface we created
-export type AlchemicalResult = StandardizedAlchemicalResult,
+export type AlchemicalResult = StandardizedAlchemicalResult;
 
 /**
  * Initialize the Alchemical Engine with required configuration
  */
 export function initializeAlchemicalEngine() {
-  if (typeof window === 'undefined') return,
+  if (typeof window === 'undefined') return;
 
   try {
     // Assign the core alchemize function to the window object
-    window.alchemize = alchemicalEngine.alchemize,
-    log.info('Alchemical engine initialized successfully')
+    window.alchemize = alchemicalEngine.alchemize;
+    log.info('Alchemical engine initialized successfully');
   } catch (error) {
-    _logger.error('Failed to initialize alchemize function: ', error)
+    _logger.error('Failed to initialize alchemize function: ', error);
   }
 }
 
@@ -36,4 +36,4 @@ export const _staticAlchemize = (birthInfo: unknown, horoscopeDict: unknown): Al
 }
 
 // Re-export the core functionality
-export { alchemicalEngine }
+export { alchemicalEngine };

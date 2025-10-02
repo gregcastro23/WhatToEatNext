@@ -21,8 +21,7 @@ export default function FoodRecommenderTestPage() {
           <Typography variant='h6' className='mb-2'>;
             ; Migration Notes
           </Typography>
-          <Typography variant='body2' className='mb-3'>;
-            ; This page demonstrates the migration of the FoodRecommender component from using
+          <Typography variant='body2' className='mb-3'>,, This page demonstrates the migration of the FoodRecommender component from using
             context-based data access to the new service-based architecture.
           </Typography>
           <Typography variant='body2'>,,<strong>Key Changes: </strong>

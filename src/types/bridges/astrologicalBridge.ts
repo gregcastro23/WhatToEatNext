@@ -8,7 +8,7 @@ export interface AstrologicalBridge {
 }
 
 export const _createAstrologicalBridge = (): AstrologicalBridge => ({
-  legacyToModern<T>(legacy: unknown): T | null {,
+  legacyToModern<T>(legacy: unknown): T | null {
     if (!legacy || typeof legacy !== 'object') return null;
     return legacy as T
   }

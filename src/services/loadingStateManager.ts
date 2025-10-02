@@ -13,13 +13,15 @@ class LoadingStateManager {
     isLoading: true,
     message: 'Initializing...',
     progress: 0,
-    stage: 'initial' },
-        private readonly STAGES = {
+    stage: 'initial'
+  }
+
+  private readonly STAGES = {
     initial: { progress: 0, message: 'Initializing...' },
-        recipes: { progress: 25, message: 'Loading recipes...' },
-        celestial: { progress: 50, message: 'Calculating celestial alignments...' },
-        processing: { progress: 75, message: 'Processing data...' },
-        complete: { progress: 100, message: 'Complete' }
+    recipes: { progress: 25, message: 'Loading recipes...' },
+    celestial: { progress: 50, message: 'Calculating celestial alignments...' },
+    processing: { progress: 75, message: 'Processing data...' },
+    complete: { progress: 100, message: 'Complete' }
   }
 
   subscribe(callback: (state: LoadingState) => void) {
@@ -60,7 +62,7 @@ class LoadingStateManager {
       isLoading: false,
       message,
       stage: 'error'
-})
+    })
   }
 
   complete() {
@@ -68,7 +70,7 @@ class LoadingStateManager {
       isLoading: false,
       ...this.STAGES.complete,
       stage: 'complete'
-})
+    })
   }
 
   reset() {
@@ -76,9 +78,8 @@ class LoadingStateManager {
       isLoading: true,
       ...this.STAGES.initial,
       stage: 'initial'
-})
+    })
   }
 }
 
 export const _loadingStateManager = new LoadingStateManager()
-;

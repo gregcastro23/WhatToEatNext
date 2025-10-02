@@ -8,7 +8,7 @@ export type StringIndexed<T = unknown> = {
 /**
  * A type that ensures an object has specific properties but also allows string indexing
  */
-export type WithStringIndex<T> = T & StringIndexed,
+export type WithStringIndex<T> = T & StringIndexed;
 
 /**
  * A utility type to convert nested records to accept string indexes

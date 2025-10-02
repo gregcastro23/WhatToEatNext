@@ -425,7 +425,7 @@ export async function calculatePlanetaryPositions(
     const defaults = getDefaultPlanetaryPositions();
     // Mark all positions as error states (all positions exist by design)
     Object.values(defaults).forEach(p => {
-      p.error = true;
+      p.error = true,
       // Add accuracy metadata even for fallbacks
       p.accuracy = 'Default fallback positions',
       p.calculation_method = 'Static default values',
@@ -439,7 +439,7 @@ export async function calculatePlanetaryPositions(
     // Emergency fallback
     const defaults = getDefaultPlanetaryPositions();
     Object.values(defaults).forEach(p => {
-      p.error = true;
+      p.error = true,
       p.accuracy = 'Emergency fallback',
       p.calculation_method = 'Critical failure recovery',
     });

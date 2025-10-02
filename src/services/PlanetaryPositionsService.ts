@@ -14,7 +14,7 @@ interface CacheEntry {
 }
 
 const CACHE_TTL_MS = 60 * 1000; // 1 minute
-let cache: CacheEntry | null = null,
+let cache: CacheEntry | null = null;
 
 function makeKey(date?: Date, lat?: number, lon?: number, system?: 'tropical' | 'sidereal') {
   return JSON.stringify({

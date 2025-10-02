@@ -7,31 +7,22 @@
 
 // Import and re-export commonly used types from other modules
 import type {
-  ElementalProperties,
-  AlchemicalProperties,
-  ZodiacSign,
-  Element,
-  AstrologicalState,
-  StandardizedAlchemicalResult,
-  Season,
-  LunarPhase,
-  AlchemicalResult
+    AlchemicalProperties,
+    AlchemicalResult,
+    AstrologicalState,
+    Element,
+    ElementalProperties,
+    LunarPhase,
+    Season,
+    StandardizedAlchemicalResult,
+    ZodiacSign
 } from '@/types/alchemy';
 import type { CookingMethod } from '@/types/cooking';
 
 // Re-export for convenience
 export type {
-  ElementalProperties,
-  AlchemicalProperties,
-  ZodiacSign,
-  Element,
-  AstrologicalState,
-  StandardizedAlchemicalResult,
-  Season,
-  LunarPhase,
-  AlchemicalResult,
-  CookingMethod
-}
+    AlchemicalProperties, AlchemicalResult, AstrologicalState, CookingMethod, Element, ElementalProperties, LunarPhase, Season, StandardizedAlchemicalResult, ZodiacSign
+};
 
 // Ingredient types - Unified interface consolidating all ingredient definitions
 export interface Ingredient {
@@ -199,16 +190,19 @@ export interface CookingMethodExtended {
 export interface TimeRange {
   min: number,
   max: number,
-  unit: 'minutes' | 'hours' },
-        export interface TemperatureRange {
-  min: number,
-  max: number,
-  unit: 'celsius' | 'fahrenheit' },
-        export interface ThermodynamicProperties {
-  heat: number,
-  _entropy: number,
-  _reactivity: number,
-  _gregsEnergy: number
+  unit: 'minutes' | 'hours';
+}
+
+export interface TemperatureRange {
+  min: number;
+  max: number;
+  unit: 'celsius' | 'fahrenheit';
+}
+export interface ThermodynamicProperties {
+  heat: number;
+  _entropy: number;
+  _reactivity: number;
+  _gregsEnergy: number;
 }
 
 export interface AstrologicalInfluences {

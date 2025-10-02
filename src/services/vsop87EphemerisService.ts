@@ -257,7 +257,7 @@ export function getDatesForZodiacDegree(targetDegree: number, year: number): Dat
 
   let currentDate = new Date(startDate);
   let inRange = false;
-  let rangeStart: Date | null = null,
+  let rangeStart: Date | null = null;
 
   while (currentDate < endDate) {
     const position = getZodiacPositionForDate(currentDate);
@@ -338,7 +338,6 @@ export function getCardinalPoints(year: number): {
  * Get sign durations accounting for Earth's elliptical orbit
  */
 export function getSignDurations(year: number): Record<string, number> {
-  const cardinalPoints = getCardinalPoints(year);
   const signs = [
     'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
     'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'

@@ -1,10 +1,10 @@
 // Ingredient types
 import type {
-  ElementalPropertiesType,
-  NutritionalContentType,
-  IngredientMappingType,
-  ServiceResponseType
-} from './alchemy'
+    ElementalPropertiesType,
+    IngredientMappingType,
+    NutritionalContentType,
+    ServiceResponseType
+} from './alchemy';
 import type { Season } from './shared';
 
 // ========== PHASE 1: INGREDIENT TYPE ALIASES ==========
@@ -12,14 +12,14 @@ import type { Season } from './shared';
 /**
  * Standardized Elemental Properties
  * Using the project-wide standardized elemental properties type
- */;
-export type ElementalProperties = ElementalPropertiesType,
+ */
+export type ElementalProperties = ElementalPropertiesType;
 
 /**
  * Standardized Nutritional Content
  * Complete nutritional information structure
  */
-export type NutritionalContent = NutritionalContentType,
+export type NutritionalContent = NutritionalContentType;
 
 /**
  * Standardized Ingredient Mapping
@@ -137,4 +137,4 @@ export type IngredientAnalysisResponse = ServiceResponseType<{;
 }>,
 
 // Re-export Season type for convenience
-export { Season, type ElementalPropertiesType }
+    export { Season, type ElementalPropertiesType };

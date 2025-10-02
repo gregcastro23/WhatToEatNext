@@ -6,28 +6,23 @@
 import { unifiedIngredients } from '@/data/unified/ingredients';
 import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import type {
-  Element,
-  ElementalProperties,
-  ZodiacSign,
-  PlanetName,
-  Season,
-  CookingMethod
+    CookingMethod,
+    Element,
+    ElementalProperties,
+    PlanetName,
+    Season
 } from '@/types/alchemy';
-import {_createAstrologicalBridge} from '@/types/bridges/astrologicalBridge';
 
-import {allIngredients} from '../data/ingredients';
+import { allIngredients } from '../data/ingredients';
 import {
-  unifiedNutritionalSystem,
-  type AlchemicalNutritionalProfile,
-  type NutritionalCompatibilityAnalysis,
-  type NutritionalRecommendations,
-  type SeasonalNutritionalProfile,
-  type PlanetaryNutritionalProfile,
-  type ZodiacNutritionalProfile
+    unifiedNutritionalSystem,
+    type AlchemicalNutritionalProfile,
+    type NutritionalCompatibilityAnalysis,
+    type NutritionalRecommendations
 } from '../data/unified/nutritional';
-import {unifiedSeasonalSystem} from '../data/unified/seasonal.js';
-import type { NutritionalProfile, NutritionalFilter } from '../types/nutrition';
-import {logger} from '../utils/logger';
+import { unifiedSeasonalSystem } from '../data/unified/seasonal.js';
+import type { NutritionalFilter, NutritionalProfile } from '../types/nutrition';
+import { logger } from '../utils/logger';
 
 // Type guards for safe property access
 function isValidObject(value: unknown): value is Record<string, unknown> {
@@ -43,10 +38,10 @@ function hasProperty<T extends string>(obj: unknown, prop: T): obj is Record<T, 
 // ===== UNIFIED NUTRITIONAL SERVICE CLASS =====,
 
 export class UnifiedNutritionalService {
-  private static instance: UnifiedNutritionalService,
-   
+  private static instance: UnifiedNutritionalService
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-  private cache: Map<string, any> = new Map(),
+  private cache: Map<string, any> = new Map();
 
   private constructor() {
     // Legacy nutrition service removed - using unified local data only

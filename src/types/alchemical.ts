@@ -27,12 +27,12 @@ export enum AlchemicalDispatchType {
 export type AlchemicalAction =
   | { type: AlchemicalDispatchType.UPDATE_ASTROLOGICAL_STATE, payload: Partial<AlchemicalState> }
   | { type: AlchemicalDispatchType.RESET_STATE }
-  | { type: AlchemicalDispatchType.SET_ELEMENT payload: { element: string, value: number } }
+  | { type: AlchemicalDispatchType.SET_ELEMENT, payload: { element: string, value: number } }
   | { type: AlchemicalDispatchType.UPDATE_PLANETARY_POSITIONS, payload: Record<string, unknown> }
   | { type: AlchemicalDispatchType.UPDATE_ELEMENTAL_STATE, payload: Record<string, number> }
   | { type: AlchemicalDispatchType.UPDATE_STATE, payload: Partial<AlchemicalState> }
   | { type: AlchemicalDispatchType.SET_DAYTIME, payload: boolean }
-  | { type: AlchemicalDispatchType.SET_SEASONAL_STATE payload: { season: string } }
+  | { type: AlchemicalDispatchType.SET_SEASONAL_STATE, payload: { season: string } }
   | {
       type: AlchemicalDispatchType.SET_ELEMENTAL_PREFERENCE,
       payload: { element: string, value: number }
@@ -42,7 +42,7 @@ export type AlchemicalAction =
   | { type: AlchemicalDispatchType.SET_LUNAR_ENERGY, payload: string }
   | { type: AlchemicalDispatchType.SET_PLANETARY_ENERGY, payload: string | string[] }
   | { type: AlchemicalDispatchType.SET_ASTROLOGICAL_STATE, payload: Partial<AstrologicalState> }
-  | { type: AlchemicalDispatchType.SET_ERROR payload: { message: string } }
+  | { type: AlchemicalDispatchType.SET_ERROR, payload: { message: string } }
   | { type: AlchemicalDispatchType.CLEAR_ERROR }
   | { type: AlchemicalDispatchType.ADD_ERROR, payload: string }
   | { type: AlchemicalDispatchType.SET_ALCHEMICAL_VALUES, payload: Record<string, number> }

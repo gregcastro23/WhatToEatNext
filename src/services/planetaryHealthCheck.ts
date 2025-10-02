@@ -60,9 +60,9 @@ export interface HealthAlert {
 }
 
 export class PlanetaryHealthCheckService {
-  private readonly rectificationService: EnhancedPlanetaryPositionRectificationService,
+  private readonly rectificationService: EnhancedPlanetaryPositionRectificationService
   private readonly checkInterval = 5 * 60 * 1000; // 5 minutes
-  private lastCheck: Date | null = null,
+  private lastCheck: Date | null = null;
   private cachedHealth: PlanetarySystemHealth | null = null,
   private alerts: HealthAlert[] = [],
   private metricsHistory: PlanetaryHealthMetrics[] = [],

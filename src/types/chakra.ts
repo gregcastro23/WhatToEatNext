@@ -177,7 +177,7 @@ export const _MAJOR_ARCANA_CHAKRAS: MajorArcanaChakra[]  = [
     cardName: 'The Tower',
     chakraPosition: 'solarPlexus',
     planet: 'Mars',
-    description: 'The Tower's transformative energy and Mars's action-oriented nature reflect personal power and breakthroughs.'
+    description: 'The Tower\'s transformative energy and Mars\'s action-oriented nature reflect personal power and breakthroughs.',
 },
   {
     cardName: 'The Chariot',

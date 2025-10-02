@@ -1,14 +1,13 @@
-import type { ZodiacSign } from '@/types/celestial';
 import { logger } from '@/utils/logger';
 
 import type { AlchemicalItem } from '../calculations/alchemicalTransformation';
 import {
-  AlchemicalPillar,
-  getCookingMethodPillar as _getCookingMethodPillar,
-  getCookingMethodAlchemicalEffect,
-  getCookingMethodThermodynamics,
-  getPlanetaryAlchemicalEffect,
-  getTarotCardAlchemicalEffect
+    AlchemicalPillar,
+    getCookingMethodPillar as _getCookingMethodPillar,
+    getCookingMethodAlchemicalEffect,
+    getCookingMethodThermodynamics,
+    getPlanetaryAlchemicalEffect,
+    getTarotCardAlchemicalEffect
 } from '../constants/alchemicalPillars';
 import { AlchemicalProperty } from '../types/celestial';
 
@@ -80,14 +79,14 @@ function calculatePillarCompatibility(
   pillarB: AlchemicalPillar,
 ): number {
   // If they're the same pillar, they're perfectly compatible
-  if (pillarA.id === (pillarB as unknown as any).id) return 1.0,
+  if (pillarA.id === (pillarB as unknown as any).id) return 1.0;
 
   // Calculate compatibility based on their transformative effects
   // How well do the effects of pillarA complement or counter pillarB?
-  let compatibilityScore = 0,
+  let compatibilityScore = 0;
 
   // Loop through each alchemical property
-  const properties: AlchemicalProperty[] = ['Spirit', 'Essence', 'Matter', 'Substance'],
+  const properties: AlchemicalProperty[] = ['Spirit', 'Essence', 'Matter', 'Substance'];
 
   for (const property of properties) {
     const effectA = pillarA.effects[property];
@@ -103,7 +102,7 @@ function calculatePillarCompatibility(
     }
     // If one is neutral (0), it doesn't affect compatibility much
     else {
-      compatibilityScore += 0.15,
+      compatibilityScore += 0.15;
     }
   }
 
@@ -213,44 +212,44 @@ export function applyPillarTransformation(
     const secondaryElement = elementalAssociations.secondary;
 
     // Apply effects to elemental properties if they exist in the item
-    if ('fire' in transformedItem && typeof transformedItem.fire === 'number') {,
-      if (primaryElement === 'Fire') {,
+    if ('fire' in transformedItem && typeof transformedItem.fire === 'number') {
+      if (primaryElement === 'Fire') {
         transformedItem.fire *= 1.2; // Boost primary element by 20%
-      } else if (secondaryElement === 'Fire') {,
+      } else if (secondaryElement === 'Fire') {
         transformedItem.fire *= 1.1; // Boost secondary element by 10%
       } else {
         // Slight decrease for non-associated elements
-        transformedItem.fire *= 0.95,
+        transformedItem.fire *= 0.95;
       }
     }
 
-    if ('water' in transformedItem && typeof transformedItem.water === 'number') {,
-      if (primaryElement === 'Water') {,
-        transformedItem.water *= 1.2,
-      } else if (secondaryElement === 'Water') {,
-        transformedItem.water *= 1.1,
+    if ('water' in transformedItem && typeof transformedItem.water === 'number') {
+      if (primaryElement === 'Water') {
+        transformedItem.water *= 1.2;
+      } else if (secondaryElement === 'Water') {
+        transformedItem.water *= 1.1;
       } else {
-        transformedItem.water *= 0.95,
+        transformedItem.water *= 0.95;
       }
     }
 
-    if ('air' in transformedItem && typeof transformedItem.air === 'number') {,
-      if (primaryElement === 'Air') {,
-        transformedItem.air *= 1.2,
-      } else if (secondaryElement === 'Air') {,
-        transformedItem.air *= 1.1,
+    if ('air' in transformedItem && typeof transformedItem.air === 'number') {
+      if (primaryElement === 'Air') {
+        transformedItem.air *= 1.2;
+      } else if (secondaryElement === 'Air') {
+        transformedItem.air *= 1.1;
       } else {
-        transformedItem.air *= 0.95,
+        transformedItem.air *= 0.95;
       }
     }
 
-    if ('earth' in transformedItem && typeof transformedItem.earth === 'number') {,
-      if (primaryElement === 'Earth') {,
-        transformedItem.earth *= 1.2,
-      } else if (secondaryElement === 'Earth') {,
-        transformedItem.earth *= 1.1,
+    if ('earth' in transformedItem && typeof transformedItem.earth === 'number') {
+      if (primaryElement === 'Earth') {
+        transformedItem.earth *= 1.2;
+      } else if (secondaryElement === 'Earth') {
+        transformedItem.earth *= 1.1;
       } else {
-        transformedItem.earth *= 0.95,
+        transformedItem.earth *= 0.95;
       }
     }
   }

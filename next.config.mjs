@@ -16,11 +16,11 @@ const nextConfig = {
     typedRoutes: true,
   },
   typescript: {
-    // !! WARN !!
+    // !! TEMPORARILY DISABLED TO SEE REAL ERRORS !!
     // Dangerously allow production builds to successfully complete even if
     // your project has type errors.
     // !! WARN !!
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   output: 'standalone', // This will optimize for production deployment
   transpilePackages: ['react-syntax-highlighter', 'react-markdown'],

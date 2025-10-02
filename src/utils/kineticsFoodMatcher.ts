@@ -213,11 +213,11 @@ function getFoodCategoriesForEnergy(energyCategory: FoodEnergyCategory, aspectPh
   const categories = baseCategories[energyCategory];
 
   // Enhance based on aspect phase
-  if (aspectPhase?.type === 'applying') {;
+  if (aspectPhase?.type === 'applying') {
     categories.push('creative_boost', 'brain_foods', 'innovative')
-  } else if (aspectPhase?.type === 'exact') {;
+  } else if (aspectPhase?.type === 'exact') {
     categories.push('harmonious', 'balanced', 'transformative')
-  } else if (aspectPhase?.type === 'separating') {;
+  } else if (aspectPhase?.type === 'separating') {
     categories.push('integrative', 'digestive_support', 'calming')
   }
 
@@ -225,11 +225,11 @@ function getFoodCategoriesForEnergy(energyCategory: FoodEnergyCategory, aspectPh
 }
 
 function getOptimalTimingDescription(aspectPhase: any, powerLevel: number): string {
-  if (aspectPhase?.type === 'applying') {;
+  if (aspectPhase?.type === 'applying') {
     return 'optimal_for_new_experiences';
-  } else if (aspectPhase?.type === 'exact') {;
+  } else if (aspectPhase?.type === 'exact') {
     return 'ideal_for_mindful_eating';
-  } else if (aspectPhase?.type === 'separating') {;
+  } else if (aspectPhase?.type === 'separating') {
     return 'focus_on_integration';
   }
 
@@ -240,11 +240,11 @@ function generateRecommendationNote(
   energyCategory: FoodEnergyCategory,
   aspectPhase: any,
   powerLevel: number): string {
-  if (aspectPhase?.type === 'applying' && powerLevel > 0.8) {;
+  if (aspectPhase?.type === 'applying' && powerLevel > 0.8) {
     return 'Perfect time to try new cuisines or complex flavors!';
-  } else if (aspectPhase?.type === 'exact' && powerLevel > 0.6) {;
+  } else if (aspectPhase?.type === 'exact' && powerLevel > 0.6) {
     return 'Great time for balanced, nourishing meals.';
-  } else if (aspectPhase?.type === 'separating') {;
+  } else if (aspectPhase?.type === 'separating') {
     return 'Time for simple, comforting foods that support integration.';
   }
 
@@ -294,7 +294,7 @@ function calculateElementalAlignment(
   let totalAlignment = 0;
   let totalWeight = 0;
 
-  elements.forEach(element => {;
+  elements.forEach(element => {
     const foodValue = foodElemental[element] || 0;
     const kineticValue = kineticElemental[element] || 0;
     const weight = kineticValue, // Weight by kinetic strength

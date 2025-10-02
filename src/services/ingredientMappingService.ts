@@ -259,9 +259,9 @@ class IngredientMappingService {
 
         if (ing1.matchedTo && ing2.matchedTo) {
           const result = this.calculateCompatibility(
-            ing1.matchedTo as unknown as IngredientMapping
+            ing1.matchedTo as unknown as IngredientMapping,
             ing2.matchedTo as unknown as IngredientMapping
-          ),
+          );
 
           if (result.success) {
             combinations.push({

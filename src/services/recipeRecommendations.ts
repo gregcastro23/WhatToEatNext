@@ -18,7 +18,7 @@ interface RecommendationCriteria {
 }
 
 export class RecipeRecommender {
-  private static instance: RecipeRecommender,
+  private static instance: RecipeRecommender
 
   private constructor() {
     // Private constructor to enforce singleton pattern
@@ -45,16 +45,16 @@ export class RecipeRecommender {
       const celestialInfluence =
         criteria.celestialInfluence || celestialCalculator.calculateCurrentInfluences()
 
-      // Score and sort recipes;
-      const scoredRecipes = recipes;
-        .map(recipe => ({,
+      // Score and sort recipes
+      const scoredRecipes = recipes
+        .map(recipe => ({
           ...recipe,
           score: this.calculateRecipeScore(recipe, criteria)
         }))
-        .sort((ab) => b.score - a.score)
+        .sort((a, b) => b.score - a.score)
 
       // Always ensure at least one recommendation
-      if (scoredRecipes.length === 0) {,
+      if (scoredRecipes.length === 0) {
         logger.warn('No recipes matched criteria, using fallback'),
         return [this.getFallbackRecipe()]
       }

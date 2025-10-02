@@ -5,9 +5,11 @@
  */
 
 export function isPromiseLike(value: unknown): value is PromiseLike<unknown> {
-  return value !== null && value !== undefined && typeof (value as unknown).then === 'function' };
-        export function ensurePromise<T>(value: T | Promise<T>): Promise<T> {
-  return isPromiseLike(value) ? value : Promise.resolve(value)
+  return value !== null && value !== undefined && typeof (value as unknown).then === 'function';
+}
+
+export function ensurePromise<T>(value: T | Promise<T>): Promise<T> {
+  return isPromiseLike(value) ? value : Promise.resolve(value);
 }
 
 export async function safeAwait<T>(value: T | Promise<T>): Promise<T> {
@@ -19,8 +21,8 @@ export function validateAwaitUsage(fn: Function): boolean {
   const hasAwait = fnString.includes('await')
   const isAsync = fnString.includes('async') || fn.constructor.name === 'AsyncFunction'
 
-  if (hasAwait && !isAsync) {;
-    _logger.warn('Function uses await but is not declared async: ', fn.name)
+  if (hasAwait && !isAsync) {
+    console.warn('Function uses await but is not declared async: ', fn.name);
     return false;
   }
 

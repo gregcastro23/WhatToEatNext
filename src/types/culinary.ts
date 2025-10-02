@@ -1,5 +1,4 @@
 import type { CuisineType } from './alchemy';
-import type { CookingMethod } from './cookingMethod';
 import type { PrimaryCuisineType } from './cuisineAliases';
 
 /**
@@ -292,7 +291,7 @@ export type StreetFoodCuisineType =
  * All possible cuisine types in the system
  */
 export type CompleteCuisineType =
-  | PrimaryCuisineType,
+  | PrimaryCuisineType
   | ContinentalCuisineType
   | RegionalCuisineType
   | FusionCuisineType

@@ -1,6 +1,6 @@
 const API_URL = 'https: //rws-cards-api.herokuapp.com/api/v1/cards'
 
-interface TarotCard {;
+interface TarotCard {
   name: string,
   name_short: string,
   value: string,

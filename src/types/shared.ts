@@ -5,12 +5,12 @@
  * to prevent duplication and ensure consistency.
  */
 
-import { Element, ZodiacSign, Planet } from '@/types/celestial';
+import { Element, Planet, ZodiacSign } from '@/types/celestial';
 
 import {
-  ElementalProperties,
-  isElementalProperties,
-  DEFAULT_ELEMENTAL_PROPERTIES
+    DEFAULT_ELEMENTAL_PROPERTIES,
+    ElementalProperties,
+    isElementalProperties
 } from './elemental';
 
 // ========== ELEMENTAL TYPES ==========,
@@ -21,12 +21,12 @@ import {
 // Element type imported from @/types/celestial
 
 // Re-export the elemental properties types
-export type { ElementalProperties }
+export type { ElementalProperties };
 // Re-export utility functions and constants
-export { isElementalProperties, DEFAULT_ELEMENTAL_PROPERTIES };
+    export { DEFAULT_ELEMENTAL_PROPERTIES, isElementalProperties };
 
 // Re-export celestial types that are commonly needed
-export type { Element, ZodiacSign, Planet }
+    export type { Element, Planet, ZodiacSign };
 
 // ========== CELESTIAL TYPES ==========,
 
@@ -75,7 +75,7 @@ export type LunarPhaseWithSpaces =
 /**
  * Default LunarPhase type using spaces format
  */
-export type LunarPhase = LunarPhaseWithSpaces,
+export type LunarPhase = LunarPhaseWithSpaces;
 
 /**
  * Standardized MoonPhase type to be used throughout the codebase.
@@ -212,14 +212,14 @@ export type ElementalFilter = 'all' | 'Fire' | 'Water' | 'Air' | 'Earth'
 /**
  * Thermodynamic properties for cooking methods and ingredients
  */
-export interface ThermodynamicProperties {;
-  heat: number,
-  _entropy: number,
-  _reactivity: number,
-  gregsEnergy: number, // Using gregsEnergy as the single energy metric for this project
+export interface ThermodynamicProperties {
+  heat: number;
+  _entropy: number;
+  _reactivity: number;
+  gregsEnergy: number; // Using gregsEnergy as the single energy metric for this project
 }
 
-// ========== COOKING TYPES ==========,
+// ========== COOKING TYPES ==========
 
 /**
  * Comprehensive cooking methods including traditional, modern, and molecular techniques

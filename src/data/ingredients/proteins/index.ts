@@ -13,8 +13,8 @@ import { seafood } from './seafood';
 // Combine all protein categories and ensure type safety
 export const, _proteins: Record<string, IngredientMapping> = fixIngredientMappings({
   ...seafood;
-  ...poultry;
-  ...plantBased;
+  ...poultry,
+  ...plantBased,
   ...meats,
   ...legumes,
   ...eggs
